@@ -179,7 +179,7 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # the package is for. What the across rise is NOT is the band ranking failing: WP-11.8's key is
 # untouched, and the pool it chooses from is simply smaller, because every candidate now has the
 # entrance room on the entrance face.
-DRAWN_SHORT_CEILING = 69   # 66 until WP-11.17, 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
+DRAWN_SHORT_CEILING = 64   # 69 until WP-11.18, 66 until WP-11.17, 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
 # WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
 # WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
 # both ways over all sixteen plans: the two extra shortfalls are the library table in
@@ -192,7 +192,7 @@ DRAWN_SHORT_CEILING = 69   # 66 until WP-11.17, 68 until WP-11.16, 86 until WP-1
 # and two libraries that had passed now fail. The conviction is right and the ceiling is raised
 # rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
 # byte-identical across the whole package, which is how the cause was isolated.
-DRAWN_LONG_CEILING = 74   # 79 until WP-11.17, 82 until WP-11.16; see the short ceiling's note
+DRAWN_LONG_CEILING = 81   # 74 until WP-11.18, 79 until WP-11.17, 82 until WP-11.16; see the short ceiling's note
 # WP-11.8 MOVED BOTH TO 65 (86 -> 65 SHORT, 70 -> 65 LONG) AND IT IS THE FIRST OF THE FOUR
 # MOVES THAT IS AN IMPROVEMENT RATHER THAN A DISCLOSURE. The search ranks the band a room's own
 # record states -- the proportion ceiling AND the area floor -- ABOVE its own score now, so it
@@ -245,6 +245,23 @@ DRAWN_LONG_CEILING = 74   # 79 until WP-11.17, 82 until WP-11.16; see the short 
 # `oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either` carries it, with what must
 # be ruled. RE-BASELINED UPWARD, in public, with the parents' own numbers beside it -- because a
 # ceiling quietly raised is a regression absorbed.
+
+
+# WP-11.18 MOVED BOTH, IN OPPOSITE DIRECTIONS, AND THE PER-PLAN DERIVATION IS WHY IT IS NOT A
+# WASH. 69/74 -> 64/81. Four plans move and twelve are byte-identical; all four name an entrance
+# face, which is the population `partition`'s new closer-side rule for a STATED share reaches.
+#
+#     spec-builder-colonial            short 13 -> 9    long  9 -> 13
+#     tidewater-georgian-careful       short  5 -> 4    long 11 -> 11
+#     good-03-parlor-drawing-room      short  0 -> 1    long  2 ->  2
+#     good-04-rambling-porch-farmhouse short  3 -> 2    long  1 ->  4
+#
+# **The spec Colonial is the whole of it and it is one house trading axes**: four rooms stop
+# failing across and four start failing along, which is the slicer's groups changing shape rather
+# than a room getting worse overall -- that plan's serious count falls 105 -> 97 across the same
+# change. `good-04` gains three along and loses one across while its fatal count falls 13 -> 10
+# and its undrawable doors 10 -> 6. RE-BASELINED IN PUBLIC, one ceiling up and one down, with the
+# per-plan rows above so neither can be quoted as the other.
 
 
 def test_drawn_furniture_shortfalls_are_ratcheted():

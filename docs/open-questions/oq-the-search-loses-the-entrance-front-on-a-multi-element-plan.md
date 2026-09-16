@@ -171,6 +171,30 @@ search it reproduced exactly as WP-11.13 predicted. An unlabelled engine figure 
 corpus already records — it cost two numbers at WP-11.8 — and this was the same shape. Corrected
 in that report's §VIII rather than silently overwritten.
 
+## And the cost WP-11.17 shipped was recovered at WP-11.18 (15 September 2026)
+
+That package's one named cost was `unreachable: butlers` — the hyphen anchor pre-empted, its
+doors undrawable, 12 → 23 on this record. **It is cleared, and the three recoveries this entry
+records as measured-and-reverted were not the only routes.** `hyphen_anchors` had the
+neighbouring element's whole rectangle in hand when it chose the face and returned the FACE
+ALONE; `anchor_span` carries the extent now and `_partial_flank` positions the strip inside it,
+with the entrance anchor CHAINED into a rest-rectangle rather than pre-empting the hyphen one.
+
+The pantry is drawn **7.00 × 12.00 = 84 sf at (0.00, 12.62)** — its declared rectangle — over
+**12.00 ft** of the hyphen's 9.62–27.62 band against the 3.50 ft `openings.required_wall_ft`
+asks. Both its doors place. Corpus-wide: fatal 153 → 145, serious 712 → 707, unplaced doors
+235 → 213, on the six plans this selector reaches and byte-identical on the other ten.
+
+**The residue is four draws in 250**, not a door: porch-on-the-entrance-front reads 246/250 on
+this record where WP-11.17 read 250/250, because a hosted anchor is best-effort. Two ways of
+closing those four were built and reverted — an atomic chain restores the census and loses the
+door (fatal 7 → 9, doors 20 → 32); a full-face strip fall-back restores it and the winner takes
+a 222.8 sf veranda (serious 57 → 65).
+
+**Cause 2 is untouched and this entry stays open on it.** `_key` is still `(viol, tot)` and still
+never reads `entrance_score`; stating the front means the key is never asked.
+`docs/reports/wp-11.18-the-anchor-that-kept-a-face.md`.
+
 ## Related
 
 `oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford` is the neighbouring question

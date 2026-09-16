@@ -111,7 +111,21 @@ def test_the_record_names_every_over_capacity_span_and_the_count_still_agrees():
 # plans are unmoved. The corpus WORST is unchanged at 60.0 ft and is on a plan the anchor does
 # not reach. `good-04` is the one that got worse and is stated rather than netted off. The 20 ft
 # capacity and `bearing_lines`' 0.75 ft tolerance are untouched.
-CORPUS_SPANS = 25
+# 28 AT WP-11.18, FROM 25, AND IT IS A REAL COST STATED RATHER THAN NETTED OFF. `partition`'s
+# stated share stops at the closer side now, so the groups either side of an anchor's cut are
+# sized to the rectangles they fill -- which moves where the slicer cuts, and the only way this
+# slicer creates a bearing line is to cut on the bay grid. Re-derived per plan against the
+# parent commit:
+#
+#     good-01  1 -> 2   worst 30.00 -> 50.00        good-03  0 -> 2   worst  0.00 -> 33.24
+#     good-04  2 -> 2   worst 37.06 -> 30.75        good-07  1 -> 1   worst 30.00 -> 40.00
+#
+# `spec-builder-colonial` holds at 4 and `tidewater-georgian-careful` at 4 with its own worst
+# FALLING 45.00 -> 37.24 ft; the other ten plans are unmoved. The corpus WORST is unchanged at
+# 60.0 ft and is on a plan the anchor does not reach. The 20 ft capacity and `bearing_lines`'
+# 0.75 ft tolerance are untouched. Against this the same package takes corpus fatal 153 -> 145
+# and unplaced doors 235 -> 213; both halves are here so neither can be quoted for the other.
+CORPUS_SPANS = 28
 CORPUS_WORST_FT = 60.0
 
 
@@ -141,7 +155,11 @@ def test_the_charge_and_the_count_are_summed_from_the_same_list():
     # over capacity and each of them is shorter. That the count can hold while the charge moves
     # is the thing this test is about -- both come from ONE list, so they move together or not
     # at all, and here the list's length held while its contents shortened.
-    assert sc["over_capacity"] == 4 and sc["charge"] == 119.7
+    # 119.7 -> 122.8 AT WP-11.18. The COUNT on this plan is unchanged at 4 and its worst run
+    # FALLS 45.00 -> 37.24 ft; the charge rises because three of the four runs lengthened while
+    # the longest shortened. A charge and a count are two different questions about one list,
+    # which is the whole subject of this test.
+    assert sc["over_capacity"] == 4 and sc["charge"] == 122.8
 
 
 # --------------------------------------------------------------- the critic says it

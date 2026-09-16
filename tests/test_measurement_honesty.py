@@ -727,7 +727,10 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         # grid. MORE IS THE WORSE DIRECTION and it is reported rather than netted off against
         # what the package buys (serious 60 -> 55, minor 111 -> 105 on this record). All three
         # copies of this number moved together, which is what the sentence above asks of them.
-        assert out["geometry_report"]["relaxations"]["count"] == 6
+        # 6 -> 5 AT WP-11.18: `partition`'s stated share stops at the closer side, so a group
+        # no longer overshoots the rectangle it must fill and one compromise the slicer used
+        # to need is not needed. An improvement, named rather than absorbed.
+        assert out["geometry_report"]["relaxations"]["count"] == 5
 
     def test_the_renderer_draws_one_mark_per_relaxation(self, geometry_module):
         """P6 and P7 together: the drawing is a render of the data, so the number of marks on

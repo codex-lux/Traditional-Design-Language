@@ -205,7 +205,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,158 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,160 tests**
 (plus the workbench app suite, **86** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -939,6 +939,76 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   UNCONDITIONAL AGAIN** -- see the entry below. The paragraph above is kept as the record of what
   WP-11.16 measured, in the past tense where it is no longer true.
 
+- **THE ANCHOR KEPT THE FACE AND THREW AWAY THE EXTENT, AND THAT IS WHAT COST THE PANTRY ITS
+  DOOR (WP-11.18).** `hyphen_anchors` computed `face_toward(a, b)` with the neighbouring
+  element's whole rectangle in hand and returned only the FACE, so the anchor knew the butler's
+  pantry belonged on the main block's west wall and not that it belonged OPPOSITE THE HYPHEN.
+  Over the three positions `_partial_flank` drew on that 37.24 ft face for a 12 ft run the
+  overlaps with the hyphen's 9.62-27.62 band are **2.38, 12.00 and 2.38 ft** against the
+  **3.50 ft** `openings.required_wall_ft` asks -- **one position in three could ever place that
+  door**. `anchor_span` carries the band now (module-level beside `face_toward`, because the
+  perpendicular overlap that decides the face IS the extent), `_band_off` derives the position
+  from it and takes no draw, and the entrance anchor is CHAINED into a rest-rectangle instead of
+  pre-empting the hyphen one. **The pantry is drawn 7.00 x 12.00 = 84 sf at (0.00, 12.62) -- its
+  declared rectangle -- over 12.00 ft of the band, and BOTH its doors place.**
+  `unreachable: butlers` is cleared.
+- **AND THE PRE-WP-11.17 STATE WAS NOT THE BAR: IT BOUGHT THOSE DOORS BY DRAWING THE ROOM AT
+  MORE THAN TWICE ITS SIZE (WP-11.18).** The full-face strip drew the pantry **4.95 x 37.24 =
+  184 sf against a declared 84, 119% over**; spanning the whole depth it could not miss either
+  neighbour. That is the veranda defect `_partial_flank` exists to remove, and a fix that
+  restored it would have been a regression wearing a door's clothes. Three states, and the middle
+  one is why: 184 sf meeting both, 169 sf at the east end meeting neither, 84 sf meeting both.
+- **A SECOND ANCHOR NEEDS `B`, AND WP-11.17'S THIRD REVERTED RECOVERY WAS MEASURED ON A RUN THAT
+  NEVER APPLIED IT (WP-11.18).** That report and this file said forcing the pantry into the slab
+  "works and is not worth it" at 672.3 -> 753.5. **Confounded twice**: the nested lay used the
+  FULL-FACE `flank_slice` rather than `_partial_flank`, so the pantry became a 184 sf strip
+  inside a 16.5 ft slab; and the winning candidate had `off = 0`, **where no `P` slab exists at
+  all**, so the forcing never touched the placement the number was read off. It considered only
+  `P` and `R` as hosts and never `B`, which is the rectangle standing on the low face exactly
+  when `off` is 0. The figures stand as what that code did; the CONCLUSION -- that the two
+  statements cannot both be kept -- does not. Corrected in WP-11.17's report §VII rather than
+  silently overwritten. **The corpus cannot reach the `off = 0` branch**, so its guard is a
+  hand-built element with the rng seeded to that draw; measured, `B` offered puts the pantry at
+  x = 0.00 and `B` withheld puts it at x = 36.00.
+- **`partition` OVERSHOT A SHARE IT WAS TOLD TO LAND ON, AND THAT WAS THE REST OF THE DAMAGE
+  (WP-11.18).** The growth loop is `while acc < target`, so the room that CROSSES the target
+  decides how far past it the group lands. A coin-flip share does not care -- the share moves.
+  A STATED share does: the caller has already chosen the rectangles and `slice_rect` tiles
+  whatever it is handed, so an overshooting group is a stretched room and its neighbour a shrunk
+  one. Measured: a 495.9 sf target took `passage` (408) AND `drawing` (396) -- **804 into a
+  567.9 sf rectangle, 62% over** -- and left `stair` alone in the slab above, **drawn 567.9 sf
+  against 126 declared, 4.5x**. Scoped to `frac is not None`, so the ten plans that state no
+  entrance face are byte-identical. **It is most of the corpus movement**: fatal 153 -> 145,
+  serious 712 -> 707, unplaced doors 235 -> 213, over six plans.
+- **THE COST IS FOUR DRAWS IN TWO HUNDRED AND FIFTY, AND TWO WAYS OF CLOSING THEM WERE BUILT AND
+  REVERTED (WP-11.18).** A hosted anchor is best-effort -- a host holds two or three rooms rather
+  than the element's seven -- so porch-on-the-entrance-front reads **246 of 250** against
+  WP-11.17's 250 of 250 (the other five anchored plans are unchanged, and the winner is still at
+  y = 0.0). **Making the chain ATOMIC restores the census and loses the door**: the chain is
+  refused on the candidates that win, so fatal 7 -> 9, serious 57 -> 62, doors 20 -> 32.
+  **Falling back to the full-face strip restores it and the WINNER TAKES THE VERANDA** -- porch
+  45 x 4.95 = 222.8 sf against a declared 72, serious 57 -> 65. The assumption behind trying that
+  was that `drawn-vs-declared` would rank a veranda out. **It does not**, which is exactly what
+  WP-11.17 removed the strip for, met one layer down.
+- **THE BANDED ANCHOR IS LAID FIRST AND THAT IS A PROPERTY OF THE BAND, NOT A PREFERENCE
+  (WP-11.18).** Laying the entrance first and chaining the pantry was measured and is worse than
+  doing nothing: fatal 10, doors 24, and the pantry lands at (0.00, **30.72**) -- in the west
+  slab and ABOVE the band -- so both doors still fail. A centred band position needs a slab
+  either side and each slab needs a room, so it wants the rectangle with the most rooms in it,
+  which is the element; the entrance anchor has no band and can take an end position, which needs
+  one slab fewer, which is what a hosted rectangle can give it. **Two more refusals with their
+  numbers**: letting the anchor take its host's full depth is fatal 10 and doors 24; ranking the
+  growth loop by which room best fits the remaining target is BYTE-IDENTICAL (connectivity
+  dominates the key) and was deleted rather than left inert.
+- **BOTH HALVES OF THE ARGUMENT THAT DEFAULTED `STACK_HARD` HAVE NOW MOVED, IN OPPOSITE
+  DIRECTIONS (WP-11.18).** The merge inverted the SPANS half (the rule removes two rather than
+  introducing two); this package inverts the ROOMS half -- on `spec-builder-colonial` the rule
+  OFF leaves one under-band room at 11% and the rule ON adds the stair hall at **65%**, 4 sf
+  short against **53 sf**. Neither is evidence about the rule, which has not changed in either
+  package: what moved both times is the placement the comparison is made against. The `<= 20`
+  ceiling was NOT raised to keep the sentence green -- the thing it guarded has happened, so it
+  is re-stated as the measurement with the direction named.
+  `oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted` carries both halves.
 - **BOTH OF THAT QUESTION'S STATED HYPOTHESES WERE WRONG, AND MEASURING THEM WAS THE WHOLE VALUE
   OF RAISING IT (WP-11.17).** It named two mechanisms "worth measuring before anything is
   changed". *`entrance_score` gets no per-element `bounds`* is TRUE AND IRRELEVANT here -- the

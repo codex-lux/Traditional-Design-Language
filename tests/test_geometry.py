@@ -99,7 +99,10 @@ class TestSolveSmoke:
         # grid. MORE IS THE WORSE DIRECTION and it is reported rather than netted off against
         # what the package buys (serious 60 -> 55, minor 111 -> 105 on this record). All three
         # copies of this number moved together, which is what the sentence above asks of them.
-        assert report["relaxations"]["count"] == 6
+        # 6 -> 5 AT WP-11.18: `partition`'s stated share stops at the closer side, so a group
+        # no longer overshoots the rectangle it must fill and one compromise the slicer used
+        # to need is not needed. An improvement, named rather than absorbed.
+        assert report["relaxations"]["count"] == 5
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]

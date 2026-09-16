@@ -396,7 +396,12 @@ def test_export_ifc_writes_one_slab_per_element_per_storey():
 # differ and the other ten are byte-identical, INCLUDING `good-02-portico-library-house`, the
 # plan whose portico and foyer the selector refuses to choose between -- which is the sharpest
 # evidence the refusal is real rather than a silence.
-CORPUS_PLACEMENT_SHA = "c3621155dc280406"
+# AND AT WP-11.18, FOR THE SAME SIX PLANS AND A DIFFERENT CAUSE: `partition`'s STATED share
+# stops at the closer side rather than at the first overshoot, and the plans that state a share
+# are exactly the plans that name an entrance face. Re-derived per plan on a `git worktree` of
+# `a0ae8b7`: six of sixteen differ, the same six, and the ten the entrance selector does not
+# reach are byte-identical on BOTH digests -- which is the pair agreeing rather than a bump.
+CORPUS_PLACEMENT_SHA = "7f2de7eaa95b84d2"
 # WP-11.10 MOVED THIS ONE ON PURPOSE, and it is the only thing that package moves here.
 # `f7c7430ec31dae3c` -> `770a886c7387f3ab`: the terrace at grade is placed, so the door the
 # record has always declared from a room to its terrace is seated instead of refused, on the
@@ -413,7 +418,12 @@ CORPUS_PLACEMENT_SHA = "c3621155dc280406"
 # is placed against a wall of the room it is in, so a package that re-places six houses moves
 # their openings. Re-derived per plan on the same worktree; the ten unmoved records are unmoved
 # on both digests, which is the pair agreeing rather than a second bump.
-CORPUS_OPENINGS_SHA = "ed97c8f3d2787df0"
+# AND AT WP-11.18, FOR THE SAME SIX PLANS AND A DIFFERENT CAUSE: `partition`'s STATED share
+# stops at the closer side rather than at the first overshoot, and the plans that state a share
+# are exactly the plans that name an entrance face. Re-derived per plan on a `git worktree` of
+# `a0ae8b7`: six of sixteen differ, the same six, and the ten the entrance selector does not
+# reach are byte-identical on BOTH digests -- which is the pair agreeing rather than a bump.
+CORPUS_OPENINGS_SHA = "b00db93b584978a0"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

@@ -428,9 +428,18 @@ def test_the_one_cause_of_twenty_seven_fatals_is_named_once_beside_them():
         if n:
             per[name] = n
     assert per["good-02-portico-library-house.json"] == 7
-    assert per["good-04-rambling-porch-farmhouse.json"] == 10
-    assert per["good-07-diamond-plan-house.json"] == 10
-    assert per["tidewater-georgian-careful.json"] == 8, (
+    # 10 -> 7 AT WP-11.18. `good-04` names an entrance face, so `partition`'s closer-side rule
+    # re-places it; three of its ten unreachable rooms get a door the placement can draw. Its
+    # `outside-is-only-an-appendage` row above is UNMOVED, which is the half this test is about:
+    # the plan still has no placed exterior door, so the walk still starts at the terrace.
+    # `good-02`, which the entrance selector refuses, is unmoved at 7 -- the control.
+    assert per["good-04-rambling-porch-farmhouse.json"] == 7
+    # 10 -> 4 AT WP-11.18, the same cause as `good-04` above and the largest movement in the
+    # corpus: this plan's fatal count falls 13 -> 7 and its undrawable doors 17 -> 8. Its
+    # `outside-is-only-an-appendage` row is likewise unmoved -- the cause is still named once
+    # beside however many fatals it produces, which is what this test is for.
+    assert per["good-07-diamond-plan-house.json"] == 4
+    assert per["tidewater-georgian-careful.json"] == 7, (
         "9 when WP-11.10 measured it and 8 after; 7 at WP-11.16, which tagged the service "
         "programme into a west dependency and cleared `library`. `breakfast` left this list at "
         "WP-11.10 by the reachability ruling and NOT by seating the terrace door, and its "
@@ -439,7 +448,14 @@ def test_the_one_cause_of_twenty_seven_fatals_is_named_once_beside_them():
         "anchor and the caller takes the first anchor that lays, so the W hyphen anchor that "
         "had been pulling the pantry onto the main block's shared face is pre-empted and its "
         "two doors stop being drawable. That is the package's stated cost, measured against "
-        "serious 60 -> 55 and minor 111 -> 105 on the same record")
+        "serious 60 -> 55 and minor 111 -> 105 on the same record. AND 7 AGAIN AT WP-11.18, "
+        "WHICH TOOK `butlers` BACK OFF IT: the hyphen anchor carries the neighbour's own extent "
+        "now (`geometry.anchor_span`) and the entrance anchor is chained into a rest-rectangle "
+        "rather than pre-empting it, so the pantry is drawn 7.00 x 12.00 -- its declared "
+        "rectangle -- on the main block's west face, over 12.00 ft of the hyphen's 9.62-27.62 "
+        "band against the 3.50 ft `openings.required_wall_ft` asks. Both its doors place. If "
+        "this ever reads 8 again with `butlers` in the list, that is the band being lost and "
+        "not a cost to re-pin")
     # and NOT on the Tidewater plan, which has a placed front door as well
     sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
     assert not [f for f in PC.check(sol)["findings"]
@@ -575,7 +591,15 @@ def test_derive_openings_draws_a_door_to_an_appendage_and_refuses_it_without_one
     # because its record does not decide which of its two front rooms is the entrance, so it
     # gets no anchor at all; that it is unmoved here is the same control the corpus digests
     # carry, in a different instrument.
-    for pf, n in ((ROOT / "plans" / "tidewater-georgian-careful.json", 12),
+    # AND AT WP-11.18: 12 -> 10 on the Tidewater record. Stating the hyphen anchor's BAND puts
+    # the butler's pantry back on the main block's west face opposite the hyphen -- drawn at its
+    # declared 7 x 12 rather than the 184 sf strip that used to buy those doors -- so
+    # `butlers`-`backhall` and `butlers`-`dining` become drawable. The ladder in full, on this
+    # record: 12 with the hyphen anchor alone and the house drawn back to front, 18 with neither,
+    # 23 with the entrance anchor alone (WP-11.17), 10 with both stated (WP-11.18). `good-02` is
+    # unmoved at 5 for the same reason as ever -- its record does not decide which of its two
+    # front rooms is the entrance, so it gets no anchor and this package cannot reach it.
+    for pf, n in ((ROOT / "plans" / "tidewater-georgian-careful.json", 10),
                   (ROOT / "plans" / "reference" / "good-02-portico-library-house.json", 5)):
         sol = _solved(str(pf))
         fp = sol["footprint"]
@@ -713,7 +737,9 @@ def test_the_appendage_rect_is_inside_the_drawn_plate():
 # differ and the other ten are byte-identical, INCLUDING `good-02-portico-library-house`, the
 # plan whose portico and foyer the selector refuses to choose between -- which is the sharpest
 # evidence the refusal is real rather than a silence.
-CORPUS_PLACEMENT_SHA = "c3621155dc280406"
+# RE-PINNED AT WP-11.18 with `tests/test_elements.py`'s copy, per plan on a `git worktree` of
+# `a0ae8b7`: six of sixteen differ and they are the six that name an entrance face.
+CORPUS_PLACEMENT_SHA = "7f2de7eaa95b84d2"
 
 
 def test_placing_the_terrace_moved_no_shipped_placement():

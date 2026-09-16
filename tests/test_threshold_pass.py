@@ -56,7 +56,13 @@ class TestTheStoop(unittest.TestCase):
         # (`test_appendages.py` reports it undrawable), so it never reaches this rule. The two
         # that do are the kitchen's -- on the S ENTRANCE face, a service door, which is the case
         # the next test drives by hand -- and the back hall's on the N.
-        self.assertEqual(len(named), 2, "two seated exterior doors besides the entrance, two refusals")
+        # 2 -> 3 AT WP-11.18, AND THE ONE THAT RETURNED IS THE PASSAGE'S. That package places
+        # the butler's pantry against the hyphen's own band instead of leaving it at the east
+        # end, so the west slab is laid differently and the centre passage's own exterior door
+        # is SEATED again -- it reaches this rule and is correctly refused a stoop on the E wall.
+        # The three are the kitchen's on S, the passage's on E and the back hall's on N.
+        self.assertEqual(len(named), 3,
+                         "three seated exterior doors besides the entrance, three refusals")
         for u in th["unplaced"]:
             self.assertTrue(u.get("reason"), "a refusal that does not say why is a silence")
             self.assertTrue(u.get("rule"), "a refusal must name the rule refusing it")
@@ -86,28 +92,34 @@ class TestTheStoop(unittest.TestCase):
         self.assertEqual([st["room"] for st in out["steps"]], ["porch"],
                          "the porch keeps its stoop and the kitchen does not get one")
 
-    def test_STATING_THE_FRONT_COSTS_THE_HYPHEN_ITS_STRIP_AND_THAT_IS_A_MEASURED_COST(self):
-        """RE-POINTED AT WP-11.17, WHICH IS WHAT ITS OWN ASSERTION MESSAGE ASKED FOR.
+    def test_STATING_THE_BAND_KEEPS_BOTH_ANCHORS_AND_COSTS_FOUR_DRAWS_IN_TWO_FIFTY(self):
+        """RE-POINTED A SECOND TIME AT WP-11.18, WHICH IS AGAIN WHAT THE OLD MESSAGE ASKED FOR.
 
-        This pinned WP-11.16's finding that tagging this record cost the SEARCH its entrance --
-        porch at (32.07, 31.51) on the rear wall under the hill-climb against (31.0, 0.0) under
-        CP -- and said, in as many words, that if the search ever gave the flight to the porch
-        again the open question had been answered and this test should be re-pointed at whatever
-        the search gets wrong next rather than deleted. WP-11.17 answered it and this is that.
+        WP-11.16 pinned that tagging this record cost the SEARCH its entrance. WP-11.17 stated
+        the front and the test was re-pointed at what the search got wrong next -- the OTHER
+        anchor, the butler's pantry, pre-empted because the loop took the first anchor that laid.
+        Its message said that if the pantry were ever reachable again, one of the three reverted
+        approaches had been made to work and this should be re-pointed rather than deleted.
+        WP-11.18 did that, and this is that.
 
-        WHAT THE SEARCH GETS WRONG NEXT IS THE OTHER ANCHOR. `geometry`'s candidate loop takes
-        the FIRST anchor that lays and the entrance is laid first, so on this record the W hyphen
-        anchor -- the butler's pantry, pulled onto the main block's shared face for its door into
-        the back hall -- is pre-empted. Measured on it, doors the placement cannot draw:
+        WHAT MADE IT WORK IS THE BAND. `hyphen_anchors` had the neighbouring element's whole
+        rectangle in hand when it chose the face and returned the FACE ALONE, so the anchor knew
+        the pantry belonged on the west wall and not that it belonged OPPOSITE THE HYPHEN. Over
+        the three positions `_partial_flank` drew on that 37.24 ft face for a 12 ft run the
+        overlaps with the hyphen's 9.62-27.62 band are 2.38, 12.00 and 2.38 ft against the
+        3.50 ft `openings.required_wall_ft` asks -- ONE POSITION IN THREE could ever place the
+        door. `anchor_span` carries the band, `_band_off` derives the position from it, and the
+        entrance anchor is CHAINED into a rest-rectangle instead of pre-empting the hyphen one.
 
-            hyphen anchor alone      12      the house drawn back to front
-            neither                  18
-            entrance anchor alone    23      the entrance right, `unreachable: butlers` a fatal
-
-        Three ways of holding both were built, measured and reverted; `geometry._partial_flank`'s
-        docstring carries the numbers and the reasons. The trade is the corpus's own arbiter's:
-        serious 60 -> 55 and minor 111 -> 105 against that one new fatal.
-        `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` records the residue.
+        WHAT THE SEARCH GETS WRONG NEXT IS THE HOSTED ANCHOR'S FALL-BACK. A host rectangle holds
+        two or three rooms rather than the element's seven, so the cuts a partial lay needs are
+        not always there; where they are not, the host is sliced ordinarily and the entrance can
+        leave the front. Measured over 250 single-candidate draws on this record:
+        **246 of 250**, against WP-11.17's 250 of 250. Two ways of closing those four were built
+        and reverted -- making the chain atomic restores the census and LOSES THE DOOR (fatal
+        7 -> 9, unplaced doors 20 -> 32), and falling back to the full-face strip restores it and
+        the winner then takes a 45 x 4.95 = 222.8 sf veranda (serious 57 -> 65). Both numbers are
+        in `geometry._partial_flank`'s docstring and in the WP-11.18 report.
         """
         pl = _placed()
         st = pl["threshold"]["steps"][0]
@@ -116,15 +128,34 @@ class TestTheStoop(unittest.TestCase):
         porch = next(r for lv in pl["levels"] for r in lv["rooms"] if r["id"] == "porch")
         self.assertLessEqual(porch["geometry"]["y_ft"], 0.6)
 
-        # THE COST, pinned so it cannot go quiet: the butler's pantry cannot be reached.
+        # THE FIX, pinned as the thing it is: the pantry is reachable, because it stands on the
+        # main block's west face inside the hyphen's own band and both its doors place.
         unreach = [f for f in PC.check(pl)["findings"]
                    if f.get("kind") == "unreachable" and f.get("room") == "butlers"]
         self.assertEqual(
-            len(unreach), 1,
-            "the butler's pantry is reachable again. That is good news and it means the two "
-            "anchors no longer compete -- say which of the three reverted approaches was made "
-            "to work, and re-point this test at whatever the search gets wrong next rather "
-            "than deleting it.")
+            len(unreach), 0,
+            "the butler's pantry is unreachable again. WP-11.18 puts it on the main block's west "
+            "face opposite the hyphen by STATING the band, so this is the band being lost -- "
+            "check `geometry.anchor_span` and `_band_off` -- and not a cost to be re-pinned.")
+        g = porch["geometry"]
+        self.assertGreater(g["width_ft"] * g["depth_ft"], 72.0 - 0.01,
+                           "the porch is drawn smaller than its own declared 6 x 12")
+
+        # AND THE COST, AS A CENSUS AND NOT AS THIS WINNER -- a winner can be right by the luck
+        # of one draw, which is the whole reason WP-11.17 measured a census at all. 2 s.
+        hits = 0
+        for seed in range(250):
+            GEOM._SOLVE_CACHE.clear()
+            r = GEOM.solve(json.load(open(TIDEWATER, encoding="utf-8")),
+                           engine="heuristic", candidates=1, seed=seed)
+            py = next(rm["geometry"] for lv in r["levels"] if (lv.get("index") or 0) == 0
+                      for rm in lv["rooms"] if rm["id"] == "porch")["y_ft"]
+            hits += int(py <= 0.6)
+        self.assertGreaterEqual(
+            hits, 246,
+            f"porch-on-the-entrance-front is {hits} of 250 against WP-11.18's measured 246. A "
+            "FALL is a regression in the chain. A RISE means a hosted anchor found a host it "
+            "can cut -- re-derive per draw and raise this floor, saying which change did it.")
 
     def test_the_flight_is_outside_the_block_and_never_inside_a_room(self):
         pl = _placed()

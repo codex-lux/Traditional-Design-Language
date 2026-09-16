@@ -244,7 +244,10 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # differ and the other ten are byte-identical, INCLUDING `good-02-portico-library-house`, the
 # plan whose portico and foyer the selector refuses to choose between -- which is the sharpest
 # evidence the refusal is real rather than a silence.
-CORPUS_SHEET_SHA = "585b5dcd73ed3b2f"
+# AND AT WP-11.18, for the six plans that name an entrance face and for the reason
+# `tests/test_elements.py`'s two digests carry: a re-placed house draws a different sheet. The
+# other ten are byte-identical, re-derived per plan on a `git worktree` of `a0ae8b7`.
+CORPUS_SHEET_SHA = "6a3368fd8730f1b8"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

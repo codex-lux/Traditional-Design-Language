@@ -287,7 +287,21 @@ def test_the_search_draws_fewer_rooms_outside_their_band_than_it_scores_for():
     # entrance face is drawn at its declared 6 x 8 and leaves this list. A RISE here that is NOT
     # accompanied by a change to `geometry`'s candidate acceptance IS the ranking failing, and
     # that is still what this guard is for.
-    _PIN = (31, 219)
+    # 28 AT WP-11.18, DOWN FROM 31, AND IT IS NOT THE ANCHOR GIVING GROUND BACK. That package
+    # makes `partition` stop a STATED share at the closer side rather than at the first
+    # overshoot, so the groups either side of an anchor's cut are sized to the rectangles they
+    # must fill -- and a group that is not stretched draws rooms nearer their own band. WP-11.8's
+    # key is untouched. Re-derived per plan, SIX rooms joined and NINE left, over the six plans
+    # that name an entrance face:
+    #
+    #   joined  good-03 parlor, good-04 guest-bedroom, good-07 dining/primary-bedroom,
+    #           spec primary, tidewater drawing
+    #   left    good-01 kitchen, good-03 office, good-04 dining, good-07 guest-bath,
+    #           spec bed2/family/stair, tidewater hallbath/library
+    #
+    # A RISE here that is NOT accompanied by a change to `geometry`'s candidate acceptance IS the
+    # ranking failing, and that is still what this guard is for.
+    _PIN = (28, 219)
     assert (out, tot) == _PIN, (
         f"the search draws {out} of {tot} rooms outside their own band against a pinned "
         f"{_PIN[0]} of {_PIN[1]}. An improvement is welcome -- lower it here and say what "

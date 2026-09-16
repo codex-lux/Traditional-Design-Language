@@ -238,14 +238,22 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     # assertion below is REMOVED rather than inverted -- asserting it broken would make a green
     # suite evidence for the loss -- and the floor is lowered with the reason so a fall to 1
     # still fails.
-    assert len(kept) >= 2, (
-        f"2 of 5 kept at WP-11.17, 3 at WP-11.16, 2 at the merge, 3 before it; a fall below "
-        f"that is a placement losing stacks rather than trading them: {st}")
+    # AND WP-11.18 TOOK IT BACK TO 3, WHICH IS WHAT THE `landing` LINE BELOW ASKED FOR. The
+    # layer that did it is the PLACER's `partition`: a stated share stops at the closer side
+    # now, so the slab behind the porch is sized to the rectangle it fills instead of being
+    # stretched, the stair hall is drawn where the landing above already stood, and `landing`
+    # stacks over its stair again. The floor is raised to 3 and the `landing` assertion is
+    # POSITIVE now, as it was before WP-11.17 -- so a package that loses it again fails here
+    # rather than quietly passing on a weaker floor.
+    assert len(kept) >= 3, (
+        f"3 of 5 kept at WP-11.18, 2 at WP-11.17, 3 at WP-11.16, 2 at the merge, 3 before it; "
+        f"a fall below that is a placement losing stacks rather than trading them: {st}")
     assert "upperpassage" in kept, f"the claim WP-11.8 did not cost is gone too: {st}"
     assert "primary" in kept, f"the second surviving claim is gone as well: {st}"
-    assert "landing" in broken, (
-        "the landing stacks over its stair again. That is good news -- raise the floor above "
-        f"back to 3 and say which layer did it, rather than leaving this line: {st}")
+    assert "landing" in kept, (
+        "the landing has stopped stacking over its stair. It did so before WP-11.17, lost it to "
+        "the entrance anchor, and got it back at WP-11.18 -- so this is a placement regression "
+        f"and not a cost to be re-pinned: {st}")
     assert broken, (
         f"every claim lands, which no placement in this corpus has managed -- re-derive it "
         f"before believing it, and the `stack-broken` assertion below has nothing to read: {st}")

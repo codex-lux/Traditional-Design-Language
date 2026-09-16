@@ -245,6 +245,18 @@ def partition(rooms, axis, rng, below=None, frac=None):
             if bs is None or sc < bs: best, bs = r, sc
         if best is None: break
         lo.append(best); taken.add(best["id"]); acc += best["_area"]
+    # A STATED SHARE STOPS AT THE CLOSER SIDE AND NOT AT THE FIRST OVERSHOOT (WP-11.18). The loop
+    # grows until it CROSSES the target, so the room that crosses it decides how far past it the
+    # group lands. Where the share is a coin flip that costs nothing -- the share simply moves.
+    # Where the share is STATED the caller has already chosen the rectangles, so a group past its
+    # target is a stretched room and the room beside it is a shrunk one. MEASURED on the tagged
+    # Tidewater: a 495.9 sf target took `passage` (408) and then `drawing` (396) -- 804 into a
+    # 567.9 sf rectangle, 62% over -- and left `stair` alone in the 567.9 sf slab above it, drawn
+    # 567.9 against 126 declared, 4.5x. Dropping the last room lands at 408 and is closer.
+    if frac is not None and len(lo) > 1:
+        without = acc - lo[-1]["_area"]
+        if abs(without - target) < abs(acc - target):
+            taken.discard(lo[-1]["id"]); lo = lo[:-1]
     hi = [r for r in ranked if r["id"] not in taken]
     if not lo or not hi:
         mid = max(1, len(ranked) // 2); lo, hi = ranked[:mid], ranked[mid:]
@@ -437,9 +449,57 @@ def courtyard_slice(rooms, W, H, module, tol, rng, out, relax, sides=4):
     return True
 
 
+def face_toward(ra, rb, tol=0.6):
+    """Which face of rectangle `ra` rectangle `rb` lies beyond, or None where it lies beyond none
+    -- the diagonal case, which the ruling refuses rather than models.
+
+    Both are `(x0, y0, x1, y1)`. Lifted out of `hyphen_anchors` at WP-11.18 so `anchor_span`
+    below can be its neighbour: the two answer the same question about the same pair of
+    rectangles -- WHICH face, and WHERE ALONG IT -- and the overlap test that decides the first
+    is the extent that answers the second, so deriving the extent anywhere else would be a
+    second spelling of one rule."""
+    ax0, ay0, ax1, ay1 = ra
+    bx0, by0, bx1, by1 = rb
+    if min(by1, ay1) - max(by0, ay0) > tol:
+        if bx0 >= ax1 - tol: return "E"
+        if bx1 <= ax0 + tol: return "W"
+    if min(bx1, ax1) - max(bx0, ax0) > tol:
+        if by0 >= ay1 - tol: return "N"
+        if by1 <= ay0 + tol: return "S"
+    return None
+
+
+def anchor_span(ra, rb, face):
+    """`rb`'s own extent along `face` of `ra`, as an offset pair from `ra`'s origin on that axis.
+
+    THE ANCHOR MECHANISM KEPT THE FACE AND THREW AWAY THE EXTENT, AND THAT IS WHAT COST THE
+    BUTLER'S PANTRY ITS DOOR (WP-11.18). `hyphen_anchors` has the neighbouring element's whole
+    rectangle in hand when it decides the face and returned the face alone, so the anchor knew
+    the pantry belonged on the main block's west face and not that it belonged OPPOSITE THE
+    HYPHEN. Measured over the three positions `_partial_flank` draws on that 37.24 ft face for a
+    12 ft run -- low 0.00-12.00, centre 12.62-24.62, high 25.24-37.24 -- against a hyphen band of
+    9.62-27.62, the overlaps are 2.38, 12.00 and 2.38 ft against the **3.50 ft** the record itself
+    reports that door needing (`openings.required_wall_ft` of its own 2.8 ft leaf, read off the
+    refusal rather than computed for a nominal one). **Only the centre position can ever place
+    that door**, and two draws in three threw it away.
+
+    None where the two do not overlap on that axis at all, which `face_toward` has already
+    refused, and None for a face that is not one of N/E/S/W."""
+    ax0, ay0, ax1, ay1 = ra
+    bx0, by0, bx1, by1 = rb
+    if face in ("E", "W"):
+        lo, hi, o = max(ay0, by0), min(ay1, by1), ay0
+    elif face in ("N", "S"):
+        lo, hi, o = max(ax0, bx0), min(ax1, bx1), ax0
+    else:
+        return None
+    return (lo - o, hi - o) if hi > lo else None
+
+
 def hyphen_anchors(plan, blocks, level=0):
-    """`{element_id: {face: [room_ids]}}` -- for each element, the rooms of that element which
-    an AUTHORED DOOR joins to a room in the element beyond that face (WP-11.6).
+    """`{element_id: {face: ([room_ids], band)}}` -- for each element, the rooms of that element
+    which an AUTHORED DOOR joins to a room in the element beyond that face (WP-11.6), and the
+    neighbour's own extent along that face (`anchor_span`, WP-11.18) or None.
 
     A DOOR BETWEEN TWO ELEMENTS CANNOT BE PLACED UNLESS THE TWO ROOMS SHARE A WALL, and nothing
     made them. Measured on a re-authored `centre-passage-double-pile`: 5 of 5 cross-element doors
@@ -460,6 +520,11 @@ def hyphen_anchors(plan, blocks, level=0):
     its own reason: *"the search is good at slicing a range and has no way to know which of its
     edges matters."*
 
+    THE BAND IS THE HALF THIS RETURNED FOR THREE PACKAGES AND DID NOT (WP-11.18). A face alone
+    says the pantry belongs on the west wall; it does not say the pantry belongs opposite the
+    hyphen, and the door needs the second. `anchor_span` carries it and `_partial_flank` positions
+    inside it; read that function for the measurement that made it necessary.
+
     `{}` on a one-element plan, and on any plan whose elements are joined by no authored door."""
     if len(blocks or []) < 2:
         return {}
@@ -471,19 +536,6 @@ def hyphen_anchors(plan, blocks, level=0):
             continue
         for r in lv.get("rooms", []):
             rooms[r["id"]] = r
-
-    def face_toward(a, b, tol=0.6):
-        """Which face of element `a` element `b` lies beyond, or None where it lies beyond none
-        -- the diagonal case, which the ruling refuses rather than models."""
-        ax0, ay0, ax1, ay1 = rect[a]
-        bx0, by0, bx1, by1 = rect[b]
-        if min(by1, ay1) - max(by0, ay0) > tol:
-            if bx0 >= ax1 - tol: return "E"
-            if bx1 <= ax0 + tol: return "W"
-        if min(bx1, ax1) - max(bx0, ax0) > tol:
-            if by0 >= ay1 - tol: return "N"
-            if by1 <= ay0 + tol: return "S"
-        return None
 
     # ONLY WHERE THE CROSSING GOES THROUGH THE LINK. A door between two elements with open ground
     # between them cannot be placed however the rooms are laid -- a detached dependency IS
@@ -506,13 +558,21 @@ def hyphen_anchors(plan, blocks, level=0):
                 continue
             if role.get(ea) != "hyphen" and role.get(eb) != "hyphen":
                 continue
-            f = face_toward(ea, eb)
+            f = face_toward(rect[ea], rect[eb])
             if f is None:
                 continue
-            lst = out.setdefault(ea, {}).setdefault(f, [])
-            if rid not in lst:
-                lst.append(rid)
-    return out
+            ent = out.setdefault(ea, {}).setdefault(f, ([], set()))
+            if rid not in ent[0]:
+                ent[0].append(rid)
+            ent[1].add(eb)
+    # THE BAND IS THE NEIGHBOUR'S OWN EXTENT, AND WHERE TWO NEIGHBOURS LIE BEYOND ONE FACE THERE
+    # IS NO BAND (WP-11.18). Two elements past the same face have two extents, and choosing
+    # between them -- or taking their union, or their midpoint -- would be this reader inventing
+    # the answer the record does not give, which is `entrance_anchors`' own discipline one field
+    # over. A `None` band is the three-way draw the anchor has always taken: unjudged, not passed.
+    return {ea: {f: (ids, anchor_span(rect[ea], rect[next(iter(nb))], f) if len(nb) == 1 else None)
+                 for f, (ids, nb) in faces.items()}
+            for ea, faces in out.items()}
 
 
 def entrance_anchors(plan, blocks, level=0):
@@ -564,8 +624,17 @@ def entrance_anchors(plan, blocks, level=0):
         and must be unique. It is on all six that survive.
 
     Six of sixteen plans are anchored: the two shipped records and `good-01`, `good-03`,
-    `good-04`, `good-07`. Returns `{element_id: {face: [room_id]}}`, exactly as `hyphen_anchors`
-    does so the caller's loop reads one shape, or `{}` where the record does not decide."""
+    `good-04`, `good-07`. Returns `{element_id: {face: ([room_id], None)}}`, exactly as
+    `hyphen_anchors` does so the caller's loop reads one shape, or `{}` where the record does not
+    decide.
+
+    THE BAND IS ALWAYS None HERE AND THAT IS A STATEMENT RATHER THAN A GAP (WP-11.18). A hyphen
+    anchor has a band because the element beyond the face has an extent; the outdoors has none,
+    and ANY position on the entrance front is a legitimate entrance. Pinning one would be
+    `centre_bay_score` arriving through the back door -- WP-11.3 built that term, swept it, and
+    deleted it because a door in the centre bay is a property of a plan organised about an axis
+    and not of a placement scored for one. `off` stays the three-way draw the other scores pick
+    from."""
     ew = entrance_walls(plan)
     if not ew or not blocks:
         return {}
@@ -596,10 +665,11 @@ def entrance_anchors(plan, blocks, level=0):
     el = of.get(room["id"])
     if el is None:
         return {}
-    return {el: {face: [room["id"]]}}
+    return {el: {face: ([room["id"]], None)}}
 
 
-def _partial_flank(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, relax, run):
+def _partial_flank(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, relax, run,
+                   span=None, later=()):
     """`flank_slice`'s partial branch: the anchor gets a rectangle of ITS OWN AREA on the face.
 
     Three guillotine cuts, in this order, and every one of them is a real cut of a real rectangle
@@ -685,11 +755,16 @@ def _partial_flank(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, r
     if across - d < floor_ or along - L < floor_:
         return False
 
-    off = [0.0, (along - L) / 2.0, along - L][rng.randrange(3)]
-    if off < floor_:
-        off = 0.0
-    elif along - off - L < floor_:
-        off = along - L
+    if span is None:
+        off = [0.0, (along - L) / 2.0, along - L][rng.randrange(3)]
+        if off < floor_:
+            off = 0.0
+        elif along - off - L < floor_:
+            off = along - L
+    else:
+        off = _band_off(along, L, floor_, span, len(rest))
+        if off is None:
+            return False
 
     # The rest-rectangles, in the order the cuts make them. `a` is each one's area, which is what
     # its share of the rooms must come to.
@@ -700,33 +775,151 @@ def _partial_flank(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, r
     if len(rest) < 1 + int(want_p) + int(want_r):
         return False
 
-    grp = rest
-    gP = gR = None
-    ax = "x" if horiz else "y"
-    if want_p:
-        gP, grp = partition(grp, ax, rng, frac=aP / max(aP + aB + aR, 1.0))
-    if want_r:
-        grp, gR = partition(grp, ax, rng, frac=aB / max(aB + aR, 1.0))
-    if not grp or (want_p and not gP) or (want_r and not gR):
-        return False
-
     def rect(u, ulen, v, vlen):
         return (round(v0 + v, 2), round(u0 + u, 2), round(vlen, 2), round(ulen, 2)) if not horiz \
             else (round(u0 + u, 2), round(v0 + v, 2), round(ulen, 2), round(vlen, 2))
 
     av = 0.0 if lo_face else across - d      # the anchor band's across-origin
     bv = d if lo_face else 0.0               # and what stands behind it
-    for rs, rc in ((keep, rect(off, L, av, d)),
-                   (grp, rect(off, L, bv, across - d)),
-                   (gP, rect(0.0, off, 0.0, across) if want_p else None),
-                   (gR, rect(off + L, along - off - L, 0.0, across) if want_r else None)):
+    rB = rect(off, L, bv, across - d)
+    rP = rect(0.0, off, 0.0, across) if want_p else None
+    rR = rect(off + L, along - off - L, 0.0, across) if want_r else None
+
+    # THE CHAIN. A second anchor stands on a DIFFERENT face of the same element, and one of the
+    # rest-rectangles above may already stand on that face -- `P` and `R` are full-depth slabs on
+    # the element's own low and high faces along this axis, and where `off` is 0 there is no `P`
+    # at all and `B` is what stands on the low face. Its rooms are held out of the split below,
+    # the host's own area target is reduced by theirs, and the host is decomposed in turn. Where
+    # no rest-rectangle stands on the next anchor's face the chain stops and the rooms go back in
+    # the pool, which is exactly the single-anchor behaviour.
+    host, held = None, []
+    if later:
+        hold_ids = {i for _e in later for i in _e[1]}
+        held = [r for r in rest if r["id"] in hold_ids]
+        if held:
+            host = _host_for(later[0][0], (x, y, x + w, y + h), (("B", rB), ("P", rP), ("R", rR)),
+                             len(rest) - len(held))
+    if host is None:
+        held, free = [], rest
+    else:
+        free = [r for r in rest if r["id"] not in {r2["id"] for r2 in held}]
+    ah = sum(r["_area"] for r in held)
+    fP = max(0.0, aP - (ah if host == "P" else 0.0))
+    fR = max(0.0, aR - (ah if host == "R" else 0.0))
+    fB = max(0.0, aB - (ah if host == "B" else 0.0))
+
+    grp = free
+    gP = gR = None
+    ax = "x" if horiz else "y"
+    if want_p:
+        gP, grp = partition(grp, ax, rng, frac=fP / max(fP + fB + fR, 1.0))
+    if want_r:
+        grp, gR = partition(grp, ax, rng, frac=fB / max(fB + fR, 1.0))
+    if not grp or (want_p and not gP) or (want_r and not gR):
+        return False
+    if host == "P":   gP = list(gP) + held
+    elif host == "R": gR = list(gR) + held
+    elif host == "B": grp = list(grp) + held
+
+    # THE CHAIN IS ATOMIC, AND THAT IS WHAT KEEPS WP-11.17's GUARANTEE (WP-11.18). The hosted
+    # anchor can refuse -- its host may not have the rooms for the cuts its band needs -- and if
+    # the refusal simply fell through to the ordinary slice, the ENTRANCE would be laid by the
+    # guillotine on those candidates. Measured: 246 of 250 rather than 250 of 250 on the tagged
+    # record, which is WP-11.17's whole census with four holes in it. So everything is placed into
+    # a scratch dict and merged only on success; a refusal places NOTHING and the caller falls
+    # through to the next anchor in its own list, which is this package's predecessor behaviour
+    # exactly. `flank_slice`'s docstring has promised "returns False and places nothing" since
+    # WP-11.6 and this is the first caller that could have broken it.
+    _o, _rx = {}, []
+    for key, rs, rc in (("A", keep, rect(off, L, av, d)),
+                        ("B", grp, rB), ("P", gP, rP), ("R", gR, rR)):
         if rc is None:
             continue
-        slice_rect(copy.deepcopy(rs), rc[0], rc[1], rc[2], rc[3], module, tol, rng, out, relax)
+        # A HOSTED ANCHOR IS BEST-EFFORT, AND IT COSTS FOUR DRAWS IN TWO HUNDRED AND FIFTY
+        # (WP-11.18). A host holds two or three rooms rather than the element's seven, so the
+        # cuts a partial lay needs are not always there; where they are not, the host is sliced
+        # ordinarily and the entrance can leave the front. Measured on the tagged record,
+        # porch-on-the-entrance-front is **246 of 250** against WP-11.17's 250 of 250 -- the
+        # winner is still drawn at y = 0.0, and the four are charged the 100 points
+        # `entrance_score` has always charged. TWO WAYS OF CLOSING THEM WERE BUILT AND REVERTED:
+        #   * MAKING THE CHAIN ATOMIC -- a refused hosted anchor places nothing, so the caller
+        #     falls through to WP-11.17's entrance-only lay -- restores 250 of 250 and LOSES THE
+        #     DOOR: the chain is refused on the candidates that win, so the pantry goes back to
+        #     the east end (fatal 7 -> 9, serious 57 -> 62, unplaced doors 20 -> 32).
+        #   * FALLING BACK TO THE FULL-FACE STRIP inside the host also restores 250 of 250 and
+        #     the WINNER THEN TAKES IT: the porch is drawn 45 x 4.95 = 222.8 sf against a
+        #     declared 72, serious 57 -> 65. The `drawn-vs-declared` charge does not rank a
+        #     veranda out, which was the assumption behind trying it, and that assumption is
+        #     exactly what WP-11.17 removed the strip for.
+        # So the four are a stated cost rather than a silence.
+        if key == host and _partial_flank(rs, rc[0], rc[1], rc[2], rc[3], later[0][0],
+                                          later[0][1], module, tol, rng, _o, _rx, later[0][3],
+                                          span=later[0][2], later=later[1:]):
+            continue
+        slice_rect(copy.deepcopy(rs), rc[0], rc[1], rc[2], rc[3], module, tol, rng, _o, _rx)
+    out.update(_o)
+    relax.extend(_rx)
     return True
 
 
-def flank_slice(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, relax, run=None):
+def _band_off(along, L, floor_, span, n_rest):
+    """Where along the face the anchor's rectangle goes, given the band it must meet (WP-11.18).
+
+    The three-way draw above is the answer when nothing states a band. When something does, the
+    position is DERIVED and no draw is taken: the anchor is centred on the band, clamped to the
+    face, and snapped to an end where the slab it would leave is below a module. The two end
+    positions are kept as candidates and the one with the largest overlap wins, because a centred
+    position needs BOTH end slabs and each needs a room of its own -- so on a rectangle with two
+    rooms to spare the centre is not available and an end is the honest answer rather than a
+    refusal. Ties go to the position that needs fewer slabs.
+
+    None where no position the rectangle can hold overlaps the band at all; the caller then
+    refuses and the ordinary slice runs."""
+    lo, hi = span
+    cands = []
+    for o in ((lo + hi) / 2.0 - L / 2.0, 0.0, along - L):
+        o = max(0.0, min(along - L, o))
+        if o < floor_:
+            o = 0.0
+        elif along - o - L < floor_:
+            o = along - L
+        need = 1 + int(o > 0.0) + int(along - o - L > 0.0)
+        if n_rest < need:
+            continue
+        ov = min(hi, o + L) - max(lo, o)
+        cands.append((-max(0.0, ov), need, round(o, 6)))
+    cands.sort()
+    return None if not cands or cands[0][0] == 0.0 else cands[0][2]
+
+
+def _host_for(face, element, rects, n_free):
+    """Which of `_partial_flank`'s rest-rectangles stands on `face` of the element (WP-11.18).
+
+    A rectangle hosts the next anchor only where its own `face` edge IS the element's, because an
+    anchor is a statement about the building's outside wall and a rectangle one cut inside it is
+    a different wall. `rects` is offered in the order `B`, `P`, `R` -- `B` first because it is the
+    one that exists when `off` is 0, which is the case a first version of this missed. The host
+    must also leave at least one room for every other slab; where it cannot, the next candidate
+    is tried and then the chain stops."""
+    ex0, ey0, ex1, ey1 = element
+    tol = 0.01
+    for key, rc in rects:
+        if rc is None:
+            continue
+        rx, ry, rw, rh = rc
+        on = {"W": abs(rx - ex0) <= tol, "E": abs(rx + rw - ex1) <= tol,
+              "S": abs(ry - ey0) <= tol, "N": abs(ry + rh - ey1) <= tol}.get(face)
+        if not on:
+            continue
+        others = sum(1 for k2, r2 in rects if r2 is not None and k2 != key)
+        if n_free < others + 1:
+            continue
+        return key
+    return None
+
+
+def flank_slice(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, relax, run=None,
+                span=None, later=()):
     """Lay `anchor_ids` as a strip against `face` of this element, then slice the rest.
 
     The same statement `courtyard_slice` makes about a corredor, at one element's scale: a room
@@ -746,7 +939,7 @@ def flank_slice(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, rela
     the pool."""
     if run is not None:
         return _partial_flank(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out,
-                              relax, run)
+                              relax, run, span=span, later=later)
     want = set(anchor_ids)
     along = h if face in ("E", "W") else w
     across = w if face in ("E", "W") else h
@@ -2784,18 +2977,45 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     # Computed once per solve rather than once per candidate: it walks the door graph and the
     # element rectangles, neither of which a candidate moves.
     _anchors = hyphen_anchors(plan, gblocks, 0)
-    # WP-11.17. THE ENTRANCE IS LAID FIRST AND THE LOOP TAKES THE FIRST ANCHOR THAT LAYS, so on a
-    # record carrying both -- the tagged Tidewater main block has a W hyphen anchor (the butler's
-    # pantry, for its door into the back hall) and an S entrance anchor (the porch) -- the order
-    # is the ruling. The entrance is the fatal tier: `entrance_score` charges 100 where
-    # `adjacency_score` charges a door, and a house drawn back to front is wrong in a way a door
-    # that cannot be drawn is not. The cost is stated rather than assumed -- see the report.
     _eanchors = entrance_anchors(plan, gblocks, 0)
     # THE RUN ALONG THE FACE IS THE ROOM'S OWN LONGER DECLARED DIMENSION, which is not a taste:
     # `_partial_flank` derives the depth as `area / run`, so this hands it the room's own declared
     # rectangle with its long side on the front, and a threshold room standing on a front is what
     # it is by being wider than it is deep (6 x 12 and 4 x 6 on the two shipped records).
-    _erun = {r["id"]: max(r.get("width_ft") or 10, r.get("length_ft") or 12) for r in prep[0]}
+    _run = {r["id"]: max(r.get("width_ft") or 10, r.get("length_ft") or 12) for r in prep[0]}
+
+    def _anchor_list(bid):
+        """Every anchor stated for this element, `(face, ids, band, run)`, IN THE ORDER LAID.
+
+        A BANDED ANCHOR GOES FIRST, AND THE REASON IS THE BAND RATHER THAN A PREFERENCE BETWEEN
+        THE TWO STATEMENTS (WP-11.18). A hyphen anchor must meet the neighbouring element's own
+        extent, and the centred position that meets it needs a slab on either side -- so it wants
+        the rectangle with the most rooms in it, which is the element itself. The entrance anchor
+        has no band: any position on the front is a legitimate entrance, so it can take an end
+        position, which needs one slab fewer, which is what a hosted rectangle can give it.
+        Laying the free one first and the constrained one second asks the constrained one to meet
+        its band inside two rooms' worth of slab, and it cannot -- measured, the pantry lands at
+        one end of the west face with 2.38 ft of overlap against the 3.70 ft
+        `openings.required_wall_ft` asks for, which is the door failing by the width of a jamb.
+
+        WP-11.17 laid the entrance first and took the first anchor that laid, and the hyphen
+        crossing lost its strip entirely -- one new fatal, `unreachable: butlers`. The order here
+        is not that trade made the other way: both are laid, and the chain in `_partial_flank` is
+        what makes that possible.
+
+        `run` is the room's own longer declared dimension and is None for a MULTI-ROOM anchor,
+        which keeps the full-face strip. That is a refusal rather than a convenience: several
+        rooms have no single such figure, and inventing one -- a sum, a maximum -- would be
+        reading one quantity as another, which is OQ 48's error. On the tagged Tidewater that
+        leaves the dependency's own `{E: [powder, cellarstair, kitchen]}` on the path it has
+        always taken."""
+        out = []
+        for src in (_eanchors, _anchors):
+            for f, (ids, span) in sorted((src.get(bid) or {}).items()):
+                out.append((f, list(ids), span,
+                            _run.get(ids[0]) if len(ids) == 1 else None))
+        out.sort(key=lambda e: (e[2] is None, e[3] is None))
+        return out
     best = None
     # DECLARED STACKING AS A RULE RATHER THAN A CHARGE (WP-11.5). Two incumbents: the best
     # candidate overall, and the best that breaks NO claim its own author wrote. The strict one
@@ -2828,16 +3048,12 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                 # search. One element -> `_anchors` is `{}` and this is the same single call
                 # with the same rng draws it always was.
                 _laid = False
-                for _f, _ids in sorted((_eanchors.get(_b["id"]) or {}).items()):
-                    _laid = flank_slice(_rs, _b["x"], _b["y"], _b["W"], _b["H"], _f, _ids,
-                                        bay, tol, rng, gr, grelax,
-                                        run=max(_erun.get(i, 0.0) for i in _ids))
-                    if _laid:
-                        break
-                for _f, _ids in (sorted((_anchors.get(_b["id"]) or {}).items())
-                                 if not _laid else ()):
-                    _laid = flank_slice(_rs, _b["x"], _b["y"], _b["W"], _b["H"], _f, _ids,
-                                        bay, tol, rng, gr, grelax)
+                _al = _anchor_list(_b["id"])
+                for _i, (_f, _ids, _span, _rn) in enumerate(_al):
+                    _laid = flank_slice(
+                        _rs, _b["x"], _b["y"], _b["W"], _b["H"], _f, _ids, bay, tol, rng,
+                        gr, grelax, run=_rn, span=_span,
+                        later=tuple(e for e in _al[_i + 1:] if e[3] is not None))
                     if _laid:
                         break
                 if not _laid:
