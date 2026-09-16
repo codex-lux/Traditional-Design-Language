@@ -736,14 +736,36 @@ def selftest():
     PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
     C = PC.load_corpus()
     failures = 0
+    unevaluated = 0
     for rel in SELFTEST_PLANS:
         plan = json.load(open(os.path.join(ROOT, rel)))
         with tempfile.TemporaryDirectory() as td:
             out = export_all(copy.deepcopy(plan), td)
-            bad = {k: v for k, v in out.get("sheets", {}).items() if "error" in v and not v.get("refusal")}
+            # A REFUSED PLACEMENT IS COULD-NOT-EVALUATE AND IS NEITHER A PASS NOR A FAILURE
+            # (WP-13.4, 16 Sep 2026). This filter read `v.get("refusal")`, which is this file's
+            # MISSING-LIBRARY marker and has been since WP-5.1 -- the placement refusal is
+            # `refused_placement`, and the contract says so in as many words because `refusal`
+            # is what `app.py` maps to a 501. So the moment the exporter learned to refuse, both
+            # shipped plans came back as export ERRORS and this selftest failed the build for a
+            # reason that says nothing about a round trip: when there is no DXF, the round trip
+            # was not exercised at all. Reported by name with the refusal's own sentences, and
+            # the two states are counted apart -- collapsing an unjudged into a failure is the
+            # same dishonesty as collapsing it into a pass, in the other direction.
+            sheets = out.get("sheets", {})
+            refused = {k: v for k, v in sheets.items() if v.get("refused_placement")}
+            bad = {k: v for k, v in sheets.items()
+                   if "error" in v and not v.get("refusal") and not v.get("refused_placement")}
             if "error" in out or bad:
                 print(f"  FAIL {rel}: export errors: {out.get('error') or bad}")
                 failures += 1
+                continue
+            if refused:
+                why = next(iter(refused.values()))["refused_placement"]
+                print(f"  COULD NOT EVALUATE {rel}: the placement is refused for "
+                      f"{', '.join(why.get('facts') or ['an unnamed fact'])}, so "
+                      f"{len(refused)} sheet(s) were not drawn and the round trip was not "
+                      f"exercised. This is not a pass.")
+                unevaluated += 1
                 continue
             back = IMP.read_plan_dxf(out["sheets"]["plan"]["path"])
             if "error" in back:
@@ -763,6 +785,10 @@ def selftest():
     if failures:
         print(f"\n{failures} selftest failure(s).")
         return 1
+    if unevaluated:
+        print(f"\nCOULD NOT EVALUATE: {unevaluated} of {len(SELFTEST_PLANS)} plan(s) are "
+              f"refused and were not round-tripped. This is not a pass.")
+        return 3
     print("\nexport_dxf selftest: all round-trips identical.")
     return 0
 

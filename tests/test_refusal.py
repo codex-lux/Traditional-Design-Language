@@ -280,3 +280,52 @@ def test_the_dxf_forwards_its_refusal_rather_than_flattening_it(tmp_path):
         "content, and the reader it is for is one frame up")
     assert out.get("unexported") is True
     assert not (tmp_path / "refused.dxf").exists(), "a refused placement produced a file"
+
+
+def test_the_dxf_selftest_tells_a_refusal_from_a_failure(monkeypatch, capsys):
+    """A REFUSED PLACEMENT IS COULD-NOT-EVALUATE, AND THIS SELFTEST CALLED IT A FAILURE.
+
+    `export_dxf.selftest` round-trips both shipped plans and its filter excluded a sheet
+    carrying `v.get("refusal")` — which is this file's MISSING-LIBRARY marker, and has been
+    since WP-5.1. WP-13.4's placement refusal is `refused_placement`, and the contract names
+    that key precisely because `refusal` is what `app.py` maps to a 501. So the moment the
+    exporter learned to refuse, both plans came back as export ERRORS and the whole build went
+    red for a reason that says nothing about a round trip: where there is no DXF, the round
+    trip was never exercised.
+
+    Collapsing an unjudged state into a FAILURE is the same dishonesty as collapsing it into a
+    pass, in the other direction, and this corpus names the second one first only because it is
+    the commoner.
+
+    Driven in BOTH directions, because a selftest that had merely stopped failing would pass a
+    one-directional test: a refused sheet must return 3 and say so, and a genuinely broken
+    export must still return 1."""
+    EX = mc.load("export_dxf", os.path.join(ROOT, "build", "export_dxf.py"))
+    src = open(os.path.join(ROOT, "build", "export_dxf.py"), encoding="utf-8").read()
+    assert 'v.get("refused_placement")' in src, (
+        "the selftest no longer reads the refusal contract's own key")
+
+    def _fake(kind):
+        def go(_plan, _dir, **_kw):
+            if kind == "refused":
+                return {"sheets": {"plan": {"error": "refused", "unexported": True,
+                                            "refused_placement": {"facts": ["tiling"],
+                                                                  "lines": ["the floor inside no room"]}}}}
+            return {"sheets": {"plan": {"error": "the writer raised"}}}
+        return go
+
+    monkeypatch.setattr(EX, "export_all", _fake("refused"))
+    rc = EX.selftest()
+    printed = capsys.readouterr().out
+    if rc == 3 and "ezdxf is not installed" in printed:
+        pytest.skip("COULD NOT EVALUATE: ezdxf is not installed, so the selftest never ran")
+    assert rc == 3, f"a refused placement was reported as {rc}, not COULD NOT EVALUATE"
+    assert "COULD NOT EVALUATE" in printed and "tiling" in printed, (
+        "the refusal reached the reader without its reason")
+    assert "not a pass" in printed, "a could-not-evaluate that does not say it is not a pass"
+
+    monkeypatch.setattr(EX, "export_all", _fake("broken"))
+    rc2 = EX.selftest()
+    out2 = capsys.readouterr().out
+    assert rc2 == 1, f"a real export error was reported as {rc2}, not a failure"
+    assert "FAIL" in out2
