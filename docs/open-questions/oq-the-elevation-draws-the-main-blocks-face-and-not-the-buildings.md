@@ -1,4 +1,4 @@
-# oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings — an eighth layer
+# oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings — the wing has no front
 
 *Status: OPEN · Raised in: WP-13.7, auditing Phase 13 against the container (16 September 2026)*
 
@@ -24,13 +24,20 @@ are simply not on the face the elevation believes in.
 
 ## Why it was invisible
 
-This is WP-11.9's finding at its eighth site and it was hidden by the same fact that hid the
-other seven: **no record in this corpus carried a second massing element.** WP-11.9 taught six
-layers below the placer (`openings`, `structure`, `vertical_score`, the lot cap,
-`plan_check.drawn`, `export_ifc`); WP-11.14 found the plan DRAWING was a seventh and fixed it
-with all sixteen sheets byte-identical, precisely because on a one-rectangle house the room's
-own element face and the footprint's face coincide. The elevation coincides too, on all
-sixteen, and stops coinciding the moment a record states a dependency.
+This is WP-11.9's finding at a further site, hidden by the same fact that hid every earlier
+one: **no record in this corpus carried a second massing element.** WP-11.9 taught six layers
+below the placer (`openings`, `structure`, `vertical_score`, the lot cap, `plan_check.drawn`,
+`export_ifc`); WP-11.14 found the plan DRAWING was a seventh and fixed it with all sixteen
+sheets byte-identical, precisely because on a one-rectangle house the room's own element face
+and the footprint's face coincide. The elevation coincides too, on all sixteen, and stops
+coinciding the moment a record states a dependency.
+
+**The site is NAMED and not numbered, on purpose.** WP-13.5 called `facade.py`/`axis.py` "an
+eighth layer" and then, in the same block, called `entrance_score` and
+`principal_and_service_score` "a ninth layer and a seventh" — three sites in one package and
+one ordinal used twice. A count that one package can advance by three and reuse is not an
+identifier. `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` is the
+question the whole family belongs to; this entry is one module of it.
 
 The row was GREEN on the merged WP-13.3 tree and is red on the same code with the container in
 front of it. The code did not change; the corpus did.

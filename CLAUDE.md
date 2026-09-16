@@ -1506,10 +1506,15 @@ WHEN IT WAS WRITTEN AND WP-13.5's CONTAINER FALSIFIED IT THE SAME DAY**: re-deri
 the row is green on both `candidate` sheets and RED on both `careful` ones, and **every opening
 the elevation misses is at NEGATIVE x** -- -26.61, -17.11, -13.11, -9.11 and -3.38 ft on the
 search, -3.38 on the prover, which are the west dependency's own south windows. `elevation.py`'s
-face is the MAIN BLOCK's width, so **it is an EIGHTH layer that reads the main block as the whole
-building** -- WP-11.9 taught six, WP-11.14 found the plan drawing was a seventh, and this one was
-invisible for exactly the reason those were: no record in this corpus carried a second massing
-element until the container landed.
+face is the MAIN BLOCK's width, so **it is a FURTHER SITE of the layer that reads the main block
+as the whole building** -- and it is deliberately NOT given a number, because the container
+package used "eighth" for `facade.py`/`axis.py` and "a ninth and a seventh" for `entrance_score`
+and `principal_and_service_score` in the same paragraph. **The COUNT stopped being a useful label
+the moment one package found three sites; name the module.** The sites on record are WP-11.9's
+six (`openings`, `structure`, `vertical_score`, the lot cap, `plan_check.drawn`, `export_ifc`),
+WP-11.14's plan drawing, WP-13.5's `facade.py`, `axis.py`, `entrance_score` and
+`principal_and_service_score`, and now `elevation.py`. Every one was invisible for the same
+reason: no record in this corpus carried a second massing element until the container landed.
 `oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings`. **NOT FIXED**: what an
 elevation of a five-part house IS -- one composed face, a plate per element, or the block with
 its wings in a lighter register -- is a drawing convention needing a ruling, not a defect with an

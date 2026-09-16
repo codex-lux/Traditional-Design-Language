@@ -25,7 +25,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **11 — The drawn sheet** | **WP-11.1 … WP-11.8** · the rest planned | **WP-11.1 complete (4 Sep 2026)** — raised by Lucas against a rendered sheet set beside four exemplar plans, and diagnosed before he said what was wrong. The finding that organises it: **the instrument already owned a written graphic standard and the plan sheet did not obey it** — `tokens.css` has carried Graphic Standard No. 1 verbatim since WP-5.2 while `render_plan.py` drew in a dark instrument palette that `svg_theme.py` translated on the way to the browser, so the sheet had the standard's COLOURS and none of its GRAMMAR. `build/sheet_style.py` is the one spelling (52 hex literals in the four renderers → 0, all ten sheets byte-identical across the move); the wall is a BODY at the three thicknesses `structure.wall_thickness` has computed since WP-3.1 and no drawing had ever read, so the sheet now says which walls CARRY; an opening is a hole cut from `derive_openings`' own spans; the room washes are gone and the paper is the room; and the six banner lines are a margin schedule below a ruled border. **Two registers, ruled by Lucas 4 Sep**: `presentation` for a reader, `working` for the marks, one renderer, the plate saying which. **Three existing guards had selectors this package retired and all three would have passed vacuously**, and widening the fourth opened a hole a mutation found — `LIGHT` vouched for itself. Reports: `docs/reports/wp-11.1-the-sheet-in-its-own-standard.md` and `docs/reports/wp-11.2-the-pen-ladder-and-the-wall-the-record-states.md` · new question: `oq/the-placement-carries-no-wall-bands`. **WP-11.2** put the workbench's own sheet on the same ladder (19 inline stroke widths → 0) and gave both renderers ONE wall to read — `footprint.wall`, plan schema 0.5.1, from `build/assemblies.py`, a leaf on `storeys.py`'s precedent. **The browser walk ran for the first time in a session on this branch** and caught a defect 81 unit tests and a clean build both missed |
 | **11 — The house the sheet should have drawn** | **WP-11.1 through 11.9, 11.11 and 11.12 COMPLETE · 11.10 PART-BUILT (its container question answered and REFUSED; the three shape terms remain) · then the adversarial audit of 11.9-11.11** | **In progress (4-7 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. All five of the phase's questions were ruled on 4 Sep and **11.1 through 11.9 and 11.11 have shipped**, 11.10 is part-built, and an adversarial audit of the last three found 38 things (`docs/reports/audit-2026-09-07-the-things-the-session-did-not-measure.md`); **this row still read "11.1 through 11.5 COMPLETE" after the 7 Sep merge**, which is the board going stale at exactly a merge for the sixth time; the container (11.6) is unblocked by the four rulings of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, taken the same day. **This sentence said the container WAITED on those four rulings in the same breath as saying all five were taken** -- a contradiction inside one sentence, corrected by WP-11.5 and the same class as WP-11.6's own status line below. The phase's own section carries the ruling on each. **WP-11.12 is not about the house**: Lucas raised the corpus job at 39 min 32 s, which was the whole wall-clock of a pull request, and it is six parallel shards at about seven minutes now -- `pytest tests/` was 87% of it, and 46 s of the checkers were `jsonschema.validate()` rebuilding the same validator 2,400 times a build |
 | **11 — The precedent bench** | **COMPLETE — WP-11.1 through 11.7** | **Every buildable node carries a precedent and every node at every rank cites a source (5-7 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research ran in four tranches. **Tranche 4 (WP-11.7, 7 Sep) wrote 156 sources over the 32 higher-rank nodes — 111 citations of 109 DISTINCT works new to the corpus, plus 45 reuses — and took `sourceless_nodes` 32 → 0**, and found the layer has no identities: 422 free strings, 0 URLs, one confirmed fiction cited by five nodes, and 23 works under 51 spellings whose correction would redden the `shared_only` ceiling by six. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
-| **13 — The coherent sheet** | **WP-13.1, 13.2, 13.3 and 13.6** complete · **13.4, 13.5 and 13.7** not started | **In progress (15 Sep 2026); all four rulings taken the day they were put** — raised by Lucas against two plates of a Tidewater sheet off the Drawing Set, his second such list in eleven days, with the question whether the fix was "a ridiculous number of additional changes" or "reconsider from the ground up". Measured on `840c7f1` before a line was written: neither. The critic already names four of the nine as SERIOUS; the generator is not held to it, because **the bench draws the prover and the prover has been told nothing about the type** — stacking, tiling, bearing continuity, the bay grid and the hearth are soft, absent or post-hoc on CP-SAT, Phase 11 built them on the search engine nobody sees, and at the bench's 25 s the prover's objective never runs at all. **WP-13.1 is the gate**, `tests/test_sheet_coherence.py`, seventeen rows over four sheets, **43 red on `840c7f1`**, written before any fix and red by design; the adversarial pass corrected five of the plan's own figures before it was committed. Report: `docs/reports/wp-13.1-the-gate.md` |
+| **13 — The coherent sheet** | **WP-13.1 through 13.7 all complete (16 Sep 2026)** — the gate is not green and every remaining red is named | **All four 15 Sep rulings taken the day they were put, and a fifth on 16 Sep: capacity does not refuse a drawing, continuity does** — raised by Lucas against two plates of a Tidewater sheet off the Drawing Set, his second such list in eleven days, with the question whether the fix was "a ridiculous number of additional changes" or "reconsider from the ground up". Measured on `840c7f1` before a line was written: neither. The critic already names four of the nine as SERIOUS; the generator is not held to it, because **the bench draws the prover and the prover has been told nothing about the type** — stacking, tiling, bearing continuity, the bay grid and the hearth are soft, absent or post-hoc on CP-SAT, Phase 11 built them on the search engine nobody sees, and at the bench's 25 s the prover's objective never runs at all. **WP-13.1 is the gate**, `tests/test_sheet_coherence.py`, seventeen rows over four sheets, **43 red on `840c7f1`**, written before any fix and red by design; the adversarial pass corrected five of the plan's own figures before it was committed. Report: `docs/reports/wp-13.1-the-gate.md` |
 | **12 — The sheet in the round** | **WP-12.0 through 12.8** | **WP-12.0 through 12.4 complete (8-9 Sep 2026); 12.5 through 12.8 not started** — raised by Lucas against Dilum Sanjaya's post on 2D schematics transitioning into 3D, with the question whether SVG remained the medium. **The brief is the PRD**, `docs/prd/phase-12-the-sheet-in-the-round.md` (cite the filename; it is the first document in a new `docs/prd/`). The answer is WP-5.11's, one dimension up: the format was never the constraint, and the missing thing is a constructed-3D layer between the record and the camera — `build/scene.py` — with three.js drawing what Python models and the SVG plates staying authoritative and held to it. **All nine rulings taken the day they were put, and an APPROACH perspective view added to v1.** The review that adopted the PRD found the defect that made WP-12.0: **the drawing set is not one building** — the elevation and roof plates are built with no section, so they take `structure.build_section`'s heuristic default while the plan beside them is a CP proof, under a banner WP-6.4 wrote saying one drawing set is one building or it is nothing. It also found that `render_elevation` has taken a `face` since WP-3.2 and no client has ever sent one, so three of the four elevations this system can draw have never been seen |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
@@ -3839,7 +3839,7 @@ number-to-filename table, so a bare "WP-13.n" can always be resolved:
 | WP-13.4 | `docs/reports/wp-13.4-refuse-to-draw.md` |
 | WP-13.5 | `docs/reports/wp-13.5-the-service-wing-and-the-room-that-stays.md` |
 | WP-13.6 | `docs/reports/wp-13.6-furniture-to-its-own-grammar.md` |
-| WP-13.7 | the adversarial audit — `wp-13.7-…` |
+| WP-13.7 | `docs/reports/wp-13.7-the-guards-that-passed-through-another-packages-door.md` |
 
 ### WP-13.1 The gate
 
@@ -3934,13 +3934,28 @@ and `facade.py:11-12` corrected in the same commit. **Depends on:** 13.2. **Size
 
 ### WP-13.4 Refuse to draw
 
-**Status: NOT STARTED.** A placement whose `type_facts` carries a downgrade, or an INFEASIBLE solve,
-produces no plate: `corpus._placed` returns a typed refusal with the conflict set; the drawing, evaluate
-and export routes answer it (not a 500, not a sheet); the Drawing Set and the Plan Workbench render the
-conflict set where the plate would be; `export_dxf`/`export_ifc` and the MCP tools refuse the same way;
-the wall-drag result is a WORKING sketch and cannot be exported. Guard: a placement with a broken declared
-stack reaches no SVG, DXF, IFC or MCP response, end to end, mutation-checked. **Depends on:** 13.3.
-**Size:** medium.
+**Status: COMPLETE (16 Sep 2026)** — `docs/reports/wp-13.4-refuse-to-draw.md`. Two slices against one
+written contract, then the lead's pass. `typefacts.refusal(plan)` returns `None` or one shape — `kind`
+(`infeasible` | `type-fact-downgraded`), `facts`, `conflicts`, `lines`, `engine`, `status` — and
+**unjudged does not refuse and is not held either**. `corpus._placed` answers
+`{"error", "refused_placement", "unsolved"}` and **never the key `refusal`**, which `app.py` maps to a
+501; routes answer 422, `/api/plan/evaluate` answers 200 with `placement_refused` and no `placement`,
+and the wall-drag path returns `placement.sketch`, drawable as a WORKING sketch and never exportable.
+`refusal()` deliberately does NOT import `geometry.conflict_lines` — `typefacts` is a leaf and that
+would close a cycle — so the two readers are held to one sentence by a test.
+
+**It found that `/api/export/ifc` never went through `_placed` at all**: it handed the DECLARED plan to
+`export_ifc`, which took `structure.build_section`'s heuristic default, the one that function's own
+comment reserves for *"INTERNAL callers ONLY"* — so the IFC a reader downloaded was a placement of a
+DIFFERENT house from the plan beside it. That is WP-12.0's defect at a route nobody had looked at.
+
+**The original package text is left below as written**, as this project leaves original text: *A
+placement whose `type_facts` carries a downgrade, or an INFEASIBLE solve, produces no plate;
+`corpus._placed` returns a typed refusal with the conflict set; the drawing, evaluate and export routes
+answer it (not a 500, not a sheet); the Drawing Set and the Plan Workbench render the conflict set where
+the plate would be; `export_dxf`/`export_ifc` and the MCP tools refuse the same way; the wall-drag result
+is a WORKING sketch and cannot be exported. Guard: a placement with a broken declared stack reaches no
+SVG, DXF, IFC or MCP response, end to end, mutation-checked. Depends on 13.3. Size medium.*
 
 ### WP-13.5 The container
 
@@ -4037,11 +4052,28 @@ verified against the drawn along-wall length — then `fg-corner` implemented or
 
 ### WP-13.7 The adversarial audit of 13.1–13.6
 
-**Status: NOT STARTED.** The standing pattern: explorers build the claim-to-guard matrix from the reports,
-auditors revert each fix and watch the suite, every figure re-derived rather than re-read
-(`docs/reports/wp-9.5-the-corrections-that-were-themselves-wrong.md`). Then the Tidewater sheet
-re-rendered on the prover and SENT to Lucas — the only check that has ever caught these. **Depends on:**
-all of the above. **Size:** medium.
+**Status: COMPLETE (16 Sep 2026)** —
+`docs/reports/wp-13.7-the-guards-that-passed-through-another-packages-door.md`. Six packages read on
+four angles: whether the new guards can fail, whether every published figure is true of THIS tree, what
+the reports said was checked that is not, and what the six made possible that nobody tested. **Thirty-four
+mutations, each asserted to have LANDED before its colour was believed and each file restored
+byte-for-byte**, every figure re-derived on the deterministic engine, and every moved figure established
+against a `git archive` control that reproduces the OLD value first.
+
+**Its first blocking finding is the phase's own shape**: WP-13.4's refusal contract reached THREE guards
+written about other properties, and each now dies before it asserts anything — two on
+`KeyError: 'geometry_report'` and one on the exporter's refusal — so **WP-11.8's `drawn_by` /
+`input_digest` disclosure, the one line that lets a reader tell two sheets of "the same house" apart, was
+guarded by nothing.** All three pass on a `git archive` of `49e2389` and fail after. Re-cut onto a record
+that draws, because each guard's SUBJECT is the disclosure or the short circuit and never the refusal;
+the contract is untouched and no placement moves. The repair NOT taken — carrying `drawn_by` into the
+refusal dict — is recorded in the fixture's own docstring with the reason it was declined.
+
+**The original package text is left below as written**: *The standing pattern — explorers build the
+claim-to-guard matrix from the reports, auditors revert each fix and watch the suite, every figure
+re-derived rather than re-read (`docs/reports/wp-9.5-the-corrections-that-were-themselves-wrong.md`).
+Then the Tidewater sheet re-rendered on the prover and SENT to Lucas — the only check that has ever
+caught these. Depends on all of the above. Size medium.*
 
 
 ## 6. Parallelisation map
