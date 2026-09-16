@@ -1737,6 +1737,65 @@ kitchen one looked like a real regression and is a blind instrument. Two asserti
 two different reasons, and calling either of them by the other's name would have published one
 number meaning two things — so `test_composition.py` states each on the one-rectangle reading and
 a third guard measures the shipped record's two costs together and names them apart.
+**AND THE MERGE INTO THE PHASE 13 LINE INVERTED ONE OF ITS OWN PUBLISHED VERDICTS (16 Sep).**
+Merged in two steps because the branch moved under the first -- `c39f3f8` (WP-13.6's furniture
+grammar, the capacity ruling, the record table's own measurement) and then `f6163f2` (WP-13.4,
+refuse to draw, and its surface slice) -- both checked line by line for dropped content, and the
+only upstream lines absent from the merged tree are the two derived register counts.
+**A `bearing` READING TAKEN BEFORE THE 16 SEP CAPACITY RULING IS NOT THE SAME QUANTITY AS ONE
+TAKEN AFTER IT.** `typefacts.bearing` returned ONE verdict for two halves and was DOWNGRADED if
+either was; it returns CONTINUITY's alone now. Re-derived on the merged tree, WP-13.5's own
+`bearing` row goes from **DOWNGRADED -> DOWNGRADED** to **HELD -> DOWNGRADED** on the heuristic --
+**an inversion, and a COST the package did not know it had**: capacity was downgraded on both
+records and swamped the verdict, and with capacity out of it the continuity half is visible and
+the container BREAKS it, because the main block narrowed 63.00 -> 45.00 ft, the upper floor
+narrowed with it (only level 0 goes into elements) and the storeys' walls stopped lining up. On CP
+the row is DOWNGRADED -> HELD either way. **Every other heuristic figure is unmoved across the
+merge** -- fatal 11 -> 10, serious 72 -> 64, minor 107 and info 28, claims 5 -> 4, tiling held,
+stacks downgraded, hearth held -> downgraded, spans 3 -> 4 worst 35.5 -> 45.0, relaxations 7 -> 5
+-- and on CP the two figures that carry the argument are unmoved too: the objective falls by a
+factor of 3.6 (**1076.4 -> 296.2**) and **stacks 0 of 5 kept -> 4 of 4**. The CP rows that moved
+by one are one run each on a shared box.
+**AND AT `time_limit_s=60` THE DOWNGRADE COUNTS ARE ZERO ON ALL THREE READINGS NOW** -- the
+Tidewater plan FEASIBLE in 60.6 s before the edit and **OPTIMAL in 14.1 s** after it, the spec
+Colonial FEASIBLE in 60.2 s, every one with 0 pins downgraded -- so `tests/test_solver.py`'s
+three-tree table (21 of 35, 12 of 19, 7 of 35) is a dated reading of trees that no longer exist,
+and the half bound is NOT what that file is red on any more. It fails on its pinned CARRIED
+vocabulary: WP-13.3 reworded the carried message to *"carried -- off a conflict core or an
+undecided round"* and the constant did not move. **Measured on a `git archive` checkout of the
+upstream tip, that assertion is RED THERE TOO, at 20 unvouched downgrades against 5 here** -- so
+the failure is upstream's and this package reduces it fourfold. Not loosened and not re-pinned,
+because rewording somebody else's constant inside a merge is the quiet fix this file exists to
+refuse.
+**AND `conftest.as_one_element` WAS THE WRONG INSTRUMENT FOR THE BEFORE COLUMN, FOR THE SAME
+REASON IT WAS WRONG FOR THE CP MODEL HASH.** It strips the container and leaves the dropped door
+and the withdrawn stack claim in place, so it reports 4 stack claims in BOTH columns and hides the
+movement the table is about. The before column is `git show 57e7b72:plans/...` run through the
+merged code.
+**THE GATE, RE-MEASURED AGAINST THE UPSTREAM TIP: 21/48/11 there against 21/47/11 here, THREE
+ROWS CLEARED AND THREE NEWLY RED, and the pairing is the same fact twice.** Cleared:
+`declared_stacks_land_by_containment` on BOTH cp sheets and `every_upper_bearing_line...
+[careful-cp]`. Newly red: `every_upper_bearing_line...[careful-heuristic]` and
+`the_elevations_openings_are_the_plans_placed_openings` on both careful sheets. **The
+bearing-continuity row MOVES FROM THE CP SHEET TO THE HEURISTIC ONE** -- the container fixes
+continuity where the prover places and breaks it where the search does, which is the `bearing`
+inversion above arriving at the gate. **AND THE GATE COUNT IS NOT REPRODUCIBLE**: an earlier roll
+of the same gate on the same tree read 22/47/11, because fourteen rows are parameterised on `cp`
+and CP is wall-clock bounded on a shared box. Not re-baselined in either direction.
+**THE MERGED SUITE IS 38 failed / 2502 passed / 26 skipped, AND EXACTLY ONE FAILURE WAS THIS
+PACKAGE'S TO MOVE** -- `CORPUS_OPENINGS_SHA`, where both parents moved from `c8ae9117039cfeb8`
+(WP-13.6 to `01f8e13fe3ce037b`, WP-13.5 to `318c7dcee303a600`) and the merged tree reads
+**`21e7b43085f8f6ad`**, a third value. **The control is per plan: fifteen of sixteen byte-identical
+against the upstream tip and the sixteenth is the edited record** (`3f43b6c9b320ebac` ->
+`5c15b1d627facdbe`), so the whole movement across the merge is the container and WP-13.6's grammar
+reaches every plan identically on both sides; `CORPUS_PLACEMENT_SHA` did NOT move across the
+merge. Twelve more are red on the upstream tip too, and `test_depth_floor.py` and
+`test_determinism.py` were red before the merge and are GREEN after it.
+**AND WP-13.4 REFUSES THE TIDEWATER RECORD BOTH BEFORE AND AFTER THIS EDIT**, on both engines, so
+`test_ingest`'s red is not this package's either. What the container changes is the REASONS: on
+`cp` the refusal's lines fall 4 -> 2 (the stacks and the bearing lines go) and on `heuristic` they
+rise 1 -> 3 (bearing continuity and the hearth join the stacks). **12 of 16 shipped plans are
+drawable on the merged tree** and this edit does not change which four are not.
 **AND THE FULL SUITE FOUND TWO MORE READER DEFECTS, BOTH IN CONTROLS RATHER THAN IN CODE.**
 39 failed / 2459 passed / 21 skipped before the repairs and **32 / 2467 / 21 after**: twelve the
 base's (reproduced on a pristine `git archive HEAD` checkout), eighteen the Phase 13 gate, one the

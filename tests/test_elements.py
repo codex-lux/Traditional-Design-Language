@@ -394,7 +394,16 @@ CORPUS_PLACEMENT_SHA = "d72265a1935d07f6"
 # why this hash is what it is needs both. `CORPUS_PLACEMENT_SHA` above carries WP-13.5's own
 # movement and NOT WP-13.6's, which is the split that makes the pair readable.
 #
-CORPUS_OPENINGS_SHA = "01f8e13fe3ce037b"
+CORPUS_OPENINGS_SHA = "21e7b43085f8f6ad"
+# **THE MERGED VALUE, RE-DERIVED ON THE MERGED TREE AND BELONGING TO NEITHER PARENT.** WP-13.5
+# published `318c7dcee303a600` and the Phase 13 line published `01f8e13fe3ce037b`, both from
+# `c8ae9117039cfeb8`; the merged tree reads `21e7b43085f8f6ad`. **The control is per plan**:
+# hashed file by file on a `git archive f6163f2` checkout of the upstream tip and on this tree,
+# FIFTEEN OF SIXTEEN ARE BYTE-IDENTICAL and the sixteenth is `tidewater-georgian-careful`
+# (3f43b6c9b320ebac -> 5c15b1d627facdbe) -- the one record WP-13.5 edits. So the whole movement
+# across the merge is the container, and WP-13.6's furniture grammar reaches every plan
+# identically on both sides. `CORPUS_PLACEMENT_SHA` above did NOT move across the merge, which
+# is the split that makes the pair readable: the placement is WP-13.5's alone.
 # WP-13.6 MOVED IT A THIRD TIME AND `CORPUS_PLACEMENT_SHA` ABOVE IS UNMOVED, WHICH IS THE POINT.
 # `c8ae9117039cfeb8` -> `01f8e13fe3ce037b`: the furniture is arranged to `furniture/grammar.json`
 # rather than packed against the first wall with a run -- nine POSITIONED rules and three
