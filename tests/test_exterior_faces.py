@@ -253,8 +253,26 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # because the earlier unaccounted movement was not that package's to fold in, and the upstream
 # line owned and explained it in the meantime.
 #
-CORPUS_SHEET_SHA = "58e2f369f11dcac2"
-CORPUS_SHEET_SHA_NO_FRAME = "4ce58cb8b6599b89"
+# **THE MERGE `314a2ec` CLAIMED A RE-DERIVATION IT DID NOT DO, AND THE SUITE CAUGHT IT (re-pinned
+# 16 Sep 2026).** Was `58e2f369f11dcac2` / `4ce58cb8b6599b89`. That merge's own comment two
+# paragraphs below says the pair is *"a THIRD VALUE BELONGING TO NEITHER PARENT"* -- and then
+# writes the UPSTREAM PARENT's two numbers verbatim. Both parents had moved these hashes and the
+# conflict was resolved by taking a side, which is the one thing that comment forbids.
+#
+# THE INSTRUMENT WAS PROVED BEFORE IT WAS BELIEVED, on a `git archive` of `ac9704e` (the upstream
+# parent): the harness reproduces `58e2f369f11dcac2` / `4ce58cb8b6599b89` TO THE CHARACTER, 16
+# sheets, 16 framed, hashing `plans/` then `plans/reference/` each sorted -- the order WP-12.9's
+# own first sweep got wrong. It also does NOT reproduce `1392439`'s pinned
+# `01771d3656231ba9` / `0fd105825eda19e0`, which is correct: that merge records WP-13.5 as having
+# left this test RED on purpose rather than re-measuring, so those two are a stale inheritance and
+# not that package's measurement. An instrument that matched both would have been the suspicious one.
+#
+# THE MOVEMENT IS ACCOUNTED FOR PER FILE and it is exactly what the merge's prose predicted:
+# **fifteen of sixteen sheets byte-identical to the upstream parent, raw AND stripped, and the
+# sixteenth is `tidewater-georgian-careful`** -- the one record WP-13.5 edits. So the merge did the
+# accounting and then did not write the number it accounted for.
+CORPUS_SHEET_SHA = "7ae444c7e5387110"
+CORPUS_SHEET_SHA_NO_FRAME = "8defa83027786782"
 # BOTH MOVED AGAIN, 16 Sep 2026, WHEN THE RECORD TABLE LEARNED TO MEASURE ITS OWN ROWS.
 # Was 1a63f71dda3b6bee / 4413ad13a9e35766. `render_plan.TABLE_COL_W` was a flat 260 px pitch
 # that nothing measured the text against, so on the shipped Tidewater sheet TWENTY OF
