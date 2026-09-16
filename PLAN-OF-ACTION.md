@@ -3992,8 +3992,18 @@ Five new questions:
 `oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band`,
 `oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front`,
 `oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so` and
-`oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in`. Original package
-text follows.
+`oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in`.
+**MERGED INTO THE PHASE 13 LINE THE SAME DAY (`c39f3f8` then `f6163f2`, the branch having moved
+under the first), AND EVERY FIGURE RE-DERIVED ACROSS IT RATHER THAN CARRIED.** One inverts: under
+the 16 Sep capacity ruling `typefacts.bearing` returns CONTINUITY's verdict alone, so this
+package's own `bearing` row goes from DOWNGRADED -> DOWNGRADED to **HELD -> DOWNGRADED** on the
+heuristic — a cost, not a wash, because capacity was downgraded on both records and hid it. Every
+other heuristic figure is unmoved; on CP the objective is **1076.4 -> 296.2** and **stacks 0 of 5
+kept -> 4 of 4**. At `time_limit_s=60` all three readings now downgrade ZERO pins (Tidewater
+FEASIBLE 60.6 s before, **OPTIMAL 14.1 s** after; spec Colonial FEASIBLE 60.2 s), so
+`tests/test_solver.py` is no longer red on its half bound at all — it is red on a pinned CARRIED
+vocabulary WP-13.3 reworded, red on the upstream tip too at 20 unvouched against 5 here, and NOT
+touched. Original package text follows.
 
 Ruled. `plans/tidewater-georgian-careful.json` and
 `partis/centre-passage-double-pile.json`: the six service rooms move into the dependency element the plan
