@@ -358,6 +358,56 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     return out
 
 
+def _typefacts():
+    """`build/typefacts.py`, the leaf that holds the one verdict (WP-13.4)."""
+    return core._mod("typefacts", os.path.join(ROOT, "build", "typefacts.py"))
+
+
+def refused_response(ref):
+    """The shape every server surface hands back on a refused placement (WP-13.4).
+
+    Lucas ruled 15 Sep 2026 that a placement breaking a hard fact of the type is REFUSED
+    rather than drawn, reversing the 25 Aug ruling ("the partner hears the refusal and still
+    sees a drawing") for every user-facing surface. The RECORD keeps the least-bad placement,
+    because it is what the conflict set is about and it is the wall drag's working sketch; no
+    surface a person reads draws it.
+
+    **THE KEY IS `refused_placement` AND IT MAY NEVER BE `refusal`.** `app.py`'s export route
+    maps a `refusal` key to **501 Not Implemented** -- the honest missing-library answer for
+    ezdxf or ifcopenshell -- so a placement refusal wearing that key would tell a reader the
+    server lacks a capability it has. A refused house is a 422: the request was understood and
+    the answer is no.
+
+    `unsolved` rides along because every existing caller of `_placed` already tests
+    `"error" in res`, and a refusal is an error to them in exactly the sense that there is
+    nothing to draw. The reason is not a bare string: `refused_placement` is
+    `typefacts.refusal`'s own typed dict, with the conflict set and the reader-facing lines."""
+    what = "; ".join(c.get("about") or c.get("fact") or str(c)
+                     for c in (ref.get("conflicts") or [])
+                     if isinstance(c, dict)) if ref.get("kind") != "infeasible" else ""
+    if ref.get("kind") == "infeasible":
+        sentence = ("This placement is REFUSED: CP-SAT proved the record's declared facts "
+                    "cannot all hold, so there is no house to draw. The conflict set says "
+                    "which requirements are in the way; the brief or the parti is what changes.")
+    else:
+        sentence = ("This placement is REFUSED: it breaks the type's own facts"
+                    + (f" -- {what}" if what else "")
+                    + ". The record keeps the least-bad placement as the conflict set's own "
+                      "explanation; no sheet, export or model is drawn from it.")
+    return {"error": sentence, "refused_placement": ref, "unsolved": True}
+
+
+def _forward(res):
+    """Pass a refusal (or a plain error) UP without flattening it to its sentence.
+
+    Three call sites in `drawing()` and one in `scene()` read `{"error": res["error"]}` and
+    dropped everything else, so the conflict set died one frame above where it was computed
+    and the route answered 422 with a sentence and no evidence (WP-13.4). Named rather than
+    inlined because there are four of them and a fifth will be written."""
+    return {k: v for k, v in res.items()
+            if k in ("error", "refused_placement", "unsolved", "detail")}
+
+
 def _placed(plan, parti=None, candidates=250):
     """Place the plan ONCE, on the proving engine, for every sheet in a drawing set.
 
@@ -371,8 +421,29 @@ def _placed(plan, parti=None, candidates=250):
     A record that already carries `geometry` is returned untouched -- a bench plan the
     client has already had placed must not be re-solved out from under the sheet the reader
     is looking at, which is the same rule `_solved_copy` applies.
+
+    **THE SHORT CIRCUIT RE-JUDGES, AND THAT IS WP-13.4'S HALF OF IT.** A carried record never
+    reaches a record writer, so `geometry._disclose` never runs on it and nothing has decided
+    whether it may be drawn: a composed candidate (`compose.py`), the plan `scene()` returns,
+    and any record a client keeps and posts back all arrive this way. `typefacts.judge` is the
+    SAME function `_disclose` calls -- it re-measures the tiling, the bearing continuity and
+    the hearth off the rectangles and re-reads the stacking tally the record carries -- so the
+    verdict is one spelling with three callers rather than a second reader here. It is cheap
+    (25 ms on the Tidewater record, measured) and it does NOT re-solve: the record is returned
+    as it stands, which is the guarantee this branch exists for.
     """
+    TF = _typefacts()
     if any("geometry" in r for lv in plan.get("levels", []) for r in lv["rooms"]):
+        try:
+            ref = TF.judge(plan)
+        except Exception as e:                      # noqa: BLE001 -- unjudged, not refused
+            # A record we could not measure is COULD NOT EVALUATE and is not a refusal: the
+            # three states are held, downgraded and unjudged, and collapsing the third into
+            # either of the others is what this corpus names first.
+            return {"error": f"the placement this record carries could not be judged: "
+                             f"{type(e).__name__}: {str(e)[:200]}", "unsolved": True}
+        if ref:
+            return refused_response(ref)
         return plan
     geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     # THE INPUT'S OWN FINGERPRINT, TAKEN BEFORE THE SOLVE (WP-11.8, finding J6). Two CP-SAT runs
@@ -406,6 +477,11 @@ def _placed(plan, parti=None, candidates=250):
                 "not optional, because a lower score alone reads as a better house and is not "
                 "(oq/a-proof-of-feasibility-is-not-a-proof-of-composition)."),
     }
+    # AND THEN THE VERDICT, READ OFF THE RECORD (WP-13.4). `geometry._disclose` wrote it
+    # through `typefacts.judge`; nothing here re-derives "may this be drawn".
+    ref = (out.get("geometry_report") or {}).get("refused")
+    if ref:
+        return refused_response(ref)
     return out
 
 
@@ -450,7 +526,7 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
             # section beside this sheet is a section of THIS house.
             solved = _placed(plan, pt, candidates)
             if "error" in solved:
-                return {"error": solved["error"]}
+                return _forward(solved)
             rp = core._mod("render_plan", f"{B}/render_plan.py")
             rp.render(solved, out_path, register=register)
             # the solver's own account travels with the drawing: a sheet a reader may print
@@ -480,7 +556,7 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
             RF_ = core._mod("roof", f"{B}/roof.py")
             placed = _placed(plan, pt, candidates)
             if "error" in placed:
-                return {"error": placed["error"]}
+                return _forward(placed)
             section = ST_.build_section(plan, pt, geometry_result=placed)
             if "error" in section:
                 return {"error": section["error"]}
@@ -507,7 +583,7 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
             # taking that default here shipped a section of a different house.
             placed = _placed(plan, pt, candidates)
             if "error" in placed:
-                return {"error": placed["error"]}
+                return _forward(placed)
             section = st.build_section(plan, pt, geometry_result=placed)
             if "error" in section:
                 return {"error": section["error"]}
@@ -525,7 +601,7 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
             st_ = core._mod("structure", f"{B}/structure.py")
             placed = _placed(plan, pt, candidates)
             if "error" in placed:
-                return {"error": placed["error"]}
+                return _forward(placed)
             section = st_.build_section(plan, pt, geometry_result=placed)
             if "error" in section:
                 return {"error": section["error"]}
@@ -658,7 +734,7 @@ def scene(plan, parti=None, candidates=250, plates=True):
     pt = core.load_parti(parti)
     placed = _placed(plan, pt, candidates)
     if "error" in placed:
-        return {"error": placed["error"]}
+        return _forward(placed)
     # `B` is a LOCAL in each of the three functions that need it, not a module name -- and so is
     # `_os`, which those three alias with their own `import os as _os`. The first draft of this
     # function borrowed both from a neighbour and raised `NameError` twice; `os` is imported
@@ -742,9 +818,20 @@ def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
     try:
         with tempfile.TemporaryDirectory() as td:
             if fmt == "ifc":
+                # WP-13.4: THIS ROUTE DID NOT GO THROUGH `_placed`. It handed the DECLARED
+                # plan to `export_ifc`, which called `structure.build_section` with no
+                # `geometry_result` and took that function's heuristic default -- the one its
+                # own comment reserves for "INTERNAL callers ONLY" (plan_check's elevation
+                # layer, the composer's scoring loop). So the IFC a reader downloaded was a
+                # placement of a different house from the plan sheet beside it, which is
+                # exactly WP-6.4's finding surviving in the one export branch nobody moved,
+                # and it also meant the refusal could not reach here at all.
                 EI = core._mod("export_ifc", f"{B}/export_ifc.py")
                 p = _os.path.join(td, "out.ifc")
-                res = EI.export_ifc(plan, p, pt)
+                placed = _placed(plan, pt, candidates)
+                if "error" in placed:
+                    return placed
+                res = EI.export_ifc(plan, p, pt, geometry_result=placed)
                 if "error" in res:
                     return res
                 return {"format": "ifc", "filename": f"{pid}.ifc", "text": open(p).read(),

@@ -575,3 +575,141 @@ def report(plan):
                      "each stated fire's wall to its element's face. "
                      + (f"DOWNGRADED: {', '.join(down)}. " if down else "No fact is downgraded. ")
                      + (f"Unjudged: {', '.join(unj)}." if unj else ""))}
+
+
+# ------------------------------------------------------------ the refusal to draw (WP-13.4)
+#
+# Lucas ruled 15 Sep 2026: a placement that breaks a hard fact of the type is REFUSED, not
+# drawn; the bench shows the conflict set; the brief or the parti is what changes. That
+# REVERSES the 25 Aug ruling -- "the partner hears the refusal and still sees a drawing" --
+# for every user-facing surface. The RECORD still carries the search's least-bad placement,
+# because it is the conflict set's own explanation and the wall drag's sketch; what changed is
+# that no surface a person reads may draw it.
+#
+# THE VERDICT IS SPELLED ONCE, HERE, AND NOTHING RE-DERIVES "MAY THIS BE DRAWN". Every route,
+# exporter, MCP tool and surface reads `geometry_report.refused` (or the `refused_placement`
+# the server hands back), and `judge()` below is the one function that writes it. This corpus
+# carries four records of one rule being spelled twice and then disagreeing -- the door's
+# required wall, the citation grammar, the relaxation mark, the proof verdict -- and a second
+# reader of THIS one would let a sheet be drawn that an exporter refuses.
+#
+# UNJUDGED DOES NOT REFUSE, AND THAT IS THE THREE-STATE DISCIPLINE ARRIVING HERE. A house
+# stating no hearth is not refused for its hearth; a one-level house is not refused for bearing
+# continuity it cannot have; a record carrying no stacking tally is not refused for stacks
+# nobody could judge. Only a fact whose status is `downgraded` -- measured, and found not to
+# hold -- or a PROVEN infeasibility refuses. Refusing on unjudged would be exactly as dishonest
+# as passing on it, in the other direction, and it would refuse most of this corpus for facts
+# its records do not state.
+
+# What each fact is, in one clause, for a reader being told their house cannot be drawn. The
+# sentences a refusal PRINTS are the facts' own `detail` strings -- measured, located, and
+# written where the measurement is; these titles only say which fact the sentence is about.
+FACT_TITLES = {
+    "tiling": "the floor inside no room",
+    "stacks": "a declared stack over the room it names",
+    "bearing": "bearing continuity and span capacity",
+    "hearth": "a stated fire on a wall its massing puts a flue on",
+}
+
+
+def _fact_detail(name, fact):
+    """The fact's own sentence. `tiling` states its measurement in `note` and the other three
+    in `detail`, because tiling was written as a measurement (WP-13.2) and the others as
+    verdicts (WP-13.3); a refusal reads whichever the fact carries rather than restating it."""
+    if not isinstance(fact, dict):
+        return None
+    return fact.get("detail") or fact.get("note")
+
+
+def refusal(plan):
+    """`None`, or the typed refusal every surface reads. THE ONE VERDICT (WP-13.4).
+
+        {"kind": "infeasible" | "type-fact-downgraded",
+         "facts":     [names of the type facts whose status is "downgraded"],
+         "conflicts": [the prover's own conflict entries, or one row per downgraded fact],
+         "lines":     [one reader-facing sentence per conflict],
+         "engine":    geometry_report.solver.engine,
+         "status":    geometry_report.solver.status}
+
+    `kind` is `infeasible` wherever the record carries a PROVEN infeasibility, because that is
+    the stronger statement -- the prover showed the declared facts cannot all hold, so the
+    placement on the record is a labelled relaxation of a brief that has no solution. `facts`
+    still names every downgraded fact in that case, so a reader is not told less because the
+    proof got there first.
+
+    `lines` IS THE SURFACE'S CONTRACT AND `conflicts` IS THE EVIDENCE. `lines` is always a flat
+    list of sentences, whichever kind this is, so a plate, a bench panel and a CLI print the
+    same thing; `conflicts` is the prover's own strings on one kind and typed rows on the
+    other, and a reader that wants to locate a strip or a stack reads those.
+
+    IT DOES NOT IMPORT `geometry.conflict_lines`, AND THE REASON IS THE LEAF. `geometry.py`
+    loads `plan_check.py`, `structure.py` loads `geometry.py`, and this module is written onto
+    the record from inside `geometry._disclose` -- a sibling import here closes that cycle, and
+    the module docstring says so. So the infeasible sentences are read straight off the record
+    (`infeasible.conflicts` and `infeasible.note`, the shape `geometry_cp.solve_cp` states) and
+    `tests/test_typefacts.py` holds this function's `lines` against `conflict_lines`' own
+    output on the K5 fixture, in both directions. That is this repository's own answer where an
+    import is not available -- `test_grammar_agreement.py` reads the JavaScript and
+    `engineClaim.test.mjs` reads the Python -- and it is a test rather than a comment because a
+    comment cannot fail."""
+    rep = plan.get("geometry_report") or {}
+    facts = rep.get("type_facts") or {}
+    status = facts.get("status") or {}
+    down = sorted(k for k, v in status.items() if v == DOWNGRADED)
+    inf = rep.get("infeasible") or {}
+    solver = rep.get("solver") or {}
+    proven = bool(inf.get("proven"))
+    if not proven and not down:
+        return None
+    if proven:
+        kind = "infeasible"
+        conflicts = list(inf.get("conflicts") or [])
+        lines = [str(c) for c in conflicts]
+        if inf.get("note"):
+            lines.append(str(inf["note"]))
+        if not lines:
+            # A proven infeasibility naming nothing is still a refusal, and saying so beats
+            # printing an empty list under a heading. Not reachable from the shipped corpus;
+            # `tests/test_typefacts.py` drives it.
+            lines = ["CP-SAT proved the record's declared facts cannot all hold, and the "
+                     "conflict set on the record names nothing."]
+    else:
+        kind = "type-fact-downgraded"
+        conflicts, lines = [], []
+        for name in down:
+            detail = _fact_detail(name, facts.get(name))
+            conflicts.append({"fact": name, "about": FACT_TITLES.get(name),
+                              "status": DOWNGRADED, "detail": detail})
+            lines.append(f"{FACT_TITLES.get(name, name)}: {detail}" if detail
+                         else f"{FACT_TITLES.get(name, name)}: measured, and it does not hold.")
+    return {"kind": kind, "facts": down, "conflicts": conflicts, "lines": lines,
+            "engine": solver.get("engine"), "status": solver.get("status")}
+
+
+def judge(plan):
+    """Measure the type's facts onto a PLACED record and decide whether it may be drawn.
+
+    THE ONE SPELLING, with three callers: `geometry._disclose` (both record writers),
+    `workbench/server/corpus._placed` and `build/export_dxf._solved_copy`, the last two where
+    each is handed a record that ALREADY carries geometry and therefore never reaches a record
+    writer at all. Those two short-circuits are why this is a function rather than two lines
+    inside `_disclose`: a composed candidate, the scene's returned plan and a bench plan the
+    reader has already had placed all arrive that way, and a record that skips the verdict is a
+    record every surface would draw.
+
+    It writes `type_facts` and `refused` and returns the refusal. It does NOT re-derive the
+    stacking tally, the span count or anything else a record writer computed: `stacks` reads
+    `geometry_report.stacking` by design (that function's own docstring says why), so a
+    hand-edited placement carrying no tally has its stacks UNJUDGED with that reason rather
+    than judged against a number nobody wrote down. Tiling, bearing continuity and the hearth
+    are measured off the rectangles, so those three are re-measured here every time.
+
+    IT IS DELIBERATELY NOT `geometry._disclose`, which was the obvious re-judge and is wrong:
+    `_disclose` REBUILDS `lot_extent` from scratch while `_disclose_at_grade` -- which runs
+    afterwards, from `solve()` -- writes `lot_extent.at_grade` into the row it built. So
+    re-disclosing a carried record silently deletes the at-grade disclosure. Measured on the
+    Tidewater record, not reasoned."""
+    rep = plan.setdefault("geometry_report", {})
+    rep["type_facts"] = report(plan)
+    rep["refused"] = refusal(plan)
+    return rep["refused"]

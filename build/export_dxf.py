@@ -124,12 +124,43 @@ def _text(msp, layer, text, x, y, h=TEXT_H, align_end=False):
 
 # ------------------------------------------------------------------ plan sheet
 
+def _forward(res):
+    """Pass a refusal (or a plain error) up without flattening it to its sentence (WP-13.4).
+
+    Four sites in this file rewrapped `{"error": res["error"], "unexported": True}` and dropped
+    the conflict set with everything else. Named rather than inlined because there are four of
+    them, which is how the first one came to be copied."""
+    return {k: v for k, v in res.items()
+            if k in ("error", "refused_placement", "unsolved")}
+
+
 def _solved_copy(plan, parti=None, candidates=250):
     """Return (original, solved). The original is what the XDATA carries; the
     solved deepcopy is what gets drawn. A plan whose rooms already carry
-    geometry (a workbench bench plan) is drawn as it stands."""
+    geometry (a workbench bench plan) is drawn as it stands.
+
+    **AND A REFUSED PLACEMENT IS NOT DRAWN (WP-13.4).** Lucas ruled 15 Sep 2026 that a
+    placement breaking a hard fact of the type is refused rather than drawn; a CAD file is a
+    surface a reader takes away and builds from, so it is refused here exactly as the sheet is.
+    BOTH paths are judged, because they are two different ways in: the short circuit above
+    (a record a client already had placed, which never reached a record writer, so nothing had
+    decided whether it may be drawn) and this file's own `GEO.solve` for the CLI and library
+    path. `typefacts.judge` is the same one spelling `geometry._disclose` and
+    `workbench/server/corpus._placed` call -- nothing here re-derives the verdict.
+
+    The refusal is returned in the `solved` position, because every caller already tests
+    `"error" in solved`; it carries `refused_placement` beside the sentence so the reason
+    survives the frame rather than being flattened."""
+    TF = _mod("typefacts", f"{ROOT}/build/typefacts.py")
     has_geometry = any("geometry" in r for lv in plan.get("levels", []) for r in lv["rooms"])
     if has_geometry:
+        try:
+            ref = TF.judge(plan)
+        except Exception as exc:                    # unjudged, and unjudged does not refuse
+            return plan, {"error": f"the placement this record carries could not be judged: "
+                                   f"{type(exc).__name__}: {str(exc)[:200]}", "unsolved": True}
+        if ref:
+            return plan, _refused(ref)
         return plan, plan
     GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
     # The sheet is a DERIVATION of the record, drawn the same way the workbench draws it.
@@ -143,7 +174,19 @@ def _solved_copy(plan, parti=None, candidates=250):
     solved = GEO.solve(copy.deepcopy(plan), parti, candidates, engine="auto")
     if "error" in solved:
         return plan, solved
+    ref = (solved.get("geometry_report") or {}).get("refused")
+    if ref:
+        return plan, _refused(ref)
     return plan, solved
+
+
+def _refused(ref):
+    """One sentence and the typed verdict, in the shape every caller of `_solved_copy`
+    already reads. Deliberately NOT keyed `refusal`: `workbench/server/app.py` maps that key
+    to a 501, which is the honest answer for a missing ezdxf and a lie about a refused house."""
+    return {"error": ("This placement is REFUSED and no drawing is exported: the type's own "
+                      "facts do not hold on it. " + " ".join(ref.get("lines") or [])),
+            "refused_placement": ref, "unexported": True, "unsolved": True}
 
 
 # The keys a placement writes, and that the XDATA must NOT carry so the round-trip returns
@@ -192,7 +235,12 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
         return dict(REFUSAL)
     original, solved = _solved_copy(plan, parti, candidates)
     if "error" in solved:
-        return {"error": solved["error"], "unexported": True}
+        # FORWARDED, NOT FLATTENED (WP-13.4). This read `{"error": solved["error"], ...}`
+        # and dropped everything else, so a refusal computed one frame down arrived at the
+        # route as a sentence with no conflict set -- the same rewrap defect
+        # `corpus.drawing` carried at four call sites. A refusal is content: it names what
+        # could not hold, and the reader it is for is one frame up.
+        return dict(_forward(solved), unexported=True)
 
     doc = _new_doc(ezdxf)
     msp = doc.modelspace()
@@ -648,14 +696,14 @@ def export_all(plan, outdir, parti=None, candidates=250, face=None):
     ST = _mod("structure", f"{ROOT}/build/structure.py")
     section = ST.build_section(copy.deepcopy(plan), parti)
     if "error" in section:
-        out["sheets"]["section"] = {"error": section["error"], "unexported": True}
+        out["sheets"]["section"] = dict(_forward(section), unexported=True)
         return out
     out["sheets"]["section"] = export_section_dxf(section, os.path.join(outdir, f"{pid}-section.dxf"))
 
     RF = _mod("roof", f"{ROOT}/build/roof.py")
     roof = RF.build_roof(copy.deepcopy(plan), parti, section=section)
     if "error" in roof:
-        out["sheets"]["roof"] = {"error": roof["error"], "unexported": True}
+        out["sheets"]["roof"] = dict(_forward(roof), unexported=True)
     else:
         out["sheets"]["roof"] = export_roof_dxf(roof, os.path.join(outdir, f"{pid}-roof.dxf"))
 
@@ -663,7 +711,7 @@ def export_all(plan, outdir, parti=None, candidates=250, face=None):
     elev = EL.build_elevation(copy.deepcopy(plan), parti,
                               section=section, roof=None if "error" in roof else roof)
     if "error" in elev:
-        out["sheets"]["elevation"] = {"error": elev["error"], "unexported": True}
+        out["sheets"]["elevation"] = dict(_forward(elev), unexported=True)
     else:
         res = export_elevation_dxf(elev, os.path.join(outdir,
                                    f"{pid}-elevation-{face or elev.get('entrance_face','S')}.dxf"), face)

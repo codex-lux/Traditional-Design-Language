@@ -657,6 +657,14 @@ def job_events(job_id: str):
 
 @app.get("/api/jobs/{job_id}/candidates/{n}/plan")
 def job_candidate_plan(job_id: str, n: int):
+    """The candidate's whole record, raw.
+
+    WP-13.4: it is NOT refused here and that is deliberate. This route hands back a record
+    rather than a drawing, and a refused record is exactly what a reader diagnosing a refusal
+    needs to open -- the conflict set is ABOUT this placement. What the client needs is to know
+    before it draws, and the candidate carries `refused` from `compose.py` for that (and every
+    drawing route re-judges the record anyway, at `corpus._placed`'s short circuit, so a client
+    that posts this back cannot get a sheet out of it)."""
     plan = jobs.candidate_plan(job_id, n)
     if plan is None:
         raise HTTPException(status_code=404, detail={"error": "unknown job or candidate"})
@@ -798,7 +806,14 @@ def export_cad(fmt: str, request: Request, body: dict = Body(...)):
                             face=body.get("face"), candidates=_candidates(body))
     if "error" in res:
         # 501 ONLY for the honest missing-library refusal ("refusal" marks it);
-        # a plan the solver refused is a 422 failure, not a missing capability
+        # a plan the solver refused is a 422 failure, not a missing capability.
+        #
+        # WP-13.4 GAVE THAT SENTENCE A SECOND CUSTOMER AND IT HAD TO NOT BREAK IT. A placement
+        # refused for breaking a hard fact of the type comes back under `refused_placement`,
+        # NEVER `refusal`, and lands here as a 422 carrying the conflict set in `detail`. The
+        # two words are one letter apart and mean opposite things -- "this server cannot do
+        # that" against "this house cannot be drawn" -- so `test_refusal_routes.py` asserts
+        # that a refused placement never sets the 501 key, on a driven record.
         raise HTTPException(status_code=501 if res.get("refusal") else 422, detail=res)
     return res
 

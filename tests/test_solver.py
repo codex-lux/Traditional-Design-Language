@@ -254,16 +254,80 @@ def test_check_plans_solve_with_stated_downgrades():
             f"relaxations are counted, never silently absorbed)"
 
 
-def test_dispatcher_infeasible_returns_conflicts_plus_labelled_drawing():
-    """The 25 Aug ruling: conflict set + the heuristic's least-bad placement,
-    clearly labelled — the partner hears the refusal and still sees a drawing."""
+def test_dispatcher_infeasible_carries_the_conflict_set_the_placement_and_the_refusal():
+    """**THE 25 AUG RULING IS REVERSED FOR EVERY SURFACE AND KEPT FOR THE RECORD (WP-13.4).**
+
+    It read: "conflict set + the heuristic's least-bad placement, clearly labelled -- the
+    partner hears the refusal and still sees a drawing." Lucas re-ruled on 15 Sep 2026: a
+    placement that breaks a hard fact of the type is REFUSED, not drawn; the bench shows the
+    conflict set; the brief or the parti is what changes.
+
+    The two halves of the old ruling came apart rather than one replacing the other, and this
+    test is where the split is written down:
+
+      * THE RECORD still carries the conflict set AND the least-bad placement, labelled. That
+        is not a leftover -- the placement is what the conflict set is ABOUT (a reader asking
+        WHY needs to see the rectangles the solver had to break), and it is the wall drag's
+        working sketch. Deleting it would leave the refusal with nothing to point at.
+      * THE RECORD ALSO CARRIES THE VERDICT, `geometry_report.refused`, and every surface reads
+        it: `tests/test_refusal.py` at the leaf and
+        `workbench/server/tests/test_refusal_routes.py` over HTTP assert that no route, export
+        or MCP tool draws any of it.
+
+    So this file asserts all three together, because a fix that drops any one of them breaks a
+    different reader: no placement and the conflict set explains nothing; no conflict set and
+    the refusal is a bare error; no verdict and every surface draws the house."""
     out = GEO.solve(GC._k5_fixture(), time_limit_s=25)
     gr = out["geometry_report"]
     inf = gr.get("infeasible")
     assert inf and inf["proven"] and inf["conflicts"]
     assert "least-bad" in gr["solver"]["engine"]
     placed = [r for lv in out["levels"] for r in lv["rooms"] if r.get("geometry")]
-    assert placed, "the labelled drawing is still a drawing"
+    assert placed, "the least-bad placement is what the conflict set is about"
+    ref = gr.get("refused")
+    assert ref, (
+        "a proven infeasibility left no verdict on the record: `geometry_report.refused` is "
+        "what every surface reads before it draws, and its absence reads as 'this may be drawn'")
+    assert ref["kind"] == "infeasible"
+    # the conflict set reaches the reader rather than being replaced by a sentence about it
+    for c in inf["conflicts"]:
+        assert c in ref["lines"], f"the refusal dropped the conflict {c!r}"
+
+
+def test_a_feasible_placement_that_breaks_a_type_fact_is_refused_too():
+    """The OTHER kind, and it is the one the shipped corpus reaches. An infeasible proof is
+    rare -- no shipped record produces one -- while a placement that SOLVES and then fails a
+    measured type fact is what 14 of the 16 shipped records do on the search. A guard on the
+    infeasible half alone would leave the live path unguarded, which is the shape this
+    repository records as a guard that runs only where the bug cannot occur.
+
+    Driven off the corpus rather than hand-built, and it asserts its own premise: if nothing is
+    refused for a downgraded fact the test skips rather than passing."""
+    import glob
+    for p in sorted(glob.glob(os.path.join(ROOT, "plans", "*.json"))) + \
+            sorted(glob.glob(os.path.join(ROOT, "plans", "reference", "*.json"))):
+        out = GEO.solve(json.load(open(p)), None, 60, engine="heuristic")
+        if "error" in out:
+            continue
+        gr = out["geometry_report"]
+        ref = gr.get("refused")
+        if not ref or ref["kind"] != "type-fact-downgraded":
+            continue
+        assert not (gr.get("infeasible") or {}).get("proven"), "this is the feasible half"
+        assert ref["facts"], "refused for a downgraded fact and it names none"
+        for name in ref["facts"]:
+            assert gr["type_facts"]["status"][name] == "downgraded", (
+                f"{name} is named in the refusal and is not downgraded on the record -- the "
+                f"verdict has stopped being a reading of the measurement beside it")
+        # and every fact that is merely UNJUDGED is absent from it
+        unj = [k for k, v in gr["type_facts"]["status"].items() if v == "unjudged"]
+        assert not (set(unj) & set(ref["facts"])), (
+            "an unjudged fact was named in a refusal: unjudged is not passed, and it is not "
+            "refused either")
+        return
+    import pytest as _pytest
+    _pytest.skip("COULD NOT EVALUATE: no shipped record is refused for a downgraded type fact "
+                 "on the search, so there is nothing here to be about")
 
 
 # ------------------------------------------------------------- honest fallback
