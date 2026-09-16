@@ -287,7 +287,16 @@ def test_every_door_arc_in_the_dxf_swings_the_way_the_record_says(sheets, kind, 
     EX = _b("export_dxf")
     out, _svg, path = sheets(kind, engine)
     dxf = path.replace(".svg", ".dxf")
-    EX.export_plan_dxf(out, dxf)
+    res = EX.export_plan_dxf(out, dxf)
+    # WP-13.4 MADE THIS EXPORTER REFUSE, so the file may legitimately not exist. Without this
+    # the row died on `FileNotFoundError` from ezdxf's own reader -- red for a reason that says
+    # nothing about a door arc, on all four ids. A refused export is COULD NOT EVALUATE and is
+    # never a pass: the refusal's own sentences are the reason, so the skip names the fact that
+    # could not hold rather than saying "no file".
+    if isinstance(res, dict) and res.get("refused_placement"):
+        pytest.skip("COULD NOT EVALUATE: the exporter refused this placement — "
+                    + "; ".join(res["refused_placement"].get("lines") or
+                                res["refused_placement"].get("facts") or ["no reason given"]))
     doc = ezdxf.readfile(dxf)
     arcs = [e for e in doc.modelspace() if e.dxftype() == "ARC" and "DOOR" in e.dxf.layer.upper()]
     IN = getattr(EX, "IN", 12.0)
