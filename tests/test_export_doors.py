@@ -194,3 +194,54 @@ def test_an_undrawable_door_reaches_the_result_with_its_reason(dxf):
         line = next((s for s in listed if f"{u['from']}-{u['to']}" in s), None)
         assert line, f"{u['from']}-{u['to']} is undrawable and not listed"
         assert u["reason"] and u["reason"] in line, f"{line!r} does not carry the reason {u['reason']!r}"
+
+
+# ------------------------------------------------------------ the elevation's doorcase
+
+def test_the_dxf_dresses_only_the_entrance_door_with_the_casing_source():
+    """WP-13.3 (the lead's pass). The elevation draws the plan's placed openings now, so a door
+    rect on a face is ANY placed exterior door there -- the Tidewater plan seats three on its N
+    wall -- and only the one carrying `entrance` is the composition's subject.
+    `render_elevation._entrance` returned before the casing on `if not rect.get("entrance")`
+    from the day the flag existed; `export_dxf`'s loop went on dressing every door rect with the
+    casing and the sidelights, so the CAD file drew a back door as a doorcase. This half reads
+    the source, because ezdxf is absent here and in CI: the condition must sit between the
+    leaf's rectangle and the casing's, the same test the SVG makes, and must be the rect's own
+    flag rather than a face or a count."""
+    src = open(os.path.join(ROOT, "build", "export_dxf.py")).read()
+    loop = src[src.index("for r in EL.opening_rects(elev, face)"):]
+    door = loop[loop.index('if r["kind"] == "door":'):]
+    body = door[:door.index("_win(r)")]
+    i_leaf = body.index('dxfattribs={"layer": opening}')
+    i_gate = body.index('if not r.get("entrance"):')
+    i_case = body.index('cw = ent["casing_width_in"]')
+    assert i_leaf < i_gate < i_case, "the entrance gate must sit between the leaf and the casing"
+    assert "continue" in body[i_gate:i_case], "the gate must skip the casing, not merely note it"
+    svg = open(os.path.join(ROOT, "build", "render_elevation.py")).read()
+    assert 'if not rect.get("entrance"):' in svg, "the SVG's own gate, which this one mirrors"
+
+
+def test_the_dxf_draws_one_doorcase_per_face_with_an_entrance(tmp_path):
+    """The behavioural half of the guard above, COULD NOT EVALUATE without ezdxf. On the
+    reference plan's N face three doors are placed and none is the entrance, so the elevation
+    DXF of that face must carry the three leaves on the opening layer and NO casing polyline on
+    the sash layer wider than a leaf; the S face carries exactly one."""
+    ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+    G, EX, EL, ST = _b("geometry"), _b("export_dxf"), _b("elevation"), _b("structure")
+    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    G._SOLVE_CACHE.clear()
+    placed = G.solve(plan, engine="heuristic")
+    section = ST.build_section(placed, geometry_result=placed)
+    elev = EL.build_elevation(placed, section=section)
+    for face, want in (("N", 0), (elev["entrance_face"], 1)):
+        doors = [r for r in EL.opening_rects(elev, face)["rects"] if r["kind"] == "door"]
+        assert doors, f"premise: face {face} places no door"
+        path = str(tmp_path / f"{face}.dxf")
+        EX.export_elevation_dxf(elev, path, face)
+        doc = ezdxf.readfile(path)
+        # a casing is the ONE closed polyline on the sash layer that is wider than every leaf
+        widths = [max(p[0] for p in e.get_points()) - min(p[0] for p in e.get_points())
+                  for e in doc.modelspace().query("LWPOLYLINE") if e.dxf.layer.upper().endswith("SASH")]
+        leaf_w = max(r["x1_in"] - r["x0_in"] for r in doors)
+        casings = [w for w in widths if w > leaf_w + 1.0]
+        assert len(casings) == want, (face, want, casings)

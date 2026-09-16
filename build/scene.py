@@ -487,7 +487,7 @@ def _openings(elev, section, states):
                  "thickness": round(t_ext, 3),
                  "outline": [[round(a, 3), round(b, 3)] for a, b in outline]},
                 "profile", "paper-lit",
-                {"record": r["source"], "also": [f"elevation.faces.{face}.centres_ft"]},
+                {"record": r["source"], "also": [f"elevation.faces.{face}.placed"]},
                 "derived", face=face, level=_lvl.get(r.get("storey")),
                 note="the opening's extent, drawn in the face plane at the reveal. It is a "
                      "FRAME and not a hole: this layer does no boolean subtraction, so the "

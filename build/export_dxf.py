@@ -604,6 +604,15 @@ def export_elevation_dxf(elev, path, face=None):
             x0, x1 = r["x0_in"], r["x1_in"]
             msp.add_lwpolyline([(x0, sill), (x1, sill), (x1, head), (x0, head)],
                                close=True, dxfattribs={"layer": opening})
+            # THE DOORCASE DRESSES THE ENTRANCE AND NOTHING ELSE (WP-13.3, the lead's pass). A
+            # door rect is any placed exterior door on this face since the elevation began
+            # drawing the plan's placed openings -- the Tidewater plan seats three on its N wall
+            # -- and only the rect carrying `entrance` is the composition's subject. The SVG
+            # (`render_elevation._entrance`) read that flag from the day it existed; this loop
+            # went on dressing every door with the casing and the sidelights, so the CAD file
+            # drew a back door as a doorcase. One condition, the same one the SVG tests.
+            if not r.get("entrance"):
+                continue
             cw = ent["casing_width_in"]
             eh = ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]
             msp.add_lwpolyline([(x0 - cw, sill), (x1 + cw, sill),

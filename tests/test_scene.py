@@ -315,6 +315,26 @@ def test_the_openings_are_drawn_on_every_face(scenes):
         assert len(by_face) >= 3, f"{name}: the fixture draws openings on {sorted(by_face)} only"
 
 
+def test_an_opening_frame_cites_the_placed_opening_and_never_a_rhythm(scenes):
+    """WP-13.3 (the lead's pass). Since the elevation draws the plan's PLACED openings, an
+    opening rect's provenance is `elevation.faces.<face>.placed`; the frame solid went on
+    citing `elevation.faces.<face>.centres_ft` beside it -- the rhythm the elevation now keeps
+    for its other readers and draws as nothing. A provenance naming a record the solid was not
+    built from is a source pointer that resolves and does not agree (the Phase 11 trap), one
+    layer over. Premise first: there are frames to check."""
+    n = 0
+    for name, (scene, _s) in scenes.items():
+        for s in scene["solids"]:
+            if s.get("class") != "opening-frame":
+                continue
+            n += 1
+            also = s["source"].get("also") or []
+            assert also and all(a.endswith(".placed") for a in also), f"{name}: {s['id']} cites {also}"
+            assert not any("centres_ft" in a for a in also), f"{name}: {s['id']} cites the rhythm"
+            assert s["source"]["record"].startswith("plan.levels["), f"{name}: {s['id']} {s['source']}"
+    assert n > 0, "premise: no opening frame in either scene, so nothing was checked"
+
+
 def test_an_opening_is_extruded_into_its_own_wall_and_not_out_of_it(scenes):
     """THE CONTRACT THE SCHEMA STATES, read back from the record.
 

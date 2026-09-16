@@ -161,26 +161,57 @@ def test_no_room_is_drawn_outside_its_own_band_when_the_pins_hold():
 def test_a_released_pin_is_named_on_the_record_by_kind():
     """Two kinds of key live in `downgraded` now -- (level, room, wall) and (level, room).
     The report unpacked three names from every one of them and would have raised on the first
-    shape downgrade, in the result builder."""
+    shape downgrade, in the result builder.
+
+    AND EVERY RELEASE IS ACCOUNTED FOR BY A ROUND LINE (WP-13.3, the lead's pass). The first
+    cut of this guard asserted only that each line in `downgrade_rounds` had one of two shapes
+    -- so a mutation that DROPPED the undecided-scout's note left the list shorter and every
+    surviving line well-formed, and the suite stayed green (the one blind cut of twenty in the
+    WP-13.3 harness). A release nobody can read is the silence Phase 13 is about, so the
+    relation is asserted: every kind the record reports DOWNGRADED -- the wall and shape pins
+    on their own lists, the four type facts under `facts` -- is named by some round line,
+    either the proof line (`released all N live <kind> pin(s)`) or the undecided line
+    (`UNDECIDED ... N <kind> pin(s) live`), and the counts those lines carry cover the keys the
+    record lists. Popping a note breaks the relation for the kinds it named."""
     CP = _cp()
     if CP is None:
-        return
+        pytest.skip("COULD NOT EVALUATE: ortools is not importable, the prover never ran")
     G._SOLVE_CACHE.clear()
     res = G.solve(json.loads(json.dumps(TIDEWATER)), engine="auto")
     sv = res["geometry_report"].get("solver") or {}
     if sv.get("engine") != "cp-sat":
-        return
+        pytest.skip(f"COULD NOT EVALUATE: auto fell back to the search ({sv.get('reason')})")
     assert "downgraded_wall_pins" in sv and "downgraded_shape_pins" in sv
-    assert isinstance(sv.get("downgrade_rounds"), list), (
+    rounds = sv.get("downgrade_rounds")
+    assert isinstance(rounds, list), (
         "what each round gave up must be on the record: a downgrade nobody can read is the "
         "silence this whole phase is about")
-    for line in sv["downgrade_rounds"]:
+    named = {}      # kind -> the number of pins the round lines say left, summed
+    for line in rounds:
         # A round gives a rank up by PROOF (a conflict core named it) or lets the type's
         # facts go on an UNDECIDED scout (WP-13.3) -- and either way the line names the
         # round, what left, and on what authority, so a reader can tell the two apart.
         assert line.startswith("round "), line
-        assert ("released all" in line and "lowest-ranked" in line) or (
-            "UNDECIDED" in line and "CARRIED" in line), line
+        m = re.search(r"released all (\d+) live (\w+) pin", line)
+        if m:
+            assert "lowest-ranked" in line, line
+            named[m.group(2)] = named.get(m.group(2), 0) + int(m.group(1))
+            continue
+        assert "UNDECIDED" in line and "CARRIED" in line, line
+        for n, kind in re.findall(r"(\d+) (\w+) pin", line):
+            named[kind] = named.get(kind, 0) + int(n)
+    # what the record says left, by kind -- the two pin lists and the four facts' own account
+    left = {"wall": len(sv["downgraded_wall_pins"]), "shape": len(sv["downgraded_shape_pins"])}
+    for kind, acc in (sv.get("facts") or {}).items():
+        left[kind] = len(acc.get("downgraded") or [])
+    assert any(left.values()), "premise: this run downgraded nothing, so the relation is vacuous"
+    for kind, n in left.items():
+        if n == 0:
+            continue
+        assert named.get(kind, 0) >= n, (
+            f"the record lists {n} downgraded {kind} pin(s) and the round lines account for "
+            f"{named.get(kind, 0)}: a release with no round naming it is a downgrade nobody "
+            f"can read. Lines: {rounds}")
 
 
 def test_the_axis_pin_names_one_room_or_none():
