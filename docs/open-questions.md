@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**186 questions, of which 94 are open.** A question is OPEN while
+**187 questions, of which 95 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 94
+## Open — 95
 
 Awaiting a ruling. This is the list to read first.
 
@@ -89,6 +89,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-room-records-prose-states-a-floor-its-own-band-does-not** | OPEN | [35 figures in prose, and nothing can say which are governing](open-questions/oq-a-room-records-prose-states-a-floor-its-own-band-does-not.md) |
 | **oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed** | OPEN | [two accepted moves can leave the record breaking the first one's rule](open-questions/oq-a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed.md) |
 | **oq/a-shared-flue-cannot-stand-behind-two-centred-breasts** | OPEN | [the massing says paired, the record says one](open-questions/oq-a-shared-flue-cannot-stand-behind-two-centred-breasts.md) |
+| **oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts** | OPEN | [check_partis is red on the merged tree](open-questions/oq-a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts.md) |
 | **oq/a-slug-in-a-code-span-is-not-checked** | OPEN | [the citation guard validates 16% of the namespace it guards, by TWO mechanisms, and the second one is bigger than the one this entry is named for](open-questions/oq-a-slug-in-a-code-span-is-not-checked.md) |
 | **oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction** | OPEN | [422 strings, 0 locators, and one confirmed invention cited by five nodes](open-questions/oq-a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction.md) |
 | **oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity** | OPEN | [the guard compares numbers and cannot compare meanings](open-questions/oq-a-source-that-agrees-numerically-may-be-the-wrong-quantity.md) |
