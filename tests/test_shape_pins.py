@@ -10,6 +10,7 @@ Lucas ruled the band outranks the pins. Every assertion here was mutation-checke
 import importlib.util
 import json
 import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -37,13 +38,15 @@ def _cp():
 # --- the ladder is ranked, and the order is the ruling -------------------------------------
 
 def test_the_rank_is_a_closed_ordered_table_with_the_wall_first():
-    """`_RANK` is read left to right and the FIRST kind with a live pin is released. The wall
-    pin is first, which is the 5 Sep ruling and not the intuitive order -- see the constant's
-    own comment for the measurement that decided it."""
+    """`_RANK` is read left to right and the FIRST kind the conflict core names is released,
+    whole. The wall pin is first, which is the 5 Sep ruling and not the intuitive order -- see
+    the constant's own comment for the measurement that decided it -- and the four in the
+    middle are the 15 Sep ruling (Phase 13): the type's facts, hard, in a stated precedence,
+    with the shape band still last."""
     CP = _cp()
     if CP is None:
         return                      # COULD NOT EVALUATE without ortools; not a pass
-    assert CP._RANK == ("wall", "axis", "shape"), (
+    assert CP._RANK == ("wall", "axis", "tiling", "stack", "bearing", "hearth", "shape"), (
         "the downgrade ladder's rank changed. It is a ruling about which authored fact gives "
         "way, measured, and it belongs in a report before it belongs in this tuple.")
     assert "size" not in CP._RANK and "door" not in CP._RANK and "entrance" not in CP._RANK, (
@@ -104,10 +107,22 @@ def test_the_pin_is_stated_through_max_and_min_because_the_rewrite_is_slower():
     11.3 -> 20.4 s). Pinned as a source assertion because the difference is invisible in the
     answer and visible only in the clock, so the next reader will re-derive it otherwise."""
     src = (ROOT / "build" / "geometry_cp.py").read_text()
-    assert "m.Add(10 * mxs <= int(round(_ceil * 10)) * mns).OnlyEnforceIf(_sh)" in src
-    assert "_c10" not in src, (
-        "the linear rewrite is back; re-run the timing in the comment above it first")
+    # THE PIN, BY ITS PROPERTY AND NOT ITS SPELLING (re-cut WP-13.3, which moved the scale
+    # from a tenth to a hundredth): the hard pin is one linear inequality between the max and
+    # the min of the two sides, enforced by the shape literal, at `RATIO_SCALE`.
+    pin = re.search(r"m\.Add\((\w+) \* mxs <= (\w+) \* mns\)\.OnlyEnforceIf\(_sh\)", src)
+    assert pin, "the hard pin is no longer max <= c * min under the shape literal"
+    scale_var, c_var = pin.group(1), pin.group(2)
+    assert re.search(rf"{scale_var}, {c_var} = _ceil_scaled\(_ceil\)", src), (
+        "the pin's scale and ceiling are not the RATIO_SCALE pair `_ceil_scaled` returns")
+    CP = _cp()
+    if CP is not None:
+        assert CP._ceil_scaled(1.35) == (CP.RATIO_SCALE, 135) and CP.RATIO_SCALE == 100, (
+            "a bedroom's 1.35 band must reach the model as 135/100, not 14/10")
     assert "AddMaxEquality(mxs" in src, "the max/min pair is built unconditionally"
+    # the linear rewrite (`w <= c*h AND h <= c*w`, no max/min) must not be back as the pin
+    assert not re.search(r"m\.Add\(\w+ \* w <= \w+ \* h\)\.OnlyEnforceIf\(_sh\)", src), (
+        "the linear rewrite is back; re-run the timing in the comment above it first")
 
 
 # --- what the pins actually do to the drawing ----------------------------------------------
@@ -160,7 +175,12 @@ def test_a_released_pin_is_named_on_the_record_by_kind():
         "what each round gave up must be on the record: a downgrade nobody can read is the "
         "silence this whole phase is about")
     for line in sv["downgrade_rounds"]:
-        assert "released all" in line and "lowest-ranked" in line
+        # A round gives a rank up by PROOF (a conflict core named it) or lets the type's
+        # facts go on an UNDECIDED scout (WP-13.3) -- and either way the line names the
+        # round, what left, and on what authority, so a reader can tell the two apart.
+        assert line.startswith("round "), line
+        assert ("released all" in line and "lowest-ranked" in line) or (
+            "UNDECIDED" in line and "CARRIED" in line), line
 
 
 def test_the_axis_pin_names_one_room_or_none():

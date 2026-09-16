@@ -22,6 +22,7 @@ Pinned here, plus the honesty properties the rulings added:
 import copy
 import json
 import os
+import re
 import sys
 import time
 
@@ -224,8 +225,11 @@ def test_check_plans_solve_with_stated_downgrades():
         # for a pin the pass actually proved INFEASIBLE, and every such proof must be claimed.
         # That is falsifiable by deleting _reinstate, which the string check was not.
         attempts = solver.get("attempts") or []
+        # A WALL restore is `restore L<level> <room> <wall>`; since WP-13.3 the pass also
+        # offers back `restore hearth ...`, `restore stack x5` and so on, which this test is
+        # not about, so the label's shape is matched rather than its prefix.
         proved = {a[0][len("restore "):] for a in attempts
-                  if a[0].startswith("restore ") and a[1] == "R:INFEASIBLE"}
+                  if re.match(r"^restore L\d+ \S+ [NESW]$", a[0]) and a[1] == "R:INFEASIBLE"}
         claimed = {pin for pin in pins
                    if any(n.startswith(f"{named.get(pin.split(' ', 2)[1], pin.split(' ', 2)[1])}'s "
                                        f"declared {pin.split(' ', 2)[2]} wall") and PROVEN in n
