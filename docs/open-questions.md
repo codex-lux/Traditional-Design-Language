@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**196 questions, of which 104 are open.** A question is OPEN while
+**197 questions, of which 105 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 104
+## Open — 105
 
 Awaiting a ruling. This is the list to read first.
 
@@ -114,6 +114,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-divergence-mark-is-in-neither-face-the-sheet-names** | OPEN | [one character, and the sheet cannot supply it](open-questions/oq-the-divergence-mark-is-in-neither-face-the-sheet-names.md) |
 | **oq/the-dxf-draws-its-own-windows** | OPEN | [a downloaded DXF is a different drawing of the same house, today](open-questions/oq-the-dxf-draws-its-own-windows.md) |
 | **oq/the-elevation-draws-the-front-door-where-the-composition-wants-it** | OPEN | [and the placement puts it somewhere else](open-questions/oq-the-elevation-draws-the-front-door-where-the-composition-wants-it.md) |
+| **oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings** | OPEN | [an eighth layer](open-questions/oq-the-elevation-draws-the-main-blocks-face-and-not-the-buildings.md) |
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |
 | **oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so** | OPEN | [the search charges 100 points and the critic is silent](open-questions/oq-the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so.md) |
 | **oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front** | OPEN | [an eighth layer reads the main block as the whole house](open-questions/oq-the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front.md) |
