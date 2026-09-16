@@ -39,6 +39,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 WALL_ORDER = ("S", "N", "W", "E")
 
+# The door types `render_plan._door` draws with no leaf, spelled there (`render_plan.LEAFLESS`)
+# and transcribed here because this file is a LEAF and may import no sibling;
+# tests/test_furniture_pass.py holds the two tuples equal.
+LEAFLESS = ("cased-opening", "open", "pocket", "garage", "bulkhead")
+
 
 def free_runs(lo, hi, blocked):
     """`(lo, hi)` minus every `(a, b)` in `blocked`, as a list of open runs.
@@ -146,6 +151,55 @@ def pack_against_walls(rect, room_id, occupied, entries, noun="fixtures", placed
         spec = entry["spec"]
         fw = spec["w_in"] / 12.0
         fd = spec["d_in"] / 12.0
+        if spec.get("corner"):
+            # fg-corner (WP-13.6 made it real; the grammar had listed it EXECUTED with no code
+            # behind it, so three catalogue items authored `corner` were seated as against-wall).
+            # The first corner whose two walls both have a free run from it long enough: the
+            # item's along-the-wall side on wall A, its depth on wall B, taking A in the packer's
+            # own wall order and B in the same order among the perpendicular walls.
+            seat_rect = None
+            for cw in WALL_ORDER:
+                for pw in [o for o in WALL_ORDER if walls[o]["along"] != walls[cw]["along"]]:
+                    A, B = walls[cw], walls[pw]
+                    # the corner's coordinate along A is B's position; along B it is A's
+                    ca = (x if pw == "W" else x + w) if A["along"] else (y if pw == "S" else y + d)
+                    cb = (y if cw == "S" else y + d) if A["along"] else (x if cw == "W" else x + w)
+                    a_lo, a_hi = (ca, ca + fw) if pw in ("W", "S") else (ca - fw, ca)
+                    b_lo, b_hi = (cb, cb + fd) if cw in ("S", "W") else (cb - fd, cb)
+                    if not any(lo - 1e-6 <= a_lo and a_hi <= hi + 1e-6 for lo, hi in A["free"]):
+                        continue
+                    if not any(lo - 1e-6 <= b_lo and b_hi <= hi + 1e-6 for lo, hi in B["free"]):
+                        continue
+                    cand_rect = to_record((a_lo, b_lo, fw, fd) if A["along"] else (b_lo, a_lo, fd, fw))
+                    if not _inside(cand_rect, rect) or not _clear_of_placed(cand_rect):
+                        continue
+                    seat_rect, wall = cand_rect, cw
+                    if pw in ("W", "S"):          # the corner is A's LOW end: A packs from here
+                        walls[cw]["cursor"] = max(walls[cw]["cursor"], fw)
+                    break
+                if seat_rect is not None:
+                    break
+            if seat_rect is None:
+                out = {"item": spec["item"], "width_ft": round(fw, 2), "depth_ft": round(fd, 2)}
+                for k in ("symbol", "rule", "grade"):
+                    if spec.get(k) is not None:
+                        out[k] = spec[k]
+                out["unplaced"] = {
+                    "reason": (f"no corner of this room has both its walls free for a {fw:.1f} x "
+                               f"{fd:.1f} ft item -- every corner was tried in the wall order"),
+                    "needs": {"width_ft": round(fw, 2), "depth_ft": round(fd, 2)},
+                    "have": {o: round(walls[o]["clear"], 2) for o in order}}
+                layout.append(out)
+                continue
+            out = {"item": spec["item"], "wall": wall, "corner": True,
+                   "x_ft": round(seat_rect[0], 3), "y_ft": round(seat_rect[1], 3),
+                   "width_ft": round(seat_rect[2], 3), "depth_ft": round(seat_rect[3], 3)}
+            for k in ("symbol", "rule", "grade"):
+                if spec.get(k) is not None:
+                    out[k] = spec[k]
+            layout.append(out)
+            placed.append(seat_rect)
+            continue
         # the wall it is already on first, then every other wall in clear-run order; and
         # within a wall every free segment, not only the first that is wide enough
         seat = seat_rect = None
@@ -290,7 +344,19 @@ def door_swings(room, rect):
     written by build/openings.py since WP-6.2, and read by NEITHER renderer, which is why a
     door arc is still recomputed from room centroids at draw time. This is their first reader.
     A leaf of width w sweeps a quarter disc of radius w; the square that contains it is what is
-    blocked, which over-reserves by the corner and is the conservative direction."""
+    blocked, which over-reserves by the corner and is the conservative direction.
+
+    A PAIR IS TWO LEAVES OF HALF THE OPENING (WP-13.6). Until this the block was one square of
+    the OPENING's width whatever the door type, so a 5 ft double door between the drawing and
+    dining rooms reserved 5 x 5 ft of the dining room's floor while `render_plan._door` and
+    `Sheet.jsx` draw two 2.5 ft leaves that each sweep a quarter disc of radius 2.5 -- the
+    packer refusing the dining table for a swing the drawing does not make (plan §I, row 3/5/8:
+    on the search placement the table for eight is refused by that block alone). The two
+    squares are `w/2` along the wall each and `w/2` into the room, which is exactly the
+    renderer's leaf radius (`_door`: `leaf(..., half, ...)` twice for `double`, `2 * half` once
+    for a single leaf); a door type the renderer draws with no leaf (`render_plan.LEAFLESS`)
+    blocks nothing, because nothing swings. `tests/test_furniture_pass.py` holds the block to
+    the renderer's own leaf rule."""
     x, y, w, d = rect
     out = []
     for o in (room.get("doors") or []):
@@ -298,15 +364,21 @@ def door_swings(room, rect):
             continue
         if o.get("swing_into") and o.get("swing_into") != room.get("id"):
             continue          # it opens into the other room; this one keeps its floor
+        if (o.get("type") or "swing") in LEAFLESS:
+            continue          # a cased opening, a pocket, a garage door: no leaf swings
         lw = float(o.get("width_ft") or 3.0)
         p = float(o["position_ft"])
         wall = o["wall"]
-        if wall in ("S", "N"):
-            ry = y if wall == "S" else y + d - lw
-            out.append((p - lw / 2.0, ry, lw, lw))
-        else:
-            rx = x if wall == "W" else x + w - lw
-            out.append((rx, p - lw / 2.0, lw, lw))
+        # (along-the-wall offset from the opening's centre, leaf width) per leaf
+        leaves = [(-lw / 2.0, lw / 2.0), (0.0, lw / 2.0)] if o.get("type") == "double" \
+            else [(-lw / 2.0, lw)]
+        for off, leaf in leaves:
+            if wall in ("S", "N"):
+                ry = y if wall == "S" else y + d - leaf
+                out.append((p + off, ry, leaf, leaf))
+            else:
+                rx = x if wall == "W" else x + w - leaf
+                out.append((rx, p + off, leaf, leaf))
     return out
 
 
@@ -400,6 +472,8 @@ def arrange_room(room, catalogue_room, rect, occupied, blocked=None):
             spec["rule"] = {"against-wall": "fg-against-wall", "built-in": "fg-built-in",
                             "corner": "fg-corner"}.get(place, "fg-against-wall")
             spec["grade"] = "editorial"
+            if place == "corner":
+                spec["corner"] = True
             if run:
                 # fg-wall-run is a READING: the figure is in the item's own sentence
                 spec["rule"], spec["grade"] = "fg-wall-run", "reading"

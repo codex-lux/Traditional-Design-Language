@@ -31,8 +31,8 @@
    "item": "window seat",
    "kind": "object",
    "footprint_in": [
-    18,
-    60
+    60,
+    18
    ],
    "clearance_in": 30,
    "essential": false,

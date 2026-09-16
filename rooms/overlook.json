@@ -51,8 +51,8 @@
       "item": "guard to the open side",
       "kind": "object",
       "footprint_in": [
-        5,
-        120
+        120,
+        5
       ],
       "clearance_in": 0,
       "note": "Its thickness eats the width. A 5 in newel-and-baluster rail and a 12 in panelled parapet are different rooms at the same nominal dimension",
@@ -62,8 +62,8 @@
       "item": "bookcase or chest against the closed wall",
       "kind": "object",
       "footprint_in": [
-        14,
-        48
+        48,
+        14
       ],
       "clearance_in": 36,
       "essential": false,

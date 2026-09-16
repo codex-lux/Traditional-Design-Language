@@ -337,7 +337,19 @@ CORPUS_PLACEMENT_SHA = "68b102ff6a724e47"
 # passes (0.85 ft clear). `CORPUS_PLACEMENT_SHA` is UNCHANGED across it: the rectangles did not
 # move, what is seated on their walls did. The pin was found red by the first full check_all
 # on the merged tree, not by the slice, which ran its own suites and not this one.
-CORPUS_OPENINGS_SHA = "c6531afc0208178b"
+# WP-13.6 MOVED IT AGAIN, ON PURPOSE, WITH THE MOVEMENT NAMED ITEM BY ITEM: `c6531afc0208178b`
+# -> `c8ae9117039cfeb8`. Three causes, diffed over the sixteen plans on the deterministic engine
+# (491 paths on 14 plans, 16 items refused -> placed, 3 placed -> refused): the packer blocks a
+# double door's swing as TWO leaves of half the opening, as the renderers draw it, instead of one
+# square of the opening's width -- the dining table for eight is seated on four plans where that
+# block alone had refused it, and the dining CHAIR, which steps off the centre the table now
+# takes, is refused on three of them until WP-13.6's second commit seats chairs around a table
+# by its own "seats N"; nine catalogue footprints were re-authored [along, into] by reading them
+# (the garage's refuse bins, 60 in along the wall and 30 deep, leave floor for the car on seven
+# garages; the sideboard is 5.5 ft along its 6 ft run; the banquette, the window seat and the
+# rest likewise); and a `corner` item is seated in a corner (`fg-corner` had no code behind
+# it). The placement hash is unchanged: rectangles did not move, what is on their floors did.
+CORPUS_OPENINGS_SHA = "c8ae9117039cfeb8"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

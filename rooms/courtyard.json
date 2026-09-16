@@ -70,8 +70,8 @@
    "item": "planting bed or pots to the court's edge",
    "kind": "object",
    "footprint_in": [
-    30,
-    120
+    120,
+    30
    ],
    "clearance_in": 24,
    "essential": false,

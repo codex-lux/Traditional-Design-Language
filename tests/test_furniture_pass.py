@@ -260,3 +260,102 @@ def test_every_placed_entry_names_the_rule_and_grade_that_seated_it():
                     seen.add(e["rule"])
     assert "fg-wall-run" in seen, "the one reading never fired anywhere in the corpus"
     assert len(seen) >= 3, f"only {seen} fired — the rule set is not being exercised"
+
+
+# ------------------------------------------------------------- WP-13.6: the swing, the corner, the axis
+def _rp():
+    return _mod("render_plan")
+
+
+def test_a_pair_blocks_two_half_leaves_and_a_leafless_type_blocks_nothing():
+    """`door_swings` reserved one square of the OPENING's width whatever the door type, so a 5 ft
+    double door between the drawing and dining rooms took 5 x 5 ft of the dining room's floor
+    while both renderers draw two 2.5 ft leaves. The block is the renderer's own leaf rule now:
+    two squares of w/2 for a pair, one of w for a single leaf, none for a type drawn with no leaf.
+    The renderer's rule is READ from its source beside the packer's, so the two cannot drift."""
+    room = {"id": "r", "doors": [
+        {"to": "a", "type": "double", "wall": "S", "position_ft": 10.0, "width_ft": 5.0, "swing_into": "r"},
+        {"to": "b", "type": "swing", "wall": "W", "position_ft": 6.0, "width_ft": 3.0, "swing_into": "r"},
+        {"to": "c", "type": "cased-opening", "wall": "N", "position_ft": 10.0, "width_ft": 6.0, "swing_into": "r"},
+        {"to": "d", "type": "swing", "wall": "E", "position_ft": 6.0, "width_ft": 3.0, "swing_into": "a"},
+    ]}
+    blocks = sorted(FURN.door_swings(room, (0.0, 0.0, 20.0, 12.0)))
+    assert blocks == sorted([(7.5, 0.0, 2.5, 2.5), (10.0, 0.0, 2.5, 2.5), (0.0, 4.5, 3.0, 3.0)]), blocks
+    # the pair's two squares together cover the opening's width and HALF its width into the room
+    pair = [b for b in blocks if b[1] == 0.0]
+    assert min(b[0] for b in pair) == 7.5 and max(b[0] + b[2] for b in pair) == 12.5
+    assert all(b[3] == 2.5 for b in pair), "a leaf of a pair sweeps its OWN width, not the opening's"
+    # the leafless tuple is the renderer's, transcribed because this module is a leaf
+    assert FURN.LEAFLESS == _rp().LEAFLESS
+    # and the renderer really does draw a pair as two half-radius leaves and a single as one full
+    src = open(os.path.join(ROOT, "build", "render_plan.py")).read()
+    i = src.index("def _door(")
+    door = src[i:i + 12000]                             # the nested function and its branches, comments included
+    dbl = door[door.index('if dtype == "double"'):]
+    dbl = dbl[:dbl.index("elif ")]
+    assert dbl.count("leaf(") == 2 and "half," in dbl and "2 * half" not in dbl, dbl
+    single = door[door.index("elif hinge =="):]
+    single = single[:single.index("\n\n")]
+    assert single.count("2 * half") == 2, "a single leaf sweeps the whole opening, from either jamb"
+
+
+def test_a_corner_item_is_seated_in_a_corner_with_both_walls_free_and_refused_when_none_is():
+    """fg-corner was listed EXECUTED with no code behind it; three catalogue items authored
+    `corner` were packed as against-wall items. The first corner whose two walls are both free
+    for it, in the packer's wall order; every corner blocked is a named refusal."""
+    rect = (0.0, 0.0, 20.0, 12.0)
+    spec = {"item": "corner cupboard", "w_in": 42, "d_in": 18, "corner": True, "rule": "fg-corner", "grade": "editorial"}
+    out, placed = FURN.pack_against_walls(rect, "r", {}, [{"spec": dict(spec)}], noun="furniture")
+    e = out[0]
+    assert not e.get("unplaced") and e.get("corner") is True, e
+    # it touches two walls: the SW corner, S first in the wall order and W first among the perpendiculars
+    assert (e["x_ft"], e["y_ft"]) == (0.0, 0.0) and (e["width_ft"], e["depth_ft"]) == (3.5, 1.5), e
+    # block the S wall's low end and the W wall's low end: the SW corner is gone, the SE is next
+    occ = {("r", "S"): [(0.0, 2.0)], ("r", "W"): [(0.0, 2.0)]}
+    out, _ = FURN.pack_against_walls(rect, "r", occ, [{"spec": dict(spec)}], noun="furniture")
+    e = out[0]
+    assert not e.get("unplaced") and e["corner"] is True and e["x_ft"] == 16.5 and e["y_ft"] == 0.0, e
+    # every corner blocked on one of its two walls -> refused, naming the corner rule
+    occ = {("r", "S"): [(0.0, 2.0), (18.0, 20.0)], ("r", "N"): [(0.0, 2.0), (18.0, 20.0)],
+           ("r", "W"): [(0.0, 2.0), (10.0, 12.0)], ("r", "E"): [(0.0, 2.0), (10.0, 12.0)]}
+    out, _ = FURN.pack_against_walls(rect, "r", occ, [{"spec": dict(spec)}], noun="furniture")
+    assert out[0].get("unplaced") and "corner" in out[0]["unplaced"]["reason"], out[0]
+    # and a corner seat at a wall's LOW end advances that wall's cursor, so the next wall item
+    # does not land on top of it (the vacuity check: the second item must be clear of the first)
+    out, _ = FURN.pack_against_walls(rect, "r", {}, [{"spec": dict(spec)},
+                                    {"spec": {"item": "sideboard", "w_in": 60, "d_in": 20}}], noun="furniture")
+    a, b = out
+    assert not b.get("unplaced") and (b["x_ft"] >= a["x_ft"] + a["width_ft"] - 1e-6 or b["wall"] != a["wall"]), (a, b)
+
+
+def test_the_catalogue_states_the_axis_and_a_run_cannot_be_shorter_than_the_item():
+    """`footprint_in` is [along the wall, into the room] (schema, WP-13.6). The nine inverted
+    records were re-authored by reading; the checker holds the one thing a number can hold: an
+    item stating a wall run cannot need one shorter than its own length along the wall."""
+    CR = _mod("check_rooms")
+    C = _mod("plan_check").load_corpus()
+    dining = C["rooms"]["dining-room"]
+    sb = next(i for i in dining["furniture"] if i["item"] == "sideboard")
+    assert sb["footprint_in"] == [66, 20], "the sideboard is 66 in ALONG the wall and 20 deep, as read"
+    assert sb["footprint_in"][0] / 12.0 <= sb["needs_uninterrupted_wall_ft"]
+    cc = next(i for i in dining["furniture"] if i["item"].startswith("china cupboard"))
+    assert cc["footprint_in"] == [42, 18] and cc["placement"] == "corner"
+    # the guard bites on a run shorter than the item, and only then
+    import copy
+    room = copy.deepcopy(dining)
+    rep = CR.Report(); u = CR.build_universe()
+    CR.check_room(rep, os.path.join(ROOT, "rooms", "dining-room.json"), room, u, {"dining-room"})
+    before = [e for e in rep.errors if "shorter than itself" in str(e)]
+    assert not before, before
+    bad = next(i for i in room["furniture"] if i["item"] == "sideboard")
+    bad["footprint_in"] = [80, 20]            # 6.67 ft along a 6 ft run
+    rep = CR.Report()
+    CR.check_room(rep, os.path.join(ROOT, "rooms", "dining-room.json"), room, u, {"dining-room"})
+    hits = [e for e in rep.errors if "shorter than itself" in str(e)]
+    assert len(hits) == 1 and "sideboard" in str(hits[0]), rep.errors
+    # every wall-seated item that states a run passes it today, and the count is the census's
+    runs = [(rid, i) for rid, rt in C["rooms"].items() for i in (rt.get("furniture") or [])
+            if i.get("needs_uninterrupted_wall_ft")]
+    assert len(runs) == 5
+    for rid, i in runs:
+        assert i["footprint_in"][0] / 12.0 <= i["needs_uninterrupted_wall_ft"] + 1e-9, (rid, i["item"])

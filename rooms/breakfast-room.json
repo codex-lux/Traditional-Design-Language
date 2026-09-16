@@ -50,8 +50,8 @@
       "item": "banquette",
       "kind": "object",
       "footprint_in": [
-        24,
-        72
+        72,
+        24
       ],
       "clearance_in": 18,
       "essential": false,

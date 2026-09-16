@@ -46,8 +46,8 @@
       "item": "refuse bins",
       "kind": "object",
       "footprint_in": [
-        30,
-        60
+        60,
+        30
       ],
       "clearance_in": 12,
       "essential": true,

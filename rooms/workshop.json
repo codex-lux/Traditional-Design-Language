@@ -31,8 +31,8 @@
       "item": "bench",
       "kind": "object",
       "footprint_in": [
-        30,
-        96
+        96,
+        30
       ],
       "clearance_in": 36,
       "placement": "against-wall"

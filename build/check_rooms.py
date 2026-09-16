@@ -346,6 +346,17 @@ def check_room(rep, path, room, u, room_ids):
                            f"fit check has to guess whether it needs clearance on one side "
                            f"or two")
         fp = f["footprint_in"]
+        # WP-13.6: `footprint_in` is [along the wall, into the room] (the schema says so now), and
+        # an item stating a wall run cannot need one shorter than its own length along the wall.
+        # This cannot see an INVERTED footprint (a 20 in sideboard passes a 6 ft run trivially);
+        # it catches the opposite error and, once the data is read, keeps the two figures honest
+        # with each other.
+        run = f.get("needs_uninterrupted_wall_ft")
+        if run and isinstance(fp, list) and len(fp) == 2 and f.get("placement") in ("against-wall", "built-in", "corner"):
+            if fp[0] / 12.0 > float(run) + 1e-9:
+                rep.err(where, f"furniture '{f['item']}' is {fp[0]} in along the wall and states a "
+                               f"`needs_uninterrupted_wall_ft` of {run} -- shorter than itself; "
+                               f"footprint_in is [along, into] (schema)")
         if fp[0] <= 0 or fp[1] <= 0:
             rep.err(where, f"furniture '{f['item']}' has a non-positive footprint")
         if max(fp) > 240:
