@@ -42,3 +42,11 @@ each breast row) and did not resolve it, because each resolution changes a diffe
 breast", and `hearths.py` must not move a breast to meet the stack. WP-13.3 makes "the hearth on
 its flue" a hard fact of placement and needs this ruled first: it can pin a hearth room to its
 gable wall, but it cannot make one shaft stand behind two fires.
+
+**Measured on the prover (WP-13.3, 16 September 2026).** With the hearth a hard, downgradable
+fact of placement, the reference plan's two W-face fires cannot co-hold with the sizes, the
+shapes and the doors: INFEASIBLE in 1.8 s with a conflict core naming both hearths, where each
+fire alone holds (OPTIMAL in 10.9 to 15.6 s). So the prover now says in a core what WP-13.2's gate
+row says in feet, and the plan's hearths are still not edited: option 1, 2 or 3 above is the
+ruling this needs, and the hearth row of the gate stays red on the reference plan until it is
+taken. Report: `docs/reports/wp-13.3-the-prover-learns-the-type.md`.

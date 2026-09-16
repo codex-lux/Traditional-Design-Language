@@ -198,7 +198,14 @@ def test_a_released_pin_is_named_on_the_record_by_kind():
             named[m.group(2)] = named.get(m.group(2), 0) + int(m.group(1))
             continue
         assert "UNDECIDED" in line and "CARRIED" in line, line
-        for n, kind in re.findall(r"(\d+) (\w+) pin", line):
+        # `... with 1 tiling, 5 stack, 2 bearing, 3 hearth pin(s) live` -- the kinds are a
+        # comma-separated list and only the LAST is followed by the word "pin", which is how
+        # this guard's first cut under-counted three kinds of four and went red on its own
+        # baseline. The list between "with " and " pin(s) live" is what is parsed.
+        m = re.search(r"with (.+?) pin\(s\) live", line)
+        assert m, line
+        for part in m.group(1).split(", "):
+            n, kind = part.split(" ", 1)
             named[kind] = named.get(kind, 0) + int(n)
     # what the record says left, by kind -- the two pin lists and the four facts' own account
     left = {"wall": len(sv["downgraded_wall_pins"]), "shape": len(sv["downgraded_shape_pins"])}

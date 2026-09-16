@@ -746,7 +746,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,432 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,499 tests**
 (plus the workbench app suite, **191** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -1468,6 +1468,52 @@ placement rows of the gate stay red on purpose** — the stacks, the tiling, the
 flue, the one bay system are WP-13.3's — and
 `oq/a-shared-flue-cannot-stand-behind-two-centred-breasts` needs Lucas: the reference plan puts two
 centred fires on one flue and no placement can stand one shaft behind both.
+**WP-13.3 IS THE PROVER TOLD THE TYPE, AND THE FIRST THING IT SAYS ABOUT THE REFERENCE PLAN IS
+NO (16 Sep) — `docs/reports/wp-13.3-the-prover-learns-the-type.md`.** Two worktree slices.
+`geometry_cp._RANK` is the ruled ladder, lowest authority first — wall, axis, tiling, stack,
+bearing, hearth, shape — every kind an assumption literal with a typed key, a conflict core
+releasing a whole rank, `_reinstate` offering released pins back in two sliced phases inside
+`BUDGET_SHARE_REINSTATE`; TILING at `TILING = 1.0` above the never-released `COVERAGE` (1.0
+proves on the reference plan where 0.995 is UNKNOWN and 0.99 proves — WP-7.4's "worse in the
+middle" met in a floor); DECLARED STACKS as `stacking.lands`' own relation transcribed
+(`_lands_literal`, one product per claim, domains frame-derived after the widened-domain guard
+refused `[-_EXT, _EXT]` on every shipped plan); BEARING as continuity plus capacity; the HEARTH
+pinned to the face `hearths.flue_walls` names. `typefacts.report` verifies all four on the placed
+record for either engine (`geometry_report.type_facts`, held / downgraded / unjudged, never held
+by absence) and `solver.facts` is what the model was ASKED. **The budget was the allocation and not
+the number**: phase A spent the polish's time on an UNKNOWN scout and "best of N" ranked an
+objective-free placement by the search's score, so `BUDGET_SHARE_FEASIBILITY / _REINSTATE /
+_POLISH` divide `time_limit_s`, a phase A still UNKNOWN at its share is UNSOLVED, the polish is
+guaranteed its share and hinted by phase A's own placement, and the CP OBJECTIVE ranks.
+**`BUDGET_BATCH_S` stays at 40** because the ladder to 90 s reached neither a proof nor a
+plateau. **The shape pin was stated to a TENTH** — `int(round(1.35 * 10))` is 14, which is how
+`chamber3` was drawn at exactly 1.40 with its pin HELD, main's intermittent red since WP-11.15;
+`RATIO_SCALE = 100`. **AND THE ELEVATION DRAWS THE PLAN'S PLACED OPENINGS** where it placed them,
+through `render_plan.openings_of_level`, converted to the face's outside datum by the wall
+thickness; a refused window reaches `refused` in the placer's words; the rhythm is kept for the
+blind bay and the modillions and drawn as nothing; the three storey-alignment measurements
+that were constants derived from the rhythm are measured (48.396 in on the Tidewater plan,
+0 of 4 upper windows within the fault's 2.0 in of a lower one). **`build_elevation` with no
+section RE-SOLVED a CP-placed record on the heuristic** — WP-12.0's defect at that function's
+own door, invisible while the elevation drew a rhythm, found by the gate's first run with the
+placed openings in. **The N and W faces read UNMIRRORED** (`FACE_MIRRORED` is the one switch;
+a mirrored draft put the spec Colonial's door 44 ft off in the Round), and unmirrored the W face
+shows the one placed window the shipped corpus refuses for a stack. **The gate on the merged
+tree: 52 green / 17 red / 11 n/a against 39 / 16 / 25** — the composer's Tidewater candidate is
+DRAWN on the prover for the first time (the allocation), the one-bay-system row is green on all
+four sheets, and every red is a placement row or the shared flue. **WHAT THE PROVER SAYS ABOUT
+THE REFERENCE PLAN**: each fact alone holds (shapes only OPTIMAL 9 s, plus one hearth OPTIMAL);
+the two W-face fires cannot co-hold with sizes, shapes and doors — INFEASIBLE in 1.8 s, a core
+naming both, which is `oq/a-shared-flue-cannot-stand-behind-two-centred-breasts` measured on
+the prover; and the full type is UNDECIDED at every budget to 90 s, so the ladder releases whole
+ranks on undecided scouts, CARRIES 21 of 22 wall pins and every fact, and the record SAYS so
+where it used to print a proof. **`tests/test_solver.py`'s half bound is therefore RED and is not
+loosened**: WP-13.5's container edit is what changes the record, and the bound is re-measured
+there. **Twenty prover mutations, nineteen red on the first run and one BLIND** — the guard on
+the undecided-scout's round note asserted the SHAPE of each line present and a dropped line is
+not present; it asserts the RELATION now (every downgraded kind on the record named by a round
+line whose counts cover it) and it skips rather than `return`ing where the prover did not run.
+**And the harness had not been run before the slice's commit**; the merge verification ran it.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
@@ -4830,8 +4876,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **185 entries, of which 93 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-held-shape-pin-is-not-held-on-the-hard-only-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shared-flue-cannot-stand-behind-two-centred-breasts, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-plate-does-not-read-the-disclosure-module-it-imports, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-raw-kit-read, oq/the-record-dimensions-a-transom-and-no-drawing-draws-one, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **186 entries, of which 94 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-held-shape-pin-is-not-held-on-the-hard-only-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shared-flue-cannot-stand-behind-two-centred-breasts, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/an-undecided-scout-releases-every-type-fact-at-once, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-plate-does-not-read-the-disclosure-module-it-imports, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-raw-kit-read, oq/the-record-dimensions-a-transom-and-no-drawing-draws-one, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. **AND THE ENTRY COUNT HAS BEEN THE FILE COUNT, WHICH IS THE
   UNGUARDED-PROSE CLASS ARRIVING IN THIS PARAGRAPH** -- `docs/open-questions/README.md`
