@@ -1585,6 +1585,19 @@ BLIND ON THEIR FIRST RUN.** A fixture giving the chair item `count: 8` beside a 
 `furnitureKey.js` survived a rewording, so the behavioural guard moved into the JS suite and the
 two files are held to one FIXTURE; and `side_first` turned out to be INERT wherever both sides
 of a bed are free, because the second piece falls through to the other side anyway.
+**`tests/test_elements.py` HOLDS BOTH HALVES SEPARATELY AND ONLY ONE MOVED**:
+`CORPUS_PLACEMENT_SHA` is UNMOVED at `68b102ff6a724e47` and `CORPUS_OPENINGS_SHA`, which carries
+`furniture_layout`, goes `c8ae9117039cfeb8` -> `01f8e13fe3ce037b`. Diffed field by field over
+the sixteen placed records: `doors` 0 rooms, `windows` 0, `fixture_layout` 0, `stair` 0 plans,
+`geometry_report` 0 plans, against `furniture_layout` on 111 rooms. `fg-bed-aisle` rides on a
+spec field NO fixture carries, so the fixture layouts are byte-identical BY CONSTRUCTION.
+**AND EVERY RED IN `check_all` WAS ATTRIBUTED AGAINST A CONTROL RATHER THAN ASSUMED** -- 3 of 53
+checks failed, 14 of the 15 non-gate failures are pre-existing on `57e7b72` by name, the
+`test_sheet_coherence` rows are the WP-13.1 gate (its `cp` rows differ run to run on ONE tree
+and are read as a band), and exactly one was this package's: the furniture half of the pin
+above. **Two orphaned `pytest tests/` processes were found alive in one worktree at once while
+this was being measured** -- the hazard `check_all`'s own sharding note describes -- and were
+killed and the tree verified clean before the figures were taken.
 **AND THE PACKER DROPPED `piece`/`of` ON A LINE NO SHIPPED PLAN REACHES** -- every counted
 catalogue item resolves to `fg-freestanding` or to a positioned rule, so the lift is
 byte-identical on all sixteen and is DRIVEN.

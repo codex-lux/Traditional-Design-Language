@@ -349,7 +349,23 @@ CORPUS_PLACEMENT_SHA = "68b102ff6a724e47"
 # garages; the sideboard is 5.5 ft along its 6 ft run; the banquette, the window seat and the
 # rest likewise); and a `corner` item is seated in a corner (`fg-corner` had no code behind
 # it). The placement hash is unchanged: rectangles did not move, what is on their floors did.
-CORPUS_OPENINGS_SHA = "c8ae9117039cfeb8"
+CORPUS_OPENINGS_SHA = "01f8e13fe3ce037b"
+# WP-13.6 MOVED IT A THIRD TIME AND `CORPUS_PLACEMENT_SHA` ABOVE IS UNMOVED, WHICH IS THE POINT.
+# `c8ae9117039cfeb8` -> `01f8e13fe3ce037b`: the furniture is arranged to `furniture/grammar.json`
+# rather than packed against the first wall with a run -- nine POSITIONED rules and three
+# modifiers -- so `furniture_layout`, which this hash carries and the one above does not, is a
+# different arrangement on every plan that has any. Measured on the deterministic engine against
+# a `git worktree` checkout of `57e7b72`: furniture entries 665 -> 800, placed 563 -> 648,
+# refused BY NAME with a reason 102 -> 152, skipped unmoved at 216.
+# WHAT THIS HASH ALSO CARRIES DID NOT MOVE. Diffed field by field over all sixteen placed
+# records: `doors` 0 rooms moved, `windows` 0, `fixture_layout` 0, `stair` 0 plans,
+# `geometry_report` 0 plans -- against `furniture_layout` on 111 rooms. Every room rectangle
+# and the footprint are identical too -- the only movement outside
+# `furniture_layout` anywhere in the corpus is `opening_report`'s two furniture counters, which
+# this hash does not read. `fg-bed-aisle` is carried on a spec field (`aisle_ft`) that NO
+# fixture spec has, so the fixture layouts are byte-identical BY CONSTRUCTION rather than by
+# luck, which is why they are still in the same hash as the furniture.
+# docs/reports/wp-13.6-furniture-to-its-own-grammar.md carries the accounting.
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():
