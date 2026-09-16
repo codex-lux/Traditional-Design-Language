@@ -1465,6 +1465,27 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **CI IS RED ON `main` ITSELF AND THE SHARD NUMBER MOVES WHILE THE DEFECT DOES NOT (measured
+  16 Sep 2026).** Two jobs fail on `c65b638`, and the same two fail identically on any branch
+  taken from it. **`check_frontend.py` reports COULD NOT EVALUATE on every corpus run and the
+  job's gate refuses it**: WP-13.2 gave that checker a third state for an absent or stale
+  `workbench/app/dist/`, `dist/` is gitignored, the corpus shard does not build the app, and
+  `ci.yml` allows exactly three unjudged checks (`export_dxf`, `export_ifc`, the server
+  suite). This file's own *"judged in CI, which builds first"* is true of the WORKBENCH job
+  and not of the corpus shard that runs the check. **And the shard it lands in is not
+  diagnostic**: it is 1/6 on main and 5/6 on a branch that adds test files, because `units()`
+  globs `tests/test_*.py` and `assign()` repacks — a reader chasing "shard 5 broke" is chasing
+  the packing. The second failure is the browser walk, and **it is ONE check now and this file
+  said three**: `FAILED: [ 'the caption names the engine that drew the sheet (cp-sat)' ]`,
+  byte-identical on main and on the branch, where the 8-9 Sep entry below records a Pantry
+  label spill twice beside it. That entry is dated and was true when measured; the walk's
+  failure list is not a standing figure, so re-derive it rather than quoting either number.
+  **Neither is ported and the reason is that the fix is a RULING**: widening the allow-list
+  leaves a guard permanently unjudged in CI, and building the app in all six corpus shards
+  makes six jobs pay an npm install for one 0.11 s check. Named on
+  [PR #35](https://github.com/codex-lux/Traditional-Design-Language/pull/35) and left, because
+  spending a ruling inside a merge resolution is how a merge stops being reasonable about as
+  one thing.
 - **THE SCENE IS THE EIGHTH LAYER TO READ THE MAIN BLOCK AS THE WHOLE BUILDING, AND THE MERGE
   IS WHAT MADE IT VISIBLE (16 Sep 2026).** `build/scene.py` is element-aware in two of its
   three limbs and not in the third: `_walls` takes each wall's own `element` and `_slabs`
