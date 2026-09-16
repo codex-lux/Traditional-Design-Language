@@ -56,8 +56,8 @@ by a test where it does not:
   hearth   each stated fire's room edge on its element's face, on a wall the massing puts a
            flue on. Which walls those are is `hearths.HEARTH_RULES`' table, transcribed as
            `FLUE_WALLS` and held to it by a test; the massing is read from
-           `massings/catalog.json` directly, as `build/storeys.py` and `build/depth_floor.py`
-           read their own data files.
+           `massings/catalog.json` directly, the way every other leaf in `build/` reads its
+           own data file rather than reaching through a sibling.
 
 Every fact answers in THREE states -- `held`, `downgraded`, `unjudged` -- and a fact the record
 cannot state is `unjudged` with its reason, never `held`. `report()["status"]` is the four
