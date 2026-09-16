@@ -1624,11 +1624,34 @@ have been the one to distrust.**
 it is that test, because the heuristic is the fast engine and is why it is the one pinned. The
 suspicion was right to act on and wrong in substance; a fast tick is what a guard that skipped its
 work looks like, and the only way to tell is `--durations`.
+**AND THE LAST OF THE TEN READ LIST POSITION WHERE IT MEANT RANK.**
+`test_the_sets_budget_is_shared_and_not_taken_whole_by_the_leader` failed on
+`res["candidates"][0]["revision"] is not None`. **I published *"the red is the clock, not the
+code"* and that was wrong** -- it fails 3 of 3 on a quiet box (72.73, 78.02, 76.01 s), and my
+probe passed only because it ran the second of the test's two composes. **The set's budget is
+spent in RANK order and the returned list is in the composer's order AFTER revision**, so the
+candidate that gets the budget is the one that re-ranks and list position follows the revision
+rather than the funding: two trials agreeing exactly, `list[0]` is `courtyard-and-portal` at
+`rank_before` 2, skipped for budget, and `list[1]` is `side-hall-townhouse` at `rank_before` 1,
+run to `round-cap`. A leak probe ruled out carry-over first -- the 90 s three-candidate set hands
+out [30.0, 44.6, 87.8], its documented equal share of what is left. **`build/compose.py` is
+unchanged.**
+**AND THE HALF THAT MATTERED WAS SHIELDED BY THE HALF ABOVE IT, WHICH IS WP-12.4 MET IN A TEST
+FILE.** Both assertions lived in one body with the 90 s sweep first, so the first two mutations --
+reverse the spend order, hand the leader the whole remaining budget -- BOTH died on
+`seen[0] <= 30` at `seen[0] == 90.0` and never reached the re-cut. Two tests now; split, the
+reverse-order mutation reaches the new body and bites the `by_rank[1]` line.
+**AND THE RETIRED ASSERTION IS RED IN BOTH STATES, WHICH IS NOT THE FAILURE MODE PREDICTED.** I
+expected it to pass over the mutation; measured, it reads False on the pristine tree (`list[0]`
+is the rank-2 candidate, skipped) and False under the mutation (`list[0]` is the rank-1
+candidate, skipped). **A guard that cannot be GREEN carries exactly as much information as one
+that cannot be RED** -- it convicts the code whatever the code does -- which is why this is a
+re-cut and not a re-pin.
 **STILL RED AND NAMED, NOT FIXED**: three `test_composer.py` rows and one `test_score.py` row
 measuring the Georgian set's movement, `test_site.py`'s premise assertion firing exactly as built
-because its parti is no longer returned, `test_compose_revision.py`'s budget row, `test_solver.py`
-and `check_partis.py`. Every one is WP-13.3's honest measurement reaching a surface, and none may
-be made green by weakening what it asserts.
+because its parti is no longer returned, `test_solver.py` and `check_partis.py`. Every one is
+WP-13.3's honest measurement reaching a surface, and none may be made green by weakening what it
+asserts.
 
 **WP-13.6 IS THE FURNITURE ARRANGED TO ITS OWN GRAMMAR, AND ITS SHARPEST FINDING IS THAT THE
 PACKAGE'S OWN FIRST COMMIT HAD ALREADY SHIPPED TWO RED ASSERTIONS
