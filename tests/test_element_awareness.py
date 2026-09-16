@@ -488,10 +488,26 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # title block's +2): +1 -0 by set difference, the one row the fire slice named,
                 # `drawn` 82 -> 83 and every other layer unmoved; the spec Colonial exactly as
                 # that slice measured it. Never the sum of two digests, which is not a thing.
-                ("tidewater-georgian-careful", "2b5c81430bb590ef", 213,
-                 {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "7847180ecfab43d7", 243,
-                 {"daylight": 11, "grouping": 17})):
+                #
+                # RE-PINNED AT WP-13.3 (15 Sep 2026, the one-bay-system slice), against a
+                # `git archive a9f7f77` checkout on which the harness REPRODUCED
+                # 2b5c81430bb590ef / 213 and 7847180ecfab43d7 / 243 first. The placement did
+                # not move (heuristic, digest 2a8cfefed1895c12 / e12a0ab8427ef8b4); what moved
+                # is the ELEVATION LAYER'S measurements, which read the plan's PLACED front
+                # openings where they read the rhythm's bays, and every moved row is in the
+                # `fault` layer:
+                #   Tidewater 2b5c81430bb590ef -> d331d397766b3da1, 213 -> 218, +5 -0:
+                #   `even-bay-front` (4 upper openings), `one-bay-symmetry-break` (5 of 7
+                #   ground openings with no twin), `storeys-out-of-vertical-alignment`
+                #   (48.396 in), `blank-wall-to-the-street` (glazed 0.1419 off the placed
+                #   sashes) and `closet-on-the-exterior-wall` (7); fault 20 -> 25.
+                #   spec Colonial 7847180ecfab43d7 -> 8bb5a7d8d7cb576c, 243 -> 247, +5 -1:
+                #   the same five, and the blank-wall row RE-STATED (0.0943 -> 0.0365) rather
+                #   than added; fault 25 -> 29. daylight and grouping unmoved on both.
+                ("tidewater-georgian-careful", "d331d397766b3da1", 218,
+                 {"daylight": 13, "grouping": 18, "fault": 25}),
+                ("spec-builder-colonial", "8bb5a7d8d7cb576c", 247,
+                 {"daylight": 11, "grouping": 17, "fault": 29})):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")

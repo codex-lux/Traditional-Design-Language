@@ -433,15 +433,19 @@ def test_an_entrance_that_cannot_be_compared_is_not_an_entrance_that_disagrees(s
     `_entrance_agreement`'s exits shared one `what`, so over the sixteen plans ELEVEN entries
     read as eleven disagreements when four are disagreements and seven are houses whose
     placement seats no exterior door on the entrance front at all."""
+    # RE-CUT AT WP-13.3: the elevation draws the PLACED front door now, so the two records of
+    # it agree on both shipped plans and neither files a disagreement -- the third state,
+    # agreement, is silence, and a disclosure filed about it would be about nothing. The
+    # driven half below (a plan whose placement seats no front door at all) is what keeps
+    # the two named states distinct, exactly as before.
     for name, (scene, _sec) in scenes.items():
         ent = [n for n in scene["not_modelled"] if n.get("class") == "entrance"]
         dis = [n for n in ent if n["what"] == "the doorcase and the stoop in one place"]
         cne = [n for n in ent if n["what"].startswith("whether the doorcase")]
         assert not (dis and cne), f"{name}: both states filed at once"
-        assert dis, f"{name}: this plan no longer files a disagreement — re-derive"
-        for n in dis:
-            assert "apart" in n["why"], (
-                f"{name}: a disagreement that states no gap: {n['why'][:100]}")
+        assert not dis and not cne, (
+            f"{name}: the two records of the front door agree since WP-13.3, so nothing should "
+            f"be filed: {[(n['what'], n['why'][:80]) for n in ent]}")
 
     # AND THE OTHER STATE, WHICH NEITHER SHIPPED PLAN IS IN — so a guard over the pair above
     # cannot see it, and the first version of this test was GREEN under a mutation that gave
@@ -453,12 +457,20 @@ def test_an_entrance_that_cannot_be_compared_is_not_an_entrance_that_disagrees(s
         engine="heuristic")
     assert not err, err
     ent2 = [n for n in s2["not_modelled"] if n.get("class") == "entrance"]
+    # RE-CUT AT WP-13.3. The elevation draws the plan's PLACED openings, so a house whose
+    # placement seats no exterior door on its entrance front has NO drawn front door, and the
+    # could-not-compare state reaches the plate through the doorcase's own refusal ("the
+    # elevation states no door on the entrance front") rather than through
+    # `_entrance_agreement`, which has nothing to compare and files nothing. Until WP-13.3 the
+    # rhythm always drew a door in the middle bay, so the agreement reader ran on every plan
+    # and filed the `axis.door_bay` row this test used to count.
     cne2 = [n for n in ent2 if n["source"] == "axis.door_bay"]
-    assert len(cne2) == 1, f"{len(cne2)} could-not-evaluate rows on good-02"
-    assert cne2[0]["what"].startswith("whether the doorcase"), (
-        "a comparison that could not be made is filed under the same name as one that was made "
-        f"and disagreed: {cne2[0]['what']!r}")
-    assert "apart" not in cne2[0]["why"]
+    assert not cne2, f"{len(cne2)} agreement rows on a house with no drawn front door"
+    case = [n for n in ent2 if n["what"] == "the doorcase"
+            and "no door on the entrance front" in n["why"]]
+    assert len(case) == 1, f"good-02: {[(n['what'], n['why'][:60]) for n in ent2]}"
+    assert not any("apart" in n["why"] for n in ent2), (
+        "a house with no drawn front door filed a DISAGREEMENT about it")
 
 
 # ------------------------------------------------------- 5b. the datum a thing stands on

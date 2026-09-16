@@ -238,14 +238,21 @@ def test_a_blind_bay_exports_no_opening_to_cad(tmp_path):
     dx.export_elevation_dxf(rec, path, face="E")
     msp = ezdxf.readfile(path).modelspace()
     opens = [e for e in msp if e.dxftype() == "LWPOLYLINE" and "opening" in e.dxf.layer.lower()]
-    # two glazed bays x two storeys, and NOT the three bays x two the loop used to emit
-    assert len(opens) == 2 * (len(kinds) - len(blind_ft)), (
-        f"{len(opens)} opening polylines for {len(kinds)} bays of which {len(blind_ft)} are blind")
+    # RE-CUT AT WP-13.3: the openings are the plan's PLACED openings on the E face, not two
+    # per glazed rhythm bay, so the count is the elevation's own rectangles for the face --
+    # and a placed window the stack stands on is refused by `opening_rects`, which is the
+    # OQ 85 rule reaching a placed opening. Asserted positive first.
+    rects = el.opening_rects(rec, "E")["rects"]
+    assert rects, "the E face draws nothing, so the axis check below is vacuous"
+    assert len(opens) == len(rects), (
+        f"{len(opens)} opening polylines against {len(rects)} placed-and-drawn openings on E")
+    stack_half = rec["faces"]["E"]["stack_half_width_ft"]
     for e in opens:
-        left = min(pt[0] for pt in e.get_points("xy")) / 12.0
+        pts = [pt[0] for pt in e.get_points("xy")]
+        left, right = min(pts) / 12.0, max(pts) / 12.0
         for b in blind_ft:
-            assert abs(left - b) > 2.0, (
-                f"an opening is exported at {left:.2f} ft, on the blind bay's axis ({b} ft)")
+            assert right < b - stack_half or left > b + stack_half, (
+                f"an opening is exported at {left:.2f}-{right:.2f} ft, across the stack's axis ({b} ft)")
 
 
 
