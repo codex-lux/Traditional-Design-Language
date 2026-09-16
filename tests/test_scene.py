@@ -162,12 +162,28 @@ def test_the_roof_sits_over_the_house_and_not_beside_it(scenes):
     (0, 0) over the CLEAR one — two origins half an exterior wall apart, so read literally the
     roof sits 1.29 ft east and north of the house it covers. It has never mattered because no
     surface drew both. `oq/the-roof-record-and-the-plan-record-do-not-share-an-origin`.
+
+    THE POPULATION IS PER ELEMENT, AND THAT IS THE MERGE'S OWN FINDING RATHER THAN A
+    LOOSENING (16 Sep 2026). This swept every wall in the record against every roof plane,
+    which is the same question on a one-rectangle house and a different one the moment a plan
+    carries a dependency: `tidewater-georgian-careful` is tagged since WP-11.16, its walls run
+    x[-35.292, 46.292] over three masses, and its roof covers the main block's
+    x[-1.292, 46.288]. Read across the elements that is a 34 ft offset and the assertion
+    failed; read within the element the roof is derived for it is 0.004 ft, the
+    `section.footprint` rounding residue and nothing more.
+
+    **The 34 ft is a real fact and it is not this assertion's**: the dependency and the hyphen
+    have no roof at all, because `roof.py` derives one roof from `section.footprint`. That is
+    named in `not_modelled` now and asserted by the test below, so scoping here hides nothing.
     """
     for name, (scene, _s) in scenes.items():
         planes = [s for s in scene["solids"] if s["class"] == "roof-plane"]
-        walls = [s for s in scene["solids"] if s["class"] == "wall" and s.get("face")]
         if not planes:
             continue
+        roofed = {s.get("element") or "main" for s in planes}
+        walls = [s for s in scene["solids"] if s["class"] == "wall" and s.get("face")
+                 and (s.get("element") or "main") in roofed]
+        assert walls, f"{name}: roof planes over {roofed} and no wall in any of them"
         px = [p[0] for s in planes for p in s["geometry"]["vertices"]]
         py = [p[1] for s in planes for p in s["geometry"]["vertices"]]
         wx = [v for s in walls for v in (s["geometry"]["origin"][0],
@@ -179,6 +195,46 @@ def test_the_roof_sits_over_the_house_and_not_beside_it(scenes):
             f"{min(px) - min(wx):.3f}/{max(px) - max(wx):.3f} ft"
         assert abs(min(py) - min(wy)) < 0.05 and abs(max(py) - max(wy)) < 0.05, \
             f"{name}: the roof is offset from the walls in y"
+
+
+def test_a_mass_this_layer_cannot_roof_is_named_and_not_silently_left_bare(scenes):
+    """THE OTHER HALF OF THE TEST ABOVE, AND THE REASON SCOPING IT WAS NOT A LOOSENING.
+
+    `roof.py` derives ONE roof from `section.footprint`, the main block's rectangle. `_walls`
+    reads each wall's own `element` and `_slabs` takes `export_ifc.slab_boxes`, which is per
+    element per storey — so on `tidewater-georgian-careful`, tagged since WP-11.16, the west
+    dependency and the hyphen are drawn with their walls and their floors and nothing above
+    them. The model shows two masses open to the sky and, until this, said nothing at all
+    about it: a reader would have read the picture as the building rather than as the part of
+    it this layer can construct, which is the fake-pass shape one dimension up.
+
+    It is a DISCLOSURE and not a fix. A per-element roof needs a stated ridge relation between
+    two masses and no record in this corpus carries one — the half of
+    `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` WP-11.6 left open.
+
+    The assertion is a CENSUS in both directions, so it cannot go quiet: every element the
+    record states and the roof does not cover must be named, and an element the roof DOES
+    cover must not be. Fifteen of the sixteen shipped plans carry no `footprint.blocks` at all
+    and take no entry, so a seventeenth tagged plan arrives here rather than passing silently.
+    """
+    for name, (scene, _s) in scenes.items():
+        roofed = {s.get("element") or "main"
+                  for s in scene["solids"] if s["class"] == "roof-plane"}
+        stated = {(b.get("id") or "main"): (b.get("role") or "main")
+                  for b in (scene.get("elements") or [])}
+        said = [n for n in scene["not_modelled"] if n.get("source") == "footprint.blocks"]
+        named = {n["what"].rsplit("element ", 1)[-1].strip("'\"") for n in said}
+        for bid, role in stated.items():
+            if role == "main" or bid in roofed:
+                assert bid not in named, \
+                    f"{name}: {bid!r} is roofed and is named as unroofed"
+                continue
+            assert bid in named, (
+                f"{name}: the record states a {role} element {bid!r}, the roof does not reach "
+                f"it, and nothing in not_modelled says so — it is drawn open to the sky")
+        for n in said:
+            assert "oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it" \
+                in n["why"], f"{name}: the refusal does not name the question it belongs to"
 
 
 def test_a_roof_plane_slopes_and_is_not_a_box(scenes):
@@ -229,6 +285,12 @@ def test_a_gable_occupies_its_own_wall(scenes):
     The interval is read from both sides now — the gable's `[at, at + thickness]` against the
     wall's own box on the same axis — so a shift in either direction fails. The tolerance is the
     `section.footprint` rounding residue and nothing more.
+
+    AND THE WALL IS THE GABLE'S OWN ELEMENT'S (16 Sep 2026). `mine` was every wall carrying
+    this face, and on the tagged Tidewater plan the E face is carried by the main block AND by
+    the hyphen, whose east wall stands at x = -7.0 — so the sweep read the gable's own wall as
+    [-7.0, 46.292] and convicted a gable sitting correctly in [44.997, 46.292]. A gable belongs
+    to one mass; the wall it stands on is that mass's.
     """
     for name, (scene, _s) in scenes.items():
         walls = [s for s in scene["solids"] if s["class"] == "wall" and s.get("face")]
@@ -237,8 +299,10 @@ def test_a_gable_occupies_its_own_wall(scenes):
             axis = 0 if f in ("E", "W") else 1
             assert geo["plane"] == ("yz" if axis == 0 else "xz"), \
                 f"{name}: gable {f} is not a constant-{'x' if axis == 0 else 'y'} plane"
-            mine = [w for w in walls if w["face"] == f]
-            assert mine, f"{name}: no exterior wall on face {f} for its gable to stand on"
+            el = g.get("element") or "main"
+            mine = [w for w in walls if w["face"] == f and (w.get("element") or "main") == el]
+            assert mine, f"{name}: no exterior wall on face {f} of element {el!r} for its " \
+                         f"gable to stand on"
             lo = min(w["geometry"]["origin"][axis] for w in mine)
             hi = max(w["geometry"]["origin"][axis] + w["geometry"]["size"][axis] for w in mine)
             assert abs(geo["at"] - lo) < 0.05 and \

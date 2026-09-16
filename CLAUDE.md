@@ -754,7 +754,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,313 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,314 tests**
 (plus the workbench app suite, **86** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -795,7 +795,7 @@ all**, and the illustration is now of the unsharded run rather than of the corpu
 one line published 50 and the other 53, and the merged tree runs 50 in the loop and 53 in total
 -- so 50 appears in BOTH published figures meaning two different things, which is the one way
 this number can go wrong and still look plausible to a reader. `TOTAL_CHECKS` caught it.
-**AND AT THE 16 SEP MERGE THE CHECK TOTAL HELD AND THE TEST COUNT DID NOT, WHICH IS THE PAIR BEHAVING AS DESIGNED.** Neither line added a checker since 8 Sep, so `TOTAL_CHECKS` is 53 on both parents and on the merge -- the one case where this number CANNOT go wrong -- while the test count is **2,313** against main's published 2,151 and this branch's 2,160, a THIRD VALUE belonging to neither parent. `check_counts.py` polices neither, so the test figure was re-collected with `pytest --collect-only` at the merge rather than taken from either side.
+**AND AT THE 16 SEP MERGE THE CHECK TOTAL HELD AND THE TEST COUNT DID NOT, WHICH IS THE PAIR BEHAVING AS DESIGNED.** Neither line added a checker since 8 Sep, so `TOTAL_CHECKS` is 53 on both parents and on the merge -- the one case where this number CANNOT go wrong -- while the test count is **2,313** against main's published 2,151 and this branch's 2,160, a THIRD VALUE belonging to neither parent. `check_counts.py` polices neither, so the test figure was re-collected with `pytest --collect-only` at the merge rather than taken from either side. **It is 2,314 above**, because the merge's own three failures needed a census added to `tests/test_scene.py`; 2,313 is left standing here as what the merge itself measured, which is what this paragraph is the record of.
 **Two sessions each added a check and each published 44**, which is the fifth time
 this number has gone wrong at exactly a merge; the guard caught it here too.
 **AND A SIXTH AT THE 7 SEP MERGE, WHICH IS THE WIDEST YET AND WENT WRONG ON BOTH SIDES AT ONCE.**
@@ -1465,6 +1465,44 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **THE SCENE IS THE EIGHTH LAYER TO READ THE MAIN BLOCK AS THE WHOLE BUILDING, AND THE MERGE
+  IS WHAT MADE IT VISIBLE (16 Sep 2026).** `build/scene.py` is element-aware in two of its
+  three limbs and not in the third: `_walls` takes each wall's own `element` and `_slabs`
+  takes `export_ifc.slab_boxes`, which is per element per storey, while `_roof` derives ONE
+  roof from `section.footprint` -- the main block's rectangle. On `tidewater-georgian-careful`,
+  tagged since WP-11.16, that draws the west dependency and the hyphen **with their walls and
+  their floors and nothing above them**, and until this it said nothing at all about it.
+  Measured: walls x[-35.292, 46.292] over three masses against roof planes covering
+  x[-1.292, 46.288]. **Neither line could have found this alone** -- main has the scene and no
+  tagged plan, this branch has the tagged plan and no scene -- which is the merge doing what a
+  merge is for. After WP-11.9's six layers and WP-11.14's drawing, the count is eight.
+- **AND THE TWO GUARDS THAT CAUGHT IT WERE RIGHT ABOUT THE PROPERTY AND WRONG ABOUT THE
+  POPULATION (16 Sep 2026).** `test_the_roof_sits_over_the_house_and_not_beside_it` swept every
+  wall in the record against every roof plane, and `test_a_gable_occupies_its_own_wall` swept
+  every wall carrying a face -- one question on a one-rectangle house and a different one the
+  moment a plan carries a dependency. The gable convicted was sitting correctly in
+  [44.997, 46.292] and was read against [-7.0, 46.292], because the HYPHEN also has an east
+  wall. Both are scoped to the solid's own element now, and **scoping is not loosening only
+  because the 34 ft is asserted somewhere else**: the unroofed masses are named in
+  `not_modelled` and a new census reads both directions -- every element the record states and
+  the roof does not reach must be named, and one it DOES reach must not be. `not_modelled`
+  9 -> 11 on that plan, the spec Colonial untouched at 10, and **the solids digest is
+  byte-identical on both** (`2f40a56c1d0025ad`, `2c7dd031f1aae0b5`): a disclosure was added and
+  nothing drawn moved. Six mutations, every one red, including the original roof-origin defect
+  re-injected to prove the scoped guard still catches what it was written for.
+  **It is a DISCLOSURE and not a fix** -- a per-element roof needs a stated ridge relation
+  between two masses that no record here carries, which is the half of
+  `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` WP-11.6 left open.
+- **AND THE THIRD MERGE FAILURE WAS A COUNT OVER TWO HOUSES THAT COULD NOT SAY WHICH ONE MOVED
+  (16 Sep 2026).** `test_the_rectangle_is_the_records_own_numbers` ended `assert seen == 72`
+  and read 64. Re-derived per plan against a `git worktree` of each parent: **the whole 8 is
+  the Tidewater plan, 40 -> 32, and the spec Colonial is unmoved at 32.** Tagging that plan's
+  service programme into a west dependency takes the main block from 63 ft and 7 bays to 45 ft
+  and 5 bays, and 2 bays x 2 storeys x 2 long faces is exactly 8 (S and N each 14 -> 10, the
+  gable ends unmoved at 6). Nothing about the rectangle arithmetic those assertions test
+  changed; the house did. **The pin is per plan now**, because a total is the shape that lets a
+  second plan move while a first moves back, and this file's own rule about a corpus digest
+  being one number over sixteen houses is the same rule one order of magnitude down.
 - **A CHECKER ACCUSED AN INNOCENT LINE, AND IT WAS JUDGING AN ARTEFACT TWO DAYS OLDER THAN THE
   CODE (WP-13.2).** WP-13.1's own verification run came back **1 of 53 checks failed** with
   `check_frontend.py` printing *"three.js is not a separate chunk -- `round/three-scene.js` has
