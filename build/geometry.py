@@ -2829,11 +2829,14 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         # the moment it was chosen. The stacking LEAF's `broken` is a different
         # measurement: it walks the PLACED RECORD after the post-solve passes have run,
         # and `check_stacking.py` enforces `claims == kept + broken + unjudged` on it.
-        # They can disagree, and on the Tidewater plan with the rule on they DO -- a
-        # strict candidate satisfying all 5 claims is selected and the record it becomes
-        # has 4 drawn clear. Main could not see that (it does not run the leaf) and this
-        # branch could not (it has no strict candidate); the merge is what makes the two
-        # numbers comparable, which is the whole argument for keeping both.
+        # They CAN disagree, because the post-solve passes move rectangles after the
+        # candidate is chosen, and under the intersection-era rule they did on the
+        # Tidewater plan (a strict candidate chosen, the record it became drawn clear on
+        # most of its claims). Both readers spell `stacking.lands` now (WP-13.2), and
+        # RE-MEASURED under it (WP-13.3, `engine="heuristic"`, rule on): the Tidewater
+        # plan has NO strict candidate at 250 -- the winner breaks 5 of 5 at selection and
+        # the leaf reads 5 of 5 broken on the record; the spec Colonial 2 and 2. Agreeing
+        # today is not the same quantity, which is the whole argument for keeping both.
         _stacking["broken_at_selection"] = best["_breaks"]
 
     # --- write coordinates back into the plan (write_record does it, below)
@@ -3310,6 +3313,31 @@ MAX_CACHEABLE_BYTES = 1024 * 1024
 # collapse them again should read `docs/reports/infrastructure-audit.md` first.
 BUDGET_BATCH_S = 40.0
 BUDGET_INTERACTIVE_S = 25.0
+
+# THE ALLOCATION INSIDE A BUDGET (WP-13.3), because one number was serving three phases and the
+# last of them never ran. Measured on `plans/tidewater-georgian-careful.json` at the shipped
+# 40 s before this package (`a9f7f77`, two runs): the hard-only phase A took the scout and the
+# whole remaining budget it is allowed to spend on an UNKNOWN (about 20 s), the reinstatement
+# pass then ran 21 and 25 restore attempts at up to 2 s each until 2.5 s remained, and the
+# compositional polish got the 1.5 s floor and came back `B:UNKNOWN` -- so the sheet the bench
+# draws was a placement to which not one soft term applied, under a status reading
+# `OPTIMAL (hard-only)`, and at the bench's 25 s phase B never started at all
+# (`docs/reports/wp-13.1-the-gate.md`). "Best of N" then ranked the objective-free phase A
+# placement against any polish by `GEO._score`, the search's own post-hoc demerit total.
+#
+# The shares below are of `time_limit_s`, read by `geometry_cp.solve_cp` and nowhere else:
+# the feasibility rounds (phase A, the ladder and the bay growth) may spend at most the first;
+# the reinstatement pass at most the second, and never into the polish's; the polish is
+# GUARANTEED the third and takes whatever the first two left besides. They sum to one. A phase A
+# still UNKNOWN at its share is UNSOLVED -- `auto` falls back to the search and says so --
+# rather than eating the composition's time, because a placement whose objective never ran is
+# the thing the gate's title-block row exists to refuse.
+#
+# THE SHARES WERE CHOSEN BY MEASUREMENT, not by round numbers: see `geometry_cp.solve_cp`'s
+# own comment for the sweep, and the WP-13.3 report for the ladder over 40 / 60 / 75 / 90 s.
+BUDGET_SHARE_FEASIBILITY = 0.45
+BUDGET_SHARE_REINSTATE = 0.15
+BUDGET_SHARE_POLISH = 0.40
 
 
 def solve(plan, parti=None, candidates=250, seed=7, engine="auto",

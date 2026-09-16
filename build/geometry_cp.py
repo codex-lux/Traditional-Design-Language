@@ -6,10 +6,26 @@ strongly-weighted preferences, this engine states the record's own declared
 facts as HARD constraints and proves them satisfiable or names the conflict
 (the 25 Aug rulings):
 
-  HARD — no-overlap, containment, near-total coverage of the footprint;
-  declared doors imply touching rooms; a threshold room with an exterior door
-  is the entry and must reach the entrance front; each room at roughly its
-  program size; each room's declared exterior walls.
+  HARD, NEVER DOWNGRADED (the 25 Aug rulings: these are what infeasibility is
+  FOR) — no-overlap; containment in the room's own massing element; the
+  coverage floor `COVERAGE`; declared doors imply touching rooms; a threshold
+  room with an exterior door is the entry and must reach the entrance front;
+  each room at roughly its program size; nothing over a void open to the sky
+  (OQ 55).
+
+  HARD AND DOWNGRADABLE, in the precedence `_RANK` states (lowest authority
+  released first; every downgrade named on the record) — each room's declared
+  exterior walls; the spanning passage on the block's through-axis (WP-11.7);
+  and, since WP-13.3, the type's own facts, ruled HARD by Lucas on 15 Sep 2026:
+  TILING (every element tiles exactly, `TILING`), DECLARED STACKS (a
+  `stacks_over` claim holds by containment, the smaller declared room inside
+  the larger -- `stacking.lands`' own relation), BEARING (an interior wall on
+  the bay grid is bearing only where both storeys have a wall on it, and no
+  run between bearing lines exceeds the framing tradition's capacity --
+  `structure.bearing_lines` and `span_check` as a fact rather than a charge),
+  the HEARTH on its flue (a stated fire's wall on the block face the massing
+  puts a flue on -- `hearths.flue_walls`); and the room record's own
+  proportion band (`GEO.shape_band`), released last.
 
   Wall pins carry two stated refinements, both from the same cause —
   `exterior_walls` speaks EXPOSURE in the fully-massed house (porches, ells,
@@ -21,15 +37,25 @@ facts as HARD constraints and proves them satisfiable or names the conflict
     * any other wall pin stays fully hard UNLESS the solver PROVES a set of
       pins cannot co-hold with the remaining facts — exactly those proven
       pins are downgraded the same way, and every downgrade is stated in the
-      result. Doors, program sizes, the entrance and capacity NEVER
-      downgrade: they are what infeasibility is for.
-  A circulation room declaring an opposite pair is the centre passage and
-  spans — its two pins ARE the spanning rule.
+      result.
 
   SOFT (weighted, mirrored from WP-2.2's scoring) — bay snapping (relaxations
   stay counted, never forbidden), the entrance hall on the front, principal/
   service zoning, ceremonial depth, wet-over-wet stacking, a centre passage
-  near the centre.
+  near the centre, the area error and the aspect against the room's own band,
+  the width floor; and, for every downgradable fact the ladder RELEASED, the
+  charge the search pays for the same thing -- 14 points for a wall or a
+  hearth wall, `GEO.STACK_W` for a stack, `GEO.SPAN_W` for a span -- so a
+  released fact is scored rather than forgotten. A HELD fact needs no charge.
+
+  WHAT A FACT'S THREE STATES MEAN HERE: held (its literal was asserted and the
+  placement proved under it), downgraded (the ladder released it and the
+  reinstatement pass could not win it back, named on the record with proven /
+  carried), unjudged (the model could not STATE it -- a stack whose target is
+  not on the level below, a hearth on a wall the massing puts no flue on, a
+  framing catalogue that could not be read -- named on the record with its
+  reason). Unjudged is never held. `build/typefacts.py` verifies all four on
+  the placed record afterwards, for either engine.
 
 Solving is two-phase per footprint: a hard-constraints-only pass finds (or
 refutes) a placement fast; the full weighted objective then polishes it with
@@ -61,6 +87,7 @@ def _mod(n, p):
     return _mc.load(n, p)
 
 GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
+STK = _mod("stacking", f"{ROOT}/build/stacking.py")   # LANDS_FRACTION, read not written
 C = GEO.C
 
 U = 1                     # 1-ft integer grid (coarse on purpose: domains half the size)
@@ -97,15 +124,79 @@ def _door_overlap(d, v1, v2):
     room_cap = min(v1["maxside"], v2["maxside"])
     return max(2, min(int(math.ceil(need * U)), int(math.floor(room_cap * U))))
 SCALE = 10                # objective weights are WP-2.2's, x10 into integers
-COVERAGE = 0.97           # hard floor; the absorb pass grows rooms into the rest
+
+# PHASE A'S TACTICAL CAPS (WP-13.3). The BUDGET SHARES are `geometry.BUDGET_SHARE_*`, beside the
+# budgets they divide; these three are how a share is spent inside one pass and are named here
+# because they were literals in three places. A feasibility round SCOUTS at up to SCOUT_S
+# before it is called undecided; the reinstatement pass offers a whole kind back at up to
+# RESTORE_KIND_S and a single pin at up to RESTORE_PIN_S, each against the placement just
+# found as the solver's hint (a warm start is what makes 2 s a real attempt), and never
+# below RESTORE_MIN_S: a slice thinner than that is skipped rather than spent, because a
+# quarter-second solve that comes back UNKNOWN is a pin marked carried for no information.
+SCOUT_S = 6.0
+RESTORE_KIND_S = 4.0
+RESTORE_PIN_S = 2.0
+RESTORE_MIN_S = 0.5
+COVERAGE = 0.97           # the CAPACITY floor -- never downgraded (the 25 Aug rulings)
+
+# THE TILING FACT (WP-13.3), stated as a downgradable literal ABOVE the capacity floor. The type
+# says the rooms of a level tile the block they stand in; `COVERAGE` is the floor infeasibility
+# is measured against and is never released, and this is the exact fact the ladder may release
+# by name. MEASURED FIRST, on the unchanged model with the heuristic hint, on
+# `plans/tidewater-georgian-careful.json` at the 40 s batch budget, twice at each floor:
+#
+#     floor 1.0    OPTIMAL (hard-only) twice, one placement digest both times (3af8998e61dc809d)
+#     floor 0.995  UNKNOWN at the budget, twice -- no placement at all
+#     floor 0.99   OPTIMAL (hard-only) twice, one digest (929bf7c523e21b27)
+#     floor 0.97   OPTIMAL (hard-only) twice, TWO digests (fa8d8c8c / 35572bbb) -- the shipped
+#                  floor, whose residue is what the gate read as 26.5 and 48.8 sf of no room
+#
+# So exact tiling PROVES from the hint that tiles exactly -- `docs/reports/wp-2.3-the-real-
+# solver.md` recorded the exact-tiling formulation as undecidable in 240 s WITHOUT one -- and
+# the middle floor is the one that does not, which is WP-7.4's "worse in the middle of its range
+# than at either end" met in a floor rather than a weight. The tightest floor that proves is
+# shipped; `typefacts.tiling` verifies the residue afterwards and any residue over its
+# `TILING_TOL_SF` is the fact DOWNGRADED on the record, never a silence. At 1.0 the post-solve
+# `_absorb` pass has nothing to grow into on a level that held the fact, and the record says so.
+TILING = 1.0
+
+# THE PROPORTION CEILING IS STATED TO THE HUNDREDTH, AND THE TENTH IS THE PRE-EXISTING RED ON
+# MAIN (WP-13.3, item 4 of the brief). The band was transcribed as `int(round(_ceil * 10))`, and
+# Python rounds 13.5 to 14: a bedroom's own 1.35 ceiling reached the model as 1.4, so
+# `chamber3` was drawn 21 x 15 -- exactly 1.40 to 1 -- with its shape pin HELD and
+# `tests/test_shape_pins.py::test_no_room_is_drawn_outside_its_own_band_when_the_pins_hold` red
+# on every solve that landed there. `_absorb` was the obvious suspect and its `_fits` refuses
+# 21 x 15 at 1.35 (limit 20.26); the grower was the model's own rounding. Every room band in
+# `rooms/` is stated to two decimals, so a hundredth loses nothing the record states.
+RATIO_SCALE = 100
+
+
+def _ceil_scaled(ceil, scale=RATIO_SCALE):
+    """`(scale, round(ceil * scale))` -- the integer pair a band is stated with, in ONE place.
+    The hard pin takes `RATIO_SCALE`; the soft aspect charge keeps the tenth its weight was
+    tuned to, and says so where it calls this."""
+    return scale, int(round(float(ceil) * scale))
 
 # WP-11.7. The downgrade ladder, LOWEST AUTHORITY FIRST. On INFEASIBLE the round loop takes the
-# first kind in this list that appears in the conflict core and downgrades exactly those pins,
-# so a round always gives up the least authoritative fact it can.
+# first kind in this list that appears in the conflict core and releases every live pin of that
+# kind (whole-rank, WP-11.7's measurement; core-guided, WP-13.3's), so a round always gives up
+# the least authoritative fact it can and never one the core does not name.
 #
-#   wall   the record's `exterior_walls`  — released first
-#   axis   the parti's own through-axis, read onto this plan
-#   shape  the room record's own `dimensions.proportion` band — released last
+#   wall     the record's `exterior_walls`  — released first
+#   axis     the parti's own through-axis, read onto this plan
+#   tiling   every element tiles exactly (`TILING`)                        \
+#   stack    a declared `stacks_over` holds by containment                  | WP-13.3, the
+#   bearing  bearing continuity on the bay grid, and the span capacity      | ruled sequence
+#   hearth   a stated fire's wall on the block face the massing flues       /
+#   shape    the room record's own `dimensions.proportion` band — released last
+#
+# THE FOUR IN THE MIDDLE ARE LUCAS'S RULING OF 15 SEP 2026 (Phase 13): the type's facts become
+# hard on the prover "as downgradable constraints in a stated precedence -- authored walls >
+# tiling > declared stacks > bearing continuity on the bay grid > hearth on its flue -- each
+# downgrade named in the conflict set", and the 5 Sep ruling that the wall releases FIRST and
+# the shape band LAST stands at both ends. The hearth ranks ABOVE the wall on purpose: a fire's
+# wall is also usually one of the room's declared exterior walls, and a bare `exterior_walls`
+# aspiration gives way before a wall a flue has to stand on.
 #
 # THE ORDER PUTS THE WALL FIRST, AND THAT IS A RULING RATHER THAN AN INTUITION (5 Sep 2026).
 # The obvious ranking is the opposite one -- an `exterior_walls` entry is authored on THIS
@@ -134,7 +225,37 @@ COVERAGE = 0.97           # hard floor; the absorb pass grows rooms into the res
 # A kind NOT in this list never downgrades: sizes, doors, the entrance and capacity are what
 # infeasibility is FOR (the 25 Aug rulings). Adding a kind here is a decision about authority
 # and belongs in a report, not in a diff.
-_RANK = ("wall", "axis", "shape")
+_RANK = ("wall", "axis", "tiling", "stack", "bearing", "hearth", "shape")
+
+# The kinds WP-13.3 added, in `_RANK`'s own order -- the four the record's `facts` block and
+# `build/typefacts.py` account for as held / downgraded / unjudged.
+TYPE_FACTS = ("tiling", "stack", "bearing", "hearth")
+
+
+def _dk(kind, key):
+    """A downgrade key CARRIES ITS KIND. `downgraded` used to hold bare keys and every reader
+    told them apart by ARITY -- `(level, room, wall)` was a wall and `(level, room)` a shape --
+    which was wrong before this package added five kinds: the axis pin and the shape pin share
+    `(level, room)`, so releasing the passage's axis read as releasing its proportion band in
+    `_build`, in the reinstatement labels and in `downgraded_shape_pins`. Typed, a key is
+    `(kind, *key)` and is read by its first element everywhere."""
+    return (kind,) + tuple(key)
+
+
+def _label(kind, key):
+    """The record's spelling of one downgradable fact. A wall keeps `L{level} {room} {wall}`
+    (`hard_fact_violations` and `tests/test_solver.py` parse it); the others say what they are."""
+    if kind == "wall":
+        return f"L{key[0]} {key[1]} {key[2]}"
+    if kind in ("shape", "axis", "stack"):
+        return f"L{key[0]} {key[1]}"
+    if kind == "tiling":
+        return f"L{key[0]} element {key[1]}"
+    if kind == "bearing":
+        return f"element {key[0]} {key[1]}"
+    if kind == "hearth":
+        return f"L{key[0]} {key[1]} {key[2]}"
+    return " ".join(str(k) for k in key)
 
 
 def _cls(rtype):
@@ -181,18 +302,29 @@ def _contested_corners(rs):
 
 
 class _Reqs:
-    """Assumption literals: plain-language sentence, kind, and (for wall pins)
-    a structured key so a proven-impossible pin can be downgraded by name."""
+    """Assumption literals: plain-language sentence, kind, and (for every downgradable kind)
+    a structured key so a proven-impossible pin can be downgraded by name.
+
+    `unjudged` (WP-13.3) is the third state: a fact the model could NOT STATE -- a stack whose
+    target is not on the level below, a fire on a wall the massing puts no flue on, a framing
+    catalogue it could not read -- recorded as `(kind, key, reason)` so the record can say so
+    beside the held and the downgraded. Unjudged is never held."""
 
     def __init__(self, model):
         self.model = model
         self.lits = []      # (BoolVar, text, kind, key)
         self.notes = []     # stated model refinements (contested corners, downgrades)
+        self.unjudged = []  # (kind, key-or-None, reason)
 
     def lit(self, text, kind="other", key=None):
         b = self.model.NewBoolVar(f"req{len(self.lits)}")
         self.lits.append((b, text, kind, key))
         return b
+
+    def refuse(self, kind, key, reason):
+        self.unjudged.append((kind, key, reason))
+        self.notes.append(f"{kind} {(_label(kind, key) + ': ') if key else ''}COULD NOT BE "
+                          f"STATED -- {reason}")
 
 
 def _w(weight):
@@ -205,6 +337,52 @@ def _w(weight):
     corpus exists to prevent."""
     v = int(round(float(weight) * SCALE))
     return v if v or not weight else (1 if weight > 0 else -1)
+
+
+def _lands_literal(m, a, b, frame):
+    """`lands -> stacking.lands(a, b)`: the smaller of the two DRAWN rectangles lies at least
+    `stacking.LANDS_FRACTION` of its own area inside the larger, with a strictly positive
+    overlap on both axes.
+
+    TRANSCRIBED FROM `build/stacking.py::lands` -- the one spelling `judge` reads for the
+    record and `geometry.declared_stack_breaks` reads for the search -- with the fraction READ
+    off it rather than written here; `tests/test_type_facts_hard.py` holds the transcription to
+    the original by judging a placement proved under the literal with `stacking.judge`, and by
+    driving the literal on a pair the rule refuses. The overlap on each axis is clamped at zero
+    before the product, because two disjoint rectangles have a NEGATIVE extent on that axis and
+    the product of two negatives would read as a landed stack. One product per claim (the
+    overlap's); the two areas are the rooms' own `a` variables.
+
+    `frame` is the building's own (gx0, gy0, gx1, gy1) and every domain here is derived from
+    it -- the edges of the overlap lie inside the frame the rooms' own `x`/`y` are bounded by,
+    its extent inside the frame's width and depth, and the areas inside `gW * gH`, which is the
+    domain each room's `a` already carries. The first draft gave them `[-_EXT, _EXT]`, the
+    widened domain `_wide` reserves for a multi-element plan, and
+    `tests/test_element_awareness.py::test_no_shipped_plan_gets_a_WIDENED_domain` refused it on
+    every shipped plan: a domain is an input to presolve, not a comment."""
+    gx0, gy0, gx1, gy1 = (int(c) for c in frame)
+    gW, gH = gx1 - gx0, gy1 - gy0
+    lo_x, hi_x = m.NewIntVar(gx0, gx1, ""), m.NewIntVar(gx0, gx1, "")
+    m.AddMaxEquality(lo_x, [a["x"], b["x"]])
+    m.AddMinEquality(hi_x, [a["x"] + a["w"], b["x"] + b["w"]])
+    lo_y, hi_y = m.NewIntVar(gy0, gy1, ""), m.NewIntVar(gy0, gy1, "")
+    m.AddMaxEquality(lo_y, [a["y"], b["y"]])
+    m.AddMinEquality(hi_y, [a["y"] + a["h"], b["y"] + b["h"]])
+    ix, iy = m.NewIntVar(0, gW, ""), m.NewIntVar(0, gH, "")
+    m.AddMaxEquality(ix, [hi_x - lo_x, 0])
+    m.AddMaxEquality(iy, [hi_y - lo_y, 0])
+    shared = m.NewIntVar(0, gW * gH, "")
+    m.AddMultiplicationEquality(shared, [ix, iy])
+    # each room's area is already a variable of the model (`a`, the size literal's own), so
+    # the only new product is the overlap's
+    smaller = m.NewIntVar(0, gW * gH, "")
+    m.AddMinEquality(smaller, [a["a"], b["a"]])
+    lands = m.NewBoolVar("")
+    scale, frac = _ceil_scaled(STK.LANDS_FRACTION)
+    m.Add(scale * shared >= frac * smaller).OnlyEnforceIf(lands)
+    m.Add(ix >= 1).OnlyEnforceIf(lands)
+    m.Add(iy >= 1).OnlyEnforceIf(lands)
+    return lands
 
 
 def _span_capacity(plan):
@@ -409,6 +587,16 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
     rooms = {}      # (level, id) -> dict of vars
     penalties = []  # (bool_or_int_expr, weight_x10)
 
+    # WHICH BLOCK FACES THE MASSING PUTS A FLUE ON, read ONCE through `hearths.flue_walls` --
+    # the one spelling, with its three refusal reasons -- and only where some room states a fire,
+    # so a plan with none loads nothing it does not need.
+    _flue_walls, _flue_why = None, None
+    if any(r.get("hearth") for lv in (0, 1) for r in (prep.get(lv) or [])):
+        HE = _mod("hearths", f"{ROOT}/build/hearths.py")
+        _massing = (C.get("massings") or {}).get(plan.get("massing") or "") or {}
+        _flue_rule, _flue_why = HE.flue_walls(plan, _massing)
+        _flue_walls = tuple(_flue_rule["walls"]) if _flue_rule else None
+
     for lvl in (0, 1):
         rs = prep.get(lvl) or []
         if not rs:
@@ -490,7 +678,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             # has always said an `exterior_walls` entry is worth.
             _ceil, _src = GEO.shape_band(r.get("type"))
             _nm = r.get('name') or r['id']
-            if _ceil and (lvl, r["id"]) in downgraded:
+            if _ceil and _dk("shape", (lvl, r["id"])) in downgraded:
                 # proven unable to co-hold with the rest: stated, and scored rather than
                 # forced, the same shape a downgraded wall pin takes six hundred lines down
                 reqs.notes.append(
@@ -513,7 +701,12 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 # CP-SAT's max/min propagators are stronger here than two reified linear
                 # constraints, by a factor of about 1.7. The pair is built unconditionally
                 # above and the soft aspect term shares it, so it costs nothing to reuse.
-                m.Add(10 * mxs <= int(round(_ceil * 10)) * mns).OnlyEnforceIf(_sh)
+                #
+                # TO THE HUNDREDTH (WP-13.3): `int(round(_ceil * 10))` turned a bedroom's 1.35
+                # into 14, so a 21 x 15 room at exactly 1.40 satisfied the pin -- the
+                # pre-existing red in `tests/test_shape_pins.py`. See `RATIO_SCALE`.
+                _sc, _c = _ceil_scaled(_ceil)
+                m.Add(_sc * mxs <= _c * mns).OnlyEnforceIf(_sh)
             else:
                 # The FLOOR is deliberately not stated: every room record's proportion floor is
                 # 1.0 since the 3 Sep ruling, and `mxs >= mns` holds by construction, so a floor
@@ -543,7 +736,11 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 # is the one spelling. The corpus has been bitten by a rule written twice at
                 # least four times; this is not a fifth.
                 _ceil, _src = GEO.shape_band(r.get("type"))
-                m.Add(ov10 >= 10 * mx - int(round(_ceil * 10)) * mn)
+                # The CHARGE keeps the tenth: its weight is 6 per tenth of a ratio point over
+                # the ceiling, mirroring `level_score`, and it only bites where the hard pin
+                # above was released. The PIN is stated to the hundredth (`RATIO_SCALE`).
+                _sc10, _c10 = _ceil_scaled(_ceil, 10)
+                m.Add(ov10 >= _sc10 * mx - _c10 * mn)
                 penalties.append((ov10, 6))
                 # The width floor the room's own record states, mirrored from level_score's
                 # `(floor - short) * WIDTH_W`. A soft penalty and never a bound: a hard floor
@@ -631,6 +828,47 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                               if boxes[(lvl, r["id"])] == _bx)
                 m.Add(_area_b >= int(COVERAGE * (_bx[2] - _bx[0]) * (_bx[3] - _bx[1])))
 
+        # ---- TILING, THE FIRST OF THE TYPE'S FACTS (WP-13.3), stated ABOVE the capacity floor
+        #
+        # The floor above is what infeasibility is measured against and never moves. This is
+        # the fact the type states -- the rooms of a level tile the element they stand in --
+        # as one literal per (level, element), kind "tiling", released by the ladder only after
+        # the walls and the axis and named when it is. With no-overlap and containment already
+        # hard, `sum(areas) >= TILING * box` at 1.0 is an exact tiling. On an upper level over
+        # an open court the court's own area comes off the target, as the floor's does: the
+        # storey must tile everything that is not the hole (OQ 55). `_absorb` then has nothing
+        # to grow into on a level that held this, which is the point -- the residue the gate
+        # read as a powder room open to the drawing room was the floor's 3%.
+        _t100 = int(round(TILING * 100))
+        _groups = []
+        if els.get(lvl):
+            for _ei, _e in enumerate(els[lvl]):
+                _ids = [rid for rid in (_e.get("rooms") or []) if (lvl, rid) in rooms]
+                if _ids:
+                    _groups.append((_ei, _e.get("id") or _e.get("role") or str(_ei),
+                                    ebox[(lvl, _ids[0])], _ids))
+        else:
+            _groups.append((0, "main", (0, 0, Wi, Hi), [r["id"] for r in rs]))
+        for _ei, _eid, (_gx, _gy, _gW, _gH), _ids in _groups:
+            _got = sum(rooms[(lvl, rid)]["a"] for rid in _ids)
+            _key = (lvl, _ei)
+            if _dk("tiling", _key) in downgraded:
+                reqs.notes.append(
+                    f"level {lvl}, element {_ei} ({_eid}): the rooms could not tile it exactly "
+                    f"together with the other declared facts — the tiling fact is downgraded, "
+                    f"the capacity floor of {COVERAGE:.0%} still holds, and the residue is "
+                    f"named on the record as floor inside no room")
+                continue
+            _tl = reqs.lit(f"the rooms of level {lvl} tile massing element {_ei} ({_eid}) "
+                           f"exactly — no floor is no room (the type's own fact, WP-13.3)",
+                           kind="tiling", key=_key)
+            if voids_below and _eid == "main":
+                _void_area = sum(rooms[(0, v["id"])]["a"] for v in voids_below
+                                 if (0, v["id"]) in rooms)
+                m.Add(100 * _got + _t100 * _void_area >= _t100 * _gW * _gH).OnlyEnforceIf(_tl)
+            else:
+                m.Add(100 * _got >= _t100 * _gW * _gH).OnlyEnforceIf(_tl)
+
         # ---- declared exterior walls
         contested = _contested_corners(rs)
         for r in rs:
@@ -667,13 +905,13 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             else:
                 for wl in diag_ok:
                     key = (lvl, r["id"], wl)
-                    if key in downgraded:
+                    if _dk("wall", key) in downgraded:
                         # downgraded pins carry their proof status honestly:
                         # "proven" only after the reinstatement pass tested THIS
                         # pin alone at THIS footprint; a pin the budget never
                         # re-proved says it was carried, never that it was proven
-                        how = ("carried from the conflict core — not individually "
-                               "re-proven in budget" if key in unproven else
+                        how = ("carried — off a conflict core or an undecided round, not individually "
+                               "re-proven in budget" if _dk("wall", key) in unproven else
                                "proven — restored alone, no placement exists")
                         reqs.notes.append(
                             f"{r.get('name') or r['id']}'s declared {wl} wall could not "
@@ -755,7 +993,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             else:
                 continue
             key = (lvl, r["id"])
-            if key in downgraded:
+            if _dk("axis", key) in downgraded:
                 reqs.notes.append(
                     f"{r.get('name') or r['id']}'s through-axis could not co-hold with the "
                     f"other declared facts — downgraded, so it may be drawn across the house "
@@ -787,6 +1025,70 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             # term has scored it since WP-2.2. Do not reinstate the equality without first
             # re-running this measurement; a symmetric passage needs the footprint to gain the
             # slack that question is about, not a harder constraint.
+
+        # ---- THE HEARTH ON ITS FLUE (WP-13.3), kind "hearth", ranked ABOVE the wall pins
+        #
+        # A room stating a fire on wall X, where X is a face the massing puts a flue on
+        # (`hearths.flue_walls`, the one spelling), has its X edge pinned to its element's X
+        # face -- the same equality a declared exterior wall takes, under its own literal, so
+        # that when the ladder releases the room's `exterior_walls` (first, by ruling) the wall
+        # the flue stands on stays held. On the reference plan the prover had released the
+        # dining and drawing rooms' declared W walls and `hearths.breast` then drew their fires
+        # 19 and 25 ft inboard of the west face, against a partition, with no exterior wall to
+        # carry a flue (WP-13.1's gate, WP-13.2's refusal). Where the massing cannot be read,
+        # or X is not a flue wall, the fact is UNJUDGED by name and nothing is pinned -- an
+        # interior stack is not modelled and is not invented in its place.
+        #
+        # THE SHARED FLUE IS NOT THIS PIN'S QUESTION. Two rooms on one flue each pin their own
+        # wall; where their breasts then stand 13 ft apart along it, one shaft cannot stand
+        # behind both, and that is `oq/a-shared-flue-cannot-stand-behind-two-centred-breasts`,
+        # open for a ruling. Nothing here moves a breast or splits a flue.
+        _seen_fires = set()
+        for r in rs:
+            fires = r.get("hearth") or []
+            if not fires or (lvl, r["id"]) not in rooms:
+                continue
+            v = rooms[(lvl, r["id"])]
+            _ex, _ey, _eW, _eH = ebox.get((lvl, r["id"]), (0, 0, Wi, Hi))
+            _fpins = {"S": v["y"] == _ey, "N": v["y"] + v["h"] == _ey + _eH,
+                      "W": v["x"] == _ex, "E": v["x"] + v["w"] == _ex + _eW}
+            _nm = r.get("name") or r["id"]
+            for h in fires:
+                wl = (h.get("wall") or "").upper()
+                key = (lvl, r["id"], wl)
+                if key in _seen_fires:
+                    continue            # two fires on one wall of one room share one pin
+                _seen_fires.add(key)
+                if _flue_walls is None:
+                    reqs.refuse("hearth", key,
+                                f"{_nm}'s fire names its {wl or 'unnamed'} wall and {_flue_why}")
+                    continue
+                if wl not in _fpins or wl not in _flue_walls:
+                    reqs.refuse("hearth", key,
+                                f"{_nm}'s fire names its {wl or 'unnamed'} wall and the massing "
+                                f"puts its flues on {'/'.join(_flue_walls) or 'no exterior wall'}; "
+                                f"a fire on a wall no flue stands on is not this model's fact "
+                                f"(plan_check's hearth layer reports it as off the stack wall)")
+                    continue
+                if _dk("hearth", key) in downgraded:
+                    how = ("carried — off a conflict core or an undecided round, not individually re-proven in "
+                           "budget" if _dk("hearth", key) in unproven else
+                           "proven — restored alone, no placement exists")
+                    reqs.notes.append(
+                        f"{_nm}'s fire on its {wl} wall could not stand on the element's {wl} "
+                        f"face together with the other declared facts ({how}) — downgraded, "
+                        f"scored at the wall's own 14 points, and the drawn layer will refuse "
+                        f"the breast rather than draw a fire with no flue")
+                    if objective:
+                        b = m.NewBoolVar("")
+                        m.Add(_fpins[wl]).OnlyEnforceIf(b)
+                        penalties.append((b.Not(), 14 * SCALE))
+                    continue
+                lit = reqs.lit(f"{_nm}'s fire stands on its {wl} wall, a face the massing puts "
+                               f"a flue on — the room's {wl} edge is the element's {wl} face "
+                               f"(the hearth on its flue, WP-13.3)",
+                               kind="hearth", key=key)
+                m.Add(_fpins[wl]).OnlyEnforceIf(lit)
 
         # ---- doors: declared topology must be geometrically real
         idx = idx0
@@ -904,6 +1206,78 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                         off = m.NewBoolVar("")
                         m.Add(d <= tolU).OnlyEnforceIf(off.Not())
                         penalties.append((off, 15))     # 1.5 per relaxation, x10
+
+    # ---- DECLARED STACKS, HARD BY CONTAINMENT (WP-13.3), kind "stack"
+    #
+    # A `stacks_over` claim is the record saying this room stands OVER that one, and it is
+    # judged by `stacking.lands`: the smaller of the two rectangles at least `LANDS_FRACTION`
+    # (90%) of its own area inside the larger. The model states THAT relation, transcribed in
+    # `_lands_literal` with the fraction read off `stacking.py`, so a placement proved under the
+    # literal lands by construction and `tests/test_type_facts_hard.py` holds the two together
+    # by running `stacking.judge` over the proved record.
+    #
+    # THE LINEAR PROXY WAS TRIED FIRST AND MEASURED OUT. The first draft stated "the room with
+    # the smaller DECLARED area lies entirely inside the other" -- four inequalities, no
+    # products, and a claim about the rooms the author wrote. On `plans/tidewater-georgian-
+    # careful.json` with the walls, hearth, tiling and bearing released, each of the five
+    # proxies holds ALONE (OPTIMAL in 5.6 to 23.9 s) and the five together are INFEASIBLE with
+    # the sizes and shape bands (the core names all five). Full containment is a stronger
+    # statement than the rule, and a fact stated more strongly than the corpus states it
+    # refuses a house the corpus admits -- the fake-infeasible direction, which is as
+    # dishonest as a fake pass. Three products per claim is the price of saying what the rule
+    # says, and CP-SAT carries them as it carries the shape pins' max/min.
+    #
+    # It replaces the soft intersection penalty WP-7.4 carried here, whose own comment said it
+    # waited on the downgrade ladder learning a second kind: a held stack needs no charge and a
+    # released one keeps `GEO.STACK_W`, the charge the search pays for the same thing, so the
+    # two engines still score one house alike. `wet_stack_with` stays soft above.
+    #
+    # UNJUDGED BY NAME, NEVER HELD BY ABSENCE: a claim whose target is not on the level below
+    # is `stacking.py`'s to explain, and a claim across two massing elements is one no placement
+    # this engine makes can keep (it lays only the ground level into elements), so both are
+    # refused with their reason rather than pinned or dropped.
+    _ground_by_id = {r["id"]: r for r in (prep.get(0) or [])}
+    for r in (prep.get(1) or []):
+        so = r.get("stacks_over")
+        if not so or (1, r["id"]) not in rooms:
+            continue
+        key = (1, r["id"])
+        _nm = r.get("name") or r["id"]
+        if (0, so) not in rooms:
+            reqs.refuse("stack", key,
+                        f"{_nm} declares it stacks over {so!r}, which is not a placed room on the "
+                        f"level below (the stacking tally on the record names the reason)")
+            continue
+        if boxes.get((1, r["id"])) != boxes.get((0, so)):
+            reqs.refuse("stack", key,
+                        f"{_nm} declares it stacks over {so!r}, which stands in another massing "
+                        f"element; the placer lays only the ground level into elements, so no "
+                        f"upper room can be placed over it")
+            continue
+        u, g = rooms[(1, r["id"])], rooms[(0, so)]
+        _gname = _ground_by_id[so].get("name") or so
+        # THE RELATION IS BUILT ONLY WHERE SOMETHING READS IT. A released stack in the hard-only
+        # phase carried its product structures anyway in the first draft -- unconstrained, and
+        # not free: the shapes-only state the ladder falls back to went from OPTIMAL in 9 s to
+        # UNKNOWN at 10 s on the reference plan with five dangling products in the model.
+        if _dk("stack", key) in downgraded:
+            how = ("carried — off a conflict core or an undecided round, not individually re-proven in budget"
+                   if _dk("stack", key) in unproven else
+                   "proven — restored alone, no placement exists")
+            reqs.notes.append(
+                f"{_nm}'s declared stack over {_gname} could not land together with the other "
+                f"declared facts ({how}) — downgraded, charged at {GEO.STACK_W:g} points as the "
+                f"search charges it, and the stacking tally on the record will say whether it "
+                f"lands")
+            if objective:
+                lands = _lands_literal(m, u, g, (gx0, gy0, gx1, gy1))
+                penalties.append((lands.Not(), _w(GEO.STACK_W)))
+            continue
+        lit = reqs.lit(f"{_nm} stands over {_gname}: the smaller of the two drawn rooms lies at "
+                       f"least {STK.LANDS_FRACTION:.0%} inside the larger — stacking.lands' own "
+                       f"relation, as a fact (declared stacks, WP-13.3)",
+                       kind="stack", key=key)
+        m.AddImplication(lit, _lands_literal(m, u, g, (gx0, gy0, gx1, gy1)))
 
     # ---- nothing sits over a void open to the sky (OQ 55)
     #
@@ -1110,113 +1484,151 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             m.AddBoolOr(over + [none])
             penalties.append((none, 8 * SCALE))
 
-        # WP-7.4 (OQ 95): declared `stacks_over`, charged. SOFT, and that is the whole design.
-        #
-        # OQ 95 recorded that a stacking constraint here "outranks every authored exterior wall
-        # in the corpus", because the downgrade loop below reads
-        # `[key for _t, k, key in core if k == "wall" and key]` and a non-wall pin can never
-        # enter it -- measured, a hard version downgraded an authored kitchen wall to satisfy an
-        # inferred stack, which is the OQ 52 family (an authored fact losing silently to a
-        # derived one). That is true OF A HARD PIN. A penalty is not a pin: it creates no
-        # assumption literal, never enters a conflict core, and cannot displace anything. The
-        # blocker is sidestepped rather than solved, and the downgrade loop is untouched.
-        #
-        # Shaped exactly like the wet-stack term above so the two read as one mechanism, and
-        # weighted from the same sweep that set geometry.STACK_W (measured on the heuristic:
-        # broken claims across all 14 declaring partis).
-        # WP-13.2: this term still means INTERSECTION; `stacking.lands` (containment) is the search's and the critic's rule now, and the prover's follows when WP-13.3 makes the stack hard.
-        for r in upper:
-            so = r.get("stacks_over")
-            if not so or (1, r["id"]) not in rooms or (0, so) not in rooms:
-                continue     # target not on the level below: unjudged, and unjudged is not charged
-            v, vg = rooms[(1, r["id"])], rooms[(0, so)]
-            b = m.NewBoolVar("")
-            m.Add(v["x"] < vg["x"] + vg["w"]).OnlyEnforceIf(b)
-            m.Add(vg["x"] < v["x"] + v["w"]).OnlyEnforceIf(b)
-            m.Add(v["y"] < vg["y"] + vg["h"]).OnlyEnforceIf(b)
-            m.Add(vg["y"] < v["y"] + v["h"]).OnlyEnforceIf(b)
-            none = m.NewBoolVar("")
-            m.AddBoolOr([b, none])
-            penalties.append((none, _w(GEO.STACK_W)))
+    # ---- BEARING CONTINUITY AND THE SPAN CAPACITY, HARD (WP-13.3), kind "bearing"
+    #
+    # `structure.bearing_lines` calls an interior wall bearing where it falls on the bay grid
+    # (within 0.75 ft of a module multiple) and `structure.span_check` asks that consecutive
+    # bearing lines be no further apart than the framing tradition's capacity (20 ft for the
+    # timber-bay styles, the joist table's deepest member otherwise -- `_span_capacity` reads
+    # it as `span_check` decides it). WP-7.4 CHARGED that as a soft term and the gate read the
+    # Tidewater upper floor as one 63 ft clear span with no bearing line at all. It is a fact
+    # now, one literal per (element, axis):
+    #
+    #   candidate lines   the module multiples strictly inside the element's box (on the 1 ft
+    #                     grid the only positions within 0.75 ft of a multiple ARE the
+    #                     multiples), with the box's own edges as bearing by definition
+    #   has[level][L]     -> some room edge of that level sits on L (half-reified: a line may
+    #                     be claimed only where a wall really stands on it)
+    #   bearing[L]        -> has[level][L] for EVERY placed level in the element, so a bearing
+    #                     line exists only where both storeys stand a wall on it -- which IS
+    #                     continuity by construction, and the upper storey of a one-storey
+    #                     element is simply absent from the conjunction
+    #   continuity        an UPPER edge on a candidate line needs a ground edge on it: an
+    #                     upper partition standing on nothing is a transfer beam, and the
+    #                     gate's row reads every upper bearing line against the ground's
+    #   capacity          every window of consecutive candidate-or-box lines longer than the
+    #                     capacity contains a bearing line strictly inside it
+    #
+    # RELEASED, the (element, axis) keeps WP-7.4's charge -- `GEO.SPAN_W` per anchor that cannot
+    # reach a bearing line, per level, the term this block used to be -- so a released fact is
+    # scored as the search scores it rather than forgotten. That charge is NOT the heuristic's
+    # quantity and the old comment said so: `geometry._span_charge` charges once per
+    # over-capacity span in proportion to its length, this anchors one clause at every grid
+    # line (3x against 4x on a 60 ft run at a 10 ft bay); both grow with the span and neither
+    # mis-ranks two placements that differ only in span.
+    #
+    # The `break` in the window loop is sound: for a given `lo_L` the SHORTEST over-capacity
+    # window has the fewest inner lines, so its clause is the strictest and every longer
+    # window's clause is implied by it. A window with NO candidate line inside it is a box
+    # deeper than the capacity between its own two faces, which no wall can fix: the empty
+    # clause makes the literal unsatisfiable and the ladder releases the fact by name.
+    cap_ft = _span_capacity(plan)
+    if cap_ft is None:
+        reqs.refuse("bearing", None,
+                    "the framing catalogue (construction/floor-structure.json) could not be "
+                    "read, so no span capacity is known and no bearing line can be required")
+    else:
+        capU = int(cap_ft * U)
+        _e0 = (els or {}).get(0) or [{"id": "main", "x": 0, "y": 0, "W": Wi / float(U),
+                                      "H": Hi / float(U),
+                                      "rooms": [r["id"] for r in (prep.get(0) or [])]}]
+        for ei, _e in enumerate(_e0):
+            _ex, _ey = int(round(_e["x"] * U)), int(round(_e["y"] * U))
+            _eW, _eH = int(round(_e["W"] * U)), int(round(_e["H"] * U))
+            _box = (_ex, _ey, _eW, _eH)
+            # the rooms of each placed level standing in THIS element: the ground by the
+            # element's own room list, the upper by its box (every upper room is laid into
+            # the main block, so a dependency has a ground storey here and nothing above it)
+            _rs_by_lvl = {}
+            _g_ids = [r["id"] for r in (prep.get(0) or [])
+                      if r["id"] in set(_e.get("rooms") or []) and (0, r["id"]) in rooms]
+            if _g_ids:
+                _rs_by_lvl[0] = _g_ids
+            _u_ids = [r["id"] for r in (prep.get(1) or [])
+                      if (1, r["id"]) in rooms and ebox.get((1, r["id"]), (0, 0, Wi, Hi)) == _box]
+            if _u_ids:
+                _rs_by_lvl[1] = _u_ids
+            if not _rs_by_lvl:
+                continue
+            for axis, lo0, extent in (("x", _ex, _ex + _eW), ("y", _ey, _ey + _eH)):
+                lines = list(range(lo0, extent + 1, bayU))
+                if lines[-1] != extent:
+                    lines.append(extent)
+                inner_lines = lines[1:-1]
+                key = (ei, axis)
 
-        # WP-7.4 (OQ 97): over-capacity clear spans, charged, on the same structural fact the
-        # heuristic charges and plan_check reports.
-        #
-        # THE BEARING SET IS FINITE AND SMALL HERE, which is what makes this affordable. This
-        # model is on a 1-ft integer grid (U = 1), and structure.bearing_lines calls an interior
-        # wall bearing when it sits within 0.75 ft of a bay multiple -- so on whole feet the
-        # only qualifying positions ARE the multiples. The candidate bearing lines are therefore
-        # {0, bay, 2*bay, ... , extent}: seven of them on a 60 ft frontage at a 10 ft bay, not a
-        # continuum, and the span rule becomes a handful of clauses over one bool per line.
-        #
-        # HALF-REIFIED ON PURPOSE. `f -> (face == L)` and nothing in the other direction: a line
-        # may only be claimed bearing if a room face is really on it, while leaving it unclaimed
-        # is free. False is the penalised direction, so the solver can never buy a bearing line
-        # it has not placed a wall on, and the expensive `!=` half of a full reification is
-        # never built. Measured: the model keeps its proof of tidewater-georgian-careful.
-        cap_ft = _span_capacity(plan)
-        if cap_ft:
-            for lvl in (0, 1):
-                rs = prep.get(lvl) or []
-                if not rs:
-                    continue
-                # WP-11.11: PER ELEMENT. A clear span is a run of floor inside ONE mass; a
-                # window of grid lines drawn across the gap between two detached elements is
-                # the defect WP-11.9 removed from `structure.wall_lines`, arriving here.
-                for _e in ((els or {}).get(lvl) or [{"id": "main", "x": 0, "y": 0,
-                                                     "W": Wi / float(U), "H": Hi / float(U),
-                                                     "rooms": [r["id"] for r in rs]}]):
-                  _ex, _ey = int(round(_e["x"] * U)), int(round(_e["y"] * U))
-                  _eW, _eH = int(round(_e["W"] * U)), int(round(_e["H"] * U))
-                  _ers = [r for r in rs if r["id"] in set(_e.get("rooms") or [])]
-                  if not _ers:
-                      continue
-                  for axis, lo0, extent in (("x", _ex, _ex + _eW), ("y", _ey, _ey + _eH)):
-                    lines = list(range(lo0, extent + 1, bayU))
-                    if lines[-1] != extent:
-                        lines.append(extent)
-                    act = {}
-                    for L in lines[1:-1]:
-                        faces = []
-                        for r in _ers:
-                            if (lvl, r["id"]) not in rooms:
-                                continue
-                            v = rooms[(lvl, r["id"])]
-                            lo = v["x"] if axis == "x" else v["y"]
-                            sz = v["w"] if axis == "x" else v["h"]
-                            f1 = m.NewBoolVar(""); m.Add(lo == L).OnlyEnforceIf(f1)
-                            f2 = m.NewBoolVar(""); m.Add(lo + sz == L).OnlyEnforceIf(f2)
-                            faces += [f1, f2]
-                        a_ = m.NewBoolVar("")
-                        m.AddBoolOr(faces + [a_.Not()])   # a_ -> some face really sits on L
-                        act[L] = a_
-                    # Every run of consecutive grid lines longer than the capacity must
-                    # contain a bearing line, or it pays.
-                    #
-                    # THIS IS NOT THE HEURISTIC'S QUANTITY AND THE COMMENT USED TO IMPLY IT WAS.
-                    # `geometry._span_charge` charges ONCE PER over-capacity span, in proportion
-                    # to how far over it is. This anchors one clause at EVERY grid line, so a
-                    # single long clear span is charged once per anchor that cannot reach a
-                    # bearing line: with lines every 10 ft, a 20 ft capacity and bearing only at
-                    # 0 and 60, the heuristic charges 3x the weight and this charges 4x. Both
-                    # grow with the span and neither mis-ranks two placements that differ only
-                    # in span, but they are different numbers and calling them mirrors was
-                    # loose. Making them identical needs reified consecutive-line logic, which
-                    # is the expensive formulation this one exists to avoid.
-                    #
-                    # The `break` is sound: for a given `lo_L` the SHORTEST over-capacity window
-                    # has the fewest inner lines, so its clause is the strictest, and every
-                    # longer window's clause is implied by it.
-                    capU = int(cap_ft * U)
+                def _edge_vars(lvl_):
+                    out = []
+                    for rid in _rs_by_lvl[lvl_]:
+                        v = rooms[(lvl_, rid)]
+                        lo = v["x"] if axis == "x" else v["y"]
+                        sz = v["w"] if axis == "x" else v["h"]
+                        out += [lo, lo + sz]
+                    return out
+
+                def _windows():
                     for i, lo_L in enumerate(lines):
                         for hi_L in lines[i + 1:]:
                             if hi_L - lo_L <= capU:
                                 continue
-                            inner = [act[L] for L in lines[i + 1:] if L < hi_L and L in act]
-                            viol = m.NewBoolVar("")
-                            m.AddBoolOr(inner + [viol])
-                            penalties.append((viol, _w(GEO.SPAN_W)))
-                            break        # the shortest over-capacity window implies the rest
+                            yield [L for L in lines[i + 1:] if L < hi_L]
+                            break
+
+                if _dk("bearing", key) in downgraded:
+                    how = ("carried — off a conflict core or an undecided round, not individually re-proven in "
+                           "budget" if _dk("bearing", key) in unproven else
+                           "proven — restored alone, no placement exists")
+                    reqs.notes.append(
+                        f"element {ei} ({_e.get('id')}), {axis} axis: bearing continuity on the "
+                        f"bay grid within the {cap_ft:g} ft capacity could not co-hold with the "
+                        f"other declared facts ({how}) — downgraded, charged at "
+                        f"{GEO.SPAN_W:g} points per unsupported run as the search charges it, "
+                        f"and the record's span count says what was drawn")
+                    if objective:
+                        for lvl_ in _rs_by_lvl:
+                            act = {}
+                            for L in inner_lines:
+                                faces = []
+                                for e_ in _edge_vars(lvl_):
+                                    f = m.NewBoolVar("")
+                                    m.Add(e_ == L).OnlyEnforceIf(f)
+                                    faces.append(f)
+                                a_ = m.NewBoolVar("")
+                                m.AddBoolOr(faces + [a_.Not()])   # a_ -> some face sits on L
+                                act[L] = a_
+                            for inner in _windows():
+                                viol = m.NewBoolVar("")
+                                m.AddBoolOr([act[L] for L in inner] + [viol])
+                                penalties.append((viol, _w(GEO.SPAN_W)))
+                    continue
+                lit = reqs.lit(
+                    f"massing element {ei} ({_e.get('id')}), {axis} axis: an interior wall on "
+                    f"the bay grid is bearing only where every storey stands a wall on it, and no "
+                    f"run between bearing lines exceeds the {cap_ft:g} ft its framing tradition "
+                    f"can span (structure.bearing_lines and span_check as a fact, WP-13.3)",
+                    kind="bearing", key=key)
+                bear = {}
+                for L in inner_lines:
+                    has = {}
+                    for lvl_ in _rs_by_lvl:
+                        faces = []
+                        for e_ in _edge_vars(lvl_):
+                            f = m.NewBoolVar("")
+                            m.Add(e_ == L).OnlyEnforceIf(f)
+                            faces.append(f)
+                        hL = m.NewBoolVar("")
+                        m.AddBoolOr(faces + [hL.Not()])       # has -> some face sits on L
+                        has[lvl_] = hL
+                    if 0 in has and 1 in has:
+                        # continuity: no upper edge may stand on L unless a ground edge does
+                        for e_ in _edge_vars(1):
+                            m.Add(e_ != L).OnlyEnforceIf(has[0].Not(), lit)
+                    bL = m.NewBoolVar("")
+                    for hL in has.values():
+                        m.AddImplication(bL, hL)                # bearing -> every storey
+                    bear[L] = bL
+                for inner in _windows():
+                    m.AddBoolOr([bear[L] for L in inner]).OnlyEnforceIf(lit)
 
     if objective and penalties:
         m.Minimize(sum(p * wgt for p, wgt in penalties))
@@ -1597,7 +2009,11 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
     downgraded = set()      # pins PROVEN unable to co-hold: (level, room, wall) for a wall
                             # pin, (level, room) for a WP-11.7 shape pin. Split by arity
                             # wherever it is read, never by position.
-    rank_notes = []         # what each round gave up, and at which rank
+    rank_notes = []         # what each round gave up, and at which rank -- a pin released on
+                            # an UNDECIDED round is named there; the reinstatement pass tries
+                            # every downgraded pin whichever route released it, and one it
+                            # cannot restore or refute alone in budget stays CARRIED on the
+                            # record (WP-13.3)
     seed_core = None
 
     def _feasibility(fpd, tag, budget):
@@ -1615,46 +2031,113 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
 
     def _reinstate(fpd, vals):
         """A solver core is SUFFICIENT, not minimal — the round loop downgrades
-        every wall pin the core names, which over-softens (both walls of one
+        every pin of the released rank, which over-softens (both walls of one
         room have ridden in one core). So: restore each downgraded pin ALONE,
         at the footprint actually being drawn. Feasible → the downgrade was
         never needed; the pin returns to being a hard fact. INFEASIBLE → that
         is the pin's own proof, at this footprint. UNKNOWN or budget out →
-        the downgrade stays but is stated as carried, never as proven."""
-        unproven = set()
-        pending = sorted(downgraded)
-        for i, key in enumerate(pending):
-            remaining = time_limit_s - (time.monotonic() - started)
-            if remaining < 2.5:
-                unproven.update(k for k in pending[i:] if k in downgraded)
-                break
-            trial = frozenset(downgraded - {key})
-            model, rooms, _reqs2 = _build(plan, prep, fpd, ewalls, trial,
-                                          objective=False)
+        the downgrade stays but is stated as carried, never as proven.
+
+        BUDGETED (WP-13.3): the pass may spend `GEO.BUDGET_SHARE_REINSTATE` of the
+        budget and never the polish's guaranteed share -- it used to run until 2.5 s
+        remained, which on the reference plan was 21 restore attempts and a polish
+        that never started. It offers the facts back HIGHEST RANK FIRST, because
+        the share is finite and a hearth or a bearing line won back is worth more
+        than a wall aspiration, which is the whole of what the ranking says."""
+        _rank_of = {k: i for i, k in enumerate(_RANK)}
+        pending = sorted(downgraded, key=lambda k: (-_rank_of.get(k[0], -1), str(k)))
+        deadline = min(time.monotonic() + GEO.BUDGET_SHARE_REINSTATE * time_limit_s,
+                       started + (1.0 - GEO.BUDGET_SHARE_POLISH) * time_limit_s)
+
+        def _try(keys, tag, cap):
+            left = deadline - time.monotonic()
+            if left < RESTORE_MIN_S:
+                return None
+            trial = frozenset(downgraded - set(keys))
+            model, rooms, _reqs2 = _build(plan, prep, fpd, ewalls, trial, objective=False)
             _hint_values(model, rooms, vals)
             s = cp_model.CpSolver()
-            s.parameters.max_time_in_seconds = min(2.0, remaining - 0.5)
+            s.parameters.max_time_in_seconds = min(cap, left)
             s.parameters.num_search_workers = 1
             s.parameters.random_seed = seed
             st = s.Solve(model)
-            # `key` is (level, room, wall) for a wall pin and (level, room) for a WP-11.7
-            # shape pin. This read `key[2]` unconditionally and would have raised IndexError
-            # on the first shape downgrade -- inside the reinstatement pass, where nothing in
-            # the traceback would have named the ladder.
-            attempts.append((f"restore L{key[0]} {key[1]}"
-                             + (f" {key[2]}" if len(key) > 2 else " (shape)"),
-                             "R:" + s.StatusName(st)))
+            attempts.append((tag, "R:" + s.StatusName(st)))
             if st in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-                downgraded.discard(key)
-                vals = _values(s, rooms)
-            elif st != cp_model.INFEASIBLE:
-                unproven.add(key)
-        return vals, unproven
+                return _values(s, rooms)
+            return st
+
+        # TWO PHASES, EACH SLICED PER KIND, HIGHEST RANK FIRST (WP-13.3). Phase one offers every
+        # downgraded kind back WHOLE -- five declared stacks that co-hold cost one solve rather
+        # than five, and a hearth pair that cannot (two centred fires on one flue) fails once --
+        # inside the first half of the share; phase two offers the pins still down one at a
+        # time inside what is left. Each kind's slice is re-derived from the time left when its
+        # turn comes, so a kind refuted in half a second hands the rest on.
+        #
+        # WHY TWO PHASES AND NOT ONE, MEASURED: a first version offered each kind whole and then
+        # singly before moving to the next kind. On the two-storey fixture that let six single
+        # SHAPE pins (the highest rank) come back before the three stacks were offered as a kind,
+        # and the placement those six chose could hold ONE stack -- where wholes-first holds all
+        # three stacks AND seven of the eight shapes. A rank orders CONFLICTS; it is not a licence
+        # to end with strictly fewer facts held than another order of the same greedy pass.
+        # WHY SLICED, MEASURED: the version before that offered the kinds back in rank order until
+        # the share was spent, and on the reference plan the three expensive facts (bearing, the
+        # stacks, the tiling -- each UNKNOWN in 4 s with a hint) spent the whole share at every
+        # budget to 90 s, so not one of the 22 wall pins was ever offered back where the old pass
+        # restored 9 to 13 of them: "the walls last" starved the one kind the pass could win.
+        # A pin a slice never reaches stays carried, and the record says so.
+        refuted = set()
+        kinds = [k for k in reversed(_RANK) if any(p[0] == k for p in pending)]
+        whole_deadline = time.monotonic() + (deadline - time.monotonic()) * 0.5
+        whole = [k for k in kinds if sum(1 for p in pending if p[0] == k) >= 2]
+        for n_, kind in enumerate(whole):
+            keys_k = [k for k in pending if k[0] == kind and k in downgraded]
+            if len(keys_k) < 2:
+                continue
+            cap = min(RESTORE_KIND_S, (whole_deadline - time.monotonic()) / (len(whole) - n_))
+            if cap < RESTORE_MIN_S:
+                continue
+            got = _try(keys_k, f"restore {kind} x{len(keys_k)}", cap)
+            if got is None:
+                break
+            if isinstance(got, dict):
+                vals = got
+                downgraded.difference_update(keys_k)
+        single = [k for k in kinds if any(p[0] == k and p in downgraded for p in pending)]
+        for n_, kind in enumerate(single):
+            keys_k = [k for k in pending if k[0] == kind and k in downgraded]
+            kind_deadline = time.monotonic() + (deadline - time.monotonic()) / (len(single) - n_)
+            for key in keys_k:
+                if key not in downgraded:
+                    continue
+                cap = min(RESTORE_PIN_S, kind_deadline - time.monotonic())
+                if cap < RESTORE_MIN_S:
+                    break
+                # A key carries its kind now (`_dk`), and the label says which: a wall keeps
+                # `restore L{level} {room} {wall}`, which `tests/test_solver.py` parses; every
+                # other kind is `restore {kind} {label}`.
+                got = _try([key], "restore " + (_label("wall", key[1:]) if key[0] == "wall"
+                                                 else f"{key[0]} {_label(key[0], key[1:])}"),
+                           cap)
+                if got is None:
+                    break
+                if isinstance(got, dict):
+                    vals = got
+                    downgraded.discard(key)
+                elif got == cp_model.INFEASIBLE:
+                    refuted.add(key)        # refuted alone at this footprint: proven, not carried
+        # PROVEN means refuted ALONE at this footprint and nothing less: a pin the slice never
+        # reached, one that came back UNKNOWN, and one refuted only as part of its whole kind
+        # are all CARRIED, whether a core named them or an undecided round released them.
+        return vals, {k for k in downgraded if k not in refuted}
 
     def _rects_scored(fpd, vals):
         rects_by_level = {}
         for (lvl, rid), (x, y, w, h) in vals.items():
             rects_by_level.setdefault(lvl, {})[rid] = (x / U, y / U, w / U, h / U)
+        # the literals the model states at this footprint, read once for the absorb guard
+        _, _, _fact_reqs = _build(plan, prep, fpd, ewalls, frozenset(downgraded),
+                                  objective=False)
+        _fact_lits = _fact_reqs.lits
         _els2 = {lv: GEO.blocks_for(plan, fpd, prep, lv) for lv in (0, 1) if prep.get(lv)}
         _eb2, _g0x, _g0y, _g1x, _g1y = _element_boxes(_els2, int(round(fpd['W'] * U)),
                                                      int(round(fpd['H'] * U)))
@@ -1694,6 +2177,20 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
             _els = GEO.blocks_for(plan, fpd, prep, lvl)
             _eb = ({rid: (e["x"], e["y"], e["W"], e["H"]) for e in _els for rid in e["rooms"]}
                    if len(_els) > 1 else None)
+            # THE ABSORB PASS RUNS AFTER THE SOLVE AND IS OUTSIDE ITS PROOF (WP-13.3, the
+            # fifth time this file has had to say it). It moves a room's faces outward into
+            # leftover floor, and a face moved is a bearing line an upper wall may no longer
+            # stand on, or a stack that no longer lands: measured on the two-storey fixture,
+            # a landing proved 90% inside its hall was grown to 83% of it. So on a level
+            # where a bearing or stack fact is HELD the proved rectangles are left exactly as
+            # proved -- with the tiling fact held there is no leftover to absorb anyway, and
+            # where tiling was released the residual floor is disclosed by `type_facts` rather
+            # than filled by a pass that would silently unprove the facts still held.
+            # (both kinds implicate both storeys: a bearing line is a line BOTH levels
+            # stand a wall on, and a stack is an upper room over a ground one)
+            if any(k in ("bearing", "stack") and key and _dk(k, key) not in downgraded
+                   for _lit, _t, k, key in _fact_lits):
+                continue
             rects_by_level[lvl] = _absorb(rects_by_level[lvl], fpd["W"], fpd["H"],
                                           caps=caps, keepout=keepout, ratios=ratios,
                                           bounds=_eb)
@@ -1720,41 +2217,81 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
             return _values(solver, rooms), solver.StatusName(statusB),                 solver.ObjectiveValue() / SCALE
         return None, solver.StatusName(statusB), None
 
+    def _facts_account(reqs_notes):
+        """The model's own account of the type's four facts: every literal of each kind by
+        its label, HELD or DOWNGRADED, and every fact it could not state, UNJUDGED with its
+        reason. `build/typefacts.py` verifies the same four on the placed record afterwards;
+        this is what the prover was ASKED, that is what it DREW."""
+        out = {}
+        for kind in TYPE_FACTS:
+            keys = sorted({key for _l, _t, k, key in reqs_notes.lits if k == kind and key},
+                          key=lambda k: tuple(str(x) for x in k))
+            held = [_label(kind, k) for k in keys]
+            down = sorted(_label(kind, k[1:]) for k in downgraded if k[0] == kind)
+            unj = [{"key": _label(kind, key) if key else None, "why": why}
+                   for k, key, why in reqs_notes.unjudged if k == kind]
+            out[kind] = {"held": held, "downgraded": down, "unjudged": unj,
+                         "status": ("downgraded" if down else "held" if held
+                                    else "unjudged")}
+        return out
+
     def _finish_feasible(fpd, valsA, statusA_name):
         """Phase B: polish with the weighted objective, hinted two ways — the
         full heuristic search (soft-optimized, hard-repairable) and phase A's
-        own placement (hard-clean). Every hard-valid placement is scored with
-        the heuristic's own scorers and the BEST one is returned; the status
-        says which. On a fully timed-out polish, A stands, scored post-hoc."""
+        own placement (hard-clean). AMONG THE CANDIDATES THAT CARRY AN OBJECTIVE
+        THE CP OBJECTIVE RANKS THEM (WP-13.3), and the hard-only phase A
+        placement is kept only when no polish produced a solution at all; the
+        search's own demerit total (`GEO._score`) is computed for every candidate
+        and DISCLOSED as `solver.score`, and no longer decides. It used to: "best
+        of N" sorted by that score, so a candidate whose composition had never
+        been evaluated could outrank one whose objective had run, on a number
+        the objective was not chosen by."""
         unproven = set()
         if downgraded:
             # minimal, individually-proven downgrades at the footprint being
             # drawn — the round loop's cores over-blame (see _reinstate)
             valsA, unproven = _reinstate(fpd, valsA)
-        remaining = time_limit_s - (time.monotonic() - started)
+        remaining = max(GEO.BUDGET_SHARE_POLISH * time_limit_s * 0.5,
+                        time_limit_s - (time.monotonic() - started))
         candidates_out = [("hard-only phase A", valsA, statusA_name + " (hard-only)", None)]
-        vals1, st1, obj1 = _polish(fpd, "heuristic", remaining * 0.55, "polish-h")
+        # PHASE A'S OWN PLACEMENT HINTS THE FIRST POLISH (WP-13.3). It is feasible under the
+        # very hard set the polish carries, so the objective has a solution to start from at
+        # once; the heuristic's hint has to be REPAIRED first, and with the type's facts in the
+        # model that repair came back UNKNOWN in every one of ten runs on the reference plan
+        # today (40 to 90 s) while the phase-A polish came back FEASIBLE in every one. The
+        # heuristic hint is offered second, with what remains, and the objective ranks them.
+        vals1, st1, obj1 = _polish(fpd, valsA, remaining * 0.55, "polish-a")
         if vals1 is not None:
-            candidates_out.append(("polish from the heuristic hint", vals1, st1, obj1))
+            candidates_out.append(("polish from phase A", vals1, st1, obj1))
         remaining2 = time_limit_s - (time.monotonic() - started)
         if remaining2 > 4.0 and st1 != "OPTIMAL":
-            vals2, st2, obj2 = _polish(fpd, valsA, remaining2, "polish-a")
+            vals2, st2, obj2 = _polish(fpd, "heuristic", remaining2, "polish-h")
             if vals2 is not None:
-                candidates_out.append(("polish from phase A", vals2, st2, obj2))
+                candidates_out.append(("polish from the heuristic hint", vals2, st2, obj2))
         scored = []
         for label, vals, stname, obj in candidates_out:
             rects_by_level, relax, sc = _rects_scored(fpd, vals)
             scored.append((sc["score"], label, rects_by_level, relax, sc, stname, obj))
-        scored.sort(key=lambda t: t[0])
-        _, label, rects_by_level, relax, sc, stname, objective = scored[0]
-        status_name = f"{stname} — kept {label} (best of {len(scored)} hard-valid placements)"
+        with_obj = [t for t in scored if t[6] is not None]
+        if with_obj:
+            with_obj.sort(key=lambda t: (t[6], t[0]))
+            _, label, rects_by_level, relax, sc, stname, objective = with_obj[0]
+            status_name = (f"{stname} — kept {label} by the CP objective "
+                           f"({len(with_obj)} of {len(scored)} hard-valid placements carried one)")
+        else:
+            _, label, rects_by_level, relax, sc, stname, objective = scored[0]
+            status_name = (f"{stname} — kept {label}: no polish produced a placement in "
+                           f"budget, so the compositional objective did not run")
         best = {"ground": rects_by_level.get(0, {}), "upper": rects_by_level.get(1, {}),
-                "relaxations": relax, **sc}
+                "relaxations": relax, **sc,
+                "candidates": [{"label": t[1], "status": t[5], "objective": t[6],
+                                "search_score": t[0]} for t in scored]}
         _, _, reqs_notes = _build(plan, prep, fpd, ewalls, frozenset(downgraded),
                                   objective=False, unproven=frozenset(unproven))
         return {"best": best, "fpd": fpd, "levels": levels,
                 "solver": {"engine": "cp-sat", "status": status_name,
                            "objective": objective,
+                           "candidates": best["candidates"],
                            "wall_time_s": round(time.monotonic() - started, 2),
                            "attempts": attempts,
                            # WP-6.3 corrected two words of this claim. It said "rooms at
@@ -1774,16 +2311,19 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
                                    "proven unable to co-hold — then downgraded, stated)",
                            "note": "the compositional terms are constraints and "
                                    "weighted objectives here, not search preferences",
-                           # WP-11.7: `downgraded` holds keys of more than one KIND now --
-                           # a wall pin is (level, room, wall) and a shape pin is (level,
-                           # room). This comprehension unpacked three names from every key
-                           # and would have raised on the first shape downgrade, in the
-                           # RESULT BUILDER, where the traceback names neither the ladder
-                           # nor the pin. Split by arity, and both reported.
+                           # WP-11.7 split these by ARITY and WP-13.3 by KIND: a key is
+                           # `(kind, *key)` now (`_dk`), because the axis pin and the shape
+                           # pin share `(level, room)` and were read as one another.
                            "downgraded_wall_pins": sorted(
-                               f"L{k[0]} {k[1]} {k[2]}" for k in downgraded if len(k) == 3),
+                               _label("wall", k[1:]) for k in downgraded if k[0] == "wall"),
                            "downgraded_shape_pins": sorted(
-                               f"L{k[0]} {k[1]}" for k in downgraded if len(k) == 2),
+                               _label("shape", k[1:]) for k in downgraded if k[0] == "shape"),
+                           "downgraded_axis_pins": sorted(
+                               _label("axis", k[1:]) for k in downgraded if k[0] == "axis"),
+                           # THE TYPE'S FOUR FACTS, as the model stated them (WP-13.3): held,
+                           # downgraded, or unjudged with a reason. `typefacts.report` on the
+                           # placed record is the verifier; this is the claim.
+                           "facts": _facts_account(reqs_notes),
                            "downgrade_rounds": list(rank_notes),
                            "refinements": sorted(set(reqs_notes.notes))}}
 
@@ -1791,14 +2331,51 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
     # unable to co-hold; exactly those pins downgrade, stated. Doors, sizes,
     # the entrance and capacity never downgrade — they are what infeasibility
     # is FOR (25 Aug rulings, contested-corners read as a principle).
-    for rnd in range(4):
-        budget = min(6.0, max(2.0, (time_limit_s - (time.monotonic() - started)) * 0.5))
+    #
+    # THE FEASIBILITY ROUNDS MAY SPEND `GEO.BUDGET_SHARE_FEASIBILITY` OF THE BUDGET AND NO MORE
+    # (WP-13.3). They used to spend "the WHOLE remaining budget" on an UNKNOWN scout -- right
+    # when the alternative was giving up, and wrong once it meant the polish never ran: on the
+    # reference plan phase A took about 20 s of 40 and the compositional objective got the
+    # 1.5 s floor and came back UNKNOWN, under a status reading `OPTIMAL (hard-only)`. A phase A
+    # still UNKNOWN at its share is UNSOLVED, and `auto` falls back to the search and says so;
+    # the sweep that chose the share is in the WP-13.3 report. One round per rank and one more,
+    # because a round releases a whole rank and there are `len(_RANK)` of them.
+    a_deadline = started + GEO.BUDGET_SHARE_FEASIBILITY * time_limit_s
+    for rnd in range(len(_RANK) + 1):
+        budget = min(SCOUT_S, max(2.0, (a_deadline - time.monotonic()) * 0.5))
         status, solver, rooms, reqs = _feasibility(fpd0, f"{fpd0['bays']}b r{rnd}", budget)
         if status == cp_model.UNKNOWN:
-            # the quick pass could not decide — spend the WHOLE remaining budget
-            # before giving up (bailing at the 6s scout cap was a measured
-            # mistake, and a 0.6x retry starved the 25-room double-pile too)
-            budget = max(4.0, time_limit_s - (time.monotonic() - started))
+            # THE SCOUT COULD NOT DECIDE, AND AN UNDECIDED ROUND IS NOT A PROOF OF ANYTHING.
+            # Two ways on, and which is taken is a measurement (WP-13.3). With the type's
+            # facts hard, the state every fact is held in is the expensive one -- on the
+            # reference plan `tiling + stack + bearing + shape` is UNKNOWN at 40 s on a loaded
+            # core, while the state WP-11.7 proved solvable (the shape band alone) is OPTIMAL
+            # in about 9 s. So where any of the TYPE'S FACTS is still live, all of them are
+            # RELEASED AT ONCE and marked CARRIED -- released on no proof, which the record
+            # says in as many words -- and the reinstatement pass wins them back highest rank
+            # first, whole kinds before single pins, with the placement just found as the
+            # solver's hint. What comes back is proven to co-hold; what stays out is either
+            # proven impossible alone or still carried. The walls and the axis are NOT
+            # released here: their conflicts arrive as fast INFEASIBLE cores (0.1 s on the
+            # reference plan) and are handled by proof above, and the state with them held
+            # and the facts released is the one WP-11.7 measured solvable. Where no fact is
+            # live, the rest of the share goes on the retry, as before (bailing at the scout
+            # cap was a measured mistake, and a 0.6x retry starved the 25-room double-pile
+            # too).
+            live_facts = sorted({_dk(k, key) for _lit, _t, k, key in reqs.lits
+                                 if key and k in TYPE_FACTS}, key=str)
+            if live_facts:
+                _by = {}
+                for k in live_facts:
+                    _by.setdefault(k[0], []).append(k)
+                rank_notes.append(
+                    f"round {rnd}: UNDECIDED at the {budget:.0f} s scout with "
+                    + ", ".join(f"{len(v)} {k}" for k, v in
+                                sorted(_by.items(), key=lambda kv: _RANK.index(kv[0])))
+                    + " pin(s) live — the type's facts released at once, CARRIED and not "
+                    f"proven, and offered back highest rank first by the reinstatement pass")
+                downgraded.update(live_facts)
+            budget = max(2.0, a_deadline - time.monotonic())
             status, solver, rooms, reqs = _feasibility(fpd0, f"{fpd0['bays']}b r{rnd}+", budget)
         if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
             return _finish_feasible(fpd0, _values(solver, rooms),
@@ -1840,11 +2417,18 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         # up two authored walls to save an inferred shape pin -- the exact inversion OQ 95
         # forbids, arrived at by accident.
         #
-        # So: prefer the lowest-ranked kind the core names; and where the core names no pin of
-        # that kind, fall back to the lowest-ranked LIVE pins belonging to the ROOMS the core
-        # names. The conflict always names rooms, and the room is the unit an author reads.
-        # A ROUND RELEASES THE WHOLE OF THE LOWEST-RANKED LIVE KIND, NOT THE PINS THE CORE
-        # HAPPENS TO NAME, and that is a measurement rather than a shortcut.
+        # So: A ROUND RELEASES THE WHOLE OF THE LOWEST-RANKED KIND THE CORE NAMES, never the
+        # pins the core happens to name and never a kind it does not name. The second half is
+        # provable and was measured anyway (WP-13.3): a core is a set of literals that is
+        # infeasible together with the model's plain facts, so releasing every pin of a kind
+        # the core does not mention leaves the core intact and the model exactly as infeasible
+        # -- that round can prove nothing and costs a solve, and a solve that comes back
+        # UNKNOWN ends the ladder. The first version of the seven-rank ladder released the
+        # first LIVE kind in rank order whatever the core said, and on the reference plan it
+        # spent three rounds (tiling, stack, bearing) on cores that named only the hearth and
+        # the shape band before it reached the hearth; core-guided, the same plan reaches that
+        # release in three rounds of 0.1, 0.1 and 0.9 s. The first half is the whole-rank
+        # measurement below, unchanged.
         #
         # The narrow version -- downgrade exactly the cored pins -- was written first and swept.
         # On `plans/tidewater-georgian-careful.json` with the shape band live it needs EIGHT
@@ -1862,25 +2446,30 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         # live, and it cannot: the loop takes the first kind in `_RANK` with a live pin.
         _downgradable = None
         for _kind in _RANK:
-            live = [key for _lit, _t, k, key in reqs.lits
-                    if k == _kind and key and key not in downgraded]
+            _named = sum(1 for _t, k, key in core if k == _kind and key)
+            if not _named:
+                continue
+            live = [_dk(_kind, key) for _lit, _t, k, key in reqs.lits
+                    if k == _kind and key and _dk(_kind, key) not in downgraded]
             if live:
-                _named = sum(1 for _t, k, key in core if k == _kind and key)
                 _downgradable = (_kind, live, _named)
                 break
         if not _downgradable:
+            # the core names no downgradable kind: sizes, doors, the entrance and capacity
+            # alone cannot co-hold, and no release can change that -- infeasible, stated
             break
         _kind, _keys, _named = _downgradable
         rank_notes.append(
             f"round {rnd}: released all {len(_keys)} live {_kind} pin(s) — the lowest-ranked "
             f"kind still held; the conflict core named {_named} of them, and the rest are "
-            f"offered back one at a time by the reinstatement pass")
+            f"offered back one at a time by the reinstatement pass "
+            f"({', '.join(_label(_kind, k[1:]) for k in sorted(_keys, key=str))})")
         downgraded.update(_keys)
 
     # capacity may still be the blocker: grow a bay before blaming a requirement
     for bays in range(fpd0["bays"] + 1, fpd0["growth_ceiling"] + 1):
         fpd = _snap_fpd(_fpd_at(fpd0, bays))
-        budget = max(2.0, time_limit_s - (time.monotonic() - started))
+        budget = max(2.0, a_deadline - time.monotonic())
         status, solver, rooms, reqs = _feasibility(fpd, f"{bays}b", budget)
         if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
             return _finish_feasible(fpd, _values(solver, rooms),
@@ -1908,9 +2497,14 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         "proven": True,
         "conflicts": conflicts,
         "minimized": minimized,
-        "downgraded_wall_pins": sorted(f"L{k[0]} {k[1]} {k[2]}" for k in downgraded
-                                       if len(k) == 3),
-        "downgraded_shape_pins": sorted(f"L{k[0]} {k[1]}" for k in downgraded if len(k) == 2),
+        "downgraded_wall_pins": sorted(_label("wall", k[1:]) for k in downgraded
+                                       if k[0] == "wall"),
+        "downgraded_shape_pins": sorted(_label("shape", k[1:]) for k in downgraded
+                                        if k[0] == "shape"),
+        "downgraded_facts": {kind: sorted(_label(kind, k[1:]) for k in downgraded
+                                          if k[0] == kind)
+                             for kind in ("axis",) + TYPE_FACTS},
+        "downgrade_rounds": list(rank_notes),
         "note": note,
         "attempts": attempts}}
 

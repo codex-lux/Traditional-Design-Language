@@ -6,7 +6,8 @@ three things to rule. Ruled 7 September 2026, taking the question's own first re
   1. ONE coordinate space, each room bounded by its OWN element's box. CP-SAT integer
      variables take negative lower bounds, so a west dependency at x = -34 needs no shift and
      no second origin -- the alternative the question offered and this does not use.
-  2. AN ELEMENT BOUNDARY IS NOT DOWNGRADABLE. `_RANK` is ("wall", "axis", "shape") and an
+  2. AN ELEMENT BOUNDARY IS NOT DOWNGRADABLE. `_RANK` is the seven-rank ladder (WP-13.3:
+     wall, axis, tiling, stack, bearing, hearth, shape) and an
      element edge is none of those: it is the massing, and a room drawn outside the mass the
      record states is the record and the drawing disagreeing about where the house is. It is
      stated as a plain `m.Add`, never a `reqs.lit`, so it cannot enter a conflict core and
@@ -57,11 +58,21 @@ EL = _mod("elements")
 # main's fpd dict and leaving the rest reproduced three of the four hashes and not the fourth,
 # because `bay` stayed at main's 9 and the span term lays its grid lines on the BAY MODULE. A
 # derived dict's keys are derived together; substitute the whole dict or none of it.
+#
+# RE-PINNED AT WP-13.3 (15 Sep 2026), AND THIS TIME THE MODEL DID MOVE, ON PURPOSE. All four
+# hashes changed because the model states four more facts as assumption literals -- exact
+# tiling per element, each declared stack by `stacking.lands`' own relation, bearing continuity
+# on the bay grid within the span capacity, and each stated fire's wall on its element's face --
+# and states the shape band at a hundredth rather than a tenth (`RATIO_SCALE`). The previous
+# four (fc35a5f9e2048703 / 24d6bf0453c84db8 / 6ad5fa0d6ee72ffd / db49b3bc8d7c8fda) are what the
+# model was before it was taught the type. The property this test guards is unchanged: the
+# ONE-RECTANGLE house takes the same path as before through the element code, so any further
+# movement here that WP-13.3's own tests do not account for is a defect and not a trade.
 MODEL_SHAS = {
-    ("tidewater-georgian-careful", False): "fc35a5f9e2048703",
-    ("tidewater-georgian-careful", True): "24d6bf0453c84db8",
-    ("spec-builder-colonial", False): "6ad5fa0d6ee72ffd",
-    ("spec-builder-colonial", True): "db49b3bc8d7c8fda",
+    ("tidewater-georgian-careful", False): "f499ab415b2add2e",
+    ("tidewater-georgian-careful", True): "24f83bddd186b559",
+    ("spec-builder-colonial", False): "af0b566db578f99f",
+    ("spec-builder-colonial", True): "68434bafedf92b38",
 }
 
 
@@ -267,8 +278,8 @@ def test_every_block_fact_in_the_model_reads_the_rooms_own_element():
 
 
 def test_an_element_boundary_is_not_downgradable():
-    """Ruling 2, stated. `_RANK` is ("wall", "axis", "shape"); an element edge is none of them
-    and is above all three, because a room outside its own mass is not a compromise -- it is a
+    """Ruling 2, stated. `_RANK` is the seven-rank ladder; an element edge is none of them
+    and is above all seven, because a room outside its own mass is not a compromise -- it is a
     different building. It is a plain `m.Add`, so it creates no assumption literal, cannot
     appear in a conflict core and cannot be relaxed by the ladder."""
     src = (ROOT / "build" / "geometry_cp.py").read_text()
@@ -280,5 +291,6 @@ def test_an_element_boundary_is_not_downgradable():
         for row in src.splitlines():
             if row.strip().startswith(line):
                 assert row.strip() == line, f"the element boundary is conditional: {row.strip()}"
-    assert CP._RANK == ("wall", "axis", "shape"), (
-        "the ladder gained a rank; an element edge must not be one of them")
+    assert CP._RANK == ("wall", "axis", "tiling", "stack", "bearing", "hearth", "shape"), (
+        "the ladder's ranks moved; an element edge must not be one of them")
+    assert not any("element" in k or "box" in k for k in CP._RANK)
