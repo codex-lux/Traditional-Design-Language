@@ -1,10 +1,11 @@
 """WP-13.6 -- the furniture is arranged to its own grammar, and every rule is DRIVEN.
 
 WP-11.3 gave `furniture/grammar.json` ten rules of which four were executed: a placement
-default, a wall run, a corner and a centre. Twenty drawable items state a POSITION in their
-own note or name -- "at the foot", "between the windows", "flanking the chimney breast",
-"opposite the bed", "facing down the hall", "sofas, pair, facing" -- and the packer read none
-of them; it seated each against the first wall with a run.
+default, a wall run, a corner and a centre. Catalogue items state a POSITION in their own note
+or name -- "at the foot", "between the windows", "flanking the chimney breast", "opposite the
+bed", "facing down the hall", "sofas, pair, facing" -- and the packer read none of them; it
+seated each against the first wall with a run. TEN items are reached by the nine positioned
+rules and EIGHT of them are drawable, measured by running `rule_for` over all 278.
 
 This file drives every rule the package added, and it drives them BY HAND rather than off the
 shipped plans, for three separate reasons which are worth keeping apart:
@@ -563,6 +564,29 @@ def test_the_pieces_of_a_counted_item_share_one_numeral_in_both_spellings():
         assert f"'{want}'" in jst, f"the browser suite does not expect {want!r}"
     assert "'1 DINING CHAIRS x2', '2 SIDEBOARD'" in jst, (
         "and must expect the no-shortfall form from the same fixture")
+
+
+def test_the_positioned_rules_reach_ten_catalogue_items_and_eight_are_drawable():
+    """THE CENSUS THREE FILES QUOTE, DERIVED HERE SO IT CANNOT ROT IN THE PROSE. `check_counts.py`
+    polices numbers derived from the CORPUS in Markdown, and this one is not on its list -- which
+    is WP-8.14's finding exactly: of the figures a layer publishes, the one nobody derives is the
+    one that goes stale. The package's opening survey counted every item whose note MENTIONS a
+    place and reported a larger, looser number; what the grammar executes is this."""
+    import glob
+    reached, drawable_n = [], 0
+    total = 0
+    for rf in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))):
+        for it in (json.load(open(rf)).get("furniture") or []):
+            total += 1
+            if F.rule_for(it):
+                reached.append((os.path.basename(rf), it["item"]))
+                drawable_n += F.drawable(it) is None
+    assert total == 278, f"{total} catalogue items, not 278: re-derive this whole census"
+    assert (len(reached), drawable_n) == (10, 8), (
+        f"the positioned rules now reach {len(reached)} catalogue items of which {drawable_n} are "
+        f"drawable, against 10 and 8: {reached}. Re-derive and correct the figure in "
+        f"docs/reports/wp-13.6-furniture-to-its-own-grammar.md, in CLAUDE.md and in this file's "
+        f"own docstring -- all three quote it and none of them can compute it.")
 
 
 def test_every_level_of_every_plan_has_an_index_equal_to_its_position():

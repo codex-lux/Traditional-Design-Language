@@ -1525,10 +1525,13 @@ withheld on that very house, or a parti authored blind);
 
 **WP-13.6 IS THE FURNITURE ARRANGED TO ITS OWN GRAMMAR, AND ITS SHARPEST FINDING IS THAT THE
 PACKAGE'S OWN FIRST COMMIT HAD ALREADY SHIPPED TWO RED ASSERTIONS
-(`docs/reports/wp-13.6-furniture-to-its-own-grammar.md`).** Twenty drawable items state their
-POSITION in their own name or note -- *at the foot*, *between the windows*, *flanking the
-chimney breast*, *opposite the bed*, *facing down the hall*, *sofas, pair, facing* -- and the
-packer read none of them, seating each against the first wall with a run. Nine POSITIONED rules
+(`docs/reports/wp-13.6-furniture-to-its-own-grammar.md`).** Catalogue items state their POSITION
+in their own name or note -- *at the foot*, *between the windows*, *flanking the chimney
+breast*, *opposite the bed*, *facing down the hall*, *sofas, pair, facing* -- and the packer
+read none of them, seating each against the first wall with a run. **TEN items are reached by
+the nine positioned rules and EIGHT of them are drawable**, re-derived by running `rule_for`
+over all 278 rather than taken from the opening survey's larger count of every note that
+mentions a place. Nine POSITIONED rules
 now do, each stated by another thing already on the floor and each REFUSING BY NAME where its
 relation has nothing to stand on, plus three modifiers (`fg-count`, `fg-clear-in-front`,
 `fg-bed-aisle`). Measured on the deterministic engine over the sixteen plans: **rules reaching
@@ -1576,7 +1579,7 @@ is this file's *a figure is a statement about the tree it was measured on* one a
 CATALOGUE's footprints against the DRAWN rectangle, and this package touched neither, so the
 pair stays 68/82. CLAUDE.md records three causes for that one pair; the fourth possible cause,
 the packer, is not one it reads.
-**TWENTY-SEVEN PYTHON MUTATIONS AND THREE JS ONES, ALL RED FROM A GREEN BASELINE, AND THREE WERE
+**THIRTY PYTHON MUTATIONS AND THREE JS ONES, ALL RED FROM A GREEN BASELINE, AND THREE WERE
 BLIND ON THEIR FIRST RUN.** A fixture giving the chair item `count: 8` beside a table that seats
 8 guarded neither branch (WP-11.15's rule; it is 4 against 8 now); a JS guard that GREPPED
 `furnitureKey.js` survived a rewording, so the behavioural guard moved into the JS suite and the
