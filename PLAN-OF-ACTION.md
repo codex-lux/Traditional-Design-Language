@@ -3839,3 +3839,107 @@ sixteen sheets move on a reconciliation, so it is its own package with three thi
 **One shipped sheet moved (+296 bytes), and removing the one field this package added gives all
 sixteen byte-identical to the previous commit** — the accounting proved rather than reasoned.
 **Depends on:** WP-12.8. **Size:** small.
+
+---
+
+## Phase 13 — The procedure nobody read
+
+*Raised by Lucas on 15 September 2026: "do the faults.detection package next." Diagnosed before it
+was built, which is this phase's own rule and the one Phase 11 was founded on.*
+
+`detection` is required on all 210 fault records and is **139,070 characters** — nearly ten times
+the 14,154 of `daylight.orientation`, the field whose zero readers WP-11.9 closed — and **nothing
+read one of them**. (It is not the largest prose field in the corpus: `correct_practice` is 191,878
+over the same records and has a reader. The report's first draft claimed otherwise and the claim was
+corrected by measuring.) What makes it a phase rather than a curiosity is what it
+was written FOR: on `tidewater-georgian-careful`, **120 of 210 faults come back COULD NOT EVALUATE**
+naming **299 distinct missing measurements**, and `detection` is the corpus's own written account
+of how to obtain each one.
+
+### WP-13.1 — the reader, and the verdict that did not carry what the corpus knows
+
+**Status: COMPLETE (15 September 2026).** Report: `docs/reports/wp-13.1-the-procedure-nobody-read.md`
+(cite the filename). New questions: `oq/clear-counts-a-pass-and-a-tautology-as-one-thing`,
+`oq/the-net-clear-opening-is-half-of-every-sash`,
+`oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies`.
+
+`build/detection.py` is the ONE reader. It supplies no measurement and copies no refusal:
+`refusals()` reads `arrangement.NOT_DERIVABLE` and `elevation.NOT_MODELLED` live, proved by a test
+that moves a table at runtime. `plan_check`'s unjudged rows carry the refusal and its verbatim
+reason — **13 annotated on the Tidewater plan, 8 of them wholly accounted for**, so
+`plant-room-that-was-never-drawn` no longer reads as a gap nobody has looked at when WP-9.1 built
+that measurement, swept it, found it convicted both reference plans and withdrew it.
+`check_faults.py` gains three checks, the sharpest being that **every refusal names a quantity some
+fault test actually reads** (36 of 36 live) — a refusal that cannot fire looks exactly like a
+decision taken.
+
+**Two discriminators were built, measured and FALSIFIED**, and both read perfectly well.
+`measurable_from: photograph` does not mean out of reach — **54 photograph-only faults are judged**,
+and the census that discriminator produced said the work list was 15 names when it is **276**. And
+the detection prose cannot be held to the tests' declared surface by word match, because in this
+prose **`elevation` means the FACE of the building**, which accounts for all 21 apparent
+disagreements.
+
+**The largest finding was not what the package was sent to look at.** `clear` counts two different
+things: **26 of the 65 faults clear on the Tidewater plan and 27 of 56 on the spec Colonial are
+cleared on a test reading a name `critic_suspects` already lists as the generator's own constant** —
+`one-bay-symmetry-break` on a symmetry count of 0, from a generator that draws a symmetric facade by
+construction. They are not false passes and they are vacuous as verdicts, and `critique.classify`
+is structurally blind to every one of them because it iterates findings and a fault that passes
+emits none. `plan_check.fault_clear_on_a_generator_constant` makes the question askable and decides
+nothing.
+
+**What was deliberately not done, and the reasons are in the report's §VIII:** no measurement was
+supplied (`exterior_openings_on_the_passage_axis` is *very nearly* what
+`arrangement.passage_ends_with_a_door` counts, and very nearly is the reason — that fault scores a
+rear window 0.5 and a door 1.0, which is one quantity under two meanings); no refusal was deleted,
+only two reasons corrected; no fault was moved from clear to unjudged; no instrument ceiling was
+moved; and the detection prose was not made machine-readable, which is roughly six hundred authored
+entries and is the next package if one is wanted rather than a debt.
+
+**Depends on:** nothing. **Size:** medium. **Fifteen mutations, fifteen red**, each with the match
+count asserted before the colour was believed, and four of them driving branches unreachable from
+the corpus.
+
+### WP-13.2 — the checker that accused an innocent line
+
+**Status: COMPLETE (15 September 2026).** Report:
+`docs/reports/wp-13.2-the-checker-that-accused-an-innocent-line.md` (cite the filename). No new
+question: the defect had a remedy and it was taken.
+
+**Raised by WP-13.1's own verification run and deferred in that package's §VIII.** The serial
+`check_all.py --shard 1/1` came back **1 of 53 checks failed**, and the failure was
+`check_frontend.py` printing `FAIL: three.js is not a separate chunk — round/three-scene.js has
+been imported statically somewhere` over a bundle in which that chunk could not appear.
+`workbench/app/dist/` is gitignored, was built **7 Sep 17:11**, and predates `round/three-scene.js`
+(committed **9 Sep**, WP-12.4) by two days — **22 sources newer than the bundle**. No file in the
+tree imports it statically, verified in both directions, so the message named a real file that had
+done nothing. **Two states where three are needed**, and the third is not "unactionable" but
+actionable in the WRONG DIRECTION.
+
+Two more lines down, `FAIL: 1 of 2 frontend suite(s) failed` printed directly under
+`router-unit: 63 checks passed` and `search-unit: 13 checks passed` — `bad` counted the lazy-tier
+check and the node suites in one variable, so **the summary named the wrong population**.
+
+`sources_newer_than`, `bundle_unjudged_reason` and `verdict` are the three readers, each with a
+`root=` seam; `main()` takes one too. An unjudged bundle returns COULD NOT EVALUATE and never 0.
+**The thresholds were not touched** — this package changed when the check may speak, never what it
+says — and `len(CHECKS)` did not move.
+
+**`dist/` was deliberately NOT rebuilt**: `npm install` would have put `node_modules` on the tree
+while `node --test workbench/app` was still pending in the running build, and that suite runs with
+no npm install by design. The bundle half is unjudged here and judged in CI, which builds first.
+
+**Thirteen mutations, thirteen red. FOUR were blind on their first run and every one was the
+WIRING** — deleting the staleness test, inverting it, loosening `>` to `>=`, and `main()` not
+calling the reader at all. The parts were driven and the join was not, which is WP-11.14's finding
+in a new place. The `>`/`>=` mutation needed an **equality fixture**, because at a one-second gap
+the two operators return the same answer; under `>=` every build on a fast machine reads stale and
+the check goes permanently unjudged, which is the fake-unjudged direction.
+
+**Three defects in the package's own work, each found by running it**: the reader was walked twice
+under one name; `newer[0]` was labelled "oldest offender" when the list is sorted by PATH — the very
+defect being removed, committed in the sentence removing it; and the `root=` seam was wired in one
+place and not its neighbour, so a driven tree came back as `../../../tmp/...`, caught by the
+function's own first test run.
+

@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**184 questions, of which 92 are open.** A question is OPEN while
+**187 questions, of which 95 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 92
+## Open — 95
 
 Awaiting a ruling. This is the list to read first.
 
@@ -96,6 +96,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from** | OPEN | [and every face in the corpus is symmetric, so nothing can catch it](open-questions/oq-an-elevation-does-not-state-which-end-of-the-face-it-starts-from.md) |
 | **oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms** | HALF CLOSED — doors and windows built in WP-11.14 (8 September 2026); the sweep of the other exterior marks is open | [the seventh layer that reads one rectangle](open-questions/oq-an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
+| **oq/clear-counts-a-pass-and-a-tautology-as-one-thing** | OPEN | [half the faults this corpus clears are cleared on the generator's own output](open-questions/oq-clear-counts-a-pass-and-a-tautology-as-one-thing.md) |
 | **oq/fifteen-of-sixteen-plans-name-no-parti** | OPEN | [the facade layer is silent on 94% of this corpus](open-questions/oq-fifteen-of-sixteen-plans-name-no-parti.md) |
 | **oq/fourteen-of-sixteen-plans-name-no-massing** | OPEN | [every massing-gated check is silent on 87.5% of the plan records](open-questions/oq-fourteen-of-sixteen-plans-name-no-massing.md) |
 | **oq/no-plan-record-states-its-bearing** | OPEN | [the compass rule is executed under an assumption on 16 of 16 plans](open-questions/oq-no-plan-record-states-its-bearing.md) |
@@ -111,6 +112,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |
 | **oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it** | OPEN | [two vocabularies for one fact](open-questions/oq-the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it.md) |
 | **oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted** | OPEN | [the argument for STACK_HARD being off no longer holds on the plan it was made on](open-questions/oq-the-measurement-that-defaulted-the-stacking-rule-has-inverted.md) |
+| **oq/the-net-clear-opening-is-half-of-every-sash** | OPEN | [a double-hung's model applied to a casement, and a fault cleared by 1.4 inches on it](open-questions/oq-the-net-clear-opening-is-half-of-every-sash.md) |
 | **oq/the-partis-bay-module-contradicts-its-own-exemplars** | OPEN | [a 9 ft bay on a diagram whose every exemplar measures about twelve](open-questions/oq-the-partis-bay-module-contradicts-its-own-exemplars.md) |
 | **oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it** | OPEN | [the tradition cuts a long passage across its length, and the only move we have is to widen it](open-questions/oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md) |
 | **oq/the-placement-carries-no-wall-bands** | OPEN | [the rooms tile the footprint exactly, so the walls are drawn where no room allows for them](open-questions/oq-the-placement-carries-no-wall-bands.md) |
@@ -122,6 +124,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-roof-record-and-the-plan-record-do-not-share-an-origin** | OPEN | [and nothing drew both until now](open-questions/oq-the-roof-record-and-the-plan-record-do-not-share-an-origin.md) |
 | **oq/the-transfer-count-lives-only-inside-an-english-sentence** | OPEN | [and a third reader now wants it](open-questions/oq-the-transfer-count-lives-only-inside-an-english-sentence.md) |
 | **oq/thirty-five-measurements-the-elevation-states-as-literals** | OPEN | [the critic convicts every classical plan of the same faults, and the numbers are the generator's](open-questions/oq-thirty-five-measurements-the-elevation-states-as-literals.md) |
+| **oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies** | OPEN | [the real shape of "120 faults unjudged"](open-questions/oq-two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
