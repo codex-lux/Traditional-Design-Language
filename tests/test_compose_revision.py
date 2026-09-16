@@ -241,12 +241,43 @@ class TestTheRevisedSetKeepsTheComposersInvariants:
         assert len(seen) == 3
         assert seen[0] <= 90 / 3 + 0.01, f"the leader was handed {seen[0]:.1f} s of a 90 s set budget"
         assert all(s >= 1.0 for s in seen)
-        # 1.2 s for two: the first gets its share (floored at 1 s), its first critique and one
-        # round overrun it, and less than a second is left for the second -- which says so
+
+    def test_the_candidate_the_budget_does_not_reach_is_read_by_rank_not_by_list_position(self, compose_module):
+        """SPLIT OUT OF THE SHARE TEST, 16 Sep 2026, BECAUSE IT WAS SHIELDED BY IT. Both halves
+        lived in one body with the 90 s three-candidate sweep first, so every mutation that
+        starves a candidate trips `seen[0] <= 30` and this half is NEVER REACHED -- measured,
+        two mutations (reverse the spend order; hand the leader the whole budget) both died on
+        that line at `seen[0] == 90.0`. That is WP-12.4's own finding: a guard that runs only
+        where the bug cannot occur. Split, the reverse-order mutation reaches this body and
+        bites it at the `by_rank[1]` line.
+
+        AND THE RETIRED ASSERTION IS RED IN BOTH STATES, WHICH IS NOT THE FAILURE MODE I
+        EXPECTED. `res["candidates"][0]["revision"] is not None` reads False on the pristine
+        tree (list[0] is `courtyard-and-portal`, rank 2, skipped for budget) AND False under
+        the mutation (list[0] is `side-hall-townhouse`, rank 1, skipped) -- because the
+        candidate that got the budget is the one that re-ranks, so list position follows the
+        revision and never the funding. A guard that cannot be GREEN carries exactly as much
+        information as one that cannot be RED: it convicts the code whatever the code does.
+
+        1.2 s for two: the first gets its share (floored at 1 s), its first critique and one
+        round overrun it, and less than a second is left for the second -- which says so."""
         res = compose_module.compose(_brief("family-georgian"), candidates=2, revise=True,
                                      revise_rounds=1, revise_engine="heuristic", revise_budget_s=1.2)
-        first, second = res["candidates"][0], res["candidates"][1]
-        assert first["revision"] is not None, "the first candidate got no share of the set's budget"
+        # RE-CUT 16 Sep 2026: THIS READ LIST POSITION WHERE IT MEANS RANK. It took
+        # `res["candidates"][0]` as "the leader who was funded" -- and **the budget is spent in
+        # RANK order while the returned list is in the composer's order AFTER revision**, so the
+        # moment a revised candidate changes places the two are different houses. Measured, two
+        # trials agreeing: `list[0]` is `courtyard-and-portal` with `rank_before=2`, skipped for
+        # want of budget, and `list[1]` is `side-hall-townhouse` with `rank_before=1`, which got
+        # its share and ran. The loop was right and the assertion was reading the wrong candidate.
+        # `test_the_revised_set_is_in_the_composers_order_and_rank_before_is_stated` is green
+        # over exactly this, which is why nothing else noticed.
+        by_rank = {c.get("rank_before"): c for c in res["candidates"]}
+        assert set(by_rank) == {1, 2}, f"rank_before is not a permutation of 1..2: {sorted(by_rank)}"
+        first, second = by_rank[1], by_rank[2]
+        assert first["revision"] is not None, (
+            "the candidate ranked FIRST got no share of the set's budget (this is rank_before "
+            f"== 1, which is list position {res['candidates'].index(first)})")
         assert second["revision"] is None and "budget" in second["revision_skipped"]
         assert "score_before" in second and second["score_before"] == second["score"]
         assert any(l.startswith("REVISION SKIPPED:") for l in second["decisions"])
