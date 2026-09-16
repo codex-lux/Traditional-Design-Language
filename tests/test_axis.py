@@ -210,11 +210,27 @@ class TestTheCriticReadsIt:
         for k in ("spine", "door", "mirror", "alignment"):
             assert k in ax
 
-    def test_the_shipped_passage_is_on_centre_after_wp_11_2(self, checked):
-        """It was the whole west bay of a six-bay house when the diagnosis was written. The
-        odd bay count and the diagram's own module put it on the centre line."""
+    def test_the_shipped_passage_is_OFF_centre_and_that_is_a_cost_of_wp_13_5(self, checked):
+        """It was the whole west bay of a six-bay house when the diagnosis was written; WP-11.2's
+        odd bay count and the diagram's own module put it on the centre line; and WP-13.5 has
+        taken it off again.
+
+        **THIS IS A COST, ASSERTED RATHER THAN LOOSENED.** The container moved the service
+        programme into the dependency the record declares, so the front is 45.00 ft wide instead
+        of 63.00 and this engine draws the passage centred at 27.21 ft against a footprint centre
+        of 22.50 -- 4.71 ft off, against the 4.5 ft this diagram allows (half a bay module,
+        editorial, stated in the record that carries it). `plan_check` emits
+        `drawn-passage-off-centre` for it, `serious`, which is the corpus criticising the
+        placement as it should.
+
+        The verdict is asserted, not the tolerance: widening `tol_ft` to make this green would be
+        tuning the instrument at the one number the diagram turns on. If a later package puts the
+        passage back on the axis this goes red, which is the right direction."""
         _, c = checked
-        assert (c["drawn_summary"]["axis"]["spine"]) == "on-centre"
+        ax = c["drawn_summary"]["axis"]
+        assert ax["spine"] == "off-centre", ax
+        assert [f for f in c["findings"] if f.get("kind") == "drawn-passage-off-centre"], (
+            "the passage is off the axis and the critic says nothing about it")
 
     def test_the_door_is_named_when_it_misses_the_middle_bay(self, checked):
         _, c = checked

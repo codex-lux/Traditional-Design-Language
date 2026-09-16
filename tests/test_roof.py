@@ -380,7 +380,12 @@ class TestDormerRhythm:
         main = roof_module.main_roof(plan, section, plan["style"])
         d = roof_module.dormer_rhythm_check(plan, section, main)
         # 5, moved from 4 by WP-11.2 (the odd-count rule; see that report).
-        assert d["bay_count"] == 5 and d["on_bay_count"] == 5
+        # 3 AT WP-13.5, from 5: this fixture states a 12.516 ft bay module and the FOOTPRINT is
+        # the shipped record's, whose main block is 45.00 ft wide since the service programme
+        # moved into the dependency it declares -- 45 / 12.516 is three whole bays where 63 was
+        # five. What the test is about is unmoved: six dormers on three bays is off the rhythm,
+        # `ok` is False and the ratio is under 1.
+        assert d["bay_count"] == 3 and d["on_bay_count"] == 3
         assert d["ok"] is False and d["ratio"] < 1.0
 
     def test_the_roof_and_the_elevation_agree_or_the_roof_declines(self, roof_module):

@@ -242,6 +242,26 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # were checking by hand. That is this repository's own *a package that commits before its
 # build finishes learns what it broke from the build*, met by the package that had just
 # written the sentence down.
+# **THIS PAIR IS STALE AT `57e7b72` AND WP-13.5 DID NOT RE-PIN IT (16 Sep 2026).** The
+# assertion below is RED on a `git archive` checkout of the branch head with no edit of this
+# package on it: measured there with this test's own loop, the corpus hashes
+# RAW 41314f5e3f8ba600 / STRIPPED 4fa5209dca42afb8 against the 01771d3656231ba9 /
+# 0fd105825eda19e0 pinned here. Some earlier commit on this branch moved a shipped sheet and
+# did not account for it, and this file cannot say which or why.
+#
+# WP-13.5 moves it further, by exactly one sheet: hashed per file on that same checkout and on
+# the WP-13.5 tree, FIFTEEN OF SIXTEEN ARE IDENTICAL and the sixteenth is
+# `tidewater-georgian-careful` (raw 4e79215d4342bf59 -> 13a5a98fe5d004bc, stripped
+# 5383251db94bb83f -> b792a829dd939e5a, 96,833 -> 96,922 bytes) -- the record that package
+# edits, whose service programme is now in the dependency it declares. Corpus totals on the
+# WP-13.5 tree: RAW 94ae3f0c59215830 / STRIPPED 80d5070e42c4573b.
+#
+# **IT IS LEFT RED ON PURPOSE.** Re-pinning it here would fold somebody else's unaccounted
+# movement into WP-13.5's accounting and publish the pair as though both were explained --
+# which is this file's own recorded lesson three paragraphs down, where WP-12.4 shipped three
+# commits on a red assertion after checking a DIFFERENT property by hand. The per-sheet
+# figures above are what a package that owns the earlier movement needs; the numbers below are
+# NOT this package's to change.
 CORPUS_SHEET_SHA = "01771d3656231ba9"
 CORPUS_SHEET_SHA_NO_FRAME = "0fd105825eda19e0"
 # BOTH MOVED AT THE MERGE OF WP-13.2's SIX SLICES (15 Sep 2026), AND RE-PINNED ONCE, ON THE
@@ -358,6 +378,12 @@ def _tagged_solved():
     if not hasattr(_tagged_solved, "_v"):
         GEO = _mod("geometry")
         p = json.loads((ROOT / "plans" / "tidewater-georgian-careful.json").read_text())
+        # WP-13.5: the record carries a container of its own now; this fixture states the one
+        # it is about, so the shipped tags come off first.
+        for lv in p["levels"]:
+            for r in lv["rooms"]:
+                r.pop("block", None)
+                r.pop("hyphen", None)
         dep = {"kitchen", "pantry", "breakfast", "powder", "cellarstair"}
         for lv in p["levels"]:
             for r in lv["rooms"]:

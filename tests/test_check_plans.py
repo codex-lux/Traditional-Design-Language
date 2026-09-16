@@ -34,6 +34,24 @@ def parti(pid="centre-passage-double-pile"):
     return json.load(open(os.path.join(ROOT, "partis", f"{pid}.json")))
 
 
+def _swell(plan, factor):
+    """Lengthen the MAIN BLOCK's rooms, leaving every room in a massing element alone.
+
+    The growth loop under test grows the main block, and `derive_footprint` sums only untagged
+    rooms into `need` (WP-11.9: a dependency is sized from its own rooms and never from a share
+    of the main block's). Scaling a tagged room therefore does not enlarge the thing being
+    grown — it enlarges the WING, which eats the lot and lowers `growth_ceiling` until the loop
+    cannot step at all. Named here rather than inlined because two tests want it and the two
+    drifting apart is how one of them goes quietly blind."""
+    for lv in plan["levels"]:
+        for r in lv["rooms"]:
+            if r.get("block"):
+                continue
+            if r.get("width_ft") and r.get("length_ft"):
+                r["length_ft"] = round(r["length_ft"] * factor, 2)
+    return plan
+
+
 # ------------------------------------------------------------------ the record against the parti
 class TestThePlanAgainstItsParti:
     def test_the_shipped_plan_names_its_parti(self):
@@ -64,13 +82,108 @@ class TestThePlanAgainstItsParti:
 
     def test_exposure_disagreements_are_reported_and_not_failed(self):
         """A parti states TOPOLOGY and roles, never massing (decision #3), and
-        `exterior_walls` speaks exposure in the fully-massed house. The Tidewater record's back
-        hall is a hyphen and its kitchen a dependency; the parti has neither. Erasing that to
-        quieten a checker would delete the record's own account of the house."""
+        `exterior_walls` speaks exposure in the fully-massed house. Since WP-13.5 BOTH records
+        carry the hyphen and the dependency, and the two findings survive unchanged: the parti
+        states its service wing to the EAST and this plan builds it to the WEST, which is a
+        massing statement on both sides. (This docstring read *"the parti has neither"* until
+        WP-13.5 gave it both; the sentence was true when written and is corrected in the commit
+        that falsified it.) Erasing either record to quieten a checker would delete its own
+        account of the house."""
         found = CP.check_plan(tidewater(), parti())
         exposure = [f for f in found if f["kind"] == "exterior-walls"]
         assert {f["room"] for f in exposure} == {"backhall", "kitchen"}
         assert len(exposure) <= CP.EXPOSURE_CEILING
+
+    # ---------------------------------------------------------------- WP-13.5, the container
+    #
+    # EVERY ASSERTION BELOW IS DRIVEN, AND THE FIRST ONE SAYS WHY. On the shipped corpus the
+    # plan and the parti AGREE about every tag, so this kind of finding is unreachable and a
+    # guard that only read the corpus would be green with the whole comparison deleted
+    # (WP-8.11's fixture rule). The premise is asserted first so that the day a record's tags
+    # drift, the suite says so here rather than these tests quietly becoming redundant.
+
+    def test_both_records_carry_the_container_and_they_agree(self):
+        """The premise of everything below, and the package's own deliverable. WP-13.5 moved
+        the service programme into the dependency in BOTH records; `build/compose.py` copies
+        `block` and `hyphen` onto the candidates it writes, so a composed Tidewater house gets
+        the same wing a hand-authored one does."""
+        rooms = CP.rooms_of(tidewater())
+        pr = {r["id"]: r for r in parti()["rooms"]}
+        moved = {"kitchen", "pantry", "breakfast", "powder"}
+        assert {r for r in moved if rooms[r].get("block") == "service"} == moved
+        assert {r for r in moved if pr[r].get("block") == "service"} == moved
+        assert rooms["backhall"].get("block") == "service" and rooms["backhall"].get("hyphen")
+        assert pr["backhall"].get("block") == "service" and pr["backhall"].get("hyphen")
+        assert [f for f in CP.check_plan(tidewater(), parti())
+                if f["kind"] == "massing-element"] == []
+
+    def test_the_butlers_pantry_is_in_the_block_in_both_records(self):
+        """THE ONE DEVIATION FROM THE 15 SEP RULING'S LIST, and it is the corpus's own ruling
+        rather than an omission. `rooms/butlers-pantry.json` states `must_adjoin dining-room`
+        HARD with NO `via` and `must_adjoin kitchen` HARD WITH `via: [back-hall,
+        gallery-corridor]` — added at OQ 59 with the sentence naming a Tidewater plantation
+        house — so a pantry in the dependency must cross a boundary it has no route across.
+        Asserted on the ROOM RECORD as well as on the two plan records, because 'butlers has no
+        block tag' passes on a corpus where nobody ever wrote one."""
+        rr = json.load(open(os.path.join(ROOT, "rooms", "butlers-pantry.json")))
+        must = {m["room"]: m for m in rr["adjacency"]["must_adjoin"]}
+        assert must["dining-room"]["strength"] == "hard" and not must["dining-room"].get("via")
+        assert must["kitchen"]["strength"] == "hard"
+        assert "back-hall" in must["kitchen"]["via"]
+        assert "block" not in CP.rooms_of(tidewater())["butlers"]
+        assert "block" not in {r["id"]: r for r in parti()["rooms"]}["butlers"]
+
+    def test_the_redundant_direct_door_is_gone_from_both_sides_of_the_pair(self):
+        """A door is a fact of two rooms, and dropping it from one leaves the two records
+        disagreeing about one opening. It is the door CP-SAT cores on (WP-11.13): butlers in
+        the block with this door kept is INFEASIBLE."""
+        rooms = CP.rooms_of(tidewater())
+        assert not any(d["to"] == "kitchen" for d in rooms["butlers"]["doors"])
+        assert not any(d["to"] == "butlers" for d in rooms["kitchen"]["doors"])
+        pr = {r["id"]: r for r in parti()["rooms"]}
+        assert "kitchen" not in pr["butlers"]["doors"] and "butlers" not in pr["kitchen"]["doors"]
+        # and the route the room record's own `via` names is intact end to end
+        assert any(d["to"] == "backhall" for d in rooms["butlers"]["doors"])
+        assert any(d["to"] == "backhall" for d in rooms["kitchen"]["doors"])
+
+    def test_a_dropped_block_tag_is_a_finding(self):
+        """The room falls back into the main block — `geometry.blocks_for` reads an absent tag
+        as the main block by construction — so the plan silently describes a different house."""
+        plan = tidewater()
+        for lv in plan["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] == "kitchen":
+                    assert r.pop("block") == "service"
+        found = CP.check_plan(plan, parti())
+        assert any(f["kind"] == "massing-element" and f["room"] == "kitchen" for f in found)
+
+    def test_a_block_tag_naming_ANOTHER_element_is_a_finding(self):
+        """The half a one-sided comparison misses. An absent tag and a wrong one are the same
+        question — which element is this room in — and only one of them looks like an omission."""
+        plan = tidewater()
+        for lv in plan["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] == "kitchen":
+                    r["block"] = "carriage"
+        found = [f for f in CP.check_plan(plan, parti())
+                 if f["kind"] == "massing-element" and f["room"] == "kitchen"]
+        assert found and "carriage" in found[0]["statement"]
+
+    def test_a_dropped_hyphen_flag_is_a_finding(self):
+        """`hyphen` decides whether the room is laid in the GAP or in the dependency body, and
+        `flank_sizes` reads its `width_ft` as the gap — so losing it moves two elements."""
+        plan = tidewater()
+        for lv in plan["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] == "backhall":
+                    assert r.pop("hyphen") is True
+        assert any(f["kind"] == "massing-element" and f["room"] == "backhall"
+                   for f in CP.check_plan(plan, parti()))
+
+    def test_the_massing_tags_FAIL_rather_than_report(self):
+        """`exterior_walls` reports because a parti may not rule on massing; `block` says which
+        rooms share a volume, which is the diagram's own composition and is topology."""
+        assert "massing-element" not in CP.REPORTED
 
     def test_a_missing_room_the_parti_requires_is_a_finding(self):
         plan = tidewater()
@@ -188,13 +301,18 @@ class TestTheMassingsBayCount:
         count already satisfies the depth test, so `all(... for b in [])` is True and the test
         passed with the step forced back to 1. A fixture that never enters the loop cannot test
         the loop, so this one enlarges the program until it must grow, and asserts the loop ran
-        before asserting anything about what it did."""
-        plan = tidewater()
-        for lv in plan["levels"]:
-            for r in lv["rooms"]:
-                if r.get("width_ft") and r.get("length_ft"):
-                    r["length_ft"] = round(r["length_ft"] * 1.9, 2)
-        fp = GEO.derive_footprint(plan)
+        before asserting anything about what it did.
+
+        AND THAT PREMISE ASSERTION THEN EARNED ITSELF AT WP-13.5, WHICH IS WHY `_swell` SKIPS A
+        TAGGED ROOM. The fixture used to scale EVERY room, and once the service programme moved
+        into the dependency that inflated the WING: `flank_sizes` sizes a dependency from its own
+        rooms' areas, so scaling them took the flank to 61 ft, `lot_maxbay` from 11 to 8 and
+        `growth_ceiling` to 8 — and with `bays` starting at 7 and a step of 2, `7 + 2 > 8` broke
+        the loop on its first pass. The fixture had stopped reaching the code under test for a
+        reason that has nothing to do with bay parity. Scaling only the main block's own rooms is
+        what this test always meant, reproduces the pre-WP-13.5 figures exactly (`grown == [9]`),
+        and cannot be squeezed out of the loop by a wing."""
+        fp = GEO.derive_footprint(_swell(tidewater(), 1.9))
         assert fp["grown"], "the fixture is blind: the growth loop never ran"
         assert all(b % 2 == 1 for b in fp["grown"]), fp["grown"]
         assert fp["bays"] % 2 == 1
@@ -205,11 +323,7 @@ class TestTheMassingsBayCount:
         plan = tidewater()
         plan.pop("parti", None)
         plan["massing"] = "gable-front"          # `bays: "2-3"`, no centre-hall parti passed
-        for lv in plan["levels"]:
-            for r in lv["rooms"]:
-                if r.get("width_ft") and r.get("length_ft"):
-                    r["length_ft"] = round(r["length_ft"] * 1.9, 2)
-        fp = GEO.derive_footprint(plan)
+        fp = GEO.derive_footprint(_swell(plan, 1.9))
         assert fp["wants_centre_bay"] is False
         assert fp["grown"], "the fixture is blind: the growth loop never ran"
         steps = {b - a for a, b in zip([fp["grown"][0] - 1] + fp["grown"], fp["grown"])}

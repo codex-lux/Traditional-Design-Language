@@ -93,7 +93,15 @@ def test_the_record_names_every_over_capacity_span_and_the_count_still_agrees():
 # so the corpus this figure counts is neither parent's. The mechanism, the 20 ft capacity
 # and `bearing_lines`' 0.75 ft tolerance are all untouched; only the placement moved, and
 # the count moved with it in the direction WP-11.8 already measured and recorded.
-CORPUS_SPANS = 26
+# 26 -> 27 AT WP-13.5, AND THE WORST IS UNMOVED AT 60.0 ft (which is another plan's, not the
+# Tidewater's). The one that moved is `tidewater-georgian-careful`, whose service programme is
+# in the dependency it declares: 3 over-capacity spans -> 4, and its own worst 35.5 -> 45.0 ft.
+# A 45 ft main block is sliced differently from a 63 ft one, and `geometry.bias` reads
+# `stacks_over` while the level is being sliced, so withdrawing one claim changes which layouts
+# are produced. THIS IS THE COST GOING THE WRONG WAY ON THIS ENGINE and it is not netted off:
+# on `engine="cp"` the same record goes the other way, 2 over-capacity spans -> 0 and the worst
+# 63.0 -> 37.0 ft. The 20 ft capacity and `bearing_lines`' 0.75 ft tolerance are UNTOUCHED.
+CORPUS_SPANS = 27
 CORPUS_WORST_FT = 60.0
 
 
@@ -118,7 +126,10 @@ def test_the_charge_and_the_count_are_summed_from_the_same_list():
     # worst 60.0 -> 35.5 ft. The merged placement is neither parent's. What this test is
     # for -- the charge and the count come from ONE list, so they cannot disagree -- is
     # asserted by the source check above and by the arithmetic below, both unchanged.
-    assert sc["over_capacity"] == 3 and sc["charge"] == 90.0
+    # RE-DERIVED AGAIN AT WP-13.5: 3 / 90.0 -> 4 / 130.5, the record edit moving the
+    # placement (see CORPUS_SPANS above for the accounting and for the opposite movement on
+    # the prover). The property is untouched: one list, one charge, one count.
+    assert sc["over_capacity"] == 4 and sc["charge"] == 130.5
 
 
 # --------------------------------------------------------------- the critic says it
@@ -220,7 +231,9 @@ def test_a_span_is_a_placement_finding_with_a_lever():
     # placement, which is neither parent's. What the test is FOR is the CLASSING -- a span
     # is a `placement` finding and carries a lever -- and that is asserted below and is
     # unchanged. The number is re-derived so a later change still has to justify itself.
-    assert len(placed) == 3, res["assessment"].keys()
+    # 4 AT WP-13.5, from 3, the record edit moving this plan's placement (the accounting is
+    # at CORPUS_SPANS). The CLASSING is what this test is for and it is unchanged.
+    assert len(placed) == 4, res["assessment"].keys()
     assert placed[0].get("lever"), "a placement-class finding with no lever"
     for cls in ("actionable", "architect", "advisory", "critic_suspect"):
         assert not [i for i in res["assessment"][cls] if i.get("kind") == "span-over-capacity"]
@@ -243,7 +256,10 @@ def test_both_plates_print_the_span_and_say_the_count_is_a_floor():
     # RE-DERIVED AT THE MERGE (8 Sep 2026): the plate prints this plan's own figures and
     # the placement moved. The property -- the plate prints the COUNT and the WORST, and
     # says the count is a floor -- is what the rest of this test asserts.
-    assert m.group(1) == "3" and m.group(2) == "35.5"
+    # RE-DERIVED AT WP-13.5: 3 / 35.5 ft -> 4 / 45.0 ft, this plan's own figures moving with
+    # the container. The property -- the plate prints the COUNT and the WORST and says the
+    # count is a floor -- is what the rest of this test asserts and is untouched.
+    assert m.group(1) == "4" and m.group(2) == "45"   # the plate prints 45, not 45.0
     assert "HOWEVER SHORT THE WALL RUNS" in svg, "the plate does not say the count is a floor"
     js = (ROOT / "workbench" / "app" / "src" / "sheet" / "Sheet.jsx").read_text()
     assert "placement?.geometry_report?.span_capacity" in js

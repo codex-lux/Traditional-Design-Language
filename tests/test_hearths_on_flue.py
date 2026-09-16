@@ -56,9 +56,78 @@ def C():
 
 @pytest.fixture(scope="module")
 def placed():
-    """The shipped record on the search engine, placed ONCE for the module."""
+    """The shipped record read as the ONE-ELEMENT house it was until WP-13.5, on the search
+    engine, placed ONCE for the module.
+
+    **EVERY TEST IN THIS FILE IS ABOUT THE HEARTH MACHINERY AND NEEDS A HOUSE WITH TWO
+    STACKS.** Until WP-13.5 the shipped record was that house: the drawing room and the dining
+    room stood on the west gable, the library on the east, and the plan drew two squares on two
+    stated flues. WP-13.5 moved the service programme into the dependency that record declares,
+    and on THIS engine the 45 ft main block that remains does not keep the two principal rooms
+    against the west wall -- each is drawn 4.95 ft inboard of it, so neither fire has an
+    exterior wall to carry its flue and `hearths.breast` refuses both, by name and with the
+    reason. The west stack is not drawn.
+
+    That is a real cost of the container and it is NOT hidden here: it is asserted, on the
+    SHIPPED record, by `test_the_shipped_record_now_draws_ONE_stack_and_says_why` below, which
+    is also the premise for this strip. What these tests measure is the machinery -- a breast
+    on a boundary is drawn, a breast off one is refused with its reason, the roof reads the
+    plan's flues rather than recomputing them -- and the machinery needs a record that reaches
+    all of its branches. On `engine="cp"` the drawing room's fire still holds and only the
+    dining room's is inboard (2 of 3), so this is one engine's placement rather than a fact
+    about the record."""
+    GEO._SOLVE_CACHE.clear()
+    d = json.load(open(TIDEWATER, encoding="utf-8"))
+    for lv in d.get("levels", []):
+        for r in lv.get("rooms", []):
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return GEO.solve(d, None, 250, engine="heuristic")
+
+
+@pytest.fixture(scope="module")
+def shipped():
+    """The record AS SHIPPED, container and all, placed once."""
     GEO._SOLVE_CACHE.clear()
     return GEO.solve(json.load(open(TIDEWATER, encoding="utf-8")), None, 250, engine="heuristic")
+
+
+def test_the_shipped_record_now_draws_ONE_stack_and_says_why(shipped):
+    """THE COST OF WP-13.5's CONTAINER ON THIS SHEET, ASSERTED RATHER THAN LEFT TO A COMMENT,
+    and the premise of the `placed` fixture above.
+
+    With the service programme in the dependency, the main block is 45 ft wide and this engine
+    draws the drawing room and the dining room 4.95 ft inboard of its west face. A fire whose
+    room does not reach an exterior wall has no flue, so `hearths.breast` refuses it -- and the
+    refusal is the honest kind: it names the wall, the distance, and the fact that an interior
+    stack is NOT invented in its place. The east stack, whose library does reach the east wall,
+    is unaffected.
+
+    If a later package puts those two rooms back on the gable, this test goes red and the
+    `placed` fixture above stops needing its strip. That is the right direction and it should
+    be loud."""
+    st = {s["flue"] for s in shipped["hearths"]["stacks"]}
+    assert st == {"east-stack"}, (
+        "the shipped Tidewater sheet drew TWO stacks before WP-13.5 and draws one now; if it "
+        "draws two again the fixture above no longer needs its strip")
+    un = shipped["hearths"]["unplaced"]
+    breasts = [u for u in un if u.get("rule") == "hearths.breast"]
+    assert {u["room"] for u in breasts} == {"drawing", "dining"}, breasts
+    for u in breasts:
+        why = u["reason"]
+        assert "no exterior wall carries its flue" in why, why
+        assert "a fire with no flue is not drawn" in why, why
+        assert "interior stack is not modelled" in why, (
+            "the refusal must say an interior stack is not invented in its place")
+    # AND THE STACK ITSELF IS REFUSED ON ITS OWN ACCOUNT, not merely absent: a stack over no
+    # fire is not placed (WP-11.4), and the record says so where a reader will look.
+    stack = [u for u in un if u.get("flue") == "west-stack"]
+    assert len(stack) == 1 and "no fire for its stack to stand over" in stack[0]["reason"]
+    # the drawn-false breasts still carry their rectangle, so a later reader can see WHERE the
+    # fire would have been: 4.95 ft inboard of the element's west face.
+    off = [b for b in shipped["hearths"]["breasts"] if not b["drawn"]]
+    assert {b["room"] for b in off} == {"drawing", "dining"}
+    assert all(b["judged"] and round(b["x_ft"], 2) == 4.95 for b in off), off
 
 
 def _room(plan, rid, level=0):

@@ -145,3 +145,41 @@ def minimal_plan(rooms, style="georgian-colonial-american", massing="centre-pass
         "adjacencies": [],
         "declared": {},
     }
+
+
+# ---------------------------------------------------------------------- WP-13.5, the container
+def untagged_reference_plan(name="tidewater-georgian-careful"):
+    """A shipped plan record with its own massing container REMOVED, for a fixture that means
+    to state its own.
+
+    **WHY THIS EXISTS, AND IT IS ONE SPELLING BECAUSE EIGHT FIXTURES NEED IT.** Until WP-13.5 no
+    plan in this corpus carried a `block` tag, so every hand-tagged fixture could open
+    `plans/tidewater-georgian-careful.json`, add two or three tags and know exactly what house it
+    had built. WP-13.5 moved the service programme into the dependency the plan declares, so that
+    record now carries five `block: service` tags and a `hyphen: true` of its own — and a fixture
+    that adds `west-dependency` on top of them builds a FOUR-element house where it meant to build
+    a two-element one. That is not a wrong answer from the code under test; it is the fixture no
+    longer reaching it, which is WP-8.11's rule met from the other side: a fixture must state the
+    case it exists for rather than inherit whatever the corpus happens to carry.
+
+    Stripping is the right repair rather than renaming the shipped tags to match, because the
+    property each of these fixtures pins is *what the placer does with N elements*, and N is the
+    fixture's business. `tests/test_check_plans.py` keeps the other half — that the shipped record
+    and its parti agree about the container they DO carry.
+    """
+    p = json.load(open(os.path.join(ROOT, "plans", name + ".json")))
+    return p, as_one_element(p)
+
+
+def as_one_element(plan):
+    """Strip a plan's massing container IN PLACE and return how many tags went.
+
+    The second spelling, for the guards that sweep `plans/**/*.json` by glob and so have the
+    record in hand rather than a name. One function does the stripping so the two cannot drift
+    about what a container is."""
+    stripped = 0
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            stripped += r.pop("block", None) is not None
+            r.pop("hyphen", None)
+    return stripped

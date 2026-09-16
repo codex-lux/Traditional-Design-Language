@@ -447,7 +447,8 @@ class TestRelieflsDrawnInLineNotInTone:
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
         r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
-        elev = e.build_elevation(_j.load(open(os.path.join(ROOT, "plans", f"{plan_id}.json"))))
+        elev = e.build_elevation(_one_element(
+            _j.load(open(os.path.join(ROOT, "plans", f"{plan_id}.json")))))   # WP-13.5
         out = str(tmp_path / f"{plan_id}.svg")
         r.render_elevation(elev, out)
         return open(out).read(), elev
@@ -494,7 +495,8 @@ class TestNoOpeningIsDrawnWhereAStackStands:
     def _rec(self, style_plan="tidewater-georgian-careful"):
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
-        return e.build_elevation(_j.load(open(os.path.join(ROOT, "plans", f"{style_plan}.json"))))
+        return e.build_elevation(_one_element(
+            _j.load(open(os.path.join(ROOT, "plans", f"{style_plan}.json")))))   # WP-13.5
 
     def test_the_gable_end_centre_bay_is_blind_and_the_flanks_are_not(self):
         rec = self._rec()
@@ -510,8 +512,8 @@ class TestNoOpeningIsDrawnWhereAStackStands:
             rf = modcache.load("roof", os.path.join(ROOT, "build", "roof.py"))
             st = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
             import json as _j2
-            _plan = _j2.load(open(os.path.join(ROOT, "plans",
-                                               "tidewater-georgian-careful.json")))
+            _plan = _one_element(_j2.load(open(os.path.join(   # WP-13.5
+                ROOT, "plans", "tidewater-georgian-careful.json"))))
             _roof = rf.build_roof(_plan, section=st.build_section(_plan))
             axes = sorted({round(c["y_ft"], 3) for c in _roof["chimneys"]["positions"]
                            if c.get("y_ft") is not None})
@@ -583,7 +585,8 @@ class TestNoOpeningIsDrawnWhereAStackStands:
         import copy
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
-        plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        plan = _one_element(   # WP-13.5
+            _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))))
         base = e.build_elevation(plan)
         face = base["entrance_face"]
         door_cx = [c for c, k in zip(base["faces"][face]["centres_ft"],
@@ -706,7 +709,8 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
         import copy
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
-        plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        plan = _one_element(
+            _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))))
         plan = copy.deepcopy(plan)
         if declared == "DROP":
             plan["declared"].pop("dormer", None)
@@ -1295,13 +1299,28 @@ def _level_openings(rp, placed, i, lv):
     return rp.openings_of_level(placed, lv, i)
 
 
+# WP-13.5, THE CONTAINER. The Tidewater record states three massing elements now. This file
+# measures the ELEVATION and the drawn ink, which are the main block's, so every fixture here
+# reads the record as the ONE-ELEMENT house it was until that package -- the same strip
+# `tests/test_one_bay_system.py` makes and for the same reason. The cost of the container on
+# the elevation is asserted on the SHIPPED record by the Phase 13 gate, whose
+# `test_the_elevations_openings_are_the_plans_placed_openings` rows are red on purpose
+# (`oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front`).
+def _one_element(plan):
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return plan
+
+
 @pytest.fixture(scope="module")
 def door_sheet(tmp_path_factory):
     """The reference plan on the SEARCH engine (deterministic), rendered in the register the
     workbench draws. Solved once for the class below."""
     rp = modcache.load("render_plan", f"{ROOT}/build/render_plan.py")
     g = modcache.load("geometry", f"{ROOT}/build/geometry.py")
-    plan = json.load(open(f"{ROOT}/plans/tidewater-georgian-careful.json"))
+    plan = _one_element(json.load(open(f"{ROOT}/plans/tidewater-georgian-careful.json")))
     g._SOLVE_CACHE.clear()
     placed = g.solve(plan, engine="heuristic")
     assert "error" not in placed, placed.get("error")

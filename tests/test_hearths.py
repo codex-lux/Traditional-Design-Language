@@ -38,6 +38,24 @@ def tidewater():
     return json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
 
 
+def tidewater_one_element():
+    """The same record read as the ONE-ELEMENT house it was until WP-13.5.
+
+    That package moved the service programme into the dependency this record declares, and on
+    the search engine the 45 ft main block that remains draws the drawing and dining rooms
+    4.95 ft inboard of its west face -- so neither west fire reaches an exterior wall, both
+    breasts are refused by name, and the plan draws ONE stack instead of two. The cost is
+    asserted on the shipped record in `tests/test_hearths_on_flue.py`; a test whose subject is
+    *two fires on one flue are one stack* needs a house that draws two stacks to say anything,
+    which is what this returns."""
+    d = tidewater()
+    for lv in d.get("levels", []):
+        for r in lv.get("rooms", []):
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return d
+
+
 # ------------------------------------------------------------------ reading the massing
 class TestTheMassingsHearth:
     def test_the_forms_it_acts_on(self):
@@ -400,7 +418,7 @@ class TestTheStackStandsOverAFire:
     def test_two_fires_on_one_flue_are_one_stack(self):
         """The drawing room and the dining room share `west-stack`, which is what a pair of
         paired end chimneys joined by an arched curtain means."""
-        placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
+        placed = GEO.solve(tidewater_one_element(), None, 60, engine="heuristic")
         ch = RF.build_roof(placed, section=ST.build_section(placed))["chimneys"]
         assert len(ch["positions"]) == 2, "three fires on two flues must give two stacks"
 

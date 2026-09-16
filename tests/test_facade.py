@@ -218,8 +218,18 @@ class TestTheDataTheRulingCommittedTo:
         s = FA.facade_share(tidewater)
         assert s["verdict"] == "reported"
         assert s["advisory_band"] == [0.18, 0.27]
-        # this plan is OUTSIDE the band, and that is now a report rather than a conviction
-        assert s["within_advisory"] is False and s["share"] < 0.18, s
+        # **WP-13.5 PUT THIS PLAN INSIDE THE BAND, WHICH IS THE POINT OF THE RULING THAT MADE
+        # IT A REPORT.** It read `within_advisory is False and share < 0.18`. The container took
+        # the front from 63.00 ft to 45.00 and the passage is 8.52 ft of it -- share 0.1893,
+        # inside the 0.18-0.27 `centre-passage-core` advises. WP-11.7 measured 0.136 on the
+        # 63 ft front and made the rule a REPORT precisely because the facade is a RESULT: the
+        # share moved because the house did, and nobody sized the passage from it.
+        #
+        # So the VERDICT is asserted rather than the direction. A test that requires this plan
+        # to stay outside the band would go red the day the corpus got it right, which is the
+        # guard-pins-an-outcome shape this repository keeps re-cutting; what must hold is that
+        # the rule REPORTS, states its band, and says it is not required.
+        assert s["within_advisory"] is True and 0.18 <= s["share"] <= 0.27, s
         assert "not required" in s["note"]
 
 
@@ -283,9 +293,13 @@ class TestTheElevationReadsThePlansBayCount:
         plan agree on both shipped plans, so a mutation deleting this join leaves every assertion
         above green (measured — 7 and 5 either way). Driving the plan to a bay count the formula
         would never pick is the only way to see the join at all. WP-8.11's rule."""
+        # 7 -> 5 AT WP-13.5: the main block is 45.00 ft wide at five bays now, its service
+        # programme being in the dependency the record declares. The join under test -- the
+        # elevation takes the PLAN's bay count rather than composing its own -- is what the
+        # driven 9 below measures and is untouched.
         out = _placed()
         formula_count = EL.build_elevation(out)["faces"]["S"]["count"]
-        assert formula_count == out["footprint"]["bays"] == 7
+        assert formula_count == out["footprint"]["bays"] == 5
         out["footprint"]["bays"] = 9
         e = EL.build_elevation(out)
         assert e["faces"]["S"]["count"] == 9, (

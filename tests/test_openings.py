@@ -378,13 +378,44 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
         alternated between 13 placed / 0 refused and 12 / 1 depending on which branch finished
         in budget. That is OQ 71's error. WP-7.4b's commit message said the replacement had
         happened; it had not — three tests were added beside this one and the flaky assertion
-        was left in the suite. Found by an adversarial audit of that commit."""
+        was left in the suite. Found by an adversarial audit of that commit.
+
+        **WP-13.5 COST THE TIDEWATER PLAN ONE FIXTURE AND IT IS PINNED BY NAME RATHER THAN BY
+        A COUNT.** Moving the service programme into the west dependency took the main block
+        from 63.00 x 38.17 ft to 45.00 x 37.24, and the UPPER floor — which `blocks_for` lays
+        entirely inside the main block, since only level 0 goes into elements — narrowed with
+        it. `primarybath` is drawn 9.0 x 11.0 ft and its *shower with bench* (3.5 x 5.0) is
+        REFUSED with all four walls tried and the clear run stated on each. Measured on the
+        one-rectangle reading of the same record: 12 placed, **0 refused**. So this is a real
+        cost of the record edit, not a defect in the packer, and the guarantee it breaks is
+        WP-7.2's.
+
+        The pin is `(plan, room, item)` and not a number. A count of 1 would be satisfied by
+        any other room losing any other fixture, which is the class of re-pin this repository
+        keeps catching: it converts a defect into a ceiling. Every other declared fixture on
+        both plans must still be placed, which is the half that was always the point.
+        """
+        REFUSED = {("tidewater-georgian-careful", "primarybath", "shower with bench")}
+        seen = set()
         for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
             solved = GEO.solve(_plan(pid), engine="heuristic")
             rep = solved.get("opening_report") or {}
             assert rep.get("fixtures_placed", 0) > 0, "vacuous unless fixtures were placed"
-            assert rep.get("fixtures_unplaced", 0) == 0, (
-                f"{pid}: {rep.get('fixtures_unplaced')} fixture(s) refused")
+            for lv in solved["levels"]:
+                for r in lv["rooms"]:
+                    for f in (r.get("fixture_layout") or []):
+                        if "unplaced" in f:
+                            seen.add((pid, r["id"], f["item"]))
+                            assert f["unplaced"].get("reason"), (
+                                f"{pid}/{r['id']}: a refused fixture with no reason is the "
+                                "fake-unjudged shape")
+            assert rep.get("fixtures_unplaced", 0) == sum(1 for t in seen if t[0] == pid), (
+                f"{pid}: the report counts {rep.get('fixtures_unplaced')} refusals and the "
+                "records carry a different number")
+        assert seen == REFUSED, (
+            f"the refused set moved: {sorted(seen)} against {sorted(REFUSED)}. Re-derive which "
+            "room lost which fixture and why before touching this pin — a count would have "
+            "hidden the swap.")
 
     def test_a_fixture_is_drawn_against_the_wall_its_record_names(self):
         """WP-7.4. The off-wall coordinate was the room's LOW edge whichever wall was chosen,

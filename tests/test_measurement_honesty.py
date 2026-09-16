@@ -709,7 +709,14 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         # both packages move where the cuts are. The refusal recorded above still stands and
         # only the baseline it is measured against moved, which is the same sentence one merge
         # later.
-        assert out["geometry_report"]["relaxations"]["count"] == 7
+        # 7 -> 5 AT WP-13.5. WP-13.5 moved the service programme into the dependency
+        # `plans/tidewater-georgian-careful.json` declares, so its main block is 45.00 x
+        # 37.24 ft at FIVE bays where it was 63.00 x 38.17 at seven. The slicer cuts inside the
+        # narrower block, and `geometry.bias` reads `stacks_over` while the level is being
+        # SLICED, so withdrawing one claim changes which layouts are produced. FEWER relaxations
+        # is the better direction and it is pinned again at once. The refusal recorded above
+        # still stands; only the baseline it is measured against moved.
+        assert out["geometry_report"]["relaxations"]["count"] == 5
 
     def test_the_renderer_draws_one_mark_per_relaxation(self, geometry_module):
         """P6 and P7 together: the drawing is a render of the data, so the number of marks on

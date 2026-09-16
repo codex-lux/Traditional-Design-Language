@@ -285,7 +285,19 @@ def test_the_search_draws_fewer_rooms_outside_their_band_than_it_scores_for():
     28 with the proportion CEILING alone as the key; 30 once the area FLOOR joined it, which a
     WP-7.4 guard forced (`test_geometry.py`'s "the dining room is under band again"). Two more
     rooms over their ceiling buys eight fewer under their floor, 21 -> 13, which is better than
-    the 15 this package started from. Both halves are the room's own record."""
+    the 15 this package started from. Both halves are the room's own record.
+
+    **WP-13.5 TOOK IT 30 -> 28, AND THE CAUSE IS A RECORD EDIT RATHER THAN THE KEY.** Moving the
+    Tidewater service programme into the dependency the record declares takes that plan from
+    6 of 23 to 4 of 23; every other plan reads the same figure before and after, and the total
+    of 219 judged rooms does not move at all. **The control is what makes it a measurement**:
+    re-run the identical sweep with the six `block`/`hyphen` tags stripped and it reproduces
+    30 of 219 exactly, so the instrument reproduces the old value before the new one is pinned.
+    A room in an element it fits is a squarer room; the ranking is untouched.
+
+    (The assertion's own message said *"against a pinned 28 of 219"* while the pin read 30 --
+    a literal in a failure string that stopped tracking the constant beside it, which is the
+    quiet half of the stale-pin family. It reads the constants now.)"""
     import glob
     C = PC.load_corpus()
     out = tot = 0
@@ -306,10 +318,11 @@ def test_the_search_draws_fewer_rooms_outside_their_band_than_it_scores_for():
                 if max(g["width_ft"], g["depth_ft"]) > band[1] * max(
                         min(g["width_ft"], g["depth_ft"]), 1e-9) + 0.02:
                     out += 1
-    assert (out, tot) == (30, 219), (
-        f"the search draws {out} of {tot} rooms outside their own band against a pinned 28 of "
-        f"219. An improvement is welcome -- lower it here and say what moved. A RISE means the "
-        f"ranking stopped governing.")
+    PINNED = (28, 219)
+    assert (out, tot) == PINNED, (
+        f"the search draws {out} of {tot} rooms outside their own band against a pinned "
+        f"{PINNED[0]} of {PINNED[1]}. An improvement is welcome -- lower it here and say what "
+        f"moved. A RISE means the ranking stopped governing.")
 
 
 def test_the_residual_is_disclosed_on_the_record_by_both_engines():

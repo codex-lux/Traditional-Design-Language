@@ -80,7 +80,16 @@ class TestSolveSmoke:
         # FEWER relaxations is the better direction -- each one is a joist run that does not
         # land on a bearing line -- so this is a ratchet going the right way, and it is
         # pinned again immediately so the next change has to justify itself.
-        assert report["relaxations"]["count"] == 7
+        # 5 AT WP-13.5, from 7, and it is a RECORD edit rather than a code one -- the shape
+        # this number has moved in twice before (WP-11.6, and WP-7.4 the other way).
+        # `plans/tidewater-georgian-careful.json` states its container now, so `blocks_for`
+        # lays three elements where it laid one and the slicer cuts inside a 45 ft main block
+        # instead of a 63 ft one; and `geometry.bias` reads `stacks_over` while the level is
+        # being SLICED, so withdrawing `hallbath stacks_over powder` changes which layouts are
+        # produced. FEWER relaxations is the better direction -- each one is a joist run that
+        # does not land on a bearing line -- and it is pinned again at once so the next change
+        # has to justify itself.
+        assert report["relaxations"]["count"] == 5
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]
@@ -213,6 +222,12 @@ def _tagged_dependency_plan():
     import json, os
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
+    # WP-13.5: strip the shipped container first -- this fixture states its own, and a tag on
+    # top of the record's six builds a house with more elements than the test is about.
+    for lv in plan["levels"]:
+        for r in lv["rooms"]:
+            r.pop("block", None)
+            r.pop("hyphen", None)
     tagged = 0
     for r in plan["levels"][0]["rooms"]:
         if r["type"] in ("kitchen", "pantry", "breakfast-room"):
@@ -241,7 +256,13 @@ class TestASecondMassingElement:
 
     def test_a_one_block_plan_reports_exactly_one_element_at_the_origin(self, geometry_module):
         g = geometry_module
+        # WP-13.5: the shipped record states three elements now, so the ONE-block reading this
+        # test is about is that record with its container stripped.
         plan = self._plan("tidewater-georgian-careful")
+        for lv in plan["levels"]:
+            for r in lv["rooms"]:
+                r.pop("block", None)
+                r.pop("hyphen", None)
         levels, prep = g.prep_rooms(plan)
         fp = g.derive_footprint(plan, None, prep)
         blocks = g.blocks_for(plan, fp, prep, 0)
@@ -360,7 +381,22 @@ class TestCPPlacesASecondMassingElement:
 
     @staticmethod
     def _plan_with_a_dependency():
-        return _tagged_dependency_plan(), None
+        """The shared tagging PLUS the direct butler's-pantry-to-kitchen door, which every
+        test in this class is about and which WP-13.5 removed from the shipped record.
+
+        That door used to come in with the record, and the three docstrings below describe it
+        in as many words -- *"the record declares ... another between the butler's pantry and
+        the kitchen"*. WP-13.5 dropped it, because `rooms/butlers-pantry.json`'s hard
+        `must_adjoin kitchen` carries `via: [back-hall, gallery-corridor]` and the route
+        through the back hall is what that clause means. A fixture whose subject is A DOOR
+        BETWEEN TWO DETACHED MASSES must STATE one: leaving it out did not make these tests
+        fail loudly, it made them assert something about a pair the record no longer has."""
+        plan = _tagged_dependency_plan()
+        by = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
+        for a, b in (("butlers", "kitchen"), ("kitchen", "butlers")):
+            if not any(d.get("to") == b for d in (by[a].get("doors") or [])):
+                by[a].setdefault("doors", []).append({"to": b, "width_ft": 2.8})
+        return plan, None
 
     def test_engine_cp_no_longer_refuses_a_multi_element_plan(self, geometry_module):
         plan, C = self._plan_with_a_dependency()
@@ -643,6 +679,13 @@ class TestTheAuditGapsInTheBlockWork:
         root = _o.path.dirname(_o.path.dirname(_o.path.abspath(__file__)))
         for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
             plan = _j.load(open(_o.path.join(root, "plans", name + ".json")))
+            # WP-13.5: the Tidewater record states a container, so the ONE-block reading this
+            # test is about is that record with the container stripped. The shipped record's
+            # own disclosure is asserted in tests/test_element_awareness.py.
+            for lv in plan["levels"]:
+                for r in lv["rooms"]:
+                    r.pop("block", None)
+                    r.pop("hyphen", None)
             g._SOLVE_CACHE.clear()
             g.solve(plan, engine="heuristic")
             assert "multi_element" not in plan["geometry_report"], (

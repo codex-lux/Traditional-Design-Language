@@ -127,7 +127,11 @@ class TestTheRuleWhenItIsOn:
         outcome the pool is free to change, which is the guard-pins-an-outcome shape this
         repository keeps re-cutting; the hard branch is driven by `strict_fixture` below."""
         hard(True)
-        for name, claims in (("tidewater-georgian-careful", 5), ("spec-builder-colonial", 2)):
+        # WP-13.5 withdrew `hallbath stacks_over powder` -- the powder room is in a
+        # single-storey dependency now and no upper room can stand over it -- so the record
+        # states FOUR claims, not five. Not re-pointed: aiming a structural claim at another
+        # room to keep a counter green is authoring a fact nobody measured.
+        for name, claims in (("tidewater-georgian-careful", 4), ("spec-builder-colonial", 2)):
             p = GEO.solve(plan(name), engine="heuristic")
             st = p["geometry_report"]["stacking"]
             assert st["claimed"] == claims, (name, st)
@@ -265,15 +269,25 @@ class TestTheRuleWhenItIsOn:
         p = GEO.solve(plan("tidewater-georgian-careful"), None, 1,
                       engine="heuristic", seed=2)
         st = p["geometry_report"]["stacking"]
-        assert st["rule"] == "charge", "one candidate cannot be expected to satisfy five claims"
-        assert st["claimed"] == 5
+        assert st["rule"] == "charge", "one candidate cannot be expected to satisfy four claims"
+        # 4 AT WP-13.5, FROM 5: `hallbath stacks_over powder` is withdrawn with the powder room
+        # into the single-storey dependency, where no upper room can stand over it. The rule
+        # under test is unmoved -- one candidate still cannot satisfy them all.
+        assert st["claimed"] == 4
         # `broken_at_selection`, the CANDIDATE's count, which is main's quantity. The leaf's
         # `broken` is beside it and measures the PLACED RECORD after the post-solve passes; they
         # are different questions and the merge keeps both under their own names.
         # 5 AT WP-13.2, FROM 4: the one candidate is the same candidate (the placement digest
         # is unchanged across that package) and the fifth claim it breaks is the one the old
         # touching rule called kept -- containment counts it, and it is the rule that moved.
-        assert st["broken_at_selection"] == 5, st
+        # 3 AT WP-13.5, FROM 5, on FOUR claims rather than five. The record withdrew
+        # `hallbath stacks_over powder` (one claim fewer to break), and the one-candidate pool
+        # this test drives now lands one of the four rather than none -- the container puts the
+        # service programme in its own element, so the main block's rooms are sliced inside
+        # 45 ft instead of 63 and the passage lands over the passage. What this test is about
+        # is the DISCLOSURE, which still fires: the note names the pool, the claims and the
+        # count, and nothing is reported as preferred that was not paid for.
+        assert st["broken_at_selection"] == 3, st
         _rn = st.get("rule_note") or st["note"]
         assert "NO CANDIDATE of 1" in _rn and "fell back to the charge" in _rn, _rn
         assert "cost_points" not in st, "nothing was preferred, so nothing was paid for"

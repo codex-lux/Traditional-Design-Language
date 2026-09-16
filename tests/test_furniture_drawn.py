@@ -146,7 +146,19 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # (419 -> 574). Of those, 140 are the new call site (86 across + 54 along) and 15 are long-axis
 # shortfalls the old `elif` computed and dropped. The declared furniture layer moved 137 -> 178
 # by the same split, +41.
-DRAWN_SHORT_CEILING = 68   # 86 until WP-11.8. READ ALL THREE NOTES BELOW, IN ORDER: the first is
+# **WP-13.5 MOVED BOTH DOWN, 68 -> 66 SHORT AND 82 -> 80 LONG, AND THE CAUSE IS A RECORD EDIT
+# RATHER THAN EITHER ENGINE.** Moving the Tidewater service programme into the dependency the
+# record declares takes that plan from (8, 11) to (6, 9); every other plan in the corpus reads
+# the same figure before and after. **The control is what makes this a measurement**: re-run
+# with the six `block`/`hyphen` tags stripped and the sweep reproduces 68/82 EXACTLY, so the
+# instrument has been shown to reproduce the old value before the new one was pinned -- which
+# is this repository's own rule about what a re-pin is.
+#
+# Read it as a room getting squarer rather than as the furniture layer changing: the main block
+# goes 63.00 x 38.17 -> 45.00 x 37.24 and the six service rooms leave it, so what is left is a
+# shorter programme in a nearly square box. WP-11.8's own mechanism, arriving from the record
+# side instead of from the key.
+DRAWN_SHORT_CEILING = 66   # 68 until WP-13.5, 86 until WP-11.8. READ ALL THREE NOTES BELOW, IN ORDER: the first is
 # WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
 # WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
 # both ways over all sixteen plans: the two extra shortfalls are the library table in
@@ -159,7 +171,7 @@ DRAWN_SHORT_CEILING = 68   # 86 until WP-11.8. READ ALL THREE NOTES BELOW, IN OR
 # and two libraries that had passed now fail. The conviction is right and the ceiling is raised
 # rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
 # byte-identical across the whole package, which is how the cause was isolated.
-DRAWN_LONG_CEILING = 82
+DRAWN_LONG_CEILING = 80   # 82 until WP-13.5; see the note above the short ceiling.
 # WP-11.8 MOVED BOTH TO 65 (86 -> 65 SHORT, 70 -> 65 LONG) AND IT IS THE FIRST OF THE FOUR
 # MOVES THAT IS AN IMPROVEMENT RATHER THAN A DISCLOSURE. The search ranks the band a room's own
 # record states -- the proportion ceiling AND the area floor -- ABOVE its own score now, so it

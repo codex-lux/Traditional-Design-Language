@@ -244,7 +244,36 @@ def test_check_plans_solve_with_stated_downgrades():
         # the accounting above while meaning the model had stopped enforcing them and started
         # narrating them. Bounded by the plan rather than by the clock, so it is load
         # independent — but bounded TIGHTLY: `< declared` permitted 34 of 35, which is not a
-        # bound at all. Measured today: 9 of 35 and 3 of 19.
+        # bound at all.
+        #
+        # RE-MEASURED AT WP-13.5, WHICH THE PLAN NAMED AS THE PACKAGE THAT WOULD MOVE IT. The
+        # comment here read "Measured today: 9 of 35 and 3 of 19", which was three trees out of
+        # date. Same command on three `git archive` checkouts, `time_limit_s=60`, one run each:
+        #
+        #   tree                          Tidewater      spec Colonial   notes
+        #   31a7373 (before WP-13.3)      12 of 35 ✓     2 of 19 ✓       unvouched 0 / 0
+        #   57e7b72 (after WP-13.3)       21 of 35 ✗     12 of 19 ✗      unvouched 20 / 11
+        #   WP-13.5 (this record edit)     7 of 35 ✓     12 of 19 ✗      unvouched 0 / 11
+        #
+        # WP-13.3's status line named only the Tidewater half and said WP-13.5's record edit was
+        # what would change it. It did: moving the service programme into the dependency takes
+        # the Tidewater plan from FEASIBLE with 21 carried pins to OPTIMAL with 7, every one of
+        # them individually re-proved INFEASIBLE by the reinstatement pass (`claimed == proved`,
+        # 7 of 7, where the same tree before the edit proved 1 of 21 and answered UNKNOWN to
+        # nine restore attempts). THE SPEC COLONIAL MOVED THE SAME WAY AND NO PACKAGE OWNS IT:
+        # it names no parti, carries no dependency and WP-13.5 does not touch it, and it is
+        # 12 of 19 on the branch head as it is here, the same twelve pins and the same eleven
+        # unvouched notes. So this assertion is still
+        # RED, on that plan alone, and it is NOT loosened. The question is
+        # `oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container` and WP-13.7 is
+        # the audit. (That slug is on ONE line deliberately: `check_citations.py` reads line by
+        # line, so a slug wrapped across a newline is its truncated left half to the checker and
+        # dangles. It caught this one on its first run — third instance CLAUDE.md records.)
+        #
+        # These are CP figures under a wall clock and this file's own docstring above says why
+        # they are not a count to ratchet: the reinstatement pass needs 2.5 s of remaining budget
+        # per attempt and a loaded machine simply runs out. They are written here as a dated
+        # reading of three trees, not as a bound.
         assert len(pins) <= declared // 2, \
             f"{rel}: {len(pins)} of {declared} declared wall pins downgraded — over half the " \
             f"declared walls read as massing means the model is no longer enforcing them"

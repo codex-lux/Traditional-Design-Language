@@ -256,7 +256,10 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     G._SOLVE_CACHE.clear()
     solved = G.solve(json.loads(json.dumps(TIDEWATER)), engine="heuristic")
     st = solved["geometry_report"]["stacking"]
-    assert st["claims"] == 5 and len(st["unjudged"]) == 0
+    # 4 AT WP-13.5, FROM 5, and the ACCOUNTING below is what this test is about rather than
+    # the literal: `hallbath stacks_over powder` is withdrawn with the powder room into the
+    # single-storey dependency. Every remaining claim is still judged into exactly one list.
+    assert st["claims"] == 4 and len(st["unjudged"]) == 0
     broken = {e["room"] for e in st["broken"]}
     assert len(st["kept"]) + len(st["broken"]) + len(st["unjudged"]) == st["claims"], (
         f"a claim is judged into exactly one list, or it is not judged at all: {st}")

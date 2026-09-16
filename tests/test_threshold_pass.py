@@ -26,8 +26,21 @@ TIDEWATER = os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")
 
 def _placed(path=TIDEWATER):
     """The heuristic engine, deliberately: CP-SAT under a time budget is not deterministic
-    under load and every figure pinned here would drift by a few tenths (CLAUDE.md, WP-9.6)."""
-    return GEOM.solve(json.load(open(path, encoding="utf-8")), engine="heuristic")
+    under load and every figure pinned here would drift by a few tenths (CLAUDE.md, WP-9.6).
+
+    AND THE RECORD IS READ AS ONE ELEMENT (WP-13.5). That package moved the service programme
+    into the dependency this record declares; the threshold pass's subject is the stoop, the
+    doorcase and the stacks on their flues, and on the search engine a 45 ft main block draws
+    the two west fires 4.95 ft inboard of its own west face, so neither has a flue and the west
+    stack is not drawn. The refusal is correct and is asserted on the SHIPPED record in
+    `tests/test_hearths_on_flue.py`; a file that measures where a stack STANDS needs a house
+    that draws one."""
+    plan = json.load(open(path, encoding="utf-8"))
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return GEOM.solve(plan, engine="heuristic")
 
 
 class TestTheStoop(unittest.TestCase):
@@ -399,7 +412,21 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          # to 50.0 x 30.75, so 178 of the 180 sweep entries move with the
                          # base plan they are built on. `build/roof.py` is byte-identical
                          # across this merge.
-                         "82cfe22d66402370b5ae3baf100c446556a01973700cbc2c81907f6d56aab513",
+                         #
+                         # RE-DERIVED AT WP-13.5 (16 Sep 2026), AND THE CONTROL IS THE WHOLE
+                         # REASON THIS IS A MEASUREMENT AND NOT A NEW NUMBER. The container
+                         # edit takes the Tidewater main block from 63.00 x 38.17 ft to
+                         # 45.00 x 37.24, and `build_roof` is handed the UNPLACED record here,
+                         # so it derives its own placement and a ridge spans a different box.
+                         # **165 of the 180 entries move: the edited plan, and all 164 sweep
+                         # entries, which are that same plan under each style. Fifteen of the
+                         # sixteen plan entries are byte-identical.** `build/roof.py` is
+                         # unchanged apart from a docstring correction, and the proof of that
+                         # is that re-running this identical sweep with the six `block` and
+                         # `hyphen` tags stripped reproduces 82cfe22d... EXACTLY -- the
+                         # instrument was shown to reproduce the OLD value before the new one
+                         # was written down.
+                         "4a06aa83cd6d4b88ba9168a750ffa95494f50e9374e1c7c494b4d56ce3be0844",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "

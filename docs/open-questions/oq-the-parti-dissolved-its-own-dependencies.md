@@ -216,3 +216,45 @@ pressure resolves for free.
 One thing the strip breaks that no score will notice: the shipped brief's `must_have:
 "breakfast-room"` stops being satisfiable, and `SCORE_AXES` has no program axis, so it degrades in a
 log line. That is to be stated, not quietly fixed by widening `must_have`.
+
+---
+
+## WHERE THE RULING TOOK EFFECT: WP-13.5, 16 September 2026
+
+Ruling (1) is executed on both records —
+`docs/reports/wp-13.5-the-service-wing-and-the-room-that-stays.md`. The kitchen, pantry,
+breakfast room, powder room and cellar stair carry `block: service` and the back hall carries
+`hyphen: true`, in `partis/centre-passage-double-pile.json` and in
+`plans/tidewater-georgian-careful.json` alike, so `build/compose.py` writes the container onto
+every candidate it composes and the hand-authored plan states the same one. Placed, the house is
+a **45.00 × 37.24 ft main block, a 7.00 × 18.00 ft hyphen and a 27.00 × 26.68 ft west
+dependency** against the single 63.00 × 38.17 ft rectangle this entry was raised about.
+
+**The main block's enclosed ground spaces go from TWELVE to SEVEN** — the passage, the stair
+hall, the drawing room, the dining room, the library, the butler's pantry and the entrance
+portico — against the six the Gunston Hall survey enumerates, and the mean space rises with it.
+That is the measurement this entry opened with, answered.
+
+**FIVE OF THE SIX SERVICE ROOMS LEFT AND THE BUTLER'S PANTRY DID NOT.** The ruling's text says
+*"the six service rooms leave"*; `rooms/butlers-pantry.json` has said since OQ 59 — 24 August
+2026, eight days before this ruling — that in a Tidewater plantation house *"the pantry is in the
+block and the kitchen is in another building, and the connecting gallery is the connection"*, and
+it states that as the `via` on a HARD adjacency. Its other hard adjacency, to the dining room,
+carries no `via` at all, so a pantry in the wing must cross a boundary it has no route across.
+`partis/five-part-palladian.json` — which this entry names as *"the working model, not a rival"*
+— keeps its butler's pantry in the block and doors it to `dining` and `westhyphen` and never to
+the kitchen. WP-11.13 measured all three arrangements on the prover and only that one proves.
+So the pantry stays, the redundant direct pantry-to-kitchen door is dropped instead, and the
+deviation is stated rather than followed or ignored. **The breakfast room is added to the list**
+by its own hard `must_adjoin kitchen` with no `via`.
+
+**Two of the three things the ruling left undecided are now decided and one is not.** A dependency
+is a second MASSING ELEMENT, not a level and not a new record kind (OQ 40, ruled 3 September, and
+`geometry.blocks_for` built it); the hyphen IS a room, carrying `hyphen: true`, and it states the
+gap from its own `width_ft`. **What a brief says when the site cannot take a dependency is still
+not decided**, and this record does not test it: a 140 ft lot takes the 79.0 ft built extent with
+61 ft to spare.
+
+**`expansion_logic` and `grows_by` still have no reader**, so that half of the ruling's cost is
+unpaid. Nothing grows a house INTO a dependency; what exists is a record that states one and six
+layers plus the prover that read it.

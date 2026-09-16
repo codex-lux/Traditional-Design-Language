@@ -53,7 +53,18 @@ def _solved(pid):
 
 def test_every_shipped_plan_is_one_element_and_every_placed_room_is_in_it():
     """The premise the whole package rests on. If a shipped plan ever grows a second element,
-    every byte-identity assertion below stops meaning what it says, and this fails first."""
+    every byte-identity assertion below stops meaning what it says, and this fails first.
+
+    **AND IT DID, AT WP-13.5, WHICH IS WHAT THIS GUARD IS FOR.** That package moved the service
+    programme into the dependency `plans/tidewater-georgian-careful.json` declares, so that one
+    record now places THREE elements -- a main block, a hyphen and a west dependency. It is
+    named here rather than let through: the assertion is that FIFTEEN of the sixteen are one
+    rectangle and the sixteenth is exactly that plan with exactly those three, so a seventeenth
+    element, or a second plan growing one, still fails here first. Every byte-identity figure
+    below was re-derived per plan across that edit -- fifteen identical, one moved -- and the
+    two digest constants carry that accounting."""
+    MULTI = {"tidewater-georgian-careful.json": ["main", "service-hyphen", "service"]}
+    seen_multi = {}
     for pf in _plans():
         d = json.loads(pathlib.Path(pf).read_text())
         if "levels" not in d:
@@ -61,13 +72,20 @@ def test_every_shipped_plan_is_one_element_and_every_placed_room_is_in_it():
         G._SOLVE_CACHE.clear()
         sol = G.solve(json.loads(json.dumps(d)), engine="heuristic")
         els = E.elements(sol)
-        assert len(els) == 1, (pf, [e["id"] for e in els])
+        name = pathlib.Path(pf).name
+        if name in MULTI:
+            seen_multi[name] = [e["id"] for e in els]
+        else:
+            assert len(els) == 1, (pf, [e["id"] for e in els])
         rooms = [r for lv in sol["levels"] for r in lv["rooms"] if r.get("geometry")]
         idx = E.bounds_index(sol, rooms)
         assert len(idx) == len(rooms), (
             f"{pf}: {len(rooms) - len(idx)} placed room(s) stand in no element, which this "
             f"layer reports as COULD NOT EVALUATE -- on a one-rectangle house that is a bug "
             f"in the containment test, not a fact about the plan")
+    assert seen_multi == MULTI, (
+        "the corpus's one multi-element record is not the one this guard names: re-derive the "
+        f"per-plan digests before trusting anything below. {seen_multi}")
 
 
 def test_a_room_in_no_element_is_unjudged_and_not_assigned_to_the_main_block():
@@ -236,12 +254,19 @@ def test_the_lot_cap_is_on_the_built_extent_and_the_report_says_so():
     # `lot_usable - flank` via `flanking_extent_ft`. Same quantity, main's spelling kept.
     assert ("lot_usable - flank" in src or "lot_usable - reserved" in src), (
         "the dependency is not reserved out of the lot")
+    # WP-13.5: this record states three elements now, so the built extent is the union of the
+    # three and is NOT the main block's own width -- which is the ruling this row exists for
+    # (WP-11.9 item 2: the hyphen is roofed ground). The relations are asserted rather than the
+    # literals: the extent is wider than the main block, the union's east edge is the main
+    # block's east edge, and the lot still holds it.
     sol = _solved("tidewater-georgian-careful")
     row = sol["geometry_report"]["lot_extent"]
-    assert row["elements"] == 1
-    assert row["built_extent_width_ft"] == sol["footprint"]["width_ft"]
+    assert row["elements"] == 3
+    assert row["built_extent_width_ft"] > sol["footprint"]["width_ft"]
     assert row["fits_lot"] is True
-    assert row["union_bbox_ft"][2] == sol["footprint"]["width_ft"]
+    assert row["union_bbox_ft"][2] == sol["footprint"]["width_ft"], (
+        "the union's east edge is the main block's: the dependency is to the WEST")
+    assert row["union_bbox_ft"][0] < 0.0, "a west wing starts at negative x"
 
 
 def test_the_lot_extent_reports_could_not_evaluate_when_no_lot_is_stated():
@@ -315,7 +340,19 @@ def test_export_ifc_writes_one_slab_per_element_per_storey():
 # movement is a defect again, measured against the merged corpus rather than against a
 # corpus neither parent shipped. `151126d0269bbc61` / `770a886c7387f3ab` were the values
 # on this branch up to and including WP-11.15.
-CORPUS_PLACEMENT_SHA = "68b102ff6a724e47"
+# RE-PINNED AT WP-13.5, 68b102ff6a724e47 -> d72265a1935d07f6, AND THE ACCOUNTING IS A
+# PER-PLAN DIGEST RATHER THAN A CLAIM: hashed plan by plan on a `git archive HEAD` checkout
+# and on this tree, FIFTEEN OF SIXTEEN ARE IDENTICAL and the sixteenth is
+# `tidewater-georgian-careful` (1b2e8a11a1965ca9 -> ff7a3616a8ad7346) -- the record WP-13.5
+# edits. Nothing else in the package touches a placement.
+#
+# The Tidewater plan moves for the reason a record edit moves one: its service programme is in
+# the dependency it declares, so `blocks_for` lays three elements where it laid one (a
+# 45.00 x 37.24 ft main block, a 7.00 x 18.00 ft hyphen and a 27.00 x 26.68 ft west
+# dependency against a single 63.00 x 38.17 ft rectangle). `geometry.bias` also reads
+# `stacks_over` while the level is being SLICED, so withdrawing `hallbath stacks_over powder`
+# changes which layouts are produced and not merely which is ranked.
+CORPUS_PLACEMENT_SHA = "d72265a1935d07f6"
 # WP-11.10 MOVED THIS ONE ON PURPOSE, and it is the only thing that package moves here.
 # `f7c7430ec31dae3c` -> `770a886c7387f3ab`: the terrace at grade is placed, so the door the
 # record has always declared from a room to its terrace is seated instead of refused, on the
@@ -349,7 +386,12 @@ CORPUS_PLACEMENT_SHA = "68b102ff6a724e47"
 # garages; the sideboard is 5.5 ft along its 6 ft run; the banquette, the window seat and the
 # rest likewise); and a `corner` item is seated in a corner (`fg-corner` had no code behind
 # it). The placement hash is unchanged: rectangles did not move, what is on their floors did.
-CORPUS_OPENINGS_SHA = "c8ae9117039cfeb8"
+# RE-PINNED AT WP-13.5, c8ae9117039cfeb8 -> 318c7dcee303a600, hashed PER PLAN on a
+# `git archive HEAD` checkout and on this tree: FIFTEEN OF SIXTEEN IDENTICAL and the
+# sixteenth `tidewater-georgian-careful` (19585f4897bb9f00 -> aa2f088bdec2096c). The
+# openings move because the placement does and because the record drops one door: the
+# direct butler's-pantry-to-kitchen door, whose `via` runs through the back hall.
+CORPUS_OPENINGS_SHA = "318c7dcee303a600"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():
@@ -375,8 +417,10 @@ def test_teaching_six_layers_about_elements_moved_no_shipped_placement():
         h2.update(json.dumps(op, sort_keys=True).encode())
         h2.update(json.dumps(sol.get("stair"), sort_keys=True).encode())
     assert h1.hexdigest()[:16] == CORPUS_PLACEMENT_SHA, (
-        "a shipped placement or footprint moved; WP-11.9 teaches six layers a concept no plan "
-        "in this corpus exercises, so any movement here is a defect and not a trade")
+        "a shipped placement or footprint moved. WP-11.9 taught six layers a concept no plan "
+        "in this corpus exercised until WP-13.5, which authored one into "
+        "`tidewater-georgian-careful` -- so a movement on THAT plan is accounted for at "
+        "the constant above and a movement on any other is still a defect")
     assert h2.hexdigest()[:16] == CORPUS_OPENINGS_SHA, (
         "a shipped opening, fixture or furniture layout moved")
 

@@ -236,10 +236,34 @@ class TestTheTranscriptionsAreHeldToTheirOneSpelling:
         assert TF.TILING_TOL_SF == DISC.TILED_SF
 
     def test_the_bearing_lines_agree_with_the_gates_reader_on_every_shipped_plan(self):
-        """The leaf's transcription of wall_lines + bearing_lines against the originals, on the
-        interior bearing lines of every placed level of every shipped plan on the deterministic
-        engine. Line for line, not a count -- WP-11.15's phantom span had the same count."""
+        """The leaf's transcription against the original, on the interior bearing lines of every
+        placed level of every shipped plan on the deterministic engine. Line for line, not a
+        count -- WP-11.15's phantom span had the same count.
+
+        **THE CONTROL WAS A FOURTH SPELLING OF THE RULE AND IT HAD NEVER BEEN TAUGHT ABOUT
+        MASSING ELEMENTS (WP-13.5).** It read
+        `ST.bearing_lines(ST.wall_lines(rooms, W, H), bay)` -- every room of the level handed to
+        one call with the MAIN BLOCK's `W, H` -- which is precisely the reading WP-11.6's layer 2
+        removed from `structure.build_section`, where the arithmetic runs ONCE PER ELEMENT over
+        that element's own rooms at that element's own origin. It agreed with the leaf for as
+        long as every shipped plan was one rectangle; WP-13.5 gave the Tidewater record a service
+        wing and the two parted at once, the hand-rolled control reporting an extra interior
+        bearing line at `('x', 0)` -- the main block's own WEST wall, which reads as interior only
+        to a caller that thinks the hyphen and the dependency are inside the block.
+
+        So the control is `structure.build_section`'s own per-element walls now. That is still an
+        independent reader -- a different module, a different call path, the record's own
+        published structure rather than a re-derivation -- and it is the one the gate and every
+        other consumer already use. Measured on the shipped Tidewater record: the section and the
+        leaf agree exactly, `L0 [('y', 26.56)]` and
+        `L1 [('x', 18.0), ('x', 27.0), ('x', 36.0), ('y', 9.6), ('y', 26.6)]`.
+
+        The premise is asserted, because a test that compares two readers on a corpus of
+        one-rectangle houses is not testing the thing that broke: at least one plan must state a
+        container.
+        """
         compared = 0
+        multi = 0
         for path in PLANS:
             out = _solved(path)
             if "error" in out:
@@ -247,19 +271,23 @@ class TestTheTranscriptionsAreHeldToTheirOneSpelling:
             mine = TF.bearing_lines(out)
             if mine is None:
                 continue
-            fp = out["footprint"]
-            W, H = fp["width_ft"], fp["depth_ft"]
-            for i, lv in enumerate(out["levels"]):
-                rooms = [r for r in lv["rooms"] if r.get("geometry") and not r["geometry"].get("void")]
-                if not rooms:
-                    continue
-                walls = ST.bearing_lines(ST.wall_lines(rooms, W, H), fp["bay_module_ft"])
-                theirs = sorted({(w["axis"], round(w["position_ft"], 2)) for w in walls
-                                 if w["role"] == "interior" and w.get("bearing")})
-                idx = lv.get("index", i)
-                assert mine.get(idx, []) == theirs, (os.path.basename(path), idx, mine.get(idx), theirs)
+            section = ST.build_section(out, None, geometry_result=out)
+            if "error" in section:
+                continue
+            if len((out.get("footprint") or {}).get("blocks") or []) > 1:
+                multi += 1
+            for i, slv in enumerate(section.get("levels") or []):
+                theirs = sorted({(w["axis"], round(w["position_ft"], 2))
+                                 for w in (slv.get("walls") or [])
+                                 if w.get("role") == "interior" and w.get("bearing")})
+                idx = slv.get("index", i)
+                assert mine.get(idx, []) == theirs, (
+                    os.path.basename(path), idx, mine.get(idx), theirs)
                 compared += 1
         assert compared >= 20, compared
+        assert multi >= 1, (
+            "no shipped plan states more than one massing element, so this comparison runs only "
+            "where the defect it was re-cut for cannot occur")
 
 
 class TestStacksReadTheTally:

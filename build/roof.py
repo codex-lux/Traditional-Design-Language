@@ -338,14 +338,30 @@ def _gambrel(plan, section, style, W, D, eave_ft, single_pitch):
 
 # ---------------------------------------------------------------- dependency-and-hyphen wing
 def wing_step_down(plan, section, main):
-    """Schematic only, and explicitly labelled so: this corpus's plan/geometry layer
-    (build/geometry.py) solves a single rectangular footprint and has never placed a real second
-    volume, so there is no actual wing footprint to measure. When plan.groupings names
-    'dependency-and-hyphen' this still computes and CHECKS the ridge step-down rule the grouping
-    states, using a schematic wing depth (one bay module) and its own hyphen-length band, so the
-    rule is exercised and tested even though neither shipped reference plan currently triggers
-    the real path (see docs/structure.md's own honesty precedent for the WP-3.1 framing_basis
-    finding -- this is the same shape of disclosure)."""
+    """Schematic only, and explicitly labelled so: this function measures no placed wing. When
+    plan.groupings names 'dependency-and-hyphen' it computes the ridge step-down the grouping
+    states from a schematic wing depth (one bay module) and the midpoint of its own
+    hyphen-length band, so the rule is at least exercised (see docs/structure.md's own honesty
+    precedent for the WP-3.1 framing_basis finding -- this is the same shape of disclosure).
+
+    THE REASON THIS PARAGRAPH USED TO GIVE IS NO LONGER TRUE, AND IT IS CORRECTED RATHER THAN
+    LEFT (WP-13.5). It read: *"this corpus's plan/geometry layer (build/geometry.py) solves a
+    single rectangular footprint and has never placed a real second volume, so there is no
+    actual wing footprint to measure."* `geometry.blocks_for` has placed real second volumes
+    since WP-11.6, and at WP-13.5 a SHIPPED plan does: `plans/tidewater-georgian-careful.json`
+    is placed as a 45 ft main block, a 7 ft hyphen and a 27 ft west dependency, all three on
+    `footprint.blocks` with measured origins and extents. The figures this function would need
+    are on the record it is handed.
+
+    WHAT IS STILL TRUE is the narrower thing: this function does not READ them, and the roof is
+    derived for the main block alone with no stated ridge relation per element -- which is the
+    half of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` that WP-11.6
+    left open when `not_element_aware` reached zero. It is not reached on any shipped plan
+    either, because the gate below is the plan's `groupings` list and no plan names
+    `dependency-and-hyphen`; WP-13.5 measured what naming it would cost and declined to, because
+    `hyphen_length_ft` here is the BAND'S MIDPOINT (16.0 ft) while `geometry.flank_sizes` reads
+    the hyphen room's own `width_ft` (7.0 ft on that plan), so one sheet would carry two numbers
+    for one dimension of one house. Reading the placed blocks is what closes both."""
     if "dependency-and-hyphen" not in (plan.get("groupings") or []):
         return {"applicable": False}
     grp = _grouping("dependency-and-hyphen")

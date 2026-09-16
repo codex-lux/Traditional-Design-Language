@@ -165,15 +165,32 @@ class TestSolveIntegration:
     genuine data conflict, not silently forced -- see test_dining_room_front_claim below."""
 
     def test_entrance_portico_lands_on_the_entrance_wall(self, geometry_module):
-        plan = load_plan("tidewater-georgian-careful")
+        """ON THE ONE-RECTANGLE READING OF THE RECORD, and the container half is the test
+        below. `entrance_score` charges 100 points — `compose.SEV_W`'s fatal tier, and its own
+        docstring says *"no candidate with the porch off the entrance wall can win"* — and on a
+        one-rectangle house it does not have to."""
+        from conftest import untagged_reference_plan
+        plan, stripped = untagged_reference_plan()
+        assert stripped == 6, f"the shipped record carries {stripped} container tags, not 6"
         assert plan["context"]["entrance_faces"] == "S"
+        geometry_module._SOLVE_CACHE.clear()
         result = geometry_module.solve(plan, engine="heuristic")
-        fp = result["footprint"]
         porch = next(r for lv in result["levels"] for r in lv["rooms"] if r["id"] == "porch")
         assert porch["geometry"]["y_ft"] <= 0.6, "the entry porch must land on the S (entrance) wall"
 
     def test_service_rooms_land_toward_the_rear(self, geometry_module):
-        plan = load_plan("tidewater-georgian-careful")
+        """ON THE ONE-RECTANGLE READING, because with a container the question is a different
+        one and `test_the_container_costs_the_search_the_front_and_the_rear` states it.
+
+        `principal_and_service_score` asks whether a service room reaches the wall OPPOSITE the
+        entrance front — of the MAIN BLOCK, since `_touches_wall` is given the footprint's own
+        `W, H`. A kitchen in a west dependency reaches no wall of the main block at all, so the
+        rear preference is not a preference it can answer either way, and asserting it here
+        would be convicting the record of a fact about the instrument."""
+        from conftest import untagged_reference_plan
+        plan, stripped = untagged_reference_plan()
+        assert stripped == 6, f"the shipped record carries {stripped} container tags, not 6"
+        geometry_module._SOLVE_CACHE.clear()
         result = geometry_module.solve(plan, engine="heuristic")
         fp = result["footprint"]
         H = fp["depth_ft"]
@@ -181,6 +198,87 @@ class TestSolveIntegration:
         for rid in ("kitchen", "pantry"):
             g = rooms_by_id[rid]["geometry"]
             assert g["y_ft"] + g["depth_ft"] / 2 > H / 2, f"{rid} should sit toward the rear (north) half"
+
+    def test_the_container_costs_the_search_the_front_and_the_rear(self, geometry_module):
+        """WP-13.5'S HONEST COST, MEASURED RATHER THAN LEFT AS TWO RED ASSERTIONS, AND IT SPLITS
+        BY ENGINE.
+
+        The two guards above were written against a one-rectangle Tidewater house and WP-13.5
+        made it a three-element one. Each of them fails on the shipped record, and for a
+        DIFFERENT reason — one is a real placement regression and one is the instrument being
+        asked a question it cannot answer — so leaving either red would have published one
+        number meaning two things.
+
+        **The porch.** On `engine="heuristic"` the entry porch lands on the NORTH wall of a
+        45.00 x 37.24 ft main block (y 31.51 to 37.24) where on the one-rectangle reading of
+        the same record it lands on the S front (y 0.0). The winning candidate therefore pays
+        `entrance_score`'s 100 points, the tier that function's own docstring says nothing can
+        win while paying. The main block lost 18 ft of width to the wing and the porch is the
+        room that gave way. **On `engine="cp"` at the 40 s batch budget the porch is on the S
+        front** — and the one-rectangle record does not reach a placement at all in that budget
+        — so the regression is the SEARCH's and not the record's, which is why nothing is
+        reverted here.
+
+        **And `plan_check` reports NONE of it.** Both readings emit findings about the porch's
+        DEPTH (`The Porch Nobody Can Sit On`, `The Four-Foot Porch`, two furniture fits) and not
+        one finding about which face it stands on. A quantity a SCORE knows about and a CHECKER
+        does not is invisible in exactly the surfaces a person reads — WP-11.12's own sentence,
+        met at the entrance front.
+        `oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so`.
+
+        **The kitchen.** `principal_and_service_score` charges a service room 2.0 points for not
+        reaching the rear wall, measured with `_touches_wall(rect, w, W, H)` where `W, H` are
+        the MAIN BLOCK's — so a kitchen in a west dependency is charged for a failure no laying
+        of that dependency can avoid. Measured across the edit: 2.0 points of service charge
+        become 5.0, of which the kitchen's 0.0 -> 2.0 is unavoidable and the butler's pantry's
+        2.0 -> 3.0 is a real move (it is drawn as a 4.95 ft strip spanning the whole depth now,
+        so it touches the front as well as the rear). That is WP-11.6 layer 3's finding — a
+        claim about a room in another element charged rather than declared unjudged — arriving
+        in the placer's OWN objective, which is a seventh layer.
+
+        Nothing is changed here. Both would move a placement, and a package that edits a record
+        and re-weights the search has done two things.
+        """
+        import json as _json
+        from conftest import untagged_reference_plan
+        C = geometry_module.C
+        plan_one, stripped = untagged_reference_plan()
+        assert stripped == 6, f"the shipped record carries {stripped} container tags, not 6"
+        plan_cont = load_plan("tidewater-georgian-careful")
+        assert any(r.get("block") for lv in plan_cont["levels"] for r in lv["rooms"]), \
+            "premise: the shipped record carries a container, or this test is comparing a house to itself"
+
+        def read(plan):
+            geometry_module._SOLVE_CACHE.clear()
+            res = geometry_module.solve(plan, engine="heuristic")
+            fp = res["footprint"]
+            W, H = fp["width_ft"], fp["depth_ft"]
+            rear = {geometry_module._OPPOSITE[w] for w in ("S",)}
+            porch = next(r for r in res["levels"][0]["rooms"] if r["id"] == "porch")["geometry"]
+            charge = 0.0
+            for r in res["levels"][0]["rooms"]:
+                g = r.get("geometry")
+                if not g:
+                    continue
+                if C["rooms"].get(r["type"], {}).get("function_class") not in ("service", "work"):
+                    continue
+                rect = (g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"])
+                if not any(geometry_module._touches_wall(rect, w, W, H) for w in rear):
+                    charge += 2.0
+                if any(geometry_module._touches_wall(rect, w, W, H) for w in ("S",)):
+                    charge += 3.0
+            return porch["y_ft"] <= 0.6, charge
+
+        on_front_one, charge_one = read(plan_one)
+        on_front_cont, charge_cont = read(plan_cont)
+        assert on_front_one, "premise: the one-rectangle reading puts the porch on the front"
+        assert not on_front_cont, (
+            "the container placement now puts the porch on the entrance front: the cost this "
+            "test records has been paid back, so re-measure it and rewrite the docstring "
+            "rather than deleting the guard")
+        assert charge_cont > charge_one, (
+            f"the service charge was {charge_one} and is {charge_cont}: re-derive the figures "
+            "in this docstring before trusting them")
 
     def test_relaxations_do_not_increase_by_more_than_two_over_the_pre_wp22_baseline(self, geometry_module):
         """PLAN-OF-ACTION.md's own acceptance wording. The pre-WP-2.2 baseline (also

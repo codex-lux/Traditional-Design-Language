@@ -261,7 +261,12 @@ class TestShippedPlans:
         # nothing pins the serious count on this plan, so the prose drifted and nobody could
         # notice. It is 29 before this package and 29 after. The sentence is left as written
         # because it records what that package measured; this is the correction beside it.
-        assert result["counts"]["minor"] == 74
+        # 74 -> 76 AT WP-13.5, on the DECLARED record (this test places nothing). The two new
+        # minors are the servicing layer's: dropping the direct butler's-pantry-to-kitchen door
+        # leaves the pantry and the kitchen each a wet room with no wet neighbour. The route the
+        # room record's own `via` names -- butlers -> backhall -> kitchen -- is intact, which is
+        # why nothing more serious moved; the servicing layer reads DIRECT adjacency and says so.
+        assert result["counts"]["minor"] == 76
 
 
 class TestAdjacencyMechanics:

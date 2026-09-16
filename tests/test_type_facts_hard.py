@@ -119,16 +119,40 @@ def test_every_kind_has_a_label_and_a_wall_keeps_its_old_spelling():
 # ------------------------------------------------------------------ the facts, stated
 def test_the_reference_plan_states_all_four_facts_by_key():
     """What the prover is ASKED on the shipped record, which is deterministic and free to
-    build: two tiling literals (one per placed level), five stacks, two bearing axes, three
-    hearths on the two flue walls. Nothing is unjudged on this record."""
+    build. Nothing is unjudged on this record.
+
+    **EVERY COUNT HERE MOVED AT WP-13.5 AND EACH MOVED FOR A DIFFERENT REASON — that is why they
+    are re-pinned one by one with the cause on each, instead of the list being replaced.** The
+    container edit put the service programme into the dependency the record declares, so the
+    ground level is laid into three massing elements where it was one.
+
+    - `tiling` 2 -> 4. The key is `(level, element)` and the literal is stated once per element
+      per placed level: level 0 now has three (main, hyphen, dependency) and level 1 still has
+      one, because `blocks_for` lays only level 0 into elements.
+    - `bearing` 2 -> 6. The key is `(element, axis)` — `_label` spells it `element 0 x` — so
+      three elements take two axes apiece. It is NOT per level, which is worth saying because
+      the old pair `[(0, 'x'), (0, 'y')]` reads exactly like a per-level key on a two-storey
+      house and would have been re-pinned wrong by anyone who assumed it.
+    - `stack` 5 -> 4. `hallbath stacks_over powder` is WITHDRAWN by WP-13.5, because the powder
+      room is in a single-storey dependency now and no upper room can stand over it. The other
+      four are untouched, and each is still one `stacking.lands` product.
+    - `hearth` is UNCHANGED at three fires on the two flue walls. The hearths are in the main
+      block and the container did not touch them.
+    """
     _m, _r, reqs, _f, _p = _model(_tidewater())
     kinds = _kinds(reqs)
-    assert kinds["tiling"] == [(0, 0), (1, 0)]
+    assert kinds["tiling"] == [(0, 0), (0, 1), (0, 2), (1, 0)]
     assert sorted(kinds["stack"]) == sorted([(1, "landing"), (1, "upperpassage"), (1, "primary"),
-                                             (1, "primarybath"), (1, "hallbath")])
-    assert sorted(kinds["bearing"]) == [(0, "x"), (0, "y")]
+                                             (1, "primarybath")])
+    assert sorted(kinds["bearing"]) == [(0, "x"), (0, "y"), (1, "x"), (1, "y"), (2, "x"), (2, "y")]
     assert sorted(kinds["hearth"]) == [(0, "dining", "W"), (0, "drawing", "W"), (0, "library", "E")]
     assert reqs.unjudged == []
+    # The premise the four counts above rest on, asserted rather than assumed: this record really
+    # does state a three-element ground floor. Without it a reader would have no way to tell a
+    # tiling literal per element from one per level, which is the mistake the note warns about.
+    assert len({k[1] for k in kinds["tiling"] if k[0] == 0}) == 3, (
+        "the shipped record no longer lays its ground floor into three massing elements, so "
+        "every count in this test is about a different house -- re-read WP-13.5's record edit")
 
 
 def test_a_fact_the_model_cannot_state_is_unjudged_by_name_and_never_held():

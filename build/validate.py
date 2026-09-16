@@ -159,6 +159,80 @@ except Exception as _e:                 # noqa: BLE001 -- a refusal is content
     # for reasons that are not this checker's; saying which is the third state working.
     print(f"\nN/EV — scene: could not evaluate ({type(_e).__name__}: {str(_e)[:120]})")
 
+# WP-13.5: A DUPLICATE KEY IN A JSON RECORD IS INVISIBLE TO EVERY READER IN THIS TREE.
+#
+# `plans/tidewater-georgian-careful.json` carried `"stacks_over"` TWICE on two of its upper
+# rooms, and had since WP-11.2 authored them. `json.load` takes the LAST occurrence and says
+# nothing; `jsonschema` never sees the first, because it validates the parsed object; every
+# checker, both engines and both renderers therefore agreed with each other about a record that
+# says one thing twice. Both copies happened to carry the same value, so nothing in this corpus
+# has ever behaved differently — which is exactly why it survived: a silent disagreement would
+# have had to WAIT for the two to differ, and the first reader to notice would have been a
+# person reading a sheet.
+#
+# It was found by ROUND-TRIPPING the file (parse, edit, dump) and reading the diff, which
+# collapsed the pair and showed as a deletion of a line nobody deleted. It is a two-line sweep
+# and it belongs in the build, so it is here.
+#
+# IT RUNS INSIDE THIS CHECKER SO `TOTAL_CHECKS` DOES NOT MOVE -- WP-12.1's scene selftest
+# above is the precedent and WP-11.6's family-specimen drift check is that one's. It exits on
+# its own account, after the taxonomy verdict, so neither subject can make the other's verdict
+# read as its own.
+#
+# AND IT ENUMERATES WITH `git ls-files`, NEVER WITH `os.walk`. WP-13.2 met the other way: a
+# checker that walked the directory found the first agent worktree under `.claude/worktrees/`
+# -- a git-ignored copy of the whole repository inside itself -- and went red on 2,031 files it
+# had never been written to open.
+def _duplicate_keys(path):
+    """Every (object id, key) this file states twice. The hook sees the RAW pairs, which is the
+    only place the duplicate still exists: by the time `json.load` returns, it is gone."""
+    dup = []
+    def hook(pairs):
+        seen = set()
+        obj = dict(pairs)
+        for k, _v in pairs:
+            if k in seen:
+                dup.append((obj.get("id") or obj.get("name") or "<anonymous object>", k))
+            seen.add(k)
+        return obj
+    with open(path, encoding="utf-8") as fh:
+        json.load(fh, object_pairs_hook=hook)
+    return dup
+
+
+_dup_bad = 0
+try:
+    import subprocess as _sp
+    _tracked = _sp.run(["git", "-C", ROOT, "ls-files", "-co", "--exclude-standard", "*.json"],
+                       capture_output=True, text=True, check=True).stdout.split()
+except Exception as _e:                 # noqa: BLE001 -- a refusal is content
+    # COULD NOT EVALUATE, named and never collapsed into a pass: a tree with no git is a tree
+    # this sweep has not read, which is not the same as a tree with no duplicates.
+    print(f"\nN/EV — duplicate keys: could not enumerate the tracked records "
+          f"({type(_e).__name__}: {str(_e)[:80]})")
+    _tracked = None
+if _tracked is not None:
+    _dups, _read = [], 0
+    for _rel in _tracked:
+        _abs = os.path.join(ROOT, _rel)
+        if not os.path.isfile(_abs):
+            continue
+        try:
+            _found = _duplicate_keys(_abs)
+        except Exception:               # noqa: BLE001 -- a malformed file is the schema's finding
+            continue
+        # COUNTED AFTER THE PARSE, not before it. The census below is a PREMISE assertion --
+        # a sweep that enumerated nothing prints `duplicates: 0` exactly as a clean corpus does
+        # -- so counting a file this function could not read would inflate the one number that
+        # is supposed to prove the sweep looked.
+        _read += 1
+        for _oid, _k in _found:
+            _dups.append(f"{_rel}: object '{_oid}' states '{_k}' twice")
+    print(f"\njson records read for duplicate keys: {_read}  duplicates: {len(_dups)}")
+    for _d in _dups[:40]:
+        print("  x " + _d)
+    _dup_bad = 1 if _dups else 0
+
 print("\nOK — schema valid, references resolve, no cycles.")
-if _scene_bad:
+if _scene_bad or _dup_bad:
     sys.exit(1)

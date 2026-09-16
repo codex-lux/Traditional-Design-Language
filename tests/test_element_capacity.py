@@ -49,7 +49,14 @@ def _tagged(drop_direct=True):
     building". WP-11.11 tagged it into the dependency and CP refused, correctly, naming the
     dining-room door -- a hard `must_adjoin` that carries no `via` and so cannot cross.
     """
+    # WP-13.5: the shipped record states a container of its own now, so this fixture strips
+    # it and states the one it is about. Adding a tag on top of the shipped ones builds a
+    # house with more elements than the test measures.
     p = json.loads((ROOT / "plans" / "tidewater-georgian-careful.json").read_text())
+    for lv in p["levels"]:
+        for r in lv["rooms"]:
+            r.pop("block", None)
+            r.pop("hyphen", None)
     for lv in p["levels"]:
         for r in lv["rooms"]:
             if r["id"] in SERVICE:
@@ -251,7 +258,22 @@ def test_the_shipped_corpus_cannot_reach_any_of_this():
         n += 1
         if any(r.get("block") for lv in d["levels"] for r in lv.get("rooms") or []):
             tagged += 1
-    assert n == 16 and tagged == 0
+    # WP-13.5 AUTHORED THE FIRST ONE, which is what this guard exists to notice. It read
+    # `tagged == 0` and the sentence above it said every element rule was unreachable from the
+    # corpus; both were true until `plans/tidewater-georgian-careful.json` took its service
+    # programme into the dependency it declares. The plan is NAMED rather than the count
+    # loosened, so a SECOND record growing a container still fails here first, and
+    # `tests/test_elements.py`'s two hashes carry the per-plan accounting for the one that did.
+    tagged_names = sorted(
+        pathlib.Path(pf).name
+        for pf in sorted(glob.glob(str(ROOT / "plans" / "*.json")))
+        + sorted(glob.glob(str(ROOT / "plans" / "reference" / "*.json")))
+        if "levels" in json.loads(pathlib.Path(pf).read_text())
+        and any(r.get("block")
+                for lv in json.loads(pathlib.Path(pf).read_text())["levels"]
+                for r in lv.get("rooms") or []))
+    assert n == 16 and tagged == 1, (n, tagged)
+    assert tagged_names == ["tidewater-georgian-careful.json"], tagged_names
 
 
 # --------------------------------------------------------------- what it buys

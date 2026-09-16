@@ -43,8 +43,29 @@ G, ST, RF, EL, RP, FA, AX, RE = (_b(n) for n in
 PLANS = ("tidewater-georgian-careful", "spec-builder-colonial")
 
 
+# ---------------------------------------------------------------- WP-13.5, the container
+#
+# THESE FIXTURES READ THE TIDEWATER RECORD AS THE ONE-ELEMENT HOUSE IT WAS UNTIL WP-13.5.
+# That package moved the service programme into the dependency the record declares, and this
+# file's whole subject is the ELEVATION -- which is drawn for the MAIN BLOCK. With a wing in
+# the plan, openings the placer seats in the wing are on no face this elevation has, and the
+# layer says so by name ("it stands on the S face of another massing element ... and this
+# elevation is of the main block"). That refusal is correct, it is the cost WP-13.5 publishes
+# as `oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front`, and it is
+# asserted on the SHIPPED record by the gate (`tests/test_sheet_coherence.py`, whose
+# `test_the_elevations_openings_are_the_plans_placed_openings` rows are RED on purpose and are
+# NOT re-baselined). What this file measures is the bay system on a house the elevation can
+# draw whole, so it strips the container and says so.
+def _one_element(plan):
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return plan
+
+
 def _build(pid):
-    plan = json.load(open(os.path.join(ROOT, "plans", f"{pid}.json")))
+    plan = _one_element(json.load(open(os.path.join(ROOT, "plans", f"{pid}.json"))))
     G._SOLVE_CACHE.clear()
     res = G.solve(plan, None, engine="heuristic")
     section = ST.build_section(res, None, geometry_result=res)

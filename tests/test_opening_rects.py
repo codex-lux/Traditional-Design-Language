@@ -228,7 +228,13 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
                     assert r["sill_in"] == floors[0], "a door stands on its own floor"
                     assert r["head_in"] == floors[0] + ent["door_leaf_height_in"]
                     assert r["leaf_height_source"] == "elevation.entrance.door_leaf_height_in"
-    assert seen == 34, (f"expected 34 placed-and-drawn openings over the two shipped plans on "
+    # 34 -> 27 AT WP-13.5, and it is the PLACEMENT that moved, not the arithmetic this test is
+    # about. The Tidewater record states its container now, so its openings are seated in three
+    # elements instead of one and the main block's own faces carry fewer: S 7, N 6, E 2, W 0
+    # against the spec Colonial's unmoved S 6, N 4, E 0, W 2. Every rectangle still names the
+    # record it came from and still stands on its own storey datum, which is what is asserted
+    # above; only how many there are moved.
+    assert seen == 27, (f"expected 27 placed-and-drawn openings over the two shipped plans on "
                         f"the heuristic, read {seen}; 72 is the rhythm")
 
 
@@ -366,11 +372,17 @@ def test_a_door_on_a_stack_is_drawn_and_counted_not_deleted(elevations):
     """The half OQ 85 keeps: a DOOR on a stack's axis is as impossible as a window on one, and
     deleting an entrance is not a decision this generator may take on its own, so the door is
     drawn and the collision reaches `count_of_openings_on_the_axis_of_a_chimney_stack`, where
-    `window-on-the-chimney-axis` fires and a human decides. Driven on the N face's placed back
-    doors, which is where the Tidewater plan seats three."""
+    `window-on-the-chimney-axis` fires and a human decides.
+
+    WP-13.5: the face is READ rather than named. This said *"the N face's placed back doors,
+    which is where the Tidewater plan seats three"*, and after the service programme moved into
+    the dependency that record declares, the main block's N face carries none and its E face
+    carries one. Which face has a back door is a property of the placement; the property under
+    test is not."""
     el = _load("elevation")
     elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
-    face = "N"
+    face = next(f for f in ("N", "E", "W", "S") if f != elev["entrance_face"]
+                and any(p["kind"] == "door" for p in (elev["faces"][f].get("placed") or [])))
     door = next(p for p in elev["faces"][face]["placed"] if p["kind"] == "door")
     _stack_on(elev, face, door["u_ft"])
     got = el.opening_rects(elev, face)
@@ -575,8 +587,22 @@ def test_a_placed_door_off_the_entrance_face_is_a_leaf_and_not_a_doorcase(elevat
     """
     el, re_ = _load("elevation"), _load("render_elevation")
     elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
-    face = "N"
+    # WP-13.5 MOVED THE PLACEMENT AND WITH IT THE BACK DOORS. The docstring above describes
+    # THREE exterior doors on the N face; with the service programme in the dependency this
+    # record declares, the N face of the main block carries NONE and the E face carries one.
+    # So the face is read rather than named, and a SECOND door is DRIVEN onto it -- the
+    # property under test is "EVERY door off the front is a leaf and none is dressed", and one
+    # subject cannot tell "every" from "the first". The corpus offers at most one back door on
+    # any face of either shipped plan now, measured; a fixture that waits for the corpus to
+    # offer two is measuring the corpus (WP-8.11).
+    face = next(f for f in ("N", "E", "W", "S") if f != elev["entrance_face"]
+                and any(p["kind"] == "door" for p in (elev["faces"][f].get("placed") or [])))
     assert elev["entrance_face"] != face
+    placed = elev["faces"][face]["placed"]
+    real = next(p for p in placed if p["kind"] == "door")
+    driven = json.loads(json.dumps(real))
+    driven["u_ft"] = round(float(real["u_ft"]) + 8.0, 3)
+    placed.append(driven)
     doors = [r for r in el.opening_rects(elev, face)["rects"] if r["kind"] == "door"]
     assert len(doors) >= 2, "the fixture needs a face with placed doors that is not the front"
     assert all(r["entrance"] is None for r in doors), "a back door carried the entrance composition"

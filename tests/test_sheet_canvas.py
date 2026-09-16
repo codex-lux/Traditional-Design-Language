@@ -279,12 +279,31 @@ class TestADependencyIsDrawnInsideItsOwnPanel:
 
     def test_a_one_block_sheet_is_unchanged_by_the_drawn_extent(self, geometry_module):
         """The main block is still the main block: with no dependency the drawn extent equals it
-        and the sheet must be byte-identical to what it always was."""
-        import json, os, importlib.util
+        and the sheet must be byte-identical to what it always was.
+
+        **THE TRIPWIRE IN THE LAST LINE FIRED AT WP-13.5 AND IT WAS RIGHT TO.** It read
+        *"this plan is one rectangle; if that stops being true the byte-identity claim is
+        void"*, and WP-13.5 moved the Tidewater service programme into the dependency the
+        record declares — six rooms at model x −34.00 to −7.00, a long way left of the zero
+        this assertion demands. Nothing is wrong with the renderer: the ONE-BLOCK case is
+        still the one-block case, and the fixture had been borrowing a shipped record to
+        stand for it.
+
+        So it states its own now. `untagged_reference_plan` gives the same house with its
+        container removed, and the strip count is asserted, so the day the shipped tags are
+        renamed or withdrawn this fixture says so instead of silently becoming the shipped
+        record again. The sibling test above builds an EAST dependency by hand for the other
+        half — neither case is read off whatever `plans/` happens to carry.
+        """
+        import os, importlib.util
+        from conftest import untagged_reference_plan
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         spec = importlib.util.spec_from_file_location("rp", os.path.join(root, "build", "render_plan.py"))
         rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
-        plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
+        plan, stripped = untagged_reference_plan()
+        assert stripped == 6, (
+            f"the shipped record carries {stripped} container tags, not 6: re-read WP-13.5's "
+            "record edit before trusting this fixture")
         geometry_module._SOLVE_CACHE.clear()
         geometry_module.solve(plan, engine="heuristic")
         pts = [r["geometry"] for lv in plan["levels"] for r in lv["rooms"] if r.get("geometry")]

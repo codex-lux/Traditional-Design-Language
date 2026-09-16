@@ -1523,6 +1523,159 @@ and one sash over a ground front of five. Not edited, because every available fi
 withheld on that very house, or a parti authored blind);
 `oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts`.
 
+**WP-13.5 IS THE CONTAINER, AND THE ROOM THE RULING'S LIST NAMES IS THE ONE THE CORPUS KEEPS IN
+THE BLOCK (16 Sep) — `docs/reports/wp-13.5-the-service-wing-and-the-room-that-stays.md`.** Both
+records carry it: kitchen, pantry, breakfast room, powder room and cellar stair take
+`block: service`, the back hall takes `hyphen: true`, and the house places as a **45.00 x 37.24 ft
+main block, a 7.00 x 18.00 ft hyphen and a 27.00 x 26.68 ft west dependency** against one
+63.00 x 38.17 ft rectangle before it. **THE BUTLER'S PANTRY DOES NOT MOVE AND THE CORPUS SETTLED
+THAT BEFORE THE RULING WAS GIVEN**: `rooms/butlers-pantry.json` states `must_adjoin dining-room`
+hard with NO `via` and `must_adjoin kitchen` hard WITH `via: [back-hall, gallery-corridor]` (OQ 59,
+24 Aug, naming a Tidewater plantation house in its own words), so a pantry in the wing must cross a
+boundary it has no route across; the redundant DIRECT pantry-to-kitchen door is dropped from both
+sides instead, which is what `five-part-palladian` — the ruling's own named precedent — has always
+done. **The breakfast room is ADDED to the list** by its own hard `must_adjoin kitchen` with no
+`via`. The ruling's sentence has an unnamed sixth main-block room and the corpus says which; the
+deviation is stated rather than followed or ignored.
+**MEASURED ON BOTH ENGINES, EVERY FIGURE RE-DERIVED ON THIS TREE.** Heuristic (deterministic):
+fatal **11 -> 10**, serious **72 -> 64**, minor 107 and info 28 unmoved, stack claims 5 -> 4.
+CP at the 40 s batch budget, ONE RUN EACH and not deterministic: objective **1076.4 -> 304.5**,
+serious **65 -> 49**, **stacks 0 of 5 kept -> 4 of 4**, `type_facts` stacks and bearing
+**DOWNGRADED -> HELD**, over-capacity spans **2 -> 0**.
+**AND THE HEADLINE IS NOT A COUNT: THE PROVER CAN DECIDE NOW.** WP-13.3 measured the full type
+UNDECIDED at every budget to 90 s, so the ladder released whole ranks on undecided scouts and
+carried 21 of 22 wall pins without proving one. With the container every ladder round is decided
+and names a core, and **fifteen of sixteen restore attempts come back OPTIMAL or INFEASIBLE** where
+nine of eleven were UNKNOWN. At `time_limit_s=60` the plan reaches **OPTIMAL with 7 of 35 wall pins,
+all seven individually re-proved**, against FEASIBLE with 21 carried.
+**THE COSTS ARE PUBLISHED AND NOT NETTED OFF**: shape pins **0 -> 20** downgraded (the ladder
+reaches its seventh rank; the pantry and the principal bath are drawn 2.0 : 1 against a 1.8
+ceiling), the hearth fact **HELD -> DOWNGRADED** on the heuristic (the drawing and dining fires
+drawn 4.95 ft inboard of the narrower block's W face), and heuristic spans 3 -> 4 with the worst
+35.5 -> 45.0 ft — while CP goes the other way, 2 -> 0 and 63.0 -> 37.0.
+**AND THE TERRACE STOPS BEING DRAWN ON THE HEURISTIC, REFUSED BY NAME.** It declares E/N/S;
+WP-11.10's rule admits a face only where its opposite is undeclared, so N and S cancel and E is
+the one candidate -- and with the breakfast room in a west wing, **E is the face that looks back
+at the house across the gap**, while the element puts it outside on S and W. `placed` ->
+`no-face-both-readings-admit`, in the pass's own closed vocabulary. NOT patched (WP-11.10's own
+*"refused by name and neither patched"*), because re-declaring an appendage's exposures is a
+massing statement about a house nobody has drawn. **On CP it was already unplaced BEFORE the
+edit, same code, same `outside ["S","W"]`** -- so what moved is one engine's placement.
+**`hallbath stacks_over powder` IS WITHDRAWN AND NOT RE-POINTED**: the powder room is in a
+single-storey dependency, `stacking.judge` reads no massing element and tests strict rectangle
+intersection, so the claim would have read BROKEN rather than unjudged — a placement convicted of
+a failure no placement can avoid. `primarybath stacks_over butlers` SURVIVES, which is the second
+reason the pantry staying in the block matters.
+**AND THE SHIPPED RECORD CARRIED A DUPLICATE JSON KEY.** `stacks_over` was stated TWICE on
+`landing` and twice on `upperpassage`; `json.load` keeps the last and says nothing, `jsonschema`
+validates the parsed object so the first is gone before any schema sees it, and both copies
+carried the same value — so nothing has ever behaved differently, which is exactly why it
+survived. Found by round-tripping the file and reading the diff, which collapsed the pair and
+showed as the deletion of a line nobody deleted. **2 corpus-wide, both in that file**, the
+instrument proved on a `git archive HEAD` checkout before it was believed; the sweep is inside
+`build/validate.py` so `TOTAL_CHECKS` does not move, and it enumerates with `git ls-files` and
+never `os.walk`.
+**THE CONTROL IS THAT 15 OF 16 PLANS PLACE BYTE-IDENTICALLY** on the heuristic across the edit;
+only the edited plan moves. `check_partis.py` is byte-identical to the pristine tree's output and
+`check_plans.py` is unmoved at 0 topology findings and 2 exposure findings.
+**AND A FIXTURE'S OWN PREMISE ASSERTION EARNED ITSELF.**
+`test_growth_steps_by_two_where_a_centre_bay_is_wanted` scaled EVERY room by 1.9 to force the
+growth loop; with the service programme in the wing that inflated the DEPENDENCY, took the flank
+to 61 ft, `lot_maxbay` 11 -> 8 and `growth_ceiling` to 8, so `7 + 2 > 8` broke the loop on its
+first pass — the fixture had stopped reaching the code under test for a reason with nothing to do
+with bay parity. It scales only untagged rooms now and reproduces `grown == [9]` exactly.
+**`tests/test_solver.py`'s HALF BOUND IS GREEN ON THE TIDEWATER PLAN AND STILL RED ON
+`spec-builder-colonial`, AND THAT HALF IS NOT THIS PACKAGE'S.** Measured at 60 s on three
+`git archive` checkouts: before WP-13.3's prover slice 12 of 35 and 2 of 19, both green; at the
+branch head 21 of 35 and 12 of 19, both red with 20 and 11 refinement notes matching neither
+vocabulary; here 7 of 35 green and **12 of 19 red, the head's figures unmoved** (that plan's
+heuristic placement hashes identically across the edit). WP-13.3's status
+line named only the Tidewater half. The bound is NOT loosened and the note carries the three-tree
+table: `oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container`.
+**AND AN EIGHTH LAYER READS THE MAIN BLOCK AS THE WHOLE HOUSE.** `axis.front_openings` sweeps
+every room on the level with no element filter and `facade.rhythm` derives its bay centres across
+the main block's own width, so on the heuristic **all four** `front-opening-in-no-bay` findings
+(0 -> 4) are the wing's — windows and a door at x **-27.9, -18.4, -14.4 and -10.4** on a block
+that starts at 0. `not_element_aware` reached zero at WP-11.6 and the list was CLOSED; the drawing
+was a seventh (WP-11.14) and `facade.py`/`axis.py` were written at WP-11.7, after the counter
+stopped being able to grow. `oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front`.
+**THE PLAN DOES NOT NAME `dependency-and-hyphen`, AND THAT WAS MEASURED RATHER THAN OVERLOOKED.**
+`roof.wing_step_down` publishes `hyphen_length_ft` as the band's MIDPOINT, **16.0 ft**, while
+`geometry.flank_sizes` reads the hyphen room's own `width_ft`, **7.0 ft** — naming the grouping
+puts two numbers for one dimension on one sheet. And the band cannot be met by this room at all:
+the grouping floors it at 12 and `rooms/back-hall.json` ceilings `width_ft` at 7, with a stated
+reason on each side. `oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band`.
+`roof.py`'s docstring claimed this corpus *"has never placed a real second volume"*, false since
+WP-11.6 and now false of a SHIPPED plan; corrected in the commit that falsified it.
+**AND A NINTH LAYER AND A SEVENTH, FOUND IN THE TEST-REPAIR PASS AND NOT BY READING.**
+**THE ENTRY PORCH IS DRAWN ON THE BACK OF THE HOUSE ON THE SEARCH, AND NO LAYER SAYS SO.** On
+`engine="heuristic"` the porch lands at y **31.51** on a 45.00 x 37.24 ft main block — the N wall
+— where the one-rectangle reading of the same record puts it at y **0.00** on the S front; the
+winning candidate therefore pays `entrance_score`'s **100 points**, the tier whose own docstring
+says *"no candidate with the porch off the entrance wall can win against one that has it right"*.
+Total demerit **768.7 -> 936.1**. **On `engine="cp"` at the 40 s batch budget the porch is on the
+S front**, and the one-rectangle reading does not reach a placement at all in that budget, so the
+regression is the SEARCH's and nothing is reverted. **And `plan_check` reports NONE of it** — both
+readings emit four findings about the porch's DEPTH (`The Porch Nobody Can Sit On`, `The Four-Foot
+Porch`, two furniture fits) and one about its door graph, and not one about which face it stands
+on. WP-11.12's own sentence at the entrance front: a quantity a SCORE knows about and a CHECKER
+does not is invisible in exactly the surfaces a person reads.
+`oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so`.
+**AND `principal_and_service_score` CHARGES A KITCHEN FOR STANDING IN THE WING IT WAS PUT IN.**
+It decides "reaches the rear" with `_touches_wall(rect, w, W, H)` on the MAIN BLOCK's `W, H`, so a
+kitchen at x -21.81 in a west dependency can never answer yes: service charge **2.0 -> 5.0**, of
+which the kitchen's **0.0 -> 2.0** is the instrument and the butler's pantry's 2.0 -> 3.0 is a real
+move (drawn as a 4.95 x 37.24 ft strip now, touching the front as well as the rear). That is the
+OQ 52 family — a defect reported where none is possible — inside the placer's OWN objective rather
+than below it, and WP-11.6's layer 3 fixed the identical shape in `vertical_score` by returning
+COULD NOT EVALUATE. A score has no spelling for unjudged, which is what makes it a ruling.
+`oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in`.
+**BOTH WERE FOUND BY REPAIRING A TEST RATHER THAN BY READING THE DIFF**, and each arrived wearing
+the other's clothes: the porch one looked like a stale fixture and is a real regression, the
+kitchen one looked like a real regression and is a blind instrument. Two assertions failed, for
+two different reasons, and calling either of them by the other's name would have published one
+number meaning two things — so `test_composition.py` states each on the one-rectangle reading and
+a third guard measures the shipped record's two costs together and names them apart.
+**AND THE FULL SUITE FOUND TWO MORE READER DEFECTS, BOTH IN CONTROLS RATHER THAN IN CODE.**
+39 failed / 2459 passed / 21 skipped before the repairs and **32 / 2467 / 21 after**: twelve the
+base's (reproduced on a pristine `git archive HEAD` checkout), eighteen the Phase 13 gate, one the
+already-red shipped-sheet hash, one the deliberately-red solver bound, and seven this package's,
+all seven now worked.
+**`test_typefacts`'s AGREEMENT CONTROL WAS A FOURTH SPELLING OF THE BEARING RULE.** It re-derived
+with `ST.bearing_lines(ST.wall_lines(rooms, W, H), bay)` -- every room of the level in ONE call
+against the MAIN BLOCK's `W, H` -- which is exactly the reading WP-11.6 layer 2 removed from
+`structure.build_section`. It agreed with the leaf for as long as every shipped plan was one
+rectangle; the container parted them at once, the CONTROL reporting an extra interior bearing line
+at `('x', 0)` -- the main block's own west wall, interior only to a caller that thinks the hyphen
+and the dependency are inside the block. **The leaf was right and the control was wrong**, which
+is the direction that convicts working code. It reads `build_section`'s own per-element walls now;
+they agree exactly on both levels, the mutation reverting `typefacts` to the level-wide reading
+fails with the mirror image of the original message, and the premise -- some shipped plan states a
+container -- is asserted.
+**AND `conftest.as_one_element` IS NOT A CONTROL FOR THE CP MODEL HASH.** Stripping the six tags
+gives a THIRD value, `b9ef896282bf7bbd`, not the old `f499ab415b2add2e`, because WP-13.5 made
+three edits and the tags are one of them: tags stripped `b9ef8962`, + the butlers-to-kitchen door
+restored `93332067`, + `hallbath stacks_over powder` restored **`f499ab415b2add2e`, the old pin
+exactly**. Each step is a fact `_build` states as an assumption literal -- a door is a hard
+abutment and WP-13.3 made every declared stack one -- so the movement is accounted for edit by
+edit and none of it is the model builder, which `spec-builder-colonial`'s two unchanged hashes
+confirm independently. **A control that reverts SOME of a package's edits and is quoted as though
+it reverted all of them is a new number wearing a measurement's clothes.** The pin is split: the
+one-rectangle guarantee runs on the spec Colonial with its premise asserted, and the container's
+model gets a pin of its own.
+**THE FIVE REAL RATCHETS EACH CARRY A CONTROL AND ALL FIVE MOVE ONLY THE EDITED PLAN.** Drawn
+furniture shortfalls **68/82 -> 66/80**, rooms outside their own band **30 -> 28 of 219**, the
+pruned roof digest `82cfe22d -> 4a06aa83` (165 of 180 entries, of which the only non-sweep one is
+the edited plan), the prover's four fact keys **tiling 2 -> 4, stack 5 -> 4, bearing 2 -> 6,
+hearth 3 unmoved**, and the front **7 -> 5 bays**. In every case the stripped corpus reproduces
+the OLD number exactly before the new one is written down. **The `bearing` key is `(element,
+axis)` and NOT `(level, axis)`** -- the retired pair `[(0, 'x'), (0, 'y')]` reads exactly like a
+per-level key on a two-storey house, so re-pinning it by pattern rather than by reading `_label`
+would have written the wrong four entries. And the front's bay count is RE-CUT rather than
+re-pinned: it is a consequence of the footprint, so it is asserted equal to `footprint.bays`
+(WP-11.7's join) and inside `styles/tidewater-georgian.json`'s own *"Five or seven bays"*, which
+is a rule instead of a house.
+
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
    www.loc.gov. `build/harvest_habs.py` is written, dry-run exercised and queued against the day
@@ -4884,8 +5037,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **187 entries, of which 95 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-held-shape-pin-is-not-held-on-the-hard-only-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shared-flue-cannot-stand-behind-two-centred-breasts, oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/an-undecided-scout-releases-every-type-fact-at-once, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-plate-does-not-read-the-disclosure-module-it-imports, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-raw-kit-read, oq/the-record-dimensions-a-transom-and-no-drawing-draws-one, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **192 entries, of which 100 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-held-shape-pin-is-not-held-on-the-hard-only-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shared-flue-cannot-stand-behind-two-centred-breasts, oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/an-undecided-scout-releases-every-type-fact-at-once, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so, oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-plate-does-not-read-the-disclosure-module-it-imports, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-raw-kit-read, oq/the-record-dimensions-a-transom-and-no-drawing-draws-one, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. **AND THE ENTRY COUNT HAS BEEN THE FILE COUNT, WHICH IS THE
   UNGUARDED-PROSE CLASS ARRIVING IN THIS PARAGRAPH** -- `docs/open-questions/README.md`

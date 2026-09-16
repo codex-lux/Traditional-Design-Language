@@ -205,7 +205,13 @@ def test_every_key_line_is_inside_its_room_and_names_its_item_whole(sheet):
     out, svg = sheet
     plates = _frame(svg)
     keys = [(rid, int(n), dict(_ATTR.findall(a)), t) for rid, n, a, t in _KEY.findall(svg)]
-    assert len(keys) >= 40, f"{len(keys)} key lines: the premise has moved"
+    # 40 -> 35 AT WP-13.5, AND IT IS A FLOOR ON THE PREMISE rather than a measurement: this
+    # asserts only that the sheet draws enough keys IN their rooms for the geometry below to
+    # be about something. WP-13.5 put the service programme in the dependency this record
+    # declares, so the main block is 45 ft wide instead of 63 and more rooms are too small to
+    # carry their own key -- 38 lines here, against 41 on the branch head. The cost is
+    # measured on the ceiling below, which is where it belongs.
+    assert len(keys) >= 35, f"{len(keys)} key lines: the premise has moved"
     want, seen = 0, 0
     for i, lv in enumerate(_placed(out)):
         X, Y = _xy(plates[i])
@@ -226,7 +232,10 @@ def test_every_key_line_is_inside_its_room_and_names_its_item_whole(sheet):
                 assert x0 <= float(a["x"]) <= x1 and y0 <= float(a["y"]) <= y1, (r["id"], n, a)
                 assert " ".join(f["item"].split()).upper() in t, (r["id"], f["item"], t)
                 assert "font-size" not in a, "a fitted size written as an attribute does not apply"
-    assert want >= 60 and seen >= 50, (want, seen)
+    # `seen` 50 -> 35 at WP-13.5 for the same reason as the floor above: a 45 ft main block
+    # sends more keys to the margin, and `seen` counts only the ones drawn IN their room.
+    # `want` is unmoved at 69 -- the same items are keyed; what changed is where the line goes.
+    assert want >= 60 and seen >= 35, (want, seen)
 
 
 def test_every_drawn_item_carries_its_numeral(sheet):
@@ -306,7 +315,7 @@ def test_no_key_line_is_drawn_over_a_room_name_a_mark_or_a_wall_body(sheet):
     bodies from the poché rects; none of it from the fitter's own plan of what it avoided."""
     _out, svg = sheet
     keys = [_text_box(dict(_ATTR.findall(a)), t, True, 8.0, 0.0) for _r, _n, a, t in _KEY.findall(svg)]
-    assert len(keys) >= 40
+    assert len(keys) >= 35          # WP-13.5: see the floor above for why this moved
     labels = _label_boxes(svg)
     assert len(labels) >= 20, "no labels read: the selector has gone blind"
     marks = _rect_boxes(svg, "fu") + _rect_boxes(svg, "fn")
@@ -321,7 +330,15 @@ def test_no_key_line_is_drawn_over_a_room_name_a_mark_or_a_wall_body(sheet):
     assert not over, f"{len(over)} key line(s) drawn over other ink: {over[:6]}"
 
 
-REFUSED_ROOMS_CEILING = 7      # tidewater-georgian-careful, engine="heuristic", presentation
+# 7 -> 11 AT WP-13.5, AND IT IS A COST, NOT A RE-BASELINE FOR CONVENIENCE. The service
+# programme moved into the dependency `plans/tidewater-georgian-careful.json` declares, so the
+# main block is drawn 45.00 x 37.24 ft where it was 63.00 x 38.17, and eleven rooms are now too
+# small to carry their own furniture key inside themselves: drawing, powder, cellarstair,
+# pantry, dressing, primarybath, cl2, chamber3, cl3, hallbath, linen -- against seven before.
+# Nothing is lost from the sheet: every refused key reaches the margin schedule, which is what
+# the rest of this test asserts and what makes the number a cost rather than a defect. It is
+# re-pinned tight so the next change has to justify itself.
+REFUSED_ROOMS_CEILING = 11     # tidewater-georgian-careful, engine="heuristic", presentation
 
 
 def test_every_refused_key_reaches_the_margin_schedule_inside_the_canvas(sheet):

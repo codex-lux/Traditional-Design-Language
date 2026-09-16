@@ -68,34 +68,100 @@ EL = _mod("elements")
 # model was before it was taught the type. The property this test guards is unchanged: the
 # ONE-RECTANGLE house takes the same path as before through the element code, so any further
 # movement here that WP-13.3's own tests do not account for is a defect and not a trade.
-MODEL_SHAS = {
-    ("tidewater-georgian-careful", False): "f499ab415b2add2e",
-    ("tidewater-georgian-careful", True): "24f83bddd186b559",
+# WP-13.5 SPLIT THIS PIN IN TWO, BECAUSE THE TIDEWATER PLAN STOPPED BEING A ONE-RECTANGLE HOUSE.
+# `spec-builder-colonial` is the one-rectangle control now and its two hashes are UNCHANGED
+# (af0b566db578f99f / 68434bafedf92b38), re-derived on a `git archive HEAD` checkout, which is
+# what proves `geometry_cp._build` did not move. The Tidewater pair is a new, separate fact: the
+# model the prover builds for a THREE-element house, pinned so it cannot drift unremarked.
+#
+# **AND THE OBVIOUS CONTROL IS NOT ONE HERE, WHICH IS WORTH KNOWING.** `conftest.as_one_element`
+# strips the six `block`/`hyphen` tags and gives a THIRD hash, b9ef896282bf7bbd -- not the old
+# f499ab415b2add2e -- because WP-13.5 made three edits to that record and the tags are only one
+# of them. Undoing them one at a time:
+#
+#     shipped                                        ed29a965f427f03f
+#     tags stripped                                  b9ef896282bf7bbd
+#     + the butlers<->kitchen door restored          933320674985d6b5
+#     + `hallbath stacks_over powder` restored       f499ab415b2add2e   <- the old pin, exactly
+#
+# Every step is a fact `_build` states as an assumption literal: a door is a hard abutment, and
+# WP-13.3 made each declared stack one through `stacking.lands`' own relation. So the movement is
+# fully accounted for, edit by edit, and none of it is the model builder. A control that reverts
+# SOME of a package's edits and is quoted as though it reverted all of them is the shape this
+# repository keeps catching; it is written out here so nobody reaches for `as_one_element` as a
+# model-hash control again.
+ONE_RECTANGLE_SHAS = {
     ("spec-builder-colonial", False): "af0b566db578f99f",
     ("spec-builder-colonial", True): "68434bafedf92b38",
 }
+CONTAINER_SHAS = {
+    ("tidewater-georgian-careful", False): "ed29a965f427f03f",
+    ("tidewater-georgian-careful", True): "75dbc2bc875d6740",
+}
+MODEL_SHAS = {**ONE_RECTANGLE_SHAS, **CONTAINER_SHAS}   # tuple keys: `dict(a, **b)` refuses them
+
+
+def _model_sha(pid, obj):
+    plan = json.loads((ROOT / "plans" / f"{pid}.json").read_text())
+    levels, prep = GEO.prep_rooms(plan)
+    fpd = CP._snap_fpd(GEO.derive_footprint(plan, None, prep))
+    ew = GEO.entrance_walls(plan)
+    m, _r, _q = CP._build(plan, prep, fpd, ew, frozenset(), objective=obj)
+    return hashlib.sha256(str(m.Proto()).encode()).hexdigest()[:16]
+
+
+def _elements_on_ground(pid):
+    """How many massing elements the ground level is laid into, read through `blocks_for`.
+
+    Not the count of distinct `block` tags: a hyphen is its own element and is stated by
+    `hyphen: true` rather than by a tag of its own, so on the shipped Tidewater record one tag
+    and one hyphen flag become THREE elements. Asking `geometry.blocks_for` is the only reading
+    that cannot disagree with the one `_build` uses."""
+    plan = json.loads((ROOT / "plans" / f"{pid}.json").read_text())
+    levels, prep = GEO.prep_rooms(plan)
+    fpd = GEO.derive_footprint(plan, None, prep)
+    return len(GEO.blocks_for(plan, fpd, prep, level=0))
 
 
 def test_the_model_for_a_one_rectangle_house_is_byte_identical():
     """THE GUARANTEE, and it is stronger than a placement hash: CP-SAT under a wall-clock
     budget is not reproducible, so pinning what it FINDS would be pinning this machine. What is
-    reproducible is what it is ASKED. These four are the serialized CpModel proto for both
-    shipped plans in both phases, measured on a `git archive HEAD` checkout before the package
-    and on the working tree after it. Every guard in `_build` that reads `gx0 < ex`,
-    `len(els[lvl]) > 1` or `if base:` exists to keep them.
+    reproducible is what it is ASKED. Every guard in `_build` that reads `gx0 < ex`,
+    `len(els[lvl]) > 1` or `if base:` exists to keep this one.
+
+    On `spec-builder-colonial`, which is the corpus's one-rectangle plan since WP-13.5 moved the
+    Tidewater service programme into a wing. The PREMISE is asserted, because a plan that
+    quietly grew a container would turn this into a statement about a multi-element model under
+    a docstring promising the opposite.
     """
-    for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
-        plan = json.loads((ROOT / "plans" / f"{pid}.json").read_text())
-        levels, prep = GEO.prep_rooms(plan)
-        fpd = CP._snap_fpd(GEO.derive_footprint(plan, None, prep))
-        ew = GEO.entrance_walls(plan)
-        for obj in (False, True):
-            m, _r, _q = CP._build(plan, prep, fpd, ew, frozenset(), objective=obj)
-            got = hashlib.sha256(str(m.Proto()).encode()).hexdigest()[:16]
-            assert got == MODEL_SHAS[(pid, obj)], (
-                f"{pid} objective={obj}: the model the prover builds for a one-rectangle house "
-                f"moved. WP-11.11 teaches it a concept no plan in this corpus exercises, so "
-                f"any movement here is a defect and not a trade.")
+    assert _elements_on_ground("spec-builder-colonial") == 1, (
+        "spec-builder-colonial now states a massing container, so it is no longer this file's "
+        "one-rectangle control: find one, or drive a stripped record and say so")
+    for (pid, obj), want in sorted(ONE_RECTANGLE_SHAS.items()):
+        assert _model_sha(pid, obj) == want, (
+            f"{pid} objective={obj}: the model the prover builds for a one-rectangle house "
+            f"moved. The element code must take a one-rectangle house down the same path it "
+            f"always did, so any movement here is a defect and not a trade.")
+
+
+def test_the_model_for_the_shipped_container_is_pinned():
+    """WP-13.5. `plans/tidewater-georgian-careful.json` states three massing elements now, and
+    nothing else in the tree pins what the prover is ASKED about one.
+
+    This is not the guarantee above and must not be read as it: a movement here is only a defect
+    if no package accounts for it. What it stops is the drift nobody mentions — the element
+    domains, the per-element containment and coverage, the `_lands_literal` products for four
+    declared stacks and the hearth's face are all in this hash, and every one of them is a fact
+    the prover would otherwise stop stating in silence.
+    """
+    n = _elements_on_ground("tidewater-georgian-careful")
+    assert n == 3, (
+        f"the shipped Tidewater record states {n} massing element(s), not 3 — this pin is "
+        "about the container, so re-read WP-13.5's record edit before touching the hashes")
+    for (pid, obj), want in sorted(CONTAINER_SHAS.items()):
+        assert _model_sha(pid, obj) == want, (
+            f"{pid} objective={obj}: the model the prover builds for the shipped container "
+            f"moved. Name what changed it and re-pin with the accounting; do not re-pin bare.")
 
 
 def test_the_refusal_is_gone_from_the_dispatcher():

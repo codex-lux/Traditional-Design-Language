@@ -222,10 +222,23 @@ def test_the_dxf_dresses_only_the_entrance_door_with_the_casing_source():
 
 
 def test_the_dxf_draws_one_doorcase_per_face_with_an_entrance(tmp_path):
-    """The behavioural half of the guard above, COULD NOT EVALUATE without ezdxf. On the
-    reference plan's N face three doors are placed and none is the entrance, so the elevation
-    DXF of that face must carry the three leaves on the opening layer and NO casing polyline on
-    the sash layer wider than a leaf; the S face carries exactly one."""
+    """The behavioural half of the guard above, COULD NOT EVALUATE without ezdxf. A face that
+    places doors and is NOT the entrance front must carry its leaves on the opening layer and
+    NO casing polyline on the sash layer wider than a leaf; the entrance face carries exactly
+    one.
+
+    **THE NON-ENTRANCE FACE IS READ AND NOT NAMED (WP-13.5).** This said *"the reference plan's
+    N face"* and hard-coded `"N"`, which was true of a one-rectangle Tidewater house: the back
+    hall and the kitchen doored the rear. WP-13.5 moved both into the west dependency, and the
+    elevation draws the MAIN BLOCK, so that face now places no door at all and the guard failed
+    on its own premise — a selector gone stale, this repository's most-repeated test defect, in
+    the loud direction rather than the quiet one. Measured on the shipped record: S 1 door
+    (the entrance), N 0, E 1, W 0, against S 1 / N 3 / E 0 / W 0 on the one-rectangle reading.
+
+    So the face is chosen by the property the test is about, and the premise — that some
+    non-entrance face places a door — is asserted, so the day no face does the suite says so
+    instead of quietly testing one branch.
+    """
     ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
     G, EX, EL, ST = _b("geometry"), _b("export_dxf"), _b("elevation"), _b("structure")
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
@@ -233,7 +246,13 @@ def test_the_dxf_draws_one_doorcase_per_face_with_an_entrance(tmp_path):
     placed = G.solve(plan, engine="heuristic")
     section = ST.build_section(placed, geometry_result=placed)
     elev = EL.build_elevation(placed, section=section)
-    for face, want in (("N", 0), (elev["entrance_face"], 1)):
+    entrance = elev["entrance_face"]
+    plain = [f for f in "SNEW" if f != entrance
+             and any(r["kind"] == "door" for r in EL.opening_rects(elev, f)["rects"])]
+    assert plain, (
+        "premise: no face but the entrance front places a door, so the no-casing half of this "
+        "guard has nothing to run on")
+    for face, want in ((plain[0], 0), (entrance, 1)):
         doors = [r for r in EL.opening_rects(elev, face)["rects"] if r["kind"] == "door"]
         assert doors, f"premise: face {face} places no door"
         path = str(tmp_path / f"{face}.dxf")

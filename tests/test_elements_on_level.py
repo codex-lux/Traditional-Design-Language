@@ -157,9 +157,16 @@ def test_the_fixture_really_exercises_the_multi_element_branch():
     tagged = [p.name for p in corpus
               if any(r.get("block") for lv in (json.loads(p.read_text()).get("levels") or [])
                      for r in (lv.get("rooms") or []))]
-    assert tagged == [], (
-        "a shipped plan now carries a block tag, so the hand-built fixture above is no longer "
-        "the only way to reach this branch -- read WP-11.15's report before changing it")
+    # WP-13.5 IS THE RECORD EDIT WP-11.15 PREDICTED WOULD FIRE THIS, and it fires it:
+    # `plans/tidewater-georgian-careful.json` carries a container now. The hand-built fixture
+    # above is KEPT and is still what drives the branch, for WP-11.15's own reason -- the
+    # defect it guards published a phantom span at NEGATIVE x, and a fixture whose elements
+    # are all at positive x would let a wrong answer look plausible, which the shipped
+    # record's west wing does not fix. What changes is that this is now a list of ONE named
+    # plan rather than an empty list, so a SECOND record growing a container still stops here.
+    assert tagged == ["tidewater-georgian-careful.json"], (
+        "the set of shipped plans carrying a block tag is not the one WP-13.5 authored -- "
+        "read WP-11.15's report and WP-13.5's before changing the fixture above")
 
 
 # ------------------------------------------------- a level nobody can resolve is not one block

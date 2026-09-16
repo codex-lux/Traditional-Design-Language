@@ -256,7 +256,13 @@ class TestGeometrySolverHonoursLotWidth:
         # `tests/test_measurement_honesty.py` carries the same number and the reasoning; the
         # two are the SAME quantity on the same plan and must move together, which is why both
         # went red on this merge and neither was bumped without the other.
-        assert result["geometry_report"]["relaxations"]["count"] == 7
+        # 7 -> 5 AT WP-13.5, the same quantity on the same plan as
+        # `tests/test_measurement_honesty.py` and `tests/test_geometry.py` carry, moved by the
+        # record edit rather than by any code: the main block is 45 ft wide instead of 63 and
+        # `geometry.bias` reads the `stacks_over` this package withdrew while the level is being
+        # SLICED. All three move together, which is why all three went red on this edit and none
+        # was bumped without the others.
+        assert result["geometry_report"]["relaxations"]["count"] == 5
 
     def test_lot_too_narrow_for_even_two_bays_errors_honestly(self, geometry_module):
         plan = {

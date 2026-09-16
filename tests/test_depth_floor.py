@@ -332,7 +332,12 @@ class TestItIsNotEnforced:
 
     def test_the_footprint_is_byte_identical_with_the_module_present(self):
         # The complement of the source guard: the numbers, not the imports.
-        want = {"tidewater-georgian-careful": (63, 38.17), "spec-builder-colonial": (50.0, 30.75)}
+        # 63 x 38.17 -> 45 x 37.24 AT WP-13.5 on the Tidewater plan: its service programme is
+        # in the dependency the record declares, so `derive_footprint` sizes the MAIN BLOCK from
+        # the main block's own rooms (WP-11.9's rule) and the wing stands beside it. The spec
+        # Colonial is UNMOVED at 50.0 x 30.75 -- the control, and the thing that says this is one
+        # record's arrangement rather than a change to the sizing.
+        want = {"tidewater-georgian-careful": (45, 37.24), "spec-builder-colonial": (50.0, 30.75)}
         for name, (w, dpt) in want.items():
             q = json.loads(open(f"{ROOT}/plans/{name}.json").read())
             GEO._SOLVE_CACHE.clear()

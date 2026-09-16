@@ -139,10 +139,24 @@ def test_the_rules_quote_the_records_they_name():
 
 # --------------------------------------------------------------- what the corpus does
 
-PLACED, REFUSED = 4, 2
+# RE-MEASURED AT WP-13.5: 4 placed / 2 refused -> 3 / 3, and the one that moved is the
+# TIDEWATER TERRACE. It is NOT patched (WP-11.10's own "refused by name and neither patched"),
+# because the reason is honest and is the record's: the terrace declares `["E","N","S"]`, this
+# pass admits a face `w` exactly when `w` is declared and `OPPOSITE(w)` is not -- so N and S
+# cancel and E is the only candidate -- and WP-13.5 moved the breakfast room it serves into the
+# WEST service dependency, whose own outside faces are S and W. E is now the face that looks
+# back at the house across the gap. `declared ["E","N","S"]  outside ["S","W"]`, intersection
+# empty, `code: no-face-both-readings-admit`.
+#
+# Re-declaring the terrace's exposures would be authoring a massing statement about a house
+# nobody has drawn, and it is the one thing WP-13.5's brief forbids. **AND THE REFUSAL IS NOT
+# NEW TO THE PROVER**: on `engine="cp"` this terrace was already unplaced before the record
+# edit, with the same code and the same `outside ["S","W"]` -- so what moved is one engine's
+# placement rather than the record's answerability.
+PLACED, REFUSED = 3, 3
 
 
-def test_the_corpus_places_four_appendages_and_refuses_two_by_name():
+def test_the_corpus_places_three_appendages_and_refuses_three_by_name():
     placed, refused = [], []
     for name, sol in _all():
         ap = sol.get("appendages") or {}
@@ -154,15 +168,24 @@ def test_the_corpus_places_four_appendages_and_refuses_two_by_name():
         ("good-02-portico-library-house.json", "terrace", "W"),
         ("good-04-rambling-porch-farmhouse.json", "terrace", "N"),
         ("good-07-diamond-plan-house.json", "terrace", "N"),
-        ("tidewater-georgian-careful.json", "terrace", "E"),
     ]
-    # THE TWO REFUSALS ARE THE HONEST HALF and neither is patched into a placement:
-    # `wood-deck-w` declares no door at all, and `wood-deck-e` declares two rooms whose
-    # boundary faces leave E and N both admissible. Reading `should_adjoin` for the first,
-    # or taking the first candidate for the second, would each be a guess wearing a figure.
+    # The third refusal is WP-13.5's and is named here so it cannot be read as a loss: the
+    # Tidewater terrace, `no-face-both-readings-admit`, because the breakfast room it serves
+    # moved into the west dependency and the terrace's one admissible face now looks at the
+    # house. The other three placements are UNMOVED, which is what says this is one plan's
+    # arrangement and not a change to the pass.
+    assert ("tidewater-georgian-careful.json", "terrace",
+            "no-face-both-readings-admit") in refused, refused
+    # THE REFUSALS ARE THE HONEST HALF and none is patched into a placement:
+    # `wood-deck-w` declares no door at all, `wood-deck-e` declares two rooms whose
+    # boundary faces leave E and N both admissible, and the Tidewater terrace's one
+    # admissible face is the one that looks back at the house. Reading `should_adjoin` for
+    # the first, taking the first candidate for the second, or re-declaring the third's
+    # exposures would each be a guess wearing a figure.
     assert sorted(refused) == [
         ("bad-07-octagon-dinette-colonial.json", "wood-deck-e", "no-face-both-readings-admit"),
         ("bad-07-octagon-dinette-colonial.json", "wood-deck-w", "no-door"),
+        ("tidewater-georgian-careful.json", "terrace", "no-face-both-readings-admit"),
     ]
 
 
@@ -298,6 +321,54 @@ def test_strip_placement_removes_the_appendages():
     assert "appendages" not in sol
 
 
+# ---------------------------------------------------------------- WP-13.5, the container
+_ONE = {}
+
+
+def _one_rectangle_solved(name="tidewater-georgian-careful"):
+    """The Tidewater record solved as the ONE-ELEMENT house it was until WP-13.5.
+
+    Every test below whose subject is *an appendage that PLACES* used the shipped record,
+    because until WP-13.5 that record's terrace was the corpus's only placed appendage on a
+    plan this file also uses for the door, the plate and the census. WP-13.5 moved the
+    breakfast room the terrace serves into the west service dependency, and the terrace's one
+    admissible face -- E, because it declares E/N/S and N and S cancel -- is now the face that
+    looks back at the house across the gap, so the pass refuses it BY NAME
+    (`no-face-both-readings-admit`, `declared ["E","N","S"] outside ["S","W"]`).
+
+    The refusal is correct and is asserted on the SHIPPED record in the census above. What
+    these tests are about is the PASS -- that a placed appendage seats its door, is drawn open,
+    and lands inside the plate -- and a one-element record is what demonstrates it. Stripping
+    keeps them on the same house rather than moving them to another plan whose every figure
+    would have to be re-pinned. `test_the_shipped_terrace_really_is_refused_now` is the
+    premise, so these cannot quietly become the old tests again."""
+    if name not in _ONE:
+        d = json.loads((ROOT / "plans" / (name + ".json")).read_text())
+        for lv in d.get("levels", []):
+            for r in lv.get("rooms", []):
+                r.pop("block", None)
+                r.pop("hyphen", None)
+        G._SOLVE_CACHE.clear()
+        _ONE[name] = G.solve(d, engine="heuristic")
+    return json.loads(json.dumps(_ONE[name]))
+
+
+def test_the_shipped_terrace_really_is_refused_now():
+    """The premise of every `_one_rectangle_solved()` call below. A strip that strips nothing
+    would leave those fixtures identical to the shipped record and every one of them would be
+    passing for a reason that has stopped being true."""
+    sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
+    ap = sol.get("appendages") or {}
+    assert [e["room"] for e in ap.get("placed", [])] == []
+    ref = {e["room"]: e for e in ap.get("unplaced", [])}
+    assert ref["terrace"]["code"] == "no-face-both-readings-admit"
+    assert sorted(ref["terrace"]["declared"]) == ["E", "N", "S"]
+    assert sorted(ref["terrace"]["outside"]) == ["S", "W"]
+    # and the strip really puts it back
+    assert [e["room"] for e in
+            (_one_rectangle_solved().get("appendages") or {}).get("placed", [])] == ["terrace"]
+
+
 # --------------------------------------------------------------- the door, which is the point
 
 def test_the_terrace_door_is_placed_and_the_windows_moved_round_it():
@@ -305,7 +376,7 @@ def test_the_terrace_door_is_placed_and_the_windows_moved_round_it():
     a shared wall (the placer's, and untouched here) and one to the terrace because the
     terrace had no rectangle. This package removes the second reason only, and the report
     must say so rather than claim the fatal."""
-    sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
+    sol = _one_rectangle_solved()          # WP-13.5: the house whose terrace places
     rooms = {r["id"]: r for lv in sol["levels"] for r in lv["rooms"]}
     d = next(x for x in rooms["breakfast"]["doors"] if x["to"] == "terrace")
     assert "unplaced" not in d and d["wall"] == "E"
@@ -408,10 +479,15 @@ def test_the_one_cause_of_twenty_seven_fatals_is_named_once_beside_them():
     assert per["good-02-portico-library-house.json"] == 7
     assert per["good-04-rambling-porch-farmhouse.json"] == 10
     assert per["good-07-diamond-plan-house.json"] == 10
-    assert per["tidewater-georgian-careful.json"] == 8, (
-        "9 before the package; the one cleared is `breakfast`, and it was cleared by the "
-        "reachability ruling and NOT by seating the terrace door -- its kitchen door is "
-        "still refused for want of a shared wall")
+    # 8 -> 7 AT WP-13.5, on the SHIPPED record, and the three `good-*` figures above are
+    # UNMOVED, which is what makes this one plan's arrangement rather than a change to the
+    # reachability walk. Two of this package's edits reach it and they pull opposite ways: the
+    # terrace is no longer placed, so `breakfast`'s terrace door is refused again; and the
+    # placement itself moved, because `geometry.bias` reads `stacks_over` while the level is
+    # being sliced and WP-13.5 withdrew one claim. The net is one fewer room unreachable.
+    assert per["tidewater-georgian-careful.json"] == 7, (
+        "8 on the branch head. WP-13.5 moved the service programme into the dependency and "
+        "the placement with it; re-derive before re-pinning and say which way each edit pulled")
     # and NOT on the Tidewater plan, which has a placed front door as well
     sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
     assert not [f for f in PC.check(sol)["findings"]
@@ -425,7 +501,7 @@ def test_the_ground_an_appendage_covers_is_beside_the_built_extent_and_not_in_it
     appendage is not an element, so it does not enter that figure -- and a terrace fourteen
     feet past the east wall while `fits_lot` reads green is the OQ 52 family wearing the
     safe-looking sign. Two questions, two numbers."""
-    sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
+    sol = _one_rectangle_solved()          # WP-13.5: the house whose terrace places
     row = sol["geometry_report"]["lot_extent"]
     # RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). This pinned the literal 60.0 and
     # 74.0, and main's WP-11.2 -- the massing's own bay count and its parity -- made this house
@@ -525,9 +601,13 @@ def test_derive_openings_draws_a_door_to_an_appendage_and_refuses_it_without_one
     assert d["swing_positive"] is True, "the swing reads the appendage rectangle"
     # and the shipped plates say it: the two plans whose terrace door was refused report one
     # fewer undrawable door than they did, and neither names the terrace any more
-    for pf, n in ((ROOT / "plans" / "tidewater-georgian-careful.json", 13),
+    # 13 -> 12 AT WP-13.5, and the one that went is `butlers-kitchen`: that direct door is
+    # dropped from the record (the corpus's own `via` runs through the back hall), so it is no
+    # longer a declared door for the plate to call undrawable. The terrace is still absent from
+    # the list, which is what this loop is about. good-02 is UNMOVED at 5 -- the control.
+    for pf, n in ((None, 12),          # WP-13.5: the Tidewater house whose terrace places
                   (ROOT / "plans" / "reference" / "good-02-portico-library-house.json", 5)):
-        sol = _solved(str(pf))
+        sol = _one_rectangle_solved() if pf is None else _solved(str(pf))
         fp = sol["footprint"]
         apx = {}
         for a in sol["appendages"]["placed"]:
@@ -547,7 +627,7 @@ def test_the_appendage_is_drawn_open_and_not_as_a_mass():
     every room. Giving it the wall's body would say the house is that shape, which is the one
     thing `rooms/terrace.json`'s own note is at pains to deny."""
     RP = _mod("render_plan")
-    sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
+    sol = _one_rectangle_solved()          # WP-13.5: the house whose terrace places
     out = ROOT / "tests" / "_tmp_appendage.svg"
     try:
         RP.render(sol, str(out))
@@ -569,7 +649,7 @@ def test_the_appendage_rect_is_inside_the_drawn_plate():
     leaves the sheet with no error anywhere."""
     import re
     RP = _mod("render_plan")
-    sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
+    sol = _one_rectangle_solved()          # WP-13.5: the house whose terrace places
     rects = RP.appendage_rects(sol)
     # `x_ft` is the block's own east face, read rather than pinned -- see the built-extent test
     # above for why the literal 60.0 that stood here is now the footprint's width.
@@ -597,7 +677,7 @@ def test_the_appendage_rect_is_inside_the_drawn_plate():
     # appendages to `derive_openings`, and a test reading only `derive_openings` passes with that
     # call site reverted — measured, on the first mutation pass.
     line = re.search(r">(\d+) DECLARED DOOR\(S\) WITHOUT A DRAWABLE OPENING", svg)
-    assert line and line.group(1) == "13", (
+    assert line and line.group(1) == "12", (
         "the schedule reports a different number of undrawable doors than the record does")
     tail = svg.split("DRAWABLE OPENING", 1)[1][:600]
     assert "TERRACE" not in tail, "the plate still calls the placed terrace door undrawable"
@@ -613,7 +693,19 @@ def test_the_appendage_rect_is_inside_the_drawn_plate():
 # and the ROOM RECTANGLES inside them are this branch's (WP-11.7/11.8's proportion band as the
 # first key of the candidate acceptance). Both are ruled packages and both compose; a merged
 # digest equal to either parent's would have meant one side had been silently dropped.
-CORPUS_PLACEMENT_SHA = "68b102ff6a724e47"
+# RE-PINNED AT WP-13.5, 68b102ff6a724e47 -> d72265a1935d07f6, AND THE ACCOUNTING IS A
+# PER-PLAN DIGEST RATHER THAN A CLAIM: hashed plan by plan on a `git archive HEAD` checkout
+# and on this tree, FIFTEEN OF SIXTEEN ARE IDENTICAL and the sixteenth is
+# `tidewater-georgian-careful` (1b2e8a11a1965ca9 -> ff7a3616a8ad7346) -- the record WP-13.5
+# edits. Nothing else in the package touches a placement.
+#
+# The Tidewater plan moves for the reason a record edit moves one: its service programme is in
+# the dependency it declares, so `blocks_for` lays three elements where it laid one (a
+# 45.00 x 37.24 ft main block, a 7.00 x 18.00 ft hyphen and a 27.00 x 26.68 ft west
+# dependency against a single 63.00 x 38.17 ft rectangle). `geometry.bias` also reads
+# `stacks_over` while the level is being SLICED, so withdrawing `hallbath stacks_over powder`
+# changes which layouts are produced and not merely which is ranked.
+CORPUS_PLACEMENT_SHA = "d72265a1935d07f6"
 
 
 def test_placing_the_terrace_moved_no_shipped_placement():

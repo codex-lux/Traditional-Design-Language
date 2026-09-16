@@ -3837,7 +3837,7 @@ number-to-filename table, so a bare "WP-13.n" can always be resolved:
 | WP-13.2 | `docs/reports/wp-13.2-the-plate-tells-the-truth.md` |
 | WP-13.3 | `docs/reports/wp-13.3-the-prover-learns-the-type.md` |
 | WP-13.4 | refuse to draw — `wp-13.4-…` |
-| WP-13.5 | the container — `wp-13.5-…` |
+| WP-13.5 | `docs/reports/wp-13.5-the-service-wing-and-the-room-that-stays.md` |
 | WP-13.6 | furniture to its grammar — `wp-13.6-…` |
 | WP-13.7 | the adversarial audit — `wp-13.7-…` |
 
@@ -3944,7 +3944,58 @@ stack reaches no SVG, DXF, IFC or MCP response, end to end, mutation-checked. **
 
 ### WP-13.5 The container
 
-**Status: NOT STARTED.** Ruled. `plans/tidewater-georgian-careful.json` and
+**Status: COMPLETE (16 Sep 2026)** — `docs/reports/wp-13.5-the-service-wing-and-the-room-that-stays.md`.
+Both records carry the container: kitchen, pantry, breakfast room, powder room and cellar stair take
+`block: service` and the back hall takes `hyphen: true`, so the house is placed as a 45.00 x 37.24 ft
+main block, a 7.00 x 18.00 ft hyphen and a 27.00 x 26.68 ft west dependency against a single
+63.00 x 38.17 ft rectangle before it. **THE BUTLER'S PANTRY DOES NOT MOVE, AND THAT IS THE ONE
+DEVIATION FROM THE RULING'S LIST**: `rooms/butlers-pantry.json` states `must_adjoin dining-room`
+hard with NO `via` and `must_adjoin kitchen` hard WITH `via: [back-hall, gallery-corridor]`, added
+at OQ 59 with the Tidewater plantation house named in its own words, so a pantry in the wing must
+cross a boundary it has no route across; the redundant direct pantry-to-kitchen door is dropped
+instead, on both records, which is what `five-part-palladian` — the ruling's own precedent — already
+does. **The breakfast room is ADDED to the list** by `rooms/breakfast-room.json`'s hard
+`must_adjoin kitchen` with no `via`. MEASURED, both engines named, every figure re-derived on this
+tree: on the heuristic (deterministic) fatal 11 -> 10, serious 72 -> 64, minor and info unmoved,
+stack claims 5 -> 4; on CP at the 40 s batch budget the objective 1076.4 -> 304.5, **stacks 0 of 5
+kept -> 4 of 4**, `type_facts` stacks and bearing DOWNGRADED -> HELD, over-capacity spans 2 -> 0,
+serious 65 -> 49. **The finding that matters is not a count**: WP-13.3 measured the full type
+UNDECIDED at every budget to 90 s, and with the container every round of the ladder is decided and
+fifteen of sixteen restore attempts come back OPTIMAL or INFEASIBLE, so at `time_limit_s=60` the
+plan reaches **OPTIMAL with 7 of 35 wall pins, all seven individually re-proved**, against FEASIBLE
+with 21 carried. COSTS, published rather than netted: shape pins 0 -> 20 downgraded (the seventh
+rank is reached), the hearth fact HELD -> DOWNGRADED on the heuristic (two gable fires drawn
+4.95 ft inboard), heuristic spans 3 -> 4, and the TERRACE refused by name on the heuristic
+(`no-face-both-readings-admit`: it declares E/N/S, N and S cancel, and with the breakfast
+room in a west wing E is the face that looks back at the house -- already unplaced on CP
+before the edit, same code). `hallbath stacks_over powder` is WITHDRAWN with its
+reason on the record and not re-pointed. **And the package found a duplicate JSON key in the
+shipped record** — `stacks_over` stated twice on two upper rooms, invisible to `json.load`,
+`jsonschema` and every checker — swept corpus-wide (2, both in that file), guarded inside
+`validate.py` so `TOTAL_CHECKS` does not move. `check_plans.py` gained the `block`/`hyphen`
+comparison, driven because the corpus cannot reach it. Deliberately not done: the plan does not
+name `dependency-and-hyphen` (the roof publishes a 16.0 ft hyphen against a placed 7.0 ft one, and
+the back hall's own width ceiling is below that grouping's floor); no type changed, no dimension
+invented, no `exterior_walls` edited; `tests/test_solver.py`'s half bound NOT loosened — it is
+green on the Tidewater plan at 7 of 35 and still red on `spec-builder-colonial` at 12 of 19, which
+is the branch head's figure, on a plan this package does not touch and whose heuristic placement
+hashes identically across the edit. **TWO MORE COSTS SURFACED IN THE TEST-REPAIR PASS AND EACH
+WORE THE OTHER'S CLOTHES**: on the heuristic the entry porch is drawn on the N wall (y 31.51 of a
+37.24 ft block) against the S front on the one-rectangle reading, so the winner pays
+`entrance_score`'s 100-point fatal tier and the demerit goes 768.7 -> 936.1 — a REAL regression,
+which CP does not commit and `plan_check` does not report at all; and
+`principal_and_service_score` charges the kitchen 2.0 points for not reaching the MAIN BLOCK's
+rear wall from inside the wing, service charge 2.0 -> 5.0, which is a BLIND INSTRUMENT and the
+OQ 52 family inside the placer's own objective. Neither is reverted and neither is netted off.
+Five new questions:
+`oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container`,
+`oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band`,
+`oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front`,
+`oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so` and
+`oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in`. Original package
+text follows.
+
+Ruled. `plans/tidewater-georgian-careful.json` and
 `partis/centre-passage-double-pile.json`: the six service rooms move into the dependency element the plan
 already declares; the main block carries the type's six; `stacks_over` claims move with them or are
 withdrawn with a note; `five-part-palladian` is the precedent; no room invented. 13.3's counts re-measured
