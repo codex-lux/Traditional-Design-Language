@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**198 questions, of which 106 are open.** A question is OPEN while
+**199 questions, of which 107 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 106
+## Open — 107
 
 Awaiting a ruling. This is the list to read first.
 
@@ -133,6 +133,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-refusal-contract-silenced-three-guards-about-other-properties** | OPEN | [and each now fails before it asserts anything](open-questions/oq-the-refusal-contract-silenced-three-guards-about-other-properties.md) |
 | **oq/the-roof-record-and-the-plan-record-do-not-share-an-origin** | OPEN | [and nothing drew both until now](open-questions/oq-the-roof-record-and-the-plan-record-do-not-share-an-origin.md) |
 | **oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in** | OPEN | [the OQ 52 family in the placer's own objective](open-questions/oq-the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in.md) |
+| **oq/the-title-block-states-the-main-block-as-the-house** | OPEN | [1,665 sf of a 2,511 sf house](open-questions/oq-the-title-block-states-the-main-block-as-the-house.md) |
 | **oq/the-transfer-count-lives-only-inside-an-english-sentence** | OPEN | [and a third reader now wants it](open-questions/oq-the-transfer-count-lives-only-inside-an-english-sentence.md) |
 | **oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container** | OPEN | [WP-13.3 moved two plans and named one](open-questions/oq-the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container.md) |
 | **oq/thirty-five-measurements-the-elevation-states-as-literals** | OPEN | [the critic convicts every classical plan of the same faults, and the numbers are the generator's](open-questions/oq-thirty-five-measurements-the-elevation-states-as-literals.md) |
