@@ -19,6 +19,12 @@ import re
 import subprocess
 import sys
 
+import pytest            # WP-13.7: the could-not-evaluate branch below calls
+                         # `pytest.skip` and this import was missing, so the skip
+                         # raised `NameError` and an UNJUDGED state was reported as a
+                         # FAILURE -- the direction this corpus names as the dangerous
+                         # one, in the guard that generalises WP-13.2's own finding.
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 

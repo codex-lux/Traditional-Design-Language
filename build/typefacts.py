@@ -669,8 +669,11 @@ def refusal(plan):
     the record from inside `geometry._disclose` -- a sibling import here closes that cycle, and
     the module docstring says so. So the infeasible sentences are read straight off the record
     (`infeasible.conflicts` and `infeasible.note`, the shape `geometry_cp.solve_cp` states) and
-    `tests/test_typefacts.py` holds this function's `lines` against `conflict_lines`' own
-    output on the K5 fixture, in both directions. That is this repository's own answer where an
+    `tests/test_refusal.py` holds this function's `lines` against `conflict_lines`' own
+    output on a hand-built `infeasible` block, in both directions -- NOT
+    `tests/test_typefacts.py`, which this docstring named until WP-13.7 and which contains
+    no test of this function at all (mutating it to return `None` unconditionally leaves
+    that file 34 of 34 green), and not the K5 fixture, which is `tests/test_solver.py`'s. That is this repository's own answer where an
     import is not available -- `test_grammar_agreement.py` reads the JavaScript and
     `engineClaim.test.mjs` reads the Python -- and it is a test rather than a comment because a
     comment cannot fail."""
