@@ -51,29 +51,49 @@ export function keyCount(name) {
 
 /* Every mark this plate draws in `room`, numbered in drawing order -- the wet fixtures first,
    then the furniture. An unplaced fixture and a furniture entry with no marks are not on the
-   plate and take no numeral. Rooms are `derive.js::levelRooms` rooms (model feet). */
+   plate and take no numeral. Rooms are `derive.js::levelRooms` rooms (model feet).
+
+   THE PIECES OF ONE COUNTED ITEM SHARE A NUMERAL (WP-13.6): consecutive drawn entries of one
+   item carrying `piece` -- the two nightstands, the eight chairs a table seats -- are ONE
+   entry, whose `rects` are every piece and whose `rect` is the first; `of` is what the record
+   asked for. One key line, one numeral stood on every piece, which is how a draughtsman keys
+   a set. The port of build/render_plan.py::_key_groups. */
 export function keyEntries(room) {
   const out = [];
   let n = 0;
+  const box = (f) => ({ x: f.x_ft, y: f.y_ft, w: f.width_ft, h: f.depth_ft });
   for (const f of room.fixture_layout || []) {
     if (f.unplaced || f.x_ft == null) continue;
     n += 1;
-    out.push({ n, item: f.item, kind: 'fixture', wall: f.wall || null,
-               rect: { x: f.x_ft, y: f.y_ft, w: f.width_ft, h: f.depth_ft } });
+    out.push({ n, item: f.item, kind: 'fixture', wall: f.wall || null, rect: box(f), rects: [box(f)] });
   }
   for (const f of room.furniture_layout || []) {
     if (!f.marks || !f.marks.length) continue;
+    const last = out[out.length - 1];
+    if (last && last.kind === 'furniture' && f.piece && last.piece && last.item === f.item) {
+      last.rects.push(box(f));
+      continue;
+    }
     n += 1;
-    out.push({ n, item: f.item, kind: 'furniture', wall: f.wall || null,
-               rect: { x: f.x_ft, y: f.y_ft, w: f.width_ft, h: f.depth_ft } });
+    out.push({ n, item: f.item, kind: 'furniture', wall: f.wall || null, rect: box(f), rects: [box(f)],
+               piece: f.piece || null, of: f.of || null });
   }
   return out;
 }
 
+/* What a counted item's key line says after its name: ` xN` for the N pieces drawn, or
+   ` xK OF N` where the record asked for N and only K could be seated. */
+export function keySuffix(e) {
+  if (!e.piece || !e.of) return '';
+  const drawn = (e.rects || [e.rect]).length;
+  return drawn >= e.of ? ` x${drawn}` : ` x${drawn} OF ${e.of}`;
+}
+
 /* One line per entry: the numeral and the item's name as recorded, whitespace normalised,
-   in capitals like everything lettered on the sheet. Never abbreviated. */
+   in capitals like everything lettered on the sheet, and for a counted item the number of
+   pieces drawn. Never abbreviated. */
 export function keyLines(entries) {
-  return entries.map((e) => `${e.n} ${String(e.item).trim().split(/\s+/).join(' ').toUpperCase()}`);
+  return entries.map((e) => `${e.n} ${String(e.item).trim().split(/\s+/).join(' ').toUpperCase()}${keySuffix(e)}`);
 }
 
 export function blockSize(lines, size, lead = KEY.lead) {
@@ -228,7 +248,7 @@ export function furnitureKeyPlan(rooms, opt = {}) {
     // model (x0, y0, x1, y1) -> room-local, y down from the room's NW corner
     const loc = ([mx0, my0, mx1, my1]) => [mx0 - r.x, r.y + r.h - my1, mx1 - r.x, r.y + r.h - my0];
     const roomBox = [0, 0, r.w, r.h];
-    const obstacles = entries.map((e) => loc(toBox(e.rect)));
+    const obstacles = entries.flatMap((e) => (e.rects || [e.rect]).map((r) => loc(toBox(r))));
     for (const s of stairRects) obstacles.push(loc(s));
     for (const s of swings) obstacles.push(loc(s));
     const floor = clearFloor(roomBox, partitions.map(loc));
@@ -239,11 +259,12 @@ export function furnitureKeyPlan(rooms, opt = {}) {
       labelBox.push([cx - lab.w / 2, cy - lab.h / 2, cx + lab.w / 2, cy + lab.h / 2]);
       obstacles.push(labelBox[0]);
     }
-    const numerals = entries.map((e) => {
-      const nu = numeralAt(loc(toBox(e.rect)), e.wall, e.n, roomBox, KEY.numeral, labelBox);
+    // one numeral on EVERY piece of a counted item
+    const numerals = entries.flatMap((e) => (e.rects || [e.rect]).map((r) => {
+      const nu = numeralAt(loc(toBox(r)), e.wall, e.n, roomBox, KEY.numeral, labelBox);
       obstacles.push(nu.box);
       return { n: e.n, ...nu };
-    });
+    }));
     const lines = keyLines(entries);
     const fit = fitKey(floor, obstacles, lines);
     byRoom.set(r.id, { entries, lines, numerals, fit });

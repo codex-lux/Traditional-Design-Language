@@ -56,8 +56,8 @@ by a test where it does not:
   hearth   each stated fire's room edge on its element's face, on a wall the massing puts a
            flue on. Which walls those are is `hearths.HEARTH_RULES`' table, transcribed as
            `FLUE_WALLS` and held to it by a test; the massing is read from
-           `massings/catalog.json` directly, as `build/storeys.py` and `build/depth_floor.py`
-           read their own data files.
+           `massings/catalog.json` directly, the way every other leaf in `build/` reads its
+           own data file rather than reaching through a sibling.
 
 Every fact answers in THREE states -- `held`, `downgraded`, `unjudged` -- and a fact the record
 cannot state is `unjudged` with its reason, never `held`. `report()["status"]` is the four
@@ -386,7 +386,12 @@ def bearing(plan):
     CAPACITY is READ off `geometry_report.span_capacity.over_capacity`, which both record
     writers derive through `structure.span_check` and nothing else; `None` there is the
     catalogue being unreadable and is unjudged, never clear. A one-level house has no
-    continuity to judge and says so."""
+    continuity to judge and says so.
+
+    THE TWO HALVES ARE MEASURED ALIKE AND DECIDE DIFFERENTLY (ruled 16 Sep 2026). The
+    returned `status` -- the thing WP-13.4's refusal reads -- is CONTINUITY's alone. Capacity
+    is reported in `halves`, in `capacity_status`, in `spans_over_capacity` and in `detail`,
+    and refuses nothing. `capacity_refuses` is on the row so a reader need not infer it."""
     lines = bearing_lines(plan)
     fp = plan.get("footprint") or {}
     over = ((plan.get("geometry_report") or {}).get("span_capacity") or {}).get("over_capacity")
@@ -436,14 +441,31 @@ def bearing(plan):
     else:
         halves["capacity"] = HELD
         detail.append("every clear span between bearing lines is within its framing capacity")
-    if DOWNGRADED in halves.values():
-        status = DOWNGRADED
-    elif HELD in halves.values():
-        status = HELD
-    else:
-        status = UNJUDGED
+    # THE STATUS IS CONTINUITY'S ALONE -- RULED BY LUCAS, 16 SEP 2026: "capacity shouldn't
+    # refuse a drawing -- continuity only".
+    #
+    # This returned DOWNGRADED if EITHER half was, so one over-capacity span refused a whole
+    # sheet. Measured before the ruling was asked for, over the 16 shipped plan records and the
+    # 21 partis instantiated against their own first native style: the capacity half alone
+    # refused 33 of those 37. The 15 Sep precedence list names "bearing CONTINUITY on the bay
+    # grid" and never capacity; `plan_check` grades an over-capacity span SERIOUS and not fatal
+    # on the corpus's own words -- `structure.span_check`'s note asks for an intermediate
+    # support or an engineered member, which is a floor framed differently and not a plan that
+    # cannot be walked; and WP-11.12 put that distinction on the record in as many words.
+    #
+    # CAPACITY IS STILL MEASURED AND STILL REPORTED. It stays in `halves`, in `detail` and in
+    # `spans_over_capacity`, and every surface that prints this fact prints it, because a fact
+    # that stops DECIDING must not stop being SAID -- an unreported over-capacity span is the
+    # fake-pass shape this corpus names first. What changed is only what refuses.
+    #
+    # An UNJUDGED continuity (a one-level house, or a record stating no bay module) leaves the
+    # fact UNJUDGED even where capacity is downgraded: unjudged is not passed, and under
+    # WP-13.4's contract it is not refused either.
+    status = halves["continuity"]
     return {"status": status, "halves": halves, "bearing_lines": lines,
             "unsupported_upper_lines": unsupported, "spans_over_capacity": over,
+            "capacity_status": halves["capacity"],
+            "capacity_refuses": False,
             "grid_tol_ft": BEARING_GRID_TOL_FT, "detail": "; ".join(detail)}
 
 

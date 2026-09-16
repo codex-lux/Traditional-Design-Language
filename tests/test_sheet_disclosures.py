@@ -545,6 +545,46 @@ class TestTheDrawnPlate:
             label = d["name"] if names.count(d["name"]) == 1 else f'{d["name"]} ({d["id"]})'
             assert f"{label}: drawn" in svg, f'{label} is marked ∗ and not in the table'
 
+    def test_no_table_entry_overprints_the_one_beside_it(self, tmp_path):
+        """THE TABLE LAID ITS COLUMNS AT A FIXED PITCH AND NEVER MEASURED THE TEXT.
+
+        `TABLE_COL_W` was a flat 260 px, and on the shipped Tidewater sheet TWENTY OF
+        TWENTY-FOUR rows were wider than that -- the widest 316.8 px -- so each ran into its
+        neighbour and the plate read `record 17' x 20' (+45%)ntry: drawn 5'-9" x 9'`, having
+        eaten the front of "Butler's Pantry". Seventeen pairs overprinted. The table that exists
+        to say what the record asked for was the least legible block on the sheet.
+
+        NOTHING IN THE TREE COULD SEE IT: the two tests above assert that every diverged room is
+        NAMED in the table and that duplicates are told apart, both by substring, and a substring
+        is exactly what survives overprinting -- the text is all in the file, at coordinates that
+        put it on top of each other. It was found by rendering the sheet and looking at it.
+
+        This asserts the PROPERTY -- no entry's drawn extent reaches the next entry's origin --
+        rather than a pitch, so it holds whatever the rows say and whatever the pitch becomes.
+        `_text_w` is the renderer's own measurer, the one the fitter uses."""
+        import collections
+        plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        placed = GEO.solve(plan, None, 60, engine="heuristic")
+        svg = self._svg(tmp_path, placed)
+        rows = re.findall(
+            r'<text class="dm" x="([\d.]+)" y="([\d.]+)">([^<]*: drawn [^<]*record[^<]*)</text>',
+            svg)
+        assert len(rows) > 10, f"the fixture is blind: only {len(rows)} table row(s) drawn"
+        by_y = collections.defaultdict(list)
+        for x, y, t in rows:
+            by_y[y].append((float(x), t))
+        assert max(len(v) for v in by_y.values()) > 1, (
+            "every row is alone on its line, so this fixture cannot see an overprint at all")
+        clash = []
+        for y, items in sorted(by_y.items()):
+            items.sort()
+            for (x1, t1), (x2, t2) in zip(items, items[1:]):
+                end = x1 + RP._text_w(t1, 8.0, mono=True)
+                if end > x2:
+                    clash.append(f"y={y}: {t1[:40]!r} ends at {end:.1f} and {t2[:28]!r} "
+                                 f"starts at {x2:.1f}")
+        assert not clash, "record-table entries overprint:\n  " + "\n  ".join(clash[:4])
+
     def test_two_rooms_with_one_name_are_told_apart_in_the_table(self, tmp_path):
         """Two rooms called "Closet" produced two rows a reader could not attribute, differing
         only in figures. Same class as WP-9.4's two rooms sharing an id, on the surface."""

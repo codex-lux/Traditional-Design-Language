@@ -59,6 +59,7 @@
     84,
     40
    ],
+   "footprint_of": "group",
    "clearance_in": 30,
    "essential": false,
    "placement": "freestanding"

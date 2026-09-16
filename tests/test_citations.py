@@ -465,3 +465,83 @@ def test_an_entry_above_the_frozen_ceiling_is_actually_refused_by_both_checkers(
         f"check_ids accepted a numbered file above the ceiling: {errors}")
 
 
+
+
+def test_the_report_citation_sweep_reads_gits_population_and_not_the_directorys():
+    """A CHECKER THAT WALKS THE DIRECTORY READS A COPY OF THE REPOSITORY INSIDE ITSELF.
+
+    `check_ids.py::check_reports` collects every `docs/reports/<name>.md` cited anywhere and
+    fails on one that does not exist. It enumerated by WALKING THE DIRECTORY, skipping four
+    names, so the moment an agent worktree was checked out under `.claude/worktrees/` -- ignored,
+    never part of the tree -- it read that worktree's own drafts and failed the build on a
+    report cited by a branch that has not merged. A report on another branch is a dangling
+    citation here BY CONSTRUCTION, which CLAUDE.md already records, and WP-13.2 met exactly
+    this and fixed it in `test_citations.py` (the sweep above) without generalising it to the
+    checker that test is about.
+
+    The property asserted is the POPULATION, in both directions, because a sweep that merely
+    stopped failing would pass a one-directional test: a dangling citation in a TRACKED file is
+    still caught, and the same string in an IGNORED path is not. Both are driven, because no
+    state of the shipped corpus exercises either."""
+    import subprocess, tempfile
+    ck = _load("check_ids_for_population_test", os.path.join(ROOT, "build", "check_ids.py"))
+    src = open(os.path.join(ROOT, "build", "check_ids.py"), encoding="utf-8").read()
+    # THE NEEDLE IS ASSEMBLED, for the same reason the fixture citation below is:
+    # tests/test_determinism.py reads every file LINE BY LINE looking for an unsorted directory
+    # read, and it cannot tell a call from a quotation of one. Spelling the walk out here makes
+    # this guard an offender against the guard beside it -- which is what happened on its first
+    # full run. A test that describes a defect must not commit it.
+    _walk = "os." + "walk(ROOT)"
+    assert _walk not in src, (
+        "check_ids.py walks the directory again: an agent worktree, a stale vendored copy or a "
+        "build output under the root will be read as though it were the tree")
+    assert "ls-files" in src and "--exclude-standard" in src, (
+        "the report-citation sweep must enumerate with git, which is exactly the population the "
+        "rest of this file's checkers read")
+
+    # The two directions, driven. `check_reports` re-reads the tree itself, so the fixtures are
+    # real files, written and removed.
+    # THE FIXTURE NAME IS ASSEMBLED AT RUNTIME AND NEVER WRITTEN WHOLE IN THIS FILE, because
+    # `check_reports` sweeps `.py` too: spelling it out here would make this test file cite it,
+    # and the probe would be dangling before the probe began. The citation guard flagging its
+    # own guard is a shape this corpus has met before; the only safe form is one the sweep's
+    # own character class cannot match, and a `"` after the directory is exactly that.
+    _name = "wp-97.7-driven-no-such-report" + ".md"
+    _cite = "docs/reports/" + _name
+
+    def dangling():
+        _by, errs = ck.check_reports()
+        return [e for e in errs if _name in e]
+
+    assert not dangling(), "the fixture name is already cited somewhere -- pick another"
+
+    tracked = os.path.join(ROOT, "docs", "reports", "wp-13.1-the-gate.md")
+    orig = open(tracked, encoding="utf-8").read()
+    try:
+        open(tracked, "w", encoding="utf-8").write(orig + "\n" + _cite + "\n")
+        assert dangling(), "a dangling citation in a TRACKED file is no longer caught"
+    finally:
+        open(tracked, "w", encoding="utf-8").write(orig)
+        assert open(tracked, encoding="utf-8").read() == orig
+    assert not dangling(), "the fixture did not restore"
+
+    # And the same string somewhere git excludes. `.claude/worktrees/` is the real case; any
+    # ignored path proves the same property, so the test makes its own rather than depending on
+    # a worktree existing.
+    ign = subprocess.run(["git", "-C", ROOT, "check-ignore", "-q", ".claude/worktrees"]).returncode
+    if ign != 0:
+        pytest.skip("`.claude/worktrees` is not git-ignored here: COULD NOT EVALUATE")
+    d = os.path.join(ROOT, ".claude", "worktrees", "driven-population-probe")
+    os.makedirs(d, exist_ok=True)
+    f = os.path.join(d, "PROBE.md")
+    try:
+        open(f, "w", encoding="utf-8").write(_cite + "\n")
+        assert subprocess.run(["git", "-C", ROOT, "check-ignore", "-q", f]).returncode == 0, (
+            "the probe is not ignored, so it proves nothing about the ignored population")
+        assert not dangling(), (
+            "the sweep read a git-ignored path: a worktree beside the checkout reddens the build")
+    finally:
+        if os.path.exists(f):
+            os.remove(f)
+        if os.path.isdir(d):
+            os.rmdir(d)

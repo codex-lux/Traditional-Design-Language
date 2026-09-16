@@ -169,6 +169,10 @@ def _fit_lines(text, max_w, max_h, preferred, floor, lead=1.2, max_lines=3, trac
 # the widest row is a room name plus two dimension pairs and a percentage, and three columns of
 # a narrow plate would run them into each other.
 TABLE_COL_W = 260.0
+# The clear space between one record-table column and the next. The pitch is the widest row
+# PLUS this, so a reader can tell where one entry ends and the next begins; 260 is the floor
+# the pitch may never fall below, not the pitch itself.
+TABLE_COL_GUTTER = 14.0
 
 
 def _fmt(x):
@@ -268,9 +272,13 @@ def key_count(name):
     and a table'), in which case it is unjudged. None is unjudged and never one. The key line
     carries the name whole, so the record's own words -- 'pair', 'seats 4', 'six to eight' --
     reach the reader whatever this returns; this is the machine-readable half, published as
-    `data-count` on the line. A mark is drawn ONCE whatever the count, which is
-    `oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`, and a key naming
-    'nightstands, pair' beside one drawn nightstand is that question stated on the plate."""
+    `data-count` on the line where the record states no `of` of its own. Until WP-13.6 a
+    mark was drawn ONCE whatever the count
+    (`oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`); a catalogue item
+    authored `footprint_of: piece` with a `count` is drawn that many times now, the entries
+    carry `piece`/`of`, and the key names the type once with the number drawn (`key_lines`)
+    rather than once per piece -- which is how a draughtsman keys a set of chairs, and what
+    lets one numeral stand on every piece."""
     words = [w.strip(",.;:()/'\"") for w in (name or "").lower().split()]
     words = [w for w in words if w]
     if not words: return None
@@ -281,28 +289,64 @@ def key_count(name):
     return None
 
 
-def key_entries(room):
-    """(numeral, entry, kind) for every mark this plate draws in `room`, numbered in drawing
-    order -- the wet fixtures first, because the fixture pass draws first, then the furniture.
-    An unplaced fixture and a furniture entry with no marks are not on the plate and take no
-    numeral: a numeral for a thing that is not drawn would be a key to nothing."""
+def _key_groups(room):
+    """[(numeral, [entries], kind)] for every mark this plate draws in `room`, numbered in
+    drawing order -- the wet fixtures first, because the fixture pass draws first, then the
+    furniture. An unplaced fixture and a furniture entry with no marks are not on the plate
+    and take no numeral: a numeral for a thing that is not drawn would be a key to nothing.
+
+    THE PIECES OF ONE COUNTED ITEM SHARE A NUMERAL (WP-13.6): consecutive drawn entries of one
+    item carrying `piece` -- the two nightstands, the eight chairs a table seats -- are ONE
+    key line and one numeral, stood on every piece, which is how a draughtsman keys a set and
+    what keeps a dining room's key eight lines shorter than its chairs."""
     out, n = [], 0
     for f in (room.get("fixture_layout") or []):
         if f.get("unplaced") or f.get("x_ft") is None: continue
         n += 1
-        out.append((n, f, "fixture"))
+        out.append((n, [f], "fixture"))
     for f in (room.get("furniture_layout") or []):
         if not f.get("marks"): continue
+        if out and out[-1][2] == "furniture" and f.get("piece") and out[-1][1][0].get("piece") \
+                and out[-1][1][0].get("item") == f.get("item"):
+            out[-1][1].append(f)
+            continue
         n += 1
-        out.append((n, f, "furniture"))
+        out.append((n, [f], "furniture"))
     return out
 
 
-def key_lines(entries):
+def key_entries(room):
+    """(numeral, entry, kind) per key line -- the FIRST piece of a counted item stands for
+    the group, and `key_pieces` gives every piece under that numeral."""
+    return [(n, fs[0], kind) for n, fs, kind in _key_groups(room)]
+
+
+def key_pieces(room):
+    """{numeral: [every drawn piece]} -- the rectangles a numeral stands on."""
+    return {n: fs for n, fs, _kind in _key_groups(room)}
+
+
+def key_suffix(f, drawn):
+    """What a counted item's key line says after its name: ` xN` for the N pieces drawn, or
+    ` xK OF N` where the record asked for N and only K could be seated -- so the plate says
+    the shortfall in the line a reader looks at, and not only in the schedule's count."""
+    of = f.get("of")
+    if not f.get("piece") or not of:
+        return ""
+    return f" x{drawn}" if drawn >= of else f" x{drawn} OF {of}"
+
+
+def key_lines(entries, pieces=None):
     """One line per entry: the numeral and the item's name as recorded, whitespace
-    normalised, set in capitals like everything else lettered on this sheet. Never
-    abbreviated: a key that shortens a name is a key to a different item."""
-    return [f'{n} {" ".join(str(f["item"]).split()).upper()}' for n, f, _kind in entries]
+    normalised, set in capitals like everything else lettered on this sheet, and for a counted
+    item the number of pieces drawn (`key_suffix`). Never abbreviated: a key that shortens a
+    name is a key to a different item. `pieces` is `key_pieces(room)`; without it a counted
+    entry is keyed as the one piece handed in."""
+    out = []
+    for n, f, _kind in entries:
+        drawn = len((pieces or {}).get(n) or [f])
+        out.append(f'{n} {" ".join(str(f["item"]).split()).upper()}{key_suffix(f, drawn)}')
+    return out
 
 
 def key_block_px(lines, size, lead=KEY_LEAD):
@@ -529,7 +573,9 @@ def furniture_key_plan(levels, level_openings, level_bands, plan, wall, W, H, sc
                         (mx + mw - x) * scale, (y + h - my) * scale)
 
             room_px = (0.0, 0.0, w * scale, h * scale)
-            obstacles = [loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]) for _n, f, _k in entries]
+            pieces = key_pieces(r)
+            obstacles = [loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"])
+                         for n, _f, _k in entries for f in pieces[n]]
             for hh in (r.get("hearth") or []):
                 b = HEARTH.breast(r, hh)
                 if b and not b.get("undrawable"):
@@ -548,12 +594,13 @@ def furniture_key_plan(levels, level_openings, level_bands, plan, wall, W, H, sc
                               cx + lab["ink_w"] / 2.0, cy + lab["ink_h"] / 2.0)]
                 obstacles.extend(label_box)
             numerals = []
-            for n, f, _kind in entries:
-                nb = numeral_at(loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]),
-                                f.get("wall"), n, room_px, avoid=label_box)
-                numerals.append((n, nb))
-                obstacles.append(nb[4])
-            lines = key_lines(entries)
+            for n, _f, _kind in entries:
+                for f in pieces[n]:          # one numeral on EVERY piece of a counted item
+                    nb = numeral_at(loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]),
+                                    f.get("wall"), n, room_px, avoid=label_box)
+                    numerals.append((n, nb))
+                    obstacles.append(nb[4])
+            lines = key_lines(entries, pieces)
             fit = fit_key(floor_px, obstacles, lines)
             here[r["id"]] = {"entries": entries, "lines": lines, "numerals": numerals, "fit": fit}
             if fit is None:
@@ -981,6 +1028,23 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     _name_unique = {}
     for _d in all_diverged:
         _name_unique[_d["name"]] = _name_unique.get(_d["name"], 0) + 1
+
+    def _table_line(d):
+        """One row of the record table, built HERE so the layout below measures the string the
+        loop at the foot of this function actually draws. They were two expressions and the
+        layout's was a constant."""
+        g = _decl_pair.get(d["id"])
+        asked = f'{_fmt(min(g))} x {_fmt(max(g))}' if g else "—"
+        drew = _drawn_pair.get(d["id"])
+        got = f'{_fmt(min(drew))} x {_fmt(max(drew))}' if drew else "—"
+        # THE ID WHERE THE NAME IS NOT UNIQUE. Two rooms called "Closet" produced two rows a
+        # reader could not tell apart, differing only in figures nobody could attribute.
+        label = d["name"] if _name_unique.get(d["name"], 0) == 1 \
+            else f'{d["name"]} ({d["id"]})'
+        return (f'{label}: drawn {got}, record {asked} '
+                f'({"+" if d["pct"] > 0 else ""}{d["pct"]:.0f}%)')
+
+    _table_text = [_table_line(d) for d in all_diverged]
     _rx_all = (plan.get("geometry_report", {}).get("relaxations", {}) or {}).get("marks", [])
     level_marks = [relaxation_marks(_rx_all, i, W, H) for i in range(len(levels))]
     all_unlocated = [m for _d, un in level_marks for m in un]
@@ -1152,7 +1216,19 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     # THE TABLE'S HEIGHT IS COMPUTED, NEVER A FIXED ALLOWANCE. A fixed one under the plates is
     # how a third of an upper floor came to be drawn outside this canvas (WP-9.6), and the
     # table is the last thing on the sheet, so anything it overruns is simply not drawn.
-    _table_cols = max(1, int((total_w - 2 * (M + BP)) // TABLE_COL_W))
+    # THE COLUMN PITCH IS MEASURED FROM THE ROWS, NOT ASSUMED (16 Sep 2026). `TABLE_COL_W` was
+    # a flat 260 px and nothing measured the text against it, so every row longer than that
+    # overprinted its neighbour's first characters: on the shipped Tidewater sheet TWENTY OF
+    # TWENTY-FOUR rows overran, the widest at 316.8 px, and the plate read
+    # "record 17' x 20' (+45%)ntry: drawn 5'-9" x 9'" -- a table that silently ate the front of
+    # "Butler's Pantry". Found by rendering the sheet and looking at it, which is this
+    # repository's own highest-yield technique and the only thing that has ever caught one of
+    # these; no assertion in the tree reads this block's geometry. `TABLE_COL_W` survives as
+    # the FLOOR, so a sheet whose rows are all short lays out exactly as it did.
+    _table_col_w = max(TABLE_COL_W,
+                       max((_text_w(t, 8.0, mono=True) for t in _table_text), default=0.0)
+                       + TABLE_COL_GUTTER)
+    _table_cols = max(1, int((total_w - 2 * (M + BP)) // _table_col_w))
     _table_rows = -(-len(all_diverged) // _table_cols) if all_diverged else 0
     table_h = (18.0 + 11.0 * _table_rows) if all_diverged else 0.0
     top = M + BP + head_h + grid_h
@@ -1724,7 +1800,8 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                 continue          # refused: in the margin schedule, under the room's name
             size = fit["size"]
             for k, (line, (n, f, _kind)) in enumerate(zip(kr["lines"], kr["entries"])):
-                count = key_count(f["item"])
+                # the record's own `of` where a counted piece states one, else the name's word
+                count = f.get("of") or key_count(f["item"])
                 cnt = f' data-count="{count}"' if count else ""
                 if fit["turned"]:
                     # read from the foot of the sheet: the block stands on its bottom edge and
@@ -1828,20 +1905,10 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         ty = top + extra_top + ph + extra_bottom + foot_h + sched_h + 4.0
         s.append(f'<text class="lb" x="{M+BP:.1f}" y="{ty:.0f}" style="fill:{L["salmon_deep"]}">'
                  f'WHAT THE RECORD ASKED FOR — ∗ ROOMS, DRAWN AGAINST DECLARED</text>')
-        for n, d in enumerate(all_diverged):
-            cx0 = M + BP + (n // max(1, _table_rows)) * TABLE_COL_W
+        for n, line in enumerate(_table_text):
+            cx0 = M + BP + (n // max(1, _table_rows)) * _table_col_w
             cy0 = ty + 15 + (n % max(1, _table_rows)) * 11
-            g = _decl_pair.get(d["id"])
-            asked = f'{_fmt(min(g))} x {_fmt(max(g))}' if g else "—"
-            drew = _drawn_pair.get(d["id"])
-            got = f'{_fmt(min(drew))} x {_fmt(max(drew))}' if drew else "—"
-            # THE ID WHERE THE NAME IS NOT UNIQUE. Two rooms called "Closet" produced two rows
-            # a reader could not tell apart, differing only in figures nobody could attribute.
-            label = d["name"] if _name_unique.get(d["name"], 0) == 1 \
-                else f'{d["name"]} ({d["id"]})'
-            s.append(f'<text class="dm" x="{cx0:.1f}" y="{cy0:.1f}">'
-                     f'{_esc(label)}: drawn {got}, record {asked} '
-                     f'({"+" if d["pct"] > 0 else ""}{d["pct"]:.0f}%)</text>')
+            s.append(f'<text class="dm" x="{cx0:.1f}" y="{cy0:.1f}">{_esc(line)}</text>')
     s.append('</svg>')
     open(path, "w").write("\n".join(s))
     return path

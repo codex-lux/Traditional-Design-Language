@@ -242,6 +242,70 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # were checking by hand. That is this repository's own *a package that commits before its
 # build finishes learns what it broke from the build*, met by the package that had just
 # written the sentence down.
+# **RE-DERIVED AT THE MERGE OF WP-13.5 INTO THE PHASE 13 LINE (16 Sep 2026), AND THE PAIR IS A
+# THIRD VALUE BELONGING TO NEITHER PARENT.** Both sides moved these two hashes from
+# `01771d3656231ba9` / `0fd105825eda19e0`, so neither parent's number appears in the merged
+# tree: the upstream note below accounts for WP-13.6's two steps and the record table's own
+# measurement, and WP-13.5 moves ONE further sheet on top of them. Measured per file on the
+# merged tree against a checkout of the upstream parent: fifteen of sixteen identical and the
+# sixteenth is `tidewater-georgian-careful`, the record WP-13.5 edits. **The red this branch
+# carried is CLEARED by the merge, not by a re-pin here** -- WP-13.5 deliberately left it red
+# because the earlier unaccounted movement was not that package's to fold in, and the upstream
+# line owned and explained it in the meantime.
+#
+CORPUS_SHEET_SHA = "58e2f369f11dcac2"
+CORPUS_SHEET_SHA_NO_FRAME = "4ce58cb8b6599b89"
+# BOTH MOVED AGAIN, 16 Sep 2026, WHEN THE RECORD TABLE LEARNED TO MEASURE ITS OWN ROWS.
+# Was 1a63f71dda3b6bee / 4413ad13a9e35766. `render_plan.TABLE_COL_W` was a flat 260 px pitch
+# that nothing measured the text against, so on the shipped Tidewater sheet TWENTY OF
+# TWENTY-FOUR rows overran it (widest 316.8 px) and SEVENTEEN PAIRS overprinted: the plate read
+# `record 17' x 20' (+45%)ntry: drawn 5'-9" x 9'`, having eaten the front of "Butler's Pantry".
+# The pitch is the widest row plus a gutter now, with 260 kept as the FLOOR.
+#
+# THE INSTRUMENT WAS SHOWN TO REPRODUCE THE OLD VALUE FIRST, on a `git archive HEAD` checkout:
+# 1a63f71dda3b6bee / 4413ad13a9e35766 to the character. A re-pin whose harness has not
+# reproduced the old number is a new number and not a measurement.
+#
+# THE MOVEMENT IS ACCOUNTED FOR LINE BY LINE rather than accepted: all 16 sheets moved, and on
+# EVERY ONE the only changed lines are record-table rows and the canvas height -- 0 changed
+# lines anywhere else, on all sixteen. Ten sheets grew 11 to 33 px taller because fewer columns
+# fit and the table gained a row; six kept their height exactly (bad-01, bad-03, good-03,
+# good-04, good-06 and, at 1082, the dogtrot). Nothing in the drawing field moved.
+#
+# BOTH MOVED AT WP-13.6, IN TWO STEPS, AND THE FIRST STEP SHIPPED RED FOR THREE COMMITS.
+# Was 01771d3656231ba9 / 0fd105825eda19e0. The attribution was BISECTED rather than assumed,
+# with this test's own loop copied verbatim and run on `git worktree` checkouts:
+#
+#     1c2ac80  (before WP-13.6)                 01771d3656231ba9 / 0fd105825eda19e0  == the pin
+#     31a7373  (WP-13.6's first commit)         41314f5e3f8ba600 / 4fa5209dca42afb8
+#     bc48e5d, 4d95654, be63848, fb0e97f, 57e7b72   unchanged at 41314f5e... / 4fa5209d...
+#     this commit                               1a63f71dda3b6bee / 4413ad13a9e35766
+#
+# So WP-13.6's FIRST commit moved all sixteen sheets (a corner item now takes a corner) and
+# did not re-pin; four commits then shipped on a red assertion, none of which had touched a
+# renderer. It is the same failure as that package's other one, one layer out: a package that
+# commits before its build finishes learns what it broke from somebody else's build. WP-12.4
+# is the precedent this file already records -- "three commits had already shipped on it".
+#
+# WHAT MOVED IN THIS SECOND STEP, PROVED RATHER THAN REASONED. Re-rendering both trees with
+# `furniture_layout` stripped from every placed room -- WP-12.9's control -- leaves 3 of 16
+# sheets byte-identical and the other 13 differing in the FURNITURE DISCLOSURE LINE ALONE
+# (26 lines: "N FURNITURE ITEM(S) NOT DRAWN - ...", whose count moves), except on
+# `good-02-portico-library-house`, where that line wraps onto a second schedule row and pushes
+# every row below it down by exactly 14 px, growing the canvas 1039 -> 1053. NOT ONE LINE of
+# the drawing field, the walls, the openings, the datum or the title block moves for any other
+# reason. With the furniture in, all 16 move: the marks (rect/line/circle/path), the key
+# numerals and the key lines, and 5 canvases where a key changed corner or went to the margin.
+#
+# AND THE PLACEMENT IS UNTOUCHED. Every placed record on the deterministic engine is
+# byte-identical across the package but for `furniture_layout` and the two furniture counters
+# in `opening_report` -- room rectangles, footprint, openings, fixtures, stair, hearths,
+# threshold and `geometry_report` all identical, 16 of 16.
+#
+# THE HARNESS WAS PROVED BEFORE THE RE-PIN: run on a checkout of `1c2ac80` it reproduces
+# 01771d3656231ba9 / 0fd105825eda19e0 to the character. A re-pin whose instrument has not been
+# shown to reproduce the OLD value is not a measurement, it is a new number.
+#
 # **THIS PAIR IS STALE AT `57e7b72` AND WP-13.5 DID NOT RE-PIN IT (16 Sep 2026).** The
 # assertion below is RED on a `git archive` checkout of the branch head with no edit of this
 # package on it: measured there with this test's own loop, the corpus hashes
@@ -262,8 +326,6 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # commits on a red assertion after checking a DIFFERENT property by hand. The per-sheet
 # figures above are what a package that owns the earlier movement needs; the numbers below are
 # NOT this package's to change.
-CORPUS_SHEET_SHA = "01771d3656231ba9"
-CORPUS_SHEET_SHA_NO_FRAME = "0fd105825eda19e0"
 # BOTH MOVED AT THE MERGE OF WP-13.2's SIX SLICES (15 Sep 2026), AND RE-PINNED ONCE, ON THE
 # MERGED TREE, WITH EACH SLICE'S OWN ACCOUNTING -- because five parallel worktrees each moved
 # the sixteen sheets and a pin per slice was stale the moment the next one merged. The value

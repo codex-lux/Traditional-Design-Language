@@ -68,6 +68,8 @@
         22,
         24
       ],
+      "footprint_of": "piece",
+      "count": 2,
       "clearance_in": 30,
       "placement": "freestanding"
     },

@@ -55,6 +55,8 @@
         32,
         34
       ],
+      "footprint_of": "piece",
+      "count": 2,
       "clearance_in": 24,
       "note": "and they should be MOVABLE - the sitting room's virtue is that the furniture can be pulled round to the fire in winter and to the window in summer",
       "placement": "freestanding"

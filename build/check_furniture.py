@@ -24,6 +24,9 @@ WP-11.3. What this checks, and why each one is here:
   6. A `variant` names an alternative to an object listed EARLIER in the same room. A variant
      that is the first `object`-less entry of its room has nothing to be an alternative to,
      which is the one way this vocabulary can be wrong without being invalid.
+  7. (WP-13.6) `executed_but_unreached_in_the_corpus` names rules that exist AND are in
+     `executed`: a rule the shipped plans never reach is driven by a test, and listing it as
+     unreached without listing it as executed would be naming a rule nobody wrote.
 
     python3 build/check_furniture.py
     python3 build/check_furniture.py --strict     # warnings become errors
@@ -114,10 +117,16 @@ def check(strict=False):
             else:
                 co.check_basis(rep, r, source="furniture/grammar.json")
 
-    for key in ("executed", "stated_not_executed"):
+    for key in ("executed", "stated_not_executed", "executed_but_unreached_in_the_corpus"):
         for rid in g.get(key) or []:
             if rid not in ids:
                 rep.err(f"grammar:{key}", f"names {rid!r}, which is not a rule in this file")
+    # 7 (WP-13.6): a rule the corpus does not reach is still a rule the code EXECUTES, driven
+    # by a test; one listed as unreached and not as executed is a rule nobody wrote.
+    for rid in g.get("executed_but_unreached_in_the_corpus") or []:
+        if rid not in (g.get("executed") or []):
+            rep.err("grammar:executed_but_unreached_in_the_corpus",
+                    f"names {rid!r}, which is not in `executed`")
 
     # 5 + 6: the catalogue's own `kind` values
     import glob
@@ -145,6 +154,16 @@ def check(strict=False):
     ex = len(g.get("executed") or [])
     sn = len(g.get("stated_not_executed") or [])
     print(f"  rules: {len(ids)} ({ex} executed, {sn} stated and not executed)")
+    # THIS COUNT IS THE DATA FILE'S CLAIM AND NOT THIS CHECKER'S MEASUREMENT, and the line
+    # says so: nothing here solves a plan. `tests/test_furniture_grammar.py` holds the list to
+    # the sixteen plans in BOTH directions, and a rule that has quietly become reachable, or
+    # quietly stopped being reached, fails there. Printed every run so the state is visible
+    # rather than only asserted -- and named, so a reader does not take it for a verdict.
+    un = g.get("executed_but_unreached_in_the_corpus") or []
+    if un:
+        print(f"    of those, {len(un)} the shipped plans do not reach at all "
+              f"({', '.join(sorted(un))}) -- the grammar's own claim, held to the corpus by "
+              f"tests/test_furniture_grammar.py and not by this checker")
     by_grade = {}
     for _b, r in _rules(g):
         by_grade[r.get("grade")] = by_grade.get(r.get("grade"), 0) + 1

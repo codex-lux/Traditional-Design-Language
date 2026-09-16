@@ -159,6 +159,11 @@
       "enum": ["piece", "group"],
       "description": "WP-13.6. Whether `footprint_in` is ONE piece of an item whose name states a count ('nightstands, pair' -> one nightstand) or the whole GROUP ('twin beds, pair' [100, 80]: '38 + 24 + 38 = 100 in across'). Authored by reading each note (`oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`); absent means the item states no count and the footprint is the thing. A `piece` with an exact stated count is drawn that many times; a range ('six to eight') is drawn once and its count reaches the key."
      },
+     "count": {
+      "type": "integer",
+      "minimum": 2,
+      "description": "WP-13.6. How many of the PIECE `footprint_in` describes the record states -- 'nightstands, pair' -> 2, 'two hall chairs' -> 2 -- authored by reading the name, and admitted only beside `footprint_of: piece` (build/check_rooms.py): a count on a GROUP footprint would be a count of groups, which no record means. A name stating a band ('six to eight side chairs', 'seating for twelve to twenty') carries NO count, because a band is not a count; such an item is drawn once with its name whole on the key. build/furniture.py::piece_count draws a counted piece that many times and the key names the type once with the number drawn."
+     },
      "clearance_in": {
       "type": "number",
       "description": "The gap this item needs beyond its own footprint, in inches. It must be STATED: a zero is a real answer and says the item needs no gap -- because it is itself clear space (a passing route, an arrival floor, a landing) or because it has no floor bulk (a mirror, a bell pull). Null was permitted here until 26 Aug 2026 and meant nothing distinguishable: build/plan_check.py read it as zero, so an item whose clearance an author simply forgot was checked as though it needed none. The twenty records that carried null all genuinely meant zero and now say so (OQ 52)."

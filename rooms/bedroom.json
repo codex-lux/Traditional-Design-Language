@@ -65,6 +65,7 @@
         100,
         80
       ],
+      "footprint_of": "group",
       "clearance_in": 24,
       "note": "Two 38 by 75 mattresses with 24 in between them: 38 + 24 + 38 = 100 in across, plus 24 at each outer side = 148 in, 12 ft 4 in. A shared children's room is WIDER than a queen room, not narrower, and this is the most commonly missed dimension in a family house.",
       "placement": "freestanding"

@@ -40,7 +40,7 @@ whose state cannot be read must never be counted as settled -- that is the same
 discipline every other checker here keeps, and the reason the vocabulary is a
 named list rather than a regex for "some bold word".
 """
-import os, re, sys, collections
+import os, re, sys, collections, subprocess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 QDIR = os.path.join(ROOT, "docs", "open-questions")
@@ -166,19 +166,34 @@ def check_reports():
     # since WP-2.3 shipped.
     have = set(sorted(os.listdir(REPORTS)))
     cited = set()
-    # sorted(), because an unsorted directory read makes the order machine-specific
-    # and tests/test_determinism.py holds the whole corpus to that.
-    for base, _dirs, names in sorted(os.walk(ROOT)):
-        if any(p in base for p in ("node_modules", "/.git", "/dist")):
+    # THE POPULATION IS GIT'S, NOT `os.walk`'s (16 Sep 2026). This walked the whole directory
+    # skipping four names, so the moment an agent worktree was checked out under
+    # `.claude/worktrees/` -- git-ignored, and never part of the tree -- this checker read a
+    # COPY OF THE REPOSITORY INSIDE ITSELF and failed the build on a report cited by a draft on
+    # another branch, which is a dangling citation here BY CONSTRUCTION. That is WP-13.2's own
+    # finding, which it fixed in `tests/test_citations.py` and did not generalise to the checker
+    # the test was written about; CLAUDE.md states the remedy in as many words -- "enumerate
+    # with `git ls-files -co --exclude-standard`, never by walking, or a workflow beside a check
+    # suite reddens the build". Tracked and untracked, never ignored: a file git excludes is not
+    # a file this corpus owes a report to. `sorted()` stays, because an unsorted enumeration
+    # makes the order machine-specific and tests/test_determinism.py holds the corpus to that.
+    ls = subprocess.run(["git", "-C", ROOT, "ls-files", "-co", "--exclude-standard", "-z"],
+                        capture_output=True, text=True, check=True).stdout
+    rels = sorted(p for p in ls.split("\0") if p)
+    if len(rels) < 1000:
+        # Not a checkout, or git is unavailable: say so rather than silently checking nothing,
+        # which would make this reader pass by reading no citations at all.
+        errors.append(f"git enumerated {len(rels)} file(s), which is not this checkout: the "
+                      f"report-citation sweep could not be run")
+        return by_number, errors
+    for rel in rels:
+        if not rel.endswith((".md", ".py", ".json", ".jsx", ".js", ".mjs")):
             continue
-        for n in sorted(names):
-            if not n.endswith((".md", ".py", ".json", ".jsx", ".js", ".mjs")):
-                continue
-            try:
-                text = open(os.path.join(base, n), encoding="utf-8").read()
-            except (UnicodeDecodeError, OSError):
-                continue
-            cited |= set(re.findall(r"docs/reports/([A-Za-z0-9][A-Za-z0-9._-]*\.md)", text))
+        try:
+            text = open(os.path.join(ROOT, rel), encoding="utf-8").read()
+        except (UnicodeDecodeError, OSError):
+            continue
+        cited |= set(re.findall(r"docs/reports/([A-Za-z0-9][A-Za-z0-9._-]*\.md)", text))
     for miss in sorted(cited - have):
         errors.append(f"docs/reports/{miss} is cited somewhere and does not exist")
     return by_number, errors
