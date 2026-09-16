@@ -1569,6 +1569,67 @@ releases both halves together when it cannot. The ruling was given about refusin
 is executed there; whether capacity should leave the prover's hard set is a separate question
 with a placement behind it.
 
+**THE FINAL `check_all` ON THE PHASE 13 TREE IS `2 of 53 checks failed`, AND ATTRIBUTING ITS
+REDS FOUND THAT SEVEN OF TEN WERE NEVER NAMED (16 Sep 2026).** `pytest tests/` is 29 failed /
+2,512 passed / 30 skipped in 50 min; the two failing checks are `check_partis.py` and the suite.
+**Eighteen of the 29 are the gate and are red by design.** The other eleven were attributed
+against `git archive` controls rather than assumed: **all ten of the non-hash ones PASS at
+`840c7f1` (before Phase 13) AND at `49e2389` (WP-13.2 complete), and all ten FAIL at `ad7f631`
+(WP-13.3 complete). Every one is the prover package's, and its own follow-up `b408df2` named
+three** -- `test_solver.py`'s half bound, `check_partis.py`, and `test_score.py`'s product
+property left red on purpose. The seven it did not name are below, each measured before it was
+touched. **`b408df2` found the finding, fixed the two tests in `test_score.py` it knew about,
+and did not sweep for the other files measuring the same property** -- which is this file's own
+*after correcting a figure, SWEEP EVERY FILE* applied to a FINDING rather than to a number.
+**TWO RATCHETS FELL AND NEITHER CEILING MOVED, AND ONLY ONE HALF WAS EVER ASSERTED.** Literals
+**44 -> 41** and ratios **7 -> 6**. `check_critic_suspects` NOTES a fall in either and noting is
+not failing, so `tests/test_critique.py` was the only thing that could say it -- and it asserted
+the literals half alone, so the ratio gap was invisible and would have stayed so. **WP-8.14's
+`unreached` exactly, met inside a guard instead of inside prose, in the same package as the half
+that was covered.** Accounted by name with the checker's own readers on both trees: three
+literals gone and none added (`max_abs_offset_between_upper_and_lower_opening_centrelines_in`,
+`count_of_openings_without_a_mirror_twin_about_the_facade_centreline`,
+`width_of_the_largest_asymmetric_element_in`) and one ratio gone
+(`openings_on_the_front_elevation`) -- **four invented measurements becoming real, nothing
+renamed away.** Both lowered; the test asserts both now and the mutation raising one back bites.
+**AND A `must_have` FAILURE BLAMED THE ONE LAYER THAT HAD NOT TOUCHED IT.**
+`test_every_revised_plan_validates_and_keeps_the_briefs_must_have_rooms` said *"the loop dropped
+a must_have room (library)"*. Measured with `revise=False`, so no round runs: **both of that
+brief's must_have rooms are absent AS COMPOSED**, and the composer SAYS so twice per candidate --
+*"the brief requires a library and this diagram has no place for one. Not added -- the position
+matters more than the presence."* The corpus was honest and the assertion demanded the invention
+this file forbids. **What moved is which partis come back**: WP-13.2 returned
+`centre-passage-double-pile` and `five-part-palladian`, both holding both rooms; this tree returns
+`side-hall-townhouse` and `courtyard-and-portal`, holding neither. `compose._sort_key` gives a
+diagram no credit for housing the programme, so three correct decisions compose into a set that
+answers the brief with two unusable houses:
+`oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room`. The test is re-cut onto its
+class's own subject and mutation-checked -- stripping the composer's stated refusal turns it red.
+**AND THE SILENT-DROP VERSION OF THAT FINDING WAS A FALSE POSITIVE I NEARLY PUBLISHED**: the first
+sweep matched the type id `breakfast-room` and found a refusal for the library and none for the
+breakfast room. The log writes *"a breakfast room"*, with a space. Both are stated. Re-deriving
+with the room's WORDS is the only reason that is not in a report, and the re-cut assertion matches
+on the words for that reason.
+**AND THE MERGE `314a2ec` CLAIMED A RE-DERIVATION IT DID NOT DO.** Both parents had moved
+`CORPUS_SHEET_SHA`; its comment says the pair is *"a THIRD VALUE BELONGING TO NEITHER PARENT"* and
+then writes the upstream parent's two numbers verbatim, so the conflict was resolved by taking a
+side. **The merge did the accounting and did not write the result**: its own *"fifteen of sixteen
+identical and the sixteenth is `tidewater-georgian-careful`"* is exactly what re-measuring finds,
+raw and stripped. Re-pinned `58e2f369f11dcac2` -> **`7ae444c7e5387110`** and `4ce58cb8b6599b89` ->
+**`8defa83027786782`**, the harness first PROVED to reproduce `ac9704e`'s pair to the character
+and proved NOT to reproduce `1392439`'s, which is right because that merge records WP-13.5 as
+having left the test red rather than re-measuring. **An instrument matching both parents would
+have been the one to distrust.**
+**AND A 3.27 s GREEN ON A TEST THAT SOLVES SIXTEEN PLANS WAS CHECKED AND WAS REAL** -- 2.61 s of
+it is that test, because the heuristic is the fast engine and is why it is the one pinned. The
+suspicion was right to act on and wrong in substance; a fast tick is what a guard that skipped its
+work looks like, and the only way to tell is `--durations`.
+**STILL RED AND NAMED, NOT FIXED**: three `test_composer.py` rows and one `test_score.py` row
+measuring the Georgian set's movement, `test_site.py`'s premise assertion firing exactly as built
+because its parti is no longer returned, `test_compose_revision.py`'s budget row, `test_solver.py`
+and `check_partis.py`. Every one is WP-13.3's honest measurement reaching a surface, and none may
+be made green by weakening what it asserts.
+
 **WP-13.6 IS THE FURNITURE ARRANGED TO ITS OWN GRAMMAR, AND ITS SHARPEST FINDING IS THAT THE
 PACKAGE'S OWN FIRST COMMIT HAD ALREADY SHIPPED TWO RED ASSERTIONS
 (`docs/reports/wp-13.6-furniture-to-its-own-grammar.md`).** Catalogue items state their POSITION
