@@ -333,8 +333,52 @@ class TestBearingIsMeasuredAndRead:
         assert TF.bearing(p)["halves"]["capacity"] == TF.UNJUDGED
         p["geometry_report"] = {"span_capacity": {"over_capacity": 2}}
         b = TF.bearing(p)
-        assert b["halves"]["capacity"] == TF.DOWNGRADED and b["status"] == TF.DOWNGRADED
+        assert b["halves"]["capacity"] == TF.DOWNGRADED
         assert "2 clear span(s)" in b["detail"]
+
+    def test_capacity_does_not_refuse_a_drawing_and_continuity_does(self):
+        """RULED BY LUCAS, 16 SEP 2026: "capacity shouldn't refuse a drawing -- continuity
+        only". This test is the ruling, and the assertion it replaced said the opposite --
+        `b["status"] == TF.DOWNGRADED` on a record whose only fault was an over-capacity span.
+        That is a ruling executed, not a pin loosened, and the measurement that asked for it is
+        in `build/typefacts.py::bearing`'s own comment: the capacity half alone refused 33 of
+        the 37 shipped records and partis swept.
+
+        Both halves are asserted in BOTH directions, because a status that simply stopped
+        moving would pass this too: continuity decides it, and capacity is still SAID."""
+        g = [_room("a", 0, 0, 10, 20), _room("b", 10, 0, 10, 20)]
+        u = [_room("c", 0, 0, 10, 20), _room("d", 10, 0, 10, 20)]
+
+        # capacity broken, continuity held -> HELD, and the span is still reported
+        p = _two_level(g, u)
+        p["geometry_report"] = {"span_capacity": {"over_capacity": 3}}
+        b = TF.bearing(p)
+        assert b["halves"]["capacity"] == TF.DOWNGRADED
+        assert b["halves"]["continuity"] == TF.HELD
+        assert b["status"] == TF.HELD, "an over-capacity span refused a drawing"
+        assert b["capacity_status"] == TF.DOWNGRADED and b["capacity_refuses"] is False
+        assert b["spans_over_capacity"] == 3 and "3 clear span(s)" in b["detail"], (
+            "capacity stopped being reported when it stopped deciding")
+
+        # continuity broken, capacity held -> DOWNGRADED. The discriminator, without which
+        # this test would pass on a `bearing` that never downgrades anything at all.
+        u_off = [_room("c", 0, 0, 20, 10), _room("d", 0, 10, 20, 10)]
+        q = _two_level(g, u_off)
+        q["geometry_report"] = {"span_capacity": {"over_capacity": 0}}
+        bq = TF.bearing(q)
+        assert bq["halves"]["capacity"] == TF.HELD
+        assert bq["halves"]["continuity"] == TF.DOWNGRADED and bq["status"] == TF.DOWNGRADED
+
+        # continuity UNJUDGED with capacity broken -> UNJUDGED. Unjudged is not passed, and
+        # under WP-13.4's contract it is not refused either: a one-level house cannot be
+        # refused a drawing for having no upper floor to carry a line down.
+        one = _plan([_room("a", 0, 0, 10, 20), _room("b", 10, 0, 10, 20)])
+        one["footprint"]["bay_module_ft"] = 10.0
+        one["geometry_report"] = {"span_capacity": {"over_capacity": 4}}
+        bo = TF.bearing(one)
+        assert bo["halves"]["continuity"] == TF.UNJUDGED
+        assert bo["halves"]["capacity"] == TF.DOWNGRADED
+        assert bo["status"] == TF.UNJUDGED
 
     def test_one_level_is_unjudged_for_continuity(self):
         p = _plan([_room("a", 0, 0, 10, 20), _room("b", 10, 0, 10, 20)])
