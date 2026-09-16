@@ -211,7 +211,18 @@ def test_provenance_validates_and_gates_method():
     # other to 0.7.0 (`block`/`hyphen`, `footprint.wall`, `parti`) -- and the merged schema
     # carries every one of those fields, so it is neither. THIS TRIPWIRE HAS NOW CAUGHT A
     # SCHEMA CHANGE EIGHT TIMES and this is the first where the change was a merge.
-    assert schema["version"] == "0.10.0"
+    # 0.11.0 (WP-13.6, 16 Sep 2026): `furniture_layout[].corner`, AND THIS ONE IS THE OTHER
+    # WAY ROUND -- the tripwire did not catch a bump, it caught a field admitted by NOBODY.
+    # WP-13.6's first commit taught build/furniture.py to seat a corner item in a corner and
+    # write `corner: true`; this object is `additionalProperties: false`; so thirteen of the
+    # sixteen placed plans stopped validating against the contract they were placed from and
+    # the tree went red in three tests that nothing else in the corpus duplicates. Every
+    # checker in check_all.py was green over it, because a checker reads the AUTHORED record
+    # and only three tests ever validate a PLACED one. That is the 0.7.0 finding exactly --
+    # `geometry.void.heated`, two reference plans invalid for three phases -- met again by a
+    # package that had this very entry to read. A pin on the version cannot see a field added
+    # without one; what saw it was validating the output.
+    assert schema["version"] == "0.11.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",
