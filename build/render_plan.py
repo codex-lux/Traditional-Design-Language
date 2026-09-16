@@ -169,6 +169,10 @@ def _fit_lines(text, max_w, max_h, preferred, floor, lead=1.2, max_lines=3, trac
 # the widest row is a room name plus two dimension pairs and a percentage, and three columns of
 # a narrow plate would run them into each other.
 TABLE_COL_W = 260.0
+# The clear space between one record-table column and the next. The pitch is the widest row
+# PLUS this, so a reader can tell where one entry ends and the next begins; 260 is the floor
+# the pitch may never fall below, not the pitch itself.
+TABLE_COL_GUTTER = 14.0
 
 
 def _fmt(x):
@@ -1024,6 +1028,23 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     _name_unique = {}
     for _d in all_diverged:
         _name_unique[_d["name"]] = _name_unique.get(_d["name"], 0) + 1
+
+    def _table_line(d):
+        """One row of the record table, built HERE so the layout below measures the string the
+        loop at the foot of this function actually draws. They were two expressions and the
+        layout's was a constant."""
+        g = _decl_pair.get(d["id"])
+        asked = f'{_fmt(min(g))} x {_fmt(max(g))}' if g else "—"
+        drew = _drawn_pair.get(d["id"])
+        got = f'{_fmt(min(drew))} x {_fmt(max(drew))}' if drew else "—"
+        # THE ID WHERE THE NAME IS NOT UNIQUE. Two rooms called "Closet" produced two rows a
+        # reader could not tell apart, differing only in figures nobody could attribute.
+        label = d["name"] if _name_unique.get(d["name"], 0) == 1 \
+            else f'{d["name"]} ({d["id"]})'
+        return (f'{label}: drawn {got}, record {asked} '
+                f'({"+" if d["pct"] > 0 else ""}{d["pct"]:.0f}%)')
+
+    _table_text = [_table_line(d) for d in all_diverged]
     _rx_all = (plan.get("geometry_report", {}).get("relaxations", {}) or {}).get("marks", [])
     level_marks = [relaxation_marks(_rx_all, i, W, H) for i in range(len(levels))]
     all_unlocated = [m for _d, un in level_marks for m in un]
@@ -1195,7 +1216,19 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     # THE TABLE'S HEIGHT IS COMPUTED, NEVER A FIXED ALLOWANCE. A fixed one under the plates is
     # how a third of an upper floor came to be drawn outside this canvas (WP-9.6), and the
     # table is the last thing on the sheet, so anything it overruns is simply not drawn.
-    _table_cols = max(1, int((total_w - 2 * (M + BP)) // TABLE_COL_W))
+    # THE COLUMN PITCH IS MEASURED FROM THE ROWS, NOT ASSUMED (16 Sep 2026). `TABLE_COL_W` was
+    # a flat 260 px and nothing measured the text against it, so every row longer than that
+    # overprinted its neighbour's first characters: on the shipped Tidewater sheet TWENTY OF
+    # TWENTY-FOUR rows overran, the widest at 316.8 px, and the plate read
+    # "record 17' x 20' (+45%)ntry: drawn 5'-9" x 9'" -- a table that silently ate the front of
+    # "Butler's Pantry". Found by rendering the sheet and looking at it, which is this
+    # repository's own highest-yield technique and the only thing that has ever caught one of
+    # these; no assertion in the tree reads this block's geometry. `TABLE_COL_W` survives as
+    # the FLOOR, so a sheet whose rows are all short lays out exactly as it did.
+    _table_col_w = max(TABLE_COL_W,
+                       max((_text_w(t, 8.0, mono=True) for t in _table_text), default=0.0)
+                       + TABLE_COL_GUTTER)
+    _table_cols = max(1, int((total_w - 2 * (M + BP)) // _table_col_w))
     _table_rows = -(-len(all_diverged) // _table_cols) if all_diverged else 0
     table_h = (18.0 + 11.0 * _table_rows) if all_diverged else 0.0
     top = M + BP + head_h + grid_h
@@ -1872,20 +1905,10 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         ty = top + extra_top + ph + extra_bottom + foot_h + sched_h + 4.0
         s.append(f'<text class="lb" x="{M+BP:.1f}" y="{ty:.0f}" style="fill:{L["salmon_deep"]}">'
                  f'WHAT THE RECORD ASKED FOR — ∗ ROOMS, DRAWN AGAINST DECLARED</text>')
-        for n, d in enumerate(all_diverged):
-            cx0 = M + BP + (n // max(1, _table_rows)) * TABLE_COL_W
+        for n, line in enumerate(_table_text):
+            cx0 = M + BP + (n // max(1, _table_rows)) * _table_col_w
             cy0 = ty + 15 + (n % max(1, _table_rows)) * 11
-            g = _decl_pair.get(d["id"])
-            asked = f'{_fmt(min(g))} x {_fmt(max(g))}' if g else "—"
-            drew = _drawn_pair.get(d["id"])
-            got = f'{_fmt(min(drew))} x {_fmt(max(drew))}' if drew else "—"
-            # THE ID WHERE THE NAME IS NOT UNIQUE. Two rooms called "Closet" produced two rows
-            # a reader could not tell apart, differing only in figures nobody could attribute.
-            label = d["name"] if _name_unique.get(d["name"], 0) == 1 \
-                else f'{d["name"]} ({d["id"]})'
-            s.append(f'<text class="dm" x="{cx0:.1f}" y="{cy0:.1f}">'
-                     f'{_esc(label)}: drawn {got}, record {asked} '
-                     f'({"+" if d["pct"] > 0 else ""}{d["pct"]:.0f}%)</text>')
+            s.append(f'<text class="dm" x="{cx0:.1f}" y="{cy0:.1f}">{_esc(line)}</text>')
     s.append('</svg>')
     open(path, "w").write("\n".join(s))
     return path

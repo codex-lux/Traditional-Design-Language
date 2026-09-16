@@ -242,8 +242,25 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # were checking by hand. That is this repository's own *a package that commits before its
 # build finishes learns what it broke from the build*, met by the package that had just
 # written the sentence down.
-CORPUS_SHEET_SHA = "1a63f71dda3b6bee"
-CORPUS_SHEET_SHA_NO_FRAME = "4413ad13a9e35766"
+CORPUS_SHEET_SHA = "58e2f369f11dcac2"
+CORPUS_SHEET_SHA_NO_FRAME = "4ce58cb8b6599b89"
+# BOTH MOVED AGAIN, 16 Sep 2026, WHEN THE RECORD TABLE LEARNED TO MEASURE ITS OWN ROWS.
+# Was 1a63f71dda3b6bee / 4413ad13a9e35766. `render_plan.TABLE_COL_W` was a flat 260 px pitch
+# that nothing measured the text against, so on the shipped Tidewater sheet TWENTY OF
+# TWENTY-FOUR rows overran it (widest 316.8 px) and SEVENTEEN PAIRS overprinted: the plate read
+# `record 17' x 20' (+45%)ntry: drawn 5'-9" x 9'`, having eaten the front of "Butler's Pantry".
+# The pitch is the widest row plus a gutter now, with 260 kept as the FLOOR.
+#
+# THE INSTRUMENT WAS SHOWN TO REPRODUCE THE OLD VALUE FIRST, on a `git archive HEAD` checkout:
+# 1a63f71dda3b6bee / 4413ad13a9e35766 to the character. A re-pin whose harness has not
+# reproduced the old number is a new number and not a measurement.
+#
+# THE MOVEMENT IS ACCOUNTED FOR LINE BY LINE rather than accepted: all 16 sheets moved, and on
+# EVERY ONE the only changed lines are record-table rows and the canvas height -- 0 changed
+# lines anywhere else, on all sixteen. Ten sheets grew 11 to 33 px taller because fewer columns
+# fit and the table gained a row; six kept their height exactly (bad-01, bad-03, good-03,
+# good-04, good-06 and, at 1082, the dogtrot). Nothing in the drawing field moved.
+#
 # BOTH MOVED AT WP-13.6, IN TWO STEPS, AND THE FIRST STEP SHIPPED RED FOR THREE COMMITS.
 # Was 01771d3656231ba9 / 0fd105825eda19e0. The attribution was BISECTED rather than assumed,
 # with this test's own loop copied verbatim and run on `git worktree` checkouts:
