@@ -545,13 +545,21 @@ class TestNoOpeningIsDrawnWhereAStackStands:
         # all six openings appeared, the centre bay was glazed, and every iteration still passed.
         opens = [(float(a), float(b)) for a, b in
                  re.findall(r'<rect class="op"[^>]*x="([-\d.]+)"[^>]*width="([-\d.]+)"', svg)]
-        assert len(opens) == 4, f"two glazed bays x two storeys, got {len(opens)}"
-        blind_px = 46.0 + 21.33 * 24.0                      # the same pad and scale the sheet uses
-        stack_half_px = (rec.get("chimney_stack_plan_in") or 22.0) / 24.0 * 24.0
+        # RE-CUT AT WP-13.3: the E face draws the plan's PLACED windows on that wall, not two
+        # per glazed rhythm bay, so the count is the elevation's own rectangles for the face
+        # (positive first, so a selector matching nothing cannot pass), and a placed window a
+        # stack stands on is refused before it is drawn (`opening_on_a_stack`, OQ 85's rule
+        # reaching a placed opening).
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        rects = e.opening_rects(rec, "E")["rects"]
+        assert rects and len(opens) == len(rects), (
+            f"{len(opens)} drawn against {len(rects)} placed-and-drawn openings on E")
+        blind_ft = rec["faces"]["E"]["blind_bay_centres_ft"][0]
+        blind_px = 46.0 + blind_ft * 24.0                    # the same pad and scale the sheet uses
+        stack_half_px = rec["faces"]["E"]["stack_half_width_ft"] * 24.0
         for x, w in opens:
-            centre = x + w / 2.0
-            assert abs(centre - blind_px) > stack_half_px, (
-                f"an opening is centred at {centre:.1f}, on the stack's own axis ({blind_px:.1f})")
+            assert x + w < blind_px - stack_half_px or x > blind_px + stack_half_px, (
+                f"an opening spans {x:.1f}-{x + w:.1f} px, across the stack's own axis ({blind_px:.1f})")
         assert "BAY BLIND WHERE A STACK STANDS ON IT" in svg
 
     def test_the_generator_publishes_that_it_resolved_the_collision(self):

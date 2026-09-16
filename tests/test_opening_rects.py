@@ -146,15 +146,49 @@ def test_every_caller_takes_its_bays_from_the_one_function():
 
 # ------------------------------------------------------------------ the record's own arithmetic
 
+def _record_opening(elev, r):
+    """The plan's own record of the opening a rectangle was drawn from: the room's window or
+    exterior door on that wall, at that position. Read from the SECTION's placed record -- the
+    one placement the section, the roof and the elevation share -- and never from the rect."""
+    placed = elev["section"]["geometry"]
+    lv = placed["levels"][r["storey"] == "upper"]
+    room = next(x for x in lv["rooms"] if x["id"] == r["room"])
+    if r["kind"] == "door":
+        return next(d for d in room["doors"] if d.get("to") == "exterior"
+                    and abs(float(d["position_ft"]) - r["along_ft"]) < 1e-9)
+    return next(w for w in room["windows"]
+                if any(abs(float(p) - r["along_ft"]) < 1e-9 for p in (w.get("positions_ft") or [])))
+
+
 def test_the_rectangle_is_the_records_own_numbers(elevations):
     """Width, centring, sill and head, read from both sides. Exact equality throughout: a
     `round()` anywhere in `opening_rects` breaks every one of these, and it must, because
-    rounding moved the drawn SVG coordinates the first time this function was written."""
+    rounding moved the drawn SVG coordinates the first time this function was written.
+
+    WP-13.3: THE WIDTH AND THE CENTRE ARE THE PLAN'S, not the storey window's and not the
+    rhythm's. Each rectangle is a placed window or exterior door the plan's own record carries
+    on that wall (`_record_opening` finds it from the section's placed record, at the rect's
+    own `along_ft`), so its width is that opening's `width_ft` in inches and its centre is
+    `face_u_ft` of that position -- the one conversion, in the face's own datum. The sill and
+    head are still the storey window's (the plan states no window height) and a door's leaf
+    height is the entrance's, the one door height the record states; both are named on the
+    rect. And the count is of PLACED openings: the 72 rhythm rectangles over the two shipped
+    plans became the 34 the plans place and this file draws on the heuristic -- Tidewater 22
+    (S 11, N 7, E 3, W 1) and the spec Colonial 12 (S 6, N 4, E 0, W 2), READ off the rects
+    per face rather than summed by hand -- and pinned so that a regression to drawing the
+    rhythm, 72 again, cannot pass as 'more'. The Tidewater W face PLACES two windows and draws
+    one: the primary bedroom's upper sash at y 10.547 (3.5 ft wide) overlaps the west stack
+    at 11.77 clear, and `opening_rects` refuses it by name (OQ 85) --
+    `test_no_shipped_plan_reaches_a_blind_bay` pins that one refusal. This count was 35 while
+    the N and W faces were mirrored, which put that sash 27.8 ft from the stack it stands on.
+    """
     el = _load("elevation")
     seen = 0
     for pid, elev in elevations.items():
         sw = elev["storey_windows"]
         floors = {s["index"]: s["grade_to_floor_ft"] * 12.0 for s in elev["section"]["storeys"]}
+        fp = elev["section"]["footprint"]
+        t_ft = elev["section"]["wall"]["exterior_in"] / 12.0
         for face in ("S", "N", "E", "W"):
             for r in el.opening_rects(elev, face)["rects"]:
                 seen += 1
@@ -165,18 +199,37 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
                 # unrounded, which is what a `round()` in `opening_rects` would break.
                 assert r["x0_in"] == r["cx_in"] - r["width_in"] / 2.0, f"{pid} {r['id']} x0"
                 assert r["x1_in"] == r["cx_in"] + r["width_in"] / 2.0, f"{pid} {r['id']} x1"
+                rec_op = _record_opening(elev, r)
+                assert r["cx_in"] == el.face_u_ft(face, r["along_ft"], fp["clear_width_ft"],
+                                                  fp["clear_depth_ft"], t_ft) * 12.0, \
+                    f"{pid} {r['id']}: the centre is not the plan's position in the face's datum"
+                placed = next(p for p in elev["faces"][face]["placed"]
+                              if p["room"] == r["room"] and p["storey"] == r["storey"]
+                              and p["along_ft"] == r["along_ft"])
+                if rec_op.get("width_ft"):
+                    assert placed["width_declared"] is True
+                    assert r["width_in"] == float(rec_op["width_ft"]) * 12.0, \
+                        f"{pid} {r['id']}: the width is not the plan's own"
+                else:
+                    # a width the record left unstated is the plan sheet's own default, and
+                    # the placed entry says so rather than passing it off as authored
+                    assert placed["width_declared"] is False, f"{pid} {r['id']}"
+                    want = (_load("render_plan").DEFAULT_EXT_DOOR_FT if r["kind"] == "door"
+                            else 3.0) * 12.0        # `derive_openings`' own `or 3` for a window
+                    assert r["width_in"] == want, f"{pid} {r['id']}: not the sheet's default"
                 if r["kind"] == "window":
                     si = 0 if r["storey"] == "ground" else 1
                     rec = sw[si]
-                    assert r["width_in"] == rec["opening_width_in"], f"{pid} {r['id']}"
+                    assert r["record"] is rec
                     assert r["sill_in"] == floors[si] + rec["sill_height_above_floor_in"]
                     assert r["head_in"] == floors[si] + rec["head_height_above_floor_in"]
                 else:
                     ent = elev["entrance"]
-                    assert r["width_in"] == ent["door_leaf_width_in"]
                     assert r["sill_in"] == floors[0], "a door stands on its own floor"
                     assert r["head_in"] == floors[0] + ent["door_leaf_height_in"]
-    assert seen == 72, f"expected 72 openings over the two shipped plans, read {seen}"
+                    assert r["leaf_height_source"] == "elevation.entrance.door_leaf_height_in"
+    assert seen == 34, (f"expected 34 placed-and-drawn openings over the two shipped plans on "
+                        f"the heuristic, read {seen}; 72 is the rhythm")
 
 
 def test_every_rectangle_names_the_record_it_came_from(elevations):
@@ -192,40 +245,90 @@ def test_every_rectangle_names_the_record_it_came_from(elevations):
 
 # ------------------------------------------------------------------ the branch the corpus lost
 
+# THE ONE PLACED WINDOW THE SHIPPED CORPUS REFUSES FOR A STACK (WP-13.3), pinned by name.
+# The Tidewater primary bedroom's upper W sash is placed at y 10.547 ft, 3.5 ft wide, and the
+# west stack stands at 11.77 ft clear (13.06 in the roof's outside frame), 1.83 ft wide: they
+# overlap by about 1.45 ft, so the sash is refused (OQ 85) and the W face draws one window of
+# the two the plan places there. It was invisible while the N and W faces were mirrored, which
+# put that sash 27.8 ft from the stack it stands on. Pinned as a SET so that a change in either
+# direction shows: a second refusal is a placement to look at, and none is either a fix in
+# `openings.py` or the refusal going blind.
+STACK_REFUSED_ON_THE_SHIPPED_PLANS = {("tidewater-georgian-careful", "W", "primary", "upper")}
+
+
 def test_no_shipped_plan_reaches_a_blind_bay(elevations):
     """THE REASON THE TEST BELOW IS DRIVEN, asserted rather than remembered.
 
     OQ 85 blinds the bay a chimney stack stands on. WP-11.4 then moved this house's stacks off
     the gable centre line and onto the flues the plan states — 11.77 and 14.21 ft against bay
-    centres of 6.79, 20.38 and 33.96 — so nothing is blinded any more, on any of the sixteen
-    plan records. If this ever fails, the corpus has grown a blind bay and the fixture below has
-    stopped being the only way to reach the skip.
+    centres of 6.79, 20.38 and 33.96 — so no RHYTHM bay is blinded any more, on any of the
+    sixteen plan records. If this ever fails, the corpus has grown a blind bay.
+
+    AND SINCE WP-13.3 THE RULE REACHES PLACED WINDOWS, and the shipped corpus reaches it ONCE
+    (`STACK_REFUSED_ON_THE_SHIPPED_PLANS`). The driven test below is still the only route to the
+    refusal on the N face and through all three callers at once, so it stays driven; what this
+    asserts is that the corpus's own case is exactly the one named, no more and no fewer.
     """
+    el = _load("elevation")
+    got = set()
     for pid, elev in elevations.items():
         blind = sum(f.get("kinds", []).count("blind") for f in elev["faces"].values())
         assert blind == 0, (
             f"{pid} now states {blind} blind bay(s). Good — but re-read the driven fixture in "
-            "test_a_blind_bay_is_skipped_by_all_three_callers, which exists because there were "
-            "none.")
+            "test_a_stack_on_a_placed_window_is_refused_by_all_three_callers, which exists "
+            "because there were none.")
+        # READ THE SOURCE, NOT A WORD: the placer's own refusal prose says "chimney" and
+        # "stack" about a breast it kept a sash clear of, and the first draft of this premise
+        # matched that word and convicted the placer's refusals as the elevation's. The
+        # elevation's stack refusal names `stack_axes_ft` as its source and nothing else does.
+        for f in "SNEW":
+            for x in el.opening_rects(elev, f)["refused"]:
+                if x["source"].endswith(".stack_axes_ft"):
+                    got.add((pid, f, x["room"], x["storey"]))
+    assert got == STACK_REFUSED_ON_THE_SHIPPED_PLANS, (
+        f"placed openings refused for a stack: {sorted(got)} against the pinned "
+        f"{sorted(STACK_REFUSED_ON_THE_SHIPPED_PLANS)} -- a placement moved, or the refusal did")
 
 
-def test_a_blind_bay_is_skipped_by_all_three_callers(elevations, tmp_path):
+def _stack_on(elev, face, u_ft, half_ft=None):
+    """Drive a stack onto a face at `u_ft`, in place, the way `build_elevation` records one:
+    `stack_axes_ft` and `stack_half_width_ft` on the face record. The RHYTHM's blind-bay rule
+    is not re-run here on purpose -- what is under test is the PLACED opening's refusal, and
+    the two are different rules for different questions (`opening_on_a_stack`'s docstring)."""
+    elev["faces"][face]["stack_axes_ft"] = [u_ft]
+    if half_ft is not None:
+        elev["faces"][face]["stack_half_width_ft"] = half_ft
+    return elev
+
+
+def test_a_stack_on_a_placed_window_is_refused_by_all_three_callers(elevations, tmp_path):
     """THE CENTREPIECE, and the one assertion the shipped corpus cannot make.
 
-    One bay is blinded by hand and the delta is read from all four surfaces at once: the
-    function, the SVG, the DXF and the scene. A caller that derived its own list again would
-    stay put while the other three moved — which is exactly the state this corpus was in
-    between the blind bay landing in the SVG and the DXF learning about it.
+    WP-13.3: the opening is a PLACED window now, not a rhythm bay, so what is driven is a stack
+    standing on one -- the roof record's own two fields on the face record, set by hand -- and
+    the delta is read from all four surfaces at once: the function, the SVG, the DXF and the
+    scene. A caller that derived its own list again would stay put while the other three moved,
+    which is exactly the state this corpus was in between the blind bay landing in the SVG and
+    the DXF learning about it. (Until WP-13.3 this test set `kinds[bay] = "blind"` on the
+    rhythm; that mutation moves nothing now, because a rhythm centre is no longer an opening.)
 
     A POSITIVE COUNT FIRST. A selector that matches nothing makes a delta of zero look like a
-    delta of zero, and this repository has shipped that inversion before.
+    delta of zero, and this repository has shipped that inversion before. And the delta is
+    MEASURED off the placed list -- how many placed windows on this face a stack at that axis
+    overlaps -- rather than assumed to be two: an upper window need not stand over a lower one
+    any more, which is the whole subject of this package.
     """
     el, re_, dx, sc = (_load(n) for n in
                        ("elevation", "render_elevation", "export_dxf", "scene"))
     ezdxf = pytest.importorskip("ezdxf")  # noqa: F841 — the DXF half needs the optional package
     elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
-    face = "N"                                  # no entrance on it, so the delta is two windows
-    bay = 1
+    face = "N"                                  # no entrance on it, so no door is involved
+    target = next(p for p in elev["faces"][face]["placed"]
+                  if p["kind"] == "window" and p["storey"] == "ground")
+    half = elev["faces"][face]["stack_half_width_ft"]
+    expect = [p for p in elev["faces"][face]["placed"] if p["kind"] == "window"
+              and el.opening_on_a_stack(p["u_ft"], p["width_ft"], [target["u_ft"]], half)]
+    assert expect and target in expect, "the fixture must put the stack on at least one window"
 
     def surfaces(e):
         rects = el.opening_rects(e, face)["rects"]
@@ -241,19 +344,44 @@ def test_a_blind_bay_is_skipped_by_all_three_callers(elevations, tmp_path):
     before = surfaces(elev)
     assert all(n > 0 for n in before), f"a selector matched nothing: {before}"
 
-    assert elev["faces"][face]["kinds"][bay] == "window", "the fixture must blind a WINDOW bay"
-    elev["faces"][face]["kinds"][bay] = "blind"
+    _stack_on(elev, face, target["u_ft"])
     after = surfaces(elev)
 
-    assert [b - a for b, a in zip(before, after)] == [2, 2, 2], (
-        f"blinding one bay must remove one opening at each of two storeys from the function, "
-        f"the SVG and the DXF alike; got {before} -> {after}")
+    k = len(expect)
+    assert [b - a for b, a in zip(before, after)] == [k, k, k], (
+        f"a stack on a placed window must remove the {k} window(s) it stands on from the "
+        f"function, the SVG and the DXF alike; got {before} -> {after}")
 
     got = el.opening_rects(elev, face)
-    assert not any(r["bay"] == bay for r in got["rects"])
-    assert any(x["bay"] == bay and "blind" in x["why"] for x in got["refused"]), (
-        "a blind bay must be REFUSED with its reason, not silently absent — the bay is real, "
-        "it holds its place in the rhythm, and a stack stands on its axis")
+    assert not any(r["room"] == target["room"] and r["along_ft"] == target["along_ft"]
+                   for r in got["rects"])
+    hit = [x for x in got["refused"] if x.get("room") == target["room"] and "stack" in x["why"]]
+    assert hit, (
+        "a window a stack stands on must be REFUSED with its reason, not silently absent — "
+        "the plan placed it, and a stack stands where it would be (OQ 85)")
+    assert "OQ 85" in hit[0]["why"] and str(round(target["u_ft"], 2)) in hit[0]["why"], hit[0]
+
+
+def test_a_door_on_a_stack_is_drawn_and_counted_not_deleted(elevations):
+    """The half OQ 85 keeps: a DOOR on a stack's axis is as impossible as a window on one, and
+    deleting an entrance is not a decision this generator may take on its own, so the door is
+    drawn and the collision reaches `count_of_openings_on_the_axis_of_a_chimney_stack`, where
+    `window-on-the-chimney-axis` fires and a human decides. Driven on the N face's placed back
+    doors, which is where the Tidewater plan seats three."""
+    el = _load("elevation")
+    elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
+    face = "N"
+    door = next(p for p in elev["faces"][face]["placed"] if p["kind"] == "door")
+    _stack_on(elev, face, door["u_ft"])
+    got = el.opening_rects(elev, face)
+    assert any(r["kind"] == "door" and r["room"] == door["room"] for r in got["rects"]), \
+        "the door was deleted"
+    assert not any(x.get("room") == door["room"] and x.get("kind") == "door"
+                   for x in got["refused"])
+    # the elevation record is rebuilt around the mutated face so the measurement reads it
+    m = el._derive_measurements(elev)
+    assert m["count_of_openings_on_the_axis_of_a_chimney_stack"] >= 1, \
+        "the collision was neither resolved nor reported — it just vanished"
 
 
 def test_the_scene_drops_the_same_bay(elevations):
@@ -292,12 +420,21 @@ def test_the_scene_drops_the_same_bay(elevations):
         "no opening carries any dressing, so the second half of this test asserts nothing — "
         "WP-12.6 draws a sash and its bars on every drawn window")
 
-    elev["faces"]["N"]["kinds"][1] = "blind"
+    # WP-13.3: a stack driven onto a placed N window, the same driver as the test above, and
+    # the delta measured off the placed list rather than assumed to be two
+    face = "N"
+    target = next(p for p in elev["faces"][face]["placed"]
+                  if p["kind"] == "window" and p["storey"] == "ground")
+    half = elev["faces"][face]["stack_half_width_ft"]
+    k = sum(1 for p in elev["faces"][face]["placed"] if p["kind"] == "window"
+            and el.opening_on_a_stack(p["u_ft"], p["width_ft"], [target["u_ft"]], half))
+    assert k > 0
+    _stack_on(elev, face, target["u_ft"])
     states = _States()
     after = sc._openings(elev, section, states)
 
     gone = frames(before) - frames(after)
-    assert len(gone) == 2, (
+    assert len(gone) == k, (
         f"{len(frames(before))} -> {len(frames(after))} frames; dropped {sorted(gone)}")
     assert frames(after) < frames(before), "the blinded bay's frames are a strict subset"
 
@@ -307,12 +444,12 @@ def test_the_scene_drops_the_same_bay(elevations):
                      if any(i.startswith(g + "-") for g in gone))
     assert not orphans, (
         f"{len(orphans)} solid(s) still dress a bay the scene refused to draw: {orphans[:4]}")
-    assert len(before) - len(after) > 2, (
+    assert len(before) - len(after) > k, (
         "the frames went and their dressing did not, which is the defect the line above is "
         "written to catch arriving from the other direction")
 
-    assert any("blind" in why for _w, why, _s, _c in states.said), (
-        "the scene must record the refusal, not merely draw two fewer frames")
+    assert any("stack" in why for _w, why, _s, _c in states.said), (
+        "the scene must record the refusal, not merely draw fewer frames")
 
 
 def test_an_opening_has_one_name_and_the_scene_does_not_rebuild_it(elevations):
@@ -393,15 +530,24 @@ def test_a_one_storey_house_gets_one_row_of_windows(elevations):
     elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
     two = el.opening_rects(elev, "N")
     assert {r["storey"] for r in two["rects"]} == {"ground", "upper"}
+    n_upper = sum(1 for r in two["rects"] if r["storey"] == "upper")
+    n_ground = sum(1 for r in two["rects"] if r["storey"] == "ground")
+    assert n_upper and n_ground
 
     elev["section"]["storeys"] = [s for s in elev["section"]["storeys"]
                                   if s.get("index") == 0]
     one = el.opening_rects(elev, "N")
     assert {r["storey"] for r in one["rects"]} == {"ground"}, \
         "a one-storey house drew an upper row of windows"
-    assert len(one["rects"]) * 2 == len(two["rects"])
-    up = [x for x in one["refused"] if x.get("storey") == "upper"]
-    assert len(up) == len(one["rects"]), "every bay must say why it has no upper opening"
+    # WP-13.3: the ground row is the PLACED ground row, unmoved, and the upper row is not
+    # 'half of the rects' -- an upper storey need not carry one opening per lower one -- but
+    # every placed upper opening, each refused by name
+    assert len(one["rects"]) == n_ground
+    # the PLACED upper openings' refusals, apart from the placer's own (a window the placer
+    # never seated is refused for the placer's reason on any storey count)
+    up = [x for x in one["refused"] if x.get("storey") == "upper"
+          and "placer refused" not in x["why"]]
+    assert len(up) == n_upper, "every placed upper opening must say why it is not drawn"
     assert all("no storey 1" in x["why"] for x in up), \
         f"the refusal must name the building's own storey count, not a missing datum: {up[:1]}"
 
@@ -413,28 +559,36 @@ def test_a_one_storey_house_gets_one_row_of_windows(elevations):
         "a storey that exists without a datum is a different refusal from a storey that does not"
 
 
-def test_a_door_bay_off_the_entrance_face_draws_a_window(elevations):
-    """PRESERVED BEHAVIOUR, pinned because it is a judgment rather than an accident.
+def test_a_placed_door_off_the_entrance_face_is_a_leaf_and_not_a_doorcase(elevations, tmp_path):
+    """THE BEHAVIOUR THIS REPLACES was pinned as a judgment: a RHYTHM bay the record called a
+    door drew a window on any face but the entrance front, because which faces carry a door
+    was the elevation's judgment. Since WP-13.3 which faces carry a door is the PLAN's: the
+    Tidewater placement seats three exterior doors on its N face (the passage, the back hall
+    and the kitchen), and each is drawn there as a door -- a leaf -- and NOT dressed as the
+    entrance. Only the rect that carries `entrance` takes the casing and the sidelights; a
+    renderer dressing every door rect would put a Gibbs doorcase on the kitchen door.
 
-    Both renderers already did this before the lift: a bay the record calls a door draws a
-    window on any face but the entrance front. Which faces carry a door is the elevation's
-    judgment and not this function's, so the lift carried the behaviour across rather than
-    correcting it — and a silent correction inside a refactor is the thing this package is
-    about.
-
-    **AND THE CONDITION IS UNREACHABLE FROM THE GENERATOR**, so this test drives it because
-    nothing in the corpus can. `_face_bays` writes `kinds[mid] = "door"` only under
-    `has_entrance`, which is `f == entrance_face`; swept over all sixteen plan records, 44 faces
-    are built with 11 door bays and 0 of them off the entrance front. The branch is kept — it is
-    a fallback, not a check, and deleting it would draw a door on a wall with no entrance
-    composition to dress it — and driven, so that it cannot quietly stop working.
+    Read off the emitted SVG: the N face draws its door leaves (`class="dr"`) and NO casing
+    (`class="cs"`); the entrance front draws exactly one casing, around the one door that
+    carries the composition. (The DXF exporter dresses every door rect with the casing and is
+    outside this slice; the rect says `entrance: None` and that is the one condition it needs.)
     """
-    el = _load("elevation")
+    el, re_ = _load("elevation"), _load("render_elevation")
     elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
-    assert elev["entrance_face"] != "E"
-    elev["faces"]["E"]["kinds"][0] = "door"
-    kinds = {r["kind"] for r in el.opening_rects(elev, "E")["rects"] if r["bay"] == 0}
-    assert kinds == {"window"}, f"a door bay off the entrance face drew {kinds}"
-    ent_kinds = {r["kind"] for r in
-                 el.opening_rects(elev, elev["entrance_face"])["rects"] if r["storey"] == "ground"}
-    assert "door" in ent_kinds, "and the entrance front still draws its door"
+    face = "N"
+    assert elev["entrance_face"] != face
+    doors = [r for r in el.opening_rects(elev, face)["rects"] if r["kind"] == "door"]
+    assert len(doors) >= 2, "the fixture needs a face with placed doors that is not the front"
+    assert all(r["entrance"] is None for r in doors), "a back door carried the entrance composition"
+    assert all(r["record"] is None for r in doors)
+    svg_path = tmp_path / "n.svg"
+    re_.render_elevation(elev, str(svg_path), face=face)
+    svg = svg_path.read_text()
+    assert len(re.findall(r'<rect class="dr', svg)) == len(doors), "a placed door was not drawn as a leaf"
+    assert not re.findall(r'<rect class="cs"', svg), "a back door was dressed as the entrance"
+
+    front = el.opening_rects(elev, elev["entrance_face"])["rects"]
+    ents = [r for r in front if r["kind"] == "door" and r["entrance"]]
+    assert len(ents) == 1, "exactly one door on the front carries the entrance composition"
+    re_.render_elevation(elev, str(svg_path), face=elev["entrance_face"])
+    assert len(re.findall(r'<rect class="cs"', svg_path.read_text())) == 1

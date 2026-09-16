@@ -7,12 +7,16 @@ the other way round. Wenger's chronology is the historical form of the same depe
 houses with advanced or pedimented central bays gained popularity *"only after the central passage
 had achieved status as an important social space"*.
 
-**THE GENERATOR RUNS IT BACKWARDS TODAY AND THIS MODULE DOES NOT FIX THAT BY COMPOSING A FACADE.**
-`elevation._face_bays` builds the front from `facade-classical.json`'s own bay-count formula
-against the face's outside width, with no reference to the bay count the PLAN states; `openings.py`
-then places each room's declared windows on whatever boundary wall the room happened to reach. So
-the front has whatever openings the rooms that reached it declared, at whatever spacing the
-placement gave them.
+**THIS MODULE DOES NOT COMPOSE A FACADE, AND SINCE WP-13.3 NEITHER DOES THE ELEVATION.** The
+header this replaces said the generator ran the ruling backwards -- `elevation._face_bays` composing
+the front from `facade-classical.json`'s bay-count formula with no reference to the plan -- and that
+was stale twice over: WP-11.7 itself handed `_face_bays` the plan's own count, and WP-13.3 made the
+elevation's OPENINGS the plan's placed openings on that wall, at the plan's own positions and widths
+(`elevation.placed_openings`), with the rhythm this module derives kept as a rhythm and drawn as
+nothing. `openings.py` still places each room's declared windows on whatever boundary wall the room
+reached, so the front has whatever openings the rooms that reached it declared; what changed is
+that the elevation now shows that front rather than an evenly divided one, and the prover's type
+facts (the other slice of WP-13.3) are what will make the placement carry the rhythm.
 
 What this module does is the half the ruling actually authorises: it DERIVES the rhythm the plan's
 own bays imply, COMPARES the drawn front against it, and REPORTS the difference. The second half of
@@ -20,6 +24,13 @@ the ruling is why it stops there — *"the ordering of commitments is how findin
 how they are resolved"*. The system stays a constraint system; Glassie is explicit that his own
 rule sets are order-independent (*"It may start at any point, take any route, and yet come to the
 same end"*), and a pipeline cannot backtrack when a dependency will not fit the lot.
+
+**ONE DATUM (WP-13.3).** `rhythm()` states its bay centres in the CLEAR frame, the frame the plan's
+`footprint` and every placed opening are stated in; `elevation._face_bays` takes those centres
+verbatim and shifts them to the face's OUTSIDE datum by the exterior wall thickness (mirrored on N
+and W), and the sheet's bay grid is the module repeated from the clear face. Three bay systems used
+to live on one front -- the grid at 9/18/27, this module at 4.5.., the elevation at 4.684.. on a
+9.369 ft pitch -- and `elevation.faces[face].datum` now says which frame a number is in.
 
 **THE TRAP THE RULING NAMES, AND THE RULE THIS FILE IS WRITTEN AROUND.** *"A derived facade is a
 facade the generator can be WRONG about with confidence. Today the front elevation is an accident

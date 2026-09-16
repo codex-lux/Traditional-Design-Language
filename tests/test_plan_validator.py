@@ -27,7 +27,13 @@ class TestShippedPlans:
     def test_spec_builder_colonial_counts(self, plan_check_module, corpus):
         plan = load_plan("spec-builder-colonial")
         result = plan_check_module.check(plan, corpus)
-        assert result["counts"]["fatal"] == 4
+        # 4 -> 5 on 15 Sep 2026 (WP-13.3, the one-bay-system slice): the elevation draws the
+        # PLAN's placed openings now and `storeys-out-of-vertical-alignment` reads a measured
+        # 174.0 in offset between the upper and lower front windows where it read a constant
+        # 0.0 -- "Windows That Do Not Stand On Each Other: 174.0 against at-most 2.0". The
+        # four named fatals below are unmoved; this is the fifth. Attributed row by row
+        # against a `git archive a9f7f77` checkout, not reasoned.
+        assert result["counts"]["fatal"] == 5
         # 70 -> 66 on 26 Aug 2026 (OQ 52): four serious findings were being adjudicated from
         # measurements build/elevation.py stated as constants and never took -- a dormer count
         # over roof.py's explicit refusal, a chimney's plan dimensions, a raking-cornice member
@@ -96,7 +102,15 @@ class TestShippedPlans:
         # `grouping:contemporary-service-core#2` on this branch against main's generic
         # `grouping-rule-failed`, the same defect under two kinds. **Measure the finished tree,
         # and measure it twice.**
-        assert result["counts"]["serious"] == 56
+        # 56 -> 59 on 15 Sep 2026 (WP-13.3, the one-bay-system slice): +4 -1 by set
+        # difference against a `git archive a9f7f77` checkout. Four fault rows read the plan's
+        # PLACED front openings where they read the rhythm's bays: `one-bay-symmetry-break`
+        # (2 openings with no mirror twin), `closet-on-the-exterior-wall` (2 ground bays with
+        # no upper opening within 2 in), `even-bay-front` (an upper count of 2, serious on this
+        # style), and `blank-wall-to-the-street` RE-STATED -- its glazed ratio was 0.0943 off
+        # ten rhythm sashes and is 0.0365 off the four the plan places -- which is the one row
+        # removed and the fourth added. Minor and info are unmoved.
+        assert result["counts"]["serious"] == 59
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -155,7 +169,10 @@ class TestShippedPlans:
         plan = load_plan("spec-builder-colonial")
         result = plan_check_module.check(plan, corpus)
         fatals = [f["statement"] for f in result["findings"] if f["severity"] == "fatal"]
-        assert len(fatals) == 4
+        # 4 -> 5 at WP-13.3: the fifth is the storey alignment the elevation now MEASURES off
+        # the placed front windows (174.0 in on this plan) where it used to state 0.0
+        assert len(fatals) == 5
+        assert any("Do Not Stand On Each Other" in s for s in fatals)
         assert any("Dining Room" in s and "Powder Room" in s for s in fatals)
         assert any("Garage" in s and "Primary Bedroom" in s for s in fatals)
         assert any("Half-Width Shutter" in s or "half-width" in s.lower() for s in fatals)
@@ -164,7 +181,16 @@ class TestShippedPlans:
     def test_tidewater_georgian_careful_counts(self, plan_check_module, corpus):
         plan = load_plan("tidewater-georgian-careful")
         result = plan_check_module.check(plan, corpus)
-        assert result["counts"].get("fatal", 0) == 0
+        # 0 -> 3 on 15 Sep 2026 (WP-13.3, the one-bay-system slice), and every one is the
+        # front Lucas read: the elevation draws the plan's PLACED openings and three fault
+        # measurements that were constants derived from the rhythm are read off them --
+        # `even-bay-front` (four upper openings, an even count), `one-bay-symmetry-break`
+        # (five of seven ground openings with no mirror twin) and
+        # `storeys-out-of-vertical-alignment` (48.396 in against at-most 2.0). Attributed row
+        # by row against a `git archive a9f7f77` checkout: +3 fatal, +2 serious, nothing
+        # removed, minor and info unmoved. The fatals are the PLACEMENT's, which is the other
+        # slice of WP-13.3; a fatal from any other measurement is still a defect here.
+        assert result["counts"].get("fatal", 0) == 3
         # 39 -> 38 on 24 Aug 2026 (OQ 63): a secondary test written for another style is no
         # longer run against this one. A test that is not for this house says nothing about it.
         # 38 -> 40 (OQ 43): two findings that were held at minor while substitution was
@@ -198,7 +224,12 @@ class TestShippedPlans:
         # never refused. Measured on the merged tree, not carried from either side.
         # 30 -> 29 on 1 Sep 2026 (WP-9.1): the same `wing-pitch-drift` near-miss secondary,
         # declining on this one-slope roof instead of convicting it. See the spec plan's pin.
-        assert result["counts"]["serious"] == 29
+        # 29 -> 31 on 15 Sep 2026 (WP-13.3, the one-bay-system slice): `blank-wall-to-the-
+        # street` reads the glazed area of the sashes the plan PLACES on the front (0.1419
+        # against at-least 0.15, where ten rhythm sashes had glazed it past the floor) and
+        # `closet-on-the-exterior-wall` counts the seven ground openings with no upper opening
+        # within 2 in of them. Both measured, neither a constant any more.
+        assert result["counts"]["serious"] == 31
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the

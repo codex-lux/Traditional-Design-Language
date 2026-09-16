@@ -226,18 +226,87 @@ class TestFaultCorpusIntegration:
     layer should meaningfully raise how many of the corpus's photograph-measurable faults get
     evaluated at all (present or clear, as opposed to could_not_judge)."""
 
-    def test_careful_plan_trips_no_fatal_faults(self, elevation_module):
+    # THE THREE FATALS THE PLACEMENT EARNS, AND THE MEASUREMENTS THAT CONVICT IT (WP-13.3).
+    # Every one reads an opening the plan PLACED: the upper front carries four windows (an
+    # even count), five of the seven ground openings have no mirror twin, and the nearest
+    # upper window stands 48 in from a ground one. Until WP-13.3 all three read constants
+    # derived from the RHYTHM -- "every upper bay stacks over its lower by construction" --
+    # and the plan passed them by never being looked at. The names are pinned so that a
+    # fatal from any OTHER measurement (one this generator invents) still fails this test.
+    PLACEMENT_FATALS = {
+        "even-bay-front": {"upper_floor_opening_count"},
+        "one-bay-symmetry-break": {"count_of_openings_without_a_mirror_twin_about_the_facade_centreline",
+                                   "width_of_the_largest_asymmetric_element_in"},
+        "storeys-out-of-vertical-alignment": {
+            "max_abs_offset_between_upper_and_lower_opening_centrelines_in",
+            "upper_storey_opening_centres_matching_lower", "total_upper_storey_openings",
+            "bay_count_on_the_principal_front"},
+    }
+
+    def test_careful_plan_trips_no_fatal_fault_of_the_generators_own_making(self, elevation_module):
         # This reproduces exactly what build/plan_check.py's own ELEVATION LAYER block does
         # (build the record, fold its measurements dict into core.check_measurements) -- the
         # same assertion the WP-3.2 verification runs made repeatedly while chasing each fatal
         # (window sill, gutter-as-cornice, storey alignment, cornice-that-is-a-fascia, roof
         # pitch rounding, pork-chop-return) to ground one at a time.
+        #
+        # RE-CUT AT WP-13.3, and the reason is the whole of that package: "storey alignment"
+        # in the list above was chased to ground by SUPPLYING it -- a constant 0.0 offset and a
+        # matching count equal to the bay count -- which was true of the rhythm and false of
+        # the house. The elevation's openings are the plan's placed openings now, so the
+        # measurements convict the PLACEMENT of exactly the incoherence Lucas read off the
+        # sheet (the bays are not coordinated between floors), on the heuristic placement of
+        # the declared record. Those fatals are the placement's and are named; what this test
+        # still refuses is a fatal from a measurement this generator makes up.
         import core
         plan = load_plan("tidewater-georgian-careful")
         elev = elevation_module.build_elevation(plan)
         res = core.check_measurements(elev["measurements"], style=plan["style"], limit=1000)
-        fatal = [f for f in res["faults_present"] if f["severity"] == "fatal"]
-        assert fatal == []
+        fatal = {f["fault"]: f for f in res["faults_present"] if f["severity"] == "fatal"}
+        assert set(fatal) == set(self.PLACEMENT_FATALS), (
+            f"fatal faults {sorted(fatal)} against the three the placement earns "
+            f"{sorted(self.PLACEMENT_FATALS)}: a new one is a measurement to read, not a "
+            f"number to pin")
+        for fid, f in fatal.items():
+            names = {r.get("expression") for r in f.get("results") or []}
+            # every expression that convicted reads a placed-opening measurement by name
+            assert all(any(n in e for n in self.PLACEMENT_FATALS[fid]) for e in names), (fid, names)
+        m = elev["measurements"]
+        assert m["upper_floor_opening_count"] % 2 == 0, "the even upper count is what convicts"
+        assert m["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] > 2.0
+        assert m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] > 0
+
+    def test_the_three_fatals_are_the_placements_and_not_constants(self, elevation_module):
+        """The control: hand the front a placement whose upper windows DO stand over the lower
+        ones, mirrored, an odd count -- by driving the face record -- and the three fatals
+        clear. A constant could not do that, which is what separates a measurement from one."""
+        import core
+        plan = load_plan("tidewater-georgian-careful")
+        elev = elevation_module.build_elevation(plan)
+        face = elev["entrance_face"]
+        fa = elev["faces"][face]
+        ground = [p for p in fa["placed"] if p["storey"] == "ground"]
+        assert ground, "the fixture needs ground openings on the front"
+        # an upper window over every ground opening, at the ground opening's own centre
+        upper = []
+        for i, p in enumerate(ground):
+            q = dict(p, kind="window", storey="upper", level_index=1, entrance=False, n=i)
+            upper.append(q)
+        fa["placed"] = ground + upper
+        # rebuild the record's own derived halves exactly as build_elevation does
+        rects = elevation_module.opening_rects(elev, face)["rects"]
+        lo = sorted(r["cx_in"] for r in rects if r["storey"] == "ground")
+        up = sorted(r["cx_in"] for r in rects if r["storey"] == "upper")
+        assert len(up) == len(lo) > 0
+        elev["front"]["alignment"] = elevation_module.storey_alignment(
+            lo, up, elevation_module.ALIGNMENT_TOL_IN)
+        m = elevation_module._derive_measurements(elev)
+        assert m["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] == 0.0
+        assert m["upper_storey_opening_centres_matching_lower"] == len(up)
+        assert m["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] == 0
+        res = core.check_measurements(m, style=plan["style"], limit=1000)
+        fatal = {f["fault"] for f in res["faults_present"] if f["severity"] == "fatal"}
+        assert "storeys-out-of-vertical-alignment" not in fatal, fatal
 
     def test_elevation_layer_measurements_are_folded_into_plan_checks_own_meas_dict(self, elevation_module):
         """Regression test for the KeyError bug: front (=elev['front']) IS the bay-layout dict

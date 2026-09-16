@@ -287,6 +287,13 @@ def test_the_openings_are_drawn_on_every_face(scenes):
     It did. What replaces it asserts the other side of the same rule: every face carries
     openings now, and NOTHING still says they are missing.
     """
+    # RE-CUT AT WP-13.3: the openings are the PLAN's placed openings on each face, so a face
+    # the plan places nothing on draws nothing -- the spec Colonial's E wall carries no placed
+    # window -- and that is the record, not a wall declared unmodelled. What is asserted is
+    # that every face the plan places an opening on draws one, that the frames on a face are
+    # exactly the elevation's own rectangles for it, and that the shipped corpus still
+    # exercises the branch (both plans place openings on at least three faces).
+    EL = _load("elevation")
     for name, (scene, _s) in scenes.items():
         assert not any(n.get("class") == "opening" and "every face" in n.get("what", "")
                        for n in scene["not_modelled"]), (
@@ -295,8 +302,17 @@ def test_the_openings_are_drawn_on_every_face(scenes):
         for solid in scene["solids"]:
             if solid["class"] == "opening-frame":
                 by_face[solid["face"]] = by_face.get(solid["face"], 0) + 1
-        assert set(by_face) == {"S", "N", "E", "W"}, f"{name}: openings on {sorted(by_face)}"
-        assert all(n > 0 for n in by_face.values()), f"{name}: {by_face}"
+        # the elevation the scene was built from, rebuilt the way `_build_from_plan` builds it
+        # (heuristic, one placement for the section, the roof and the elevation)
+        geo, st, rf = _load("geometry"), _load("structure"), _load("roof")
+        plan = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+        geo._SOLVE_CACHE.clear()
+        res = geo.solve(plan, None, engine="heuristic")
+        sec = st.build_section(res, None, geometry_result=res)
+        ev = EL.build_elevation(res, None, section=sec, roof=rf.build_roof(res, None, section=sec))
+        want = {f: len(EL.opening_rects(ev, f)["rects"]) for f in "SNEW"}
+        assert by_face == {f: n for f, n in want.items() if n}, f"{name}: {by_face} against {want}"
+        assert len(by_face) >= 3, f"{name}: the fixture draws openings on {sorted(by_face)} only"
 
 
 def test_an_opening_is_extruded_into_its_own_wall_and_not_out_of_it(scenes):
