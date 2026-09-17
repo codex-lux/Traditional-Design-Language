@@ -64,3 +64,72 @@ composition of three correct decisions.
   function.
 - **Do not read this as WP-13.3 being wrong.** Its measurements are the honest ones; reverting
   them would restore the set by putting two fatal faults back on invented constants.
+
+---
+
+## Amendment, 17 September 2026 — the mechanism, measured commit by commit
+
+The entry above records WHAT the returned set became and not WHY. The why is `_sort_key`'s
+PRIMARY key, which is the fatal COUNT, against a fatal count that Phase 13 raised on exactly the
+diagrams the brief is about. Measured on `briefs/family-georgian.json` with `revise=False`, four
+`git archive` checkouts and this tree, `engine` left at its default:
+
+| tree | `centre-passage-double-pile` | returned leader | in the set? |
+|---|---|---|---|
+| `840c7f1` before Phase 13 | fit 7.0, **fatal 0**, score 71.9 | `centre-passage-double-pile` | yes, 1st |
+| `49e2389` WP-13.2 complete | fit 7.0, **fatal 0**, score 71.9 | `centre-passage-double-pile` | yes, 1st |
+| `ad7f631` WP-13.3 complete | fit 7.0, **fatal 2**, score 70.4 | `side-hall-townhouse` | yes, 2nd |
+| `c39f3f8` before the container | fit 7.0, **fatal 2**, score 70.4 | `side-hall-townhouse` | yes, 2nd |
+| `1392439` the container | fit 7.0, **fatal 4**, score 69.7 | `side-hall-townhouse` | **no** |
+| this tree | fit 7.0, **fatal 4**, score 69.7 | `side-hall-townhouse` | **no** |
+
+**The composer still computes the right answer and no longer returns it.** On this tree
+`centre-passage-double-pile` scores **69.7** against the returned leader's **56.5**, and all three
+of the fit-7.0 diagrams are absent while every returned one carries fatal ≤ 2. The returned four
+are exactly the four lowest fatal counts (1, 2, 2, 2). `_sort_key` is doing precisely what its own
+comment says — *"a plan carrying a fatal never displaces a clean one from the returned set, however
+native its diagram"* — and the comment was written when a fatal was rare.
+
+**So the product for a Tidewater Georgian brief is a TOWN HOUSE, which is the answer WP-4.5 raised
+`NATIVITY_W` from 6 to 20 to stop the composer giving.** `tests/test_composer.py`'s own docstring
+names that outcome as the retired one, in as many words.
+
+## And two of the four fatals are instruments this corpus has already convicted
+
+Named rather than counted, on `1392439`:
+
+    FATAL [fault] The Front With No Centre: 1 against between 3 and 7.
+    FATAL [fault] The Bay That Broke the Symmetry: 4 against at-most 0.
+    FATAL [fault] Windows That Do Not Stand On Each Other: 26.604 against at-most 2.0.
+    FATAL [fault] The Truss Default: 0.4066 against at-least 0.45.
+
+- **The Bay That Broke the Symmetry (2 → 4 across the container)** is
+  `oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front` — a wing's south windows
+  measured against the main block's rhythm and convicted of standing between its bays. **That
+  question was raised BY WP-13.5**, the package whose edit moved this count, and it was raised as a
+  reporting defect on the shipped plan; nobody measured that the same blindness was also adding two
+  FATALS to the composed candidate and pushing it out of the returned set.
+- **The Truss Default at 0.4066 against 0.45** is the figure `CLAUDE.md` already records under
+  `oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced` — *"a main block of 45 x 28.89 ft
+  convicted at 0.4066"*. Narrowing the block is what the container does.
+- **The Front With No Centre** is `even-bay-front`'s 3-to-7 band reading ONE placed upper opening.
+  `oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts` records that band
+  convicting a side-hall front; this instance is a CENTRED front, so that question's framing does
+  not cover it and the band is reading a measurement, not a type.
+
+**This is the OQ 52 family deciding the composer's product.** A defect reported where none exists
+has always been a reporting problem in this corpus; here it is choosing which house a person is
+offered. That does not make the sort wrong — it makes its input wrong — and it means question 2
+above ("where does `must_have` sit against the fatal count?") is now the second of two questions,
+the first being **whether a fatal from an instrument with an open question against it may
+disqualify at all**.
+
+## What the controls could not see, which is the reusable half
+
+WP-13.5 controlled its edit on the sixteen shipped plans (15 of 16 byte-identical) and on
+`check_partis.py` (byte-identical output). **Neither reads the composed candidate's fatal count**,
+and the three `tests/test_composer.py` rows that would have said so were ALREADY RED from WP-13.3 —
+so their redness absorbed a second, different regression in silence. `CLAUDE.md`'s own *a red build
+nobody can act on is worse than no build* met one layer in: **a test already red for cause A cannot
+report cause B**, and a package that attributes its reds to the previous package by name is exactly
+the reader who will not notice.

@@ -63,3 +63,24 @@ That is one of the three answers to question 1 and is being presented here as a 
 precisely because the corpus states the opposite in `dependency-and-hyphen`'s own prose. And do
 not read the heuristic's 4 as the size of the problem: it is one engine's placement of one plan,
 and the population it is drawn from is every window a wing puts on the entrance front.
+
+---
+
+## Amendment, 17 September 2026 — it is not only a reporting defect; it decides the composer's product
+
+This question was raised against the shipped plan, where the four convictions are findings a
+reader sees on a sheet. Measured since, on `briefs/family-georgian.json` with `revise=False`: the
+same blindness convicts the COMPOSED `centre-passage-double-pile` candidate, and there the
+findings are FATAL — *"The Bay That Broke the Symmetry: 4 against at-most 0"*, against **2** on a
+`git archive` of `c39f3f8`, the commit before the container.
+
+`compose._sort_key`'s primary key is the fatal count, so those two extra fatals are two thirds of
+what took the brief's own native diagram from second place to **out of the returned set entirely**
+(fit 7.0, score 69.7, against a returned leader at fit 3.6 and score 56.5). The full series and
+the other three fatals are in
+`oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room`'s own amendment.
+
+**So this question's priority is not a reader's convenience.** Until `axis.front_openings` takes
+an element filter, a house with a service wing cannot be offered by the composer for a brief whose
+style is the wing's own — and the reason never reaches any surface, because the finding says the
+window is off the bay rather than that the instrument measured the wrong building.
