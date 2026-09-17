@@ -281,9 +281,36 @@ class TestTheTranscriptionsAreHeldToTheirOneSpelling:
         The premise is asserted, because a test that compares two readers on a corpus of
         one-rectangle houses is not testing the thing that broke: at least one plan must state a
         container.
+
+        **AND THE TWO READERS PART ON A RESERVED VOID'S WALL, WHICH THE MERGE OF PHASE 13 INTO
+        THE SECOND PHASE 11 LINE MADE REACHABLE FOR THE FIRST TIME (17 Sep 2026).** The leaf's
+        own first line says it leaves reserved voids out, as the gate leaves them out;
+        `build_section` does not, because a piazza's party wall is a real wall. For as long as
+        no void's wall happened to fall ON the bay module the two lists were identical anyway.
+        Attributed against `git archive` checkouts of both parents: main places
+        `good-03-parlor-drawing-room-house`'s piazza at x 30.0 -- exactly a 10 ft bay line --
+        this branch placed it at x 41.74, off the grid, and the merge takes main's placement
+        (WP-11.17's entrance anchor re-places six plans, `good-03` among them). Neither reader
+        changed; the house moved under them. **Corpus-wide the divergence is ONE line on ONE
+        plan, swept** -- section-only 1, leaf-only 0 -- and that one line is the piazza's.
+
+        So the comparison stays STRICT and the one place the two rules genuinely differ is a
+        NAMED exception rather than a filter. **A filter was written first and it was the wrong
+        rule**: it dropped every section line standing on a void's own edge, and on
+        `good-01-veranda-gallery-estate` the leaf KEEPS two of those (x 50.0 and y 30.0),
+        because the veranda's east edge and the south porch's north edge are also where two
+        heated rooms meet. The leaf leaves the void ROOM out of its population; it does not
+        leave out every coordinate a void touches. A filter written from the first reading
+        would have hidden a real disagreement on those two the day one appeared.
         """
+        # THE ONE DIVERGENCE, BY NAME, WITH ITS CAUSE. A count would let a second one hide
+        # behind a first that had been fixed (CLAUDE.md, WP-13.1's ratchet-by-name rule).
+        VOID_KNOWN = {
+            ("good-03-parlor-drawing-room-house.json", 0): [("x", 30.0)],
+        }
         compared = 0
         multi = 0
+        seen_divergence = {}
         for path in PLANS:
             out = _solved(path)
             if "error" in out:
@@ -301,13 +328,30 @@ class TestTheTranscriptionsAreHeldToTheirOneSpelling:
                                  for w in (slv.get("walls") or [])
                                  if w.get("role") == "interior" and w.get("bearing")})
                 idx = slv.get("index", i)
-                assert mine.get(idx, []) == theirs, (
-                    os.path.basename(path), idx, mine.get(idx), theirs)
+                key = (os.path.basename(path), idx)
+                m = mine.get(idx, [])
+                if m != theirs:
+                    extra = [t for t in theirs if t not in m]
+                    missing = [t for t in m if t not in theirs]
+                    assert not missing, (
+                        "the LEAF carries an interior bearing line the section does not, which "
+                        "is a defect in the leaf rather than a difference of population: "
+                        f"{key} leaf-only {missing}")
+                    seen_divergence[key] = extra
+                    assert extra == VOID_KNOWN.get(key), (key, extra, VOID_KNOWN.get(key))
                 compared += 1
         assert compared >= 20, compared
         assert multi >= 1, (
             "no shipped plan states more than one massing element, so this comparison runs only "
             "where the defect it was re-cut for cannot occur")
+        assert seen_divergence == VOID_KNOWN, (
+            "the set of interior bearing lines the section carries and the leaf leaves out has "
+            f"moved: {seen_divergence} against {VOID_KNOWN}. It is ONE -- the piazza's west "
+            "wall on good-03 at x 30.0, first reachable at the 17 Sep merge because main's "
+            "WP-11.17 entrance anchor put that piazza on a bay line where this branch had it "
+            "off one. Re-derive per plan and say which placement moved before touching this; "
+            "and if the two rules should be ONE rule, that is a ruling about whether an "
+            "unheated roofed room's party wall carries a joist, not a test to re-pin.")
 
 
 class TestStacksReadTheTally:

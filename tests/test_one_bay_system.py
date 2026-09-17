@@ -179,11 +179,19 @@ class TestTheOpeningsAreThePlans:
                     key = (p["room"], p["storey"], p["along_ft"])
                     assert key in drawn or (p["room"], p["storey"]) in stack_refused, (pid, f, key)
                 assert len(got["rects"]) <= len(placed), (pid, f, "a rect with no placed opening")
-            # and the rhythm is NOT drawn: the Tidewater upper front has four placed windows
-            # against a seven-bay rhythm
+            # AND THE RHYTHM IS NOT DRAWN, which is the whole subject: the Tidewater upper front
+            # places FIVE windows against a seven-bay rhythm. It was four until the 17 Sep merge
+            # of Phase 13 into the second Phase 11 line -- main's WP-11.17 entrance front and
+            # WP-11.18 partition share re-place this ground floor and the upper with it, and
+            # `primary` gains a sash. The INEQUALITY is what the test is about and the figure is
+            # asserted beside it so a rhythm that started being drawn fails here either way.
         elev = built["tidewater-georgian-careful"][3]
         up = [r for r in EL.opening_rects(elev, "S")["rects"] if r["storey"] == "upper"]
-        assert len(up) == 4 and elev["faces"]["S"]["count"] == 7
+        assert elev["faces"]["S"]["count"] == 7
+        assert len(up) < elev["faces"]["S"]["count"], "the upper front is drawn from the rhythm"
+        assert len(up) == 5, (
+            "four before the 17 Sep merge; re-derive per plan and name the placement that "
+            "moved rather than re-pinning")
 
     def test_an_empty_bay_is_stated_empty_and_not_filled_from_the_rhythm(self, built):
         """The ruling's trap: *"the window that gets invented to complete a rhythm is this
@@ -260,42 +268,99 @@ class TestTheOpeningsAreThePlans:
     def test_the_entrance_is_the_widest_door_and_agrees_with_axis_door_bay(self, built):
         """`axis.door_bay`'s rule -- the widest door on the front is the front door -- restated
         in `placed_openings` because that function returns no door on an even bay count and
-        the elevation still has to dress one. Held to it wherever both answer."""
+        the elevation still has to dress one. Held to it wherever both answer.
+
+        **AND ON ONE READING THEY DISAGREE, BECAUSE THE RULE IS APPLIED TO A NUMBER THE RECORD
+        NEED NOT STATE (found at the 17 Sep merge).** `plans/tidewater-georgian-careful.json`
+        writes the porch's front door as `{"to": "exterior"}` with no `width_ft`.
+        `openings.place` supplies 3.5 ft (`openings.py:494`'s `or 3.5`) and the elevation ranks
+        on that; `axis.front_openings` copies `d.get("width_ft")` off the record and
+        `door_bay`'s `max(..., key=width or 0)` therefore scores that door **ZERO**. On the
+        one-element reading of that record the front carries two doors -- the porch's at 31.5 ft
+        (3.5 ft supplied, the CENTRE bay of seven) and the kitchen's at 6.78 (3.0 ft stated,
+        bay 0) -- so the elevation dresses the porch and `door_bay` returns
+        `off-the-centre-bay` naming the KITCHEN. `plan_check` emits
+        `drawn-door-off-the-centre-bay` off `door_bay`, so the corpus convicts a placement whose
+        widest front door stands dead on the centre line: the OQ 52 family.
+
+        **IT WAS INERT UNTIL THE MERGE AND IS STILL RIGHT ON EVERY SHIPPED RECORD, BOTH
+        MEASURED.** Swept over the sixteen shipped plans, exactly ONE places more than one door
+        on the main block's front -- the tagged Tidewater record -- and there the door with a
+        stated width is the real entrance, so the answer is correct by luck rather than by rule.
+        Before the merge the one-element front carried ONE door, and `max` over one element
+        cannot be wrong. **Not fixed here**: what a door record stating no width means to a rule
+        that ranks widths is a question with a checker's verdict behind it, and spending that
+        inside a merge resolution is how a merge stops being one thing --
+        `oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state`. The disagreement is
+        asserted by NAME so it cannot go quiet, and so a SECOND one fails here."""
+        # (plan id, the elevation's entrance room, door_bay's room) -- the known divergence.
+        KNOWN = {("tidewater-georgian-careful", "porch", "kitchen")}
+        seen = set()
         for pid, (res, section, roof, elev) in built.items():
             face = elev["entrance_face"]
             ents = [p for p in elev["faces"][face]["placed"] if p.get("entrance")]
             assert len(ents) == 1, pid
-            db = AX.door_bay(res)
-            if db.get("room"):
-                assert ents[0]["room"] == db["room"] and ents[0]["along_ft"] == pytest.approx(db["position_ft"]), pid
             rects = [r for r in EL.opening_rects(elev, face)["rects"] if r["entrance"]]
             assert len(rects) == 1 and rects[0]["room"] == ents[0]["room"]
+            db = AX.door_bay(res)
+            if not db.get("room"):
+                continue
+            if db["room"] == ents[0]["room"]:
+                assert ents[0]["along_ft"] == pytest.approx(db["position_ft"]), pid
+                continue
+            seen.add((pid, ents[0]["room"], db["room"]))
+            # The cause is asserted, not assumed: some door on this front must state no width.
+            doors = [o for o in AX.front_openings(res, 0)["openings"] if o["kind"] == "door"]
+            assert len(doors) > 1 and any(o.get("width_ft") is None for o in doors), (
+                f"{pid}: the two readers disagree about the entrance and it is NOT the "
+                f"unstated-width cause this test knows about: {doors}")
+        assert seen == KNOWN, (
+            f"the set of plans where the elevation's entrance and `axis.door_bay` disagree has "
+            f"moved: {seen} against {KNOWN}. Re-derive both readers' door widths before "
+            f"touching this -- and if the two should be ONE reader, that is "
+            f"`oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state`, not a pin.")
 
     def test_with_two_front_doors_the_wider_is_the_entrance_whichever_comes_first(self, built, monkeypatch):
-        """Driven, because the heuristic seats ONE exterior door on the Tidewater front and a
-        first-door rule and a widest-door rule agree on one door. The prover seats two
-        (measured 15 Sep 2026: 36 in at 7.79 ft and 42 in at 57.79 ft), so the rule matters
-        on the sheet the bench draws; here a narrower door is added WEST of the real one and
-        the entrance must stay on the wider."""
+        """Driven, because a first-door rule and a widest-door rule agree wherever the corpus
+        seats only one. The prover seats two on this front (measured 15 Sep 2026: 36 in at
+        7.79 ft and 42 in at 57.79 ft), so the rule matters on the sheet the bench draws; here
+        a NARROWER door is added west of the widest real one and the entrance must stay on the
+        wider.
+
+        **THE REAL DOOR COUNT IS READ RATHER THAN ASSUMED, AND IT WAS ONE UNTIL THE 17 SEP
+        MERGE.** The one-element front now carries two of its own (kitchen 3.0 ft at 6.78,
+        porch 3.5 at 31.5), so `len(doors) == 2` was a statement about the placement rather
+        than about the rule -- WP-11.17's own lesson, a guard that named what the placer
+        happened to produce. The driven door is now placed relative to the WIDEST real door and
+        the assertion is that it comes FIRST and is not the entrance, whatever else is there."""
         res, elev = _fresh(built, "tidewater-georgian-careful")
         section = elev["section"]
         real = RP.openings_of_level
         face = elev["entrance_face"]
+        before = [p for p in elev["faces"][face]["placed"] if p["kind"] == "door"]
+        assert before, "the fixture seats no front door at all, so nothing is driven"
+        widest = max(before, key=lambda p: p.get("width_ft") or 0)
 
         def two_doors(plan, lv, i=None):
             op = real(plan, lv, i)
             front = [d for d in op["exterior"] if d["wall"] == face]
-            if front:
-                d = dict(front[0], room="drivenroom", at_ft=front[0]["at_ft"] - 20.0,
-                         width_ft=front[0]["width_ft"] - 0.5)
+            wide = max(front, key=lambda d: d["width_ft"]) if front else None
+            if wide is not None:
+                d = dict(wide, room="drivenroom", at_ft=min(x["at_ft"] for x in front) - 4.0,
+                         width_ft=wide["width_ft"] - 0.5)
                 op["exterior"].insert(0, d)
             return op
         monkeypatch.setattr(RP, "openings_of_level", two_doors)
         po = EL.placed_openings(section["geometry"], section, face, elev["faces"])
         doors = [p for p in po["faces"][face]["placed"] if p["kind"] == "door"]
-        assert len(doors) == 2 and doors[0]["room"] == "drivenroom", "the narrower door must come first"
+        assert len(doors) == len(before) + 1, (
+            f"the drive did not land: {len(before)} real door(s) before, {len(doors)} after")
+        assert doors[0]["room"] == "drivenroom", "the narrower door must come first"
         ents = [p for p in doors if p["entrance"]]
-        assert len(ents) == 1 and ents[0]["room"] != "drivenroom", "the entrance is the wider door, not the first"
+        assert len(ents) == 1 and ents[0]["room"] != "drivenroom", (
+            "the entrance is the widest door, not the first")
+        assert ents[0]["room"] == widest["room"], (
+            "the entrance moved off the widest real door when a narrower one was added")
 
     def test_the_alignment_tolerance_is_read_from_the_fault_and_moves_with_it(self, tmp_path):
         """A transcribed 2.0 would agree with the record today and stop agreeing the day the
@@ -336,9 +401,18 @@ class TestTheOpeningsAreThePlans:
         assert elev["section"]["geometry"] is res, "the section was built on some other record"
 
     def test_a_secondary_door_carries_no_entrance_and_the_scene_agreement_holds(self, built):
+        """A door on a face that is not the entrance front carries no `entrance` block, so no
+        surface dresses a back door as a doorcase. The COUNT moved 3 -> 1 at the 17 Sep merge
+        (main's WP-11.17 re-places this ground floor and the back hall keeps the only N door);
+        what the test is about is the population being non-empty and every member unentranced,
+        so the premise is asserted and the figure named beside it."""
         res, section, roof, elev = built["tidewater-georgian-careful"]
+        assert elev["entrance_face"] != "N", "N is the entrance front; this test has no subject"
         n = [r for r in EL.opening_rects(elev, "N")["rects"] if r["kind"] == "door"]
-        assert len(n) == 3 and all(r["entrance"] is None for r in n)
+        assert n, "no door is drawn on the N face, so nothing is checked"
+        assert all(r["entrance"] is None for r in n), [r["room"] for r in n if r["entrance"]]
+        assert len(n) == 1, (
+            "three before the 17 Sep merge; re-derive and name the placement that moved")
 
 
 # ------------------------------------------------------------------ the measurements
@@ -356,15 +430,25 @@ class TestTheMeasurementsStoppedBeingConstants:
         # recomputed independently of `storey_alignment`
         want_max = max(min(abs(u - l) for l in lo) for u in up)
         assert al["max_abs_offset_in"] == pytest.approx(want_max, abs=1e-3)
-        assert al["max_abs_offset_in"] == pytest.approx(48.396, abs=1e-3), "the figure Lucas read: not 0.0"
-        assert al["matching"] == sum(1 for u in up if min(abs(u - l) for l in lo) <= 2.0) == 0
+        # THE FIGURE LUCAS READ WAS 48.396 IN AND IT IS 32.316 AFTER THE 17 SEP MERGE. It is
+        # re-derived above from the drawn rects and only then held to a number, so the pin is a
+        # record of the tree rather than the measurement itself; main's WP-11.17 entrance front
+        # and WP-11.18 partition share re-place this front and one more upper sash is seated,
+        # which gives the worst upper window a nearer neighbour below. THE POINT OF THE
+        # ASSERTION IS THAT IT IS NOT 0.0 -- `elevation.py:1286` used to state the offset as a
+        # constant zero -- so the inequality is asserted first and the figure second.
+        assert al["max_abs_offset_in"] > EL.ALIGNMENT_TOL_IN, (
+            "the storeys are back in alignment; that is the constant returning, not a fix")
+        assert al["max_abs_offset_in"] == pytest.approx(32.316, abs=1e-3), (
+            "48.396 before the 17 Sep merge; re-derive, do not re-pin")
+        assert al["matching"] == sum(1 for u in up if min(abs(u - l) for l in lo) <= 2.0) == 1
         assert al["missing_or_off"] == sum(1 for l in lo if not any(abs(u - l) <= 2.0 for u in up)) == 7
         m = elev["measurements"]
         assert m["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] == al["max_abs_offset_in"]
-        assert m["upper_storey_opening_centres_matching_lower"] == 0
+        assert m["upper_storey_opening_centres_matching_lower"] == 1
         assert m["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] == 7
-        assert m["upper_floor_opening_count"] == m["total_upper_storey_openings"] == 4
-        assert m["openings_on_the_front_elevation"] == 11
+        assert m["upper_floor_opening_count"] == m["total_upper_storey_openings"] == 5
+        assert m["openings_on_the_front_elevation"] == 13
 
     def test_the_front_counts_are_the_drawn_openings_not_the_bays(self, built):
         for pid, (res, section, roof, elev) in built.items():
@@ -454,7 +538,12 @@ class TestTheDormersAndThePlate:
         face = elev["entrance_face"]
         ups = sorted(p["u_ft"] for p in elev["faces"][face]["placed"]
                      if p["kind"] == "window" and p["storey"] == "upper")
-        assert len(ups) == 4, "the premise: four placed upper windows on the front"
+        # THE PREMISE IS THAT THERE ARE FEWER UPPER WINDOWS THAN THE RECORD'S LARGER DORMER
+        # COUNT, so the shortfall branch below has something to be short of. Four before the
+        # 17 Sep merge and five after it; the figure is named and the RELATION is what the
+        # two drives depend on.
+        assert len(ups) == 5, (
+            "four before the 17 Sep merge; re-derive and name the placement that moved")
         plan = copy.deepcopy(res)
         plan.setdefault("declared", {})["dormer"] = {"count": 2, "face": face}
         section = ST.build_section(plan, None, geometry_result=plan)
@@ -467,7 +556,10 @@ class TestTheDormersAndThePlate:
         plan["declared"]["dormer"] = {"count": 6, "face": face}
         e3 = EL.build_elevation(plan, None, section=ST.build_section(plan, None, geometry_result=plan))
         d3 = e3["dormers"]
-        assert len(d3["positions_ft"]) == 4 and "2 without a window below" in d3["positions_short_why"], d3["positions_short_why"]
+        assert len(d3["positions_ft"]) == len(ups), (
+            "a dormer was invented over no window, which is the whole refusal")
+        assert f"{6 - len(ups)} without a window below" in d3["positions_short_why"], (
+            d3["positions_short_why"])
 
     def test_the_plate_names_what_is_not_drawn(self, built, tmp_path):
         res, section, roof, elev = built["tidewater-georgian-careful"]

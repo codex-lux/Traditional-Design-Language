@@ -255,16 +255,30 @@ def test_the_dxf_draws_one_doorcase_per_face_with_an_entrance(tmp_path):
     hall and the kitchen doored the rear. WP-13.5 moved both into the west dependency, and the
     elevation draws the MAIN BLOCK, so that face now places no door at all and the guard failed
     on its own premise — a selector gone stale, this repository's most-repeated test defect, in
-    the loud direction rather than the quiet one. Measured on the shipped record: S 1 door
-    (the entrance), N 0, E 1, W 0, against S 1 / N 3 / E 0 / W 0 on the one-rectangle reading.
+    the loud direction rather than the quiet one.
 
     So the face is chosen by the property the test is about, and the premise — that some
     non-entrance face places a door — is asserted, so the day no face does the suite says so
     instead of quietly testing one branch.
-    """
+
+    **AND THE PREMISE THEN RAN OUT ANYWAY, ON THE SHIPPED READING, AT THE 17 SEP MERGE.**
+    Re-measured on the merged tree: the SHIPPED record places doors on S only (two of them, the
+    passage's entrance and the porch's), so `plain` came back empty and the guard failed loudly
+    a second time — the docstring's own *"S 1 door, N 0, E 1, W 0"* was itself a figure about a
+    tree that no longer exists, and E draws nothing at all now. The ONE-ELEMENT reading of the
+    same record still places a door on N (the back hall's, at 16.83 ft), so this takes that
+    reading, with `tests/test_one_bay_system.py`'s stated reason: the elevation is of the MAIN
+    BLOCK, and what is under test here is the EXPORTER's casing rule rather than which rooms
+    the container puts in a wing. Both halves stay real — the entrance face carries two doors
+    and must still draw exactly ONE casing, which is a stronger check than the single-door
+    front it had before."""
     ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
     G, EX, EL, ST = _b("geometry"), _b("export_dxf"), _b("elevation"), _b("structure")
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            r.pop("block", None)
+            r.pop("hyphen", None)
     G._SOLVE_CACHE.clear()
     placed = G.solve(plan, engine="heuristic")
     section = ST.build_section(placed, geometry_result=placed)

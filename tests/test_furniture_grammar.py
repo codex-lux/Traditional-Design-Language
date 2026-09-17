@@ -554,7 +554,7 @@ def test_the_rule_says_what_the_code_does_about_the_wall_pack():
     census = _rule_census()
     placed = sum(v[0] for v in census.values())
     refused = sum(v[1] for v in census.values())
-    assert f"{placed} placed, {refused} refused on the merged tree" in rule["note"], (
+    assert f"{placed} placed, {refused} refused after the 17 Sep merge" in rule["note"], (
         f"scope A measures {placed} placed / {refused} refused on this tree and the rule's note "
         f"does not say so. Re-derive (it is one solve of the sixteen plans on the deterministic "
         f"engine) and correct furniture/grammar.json, docs/reports/"

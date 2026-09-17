@@ -184,16 +184,31 @@ def test_the_porch_is_inside_the_footprint_so_there_is_no_deck_and_no_porch_roof
 
 
 def test_the_flights_treads_reconcile_and_the_top_riser_lands_on_the_platform(both):
+    """THE RISERS ARE COUNTED PER FLIGHT, BECAUSE THE RECORD PLACES TWO. It placed one until the
+    17 Sep merge -- main's WP-11.17 entrance front seats a second exterior door on this front,
+    at the passage, and `threshold` gives it its own stoop -- so a count over EVERY `deck` solid
+    read 4 against one flight's 3 stated risers. A total over two flights is the shape that lets
+    one grow while another shrinks; each flight is checked against its own record and the sum is
+    asserted afterwards."""
     scene, sol, _sec, _ev = both["tidewater-georgian-careful"]
     steps = (sol.get("threshold") or {}).get("steps") or []
     assert steps, "the Tidewater record places no stoop, so this test is about nothing"
-    st = steps[0]
-    rc, td = st["riser_count"], st["tread_depth_in"]
-    assert abs((rc - 1) * td / 12.0 - st["flight"]["depth_ft"]) < 0.01, (
-        f"{rc - 1} treads of {td} in against a flight {st['flight']['depth_ft']} ft deep -- the "
-        "top riser no longer lands on the platform")
     risers = [s for s in _cls(scene, "deck") if s["id"].startswith("stoop-")]
-    assert len(risers) == rc - 1, f"{len(risers)} risers drawn against {rc} stated"
+    total = 0
+    for i, st in enumerate(steps):
+        rc, td = st["riser_count"], st["tread_depth_in"]
+        assert abs((rc - 1) * td / 12.0 - st["flight"]["depth_ft"]) < 0.01, (
+            f"{rc - 1} treads of {td} in against a flight {st['flight']['depth_ft']} ft deep -- "
+            f"the top riser of steps[{i}] no longer lands on the platform")
+        mine = [s for s in risers if s["id"].startswith(f'stoop-{st["room"]}-{i}-')]
+        assert len(mine) == rc - 1, (
+            f"steps[{i}] ({st['room']}): {len(mine)} risers drawn against {rc} stated")
+        total += rc - 1
+    assert len(risers) == total, (
+        f"{len(risers)} riser solids drawn against {total} the flights account for -- a riser "
+        f"belongs to no flight, or one flight's ids do not carry its own room and index")
+    assert len(steps) == 2, (
+        "one stoop before the 17 Sep merge; re-derive and name the placement that moved")
 
 
 def test_the_flight_does_not_reach_the_floor_and_the_shortfall_is_reported(both):
@@ -202,14 +217,21 @@ def test_the_flight_does_not_reach_the_floor_and_the_shortfall_is_reported(both)
     sill was the first -- and a fourth riser invented to close it would be a measurement nobody
     wrote down."""
     scene, sol, sec, _ev = both["tidewater-georgian-careful"]
-    st = ((sol.get("threshold") or {}).get("steps") or [])[0]
+    steps = (sol.get("threshold") or {}).get("steps") or []
     g0 = next(s for s in sec["storeys"] if s["index"] == 0)
-    rise = st["riser_count"] * st["riser_height_in"] / 12.0
-    assert abs(rise - g0["grade_to_floor_ft"]) > 0.01, (
-        "the flight reaches its floor now, so this refusal is about nothing -- re-derive it")
     r = [n for n in scene["not_modelled"]
          if n["source"].endswith("riser_count") and "does not reach the floor" in n["why"]]
-    assert len(r) == 1, f"{len(r)} shortfall refusals"
+    # ONE REFUSAL PER SHORT FLIGHT, DERIVED. The record places two stoops since the 17 Sep
+    # merge and both are short by the same 3.4 in, so a pinned `== 1` read two and said
+    # nothing about which flight was missing its disclosure.
+    short = [i for i, st in enumerate(steps)
+             if abs(st["riser_count"] * st["riser_height_in"] / 12.0
+                    - g0["grade_to_floor_ft"]) > 0.01]
+    assert short, (
+        "every flight reaches its floor now, so this refusal is about nothing -- re-derive it")
+    assert {n["source"] for n in r} == {f"plan.threshold.steps[{i}].riser_count" for i in short}, (
+        f"{len(r)} shortfall refusals against {len(short)} short flight(s): "
+        f"{sorted(n['source'] for n in r)} against {short}")
 
 
 # ------------------------------------------------------------------ the two doors
@@ -259,18 +281,25 @@ def test_the_two_records_of_the_front_door_agree_and_the_scene_files_nothing(bot
         assert not said, f"{pid}: a disclosure about a disagreement that no longer exists: {said[0]['why'][:160]}"
 
 
-def test_the_checker_and_the_plate_now_agree_about_the_off_centre_door(both):
-    """The sharpest half, resolved: `plan_check` emits `drawn-door-off-the-centre-bay` against
-    the PLACED door, and the elevation plate now draws that door in the bay the finding names
-    rather than in the middle bay. The plate is evidence FOR the finding beside it."""
+def test_the_checker_and_the_plate_agree_about_WHICH_BAY_the_front_door_is_in(both):
+    """The sharpest half, resolved: `plan_check` reads the PLACED door and the elevation plate
+    draws that same door, so the plate is evidence FOR whatever the finding beside it says.
+
+    **THE CONVICTION ITSELF STOPPED HAPPENING AT THE 17 SEP MERGE, AND THAT IS WHY THIS TEST'S
+    NAME AND SUBJECT MOVED.** It asserted `len(off) == 1` -- one
+    `drawn-door-off-the-centre-bay` finding -- and main's WP-11.17 entrance front puts this
+    record's placed front door in the CENTRE bay (`axis.door_bay` reads `in-the-centre-bay`,
+    bay 2 of 5, room `passage`), so the checker correctly convicts nothing and the pin read a
+    fix as a regression. A guard whose premise is that a house is defective goes quiet the day
+    the house is repaired, which is the wrong way round.
+
+    So the subject is the AGREEMENT, which holds in both states: the bay the plate draws the
+    door in is the bay `door_bay` names, and the finding is present exactly when that bay is
+    not the middle one. The `!=` that used to be folded into the same line is split out, because
+    `a == b != c` is two assertions wearing one `assert` and the second is the one that moved."""
     PC = _mod("plan_check")
     AX = _mod("axis")
     scene, sol, _sec, ev = both["tidewater-georgian-careful"]
-    findings = PC.check(sol)["findings"]
-    off = [f for f in findings if f.get("kind") == "drawn-door-off-the-centre-bay"]
-    assert len(off) == 1, (
-        "the checker no longer convicts this placement of an off-centre door, so the "
-        "agreement this test names has changed — re-derive it")
     EL = _mod("elevation")
     door = next(r for r in EL.opening_rects(ev, ev["entrance_face"])["rects"]
                 if r["kind"] == "door" and r["entrance"])
@@ -280,9 +309,22 @@ def test_the_checker_and_the_plate_now_agree_about_the_off_centre_door(both):
     module = sol["footprint"]["width_ft"] / bays
     drawn_bay = int(span // module)
     db = AX.door_bay(sol)
-    assert drawn_bay == db["bay"] != bays // 2, (
-        f"the elevation draws the door in bay {drawn_bay} of {bays} and the checker convicts "
-        f"bay {db['bay']} -- they must be one bay, and not the middle one")
+    assert drawn_bay == db["bay"], (
+        f"the elevation draws the door in bay {drawn_bay} of {bays} and the checker reads bay "
+        f"{db['bay']} -- they must be one bay")
+    off = [f for f in PC.check(sol)["findings"]
+           if f.get("kind") == "drawn-door-off-the-centre-bay"]
+    mid = bays // 2
+    assert bool(off) is (db["bay"] != mid), (
+        f"the door is in bay {db['bay']} of {bays} (middle {mid}) and the checker emits "
+        f"{len(off)} off-centre finding(s) -- the conviction and the geometry disagree")
+    assert db["verdict"] == ("in-the-centre-bay" if db["bay"] == mid else "off-the-centre-bay")
+    # AND THE STATE IS NAMED, so the day the placement moves back off centre this says which
+    # direction it went rather than only that something changed.
+    assert db["bay"] == mid and not off, (
+        "this placement convicted an off-centre door before the 17 Sep merge and does not now; "
+        "if it convicts again, re-derive which placement moved -- the agreement above holds "
+        "either way and only this line is a statement about the tree")
 
 
 # ------------------------------------------------------------------ one reader of R4

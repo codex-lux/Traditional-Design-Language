@@ -56,26 +56,27 @@ def C():
 
 @pytest.fixture(scope="module")
 def placed():
-    """The shipped record read as the ONE-ELEMENT house it was until WP-13.5, on the search
-    engine, placed ONCE for the module.
+    """The shipped record read with its container tags STRIPPED, on the search engine, placed
+    ONCE for the module.
 
-    **EVERY TEST IN THIS FILE IS ABOUT THE HEARTH MACHINERY AND NEEDS A HOUSE WITH TWO
-    STACKS.** Until WP-13.5 the shipped record was that house: the drawing room and the dining
-    room stood on the west gable, the library on the east, and the plan drew two squares on two
-    stated flues. WP-13.5 moved the service programme into the dependency that record declares,
-    and on THIS engine the 45 ft main block that remains does not keep the two principal rooms
-    against the west wall -- each is drawn 4.95 ft inboard of it, so neither fire has an
-    exterior wall to carry its flue and `hearths.breast` refuses both, by name and with the
-    reason. The west stack is not drawn.
+    **EVERY TEST IN THIS FILE IS ABOUT THE HEARTH MACHINERY AND NEEDS A RECORD THAT REACHES
+    EVERY BRANCH OF IT** -- a fire drawn on one gable, a fire drawn on the other, and a fire
+    refused by name -- because the SHIPPED record no longer does: with the service programme in
+    the dependency WP-13.5 tags, the 45 ft main block that remains keeps neither principal room
+    against the west face on this engine, and both west fires were refused
+    (`test_the_shipped_record_now_draws_ONE_stack_and_says_why` below asserts that cost on the
+    shipped record, and is this strip's premise).
 
-    That is a real cost of the container and it is NOT hidden here: it is asserted, on the
-    SHIPPED record, by `test_the_shipped_record_now_draws_ONE_stack_and_says_why` below, which
-    is also the premise for this strip. What these tests measure is the machinery -- a breast
-    on a boundary is drawn, a breast off one is refused with its reason, the roof reads the
-    plan's flues rather than recomputing them -- and the machinery needs a record that reaches
-    all of its branches. On `engine="cp"` the drawing room's fire still holds and only the
-    dining room's is inboard (2 of 3), so this is one engine's placement rather than a fact
-    about the record."""
+    **STRIPPING THE TAGS DOES NOT RESTORE THE PRE-WP-13.5 HOUSE, AND THIS DOCSTRING CLAIMED IT
+    DID UNTIL 17 SEP 2026.** It read "the drawing room and the dining room stood on the west
+    gable, the library on the east". At the merge of Phase 13 into the second Phase 11 line the
+    CODE moved as well as the record -- main's WP-11.17 entrance front and WP-11.18 partition
+    share -- so this one-element reading is a THIRD placement belonging to neither parent: the
+    drawing room is drawn at x = 37.5 and its fire is refused, the dining room holds the west
+    gable and the library the east. That is `conftest.as_one_element`'s own recorded lesson
+    (CLAUDE.md, WP-13.5): a control that reverts SOME of an edit and is read as though it
+    reverted all of it. The strip still reaches all three branches, which is what it is for, so
+    the fixture stands; what was corrected is the account of why."""
     GEO._SOLVE_CACHE.clear()
     d = json.load(open(TIDEWATER, encoding="utf-8"))
     for lv in d.get("levels", []):
@@ -106,13 +107,32 @@ def test_the_shipped_record_now_draws_ONE_stack_and_says_why(shipped):
     If a later package puts those two rooms back on the gable, this test goes red and the
     `placed` fixture above stops needing its strip. That is the right direction and it should
     be loud."""
+    # AND IT DRAWS TWO AGAIN AT THE 17 SEP MERGE, WHICH IS THE DIRECTION THE DOCSTRING ABOVE
+    # ASKED FOR AND THE REASON IT ASKED TO BE LOUD. Main's WP-11.17 entrance anchor and
+    # WP-11.18 `partition` share re-place this ground floor, and the DINING room is back on the
+    # block's west face -- so its fire has an exterior flue and `west-stack` is drawn, serving
+    # `dining`, at (-3.125, 30.013). The DRAWING room is still 7.0 ft inboard and is still
+    # refused, with the same honest reason: the wall, the distance, and no interior stack
+    # invented in its place. So the cost WP-13.5 measured is half paid back, and the half that
+    # remains is named rather than absorbed into a count.
+    #
+    # The test's own name is left as written -- this project leaves original text -- and the
+    # assertion is what moved. Both stacks are named, so a fire gaining or losing a flue fails
+    # here either way rather than a count of two passing on the wrong two.
     st = {s["flue"] for s in shipped["hearths"]["stacks"]}
-    assert st == {"east-stack"}, (
-        "the shipped Tidewater sheet drew TWO stacks before WP-13.5 and draws one now; if it "
-        "draws two again the fixture above no longer needs its strip")
+    assert st == {"east-stack", "west-stack"}, (
+        "the shipped Tidewater sheet drew ONE stack at WP-13.5 and TWO before it; it draws "
+        f"{sorted(st)} now. A fire losing its flue is the placement getting worse and a third "
+        "stack is a fire nobody has accounted for -- re-derive per room before moving this.")
+    served = {s["flue"]: sorted(s.get("serves") or []) for s in shipped["hearths"]["stacks"]}
+    assert served == {"west-stack": ["dining"], "east-stack": ["library"]}, (
+        f"the stacks stand, and serve the wrong fires: {served}")
     un = shipped["hearths"]["unplaced"]
     breasts = [u for u in un if u.get("rule") == "hearths.breast"]
-    assert {u["room"] for u in breasts} == {"drawing", "dining"}, breasts
+    assert {u["room"] for u in breasts} == {"drawing"}, (
+        f"the refused fires are {sorted(u['room'] for u in breasts)}, not just the drawing "
+        "room's. `dining` regained its flue at the merge; if it loses it again that is a "
+        "placement regression and not a number to re-pin.")
     for u in breasts:
         why = u["reason"]
         assert "no exterior wall carries its flue" in why, why
@@ -121,13 +141,57 @@ def test_the_shipped_record_now_draws_ONE_stack_and_says_why(shipped):
             "the refusal must say an interior stack is not invented in its place")
     # AND THE STACK ITSELF IS REFUSED ON ITS OWN ACCOUNT, not merely absent: a stack over no
     # fire is not placed (WP-11.4), and the record says so where a reader will look.
-    stack = [u for u in un if u.get("flue") == "west-stack"]
-    assert len(stack) == 1 and "no fire for its stack to stand over" in stack[0]["reason"]
-    # the drawn-false breasts still carry their rectangle, so a later reader can see WHERE the
-    # fire would have been: 4.95 ft inboard of the element's west face.
+    #
+    # THAT CLAUSE WAS ASSERTED HERE AND IS DRIVEN NOW, because the merge took its subject away.
+    # With `dining` back on the west face the west stack HAS a fire, so no stack on this record
+    # is refused -- and this was the ONE site in the tree reading that refusal, so leaving the
+    # clause as an assertion about the shipped house would have deleted the rule's only guard.
+    # It moves to `test_a_stated_flue_with_no_fire_is_refused_by_name` below, DRIVEN, on the
+    # precedent this corpus sets for the blind bay (WP-12.2) and the terrace (WP-11.10).
+    assert not [u for u in un if u.get("flue")], (
+        f"a stated flue is refused on the shipped record: {[u.get('flue') for u in un if u.get('flue')]}. "
+        "That is a fire losing its stack -- re-derive per room, and note that the DRIVEN guard "
+        "below no longer needs to stand in for the corpus.")
+    # the drawn-false breast still carries its rectangle, so a later reader can see WHERE the
+    # fire would have been: 7.0 ft inboard of the element's west face, against another room.
     off = [b for b in shipped["hearths"]["breasts"] if not b["drawn"]]
-    assert {b["room"] for b in off} == {"drawing", "dining"}
-    assert all(b["judged"] and round(b["x_ft"], 2) == 4.95 for b in off), off
+    assert {b["room"] for b in off} == {"drawing"}, off
+    assert all(b["judged"] and round(b["x_ft"], 2) == 7.0 for b in off), off
+
+
+def test_a_stated_flue_with_no_fire_is_refused_by_name(shipped):
+    """WP-11.4's rule, DRIVEN because the 17 Sep merge took its corpus instance away.
+
+    A stack over no fire is not placed and the record says why. Until the merge the shipped
+    Tidewater record exercised that on its west flue -- both west-wall fires were inboard, so
+    the flue carried nothing -- and it was the ONLY site in the tree reading the refusal. Main's
+    entrance anchor puts `dining` back on the west face, so the flue has a fire again and the
+    branch is unreachable from all sixteen plans.
+
+    Deleting the clause would have removed the rule's only guard on the strength of the corpus
+    getting better, which is this repository's most-repeated way of going quiet. The state is
+    stated instead: the same record with its dining hearth taken away, so the west flue is
+    stated and serves nothing."""
+    import copy
+    q = copy.deepcopy(shipped)
+    hit = 0
+    for lv in q.get("levels") or []:
+        for r in lv.get("rooms") or []:
+            if r.get("id") == "dining" and r.get("hearth"):
+                r.pop("hearth"); hit += 1
+    assert hit == 1, (
+        "the shipped record no longer states a dining hearth, so this drive does nothing -- "
+        "re-cut it onto whichever room still shares the west flue")
+    out = TH.hearth_pass(q, PC.load_corpus(), {})
+    stack = [u for u in (out.get("unplaced") or []) if u.get("flue") == "west-stack"]
+    assert len(stack) == 1, (
+        f"the west flue carries no fire and is not refused: {out.get('unplaced')}")
+    assert "no fire for its stack to stand over" in stack[0]["reason"], stack[0]
+    assert not [x for x in (out.get("stacks") or []) if x.get("flue") == "west-stack"], (
+        "a stack is drawn over no fire")
+    # the CONTROL: the east flue still has its library fire and is still drawn, so the drive
+    # removed one fire rather than breaking the pass.
+    assert [x for x in (out.get("stacks") or []) if x.get("flue") == "east-stack"], out
 
 
 def _room(plan, rid, level=0):
@@ -159,10 +223,28 @@ class TestTheBreastOnAReleasedWall:
             "the refusal must say an interior stack is not invented in its place")
 
     def test_a_breast_on_the_boundary_is_drawn_and_carries_no_refusal(self, placed):
-        r = _room(placed, "drawing")
-        b = HE.breast(r, r["hearth"][0], bounds=_bounds(placed))
-        assert not b.get("undrawable") and "unplaced" not in b
-        assert b["x_ft"] == 0 and b["wall"] == "W"
+        """THE SPECIMEN IS CHOSEN FROM THE READING AND NEVER NAMED. This read `drawing` until
+        the merge of Phase 13 into the second Phase 11 line moved that room to x = 37.5 and
+        its fire off the west face; a guard naming a room measures one placement, which is
+        what WP-11.17 re-cut two facade tests for. Every breast the placement layer DREW is
+        re-judged here through `HE.breast` itself, so the direct call and the placement layer
+        cannot disagree about one wall."""
+        drawn = [row for row in placed["hearths"]["breasts"] if row["drawn"]]
+        assert len(drawn) >= 2, (
+            "no breast on this placement stands on a boundary wall, so the drawn branch is "
+            "not exercised -- re-pick the specimen from the reading, never skip")
+        assert {row["wall"] for row in drawn} == {"W", "E"}, (
+            "both gable ends must carry a drawn fire, or the strip exercises one branch twice")
+        Wf = placed["footprint"]["width_ft"]
+        for row in drawn:
+            r = _room(placed, row["room"])
+            b = HE.breast(r, r["hearth"][0], bounds=_bounds(placed))
+            assert not b.get("undrawable") and "unplaced" not in b, (row["room"], b)
+            assert b["wall"] == row["wall"]
+            # The breast stands ON the face and projects into the room, so its near edge is
+            # the face itself -- x for a W wall, x + the projection for an E one.
+            near = b["x_ft"] if row["wall"] == "W" else b["x_ft"] + b["width_ft"]
+            assert abs(near - (0.0 if row["wall"] == "W" else Wf)) < 0.01, (row["room"], near)
 
     def test_without_bounds_the_rectangle_is_returned_unjudged(self, placed):
         """The two-argument call is what the gate, the scene and `render_plan` make: it cannot
@@ -187,35 +269,48 @@ class TestTheBreastOnAReleasedWall:
 
 # ------------------------------------------------------------------ the placement layer's verdict
 class TestHearthPassJudgesEveryBreast:
-    def test_the_shipped_record_draws_all_three_on_the_search_engine(self, placed):
+    def test_the_one_element_reading_draws_TWO_of_three_and_names_the_third(self, placed):
+        """THE `placed` FIXTURE'S OWN PREMISE, RE-DERIVED AT THE MERGE OF PHASE 13 INTO THE
+        SECOND PHASE 11 LINE (17 Sep 2026). It read all three drawn and no refusal; the merge
+        moved the placement, the drawing room is drawn at x = 37.5, and its declared W wall is
+        37.5 ft inboard of the element's west face. The REASON is asserted beside the census,
+        so a refusal arriving for some other cause cannot pass here as this one."""
         h = placed["hearths"]
         assert h["placed_from"] == "stated-hearths"
-        rows = h["breasts"]
-        assert [(r["room"], r["drawn"], r["judged"]) for r in rows] == [
-            ("drawing", True, True), ("dining", True, True), ("library", True, True)]
-        assert h["unplaced"] == []
-        assert placed["opening_report"]["hearths_refused"] == 0
+        assert [(r["room"], r["drawn"], r["judged"]) for r in h["breasts"]] == [
+            ("drawing", False, True), ("dining", True, True), ("library", True, True)]
+        assert {r["wall"] for r in h["breasts"] if r["drawn"]} == {"W", "E"}
+        assert [u["room"] for u in h["unplaced"]] == ["drawing"]
+        assert h["unplaced"][0]["rule"] == "hearths.breast"
+        row = next(r for r in h["breasts"] if r["room"] == "drawing")
+        assert row["unplaced"]["needs"] == {"wall_on_the_element_boundary": "W"}
+        assert row["unplaced"]["have"]["inboard_ft"] == 37.5
+        assert placed["opening_report"]["hearths_refused"] == 1
 
-    def test_a_released_wall_is_refused_in_the_record_and_on_the_plate(self, placed, C, tmp_path):
-        """Driven: the drawing room moved 19 ft inboard on the placed record, then judged again.
-        The verdict is in `breasts`, the refusal in `unplaced` with its rule, the west flue is
-        served by the dining room alone, and BOTH registers of the plate draw no fireplace for
-        it -- the working register carries a dashed ghost with the reason, the presentation
-        register nothing but the record."""
-        p = copy.deepcopy(placed)
-        _room(p, "drawing")["geometry"]["x_ft"] = 19.0
-        rep = {}
-        TH.hearth_pass(p, C, rep)
-        h = p["hearths"]
+    def test_a_released_wall_is_refused_in_the_record_and_on_the_plate(self, placed, tmp_path):
+        """THE CORPUS REACHES THIS NOW AND THE DRIVE IS NO LONGER THE ONLY ROUTE. On this
+        placement the drawing room's declared W wall is 37.5 ft inboard, so its fire is refused
+        in the record and BOTH registers draw no fireplace for it -- the working register a
+        dashed ghost with the reason, the presentation register nothing but the record.
+
+        It used to move that same room 19 ft inboard by hand and assert the same thing. At the
+        merge of Phase 13 into the second Phase 11 line that drive became a mutation which
+        changes no state -- WP-11.15's *a fixture where both branches return the same number
+        guards neither* -- so the FLIP is driven in the test below instead, on a fire this
+        placement draws."""
+        h = placed["hearths"]
         row = next(r for r in h["breasts"] if r["room"] == "drawing")
         assert row["drawn"] is False and row["judged"] is True
-        assert row["unplaced"]["have"]["inboard_ft"] == 19.0
+        assert row["unplaced"]["have"]["inboard_ft"] == 37.5
         ref = [u for u in h["unplaced"] if u.get("room") == "drawing"]
         assert len(ref) == 1 and ref[0]["rule"] == "hearths.breast"
         assert ref[0]["reason"] == row["why"]
         fl = next(f for f in h["flues"] if f["flue"] == "west-stack")
         assert fl["serves"] == ["dining"] and fl["stated"] == ["drawing", "dining"]
-        assert fl["position_ft"] == 20.965, "the flue stands at its one served fire"
+        g = _room(placed, "dining")["geometry"]
+        assert abs(fl["position_ft"] - (g["y_ft"] + g["depth_ft"] / 2)) < 0.002, (
+            "the flue stands at the axis of its one served fire")
+        p = copy.deepcopy(placed)
         wk = str(tmp_path / "working.svg")
         RP.render(p, wk, register="working")
         svg = open(wk, encoding="utf-8").read()
@@ -223,10 +318,27 @@ class TestHearthPassJudgesEveryBreast:
         assert 'data-hearth-refused="drawing"' in svg
         assert "fireplace NOT DRAWN" in svg and "no flue" in svg
         pr = str(tmp_path / "presentation.svg")
-        RP.render(p, pr, register="presentation")
+        RP.render(copy.deepcopy(placed), pr, register="presentation")
         svg2 = open(pr, encoding="utf-8").read()
         assert svg2.count("fireplace,") == 2
         assert "data-hearth-refused" not in svg2, "the presentation register draws nothing for it"
+
+    def test_releasing_a_DRAWN_fire_flips_its_verdict(self, placed, C):
+        """DRIVEN, and the half that proves the verdict is a property of the PLACEMENT rather
+        than of the room's name: move the dining room -- whose fire this placement draws -- off
+        the west face, and its breast is refused under the same rule while the library's,
+        untouched, is not. Without this the strip would assert a refusal that is true of one
+        room on one tree and never that the judge is looking at the geometry."""
+        p = copy.deepcopy(placed)
+        before = {r["room"]: r["drawn"] for r in p["hearths"]["breasts"]}
+        assert before["dining"] is True and before["library"] is True, (
+            "the fixture no longer draws the fire this drives -- re-pick it from the reading")
+        _room(p, "dining")["geometry"]["x_ft"] = 21.0
+        TH.hearth_pass(p, C, {})
+        after = {r["room"]: r["drawn"] for r in p["hearths"]["breasts"]}
+        assert after["dining"] is False and after["library"] is True
+        u = next(u for u in p["hearths"]["unplaced"] if u.get("room") == "dining")
+        assert u["rule"] == "hearths.breast" and "21.0 ft inboard" in u["reason"]
 
     def test_the_reason_is_read_from_the_record_and_not_rederived_by_the_plate(self, placed, tmp_path):
         """The plate reads `plan.hearths.breasts`; it does not judge. Strip the verdict rows
@@ -252,18 +364,29 @@ class TestHearthPassJudgesEveryBreast:
 
 # ------------------------------------------------------------------ one stack per flue
 class TestThePlansStacksAreTheRoofsStacks:
-    def test_the_squares_stand_on_the_stated_flues_at_the_mean_of_their_fires(self, placed):
-        """Before this package: both squares at the mid-depth of the end wall, 19.085 ft, from
-        the rectangle. Now: the west square at the mean of the drawing and dining rooms' axes
-        (7.465 and 20.965 -> 14.215) and the east at the library's (11.765)."""
+    def test_the_squares_stand_on_the_stated_flues_and_not_on_the_centre_line(self, placed):
+        """Before WP-13.2: both squares at the mid-depth of the end wall, 19.085 ft, from the
+        rectangle alone. Now each stands on its flue, at the axis of the fire that flue serves.
+        The axes are DERIVED from the rooms here rather than pinned, because the merge of Phase
+        13 into the second Phase 11 line moved them and a literal would have to be re-typed at
+        every placement change without anything saying what it is.
+
+        **THE MEAN OF TWO FIRES IS NOT EXERCISED HERE AND IT USED TO BE.** Until that merge the
+        west flue served the drawing and dining rooms both and this test read their mean; on
+        this placement the drawing room's fire is refused, so every flue serves exactly one
+        fire and a mean over one number is that number. The mean is driven in
+        `test_the_gather_is_disclosed_where_one_stack_serves_two_fires_apart` below, which also
+        asserts that no shipped stack reaches it."""
         h = placed["hearths"]
         by = {s["flue"]: s for s in h["stacks"]}
         assert set(by) == {"west-stack", "east-stack"}
         w, e = by["west-stack"], by["east-stack"]
         assert w["wall"] == "W" and e["wall"] == "E"
-        assert abs((w["y_ft"] + w["depth_ft"] / 2) - (7.465 + 20.965) / 2) < 0.002
-        assert abs((e["y_ft"] + e["depth_ft"] / 2) - 11.765) < 0.002
-        assert w["serves"] == ["drawing", "dining"] and e["serves"] == ["library"]
+        axis = {r["id"]: r["geometry"]["y_ft"] + r["geometry"]["depth_ft"] / 2
+                for r in placed["levels"][0]["rooms"] if r.get("geometry")}
+        assert abs((w["y_ft"] + w["depth_ft"] / 2) - axis["dining"]) < 0.002
+        assert abs((e["y_ft"] + e["depth_ft"] / 2) - axis["library"]) < 0.002
+        assert w["serves"] == ["dining"] and e["serves"] == ["library"]
         D = placed["footprint"]["depth_ft"]
         for s in h["stacks"]:
             assert abs(s["y_ft"] + s["depth_ft"] / 2 - D / 2) > 4.0, (
@@ -303,23 +426,54 @@ class TestThePlansStacksAreTheRoofsStacks:
         assert any(abs(c["y_ft"] - (3.0 + t)) < 0.01 for c in ch["positions"]), \
             [c["y_ft"] for c in ch["positions"]]
 
-    def test_the_gather_is_disclosed_where_one_stack_serves_two_fires_apart(self, placed):
-        """THE FIGURE THIS PACKAGE CANNOT CLOSE, STATED AS ONE. The record puts the drawing and
-        dining rooms' fires on one flue; both breasts default to the centre of their own end
-        wall (the schema's rule for an absent `position_ft`), 13.5 ft apart on this placement;
-        a 22 in square at the flue's mean stands behind neither. It is not moved and not doubled
-        (`build/hearths.py`'s docstring says why); it is written on the stack and on each
-        breast row, so the plate's reader and the gate's are told the same number."""
-        h = placed["hearths"]
+    def test_the_gather_is_disclosed_where_one_stack_serves_two_fires_apart(self, placed, C):
+        """THE FIGURE THIS PACKAGE CANNOT CLOSE, STATED AS ONE -- and DRIVEN, because no
+        placement in this corpus reaches it any more.
+
+        Where one flue carries two fires, both breasts default to the centre of their own end
+        wall (the schema's rule for an absent `position_ft`) and a 22 in square at the flue's
+        mean stands behind neither. The square is not moved and not doubled
+        (`build/hearths.py`'s docstring says why); the gather is written on the stack AND on
+        each breast row, so the plate's reader and the gate's are told the same number.
+
+        Until the merge of Phase 13 into the second Phase 11 line the west flue of this very
+        fixture carried the drawing and dining rooms both, and this was read off it. It no
+        longer is, so the PREMISE is asserted and the state is built by hand -- WP-11.10's
+        rule, met for the second time in this file."""
+        assert all(len(s["serves"]) < 2 for s in placed["hearths"]["stacks"]), (
+            "a shipped stack serves two fires again -- read this off the corpus rather than "
+            "driving it, and say which placement changed")
+        p = copy.deepcopy(placed)
+        lv0 = p["levels"][0]
+        # The drawing room takes the kitchen's rectangle on the west face. The kitchen states
+        # no hearth, so nothing is lost and the level is still a tiling.
+        _room(p, "drawing")["geometry"] = dict(_room(p, "kitchen")["geometry"])
+        lv0["rooms"] = [r for r in lv0["rooms"] if r["id"] != "kitchen"]
+        TH.hearth_pass(p, C, {})
+        h = p["hearths"]
+        fl = next(f for f in h["flues"] if f["flue"] == "west-stack")
+        assert fl["serves"] == ["drawing", "dining"], "the drive did not put both fires on it"
+        axis = {r["id"]: r["geometry"]["y_ft"] + r["geometry"]["depth_ft"] / 2
+                for r in lv0["rooms"] if r.get("geometry")}
+        assert abs(fl["position_ft"] - (axis["drawing"] + axis["dining"]) / 2) < 0.002, (
+            "the flue is not at the mean of the two fires it serves")
         w = next(s for s in h["stacks"] if s["flue"] == "west-stack")
         assert w["behind"] == []
         assert set(w["gathered"]) == {"drawing", "dining"}
-        assert all(3.0 < g < 4.0 for g in w["gathered"].values()), w["gathered"]
+        # THE GATHER IS A FIGURE, NOT A FLAG: the clear gap between the square's own run and
+        # each breast's, derived here rather than pinned.
+        rows = {r["room"]: r for r in h["breasts"]}
+        for rid, g in w["gathered"].items():
+            b = rows[rid]
+            lo, hi = b["y_ft"], b["y_ft"] + b["depth_ft"]
+            gap = max(w["y_ft"] - hi, lo - (w["y_ft"] + w["depth_ft"]))
+            assert abs(g - gap) < 0.01, (rid, g, gap)
+            assert g > 0
         e = next(s for s in h["stacks"] if s["flue"] == "east-stack")
         assert e["behind"] == ["library"] and e["gathered"] == {}
-        rows = {r["room"]: r["flue_stack"] for r in h["breasts"]}
-        assert rows["library"] == {"behind": True, "gathered_ft": 0.0}
-        assert rows["drawing"]["behind"] is False and rows["drawing"]["gathered_ft"] == w["gathered"]["drawing"]
+        assert rows["library"]["flue_stack"] == {"behind": True, "gathered_ft": 0.0}
+        assert rows["drawing"]["flue_stack"]["behind"] is False
+        assert rows["drawing"]["flue_stack"]["gathered_ft"] == w["gathered"]["drawing"]
 
     def test_a_flue_with_no_fire_on_any_boundary_wall_is_refused_and_the_roof_omits_it(self, placed, C):
         """Driven: both west fires released. The west flue has no fire to stand over, so no
@@ -442,21 +596,65 @@ class TestNoSashInTheBreast:
                         assert gap >= OP.MASONRY_PIER_FT, (r["id"], sk["flue"], p, gap)
         assert checked >= 3
 
-    def test_a_sash_that_no_longer_fits_is_refused_by_name_and_the_count_is_kept(self, placed):
-        """The dining room's W wall is 12.07 ft with a 4.76 ft breast at its centre: 2.65 ft of
-        wall either side of the pier, and a 3.5 ft sash does not go. Refused, naming what
-        took the wall, and the DECLARED count is untouched (WP-6.2's rule). The drawing room
-        keeps one of its two."""
+    def test_the_breast_takes_the_wall_and_the_sash_is_seated_BESIDE_it(self, placed):
+        """THE CORPUS NO LONGER REFUSES A SASH FOR A BREAST, AND THAT IS A MEASUREMENT RATHER
+        THAN A SILENCE. This read the dining room's 12.07 ft W wall, on which a 3.5 ft sash did
+        not fit beside a 4.76 ft breast; the merge of Phase 13 into the second Phase 11 line
+        drew that wall 20.17 ft long and it does fit. What is still exercised -- and is the
+        package's actual subject -- is that the sash is MOVED off the breast's centre rather
+        than drawn dead inside it. The refusal branch is DRIVEN below."""
+        g = _room(placed, "dining")["geometry"]
         dw = next(w for w in _room(placed, "dining")["windows"] if w["wall"] == "W")
-        assert dw["count"] == 1 and "positions_ft" not in dw
-        assert dw["unplaced"]["have"]["units_placed"] == 0
-        assert "the chimney breast" in dw["unplaced"]["reason"]
-        rw = next(w for w in _room(placed, "drawing")["windows"] if w["wall"] == "W")
-        assert rw["count"] == 2 and len(rw["positions_ft"]) == 1
-        assert rw["unplaced"]["have"]["units_placed"] == 1
-        assert "the chimney breast" in rw["unplaced"]["reason"]
-        assert placed["opening_report"]["windows_unplaced"] == 16, (
-            "14 before this package; +1 drawing W, +1 dining W -- re-derive before re-pinning")
+        assert dw["count"] == 1 and len(dw["positions_ft"] or []) == 1 and "unplaced" not in dw
+        row = next(r for r in placed["hearths"]["breasts"] if r["room"] == "dining")
+        lo, hi = row["y_ft"], row["y_ft"] + row["depth_ft"]
+        assert abs((lo + hi) / 2 - (g["y_ft"] + g["depth_ft"] / 2)) < 0.01, (
+            "the breast is no longer at the centre of its own wall, so a sash left where this "
+            "pass would default it would not have been inside one -- re-derive the subject")
+        pos = dw["positions_ft"][0]
+        gap = max(lo - (pos + dw["width_ft"] / 2), (pos - dw["width_ft"] / 2) - hi)
+        assert gap >= OP.MASONRY_PIER_FT, (pos, lo, hi, gap)
+        assert not [w for lv in placed["levels"] for r in lv["rooms"]
+                    for w in (r.get("windows") or [])
+                    if "the chimney" in ((w.get("unplaced") or {}).get("reason") or "")], (
+            "a sash is refused for masonry again -- re-derive the count and say which "
+            "placement changed, rather than re-pinning the total below")
+        assert placed["opening_report"]["windows_unplaced"] == 13, (
+            "16 on this branch before the merge; re-derive, never re-pin")
+
+    def test_a_sash_that_does_not_fit_beside_a_breast_is_refused_by_name_and_the_count_is_kept(self):
+        """DRIVEN on a hand-built room, because no placement in this corpus leaves a wall too
+        short for its own sash any more. A 12 ft wall with a 4.76 ft breast at its centre
+        leaves 3.62 ft either side; the pier takes 1.0 of each and a 3.5 ft sash does not go.
+        Refused NAMING what took the wall, and the DECLARED count is untouched (WP-6.2).
+
+        THE CONTROL IS THE SECOND HALF: withdraw the breast and the same wall seats the same
+        sash, so the refusal is the masonry's and not the wall's length. Without it this passes
+        on a room that could never have held a window at all."""
+        def _room_and_hearths(with_breast):
+            r = {"id": "hearthroom", "type": "dining-room",
+                 "geometry": {"x_ft": 0.0, "y_ft": 0.0, "width_ft": 14.0, "depth_ft": 12.0},
+                 "windows": [{"wall": "W", "count": 1, "width_ft": 3.5}]}
+            breasts = [{"level": 0, "room": "hearthroom", "wall": "W", "drawn": True,
+                        "x_ft": 0.0, "y_ft": 3.62, "width_ft": 1.8, "depth_ft": 4.76}]
+            return r, {"breasts": breasts if with_breast else [], "stacks": []}
+
+        r, h = _room_and_hearths(True)
+        rep = {"windows_unplaced": 0, "windows_placed": 0}
+        OP._place_windows([r], {}, 14.0, 12.0, rep, None, h, 0)
+        win = r["windows"][0]
+        assert win["count"] == 1, "the declared count was overwritten by the placement outcome"
+        assert "positions_ft" not in win
+        assert win["unplaced"]["have"]["units_placed"] == 0
+        assert "the chimney breast" in win["unplaced"]["reason"], win["unplaced"]
+        assert rep["windows_unplaced"] == 1
+        r2, h2 = _room_and_hearths(False)
+        rep2 = {"windows_unplaced": 0, "windows_placed": 0}
+        OP._place_windows([r2], {}, 14.0, 12.0, rep2, None, h2, 0)
+        assert r2["windows"][0].get("positions_ft"), (
+            "the control does not seat the sash, so the refusal above says nothing about the "
+            "breast")
+        assert rep2["windows_unplaced"] == 0
 
     def test_the_pier_is_the_corpus_own_minimum_solid_and_one_quantum_of_the_record(self):
         """The pier beside a breast is editorial and is the same figure as beside a door --
@@ -469,20 +667,30 @@ class TestNoSashInTheBreast:
             "the window position is no longer written to three decimals; re-derive the quantum")
 
     def test_the_reservation_reads_the_verdict_and_reserves_nothing_for_a_refused_fire(self, placed):
+        """BOTH SPECIMENS ARE TAKEN FROM THE READING. This named `drawing` for the positive
+        half until the merge of Phase 13 into the second Phase 11 line refused that fire -- at
+        which point the assertion was about a room that reserves nothing either way, so
+        withdrawing its verdict could not change anything and neither branch was guarded."""
         rooms = copy.deepcopy(placed["levels"][0]["rooms"])
         fp = placed["footprint"]
         W, H = fp["width_ft"], fp["depth_ft"]
         hearths = copy.deepcopy(placed["hearths"])
+        drawn = [r for r in hearths["breasts"] if r["drawn"]]
+        refused = [r for r in hearths["breasts"] if not r["drawn"]]
+        assert drawn, "no breast is drawn on this placement, so nothing is reserved"
+        assert refused, "no breast is refused on this placement, so the negative half is blind"
+        key = (drawn[0]["room"], drawn[0]["wall"])
         occ = {}
         took = OP._reserve_masonry(rooms, occ, W, H, {}, hearths, 0)
-        assert ("drawing", "W") in took and "the chimney breast" in took[("drawing", "W")]
-        for row in hearths["breasts"]:
-            if row["room"] == "drawing":
-                row["drawn"] = False
+        assert key in took and "the chimney breast" in took[key]
+        rkey = (refused[0]["room"], refused[0]["wall"])
+        assert "the chimney breast" not in took.get(rkey, []), (
+            "a fire the pass REFUSED reserved its run; nothing is drawn there")
+        drawn[0]["drawn"] = False
         occ2 = {}
         took2 = OP._reserve_masonry(rooms, occ2, W, H, {}, hearths, 0)
-        assert "the chimney breast" not in took2.get(("drawing", "W"), [])
-        assert len(occ2.get(("drawing", "W"), [])) < len(occ.get(("drawing", "W"), []))
+        assert "the chimney breast" not in took2.get(key, [])
+        assert len(occ2.get(key, [])) < len(occ.get(key, []))
 
     def test_the_stack_is_reserved_on_every_level_it_passes_through(self, placed):
         """A stack rises through the house; the upper storey's gable rooms keep clear of it

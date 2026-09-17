@@ -287,30 +287,45 @@ def test_a_blind_bay_exports_no_opening_to_cad(tmp_path):
 
     The export selftest could not see it: it round-trips FINDINGS, not geometry. Nothing in this
     suite looked at where the ink went in a DXF either, which is the same gap WP-5.11's audit found
-    in the SVG layer one file over."""
+    in the SVG layer one file over.
+
+    **THE FACE IS CHOSEN FROM THE READING AND WAS NAMED `E` UNTIL 17 SEP 2026.** This test needs
+    a face that carries a blind bay AND draws at least one opening; the E gable of this record
+    drew one until the merge of Phase 13 into the second Phase 11 line, and main's WP-11.17
+    entrance front then re-placed the ground floor so that the library's E sash is refused and
+    the face draws NOTHING. With no rectangle the count assertion passes at 0 == 0 and the axis
+    loop below runs zero times, which is why the premise is asserted rather than the face pinned.
+    Measured on the shipped record: E has a blind bay and 0 rects, W has a blind bay and 1."""
     ezdxf = pytest.importorskip("ezdxf")
     el = mc.load("elevation", os.path.join(BUILD, "elevation.py"))
     dx = mc.load("export_dxf", os.path.join(BUILD, "export_dxf.py"))
     rec = el.build_elevation(json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))))
 
-    kinds = rec["faces"]["E"]["kinds"]
-    centres = rec["faces"]["E"]["centres_ft"]
-    assert "blind" in kinds, "no blind bay on this face — the test would pass vacuously"
+    blind_faces = [f for f in "SNEW" if "blind" in (rec["faces"][f].get("kinds") or [])]
+    assert blind_faces, "no face of this record carries a blind bay -- the test is about nothing"
+    usable = [f for f in blind_faces if el.opening_rects(rec, f)["rects"]]
+    assert usable, (
+        f"faces {blind_faces} carry a blind bay and none of them draws a single opening, so the "
+        "axis check below would run zero times. Pick a record or a face that draws one; never "
+        "let this pass at 0 == 0.")
+    face = usable[0]
+    kinds = rec["faces"][face]["kinds"]
+    centres = rec["faces"][face]["centres_ft"]
     blind_ft = [c for c, k in zip(centres, kinds) if k == "blind"]
 
     path = str(tmp_path / "gable.dxf")
-    dx.export_elevation_dxf(rec, path, face="E")
+    dx.export_elevation_dxf(rec, path, face=face)
     msp = ezdxf.readfile(path).modelspace()
     opens = [e for e in msp if e.dxftype() == "LWPOLYLINE" and "opening" in e.dxf.layer.lower()]
     # RE-CUT AT WP-13.3: the openings are the plan's PLACED openings on the E face, not two
     # per glazed rhythm bay, so the count is the elevation's own rectangles for the face --
     # and a placed window the stack stands on is refused by `opening_rects`, which is the
     # OQ 85 rule reaching a placed opening. Asserted positive first.
-    rects = el.opening_rects(rec, "E")["rects"]
-    assert rects, "the E face draws nothing, so the axis check below is vacuous"
+    rects = el.opening_rects(rec, face)["rects"]
+    assert rects, f"the {face} face draws nothing, so the axis check below is vacuous"
     assert len(opens) == len(rects), (
-        f"{len(opens)} opening polylines against {len(rects)} placed-and-drawn openings on E")
-    stack_half = rec["faces"]["E"]["stack_half_width_ft"]
+        f"{len(opens)} opening polylines against {len(rects)} placed-and-drawn openings on {face}")
+    stack_half = rec["faces"][face]["stack_half_width_ft"]
     for e in opens:
         pts = [pt[0] for pt in e.get_points("xy")]
         left, right = min(pts) / 12.0, max(pts) / 12.0
