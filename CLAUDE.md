@@ -1749,6 +1749,32 @@ the guard worth knowing is `test_a_record_with_no_footprint_is_not_filtered_rath
 because refusing to filter is not the same as filtering to nothing and the difference is a whole
 front -- without it, `elements()` returning `[]` empties the front of every record stating no
 width, which is the package's own defect introduced by its own fix.
+**AND THE BUILD ON THAT TREE IS `2 of 53 checks failed`, WITH EVERY RED ATTRIBUTED AGAINST A
+CONTROL RATHER THAN BY NAME.** `pytest tests/` is 23 failed / 2,529 passed / 30 skipped in
+1:01:15. **Seventeen are the WP-13.1 gate and are red by design**; the other six are three
+`test_composer.py` rows, one `test_score.py` row, `test_solver.py`'s half bound and
+`test_parti_composability.py` -- and **all SIX reproduce on a `git archive` checkout of
+`39f53b7`, the commit before this package**, run through the same six test ids: 6 failed in
+207 s. Not one red is WP-13.8's.
+**AND THE TWO FAILING CHECKS ARE ONE DEFECT SEEN THROUGH TWO READERS.**
+`test_parti_composability.py` asserts *"composable against their own first native style: 21 of
+21"* and reads 20, which is `check_partis.py`'s own conviction of the composed
+`side-hall-townhouse` by `even-bay-front` -- the same sentence, verbatim, on both trees.
+Counting them as two would double-count one finding.
+**THE COLLECTION COUNT RECONCILES EXACTLY**: 2,582 against the last recorded 2,571, which is
++1 for the test split in `8fce40b` and +10 for `tests/test_front_population.py`, so nothing was
+silently lost or skipped.
+**AND THE THREE PROSE-READING CHECKERS WERE RE-DERIVED RATHER THAN READ OFF THAT LOG**, because
+their OK in it straddles a `CLAUDE.md` edit made at 13:09:58 against a harness that started at
+13:07:19 -- **this file's own rule, broken by the session that keeps restating it**. The bound
+is measurable and is why the run was still usable: `pytest` began at 13:11:50, after the last
+edit, so the suite is of the final tree and only the checkers were ambiguous. Re-derived:
+`check_ids` exit 0, `check_citations` 2,965 citations over 668 files with 0 dangling,
+`check_counts` 119 claims over 13 files with 0 stale.
+**AND I CALLED THEM "THE FIVE NON-GATE FAILURES" TWICE AND THERE ARE SIX** -- 3 + 1 + 1 + 1
+across four files, with 17 + 6 = 23. The table beside the sentence was right and the sentence
+was not, which is why the enumeration is the thing to publish and a count of it is not.
+
 
 **WP-13.6 IS THE FURNITURE ARRANGED TO ITS OWN GRAMMAR, AND ITS SHARPEST FINDING IS THAT THE
 PACKAGE'S OWN FIRST COMMIT HAD ALREADY SHIPPED TWO RED ASSERTIONS
