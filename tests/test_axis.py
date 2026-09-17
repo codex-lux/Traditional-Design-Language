@@ -243,9 +243,33 @@ class TestTheCriticReadsIt:
         proved = _placed(engine="cp")
         if ((proved["geometry_report"].get("solver") or {}).get("engine")) != "cp-sat":
             return                  # COULD NOT EVALUATE, and not a pass
-        assert PC.check(proved)["drawn_summary"]["axis"]["spine"] == "on-centre", (
-            "the proving engine no longer draws the centre passage on the block's centre line, "
-            "which is the defect the whole axis vocabulary was written for")
+        # AND AT THE 17 SEP MERGE THIS GUARD DID EXACTLY WHAT IT WAS BUILT FOR AND CAUGHT A REAL
+        # ONE, WHICH IS WHY IT IS RE-CUT RATHER THAN RELAXED. The prover draws this passage
+        # 17.00 x 22.00 in a 45 x 37 block now -- fifteen feet short of the back wall -- against
+        # main's 10.00 x 37.00 spanning it, so `axis.spine` correctly returns COULD NOT EVALUATE
+        # and names its reason. The placement is BYTE-IDENTICAL to this branch's parent, so the
+        # merge did not cause it; it made it visible, because the guard is main's and this branch
+        # had none pointed at the proof. It is NOT the budget: at 40 s the solve is FEASIBLE on
+        # this box and at 60 s and 90 s it closes OPTIMAL in 21.2 s and 18.0 s, and all five runs
+        # read the same verdict. Likely WP-13.3's hard type facts inside WP-13.5's narrower
+        # block, but WHICH RANK prefers the wider, shorter passage is NOT established and the
+        # entry says so: `oq/the-prover-draws-a-centre-passage-that-does-not-go-through`.
+        #
+        # The state is pinned WITH its reason and with the geometry under it, so it bites in both
+        # directions: a passage that starts spanning again fails here (restore `on-centre` and
+        # say what did it), and a verdict that changes for any OTHER reason fails too.
+        ax = PC.check(proved)["drawn_summary"]["axis"]
+        assert ax["spine"] == "could-not-evaluate", (
+            f"the proved spine reads {ax['spine']!r}. `on-centre` is the house getting BETTER -- "
+            "fold it back into the assertion this replaced and close "
+            "`oq/the-prover-draws-a-centre-passage-that-does-not-go-through`. `off-centre` is "
+            "the defect the whole axis vocabulary was written for and is not to be re-pinned.")
+        g = next(r["geometry"] for lv in proved["levels"] if lv.get("index") == 0
+                 for r in lv["rooms"] if r["id"] == "passage")
+        depth = proved["footprint"]["depth_ft"]
+        assert g["y_ft"] + g["depth_ft"] < depth - 1.0, (
+            "the passage reaches the back wall, so the verdict above is unjudged for some reason "
+            f"OTHER than the through-axis: {g} in a block {depth} ft deep")
 
         # THE SEARCH'S COST, PINNED SO IT CANNOT GO QUIET. A measured consequence of the
         # WP-11.16 tagging and the WP-11.17 anchor together, and not a thing anybody wants: if it

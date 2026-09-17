@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**208 questions, of which 113 are open.** A question is OPEN while
+**209 questions, of which 114 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 113
+## Open — 114
 
 Awaiting a ruling. This is the list to read first.
 
@@ -129,6 +129,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-placer-places-two-levels-and-says-nothing-about-the-third** | OPEN | [a declared storey came back with no geometry, no finding and no note](open-questions/oq-the-placer-places-two-levels-and-says-nothing-about-the-third.md) |
 | **oq/the-plate-does-not-read-the-disclosure-module-it-imports** | OPEN | [one spelling, two surfaces, and only one of them reads it](open-questions/oq-the-plate-does-not-read-the-disclosure-module-it-imports.md) |
 | **oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits** | OPEN | [and a falsy guard covers exactly one bad case by accident](open-questions/oq-the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits.md) |
+| **oq/the-prover-draws-a-centre-passage-that-does-not-go-through** | OPEN | [the type's facts became hard and the through-axis stopped being drawn](open-questions/oq-the-prover-draws-a-centre-passage-that-does-not-go-through.md) |
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
 | **oq/the-record-dimensions-a-transom-and-no-drawing-draws-one** | OPEN | [and two faults judge it](open-questions/oq-the-record-dimensions-a-transom-and-no-drawing-draws-one.md) |
 | **oq/the-record-table-draws-an-untrusted-room-name** | OPEN | [and the sheet has no width for it](open-questions/oq-the-record-table-draws-an-untrusted-room-name.md) |
