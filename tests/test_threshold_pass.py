@@ -74,8 +74,20 @@ class TestTheStoop(unittest.TestCase):
         # end, so the west slab is laid differently and the centre passage's own exterior door
         # is SEATED again -- it reaches this rule and is correctly refused a stoop on the E wall.
         # The three are the kitchen's on S, the passage's on E and the back hall's on N.
-        self.assertEqual(len(named), 3,
-                         "three seated exterior doors besides the entrance, three refusals")
+        # 3 -> 2 AT THE 17 SEP MERGE, AND THE THREE WAS MEASURED ON A DIFFERENT HOUSE. Main's
+        # `_placed()` reads the SHIPPED record; this branch's strips the container first, with
+        # the reason in its own docstring, and the merge kept the stripping. So main's 3 is a
+        # count over the tagged house and this fixture builds the one-rectangle one. Measured on
+        # `git archive` checkouts, the STRIPPED record reads 2 on main and 2 here -- the same two
+        # doors, the kitchen's on S and the back hall's on N -- against 3 on this branch's
+        # parent, all three of them on N, which is a differently-placed house again. The rule
+        # under test is unmoved: every seated exterior door that is not the entrance is refused
+        # a stoop and SAYS SO. The doors are named rather than counted for that reason.
+        self.assertEqual(
+            sorted(named),
+            ["steps at the N door of backhall", "steps at the S door of kitchen"],
+            "the seated exterior doors besides the entrance have moved; each must still be "
+            "refused a stoop BY NAME, and a bare count cannot say which door changed")
         for u in th["unplaced"]:
             self.assertTrue(u.get("reason"), "a refusal that does not say why is a silence")
             self.assertTrue(u.get("rule"), "a refusal must name the rule refusing it")
@@ -337,7 +349,18 @@ class TestTheStacks(unittest.TestCase):
             del cache["tidewater-georgian"]["chimney"]["parameters"]["stack_plan_in"]
             out = TH.hearth_pass(pl, C, {})
             self.assertEqual(out["stacks"], [])
-            self.assertIn("stack_plan_in", out["unplaced"][0]["reason"])
+            # RE-CUT AT THE 17 SEP MERGE: this read `out["unplaced"][0]` and the refusal it
+            # looks for is at index 1 now, behind a hearth refused for having no exterior flue
+            # on the merged placement. The refusal was never missing -- its POSITION moved, and
+            # a test that reads position where it means identity reports the wrong thing when
+            # a neighbour appears. Same class as reading `list[0]` for a rank, which CLAUDE.md
+            # records; the whole list is searched now and the premise is asserted first.
+            self.assertTrue(out["unplaced"], "nothing was refused at all, so the pass did not "
+                                             "run or the fixture no longer removes the figure")
+            self.assertTrue(
+                any("stack_plan_in" in (u.get("reason") or "") for u in out["unplaced"]),
+                f"no refusal names the figure that was taken away: "
+                f"{[str(u.get('reason'))[:80] for u in out['unplaced']]}")
         finally:
             cache["tidewater-georgian"] = saved
 

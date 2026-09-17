@@ -104,13 +104,36 @@ EL = _mod("elements")
 # `spec-builder-colonial`, which IS one rectangle and asserts that as its premise, and the
 # container's model gets a pin of its own that claims something weaker and says so.
 # A flat dict of four under one name could not have said which of the two things each hash was.
+#
+# AND RE-DERIVED AT THE 17 SEP MERGE BY RUNNING THE CONTROL THE ASSERTIONS THEMSELVES NAME --
+# "hand THIS `_build` the previous commit's records and check it reproduces the previous hashes"
+# -- which separated the record from the builder exactly as it was written to. The merged
+# `_build` handed THIS BRANCH's own record returns the merged hashes, so the RECORD did not move
+# the model; the BUILDER did. And the split of the four is the evidence of WHICH part of it:
+#
+#     plan                        objective=False        objective=True
+#     spec-builder-colonial       af0b566db578f99f       68434bafedf92b38 -> f6be60aefa639b5e
+#     tidewater-georgian-careful  ed29a965f427f03f       75dbc2bc875d6740 -> 463b12ac97280fac
+#
+# BOTH HARD MODELS ARE BYTE-IDENTICAL ACROSS THE MERGE and both objectives moved. That is the
+# whole of the resolution recorded in the header above -- main's scale-neutral restatement of the
+# soft overshoot term survives as the spelling -- and it is the strongest available evidence that
+# nothing else came with it: seven ranks, the per-element boxes, the coverage floor, the door
+# abutments, the four `_lands_literal` products and the hearth's face are all in the
+# `objective=False` hash, and not one of them moved on either plan.
+#
+# NOTE THE VALUES WERE WRONG FOR ONE COMMIT AND THE CONTROL IS WHAT FOUND IT: the merge wrote
+# MAIN's spec-Colonial pair here (53f6ab2dc19684dc / 45bf3a3cdf55d5c8) under this branch's split,
+# so the `objective=False` half claimed a hard model neither tree builds. It was never reached,
+# because the Tidewater row is asserted first and failed before the loop got there -- a pin
+# behind a failing pin is a pin nobody has checked.
 ONE_RECTANGLE_SHAS = {
-    ("spec-builder-colonial", False): "53f6ab2dc19684dc",
-    ("spec-builder-colonial", True): "45bf3a3cdf55d5c8",
+    ("spec-builder-colonial", False): "af0b566db578f99f",
+    ("spec-builder-colonial", True): "f6be60aefa639b5e",
 }
 CONTAINER_SHAS = {
     ("tidewater-georgian-careful", False): "ed29a965f427f03f",
-    ("tidewater-georgian-careful", True): "75dbc2bc875d6740",
+    ("tidewater-georgian-careful", True): "463b12ac97280fac",
 }
 MODEL_SHAS = {**ONE_RECTANGLE_SHAS, **CONTAINER_SHAS}   # tuple keys: `dict(a, **b)` refuses them
 
@@ -149,21 +172,30 @@ def test_the_model_the_prover_builds_for_the_shipped_plans_is_byte_identical():
     one any more. The guarantee is unchanged -- what moved is which houses it is a guarantee
     ABOUT, and the header above records the control that separated the record from the code.
     """
-    for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+    # AND THE LOOP IS SCOPED BACK TO `ONE_RECTANGLE_SHAS` AT THE 17 SEP MERGE. The merge took
+    # main's form, which sweeps BOTH shipped plans against the combined dict -- and this
+    # function's message says "any movement here is a defect and not a trade", which is true of
+    # a one-rectangle house and FALSE of the container, whose own pin below says in as many
+    # words that a movement there is only a defect if no package accounts for it. One loop
+    # carrying two claims tells the reader the wrong one about half its rows. The header above
+    # already argues this; the merge had kept the argument and dropped the code.
+    for (pid, obj), want in sorted(ONE_RECTANGLE_SHAS.items()):
+        assert _elements_on_ground(pid) == 1, (
+            f"{pid} is no longer one rectangle, so the GUARANTEE this function states cannot be "
+            "made about it -- move its rows to CONTAINER_SHAS rather than weakening the message")
         plan = json.loads((ROOT / "plans" / f"{pid}.json").read_text())
         levels, prep = GEO.prep_rooms(plan)
         fpd = CP._snap_fpd(GEO.derive_footprint(plan, None, prep))
         ew = GEO.entrance_walls(plan)
-        for obj in (False, True):
-            m, _r, _q = CP._build(plan, prep, fpd, ew, frozenset(), objective=obj)
-            got = hashlib.sha256(str(m.Proto()).encode()).hexdigest()[:16]
-            assert len(str(m.Proto())) > 5000, "an empty proto cannot be evidence of a match"
-            assert got == MODEL_SHAS[(pid, obj)], (
-                f"{pid} objective={obj}: the model the prover builds for a shipped plan moved. "
-                f"Before re-pinning, run the control: hand THIS `_build` the previous commit's "
-                f"records and check it reproduces the previous hashes. If it does, the record "
-                f"moved and the builder did not; if it does not, the builder moved and that is "
-                f"a defect and not a trade.")
+        m, _r, _q = CP._build(plan, prep, fpd, ew, frozenset(), objective=obj)
+        got = hashlib.sha256(str(m.Proto()).encode()).hexdigest()[:16]
+        assert len(str(m.Proto())) > 5000, "an empty proto cannot be evidence of a match"
+        assert got == want, (
+            f"{pid} objective={obj}: the model the prover builds for a shipped plan moved. "
+            f"Before re-pinning, run the control: hand THIS `_build` the previous commit's "
+            f"records and check it reproduces the previous hashes. If it does, the record "
+            f"moved and the builder did not; if it does not, the builder moved and that is "
+            f"a defect and not a trade.")
 
 
 def test_the_model_for_the_shipped_container_is_pinned():

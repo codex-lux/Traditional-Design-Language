@@ -279,13 +279,26 @@ class TestTheRuleWhenItIsOn:
         # DIRECTION as measured, with the message saying plainly that a return to ON-better is
         # good news -- the mirror of the spans clause above, and the reason both halves of that
         # open question can be read off this file.
+        # AND AT THE 17 SEP MERGE THE TRADE WENT INERT ON THIS PLAN, WHICH IS A THIRD STATE AND
+        # NOT A THIRD NUMBER. Measured on `git archive` checkouts of both parents and here:
+        #     this branch  off []            on []              (no under-band room either way)
+        #     main         off [porch 11]    on [stair 65]      (the rule COSTS)
+        #     merged       off [porch 11]    on [porch 11]      (identical)
+        # The rule ON and the rule OFF now leave the SAME room short by the SAME amount, so the
+        # clause this test is named for -- "the benefit it buys on the rooms" -- is neither true
+        # nor false here: it is UNMEASURABLE on this plan, which is the state the comment above
+        # already anticipated for an empty list and which has arrived as an equal one instead.
+        # Pinning 11 and 65 would assert a difference that no longer exists; pinning `<= 20`
+        # would pass on a plan where the rule does nothing. What is asserted is the EQUALITY,
+        # with the message saying that a difference in EITHER direction is news.
         assert off["rooms"] and max(r["short_by_pct"] for r in off["rooms"]) == 11
-        assert on["rooms"] and max(r["short_by_pct"] for r in on["rooms"]) == 65, (
-            f"the rooms half of the trade has moved: off={off['rooms']} on={on['rooms']}. If the "
-            f"rule ON is better on the rooms again, that is good news -- restore the `<= 20` "
-            f"ceiling and say which layer did it, and note it in "
+        assert [(r["room"], r["short_by_pct"]) for r in on["rooms"]] == \
+               [(r["room"], r["short_by_pct"]) for r in off["rooms"]], (
+            f"the rooms half of the trade is no longer inert: off={off['rooms']} "
+            f"on={on['rooms']}. Either direction is news and both belong in "
             f"`oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted`, which carries "
-            f"the span half of exactly this.")
+            f"the span half of exactly this -- the rule ON being BETTER restores main's original "
+            f"default argument, and the rule ON being WORSE is the inversion that entry records.")
         # AND THE BENEFIT IS UNMEASURABLE ON THIS PLAN AFTER THE MERGE, which is stated rather
         # than asserted away. With the proportion band as the first key of the acceptance the
         # spec Colonial has NO under-band room with the rule off OR on, so the shortfall is 0 sf
@@ -313,13 +326,24 @@ class TestTheRuleWhenItIsOn:
         # direction named, beside its twin in `test_and_the_benefit_it_buys_on_the_rooms`, and
         # `oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted` carries both halves.
         # `STACK_HARD` ships False, so nothing drawn in this corpus is affected either way.
-        assert (_off_sf, _on_sf) == (4, 53), (
+        # AND AT THE 17 SEP MERGE THE COST WENT TO ZERO -- 4 sf off against 4 sf on, the SAME
+        # room short by the SAME amount -- which is the magnitude half of the inertness the
+        # assertion above records. The series on this plan is 0 sf (before WP-11.17), 10 sf
+        # (WP-11.17), 53 sf (WP-11.18), 0 sf (the merge). It is NOT a return to the rule being
+        # affordable: the rule is not paying for anything either, because there is nothing on
+        # this placement it can change. Asserted as the DIFFERENCE so that a cost reappearing in
+        # either direction fails, rather than as a literal pair that would have to be re-pinned
+        # on the next placement whatever happened to the rule.
+        assert _on_sf == _off_sf, (
             f"the strict-stacking candidate is {_on_sf} sf short of the rooms' own band floors "
-            f"against {_off_sf} sf with the rule off. It cost 10 sf at WP-11.17, 0 before that "
-            f"and 53 at WP-11.18. A FALL is the rule becoming affordable again -- restore the "
-            f"`<= 20` ceiling and say which layer did it. A RISE is the cost growing further. "
-            f"Either way it belongs in "
+            f"against {_off_sf} sf with the rule off, where the merge measured them EQUAL. "
+            f"It cost 10 sf at WP-11.17, 0 before that and 53 at WP-11.18. A rule ON that is "
+            f"BETTER is the rule becoming affordable again -- restore the `<= 20` ceiling and "
+            f"say which layer did it. WORSE is the cost returning. Either way it belongs in "
             f"`oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted`.")
+        assert _off_sf == 4, (
+            f"the OFF baseline moved to {_off_sf} sf, so the equality above is about a different "
+            f"placement from the one the merge measured -- re-derive both before trusting it")
         if _on_sf > _off_sf:
             assert _off_sf < 20, (
                 f"the rule-off state is {_off_sf} sf short as well, so this plan no longer "
@@ -351,7 +375,17 @@ class TestTheRuleWhenItIsOn:
         # produces. The claim this test makes -- that a hard rule with no satisfying candidate
         # falls back to the charge and SAYS SO -- is carried by the three assertions around
         # this one, none of which moved.
-        assert st["broken_at_selection"] == 5, st
+        # AND RE-CUT ONTO THE PROPERTY AT THE 17 SEP MERGE, at 4, because the literal was
+        # tracking the CLAIM COUNT rather than the thing under test. Main pinned 5 when this
+        # record stated five claims; WP-13.5 withdrew one and the count follows it to 4. What
+        # the test is named for is that a hard rule with NO satisfying candidate falls back to
+        # the charge and SAYS SO -- so the property is that the winner breaks every claim there
+        # is, which is true at 5 of 5 and at 4 of 4 and would be FALSE at 4 of 5. Asserted
+        # against `claimed` rather than against a number, so the next record edit moves neither.
+        assert st["broken_at_selection"] == st["claimed"], (
+            f"the single candidate satisfies {st['claimed'] - st['broken_at_selection']} of its "
+            f"{st['claimed']} declared claim(s), so the no-strict-candidate path this test "
+            f"exists for is not being driven: {st}")
         _rn = st.get("rule_note") or st["note"]
         assert "NO CANDIDATE of 1" in _rn and "fell back to the charge" in _rn, _rn
         assert "cost_points" not in st, "nothing was preferred, so nothing was paid for"

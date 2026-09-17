@@ -179,7 +179,7 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # the package is for. What the across rise is NOT is the band ranking failing: WP-11.8's key is
 # untouched, and the pool it chooses from is simply smaller, because every candidate now has the
 # entrance room on the entrance face.
-DRAWN_SHORT_CEILING = 64   # 69 until WP-11.18, 66 until WP-11.17, 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
+DRAWN_SHORT_CEILING = 64   # unmoved at the 17 Sep merge, 69 until WP-11.18, 66 until WP-11.17, 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
 # WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
 # WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
 # both ways over all sixteen plans: the two extra shortfalls are the library table in
@@ -192,7 +192,26 @@ DRAWN_SHORT_CEILING = 64   # 69 until WP-11.18, 66 until WP-11.17, 68 until WP-1
 # and two libraries that had passed now fail. The conviction is right and the ceiling is raised
 # rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
 # byte-identical across the whole package, which is how the cause was isolated.
-DRAWN_LONG_CEILING = 81   # 74 until WP-11.18, 79 until WP-11.17, 82 until WP-11.16; see the short ceiling's note
+DRAWN_LONG_CEILING = 79   # 81 until the 17 Sep merge, 74 until WP-11.18, 79 until WP-11.17,
+# 82 until WP-11.16; see the short ceiling's note. THE 17 SEP MERGE MOVED BOTH AND IN BOTH
+# DIRECTIONS, so the per-plan table is here rather than a net. Derived per plan against a
+# `git archive` of this branch's parent -- ELEVEN OF SIXTEEN PLANS ARE UNMOVED ON BOTH AXES,
+# and the five that move are the plans main's WP-11.17 entrance selector re-places:
+#
+#     plan                               short        long
+#     spec-builder-colonial              9  ->  9     18 -> 13
+#     tidewater-georgian-careful         6  ->  4      9 ->  9
+#     good-01-veranda-gallery-estate     5  ->  5      5 ->  4
+#     good-04-rambling-porch-farmhouse   2  ->  2      1 ->  4
+#     good-07-diamond-plan-house         3  ->  3      2 ->  4
+#     ---------------------------------------------------------
+#     TOTAL                             66 -> 64     80 -> 79
+#
+# TWO PLANS GET WORSE ON THE LONG AXIS AND THREE GET BETTER, and that is published rather than
+# absorbed into the -1: `good-04` and `good-07` each draw rooms that lose an item they used to
+# take. The short axis moves on ONE plan only. Neither ceiling is raised to cover the two that
+# regressed -- both are lowered to what is measured, so those two plans getting worse again
+# fails here.
 # WP-11.8 MOVED BOTH TO 65 (86 -> 65 SHORT, 70 -> 65 LONG) AND IT IS THE FIRST OF THE FOUR
 # MOVES THAT IS AN IMPROVEMENT RATHER THAN A DISCLOSURE. The search ranks the band a room's own
 # record states -- the proportion ceiling AND the area floor -- ABOVE its own score now, so it
