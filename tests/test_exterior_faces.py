@@ -178,7 +178,9 @@ def test_without_bounds_that_window_is_refused_and_counted_rather_than_vanishing
 
 def test_the_two_renderers_take_bounds_in_the_same_place():
     """`tests/fixtures/sheet_symbols/` cannot hold this pair to one answer -- no plan in the
-    corpus carries a `block` tag, so the frozen fixtures have one element. The contract for
+    corpus carried a `block` tag when this was written, so the frozen fixtures have one element
+    -- and they still do, because `generate.py`'s `ROOM_KEYS` does not copy the field even now
+    that `plans/tidewater-georgian-careful.json` carries one (WP-11.16). The contract for
     this case is that both files take the argument, and both hand-built suites assert the same
     three numbers on the same two rectangles.
 
@@ -227,14 +229,33 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # reads as success"*); what this adds is that the damage outlives the harness, into any number
 # measured afterwards. **After an interrupted mutation run, restore the file and re-derive
 # every figure taken since.**
-# WP-12.4 moved this by adding one `data-frame` attribute to the root <svg> of every plate,
-# so the corpus hashes 535077ae0bca1ea2 now. **A re-pin on its own would have converted a
-# defect into a claim** -- this pin's whole job is to say that WP-11.14 is the IDENTITY on a
-# one-rectangle corpus, and overwriting the number tells the next reader that identity was
-# re-verified when all that happened is that a new value was written down. So the STRIPPED
-# hash is asserted too, and it is WP-11.14's own: re-derived over the same sixteen sheets with
-# ` data-frame='...'` removed, it is 373d0116be7cecb8 to the character. 16 of 16 sheets carry
-# the attribute and it adds 2,918 bytes in total.
+# RE-DERIVED AT WP-11.16, AND ATTRIBUTED. Tagging `tidewater-georgian-careful` re-places its
+# ground floor, so its sheet had to move; what had to be PROVED is that no other sheet did.
+# Measured per plan on a `git worktree` of the parent commit and on the working tree: of the
+# sixteen rendered sheets, exactly ONE differs and it is the tagged plan. The sentence below
+# -- that WP-11.14 is the identity on a one-rectangle house -- is still the guarantee for the
+# fifteen; the sixteenth is not one rectangle any more.
+# AND RE-DERIVED AT WP-11.17, WHERE SIX OF SIXTEEN MOVED AND THE SIX ARE NAMED. That package
+# states the entrance front as an anchor -- the room that must stand on it is placed against it
+# rather than left to a guillotine that does not know the face matters -- and
+# `geometry.entrance_anchors` reaches exactly the plans whose record decides the question:
+# `tidewater-georgian-careful`, `spec-builder-colonial`, `good-01`, `good-03`, `good-04` and
+# `good-07`. Re-derived PER PLAN on a `git worktree` of the parent commit `b6c7773`: those six
+# differ and the other ten are byte-identical, INCLUDING `good-02-portico-library-house`, the
+# plan whose portico and foyer the selector refuses to choose between -- which is the sharpest
+# evidence the refusal is real rather than a silence.
+# AND AT WP-11.18, for the six plans that name an entrance face and for the reason
+# `tests/test_elements.py`'s two digests carry: a re-placed house draws a different sheet. The
+# other ten are byte-identical, re-derived per plan on a `git worktree` of `a0ae8b7`.
+#
+# WP-12.4 ADDED A SECOND PIN, and it is the half that keeps this from being a bump. That
+# package moved the corpus hash by adding one `data-frame` attribute to the root <svg> of every
+# plate. **A re-pin on its own would have converted a defect into a claim** -- this pin's whole
+# job is to say that WP-11.14 is the IDENTITY on a one-rectangle corpus, and overwriting the
+# number tells the next reader that identity was re-verified when all that happened is that a
+# new value was written down. So the STRIPPED hash is asserted too: the same sixteen sheets
+# with ` data-frame='...'` removed. 16 of 16 sheets carry the attribute and it adds 2,918
+# bytes in total.
 #
 # AND THE PIN CAUGHT A PACKAGE THAT HAD ALREADY BEEN COMMITTED. WP-12.4 verified the property
 # by diffing all 44 plates with the attribute stripped and never ran the guard that MEASURES
@@ -242,171 +263,47 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # were checking by hand. That is this repository's own *a package that commits before its
 # build finishes learns what it broke from the build*, met by the package that had just
 # written the sentence down.
-# **RE-DERIVED AT THE MERGE OF WP-13.5 INTO THE PHASE 13 LINE (16 Sep 2026), AND THE PAIR IS A
-# THIRD VALUE BELONGING TO NEITHER PARENT.** Both sides moved these two hashes from
-# `01771d3656231ba9` / `0fd105825eda19e0`, so neither parent's number appears in the merged
-# tree: the upstream note below accounts for WP-13.6's two steps and the record table's own
-# measurement, and WP-13.5 moves ONE further sheet on top of them. Measured per file on the
-# merged tree against a checkout of the upstream parent: fifteen of sixteen identical and the
-# sixteenth is `tidewater-georgian-careful`, the record WP-13.5 edits. **The red this branch
-# carried is CLEARED by the merge, not by a re-pin here** -- WP-13.5 deliberately left it red
-# because the earlier unaccounted movement was not that package's to fold in, and the upstream
-# line owned and explained it in the meantime.
 #
-# **THE MERGE `314a2ec` CLAIMED A RE-DERIVATION IT DID NOT DO, AND THE SUITE CAUGHT IT (re-pinned
-# 16 Sep 2026).** Was `58e2f369f11dcac2` / `4ce58cb8b6599b89`. That merge's own comment two
-# paragraphs below says the pair is *"a THIRD VALUE BELONGING TO NEITHER PARENT"* -- and then
-# writes the UPSTREAM PARENT's two numbers verbatim. Both parents had moved these hashes and the
-# conflict was resolved by taking a side, which is the one thing that comment forbids.
-#
-# THE INSTRUMENT WAS PROVED BEFORE IT WAS BELIEVED, on a `git archive` of `ac9704e` (the upstream
-# parent): the harness reproduces `58e2f369f11dcac2` / `4ce58cb8b6599b89` TO THE CHARACTER, 16
-# sheets, 16 framed, hashing `plans/` then `plans/reference/` each sorted -- the order WP-12.9's
-# own first sweep got wrong. It also does NOT reproduce `1392439`'s pinned
-# `01771d3656231ba9` / `0fd105825eda19e0`, which is correct: that merge records WP-13.5 as having
-# left this test RED on purpose rather than re-measuring, so those two are a stale inheritance and
-# not that package's measurement. An instrument that matched both would have been the suspicious one.
-#
-# THE MOVEMENT IS ACCOUNTED FOR PER FILE and it is exactly what the merge's prose predicted:
-# **fifteen of sixteen sheets byte-identical to the upstream parent, raw AND stripped, and the
-# sixteenth is `tidewater-georgian-careful`** -- the one record WP-13.5 edits. So the merge did the
-# accounting and then did not write the number it accounted for.
-CORPUS_SHEET_SHA = "7ae444c7e5387110"
-CORPUS_SHEET_SHA_NO_FRAME = "8defa83027786782"
-# BOTH MOVED AGAIN, 16 Sep 2026, WHEN THE RECORD TABLE LEARNED TO MEASURE ITS OWN ROWS.
-# Was 1a63f71dda3b6bee / 4413ad13a9e35766. `render_plan.TABLE_COL_W` was a flat 260 px pitch
-# that nothing measured the text against, so on the shipped Tidewater sheet TWENTY OF
-# TWENTY-FOUR rows overran it (widest 316.8 px) and SEVENTEEN PAIRS overprinted: the plate read
-# `record 17' x 20' (+45%)ntry: drawn 5'-9" x 9'`, having eaten the front of "Butler's Pantry".
-# The pitch is the widest row plus a gutter now, with 260 kept as the FLOOR.
-#
-# THE INSTRUMENT WAS SHOWN TO REPRODUCE THE OLD VALUE FIRST, on a `git archive HEAD` checkout:
-# 1a63f71dda3b6bee / 4413ad13a9e35766 to the character. A re-pin whose harness has not
-# reproduced the old number is a new number and not a measurement.
-#
-# THE MOVEMENT IS ACCOUNTED FOR LINE BY LINE rather than accepted: all 16 sheets moved, and on
-# EVERY ONE the only changed lines are record-table rows and the canvas height -- 0 changed
-# lines anywhere else, on all sixteen. Ten sheets grew 11 to 33 px taller because fewer columns
-# fit and the table gained a row; six kept their height exactly (bad-01, bad-03, good-03,
-# good-04, good-06 and, at 1082, the dogtrot). Nothing in the drawing field moved.
-#
-# BOTH MOVED AT WP-13.6, IN TWO STEPS, AND THE FIRST STEP SHIPPED RED FOR THREE COMMITS.
-# Was 01771d3656231ba9 / 0fd105825eda19e0. The attribution was BISECTED rather than assumed,
-# with this test's own loop copied verbatim and run on `git worktree` checkouts:
-#
-#     1c2ac80  (before WP-13.6)                 01771d3656231ba9 / 0fd105825eda19e0  == the pin
-#     31a7373  (WP-13.6's first commit)         41314f5e3f8ba600 / 4fa5209dca42afb8
-#     bc48e5d, 4d95654, be63848, fb0e97f, 57e7b72   unchanged at 41314f5e... / 4fa5209d...
-#     this commit                               1a63f71dda3b6bee / 4413ad13a9e35766
-#
-# So WP-13.6's FIRST commit moved all sixteen sheets (a corner item now takes a corner) and
-# did not re-pin; four commits then shipped on a red assertion, none of which had touched a
-# renderer. It is the same failure as that package's other one, one layer out: a package that
-# commits before its build finishes learns what it broke from somebody else's build. WP-12.4
-# is the precedent this file already records -- "three commits had already shipped on it".
-#
-# WHAT MOVED IN THIS SECOND STEP, PROVED RATHER THAN REASONED. Re-rendering both trees with
-# `furniture_layout` stripped from every placed room -- WP-12.9's control -- leaves 3 of 16
-# sheets byte-identical and the other 13 differing in the FURNITURE DISCLOSURE LINE ALONE
-# (26 lines: "N FURNITURE ITEM(S) NOT DRAWN - ...", whose count moves), except on
-# `good-02-portico-library-house`, where that line wraps onto a second schedule row and pushes
-# every row below it down by exactly 14 px, growing the canvas 1039 -> 1053. NOT ONE LINE of
-# the drawing field, the walls, the openings, the datum or the title block moves for any other
-# reason. With the furniture in, all 16 move: the marks (rect/line/circle/path), the key
-# numerals and the key lines, and 5 canvases where a key changed corner or went to the margin.
-#
-# AND THE PLACEMENT IS UNTOUCHED. Every placed record on the deterministic engine is
-# byte-identical across the package but for `furniture_layout` and the two furniture counters
-# in `opening_report` -- room rectangles, footprint, openings, fixtures, stair, hearths,
-# threshold and `geometry_report` all identical, 16 of 16.
-#
-# THE HARNESS WAS PROVED BEFORE THE RE-PIN: run on a checkout of `1c2ac80` it reproduces
-# 01771d3656231ba9 / 0fd105825eda19e0 to the character. A re-pin whose instrument has not been
-# shown to reproduce the OLD value is not a measurement, it is a new number.
-#
-# **THIS PAIR IS STALE AT `57e7b72` AND WP-13.5 DID NOT RE-PIN IT (16 Sep 2026).** The
-# assertion below is RED on a `git archive` checkout of the branch head with no edit of this
-# package on it: measured there with this test's own loop, the corpus hashes
-# RAW 41314f5e3f8ba600 / STRIPPED 4fa5209dca42afb8 against the 01771d3656231ba9 /
-# 0fd105825eda19e0 pinned here. Some earlier commit on this branch moved a shipped sheet and
-# did not account for it, and this file cannot say which or why.
-#
-# WP-13.5 moves it further, by exactly one sheet: hashed per file on that same checkout and on
-# the WP-13.5 tree, FIFTEEN OF SIXTEEN ARE IDENTICAL and the sixteenth is
-# `tidewater-georgian-careful` (raw 4e79215d4342bf59 -> 13a5a98fe5d004bc, stripped
-# 5383251db94bb83f -> b792a829dd939e5a, 96,833 -> 96,922 bytes) -- the record that package
-# edits, whose service programme is now in the dependency it declares. Corpus totals on the
-# WP-13.5 tree: RAW 94ae3f0c59215830 / STRIPPED 80d5070e42c4573b.
-#
-# **IT IS LEFT RED ON PURPOSE.** Re-pinning it here would fold somebody else's unaccounted
-# movement into WP-13.5's accounting and publish the pair as though both were explained --
-# which is this file's own recorded lesson three paragraphs down, where WP-12.4 shipped three
-# commits on a red assertion after checking a DIFFERENT property by hand. The per-sheet
-# figures above are what a package that owns the earlier movement needs; the numbers below are
-# NOT this package's to change.
-# BOTH MOVED AT THE MERGE OF WP-13.2's SIX SLICES (15 Sep 2026), AND RE-PINNED ONCE, ON THE
-# MERGED TREE, WITH EACH SLICE'S OWN ACCOUNTING -- because five parallel worktrees each moved
-# the sixteen sheets and a pin per slice was stale the moment the next one merged. The value
-# below this comment (e0ccb4cf648cad04 / 55c2a6f66a7dbe0c) was the fire slice's, measured on a
-# tree carrying none of the other four; it is not reproducible here and is kept as the record
-# of what that slice moved. Measured with this test's own loop, copied verbatim. ALL SIXTEEN
-# SHEETS MOVE, and every changed line is one of:
-#   the door arc: 15 of 16 sheets, 47 lines, every one a class="sw" path whose only
-#     difference is the sweep digit (the horizontal-wall mirror, WP-6.1 to Phase 13); then the
-#     lead's follow-up hung every vertical-wall single leaf from the record's LOW jamb (the
-#     south one; it hung from the north), which moves those leaves' hinge lines and arcs;
-#   the title block: 16 of 16 schedules gain 3 to 5 lines (the window and transfer lines
-#     reach the plate for the first time; the engine line stops certifying on the name; the
-#     stacking, furniture and residual-void lines are new), 0 lines lost, the drawing field
-#     unmoved (render_plan.py's diff confined to the schedule; placement digests identical);
-#   the furniture key: 16 of 16 sheets gain a numeral on every mark and a key in the room or
-#     the margin, and the canvas grows for the margin keys;
-#   the datum: 16 of 16 sheets gain a dimension run under each plate, the bar's zero moves
-#     from the sheet's margin to the clear face, and every foot element and the canvas move
-#     down by exactly the 44 px band;
-#   the fire on its flue: the Tidewater alone -- the two stacks on the stated flues, one west
-#     sash refused for want of a run beside the breast -- and, from the follow-up, the dining
-#     room's REFUSED sash no longer re-inferred at the mid-wall (one class="sw"-free window
-#     frame fewer);
-#   the drawing field is otherwise unmoved: `openings_of_level` is `render()`'s own map and
-#     changes no derivation.
-# The old comment block below is kept as the record of the fire slice's movement.
-# ---- the fire slice's own pin, superseded by the merged value above ----
-# CORPUS_SHEET_SHA = "e0ccb4cf648cad04"; CORPUS_SHEET_SHA_NO_FRAME = "55c2a6f66a7dbe0c"
-# BOTH MOVED AT WP-13.2 (the fire on its flue). Was c4210345a77b9904 / b620afc41d04b412.
-# ONE SHEET OF SIXTEEN MOVED -- `tidewater-georgian-careful`, again the only shipped plan that
-# draws a chimney stack -- and this time the DRAWING FIELD moved, on purpose: the two stack
-# squares stand on the stated flues (W at 13.30-15.13 ft, E at 10.85-12.68) instead of the
-# mid-depth of each end wall (18.17-20.00); the drawing room's west sashes go from two (at 5.0
-# and 10.0, 49% inside the breast each) to one at 2.26 ft, and its second and the dining room's
-# one west sash are REFUSED for want of a run beside the breast and the stack, so the sheet is
-# 531 bytes shorter (75,439 -> 74,908). The other fifteen sheets hash byte-identical, per sheet,
-# measured with a harness that reproduced c4210345a77b9904 / b620afc41d04b412 on a
-# `git archive HEAD` checkout of the previous commit before it was believed on this tree.
-# The placement (`geometry_report`, every room rectangle) is untouched; what moved is what
-# `openings.place` seats after it.
-# BOTH MOVED AT WP-12.9, AND THE MOVEMENT IS ACCOUNTED RATHER THAN RE-PINNED. Was
-# 535077ae0bca1ea2 / 373d0116be7cecb8 (WP-11.14's stripped value, which WP-12.4 left alone).
-#
-# ONE SHEET OF SIXTEEN MOVED -- `tidewater-georgian-careful`, the only shipped plan that draws a
-# chimney stack -- by 296 bytes: four tooltips gain "(a judgment, not a measurement)" and the
-# title block gains one schedule row, so the canvas grows 962 -> 976 px and every row below the
-# new line shifts by exactly 14. NOTHING IN THE DRAWING FIELD MOVED.
-#
-# THE ACCOUNTING WAS PROVED AND NOT REASONED. Removing the single field this package added --
-# `judgment: true` on `kits/georgian-colonial-american.kit.json`'s `chimney.stack_plan_in` --
-# and re-rendering gives all SIXTEEN sheets byte-identical to the previous commit. So the whole
-# corpus movement is attributable to that one flag and to nothing else in the package, which is
-# what a re-pin owes: WP-12.4 published "16 of 16 plates byte-identical" from a comparison that
-# was not this one and shipped three commits on a red assertion.
+# BOTH MOVED AT WP-12.9, AND THE MOVEMENT WAS ACCOUNTED RATHER THAN RE-PINNED. ONE sheet of
+# sixteen moved -- `tidewater-georgian-careful`, the only shipped plan that draws a chimney
+# stack -- by 296 bytes: four tooltips gain "(a judgment, not a measurement)" and the title
+# block gains one schedule row, so the canvas grows 962 -> 976 px and every row below the new
+# line shifts by exactly 14. NOTHING IN THE DRAWING FIELD MOVED. The accounting was PROVED:
+# removing the single field that package added -- `judgment: true` on
+# `kits/georgian-colonial-american.kit.json`'s `chimney.stack_plan_in` -- and re-rendering gave
+# all SIXTEEN sheets byte-identical to the previous commit.
 #
 # AND THE HARNESS THAT MEASURED IT WAS WRONG ONCE, WHICH IS WHY THERE WAS A CONTROL. The first
 # sweep hashed the sixteen rendered files in FILENAME order; this test hashes them in
 # `plans/*.json` order followed by `plans/reference/*.json`, and the two are not the same
 # sequence. It produced a confident pair of hashes that were hashes of nothing anybody computes.
-# Running the same harness over a `git archive HEAD` checkout and requiring it to reproduce
-# 535077ae0bca1ea2 / 373d0116be7cecb8 is what caught it -- a re-pin whose instrument has not
-# been shown to reproduce the OLD value is not a measurement, it is a new number.
+# Running the same harness over a `git archive HEAD` checkout and requiring it to reproduce the
+# OLD value is what caught it -- a re-pin whose instrument has not been shown to reproduce the
+# old value is not a measurement, it is a new number.
+#
+# AND BOTH ARE THIRD VALUES AT THE MERGE OF THIS BRANCH INTO MAIN (16 Sep 2026), BELONGING TO
+# NEITHER PARENT, which is what says neither side was dropped. Main's sheets carry the
+# `data-frame` attribute and the judgment tooltips; this branch's six entrance-anchored plans
+# are re-placed. A merged hash equal to either parent's would have meant one side had been
+# lost. Both are re-derived on the merged tree by the same harness, and the STRIPPED pin is
+# what still carries WP-11.14's identity claim across the merge.
+# THE MERGED PAIR IS ATTRIBUTED PER PLAN, IN BOTH DIRECTIONS, AND THAT IS WHAT MAKES IT A
+# MEASUREMENT. Run on a `git worktree` of each parent, the harness below reproduces each
+# parent's own published value exactly -- `d351586` gives 6a3368fd8730f1b8 with `framed` 0
+# (this branch has no data-frame attribute at all) and `c65b638` gives
+# c4210345a77b9904 / b620afc41d04b412 -- so the instrument is the same instrument. Then, on the
+# STRIPPED hash, which is the one that carries WP-11.14's identity claim:
+#
+#     merged vs main          6 of 16 moved -- good-01, good-03, good-04, good-07,
+#                             spec-builder-colonial, tidewater-georgian-careful: exactly the six
+#                             plans `geometry.entrance_anchors` reaches (WP-11.17/11.18)
+#     merged vs this branch   1 of 16 moved -- tidewater-georgian-careful, the only shipped plan
+#                             that draws a chimney stack, which is WP-12.9's judgment tooltip
+#
+# Six and one, disjoint causes, and the two sets are exactly what each side contributed. **A
+# merged digest equal to either parent's would have meant one side had been dropped.**
+CORPUS_SHEET_SHA = "c59ccf4f0cbb9a04"
+CORPUS_SHEET_SHA_NO_FRAME = "6e40e16278d1f6e0"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])
@@ -447,7 +344,10 @@ def test_no_shipped_sheet_moves(engine, tmp_path):
         "must be the identity on every plan in this corpus")
     assert h.hexdigest()[:16] == CORPUS_SHEET_SHA, (
         "a shipped sheet moved. If the assertion above passed, the movement is inside the "
-        "data-frame attribute itself and the renderers' affine has changed")
+        "data-frame attribute itself and the renderers' affine has changed. Otherwise: on a "
+        "one-rectangle house a boundary room's own face IS the footprint edge, so WP-11.14 is "
+        "the identity on the plans that are one rectangle -- re-derive PER PLAN and name which "
+        "moved before re-pinning, because a corpus digest cannot tell you")
 
 
 # --------------------------------------------------------------- the DRAWING, not the derivation

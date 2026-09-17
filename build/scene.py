@@ -1119,6 +1119,37 @@ def _roof(plan, section, roof, states, elev=None):
     W, D = fp.get("width_ft"), fp.get("depth_ft")
     out = []
 
+    # THE ROOF IS DERIVED FOR THE MAIN BLOCK ALONE, AND ON A TAGGED RECORD THAT LEAVES A MASS
+    # STANDING WITH NO ROOF OVER IT AT ALL.
+    #
+    # `roof.py` reads `section.footprint`, which is the MAIN BLOCK's rectangle, and this file
+    # follows it. The walls and the slabs do not: `_walls` takes each wall's own `element` and
+    # `_slabs` takes `export_ifc.slab_boxes`, which is per element per storey. So a plan with a
+    # dependency gets that dependency's walls and its floor and NOTHING above them -- the
+    # eighth layer to read the main block as the whole building, after the six WP-11.9 taught
+    # and the drawing WP-11.14 did.
+    #
+    # It is NOT fixed here, because a per-element roof needs a stated ridge relation between
+    # two masses that no record in this corpus carries -- which is the half of
+    # `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` that WP-11.6 left
+    # open in as many words. What is fixed is the SILENCE: an unroofed mass was being drawn
+    # with nothing anywhere saying so, and a reader looking at the model would have read it as
+    # the building rather than as the part of it this layer can construct.
+    #
+    # `footprint.blocks` is null on a one-rectangle plan, so fifteen of the sixteen shipped
+    # records take no entry and nothing about them moves.
+    for _b in ((plan.get("footprint") or {}).get("blocks") or []):
+        if (_b.get("role") or "main") == "main":
+            continue
+        states.cannot(
+            f"roof planes over the {_b.get('role')} element {_b.get('id')!r}",
+            "roof.py derives one roof from `section.footprint`, which is the main block's "
+            "rectangle; a second mass needs a stated ridge relation to the first and no "
+            "record in this corpus carries one. The mass is drawn with its walls and its "
+            "floor and no roof: "
+            "oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it",
+            "footprint.blocks", cls="roof")
+
     # THE ROOF RECORD AND THE PLAN RECORD DO NOT SHARE AN ORIGIN, AND THIS LAYER IS THE FIRST
     # THING THAT HAD TO PUT THEM IN ONE PICTURE.
     #

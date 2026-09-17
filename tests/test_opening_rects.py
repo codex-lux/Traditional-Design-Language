@@ -183,7 +183,7 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
     the N and W faces were mirrored, which put that sash 27.8 ft from the stack it stands on.
     """
     el = _load("elevation")
-    seen = 0
+    seen = {}
     for pid, elev in elevations.items():
         sw = elev["storey_windows"]
         floors = {s["index"]: s["grade_to_floor_ft"] * 12.0 for s in elev["section"]["storeys"]}
@@ -191,7 +191,7 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
         t_ft = elev["section"]["wall"]["exterior_in"] / 12.0
         for face in ("S", "N", "E", "W"):
             for r in el.opening_rects(elev, face)["rects"]:
-                seen += 1
+                seen[pid] = seen.get(pid, 0) + 1
                 # THE CONSTRUCTION, not the difference. `x1 - x0` reintroduces its own
                 # rounding — 75.5315 - 36.8845 is not 38.647 in binary — so asserting that
                 # would be a test of IEEE 754 rather than of this function. What must hold
@@ -227,15 +227,21 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
                     ent = elev["entrance"]
                     assert r["sill_in"] == floors[0], "a door stands on its own floor"
                     assert r["head_in"] == floors[0] + ent["door_leaf_height_in"]
-                    assert r["leaf_height_source"] == "elevation.entrance.door_leaf_height_in"
-    # 34 -> 27 AT WP-13.5, and it is the PLACEMENT that moved, not the arithmetic this test is
-    # about. The Tidewater record states its container now, so its openings are seated in three
-    # elements instead of one and the main block's own faces carry fewer: S 7, N 6, E 2, W 0
-    # against the spec Colonial's unmoved S 6, N 4, E 0, W 2. Every rectangle still names the
-    # record it came from and still stands on its own storey datum, which is what is asserted
-    # above; only how many there are moved.
-    assert seen == 27, (f"expected 27 placed-and-drawn openings over the two shipped plans on "
-                        f"the heuristic, read {seen}; 72 is the rhythm")
+    # PER PLAN, BECAUSE A TOTAL OVER TWO HOUSES CANNOT SAY WHICH ONE MOVED.
+    #
+    # This read `seen == 72` until the 16 Sep merge, and the merge moved it to 64 -- all of it
+    # on the Tidewater plan, 40 -> 32, and none of it on the spec Colonial. The cause is
+    # WP-11.16's record edit meeting WP-12.2's lift: tagging that plan's service programme into
+    # a west dependency takes the MAIN BLOCK from 63 ft and 7 bays to 45 ft and 5 bays, and
+    # 2 bays x 2 storeys x 2 long faces is exactly the 8 that left (S and N each 14 -> 10, the
+    # gable ends unmoved at 6). The rectangle arithmetic every assertion above tests did not
+    # change; the house did.
+    #
+    # Re-derive per plan before touching either number. A bump of the total would have been a
+    # measurement's clothes on a house nobody looked at.
+    assert seen == {"tidewater-georgian-careful": 32, "spec-builder-colonial": 32}, (
+        f"the opening census over the two shipped plans moved: {seen}. Derive WHICH plan and "
+        f"why -- the bay count, the storey count and the faces -- before re-pinning it.")
 
 
 def test_every_rectangle_names_the_record_it_came_from(elevations):

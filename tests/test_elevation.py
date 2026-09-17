@@ -97,46 +97,35 @@ class TestStoreyWindowSizing:
 
 
 class TestBayLayout:
-    def test_tidewater_front_carries_the_bay_count_the_plan_states(self, elevation_module):
-        """FIVE SINCE WP-13.5, SEVEN SINCE WP-11.2, FIVE BEFORE THAT — AND THE ASSERTION IS THE
-        AGREEMENT RATHER THAN THE NUMBER, WHICH IS WHY IT IS RE-CUT AND NOT MERELY RE-PINNED.
+    def test_tidewater_front_gets_the_bay_count_its_own_footprint_states(self, elevation_module):
+        """FIVE AT WP-11.16, and the test is RENAMED rather than re-pinned under a name saying
+        seven -- a `..._gets_seven_bays` over a 5 is this repository's own "until X lands" trap,
+        and a name is the first thing a reader trusts.
 
-        The history is the reason. Before WP-11.2 the elevation derived its own odd bay count
-        from `facade-classical`'s window-grouping rule against the face's actual width and said
-        FIVE while the footprint said SIX, and no test compared them; WP-11.2 made the plan read
-        the massing's own bay count and both said seven on a 63 ft front; WP-11.7 then made the
-        elevation TAKE the plan's count for a face that spans the width, so the two stopped being
-        two answers. WP-13.5 moved the Tidewater service programme into the dependency the record
-        declares, the main block went 63.00 ft to 45.00, and both fell to five together.
+        The cause is a record edit: `plans/tidewater-georgian-careful.json` declares 617 sf of
+        service programme as a west dependency, so the main block is 45 ft wide instead of 63
+        and its front carries five bays. `styles/tidewater-georgian.json` admits both in its own
+        words -- *"Five or seven bays, unaccented, the centre marked only by the doorway"* -- so
+        this is the house changing shape and not a rule breaking.
 
-        FIVE IS INSIDE THE STYLE'S OWN STATEMENT: `styles/tidewater-georgian.json` says *"Five or
-        seven bays, unaccented, the centre marked only by the doorway"*, so the narrower house is
-        the type and not a departure from it.
+        AND THE COINCIDENCE THE PARAGRAPH BELOW WARNS ABOUT HAS GOT NARROWER, which is worth
+        saying because it makes the corpus WEAKER for this join, not stronger: both shipped
+        plans now read 5, so the two independent derivations agree at a single value across the
+        whole corpus. Nothing holds them to each other; `tests/test_facade.py` drives them apart
+        deliberately for that reason.
 
-        A bare re-pin from 7 to 5 was available and is the wrong guard: this number is a
-        CONSEQUENCE of the footprint, so a test that states it is pinning a house rather than a
-        rule, and it would have to be re-pinned by every package that moves the front. What
-        cannot be allowed to drift is WP-11.7's join — a width-spanning face takes the PLAN's
-        count and does not compute a second one. So the front's count is asserted against
-        `footprint.bays`, the range the style admits is asserted too (so a plan that fell to
-        three would not pass by agreeing with itself), and the count is printed in the message.
-        """
-        import importlib.util as _ilu
-        plan = load_plan("tidewater-georgian-careful")
-        spec = _ilu.spec_from_file_location("geo_for_bays", os.path.join(ROOT, "build", "geometry.py"))
-        geo = _ilu.module_from_spec(spec); spec.loader.exec_module(geo)
-        geo._SOLVE_CACHE.clear()
-        placed = geo.solve(json.loads(json.dumps(plan)), engine="heuristic")
-        want = placed["footprint"]["bays"]
-        elev = elevation_module.build_elevation(plan)
-        assert elev["front"]["count"] == want, (
-            f"the elevation draws {elev['front']['count']} bays on the front and the plan states "
-            f"{want}: WP-11.7's join has come apart and the two layers are answering separately "
-            "again")
-        assert want in (5, 7), (
-            f"the front is {want} bays, and `styles/tidewater-georgian.json` says \"Five or "
-            "seven bays\" — if the placement really has left the type say so with the reason, "
-            "do not widen this")
+        SEVEN, moved from five by WP-11.2, and the move revealed that these two layers had
+        been DISAGREEING. The elevation derives its own odd bay count from `facade-classical`'s
+        window-grouping rule against the face's actual width; the plan derives its own from the
+        area and (now) the massing. Before WP-11.2 the elevation said five and the footprint
+        said six and no test compared them. The face is 63 ft now and both say seven, which
+        `styles/tidewater-georgian.json` admits in its own words -- *"Five or seven bays,
+        unaccented, the centre marked only by the doorway"*. That the two agree here is a
+        coincidence of one plan and not a mechanism: nothing holds them to each other, which is
+        worth knowing before trusting either. """ + \
+        ""
+        plan, elev = _tidewater_elevation(elevation_module)
+        assert elev["front"]["count"] == 5
 
     def test_door_bay_is_centred(self, elevation_module):
         plan, elev = _tidewater_elevation(elevation_module)

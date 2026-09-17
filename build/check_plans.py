@@ -65,6 +65,18 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def _element_tag(room):
+    """Which massing element the PLAN puts this room in, read from its own declared tag.
+
+    `geometry.is_block_tag` is the ONE rule for whether a `block` field is an element id, and it
+    is borrowed rather than re-spelled: its own docstring records that two readers answering
+    this differently is how a room comes to be sized into one element and placed in another.
+    An untagged room is in the main block, which is the answer a record written before the field
+    existed already gets."""
+    g = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    return room.get("block") if g.is_block_tag(room.get("block")) else "main"
+
+
 def _mod(name, path):
     b = os.path.join(ROOT, "build")
     if b not in sys.path:
@@ -163,9 +175,31 @@ def check_plan(plan, parti):
         for d in sorted(want_doors - got_doors):
             if d != "exterior" and d not in pr:
                 continue
-            found.append({"kind": "door", "room": rid,
+            # A DOOR BETWEEN TWO MASSING ELEMENTS IS THE SAME KIND OF STATEMENT AS AN EXPOSURE,
+            # and the paragraph in this file's own docstring that carved `exterior_walls` out is
+            # the argument for it (WP-11.16). A parti states topology; whether two rooms CAN
+            # share a door is a consequence of the MASSING, which decision #3 puts outside a
+            # parti's authority. `centre-passage-double-pile` has no dependency and gives the
+            # butler's pantry a direct door to the kitchen; the shipped Tidewater plan puts the
+            # kitchen in a detached dependency, where `rooms/butlers-pantry.json` has said since
+            # OQ 59 that in this type "the pantry is in the block and the kitchen is in another
+            # building". Keeping the door to satisfy the diagram would put a door in the record
+            # that BOTH engines report unplaced for ever -- measured, 2 of the 4 unplaced doors
+            # on the proved placement -- and would let the servicing layer pass those two rooms
+            # as a wet pair across a 27 ft gap. Erasing it to make this checker quiet would
+            # delete the record's own account of the house, which is the sentence above.
+            # NARROW ON PURPOSE: only where the PLAN ITSELF puts the two rooms in different
+            # elements. Same element, or a one-rectangle plan, and a missing door still FAILS.
+            kind = "door"
+            if d in pr and _element_tag(have) != _element_tag(pr[d]):
+                kind = "door-across-elements"
+            found.append({"kind": kind, "room": rid,
                           "statement": f'the parti gives {rid} a door to {d} and the plan '
-                                       f'declares none'})
+                                       f'declares none'
+                                       + ('' if kind == "door" else
+                                          f' — the plan puts them in different massing elements '
+                                          f'({_element_tag(have)} and {_element_tag(pr[d])}), '
+                                          f'which the parti has no vocabulary for')})
 
     styles = parti.get("styles") or []
     if styles and plan.get("style") and plan["style"] not in styles:
@@ -181,15 +215,41 @@ def check_plan(plan, parti):
     return found
 
 
-# Findings a parti may not fail a plan on, and the count that may only fall. Two today, both on
-# `plans/tidewater-georgian-careful.json`: `backhall` N/S against the parti's E/N, and `kitchen`
-# N/S/W against E/N. The comment here used to say they *"go to zero when WP-11.6 gives the diagram
-# the elements its exemplars have"*, and WP-13.5 gave the diagram those elements and MEASURED the
-# count unmoved at 2 — because the disagreement is about which SIDE of the house the wing stands
-# on, which is a massing statement either way. The prediction was wrong; it is recorded rather
-# than quietly replaced.
-REPORTED = {"exterior-walls"}
+# Findings a parti may not fail a plan on, and the counts that may only fall. There are TWO kinds
+# and they keep separate ceilings, because the two parallel lines added one each and they measure
+# different things: `exterior-walls` is an exposure the plan recast, `door-across-elements` is a
+# door the parti declares between two rooms the PLAN puts in different massing elements. One
+# number for both would let a new door hide behind a corrected exposure.
+#
+# TWO PREDICTIONS WERE FALSIFIED HERE AND BOTH ARE KEPT, because each was wrong its own way.
+# This comment used to say the exposure findings *"go to zero when WP-11.6 gives the diagram the
+# elements its exemplars have"*. WP-11.6 tried exactly that and `check_partis.py` refused all three
+# arrangements, each by a HARD room rule -- the butler's pantry must directly door both the dining
+# room and the kitchen, and no boundary can be drawn that keeps both. The elements arrived on the
+# PLAN instead -- WP-11.16 on one line and WP-13.5 on the other, the same edit made twice by two
+# sessions that could not see each other -- and the exposure count was then MEASURED unmoved at 2,
+# because the disagreement is about which SIDE of the house the wing stands on: the parti states
+# its service wing E/N, this plan builds it N/S/W, and `geometry.flank_sizes` reads the side off
+# those very letters. Both records describe an instance of the diagram and neither is wrong, which
+# is why this kind reports. `oq/the-parti-dissolved-its-own-dependencies` is what takes the
+# exposure count to zero and it is a ruling nobody has given.
+#
+# AND THE CROSS-ELEMENT DOOR CEILING IS A THIRD VALUE AT THIS MERGE, BELONGING TO NEITHER PARENT.
+# The kind was added for the two halves of the direct `butlers`-`kitchen` door, which one parent
+# dropped from the PLAN while the parti went on declaring it -- two findings. The other parent
+# dropped it from `partis/centre-passage-double-pile.json` as well, for
+# `rooms/butlers-pantry.json`'s own OQ 59 reason, so on the merged corpus the parti declares no
+# such door and there is nothing left to report. The ceiling is re-derived below rather than taken
+# from either side. The kind is NOT deleted: a ceiling of zero on a corpus that cannot reach the
+# branch is exactly the shape that reads as a guard passing, so it is DRIVEN by a hand-built pair
+# in `tests/test_check_plans.py` instead of resting on the corpus.
+REPORTED = {"exterior-walls", "door-across-elements"}
 EXPOSURE_CEILING = 2
+# RE-DERIVED ON THE MERGED TREE, not taken from either parent: `python3 build/check_plans.py`
+# reads "2 exposure finding(s) reported, 0 cross-element door finding(s)". One parent measured 2
+# here and the other never had the kind; 0 is the third value, and it is a ceiling that may only
+# fall, so it falls. See the comment above for why the kind is kept at zero rather than deleted.
+CROSS_ELEMENT_DOOR_CEILING = 0
 
 
 def main():
@@ -200,7 +260,7 @@ def main():
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()
 
-    rows, unjudged, bad, exposure = [], [], 0, 0
+    rows, unjudged, bad, exposure, xdoor = [], [], 0, 0, 0
     for path in plan_paths(a.plans):
         try:
             plan = json.load(open(path, encoding="utf-8"))
@@ -222,7 +282,8 @@ def main():
         if found:
             rows.append((rel, found))
             hard = [f for f in found if f["kind"] not in REPORTED]
-            exposure += len(found) - len(hard)
+            exposure += sum(1 for f in found if f["kind"] == "exterior-walls")
+            xdoor += sum(1 for f in found if f["kind"] == "door-across-elements")
             if hard:
                 bad += 1
 
@@ -244,7 +305,15 @@ def main():
         n = len(plan_paths(a.plans))
         print(f"\n{n - len(unjudged)} of {n} plan(s) checked against a named parti; "
               f"{bad} with a topology finding, {exposure} exposure finding(s) reported "
-              f"(ceiling {EXPOSURE_CEILING}), {len(unjudged)} unjudged.")
+              f"(ceiling {EXPOSURE_CEILING}), {xdoor} cross-element door finding(s) reported "
+              f"(ceiling {CROSS_ELEMENT_DOOR_CEILING}), {len(unjudged)} unjudged.")
+    if xdoor > CROSS_ELEMENT_DOOR_CEILING:
+        print(f"\nRATCHET: {xdoor} cross-element door finding(s) against a ceiling of "
+              f"{CROSS_ELEMENT_DOOR_CEILING}. A door the parti declares between two rooms the "
+              f"plan puts in different massing elements is REPORTED rather than failed, and the "
+              f"licence is bounded: a new one means a diagram and a record have drifted further "
+              f"apart, not that the licence has grown.", file=sys.stderr)
+        return 1
     if exposure > EXPOSURE_CEILING:
         print(f"\nRATCHET: {exposure} exposure finding(s) against a ceiling of "
               f"{EXPOSURE_CEILING}. This number may go DOWN when a plan or a parti is corrected "

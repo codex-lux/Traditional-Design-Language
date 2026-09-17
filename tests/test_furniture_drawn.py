@@ -146,19 +146,40 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # (419 -> 574). Of those, 140 are the new call site (86 across + 54 along) and 15 are long-axis
 # shortfalls the old `elif` computed and dropped. The declared furniture layer moved 137 -> 178
 # by the same split, +41.
-# **WP-13.5 MOVED BOTH DOWN, 68 -> 66 SHORT AND 82 -> 80 LONG, AND THE CAUSE IS A RECORD EDIT
-# RATHER THAN EITHER ENGINE.** Moving the Tidewater service programme into the dependency the
-# record declares takes that plan from (8, 11) to (6, 9); every other plan in the corpus reads
-# the same figure before and after. **The control is what makes this a measurement**: re-run
-# with the six `block`/`hyphen` tags stripped and the sweep reproduces 68/82 EXACTLY, so the
-# instrument has been shown to reproduce the old value before the new one was pinned -- which
-# is this repository's own rule about what a re-pin is.
+# 66/79 AT WP-11.16, from 68/82, AND THE LAYER THAT MOVED IT IS THE PLACEMENT -- re-derived,
+# per plan, which this file's own standing rule demands. Of sixteen records EXACTLY ONE moves:
+# `tidewater-georgian-careful` 8/11 -> 6/8. Every other plan is byte-identical, so neither the
+# catalogue nor the fit arithmetic moved, and a reader who assumed the last cause was the cause
+# would have been wrong for the fourth time in this file.
 #
-# Read it as a room getting squarer rather than as the furniture layer changing: the main block
-# goes 63.00 x 38.17 -> 45.00 x 37.24 and the six service rooms leave it, so what is left is a
-# shorter programme in a nearly square box. WP-11.8's own mechanism, arriving from the record
-# side instead of from the key.
-DRAWN_SHORT_CEILING = 66   # 68 until WP-13.5, 86 until WP-11.8. READ ALL THREE NOTES BELOW, IN ORDER: the first is
+# THE CAUSE IS A RECORD EDIT: that plan declares 617 sf of service programme as a west
+# dependency now, so the rooms that stay in the main block are drawn in a 45 x 37.24 ft pile
+# instead of 63 x 38.17, and five essential items that did not fit now do.
+#
+# AND IT IS AN IMPROVEMENT TO READ WITH SUSPICION, not to bank. The SAME package refuses a
+# fixture on the same plan -- the primary bath goes 211 sf to 99 and its shower with bench has
+# nowhere to stand (`tests/test_openings.py` names it). A furniture ratchet improving while a
+# fixture is refused means the two instruments are reading different halves of one house, and
+# the fixture is the one carrying the bad news.
+# WP-11.17 MOVED BOTH IN OPPOSITE DIRECTIONS AND IT WAS THE PLACEMENT AGAIN: 66/79 -> 69/74,
+# the across ceiling RISING by three and the along one falling by five. That package states the
+# entrance front -- the room that must stand on it is placed against it rather than left to the
+# guillotine -- and the six plans whose records decide that question are re-placed. Re-derived
+# per plan on a `git worktree` of the parent commit, across/along:
+#
+#     good-01   5/5 -> 5/4        good-03   1/2 -> 0/2      good-04   2/1 -> 3/1
+#     good-07   3/2 -> 3/4        spec      9/18 -> 13/9    tidewater 6/8 -> 5/11
+#
+# and the other TEN plans are byte-identical, which is what says this is the entrance anchor and
+# not something corpus-wide. The movement is dominated by `spec-builder-colonial`, which trades
+# nine along-axis shortfalls for four across; its own porch was ALREADY on the entrance front, so
+# the anchor fixes nothing there and only re-places the house.
+#
+# A RISE IS THE WORSE DIRECTION AND IS NOT NETTED OFF against the five it buys or against what
+# the package is for. What the across rise is NOT is the band ranking failing: WP-11.8's key is
+# untouched, and the pool it chooses from is simply smaller, because every candidate now has the
+# entrance room on the entrance face.
+DRAWN_SHORT_CEILING = 64   # 69 until WP-11.18, 66 until WP-11.17, 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
 # WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
 # WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
 # both ways over all sixteen plans: the two extra shortfalls are the library table in
@@ -171,7 +192,7 @@ DRAWN_SHORT_CEILING = 66   # 68 until WP-13.5, 86 until WP-11.8. READ ALL THREE 
 # and two libraries that had passed now fail. The conviction is right and the ceiling is raised
 # rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
 # byte-identical across the whole package, which is how the cause was isolated.
-DRAWN_LONG_CEILING = 80   # 82 until WP-13.5; see the note above the short ceiling.
+DRAWN_LONG_CEILING = 81   # 74 until WP-11.18, 79 until WP-11.17, 82 until WP-11.16; see the short ceiling's note
 # WP-11.8 MOVED BOTH TO 65 (86 -> 65 SHORT, 70 -> 65 LONG) AND IT IS THE FIRST OF THE FOUR
 # MOVES THAT IS AN IMPROVEMENT RATHER THAN A DISCLOSURE. The search ranks the band a room's own
 # record states -- the proportion ceiling AND the area floor -- ABOVE its own score now, so it
@@ -224,6 +245,23 @@ DRAWN_LONG_CEILING = 80   # 82 until WP-13.5; see the note above the short ceili
 # `oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either` carries it, with what must
 # be ruled. RE-BASELINED UPWARD, in public, with the parents' own numbers beside it -- because a
 # ceiling quietly raised is a regression absorbed.
+
+
+# WP-11.18 MOVED BOTH, IN OPPOSITE DIRECTIONS, AND THE PER-PLAN DERIVATION IS WHY IT IS NOT A
+# WASH. 69/74 -> 64/81. Four plans move and twelve are byte-identical; all four name an entrance
+# face, which is the population `partition`'s new closer-side rule for a STATED share reaches.
+#
+#     spec-builder-colonial            short 13 -> 9    long  9 -> 13
+#     tidewater-georgian-careful       short  5 -> 4    long 11 -> 11
+#     good-03-parlor-drawing-room      short  0 -> 1    long  2 ->  2
+#     good-04-rambling-porch-farmhouse short  3 -> 2    long  1 ->  4
+#
+# **The spec Colonial is the whole of it and it is one house trading axes**: four rooms stop
+# failing across and four start failing along, which is the slicer's groups changing shape rather
+# than a room getting worse overall -- that plan's serious count falls 105 -> 97 across the same
+# change. `good-04` gains three along and loses one across while its fatal count falls 13 -> 10
+# and its undrawable doors 10 -> 6. RE-BASELINED IN PUBLIC, one ceiling up and one down, with the
+# per-plan rows above so neither can be quoted as the other.
 
 
 def test_drawn_furniture_shortfalls_are_ratcheted():

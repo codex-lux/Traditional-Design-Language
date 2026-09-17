@@ -5,8 +5,12 @@ wrongly a fourth: `structure.build_section` and `export_ifc` each carried a corr
 comprehension, the search built its own map for level 0, and `geometry._disclose_spans` --
 written three packages after the rule was established -- handed EVERY level EVERY element.
 
-WHY NOTHING CAUGHT IT. No plan in this corpus carries a `block` tag, so `len(_els) > 1` is
-false everywhere and the defective branch is unreachable on all sixteen shipped plans. The
+WHY NOTHING CAUGHT IT. No plan in this corpus carried a `block` tag when WP-11.15 measured this,
+so `len(_els) > 1` was false everywhere and the defective branch was unreachable on all sixteen
+shipped plans. **WP-11.16 tagged one** -- `plans/tidewater-georgian-careful.json` -- so the branch
+is reachable from the corpus now and the byte-identity evidence WP-11.15 rested on covers the
+other fifteen. The hand-built fixtures below are kept: they are the only multi-element case with
+exact coordinates and no solver in it. The
 guards here are therefore hand-built records, on WP-11.10's stated precedent: a guard that runs
 only where the bug cannot occur is not a guard.
 
@@ -150,23 +154,29 @@ def test_the_published_marks_are_the_spans_the_search_charged():
 
 def test_the_fixture_really_exercises_the_multi_element_branch():
     """A guard that runs where the bug cannot occur is not a guard. `len(_els) > 1` is the
-    condition the whole defect lives behind, and it is false on all sixteen shipped plans."""
+    condition the whole defect lives behind, and it was false on all sixteen shipped plans until
+    WP-11.16 tagged one of them."""
     assert len(EL.elements(_two_element_plan())) > 1
     corpus = sorted((ROOT / "plans").glob("*.json")) + \
         sorted((ROOT / "plans" / "reference").glob("*.json"))
     tagged = [p.name for p in corpus
               if any(r.get("block") for lv in (json.loads(p.read_text()).get("levels") or [])
                      for r in (lv.get("rooms") or []))]
-    # WP-13.5 IS THE RECORD EDIT WP-11.15 PREDICTED WOULD FIRE THIS, and it fires it:
-    # `plans/tidewater-georgian-careful.json` carries a container now. The hand-built fixture
-    # above is KEPT and is still what drives the branch, for WP-11.15's own reason -- the
-    # defect it guards published a phantom span at NEGATIVE x, and a fixture whose elements
-    # are all at positive x would let a wrong answer look plausible, which the shipped
-    # record's west wing does not fix. What changes is that this is now a list of ONE named
-    # plan rather than an empty list, so a SECOND record growing a container still stops here.
+    # THE TRIPWIRE FIRED AT WP-11.16, WHICH IS WHAT IT WAS FOR, AND IT IS KEPT RATHER THAN
+    # RETIRED. It read `tagged == []` and its message said "a shipped plan now carries a block
+    # tag ... read WP-11.15's report before changing it" -- a reader did, and then tagged one
+    # deliberately. What WP-11.15 rested on was that the corpus was byte-identical across its
+    # fix BECAUSE `len(_els) > 1` was false everywhere; that evidence is spent now, and the
+    # sentence in its report saying so is corrected there.
+    #
+    # Pinned BY NAME rather than by a count, so a SECOND tagged plan still fires it and still
+    # sends its author here. The hand-built fixture above is not redundant: it is the only
+    # multi-element case with exact coordinates and no solver in it, and the assertion one line
+    # above -- that it really does reach the branch -- is the half that was always the point.
     assert tagged == ["tidewater-georgian-careful.json"], (
-        "the set of shipped plans carrying a block tag is not the one WP-13.5 authored -- "
-        "read WP-11.15's report and WP-13.5's before changing the fixture above")
+        f"the set of tagged shipped plans has changed to {tagged}. One plan carries a block tag "
+        f"(WP-11.16 tagged it); a second one means the corpus no longer matches what the guards "
+        f"in this file and WP-11.15's report assume -- read both before moving this line")
 
 
 # ------------------------------------------------- a level nobody can resolve is not one block

@@ -281,32 +281,39 @@ class TestADependencyIsDrawnInsideItsOwnPanel:
         """The main block is still the main block: with no dependency the drawn extent equals it
         and the sheet must be byte-identical to what it always was.
 
-        **THE TRIPWIRE IN THE LAST LINE FIRED AT WP-13.5 AND IT WAS RIGHT TO.** It read
-        *"this plan is one rectangle; if that stops being true the byte-identity claim is
-        void"*, and WP-13.5 moved the Tidewater service programme into the dependency the
-        record declares — six rooms at model x −34.00 to −7.00, a long way left of the zero
-        this assertion demands. Nothing is wrong with the renderer: the ONE-BLOCK case is
-        still the one-block case, and the fixture had been borrowing a shipped record to
-        stand for it.
-
-        So it states its own now. `untagged_reference_plan` gives the same house with its
-        container removed, and the strip count is asserted, so the day the shipped tags are
-        renamed or withdrawn this fixture says so instead of silently becoming the shipped
-        record again. The sibling test above builds an EAST dependency by hand for the other
-        half — neither case is read off whatever `plans/` happens to carry.
+        A CENSUS SINCE WP-11.16, AND THE TEST PREDICTED ITS OWN REPAIR. It read the shipped
+        Tidewater and its assertion message said "this plan is one rectangle; if that stops
+        being true the byte-identity claim is void". WP-11.16 tagged it, and the claim IS void
+        for that one record -- so the claim is made where it is true, over the fifteen that are
+        still one rectangle, and the sixteenth is asserted to really extend beyond its block
+        rather than being skipped. A plan quietly dropped from a sweep is how a guarantee comes
+        to describe a smaller corpus than the sentence beside it says.
         """
-        import os, importlib.util
-        from conftest import untagged_reference_plan
+        import glob, json, os
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        spec = importlib.util.spec_from_file_location("rp", os.path.join(root, "build", "render_plan.py"))
-        rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
-        plan, stripped = untagged_reference_plan()
-        assert stripped == 6, (
-            f"the shipped record carries {stripped} container tags, not 6: re-read WP-13.5's "
-            "record edit before trusting this fixture")
-        geometry_module._SOLVE_CACHE.clear()
-        geometry_module.solve(plan, engine="heuristic")
-        pts = [r["geometry"] for lv in plan["levels"] for r in lv["rooms"] if r.get("geometry")]
-        assert min(g["x_ft"] for g in pts) >= 0.0
-        assert max(g["x_ft"] + g["width_ft"] for g in pts) <= plan["footprint"]["width_ft"] + 0.01, (
-            "this plan is one rectangle; if that stops being true the byte-identity claim is void")
+        one, many = [], {}
+        for pf in sorted(glob.glob(os.path.join(root, "plans", "*.json"))) + \
+                  sorted(glob.glob(os.path.join(root, "plans", "reference", "*.json"))):
+            plan = json.load(open(pf))
+            if "levels" not in plan:
+                continue
+            name = os.path.basename(pf)
+            geometry_module._SOLVE_CACHE.clear()
+            geometry_module.solve(plan, engine="heuristic")
+            pts = [r["geometry"] for lv in plan["levels"] for r in lv["rooms"] if r.get("geometry")]
+            assert pts, f"{name}: nothing was placed, so this sweep proves nothing about it"
+            lo = min(g["x_ft"] for g in pts)
+            hi = max(g["x_ft"] + g["width_ft"] for g in pts)
+            W = plan["footprint"]["width_ft"]
+            (many.__setitem__(name, (round(lo, 2), round(hi, 2), W))
+             if lo < -0.01 or hi > W + 0.01 else one.append(name))
+        assert len(one) + len(many) == 16, "the sweep is not reaching sixteen plans"
+        assert list(many) == ["tidewater-georgian-careful.json"], (
+            f"the set of records drawn outside their own main block moved: {sorted(many)}. "
+            f"Every byte-identity claim about the sheet is written about the others.")
+        lo, hi, W = many["tidewater-georgian-careful.json"]
+        assert lo < -0.01, (
+            f"the tagged plan is drawn entirely inside its main block (x from {lo} to {hi} on a "
+            f"{W} ft block). Its west dependency is what makes this record the exception the "
+            f"line above names -- if it has stopped being drawn outside, the exception is stale "
+            f"and the fifteen above should be sixteen.")

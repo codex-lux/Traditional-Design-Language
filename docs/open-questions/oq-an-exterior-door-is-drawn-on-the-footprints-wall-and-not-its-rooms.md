@@ -77,7 +77,9 @@ lesson WP-11.9 states in its own report.
    room's own element rather than assumed correct because one drawing looked right.
 
 Until then: **a multi-element sheet draws its exterior doors in the wrong place, and nothing on
-the plate says so.** No plan in this corpus carries a `block` tag, so nothing shipped is
+the plate says so.** When this was raised no plan in this corpus carried a `block` tag;
+`plans/tidewater-georgian-careful.json` does since WP-11.16, so re-measure before quoting the
+next sentence. At the time, nothing shipped was
 affected, and `tests/test_elements.py`'s two corpus hashes hold that.
 
 

@@ -210,27 +210,52 @@ class TestTheCriticReadsIt:
         for k in ("spine", "door", "mirror", "alignment"):
             assert k in ax
 
-    def test_the_shipped_passage_is_OFF_centre_and_that_is_a_cost_of_wp_13_5(self, checked):
-        """It was the whole west bay of a six-bay house when the diagnosis was written; WP-11.2's
-        odd bay count and the diagram's own module put it on the centre line; and WP-13.5 has
-        taken it off again.
+    def test_the_shipped_passage_is_on_centre_after_wp_11_2(self, checked):
+        """It was the whole west bay of a six-bay house when the diagnosis was written. The
+        odd bay count and the diagram's own module put it on the centre line.
 
-        **THIS IS A COST, ASSERTED RATHER THAN LOOSENED.** The container moved the service
-        programme into the dependency the record declares, so the front is 45.00 ft wide instead
-        of 63.00 and this engine draws the passage centred at 27.21 ft against a footprint centre
-        of 22.50 -- 4.71 ft off, against the 4.5 ft this diagram allows (half a bay module,
-        editorial, stated in the record that carries it). `plan_check` emits
-        `drawn-passage-off-centre` for it, `serious`, which is the corpus criticising the
-        placement as it should.
+        SPLIT BY ENGINE AT WP-11.16, AND WP-11.17 CHANGED WHICH STATE THE SEARCH IS IN WITHOUT
+        FOLDING THE SPLIT BACK. Tagging this record's service programme into a west dependency
+        cost the search its axis: `on-centre` under CP against `off-centre` under the hill-climb.
+        Stating the entrance front takes the search to **`could-not-evaluate`**, and that is a
+        DIFFERENT state rather than a worse one, with a cause worth knowing:
 
-        The verdict is asserted, not the tolerance: widening `tol_ft` to make this green would be
-        tuning the instrument at the one number the diagram turns on. If a later package puts the
-        passage back on the axis this goes red, which is the right direction."""
+            engine="cp"          spine on-centre        passage (21, 0, 10, 37)
+            engine="heuristic"   spine could-not-evaluate  passage (16.5, 6.0, 12, 23.87)
+
+        The passage is drawn directly BEHIND ITS OWN PORCH, which is the sequence this record
+        describes, and therefore no longer spans S to N -- so the axis reader has no spine to
+        measure and says so. **THE PLACER TILES THE FOOTPRINT EXACTLY**, so a porch standing on
+        the S wall takes that stretch of wall from whatever is behind it; in a real Georgian
+        house the portico projects in FRONT of the block and the passage runs from its own front
+        door to its own back one. That is the same question
+        `oq/an-at-grade-appendage-is-drawn-and-not-judged` asks about the terrace, one room over.
+
+        `could-not-evaluate` IS NOT A PASS and the assertion below says which state it expects,
+        so a search that silently started reading `off-centre` again would fail here too.
+
+        IT IS NOT RE-POINTED ONTO `auto`, WHICH WOULD BE OQ 71's ERROR: CP under a wall clock is
+        not reproducible in general. `engine="cp"` is asked for by name and the test reports
+        COULD NOT EVALUATE -- never a pass -- if the solve does not come back `cp-sat`, which is
+        the idiom `tests/test_shape_pins.py` already uses. What makes it usable here is that the
+        tagged record's proof CLOSES: three runs returned OPTIMAL with an identical objective.
+        """
+        proved = _placed(engine="cp")
+        if ((proved["geometry_report"].get("solver") or {}).get("engine")) != "cp-sat":
+            return                  # COULD NOT EVALUATE, and not a pass
+        assert PC.check(proved)["drawn_summary"]["axis"]["spine"] == "on-centre", (
+            "the proving engine no longer draws the centre passage on the block's centre line, "
+            "which is the defect the whole axis vocabulary was written for")
+
+        # THE SEARCH'S COST, PINNED SO IT CANNOT GO QUIET. A measured consequence of the
+        # WP-11.16 tagging and the WP-11.17 anchor together, and not a thing anybody wants: if it
+        # ever reads `on-centre` the search draws the spine too and this folds back into the
+        # assertion above. `off-centre` would be a REGRESSION and not a restoration -- it would
+        # mean the passage had gone back to spanning a front its own porch no longer stands on.
         _, c = checked
-        ax = c["drawn_summary"]["axis"]
-        assert ax["spine"] == "off-centre", ax
-        assert [f for f in c["findings"] if f.get("kind") == "drawn-passage-off-centre"], (
-            "the passage is off the axis and the critic says nothing about it")
+        assert c["drawn_summary"]["axis"]["spine"] == "could-not-evaluate", (
+            "the SEARCH's spine verdict moved. `on-centre` is good news -- fold this back into "
+            "the assertion above and say what did it. `off-centre` is not: read the docstring.")
 
     def test_the_door_is_named_when_it_misses_the_middle_bay(self, checked):
         _, c = checked

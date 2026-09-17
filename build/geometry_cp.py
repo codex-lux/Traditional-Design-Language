@@ -160,22 +160,17 @@ COVERAGE = 0.97           # the CAPACITY floor -- never downgraded (the 25 Aug r
 # `_absorb` pass has nothing to grow into on a level that held the fact, and the record says so.
 TILING = 1.0
 
-# THE PROPORTION CEILING IS STATED TO THE HUNDREDTH, AND THE TENTH IS THE PRE-EXISTING RED ON
-# MAIN (WP-13.3, item 4 of the brief). The band was transcribed as `int(round(_ceil * 10))`, and
-# Python rounds 13.5 to 14: a bedroom's own 1.35 ceiling reached the model as 1.4, so
-# `chamber3` was drawn 21 x 15 -- exactly 1.40 to 1 -- with its shape pin HELD and
-# `tests/test_shape_pins.py::test_no_room_is_drawn_outside_its_own_band_when_the_pins_hold` red
-# on every solve that landed there. `_absorb` was the obvious suspect and its `_fits` refuses
-# 21 x 15 at 1.35 (limit 20.26); the grower was the model's own rounding. Every room band in
-# `rooms/` is stated to two decimals, so a hundredth loses nothing the record states.
-RATIO_SCALE = 100
+def _ceil_scaled(ceil, scale=None):
+    """`(scale, round(ceil * scale))` -- the integer pair a FRACTION is stated to the solver
+    with, in one place. The scale defaults to `_BAND_Q`, read late because that constant is
+    defined below with the measurement that set it.
 
-
-def _ceil_scaled(ceil, scale=RATIO_SCALE):
-    """`(scale, round(ceil * scale))` -- the integer pair a band is stated with, in ONE place.
-    The hard pin takes `RATIO_SCALE`; the soft aspect charge keeps the tenth its weight was
-    tuned to, and says so where it calls this."""
-    return scale, int(round(float(ceil) * scale))
+    This is NOT only the proportion band's helper: `_lands_literal` states
+    `stacking.LANDS_FRACTION` through it, which is a different quantity that happens to want
+    the same scale. The band's own two statements read `_BAND_Q` directly, which is what
+    `tests/test_shape_pins.py` holds them to."""
+    q = _BAND_Q if scale is None else scale
+    return q, int(round(float(ceil) * q))
 
 # WP-11.7. The downgrade ladder, LOWEST AUTHORITY FIRST. On INFEASIBLE the round loop takes the
 # first kind in this list that appears in the conflict core and releases every live pin of that
@@ -256,6 +251,38 @@ def _label(kind, key):
     if kind == "hearth":
         return f"L{key[0]} {key[1]} {key[2]}"
     return " ".join(str(k) for k in key)
+
+# THE SCALE A PROPORTION CEILING IS STATED TO THE SOLVER AT, AND IT WAS A TENTH UNTIL WP-11.16.
+# CP-SAT takes integer coefficients, so a band of `c` to 1 is written `Q * mxs <= round(c*Q) * mns`.
+# Q WAS 10, AND THE CORPUS STATES ITS BANDS TO TWO DECIMALS -- so `int(round(1.35 * 10))` is 14 and
+# the prover asserted a ceiling of **1.4** on every room whose record says 1.35. Measured over all
+# 54 banded room types: 4 LOOSE (`bedroom`, `keeping-room`, `morning-room`, `nursery`, all
+# 1.35 -> 1.4) and 1 TIGHT (`parlor`, 1.45 -> 1.4). 49 survive the rounding exactly, and
+# `GEO.ASPECT_FALLBACK` (2.6) is one of them, which is why this went unnoticed for four packages.
+#
+# BOTH DIRECTIONS ARE DEFECTS AND THE TIGHT ONE IS THE SHARPER. Loose, the prover PROVES a room
+# inside a band it is outside of -- `plans/tidewater-georgian-careful.json` drew `chamber2` at
+# 18 x 13 (1.3846) with its pin HELD and `downgraded_shape_pins` naming only `L0 pantry`, because
+# 10*18 = 180 <= 14*13 = 182. Tight, the prover can downgrade an AUTHORED wall pin, or report
+# INFEASIBLE, to escape a band the room's own record does not state -- a false refusal wearing a
+# proof's clothes, which is the OQ 52 family.
+#
+# `GEO.shape_band()` is unrounded and the hill-climb reads it directly, so this was never a
+# heuristic defect; it lived only in the two places the model is built.
+#
+# It is a CONSTANT and not a literal at each site because there are TWO sites -- the hard pin and
+# the soft overshoot term -- and they must never disagree about what the band is. That is this
+# corpus's most-repeated bug (a rule written twice), and the reason the one-decimal form survived
+# is that both copies were wrong together and so agreed with each other.
+#
+# AND TWO PARALLEL SESSIONS FOUND AND FIXED THIS INDEPENDENTLY, WHICH IS WHY THE MERGE HAD TO
+# CHOOSE A NAME. The other line met the same defect from the other end -- the intermittent red
+# in `tests/test_shape_pins.py`, `chamber3` drawn 21 x 15 at exactly 1.40 to 1 with its shape
+# pin HELD, `_absorb` the obvious suspect and not the cause -- and named the constant
+# differently. ONE NAME SURVIVES AND IT IS THIS ONE, because a rule with two names is the same
+# defect as a rule written twice. The other line's `_ceil_scaled` helper survives beside it,
+# because `_lands_literal` calls it for a quantity this constant is not about.
+_BAND_Q = 100
 
 
 def _cls(rtype):
@@ -701,12 +728,9 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 # CP-SAT's max/min propagators are stronger here than two reified linear
                 # constraints, by a factor of about 1.7. The pair is built unconditionally
                 # above and the soft aspect term shares it, so it costs nothing to reuse.
-                #
-                # TO THE HUNDREDTH (WP-13.3): `int(round(_ceil * 10))` turned a bedroom's 1.35
-                # into 14, so a 21 x 15 room at exactly 1.40 satisfied the pin -- the
-                # pre-existing red in `tests/test_shape_pins.py`. See `RATIO_SCALE`.
-                _sc, _c = _ceil_scaled(_ceil)
-                m.Add(_sc * mxs <= _c * mns).OnlyEnforceIf(_sh)
+                # `_BAND_Q`, not a literal 10: see the constant for the measurement. At a
+                # tenth this line asserted 1.4 for every record stating 1.35.
+                m.Add(_BAND_Q * mxs <= int(round(_ceil * _BAND_Q)) * mns).OnlyEnforceIf(_sh)
             else:
                 # The FLOOR is deliberately not stated: every room record's proportion floor is
                 # 1.0 since the 3 Sep ruling, and `mxs >= mns` holds by construction, so a floor
@@ -736,11 +760,14 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 # is the one spelling. The corpus has been bitten by a rule written twice at
                 # least four times; this is not a fifth.
                 _ceil, _src = GEO.shape_band(r.get("type"))
-                # The CHARGE keeps the tenth: its weight is 6 per tenth of a ratio point over
-                # the ceiling, mirroring `level_score`, and it only bites where the hard pin
-                # above was released. The PIN is stated to the hundredth (`RATIO_SCALE`).
-                _sc10, _c10 = _ceil_scaled(_ceil, 10)
-                m.Add(ov10 >= _sc10 * mx - _c10 * mn)
+                # SCALE-NEUTRAL, DELIBERATELY. `ov10` is in tenths and `penalties` takes an
+                # INTEGER weight, so restating this as `ov100 >= 100*mx - ...` would multiply
+                # the shape term against every other penalty by ten -- a re-weighting, and a
+                # different package. Multiplying the LEFT side instead keeps `ov10`'s units and
+                # its weight of 6 while reading the ceiling at `_BAND_Q`; integer division makes
+                # the charge a ceiling rather than a floor, which over-charges by under one
+                # tenth and is the conservative direction.
+                m.Add(10 * ov10 >= _BAND_Q * mx - int(round(_ceil * _BAND_Q)) * mn)
                 penalties.append((ov10, 6))
                 # The width floor the room's own record states, mirrored from level_score's
                 # `(floor - short) * WIDTH_W`. A soft penalty and never a bound: a hard floor
@@ -1845,7 +1872,8 @@ def _count_relaxations(rects_by_level, W, H, bay, tol, boxes_ft=None):
     return relax
 
 
-def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax, bounds=None):
+def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax, bounds=None,
+           elements=None):
     """The heuristic's OWN scoring of this placement, term for term, so the
     acceptance comparison is apples to apples.
 
@@ -1854,7 +1882,20 @@ def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax, bounds=None):
     passed it to `exterior_score` since layer 4, so a wing room's declared walls were charged
     against the WING there and against the main block here. Two engines scoring one house by
     two rules is what this function's first sentence exists to forbid. The other scorers take no
-    bounds in EITHER engine — they measure the main block — and are left alone deliberately."""
+    bounds in EITHER engine — they measure the main block — and are left alone deliberately.
+
+    `elements` is the SECOND half of that same parity gap and stood open for five packages
+    (WP-11.16's precondition). The hill-climb has passed `_span_elements` to `_span_charge`
+    since WP-11.9; this function did not, so on a multi-element CP placement the count and the
+    charge were computed with the whole footprint as ONE rectangle while `_disclose_spans`
+    wrote `marks` per element -- two numbers about one record, and
+    `tests/test_span_findings.py` asserts they are equal. MEASURED on
+    `_multi_element_fixture()` before the fix: `over_capacity` **0** against **1** mark, and
+    the mark is a 37.5 ft clear run in the dependency against its own 24.0 ft capacity. So it
+    was not merely a disagreement -- the record claimed NOTHING exceeded capacity while a run
+    half again over it stood in the drawing, which is the OQ 52 family inside the prover's own
+    score. `geometry_cp._build`'s span term has been per element since WP-11.11; only this
+    post-solve scoring was not."""
     W, H = fpd["W"], fpd["H"]
     gr = rects_by_level.get(0, {})
     ur = rects_by_level.get(1, {})
@@ -1880,7 +1921,7 @@ def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax, bounds=None):
     except Exception:
         _floor = None
     spc, over = GEO._span_charge(rects_by_level, prep, W, H, fpd["bay"],
-                                 plan.get("style"), _floor)
+                                 plan.get("style"), _floor, elements=elements)
     tot = sg + su + sv + spc + 1.5 * len(relax)
     return {"score": round(tot, 1), "sg": round(sg, 1), "su": round(su, 1),
             "sv": round(sv, 1), "span_charge": round(spc, 1),
@@ -2196,8 +2237,18 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
                                           bounds=_eb)
         relax = _count_relaxations(rects_by_level, fpd["W"], fpd["H"],
                                    fpd["bay"], fpd["tol"], boxes_ft=boxes_ft)
+        # WP-11.16's precondition: the span charge is PER ELEMENT here too. `_els2` is already
+        # in hand at the head of this function; this is that same list in the shape
+        # `geometry.spans_over_capacity` takes -- keyed by level, holding only the levels that
+        # really have more than one element, which is `geometry.py`'s own `_span_elements`
+        # built from `blocks_for` in exactly this way. A level with ONE element is ABSENT from
+        # the map rather than present with a single entry, so `spans_over_capacity` takes its
+        # `[(0, 0, W, H)]` default and the arithmetic is identical; the whole shipped corpus is
+        # one rectangle everywhere, passes `None`, and is byte-identical across this change.
+        _span_els = {lv: [(b["x"], b["y"], b["W"], b["H"]) for b in bl]
+                     for lv, bl in _els2.items() if len(bl) > 1} or None
         sc = _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax,
-                    bounds=bounds_ft)
+                    bounds=bounds_ft, elements=_span_els)
         return rects_by_level, relax, sc
 
     def _polish(fpd, hint, budget, tag):

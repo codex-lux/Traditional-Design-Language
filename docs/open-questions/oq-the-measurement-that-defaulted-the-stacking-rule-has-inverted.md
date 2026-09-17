@@ -22,6 +22,25 @@ for a waste stack."*
 
 On the merged tree the rule **removes** two spans rather than introducing two.
 
+## And at WP-11.18 the ROOMS half inverted as well (15 September 2026)
+
+The span figures above were one half of the trade; `tests/test_stacking_rule.py` pinned the
+other, *"the stair hall goes from 53% short of its own floor to 16%"*. On the same plan, after
+WP-11.18 made `partition` stop a STATED share at the closer side rather than at the first
+overshoot:
+
+| `spec-builder-colonial`, worst room under its own band | rule OFF | rule ON |
+|---|---|---|
+| when the default was decided | 53% | 16% |
+| WP-11.17 | 11% | — |
+| WP-11.18 | **11%** (`porch`) | **65%** (`stair`) |
+
+**Both halves of the argument for `STACK_HARD = False` have now moved, in opposite directions.**
+The spans say the rule helps; the rooms say it hurts. Neither is evidence about the rule: the
+rule has not changed in either package, and what moved both times is the placement the comparison
+is made against. That is the point of item 3 below — one plan decided this, and it is no longer
+the plan it was.
+
 ## Why it moved, and why that is not a fix
 
 The rule did not change. **The baseline did.** The other branch's WP-11.8 makes each room's own

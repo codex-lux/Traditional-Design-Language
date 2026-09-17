@@ -43,6 +43,17 @@ def _placed(path=TIDEWATER):
     return GEOM.solve(plan, engine="heuristic")
 
 
+# `_proved()` IS GONE, AND ITS REMOVAL IS THE POINT (WP-11.17). WP-11.16 introduced it because
+# tagging this record's service programme into a west dependency cost the SEARCH its entrance
+# while costing the PROVER nothing -- the porch landed at y = 31.51 on the rear wall under the
+# hill-climb and at y = 0.0 on the S front under CP -- so the four tests below whose subject is
+# the ENTRANCE SEQUENCE ran on the engine that draws rather than being re-pointed at the broken
+# sequence. WP-11.17 states the entrance front as an anchor and both engines hold it, measured
+# 250 of 250 candidates on this record, so the four run on the deterministic engine again and
+# the helper has no callers. Its own docstring asked for exactly this. What the search still
+# gets wrong is pinned below, re-pointed rather than deleted.
+
+
 class TestTheStoop(unittest.TestCase):
     def test_the_entrance_door_gets_a_flight_and_the_other_three_doors_get_a_reason(self):
         pl = _placed()
@@ -52,7 +63,19 @@ class TestTheStoop(unittest.TestCase):
         self.assertEqual(st["wall"], "S")
         self.assertEqual(st["room"], "porch")
         named = [u["what"] for u in th["unplaced"] if u["rule"] == "th-only-the-entrance-door"]
-        self.assertEqual(len(named), 3, "three exterior doors on the north front, three refusals")
+        # 3 -> 2 AT WP-11.17, AND THE MISSING ONE IS NOT A REFUSAL THAT STOPPED BEING MADE. The
+        # count is of exterior doors the PLACEMENT seated and this rule then declined to give a
+        # stoop; under the search the centre passage's own exterior door is not seated at all
+        # (`test_appendages.py` reports it undrawable), so it never reaches this rule. The two
+        # that do are the kitchen's -- on the S ENTRANCE face, a service door, which is the case
+        # the next test drives by hand -- and the back hall's on the N.
+        # 2 -> 3 AT WP-11.18, AND THE ONE THAT RETURNED IS THE PASSAGE'S. That package places
+        # the butler's pantry against the hyphen's own band instead of leaving it at the east
+        # end, so the west slab is laid differently and the centre passage's own exterior door
+        # is SEATED again -- it reaches this rule and is correctly refused a stoop on the E wall.
+        # The three are the kitchen's on S, the passage's on E and the back hall's on N.
+        self.assertEqual(len(named), 3,
+                         "three seated exterior doors besides the entrance, three refusals")
         for u in th["unplaced"]:
             self.assertTrue(u.get("reason"), "a refusal that does not say why is a silence")
             self.assertTrue(u.get("rule"), "a refusal must name the rule refusing it")
@@ -65,8 +88,10 @@ class TestTheStoop(unittest.TestCase):
         corpus, so the room's own `function_class` is the discriminator."""
         pl = _placed()
         C_ = C
-        # the search engine's placement does not put a service door on the S front, so the
-        # branch is exercised on a record that does: the kitchen's own north door, moved.
+        # DRIVEN, AND SINCE WP-11.17 THE SHIPPED PLACEMENT ALSO REACHES IT. The search now seats
+        # the kitchen's own exterior door on the S ENTRANCE face unaided, so the branch is live
+        # on the corpus; the hand-moved door is KEPT because a test whose subject exists only
+        # while one placement happens to produce it goes quiet the next time the placer moves.
         for lv in pl["levels"][:1]:
             for r in lv["rooms"]:
                 if r["id"] == "kitchen":
@@ -79,6 +104,71 @@ class TestTheStoop(unittest.TestCase):
         self.assertIn("kitchen", named[0]["what"])
         self.assertEqual([st["room"] for st in out["steps"]], ["porch"],
                          "the porch keeps its stoop and the kitchen does not get one")
+
+    def test_STATING_THE_BAND_KEEPS_BOTH_ANCHORS_AND_COSTS_FOUR_DRAWS_IN_TWO_FIFTY(self):
+        """RE-POINTED A SECOND TIME AT WP-11.18, WHICH IS AGAIN WHAT THE OLD MESSAGE ASKED FOR.
+
+        WP-11.16 pinned that tagging this record cost the SEARCH its entrance. WP-11.17 stated
+        the front and the test was re-pointed at what the search got wrong next -- the OTHER
+        anchor, the butler's pantry, pre-empted because the loop took the first anchor that laid.
+        Its message said that if the pantry were ever reachable again, one of the three reverted
+        approaches had been made to work and this should be re-pointed rather than deleted.
+        WP-11.18 did that, and this is that.
+
+        WHAT MADE IT WORK IS THE BAND. `hyphen_anchors` had the neighbouring element's whole
+        rectangle in hand when it chose the face and returned the FACE ALONE, so the anchor knew
+        the pantry belonged on the west wall and not that it belonged OPPOSITE THE HYPHEN. Over
+        the three positions `_partial_flank` drew on that 37.24 ft face for a 12 ft run the
+        overlaps with the hyphen's 9.62-27.62 band are 2.38, 12.00 and 2.38 ft against the
+        3.50 ft `openings.required_wall_ft` asks -- ONE POSITION IN THREE could ever place the
+        door. `anchor_span` carries the band, `_band_off` derives the position from it, and the
+        entrance anchor is CHAINED into a rest-rectangle instead of pre-empting the hyphen one.
+
+        WHAT THE SEARCH GETS WRONG NEXT IS THE HOSTED ANCHOR'S FALL-BACK. A host rectangle holds
+        two or three rooms rather than the element's seven, so the cuts a partial lay needs are
+        not always there; where they are not, the host is sliced ordinarily and the entrance can
+        leave the front. Measured over 250 single-candidate draws on this record:
+        **246 of 250**, against WP-11.17's 250 of 250. Two ways of closing those four were built
+        and reverted -- making the chain atomic restores the census and LOSES THE DOOR (fatal
+        7 -> 9, unplaced doors 20 -> 32), and falling back to the full-face strip restores it and
+        the winner then takes a 45 x 4.95 = 222.8 sf veranda (serious 57 -> 65). Both numbers are
+        in `geometry._partial_flank`'s docstring and in the WP-11.18 report.
+        """
+        pl = _placed()
+        st = pl["threshold"]["steps"][0]
+        self.assertEqual(st["room"], "porch",
+                         "the search has stopped holding the entrance front; WP-11.17 states it")
+        porch = next(r for lv in pl["levels"] for r in lv["rooms"] if r["id"] == "porch")
+        self.assertLessEqual(porch["geometry"]["y_ft"], 0.6)
+
+        # THE FIX, pinned as the thing it is: the pantry is reachable, because it stands on the
+        # main block's west face inside the hyphen's own band and both its doors place.
+        unreach = [f for f in PC.check(pl)["findings"]
+                   if f.get("kind") == "unreachable" and f.get("room") == "butlers"]
+        self.assertEqual(
+            len(unreach), 0,
+            "the butler's pantry is unreachable again. WP-11.18 puts it on the main block's west "
+            "face opposite the hyphen by STATING the band, so this is the band being lost -- "
+            "check `geometry.anchor_span` and `_band_off` -- and not a cost to be re-pinned.")
+        g = porch["geometry"]
+        self.assertGreater(g["width_ft"] * g["depth_ft"], 72.0 - 0.01,
+                           "the porch is drawn smaller than its own declared 6 x 12")
+
+        # AND THE COST, AS A CENSUS AND NOT AS THIS WINNER -- a winner can be right by the luck
+        # of one draw, which is the whole reason WP-11.17 measured a census at all. 2 s.
+        hits = 0
+        for seed in range(250):
+            GEOM._SOLVE_CACHE.clear()
+            r = GEOM.solve(json.load(open(TIDEWATER, encoding="utf-8")),
+                           engine="heuristic", candidates=1, seed=seed)
+            py = next(rm["geometry"] for lv in r["levels"] if (lv.get("index") or 0) == 0
+                      for rm in lv["rooms"] if rm["id"] == "porch")["y_ft"]
+            hits += int(py <= 0.6)
+        self.assertGreaterEqual(
+            hits, 246,
+            f"porch-on-the-entrance-front is {hits} of 250 against WP-11.18's measured 246. A "
+            "FALL is a regression in the chain. A RISE means a hosted anchor found a host it "
+            "can cut -- re-derive per draw and raise this floor, saying which change did it.")
 
     def test_the_flight_is_outside_the_block_and_never_inside_a_room(self):
         pl = _placed()
@@ -412,20 +502,23 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          # to 50.0 x 30.75, so 178 of the 180 sweep entries move with the
                          # base plan they are built on. `build/roof.py` is byte-identical
                          # across this merge.
+                         # RE-DERIVED AT WP-11.16 AGAINST A PRISTINE CHECKOUT, WHICH IS WHAT
+                         # THE ASSERTION MESSAGE BELOW DEMANDS. `plans/tidewater-georgian-
+                         # careful.json` was tagged -- 617 sf of service programme into a west
+                         # dependency -- and the same sweep was run on a `git worktree` of
+                         # `7cc02f8^` and diffed PER ENTRY rather than compared as one number.
                          #
-                         # RE-DERIVED AT WP-13.5 (16 Sep 2026), AND THE CONTROL IS THE WHOLE
-                         # REASON THIS IS A MEASUREMENT AND NOT A NEW NUMBER. The container
-                         # edit takes the Tidewater main block from 63.00 x 38.17 ft to
-                         # 45.00 x 37.24, and `build_roof` is handed the UNPLACED record here,
-                         # so it derives its own placement and a ridge spans a different box.
-                         # **165 of the 180 entries move: the edited plan, and all 164 sweep
-                         # entries, which are that same plan under each style. Fifteen of the
-                         # sixteen plan entries are byte-identical.** `build/roof.py` is
-                         # unchanged apart from a docstring correction, and the proof of that
-                         # is that re-running this identical sweep with the six `block` and
-                         # `hyphen` tags stripped reproduces 82cfe22d... EXACTLY -- the
-                         # instrument was shown to reproduce the OLD value before the new one
-                         # was written down.
+                         # 165 of 180 entries moved, AND THAT IS THE EXPECTED SHAPE rather than
+                         # an alarming one: 1 is the tagged plan itself and 164 are the style
+                         # sweep, every one of which is built on that plan as its base. The 15
+                         # that did NOT move are `spec-builder-colonial` and all fourteen
+                         # reference plans -- the entries with a base of their own.
+                         #
+                         # AND `build/roof.py` AND `build/threshold.py` ARE BYTE-IDENTICAL
+                         # across this whole package (`git diff 7cc02f8^ -- build/roof.py
+                         # build/threshold.py` is empty). So the roof did not change and its
+                         # INPUT did, which is the one thing this pin exists to tell apart and
+                         # the reason WP-11.4 pruned it to `footprint` and five siblings.
                          "4a06aa83cd6d4b88ba9168a750ffa95494f50e9374e1c7c494b4d56ce3be0844",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
@@ -510,13 +603,32 @@ class TestTheDrawing(unittest.TestCase):
         m = re.search(r'viewBox="([-\d.]+) ([-\d.]+) ([\d.]+) ([\d.]+)"', svg)
         self.assertIsNotNone(m)
         self.assertEqual(svg.count("data-stack"), 4, "two stacks on each of two plates")
-        self.assertEqual(svg.count('data-threshold="porch"'), 1,
+        # READS THE RECORD RATHER THAN A LITERAL (WP-11.16). This asserted
+        # `data-threshold="porch"`, and the subject of this test is that the PLATE IS WIDE
+        # ENOUGH -- not which room the flight belongs to. The search gives the flight to
+        # `passage` on the tagged record (see
+        # `test_THE_SEARCH_LOSES_THE_ENTRANCE_AND_THAT_IS_A_MEASURED_COST`), so a hardcoded
+        # "porch" made a test about canvas width fail for a reason that is not its own -- and
+        # hardcoding "passage" instead would have asserted the broken sequence here too.
+        # The room comes from the record the plate was drawn from, so this survives the next
+        # placement move in either direction.
+        room = pl["threshold"]["steps"][0]["room"]
+        self.assertEqual(svg.count(f'data-threshold="{room}"'), 1,
                          "the flight, on the ground plate only -- the stoop is at grade -- and "
                          "`data-threshold` names the ROOM in both renderers, so one selector "
                          "finds it in either")
         self.assertEqual(svg.count('data-part="flight"'), 1)
-        self.assertEqual(svg.count('data-part="platform"'), 0,
-                         "the entry porch IS the platform")
+        # AND THE PLATFORM IS DERIVED FROM THE RULE, NOT PINNED AT ZERO (WP-11.16). The old
+        # literal 0 encoded "the entry porch IS the platform", which is true only when the
+        # flight lands in an entry-porch room. On the search's placement of the tagged record
+        # the flight lands in the PASSAGE, which is not a raised platform, so the layer
+        # correctly draws one -- and a pinned 0 made correct behaviour look like a regression.
+        # `platform_is_the_room` is the record's own statement of which case this is.
+        st0 = pl["threshold"]["steps"][0]
+        self.assertEqual(svg.count('data-part="platform"'),
+                         0 if st0.get("platform_is_the_room") else 1,
+                         "an entry-porch room IS the platform and no second one may be drawn; "
+                         "any other room needs one drawn in front of it")
 
     def test_the_plate_grows_to_hold_what_stands_outside_the_house(self):
         """A DIFFERENTIAL, because the obvious form of this guard CANNOT FAIL. The first

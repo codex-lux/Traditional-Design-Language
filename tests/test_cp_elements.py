@@ -17,7 +17,9 @@ three things to rule. Ruled 7 September 2026, taking the question's own first re
      budget.
 
 **THE GUARANTEE IS THAT THE MODEL FOR A ONE-RECTANGLE HOUSE IS BYTE-IDENTICAL** -- not the
-placement, the MODEL -- because every plan in this corpus is one rectangle and a package that
+placement, the MODEL -- because every plan in this corpus was one rectangle when WP-11.11 shipped
+(WP-11.16 has since tagged one, and these four hashes are of the other two plans' models) and a
+package that
 teaches the prover a new concept must be invisible on all sixteen.
 """
 import hashlib
@@ -58,41 +60,53 @@ EL = _mod("elements")
 # main's fpd dict and leaving the rest reproduced three of the four hashes and not the fourth,
 # because `bay` stayed at main's 9 and the span term lays its grid lines on the BAY MODULE. A
 # derived dict's keys are derived together; substitute the whole dict or none of it.
+# AND TWO OF THE FOUR MOVED AT WP-11.16, WHICH TAGGED `tidewater-georgian-careful`. The
+# assertion below says any movement here is a defect, so the discriminating control was run
+# BEFORE a number was touched: today's `_build`, handed the PARENT COMMIT's records from a
+# `git worktree`, reproduces **all four** of the previous hashes exactly
+# (fc35a5f9e2048703 / 24d6bf0453c84db8 / 6ad5fa0d6ee72ffd / db49b3bc8d7c8fda). So the model
+# builder did not move and the whole movement is the RECORD -- which the other half confirms
+# from the opposite side: `spec-builder-colonial`, untouched by that package, is unmoved in
+# both phases. A proto shorter than 5 KB is refused, so an empty read cannot pass for a match.
+# AND ALL FOUR MOVED AGAIN AT WP-11.16's BAND FIX, WHICH IS THE FIRST TIME THE MOVEMENT REALLY
+# IS THE MODEL. Every entry above records a control showing the builder did NOT move and the
+# record did; this one is the opposite and says so. `_BAND_Q` was 10, so `int(round(1.35 * 10))`
+# was 14 and the prover asserted a ceiling of 1.4 on every room whose record states 1.35 -- four
+# room types loose, one (`parlor`, 1.45 -> 1.4) tight. Stating it at hundredths changes what
+# CP-SAT is ASKED about every banded room on both plans in both phases, so four of four moving
+# is the expected result and two of four would have been the defect.
 #
-# RE-PINNED AT WP-13.3 (15 Sep 2026), AND THIS TIME THE MODEL DID MOVE, ON PURPOSE. All four
-# hashes changed because the model states four more facts as assumption literals -- exact
-# tiling per element, each declared stack by `stacking.lands`' own relation, bearing continuity
-# on the bay grid within the span capacity, and each stated fire's wall on its element's face --
-# and states the shape band at a hundredth rather than a tenth (`RATIO_SCALE`). The previous
-# four (fc35a5f9e2048703 / 24d6bf0453c84db8 / 6ad5fa0d6ee72ffd / db49b3bc8d7c8fda) are what the
-# model was before it was taught the type. The property this test guards is unchanged: the
-# ONE-RECTANGLE house takes the same path as before through the element code, so any further
-# movement here that WP-13.3's own tests do not account for is a defect and not a trade.
-# WP-13.5 SPLIT THIS PIN IN TWO, BECAUSE THE TIDEWATER PLAN STOPPED BEING A ONE-RECTANGLE HOUSE.
-# `spec-builder-colonial` is the one-rectangle control now and its two hashes are UNCHANGED
-# (af0b566db578f99f / 68434bafedf92b38), re-derived on a `git archive HEAD` checkout, which is
-# what proves `geometry_cp._build` did not move. The Tidewater pair is a new, separate fact: the
-# model the prover builds for a THREE-element house, pinned so it cannot drift unremarked.
+# TWO CONTROLS, BECAUSE ONE WOULD NOT HAVE LOCALISED IT.
+#   1. The previous four were re-confirmed on a `git worktree` of the parent commit (`b78a4ff`)
+#      before any number here was touched -- all four reproduce exactly, so the pins that moved
+#      were right when they were written.
+#   2. Reverting the SCALE alone (`_BAND_Q` 100 -> 10, both statements left in their new form)
+#      reproduces both HARD-phase hashes exactly -- 5ee42e94740f659c and 6ad5fa0d6ee72ffd. That
+#      localises the hard phase's whole movement to the constant.
+# The objective phase deliberately does NOT reproduce under control 2, and the reason is worth
+# knowing rather than filing as noise: the soft overshoot term was restated as
+# `10 * ov10 >= _BAND_Q * mx - ...` to keep `ov10`'s units and its integer weight, so its
+# ALGEBRA changed shape and not only its constant. At _BAND_Q = 100 that form is exactly the old
+# one for every band with two decimals or fewer, which is 49 of 54 types; at 10 it is a tenth of
+# the old charge, which is why the control cannot reach it. Substituting a constant does not
+# control for a change of form.
 #
-# **AND THE OBVIOUS CONTROL IS NOT ONE HERE, WHICH IS WORTH KNOWING.** `conftest.as_one_element`
-# strips the six `block`/`hyphen` tags and gives a THIRD hash, b9ef896282bf7bbd -- not the old
-# f499ab415b2add2e -- because WP-13.5 made three edits to that record and the tags are only one
-# of them. Undoing them one at a time:
+# NEITHER SHIPPED PLAN BECAME INFEASIBLE, which was the cost this fix was allowed to have and
+# did not: tidewater still proves OPTIMAL in ~9.5 s with the same four wall pins and the same
+# one shape pin (objective 308.1 -> 308.3), and spec-builder-colonial is still FEASIBLE with
+# none. Measured before the numbers below were written.
 #
-#     shipped                                        ed29a965f427f03f
-#     tags stripped                                  b9ef896282bf7bbd
-#     + the butlers<->kitchen door restored          933320674985d6b5
-#     + `hallbath stacks_over powder` restored       f499ab415b2add2e   <- the old pin, exactly
-#
-# Every step is a fact `_build` states as an assumption literal: a door is a hard abutment, and
-# WP-13.3 made each declared stack one through `stacking.lands`' own relation. So the movement is
-# fully accounted for, edit by edit, and none of it is the model builder. A control that reverts
-# SOME of a package's edits and is quoted as though it reverted all of them is the shape this
-# repository keeps catching; it is written out here so nobody reaches for `as_one_element` as a
-# model-hash control again.
+# AND THE MERGE SPLIT THE DICT IN TWO, WHICH IS THE OTHER LINE'S EDIT AND IS KEPT. Both parallel
+# sessions tagged this record with the same container, and one of them then noticed that the
+# ONE-RECTANGLE GUARANTEE above cannot be stated on a plan that is no longer one rectangle: the
+# argument for hashing the model rather than the placement is that a one-rectangle house must map
+# every room to `(0, 0, Wi, Hi)`, and a container house does not. So the guarantee runs on
+# `spec-builder-colonial`, which IS one rectangle and asserts that as its premise, and the
+# container's model gets a pin of its own that claims something weaker and says so.
+# A flat dict of four under one name could not have said which of the two things each hash was.
 ONE_RECTANGLE_SHAS = {
-    ("spec-builder-colonial", False): "af0b566db578f99f",
-    ("spec-builder-colonial", True): "68434bafedf92b38",
+    ("spec-builder-colonial", False): "53f6ab2dc19684dc",
+    ("spec-builder-colonial", True): "45bf3a3cdf55d5c8",
 }
 CONTAINER_SHAS = {
     ("tidewater-georgian-careful", False): "ed29a965f427f03f",
@@ -123,25 +137,33 @@ def _elements_on_ground(pid):
     return len(GEO.blocks_for(plan, fpd, prep, level=0))
 
 
-def test_the_model_for_a_one_rectangle_house_is_byte_identical():
+def test_the_model_the_prover_builds_for_the_shipped_plans_is_byte_identical():
     """THE GUARANTEE, and it is stronger than a placement hash: CP-SAT under a wall-clock
     budget is not reproducible, so pinning what it FINDS would be pinning this machine. What is
-    reproducible is what it is ASKED. Every guard in `_build` that reads `gx0 < ex`,
-    `len(els[lvl]) > 1` or `if base:` exists to keep this one.
+    reproducible is what it is ASKED. These four are the serialized CpModel proto for both
+    shipped plans in both phases, measured on a `git archive HEAD` checkout before the package
+    and on the working tree after it. Every guard in `_build` that reads `gx0 < ex`,
+    `len(els[lvl]) > 1` or `if base:` exists to keep them.
 
-    On `spec-builder-colonial`, which is the corpus's one-rectangle plan since WP-13.5 moved the
-    Tidewater service programme into a wing. The PREMISE is asserted, because a plan that
-    quietly grew a container would turn this into a statement about a multi-element model under
-    a docstring promising the opposite.
+    RENAMED AT WP-11.16: it said "for a one-rectangle house", and one of these two plans is not
+    one any more. The guarantee is unchanged -- what moved is which houses it is a guarantee
+    ABOUT, and the header above records the control that separated the record from the code.
     """
-    assert _elements_on_ground("spec-builder-colonial") == 1, (
-        "spec-builder-colonial now states a massing container, so it is no longer this file's "
-        "one-rectangle control: find one, or drive a stripped record and say so")
-    for (pid, obj), want in sorted(ONE_RECTANGLE_SHAS.items()):
-        assert _model_sha(pid, obj) == want, (
-            f"{pid} objective={obj}: the model the prover builds for a one-rectangle house "
-            f"moved. The element code must take a one-rectangle house down the same path it "
-            f"always did, so any movement here is a defect and not a trade.")
+    for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+        plan = json.loads((ROOT / "plans" / f"{pid}.json").read_text())
+        levels, prep = GEO.prep_rooms(plan)
+        fpd = CP._snap_fpd(GEO.derive_footprint(plan, None, prep))
+        ew = GEO.entrance_walls(plan)
+        for obj in (False, True):
+            m, _r, _q = CP._build(plan, prep, fpd, ew, frozenset(), objective=obj)
+            got = hashlib.sha256(str(m.Proto()).encode()).hexdigest()[:16]
+            assert len(str(m.Proto())) > 5000, "an empty proto cannot be evidence of a match"
+            assert got == MODEL_SHAS[(pid, obj)], (
+                f"{pid} objective={obj}: the model the prover builds for a shipped plan moved. "
+                f"Before re-pinning, run the control: hand THIS `_build` the previous commit's "
+                f"records and check it reproduces the previous hashes. If it does, the record "
+                f"moved and the builder did not; if it does not, the builder moved and that is "
+                f"a defect and not a trade.")
 
 
 def test_the_model_for_the_shipped_container_is_pinned():

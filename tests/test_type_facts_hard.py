@@ -290,8 +290,11 @@ def test_the_proportion_ceiling_is_stated_to_the_hundredth():
     Driven on the chamber (a bedroom, band 1.35) at sizes the fixture's 12 ft deep block
     admits: 11 x 8 (1.375) is refused under the pin and 10 x 8 (1.25) is admitted. Under the
     old rounding 1.375 <= 1.4 passed."""
-    assert CP.RATIO_SCALE == 100 and CP._ceil_scaled(1.35) == (100, 135)
-    assert CP._ceil_scaled(1.35, 10) == (10, 14), "the defect's own rounding, kept for the charge only"
+    # `_BAND_Q`, not `RATIO_SCALE`: the two parallel lines found this defect independently and
+    # named the constant differently, and the merge kept ONE name (main's). `_ceil_scaled`
+    # survives because `_lands_literal` calls it for a different quantity; see the constant.
+    assert CP._BAND_Q == 100 and CP._ceil_scaled(1.35) == (100, 135)
+    assert CP._ceil_scaled(1.35, 10) == (10, 14), "the defect's own rounding, stated explicitly"
     band, _src = GEO.shape_band("bedroom")
     assert band == 1.35, "the premise: a bedroom's own ceiling is 1.35"
     assert 11 / 8 > band and 11 / 8 <= 1.4 and 10 / 8 <= band, "the drives straddle the two roundings"

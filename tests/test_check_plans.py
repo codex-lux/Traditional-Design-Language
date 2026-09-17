@@ -303,16 +303,23 @@ class TestTheMassingsBayCount:
         the loop, so this one enlarges the program until it must grow, and asserts the loop ran
         before asserting anything about what it did.
 
-        AND THAT PREMISE ASSERTION THEN EARNED ITSELF AT WP-13.5, WHICH IS WHY `_swell` SKIPS A
-        TAGGED ROOM. The fixture used to scale EVERY room, and once the service programme moved
-        into the dependency that inflated the WING: `flank_sizes` sizes a dependency from its own
-        rooms' areas, so scaling them took the flank to 61 ft, `lot_maxbay` from 11 to 8 and
-        `growth_ceiling` to 8 — and with `bays` starting at 7 and a step of 2, `7 + 2 > 8` broke
-        the loop on its first pass. The fixture had stopped reaching the code under test for a
-        reason that has nothing to do with bay parity. Scaling only the main block's own rooms is
-        what this test always meant, reproduces the pre-WP-13.5 figures exactly (`grown == [9]`),
-        and cannot be squeezed out of the loop by a wing."""
-        fp = GEO.derive_footprint(_swell(tidewater(), 1.9))
+        AND IT WENT BLIND A SECOND TIME AT WP-11.16, FOR A DIFFERENT REASON WORTH KNOWING. That
+        package tagged this plan's service programme into a west dependency, and the ×1.9 then
+        inflates the DEPENDENCY's rooms too: `flank_sizes` widens the wing, the wing eats the
+        140 ft lot, `lot_maxbay` caps the main block, and the bay count goes DOWN rather than up
+        -- measured 7, 6 and 5 bays at ×1.9, ×2.5 and ×3.0 with `grown` empty at all three. The
+        lot cap binds before the growth loop can run, which is coherent and is not this test's
+        subject. So the fixture STRIPS THE TAGS: bay parity is a question about one rectangle,
+        and a fixture that inherits whatever the shipped record happens to declare is the error
+        WP-8.11 recorded. Stripped, the loop runs and grows to 9 at all three multipliers."""
+        plan = tidewater()
+        for lv in plan["levels"]:
+            for r in lv["rooms"]:
+                r.pop("block", None)
+                r.pop("hyphen", None)
+                if r.get("width_ft") and r.get("length_ft"):
+                    r["length_ft"] = round(r["length_ft"] * 1.9, 2)
+        fp = GEO.derive_footprint(plan)
         assert fp["grown"], "the fixture is blind: the growth loop never ran"
         assert all(b % 2 == 1 for b in fp["grown"]), fp["grown"]
         assert fp["bays"] % 2 == 1
