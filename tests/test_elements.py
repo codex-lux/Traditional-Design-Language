@@ -66,7 +66,7 @@ def test_every_shipped_plan_is_one_element_and_every_placed_room_is_in_it():
     test -- every placed room stands in SOME element -- is unconditional and was measured to
     hold on the tagged plan too (24 rooms, 24 indexed, 0 missing), so it is not scoped.
     """
-    arity = {}
+    arity, ids = {}, {}
     for pf in _plans():
         d = json.loads(pathlib.Path(pf).read_text())
         if "levels" not in d:
@@ -75,6 +75,7 @@ def test_every_shipped_plan_is_one_element_and_every_placed_room_is_in_it():
         sol = G.solve(json.loads(json.dumps(d)), engine="heuristic")
         els = E.elements(sol)
         arity[pathlib.Path(pf).name] = len(els)
+        ids[pathlib.Path(pf).name] = [e["id"] for e in els]
         rooms = [r for lv in sol["levels"] for r in lv["rooms"] if r.get("geometry")]
         idx = E.bounds_index(sol, rooms)
         assert len(idx) == len(rooms), (
@@ -82,6 +83,17 @@ def test_every_shipped_plan_is_one_element_and_every_placed_room_is_in_it():
             f"layer reports as COULD NOT EVALUATE -- on a one-rectangle house that is a bug "
             f"in the containment test, not a fact about the plan")
     assert len(arity) == 16, f"the sweep reached {len(arity)} plans, not 16 -- it is not running"
+    # AND THE ELEMENT IDS, RESTORED AT THE 17 SEP MERGE. Both lines wrote this census and each
+    # had something the other had not: main's carries the `len(arity) == 16` premise above, this
+    # branch's named the three elements rather than counting them. The merge took main's form
+    # and dropped the ids, which is the one thing the no-feature-dropped pass found -- so the
+    # union is asserted. An arity of 3 is satisfied by ANY three elements; the ids are what say
+    # the tagging still produces a main block, a hyphen and a service dependency, and a rename
+    # or a re-roling would otherwise pass here in silence.
+    assert ids.get("tidewater-georgian-careful.json") == ["main", "service-hyphen", "service"], (
+        f"the tagged record's elements are not the three this guard names: "
+        f"{ids.get('tidewater-georgian-careful.json')}. The arity below counts them; this says "
+        f"WHICH, and a re-roling that keeps the count would pass without it.")
     assert {k: v for k, v in arity.items() if v != 1} == {"tidewater-georgian-careful.json": 3}, (
         f"the shipped corpus's element census moved: {sorted(arity.items())}. Exactly one "
         f"record is tagged, and every byte-identity hash below is written about the fifteen "
