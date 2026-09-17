@@ -260,6 +260,7 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     # the literal: `hallbath stacks_over powder` is withdrawn with the powder room into the
     # single-storey dependency. Every remaining claim is still judged into exactly one list.
     assert st["claims"] == 4 and len(st["unjudged"]) == 0
+    kept = {e["room"] for e in st["kept"]}
     broken = {e["room"] for e in st["broken"]}
     assert len(st["kept"]) + len(st["broken"]) + len(st["unjudged"]) == st["claims"], (
         f"a claim is judged into exactly one list, or it is not judged at all: {st}")
@@ -279,15 +280,30 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     # stacks over its stair again. The floor is raised to 3 and the `landing` assertion is
     # POSITIVE now, as it was before WP-11.17 -- so a package that loses it again fails here
     # rather than quietly passing on a weaker floor.
-    assert len(kept) >= 3, (
-        f"3 of 5 kept at WP-11.18, 2 at WP-11.17, 3 at WP-11.16, 2 at the merge, 3 before it; "
-        f"a fall below that is a placement losing stacks rather than trading them: {st}")
-    assert "upperpassage" in kept, f"the claim WP-11.8 did not cost is gone too: {st}"
-    assert "primary" in kept, f"the second surviving claim is gone as well: {st}"
-    assert "landing" in kept, (
-        "the landing has stopped stacking over its stair. It did so before WP-11.17, lost it to "
-        "the entrance anchor, and got it back at WP-11.18 -- so this is a placement regression "
-        f"and not a cost to be re-pinned: {st}")
+    # THE 16 SEP MERGE RETIRED THIS FLOOR RATHER THAN LOWERING IT, AND THE TWO ARE NOT THE SAME
+    # THING. Main's line asserted `len(kept) >= 3` with `landing`, `primary` and `upperpassage`
+    # named -- a pin on the definition of "kept" that WP-13.2 RETIRED when Lucas ruled that a
+    # kept stack is CONTAINMENT (`stacking.LANDS_FRACTION`, 90%) and not the non-zero
+    # intersection this corpus had counted since WP-11.6. Measured on all three trees with the
+    # SAME reader (our `stacking.py` swapped into a `git archive` of each parent), the claim's
+    # overlap as a fraction of the smaller rectangle:
+    #
+    #     claim                     main 9eb71c4   ours ed5ef72   merged
+    #     landing      / stair          32.2%          0.0%        0.0%
+    #     primary      / drawing        60.5%         72.5%       29.8%
+    #     upperpassage / passage        24.1%         21.2%        0.0%
+    #     primarybath  / butlers         0.0%          0.0%        0.0%
+    #
+    # So NOT ONE of main's three named claims reaches the ruled bar on main's OWN placement, and
+    # all three trees read 0 kept under it. A floor of 3 was true of a reader this corpus no
+    # longer has; keeping it would make a green suite evidence for the retired rule, and lowering
+    # it to 0 would assert nothing at all. What is asserted instead is the ACCOUNTING above, the
+    # MEANING of `kept` below, and `landing` broken -- and the overlap fall is REPORTED rather
+    # than netted off, because two of these four moved and the merge owns one of them.
+    assert not kept, (
+        f"a claim now reaches {STK.LANDS_FRACTION:.0%} containment on this placement. That is "
+        f"welcome and is a change of substance -- re-derive which layer did it and publish the "
+        f"fractions beside main's and ours before moving this line: {st}")
     assert broken, (
         f"every claim lands, which no placement in this corpus has managed -- re-derive it "
         f"before believing it, and the `stack-broken` assertion below has nothing to read: {st}")

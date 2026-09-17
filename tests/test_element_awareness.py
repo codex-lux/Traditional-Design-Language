@@ -22,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 
 import modcache  # noqa: E402
-from conftest import as_one_element, untagged_reference_plan  # noqa: E402
+from conftest import untagged_reference_plan  # noqa: E402
 
 GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
 OP = modcache.load("openings", os.path.join(ROOT, "build", "openings.py"))
@@ -54,13 +54,14 @@ def _shipped_untagged():
     same reason: **a driven fixture must not inherit whatever the shipped record happens to
     declare** (WP-8.11). What this file tests is the element machinery, not this plan's tagging,
     and the two are independent.
-    """
-    p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
-    for lv in p.get("levels") or []:
-        for r in lv.get("rooms") or []:
-            r.pop("block", None)
-            r.pop("hyphen", None)
-    return p
+
+    AND THE 17 SEP MERGE FOUND THIS FILE HOLDING TWO SPELLINGS OF ONE RULE. Main wrote the
+    stripping out by hand here; this branch had already lifted it into
+    `conftest.untagged_reference_plan` / `as_one_element`, which EIGHT fixtures share. Two
+    readers of "what is a container" is how one comes to strip `hyphen` and the other not.
+    It delegates now, and the 44 findings-digest and score literals below were re-derived across
+    the change and did not move -- which is what says this is one spelling rather than a third."""
+    return untagged_reference_plan("tidewater-georgian-careful")[0]
 
 
 def _fixture():
@@ -414,7 +415,14 @@ class TestTheCriticReadsTheRoomsOwnElement:
         # element's full depth, so it reaches the north face as well. The breakfast room is
         # unmoved. Both are still measured against the ELEMENT and both would be `[]` against
         # the main block, which is the thing under test.
-        assert by["kitchen"] == ["N", "S", "W"] and by["breakfast"] == ["E", "S"], by
+        # AND THE 17 SEP MERGE MOVED THE BREAKFAST ROOM THE SAME WAY, FOR THE SAME REASON:
+        # ["E", "S"] -> ["E", "N", "S"]. Main's WP-11.17 entrance anchor and WP-11.18
+        # `partition` share re-proportion this fixture's wing again, and the breakfast room now
+        # spans its element's full depth as the kitchen already did, so it reaches the north
+        # face too. The KITCHEN is unmoved at ["N", "S", "W"]. Both are still measured against
+        # the ELEMENT and both would be `[]` against the main block, which is the thing under
+        # test and is what the two assertions above hold.
+        assert by["kitchen"] == ["N", "S", "W"] and by["breakfast"] == ["E", "N", "S"], by
 
     def test_A_WALL_FACING_THE_GAP_IS_NAMED_exterior_to_the_weather_interior_to_the_view(
             self, placed):
@@ -586,9 +594,24 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # `drawn-vs-declared` (18 out / 19 in, 15 out / 13 in) and `drawn-furniture-fit`
                 # (8/9, 10/10): the same rooms, re-measured, because the slicer's groups changed
                 # size. Old digests: 9ecdca7453819879 / 81ddd6e8555cb1a5.
-                ("tidewater-georgian-careful", "6047f0ef36467dcc", 209,
+                # AND AGAIN AT THE 17 SEP MERGE OF PHASE 13 INTO THIS LINE, where the two
+                # plans moved for DIFFERENT reasons and the diff is what says so. Tidewater
+                # 209 -> 203: 47 rows out and 41 in, every one of them a `drawn`-layer kind
+                # re-measuring on a placement that moved (`drawn-vs-declared` 15/19,
+                # `drawn-furniture-fit` 4/4, `drawn-proportion-above-band` 4/4,
+                # `span-over-capacity` 5/3, `unreachable` 4/2), plus `fault-present` 0/3.
+                # The spec Colonial 235 -> 239 moved `fault-present` AND NOTHING ELSE, 1 out
+                # and 5 in -- its placement is untouched across the merge, so the whole
+                # movement there is Phase 13 supplying measurements the fault corpus could
+                # not previously evaluate. The two layers this class watches are UNMOVED on
+                # both plans at 13/18 and 11/17, which is the property being guarded and is
+                # why this is a re-derivation rather than a bump. The three extra
+                # `unreachable` rows on the SHIPPED (tagged) record are a different question
+                # and are `oq/a-withdrawn-claim-still-steers-the-placer`.
+                # Old digests: 6047f0ef36467dcc / 9b65c3a2dfa81377.
+                ("tidewater-georgian-careful", "24b6a6a640f637b8", 203,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "9b65c3a2dfa81377", 235,
+                ("spec-builder-colonial", "afa4d7a9c173615d", 239,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
@@ -884,7 +907,13 @@ class TestTheLotCapIsOnTheBuiltExtent:
                 # `partition`'s stated share stops at the closer side, which reaches exactly the
                 # plans that name an entrance face. The WIDTH and the CAP -- what this test is
                 # actually about -- are unmoved on both.
-                ("tidewater-georgian-careful", 1017.2, 63, False),
+                # AND AGAIN AT THE 17 SEP MERGE, ON ONE PLAN OF THE TWO: Tidewater
+                # 1017.2 -> 889.0 and the spec Colonial UNMOVED at 779.5, because only
+                # the Tidewater placement moves across this merge. The WIDTH and the
+                # CAP -- what this test is about -- are unmoved on BOTH, which is what
+                # makes this a re-derivation of a number that rides along rather than a
+                # re-pin of the property.
+                ("tidewater-georgian-careful", 889.0, 63, False),
                 ("spec-builder-colonial", 779.5, 50.0, True)):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
@@ -1458,7 +1487,9 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         # 108 -> 103, the spec Colonial serious 105 -> 97 and minor 93 -> 97. Corpus-wide the
         # package is fatal 153 -> 145 and serious 712 -> 707; this fixture is a SYNTHETIC control
         # (the shipped record is tagged) and is one of the plans that pays.
-        for name, score, w in (("tidewater-georgian-careful", 1017.2, 63),
+        # AND AGAIN AT THE 17 SEP MERGE: 1017.2 -> 889.0 here, the spec Colonial unmoved at
+        # 779.5, and the width unmoved on both -- only the Tidewater placement moves.
+        for name, score, w in (("tidewater-georgian-careful", 889.0, 63),
                                ("spec-builder-colonial", 779.5, 50.0)):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
@@ -1593,7 +1624,6 @@ class TestTheModelIsUnchangedOnOneRectangle:
             p = json.load(open(f))
             if "levels" not in p:
                 continue
-            as_one_element(p)             # WP-13.5: the ONE-element reading this guard states
             levels, prep = GEO.prep_rooms(p)
             fpd = GEO.derive_footprint(p, None, prep)
             if "error" in fpd:
@@ -1644,7 +1674,6 @@ class TestTheModelIsUnchangedOnOneRectangle:
             plan = json.load(open(f))
             if "levels" not in plan:
                 continue
-            as_one_element(plan)          # WP-13.5: the ONE-element reading this guard states
             levels, prep = GEO.prep_rooms(plan)
             fpd = GEO.derive_footprint(plan, None, prep)
             if "error" in fpd:
@@ -1843,7 +1872,17 @@ class TestCPSATPlacesPerElement:
         # At 0 the second half would be vacuously satisfied and this test would quietly stop
         # proving the negative, so if a later package takes another crossing out of the record,
         # this fixture has to declare one of its own rather than have the number lowered again.
-        assert len(stated) == 2, stated
+        #
+        # BACK TO 3 AT THE 17 SEP MERGE, AND THE WARNING ABOVE IS WHY RATHER THAN DESPITE.
+        # Both lines dropped that door from the record for the same reason; then this branch's
+        # WP-13.5 did what the paragraph above asks -- `_hyphen_fixture` DECLARES the
+        # `butlers`-`kitchen` crossing of its own, so the guard keeps three to state -- while
+        # main lowered the literal to 2 instead. The merge carries the fixture AND the literal,
+        # which is how a 3 met a 2. The fixture is the half the note demands and the literal is
+        # the half it warns against, so the literal goes back up and the fixture stays.
+        # Re-derived on the merged tree: Butler's Pantry, Back Hall (Hyphen) and Cellar Stair,
+        # each against Kitchen (Dependency).
+        assert len(stated) == 3, stated
         assert all("Kitchen (Dependency)" in n for n in stated), stated
 
     def test_abuts_is_a_shared_FACE_and_a_corner_is_not_one(self):
