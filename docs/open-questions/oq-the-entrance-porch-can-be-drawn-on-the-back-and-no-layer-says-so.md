@@ -1,6 +1,41 @@
 # oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so — the search charges 100 points and the critic is silent
 
-*Status: OPEN · Raised in: WP-13.5, the container (16 September 2026)*
+*Status: CLOSED 17 Sep 2026 · Raised in: WP-13.5, the container (16 September 2026)*
+
+**CLOSED BY THE MERGE, BY THE OTHER LINE'S FIX RATHER THAN BY ANYTHING DONE HERE, AND THE HALF
+THAT IS NOT CLOSED IS NAMED BELOW.** Main raised the same finding independently as
+`oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` and then answered it: WP-11.17
+STATES the entrance front, so `geometry.entrance_anchors` lays the one ground room that must
+stand on it as a rectangle of its own declared area before the guillotine runs. Re-derived on
+the merged tree with `engine="heuristic"`, the deterministic engine, on
+`plans/tidewater-georgian-careful.json`:
+
+| reading | main block | porch `y_ft` | on the entrance front |
+|---|---|---|---|
+| one rectangle (tags stripped) | 63 x 38.17 | 0.0 | yes |
+| the shipped container | 45 x 37.24 | **0.0** | **yes** |
+
+Against WP-13.5's own measurement of y 31.51 on the container — the NORTH wall — on a placer
+this tree no longer has. The 100-point `entrance_score` charge is not paid by the winning
+candidate on either reading.
+
+**The guard is kept and INVERTED rather than deleted**:
+`tests/test_composition.py::test_the_container_cost_the_rear_and_the_merge_PAID_BACK_the_front`
+asserts both readings put the porch on the front, so a placer that loses it again fails there
+instead of passing quietly. The test was RENAMED because its old name asserted a cost that no
+longer exists.
+
+**NOT CLOSED, AND IT IS THE HALF THE TITLE IS ABOUT**: `plan_check` still emits no finding about
+which face a porch stands on. Both readings report the porch's DEPTH and nothing about its
+position. What changed is that no placement in this corpus currently commits the defect, not
+that a layer learned to see it — so this is closed as a DEFECT and the reporting gap is a
+different question nobody has raised. Do not read a green guard here as the critic having been
+taught.
+
+---
+
+*The original entry follows, unedited, as the record of what was measured on the tree that had
+the defect.*
 
 **`geometry.entrance_score` charges 100 points — `compose.SEV_W`'s own fatal tier — when a
 threshold room does not touch the entrance front, and its docstring says in as many words that

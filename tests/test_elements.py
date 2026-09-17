@@ -401,7 +401,20 @@ def test_export_ifc_writes_one_slab_per_element_per_storey():
 # are exactly the plans that name an entrance face. Re-derived per plan on a `git worktree` of
 # `a0ae8b7`: six of sixteen differ, the same six, and the ten the entrance selector does not
 # reach are byte-identical on BOTH digests -- which is the pair agreeing rather than a bump.
-CORPUS_PLACEMENT_SHA = "7f2de7eaa95b84d2"
+# AND AT THE 17 SEP MERGE, WITH THE HARNESS PROVED BEFORE ITS NEW VALUE WAS BELIEVED. Both
+# parents' pairs were reproduced TO THE CHARACTER on `git archive` checkouts (main
+# 7f2de7eaa95b84d2 / b00db93b584978a0, this branch d72265a1935d07f6 / 21e7b43085f8f6ad) before
+# the merged tree was read, because a merge that writes one parent's number under a comment
+# calling it a third value is exactly what `314a2ec` did. Both are third values.
+# DERIVED PER PLAN, and the two digests separate cleanly, which is the evidence:
+#   PLACEMENT differs from main on 1 of 16 -- the tagged Tidewater record, and only through
+#   `oq/a-withdrawn-claim-still-steers-the-placer` -- and from OURS on 6, exactly the six plans
+#   main's WP-11.17 entrance selector reaches. So no Phase 13 package moves a placement.
+#   OPENINGS differs from main on 16 of 16 and from ours on the same 6: WP-13.6's furniture
+#   grammar, which main has not got, reaches every plan identically, and the six are the
+#   re-placed ones. An opening is placed against a wall of the room it is in, so the six move
+#   on both -- the pair agreeing rather than a second bump.
+CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # WP-11.10 MOVED THIS ONE ON PURPOSE, and it is the only thing that package moves here.
 # `f7c7430ec31dae3c` -> `770a886c7387f3ab`: the terrace at grade is placed, so the door the
 # record has always declared from a room to its terrace is seated instead of refused, on the
@@ -423,7 +436,7 @@ CORPUS_PLACEMENT_SHA = "7f2de7eaa95b84d2"
 # are exactly the plans that name an entrance face. Re-derived per plan on a `git worktree` of
 # `a0ae8b7`: six of sixteen differ, the same six, and the ten the entrance selector does not
 # reach are byte-identical on BOTH digests -- which is the pair agreeing rather than a bump.
-CORPUS_OPENINGS_SHA = "b00db93b584978a0"
+CORPUS_OPENINGS_SHA = "f63f6493a4bc83dd"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

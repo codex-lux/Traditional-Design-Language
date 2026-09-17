@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**208 questions, of which 114 are open.** A question is OPEN while
+**208 questions, of which 113 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 114
+## Open — 113
 
 Awaiting a ruling. This is the list to read first.
 
@@ -119,7 +119,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-elevation-draws-the-front-door-where-the-composition-wants-it** | OPEN | [and the placement puts it somewhere else](open-questions/oq-the-elevation-draws-the-front-door-where-the-composition-wants-it.md) |
 | **oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings** | OPEN | [the wing has no front](open-questions/oq-the-elevation-draws-the-main-blocks-face-and-not-the-buildings.md) |
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |
-| **oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so** | OPEN | [the search charges 100 points and the critic is silent](open-questions/oq-the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so.md) |
 | **oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front** | OPEN | [an eighth layer reads the main block as the whole house](open-questions/oq-the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front.md) |
 | **oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it** | OPEN | [two vocabularies for one fact](open-questions/oq-the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it.md) |
 | **oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted** | OPEN | [the argument for STACK_HARD being off no longer holds on the plan it was made on](open-questions/oq-the-measurement-that-defaulted-the-stacking-rule-has-inverted.md) |
@@ -147,7 +146,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 94
+## Settled — 95
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -238,6 +237,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/register-is-not-style** | RULED 1 Sep 2026 | [folk and polite are not two styles, and the corpus has nowhere to say so](open-questions/oq-register-is-not-style.md) |
 | **oq/the-candidate-score-cannot-see-a-massing-element** | RULED 5 Sep 2026 | [the composer ranks the better house lower](open-questions/oq-the-candidate-score-cannot-see-a-massing-element.md) |
 | **oq/the-coverage-floor-is-an-exact-cover-per-element** | CLOSED — answered by measurement in WP-11.13, and not by choosing a number (7 September 2026) | [0.97 of each box, and the boxes have no slack](open-questions/oq-the-coverage-floor-is-an-exact-cover-per-element.md) |
+| **oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so** | CLOSED 17 Sep 2026 | [the search charges 100 points and the critic is silent](open-questions/oq-the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so.md) |
 | **oq/the-facade-is-a-result-not-an-input** | RULED 4 Sep 2026 | [the bay rhythm follows the plan's organising move, and one hard test is inverted by saying so](open-questions/oq-the-facade-is-a-result-not-an-input.md) |
 | **oq/the-frozen-fixture-is-regenerated-by-solving** | CLOSED 5 September 2026 (WP-11.8) — keep `auto`, correct the README | [the contract fixture's own README says why that cannot work, and its generator does it anyway](open-questions/oq-the-frozen-fixture-is-regenerated-by-solving.md) |
 | **oq/the-parti-dissolved-its-own-dependencies** | RULED 2 Sep 2026 | [a Georgian main block asked to hold a service program the type put in outbuildings](open-questions/oq-the-parti-dissolved-its-own-dependencies.md) |

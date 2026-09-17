@@ -796,7 +796,12 @@ def test_the_appendage_rect_is_inside_the_drawn_plate():
 # evidence the refusal is real rather than a silence.
 # RE-PINNED AT WP-11.18 with `tests/test_elements.py`'s copy, per plan on a `git worktree` of
 # `a0ae8b7`: six of sixteen differ and they are the six that name an entrance face.
-CORPUS_PLACEMENT_SHA = "7f2de7eaa95b84d2"
+# THE SECOND COPY OF THIS CONSTANT (`tests/test_elements.py` holds the other), re-derived at
+# the 17 SEP merge by the same harness, proved against both parents first. Per plan it differs
+# from main on 1 of 16 and from this branch on 6; the accounting is written out beside the copy
+# in `test_elements.py`. Two files holding one number is a second spelling and is named here
+# rather than left for a reader to find: they must move together.
+CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 
 
 def test_placing_the_terrace_moved_no_shipped_placement():

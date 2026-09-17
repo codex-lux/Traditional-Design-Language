@@ -191,7 +191,7 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
         t_ft = elev["section"]["wall"]["exterior_in"] / 12.0
         for face in ("S", "N", "E", "W"):
             for r in el.opening_rects(elev, face)["rects"]:
-                seen[pid] = seen.get(pid, 0) + 1
+                seen[(pid, face)] = seen.get((pid, face), 0) + 1
                 # THE CONSTRUCTION, not the difference. `x1 - x0` reintroduces its own
                 # rounding — 75.5315 - 36.8845 is not 38.647 in binary — so asserting that
                 # would be a test of IEEE 754 rather than of this function. What must hold
@@ -239,9 +239,34 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
     #
     # Re-derive per plan before touching either number. A bump of the total would have been a
     # measurement's clothes on a house nobody looked at.
-    assert seen == {"tidewater-georgian-careful": 32, "spec-builder-colonial": 32}, (
+    # AND PER FACE AT THE 17 SEP MERGE, BECAUSE A PER-PLAN TOTAL HID EXACTLY WHAT THIS PIN WAS
+    # MADE PER PLAN TO CATCH. The census across the merge:
+    #
+    #     tree                S   N   E   W  total        S   N   E   W  total
+    #     main  9eb71c4      10  10   6   6    32        10  10   6   6    32
+    #     ours  ed5ef72       7   6   2   0    15         6   4   0   2    12
+    #     merged              7   5   0   1    13         7   3   0   2    12
+    #                     (tidewater-georgian-careful)  (spec-builder-colonial)
+    #
+    # MAIN'S 32 AND 32 ARE THE FINDING, not the baseline: two different houses drawing the same
+    # number of openings on every one of four faces is a RHYTHM being divided evenly, not a
+    # record being read. That is the defect WP-13.3 fixed by making `elevation` read the plan's
+    # PLACED openings, and 64 -> 27 on this branch is that fix arriving. 27 -> 25 at the merge
+    # is the Tidewater plan being re-placed, 15 -> 13.
+    #
+    # The spec Colonial's per-plan TOTAL is unmoved at 12 while its S face goes 6 -> 7 and its N
+    # face 4 -> 3 -- so the per-plan pin main introduced would have passed over a house whose
+    # front gained an opening and whose back lost one. Per face is the form that bites, and it
+    # was chosen because that substitution was measured here rather than imagined.
+    assert seen == {("tidewater-georgian-careful", "S"): 7,
+                    ("tidewater-georgian-careful", "N"): 5,
+                    ("tidewater-georgian-careful", "W"): 1,
+                    ("spec-builder-colonial", "S"): 7,
+                    ("spec-builder-colonial", "N"): 3,
+                    ("spec-builder-colonial", "W"): 2}, (
         f"the opening census over the two shipped plans moved: {seen}. Derive WHICH plan and "
-        f"why -- the bay count, the storey count and the faces -- before re-pinning it.")
+        f"WHICH FACE -- the bay count, the storey count and the placement -- before re-pinning "
+        f"it. A face at zero is absent from this dict, which is how E reads on both plans.")
 
 
 def test_every_rectangle_names_the_record_it_came_from(elevations):
@@ -265,7 +290,17 @@ def test_every_rectangle_names_the_record_it_came_from(elevations):
 # put that sash 27.8 ft from the stack it stands on. Pinned as a SET so that a change in either
 # direction shows: a second refusal is a placement to look at, and none is either a fix in
 # `openings.py` or the refusal going blind.
-STACK_REFUSED_ON_THE_SHIPPED_PLANS = {("tidewater-georgian-careful", "W", "primary", "upper")}
+# EMPTY AT THE 17 SEP MERGE, AND AN EMPTY SET HERE IS THE ONE THE DOCSTRING CALLS AMBIGUOUS --
+# "either a fix in `openings.py` or the refusal going blind" -- so it is not pinned on its own.
+# Measured on the merged tree: the Tidewater W face carries `stack_axes_ft` [32.22, 32.22] with
+# a half-width of 0.9167, and the primary chamber's upper sash is PLACED at u = 13.5917, 3.5 ft
+# wide -- about 18.6 ft clear of the nearest stack. On this branch's parent the same sash sat on
+# a stack at 11.77 and was refused. The main block narrowed 63 -> 45 ft across the merge and the
+# stack moved with the gable; the sash did not follow it. So the placement moved and the rule
+# did not, which `test_the_corpus_reaches_no_stack_refusal_BECAUSE_the_sash_is_clear` below
+# asserts from the geometry rather than leaving it to this comment. The refusal itself is still
+# exercised, by the DRIVEN test through all three callers at once.
+STACK_REFUSED_ON_THE_SHIPPED_PLANS = set()
 
 
 def test_no_shipped_plan_reaches_a_blind_bay(elevations):
@@ -300,6 +335,41 @@ def test_no_shipped_plan_reaches_a_blind_bay(elevations):
     assert got == STACK_REFUSED_ON_THE_SHIPPED_PLANS, (
         f"placed openings refused for a stack: {sorted(got)} against the pinned "
         f"{sorted(STACK_REFUSED_ON_THE_SHIPPED_PLANS)} -- a placement moved, or the refusal did")
+
+
+def test_the_corpus_reaches_no_stack_refusal_BECAUSE_the_sash_is_clear(elevations):
+    """THE DISCRIMINATOR FOR THE ZERO ABOVE, because a count of none cannot say why.
+
+    `STACK_REFUSED_ON_THE_SHIPPED_PLANS` is empty on this tree, and the two readings of that are
+    opposite: the shipped placements draw no sash on a stack, or `opening_rects` has stopped
+    looking. This asserts the first from the geometry -- every placed window on a face that
+    states a stack stands CLEAR of every axis on it, by more than the sash's half-width plus the
+    stack's. If the rule went blind instead, a sash would be overlapping an axis and drawn, and
+    this fails while the count above still reads zero."""
+    el = _load("elevation")
+    checked = 0
+    for pid, elev in elevations.items():
+        for f in "SNEW":
+            fr = elev["faces"][f]
+            axes = fr.get("stack_axes_ft") or []
+            half = float(fr.get("stack_half_width_ft") or 0.0)
+            if not axes:
+                continue
+            for r in el.opening_rects(elev, f)["rects"]:
+                if r["kind"] != "window":
+                    continue
+                c = (r["x0_in"] + r["x1_in"]) / 24.0          # the sash's centre, in feet
+                w2 = (r["x1_in"] - r["x0_in"]) / 24.0
+                for a in axes:
+                    assert abs(c - a) > (w2 + half), (
+                        pid, f, r.get("id"), c, a,
+                        "a placed sash is drawn overlapping a stack axis while the census above "
+                        "reads no refusals -- the refusal has gone blind, which is the reading "
+                        "that zero cannot rule out on its own")
+                    checked += 1
+    assert checked, (
+        "no shipped plan states a stack axis on a face that draws a placed window, so this "
+        "discriminator is vacuous and the zero above is unevidenced again -- drive it")
 
 
 def _stack_on(elev, face, u_ft, half_ft=None):
@@ -386,9 +456,22 @@ def test_a_door_on_a_stack_is_drawn_and_counted_not_deleted(elevations):
     carries one. Which face has a back door is a property of the placement; the property under
     test is not."""
     el = _load("elevation")
-    elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
-    face = next(f for f in ("N", "E", "W", "S") if f != elev["entrance_face"]
-                and any(p["kind"] == "door" for p in (elev["faces"][f].get("placed") or [])))
+    # AND THE PLAN IS SELECTED WITH THE FACE AT THE 17 SEP MERGE, for the reason the paragraph
+    # above already gives one level down. The merged placement leaves the Tidewater main block
+    # with its only exterior doors on the S entrance front -- (doors, windows) per face reads
+    # S (2, 5), N (0, 5), E (0, 0), W (0, 1) -- so a fixture that names that plan raises
+    # StopIteration and dies of having no subject rather than of a defect. The spec Colonial
+    # still offers one (entrance N, a placed door on S). Searching BOTH shipped plans keeps the
+    # first door real; the second is still DRIVEN, which is what tells "every" from "the first".
+    pid_face = next(((p, f) for p in PLANS for f in ("N", "E", "W", "S")
+                     if f != elevations[p]["entrance_face"]
+                     and any(x["kind"] == "door"
+                             for x in (elevations[p]["faces"][f].get("placed") or []))), None)
+    assert pid_face, (
+        "no shipped plan places an exterior door on a face that is not its entrance front, so "
+        "this fixture has no subject. Drive one rather than deleting the guard.")
+    elev = json.loads(json.dumps(elevations[pid_face[0]]))
+    face = pid_face[1]
     door = next(p for p in elev["faces"][face]["placed"] if p["kind"] == "door")
     _stack_on(elev, face, door["u_ft"])
     got = el.opening_rects(elev, face)
@@ -592,7 +675,6 @@ def test_a_placed_door_off_the_entrance_face_is_a_leaf_and_not_a_doorcase(elevat
     outside this slice; the rect says `entrance: None` and that is the one condition it needs.)
     """
     el, re_ = _load("elevation"), _load("render_elevation")
-    elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
     # WP-13.5 MOVED THE PLACEMENT AND WITH IT THE BACK DOORS. The docstring above describes
     # THREE exterior doors on the N face; with the service programme in the dependency this
     # record declares, the N face of the main block carries NONE and the E face carries one.
@@ -601,8 +683,22 @@ def test_a_placed_door_off_the_entrance_face_is_a_leaf_and_not_a_doorcase(elevat
     # subject cannot tell "every" from "the first". The corpus offers at most one back door on
     # any face of either shipped plan now, measured; a fixture that waits for the corpus to
     # offer two is measuring the corpus (WP-8.11).
-    face = next(f for f in ("N", "E", "W", "S") if f != elev["entrance_face"]
-                and any(p["kind"] == "door" for p in (elev["faces"][f].get("placed") or [])))
+    # AND THE PLAN IS SELECTED WITH THE FACE AT THE 17 SEP MERGE, for the reason the paragraph
+    # above already gives one level down. The merged placement leaves the Tidewater main block
+    # with its only exterior doors on the S entrance front -- (doors, windows) per face reads
+    # S (2, 5), N (0, 5), E (0, 0), W (0, 1) -- so a fixture that names that plan raises
+    # StopIteration and dies of having no subject rather than of a defect. The spec Colonial
+    # still offers one (entrance N, a placed door on S). Searching BOTH shipped plans keeps the
+    # first door real; the second is still DRIVEN, which is what tells "every" from "the first".
+    pid_face = next(((p, f) for p in PLANS for f in ("N", "E", "W", "S")
+                     if f != elevations[p]["entrance_face"]
+                     and any(x["kind"] == "door"
+                             for x in (elevations[p]["faces"][f].get("placed") or []))), None)
+    assert pid_face, (
+        "no shipped plan places an exterior door on a face that is not its entrance front, so "
+        "this fixture has no subject. Drive one rather than deleting the guard.")
+    elev = json.loads(json.dumps(elevations[pid_face[0]]))
+    face = pid_face[1]
     assert elev["entrance_face"] != face
     placed = elev["faces"][face]["placed"]
     real = next(p for p in placed if p["kind"] == "door")
