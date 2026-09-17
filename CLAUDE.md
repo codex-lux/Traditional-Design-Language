@@ -1582,6 +1582,29 @@ for; what was corrected is the account of why. Three of that file's seven guards
 subject entirely -- the released-wall drive had become a mutation that changes no state
 (WP-11.15's rule), no sash is refused for a breast any more, and **no stack serves two fires, so
 the gather has no subject at all** -- and each is DRIVEN now with its premise asserted.
+**AND THE MERGE HAS A REPORT: `docs/reports/the-merge-of-three-lines-2026-09-17.md`**, on the
+precedent of `docs/reports/the-merge-of-the-two-phase-11s-2026-09-08.md`, whose §I this
+resolution followed. Read it before trusting any figure either parent published.
+**THE BUILD ON THE SETTLED TREE IS `2 of 53 checks failed` AND NOT ONE RED IS THE MERGE'S** --
+`pytest tests/` is 23 failed / 2,595 passed / 29 skipped in 1:00:42, of which **17 are the
+WP-13.1 gate, red by design**, and the other six are exactly the six the WP-13.8 entry above
+already records as pre-existing -- **attributed against a control rather than by name: those six
+ids on a checkout of this branch's own parent `ed5ef72` come back 6 failed in 2:41**. The two
+failing CHECKS are `check_partis.py` and the suite, which are one finding through two readers
+and not two.
+**AND THE THREE UNJUDGED CHECKS ARE NOT THE THREE THIS FILE NAMES.** `fastapi` and `ezdxf` are
+both present in this container, so `pytest workbench/server/tests` is judged and green and
+`export_dxf` gets far enough to REFUSE both shipped plans BY NAME -- *"the placement is refused
+for bearing, stacks, tiling"* -- which is WP-13.4's refuse-to-draw working rather than a missing
+library; the third is `check_frontend`'s lazy tier on a `dist/` older than 13 of its sources,
+which is main's own WP-13.2 third state doing what it was built for. **A reader holding "three
+unjudged" against the canonical trio would conclude the wrong three**, and the arithmetic
+identity two paragraphs down is about a run with no FAILURES, which this is not.
+**And the collection count reconciles exactly**: **2,647** against this branch's 2,582 and
+main's 2,314, a third value belonging to neither parent, accounted as 49 from main's three new
+test files and 16 net inside seven shared ones (19 names added -- 12 main's, 7 this wave's --
+less 3 renamed away in `tests/test_hearths_on_flue.py`). The instrument was proved on the parent
+first: it returns the 2,582 the WP-13.8 entry publishes.
 
 **PHASE 13 — THE COHERENT SHEET — IS IN PROGRESS (15 Sep 2026), AND `check_all.py` IS RED ON THIS
 BRANCH BY DESIGN UNTIL IT LANDS.** Lucas read two plates of a Tidewater sheet off the Drawing Set and
