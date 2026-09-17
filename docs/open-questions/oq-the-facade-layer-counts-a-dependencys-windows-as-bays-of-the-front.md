@@ -84,3 +84,46 @@ the other three fatals are in
 an element filter, a house with a service wing cannot be offered by the composer for a brief whose
 style is the wing's own — and the reason never reaches any surface, because the finding says the
 window is off the bay rather than that the instrument measured the wrong building.
+
+---
+
+## Ruled 17 September 2026 on questions 1 and 2, and BUILT — with the corpus sentence that argues the other way stated here rather than left out
+
+**The ruling, put and answered as two separate acts** (`oq/an-unverified-ruling-reads-exactly-like-a-ruling`'s
+own remedy). The question put to Lucas was what should happen to a service wing's front-facing
+openings, with three options offered: reported-not-judged, judged by a rhythm of their own, or
+dropped silently. **He chose reported, not judged.** WP-13.8 executes that:
+`axis.front_openings` returns the MAIN BLOCK's population in `openings`, the wing's in
+`off_the_main_block` with the element each stands in, and a room the element model cannot place in
+a third list, `element_unresolved` — never defaulted into the main block, which is WP-11.9's rule.
+
+**AND THE QUESTION ABOVE SAYS IN AS MANY WORDS NOT TO DO THIS BEFORE A RULING, WHICH IS WHY THE
+COUNTER-EVIDENCE IS REPEATED HERE INSTEAD OF BEING LEFT IN A PARAGRAPH NOBODY RE-READS.**
+Its *"What must not be done"* is *"Do not silence the finding by filtering `front_openings` to
+untagged rooms before the ruling"*, and its grounds are `groupings/dependency-and-hyphen.json`'s
+own sentence:
+
+> The dependency repeats the main block's window proportion and cornice at reduced scale. It is
+> subordinate, not different.
+
+**The reading this package acts on, stated so it can be attacked:** that sentence is about a
+window's PROPORTION and the CORNICE — the dressing — and says nothing about bay rhythm or about
+mirroring. A wing whose windows are the block's windows at reduced scale is still not a house
+whose wing windows are BAYS of the block's five, nor one whose wing windows have twins reflected
+about the block's centre at 55 to 73 ft on a 45 ft block. *Subordinate, not different* is a claim
+about likeness, not about a shared bay grid. Nothing in WP-13.8 touches proportion or cornice.
+
+**That reading may be wrong, and reversing it is cheap**: the filter is one function, the two new
+lists are additive, and the corpus control is 15 of 16 plans byte-identical. If a wing does
+compose with the front, the answer is question 2's — a rhythm per element — and this package's
+`off_the_main_block` is exactly the population that reading needs.
+
+**Question 3 is ANSWERED and it was the easy one.** `front-bay-with-no-opening` and
+`front-opening-in-no-bay` are computed in one pass over one population in `facade.compare`, so
+they read the same set of rooms by construction, whichever way 1 is ruled. Measured across the
+change on `plans/tidewater-georgian-careful.json` at `engine="heuristic"`: the orphan count falls
+**4 → 0** and the empty-bay count is **UNMOVED at 2 on the ground and 3 above** — the wing's
+openings were never within half a bay of any of the block's centres, so they filled nothing and
+their departure empties nothing.
+
+**Status: the layer is no longer blind; whether a wing composes with the front is what remains.**

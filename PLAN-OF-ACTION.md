@@ -3840,6 +3840,7 @@ number-to-filename table, so a bare "WP-13.n" can always be resolved:
 | WP-13.5 | `docs/reports/wp-13.5-the-service-wing-and-the-room-that-stays.md` |
 | WP-13.6 | `docs/reports/wp-13.6-furniture-to-its-own-grammar.md` |
 | WP-13.7 | `docs/reports/wp-13.7-the-guards-that-passed-through-another-packages-door.md` |
+| WP-13.8 | `docs/reports/wp-13.8-the-front-was-not-the-main-blocks.md` |
 
 ### WP-13.1 The gate
 
@@ -4132,3 +4133,30 @@ sixteen sheets move on a reconciliation, so it is its own package with three thi
 **One shipped sheet moved (+296 bytes), and removing the one field this package added gives all
 sixteen byte-identical to the previous commit** — the accounting proved rather than reasoned.
 **Depends on:** WP-12.8. **Size:** small.
+
+### WP-13.8 The facade layer told the type
+
+**Status: COMPLETE (17 Sep 2026)** —
+`docs/reports/wp-13.8-the-front-was-not-the-main-blocks.md`. `axis.front_openings` swept every room
+on the level with no element filter, so from WP-13.5's container the Tidewater wing's four
+south-facing openings were part of the main block's front — at x −27.9, −18.4, −14.4 and −10.4 on a
+block that starts at 0 — and `axis.mirror` and `facade.compare` each convicted them.
+`build/elements.py` is the reader; three buckets (`openings`, `off_the_main_block`,
+`element_unresolved`) replace one; `footprint_centre` is untouched because its own docstring says
+it reads the main block ON PURPOSE. `build/diagnose_sheet.py` carried a second spelling of the same
+population and takes the one answer now.
+
+**THE HEADLINE IS THE ONE IT COULD NOT CLAIM.** The fatal does not clear: mirror `unmatched` falls
+7 → 3 on the shipped plan and 3 → 2 on the composed `centre-passage-double-pile`, and both still
+fire, because the main block's own front really is asymmetric on the search placement. The plan
+this package was approved against said the fix would remove half of what pushed the native diagram
+out of the composer's set; that was wrong, and the diagram does not return. **15 of 16 shipped
+plans byte-identical** against a `git archive HEAD` control; the mover is the only tagged plan,
+minor 107 → 103, every moved row attributed by name, and two findings' FIGURES corrected besides.
+
+**The ruling and the sentence that argues against it are both on the record.** Lucas was asked and
+chose *reported, not judged*; he was asked without `groupings/dependency-and-hyphen.json`'s own
+*"subordinate, not different"* in front of him, which is this package's own defect and is written
+into `oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front`'s amendment with the
+reading acted on stated so it can be attacked. Reversing is one function and two additive keys.
+

@@ -1699,6 +1699,57 @@ and the two sums are identical by construction. And it is not merely a card: `co
 hands that footprint to `score_candidate`, so **the composer RANKS on a width the placer will not
 use**. `oq/the-composers-footprint-is-not-the-placed-one`.
 
+**WP-13.8 IS THE ENTRANCE FRONT'S POPULATION MADE THE MAIN BLOCK'S, AND ITS HEADLINE IS THE ONE IT
+COULD NOT CLAIM (`docs/reports/wp-13.8-the-front-was-not-the-main-blocks.md`).**
+`axis.front_openings` swept every room on the level with no element filter, so from WP-13.5's
+container the Tidewater wing's four south openings were part of the main block's front -- at x
+**-27.9, -18.4, -14.4 and -10.4 on a block that starts at 0** -- and two layers convicted them:
+`axis.mirror` reflected each about `footprint_centre` (22.5), found the twin would have to stand
+at 55 to 73 ft on a 45 ft block, and fed `unmatched` to
+`count_of_openings_without_a_mirror_twin_about_the_facade_centreline`, which
+`faults/one-bay-symmetry-break.json` tests `at-most 0` at severity FATAL; and `facade.compare`
+emitted four `front-opening-in-no-bay` minors. **`footprint_centre` IS NOT TOUCHED** -- its own
+docstring says it reads the main block *"ON PURPOSE and is not in that list"*, so the centre line
+was always right and only the POPULATION measured against it was wrong. Reading that docstring is
+what kept the package to one function. Three buckets now: `openings` (the main block's, what every
+caller judges), `off_the_main_block` (each with the element it stands in, REPORTED not judged) and
+`element_unresolved` (never defaulted into the main block, WP-11.9's rule).
+**AND THE FATAL DOES NOT CLEAR, WHICH WAS PREDICTED BY SIMULATION BEFORE A LINE CHANGED AND
+REPRODUCED EXACTLY.** Mirror `unmatched`: shipped Tidewater **7 -> 3**, composed
+`centre-passage-double-pile` **3 -> 2**, composed `side-hall-townhouse` 4 -> 4 (one element). All
+three still fire, because the main block's own front really is asymmetric on the search placement
+(10.95, 16.95, 27.21, 35.98, 40.49 about 22.5, and only 16.95 <-> 27.21 pairs). **The approved plan
+said this would remove half of what pushed the native diagram out of the composer's set; that was
+WRONG and the diagram does NOT return -- its fatal count is unchanged at 4.** Removing a false
+conviction is not clearing a true one, and the report says so in its own headline.
+**15 OF 16 SHIPPED PLANS BYTE-IDENTICAL**, hashed on a `git archive HEAD` control through the same
+harness; the mover is the only tagged plan, 209 -> 205 findings, **minor 107 -> 103**, fatal /
+serious / info unmoved. **The richer half was invisible in the counts**: two findings' FIGURES are
+corrected -- the fatal's measurement 7 -> 3, and `drawn-facade-symmetry-unjudged` **3 -> 1**
+undrawn units, because two of the three the reader was being shown were the wing's.
+`front-bay-with-no-opening` is UNMOVED at 2 and 3, which answers the question's own third
+question: the wing's openings were never within half a bay of a centre, so they filled nothing.
+**`build/diagnose_sheet.py` CARRIED A SECOND SPELLING** -- same field, same default, same
+`positions_ft` rule, same blindness -- and takes the one answer now while keeping its own
+per-storey rows and alignment, which `axis` does not compute. It REPORTS what it set aside; a
+diagnostic whose count falls in silence is the fake-unjudged shape in the surface a reader opens
+to find out what the sheet shows. And `door_bay` has two messages where it had one, because a
+house with no front door and a house whose door is in a wing are different situations.
+**AND THE OPEN QUESTION SAID IN AS MANY WORDS NOT TO DO THIS BEFORE A RULING.** Lucas was asked
+and chose *reported, not judged* over a rhythm per element, so the ruling exists -- **but he was
+asked without `groupings/dependency-and-hyphen.json`'s own sentence in front of him**: *"The
+dependency repeats the main block's window proportion and cornice at reduced scale. It is
+subordinate, not different."* That is this package's own defect, and the counter-evidence is
+written into the question's amendment rather than left where nobody re-reads it, with the reading
+acted on stated so it can be attacked: that sentence is about a window's PROPORTION and the
+CORNICE and says nothing about bay rhythm or mirroring, and nothing here touches either.
+Reversing is cheap -- one function, two additive keys -- and `off_the_main_block` is exactly the
+population the other reading needs. **Six mutations, all red from a green baseline, none blind**;
+the guard worth knowing is `test_a_record_with_no_footprint_is_not_filtered_rather_than_filtered_to_nothing`,
+because refusing to filter is not the same as filtering to nothing and the difference is a whole
+front -- without it, `elements()` returning `[]` empties the front of every record stating no
+width, which is the package's own defect introduced by its own fix.
+
 **WP-13.6 IS THE FURNITURE ARRANGED TO ITS OWN GRAMMAR, AND ITS SHARPEST FINDING IS THAT THE
 PACKAGE'S OWN FIRST COMMIT HAD ALREADY SHIPPED TWO RED ASSERTIONS
 (`docs/reports/wp-13.6-furniture-to-its-own-grammar.md`).** Catalogue items state their POSITION

@@ -27,8 +27,18 @@ exists to stop anyone making by accident.
 from __future__ import annotations
 
 import os
+import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "build"))
+import modcache  # noqa: E402
+
+# `build/elements.py` is the ONE reader of which massing element a room stands in, and it is a
+# pure leaf (it imports `math` and nothing else), so loading it here closes no cycle. Every layer
+# that has learned about massing elements since WP-11.9 reads it -- `openings.py`, `structure.py`,
+# `export_ifc.py`, `render_plan.py` -- and this file is the next one. Do not re-derive
+# containment anywhere in this module; that is the defect WP-11.15 found spelled five ways.
+EL = modcache.load("elements", os.path.join(ROOT, "build", "elements.py"))
 
 # The entrance front's default. `context.entrance_faces` states it per plan; south is the
 # convention every renderer in this tree already draws to (x east, y north, origin at the
@@ -160,37 +170,104 @@ def spine(plan, level=0, C=None):
 
 
 def front_openings(plan, level=0):
-    """Every placed opening on the entrance front of one level, west to east.
+    """Every placed opening on the MAIN BLOCK's entrance front, one level, west to east.
 
     An opening the placement could not place is NOT here and is counted separately: the
     elevation shows what was drawn, and a declared window that is not on the wall is not on the
     facade. That count is the sheet's `windows` disclosure (WP-11.1) and this returns it so a
-    caller cannot mistake a short list for a sparse facade."""
+    caller cannot mistake a short list for a sparse facade.
+
+    THE POPULATION IS THE MAIN BLOCK'S, AND THAT QUALIFIER IS THE WHOLE OF WP-13.8. This swept
+    every room on the level with no element filter of any kind, so the moment WP-13.5 gave
+    `plans/tidewater-georgian-careful.json` a west dependency, that wing's four south-facing
+    openings joined the main block's front -- at x -27.9, -18.4, -14.4 and -10.4 on a block that
+    starts at 0. `mirror` then reflected each about `footprint_centre` (22.5 ft), found its twin
+    would have to stand at 55 to 73 ft on a 45 ft block, and returned all four as `unmatched`;
+    `elevation.py` turns that count into
+    `count_of_openings_without_a_mirror_twin_about_the_facade_centreline`, which
+    `faults/one-bay-symmetry-break.json` tests `at-most 0` at severity FATAL. And `facade.compare`
+    convicted the same four with `front-opening-in-no-bay`. A wing's window measured against the
+    main block's centreline is a defect reported where none is possible -- the OQ 52 family -- and
+    the remedy is the one this corpus has applied since WP-11.9: read `build/elements.py`.
+
+    **`footprint_centre` IS DELIBERATELY NOT CHANGED AND MUST NOT BE.** Its own docstring says it
+    reads the main block *"ON PURPOSE and is not in that list"*: a centre-door diagram's centre
+    line is the block's, and a centre taken over the built extent would move with the wing. The
+    centre line was always right. What was wrong was the population measured against it.
+
+    THREE BUCKETS, BECAUSE A ROOM IN NO ELEMENT IS UNJUDGED (WP-11.9's rule). `openings` is the
+    main block's and is what every caller judges. `off_the_main_block` carries each opening with
+    the element it stands in, REPORTED and not judged -- the ruled answer, on the precedent of
+    `openings.faces_across_a_gap`, because a silence here reads as a pass and that is the
+    fake-unjudged shape. `element_unresolved` is the third: a room the placement did not place,
+    or whose rectangle straddles two elements, is assigned to NEITHER rather than defaulted into
+    the main block, because defaulting there is the defect itself.
+
+    A ONE-RECTANGLE HOUSE IS UNTOUCHED BY CONSTRUCTION: `elements()` synthesises a single `main`
+    from the footprint scalars, every placed room is inside it, and both new lists come back
+    empty. A record with no footprint at all has no element model, so the filter is NOT APPLIED
+    and `element_filter` says so -- refusing to filter is not the same as filtering to nothing,
+    and emptying the front of a record that states no footprint would be a new defect of exactly
+    the kind this function is being fixed for."""
     front = front_of(plan)
-    placed, unplaced = [], 0
+    els = EL.elements(plan)
+    main = next((e for e in els if (e.get("role") or "") == "main"), els[0] if els else None)
+    placed, off, unresolved, unplaced, unplaced_off = [], [], [], 0, 0
+
+    def _of(room):
+        """Which bucket this room's front openings belong in, decided ONCE per room."""
+        if main is None:
+            return "main"                      # no element model: the filter does not apply
+        el = EL.element_of(plan, room, els)
+        if el is None:
+            return "unresolved"
+        return "main" if el is main else (el.get("id") or el.get("role") or "element")
+
     for lv in plan.get("levels", []):
         if (lv.get("index") or 0) != level:
             continue
         for r in lv.get("rooms", []):
+            here, here_unplaced = [], 0
             for w in (r.get("windows") or []):
                 if (w.get("wall") or "").upper() != front:
                     continue
                 if w.get("unplaced"):
-                    unplaced += int(w.get("count") or 1)
+                    here_unplaced += int(w.get("count") or 1)
                     continue
                 for x in (w.get("positions_ft") or []):
-                    placed.append({"room": r["id"], "kind": "window", "pos_ft": round(x, 3),
-                                   "width_ft": w.get("width_ft")})
+                    here.append({"room": r["id"], "kind": "window", "pos_ft": round(x, 3),
+                                 "width_ft": w.get("width_ft")})
             for d in (r.get("doors") or []):
                 if d.get("to") != "exterior" or d.get("unplaced"):
                     continue
                 if (d.get("wall") or "").upper() != front or d.get("position_ft") is None:
                     continue
-                placed.append({"room": r["id"], "kind": "door",
-                               "pos_ft": round(d["position_ft"], 3),
-                               "width_ft": d.get("width_ft")})
+                here.append({"room": r["id"], "kind": "door",
+                             "pos_ft": round(d["position_ft"], 3),
+                             "width_ft": d.get("width_ft")})
+            if not here and not here_unplaced:
+                continue
+            where = _of(r)
+            if where == "main":
+                placed.extend(here)
+                unplaced += here_unplaced
+            elif where == "unresolved":
+                unresolved.extend(here)
+                unplaced_off += here_unplaced
+            else:
+                for o in here:
+                    o["element"] = where
+                off.extend(here)
+                unplaced_off += here_unplaced
+
     placed.sort(key=lambda o: o["pos_ft"])
-    return {"front": front, "openings": placed, "declared_but_unplaced": unplaced}
+    off.sort(key=lambda o: o["pos_ft"])
+    unresolved.sort(key=lambda o: o["pos_ft"])
+    return {"front": front, "openings": placed, "declared_but_unplaced": unplaced,
+            "off_the_main_block": off, "element_unresolved": unresolved,
+            "declared_but_unplaced_off_the_main_block": unplaced_off,
+            "element_filter": "not-applied" if main is None else "main-block",
+            "elements": len(els)}
 
 
 def door_bay(plan):
@@ -202,6 +279,18 @@ def door_bay(plan):
     fo = front_openings(plan, 0)
     doors = [o for o in fo["openings"] if o["kind"] == "door"]
     if not doors:
+        # WP-13.8: the population is the MAIN BLOCK's now, so "no door here" has two causes and
+        # they call for different things. A house with no front door at all is one answer; a
+        # house whose only front door stands in a wing is another, and reporting the second as
+        # the first would be a true sentence about a different situation -- WP-11.4's "a refusal
+        # with one message for three causes has stopped being one".
+        away = [o for o in fo.get("off_the_main_block") or [] if o["kind"] == "door"]
+        if away:
+            return {"verdict": "could-not-evaluate",
+                    "why": f'the {fo["front"]} front of the main block carries no exterior door; '
+                           f'{len(away)} stand(s) on the same face of another massing element '
+                           f'({", ".join(sorted({o.get("element") or "?" for o in away}))}), and a '
+                           f'bay is a division of the main block, so no bay can be named for one'}
         return {"verdict": "could-not-evaluate",
                 "why": f'no exterior door is placed on the {fo["front"]} front'}
     mid = centre_bay(plan)
