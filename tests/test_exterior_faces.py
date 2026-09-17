@@ -178,7 +178,9 @@ def test_without_bounds_that_window_is_refused_and_counted_rather_than_vanishing
 
 def test_the_two_renderers_take_bounds_in_the_same_place():
     """`tests/fixtures/sheet_symbols/` cannot hold this pair to one answer -- no plan in the
-    corpus carries a `block` tag, so the frozen fixtures have one element. The contract for
+    corpus carried a `block` tag when this was written, so the frozen fixtures have one element
+    -- and they still do, because `generate.py`'s `ROOM_KEYS` does not copy the field even now
+    that `plans/tidewater-georgian-careful.json` carries one (WP-11.16). The contract for
     this case is that both files take the argument, and both hand-built suites assert the same
     three numbers on the same two rectangles.
 
@@ -227,14 +229,33 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # reads as success"*); what this adds is that the damage outlives the harness, into any number
 # measured afterwards. **After an interrupted mutation run, restore the file and re-derive
 # every figure taken since.**
-# WP-12.4 moved this by adding one `data-frame` attribute to the root <svg> of every plate,
-# so the corpus hashes 535077ae0bca1ea2 now. **A re-pin on its own would have converted a
-# defect into a claim** -- this pin's whole job is to say that WP-11.14 is the IDENTITY on a
-# one-rectangle corpus, and overwriting the number tells the next reader that identity was
-# re-verified when all that happened is that a new value was written down. So the STRIPPED
-# hash is asserted too, and it is WP-11.14's own: re-derived over the same sixteen sheets with
-# ` data-frame='...'` removed, it is 373d0116be7cecb8 to the character. 16 of 16 sheets carry
-# the attribute and it adds 2,918 bytes in total.
+# RE-DERIVED AT WP-11.16, AND ATTRIBUTED. Tagging `tidewater-georgian-careful` re-places its
+# ground floor, so its sheet had to move; what had to be PROVED is that no other sheet did.
+# Measured per plan on a `git worktree` of the parent commit and on the working tree: of the
+# sixteen rendered sheets, exactly ONE differs and it is the tagged plan. The sentence below
+# -- that WP-11.14 is the identity on a one-rectangle house -- is still the guarantee for the
+# fifteen; the sixteenth is not one rectangle any more.
+# AND RE-DERIVED AT WP-11.17, WHERE SIX OF SIXTEEN MOVED AND THE SIX ARE NAMED. That package
+# states the entrance front as an anchor -- the room that must stand on it is placed against it
+# rather than left to a guillotine that does not know the face matters -- and
+# `geometry.entrance_anchors` reaches exactly the plans whose record decides the question:
+# `tidewater-georgian-careful`, `spec-builder-colonial`, `good-01`, `good-03`, `good-04` and
+# `good-07`. Re-derived PER PLAN on a `git worktree` of the parent commit `b6c7773`: those six
+# differ and the other ten are byte-identical, INCLUDING `good-02-portico-library-house`, the
+# plan whose portico and foyer the selector refuses to choose between -- which is the sharpest
+# evidence the refusal is real rather than a silence.
+# AND AT WP-11.18, for the six plans that name an entrance face and for the reason
+# `tests/test_elements.py`'s two digests carry: a re-placed house draws a different sheet. The
+# other ten are byte-identical, re-derived per plan on a `git worktree` of `a0ae8b7`.
+#
+# WP-12.4 ADDED A SECOND PIN, and it is the half that keeps this from being a bump. That
+# package moved the corpus hash by adding one `data-frame` attribute to the root <svg> of every
+# plate. **A re-pin on its own would have converted a defect into a claim** -- this pin's whole
+# job is to say that WP-11.14 is the IDENTITY on a one-rectangle corpus, and overwriting the
+# number tells the next reader that identity was re-verified when all that happened is that a
+# new value was written down. So the STRIPPED hash is asserted too: the same sixteen sheets
+# with ` data-frame='...'` removed. 16 of 16 sheets carry the attribute and it adds 2,918
+# bytes in total.
 #
 # AND THE PIN CAUGHT A PACKAGE THAT HAD ALREADY BEEN COMMITTED. WP-12.4 verified the property
 # by diffing all 44 plates with the attribute stripped and never ran the guard that MEASURES
@@ -242,30 +263,47 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # were checking by hand. That is this repository's own *a package that commits before its
 # build finishes learns what it broke from the build*, met by the package that had just
 # written the sentence down.
-CORPUS_SHEET_SHA = "c4210345a77b9904"
-CORPUS_SHEET_SHA_NO_FRAME = "b620afc41d04b412"
-# BOTH MOVED AT WP-12.9, AND THE MOVEMENT IS ACCOUNTED RATHER THAN RE-PINNED. Was
-# 535077ae0bca1ea2 / 373d0116be7cecb8 (WP-11.14's stripped value, which WP-12.4 left alone).
 #
-# ONE SHEET OF SIXTEEN MOVED -- `tidewater-georgian-careful`, the only shipped plan that draws a
-# chimney stack -- by 296 bytes: four tooltips gain "(a judgment, not a measurement)" and the
-# title block gains one schedule row, so the canvas grows 962 -> 976 px and every row below the
-# new line shifts by exactly 14. NOTHING IN THE DRAWING FIELD MOVED.
-#
-# THE ACCOUNTING WAS PROVED AND NOT REASONED. Removing the single field this package added --
-# `judgment: true` on `kits/georgian-colonial-american.kit.json`'s `chimney.stack_plan_in` --
-# and re-rendering gives all SIXTEEN sheets byte-identical to the previous commit. So the whole
-# corpus movement is attributable to that one flag and to nothing else in the package, which is
-# what a re-pin owes: WP-12.4 published "16 of 16 plates byte-identical" from a comparison that
-# was not this one and shipped three commits on a red assertion.
+# BOTH MOVED AT WP-12.9, AND THE MOVEMENT WAS ACCOUNTED RATHER THAN RE-PINNED. ONE sheet of
+# sixteen moved -- `tidewater-georgian-careful`, the only shipped plan that draws a chimney
+# stack -- by 296 bytes: four tooltips gain "(a judgment, not a measurement)" and the title
+# block gains one schedule row, so the canvas grows 962 -> 976 px and every row below the new
+# line shifts by exactly 14. NOTHING IN THE DRAWING FIELD MOVED. The accounting was PROVED:
+# removing the single field that package added -- `judgment: true` on
+# `kits/georgian-colonial-american.kit.json`'s `chimney.stack_plan_in` -- and re-rendering gave
+# all SIXTEEN sheets byte-identical to the previous commit.
 #
 # AND THE HARNESS THAT MEASURED IT WAS WRONG ONCE, WHICH IS WHY THERE WAS A CONTROL. The first
 # sweep hashed the sixteen rendered files in FILENAME order; this test hashes them in
 # `plans/*.json` order followed by `plans/reference/*.json`, and the two are not the same
 # sequence. It produced a confident pair of hashes that were hashes of nothing anybody computes.
-# Running the same harness over a `git archive HEAD` checkout and requiring it to reproduce
-# 535077ae0bca1ea2 / 373d0116be7cecb8 is what caught it -- a re-pin whose instrument has not
-# been shown to reproduce the OLD value is not a measurement, it is a new number.
+# Running the same harness over a `git archive HEAD` checkout and requiring it to reproduce the
+# OLD value is what caught it -- a re-pin whose instrument has not been shown to reproduce the
+# old value is not a measurement, it is a new number.
+#
+# AND BOTH ARE THIRD VALUES AT THE MERGE OF THIS BRANCH INTO MAIN (16 Sep 2026), BELONGING TO
+# NEITHER PARENT, which is what says neither side was dropped. Main's sheets carry the
+# `data-frame` attribute and the judgment tooltips; this branch's six entrance-anchored plans
+# are re-placed. A merged hash equal to either parent's would have meant one side had been
+# lost. Both are re-derived on the merged tree by the same harness, and the STRIPPED pin is
+# what still carries WP-11.14's identity claim across the merge.
+# THE MERGED PAIR IS ATTRIBUTED PER PLAN, IN BOTH DIRECTIONS, AND THAT IS WHAT MAKES IT A
+# MEASUREMENT. Run on a `git worktree` of each parent, the harness below reproduces each
+# parent's own published value exactly -- `d351586` gives 6a3368fd8730f1b8 with `framed` 0
+# (this branch has no data-frame attribute at all) and `c65b638` gives
+# c4210345a77b9904 / b620afc41d04b412 -- so the instrument is the same instrument. Then, on the
+# STRIPPED hash, which is the one that carries WP-11.14's identity claim:
+#
+#     merged vs main          6 of 16 moved -- good-01, good-03, good-04, good-07,
+#                             spec-builder-colonial, tidewater-georgian-careful: exactly the six
+#                             plans `geometry.entrance_anchors` reaches (WP-11.17/11.18)
+#     merged vs this branch   1 of 16 moved -- tidewater-georgian-careful, the only shipped plan
+#                             that draws a chimney stack, which is WP-12.9's judgment tooltip
+#
+# Six and one, disjoint causes, and the two sets are exactly what each side contributed. **A
+# merged digest equal to either parent's would have meant one side had been dropped.**
+CORPUS_SHEET_SHA = "c59ccf4f0cbb9a04"
+CORPUS_SHEET_SHA_NO_FRAME = "6e40e16278d1f6e0"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])
@@ -306,7 +344,10 @@ def test_no_shipped_sheet_moves(engine, tmp_path):
         "must be the identity on every plan in this corpus")
     assert h.hexdigest()[:16] == CORPUS_SHEET_SHA, (
         "a shipped sheet moved. If the assertion above passed, the movement is inside the "
-        "data-frame attribute itself and the renderers' affine has changed")
+        "data-frame attribute itself and the renderers' affine has changed. Otherwise: on a "
+        "one-rectangle house a boundary room's own face IS the footprint edge, so WP-11.14 is "
+        "the identity on the plans that are one rectangle -- re-derive PER PLAN and name which "
+        "moved before re-pinning, because a corpus digest cannot tell you")
 
 
 # --------------------------------------------------------------- the DRAWING, not the derivation

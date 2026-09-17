@@ -1,6 +1,71 @@
-# oq/a-held-shape-pin-is-not-held-on-the-hard-only-path — the record says every proportion pin held, and two did not
+# oq/a-held-shape-pin-is-not-held-on-the-hard-only-path — the prover stated the band at one decimal place
 
-*Status: OPEN · Raised in: WP-11.15, the phantom storey the disclosure invented (8 September 2026)*
+*Status: CLOSED 15 SEP 2026 · Raised in: WP-11.15, the phantom storey the disclosure invented*
+
+> **THE SLUG NAMES THE WRONG CAUSE AND IS KEPT ANYWAY.** It is not the hard-only path: the
+> failure reproduces three runs of three on `OPTIMAL — kept polish from the heuristic hint`,
+> and the status split recorded below was a coincidence of which candidate won. Ids in this
+> corpus are stable and never reused, and this one is cited from `CLAUDE.md`,
+> `PLAN-OF-ACTION.md` and WP-11.15's own report, so the heading is corrected and the id is not.
+
+## THE ANSWER, and it is this entry's own Question 1
+
+**Question 1 asked whether phase A asserts the proportion pin at all**, on the reasoning that if
+it does not, the empty `downgraded_shape_pins` is *unjudged reported as passed*.
+
+**It asserts it, at the wrong number.** `build/geometry_cp.py` stated the ceiling to CP-SAT as
+
+```python
+m.Add(10 * mxs <= int(round(_ceil * 10)) * mns).OnlyEnforceIf(_sh)
+```
+
+and `int(round(1.35 * 10))` is **14**. The prover asserted a ceiling of **1.4** on every room
+whose record states 1.35, so `10 × 18 = 180 ≤ 14 × 13 = 182` and an 18 × 13 bedroom was *proved*
+inside a band it is outside of.
+
+**The entry's own recorded evidence is the confirmation.** The two rooms in the table below are
+at 1.38 and **1.40** — and 1.40 is exactly the loosened ceiling, to the digit. A guard reading
+the record's 1.35 convicts both; the model reading 14/10 admits both.
+
+Swept over all 54 banded room types, the one decimal place is wrong in **both** directions:
+
+| direction | count | types |
+|---|---|---|
+| **LOOSE** — the model admits shapes the record forbids | 4 | `bedroom`, `keeping-room`, `morning-room`, `nursery` (1.35 → 1.4) |
+| **TIGHT** — the model forbids shapes the record admits | 1 | `parlor` (1.45 → 1.4) |
+| exact | 49 | |
+
+The tight direction is the sharper one in principle and had no instance to catch it: the prover
+can downgrade an **authored** wall pin, or report a house INFEASIBLE, to escape a band the room's
+own record does not state. That is a false refusal wearing a proof's clothes — the OQ 52 family.
+
+`GEO.ASPECT_FALLBACK` is 2.6 and survives the rounding exactly, and `GEO.shape_band()` is
+unrounded, so the hill-climb never had this defect. It lived only in the two places the model is
+built, and **the reason it survived four packages is that both copies were wrong together and so
+agreed with each other** — a rule written twice, this corpus's most-repeated bug.
+
+## What was done
+
+`_BAND_Q = 100`, named once, with both statements reading it. The soft overshoot term was
+restated scale-neutrally (`10 * ov10 >= _BAND_Q * mx - …`) so `ov10` keeps its units and its
+integer weight; rescaling the variable itself would have multiplied the shape term against every
+other penalty by ten, which is a re-weighting and a different package.
+
+Neither shipped plan became infeasible: tidewater still proves OPTIMAL in ~9.5 s with the same
+four wall pins and the same one shape pin, spec-builder-colonial is still FEASIBLE with none.
+
+**Questions 2, 3 and 4 below are moot for this case and are left as written**, because the state
+they ask about — a pin that was never asserted — is a real state that this answer does not rule
+out anywhere else. What is settled is that it was not the state here.
+
+`_absorb` is exonerated for the fifth time, and by measurement rather than by reading: a probe
+wrapping it shows `chamber2` entering and leaving the post-solve pass unchanged in **both**
+candidates. The entry's "this is not a fifth `_absorb` defect" stands.
+
+---
+
+*The original entry follows as written, and the status split in it is the coincidence described
+above rather than a discriminator.*
 
 Found in ordinary work: a full `check_all` came back with one failure, and the failure was not
 the package's.

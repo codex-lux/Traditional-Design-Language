@@ -12,9 +12,16 @@ where containment used `ceil`/`floor` -- so the model demanded 97% of the larger
 inside the smaller one. On the hyphen that is 108.6 sf into a box holding 105: infeasible by
 construction, before any declared fact was read, and the conflict core duly blamed the tiling.
 
-Both are fixed here. The corpus is BYTE-IDENTICAL across the package because 0 of its 16 plan
-records carry a `block` tag -- `tests/test_elements.py` holds that -- so every assertion below
-runs on a hand-tagged or synthetic record, and each says so.
+Both are fixed here. The corpus was BYTE-IDENTICAL across the package because 0 of its 16 plan
+records carried a `block` tag, so every assertion below runs on a hand-tagged or synthetic
+record, and each says so.
+
+THAT RATIONALE EXPIRED AT WP-11.16 AND THE TESTS DID NOT. One shipped record is tagged now --
+`plans/tidewater-georgian-careful.json`, whose service programme is a west dependency with a
+hyphen -- so the sentence above is the record of why this package could be judged inert WHEN IT
+SHIPPED, and not a live claim about the corpus. What it bought is that every assertion here is
+still driven rather than read off whatever the shipped record happens to declare, which is
+WP-8.11's rule and is why nothing below had to be re-derived when a real plan arrived.
 """
 import glob
 import json
@@ -239,10 +246,16 @@ def test_the_disclosure_carries_a_capacity_row_for_every_element():
 
 
 def test_the_shipped_corpus_cannot_reach_any_of_this():
-    """Why the package is inert: 0 of 16 records carry a `block` tag, so `dependency_sizes`
-    returns [] and every element rule above is unreachable from the corpus. That is what makes
-    `tests/test_elements.py`'s two hashes a real guarantee rather than a hopeful one."""
-    n = tagged = 0
+    """WHEN THIS WAS WRITTEN IT SAID "why the package is inert: 0 of 16 records carry a `block`
+    tag", and that is no longer true. WP-11.16 tagged `plans/tidewater-georgian-careful.json`.
+
+    The census is KEPT and NAMED rather than deleted, because it is what tells a reader of
+    `tests/test_elements.py`'s two corpus hashes how much of the corpus they are a guarantee
+    about. It was sixteen; it is fifteen. A SECOND tagged record fails this again, and should:
+    every such record takes one more plan out from under those hashes and has to be re-derived
+    per plan rather than bumped.
+    """
+    n, tagged = 0, []
     for pf in sorted(glob.glob(str(ROOT / "plans" / "*.json"))) + \
             sorted(glob.glob(str(ROOT / "plans" / "reference" / "*.json"))):
         d = json.loads(pathlib.Path(pf).read_text())
@@ -250,8 +263,12 @@ def test_the_shipped_corpus_cannot_reach_any_of_this():
             continue
         n += 1
         if any(r.get("block") for lv in d["levels"] for r in lv.get("rooms") or []):
-            tagged += 1
-    assert n == 16 and tagged == 0
+            tagged.append(pathlib.Path(pf).name)
+    assert n == 16, f"the sweep reached {n} plans, not 16 -- it is not running"
+    assert tagged == ["tidewater-georgian-careful.json"], (
+        f"the set of shipped records carrying a `block` tag moved: {tagged}. Read "
+        f"`tests/test_elements.py`'s two corpus digests before changing this line -- each "
+        f"tagged record is one fewer plan those hashes speak for.")
 
 
 # --------------------------------------------------------------- what it buys

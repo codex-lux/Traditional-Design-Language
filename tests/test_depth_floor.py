@@ -332,7 +332,18 @@ class TestItIsNotEnforced:
 
     def test_the_footprint_is_byte_identical_with_the_module_present(self):
         # The complement of the source guard: the numbers, not the imports.
-        want = {"tidewater-georgian-careful": (63, 38.17), "spec-builder-colonial": (50.0, 30.75)}
+        # RE-DERIVED AT WP-11.16, AND THE DEPTH MOVED TOO -- not only the width, which is the
+        # easy half to miss. `plans/tidewater-georgian-careful.json` declares 617 sf of service
+        # programme as a west dependency now, so `derive_footprint` sizes the main block from
+        # the rooms that stay in it: 63 x 38.17 with 7 bays becomes 45 x 37.24 with 5.
+        # `spec-builder-colonial` is untouched by that package and is the control.
+        #
+        # THIS PIN HAS NO INDEPENDENT DERIVATION and that is worth saying where it is re-pinned:
+        # it is a bare literal, so "re-pin to whatever it prints" is exactly the move that would
+        # hide `depth_floor` starting to drive the depth. What makes it safe is the SIBLING
+        # import and source guards in this class, which is why it is described as their
+        # complement -- read them before moving this line again.
+        want = {"tidewater-georgian-careful": (45, 37.24), "spec-builder-colonial": (50.0, 30.75)}
         for name, (w, dpt) in want.items():
             q = json.loads(open(f"{ROOT}/plans/{name}.json").read())
             GEO._SOLVE_CACHE.clear()

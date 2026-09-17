@@ -96,7 +96,17 @@ class TestShippedPlans:
         # `grouping:contemporary-service-core#2` on this branch against main's generic
         # `grouping-rule-failed`, the same defect under two kinds. **Measure the finished tree,
         # and measure it twice.**
-        assert result["counts"]["serious"] == 56
+        # 56 -> 57 at WP-11.17, AND IT IS THE SAME FAULT PAIR THAT MOVED THE TIDEWATER PLAN THE
+        # OTHER WAY. That package states the entrance front: the entry porch is placed against
+        # the entrance face at its OWN DECLARED AREA rather than left to the guillotine. This
+        # record declares a 4 x 6 ft stoop -- 24 sf -- and `_partial_flank` draws it 5.5 x 5.5,
+        # clamped up to the grid's own `module * 0.55` floor. It was drawn 6.0 deep before, by
+        # the guillotine's luck, and 6.0 is exactly what `porch-nobody-can-sit-on` asks for.
+        # SO THE RECORD ALREADY COMMITTED THIS FAULT AND THE PLACEMENT WAS HIDING IT: a 4 ft
+        # stoop fails an at-least-6.0 ft rule as declared. Drawing a room the size its record
+        # states is what surfaced it, and the number is NOT to be recovered by loosening
+        # `floor_` -- that would be tuning a constant until a fault goes green.
+        assert result["counts"]["serious"] == 57
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -198,7 +208,12 @@ class TestShippedPlans:
         # never refused. Measured on the merged tree, not carried from either side.
         # 30 -> 29 on 1 Sep 2026 (WP-9.1): the same `wing-pitch-drift` near-miss secondary,
         # declining on this one-slope roof instead of convicting it. See the spec plan's pin.
-        assert result["counts"]["serious"] == 29
+        # 29 -> 28 at WP-11.17, the other half of the spec Colonial's pair above and the good
+        # direction: this record's porch is declared 6 x 12 and the tagged placement drew it
+        # 12.93 x 5.73, a hair under `porch-nobody-can-sit-on`'s at-least 6.0. Stating the
+        # entrance front draws it at exactly 12.00 x 6.00 and the fault clears -- the same fault
+        # WP-7.4 cleared and the WP-11.16 tagging re-broke.
+        assert result["counts"]["serious"] == 28
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the
@@ -230,7 +245,31 @@ class TestShippedPlans:
         # nothing pins the serious count on this plan, so the prose drifted and nobody could
         # notice. It is 29 before this package and 29 after. The sentence is left as written
         # because it records what that package measured; this is the correction beside it.
-        assert result["counts"]["minor"] == 74
+        # 74 -> 76 on 15 Sep 2026 (WP-11.16), AND ALL OF IT IS THE DROPPED DOOR RATHER THAN
+        # THE TAGGING. That package tagged this record's service programme into a west
+        # dependency AND dropped the redundant direct `butlers`-`kitchen` door; the counts here
+        # are DECLARED-record counts, so the tags -- which are a placement fact -- do not reach
+        # them and the door does. Diffed row by row rather than counted, because a net of +2 can
+        # hide substitutions and here it hid two:
+        #   -1 / +1  `Kitchen (Dependency) is entered from ...` -- the same adjacency finding
+        #            reworded, the butler's pantry dropping out of the list. Net zero.
+        #   +2       `Butler's Pantry is a wet room with no other wet room adjacent or below it`
+        #            and the same for the Kitchen.
+        # THE +2 ARE NAMED RATHER THAN ABSORBED, because they are the corpus telling the truth
+        # for the first time: with that door in the record, the servicing layer called those two
+        # rooms a wet pair, and on the tagged plan that is a shared plumbing chase between two
+        # detached buildings 27 ft apart. The layer reads the declared door graph and is
+        # element-blind -- `oq/the-servicing-layer-does-not-know-about-massing-elements`.
+        # FATAL 0 AND SERIOUS 29 WERE BOTH UNMOVED across WP-11.16, which is what said that
+        # package's movement was one rule speaking and not a house getting worse.
+        # SERIOUS IS 28 SINCE WP-11.17 and fatal is still 0: stating the entrance front draws
+        # this record's porch at its declared 12.00 x 6.00 instead of 12.93 x 5.73, and
+        # `porch-nobody-can-sit-on` (at-least 6.0) clears. One fault, named -- see the pin at the
+        # head of this test, whose spec-Colonial twin moved the OTHER way for the same reason.
+        assert result["counts"].get("serious", 0) == 28, (
+            "serious moved on this plan; WP-11.17 measured it at 28, and the note above "
+            "records that nothing pinned it before, which is how the prose drifted last time")
+        assert result["counts"]["minor"] == 76
 
 
 class TestAdjacencyMechanics:

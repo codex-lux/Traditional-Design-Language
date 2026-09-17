@@ -224,7 +224,9 @@ test('a relaxation run that leaves the sheet is clipped, and one with nothing le
 
 /* WP-11.14 — an exterior opening is drawn on its own massing element's face, not the
    footprint's. HAND-BUILT for the reason WP-11.10's block above states: no plan in the corpus
-   carries a `block` tag, so the frozen fixtures cannot exercise a second element, and
+   carried a `block` tag when this was written -- one does since WP-11.16, but `generate.py`'s
+   ROOM_KEYS does not copy the field, so the frozen fixtures still cannot exercise a second
+   element, and
    regenerating them re-solves the placement. `tests/test_exterior_faces.py` is the same two
    rectangles on the Python side; if either renderer stops taking `bounds` the two disagree. */
 function twoElementRects() {

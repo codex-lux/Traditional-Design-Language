@@ -27,10 +27,45 @@ GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
 OP = modcache.load("openings", os.path.join(ROOT, "build", "openings.py"))
 
 
+def _is_tagged(plan):
+    """Does this record declare a massing element of its own? (WP-11.16.)
+
+    One shipped plan does -- `tidewater-georgian-careful` -- and the sweeps below need to tell it
+    from the other fifteen. `GEO.is_block_tag` is the ONE rule for whether a `block` field is an
+    element id and is borrowed rather than re-spelled."""
+    return any(GEO.is_block_tag(r.get("block"))
+               for lv in (plan.get("levels") or []) for r in (lv.get("rooms") or []))
+
+
+def _shipped_untagged():
+    """`tidewater-georgian-careful` with WP-11.16's massing tags STRIPPED.
+
+    THIS FILE USES THAT RECORD FOR TWO JOBS AND WP-11.16 SPLIT THEM. It is the base every
+    multi-element fixture below is built from (tag some rooms `west-dependency` and solve), and
+    it is the ONE-RECTANGLE CONTROL that half these tests assert is untouched. Both assumed the
+    shipped record carried no `block` tag. It carries one now -- a `service` dependency and a
+    hyphen -- so a fixture that tags rooms on top of it produces THREE elements where it means
+    two (measured: `{'main', 'service', 'west-dependency'}` against `{'main', 'west-dependency'}`,
+    and four CP models that were satisfiable came back INFEASIBLE), and every control asserting
+    one rectangle was reading a house with a wing.
+
+    Stripping is the same move `tests/test_check_plans.py`'s growth fixture takes and for the
+    same reason: **a driven fixture must not inherit whatever the shipped record happens to
+    declare** (WP-8.11). What this file tests is the element machinery, not this plan's tagging,
+    and the two are independent.
+    """
+    p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    for lv in p.get("levels") or []:
+        for r in lv.get("rooms") or []:
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return p
+
+
 def _fixture():
     """The same tagging `test_geometry.py::_tagged_dependency_plan` uses, kept in step with it
     deliberately: two files measuring two different dependencies would be two houses."""
-    p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    p = _shipped_untagged()
     n = 0
     for r in p["levels"][0]["rooms"]:
         if r["type"] in ("kitchen", "pantry", "breakfast-room"):
@@ -83,8 +118,7 @@ class TestTheDisclosureFalls:
         """Every plan in this corpus is one rectangle. The disclosure exists for the record a
         caller supplies, and a plan with one element has nothing to disclose."""
         GEO._SOLVE_CACHE.clear()
-        p = GEO.solve(json.load(open(os.path.join(
-            ROOT, "plans", "tidewater-georgian-careful.json"))), engine="heuristic")
+        p = GEO.solve(_shipped_untagged(), engine="heuristic")
         assert p["geometry_report"].get("multi_element") is None
         assert (p["footprint"].get("blocks") or []) == []
 
@@ -242,8 +276,7 @@ class TestStructureIsPerElement:
 
     def test_a_one_element_plan_carries_no_element_tag_at_all(self):
         """The byte-identity guard. Sixteen records have never needed one and must not grow one."""
-        sec = ST.build_section(json.load(open(os.path.join(
-            ROOT, "plans", "tidewater-georgian-careful.json"))))
+        sec = ST.build_section(_shipped_untagged())
         assert all("element" not in w for lv in sec["levels"] for w in lv["walls"])
         assert all("element" not in s for lv in sec["levels"] for s in lv["spans"])
         # and the numbers this plan has always reported
@@ -252,7 +285,22 @@ class TestStructureIsPerElement:
         # placement, so the worst span on this fixture is neither parent's. What the line
         # is for -- the span is OVER the 20 ft capacity and therefore judged -- is
         # unchanged, and the capacity itself is untouched.
-        assert round(max(s["span_ft"] for s in over), 2) == 35.5
+        # AND AGAIN AT WP-11.17: 35.5 -> 54.0 ft, ON THIS FIXTURE AND NOT ON THE SHIPPED PLAN.
+        # `_shipped_untagged()` strips the tags, so this is the Tidewater record as ONE
+        # rectangle -- 63 x 38.17 -- and the entrance anchor lays its porch on that 63 ft front,
+        # which moves where the slicer is free to cut and takes one bay module off the grid.
+        # The SHIPPED (tagged) record's worst span FELL over the same package, 45.0 -> 45.0 with
+        # its four runs all shorter (`tests/test_span_findings.py` carries the charge, 130.5 ->
+        # 119.7), and the corpus worst is unchanged at 60.0 ft on a plan the anchor does not
+        # reach. The 20 ft capacity and `bearing_lines`' 0.75 ft tolerance are untouched.
+        # AND AGAIN AT WP-11.18: 54.0 -> 63.0 ft, on this fixture and not on the shipped plan.
+        # `partition`'s stated share stops at the closer side now, so the groups either side of
+        # the porch cut are different sizes and the slicer's cuts move with them; on a 63 ft
+        # front a worst span of 63.0 is the whole width, which is this fixture's own shape and
+        # the reason it is a control rather than a house. The SHIPPED (tagged) record's worst
+        # span is unchanged at 45.0 ft. The 20 ft capacity and `bearing_lines`' 0.75 ft
+        # tolerance are untouched, and the span is still OVER it and therefore judged.
+        assert round(max(s["span_ft"] for s in over), 2) == 63.0
 
 
 def _forced(placed):
@@ -464,12 +512,56 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # parent's: 208 -> 210 rows and 238 -> 243, with the per-layer histogram
                 # UNMOVED (13/18 and 11/17), which is what says the movement is placement and
                 # not a layer going quiet. Old digests: 9da22729316445d4 / 67e42551e7ffc356.
-                ("tidewater-georgian-careful", "b8faf56908995542", 210,
+                # RE-DERIVED AT WP-11.16 AND EVERY ROW ATTRIBUTED. That package did TWO things
+                # to this record and only one of them is undone by `_shipped_untagged()`: it
+                # tagged six rooms into a west dependency (undone here) AND it dropped the
+                # direct `butlers`-`kitchen` door (not undone -- the door is gone from the
+                # record, tags or no tags). So the stripped plan is 63 x 38.17 with its 7
+                # relaxations back and its findings still moved, 210 -> 212.
+                #
+                # THE FOUR MOVED ROWS WERE DIFFED RATHER THAN COUNTED, because a net of +2 can
+                # hide any number of substitutions:
+                #   +/- `drawn cut-off kitchen` and `adjacency kitchen` -- the SAME two findings
+                #     reworded, the butler's pantry dropping out of the kitchen's entered-from
+                #     list. Net zero, and they are why the raw diff reads 4 lines for 2 rows.
+                #   +  `servicing butlers` and `servicing kitchen`, both "is a wet room with no
+                #     other wet room adjacent or below it". THESE ARE THE REAL +2, they are TRUE,
+                #     and they are the reason the door was worth dropping: with it, the servicing
+                #     layer called those two a wet pair, and on the TAGGED record that is a shared
+                #     plumbing chase between two detached buildings 27 ft apart.
+                #     `oq/the-servicing-layer-does-not-know-about-massing-elements`.
+                # RE-DERIVED AT WP-11.17, AND BOTH PLANS MOVED FOR ONE REASON: that package
+                # states the entrance front, and BOTH of these records name an entrance face
+                # and carry a room that declares it, so both are re-placed. 212 -> 205 and
+                # 243 -> 240. Every moved row is in the `drawn` layer -- diffed row by row, 22
+                # in and 29 out on the Tidewater fixture, 3 in and 3 out on the spec Colonial --
+                # and the per-layer histogram below is UNMOVED at 13/18 and 11/17, which is what
+                # says a layer did not go quiet. Old digests: ff2d664a8216897f /
+                # 024fa784786c2469.
+                #
+                # THE TIDEWATER ROW HERE IS THE UNTAGGED FIXTURE AND NOT THE SHIPPED RECORD.
+                # `_shipped_untagged()` gives the anchor a 63 ft front to lay a 12 ft porch on,
+                # which is a different house from the tagged 45 ft one the corpus ships; its
+                # `drawn-entrance-severed` row is a property of that fixture and the shipped
+                # record does not carry one (`tests/test_threshold_pass.py` asserts the flight
+                # goes to the porch there).
+                # AND AGAIN AT WP-11.18, WHOSE CAUSE IS `partition` RATHER THAN THE ANCHOR: a
+                # STATED share stops at the closer side now instead of at the first overshoot,
+                # and every plan whose record names an entrance face states one. 205 -> 209 and
+                # 240 -> 235. Diffed row by row: 54 out / 58 in here and 35 out / 30 in on the
+                # spec Colonial, every row in the `drawn` layer, and the two layers this class
+                # watches are UNMOVED at 13/18 and 11/17 -- which is what says a layer did not go
+                # quiet while the placement churned. The churn is dominated by
+                # `drawn-vs-declared` (18 out / 19 in, 15 out / 13 in) and `drawn-furniture-fit`
+                # (8/9, 10/10): the same rooms, re-measured, because the slicer's groups changed
+                # size. Old digests: 9ecdca7453819879 / 81ddd6e8555cb1a5.
+                ("tidewater-georgian-careful", "6047f0ef36467dcc", 209,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "024fa784786c2469", 243,
+                ("spec-builder-colonial", "9b65c3a2dfa81377", 235,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
-            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            q = _shipped_untagged() if name == "tidewater-georgian-careful" \
+                else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
             c = PC.check(q)
             got = hashlib.sha256(json.dumps(
@@ -484,8 +576,12 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 f"{ {k: counts[k] for k in hist} } against {hist}")
             assert got == want, (
                 f"{name}: the drawn layer's findings moved on a ONE-RECTANGLE plan. "
-                f"`envelopes` returns {{}} below two elements, so nothing here may change; "
-                f"re-measure before re-pinning and say what moved.")
+                f"`envelopes` returns {{}} below two elements, so nothing about massing "
+                f"elements may change this -- but note that the Tidewater record reaches this "
+                f"test through `_shipped_untagged()`, which undoes its TAGS and not the other "
+                f"edits WP-11.16 made to it. Diff the findings row by row and attribute every "
+                f"one before re-pinning; a net count can hide any number of substitutions, and "
+                f"it did here (4 rows moved for a net of 2).")
 
 
 PC = modcache.load("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
@@ -577,7 +673,7 @@ class TestVerticalScoreAcrossElements:
         """The byte-identity guard, and the ordering trap it was written against: a first
         version read `footprint.blocks`, which `blocks_record` writes AFTER the search loop this
         map is used in, so it was empty exactly where the charge is decided."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         assert GEO.element_of(p, p["levels"][0]["rooms"]) == {}
         # and non-empty on the fixture BEFORE any placement has written a blocks list
         f = _fixture()
@@ -589,8 +685,7 @@ def _lot(lot, dep=True):
     """The fixture at a stated lot width. `dep=False` is the SAME plan with no tag at all --
     one rectangle, which is what every plan in this corpus is, and which is where layer 4's
     second finding lives."""
-    p = _fixture() if dep else json.load(open(os.path.join(
-        ROOT, "plans", "tidewater-georgian-careful.json")))
+    p = _fixture() if dep else _shipped_untagged()
     p.setdefault("site", {}).update({"lot_width_ft": lot, "setback_side_ft": 0})
     return p
 
@@ -638,7 +733,7 @@ class TestTheLotCapIsOnTheBuiltExtent:
         """A plan with no lot is not told it fits. `lot_capped` alone was a boolean about the
         main block's bay count and it read `false` over a 104 ft extent on an 80 ft lot."""
         GEO._SOLVE_CACHE.clear()
-        none = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        none = _shipped_untagged()
         none.pop("site", None)
         (none.get("context") or {}).pop("lot_width_ft", None)
         GEO.solve(none, engine="heuristic")
@@ -709,13 +804,42 @@ class TestTheLotCapIsOnTheBuiltExtent:
         # its candidate row). Two placement changes meeting cannot leave the placement
         # where either found it, and the other branch's `CORPUS_PLACEMENT_SHA` moved for
         # the same reason in the same commit. Old values: 685.3 / 592.3.
+        # AND RE-DERIVED AGAIN AT WP-11.16, WITH THE TWO CAUSES SEPARATED. That package tagged
+        # this record AND dropped a door, and `_shipped_untagged()` above undoes only the first:
+        # the width comes back to 63 and the relaxation count to 7, so the TAGS really are gone,
+        # and the score does not, because the `butlers`-`kitchen` door is gone from the record
+        # whether or not its rooms carry a `block`. 775.2 -> 761.2 is the door, measured by
+        # stripping. `spec-builder-colonial` was untouched by that package and unmoved here,
+        # which was the control that said so -- AND IT IS NOT THAT CONTROL ANY MORE. WP-11.17
+        # states the entrance front, that record names one, and its figures move with the
+        # Tidewater's. The ten plans the entrance selector does NOT reach carry the control
+        # now, in `tests/test_elements.py`'s corpus digests.
         for name, score, width, capped in (
-                ("tidewater-georgian-careful", 775.2, 63, False),
-                ("spec-builder-colonial", 830.1, 50.0, True)):
+                # RE-DERIVED AT WP-11.17 for the reason the note beside the other copy of these
+                # figures gives: both records name an entrance face, so the anchor re-places
+                # both and neither is the untouched control it was.
+                # AND AGAIN AT WP-11.18 for the reason the other copy of these figures carries:
+                # `partition`'s stated share stops at the closer side, which reaches exactly the
+                # plans that name an entrance face. The WIDTH and the CAP -- what this test is
+                # actually about -- are unmoved on both.
+                ("tidewater-georgian-careful", 1017.2, 63, False),
+                ("spec-builder-colonial", 779.5, 50.0, True)):
             GEO._SOLVE_CACHE.clear()
-            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            q = _shipped_untagged() if name == "tidewater-georgian-careful" \
+                else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
             g = q["geometry_report"]
+            # AND AT WP-11.17: 761.2 -> 864.1 on this untagged fixture, WHICH IS THE SCORE
+            # RISING WHILE THE FINDINGS FALL. Stating the entrance front is a HARD statement --
+            # the entry porch is placed against the S face before the guillotine runs -- so the
+            # search chooses from a smaller pool and cannot reach the candidate it used to. On
+            # the same fixture `plan_check` reads serious 67 -> 60 and minor 109 -> 108 across
+            # that rise. This corpus already records the inverse shape (a minor count rising
+            # while a house got materially better); READ THE FINDINGS BEFORE QUOTING THE KEY ON
+            # A PLACEMENT CHANGE, in either direction. `spec-builder-colonial` moves too --
+            # 830.1 -> 814.4 -- because its record also names an entrance face, so it is no
+            # longer the untouched control it was for WP-11.16 and its figure is re-derived
+            # rather than carried.
             assert round(g["score"], 1) == score, (name, g["score"])
             assert q["footprint"]["width_ft"] == width, (name, q["footprint"]["width_ft"])
             assert g["lot_capped"] is capped, name
@@ -731,7 +855,7 @@ class TestTheLotCapIsOnTheBuiltExtent:
         between a measurement and a guard. The main block was 63 ft while `derive_footprint`
         counted the wings' programme into it as well as beside it; sized from its own rooms it is
         45, so the building is 100 ft rather than 118. `flanking_ft` is unmoved at 55."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         for r in p["levels"][0]["rooms"]:
             if r["type"] in ("kitchen", "pantry"):
                 r["block"] = "west-dependency"; r["exterior_walls"] = ["N", "S", "W"]
@@ -825,7 +949,8 @@ class TestTheIfcSlabIsPerElement:
         pinned literal: one box per storey, `W + 2t` by `D + 2t`, centred on the main block."""
         for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
             GEO._SOLVE_CACHE.clear()
-            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            q = _shipped_untagged() if name == "tidewater-georgian-careful" \
+                else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
             sec, t, boxes = _boxes(q)
             fp = sec["geometry"]["footprint"]
@@ -860,8 +985,21 @@ def _hyphen_fixture(with_hyphen=True):
     re-authoring of `centre-passage-double-pile` that would have exercised it was measured and
     withdrawn -- three of the corpus's own hard room rules refuse it, in three different
     arrangements -- so the placer's half ships with a fixture that drives it rather than with a
-    parti that happens to."""
+    parti that happens to.
+
+    AND IT DROPS `entrance_faces`, WHICH IS THAT SAME RULE MET A SECOND TIME (WP-11.17). This is
+    built from the shipped Tidewater record, so it inherited `"S"` and an entry porch -- and
+    WP-11.17 states the entrance front as an anchor of the same kind, laid FIRST, so the
+    entrance anchor pre-empted the hyphen one and all four tests below stopped exercising the
+    branch they name (`butlers` at x 28.5 instead of 0.00, its door through the hyphen
+    unplaced). That ordering is the WP-11.17 ruling and is correct on a real record: the
+    entrance is the fatal tier. It is wrong HERE, because this fixture's whole subject is the
+    hyphen anchor, and a fixture that inherits whatever the shipped record happens to declare
+    tests whatever that record happens to want. Dropping the field is what makes these four
+    tests about `hyphen_anchors` again; the entrance anchor's own cost is measured on the
+    shipped record, in `tests/test_threshold_pass.py` and the WP-11.17 report."""
     p = _fixture()
+    p.get("context", {}).pop("entrance_faces", None)
     g = p["levels"][0]["rooms"]
     if with_hyphen:
         g.append({"id": "hyphen", "type": "gallery-corridor", "name": "Hyphen",
@@ -922,15 +1060,105 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         fp = GEO.derive_footprint(p, None, prep)
         a = GEO.hyphen_anchors(p, GEO.blocks_for(p, fp, prep, 0), 0)
         assert set(a) == {"main", "west-dependency", "west-dependency-hyphen"}, a
-        # Each element's own room that doors THROUGH THE LINK, on the face the link is beyond.
-        assert a["main"] == {"W": ["butlers"]}, a["main"]
-        assert a["west-dependency"] == {"E": ["kitchen"]}, a["west-dependency"]
+        # Each element's own room that doors THROUGH THE LINK, on the face the link is beyond --
+        # and SINCE WP-11.18 the band it must meet on that face, which is the neighbour's own
+        # extent (`anchor_span`). A face alone says the pantry belongs on the west wall; it does
+        # not say the pantry belongs OPPOSITE THE HYPHEN, and the door needs the second.
+        # The band is read off the HYPHEN BLOCK's own rectangle rather than transcribed, so this
+        # says what it means -- "the neighbour's own extent" -- instead of pinning two literals
+        # that go stale the next time `blocks_for` moves a wing by a tenth of a foot.
+        blocks = {b["id"]: b for b in GEO.blocks_for(p, fp, prep, 0)}
+        hy = blocks["west-dependency-hyphen"]
+
+        def band(el):
+            o = blocks[el]["y"]
+            return pytest.approx((hy["y"] - o, hy["y"] + hy["H"] - o), abs=0.01)
+
+        assert list(a["main"]) == ["W"] and a["main"]["W"][0] == ["butlers"], a["main"]
+        assert a["main"]["W"][1] == band("main"), a["main"]
+        assert list(a["west-dependency"]) == ["E"], a["west-dependency"]
+        assert a["west-dependency"]["E"][0] == ["kitchen"], a["west-dependency"]
+        assert a["west-dependency"]["E"][1] == band("west-dependency"), a["west-dependency"]
         assert set(a["west-dependency-hyphen"]) == {"E", "W"}, a["west-dependency-hyphen"]
         # AND `butlers -> kitchen` PUT NOTHING HERE. That pair crosses open ground with no link
         # between them, and no laying of rooms can place it, so it is not an anchor: `butlers` is
         # on the list because it doors to the HYPHEN, and `backhall` and `cellarstair`, which
         # door only to the kitchen, are on no list at all.
-        assert "backhall" not in a["main"]["W"] and "cellarstair" not in a["main"]["W"], a["main"]
+        ids = a["main"]["W"][0]
+        assert "backhall" not in ids and "cellarstair" not in ids, a["main"]
+
+    def test_the_band_is_the_neighbours_own_extent_and_two_neighbours_give_NONE(self):
+        """`anchor_span`, WP-11.18. The band is what `_partial_flank` positions the strip inside.
+
+        THE TWO-NEIGHBOUR CASE IS REFUSED RATHER THAN RESOLVED, which is `entrance_anchors`' own
+        discipline one field over: two elements past one face have two extents, and a union, an
+        intersection or a midpoint would each be this reader inventing the answer the record does
+        not give. A `None` band is the three-way draw the anchor has always taken -- unjudged,
+        and not a pass."""
+        A = (0.0, 0.0, 45.0, 37.24)
+        assert GEO.anchor_span(A, (-7.0, 9.62, 0.0, 27.62), "W") == (9.62, 27.62)
+        assert GEO.anchor_span(A, (45.0, 4.0, 60.0, 10.0), "E") == (4.0, 10.0)
+        assert GEO.anchor_span(A, (12.0, 37.24, 30.0, 50.0), "N") == (12.0, 30.0)
+        # clipped to the element's own face, never beyond it
+        assert GEO.anchor_span(A, (-99.0, -5.0, 0.0, 99.0), "W") == (0.0, 37.24)
+        # no overlap on that axis at all -- the diagonal `face_toward` already refuses
+        assert GEO.anchor_span(A, (-7.0, 50.0, 0.0, 60.0), "W") is None
+
+        plan = {"levels": [{"index": 0, "rooms": [
+            {"id": "a", "block": "A", "doors": [{"to": "b"}, {"to": "c"}]},
+            {"id": "b", "block": "B", "doors": [{"to": "a"}]},
+            {"id": "c", "block": "C", "doors": [{"to": "a"}]}]}]}
+        one = [{"id": "A", "role": "main", "x": 0, "y": 0, "W": 10, "H": 20, "rooms": ["a"]},
+               {"id": "B", "role": "hyphen", "x": 10, "y": 2, "W": 6, "H": 6, "rooms": ["b"]}]
+        assert GEO.hyphen_anchors(plan, one, 0)["A"] == {"E": (["a"], (2.0, 8.0))}
+        two = one + [{"id": "C", "role": "hyphen", "x": 10, "y": 12, "W": 6, "H": 6,
+                      "rooms": ["c"]}]
+        assert GEO.hyphen_anchors(plan, two, 0)["A"] == {"E": (["a"], None)}, (
+            "two neighbours beyond one face have two extents and the anchor may not pick one")
+
+    def test_band_off_derives_the_position_and_falls_back_to_an_END_when_slabs_run_out(self):
+        """`_band_off`, WP-11.18. No draw is taken when a band is stated.
+
+        THE END POSITIONS ARE CANDIDATES AND NOT A REFUSAL, and that is the whole reason this is
+        a function rather than one expression. A centred position needs a slab either side and
+        each slab needs a room of its own, so on a rectangle with two rooms to spare the centre
+        is not available -- and returning None there would hand the anchor back to a guillotine
+        that does not know the band exists. The largest overlap wins; ties go to the position
+        that needs fewer slabs."""
+        along, L, floor_ = 37.24, 12.0, 4.95
+        # Three rooms to spare: the band-centred position is affordable and is taken.
+        off = GEO._band_off(along, L, floor_, (9.62, 27.62), 3)
+        assert off == pytest.approx(12.62, abs=0.01), off
+        assert min(27.62, off + L) - max(9.62, off) == pytest.approx(12.0, abs=0.01)
+        # Two rooms: the centre needs three slabs, so an END is taken rather than nothing.
+        off2 = GEO._band_off(along, L, floor_, (9.62, 27.62), 2)
+        assert off2 in (0.0, pytest.approx(along - L, abs=0.01)), off2
+        assert GEO._band_off(along, L, floor_, (9.62, 27.62), 1) is None, (
+            "one room can fill one slab, and no one-slab position overlaps this band")
+        # A band at one end: the clamp puts the anchor there and no draw is involved.
+        assert GEO._band_off(along, L, floor_, (0.0, 6.0), 3) == 0.0
+        # A band the rectangle cannot reach at all is a refusal, not a nearest guess.
+        assert GEO._band_off(20.0, 6.0, 2.0, (40.0, 50.0), 3) is None
+
+    def test_the_hosted_anchor_goes_in_the_rest_rectangle_that_stands_on_ITS_face(self):
+        """`_host_for`, WP-11.18. A rectangle hosts the next anchor only where its own face IS
+        the element's -- a rectangle one cut inside the envelope is a different wall.
+
+        `B` IS OFFERED FIRST AND THAT IS THE CASE A FIRST VERSION MISSED: when `off` is 0 there
+        is no `P` slab at all and `B` is what stands on the low face. WP-11.17's third reverted
+        recovery considered only `P` and `R`, and its winning candidate had `off = 0` -- so the
+        forcing never applied to the placement its number was read off."""
+        el = (0.0, 0.0, 45.0, 37.24)
+        rB, rP, rR = (16.5, 6.0, 12.0, 31.24), (0.0, 0.0, 16.5, 37.24), (28.5, 0.0, 16.5, 37.24)
+        rects = (("B", rB), ("P", rP), ("R", rR))
+        assert GEO._host_for("W", el, rects, 5) == "P"
+        assert GEO._host_for("E", el, rects, 5) == "R"
+        assert GEO._host_for("N", el, rects, 5) == "B", "B reaches the far face too"
+        # `off = 0`: no P, and B is what stands on the west face.
+        no_p = (("B", (0.0, 6.0, 12.0, 31.24)), ("P", None), ("R", (12.0, 0.0, 33.0, 37.24)))
+        assert GEO._host_for("W", el, no_p, 4) == "B"
+        # Too few rooms to leave one for every other slab -> no host, and the chain stops.
+        assert GEO._host_for("W", el, rects, 2) is None
 
     def test_the_anchor_is_laid_ON_the_shared_face(self, placed=None):
         """The measurement. Before, `butlers` sat wherever the guillotine left it; the strip puts
@@ -950,15 +1178,65 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         cross = _cross_doors(p)
         assert cross[("butlers", "hyphen")] is False, cross
 
+    def test_THE_SHIPPED_RECORD_DRAWS_ITS_PANTRY_AT_ITS_DECLARED_SIZE_ON_THE_BAND(self):
+        """The subject of WP-11.18, on the one shipped record that carries two anchors.
+
+        Three states of this room, and the middle one is why the first is not the bar:
+
+            hyphen anchor alone (<= WP-11.16)   4.95 x 37.24 = 184 sf against a declared 84
+            entrance anchor alone (WP-11.17)   16.50 x 10.24 = 169 sf, at the EAST end
+            both stated (WP-11.18)              7.00 x 12.00 =  84 sf, on the west face
+
+        The old strip met both neighbours BY BEING ENORMOUS -- spanning the whole depth, it could
+        not miss -- which is the veranda defect `_partial_flank` exists to remove. This asserts
+        the rectangle AND the overlap, because either alone can be right for the wrong reason: a
+        room of the right size in the wrong place, or a room in the right place at twice its
+        size."""
+        q = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(q, engine="heuristic")
+        g = {r["id"]: r.get("geometry") for lv in q["levels"] for r in lv["rooms"]}
+        b = g["butlers"]
+        assert (b["width_ft"], b["depth_ft"]) == pytest.approx((7.0, 12.0), abs=0.01), b
+        blocks = {x["id"]: x for x in q["footprint"]["blocks"]}
+        main, hy = blocks["main"], blocks["service-hyphen"]
+        assert b["x_ft"] == pytest.approx(main["x_ft"], abs=0.05), (
+            "the pantry has left the main block's west face", b)
+        share = min(b["y_ft"] + b["depth_ft"], hy["y_ft"] + hy["depth_ft"]) - \
+            max(b["y_ft"], hy["y_ft"])
+        assert share >= 3.5, (
+            f"the pantry shares {share:.2f} ft of wall with the hyphen and the door needs 3.50 "
+            f"(`openings.required_wall_ft`). The BAND is what puts it there -- three positions "
+            f"were available on that face and two of them give 2.38 ft.")
+        # and the door the whole package is about is DRAWN
+        und = [d for lv in q["levels"] for r in lv["rooms"] for d in (r.get("doors") or [])
+               if isinstance(d, dict) and d.get("unplaced")
+               and {r["id"], d.get("to")} & {"butlers"}]
+        assert und == [], [f"{d.get('to')}: {d['unplaced'].get('reason')}" for d in und]
+
     def test_a_door_across_OPEN_GROUND_still_does_not_place_and_should_not(self):
-        """The control, and it is what keeps this a fix rather than a loosening. `butlers` and
+        """The control, and it is what keeps this a fix rather than a loosening. `backhall` and
         `kitchen` are doored to each other across 14 ft of yard with no link: a detached
-        dependency IS detached, and drawing that door would be the lie."""
+        dependency IS detached, and drawing that door would be the lie.
+
+        RE-POINTED AT WP-11.16, AND THE OLD PAIR IS GONE RATHER THAN MOVED. This named
+        `butlers`-`kitchen`, and that package dropped that door from the record on grounds
+        `rooms/butlers-pantry.json` has stated since OQ 59 -- in a Tidewater plantation house
+        "the pantry is in the block and the kitchen is in another building", so a direct door
+        between them is not a door this type has. `backhall`-`kitchen` is the same shape and
+        still declared: the kitchen is tagged into the wing by `_fixture()`, the back hall is
+        not, and no link joins them (the hyphen doors `butlers` and `kitchen`, not `backhall`).
+
+        THE ASSERTION BELOW IS THE TEST'S WHOLE SUBJECT, so it is worth saying what True means
+        here: `_cross_doors` reports UNPLACED, and unplaced is the right answer. A False would
+        mean the placer had drawn a door across open ground."""
         p = _hyphen_fixture()
         GEO._SOLVE_CACHE.clear()
         GEO.solve(p, engine="heuristic")
         cross = _cross_doors(p)
-        assert cross[("butlers", "kitchen")] is True, cross
+        assert cross[("backhall", "kitchen")] is True, cross
+        # and the linked pair still places, so this is a control and not a blanket refusal
+        assert cross[("butlers", "hyphen")] is False, cross
         assert cross[("backhall", "kitchen")] is True, cross
 
     def test_without_a_hyphen_room_EVERY_cross_element_door_is_refused(self):
@@ -968,6 +1246,84 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         GEO.solve(p, engine="heuristic")
         cross = _cross_doors(p)
         assert cross and all(cross.values()), cross
+
+    def test_when_off_is_ZERO_there_is_no_P_slab_and_B_is_what_stands_on_the_low_face(self):
+        """The case WP-11.17's third reverted recovery missed, driven rather than reasoned.
+
+        That attempt forced the pantry into a rest-rectangle and considered only `P` and `R` --
+        and its winning candidate had `off = 0`, where there is no `P` at all. So the forcing
+        never applied to the placement the number was read off, which is half of why that
+        measurement was confounded (the other half was that it used the full-face strip).
+
+        THE CORPUS CANNOT REACH THIS BRANCH -- on the shipped record the entrance anchor's draw
+        gives a `P` slab -- so it is driven directly on a hand-built element with the rng seeded
+        to the draw that makes `off` zero, which is WP-11.10's stated precedent for a guard
+        against a record this corpus does not yet have. Measured both ways: with `B` offered the
+        pantry lands at x = 0.00, the element's own west face; with `B` removed from the offer it
+        lands at x = 36.00, which is a different wall of a different room."""
+        import random
+
+        def rooms():
+            return [{"id": "porch", "_area": 72.0, "type": "entry-porch", "doors": []},
+                    {"id": "butlers", "_area": 84.0, "type": "butlers-pantry", "doors": []},
+                    {"id": "hall", "_area": 400.0, "type": "centre-passage", "doors": []},
+                    {"id": "drawing", "_area": 396.0, "type": "drawing-room", "doors": []},
+                    {"id": "dining", "_area": 320.0, "type": "dining-room", "doors": []},
+                    {"id": "library", "_area": 270.0, "type": "library", "doors": []}]
+
+        # seed 1 draws the low position, so `off` is 0 and there is no `P`
+        assert random.Random(1).randrange(3) == 0, (
+            "the seed no longer draws the low position; find one that does rather than "
+            "dropping this test -- the branch it drives is unreachable from the corpus")
+        out, relax = {}, []
+        laid = GEO._partial_flank(rooms(), 0, 0, 45.0, 37.24, "S", ["porch"], 9.0, 2.5,
+                                  random.Random(1), out, relax, 12.0, span=None,
+                                  later=(("W", ["butlers"], (9.62, 27.62), 12.0),))
+        assert laid and out["porch"][:2] == pytest.approx((0.0, 0.0), abs=0.01), out.get("porch")
+        assert out["butlers"][0] == pytest.approx(0.0, abs=0.01), (
+            "the hosted anchor is not on the element's west face. With `off` at 0 there is no "
+            "`P` slab and `B` is the rectangle standing on that face, so this is `_host_for` no "
+            "longer being offered `B`: measured, the pantry goes to x = 36.00 instead.")
+
+    def test_a_STATED_share_stops_at_the_closer_side_and_a_DRAWN_one_is_untouched(self):
+        """`partition(frac=)`, WP-11.18. The scoping is the whole of why this is safe.
+
+        The growth loop runs `while acc < target`, so the room that CROSSES the target decides
+        how far past it the group lands. Where the share is a coin flip that costs nothing -- the
+        share simply moves. Where the share is STATED the caller has already chosen the
+        rectangles and `slice_rect` tiles whatever it is handed, so an overshooting group is a
+        stretched room and its neighbour is a shrunk one. Measured on the shipped record: a
+        495.9 sf target took a 408 sf room AND a 396 sf room -- 804 into a 567.9 sf rectangle --
+        and left the stair alone in the slab above, drawn 567.9 sf against 126 declared.
+
+        THE DRAWN-SHARE PATH IS ASSERTED IDENTICAL, not merely left alone: `frac is None` is
+        every caller this function had before `_partial_flank`, and the ten plans that state no
+        entrance face are byte-identical because of it (`tests/test_elements.py`'s digests)."""
+        import random
+
+        def rooms():
+            return [{"id": "a", "_area": 408.0, "type": "centre-passage", "doors": []},
+                    {"id": "b", "_area": 396.0, "type": "drawing-room", "doors": []},
+                    {"id": "c", "_area": 126.0, "type": "stair-hall", "doors": []}]
+
+        # Stated share of 0.33 over 930 sf is 306.9: `a` alone is 101 sf over, `a` + `b` is 497
+        # sf over. The closer side is `a` alone.
+        lo, hi = GEO.partition(rooms(), "y", random.Random(3), frac=0.33)
+        assert sum(r["_area"] for r in lo) == 408.0, [r["id"] for r in lo]
+        assert sorted(r["id"] for r in hi) == ["b", "c"]
+        # And the whole point: the group no longer crosses the target by more than it lands short
+        for frac in (0.1, 0.25, 0.33, 0.5, 0.66, 0.9):
+            lo, hi = GEO.partition(rooms(), "y", random.Random(11), frac=frac)
+            tot = 930.0
+            acc = sum(r["_area"] for r in lo)
+            assert lo and hi
+            assert abs(acc - tot * frac) <= abs(acc + hi[0]["_area"] - tot * frac) or len(lo) == 1
+
+        # THE CONTROL. A drawn share takes the same draws in the same order it always did.
+        for seed in range(12):
+            a = GEO.partition(rooms(), "y", random.Random(seed))
+            b = GEO.partition(rooms(), "y", random.Random(seed))
+            assert [r["id"] for r in a[0]] == [r["id"] for r in b[0]]
 
     def test_flank_slice_REFUSES_rather_than_crushing_what_will_not_fit(self):
         """A first version took every anchor. On the re-authored parti that is the CENTRE
@@ -996,7 +1352,7 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
             {"id": "b", "block": "B", "doors": [{"to": "a"}]}]}]}
         beside = [{"id": "A", "role": "main", "x": 0, "y": 0, "W": 10, "H": 10, "rooms": ["a"]},
                   {"id": "B", "role": "hyphen", "x": 20, "y": 2, "W": 10, "H": 6, "rooms": ["b"]}]
-        assert GEO.hyphen_anchors(plan, beside, 0)["A"] == {"E": ["a"]}
+        assert GEO.hyphen_anchors(plan, beside, 0)["A"] == {"E": (["a"], (2.0, 8.0))}
         diagonal = [{"id": "A", "role": "main", "x": 0, "y": 0, "W": 10, "H": 10, "rooms": ["a"]},
                     {"id": "B", "role": "hyphen", "x": 20, "y": 20, "W": 10, "H": 6, "rooms": ["b"]}]
         assert GEO.hyphen_anchors(plan, diagonal, 0) == {}, "a block past the corner is yard"
@@ -1018,14 +1374,44 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         # its candidate row). Two placement changes meeting cannot leave the placement
         # where either found it, and the other branch's `CORPUS_PLACEMENT_SHA` moved for
         # the same reason in the same commit. Old values: 685.3 / 592.3.
-        for name, score, w in (("tidewater-georgian-careful", 775.2, 63),
-                               ("spec-builder-colonial", 830.1, 50.0)):
+        # AND RE-DERIVED AGAIN AT WP-11.16, WITH THE TWO CAUSES SEPARATED. That package tagged
+        # this record AND dropped a door, and `_shipped_untagged()` above undoes only the first:
+        # the width comes back to 63 and the relaxation count to 7, so the TAGS really are gone,
+        # and the score does not, because the `butlers`-`kitchen` door is gone from the record
+        # whether or not its rooms carry a `block`. 775.2 -> 761.2 is the door, measured by
+        # stripping. `spec-builder-colonial` was untouched by that package and unmoved here,
+        # which was the control that said so -- AND IT IS NOT THAT CONTROL ANY MORE. WP-11.17
+        # states the entrance front, that record names one, and its figures move with the
+        # Tidewater's. The ten plans the entrance selector does NOT reach carry the control
+        # now, in `tests/test_elements.py`'s corpus digests.
+        # AND AGAIN AT WP-11.18, WHERE THE CAUSE IS `partition` AND NOT THE ANCHOR. That package
+        # made a STATED share stop at the closer side rather than at the first overshoot, which
+        # reaches every plan whose record names an entrance face -- these two among them, and no
+        # others. 864.1 -> 1017.2 here and 814.4 -> 779.5 on the spec Colonial, and the two go
+        # OPPOSITE WAYS on the findings as well: this fixture reads serious 60 -> 70 and minor
+        # 108 -> 103, the spec Colonial serious 105 -> 97 and minor 93 -> 97. Corpus-wide the
+        # package is fatal 153 -> 145 and serious 712 -> 707; this fixture is a SYNTHETIC control
+        # (the shipped record is tagged) and is one of the plans that pays.
+        for name, score, w in (("tidewater-georgian-careful", 1017.2, 63),
+                               ("spec-builder-colonial", 779.5, 50.0)):
             GEO._SOLVE_CACHE.clear()
-            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            q = _shipped_untagged() if name == "tidewater-georgian-careful" \
+                else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             _, prep = GEO.prep_rooms(q)
             fp = GEO.derive_footprint(q, None, prep)
             assert GEO.hyphen_anchors(q, GEO.blocks_for(q, fp, prep, 0), 0) == {}, name
             GEO.solve(q, engine="heuristic")
+            # AND AT WP-11.17: 761.2 -> 864.1 on this untagged fixture, WHICH IS THE SCORE
+            # RISING WHILE THE FINDINGS FALL. Stating the entrance front is a HARD statement --
+            # the entry porch is placed against the S face before the guillotine runs -- so the
+            # search chooses from a smaller pool and cannot reach the candidate it used to. On
+            # the same fixture `plan_check` reads serious 67 -> 60 and minor 109 -> 108 across
+            # that rise. This corpus already records the inverse shape (a minor count rising
+            # while a house got materially better); READ THE FINDINGS BEFORE QUOTING THE KEY ON
+            # A PLACEMENT CHANGE, in either direction. `spec-builder-colonial` moves too --
+            # 830.1 -> 814.4 -- because its record also names an entrance face, so it is no
+            # longer the untouched control it was for WP-11.16 and its figure is re-derived
+            # rather than carried.
             assert round(q["geometry_report"]["score"], 1) == score, (name, q["geometry_report"]["score"])
             assert q["footprint"]["width_ft"] == w, name
 
@@ -1045,7 +1431,7 @@ class TestTheGarageJoinsTheElementItsAnchorIsIn:
     branch is measuring the corpus."""
 
     def _plan_with_a_tagged_kitchen(self):
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         for lv in p["levels"]:
             for r in lv["rooms"]:
                 if r["type"] in ("kitchen", "back-hall"):
@@ -1067,7 +1453,7 @@ class TestTheGarageJoinsTheElementItsAnchorIsIn:
     def test_and_an_UNTAGGED_kitchen_leaves_them_untagged(self):
         """The control, and the byte-identity guard for every plan in this corpus: no block on
         the anchor, no block on the garage."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         for lv in p["levels"]:
             lv["rooms"] = [r for r in lv["rooms"] if r["type"] not in ("garage", "mudroom")]
         log = []
@@ -1108,7 +1494,7 @@ def _fixture_east():
     NEGATIVE x and therefore tests only the lower half of every bound — the main block's `Wi` is
     looser than the wing's own east face there, so a mutation replacing one with the other cannot
     be seen. Beyond the block, `Wi` is the tighter bound and the same mutation is fatal."""
-    p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    p = _shipped_untagged()
     n = 0
     for r in p["levels"][0]["rooms"]:
         if r["type"] in ("kitchen", "pantry", "breakfast-room"):
@@ -1135,6 +1521,7 @@ class TestTheModelIsUnchangedOnOneRectangle:
         each of those expressions is arithmetically the one it replaced — which is why the
         sixteen one-rectangle placements did not have to be re-measured one solve at a time."""
         seen = 0
+        tagged_seen = 0
         import glob
         for f in sorted(glob.glob(os.path.join(ROOT, "plans", "**", "*.json"), recursive=True)):
             p = json.load(open(f))
@@ -1148,10 +1535,23 @@ class TestTheModelIsUnchangedOnOneRectangle:
             boxes, main = CP._boxes(p, prep, fpd)
             assert main == (0, 0, int(round(fpd["W"] * CP.U)), int(round(fpd["H"] * CP.U)))
             assert boxes, f
+            # WP-11.16 TAGGED ONE SHIPPED PLAN, so this sweep has BOTH cases to make now and is
+            # stronger for it: the fifteen one-rectangle records must map every room to the main
+            # box, and the tagged one must NOT -- a sweep that silently skipped it would be
+            # asserting the by-construction claim over a corpus chosen to satisfy it.
+            if _is_tagged(p):
+                tagged_seen += 1
+                assert set(boxes.values()) != {main}, (
+                    os.path.basename(f), "a tagged plan maps every room to the main box, so the "
+                    "per-element boxes are not being read")
+                continue
             for key, b in boxes.items():
                 assert b == main, (os.path.basename(f), key, b, main)
             seen += 1
         assert seen >= 14, seen
+        assert tagged_seen == 1, (
+            f"{tagged_seen} shipped plan(s) carry a block tag; this sweep is written for exactly "
+            f"one (WP-11.16) and both of its branches must stay exercised")
 
     def test_no_shipped_plan_gets_a_WIDENED_domain(self):
         """**THE REGRESSION GUARD OF THIS PACKAGE, AND IT WAS EARNED BY AN INSTRUMENT THAT COULD
@@ -1172,6 +1572,7 @@ class TestTheModelIsUnchangedOnOneRectangle:
         cp_model = _cp_or_skip()
         import glob
         seen = 0
+        tagged_seen = 0
         for f in sorted(glob.glob(os.path.join(ROOT, "plans", "**", "*.json"), recursive=True)):
             plan = json.load(open(f))
             if "levels" not in plan:
@@ -1182,6 +1583,15 @@ class TestTheModelIsUnchangedOnOneRectangle:
                 continue
             fpd = CP._snap_fpd(fpd)
             boxes, main = CP._boxes(plan, prep, fpd)
+            # THE TAGGED PLAN IS THE CONTROL, NOT AN EXCEPTION (WP-11.16). `_wide` widens only
+            # above one element, so the one record that has a wing MUST carry widened domains --
+            # which is the other half of this guard and could not be asserted until a shipped
+            # plan had a wing. A sweep that merely skipped it would leave `_wide`'s live branch
+            # untested on the corpus.
+            if _is_tagged(plan):
+                tagged_seen += 1
+                assert set(boxes.values()) != {main}, os.path.basename(f)
+                continue
             assert set(boxes.values()) == {main}, os.path.basename(f)
             ext = max([abs(c) for b in boxes.values() for c in b] + [main[2], main[3]]) * 2 + 1
             m, rooms, reqs = CP._build(plan, prep, fpd, GEO.entrance_walls(plan), objective=True)
@@ -1193,6 +1603,9 @@ class TestTheModelIsUnchangedOnOneRectangle:
                                  "CP-SAT presolves is not the one it presolved before item 4")
             seen += 1
         assert seen >= 14, seen
+        assert tagged_seen == 1, (
+            f"{tagged_seen} shipped plan(s) carry a block tag; this sweep is written for exactly "
+            f"one (WP-11.16)")
 
     def test_and_a_MULTI_element_plan_DOES_get_it(self):
         """The control. Without it the test above passes if `_wide` never widens at all, which
@@ -1210,7 +1623,7 @@ class TestTheModelIsUnchangedOnOneRectangle:
         """`derive_footprint` counted a dependency's programme into the main block AND laid the
         dependency beside it, so the wing's area was counted twice. With one element the two
         sums are the same sum, which is why no shipped record moved."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         levels, prep = GEO.prep_rooms(p)
         assert not any(GEO.is_block_tag(r.get("block")) for r in prep[0])
         a_all = sum(r["_area"] for r in prep[0])
@@ -1353,7 +1766,16 @@ class TestCPSATPlacesPerElement:
                 if k == "door" and "Hyphen" in t and "Kitchen (Dependency)" in t]
         assert kept, [t for _l, t, k, _k in reqs.lits if k == "door" and "Hyphen" in t]
         stated = [n for n in reqs.notes if "elements that do not touch" in n]
-        assert len(stated) == 3, stated
+        # 2 AT WP-11.16, from 3: the direct `butlers`-`kitchen` door was dropped from the
+        # record, so there is one fewer declared crossing for the model to decline to model.
+        #
+        # AND A VACUITY NOTE, BECAUSE THIS COUNT IS NOW ONE DOOR FROM ZERO. The docstring above
+        # says why both halves are needed -- `kept` proves `_abuts` does not say "nothing
+        # touches", `stated` proves it does not say "everything touches". At 2 both still bite.
+        # At 0 the second half would be vacuously satisfied and this test would quietly stop
+        # proving the negative, so if a later package takes another crossing out of the record,
+        # this fixture has to declare one of its own rather than have the number lowered again.
+        assert len(stated) == 2, stated
         assert all("Kitchen (Dependency)" in n for n in stated), stated
 
     def test_abuts_is_a_shared_FACE_and_a_corner_is_not_one(self):
@@ -1637,7 +2059,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
     def test_a_ONE_element_plan_gets_ONE_fill_and_it_is_the_buildings(self):
         """The control, and the byte-identity claim in its own right: with one element the
         function returns exactly the number the line it replaced computed."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         levels, prep, fpd = _prepped(p)
         boxes, main = CP._boxes(p, prep, fpd)
         fills = CP._element_fills(boxes, prep[0], 0)

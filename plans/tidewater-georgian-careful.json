@@ -296,11 +296,6 @@
             {
               "to": "backhall",
               "width_ft": 2.8
-            },
-            {
-              "to": "kitchen",
-              "width_ft": 2.8,
-              "note": "offset from the dining door, per the room rule"
             }
           ]
         },
@@ -345,7 +340,9 @@
               "to": "exterior",
               "width_ft": 3
             }
-          ]
+          ],
+          "block": "service",
+          "hyphen": true
         },
         {
           "id": "powder",
@@ -364,7 +361,8 @@
               "to": "backhall",
               "width_ft": 2.5
             }
-          ]
+          ],
+          "block": "service"
         },
         {
           "id": "cellarstair",
@@ -382,7 +380,8 @@
               "to": "kitchen",
               "width_ft": 2.8
             }
-          ]
+          ],
+          "block": "service"
         },
         {
           "id": "kitchen",
@@ -434,14 +433,11 @@
               "width_ft": 3
             },
             {
-              "to": "butlers",
-              "width_ft": 2.8
-            },
-            {
               "to": "cellarstair",
               "width_ft": 2.8
             }
-          ]
+          ],
+          "block": "service"
         },
         {
           "id": "pantry",
@@ -467,7 +463,8 @@
               "to": "kitchen",
               "width_ft": 2.8
             }
-          ]
+          ],
+          "block": "service"
         },
         {
           "id": "breakfast",
@@ -505,7 +502,8 @@
               "to": "terrace",
               "width_ft": 3
             }
-          ]
+          ],
+          "block": "service"
         },
         {
           "id": "terrace",
@@ -544,7 +542,6 @@
           "exterior_walls": [
             "N"
           ],
-          "stacks_over": "stair",
           "windows": [
             {
               "wall": "N",
@@ -573,7 +570,6 @@
           "exterior_walls": [
             "S"
           ],
-          "stacks_over": "passage",
           "windows": [
             {
               "wall": "S",

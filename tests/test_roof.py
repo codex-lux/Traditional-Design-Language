@@ -375,12 +375,20 @@ class TestDormerRhythm:
         import copy
         plan, section = _tidewater_section(roof_module)
         section = copy.deepcopy(section)
-        section["footprint"]["bay_module_ft"] = 12.516      # 62.58 / 5 -> four whole bays
+        # THE MODULE IS DERIVED FROM THE SECTION'S OWN FOOTPRINT, not pinned. It was the literal
+        # 12.516, written as "62.58 / 5" when this house was 62.58 ft wide; WP-11.16 tagged its
+        # service programme into a west dependency and the MAIN BLOCK is 47.58 ft, so the literal
+        # stopped meaning what its own comment said and the bay count fell 5 -> 3. A fixture that
+        # pins a number derived from a placement goes stale every time the placement moves --
+        # this one asks the record what it is instead.
+        W = section["footprint"]["width_ft"]
+        section["footprint"]["bay_module_ft"] = round(W / 4.0, 4)
         plan["declared"]["dormer"] = {"count": 6}
         main = roof_module.main_roof(plan, section, plan["style"])
         d = roof_module.dormer_rhythm_check(plan, section, main)
-        # 5, moved from 4 by WP-11.2 (the odd-count rule; see that report).
-        assert d["bay_count"] == 5 and d["on_bay_count"] == 5
+        # Four bays and six declared dormers: the answer is FALSE, which is the whole point of
+        # the fixture -- a check that always returned None would pass a test asserting True.
+        assert d["bay_count"] == 4 and d["on_bay_count"] == 4
         assert d["ok"] is False and d["ratio"] < 1.0
 
     def test_the_roof_and_the_elevation_agree_or_the_roof_declines(self, roof_module):

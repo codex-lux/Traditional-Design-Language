@@ -53,7 +53,20 @@ def _solved(pid):
 
 def test_every_shipped_plan_is_one_element_and_every_placed_room_is_in_it():
     """The premise the whole package rests on. If a shipped plan ever grows a second element,
-    every byte-identity assertion below stops meaning what it says, and this fails first."""
+    every byte-identity assertion below stops meaning what it says, and this fails first.
+
+    IT DID, AT WP-11.16, EXACTLY AS WRITTEN -- `plans/tidewater-georgian-careful.json` was
+    tagged so its service programme is a west dependency, and this was the first thing to go
+    red. It is kept, and the arity is a CENSUS rather than a constant.
+
+    THE THREE REPAIRS THAT WERE AVAILABLE, AND WHY THIS ONE: loosening to `len(els) >= 1` makes
+    the assertion vacuous and is what the docstring above exists to forbid; skipping the tagged
+    plan removes the one record that exercises the layer at all; a census names the exception,
+    keeps the other fifteen pinned, and fails again on a seventeenth. The second half of the
+    test -- every placed room stands in SOME element -- is unconditional and was measured to
+    hold on the tagged plan too (24 rooms, 24 indexed, 0 missing), so it is not scoped.
+    """
+    arity = {}
     for pf in _plans():
         d = json.loads(pathlib.Path(pf).read_text())
         if "levels" not in d:
@@ -61,13 +74,19 @@ def test_every_shipped_plan_is_one_element_and_every_placed_room_is_in_it():
         G._SOLVE_CACHE.clear()
         sol = G.solve(json.loads(json.dumps(d)), engine="heuristic")
         els = E.elements(sol)
-        assert len(els) == 1, (pf, [e["id"] for e in els])
+        arity[pathlib.Path(pf).name] = len(els)
         rooms = [r for lv in sol["levels"] for r in lv["rooms"] if r.get("geometry")]
         idx = E.bounds_index(sol, rooms)
         assert len(idx) == len(rooms), (
             f"{pf}: {len(rooms) - len(idx)} placed room(s) stand in no element, which this "
             f"layer reports as COULD NOT EVALUATE -- on a one-rectangle house that is a bug "
             f"in the containment test, not a fact about the plan")
+    assert len(arity) == 16, f"the sweep reached {len(arity)} plans, not 16 -- it is not running"
+    assert {k: v for k, v in arity.items() if v != 1} == {"tidewater-georgian-careful.json": 3}, (
+        f"the shipped corpus's element census moved: {sorted(arity.items())}. Exactly one "
+        f"record is tagged, and every byte-identity hash below is written about the fifteen "
+        f"that are not -- so a new entry here is a notice that those guarantees describe a "
+        f"smaller corpus, and each must be re-read before its number is moved.")
 
 
 def test_a_room_in_no_element_is_unjudged_and_not_assigned_to_the_main_block():
@@ -236,12 +255,50 @@ def test_the_lot_cap_is_on_the_built_extent_and_the_report_says_so():
     # `lot_usable - flank` via `flanking_extent_ft`. Same quantity, main's spelling kept.
     assert ("lot_usable - flank" in src or "lot_usable - reserved" in src), (
         "the dependency is not reserved out of the lot")
+    # BOTH BRANCHES SINCE WP-11.16, AND THE ONE THIS LAYER EXISTS FOR WAS NEVER TESTED HERE.
+    # This asserted `elements == 1` on the Tidewater record and then checked that the built
+    # extent equals the footprint width -- which is TRUE BY CONSTRUCTION on a one-rectangle
+    # house, so every assertion below the first was a tautology and the gap-exclusion rule the
+    # note describes had no test at all. Tagging that plan supplied the real case.
     sol = _solved("tidewater-georgian-careful")
     row = sol["geometry_report"]["lot_extent"]
-    assert row["elements"] == 1
-    assert row["built_extent_width_ft"] == sol["footprint"]["width_ft"]
+    assert row["elements"] == 3, (
+        "the Tidewater record is tagged (WP-11.16): a main block, a west dependency and the "
+        "hyphen between them. If it reports one element the tags are not reaching this layer.")
+    W = sol["footprint"]["width_ft"]
+    lo, _y, hi, _h = row["union_bbox_ft"]
+    assert lo < 0 and hi == W, (
+        f"the west dependency should put the union bbox at negative x and leave the main "
+        f"block's east face at the footprint width; got {row['union_bbox_ft']} against {W}")
+    # THE BUILT EXTENT IS THE SUM OF THE ELEMENTS' WIDTHS, and on this record that also equals
+    # the span of the bounding box -- MEASURED, not assumed. The first draft of this assertion
+    # required it to be STRICTLY LESS, on the reasoning in the row's own note that open ground
+    # between two masses is not the building. It is not less, because the three elements are
+    # CONTIGUOUS: the dependency runs -34 to -7, the hyphen -7 to 0 and the main block 0 to 45.
+    # There is no open ground, and there should not be -- WP-11.9's ruling 2 is that "the hyphen
+    # is roofed ground", so a hyphenated house has its gap filled by a third element rather than
+    # excluded from the sum.
+    #
+    # SO THE GAP-EXCLUSION HALF OF THAT NOTE HAS NO INSTANCE IN THIS CORPUS and is not asserted
+    # here. Saying so is the point: a test that demanded it would have been driving the layer to
+    # produce a house this corpus does not contain, and the honest guard is the sum, which does
+    # bite -- it is 79.0 against a main block of 45.
+    els = E.elements(sol)
+    assert len(els) == 3
+    assert row["built_extent_width_ft"] == sum(e["W"] for e in els), (
+        f"the built extent ({row['built_extent_width_ft']}) is not the sum of the elements' "
+        f"widths ({[e['W'] for e in els]})")
+    assert row["built_extent_width_ft"] > W, (
+        "and it must exceed the main block alone, or the dependency is not being counted at "
+        "all -- which is the defect this whole layer was built to remove")
     assert row["fits_lot"] is True
-    assert row["union_bbox_ft"][2] == sol["footprint"]["width_ft"]
+
+    # the one-rectangle branch, kept, on a plan that still is one
+    one = _solved("spec-builder-colonial")
+    r1 = one["geometry_report"]["lot_extent"]
+    assert r1["elements"] == 1
+    assert r1["built_extent_width_ft"] == one["footprint"]["width_ft"]
+    assert r1["union_bbox_ft"][2] == one["footprint"]["width_ft"]
 
 
 def test_the_lot_extent_reports_could_not_evaluate_when_no_lot_is_stated():
@@ -315,7 +372,36 @@ def test_export_ifc_writes_one_slab_per_element_per_storey():
 # movement is a defect again, measured against the merged corpus rather than against a
 # corpus neither parent shipped. `151126d0269bbc61` / `770a886c7387f3ab` were the values
 # on this branch up to and including WP-11.15.
-CORPUS_PLACEMENT_SHA = "68b102ff6a724e47"
+# MOVED AT WP-11.16, AND THE SENTENCE BELOW ABOUT "a concept no plan exercises" IS WHY IT HAD
+# TO MOVE RATHER THAN A REASON IT SHOULD NOT HAVE. That clause was written when no shipped plan
+# carried a `block` tag; `plans/tidewater-georgian-careful.json` now does, so the guarantee is
+# about the FIFTEEN records that are still one rectangle and the sixteenth is measured per plan
+# instead. Re-pinning without rewriting that sentence would be this repository's own "until X
+# lands" trap, which is why the assertion's message is rewritten with the value.
+#
+# RE-DERIVED PER PLAN, NOT BUMPED. A corpus digest is one number over sixteen houses and says
+# nothing about which one moved, so both this and the sheet digest were re-derived plan by plan
+# on a `git worktree` of the parent commit: exactly one of sixteen differs, and it is the tagged
+# plan. That pass is what makes a moved digest evidence rather than a bump wearing a
+# measurement's clothes.
+#
+# THE SAME QUANTITY IS PINNED IN `tests/test_appendages.py` UNDER THE SAME NAME. Two files, one
+# rule -- they must move together, and they did here.
+# AND RE-DERIVED AT WP-11.17, WHERE SIX OF SIXTEEN MOVED AND THE SIX ARE NAMED. That package
+# states the entrance front as an anchor -- the room that must stand on it is placed against it
+# rather than left to a guillotine that does not know the face matters -- and
+# `geometry.entrance_anchors` reaches exactly the plans whose record decides the question:
+# `tidewater-georgian-careful`, `spec-builder-colonial`, `good-01`, `good-03`, `good-04` and
+# `good-07`. Re-derived PER PLAN on a `git worktree` of the parent commit `b6c7773`: those six
+# differ and the other ten are byte-identical, INCLUDING `good-02-portico-library-house`, the
+# plan whose portico and foyer the selector refuses to choose between -- which is the sharpest
+# evidence the refusal is real rather than a silence.
+# AND AT WP-11.18, FOR THE SAME SIX PLANS AND A DIFFERENT CAUSE: `partition`'s STATED share
+# stops at the closer side rather than at the first overshoot, and the plans that state a share
+# are exactly the plans that name an entrance face. Re-derived per plan on a `git worktree` of
+# `a0ae8b7`: six of sixteen differ, the same six, and the ten the entrance selector does not
+# reach are byte-identical on BOTH digests -- which is the pair agreeing rather than a bump.
+CORPUS_PLACEMENT_SHA = "7f2de7eaa95b84d2"
 # WP-11.10 MOVED THIS ONE ON PURPOSE, and it is the only thing that package moves here.
 # `f7c7430ec31dae3c` -> `770a886c7387f3ab`: the terrace at grade is placed, so the door the
 # record has always declared from a room to its terrace is seated instead of refused, on the
@@ -323,7 +409,21 @@ CORPUS_PLACEMENT_SHA = "68b102ff6a724e47"
 # that package's own guarantee and the inverse of this one's -- WP-11.9 held both because it
 # taught six layers a concept no plan exercises; WP-11.10 holds the placement and moves the
 # openings because seating a refused door is the whole deliverable.
-CORPUS_OPENINGS_SHA = "a81aedcc3ee4b26a"
+# AND IT MOVED AT WP-11.16, FOR THE SAME ONE PLAN AND MEASURED THE SAME WAY. Re-derived per
+# plan against `7cc02f8^` on a `git worktree`: of sixteen records, the placement digest differs
+# on exactly one and the openings digest differs on exactly the same one -- the tagged Tidewater.
+# The two moving together is itself the evidence they should: 617 sf of programme left the main
+# block, so the rooms move, and an opening is placed against a wall of the room it is in.
+# AND AT WP-11.17, FOR THE SAME SIX PLANS AND FOR THE REASON THE TWO MOVE TOGETHER: an opening
+# is placed against a wall of the room it is in, so a package that re-places six houses moves
+# their openings. Re-derived per plan on the same worktree; the ten unmoved records are unmoved
+# on both digests, which is the pair agreeing rather than a second bump.
+# AND AT WP-11.18, FOR THE SAME SIX PLANS AND A DIFFERENT CAUSE: `partition`'s STATED share
+# stops at the closer side rather than at the first overshoot, and the plans that state a share
+# are exactly the plans that name an entrance face. Re-derived per plan on a `git worktree` of
+# `a0ae8b7`: six of sixteen differ, the same six, and the ten the entrance selector does not
+# reach are byte-identical on BOTH digests -- which is the pair agreeing rather than a bump.
+CORPUS_OPENINGS_SHA = "b00db93b584978a0"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():
@@ -349,8 +449,12 @@ def test_teaching_six_layers_about_elements_moved_no_shipped_placement():
         h2.update(json.dumps(op, sort_keys=True).encode())
         h2.update(json.dumps(sol.get("stair"), sort_keys=True).encode())
     assert h1.hexdigest()[:16] == CORPUS_PLACEMENT_SHA, (
-        "a shipped placement or footprint moved; WP-11.9 teaches six layers a concept no plan "
-        "in this corpus exercises, so any movement here is a defect and not a trade")
+        "a shipped placement or footprint moved. Fifteen of the sixteen records are one "
+        "rectangle and nothing about massing elements may reach them -- for those, any "
+        "movement here is a defect and not a trade. The sixteenth, "
+        "`plans/tidewater-georgian-careful.json`, is tagged, so a deliberate change to it "
+        "moves this number: re-derive PER PLAN against the parent commit and say which one "
+        "moved, rather than bumping a digest that cannot tell you.")
     assert h2.hexdigest()[:16] == CORPUS_OPENINGS_SHA, (
         "a shipped opening, fixture or furniture layout moved")
 

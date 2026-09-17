@@ -223,9 +223,27 @@ def test_check_plans_solve_with_stated_downgrades():
         # `attempts` is the pass's own record of what it tried. A note may claim proof only
         # for a pin the pass actually proved INFEASIBLE, and every such proof must be claimed.
         # That is falsifiable by deleting _reinstate, which the string check was not.
+        # SCOPED TO WALL PINS AT WP-11.16, AND THE CONFLATION WAS UNREACHABLE UNTIL THEN.
+        # `pins` is `downgraded_wall_pins`; `proved` was built from EVERY `restore *` attempt
+        # with no kind filter. `_reinstate` labels a shape pin `L0 pantry (shape)` (WP-11.7's
+        # split by ARITY -- a wall key is (level, room, wall) and a shape key is (level, room)),
+        # so the two sets could only ever disagree once a shipped plan downgraded a shape pin.
+        # None did until `plans/tidewater-georgian-careful.json` was tagged, at which point
+        # `L0 pantry (shape)` appeared on the right-hand side of an equality about WALLS and
+        # this test went red for a reason that is not its subject.
+        #
+        # THE COMMENT ABOVE IS ALSO STALE IN THE GOOD DIRECTION and is left as the record:
+        # "at 60 s on these two plans NO pin is ever individually re-proved ... so the PROVEN
+        # branch was dead code". The tagged record's proof CLOSES, the pass runs its attempts,
+        # and four wall pins really are proved infeasible -- the branch is live now.
+        #
+        # NOT relaxed to `claimed <= proved`, which would re-open the exact hole the adversarial
+        # audit closed. The equality is kept and the population is narrowed to the kind the
+        # assertion is about.
         attempts = solver.get("attempts") or []
         proved = {a[0][len("restore "):] for a in attempts
-                  if a[0].startswith("restore ") and a[1] == "R:INFEASIBLE"}
+                  if a[0].startswith("restore ") and a[1] == "R:INFEASIBLE"
+                  and not a[0].endswith(" (shape)")}
         claimed = {pin for pin in pins
                    if any(n.startswith(f"{named.get(pin.split(' ', 2)[1], pin.split(' ', 2)[1])}'s "
                                        f"declared {pin.split(' ', 2)[2]} wall") and PROVEN in n

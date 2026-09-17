@@ -8,6 +8,7 @@ Then the band and the record's `exterior_walls` turned out not to be able to bot
 Lucas ruled the band outranks the pins. Every assertion here was mutation-checked.
 """
 import importlib.util
+import re
 import json
 import pathlib
 
@@ -103,8 +104,18 @@ def test_the_pin_is_stated_through_max_and_min_because_the_rewrite_is_slower():
     strictly cheaper and is 1.7x SLOWER here (spec-builder 29.6 -> 48.2 s, tidewater
     11.3 -> 20.4 s). Pinned as a source assertion because the difference is invisible in the
     answer and visible only in the clock, so the next reader will re-derive it otherwise."""
+    # RE-CUT AT WP-11.16, AND THE REWORDING THAT BROKE IT WAS A FIX TO THE LINE ITSELF. This
+    # pinned the statement CHARACTER FOR CHARACTER -- `"m.Add(10 * mxs <= int(round(_ceil * 10))
+    # * mns).OnlyEnforceIf(_sh)"` -- so correcting the SCALE that statement reads the ceiling at
+    # (a tenth, which asserted 1.4 for every record stating 1.35) broke a guard that is about the
+    # ENCODING and not about the scale. That is this repository's most-repeated bad guard, and it
+    # is the second half of the pair it records: a stale SELECTOR goes quietly blind, a pinned
+    # LITERAL fails loudly on an unrelated change. The property is that the pin is stated ONCE,
+    # over the max/min pair, and that the two-inequality rewrite has not come back.
     src = (ROOT / "build" / "geometry_cp.py").read_text()
-    assert "m.Add(10 * mxs <= int(round(_ceil * 10)) * mns).OnlyEnforceIf(_sh)" in src
+    assert re.search(r"m\.Add\(\s*_BAND_Q \* mxs <= int\(round\(_ceil \* _BAND_Q\)\) \* mns\s*\)"
+                     r"\.OnlyEnforceIf\(_sh\)", src), (
+        "the proportion pin is no longer one constraint over the max/min pair")
     assert "_c10" not in src, (
         "the linear rewrite is back; re-run the timing in the comment above it first")
     assert "AddMaxEquality(mxs" in src, "the max/min pair is built unconditionally"
@@ -248,10 +259,54 @@ def test_the_search_draws_fewer_rooms_outside_their_band_than_it_scores_for():
                 if max(g["width_ft"], g["depth_ft"]) > band[1] * max(
                         min(g["width_ft"], g["depth_ft"]), 1e-9) + 0.02:
                     out += 1
-    assert (out, tot) == (30, 219), (
-        f"the search draws {out} of {tot} rooms outside their own band against a pinned 28 of "
-        f"219. An improvement is welcome -- lower it here and say what moved. A RISE means the "
-        f"ranking stopped governing.")
+    # 28 AT WP-11.16, DOWN FROM 30, AND THE CAUSE IS A RECORD EDIT RATHER THAN A CODE ONE:
+    # `plans/tidewater-georgian-careful.json` now puts 617 sf of service programme in a west
+    # dependency, so the main block is 45 x 37.24 instead of 63 x 38.17 and its rooms are drawn
+    # squarer in the smaller pile. Measured on the deterministic engine; the CP band fix in the
+    # same package cannot reach this number, because `GEO.shape_band()` is unrounded and the
+    # hill-climb reads it directly.
+    #
+    # THE MESSAGE USED TO SAY "a pinned 28" OVER A TUPLE PINNING 30 -- a stale literal in the
+    # very sentence a reader consults when the pin moves. It reads the pin now, so the two
+    # cannot drift apart again.
+    # 31 AT WP-11.17, UP FROM 28, AND "THE RANKING STOPPED GOVERNING" IS NOT WHAT HAPPENED --
+    # which is why the message below no longer says it in those words. That package states the
+    # entrance front: the room that must stand on it is placed against it before the guillotine
+    # runs, so a whole class of candidate stops being generated. WP-11.8's key is untouched and
+    # still picks the fewest band violations among the candidates that exist; there are simply
+    # fewer of them. THAT IS A REAL COST AND IT IS NOT NETTED OFF.
+    #
+    # Re-derived per plan against the parent commit rather than taken as a total -- NINE rooms
+    # joined and SIX left, over five plans, which a net of +3 hides entirely:
+    #
+    #   joined  good-01 bedroom/kitchen/laundry, good-04 dining/enclosed-porch,
+    #           good-07 guest-bath, spec bed2, tidewater chamber3/hallbath
+    #   left    good-01 dining/library, good-04 entry, good-07 bar, tidewater butlers
+    #
+    # `good-04`'s `entry` is the anchor itself: the room the package places against its own
+    # entrance face is drawn at its declared 6 x 8 and leaves this list. A RISE here that is NOT
+    # accompanied by a change to `geometry`'s candidate acceptance IS the ranking failing, and
+    # that is still what this guard is for.
+    # 28 AT WP-11.18, DOWN FROM 31, AND IT IS NOT THE ANCHOR GIVING GROUND BACK. That package
+    # makes `partition` stop a STATED share at the closer side rather than at the first
+    # overshoot, so the groups either side of an anchor's cut are sized to the rectangles they
+    # must fill -- and a group that is not stretched draws rooms nearer their own band. WP-11.8's
+    # key is untouched. Re-derived per plan, SIX rooms joined and NINE left, over the six plans
+    # that name an entrance face:
+    #
+    #   joined  good-03 parlor, good-04 guest-bedroom, good-07 dining/primary-bedroom,
+    #           spec primary, tidewater drawing
+    #   left    good-01 kitchen, good-03 office, good-04 dining, good-07 guest-bath,
+    #           spec bed2/family/stair, tidewater hallbath/library
+    #
+    # A RISE here that is NOT accompanied by a change to `geometry`'s candidate acceptance IS the
+    # ranking failing, and that is still what this guard is for.
+    _PIN = (28, 219)
+    assert (out, tot) == _PIN, (
+        f"the search draws {out} of {tot} rooms outside their own band against a pinned "
+        f"{_PIN[0]} of {_PIN[1]}. An improvement is welcome -- lower it here and say what "
+        f"moved. A RISE means either the ranking stopped governing or something new is "
+        f"constraining the pool before it runs; say which, with the per-plan derivation.")
 
 
 def test_the_residual_is_disclosed_on_the_record_by_both_engines():
@@ -293,3 +348,109 @@ def test_the_refused_first_key_is_not_quietly_reinstated():
         "the refused proxy is back; re-run the three-way measurement in the comment above the "
         "acceptance keys before trusting it")
     assert "A THIRD KEY WAS BUILT AHEAD OF THIS ONE AND REFUSED" in src
+
+
+# --- WP-11.16: the scale the ceiling is stated to the solver at ------------------------------
+
+def _band_model(ceiling, w_ft, h_ft):
+    """A one-room CP model carrying nothing but this package's proportion pin, asked whether a
+    `w_ft` x `h_ft` room is admissible under a ceiling of `ceiling` to 1.
+
+    Built here rather than driven through `solve()` on purpose: a whole placement answers with
+    a hundred other constraints in it, so a band stated one decimal too coarse is invisible in
+    the verdict. This asks the one question."""
+    CP = _cp()
+    if CP is None:
+        return None
+    from ortools.sat.python import cp_model
+    m = cp_model.CpModel()
+    w = m.NewIntVar(int(w_ft), int(w_ft), "w")
+    h = m.NewIntVar(int(h_ft), int(h_ft), "h")
+    hi = max(int(w_ft), int(h_ft))
+    mxs, mns = m.NewIntVar(0, hi, "mx"), m.NewIntVar(0, hi, "mn")
+    m.AddMaxEquality(mxs, [w, h])
+    m.AddMinEquality(mns, [w, h])
+    # the statement under test, transcribed from `_build` with `_BAND_Q` READ rather than
+    # copied -- a transcription would go on passing after the constant moved
+    m.Add(CP._BAND_Q * mxs <= int(round(ceiling * CP._BAND_Q)) * mns)
+    sol = cp_model.CpSolver()
+    sol.parameters.max_time_in_seconds = 5.0
+    return sol.Solve(m) in (cp_model.OPTIMAL, cp_model.FEASIBLE)
+
+
+def test_the_ceiling_is_stated_to_the_solver_at_the_precision_the_corpus_writes_it():
+    """WP-11.16. `_BAND_Q` was 10 and the corpus states its bands to TWO decimals, so
+    `int(round(1.35 * 10))` was 14 and the prover asserted **1.4** on every record saying 1.35.
+
+    BOTH DIRECTIONS ARE ASSERTED, and that is the whole design of this test: at a tenth the
+    four 1.35 types round UP (the model proves a room inside a band it is outside of) and
+    `parlor`'s 1.45 rounds DOWN (the model refuses a shape the record admits, and can pay for
+    the escape with an authored wall pin).
+
+    THE FIRST DRAFT OF THIS DOCSTRING JUSTIFIED THE PAIR WITH A CLAIM THAT IS FALSE, and it was
+    caught by computing it rather than re-reading it. It said a loose-only guard "would pass at
+    Q = 1000 and at Q = 20 alike". Swept:
+
+        Q     bedroom limit   parlor limit   loose half   tight half
+        3        1.3333          1.3333        passes       FAILS
+        4        1.2500          1.5000        passes       passes
+        10       1.4000          1.4000        FAILS        FAILS
+        20       1.3500          1.4500        passes       passes
+        100      1.3500          1.4500        passes       passes
+
+    Q = 20 states BOTH bands exactly and is not a scale this test should reject; the real
+    discriminator is Q = 3, where the loose half passes and the tight half does not. So the
+    pair earns itself, and the complements (17 x 13 admitted, 30 x 20 refused) are what catch
+    Q = 4, where `parlor`'s limit drifts the other way to 1.5. This test is about the PRECISION
+    the bands are stated at; the literal 100 is pinned separately below.
+
+    The numbers are the real ones. `bedroom`'s ceiling is 1.35 and `chamber2` was drawn
+    18 x 13 = 1.3846 on `plans/tidewater-georgian-careful.json` with its pin HELD."""
+    if _cp() is None:
+        return                      # COULD NOT EVALUATE without ortools; not a pass
+    C = PC.load_corpus()
+
+    def ceil_of(rtype):
+        band = ((C["rooms"].get(rtype) or {}).get("dimensions") or {}).get("proportion")
+        assert band, f"{rtype} states no proportion band; this test's specimen is gone"
+        return float(band[1])
+
+    bed = ceil_of("bedroom")
+    assert bed == 1.35, f"bedroom's ceiling moved to {bed}; re-derive this test's specimen"
+    # LOOSE HALF: 18/13 = 1.3846 is outside 1.35 and inside the 1.4 a tenth-scale rounding states
+    assert _band_model(bed, 18, 13) is False, (
+        "an 18 x 13 bedroom (1.3846 to 1) is admissible under a ceiling of 1.35 -- the pin is "
+        "being stated at a coarser scale than the record writes it, which is how the prover "
+        "came to PROVE `chamber2` inside a band it is outside of")
+    assert _band_model(bed, 17, 13) is True, "17 x 13 is 1.308 and must be admissible"
+
+    par = ceil_of("parlor")
+    assert par == 1.45, f"parlor's ceiling moved to {par}; re-derive this test's specimen"
+    # TIGHT HALF: 29/20 = 1.45 EXACTLY, which a tenth-scale rounding (1.4) refuses
+    assert _band_model(par, 29, 20) is True, (
+        "a 29 x 20 parlour is exactly 1.45 to 1, its own record's ceiling, and the model "
+        "refuses it -- the prover is forbidding a shape the corpus admits, which it can only "
+        "escape by downgrading an AUTHORED wall pin or reporting the house infeasible")
+    assert _band_model(par, 30, 20) is False, "30 x 20 is 1.5 and must be refused"
+
+
+def test_the_band_scale_is_named_once_so_two_sites_cannot_disagree():
+    """There are TWO statements of the ceiling -- the hard pin and the soft overshoot term --
+    and the reason a tenth survived four packages is that both copies were wrong TOGETHER and
+    so agreed with each other. A rule written twice is this corpus's most-repeated defect; the
+    constant is what makes the second copy unable to drift from the first."""
+    CP = _cp()
+    if CP is None:
+        return
+    assert CP._BAND_Q == 100, (
+        "the scale a proportion ceiling is stated to CP-SAT at moved. It is 100 because the "
+        "corpus writes its bands to two decimals -- re-measure `rooms/*.json` before changing "
+        "it, and read the constant's own comment for what a tenth cost.")
+    src = (ROOT / "build" / "geometry_cp.py").read_text()
+    # the property: no site re-derives the ceiling at its own scale
+    stray = re.findall(r"int\(round\(_ceil \* (?!_BAND_Q)\w+\)\)", src)
+    assert stray == [], (
+        f"a proportion ceiling is being scaled by something other than _BAND_Q: {stray}")
+    assert src.count("int(round(_ceil * _BAND_Q))") == 2, (
+        "the ceiling is stated at exactly two sites -- the hard pin and the soft overshoot "
+        "term. A third is a third chance for them to disagree.")

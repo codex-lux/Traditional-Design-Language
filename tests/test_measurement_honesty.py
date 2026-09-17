@@ -709,7 +709,28 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         # both packages move where the cuts are. The refusal recorded above still stands and
         # only the baseline it is measured against moved, which is the same sentence one merge
         # later.
-        assert out["geometry_report"]["relaxations"]["count"] == 7
+        # 5 AT WP-11.16, from 7, AND THE CAUSE IS A RECORD EDIT RATHER THAN A CODE ONE.
+        # `plans/tidewater-georgian-careful.json` declares 617 sf of service programme as a west
+        # dependency with a hyphen, so the main block is 45 x 37.24 with 5 bays instead of
+        # 63 x 38.17 with 7 -- fewer rooms to slice into a smaller pile, and fewer cuts taken off
+        # the bay line. Separated from the other half of that edit by measurement: a stripped
+        # copy of the same record returns to exactly 7, so the dropped `butlers`-`kitchen` door
+        # is not what moved this (it moves the SCORE, 775.2 -> 761.2, and not this count).
+        #
+        # NOT AN IMPROVEMENT TO CLAIM. A relaxation is a joist run that does not land on a
+        # bearing line, and a smaller box holding fewer rooms has fewer cuts to take off the
+        # grid in the first place. The same quantity is pinned in `test_measurement_honesty.py`,
+        # `test_site.py` and `test_geometry.py` and all three moved in one commit.
+        # AND 5 -> 6 AT WP-11.17, WHICH STATES THE ENTRANCE FRONT. The entry porch is placed
+        # against the S face as an anchor rather than left to the guillotine, so the cuts the
+        # slicer is free to choose are the ones behind it -- one more of them lands off the bay
+        # grid. MORE IS THE WORSE DIRECTION and it is reported rather than netted off against
+        # what the package buys (serious 60 -> 55, minor 111 -> 105 on this record). All three
+        # copies of this number moved together, which is what the sentence above asks of them.
+        # 6 -> 5 AT WP-11.18: `partition`'s stated share stops at the closer side, so a group
+        # no longer overshoots the rectangle it must fill and one compromise the slicer used
+        # to need is not needed. An improvement, named rather than absorbed.
+        assert out["geometry_report"]["relaxations"]["count"] == 5
 
     def test_the_renderer_draws_one_mark_per_relaxation(self, geometry_module):
         """P6 and P7 together: the drawing is a render of the data, so the number of marks on
