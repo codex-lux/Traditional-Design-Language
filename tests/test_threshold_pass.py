@@ -26,8 +26,21 @@ TIDEWATER = os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")
 
 def _placed(path=TIDEWATER):
     """The heuristic engine, deliberately: CP-SAT under a time budget is not deterministic
-    under load and every figure pinned here would drift by a few tenths (CLAUDE.md, WP-9.6)."""
-    return GEOM.solve(json.load(open(path, encoding="utf-8")), engine="heuristic")
+    under load and every figure pinned here would drift by a few tenths (CLAUDE.md, WP-9.6).
+
+    AND THE RECORD IS READ AS ONE ELEMENT (WP-13.5). That package moved the service programme
+    into the dependency this record declares; the threshold pass's subject is the stoop, the
+    doorcase and the stacks on their flues, and on the search engine a 45 ft main block draws
+    the two west fires 4.95 ft inboard of its own west face, so neither has a flue and the west
+    stack is not drawn. The refusal is correct and is asserted on the SHIPPED record in
+    `tests/test_hearths_on_flue.py`; a file that measures where a stack STANDS needs a house
+    that draws one."""
+    plan = json.load(open(path, encoding="utf-8"))
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return GEOM.solve(plan, engine="heuristic")
 
 
 # `_proved()` IS GONE, AND ITS REMOVAL IS THE POINT (WP-11.17). WP-11.16 introduced it because
@@ -61,8 +74,20 @@ class TestTheStoop(unittest.TestCase):
         # end, so the west slab is laid differently and the centre passage's own exterior door
         # is SEATED again -- it reaches this rule and is correctly refused a stoop on the E wall.
         # The three are the kitchen's on S, the passage's on E and the back hall's on N.
-        self.assertEqual(len(named), 3,
-                         "three seated exterior doors besides the entrance, three refusals")
+        # 3 -> 2 AT THE 17 SEP MERGE, AND THE THREE WAS MEASURED ON A DIFFERENT HOUSE. Main's
+        # `_placed()` reads the SHIPPED record; this branch's strips the container first, with
+        # the reason in its own docstring, and the merge kept the stripping. So main's 3 is a
+        # count over the tagged house and this fixture builds the one-rectangle one. Measured on
+        # `git archive` checkouts, the STRIPPED record reads 2 on main and 2 here -- the same two
+        # doors, the kitchen's on S and the back hall's on N -- against 3 on this branch's
+        # parent, all three of them on N, which is a differently-placed house again. The rule
+        # under test is unmoved: every seated exterior door that is not the entrance is refused
+        # a stoop and SAYS SO. The doors are named rather than counted for that reason.
+        self.assertEqual(
+            sorted(named),
+            ["steps at the N door of backhall", "steps at the S door of kitchen"],
+            "the seated exterior doors besides the entrance have moved; each must still be "
+            "refused a stoop BY NAME, and a bare count cannot say which door changed")
         for u in th["unplaced"]:
             self.assertTrue(u.get("reason"), "a refusal that does not say why is a silence")
             self.assertTrue(u.get("rule"), "a refusal must name the rule refusing it")
@@ -286,12 +311,31 @@ class TestTheStacks(unittest.TestCase):
         land. Main's WP-11.2 made this house 38.17 ft deep: the stack is written y 18.168,
         depth 1.833, summing to 19.0845 against a mid-depth of 19.085, out by half a
         thousandth and by nothing else. The tolerance is DERIVED -- one rounding step on each
-        of the two written terms -- rather than loosened to whatever passes."""
-        pl = _placed()
+        of the two written terms -- rather than loosened to whatever passes.
+
+        RE-CUT AGAIN AT WP-13.2, AND THE SUBJECT NARROWED. The centre line is the rule for a
+        plan that STATES NO HEARTH; the shipped record states three, and its squares now stand
+        on the stated flues (`tests/test_hearths_on_flue.py` holds those figures). So the
+        centre-line pin is driven on the record with its hearths stripped, and the shipped
+        record is asserted OFF the centre line, so that a regression to the rectangle rule
+        cannot pass by the fixture happening to be centred."""
+        base = json.load(open(TIDEWATER, encoding="utf-8"))
+        for lv in base["levels"]:
+            for r in lv["rooms"]:
+                r.pop("hearth", None)
+        GEOM._SOLVE_CACHE.clear()
+        pl = GEOM.solve(base, engine="heuristic")
+        self.assertEqual(pl["hearths"]["placed_from"], "centre-line")
         D = pl["footprint"]["depth_ft"]
         tol = 2 * 0.0005 + 1e-9      # y_ft and depth_ft are each round(v, 3)
+        self.assertEqual(len(pl["hearths"]["stacks"]), 2)
         for sk in pl["hearths"]["stacks"]:
             self.assertAlmostEqual(sk["y_ft"] + sk["depth_ft"] / 2.0, D / 2.0, delta=tol)
+        shipped = _placed()
+        self.assertEqual(shipped["hearths"]["placed_from"], "stated-hearths")
+        for sk in shipped["hearths"]["stacks"]:
+            self.assertGreater(abs(sk["y_ft"] + sk["depth_ft"] / 2.0 - D / 2.0), 4.0,
+                               "the shipped record's square is back on the centre line")
 
     def test_the_size_is_read_and_never_defaulted(self):
         """A stack drawn at an invented size is an invented measurement. Take the figure away
@@ -305,7 +349,18 @@ class TestTheStacks(unittest.TestCase):
             del cache["tidewater-georgian"]["chimney"]["parameters"]["stack_plan_in"]
             out = TH.hearth_pass(pl, C, {})
             self.assertEqual(out["stacks"], [])
-            self.assertIn("stack_plan_in", out["unplaced"][0]["reason"])
+            # RE-CUT AT THE 17 SEP MERGE: this read `out["unplaced"][0]` and the refusal it
+            # looks for is at index 1 now, behind a hearth refused for having no exterior flue
+            # on the merged placement. The refusal was never missing -- its POSITION moved, and
+            # a test that reads position where it means identity reports the wrong thing when
+            # a neighbour appears. Same class as reading `list[0]` for a rank, which CLAUDE.md
+            # records; the whole list is searched now and the premise is asserted first.
+            self.assertTrue(out["unplaced"], "nothing was refused at all, so the pass did not "
+                                             "run or the fixture no longer removes the figure")
+            self.assertTrue(
+                any("stack_plan_in" in (u.get("reason") or "") for u in out["unplaced"]),
+                f"no refusal names the figure that was taken away: "
+                f"{[str(u.get('reason'))[:80] for u in out['unplaced']]}")
         finally:
             cache["tidewater-georgian"] = saved
 

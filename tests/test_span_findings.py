@@ -159,7 +159,17 @@ def test_the_charge_and_the_count_are_summed_from_the_same_list():
     # FALLS 45.00 -> 37.24 ft; the charge rises because three of the four runs lengthened while
     # the longest shortened. A charge and a count are two different questions about one list,
     # which is the whole subject of this test.
-    assert sc["over_capacity"] == 4 and sc["charge"] == 122.8
+    # 122.8 -> 113.2 AT THE 17 SEP MERGE, a THIRD VALUE (main 122.8, this branch 130.5) and
+    # the good direction. The COUNT holds at 4 on ALL THREE TREES, which is this test's own
+    # subject working: the runs are
+    #     main    [21.28, 27.00, 37.24, 37.24]   worst 37.24
+    #     ours    [21.28, 27.00, 37.24, 45.00]   worst 45.00
+    #     merged  [21.28, 27.00, 27.64, 37.24]   worst 37.24
+    # so the same four runs are over capacity, the worst comes back down from this branch's
+    # 45.00, and one run shortens 37.24 -> 27.64. A charge and a count are two different
+    # questions about one list, and here the list's length held on every tree while its contents
+    # moved on two of them.
+    assert sc["over_capacity"] == 4 and sc["charge"] == 113.2
 
 
 # --------------------------------------------------------------- the critic says it

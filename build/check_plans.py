@@ -21,6 +21,7 @@ Exit 0 clean, 1 on a finding. With no arguments it reads every `plans/*.json` an
 WHAT IT CHECKS, and each is a claim the parti makes about the diagram rather than about a house:
   · every room id the parti names as `required` (the default) exists in the plan;
   · every `stacks_over` the parti states for a room the plan carries is stated by the plan too;
+  · every `block` and `hyphen` tag the parti states for a room the plan carries is stated by it;
   · every `exterior_walls` side the parti states for a room the plan carries is declared by it;
   · every door the parti's room states to another room the plan carries is declared by it;
   · the plan's style is one the parti names, and its massing is the parti's or an alternate.
@@ -35,11 +36,19 @@ AND ONE KIND OF FINDING IS REPORTED RATHER THAN FAILED, for the same reason. A p
 in the fully-massed house"*, and a plan that recasts a room's exposure is making a MASSING
 statement, which decision #3 puts outside a parti's authority. The shipped Tidewater plan is the
 case: its back hall is a hyphen (N and S, the two long sides of a link) and its kitchen a detached
-dependency (N, S and W), where the parti — which has no hyphen and no dependency — puts both on E
-and N inside one block. That disagreement is `oq/the-parti-dissolved-its-own-dependencies` showing
-through, and erasing it to make this checker quiet would delete the record's own account of the
-house. It is counted and ratcheted instead. `stacks_over`, doors and room existence ARE topology
-and they fail.
+dependency (N, S and W), where the parti puts both on E and N. It is counted and ratcheted
+instead. `stacks_over`, doors, room existence and the massing tags ARE topology and they fail.
+
+**THE CLAUSE THIS PARAGRAPH USED TO CARRY WAS TRUE UNTIL THE COMMIT THAT CORRECTS IT.** It read
+*"the parti — which has no hyphen and no dependency"*, and at WP-13.5 the parti has both: the
+kitchen, pantry, breakfast room and powder room carry `block: service` and the back hall carries
+`hyphen: true`. The DISAGREEMENT survives and the ceiling does not move, because it was never
+about the elements existing — the parti states its service wing to the EAST (`kitchen` E/N) and
+this plan builds it to the WEST (`kitchen` N/S/W), and `geometry.flank_sizes` reads the side off
+those very letters, so the two records really do describe mirror-image houses. Both are instances
+of the diagram and neither is wrong; that is why this kind reports. Erasing either to make the
+count fall would delete a record's own account of its house, which is the move this file exists
+to refuse. `oq/the-parti-dissolved-its-own-dependencies` is no longer what shows through here.
 
 UNJUDGED IS NOT PASSED. A plan naming no parti is reported as UNJUDGED and counted, never as
 clean: the whole finding above is a plan that said nothing about its diagram, and a checker that
@@ -126,6 +135,31 @@ def check_plan(plan, parti):
                                        f'says {have.get("stacks_over") or "nothing"} — '
                                        f'plan_check reads this field and had nothing to read'})
 
+        # THE MASSING TAGS, and they are topology rather than exposure. `build/compose.py`
+        # copies `block` and `hyphen` onto every candidate it writes, exactly as it copies
+        # `stacks_over` — so a composed plan is correct by construction and a HAND-AUTHORED one
+        # is checked by nothing, which is the defect at the head of this file arriving in a
+        # second field. They are not dimensions (decision #3's limit on a parti's authority):
+        # `block` says which rooms share a volume and `hyphen` says which single room is the
+        # link, and `geometry.blocks_for` lays the house out from both. A plan that answers
+        # differently from its diagram is describing a different composition, not a different
+        # size, so unlike `exterior_walls` this FAILS.
+        #
+        # The comparison is two-sided on purpose. A plan that drops the tag puts the room back
+        # in the main block; a plan that names ANOTHER element puts it in a volume the diagram
+        # does not have; and `hyphen` without `block` is meaningless (the parti schema says so
+        # in as many words). All three are one question — which element is this room in — and
+        # reporting only the first would let the other two through in silence.
+        for field, prose in (("block", "in massing element"), ("hyphen", "the hyphen of")):
+            want, got = room.get(field), have.get(field)
+            if want in (None, False) or want == got:
+                continue
+            found.append({"kind": "massing-element", "room": rid,
+                          "statement": f'the parti puts {rid} {prose} '
+                                       f'{want if field == "block" else "its element"} and the '
+                                       f'plan says {got if got not in (None, False) else "nothing"} '
+                                       f'— geometry.blocks_for lays the house out from this field'})
+
         want_walls = set(room.get("exterior_walls") or [])
         got_walls = set(have.get("exterior_walls") or [])
         missing = sorted(want_walls - got_walls)
@@ -181,27 +215,41 @@ def check_plan(plan, parti):
     return found
 
 
-# Findings a parti may not fail a plan on, and the counts that may only fall. Four today, all on
-# `plans/tidewater-georgian-careful.json`, all the hyphen-and-dependency reading the parti has no
-# vocabulary for: `backhall` N/S against the parti's E/N and `kitchen` N/S/W against E/N, plus the
-# two halves of the direct `butlers`-`kitchen` door the plan no longer declares.
+# Findings a parti may not fail a plan on, and the counts that may only fall. There are TWO kinds
+# and they keep separate ceilings, because the two parallel lines added one each and they measure
+# different things: `exterior-walls` is an exposure the plan recast, `door-across-elements` is a
+# door the parti declares between two rooms the PLAN puts in different massing elements. One
+# number for both would let a new door hide behind a corrected exposure.
 #
-# THIS COMMENT SAID THEY "go to zero when WP-11.6 gives the diagram the elements its exemplars
-# have", AND THAT IS NOT WHAT HAPPENED. WP-11.6 tried exactly that and `check_partis.py` refused
-# all three arrangements, each by a HARD room rule -- the butler's pantry must directly door both
-# the dining room and the kitchen, and no boundary can be drawn that keeps both. The elements
-# arrived on the PLAN instead (WP-11.16), which is the other side of the same gap, so the
-# prediction is corrected here rather than left to read as owed work:
-# `oq/the-parti-dissolved-its-own-dependencies` is what takes these four to zero, and it is a
-# ruling nobody has given.
-# WP-11.16 added `door-across-elements` for the reason argued at the call site: a door the
-# parti declares between two rooms the PLAN puts in different massing elements is a massing
-# statement, not a diagram disagreement. It carries its OWN ceiling rather than joining the
-# exposure count, because the two measure different things and one number for both would let a
-# new door hide behind a corrected exposure.
+# TWO PREDICTIONS WERE FALSIFIED HERE AND BOTH ARE KEPT, because each was wrong its own way.
+# This comment used to say the exposure findings *"go to zero when WP-11.6 gives the diagram the
+# elements its exemplars have"*. WP-11.6 tried exactly that and `check_partis.py` refused all three
+# arrangements, each by a HARD room rule -- the butler's pantry must directly door both the dining
+# room and the kitchen, and no boundary can be drawn that keeps both. The elements arrived on the
+# PLAN instead -- WP-11.16 on one line and WP-13.5 on the other, the same edit made twice by two
+# sessions that could not see each other -- and the exposure count was then MEASURED unmoved at 2,
+# because the disagreement is about which SIDE of the house the wing stands on: the parti states
+# its service wing E/N, this plan builds it N/S/W, and `geometry.flank_sizes` reads the side off
+# those very letters. Both records describe an instance of the diagram and neither is wrong, which
+# is why this kind reports. `oq/the-parti-dissolved-its-own-dependencies` is what takes the
+# exposure count to zero and it is a ruling nobody has given.
+#
+# AND THE CROSS-ELEMENT DOOR CEILING IS A THIRD VALUE AT THIS MERGE, BELONGING TO NEITHER PARENT.
+# The kind was added for the two halves of the direct `butlers`-`kitchen` door, which one parent
+# dropped from the PLAN while the parti went on declaring it -- two findings. The other parent
+# dropped it from `partis/centre-passage-double-pile.json` as well, for
+# `rooms/butlers-pantry.json`'s own OQ 59 reason, so on the merged corpus the parti declares no
+# such door and there is nothing left to report. The ceiling is re-derived below rather than taken
+# from either side. The kind is NOT deleted: a ceiling of zero on a corpus that cannot reach the
+# branch is exactly the shape that reads as a guard passing, so it is DRIVEN by a hand-built pair
+# in `tests/test_check_plans.py` instead of resting on the corpus.
 REPORTED = {"exterior-walls", "door-across-elements"}
 EXPOSURE_CEILING = 2
-CROSS_ELEMENT_DOOR_CEILING = 2
+# RE-DERIVED ON THE MERGED TREE, not taken from either parent: `python3 build/check_plans.py`
+# reads "2 exposure finding(s) reported, 0 cross-element door finding(s)". One parent measured 2
+# here and the other never had the kind; 0 is the third value, and it is a ceiling that may only
+# fall, so it falls. See the comment above for why the kind is kept at zero rather than deleted.
+CROSS_ELEMENT_DOOR_CEILING = 0
 
 
 def main():

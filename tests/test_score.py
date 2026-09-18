@@ -609,19 +609,45 @@ class TestTheOrderIsWhatItSays:
         implementation's sort key into the test and applied it to a local list — it asserted
         that sorted() sorts, and stayed green under a mutant that stripped the fatal term from
         the real key. Here the scorer is inverted so that every disqualified candidate scores
-        higher than every clean one, and compose() must still put the clean ones first."""
-        real = compose_module.score_candidate
+        higher than every clean one, and compose() must still put the clean ones first.
 
+        RE-CUT 16 Sep 2026, AND ITS OWN PREMISE ASSERTION IS WHAT ASKED FOR IT. The fixture
+        relied on `family-georgian` HAPPENING to return a set with clean candidates and dirty
+        ones in it, and said so in as many words — "this test needs a MIXED set; widen the
+        window or pick another brief". WP-13.3 made the elevation draw the plan's own placed
+        openings, so two fatal faults that had been passing on invented constants began to
+        measure, and that brief went from 4 of 4 fatal-free candidates to 0 of 4 (measured;
+        `bungalow-small` is unmoved at 4 of 4). The premise fired exactly as built. Widening
+        the window or picking another brief would buy one corpus state, so the set is DRIVEN
+        mixed instead: one candidate is made clean and every other is given a fatal, at the
+        checker, so this test says the same thing whatever the corpus later does. The property
+        is unchanged and it is compose()'s real sort that is under test."""
+        real = compose_module.score_candidate
+        seen = {"n": 0}
+
+        # The mixed set, by construction rather than by the corpus's leave, and the seam is the
+        # scorer because `res["counts"]` IS the dict compose binds as the candidate's own
+        # `counts` (build/compose.py:1604 binds it, :1635 calls this, :1639 publishes it — one
+        # object). The first candidate scored is cleared of its fatals and every later one is
+        # given one, so there is exactly one clean candidate, and it is the one that must come
+        # back FIRST while scoring 1.0 against everyone else's 99.9.
+        # Patching the checker instead does NOT work and the reason is worth keeping: compose
+        # calls PC.check 130 times for 13 returned candidates, and the plan dicts it is handed
+        # carry no parti, so neither the call index nor the record identifies a candidate.
         def inverted(res, plan, brief, fit, fp, miss, tol):
+            seen["n"] += 1
+            counts = res["counts"]
+            counts["fatal"] = 0 if seen["n"] == 1 else counts.get("fatal", 0) + 1
             card = real(res, plan, brief, fit, fp, miss, tol)
-            card["score"] = 99.9 if res["counts"].get("fatal", 0) else 1.0
+            card["score"] = 99.9 if counts.get("fatal", 0) else 1.0
             return card
 
         monkeypatch.setattr(compose_module, "score_candidate", inverted)
         cands = compose_module.compose(_brief("family-georgian"), 13, revise=False)["candidates"]
         fatals = [c["counts"].get("fatal", 0) for c in cands]
+        assert seen["n"] >= 2, "the driven scorer never ran twice — the seam has moved"
         assert 0 in fatals and any(f > 0 for f in fatals), (
-            "this test needs a MIXED set; widen the window or pick another brief")
+            f"the DRIVEN mixed set did not reach the returned window: fatals were {fatals}")
         assert fatals == sorted(fatals), (
             "a candidate scoring 99.9 with a fatal came back above a clean one scoring 1.0 — "
             "the fatal count must stay the primary sort key, ahead of the score")

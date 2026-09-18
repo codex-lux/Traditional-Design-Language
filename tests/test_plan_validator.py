@@ -27,7 +27,13 @@ class TestShippedPlans:
     def test_spec_builder_colonial_counts(self, plan_check_module, corpus):
         plan = load_plan("spec-builder-colonial")
         result = plan_check_module.check(plan, corpus)
-        assert result["counts"]["fatal"] == 4
+        # 4 -> 5 on 15 Sep 2026 (WP-13.3, the one-bay-system slice): the elevation draws the
+        # PLAN's placed openings now and `storeys-out-of-vertical-alignment` reads a measured
+        # 174.0 in offset between the upper and lower front windows where it read a constant
+        # 0.0 -- "Windows That Do Not Stand On Each Other: 174.0 against at-most 2.0". The
+        # four named fatals below are unmoved; this is the fifth. Attributed row by row
+        # against a `git archive a9f7f77` checkout, not reasoned.
+        assert result["counts"]["fatal"] == 5
         # 70 -> 66 on 26 Aug 2026 (OQ 52): four serious findings were being adjudicated from
         # measurements build/elevation.py stated as constants and never took -- a dormer count
         # over roof.py's explicit refusal, a chimney's plan dimensions, a raking-cornice member
@@ -106,7 +112,20 @@ class TestShippedPlans:
         # stoop fails an at-least-6.0 ft rule as declared. Drawing a room the size its record
         # states is what surfaced it, and the number is NOT to be recovered by loosening
         # `floor_` -- that would be tuning a constant until a fault goes green.
-        assert result["counts"]["serious"] == 57
+        # 57 -> 60 AT THE 17 SEP MERGE, and it is a THIRD VALUE: main 57, this branch 59.
+        # Diffed finding by finding against this branch rather than counted -- ONE row is added
+        # and none is removed, `The Porch Nobody Can Sit On: 5.5 against at-least 6.0`. That is
+        # main's WP-11.17 cost arriving: `_partial_flank` draws this record's declared 4 x 6 ft
+        # stoop at 5.5 x 5.5, clamped up to `module * 0.55`, where the guillotine's luck used to
+        # draw it 6.0 deep -- so the record's own 4 ft stoop stops being hidden by a placement.
+        # THE NUMBER IS NOT TO BE RECOVERED by loosening that floor, which is this same block's
+        # standing instruction two paragraphs up. Three more faults are the SAME rows with moved
+        # figures and net to nothing: `The Blank Wall On The Public Side` 0.0365 -> 0.0235, `The
+        # Four-Foot Porch` 6.0 -> 5.5, and `The Front With No Centre` 0 against equals 1 -> 1
+        # against between 3 and 7, which is WP-13.3's placed openings reaching the fault corpus.
+        # `fatal` at 5 and `minor` at 80 are UNMOVED, which is what says the declared layers did
+        # not churn underneath this.
+        assert result["counts"]["serious"] == 60
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -165,7 +184,10 @@ class TestShippedPlans:
         plan = load_plan("spec-builder-colonial")
         result = plan_check_module.check(plan, corpus)
         fatals = [f["statement"] for f in result["findings"] if f["severity"] == "fatal"]
-        assert len(fatals) == 4
+        # 4 -> 5 at WP-13.3: the fifth is the storey alignment the elevation now MEASURES off
+        # the placed front windows (174.0 in on this plan) where it used to state 0.0
+        assert len(fatals) == 5
+        assert any("Do Not Stand On Each Other" in s for s in fatals)
         assert any("Dining Room" in s and "Powder Room" in s for s in fatals)
         assert any("Garage" in s and "Primary Bedroom" in s for s in fatals)
         assert any("Half-Width Shutter" in s or "half-width" in s.lower() for s in fatals)
@@ -174,7 +196,16 @@ class TestShippedPlans:
     def test_tidewater_georgian_careful_counts(self, plan_check_module, corpus):
         plan = load_plan("tidewater-georgian-careful")
         result = plan_check_module.check(plan, corpus)
-        assert result["counts"].get("fatal", 0) == 0
+        # 0 -> 3 on 15 Sep 2026 (WP-13.3, the one-bay-system slice), and every one is the
+        # front Lucas read: the elevation draws the plan's PLACED openings and three fault
+        # measurements that were constants derived from the rhythm are read off them --
+        # `even-bay-front` (four upper openings, an even count), `one-bay-symmetry-break`
+        # (five of seven ground openings with no mirror twin) and
+        # `storeys-out-of-vertical-alignment` (48.396 in against at-most 2.0). Attributed row
+        # by row against a `git archive a9f7f77` checkout: +3 fatal, +2 serious, nothing
+        # removed, minor and info unmoved. The fatals are the PLACEMENT's, which is the other
+        # slice of WP-13.3; a fatal from any other measurement is still a defect here.
+        assert result["counts"].get("fatal", 0) == 3
         # 39 -> 38 on 24 Aug 2026 (OQ 63): a secondary test written for another style is no
         # longer run against this one. A test that is not for this house says nothing about it.
         # 38 -> 40 (OQ 43): two findings that were held at minor while substitution was
@@ -213,7 +244,17 @@ class TestShippedPlans:
         # 12.93 x 5.73, a hair under `porch-nobody-can-sit-on`'s at-least 6.0. Stating the
         # entrance front draws it at exactly 12.00 x 6.00 and the fault clears -- the same fault
         # WP-7.4 cleared and the WP-11.16 tagging re-broke.
-        assert result["counts"]["serious"] == 28
+        # 28 -> 30 AT THE 17 SEP MERGE, a THIRD VALUE (main 28, this branch 31) and the
+        # only count here that MOVES THE GOOD WAY across the merge. Diffed row by row against
+        # this branch: TWO fault rows cleared and one appeared, net -1. Cleared: `The Four-Foot
+        # Porch` and `The Porch Nobody Can Sit On`, both at 5.73 -- main's WP-11.17 draws this
+        # record's porch at its declared 6 x 12 instead of the 12.93 x 5.73 the guillotine
+        # produced, which is exactly the pair the spec Colonial above pays for the same package.
+        # One plan's stoop stops being flattered and the other's porch stops being shrunk, by
+        # one rule. Appeared: `The Porch That Darkens The House`, 0.9716 against at-most 0.9.
+        # Two more are the same rows re-measured -- `The Blank Wall On The Public Side`
+        # 0.122 -> 0.0955 and `The Closet That Blinds A Bay` 5 -> 3. `minor` is UNMOVED at 76.
+        assert result["counts"]["serious"] == 30
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the
@@ -266,9 +307,13 @@ class TestShippedPlans:
         # this record's porch at its declared 12.00 x 6.00 instead of 12.93 x 5.73, and
         # `porch-nobody-can-sit-on` (at-least 6.0) clears. One fault, named -- see the pin at the
         # head of this test, whose spec-Colonial twin moved the OTHER way for the same reason.
-        assert result["counts"].get("serious", 0) == 28, (
-            "serious moved on this plan; WP-11.17 measured it at 28, and the note above "
-            "records that nothing pinned it before, which is how the prose drifted last time")
+        # AND THE SECOND COPY OF THIS COUNT, 28 -> 30 at the 17 Sep merge. It is the same number
+        # asserted twice in one test; the accounting is at the head of the test and both move
+        # together. `fatal` is still 0 here, which is the half this paragraph is about.
+        assert result["counts"].get("serious", 0) == 30, (
+            "serious moved on this plan; the 17 Sep merge measured it at 30 (main 28, this "
+            "branch 31), and the note above records that nothing pinned it before, which is "
+            "how the prose drifted last time")
         assert result["counts"]["minor"] == 76
 
 

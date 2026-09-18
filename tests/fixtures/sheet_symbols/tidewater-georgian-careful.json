@@ -10,6 +10,7 @@
      {
       "at_ft": 35.79,
       "edge_ft": 0,
+      "hinge": "low",
       "inferred_wall": false,
       "inferred_width": true,
       "room": "porch",
@@ -20,6 +21,7 @@
      {
       "at_ft": 25.395,
       "edge_ft": 40.08,
+      "hinge": "low",
       "inferred_wall": false,
       "inferred_width": false,
       "room": "passage",
@@ -30,6 +32,7 @@
      {
       "at_ft": 44.45,
       "edge_ft": 40.08,
+      "hinge": "low",
       "inferred_wall": false,
       "inferred_width": false,
       "room": "backhall",
@@ -40,6 +43,7 @@
      {
       "at_ft": 10.0,
       "edge_ft": 40.08,
+      "hinge": "low",
       "inferred_wall": false,
       "inferred_width": false,
       "room": "kitchen",
@@ -54,6 +58,7 @@
      {
       "at_ft": 30.79,
       "from": "porch",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "passage",
@@ -68,6 +73,7 @@
      {
       "at_ft": 20.0,
       "from": "passage",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "drawing",
@@ -82,6 +88,7 @@
      {
       "at_ft": 20.0,
       "from": "passage",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "dining",
@@ -96,6 +103,7 @@
      {
       "at_ft": 30.79,
       "from": "passage",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "passage",
@@ -110,6 +118,7 @@
      {
       "at_ft": 16.59,
       "from": "drawing",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "dining",
@@ -124,6 +133,7 @@
      {
       "at_ft": 40.79,
       "from": "butlers",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "backhall",
@@ -138,6 +148,7 @@
      {
       "at_ft": 40.79,
       "from": "backhall",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "backhall",
@@ -152,6 +163,7 @@
      {
       "at_ft": 40.79,
       "from": "backhall",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "backhall",
@@ -329,8 +341,9 @@
       "width_ft": 3
      }
     ],
-    "windows_crowded": 1,
-    "windows_off_footprint": 7
+    "windows_crowded": 0,
+    "windows_off_footprint": 7,
+    "windows_refused": 1
    },
    "expected_divergence": [
     "backhall",
@@ -1058,6 +1071,7 @@
      {
       "at_ft": 34.65,
       "from": "landing",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "landing",
@@ -1072,6 +1086,7 @@
      {
       "at_ft": 20.0,
       "from": "upperpassage",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "primary",
@@ -1086,6 +1101,7 @@
      {
       "at_ft": 34.65,
       "from": "upperpassage",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "chamber2",
@@ -1100,6 +1116,7 @@
      {
       "at_ft": 34.65,
       "from": "upperpassage",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "chamber3",
@@ -1114,6 +1131,7 @@
      {
       "at_ft": 23.66,
       "from": "primary",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "dressing",
@@ -1128,6 +1146,7 @@
      {
       "at_ft": 23.66,
       "from": "primary",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "primary",
@@ -1142,6 +1161,7 @@
      {
       "at_ft": 10.0,
       "from": "dressing",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "dressing",
@@ -1156,6 +1176,7 @@
      {
       "at_ft": 54.0,
       "from": "chamber3",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "chamber3",
@@ -1257,7 +1278,8 @@
      }
     ],
     "windows_crowded": 0,
-    "windows_off_footprint": 3
+    "windows_off_footprint": 3,
+    "windows_refused": 0
    },
    "expected_divergence": [
     "linen",

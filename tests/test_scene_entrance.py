@@ -88,16 +88,33 @@ def test_the_composition_is_the_door_two_casings_and_two_sidelights(both):
 
 
 def test_the_surround_is_the_casing_band_the_sheet_draws(both):
+    """RE-CUT AT WP-13.3: the door the surround dresses is the PLAN's placed front door at
+    the plan's own width, so the band is that leaf plus two casings -- and on the spec
+    Colonial that is NOT the composition's leaf: the plan places a 42.0 in door where
+    `entrance_composition` derives a 34.447 in leaf, 7.553 in apart, which the rect states as
+    `leaf_width_difference_in` rather than resolving. On the Tidewater plan the two agree to
+    0.099 in. The first version compared the band against the composition's leaf, which was
+    right for as long as the elevation drew the composition's door."""
+    EL = _mod("elevation")
     for pid, (scene, _sol, _sec, ev) in both.items():
         e = ev["entrance"]
+        door = next(r for r in EL.opening_rects(ev, ev["entrance_face"])["rects"]
+                    if r["kind"] == "door" and r["entrance"])
         band = [s for s in _cls(scene, "surround") if s["id"].endswith("-surround")]
         assert len(band) == 1, f"{pid}: {len(band)} surround bands"
         xs = [v[0] if band[0]["geometry"]["vertices"][0][1] != 0 else v[0]
               for v in band[0]["geometry"]["vertices"]]
-        want = (e["door_leaf_width_in"] + 2 * e["casing_width_in"]) / 12.0
+        want = (door["width_in"] + 2 * e["casing_width_in"]) / 12.0
         assert abs((max(xs) - min(xs)) - want) < 0.01, (
-            f"{pid}: the surround is {max(xs) - min(xs):.3f} ft wide against a door plus two "
-            f"casings of {want:.3f}")
+            f"{pid}: the surround is {max(xs) - min(xs):.3f} ft wide against the placed door "
+            f"plus two casings of {want:.3f}")
+        assert door["composition_leaf_width_in"] == e["door_leaf_width_in"]
+        assert abs(door["leaf_width_difference_in"]
+                   - (door["width_in"] - e["door_leaf_width_in"])) < 1e-9
+    spec = next(r for r in EL.opening_rects(both["spec-builder-colonial"][3], "N")["rects"]
+                if r["kind"] == "door" and r["entrance"])
+    assert abs(spec["leaf_width_difference_in"]) > 7.0, (
+        "the premise: on the spec Colonial the plan's door and the composition's leaf disagree")
 
 
 def test_the_surrounds_relief_is_refused_and_names_why(both):
@@ -167,16 +184,31 @@ def test_the_porch_is_inside_the_footprint_so_there_is_no_deck_and_no_porch_roof
 
 
 def test_the_flights_treads_reconcile_and_the_top_riser_lands_on_the_platform(both):
+    """THE RISERS ARE COUNTED PER FLIGHT, BECAUSE THE RECORD PLACES TWO. It placed one until the
+    17 Sep merge -- main's WP-11.17 entrance front seats a second exterior door on this front,
+    at the passage, and `threshold` gives it its own stoop -- so a count over EVERY `deck` solid
+    read 4 against one flight's 3 stated risers. A total over two flights is the shape that lets
+    one grow while another shrinks; each flight is checked against its own record and the sum is
+    asserted afterwards."""
     scene, sol, _sec, _ev = both["tidewater-georgian-careful"]
     steps = (sol.get("threshold") or {}).get("steps") or []
     assert steps, "the Tidewater record places no stoop, so this test is about nothing"
-    st = steps[0]
-    rc, td = st["riser_count"], st["tread_depth_in"]
-    assert abs((rc - 1) * td / 12.0 - st["flight"]["depth_ft"]) < 0.01, (
-        f"{rc - 1} treads of {td} in against a flight {st['flight']['depth_ft']} ft deep -- the "
-        "top riser no longer lands on the platform")
     risers = [s for s in _cls(scene, "deck") if s["id"].startswith("stoop-")]
-    assert len(risers) == rc - 1, f"{len(risers)} risers drawn against {rc} stated"
+    total = 0
+    for i, st in enumerate(steps):
+        rc, td = st["riser_count"], st["tread_depth_in"]
+        assert abs((rc - 1) * td / 12.0 - st["flight"]["depth_ft"]) < 0.01, (
+            f"{rc - 1} treads of {td} in against a flight {st['flight']['depth_ft']} ft deep -- "
+            f"the top riser of steps[{i}] no longer lands on the platform")
+        mine = [s for s in risers if s["id"].startswith(f'stoop-{st["room"]}-{i}-')]
+        assert len(mine) == rc - 1, (
+            f"steps[{i}] ({st['room']}): {len(mine)} risers drawn against {rc} stated")
+        total += rc - 1
+    assert len(risers) == total, (
+        f"{len(risers)} riser solids drawn against {total} the flights account for -- a riser "
+        f"belongs to no flight, or one flight's ids do not carry its own room and index")
+    assert len(steps) == 2, (
+        "one stoop before the 17 Sep merge; re-derive and name the placement that moved")
 
 
 def test_the_flight_does_not_reach_the_floor_and_the_shortfall_is_reported(both):
@@ -185,46 +217,46 @@ def test_the_flight_does_not_reach_the_floor_and_the_shortfall_is_reported(both)
     sill was the first -- and a fourth riser invented to close it would be a measurement nobody
     wrote down."""
     scene, sol, sec, _ev = both["tidewater-georgian-careful"]
-    st = ((sol.get("threshold") or {}).get("steps") or [])[0]
+    steps = (sol.get("threshold") or {}).get("steps") or []
     g0 = next(s for s in sec["storeys"] if s["index"] == 0)
-    rise = st["riser_count"] * st["riser_height_in"] / 12.0
-    assert abs(rise - g0["grade_to_floor_ft"]) > 0.01, (
-        "the flight reaches its floor now, so this refusal is about nothing -- re-derive it")
     r = [n for n in scene["not_modelled"]
          if n["source"].endswith("riser_count") and "does not reach the floor" in n["why"]]
-    assert len(r) == 1, f"{len(r)} shortfall refusals"
+    # ONE REFUSAL PER SHORT FLIGHT, DERIVED. The record places two stoops since the 17 Sep
+    # merge and both are short by the same 3.4 in, so a pinned `== 1` read two and said
+    # nothing about which flight was missing its disclosure.
+    short = [i for i, st in enumerate(steps)
+             if abs(st["riser_count"] * st["riser_height_in"] / 12.0
+                    - g0["grade_to_floor_ft"]) > 0.01]
+    assert short, (
+        "every flight reaches its floor now, so this refusal is about nothing -- re-derive it")
+    assert {n["source"] for n in r} == {f"plan.threshold.steps[{i}].riser_count" for i in short}, (
+        f"{len(r)} shortfall refusals against {len(short)} short flight(s): "
+        f"{sorted(n['source'] for n in r)} against {short}")
 
 
 # ------------------------------------------------------------------ the two doors
 
-def test_the_two_records_of_the_front_door_disagree_and_the_scene_says_so(both):
-    """FOUND BY DRAWING THE STOOP AND THE DOORCASE IN ONE PICTURE AND LOOKING AT IT.
+def test_the_two_records_of_the_front_door_agree_and_the_scene_files_nothing(both):
+    """FOUND BY DRAWING THE STOOP AND THE DOORCASE IN ONE PICTURE AND LOOKING AT IT -- and
+    CLOSED at WP-13.3, which is why this test's name and its assertion flipped.
 
-    `elevation._face_bays` writes `kinds[mid] = "door"` — the entrance goes in the MIDDLE BAY of
-    the front, always — while `openings.place` seats the real door where the porch room's own
-    wall allows. Measured: 5.42 ft apart on the Tidewater plan and **21.33 ft** on the spec
-    Colonial, where the drawn front door stands over the GARAGE.
-
-    Each record is right on its own and no surface drew both until the scene. That is WP-12.1's
-    own lesson repeated — *"invisible for as long as no surface drew a roof and a room in one
-    picture"* — and this time the picture was the approach view, where the stoop stands five and
-    a half feet east of the door it serves.
-
-    NOTHING IS MOVED. Correcting the elevation moves sixteen shipped plates and needs a ruling:
-    `oq/the-elevation-draws-the-front-door-where-the-composition-wants-it`.
+    Until WP-13.3 `elevation._face_bays` wrote `kinds[mid] = "door"` -- the entrance in the
+    MIDDLE BAY of the front, always -- while `openings.place` seated the real door where the
+    porch room's own wall allows: measured 6.71 ft apart on the Tidewater plan and 22.00 ft
+    on the spec Colonial, where the drawn front door stood over the GARAGE
+    (`oq/the-elevation-draws-the-front-door-where-the-composition-wants-it`). Lucas's ruling
+    of 15 Sep 2026 that the elevation draws the openings the plan PLACED answers it: the
+    doorcase stands over the placed door, the stoop under the same door, and
+    `_entrance_agreement` -- which files a disclosure only where the two records differ by a
+    tenth of a foot -- files nothing. The frame check is kept: the elevation's u and the
+    model's x still differ by exactly one exterior wall and nothing else.
     """
     AX = _mod("axis")
     EL = _mod("elevation")
     for pid, (scene, sol, _sec, ev) in both.items():
         f = ev["entrance_face"]
-        door = next(r for r in EL.opening_rects(ev, f)["rects"] if r["kind"] == "door")
-        # IN ONE FRAME, WHICH THE FIRST VERSION OF THIS TEST DID NOT DO (WP-12.8). The
-        # elevation's `u` starts at the OUTSIDE face; `axis.door_bay`'s `position_ft` is a
-        # clear-frame plan coordinate. Comparing them raw understates every gap by exactly one
-        # exterior wall -- and this test recomputed the shipped expression, so it RATIFIED the
-        # defect rather than catching it. The shift is taken from the SOLID the scene actually
-        # drew rather than from the section, so the test and the code cannot agree by both
-        # reading the same constant.
+        door = next(r for r in EL.opening_rects(ev, f)["rects"]
+                    if r["kind"] == "door" and r["entrance"])
         drawn_u = (door["x0_in"] + door["x1_in"]) / 24.0
         sur = next(s for s in scene["solids"]
                    if s["class"] == "surround" and s["id"].endswith("-surround"))
@@ -232,42 +264,67 @@ def test_the_two_records_of_the_front_door_disagree_and_the_scene_says_so(both):
         xs = [v[along] for v in sur["geometry"]["vertices"]]
         drawn = (min(xs) + max(xs)) / 2
         placed = AX.door_bay(sol)["position_ft"]
-        assert abs((drawn_u - drawn) - _t_ext(_sec)) < 0.01, (
-            f"{pid}: the elevation's u and the model x differ by {drawn_u - drawn:.3f} ft, "
-            f"which should be the {_t_ext(_sec):.3f} ft exterior wall and nothing else")
-        assert round(drawn, 1) != round(placed, 1), (
-            f"{pid}: the two records of the front door agree now ({drawn:.2f} against "
-            f"{placed:.2f}) — the disclosure below is about nothing, so re-derive it rather "
-            "than deleting it")
+        # THE FRAME CHECK READS THE ELEVATION'S OWN DATUM (`elevation.face_u_ft`) rather than
+        # restating `drawn_u - drawn == t`. On every face today that IS one wall thickness --
+        # `FACE_MIRRORED` states the N and W faces read with the plan's axis, as the scene's
+        # `_face_extrude` lays them out -- and the day the mirror is ruled the check follows the
+        # switch instead of convicting the scene by one width of the front.
+        fp = _sec["footprint"]
+        expect_u = EL.face_u_ft(f, drawn, fp["clear_width_ft"], fp["clear_depth_ft"], _t_ext(_sec))
+        assert abs(drawn_u - expect_u) < 0.01, (
+            f"{pid}: the elevation's u {drawn_u:.3f} is not the model x {drawn:.3f} in the "
+            f"{f} face's own datum ({expect_u:.3f})")
+        assert round(drawn, 1) == round(placed, 1), (
+            f"{pid}: the two records of the front door disagree again ({drawn:.2f} against "
+            f"{placed:.2f}) -- the elevation has stopped drawing the placed door")
         said = [n for n in scene["not_modelled"] if "axis.door_bay" in n["source"]]
-        assert len(said) == 1, f"{pid}: {len(said)} entrance-agreement disclosures"
-        # the disclosure states BOTH figures, because either alone reads as a defect in the
-        # other record rather than as a disagreement between two
-        assert f"{drawn:.2f}" in said[0]["why"] and f"{placed:.2f}" in said[0]["why"], (
-            f"{pid}: the disclosure does not name both positions: {said[0]['why'][:120]}")
+        assert not said, f"{pid}: a disclosure about a disagreement that no longer exists: {said[0]['why'][:160]}"
 
 
-def test_the_checker_convicts_the_placement_for_what_the_drawing_corrects(both):
-    """The sharpest half: `plan_check` emits `drawn-door-off-the-centre-bay` against the PLACED
-    door, and the elevation plate a reader turns to draws that door in the middle bay after all.
-    The plate is evidence against the finding beside it."""
+def test_the_checker_and_the_plate_agree_about_WHICH_BAY_the_front_door_is_in(both):
+    """The sharpest half, resolved: `plan_check` reads the PLACED door and the elevation plate
+    draws that same door, so the plate is evidence FOR whatever the finding beside it says.
+
+    **THE CONVICTION ITSELF STOPPED HAPPENING AT THE 17 SEP MERGE, AND THAT IS WHY THIS TEST'S
+    NAME AND SUBJECT MOVED.** It asserted `len(off) == 1` -- one
+    `drawn-door-off-the-centre-bay` finding -- and main's WP-11.17 entrance front puts this
+    record's placed front door in the CENTRE bay (`axis.door_bay` reads `in-the-centre-bay`,
+    bay 2 of 5, room `passage`), so the checker correctly convicts nothing and the pin read a
+    fix as a regression. A guard whose premise is that a house is defective goes quiet the day
+    the house is repaired, which is the wrong way round.
+
+    So the subject is the AGREEMENT, which holds in both states: the bay the plate draws the
+    door in is the bay `door_bay` names, and the finding is present exactly when that bay is
+    not the middle one. The `!=` that used to be folded into the same line is split out, because
+    `a == b != c` is two assertions wearing one `assert` and the second is the one that moved."""
     PC = _mod("plan_check")
+    AX = _mod("axis")
     scene, sol, _sec, ev = both["tidewater-georgian-careful"]
-    findings = PC.check(sol)["findings"]
-    off = [f for f in findings if f.get("kind") == "drawn-door-off-the-centre-bay"]
-    assert len(off) == 1, (
-        "the checker no longer convicts this placement of an off-centre door, so the "
-        "contradiction this test names has changed — re-derive it")
     EL = _mod("elevation")
     door = next(r for r in EL.opening_rects(ev, ev["entrance_face"])["rects"]
-                if r["kind"] == "door")
+                if r["kind"] == "door" and r["entrance"])
     bays = sol["footprint"]["bays"]
-    span = (door["x0_in"] + door["x1_in"]) / 24.0
-    module = (sol["footprint"]["width_ft"] + 2 * 0) / bays
+    t = _t_ext(_sec)
+    span = (door["x0_in"] + door["x1_in"]) / 24.0 - t          # back to the clear frame
+    module = sol["footprint"]["width_ft"] / bays
     drawn_bay = int(span // module)
-    assert drawn_bay == bays // 2, (
-        f"the elevation draws the door in bay {drawn_bay} of {bays}, not the middle one — "
-        "the drawing has stopped composing the front and this contradiction is over")
+    db = AX.door_bay(sol)
+    assert drawn_bay == db["bay"], (
+        f"the elevation draws the door in bay {drawn_bay} of {bays} and the checker reads bay "
+        f"{db['bay']} -- they must be one bay")
+    off = [f for f in PC.check(sol)["findings"]
+           if f.get("kind") == "drawn-door-off-the-centre-bay"]
+    mid = bays // 2
+    assert bool(off) is (db["bay"] != mid), (
+        f"the door is in bay {db['bay']} of {bays} (middle {mid}) and the checker emits "
+        f"{len(off)} off-centre finding(s) -- the conviction and the geometry disagree")
+    assert db["verdict"] == ("in-the-centre-bay" if db["bay"] == mid else "off-the-centre-bay")
+    # AND THE STATE IS NAMED, so the day the placement moves back off centre this says which
+    # direction it went rather than only that something changed.
+    assert db["bay"] == mid and not off, (
+        "this placement convicted an off-centre door before the 17 Sep merge and does not now; "
+        "if it convicts again, re-derive which placement moved -- the agreement above holds "
+        "either way and only this line is a statement about the tree")
 
 
 # ------------------------------------------------------------------ one reader of R4

@@ -506,6 +506,11 @@ def _entrance(elev, rect, X, Ypx, scale):
                 out.append(f'<rect class="pnl w-fine" x="{hx0:.1f}" y="{yy:.1f}" '
                            f'width="{pw_:.1f}" height="{bh:.1f}"/>')
         yy += bh + gap
+    # THE DOORCASE DRESSES THE ENTRANCE AND NOTHING ELSE (WP-13.3). A door rect is any placed
+    # exterior door on this face now -- the Tidewater plan seats three on its N wall -- and
+    # only the one carrying `entrance` is the composition's subject. A back door is a leaf.
+    if not rect.get("entrance"):
+        return "".join(out)
     casing_w = ent["casing_width_in"] / 12.0 * scale
     cs_x0, cs_x1 = dx0 - casing_w, dx1 + casing_w
     ent_h = (ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]) / 12.0 * scale
@@ -941,6 +946,18 @@ def render_elevation(elev, path, face=None, scale=24.0):
     if front.get("blind_bay_centres_ft"):
         notes.append('BAY BLIND WHERE A STACK STANDS ON IT — ' +
                      _esc((front.get("blind_bay_reason") or "").upper()))
+    # WP-13.3: the openings drawn are the plan's placed openings on this face, and every placed
+    # or declared opening the elevation could not draw is named on the plate rather than left
+    # as a blank wall a reader would take for a windowless one. The count is read from the same
+    # `refused` list every caller of `opening_rects` reports.
+    _refused = EL.opening_rects(elev, face)["refused"]
+    _named = [x for x in _refused if x.get("room")]
+    if _named:
+        _units = sum(int(x.get("units") or 1) for x in _named)
+        _rooms = sorted({str(x.get("room")).upper() for x in _named})
+        notes.append(f'{_units} OPENING(S) ON THIS FACE NOT DRAWN — ' +
+                     _esc(", ".join(_rooms[:6]) + (" …" if len(_rooms) > 6 else "")) +
+                     ' — THE PLACER OR A STACK REFUSED THEM; THE ELEVATION RECORD NAMES EACH')
     _d = elev.get("dormers") or {}
     if _d.get("count") and not _d.get("refused"):
         if _d.get("placeable") is False:

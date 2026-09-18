@@ -38,6 +38,24 @@ def tidewater():
     return json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
 
 
+def tidewater_one_element():
+    """The same record read as the ONE-ELEMENT house it was until WP-13.5.
+
+    That package moved the service programme into the dependency this record declares, and on
+    the search engine the 45 ft main block that remains draws the drawing and dining rooms
+    4.95 ft inboard of its west face -- so neither west fire reaches an exterior wall, both
+    breasts are refused by name, and the plan draws ONE stack instead of two. The cost is
+    asserted on the shipped record in `tests/test_hearths_on_flue.py`; a test whose subject is
+    *two fires on one flue are one stack* needs a house that draws two stacks to say anything,
+    which is what this returns."""
+    d = tidewater()
+    for lv in d.get("levels", []):
+        for r in lv.get("rooms", []):
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return d
+
+
 # ------------------------------------------------------------------ reading the massing
 class TestTheMassingsHearth:
     def test_the_forms_it_acts_on(self):
@@ -400,7 +418,7 @@ class TestTheStackStandsOverAFire:
     def test_two_fires_on_one_flue_are_one_stack(self):
         """The drawing room and the dining room share `west-stack`, which is what a pair of
         paired end chimneys joined by an arched curtain means."""
-        placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
+        placed = GEO.solve(tidewater_one_element(), None, 60, engine="heuristic")
         ch = RF.build_roof(placed, section=ST.build_section(placed))["chimneys"]
         assert len(ch["positions"]) == 2, "three fires on two flues must give two stacks"
 
@@ -419,14 +437,21 @@ class TestTheStackStandsOverAFire:
         reverts to the centre-line rule SILENTLY and then says *"this record states no hearth"*
         about a record carrying three. That is WP-9.1's `except: pass` — two buildings judged as
         one for a phase — and it is the exact false claim this package removes. Four states now:
-        positioned / stated-but-unplaced / UNREADABLE / none."""
-        placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
-        sec = ST.build_section(placed)
+        positioned / stated-but-unplaced / UNREADABLE / none.
 
+        RE-CUT AT WP-13.2: the reading moved to the placement layer (`threshold.hearth_pass`
+        is the one reader of the hearths and the roof reads its record), so the failure is
+        caught THERE and republished by the roof. The patch therefore goes in BEFORE the solve;
+        patching after it, as the first version did, would leave a record already carrying good
+        flues and the roof would rightly read them."""
         def boom(plan, C):
             raise ValueError("a hearth wall nobody wrote down")
 
         monkeypatch.setattr(HE, "stack_axes", boom)
+        GEO._SOLVE_CACHE.clear()
+        placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
+        assert "a hearth wall nobody wrote down" in (placed["hearths"].get("hearths_unreadable") or "")
+        sec = ST.build_section(placed)
         ch = RF.build_roof(placed, section=sec)["chimneys"]
         assert ch.get("hearths_unreadable"), "the failure must be recorded, not swallowed"
         assert "COULD NOT BE READ" in ch["note"]

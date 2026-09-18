@@ -124,12 +124,43 @@ def _text(msp, layer, text, x, y, h=TEXT_H, align_end=False):
 
 # ------------------------------------------------------------------ plan sheet
 
+def _forward(res):
+    """Pass a refusal (or a plain error) up without flattening it to its sentence (WP-13.4).
+
+    Four sites in this file rewrapped `{"error": res["error"], "unexported": True}` and dropped
+    the conflict set with everything else. Named rather than inlined because there are four of
+    them, which is how the first one came to be copied."""
+    return {k: v for k, v in res.items()
+            if k in ("error", "refused_placement", "unsolved")}
+
+
 def _solved_copy(plan, parti=None, candidates=250):
     """Return (original, solved). The original is what the XDATA carries; the
     solved deepcopy is what gets drawn. A plan whose rooms already carry
-    geometry (a workbench bench plan) is drawn as it stands."""
+    geometry (a workbench bench plan) is drawn as it stands.
+
+    **AND A REFUSED PLACEMENT IS NOT DRAWN (WP-13.4).** Lucas ruled 15 Sep 2026 that a
+    placement breaking a hard fact of the type is refused rather than drawn; a CAD file is a
+    surface a reader takes away and builds from, so it is refused here exactly as the sheet is.
+    BOTH paths are judged, because they are two different ways in: the short circuit above
+    (a record a client already had placed, which never reached a record writer, so nothing had
+    decided whether it may be drawn) and this file's own `GEO.solve` for the CLI and library
+    path. `typefacts.judge` is the same one spelling `geometry._disclose` and
+    `workbench/server/corpus._placed` call -- nothing here re-derives the verdict.
+
+    The refusal is returned in the `solved` position, because every caller already tests
+    `"error" in solved`; it carries `refused_placement` beside the sentence so the reason
+    survives the frame rather than being flattened."""
+    TF = _mod("typefacts", f"{ROOT}/build/typefacts.py")
     has_geometry = any("geometry" in r for lv in plan.get("levels", []) for r in lv["rooms"])
     if has_geometry:
+        try:
+            ref = TF.judge(plan)
+        except Exception as exc:                    # unjudged, and unjudged does not refuse
+            return plan, {"error": f"the placement this record carries could not be judged: "
+                                   f"{type(exc).__name__}: {str(exc)[:200]}", "unsolved": True}
+        if ref:
+            return plan, _refused(ref)
         return plan, plan
     GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
     # The sheet is a DERIVATION of the record, drawn the same way the workbench draws it.
@@ -143,7 +174,19 @@ def _solved_copy(plan, parti=None, candidates=250):
     solved = GEO.solve(copy.deepcopy(plan), parti, candidates, engine="auto")
     if "error" in solved:
         return plan, solved
+    ref = (solved.get("geometry_report") or {}).get("refused")
+    if ref:
+        return plan, _refused(ref)
     return plan, solved
+
+
+def _refused(ref):
+    """One sentence and the typed verdict, in the shape every caller of `_solved_copy`
+    already reads. Deliberately NOT keyed `refusal`: `workbench/server/app.py` maps that key
+    to a 501, which is the honest answer for a missing ezdxf and a lie about a refused house."""
+    return {"error": ("This placement is REFUSED and no drawing is exported: the type's own "
+                      "facts do not hold on it. " + " ".join(ref.get("lines") or [])),
+            "refused_placement": ref, "unexported": True, "unsolved": True}
 
 
 # The keys a placement writes, and that the XDATA must NOT carry so the round-trip returns
@@ -192,7 +235,12 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
         return dict(REFUSAL)
     original, solved = _solved_copy(plan, parti, candidates)
     if "error" in solved:
-        return {"error": solved["error"], "unexported": True}
+        # FORWARDED, NOT FLATTENED (WP-13.4). This read `{"error": solved["error"], ...}`
+        # and dropped everything else, so a refusal computed one frame down arrived at the
+        # route as a sentence with no conflict set -- the same rewrap defect
+        # `corpus.drawing` carried at four call sites. A refusal is content: it names what
+        # could not hold, and the reader it is for is one frame up.
+        return dict(_forward(solved), unexported=True)
 
     doc = _new_doc(ezdxf)
     msp = doc.modelspace()
@@ -315,41 +363,77 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
                     if line is not None:
                         _xdata(line, f"TDL::window::L{n}::{r['id']}::{wi}::{k+1}/{cnt}")
 
-        # doors where two placed rooms share a wall — drawn once per pair, the
-        # opening at the door's own recorded width (the SVG uses a fixed 3 ft)
-        idx = {r["id"]: r.get("geometry") for r in lv["rooms"] if r.get("geometry")}
+        # Interior doors -- ONE derivation, WP-13.2. Until Phase 13 this loop re-derived each
+        # door from `RP._shared` and drew ONE quarter-circle per pair, `add_arc((px - dw, py),
+        # 2*dw, 0, 90)`: hinged at the west or south jamb and swept 0 -> 90 degrees whatever the
+        # record said, one arc for a pair of leaves. It read neither the hinge nor
+        # `swing_positive`, so every leaf whose record swings negative was drawn into the wrong
+        # room, and every pair was drawn as one leaf of twice the radius -- the gate measured
+        # 7 of 13 leaves wrong on the search sheet and 15 of 24 on the prover's. The SVG, the
+        # gate and this file read `RP.derive_openings` now, which is the one spelling of where
+        # a door is and which way it goes, called the way `render_plan.render()` calls it (the
+        # level's placed appendages, each room's own massing element) so the DXF is the SVG's
+        # door and not a cousin: on the reference plan the bare call is one leaf short, the
+        # breakfast-terrace door, which exists only once the terrace's rectangle is handed in.
+        # A door the derivation cannot draw is in `undrawable` WITH its reason and reaches
+        # `doors_not_drawn`, never silently skipped -- the width check that lived here (WP-6.1,
+        # the leaf and its jambs) is `required_wall_ft` inside the derivation.
         RP = _mod("render_plan", f"{ROOT}/build/render_plan.py")
-        drawn = set()
-        for r in lv["rooms"]:
-            a = idx.get(r["id"])
-            if not a:
+        op = RP.openings_of_level(solved, lv, n)     # the sheet's own derivation, one spelling
+        for u in op["undrawable"]:
+            if u["to"] == "exterior":
+                # This exporter has never drawn an exterior door, drawable or not (`to ==
+                # "exterior"` was `continue`d over since WP-5.1), so the banner's "without a
+                # drawable shared wall" is about interior pairs. That exterior doors are absent
+                # from the DXF is a pre-existing gap outside this package, recorded in its report.
                 continue
-            for di, d in enumerate(r.get("doors") or []):
-                to = d["to"]
-                key = tuple(sorted((r["id"], to)))
-                if to == "exterior" or to not in idx or key in drawn:
-                    continue
-                drawn.add(key)
-                # WP-6.1: measured against THIS door's leaf and its jambs, not the flat
-                # 3.2 ft the draw test used to apply to every door alike. A closet door
-                # narrower than 3.2 ft is now exported rather than listed as undrawable,
-                # which is the export half of OQ 41/63.
-                seg = RP._shared(a, idx[to], width_ft=(d.get("width_ft") or RP.DEFAULT_DOOR_FT))
-                if not seg:
-                    # a declared door the placement gives no wall wide enough to hold —
-                    # stated, never silently omitted
-                    doors_not_drawn.append(f"L{n} {r['id']}-{to}")
-                    continue
-                (px, py), horiz = seg
-                dw = (d.get("width_ft") or 3.0) * IN / 2
-                px, py = px * IN, py * IN
-                if horiz:
-                    line = msp.add_line((px - dw, py), (px + dw, py), dxfattribs={"layer": door_layer})
-                    msp.add_arc((px - dw, py), 2 * dw, 0, 90, dxfattribs={"layer": door_layer})
-                else:
-                    line = msp.add_line((px, py - dw), (px, py + dw), dxfattribs={"layer": door_layer})
-                    msp.add_arc((px, py - dw), 2 * dw, 0, 90, dxfattribs={"layer": door_layer})
-                _xdata(line, f"TDL::door::L{n}::{r['id']}::{di}")
+            doors_not_drawn.append(f"L{n} {u['from']}-{u['to']}: {u.get('reason', '')}".rstrip(": "))
+        rooms_by_id = {r["id"]: r for r in lv["rooms"]}
+        for d in op["interior"]:
+            # the XDATA header names the door by its index in the FROM room's own list, which
+            # is what `import_dxf.read_plan_dxf` cross-checks against the carried record
+            frm = rooms_by_id[d["from"]]
+            di = next((i for i, dd in enumerate(frm.get("doors") or []) if dd.get("to") == d["to"]), None)
+            if di is None:      # cannot happen by construction; a wrong index would pass the importer silently
+                raise RuntimeError(f"derive_openings drew {d['from']}-{d['to']} from no declared door")
+            horiz = d["horiz"]
+            px, py = (d["pos_ft"], d["at_ft"]) if horiz else (d["at_ft"], d["pos_ft"])
+            px, py = px * IN, py * IN
+            dw = d["width_ft"] * IN / 2
+            if horiz:
+                line = msp.add_line((px - dw, py), (px + dw, py), dxfattribs={"layer": door_layer})
+            else:
+                line = msp.add_line((px, py - dw), (px, py + dw), dxfattribs={"layer": door_layer})
+            _xdata(line, f"TDL::door::L{n}::{d['from']}::{di}")
+            # THE LEAVES. A cased opening, a pocket, a garage or a bulkhead door has no swing
+            # and gets no arc -- the SVG's `_door` draws those as jambs or a line, and an arc
+            # here would be a leaf the record does not state. A single leaf is hinged on the
+            # LOW jamb at the opening's full width; a pair is two leaves of half the width, one
+            # on each jamb, meeting at the centre. Each leaf runs the quarter-circle from its
+            # CLOSED position (along the wall, toward the far end of its run) to its OPEN one
+            # (across the wall, on the side `swing_positive` names: +y off a horizontal wall,
+            # +x off a vertical one). ezdxf arcs run counter-clockwise from start to end, so the
+            # two angles are ordered to make the quarter between them the leaf's own. Model y is
+            # north here and there is no flip, which is why the angles are the record's and not
+            # the SVG's.
+            if d["type"] in RP.LEAFLESS:
+                continue
+            open_deg = (90 if d["swing_positive"] else 270) if horiz else (0 if d["swing_positive"] else 180)
+            if d["type"] == "double":
+                leaves = ([((px - dw, py), dw, 0), ((px + dw, py), dw, 180)] if horiz
+                          else [((px, py - dw), dw, 90), ((px, py + dw), dw, 270)])
+            elif (d.get("hinge") or "low") == "high":
+                # the record's jamb (WP-13.2): "high" hangs the leaf from the east or north jamb
+                leaves = [((px + dw, py), 2 * dw, 180)] if horiz else [((px, py + dw), 2 * dw, 270)]
+            else:
+                leaves = [((px - dw, py), 2 * dw, 0)] if horiz else [((px, py - dw), 2 * dw, 90)]
+            for (hx, hy), r, closed_deg in leaves:
+                start, end = ((closed_deg, open_deg) if (open_deg - closed_deg) % 360 == 90
+                              else (open_deg, closed_deg))
+                msp.add_arc((hx, hy), r, start, end, dxfattribs={"layer": door_layer})
+                # the leaf itself, hinge to tip, as the SVG draws it beside the arc
+                tip = (hx + r * math.cos(math.radians(open_deg)), hy + r * math.sin(math.radians(open_deg)))
+                msp.add_line((hx, hy), tip, dxfattribs={"layer": door_layer})
 
     if doors_not_drawn:
         _text(msp, _layer(doc, "TDL-TITLE", color=7),
@@ -568,6 +652,15 @@ def export_elevation_dxf(elev, path, face=None):
             x0, x1 = r["x0_in"], r["x1_in"]
             msp.add_lwpolyline([(x0, sill), (x1, sill), (x1, head), (x0, head)],
                                close=True, dxfattribs={"layer": opening})
+            # THE DOORCASE DRESSES THE ENTRANCE AND NOTHING ELSE (WP-13.3, the lead's pass). A
+            # door rect is any placed exterior door on this face since the elevation began
+            # drawing the plan's placed openings -- the Tidewater plan seats three on its N wall
+            # -- and only the rect carrying `entrance` is the composition's subject. The SVG
+            # (`render_elevation._entrance`) read that flag from the day it existed; this loop
+            # went on dressing every door with the casing and the sidelights, so the CAD file
+            # drew a back door as a doorcase. One condition, the same one the SVG tests.
+            if not r.get("entrance"):
+                continue
             cw = ent["casing_width_in"]
             eh = ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]
             msp.add_lwpolyline([(x0 - cw, sill), (x1 + cw, sill),
@@ -603,14 +696,14 @@ def export_all(plan, outdir, parti=None, candidates=250, face=None):
     ST = _mod("structure", f"{ROOT}/build/structure.py")
     section = ST.build_section(copy.deepcopy(plan), parti)
     if "error" in section:
-        out["sheets"]["section"] = {"error": section["error"], "unexported": True}
+        out["sheets"]["section"] = dict(_forward(section), unexported=True)
         return out
     out["sheets"]["section"] = export_section_dxf(section, os.path.join(outdir, f"{pid}-section.dxf"))
 
     RF = _mod("roof", f"{ROOT}/build/roof.py")
     roof = RF.build_roof(copy.deepcopy(plan), parti, section=section)
     if "error" in roof:
-        out["sheets"]["roof"] = {"error": roof["error"], "unexported": True}
+        out["sheets"]["roof"] = dict(_forward(roof), unexported=True)
     else:
         out["sheets"]["roof"] = export_roof_dxf(roof, os.path.join(outdir, f"{pid}-roof.dxf"))
 
@@ -618,7 +711,7 @@ def export_all(plan, outdir, parti=None, candidates=250, face=None):
     elev = EL.build_elevation(copy.deepcopy(plan), parti,
                               section=section, roof=None if "error" in roof else roof)
     if "error" in elev:
-        out["sheets"]["elevation"] = {"error": elev["error"], "unexported": True}
+        out["sheets"]["elevation"] = dict(_forward(elev), unexported=True)
     else:
         res = export_elevation_dxf(elev, os.path.join(outdir,
                                    f"{pid}-elevation-{face or elev.get('entrance_face','S')}.dxf"), face)
@@ -643,14 +736,36 @@ def selftest():
     PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
     C = PC.load_corpus()
     failures = 0
+    unevaluated = 0
     for rel in SELFTEST_PLANS:
         plan = json.load(open(os.path.join(ROOT, rel)))
         with tempfile.TemporaryDirectory() as td:
             out = export_all(copy.deepcopy(plan), td)
-            bad = {k: v for k, v in out.get("sheets", {}).items() if "error" in v and not v.get("refusal")}
+            # A REFUSED PLACEMENT IS COULD-NOT-EVALUATE AND IS NEITHER A PASS NOR A FAILURE
+            # (WP-13.4, 16 Sep 2026). This filter read `v.get("refusal")`, which is this file's
+            # MISSING-LIBRARY marker and has been since WP-5.1 -- the placement refusal is
+            # `refused_placement`, and the contract says so in as many words because `refusal`
+            # is what `app.py` maps to a 501. So the moment the exporter learned to refuse, both
+            # shipped plans came back as export ERRORS and this selftest failed the build for a
+            # reason that says nothing about a round trip: when there is no DXF, the round trip
+            # was not exercised at all. Reported by name with the refusal's own sentences, and
+            # the two states are counted apart -- collapsing an unjudged into a failure is the
+            # same dishonesty as collapsing it into a pass, in the other direction.
+            sheets = out.get("sheets", {})
+            refused = {k: v for k, v in sheets.items() if v.get("refused_placement")}
+            bad = {k: v for k, v in sheets.items()
+                   if "error" in v and not v.get("refusal") and not v.get("refused_placement")}
             if "error" in out or bad:
                 print(f"  FAIL {rel}: export errors: {out.get('error') or bad}")
                 failures += 1
+                continue
+            if refused:
+                why = next(iter(refused.values()))["refused_placement"]
+                print(f"  COULD NOT EVALUATE {rel}: the placement is refused for "
+                      f"{', '.join(why.get('facts') or ['an unnamed fact'])}, so "
+                      f"{len(refused)} sheet(s) were not drawn and the round trip was not "
+                      f"exercised. This is not a pass.")
+                unevaluated += 1
                 continue
             back = IMP.read_plan_dxf(out["sheets"]["plan"]["path"])
             if "error" in back:
@@ -670,6 +785,10 @@ def selftest():
     if failures:
         print(f"\n{failures} selftest failure(s).")
         return 1
+    if unevaluated:
+        print(f"\nCOULD NOT EVALUATE: {unevaluated} of {len(SELFTEST_PLANS)} plan(s) are "
+              f"refused and were not round-tripped. This is not a pass.")
+        return 3
     print("\nexport_dxf selftest: all round-trips identical.")
     return 0
 

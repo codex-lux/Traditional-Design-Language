@@ -324,12 +324,16 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
         const at = seat.wall === 'N' ? r.y + r.h
           : seat.wall === 'S' ? r.y
             : seat.wall === 'E' ? r.x + r.w : r.x;
+        // WP-13.2: `hinge` is the record's word for the jamb the leaf hangs from ("low" is
+        // the lower coordinate along the wall); `Sheet.jsx::DoorMark` reads it.
         if (horiz) {
           interior.push({ x: seat.pos, y: at, w: width, type, horiz: true,
-            swingUp: (to.y + to.h / 2) > (r.y + r.h / 2), pair: [r.id, d.to] });
+            swingUp: (to.y + to.h / 2) > (r.y + r.h / 2), pair: [r.id, d.to],
+            hinge: d.hinge || 'low' });
         } else {
           interior.push({ x: at, y: seat.pos, w: width, type, horiz: false,
-            swingRight: (to.x + to.w / 2) > (r.x + r.w / 2), pair: [r.id, d.to] });
+            swingRight: (to.x + to.w / 2) > (r.x + r.w / 2), pair: [r.id, d.to],
+            hinge: d.hinge || 'low' });
         }
         continue;
       }
@@ -387,10 +391,12 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
       const mid = (seg.lo + seg.hi) / 2;
       if (seg.horiz) {
         interior.push({ x: mid, y: seg.at, w: width, type, horiz: true,
-          swingUp: (to.y + to.h / 2) > (r.y + r.h / 2), pair: [r.id, d.to] });
+          swingUp: (to.y + to.h / 2) > (r.y + r.h / 2), pair: [r.id, d.to],
+          hinge: d.hinge || 'low' });
       } else {
         interior.push({ x: seg.at, y: mid, w: width, type, horiz: false,
-          swingRight: (to.x + to.w / 2) > (r.x + r.w / 2), pair: [r.id, d.to] });
+          swingRight: (to.x + to.w / 2) > (r.x + r.w / 2), pair: [r.id, d.to],
+          hinge: d.hinge || 'low' });
       }
     }
   }
@@ -404,6 +410,7 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
   const out = [];
   let offFootprint = 0;      // the solver put this room on no such boundary wall
   let crowded = 0;           // the wall has no clear run left beside its doors
+  let refused = 0;           // the PLACER declined the window, and the sheet does not re-infer it
   const blockedBy = new Map();
   for (const d of extDoors) {
     const key = `${d.room}|${d.wall}`;
@@ -422,6 +429,12 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
         // the record carries one centreline per unit; read them, do not re-space them
         pos = win.positions_ft.map(Number);
         crowded += Math.max(0, n - pos.length);
+      } else if (win.unplaced) {
+        // WP-13.2: a window the placer REFUSED is not re-inferred at the mid-wall -- the
+        // branch below is for a DECLARED record nobody has placed (render_plan.py's twin
+        // says why: the dining room's refused sash was being drawn inside its chimney breast)
+        refused += n;
+        continue;
       } else {
         const free = freeIntervals(seat.lo, seat.hi, blockedBy.get(`${r.id}|${win.wall}`) || []);
         pos = distribute(free, n, wallW);
@@ -441,6 +454,7 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
   out.dropped = offFootprint;      // kept: the caption has said this since WP-5.2
   out.offFootprint = offFootprint;
   out.crowded = crowded;
+  out.refused = refused;
   return out;
 }
 

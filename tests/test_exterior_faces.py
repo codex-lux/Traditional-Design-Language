@@ -302,8 +302,17 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 #
 # Six and one, disjoint causes, and the two sets are exactly what each side contributed. **A
 # merged digest equal to either parent's would have meant one side had been dropped.**
-CORPUS_SHEET_SHA = "c59ccf4f0cbb9a04"
-CORPUS_SHEET_SHA_NO_FRAME = "6e40e16278d1f6e0"
+# RE-DERIVED AT THE 17 SEP MERGE, HARNESS PROVED FIRST. Both parents' pairs came back to the
+# character on `git archive` checkouts (main c59ccf4f0cbb9a04 / 6e40e16278d1f6e0, this branch
+# 7ae444c7e5387110 / 8defa83027786782) before the merged tree was read. Both new values are
+# third values. Per plan: 16 of 16 differ from main -- WP-13.2's rendering honesty and WP-13.6's
+# furniture disclosure reach every sheet -- and 6 of 16 differ from this branch, the same six
+# plans main's WP-11.17 entrance selector re-places, which is exactly the split the placement
+# and openings digests report in `tests/test_elements.py`. The STRIPPED hash moves with the raw
+# one here because the movement is in the drawing and not in the `data-frame` attribute; the
+# `framed == 16` premise is unmoved.
+CORPUS_SHEET_SHA = "cc07560ab9eade5a"
+CORPUS_SHEET_SHA_NO_FRAME = "119e5b40ff69239e"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])
@@ -358,6 +367,12 @@ def _tagged_solved():
     if not hasattr(_tagged_solved, "_v"):
         GEO = _mod("geometry")
         p = json.loads((ROOT / "plans" / "tidewater-georgian-careful.json").read_text())
+        # WP-13.5: the record carries a container of its own now; this fixture states the one
+        # it is about, so the shipped tags come off first.
+        for lv in p["levels"]:
+            for r in lv["rooms"]:
+                r.pop("block", None)
+                r.pop("hyphen", None)
         dep = {"kitchen", "pantry", "breakfast", "powder", "cellarstair"}
         for lv in p["levels"]:
             for r in lv["rooms"]:

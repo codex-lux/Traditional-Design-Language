@@ -51,6 +51,7 @@ def _mod(name, path):
 
 PC = _mod("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
 GEO = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+AX = _mod("axis", os.path.join(ROOT, "build", "axis.py"))
 
 EXIT_COULD_NOT_EVALUATE = 3
 
@@ -183,28 +184,32 @@ def front_openings(plan):
     The entrance front is the record's own `context.entrance_faces`, defaulting to S. An
     opening is counted where the placement PLACED it: a declared window the placer could not
     place is not on the elevation, which is the whole of finding G1 and is why this counts
-    `positions_ft` rather than `count`."""
-    faces = ((plan.get("context") or {}).get("entrance_faces") or "S").upper()
+    `positions_ft` rather than `count`.
+
+    THE POPULATION IS `axis.front_openings`' AND NO LONGER THIS FUNCTION'S OWN (WP-13.8). It was
+    a second spelling of "which openings are on the entrance front" -- same field, same default,
+    same `positions_ft` rule -- and it carried the same element blindness, so on a house with a
+    service wing this table over-counted the ground front by the wing's own openings (four, on
+    `plans/tidewater-georgian-careful.json`). What is NOT delegated is the reason this function
+    exists: the per-storey rows and the storey-over-storey alignment below, which `axis` does not
+    compute. One rule, one spelling; a different question keeps its own code.
+
+    The wing's openings are REPORTED on the row rather than vanishing from it. A diagnostic whose
+    count silently shrank would be the fake-unjudged shape in the one surface a reader reaches for
+    to find out what the sheet actually shows."""
+    faces = AX.front_of(plan)
     out = []
     for lv in plan.get("levels", []):
-        placed, unplaced = [], 0
-        for r in lv.get("rooms", []):
-            for w in r.get("windows", []) or []:
-                if (w.get("wall") or "").upper() != faces:
-                    continue
-                if w.get("unplaced"):
-                    unplaced += int(w.get("count") or 1)
-                    continue
-                for x in (w.get("positions_ft") or []):
-                    placed.append({"room": r.get("id"), "x_ft": round(x, 2), "kind": "window"})
-            for d in r.get("doors", []) or []:
-                if d.get("to") == "exterior" and (d.get("wall") or "").upper() == faces \
-                        and not d.get("unplaced"):
-                    placed.append({"room": r.get("id"), "x_ft": round(d["position_ft"], 2),
-                                   "kind": "door"})
+        fo = AX.front_openings(plan, lv.get("index") or 0)
+        placed = [{"room": o["room"], "x_ft": round(o["pos_ft"], 2), "kind": o["kind"]}
+                  for o in fo["openings"]]
+        off = [{"room": o["room"], "x_ft": round(o["pos_ft"], 2), "kind": o["kind"],
+                "element": o.get("element")} for o in (fo.get("off_the_main_block") or [])]
         placed.sort(key=lambda o: o["x_ft"])
+        off.sort(key=lambda o: o["x_ft"])
         out.append({"level": lv.get("id"), "face": faces,
-                    "openings": placed, "declared_but_unplaced": unplaced})
+                    "openings": placed, "declared_but_unplaced": fo["declared_but_unplaced"],
+                    "off_the_main_block": off})
     # Alignment: for every opening above the ground storey, is there one below within a foot?
     if len(out) > 1:
         ground = [o["x_ft"] for o in out[0]["openings"]]

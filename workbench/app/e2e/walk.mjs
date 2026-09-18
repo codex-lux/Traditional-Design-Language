@@ -23,6 +23,12 @@ const EXEC = process.env.CHROMIUM
 const browser = await chromium.launch(EXEC ? { executablePath: EXEC } : {});
 const page = await browser.newPage({ viewport: { width: 1680, height: 1000 } });
 const failures = [];
+/* COULD NOT EVALUATE, KEPT APART FROM BOTH VERDICTS (WP-13.4). A check whose PRECONDITION the
+   server does not meet is not a pass and is not a failure: it is the third state this project
+   names first, and collapsing it into either is the fake-pass or the false-accusation. The run
+   exits 3 for it, which is the convention the rate limiter already uses at the foot of this
+   file -- "an unjudged walk is not a green one". */
+const unjudged = [];
 const check = (name, cond) => { if (!cond) failures.push(name); console.log(cond ? ' ok ' : 'FAIL', name); };
 
 /* A 429 must announce itself, not surface as a selector timeout thirty seconds later.
@@ -81,16 +87,44 @@ await rail.getByRole('button', { name: /Plan Workbench/ }).click();
 const example = page.getByRole('button', { name: 'tidewater-georgian-careful' });
 await example.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
 if (await example.count()) await example.click();
-await page.waitForSelector('svg[role="img"]', { timeout: 30000 });
+// The sheet arrives AFTER the evaluate, and the evaluate runs CP-SAT at the interactive
+// budget (`BUDGET_INTERACTIVE_S`, 25 s) before it can fall back -- measured here at 28.1 s
+// from the click to the first `svg[role="img"]` on a quiet 4-core box (WP-13.2's lead pass,
+// probed with a pageerror listener: no error, just late). A 30 s wait was one CPU hiccup from
+// a TimeoutError that reads like a broken surface, and CI's runner is slower than this box.
+// 90 s is the critique panel's wait below, for the same reason.
+await page.waitForSelector('svg[role="img"]', { timeout: 90000 });
 const body = await page.locator('main').innerText();
 check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
 check('hill-climb honesty line present', /hill-climb/i.test(body));
 check('the proof is offered, not just the search', /prove placement/i.test(body));
-// …and the caption names the engine that ACTUALLY DREW THIS SHEET. Until WP-6.3 flipped
-// the default it said flatly that every edit re-scores on the hill-climb and that nothing
-// drawn asserts feasibility was proved — true then, false the moment `auto` became the
-// default, and false in the direction that matters: a reader could not tell a proof from a
-// search. Checked against the API's own report rather than against a phrase.
+// …and the caption names the engine that ACTUALLY DREW THIS SHEET, and claims a proof only
+// where the record carries one. Until WP-6.3 flipped the default it said flatly that every
+// edit re-scores on the hill-climb and that nothing drawn asserts feasibility was proved —
+// true then, false the moment `auto` became the default, and false in the direction that
+// matters: a reader could not tell a proof from a search.
+//
+// WP-13.2 FOUND THIS CHECK ITSELF STALE, AND THE CAPTION IT GUARDED WRONG. It matched two
+// PHRASES — `was proved, not searched` and `came from the fast search` — and WP-11.8 had
+// reworded the first to "proved feasible" without this line noticing, so main's CI was red on
+// a wording. And the wording it was red on said "proved" over ANY CP-SAT solve, FEASIBLE
+// included: a placement found inside the budget with optimality never established, captioned
+// as a proof — the bench half of *a green PLACEMENT PROVED over a FEASIBLE truncation*.
+//
+// THE CONTRACT IS STATED HERE FROM THE API'S OWN SOLVER BLOCK, never from a phrase:
+//   * the caption names the engine the record names;
+//   * "proved" is claimed only where the status begins with OPTIMAL AND the objective ran — a
+//     FEASIBLE truncation, an `OPTIMAL (hard-only)` with a null objective and a hill-climb are
+//     not proofs (the plate's rule, `build/disclosures.py::engine_line`);
+//   * a CP-SAT record with no objective says its composition was not evaluated;
+//   * a fallback quotes the solver's own reason.
+// The POST below hits the same solve-cache key as the bench's own evaluate (engine `auto`, 250
+// candidates, strict off), so the report read here IS the sheet's — the critique block further
+// down rests on the same fact. `sheet/engineClaim.js` is the app's one spelling of the verdict
+// and publishes it on the paragraph as `data-engine-claim`; that attribute is read AND the
+// words are read, because the attribute is what the app decided and the words are what a
+// reader sees, and the two can disagree.
+let apiPlacement = null;   // the evaluate's own placement, read again by the stacks check below
 {
   const solved = await fetch(BASE + '/api/plans/examples/tidewater-georgian-careful')
     .then((r) => r.json())
@@ -100,27 +134,61 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
     }))
     .then((r) => r.json())
     .catch(() => null);
-  const eng = solved?.placement?.geometry_report?.solver?.engine;
+  apiPlacement = solved?.placement || null;
+  const solver = solved?.placement?.geometry_report?.solver;
+  const eng = solver?.engine;
   if (!eng) {
     check('the caption names the engine that drew the sheet — COULD NOT EVALUATE '
       + '(the API did not report one)', false);
   } else {
-    const saysProved = /was\s+proved,\s+not\s+searched/i.test(body);
-    const saysSearched = /came from the\s+fast search/i.test(body);
-    check(`the caption names the engine that drew the sheet (${eng})`,
-      eng === 'cp-sat' ? (saysProved && !saysSearched) : (saysSearched && !saysProved));
+    const status = typeof solver.status === 'string' ? solver.status : '';
+    const cp = eng === 'cp-sat';
+    const objectiveRan = !cp || (solver.objective !== null && solver.objective !== undefined);
+    const mayClaimProof = cp && /^OPTIMAL\b/.test(status) && objectiveRan;
+    const fellBack = !cp && !!solver.reason && solver.reason !== 'requested';
+    const expectVerdict = cp ? (mayClaimProof ? 'proved' : 'not-proved') : 'searched';
+    const head = status ? status.split('—')[0].trim() : '(no status)';
+    const cap = await page.evaluate(() => {
+      const p = document.querySelector('[data-engine-claim]');
+      return p ? { verdict: p.getAttribute('data-engine-claim'),
+                   engine: p.getAttribute('data-engine-name'),
+                   text: p.textContent.replace(/\s+/g, ' ').trim() } : null;
+    });
+    const text = cap ? cap.text : '';
+    const saysProved = /\bproved feasible\b/i.test(text);
+    const saysNotProved = /\bnot proved\b/i.test(text);
+    check('the caption paragraph is on the page and publishes its claim', !!cap);
+    check(`the caption names the engine that drew the sheet (${eng}, ${head})`,
+      !!cap && cap.engine === eng
+        && (cp ? /CP-SAT/.test(text) && !/came from the fast search/i.test(text)
+               : /came from the fast search/i.test(text) && !/by CP-SAT/i.test(text)));
+    check(`the caption claims a proof only where the record carries one (${head} → ${expectVerdict})`,
+      mayClaimProof ? (saysProved && !saysNotProved)
+                    : (!saysProved && (cp ? saysNotProved : true)));
+    check(`the caption's published verdict agrees with the API (${cap?.verdict} vs ${expectVerdict})`,
+      !!cap && cap.verdict === expectVerdict);
+    if (cp && !objectiveRan) {
+      check('a CP-SAT sheet whose objective did not run says its composition was not evaluated',
+        /composition was not evaluated/i.test(text));
+    }
+    if (fellBack) {
+      check("a fallback quotes the solver's own reason",
+        text.includes(String(solver.reason).replace(/\s+/g, ' ').trim()));
+    }
     // …and the PLATE says it too, not only the page prose beside it. WP-6.3 put the
     // disclosure one level out, which is the one place it cannot travel: a printed or
     // exported plate leaves the prose behind and a reader cannot tell a proof from a
-    // search. Measured on the plate's own caption element.
+    // search. Measured on the plate's own caption element, and held to the SAME contract:
+    // the plate names the engine, and prints "proved" only where the record carries a proof.
     const plate = await page.evaluate(() => {
       const n = document.querySelector('[data-plate-note]');
       return n ? n.textContent.replace(/\s+/g, ' ').trim() : '';
     });
     check(`the plate's own caption names the engine (${eng})`,
-      eng === 'cp-sat'
-        ? /placement proved \(cp-sat\)/i.test(plate)
-        : /placement searched, not proved/i.test(plate));
+      cp ? /CP-SAT/.test(plate) : /searched, not proved/i.test(plate));
+    check(`the plate claims a proof only where the record carries one (${head} → ${expectVerdict})`,
+      mayClaimProof ? /\bproved\b/i.test(plate) && !/not proved/i.test(plate)
+                    : !/placement proved/i.test(plate));
   }
 }
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
@@ -426,13 +494,30 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
 // OUTSIDE the block, so the plate has to have grown for them; a stack drawn at x = -3.1 on a
 // viewBox starting at -11 is invisible and raises nothing, which is why the extent is
 // asserted here and not only the count.
+// THE COUNT IS THE RECORD'S, NOT A PIN OF TWO (WP-13.2, the lead's pass). This asserted
+// `=== 2` -- the paired gable ends -- and went red the day the hearth slice made the breast a
+// judged thing: on the bench's own placement (OPTIMAL hard-only at 25 s) both west fires stand
+// 18 and 24 ft inboard of the gable, so the west stack is REFUSED with a reason and only the
+// east one is drawn. One stack is the honest sheet there. What is asserted is that the sheet
+// draws every stack the record placed, all of them on the plate, and that a stack the record
+// refused is NAMED on the page rather than silently one short -- which is the line the
+// disclosure strip carries now (`disclosures.fires_not_drawn`).
 {
   const vb = (built.vb || '').split(/\s+/).map(Number);
-  const inside = built.stacks.length > 0 && built.stacks.every(
-    (s) => s.x >= vb[0] && s.x + s.w <= vb[0] + vb[2]);
-  check(`the gable-end stacks are drawn and lie on the plate (${built.stacks.length}, `
+  const hearths = apiPlacement?.hearths || {};
+  const placedStacks = (hearths.stacks || []).filter((s) => s.x_ft !== undefined && s.x_ft !== null);
+  const refusedFlues = (hearths.unplaced || []).filter((u) => u.flue).map((u) => u.flue);
+  const inside = built.stacks.every((s) => s.x >= vb[0] && s.x + s.w <= vb[0] + vb[2]);
+  check(`the gable-end stacks are drawn and lie on the plate (${built.stacks.length} drawn of `
+        + `${placedStacks.length} placed, ${refusedFlues.length} refused; `
         + `walls ${built.stacks.map((s) => s.wall).join('/')}, viewBox ${built.vb})`,
-    built.stacks.length === 2 && inside);
+    placedStacks.length + refusedFlues.length > 0
+      && built.stacks.length === placedStacks.length && inside);
+  if (refusedFlues.length) {
+    const main = await page.locator('main').innerText();
+    check(`a stack the record refused is named on the page (${refusedFlues.join(', ')})`,
+      refusedFlues.every((f) => main.toUpperCase().includes(f.toUpperCase())));
+  }
   // COUNTED AS A PROPERTY AND NOT AS A NUMBER. The first version asserted exactly one, and
   // the walk answered TWO: on CP-SAT the placement puts the KITCHEN's exterior door on the
   // entrance front as well, so the count is the engine's and not the record's. What must hold
@@ -532,6 +617,22 @@ const handleLive = await (async () => {
   await page.mouse.move(h.x, h.y, { steps: 4 });
   await page.mouse.up();
   await page.waitForTimeout(1600);
+  /* THE WORKING BANNER, READ WHILE THE SKETCH IS ON SCREEN (WP-13.4).
+     A wall drag is the ONE path that still returns a placement the type's facts may refuse: it
+     asks for the hill-climb BY NAME because a gesture cannot wait for a proof, and
+     `workbench/server/evaluate.py` marks what comes back `placement.sketch`. The plate says so
+     ITSELF rather than only the prose beside it, for WP-6.4's reason -- a printed or exported
+     plate leaves the prose behind.
+     It is captured HERE, inside the drag, because the `undo` two statements below loads the
+     record again and the next evaluate is not a drag: read afterwards this would be zero on a
+     working sketch and a check reading zero for the wrong reason is indistinguishable from one
+     reading zero because nothing was drawn (WP-12.4). */
+  const sketchBanner = await page.evaluate(() => {
+    const b = document.querySelector('[data-working-sketch]');
+    const note = document.querySelector('[data-plate-note]');
+    return { present: !!b, text: b ? b.textContent.replace(/\s+/g, ' ').trim() : '',
+      plate: note ? note.textContent.replace(/\s+/g, ' ').trim() : '' };
+  });
   // A drag and return is still a DRAG, and committing it is correct. The record it left
   // is put back before the separate no-movement test below, so that one measures the
   // thing it names.
@@ -552,7 +653,8 @@ const handleLive = await (async () => {
     await page.waitForTimeout(1800);
   }
   const after = await roomLabel('Drawing Room');
-  return { preview, panned, scroll0, before, restored, after, clicked: !!h2, handles, room };
+  return { preview, panned, scroll0, before, restored, after, clicked: !!h2, handles, room,
+    sketchBanner };
 })();
 // THE STEP BEFORE THE HANDLE, so this block can no longer fail four times saying `undefined`.
 // It reports what actually broke: the room was not drawn, or the click did not select it.
@@ -578,6 +680,35 @@ check('the wall drag reaches the record', handleLive && typeof handleLive.restor
 // handle was painted over by its own partition; making the handle reachable made it live.
 check(`a click on the handle is not a silent resize (${handleLive?.restored} → ${handleLive?.after})`,
   handleLive && handleLive.clicked && handleLive.restored === handleLive.after);
+/* AND THE SHEET THE DRAG LEFT SAYS IT IS A SKETCH (WP-13.4). Read from the API's own response
+   first, so this cannot pass by asserting a banner over a placement the server never marked:
+   the drag's evaluate is the one path the contract lets return a placement on a refusal, and it
+   returns it marked `placement.sketch = {working, refused, reason}`. Until the server slice lands
+   that key is absent, and this is COULD NOT EVALUATE -- never a pass. */
+{
+  const dragEval = await fetch(BASE + '/api/plans/examples/tidewater-georgian-careful')
+    .then((r) => r.json())
+    .then((p) => fetch(BASE + '/api/plan/evaluate', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ plan: p.plan || p, place: true, engine: 'heuristic' }),
+    }))
+    .then((r) => r.json())
+    .catch(() => null);
+  const marked = dragEval?.placement?.sketch?.working === true;
+  if (!marked) {
+    unjudged.push('the wall drag draws a WORKING banner — the evaluate marks no placement.sketch');
+    console.log('N/EV the wall drag draws a WORKING banner '
+      + '— COULD NOT EVALUATE: this server marks no placement.sketch on an engine-by-name evaluate');
+  } else {
+    check('a wall drag draws a WORKING banner on the plate',
+      handleLive?.sketchBanner?.present === true);
+    check('and the banner says it may not be exported',
+      /may not be exported/i.test(handleLive?.sketchBanner?.text || ''));
+    // the plate's own caption carries it too, so an exported or printed plate still says so
+    check("and the plate's own caption calls it a working sketch",
+      /WORKING SKETCH/i.test(handleLive?.sketchBanner?.plate || ''));
+  }
+}
 await page.screenshot({ path: SHOTS + 'workbench.png', fullPage: false });
 
 // style switch: same plan, different rules.
@@ -976,9 +1107,22 @@ await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
     /W elevation/.test(cap) && /the entrance front is [SNEW]/.test(cap));
   // WP-11.8's J6 on the two plates that could not carry it: two sheets of "the same house"
   // that disagree differ because the INPUT differed, and a reader must be able to see it.
-  check('drawing set: the elevation names the engine that placed it and the input digest',
-    /placed by (proof \(CP-SAT\)|search \(hill-climb\)|an engine this plate does not name)/.test(cap)
-    && /input [0-9a-f]{12}/.test(cap));
+  /* RE-CUT AGAINST THE PROPERTY (WP-13.4), AND IT WENT RED FIRST, WHICH IS THE POINT.
+     This pinned the plate's sentence VERBATIM -- `placed by (proof (CP-SAT)|search
+     (hill-climb)|an engine this plate does not name)` -- so widening that line to say whether
+     a CP-SAT placement was proved AT THE OPTIMUM broke a guard about the engine with a change
+     about the proof. That is this repository's pinned-literal trap, five packages running: a
+     stale SELECTOR goes quietly blind and a pinned LITERAL fails loudly on an unrelated change,
+     and neither is the property. The property is that the line names an engine from a closed
+     vocabulary, carries the input digest, and -- where it names CP-SAT -- says which of the two
+     CP states it is, because "CP-SAT" alone is exactly the claim that captioned a FEASIBLE
+     truncation as a proof. */
+  const engineLine = (/placed by ([^\n]*)/.exec(cap) || [])[1] || '';
+  check(`drawing set: the elevation names the engine that placed it (${engineLine.slice(0, 60)})`,
+    /(CP-SAT|hill-climb|an engine this plate does not name)/.test(engineLine));
+  check('drawing set: and a CP-SAT plate says whether it was proved at the optimum',
+    !/CP-SAT/.test(engineLine) || /(proved at the optimum|NOT proved at the optimum)/.test(engineLine));
+  check('drawing set: and it carries the input digest', /input [0-9a-f]{12}/.test(cap));
   // The face group made this strip wider than the pane; without `flex: none` and `nowrap`
   // on the right-hand block the plan id wrapped inside a 34px bar and collided with the
   // chips. The strip is overflowX:auto by design — it scrolls, it does not reflow.
@@ -1396,6 +1540,137 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     Math.abs(await navW() - PANES.nav.def) < 3);
 }
 
+/* ------------------------------------------------------------------ WP-13.4: REFUSED, NOT DRAWN
+
+   Lucas ruled on 15 Sep 2026 that a placement breaking a hard fact of the type is REFUSED and
+   not drawn: the bench shows the conflict set, and the brief or the parti is what changes. This
+   block is the behavioural half of that, and it is the only half a node test cannot reach --
+   `src/refusal.test.mjs` drives every branch of the leaf with a hand-built body and holds the
+   surfaces to it by source, and neither can see a refused record arriving from a real server and
+   a plate coming back anyway.
+
+   THE RECORD IS DRIVEN AND THE DRIVING IS PROVED. No shipped plan is guaranteed to refuse -- that
+   is a property of the prover's budget on the day -- so this builds one that MUST: every upper
+   room is pointed at the SMALLEST ground room. Two rooms cannot both sit over one closet without
+   overlapping each other, and rooms may not overlap, so at least all but one of those claims is
+   geometrically impossible and `stacking.lands` must break it. The shipped record is tried first
+   in case it already refuses, because driving a case the corpus reaches anyway would be inventing
+   work.
+
+   AND IF THE SERVER DOES NOT ANSWER THE CONTRACT, THIS IS UNJUDGED. The server slice of WP-13.4
+   builds the routes in parallel with this one; until it lands, `placement_refused` is absent and
+   every check below would pass vacuously over a bench that is behaving exactly as it did before.
+   `unjudged` is what that costs, and it is not a pass. */
+{
+  const example = await fetch(BASE + '/api/plans/examples/tidewater-georgian-careful')
+    .then((r) => r.json()).then((p) => p.plan || p).catch(() => null);
+
+  const refusing = (() => {
+    if (!example) return null;
+    const q = JSON.parse(JSON.stringify(example));
+    const levels = q.levels || [];
+    const ground = levels.find((l) => (l.index ?? 0) === 0);
+    const upper = levels.filter((l) => (l.index ?? 0) > 0);
+    if (!ground || !upper.length) return null;
+    const area = (r) => (r.width_ft || 0) * (r.length_ft || 0);
+    const smallest = (ground.rooms || []).slice().sort((a, b) => area(a) - area(b))[0];
+    if (!smallest) return null;
+    let n = 0;
+    for (const lv of upper) for (const r of lv.rooms || []) { r.stacks_over = smallest.id; n += 1; }
+    return n >= 2 ? q : null;   // one claim alone could hold; two over one closet cannot
+  })();
+
+  const evaluate = (plan) => fetch(BASE + '/api/plan/evaluate', {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ plan, place: true }),
+  }).then((r) => r.json()).catch(() => null);
+
+  let record = null, body = null;
+  for (const cand of [example, refusing]) {
+    if (!cand) continue;
+    const got = await evaluate(cand);
+    if (got && got.placement_refused) { record = cand; body = got; break; }
+  }
+
+  if (!body) {
+    unjudged.push('a refused placement shows the conflict set where the plate was');
+    unjudged.push('a refused placement disables the download and the exports');
+    console.log('N/EV a refused placement shows the conflict set where the plate was');
+    console.log('N/EV a refused placement disables the download and the exports');
+    console.log('     COULD NOT EVALUATE: this server answers no `placement_refused`, on the');
+    console.log('     shipped record or on one driven to break its declared stacks. The server');
+    console.log('     slice of WP-13.4 is what makes these judgeable; they are NOT passes.');
+  } else {
+    const r = body.placement_refused;
+    check(`the refused evaluate sends NO placement (kind ${r.kind})`, !body.placement);
+    // the contract's own three-state rule, asserted from the API rather than from the screen:
+    // unjudged does not refuse, so a body arriving here must name one of the two kinds
+    check('and the refusal names a kind this app can read',
+      r.kind === 'infeasible' || r.kind === 'type-fact-downgraded');
+
+    await page.evaluate((plan) => {
+      // planDoc persists to localStorage and reads it at boot, so this is how a record reaches
+      // the bench without a route: no app change, and the reload proves the store's own path.
+      localStorage.setItem('tdl-workbench-plan', JSON.stringify(plan));
+    }, record);
+    await page.goto(BASE + '#/workbench', { waitUntil: 'networkidle' });
+    await page.waitForSelector('[data-conflict-set]', { timeout: 90000 }).catch(() => {});
+
+    const bench = await page.evaluate(() => {
+      const p = document.querySelector('[data-conflict-set]');
+      const cap = document.querySelector('[data-engine-claim]');
+      return {
+        panel: !!p,
+        kind: p ? p.getAttribute('data-conflict-set') : null,
+        facts: p ? +p.getAttribute('data-refusal-facts') : 0,
+        lines: p ? +p.getAttribute('data-refusal-lines') : 0,
+        text: p ? p.textContent.replace(/\s+/g, ' ').trim() : '',
+        plates: document.querySelectorAll('main svg[role="img"]').length,
+        capRefused: cap ? cap.getAttribute('data-placement-refused') : null,
+      };
+    });
+    check('a refused placement draws NO plate on the bench', bench.plates === 0);
+    check('and the conflict set stands where the plate would be', bench.panel === true);
+    // A REFUSAL IS CONTENT: it names what could not hold. A panel that named nothing would be a
+    // bare error wearing the word, so the count is read from the panel's own attributes rather
+    // than from a phrase -- and zero is a failure, not a smaller refusal.
+    check(`and it names at least one fact or conflict (facts ${bench.facts}, lines ${bench.lines})`,
+      (bench.facts + bench.lines) > 0);
+    check('and it says the brief or the parti is what changes',
+      /brief or the parti/i.test(bench.text));
+    check(`the caption publishes the refusal beside the words (${bench.capRefused})`,
+      bench.capRefused === r.kind);
+
+    await rail.getByRole('button', { name: /Drawing Set/ }).click();
+    await page.waitForTimeout(2500);
+    const ds = await page.evaluate(() => ({
+      download: [...document.querySelectorAll('button')]
+        .filter((b) => /download SVG/i.test(b.textContent)).length,
+      plates: document.querySelectorAll('main svg[role="img"]').length,
+    }));
+    check('the Drawing Set offers no download for a refused record', ds.download === 0);
+    check('and draws no plate for one', ds.plates === 0);
+
+    await rail.getByRole('button', { name: /Details & Export/ }).click();
+    await page.waitForTimeout(800);
+    const ex = await page.evaluate(() => {
+      const chips = [...document.querySelectorAll('button')]
+        .filter((b) => /(^| )(plan|elevation|section|bearing|roof)( dxf)?$|ifc model/i.test(b.textContent.trim()));
+      return {
+        n: chips.length,
+        enabled: chips.filter((b) => !b.disabled).length,
+        blocked: !!document.querySelector('[data-export-blocked]'),
+        panel: !!document.querySelector('[data-conflict-set]'),
+      };
+    });
+    // the denominator first: a selector matching nothing makes "0 enabled" look like a pass
+    check(`Details & Export offers its export controls to be judged (${ex.n})`, ex.n > 0);
+    check(`and every one is disabled on a refused record (${ex.enabled} enabled)`, ex.enabled === 0);
+    check('and it says why', ex.blocked === true);
+    check('and shows the same conflict set the bench showed', ex.panel === true);
+  }
+}
+
 await browser.close();
 if (limited) {
   console.error('\nCOULD NOT EVALUATE: the server rate-limited this run (429 at ' + limited
@@ -1403,4 +1678,11 @@ if (limited) {
   process.exit(3);
 }
 if (failures.length) { console.error('\nFAILED:', failures); process.exit(1); }
+if (unjudged.length) {
+  console.error('\nCOULD NOT EVALUATE (' + unjudged.length + '):');
+  for (const u of unjudged) console.error('  ' + u);
+  console.error('An unjudged walk is not a green one. Nothing above failed; these checks could');
+  console.error('not be run, because this server does not yet answer WP-13.4\u2019s refusal contract.');
+  process.exit(3);
+}
 console.log('\nE2E WALK GREEN');

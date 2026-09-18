@@ -53,23 +53,46 @@ def engine_line(plan):
     The old line asserted the proof was against "the record's declared facts". On the shipped
     Tidewater plan sixteen of those facts had been set aside to reach feasibility. A proof
     against a relaxed hard set is a true statement about a different question, printed where a
-    reader will take it for the answer to this one."""
+    reader will take it for the answer to this one.
+
+    AND THE ENGINE'S NAME IS NOT A PROOF (WP-13.2). The green line printed on
+    `engine == "cp-sat"` alone, and the gate found it over a record reading
+    `status: FEASIBLE — kept polish from the heuristic hint (best of 2 hard-valid placements)`,
+    `objective: 518.9`, the compositional phase having run for four seconds of a forty-second
+    budget. What CP-SAT proved there is that the hard set is satisfiable; what it did not prove
+    is that this placement is the best one, and a FEASIBLE truncation is exactly the kind of
+    placement a reader takes for a proof when the line says PROVED. So the green line prints
+    ONLY where the solver's own status begins OPTIMAL, its objective was evaluated, and no
+    declared wall was set aside. Anything else prints the status the record has, verbatim, in
+    copper; where the objective is null, `objective_not_run` prints beside it. A status the
+    record does not carry is UNJUDGED, not proved."""
     s = (plan.get("geometry_report") or {}).get("solver") or {}
     engine = s.get("engine")
     if not engine:
         return None
     if engine == "cp-sat":
+        status = str(s.get("status") or "")
+        proved = status.upper().startswith("OPTIMAL") and s.get("objective") is not None
         dropped = len(s.get("downgraded_wall_pins") or [])
+        held = None
         if dropped:
             total = _declared_wall_count(plan)
             kept = (total - dropped) if total is not None else None
             held = (f"{kept} OF THE RECORD'S {total} DECLARED EXTERIOR WALLS"
                     if kept is not None
                     else f"THE RECORD'S DECLARED EXTERIOR WALLS BUT {dropped}")
-            return {"id": "engine", "tone": COPPER,
+        detail = {"status": s.get("status"), "objective": s.get("objective"),
+                  "downgraded_wall_pins": dropped}
+        if proved and dropped:
+            return {"id": "engine", "tone": COPPER, "detail": detail,
                     "text": f"PLACEMENT PROVED (CP-SAT) AGAINST {held}"}
-        return {"id": "engine", "tone": VERD,
-                "text": "PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"}
+        if proved:
+            return {"id": "engine", "tone": VERD, "detail": detail,
+                    "text": "PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"}
+        what = status.upper() if status else "SOLVER STATUS NOT RECORDED"
+        return {"id": "engine", "tone": COPPER, "detail": detail,
+                "text": f"PLACEMENT BY CP-SAT, NOT PROVED AT THE OPTIMUM — {what}"
+                        + (f" — AGAINST {held}" if held else "")}
     reason = s.get("reason")
     tail = f" — {reason.upper()}" if reason and reason != "requested" else ""
     return {"id": "engine", "tone": COPPER,
@@ -213,6 +236,194 @@ SHORT_REASON = {
 }
 
 
+def span_capacity(plan):
+    """Clear spans over the framing capacity, from `geometry_report.span_capacity`.
+
+    WP-11.12 (OQ 98's reporting half) put this line on the plate, spelled in `render_plan.py`;
+    WP-13.2 moved it here so the bench's strip reads the same line, because a count the printed
+    plate carries and the bench does not is the two-surfaces drift this module exists to stop.
+    Three states, exactly as the plate printed them: `None` under `over_capacity` is COULD NOT
+    EVALUATE (the construction catalogue could not be read), a count is a count, and the ZERO is
+    printed too -- with the same caveat -- because "no span exceeds capacity" is exactly the claim
+    the credited-across-the-plate reading can make falsely. Every published count is a FLOOR:
+    `span_check` credits a bearing wall across the whole plate however short it runs."""
+    gr = plan.get("geometry_report") or {}
+    if not gr:
+        return None
+    sp = gr.get("span_capacity") or {}
+    if sp.get("over_capacity") is None:
+        return {"id": "span", "tone": COPPER,
+                "text": "CLEAR SPAN NOT EVALUATED — THE CONSTRUCTION CATALOGUE COULD NOT BE "
+                        "READ; NO SPAN IS CLAIMED CLEAR"}
+    if sp.get("over_capacity"):
+        return {"id": "span", "tone": IRON, "detail": sp,
+                "text": f'{sp["over_capacity"]} CLEAR SPAN(S) OVER THE FRAMING CAPACITY, WORST '
+                        f'{sp.get("worst_span_ft", 0):g} FT — AT LEAST THAT MANY: A BEARING LINE '
+                        f'IS CREDITED ACROSS THE WHOLE PLATE HOWEVER SHORT THE WALL RUNS'}
+    return {"id": "span", "tone": VERD,
+            "text": "0 CLEAR SPAN(S) OVER THE FRAMING CAPACITY — AT LEAST NONE FOUND: A BEARING "
+                    "LINE IS CREDITED ACROSS THE WHOLE PLATE HOWEVER SHORT THE WALL RUNS"}
+
+
+def _count(v):
+    """A tally `openings.py` writes as an int, or as the list or dict it counted -- read
+    defensively, because the report is open by its own schema description and a reader that
+    assumed one shape would crash the plate on the other."""
+    if v is None:
+        return 0
+    if isinstance(v, dict):
+        return sum(_count(x) for x in v.values())
+    if isinstance(v, (list, tuple, set)):
+        return len(v)
+    try:
+        return int(v)
+    except (TypeError, ValueError):
+        return 0
+
+
+def furniture_not_drawn(plan):
+    """Furniture the pass refused, skipped or never reached, from `opening_report`.
+
+    `openings.py` has counted these since WP-11.3 and `furniture.py` says "a skipped item is a
+    verdict here, never a silence" -- and the counts were read by nothing: the gate measured 39
+    silent refusals on the shipped Tidewater sheet (6 unplaced, 22 skipped, 11 not reached) and
+    50 on the composer's own candidate. Three counts, named apart, because they mean three
+    things: UNPLACED is an item the room could not hold, SKIPPED is an item a grammar rule
+    declined to draw (the rule ids ride in `detail`), NOT REACHED is a catalogue item in a
+    sanitary or service room that the fixture pass owns and did not place."""
+    op = plan.get("opening_report") or {}
+    unplaced = _count(op.get("furniture_unplaced"))
+    skipped_raw = op.get("furniture_skipped")
+    skipped = _count(skipped_raw)
+    not_reached = _count(op.get("furniture_not_reached"))
+    total = unplaced + skipped + not_reached
+    if not total:
+        return None
+    why = ""
+    if isinstance(skipped_raw, dict) and skipped_raw:
+        why = " (" + ", ".join(f"{k} {_count(v)}" for k, v in
+                               sorted(skipped_raw.items(), key=lambda kv: -_count(kv[1]))) + ")"
+    return {"id": "furniture", "tone": COPPER,
+            "detail": {"unplaced": unplaced, "skipped": skipped_raw, "not_reached": not_reached},
+            "text": (f"{total} FURNITURE ITEM(S) NOT DRAWN — {unplaced} UNPLACED, {skipped} "
+                     f"SKIPPED{why}, {not_reached} NOT REACHED").upper()}
+
+
+def stacking(plan):
+    """Declared stacks that do not land, from `geometry_report.stacking` -- the leaf's tally,
+    never re-derived here.
+
+    The plate printed cuts off the bay line, clear spans and undrawable doors from the report and
+    omitted this block, so three declared stacks drawn clear of the room they name on the shipped
+    Tidewater search sheet (landing over the stair among them) reached no line. A compromise is
+    counted AND appears on the sheet (OQ 33). Three states: broken claims in iron, naming each
+    pair; a tally with nothing broken in verd, with the count it holds; and an unjudged count
+    beside either, because unjudged is not kept. A record with no claim takes no line -- there
+    is nothing to disclose about a house that stacks nothing."""
+    st = (plan.get("geometry_report") or {}).get("stacking") or {}
+    if "claims" not in st:
+        return None
+    claims = _count(st.get("claims"))
+    if not claims:
+        return None
+    broken = st.get("broken") or []
+    unjudged = st.get("unjudged") or []
+    kept = st.get("kept") or []
+    tail = f"; {len(unjudged)} COULD NOT BE EVALUATED" if unjudged else ""
+    if broken:
+        pairs = ", ".join(f'{b.get("room")}/{b.get("over")}' for b in broken)
+        return {"id": "stacking", "tone": IRON, "detail": st,
+                "text": f"{len(broken)} OF {claims} DECLARED STACK(S) DRAWN CLEAR OF THE ROOM "
+                        f"THEY NAME — {pairs.upper()}{tail}"}
+    if not kept:
+        return {"id": "stacking", "tone": COPPER, "detail": st,
+                "text": f"{len(unjudged)} OF {claims} DECLARED STACK(S) COULD NOT BE EVALUATED — "
+                        f"NONE IS KNOWN TO LAND"}
+    return {"id": "stacking", "tone": VERD, "detail": st,
+            "text": f"{len(kept)} OF {claims} DECLARED STACK(S) LAND ON THE ROOM THEY NAME{tail}"}
+
+
+def fires_not_drawn(plan):
+    """Stated fires the placement could not put on a flue, and stated flues left with no stack,
+    from `plan.hearths` -- `threshold.hearth_pass`'s verdicts, never re-derived here.
+
+    WP-13.2's hearth slice made the breast a JUDGED thing: a fire the record puts on a wall the
+    solver released is refused with a reason rather than drawn with no flue behind it, and a
+    flue none of whose fires stands on a boundary wall gets no stack. Both verdicts went to
+    `plan["hearths"]["unplaced"]` and the Python plate captions the refused breast on the field
+    in the working register -- and NOTHING ELSE said it: not the presentation register, not the
+    bench's disclosure strip, not the schedule. The browser walk found it as a stack COUNT of 1
+    against a pin of 2 on the bench's own placement (OPTIMAL hard-only at 25 s, both W breasts
+    18 and 24 ft inboard of the gable) with no line anywhere naming the west stack it had not
+    drawn. A fire the record states and the sheet does not draw is the undrawable-door shape.
+
+    ONLY WHAT THE RECORD STATED. `hearth_pass` also refuses "the stacks" wholesale where a plan
+    states no hearth or its massing cannot be read (`th-which-side-of-the-end-wall` and its
+    siblings, on 15 of 16 shipped plans); that entry carries neither a `room` nor a `flue`, and
+    a line saying FIRES NOT DRAWN over a house that states no fire would be a refusal about
+    nothing -- the fake-unjudged shape WP-12.6 met on dormers. Those take no line here."""
+    h = plan.get("hearths") or {}
+    breasts = [u for u in (h.get("unplaced") or []) if u.get("room")]
+    flues = [u for u in (h.get("unplaced") or []) if u.get("flue")]
+    if not breasts and not flues:
+        return None
+    stated = [b for b in (h.get("breasts") or []) if b.get("judged")]
+    total = len(stated) if stated else len(breasts)
+    parts = []
+    if breasts:
+        rooms = ", ".join(dict.fromkeys(b["room"] for b in breasts))
+        parts.append(f"{len(breasts)} OF {total} STATED FIRE(S) NOT DRAWN — {rooms.upper()}: "
+                     f"NO EXTERIOR WALL CARRIES THE FLUE ON THIS PLACEMENT")
+    if flues:
+        parts.append("; ".join(
+            f"STACK {f['flue'].upper()} NOT PLACED ({len(f.get('serves') or [])} FIRE(S), "
+            f"NONE ON A BOUNDARY WALL)" for f in flues))
+    return {"id": "fires", "tone": IRON,
+            "detail": {"breasts": breasts, "flues": flues, "stated": total},
+            "text": " — ".join(parts)}
+
+
+# The residual void below which a level is said to tile: the raster's own quantum is 0.01 sf
+# and the gate's tiling row reads a level as tiled at or under this figure, so the plate and the
+# gate agree on what a sliver is.
+TILED_SF = 0.05
+
+
+def residual_void(plan):
+    """Floor inside no room, per placed level, from `geometry_report.type_facts.tiling` --
+    `build/typefacts.py`'s measurement, never re-derived here.
+
+    The prover's 0.97 coverage floor left 26.5 sf of the shipped Tidewater ground floor and
+    48.8 sf of its upper floor inside no room, and `wall_bands` draws an interior wall only where
+    two rooms SHARE an edge, so the powder room's south side was a 6 ft hole with nothing drawn
+    across it and nothing on the plate said so. One line per level that carries a void, in iron,
+    with the strip count and the worst strip; a verd line where every judged level tiles, because
+    a reader must be able to tell evaluated-and-tiled from never-evaluated. ABSENT where the
+    block is absent -- a record placed before the fact was measured says nothing, never zero."""
+    tf = (plan.get("geometry_report") or {}).get("type_facts") or {}
+    t = tf.get("tiling")
+    if not t or not t.get("levels"):
+        return None
+    lines = []
+    for lv in t["levels"]:
+        sf = lv.get("uncovered_sf") or 0.0
+        if sf <= TILED_SF:
+            continue
+        strips = [s for b in (lv.get("blocks") or []) for s in (b.get("strips") or [])]
+        worst = max((s.get("area_sf") or 0.0) for s in strips) if strips else 0.0
+        name = str(lv.get("id") or f"level {lv.get('level')}").upper()
+        lines.append({"id": f"void-{lv.get('id') or lv.get('level')}", "tone": IRON,
+                      "detail": lv,
+                      "text": f"{sf:g} SF OF {name} IS NO ROOM — {_plural(len(strips), 'strip').upper()} "
+                              f"OF FLOOR INSIDE NO ROOM, WORST {worst:g} SF, ACROSS WHICH NO "
+                              f"WALL IS DRAWN"})
+    if lines:
+        return lines
+    return [{"id": "void", "tone": VERD, "detail": t,
+             "text": f"EVERY PLACED LEVEL TILES ITS BLOCK — {t.get('uncovered_sf', 0):g} SF IS "
+                     f"NO ROOM"}]
+
+
 def transfers(plan):
     """Upper wall lines landing on no wall below. Each is a transfer beam, and the count lives
     only inside an English sentence in `geometry_report.vertical`."""
@@ -305,13 +516,25 @@ def style_disagreement(plan, styles=None, partis=None):
 
 
 # ---------------------------------------------------------------- the banner
-def banner(plan, undrawable=None, diverged=None, unlocated=None, styles=None, partis=None):
+def banner(plan, undrawable=None, diverged=None, unlocated=None, styles=None, partis=None,
+           marked=True):
     """Every disclosure line the plate owes, in the order it prints them.
 
     `undrawable`, `diverged` and `unlocated` are the RENDERER's derivations, passed in rather
     than recomputed here: a second derivation of a drawn fact is how one rule comes to be
     spelled three times. Pass None to omit that line (the workbench's disclosure strip has its
-    own reader for the first two and takes only the record-derived lines from here)."""
+    own reader for the first two and takes only the record-derived lines from here). `marked`
+    says whether the surface draws the divergence mark on the field: the plate's presentation
+    register does not, and a line saying MARKED ∗ over a sheet with no ∗ on it is a disclosure
+    that points at nothing.
+
+    THE PLATE READS THIS LIST NOW (WP-13.2). `render_plan.py` imported this module, called
+    nothing from it, and spelled its own copies of two of these lines -- which is how it came to
+    print PLACEMENT PROVED on the engine's name after this module had stopped saying that
+    (`oq/the-plate-does-not-read-the-disclosure-module-it-imports`). The plate maps the tones
+    onto its inks and appends the three lines that are the SHEET's rather than the placement's
+    (the stair, openings on no wall line, the wall assembly and the face); everything a record
+    can say about what it gave up is here, once, for both surfaces."""
     gr = plan.get("geometry_report") or {}
     lines = []
 
@@ -329,6 +552,10 @@ def banner(plan, undrawable=None, diverged=None, unlocated=None, styles=None, pa
                               f'CONFLICT(S) PROVEN; THIS DRAWING IS THE LEAST-BAD RELAXATION '
                               f'(SEE GEOMETRY_REPORT.INFEASIBLE)'})
 
+    line = span_capacity(plan)
+    if line:
+        lines.append(line)
+
     if undrawable:
         names = ", ".join(f'{u["from"]}–{u["to"]}' for u in undrawable[:6])
         more = f" (+{len(undrawable) - 6} MORE)" if len(undrawable) > 6 else ""
@@ -338,17 +565,22 @@ def banner(plan, undrawable=None, diverged=None, unlocated=None, styles=None, pa
 
     # `alternative_offered` comes straight after `objective_not_run` deliberately: it is the
     # second half of one disclosure and a reader meeting the first without the second has
-    # been told the composition was not evaluated and not told what else is available.
-    for fn in (walls_set_aside, objective_not_run, alternative_offered, windows_not_drawn):
+    # been told the composition was not evaluated and not told what else is available. The
+    # furniture, the stacks, the fires and the residual void follow the windows because all
+    # five are things the record asked for and the placement did not deliver.
+    for fn in (walls_set_aside, objective_not_run, alternative_offered, windows_not_drawn,
+               furniture_not_drawn, stacking, fires_not_drawn):
         line = fn(plan)
         if line:
             lines.append(line)
+    lines.extend(residual_void(plan) or [])
 
     if diverged:
         w0 = diverged[0]
+        mark = ", MARKED ∗" if marked else ""
         lines.append({"id": "diverged", "tone": COPPER,
                       "text": f'{len(diverged)} ROOM(S) DRAWN AT A SIZE THE RECORD DOES NOT '
-                              f'DECLARE, MARKED ∗ — WORST {(w0["name"] or "").upper()} '
+                              f'DECLARE{mark} — WORST {(w0["name"] or "").upper()} '
                               f'{"+" if w0["pct"] > 0 else ""}{w0["pct"]:.0f}% BY AREA'})
 
     line = transfers(plan)

@@ -169,12 +169,444 @@ def _fit_lines(text, max_w, max_h, preferred, floor, lead=1.2, max_lines=3, trac
 # the widest row is a room name plus two dimension pairs and a percentage, and three columns of
 # a narrow plate would run them into each other.
 TABLE_COL_W = 260.0
+# The clear space between one record-table column and the next. The pitch is the widest row
+# PLUS this, so a reader can tell where one entry ends and the next begins; 260 is the floor
+# the pitch may never fall below, not the pitch itself.
+TABLE_COL_GUTTER = 14.0
 
 
 def _fmt(x):
     ft = int(x); inch = round((x-ft)*12)
     if inch == 12: ft += 1; inch = 0
     return f"{ft}'-{inch}\"" if inch else f"{ft}'"
+
+
+def _room_label(r, g, wall, scale, working, diverged_ids):
+    """The room label's whole layout, in ONE place: what it says (name, dimension line, void
+    tail, the ∗) and how it is fitted (lines, sizes, turned or flat), plus the extent of ink
+    it occupies. Lifted out of the label loop by WP-13.2 so the furniture key can know where
+    the name is WITHOUT a second account of the fit -- the key is placed before any plate is
+    drawn, and the alternative was to re-derive `lay()` beside it, which is the second spelling
+    this file forbids. The loop calls this and draws; `furniture_key_plan` calls this and
+    avoids. Returns None where the room is too small to carry a name at all."""
+    x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
+    nm = (r.get("name") or r["id"]).upper()
+    # the label sits INSIDE the room, clear of the partitions that bound it, so the
+    # box is the room less half a partition on each side
+    inset = wall["partition_in"] / 12.0 * scale
+    bw, bh = w*scale - inset - 6, h*scale - inset - 5
+    if bw <= 4 or bh <= 5: return None
+    tail = ""
+    if g.get("void"):
+        tail = "roofed, unheated" if g["void"].get("roofed") else "open to sky"
+    # ∗ — DRAWN at a size the record does not declare. It is NOT part of `dim`, and
+    # that is the point: tests/test_drawn_labels.py freezes this line because OQ 55's
+    # void disclosure once rode on it, and anything that LENGTHENS the string shrinks
+    # the fitted size until the dimension drops out of every narrow room.
+    star = "∗" if (working and r["id"] in diverged_ids) else ""
+    dim = f'{_fmt(min(w,h))} x {_fmt(max(w,h))} · {g["area_sf"]} sf'
+    show_dim = working
+
+    def lay(box_w, box_h):
+        tsize = min(6.5, box_w / (0.60 * len(tail))) if tail else 0
+        tsize = max(4.6, tsize) if tail else 0
+        dsize = min(8.0, box_w / (0.60 * len(dim))) if show_dim else 0
+        want = show_dim and dsize >= 5.6 and box_h >= 26 + (tsize * 1.5 if tail else 0)
+        reserve = (dsize * 1.5 if want else 0) + (tsize * 1.5 if tail else 0)
+        fit = _fit_lines(nm, box_w, box_h - reserve, 11.0, 6.0, track=ROOM_TRACK)
+        if not fit: return None
+        lines, size = fit
+        show = want and size >= 7.0
+        return lines, size, (dsize if show else None), tsize, \
+            len(lines) * size * 1.2 + (dsize * 1.5 if show else 0) \
+            + (tsize * 1.5 if tail else 0)
+
+    flat = lay(bw, bh)
+    turned = lay(bh, bw) if h > w * 1.3 else None
+    use = turned if (turned and (not flat or turned[1] > flat[1] * 1.15)) else flat
+    if not use: return None
+    lines, size, dsize, tsize, block = use
+    # the ink's extent, as the fitter estimated it: the widest of the name's lines, the
+    # dimension line and its ∗, and the tail; the block's height; swapped for a turned label
+    ink_w = max(_text_w(ln, size, track=ROOM_TRACK) for ln in lines)
+    if dsize:
+        ink_w = max(ink_w, _text_w(dim, dsize, mono=True) + (0.9 * dsize if star else 0))
+    if tail:
+        ink_w = max(ink_w, _text_w(tail, tsize, mono=True))
+    ink_h = block
+    if use is turned:
+        ink_w, ink_h = ink_h, ink_w
+    return {"lines": lines, "size": size, "dsize": dsize, "tsize": tsize, "block": block,
+            "turned": use is turned, "star": star, "dim": dim, "tail": tail,
+            "ink_w": ink_w, "ink_h": ink_h}
+
+
+# ---------------------------------------------------------------- the furniture key (WP-13.2)
+# EVERY FURNITURE MARK CARRIES ITS NAME ON THE PLATE. Until this package a furniture mark was
+# a rectangle with a <title> tooltip -- invisible in print, in a PDF and on the sheet Lucas
+# read, where fifty-six of fifty-six placed items were unnamed. What a draughtsman does is a
+# numeral on the mark and a key. Every item this plate draws takes a small numeral inside
+# its own rectangle (or beside it, on the room side, where the rectangle is too thin to hold
+# one), and the room carries a KEY: one line per item, the numeral and the item's own name AS
+# RECORDED, whole and never abbreviated, in the mono face the schedule is set in, in a clear
+# corner of the room. The fitter chooses the corner and the size, flat first and turned only
+# where turning earns a materially larger letter -- the room labels' own rule. Where no
+# corner of the room can hold the key at the smallest legible size, flat or turned, the key
+# goes to the margin schedule under the room's name, and that is a REFUSAL the plate states
+# rather than a silence. The <title> tooltips stay on the marks. Fixtures get the same
+# treatment, in the same numbering, because a reader does not care which pass drew a basin.
+KEY_PREFERRED_PX = 6.0   # never larger than a room name at its own floor (`_fit_lines`, 6.0)
+KEY_FLOOR_PX = 4.6       # the smallest lettering this sheet already sets: the void tail's floor
+KEY_LEAD = 1.25
+KEY_PAD_PX = 3.0         # air between the key and the wall body, and between it and other ink
+NUMERAL_PX = 5.5         # the numeral on the mark; beside the mark where the mark cannot hold it
+
+_COUNT_WORDS = {"two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7,
+                "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12}
+
+
+def key_count(name):
+    """A count the RECORD states in an item's own name, read by a closed rule and never
+    guessed: 'pair' is two; a name that opens with a number word or a numeral is that many,
+    UNLESS it states a band ('six to eight side chairs') or joins a second item ('two chairs
+    and a table'), in which case it is unjudged. None is unjudged and never one. The key line
+    carries the name whole, so the record's own words -- 'pair', 'seats 4', 'six to eight' --
+    reach the reader whatever this returns; this is the machine-readable half, published as
+    `data-count` on the line where the record states no `of` of its own. Until WP-13.6 a
+    mark was drawn ONCE whatever the count
+    (`oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`); a catalogue item
+    authored `footprint_of: piece` with a `count` is drawn that many times now, the entries
+    carry `piece`/`of`, and the key names the type once with the number drawn (`key_lines`)
+    rather than once per piece -- which is how a draughtsman keys a set of chairs, and what
+    lets one numeral stand on every piece."""
+    words = [w.strip(",.;:()/'\"") for w in (name or "").lower().split()]
+    words = [w for w in words if w]
+    if not words: return None
+    if "pair" in words: return 2
+    if "to" in words or "and" in words: return None
+    if words[0] in _COUNT_WORDS: return _COUNT_WORDS[words[0]]
+    if words[0].isdigit(): return int(words[0])
+    return None
+
+
+def _key_groups(room):
+    """[(numeral, [entries], kind)] for every mark this plate draws in `room`, numbered in
+    drawing order -- the wet fixtures first, because the fixture pass draws first, then the
+    furniture. An unplaced fixture and a furniture entry with no marks are not on the plate
+    and take no numeral: a numeral for a thing that is not drawn would be a key to nothing.
+
+    THE PIECES OF ONE COUNTED ITEM SHARE A NUMERAL (WP-13.6): consecutive drawn entries of one
+    item carrying `piece` -- the two nightstands, the eight chairs a table seats -- are ONE
+    key line and one numeral, stood on every piece, which is how a draughtsman keys a set and
+    what keeps a dining room's key eight lines shorter than its chairs."""
+    out, n = [], 0
+    for f in (room.get("fixture_layout") or []):
+        if f.get("unplaced") or f.get("x_ft") is None: continue
+        n += 1
+        out.append((n, [f], "fixture"))
+    for f in (room.get("furniture_layout") or []):
+        if not f.get("marks"): continue
+        if out and out[-1][2] == "furniture" and f.get("piece") and out[-1][1][0].get("piece") \
+                and out[-1][1][0].get("item") == f.get("item"):
+            out[-1][1].append(f)
+            continue
+        n += 1
+        out.append((n, [f], "furniture"))
+    return out
+
+
+def key_entries(room):
+    """(numeral, entry, kind) per key line -- the FIRST piece of a counted item stands for
+    the group, and `key_pieces` gives every piece under that numeral."""
+    return [(n, fs[0], kind) for n, fs, kind in _key_groups(room)]
+
+
+def key_pieces(room):
+    """{numeral: [every drawn piece]} -- the rectangles a numeral stands on."""
+    return {n: fs for n, fs, _kind in _key_groups(room)}
+
+
+def key_suffix(f, drawn):
+    """What a counted item's key line says after its name: ` xN` for the N pieces drawn, or
+    ` xK OF N` where the record asked for N and only K could be seated -- so the plate says
+    the shortfall in the line a reader looks at, and not only in the schedule's count."""
+    of = f.get("of")
+    if not f.get("piece") or not of:
+        return ""
+    return f" x{drawn}" if drawn >= of else f" x{drawn} OF {of}"
+
+
+def key_lines(entries, pieces=None):
+    """One line per entry: the numeral and the item's name as recorded, whitespace
+    normalised, set in capitals like everything else lettered on this sheet, and for a counted
+    item the number of pieces drawn (`key_suffix`). Never abbreviated: a key that shortens a
+    name is a key to a different item. `pieces` is `key_pieces(room)`; without it a counted
+    entry is keyed as the one piece handed in."""
+    out = []
+    for n, f, _kind in entries:
+        drawn = len((pieces or {}).get(n) or [f])
+        out.append(f'{n} {" ".join(str(f["item"]).split()).upper()}{key_suffix(f, drawn)}')
+    return out
+
+
+def key_block_px(lines, size, lead=KEY_LEAD):
+    """(width, height) of a key block in sheet px, flat, in the mono face."""
+    return (max(_text_w(ln, size, mono=True) for ln in lines), len(lines) * size * lead)
+
+
+def _clear(box, obstacles, pad):
+    x0, y0, x1, y1 = box
+    for ox0, oy0, ox1, oy1 in obstacles:
+        if x0 < ox1 + pad and x1 > ox0 - pad and y0 < oy1 + pad and y1 > oy0 - pad:
+            return False
+    return True
+
+
+def clear_floor(room_px, bands_px):
+    """The room's box less the wall bodies drawn on its edges: an interior band is centred on
+    the shared line and takes half its thickness from this room, so the FLOOR a key may stand
+    on starts inside it. Each side is shrunk by the deepest band intruding on it; a band that
+    only touches (the exterior envelope, drawn outward) shrinks nothing. Bands are read here
+    rather than listed among the obstacles because every corner of every room has one, and a
+    corner tried flush to the room's edge would be refused by its own wall every time."""
+    x0, y0, x1, y1 = room_px
+    left = right = top = bottom = 0.0
+    for bx0, by0, bx1, by1 in bands_px:
+        # the part of the band inside the room: a thin VERTICAL strip is a wall on the left
+        # or right, a thin HORIZONTAL one a wall on the top or bottom -- decided by the
+        # strip's own shape, because a band along the top of a room also crosses its left
+        # edge and would otherwise read as a wall the whole width of the room
+        ox0, oy0, ox1, oy1 = max(bx0, x0), max(by0, y0), min(bx1, x1), min(by1, y1)
+        if ox1 <= ox0 or oy1 <= oy0:
+            continue                                   # touching or clear: no intrusion
+        if (ox1 - ox0) < (oy1 - oy0):                  # vertical strip
+            if ox0 <= x0 + 1e-6: left = max(left, ox1 - x0)
+            if ox1 >= x1 - 1e-6: right = max(right, x1 - ox0)
+        else:                                          # horizontal strip
+            if oy0 <= y0 + 1e-6: top = max(top, oy1 - y0)
+            if oy1 >= y1 - 1e-6: bottom = max(bottom, y1 - oy0)
+    return (x0 + left, y0 + top, x1 - right, y1 - bottom)
+
+
+# A key may be pushed off its corner by the marks that stand there: a sofa in the corner of
+# the drawing room, a bookcase down the wall. The push is a short search -- at most this
+# many positions tried per corner -- from the corner inward, nearest first, so the key sits
+# against whatever it had to clear rather than somewhere plausible in the middle of the room.
+KEY_PUSH_STATES = 48
+
+
+def _place(corner, bw, bh, floor_px, obstacles, pad):
+    """The nearest clear position to `corner` for a bw x bh block, pushed inward past the
+    obstacles in its way, or None. Returns (x0, y0, distance from the corner)."""
+    rx0, ry0, rx1, ry1 = floor_px
+    sx = 1 if corner[1] == "W" else -1              # the direction "inward" along x
+    sy = 1 if corner[0] == "N" else -1
+    start = (rx0 if sx > 0 else rx1 - bw, ry0 if sy > 0 else ry1 - bh)
+    seen, frontier = {start}, [start]
+    tried = 0
+    while frontier and tried < KEY_PUSH_STATES:
+        frontier.sort(key=lambda p: abs(p[0] - start[0]) + abs(p[1] - start[1]))
+        x0, y0 = frontier.pop(0)
+        tried += 1
+        if x0 < rx0 - 1e-6 or y0 < ry0 - 1e-6 or x0 + bw > rx1 + 1e-6 or y0 + bh > ry1 + 1e-6:
+            continue
+        hit = None
+        for o in obstacles:
+            if x0 < o[2] + pad and x0 + bw > o[0] - pad and y0 < o[3] + pad and y0 + bh > o[1] - pad:
+                hit = o
+                break
+        if hit is None:
+            return (x0, y0, abs(x0 - start[0]) + abs(y0 - start[1]))
+        # push past the obstacle along either axis, away from the corner
+        nx = (hit[2] + pad) if sx > 0 else (hit[0] - pad - bw)
+        ny = (hit[3] + pad) if sy > 0 else (hit[1] - pad - bh)
+        for cand in ((nx, y0), (x0, ny)):
+            cand = (round(cand[0], 3), round(cand[1], 3))
+            if cand not in seen:
+                seen.add(cand)
+                frontier.append(cand)
+    return None
+
+
+def fit_key(room_px, obstacles, lines, preferred=KEY_PREFERRED_PX, floor=KEY_FLOOR_PX,
+            lead=KEY_LEAD, pad=KEY_PAD_PX):
+    """Where a room's key goes -- or None, and None is a refusal the caller must state.
+
+    `room_px` is the room's clear FLOOR (x0, y0, x1, y1), y down -- the room less the wall
+    bodies on its edges (`clear_floor`); `obstacles` are boxes in the same frame the key may
+    not cover -- the marks, the fixtures, the breast, the stair, the door swings as drawn, and
+    the room's own label. At every size from the preferred down to the floor the four corners
+    are tried, each pushed inward past whatever stands in it (`_place`), and the nearest
+    clear place at the largest size wins; a TURNED key (read from the foot of the sheet, as
+    a room name turned to run with a slot room is) is taken only where it earns a materially
+    larger letter or where nothing flat fits at all -- the same rule the room labels are held
+    to. Returns {corner, turned, size, x0, y0, x1, y1} or None."""
+    rx0, ry0, rx1, ry1 = room_px
+    rx0, ry0, rx1, ry1 = rx0 + pad, ry0 + pad, rx1 - pad, ry1 - pad
+    if rx1 <= rx0 or ry1 <= ry0 or not lines:
+        return None
+    steps = int(round((preferred - floor) / 0.2))
+    sizes = [round(preferred - 0.2 * k, 2) for k in range(steps + 1)]
+
+    def _try(turned):
+        for size in sizes:
+            bw, bh = key_block_px(lines, size, lead)
+            if turned:
+                bw, bh = bh, bw
+            if bw > rx1 - rx0 or bh > ry1 - ry0:
+                continue
+            best = None
+            for corner in ("NW", "NE", "SW", "SE"):
+                got = _place(corner, bw, bh, (rx0, ry0, rx1, ry1), obstacles, pad)
+                if got and (best is None or got[2] < best[1][2]):
+                    best = (corner, got)
+            if best:
+                corner, (x0, y0, _d) = best
+                return {"corner": corner, "turned": turned, "size": size,
+                        "x0": x0, "y0": y0, "x1": x0 + bw, "y1": y0 + bh}
+        return None
+
+    flat = _try(False)
+    turned = _try(True)
+    if turned and (not flat or turned["size"] > flat["size"] * 1.15):
+        return turned
+    return flat
+
+
+def numeral_at(item_px, wall_side, n, room_px, size=NUMERAL_PX, avoid=()):
+    """Where an item's numeral goes: centred INSIDE its own rectangle where the rectangle can
+    hold it, else BESIDE it on the room side -- off the wall the item was seated against, or
+    above a freestanding one -- so the numeral stands on the floor and not in the wall. A
+    beside-numeral that would leave the room is put on the opposite side instead. `avoid`
+    lists ink the numeral should not sit on -- the room's own label, which is drawn OVER a
+    freestanding table at the room's centre -- and an inside-numeral that would land on it
+    goes beside the mark instead, where a clear side exists; where none does it stays inside,
+    because the mark is the one place a numeral can never be read as somebody else's.
+    Returns (x, y_baseline, text-anchor, size, box)."""
+    x0, y0, x1, y1 = item_px
+    dw = _text_w(str(n), size, mono=True)
+    cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
+    inside = None
+    if (x1 - x0) >= dw + 2.0 and (y1 - y0) >= size + 1.0:
+        inside = (cx, cy + 0.35 * size, "middle", size,
+                  (cx - dw / 2, cy - 0.5 * size, cx + dw / 2, cy + 0.5 * size))
+        if _clear(inside[4], avoid, 0.0):
+            return inside
+    pad = 1.5
+
+    def below():   # seated on the north wall: the room is below it (y down)
+        by = y1 + pad + 0.75 * size
+        return (cx, by, "middle", size, (cx - dw / 2, y1 + pad, cx + dw / 2, by + 0.25 * size))
+
+    def above():   # seated on the south wall, or freestanding
+        by = y0 - pad - 0.25 * size
+        return (cx, by, "middle", size, (cx - dw / 2, by - 0.75 * size, cx + dw / 2, y0 - pad))
+
+    def right():   # seated on the west wall
+        return (x1 + pad, cy + 0.35 * size, "start", size,
+                (x1 + pad, cy - 0.5 * size, x1 + pad + dw, cy + 0.5 * size))
+
+    def left():    # seated on the east wall
+        return (x0 - pad, cy + 0.35 * size, "end", size,
+                (x0 - pad - dw, cy - 0.5 * size, x0 - pad, cy + 0.5 * size))
+
+    order = {"N": (below, above), "S": (above, below), "W": (right, left),
+             "E": (left, right)}.get(wall_side, (above, below))
+    rx0, ry0, rx1, ry1 = room_px
+    for cand in order:
+        c = cand()
+        bx0, by0, bx1, by1 = c[4]
+        if bx0 >= rx0 and by0 >= ry0 and bx1 <= rx1 and by1 <= ry1 and _clear(c[4], avoid, 0.0):
+            return c
+    return inside or order[0]()
+
+
+def furniture_key_plan(levels, level_openings, level_bands, plan, wall, W, H, scale, working,
+                       diverged_ids):
+    """Every room's furniture key, fitted or refused to the margin, BEFORE the sheet is sized:
+    the margin schedule's height is fixed before any plate is drawn, and a refusal that
+    arrives after that has nowhere to go but off the canvas.
+
+    Returns (plan, margin). `plan[i][room_id]` carries the entries, the key lines, each
+    numeral's place and the key's placement (or None); `margin` is [(room label, lines)] for
+    every room no corner of which holds its key, in level order. Everything is in the ROOM'S
+    OWN frame -- px from its NW corner, y down -- so nothing here depends on where the plate
+    lands, and the drawing pass adds the plate's origin and nothing else."""
+    st = plan.get("stair") or {}
+    out, margin = [], []
+    for i, lv in enumerate(levels):
+        here = {}
+        op = level_openings[i]
+        # every door leaf on this level sweeps a square of its own width, AS DRAWN -- the same
+        # `swing_positive` the leaf is drawn from, so the key avoids the arc the reader sees
+        swings = []
+        for d in op["interior"]:
+            w_, hw, at, pos = d["width_ft"], d["width_ft"] / 2.0, d["at_ft"], d["pos_ft"]
+            if d["horiz"]:
+                swings.append((pos - hw, at, w_, w_) if d["swing_positive"] else (pos - hw, at - w_, w_, w_))
+            else:
+                swings.append((at, pos - hw, w_, w_) if d["swing_positive"] else (at - w_, pos - hw, w_, w_))
+        for d in op["exterior"]:
+            wl, p_, w_ = d["wall"], d["at_ft"], d["width_ft"]
+            horiz = wl in ("S", "N")
+            e = d.get("edge_ft")
+            if e is None:
+                e = (0.0 if wl == "S" else H) if horiz else (0.0 if wl == "W" else W)
+            if horiz:
+                swings.append((p_ - w_ / 2.0, e if wl == "S" else e - w_, w_, w_))
+            else:
+                swings.append((e if wl == "W" else e - w_, p_ - w_ / 2.0, w_, w_))
+        stair_rects = []
+        if st and (st.get("level") or 0) == i:
+            stair_rects = [st["well"]] if st.get("well") else list(st.get("flights") or [])
+        for r in lv["rooms"]:
+            g = r.get("geometry")
+            if not g or g.get("void"):
+                continue
+            entries = key_entries(r)
+            if not entries:
+                continue
+            x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
+
+            def loc(mx, my, mw, mh):
+                return ((mx - x) * scale, (y + h - my - mh) * scale,
+                        (mx + mw - x) * scale, (y + h - my) * scale)
+
+            room_px = (0.0, 0.0, w * scale, h * scale)
+            pieces = key_pieces(r)
+            obstacles = [loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"])
+                         for n, _f, _k in entries for f in pieces[n]]
+            for hh in (r.get("hearth") or []):
+                b = HEARTH.breast(r, hh)
+                if b and not b.get("undrawable"):
+                    obstacles.append(loc(b["x_ft"], b["y_ft"], b["width_ft"], b["depth_ft"]))
+            for rect in stair_rects:
+                obstacles.append(loc(rect["x_ft"], rect["y_ft"], rect["width_ft"], rect["depth_ft"]))
+            for sw in swings:
+                obstacles.append(loc(*sw))
+            floor_px = clear_floor(room_px, [loc(bd["x_ft"], bd["y_ft"], bd["width_ft"], bd["depth_ft"])
+                                             for bd in level_bands[i]])
+            lab = _room_label(r, g, wall, scale, working, diverged_ids)
+            label_box = []
+            if lab:
+                cx, cy = w * scale / 2.0, h * scale / 2.0
+                label_box = [(cx - lab["ink_w"] / 2.0, cy - lab["ink_h"] / 2.0,
+                              cx + lab["ink_w"] / 2.0, cy + lab["ink_h"] / 2.0)]
+                obstacles.extend(label_box)
+            numerals = []
+            for n, _f, _kind in entries:
+                for f in pieces[n]:          # one numeral on EVERY piece of a counted item
+                    nb = numeral_at(loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]),
+                                    f.get("wall"), n, room_px, avoid=label_box)
+                    numerals.append((n, nb))
+                    obstacles.append(nb[4])
+            lines = key_lines(entries, pieces)
+            fit = fit_key(floor_px, obstacles, lines)
+            here[r["id"]] = {"entries": entries, "lines": lines, "numerals": numerals, "fit": fit}
+            if fit is None:
+                margin.append(((r.get("name") or r["id"]).upper(), lines))
+        out.append(here)
+    return out, margin
 
 # ---------------------------------------------------------------- the wall as a body
 # WHAT CHANGED AND WHY. Until this package every wall on this sheet was a single stroke --
@@ -483,6 +915,53 @@ def threshold_rects(plan):
     return out
 
 
+# ---------------------------------------------------------------- the dimension run (WP-13.2)
+# PORTED FROM workbench/app/src/sheet/Sheet.jsx::DimRun, the browser sheet's own run, so the
+# two sheets of one record dimension it the same way: a run line in the construction pen, an
+# oblique tick at every stop in the fine pen, and a feet-and-inches figure over every segment
+# -- "ticks, primes, never decimal feet". The figure is `_fmt`'s, the one spelling the room
+# dimension strings and the title already use. Until this the Python sheet carried a bay
+# figure above the plate and nothing under it, so the only thing a reader could step a
+# dimension off was the scale bar -- whose zero stood on the plate's margin.
+#
+# THE SIZES ARE IN PX AND DO NOT SCALE WITH THE PLATE. A pen is a pen (sheet_style.py) and a
+# tick is a sheet mark, not a model one; the JSX states its tick in feet only because its
+# whole plate is drawn in model units under one transform.
+DIM_RUN_OFF_PX = (14.0, 36.0)   # the bay run and the overall run, below the plate's extent
+DIM_BAND_PX = 44.0              # what the two runs and their overshoot take under each plate;
+                                # `foot_h` grows by it so the foot and the canvas follow
+DIM_TICK_PX = 4.0               # half of the oblique tick
+DIM_FIG_FLOOR_PX = 6.0          # the smallest figure set; it is never dropped or truncated
+
+
+def dim_run(X, y, stops, size=8.0, floor=DIM_FIG_FLOOR_PX):
+    """One horizontal dimension run at sheet `y`: the line, a tick at each stop, a figure per
+    segment. `stops` are model x in feet, ascending; `X` is the plate's own affine, the same
+    function the bay figures are struck from. Returns SVG strings.
+
+    A figure wider than its segment at the class size is set smaller, to a floor, and drawn
+    whole in every case -- the rule the room labels are held to (tests/test_drawn_labels.py):
+    a figure over its own ticks is legible where a missing one is a silence. The size goes in
+    `style=`, never as an attribute, because `.dm` sets font-size and would win."""
+    t = DIM_TICK_PX
+    out = [f'<line class="gd" x1="{X(stops[0]):.1f}" y1="{y:.1f}" '
+           f'x2="{X(stops[-1]):.1f}" y2="{y:.1f}"/>']
+    for m in stops:
+        x = X(m)
+        out.append(f'<line class="fn" x1="{x - t:.1f}" y1="{y + t:.1f}" '
+                   f'x2="{x + t:.1f}" y2="{y - t:.1f}"/>')
+    for a, b in zip(stops, stops[1:]):
+        label = _fmt(b - a)
+        seg = (X(b) - X(a)) - 2 * t
+        fs = size
+        if _text_w(label, fs, mono=True) > seg:
+            fs = max(floor, seg / _text_w(label, 1.0, mono=True))
+        st = f' style="font-size:{fs:.2f}px"' if fs != size else ""
+        out.append(f'<text class="dm" x="{(X(a) + X(b)) / 2:.1f}" y="{y - 3.0:.1f}" '
+                   f'text-anchor="middle"{st}>{_esc(label)}</text>')
+    return out
+
+
 def render(plan, path, scale=PX_PER_FT, register="working"):
     if register not in REGISTERS:
         raise SystemExit(f"register must be one of {REGISTERS}, not {register!r}")
@@ -519,21 +998,14 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     draw_W = (max([g["x_ft"] + g["width_ft"] for g in _pts] + [W]) if _pts else W) + ext_ft - draw_x0
     draw_H = (max([g["y_ft"] + g["depth_ft"] for g in _pts] + [H]) if _pts else H) + ext_ft - draw_y0
 
-    # WP-11.10. The appendages, keyed by the level they stand on, so a placed terrace door is
-    # drawn instead of being reported undrawable. Keyed on the level's own `index` and not on
-    # its position in `levels`, which is FILTERED to the levels carrying geometry.
-    _apx = {}
-    for _a in ((plan.get("appendages") or {}).get("placed") or []):
-        _apx.setdefault(_a.get("level", 0), {})[_a["room"]] = _a["rect"]
-    # WP-11.14: each level's rooms over their OWN massing elements -- `elements.bounds_index`,
-    # the same reader `openings.py` has used since WP-11.9. A room in no element is ABSENT from
-    # the map and `_boundary_wall` then falls back to the footprint, which is the answer a
-    # one-rectangle house wants and the one every shipped plan gets.
+    # WP-11.10 / WP-11.14: the level's placed appendages (a terrace door is drawn, not reported
+    # undrawable) and each room's own massing element (`elements.bounds_index`), keyed on the
+    # level's own `index` and not on its position in `levels`, which is FILTERED to the levels
+    # carrying geometry. ONE spelling since WP-13.2 -- `openings_of_level` -- because the DXF
+    # exporter, two tests and the gate had each written this map out and one of them forgot the
+    # appendages and was a leaf short of the sheet.
     _EL = _mod("elements", f"{ROOT}/build/elements.py")
-    level_openings = [derive_openings(lv["rooms"], W, H,
-                                      appendages=_apx.get(lv.get("index", i)),
-                                      bounds=_EL.bounds_index(plan, lv["rooms"]))
-                      for i, lv in enumerate(levels)]
+    level_openings = [openings_of_level(plan, lv, i) for i, lv in enumerate(levels)]
     all_undrawable = [u for op in level_openings for u in op["undrawable"]]
     all_diverged = [d for lv in levels for d in declared_divergence(lv["rooms"])]
     all_diverged.sort(key=lambda d: -abs(d["pct"]))
@@ -556,6 +1028,23 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     _name_unique = {}
     for _d in all_diverged:
         _name_unique[_d["name"]] = _name_unique.get(_d["name"], 0) + 1
+
+    def _table_line(d):
+        """One row of the record table, built HERE so the layout below measures the string the
+        loop at the foot of this function actually draws. They were two expressions and the
+        layout's was a constant."""
+        g = _decl_pair.get(d["id"])
+        asked = f'{_fmt(min(g))} x {_fmt(max(g))}' if g else "—"
+        drew = _drawn_pair.get(d["id"])
+        got = f'{_fmt(min(drew))} x {_fmt(max(drew))}' if drew else "—"
+        # THE ID WHERE THE NAME IS NOT UNIQUE. Two rooms called "Closet" produced two rows a
+        # reader could not tell apart, differing only in figures nobody could attribute.
+        label = d["name"] if _name_unique.get(d["name"], 0) == 1 \
+            else f'{d["name"]} ({d["id"]})'
+        return (f'{label}: drawn {got}, record {asked} '
+                f'({"+" if d["pct"] > 0 else ""}{d["pct"]:.0f}%)')
+
+    _table_text = [_table_line(d) for d in all_diverged]
     _rx_all = (plan.get("geometry_report", {}).get("relaxations", {}) or {}).get("marks", [])
     level_marks = [relaxation_marks(_rx_all, i, W, H) for i in range(len(levels))]
     all_unlocated = [m for _d, un in level_marks for m in un]
@@ -603,80 +1092,31 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     # draughtsman puts a note. The MARKS stay on the field, at their locations, in the working
     # register.
     gr = plan.get("geometry_report", {})
-    _solver = gr.get("solver") or {}
-    schedule = []
-    if gr:
-        rl = gr.get("relaxations", {})
-        schedule.append((L["salmon_deep"] if rl.get("count") else L["green_deep"],
-                         f'{rl.get("count", 0)} CUT(S) OFF THE BAY LINE'
-                         + (f", WORST {rl.get('max_off_grid_ft')} FT" if rl.get("count") else "")))
-        inf = gr.get("infeasible")
-        if inf:
-            schedule.append((L["brick"], f'INFEASIBLE AS DECLARED — {len(inf.get("conflicts", []))} '
-                             f'CONFLICT(S) PROVEN; THIS DRAWING IS THE LEAST-BAD RELAXATION '
-                             f'(SEE GEOMETRY_REPORT.INFEASIBLE)'))
-        # WP-11.12 (OQ 98's reporting half). `structure.py` has measured the clear span since
-        # WP-3.1 and the search has CHARGED it since WP-7.4, and no plate had ever printed it:
-        # the Tidewater upper floor is drawn with a 60 ft run and no bearing line in it. The
-        # count is a FLOOR and the line says so, because `span_check` credits a bearing wall
-        # across the whole plate however short it runs (OQ 98's measurement half, unruled).
-        _sp = gr.get("span_capacity") or {}
-        if _sp.get("over_capacity") is None:
-            schedule.append((L["salmon_deep"], "CLEAR SPAN NOT EVALUATED — THE CONSTRUCTION "
-                             "CATALOGUE COULD NOT BE READ; NO SPAN IS CLAIMED CLEAR"))
-        elif _sp.get("over_capacity"):
-            schedule.append((L["brick"], f'{_sp["over_capacity"]} CLEAR SPAN(S) OVER THE FRAMING '
-                             f'CAPACITY, WORST {_sp.get("worst_span_ft", 0):g} FT — AT LEAST '
-                             f'THAT MANY: A BEARING LINE IS CREDITED ACROSS THE WHOLE PLATE '
-                             f'HOWEVER SHORT THE WALL RUNS'))
-        elif _sp:
-            # the zero is printed, and with the same caveat, because "no span exceeds capacity"
-            # is exactly the claim the credited-across-the-plate reading can make falsely
-            schedule.append((L["green_deep"], "0 CLEAR SPAN(S) OVER THE FRAMING CAPACITY — "
-                             "AT LEAST NONE FOUND: A BEARING LINE IS CREDITED ACROSS THE WHOLE "
-                             "PLATE HOWEVER SHORT THE WALL RUNS"))
-    if all_undrawable:
-        names = ", ".join(f'{u["from"]}–{u["to"]}' for u in all_undrawable[:6])
-        more = f" (+{len(all_undrawable)-6} MORE)" if len(all_undrawable) > 6 else ""
-        schedule.append((L["brick"], f'{len(all_undrawable)} DECLARED DOOR(S) WITHOUT A DRAWABLE '
-                         f'OPENING — IN THE RECORD, NOT THE LINEWORK: {names.upper()}{more}'))
-    if all_diverged:
-        w0 = all_diverged[0]
-        mark = ", MARKED ∗" if working else ""
-        schedule.append((L["salmon_deep"], f'{len(all_diverged)} ROOM(S) DRAWN AT A SIZE THE '
-                         f'RECORD DOES NOT DECLARE{mark} — WORST {(w0["name"] or "").upper()} '
-                         f'{"+" if w0["pct"] > 0 else ""}{w0["pct"]:.0f}% BY AREA'))
-    # THE STACK'S PLAN SIZE IS A JUDGMENT, AND THIS LINE IS READ FROM `disclosures.py` RATHER
-    # THAN SPELLED HERE (WP-12.9). `brick-course` flags the figure `judgment: true` -- 22 in is
-    # between sizes and a mason will build 18 or 27 -- and of the three surfaces that draw it,
-    # the elevation legend said so, the scene refused a solid outright, and THIS plate drew the
-    # square and its tooltip called it a measurement.
-    #
-    # AND WIRING IT THROUGH `DISC` IS DELIBERATE, BECAUSE THAT IMPORT WAS DEAD. `disclosures.py`
-    # opens by saying "ONE SPELLING, TWO SURFACES: build/render_plan.py draws these lines on the
-    # plate; the workbench gets the same list through core.placement_summary" -- and measured on
-    # this tree, `mcp_server/core.py` calls `banner()` and THIS FILE CALLED NOTHING, having
-    # imported DISC at line 20 and spelled its own copies of two of the lines at 611 and 656
-    # (`export_dxf.py` spells a third). That is the very defect the module exists to prevent,
-    # standing inside the file that claims to prevent it. Reconciling the whole schedule moves
-    # sixteen shipped sheets and is its own package -- see
-    # `oq/the-plate-does-not-read-the-disclosure-module-it-imports`, whose slug is on ONE line
-    # here because `check_citations.py` reads line by line and a wrapped slug is its truncated
-    # left half, which is the trap CLAUDE.md records and which this comment sprang on its first
-    # run. This one line is read from the one spelling, which is the direction that package
-    # will go in.
-    _sj = DISC.stack_plan_judgment(plan)
-    if _sj:
-        schedule.append((L["salmon_deep"], _sj["text"]))
-    if _solver.get("engine") == "cp-sat":
-        schedule.append((L["green_deep"], "PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"))
-    elif _solver.get("engine"):
-        _reason = _solver.get("reason")
-        schedule.append((L["salmon_deep"], "PLACEMENT SEARCHED, NOT PROVED — HILL-CLIMB" + (
-            f" — {_reason.upper()}" if _reason and _reason != "requested" else "")))
-    if all_unlocated:
-        schedule.append((L["brick"], f'{len(all_unlocated)} CUT(S) OFF THE BAY LINE THE SOLVER '
-                         f'LOCATED ON NO WALL OF THEIR LEVEL — COUNTED, NOT DRAWN'))
+    # THE PLATE READS `disclosures.banner()` NOW, AND THE IMPORT AT LINE 20 IS NO LONGER DEAD
+    # (WP-13.2). Until this package the schedule was spelled HERE: the relaxation count, the
+    # infeasibility, the clear spans, and an engine line that printed PLACEMENT PROVED (CP-SAT)
+    # AGAINST THE RECORD'S DECLARED FACTS in green on `solver.engine == "cp-sat"` ALONE -- the
+    # gate measured it over a record reading `status: FEASIBLE — kept polish from the heuristic
+    # hint (best of 2 hard-valid placements)`, `objective: 518.9`. `disclosures.py` had stopped
+    # saying that in WP-11.1 and the bench's strip, which reads `banner()`, had been honest for
+    # a fortnight while the printed plate was not: two surfaces, two spellings, and the one a
+    # person prints was the wrong one. That is
+    # `oq/the-plate-does-not-read-the-disclosure-module-it-imports`, closed here: every line
+    # a RECORD can supply -- relaxations, infeasible, spans, walls set aside, the objective, the
+    # alternative, the windows, the furniture, the declared stacks, the residual void, the
+    # transfer beams, the stack judgment, the engine and the style -- is read from the one
+    # spelling, and the three derivations that are the RENDERER's (undrawable doors, diverged
+    # rooms, unlocated marks) are passed in as `banner()` expects rather than derived twice.
+    # The tones are the module's three and the inks are the sheet's; a fourth tone would fail
+    # here loudly rather than print in black.
+    _TONE = {DISC.IRON: L["brick"], DISC.COPPER: L["salmon_deep"], DISC.VERD: L["green_deep"]}
+    schedule = [(_TONE[ln["tone"]], ln["text"])
+                for ln in DISC.banner(plan, undrawable=all_undrawable, diverged=all_diverged,
+                                      unlocated=all_unlocated, styles=C.get("styles"),
+                                      partis=_partis(), marked=working)]
+    # What follows is the SHEET's own, not the placement's: the stair, an opening the band pass
+    # could not find a wall for, the wall assembly the ink is drawn with, and the face it is set
+    # in. The bench draws its own stair and its own walls and does not print these.
     _st = plan.get("stair") or {}
     if _st.get("unplaced"):
         schedule.append((L["salmon_deep"], "STAIR NOT DRAWN — " +
@@ -737,8 +1177,22 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     panel_w = pw + extra_left + extra_right
     head_h = 54.0                                  # title and its subtitle inside the border
     grid_h = 24.0                                  # the bay figures above each plate
-    foot_h = 58.0                                  # scale bar and compass under the plates
+    # WP-13.2: the two dimension runs under each plate sit ABOVE the scale bar, in a band of
+    # DIM_BAND_PX; the foot grows by it, so `total_h` and the table's `ty` follow without a
+    # second spelling of the sum. `tests/test_dimension_run.py` holds the foot's order.
+    foot_h = 58.0 + DIM_BAND_PX                    # the runs, then scale bar and compass
     total_w = M * 2 + BP * 2 + len(levels) * panel_w + (len(levels) - 1) * gap
+
+    # THE FURNITURE KEY IS FITTED HERE, BEFORE THE MARGIN IS SIZED (WP-13.2). A room no corner
+    # of which can hold its key sends the key to this schedule under the room's name, and the
+    # schedule's height is fixed a few lines down -- a refusal arriving after that would be
+    # drawn off the canvas, which is the silence the key exists to end. The plates draw from
+    # `key_plan` and add nothing to it.
+    key_plan, key_margin = furniture_key_plan(levels, level_openings, level_bands, plan, wall,
+                                              W, H, scale, working, diverged_ids)
+    for _kname, _klines in key_margin:
+        schedule.append((L["salmon_deep"], f'FURNITURE KEY, {_kname} — NO CORNER OF THE ROOM '
+                         f'HOLDS IT AT {KEY_FLOOR_PX:g} PX, FLAT OR TURNED: {"; ".join(_klines)}'))
 
     # THE SCHEDULE WRAPS, AND THE BAND GROWS TO HOLD IT. Set as one line each, the undrawable-
     # door list and the stair's own refusal ran off the right edge and past the border -- the
@@ -762,7 +1216,19 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     # THE TABLE'S HEIGHT IS COMPUTED, NEVER A FIXED ALLOWANCE. A fixed one under the plates is
     # how a third of an upper floor came to be drawn outside this canvas (WP-9.6), and the
     # table is the last thing on the sheet, so anything it overruns is simply not drawn.
-    _table_cols = max(1, int((total_w - 2 * (M + BP)) // TABLE_COL_W))
+    # THE COLUMN PITCH IS MEASURED FROM THE ROWS, NOT ASSUMED (16 Sep 2026). `TABLE_COL_W` was
+    # a flat 260 px and nothing measured the text against it, so every row longer than that
+    # overprinted its neighbour's first characters: on the shipped Tidewater sheet TWENTY OF
+    # TWENTY-FOUR rows overran, the widest at 316.8 px, and the plate read
+    # "record 17' x 20' (+45%)ntry: drawn 5'-9" x 9'" -- a table that silently ate the front of
+    # "Butler's Pantry". Found by rendering the sheet and looking at it, which is this
+    # repository's own highest-yield technique and the only thing that has ever caught one of
+    # these; no assertion in the tree reads this block's geometry. `TABLE_COL_W` survives as
+    # the FLOOR, so a sheet whose rows are all short lays out exactly as it did.
+    _table_col_w = max(TABLE_COL_W,
+                       max((_text_w(t, 8.0, mono=True) for t in _table_text), default=0.0)
+                       + TABLE_COL_GUTTER)
+    _table_cols = max(1, int((total_w - 2 * (M + BP)) // _table_col_w))
     _table_rows = -(-len(all_diverged) // _table_cols) if all_diverged else 0
     table_h = (18.0 + 11.0 * _table_rows) if all_diverged else 0.0
     top = M + BP + head_h + grid_h
@@ -844,14 +1310,46 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # against project every structural line thinly past the walls, which is how a reader
         # sees the discipline the plan was composed on rather than only the marks where it was
         # broken. The line is left visible -- that is what the construction weight is FOR.
+        #
+        # ...AND IT IS THE EXTENSION LINE OF THE DIMENSION RUN UNDER THE PLATE (WP-13.2). Each
+        # bay line runs on past the plate to the runs' overshoot, so the tick on the run stands
+        # on the very line the figure above it names; the two stops no bay line reaches -- the
+        # clear faces at 0 and W -- get an extension line of their own, from the clear face
+        # down. The band sits under everything the plate draws, the lot's front strip
+        # included (`extra_bottom`), so a stoop or a setback never has a run through it.
+        #
+        # THE FIGURE ABOVE THE PLATE CARRIES NO PRIME, DELIBERATELY. Sheet.jsx:449 writes
+        # `9′`; the gate reads this figure with a regex that ends `(\d+)</text>`
+        # (tests/test_sheet_coherence.py, `_FIG`), and a gate row may not be loosened to
+        # pass. The unit is stated by the run under the plate instead, whose figures are
+        # feet-and-inches. If the gate's reader is ever widened, the prime goes here.
         bm = fp.get("bay_module_ft") or 10
-        b, n = bm, 1
+        stops, b = [0.0], bm
         while b < W - 0.01:
+            stops.append(b); b += bm
+        stops.append(float(W))
+        band_top = Y(draw_y0) + extra_bottom
+        band_bot = band_top + DIM_RUN_OFF_PX[1] + DIM_TICK_PX
+        for n, b in enumerate(stops[1:-1], 1):
             s.append(f'<line class="gd" x1="{X(b):.1f}" y1="{Y(draw_y0 + draw_H) - 16:.1f}" '
-                     f'x2="{X(b):.1f}" y2="{Y(draw_y0) + 16:.1f}"/>')
+                     f'x2="{X(b):.1f}" y2="{band_bot:.1f}"/>')
             s.append(f'<text class="dm" x="{X(b):.1f}" y="{Y(draw_y0 + draw_H) - 20:.1f}" '
                      f'text-anchor="middle" style="font-size:7px;fill:{L["hair"]}">{n * bm:g}</text>')
-            b += bm; n += 1
+        for m in (0.0, float(W)):
+            s.append(f'<line class="gd" x1="{X(m):.1f}" y1="{Y(0.0):.1f}" '
+                     f'x2="{X(m):.1f}" y2="{band_bot:.1f}"/>')
+        lvid = _esc(lv.get("id") or str(i))
+        s.append(f'<g data-run="bays" data-level="{lvid}">')
+        s.extend(dim_run(X, band_top + DIM_RUN_OFF_PX[0], stops))
+        s.append('</g>')
+        s.append(f'<g data-run="overall" data-level="{lvid}">')
+        s.extend(dim_run(X, band_top + DIM_RUN_OFF_PX[1], [0.0, float(W)]))
+        s.append('</g>')
+        # THE SCALE BAR'S ZERO STANDS ON THIS FUNCTION'S X(0.0) -- the ground plate's clear
+        # face, the datum every bay figure above is struck from -- and the foot of the sheet
+        # reads it from here rather than re-spelling the plate's affine (WP-13.2).
+        if i == 0:
+            ground_X = X
 
         # the reserved voids, under the walls: a court is drawn OPEN (OQ 55) -- the ground
         # colour and a hatch, so it reads as the outside it is and not as a room nobody labelled
@@ -949,43 +1447,15 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             if not g: continue
             x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
             cx, cy = X(x + w/2), Y(y + h/2)
-            nm = (r.get("name") or r["id"]).upper()
-            # the label sits INSIDE the room, clear of the partitions that bound it, so the
-            # box is the room less half a partition on each side
-            inset = wall["partition_in"] / 12.0 * scale
-            bw, bh = w*scale - inset - 6, h*scale - inset - 5
-            if bw <= 4 or bh <= 5: continue
-            tail = ""
-            if g.get("void"):
-                tail = "roofed, unheated" if g["void"].get("roofed") else "open to sky"
-            # ∗ — DRAWN at a size the record does not declare. It is NOT part of `dim`, and
-            # that is the point: tests/test_drawn_labels.py freezes this line because OQ 55's
-            # void disclosure once rode on it, and anything that LENGTHENS the string shrinks
-            # the fitted size until the dimension drops out of every narrow room.
-            star = "∗" if (working and r["id"] in diverged_ids) else ""
-            dim = f'{_fmt(min(w,h))} x {_fmt(max(w,h))} · {g["area_sf"]} sf'
-            show_dim = working
-
-            def lay(box_w, box_h):
-                tsize = min(6.5, box_w / (0.60 * len(tail))) if tail else 0
-                tsize = max(4.6, tsize) if tail else 0
-                dsize = min(8.0, box_w / (0.60 * len(dim))) if show_dim else 0
-                want = show_dim and dsize >= 5.6 and box_h >= 26 + (tsize * 1.5 if tail else 0)
-                reserve = (dsize * 1.5 if want else 0) + (tsize * 1.5 if tail else 0)
-                fit = _fit_lines(nm, box_w, box_h - reserve, 11.0, 6.0, track=ROOM_TRACK)
-                if not fit: return None
-                lines, size = fit
-                show = want and size >= 7.0
-                return lines, size, (dsize if show else None), tsize, \
-                    len(lines) * size * 1.2 + (dsize * 1.5 if show else 0) \
-                    + (tsize * 1.5 if tail else 0)
-
-            flat = lay(bw, bh)
-            turned = lay(bh, bw) if h > w * 1.3 else None
-            use = turned if (turned and (not flat or turned[1] > flat[1] * 1.15)) else flat
-            if not use: continue
-            lines, size, dsize, tsize, block = use
-            gx = f'<g transform="rotate(-90 {cx:.1f} {cy:.1f})">' if use is turned else '<g>'
+            # WHAT THE LABEL SAYS AND HOW IT IS FITTED LIVE IN `_room_label` (WP-13.2), one
+            # function with two callers: this loop draws it, and `furniture_key_plan` keeps the
+            # furniture key clear of it before any plate is drawn. The fit itself is unchanged.
+            lab = _room_label(r, g, wall, scale, working, diverged_ids)
+            if not lab: continue
+            lines, size, dsize, tsize, block = (lab["lines"], lab["size"], lab["dsize"],
+                                                lab["tsize"], lab["block"])
+            star, dim, tail = lab["star"], lab["dim"], lab["tail"]
+            gx = f'<g transform="rotate(-90 {cx:.1f} {cy:.1f})">' if lab["turned"] else '<g>'
             s.append(gx)
             # NAMED `label_top`, AND THE NAME IS THE WHOLE FIX. This was `top`, the SHEET'S TOP
             # MARGIN, read by both `total_h` and `oy`; reassigning it here positioned the first
@@ -1036,8 +1506,32 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # the record names the wall it is opposite and this renderer does not know which of four
         # sides that is, and putting it on a plausible one is the invention this layer exists
         # to stop.
+        #
+        # AND A FIRE THE PLACEMENT REFUSED IS NOT DRAWN EITHER (WP-13.2). `threshold.hearth_pass`
+        # judges every stated breast against the room's own element box and writes the verdict
+        # to `plan["hearths"]["breasts"]`; on the CP-SAT sheet the drawing and dining rooms'
+        # declared W walls were released by the solver and this block drew their fires 19 and
+        # 25 ft inboard of the west face with no flue behind them. The verdict is READ here and
+        # not re-derived: one judge, and the plate draws what it allowed. In the WORKING
+        # register the refusal is drawn as a dashed ghost where the declared wall would have put
+        # the breast, carrying the reason -- the register that already carries the △ and the ∗
+        # -- and in the presentation register nothing is drawn and the record carries it.
+        _verdict = {(row.get("level"), row.get("room"), row.get("index")): row
+                    for row in ((plan.get("hearths") or {}).get("breasts") or [])}
         for r in lv["rooms"]:
-            for h in (r.get("hearth") or []):
+            for _hn, h in enumerate(r.get("hearth") or []):
+                _v = _verdict.get((lv.get("index", i), r["id"], _hn))
+                if _v is not None and not _v.get("drawn"):
+                    if working and _v.get("x_ft") is not None:
+                        s.append(f'<rect data-hearth-refused="{_esc(r["id"])}" '
+                                 f'x="{X(_v["x_ft"]):.1f}" y="{Y(_v["y_ft"] + _v["depth_ft"]):.1f}" '
+                                 f'width="{_v["width_ft"] * scale:.1f}" '
+                                 f'height="{_v["depth_ft"] * scale:.1f}" fill="none" '
+                                 f'stroke="{L["salmon_deep"]}" stroke-width="{SS.LW["fine"]}" '
+                                 f'stroke-dasharray="3 2">'
+                                 f'<title>{_esc(r.get("name") or r["id"])}: fireplace NOT DRAWN -- '
+                                 f'{_esc(_v.get("why") or "refused by the placement")}</title></rect>')
+                    continue
                 b = HEARTH.breast(r, h)
                 if not b or b.get("undrawable"):
                     continue
@@ -1116,15 +1610,23 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             _frame(win["wall"], win["at_ft"], win["width_ft"] * scale / 2, True,
                    win.get("edge_ft"))
 
-        def _door(px, py, horiz, width, dtype, swing_positive):
+        def _door(px, py, horiz, width, dtype, swing_positive, hinge="low"):
             """One opening drawn as the KIND of opening it is. Until WP-6.1 `type` was read by
             no renderer at all, so a pair of doors and a cased opening were both drawn as one
             enormous hinged leaf -- what a reader saw as 'a massive door' with 'no rhyme or
             reason' to its size. The leaf is the medium pen and the arc the construction pen,
-            which is the weight ladder doing the work colour used to be asked to do."""
+            which is the weight ladder doing the work colour used to be asked to do.
+
+            `hinge` is the RECORD's (`openings.py` writes `hinge: "low"` on every door it
+            places, and until WP-13.2 nothing read it): "low" is the jamb at the lower
+            coordinate ALONG the wall -- west on a horizontal wall, SOUTH on a vertical one.
+            This renderer hinged a vertical-wall single leaf on the NORTH jamb, the browser
+            sheet did the same, and the DXF hinged it on the south; three drawings of one door
+            from two jambs. A is the low jamb and B the high one, in model terms -- on screen a
+            vertical wall's low jamb is the LARGER y."""
             half = width * scale / 2
             if horiz: ax0, ay0, bx0, by0 = X(px)-half, Y(py), X(px)+half, Y(py)
-            else:     ax0, ay0, bx0, by0 = X(px), Y(py)-half, X(px), Y(py)+half
+            else:     ax0, ay0, bx0, by0 = X(px), Y(py)+half, X(px), Y(py)-half
 
             def jambs():
                 t = ext_ft * scale / 2
@@ -1132,34 +1634,47 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                     if horiz: s.append(f'<line class="dr" x1="{jx:.1f}" y1="{jy-t:.1f}" x2="{jx:.1f}" y2="{jy+t:.1f}"/>')
                     else:     s.append(f'<line class="dr" x1="{jx-t:.1f}" y1="{jy:.1f}" x2="{jx+t:.1f}" y2="{jy:.1f}"/>')
 
-            def leaf(hx, hy, radius, tox, toy, sweep):
+            def leaf(hx, hy, radius, tox, toy):
                 if horiz: ex, ey = hx, hy + (-radius if swing_positive else radius)
                 else:     ex, ey = hx + (radius if swing_positive else -radius), hy
                 s.append(f'<path class="sw" d="M {ex:.1f} {ey:.1f} A {radius:.1f} {radius:.1f} '
-                         f'0 0 {sweep} {tox:.1f} {toy:.1f}"/>')
+                         f'0 0 {sweep_flag((hx, hy), (ex, ey), (tox, toy))} {tox:.1f} {toy:.1f}"/>')
                 s.append(f'<line class="dr" x1="{hx:.1f}" y1="{hy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}"/>')
 
-            sw = (0 if swing_positive else 1) if horiz else (1 if swing_positive else 0)
+            # WP-13.2. The sweep flag was a TABLE -- `(0 if swing_positive else 1) if horiz
+            # else (1 if swing_positive else 0)` from WP-6.1 to Phase 13 -- and the horizontal
+            # arm was inverted, so every leaf on a horizontal wall was drawn as its own mirror
+            # about the chord, hollowing back toward the hinge with its W3C centre exactly
+            # r*sqrt(2) from it: 8 of 18 arcs on the search sheet, 12 of 28 on the prover's.
+            # The one-line fix collapsed the table to `1 if swing_positive else 0`; then the
+            # hinge became the record's jamb (see the docstring) and the table would have needed
+            # a fourth row. It is DERIVED now, by `sweep_flag`, from where the hinge, the tip
+            # and the far jamb actually are -- one rule for every leaf, held by
+            # tests/test_drawn_geometry.py's W3C round-trip on the emitted ink and by the gate.
+            # `workbench/app/src/sheet/Sheet.jsx::Leaf` derives it the same way.
             if dtype == "double":
                 mx, my = (ax0 + bx0) / 2, (ay0 + by0) / 2
-                leaf(ax0, ay0, half, mx, my, sw)
-                leaf(bx0, by0, half, mx, my, 1 - sw)
+                leaf(ax0, ay0, half, mx, my)
+                leaf(bx0, by0, half, mx, my)
             elif dtype in ("cased-opening", "open"):
                 jambs()                                    # a lining and no leaf
             elif dtype == "pocket":
                 jambs()
                 if horiz: s.append(f'<line class="sw" x1="{ax0-2*half:.1f}" y1="{ay0:.1f}" x2="{ax0:.1f}" y2="{ay0:.1f}" style="stroke-dasharray:{SS.DASH["extent"]}"/>')
-                else:     s.append(f'<line class="sw" x1="{ax0:.1f}" y1="{ay0-2*half:.1f}" x2="{ax0:.1f}" y2="{ay0:.1f}" style="stroke-dasharray:{SS.DASH["extent"]}"/>')
+                else:     s.append(f'<line class="sw" x1="{bx0:.1f}" y1="{by0-2*half:.1f}" x2="{bx0:.1f}" y2="{by0:.1f}" style="stroke-dasharray:{SS.DASH["extent"]}"/>')
             elif dtype in ("garage", "bulkhead"):
                 jambs()
                 dash = f' style="stroke-dasharray:{SS.DASH["hidden"]}"' if dtype == "bulkhead" else ''
                 s.append(f'<line class="dr" x1="{ax0:.1f}" y1="{ay0:.1f}" x2="{bx0:.1f}" y2="{by0:.1f}"{dash}/>')
+            elif hinge == "high":
+                leaf(bx0, by0, 2 * half, ax0, ay0)
             else:
-                leaf(ax0, ay0, 2 * half, bx0, by0, sw)
+                leaf(ax0, ay0, 2 * half, bx0, by0)
 
         for d in op["interior"]:
             px, py = (d["pos_ft"], d["at_ft"]) if d["horiz"] else (d["at_ft"], d["pos_ft"])
-            _door(px, py, d["horiz"], d["width_ft"], d["type"], d["swing_positive"])
+            _door(px, py, d["horiz"], d["width_ft"], d["type"], d["swing_positive"],
+                  d.get("hinge") or "low")
         for d in op["exterior"]:
             wl, p_ = d["wall"], d["at_ft"]
             horiz = wl in ("S", "N")
@@ -1176,7 +1691,8 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                 _e = (0.0 if wl == "S" else H) if horiz else (0.0 if wl == "W" else W)
             _frame(wl, p_, d["width_ft"] * scale / 2, False, _e)
             px, py = (p_, _e) if horiz else (_e, p_)
-            _door(px, py, horiz, d["width_ft"], d["type"], wl in ("S", "W"))
+            _door(px, py, horiz, d["width_ft"], d["type"], wl in ("S", "W"),
+                  d.get("hinge") or "low")
 
         # ---------------------------------------------------------- the stair
         # Drawn from plan["stair"] and from nothing else (WP-6.2). Treads, a nosing on each,
@@ -1261,6 +1777,46 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                         s.append(f'<circle class="fu" cx="{X(cx_):.1f}" cy="{Y(cy_):.1f}" '
                                  f'r="{rr * scale:.1f}"><title>{_esc(f["item"])}</title></circle>')
 
+        # ---------------------------------------------------------- the key (WP-13.2)
+        # A NUMERAL ON EVERY MARK AND A KEY IN THE ROOM, so a printed plate names what it
+        # draws. Fitted by `furniture_key_plan` before the sheet was sized (a refused key is
+        # already in the margin schedule); this pass only adds the plate's origin. `.dm` is the
+        # sheet's small mono lettering -- the dimension line, the stair's UP, the scale figures
+        # -- and the key takes it with its size in `style=`, which is where a fitted size wins
+        # (tests/test_drawn_labels.py). A key line carries NO <title>: the line IS the
+        # disclosure, and a child element would hide its text from any reader of the ink.
+        for r in lv["rooms"]:
+            kr = key_plan[i].get(r["id"])
+            if not kr:
+                continue
+            g = r["geometry"]
+            ox_, oy_ = X(g["x_ft"]), Y(g["y_ft"] + g["depth_ft"])    # the room's NW corner
+            for n, (nx, ny, anchor, nsize, _box) in kr["numerals"]:
+                s.append(f'<text class="dm" data-key-numeral="{n}" data-key-room="{_esc(r["id"])}" '
+                         f'x="{ox_ + nx:.1f}" y="{oy_ + ny:.1f}" text-anchor="{anchor}" '
+                         f'style="font-size:{nsize:.2f}px">{n}</text>')
+            fit = kr["fit"]
+            if not fit:
+                continue          # refused: in the margin schedule, under the room's name
+            size = fit["size"]
+            for k, (line, (n, f, _kind)) in enumerate(zip(kr["lines"], kr["entries"])):
+                # the record's own `of` where a counted piece states one, else the name's word
+                count = f.get("of") or key_count(f["item"])
+                cnt = f' data-count="{count}"' if count else ""
+                if fit["turned"]:
+                    # read from the foot of the sheet: the block stands on its bottom edge and
+                    # each line is a column, glyph tops to the left, the first line leftmost
+                    tx = ox_ + fit["x0"] + k * size * KEY_LEAD + 0.8 * size
+                    ty = oy_ + fit["y1"]
+                    s.append(f'<text class="dm" data-key="{_esc(r["id"])}" data-key-item="{n}"{cnt} '
+                             f'x="{tx:.1f}" y="{ty:.1f}" transform="rotate(-90 {tx:.1f} {ty:.1f})" '
+                             f'style="font-size:{size:.2f}px">{_esc(line)}</text>')
+                else:
+                    tx = ox_ + fit["x0"]
+                    ty = oy_ + fit["y0"] + k * size * KEY_LEAD + 0.8 * size
+                    s.append(f'<text class="dm" data-key="{_esc(r["id"])}" data-key-item="{n}"{cnt} '
+                             f'x="{tx:.1f}" y="{ty:.1f}" style="font-size:{size:.2f}px">{_esc(line)}</text>')
+
 
         # ---------------------------------------------------------- P7, at its location
         # A compromise is counted AND appears on the drawing, at its location (OQ 33). The
@@ -1283,10 +1839,18 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                          f'{mk.get("off_ft")} ft off the bay line</title></path>')
 
     # ------------------------------------------------------------- the foot of the sheet
-    foot_y = top + extra_top + ph + extra_bottom + 26
+    foot_y = top + extra_top + ph + extra_bottom + DIM_BAND_PX + 26
     # A GRAPHIC SCALE, not a line with a number beside it. Alternating cells so a reader can
     # step a dimension off the sheet, which is what a scale bar is for and what one line is not.
-    sx0 = M + BP
+    #
+    # ITS ZERO STANDS ON THE GROUND PLATE'S CLEAR FACE, x = 0 (WP-13.2). It stood at `M + BP`,
+    # the sheet's hard left margin -- the plate's own origin and model x = -4.42 ft on the
+    # Tidewater sheet, the drawn-extent margin, which is nothing drawn -- ruled 26 px straight
+    # under the plan on the sheet's strongest alignment, so a reader laying a straightedge from
+    # its 0 to the first bay line read 13.4 ft against a figure that says 9. `ground_X` is the
+    # SAME function the bay figures are struck from, bound in the level loop above; a second
+    # spelling of the affine here is exactly how the two would drift again.
+    sx0 = ground_X(0.0)
     cell = 5 * scale                       # five feet a cell
     for k in range(4):
         s.append(f'<rect x="{sx0 + k*cell:.1f}" y="{foot_y:.1f}" width="{cell:.1f}" height="5" '
@@ -1341,20 +1905,10 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         ty = top + extra_top + ph + extra_bottom + foot_h + sched_h + 4.0
         s.append(f'<text class="lb" x="{M+BP:.1f}" y="{ty:.0f}" style="fill:{L["salmon_deep"]}">'
                  f'WHAT THE RECORD ASKED FOR — ∗ ROOMS, DRAWN AGAINST DECLARED</text>')
-        for n, d in enumerate(all_diverged):
-            cx0 = M + BP + (n // max(1, _table_rows)) * TABLE_COL_W
+        for n, line in enumerate(_table_text):
+            cx0 = M + BP + (n // max(1, _table_rows)) * _table_col_w
             cy0 = ty + 15 + (n % max(1, _table_rows)) * 11
-            g = _decl_pair.get(d["id"])
-            asked = f'{_fmt(min(g))} x {_fmt(max(g))}' if g else "—"
-            drew = _drawn_pair.get(d["id"])
-            got = f'{_fmt(min(drew))} x {_fmt(max(drew))}' if drew else "—"
-            # THE ID WHERE THE NAME IS NOT UNIQUE. Two rooms called "Closet" produced two rows
-            # a reader could not tell apart, differing only in figures nobody could attribute.
-            label = d["name"] if _name_unique.get(d["name"], 0) == 1 \
-                else f'{d["name"]} ({d["id"]})'
-            s.append(f'<text class="dm" x="{cx0:.1f}" y="{cy0:.1f}">'
-                     f'{_esc(label)}: drawn {got}, record {asked} '
-                     f'({"+" if d["pct"] > 0 else ""}{d["pct"]:.0f}%)</text>')
+            s.append(f'<text class="dm" x="{cx0:.1f}" y="{cy0:.1f}">{_esc(line)}</text>')
     s.append('</svg>')
     open(path, "w").write("\n".join(s))
     return path
@@ -1501,6 +2055,46 @@ def _placed_at(d, r, W, H):
     return wall, float(pos)
 
 
+# The door types that have no leaf and so no swing: a lining, a slot, a line. ONE spelling,
+# read by `_door`, by `export_dxf`'s leaves and by the gate; until WP-13.2 the tuple was
+# spelled in four places.
+LEAFLESS = ("cased-opening", "open", "pocket", "garage", "bulkhead")
+
+
+def sweep_flag(hinge, tip, far):
+    """The SVG arc sweep flag for a leaf drawn from its open TIP to the FAR jamb about the
+    HINGE, in SCREEN space (y down). 1 when the quarter-turn from tip to far runs with
+    increasing angle -- clockwise as a reader sees it -- which is the sign of the cross
+    product. Derived, never tabled: the table this replaced had four rows and one of them was
+    wrong for seven phases (`_door`'s own comment)."""
+    (hx, hy), (tx, ty), (fx, fy) = hinge, tip, far
+    return 1 if (tx - hx) * (fy - hy) - (ty - hy) * (fx - hx) > 0 else 0
+
+
+def openings_of_level(plan, lv, index=None):
+    """The openings of ONE placed level, derived the way `render()` derives them: with the
+    level's placed at-grade appendages (a terrace has no geometry and lives in
+    `plan.appendages.placed`; without it the breakfast-terrace door is a leaf the sheet draws
+    and a bare `derive_openings` call cannot see) and each room's own massing element
+    (`elements.bounds_index`). WP-13.2 found this three-line map spelled in four places --
+    `render()`, the DXF exporter and two tests -- and a caller that forgot the appendages was
+    one leaf short of the sheet. `index` is the level's position where the record states no
+    `index`."""
+    fp = plan["footprint"]
+    W, H = fp["width_ft"], fp["depth_ft"]
+    apx = {}
+    for a in ((plan.get("appendages") or {}).get("placed") or []):
+        apx.setdefault(a.get("level", 0), {})[a["room"]] = a["rect"]
+    if index is None:
+        # the level's own `index`, else its position in the record's FULL list (a caller may
+        # hand in a level from a filtered list, so the position in that list is not it)
+        index = next((i for i, l in enumerate(plan.get("levels") or []) if l is lv), 0)
+    idx = lv.get("index", index)
+    el = _mod("elements", f"{ROOT}/build/elements.py")
+    return derive_openings(lv["rooms"], W, H, appendages=apx.get(idx),
+                           bounds=el.bounds_index(plan, lv["rooms"]))
+
+
 def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
     """Every opening of one level, resolved to where it is drawn -- and every declared
     opening that CANNOT be drawn, with the reason. The second half is the point: a door
@@ -1566,7 +2160,11 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                                  "edge_ft": round(
                                      _edge_of(a, wall, (bounds or {}).get(r["id"])), 3),
                                  "inferred_wall": False,
-                                 "inferred_width": declared_w is None})
+                                 "inferred_width": declared_w is None,
+                                 # WP-13.2: the jamb the leaf hangs from, the RECORD's word
+                                 # ("low" is the lower coordinate along the wall), read by all
+                                 # three drawings of the door
+                                 "hinge": d.get("hinge") or "low"})
                 continue
             if (not is_ext) and seat_rec:
                 key = tuple(sorted((r["id"], to)))
@@ -1588,7 +2186,8 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                 interior.append({"pair": list(key), "from": r["id"], "to": to,
                                  "width_ft": width, "type": dtype, "at_ft": at,
                                  "pos_ft": round(pos, 3), "horiz": horiz,
-                                 "swing_positive": bool(swing)})
+                                 "swing_positive": bool(swing),
+                                 "hinge": d.get("hinge") or "low"})
                 continue
             inferred_positions += 1
             if is_ext:
@@ -1611,7 +2210,8 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                 mid = (lo + hi) / 2
                 exterior.append({"room": r["id"], "wall": wl, "width_ft": width, "type": dtype,
                                  "at_ft": mid, "edge_ft": round(edge, 3), "inferred_wall": True,
-                                 "inferred_width": declared_w is None})
+                                 "inferred_width": declared_w is None,
+                                 "hinge": d.get("hinge") or "low"})
                 continue
             key = tuple(sorted((r["id"], to)))
             if key in handled: continue
@@ -1638,13 +2238,14 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                 swing = (b["x_ft"] + b["width_ft"]/2) > (a["x_ft"] + a["width_ft"]/2)
             interior.append({"pair": list(key), "from": r["id"], "to": to, "width_ft": width,
                              "type": dtype, "at_ft": at, "pos_ft": (lo+hi)/2, "horiz": horiz,
-                             "swing_positive": bool(swing)})
+                             "swing_positive": bool(swing),
+                             "hinge": d.get("hinge") or "low"})
     # windows go into what the doors left
     blocked = {}
     for e in exterior:
         blocked.setdefault((e["room"], e["wall"]), []).append(
             (e["at_ft"] - e["width_ft"]/2 - MIN_SOLID_FT, e["at_ft"] + e["width_ft"]/2 + MIN_SOLID_FT))
-    windows, off_footprint, crowded = [], 0, 0
+    windows, off_footprint, crowded, refused = [], 0, 0, 0
     for r in rooms:
         a = r.get("geometry")
         if not a: continue
@@ -1660,6 +2261,16 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
             if win.get("positions_ft"):
                 pos = [float(p) for p in win["positions_ft"]]
                 crowded += max(0, n - len(pos))
+            elif win.get("unplaced"):
+                # WP-13.2. A window the PLACER refused is not re-inferred. The branch below was
+                # written for a DECLARED record -- one nobody has placed, whose windows carry no
+                # position -- and it fired on a refused one too: `openings.py` had declined the
+                # dining room's W sash for want of a run beside the chimney breast, written the
+                # refusal onto the record, and this then drew the sash at the mid-wall anyway,
+                # 100% inside the breast, while the schedule reported it undrawn. The record's
+                # verdict stands; the count is returned so a caller can say how many.
+                refused += n
+                continue
             else:
                 pos = _distribute(_free_intervals(lo, hi, blocked.get((r["id"], wl), [])), n, ww)
                 crowded += n - len(pos)
@@ -1669,8 +2280,8 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                                 "at_ft": round(p, 3), "edge_ft": round(edge, 3)})
     return {"interior": interior, "exterior": exterior, "undrawable": undrawable,
             "windows": windows, "windows_off_footprint": off_footprint,
-            "windows_crowded": crowded, "inferred_widths": inferred_widths,
-            "inferred_positions": inferred_positions}
+            "windows_crowded": crowded, "windows_refused": refused,
+            "inferred_widths": inferred_widths, "inferred_positions": inferred_positions}
 
 # The `.lb` face is monospaced at 8.5px with .14em of letter-spacing, so one character costs
 # 8.5*0.60 + 8.5*0.14 px. A banner line longer than the plate is a disclosure the sheet does not

@@ -56,7 +56,14 @@ def _tagged(drop_direct=True):
     building". WP-11.11 tagged it into the dependency and CP refused, correctly, naming the
     dining-room door -- a hard `must_adjoin` that carries no `via` and so cannot cross.
     """
+    # WP-13.5: the shipped record states a container of its own now, so this fixture strips
+    # it and states the one it is about. Adding a tag on top of the shipped ones builds a
+    # house with more elements than the test measures.
     p = json.loads((ROOT / "plans" / "tidewater-georgian-careful.json").read_text())
+    for lv in p["levels"]:
+        for r in lv["rooms"]:
+            r.pop("block", None)
+            r.pop("hyphen", None)
     for lv in p["levels"]:
         for r in lv["rooms"]:
             if r["id"] in SERVICE:

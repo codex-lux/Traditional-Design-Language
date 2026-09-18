@@ -447,7 +447,8 @@ class TestRelieflsDrawnInLineNotInTone:
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
         r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
-        elev = e.build_elevation(_j.load(open(os.path.join(ROOT, "plans", f"{plan_id}.json"))))
+        elev = e.build_elevation(_one_element(
+            _j.load(open(os.path.join(ROOT, "plans", f"{plan_id}.json")))))   # WP-13.5
         out = str(tmp_path / f"{plan_id}.svg")
         r.render_elevation(elev, out)
         return open(out).read(), elev
@@ -494,7 +495,8 @@ class TestNoOpeningIsDrawnWhereAStackStands:
     def _rec(self, style_plan="tidewater-georgian-careful"):
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
-        return e.build_elevation(_j.load(open(os.path.join(ROOT, "plans", f"{style_plan}.json"))))
+        return e.build_elevation(_one_element(
+            _j.load(open(os.path.join(ROOT, "plans", f"{style_plan}.json")))))   # WP-13.5
 
     def test_the_gable_end_centre_bay_is_blind_and_the_flanks_are_not(self):
         rec = self._rec()
@@ -510,8 +512,8 @@ class TestNoOpeningIsDrawnWhereAStackStands:
             rf = modcache.load("roof", os.path.join(ROOT, "build", "roof.py"))
             st = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
             import json as _j2
-            _plan = _j2.load(open(os.path.join(ROOT, "plans",
-                                               "tidewater-georgian-careful.json")))
+            _plan = _one_element(_j2.load(open(os.path.join(   # WP-13.5
+                ROOT, "plans", "tidewater-georgian-careful.json"))))
             _roof = rf.build_roof(_plan, section=st.build_section(_plan))
             axes = sorted({round(c["y_ft"], 3) for c in _roof["chimneys"]["positions"]
                            if c.get("y_ft") is not None})
@@ -545,13 +547,21 @@ class TestNoOpeningIsDrawnWhereAStackStands:
         # all six openings appeared, the centre bay was glazed, and every iteration still passed.
         opens = [(float(a), float(b)) for a, b in
                  re.findall(r'<rect class="op"[^>]*x="([-\d.]+)"[^>]*width="([-\d.]+)"', svg)]
-        assert len(opens) == 4, f"two glazed bays x two storeys, got {len(opens)}"
-        blind_px = 46.0 + 21.33 * 24.0                      # the same pad and scale the sheet uses
-        stack_half_px = (rec.get("chimney_stack_plan_in") or 22.0) / 24.0 * 24.0
+        # RE-CUT AT WP-13.3: the E face draws the plan's PLACED windows on that wall, not two
+        # per glazed rhythm bay, so the count is the elevation's own rectangles for the face
+        # (positive first, so a selector matching nothing cannot pass), and a placed window a
+        # stack stands on is refused before it is drawn (`opening_on_a_stack`, OQ 85's rule
+        # reaching a placed opening).
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        rects = e.opening_rects(rec, "E")["rects"]
+        assert rects and len(opens) == len(rects), (
+            f"{len(opens)} drawn against {len(rects)} placed-and-drawn openings on E")
+        blind_ft = rec["faces"]["E"]["blind_bay_centres_ft"][0]
+        blind_px = 46.0 + blind_ft * 24.0                    # the same pad and scale the sheet uses
+        stack_half_px = rec["faces"]["E"]["stack_half_width_ft"] * 24.0
         for x, w in opens:
-            centre = x + w / 2.0
-            assert abs(centre - blind_px) > stack_half_px, (
-                f"an opening is centred at {centre:.1f}, on the stack's own axis ({blind_px:.1f})")
+            assert x + w < blind_px - stack_half_px or x > blind_px + stack_half_px, (
+                f"an opening spans {x:.1f}-{x + w:.1f} px, across the stack's own axis ({blind_px:.1f})")
         assert "BAY BLIND WHERE A STACK STANDS ON IT" in svg
 
     def test_the_generator_publishes_that_it_resolved_the_collision(self):
@@ -575,7 +585,8 @@ class TestNoOpeningIsDrawnWhereAStackStands:
         import copy
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
-        plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        plan = _one_element(   # WP-13.5
+            _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))))
         base = e.build_elevation(plan)
         face = base["entrance_face"]
         door_cx = [c for c, k in zip(base["faces"][face]["centres_ft"],
@@ -698,7 +709,8 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
         import copy
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
-        plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        plan = _one_element(
+            _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))))
         plan = copy.deepcopy(plan)
         if declared == "DROP":
             plan["declared"].pop("dormer", None)
@@ -1266,3 +1278,192 @@ class TestEveryPlateStatesTheFrameItWasDrawnIn:
         bp = self._plates(open(out).read())
         assert bp and all(p["proj"] == "bearing" for p in bp)
         assert len(bp) == len(sec["levels"]), "one frame per level, as the plan states"
+
+
+# WP-13.2. The door arcs, read back the way the mouldings are read back above. `_LEAF` is the
+# shape of what `render_plan.render()` emits per leaf: the arc, then the leaf line whose (x1, y1)
+# is the hinge. The gate (`tests/test_sheet_coherence.py::_door_arcs`) reads the same two
+# elements; this class holds the SVG renderer to the rule on a deterministic sheet so the defect
+# is caught in this file's own suite, and by the record's swing as well as by the hinge.
+_LEAF = re.compile(
+    r'<path class="sw" d="M ([-\d.]+) ([-\d.]+) A ([\d.]+) [\d.]+ 0 0 ([01]) ([-\d.]+) ([-\d.]+)"/>'
+    r'\s*<line class="dr" x1="([-\d.]+)" y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"/>')
+
+def _level_openings(rp, placed, i, lv):
+    """`derive_openings` called the way `render_plan.render()` calls it -- the level's placed
+    appendages and each room's own massing element -- because the sheet draws THAT derivation.
+    On the reference plan the bare call derives 17 leaves and the sheet draws 18: the
+    eighteenth is the breakfast-terrace door, which exists only once the terrace's rectangle is
+    handed in. A guard that compared the sheet against the bare call would fail on a correct
+    sheet, or be loosened until it did not. ONE spelling since WP-13.2: `openings_of_level`."""
+    return rp.openings_of_level(placed, lv, i)
+
+
+# WP-13.5, THE CONTAINER. The Tidewater record states three massing elements now. This file
+# measures the ELEVATION and the drawn ink, which are the main block's, so every fixture here
+# reads the record as the ONE-ELEMENT house it was until that package -- the same strip
+# `tests/test_one_bay_system.py` makes and for the same reason. The cost of the container on
+# the elevation is asserted on the SHIPPED record by the Phase 13 gate, whose
+# `test_the_elevations_openings_are_the_plans_placed_openings` rows are red on purpose
+# (`oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front`).
+def _one_element(plan):
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return plan
+
+
+@pytest.fixture(scope="module")
+def door_sheet(tmp_path_factory):
+    """The reference plan on the SEARCH engine (deterministic), rendered in the register the
+    workbench draws. Solved once for the class below."""
+    rp = modcache.load("render_plan", f"{ROOT}/build/render_plan.py")
+    g = modcache.load("geometry", f"{ROOT}/build/geometry.py")
+    plan = _one_element(json.load(open(f"{ROOT}/plans/tidewater-georgian-careful.json")))
+    g._SOLVE_CACHE.clear()
+    placed = g.solve(plan, engine="heuristic")
+    assert "error" not in placed, placed.get("error")
+    out = str(tmp_path_factory.mktemp("doors") / "plan.svg")
+    rp.render(placed, out, register="presentation")
+    return placed, open(out).read()
+
+
+class TestTheDoorArcIsCentredOnItsHinge:
+    """The plan's door swings, held to the same rule as the mouldings: the emitted arc, read back
+    through F.6.5, must have its centre where the leaf line says the hinge is.
+
+    Until WP-13.2 `render_plan.py`'s `_door` chose the sweep flag by wall orientation --
+    `(0 if swing_positive else 1) if horiz else (1 if swing_positive else 0)` -- and the `horiz`
+    arm was inverted, so every leaf on a horizontal wall was drawn as its own mirror about the
+    chord, hollowing back toward the hinge with its centre exactly r*sqrt(2) away. Lucas read it
+    as "the door swings are mirrored"; the gate measured 8 of 18 on the search sheet and 12 of 28
+    on the prover's, every one on a horizontal wall. Nothing in this suite looked at where the
+    door ink went, which is the same gap this file was written to close for the cornice.
+
+    Deterministic on purpose: the search engine, the reference plan. Measured after the fix on
+    that sheet: 18 leaves, worst centre error 0.0 px, all four orientation-by-swing quadrants
+    present (4 up, 4 down, 4 left, 6 right) -- and the quadrants are ASSERTED present below,
+    because a sheet that happened to draw no horizontal door would have been green over the bug.
+    """
+
+    TOL_PX = 0.25    # the ink is printed at 0.1 px; the defect is r*sqrt(2), forty-odd px
+
+    @pytest.fixture
+    def sheet(self, door_sheet):
+        return door_sheet
+
+    @staticmethod
+    def _leaves(svg):
+        """(tip, r, sweep, far end, hinge, leaf end) per drawn leaf, in sheet px."""
+        out = []
+        for ex, ey, r, sw, tx, ty, hx, hy, lx, ly in _LEAF.findall(svg):
+            out.append(((float(ex), float(ey)), float(r), int(sw), (float(tx), float(ty)),
+                        (float(hx), float(hy)), (float(lx), float(ly))))
+        return out
+
+    @staticmethod
+    def _quadrant(tip, hinge, far):
+        horiz = abs(hinge[1] - far[1]) < 0.05           # the far jamb is level with the hinge
+        if horiz:
+            return "horizontal", ("up" if tip[1] < hinge[1] else "down")
+        return "vertical", ("right" if tip[0] > hinge[0] else "left")
+
+    def test_every_leaf_on_the_sheet_is_read_by_this_guard(self, sheet):
+        """The vacuity pin: every `class="sw"` arc is followed by its leaf line, so the regex
+        reads ALL the swings and not the subset that happened to match -- and the sheet draws
+        every quadrant, so no sweep-flag arm goes untested."""
+        _placed, svg = sheet
+        drawn = svg.count('<path class="sw"')
+        leaves = self._leaves(svg)
+        assert drawn >= 6, f"only {drawn} door arcs on the sheet"
+        assert len(leaves) == drawn, (
+            f"{drawn} arcs are drawn and {len(leaves)} are followed by a leaf line -- an arc "
+            f"this guard cannot see is an arc it cannot judge")
+        seen = {self._quadrant(t, h, f) for t, _r, _s, f, h, _l in leaves}
+        want = {("horizontal", "up"), ("horizontal", "down"), ("vertical", "left"), ("vertical", "right")}
+        assert seen == want, (
+            f"the sheet exercises {sorted(seen)} and not {sorted(want - seen)}: a sweep-flag arm "
+            f"the sheet does not draw is an arm this guard does not test")
+
+    def test_every_arc_is_centred_on_the_hinge_its_leaf_line_names(self, sheet):
+        _placed, svg = sheet
+        bad = []
+        for tip, r, sw, far, hinge, _l in self._leaves(svg):
+            cx, cy, _rx, _ry, _th1, dth = _svg_arc_centre(tip[0], tip[1], r, r, 0.0, 0, sw, far[0], far[1])
+            err = math.hypot(cx - hinge[0], cy - hinge[1])
+            if err > self.TOL_PX or abs(abs(dth) - math.pi / 2) > 0.02:
+                q = self._quadrant(tip, hinge, far)
+                bad.append(f"{q[0]} wall, swing {q[1]}: hinge {hinge}, centre ({cx:.1f},{cy:.1f}) "
+                           f"off by {err:.1f} px (r={r:.1f}, r*sqrt2={r * math.sqrt(2):.1f}), "
+                           f"sweep {math.degrees(dth):.0f} deg")
+        assert not bad, f"{len(bad)} door arcs are drawn as their own mirror: " + "; ".join(bad[:6])
+
+    def test_the_leaf_line_and_its_arc_agree_on_the_radius(self, sheet):
+        """The leaf is drawn from the hinge to the tip and the arc from the tip to the far
+        jamb; the two are one door only if the leaf's length is the arc's radius."""
+        _placed, svg = sheet
+        bad = [(hinge, r, round(math.hypot(l[0] - hinge[0], l[1] - hinge[1]), 2))
+               for _t, r, _s, _f, hinge, l in self._leaves(svg)
+               if abs(math.hypot(l[0] - hinge[0], l[1] - hinge[1]) - r) > self.TOL_PX]
+        assert not bad, f"{len(bad)} leaves are not their arc's radius long: {bad[:4]}"
+
+    def test_every_leaf_swings_to_the_side_the_record_says(self, sheet):
+        """The DXF row of the gate, for the SVG: the tip lies on the side of the wall
+        `derive_openings` names (`swing_positive` -- into the room the door goes TO; an
+        exterior door inward). A centre on the hinge is necessary and not sufficient: a leaf
+        drawn on the wrong side with a consistently flipped sweep is still centred.
+
+        THE HINGE JAMB IS THE RECORD'S, since WP-13.2. `openings.py` writes `hinge: "low"` on
+        every door it places (the jamb at the lower coordinate along the wall -- west, or
+        SOUTH), `derive_openings` carries it, and the leaf is asserted hung from THAT jamb.
+        Until then this renderer hung a vertical-wall single leaf from the NORTH jamb, the
+        browser sheet did the same, and the DXF from the south: three drawings of one door
+        from two jambs, and the first cut of this test pinned the renderer's own convention
+        rather than a fact the record states."""
+        placed, svg = sheet
+        rp = modcache.load("render_plan", f"{ROOT}/build/render_plan.py")
+        m = re.search(r"data-frame='([^']*)'", svg)
+        assert m, "the plate states no data-frame"
+        plates = json.loads(m.group(1).replace("&apos;", "'"))["plates"]
+        levels = [lv for lv in placed["levels"] if any(r.get("geometry") for r in lv["rooms"])]
+        assert len(plates) == len(levels)
+        drawn = self._leaves(svg)
+        expected = []                       # (hinge px, horiz, positive, label)
+        for i, (plate, lv) in enumerate(zip(plates, levels)):
+            ox, oy = plate["origin_px"]
+            ax, ay = plate["at_origin_ft"]
+            k = plate["px_per_ft"]
+            op = _level_openings(rp, placed, i, lv)
+            doors = [(d["pos_ft"], d["at_ft"], d["horiz"], d["width_ft"], d["type"],
+                      d["swing_positive"], d.get("hinge") or "low", f"{d['from']}-{d['to']}")
+                     for d in op["interior"]]
+            doors += [(d["at_ft"], d["edge_ft"], d["wall"] in ("S", "N"), d["width_ft"], d["type"],
+                       d["wall"] in ("S", "W"), d.get("hinge") or "low", f"{d['room']}-exterior")
+                      for d in op["exterior"]]
+            for pos, at, horiz, w, dtype, positive, hinge, label in doors:
+                if dtype in rp.LEAFLESS:
+                    continue
+                half = w / 2
+                if dtype == "double":
+                    jambs = [(pos - half, at), (pos + half, at)] if horiz else [(at, pos - half), (at, pos + half)]
+                else:
+                    j = pos - half if hinge == "low" else pos + half
+                    jambs = [(j, at)] if horiz else [(at, j)]
+                for jx, jy in jambs:
+                    expected.append(((ox + (jx - ax) * k, oy + (ay - jy) * k), horiz, positive, label))
+        assert len(expected) >= 6, "COULD NOT EVALUATE: fewer than six leaves derived"
+        assert len(drawn) == len(expected), (
+            f"{len(drawn)} leaves drawn against {len(expected)} the record derives")
+        bad = []
+        for hinge_px, horiz, positive, label in expected:
+            near = [d for d in drawn if math.hypot(d[4][0] - hinge_px[0], d[4][1] - hinge_px[1]) <= 0.6]
+            if not near:
+                bad.append(f"{label}: no leaf hinged at ({hinge_px[0]:.1f},{hinge_px[1]:.1f})")
+                continue
+            tip, _r, _s, _f, hinge, _l = near[0]
+            drawn_positive = (tip[1] < hinge[1]) if horiz else (tip[0] > hinge[0])   # +y is UP the sheet
+            if drawn_positive != positive:
+                bad.append(f"{label}: the record swings {'positive' if positive else 'negative'} and the "
+                           f"leaf is drawn {'positive' if drawn_positive else 'negative'}")
+        assert not bad, f"{len(bad)} of {len(expected)} leaves swing against the record: " + "; ".join(bad[:6])

@@ -120,15 +120,36 @@ def test_non_rectangular_is_bounding_box_and_says_so(tmp_path):
 
 
 def test_tdl_sheet_short_circuits_to_the_complete_record(tmp_path):
+    """RE-CUT 16 Sep 2026. This exported `plans/tidewater-georgian-careful.json` and asserted
+    `"error" not in out`. WP-13.4 taught the exporter to REFUSE a placement whose type facts do
+    not hold, and that record is refused, so the guard died on a refusal rather than on anything
+    about the short circuit -- and the property it exists for, that a DXF this system wrote
+    carries the whole record and the importer takes it whole, went unguarded.
+
+    The subject is the SHORT CIRCUIT, not the plan, so the fixture takes the first shipped
+    record that actually exports. The premise is asserted: if none does, this is COULD NOT
+    EVALUATE and says so, rather than passing on a file nobody wrote."""
     pytest.importorskip("ezdxf")
+    import glob as _glob
     EX = mc.load("export_dxf", os.path.join(BUILD, "export_dxf.py"))
-    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
-    p = str(tmp_path / "tdl.dxf")
-    out = EX.export_plan_dxf(plan, p)
-    assert "error" not in out
-    res = ING.extract(p)
+    chosen = None
+    for pf in (sorted(_glob.glob(os.path.join(ROOT, "plans", "*.json")))
+               + sorted(_glob.glob(os.path.join(ROOT, "plans", "reference", "*.json")))):
+        rec = json.load(open(pf))
+        if "levels" not in rec:
+            continue
+        dst = str(tmp_path / (rec["id"] + ".dxf"))
+        out = EX.export_plan_dxf(json.loads(json.dumps(rec)), dst)
+        if "error" not in out:
+            chosen = (rec["id"], dst)
+            break
+    if chosen is None:
+        pytest.skip("COULD NOT EVALUATE: every shipped record is refused, so no DXF this "
+                    "system wrote exists to short-circuit on")
+    rid, path = chosen
+    res = ING.extract(path)
     assert res["complete"] is True and res["source"] == "tdl-dxf"
-    assert res["record"]["id"] == "tidewater-georgian-careful"
+    assert res["record"]["id"] == rid
 
 
 def test_lines_only_drawing_is_an_honest_refusal(tmp_path):
@@ -211,7 +232,23 @@ def test_provenance_validates_and_gates_method():
     # other to 0.7.0 (`block`/`hyphen`, `footprint.wall`, `parti`) -- and the merged schema
     # carries every one of those fields, so it is neither. THIS TRIPWIRE HAS NOW CAUGHT A
     # SCHEMA CHANGE EIGHT TIMES and this is the first where the change was a merge.
-    assert schema["version"] == "0.10.0"
+    # 0.11.0 (WP-13.6, 16 Sep 2026): `furniture_layout[].corner`, AND THIS ONE IS THE OTHER
+    # WAY ROUND -- the tripwire did not catch a bump, it caught a field admitted by NOBODY.
+    # WP-13.6's first commit taught build/furniture.py to seat a corner item in a corner and
+    # write `corner: true`; this object is `additionalProperties: false`; so thirteen of the
+    # sixteen placed plans stopped validating against the contract they were placed from and
+    # the tree went red in three tests that nothing else in the corpus duplicates. Every
+    # checker in check_all.py was green over it, because a checker reads the AUTHORED record
+    # and only three tests ever validate a PLACED one. That is the 0.7.0 finding exactly --
+    # `geometry.void.heated`, two reference plans invalid for three phases -- met again by a
+    # package that had this very entry to read. A pin on the version cannot see a field added
+    # without one; what saw it was validating the output.
+    # 0.12.0 (WP-13.6, the same day): `furniture_layout[].piece`, `of`, `by` and `back` -- the
+    # four the grammar package itself writes. They were admitted BEFORE the commit, because the
+    # entry above cost a day: the package's own gate now solves all sixteen plans on the
+    # deterministic engine and validates each PLACED record against this schema, 16 of 16, and a
+    # field the placer writes and this file does not name fails that gate rather than a reader.
+    assert schema["version"] == "0.12.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

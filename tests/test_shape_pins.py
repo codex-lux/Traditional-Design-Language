@@ -11,6 +11,7 @@ import importlib.util
 import re
 import json
 import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -38,13 +39,15 @@ def _cp():
 # --- the ladder is ranked, and the order is the ruling -------------------------------------
 
 def test_the_rank_is_a_closed_ordered_table_with_the_wall_first():
-    """`_RANK` is read left to right and the FIRST kind with a live pin is released. The wall
-    pin is first, which is the 5 Sep ruling and not the intuitive order -- see the constant's
-    own comment for the measurement that decided it."""
+    """`_RANK` is read left to right and the FIRST kind the conflict core names is released,
+    whole. The wall pin is first, which is the 5 Sep ruling and not the intuitive order -- see
+    the constant's own comment for the measurement that decided it -- and the four in the
+    middle are the 15 Sep ruling (Phase 13): the type's facts, hard, in a stated precedence,
+    with the shape band still last."""
     CP = _cp()
     if CP is None:
         return                      # COULD NOT EVALUATE without ortools; not a pass
-    assert CP._RANK == ("wall", "axis", "shape"), (
+    assert CP._RANK == ("wall", "axis", "tiling", "stack", "bearing", "hearth", "shape"), (
         "the downgrade ladder's rank changed. It is a ruling about which authored fact gives "
         "way, measured, and it belongs in a report before it belongs in this tuple.")
     assert "size" not in CP._RANK and "door" not in CP._RANK and "entrance" not in CP._RANK, (
@@ -119,6 +122,9 @@ def test_the_pin_is_stated_through_max_and_min_because_the_rewrite_is_slower():
     assert "_c10" not in src, (
         "the linear rewrite is back; re-run the timing in the comment above it first")
     assert "AddMaxEquality(mxs" in src, "the max/min pair is built unconditionally"
+    # the linear rewrite (`w <= c*h AND h <= c*w`, no max/min) must not be back as the pin
+    assert not re.search(r"m\.Add\(\w+ \* w <= \w+ \* h\)\.OnlyEnforceIf\(_sh\)", src), (
+        "the linear rewrite is back; re-run the timing in the comment above it first")
 
 
 # --- what the pins actually do to the drawing ----------------------------------------------
@@ -157,21 +163,64 @@ def test_no_room_is_drawn_outside_its_own_band_when_the_pins_hold():
 def test_a_released_pin_is_named_on_the_record_by_kind():
     """Two kinds of key live in `downgraded` now -- (level, room, wall) and (level, room).
     The report unpacked three names from every one of them and would have raised on the first
-    shape downgrade, in the result builder."""
+    shape downgrade, in the result builder.
+
+    AND EVERY RELEASE IS ACCOUNTED FOR BY A ROUND LINE (WP-13.3, the lead's pass). The first
+    cut of this guard asserted only that each line in `downgrade_rounds` had one of two shapes
+    -- so a mutation that DROPPED the undecided-scout's note left the list shorter and every
+    surviving line well-formed, and the suite stayed green (the one blind cut of twenty in the
+    WP-13.3 harness). A release nobody can read is the silence Phase 13 is about, so the
+    relation is asserted: every kind the record reports DOWNGRADED -- the wall and shape pins
+    on their own lists, the four type facts under `facts` -- is named by some round line,
+    either the proof line (`released all N live <kind> pin(s)`) or the undecided line
+    (`UNDECIDED ... N <kind> pin(s) live`), and the counts those lines carry cover the keys the
+    record lists. Popping a note breaks the relation for the kinds it named."""
     CP = _cp()
     if CP is None:
-        return
+        pytest.skip("COULD NOT EVALUATE: ortools is not importable, the prover never ran")
     G._SOLVE_CACHE.clear()
     res = G.solve(json.loads(json.dumps(TIDEWATER)), engine="auto")
     sv = res["geometry_report"].get("solver") or {}
     if sv.get("engine") != "cp-sat":
-        return
+        pytest.skip(f"COULD NOT EVALUATE: auto fell back to the search ({sv.get('reason')})")
     assert "downgraded_wall_pins" in sv and "downgraded_shape_pins" in sv
-    assert isinstance(sv.get("downgrade_rounds"), list), (
+    rounds = sv.get("downgrade_rounds")
+    assert isinstance(rounds, list), (
         "what each round gave up must be on the record: a downgrade nobody can read is the "
         "silence this whole phase is about")
-    for line in sv["downgrade_rounds"]:
-        assert "released all" in line and "lowest-ranked" in line
+    named = {}      # kind -> the number of pins the round lines say left, summed
+    for line in rounds:
+        # A round gives a rank up by PROOF (a conflict core named it) or lets the type's
+        # facts go on an UNDECIDED scout (WP-13.3) -- and either way the line names the
+        # round, what left, and on what authority, so a reader can tell the two apart.
+        assert line.startswith("round "), line
+        m = re.search(r"released all (\d+) live (\w+) pin", line)
+        if m:
+            assert "lowest-ranked" in line, line
+            named[m.group(2)] = named.get(m.group(2), 0) + int(m.group(1))
+            continue
+        assert "UNDECIDED" in line and "CARRIED" in line, line
+        # `... with 1 tiling, 5 stack, 2 bearing, 3 hearth pin(s) live` -- the kinds are a
+        # comma-separated list and only the LAST is followed by the word "pin", which is how
+        # this guard's first cut under-counted three kinds of four and went red on its own
+        # baseline. The list between "with " and " pin(s) live" is what is parsed.
+        m = re.search(r"with (.+?) pin\(s\) live", line)
+        assert m, line
+        for part in m.group(1).split(", "):
+            n, kind = part.split(" ", 1)
+            named[kind] = named.get(kind, 0) + int(n)
+    # what the record says left, by kind -- the two pin lists and the four facts' own account
+    left = {"wall": len(sv["downgraded_wall_pins"]), "shape": len(sv["downgraded_shape_pins"])}
+    for kind, acc in (sv.get("facts") or {}).items():
+        left[kind] = len(acc.get("downgraded") or [])
+    assert any(left.values()), "premise: this run downgraded nothing, so the relation is vacuous"
+    for kind, n in left.items():
+        if n == 0:
+            continue
+        assert named.get(kind, 0) >= n, (
+            f"the record lists {n} downgraded {kind} pin(s) and the round lines account for "
+            f"{named.get(kind, 0)}: a release with no round naming it is a downgrade nobody "
+            f"can read. Lines: {rounds}")
 
 
 def test_the_axis_pin_names_one_room_or_none():
@@ -238,7 +287,19 @@ def test_the_search_draws_fewer_rooms_outside_their_band_than_it_scores_for():
     28 with the proportion CEILING alone as the key; 30 once the area FLOOR joined it, which a
     WP-7.4 guard forced (`test_geometry.py`'s "the dining room is under band again"). Two more
     rooms over their ceiling buys eight fewer under their floor, 21 -> 13, which is better than
-    the 15 this package started from. Both halves are the room's own record."""
+    the 15 this package started from. Both halves are the room's own record.
+
+    **WP-13.5 TOOK IT 30 -> 28, AND THE CAUSE IS A RECORD EDIT RATHER THAN THE KEY.** Moving the
+    Tidewater service programme into the dependency the record declares takes that plan from
+    6 of 23 to 4 of 23; every other plan reads the same figure before and after, and the total
+    of 219 judged rooms does not move at all. **The control is what makes it a measurement**:
+    re-run the identical sweep with the six `block`/`hyphen` tags stripped and it reproduces
+    30 of 219 exactly, so the instrument reproduces the old value before the new one is pinned.
+    A room in an element it fits is a squarer room; the ranking is untouched.
+
+    (The assertion's own message said *"against a pinned 28 of 219"* while the pin read 30 --
+    a literal in a failure string that stopped tracking the constant beside it, which is the
+    quiet half of the stale-pin family. It reads the constants now.)"""
     import glob
     C = PC.load_corpus()
     out = tot = 0

@@ -13,6 +13,10 @@ import { SeverityTally } from '../components/SeverityTally.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Sheet } from '../sheet/Sheet.jsx';
+import { engineClaim, statusHead } from '../sheet/engineClaim.js';
+import { evaluateRefusal, placementRefusal, sketchOf, mayDraw, refusalHeadline, errorText }
+  from '../sheet/refusal.js';
+import { ConflictSet } from '../components/ConflictSet.jsx';
 import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip, FilterGroup } from '../Chrome.jsx';
@@ -159,8 +163,11 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
       .catch((e) => {
         if (seq !== evalRef.current) return;
         // a silent catch would leave the OLD verdict rendered against a NEW
-        // record — the one failure mode this product must never have
-        setEvalError(e.body?.detail?.error || e.message || 'evaluation failed');
+        // record — the one failure mode this product must never have.
+        // `errorText` is the app's one reader of a thrown client error (WP-13.4): five
+        // surfaces dug `e.body?.detail?.error` out by hand, which is five spellings of one
+        // join and how a route that starts answering differently goes unnoticed on four.
+        setEvalError(errorText(e) || 'evaluation failed');
       })
       .finally(() => { if (seq === evalRef.current) setBusy(false); });
   }, [strict, seeds, setLastEval]);
@@ -338,9 +345,17 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
      moment the default became `auto`. A caption that names the wrong engine is worse than
      one that names none: a reader cannot tell a proof from a search, which is the one
      distinction this surface exists to keep. `reason` is present when `auto` FELL BACK, and
-     that is the case worth saying out loud. */
+     that is the case worth saying out loud.
+     WP-13.2: THE VERDICT IS `sheet/engineClaim.js`'s NOW, AND IT IS NO LONGER THE ENGINE'S NAME.
+     This line read `solver?.engine === 'cp-sat'`, so a CP-SAT solve that ran out of budget and
+     returned FEASIBLE -- a placement found, optimality never established -- was captioned
+     "proved feasible": the bench half of *a green PLACEMENT PROVED over a FEASIBLE truncation*.
+     A proof is claimed only where the status begins with OPTIMAL; the leaf is the one spelling
+     and is driven branch by branch under `node --test`. */
   const solver = placement?.geometry_report?.solver;
-  const proved = solver?.engine === 'cp-sat';
+  const claim = engineClaim(solver);
+  const proved = claim.proved;
+  const cpNotProved = claim.cp && !claim.proved;
   /* WP-11.8 (`oq/a-proof-of-feasibility-is-not-a-proof-of-composition`, ruled 4 Sep 2026): a
      CP-SAT placement outranks a hill-climb placement on FEASIBILITY and on nothing else. Phase A
      proves the hard set; phase B carries every compositional term the corpus has, and when it
@@ -351,10 +366,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
      demerit score AND the count of declared facts it breaks, judged against the same downgrade
      list, because a lower score alone reads as a better house and on `spec-builder-colonial` is
      bought with sixteen broken facts. */
-  const objectiveRan = !(proved && (solver?.objective === null || solver?.objective === undefined));
+  const objectiveRan = claim.objectiveRan;
   const alternative = solver?.alternative;
-  const fellBack = solver?.engine === 'heuristic' && solver?.reason
-    && solver.reason !== 'requested';
+  const fellBack = claim.fellBack;
   // OQ 54. The search may place a room below the floor of its own catalogue band, charging
   // itself 12 points and winning anyway — and the plan RECORD still declares the full size, so
   // the trade is invisible to every layer of the critic downstream. geometry.py reports it; this
@@ -371,6 +385,34 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
      did. */
   const disclosures = placement?.disclosures || [];
   const gaveUp = disclosures.filter((d) => d.id !== 'engine' && d.id !== 'relaxations');
+  /* REFUSED, NOT DRAWN (WP-13.4, ruled 15 Sep 2026). A placement that breaks a hard fact of the
+     type produces no plate here: the conflict set stands where the plate would be, and the brief
+     or the parti is what changes. That REVERSES the 25 Aug ruling pinned at
+     `tests/test_solver.py` ("the partner hears the refusal and still sees a drawing") for every
+     user-facing surface — the RECORD keeps the search's least-bad placement, because it is what
+     the conflict set is an explanation of, and nothing draws it.
+
+     THREE READS, ONE VERDICT, AND NONE OF THEM DERIVED HERE. `/api/plan/evaluate` answers 200
+     with `placement_refused` and NO `placement`; a placed record carries the same verdict at
+     `geometry_report.refused`; and the wall drag's own placement carries it under `sketch`.
+     `sheet/refusal.js` reads all three and `build/typefacts.py::refusal` decided all three.
+     This surface asks that leaf and counts nothing for itself — a second reader of
+     `type_facts` would be a second answer to "may this be drawn", which is the defect this
+     repository keeps meeting under four other names.
+
+     THE SKETCH IS THE ONE EXCEPTION AND IT IS THE DRAG'S. `runEvaluate` asks for the hill-climb
+     BY NAME behind a wall drag (the 26 Aug ruling: a gesture cannot wait for a proof, and a
+     settle-timer re-proof kills the drag), so that one path still returns a placement. It is
+     drawn under `Sheet`'s own WORKING banner, with the conflict set beside it, and it may not
+     be exported. */
+  const sketch = sketchOf(placement);
+  const refusal = evaluateRefusal(lastEval) || placementRefusal(placement) || sketch?.refused || null;
+  const drawable = !!placement && mayDraw(placement, { allowSketch: true });
+  /* A record from a server that does not state a refusal verdict still carries WP-2.3's proven
+     conflict set, and it is still worth showing. It is rendered ONLY where there is no refusal
+     to render, so the two cannot both claim the plate, and `drawnBelow` decides whether that
+     panel may go on saying a drawing is below it. */
+  const infeasible = refusal ? null : placement?.geometry_report?.infeasible;
   const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--verd)' };
   const levelIndices = (plan.levels || []).map((l) => l.index ?? 0);
   const declared = plan.adjacencies || [];
@@ -606,12 +648,23 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                       // another job looks like from here, and also what the first 50 ms look like
                       : revising === 'submitted' ? 'revising: submitted, waiting for the worker'
                         : `revising… round ${live.length ? live[live.length - 1].n : '—'}`)
+                  /* FOUR STATES BELOW, AND THREE OF THEM USED TO READ "placing…" (WP-13.4).
+                     A refusal is not a failure and neither is a placement nobody attempted:
+                     until this, a refused placement (no `placement`, no `placement_error`) and
+                     a 200 carrying neither both fell through to "placing…", so a reader
+                     watched a spinner-sentence for a house the server had already judged. */
+                  : refusal
+                    ? 'placement refused — ' + (refusal.error || refusalHeadline(refusal))
                   : relax
                     ? `${relax.count} cut(s) off the bay line` +
                       (relax.count ? ` · worst ${relax.max_off_grid_ft} ft — each is a joist run that does not land on a bearing wall` : '')
                     : lastEval?.placement_error
                       ? 'placement failed: ' + lastEval.placement_error
-                      : 'placing…'}
+                      : !lastEval
+                        ? 'placing…'
+                        : placement
+                          ? 'placed'
+                          : 'this response carried no placement, no refusal and no reason — unjudged'}
               </div>
             </div>
             {check && (
@@ -621,27 +674,11 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             )}
           </div>
 
-          {/* WP-2.3: the solver's named conflict set. When CP-SAT proves the
-              record's declared facts cannot all hold, the drawing below is the
-              labelled least-bad relaxation and this panel says exactly which
-              requirements conflict — the thing a plan-development partner most
-              needs to hear early, stated, never silently softened. */}
-          {placement?.geometry_report?.infeasible && (
-            <div style={{ maxWidth: 1000, border: '1px solid var(--sev-serious)',
-              padding: '10px 14px', margin: '0 0 14px' }}>
-              <Eyebrow tone="secondary">
-                infeasible as declared — proven ({placement.geometry_report.infeasible.conflicts.length} conflict{placement.geometry_report.infeasible.conflicts.length === 1 ? '' : 's'})
-              </Eyebrow>
-              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
-                margin: '6px 0 0', paddingLeft: 18 }}>
-                {placement.geometry_report.infeasible.conflicts.map((c, i) => <li key={i}>{c}</li>)}
-              </ul>
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '8px 0 0' }}>
-                {placement.geometry_report.infeasible.note} The drawing below is the
-                heuristic's least-bad relaxation, labelled — not a solution.
-              </p>
-            </div>
-          )}
+          {/* WP-2.3's named conflict set is `components/ConflictSet.jsx` now, and it is rendered
+              WHERE THE PLATE IS rather than above a sheet that goes on drawing (WP-13.4).
+              It used to sit here, over a drawing it called "the least-bad relaxation,
+              labelled — not a solution": true of the 25 Aug ruling and false of the 15 Sep one,
+              which is that no user-facing surface draws a refused placement at all. */}
           {gaveUp.length > 0 && (
             <div style={{ maxWidth: 1000, border: '1px solid var(--rule)',
               borderLeft: '3px solid var(--sev-fatal)', padding: '10px 14px', margin: '0 0 14px' }}>
@@ -719,7 +756,17 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               {placement.geometry_report.solver.refinements.length > 2 ? ' · …' : ''}
             </p>
           )}
-          {placement && (
+          {/* WHERE THE PLATE IS: either the conflict set or the sheet, and on the wall drag's
+              working sketch both — the conflict set explaining what the sketch's placement
+              could not hold, and the sketch itself under `Sheet`'s own WORKING banner. */}
+          <ConflictSet refusal={refusal} infeasible={infeasible} drawnBelow={drawable}
+            where="the sheet"
+            note={sketch
+              ? 'A working sketch is drawn below it because a wall drag asked for the fast search '
+                + 'by name and a gesture cannot wait for a proof. It is a sketch, not a drawing, '
+                + 'and it may not be exported.'
+              : undefined} />
+          {drawable && (
             <div style={{ maxWidth: 1120, opacity: busy ? 0.45 : 1, transition: 'opacity .3s' }}>
               <PlateViewer label="the sheet" height="clamp(420px, 74vh, 960px)"
                 note="⌘/ctrl-scroll to zoom · drag to pan · a wall handle still drags the wall">
@@ -758,14 +805,38 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             </div>
           )}
 
-          <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
-            margin: '16px 0 0', maxWidth: '76ch' }}>
+          {/* `data-engine-claim` is the verdict the leaf returned, published beside the prose so
+              the walk can hold BOTH -- the words a reader reads and the claim they encode -- to
+              the API's own solver block. The two CP-SAT branches share the objective and the
+              gave-up sentences below; only the headline differs, and the headline is the claim. */}
+          <p data-engine-claim={claim.verdict} data-engine-name={claim.engine || ''}
+            data-placement-refused={refusal ? refusal.kind : ''}
+            data-working-sketch={sketch ? 'true' : ''}
+            style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
+              margin: '16px 0 0', maxWidth: '76ch' }}>
+            {/* A REFUSAL IS SAID BEFORE THE ENGINE IS NAMED. The sentences below are about a
+                placement on a sheet, and on a refusal there is no sheet: without this the
+                paragraph opened "No placement is on this sheet yet" over a house the prover had
+                judged and turned down, which reads as a slow server rather than as a verdict. */}
+            {refusal
+              ? <>This placement was <strong>refused</strong>, not drawn: the conflict set above
+                names what could not hold. The record still carries the search&rsquo;s least-bad
+                arrangement — nothing here draws it and no export may take it.
+                {sketch ? ' The sketch above is the wall drag’s, and is labelled as one. ' : ' '}</>
+              : null}
             {proved
-              ? <>This placement was <strong>proved feasible</strong>, not searched: CP-SAT held
-                the record's own declared facts as hard constraints and returned {solver.status
-                  ? solver.status.split('—')[0].trim().toLowerCase() : 'a solution'}.{' '}
-                {!objectiveRan
-                  ? <><strong>Its composition was not evaluated.</strong> The proof ran out of
+              ? <>This placement was <strong>proved feasible</strong> by CP-SAT, not searched: it held
+                the record's own declared facts as hard constraints and returned{' '}
+                {statusHead(claim.status) || 'a solution'}.{' '}</>
+              : cpNotProved
+                ? <>This placement was <strong>found feasible by CP-SAT, not proved</strong>: the solver
+                  returned {statusHead(claim.status) || 'no status'} inside its budget — a placement
+                  that holds the declared facts it kept, with optimality never established, so
+                  nothing on this sheet is a proof.{' '}</>
+                : null}
+            {claim.cp
+              ? <>{!objectiveRan
+                  ? <><strong>Its composition was not evaluated.</strong> The solve ran out of
                     budget before the compositional objective, so no term for the front, the axis
                     or the stack was scored on this drawing — it is the first feasible placement,
                     not the best one.{alternative?.verdict === 'offered'
@@ -774,7 +845,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                         <strong>{alternative.hard_fact_violations}</strong> declared fact(s) this
                         one holds ({alternative.drawn_hard_fact_violations}). A lower score is not
                         on its own a better house: choosing the search is choosing a better
-                        composition over a proved feasibility, and that is the choice. </>
+                        composition over a feasibility CP-SAT found, and that is the choice. </>
                       : ' '}</>
                   : ' '}
                 {gaveUp.length
@@ -783,10 +854,20 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                     claimed they were named and no surface named them. </>
                   : 'It gave nothing up. '}
                 <em>Prove placement (CP-SAT)</em> above runs the same act on demand. </>
+              : claim.verdict === 'unjudged'
+                /* no solver block: nothing has been placed (or the placement errored), and the
+                   caption used to fall into the fast-search sentence here -- an engine named over
+                   nothing drawn. Unjudged is not searched. A REFUSAL IS NOT UNJUDGED EITHER: the
+                   sentence above has already said the placement was judged and turned down, and
+                   repeating "no placement yet" under it would take a verdict back. */
+                ? (refusal
+                  ? <>The refused placement carries its own engine and status in the conflict
+                    set above; no engine is named for a sheet, because there is none. </>
+                  : <>No placement is on this sheet yet, so no engine is named for it. </>)
               : <>This placement came from the <strong>fast search</strong>, which is a hill-climb and
                 not an optimiser: seconds-cheap, not deterministic across runs, and nothing it draws
                 asserts that feasibility was proved.{fellBack
-                  ? <> The proof was attempted and did not answer — <em>{solver.reason}</em>. </>
+                  ? <> The proof was attempted and did not answer — <em>{claim.reason}</em>. </>
                   : ' '}<em>Prove placement (CP-SAT)</em> above is the act that proves it. </>}
             A wall drag deliberately re-scores on the fast search — a hill-climb, not an optimiser —
             because a gesture cannot wait for a proof; every other edit takes the proof where it can

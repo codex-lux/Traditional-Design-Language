@@ -158,13 +158,25 @@ def _box(f, body_ctx, product, w, d, h):
     product.Representation = f.createIfcProductDefinitionShape(None, None, [shape])
 
 
-def export_ifc(plan, path, parti=None):
+def export_ifc(plan, path, parti=None, geometry_result=None):
+    """`geometry_result` is the drawing set's ONE placement, and a user-facing caller must
+    pass it (WP-13.4).
+
+    Without it `build_section` takes its own heuristic default, which that function's comment
+    reserves for INTERNAL callers -- plan_check's elevation layer and the composer's scoring
+    loop. `workbench/server/corpus.export_cad` was not one of those and took it anyway, so the
+    IFC a reader downloaded was a placement of a different house from the plan sheet they were
+    looking at when they pressed the button: WP-6.4's "one drawing set is one building"
+    surviving in the one export branch that was never moved. It also meant the refusal to draw
+    could not reach this format at all, because nothing here ever went through `_placed`.
+
+    The default stays `None` for the CLI and the selftest below, which place for themselves."""
     ios = _ifc()
     if ios is None:
         return dict(REFUSAL)
     ST = _mod("structure", f"{ROOT}/build/structure.py")
     RF = _mod("roof", f"{ROOT}/build/roof.py")
-    section = ST.build_section(copy.deepcopy(plan), parti)
+    section = ST.build_section(copy.deepcopy(plan), parti, geometry_result=geometry_result)
     if "error" in section:
         return {"error": section["error"], "unexported": True}
     roof = RF.build_roof(copy.deepcopy(plan), parti, section=section)

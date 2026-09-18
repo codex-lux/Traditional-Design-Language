@@ -53,6 +53,9 @@ PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
 # way. Loaded HERE rather than beside its first use because `is_placed` (line ~72) delegates to
 # it, and a module-level name used that early must be bound that early.
 STK = _mod("stacking", f"{ROOT}/build/stacking.py")
+# WP-13.2. The type's facts on the placed record, another leaf for the same reason, written from
+# `_disclose` so both record writers carry it.
+TF = _mod("typefacts", f"{ROOT}/build/typefacts.py")
 C = PC.load_corpus()
 
 DIRS = {"N": (0, 1), "S": (0, -1), "E": (1, 0), "W": (-1, 0),
@@ -1652,12 +1655,15 @@ def element_of(plan, groundrooms):
 def declared_stack_breaks(g, u, upperrooms, elements=None):
     """Every `stacks_over` claim the placement BREAKS, in ONE place (WP-11.5).
 
-    Strict positive rectangle intersection -- plan_check's drawn layer's own rule, so the
-    search, the charge and the critic cannot convict and acquit the same house. It was spelled
-    once inside `vertical_score` and is now spelled once here, because WP-11.5 needs the same
-    test at CANDIDATE-REJECTION time and a second transcription is the
-    `openings.required_wall_ft` error (an arbiter carrying its own copy of a rule) in a new
-    place.
+    The test is `stacking.lands` -- CONTAINMENT, the smaller rectangle at least 90% inside the
+    larger -- which is what `stacking.judge` reads for the record and therefore what
+    `plan_check`'s drawn layer reports, so the search, the charge and the critic cannot convict
+    and acquit the same house. It was strict positive intersection until WP-13.2, under which a
+    0.16 sf corner was a landed stack. It was spelled once inside `vertical_score` and is now
+    read once here, because WP-11.5 needs the same test at CANDIDATE-REJECTION time and a second
+    transcription is the `openings.required_wall_ft` error (an arbiter carrying its own copy of
+    a rule) in a new place. `geometry_cp.py`'s soft penalty still means intersection until
+    WP-13.3 makes the stack hard on the prover.
 
     A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS NOT A BREAK AND IS NOT RETURNED. The
     generator cannot answer it; counting it as broken would convict a placement of something
@@ -1688,8 +1694,7 @@ def declared_stack_breaks(g, u, upperrooms, elements=None):
             out.append({"room": rid, "over": so, "name": ut[rid].get("name") or rid,
                         "unjudged": f"in the {elements[so]} element"})
             continue
-        if (min(x + w, t[0] + t[2]) - max(x, t[0]) <= 0
-                or min(y + h, t[1] + t[3]) - max(y, t[1]) <= 0):
+        if not STK.lands((x, y, w, h), t):
             out.append({"room": rid, "over": so,
                         "name": ut[rid].get("name") or rid})
     return out
@@ -1786,11 +1791,13 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     # why the break-even read 378 and 52 there. A sampling artefact, not a property of the
     # charge.
     #
-    # THE TEST IS plan_check's, DELIBERATELY. Strict positive rectangle intersection, the same
-    # rule as plan_check.py's drawn layer, so the search and the critic cannot convict and
-    # acquit the same house. Do not "improve" it to a centroid or an overlap fraction here
-    # without changing it there in the same commit -- that is the openings.required_wall_ft
-    # error (an arbiter carrying its own transcription of a rule) in a new place.
+    # THE TEST IS plan_check's, DELIBERATELY. `stacking.lands` -- containment, the smaller
+    # rectangle at least 90% inside the larger (WP-13.2; strict positive intersection before
+    # it) -- read through `declared_stack_breaks`, the same leaf function plan_check.py's drawn
+    # layer reads through `stacking.judge`, so the search and the critic cannot convict and
+    # acquit the same house. Do not "improve" it to a centroid or another fraction here without
+    # changing it there in the same commit -- that is the openings.required_wall_ft error (an
+    # arbiter carrying its own transcription of a rule) in a new place.
     #
     # A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS UNJUDGED AND IS NOT CHARGED. The
     # generator cannot answer it and a zero would read as a pass (the OQ 52 rule).
@@ -3289,11 +3296,14 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         # the moment it was chosen. The stacking LEAF's `broken` is a different
         # measurement: it walks the PLACED RECORD after the post-solve passes have run,
         # and `check_stacking.py` enforces `claims == kept + broken + unjudged` on it.
-        # They can disagree, and on the Tidewater plan with the rule on they DO -- a
-        # strict candidate satisfying all 5 claims is selected and the record it becomes
-        # has 4 drawn clear. Main could not see that (it does not run the leaf) and this
-        # branch could not (it has no strict candidate); the merge is what makes the two
-        # numbers comparable, which is the whole argument for keeping both.
+        # They CAN disagree, because the post-solve passes move rectangles after the
+        # candidate is chosen, and under the intersection-era rule they did on the
+        # Tidewater plan (a strict candidate chosen, the record it became drawn clear on
+        # most of its claims). Both readers spell `stacking.lands` now (WP-13.2), and
+        # RE-MEASURED under it (WP-13.3, `engine="heuristic"`, rule on): the Tidewater
+        # plan has NO strict candidate at 250 -- the winner breaks 5 of 5 at selection and
+        # the leaf reads 5 of 5 broken on the record; the spec Colonial 2 and 2. Agreeing
+        # today is not the same quantity, which is the whole argument for keeping both.
         _stacking["broken_at_selection"] = best["_breaks"]
 
     # --- write coordinates back into the plan (write_record does it, below)
@@ -3461,7 +3471,7 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
     if solver:
         plan["geometry_report"]["solver"] = solver
     if infeasible:
-        plan["geometry_report"]["infeasible"] = infeasible
+        _refuse(plan, infeasible)      # attach the conflict set, then re-decide (WP-13.4)
     return plan
 
 
@@ -3491,6 +3501,14 @@ def _disclose(plan):
     if _prev.get("note") and _prev.get("note") != _leaf.get("note"):
         _leaf = dict(_leaf, rule_note=_prev["note"])
     rep["stacking"] = {**_prev, **_leaf}
+    # THE TYPE'S FACTS, ON THE RECORD FOR BOTH ENGINES (WP-13.2). `build/typefacts.py` is a leaf
+    # and measures the placed record it is handed: today the residual void -- floor inside no
+    # room, which the prover's 0.97 coverage floor leaves and across which no wall is drawn --
+    # per placed level, located. HERE, beside the stacking tally, for the reason this function
+    # exists: a block written from one record writer and not the other shipped that way for two
+    # phases. WP-13.3 adds the rest of the ruled precedence under this same key, and WP-13.4
+    # the verdict drawn from it -- both written at the FOOT of this function by `TF.judge`,
+    # because `bearing` reads `span_capacity` and `_disclose_spans` below has not run yet.
     # WP-11.8: how many rooms are drawn outside the proportion ceiling their own record states.
     # HERE rather than in `solve_heuristic`'s report dict, because `_finish` builds the CP
     # path's report from named keys and a figure added to one writer and not the other is the
@@ -3562,6 +3580,32 @@ def _disclose(plan):
     if _me:
         rep["multi_element"] = _me
     _disclose_spans(plan)
+    # LAST, because every fact it measures reads something written above it: `stacks` reads the
+    # tally at the head of this function and `bearing` reads `span_capacity.over_capacity`, which
+    # `_disclose_spans` has just finished. `TF.judge` writes `type_facts` AND `refused` -- one
+    # spelling of "measure the type's facts and decide whether this may be drawn".
+    TF.judge(plan)
+
+
+def _refuse(plan, infeasible=None):
+    """Attach a proven infeasibility and RE-DECIDE. The one writer of `geometry_report.refused`
+    beside `_disclose` (WP-13.4).
+
+    `_disclose` runs inside each record writer and the infeasible block arrives AFTER it, from
+    two places -- `_finish`'s own argument and the `auto` fallback in `_solve_uncached`, which
+    hands the heuristic's least-bad placement the conflict set CP-SAT proved. A refusal computed
+    before that block lands would miss the one case it most exists for, so those two sites route
+    through here instead of assigning the key themselves, and `TF.judge` re-runs.
+
+    The record keeps the placement. Lucas's 15 Sep ruling moves the refusal to the SURFACES: the
+    least-bad placement is the conflict set's own explanation and the wall drag's working sketch,
+    and `geometry_report.refused` is what every route, exporter and tool reads before drawing
+    any of it."""
+    rep = plan.setdefault("geometry_report", {})
+    if infeasible:
+        rep["infeasible"] = infeasible
+    TF.judge(plan)
+    return rep.get("refused")
 
 
 def _disclose_spans(plan):
@@ -3764,6 +3808,31 @@ MAX_CACHEABLE_BYTES = 1024 * 1024
 BUDGET_BATCH_S = 40.0
 BUDGET_INTERACTIVE_S = 25.0
 
+# THE ALLOCATION INSIDE A BUDGET (WP-13.3), because one number was serving three phases and the
+# last of them never ran. Measured on `plans/tidewater-georgian-careful.json` at the shipped
+# 40 s before this package (`a9f7f77`, two runs): the hard-only phase A took the scout and the
+# whole remaining budget it is allowed to spend on an UNKNOWN (about 20 s), the reinstatement
+# pass then ran 21 and 25 restore attempts at up to 2 s each until 2.5 s remained, and the
+# compositional polish got the 1.5 s floor and came back `B:UNKNOWN` -- so the sheet the bench
+# draws was a placement to which not one soft term applied, under a status reading
+# `OPTIMAL (hard-only)`, and at the bench's 25 s phase B never started at all
+# (`docs/reports/wp-13.1-the-gate.md`). "Best of N" then ranked the objective-free phase A
+# placement against any polish by `GEO._score`, the search's own post-hoc demerit total.
+#
+# The shares below are of `time_limit_s`, read by `geometry_cp.solve_cp` and nowhere else:
+# the feasibility rounds (phase A, the ladder and the bay growth) may spend at most the first;
+# the reinstatement pass at most the second, and never into the polish's; the polish is
+# GUARANTEED the third and takes whatever the first two left besides. They sum to one. A phase A
+# still UNKNOWN at its share is UNSOLVED -- `auto` falls back to the search and says so --
+# rather than eating the composition's time, because a placement whose objective never ran is
+# the thing the gate's title-block row exists to refuse.
+#
+# THE SHARES WERE CHOSEN BY MEASUREMENT, not by round numbers: see `geometry_cp.solve_cp`'s
+# own comment for the sweep, and the WP-13.3 report for the ladder over 40 / 60 / 75 / 90 s.
+BUDGET_SHARE_FEASIBILITY = 0.45
+BUDGET_SHARE_REINSTATE = 0.15
+BUDGET_SHARE_POLISH = 0.40
+
 
 def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
           time_limit_s=BUDGET_BATCH_S):
@@ -3906,7 +3975,7 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
             "engine": "heuristic (least-bad, labelled)",
             "reason": "CP-SAT proved the declared facts cannot all hold; this drawing is the "
                       "heuristic's least-bad relaxation and the conflicts below say what it relaxes"}
-        out["geometry_report"]["infeasible"] = res["infeasible"]
+        _refuse(out, res["infeasible"])   # the conflict set, and the refusal drawn from it
         return out
     if res.get("unsolved"):
         if engine == "cp":
@@ -4071,7 +4140,23 @@ def main():
           f"vertical {gr['vertical_score']}, spans {_sc}, relaxations {_rx:g})")
     print(f"  relaxations {gr['relaxations']['count']}, worst {gr['relaxations']['max_off_grid_ft']} ft off the bay line")
     for n in gr["vertical"][:6]: print(f"    · {n}")
+    # THE REFUSAL, AND IT STOPS THE DRAWING (WP-13.4, Lucas's ruling of 15 Sep 2026). A placement
+    # that breaks a hard fact of the type is refused, not drawn; the record still carries the
+    # least-bad placement, because it is what the conflict set is ABOUT. So `--out` still writes
+    # the record -- a reader diagnosing a refusal needs it -- and `--svg` writes nothing, because
+    # a sheet is a surface a person reads. The verdict is `TF.refusal`'s and is read off the
+    # record rather than re-derived here: one spelling.
+    ref = gr.get("refused")
     if a.out: json.dump(out, open(a.out, "w"), indent=1, ensure_ascii=False); print(f"  wrote {a.out}")
+    if ref:
+        print(f"\n  PLACEMENT REFUSED ({ref['kind']}) — this house is not drawn.")
+        for line in ref["lines"]:
+            print(f"    · {line}")
+        if a.svg:
+            print(f"  {a.svg} NOT written: a refused placement is not drawn. The record above "
+                  f"carries it under geometry_report, with the conflict set.")
+        print()
+        return
     if a.svg:
         rp = _mod("render_plan", f"{ROOT}/build/render_plan.py")
         rp.render(out, a.svg); print(f"  wrote {a.svg}")

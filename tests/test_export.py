@@ -35,6 +35,53 @@ PC = mc.load("plan_check", os.path.join(BUILD, "plan_check.py"))
 
 PLANS = ["plans/spec-builder-colonial.json", "plans/tidewater-georgian-careful.json"]
 
+# WP-13.4: THE EXPORTER REFUSES A REFUSED PLACEMENT, AND THAT REACHES THIS FILE. Lucas ruled
+# 15 Sep 2026 that a placement breaking a hard fact of the type is not drawn, and a CAD file is
+# the surface a reader builds from -- so `export_dxf._solved_copy` refuses on both its paths.
+# Measured the day it landed: 14 of the 16 shipped records are refused on the search. The round
+# trip these tests are for is about the FILE and not about whether the house may be built, so
+# they take a record the ruling still lets a surface draw, found by reading the verdict rather
+# than named -- which record that is is a property of the placer and moves with it.
+#
+# `tests/test_refusal.py::test_the_dxf_refuses_a_refused_placement_on_both_paths` is the other
+# half, and it is what stops this substitution from reading as the ruling being switched off.
+_DRAWABLE = []
+
+# Cheapest first, measured (`bad-06` places in 0.8 s where the Tidewater record spends a whole
+# 40 s budget). Every shipped record is tried; this only decides the ORDER, so a stale hint
+# costs seconds and can cost nothing else.
+_ORDER = ("plans/reference/bad-06-open-concept-render.json",
+          "plans/reference/bad-04-log-cabin.json",
+          "plans/reference/bad-03-narrow-lot-townhome.json")
+
+
+def _drawable():
+    """The first shipped record `export_dxf` will actually draw.
+
+    ASKED OF THE FUNCTION UNDER TEST rather than of a re-derivation. The first version of this
+    ran `GEO.solve(..., engine="heuristic")` and read the verdict off that, while
+    `_solved_copy` solves on `auto` -- so it "found" a record the exporter then refused, and
+    every test in this file failed on a fixture that had chosen wrong. A selector that asks a
+    different question from the code it selects for is the instrument fault this repository
+    keeps meeting; `_solved_copy` is the one reader now."""
+    if _DRAWABLE:
+        return _DRAWABLE[0]
+    rels = list(_ORDER)
+    for d in ("plans", os.path.join("plans", "reference")):
+        for name in sorted(os.listdir(os.path.join(ROOT, d))):
+            rel = f"{d}/{name}".replace(os.sep, "/")
+            if name.endswith(".json") and rel not in rels:
+                rels.append(rel)
+    for rel in rels:
+        if not os.path.exists(os.path.join(ROOT, rel)):
+            continue
+        _orig, solved = EX._solved_copy(copy.deepcopy(_load(rel)), None, 60)
+        if "error" not in solved:
+            _DRAWABLE.append(rel)
+            return rel
+    pytest.skip(f"COULD NOT EVALUATE: none of the {len(rels)} shipped records is drawable "
+                f"under the 15 Sep 2026 ruling, so there is no DXF for this file to round-trip")
+
 
 def _load(rel):
     return json.load(open(os.path.join(ROOT, rel)))
@@ -46,7 +93,7 @@ def _load(rel):
 def dxf_sets(tmp_path_factory):
     pytest.importorskip("ezdxf")
     out = {}
-    for rel in PLANS:
+    for rel in [_drawable()]:
         plan = _load(rel)
         td = tmp_path_factory.mktemp(os.path.basename(rel).replace(".json", ""))
         res = EX.export_all(copy.deepcopy(plan), str(td))
@@ -61,11 +108,28 @@ def test_dxf_export_writes_the_named_sheets(dxf_sets):
             sheet = res["sheets"][kind]
             assert "error" not in sheet, (rel, kind, sheet)
             assert os.path.exists(sheet["path"])
-        # the elevation may be a stated refusal for a style outside the
-        # classical-front family — but never a silent absence. BOTH check
-        # plans are classical fronts, so for them a refusal is a regression
-        assert "elevation" in res["sheets"]
-        assert "error" not in res["sheets"]["elevation"], (rel, res["sheets"]["elevation"])
+        # The elevation may be a stated refusal for a style outside the classical-front
+        # family -- but NEVER a silent absence.
+        #
+        # WP-13.4 RE-CUT THE SECOND HALF OF THIS AND THE FIRST IS THE HALF THAT MATTERED. It
+        # read "BOTH check plans are classical fronts, so for them a refusal is a regression",
+        # which was true of the two shipped plans and is a statement about those RECORDS rather
+        # than about the exporter. The drawable record this file now takes is
+        # `contemporary-traditional`, outside that family, so its elevation is the stated
+        # refusal the comment above already admits -- and asserting the old literal would have
+        # convicted the exporter of behaving exactly as documented.
+        #
+        # What the exporter owes on any record is that the sheet is NAMED either way: a sheet
+        # that errors must say `refusal` and why, and a sheet that is simply absent is the
+        # silent failure this test exists for.
+        assert "elevation" in res["sheets"], (
+            f"{rel}: the elevation sheet is absent from the set -- a silent absence, which is "
+            f"the one thing a refusal must never look like")
+        _el = res["sheets"]["elevation"]
+        if "error" in _el:
+            assert _el.get("refusal") is True and _el["error"], (rel, _el)
+        else:
+            assert os.path.exists(_el["path"]), (rel, _el)
 
 
 def test_dxf_round_trip_record_is_exact(dxf_sets):
@@ -93,7 +157,7 @@ def test_dxf_round_trip_findings_identical(dxf_sets):
 
 def test_import_refuses_tampered_window_width(dxf_sets, tmp_path):
     ezdxf = pytest.importorskip("ezdxf")
-    _, res = dxf_sets["plans/tidewater-georgian-careful.json"]
+    _, res = dxf_sets[_drawable()]
     doc = ezdxf.readfile(res["sheets"]["plan"]["path"])
     msp = doc.modelspace()
     line = next(e for e in msp if e.dxftype() == "LINE"
@@ -118,7 +182,7 @@ def test_import_refuses_a_foreign_dxf(tmp_path):
 
 def test_dxf_refusal_without_ezdxf(monkeypatch):
     monkeypatch.setattr(EX, "_ezdxf", lambda: None)
-    res = EX.export_all(_load(PLANS[0]), "/nonexistent")
+    res = EX.export_all(_load(_drawable()), "/nonexistent")
     assert res.get("unexported") is True
     assert "could not export" in res["error"]
     assert EX.selftest() == 3   # COULD NOT EVALUATE, never a pass
@@ -126,7 +190,7 @@ def test_dxf_refusal_without_ezdxf(monkeypatch):
 
 def test_windows_drawn_at_true_width_not_the_svg_shrink(dxf_sets):
     ezdxf = pytest.importorskip("ezdxf")
-    plan, res = dxf_sets["plans/tidewater-georgian-careful.json"]
+    plan, res = dxf_sets[_drawable()]
     doc = ezdxf.readfile(res["sheets"]["plan"]["path"])
     widths = {round(((e.dxf.end[0] - e.dxf.start[0]) ** 2
                      + (e.dxf.end[1] - e.dxf.start[1]) ** 2) ** 0.5, 1)
@@ -208,7 +272,7 @@ def test_ifc_judged_pitch_gets_its_gable_planes(ifc_models):
 def test_ifc_refusal_without_ifcopenshell(monkeypatch):
     EI = mc.load("export_ifc", os.path.join(BUILD, "export_ifc.py"))
     monkeypatch.setattr(EI, "_ifc", lambda: None)
-    res = EI.export_ifc(_load(PLANS[0]), "/nonexistent")
+    res = EI.export_ifc(_load(_drawable()), "/nonexistent")
     assert res.get("unexported") is True
     assert "could not export" in res["error"]
     assert EI.selftest() == 3
@@ -223,29 +287,51 @@ def test_a_blind_bay_exports_no_opening_to_cad(tmp_path):
 
     The export selftest could not see it: it round-trips FINDINGS, not geometry. Nothing in this
     suite looked at where the ink went in a DXF either, which is the same gap WP-5.11's audit found
-    in the SVG layer one file over."""
+    in the SVG layer one file over.
+
+    **THE FACE IS CHOSEN FROM THE READING AND WAS NAMED `E` UNTIL 17 SEP 2026.** This test needs
+    a face that carries a blind bay AND draws at least one opening; the E gable of this record
+    drew one until the merge of Phase 13 into the second Phase 11 line, and main's WP-11.17
+    entrance front then re-placed the ground floor so that the library's E sash is refused and
+    the face draws NOTHING. With no rectangle the count assertion passes at 0 == 0 and the axis
+    loop below runs zero times, which is why the premise is asserted rather than the face pinned.
+    Measured on the shipped record: E has a blind bay and 0 rects, W has a blind bay and 1."""
     ezdxf = pytest.importorskip("ezdxf")
     el = mc.load("elevation", os.path.join(BUILD, "elevation.py"))
     dx = mc.load("export_dxf", os.path.join(BUILD, "export_dxf.py"))
     rec = el.build_elevation(json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))))
 
-    kinds = rec["faces"]["E"]["kinds"]
-    centres = rec["faces"]["E"]["centres_ft"]
-    assert "blind" in kinds, "no blind bay on this face — the test would pass vacuously"
+    blind_faces = [f for f in "SNEW" if "blind" in (rec["faces"][f].get("kinds") or [])]
+    assert blind_faces, "no face of this record carries a blind bay -- the test is about nothing"
+    usable = [f for f in blind_faces if el.opening_rects(rec, f)["rects"]]
+    assert usable, (
+        f"faces {blind_faces} carry a blind bay and none of them draws a single opening, so the "
+        "axis check below would run zero times. Pick a record or a face that draws one; never "
+        "let this pass at 0 == 0.")
+    face = usable[0]
+    kinds = rec["faces"][face]["kinds"]
+    centres = rec["faces"][face]["centres_ft"]
     blind_ft = [c for c, k in zip(centres, kinds) if k == "blind"]
 
     path = str(tmp_path / "gable.dxf")
-    dx.export_elevation_dxf(rec, path, face="E")
+    dx.export_elevation_dxf(rec, path, face=face)
     msp = ezdxf.readfile(path).modelspace()
     opens = [e for e in msp if e.dxftype() == "LWPOLYLINE" and "opening" in e.dxf.layer.lower()]
-    # two glazed bays x two storeys, and NOT the three bays x two the loop used to emit
-    assert len(opens) == 2 * (len(kinds) - len(blind_ft)), (
-        f"{len(opens)} opening polylines for {len(kinds)} bays of which {len(blind_ft)} are blind")
+    # RE-CUT AT WP-13.3: the openings are the plan's PLACED openings on the E face, not two
+    # per glazed rhythm bay, so the count is the elevation's own rectangles for the face --
+    # and a placed window the stack stands on is refused by `opening_rects`, which is the
+    # OQ 85 rule reaching a placed opening. Asserted positive first.
+    rects = el.opening_rects(rec, face)["rects"]
+    assert rects, f"the {face} face draws nothing, so the axis check below is vacuous"
+    assert len(opens) == len(rects), (
+        f"{len(opens)} opening polylines against {len(rects)} placed-and-drawn openings on {face}")
+    stack_half = rec["faces"][face]["stack_half_width_ft"]
     for e in opens:
-        left = min(pt[0] for pt in e.get_points("xy")) / 12.0
+        pts = [pt[0] for pt in e.get_points("xy")]
+        left, right = min(pts) / 12.0, max(pts) / 12.0
         for b in blind_ft:
-            assert abs(left - b) > 2.0, (
-                f"an opening is exported at {left:.2f} ft, on the blind bay's axis ({b} ft)")
+            assert right < b - stack_half or left > b + stack_half, (
+                f"an opening is exported at {left:.2f}-{right:.2f} ft, across the stack's axis ({b} ft)")
 
 
 
@@ -287,7 +373,9 @@ def test_a_revised_plan_read_back_from_its_dxf_validates_against_the_plan_schema
     import modcache as mc
     EX = mc.load("export_dxf", os.path.join(ROOT, "build", "export_dxf.py"))
     IM = mc.load("import_dxf", os.path.join(ROOT, "build", "import_dxf.py"))
-    plan = json.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json")))
+    # WP-13.4: a record the ruling still lets the exporter DRAW -- the round trip is what this
+    # test is about, and a refused placement produces no file to read back.
+    plan = _load(_drawable())
     plan["revision_report"] = {"schema": "0.4.0", "mode": "placed", "stop_reason": "converged",
                                "rounds": [{"n": 1, "moves": [{"move": "x"} for _ in range(400)]}],
                                "summary": {"rounds": 1, "moves_applied": 3, "moves_refused": 1, "key_before": [0, 5, 5, 1],

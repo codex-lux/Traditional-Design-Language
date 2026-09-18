@@ -267,6 +267,132 @@ class TestSolveIntegration:
             "something else has done the same work) -- make both branches above unconditional "
             "and say what moved, rather than deleting this line.")
 
+    def test_the_container_cost_the_rear_and_the_merge_PAID_BACK_the_front(self, geometry_module):
+        """WP-13.5'S HONEST COST, MEASURED RATHER THAN LEFT AS TWO RED ASSERTIONS, AND IT SPLITS
+        BY ENGINE.
+
+        The two guards above were written against a one-rectangle Tidewater house and WP-13.5
+        made it a three-element one. Each of them fails on the shipped record, and for a
+        DIFFERENT reason — one is a real placement regression and one is the instrument being
+        asked a question it cannot answer — so leaving either red would have published one
+        number meaning two things.
+
+        **The porch — AND THE 17 SEP MERGE PAID THIS HALF BACK IN FULL, WHICH IS WHY THIS TEST
+        IS RENAMED RATHER THAN RE-PINNED.** It read: on `engine="heuristic"` the entry porch
+        lands on the NORTH wall of a 45.00 x 37.24 ft main block (y 31.51 to 37.24) where the
+        one-rectangle reading of the same record puts it on the S front (y 0.0), so the winning
+        candidate pays `entrance_score`'s 100 points — the tier that function's own docstring
+        says nothing can win while paying. Re-derived on the merged tree, **BOTH readings put
+        the porch at y = 0.0**. Main's WP-11.17 states the entrance front as an anchor laid
+        before the guillotine runs, so the porch is placed against the S face whatever the block
+        is doing; the cost was a property of a placer that no longer exists here. That closes
+        `oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so`, which is the same
+        finding main raised as
+        `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` and then fixed. The
+        guard is KEPT and inverted: it now asserts that both readings put the porch on the
+        front, so losing it again fails here rather than quietly passing.
+
+        **The half that is NOT paid back**: `plan_check` still reports nothing about which face
+        the porch stands on. Both readings emit findings about the porch's DEPTH (`The Porch
+        Nobody Can Sit On`, `The Four-Foot Porch`, two furniture fits) and not one about its
+        face. A quantity a SCORE knows about and a CHECKER does not is invisible in exactly the
+        surfaces a person reads — WP-11.12's own sentence, met at the entrance front. Nothing
+        here makes that a finding; what changed is that no placement in this corpus currently
+        commits the defect the finding would catch.
+
+        **The kitchen, and this half STANDS.** `principal_and_service_score` charges a service
+        room 2.0 points for not reaching the rear wall, measured with
+        `_touches_wall(rect, w, W, H)` where `W, H` are the MAIN BLOCK's — so a kitchen in a
+        west dependency is charged for a failure no laying of that dependency can avoid. That is
+        WP-11.6 layer 3's finding — a claim about a room in another element charged rather than
+        declared unjudged — arriving in the placer's OWN objective.
+
+        **WHAT THE MERGE CHANGED IS THE BASELINE, NOT THE DEFECT, AND THE COMPARISON HAD TO GO.**
+        WP-13.5 measured the charge 2.0 -> 5.0 across the edit. On the merged tree it is
+        5.0 -> 4.0 — an INVERSION — because main's entrance anchor moves the kitchen onto the S
+        front on the ONE-RECTANGLE reading, where it collects 2.0 for missing the rear AND 3.0
+        for standing on the front. So `charge_cont > charge_one` was never the defect; it was a
+        comparison against a baseline this merge moved for an unrelated reason, and a test that
+        reads a difference between two moving numbers reports neither. The defect is asserted
+        DIRECTLY now: on the container reading the kitchen is tagged into the wing, is drawn at
+        x = -21.81 outside the main block entirely, touches NEITHER the main block's N wall nor
+        its S wall, and is charged all the same.
+        `oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in`.
+
+        Nothing is changed here. Both would move a placement, and a package that edits a record
+        and re-weights the search has done two things.
+        """
+        import json as _json
+        from conftest import untagged_reference_plan
+        C = geometry_module.C
+        plan_one, stripped = untagged_reference_plan()
+        assert stripped == 6, f"the shipped record carries {stripped} container tags, not 6"
+        plan_cont = load_plan("tidewater-georgian-careful")
+        assert any(r.get("block") for lv in plan_cont["levels"] for r in lv["rooms"]), \
+            "premise: the shipped record carries a container, or this test is comparing a house to itself"
+
+        def read(plan):
+            geometry_module._SOLVE_CACHE.clear()
+            res = geometry_module.solve(plan, engine="heuristic")
+            fp = res["footprint"]
+            W, H = fp["width_ft"], fp["depth_ft"]
+            rear = {geometry_module._OPPOSITE[w] for w in ("S",)}
+            porch = next(r for r in res["levels"][0]["rooms"] if r["id"] == "porch")["geometry"]
+            charge = 0.0
+            for r in res["levels"][0]["rooms"]:
+                g = r.get("geometry")
+                if not g:
+                    continue
+                if C["rooms"].get(r["type"], {}).get("function_class") not in ("service", "work"):
+                    continue
+                rect = (g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"])
+                if not any(geometry_module._touches_wall(rect, w, W, H) for w in rear):
+                    charge += 2.0
+                if any(geometry_module._touches_wall(rect, w, W, H) for w in ("S",)):
+                    charge += 3.0
+            rooms = {}
+            for r in res["levels"][0]["rooms"]:
+                g = r.get("geometry")
+                if not g or r["id"] not in ("kitchen", "butlers"):
+                    continue
+                rect = (g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"])
+                c = 0.0
+                if not any(geometry_module._touches_wall(rect, w, W, H) for w in rear):
+                    c += 2.0
+                if any(geometry_module._touches_wall(rect, w, W, H) for w in ("S",)):
+                    c += 3.0
+                rooms[r["id"]] = (g["x_ft"],
+                                  geometry_module._touches_wall(rect, "N", W, H),
+                                  geometry_module._touches_wall(rect, "S", W, H),
+                                  r.get("block"), c)
+            return porch["y_ft"] <= 0.6, charge, rooms
+
+        on_front_one, charge_one, rooms_one = read(plan_one)
+        on_front_cont, charge_cont, rooms_cont = read(plan_cont)
+        # THE PORCH HALF, INVERTED AT THE 17 SEP MERGE (see the docstring): main's WP-11.17
+        # entrance anchor puts the porch on the S front on BOTH readings, so losing it again is
+        # a regression and fails here rather than passing quietly.
+        assert on_front_one, "premise: the one-rectangle reading puts the porch on the front"
+        assert on_front_cont, (
+            "the container placement has stopped putting the porch on the entrance front. "
+            "Main's WP-11.17 states the front as an anchor laid before the guillotine runs, so "
+            "this is a placement regression and not a cost to be re-pinned")
+        # THE SERVICE-CHARGE HALF, ASSERTED DIRECTLY RATHER THAN AS A DIFFERENCE. Two moving
+        # numbers cannot report each other; what the open question is about is that ONE room is
+        # charged for a wall its own element does not have.
+        kx, k_touch_n, k_touch_s, k_tag, k_charge = rooms_cont["kitchen"]
+        assert k_tag == "service", (
+            "premise: the shipped record still tags the kitchen into the dependency")
+        assert kx < 0, (
+            f"premise: the kitchen is drawn outside the main block, at x={kx}")
+        assert not k_touch_n and not k_touch_s, (
+            "premise: the kitchen reaches neither the main block's front nor its rear")
+        assert k_charge >= 2.0, (
+            f"the kitchen is charged {k_charge} for not reaching a rear wall that belongs to "
+            "another element. If this is 0 the instrument has been taught about massing "
+            "elements and the open question is answered -- say so and close it, rather than "
+            "lowering this line")
+
     def test_relaxations_do_not_increase_by_more_than_two_over_the_pre_wp22_baseline(self, geometry_module):
         """PLAN-OF-ACTION.md's own acceptance wording. The pre-WP-2.2 baseline (also
         test_geometry.py's own pin) is 11."""
@@ -321,12 +447,38 @@ class TestSolveIntegration:
 
 
 class TestDoorSwingsRender:
-    def test_svg_includes_arc_paths_for_doors(self, geometry_module):
-        import importlib.util
+    def test_svg_includes_arc_paths_for_doors(self, geometry_module, tmp_path):
+        """WP-13.2 made this non-vacuous. It asserted `'<path d="M ' in svg and " A " in svg`,
+        which a sheet with NO door arc at all satisfies (a relaxation mark, a stair arrow, any
+        path and any capital A on the plate), so it was green over a renderer that drew no
+        door -- and it was green over every mirrored one, since it never read where the ink
+        went. Now: one `class="sw"` arc per hinged leaf the record derives, two for a pair and
+        none for a cased opening or a pocket -- counted against `derive_openings`, not against a
+        number, so it stays exact as the plan changes and cannot pass on a sheet with none.
+        The centre-on-the-hinge rule is `tests/test_drawn_geometry.py`'s."""
+        import re
+        import sys
+        sys.path.insert(0, os.path.join(ROOT, "build"))
+        import modcache
+        rp = modcache.load("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
+        el = modcache.load("elements", os.path.join(ROOT, "build", "elements.py"))
         plan = load_plan("tidewater-georgian-careful")
         result = geometry_module.solve(plan, engine="heuristic")
-        spec = importlib.util.spec_from_file_location("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
-        rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
-        path = rp.render(result, "/tmp/wp22_door_swing_test.svg")
+        path = rp.render(result, str(tmp_path / "door_swing.svg"))
         svg = open(path).read()
-        assert '<path d="M ' in svg and " A " in svg, "expected at least one door-swing arc path"
+        fp = result["footprint"]
+        # `derive_openings` as `render()` calls it -- the one spelling, `openings_of_level`,
+        # with the level's placed appendages, since the breakfast-terrace door is a leaf on the
+        # sheet and is not derived without the terrace
+        leaves = 0
+        for i, lv in enumerate(result["levels"]):
+            if not any(r.get("geometry") for r in lv["rooms"]):
+                continue
+            op = rp.openings_of_level(result, lv, i)
+            for d in op["interior"] + op["exterior"]:
+                if d["type"] in rp.LEAFLESS:
+                    continue
+                leaves += 2 if d["type"] == "double" else 1
+        arcs = len(re.findall(r'<path class="sw" d="M [-\d. ]+ A ', svg))
+        assert leaves >= 6, f"COULD NOT EVALUATE: the record derives only {leaves} hinged leaves"
+        assert arcs == leaves, f"{arcs} door-swing arcs drawn for {leaves} hinged leaves on the record"

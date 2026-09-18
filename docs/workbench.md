@@ -78,7 +78,13 @@ units are not on the drawing, how many upper wall lines land on no wall below, a
 the plates giving every ∗ room's drawn figure beside the one its record asked for. Those lines
 are computed once in `build/disclosures.py` and rendered by BOTH surfaces — the printed plate
 draws them, and the bench shows the same list through `placement.disclosures` — so the two
-cannot drift. Before that package the bench's own caption told a reader that the facts a proof
+cannot drift. (That sentence was FALSE from WP-11.1 until WP-13.2: the plate imported the module,
+spelled its own copies of the relaxation and engine lines, and printed neither the undrawn-window
+line nor the transfer line at all, so a reader of the printed sheet never saw them — measured on
+the sixteen shipped sheets, the window line reaches 15 of them for the first time at WP-13.2.
+`oq/the-plate-does-not-read-the-disclosure-module-it-imports`. Since WP-13.2 the plate maps
+`banner()`'s list onto its inks and adds only the sheet's own lines: the stair, an opening on no
+wall line, the wall assembly and the face.) Before that package the bench's own caption told a reader that the facts a proof
 had to give up "are named above rather than dropped" and nothing above named them. Every room is
 clickable to its record; the selected room grows drag handles; and relaxations are
 both tallied (`count`, `max_off_grid_ft`) and DRAWN where they fall — a hollow triangle

@@ -25,6 +25,7 @@ import modcache  # noqa: E402
 GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
 FA = modcache.load("facade", os.path.join(ROOT, "build", "facade.py"))
 PC = modcache.load("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
+AX = modcache.load("axis", os.path.join(ROOT, "build", "axis.py"))
 
 
 def _placed(name="tidewater-georgian-careful"):
@@ -159,7 +160,23 @@ class TestItReportsAndNeverWrites:
         assert [x for x in judged if x["agrees"] is True], (
             f"every judged room disagrees, which reads as a broken instrument: {judged}")
 
-        victim = sorted(x["room"] for x in judged if x["bays"])[0]
+        # AND AT THE 17 SEP MERGE THE DRIVE STOPPED BEING THE ONLY SOURCE OF SILENCE, which
+        # broke the assertion and not the reading. The merged placement's upper front is
+        # `primary` (2 bays, 2 declared), `primarybath` (1 bay, **0** declared) and `chamber3`
+        # (2 bays, 2) -- so one room is ALREADY silent before anything is driven, and an
+        # assertion that the silent set is exactly `[victim]` convicts the fixture for the
+        # corpus having produced the state on its own. What the drive is for is that the state
+        # occurs AT ALL and occurs BECAUSE the declared count is zero; that is the DIFFERENCE
+        # between the two readings, not the whole set. The victim is also chosen from the rooms
+        # that DECLARE something, because zeroing a room that already declares nothing drives
+        # no state at all and the old selector -- alphabetically first with bays -- would have
+        # picked exactly such a room the day one appeared.
+        candidates = sorted(x["room"] for x in judged if x["bays"] and x["declares"])
+        assert candidates, (
+            "no upper room both spans a bay and declares a window, so zeroing one drives "
+            "nothing -- the control has lost its specimen and must be re-cut, not skipped")
+        victim = candidates[0]
+        silent_before = {x["room"] for x in d["rooms"] if x["bays"] and x["declares"] == 0}
         q = copy.deepcopy(tidewater)
         for lv in q["levels"]:
             for r in lv["rooms"]:
@@ -167,9 +184,10 @@ class TestItReportsAndNeverWrites:
                     r["windows"] = []
         d2 = FA.room_front_bays(q, 1)
         silent = [x for x in d2["rooms"] if x["bays"] and x["declares"] == 0]
-        assert [x["room"] for x in silent] == [victim], (
+        assert {x["room"] for x in silent} - silent_before == {victim}, (
             f"zeroing {victim}'s declared glass did not produce the silent state the test "
-            f"above reads: {[(x['room'], x['bays'], x['declares']) for x in d2['rooms']]}")
+            f"above reads: {[(x['room'], x['bays'], x['declares']) for x in d2['rooms']]} "
+            f"(already silent before the drive: {sorted(silent_before)})")
         assert all(x["agrees"] is False for x in silent), silent
         assert [x for x in d2["rooms"] if x["room"] != victim and x["agrees"] is True], (
             f"the untouched rooms stopped agreeing too, so this is the reading moving rather "
@@ -236,12 +254,33 @@ class TestItReportsAndNeverWrites:
         existing one-based, so a sheet would have given one door two bay numbers. It was invisible
         in the totals because the inverted facade-share test removed a `serious` at the same time
         and 63 stayed 63."""
-        c = PC.check(tidewater)
-        door = [f for f in c["findings"]
-                if "centre bay" in (f.get("statement") or "")
-                or "centre-bay" in (f.get("kind") or "")]
-        assert len(door) == 1, [(f.get("kind"), f["statement"][:60]) for f in door]
-        assert door[0]["kind"] == "drawn-door-off-the-centre-bay", door[0]
+        # AND AT THE 17 SEP MERGE THE TIDEWATER DOOR MOVED INTO THE CENTRE BAY, so this plan
+        # emits NOTHING and a bare `== 1` convicted the fixture for the house getting better.
+        # Measured: `axis.door_bay` reads `in-the-centre-bay`, bay 2 of 5, on the Tidewater
+        # plan (main's WP-11.17 lays the entrance room against the front) and
+        # `off-the-centre-bay`, bay 4 of 5, on the spec Colonial. The finding is tied to that
+        # VERDICT now rather than to a plan, so it cannot go quiet in either direction: a
+        # centred door that still emits, or an off-centre door that stops emitting, both fail.
+        # The `ONCE` in this test's name is the point and is asserted for every plan.
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            placed = _placed(pid) if pid != "tidewater-georgian-careful" else tidewater
+            c = PC.check(placed)
+            door = [f for f in c["findings"]
+                    if "centre bay" in (f.get("statement") or "")
+                    or "centre-bay" in (f.get("kind") or "")]
+            assert len(door) <= 1, (
+                pid, [(f.get("kind"), f["statement"][:60]) for f in door],
+                "two findings for one door, which is the defect this test was written for")
+            verdict = (AX.door_bay(placed) or {}).get("verdict")
+            if verdict == "off-the-centre-bay":
+                assert len(door) == 1, (
+                    pid, verdict, "the reader says the door is off the centre bay and the "
+                    "critic emits nothing -- the finding has gone blind")
+                assert door[0]["kind"] == "drawn-door-off-the-centre-bay", door[0]
+            elif verdict == "in-the-centre-bay":
+                assert not door, (
+                    pid, verdict, "the reader says the door IS in the centre bay and the critic "
+                    "convicts it anyway")
 
 
 class TestTheDataTheRulingCommittedTo:
@@ -285,27 +324,40 @@ class TestTheDataTheRulingCommittedTo:
         hard test away. Flipping the assertion to `is True` would have left a green test that
         had quietly stopped asking the question."""
         import copy
+        # AND AT THE 17 SEP MERGE THE SHIPPED RECORD CHANGED SIDES: the passage is drawn
+        # 12.62 ft on a 45 ft front, a share of 0.2804, which is just ABOVE [0.18, 0.27]. It was
+        # 0.2027 and inside. So the record now supplies the out-of-band specimen and the
+        # IN-band state is the one that has to be driven -- the exact inverse of what this
+        # docstring describes, and the reason all three states are driven explicitly below
+        # rather than one of them being left to whatever the placer happens to produce. What
+        # the ruling asserts is the same in every state: `reported`, with the band carried.
         s = FA.facade_share(tidewater)
         assert s["verdict"] == "reported"
         assert s["advisory_band"] == [0.18, 0.27]
-        assert s["within_advisory"] is True and 0.18 <= s["share"] <= 0.27, s
         assert "not required" in s["note"]
+        assert s["within_advisory"] is (0.18 <= s["share"] <= 0.27), (
+            "the verdict and the arithmetic disagree about the same band", s)
 
-        # DRIVEN: the same house with a narrower passage falls below the band, and the verdict
-        # is STILL `reported` and still carries the band. That is the ruling.
-        q = copy.deepcopy(tidewater)
-        for lv in q["levels"]:
-            for r in lv["rooms"]:
-                if r["id"] == "passage" and r.get("geometry"):
-                    r["geometry"]["width_ft"] = 6.0
-        out = FA.facade_share(q)
-        assert out["share"] < 0.18, out
-        assert out["within_advisory"] is False, out
-        assert out["verdict"] == "reported", (
-            "a plan outside the advisory band is CONVICTED again; the 5 Sep ruling makes the "
-            "facade a result that is reported, and `centre-passage-core`'s hard test was "
-            "removed for exactly this")
-        assert "not required" in out["note"]
+        def _with_passage(width):
+            q = copy.deepcopy(tidewater)
+            for lv in q["levels"]:
+                for r in lv["rooms"]:
+                    if r["id"] == "passage" and r.get("geometry"):
+                        r["geometry"]["width_ft"] = width
+            return FA.facade_share(q)
+
+        # All three states, DRIVEN, so none depends on the placement: below the band, inside it,
+        # and above it. A 45 ft front puts [0.18, 0.27] at 8.1 to 12.15 ft of passage.
+        below, inside, above = _with_passage(6.0), _with_passage(10.0), _with_passage(14.0)
+        assert below["share"] < 0.18 and below["within_advisory"] is False, below
+        assert 0.18 <= inside["share"] <= 0.27 and inside["within_advisory"] is True, inside
+        assert above["share"] > 0.27 and above["within_advisory"] is False, above
+        for out in (below, inside, above):
+            assert out["verdict"] == "reported", (
+                "a plan outside the advisory band is CONVICTED again; the 5 Sep ruling makes "
+                "the facade a result that is reported, and `centre-passage-core`'s hard test "
+                "was removed for exactly this", out)
+            assert "not required" in out["note"]
 
 
 class TestTheCriticCarriesIt:
@@ -410,13 +462,22 @@ class TestTheBandIsSpelledONCE:
         # the differential ran the other way by accident. [0.30, 0.40] excludes 0.2027, so the
         # flip is True -> False and the test still proves what it says: the reader takes the
         # band from the record rather than from a constant of its own.
-        monkeypatch.setattr(FA, "_advisory_band", lambda *a, **k: [0.30, 0.40])
+        # AND AT THE 17 SEP MERGE IT RAN THE OTHER WAY AGAIN, which is the third time and is why
+        # the premise is asserted rather than the band chosen once. The share is 0.2804 now (a
+        # 12.62 ft passage on a 45 ft front), just ABOVE the record's own [0.18, 0.27] -- so the
+        # record REFUSES it and a patch must ADMIT it for the flip to mean anything. [0.25, 0.35]
+        # straddles it the right way: False under the record, True under the patch.
+        base = FA.facade_share(tidewater)
+        assert base["within_advisory"] is False, (
+            f"the record's own band admits the share {base['share']}, so a patch that also "
+            f"admits it proves nothing -- re-choose the patched band to straddle it")
+        monkeypatch.setattr(FA, "_advisory_band", lambda *a, **k: [0.25, 0.35])
         s = FA.facade_share(tidewater)
-        assert s["advisory_band"] == [0.30, 0.40]
-        assert 0.18 <= s["share"] <= 0.27, (
-            f"the share is {s['share']}, outside the record's own band -- this control needs a "
-            f"share the record ADMITS and the patch REFUSES, or the flip proves nothing")
-        assert s["within_advisory"] is False, s
+        assert s["advisory_band"] == [0.25, 0.35]
+        assert 0.25 <= s["share"] <= 0.35, (
+            f"the share is {s['share']}, outside the PATCHED band -- this control needs a share "
+            f"the record REFUSES and the patch ADMITS, or the flip proves nothing")
+        assert s["within_advisory"] is True, s
 
     def test_an_unreadable_band_reports_None_and_never_a_default(self, tidewater, monkeypatch):
         monkeypatch.setattr(FA, "_advisory_band", lambda *a, **k: None)

@@ -15,6 +15,9 @@ import { elementBounds, wallOf, levelRooms, partitions, windows, doors, bayLines
          divergence, interpunctTitle, relaxationMarks, ft } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
 import { PEN, POCHE, DASH, inked } from './pen.js';
+import { furnitureKeyPlan, keyCount, KEY } from './furnitureKey.js';
+import { engineClaim, statusHead } from './engineClaim.js';
+import { sketchOf } from './refusal.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
@@ -42,29 +45,45 @@ function DimRun({ from, to, at, vertical, stops }) {
   );
 }
 
-/* The opening resolved into a wall-local frame: the two jambs A and B, the direction the
-   leaf swings, and the arc's sweep flag. Both wall orientations reduce to this, so a door
-   TYPE is drawn once rather than twice — which is why every type below is a few lines. */
+/* The opening resolved into a wall-local frame: the two jambs A and B and the direction the
+   leaf swings. Both wall orientations reduce to this, so a door TYPE is drawn once rather
+   than twice — which is why every type below is a few lines.
+
+   WP-13.2: A is the LOW jamb in MODEL terms — west on a horizontal wall, SOUTH on a vertical
+   one (the larger screen y) — because that is what the record's `hinge: "low"` names, and
+   `render_plan.py::_door` and the DXF read the same word. Until Phase 13 this frame put A at
+   the top-left jamb on screen, so a vertical-wall single leaf hung from the NORTH jamb here
+   and from the south in the DXF. The sweep flag is no longer carried: `Leaf` derives it. */
 function doorFrame(d) {
   const w = d.w;
   const vert = d.horiz === false || d.wall === 'W' || d.wall === 'E';
   if (vert) {
-    const x = d.x, y0 = -d.y - w / 2;
+    const x = d.x, y0 = -d.y - w / 2;                       // screen y of the NORTH jamb
     const s = d.swingRight === false ? -1 : 1;
-    return { w, vert, A: [x, y0], B: [x, y0 + w], nrm: [s, 0], sweep: s > 0 ? 1 : 0,
+    return { w, vert, A: [x, y0 + w], B: [x, y0], nrm: [s, 0],
              rect: { x: x - 0.35, y: y0, width: 0.7, height: w } };
   }
   const x0 = d.x - w / 2, y = -d.y;
   const t = d.swingUp !== false ? -1 : 1;
-  return { w, vert, A: [x0, y], B: [x0 + w, y], nrm: [0, t], sweep: t < 0 ? 1 : 0,
+  return { w, vert, A: [x0, y], B: [x0 + w, y], nrm: [0, t],
            rect: { x: x0, y: y - 0.35, width: w, height: 0.7 } };
 }
 
 const add = (p, v, k) => [p[0] + v[0] * k, p[1] + v[1] * k];
 const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
 
-function Leaf({ hinge, nrm, len, to, sweep }) {
+/* The SVG sweep flag for a leaf drawn from its open tip to the far jamb about the hinge, in
+   screen space: 1 when the quarter-turn runs clockwise as a reader sees it, which is the sign
+   of the cross product. `render_plan.py::sweep_flag` is the same rule; a table with one wrong
+   row drew every horizontal-wall leaf in the Python sheet as its own mirror for seven phases. */
+export function sweepFlag(hinge, tip, far) {
+  const c = (tip[0] - hinge[0]) * (far[1] - hinge[1]) - (tip[1] - hinge[1]) * (far[0] - hinge[0]);
+  return c > 0 ? 1 : 0;
+}
+
+function Leaf({ hinge, nrm, len, to }) {
   const open = add(hinge, nrm, len);
+  const sweep = sweepFlag(hinge, open, to);
   return (
     <g>
       <line x1={hinge[0]} y1={hinge[1]} x2={open[0]} y2={open[1]}
@@ -103,8 +122,8 @@ function DoorMark({ d }) {
     return (
       <g {...common}>
         {brk}
-        <Leaf hinge={f.A} nrm={f.nrm} len={f.w / 2} to={M} sweep={f.sweep} />
-        <Leaf hinge={f.B} nrm={f.nrm} len={f.w / 2} to={M} sweep={1 - f.sweep} />
+        <Leaf hinge={f.A} nrm={f.nrm} len={f.w / 2} to={M} />
+        <Leaf hinge={f.B} nrm={f.nrm} len={f.w / 2} to={M} />
       </g>
     );
   }
@@ -112,9 +131,10 @@ function DoorMark({ d }) {
     return <g {...common}>{brk}<Jambs A={f.A} B={f.B} vert={f.vert} /></g>;
   }
   if (type === 'pocket') {
-    // the leaf slides into the wall: shown as the slot it runs in, not as a swing
+    // the leaf slides into the wall: shown as the slot it runs in, not as a swing -- past
+    // the HIGH jamb on a vertical wall (B, the north one on screen) and the low on a horizontal
     const slot = f.vert
-      ? { x: f.rect.x, y: f.A[1] - f.w, width: 0.7, height: f.w }
+      ? { x: f.rect.x, y: f.B[1] - f.w, width: 0.7, height: f.w }
       : { x: f.A[0] - f.w, y: f.rect.y, width: f.w, height: 0.7 };
     return (
       <g {...common}>
@@ -139,10 +159,13 @@ function DoorMark({ d }) {
       </g>
     );
   }
+  // a single leaf hangs from the jamb the RECORD names (WP-13.2): "low" is A, "high" is B
+  const H = d.hinge === 'high' ? f.B : f.A;
+  const T = d.hinge === 'high' ? f.A : f.B;
   return (
     <g {...common}>
       {brk}
-      <Leaf hinge={f.A} nrm={f.nrm} len={f.w} to={f.B} sweep={f.sweep} />
+      <Leaf hinge={H} nrm={f.nrm} len={f.w} to={T} />
     </g>
   );
 }
@@ -294,6 +317,40 @@ function roomLabel(r, wall) {
   return { ...L, turned: !!useTurned, cx: r.x + r.w / 2, cy: -r.y - r.h / 2 };
 }
 
+/* The furniture key's inputs, gathered ONCE for the plate and its caption (WP-13.2): the
+   partitions as drawn, every door leaf's swing square AS DRAWN (the same `swingUp` /
+   `swingRight` DoorMark reads, so the key avoids the arc the reader sees), the stair, and
+   each room's label through `roomLabel` -- the one fitter, so the key knows where the name
+   is without a second measurement of it. build/render_plan.py::furniture_key_plan is the
+   same gathering in sheet px. */
+function keyPlanFor(rooms, wall, drs, parts, stair, levelIndex) {
+  const swings = [];
+  for (const d of drs.interior) {
+    if (d.horiz) swings.push({ x: d.x - d.w / 2, y: d.swingUp ? d.y : d.y - d.w, w: d.w, h: d.w });
+    else swings.push({ x: d.swingRight ? d.x : d.x - d.w, y: d.y - d.w / 2, w: d.w, h: d.w });
+  }
+  for (const d of drs.exterior) {
+    if (d.wall === 'W' || d.wall === 'E') {
+      swings.push({ x: d.wall === 'W' ? d.x : d.x - d.w, y: d.y - d.w / 2, w: d.w, h: d.w });
+    } else {
+      swings.push({ x: d.x - d.w / 2, y: d.wall === 'S' ? d.y : d.y - d.w, w: d.w, h: d.w });
+    }
+  }
+  const stairRects = (stair && (stair.level ?? 0) === levelIndex)
+    ? (stair.well ? [stair.well] : (stair.flights || [])) : [];
+  return furnitureKeyPlan(rooms, {
+    partitions: parts,
+    swings,
+    stairRects: stairRects.map((s) => ({ x: s.x_ft, y: s.y_ft, w: s.width_ft, h: s.depth_ft })),
+    labelBox: (r) => {
+      const lab = roomLabel(r, wall);
+      if (!lab) return null;
+      const w = Math.max(lab.name.width, lab.dim ? lab.dim.width : 0);
+      return lab.turned ? { w: lab.block, h: w } : { w, h: lab.block };
+    },
+  });
+}
+
 export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, selectedRoom,
                         onPickRoom, onResizeRoom, title, subtitle, styleName }) {
   useFontMetrics();          // re-fit every label once EB Garamond itself has arrived
@@ -341,6 +398,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // plan schema 0.3.0 (WP-6.2): the stair is an object on the record, or it is absent —
   // never an empty room presented as a finished one
   const stair = placement?.stair || plan?.stair;
+  const keyPlan = keyPlanFor(rooms, wall, drs, parts, stair, levelIndex);    // WP-13.2
   const ghostRooms = ghost != null ? levelRooms(plan, placement, ghost) : [];
   const roomsMeta = ov.meta || {};
 
@@ -395,18 +453,63 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
      prose beside the drawing, which is the one place it cannot travel: a plate that is
      printed, screenshotted or exported leaves the prose behind, and a reader then cannot
      tell a proof from a search. The caption is the plate's own voice, so it says it here.
-     `reason` is present when `auto` FELL BACK, and that is the case worth naming. */
-  const solver = placement?.geometry_report?.solver;
-  const engineLine = !solver ? ''
-    : solver.engine === 'cp-sat'
-      ? "Placement proved (CP-SAT) against the record's own declared facts. "
-      : 'Placement searched, not proved — hill-climb'
-        + (solver.reason && solver.reason !== 'requested' ? `, because ${solver.reason}` : '')
-        + '. ';
+     `reason` is present when `auto` FELL BACK, and that is the case worth naming.
+     WP-13.2: THE VERDICT IS `engineClaim.js`'s. This line read `solver.engine === 'cp-sat'` and
+     printed "Placement proved" over a FEASIBLE truncation and over an `OPTIMAL (hard-only)` whose
+     objective never ran -- the bench's own plate certifying what the Python plate beside it had
+     stopped certifying at the same commit. It prints the plate's four states now: proved at the
+     optimum (naming any declared wall set aside to get there), by CP-SAT and not proved at the
+     optimum (quoting the solver's own status, and saying when the composition was not evaluated),
+     searched, or nothing where no engine is recorded. */
+  const claim = engineClaim(placement?.geometry_report?.solver);
+  /* THE WALL DRAG'S WORKING SKETCH, ON THE PLATE (WP-13.4).
+
+     Since 15 Sep 2026 a placement that breaks a hard fact of the type is refused and no surface
+     draws it — with ONE exception, the wall drag, which asks for the hill-climb by name because
+     a gesture cannot wait for a proof. `workbench/server/evaluate.py` marks that one
+     `placement.sketch = {working, refused, reason}`, and this is the only sheet in the app that
+     draws one.
+
+     IT IS SAID HERE AND NOT ONLY IN THE PROSE BESIDE THE SHEET, for WP-6.4's reason: a printed,
+     screenshotted or exported plate leaves the prose behind, and a reader then cannot tell a
+     working sketch from a drawing. The state is read once, from the record, through the one
+     leaf — the Plan Workbench reads the same function for the same placement, and neither
+     derives it. */
+  const sketch = sketchOf(placement);
+  const engineLine = claim.verdict === 'unjudged' ? ''
+    : claim.proved
+      ? "Placement proved (CP-SAT) against the record's own declared facts"
+        + (claim.wallsSetAside
+          ? `, with ${claim.wallsSetAside} declared exterior wall${claim.wallsSetAside === 1 ? '' : 's'} set aside`
+          : '')
+        + '. '
+      : claim.cp
+        ? `Placement by CP-SAT, not proved at the optimum — ${statusHead(claim.status) || 'solver status not recorded'}. `
+          + (claim.objectiveRan ? ''
+            : 'The compositional objective did not run, so no term for the front, the axis or the stack was evaluated on it. ')
+        : 'Placement searched, not proved — hill-climb'
+          + (claim.fellBack ? `, because ${claim.reason}` : '')
+          + '. ';
 
   return (
     <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
       boxShadow: 'var(--shadow-plate)', padding: '18px 22px 14px' }}>
+      {sketch && (
+        <div data-working-sketch="" data-sketch-refused={sketch.refused ? sketch.refused.kind : ''}
+          style={{ border: '1px solid var(--refusal)', padding: '6px 10px', margin: '0 0 10px',
+            font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
+            textTransform: 'uppercase', color: 'var(--refusal)' }}>
+          working sketch — not a drawing
+          <span style={{ font: 'italic var(--fw-reg) 12px/1.45 var(--serif)', letterSpacing: 0,
+            textTransform: 'none', color: 'var(--ink-2)', marginLeft: 10 }}>
+            {sketch.refused
+              ? 'this placement was refused; it is drawn only because a wall drag asked for the '
+                + 'fast search by name, and it may not be exported'
+              : 'placed by the fast search behind a gesture, and it may not be exported'}
+            {sketch.reason ? ` — ${sketch.reason}` : ''}
+          </span>
+        </div>
+      )}
       <div style={{ textAlign: 'center', margin: '4px 0 2px' }}>
         <div style={{ font: 'var(--fw-med) 17px/1.35 var(--serif)', letterSpacing: 'var(--tr-drawing)',
           textTransform: 'uppercase', color: 'var(--ink)' }}>{interpunct}</div>
@@ -734,6 +837,58 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             </g>
           )))}
 
+        {/* the key (WP-13.2). A numeral on every mark and a key in the room, so a printed
+            plate names what it draws -- the tooltip above stays, and is not a label. Fitted
+            by furnitureKey.js in the room's own frame (feet from its NW corner, y down);
+            this adds the room's corner and nothing else. A refused key is in the caption
+            under the room's name, never silently dropped. NOT `data-furniture`: the walk
+            counts those as items, and a key is lettering about an item.
+            `pointerEvents: none` ON THE GROUP, because a key line lying across the middle of
+            a room is lettering and not a control: the walk clicks the Drawing Room at its
+            centre to raise its wall handles, and with the key's `<text>` sitting there the
+            click landed on the text -- a sibling of the room's `<g>`, so nothing bubbled to
+            `onPickRoom` -- and all four handle checks went red naming nothing. That is the
+            relaxation mark's own defect (WP-6.3, "an annotation must not eat the click under
+            it") arriving with the second annotation this sheet ever drew over a room. */}
+        {rooms.map((r) => {
+          const kr = keyPlan.byRoom.get(r.id);
+          if (!kr) return null;
+          const ox = r.x, oy = -r.y - r.h;          // the room's NW corner, screen y down
+          const fit = kr.fit;
+          return (
+            <g key={r.id + 'key'} data-furniture-key={r.id}
+              data-furniture-key-fit={fit ? (fit.turned ? 'turned' : 'flat') : 'margin'}
+              pointerEvents="none">
+              {kr.numerals.map((nu, i) => (
+                <text key={'n' + i} data-key-numeral={nu.n} x={ox + nu.x} y={oy + nu.y}
+                  fontSize={nu.size} fontFamily="var(--mono)" fill="var(--ink-2)"
+                  textAnchor={nu.anchor}>{nu.n}</text>
+              ))}
+              {fit && kr.lines.map((line, k) => {
+                const size = fit.size;
+                // the record's own `of` where a counted piece states one, else the name's word
+                const count = kr.entries[k].of || keyCount(kr.entries[k].item);
+                if (fit.turned) {
+                  // read from the foot of the sheet: each line is a column, the first leftmost
+                  const tx = ox + fit.x0 + k * size * KEY.lead + 0.8 * size;
+                  const ty = oy + fit.y1;
+                  return (
+                    <text key={'k' + k} data-key-item={kr.entries[k].n} data-count={count || undefined}
+                      x={tx} y={ty} transform={`rotate(-90 ${tx} ${ty})`}
+                      fontSize={size} fontFamily="var(--mono)" fill="var(--ink-2)">{line}</text>
+                  );
+                }
+                const tx = ox + fit.x0;
+                const ty = oy + fit.y0 + k * size * KEY.lead + 0.8 * size;
+                return (
+                  <text key={'k' + k} data-key-item={kr.entries[k].n} data-count={count || undefined}
+                    x={tx} y={ty} fontSize={size} fontFamily="var(--mono)" fill="var(--ink-2)">{line}</text>
+                );
+              })}
+            </g>
+          );
+        })}
+
         {/* dimensions — ticks, primes, never decimal feet */}
         <DimRun from={0} to={W} at={2.6} stops={[0, ...bays, W]} />
         <DimRun from={0} to={W} at={5.2} stops={[0, W]} />
@@ -843,6 +998,13 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           flex: '1 0 auto' }}>{interpunct}</div>
         <div data-plate-note="" style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)',
           color: 'var(--ink-2)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
+          {/* FIRST, because it governs everything after it: a plate a reader may not measure
+              from must say so before it says what engine drew it. */}
+          {sketch
+            ? 'A WORKING SKETCH, not a drawing — placed by the fast search behind a wall drag'
+              + (sketch.refused ? ', on a placement the type’s facts refuse' : '')
+              + '; it may not be exported. '
+            : ''}
           {engineLine}
           {/* THE WALL IS A READING OR IT IS A CONVENTION, AND THE PLATE HAS TO SAY WHICH.
               Before plan schema 0.5.1 this sheet drew a 9 in envelope and a 5 in partition
@@ -889,6 +1051,14 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           {drs.inferredWidths
             ? `${drs.inferredWidths} door(s) declare no width; drawn at the conventional leaf. `
             : ''}
+          {/* WP-13.2 -- a furniture key no corner of its room could hold at the smallest
+              legible size, flat or turned, is set here under the room's name rather than
+              dropped. build/render_plan.py puts the same line in its margin schedule. */}
+          {keyPlan.margin.map((m) => (
+            <span key={'km' + m.id} data-furniture-key-margin={m.id}>
+              {`Furniture key, ${m.name} — no corner of the room holds it: ${m.lines.join('; ')}. `}
+            </span>
+          ))}
           {drs.inferredPositions
             ? `${drs.inferredPositions} exterior door(s) carry no placement in the record and are `
               + 'drawn at conventional mid-wall position, on a wall inferred from the room\u2019s '

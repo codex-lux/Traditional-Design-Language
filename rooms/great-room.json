@@ -43,6 +43,7 @@
         120,
         96
       ],
+      "footprint_of": "group",
       "clearance_in": 36,
       "placement": "against-wall"
     },

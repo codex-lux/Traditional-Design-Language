@@ -6,7 +6,8 @@ three things to rule. Ruled 7 September 2026, taking the question's own first re
   1. ONE coordinate space, each room bounded by its OWN element's box. CP-SAT integer
      variables take negative lower bounds, so a west dependency at x = -34 needs no shift and
      no second origin -- the alternative the question offered and this does not use.
-  2. AN ELEMENT BOUNDARY IS NOT DOWNGRADABLE. `_RANK` is ("wall", "axis", "shape") and an
+  2. AN ELEMENT BOUNDARY IS NOT DOWNGRADABLE. `_RANK` is the seven-rank ladder (WP-13.3:
+     wall, axis, tiling, stack, bearing, hearth, shape) and an
      element edge is none of those: it is the massing, and a room drawn outside the mass the
      record states is the record and the drawing disagreeing about where the house is. It is
      stated as a plain `m.Add`, never a `reqs.lit`, so it cannot enter a conflict core and
@@ -94,12 +95,69 @@ EL = _mod("elements")
 # did not: tidewater still proves OPTIMAL in ~9.5 s with the same four wall pins and the same
 # one shape pin (objective 308.1 -> 308.3), and spec-builder-colonial is still FEASIBLE with
 # none. Measured before the numbers below were written.
-MODEL_SHAS = {
-    ("tidewater-georgian-careful", False): "d8889b7f85105d72",
-    ("tidewater-georgian-careful", True): "3fa2d59e5a5d8695",
-    ("spec-builder-colonial", False): "53f6ab2dc19684dc",
-    ("spec-builder-colonial", True): "45bf3a3cdf55d5c8",
+#
+# AND THE MERGE SPLIT THE DICT IN TWO, WHICH IS THE OTHER LINE'S EDIT AND IS KEPT. Both parallel
+# sessions tagged this record with the same container, and one of them then noticed that the
+# ONE-RECTANGLE GUARANTEE above cannot be stated on a plan that is no longer one rectangle: the
+# argument for hashing the model rather than the placement is that a one-rectangle house must map
+# every room to `(0, 0, Wi, Hi)`, and a container house does not. So the guarantee runs on
+# `spec-builder-colonial`, which IS one rectangle and asserts that as its premise, and the
+# container's model gets a pin of its own that claims something weaker and says so.
+# A flat dict of four under one name could not have said which of the two things each hash was.
+#
+# AND RE-DERIVED AT THE 17 SEP MERGE BY RUNNING THE CONTROL THE ASSERTIONS THEMSELVES NAME --
+# "hand THIS `_build` the previous commit's records and check it reproduces the previous hashes"
+# -- which separated the record from the builder exactly as it was written to. The merged
+# `_build` handed THIS BRANCH's own record returns the merged hashes, so the RECORD did not move
+# the model; the BUILDER did. And the split of the four is the evidence of WHICH part of it:
+#
+#     plan                        objective=False        objective=True
+#     spec-builder-colonial       af0b566db578f99f       68434bafedf92b38 -> f6be60aefa639b5e
+#     tidewater-georgian-careful  ed29a965f427f03f       75dbc2bc875d6740 -> 463b12ac97280fac
+#
+# BOTH HARD MODELS ARE BYTE-IDENTICAL ACROSS THE MERGE and both objectives moved. That is the
+# whole of the resolution recorded in the header above -- main's scale-neutral restatement of the
+# soft overshoot term survives as the spelling -- and it is the strongest available evidence that
+# nothing else came with it: seven ranks, the per-element boxes, the coverage floor, the door
+# abutments, the four `_lands_literal` products and the hearth's face are all in the
+# `objective=False` hash, and not one of them moved on either plan.
+#
+# NOTE THE VALUES WERE WRONG FOR ONE COMMIT AND THE CONTROL IS WHAT FOUND IT: the merge wrote
+# MAIN's spec-Colonial pair here (53f6ab2dc19684dc / 45bf3a3cdf55d5c8) under this branch's split,
+# so the `objective=False` half claimed a hard model neither tree builds. It was never reached,
+# because the Tidewater row is asserted first and failed before the loop got there -- a pin
+# behind a failing pin is a pin nobody has checked.
+ONE_RECTANGLE_SHAS = {
+    ("spec-builder-colonial", False): "af0b566db578f99f",
+    ("spec-builder-colonial", True): "f6be60aefa639b5e",
 }
+CONTAINER_SHAS = {
+    ("tidewater-georgian-careful", False): "ed29a965f427f03f",
+    ("tidewater-georgian-careful", True): "463b12ac97280fac",
+}
+MODEL_SHAS = {**ONE_RECTANGLE_SHAS, **CONTAINER_SHAS}   # tuple keys: `dict(a, **b)` refuses them
+
+
+def _model_sha(pid, obj):
+    plan = json.loads((ROOT / "plans" / f"{pid}.json").read_text())
+    levels, prep = GEO.prep_rooms(plan)
+    fpd = CP._snap_fpd(GEO.derive_footprint(plan, None, prep))
+    ew = GEO.entrance_walls(plan)
+    m, _r, _q = CP._build(plan, prep, fpd, ew, frozenset(), objective=obj)
+    return hashlib.sha256(str(m.Proto()).encode()).hexdigest()[:16]
+
+
+def _elements_on_ground(pid):
+    """How many massing elements the ground level is laid into, read through `blocks_for`.
+
+    Not the count of distinct `block` tags: a hyphen is its own element and is stated by
+    `hyphen: true` rather than by a tag of its own, so on the shipped Tidewater record one tag
+    and one hyphen flag become THREE elements. Asking `geometry.blocks_for` is the only reading
+    that cannot disagree with the one `_build` uses."""
+    plan = json.loads((ROOT / "plans" / f"{pid}.json").read_text())
+    levels, prep = GEO.prep_rooms(plan)
+    fpd = GEO.derive_footprint(plan, None, prep)
+    return len(GEO.blocks_for(plan, fpd, prep, level=0))
 
 
 def test_the_model_the_prover_builds_for_the_shipped_plans_is_byte_identical():
@@ -114,21 +172,50 @@ def test_the_model_the_prover_builds_for_the_shipped_plans_is_byte_identical():
     one any more. The guarantee is unchanged -- what moved is which houses it is a guarantee
     ABOUT, and the header above records the control that separated the record from the code.
     """
-    for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+    # AND THE LOOP IS SCOPED BACK TO `ONE_RECTANGLE_SHAS` AT THE 17 SEP MERGE. The merge took
+    # main's form, which sweeps BOTH shipped plans against the combined dict -- and this
+    # function's message says "any movement here is a defect and not a trade", which is true of
+    # a one-rectangle house and FALSE of the container, whose own pin below says in as many
+    # words that a movement there is only a defect if no package accounts for it. One loop
+    # carrying two claims tells the reader the wrong one about half its rows. The header above
+    # already argues this; the merge had kept the argument and dropped the code.
+    for (pid, obj), want in sorted(ONE_RECTANGLE_SHAS.items()):
+        assert _elements_on_ground(pid) == 1, (
+            f"{pid} is no longer one rectangle, so the GUARANTEE this function states cannot be "
+            "made about it -- move its rows to CONTAINER_SHAS rather than weakening the message")
         plan = json.loads((ROOT / "plans" / f"{pid}.json").read_text())
         levels, prep = GEO.prep_rooms(plan)
         fpd = CP._snap_fpd(GEO.derive_footprint(plan, None, prep))
         ew = GEO.entrance_walls(plan)
-        for obj in (False, True):
-            m, _r, _q = CP._build(plan, prep, fpd, ew, frozenset(), objective=obj)
-            got = hashlib.sha256(str(m.Proto()).encode()).hexdigest()[:16]
-            assert len(str(m.Proto())) > 5000, "an empty proto cannot be evidence of a match"
-            assert got == MODEL_SHAS[(pid, obj)], (
-                f"{pid} objective={obj}: the model the prover builds for a shipped plan moved. "
-                f"Before re-pinning, run the control: hand THIS `_build` the previous commit's "
-                f"records and check it reproduces the previous hashes. If it does, the record "
-                f"moved and the builder did not; if it does not, the builder moved and that is "
-                f"a defect and not a trade.")
+        m, _r, _q = CP._build(plan, prep, fpd, ew, frozenset(), objective=obj)
+        got = hashlib.sha256(str(m.Proto()).encode()).hexdigest()[:16]
+        assert len(str(m.Proto())) > 5000, "an empty proto cannot be evidence of a match"
+        assert got == want, (
+            f"{pid} objective={obj}: the model the prover builds for a shipped plan moved. "
+            f"Before re-pinning, run the control: hand THIS `_build` the previous commit's "
+            f"records and check it reproduces the previous hashes. If it does, the record "
+            f"moved and the builder did not; if it does not, the builder moved and that is "
+            f"a defect and not a trade.")
+
+
+def test_the_model_for_the_shipped_container_is_pinned():
+    """WP-13.5. `plans/tidewater-georgian-careful.json` states three massing elements now, and
+    nothing else in the tree pins what the prover is ASKED about one.
+
+    This is not the guarantee above and must not be read as it: a movement here is only a defect
+    if no package accounts for it. What it stops is the drift nobody mentions — the element
+    domains, the per-element containment and coverage, the `_lands_literal` products for four
+    declared stacks and the hearth's face are all in this hash, and every one of them is a fact
+    the prover would otherwise stop stating in silence.
+    """
+    n = _elements_on_ground("tidewater-georgian-careful")
+    assert n == 3, (
+        f"the shipped Tidewater record states {n} massing element(s), not 3 — this pin is "
+        "about the container, so re-read WP-13.5's record edit before touching the hashes")
+    for (pid, obj), want in sorted(CONTAINER_SHAS.items()):
+        assert _model_sha(pid, obj) == want, (
+            f"{pid} objective={obj}: the model the prover builds for the shipped container "
+            f"moved. Name what changed it and re-pin with the accounting; do not re-pin bare.")
 
 
 def test_the_refusal_is_gone_from_the_dispatcher():
@@ -311,8 +398,8 @@ def test_every_block_fact_in_the_model_reads_the_rooms_own_element():
 
 
 def test_an_element_boundary_is_not_downgradable():
-    """Ruling 2, stated. `_RANK` is ("wall", "axis", "shape"); an element edge is none of them
-    and is above all three, because a room outside its own mass is not a compromise -- it is a
+    """Ruling 2, stated. `_RANK` is the seven-rank ladder; an element edge is none of them
+    and is above all seven, because a room outside its own mass is not a compromise -- it is a
     different building. It is a plain `m.Add`, so it creates no assumption literal, cannot
     appear in a conflict core and cannot be relaxed by the ladder."""
     src = (ROOT / "build" / "geometry_cp.py").read_text()
@@ -324,5 +411,6 @@ def test_an_element_boundary_is_not_downgradable():
         for row in src.splitlines():
             if row.strip().startswith(line):
                 assert row.strip() == line, f"the element boundary is conditional: {row.strip()}"
-    assert CP._RANK == ("wall", "axis", "shape"), (
-        "the ladder gained a rank; an element edge must not be one of them")
+    assert CP._RANK == ("wall", "axis", "tiling", "stack", "bearing", "hearth", "shape"), (
+        "the ladder's ranks moved; an element edge must not be one of them")
+    assert not any("element" in k or "box" in k for k in CP._RANK)

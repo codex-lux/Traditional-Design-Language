@@ -109,48 +109,93 @@ class TestOneSpellingOfTheTest:
         assert br == [{"room": "bath", "over": "kitchen", "name": "Bath"}]
 
     def test_touching_edges_are_NOT_an_overlap(self):
-        """Strict positive intersection, the same rule `plan_check`'s drawn layer uses. Two
-        rectangles sharing an edge do not stack: a stack needs floor over floor, not a line."""
+        """Two rectangles sharing an edge do not stack: a stack needs floor over floor, not a
+        line. True under the old strict-intersection rule and under `stacking.lands`
+        (containment, WP-13.2), which is the rule `plan_check`'s drawn layer reads now."""
         g = {"kitchen": (0.0, 0.0, 10.0, 10.0)}
         u = [{"id": "bath", "stacks_over": "kitchen"}]
         assert GEO.declared_stack_breaks(g, {"bath": (10.0, 0.0, 8.0, 8.0)}, u)
 
 
+# A plan a strict candidate MUST exist for: one room over one room, one hall over one hall, so
+# every slicing of the footprint puts each upper room 100% over its target. WP-13.2 needs it
+# because `stacking.lands` asks the smaller room to lie 90% inside the larger, and at that rule
+# NEITHER shipped plan has a strict candidate at 250 or at 1,000 candidates (measured 15 Sep
+# 2026: the Tidewater winner breaks 5 of 5 at 250 and 3 at 1,000, the spec Colonial 2 and 2) --
+# so the hard branch is unreachable from the corpus and has to be driven (WP-8.11's rule).
+def strict_fixture():
+    return {"id": "strict-fixture", "style": "georgian-colonial-american", "name": "one over one",
+            "levels": [{"index": 0, "id": "ground", "rooms": [
+                            {"id": "parlor", "type": "parlor", "width_ft": 20, "length_ft": 20},
+                            {"id": "hall", "type": "stair-hall", "width_ft": 10, "length_ft": 20,
+                             "doors": [{"to": "parlor"}]}]},
+                       {"index": 1, "id": "upper", "rooms": [
+                            {"id": "bed", "type": "bedroom", "width_ft": 20, "length_ft": 20,
+                             "stacks_over": "parlor"},
+                            {"id": "landing", "type": "stair-hall", "width_ft": 10, "length_ft": 20,
+                             "stacks_over": "hall", "doors": [{"to": "bed"}]}]}]}
+
+
 class TestTheRuleWhenItIsOn:
-    def test_it_satisfies_every_declared_claim_on_both_shipped_plans(self, hard):
+    def test_the_rule_is_hard_or_says_it_fell_back_and_never_neither(self, hard):
+        """RE-CUT AT WP-13.2. This asserted `rule == "hard"` on both shipped plans at the
+        shipped pool -- true while a stack "landed" on any positive overlap, and false the
+        moment `stacking.lands` asked for containment: under it no candidate of 250 satisfies
+        every claim on either plan, so the rule falls back to the charge and SAYS SO. The
+        invariant is what the test is for: hard with nothing broken at selection, or the charge
+        with the pool and the count named. Pinning "a strict candidate exists at 250" pinned an
+        outcome the pool is free to change, which is the guard-pins-an-outcome shape this
+        repository keeps re-cutting; the hard branch is driven by `strict_fixture` below."""
         hard(True)
-        for name, claims in (("tidewater-georgian-careful", 5), ("spec-builder-colonial", 2)):
+        # WP-13.5 withdrew `hallbath stacks_over powder` -- the powder room is in a
+        # single-storey dependency now and no upper room can stand over it -- so the record
+        # states FOUR claims, not five. Not re-pointed: aiming a structural claim at another
+        # room to keep a counter green is authoring a fact nobody measured.
+        for name, claims in (("tidewater-georgian-careful", 4), ("spec-builder-colonial", 2)):
             p = GEO.solve(plan(name), engine="heuristic")
             st = p["geometry_report"]["stacking"]
-            assert st["claimed"] == claims and st["rule"] == "hard", (name, st)
-            assert "broken_at_selection" not in st, (
-                f"{name}: a strict candidate was found, so nothing may be reported broken")
+            assert st["claimed"] == claims, (name, st)
+            if st["rule"] == "hard":
+                assert "broken_at_selection" not in st, (
+                    f"{name}: a strict candidate was found, so nothing may be reported broken")
+            else:
+                assert st["rule"] == "charge" and st["broken_at_selection"] >= 1, (name, st)
+                _rn = st.get("rule_note") or st["note"]
+                assert "NO CANDIDATE of 250" in _rn and "fell back to the charge" in _rn, _rn
 
     def test_it_is_NOT_free_and_the_record_says_what_it_cost(self, hard):
         """A rule whose price is hidden is a rule nobody can refuse. This is the number that
-        decided the default."""
+        decided the default.
+
+        RE-CUT AT WP-13.2. It asserted a cost on the spec Colonial at the shipped pool; under
+        containment nothing there is PREFERRED, because no candidate of 250 (or of 1,000)
+        satisfies both claims, so there is no price to state and the disclosure states the
+        pool instead. Three states, and the record must be in exactly one: a strict candidate
+        preferred over a better-scoring one (a cost on at least one of the two keys, both
+        named in the note); a strict candidate that was the best anyway (the note says it cost
+        nothing); or no strict candidate (the note names the pool and the count). The first is
+        reachable from no shipped plan today and is not driven here -- `strict_fixture` drives
+        the second, and the shipped plans the third."""
         hard(True)
         p = GEO.solve(plan("spec-builder-colonial"), engine="heuristic")
         st = p["geometry_report"]["stacking"]
-        # TWO FIGURES, POINTS AND BANDS, ruled at the merge of the two Phase 11s (8 Sep
-        # 2026). This asserted `cost_points > 0` on the premise that the search ranks on
-        # ONE number, which was true when it was written. The other branch's WP-11.8 made
-        # the key LEXICOGRAPHIC -- the room's own proportion band first, the score second
-        # -- so the preferred candidate can be worse on bands and BETTER on points, and
-        # the scalar goes negative (-72.8 here) while the rule plainly cost something.
-        # A negative points figure is not a cheaper house; it is one number describing two
-        # keys. What the rule cost is now reported as both, signed the same way, and the
-        # invariant is that it cost something ON AT LEAST ONE OF THEM.
-        _pts, _band = st.get("cost_points", 0), st.get("cost_band", 0)
-        assert _pts > 0 or _band > 0, (
-            f"the rule preferred a different candidate, so it cost something on one of the "
-            f"two keys: points={_pts}, bands={_band} -- {st}")
-        # The RULE's note lives under `rule_note` after the merge: the stacking leaf also
-        # writes a `note` (its claims arithmetic) and `_disclose` keeps both rather than
-        # letting one overwrite the other.
         _rn = st.get("rule_note") or st["note"]
-        assert "points" in _rn and "band" in _rn, (
-            f"the note must state BOTH, because neither sums into the other: {_rn}")
+        if st["rule"] == "hard" and "cost_points" in st:
+            # TWO FIGURES, POINTS AND BANDS, ruled at the merge of the two Phase 11s (8 Sep
+            # 2026): the key is LEXICOGRAPHIC (band first, score second), so the scalar can
+            # go negative while the rule plainly cost something; it cost something on at
+            # least one of the two, and the note states both.
+            _pts, _band = st.get("cost_points", 0), st.get("cost_band", 0)
+            assert _pts > 0 or _band > 0, (
+                f"the rule preferred a different candidate, so it cost something on one of the "
+                f"two keys: points={_pts}, bands={_band} -- {st}")
+            assert "points" in _rn and "band" in _rn, (
+                f"the note must state BOTH, because neither sums into the other: {_rn}")
+        elif st["rule"] == "hard":
+            assert "cost nothing" in _rn, _rn
+        else:
+            assert st["rule"] == "charge" and "cost_points" not in st, st
+            assert "NO CANDIDATE of 250" in _rn and str(st["broken_at_selection"]) in _rn, _rn
 
     def test_THE_COST_THAT_DECIDED_THE_DEFAULT_a_forty_foot_span(self, hard):
         """The measurement that keeps this rule off: on `spec-builder-colonial` the strict
@@ -234,13 +279,26 @@ class TestTheRuleWhenItIsOn:
         # DIRECTION as measured, with the message saying plainly that a return to ON-better is
         # good news -- the mirror of the spans clause above, and the reason both halves of that
         # open question can be read off this file.
+        # AND AT THE 17 SEP MERGE THE TRADE WENT INERT ON THIS PLAN, WHICH IS A THIRD STATE AND
+        # NOT A THIRD NUMBER. Measured on `git archive` checkouts of both parents and here:
+        #     this branch  off []            on []              (no under-band room either way)
+        #     main         off [porch 11]    on [stair 65]      (the rule COSTS)
+        #     merged       off [porch 11]    on [porch 11]      (identical)
+        # The rule ON and the rule OFF now leave the SAME room short by the SAME amount, so the
+        # clause this test is named for -- "the benefit it buys on the rooms" -- is neither true
+        # nor false here: it is UNMEASURABLE on this plan, which is the state the comment above
+        # already anticipated for an empty list and which has arrived as an equal one instead.
+        # Pinning 11 and 65 would assert a difference that no longer exists; pinning `<= 20`
+        # would pass on a plan where the rule does nothing. What is asserted is the EQUALITY,
+        # with the message saying that a difference in EITHER direction is news.
         assert off["rooms"] and max(r["short_by_pct"] for r in off["rooms"]) == 11
-        assert on["rooms"] and max(r["short_by_pct"] for r in on["rooms"]) == 65, (
-            f"the rooms half of the trade has moved: off={off['rooms']} on={on['rooms']}. If the "
-            f"rule ON is better on the rooms again, that is good news -- restore the `<= 20` "
-            f"ceiling and say which layer did it, and note it in "
+        assert [(r["room"], r["short_by_pct"]) for r in on["rooms"]] == \
+               [(r["room"], r["short_by_pct"]) for r in off["rooms"]], (
+            f"the rooms half of the trade is no longer inert: off={off['rooms']} "
+            f"on={on['rooms']}. Either direction is news and both belong in "
             f"`oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted`, which carries "
-            f"the span half of exactly this.")
+            f"the span half of exactly this -- the rule ON being BETTER restores main's original "
+            f"default argument, and the rule ON being WORSE is the inversion that entry records.")
         # AND THE BENEFIT IS UNMEASURABLE ON THIS PLAN AFTER THE MERGE, which is stated rather
         # than asserted away. With the proportion band as the first key of the acceptance the
         # spec Colonial has NO under-band room with the rule off OR on, so the shortfall is 0 sf
@@ -268,13 +326,24 @@ class TestTheRuleWhenItIsOn:
         # direction named, beside its twin in `test_and_the_benefit_it_buys_on_the_rooms`, and
         # `oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted` carries both halves.
         # `STACK_HARD` ships False, so nothing drawn in this corpus is affected either way.
-        assert (_off_sf, _on_sf) == (4, 53), (
+        # AND AT THE 17 SEP MERGE THE COST WENT TO ZERO -- 4 sf off against 4 sf on, the SAME
+        # room short by the SAME amount -- which is the magnitude half of the inertness the
+        # assertion above records. The series on this plan is 0 sf (before WP-11.17), 10 sf
+        # (WP-11.17), 53 sf (WP-11.18), 0 sf (the merge). It is NOT a return to the rule being
+        # affordable: the rule is not paying for anything either, because there is nothing on
+        # this placement it can change. Asserted as the DIFFERENCE so that a cost reappearing in
+        # either direction fails, rather than as a literal pair that would have to be re-pinned
+        # on the next placement whatever happened to the rule.
+        assert _on_sf == _off_sf, (
             f"the strict-stacking candidate is {_on_sf} sf short of the rooms' own band floors "
-            f"against {_off_sf} sf with the rule off. It cost 10 sf at WP-11.17, 0 before that "
-            f"and 53 at WP-11.18. A FALL is the rule becoming affordable again -- restore the "
-            f"`<= 20` ceiling and say which layer did it. A RISE is the cost growing further. "
-            f"Either way it belongs in "
+            f"against {_off_sf} sf with the rule off, where the merge measured them EQUAL. "
+            f"It cost 10 sf at WP-11.17, 0 before that and 53 at WP-11.18. A rule ON that is "
+            f"BETTER is the rule becoming affordable again -- restore the `<= 20` ceiling and "
+            f"say which layer did it. WORSE is the cost returning. Either way it belongs in "
             f"`oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted`.")
+        assert _off_sf == 4, (
+            f"the OFF baseline moved to {_off_sf} sf, so the equality above is about a different "
+            f"placement from the one the merge measured -- re-derive both before trusting it")
         if _on_sf > _off_sf:
             assert _off_sf < 20, (
                 f"the rule-off state is {_off_sf} sf short as well, so this plan no longer "
@@ -293,8 +362,11 @@ class TestTheRuleWhenItIsOn:
         p = GEO.solve(plan("tidewater-georgian-careful"), None, 1,
                       engine="heuristic", seed=2)
         st = p["geometry_report"]["stacking"]
-        assert st["rule"] == "charge", "one candidate cannot be expected to satisfy five claims"
-        assert st["claimed"] == 5
+        assert st["rule"] == "charge", "one candidate cannot be expected to satisfy four claims"
+        # 4 AT WP-13.5, FROM 5: `hallbath stacks_over powder` is withdrawn with the powder room
+        # into the single-storey dependency, where no upper room can stand over it. The rule
+        # under test is unmoved -- one candidate still cannot satisfy them all.
+        assert st["claimed"] == 4
         # `broken_at_selection`, the CANDIDATE's count, which is main's quantity. The leaf's
         # `broken` is beside it and measures the PLACED RECORD after the post-solve passes; they
         # are different questions and the merge keeps both under their own names.
@@ -303,18 +375,40 @@ class TestTheRuleWhenItIsOn:
         # produces. The claim this test makes -- that a hard rule with no satisfying candidate
         # falls back to the charge and SAYS SO -- is carried by the three assertions around
         # this one, none of which moved.
-        assert st["broken_at_selection"] == 5, st
+        # AND RE-CUT ONTO THE PROPERTY AT THE 17 SEP MERGE, at 4, because the literal was
+        # tracking the CLAIM COUNT rather than the thing under test. Main pinned 5 when this
+        # record stated five claims; WP-13.5 withdrew one and the count follows it to 4. What
+        # the test is named for is that a hard rule with NO satisfying candidate falls back to
+        # the charge and SAYS SO -- so the property is that the winner breaks every claim there
+        # is, which is true at 5 of 5 and at 4 of 4 and would be FALSE at 4 of 5. Asserted
+        # against `claimed` rather than against a number, so the next record edit moves neither.
+        assert st["broken_at_selection"] == st["claimed"], (
+            f"the single candidate satisfies {st['claimed'] - st['broken_at_selection']} of its "
+            f"{st['claimed']} declared claim(s), so the no-strict-candidate path this test "
+            f"exists for is not being driven: {st}")
         _rn = st.get("rule_note") or st["note"]
         assert "NO CANDIDATE of 1" in _rn and "fell back to the charge" in _rn, _rn
         assert "cost_points" not in st, "nothing was preferred, so nothing was paid for"
 
-    def test_and_at_the_shipped_pool_that_fallback_does_NOT_fire(self, hard):
+    def test_and_where_a_strict_candidate_exists_the_fallback_does_NOT_fire(self, hard):
         """The complement, without which the test above proves only that the disclosure can
-        fire. At 250 candidates both shipped plans find a strict candidate."""
+        fire. RE-CUT AT WP-13.2: it read "at 250 candidates both shipped plans find a strict
+        candidate", which containment made false on both (5 of 5 and 2 of 2 broken at
+        selection, 3 and 2 at 1,000). The hard branch is driven on a plan a strict candidate
+        MUST exist for, and the shipped plans are asserted on the other side of the same
+        invariant in `test_the_rule_is_hard_or_says_it_fell_back_and_never_neither`."""
         hard(True)
-        for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
-            st = GEO.solve(plan(name), engine="heuristic")["geometry_report"]["stacking"]
-            assert st["rule"] == "hard" and "broken_at_selection" not in st, (name, st)
+        out = GEO.solve(strict_fixture(), None, 250, engine="heuristic")
+        assert "error" not in out, out.get("error")
+        st = out["geometry_report"]["stacking"]
+        assert st["claimed"] == 2 and st["rule"] == "hard" and "broken_at_selection" not in st, st
+        assert {e["room"] for e in st["kept"]} == {"bed", "landing"} and st["broken"] == [], st
+        assert "cost nothing" in (st.get("rule_note") or st["note"])
+        # and the premise: the rule is what did it, not the plan being trivially stacked --
+        # OFF, the same plan places the same way and the record says `charge` with 0 claimed
+        hard(False)
+        st = GEO.solve(strict_fixture(), None, 250, engine="heuristic")["geometry_report"]["stacking"]
+        assert st["rule"] == "charge" and st["claimed"] == 0 and st["claims"] == 2
 
     def test_a_plan_with_no_claims_is_vacuous_and_says_so(self, hard):
         hard(True)

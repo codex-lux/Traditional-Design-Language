@@ -147,18 +147,69 @@ class TestTheRevisedSetKeepsTheComposersInvariants:
     rules. These do, on the module fixture that runs with revise on."""
 
     def test_every_revised_plan_validates_and_keeps_the_briefs_must_have_rooms(self, composed):
+        """RE-CUT 16 Sep 2026, AND ITS OLD MESSAGE NAMED THE WRONG LAYER. It read
+        `the loop dropped a must_have room ({must}) from {c['parti']}` and went red at the
+        WP-13.3 merge on `library` -- and the loop had dropped nothing. Measured with
+        `revise=False`, so no round ever runs: BOTH of this brief's must_have rooms are absent
+        AS COMPOSED. The composer never placed them, which is what it is built to do --
+        CLAUDE.md, *"it will not invent a room the parti has no place for"* -- and it SAYS so,
+        twice, in its own voice:
+
+            JUDGMENT: the brief requires a library and this diagram has no place for one.
+            Not added -- the position matters more than the presence.
+
+        **So the corpus was honest and the assertion was wrong**: it demanded a guarantee the
+        composer explicitly declines, and attributed the absence to the one layer that had not
+        touched it. This class is named for the LOOP's invariants, so that is what it asserts
+        now -- a must_have room the composer DID place must survive every round, and one it
+        refused must carry its stated reason.
+
+        WHAT CHANGED AT WP-13.3 was neither the loop nor the composer's refusal but WHICH
+        partis come back. Measured on a `git archive` of 49e2389 against this tree:
+
+            WP-13.2   centre-passage-double-pile, five-part-palladian   both rooms, both rooms
+            now       side-hall-townhouse, courtyard-and-portal          neither, neither
+
+        That is a product property that is now false and it is NOT this test's to assert:
+        `oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room`.
+
+        AND THE SILENT-DROP FINDING I NEARLY PUBLISHED WAS A FALSE POSITIVE. The first sweep
+        matched the type id `breakfast-room` and found a stated refusal for the library and
+        none for the breakfast room. The log writes *"a breakfast room"* with a space. Both are
+        stated; re-deriving with the looser needle is the only reason that is not in a report.
+        """
         import jsonschema
         ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         schema = json.load(open(os.path.join(ROOT, "schema", "plan.schema.json")))
         brief = _brief("family-georgian")
+        musts = brief.get("must_have") or []
+        assert musts, "COULD NOT EVALUATE: this brief states no must_have room"
+        placed_somewhere = 0
         for c in composed["candidates"]:
             jsonschema.validate(c["plan"], schema)
             types = {r["type"] for lv in c["plan"]["levels"] for r in lv["rooms"]}
-            for must in brief.get("must_have") or []:
-                assert must in types, f"the loop dropped a must_have room ({must}) from {c['parti']}"
-            assert all(r.get("width_ft", 0) > 0 and r.get("length_ft", 0) > 0 for lv in c["plan"]["levels"] for r in lv["rooms"])
+            log = " ".join(str(x) for x in (c.get("decisions") or []))
+            for must in musts:
+                if must in types:
+                    placed_somewhere += 1
+                    continue
+                # Not present. The loop may not be the reason, so the composer must have said
+                # so. The needle is the room's WORDS and not its hyphenated id -- the log reads
+                # "a breakfast room", and matching the id alone is what produced a false
+                # finding on the first sweep.
+                words = must.replace("-", " ")
+                assert words in log.lower() or must in log.lower(), (
+                    f"{c['parti']} has no {must} and its decision log does not say why. A "
+                    f"must_have room absent with no stated refusal is the silent drop this "
+                    f"test exists for; an absence the composer NAMES is the corpus working.")
+            assert all(r.get("width_ft", 0) > 0 and r.get("length_ft", 0) > 0
+                       for lv in c["plan"]["levels"] for r in lv["rooms"])
             ids = [r["id"] for lv in c["plan"]["levels"] for r in lv["rooms"]]
             assert len(ids) == len(set(ids)), "a room id was duplicated by a move"
+        # THE PREMISE, so a set that happens to place none of them cannot pass this vacuously:
+        # the reader is told which half of the test actually ran.
+        print(f"must_have rooms PLACED across the set: {placed_somewhere} of "
+              f"{len(musts) * len(composed['candidates'])}")
 
     def test_the_revised_set_is_in_the_composers_order_and_rank_before_is_stated(self, composed, compose_module):
         cands = composed["candidates"]
@@ -190,12 +241,43 @@ class TestTheRevisedSetKeepsTheComposersInvariants:
         assert len(seen) == 3
         assert seen[0] <= 90 / 3 + 0.01, f"the leader was handed {seen[0]:.1f} s of a 90 s set budget"
         assert all(s >= 1.0 for s in seen)
-        # 1.2 s for two: the first gets its share (floored at 1 s), its first critique and one
-        # round overrun it, and less than a second is left for the second -- which says so
+
+    def test_the_candidate_the_budget_does_not_reach_is_read_by_rank_not_by_list_position(self, compose_module):
+        """SPLIT OUT OF THE SHARE TEST, 16 Sep 2026, BECAUSE IT WAS SHIELDED BY IT. Both halves
+        lived in one body with the 90 s three-candidate sweep first, so every mutation that
+        starves a candidate trips `seen[0] <= 30` and this half is NEVER REACHED -- measured,
+        two mutations (reverse the spend order; hand the leader the whole budget) both died on
+        that line at `seen[0] == 90.0`. That is WP-12.4's own finding: a guard that runs only
+        where the bug cannot occur. Split, the reverse-order mutation reaches this body and
+        bites it at the `by_rank[1]` line.
+
+        AND THE RETIRED ASSERTION IS RED IN BOTH STATES, WHICH IS NOT THE FAILURE MODE I
+        EXPECTED. `res["candidates"][0]["revision"] is not None` reads False on the pristine
+        tree (list[0] is `courtyard-and-portal`, rank 2, skipped for budget) AND False under
+        the mutation (list[0] is `side-hall-townhouse`, rank 1, skipped) -- because the
+        candidate that got the budget is the one that re-ranks, so list position follows the
+        revision and never the funding. A guard that cannot be GREEN carries exactly as much
+        information as one that cannot be RED: it convicts the code whatever the code does.
+
+        1.2 s for two: the first gets its share (floored at 1 s), its first critique and one
+        round overrun it, and less than a second is left for the second -- which says so."""
         res = compose_module.compose(_brief("family-georgian"), candidates=2, revise=True,
                                      revise_rounds=1, revise_engine="heuristic", revise_budget_s=1.2)
-        first, second = res["candidates"][0], res["candidates"][1]
-        assert first["revision"] is not None, "the first candidate got no share of the set's budget"
+        # RE-CUT 16 Sep 2026: THIS READ LIST POSITION WHERE IT MEANS RANK. It took
+        # `res["candidates"][0]` as "the leader who was funded" -- and **the budget is spent in
+        # RANK order while the returned list is in the composer's order AFTER revision**, so the
+        # moment a revised candidate changes places the two are different houses. Measured, two
+        # trials agreeing: `list[0]` is `courtyard-and-portal` with `rank_before=2`, skipped for
+        # want of budget, and `list[1]` is `side-hall-townhouse` with `rank_before=1`, which got
+        # its share and ran. The loop was right and the assertion was reading the wrong candidate.
+        # `test_the_revised_set_is_in_the_composers_order_and_rank_before_is_stated` is green
+        # over exactly this, which is why nothing else noticed.
+        by_rank = {c.get("rank_before"): c for c in res["candidates"]}
+        assert set(by_rank) == {1, 2}, f"rank_before is not a permutation of 1..2: {sorted(by_rank)}"
+        first, second = by_rank[1], by_rank[2]
+        assert first["revision"] is not None, (
+            "the candidate ranked FIRST got no share of the set's budget (this is rank_before "
+            f"== 1, which is list position {res['candidates'].index(first)})")
         assert second["revision"] is None and "budget" in second["revision_skipped"]
         assert "score_before" in second and second["score_before"] == second["score"]
         assert any(l.startswith("REVISION SKIPPED:") for l in second["decisions"])

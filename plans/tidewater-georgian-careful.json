@@ -18,7 +18,7 @@
     "date_of_representation": 1765,
     "budget_tier": "custom"
   },
-  "note": "The same corpus applied deliberately, to see whether the validator stays quiet on a plan that respects it. Ceilings are Tidewater height; the passage runs through; service is a dependency. NO DORMERS, stated rather than left silent (WP-5.13). The evidence for this house type is consistent: Pembroke Manor's dormer was a 20th-c addition and has since been removed; the George Wythe House -- two-storey, five-bay, brick, the building Pembroke is most often compared to -- records 'Dormer Windows / None'; and Carter's Grove's original roof was unbroken and took a 1928 campaign to dormer at all. The structural reason is the pitch: Chesapeake houses that carry dormers run 47-50 degrees, and this one is 8:12, which is 33.7. A two-storey Georgian of this class had its garret lit from the gable ends. Stating it makes dormer_count a MEASURED zero the fault corpus may judge; leaving the key out would mean could-not-evaluate, which is true of a record that has not been looked at and not true of this one.",
+  "note": "The same corpus applied deliberately, to see whether the validator stays quiet on a plan that respects it. Ceilings are Tidewater height; the passage runs through; service is a dependency -- and since WP-13.5 it IS one, stated in the record rather than only in this sentence: the kitchen, pantry, breakfast room, powder room and cellar stair carry `block: service` and the back hall carries `hyphen: true`, so `geometry.blocks_for` lays them into a west wing beyond a link and the main block returns to the type's rooms. THE BUTLER'S PANTRY DOES NOT MOVE and that is the corpus's own ruling rather than an omission: rooms/butlers-pantry.json has said since OQ 59 (24 Aug 2026) that in a Tidewater plantation house the pantry is in the block and the kitchen is in another building, its `must_adjoin dining-room` is hard with NO `via`, and its `must_adjoin kitchen` is hard WITH `via: [back-hall, gallery-corridor]` -- the route this record already holds in full. The redundant direct butler's-pantry-to-kitchen door is dropped for the same reason; it is the door CP-SAT cores on. NO DORMERS, stated rather than left silent (WP-5.13). The evidence for this house type is consistent: Pembroke Manor's dormer was a 20th-c addition and has since been removed; the George Wythe House -- two-storey, five-bay, brick, the building Pembroke is most often compared to -- records 'Dormer Windows / None'; and Carter's Grove's original roof was unbroken and took a 1928 campaign to dormer at all. The structural reason is the pitch: Chesapeake houses that carry dormers run 47-50 degrees, and this one is 8:12, which is 33.7. A two-storey Georgian of this class had its garret lit from the gable ends. Stating it makes dormer_count a MEASURED zero the fault corpus may judge; leaving the key out would mean could-not-evaluate, which is true of a record that has not been looked at and not true of this one.",
   "levels": [
     {
       "id": "ground",
@@ -824,7 +824,6 @@
             "N"
           ],
           "window_head_ft": 8.5,
-          "stacks_over": "powder",
           "windows": [
             {
               "wall": "N",
@@ -838,7 +837,8 @@
               "to": "upperpassage",
               "width_ft": 2.6
             }
-          ]
+          ],
+          "note": "WITHDRAWN at WP-13.5, not re-pointed. This room declared `stacks_over: powder` while the powder room was in the main block; WP-13.5 moved the powder room into the west service dependency, which is single-storey, so no upper room can sit over it. `build/stacking.py` reads no massing element -- it tests strict positive rectangle intersection -- so the claim would have been judged BROKEN rather than unjudged, convicting every placement of a failure no placement can avoid, which is the OQ 52 family. It is withdrawn rather than aimed at another room: re-pointing a structural claim to keep a counter green is authoring a fact nobody measured. The plumbing duty is unaffected -- it was never carried by this field (plan schema 0.8.0 split it) and the powder room's own `wet_stack_with: cellarstair` travels with it into the dependency."
         },
         {
           "id": "linen",

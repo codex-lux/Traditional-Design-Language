@@ -36,22 +36,104 @@ def _load(name):
 
 
 @pytest.fixture(scope="module")
-def scenes():
-    """Both shipped plans on the HEURISTIC, deliberately.
+def one_element_plans(tmp_path_factory):
+    """The two shipped plans as ONE-RECTANGLE records, written outside the repository.
+
+    Returned as paths rather than as dicts because `scene._build_from_plan` takes a path, and
+    because three tests in this file rebuild from the same record to check that they agree —
+    a second reader opening `plans/` would be comparing two different houses. The write is
+    under `tmp_path_factory`; nothing a test does may write inside the repository (CLAUDE.md,
+    WP-11.10).
+    """
+    from conftest import as_one_element
+    d = tmp_path_factory.mktemp("scene-one-element")
+    out = {}
+    for name in PLANS:
+        plan = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+        stripped = as_one_element(plan)
+        if name == "tidewater-georgian-careful":
+            assert stripped, (
+                "the Tidewater record stopped carrying a container: this whole fixture was "
+                "written for WP-13.5's service wing and is now stripping nothing")
+        path = str(d / f"{name}.json")
+        json.dump(plan, open(path, "w"), indent=2)
+        out[name] = path
+    return out
+
+
+@pytest.fixture(scope="module")
+def scenes(one_element_plans):
+    """Both shipped plans on the HEURISTIC, deliberately, and with the Tidewater plan's
+    massing container STRIPPED.
 
     `auto` reaches a CP proof on one machine and spends its budget on another, so a suite
     built on it would assert different geometry on different runners — which is what WP-12.0
     measured happening to the elevation between two trees. The heuristic is reproducible, and
     the engine-dependent figures belong in a report, not a pin.
+
+    **WP-13.5 PUT A SERVICE WING ON THE TIDEWATER RECORD AND THE SCENE LAYER IS NOT ELEMENT
+    AWARE.** `roof.build_roof` derives ONE roof over the main block (`build/roof.py`'s own
+    `wing_step_down` docstring records that it is main-block-only), so the scene of the shipped
+    record is a roof over a 45 ft block beside 34 ft of walled wing with nothing over it. Every
+    test in this file is about the SCENE LAYER's own arithmetic — does a plane slope, does an
+    opening stand on the face it names, does the envelope agree with the slabs — and on a house
+    whose roof does not reach a third of its walls those questions cannot be asked at all. So
+    the fixture states a one-rectangle house, which is what every one of these assertions was
+    written against, and `test_the_shipped_roof_does_not_reach_the_service_wing` below holds
+    the OTHER half: the shipped record's own measured offset, named as the finding it is.
+
+    Stripping and re-serialising is needed rather than handing a dict over, because
+    `_build_from_plan` takes a PATH. The copy is written under `tmp_path_factory`, never
+    inside the repository — CLAUDE.md's WP-11.10 rule, a test that writes a tracked corpus
+    file is a data-loss bug whatever its `finally` says.
     """
     scene_m = _load("scene")
     out = {}
     for name in PLANS:
-        s, section, err = scene_m._build_from_plan(
-            os.path.join(ROOT, "plans", f"{name}.json"), engine="heuristic")
+        s, section, err = scene_m._build_from_plan(one_element_plans[name], engine="heuristic")
         assert not err, f"{name}: {err}"
         out[name] = (s, section)
     return out
+
+
+def test_the_shipped_roof_does_not_reach_the_service_wing():
+    """WHAT THE FIXTURE ABOVE STEPS AROUND, MEASURED ON THE RECORD AS SHIPPED.
+
+    `test_the_roof_sits_over_the_house_and_not_beside_it` is a test of ONE ARITHMETIC — the
+    roof and the walls are laid from two corners of one rectangle, half an exterior wall apart
+    — and WP-13.5 made the Tidewater record a house with two rectangles. On the shipped record
+    that assertion fails by **34.0 ft**, which is not the origin defect it is written for at
+    all: it is `roof.build_roof` covering the MAIN BLOCK and nothing else, so the west wing is
+    walls and floor with open sky over them. Left as a red assertion it would have read as a
+    regression in the origin; deleted it would have read as nothing.
+
+    So the finding is asserted POSITIVELY and with its figure. The roof's west edge must stand
+    at the main block's west edge, and the walls must run a long way further west than that —
+    otherwise this test has stopped being about the wing. Both halves, because a guard that
+    only says *the numbers differ* passes equally on a roof that covers everything and one
+    that covers nothing.
+
+    `oq/the-roof-record-and-the-plan-record-do-not-share-an-origin` is the ORIGIN half and
+    stands. This is the element half, and it belongs to the same package's own finding that
+    the drawing stack below the placer is not element aware — `build/roof.py::wing_step_down`
+    names it in its own words, and refuses to publish a hyphen depth it cannot derive.
+    """
+    scene_m = _load("scene")
+    scene, _section, err = scene_m._build_from_plan(
+        os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"), engine="heuristic")
+    assert not err, err
+    planes = [s for s in scene["solids"] if s["class"] == "roof-plane"]
+    walls = [s for s in scene["solids"] if s["class"] == "wall" and s.get("face")]
+    assert planes and walls, "premise: the shipped scene draws both a roof and faced walls"
+    roof_w = min(p[0] for s in planes for p in s["geometry"]["vertices"])
+    wall_w = min(s["geometry"]["origin"][0] for s in walls)
+    assert wall_w < roof_w - 10.0, (
+        "premise: the shipped record no longer carries a wing west of the roof "
+        f"(walls from {wall_w:.3f}, roof from {roof_w:.3f})")
+    assert roof_w > -2.0, (
+        f"the roof's west edge moved to {roof_w:.3f} ft: `build_roof` has either learnt about "
+        "massing elements — in which case delete this test and re-measure the origin one — or "
+        "gained a second defect")
 
 
 def _extent(g):
@@ -342,7 +424,7 @@ def test_the_note_states_the_count_even_when_it_is_zero(scenes):
         assert str(len(scene["not_modelled"])) in scene["note"], name
 
 
-def test_the_openings_are_drawn_on_every_face(scenes):
+def test_the_openings_are_drawn_on_every_face(scenes, one_element_plans):
     """WP-12.2 replaced this test's predecessor rather than deleting it.
 
     Until 12.2 an exterior wall was a plain box carrying a `not_modelled` entry that said so,
@@ -351,6 +433,13 @@ def test_the_openings_are_drawn_on_every_face(scenes):
     It did. What replaces it asserts the other side of the same rule: every face carries
     openings now, and NOTHING still says they are missing.
     """
+    # RE-CUT AT WP-13.3: the openings are the PLAN's placed openings on each face, so a face
+    # the plan places nothing on draws nothing -- the spec Colonial's E wall carries no placed
+    # window -- and that is the record, not a wall declared unmodelled. What is asserted is
+    # that every face the plan places an opening on draws one, that the frames on a face are
+    # exactly the elevation's own rectangles for it, and that the shipped corpus still
+    # exercises the branch (both plans place openings on at least three faces).
+    EL = _load("elevation")
     for name, (scene, _s) in scenes.items():
         assert not any(n.get("class") == "opening" and "every face" in n.get("what", "")
                        for n in scene["not_modelled"]), (
@@ -359,8 +448,37 @@ def test_the_openings_are_drawn_on_every_face(scenes):
         for solid in scene["solids"]:
             if solid["class"] == "opening-frame":
                 by_face[solid["face"]] = by_face.get(solid["face"], 0) + 1
-        assert set(by_face) == {"S", "N", "E", "W"}, f"{name}: openings on {sorted(by_face)}"
-        assert all(n > 0 for n in by_face.values()), f"{name}: {by_face}"
+        # the elevation the scene was built from, rebuilt the way `_build_from_plan` builds it
+        # (heuristic, one placement for the section, the roof and the elevation)
+        geo, st, rf = _load("geometry"), _load("structure"), _load("roof")
+        plan = json.load(open(one_element_plans[name]))
+        geo._SOLVE_CACHE.clear()
+        res = geo.solve(plan, None, engine="heuristic")
+        sec = st.build_section(res, None, geometry_result=res)
+        ev = EL.build_elevation(res, None, section=sec, roof=rf.build_roof(res, None, section=sec))
+        want = {f: len(EL.opening_rects(ev, f)["rects"]) for f in "SNEW"}
+        assert by_face == {f: n for f, n in want.items() if n}, f"{name}: {by_face} against {want}"
+        assert len(by_face) >= 3, f"{name}: the fixture draws openings on {sorted(by_face)} only"
+
+
+def test_an_opening_frame_cites_the_placed_opening_and_never_a_rhythm(scenes):
+    """WP-13.3 (the lead's pass). Since the elevation draws the plan's PLACED openings, an
+    opening rect's provenance is `elevation.faces.<face>.placed`; the frame solid went on
+    citing `elevation.faces.<face>.centres_ft` beside it -- the rhythm the elevation now keeps
+    for its other readers and draws as nothing. A provenance naming a record the solid was not
+    built from is a source pointer that resolves and does not agree (the Phase 11 trap), one
+    layer over. Premise first: there are frames to check."""
+    n = 0
+    for name, (scene, _s) in scenes.items():
+        for s in scene["solids"]:
+            if s.get("class") != "opening-frame":
+                continue
+            n += 1
+            also = s["source"].get("also") or []
+            assert also and all(a.endswith(".placed") for a in also), f"{name}: {s['id']} cites {also}"
+            assert not any("centres_ft" in a for a in also), f"{name}: {s['id']} cites the rhythm"
+            assert s["source"]["record"].startswith("plan.levels["), f"{name}: {s['id']} {s['source']}"
+    assert n > 0, "premise: no opening frame in either scene, so nothing was checked"
 
 
 def test_an_opening_is_extruded_into_its_own_wall_and_not_out_of_it(scenes):
@@ -524,13 +642,12 @@ def test_the_scene_file_states_no_dimension_as_a_literal():
                            + "; ".join(f"line {ln}: {v}" for ln, v in offenders[:6]))
 
 
-def test_the_scene_is_deterministic(scenes):
+def test_the_scene_is_deterministic(scenes, one_element_plans):
     """The same placed record must give the same scene twice. `tests/test_determinism.py`
     holds every directory read in this toolchain to a stable order; this is the same claim for
     a derived record, and it is what lets a viewer cache on a digest."""
     scene_m = _load("scene")
     for name, (scene, section) in scenes.items():
-        again, _s2, err = scene_m._build_from_plan(
-            os.path.join(ROOT, "plans", f"{name}.json"), engine="heuristic")
+        again, _s2, err = scene_m._build_from_plan(one_element_plans[name], engine="heuristic")
         assert not err
         assert json.dumps(again, sort_keys=True) == json.dumps(scene, sort_keys=True), name

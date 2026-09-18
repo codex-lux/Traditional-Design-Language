@@ -199,43 +199,120 @@ def _bay_count(facade_pack, span_ft):
                     dimension="bay_count_on_front", clip=False)
     return max(3, int(round(count))), module_in
 
-def _face_bays(facade_pack, span_ft, has_entrance, plan_bays=None):
-    """Bay centres evenly spaced across the face's own outside width. The centre bay carries the
-    entrance on the face context.entrance_faces names; every other elevation gets the same odd-bay
-    treatment (window only) so the whole building reads as one composed object, not just its front.
+# THE FACE'S OWN DATUM, stated once (WP-13.3, item 3 of the one-bay-system slice). Every `u`
+# this file publishes -- a bay centre, an opening's `cx_in`, a stack axis -- runs from the face's
+# left edge on the OUTSIDE face of the wall, and it runs WITH THE PLAN'S OWN AXIS on every face:
+# west to east on S and N, south to north on E and W. The plan measures ALONG a wall in the CLEAR
+# frame (x for S and N, y for E and W, from the clear SW corner), so a plan coordinate reaches a
+# face by ONE conversion, adding the exterior wall thickness. Three bay systems lived on one face
+# before this -- the sheet's grid at 9/18/27 (clear), `facade.rhythm()` at 4.5.. (clear),
+# `_face_bays` at 4.684.. (outside width / count, a 9.369 ft pitch against the plan's 9.0) -- up
+# to 13.3 in apart, and nothing said which frame any of them was in.
+#
+# AND THE N AND W FACES ARE NOT MIRRORED, WHICH IS A STATEMENT AND NOT AN OVERSIGHT. A drafter
+# draws a north elevation as seen from the north, with east on the left; this record does not,
+# and until WP-13.3 nothing could tell, because every face carried a symmetric rhythm. The first
+# version of this slice mirrored N and W to the drafter's convention (which is also what the
+# gate row's own conversion assumes for those faces) and the tree said no in three places at
+# once: `scene._face_extrude` lays a face's u out along +x or +y on every face, so the Round
+# put the spec Colonial's placed front door 44.0 ft from where the plan has it;
+# `stack_axes_for_face` returns the roof's own x or y, so the W face's stack refusal compared a
+# mirrored window against an unmirrored stack; and the DXF draws the same way. One convention
+# across four readers is what this record has; reversing it is a change to all four and a
+# ruling, and `FACE_MIRRORED` is the one switch that ruling would flip. Until then an N or W
+# plate reads as the plan reads, and `elevation.datum.mirrored` says so on the record. (The
+# gate row mirrors N and W in its own conversion; no gate sheet has an N or W entrance front,
+# so the row cannot see the difference -- noted rather than loosened.)
+FACE_MIRRORED = {"S": False, "E": False, "N": False, "W": False}
+X_DATUM = "outside face"
 
-    **`plan_bays` IS THE PLAN'S OWN COUNT AND IT WINS (WP-11.7).** Until then the count came only
-    from `facade-classical.json`'s `window_grouping_rule` against this face's outside width — a
-    formula that has never read `footprint.bays`, which is what `derive_footprint` computed and
-    what WP-11.2 made odd where the diagram wants a centre bay. Two records built from different
-    rules, and nothing compared them: the exact shape of OQ 85, four hundred lines below this one,
-    where a window was drawn on a chimney axis for the same reason.
 
-    **THEY AGREE ON BOTH SHIPPED PLANS AND THAT IS WHY IT WAS INVISIBLE** — 7 against 7 on
-    `tidewater-georgian-careful` and 5 against 5 on `spec-builder-colonial`, so this change is
-    byte-identical on the whole corpus and is a removal of the second rule rather than a new
-    answer. Passed only for the faces that span the block's WIDTH, because `footprint.bays` counts
-    bays across the width and a gable end is a different span; and only where
-    `facade.rhythm` DERIVED a count, so a plan that names no parti keeps the formula and the
-    facade layer says the rhythm is unjudged rather than this quietly asserting one."""
+def face_u_ft(face, along_ft, clear_w_ft, clear_d_ft, t_ft):
+    """A plan coordinate ALONG one wall, in that face's own datum (feet from the face's left
+    edge on the outside of the wall, running with the plan's axis; see `FACE_MIRRORED`). The one
+    spelling of the conversion; every reader here takes it or is held against it."""
+    if face not in FACE_MIRRORED:
+        raise ValueError(f"no such face {face!r}")
+    span = clear_w_ft if face in ("S", "N") else clear_d_ft
+    return (span + t_ft - along_ft) if FACE_MIRRORED[face] else (along_ft + t_ft)
+
+
+def _face_bays(facade_pack, span_ft, has_entrance, plan_bays=None, rhythm=None, t_ft=0.0,
+               clear_w_ft=None, clear_d_ft=None, face=None):
+    """The face's BAY RHYTHM -- a composition fact about the front, and since WP-13.3 NOT the
+    list of openings the elevation draws. `opening_rects` draws `faces[face]["placed"]`, the plan's
+    own placed openings on that wall; these centres are read by `blind_bays_behind_stacks`, the
+    cornice's modillion spacing, `facade.compare` and the sheet's bay ticks, and by nothing that
+    puts a sash on the wall. A rhythm centre drawn as an opening was the whole of the "one bay
+    system" defect: the elevation drew 13 openings on a front the plan had placed 9 on, in bays
+    the plan had not filled, at centres no placed window stood within 3 in of.
+
+    The centre bay carries the entrance on the face context.entrance_faces names; every other
+    elevation gets the same odd-bay treatment (window only) so the whole building reads as one
+    composed object, not just its front.
+
+    **`plan_bays` IS THE PLAN'S OWN COUNT AND IT WINS (WP-11.7)**, and **WHERE `facade.rhythm()`
+    DERIVED THE RHYTHM ITS CENTRES ARE TAKEN VERBATIM (WP-13.3)** -- one spelling -- and shifted
+    from the clear frame the plan states them in to this face's outside datum by the exterior wall
+    thickness (`face_u_ft`; the N face reads with the plan's axis, see `FACE_MIRRORED`). Until
+    WP-13.3 the count came from the plan and the SPACING did
+    not: the count was divided evenly into the face's OUTSIDE width, so the rhythm here was 9.369
+    ft to the plan's 9.0 and bay 1's centre sat at 4.684 ft outside against the plan's 4.5 ft
+    clear -- a third bay system, 13.3 in from the plan's at the far end of the front. Where the
+    facade layer could not derive a rhythm (a record naming no parti, an even count, a gable end
+    whose span is the depth) the pack formula stays the reader and the note says so; that is the
+    ruling's scope, not a gap.
+
+    Until WP-11.7 the count came only from `facade-classical.json`'s `window_grouping_rule`
+    against this face's outside width — a formula that had never read `footprint.bays`. Two
+    records built from different rules, and nothing compared them: the exact shape of OQ 85."""
     count, module_in = _bay_count(facade_pack, span_ft)
     from_plan = False
     if plan_bays:
         count, from_plan = int(plan_bays), True
     span_in = span_ft * 12.0
-    bay_w_in = span_in / count
-    centres_ft = [round((i + 0.5) * bay_w_in / 12.0, 3) for i in range(count)]
     mid = count // 2
+    mirrored = FACE_MIRRORED.get(face, False)
+    if from_plan and rhythm and rhythm.get("verdict") == "derived" and rhythm.get("bays_out") \
+            and face in ("S", "N") and clear_w_ft:
+        # THE RHYTHM'S OWN CENTRES, in the clear frame, converted at the edge and never
+        # recomputed: `facade.rhythm` spaces `bays` evenly over the block's own clear width, which
+        # is what the plan states, and this face's outside width is that plus two walls.
+        clear = [o["centre_ft"] for o in rhythm["bays_out"]]
+        centres_ft = sorted(round(face_u_ft(face, c, clear_w_ft, clear_d_ft or 0.0, t_ft), 3)
+                            for c in clear)
+        bay_w_in = float(rhythm["realised_bay_width_ft"]) * 12.0
+        clear_centres = [round(c, 3) for c in clear]
+        spacing_source = "facade.rhythm()"
+    else:
+        bay_w_in = span_in / count
+        centres_ft = [round((i + 0.5) * bay_w_in / 12.0, 3) for i in range(count)]
+        clear_centres = None
+        spacing_source = "this face's outside width divided by the count"
     kinds = ["window"] * count
     if has_entrance:
         kinds[mid] = "door"
     return {"count": count, "nominal_module_in": module_in, "actual_bay_width_in": round(bay_w_in, 2),
             "centres_ft": centres_ft, "kinds": kinds, "count_from_the_plan": from_plan,
+            "datum": X_DATUM, "wall_thickness_ft": round(t_ft, 4), "mirrored": bool(mirrored),
+            "clear_centres_ft": clear_centres, "spacing_source": spacing_source,
+            "role": ("the bay RHYTHM of this face -- a composition fact. The openings the "
+                     "elevation draws are `placed`, the plan's own; a rhythm centre is never drawn "
+                     "as an opening (WP-13.3)"),
             "note": ((f"Bay count from the PLAN's own footprint.bays ({count}), which is the "
+                      f"organising move the facade follows rather than leads "
+                      f"(oq/the-facade-is-a-result-not-an-input); the centres are facade.rhythm()'s "
+                      f"own, stated in the clear frame at a {round(bay_w_in/12,3)} ft pitch and "
+                      f"shifted here by the {round(t_ft,4)} ft exterior wall to this face's outside "
+                      f"datum" + (", mirrored (FACE_MIRRORED)." if mirrored else
+                                  ", running with the plan's own axis (FACE_MIRRORED).")
+                      ) if clear_centres is not None else
+                     (f"Bay count from the PLAN's own footprint.bays ({count}), which is the "
                       f"organising move the facade follows rather than leads "
                       f"(oq/the-facade-is-a-result-not-an-input); the bays are then spaced evenly "
                       f"across this face's actual outside width ({span_ft} ft), giving "
-                      f"{round(bay_w_in/12,2)} ft per bay.") if from_plan else
+                      f"{round(bay_w_in/12,2)} ft per bay, because the facade layer handed over a "
+                      f"count and no centres.") if from_plan else
                      f"Bay count from facade-classical.json's own window_grouping_rule at its stated default module "
                      f"({module_in} in); the {count} bays are then spaced EVENLY across this face's own actual outside "
                      f"width ({span_ft} ft), which is why the realised per-bay spacing ({round(bay_w_in/12,2)} ft) differs "
@@ -309,6 +386,233 @@ def stack_axes_for_face(face, chimneys, fp):
         else:
             if abs(y) < 0.5 or abs(y - D) < 0.5:
                 out.append(x)
+    return out
+
+
+# ---------------------------------------------------------------- the plan's placed openings
+# WP-13.3, the one-bay-system slice. THE FACE'S OPENINGS ARE THE PLAN'S PLACED OPENINGS ON THAT
+# WALL, where the plan placed them -- a placed exterior door or a placed window whose authored
+# `wall` is this face, at its own `at_ft`, at its own width, on the storey its room stands on.
+# Read through `render_plan.openings_of_level`, the one reader the plan sheet, the DXF and the
+# gate already share, with the level's at-grade appendages and each room's massing element
+# exactly as `render_plan.render()` reads them. A bay the plan leaves empty is stated EMPTY; a
+# window the placer refused reaches `placed_refused` by name with the placer's own reason; a
+# rhythm centre is never drawn. Measured on 840c7f1 before this: 0 of 9 plan windows on the S
+# front fell within 3 in of an elevation bay centre on the prover, and the elevation drew 13
+# openings on a front the plan had placed 9 on.
+
+STOREY_NAMES = ("ground", "upper")
+
+
+def _load_alignment_tolerance(path=None):
+    """The vertical-alignment tolerance, READ from the fault that states it and never
+    transcribed. `storeys-out-of-vertical-alignment.json`'s primary test is `at-most 2.0 in` on
+    the centreline offset -- the Colonial Revival constraint's own figure -- and it is the one
+    machine-readable threshold on this quantity in the corpus (`closet-on-the-exterior-wall`
+    says *"about 6 in"* in prose, which nothing reads). Returns (inches, source) or
+    (None, reason): with no readable figure the two counts that need one are UNJUDGED, and the
+    raw maximum offset, which needs none, is still supplied. `path` exists so a test can hand
+    it a fault stating a different figure and see the figure move -- a transcribed 2.0 would not."""
+    path = path or os.path.join(ROOT, "faults", "storeys-out-of-vertical-alignment.json")
+    shown = os.path.relpath(path, ROOT) if os.path.abspath(path).startswith(ROOT) else path
+    try:
+        with open(path, encoding="utf-8") as fh:
+            t = json.load(fh).get("test") or {}
+    except (OSError, ValueError) as e:
+        return None, f"{shown} could not be read ({e})"
+    if t.get("direction") == "at-most" and t.get("units") == "in" and \
+            isinstance(t.get("threshold"), (int, float)):
+        return float(t["threshold"]), f"{shown}#test.threshold"
+    return None, (f"{shown} states no at-most figure in inches on its primary test, so no "
+                  f"alignment tolerance is stated anywhere")
+
+
+ALIGNMENT_TOL_IN, ALIGNMENT_TOL_SOURCE = _load_alignment_tolerance()
+
+
+def opening_on_a_stack(cx_ft, width_ft, stack_axes_ft, stack_half_width_ft):
+    """Does a stack stand on this opening? TRUE where the opening's extent and the stack's
+    extent overlap on the face. This is the OPENING's rule; `blind_bays_behind_stacks` keeps the
+    RHYTHM's (a bay whose centre a stack stands on, ruled 27 Aug 2026), because a bay and an
+    opening are different questions -- a bay is a division of the front and an opening has a
+    width of its own. Both say what OQ 85 says: nothing is drawn where a stack stands."""
+    half = width_ft / 2.0
+    return any(abs(cx_ft - ax) < half + stack_half_width_ft for ax in (stack_axes_ft or []))
+
+
+def placed_openings(placed, section, entrance_face, faces=None):
+    """The plan's PLACED openings on each face, in the face's own datum, and every placed opening
+    the elevation cannot draw, by name, with the reason.
+
+    `placed` is the placed record the SECTION was built on (`section["geometry"]`) -- the one
+    placement the section, the roof and this elevation share (WP-6.4's rule), which is also the
+    right record when a caller hands `build_elevation` a DECLARED plan and lets `build_section`
+    place it. `render_plan.openings_of_level` is the reader (WP-13.2's one spelling of the level's
+    openings) and is not restated here.
+
+    Returns `{"faces": {face: {"placed": [...], "refused": [...]}}, "unplaced_doors": [...]}`.
+
+    Each placed entry carries the plan's own figures (`along_ft`, the coordinate ALONG the wall in
+    the clear frame; `edge_ft`, the coordinate ACROSS it; `width_ft`) beside the converted
+    `u_ft`/`cx_in`, so a reader can hold the conversion against the record. `entrance` marks the
+    front door: on the entrance face at the ground storey, THE WIDEST exterior door, ties to the
+    lower coordinate -- `axis.door_bay`'s own rule, restated here because that function returns
+    no door on an even bay count and the elevation still has to dress one; a test holds the two
+    to one door wherever both answer.
+
+    THREE REFUSALS, EACH WITH ITS OWN MESSAGE (WP-11.4's rule): a window the placer refused (the
+    placer's own reason, quoted); an opening on the face of ANOTHER massing element, which this
+    elevation does not draw (it is the main block's, and a dependency's window at x = -14 is not
+    on the main block's south wall); and an opening on a level the section states no storey for.
+    An exterior door the placer could not seat carries no wall and so belongs to no face; it is
+    returned under `unplaced_doors`."""
+    RP = _mod("render_plan", f"{ROOT}/build/render_plan.py")
+    fp = section["footprint"]
+    t_ft = (section.get("wall") or {}).get("exterior_in", 0.0) / 12.0
+    Wc = fp.get("clear_width_ft", fp["width_ft"] - 2 * t_ft)
+    Dc = fp.get("clear_depth_ft", fp["depth_ft"] - 2 * t_ft)
+    block_edge = {"S": 0.0, "N": Dc, "W": 0.0, "E": Wc}
+    out = {f: {"placed": [], "refused": []} for f in FACES}
+    unplaced_doors = []
+    stated_storeys = [s for s in (section.get("storeys") or []) if s.get("index") is not None]
+    levels = (placed or {}).get("levels") or []
+    for i, lv in enumerate(levels):
+        idx = lv.get("index", i)
+        rooms = lv.get("rooms") or []
+        # THE RECORD'S OWN REFUSALS FIRST, so a window the placer declined is named whether or
+        # not the level placed anything else. A window's `wall` is AUTHORED (WP-6.2), so it
+        # belongs to a face even when unplaced; a door's `wall` is solver output and an
+        # unplaced door has none.
+        storey_name = STOREY_NAMES[idx] if 0 <= idx < len(STOREY_NAMES) else None
+        for r in rooms:
+            for k, w in enumerate(r.get("windows") or []):
+                if not w.get("unplaced"):
+                    continue
+                wl = (w.get("wall") or "").upper()
+                n = int(w.get("count") or 1) - len(w.get("positions_ft") or [])
+                if wl in out and n > 0:
+                    out[wl]["refused"].append({
+                        "kind": "window", "room": r["id"], "level_index": idx,
+                        "storey": storey_name, "units": n,
+                        "why": "the placer refused it: " + str((w["unplaced"] or {}).get("reason")
+                                                             or "no reason recorded"),
+                        "source": f"plan.levels[{i}].rooms[{r['id']}].windows[{k}].unplaced"})
+            for k, d in enumerate(r.get("doors") or []):
+                if d.get("to") == "exterior" and d.get("unplaced"):
+                    unplaced_doors.append({
+                        "kind": "door", "room": r["id"], "level_index": idx,
+                        "storey": storey_name,
+                        "why": "the placer refused it: " + str((d["unplaced"] or {}).get("reason")
+                                                             or "no reason recorded"),
+                        "source": f"plan.levels[{i}].rooms[{r['id']}].doors[{k}].unplaced"})
+        if not any(r.get("geometry") for r in rooms):
+            continue
+        op = RP.openings_of_level(placed, lv, i)
+        storey = STOREY_NAMES[idx] if 0 <= idx < len(STOREY_NAMES) else None
+        entries = ([("door", d) for d in op["exterior"]] +
+                   [("window", w) for w in op["windows"]])
+        for kind, o in entries:
+            face = (o.get("wall") or "").upper()
+            if face not in out:
+                continue
+            width_ft = float(o.get("width_ft") or 0.0)
+            along = float(o["at_ft"])
+            u = face_u_ft(face, along, Wc, Dc, t_ft)
+            src = f"plan.levels[{i}].rooms[{o['room']}].{'doors' if kind == 'door' else 'windows'} (wall {face})"
+            # WHOSE WIDTH. `derive_openings` draws an opening the record left unwidthed at its
+            # own default (3.5 ft for an exterior door, 3 ft for a window) and flags only the
+            # door (`inferred_width`); the window's flag is read off the record here, so a
+            # reader of the elevation can tell a width the plan authored from one the sheet
+            # supplied. Neither is invented by this file.
+            room_rec = next((r for r in rooms if r["id"] == o["room"]), {})
+            if kind == "door":
+                declared = not o.get("inferred_width", False)
+            else:
+                win = next((w for w in (room_rec.get("windows") or [])
+                            if (w.get("wall") or "").upper() == face
+                            and any(abs(float(p) - along) < 1e-9
+                                    for p in (w.get("positions_ft") or []))), None)
+                declared = bool(win and win.get("width_ft"))
+            base = {"kind": kind, "room": o["room"], "level_index": idx, "storey": storey,
+                    "along_ft": along, "edge_ft": o.get("edge_ft"), "width_ft": width_ft,
+                    "width_declared": declared,
+                    "u_ft": round(u, 4), "cx_in": u * 12.0, "width_in": width_ft * 12.0,
+                    "type": o.get("type"), "hinge": o.get("hinge"), "entrance": False,
+                    "source": src}
+            edge = o.get("edge_ft")
+            if edge is not None and abs(float(edge) - block_edge[face]) > 0.01:
+                out[face]["refused"].append({
+                    **base, "why": (f"it stands on the {face} face of another massing element "
+                                    f"(across-the-wall coordinate {edge} ft, the main block's "
+                                    f"{face} face is at {block_edge[face]} ft), and this "
+                                    f"elevation is of the main block")})
+                continue
+            if storey is None:
+                out[face]["refused"].append({
+                    **base, "why": (f"it stands on level {idx} and this elevation states storeys "
+                                    f"for levels {', '.join(str(k) for k in range(len(STOREY_NAMES)))} "
+                                    f"only (the section states {len(stated_storeys)})")})
+                continue
+            out[face]["placed"].append(base)
+    for f in FACES:
+        out[f]["placed"].sort(key=lambda p: (p["level_index"], p["u_ft"]))
+        # THE ORDINAL ALONG THE FACE AT ITS STOREY, which is the opening's name: `S-3-ground` is
+        # the fourth opening on the south front at the ground storey. Assigned over the placed
+        # list only, so a refused opening does not leave a hole in the numbering a reader would
+        # take for a missing sash.
+        seen = {}
+        for p in out[f]["placed"]:
+            p["n"] = seen.get(p["storey"], 0)
+            seen[p["storey"]] = p["n"] + 1
+            if faces and (faces.get(f) or {}).get("centres_ft"):
+                cs = faces[f]["centres_ft"]
+                p["bay"] = min(range(len(cs)), key=lambda j: abs(cs[j] - p["u_ft"]))
+            else:
+                p["bay"] = None
+        doors = [p for p in out[f]["placed"] if p["kind"] == "door" and p["storey"] == "ground"]
+        if f == entrance_face and doors:
+            ent = max(doors, key=lambda p: (p["width_ft"], -p["u_ft"]))
+            ent["entrance"] = True
+    return {"faces": out, "unplaced_doors": unplaced_doors,
+            "datum": {"x": X_DATUM, "wall_thickness_ft": round(t_ft, 4),
+                      "clear_width_ft": Wc, "clear_depth_ft": Dc, "mirrored": FACE_MIRRORED,
+                      "conversion": ("u = along + t on S and E; u = clear span + t - along on N "
+                                     "and W (`elevation.face_u_ft`)")},
+            "source": "section.geometry, read through render_plan.openings_of_level"}
+
+
+def storey_alignment(lower_in, upper_in, tol_in):
+    """How the upper storey's drawn openings stand over the lower's, measured and never
+    assumed. `lower_in`/`upper_in` are drawn centres in inches along one face.
+
+    Until WP-13.3 the three measurements this feeds were CONSTANTS -- every upper bay was said
+    to stack over its lower counterpart because both storeys were laid out on one even spacing,
+    which was true of the rhythm and false of the house: the placed upper windows on the
+    Tidewater front stand 24 to 57 in from the nearest ground opening on the search and 132 in
+    on the prover. Three states: `matching`/`missing_or_off` need the tolerance and are None
+    without one; `max_abs_offset_in` needs a pair and is None where either storey draws nothing."""
+    out = {"lower": len(lower_in), "upper": len(upper_in), "tolerance_in": tol_in,
+           "tolerance_source": ALIGNMENT_TOL_SOURCE if tol_in is not None else None,
+           "pairs": [], "max_abs_offset_in": None, "matching": None, "missing_or_off": None}
+    if not lower_in or not upper_in:
+        out["why"] = ("no pair to measure: " +
+                      ("the ground storey draws no opening on this face" if not lower_in else
+                       "the upper storey draws no opening on this face"))
+        if tol_in is not None:
+            out["matching"] = 0
+            out["missing_or_off"] = len(lower_in)
+        return out
+    offsets = []
+    for u in upper_in:
+        near = min(lower_in, key=lambda l: abs(l - u))
+        offsets.append(abs(u - near))
+        out["pairs"].append({"upper_in": round(u, 3), "nearest_lower_in": round(near, 3),
+                             "offset_in": round(abs(u - near), 3)})
+    out["max_abs_offset_in"] = round(max(offsets), 3)
+    if tol_in is not None:
+        out["matching"] = sum(1 for o in offsets if o <= tol_in)
+        out["missing_or_off"] = sum(1 for l in lower_in
+                                    if not any(abs(l - u) <= tol_in for u in upper_in))
     return out
 
 
@@ -864,10 +1168,27 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
     #
     # A BLIND BAY IS NOT A CANDIDATE EITHER (OQ 85): a chimney stack stands on that axis, so there
     # is no window below for a dormer to centre on.
+    #
+    # AND THE WINDOW BELOW IS A PLACED WINDOW (WP-13.3), not a rhythm centre: `dormer-off-the-bay`
+    # wants every dormer centred on a window below, and since WP-13.3 the windows below are the
+    # plan's own placed upper sashes on this face (`faces[face].placed`), so the candidates are
+    # those, less any a stack stands on. A face record carrying no `placed` list -- a fixture
+    # built by hand -- yields no candidate and says so, rather than falling back to the rhythm,
+    # because a dormer over a bay the plan left empty is a dormer over a blank wall.
     face_rec = (faces or {}).get(face) or {}
-    centres = [c for c, k in zip(face_rec.get("centres_ft") or [],
-                                 face_rec.get("kinds") or [])
-               if k != "blind"]
+    if face_rec.get("placed") is None:
+        centres = []
+        no_candidates_why = (f"the {face} face record carries no placed openings, so there is "
+                             f"no window below to centre a dormer on")
+    else:
+        centres = sorted(p["u_ft"] for p in face_rec["placed"]
+                         if p["kind"] == "window" and p["storey"] == "upper"
+                         and not opening_on_a_stack(p["u_ft"], p["width_ft"],
+                                                    face_rec.get("stack_axes_ft") or [],
+                                                    face_rec.get("stack_half_width_ft") or 0.0))
+        no_candidates_why = (f"the plan places no upper-storey window on the {face} face, so "
+                             f"there is no window below to centre a dormer on") if not centres \
+            else None
     if count and len(centres) >= count:
         # Centred on windows below, taken from the middle outward so an odd count sits on the
         # centre bay -- which is what the kit's parity rule is FOR on a five-bay front.
@@ -924,6 +1245,15 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
         "variant_undeclared_choices": variant_undeclared,
         "variant_source_node": variant_source,
         "positions_ft": positions, "window_width_in": win_w, "window_height_in": win_h,
+        # WP-13.3: the candidates are the PLACED upper windows on this face, so a dormer count
+        # the front cannot carry is short by name rather than filled from the rhythm.
+        "positions_source": (f"elevation.faces.{face}.placed (upper-storey windows, less any a "
+                             f"stack stands on)"),
+        "positions_short_why": (no_candidates_why or
+                                f"the plan places {len(centres)} upper-storey window(s) on the "
+                                f"{face} face and the record states {count} dormer(s); the "
+                                f"{count - len(positions)} without a window below are not placed")
+        if len(positions) < count else None,
         "cheek_width_in": cheek, "face_width_in": face_w,
         "casing_width_in": casing_in,
         "cornice_height_in": cornice_h, "cornice_projection_in": cornice_proj,
@@ -1264,30 +1594,58 @@ def _derive_measurements(elev):
             "wall_height_water_table_to_cornice_in": round(elev["grade_to_true_eave_in"] - wtb["water_table_height_above_finished_grade_in"], 2),
         })
 
-    _open_bays = sum(1 for k in bays["kinds"] if k != "blind")
-    _has_door = "door" in bays["kinds"]
+    # THE FRONT'S OPENING COUNTS READ WHAT IS DRAWN, WHICH IS WHAT THE PLAN PLACED (WP-13.3).
+    # Until this they were derived from the RHYTHM -- one opening per non-blind bay per storey,
+    # the door subtracted -- so the Tidewater front reported 13 openings where the plan had
+    # placed 9 on the search and 7 on the prover, and `upper_floor_opening_count` was the bay
+    # count whatever stood on the upper wall. `openings_on_the_front_elevation` is every drawn
+    # opening on the entrance front at both storeys; the two upper names are one quantity.
+    # `bay_count`/`bay_width_in`/`window_bay_pitch_in` stay the RHYTHM's, because a bay is a
+    # division of the front and not an opening -- that is the OQ 85 distinction this block has
+    # carried since 28 Aug 2026, now applied the other way round too.
+    _front = opening_rects(elev, elev["entrance_face"])["rects"]
+    _lower = sorted(r["cx_in"] for r in _front if r["storey"] == "ground")
+    _upper = sorted(r["cx_in"] for r in _front if r["storey"] == "upper")
+    _two_storeys = any(s.get("index") == 1 for s in elev["section"].get("storeys") or [])
+    # `upper_floor_opening_count` feeds a PARITY test and a DIVISION in faults carrying no
+    # `applies_when` (`even-bay-front`, `storeys-out-of-vertical-alignment`), and this corpus's
+    # first rule is that a count of zero is not an even count of the thing (WP-5.13: "zero
+    # dormers is not an even number of dormers"). A two-storey front whose upper wall draws no
+    # opening is a fact the record carries in `front.alignment.upper`; the two names are
+    # WITHHELD at zero rather than handed to a parity rule as 0 % 2, and `front.withheld` says
+    # so. A one-storey house withholds them too: it has no upper storey to count.
+    _upper_count = len(_upper) if (_two_storeys and _upper) else None
+    # THE STOREY-OVER-STOREY ALIGNMENT IS MEASURED, NEVER A CONSTANT. These three names were
+    # `bays["count"]`, `0.0` and `False` -- "every upper bay stacks over its lower counterpart
+    # by construction" -- which was true of the rhythm and false of the house (OQ 52's class,
+    # wearing a measurement's name; and the count read `bays["count"]`, the very read the
+    # comment above it recorded fixing in three siblings). `storey_alignment` is the reader.
+    _al = elev["front"].get("alignment") or {}
     m.update({
-        "count_of_openings_without_a_mirror_twin_about_the_facade_centreline": 0,
-        "width_of_the_largest_asymmetric_element_in": 0.0, "facade_width_in": elev["front"]["outside_width_in"],
+        "facade_width_in": elev["front"]["outside_width_in"],
         "elevation_width_in": elev["front"]["outside_width_in"], "elevation_length": elev["front"]["outside_width_in"],
         "building_width_in": elev["front"]["outside_width_in"], "street_elevation_width_in": elev["front"]["outside_width_in"],
         "front_elevation_width": elev["front"]["outside_width_in"],
-        # A BLIND BAY IS A BAY AND NOT AN OPENING (OQ 85). `bay_count` counts bays -- the rhythm
-        # is five bays whether or not one of them is blinded by a stack -- but an OPENING count
-        # must not include a bay with no opening in it. Found 28 Aug 2026 by this package's own
-        # adversarial audit: these three read `bays["count"]` and would have reported an opening
-        # where the same package had just stopped drawing one. Inert on both reference plans,
-        # whose blind bays are on the gable ends rather than the front, and live for any record
-        # whose roof puts a stack at the front or back wall.
-        "upper_floor_opening_count": _open_bays, "total_upper_storey_openings": _open_bays,
-        "openings_on_the_front_elevation": _open_bays * 2 - (1 if _has_door else 0),
+        "upper_floor_opening_count": _upper_count, "total_upper_storey_openings": _upper_count,
+        "openings_on_the_front_elevation": len(_front),
         "bay_count": bays["count"], "bay_count_on_the_principal_front": bays["count"], "bay_width_in": bays["actual_bay_width_in"],
         "window_bay_pitch_in": bays["actual_bay_width_in"],
-        # Every upper bay stacks directly over its lower counterpart by construction (both storeys
-        # share the same even bay spacing) -- matching count equals total count, not total-1.
-        "upper_storey_opening_centres_matching_lower": bays["count"], "max_abs_offset_between_upper_and_lower_opening_centrelines_in": 0.0,
-        "upper_storey_windows_missing_or_off_alignment_over_a_lower_bay": False,
+        "upper_storey_opening_centres_matching_lower": _al.get("matching") if _two_storeys else None,
+        "max_abs_offset_between_upper_and_lower_opening_centrelines_in":
+            _al.get("max_abs_offset_in") if _two_storeys else None,
+        "upper_storey_windows_missing_or_off_alignment_over_a_lower_bay":
+            _al.get("missing_or_off") if _two_storeys else None,
     })
+    # THE MIRROR, read by `axis.mirror` -- the corpus's one reader of the front's symmetry
+    # (WP-11.3), over the plan's placed front openings at the ground storey. These two were
+    # constants of 0 and 0.0, the same class as the alignment trio. `axis.mirror` refuses on a
+    # gable-end front and on a front with nothing placed, and its refusal is this file's None.
+    _mi = elev["front"].get("mirror") or {}
+    if _mi.get("verdict") in ("mirrored", "not-mirrored"):
+        _un = _mi.get("unmatched") or []
+        m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] = len(_un)
+        m["width_of_the_largest_asymmetric_element_in"] = round(
+            max((float(o.get("width_ft") or 0.0) for o in _un), default=0.0) * 12.0, 3)
 
     m.update({
         "storey_height_in": elev["ground_storey_height_in"], "ceiling_height_in": elev["ground_ceiling_in"],
@@ -1352,18 +1710,18 @@ def _derive_measurements(elev):
         "equipment_units_visible_on_the_entrance_elevation": 0.0,
         "count_of_non_chimney_non_dormer_objects_on_the_entrance_roof_slope": 0,
         # OQ 85. A MEASURED ZERO, and it is the generator publishing that it resolved a collision
-        # rather than that one never existed: on this house's gable ends the bay a stack stands on
-        # IS blinded, and this says so in a form `window-on-the-chimney-axis` can check. Any other
-        # producer -- an ingested drawing, a hand-authored record -- gets checked against the same
-        # rule instead of being trusted. Counted over every face, because the entrance face is not
-        # where this happens.
+        # rather than that one never existed: a placed window a stack stands on is REFUSED by
+        # `opening_rects` and never drawn, and this says so in a form `window-on-the-chimney-
+        # axis` can check. Any other producer -- an ingested drawing, a hand-authored record --
+        # gets checked against the same rule instead of being trusted. Counted over every face
+        # and over what is DRAWN (WP-13.3: the placed openings, not the rhythm's bays), so the
+        # only thing that can count here is a door, which is drawn on a stack rather than
+        # deleted so that a human decides.
         "count_of_openings_on_the_axis_of_a_chimney_stack": sum(
             1 for f, fa in elev["faces"].items()
-            for cx, kind in zip(fa["centres_ft"], fa["kinds"])
-            if kind != "blind" and any(
-                abs(cx - ax) <= ((elev.get("chimney_stack_plan_in") or 22.0) / 24.0)
-                for ax in stack_axes_for_face(f, (elev.get("roof_record") or {}).get("chimneys"),
-                                              elev["footprint"]))),
+            for r in opening_rects(elev, f)["rects"]
+            if opening_on_a_stack(r["cx_in"] / 12.0, r["width_in"] / 12.0,
+                                  fa.get("stack_axes_ft") or [], fa.get("stack_half_width_ft") or 0.0)),
         "vent_terminal_height_above_roof_surface_in": 0.0,
         # solar_array_area_sqft IS supplied now, and its honest zero is the point. This key was
         # withheld for the same reason cornice_projection_in was, and the comment here said so:
@@ -1412,13 +1770,10 @@ def _derive_measurements(elev):
     # Front elevation glazed area vs. gross front wall area, both real: window openings on both
     # storeys (door glass not counted -- a panelled door, not glazed) against the front's own
     # outside width times its total storey height.
-    # Blind bays carry no glass (OQ 85); counting their notional windows would inflate the glazed
-    # area of a house whose stack stands where the window would have been.
-    _open = sum(1 for k in front["kinds"] if k != "blind")
-    gnd_win_count = max(0, _open - (1 if "door" in front["kinds"] else 0))
-    upr_win_count = _open
-    glazed_in2 = (gnd_win_count * ground_w["opening_width_in"] * ground_w["opening_height_in"] +
-                  upr_win_count * upper_w["opening_width_in"] * upper_w["opening_height_in"])
+    # THE GLASS IS THE DRAWN SASHES' OWN (WP-13.3): each placed window on the front at its own
+    # width and its storey's own height, so a front the plan glazed sparsely reads as sparse. A
+    # window a stack stands on is refused before it gets here (OQ 85) and carries no glass.
+    glazed_in2 = sum(r["width_in"] * r["height_in"] for r in _front if r["kind"] == "window")
     wall_in2 = front["outside_width_in"] * (elev["ground_storey_height_in"] + elev["upper_storey_height_in"])
     m["glazed_area"] = round(glazed_in2 / 144.0, 2)
     m["street_facing_wall_area"] = round(wall_in2 / 144.0, 2)
@@ -1463,21 +1818,47 @@ def opening_rects(elev, face):
     the record states every opening in, and a rectangle that starts in the record's own unit is
     one conversion rather than two.
 
-    A blind bay yields NO rectangle and appears in `refused` with its reason — the bay is real,
-    it holds its place in the rhythm and a stack stands on its axis, so there is nothing to draw
-    at either storey. A bay whose storey states no window record yields no rectangle either, and
-    says which.
+    **THE RECTANGLES ARE THE PLAN'S PLACED OPENINGS (WP-13.3).** Until this the loop was over
+    `faces[face].centres_ft` -- the RHYTHM, one rectangle per bay per storey at the bay's own
+    centre at the storey window's own width -- and never read a placed window: on the prover 0
+    of 9 placed windows on the Tidewater front fell within 3 in of a drawn opening. The loop is
+    over `faces[face].placed` now: one rectangle per placed opening, at ITS centre, at ITS width,
+    at the storey ITS room stands on. The sill and head are still the storey window's (the plan
+    states no window height) and a door's leaf height is the entrance composition's, the one
+    door height this record states; both are named on the rect. A bay the plan leaves empty is
+    empty. A window the placer refused is in `refused` with the placer's own words, republished
+    from `faces[face].placed_refused` so every caller reports it.
+
+    A window a stack stands on yields NO rectangle and appears in `refused` with its reason
+    (OQ 85: nothing is drawn where a stack stands; `opening_on_a_stack` is the rule). A DOOR on a
+    stack is drawn and counted, not deleted -- deleting an entrance is not a decision this
+    generator may take, and the collision reaches `count_of_openings_on_the_axis_of_a_chimney_
+    stack` so a human decides. An opening whose storey states no window record yields no
+    rectangle either, and says which.
 
     Returns `{"rects": [...], "refused": [...]}`.
     """
     front = (elev.get("faces") or {}).get(face) or {}
-    centres = front.get("centres_ft") or []
-    kinds = front.get("kinds") or []
+    placed = front.get("placed")
     sw = elev.get("storey_windows") or []
     ent = elev.get("entrance") or {}
     section = elev.get("section") or {}
     storeys = section.get("storeys") or []
+    axes = front.get("stack_axes_ft") or []
+    stack_half_ft = front.get("stack_half_width_ft") or 0.0
     rects, refused = [], []
+    if placed is None:
+        # A face record with no `placed` list is one this function cannot draw from -- a record
+        # built before WP-13.3 or a hand-built fixture. Refused by name rather than falling back
+        # to the rhythm, because falling back is the defect this function was rewritten to remove.
+        refused.append({"bay": None, "why": f"the face record for {face} carries no `placed` "
+                                            f"openings, so there is nothing to draw from",
+                        "source": f"elevation.faces.{face}.placed"})
+        return {"rects": rects, "refused": refused}
+    for x in front.get("placed_refused") or []:
+        refused.append({"bay": x.get("bay"), "storey": x.get("storey"), "room": x.get("room"),
+                        "kind": x.get("kind"), "units": x.get("units"), "why": x["why"],
+                        "source": x["source"]})
 
     def _floor_in(index):
         """The storey's floor datum in inches above grade, or a REASON it has none.
@@ -1496,81 +1877,101 @@ def opening_rects(elev, face):
             return None, "the storey states no floor datum"
         return st["grade_to_floor_ft"] * 12.0, None
 
-    for bay, (cx_ft, kind) in enumerate(zip(centres, kinds)):
-        cx_in = cx_ft * 12.0
-        if kind == "blind":
-            refused.append({"bay": bay, "why": "a blind bay carries no opening at either storey "
-                                               "— a stack stands on its axis (OQ 85)",
-                            "source": f"elevation.faces.{face}.kinds[{bay}]"})
+    for p in placed:
+        si, storey, bay = p["level_index"], p["storey"], p.get("bay")
+        cx_in, w = p["cx_in"], p["width_in"]
+        who = f"{p['room']}'s {p['kind']}"
+        base = {"bay": bay, "storey": storey, "room": p["room"], "kind": p["kind"],
+                "source": p["source"]}
+        floor_in, why_no_floor = _floor_in(si)
+        if floor_in is None:
+            refused.append({**base, "why": why_no_floor, "source": f"section.storeys[{si}]"})
             continue
-        for si, (storey, rec) in enumerate((("ground", sw[0] if sw else None),
-                                            ("upper", sw[1] if len(sw) > 1 else None))):
-            floor_in, why_no_floor = _floor_in(si)
-            if floor_in is None:
-                refused.append({"bay": bay, "storey": storey, "why": why_no_floor,
-                                "source": f"section.storeys[{si}]"})
+        rec = sw[si] if si < len(sw) else None
+        # THE DOOR: every placed exterior door, on whichever face the plan seated it. The leaf
+        # is the plan's own width; its height is the entrance composition's `door_leaf_height_in`,
+        # which is the one door height this record states, and the rect names that source. Only
+        # THE entrance carries the composition (`entrance`): a back door is a leaf and not a
+        # doorcase, and a renderer that dresses every door as the entrance puts a Gibbs surround
+        # on the kitchen door.
+        if p["kind"] == "door":
+            h = ent.get("door_leaf_height_in")
+            if h is None:
+                refused.append({**base, "why": "the entrance states no door leaf height, and the "
+                                               "plan states none",
+                                "source": "elevation.entrance"})
                 continue
-            # The DOOR, at the ground storey of the entrance face only. On any other face a bay
-            # the record calls a door draws a window, which is what both renderers already did
-            # and is preserved here rather than corrected: which faces carry a door is the
-            # elevation's judgment, not this function's.
-            #
-            # AND THE FALSE SIDE OF THAT CONDITION IS UNREACHABLE FROM THIS GENERATOR, measured
-            # rather than assumed: `_face_bays` writes `kinds[mid] = "door"` only under
-            # `has_entrance`, and `has_entrance` is `f == entrance_face`, so a door bay can only
-            # ever be on the entrance front. Swept over all sixteen plan records: 44 faces built,
-            # 11 door bays, 0 of them off the entrance front. The condition is KEPT because it is
-            # a fallback and not a check -- deleting it would draw a door on a wall that has no
-            # entrance composition to dress it, which is worse than drawing a window -- and it is
-            # named here so that it does not read as a guard against a case that happens.
-            # `tests/test_opening_rects.py` drives it, because nothing in the corpus can.
-            if si == 0 and kind == "door" and face == elev.get("entrance_face"):
-                w = ent.get("door_leaf_width_in")
-                h = ent.get("door_leaf_height_in")
-                if w is None or h is None:
-                    refused.append({"bay": bay, "storey": storey,
-                                    "why": "the entrance states no door leaf",
-                                    "source": "elevation.entrance"})
-                    continue
-                rects.append({"id": f"{face}-{bay}-door", "bay": bay, "storey": storey,
-                              "kind": "door", "cx_in": cx_in,
-                              "x0_in": cx_in - w / 2.0,
-                              "x1_in": cx_in + w / 2.0,
-                              "sill_in": floor_in,
-                              "head_in": floor_in + h,
-                              "width_in": w, "height_in": h,
-                              "record": None, "entrance": ent,
-                              "source": "elevation.entrance.door_leaf_width_in"})
-                continue
-            if rec is None:
-                refused.append({"bay": bay, "storey": storey,
-                                "why": "the elevation states no window for this storey",
-                                "source": f"elevation.storey_windows[{si}]"})
-                continue
-            w = rec.get("opening_width_in")
-            sill = rec.get("sill_height_above_floor_in")
-            head = rec.get("head_height_above_floor_in")
-            if w is None or sill is None or head is None:
-                refused.append({"bay": bay, "storey": storey,
-                                "why": "the storey's window states no width, sill or head",
-                                "source": f"elevation.storey_windows[{si}]"})
-                continue
-            rects.append({"id": f"{face}-{bay}-{storey}", "bay": bay, "storey": storey,
-                          "kind": "window", "cx_in": cx_in,
-                          "x0_in": cx_in - w / 2.0,
-                          "x1_in": cx_in + w / 2.0,
-                          "sill_in": floor_in + sill,
-                          "head_in": floor_in + head,
-                          "width_in": w, "height_in": head - sill,
-                          "record": rec, "entrance": None,
-                          "source": f"elevation.storey_windows[{si}]"})
+            rect = {"id": f"{face}-{p['n']}-{storey}-{p['room']}-door", **base,
+                    "cx_in": cx_in, "x0_in": cx_in - w / 2.0, "x1_in": cx_in + w / 2.0,
+                    "sill_in": floor_in, "head_in": floor_in + h,
+                    "width_in": w, "height_in": h,
+                    "record": None, "entrance": ent if p.get("entrance") else None,
+                    "u_ft": p["u_ft"], "along_ft": p["along_ft"],
+                    "leaf_height_source": "elevation.entrance.door_leaf_height_in"}
+            if p.get("entrance") and ent.get("door_leaf_width_in") is not None:
+                # TWO RECORDS OF ONE LEAF WIDTH, STATED AND NOT RESOLVED. The plan places the
+                # front door at its own width and `entrance_composition` derives a leaf from
+                # the packs; measured on the shipped plans they agree to 0.099 in on the
+                # Tidewater house and disagree by 7.553 in on the spec Colonial. The drawn
+                # leaf is the plan's; the composition's figure travels beside it so a reader
+                # can see the difference, which is a finding about two records and not a
+                # number for this file to pick.
+                rect["composition_leaf_width_in"] = ent["door_leaf_width_in"]
+                rect["leaf_width_difference_in"] = w - ent["door_leaf_width_in"]
+            rects.append(rect)
+            continue
+        if rec is None:
+            refused.append({**base, "why": "the elevation states no window for this storey",
+                            "source": f"elevation.storey_windows[{si}]"})
+            continue
+        sill = rec.get("sill_height_above_floor_in")
+        head = rec.get("head_height_above_floor_in")
+        if sill is None or head is None:
+            refused.append({**base, "why": "the storey's window states no sill or head",
+                            "source": f"elevation.storey_windows[{si}]"})
+            continue
+        if opening_on_a_stack(p["u_ft"], p["width_ft"], axes, stack_half_ft):
+            near = min(axes, key=lambda ax: abs(ax - p["u_ft"]))
+            refused.append({**base, "why": (f"a chimney stack stands on it (OQ 85): {who} spans "
+                                            f"{p['u_ft'] - p['width_ft'] / 2:.2f}–"
+                                            f"{p['u_ft'] + p['width_ft'] / 2:.2f} ft along the "
+                                            f"face and the stack at {near:.2f} ft is "
+                                            f"{stack_half_ft * 2:.2f} ft wide, so nothing is drawn"),
+                            "source": f"elevation.faces.{face}.stack_axes_ft"})
+            continue
+        rects.append({"id": f"{face}-{p['n']}-{storey}-{p['room']}-window", **base,
+                      "cx_in": cx_in, "x0_in": cx_in - w / 2.0, "x1_in": cx_in + w / 2.0,
+                      "sill_in": floor_in + sill, "head_in": floor_in + head,
+                      "width_in": w, "height_in": head - sill,
+                      "record": rec, "entrance": None,
+                      "u_ft": p["u_ft"], "along_ft": p["along_ft"],
+                      "sill_head_source": f"elevation.storey_windows[{si}]"})
     return {"rects": rects, "refused": refused}
 
 
 # ---------------------------------------------------------------- orchestration
+def carries_a_placement(plan):
+    """Does this record carry its own placement -- a footprint and at least one placed room?
+    The same test `plan_check`'s elevation layer makes before it hands a record to
+    `build_section` as its own `geometry_result`."""
+    return bool((plan or {}).get("footprint")) and any(
+        r.get("geometry") for lv in (plan.get("levels") or []) for r in (lv.get("rooms") or []))
+
+
 def build_elevation(plan, parti=None, section=None, roof=None):
     if section is None:
-        section = ST.build_section(plan, parti)
+        # A RECORD THAT CARRIES ITS PLACEMENT IS THE SECTION'S `geometry_result`, NEVER
+        # RE-SOLVED (WP-13.3). `build_section`'s default re-solves whatever it is handed on the
+        # heuristic -- right for a declared draft, and for a PLACED record it is WP-12.0's own
+        # defect at this function's door: the gate handed a CP-SAT placement to
+        # `build_elevation(out)` and the section, the roof and (since WP-13.3) the openings were
+        # derived from a fresh heuristic placement of the same rooms, so the elevation drew the
+        # search's seven openings on the front where the prover had placed three. Invisible for
+        # as long as the elevation read a rhythm rather than a placement; the first run of the
+        # gate row with the placed openings in is what found it. `plan_check` already makes
+        # this exact choice for its own elevation layer.
+        section = ST.build_section(plan, parti, geometry_result=plan) \
+            if carries_a_placement(plan) else ST.build_section(plan, parti)
     if "error" in section:
         return {"error": section["error"]}
     if roof is None:
@@ -1856,21 +2257,37 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     # any record that names no parti (fifteen of the sixteen here) and on a non-centre-door
     # diagram BY NAME, so this is None far more often than not and the formula below stays the
     # reader for those -- which is the ruling's scope, not a gap.
+    # THE PLACED RECORD IS THE SECTION'S (WP-13.3). `section["geometry"]` is the placement the
+    # section was built on -- the record itself when the caller placed it, the fresh heuristic
+    # when the caller handed over a declared plan -- so the rhythm, the placed openings and the
+    # mirror below all read ONE placement, the one the roof and the section already share
+    # (WP-6.4's rule, and WP-12.0's finding when it was broken).
+    _placed_rec = section.get("geometry") or plan
+    _t_ft = section["wall"]["exterior_in"] / 12.0
+    _rh = None
     try:
         _FA = _mod("facade", f"{ROOT}/build/facade.py")
-        _rh = _FA.rhythm(plan)
+        _rh = _FA.rhythm(_placed_rec)
         _plan_bays = _rh["bays"] if _rh.get("verdict") == "derived" else None
     except Exception:
         _plan_bays = None
     for f in FACES:
         span_ft = fp["width_ft"] if f in ("S", "N") else fp["depth_ft"]
         faces[f] = _face_bays(facade_pack, span_ft, has_entrance=(f == entrance_face),
-                              plan_bays=_plan_bays if f in ("S", "N") else None)
+                              plan_bays=_plan_bays if f in ("S", "N") else None,
+                              rhythm=_rh if f in ("S", "N") else None, t_ft=_t_ft,
+                              clear_w_ft=fp.get("clear_width_ft"),
+                              clear_d_ft=fp.get("clear_depth_ft"), face=f)
         faces[f]["outside_width_in"] = round(span_ft * 12.0, 2)
         # OQ 85: a bay a chimney stands on is BLIND. The two records -- roof.py's chimney plan
         # positions and this file's evenly spaced odd bay count -- were built from different rules
         # and nothing compared them, so a window was drawn where a stack stands.
         axes = stack_axes_for_face(f, roof.get("chimneys"), fp)
+        # The stack axes and the stack's half width travel ON THE FACE RECORD (WP-13.3), so
+        # `opening_rects` can refuse a PLACED window a stack stands on by the same figures the
+        # rhythm's blind bay reads, and a test can drive the refusal by setting them.
+        faces[f]["stack_axes_ft"] = [round(a, 4) for a in axes]
+        faces[f]["stack_half_width_ft"] = round(_stack_w_ft / 2.0, 4)
         hit = blind_bays_behind_stacks(faces[f], axes, _stack_w_ft)
         if hit:
             blinded_bays[f] = hit
@@ -1879,6 +2296,12 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                 f"A chimney stack stands on {'this axis' if len(hit) == 1 else 'these axes'}: "
                 f"{', '.join(str(h) for h in hit)} ft along the face, from the roof record's own "
                 f"plan position. An opening there is not drawn.")
+    # THE PLAN'S PLACED OPENINGS, PER FACE, IN THE FACE'S OWN DATUM (WP-13.3). This is what
+    # `opening_rects` draws; the rhythm above is what it does not.
+    _po = placed_openings(_placed_rec, section, entrance_face, faces)
+    for f in FACES:
+        faces[f]["placed"] = _po["faces"][f]["placed"]
+        faces[f]["placed_refused"] = _po["faces"][f]["refused"]
 
     ent = entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0,
                                forbids=forbids) if gibbs_applies else \
@@ -2045,7 +2468,44 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                      "`read_anyway` is a measured disclosure, not a pass."),
         },
         "footprint": fp, "section": section,
+        # WP-13.3: the one datum every `u` here is stated in, the placed openings' provenance,
+        # and the exterior doors the placer could not seat (which belong to no face).
+        "datum": _po["datum"], "placed_openings_source": _po["source"],
+        "openings_unplaced": _po["unplaced_doors"],
     }
+    # THE FRONT'S STOREY-OVER-STOREY ALIGNMENT AND ITS MIRROR, measured off what is DRAWN and
+    # what is PLACED respectively, before the measurements read them. Two storeys or the
+    # alignment is a stated refusal; `axis.mirror` is the corpus's one reader of the symmetry
+    # and its refusals travel as they are.
+    _fr = opening_rects(elev, entrance_face)["rects"]
+    _two = any(s.get("index") == 1 for s in section.get("storeys") or [])
+    if _two:
+        elev["front"]["alignment"] = storey_alignment(
+            sorted(r["cx_in"] for r in _fr if r["storey"] == "ground"),
+            sorted(r["cx_in"] for r in _fr if r["storey"] == "upper"), ALIGNMENT_TOL_IN)
+    else:
+        elev["front"]["alignment"] = {"why": "the section states one storey, so there is no "
+                                             "upper storey to align over the lower"}
+    try:
+        _AX = _mod("axis", f"{ROOT}/build/axis.py")
+        elev["front"]["mirror"] = _AX.mirror(_placed_rec)
+    except Exception as e:                      # noqa: BLE001 -- reported, never swallowed
+        elev["front"]["mirror"] = {"verdict": "could-not-evaluate",
+                                   "why": f"axis.mirror could not read the placement ({e})"}
+    _al = elev["front"]["alignment"]
+    withheld = {}
+    if not _two:
+        withheld["upper_floor_opening_count"] = "the section states one storey"
+    elif not _al.get("upper"):
+        withheld["upper_floor_opening_count"] = (
+            "the upper storey draws no opening on the entrance front; a count of zero is not "
+            "handed to a parity rule or a division that carries no `applies_when`")
+    if withheld:
+        withheld["total_upper_storey_openings"] = withheld["upper_floor_opening_count"]
+    if ALIGNMENT_TOL_IN is None:
+        withheld["upper_storey_opening_centres_matching_lower"] = ALIGNMENT_TOL_SOURCE
+        withheld["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] = ALIGNMENT_TOL_SOURCE
+    elev["front"]["withheld"] = withheld
     elev["measurements"] = _derive_measurements(elev)
     # Folded in AFTER the NOT_MODELLED filter has run, because these are no longer refused names
     # and must not be filtered by their own former entries. setdefault, so a plan's own declared

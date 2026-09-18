@@ -148,11 +148,21 @@
      },
      "footprint_in": {
       "type": "array",
+      "description": "[ALONG THE WALL, INTO THE ROOM], in inches, for an item seated against a wall, built in, or in a corner: the first figure is what the item takes of the wall's run, the second how far it stands off it. Stated at WP-13.6 (15 Sep 2026); until then the order was unstated and build/furniture.py read it as [along, into] while the catalogue was written both ways -- a sideboard authored [20, 66] with `needs_uninterrupted_wall_ft: 6` was drawn 20 in along a 6 ft run. Nine records were re-authored by READING each item (a sideboard, a china cupboard, a banquette, a window seat, a bookcase, a bench, refuse bins, a planting bed, a guard), never by flipping the shorter side to the front: a queen bed [64, 86] and a water closet [20, 28] are correctly stated with the shorter side along the wall. For a freestanding item the packer orients by the room (build/furniture.py::place_freestanding) and the order is immaterial; build/plan_check.py::furniture_shortfalls pairs the item's short side with the room's short side and is axis-free by design. Three records the reading could not settle are left as authored and named in docs/reports/wp-13.6-*.md: a crib, a single bed or day bed, a shower with bench.",
       "items": {
        "type": "number"
       },
       "minItems": 2,
       "maxItems": 2
+     },
+     "footprint_of": {
+      "enum": ["piece", "group"],
+      "description": "WP-13.6. Whether `footprint_in` is ONE piece of an item whose name states a count ('nightstands, pair' -> one nightstand) or the whole GROUP ('twin beds, pair' [100, 80]: '38 + 24 + 38 = 100 in across'). Authored by reading each note (`oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`); absent means the item states no count and the footprint is the thing. A `piece` with an exact stated count is drawn that many times; a range ('six to eight') is drawn once and its count reaches the key."
+     },
+     "count": {
+      "type": "integer",
+      "minimum": 2,
+      "description": "WP-13.6. How many of the PIECE `footprint_in` describes the record states -- 'nightstands, pair' -> 2, 'two hall chairs' -> 2 -- authored by reading the name, and admitted only beside `footprint_of: piece` (build/check_rooms.py): a count on a GROUP footprint would be a count of groups, which no record means. A name stating a band ('six to eight side chairs', 'seating for twelve to twenty') carries NO count, because a band is not a count; such an item is drawn once with its name whole on the key. build/furniture.py::piece_count draws a counted piece that many times and the key names the type once with the number drawn."
      },
      "clearance_in": {
       "type": "number",

@@ -730,7 +730,18 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         # 6 -> 5 AT WP-11.18: `partition`'s stated share stops at the closer side, so a group
         # no longer overshoots the rectangle it must fill and one compromise the slicer used
         # to need is not needed. An improvement, named rather than absorbed.
-        assert out["geometry_report"]["relaxations"]["count"] == 5
+        # 5 -> 1 AT THE 17 SEP MERGE, AND THE CONTROL IS WHAT MAKES IT A MEASUREMENT.
+        # A count that falls by four fifths is what a meter going blind looks like, so the
+        # sweep was run over all sixteen plans on `git archive` checkouts of both parents and
+        # on the merged tree: FIFTEEN OF SIXTEEN ARE IDENTICAL TO MAIN'S FIGURES and the meter
+        # still reads 1 through 9 across the corpus (total 85 main / 86 ours / 81 merged). The
+        # ONE mover is this plan -- the only one of the sixteen whose placement the merge
+        # changes, because it is the only one carrying a container. FEWER relaxations is the
+        # better direction: each is a joist run that does not land on a bearing line. It is
+        # paid for, and that is published rather than netted off -- the same placement carries
+        # three more `unreachable` fatals, which is
+        # `oq/a-withdrawn-claim-still-steers-the-placer`.
+        assert out["geometry_report"]["relaxations"]["count"] == 1
 
     def test_the_renderer_draws_one_mark_per_relaxation(self, geometry_module):
         """P6 and P7 together: the drawing is a render of the data, so the number of marks on

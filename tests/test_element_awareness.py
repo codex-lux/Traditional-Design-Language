@@ -22,6 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 
 import modcache  # noqa: E402
+from conftest import untagged_reference_plan  # noqa: E402
 
 GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
 OP = modcache.load("openings", os.path.join(ROOT, "build", "openings.py"))
@@ -53,13 +54,14 @@ def _shipped_untagged():
     same reason: **a driven fixture must not inherit whatever the shipped record happens to
     declare** (WP-8.11). What this file tests is the element machinery, not this plan's tagging,
     and the two are independent.
-    """
-    p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
-    for lv in p.get("levels") or []:
-        for r in lv.get("rooms") or []:
-            r.pop("block", None)
-            r.pop("hyphen", None)
-    return p
+
+    AND THE 17 SEP MERGE FOUND THIS FILE HOLDING TWO SPELLINGS OF ONE RULE. Main wrote the
+    stripping out by hand here; this branch had already lifted it into
+    `conftest.untagged_reference_plan` / `as_one_element`, which EIGHT fixtures share. Two
+    readers of "what is a container" is how one comes to strip `hyphen` and the other not.
+    It delegates now, and the 44 findings-digest and score literals below were re-derived across
+    the change and did not move -- which is what says this is one spelling rather than a third."""
+    return untagged_reference_plan("tidewater-georgian-careful")[0]
 
 
 def _fixture():
@@ -82,6 +84,36 @@ def placed():
     p = _fixture()
     GEO.solve(p, engine="heuristic")
     return p
+
+
+def _one_rectangle(name="tidewater-georgian-careful"):
+    """A shipped record read as the ONE-ELEMENT house it used to be, with any container stripped.
+
+    **EVERY "one rectangle" GUARD IN THIS FILE READS THIS, AND WP-13.5 IS WHY.** Until that
+    package no plan in the corpus carried a `block` tag, so "the shipped Tidewater record" and
+    "a one-element plan" were the same fixture and the tests below say both. WP-13.5 moved the
+    service programme into the dependency that record declares, so they are two fixtures now.
+    The PROPERTY each of these guards states -- what the placer, the section, the slab loop and
+    the lot cap do with ONE element -- is unchanged and still worth guarding; what changed is
+    which record demonstrates it. Stripping keeps the guard on the same house rather than
+    swapping in another plan whose numbers would all have to be re-pinned.
+
+    `test_the_shipped_record_really_carries_a_container` below asserts the premise, so the day
+    the record loses its tags these fixtures cannot quietly become the old ones again.
+    """
+    q, _stripped = untagged_reference_plan(name)
+    return q
+
+
+def test_the_shipped_record_really_carries_a_container():
+    """The premise of every `_one_rectangle(...)` call above and below. A strip that strips
+    nothing leaves a fixture identical to a plain load, and every guard built on it would be
+    passing for a reason that has stopped being true."""
+    raw = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    tags = {r["id"] for lv in raw["levels"] for r in lv["rooms"] if r.get("block")}
+    assert tags == {"kitchen", "pantry", "breakfast", "powder", "cellarstair", "backhall"}, tags
+    assert any(r.get("hyphen") for lv in raw["levels"] for r in lv["rooms"])
+    assert not any(r.get("block") for lv in _one_rectangle()["levels"] for r in lv["rooms"])
 
 
 def dep_rooms(p):
@@ -383,7 +415,14 @@ class TestTheCriticReadsTheRoomsOwnElement:
         # element's full depth, so it reaches the north face as well. The breakfast room is
         # unmoved. Both are still measured against the ELEMENT and both would be `[]` against
         # the main block, which is the thing under test.
-        assert by["kitchen"] == ["N", "S", "W"] and by["breakfast"] == ["E", "S"], by
+        # AND THE 17 SEP MERGE MOVED THE BREAKFAST ROOM THE SAME WAY, FOR THE SAME REASON:
+        # ["E", "S"] -> ["E", "N", "S"]. Main's WP-11.17 entrance anchor and WP-11.18
+        # `partition` share re-proportion this fixture's wing again, and the breakfast room now
+        # spans its element's full depth as the kitchen already did, so it reaches the north
+        # face too. The KITCHEN is unmoved at ["N", "S", "W"]. Both are still measured against
+        # the ELEMENT and both would be `[]` against the main block, which is the thing under
+        # test and is what the two assertions above hold.
+        assert by["kitchen"] == ["N", "S", "W"] and by["breakfast"] == ["E", "N", "S"], by
 
     def test_A_WALL_FACING_THE_GAP_IS_NAMED_exterior_to_the_weather_interior_to_the_view(
             self, placed):
@@ -555,9 +594,24 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # `drawn-vs-declared` (18 out / 19 in, 15 out / 13 in) and `drawn-furniture-fit`
                 # (8/9, 10/10): the same rooms, re-measured, because the slicer's groups changed
                 # size. Old digests: 9ecdca7453819879 / 81ddd6e8555cb1a5.
-                ("tidewater-georgian-careful", "6047f0ef36467dcc", 209,
+                # AND AGAIN AT THE 17 SEP MERGE OF PHASE 13 INTO THIS LINE, where the two
+                # plans moved for DIFFERENT reasons and the diff is what says so. Tidewater
+                # 209 -> 203: 47 rows out and 41 in, every one of them a `drawn`-layer kind
+                # re-measuring on a placement that moved (`drawn-vs-declared` 15/19,
+                # `drawn-furniture-fit` 4/4, `drawn-proportion-above-band` 4/4,
+                # `span-over-capacity` 5/3, `unreachable` 4/2), plus `fault-present` 0/3.
+                # The spec Colonial 235 -> 239 moved `fault-present` AND NOTHING ELSE, 1 out
+                # and 5 in -- its placement is untouched across the merge, so the whole
+                # movement there is Phase 13 supplying measurements the fault corpus could
+                # not previously evaluate. The two layers this class watches are UNMOVED on
+                # both plans at 13/18 and 11/17, which is the property being guarded and is
+                # why this is a re-derivation rather than a bump. The three extra
+                # `unreachable` rows on the SHIPPED (tagged) record are a different question
+                # and are `oq/a-withdrawn-claim-still-steers-the-placer`.
+                # Old digests: 6047f0ef36467dcc / 9b65c3a2dfa81377.
+                ("tidewater-georgian-careful", "24b6a6a640f637b8", 203,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "9b65c3a2dfa81377", 235,
+                ("spec-builder-colonial", "afa4d7a9c173615d", 239,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
@@ -633,19 +687,44 @@ class TestVerticalScoreAcrossElements:
             "an unjudged claim must not be phrased as a placement that went wrong")
 
     def test_and_the_charge_it_used_to_pay_is_gone(self):
-        """40 points, measured: vertical_score 114 -> 74 on this fixture."""
+        """40 points, measured: vertical_score 114 -> 74 on this fixture.
+
+        RE-CUT AT WP-13.2. This compared the TOTAL vertical score of two different solves --
+        the claim pointed at the dependency's kitchen against the claim pointed at the main
+        block's butler's pantry -- and read the difference as the one claim's charge. Two
+        solves are two placements, and the moment `stacking.lands` (containment) changed how
+        much the OTHER claims on this fixture cost, the two winners diverged and the totals
+        stopped saying anything about the claim under test (194.0 against 196.0). The property
+        is asserted on ONE placement now: `vertical_score` re-run on the placed rectangles with
+        the claim pointed at the dependency costs exactly what it costs with the claim absent
+        (an unjudged claim is not charged), and pointed at a main-block room it costs `STACK_W`
+        more exactly when that room is not landed on."""
+        import copy as _copy
         p = _cross_element_claim()
         GEO._SOLVE_CACHE.clear()
         GEO.solve(p, engine="heuristic")
-        with_unjudged = p["geometry_report"]["vertical_score"]
-        # the same fixture with the claim naming a MAIN-block room is charged as before
-        q = _fixture()
-        next(r for r in q["levels"][1]["rooms"]
-             if r["id"] == "primarybath")["stacks_over"] = "butlers"
-        GEO._SOLVE_CACHE.clear()
-        GEO.solve(q, engine="heuristic")
-        assert q["geometry_report"]["vertical_score"] > with_unjudged, (
-            "the cross-element claim must cost less than a real break, or it is still charged")
+        ground = [r for lv in p["levels"] if lv.get("index", 0) == 0 for r in lv["rooms"]]
+        upper = [r for lv in p["levels"] if lv.get("index", 0) == 1 for r in lv["rooms"]]
+        g = {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"], r["geometry"]["width_ft"],
+                       r["geometry"]["depth_ft"]) for r in ground if r.get("geometry")}
+        u = {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"], r["geometry"]["width_ft"],
+                       r["geometry"]["depth_ft"]) for r in upper if r.get("geometry")}
+        bath = next(r for r in upper if r["id"] == "primarybath")
+        assert bath["stacks_over"] == "kitchen" and "primarybath" in u and "butlers" in g
+        s_unjudged, notes = GEO.vertical_score(g, u, ground, upper, p)
+        assert any("COULD NOT EVALUATE" in n for n in notes), notes
+        absent = _copy.deepcopy(upper)
+        del next(r for r in absent if r["id"] == "primarybath")["stacks_over"]
+        s_absent, _ = GEO.vertical_score(g, u, ground, absent, p)
+        assert s_unjudged == s_absent, (
+            f"the cross-element claim is still charged: {s_unjudged} with it against "
+            f"{s_absent} without it")
+        main = _copy.deepcopy(upper)
+        next(r for r in main if r["id"] == "primarybath")["stacks_over"] = "butlers"
+        s_main, _ = GEO.vertical_score(g, u, ground, main, p)
+        _STK = modcache.load("stacking", os.path.join(ROOT, "build", "stacking.py"))
+        want = 0.0 if _STK.lands(u["primarybath"], g["butlers"]) else GEO.STACK_W
+        assert s_main - s_absent == want, (s_main, s_absent, want)
 
     def test_breaks_and_unjudged_are_TWO_LISTS_and_a_charge_reads_the_first(self):
         """`declared_stack_breaks` returns both states and `stack_breaks_only` is what a charge
@@ -675,6 +754,12 @@ class TestVerticalScoreAcrossElements:
         map is used in, so it was empty exactly where the charge is decided."""
         p = _shipped_untagged()
         assert GEO.element_of(p, p["levels"][0]["rooms"]) == {}
+        # AND THE SHIPPED RECORD IS NOT EMPTY ANY MORE, which is the half WP-13.5 added: the
+        # name of this test was true of every plan until that package and is true of none of
+        # the sixteen read raw. Both directions are asserted so neither can go quiet.
+        raw = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        assert GEO.element_of(raw, raw["levels"][0]["rooms"]), \
+            "the shipped record states a container since WP-13.5; the strip above is the fixture"
         # and non-empty on the fixture BEFORE any placement has written a blocks list
         f = _fixture()
         assert "blocks" not in (f.get("footprint") or {})
@@ -822,7 +907,13 @@ class TestTheLotCapIsOnTheBuiltExtent:
                 # `partition`'s stated share stops at the closer side, which reaches exactly the
                 # plans that name an entrance face. The WIDTH and the CAP -- what this test is
                 # actually about -- are unmoved on both.
-                ("tidewater-georgian-careful", 1017.2, 63, False),
+                # AND AGAIN AT THE 17 SEP MERGE, ON ONE PLAN OF THE TWO: Tidewater
+                # 1017.2 -> 889.0 and the spec Colonial UNMOVED at 779.5, because only
+                # the Tidewater placement moves across this merge. The WIDTH and the
+                # CAP -- what this test is about -- are unmoved on BOTH, which is what
+                # makes this a re-derivation of a number that rides along rather than a
+                # re-pin of the property.
+                ("tidewater-georgian-careful", 889.0, 63, False),
                 ("spec-builder-colonial", 779.5, 50.0, True)):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
@@ -1001,6 +1092,10 @@ def _hyphen_fixture(with_hyphen=True):
     p = _fixture()
     p.get("context", {}).pop("entrance_faces", None)
     g = p["levels"][0]["rooms"]
+    by = {r["id"]: r for r in g}
+    for a, b in (("butlers", "kitchen"), ("kitchen", "butlers")):
+        if not any(d.get("to") == b for d in (by[a].get("doors") or [])):
+            by[a].setdefault("doors", []).append({"to": b, "width_ft": 2.8})
     if with_hyphen:
         g.append({"id": "hyphen", "type": "gallery-corridor", "name": "Hyphen",
                   "block": "west-dependency", "hyphen": True,
@@ -1392,7 +1487,9 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         # 108 -> 103, the spec Colonial serious 105 -> 97 and minor 93 -> 97. Corpus-wide the
         # package is fatal 153 -> 145 and serious 712 -> 707; this fixture is a SYNTHETIC control
         # (the shipped record is tagged) and is one of the plans that pays.
-        for name, score, w in (("tidewater-georgian-careful", 1017.2, 63),
+        # AND AGAIN AT THE 17 SEP MERGE: 1017.2 -> 889.0 here, the spec Colonial unmoved at
+        # 779.5, and the width unmoved on both -- only the Tidewater placement moves.
+        for name, score, w in (("tidewater-georgian-careful", 889.0, 63),
                                ("spec-builder-colonial", 779.5, 50.0)):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
@@ -1775,7 +1872,17 @@ class TestCPSATPlacesPerElement:
         # At 0 the second half would be vacuously satisfied and this test would quietly stop
         # proving the negative, so if a later package takes another crossing out of the record,
         # this fixture has to declare one of its own rather than have the number lowered again.
-        assert len(stated) == 2, stated
+        #
+        # BACK TO 3 AT THE 17 SEP MERGE, AND THE WARNING ABOVE IS WHY RATHER THAN DESPITE.
+        # Both lines dropped that door from the record for the same reason; then this branch's
+        # WP-13.5 did what the paragraph above asks -- `_hyphen_fixture` DECLARES the
+        # `butlers`-`kitchen` crossing of its own, so the guard keeps three to state -- while
+        # main lowered the literal to 2 instead. The merge carries the fixture AND the literal,
+        # which is how a 3 met a 2. The fixture is the half the note demands and the literal is
+        # the half it warns against, so the literal goes back up and the fixture stays.
+        # Re-derived on the merged tree: Butler's Pantry, Back Hall (Hyphen) and Cellar Stair,
+        # each against Kitchen (Dependency).
+        assert len(stated) == 3, stated
         assert all("Kitchen (Dependency)" in n for n in stated), stated
 
     def test_abuts_is_a_shared_FACE_and_a_corner_is_not_one(self):
@@ -1982,7 +2089,27 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
         """M11: the bay-snap block measured every edge from the MAIN block's origin. `ev` has
         domain [0, span] and a west wing's edges are negative, so that is not a worse objective,
         it is an INFEASIBLE model — and every test above built `objective=False`, so the entire
-        soft half of the model was unexercised on a multi-element plan."""
+        soft half of the model was unexercised on a multi-element plan.
+
+        **THE ASSERTION IS `not INFEASIBLE` SINCE WP-13.5, AND THE REASON IS A MEASUREMENT.**
+        It used to require OPTIMAL or FEASIBLE at 30 s on one worker, and that is a proxy: the
+        defect M11 guards against makes the model UNSATISFIABLE, and UNKNOWN is a fact about the
+        clock. WP-13.5 withdrew `hallbath stacks_over powder` from the record this fixture is
+        built on, and that one soft term is the whole difference — isolated by restoring each of
+        the package's two record edits alone, at 30 s and one worker:
+
+            as shipped (WP-13.5)             UNKNOWN
+            + the dropped door restored      UNKNOWN
+            + the stack claim restored       FEASIBLE      <- this one
+            + both restored (the old fixture) FEASIBLE
+
+        The model is satisfiable either way and it is measured: one worker at 60 s FEASIBLE,
+        one worker at 120 s FEASIBLE, four workers at 30 s FEASIBLE. So REMOVING a soft
+        objective term made this model undecidable inside the old budget, which is WP-7.4's own
+        recorded shape ("a new search term can be worse in the middle of its range than at
+        either end") arriving from the other direction. The budget is NOT raised to bury that:
+        UNKNOWN skips as COULD NOT EVALUATE with its own figures, and a decided solve still has
+        to decide the right way."""
         cp_model = _cp_or_skip()
         p = _fixture()
         levels, prep, fpd = _prepped(p)
@@ -1993,6 +2120,16 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
         s.parameters.num_search_workers = 1
         s.parameters.random_seed = 7
         st = s.Solve(m)
+        # THE PROPERTY, and it is load-independent: M11's defect made the objective model
+        # UNSATISFIABLE on a wing, and no budget makes an infeasible model feasible.
+        assert st != cp_model.INFEASIBLE, (
+            "the objective half of the model is INFEASIBLE on a multi-element plan — M11 is "
+            "back: some soft term is measuring a wing's edge from the main block's origin")
+        if st == cp_model.UNKNOWN:
+            pytest.skip("COULD NOT EVALUATE — the objective model on this wing did not decide "
+                        "in 30 s on one worker. It is satisfiable (60 s on one worker, or 30 s "
+                        "on four, both FEASIBLE here); the assertion above is the one this test "
+                        "is about and it held.")
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), s.StatusName(st)
 
     def test_a_wing_rooms_door_to_the_EXTERIOR_reaches_the_wings_envelope(self):

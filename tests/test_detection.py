@@ -396,15 +396,31 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
     """
 
     # Measured 15 Sep 2026 on both shipped plans. Re-measure before moving either.
-    SUSPECT_CLEAR = {"tidewater-georgian-careful": 26, "spec-builder-colonial": 27}
-    # The sharpest four, which are cleared on the generator asserting its own output.
+    # 26 -> 24 AND 27 -> 25 AT THE 17 SEP MERGE, AND THE TWO THAT LEFT ARE THE SAME TWO ON BOTH
+    # PLANS: `one-bay-symmetry-break` and `storeys-out-of-vertical-alignment`. That is not the
+    # instrument narrowing -- it is WP-13.3 doing what WP-13.1's finding asked for. This branch
+    # made `elevation` read the plan's PLACED openings instead of composing a rhythm, so the two
+    # measurements those faults test stopped being constants the generator asserts about its own
+    # output. Both now FIRE, with real figures, on both plans:
+    #     spec-builder-colonial   The Bay That Broke the Symmetry: 2 against at-most 0   serious
+    #                             Windows That Do Not Stand On Each Other: 178.8         fatal
+    #     tidewater               The Bay That Broke the Symmetry: 3 against at-most 0   fatal
+    #                             Windows That Do Not Stand On Each Other:  90.0         fatal
+    # A row LEAVING this list has two readings -- the fault measures honestly now, or
+    # `critic_suspects` stopped listing the name -- and they are opposite, so the test below
+    # asserts the first from the findings rather than letting the count speak for it.
+    SUSPECT_CLEAR = {"tidewater-georgian-careful": 24, "spec-builder-colonial": 25}
+    # AND `one-bay-symmetry-break` LEAVES THIS SET WITH IT. It was the sharpest of main's four
+    # -- cleared at zero on a generator that drew a symmetric facade BY CONSTRUCTION, so the
+    # fault could not fire and never could. It fires now. Keeping it here would assert that a
+    # fault this corpus has just made honest is still a tautology.
     TAUTOLOGIES = {
-        "one-bay-symmetry-break",                 # ...without_a_mirror_twin... = 0, on a
-                                                  # generator that draws a symmetric facade
         "broken-head-datum",                      # distinct_head_datums... = 1
         "condenser-on-the-entrance-elevation",    # equipment_units_visible... = 0.0
         "brick-front-vinyl-return",               # faces_of_volume_clad_in_primary... = 4
     }
+    # The two the merge retired, asserted to have become real rather than to have gone missing.
+    RETIRED_TAUTOLOGIES = {"one-bay-symmetry-break", "storeys-out-of-vertical-alignment"}
 
     @pytest.mark.parametrize("pid", sorted(SUSPECT_CLEAR))
     def test_the_count_and_the_four_named_rows(self, pid):
@@ -416,6 +432,18 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
         assert self.TAUTOLOGIES <= ids, sorted(self.TAUTOLOGIES - ids)
         for r in rows:
             assert r["reads"], "a row with no suspect name has no business being here"
+        # THE DISCRIMINATOR FOR THE TWO THAT LEFT. A fault absent from this list either measures
+        # honestly now or has stopped being watched, and the count cannot tell them apart. Each
+        # retired one must be absent from the list AND present in the findings with a figure.
+        assert not (self.RETIRED_TAUTOLOGIES & ids), (
+            sorted(self.RETIRED_TAUTOLOGIES & ids),
+            "a fault the merge measured as firing is back on the tautology list")
+        blob = json.dumps(res["findings"])
+        for fid in sorted(self.RETIRED_TAUTOLOGIES):
+            assert fid in blob, (
+                pid, fid, "left `fault_clear_on_a_generator_constant` and emits no finding "
+                "either -- it has gone unwatched rather than become honest, which is the "
+                "reading this count cannot distinguish on its own")
 
     def test_it_is_a_list_and_not_a_count(self):
         """A count cannot be argued with. Every row names the fault AND the measurements that

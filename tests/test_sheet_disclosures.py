@@ -56,8 +56,11 @@ def _plan(**over):
              "geometry": {"x_ft": 0, "y_ft": 0, "width_ft": 10, "depth_ft": 20, "area_sf": 200}},
         ]}],
         "footprint": {"width_ft": 30, "depth_ft": 20},
+        # `status` is stated because WP-13.2's engine line READS it: a proof is a status
+        # beginning OPTIMAL with an objective, and a fixture that omitted it would be claiming
+        # the green line off the engine's name, which is the defect that package removed.
         "geometry_report": {"relaxations": {"count": 0}, "vertical": [],
-                            "solver": {"engine": "cp-sat", "objective": 12.5,
+                            "solver": {"engine": "cp-sat", "status": "OPTIMAL", "objective": 12.5,
                                        "downgraded_wall_pins": []}},
         "opening_report": {"windows_unplaced": 0},
     }
@@ -100,6 +103,64 @@ class TestTheWallsSetAside:
         p["geometry_report"]["solver"]["downgraded_wall_pins"] = ["L0 hall S"]
         relaxed = [ln for ln in DISC.banner(p) if ln["id"] == "engine"][0]
         assert clean["tone"] == "verd" and relaxed["tone"] == "copper"
+
+
+# ------------------------------------------- the engine's name is not a proof (WP-13.2)
+GREEN = "PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"
+
+
+class TestTheEngineLineDoesNotCertifyOnTheName:
+    """The gate (`tests/test_sheet_coherence.py`) found the green line over a record reading
+    `status: FEASIBLE — kept polish from the heuristic hint (best of 2 hard-valid placements)`,
+    `objective: 518.9`. What that record proves is that the hard set is satisfiable; PROVED
+    AGAINST THE RECORD'S DECLARED FACTS is what a reader takes it for. The green line prints only
+    on OPTIMAL with an objective and no pin set aside; everything else prints the status it has."""
+
+    REFERENCE = "FEASIBLE — kept polish from the heuristic hint (best of 2 hard-valid placements)"
+
+    def _line(self, **solver):
+        p = _plan()
+        p["geometry_report"]["solver"].update(solver)
+        return [ln for ln in DISC.banner(p) if ln["id"] == "engine"][0]
+
+    def test_the_reference_sheets_own_record_is_not_certified(self):
+        ln = self._line(status=self.REFERENCE, objective=518.9)
+        assert ln["text"] != GREEN
+        assert ln["tone"] == "copper"
+        assert "NOT PROVED AT THE OPTIMUM" in ln["text"], ln
+        assert "FEASIBLE" in ln["text"], "the status the record has is printed, verbatim"
+
+    def test_a_null_objective_on_an_optimal_hard_only_status_is_not_certified(self):
+        """`OPTIMAL (hard-only) — kept hard-only phase A` begins with OPTIMAL and proves nothing
+        about the composition: `objective_not_run` prints beside it and the green line does not."""
+        p = _plan()
+        p["geometry_report"]["solver"].update(
+            status="OPTIMAL (hard-only) — kept hard-only phase A", objective=None)
+        lines = DISC.banner(p)
+        assert text_of(lines, "engine") != GREEN
+        assert "HARD-ONLY" in text_of(lines, "engine")
+        assert text_of(lines, "objective") and "DID NOT RUN" in text_of(lines, "objective")
+
+    def test_a_record_with_no_status_is_unjudged_and_not_proved(self):
+        p = _plan()
+        del p["geometry_report"]["solver"]["status"]
+        ln = [ln for ln in DISC.banner(p) if ln["id"] == "engine"][0]
+        assert ln["text"] != GREEN and ln["tone"] == "copper"
+        assert "NOT RECORDED" in ln["text"], ln
+
+    def test_optimal_with_an_objective_and_nothing_set_aside_is_the_green_line(self):
+        ln = self._line(status="OPTIMAL", objective=12.5)
+        assert ln["text"] == GREEN and ln["tone"] == "verd"
+
+    def test_the_set_aside_walls_are_still_named_on_an_unproved_placement(self):
+        ln = self._line(status=self.REFERENCE, objective=518.9, downgraded_wall_pins=["L0 hall S"])
+        assert "AGAINST 1 OF THE RECORD'S 2 DECLARED EXTERIOR WALLS" in ln["text"], ln
+        assert "NOT PROVED AT THE OPTIMUM" in ln["text"]
+
+    def test_the_hill_climb_line_is_untouched(self):
+        p = _plan()
+        p["geometry_report"]["solver"] = {"engine": "heuristic"}
+        assert text_of(DISC.banner(p), "engine") == "PLACEMENT SEARCHED, NOT PROVED — HILL-CLIMB"
 
 
 # ------------------------------------------------------------------ the objective
@@ -161,6 +222,199 @@ class TestTheWindowsNotDrawn:
         p["opening_report"]["windows_unplaced"] = 1
         p["levels"][0]["rooms"][0]["windows"][0]["unplaced"] = {"reason": "x"}
         assert "OF 3 DECLARED" in text_of(DISC.banner(p), "windows")
+
+
+# ------------------------------------------------------ the declared stacks (WP-13.2)
+class TestTheDeclaredStacks:
+    """The plate printed cuts, spans and undrawable doors from `geometry_report` and omitted
+    `stacking`; three stacks drawn clear of the room they name reached no line."""
+
+    def _tally(self, kept=(), broken=(), unjudged=()):
+        def e(pair):
+            return {"room": pair[0], "over": pair[1], "field": "stacks_over", "level": 1}
+        st = {"claims": len(kept) + len(broken) + len(unjudged),
+              "kept": [e(k) for k in kept], "broken": [e(b) for b in broken],
+              "unjudged": [dict(e(u), reason="this room is not placed") for u in unjudged],
+              "note": "x"}
+        p = _plan()
+        p["geometry_report"]["stacking"] = st
+        return p
+
+    def test_a_broken_stack_is_named_in_iron(self):
+        ln = [ln for ln in DISC.banner(self._tally(kept=[("a", "b")], broken=[("landing", "stair")]))
+              if ln["id"] == "stacking"][0]
+        assert ln["tone"] == "iron"
+        assert ln["text"].startswith("1 OF 2 DECLARED STACK(S) DRAWN CLEAR OF THE ROOM THEY NAME")
+        assert "LANDING/STAIR" in ln["text"]
+
+    def test_stacks_that_all_land_say_so_in_verd(self):
+        ln = [ln for ln in DISC.banner(self._tally(kept=[("a", "b"), ("c", "d")]))
+              if ln["id"] == "stacking"][0]
+        assert ln["tone"] == "verd" and ln["text"].startswith("2 OF 2 DECLARED STACK(S) LAND")
+
+    def test_the_unjudged_count_travels_because_unjudged_is_not_kept(self):
+        t = text_of(DISC.banner(self._tally(kept=[("a", "b")], unjudged=[("c", "d")])), "stacking")
+        assert "1 COULD NOT BE EVALUATED" in t, t
+        t = text_of(DISC.banner(self._tally(unjudged=[("c", "d")])), "stacking")
+        assert "COULD NOT BE EVALUATED" in t and "NONE IS KNOWN TO LAND" in t, t
+
+    def test_a_record_with_no_claim_takes_no_line(self):
+        assert text_of(DISC.banner(self._tally()), "stacking") is None
+        assert text_of(DISC.banner(_plan()), "stacking") is None
+
+    def test_the_rule_block_alone_without_the_leafs_tally_takes_no_line(self):
+        """`solve_heuristic` writes `claimed`/`rule` and `_disclose` merges the leaf's
+        `claims`/`kept`/`broken` over it; a record carrying only the first has no verdict to
+        print, and printing "0 OF 5" from `claimed` would be a count of nothing judged."""
+        p = _plan()
+        p["geometry_report"]["stacking"] = {"claimed": 5, "rule": "charge"}
+        assert text_of(DISC.banner(p), "stacking") is None
+
+
+# ------------------------------------------------------ the fires not drawn (WP-13.2)
+class TestTheFiresNotDrawn:
+    """A stated fire the placement could not put on a flue, and a stated flue left with no
+    stack. Both verdicts were in `plan.hearths.unplaced` and reached the working register's
+    field caption and nothing else; the browser walk met it as a stack count of 1 against a pin
+    of 2 with no line naming the missing west stack."""
+
+    def _hearths(self, breasts=(), flues=(), generic=False, judged=3):
+        un = [{"what": f"the breast of {r}'s hearth", "room": r, "hearth_index": 0,
+               "reason": "the record puts this fire on the room's W wall and the placement puts "
+                         "that wall 18.0 ft inboard of the element's W face",
+               "rule": "hearths.breast", "grade": "reading"} for r in breasts]
+        un += [{"what": f"the stack for flue '{f}'", "flue": f, "wall": "W", "serves": ["a", "b"],
+                "reason": "none of the 2 fire(s) the record puts on this flue stands on a "
+                          "boundary wall on this placement", "rule": "hearths.flues",
+                "grade": "reading"} for f in flues]
+        if generic:
+            un.append({"what": "the stacks", "reason": "no canonical hearth position names "
+                       "which face of the end wall the mass stands on",
+                       "rule": "th-which-side-of-the-end-wall", "grade": "reading"})
+        p = _plan()
+        p["hearths"] = {"stacks": [], "unplaced": un,
+                        "breasts": [{"room": f"r{i}", "judged": True, "drawn": True}
+                                    for i in range(judged)],
+                        "flues": []}
+        return p
+
+    def test_a_refused_breast_and_a_refused_flue_are_named_in_iron(self):
+        ln = [ln for ln in DISC.banner(self._hearths(breasts=["drawing", "dining"],
+                                                      flues=["west-stack"], judged=3))
+              if ln["id"] == "fires"][0]
+        assert ln["tone"] == "iron"
+        assert ln["text"].startswith("2 OF 3 STATED FIRE(S) NOT DRAWN — DRAWING, DINING"), ln["text"]
+        assert "STACK WEST-STACK NOT PLACED (2 FIRE(S), NONE ON A BOUNDARY WALL)" in ln["text"], ln["text"]
+        assert ln["detail"]["stated"] == 3 and len(ln["detail"]["breasts"]) == 2
+
+    def test_a_house_that_states_no_fire_takes_no_line(self):
+        """`hearth_pass` refuses "the stacks" wholesale on a plan whose massing cannot be read
+        or that states no hearth -- 15 of the 16 shipped plans on the search engine. That entry
+        names no room and no flue, and a FIRES NOT DRAWN line over it would be a refusal about
+        fires nobody stated: the fake-unjudged collapse WP-12.6 met on dormers."""
+        assert text_of(DISC.banner(self._hearths(generic=True, judged=0)), "fires") is None
+        assert text_of(DISC.banner(_plan()), "fires") is None
+        assert text_of(DISC.banner(_plan(hearths={"stacks": [], "unplaced": []})), "fires") is None
+
+    def test_fires_all_drawn_take_no_line_because_the_poche_is_the_disclosure(self):
+        assert text_of(DISC.banner(self._hearths(judged=3)), "fires") is None
+
+    def test_the_generic_refusal_beside_a_real_one_does_not_inflate_the_count(self):
+        t = text_of(DISC.banner(self._hearths(breasts=["dining"], generic=True, judged=2)), "fires")
+        assert t.startswith("1 OF 2 STATED FIRE(S) NOT DRAWN — DINING"), t
+        assert "STACK" not in t
+
+    def test_the_line_follows_the_stacks_line_in_the_banner(self):
+        p = self._hearths(breasts=["dining"], judged=1)
+        p["geometry_report"]["stacking"] = {"claims": 1, "kept": [{"room": "a", "over": "b"}],
+                                            "broken": [], "unjudged": []}
+        order = ids(DISC.banner(p))
+        assert order.index("fires") == order.index("stacking") + 1, order
+
+
+# ------------------------------------------------- the furniture not drawn (WP-13.2)
+class TestTheFurnitureNotDrawn:
+    def test_the_three_counts_are_named_apart(self):
+        p = _plan()
+        p["opening_report"].update(furniture_unplaced=6,
+                                   furniture_skipped={"fg-not-an-object": 20, "fg-too-thin-to-draw": 2},
+                                   furniture_not_reached=11)
+        t = text_of(DISC.banner(p), "furniture")
+        assert t.startswith("39 FURNITURE ITEM(S) NOT DRAWN — 6 UNPLACED, 22 SKIPPED"), t
+        assert "FG-NOT-AN-OBJECT 20" in t and t.endswith("11 NOT REACHED"), t
+
+    def test_the_counts_are_read_defensively_int_list_or_dict(self):
+        p = _plan()
+        p["opening_report"].update(furniture_unplaced=["a", "b"], furniture_skipped=["x"],
+                                   furniture_not_reached="3")
+        t = text_of(DISC.banner(p), "furniture")
+        assert t.startswith("6 FURNITURE ITEM(S) NOT DRAWN — 2 UNPLACED, 1 SKIPPED, 3 NOT REACHED"), t
+
+    def test_nothing_refused_means_no_line(self):
+        p = _plan()
+        p["opening_report"].update(furniture_unplaced=0, furniture_skipped={}, furniture_not_reached=0)
+        assert text_of(DISC.banner(p), "furniture") is None
+        assert text_of(DISC.banner(_plan()), "furniture") is None
+
+
+# --------------------------------------------------- the residual void (WP-13.2)
+class TestTheResidualVoid:
+    def _tf(self, ground_sf, upper_sf=0.0, strips=None):
+        def lv(i, name, sf):
+            return {"level": i, "id": name, "uncovered_sf": sf,
+                    "blocks": [{"block": "main", "uncovered_sf": sf,
+                                "strips": strips if sf else []}]}
+        p = _plan()
+        p["geometry_report"]["type_facts"] = {"tiling": {
+            "step_ft": 0.1, "levels": [lv(0, "ground", ground_sf), lv(1, "upper", upper_sf)],
+            "uncovered_sf": ground_sf + upper_sf}}
+        return p
+
+    def test_a_level_with_floor_in_no_room_is_named_in_iron_with_its_worst_strip(self):
+        lines = [ln for ln in DISC.banner(self._tf(26.5, strips=[{"area_sf": 20.5}, {"area_sf": 6.0}]))
+                 if ln["id"].startswith("void")]
+        assert [ln["id"] for ln in lines] == ["void-ground"]
+        assert lines[0]["tone"] == "iron"
+        assert lines[0]["text"].startswith("26.5 SF OF GROUND IS NO ROOM — 2 STRIPS"), lines[0]
+        assert "WORST 20.5 SF" in lines[0]["text"]
+
+    def test_two_levels_with_voids_are_two_lines(self):
+        lines = [ln for ln in DISC.banner(self._tf(26.5, 48.8, strips=[{"area_sf": 1.0}]))
+                 if ln["id"].startswith("void")]
+        assert [ln["id"] for ln in lines] == ["void-ground", "void-upper"]
+
+    def test_every_level_tiling_is_said_in_verd_not_left_silent(self):
+        """Evaluated-and-tiled must be tellable from never-evaluated on the plate."""
+        lines = [ln for ln in DISC.banner(self._tf(0.0)) if ln["id"].startswith("void")]
+        assert len(lines) == 1 and lines[0]["tone"] == "verd"
+        assert lines[0]["text"].startswith("EVERY PLACED LEVEL TILES ITS BLOCK")
+
+    def test_the_block_absent_means_no_line_never_a_zero(self):
+        assert not [ln for ln in DISC.banner(_plan()) if ln["id"].startswith("void")]
+        p = _plan()
+        p["geometry_report"]["type_facts"] = {"tiling": None}
+        assert not [ln for ln in DISC.banner(p) if ln["id"].startswith("void")]
+
+
+# ---------------------------------------------- the clear spans, moved here (WP-13.2)
+class TestTheClearSpans:
+    def test_three_states_and_the_zero_is_printed(self):
+        p = _plan()
+        p["geometry_report"]["span_capacity"] = {"over_capacity": 3, "worst_span_ft": 35.5}
+        ln = [ln for ln in DISC.banner(p) if ln["id"] == "span"][0]
+        assert ln["tone"] == "iron" and ln["text"].startswith(
+            "3 CLEAR SPAN(S) OVER THE FRAMING CAPACITY, WORST 35.5 FT")
+        p["geometry_report"]["span_capacity"] = {"over_capacity": 0}
+        ln = [ln for ln in DISC.banner(p) if ln["id"] == "span"][0]
+        assert ln["tone"] == "verd" and ln["text"].startswith("0 CLEAR SPAN(S)")
+        p["geometry_report"]["span_capacity"] = {"over_capacity": None}
+        ln = [ln for ln in DISC.banner(p) if ln["id"] == "span"][0]
+        assert ln["tone"] == "copper" and "NOT EVALUATED" in ln["text"]
+
+    def test_a_record_with_no_report_at_all_takes_no_span_line(self):
+        p = _plan()
+        del p["geometry_report"]
+        assert text_of(DISC.banner(p), "span") is None
 
 
 # ------------------------------------------------------------------ the transfers
@@ -230,6 +484,38 @@ class TestTheDrawnPlate:
     def _rows(self, svg):
         return re.findall(r'class="lb"[^>]*>([^<]*)<', svg)
 
+    def test_the_plate_prints_the_banner_and_not_its_own_copy_of_it(self, tmp_path):
+        """WP-13.2. `render_plan.py` imported `disclosures` and spelled two of its lines itself,
+        which is how the plate printed PLACEMENT PROVED on the engine's name for a fortnight
+        after this module had stopped saying it. Every record-derived line `banner()` returns
+        must be a row of the schedule, and the engine row must be `banner()`'s engine text and
+        not another one -- the mutation that reinstates the plate's own copy goes red here."""
+        plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        placed = GEO.solve(plan, None, 60, engine="heuristic")
+        svg = self._svg(tmp_path, placed)
+        rows = " ".join(self._rows(svg))
+        lines = DISC.banner(placed)
+        assert {ln["id"] for ln in lines} >= {"relaxations", "span", "stacking", "furniture",
+                                              "engine"}, [ln["id"] for ln in lines]
+        for ln in lines:
+            assert ln["text"] in rows, f"the plate does not print the banner's {ln['id']} line"
+        # and the engine row is the module's, not a second spelling: with the search there is
+        # exactly one row naming the placement's engine and it is banner()'s own
+        engine_rows = [r for r in self._rows(svg) if r.startswith("PLACEMENT ")]
+        assert engine_rows == [text_of(lines, "engine")], engine_rows
+
+    def test_the_presentation_register_does_not_claim_a_mark_it_does_not_draw(self, tmp_path):
+        """`banner(marked=...)`: the diverged line says MARKED ∗ only where the ∗ is on the
+        field, which the presentation register does not draw."""
+        plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        placed = GEO.solve(plan, None, 60, engine="heuristic")
+        out = str(tmp_path / "pres.svg")
+        RP.render(placed, out, register="presentation")
+        pres = [r for r in self._rows(open(out, encoding="utf-8").read()) if "DRAWN AT A SIZE" in r]
+        work = [r for r in self._rows(self._svg(tmp_path, placed)) if "DRAWN AT A SIZE" in r]
+        assert pres and work, "the fixture is blind: no diverged room on this placement"
+        assert "MARKED ∗" not in pres[0] and "MARKED ∗" in work[0]
+
     def test_no_banner_row_leaves_the_canvas(self, tmp_path):
         plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
         placed = GEO.solve(plan, None, 60, engine="heuristic")
@@ -258,6 +544,46 @@ class TestTheDrawnPlate:
         for d in diverged:
             label = d["name"] if names.count(d["name"]) == 1 else f'{d["name"]} ({d["id"]})'
             assert f"{label}: drawn" in svg, f'{label} is marked ∗ and not in the table'
+
+    def test_no_table_entry_overprints_the_one_beside_it(self, tmp_path):
+        """THE TABLE LAID ITS COLUMNS AT A FIXED PITCH AND NEVER MEASURED THE TEXT.
+
+        `TABLE_COL_W` was a flat 260 px, and on the shipped Tidewater sheet TWENTY OF
+        TWENTY-FOUR rows were wider than that -- the widest 316.8 px -- so each ran into its
+        neighbour and the plate read `record 17' x 20' (+45%)ntry: drawn 5'-9" x 9'`, having
+        eaten the front of "Butler's Pantry". Seventeen pairs overprinted. The table that exists
+        to say what the record asked for was the least legible block on the sheet.
+
+        NOTHING IN THE TREE COULD SEE IT: the two tests above assert that every diverged room is
+        NAMED in the table and that duplicates are told apart, both by substring, and a substring
+        is exactly what survives overprinting -- the text is all in the file, at coordinates that
+        put it on top of each other. It was found by rendering the sheet and looking at it.
+
+        This asserts the PROPERTY -- no entry's drawn extent reaches the next entry's origin --
+        rather than a pitch, so it holds whatever the rows say and whatever the pitch becomes.
+        `_text_w` is the renderer's own measurer, the one the fitter uses."""
+        import collections
+        plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        placed = GEO.solve(plan, None, 60, engine="heuristic")
+        svg = self._svg(tmp_path, placed)
+        rows = re.findall(
+            r'<text class="dm" x="([\d.]+)" y="([\d.]+)">([^<]*: drawn [^<]*record[^<]*)</text>',
+            svg)
+        assert len(rows) > 10, f"the fixture is blind: only {len(rows)} table row(s) drawn"
+        by_y = collections.defaultdict(list)
+        for x, y, t in rows:
+            by_y[y].append((float(x), t))
+        assert max(len(v) for v in by_y.values()) > 1, (
+            "every row is alone on its line, so this fixture cannot see an overprint at all")
+        clash = []
+        for y, items in sorted(by_y.items()):
+            items.sort()
+            for (x1, t1), (x2, t2) in zip(items, items[1:]):
+                end = x1 + RP._text_w(t1, 8.0, mono=True)
+                if end > x2:
+                    clash.append(f"y={y}: {t1[:40]!r} ends at {end:.1f} and {t2[:28]!r} "
+                                 f"starts at {x2:.1f}")
+        assert not clash, "record-table entries overprint:\n  " + "\n  ".join(clash[:4])
 
     def test_two_rooms_with_one_name_are_told_apart_in_the_table(self, tmp_path):
         """Two rooms called "Closet" produced two rows a reader could not attribute, differing

@@ -64,8 +64,8 @@
       "item": "sideboard",
       "kind": "object",
       "footprint_in": [
-        20,
-        66
+        66,
+        20
       ],
       "clearance_in": 36,
       "essential": true,
@@ -77,8 +77,8 @@
       "item": "china cupboard or corner cupboard",
       "kind": "object",
       "footprint_in": [
-        18,
-        42
+        42,
+        18
       ],
       "clearance_in": 30,
       "essential": false,
