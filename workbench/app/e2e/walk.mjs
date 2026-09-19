@@ -93,7 +93,34 @@ if (await example.count()) await example.click();
 // probed with a pageerror listener: no error, just late). A 30 s wait was one CPU hiccup from
 // a TimeoutError that reads like a broken surface, and CI's runner is slower than this box.
 // 90 s is the critique panel's wait below, for the same reason.
-await page.waitForSelector('svg[role="img"]', { timeout: 90000 });
+//
+// WP-13.9 RAISED IT TO 150 s AND THE REASON IS MEASURED, NOT PRECAUTIONARY. An example chip
+// is an EXPLICIT solve now, so this click runs the corrective rounds before the sheet is
+// drawn: measured on this plan at `engine="auto"`, the solve is 25.9 s and one round on the
+// resulting CP placement is 36.4 s, so the click-to-sheet path is about 62 s on a quiet box
+// before any page overhead. 90 s was already one CPU hiccup from a TimeoutError that reads
+// like a broken surface; against a 62 s path on a runner slower than this box it would be a
+// failing check about nothing.
+await page.waitForSelector('svg[role="img"]', { timeout: 150000 });
+/* WP-13.9: THE ROUNDS RAN BEFORE THE SHEET, WITH NO CHIP CLICKED. Lucas read a sheet carrying
+   sixty drawn findings beside a panel reporting nothing applied, and ruled that the explicit
+   solve runs one or two corrective rounds first. Nothing was clicked between the example chip
+   and here, so a panel on the page is the solve's own -- and it must say which path produced
+   it, because the two make different promises about the sheet above them. */
+{
+  const panel = await page.locator('[data-panel="revision"]').innerText().catch(() => '');
+  check('the corrective rounds ran on the solve, with no chip clicked', !!panel);
+  check('the panel says the rounds ran on the solve', /revised on solve/i.test(panel));
+  // the NOUN differs by whether the placement may be drawn -- "the sheet above" on a drawable
+  // one, "the findings above" on a refused one, because a panel may not promise a plate the
+  // reader is looking at a conflict set instead of. The claim they share is the one to assert.
+  check('and claims what is above it is the placement its key was measured on',
+    /the placement this key was measured on/i.test(panel));
+  // the promise the OTHER path makes, and this path must not make it: the sheet here was not
+  // re-solved, so "a fresh solve ... the two can differ" would be false of it
+  check('a solve-path panel does not claim the sheet is a fresh solve', !/fresh solve/i.test(panel));
+  check('the panel names its round count', /\d+ rounds?\b/i.test(panel));
+}
 const body = await page.locator('main').innerText();
 check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
 check('hill-climb honesty line present', /hill-climb/i.test(body));
@@ -228,14 +255,21 @@ check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
       const tagged = await page.locator('[data-layer="drawn"] [data-engine-tag]').count();
       check(`every drawn finding carries the engine that placed it (${tagged} of ${drawn})`, tagged === drawn);
     }
-    // the fast loop: rounds 6, budget 60 s on the chip, so the poll and the promise agree
+    // the fast loop: rounds 6, budget 60 s on the chip, so the poll and the promise agree.
+    //
+    // WP-13.9: THE PANEL IS ALREADY ON THE PAGE WHEN THIS CLICK HAPPENS, because the solve
+    // above ran its own rounds -- so waiting for `/stopped:|converged/` alone would match the
+    // SOLVE's panel on the first tick and this block would assert nothing about the chip at
+    // all. The discriminator is the sentence each path makes: the chip's record is stripped
+    // and re-solved, so its panel says "fresh solve" and the solve's says the opposite.
     await page.getByRole('button', { name: /^revise \(search\)/ }).click();
     let panel = '';
-    for (let i = 0; i < 90; i++) {
+    for (let i = 0; i < 120; i++) {
       await page.waitForTimeout(1000);
       panel = await page.locator('[data-panel="revision"]').innerText().catch(() => '');
-      if (/stopped:|converged/i.test(panel)) break;
+      if (/fresh solve/i.test(panel) && /stopped:|converged/i.test(panel)) break;
     }
+    check('the chip\'s own loop replaced the solve\'s panel', /fresh solve/i.test(panel));
     check('the revision panel names why the loop stopped', /stopped:|converged/i.test(panel));
     check('the revision panel names its round count', /\d+ rounds?\b/i.test(panel));
     check('the panel says the sheet is a fresh solve of the revised record', /fresh solve/i.test(panel));

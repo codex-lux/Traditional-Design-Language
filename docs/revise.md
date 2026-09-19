@@ -55,8 +55,11 @@ verifies every quotation against the record it names with the grammar's own veri
 every `touches` path to a closed allow-list that admits no placement key, and holds the data
 and the code to each other. A move edits declared fields only; after a move that changes the
 plan the placement is stripped (`openings.strip_placement`, the exporter's own list) and
-re-solved, so the drawing stays a render of the data. Twenty-one moves and nine stated
-refusals; the registry's `authority` block records the ruling of 1 Sep 2026 — dimensions,
+re-solved, so the drawing stays a render of the data. Twenty-two moves and nine stated
+refusals (this sentence said twenty-one until WP-13.9 -- the twenty-second,
+`passage-to-the-styles-own-floor`, was ported in at the PR #19/#20 merge and only
+`tests/test_moves.py` was re-pinned, which is the shape this project records as a number
+corrected in the test and not in the prose beside it); the registry's `authority` block records the ruling of 1 Sep 2026 — dimensions,
 declared choices, openings and rooms; never a room the parti has no place for, a judgment slot,
 geometry, a critic-suspect, a measurement the record did not declare.
 
@@ -116,6 +119,49 @@ only (XDATA is capped near 16 KB).
   the record did not change underneath the loop is object identity. The one-worker pool's
   queue is bounded (`jobs.MAX_QUEUED`, 8); a submit against a full one is 503 with a retry
   hint, and a job reaped from the table while it waited is not run.
+
+## The bench's own solve runs it (WP-13.9, ruled 19 Sep 2026)
+
+Until this, the loop was reachable on the bench ONLY from those three chips: solving a record
+ran one `POST /api/plan/evaluate` and surfaced whatever the first pass produced, with every
+finding the critic had already computed sitting beside it. Lucas read that sheet -- sixty drawn
+findings against a panel reporting nothing applied -- and ruled that **an explicit solve runs
+one or two corrective rounds before the plan is surfaced.**
+
+`evaluate.evaluate` takes `revise_rounds` (default **0**, so every other caller is unchanged)
+and `revise_budget_s`. The bench sends 2 from a re-solve, an example chip or a pasted record;
+the WALL DRAG sends none, because a gesture cannot wait for a loop any more than it can wait
+for a proof. **This supersedes WP-9.3's "a per-edit critique: deliberately not done" for the
+explicit solve only** -- an edit still re-evaluates at its measured cost.
+
+It runs INLINE rather than through the job route, and the reason is WP-6.4's rule that one
+drawing set is one building. The job hands its record back stripped and the bench re-solves it,
+so the sheet is one placement and the loop's key was measured on another -- which is what the
+panel means by "the two can differ", and what put sixty findings of a refused hill-climb
+placement beside a key proved on a different one. Inline, the loop's final PLACED record is
+what `check_plan` judges and what `placement_summary` is projected from, and the panel says
+`revised on solve` and claims the sheet above it. The declared record rides beside it as
+`revised_plan` for the bench to load as one undo step. The chip paths are unchanged and keep
+their own sentence; that residue is
+`oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw`.
+
+The loop runs on **the engine that placed**, never `auto`: a round is judged by re-placing and
+comparing keys, so judging on another engine compares two houses. `BUDGET_REVISE_INLINE_S` is
+30 s and is a ceiling on STARTING another round rather than on the loop, so the worst case is
+it plus one round -- measured, two rounds on the search cost 2.9 s and one round on a CP
+placement costs 36.4 s, so the search runs both and the proof runs one and says
+`stop_reason: budget`.
+
+## A refused drawing is not an improvement (WP-13.9)
+
+`_improves` had no reading of `geometry_report.refused` at all, so the loop could move a room,
+re-place, watch the key fall, accept, and return a record WP-13.4 forbids any surface to draw.
+A refusal is the drawing's `fatal` and is guarded the way a fatal is: a round whose re-placement
+is refused where the previous one was drawable is rolled back. **A placement already refused may
+still be improved** -- refusing to work on a refused house would leave the reader with the first
+pass, which is the complaint this package answers; what is refused is MAKING one. The report
+carries `placement_refused` at both ends and a round rolled back for the drawing says so rather
+than wearing the measurement's verdict.
 
 ## The declaration is enforced (WP-9.4)
 

@@ -27,7 +27,7 @@ core = corpus.core
 
 
 def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
-             engine="auto"):
+             engine="auto", revise_rounds=0, revise_budget_s=None):
     # WP-6.3 flipped this from "heuristic" to "auto" (CP-SAT where it can answer, the
     # hill-climb where it cannot, with the reason named in geometry_report.solver either
     # way). The old default was chosen for latency — this endpoint runs on a 400 ms
@@ -83,11 +83,22 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
             # through `typefacts.judge`; nothing here re-derives "may this be drawn".
             refused = (cand.get("geometry_report") or {}).get("refused")
     t_place = time.perf_counter()
+    # THE CORRECTIVE ROUNDS, BEFORE THE PLAN IS SURFACED (WP-13.9, ruled 19 Sep 2026).
+    # See `_revise_inline` below for what this is and what it deliberately is not.
+    revision = None
+    if place and solved is not None and revise_rounds > 0:
+        solved, revision = _revise_inline(solved, parti, candidates,
+                                          revise_rounds, revise_budget_s)
+        refused = (solved.get("geometry_report") or {}).get("refused")
+    t_revise = time.perf_counter()
     check = core.check_plan(solved if solved is not None else plan, strict=strict)
     t1 = time.perf_counter()
-    out = {"check": check, "timing_ms": {"check": round((t1 - t_place) * 1000)}}
+    out = {"check": check, "timing_ms": {"check": round((t1 - t_revise) * 1000)}}
     if place:
         out["timing_ms"]["place"] = round((t_place - t0) * 1000)
+    if revision is not None:
+        out["timing_ms"]["revise"] = round((t_revise - t_place) * 1000)
+        _attach_revision(out, solved, revision)
     if "error" in check:
         # WP-13.4: THE PLACEMENT'S OWN ANSWER SURVIVES A SCHEMA ERROR. This early return sits
         # ABOVE the block that attached the placement, so a record failing `check_plan` came
@@ -100,7 +111,11 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
     # WP-12.5 lifted this into `corpus.rooms_meta`, because the scene route needs the same
     # dict for the Round's overlays and a second copy is how two surfaces of one house come
     # to disagree about which rooms are wet.
-    out["rooms_meta"] = corpus.rooms_meta(plan)
+    # AND IT READS THE RECORD THE FINDINGS WERE JUDGED AGAINST. The loop may add a door or
+    # drop an optional room, so the meta the overlays draw from is the REVISED record's where
+    # one exists -- the argument `plan` is the caller's unrevised document, and handing the
+    # overlays that would put the sheet's rooms and the sheet's washes one revision apart.
+    out["rooms_meta"] = corpus.rooms_meta(solved if revision is not None and solved is not None else plan)
     # check() (build/plan_check.py) now returns fault_unjudged beside fault_summary —
     # the could-not-judge detail, kept distinct from both failed and passed.
     out["fault_unjudged"] = check.get("fault_unjudged", [])
@@ -154,3 +169,70 @@ def _attach_placement(out, place, solved, placement_error, refused, engine):
     if engine == SKETCH_ENGINE:
         out["placement"]["sketch"] = {"working": True, "refused": refused,
                                       "reason": SKETCH_REASON}
+
+
+# --------------------------------------------------------------- the corrective rounds
+# WP-13.9, RULED 19 SEP 2026. Lucas read the bench's Tidewater sheet -- sixty drawn findings,
+# most of them the `unreachable` fatal -- beside a revision panel reading 0 rounds and 0 moves
+# applied, and ruled: "there should be at least one or two steps of recursive self-improvement
+# based on the criticisms identified before the plan is surfaced to the user."
+#
+# THIS SUPERSEDES WP-9.3's "a per-edit critique: deliberately not done. Evaluate stays at its
+# measured cost" FOR THE EXPLICIT SOLVE ONLY. The distinction the bench already draws is the
+# one that survives: a WALL DRAG asks for the hill-climb by name behind a 400 ms debounce and
+# gets no rounds at all (a gesture cannot wait for a loop any more than it can wait for a
+# proof), while a re-solve, a load and a paste are acts a person waits on deliberately. The
+# route's default is 0, so every other caller -- the CLI parity test, the drag, the export
+# paths -- is byte-identical to before.
+#
+# ONE BUILDING, AND THAT IS WHY THIS IS INLINE RATHER THAN THE JOB ROUTE. `/api/plan/revise`
+# hands its record back STRIPPED and the bench re-solves it, so the sheet is one placement and
+# the loop's key was measured on another -- which is what `RevisionPanel` means by "the two can
+# differ", and what put sixty findings of a refused hill-climb placement beside a key proved on
+# a different one. Here the loop's final PLACED record is what `check_plan` judges and what
+# `placement_summary` is projected from, so WP-6.4's rule -- one drawing set is one building or
+# it is nothing -- holds across the findings, the plate and the panel.
+def _revise_inline(solved, parti, candidates, rounds, budget_s):
+    """Run the loop on the placed record and return (record, report). Never raises: a loop
+    that fails must not cost the reader the sheet, so the failure is recorded and the
+    un-revised placement is returned."""
+    geo = core._mod("geometry", os.path.join(core.ROOT, "build", "geometry.py"))
+    ran = ((solved.get("geometry_report") or {}).get("solver") or {}).get("engine")
+    # THE ENGINE THAT PLACED, NEVER `auto`. Two reasons, and the second is the sharper: a
+    # round is judged by re-placing and comparing keys, so judging on an engine other than the
+    # one that drew the sheet compares two houses (WP-9.2's own finding about declared moves on
+    # the search); and `auto` would re-attempt the proof at 25 s inside EVERY round on a record
+    # where it has just been measured to fall back, which is the reader's whole wait spent
+    # re-learning what the solve above already reported.
+    loop_engine = "cp" if ran == "cp-sat" else "heuristic"
+    try:
+        res = core.revise_plan(
+            solved, rounds=rounds, engine=loop_engine, candidates=candidates,
+            place=True, include_plan=True,
+            budget_s=budget_s if budget_s else geo.BUDGET_REVISE_INLINE_S,
+            parti=parti, surfaced="with-its-own-placement",
+            time_limit_s=geo.BUDGET_INTERACTIVE_S)
+    except Exception as exc:                                  # noqa: BLE001 -- see docstring
+        return solved, {"error": f"{type(exc).__name__}: {str(exc)[:200]}"}
+    if "error" in res:
+        return solved, {"error": res["error"]}
+    # `revise()` carries the placement from its first critique onward, and that first critique
+    # REUSES the placement solved above (`critique.has_placement`), so a loop that accepts
+    # nothing costs one check and no solve at all.
+    return res.get("plan") or solved, res["report"]
+
+
+def _attach_revision(out, revised, revision):
+    """What the loop did, on the response. The REPORT rides whole -- the panel reads rounds,
+    moves, bases and refusals from it -- and the revised DECLARED record rides beside it so the
+    bench can load it as one undo step, stripped exactly as `jobs.revised_plan` strips it. It
+    is stripped for one reason: a placement travels on `placement`, projected from the record
+    the findings were judged against, and two copies of one placement on one response is how
+    two readers of one house come to disagree. `revision_report` survives the strip (it is not
+    in `openings.PLACEMENT_PLAN_KEYS`), which is what the panel is."""
+    if "error" in revision:
+        out["revision_error"] = revision["error"]
+        return
+    op = core._mod("openings", os.path.join(core.ROOT, "build", "openings.py"))
+    out["revision"] = revision
+    out["revised_plan"] = op.strip_placement(core.copy_json(revised))

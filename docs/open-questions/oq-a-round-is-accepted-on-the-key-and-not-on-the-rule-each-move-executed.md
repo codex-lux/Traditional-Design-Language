@@ -21,3 +21,25 @@ each accepted move executed before calling the round accepted. The first is a mo
 change and belongs in `moves/registry.json`; the second changes the acceptance rule, which is
 decision-level. Neither is taken here; the finding is recorded so that a report reading a
 final key does not read consistency into it.
+
+
+---
+
+## Adjacent, and NOT an answer: the refusal clause (ruled 19 Sep 2026, WP-13.9)
+
+`_improves` gained a third guard — a round whose re-placement is REFUSED where the previous one
+was drawable is rolled back, exactly as a round that opens a fatal is. That is a change to the
+acceptance rule, which this entry calls decision-level, so it was put to Lucas and ruled rather
+than taken.
+
+**It does not answer the question above and must not be read as having done so.** This entry
+asks whether the loop should re-run each accepted move's OWN rule before accepting — whether a
+shutter leaf set to half an opening should survive a later move narrowing that opening. The
+refusal clause asks nothing about a move's rule: it reads one verdict the RECORD carries
+(`geometry_report.refused`, written by `typefacts.judge`) about the placement as a whole. A
+round can satisfy every move's own rule and still produce a house the type's facts refuse, and
+a round can break a move's rule on a placement that draws perfectly well.
+
+What the two have in common is the shape of the remedy, and it is worth noting for whoever
+rules this one: both are things the loop learns only by re-deriving after the fact, and both
+would be cheaper if a move declared what it depends on.

@@ -86,6 +86,15 @@ function adaptFinding(f) {
   };
 }
 
+/* HOW MANY CORRECTIVE ROUNDS AN EXPLICIT SOLVE RUNS (WP-13.9, ruled 19 Sep 2026: "at least
+   one or two steps of recursive self-improvement based on the criticisms identified before
+   the plan is surfaced"). Two, and the number is the ruling's rather than a tuning: a round
+   is a critique, a batch of moves, a re-place and a second critique, and the acceptance rule
+   already refuses one that does not strictly improve -- so more rounds buy less each time
+   while every one of them is time a person is waiting. The chips in the solver fold still
+   offer 6 and 4 for a reader who wants the longer loop and will wait for a job. */
+const INLINE_REVISE_ROUNDS = 2;
+
 export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
   const [level, setLevel] = React.useState(0);
@@ -98,6 +107,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
   const [strict, setStrict] = React.useState(false);
   const [seeds, setSeeds] = React.useState(250);
   const [busy, setBusy] = React.useState(false);
+  // true while an evaluate that asked for the rounds is in flight, so the chip can say which
+  // of the two waits a reader is in: a solve is seconds, a solve with rounds can be more
+  const [revisingInline, setRevisingInline] = React.useState(false);
   /* One list, one order — the shared hook, not a fourth private copy. Three surfaces kept
      calling api.styles({limit: 200}) sorted by id while useStyles asked for 250 sorted by
      name: two cache entries, two round trips and two orderings of the same 164 styles,
@@ -141,13 +153,28 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
   // set by a wall drag, read once by the debounce below: it decides which engine the
   // next evaluate asks for, because a gesture cannot wait for a proof
   const draggingRef = React.useRef(false);
+  /* WP-13.9 (ruled 19 Sep 2026): the corrective rounds run on an EXPLICIT solve. Set by the
+     acts a person waits on deliberately -- loading an example, pasting a record, pressing
+     re-solve -- and read and cleared by the same debounce that reads `draggingRef`, because
+     the two answer one question between them: what changed the record, and therefore what
+     this solve owes the reader. A drag owes it a handle under the pointer and nothing else;
+     a re-solve owes it the best house the corpus can reach from this record. Undo, redo, a
+     style change and an asserted adjacency deliberately do NOT revise: an undo that revised
+     would re-apply the revision it was pressed to remove. */
+  const reviseNextRef = React.useRef(false);
+  /* The record the loop returned, loaded into the document by `runEvaluate` below. The
+     debounce skips exactly this object: it has already been solved, judged and drawn by the
+     response we are holding, and re-solving it would throw that placement away and put the
+     sheet and the panel one solve apart -- which is the whole defect this package removes. */
+  const alreadySolvedRef = React.useRef(null);
 
   const runEvaluate = React.useCallback((p, opts = {}) => {
     if (!p) return;
     const seq = ++evalRef.current;
     setBusy(true);
+    setRevisingInline(!!opts.revise);
     api.evaluate(p, { strict, place: true, candidates: opts.candidates ?? seeds,
-      engine: opts.engine })
+      engine: opts.engine, revise_rounds: opts.revise ? INLINE_REVISE_ROUNDS : 0 })
       .then((res) => {
         if (seq !== evalRef.current) return;
         // updaters stay pure: the previous run's keys live in a ref, and both
@@ -158,6 +185,17 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           : null;
         setEvalError(res?.check?.error || null);
         appliedSeqRef.current = seq;
+        /* THE LOOP'S RECORD BECOMES THE DOCUMENT, AS ONE UNDO STEP (WP-13.9). The response
+           already holds that record's own placement and its own findings, so the ref is set
+           BEFORE the load -- `planDoc.load` emits synchronously and the debounce effect runs
+           off the new value -- and the sheet the reader sees is the house the loop judged.
+           A record the loop did not change still comes back (`revised_plan` is present
+           whenever the rounds ran), and loading it is still right: it carries the
+           `revision_report` that IS the panel, and undo takes both away together. */
+        if (res && res.revised_plan) {
+          alreadySolvedRef.current = res.revised_plan;
+          planDoc.load(res.revised_plan);
+        }
         setLastEval(res);
       })
       .catch((e) => {
@@ -169,7 +207,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
         // join and how a route that starts answering differently goes unnoticed on four.
         setEvalError(errorText(e) || 'evaluation failed');
       })
-      .finally(() => { if (seq === evalRef.current) setBusy(false); });
+      .finally(() => {
+        if (seq === evalRef.current) { setBusy(false); setRevisingInline(false); }
+      });
   }, [strict, seeds, setLastEval]);
 
   /* WP-9.3: the analyst, on demand. Not per edit: evaluate is this server's bound (the
@@ -269,10 +309,21 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
      afford the wait. */
   React.useEffect(() => {
     if (!plan) return;
+    // WP-13.9: the record the loop just handed back has been solved, judged and drawn by the
+    // response already on screen. Skipping it is not an optimisation -- re-solving would
+    // replace the loop's own placement with a fresh one and restore the two-placements
+    // divergence the inline rounds exist to remove.
+    if (alreadySolvedRef.current === plan) {
+      alreadySolvedRef.current = null;
+      reviseNextRef.current = false;
+      return undefined;
+    }
     const dragged = draggingRef.current;
+    const revise = reviseNextRef.current;
     draggingRef.current = false;
+    reviseNextRef.current = false;
     const t = setTimeout(
-      () => runEvaluate(plan, dragged ? { engine: 'heuristic' } : {}), 400);
+      () => runEvaluate(plan, { ...(dragged ? { engine: 'heuristic' } : {}), ...(revise ? { revise: true } : {}) }), 400);
     return () => clearTimeout(t);
   }, [plan, strict, runEvaluate]);
 
@@ -298,7 +349,10 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {examples.map((e) => (
-            <Chip key={e} onClick={() => api.examplePlan(e).then((p) => planDoc.load(p))}>{e}</Chip>
+            <Chip key={e} onClick={() => api.examplePlan(e).then((p) => {
+              reviseNextRef.current = true;          // an example is an explicit solve (WP-13.9)
+              planDoc.load(p);
+            })}>{e}</Chip>
           ))}
         </div>
         <label style={{ display: 'block', marginTop: 18, font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>
@@ -306,7 +360,13 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           <textarea rows={4} style={{ display: 'block', width: '100%', marginTop: 6,
             background: 'var(--paper-mat)', border: '1px solid var(--rule-soft)', color: 'var(--ink)',
             font: 'var(--type-data-s)', padding: 8 }}
-            onBlur={(e) => { try { planDoc.load(JSON.parse(e.target.value)); } catch { /* not JSON yet */ } }} />
+            onBlur={(e) => {
+              try {
+                const rec = JSON.parse(e.target.value);
+                reviseNextRef.current = true;        // a pasted record is an explicit solve
+                planDoc.load(rec);
+              } catch { /* not JSON yet */ }
+            }} />
         </label>
       </div>
     );
@@ -467,11 +527,12 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             in the round
           </ActionChip>
           <ActionChip onClick={() => planDoc.undo()} affix="↩" title="undo the last record edit">undo</ActionChip>
-          <ActionChip onClick={() => runEvaluate(plan)} affix="↻" disabled={busy}
-            title={proved
+          <ActionChip onClick={() => runEvaluate(plan, { revise: true })} affix="↻" disabled={busy}
+            title={(proved
               ? 'CP-SAT proved this placement; re-solving takes seconds and should return the same one'
-              : 'this placement came from the hill-climb; results differ across runs'}>
-            {busy ? 're-solving…' : 're-solve'}
+              : 'this placement came from the hill-climb; results differ across runs')
+              + ` — and runs ${INLINE_REVISE_ROUNDS} corrective rounds on what the critic finds before drawing (WP-13.9)`}>
+            {busy ? (revisingInline ? 'solving and revising…' : 're-solving…') : 're-solve'}
           </ActionChip>
         </span>
       }>

@@ -99,18 +99,44 @@ def _hash(plan):
     return hashlib.sha256(json.dumps(OP.strip_placement(copy.deepcopy(plan)), sort_keys=True).encode()).hexdigest()[:16]
 
 
+def _refused(crit):
+    """The WP-13.4 verdict off a critique, in ONE spelling. `critique()` writes it at
+    `placement.refused` through `typefacts.judge`, which is the same leaf `geometry._disclose`
+    and `corpus._placed` call -- nothing here re-derives "may this be drawn"."""
+    return (crit.get("placement") or {}).get("refused") or None
+
+
+def _newly_refused(new, old):
+    """Did THIS round make the house undrawable? The pair rather than the state, because a
+    round that starts refused and stays refused was not the round's doing and saying it was
+    would convict a move of a defect the record carried in."""
+    return bool(_refused(new)) and not bool(_refused(old))
+
+
 def _ids(crit, severity=None):
     return {f["id"] for f in crit["check"]["findings"]
             if f["severity"] not in ("info", "advisory") and (severity is None or f["severity"] == severity)}
 
 
 def _improves(new, old):
-    """Strictly better key, and no fatal that was not there before -- and JUDGED. A critique
-    whose placement could not be evaluated reports the DECLARED key, which carries no drawn
-    finding and is lower for that reason alone; the audit's own CP-SAT measurement accepted
-    the Tidewater plan at [0, 22, 58, 19] with no placement at all after a proof timed out.
-    Unjudged is not passed, and in this loop it is not better either (WP-9.4)."""
+    """Strictly better key, no fatal that was not there before, no NEW refusal -- and JUDGED.
+    A critique whose placement could not be evaluated reports the DECLARED key, which carries
+    no drawn finding and is lower for that reason alone; the audit's own CP-SAT measurement
+    accepted the Tidewater plan at [0, 22, 58, 19] with no placement at all after a proof
+    timed out. Unjudged is not passed, and in this loop it is not better either (WP-9.4).
+
+    AND A NEWLY REFUSED PLACEMENT IS NOT AN IMPROVEMENT EITHER (ruled 19 Sep 2026). WP-13.4
+    made a placement that breaks a hard fact of the type REFUSED rather than drawn, and until
+    this clause the loop had no reading of `geometry_report.refused` anywhere: it could move
+    a room, re-place, watch the key fall, accept -- and hand back a record no surface may
+    draw, with a lower key on it. A refusal is the drawing's `fatal`, so it is guarded the
+    way a fatal is, and in the same direction: a placement ALREADY refused when the loop
+    started may still be improved (refused -> refused on a lower key is accepted, which is
+    the Tidewater plan's own case), because refusing to work on a refused house would leave
+    the reader with the first pass and nothing else. What is refused is making one."""
     if (new.get("placement") or {}).get("could_not_evaluate"):
+        return False
+    if _newly_refused(new, old):
         return False
     if not (new["key"] < old["key"]):
         return False
@@ -143,7 +169,7 @@ def _attrib(before, after):
 
 
 def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=None, place=True,
-           parti=None, on_round=None, C=None, seed=7, time_limit_s=25.0):
+           parti=None, on_round=None, C=None, seed=7, time_limit_s=25.0, surfaced=None):
     core = _mod("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
     C = C or PC.load_corpus()
     parti_rec = core.load_parti(parti) if isinstance(parti, str) else parti
@@ -233,6 +259,13 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             new = _crit(trial)
             entry = {"move": lever, "finding": crit["assessment"]["placement"][0]["id"],
                      "basis": res["basis"], "lever": res["lever"], "log": res["log"]}
+            rnd["refused_after"] = bool(_refused(new))
+            if _newly_refused(new, crit):
+                # NOT "made the plan worse on this engine": the key may well have fallen.
+                # The panel reads this field, so a lever rolled back for the drawing's sake
+                # says so rather than wearing the measurement's verdict (WP-11.4's rule --
+                # a refusal with one message for two causes has stopped being a reason).
+                rnd["rolled_back_by_refusal"] = True
             if _improves(new, crit):
                 rnd.update(accepted=True, key_after=list(new["key"]), **_attrib(crit, new))
                 # the verdict rides on the MOVE ENTRY as well as on the round: the summary,
@@ -250,7 +283,8 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                     tabu.clear()
             else:
                 rnd.update(key_after=list(new["key"]), refused_by_measurement=True)
-                entry.update(cleared=False, refused_by_measurement=True, key_after=list(new["key"]))
+                entry.update(cleared=False, refused_by_measurement=True, key_after=list(new["key"]),
+                             **({"refused_the_drawing": True} if rnd.get("rolled_back_by_refusal") else {}))
                 ctx.clear(); ctx.update(saved)
             rnd["moves"].append(entry)
             rnd["engine_after"] = new["engine"]["ran"]
@@ -286,6 +320,9 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                                      "accepted": accepted})
             return att
 
+        rnd["refused_after"] = bool(_refused(new))
+        if _newly_refused(new, crit):
+            rnd["rolled_back_by_refusal"] = True
         if _improves(new, crit):
             att = _record(applied, new, True)
             rnd.update(accepted=True, key_after=list(new["key"]), re_placed=replace, **att)
@@ -323,6 +360,8 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                 if res["requires"] == "re-place":
                     OP.strip_placement(trial)
                 new1 = _crit(trial)
+                if _newly_refused(new1, crit):
+                    rnd.setdefault("rolled_back_by_refusal", True)
                 if _improves(new1, crit):
                     att = _record([(mid, issue, res)], new1, True)
                     rnd.update(accepted=True, key_after=list(new1["key"]),
@@ -384,8 +423,12 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
 
     after = crit
     assert after["plan"] is plan, "the critique returned must be of the record returned"
+    # `lever` is published for BOTH classes now (ruled 19 Sep 2026). It was the `placement`
+    # class's whole content; since an `unreachable` room with a placed neighbour is
+    # `actionable` on either engine, the reading a reader used to get from the class -- a
+    # proof might have seated the door the author declared -- has to travel on the row.
     remaining = {c: [{"id": i["id"], "severity": i["severity"], "statement": i["statement"],
-                      **({"lever": i.get("lever")} if c == "placement" else {}),
+                      **({"lever": i.get("lever")} if i.get("lever") else {}),
                       **({"move": i.get("move")} if c == "actionable" else {})}
                      for i in after["assessment"][c]]
                  for c in ("actionable", "placement", "critic_suspect", "architect", "advisory")}
@@ -396,6 +439,14 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                 for i in after["assessment"]["critic_suspect"]]
     refused = [m for r in log for m in r["moves"] if m.get("refused") or m.get("refused_by_measurement")]
     applied_n = sum(1 for r in log for m in r["moves"] if m.get("accepted"))
+    # THE DRAWING'S OWN VERDICT, BEFORE AND AFTER (ruled 19 Sep 2026). A key that fell on a
+    # placement no surface may draw is the flattering half of a measurement, and until this
+    # the report did not carry the field at all -- `core.revise_plan` read it off the returned
+    # record and the panel had nothing to show. Both ends are stated because the pair is the
+    # information: refused -> null is the loop clearing a refusal, null -> refused cannot
+    # happen (`_improves` guards it), and refused -> refused is the common case and says the
+    # house still may not be drawn however far the key fell.
+    refused_before, refused_after = _refused(before), _refused(after)
     report = {"schema": _plan_schema_version(), "mode": "placed" if place else "declared",
               "engine": {"requested": engine, "final": after["engine"]["ran"], "candidates": ctx["candidates"]},
               "rounds": log, "stop_reason": stop,
@@ -403,8 +454,15 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
               "remaining": remaining, "handed_to_architect": handed, "refused": refused,
               "suspects": suspects, "reclaimed": reclaimed,
               "placement_unjudged": placement_unjudged or None,
+              "placement_refused": {"before": refused_before, "after": refused_after},
+              # WHERE THIS REPORT IS BEING READ, stated by the caller. The bench's solve path
+              # runs the rounds inline and draws the loop's OWN placement, so the panel may
+              # not print the "fresh solve ... the two can differ" sentence there; the chip
+              # path strips and re-solves and must. One field rather than two panels.
+              "surfaced": surfaced,
               "summary": {"rounds": len(log), "moves_applied": applied_n, "moves_refused": len(refused),
                           "key_before": list(before["key"]), "key_after": list(after["key"]),
+                          "refused_before": bool(refused_before), "refused_after": bool(refused_after),
                           "stop_reason": stop, "seconds": round(time.perf_counter() - t0, 1)},
               "note": ("Every move names the finding it answered and the sentence it executed; every "
                        "refusal is stated; what remains is the engine's, the critic's own, or the "

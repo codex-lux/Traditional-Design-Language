@@ -579,3 +579,106 @@ class TestTheSessionAuditOfTheLoop:
                      "core.MAX_CANDIDATES", "core.COMPOSE_MAX_CANDIDATES"):
             assert name in src, f"app.py does not read {name}"
         assert "min(8," not in src and "600.0" not in src, "a second spelling of a bound in app.py"
+
+
+# --------------------------------------------- WP-13.9: the refusal, and the rounds that act
+class TestARefusedDrawingIsNotAnImprovement:
+    """RULED 19 Sep 2026. WP-13.4 made a placement that breaks a hard fact of the type REFUSED
+    rather than drawn, and until this package `build/revise.py` had no reading of
+    `geometry_report.refused` ANYWHERE: `_improves` guarded `could_not_evaluate` and the key
+    and nothing else, so the loop could move a room, re-place, watch the key fall, accept, and
+    hand back a record no surface may draw -- reporting a lower key on it.
+    """
+
+    @staticmethod
+    def _crit(key, refused=None, fatal=()):
+        return {"key": list(key),
+                "placement": {"could_not_evaluate": None, **({"refused": refused} if refused else {})},
+                "check": {"findings": [{"id": i, "severity": "fatal"} for i in fatal]}}
+
+    def test_a_round_that_newly_refuses_the_drawing_is_not_an_improvement(self):
+        ref = {"kind": "type-fact-downgraded", "facts": ["bearing"]}
+        better_but_refused = self._crit([1, 40, 60, 18], refused=ref)
+        drawable = self._crit([3, 44, 70, 19])
+        # the key falls on every axis and the house may not be drawn: refused
+        assert RV._improves(better_but_refused, drawable) is False
+
+    def test_a_placement_already_refused_may_still_be_improved(self):
+        """The direction matters as much as the rule. Refusing to work on a refused house
+        would leave the reader with the first pass and nothing else -- and the shipped
+        Tidewater record is exactly that case, refused on both engines before the loop starts.
+        What is refused is MAKING one."""
+        ref = {"kind": "type-fact-downgraded", "facts": ["hearth"]}
+        assert RV._improves(self._crit([2, 40, 60, 18], refused=ref),
+                            self._crit([3, 44, 70, 19], refused=ref)) is True
+
+    def test_clearing_a_refusal_is_an_improvement_where_the_key_also_falls(self):
+        ref = {"kind": "type-fact-downgraded", "facts": ["tiling"]}
+        assert RV._improves(self._crit([2, 40, 60, 18]),
+                            self._crit([3, 44, 70, 19], refused=ref)) is True
+
+    def test_the_refusal_alone_does_not_accept_a_round(self):
+        """Clearing the refusal is not a licence to accept a worse house: the key still rules.
+        Without this, `_newly_refused` reads as a second acceptance path."""
+        ref = {"kind": "type-fact-downgraded", "facts": ["tiling"]}
+        assert RV._improves(self._crit([4, 44, 70, 19]),
+                            self._crit([3, 44, 70, 19], refused=ref)) is False
+
+    def test_the_report_carries_the_drawings_verdict_at_both_ends(self):
+        plan = load_plan("tidewater-georgian-careful")
+        r = RV.revise(plan, rounds=1, budget_s=90.0, **FAST)
+        pr = r["report"]["placement_refused"]
+        assert set(pr) == {"before", "after"}
+        s = r["report"]["summary"]
+        assert s["refused_before"] is bool(pr["before"])
+        assert s["refused_after"] is bool(pr["after"])
+        # this record IS refused on the search (bearing, hearth and stacks downgraded), so the
+        # assertion is about a live state rather than a shape: a reader of a falling key on
+        # this plan is owed the fact that nothing may be drawn from it
+        assert pr["before"], "premise: the shipped Tidewater placement is refused on the search"
+        assert pr["before"]["kind"] == "type-fact-downgraded"
+
+    def test_surfaced_is_the_callers_and_defaults_to_nothing(self):
+        """The bench's solve path runs the rounds inline and draws the loop's own placement;
+        the chip path strips and re-solves. One field decides which sentence the panel prints,
+        and a caller that says nothing gets the old one."""
+        plan = load_plan("tidewater-georgian-careful")
+        assert RV.revise(plan, rounds=0, **FAST)["report"]["surfaced"] is None
+        r = RV.revise(plan, rounds=0, surfaced="with-its-own-placement", **FAST)
+        assert r["report"]["surfaced"] == "with-its-own-placement"
+
+
+class TestTheRoundsAnswerTheStrandedRooms:
+    """The package's whole subject, measured on the record Lucas read. Before it, two rounds on
+    this plan applied six `widen-for-furniture` moves and cleared NOT ONE of the ten
+    `unreachable` fatals, because the critic classed every one of them as the engine's."""
+
+    @pytest.fixture(scope="class")
+    def run(self):
+        plan = load_plan("tidewater-georgian-careful")
+        return RV.revise(plan, rounds=2, budget_s=300.0, engine="heuristic", candidates=250)
+
+    def test_the_door_move_is_applied_and_the_stranded_rooms_fall(self, run):
+        rep = run["report"]
+        applied = [m["move"] for rd in rep["rounds"] for m in rd["moves"] if m.get("accepted")]
+        assert "add-the-grammar-door" in applied, applied
+        assert rep["key_after"][0] < rep["key_before"][0], "fatal did not fall"
+
+    def test_no_round_opened_a_fatal(self, run):
+        """The acceptance rule's own guarantee, over the whole run. Stated end to end rather
+        than per round because a fatal opened in round one and cleared in round two is not a
+        loop that opened a fatal, and per-round it would read as one.
+
+        (The first draft of this test also looped the rounds asserting
+        `not rd.get("opened") or all(i not in ... for i in [])` -- and `all()` over an empty
+        generator is True, so that half could not fail at any state of the code. Removed
+        rather than repaired: a guard that cannot be red is exactly as informative as one
+        that cannot be green.)"""
+        before = {f["id"] for f in run["critique_before"]["check"]["findings"] if f["severity"] == "fatal"}
+        after = {f["id"] for f in run["critique_after"]["check"]["findings"] if f["severity"] == "fatal"}
+        assert not (after - before), sorted(after - before)
+
+    def test_the_loop_did_not_make_the_drawing_refused(self, run):
+        """The acceptance rule's new clause, over a real run rather than a driven dict."""
+        pr = run["report"]["placement_refused"]
+        assert not (pr["after"] and not pr["before"])

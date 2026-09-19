@@ -3808,6 +3808,35 @@ MAX_CACHEABLE_BYTES = 1024 * 1024
 BUDGET_BATCH_S = 40.0
 BUDGET_INTERACTIVE_S = 25.0
 
+# AND A THIRD, FOR THE ROUNDS THE BENCH RUNS BEFORE IT DRAWS (WP-13.9, ruled 19 Sep 2026).
+# Lucas read a sheet carrying sixty drawn findings beside a revision panel reporting nothing
+# applied, and ruled that the explicit solve runs one or two corrective rounds before the plan
+# is surfaced. That loop's own clock is not this module's `time_limit_s` -- each round inside
+# it still solves at `BUDGET_INTERACTIVE_S` -- it is the ceiling on the WHOLE loop, which the
+# two chip routes get from `core.REVISE_DEFAULT_BUDGET_S` (120 s) and which a person waiting on
+# a re-solve cannot be given.
+#
+# READ WHAT THIS NUMBER IS BEFORE CHANGING IT: `revise()` tests its budget at the TOP of each
+# round, so it is a ceiling on STARTING another round and the true worst case is this plus one
+# round. The first draft of this package set it to 50.0 on the reasoning that 50 is "two
+# interactive proofs plus their checks", and measured on `tidewater-georgian-careful` at
+# `engine="auto"` the loop then ran for 69.6 s: round one ended at about 35 s, 35 is less than
+# 50, so round two started and ran to 70. A ceiling that is not a ceiling is worse than none,
+# because it reads as one.
+#
+# 30 s is DERIVED from that measurement rather than chosen: one round on a CP placement costs
+# about 35 s (a 25 s re-solve plus its check), so a second round starts only where the first
+# was cheaper than this -- which is exactly the search, where two rounds cost 2.9 s in total
+# because the hill-climb places in milliseconds and the loop's first critique reuses the
+# placement evaluate already solved. So the inline loop runs BOTH rounds where they are nearly
+# free and ONE where each costs a proof, and says `stop_reason: budget` when it stops. That is
+# the ruling's "at least one or two" landing on either engine rather than a number that means
+# two on one of them and a minute of somebody's time on the other.
+#
+# `revise_budget_s` on the route overrides it, bounded by `core.REVISE_MAX_BUDGET_S`; the two
+# chip routes keep their own far larger budgets, because a job is not a person waiting.
+BUDGET_REVISE_INLINE_S = 30.0
+
 # THE ALLOCATION INSIDE A BUDGET (WP-13.3), because one number was serving three phases and the
 # last of them never ran. Measured on `plans/tidewater-georgian-careful.json` at the shipped
 # 40 s before this package (`a9f7f77`, two runs): the hard-only phase A took the scout and the

@@ -106,3 +106,69 @@ test('a stop reason the adapter has not heard of is still stated, not swallowed'
   assert.equal(stopLabel('something-new'), 'stopped: something-new');
   assert.equal(stopLabel(undefined), 'stopped: reason not stated');
 });
+
+/* WP-13.9 -- the rounds the bench's own solve runs, and the drawing's verdict beside the key.
+   The panel prints one of two sentences and the difference is not cosmetic: on the solve path
+   the sheet above it IS the placement the key was measured on, and on the chip path the record
+   was stripped and re-solved, so there the two really can differ. */
+
+test('a report from the solve path says the sheet is the loop\'s own placement', () => {
+  const r = adaptRevision({ surfaced: 'with-its-own-placement', rounds: [],
+    engine: { final: 'heuristic' }, key_before: [13, 65, 102, 23], key_after: [6, 67, 108, 22] });
+  assert.equal(r.ownPlacement, true);
+  assert.equal(r.surfaced, 'with-its-own-placement');
+  assert.equal(r.delta, 'fatal 13 → 6 · serious 65 → 67 · minor 102 → 108 · faults 23 → 22');
+});
+
+test('a report from the chip path keeps the fresh-solve reading', () => {
+  // the field is absent on every report written before this package, and its absence must
+  // mean the OLD sentence rather than the new one -- a report that predates a field cannot
+  // be read as asserting it
+  assert.equal(adaptRevision({ rounds: [] }).ownPlacement, false);
+  assert.equal(adaptRevision({ surfaced: null, rounds: [] }).ownPlacement, false);
+});
+
+test('the drawing\'s verdict is read at both ends, and a cleared refusal is told apart from a carried one', () => {
+  const ref = { kind: 'type-fact-downgraded', facts: ['hearth', 'tiling'] };
+  const carried = adaptRevision({ rounds: [], placement_refused: { before: ref, after: ref } });
+  assert.equal(carried.refusalCleared, false);
+  assert.deepEqual(carried.refusedAfter.facts, ['hearth', 'tiling']);
+
+  const cleared = adaptRevision({ rounds: [], placement_refused: { before: ref, after: null } });
+  assert.equal(cleared.refusalCleared, true);
+  assert.equal(cleared.refusedAfter, null);
+
+  // a report with no verdict at all says neither, rather than reading as drawable
+  const silent = adaptRevision({ rounds: [] });
+  assert.equal(silent.refusedAfter, null);
+  assert.equal(silent.refusalCleared, false);
+});
+
+test('a move rolled back for the drawing is not reported as having made the plan worse', () => {
+  const r = adaptRevision({ rounds: [{ n: 1, moves: [
+    { move: 'add-the-grammar-door', refused_by_measurement: true, refused_the_drawing: true },
+    { move: 'widen-for-furniture', refused_by_measurement: true },
+  ] }] });
+  const [drawing, measure] = r.rounds[0].moves;
+  assert.equal(drawing.refusedTheDrawing, true);
+  assert.equal(measure.refusedTheDrawing, false);
+  // the round carries it too, so a reader of the round line is not told the key fell short
+  // when what happened is that the house stopped being drawable
+  assert.equal(adaptRevision({ rounds: [{ n: 1, moves: [], rolled_back_by_refusal: true }] })
+    .rounds[0].rolledBackByRefusal, true);
+});
+
+test('a refused placement is told apart from a drawable one by the panel\'s own reading', () => {
+  /* The panel prints "the sheet above" only where a sheet exists. WP-13.4 draws NOTHING from a
+     refused placement, so on the solve path the noun has to follow `refusedAfter` -- found by
+     opening the bench and reading the paragraph, which neither suite could do: every assertion
+     here and in the server tests was about the report, and the defect was in the sentence. */
+  const ref = { kind: 'type-fact-downgraded', facts: ['bearing', 'hearth', 'tiling'] };
+  const refused = adaptRevision({ surfaced: 'with-its-own-placement', rounds: [],
+    placement_refused: { before: ref, after: ref } });
+  assert.equal(refused.ownPlacement, true);
+  assert.ok(refused.refusedAfter, 'the panel must be able to see the refusal to choose its noun');
+  const drawable = adaptRevision({ surfaced: 'with-its-own-placement', rounds: [] });
+  assert.equal(drawable.ownPlacement, true);
+  assert.equal(drawable.refusedAfter, null);
+});

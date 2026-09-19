@@ -517,3 +517,85 @@ class TestTheStairTheDeclaredHallCouldNotHold:
         item = (assessment["actionable"] + assessment["architect"])[0]
         assert (item.get("move") or item.get("intended_move")) == "grow-stair-hall-to-its-run"
         assert item["class"] == "actionable", item.get("why")
+
+
+# --------------------------------------------- WP-13.9: the door move on either engine
+class TestTheStrandedRoomIsAnsweredOnEitherEngine:
+    """RULED 19 Sep 2026, closing the `unreachable`/`cut-off` half of
+    `oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds`.
+
+    `_is_placement` returned `engine != "cp-sat"` for these two kinds and `classify` tests it
+    BEFORE `_intended_move`, so on the search -- the only engine that produces these fatals in
+    bulk -- `add-the-grammar-door` was never offered, and the revision loop converged with
+    nothing to do over sixty of them. Four files said otherwise in prose (WP-11.8's own report
+    among them) and nothing asserted it, which is why the claim survived eleven days: the one
+    test near this behaviour asserts that `adjacent_placed` is a LIST.
+    """
+
+    @pytest.fixture(scope="class")
+    def crit(self):
+        CR = mc.load("critique", os.path.join(BUILD, "critique.py"))
+        return CR, CR.critique(load_plan("tidewater-georgian-careful"), engine="heuristic")
+
+    def _unreachable(self, res):
+        return [f for f in res["check"]["findings"] if f.get("kind") == "unreachable"]
+
+    def test_the_premise_holds_this_plan_strands_rooms_on_the_search(self, crit):
+        """Without this the whole class is vacuous, and it would go quiet silently: every
+        assertion below iterates a list that would simply be empty."""
+        _CR, res = crit
+        rows = self._unreachable(res)
+        assert len(rows) >= 5, f"no stranded rooms to classify: {len(rows)}"
+        assert all(f["engine"] == "heuristic" for f in rows)
+
+    def test_a_stranded_room_with_a_placed_neighbour_is_answered_by_the_door_move(self, crit):
+        CR, res = crit
+        where = {i["id"]: (c, i) for c in CR.CLASSES for i in res["assessment"][c]}
+        with_neighbour = [f for f in self._unreachable(res) if f.get("adjacent_placed")]
+        assert with_neighbour, "premise: some stranded room shares a wall with a placed room"
+        for f in with_neighbour:
+            cls, item = where[f["id"]]
+            assert cls in ("actionable", "architect"), f"{f['id']} is {cls} on the search"
+            if cls == "actionable":
+                assert item["move"] == "add-the-grammar-door", item["move"]
+            else:
+                # the move was READ and its precondition did not hold on this record -- which
+                # is a different statement from "no move reads this finding", and the reader
+                # is owed the reason rather than the silence
+                assert item.get("intended_move") == "add-the-grammar-door", item.get("why")
+                assert item.get("why")
+
+    def test_the_lever_rides_beside_the_move_so_the_engines_reading_is_not_lost(self, crit):
+        """The class now says what the loop will DO. What the OLD class said -- a proof or a
+        wider pool might have seated the door the author already declared -- is still true on
+        the search and still worth telling a reader, so it travels on the row."""
+        CR, res = crit
+        where = {i["id"]: i for c in CR.CLASSES for i in res["assessment"][c]}
+        for f in self._unreachable(res):
+            if f.get("adjacent_placed"):
+                item = where[f["id"]]
+                assert item.get("lever") in ("engine", "candidates"), item.get("lever")
+                assert item.get("lever_move") in ("prove-it", "search-harder")
+                assert item.get("lever_why")
+
+    def test_a_stranded_room_with_no_placed_neighbour_is_still_the_engines(self, crit):
+        """The old reading survives exactly where it was right: no move can add a door to a
+        wall that is not there, so on the search that really is the engine's to answer.
+        DRIVEN, because the shipped corpus does not reach it -- all ten of this plan's
+        stranded rooms have a neighbour (WP-8.11's rule: a fixture must not accidentally be
+        the corpus, and a branch the corpus cannot reach must be driven or it is untested)."""
+        CR, res = crit
+        f = dict(self._unreachable(res)[0])
+        f["adjacent_placed"] = []
+        assert CR._is_placement(res["plan"], f) is True
+        f["engine"] = "cp-sat"
+        assert CR._is_placement(res["plan"], f) is False
+
+    def test_on_a_proved_placement_the_reading_is_unchanged(self, crit):
+        """The ruling widened the class on the SEARCH and touched nothing about the proof: a
+        proved placement that strands a room has shown the declaration cannot be built as
+        written, and the door move was already the answer there."""
+        CR, res = crit
+        for f in self._unreachable(res):
+            g = dict(f, engine="cp-sat")
+            assert CR._is_placement(res["plan"], g) is False

@@ -105,15 +105,34 @@ export function adaptRevision(report) {
       cleared: !!m.cleared,
       refused: m.refused || null,
       refusedByMeasurement: !!m.refused_by_measurement,
+      refusedTheDrawing: !!m.refused_the_drawing,
     })),
     opened: r.opened || [], cleared: r.cleared || [],
     tabuForgotten: r.tabu_forgotten || 0,
+    refusedAfter: !!r.refused_after,
+    rolledBackByRefusal: !!r.rolled_back_by_refusal,
   }));
   const remaining = {};
   for (const cls of CLASSES) remaining[cls] = (report.remaining && report.remaining[cls]) || [];
   const rec = report.reclaimed;
+  /* WHERE THIS REPORT IS BEING READ (WP-13.9). `with-its-own-placement` is the bench's solve
+     path, where the rounds ran inside the evaluate and the sheet above the panel IS the
+     placement the loop's key was measured on. The chip path still strips its record and
+     re-solves it, so there the two really can differ and the panel must go on saying so --
+     one field, two sentences, rather than a second panel that would drift from this one. */
+  const ownPlacement = report.surfaced === 'with-its-own-placement';
+  const pr = report.placement_refused || {};
   return {
     mode: report.mode || 'placed',
+    surfaced: report.surfaced || null,
+    ownPlacement,
+    /* The DRAWING's own verdict, which a falling key says nothing about (WP-13.4): a house
+       that breaks a hard fact of the type is refused and nothing draws it, however far the
+       findings fell. Both ends, because the pair is the information -- cleared, carried, or
+       (guarded by the acceptance rule and so never seen) newly made. */
+    refusedBefore: pr.before || null,
+    refusedAfter: pr.after || null,
+    refusalCleared: !!pr.before && !pr.after,
     engine: report.engine || {},
     engineText: engineLabel(report.engine && report.engine.final),
     keyBefore: report.key_before, keyAfter: report.key_after,

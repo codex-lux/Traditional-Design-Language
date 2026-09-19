@@ -137,3 +137,31 @@ kind went there. The dead file is left for WP-9.4.
 - **The move logs in the `round` event.** The report carries them; the event is a summary.
 - **A clickable class filter.** Filters live in the URL.
 - **Deleting `DecisionLogEntry.jsx`.** Named dead here; the audit decides.
+
+---
+
+## Addendum, 19 September 2026 — §V's first refusal is superseded for the explicit solve
+
+This report's §V listed, under "deliberately not done":
+
+> **A per-edit critique.** Evaluate stays at its measured cost.
+
+That reasoning was the infrastructure audit's: `/api/plan/evaluate` is the whole server's bound
+at 338 ms of CPU on one core, and it fires 400 ms behind every wall drag.
+
+**Lucas superseded it on 19 September 2026 for the EXPLICIT solve only** (WP-13.9,
+`docs/reports/wp-13.9-the-first-pass-was-the-product.md`), reading a sheet that carried sixty
+drawn findings beside a revision panel reporting nothing applied: *"there should be at least one
+or two steps of recursive self-improvement based on the criticisms identified before the plan is
+surfaced to the user."*
+
+**The distinction this report drew is the one that survives.** A wall drag asks for the
+hill-climb by name behind the debounce and gets no rounds at all; a re-solve, an example chip
+and a pasted record are acts a person waits on deliberately, and those run two. The route's
+default is 0, so the per-EDIT cost this section was protecting is unchanged.
+
+§V's second refusal — *"Evaluate learning to reuse a carried placement. A carried placement
+under a draggable wall is a lie waiting for a gesture"* — is NOT superseded and is what made
+the inline form the right one: the rounds run on the placement evaluate has just solved, inside
+the same request, and the record handed back to the client is stripped exactly as this report's
+job route strips it.

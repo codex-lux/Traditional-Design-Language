@@ -789,18 +789,39 @@ def drawn_layer(plan, rooms, level_of, C, F):
                 continue
             name = r.get("name") or rid
             declared = len([d for d in (r.get("doors") or [])])
+            # WHAT THE PLACEMENT ACTUALLY DID WITH THIS ROOM'S DOORS (WP-13.9). This sentence
+            # read "the placement realised none of them" for every stranded room, and on the
+            # shipped Tidewater record it is FALSE of three of the ten: `primary` declares
+            # three doors, its `unplaced_pairs` is empty, and all three were placed -- the room
+            # is cut off because the whole cluster it belongs to is, not because its own doors
+            # failed to seat. A reader (or a generator) sent after the wrong cause by a
+            # confident sentence is the defect this corpus names first, and here the number to
+            # say it with was already in hand: `unplaced_pairs` is computed above and was
+            # attached to the finding as evidence while the prose contradicted it.
+            mine = sorted(p for p in unplaced_pairs if rid in p)
+            realised = max(0, declared - len(mine))
+            if not declared:
+                how = "The record declares no door to it at all."
+            elif realised == 0:
+                how = (f"The record declares {declared} door(s) to it and the placement "
+                       f"realised none of them.")
+            elif realised == declared:
+                how = (f"The record declares {declared} door(s) to it and the placement "
+                       f"realised all of them: the rooms they open into are themselves cut "
+                       f"off from outside.")
+            else:
+                how = (f"The record declares {declared} door(s) to it, of which the placement "
+                       f"realised {realised}: what they open into is itself cut off from "
+                       f"outside.")
             out["unreachable"].append(rid)
             _add("fatal", "drawn",
-                  f"{name} cannot be reached from outside the house on the drawing. "
-                  + (f"The record declares {declared} door(s) to it and the placement "
-                     f"realised none of them."
-                     if declared else "The record declares no door to it at all."),
+                  f"{name} cannot be reached from outside the house on the drawing. " + how,
                   room=rid,
                   fix=("Place the plan again, or move the rooms so the declared doors have "
                        "a wall to sit in — build/openings.py names each one it could not "
                        "place and why."),
-                  kind="unreachable", declared_doors=declared,
-                  unplaced_pairs=sorted(p for p in unplaced_pairs if rid in p),
+                  kind="unreachable", declared_doors=declared, realised_doors=realised,
+                  unplaced_pairs=mine,
                   adjacent_placed=_adjacent_placed(rid))
     else:
         _add("info", "drawn",
