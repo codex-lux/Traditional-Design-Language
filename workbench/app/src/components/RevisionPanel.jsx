@@ -33,8 +33,14 @@ const receipt = { font: 'var(--fw-reg) 12px/1.5 var(--receipt, var(--mono))', co
 function Move({ m, findingText, onCite }) {
   const tone = m.refused || m.refusedByMeasurement ? 'var(--brick)' : m.cleared ? 'var(--gilt-deep)' : 'var(--ink-3)';
   const verdict = m.refused ? `refused: ${m.refused}`
-    : m.refusedByMeasurement ? 'made the plan worse on this engine — rolled back'
-      : m.cleared ? 'cleared its finding' : 'applied; its finding persisted';
+    // WP-13.9: two causes, two sentences. A round rolled back because its re-placement broke a
+    // hard fact of the type did not necessarily make the key worse -- it usually makes it
+    // better -- and printing the measurement's verdict over it would be a refusal with one
+    // message for two causes, which is the shape WP-11.4 records as a refusal that has stopped
+    // being a reason.
+    : m.refusedTheDrawing ? 'the placement it produced may not be drawn — rolled back'
+      : m.refusedByMeasurement ? 'made the plan worse on this engine — rolled back'
+        : m.cleared ? 'cleared its finding' : 'applied; its finding persisted';
   return (
     <li style={{ margin: '0 0 7px', paddingLeft: 10, borderLeft: `2px solid ${tone}` }}>
       <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
@@ -67,14 +73,46 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
       {r ? (
         <>
           <Eyebrow tone="secondary">
-            revised · {r.roundsN} round{r.roundsN === 1 ? '' : 's'} · {r.applied} move{r.applied === 1 ? '' : 's'} applied
+            {r.ownPlacement ? 'revised on solve' : 'revised'} · {r.roundsN} round{r.roundsN === 1 ? '' : 's'} · {r.applied} move{r.applied === 1 ? '' : 's'} applied
             {r.refused ? `, ${r.refused} refused` : ''} · {r.stop}
           </Eyebrow>
           <p style={{ ...body, marginTop: 6 }}>
             Key {r.delta} <span style={quiet}>({r.engineText}{typeof r.seconds === 'number' ? `, ${r.seconds} s` : ''})</span>.
-            The sheet above is a fresh solve of the revised record; the loop's own key was
-            measured {r.engineText}, and the two can differ.
+            {/* WP-13.9: one sentence per path, and the difference is not cosmetic. The bench's
+                SOLVE runs the rounds inside the evaluate and draws the record the loop ended
+                on, so the sheet and this key are one house. The CHIPS submit a job whose
+                record comes back stripped and is re-solved, so there they are two, and the
+                panel has said so since WP-9.3. */}
+            {/* AND IT MAY NOT PROMISE A SHEET THAT IS NOT THERE. A refused placement reaches no
+                user-facing surface (WP-13.4), so on the solve path "the sheet above" is a claim
+                about a plate the reader is looking at a conflict set instead of. The findings
+                ARE above it either way, and they are what the key counts. Found by opening the
+                bench and reading the panel, which no assertion in either suite could do. */}
+            {r.ownPlacement
+              ? (r.refusedAfter
+                ? ' The findings above are of the placement this key was measured on — the loop\u2019s own, as it ended.'
+                : ' The sheet above is the placement this key was measured on — the loop\u2019s own, drawn as it ended.')
+              : ' The sheet above is a fresh solve of the revised record; the loop\u2019s own key was measured '
+                + r.engineText + ', and the two can differ.'}
           </p>
+          {/* A KEY THAT FELL SAYS NOTHING ABOUT WHETHER THE HOUSE MAY BE DRAWN (WP-13.4).
+              Stated where the key is stated, because a reader who sees fatal fall by seven and
+              no plate above it is owed the reason in the same paragraph. */}
+          {r.refusedAfter && (
+            <p style={{ ...quiet, marginTop: 6, color: 'var(--brick)' }}>
+              The placement the loop stopped on is still refused
+              {r.refusedAfter.facts && r.refusedAfter.facts.length
+                ? ` — ${r.refusedAfter.facts.join(', ')} ${r.refusedAfter.facts.length === 1 ? 'is' : 'are'} downgraded`
+                : ''}
+              : no sheet, export or model is drawn from it. The brief or the parti is what changes.
+            </p>
+          )}
+          {r.refusalCleared && (
+            <p style={{ ...quiet, marginTop: 6, color: 'var(--gilt-deep)' }}>
+              The placement was refused when the loop started and is not now: the type’s own facts
+              hold on the house it ended with.
+            </p>
+          )}
           {r.reclaimed && (
             <p style={{ ...quiet, marginTop: 6, color: r.reclaimed.rolledBack ? 'var(--brick)' : 'var(--ink-3)' }}>
               {r.reclaimed.rolledBack
@@ -100,7 +138,19 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
             <div key={rd.n} style={{ margin: '6px 0 0', paddingLeft: 10,
               borderLeft: `2px solid ${rd.accepted ? 'var(--gilt-deep)' : 'var(--brick)'}` }}>
               <div style={{ ...quiet, color: rd.accepted ? 'var(--ink-2)' : 'var(--brick)' }}>
-                round {rd.n} · {rd.accepted ? 'accepted' : 'rolled back'} · {rd.delta}
+                {/* WHY IT WAS ROLLED BACK, WHERE THE LOOP SAYS SO (WP-13.9's audit). A round
+                    refused because the placement it produced may not be DRAWN is a different
+                    fact from one refused because the key rose, and both `rolledBackByRefusal`
+                    and the round's own `refusedAfter` reached the adapter and were then
+                    dropped here -- two fields the loop writes, carried the whole way and
+                    rendered nowhere, which is how a producer and a consumer come to be pinned
+                    to each other's field names and to nothing else. */}
+                round {rd.n} · {rd.accepted
+                  ? 'accepted'
+                  : rd.rolledBackByRefusal
+                    ? 'rolled back — the placement it produced may not be drawn'
+                    : 'rolled back'} · {rd.delta}
+                {rd.accepted && rd.refusedAfter ? ' · the placement it kept is still refused' : ''}
                 {rd.engine ? ` · ${rd.engine}` : ''}
                 {rd.tabuForgotten ? ` · ${rd.tabuForgotten} refusal${rd.tabuForgotten === 1 ? '' : 's'} forgotten with the engine change` : ''}
               </div>

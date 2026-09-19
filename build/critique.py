@@ -287,10 +287,26 @@ def _is_placement(plan, f):
     room = _room(plan, f.get("room")) if f.get("room") else None
     dw, dl = (room or {}).get("width_ft"), (room or {}).get("length_ft")
     if k in ("unreachable", "cut-off"):
-        # the declared graph reaches every room (or the adjacency layer would say); a search
-        # that could not seat the declared doors is the search's, a proof that could not is
-        # the record's -- and then the door move or the conflict set is the answer
-        return engine != "cp-sat"
+        # RULED 19 Sep 2026, AND IT IS THE HALF OF THAT OPEN QUESTION THIS PACKAGE CLOSES.
+        # The reading above -- a search that could not seat the declared doors is the
+        # SEARCH's -- is true of the cause and was false of the consequence, because
+        # `classify` tests this function BEFORE it asks `_intended_move`: so on the only
+        # engine that produces these fatals in bulk, `add-the-grammar-door`, the move the
+        # ruling of 1 Sep granted for exactly this finding, was never offered. MEASURED on
+        # `plans/tidewater-georgian-careful.json` at `engine="heuristic"`: 10 of 10
+        # `unreachable` fatals carry a non-empty `adjacent_placed`, all 10 classed
+        # `placement`, and the same findings relabelled `cp-sat` give 9 `actionable` (the
+        # door) and 1 `architect` (`primary`, already doored to all three of its placed
+        # neighbours). WP-11.8's own sentence -- "`_intended_move` answers every one with
+        # `add-the-grammar-door` and the revision loop runs by default" -- described that
+        # counterfactual and not this tree, in four files, for eleven days.
+        #
+        # A ROOM WITH A PLACED NEIGHBOUR IS ANSWERABLE ON EITHER ENGINE. The lever is not
+        # lost: `classify` attaches it beside the move, so the reader still learns that a
+        # proof or a wider pool might have seated the declared door instead. Where there is
+        # NO placed neighbour the old reading stands exactly -- no move can add a door to a
+        # wall that does not exist, and on the search that really is the engine's.
+        return not (f.get("adjacent_placed") or []) and engine != "cp-sat"
     if k in ("drawn-vs-declared", "landing-off-well", "stack-unplaced"):
         return True
     if k == "stack-unjudged":
@@ -382,6 +398,18 @@ def classify(plan, check, registry=None, C=None, ctx=None):
             continue
         move, reason = _intended_move(plan, f)
         ans = registry.answering(f, plan, C, ctx) if registry is not None else []
+        # THE LEVER RIDES BESIDE THE MOVE WHERE BOTH ARE TRUE (ruled 19 Sep 2026). A stranded
+        # room with a placed neighbour is answerable by a move on either engine -- and on the
+        # search it is ALSO true that a proof or a wider pool might have seated the door the
+        # author already declared, which is what `_is_placement` used to say by classing it
+        # `placement`. Losing that reading would trade one half-truth for another, so the
+        # class says what the loop will DO and `lever` says what the engine could still
+        # change; `revise.py`'s `remaining` publishes it and the bench's row shows it.
+        lever = (_lever(plan, f, ctx)
+                 if f.get("kind") in ("unreachable", "cut-off") and f.get("engine") != "cp-sat"
+                 else None)
+        if lever and lever.get("lever") is None:
+            lever = None
         if ans:
             # THE REGISTRY DECIDES. A move is offered only if its precondition held on a copy
             # of this very plan, so `actionable` means "would apply", not "might".
@@ -390,9 +418,19 @@ def classify(plan, check, registry=None, C=None, ctx=None):
                           "moves": [m["id"] for m in ans],
                           "basis": first.get("basis"), "authority": first.get("authority"),
                           "requires": first.get("requires")})
+            if lever:
+                issue["lever"] = lever["lever"]
+                issue["lever_move"] = lever.get("move")
+                issue["lever_why"] = lever.get("why")
             assessment["actionable"].append(issue)
             continue
         issue["class"] = "architect"
+        if lever:
+            # the move's precondition did not hold, and the engine's reading is still live:
+            # this room is stranded AND a proof might have seated its declared door
+            issue["lever"] = lever["lever"]
+            issue["lever_move"] = lever.get("move")
+            issue["lever_why"] = lever.get("why")
         if move and registry is None:
             issue["why"] = f"a move would answer this ({move}) and the registry is not built yet"
             issue["intended_move"] = move

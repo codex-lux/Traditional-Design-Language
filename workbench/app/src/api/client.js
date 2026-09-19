@@ -58,6 +58,13 @@ const qs = (params) => {
   return p.length ? '?' + new URLSearchParams(p).toString() : '';
 };
 
+/* The record minus its revision panel, for the routes that do not read one. */
+function withoutReport(plan) {
+  if (!plan || !plan.revision_report) return plan;
+  const { revision_report: _drop, ...rest } = plan;
+  return rest;
+}
+
 export const api = {
   health: () => getJSON('/api/health', { fresh: true }),
   /* Sets an httpOnly session cookie; nothing is stored client-side. Throws with
@@ -114,7 +121,17 @@ export const api = {
      later export or evaluate. */
   scene: (plan, opts = {}) => postJSON('/api/scene', { plan, ...opts }),
 
-  evaluate: (plan, opts = {}) => postJSON('/api/plan/evaluate', { plan, ...opts }),
+  /* THE PANEL IS NOT AN INPUT (WP-13.9's audit). `revision_report` is authored history the
+     record carries so the panel survives an undo, and since the solve began running the
+     corrective rounds it is the bulk of the document: MEASURED on the revised Tidewater
+     record, 162,651 bytes of which 147,583 are the report -- 91%. Nothing on this route
+     reads it, and the bench re-POSTs the whole document on every debounced wall drag, so it
+     went up the wire on every frame of a gesture. It is dropped HERE and not in `planDoc`,
+     because the record must keep it: undo, the panel and `exportCad` all read it.
+     `exportCad` deliberately does NOT strip it -- `build/export_dxf.py` turns it into the
+     drawing's `revision_summary` XDATA, so a stripped record would export a plate that has
+     forgotten it was revised. */
+  evaluate: (plan, opts = {}) => postJSON('/api/plan/evaluate', { plan: withoutReport(plan), ...opts }),
   // WP-9.3: the analyst (synchronous) and the loop (a job; rounds arrive through jobEvents,
   // the revised record through jobPlan -- stripped of its placement, the bench re-solves)
   critique: (plan, opts = {}) => postJSON('/api/plan/critique', { plan, ...opts }),

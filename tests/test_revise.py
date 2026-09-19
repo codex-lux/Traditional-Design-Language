@@ -556,6 +556,23 @@ class TestTheSessionAuditOfTheLoop:
         assert any("rounds" in b for b in out["bounded"]) and any("budget_s" in b for b in out["bounded"])
         out = core.revise_plan(plan, rounds=2, budget_s=10 ** 9)
         assert got["budget_s"] == core.REVISE_MAX_BUDGET_S == 600.0
+        # AND THE PER-SOLVE LIMIT IS A KNOB TOO (WP-13.9's audit). It was forwarded on a bare
+        # truth test, so a caller asking for 0 -- or for any other falsy value -- had the
+        # request DROPPED IN SILENCE, `revise()`'s own 25.0 applied, and `bounded` said
+        # nothing: the one knob on this call that was pass-or-vanish while every other was
+        # bounded and reported.
+        got.clear()
+        out = core.revise_plan(plan, rounds=1, time_limit_s=0)
+        assert got["time_limit_s"] == 1.0, got
+        assert any("time_limit_s" in b for b in out["bounded"]), out.get("bounded")
+        got.clear()
+        core.revise_plan(plan, rounds=1, time_limit_s=10 ** 9)
+        assert got["time_limit_s"] == core.REVISE_MAX_BUDGET_S
+        # a caller that says nothing still gets the loop's own default, with no bound reported
+        got.clear()
+        out = core.revise_plan(plan, rounds=1)
+        assert "time_limit_s" not in got
+        assert not any("time_limit_s" in b for b in out.get("bounded") or [])
         assert "error" in core.revise_plan(plan, engine="fast")
         crit_got = {}
         monkeypatch.setattr(RV.CR, "critique", lambda p, **kw: crit_got.update(kw) or {"plan": p, "check": {}, "key": [0, 0, 0, 0]})
@@ -579,3 +596,268 @@ class TestTheSessionAuditOfTheLoop:
                      "core.MAX_CANDIDATES", "core.COMPOSE_MAX_CANDIDATES"):
             assert name in src, f"app.py does not read {name}"
         assert "min(8," not in src and "600.0" not in src, "a second spelling of a bound in app.py"
+
+
+# --------------------------------------------- WP-13.9: the refusal, and the rounds that act
+class TestARefusedDrawingIsNotAnImprovement:
+    """RULED 19 Sep 2026. WP-13.4 made a placement that breaks a hard fact of the type REFUSED
+    rather than drawn, and until this package `build/revise.py` had no reading of
+    `geometry_report.refused` ANYWHERE: `_improves` guarded `could_not_evaluate` and the key
+    and nothing else, so the loop could move a room, re-place, watch the key fall, accept, and
+    hand back a record no surface may draw -- reporting a lower key on it.
+    """
+
+    @staticmethod
+    def _crit(key, refused=None, fatal=()):
+        return {"key": list(key),
+                "placement": {"could_not_evaluate": None, **({"refused": refused} if refused else {})},
+                "check": {"findings": [{"id": i, "severity": "fatal"} for i in fatal]}}
+
+    def test_a_round_that_newly_refuses_the_drawing_is_not_an_improvement(self):
+        ref = {"kind": "type-fact-downgraded", "facts": ["bearing"]}
+        better_but_refused = self._crit([1, 40, 60, 18], refused=ref)
+        drawable = self._crit([3, 44, 70, 19])
+        # the key falls on every axis and the house may not be drawn: refused
+        assert RV._improves(better_but_refused, drawable) is False
+
+    def test_a_placement_already_refused_may_still_be_improved(self):
+        """The direction matters as much as the rule. Refusing to work on a refused house
+        would leave the reader with the first pass and nothing else -- and the shipped
+        Tidewater record is exactly that case, refused on both engines before the loop starts.
+        What is refused is MAKING one."""
+        ref = {"kind": "type-fact-downgraded", "facts": ["hearth"]}
+        assert RV._improves(self._crit([2, 40, 60, 18], refused=ref),
+                            self._crit([3, 44, 70, 19], refused=ref)) is True
+
+    def test_clearing_a_refusal_is_an_improvement_where_the_key_also_falls(self):
+        ref = {"kind": "type-fact-downgraded", "facts": ["tiling"]}
+        assert RV._improves(self._crit([2, 40, 60, 18]),
+                            self._crit([3, 44, 70, 19], refused=ref)) is True
+
+    def test_the_refusal_alone_does_not_accept_a_round(self):
+        """Clearing the refusal is not a licence to accept a worse house: the key still rules.
+        Without this, `_newly_refused` reads as a second acceptance path.
+
+        AND THE FIRST VERSION OF THIS FIXTURE NEVER REACHED THE CLAUSE IT NAMES (the audit of
+        this package). It offered [4, 44, 70, 19] against [3, 44, 70, 19], which fails on
+        `new["key"] < old["key"]` two statements earlier -- so it stayed green with the refusal
+        clause DELETED, and was a guard on the key comparison wearing a refusal test's name.
+        That is CLAUDE.md's own "check the fixture enters the code under test", met in the
+        package that quotes it. The keys are EQUAL now: a tie is already a refusal on the key
+        alone, so the premise below asserts that the pair reaches the clause at all -- the
+        discriminator is the refusal, and the test is red if clearing one starts accepting a
+        round that does not improve."""
+        ref = {"kind": "type-fact-downgraded", "facts": ["tiling"]}
+        same = [3, 44, 70, 19]
+        # premise: a tie is not an improvement whatever the refusal does, in BOTH directions,
+        # so the pair below is decided by the key and this test says the refusal adds nothing
+        assert RV._improves(self._crit(same), self._crit(same)) is False
+        assert RV._improves(self._crit(same), self._crit(same, refused=ref)) is False
+
+    def test_the_report_carries_the_drawings_verdict_at_both_ends(self):
+        plan = load_plan("tidewater-georgian-careful")
+        r = RV.revise(plan, rounds=1, budget_s=90.0, **FAST)
+        pr = r["report"]["placement_refused"]
+        assert set(pr) == {"before", "after"}
+        s = r["report"]["summary"]
+        assert s["refused_before"] is bool(pr["before"])
+        assert s["refused_after"] is bool(pr["after"])
+        # this record IS refused on the search (bearing, hearth and stacks downgraded), so the
+        # assertion is about a live state rather than a shape: a reader of a falling key on
+        # this plan is owed the fact that nothing may be drawn from it
+        assert pr["before"], "premise: the shipped Tidewater placement is refused on the search"
+        assert pr["before"]["kind"] == "type-fact-downgraded"
+
+    def test_surfaced_is_the_callers_and_defaults_to_nothing(self):
+        """The bench's solve path runs the rounds inline and draws the loop's own placement;
+        the chip path strips and re-solves. One field decides which sentence the panel prints,
+        and a caller that says nothing gets the old one."""
+        plan = load_plan("tidewater-georgian-careful")
+        assert RV.revise(plan, rounds=0, **FAST)["report"]["surfaced"] is None
+        r = RV.revise(plan, rounds=0, surfaced="with-its-own-placement", **FAST)
+        assert r["report"]["surfaced"] == "with-its-own-placement"
+
+
+class TestTheRoundsAnswerTheStrandedRooms:
+    """The package's whole subject, measured on the record Lucas read. Before it, two rounds on
+    this plan applied six `widen-for-furniture` moves and cleared NOT ONE of the ten
+    `unreachable` fatals, because the critic classed every one of them as the engine's."""
+
+    @pytest.fixture(scope="class")
+    def run(self):
+        plan = load_plan("tidewater-georgian-careful")
+        return RV.revise(plan, rounds=2, budget_s=300.0, engine="heuristic", candidates=250)
+
+    def test_the_door_move_is_applied_and_the_stranded_rooms_fall(self, run):
+        rep = run["report"]
+        applied = [m["move"] for rd in rep["rounds"] for m in rd["moves"] if m.get("accepted")]
+        assert "add-the-grammar-door" in applied, applied
+        assert rep["key_after"][0] < rep["key_before"][0], "fatal did not fall"
+
+    def test_no_round_opened_a_fatal(self, run):
+        """The acceptance rule's own guarantee, over the whole run. Stated end to end rather
+        than per round because a fatal opened in round one and cleared in round two is not a
+        loop that opened a fatal, and per-round it would read as one.
+
+        (The first draft of this test also looped the rounds asserting
+        `not rd.get("opened") or all(i not in ... for i in [])` -- and `all()` over an empty
+        generator is True, so that half could not fail at any state of the code. Removed
+        rather than repaired: a guard that cannot be red is exactly as informative as one
+        that cannot be green.)"""
+        before = {f["id"] for f in run["critique_before"]["check"]["findings"] if f["severity"] == "fatal"}
+        after = {f["id"] for f in run["critique_after"]["check"]["findings"] if f["severity"] == "fatal"}
+        assert not (after - before), sorted(after - before)
+
+    def test_the_loop_did_not_make_the_drawing_refused(self, run):
+        """The acceptance rule's new clause, over a real run rather than a driven dict.
+
+        THE FIRST VERSION OF THIS TEST COULD NOT FAIL, and it shipped in the same class whose
+        neighbour above records removing exactly that shape. It read
+        `assert not (pr["after"] and not pr["before"])` -- and on this fixture `pr["before"]`
+        is TRUTHY (its sibling asserts so), so `not pr["before"]` is False, the conjunction is
+        False for every value of `pr["after"]`, and the assertion is `not False` by shape. It
+        stayed green under seven mutations including the deletion of the `_newly_refused`
+        clause from `_improves`, the very rule it claimed to guard. Found by an adversarial
+        mutation sweep, not by re-reading it.
+
+        What a real run on THIS record can honestly say is the other half: the house was
+        already refused before the loop started, so every round ran on a refused placement and
+        the rule under test is that it STAYED refused for the same reason rather than
+        acquiring a new one. The driven pair in `TestARefusedDrawingIsNotAnImprovement` is
+        where the clause itself is guarded; this is where the record is."""
+        pr = run["report"]["placement_refused"]
+        assert pr["before"], "premise: the shipped Tidewater placement is refused before the loop"
+        # the clause cannot be exercised by this fixture, so assert what it CAN say: the pair
+        # is stated at both ends, and the facts the loop ended refused for are a subset of the
+        # ones it started refused for -- a NEW fact in that list is a refusal the loop made
+        assert pr["after"], "a run that cleared the refusal would be news; say so rather than passing"
+        grew = set(pr["after"].get("facts") or ()) - set(pr["before"].get("facts") or ())
+        assert not grew, f"the loop added a refusing fact: {sorted(grew)}"
+
+
+class TestTheRefusalTravelsOnTheRoundAndTheMove:
+    """WP-13.9's own adversarial audit. Three fields the panel renders were WRITE-ONLY:
+    deleting every set-site of `rolled_back_by_refusal`, of `refused_the_drawing` on the move
+    entry, and of `rnd["refused_after"]` each left the whole Python suite GREEN. They were
+    asserted only on the JS adapter, fed hand-built dicts carrying those names -- so producer
+    and consumer were pinned to each other's FIELD NAMES and nothing said `revise()` ever
+    writes one. `RevisionPanel.jsx` prints "the placement it produced may not be drawn --
+    rolled back" off a field no producer test covered.
+
+    That is this package's own finding one layer down: its report says every assertion in all
+    three suites was about the REPORT and not about the drawing. Here it was about the NAME."""
+
+    REF = {"kind": "type-fact-downgraded", "facts": ["bearing", "hearth"]}
+
+    @staticmethod
+    def _script(monkeypatch, states):
+        """A critique the loop cannot tell from the real one: `states[i]` is `(key, refused)`
+        for the i-th call and the last one repeats, and the assessment offers one actionable
+        move that really applies. No solver runs and no record is placed; what is under test
+        is the loop's own bookkeeping about the drawing's verdict."""
+        calls = {"n": 0}
+
+        def fake(plan, **kw):
+            i = min(calls["n"], len(states) - 1)
+            calls["n"] += 1
+            key, refused = states[i]
+            return {"plan": plan, "key": list(key),
+                    "engine": {"requested": kw.get("engine"), "ran": "heuristic", "reason": None},
+                    "check": {"findings": []},
+                    "placement": {"reused": False, "could_not_evaluate": None,
+                                  **({"refused": refused} if refused else {})},
+                    # TWO issues, so the round builds a BATCH. With one, the batch's own
+                    # `rolled_back_by_refusal` site is immediately shadowed by the
+                    # single-move retry's `setdefault` and a mutation of the batch site
+                    # stays green -- measured, and the reason this fixture is not simpler.
+                    "assessment": {"actionable": [{"id": "furniture:x", "severity": "serious",
+                                                   "room": "x", "statement": "scripted",
+                                                   "moves": ["widen-for-furniture"],
+                                                   "finding": {"id": "furniture:x"}},
+                                                  {"id": "furniture:y", "severity": "serious",
+                                                   "room": "y", "statement": "scripted",
+                                                   "moves": ["widen-for-furniture"],
+                                                   "finding": {"id": "furniture:y"}}],
+                                   "placement": [], "critic_suspect": [], "architect": [],
+                                   "advisory": []},
+                    "counts_by_class": {}, "could_not_evaluate": {"findings": []}}
+
+        def _apply(mid, plan, finding, C=None, ctx=None):
+            plan["_scripted"] = plan.get("_scripted", 0) + 1
+            return {"move": mid, "basis": "scripted", "requires": "re-judge",
+                    "authority": "dimension", "kind": "dimension", "tier": 1,
+                    "changed": [{"path": "_scripted"}], "log": "scripted"}
+
+        monkeypatch.setattr(RV.CR, "critique", fake)
+        monkeypatch.setattr(RV.MV, "apply", _apply)
+        return calls
+
+    def test_a_round_rolled_back_for_the_drawing_says_so_on_the_round_and_on_the_move(self, monkeypatch):
+        """The move improves the key on every axis and the placement it produces may not be
+        drawn. The round is rolled back, and BOTH readers of that fact are written by the
+        loop: the round (which the panel's round line reads) and the move entry (which the
+        summary, the sweep, the CLI and the bench's round event read)."""
+        self._script(monkeypatch, [([3, 44, 70, 19], None), ([1, 40, 60, 18], self.REF)])
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=1, **FAST)
+        rd = r["rounds"][0]
+        assert rd["accepted"] is False, "premise: the refusal is what refused this round"
+        assert rd["key_after"] == [3, 44, 70, 19], "premise: the round ended on the old state"
+        assert rd.get("rolled_back_by_refusal") is True
+        drew = [m for m in rd["moves"] if m.get("refused_the_drawing")]
+        assert drew, [dict(m) for m in rd["moves"]]
+        # and the round's own final verdict is the state it ENDED in, not the one it discarded
+        assert rd["refused_after"] is False
+
+    def test_the_batch_says_the_drawing_refused_it_even_where_no_retry_does(self, monkeypatch):
+        """THE BATCH HAS ITS OWN SET-SITE AND IT WAS INVISIBLE. `revise()` flags the round
+        when the BATCH's re-placement is newly refused, and again -- by `setdefault` -- when a
+        single-move retry's is. With one move in the batch the two fire together, so deleting
+        the first left the test above green: one state, two causes, and only the second
+        guarded. The distinct state is a batch refused FOR THE DRAWING whose moves, retried
+        one at a time, are refused on the KEY instead; only the batch's own line can say so."""
+        self._script(monkeypatch, [([3, 44, 70, 19], None),        # before
+                                   ([1, 40, 60, 18], self.REF),   # the batch: better, refused
+                                   ([9, 90, 90, 90], None)])      # each retry: worse, drawable
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=1, **FAST)
+        rd = r["rounds"][0]
+        assert rd["accepted"] is False
+        assert rd.get("batch_refused_by_measurement"), "premise: the batch was rolled back"
+        retried = [m for m in rd["moves"] if m.get("refused_by_measurement")]
+        assert len(retried) >= 2, "premise: both moves were retried alone"
+        assert not any(m.get("refused_the_drawing") for m in retried), (
+            "premise: no retry is newly refused, so only the batch's own site can flag it")
+        assert rd.get("rolled_back_by_refusal") is True
+
+    def test_a_round_accepted_on_an_already_refused_house_states_the_refusal_it_kept(self, monkeypatch):
+        """The other direction, and the one that guards `refused_after`. A house refused
+        before and after is the common case on this corpus -- eleven of sixteen shipped plans
+        -- and a reader of a falling key on one is owed the fact that nothing may be drawn
+        from it. `rolled_back_by_refusal` must NOT be on an accepted round."""
+        self._script(monkeypatch, [([3, 44, 70, 19], self.REF), ([1, 40, 60, 18], self.REF)])
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=1, **FAST)
+        rd = r["rounds"][0]
+        assert rd["accepted"] is True, "premise: refused -> refused on a lower key is accepted"
+        assert rd["refused_after"] is True
+        assert "rolled_back_by_refusal" not in rd
+        assert r["report"]["summary"]["refused_after"] is True
+
+    def test_the_lever_rides_on_the_report_row_and_not_only_on_the_assessment(self):
+        """WP-13.9 publishes `lever` for every class that carries one, because an
+        `unreachable` room with a placed neighbour is `actionable` on either engine now and
+        the reading a reader used to get from the CLASS -- a proof might have seated the door
+        the author declared -- has to travel on the ROW.
+
+        Reverting that to the pre-package `if c == "placement"` left 93 tests green: the
+        package's own lever test asserts it on `classify`'s in-memory assessment, and the
+        PANEL reads `report["remaining"]`. Two spellings of one reading, and only the one
+        nobody renders was guarded."""
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=0, **FAST)
+        rem = r["report"]["remaining"]
+        with_lever = [i for i in rem["actionable"] if i.get("lever")]
+        assert with_lever, ("premise: on the search this record strands rooms with a placed "
+                            "neighbour, which are actionable and carry a lever")
+        row = with_lever[0]
+        assert row["lever"] in ("engine", "candidates"), row
+        # the KIND alone is half a sentence: the class already says a move answers this row,
+        # so the lever is worth carrying only if it names the other thing that might
+        assert row.get("lever_move") in ("prove-it", "search-harder"), row

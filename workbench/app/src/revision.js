@@ -22,13 +22,28 @@ export function engineLabel(engine) {
   return 'placement not evaluated';
 }
 
-/* Where a finding stands after the analyst has read it. */
+/* Where a finding stands after the analyst has read it.
+
+   WP-13.9 (ruled 19 Sep 2026): a stranded room with a placed neighbour is `actionable` on
+   EITHER engine, so the reading a reader used to get from the class alone -- a proof might
+   have seated the door the author declared -- now rides on the row as `lever`/`lever_move`.
+   This renders it wherever it is carried. Until the audit of that package it was rendered for
+   `placement` only, so the field travelled the whole way from `critique.classify` through the
+   report to the panel and was then dropped on the floor for exactly the two classes the
+   ruling added it to. */
+function _lever(item) {
+  if (!item || !item.lever) return '';
+  return ` — or the engine: ${item.lever_move || item.lever}`;
+}
+
 export function classTag(cls, item = {}) {
   switch (cls) {
-    case 'actionable': return item.move ? `a move answers this: ${item.move}` : 'a move answers this';
-    case 'placement': return item.lever ? `the engine's — lever: ${item.lever}` : "the engine's";
+    case 'actionable': return (item.move ? `a move answers this: ${item.move}` : 'a move answers this') + _lever(item);
+    case 'placement': return item.lever
+      ? `the engine's — lever: ${item.lever}` + (item.move ? ` (${item.move})` : '')
+      : "the engine's";
     case 'critic_suspect': return "the critic's own — reads a literal";
-    case 'architect': return "the architect's";
+    case 'architect': return "the architect's" + _lever(item);
     case 'advisory': return 'advisory';
     default: return null;
   }
@@ -80,7 +95,15 @@ export function roundLine(ev) {
   // the entry's own verdict where the server states it; the by-absence rule only for a
   // report written before it did
   const applied = moves.filter((m) => ('accepted' in m ? m.accepted : (!m.refused && !m.refused_by_measurement)));
-  const verdict = ev.accepted ? 'accepted' : moves.length ? 'rolled back' : 'no move applied';
+  /* WHY it was rolled back, live (WP-13.9's audit). The report that lands at the end of the
+     loop distinguishes a round refused because the placement may not be DRAWN from one
+     refused because the key rose; the strip that runs while the loop works did not, so one
+     round had two accounts on one surface a few seconds apart. */
+  const verdict = ev.accepted
+    ? (ev.refused_after ? 'accepted — the placement it kept is still refused' : 'accepted')
+    : moves.length
+      ? (ev.rolled_back_by_refusal ? 'rolled back — the placement it produced may not be drawn' : 'rolled back')
+      : 'no move applied';
   const count = moves.length
     ? `${applied.length} move${applied.length === 1 ? '' : 's'}${moves.length - applied.length ? `, ${moves.length - applied.length} refused` : ''}`
     : 'no move applied';
@@ -105,15 +128,40 @@ export function adaptRevision(report) {
       cleared: !!m.cleared,
       refused: m.refused || null,
       refusedByMeasurement: !!m.refused_by_measurement,
+      refusedTheDrawing: !!m.refused_the_drawing,
     })),
     opened: r.opened || [], cleared: r.cleared || [],
     tabuForgotten: r.tabu_forgotten || 0,
+    refusedAfter: !!r.refused_after,
+    rolledBackByRefusal: !!r.rolled_back_by_refusal,
   }));
   const remaining = {};
   for (const cls of CLASSES) remaining[cls] = (report.remaining && report.remaining[cls]) || [];
   const rec = report.reclaimed;
+  /* WHERE THIS REPORT IS BEING READ (WP-13.9). `with-its-own-placement` is the bench's solve
+     path, where the rounds ran inside the evaluate and the sheet above the panel IS the
+     placement the loop's key was measured on. The chip path still strips its record and
+     re-solves it, so there the two really can differ and the panel must go on saying so --
+     one field, two sentences, rather than a second panel that would drift from this one. */
+  const ownPlacement = report.surfaced === 'with-its-own-placement';
+  const pr = report.placement_refused || {};
+  const refusedBefore = pr.before || null;
+  const refusedAfter = pr.after || null;
   return {
     mode: report.mode || 'placed',
+    surfaced: report.surfaced || null,
+    ownPlacement,
+    /* The DRAWING's own verdict, which a falling key says nothing about (WP-13.4): a house
+       that breaks a hard fact of the type is refused and nothing draws it, however far the
+       findings fell. Both ends, because the pair is the information -- cleared, carried, or
+       (guarded by the acceptance rule and so never seen) newly made. */
+    refusedBefore,
+    refusedAfter,
+    /* ONE DERIVATION. The audit of this package mutated `refusedBefore` to `null` and all 215
+       JS tests stayed green, because `refusalCleared` read `pr.before` again rather than the
+       field beside it -- one quantity, two readings, which is the defect this corpus names
+       first and which no test could see while both happened to be right. */
+    refusalCleared: !!refusedBefore && !refusedAfter,
     engine: report.engine || {},
     engineText: engineLabel(report.engine && report.engine.final),
     keyBefore: report.key_before, keyAfter: report.key_after,

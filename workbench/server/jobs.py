@@ -183,10 +183,17 @@ def _run_revise(job):
                        **({"accepted": True} if m.get("accepted") else {}),
                        **({"refused": m["refused"]} if m.get("refused") else {}),
                        **({"refused_by_measurement": True} if m.get("refused_by_measurement") else {}),
+                       # WP-13.9's audit: a move rolled back because the placement it produced
+                       # MAY NOT BE DRAWN is not a move that made the plan worse, and the live
+                       # strip said the second while the report that landed seconds later said
+                       # the first. Two accounts of one round on one surface.
+                       **({"refused_the_drawing": True} if m.get("refused_the_drawing") else {}),
                        **({"key_after": m["key_after"]} if m.get("key_after") else {})}
                       for m in rnd.get("moves", [])],
             "opened_n": len(rnd.get("opened") or []),
             "cleared_n": len(rnd.get("cleared") or []),
+            **({"rolled_back_by_refusal": True} if rnd.get("rolled_back_by_refusal") else {}),
+            **({"refused_after": True} if rnd.get("refused_after") else {}),
             **({"on_round_error": rnd["on_round_error"]} if rnd.get("on_round_error") else {}),
         })
 

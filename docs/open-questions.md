@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**210 questions, of which 115 are open.** A question is OPEN while
+**212 questions, of which 117 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 115
+## Open — 117
 
 Awaiting a ruling. This is the list to read first.
 
@@ -82,7 +82,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-measured-parameter-with-no-source-is-not-metered** | HALF CLOSED 5 Sep 2026 — part 2 ruled, part 1 still open | [542 kit figures claim to have been measured and nothing on the record says where](open-questions/oq-a-measured-parameter-with-no-source-is-not-metered.md) |
 | **oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times** | OPEN | [the backlog refills as it is worked, and 249 is what is visible at one instant](open-questions/oq-a-node-that-refuses-a-category-must-decline-it-twenty-six-times.md) |
 | **oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure** | OPEN | [Ruling A can only reach a figure that cites nothing](open-questions/oq-a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure.md) |
-| **oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds** | OPEN | [the analyst's `placement` class reads the record's fields for four drawn kinds and the engine's name for five](open-questions/oq-a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds.md) |
+| **oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds** | HALF CLOSED | [the analyst's `placement` class reads the record's fields for four drawn kinds and the engine's name for five](open-questions/oq-a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds.md) |
 | **oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford** | OPEN | [the candidate count is a design input nobody has priced](open-questions/oq-a-placement-rule-is-free-at-a-pool-the-server-cannot-afford.md) |
 | **oq/a-plan-does-not-name-the-parti-it-was-built-from** | OPEN | [so no checker can hold a plan to the diagram it is a house of](open-questions/oq-a-plan-does-not-name-the-parti-it-was-built-from.md) |
 | **oq/a-room-count-cap-on-the-heavy-routes** | OPEN | [nothing bounds how many rooms a heavy route will solve, and the body cap is 2,000 times too loose to be the bound](open-questions/oq-a-room-count-cap-on-the-heavy-routes.md) |
@@ -110,6 +110,8 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
 | **oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either** | OPEN | [two ruled packages, and their composition is worse than either alone](open-questions/oq-the-bay-parity-and-the-band-ranking-compose-worse-than-either.md) |
 | **oq/the-canon-axis-counts-two-grains-as-one** | OPEN | ["23 could not be evaluated" out of a denominator of 10](open-questions/oq-the-canon-axis-counts-two-grains-as-one.md) |
+| **oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw** | OPEN | [the job route strips its record and the bench re-solves it, so the panel's key and the plate are two houses](open-questions/oq-the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw.md) |
+| **oq/the-composer-ranks-first-a-house-that-may-not-be-drawn** | OPEN | [`_sort_key` never reads the refusal written onto the dict it sorts](open-questions/oq-the-composer-ranks-first-a-house-that-may-not-be-drawn.md) |
 | **oq/the-composer-ranks-on-an-assumed-bearing** | OPEN | [an aspect verdict entered the fitness function without being ruled into it](open-questions/oq-the-composer-ranks-on-an-assumed-bearing.md) |
 | **oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room** | OPEN | [the refusal is honest and the set is useless](open-questions/oq-the-composer-returns-a-set-that-satisfies-neither-must-have-room.md) |
 | **oq/the-composers-footprint-is-not-the-placed-one** | OPEN | [two derivations of one house's width, and the card publishes the one nobody builds](open-questions/oq-the-composers-footprint-is-not-the-placed-one.md) |

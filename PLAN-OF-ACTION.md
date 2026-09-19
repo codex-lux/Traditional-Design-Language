@@ -1748,9 +1748,14 @@ term — not stepped around.
   WORSE on every axis at once** (68 out of band, 131 fatal, 780 serious) because it is a proxy for
   the drawn layer's rule and not the rule; it was deleted rather than reported. **What settled the
   trade is the move registry**: all 81 `unreachable` fatals carry `adjacent_placed`, so
-  `add-the-grammar-door` answers every one and the revision loop runs by default, while a room
+  `add-the-grammar-door` answers every one, while a room
   outside its band has NO move at all — 49 defects nothing can fix traded for 23 the loop is built
-  to clear. `geometry_report.shape_band`
+  to clear. **AND "the revision loop runs by default" STOOD HERE UNTIL WP-13.9 AND WAS FALSE OF
+  THIS TREE**: `critique.classify` tests `_is_placement` before it asks `_intended_move`, and that
+  function returned `engine != "cp-sat"` for `unreachable`, so the move this sentence names reached
+  none of these fatals on the engine that produced them. Measured on the Tidewater plan, all 10
+  classed `placement`; ruled 19 Sep 2026 and closed — see
+  `docs/reports/wp-13.9-the-first-pass-was-the-product.md`. `geometry_report.shape_band`
   discloses the residual from `_disclose`, so both engines report it. **The budget is split**
   (`BUDGET_BATCH_S = 40.0`, `BUDGET_INTERACTIVE_S = 25.0` passed by name by the bench evaluate
   and `place_plan`) and `spec-builder-colonial` is CP-solved again with 0 rooms outside its band.
@@ -3951,6 +3956,7 @@ number-to-filename table, so a bare "WP-13.n" can always be resolved:
 | WP-13.6 | `docs/reports/wp-13.6-furniture-to-its-own-grammar.md` |
 | WP-13.7 | `docs/reports/wp-13.7-the-guards-that-passed-through-another-packages-door.md` |
 | WP-13.8 | `docs/reports/wp-13.8-the-front-was-not-the-main-blocks.md` |
+| WP-13.9 | `docs/reports/wp-13.9-the-first-pass-was-the-product.md` |
 
 ### WP-13.1 The gate
 
@@ -4269,6 +4275,83 @@ sixteen sheets move on a reconciliation, so it is its own package with three thi
 **One shipped sheet moved (+296 bytes), and removing the one field this package added gives all
 sixteen byte-identical to the previous commit** — the accounting proved rather than reasoned.
 **Depends on:** WP-12.8. **Size:** small.
+
+---
+
+### WP-13.9 The first pass was the product
+
+**Status: COMPLETE (19 Sep 2026), AND ADVERSARIALLY AUDITED THE SAME DAY — read §X of the
+report before trusting any figure it publishes.** Report:
+`docs/reports/wp-13.9-the-first-pass-was-the-product.md`.
+
+**THE AUDIT FOUND MORE THAN THE PACKAGE DID.** Five read-only auditors on four angles and a
+sweep of 48 mutations in an isolated checkout: **nine of the package's own guards could not
+fail**, including the one on its headline defect (restoring the critic's pre-package reading
+left all ten route tests green while the door move went from six applications to zero) and the
+one on its own budget ruling (`BUDGET_REVISE_INLINE_S` was asserted nowhere in the tree). One
+of its new tests was **vacuous by shape**, in the same class whose neighbour records removing
+that exact shape. Its `realised_doors` arithmetic subtracted a PAIR count from a RECORD count
+and handed one room the very sentence the package exists to remove. The response carried the
+147 KB revision report **twice** and the bench re-POSTed it on every drag frame. All fixed,
+each fix mutation-checked; two pre-existing defects were reached on the way, one fixed
+(`plan_check`'s `cut-off` layer was silent on every plan with no placed exterior door — rows
+2 → 26) and one raised (`oq/the-composer-ranks-first-a-house-that-may-not-be-drawn`).
+
+**Raised by Lucas against the bench's own Tidewater sheet**, in his words: *"During plan solving,
+there doesn't seem to be any level of recursive self-improvement directed towards resolving any of
+the fatal issues that arise during the generation. So what's produced and surfaced is basically a
+first pass that has all of the problems that the program already identified but didn't actually
+bother to resolve itself. There should be at least one or two steps of recursive self-improvement
+based on the criticisms identified before the plan is surfaced to the user."*
+
+**THIS PACKAGE SUPERSEDES RULE 3 OF 15 SEP ("gate first, and no new surface until it is green")
+FOR ITSELF, ON LUCAS'S OWN 19 SEP INSTRUCTION, AND THE GATE IS STILL RED AND STILL ATTRIBUTED.**
+It also supersedes WP-9.3 §V's *"a per-edit critique: deliberately not done"* for the EXPLICIT
+solve only — a wall drag still runs no rounds, and the per-edit cost that refusal protected is
+unchanged.
+
+**Four rulings, taken 19 Sep:**
+1. The rounds run **inline in `/api/plan/evaluate`** on the explicit solve, on the engine that
+   placed, and the response carries the revised record with ITS OWN placement and findings — one
+   building on the screen (WP-6.4's rule).
+2. **A stranded room with a placed neighbour is answerable on either engine**, the lever recorded
+   beside the move. This closes the `unreachable`/`cut-off` half of
+   `oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds`; the other four kinds
+   stay open and must not be extended by analogy.
+3. **A round whose re-placement is newly refused is rolled back**, as a round that opens a fatal
+   is. One clause on the acceptance rule, which is decision-level and was therefore ruled.
+4. The gate rule above.
+
+**THE SCREEN WAS FOUR DEFECTS AND NONE WAS THE LOOP FAILING AT WHAT IT WAS ASKED.** Solve never
+ran the loop (the panel in the screenshot was a LEFTOVER from an earlier chip-driven job);
+`critique.classify` tests `_is_placement` BEFORE `_intended_move`, so on the search the door move
+was never offered; the sheet's findings and the panel's key were two different placements; and
+the `unreachable` sentence was false on five of ten rooms.
+
+**Measured over the sixteen shipped plans, `engine="heuristic"`, two rounds, against a
+`git archive` control of HEAD:** fatal 158 → **109** where the control reaches 138,
+`unreachable` 93 → **48** where the control reaches 77, **45 doors added where the control adds
+none**, and **no plan opens a fatal on either tree**. The cost is published rather than netted
+off: serious is 35 worse and minor 61 worse than the control's outcome, because `_choose` sorts
+by severity first under a six-move cap and each door re-places.
+
+**The budget was wrong once and the correction is the measurement.** `BUDGET_REVISE_INLINE_S`
+was 50.0 on the reasoning that fifty seconds is two interactive proofs; `revise()` tests its
+budget at the TOP of each round, so the loop ran **69.6 s** on `auto`. It is 30.0, DERIVED: a CP
+round costs about 35 s, so a second round starts only where the first was cheaper — two rounds
+on the search at 2.9 s, one on the proof at 36.4 s with `stop_reason: budget`.
+
+**Twenty-four mutations, twenty-three red on the first run and one BLIND** — a route-bounds test
+that asserted the ceiling `core.revise_plan` already enforces, so it passed with the route's own
+bound deleted; re-cut onto the reader as a pure function. **And one of the package's own new
+assertions was vacuous when written** (`all(... for i in [])` is True), removed with the reason
+in the docstring.
+
+**Deferred, named:** a root-cause finding naming the one unseated door pair that strands a
+cluster (ten fatals with two causes on this plan); the other four engine-name kinds; the chip
+routes, which still strip and re-solve —
+`oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw`.
+**Depends on:** WP-9.2, WP-13.4. **Size:** medium.
 
 ---
 

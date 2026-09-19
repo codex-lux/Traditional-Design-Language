@@ -568,6 +568,38 @@ def _candidates(body, default=250, cap=None):
         return default
 
 
+def _revise_rounds(body, key="revise_rounds"):
+    """How many corrective rounds this solve may run, bounded (WP-13.9). Unparseable is 0
+    rather than the default, because a caller who sent something we cannot read has not asked
+    for a loop and must not be given minutes of one.
+
+    BOUNDED BY THE INTERACTIVE CEILING AND NOT THE JOB'S. The first version used
+    `core.REVISE_MAX_ROUNDS` (8) -- the number the QUEUED route is allowed, on a worker nobody
+    waits on -- which let one request ask for four times what any shipped client sends. The
+    audit of this package measured what that bought and `evaluate.INLINE_MAX_ROUNDS` is the
+    answer; `evaluate` enforces it again, because a ceiling a route owns is a ceiling another
+    route can forget."""
+    try:
+        return max(0, min(evaluate.INLINE_MAX_ROUNDS, int(body.get(key, 0))))
+    except (TypeError, ValueError):
+        return 0
+
+
+def _revise_budget(body, key="revise_budget_s"):
+    """The ceiling on the WHOLE inline loop. None means the interactive default; a caller may
+    LOWER it and may never raise it -- raising it is what the job route is for, and that route
+    has the queue, the single worker, the 503 and the stream that make a long budget safe.
+    Bounded here by `evaluate.inline_budget_ceiling()`, which reads
+    `geometry.BUDGET_REVISE_INLINE_S`, so there is one spelling of the number."""
+    raw = body.get(key)
+    if raw is None:
+        return None
+    try:
+        return max(1.0, min(evaluate.inline_budget_ceiling(), float(raw)))
+    except (TypeError, ValueError):
+        return None
+
+
 # ----------------------------------------------------------------- the workbench loop
 @app.post("/api/plan/evaluate")
 def plan_evaluate(request: Request, body: dict = Body(...)):
@@ -584,12 +616,20 @@ def plan_evaluate(request: Request, body: dict = Body(...)):
         # burn a 15s+ solve on a typo — refuse it, stated
         raise HTTPException(status_code=422, detail={
             "error": f"unknown engine {engine!r} — one of heuristic, cp, auto"})
+    # WP-13.9: THE CORRECTIVE ROUNDS, ASKED FOR BY THE CALLER AND DEFAULTED TO NONE. The bench
+    # sends 2 on an explicit solve (a re-solve, a load, a paste) and nothing on a wall drag, so
+    # every other caller of this route -- the CLI parity test, the drag, a script -- gets the
+    # response it got before. The ceiling is the loop's own (`core.REVISE_MAX_ROUNDS`), and 0
+    # is a real value here rather than a floor: "do not revise" must be expressible.
+    rounds = _revise_rounds(body)
     return evaluate.evaluate(plan,
                              strict=bool(body.get("strict", False)),
                              place=bool(body.get("place", True)),
                              parti=body.get("parti"),
                              candidates=_candidates(body),
-                             engine=engine)
+                             engine=engine,
+                             revise_rounds=rounds,
+                             revise_budget_s=_revise_budget(body) if rounds else None)
 
 
 # ----------------------------------------------------------------- compose jobs

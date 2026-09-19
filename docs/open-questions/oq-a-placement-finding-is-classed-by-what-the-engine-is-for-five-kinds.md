@@ -1,6 +1,6 @@
 # oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds — the analyst's `placement` class reads the record's fields for four drawn kinds and the engine's name for five
 
-*Status: OPEN · Raised in: WP-9.4 (2 Sep 2026)*
+*Status: HALF CLOSED · Raised in: WP-9.4 (2 Sep 2026)*
 
 **The finding.** `build/critique.py::_is_placement` decides whether a drawn finding is *the
 engine's* — the declared record would have satisfied the need and the placement did not — or
@@ -38,3 +38,41 @@ WP-9.2's sweep never fired either move for exactly this reason.
 
 **What is not asked.** Whether the loop may act on a `placement` item: it may not, and that
 is settled by the ruling recorded in `oq/the-revision-loops-authority-over-topology`.
+
+
+---
+
+## RULED 19 SEPTEMBER 2026 for `unreachable` and `cut-off` — WP-13.9
+
+Lucas read a sheet carrying sixty drawn findings beside a revision panel reporting nothing
+applied, and ruled on this question's own sharpest consequence: **a stranded room that shares a
+door's worth of wall with a placed room is answerable by a move on either engine**, with the
+lever recorded beside the move so the engine's reading is not lost.
+
+**The measurement that decided it**, `plans/tidewater-georgian-careful.json`,
+`engine="heuristic"`: 10 of 10 `unreachable` fatals carry a non-empty `adjacent_placed`; all 10
+classed `placement`; the same findings relabelled `cp-sat` give 9 `actionable`
+(`add-the-grammar-door`) and 1 `architect`. Over the sixteen shipped plans, two rounds:
+`unreachable` 93 → 77 before the ruling and 93 → **48** after it, with **45 doors added** where
+none could be.
+
+`_is_placement` now returns `not adjacent_placed and engine != "cp-sat"` for these two kinds, so
+**the old reading survives exactly where it was right** — no move can add a door to a wall that
+is not there, and on the search that really is the engine's.
+
+**The other four kinds are untouched and this question stays open on them.** `drawn-vs-declared`,
+`stack-broken`, `landing-off-well` and `stack-unplaced` keep `engine != "cp-sat"` or an
+unconditional True, and the sixth (`span-over-capacity`, WP-11.12) keeps the reading its own
+comment argues for. Extending the ruling to them by analogy is what this corpus refuses: each
+would need its own measurement of what a move could actually do, and for three of them no move
+exists in the registry at all.
+
+**What the ruling also exposed, and it is the reusable half.** The sentence "so
+`critique._intended_move` answers every one with `add-the-grammar-door` and the revision loop
+runs by default" stood in FOUR files — `CLAUDE.md`, `PLAN-OF-ACTION.md`, `docs/geometry.md` and
+WP-11.8's own report — for eleven days, through an adversarial audit. It was true of the
+EVIDENCE (`_intended_move` does return that move when asked) and false of the CLASS
+(`classify` tests `_is_placement` first, so it was never asked). Nothing pinned the class:
+`tests/test_critique.py` asserted that `adjacent_placed` is a **list**. A field whose presence
+is tested and whose CONSEQUENCE is not is exactly where a prose claim about behaviour can live
+unchallenged.
