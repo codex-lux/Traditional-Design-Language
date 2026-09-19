@@ -1995,6 +1995,134 @@ nothing about the chip at all. The discriminator is the sentence each path makes
 record is stripped and re-solved, so only its panel says *"fresh solve"* -- and that is required
 before the loop exits. The click-to-sheet wait went 90 s -> 150 s, measured: the path is a 25.9 s
 solve plus a 36.4 s round before the sheet is drawn.
+**AND THE ADVERSARIAL AUDIT OF IT FOUND MORE THAN THE PACKAGE DID, INCLUDING NINE OF ITS OWN
+GUARDS THAT COULD NOT FAIL (19 Sep 2026; report §X).** Forty-eight mutations in an isolated
+`git archive` checkout: 37 red, 2 equivalent mutants, **9 genuinely blind**, against this
+package's published "24 mutations, 23 red, 1 blind" -- which is not reproducible as a
+completeness claim. **The blind set includes the package's own headline defect and its own
+budget ruling.** Restoring `_is_placement`'s pre-package `return engine != "cp-sat"` left ALL
+TEN tests in `test_inline_revision.py` green while `add-the-grammar-door` went from six
+applications to ZERO through the real route -- the fatal assertion surviving on a margin of one
+incidental `light-the-far-end`. **A route test that asserts a loop RAN is not a test that it
+does the thing the route exists for.** Dropping the inline budget default left 54 tests green
+and `core.revise_plan`'s own 120 s then applies, quadrupling the ceiling on the one route a
+person waits on: `BUDGET_REVISE_INLINE_S` appeared in NO assertion anywhere in the tree.
+Reverting `remaining`'s lever publication left 93 tests green, because the package's lever test
+reads `classify`'s in-memory assessment and the PANEL reads `report["remaining"]`. And the three
+fields the panel renders about the drawing -- `rolled_back_by_refusal`, `refused_the_drawing`,
+`refused_after` -- were **write-only**: every set-site could be deleted with the Python suite
+green, because all three were asserted only on the JS adapter fed hand-built dicts carrying
+those names. **Producer and consumer pinned to each other's FIELD NAMES and to nothing else**,
+which is this package's own finding one layer down.
+**AND ONE OF ITS NEW TESTS WAS VACUOUS, IN THE CLASS WHOSE NEIGHBOUR RECORDS REMOVING THAT EXACT
+SHAPE.** `test_the_loop_did_not_make_the_drawing_refused` read `not (pr["after"] and not
+pr["before"])` on a fixture where `pr["before"]` is truthy, so the conjunction is False for every
+value of `after` and the assertion is `not False` BY SHAPE; it stayed green under seven
+mutations including the deletion of the `_newly_refused` clause it names. Forty lines above it
+sits the paragraph explaining why the `all(... for i in [])` half of its sibling was removed.
+**Writing that paragraph did not stop the same mistake being made below it.**
+**AND THE `realised_doors` ARITHMETIC THIS PACKAGE SHIPPED WAS WRONG, IN THE FLATTERING
+DIRECTION FOR ITSELF.** `declared - len(unplaced_pairs_for_this_room)` subtracts a deduplicated
+PAIR count from a RECORD count, and a pair is minted by whichever room declared the door:
+`spec-builder-colonial`'s Family Room declares two, the kitchen one WAS placed, the stair's own
+unplaced `family` door put `('family','stair')` in the set, and the room was handed **the very
+sentence the package exists to remove**. The `max(0, ...)` clamp was the tell. **Its test
+restated the production expression verbatim** and a sibling selected rows BY the miscomputed
+value, so one certified the falsehood and the other could not fail. Finding digest
+`37018ccbc24734ff -> 554b84e823b1c057`, one row, diffed against a control reproducing the old
+value to the character.
+**THE RESPONSE CARRIED THE REPORT TWICE AND THE BENCH RE-UPLOADED IT ON EVERY DRAG FRAME.**
+Measured on the shipped Tidewater record: **606,771 bytes of which the report is 147,583, sent
+as `out["revision"]` AND inside `revised_plan.revision_report`** -- 24.3%, to a bench that reads
+only the second; and the revised record is **162,651 bytes of which 147,583 are the report,
+91%**, re-POSTed whole on every debounced wall drag to a route that does not read it.
+`api.exportCad` deliberately still sends it, because `export_dxf` turns it into the plate's
+`revision_summary` XDATA.
+**AND TWO PRE-EXISTING DEFECTS THE AUDIT REACHED, ONE FIXED AND ONE RAISED.** `plan_check`'s
+`cut-off` layer was SILENT on every plan with no placed exterior door -- its dedup guard tests
+`rid not in seen` and `seen` is seeded from `outside`, so with no outside it skipped every room,
+on exactly the houses where a room joined to nothing most needs saying. **Rows 2 -> 26 over the
+sixteen plans**, the 24 new ones on five (`bad-01` 7, `bad-05` 10, `good-03` 3, `good-05` 3,
+`bad-04` 1). And `compose._sort_key` re-sorts the returned set AFTER the loop writes `refused`
+onto every candidate four lines above, and does not read it: measured on `family-georgian` at one
+round on the search, **the candidate ranked FIRST is refused for `bearing, stacks` and the
+second-ranked one is drawable**. Not fixed -- three readings, one ruling:
+`oq/the-composer-ranks-first-a-house-that-may-not-be-drawn`.
+**AND THE PROCESS FINDING IS MINE: THREE "BLOCKING" FINDINGS WERE CONTAMINATION.** An auditor
+reported an uncommitted `loop_engine = "auto"` under a comment reading *"THE ENGINE THAT PLACED,
+NEVER `auto`"*, proved red through the route -- and it was a MUTATION another auditor had written
+into the shared checkout and not yet restored. I had dispatched a mutating auditor alongside four
+reading ones, in one tree. The mutating auditor caught it itself, reconstructing the timeline to
+the second and proving by content scan that none of the dirt was its own; what failed was the
+dispatch. **This file already records that an interrupted mutation run makes every figure taken
+afterwards meaningless. It makes every figure taken CONCURRENTLY meaningless too, and the reader
+has no way to tell.**
+**AND THE BROWSER WALK RAN TO THE END FOR THE FIRST TIME SINCE WP-13.4.** Its
+`waitForSelector('svg[role="img"]')` sits at top level with no `try`, both example records are
+refused, and a TimeoutError there terminates the process -- so the walk was reporting **eight
+checks of about a hundred and ninety**, and the refusal contract's own assertions at the foot of
+that file (the ones `refusal.test.mjs` calls the walk's) were among the ones never reached.
+Three things had to be true: the refusal is asserted where the reader meets it; **`page.goto` to
+the hash the page is already on is a SAME-DOCUMENT navigation**, so `planDoc` never re-boots and
+the walk sat on the refused record dying on a plate the contract forbids (`reload()` is the
+honest spelling); and **a negative assertion over a locator that missed passes vacuously** --
+`!/fresh solve/.test('')` is true, so one of the five new checks was a silent fake pass. Then the
+checks below convicted the surface of not being a house it was never looking at: literal floors
+of thirteen rooms and ten door marks, a title asserted to contain *"tidewater"*, and **an API
+probe that fetched `tidewater-georgian-careful` by name while the bench showed another record**
+-- WP-6.4's one-building rule broken inside the instrument that checks it. Every expectation is
+derived from the record on screen now. **Measured while fixing it: only THREE of the sixteen
+plans are drawable on `auto`** (`bad-02`, `bad-06`, `good-03`), all one level, **and not one of
+them places a stack or a stoop** -- so those two checks report COULD NOT EVALUATE by name rather
+than failing, and will until a drawable record has one.
+**AND MAKING THAT CHECK READ THE PAGE SURFACED A DISCLOSURE THE ROUNDS COST.** An explicit solve
+runs the loop, and the loop re-places on the engine that placed **asked for BY NAME** -- so the
+record the sheet is drawn from carries no fallback reason and the caption's *"The proof was
+attempted and did not answer"* is gone, while a bare `auto` evaluate of the same document still
+falls back and still says so. Nothing on the sheet is false; what a reader loses is the answer to
+a different question -- *was a proof attempted for this house* -- which the first pass used to
+give. **Not fixed**: carrying the FIRST solve's `reason` forward changes what
+`geometry._disclose` means by the field, from a fact about the placement in hand to a fact about
+the act that produced the house, and that is a ruling. The walk reports it COULD NOT EVALUATE
+with both readings in the message.
+**THE WALK'S FINAL TALLY IS 215 GREEN, NONE FAILED AND FOUR COULD NOT EVALUATE -- EXIT 3,
+THE WALK'S OWN "an unjudged walk is not a green one" -- AGAINST EIGHT CHECKS REPORTED BEFORE
+THE FIX.** Everything below the sheet wait -- the stair, the fixtures, the
+furniture, the door types, the relaxation marks, the wall handle and its drag, the
+working-sketch banner, the Round's cameras and overlays, the Drawing Set, and the refusal
+contract's own assertions at the foot of that file -- had not run since WP-13.4. The one
+unjudged is a coupling the new subject exposed on a surface this package did not touch:
+`DrawingSet.jsx` gates the line naming WHICH FACE is drawn on `result.date_of_representation`,
+and `good-03` returns null for it (asked of the API, not inferred), so a reader of its east
+elevation is told neither the face nor where the front is. The face and the front are facts
+about the DRAWING and the date is not; splitting that paragraph is somebody else's package.
+**AND THE DISCRIMINATOR FOR THAT THIRD STATE TOOK THREE GOES, EACH MISS MATCHING SOMETHING ELSE
+ON THE SAME PAGE.** *"the entrance front"* is also the text of the face CHIP that names the
+front, so the first guard matched a radio label; *"glass module"* is also drawn INTO THE PLATE
+in the sheet's own margin schedule -- the walk printed `tidewater-georgian · 3 BAYS ·
+side-gable 8.0:12 · GLASS MODULE 9.0 IN (undated)`, the SVG and not the caption, whose
+`(undated)` is the very null the branch exists for. **A three-state check whose third state
+never fires is a two-state check with a longer comment**, and the only thing that found either
+miss was making the check PRINT what it had matched. The walk's FOOTER also stopped asserting a
+cause it cannot know (*"because this server does not yet answer WP-13.4's refusal contract"*,
+now one of several); each line says its own reason.
+**AND THE BUILD ON THE AUDITED TREE IS `2 of 53 checks failed`, WITH NOT ONE RED THIS PASS'S.**
+`pytest tests/` is 23 failed / 2,605 passed / 47 skipped in 55:14, of which **16 are the
+WP-13.1 gate**; the other seven are the set this entry already names as pre-existing (three
+`test_composer.py` rows, `test_parti_composability`, `test_refusal`'s DXF skip clause,
+`test_score`, `test_solver`'s half bound). The server suite is **263 passed / 15 skipped** and
+the app suite **221 of 221**, both green. The two failing CHECKS are `check_partis.py` and the
+suite, which are ONE finding through two readers. **The collection count reconciles by NAME
+rather than by arithmetic**: 2,667 -> **2,675**, ten ids added and two renamed away, diffed id
+by id against a `git archive` checkout of the parent.
+**EIGHTEEN MUTATIONS OVER EVERY GUARD ADDED OR RE-CUT, ALL RED, AND THE TWO THAT WERE BLIND ON
+THEIR FIRST RUN ARE THE REUSABLE HALF.** The BATCH's own `rolled_back_by_refusal` site is
+shadowed by the retry's `setdefault` whenever the batch holds ONE move -- one state, two causes,
+and only the second guarded; the fixture offers two issues now and drives a batch refused for
+the DRAWING whose moves, retried alone, are refused on the KEY. And `_record`'s
+`refused_the_drawing` annotation was **DEAD**: that function is called only with
+`accepted=True`, at both call sites, so a third spelling of a verdict two live sites already
+write could never fire. Deleted, because an annotation that cannot apply reads as coverage.
 
 **WP-13.8 IS THE ENTRANCE FRONT'S POPULATION MADE THE MAIN BLOCK'S, AND ITS HEADLINE IS THE ONE IT
 COULD NOT CLAIM (`docs/reports/wp-13.8-the-front-was-not-the-main-blocks.md`).**
@@ -6327,8 +6455,8 @@ report by FILENAME, because the NUMBER names two packages.
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **211 entries, of which 116 are open**
-(7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shared-flue-cannot-stand-behind-two-centred-breasts, oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-stated-position-on-an-item-too-thin-to-draw, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/a-withdrawn-claim-still-steers-the-placer, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/an-undecided-scout-releases-every-type-fact-at-once, oq/applies-when-means-two-things, oq/clear-counts-a-pass-and-a-tautology-as-one-thing, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room, oq/the-composers-footprint-is-not-the-placed-one, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front, oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-net-clear-opening-is-half-of-every-sash, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-plate-does-not-read-the-disclosure-module-it-imports, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-prover-draws-a-centre-passage-that-does-not-go-through, oq/the-raw-kit-read, oq/the-record-dimensions-a-transom-and-no-drawing-draws-one, oq/the-record-table-draws-an-untrusted-room-name, oq/the-refusal-contract-silenced-three-guards-about-other-properties, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in, oq/the-servicing-layer-does-not-know-about-massing-elements, oq/the-span-count-and-the-span-marks-read-membership-two-ways, oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left, oq/the-title-block-states-the-main-block-as-the-house, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).  The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
+  run `build/gen_open_questions.py`. It holds **212 entries, of which 117 are open**
+(7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shared-flue-cannot-stand-behind-two-centred-breasts, oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-stated-position-on-an-item-too-thin-to-draw, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/a-withdrawn-claim-still-steers-the-placer, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/an-undecided-scout-releases-every-type-fact-at-once, oq/applies-when-means-two-things, oq/clear-counts-a-pass-and-a-tautology-as-one-thing, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw, oq/the-composer-ranks-first-a-house-that-may-not-be-drawn, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room, oq/the-composers-footprint-is-not-the-placed-one, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front, oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-net-clear-opening-is-half-of-every-sash, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-plate-does-not-read-the-disclosure-module-it-imports, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-prover-draws-a-centre-passage-that-does-not-go-through, oq/the-raw-kit-read, oq/the-record-dimensions-a-transom-and-no-drawing-draws-one, oq/the-record-table-draws-an-untrusted-room-name, oq/the-refusal-contract-silenced-three-guards-about-other-properties, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in, oq/the-servicing-layer-does-not-know-about-massing-elements, oq/the-span-count-and-the-span-marks-read-membership-two-ways, oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left, oq/the-title-block-states-the-main-block-as-the-house, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).  The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. **AND THE ENTRY COUNT HAS BEEN THE FILE COUNT, WHICH IS THE
   UNGUARDED-PROSE CLASS ARRIVING IN THIS PARAGRAPH** -- `docs/open-questions/README.md`
   is a file in that directory and not a question, so on the commit before WP-12.9 this

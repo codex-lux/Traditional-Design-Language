@@ -623,9 +623,23 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # UNMOVED at 203 and 239 and both watched layers unmoved at 13/18 and 11/17,
                 # which is the property this class guards and is why this is a re-derivation
                 # rather than a bump. Old digests: 24b6a6a640f637b8 / afa4d7a9c173615d.
+                # AND ONCE MORE AT WP-13.9's ADVERSARIAL AUDIT, ON ONE PLAN AND ONE ROW, AND
+                # THE ROW IS THE AUDIT'S OWN HEADLINE. The re-wording above replaced the false
+                # sentence with `realised = max(0, declared - len(unplaced_pairs_for_this_room))`
+                # -- which subtracts a deduplicated PAIR count from a RECORD count. A pair is
+                # minted by whichever room declared the door, so a neighbour's unplaced door
+                # was charged to this room: `spec-builder-colonial`'s Family Room declares two,
+                # the kitchen one WAS placed, the stair's own unplaced `family` door put
+                # ('family', 'stair') in the set, and the room was handed the very sentence
+                # this change exists to remove. It counts the room's OWN unplaced flags now.
+                # Diffed row by row against a `git archive` control of `c49f6ee` that
+                # reproduces both digests to the character: Tidewater UNMOVED, spec Colonial
+                # **1 row out and 1 in**, the same room, the same kind, the sentence alone.
+                # Counts unmoved at 203 and 239 and both watched layers at 13/18 and 11/17.
+                # Old digests: cf857d78072bf00c (unmoved) / 37018ccbc24734ff.
                 ("tidewater-georgian-careful", "cf857d78072bf00c", 203,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "37018ccbc24734ff", 239,
+                ("spec-builder-colonial", "554b84e823b1c057", 239,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \

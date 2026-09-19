@@ -138,7 +138,19 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
             <div key={rd.n} style={{ margin: '6px 0 0', paddingLeft: 10,
               borderLeft: `2px solid ${rd.accepted ? 'var(--gilt-deep)' : 'var(--brick)'}` }}>
               <div style={{ ...quiet, color: rd.accepted ? 'var(--ink-2)' : 'var(--brick)' }}>
-                round {rd.n} · {rd.accepted ? 'accepted' : 'rolled back'} · {rd.delta}
+                {/* WHY IT WAS ROLLED BACK, WHERE THE LOOP SAYS SO (WP-13.9's audit). A round
+                    refused because the placement it produced may not be DRAWN is a different
+                    fact from one refused because the key rose, and both `rolledBackByRefusal`
+                    and the round's own `refusedAfter` reached the adapter and were then
+                    dropped here -- two fields the loop writes, carried the whole way and
+                    rendered nowhere, which is how a producer and a consumer come to be pinned
+                    to each other's field names and to nothing else. */}
+                round {rd.n} · {rd.accepted
+                  ? 'accepted'
+                  : rd.rolledBackByRefusal
+                    ? 'rolled back — the placement it produced may not be drawn'
+                    : 'rolled back'} · {rd.delta}
+                {rd.accepted && rd.refusedAfter ? ' · the placement it kept is still refused' : ''}
                 {rd.engine ? ` · ${rd.engine}` : ''}
                 {rd.tabuForgotten ? ` · ${rd.tabuForgotten} refusal${rd.tabuForgotten === 1 ? '' : 's'} forgotten with the engine change` : ''}
               </div>

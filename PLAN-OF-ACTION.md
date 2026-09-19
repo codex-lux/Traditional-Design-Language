@@ -4280,8 +4280,22 @@ sixteen byte-identical to the previous commit** — the accounting proved rather
 
 ### WP-13.9 The first pass was the product
 
-**Status: COMPLETE (19 Sep 2026).** Report:
+**Status: COMPLETE (19 Sep 2026), AND ADVERSARIALLY AUDITED THE SAME DAY — read §X of the
+report before trusting any figure it publishes.** Report:
 `docs/reports/wp-13.9-the-first-pass-was-the-product.md`.
+
+**THE AUDIT FOUND MORE THAN THE PACKAGE DID.** Five read-only auditors on four angles and a
+sweep of 48 mutations in an isolated checkout: **nine of the package's own guards could not
+fail**, including the one on its headline defect (restoring the critic's pre-package reading
+left all ten route tests green while the door move went from six applications to zero) and the
+one on its own budget ruling (`BUDGET_REVISE_INLINE_S` was asserted nowhere in the tree). One
+of its new tests was **vacuous by shape**, in the same class whose neighbour records removing
+that exact shape. Its `realised_doors` arithmetic subtracted a PAIR count from a RECORD count
+and handed one room the very sentence the package exists to remove. The response carried the
+147 KB revision report **twice** and the bench re-POSTed it on every drag frame. All fixed,
+each fix mutation-checked; two pre-existing defects were reached on the way, one fixed
+(`plan_check`'s `cut-off` layer was silent on every plan with no placed exterior door — rows
+2 → 26) and one raised (`oq/the-composer-ranks-first-a-house-that-may-not-be-drawn`).
 
 **Raised by Lucas against the bench's own Tidewater sheet**, in his words: *"During plan solving,
 there doesn't seem to be any level of recursive self-improvement directed towards resolving any of

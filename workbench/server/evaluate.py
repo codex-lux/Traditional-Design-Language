@@ -19,6 +19,7 @@ is still judged on what it declares and the drawn layer reports COULD NOT
 EVALUATE rather than passing. That distinction is the whole of the change.
 """
 import os
+import threading
 import time
 
 from . import corpus
@@ -171,6 +172,52 @@ def _attach_placement(out, place, solved, placement_error, refused, engine):
                                       "reason": SKETCH_REASON}
 
 
+# ------------------------------------------------- what the INTERACTIVE path may spend
+# ADDED BY WP-13.9's OWN ADVERSARIAL AUDIT, which found the first version had put JOB-SHAPED
+# WORK ON THE REQUEST PATH AND KEPT ONLY THE JOB'S CEILING. The route bounded `revise_rounds`
+# by `core.REVISE_MAX_ROUNDS` (8) and `revise_budget_s` by `core.REVISE_MAX_BUDGET_S` (600) --
+# the JOB route's numbers, chosen for a queue of one worker that nobody waits on. Measured by
+# the audit on this tree: one request could ask for 8 rounds and 600 s, the loop tests its
+# budget at the TOP of a round so the true ceiling is budget plus one round, and one CP round
+# costs about 35 s -- **about 11 minutes of one core, on a route a browser waits on**, with
+# the rate limiter's 60 calls an hour per identity then buying roughly eleven hours of CPU per
+# wall hour from a single caller.
+#
+# The job route has a one-worker pool, a bounded queue, a 503 with `Retry-After`, an SSE
+# stream and a result held for thirty minutes. This path has none of those and must therefore
+# be bounded to what a person will actually wait through:
+#
+#   ROUNDS   the ruling's own number, two, and not the job's eight.
+#   BUDGET   `geometry.BUDGET_REVISE_INLINE_S`, the constant DERIVED for this path, and never
+#            the job's. A caller may LOWER it and may not raise it; raising it is what the job
+#            route is for.
+#   WIDTH    the search width the loop re-places at, capped at the default. `_candidates`
+#            admits 2000, which is sized for ONE placement; the loop multiplies it by rounds
+#            times moves.
+#   AT ONCE  `INLINE_CONCURRENCY`. This endpoint is a sync `def`, so Starlette runs it in the
+#            anyio threadpool -- 40 tokens for the WHOLE application, `/api/health` included
+#            (`jobs.py` says so in its own comment). Forty concurrent revising evaluates hold
+#            every token and the platform healthcheck queues behind them, which reads as a dead
+#            container and takes every in-flight compose job with it on the restart. That is
+#            the infrastructure audit's own measured failure (health 25 ms -> 1,021 ms behind
+#            80 held tokens) re-created on a route that can now hold a token a thousand times
+#            longer than the 338 ms it was measured at. Two at a time leaves 38 for everything
+#            else, and a caller past the cap gets its SHEET with the rounds declined BY NAME --
+#            never a silent skip, which would read as a loop that found nothing to do, and
+#            never a 503, because the sheet is what was asked for and it is still correct.
+INLINE_MAX_ROUNDS = 2
+INLINE_MAX_CANDIDATES = 250
+INLINE_CONCURRENCY = 2
+_INLINE_SLOTS = threading.BoundedSemaphore(INLINE_CONCURRENCY)
+
+
+def inline_budget_ceiling():
+    """The interactive loop's ceiling, read from the ONE place that derives it. A second
+    spelling here is how the route and the module come to disagree about what 30 s means."""
+    geo = core._mod("geometry", os.path.join(core.ROOT, "build", "geometry.py"))
+    return float(geo.BUDGET_REVISE_INLINE_S)
+
+
 # --------------------------------------------------------------- the corrective rounds
 # WP-13.9, RULED 19 SEP 2026. Lucas read the bench's Tidewater sheet -- sixty drawn findings,
 # most of them the `unreachable` fatal -- beside a revision panel reading 0 rounds and 0 moves
@@ -205,15 +252,30 @@ def _revise_inline(solved, parti, candidates, rounds, budget_s):
     # where it has just been measured to fall back, which is the reader's whole wait spent
     # re-learning what the solve above already reported.
     loop_engine = "cp" if ran == "cp-sat" else "heuristic"
+    # THE CEILINGS ARE THIS MODULE'S, NOT THE CALLER'S. The route parses and this enforces, so
+    # a caller that reaches `evaluate()` by any other path -- a test, a script, a future route
+    # -- cannot buy the job's budget on the request thread either.
+    rounds = max(1, min(INLINE_MAX_ROUNDS, int(rounds)))
+    candidates = max(1, min(INLINE_MAX_CANDIDATES, int(candidates)))
+    budget = min(float(budget_s), inline_budget_ceiling()) if budget_s else inline_budget_ceiling()
+    if not _INLINE_SLOTS.acquire(blocking=False):
+        # DECLINED BY NAME, and the sheet still lands. A silent skip here would be
+        # indistinguishable from a loop that ran and found nothing to do, which is the exact
+        # screen this package was written to remove.
+        return solved, {"declined": (
+            f"the server is already running {INLINE_CONCURRENCY} revising solves; this one was "
+            f"placed and judged without corrective rounds. Press re-solve again, or use the "
+            f"revise chips, which run as a queued job.")}
     try:
         res = core.revise_plan(
             solved, rounds=rounds, engine=loop_engine, candidates=candidates,
-            place=True, include_plan=True,
-            budget_s=budget_s if budget_s else geo.BUDGET_REVISE_INLINE_S,
+            place=True, include_plan=True, budget_s=budget,
             parti=parti, surfaced="with-its-own-placement",
             time_limit_s=geo.BUDGET_INTERACTIVE_S)
     except Exception as exc:                                  # noqa: BLE001 -- see docstring
         return solved, {"error": f"{type(exc).__name__}: {str(exc)[:200]}"}
+    finally:
+        _INLINE_SLOTS.release()
     if "error" in res:
         return solved, {"error": res["error"]}
     # `revise()` carries the placement from its first critique onward, and that first critique
@@ -223,16 +285,28 @@ def _revise_inline(solved, parti, candidates, rounds, budget_s):
 
 
 def _attach_revision(out, revised, revision):
-    """What the loop did, on the response. The REPORT rides whole -- the panel reads rounds,
-    moves, bases and refusals from it -- and the revised DECLARED record rides beside it so the
-    bench can load it as one undo step, stripped exactly as `jobs.revised_plan` strips it. It
-    is stripped for one reason: a placement travels on `placement`, projected from the record
-    the findings were judged against, and two copies of one placement on one response is how
-    two readers of one house come to disagree. `revision_report` survives the strip (it is not
-    in `openings.PLACEMENT_PLAN_KEYS`), which is what the panel is."""
+    """What the loop did, on the response, ONCE. The revised DECLARED record rides so the bench
+    can load it as one undo step, stripped exactly as `jobs.revised_plan` strips it -- and the
+    report rides INSIDE it, as `revision_report`, which survives the strip (it is not in
+    `openings.PLACEMENT_PLAN_KEYS`) and is what the panel reads.
+
+    Two things are deliberately absent. The PLACEMENT, because it travels on `placement`,
+    projected from the record the findings were judged against, and two copies of one placement
+    on one response is how two readers of one house come to disagree. And a second copy of the
+    REPORT: the first version set `out["revision"]` to the same object, measured at 147,583
+    bytes on a 606,771-byte response, and the bench read only the one on the record."""
+    if "declined" in revision:
+        out["revision_skipped"] = revision["declined"]
+        return
     if "error" in revision:
         out["revision_error"] = revision["error"]
         return
     op = core._mod("openings", os.path.join(core.ROOT, "build", "openings.py"))
-    out["revision"] = revision
+    # ONE COPY, ON THE RECORD (WP-13.9's audit). The first version also set `out["revision"]`
+    # to the same report, and MEASURED on the shipped Tidewater plan it is the same 147,583
+    # bytes twice on a 606,771-byte response -- 24.3% of it, shipped to a bench that reads
+    # `revised_plan.revision_report` and never looked at the other one. `jobs.py` had already
+    # met this and says so in its own comment ("the report rode twice ... 87 KB each"); the
+    # remedy there was to make them one object and the remedy here is to send one. A caller
+    # asking what the rounds did reads the report where the job route also puts it.
     out["revised_plan"] = op.strip_placement(core.copy_json(revised))

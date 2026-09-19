@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**211 questions, of which 116 are open.** A question is OPEN while
+**212 questions, of which 117 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 116
+## Open — 117
 
 Awaiting a ruling. This is the list to read first.
 
@@ -111,6 +111,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either** | OPEN | [two ruled packages, and their composition is worse than either alone](open-questions/oq-the-bay-parity-and-the-band-ranking-compose-worse-than-either.md) |
 | **oq/the-canon-axis-counts-two-grains-as-one** | OPEN | ["23 could not be evaluated" out of a denominator of 10](open-questions/oq-the-canon-axis-counts-two-grains-as-one.md) |
 | **oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw** | OPEN | [the job route strips its record and the bench re-solves it, so the panel's key and the plate are two houses](open-questions/oq-the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw.md) |
+| **oq/the-composer-ranks-first-a-house-that-may-not-be-drawn** | OPEN | [`_sort_key` never reads the refusal written onto the dict it sorts](open-questions/oq-the-composer-ranks-first-a-house-that-may-not-be-drawn.md) |
 | **oq/the-composer-ranks-on-an-assumed-bearing** | OPEN | [an aspect verdict entered the fitness function without being ruled into it](open-questions/oq-the-composer-ranks-on-an-assumed-bearing.md) |
 | **oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room** | OPEN | [the refusal is honest and the set is useless](open-questions/oq-the-composer-returns-a-set-that-satisfies-neither-must-have-room.md) |
 | **oq/the-composers-footprint-is-not-the-placed-one** | OPEN | [two derivations of one house's width, and the card publishes the one nobody builds](open-questions/oq-the-composers-footprint-is-not-the-placed-one.md) |

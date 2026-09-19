@@ -232,34 +232,51 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
         # against the engine the record will be drawn with, so when the placement is the
         # search's and CP-SAT is importable, the proof is asked for before any declared move
         # and the tabu earned under the search is forgotten when the engine changes.
-        prove_first = (crit["assessment"]["placement"] and crit["engine"]["ran"] != "cp-sat"
-                       and "prove-it" not in levers_tried
-                       and crit["assessment"]["placement"][0].get("move") == "prove-it")
+        # AND THE LEVER IS LOOKED FOR IN BOTH CLASSES (WP-13.9's audit). Until the ruling of
+        # 19 Sep, a stranded room with a placed neighbour WAS the `placement` class, so
+        # `assessment["placement"]` was where the proof was asked from. Those findings are
+        # `actionable` now and carry the lever beside the move -- so on a plan whose only
+        # placement-class findings were `unreachable`/`cut-off`, that list empties, and the
+        # rule this comment states above ("the proof comes first where it is to be had")
+        # would quietly become conditional on some OTHER kind happening to exist. It is not
+        # reproducible on the two shipped plans, because `span-over-capacity` keeps the list
+        # non-empty on both; nothing pinned it, which is how the defect this package fixed
+        # survived eleven days.
+        #
+        # `_lever_rows` is a list of (lever id, the issue it came from), and which FIELD holds
+        # the id differs by class: on a `placement` row the lever IS `move`; on the other two
+        # it is `lever_move`, and reading `move` there hands `MV.apply` a DECLARED move on the
+        # lever path -- a `KeyError: 'lever'` two statements later, and what the first draft of
+        # this did.
+        _lever_rows = ([(i.get("move"), i) for i in crit["assessment"]["placement"]]
+                       + [(i.get("lever_move"), i) for i in crit["assessment"]["actionable"]]
+                       + [(i.get("lever_move"), i) for i in crit["assessment"]["architect"]])
+        _lever_rows = [(m, i) for m, i in _lever_rows if m and m not in levers_tried]
+        _wanted = _lever_rows[0][0] if _lever_rows else None
+        prove_first = (crit["engine"]["ran"] != "cp-sat" and "prove-it" not in levers_tried
+                       and _wanted == "prove-it")
         if not picks or prove_first:
             # a lever, alone: the proof first, or when no declared move is left
-            lever = None
-            if crit["assessment"]["placement"]:
-                wanted = crit["assessment"]["placement"][0].get("move")
-                if wanted and wanted not in levers_tried:
-                    lever = wanted
+            lever = _wanted
+            _lever_finding = _lever_rows[0][1] if _lever_rows else None
             if lever is None:
                 stop = "converged" if not crit["assessment"]["actionable"] else "no-applicable-move"
                 n -= 1
                 break
             levers_tried.add(lever)
-            res = MV.apply(lever, plan, crit["assessment"]["placement"][0]["finding"], C, ctx)
+            res = MV.apply(lever, plan, _lever_finding["finding"], C, ctx)
             if "refused" in res:
                 rnd["moves"].append({"move": lever, "refused": res["refused"],
-                                     "finding": crit["assessment"]["placement"][0]["id"]})
+                                     "finding": _lever_finding["id"]})
+                rnd["refused_after"] = bool(_refused(crit))
                 _report(rnd)
                 continue
             saved = dict(ctx)
             ctx.update(res["lever"])
             trial = OP.strip_placement(copy.deepcopy(plan))
             new = _crit(trial)
-            entry = {"move": lever, "finding": crit["assessment"]["placement"][0]["id"],
+            entry = {"move": lever, "finding": _lever_finding["id"],
                      "basis": res["basis"], "lever": res["lever"], "log": res["log"]}
-            rnd["refused_after"] = bool(_refused(new))
             if _newly_refused(new, crit):
                 # NOT "made the plan worse on this engine": the key may well have fallen.
                 # The panel reads this field, so a lever rolled back for the drawing's sake
@@ -288,6 +305,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                 ctx.clear(); ctx.update(saved)
             rnd["moves"].append(entry)
             rnd["engine_after"] = new["engine"]["ran"]
+            rnd["refused_after"] = bool(_refused(crit))
             _report(rnd)
             continue
 
@@ -302,6 +320,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                 continue
             applied.append((mid, issue, res))
         if not applied:
+            rnd["refused_after"] = bool(_refused(crit))
             _report(rnd)
             continue
         replace = any(r["requires"] == "re-place" for _m, _i, r in applied)
@@ -311,6 +330,14 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
 
         def _record(entries, new, accepted):
             att = _attrib(crit, new)
+            # THIS FUNCTION IS ONLY EVER CALLED WITH `accepted=True`, and the first version of
+            # it carried a `refused_the_drawing` annotation gated on `not accepted` -- a third
+            # spelling of a verdict that could not fire, found by mutating it and watching the
+            # suite stay green (WP-13.9's audit). The behaviour it wanted is real and is
+            # delivered by the two live sites: the lever branch above, and the single-move
+            # retry below, which writes the flag off `_newly_refused(new1, crit)` at the
+            # moment the trial is judged. Deleted rather than kept, because an annotation that
+            # cannot apply reads as coverage.
             for mid, issue, res in entries:
                 rnd["moves"].append({"move": mid, "finding": issue["id"], "basis": res.get("basis"),
                                      "tier": res.get("tier"), "kind": res.get("kind"),
@@ -320,7 +347,12 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                                      "accepted": accepted})
             return att
 
-        rnd["refused_after"] = bool(_refused(new))
+        # THE BATCH'S VERDICT IS PROVISIONAL (WP-13.9's audit). Below, a rolled-back batch is
+        # retried one move at a time and one of those may be ACCEPTED -- and this field was set
+        # from the batch's critique and never corrected, so the round published the refusal
+        # state of a placement it had discarded, and could carry `rolled_back_by_refusal` on a
+        # round whose own `accepted` is True. Both are re-stated from `crit` at the foot of the
+        # round, which is the state the round actually ended in.
         if _newly_refused(new, crit):
             rnd["rolled_back_by_refusal"] = True
         if _improves(new, crit):
@@ -371,12 +403,17 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                     break
                 tabu.add((mid, issue["id"]))
                 rnd["moves"].append({"move": mid, "finding": issue["id"], "refused_by_measurement": True,
-                                     "key_after": list(new1["key"]), "log": res.get("log")})
+                                     "key_after": list(new1["key"]), "log": res.get("log"),
+                                     **({"refused_the_drawing": True} if _newly_refused(new1, crit) else {})})
             if accepted_one is None:
                 for mid, issue, _res in applied:
                     tabu.add((mid, issue["id"]))
                 rnd["key_after"] = list(crit["key"])
         rnd.setdefault("key_after", list(crit["key"]))
+        # the round's own final state, whatever path it took to get here
+        rnd["refused_after"] = bool(_refused(crit))
+        if rnd["accepted"]:
+            rnd.pop("rolled_back_by_refusal", None)
         _report(rnd)
         h = _hash(plan)
         if rnd["accepted"] and h in seen:
@@ -410,11 +447,21 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             # re-placement is not lower, and a rise in fatal OR serious is a worse house; only
             # the minor axis may pay for the brief's area (the session's audit found this
             # branch comparing fatals alone with no unjudged guard)
-            worse = unjudged or crit["key"][:2] > kept_crit["key"][:2]
+            # AND A RECLAIM MAY NOT MAKE THE HOUSE UNDRAWABLE EITHER (WP-13.9's audit). This
+            # block is the one thing that runs AFTER the acceptance rule, and this file's own
+            # comment three lines up says it is held to the same rule the rounds were -- it was
+            # held to two thirds of it. The refusal clause was added to `_improves` and not
+            # here, so the report's `placement_refused` could publish `null -> refused` under a
+            # comment saying `_improves` makes that impossible. Reachable from the composer,
+            # which is the only caller that passes a `brief`.
+            worse = (unjudged or _newly_refused(crit, kept_crit)
+                     or crit["key"][:2] > kept_crit["key"][:2])
             if worse:
                 reclaimed["rolled_back"] = True
                 reclaimed["why"] = ((f"the placement after reclaim could not be evaluated ({unjudged}); "
                                      f"an unjudged key is not a lower one") if unjudged else
+                                    ("the placement after reclaim is refused by the type's own facts, "
+                                     "and a house nobody may draw is not a better one") if _newly_refused(crit, kept_crit) else
                                     (f"reclaim raised fatal or serious on this engine ({kept_crit['key']} -> "
                                      f"{crit['key']}); the area discipline does not outrank the rule "
                                      f"every round was held to")) + ", so the accepted state is kept"
@@ -427,9 +474,17 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
     # class's whole content; since an `unreachable` room with a placed neighbour is
     # `actionable` on either engine, the reading a reader used to get from the class -- a
     # proof might have seated the door the author declared -- has to travel on the row.
+    # AND `lever_move` TRAVELS WITH IT (this package's own audit). Publishing the lever's
+    # KIND -- the bare string "engine" or "candidates" -- and not what would be tried gives a
+    # reader of an actionable row half a sentence: the class already says a move answers it,
+    # and the lever is only worth carrying if it names the other thing that might. On a
+    # `placement` row `move` IS the lever's move and is published by the line below; on the
+    # other two it is `lever_move`, and reading `move` there would print a DECLARED move under
+    # the word "engine", which is the same conflation that cost `_lever_rows` a KeyError.
     remaining = {c: [{"id": i["id"], "severity": i["severity"], "statement": i["statement"],
                       **({"lever": i.get("lever")} if i.get("lever") else {}),
-                      **({"move": i.get("move")} if c == "actionable" else {})}
+                      **({"lever_move": i.get("lever_move")} if i.get("lever_move") else {}),
+                      **({"move": i.get("move")} if c in ("actionable", "placement") else {})}
                      for i in after["assessment"][c]]
                  for c in ("actionable", "placement", "critic_suspect", "architect", "advisory")}
     handed = [{"id": i["id"], "severity": i["severity"], "statement": i["statement"], "why": i.get("why"),
@@ -447,6 +502,14 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
     # happen (`_improves` guards it), and refused -> refused is the common case and says the
     # house still may not be drawn however far the key fell.
     refused_before, refused_after = _refused(before), _refused(after)
+    # THREE STATES, NOT TWO (WP-13.9's audit). `critique()` writes `placement.refused` ONLY on a
+    # placed run whose placement it could judge, with the stated reason that reading a missing
+    # key as "not refused" is the fake pass this corpus names first -- and this block then
+    # published `False` for it unconditionally, so a DECLARED-mode report (the composer's
+    # `repair`, `place=False`) and a run whose first placement could not be evaluated both
+    # asserted the house was drawable. `None` is the third state and it travels.
+    _judged = bool(place) and not placement_unjudged
+    _bool_or_none = (lambda v: bool(v)) if _judged else (lambda _v: None)
     report = {"schema": _plan_schema_version(), "mode": "placed" if place else "declared",
               "engine": {"requested": engine, "final": after["engine"]["ran"], "candidates": ctx["candidates"]},
               "rounds": log, "stop_reason": stop,
@@ -462,7 +525,8 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
               "surfaced": surfaced,
               "summary": {"rounds": len(log), "moves_applied": applied_n, "moves_refused": len(refused),
                           "key_before": list(before["key"]), "key_after": list(after["key"]),
-                          "refused_before": bool(refused_before), "refused_after": bool(refused_after),
+                          "refused_before": _bool_or_none(refused_before),
+                          "refused_after": _bool_or_none(refused_after),
                           "stop_reason": stop, "seconds": round(time.perf_counter() - t0, 1)},
               "note": ("Every move names the finding it answered and the sentence it executed; every "
                        "refusal is stated; what remains is the engine's, the critic's own, or the "

@@ -30,6 +30,21 @@ test('a round with no moves never renders "undefined"', () => {
   assert.ok(!/undefined/.test(roundLine(null)));
 });
 
+test('the live round line says WHY a round was rolled back, as the landed report does', () => {
+  /* WP-13.9's audit. `jobs.py` built the `round` event without the three fields the loop
+     writes about the drawing, so while the loop RAN a round refused because its placement may
+     not be drawn read as a plain "rolled back" -- and when the report landed seconds later the
+     same round said something else. Two accounts of one round on one surface. */
+  assert.match(roundLine({ n: 1, accepted: false, rolled_back_by_refusal: true,
+                           moves: [{ move: 'add-the-grammar-door', refused_by_measurement: true }] }),
+               /may not be drawn/);
+  assert.match(roundLine({ n: 2, accepted: true, refused_after: true, moves: [{ move: 'x', accepted: true }] }),
+               /still refused/);
+  // and a round with neither reads exactly as it did before the ruling
+  assert.match(roundLine({ n: 3, accepted: false, moves: [{ move: 'x', refused: 'no' }] }), /rolled back ·/);
+  assert.match(roundLine({ n: 4, accepted: true, moves: [{ move: 'x', accepted: true }] }), /accepted ·/);
+});
+
 test('a rolled-back round says so and counts its refusals', () => {
   const line = roundLine({ n: 3, accepted: false, key_before: [1, 2, 3, 0], key_after: [1, 3, 3, 0],
     moves: [{ move: 'widen-for-furniture', refused_by_measurement: true },
@@ -44,6 +59,17 @@ test('a suspect is neither cleared nor failed: it has its own tag and no verdict
   assert.equal(classTag('actionable', { move: 'widen-for-furniture' }), 'a move answers this: widen-for-furniture');
   assert.equal(classTag('placement', { lever: 'prove-it' }), "the engine's — lever: prove-it");
   assert.equal(classTag('nonsense'), null);
+  /* WP-13.9 makes a stranded room with a placed neighbour `actionable` on either engine, and
+     the reading a reader used to get from the class -- a proof might have seated the door the
+     author declared -- rides on the ROW now. It was rendered for `placement` alone, so the
+     field travelled from `critique.classify` through the report to here and was dropped for
+     exactly the two classes the ruling added it to. */
+  assert.equal(classTag('actionable', { move: 'add-the-grammar-door', lever: 'engine', lever_move: 'prove-it' }),
+    'a move answers this: add-the-grammar-door — or the engine: prove-it');
+  assert.equal(classTag('architect', { lever: 'candidates', lever_move: 'search-harder' }),
+    "the architect's — or the engine: search-harder");
+  // a row with no lever reads exactly as it did before the ruling
+  assert.equal(classTag('architect', {}), "the architect's");
 });
 
 test('the class key is critic_suspect with an underscore, as critique.py spells it', () => {
@@ -138,6 +164,13 @@ test('the drawing\'s verdict is read at both ends, and a cleared refusal is told
   assert.equal(cleared.refusalCleared, true);
   assert.equal(cleared.refusedAfter, null);
 
+  // BOTH ENDS, AND THE ONE WITH NO PANEL READER TOO. `refusedBefore` was mutated to `null` in
+  // an adversarial sweep and all 215 tests here stayed green, because `refusalCleared` read
+  // the report again instead of the field beside it. One end of a pair the panel calls "the
+  // information" had neither a consumer nor a guard.
+  assert.deepEqual(carried.refusedBefore.facts, ['hearth', 'tiling']);
+  assert.deepEqual(cleared.refusedBefore, ref);
+
   // a report with no verdict at all says neither, rather than reading as drawable
   const silent = adaptRevision({ rounds: [] });
   assert.equal(silent.refusedAfter, null);
@@ -156,6 +189,18 @@ test('a move rolled back for the drawing is not reported as having made the plan
   // when what happened is that the house stopped being drawable
   assert.equal(adaptRevision({ rounds: [{ n: 1, moves: [], rolled_back_by_refusal: true }] })
     .rounds[0].rolledBackByRefusal, true);
+
+  // and the round's OWN verdict on the drawing, which the panel prints beside an accepted
+  // round: "the placement it kept is still refused". Mutating this to a constant `false` was
+  // green across every JS test, and the producer side was equally blind -- the loop's three
+  // set-sites of `refused_after` could all be deleted with the Python suite green. Producer
+  // and consumer pinned to each other's field NAME and to nothing else.
+  const rr = adaptRevision({ rounds: [
+    { n: 1, moves: [], accepted: true, refused_after: true },
+    { n: 2, moves: [], accepted: true, refused_after: false },
+  ] });
+  assert.equal(rr.rounds[0].refusedAfter, true);
+  assert.equal(rr.rounds[1].refusedAfter, false);
 });
 
 test('a refused placement is told apart from a drawable one by the panel\'s own reading', () => {

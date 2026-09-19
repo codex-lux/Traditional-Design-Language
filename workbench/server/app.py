@@ -571,22 +571,31 @@ def _candidates(body, default=250, cap=None):
 def _revise_rounds(body, key="revise_rounds"):
     """How many corrective rounds this solve may run, bounded (WP-13.9). Unparseable is 0
     rather than the default, because a caller who sent something we cannot read has not asked
-    for a loop and must not be given minutes of one."""
+    for a loop and must not be given minutes of one.
+
+    BOUNDED BY THE INTERACTIVE CEILING AND NOT THE JOB'S. The first version used
+    `core.REVISE_MAX_ROUNDS` (8) -- the number the QUEUED route is allowed, on a worker nobody
+    waits on -- which let one request ask for four times what any shipped client sends. The
+    audit of this package measured what that bought and `evaluate.INLINE_MAX_ROUNDS` is the
+    answer; `evaluate` enforces it again, because a ceiling a route owns is a ceiling another
+    route can forget."""
     try:
-        return max(0, min(core.REVISE_MAX_ROUNDS, int(body.get(key, 0))))
+        return max(0, min(evaluate.INLINE_MAX_ROUNDS, int(body.get(key, 0))))
     except (TypeError, ValueError):
         return 0
 
 
 def _revise_budget(body, key="revise_budget_s"):
-    """The ceiling on the WHOLE inline loop, bounded by the same constant the job route uses.
-    None means `geometry.BUDGET_REVISE_INLINE_S`, which is the interactive answer; a caller may
-    lower it and may not raise it past `core.REVISE_MAX_BUDGET_S`."""
+    """The ceiling on the WHOLE inline loop. None means the interactive default; a caller may
+    LOWER it and may never raise it -- raising it is what the job route is for, and that route
+    has the queue, the single worker, the 503 and the stream that make a long budget safe.
+    Bounded here by `evaluate.inline_budget_ceiling()`, which reads
+    `geometry.BUDGET_REVISE_INLINE_S`, so there is one spelling of the number."""
     raw = body.get(key)
     if raw is None:
         return None
     try:
-        return max(1.0, min(core.REVISE_MAX_BUDGET_S, float(raw)))
+        return max(1.0, min(evaluate.inline_budget_ceiling(), float(raw)))
     except (TypeError, ValueError):
         return None
 

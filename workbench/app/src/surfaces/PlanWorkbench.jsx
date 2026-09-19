@@ -171,6 +171,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
   const runEvaluate = React.useCallback((p, opts = {}) => {
     if (!p) return;
     const seq = ++evalRef.current;
+    // THE DOCUMENT THE LOOP WAS GIVEN, held by identity (WP-13.9's own audit). See the load
+    // below: `seq` and this answer two different questions and only this one is the right one.
+    const submitted = p;
     setBusy(true);
     setRevisingInline(!!opts.revise);
     api.evaluate(p, { strict, place: true, candidates: opts.candidates ?? seeds,
@@ -192,9 +195,31 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
            A record the loop did not change still comes back (`revised_plan` is present
            whenever the rounds ran), and loading it is still right: it carries the
            `revision_report` that IS the panel, and undo takes both away together. */
+        /* AND IT MAY ONLY LAND ON THE DOCUMENT IT WAS COMPUTED FROM. `seq` asks "has another
+           REQUEST started?"; this asks "has the DOCUMENT changed?", and the audit of this
+           package found two live paths where the answers differ, because `evalRef` advances
+           only inside `runEvaluate` and `runEvaluate` runs only after the 400 ms debounce:
+
+             - an edit in the last 400 ms of a 36 s revise: the timer has not fired, `seq` is
+               still current, and the load would replace the edited record with one computed
+               from the record BEFORE the edit -- then the effect below sees
+               `alreadySolvedRef.current === plan` and returns early, so the edit is never
+               evaluated and never drawn, with no message;
+             - a sustained wall drag: every drag step re-runs the debounce effect and its
+               cleanup clears the pending timer, so `runEvaluate` is never called and `seq`
+               never advances AT ALL. A drag held across the revise would be clobbered
+               mid-gesture.
+
+           The job path has had this guard since WP-9.3 and says the same sentence; the inline
+           path shipped without it. A revision that cannot be applied is STATED, never
+           silently dropped and never silently applied over somebody's work. */
         if (res && res.revised_plan) {
-          alreadySolvedRef.current = res.revised_plan;
-          planDoc.load(res.revised_plan);
+          if (planDoc.get() !== submitted) {
+            setReviseError('the record changed while the corrective rounds ran — the revision was not applied');
+          } else {
+            alreadySolvedRef.current = res.revised_plan;
+            planDoc.load(res.revised_plan);
+          }
         }
         setLastEval(res);
       })
@@ -318,12 +343,22 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
       reviseNextRef.current = false;
       return undefined;
     }
-    const dragged = draggingRef.current;
-    const revise = reviseNextRef.current;
-    draggingRef.current = false;
-    reviseNextRef.current = false;
-    const t = setTimeout(
-      () => runEvaluate(plan, { ...(dragged ? { engine: 'heuristic' } : {}), ...(revise ? { revise: true } : {}) }), 400);
+    /* THE FLAGS ARE READ WHERE THEY ARE SPENT (WP-13.9's audit). Both were read and cleared
+       HERE, four hundred milliseconds before the evaluate that uses them -- so any re-run of
+       this effect inside the debounce window (a `strict` toggle, a new identity for
+       `runEvaluate`) cleared the timer, re-entered with both flags already false, and the
+       explicit solve silently lost its corrective rounds. Read in the callback, a flag
+       survives every re-run until an evaluate actually spends it. The cost of the other
+       direction is named rather than hidden: an unrelated change landing inside the window
+       inherits the pending flag, which is one extra revising solve or one fast engine, both
+       correct and both cheap, against a request dropped in silence. */
+    const t = setTimeout(() => {
+      const dragged = draggingRef.current;
+      const revise = reviseNextRef.current;
+      draggingRef.current = false;
+      reviseNextRef.current = false;
+      runEvaluate(plan, { ...(dragged ? { engine: 'heuristic' } : {}), ...(revise ? { revise: true } : {}) });
+    }, 400);
     return () => clearTimeout(t);
   }, [plan, strict, runEvaluate]);
 
@@ -702,6 +737,17 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   ? `not evaluated: ${evalError} — what is shown below is the LAST successful evaluation`
                   : reviseError
                     ? `${reviseError} — the sheet below is the record as it stands`
+                  /* WP-13.9's audit: THE LOOP'S OWN TWO FAILURE STATES REACHED THE RESPONSE AND
+                     NOT THE SCREEN. `revision_error` and `revision_skipped` were produced by the
+                     server and asserted by the server's tests, and no surface read either -- so a
+                     reader who pressed re-solve, waited, and got a sheet with no panel saw exactly
+                     the screen that caused this whole package: a plan surfaced with nothing said
+                     about why it was not revised. Both are stated here, beside the key they
+                     explain. */
+                  : lastEval?.revision_error
+                    ? `the corrective rounds could not run (${lastEval.revision_error}) — the placement below stands, unrevised`
+                  : lastEval?.revision_skipped
+                    ? `${lastEval.revision_skipped}`
                   : revising
                     ? (revising === 'submitting' ? 'revising: submitting…'
                       // 'submitted', not 'queued': the client cannot see the pool, only that the

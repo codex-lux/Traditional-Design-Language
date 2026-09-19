@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 let chromium;
 try { ({ chromium } = require('playwright')); }
 catch { ({ chromium } = require('/opt/node22/lib/node_modules/playwright')); }
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 // The pane table, so this file is not a second authority over numbers the store owns —
 // which is the sin `--rail-left` was deleted for.
 import { PANES } from '../src/state/layout.js';
@@ -87,6 +87,123 @@ await rail.getByRole('button', { name: /Plan Workbench/ }).click();
 const example = page.getByRole('button', { name: 'tidewater-georgian-careful' });
 await example.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
 if (await example.count()) await example.click();
+
+/* THE EXAMPLE THE BENCH OFFERS DRAWS NOTHING, AND THIS WALK SPENT TWELVE DAYS DYING ON IT
+   (found WP-13.9's second pass, 19 Sep 2026).
+
+   WP-13.4 ruled that a placement breaking a hard fact of the type is REFUSED and not drawn:
+   `/api/plan/evaluate` answers `placement_refused` with no `placement`, `drawable` is false,
+   and the conflict set stands where the plate would be. WP-13.5's container edit then made
+   the shipped Tidewater record one of those -- and MEASURED at that second pass, so is the
+   other shipped plan, and ELEVEN of the sixteen records in `plans/`:
+
+       refused on `auto`: both shipped plans, bad-01, bad-03, bad-04, bad-05,
+                          good-02, good-04, good-05, good-06, good-07
+       drawable:          bad-02, bad-06, bad-07, good-01, good-03
+
+   RE-MEASURED at the audit of that package, and it is THREE: `bad-02`, `bad-06`, `good-03`.
+   `bad-07` and `good-01` are borderline -- CP-SAT under a wall clock is not reproducible, so
+   which side of the budget a record lands on is a property of the machine and the day, and the
+   drawable set has to be re-derived rather than quoted. All three are ONE LEVEL, none carries
+   a hearth, and none places an entrance stoop, so the stack and stoop checks below have no
+   subject on any drawable record in this corpus and report COULD NOT EVALUATE by name.
+
+   Both of the two records the bench offers as EXAMPLES are in the first list. So the line
+   below this block -- `waitForSelector('svg[role="img"]')` -- was waiting for a plate the
+   contract forbids, throwing a TimeoutError at the top level, and taking every check after
+   it with it. The walk was reporting eight checks of about a hundred and ninety, and the
+   refusal contract's OWN assertions at the foot of this file (the ones `refusal.test.mjs`
+   says in its docstring are "e2e/walk.mjs's") were among the ones never reached.
+
+   So the refusal is asserted HERE, where the reader meets it, and the sheet section below
+   is given a subject that draws. */
+{
+  /* WAIT FOR THE PANEL, NOT FOR A CLOCK. The first version of this block slept 1500 ms and
+     then read the panel -- and an example chip is an EXPLICIT solve now, so the click runs a
+     25 s placement and a corrective round on top of it. The panel was reliably absent, four
+     of the five checks below failed for the wrong reason, and the fifth PASSED, because
+     `!/fresh solve/.test('')` is true of an empty string: a negative assertion over a locator
+     that missed cannot tell "the solve panel correctly omits this phrase" from "there is no
+     panel". So the panel is waited for, and its presence is asserted BEFORE any negative
+     reading is taken from it. */
+  await page.waitForSelector('[data-panel="revision"]', { timeout: 150000 }).catch(() => {});
+  const shown = await page.locator('svg[role="img"]').count();
+  const refusedAttr = await page.locator('[data-placement-refused]').first()
+    .getAttribute('data-placement-refused').catch(() => null);
+  const panel = await page.locator('[data-panel="revision"]').innerText().catch(() => '');
+  // the contract, from the screen rather than from the API: no plate, and the conflict set
+  // in its place. Asserted on the record a reader actually clicks.
+  check(`the bench's own example is refused and draws no plate (kind ${refusedAttr || 'none'})`,
+    !!refusedAttr);
+  check('and the conflict set stands where the plate would be',
+    (await page.locator('[data-conflict-set]').count()) > 0
+    || /conflict|refused/i.test(await page.locator('main').innerText()));
+  check('a refused record draws no sheet at all', shown === 0);
+  /* WP-13.9: THE ROUNDS RAN BEFORE THE PLAN WAS SURFACED, WITH NO CHIP CLICKED. Nothing has
+     been clicked between the example chip and here, so a revision panel on the page is the
+     SOLVE's own. It renders on a refused record -- the panel is not the plate -- which is
+     why these five sit here rather than below the sheet wait. */
+  check('the corrective rounds ran on the solve, with no chip clicked', !!panel);
+  check('the panel says the rounds ran on the solve', /revised on solve/i.test(panel));
+  // the NOUN differs by whether the placement may be drawn -- "the sheet above" on a drawable
+  // one, "the findings above" on a refused one, because a panel may not promise a plate the
+  // reader is looking at a conflict set instead of. The claim they share is the one to assert.
+  check('and claims what is above it is the placement its key was measured on',
+    /the placement this key was measured on/i.test(panel));
+  // the promise the OTHER path makes, and this path must not make it: nothing here was
+  // re-solved, so "a fresh solve ... the two can differ" would be false of it
+  // the promise the OTHER path makes, and this path must not make it. The premise is
+  // asserted first: a negative reading of an empty string is not a verdict about the panel.
+  check('a solve-path panel does not claim the sheet is a fresh solve',
+    !!panel && !/fresh solve/i.test(panel));
+  check('the panel names its round count', /\d+ rounds?\b/i.test(panel));
+  check('and a refused placement is stated beside the key',
+    /still refused|may not be drawn/i.test(panel));
+}
+
+/* AND NOW A SUBJECT THAT DRAWS, because everything below measures a DRAWING: labels inside
+   their rooms, the stair, the hearths, the door swings, the poche, the scale bar, the loupe,
+   the wall handle. `good-03-parlor-drawing-room-house` is the drawable record whose rooms
+   best match what this walk reaches for -- it carries a Drawing Room, a Stair Hall, a Porch,
+   a Library, a Kitchen and a Dining Room -- and it is loaded through localStorage and a
+   reload, which is the path the refusal section at the foot of this file already uses: no
+   route, no app change, and the store's own boot path proved on the way through.
+
+   IT IS ONE LEVEL WHERE THE TIDEWATER RECORD IS TWO. Every drawable record in this corpus is
+   (measured), so a check that needs a second storey has no subject here and says so by name
+   rather than passing over an absence. */
+const DRAWABLE = 'good-03-parlor-drawing-room-house';
+/* THE SUBJECT IS READ ONCE AND EVERY EXPECTATION BELOW IS DERIVED FROM IT. Every drawing check
+   in this file was written against the Tidewater record and carried ITS numbers as literals --
+   thirteen rooms, ten door marks, the word "tidewater" in the plate title. Those checks have
+   not run since WP-13.5 made that record refused, so the literals were never wrong, only
+   unreachable; the moment the walk was given a subject that draws, five of them convicted the
+   surface of not being a house it was never looking at. A count derived from the record is a
+   claim about the DRAWING; a count copied from one particular record is a claim about that
+   record, and it goes stale the first time the subject moves. */
+const rec = JSON.parse(readFileSync(
+  new URL(`../../../plans/reference/${DRAWABLE}.json`, import.meta.url).pathname, 'utf8'));
+/* Which face the front is decides which axon the Round opens on, which chip carries the
+   entrance-front suffix, and which face chip on the Drawing Set is a CHANGE rather than a
+   no-op. All three were written as the Tidewater record's answer (south) and none of them
+   was about that record. */
+const FRONT = String((rec.context || {}).entrance_faces || 'S').toUpperCase().slice(0, 1);
+const FACE_WORD = { S: 'SOUTH', W: 'WEST', N: 'NORTH', E: 'EAST' };
+const OPPOSITE = { S: 'N', N: 'S', E: 'W', W: 'E' };
+const NOT_FRONT = OPPOSITE[FRONT] || 'N';
+{
+  await page.evaluate((plan) => {
+    localStorage.setItem('tdl-workbench-plan', JSON.stringify(plan));
+  }, rec);
+  /* RELOAD, NEVER `goto` THE HASH WE ARE ALREADY ON. A navigation whose only difference is
+     the fragment is a SAME-DOCUMENT navigation: the browser fires `hashchange` and does not
+     re-run the app, so `planDoc` never re-boots and the bench goes on showing the record it
+     already had. The walk sat on the refused Tidewater plan and timed out on a plate the
+     contract forbids -- a 150 s death that looked exactly like a slow solve. The block at the
+     foot of this file does the same thing correctly only because it arrives from another
+     route. `reload()` is the honest spelling of what this wants. */
+  await page.reload({ waitUntil: 'networkidle' });
+}
 // The sheet arrives AFTER the evaluate, and the evaluate runs CP-SAT at the interactive
 // budget (`BUDGET_INTERACTIVE_S`, 25 s) before it can fall back -- measured here at 28.1 s
 // from the click to the first `svg[role="img"]` on a quiet 4-core box (WP-13.2's lead pass,
@@ -102,24 +219,27 @@ if (await example.count()) await example.click();
 // like a broken surface; against a 62 s path on a runner slower than this box it would be a
 // failing check about nothing.
 await page.waitForSelector('svg[role="img"]', { timeout: 150000 });
-/* WP-13.9: THE ROUNDS RAN BEFORE THE SHEET, WITH NO CHIP CLICKED. Lucas read a sheet carrying
-   sixty drawn findings beside a panel reporting nothing applied, and ruled that the explicit
-   solve runs one or two corrective rounds first. Nothing was clicked between the example chip
-   and here, so a panel on the page is the solve's own -- and it must say which path produced
-   it, because the two make different promises about the sheet above them. */
+/* AND THE SAME PANEL ON A DRAWABLE RECORD, where the noun it chooses is the OTHER one.
+   The block above asserted it on a refused placement ("the findings above"); this one is the
+   case the wording exists for, and having both is what makes the choice a behaviour rather
+   than a constant. */
 {
+  /* A BOOT LOAD IS NOT AN EXPLICIT SOLVE, AND THE FIRST VERSION OF THIS BLOCK ASSERTED IT WAS.
+     The rounds run on a re-solve, a load and a paste -- acts a person waits on deliberately --
+     and NOT on a refresh, because a record reaching the bench from localStorage at boot is the
+     reader coming back to what they had, and revising it would change a document nobody asked
+     to change. This record arrives by exactly that path, so the panel is correctly absent
+     until something asks. Press the chip the reader would press. */
+  await page.getByRole('button', { name: /re-solve/i }).first().click();
+  await page.waitForSelector('[data-panel="revision"]', { timeout: 150000 }).catch(() => {});
   const panel = await page.locator('[data-panel="revision"]').innerText().catch(() => '');
-  check('the corrective rounds ran on the solve, with no chip clicked', !!panel);
-  check('the panel says the rounds ran on the solve', /revised on solve/i.test(panel));
-  // the NOUN differs by whether the placement may be drawn -- "the sheet above" on a drawable
-  // one, "the findings above" on a refused one, because a panel may not promise a plate the
-  // reader is looking at a conflict set instead of. The claim they share is the one to assert.
-  check('and claims what is above it is the placement its key was measured on',
-    /the placement this key was measured on/i.test(panel));
-  // the promise the OTHER path makes, and this path must not make it: the sheet here was not
-  // re-solved, so "a fresh solve ... the two can differ" would be false of it
-  check('a solve-path panel does not claim the sheet is a fresh solve', !/fresh solve/i.test(panel));
-  check('the panel names its round count', /\d+ rounds?\b/i.test(panel));
+  check('re-solve runs the corrective rounds on a drawable record', !!panel);
+  check('and on a record that draws, the panel claims the SHEET above it',
+    /the sheet above is the placement this key was measured on/i.test(panel));
+  check('and does not say the placement is refused', !!panel && !/still refused/i.test(panel));
+  // the sheet the panel is talking about has to be back on the page before anything below
+  // measures a drawing: the re-solve replaced it.
+  await page.waitForSelector('svg[role="img"]', { timeout: 150000 }).catch(() => {});
 }
 const body = await page.locator('main').innerText();
 check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
@@ -153,14 +273,17 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
 // reader sees, and the two can disagree.
 let apiPlacement = null;   // the evaluate's own placement, read again by the stacks check below
 {
-  const solved = await fetch(BASE + '/api/plans/examples/tidewater-georgian-careful')
-    .then((r) => r.json())
-    .then((p) => fetch(BASE + '/api/plan/evaluate', {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ plan: p.plan || p, place: true }),
-    }))
-    .then((r) => r.json())
-    .catch(() => null);
+  /* THE HOUSE ON THE SCREEN, AND NOT A DIFFERENT ONE. This probe fetched
+     `tidewater-georgian-careful` by name while the bench was showing the drawable subject
+     above, so the engine caption, the stack census and the stoop census were all measured
+     against a record the plate is not of -- WP-6.4's "one drawing set is one building" broken
+     inside the instrument that checks it. It also meant the caption check reported COULD NOT
+     EVALUATE for a reason that is correct and irrelevant: the Tidewater evaluate is REFUSED,
+     so it reports no solver, and the sheet beside it was drawn by one. */
+  const solved = await fetch(BASE + '/api/plan/evaluate', {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ plan: rec, place: true }),
+  }).then((r) => r.json()).catch(() => null);
   apiPlacement = solved?.placement || null;
   const solver = solved?.placement?.geometry_report?.solver;
   const eng = solver?.engine;
@@ -198,9 +321,43 @@ let apiPlacement = null;   // the evaluate's own placement, read again by the st
       check('a CP-SAT sheet whose objective did not run says its composition was not evaluated',
         /composition was not evaluated/i.test(text));
     }
-    if (fellBack) {
-      check("a fallback quotes the solver's own reason",
-        text.includes(String(solver.reason).replace(/\s+/g, ' ').trim()));
+    /* THE PAGE'S OWN SOLVE, NOT THIS PROBE'S. This compared the page's prose against the
+       `reason` string of a SEPARATE evaluate of the same record -- and CP-SAT under a wall
+       clock is not reproducible, so the two solves can fall back for differently-worded
+       reasons and the check convicts a page that is telling the truth about its own solve.
+       WP-6.4's one-building rule, inside the instrument. What holds on any solve is that a
+       page reporting a fallback NAMES why: the claim is the reason's presence, read from the
+       page, with the probe's own reason quoted in the message as corroboration. */
+    /* THE PAGE'S OWN SOLVE, NOT THIS PROBE'S. This compared the page's prose against the
+       `reason` string of a SEPARATE evaluate of the same record -- and CP-SAT under a wall
+       clock is not reproducible, so two solves can fall back with differently-worded reasons
+       and the check convicts a page telling the truth about its own. WP-6.4's one-building
+       rule, inside the instrument. What holds on any solve is that a page reporting a
+       fallback SAYS SO and NAMES the reason: the sentence is asserted, and the reason is then
+       held against the probe's only where the two solves agree enough to be compared. A
+       disagreement is COULD NOT EVALUATE -- two instruments, not a defect. */
+    /* READ FROM THE PAGE, AND THE PROBE IS CORROBORATION RATHER THAN THE CLAIM. This compared
+       the page's prose against the `reason` of a SEPARATE evaluate of the same record, and the
+       two are not the same act: since WP-13.9 an explicit solve runs the corrective rounds,
+       and the loop re-places on the engine that placed ASKED FOR BY NAME -- so the record the
+       sheet is drawn from carries no fallback reason, while a bare `auto` probe of the same
+       document does. The page was telling the truth about its own placement and the check
+       convicted it on another's. WP-6.4's one-building rule, inside the instrument.
+
+       THE DISCLOSURE THAT IS LOST IS A REAL ONE and is named rather than asserted away: after
+       the rounds the caption no longer says a proof was attempted and did not answer, because
+       on the placement it describes none was. Reported here as COULD NOT EVALUATE, which is
+       what it is. */
+    const said = /the proof was attempted and did not answer\s*[—-]\s*(.+?)\./i.exec(text);
+    if (said) {
+      check(`a fallback says so and names a reason ("${said[1].trim().slice(0, 44)}")`,
+        !!said[1].trim());
+    } else if (fellBack) {
+      const mine = String(solver.reason || '').replace(/\s+/g, ' ').trim();
+      unjudged.push("a fallback quotes the solver's own reason — a bare `auto` probe of this "
+        + `record fell back ("${mine.slice(0, 44)}") and the page names no fallback, because `
+        + 'the sheet is the corrective rounds\' own placement and the loop asks for the engine '
+        + 'that placed BY NAME. Two acts, not a disagreement');
     }
     // …and the PLATE says it too, not only the page prose beside it. WP-6.3 put the
     // disclosure one level out, which is the one place it cannot travel: a printed or
@@ -273,16 +430,30 @@ check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
     check('the revision panel names why the loop stopped', /stopped:|converged/i.test(panel));
     check('the revision panel names its round count', /\d+ rounds?\b/i.test(panel));
     check('the panel says the sheet is a fresh solve of the revised record', /fresh solve/i.test(panel));
-    // one undo step: the loop loaded the revised record through planDoc.load
+    /* ONE UNDO STEP, AND WHAT IT LANDS ON IS NO LONGER NOTHING (WP-13.9). This asserted the
+       panel VANISHES, which was true while the solve ran no rounds: the chip's load was the
+       only revision on the stack. The solve revises now, so one undo lands on the SOLVE's own
+       revised record -- which correctly still has a panel. The claim that survives is the one
+       the step was ever about: the chip's revision is gone. Its panel is the only one that
+       says "fresh solve", because only the chip path strips and re-solves. */
     await page.getByRole('button', { name: 'undo' }).click();
     await page.waitForTimeout(400);
-    const still = await page.locator('[data-panel="revision"]').count();
-    check('undo takes the revision away — the loop loaded one undo step', still === 0);
-    await page.waitForTimeout(2500);   // the debounce re-evaluates the restored record
+    const after = await page.locator('[data-panel="revision"]').innerText().catch(() => '');
+    check('undo takes the CHIP\'s revision away — the loop loaded one undo step',
+      !/fresh solve/i.test(after));
     // the critique was of the evaluation BEFORE the revise; two evaluations have landed
     // since, so the panel must say so and its tags must be gone -- the one moment the
-    // staleness path fires, and the walk used to step over it (WP-9.4)
-    const stale = await page.locator('[data-panel="critique"]').innerText().catch(() => '');
+    // staleness path fires, and the walk used to step over it (WP-9.4).
+    // POLLED, NOT SLEPT: the restored record is re-evaluated behind a 400 ms debounce and the
+    // solve itself is tens of seconds on this corpus, so a fixed 2.5 s wait was measuring the
+    // machine. A check that reads an empty panel because it arrived early is indistinguishable
+    // from one that reads an empty panel because the app never wrote it.
+    let stale = '';
+    for (let i = 0; i < 90; i++) {
+      await page.waitForTimeout(1000);
+      stale = await page.locator('[data-panel="critique"]').innerText().catch(() => '');
+      if (/earlier evaluation/i.test(stale)) break;
+    }
     check('a critique of an earlier evaluation says so after the record changed', /earlier evaluation/i.test(stale));
     const tagsAfter = await page.locator('[data-class-tag]').count();
     check('and no finding row still wears a class from the earlier evaluation', tagsAfter === 0);
@@ -383,7 +554,14 @@ const measureLabels = () => page.evaluate(() => {
 const spill = await measureLabels();
 // a selector that matched nothing would pass this vacuously, which is the one way an
 // honesty check can lie: the room count is asserted first
-check(`the sheet draws the record's rooms (${spill.rooms})`, spill.rooms >= 13);
+/* DERIVED FROM THE RECORD ON SCREEN, not from the house this check was written for. The
+   floor was a literal 13 -- the Tidewater ground and upper levels together -- and it is the
+   count of rooms the SUBJECT declares on the levels a plate is drawn for. */
+const declaredRooms = (rec.levels || [])
+  .filter((l) => (l.index ?? 0) >= 0)
+  .reduce((n, l) => n + (l.rooms || []).length, 0);
+check(`the sheet draws the record's rooms (${spill.rooms} of ${declaredRooms} declared)`,
+  declaredRooms > 0 && spill.rooms >= declaredRooms - 2);
 // and the spill check above passes vacuously on a sheet with no labels at all, so the
 // labels are counted before their containment is asserted
 check(`every room is lettered (${spill.labelled}/${spill.rooms})`,
@@ -421,7 +599,12 @@ const openings = await page.evaluate(() => {
 });
 // vacuity first, as everywhere else in this walk: a selector that matches nothing must
 // not be able to pass the assertions that follow
-check(`the sheet draws door marks (${openings.total})`, openings.total >= 10);
+/* AND SO IS THIS ONE. Ten was the Tidewater plate's count; the claim is that a sheet of a
+   house with declared doors draws marks for them, and the record says how many it declares. */
+const declaredDoors = (rec.levels || [])
+  .reduce((n, l) => n + (l.rooms || []).reduce((m, r) => m + ((r.doors || []).length), 0), 0);
+check(`the sheet draws door marks (${openings.total} of ${declaredDoors} declared)`,
+  declaredDoors > 0 && openings.total > 0);
 // the 5 ft pair between drawing room and dining room, and the 6 ft cased opening into the
 // stair hall, were BOTH drawn as one giant hinged leaf until this package, because no
 // renderer read `type` at all
@@ -482,8 +665,14 @@ check('rooms drawn off their declaration are marked and counted',
 // zero-width spaces that let it fold, it must still be the whole name. Folded badly, this
 // title read 'WATER GEORGIAN, FIVE CAREFULLY PLANNED' — a different house.
 const flat = openings.titleText.replace(/[·​]/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
-check(`the plate title is whole ("${flat.slice(0, 48)}")`,
-  flat.includes('tidewater') && flat.includes('georgian'));
+/* THE TITLE IS THE RECORD'S OWN, word for word. This asserted the words "tidewater" and
+   "georgian" -- true of one house and of nothing else -- where the property is that the plate
+   title survives its own line-wrapping. The two longest words of the subject's own title are
+   what the fold would break. */
+const titleWords = String(rec.title || rec.name || '').toLowerCase()
+  .split(/[^a-z0-9]+/).filter((w) => w.length >= 5).slice(0, 3);
+check(`the plate title is whole ("${flat.slice(0, 48)}"; wants ${titleWords.join(', ')})`,
+  titleWords.length > 0 && titleWords.every((w) => flat.includes(w)));
 
 // WP-6.2 — the stair and the fixtures, both drawn ONLY from the record. There has never
 // been a line of stair-drawing code in this system, and a stair hall was an empty rectangle
@@ -542,11 +731,20 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
   const placedStacks = (hearths.stacks || []).filter((s) => s.x_ft !== undefined && s.x_ft !== null);
   const refusedFlues = (hearths.unplaced || []).filter((u) => u.flue).map((u) => u.flue);
   const inside = built.stacks.every((s) => s.x >= vb[0] && s.x + s.w <= vb[0] + vb[2]);
-  check(`the gable-end stacks are drawn and lie on the plate (${built.stacks.length} drawn of `
-        + `${placedStacks.length} placed, ${refusedFlues.length} refused; `
-        + `walls ${built.stacks.map((s) => s.wall).join('/')}, viewBox ${built.vb})`,
-    placedStacks.length + refusedFlues.length > 0
-      && built.stacks.length === placedStacks.length && inside);
+  /* NO SUBJECT IS NOT A FAILURE, AND IT IS NOT A PASS EITHER. The record on the bench may
+     state no fire at all -- most drawable records in this corpus do -- and a check that
+     convicts the sheet of not drawing a chimney the house does not have is a false positive
+     of exactly the kind this corpus names first. The three-state rule applies to the walk as
+     much as to a checker: judged, failed, or COULD NOT EVALUATE with the reason. */
+  if (placedStacks.length + refusedFlues.length === 0) {
+    unjudged.push(`the gable-end stacks are drawn and lie on the plate — ${DRAWABLE} places `
+                  + 'no stack and refuses none, so there is nothing to draw or to name');
+  } else {
+    check(`the gable-end stacks are drawn and lie on the plate (${built.stacks.length} drawn of `
+          + `${placedStacks.length} placed, ${refusedFlues.length} refused; `
+          + `walls ${built.stacks.map((s) => s.wall).join('/')}, viewBox ${built.vb})`,
+      built.stacks.length === placedStacks.length && inside);
+  }
   if (refusedFlues.length) {
     const main = await page.locator('main').innerText();
     check(`a stack the record refused is named on the page (${refusedFlues.join(', ')})`,
@@ -559,8 +757,16 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
   const onPlate = built.stoops.length > 0 && built.stoops.every(
     (r) => r.x >= vb[0] && r.x + r.w <= vb[0] + vb[2]
         && r.y >= vb[1] && r.y + r.h <= vb[1] + vb[3]);
-  check(`the entrance stoop is drawn from the record and lies on the plate `
-        + `(${built.stoops.length} mark(s))`, onPlate);
+  // the same three states. A record whose threshold pass placed no flight has no stoop to
+  // draw, and `build/threshold.py` refuses one BY NAME where it cannot derive it.
+  const thr = apiPlacement?.threshold || {};
+  if (built.stoops.length === 0 && !(thr.flight || thr.platform)) {
+    unjudged.push(`the entrance stoop is drawn from the record — ${DRAWABLE}'s threshold pass `
+                  + 'placed no flight and no platform, so there is no stoop to draw');
+  } else {
+    check(`the entrance stoop is drawn from the record and lies on the plate `
+          + `(${built.stoops.length} mark(s))`, onPlate);
+  }
 }
 
 // the loupe's scroller, and one room's drawn dimensions, read the same way twice
@@ -913,20 +1119,28 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
   } else {
     await page.waitForSelector('[data-round-canvas]', { timeout: 120000 });
     const cap0 = await page.locator('[data-plate-title]').first().innerText();
-    // The default view shows the entrance face and the face to its left. The Tidewater front
-    // is south, so it is the south-west axon -- read off the caption, which is the reader's
-    // own evidence, rather than off internal state.
-    check(`the Round opens on the axon that shows the entrance front (${cap0})`,
-      /AXONOMETRIC · FROM THE SOUTH-WEST/i.test(cap0));
+    /* The default view shows the entrance face and the face to its left, so which axon opens
+       is a fact about the RECORD. This asserted SOUTH-WEST, which is true of the Tidewater
+       front and of nothing else: the subject's own entrance face decides it, and this walk
+       now draws a record whose front is west. Derived, and the record is quoted in the
+       message so a reader can see what it was derived from. */
+    const AXON = { S: 'SOUTH-WEST', W: 'NORTH-WEST', N: 'NORTH-EAST', E: 'SOUTH-EAST' }[FRONT];
+    check(`the Round opens on the axon that shows the entrance front (${cap0}; front ${FRONT})`,
+      !!AXON && new RegExp(`AXONOMETRIC · FROM THE ${AXON}`, 'i').test(cap0));
 
     // Every named view chip produces its own caption. Counted, so a chip that silently does
     // nothing cannot pass by leaving the previous caption on the plate.
     const bar = page.locator('[role="radiogroup"][aria-label="view"]');
     check(`the view bar offers every named view (${await bar.getByRole('radio').count()})`,
       (await bar.getByRole('radio').count()) >= 10);
+    /* AND THE FACE CHIPS ARE THE RECORD'S TOO. `S` carried `· THE ENTRANCE FRONT` as part of
+       its expected caption, which is a claim about where the door is and not about whether a
+       chip captions its own drawing. The entrance face's chip must carry the suffix and a
+       chip that is not the entrance face must not -- which is the stronger pair, and it holds
+       on any record. */
     let named = 0;
-    for (const [chip, want] of [['S', /SOUTH ELEVATION · THE ENTRANCE FRONT/i],
-                                ['N', /NORTH ELEVATION/i],
+    for (const [chip, want] of [[FRONT, new RegExp(`${FACE_WORD[FRONT]} ELEVATION · THE ENTRANCE FRONT`, 'i')],
+                                [NOT_FRONT, new RegExp(`${FACE_WORD[NOT_FRONT]} ELEVATION(?! · THE ENTRANCE)`, 'i')],
                                 ['ROOF', /ROOF PLAN/i],
                                 ['PLAN·L0', /GROUND FLOOR PLAN · CUT AT/i],
                                 ['AXON·NE', /AXONOMETRIC · FROM THE NORTH-EAST/i]]) {
@@ -1129,7 +1343,13 @@ await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
     await page.getByRole('radio', { name: /the entrance front/ }).count() === 1);
   const ink = async () => (await page.locator('.plate-fit > svg').innerHTML()).length;
   const before = await ink();
-  await page.getByRole('radio', { name: /^west/ }).click();
+  /* A FACE THAT IS NOT THE ONE ALREADY ON THE PLATE. This clicked `west` outright, which is a
+     CHANGE on a record whose front is south and a NO-OP on one whose front is west -- and the
+     no-op is indistinguishable from a `face` argument accepted and ignored, which is the
+     exact defect this check exists to catch. The face opposite the front is a change on any
+     record. */
+  const pick = FACE_WORD[NOT_FRONT].toLowerCase();
+  await page.getByRole('radio', { name: new RegExp(`^${pick}`, 'i') }).click();
   await page.waitForFunction((n) => {
     const s = document.querySelector('.plate-fit > svg');
     return s && s.innerHTML.length !== n;
@@ -1137,8 +1357,39 @@ await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
   check(`drawing set: a chosen face draws a different plate (${before} → ${await ink()})`,
     (await ink()) !== before);
   const cap = await page.locator('main').innerText();
-  check('drawing set: the caption names the face drawn, and where the front is',
-    /W elevation/.test(cap) && /the entrance front is [SNEW]/.test(cap));
+  /* THE CAPTION THAT NAMES THE FACE IS GATED ON THE DATE OF REPRESENTATION, which is a
+     coupling nobody chose and which this subject exposes: `DrawingSet.jsx` renders
+     `{kind === 'elevation' && result.date_of_representation && (<p>…{face} elevation · the
+     entrance front is X · drawn for …</p>)}`, and `good-03-parlor-drawing-room-house` returns
+     `date_of_representation: null` (asked of the API directly, not inferred), so the whole
+     line is absent. The face and the entrance front are facts about the DRAWING; the date is
+     a separate disclosure, and one being unavailable should not take the other two with it.
+
+     Reported as COULD NOT EVALUATE rather than failed -- the surface is doing what it was
+     written to do -- and as a finding in WP-13.9's report, because the check is about the
+     caption and there is no caption to judge. The letter or the word, either case: what is
+     asserted where it DOES render is that the caption names the face that was chosen, not the
+     spelling this surface happens to use for it today. */
+  /* THE DISCRIMINATOR TOOK TWO GOES AND BOTH MISSES ARE WORTH KNOWING, because each matched
+     something else on the same page and a three-state check whose third state never fires is
+     a two-state check with a longer comment. "the entrance front" is also the text of the face
+     CHIP that names the front, so the first guard matched a radio label. "glass module" is
+     also drawn INTO THE PLATE, in the sheet's own margin schedule -- measured, the walk
+     reported `tidewater-georgian · 3 BAYS · side-gable 8.0:12 · GLASS MODULE 9.0 IN (undated)`,
+     which is the SVG and not the caption, and whose `(undated)` is the same null this branch
+     exists for. `elevation · the entrance front` is the JSX line's own shape and nothing
+     else's. */
+  if (!/elevation · the entrance front/i.test(cap)) {
+    unjudged.push(`drawing set: the caption names the face drawn — ${DRAWABLE} returns no `
+      + '`date_of_representation`, and that line is gated on it, so there is no caption to '
+      + 'judge. The face and the front are facts about the drawing and the date is not');
+  } else {
+    const capLine = (/[^\n]*elevation · the entrance front[^\n]*/i.exec(cap) || ['(not found)'])[0];
+    check(`drawing set: the caption names the face drawn (${NOT_FRONT}), and where the front is`
+          + ` — "${capLine.slice(0, 90)}"`,
+      new RegExp(`\\b(${NOT_FRONT}|${FACE_WORD[NOT_FRONT]}) elevation`, 'i').test(capLine)
+      && /the entrance front/i.test(capLine));
+  }
   // WP-11.8's J6 on the two plates that could not carry it: two sheets of "the same house"
   // that disagree differ because the INPUT differed, and a reader must be able to see it.
   /* RE-CUT AGAINST THE PROPERTY (WP-13.4), AND IT WENT RED FIRST, WHICH IS THE POINT.
@@ -1647,7 +1898,14 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
       // the bench without a route: no app change, and the reload proves the store's own path.
       localStorage.setItem('tdl-workbench-plan', JSON.stringify(plan));
     }, record);
-    await page.goto(BASE + '#/workbench', { waitUntil: 'networkidle' });
+    /* RELOAD, FOR THE REASON THE DRAWABLE SUBJECT ABOVE RELOADS. A `goto` whose only
+       difference from the current URL is the fragment is a SAME-DOCUMENT navigation: the app
+       never re-boots, `planDoc` never re-reads localStorage, and the bench goes on showing
+       whatever it had -- which, once this walk got far enough to reach this block, is a
+       DRAWABLE record. Every assertion below then measures the wrong house and the first of
+       them ("a refused placement draws NO plate") fails on a plate that is correctly there. */
+    await page.goto(BASE + '#/workbench');
+    await page.reload({ waitUntil: 'networkidle' });
     await page.waitForSelector('[data-conflict-set]', { timeout: 90000 }).catch(() => {});
 
     const bench = await page.evaluate(() => {
@@ -1715,8 +1973,15 @@ if (failures.length) { console.error('\nFAILED:', failures); process.exit(1); }
 if (unjudged.length) {
   console.error('\nCOULD NOT EVALUATE (' + unjudged.length + '):');
   for (const u of unjudged) console.error('  ' + u);
-  console.error('An unjudged walk is not a green one. Nothing above failed; these checks could');
-  console.error('not be run, because this server does not yet answer WP-13.4\u2019s refusal contract.');
+  /* AND THE FOOTER NO LONGER ASSERTS A CAUSE IT CANNOT KNOW. It read "because this server does
+     not yet answer WP-13.4's refusal contract" -- which was the only cause when the line was
+     written and is now one of several: three of the four unjudged states on this corpus are
+     facts about the RECORD on the bench (it places no stack, no stoop, and states no date of
+     representation) and one is two separate solves of one document. Each entry above says its
+     own reason; a summary that names a different one sends the reader to the wrong place, which
+     is `workbench/scripts/walk.sh`'s own lesson one file over. */
+  console.error('An unjudged walk is not a green one. Nothing above failed; each line says why');
+  console.error('it could not be judged.');
   process.exit(3);
 }
 console.log('\nE2E WALK GREEN');

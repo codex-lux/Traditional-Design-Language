@@ -141,7 +141,13 @@ panel means by "the two can differ", and what put sixty findings of a refused hi
 placement beside a key proved on a different one. Inline, the loop's final PLACED record is
 what `check_plan` judges and what `placement_summary` is projected from, and the panel says
 `revised on solve` and claims the sheet above it. The declared record rides beside it as
-`revised_plan` for the bench to load as one undo step. The chip paths are unchanged and keep
+`revised_plan` for the bench to load as one undo step, and the REPORT rides **once**, inside
+that record as `revision_report` — the same place the job route puts it. It was also sent as
+`out["revision"]`, which measured 147,583 of a 606,771-byte response, to a bench that read only
+the first (WP-13.9's audit). For the same reason `api.evaluate` strips `revision_report` from
+the document it POSTs: it is 91% of the revised record and nothing on that route reads it.
+`api.exportCad` deliberately still sends it, because `build/export_dxf.py` turns it into the
+plate's `revision_summary` XDATA. The chip paths are unchanged and keep
 their own sentence; that residue is
 `oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw`.
 

@@ -799,7 +799,18 @@ def drawn_layer(plan, rooms, level_of, C, F):
             # say it with was already in hand: `unplaced_pairs` is computed above and was
             # attached to the finding as evidence while the prose contradicted it.
             mine = sorted(p for p in unplaced_pairs if rid in p)
-            realised = max(0, declared - len(mine))
+            # COUNT WHAT THE SENTENCE CLAIMS, OFF THIS ROOM'S OWN DECLARATIONS. The first
+            # version of this was `declared - len(mine)`, and it subtracts a PAIR count from a
+            # RECORD count: `unplaced_pairs` is deduplicated per pair and is minted by whichever
+            # room declared the door, so a neighbour declaring a door THIS room does not is
+            # charged to it. Measured on `spec-builder-colonial`, `engine="heuristic"`: the
+            # Family Room declares two doors, the kitchen one was PLACED, and the stair's own
+            # unplaced `family` door put `('family', 'stair')` in the set -- so it read 0 of 2
+            # and was given the very sentence this whole change exists to remove. The `max(0,
+            # ...)` clamp was the tell: it can only bind when the set holds a pair the room
+            # never declared. Found by an adversarial audit of the fix, not by the fix's own
+            # tests, which restated this expression instead of deriving the answer.
+            realised = sum(1 for d in (r.get("doors") or []) if not d.get("unplaced"))
             if not declared:
                 how = "The record declares no door to it at all."
             elif realised == 0:
@@ -845,20 +856,40 @@ def drawn_layer(plan, rooms, level_of, C, F):
             continue
         # a room already reported UNREACHABLE is not also reported cut off: that is one
         # defect, and saying it twice would inflate the count of a plan's troubles with a
-        # restatement rather than a second fact
-        if rid not in seen:
+        # restatement rather than a second fact.
+        # AND THE DEDUP INVERTS WHEN THERE IS NO OUTSIDE (WP-13.9's audit). `seen` is seeded
+        # from `outside`, so on a plan where no exterior door is placed it is EMPTY and this
+        # line skipped every room -- the whole layer silent, on a house where a room joined to
+        # nothing is exactly what a reader needs told. Nothing was reported unreachable there
+        # (the `no-outside` info above says why), so there is no restatement to avoid and the
+        # dedup has nothing to do. Silence that reads as a pass is the first thing this corpus
+        # forbids, and it was hiding behind a guard written for the opposite situation.
+        if outside and rid not in seen:
             continue
         name = r.get("name") or rid
         out["cut_off"].append(rid)
+        # THE SAME SENTENCE, THE SAME READING (WP-13.9's audit). The `unreachable` branch above
+        # stopped claiming "realised none of them" about rooms whose doors were placed; this one
+        # went on claiming it unconditionally, and a second spelling of "how many of this room's
+        # doors did the placement seat" is how two layers come to answer one question two ways.
+        # MEASURED over the sixteen shipped plans on `engine="heuristic"`: 2 `cut-off` rows, 0
+        # with a realised interior door, so this changes no sentence in the corpus today. It is
+        # not dead either: `ok_edges` mints an edge only where the door's `to` NAMES A ROOM, so
+        # a placed door pointing at a room that is not on the plan leaves this branch reachable
+        # with `realised > 0` -- a room really joined to nothing, told a false reason why.
+        realised_in = sum(1 for d in interior_declared if not d.get("unplaced"))
+        how = ("and the placement realised none of them."
+               if realised_in == 0 else
+               f"of which the placement realised {realised_in}: they open into nothing this "
+               f"drawing holds.")
         _add("serious", "drawn",
               f"{name} joins no other room on the drawing — the only way in is from outside. "
-              f"The record declares {len(interior_declared)} interior door(s) and the "
-              f"placement realised none of them.",
+              f"The record declares {len(interior_declared)} interior door(s) " + how,
               room=rid,
               fix=("Place the plan again, or move these rooms so their declared doors have a "
                    "wall to sit in — build/openings.py names each door it could not place "
                    "and why."),
-              kind="cut-off", declared_doors=len(interior_declared),
+              kind="cut-off", declared_doors=len(interior_declared), realised_doors=realised_in,
               unplaced_pairs=sorted(p for p in unplaced_pairs if rid in p),
               adjacent_placed=_adjacent_placed(rid))
 
