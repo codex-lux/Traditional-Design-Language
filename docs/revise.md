@@ -97,7 +97,12 @@ only (XDATA is capped near 16 KB).
   on a CP-capable box and three of four came back as composed. It was per candidate until the session's audit measured 21 candidates on the
   proving engine at 600 s each — four hours of the one-worker pool for one metered submission.
   What the budget does not bound is stated in `compose.py`: each candidate's first placement
-  (up to a 25 s proof on `auto`), one in-flight critique, and the reclaim's re-critique.
+  (up to a **40 s** proof on `auto` since WP-14.4 — the BATCH budget, because a compose is a job
+  and WP-11.8's ruling gives a batch caller `BUDGET_BATCH_S`; it was 25 s, the interactive
+  number, inherited from `revise()`'s own default by passing nothing), one in-flight critique,
+  and the reclaim's re-critique. A budget-SKIPPED candidate pays the same 40 s for the
+  zero-round placement that gives its card a placed verdict, deliberately: a set placed at two
+  budgets would be two instruments.
 - **MCP**: `tdl_critique_plan`, `tdl_revise_plan`; `tdl_compose(revise=...)`. **The bounds on
   every knob live in `mcp_server/core.py`** (`REVISE_MAX_ROUNDS` 8, `MAX_CANDIDATES` 2000,
   `REVISE_DEFAULT_BUDGET_S` 120, `REVISE_MAX_BUDGET_S` 600, `COMPOSE_MAX_CANDIDATES` 24), one

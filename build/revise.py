@@ -89,6 +89,9 @@ CR = _mod("critique", os.path.join(ROOT, "build", "critique.py"))
 MV = _mod("moves", os.path.join(ROOT, "build", "moves.py"))
 OP = _mod("openings", os.path.join(ROOT, "build", "openings.py"))
 PC = _mod("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
+# For the two budget constants only. `modcache` makes this the same module object
+# `critique` and `geometry` already hold, so it is a name rather than a load.
+GEO = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
 
 SEV = {"fatal": 0, "serious": 1, "minor": 2, "advisory": 3, "info": 4}
 MAX_MOVES_PER_ROUND = 6
@@ -168,8 +171,15 @@ def _attrib(before, after):
     return {"cleared": sorted(b - a), "persisted": sorted(b & a), "opened": sorted(a - b)}
 
 
+# WP-14.4: THE DEFAULT IS THE INTERACTIVE BUDGET AND IT NAMES ITSELF NOW. It was the bare
+# literal `25.0`, which is WP-11.8's own two-budget ruling spelled a third time -- and the
+# spelling mattered, because a batch caller that passes nothing gets the number a person
+# waiting behind a 400 ms debounce was given. `build/compose.py` was that caller; it passes
+# `GEO.BUDGET_BATCH_S` by name now, as the three interactive callers pass the other one.
+# The VALUE is unchanged: a caller that passed nothing before gets exactly what it got.
 def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=None, place=True,
-           parti=None, on_round=None, C=None, seed=7, time_limit_s=25.0, surfaced=None):
+           parti=None, on_round=None, C=None, seed=7, time_limit_s=GEO.BUDGET_INTERACTIVE_S,
+           surfaced=None):
     core = _mod("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
     C = C or PC.load_corpus()
     parti_rec = core.load_parti(parti) if isinstance(parti, str) else parti

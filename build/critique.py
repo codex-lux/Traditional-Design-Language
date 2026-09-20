@@ -452,7 +452,7 @@ def classify(plan, check, registry=None, C=None, ctx=None):
 
 
 def critique(plan, engine="auto", candidates=250, parti=None, place=True, seed=7,
-             time_limit_s=25.0, C=None, ctx=None):
+             time_limit_s=GEO.BUDGET_INTERACTIVE_S, C=None, ctx=None):
     core = _mod("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
     plan = core.copy_json(plan)
     C = C or PC.load_corpus()

@@ -4563,16 +4563,33 @@ primary key stop reading it. The list may only SHRINK, ratcheted by name and nev
 before and after. If the answer is near zero the ruling has been executed and the problem is
 WP-14.5's; say so rather than widening the list until the number looks better.
 
-### WP-14.4 — the loop may ask for the proof
+### WP-14.4 — the loop was not short of permission, it was short of time
 
-**Status: PLANNED.** `critique._lever` returns `candidates` unconditionally where
-`ctx["engine"] == "heuristic"`, so `prove-it` is never offered on the engine where this corpus
-measured the refusal rate falling from 84-in-182 to 1-in-12. Offer it where ortools is importable.
-**Measure the refusal rate before and after on the same records** — the claim to test is that
-re-placement noise, not the move, is refusing these rounds; if CP does not cut it, that is the
-finding and the lever stays as it was. Budget is already ruled: `BUDGET_REVISE_INLINE_S` is 30 s
-as a ceiling on STARTING a round and `revise_budget_s` is the SET's. **Do not raise either to make
-this work; report what fits.**
+**Status: COMPLETE (20 Sep 2026).** `docs/reports/wp-14.4-the-loop-was-not-short-of-permission.md`.
+**THIS PACKAGE'S OWN PREMISE WAS FALSE AND MEASURING IT IS WHAT FOUND THE REAL DEFECT.** The plan
+said *"`prove-it` is never offered"*; measured deterministically, `prove-it` IS offered on the
+product path — `compose()` defaults to `revise_engine="auto"`, which reaches `ctx["engine"]`, and
+`_lever` offers the proof on 38 of 38 placement findings. The premise describes only the
+heuristic-BY-NAME path, and that withholding is a ruled refusal spelled in three places with its
+reason in each (`_lever`, `_prove_it`, and `evaluate.py`'s *THE ENGINE THAT PLACED, NEVER `auto`*)
+— undoing it would put a 25 s proof inside the bench's wall-drag path. **The lever is UNCHANGED.**
+**The real defect is that a batch caller was getting the interactive budget by accident of a
+literal default.** WP-11.8 ruled two budgets and gave each its callers; the three interactive
+routes pass `BUDGET_INTERACTIVE_S` BY NAME and `compose` passed nothing, so it inherited
+`revise()`'s bare `25.0`. A compose is a job. Measured through `revise()` on the two shipped
+plans, one run each: **refused rounds 1 → 0 and 4 → 0**, `spec-builder-colonial`'s first placement
+falling back to the SEARCH at 25 s and reaching CP-SAT at 40 so its candidate starts at **4 fatals
+instead of 15**, and the Tidewater plan **FASTER at the larger budget, 92.5 s against 190.5**,
+because a proof that closes is cheaper than one re-attempted by the lever every round.
+**AND ON THE PRODUCT COMPOSE IT BUYS NOTHING, PUBLISHED RATHER THAN OMITTED**: the same call
+against a `git archive` control returns the same two candidates with the same fatal counts and is
+24 s SLOWER on one run each, because neither returned candidate's placement sits at the 25–40 s
+boundary. The change is made on the RULING and the benefit is stated conditionally.
+`check_all` pays nothing — the build composes on the fast engine, where the limit bounds a CP
+solve that never happens. Five guards, **all five mutation-checked and red**; the guard reads the
+AST and EVERY placing call site, because `compose` calls `RV.revise` three times and a text grep
+would pass on one of two — and two mutations were SKIPPED on the first sweep for exactly that
+reason, the selector fault met inside the harness built to prevent it.
 
 ### WP-14.5 — OQ 63's deferred primary-test sweep
 

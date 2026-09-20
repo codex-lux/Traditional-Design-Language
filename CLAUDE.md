@@ -2057,6 +2057,55 @@ with `false` left a bare `c.<field>` match green and dropping one `data-fatal-ex
 other matching. Re-cut against the render CONDITION and against both attribute sites, all five
 bite. App suite 226 -> **227**.
 
+**WP-14.4 IS THE LOOP THAT WAS NOT SHORT OF PERMISSION BUT OF TIME, AND ITS OWN PREMISE WAS
+FALSE (`docs/reports/wp-14.4-the-loop-was-not-short-of-permission.md`).** The approved plan said
+*"`critique._lever` returns `candidates` unconditionally on a heuristic run, so `prove-it` is
+never offered"*. **Measured deterministically before a line changed: `prove-it` IS offered on the
+product path** -- `compose()` defaults to `revise_engine="auto"`, `revise()` puts that straight
+into `ctx["engine"]`, and `_lever` offers the proof on **38 of 38** placement findings on the
+Tidewater plan. The premise describes only the heuristic-BY-NAME path, and **that withholding is
+a RULED refusal spelled in three places with its reason in each** -- `critique._lever` (*"an
+EXPLICIT request for the search is a request not to spend a proof"*, honoured at the lever so the
+loop does not spend a round on the refusal), `moves._prove_it` (the same rule at the move, for a
+caller arriving another way), and `workbench/server/evaluate.py:254`'s **THE ENGINE THAT PLACED,
+NEVER `auto`**, whose comment says `auto` *"would re-attempt the proof at 25 s inside EVERY round
+on a record where it has just been measured to fall back"*. Undoing it puts a 25 s proof inside
+the bench's wall-drag path, which the infrastructure audit measured at ~85% of the server's whole
+evaluate capacity for one person. **THE LEVER IS UNCHANGED.**
+**THE REAL DEFECT IS THAT A BATCH CALLER WAS GETTING THE INTERACTIVE BUDGET BY ACCIDENT OF A
+LITERAL DEFAULT.** WP-11.8 ruled two budgets and gave each its callers: `BUDGET_BATCH_S` (40 s)
+is `geometry.solve`'s own default for `check_all`, `corpus.drawing()`, the CLI and the reference
+plans, and `BUDGET_INTERACTIVE_S` (25 s) is passed BY NAME by the three routes with a person
+waiting. **`build/compose.py` passed nothing**, so it inherited `revise()`'s bare `25.0` -- the
+ruling written a third and fourth time, where changing the constant would have moved neither. A
+compose is a JOB. It passes `GEO.BUDGET_BATCH_S` by name now, at BOTH placing call sites, the
+budget-skip branch included -- a set whose revised cards were placed at 40 s and whose skipped
+ones were placed at 25 would be two instruments again, which is WP-14.2's defect one field over.
+**MEASURED THROUGH `revise()` ON THE TWO SHIPPED PLANS, ONE RUN EACH: refused rounds 1 -> 0 and
+4 -> 0.** `spec-builder-colonial`'s first placement falls back to the SEARCH at 25 s and reaches
+CP-SAT at 40, so the candidate the loop starts from carries **4 fatals instead of 15** and ends
+at 2 rather than 6; and **the Tidewater plan is FASTER at the larger budget, 92.5 s against
+190.5**, because a proof that CLOSES is cheaper than one that spends its budget and is then
+re-attempted by the `prove-it` lever in every later round.
+**AND ON THE PRODUCT COMPOSE IT BUYS NOTHING, WHICH IS PUBLISHED RATHER THAN OMITTED.** The same
+call against a `git archive` control of HEAD returns the same two candidates with the same fatal
+counts (1 and 3), `courtyard-and-portal` **identical in every field**, and is **24 s SLOWER** on
+one run each -- because neither returned candidate's placement sits at the 25-40 s boundary. That
+is this file's own *verifying a corpus-wide change on the records that happen to be in front of
+you*, caught in the other direction: the `spec-builder-colonial` benefit is real and the brief
+does not exercise it. **The change is made on the RULING and the benefit is stated
+conditionally**, with nobody having swept how many records sit at that boundary.
+**`check_all` PAYS NOTHING** -- the build composes on the fast engine, where `time_limit_s` bounds
+a CP solve that never happens (0.53 s at 25 against 0.26 s at 40), asserted as a RELATION rather
+than as a duration, because a timing pin is a fact about the machine.
+**FIVE GUARDS, ALL FIVE MUTATION-CHECKED AND ALL FIVE RED, AND THE HARNESS COMMITTED THE FAULT
+THE GUARD EXISTS TO PREVENT.** The guard reads the AST and EVERY PLACING call site, because
+`compose` calls `RV.revise` three times and a source-text grep would pass on one of two -- and
+**two mutations were SKIPPED on the first sweep because their target string appears twice, once
+per call site**, which is the selector fault met inside the harness built to catch it. Re-cut
+with enough context to be unique, both bite. The premise is asserted first: were the two budgets
+ever set equal, every other assertion in the file would pass while distinguishing nothing.
+
 **WP-13.9 IS THE FIRST PASS THAT WAS THE PRODUCT, AND THE PANEL THAT SAID SO WAS A LEFTOVER
 (`docs/reports/wp-13.9-the-first-pass-was-the-product.md`).** Lucas read the bench's Tidewater
 sheet -- sixty drawn findings, most of them the `unreachable` fatal, beside

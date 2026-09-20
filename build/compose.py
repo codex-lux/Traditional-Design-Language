@@ -1764,6 +1764,9 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     if revise and out:
         RV = _mod("revise", f"{ROOT}/build/revise.py")
         OP = _mod("openings", f"{ROOT}/build/openings.py")
+        # For BUDGET_BATCH_S alone (WP-14.4). `modcache` returns the module object every
+        # other reader already holds, so this names a constant rather than loading anything.
+        GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
         deadline = None if revise_budget_s is None else time.perf_counter() + float(revise_budget_s)
         n_out = len(out[:candidates])
         for rank, c in enumerate(out[:candidates], 1):
@@ -1784,8 +1787,16 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                 # what that sentence already promised rather than opening a new cost class --
                 # and it is on `revise_engine`, because a verdict taken on another engine
                 # would put the set back on two instruments to save a second.
+                # AND ON THE SAME BUDGET AS ITS SIBLINGS (WP-14.4), for the same reason the
+                # line above gives about the engine: a set in which the revised cards were
+                # placed at 40 s and the skipped ones at 25 would be two instruments again,
+                # which is the defect WP-14.2 removed one field over. It costs a skipped
+                # candidate up to 15 s more to be judged -- outside `revise_budget_s`, which
+                # it has already been measured not to fit inside -- and that is the price of
+                # its verdict being of the same kind of house as everybody else's.
                 zero = RV.revise(c["plan"], rounds=0, engine=revise_engine, budget_s=None,
-                                 brief=brief, parti=parti_rec, place=True, C=C)
+                                 brief=brief, parti=parti_rec, place=True, C=C,
+                                 time_limit_s=GEO.BUDGET_BATCH_S)
                 res0 = zero["critique_after"]["check"]
                 fp0 = footprint(zero["plan"], parti_rec)
                 area0 = sum(r.get("width_ft", 0) * r.get("length_ft", 0)
@@ -1809,8 +1820,29 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                     on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
                 continue
             declared_pass = c["plan"].pop("revision_report", None)
+            # WP-14.4: THE BATCH BUDGET, BY NAME. A compose is a JOB -- nobody is waiting on
+            # it behind a 400 ms debounce -- so WP-11.8's ruling gives it `BUDGET_BATCH_S`,
+            # which is `geometry.solve`'s own default and what `check_all`, `corpus.drawing()`
+            # and the CLI place at. It was getting `revise()`'s literal default of 25.0, the
+            # INTERACTIVE number, by passing nothing: the two budgets are a ruling and this
+            # caller was on the wrong side of it by accident of a default.
+            #
+            # MEASURED, one run each at `engine="auto"`, and the movement is not marginal.
+            # `spec-builder-colonial`'s first placement falls back to the SEARCH at 25 s and
+            # reaches CP-SAT at 40, so the candidate the loop starts from goes from 15 fatal
+            # to 4 and the loop ends at 2 rather than 6. Refused rounds on the two shipped
+            # plans go 1 -> 0 and 4 -> 0. And it is not simply "more time buys more": on
+            # `tidewater-georgian-careful` the larger budget is FASTER end to end, 92.5 s
+            # against 190.5, because a proof that CLOSES is cheaper than one that spends its
+            # budget and is then re-attempted by the `prove-it` lever in every later round.
+            #
+            # THE COST IS REAL AND IS THE SET'S. A candidate's placement may now take 40 s
+            # rather than 25, and `revise_budget_s` is shared in rank order, so a candidate
+            # further down may not be reached -- it is returned unrevised and says so, which
+            # is the existing behaviour and not a new silence.
             rv = RV.revise(c["plan"], rounds=revise_rounds, engine=revise_engine,
-                           budget_s=share, brief=brief, parti=parti_rec, place=True, C=C)
+                           budget_s=share, brief=brief, parti=parti_rec, place=True, C=C,
+                           time_limit_s=GEO.BUDGET_BATCH_S)
             plan2 = rv["plan"]
             if declared_pass:
                 plan2["revision_report"]["declared_pass"] = declared_pass.get("summary")
