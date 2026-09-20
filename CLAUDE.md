@@ -2106,6 +2106,58 @@ per call site**, which is the selector fault met inside the harness built to cat
 with enough context to be unique, both bite. The premise is asserted first: were the two budgets
 ever set equal, every other assertion in the file would pass while distinguishing nothing.
 
+**THE BUILD ON THE PHASE 14 TREE IS `2 of 53 checks failed`, AND ATTRIBUTING ITS REDS FOUND
+THAT WP-14.0'S CONTROL COULD NOT REPORT A SEVENTH BECAUSE IT WAS A LIST OF IDS.**
+`pytest tests/` is **24 failed / 2,630 passed / 42 skipped in 1:01:41**; the two failing CHECKS
+are `check_partis.py` and the suite, which are ONE finding through two readers. **Sixteen are
+the WP-13.1 gate**, red by design. Six are WP-14.0's control rows, message-identical. **The
+other two were each run against a `git archive` checkout of `a0c4fca`, this phase's own base,
+and they split exactly opposite ways** -- which is the whole reason the control exists and the
+reason it was not enough.
+**`test_refusal.py::test_the_dxf_selftest_tells_a_refusal_from_a_failure` IS PRE-EXISTING AND
+WAS OUTSIDE THE CONTROL BY CONSTRUCTION.** It fails character-identically on the base. Its skip
+clause reads `"ezdxf is not installed" in printed` and the code prints *"the ezdxf package is
+not installed"* -- a stale selector, so the guard falls past its own COULD-NOT-EVALUATE door and
+convicts the absence of a library. **WP-14.0 ran the six ids `CLAUDE.md` names and not the
+suite**, so a seventh pre-existing red could not appear in it: *a control that enumerates is a
+control over what somebody already knew was wrong*. The licence clause worked as written -- it
+sent the seventh to a control rather than to a name -- but the table it defended was never a
+census. **Not fixed here**: it is `test_refusal.py`'s subject and this phase touched no exporter.
+**AND `test_compose_revision.py::test_score_and_score_before_are_one_instrument` PASSES ON THE
+BASE AND IS WP-14.2's, AND IT IS THE THIRD READER OF A CONTRACT THAT PACKAGE MOVED.** It
+re-checked the returned plan STRIPPED and matched `counts`, under a docstring saying *"a drawn
+finding never enters the composite"* -- the retired contract, asserted. WP-14.2 corrected that
+sentence in `compose.py`, `docs/compose.md` and `docs/revise.md` by grepping the tree for
+`score_before` and `declared record` -- **and this file carries the first term SEVEN times and
+the second in the very line that was wrong**, so it was the sweep's loudest hit and was missed
+anyway, because the sweep was read as a sweep for PROSE and the hits it wanted were comments.
+**My first draft of this sentence said the file matched neither phrase**, which would have made
+it a defensible miss; it is not, and only grepping the retired file settled it. A sweep after a
+ruling is over what ASSERTS the contract, not only over what describes it -- *verify every
+consumer means every one* (WP-12.9) with `tests/` inside the word every. **RE-CUT, not re-pinned**: the subject -- score and
+score_before are one instrument -- is unchanged and only which house it reads moved, so the
+AFTER end is re-derived independently (re-check the returned plan as it stands: `counts`
+reproduces element for element on both candidates -- fatal/serious/minor/info **1, 58, 83, 26**
+and **2, 65, 95, 24**, against a stripped reading of 1, 23, 69, 28 and 2, 30, 75, 24) and the
+BEFORE end is
+held by `drawn_key_before[:3]`, the cheapest independent reader of `counts_before`. The two ends
+have different strengths and the docstring says so.
+**AND THE LINE ABOVE THE ONE THAT FIRED WAS VACUOUS.** It asserted the fatal counts agree, and
+on this brief they agree on BOTH readings for BOTH candidates -- 1 and 2 -- so only the `serious`
+line could ever have reported the ruling. WP-11.15's *a fixture where both branches return the
+same number guards neither*, one line from the assertion that caught it. The whole `counts` dict
+is asserted now, **and the premise that the two readings differ at all is asserted too**, with a
+message naming the remedy: where they coincide the re-derivation passes under either instrument
+and the guard distinguishes nothing.
+**AND ONE OPEN QUESTION'S REASONING WAS FALSIFIED AND ITS CONCLUSION SURVIVED A BETTER WAY.**
+`oq/the-composer-ranks-first-a-house-that-may-not-be-drawn` argued a refusal cannot reach the
+score partly because *"`score` is re-derived from the DECLARED record by design"*. False of this
+tree. **Re-derived rather than re-read: `score_candidate` does not mention `geometry_report`
+anywhere in its 137 lines** -- its two occurrences of `refused` are both prose in comments -- so
+the refusal cannot reach the score on EITHER reading, and not because of which record is scored.
+Amended in the entry's own file rather than overwritten; the question is unchanged and one of
+its two reasons is gone.
+
 **WP-13.9 IS THE FIRST PASS THAT WAS THE PRODUCT, AND THE PANEL THAT SAID SO WAS A LEFTOVER
 (`docs/reports/wp-13.9-the-first-pass-was-the-product.md`).** Lucas read the bench's Tidewater
 sheet -- sixty drawn findings, most of them the `unreachable` fatal, beside

@@ -28,6 +28,15 @@ re-derived from the DECLARED record by design (`compose.py`'s own comment: so th
 `score_before` are one instrument), and a refusal is a fact about the PLACEMENT, so it cannot reach
 the score by that route either.
 
+> **AMENDMENT, 20 Sep 2026 (WP-14.2).** The middle clause of that sentence is false of this tree:
+> the score is re-derived from the **placed** record now, at both ends of the loop, and the
+> parenthesis it rests on was rewritten in `compose.py` on the day the ruling arrived. **The
+> conclusion survives and its reason is stronger, re-derived rather than re-read**: `score_candidate`
+> does not mention `geometry_report` anywhere in its 137 lines (its two occurrences of the word
+> `refused` are both prose in comments), so a refusal cannot reach the score on EITHER reading —
+> not because of which record is scored, but because nothing in the scorer looks. The question is
+> unchanged; what is gone is one of the two reasons it gave, and it was the weaker one.
+
 ## Why this is the same defect one layer up
 
 WP-13.4 ruled that a placement breaking a hard fact of the type is REFUSED and not drawn, and

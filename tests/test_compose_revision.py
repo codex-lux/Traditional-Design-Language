@@ -2,7 +2,10 @@
 
 `compose.repair` is the DECLARED loop now (build/revise.py with place=False), in its old
 position; the PLACED loop runs on the returned candidates after ranking and re-scores them on
-the declared record so `score` and `score_before` are one instrument.
+the PLACED record AT BOTH ENDS (WP-14.2), so `score` and `score_before` are one instrument and
+both read the house the loop works on and the sheet draws. That sentence said "on the declared
+record" until 20 Sep 2026 and the ruling reversed it: the pair is still one instrument, a
+DIFFERENT one, and this file's own guard below was asserting the retired contract.
 """
 import json
 import os
@@ -90,11 +93,30 @@ class TestThePlacedLoopOnTheReturnedCandidates:
             assert c["plan"]["revision_report"].get("declared_pass") is not None
 
     def test_score_and_score_before_are_one_instrument(self, composed, compose_module):
-        """Both are score_candidate on the DECLARED record; a drawn finding never enters
-        the composite for the revised candidate and not for its earlier self. The first
-        version of this test asserted only that an axis existed and the score was in range,
-        which `PC.check(placed)` also satisfies (WP-9.4). Now: re-score the returned plan
-        STRIPPED of its placement with the composer's own instrument and match `score`."""
+        """RE-CUT ONTO THE INSTRUMENT WP-14.2 RULED, NOT RE-PINNED TO ITS NUMBERS.
+
+        This asserted that `counts` reproduces `PC.check(strip_placement(plan))` -- the
+        DECLARED reading -- under a docstring saying a drawn finding never enters the
+        composite. The 20 Sep ruling moved the verdict onto the PLACED house, so the
+        contract this guard held is the retired one; it went red at `serious 23 == 58`,
+        which is exactly the movement WP-14.2's report published.
+
+        The SUBJECT is unchanged and is the reason this is a re-cut: `score` and
+        `score_before` are one instrument. What moved is which house that instrument reads.
+        So the after end is RE-DERIVED here independently -- re-check the returned plan AS
+        IT STANDS and match `counts` element for element -- and the before end is held by
+        its key, which is the cheapest independent reader of `counts_before`. The two ends
+        have different strengths and the docstring says so rather than letting a reader
+        read one green tick as two.
+
+        AND THE OLD FATAL LINE COULD NOT HAVE REPORTED THIS. Measured on this brief, both
+        candidates read the same fatal count on both readings (1 and 2) and differ on
+        serious, minor and info -- `a fixture where both branches return the same number
+        guards neither` (WP-11.15), met in the line above the one that fired. The whole
+        `counts` dict is asserted here, and the premise that the two readings differ at all
+        is asserted too: where they coincide this guard distinguishes nothing, and it says
+        so loudly instead of passing.
+        """
         import copy
         OP = mc.load("openings", os.path.join(BUILD, "openings.py"))
         PC = mc.load("plan_check", os.path.join(BUILD, "plan_check.py"))
@@ -102,15 +124,36 @@ class TestThePlacedLoopOnTheReturnedCandidates:
         for c in composed["candidates"]:
             axes = {a["axis"] for a in c["score_axes"]}
             assert "connections" in axes
-            declared = OP.strip_placement(copy.deepcopy(c["plan"]))
-            declared.pop("revision_report", None)
-            res = PC.check(declared, C)
-            assert res["counts"].get("fatal", 0) == c["counts"].get("fatal", 0)
-            assert res["counts"].get("serious", 0) == c["counts"].get("serious", 0)
-            # the drawn layer reports could-not-evaluate (info) on an unplaced record; no
-            # drawn VERDICT enters the declared instrument
-            assert not [f for f in res["findings"] if f["layer"] == "drawn" and f["severity"] != "info"], \
-                "the declared instrument sees no drawn finding"
+            plan = c["plan"]
+            assert any(r.get("geometry") for lv in plan["levels"] for r in lv["rooms"]), \
+                f"{c['parti']}: the returned plan carries no placement, so every assertion " \
+                f"below would be about the wrong house"
+            placed = PC.check(copy.deepcopy(plan), C)
+            assert placed["counts"] == c["counts"], (
+                f"{c['parti']}: `counts` is not a re-derivable reading of the returned "
+                f"placed record: {placed['counts']} against {c['counts']}")
+            stripped = OP.strip_placement(copy.deepcopy(plan))
+            stripped.pop("revision_report", None)
+            strip = PC.check(stripped, C)
+            assert strip["counts"] != c["counts"], (
+                f"{c['parti']}: the placed and stripped readings agree ({strip['counts']}), "
+                f"so the assertion above passes under either instrument and this guard is "
+                f"distinguishing nothing. Drive a candidate whose placement moves the "
+                f"verdict rather than deleting the line that noticed.")
+            # THE RULING, POSITIVELY: the instrument carries drawn verdicts now. Asserting
+            # only that the placed reading matches would stay green on a `counts` that had
+            # quietly gone back to a house with no drawn finding in it.
+            assert [f for f in placed["findings"]
+                    if f["layer"] == "drawn" and f["severity"] != "info"], \
+                f"{c['parti']}: the verdict's own reading carries no drawn finding above info"
+            # The BEFORE end, held by its key rather than re-derived: the record the loop
+            # started from is gone by now. [fatal, serious, minor] is `critique.key_of`'s
+            # first three elements and `counts_before` is the same critique's counts, so a
+            # `score_before` computed on any other reading parts them.
+            kb = c["drawn_key_before"]
+            cb = c["counts_before"]
+            assert [cb.get("fatal", 0), cb.get("serious", 0), cb.get("minor", 0)] == list(kb[:3]), \
+                f"{c['parti']}: `counts_before` and `drawn_key_before` are two readings: {cb} / {kb}"
 
     def test_the_revision_lines_are_decisions_of_kind_revision(self, composed):
         for c in composed["candidates"]:
