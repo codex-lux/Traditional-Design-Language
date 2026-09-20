@@ -371,16 +371,56 @@ def score_candidate(res, plan, brief, fit, fp, miss, tol):
     unclassified = sorted({f.get("layer") for f in (res.get("findings") or [])
                            if f.get("layer") not in SCORE_LAYERS} - {None})
     fatal = res["counts"].get("fatal", 0)
+    # WP-14.3, ruled 20 Sep 2026: A FATAL FROM AN INSTRUMENT THE CORPUS HAS CONVICTED REPORTS
+    # AND DOES NOT DISQUALIFY. `plan_check` names them; this is the only place that acts on it.
+    #
+    # The finding is untouched -- still emitted, still `fatal`, still carrying its figure, still
+    # counted in `counts` -- and only `disqualified` and the ordering stop reading it. That
+    # split is the whole ruling: the house is told what is wrong with it and is not refused a
+    # hearing over a number the corpus has an open question against.
+    #
+    # THREE STATES. `None` is could-not-evaluate (critic_suspects would not load), and it is
+    # NOT treated as zero excused: a run that could not check is not a run that found none, so
+    # the count stands and the reason is published. An empty list is a real zero.
+    conv = res.get("fatal_on_a_convicted_instrument")
+    # `isinstance` rather than `len(conv or [])`, and the two are an EQUIVALENT MUTANT
+    # today -- measured at WP-14.3: for all three states the key can hold (None, [],
+    # [row]) they return the same number, and the mutation stayed green against eleven
+    # guards. It is kept because its NEIGHBOUR is not equivalent: `_clear_on_a_constant`
+    # one key over returns a DICT for its could-not-evaluate case, and if this key ever
+    # grows the same shape `len(conv or [])` would silently excuse one fatal per dict
+    # key. Stated so the simplification is refused on a reason rather than on taste.
+    excused = len(conv) if isinstance(conv, list) else 0
+    # Defensive: `counts` and the findings list are built by one pass, so this cannot go
+    # negative today. It is clamped because the alternative -- a NEGATIVE disqualifying count
+    # reading as "cleaner than clean" -- is the flattering direction, and this corpus pays for
+    # those.
+    disqualifying = max(0, fatal - excused)
     out = {"score": round(100 * earned / evaluable, 1) if evaluable else None,
            "score_axes": axes,
            "score_weight_evaluated": evaluable, "score_weight_unevaluated": 100 - evaluable,
            "score_unclassified_layers": unclassified,
-           "disqualified": bool(fatal)}
-    if fatal:
+           "fatal_disqualifying": disqualifying,
+           "fatal_excused": excused,
+           "fatal_excused_rows": conv if isinstance(conv, list) else None,
+           "disqualified": bool(disqualifying)}
+    if conv is None:
+        out["fatal_excused_unjudged"] = (
+            "whether any fatal here rests on an instrument the corpus has convicted could not "
+            "be evaluated, so none is excused -- unjudged, not passed.")
+    if disqualifying:
         out["disqualified_because"] = (
-            f"{fatal} fatal finding{'s' if fatal != 1 else ''}. A fatal is a thing that is wrong, "
+            f"{disqualifying} fatal finding{'s' if disqualifying != 1 else ''}. A fatal is a thing that is wrong, "
             f"not a thing that is worse: this candidate cannot outrank a plan with none, whatever "
             f"it scores, and its score is not a case for building it.")
+    if excused:
+        # Said whether or not the candidate is disqualified, because the reason a fatal is
+        # NOT disqualifying is exactly the thing a reader would otherwise have to guess at.
+        out["fatal_excused_because"] = (
+            f"{excused} further fatal finding{'s are' if excused != 1 else ' is'} reported in full above and "
+            f"does not disqualify: " + "; ".join(
+                f"{r['statement']} -- the measurement is the generator's own and "
+                f"{r['question']} is open against it" for r in conv))
     if not evaluable:
         # Unreachable as the axes stand -- fidelity, area and buildability always have a
         # denominator, so `evaluable` is at least 31. Kept because "no evidence" must never
@@ -1688,7 +1728,12 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # and the VERDICT printed on what comes back is the placed house's -- two different
     # questions answered on two different readings, deliberately, and `result["selected_on"]`
     # below says so rather than leaving a reader to infer that one instrument did both.
-    _sort_key = lambda c: (c["counts"].get("fatal", 0),
+    # WP-14.3: the primary key is the DISQUALIFYING fatal count, not the raw one, so the
+    # ordering and `disqualified` cannot disagree about one candidate -- which is this phase's
+    # own defect one layer up. `fatal_disqualifying` rides on every scored candidate;
+    # `.get(..., counts.fatal)` is the fallback for a dict that never went through
+    # `score_candidate`, and it is the CONSERVATIVE one (excuse nothing) rather than 0.
+    _sort_key = lambda c: (c.get("fatal_disqualifying", c["counts"].get("fatal", 0)),
                            -(c["score"] if c["score"] is not None else -1e9),
                            c["demerits"], c.get("parti") or "")
     out.sort(key=_sort_key)

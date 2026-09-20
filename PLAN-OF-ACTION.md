@@ -4527,7 +4527,33 @@ the score cannot see ten fatals clear (`oq/the-score-cannot-see-ten-fatals-clear
 
 ### WP-14.3 — a convicted instrument reports and does not disqualify
 
-**Status: PLANNED.** A **named list**, never a heuristic, of `(fault id, measurement)` pairs with
+**Status: COMPLETE (20 Sep 2026).** `docs/reports/wp-14.3-a-convicted-instrument-reports.md`.
+**No second list was created**: `critique/suspects.json` already IS the named list the ruling
+asks for, so an entry gains a SECOND power gated on a SECOND warrant — a `basis` (the generator
+admits the measurement is its own, quoted and verified) blocks a move as before, and a `basis`
+**and** an open `question` naming the fault also takes its fatals out of `disqualified`. 3
+editorial, **2 convicted**; the entry with no question keeps its move block and excuses nothing,
+and a test asserts `convicted()` is a STRICT subset of `editorial()`.
+**THE HEADLINE IS THE MEASUREMENT AND IT IS THAT THIS BUYS ALMOST NOTHING: one fatal of 158 over
+the sixteen shipped plans, zero plans and zero composed candidates changing disqualification
+status.** 131 of those 158 are `unreachable` and `adjacency` — the PLACEMENT's — which no fault
+excusal can reach. The plan said in advance to say so rather than widen the list, and this does.
+**Three candidates were examined and all three REFUSED**, each by execution: `one-bay-symmetry-break`
+(WP-13.8 already executed the ruling on it, so what fires is the main block's own front — and
+excusing it would have cleared the composer's returned leader entirely, the flattering direction
+the ruling must not become); `truss-flattened-pitch` (its question's mechanism is wrong —
+`italian-renaissance-revival` has no `descends_from` at all, so it is neither descendant nor
+sibling of `italianate-american` and no proposed licence fix would reach it; corrected in that
+question's own file); and `cornice-that-is-a-fascia`, the largest fault population at 7 of 16
+plans, whose OQ 84 is CLOSED and so is not a live conviction.
+**Two Python mutations were BLIND and one was the ruling itself** — no plan has a convicted fatal
+as its ONLY fatal, so `bool(fatal)` and `bool(disqualifying)` agree on every shipped record and
+the ruling was unobservable; DRIVEN now with its premise asserted. The other is a genuine
+equivalent mutant, recorded as such. **Two JS mutations were blind for one reason**: each field
+appears twice in `CandidateColumn.jsx` and the selector matched the body where the CONDITION was
+the subject.
+
+### WP-14.3 — as planned A **named list**, never a heuristic, of `(fault id, measurement)` pairs with
 an open question against the instrument — `critique/suspects.json`'s precedent, which already
 states *"being here does not make the fault wrong"*. Each entry quotes the question it cites and a
 checker verifies the citation resolves, on `check_openings.check_basis`'s precedent. The finding

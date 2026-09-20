@@ -74,3 +74,38 @@ So the defect is real, the number that would fix it is known, and it cannot be e
   score term rather than leave it, and CLAUDE.md's own words are that an inert wrong number is an
   instruction to the next reader. `tests/test_depth_floor.py::TestItIsNotEnforced` fails if
   `geometry.py`, `geometry_cp.py` or `compose.py` so much as imports the module.
+
+---
+
+## Correction, 20 September 2026 — the licence would not reach `good-05` under any proposed fix
+
+**Measurement 1 above names the wrong mechanism, and the conclusion it supports is unaffected.**
+
+It reads: *"Its style is `italian-renaissance-revival`; the fault's `exceptions[]` name
+`italianate-american`. The licence never reaches it, which is
+`oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants` — recorded, unruled."*
+
+Run rather than re-read, while WP-14.3 was deciding whether this fault belonged on the
+convicted-instrument list:
+
+    italian-renaissance-revival   descends_from: (none)   member_of: eclectic-revivals
+    italianate-american           descends_from: (none)   member_of: romantic-revivals
+
+**`italian-renaissance-revival` has no `descends_from` at all.** It is a root node, and the two
+are not parent and child; they are not even siblings, being in different families. That question
+is about a licence failing to reach a style's DESCENDANTS, and no fix it proposes would carry
+`italianate-american`'s licence across to a root node in another family. Calling them siblings
+was doubly wrong and reads as though one edit to the matching rule would settle it.
+
+**What stands, unchanged:** `good-05-lobby-gallery-mansion` is convicted FATALLY at 0.2509
+against 0.45, the floor that conviction implies is 69.31 ft of depth against a drawn 38.64, and
+a hard cap would therefore reshape a villa whose low pitch is the point of the style. The reason
+the licence does not reach it is simply that **no licence on this fault names its style or any
+ancestor of it** — which is a plainer objection to a cap than the one written here first, not a
+weaker one.
+
+**And it decides one thing:** this fault is NOT on WP-14.3's list of instruments the corpus has
+convicted. That list requires an open question saying the MEASUREMENT or THRESHOLD is wrong for
+the case it convicts, and this entry's own argument is that the number is *known and correct* and
+cannot be ENFORCED. A fault whose figure nobody disputes is not a convicted instrument.
+See `docs/reports/wp-14.3-a-convicted-instrument-reports.md`.

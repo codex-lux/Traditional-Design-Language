@@ -18,14 +18,21 @@
  *  borrowing a diagram" is the part worth reading. */
 /** WHICH HOUSE THE COUNTS ARE OF (WP-14.1). Three states and never two.
  *
- *  `counts`, `disqualified` and every score axis on this card are `plan_check.check` on the
- *  candidate's record with its placement STRIPPED (build/compose.py), and `plan_check.py:2593`
- *  then derives the elevation from a fresh heuristic placement solved inside the critic. The
- *  `drawn [...]` key two lines above it on the same card is the loop's, measured on the house
- *  the sheet draws. They are different readings of different placements and the card said
- *  nothing: measured on briefs/family-georgian.json, `centre-passage-double-pile` reads
- *  declared [3, 25, 91, 24] against drawn [11, 71, 117, 24], and `truss-flattened-pitch` is
- *  FATAL on the first at 0.4488 against at-least 0.45 and passes on the second.
+ *  `counts`, `disqualified` and every score axis on this card USED TO BE `plan_check.check`
+ *  on the candidate's record with its placement STRIPPED (build/compose.py), while
+ *  `plan_check.py:2593` derived the elevation from a fresh heuristic placement solved inside
+ *  the critic -- so the verdict was of a house nobody drew, and the `drawn [...]` key two lines
+ *  above it on the same card was the loop's, of the house the sheet draws. Measured on
+ *  briefs/family-georgian.json, `centre-passage-double-pile` read declared [3, 25, 91, 24]
+ *  against drawn [11, 71, 117, 24], and `truss-flattened-pitch` was FATAL on the first at
+ *  0.4488 against at-least 0.45 and passed on the second.
+ *
+ *  WP-14.2 CLOSED THAT on the revised path: both readings are the placed house now and
+ *  `counts` reconciles with `drawn_key_after` element for element. The field STAYS, and this
+ *  paragraph stays in the past tense rather than being deleted, for two reasons -- a compose
+ *  run with `--no-revise` still publishes the declared reading, so the three states are still
+ *  three; and a field that says which house a number is of must not stop being said the moment
+ *  the answer becomes uniform, or the next reader never learns it was a question.
  *
  *  `null` is not "declared". A record whose elevation could not be derived at all, and a
  *  server that predates this field, both arrive here as null, and asserting either reading

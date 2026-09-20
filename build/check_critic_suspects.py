@@ -18,6 +18,11 @@ Three readings, printed; two ratchets; one verification:
   EDITORIAL  every entry in critique/suspects.json names a fault that exists, an expression
              that is one of that fault's own tests, and a basis whose quotation is really in
              the file it names -- the same verifier the opening grammar uses.
+  CONVICTED  and where an entry carries a `question` (WP-14.3, which lets it take a fatal out
+             of `disqualified`), that question must EXIST in the register and be OPEN, and it
+             must name the fault in its own text. A closed question is not a live conviction,
+             and an excusal resting on one would be a verdict withheld on a matter the corpus
+             has since settled. Ratcheted at zero: the list may only shrink.
 
 Exit 3 (COULD NOT EVALUATE) if the elevation generator cannot be loaded: an absent generator
 is not a clean generator.
@@ -70,6 +75,45 @@ def _mod(name, path):
         sys.path.insert(0, b)
     import modcache as _mc
     return _mc.load(name, path)
+
+
+def _check_question(e, q, where):
+    """The `question` an entry cites must exist, be OPEN, and name the fault in its own text.
+
+    All three, because each covers a different way the citation rots. EXISTS catches a slug
+    typed wrong. OPEN catches a question ruled since -- the power this field grants is "the
+    corpus has not settled this", and a settled question withdraws it silently otherwise.
+    NAMES THE FAULT catches the citation that resolves and is about something else, which is
+    `oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity` one layer over: a pointer
+    that resolves is not a pointer that agrees.
+
+    Reads `build/check_ids.py`'s own `read_questions()` rather than globbing the directory --
+    the status vocabulary is spelled in ONE place and an unrecognised word is a failure there
+    rather than a default here.
+    """
+    if not q.startswith("oq/"):
+        return [f"{where}: `question` is '{q}', which is not an `oq/<slug>` id"]
+    ci = _mod("check_ids_for_suspects", os.path.join(ROOT, "build", "check_ids.py"))
+    qs, qerr = ci.read_questions()
+    if qerr:
+        return [f"{where}: the register does not check out, so '{q}' cannot be verified: {qerr[:2]}"]
+    row = qs.get(q)
+    if row is None:
+        return [f"{where}: cites '{q}', which is not an entry in the register"]
+    if row["state"] != "open":
+        return [f"{where}: cites '{q}', which is {row['state'].upper()}. A settled question is "
+                f"not a live conviction -- either the excusal goes or the question reopens."]
+    path = os.path.join(ROOT, "docs", "open-questions", q.split("/", 1)[1] + ".md")
+    path = path if os.path.exists(path) else os.path.join(
+        ROOT, "docs", "open-questions", "oq-" + q.split("/", 1)[1] + ".md")
+    if os.path.exists(path):
+        if e["fault"] not in open(path, encoding="utf-8").read():
+            return [f"{where}: cites '{q}', which does not name the fault '{e['fault']}' "
+                    f"anywhere in its own text -- a citation that resolves is not a citation "
+                    f"that agrees."]
+    else:
+        return [f"{where}: cites '{q}' and its file could not be found to read"]
+    return []
 
 
 def main():
@@ -128,6 +172,11 @@ def main():
         if e["expression"] not in exprs:
             errors.append(f"{where}: '{e['expression']}' is not one of {e['fault']}'s own tests")
         CO.check_basis(rep, e, source="critique/suspects.json")
+        # WP-14.3. An entry with no `question` keeps its move block and excuses no verdict,
+        # so there is nothing to check; the ABSENCE is a state, not an omission.
+        q = e.get("question")
+        if q:
+            errors += _check_question(e, q, where)
     errors += rep.errors
     # a basis citing a key path the walker cannot follow is unjudged for that citation, and
     # this list is authored here: ratcheted at zero, never printed above a pass
@@ -154,8 +203,16 @@ def main():
     if errors:
         print("\n" + "\n".join(f"ERROR: {e}" for e in errors))
         return 1
+    # WP-14.3: SAY WHAT WAS CHECKED, INCLUDING THE ZERO. A run in which no entry carries a
+    # `question` is a run in which the gate above never executed, and an OK line that does not
+    # distinguish that from a run where two were verified is a green tick standing for two
+    # different things -- which is this corpus's own most-repeated finding.
+    nq = sum(1 for e in ed if e.get("question"))
+    conv = (f"{nq} of them cite an open question and may take a fatal out of `disqualified`"
+            if nq else "NONE of them cites a question, so none may excuse a disqualification")
     print(f"\nOK -- {len(lits)} literal and {len(ratios)} ratio measurements, both at or under their "
-          f"ceilings; every editorial suspect names a real test and quotes a real sentence.")
+          f"ceilings; every editorial suspect names a real test and quotes a real sentence; "
+          f"{conv}.")
     return 0
 
 

@@ -186,3 +186,43 @@ test('the card is actually wired to the basis the server states', async () => {
   assert.match(col, /"data-verdict-basis"/,
     'the walk reads the rendered value off this attribute; without it the join has no behavioural guard either');
 });
+
+/* WP-14.3, and the same class of guard for the same reason. The excusal's three fields are
+   produced by `build/compose.py`, mapped in CandidateSet.jsx and rendered in
+   CandidateColumn.jsx, and every assertion about the RULING lives in Python -- so a mapping
+   deleted here would leave the whole Python suite green while a reader saw a fatal finding in
+   the list with nothing saying why it had not counted. That is WP-14.1's blind mutation, one
+   package later, and it is guarded before it can happen rather than after.
+
+   THE THIRD STATE IS ASSERTED TOO. `fatal_excused_unjudged` is the case where the sweep could
+   not run; a card that renders the excusal and not the unjudged line would report "nothing was
+   excused" and "nothing could be checked" identically, which is the fake-pass shape. */
+test('the card is wired to the excusal AND to its unjudged state', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const here = new URL('.', import.meta.url);
+  const set = await readFile(new URL('surfaces/CandidateSet.jsx', here), 'utf8');
+  const col = await readFile(new URL('components/CandidateColumn.jsx', here), 'utf8');
+
+  for (const f of ['fatal_excused', 'fatal_excused_because', 'fatal_excused_unjudged']) {
+    assert.match(set, new RegExp(`${f}:\\s*c\\.${f}`),
+      `CandidateSet must map ${f}, or the card renders over nothing`);
+  }
+  /* MATCHING THE FIELD ANYWHERE IN THE FILE IS NOT A GUARD, which two mutations proved: each
+     of these names appears twice in CandidateColumn -- once in the condition that decides
+     whether the block renders and once in the body that renders it -- so replacing a condition
+     with `false` left a bare `c.<field>` match GREEN. The CONDITION is the thing being
+     asserted, so it is what the pattern reads. */
+  assert.match(col, /c\.fatal_excused_because\s*&&/,
+    'the excusal block must be CONDITIONAL on the server saying there was one');
+  assert.match(col, /c\.fatal_excused_unjudged\s*&&/,
+    'the third state must render on its own condition, or "nothing was excused" and "nothing '
+    + 'could be checked" reach the reader as the same card');
+  /* And the attribute the walk reads must be on BOTH blocks, for the same reason: one
+     occurrence satisfies a bare match while the other block carries no hook at all. */
+  assert.match(col, /"data-fatal-excused":\s*String\(c\.fatal_excused/,
+    'the excusal block must publish the COUNT the walk compares against the API');
+  assert.match(col, /"data-fatal-excused":\s*"unjudged"/,
+    'the unjudged block must publish its own value, so the walk can tell it from a zero');
+  assert.doesNotMatch(col, /fatal_excused_because\s*&&[\s\S]{0,400}?all\s*clear/i,
+    'the excusal must never be styled or worded as an all-clear: the fatal is still there');
+});

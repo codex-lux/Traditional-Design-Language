@@ -297,6 +297,40 @@ def editorial():
     return _EDITORIAL[key]
 
 
+def convicted():
+    """The editorial entries that may take a fatal OUT of `disqualified` (WP-14.3): those that
+    ALSO cite an open question naming the fault. The ONE reader of that gate -- `plan_check`
+    and `compose` both come here rather than filtering `editorial()` themselves, because two
+    spellings of "which suspects may excuse a verdict" is how a corpus ends up excusing two
+    different sets.
+
+    A basis says the GENERATOR admits the measurement is its own; a question says the CORPUS
+    has taken a position on it. Blocking a move needs the first. Removing a disqualification is
+    the stronger power and needs both, so an entry with no `question` is returned by
+    `editorial()` and not by this -- the absence is the answer, not an omission.
+    `build/check_critic_suspects.py` verifies each cited question exists and is OPEN.
+    """
+    return [e for e in editorial() if e.get("question")]
+
+
+def convicts(finding):
+    """The convicted entry a `fault-present` finding matches, or None. Matches on the
+    (fault, expression) PAIR and never on the fault alone: a fault may carry several tests and
+    only the one the corpus convicted is excused. Deliberately narrower than `why_suspect`,
+    which also returns the AST instruments' hits -- those are a heuristic over 44 ratcheted
+    names, and the ruling this serves says a NAMED LIST, never a heuristic. Measured at
+    WP-14.3: over the 16 shipped plans the two happen to agree, at one fatal each, and that
+    agreement is a property of today's corpus rather than a reason to take the wider one.
+    """
+    if finding.get("layer") != "fault":
+        return None
+    key = (finding.get("fault"), finding.get("expression"))
+    for e in convicted():
+        if (e["fault"], e["expression"]) == key:
+            return e
+    return None
+
+
 def suspect_names():
     """Every measurement name an instrument or the editorial list marks. Cheap: AST only."""
     names = set(source_literals()) | set(literal_ratios())

@@ -39,6 +39,13 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
     score_axes: (c.score_axes || []).map((a) => (
       a.what || !axisWhat?.[a.axis] ? a : { ...a, what: axisWhat[a.axis] })),
     disqualified: !!c.disqualified,
+    // WP-14.3. A fatal the corpus has an open question against is reported in full and
+    // does not set `disqualified`; these three carry that to the card. `fatal_excused`
+    // is a COUNT and `fatal_excused_because` the sentence; `fatal_excused_unjudged` is
+    // the third state, where the sweep could not run and nothing was excused.
+    fatal_excused: c.fatal_excused ?? null,
+    fatal_excused_because: c.fatal_excused_because || null,
+    fatal_excused_unjudged: c.fatal_excused_unjudged || null,
     disqualified_because: c.disqualified_because,
     score_unscored_because: c.score_unscored_because,
     score_weight_evaluated: c.score_weight_evaluated,

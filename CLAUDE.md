@@ -1993,6 +1993,70 @@ whole argument for stripping, so it is answered in place rather than deleted),
 `CandidateSet.jsx`'s *"both on the stripped declared record"*, and the same sentence in
 `docs/compose.md` and `docs/revise.md`.
 
+**WP-14.3 IS THE SECOND RULING EXECUTED, AND ITS HEADLINE IS THAT IT BUYS ALMOST NOTHING
+(`docs/reports/wp-14.3-a-convicted-instrument-reports.md`).** A fatal from an instrument the
+corpus has convicted REPORTS in full, at fatal severity, with its figure, and does not set
+`disqualified`. **Measured: ONE fatal of 158 over the sixteen shipped plans, and ZERO plans and
+ZERO composed candidates change disqualification status** -- because **131 of those 158 are
+`unreachable` (93) and `adjacency` (38), which are the PLACEMENT's** and no fault excusal can
+reach. The approved plan said in advance *"if the answer is near zero the ruling has been
+executed and the problem is WP-14.5's; say so rather than widening the list until the number
+looks better"*, and this says so.
+**NO SECOND LIST WAS CREATED, because `critique/suspects.json` already IS the named list the
+ruling asks for.** An entry gains a SECOND power on a SECOND warrant: a `basis` (the generator
+admits the measurement is its own, quoted and verified against the file) blocks a move as
+before; a basis **and** an open `question` naming the fault also excuses a disqualification. 3
+editorial, **2 convicted** -- the entry with no question keeps its move block and excuses
+nothing, and a test asserts `convicted()` is a STRICT subset of `editorial()`, because otherwise
+the gate is not a gate. It matches the `(fault, EXPRESSION)` pair and never the fault alone, and
+reads the hand-authored entries and never `why_suspect`'s 41 ratcheted literals: **the two
+happen to agree today at one fatal each, which is a property of this corpus and not a reason to
+take the wider one.**
+**THE ONE ENTRY IS A `good-*` REFERENCE PLAN DISQUALIFIED BY A NUMBER THE GENERATOR STATES ABOUT
+ITSELF.** `good-03-parlor-drawing-room-house` is `greek-revival-american`, whose
+`severity_by_style` makes `column-without-entasis` FATAL with an excellent reason; the
+measurement is **1.0 because nothing in this codebase diminishes a shaft**, recorded as
+`cs-parallel-shaft` since WP-9.1. **The same fault reads `serious` on eight other plans at
+exactly the same 1.0** -- only Greek Revival escalates -- which is why it was invisible until
+somebody counted fatals by fault id.
+**THREE CANDIDATES WERE EXAMINED AND ALL THREE REFUSED, EACH BY EXECUTION, AND THAT IS THE MORE
+IMPORTANT HALF.** `one-bay-symmetry-break` is **the only fatal on the composer's own returned
+leader**, so excusing it would have made that card read clean -- and WP-13.8 already executed the
+ruling on its question, so what fires now is the main block's own front, honestly measured.
+`truss-flattened-pitch`'s warrant dissolved on execution: `oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced`
+says `good-05` is convicted *"through a licence that names its sibling"*, and
+**`italian-renaissance-revival` has no `descends_from` AT ALL** -- a root node in
+`eclectic-revivals` against `italianate-american` in `romantic-revivals`, so they are neither
+parent-and-child nor siblings and **no fix that question's cited mechanism proposes would reach
+it**. Corrected in that question's own file rather than left to be re-read; what stands is that a
+fault whose figure nobody disputes is not a convicted instrument. And `cornice-that-is-a-fascia`,
+the largest fault population at 7 of 16 plans, rests on OQ 84, which is **CLOSED** -- a settled
+question is not a live conviction, and the checker refuses one.
+**THE CHECKER VERIFIES A CITED QUESTION THREE WAYS AND EACH COVERS A DIFFERENT ROT**: it exists
+(a slug typed wrong), it is OPEN (a question ruled since would withdraw the power in silence),
+and it NAMES THE FAULT in its own text (*a citation that resolves is not a citation that
+agrees*). All three were driven and each has its own message. **The OK line now states how many
+entries carry a question, INCLUDING when that is none**, because a green tick over a gate that
+never executed and one over a gate that verified two entries are otherwise the same tick.
+**THREE STATES: `None` is could-not-evaluate and excuses nothing**, `[]` is a real zero, and the
+card carries `fatal_excused_unjudged` for the first -- two states here would tell a reader
+*nothing was excused* and *nothing could be checked* with one silence.
+**TWO PYTHON MUTATIONS WERE BLIND AND ONE OF THEM WAS THE RULING ITSELF.** Restoring
+`disqualified = bool(fatal)` left all ten guards green, because **no plan in this corpus has a
+convicted fatal as its ONLY fatal** -- `good-03` has seven others -- so on every shipped record
+the two expressions agree and the whole ruling is unobservable. WP-11.15's *a fixture where both
+branches return the same number guards neither*, with the unguarded branch being the one the
+package exists for; DRIVEN now, premise asserted. The second is a genuine **equivalent mutant**
+(`len(conv or [])` against the `isinstance` form) and is recorded as one in the code, with the
+reason the defensive spelling stays: the neighbouring `_clear_on_a_constant` returns a DICT for
+its unjudged case.
+**AND TWO JS MUTATIONS WERE BLIND FOR ONE REASON -- THE SELECTOR MATCHED THE FIELD SOMEWHERE ELSE
+IN THE SAME FILE.** Each name appears twice in `CandidateColumn.jsx`, once in the condition that
+decides whether a block renders and once in the body that renders it, so replacing a condition
+with `false` left a bare `c.<field>` match green and dropping one `data-fatal-excused` left the
+other matching. Re-cut against the render CONDITION and against both attribute sites, all five
+bite. App suite 226 -> **227**.
+
 **WP-13.9 IS THE FIRST PASS THAT WAS THE PRODUCT, AND THE PANEL THAT SAID SO WAS A LEFTOVER
 (`docs/reports/wp-13.9-the-first-pass-was-the-product.md`).** Lucas read the bench's Tidewater
 sheet -- sixty drawn findings, most of them the `unreachable` fatal, beside

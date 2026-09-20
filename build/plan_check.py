@@ -445,6 +445,38 @@ def furniture_shortfalls(rt, w, l):
 # instruments read one file and memoise on its mtime (measured 0.091 s cold). The SLOW third
 # instrument, `critic_suspects.sweep()`, is deliberately not used -- it builds an elevation per
 # plan and this runs on every evaluate.
+def _fatal_on_a_convicted_instrument(F):
+    """The fatal fault findings whose (fault, expression) the corpus has convicted in
+    `critique/suspects.json` WITH an open question behind it (WP-14.3).
+
+    Reads the findings this run already built rather than re-judging anything, so the row here
+    and the row a reader sees on the sheet are the same object's own fields. Returns a list of
+    {id, fault, expression, statement, suspect, question, why} -- never a count, because a
+    count cannot be argued with and this list exists to be argued with.
+
+    THREE STATES, and the third is why this returns None rather than []: if
+    `critic_suspects` cannot be loaded the answer is not "nothing is convicted", which is a
+    claim, but "could not evaluate", and the key carries None so the caller can tell. An empty
+    LIST means the sweep ran and found none.
+    """
+    try:
+        CS = _load("critic_suspects", f"{ROOT}/build/critic_suspects.py")
+    except Exception:                                      # noqa: BLE001
+        return None
+    out = []
+    for f in F.items:
+        if f.get("severity") != "fatal" or f.get("layer") != "fault":
+            continue
+        e = CS.convicts(f)
+        if not e:
+            continue
+        out.append({"id": f.get("id"), "fault": f.get("fault"),
+                    "expression": f.get("expression"), "statement": f.get("statement"),
+                    "suspect": e["id"], "question": e["question"],
+                    "why": e.get("question_why") or e.get("why")})
+    return out
+
+
 def _clear_on_a_constant(fr):
     try:
         CS = _load("critic_suspects", f"{ROOT}/build/critic_suspects.py")
@@ -2784,6 +2816,29 @@ def check(plan, C=None, strict=False):
             # What it may not do is be counted as the same kind of thing.
             # `oq/clear-counts-a-pass-and-a-tautology-as-one-thing`.
             "fault_clear_on_a_generator_constant": _clear_on_a_constant(fr),
+            # THE OTHER HALF OF THE SAME COIN, AND IT IS THE ONE THAT DECIDES (WP-14.3).
+            # The line above counts a fault CLEARED on the generator's own constant; this one
+            # names a fault that FIRES fatally on one. Ruled 20 Sep 2026: such a finding is
+            # reported in full, at fatal severity, with its figure -- it is emitted above like
+            # any other and nothing here changes it -- and `compose.score_candidate` does not
+            # let it set `disqualified`.
+            #
+            # It is a LIST and it decides nothing HERE, exactly as its neighbour does not. The
+            # reader that acts on it is the composer, which is where `disqualified` lives; a
+            # verdict computed in two places is how two callers come to disagree about one
+            # house, which is the defect the whole of Phase 14 is about.
+            #
+            # Narrow by construction: `critic_suspects.convicts` matches the (fault,
+            # EXPRESSION) pair against the hand-authored entries that also cite an OPEN
+            # question, never the AST instruments' 44 ratcheted names. *Unjudged is not passed*
+            # cuts both ways here -- this must not become a way to make a house look clean --
+            # so the warrant is two-part and the list may only shrink.
+            #
+            # Measured at WP-14.3 over the sixteen shipped plans: ONE finding, on
+            # `good-03-parlor-drawing-room-house`, which goes 8 fatals to 7 and reaches zero
+            # no more than it did before. The ruling is executed; it buys almost nothing,
+            # because these houses' fatals are overwhelmingly the PLACEMENT's.
+            "fatal_on_a_convicted_instrument": _fatal_on_a_convicted_instrument(F),
             "findings": F.sorted(),
             "note": ("Style exceptions are honoured throughout — a rule a style legitimately breaks is not reported. "
                      "Code findings are advisory. Anything the fault corpus could not judge is unknown, not passed.")}

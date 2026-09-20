@@ -62,6 +62,26 @@ function ScoreBlock({ candidate: c }) {
       h("p", { style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
                         margin: '3px 0 0' } },
         c.disqualified_because || "a fatal finding")),
+    /* WP-14.3: A FATAL THAT REPORTS AND DOES NOT DISQUALIFY. Shown WHETHER OR NOT the
+       candidate is disqualified, and in the fatal colour, because the thing a reader must not
+       have to guess at is why a fatal finding they can see in the list did not count. Where
+       the house is disqualified anyway this sits under that band and adds to it; where this is
+       the only fatal there is no band above it and this is the whole explanation. It is
+       deliberately NOT styled as an all-clear. */
+    c.fatal_excused_because && h("div", {
+      "data-fatal-excused": String(c.fatal_excused ?? ''),
+      style: { marginTop: 8, borderLeft: '2px dotted var(--sev-fatal)', paddingLeft: 9 }
+    },
+      h("div", { style: { ...EYE, color: 'var(--sev-fatal)' } }, "reported, not disqualifying"),
+      h("p", { style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
+                        margin: '3px 0 0' } }, c.fatal_excused_because)),
+    /* Three states, and this is the third: the sweep could not run, so nothing was excused
+       and the count stands. An absent line here means it ran and found none. */
+    c.fatal_excused_unjudged && h("p", {
+      "data-fatal-excused": "unjudged",
+      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)',
+               margin: '6px 0 0' }
+    }, c.fatal_excused_unjudged),
     c.score_unscored_because && h("p", {
       style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)',
                margin: '6px 0 0' }
