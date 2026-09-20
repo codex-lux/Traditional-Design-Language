@@ -46,6 +46,7 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
     demerits: c.demerits,
     counts: c.counts,
     fatal_n: (c.counts && c.counts.fatal) || 0,
+    verdict_basis: c.verdict_basis ?? null,
     native,
     why: c.why_this_diagram,
     trades_away: c.trades_away,
@@ -64,7 +65,11 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
        the record the whole time and no surface had read it. */
     refused: readRefusal(c.refused),
     // WP-9.2/9.3: what the placed revision loop bought on this candidate. `score_before` is
-    // the same instrument as `score` (both on the stripped declared record); `rank_before`
+    // the same instrument as `score`, and since WP-14.2 that instrument reads the PLACED
+    // house at both ends rather than the stripped declared record -- so these two numbers
+    // and `counts`/`counts_before` are all of the house the loop worked on and the sheet
+    // draws. `verdict_basis` below says which reading each candidate got, because a compose
+    // run with --no-revise still publishes the declared one. `rank_before`
     // is the SERVER's order before revision and is labelled as such, because `rank` on
     // this surface is a position in the current order and a bare number would be read as
     // one. null everywhere when the compose ran --no-revise.

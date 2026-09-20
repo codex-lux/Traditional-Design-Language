@@ -27,6 +27,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **11 — The precedent bench** | **COMPLETE — WP-11.1 through 11.7** | **Every buildable node carries a precedent and every node at every rank cites a source (5-7 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research ran in four tranches. **Tranche 4 (WP-11.7, 7 Sep) wrote 156 sources over the 32 higher-rank nodes — 111 citations of 109 DISTINCT works new to the corpus, plus 45 reuses — and took `sourceless_nodes` 32 → 0**, and found the layer has no identities: 422 free strings, 0 URLs, one confirmed fiction cited by five nodes, and 23 works under 51 spellings whose correction would redden the `shared_only` ceiling by six. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
 | **13 — The coherent sheet** | **WP-13.1 through 13.8 complete (16-17 Sep 2026), and MERGED WITH `origin/main` ON 17 SEP — three lines met and the clean auto-merge was the trap** (a record with seven duplicate JSON keys, and two of this session's own resolutions cancelling each other); the gate is not green and every remaining red is named and attributed against a `git archive` control of BOTH parents | **All four 15 Sep rulings taken the day they were put, and a fifth on 16 Sep: capacity does not refuse a drawing, continuity does** — raised by Lucas against two plates of a Tidewater sheet off the Drawing Set, his second such list in eleven days, with the question whether the fix was "a ridiculous number of additional changes" or "reconsider from the ground up". Measured on `840c7f1` before a line was written: neither. The critic already names four of the nine as SERIOUS; the generator is not held to it, because **the bench draws the prover and the prover has been told nothing about the type** — stacking, tiling, bearing continuity, the bay grid and the hearth are soft, absent or post-hoc on CP-SAT, Phase 11 built them on the search engine nobody sees, and at the bench's 25 s the prover's objective never runs at all. **WP-13.1 is the gate**, `tests/test_sheet_coherence.py`, seventeen rows over four sheets, **43 red on `840c7f1`**, written before any fix and red by design; the adversarial pass corrected five of the plan's own figures before it was committed. Report: `docs/reports/wp-13.1-the-gate.md`  · **WP-13.8 (17 Sep) is the entrance front's population made the main block's** (`docs/reports/wp-13.8-the-front-was-not-the-main-blocks.md`), and its headline did NOT clear the fatal it was written for. **AND THERE ARE TWO PHASE 13s**: a parallel session shipped its own WP-13.1 (`docs/reports/wp-13.1-the-procedure-nobody-read.md`, `build/detection.py`) and WP-13.2 (`docs/reports/wp-13.2-the-checker-that-accused-an-innocent-line.md`, `build/check_frontend.py`), merged to main as PR #34. Both lines coexist, neither is renumbered, and every report is cited by FILENAME — the precedent is the two Phase 11s and the two Phase 9s, and OQ 90's rule that a pushed commit subject cannot be rewritten. **THE MERGE (17 Sep) is recorded in CLAUDE.md's Phase 13 block**: 33 conflicts; this line's WP-13.5 and main's WP-11.16 are the SAME container edit made twice, so the shipped record auto-merged cleanly into seven duplicate keys and was rebuilt by hand; all 41 pin failures were attributed against both parents BEFORE any was touched (36 of 37 pass on this branch's parent, 36 of 36 on main); four corpus digests and the CP proto pins were re-derived with each harness PROVED to reproduce both parents first; three questions were raised (`oq/a-withdrawn-claim-still-steers-the-placer`, `oq/the-prover-draws-a-centre-passage-that-does-not-go-through`, `oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state`) and one CLOSED by the other line's fix (`oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so`). **A SECOND WAVE OF 22 GUARDS THEN WENT RED once the first wave's pins were right**, all of them downstream of the moved placement, and the two findings in it are latent defects the merge made REACHABLE rather than caused: `axis.door_bay` and `elevation.placed_openings` both implement *the widest door on the front is the front door* and rank on two different numbers (a door record may omit `width_ft`, `openings.place` supplies 3.5 ft and `axis` scores the omission ZERO, so the corpus convicts a placement whose widest front door is dead centre -- 1 of 16 plans can reach it and there the answer is right by luck); and `typefacts.bearing_lines` and `structure.build_section` part on a reserved void's wall, ONE line on ONE plan, because main puts `good-03`'s piazza exactly on a bay line where this branch had it off one. **THREE guards' premises ran out in the direction that would have left them green over half a defect** -- the two shipped plans stopped dressing the E face, a blind-bay face stopped drawing anything, and a non-entrance door face stopped existing on either reading its own docstring quoted |
 | **12 — The sheet in the round** | **WP-12.0 through 12.9** | **COMPLETE — WP-12.0 through 12.9 (8-9 Sep 2026), 12.8 being the adversarial audit of the other eight and 12.9 the five items it deferred** — raised by Lucas against Dilum Sanjaya's post on 2D schematics transitioning into 3D, with the question whether SVG remained the medium. **The brief is the PRD**, `docs/prd/phase-12-the-sheet-in-the-round.md` (cite the filename; it is the first document in a new `docs/prd/`). The answer is WP-5.11's, one dimension up: the format was never the constraint, and the missing thing is a constructed-3D layer between the record and the camera — `build/scene.py` — with three.js drawing what Python models and the SVG plates staying authoritative and held to it. **All nine rulings taken the day they were put, and an APPROACH perspective view added to v1.** The review that adopted the PRD found the defect that made WP-12.0: **the drawing set is not one building** — the elevation and roof plates are built with no section, so they take `structure.build_section`'s heuristic default while the plan beside them is a CP proof, under a banner WP-6.4 wrote saying one drawing set is one building or it is nothing. It also found that `render_elevation` has taken a `face` since WP-3.2 and no client has ever sent one, so three of the four elevations this system can draw have never been seen |
+| **14 — The verdict was about a house nobody draws** | **WP-14.0, 14.1, 14.2 complete (20 Sep 2026)** · WP-14.3, 14.4 planned · **WP-14.5 GATED on 14.1-14.4 landing** | **In progress (20 Sep 2026); both rulings taken the day they were put** — raised by Lucas against a composed Tidewater set in which both candidates read **DISQUALIFIED — 1 fatal finding** beside `revised: nothing moved in 2 rounds`, with the question whether the recursive self-improvement was broken, the standards too high, or something else. **Something else, and it is one sentence: the card's `fatal` and the revision line's `fatal` were two different houses.** `compose.py` measured `counts`, `disqualified` and every score axis on a placement-STRIPPED record while the loop three statements above measured the PLACED one — and `plan_check.py:2583` does not read a different date of the same house: with the placement stripped, `build_elevation(plan)` solves a fresh throwaway heuristic placement INSIDE the critic, which that file's own comment names as WP-9.1's *two buildings in one verdict*. So the verdict a reader acted on was of a FOURTH house. And every declared fatal is `source: "derived"`, which the move registry's `authority.may_not` refuses a move for — 0 of 3 answerable against 8 of 11 on the drawn reading — so the loop was aimed at a number the verdict does not read and the two sets were DISJOINT. **WP-14.0 is the control and is a package because of WP-13.5**: six ids red before anything moved, each message recorded verbatim on a `git archive` checkout, because *a test already red for cause A cannot report cause B*. **WP-14.1** printed `stop_reason` (carried since WP-9.2, never rendered) and `verdict_basis`; **WP-14.2** made the verdict the placed house's, so `counts` and `counts_before` reconcile with the loop's own drawn key element for element — the live proof being `side-hall-townhouse` going `[11, 55, 79, 22] -> [1, 58, 83, 22]`, **ten fatals**, under a card still reading `fatal 1`. Reports: `docs/reports/wp-14.0-the-control-before-anything-moves.md`, `docs/reports/wp-14.2-one-house-one-verdict.md` · new questions: `oq/the-opt-out-compose-still-judges-a-house-nobody-placed`, `oq/the-score-cannot-see-ten-fatals-clear` |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -4456,3 +4457,115 @@ defect being removed, committed in the sentence removing it; and the `root=` sea
 place and not its neighbour, so a driven tree came back as `../../../tmp/...`, caught by the
 function's own first test run.
 
+
+---
+
+## Phase 14 — The verdict was about a house nobody draws
+
+*Cite these reports by FILENAME. There are two Phase 9s, two Phase 11s and two Phase 13s already;
+a number names more than one package in this repository (OQ 90).*
+
+Raised by Lucas on 20 September 2026 against a composed Tidewater set: two candidates, both
+**DISQUALIFIED — 1 fatal finding**, both REFUSED for drawing, both reading `revised: nothing
+moved in 2 rounds · drawn [13, 73, 103, 23] → [13, 73, 103, 23]`. *"Either the recursive
+self-improvement is not working, we need to lower our standards, or we just need to say that
+there's some other way to fix it."*
+
+**It is the third.** `build/compose.py` measured `counts`, `disqualified` and every score axis on
+a placement-STRIPPED record; the revision loop three statements above measured the PLACED one;
+nothing on the card said which was which. And the stripped reading is not a different date of the
+same house — `plan_check.py:2583` solves a **fresh throwaway heuristic placement inside the
+critic** when there is no placement to read, which that file's own comment names as WP-9.1's *two
+buildings in one verdict*. Every declared fatal is `source: "derived"`, for which
+`critique._intended_move` and `moves/registry.json`'s `authority.may_not` both refuse a move, so
+the loop was aimed at a number the verdict never reads and on these candidates the two sets were
+disjoint: clearing all eleven drawn fatals left the card unchanged.
+
+**The two rulings, given 20 September 2026** — recorded as given, on the day they arrived, rather
+than as expected, which is this file's own rule after PR #26's unverified ruling:
+
+1. **The verdict is about the PLACED house.** `fatal` and `disqualified` move onto the record the
+   loop optimises and the sheet draws.
+2. **A fatal from an instrument the corpus has convicted REPORTS and does not disqualify.** In
+   full, with its figure, out of `disqualified`.
+
+### WP-14.0 — the control, before anything moves
+
+**Status: COMPLETE (20 Sep 2026).** `docs/reports/wp-14.0-the-control-before-anything-moves.md`.
+Six ids in four files are red on this branch before Phase 14 touches anything, measured on a
+`git archive a0c4fca` checkout at 6 failed / 74 passed / 2 skipped in 810.27 s, each message
+recorded verbatim. It is a package rather than a paragraph because of WP-13.5: **a test already
+red for cause A cannot report cause B.** Run twice — the first straddled this session's own
+`compose.py` edits — and the two agree exactly, which is the finding rather than the pass.
+
+### WP-14.1 — the card says what it is measuring
+
+**Status: COMPLETE (20 Sep 2026).** Surface only; no verdict moved. `revision.stop_reason` has
+been on the record since WP-9.2 and `revisedLine` never printed it, so *"nothing moved"* could not
+be told from *"no move existed"* or *"the budget stopped it"*; `stopLabel` already existed and was
+uncalled, so it is CALLED rather than respelled. `verdictBasis` names the three states of
+`elevation_summary.basis`, the third being **unstated**, which is not the same as either.
+**The first draft of `nothingMovedWhy` was two-state** and would have printed *"no move was
+offered"* over a round that offered six and refused six — caught by two existing JS tests going
+red, read as a defect rather than re-pinned, and fixed by adding `moves_refused` to the `revised`
+SSE event. **Two mutations were blind on the first sweep and both were the WIRING**: the pure
+function was guarded and the join between it and the two JSX files was asserted by nothing.
+
+### WP-14.2 — one house, one verdict
+
+**Status: COMPLETE (20 Sep 2026).** `docs/reports/wp-14.2-one-house-one-verdict.md`. `res_before`
+and `res2` are the loop's own two critiques, so `counts` and `counts_before` reconcile with
+`drawn_key_after[:3]` and `drawn_key_before[:3]` element for element on both candidates.
+`score_before` moves with them, so the invariant the stripping existed to protect survives as a
+DIFFERENT instrument. **The approved plan's own prediction was wrong** — it said the card's fatal
+counts would rise 3 → 11, measured on a returned set this tree no longer produces; on the set the
+brief really gives back they did not move at all, while serious went 23 → 58 and 30 → 65.
+**`compose(revise=False)` still publishes the declared verdict and says so**
+(`oq/the-opt-out-compose-still-judges-a-house-nobody-placed`), and **selection is still on the
+declared reading**, stated in `result["selected_on"]`. It surfaced a defect it did not cause:
+the score cannot see ten fatals clear (`oq/the-score-cannot-see-ten-fatals-clear`).
+
+### WP-14.3 — a convicted instrument reports and does not disqualify
+
+**Status: PLANNED.** A **named list**, never a heuristic, of `(fault id, measurement)` pairs with
+an open question against the instrument — `critique/suspects.json`'s precedent, which already
+states *"being here does not make the fault wrong"*. Each entry quotes the question it cites and a
+checker verifies the citation resolves, on `check_openings.check_basis`'s precedent. The finding
+is emitted in full, at fatal severity, with its figure; only `disqualified` and `_sort_key`'s
+primary key stop reading it. The list may only SHRINK, ratcheted by name and never by count.
+**Measure what it buys** — how many of the 16 plans and 21 partis reach zero disqualifying fatals,
+before and after. If the answer is near zero the ruling has been executed and the problem is
+WP-14.5's; say so rather than widening the list until the number looks better.
+
+### WP-14.4 — the loop may ask for the proof
+
+**Status: PLANNED.** `critique._lever` returns `candidates` unconditionally where
+`ctx["engine"] == "heuristic"`, so `prove-it` is never offered on the engine where this corpus
+measured the refusal rate falling from 84-in-182 to 1-in-12. Offer it where ortools is importable.
+**Measure the refusal rate before and after on the same records** — the claim to test is that
+re-placement noise, not the move, is refusing these rounds; if CP does not cut it, that is the
+finding and the lever stays as it was. Budget is already ruled: `BUDGET_REVISE_INLINE_S` is 30 s
+as a ceiling on STARTING a round and `revise_budget_s` is the SET's. **Do not raise either to make
+this work; report what fits.**
+
+### WP-14.5 — OQ 63's deferred primary-test sweep
+
+**Status: GATED on 14.1-14.4 landing and being measured.** *"The fault is universal and its number
+is not."* 209 fault records whose thresholds were derived from one tradition and applied to all.
+OQ 63 scoped six SECONDARY tests in August and explicitly deferred the primary sweep. The number
+this has to move — how many styles can return a clean plan under their own native diagram — **is
+not readable until the verdict reads the right house**, which is why it is gated. Open with a
+DIAGNOSTIC pass producing that census per style and per fault id, and put its shape to Lucas
+before any data is edited. `applies_to_styles` already exists on the shared test object, so the
+mechanism is built and the work is the reading.
+
+### What must not be done, in any package of this phase
+
+- **Do not lower a threshold, widen a band, or loosen a rule to make a candidate clean.** Every
+  package here changes what is MEASURED or what a measurement DECIDES, never the standard.
+- **Do not weight `must_have` into `_sort_key`** — a separate open question with its own ruling
+  owed, and WP-4.5 measured `NATIVITY_W` 6 → 20 before moving that function once.
+- **Do not reclassify a real fatal as unjudged.** The fake-unjudged direction is as dishonest as a
+  fake pass and this corpus says so in four places.
+- **Do not quote a figure from `CLAUDE.md` as a measurement.** Re-derive it, and when you correct
+  one, re-derive the replacement too.

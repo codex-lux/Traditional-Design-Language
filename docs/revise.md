@@ -83,8 +83,12 @@ only (XDATA is capped near 16 KB).
 
 - **The composer**, twice. `repair()` is the DECLARED loop now (`place=False`) in its old
   position, every pick, before scoring. The PLACED loop then runs on the RETURNED candidates
-  after ranking, by default; each is re-scored on its declared record so `score` and
-  `score_before` are one instrument, and re-ranked. `--no-revise`, `--revise-rounds`,
+  after ranking, by default; **since WP-14.2 each is re-scored on the PLACED record at both
+  ends** so `score` and `score_before` are one instrument reading the house the loop worked
+  on, and re-ranked. This sentence said "re-scored on its declared record" until 20 Sep 2026,
+  and that was the mechanism by which a card could print `DISQUALIFIED -- 1 fatal` over a loop
+  that had just cleared ten: the verdict read a stripped record whose elevation `plan_check`
+  derives from a fresh heuristic placement of its own. `--no-revise`, `--revise-rounds`,
   `--revise-engine`, `--revise-budget-s`; `check_all` runs the composer on the fast engine.
   **`revise_budget_s` is the budget for the returned SET**, shared equally across the
   candidates left (an unspent share rolls forward), and a candidate the budget does not reach

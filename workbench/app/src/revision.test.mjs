@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   engineLabel, classTag, classesById, keyDelta, roundLine, adaptRevision, revisedLine,
-  revisedEventLine, stopLabel, CLASSES,
+  revisedEventLine, stopLabel, nothingMovedWhy, CLASSES,
 } from './revision.js';
 
 test('the engine label reads the engine that RAN, never the one requested', () => {
@@ -131,6 +131,65 @@ test('a revised SSE event renders as a sentence, never as "tried undefined"', ()
 test('a stop reason the adapter has not heard of is still stated, not swallowed', () => {
   assert.equal(stopLabel('something-new'), 'stopped: something-new');
   assert.equal(stopLabel(undefined), 'stopped: reason not stated');
+});
+
+/* WP-14.1. "nothing moved in 2 rounds" was the whole of what the card said, and it is true of
+   three different houses: one where no move answered anything, one where every move that did
+   was tried and rolled back, and one where the budget stopped the loop. Lucas read it on a
+   Tidewater compose and could not tell which -- both facts were already on the candidate
+   (`revision.summary.moves_refused`, `revision.stop_reason`, build/compose.py:1746) and
+   neither reached the line. */
+
+test('the card says WHY nothing moved, and the three states are told apart', () => {
+  const line = (summary, stop_reason) => revisedLine({
+    score: 71.1, score_before: 71.1, revision: { summary, stop_reason } });
+
+  // every move that answered a finding was tried and rolled back
+  assert.equal(line({ rounds: 2, moves_applied: 0, moves_refused: 8 }, 'no-applicable-move'),
+    'revised: nothing moved in 2 rounds — 8 moves tried and refused'
+    + ' · stopped: every move that answers a finding here was tried and refused (8)');
+
+  // nothing was offered at all: the same sentence would be a different fact about the house
+  assert.equal(line({ rounds: 2, moves_applied: 0, moves_refused: 0 }, 'converged'),
+    'revised: nothing moved in 2 rounds — no move was offered'
+    + ' · converged — nothing left a move could answer');
+
+  // the budget, which is neither of the two above
+  assert.ok(/stopped: budget$/.test(line({ rounds: 1, moves_applied: 0, moves_refused: 3 }, 'budget')));
+
+  // singular, because "1 moves" is how a reader learns to stop trusting a line
+  assert.ok(/— 1 move tried and refused/.test(line({ rounds: 1, moves_applied: 0, moves_refused: 1 }, 'round-cap')));
+});
+
+test('a count the payload does not carry is not asserted in either direction', () => {
+  // the `revised` SSE event carries rounds and moves_applied and NOT moves_refused, so the
+  // strip may not print "no move was offered" over a round that offered six and refused six
+  assert.equal(nothingMovedWhy({ rounds: 2, moves_applied: 0 }), null);
+  assert.equal(nothingMovedWhy(undefined), null);
+  assert.equal(nothingMovedWhy({ moves_refused: 0 }), 'no move was offered');
+  const line = revisedLine({ score: 71.1, score_before: 71.1,
+    revision: { summary: { rounds: 2, moves_applied: 0 } } });
+  assert.ok(!/offered|refused|undefined/.test(line), line);
+  // and once the server states them (WP-14.1 put `moves_refused` on the event beside the
+  // `stop_reason` that was already there and read by nothing), the strip says the same thing
+  // the card does, out of the same function
+  const ev = revisedEventLine({ parti_name: 'Five-Part Palladian', rounds: 2, moves_applied: 0,
+    moves_refused: 6, stop_reason: 'no-applicable-move' });
+  assert.ok(/6 moves tried and refused/.test(ev), ev);
+  assert.ok(/tried and refused \(6\)$/.test(ev), ev);
+});
+
+test('`no applicable move` is not said over moves that were applied and rolled back', () => {
+  // `revise.py:263` writes this reason when `_choose`'s picks are empty, and picks empty two
+  // ways -- nothing answers what is left, or everything that does is tabu after a refusal.
+  assert.equal(stopLabel('no-applicable-move'), 'stopped: no applicable move');
+  assert.equal(stopLabel('no-applicable-move', { refused: 0 }), 'stopped: no applicable move');
+  assert.equal(stopLabel('no-applicable-move', { refused: 6 }),
+    'stopped: every move that answers a finding here was tried and refused (6)');
+  // and the panel reads the ONE spelling rather than restating it
+  const r = adaptRevision({ stop_reason: 'no-applicable-move', rounds: [],
+                            summary: { rounds: 2, moves_applied: 0, moves_refused: 6 } });
+  assert.equal(r.stop, 'stopped: every move that answers a finding here was tried and refused (6)');
 });
 
 /* WP-13.9 -- the rounds the bench's own solve runs, and the drawing's verdict beside the key.

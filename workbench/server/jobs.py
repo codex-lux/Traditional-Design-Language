@@ -113,6 +113,11 @@ def _run(job):
                     "drawn_key_after": summary.get("drawn_key_after"),
                     "rounds": (summary.get("revision") or {}).get("summary", {}).get("rounds"),
                     "moves_applied": (summary.get("revision") or {}).get("summary", {}).get("moves_applied"),
+                    # WP-14.1: WITHOUT this the strip cannot tell a round that offered no
+                    # move from one that offered six and rolled back six, and a two-state
+                    # reader there asserts the flattering half. `stop_reason` beside it was
+                    # already carried and was read by nothing.
+                    "moves_refused": (summary.get("revision") or {}).get("summary", {}).get("moves_refused"),
                     "stop_reason": (summary.get("revision") or {}).get("stop_reason"),
                     "disqualified": bool(summary.get("disqualified")),
                     "fatal": (summary.get("counts") or {}).get("fatal", 0),

@@ -1653,6 +1653,16 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             # `repair` runs the DECLARED loop, this record carries no placement at all, and a
             # refusal about a house nobody has placed would be a verdict with no subject.
             "refused": ((plan.get("geometry_report") or {}).get("refused")),
+            # WP-14.1. WHICH HOUSE THE VERDICT IS ABOUT. `counts`, `disqualified` and every
+            # score axis above are read off `res`, and `res` is `PC.check` on a record with no
+            # placement -- so `plan_check.py:2593` derived the elevation from a FRESH heuristic
+            # placement solved inside the critic, which is the house nobody draws. The checker
+            # has always said so (`elevation_summary`, and an `info` finding in words) and no
+            # surface carried it, so a reader met `DISQUALIFIED -- 1 fatal finding` beside
+            # `drawn [13, 73, 103, 23]` with nothing to say the two were different houses.
+            # Measured on briefs/family-georgian.json: `truss-flattened-pitch` is FATAL on this
+            # reading at 0.4488 against at-least 0.45 and ABSENT once the house is placed.
+            "verdict_basis": (res.get("elevation_summary") or {}).get("basis"),
             "plan": plan})
         if on_candidate:
             on_candidate({k: v for k, v in out[-1].items() if k != "plan"})
@@ -1670,6 +1680,14 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # diagrams from the same fit tie group, which share a fidelity axis. A stable sort would
     # then fall back to insertion order, and the slice below would be deciding again.
     # Determinism here must not be borrowed from the previous stage.
+    # AND THE SELECTION IS NOT THE VERDICT (WP-14.2). This sort runs over all ~13 instantiated
+    # candidates and decides which `candidates` of them are returned, and at this point NONE of
+    # them carries a placement: `repair()` is the DECLARED loop, so every `counts` here is the
+    # stripped reading. Placing thirteen houses to choose four would pay for nine placements
+    # nobody sees. So the SELECTION is a judgement about the diagram, on the declared record,
+    # and the VERDICT printed on what comes back is the placed house's -- two different
+    # questions answered on two different readings, deliberately, and `result["selected_on"]`
+    # below says so rather than leaving a reader to infer that one instrument did both.
     _sort_key = lambda c: (c["counts"].get("fatal", 0),
                            -(c["score"] if c["score"] is not None else -1e9),
                            c["demerits"], c.get("parti") or "")
@@ -1678,10 +1696,16 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # on by default (1 Sep 2026): the product is the revised set. Each returned candidate is
     # placed, critiqued on the drawn house -- the elevation derived from that placement -- and
     # revised by the registry's moves until nothing it can do improves the verdict; then it is
-    # RE-SCORED ON ITS DECLARED RECORD, so `score` and `score_before` are one instrument (the
-    # drawn findings would otherwise enter the `connections` axis for the revised candidate
-    # and not for its earlier self). The drawn keys before and after are published beside the
-    # score. A candidate revised into the lead re-ranks; `rank_before` says where it stood.
+    # RE-SCORED ON THE PLACED RECORD AT BOTH ENDS (WP-14.2). This sentence read "re-scored on
+    # its DECLARED record, so `score` and `score_before` are one instrument (the drawn findings
+    # would otherwise enter the `connections` axis for the revised candidate and not for its
+    # earlier self)" until 20 Sep 2026, and the parenthesis was the whole argument for stripping.
+    # It is answered rather than abandoned: `score_before` is now computed from the loop's own
+    # BEFORE critique, which is placed too, so the pair is still one instrument -- a different
+    # one from the stripped pair, reading the house the loop works on and the sheet draws
+    # rather than a fresh heuristic placement `plan_check` solves inside itself. The drawn keys
+    # before and after are published beside the score, and they now reconcile with `counts` and
+    # `counts_before` element for element. A candidate revised into the lead re-ranks; `rank_before` says where it stood.
     # `revise_budget_s` is the budget for the RETURNED SET: each candidate's loop gets an EQUAL
     # SHARE of what is left (unspent share rolls forward to the next), and a candidate the
     # budget does not reach is returned UNREVISED and says so. The first version gave every
@@ -1702,6 +1726,32 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             remaining = None if deadline is None else deadline - time.perf_counter()
             share = None if remaining is None else max(remaining / (n_out - rank + 1), min(remaining, 1.0))
             if remaining is not None and remaining < 1.0:
+                # WP-14.2. THE BUDGET BOUNDS THE ROUNDS AND NOT THE VERDICT. Before this, a
+                # skipped candidate kept its DECLARED counts while the candidates ranked above
+                # it took placed ones -- and `_sort_key`'s primary key is the fatal count, so a
+                # candidate nobody placed would leapfrog one that was measured properly, on a
+                # number that is smaller only because the drawn layer never ran. That is the
+                # flattering direction and `unjudged is not passed` forbids it.
+                #
+                # `rounds=0` is the existing path with no rounds in it: one placement, one
+                # critique, `stop_reason: no-rounds`. The budget's own note above already
+                # carves out "each candidate's FIRST placement" as unbounded, so this spends
+                # what that sentence already promised rather than opening a new cost class --
+                # and it is on `revise_engine`, because a verdict taken on another engine
+                # would put the set back on two instruments to save a second.
+                zero = RV.revise(c["plan"], rounds=0, engine=revise_engine, budget_s=None,
+                                 brief=brief, parti=parti_rec, place=True, C=C)
+                res0 = zero["critique_after"]["check"]
+                fp0 = footprint(zero["plan"], parti_rec)
+                area0 = sum(r.get("width_ft", 0) * r.get("length_ft", 0)
+                            for lv in zero["plan"]["levels"] for r in lv["rooms"]
+                            if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
+                miss0 = abs(area0 - brief["target_area_sf"]) / brief["target_area_sf"]
+                card0 = score_candidate(res0, zero["plan"], brief, c["style_fit"], fp0, miss0, tol)
+                c.update({**card0, "counts": res0["counts"],
+                          "verdict_basis": (res0.get("elevation_summary") or {}).get("basis"),
+                          "refused": ((zero["plan"].get("geometry_report") or {}).get("refused")),
+                          "plan": zero["plan"]})
                 c.update({"score_before": c["score"], "rank_before": rank,
                           "revision": None,
                           "revision_skipped": (f"the set's revise budget ({revise_budget_s:g} s) was spent on "
@@ -1719,9 +1769,33 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             plan2 = rv["plan"]
             if declared_pass:
                 plan2["revision_report"]["declared_pass"] = declared_pass.get("summary")
-            declared = OP.strip_placement(copy.deepcopy(plan2))
-            declared.pop("revision_report", None)
-            res2 = PC.check(declared, C)
+            # WP-14.2 — ONE HOUSE, ONE VERDICT (ruled 20 Sep 2026).
+            #
+            # This read `PC.check(OP.strip_placement(deepcopy(plan2)))`, and stripping the
+            # placement sends `plan_check.py:2593` down its no-placement arm, where the
+            # elevation is derived from a FRESH HEURISTIC PLACEMENT solved inside the critic.
+            # So `counts`, `disqualified` and every score axis on the card were a verdict on a
+            # house that exists nowhere: not the loop's, not the sheet's, not the export's.
+            # `plan_check.py`'s own comment names that as WP-9.1's *two buildings in one
+            # verdict*, fixed for records that carry a placement and reintroduced here.
+            #
+            # Measured on briefs/family-georgian.json before this change: `truss-flattened-pitch`
+            # FATAL at 0.4488 against at-least 0.45 on the stripped reading and ABSENT on the
+            # placed one; `storeys-out-of-vertical-alignment` 38.556 in against 41.52 in. And
+            # the sharpest: the loop took `side-hall-townhouse` from drawn [11, 55, 79, 22] to
+            # [1, 58, 83, 22] -- ten fatals -- and the card went on reading `fatal 1` and
+            # `DISQUALIFIED`, because the number it reads is one the loop never touches.
+            #
+            # IT COSTS NO EXTRA SOLVE. `critique()` returns its full `check` (build/critique.py:498)
+            # and `revise()` hands back both ends of it, so the placed reading is already in hand
+            # at both dates. The reason the old code stripped -- that drawn findings would enter
+            # the `connections` axis for the revised candidate and not for its earlier self -- is
+            # answered rather than evaded: `score_before` is recomputed from the placed BEFORE
+            # reading three statements down, so the pair is still one instrument. It is a
+            # different instrument from the one earlier reports published, and every figure this
+            # function emits moves with it.
+            res_before = rv["critique_before"]["check"]
+            res2 = rv["critique_after"]["check"]
             area2 = sum(r.get("width_ft", 0) * r.get("length_ft", 0)
                         for lv in plan2["levels"] for r in lv["rooms"]
                         if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
@@ -1731,8 +1805,14 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             rep = rv["report"]
             lines = ["REVISED: " + m["log"] for rd in rv["rounds"] for m in rd["moves"]
                      if m.get("accepted") and m.get("log")]
+            # The BEFORE score on the same reading as the after one. `score_candidate` is
+            # called twice with one difference -- which end of the loop it is handed -- so a
+            # reader comparing `score_before` with `score` is comparing two states of one
+            # house rather than two instruments.
+            card_before = score_candidate(res_before, plan2, brief, c["style_fit"], fp2, miss2, tol)
             c.update({
-                "score_before": c["score"], "counts_before": c["counts"], "rank_before": rank,
+                "score_before": card_before["score"], "counts_before": res_before["counts"],
+                "rank_before": rank,
                 **card2, "counts": res2["counts"], "area_sf": round(area2),
                 "area_miss_pct": round(miss2 * 100, 1), "footprint": fp2,
                 "demerits": round(score(res2) + (60 if miss2 > tol else 0) - c["style_fit"] * NATIVITY_W, 1),
@@ -1761,6 +1841,15 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                 # and a different question -- two words one nesting level apart, kept apart by
                 # being read from two different places.)
                 "refused": ((plan2.get("geometry_report") or {}).get("refused")),
+                # WP-14.1 wrote this field because the gap was widest here -- the loop ran on a
+                # PLACED record while `res2` stripped that placement again -- and WP-14.2 closed
+                # the gap one commit later, so on this path it now reads `placement` on every
+                # candidate BY CONSTRUCTION. It is kept, and read rather than asserted, for two
+                # reasons: the unrevised path above still publishes `declared`, and a field that
+                # says which house a number is of must not stop being said the moment the answer
+                # becomes uniform -- that is how the next reader learns it was ever a question.
+                # `tests/test_one_verdict.py` asserts the value here rather than the expression.
+                "verdict_basis": (res2.get("elevation_summary") or {}).get("basis"),
                 "plan": plan2})
             if on_candidate:
                 on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
@@ -1777,7 +1866,13 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             "score_model": score_model,
             "target_area_sf": brief["target_area_sf"], "bedrooms": brief.get("bedrooms", 3),
             "candidates": out[:candidates],
+            # WP-14.2. WHICH HOUSE EACH NUMBER IS OF. `selected_on` is the reading the pool of
+            # ~13 was sorted on to choose these; each candidate's own `verdict_basis` is the
+            # reading its counts, its disqualification and its score axes were taken on. They
+            # differ on purpose and the difference was invisible until this field existed.
+            "selected_on": "declared",
             "how_to_read_this": [
+              "WHICH HOUSE A NUMBER IS OF. Every candidate carries `verdict_basis`: `placement` means its counts, its disqualification and its score were measured on the house the drawing set draws, `declared` means they were measured on a record with no placement -- where plan_check derives the elevation from a fresh heuristic placement of its own -- and `null` means nobody stated it, which is not the same as either. `selected_on` is separate and is the reading the POOL was ranked on to pick this set; it is `declared` because placing every diagram to choose a few would pay for placements nobody sees.",
               "Score is out of 100 and HIGHER IS BETTER. It is not a total of what is wrong: it is a weighted composite of eight axes, each one a share of its own denominator -- what came back clean out of what was actually checked -- so a bigger house is not penalised for being checked more times. score_axes carries every axis, its weight, its share and the denominator that share was taken over.",
               "An axis nothing could be evaluated on has its WEIGHT DROPPED and the total renormalised over the rest, never scored as a pass and never as a zero. score_weight_unevaluated says how much of the hundred that was, so a score computed over 94 points of evidence cannot be read as one computed over 100.",
               "A fatal finding DISQUALIFIES a candidate, and that is carried beside the score rather than inside it: `disqualified` is true and `disqualified_because` says so in words. A disqualified candidate never outranks a clean one whatever it scores -- that is enforced by the ordering, not by the number -- and its score is not a case for building it. It is still scored because whole sets come back disqualified on styles the fault corpus cannot clear, and four plans that all carry a fatal still differ.",

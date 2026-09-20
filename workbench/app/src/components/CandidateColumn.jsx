@@ -1,5 +1,5 @@
 import React from "react";
-import { whyText } from "../candidateOrder.js";
+import { whyText, verdictBasis } from "../candidateOrder.js";
 
 /* P4 — rank them, never crown one. Three rules this component exists to enforce:
    1. trades_away sits adjacent to the score at all times, never behind a disclosure.
@@ -177,7 +177,18 @@ function CandidateColumn({
         color: n === 0 ? 'var(--ink-4)' : SEV[s]
       }
     }, s, " ", n);
-  })), /*#__PURE__*/React.createElement("div", {
+  })),
+  /* WP-14.1 — the counts above and the `drawn [...]` key in the revised line are readings of
+     two different placements, and until this the card said nothing about it. Low weight on
+     purpose: it is a note about the instrument, not a finding about the house. */
+  /*#__PURE__*/React.createElement("div", {
+    style: {
+      font: 'var(--type-eyebrow)',
+      color: 'var(--ink-4)',
+      marginTop: 5
+    },
+    "data-verdict-basis": c.verdict_basis || 'unstated'
+  }, verdictBasis(c.verdict_basis)), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 13,
       paddingTop: 12,

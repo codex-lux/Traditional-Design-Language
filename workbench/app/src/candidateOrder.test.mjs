@@ -4,7 +4,7 @@
    pass). */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { whyText, isNative, byScore, ORDERS, order } from './candidateOrder.js';
+import { whyText, isNative, byScore, ORDERS, order, verdictBasis } from './candidateOrder.js';
 
 test('whyText joins the reasons list instead of concatenating it', () => {
   const why = ['native to tidewater-georgian',
@@ -136,4 +136,53 @@ test('the disqualified group is still ordered by the chosen ordering, not by fat
   assert.deepEqual(list.slice().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
     ['clean', 'dq-one-fatal-low-score', 'dq-two-fatals-high-score'],
     'under "fatal first" the disqualified group must be ordered by fatal count');
+});
+
+/* WP-14.1 — the card's `counts` and the revised line's `drawn [...]` key are readings of two
+   different placements, and the note under the severity row is the only thing that says so. */
+test('the card names which placement its counts were measured on, in three states', () => {
+  assert.match(verdictBasis('placement'), /placement this record carries/);
+
+  // the composer's own path: `PC.check` on a stripped record, so plan_check.py:2593 solved a
+  // fresh heuristic placement inside the critic. The sentence must not let that read as the
+  // drawn house, because the drawn key is printed four lines above it.
+  const declared = verdictBasis('declared');
+  assert.match(declared, /fresh heuristic placement/);
+  assert.ok(/not the house/.test(declared), declared);
+
+  // NEITHER reading may be asserted over a basis nobody stated: an elevation that could not
+  // be derived and a server older than this field both arrive as null
+  for (const absent of [null, undefined, '']) {
+    const t = verdictBasis(absent);
+    assert.match(t, /not stated/);
+    assert.ok(!/fresh heuristic|this record carries/.test(t), `${absent}: ${t}`);
+  }
+  assert.notEqual(verdictBasis('declared'), verdictBasis('placement'));
+});
+
+/* AND THE JOIN, WHICH THE FUNCTION'S OWN TESTS CANNOT SEE. This package's mutation sweep
+   deleted the `verdict_basis` mapping in CandidateSet.jsx and then the `verdictBasis(...)`
+   call in CandidateColumn.jsx, and 225 tests stayed GREEN both times: every assertion above
+   reads the pure function and none reads whether anything hands it the field. That is
+   `CLAUDE.md`'s "producer and consumer pinned to each other's field names and to nothing
+   else", met in the package that quotes it.
+
+   It reads IDENTIFIERS and not sentences, on purpose: rewording the note must not redden this,
+   and renaming the field must. The behavioural half is the browser walk, which asserts the
+   rendered `data-verdict-basis` against what the API said -- this is the half that runs where
+   there is no server. */
+test('the card is actually wired to the basis the server states', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const here = new URL('.', import.meta.url);
+  const set = await readFile(new URL('surfaces/CandidateSet.jsx', here), 'utf8');
+  const col = await readFile(new URL('components/CandidateColumn.jsx', here), 'utf8');
+
+  assert.match(set, /verdict_basis:\s*c\.verdict_basis/,
+    'CandidateSet must map the server\'s verdict_basis onto the column, or the note renders over nothing');
+  assert.match(col, /verdictBasis\(c\.verdict_basis\)/,
+    'CandidateColumn must call verdictBasis with the mapped field, not with a literal');
+  assert.match(col, /from "\.\.\/candidateOrder\.js"/,
+    'one spelling: the column imports verdictBasis rather than restating the three states');
+  assert.match(col, /"data-verdict-basis"/,
+    'the walk reads the rendered value off this attribute; without it the join has no behavioural guard either');
 });

@@ -83,8 +83,40 @@ const STOP = {
   'no-rounds': 'no rounds were asked for',
   'placement-could-not-be-evaluated': 'stopped before the first round: the placement could not be evaluated, so no round could be judged',
 };
-export function stopLabel(reason) {
+/* `ctx` is optional and carries the counts the report already holds. THE SECOND ARGUMENT IS
+   WHY THIS IS ONE FUNCTION AND NOT TWO: `no-applicable-move` is `revise.py:263`'s word for
+   "picks is empty while actionable findings remain", and `_choose`'s picks empty TWO ways --
+   no move answers what is left, or every move that does was tried, refused by the acceptance
+   rule and marked tabu. On the search engine the second is the common one, because
+   `add-the-grammar-door` carries `requires: "re-place"` and the re-placement moves the whole
+   house; the stock label then tells a reader no move applies while eight were applied and
+   rolled back. Measured on `briefs/family-georgian.json`, round 3 of one candidate went
+   [9,69,118,24] -> [6,62,117,23] -- a LOWER fatal count -- and was still refused, because
+   `_improves` also forbids a fatal id that was not there before. */
+export function stopLabel(reason, ctx) {
+  const refused = ctx && typeof ctx.refused === 'number' ? ctx.refused : 0;
+  if (reason === 'no-applicable-move' && refused > 0)
+    return `stopped: every move that answers a finding here was tried and refused (${refused})`;
   return STOP[reason] || (reason ? `stopped: ${reason}` : 'stopped: reason not stated');
+}
+
+/* What "nothing moved" MEANS, from the two counts the summary already carries. A round that
+   offered no move and a round whose every move was rolled back are different facts about the
+   house and read identically on the card today; this is the discriminator, and it is stated
+   in counts rather than in a cause, because which of the acceptance rule's four gates refused
+   a given move is in `rounds[].moves[]` and not in the summary. */
+export function nothingMovedWhy(s) {
+  /* THREE STATES. The `revised` SSE event carries `rounds` and `moves_applied` and NOT
+     `moves_refused` (workbench/server/jobs.py), so the progress strip genuinely does not know
+     which of the two happened -- and a two-state reader there would print "no move was
+     offered" over a round that offered six and rolled back six, which is the flattering
+     direction and the fake-pass shape this corpus names first. Absent is `null` and the
+     caller omits the clause; 0 and >0 are the two it may assert. Found by this package's own
+     first run, on the two pins below. */
+  if (!s || typeof s.moves_refused !== 'number') return null;
+  return s.moves_refused > 0
+    ? `${s.moves_refused} move${s.moves_refused === 1 ? '' : 's'} tried and refused`
+    : 'no move was offered';
 }
 
 /* One line per round for the progress strip while the loop runs. A round with no move is
@@ -166,7 +198,7 @@ export function adaptRevision(report) {
     engineText: engineLabel(report.engine && report.engine.final),
     keyBefore: report.key_before, keyAfter: report.key_after,
     delta: keyDelta(report.key_before, report.key_after),
-    stop: stopLabel(report.stop_reason),
+    stop: stopLabel(report.stop_reason, { refused: s.moves_refused ?? (report.refused || []).length }),
     roundsN: s.rounds ?? rounds.length,
     applied: s.moves_applied ?? rounds.reduce((n, r) => n + r.moves.filter((m) => m.accepted).length, 0),
     refused: s.moves_refused ?? (report.refused || []).length,
@@ -204,7 +236,18 @@ export function revisedLine(c) {
   const after = typeof c.score === 'number' ? c.score : null;
   const drawn = Array.isArray(c.drawn_key_before) && Array.isArray(c.drawn_key_after)
     ? ` · drawn ${keyText(c.drawn_key_before)} → ${keyText(c.drawn_key_after)}` : '';
-  if (!applied) return `revised: nothing moved in ${rounds} round${rounds === 1 ? '' : 's'}${drawn}`;
+  /* WHY nothing moved, and HOW it stopped. Both facts are already on the candidate --
+     `revision.summary.moves_refused` and `revision.stop_reason` (build/compose.py:1746) --
+     and neither reached this line, so "nothing moved in 2 rounds" could not be told from
+     "no move existed" or from "the budget stopped it". `stopLabel` is the one spelling and
+     is called here rather than restated. */
+  if (!applied) {
+    const s2 = rv.stop_reason ?? s.stop_reason;
+    const why = nothingMovedWhy(s);
+    const stopped = s2 ? ` · ${stopLabel(s2, { refused: s.moves_refused ?? 0 })}` : '';
+    return `revised: nothing moved in ${rounds} round${rounds === 1 ? '' : 's'}`
+      + (why ? ` — ${why}` : '') + drawn + stopped;
+  }
   const was = before !== null && after !== null && before !== after ? `was ${before.toFixed(1)} · ` : '';
   return `${was}revised in ${rounds} round${rounds === 1 ? '' : 's'}, ${applied} move${applied === 1 ? '' : 's'}${drawn}`;
 }
@@ -212,7 +255,11 @@ export function revisedLine(c) {
 /* A `revised` SSE event as the progress strip shows it. */
 export function revisedEventLine(ev) {
   return `revised ${ev.parti_name || ev.parti || '?'}: ${revisedLine({
-    revision: { summary: { rounds: ev.rounds, moves_applied: ev.moves_applied } },
+    revision: { stop_reason: ev.stop_reason,
+                summary: { rounds: ev.rounds, moves_applied: ev.moves_applied,
+                           // absent on a job whose server predates WP-14.1: `nothingMovedWhy`
+                           // returns null for that and the clause is omitted rather than guessed
+                           moves_refused: ev.moves_refused } },
     score_before: ev.score_before, score: ev.score,
     drawn_key_before: ev.drawn_key_before, drawn_key_after: ev.drawn_key_after,
   })}`;

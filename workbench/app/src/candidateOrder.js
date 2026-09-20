@@ -16,6 +16,27 @@
 /** The reasons list, joined as prose. `dropNativity` strips only the clause the caller has
  *  already printed in its own colour — never the sentence it opens, because "the composer is
  *  borrowing a diagram" is the part worth reading. */
+/** WHICH HOUSE THE COUNTS ARE OF (WP-14.1). Three states and never two.
+ *
+ *  `counts`, `disqualified` and every score axis on this card are `plan_check.check` on the
+ *  candidate's record with its placement STRIPPED (build/compose.py), and `plan_check.py:2593`
+ *  then derives the elevation from a fresh heuristic placement solved inside the critic. The
+ *  `drawn [...]` key two lines above it on the same card is the loop's, measured on the house
+ *  the sheet draws. They are different readings of different placements and the card said
+ *  nothing: measured on briefs/family-georgian.json, `centre-passage-double-pile` reads
+ *  declared [3, 25, 91, 24] against drawn [11, 71, 117, 24], and `truss-flattened-pitch` is
+ *  FATAL on the first at 0.4488 against at-least 0.45 and passes on the second.
+ *
+ *  `null` is not "declared". A record whose elevation could not be derived at all, and a
+ *  server that predates this field, both arrive here as null, and asserting either reading
+ *  over them is the fake-pass shape. */
+export function verdictBasis(basis) {
+  if (basis === 'placement') return 'counts measured on the placement this record carries';
+  if (basis === 'declared')
+    return 'counts measured on a fresh heuristic placement — not the house the drawn key is of';
+  return 'counts: which placement they were measured on is not stated';
+}
+
 export function whyText(why, dropNativity) {
   return (Array.isArray(why) ? why : [why]).filter(Boolean).map(String)
     .map((w) => (dropNativity ? w.replace(/^NOT native to this style\s*[—-]\s*/i, '') : w))
