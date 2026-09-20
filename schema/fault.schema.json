@@ -408,8 +408,66 @@
       "type": "string"
      },
      "description": "Style ids this test is written for. **Absent means every style the fault applies to**, which is the behaviour before this field existed and keeps every fault already in the corpus valid. OQ 63, ruled 24 Aug 2026: `check_measurements` runs every test in `[test] + secondary_tests` and reports the fault present if ANY of them fails, so a secondary test written for one style was failing houses of every other. `chimney-omitted` carries a Tudor Revival chimney-breadth ratio and a Prairie visual-mass test, and both were firing on a Cape Cod colonial -- which is why a parti named `cape-central-chimney` was reported as having no chimney. Matched against the style AND its inheritance chain, so a test scoped to a parent still applies to its descendants."
+    },
+    "band_from_style": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "expression",
+      "convert"
+     ],
+     "properties": {
+      "expression": {
+       "type": "string",
+       "description": "The expression a STYLE's own migrated constraint uses for the same quantity this test measures -- `roof_pitch_rise_per_12` where the test reads `roof_slope_angle_deg`. Two names for one quantity, which no name match finds; naming the relation is what makes the substitution checkable by a reader."
+      },
+      "convert": {
+       "type": "string",
+       "description": "The named conversion from the style's units into this test's, from `mcp_server/core.py::BAND_CONVERSIONS` -- a CLOSED table on `build/construction_vocabulary.py`'s precedent. An unknown name is an ERROR and never an identity, because an identity would compare degrees against rise-in-12 and convict every house."
+      },
+      "note": {
+       "type": "string",
+       "description": "Why the two records state one quantity. A reader must be able to check this; it is the part a machine cannot supply."
+      }
+     },
+     "description": "**The band comes from the style, or this test does not run.** OQ 63 scoped `truss-flattened-pitch`'s pitch secondary to the Georgian family and recorded that this was \"the right direction and not the destination\": the test's own note asks the engine to *\"Substitute the style's own band\"*, and a scope performs no substitution. WP-14.5 measured what the scope did — over the 41 styles the elevation layer speaks for, 10 of the 15 that supply a pitch failed the Georgian band, the scope removed 3, and all 10 sit INSIDE the band their own style node states. Present, `threshold` and `upper` MUST BE ABSENT and both the band and the DIRECTION are read from the style's own constraint, so one quantity keeps one number per style rather than 48 copies going stale the moment a constraint moves. Where the style states no such constraint the test is NOT RUN — the same three-state discipline `applies_to_styles` and `applies_when` use, and never a fall-back to a band written for somebody else."
     }
-   }
+   },
+   "allOf": [
+    {
+     "if": {
+      "required": [
+       "band_from_style"
+      ]
+     },
+     "then": {
+      "allOf": [
+       {
+        "not": {
+         "required": [
+          "threshold"
+         ]
+        }
+       },
+       {
+        "not": {
+         "required": [
+          "upper"
+         ]
+        }
+       },
+       {
+        "not": {
+         "required": [
+          "direction"
+         ]
+        }
+       }
+      ],
+      "description": "A test that asks for the style's own band may not also carry one of its own: two numbers for one quantity is the stale copy this field exists to prevent. The DIRECTION is refused for the same reason and is the sharper case — `tudor-revival` is `at-least 10:12`, open above, so a `between` written here would be false of it. `build/check_faults.py` refuses all three, so a tree without jsonschema gets the same answer."
+     }
+    }
+   ]
   },
   "severity_by_style": {
    "type": "array",

@@ -167,6 +167,9 @@ def style_roof_pitch(style_id):
     `tests/test_depth_floor.py` holds this against `structure._style_roof_pitch` on every style
     in the corpus, which is the mechanism `test_grammar_agreement.py` uses for the citation
     grammar's three spellings. Do not add a fourth without extending that test.
+    `mcp_server/core.py::style_band` (WP-14.5) is NOT a fourth -- it returns the BAND where
+    these three return a representative value -- and `tests/test_fault_thresholds.py` holds
+    its midpoint against `structure`'s on all 164 styles anyway, which is the extension.
     """
     p = os.path.join(ROOT, "styles", f"{style_id}.json")
     try:

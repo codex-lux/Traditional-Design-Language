@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**214 questions, of which 119 are open.** A question is OPEN while
+**218 questions, of which 123 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 119
+## Open — 123
 
 Awaiting a ruling. This is the list to read first.
 
@@ -68,6 +68,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-daily-route-is-an-editorial-model** | OPEN | [four fault tests ask who walks where, and a door graph cannot answer](open-questions/oq-a-daily-route-is-an-editorial-model.md) |
 | **oq/a-declared-measurement-and-a-window-record-state-one-width-twice** | OPEN | [the plan says how wide its windows are in two places that nothing holds together](open-questions/oq-a-declared-measurement-and-a-window-record-state-one-width-twice.md) |
 | **oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity** | OPEN | [the duplicate guard is dropping 51 identities, and some of the drops are right](open-questions/oq-a-district-number-on-a-contributing-property-is-not-that-buildings-identity.md) |
+| **oq/a-fault-present-finding-names-one-of-its-failing-tests** | OPEN | [35 of 251 findings hide a second failure](open-questions/oq-a-fault-present-finding-names-one-of-its-failing-tests.md) |
 | **oq/a-finding-citation-cannot-name-a-finding** | OPEN | [1,608 of 1,620 finding ids are unciteable by the grammar that has a `finding` kind for them](open-questions/oq-a-finding-citation-cannot-name-a-finding.md) |
 | **oq/a-findings-ordinal-is-not-an-identity** | OPEN | [a finding's id moves when an unrelated sibling clears](open-questions/oq-a-findings-ordinal-is-not-an-identity.md) |
 | **oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group** | OPEN | [38 items name a count and nothing says what the rectangle means](open-questions/oq-a-furniture-footprint-is-sometimes-one-and-sometimes-the-group.md) |
@@ -96,6 +97,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity** | OPEN | [the guard compares numbers and cannot compare meanings](open-questions/oq-a-source-that-agrees-numerically-may-be-the-wrong-quantity.md) |
 | **oq/a-stated-position-on-an-item-too-thin-to-draw** | OPEN | [the record's plainest positions are on things the plan never draws](open-questions/oq-a-stated-position-on-an-item-too-thin-to-draw.md) |
 | **oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it** | OPEN | [17 `measured` figures a survey disproves, three by the node's own exemplar](open-questions/oq-a-survey-contradicts-a-kit-figure-and-nothing-decides-it.md) |
+| **oq/a-test-scope-is-matched-against-the-kit-cascade** | OPEN | [three Georgian ids reach 77 of 164 styles](open-questions/oq-a-test-scope-is-matched-against-the-kit-cascade.md) |
 | **oq/a-withdrawn-claim-still-steers-the-placer** | OPEN | [a claim withdrawn because it cannot be judged costs three rooms their reachability](open-questions/oq-a-withdrawn-claim-still-steers-the-placer.md) |
 | **oq/an-at-grade-appendage-is-drawn-and-not-judged** | OPEN | [the terrace is on the sheet and held against no band](open-questions/oq-an-at-grade-appendage-is-drawn-and-not-judged.md) |
 | **oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from** | OPEN | [and every face in the corpus is symmetric, so nothing can catch it](open-questions/oq-an-elevation-does-not-state-which-end-of-the-face-it-starts-from.md) |
@@ -110,6 +112,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
 | **oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either** | OPEN | [two ruled packages, and their composition is worse than either alone](open-questions/oq-the-bay-parity-and-the-band-ranking-compose-worse-than-either.md) |
 | **oq/the-canon-axis-counts-two-grains-as-one** | OPEN | ["23 could not be evaluated" out of a denominator of 10](open-questions/oq-the-canon-axis-counts-two-grains-as-one.md) |
+| **oq/the-cape-pitch-band-contradicts-nine-styles-own-bands** | OPEN | [including one the fault names itself](open-questions/oq-the-cape-pitch-band-contradicts-nine-styles-own-bands.md) |
 | **oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw** | OPEN | [the job route strips its record and the bench re-solves it, so the panel's key and the plate are two houses](open-questions/oq-the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw.md) |
 | **oq/the-composer-ranks-first-a-house-that-may-not-be-drawn** | OPEN | [`_sort_key` never reads the refusal written onto the dict it sorts](open-questions/oq-the-composer-ranks-first-a-house-that-may-not-be-drawn.md) |
 | **oq/the-composer-ranks-on-an-assumed-bearing** | OPEN | [an aspect verdict entered the fitness function without being ruled into it](open-questions/oq-the-composer-ranks-on-an-assumed-bearing.md) |
@@ -124,6 +127,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front** | OPEN | [an eighth layer reads the main block as the whole house](open-questions/oq-the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front.md) |
 | **oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state** | OPEN | [the widest-door rule is applied to a field a door record may omit, and a stated 3 ft then beats an unstated 3.5](open-questions/oq-the-front-door-is-chosen-by-a-width-the-record-need-not-state.md) |
 | **oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it** | OPEN | [two vocabularies for one fact](open-questions/oq-the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it.md) |
+| **oq/the-material-shed-limit-runs-every-material-against-every-house** | OPEN | [a slate floor on a wood-shingle roof](open-questions/oq-the-material-shed-limit-runs-every-material-against-every-house.md) |
 | **oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted** | OPEN | [the argument for STACK_HARD being off no longer holds on the plan it was made on](open-questions/oq-the-measurement-that-defaulted-the-stacking-rule-has-inverted.md) |
 | **oq/the-net-clear-opening-is-half-of-every-sash** | OPEN | [a double-hung's model applied to a casement, and a fault cleared by 1.4 inches on it](open-questions/oq-the-net-clear-opening-is-half-of-every-sash.md) |
 | **oq/the-opt-out-compose-still-judges-a-house-nobody-placed** | OPEN | [WP-14.2 moved the verdict, and `--no-revise` did not come with it](open-questions/oq-the-opt-out-compose-still-judges-a-house-nobody-placed.md) |

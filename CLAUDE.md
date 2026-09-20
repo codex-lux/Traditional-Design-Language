@@ -2106,6 +2106,110 @@ per call site**, which is the selector fault met inside the harness built to cat
 with enough context to be unique, both bite. The premise is asserted first: were the two budgets
 ever set equal, every other assertion in the file would pass while distinguishing nothing.
 
+**WP-14.5 IS OQ 63'S TWO DEFERRALS READ RATHER THAN ASSUMED, AND ONE SENTENCE OF OQ 63 WAS
+FALSE (`docs/reports/wp-14.5-the-fault-is-universal-and-its-number-is-not.md`).** OQ 63 scoped
+`truss-flattened-pitch`'s pitch secondary to the Georgian family and recorded in writing that
+those styles are *"now UNJUDGED on pitch by that test rather than wrongly failed, which is the
+right direction and not the destination"*. **Measured over the 41 styles the elevation layer
+speaks for: 15 supply a pitch, 10 of those failed the Georgian band, THE SCOPE REMOVED 3 AND
+LEFT 7 -- and all ten, scoped away or still convicted, sit INSIDE the band their own style node
+states.** Seven styles went on being failed for having their own correct pitch, which is the
+defect OQ 63 was raised about surviving OQ 63's fix. **The cause is that `_test_applies` matches
+`applies_to_styles` against the KIT CASCADE**, so the three Georgian ids reach **77 of 164
+styles** -- Greek Revival, New England Federal, Jeffersonian Classicism, Italian Renaissance
+Revival, Minimal Traditional and Neoclassical Revival among them, every one stating a pitch band
+of its own. That reading is deliberate and right for *a Tidewater Georgian is a Georgian*, and
+nothing distinguishes it from *a Greek Revival house is a Georgian*; **two scoped tests still
+rest on exactly that list** (`return-shallower-than-tall`, `sunken-dormer`) and nobody has
+measured them. `oq/a-test-scope-is-matched-against-the-kit-cascade`.
+**AND THE TABLE OQ 63 CALLED "THE REMAINING WORK" WAS NEVER A RESEARCH PROBLEM.** Four of the
+five bands its note names reproduce from the styles' own migrated `roof_pitch_rise_per_12`
+constraints **to the tenth of a degree**, and the Georgian band the test carried IS
+`georgian-colonial-american.c02` (8:12 to 10:12) transcribed. **The two halves already met in one
+place**: `elevation.py:2350` DERIVES the `roof_slope_angle_deg` the fault reads from that same
+constraint -- measured, a style supplies a pitch EXACTLY when it states a band, 15 and 15, 26 and
+26 -- and the fault then judged it against another tradition's. **The fifth band is the finding
+and is not closed**: `tudor-revival`'s constraint is `at-least 10:12`, open above, so its 39.8
+lower reproduces and the note's **53.1 upper is in no record in this corpus**; under the
+substitution a Tudor is judged open above, and 53.1 is not invented into the data.
+**`band_from_style` IS THE MECHANISM AND 48 PER-STYLE COPIES WERE REFUSED.** 48 styles carry the
+constraint, so a `secondary_tests` entry per style is 48 second spellings of a number the style
+node already states -- `check_addresses.py`'s own defect at scale, stale the moment a constraint
+moves. The test DECLARES that it wants the style's own band and `core._test_for_style` reads it:
+`threshold`, `upper` AND `direction` **refused by the schema and by `check_faults.py` alike**
+(they disagreed at first, the schema forbidding two fields and the checker three, which is the
+shape this corpus criticises everywhere else), the DIRECTION taken from the style too (so an
+`at-least` stays open above), a style stating none **NOT RUN** and never falling back, a CLOSED
+`BAND_CONVERSIONS` table where an unknown name is an **error** and never an identity (an identity
+compares degrees against rise-in-12 and convicts every house), and the substitution made in a
+COPY because `_data()` is cached and shared. **`core.style_band` is NOT a fourth spelling of
+`_style_roof_pitch`** -- those three return a representative VALUE and this returns the BAND --
+and the two are held together by arithmetic over all 164 styles, which is what CLAUDE.md's
+standing instruction about that function asks for; `build/fault_thresholds.py` DELEGATES, with a
+test asserting the delegation, because a diagnostic respelling the reader could report a band the
+engine does not use.
+**THE MOVEMENT IS SEVEN REMOVED AND ZERO ADDED**, failing tests 951 -> 944 over the 41; corpus
+present 894 -> 892, clear 2035 -> 2037, could-not-judge **5173 unmoved**. Fourteen of the sixteen
+shipped plans are byte-identical; `good-03-parlor-drawing-room-house` goes **serious 23 -> 22**.
+**AND THE SIXTEENTH MOVED WITH NO FINDING MOVING AT ALL**: `good-05-lobby-gallery-mansion` failed
+`truss-flattened-pitch` on TWO tests -- the style-independent ratio at 0.2509 and the pitch band
+at 18.4 -- and `plan_check` quotes `(failing or results)[0]`, so the false conviction was hiding
+behind a true one and **a per-finding diff of all sixteen plans could not see the change**. Swept:
+**35 of 251 fault-present findings over eleven of sixteen plans carry a second failing test that
+no surface prints.** A diff of `plan_check`'s findings is not a diff of the corpus's verdicts.
+`oq/a-fault-present-finding-names-one-of-its-failing-tests`; all three available answers move a
+pinned digest and two move a composer score, so none was taken.
+**DEFERRAL (ii), THE PRIMARY SWEEP, IS MEASURED AND MOSTLY REFUSED.** 0 of 210 primary tests carry
+`applies_to_styles` and none was given one. `build/fault_thresholds.py` -- report-only, **NOT in
+`check_all.CHECKS`**, so `TOTAL_CHECKS` stays 53 -- reads **944 conviction rows (642 primary, 293
+secondary, 9 bounds_test), 17 EVIDENCED, 927 with no second number anywhere in the corpus**, and
+41 measurement names its join table has not been asked about against 2 refused with a stated
+reason. **All 17 are two faults and neither may be scoped.**
+`pitch-below-material-shed-limit` states a floor per MATERIAL and not per tradition -- its own
+note gives wood shingle 26.6, slate 33.7, flat clay tile 40, and it runs the shingle floor and the
+slate floor against every house at once while **99 of 164 styles resolve a canonical
+`roof_material` it reads none of**; 4 of its 8 slate-floor convictions are on styles whose kit
+makes wood shingle canonical. Substituting a style's PITCH band there would be lowering a
+threshold to make a style clean. `oq/the-material-shed-limit-runs-every-material-against-every-house`.
+And `raised-cape-eave`'s hardcoded 36.9-45.0 reaches 14 styles and contradicts **nine**, including
+`cape-cod-revival` (one of its two FATAL styles, 33.7-39.8) and `minimal-traditional` (named in
+its own `applies_to`, 18.4-26.6) -- and substituting would make a type-defining band vacuous on
+the styles the fault is for. `oq/the-cape-pitch-band-contradicts-nine-styles-own-bands`.
+**AND OQ 63'S OWN NAMED EXAMPLE IS NOT A LIVE CASE, WHICH ONLY RUNNING IT SHOWED.**
+`gutter-as-cornice`'s primary is a plane-change COUNT and it is **clear on 40 of the 41 judged
+styles**; the one conviction is `minimal-traditional` on an exception's `bounds_test` about casing
+width, not the cornice projection. The 7 in figure is `secondary_tests[0]` and no style states a
+cornice projection to substitute. The argument stands; the instance does not. Corrected in OQ 63's
+own entry.
+**THE DENOMINATOR IS 41 OF 164 AND IS PRINTED ON THE FIRST LINE.** The other 123 return
+`applicable: false` naming their own reason and are wholly unjudged -- **median 184 unjudged, and
+0 clear, 0 present, 0 measurements on every one of them**, re-derived rather than quoted. A census
+counting them as clean is the fake-pass direction at corpus scale.
+**AND THE PACKAGE'S OWN DISCRIMINATOR FIGURE WAS WRONG BY A FACTOR OF TWO.** Its planning said
+*"seven faults convict 41 of 41"*; re-derived on the settled tree it is **fourteen**. The reading
+built on it is unchanged and is the reason the naive discriminator was refused -- convicting 41 of
+41 is equally consistent with the house genuinely having the fault, `storeys-out-of-vertical-alignment`
+being one this file already records firing at 38.556 in against 2.0 -- but the number was quoted
+rather than re-run, inside the package written about exactly that. Corrected in the CLI's own
+docstring and in the report.
+**AND `check_faults.check_test` REACHED TWO OF THE THREE TEST LOCATIONS.** It ran on `test` and
+`exceptions[].bounds_test` and never on `secondary_tests`, where five of the corpus's six scopings
+and both of this package's own edits live -- a guard over two thirds of its subject, whose silence
+means less than a reader thinks. **Measured before widening it: of 273 secondary tests, exactly
+ZERO warn or error under it**, so it is free and is in. It also learns about `band_from_style`
+(a test asking for a band that states one is an ERROR, in case jsonschema is absent) -- and the
+record's placeholder `"direction": "between"` was removed with it, because it is false of
+`tudor-revival` and is the second-spelling defect in miniature inside the field built to remove
+it. Three mutations bite: a band asked for AND stated (caught twice, by the schema and the
+checker), a direction stated beside the ask, and a secondary with no threshold, the last being
+the case that was invisible before.
+**EIGHT MUTATIONS ON THE MECHANISM, ALL RED ON THE FIRST RUN, EACH ASSERTED TO HAVE LANDED (the
+file's hash must move) AND EACH RESTORED UNDER A HASH CHECK**: the pre-package state restored wholesale; a no-band
+style falling back instead of not running; the `at-most` bound left where the evaluator cannot
+read it; an unknown conversion becoming an identity; the band written into the shared record
+rather than a copy; the conversion left unrounded; the diagnostic respelling the reader; the
+provenance dropped.
+
 **THE BUILD ON THE PHASE 14 TREE IS `2 of 53 checks failed`, AND ATTRIBUTING ITS REDS FOUND
 THAT WP-14.0'S CONTROL COULD NOT REPORT A SEVENTH BECAUSE IT WAS A LIST OF IDS.**
 `pytest tests/` is **24 failed / 2,630 passed / 42 skipped in 1:01:41**; the two failing CHECKS
@@ -4672,6 +4776,13 @@ report by FILENAME, because the NUMBER names two packages.
   NODE, and dropped the `direction == "between"` branch -- `None` where structure returns 8.0.
   **Caught by comparing against the function it was copied from, not by reading it**; the guard is
   agreement on all 164 styles. **Do not add a fourth without extending that test.**
+  **AND WP-14.5 ADDED A READER THAT IS NOT A FOURTH, WHICH IS WHY IT IS ALLOWED TO EXIST**:
+  `core.style_band` walks the same constraint list and answers a DIFFERENT question -- those
+  three return a representative VALUE (the midpoint of a `between`) and it returns the BAND,
+  which is what a substitution needs and a midpoint cannot give. The instruction was honoured
+  by extending the agreement test rather than by arguing the difference: `tests/test_fault_
+  thresholds.py` holds the band's own midpoint against `structure._style_roof_pitch` on all
+  164 styles and asserts that 48 of them state one, so the two cannot drift.
 - **A SIGNATURE THAT LETS A CALLER SUPPLY THE WRONG NUMBER WILL BE HANDED THE WRONG NUMBER
   (WP-11.10).** `wall_height_ft` first took a list of heights and its OWN CLI passed
   `floor_to_ceiling_ft` (21 ft) where the fault's denominator wants the STOREY heights

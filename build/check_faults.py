@@ -200,17 +200,40 @@ def main(argv):
         def check_test(t, where):
             if not t:
                 return
+            if not t.get("measurable_from"):
+                warnings.append("%s: %s has no measurable_from — say whether a photograph "
+                                "can evaluate it" % (fid, where))
+            # A TEST MAY ASK FOR THE STYLE'S OWN BAND INSTEAD OF STATING ONE (WP-14.5).
+            # `band_from_style` reads the band AND the direction off the style node's own
+            # migrated constraint, so the three fields below are supplied per style and their
+            # absence here is the point rather than an omission -- and their PRESENCE is the
+            # stale copy the field exists to remove, which the schema refuses and this says
+            # out loud, because the schema is only checked where jsonschema is installed.
+            if t.get("band_from_style"):
+                stated = [k for k in ("threshold", "upper", "direction") if t.get(k) is not None]
+                if stated:
+                    errors.append("%s: %s asks for the style's own band AND states %s of its "
+                                  "own — one quantity, two numbers"
+                                  % (fid, where, ", ".join(stated)))
+                if not t.get("expression"):
+                    warnings.append("%s: %s missing expression — not evaluable" % (fid, where))
+                return
             missing = [k for k in ("expression", "threshold", "direction") if t.get(k) is None]
             if missing:
                 warnings.append("%s: %s missing %s — not evaluable"
                                 % (fid, where, ", ".join(missing)))
             if t.get("direction") == "between" and t.get("upper") is None:
                 errors.append("%s: %s direction is 'between' with no upper bound" % (fid, where))
-            if not t.get("measurable_from"):
-                warnings.append("%s: %s has no measurable_from — say whether a photograph "
-                                "can evaluate it" % (fid, where))
 
+        # ALL THREE TEST LOCATIONS, which is new at WP-14.5 and cost nothing to add: this
+        # guard reached `test` and `exceptions[].bounds_test` and not `secondary_tests`,
+        # and a fault's tests live in three places (OQ 63). Measured before it was widened --
+        # of the 273 secondary tests in the corpus, exactly ZERO warn or error under it. A
+        # guard that reaches two thirds of its subject is a guard whose silence means less
+        # than a reader thinks.
         check_test(rec.get("test"), "test")
+        for i, t in enumerate(rec.get("secondary_tests") or []):
+            check_test(t, "secondary_tests[%d]" % i)
         for exc in rec.get("exceptions", []):
             if exc.get("bounds_test"):
                 check_test(exc["bounds_test"], "exceptions[%s].bounds_test" % exc.get("style"))

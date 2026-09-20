@@ -4593,6 +4593,32 @@ reason, the selector fault met inside the harness built to prevent it.
 
 ### WP-14.5 — OQ 63's deferred primary-test sweep
 
+**Status: COMPLETE (20 Sep 2026) — `docs/reports/wp-14.5-the-fault-is-universal-and-its-number-is-not.md`.**
+The gate lifted at WP-14.2 and the package read both deferrals rather than assuming either.
+**Deferral (i) is EXECUTED and one sentence of OQ 63 was false**: a scope is not a substitution,
+and the distance is seven styles still convicted on the Georgian pitch band while sitting inside
+the band their own node states — because `applies_to_styles` is matched against the KIT CASCADE
+and three Georgian ids reach **77 of 164 styles**. The band table OQ 63 called *"the remaining
+work"* was never a research problem: four of the five bands its note names reproduce from the
+styles' own migrated constraints to a tenth of a degree, the Georgian band it carried IS
+`georgian-colonial-american.c02` transcribed, and `elevation.py` already derived the measurement
+from that same constraint — measured, a style supplies a pitch exactly when it states a band.
+`band_from_style` on the shared test object performs the substitution (band AND direction from
+the style, `threshold`/`upper` refused by the schema, a style stating none NOT RUN, a CLOSED
+conversion table where an unknown name is an error). Seven false convictions gone, **0 added**;
+one shipped plan moves and a second loses a hidden failing test no surface was printing.
+**Deferral (ii), the primary sweep, is measured and mostly REFUSED**: `build/fault_thresholds.py`
+(a report-only CLI, NOT in `check_all.CHECKS`) finds 944 conviction rows over the 41 styles the
+elevation speaks for, of which **17 rest on a figure the corpus already states per style** — and
+both faults holding them need a ruling rather than a scope. OQ 63's own named example,
+`gutter-as-cornice`, turns out not to be a live case at all. New questions:
+`oq/a-test-scope-is-matched-against-the-kit-cascade`,
+`oq/a-fault-present-finding-names-one-of-its-failing-tests`,
+`oq/the-material-shed-limit-runs-every-material-against-every-house`,
+`oq/the-cape-pitch-band-contradicts-nine-styles-own-bands`.
+
+*Original package text follows, as this project leaves original text.*
+
 **Status: GATED on 14.1-14.4 landing and being measured.** *"The fault is universal and its number
 is not."* 209 fault records whose thresholds were derived from one tradition and applied to all.
 OQ 63 scoped six SECONDARY tests in August and explicitly deferred the primary sweep. The number

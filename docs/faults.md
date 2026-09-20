@@ -40,7 +40,7 @@ Anything the corpus could not judge is returned as **unjudged, never as passed**
 
 ### Four states, and the fourth was added because a fault could vanish
 
-A test may be scoped to the styles it was written for (`applies_to_styles`, OQ 63) and, since WP-5.13, preconditioned on a **measurement** (`applies_when`). A test that declines is **not run** — not passed, not failed, absent from the fault's judgement, exactly as a test written for another style is. So a fault comes back in one of four states:
+A test may be scoped to the styles it was written for (`applies_to_styles`, OQ 63), preconditioned on a **measurement** (`applies_when`, WP-5.13), or written to take its band from the style it is judging (`band_from_style`, WP-14.5 — where the style states none, the test does not run). A test that declines is **not run** — not passed, not failed, absent from the fault's judgement, exactly as a test written for another style is. So a fault comes back in one of four states:
 
 | state | meaning |
 |---|---|
@@ -161,7 +161,44 @@ A test that is not for this style is **not run**, and that is not the same as pa
 not appear in the evaluated results in either direction.
 
 **Scope on what a note SAYS, not on what it mentions.** Twenty-four of 273 secondary tests name a
-style in their note and only six name it as a scope. The rest name one as context, as a reference
+style in their note and only six named it as a scope. The rest name one as context, as a reference
 band, or as the very case the test exists to discriminate — `frieze-as-fascia-board` separates a
 genuine Greek Revival frieze-band window from a collision, and scoping it to Greek Revival would
 remove the case it is for.
+
+**Five are scoped now, and the sixth became a substitution — see below.**
+
+**A SCOPE IS MATCHED AGAINST THE KIT CASCADE, WHICH IS WIDER THAN IT READS.** `_style_chain` is
+the resolve_kit cascade plus six hops of `member_of`, so a scope naming the three Georgian ids
+reaches **77 of 164 styles**, Greek Revival and the Federal styles among them. That is right for
+*a Tidewater Georgian is a Georgian* and wrong for *a Greek Revival house is a Georgian*, and
+nothing distinguishes the two. Two scoped tests still rest on that list and neither has been
+measured: `oq/a-test-scope-is-matched-against-the-kit-cascade`.
+
+## The band comes from the style, or the test does not run (WP-14.5, 20 Sep 2026)
+
+A test may carry **`band_from_style`** instead of a band of its own:
+
+```json
+"band_from_style": { "expression": "roof_pitch_rise_per_12",
+                     "convert": "rise_per_12_to_degrees" }
+```
+
+The band AND the direction are read from the style node's own migrated constraint, so an
+`at-least` stays open above rather than acquiring an upper bound nobody wrote. **A test carrying
+it may state no `threshold` and no `upper`** — the schema refuses both, and `check_faults.py`
+errors on it too, because one quantity keeps one number per style. **A style stating no such
+constraint means the test is NOT RUN**, the same three-state discipline `applies_to_styles` and
+`applies_when` use, and never a fall-back to a band written for somebody else.
+
+The conversion names a member of `mcp_server/core.py::BAND_CONVERSIONS`, a CLOSED table on
+`build/construction_vocabulary.py`'s precedent. An unknown name is an **error**, never an
+identity: an identity would compare degrees against rise-in-12 and convict every house.
+
+It exists because a scope is not a substitution. `truss-flattened-pitch`'s pitch secondary asked
+in its own note for *"the style's own band"* and carried the Georgian one; OQ 63 scoped it and
+said in writing that this was *"the right direction and not the destination"*. Measured over the
+41 styles the elevation layer speaks for: 15 supply a pitch, 10 failed the Georgian band, the
+scope removed 3, and **all ten sit inside the band their own style node states**. The alternative
+— 48 per-style `secondary_tests` entries, one per style carrying the constraint — was refused as
+48 second spellings of a number the style node already states.

@@ -597,6 +597,132 @@ def _test_applies(t, style_id, D):
 
 
 # ---------------------------------------------------------------------------
+# THE BAND COMES FROM THE STYLE, OR THE TEST DOES NOT RUN (OQ 63's deferred half).
+#
+# OQ 63 scoped `truss-flattened-pitch`'s pitch secondary to the Georgian family and
+# recorded in writing that this was "the right direction and not the destination":
+# the test's own note asks the engine to *"Substitute the style's own band"* and a
+# scope performs no substitution. WP-14.5 measured what the scope really did. Over
+# the 41 styles the elevation layer speaks for, 15 supply a pitch at all; 10 of
+# those 15 failed the Georgian band, the scope removed 3, and **all 10 -- scoped
+# away or still convicted -- sit INSIDE the band their own style node states**. So
+# seven styles went on being failed for having their own correct pitch, which is
+# exactly the defect OQ 63 was raised about, surviving OQ 63's fix.
+#
+# THE NUMBERS WERE NEVER MISSING. `build/elevation.py` DERIVES
+# `roof_slope_angle_deg` from the style's own migrated `roof_pitch_rise_per_12`
+# constraint -- measured, all 15 styles with a pitch measurement have a band and all
+# 26 without a measurement have none, exactly -- and the fault then judged that
+# number against another tradition's band. The two halves already meet in one place.
+#
+# WHY NOT FORTY-EIGHT COPIES. The obvious execution of the note is a
+# `secondary_tests` entry per style; 48 styles carry the constraint. That is 48
+# second spellings of a number the style node already states, going stale the moment
+# a constraint moves -- the defect `build/check_addresses.py` exists for, at scale.
+# Instead the TEST DECLARES that it wants the style's own band and the engine reads
+# it, and a test carrying `band_from_style` may state no `threshold` and no `upper`
+# of its own (the schema refuses both), so one quantity keeps one number per style.
+#
+# WHERE THE STYLE STATES NOTHING THE TEST IS NOT RUN -- the same three-state
+# discipline `applies_to_styles` and `applies_when` already use, and never a
+# fall-back to the band written for somebody else. `at-most 10:12` stays open above
+# rather than acquiring an upper bound nobody wrote: the DIRECTION comes from the
+# style's constraint too.
+#
+# THE CONVERSION TABLE IS CLOSED, on `build/construction_vocabulary.py`'s precedent.
+# A fault test reads `roof_slope_angle_deg` and a style states
+# `roof_pitch_rise_per_12`: two names for one quantity, which no name match finds --
+# OQ 48's problem one layer out. An unknown conversion is an ERROR, never an
+# identity, because an identity would silently compare degrees against rise-in-12.
+BAND_CONVERSIONS = {
+    # atan(rise/12) is exact and is not a calibration. The evidence that the fault's
+    # note is a transcription of this same data rather than a second source: four of
+    # the five bands it names reproduce from the styles' own constraints to a tenth
+    # of a degree (Cape 9:12-12:12 = 36.9-45.0, Greek Revival 4:12-6:12 = 18.4-26.6,
+    # Craftsman 3:12-6:12 = 14.0-26.6, Prairie 3:12-4:12 = 14.0-18.4). The fifth is
+    # the finding and is not closed here: Tudor Revival's constraint is `at-least
+    # 10:12`, open above -- its 39.8 lower reproduces and the note's 53.1 upper is in
+    # no record in this corpus. Under this mechanism a Tudor is judged open above,
+    # which is what its own node says, and 53.1 is not invented into the data.
+    "rise_per_12_to_degrees": lambda v: math.degrees(math.atan(v / 12.0)),
+}
+
+
+def style_band(style_id, expression, D):
+    """A style's OWN band for a quantity, from its migrated constraints.
+
+    Returns `(direction, threshold, upper, rule_id)` -- `upper` None where the
+    constraint is open above, `threshold` None where it is open below -- or None
+    where the style states nothing.
+
+    **None is not a permissive answer.** Every caller must report the test unrun;
+    falling back to a threshold written for another style is the defect this exists
+    to remove.
+
+    This reads the same constraint list as `structure._style_roof_pitch` and its two
+    copies in `build/roof.py` and `build/depth_floor.py`, and it is NOT a fourth
+    spelling of them: those three return a representative VALUE (the midpoint of a
+    `between`) and this returns the BAND. `tests/test_depth_floor.py` holds the two
+    together by arithmetic over all 164 styles, which is the mechanism CLAUDE.md's
+    standing instruction about that function asks for.
+    """
+    if not style_id:
+        return None
+    for c in ((D["styles"].get(style_id) or {}).get("constraints") or []):
+        t = c.get("test") or {}
+        if t.get("expression") != expression:
+            continue
+        d = t.get("direction")
+        if d == "between":
+            return (d, t.get("threshold"), t.get("upper"), c.get("id"))
+        if d == "at-least":
+            return (d, t.get("threshold"), None, c.get("id"))
+        if d == "at-most":
+            return (d, None, t.get("threshold"), c.get("id"))
+    return None
+
+
+def _test_for_style(t, style_id, D):
+    """One test as it applies to this style: itself, a rebanded copy, or None.
+
+    None means NOT RUN, and the two routes to it are different facts: the test is
+    written for another tradition (`applies_to_styles`), or it asks for this style's
+    own band and this style states none. Both are honest silences; neither is a pass.
+
+    Substituting in a COPY matters -- `_data()` is cached and shared, so rebanding the
+    record in place would make one style's band the corpus's band for every caller
+    after it.
+    """
+    if not t or not _test_applies(t, style_id, D):
+        return None
+    ask = t.get("band_from_style")
+    if not ask:
+        return t
+    conv = BAND_CONVERSIONS.get(ask.get("convert"))
+    if conv is None:
+        # An error, not a silence: a conversion nobody has written cannot be guessed
+        # at, and comparing the two units raw would convict every house.
+        return dict(t, _band_error="unknown conversion %r in band_from_style; known: %s"
+                    % (ask.get("convert"), sorted(BAND_CONVERSIONS)))
+    band = style_band(style_id, ask.get("expression"), D)
+    if band is None:
+        return None
+    d, lo, hi, rule = band
+    out = dict(t)
+    out.pop("band_from_style", None)
+    out["direction"] = d
+    out["threshold"] = None if lo is None else round(conv(lo), 1)
+    out["upper"] = None if hi is None else round(conv(hi), 1)
+    # `at-most` states its bound as the threshold; the evaluator reads `threshold` for
+    # every direction but `between`, so the open-below case moves the number across.
+    if d == "at-most":
+        out["threshold"], out["upper"] = out["upper"], None
+    out["band_from"] = {"style": style_id, "rule": rule,
+                        "states": ask.get("expression"), "direction": d}
+    return out
+
+
+# ---------------------------------------------------------------------------
 # AN EXCEPTION IS A LICENCE, AND UNTIL WP-8.4 NOBODY READ ITS PRECONDITION.
 #
 # `exceptions[].granted_when` (schema/fault.schema.json; called `applies_when`
@@ -899,6 +1025,12 @@ def get_fault(fault_id, style=None):
 
 def _eval_test(t, measurements):
     if not t or not t.get("expression"): return None
+    # A `band_from_style` naming a conversion nobody has written is an ERROR and not a
+    # silence. `_test_for_style` cannot raise -- it runs inside a comprehension over
+    # every fault in the corpus -- so it marks the test and the shared evaluator reports
+    # it, which puts the fault in could-not-evaluate rather than letting it vanish.
+    if t.get("_band_error"):
+        return {"status": "error", "detail": t["_band_error"]}
     # A TEST MAY BE PRECONDITIONED ON A MEASUREMENT, not only on a style (`applies_to_styles`,
     # OQ 63). Some rules presuppose the thing they measure exists: `dormer-off-the-bay`'s parity
     # secondary is `dormer_count % 2 == 1`, which fires on a house STATED to carry no dormers and
@@ -1068,7 +1200,9 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         # OQ 63: a test scoped to another style is not run at all. Not run is not the same as
         # passed -- a test that is not for this house says nothing about this house, and the
         # fault's judgement rests on the tests that ARE for it.
-        tests = [t for t in tests if t and _test_applies(t, style, D)]
+        # `_test_for_style` is `_test_applies` plus OQ 63's deferred substitution: it
+        # returns the test, a copy carrying THIS style's own band, or None for not-run.
+        tests = [x for x in (_test_for_style(t, style, D) for t in tests) if x]
         results = [r for r in (_eval_test(t, measurements) for t in tests) if r]
         ev = [r for r in results if r["status"] == "evaluated"]
         if not ev:
