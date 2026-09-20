@@ -2795,6 +2795,41 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for both shapes. The landed-assertion is this repository's answer to *a mutation that silently
   does not apply looks exactly like a guard that works*; an assertion that cries wolf on a good
   mutation is on its way to being deleted.
+- **A GUARD SKIPPED FOR WANT OF AN OPTIONAL LIBRARY IS A GUARD NOBODY IS READING, AND WP-13.4
+  MOVED ITS SUBJECT OUT FROM UNDER IT (20 Sep 2026).** WP-13.4 replaced
+  `workbench/server/tests/test_export_cad.py`'s `_plan()` with `drawable.drawable_plan()` -- a
+  record FOUND by reading the refusal verdict rather than named, because the refuse-to-draw
+  ruling left most shipped records undrawable (15 of 16 on `auto` as WP-13.4 measured it; 12 of
+  16 drawable by the 16 Sep merge -- a figure about the tree it was taken on) -- and left
+  `test_ifc_model_carries_tdl_ids` asserting the literal `"tidewater-georgian-careful"`. From
+  that commit the helper returned `bad-06-open-concept-render` and the line was false. **It is
+  the FIFTH instance of the class `drawable.py`'s own docstring tallies** (*"a literal filename
+  would be one plan's luck ... this repository has re-cut four guards for exactly that"*),
+  committed in the same package that wrote the tally.
+  **NOTHING LOCAL COULD SEE IT**: `pytest.importorskip("ifcopenshell")` skips that test wherever
+  the library is absent, which is every container this corpus is usually verified in, so the
+  server suite read 263 passed / 15 skipped and GREEN while the assertion was false. CI installs
+  the library and returned 296 passed / 1 failed / 5 skipped. This file's own *judged in CI,
+  unjudged here* was written about `check_frontend`'s bundle; it is a property of **every**
+  `importorskip` in the tree, and the two CAD-export selftests this file names as the canonical
+  unjudged pair are the same shape one layer down.
+  **The fix is a RE-CUT and not a re-pin** -- the expectation is read off the record that was
+  POSTED (`plan["id"]`), so which plan the placer leaves drawable cannot reach it -- and
+  `tdl_id` went from TRUTHY to membership in that record's own room ids, because a writer
+  stamping a constant satisfies truthiness. Both halves mutation-checked, the second by
+  injecting the constant into `export_ifc.py` rather than by disabling the guard.
+  **AND IT IS THE ONLY SIBLING, SWEPT RATHER THAN ASSUMED**: seven files take a record from
+  `drawable.drawable_plan()` (`test_export_cad`, `test_evaluate_matches_cli`,
+  `test_ingest_endpoint`, `test_refusal_routes`, `test_drawing_set_one_building`,
+  `test_scene_endpoint`, `test_m3_drawings`) and **exactly one asserted a literal id against
+  it**. The literals in the other six are deliberate namings of records those tests load
+  themselves -- a two-record candidate list, a `_plan(name=...)` default -- and not expectations
+  laid on a found record. **That distinction is why a whole-file ban on shipped-plan-id literals
+  was MEASURED AND REFUSED**: `test_export_cad.py` holds two and the second is
+  `_refused_plan()`'s candidate list, so a source guard could not tell a naming from a pin and
+  would be a false-positive generator. **To verify this file at all, `pip install ifcopenshell`
+  first** -- it is reachable, and a skip is not a pass. Installed here, `export_ifc.py selftest`
+  comes back OK on both shipped plans, so the library revealed no second defect.
 
 **THE BULLETS BELOW ARE THE OTHER PHASE 11's, AND BOTH SETS STAND (merged 16 Sep 2026).**
 Above: Phase 12 and 13, the sheet in the round. Below: WP-11.16 through WP-11.18, the record
