@@ -74,9 +74,33 @@ def test_dxf_plan_sheet_round_trips(client, tmp_path):
 
 
 def test_ifc_model_carries_tdl_ids(client, tmp_path):
+    """The identity of the record travels into the file: a reader who opens the IFC can say
+    which plan it is and which room each space was.
+
+    RE-CUT AGAINST THE PROPERTY (20 Sep 2026). This asserted the literal
+    `"tidewater-georgian-careful"`, which is the record `_plan()` returned when WP-5.1 wrote
+    the test -- and WP-13.4 replaced `_plan()` with `drawable.drawable_plan()`, a record FOUND
+    by reading the refusal verdict rather than named, because the refuse-to-draw ruling left
+    most shipped records undrawable (15 of 16 on `auto` as WP-13.4 measured it, 12 of 16
+    drawable by the 16 Sep merge -- a figure about the tree it was taken on). From that commit
+    the helper returned
+    `bad-06-open-concept-render` and this line was false. It went unseen because
+    `importorskip` skips it wherever `ifcopenshell` is absent, which is every container this
+    corpus is usually verified in; it failed in CI, which installs the library.
+
+    `drawable.py`'s own docstring is the argument against what was here: *"a literal filename
+    would be one plan's luck, and the day that plan's placement moves the file would go red on
+    something it is not about (this repository has re-cut four guards for exactly that)."*
+    This is the fifth. The expectation is read off the record that was POSTED, so which plan
+    the placer leaves drawable cannot reach it.
+
+    And `tdl_id` is held to the record's own room ids rather than merely to being truthy:
+    `export_ifc.py` writes an `IfcSpace`'s `tdl_id` as its room's `id`, and a writer that
+    stamped a constant would satisfy truthiness and fail this."""
     ios = pytest.importorskip("ifcopenshell")
     import ifcopenshell.util.element as uel
-    r = client.post("/api/export/ifc", json={"plan": _plan()})
+    plan = _plan()
+    r = client.post("/api/export/ifc", json={"plan": plan})
     assert r.status_code == 200, r.text[:300]
     j = r.json()
     assert j["schema"] == "IFC4" and j["counts"]["spaces"] > 0
@@ -85,7 +109,15 @@ def test_ifc_model_carries_tdl_ids(client, tmp_path):
     g = ios.open(str(p))
     space = g.by_type("IfcSpace")[0]
     ps = uel.get_psets(space).get("TDL") or {}
-    assert ps.get("plan_id") == "tidewater-georgian-careful" and ps.get("tdl_id")
+    assert ps.get("plan_id") == plan["id"], (
+        f"the IFC says it is {ps.get('plan_id')!r} and the record posted was {plan['id']!r} -- "
+        "the identity did not travel, or the route exported a different house")
+    # `rm`, not `r`: `r` is the response above, and rebinding it here is the shape CLAUDE.md
+    # records for render_plan.py's inner loop.
+    room_ids = {rm["id"] for lv in plan["levels"] for rm in lv["rooms"]}
+    assert ps.get("tdl_id") in room_ids, (
+        f"the space's tdl_id {ps.get('tdl_id')!r} is not one of {plan['id']}'s room ids -- a "
+        "space must carry the id of the room it is")
 
 
 def test_missing_library_is_a_stated_501(client, monkeypatch):
