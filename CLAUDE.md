@@ -2209,6 +2209,42 @@ style falling back instead of not running; the `at-most` bound left where the ev
 read it; an unknown conversion becoming an identity; the band written into the shared record
 rather than a copy; the conversion left unrounded; the diagnostic respelling the reader; the
 provenance dropped.
+**THE BUILD ON THE SETTLED TREE IS `2 of 53 checks failed`, AND THE GATE'S COUNT WOULD HAVE
+REPORTED A REGRESSION THAT THE ROW SET SAYS IS NOT THERE.** `pytest tests/` is **25 failed /
+2,642 passed / 42 skipped in 56:48**; the two failing CHECKS are `check_partis.py` and the suite,
+**one finding through two readers** -- the checker prints *"FATAL against its own style
+'adam-style': The Front With No Centre: 1 against between 3 and 7"* and
+`test_parti_composability.py` asserts 21 of 21 and reads 20. **Eighteen are the WP-13.1 gate**,
+six are WP-14.0's control rows, and the last is `test_refusal.py`'s stale ezdxf skip clause,
+re-run on a `git archive a0c4fca` checkout and failing CHARACTER-IDENTICALLY there.
+**THE GATE READS 18 AGAINST A RECORDED 16 AND NOTHING MOVED.** Rolled TWICE on this tree and TWICE
+on a `git archive` of its parent `671adef`: **18/17 on both**, the single differing row being
+`test_every_declared_door_is_drawable[candidate-cp]` -- a `cp` row, which is the wall-clock band
+this file already records -- and **the UNION of the two rolls is the same eighteen ids on both
+trees, zero in head only and zero in control only.** A count comparison would have published a
+two-row regression against an IDENTICAL row set, and the earlier 16 is one roll of a band nobody
+captured the rows of. **COMPARE THE SET, NOT THE COUNT**, wherever the instrument is bounded by a
+clock -- which is this file's own *the gate count is not reproducible* turned into a method.
+**AND THE COLLECTION RECONCILES BY NAME ON AN INSTRUMENT PROVED FIRST**: the control collects
+**2,696**, exactly what `671adef`'s own build published, and this tree **2,709** -- +15 added (12
+`tests/test_fault_thresholds.py`, 3 `tests/test_fault_scoping.py`) and **-2 removed**, both
+deliberate and both this package's subject: the truss row left the parametrised scoping sweep
+because that secondary is no longer an `applies_to_styles` SCOPING but a `band_from_style`
+SUBSTITUTION, and one test was renamed. The server suite is OK and the app suite 227 of 227.
+**Two checks are unjudged and they are NOT the canonical three** -- `ezdxf` is absent and
+`check_frontend`'s `dist/` predates six of its sources -- so the `TOTAL - 3 == len(CHECKS)`
+identity does not describe this run.
+**AND THE RUN BEFORE IT WAS KILLED FOR A BETTER REASON THAN THE FIRST TWO: IT HAD FOUND A REAL
+DEFECT AND THE FIX WOULD HAVE STRADDLED IT.** It went red at
+`tests/test_citations.py::test_a_named_entry_is_counted_by_the_open_tally` -- WP-14.5 raised four
+named open questions and tallied NONE of them, and its sibling in `tests/test_wp46_packs.py` would
+have gone red for the same reason forty minutes later in the same run. The list was DERIVED
+through `build/check_ids.read_questions` rather than hand-extended, and the pre-edit list was
+verified to be exactly that derivation minus the four before anything was written. **The ENTRY
+count was stale by the same four, 214 -> 218, and nothing guards it** -- the paragraph carrying it
+says so in its own words -- so the guarded half failed loudly at 8% of a fifty-minute suite while
+the unguarded half sat beside it and would have been corrected by nobody. Both of this package's
+own reds are absent from the settled run: the tally, and WP-14.2's third reader re-cut.
 
 **THE BUILD ON THE PHASE 14 TREE IS `2 of 53 checks failed`, AND ATTRIBUTING ITS REDS FOUND
 THAT WP-14.0'S CONTROL COULD NOT REPORT A SEVENTH BECAUSE IT WAS A LIST OF IDS.**
