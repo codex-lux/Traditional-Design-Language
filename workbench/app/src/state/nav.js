@@ -5,7 +5,7 @@
    The snapshot identity is stable between navigations: useSyncExternalStore compares by
    reference, and rebuilding the object on every read would loop forever. */
 
-import { parseHash, formatHash, DEFAULT_SURFACE } from '../router.js';
+import { parseHash, formatHash, withContext, DEFAULT_SURFACE } from '../router.js';
 import { routeCite } from '../citations.js';
 
 const listeners = new Set();
@@ -85,7 +85,8 @@ export const nav = {
 
   /* Move to a surface. Selection and filters do not follow you across a surface
      boundary — carrying one surface's filters onto the next is how the strip got
-     confusing in the first place. */
+     confusing in the first place. There is deliberately no context argument here: a rail
+     link carries exactly the selection it names, and carrying one is cite()'s, below. */
   go(surface, selection) {
     write(surface, selection || {}, {}, false);
   },
@@ -124,9 +125,15 @@ export const nav = {
   /* A citation navigates. This is the one entry point the rail, the findings and every
      cross-surface link share. An unresolvable ref does nothing at all — landing the
      reader somewhere arbitrary is worse than not moving, and the server has already
-     downgraded anything it could not validate to plain text before it got here. */
-  cite(ref) {
-    const target = routeCite(ref);
+     downgraded anything it could not validate to plain text before it got here.
+
+     `ctx` is what the reader is holding where the link was drawn — a selection, usually the
+     current one. Only the keys router.js's CONTEXT_KEYS lists for the TARGET surface travel,
+     through withContext, the one spelling of that rule (hrefFor draws the same address for an
+     anchor); the citation's own keys always win, and filters never travel. With no ctx this
+     is the call it always was. */
+  cite(ref, ctx) {
+    const target = withContext(routeCite(ref), ctx);
     if (!target) return;
     write(target.surface, target.selection || {}, {}, false);
   },

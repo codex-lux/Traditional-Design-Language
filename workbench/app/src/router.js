@@ -16,14 +16,25 @@ import { routeCite, citeFor } from './citations.js';
 
 /* Each surface's path segment, and which selection keys ride in the path rather than
    the query. Order matters: the keys are positional. `-` stands in for an absent
-   leading key (a slot with no style: #/kit/-/door-main-entry). */
+   leading key (a slot with no style: #/kit/-/door-main-entry).
+
+   `style` carries a dossier SECTION after the style (#/style/craftsman/lineage) and a slot
+   after that, honoured only in the kit section (#/style/craftsman/kit/cornice) — PRD phase 14,
+   §E.1-§E.2. The section ids are citations.js's DOSSIER_SECTIONS; nothing here checks a
+   segment against them, because a URL is written down and read back, not judged: the surface
+   decides what an unknown section shows, and citeFor refuses to cite one.
+
+   `glossary` is the address of the glossary and of one term in it (#/glossary,
+   #/glossary/judgment-unjudged); `term:<id>` is the citation that lands there. Which component
+   draws it is App's business, not this table's. */
 export const SURFACE_PATHS = {
   overview: { path: '', keys: [] },
   phylogeny: { path: 'phylogeny', keys: ['style'] },
-  style: { path: 'style', keys: ['style'] },
+  style: { path: 'style', keys: ['style', 'section', 'slot'] },
   kit: { path: 'kit', keys: ['style', 'slot'] },
   faults: { path: 'faults', keys: ['fault'] },
   proportions: { path: 'proportions', keys: ['pack'] },
+  glossary: { path: 'glossary', keys: ['term'] },
   candidates: { path: 'candidates', keys: ['candidate'] },
   workbench: { path: 'workbench', keys: [] },
   brief: { path: 'brief', keys: [] },
@@ -42,10 +53,15 @@ Object.entries(SURFACE_PATHS).forEach(([id, spec]) => { BY_PATH[spec.path] = id;
 /* Selection keys are the ones routeCite() can produce. Anything else in the query
    string is a filter, and belongs to the surface rather than to the record. Keeping
    the two sets apart is what lets useSurfaceFilters own the query without ever
-   standing on a selection. */
+   standing on a selection.
+
+   Appended, never inserted: formatHash writes query keys in THIS order, so a key added in the
+   middle would reorder the query of every existing link that carries two of them, and the
+   same place would stop being the same link. */
 export const SELECTION_KEYS = [
   'style', 'slot', 'fault', 'pack', 'candidate', 'finding', 'plan',
   'constraint', 'room', 'roomType', 'massing', 'parti', 'grouping', 'asset',
+  'section', 'term',
 ];
 const NUMERIC_KEYS = ['candidate'];
 
@@ -140,4 +156,48 @@ export function citeForPlace(surface, selection) {
 /* '#/cite/style:craftsman' — the form to hand a machine, or paste in a chat. */
 export function citeHref(ref) {
   return ref ? '#/cite/' + ref : null;
+}
+
+/* Context carry (PRD phase 14, §E.5). A reader studying Craftsman who follows a link from its
+   dossier to a pack, a fault or the brief should arrive still holding Craftsman — and every
+   hop used to drop it, because a citation names ONE record and nothing else travelled.
+
+   This table is the whole of what may travel, per target surface, and it is §E.4's list of the
+   selection keys each surface honours: the fault list reads `style` from its selection to
+   choose whose exceptions it shows (FaultCorpus's filter spec), and §E.4 gives the pack page
+   and the brief the same key. A surface with no entry receives nothing — a style riding into a
+   place that ignores it is state in the URL that means nothing and reads as though it did.
+   `style` is a SELECTION key everywhere, so the carried value is a named record in the
+   address, not a filter, and survives a copied link. */
+export const CONTEXT_KEYS = Object.freeze({
+  proportions: Object.freeze(['style']),
+  faults: Object.freeze(['style']),
+  brief: Object.freeze(['style']),
+});
+
+/* {surface, selection} + ctx → a new target whose selection gains ctx[k] for each k its
+   surface lists in CONTEXT_KEYS, where ctx[k] is a non-empty string and the target names no
+   value of its own for k. The target always wins, since a citation that names a style means
+   that style; a key not listed is dropped; a surface with no entry comes back unchanged; a
+   null target stays null, so an unresolvable citation still goes nowhere. Never mutates. */
+export function withContext(target, ctx) {
+  if (!target) return null;
+  const keys = CONTEXT_KEYS[target.surface];
+  if (!keys || !ctx) return target;
+  const selection = { ...(target.selection || {}) };
+  keys.forEach((k) => {
+    const v = ctx[k];
+    if (typeof v !== 'string' || v === '') return;
+    if (selection[k] != null && selection[k] !== '') return;     // the target always wins
+    selection[k] = v;
+  });
+  return { ...target, selection };
+}
+
+/* The canonical address a citation opens, carrying the context its target honours, or null
+   for a citation that resolves nowhere. The same composition nav.cite writes, so a link drawn
+   as an anchor and a link followed by a click land in one place. */
+export function hrefFor(cite, ctx) {
+  const t = withContext(routeCite(cite), ctx);
+  return t ? formatHash(t.surface, t.selection, {}) : null;
 }
