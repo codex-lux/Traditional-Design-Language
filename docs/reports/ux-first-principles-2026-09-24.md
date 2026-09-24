@@ -991,3 +991,41 @@ differs, both are given; the report publishes the left-hand column.
 ### The unchanged tree's build
 
 The full `build/check_all.py` on the unchanged tree was still running, in an isolated worktree, when this report was committed. Its result is recorded in a follow-up amendment to this section before any Wave 1 package merges, so that every later package can be held to "no red absent from the baseline". The browser walk on the unchanged tree WAS measured: `workbench/scripts/walk.sh` returned **215 ok, 0 FAIL, 4 COULD NOT EVALUATE, exit 3** (the four: good-03's fallback line, its gable-end stacks, its entrance stoop, and the Drawing Set caption gated on `date_of_representation`), which is the state `CLAUDE.md` records for WP-13.9.
+
+**Amendment, 24 Sep 2026: the baseline, and a promise this section did not keep.** The paragraph
+above says the result would be recorded "before any Wave 1 package merges". It was not: WP-14.7,
+14.5, 14.6, 14.1 and 14.2 merged while the run was still going, and this amendment lands after
+them. **The measurement is still of the unchanged tree.** It ran in a detached worktree at
+`d565dea`, the commit before this phase, so no Wave 1 change is in it. Only the recording is late.
+It took 77 min 38 s.
+
+**`3 of 53 checks failed`**, each attributed:
+
+- **`check_partis.py`: FAIL.** This is `side-hall-townhouse` convicted by `even-bay-front`'s band
+  at one placed upper opening, which `CLAUDE.md` records at WP-13.3
+  (`oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts`).
+- **`pytest tests/`: 24 failed / 2,626 passed / 25 skipped**, in 59 min 36 s.
+  - **Eighteen are rows of `tests/test_sheet_coherence.py`, the WP-13.1 gate, red by design.** Its
+    `cp` rows differ from run to run on one tree, which `CLAUDE.md` says to read as a band.
+  - **The other six are already named there as pre-existing:** three rows in
+    `test_composer.py::TestFamilyGeorgianBrief`,
+    `test_parti_composability.py::test_check_partis_runs_the_composability_check_and_is_green`
+    (the same finding as `check_partis.py`, through a second reader),
+    `test_score.py::TestTheOrderIsWhatItSays::test_the_returned_set_is_native_dominated_not_merely_tidy`,
+    and `test_solver.py::test_check_plans_solve_with_stated_downgrades`.
+- **`pytest workbench/server/tests`: 1 failed / 290 passed / 11 skipped.** The failure,
+  `test_parti_confinement.py::test_each_escape_target_would_really_be_read_without_the_fix[up-and-back]`,
+  **is an artefact of where the baseline ran, and it is also a latent defect in the test.** Its
+  escape target is written as `../../Traditional-Design-Language/schema/brief.schema.json`, so it
+  resolves only in a checkout whose directory has exactly that name. The baseline worktree is
+  called `baseline`, the target did not resolve, and the premise assertion fired. That was the
+  correct response: the assertion exists to stop the test passing on a miss. Any checkout under
+  another name, including a CI runner's, reproduces it. It is recorded here and left alone; the
+  file is outside this phase.
+- **Unjudged: `check_frontend.py` (no `dist/` in the worktree) and `export_dxf.py selftest`.**
+  The DXF selftest reports *"2 of 2 plan(s) are refused and were not round-tripped. This is not a
+  pass."*, which is WP-13.4's refusal working. `export_ifc.py` and the server suite were judged,
+  because `ifcopenshell`, `ezdxf`, `fastapi` and `httpx` were installed first.
+
+This is the bar every Phase 14 package is held to: **no red absent from this list.** The gate's
+rows are counted as a band, not as a number.
