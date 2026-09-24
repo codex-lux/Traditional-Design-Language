@@ -21,6 +21,7 @@
     "name": "The finished ceiling height of the room, finished floor to finished ceiling - the wall the whole trim family is a division of",
     "parts": 19,
     "default_size_in": 114.0,
+    "equals": "ceiling_height",
     "note": "NINETEEN PARTS, AND THE NUMBER IS THE WHOLE ARGUMENT OF THIS PACK. A room treated as an order divides into a pedestal, a column and an entablature. Vignola's general rule makes the pedestal one third of the column and the entablature one quarter of it; take the column as twelve and those become four and three, and the wall is nineteen. Pedestal 4, wall field 12, entablature 3. Nineteen is the smallest whole division that carries the derivation, and every dimension in this pack is a fraction of it. THE DEFAULT IS 9 FT 6 IN, which makes the part exactly six inches - the most convenient number in the system and the reason for choosing it. THE CALIBRATION PROBLEM, stated here because it governs everything below: the derivation was worked out for rooms of 11 to 13 ft, and at 12 ft it produces a dado at 30 3/8 in, which is exactly where a Georgian chair rail sits. At 9 ft 6 in it produces a dado at 24 in, which is below the back of a chair. At 8 ft it produces a dado at 20 in, a base at 7 1/2 in and an entablature at 15 in, and the room has more trim than wall. The system is not scale-free, and pretending it is produces most of the bad classical interiors of the last forty years. See the conflicts."
   },
   "assemblies": {

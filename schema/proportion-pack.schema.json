@@ -113,6 +113,12 @@
         "diameters": {
           "type": "number",
           "description": "How many lower column diameters one module equals. 0.5 for Vignola's and Chambers's semidiameter, 1.0 for Palladio's whole diameter. Declared rather than inferred, because getting it wrong silently doubles or halves every dimension an overlay inherits."
+        },
+        "equals": {
+          "enum": [
+            "ceiling_height"
+          ],
+          "description": "The pack's own statement that its module IS this building input, restating what `name` already says in prose so a reader can act on it (WP-14.4). A pack whose module is the room's finished ceiling height -- `trim-classical`'s nineteen parts are a division of exactly that wall -- is dimensioned AT the reader's ceiling, so its drawn assemblies and its derived rules describe one wall and move together. Absent, the module is a size of its own and the ceiling is only a variable its rules may read. LIE-CHECKED rather than trusted by build/check_systems.py check 19: the value must be a variable the engine binds, at least one derived rule must read it, no rule may read it together with `module` or `part` (that would count the input twice), and `default_size_in` must be a number. Which other packs' modules are building inputs is an open question (`oq/which-packs-module-is-a-building-input`); a declaration is added only where a pack's own record says so."
         }
       }
     },

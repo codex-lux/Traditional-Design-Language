@@ -141,6 +141,14 @@ export const api = {
   compose: (brief, candidates = 4) => postJSON('/api/compose', { brief, candidates }),
   job: (id) => getJSON(`/api/jobs/${seg(id)}`, { fresh: true }),
   candidatePlan: (jobId, n) => getJSON(`/api/jobs/${seg(jobId)}/candidates/${seg(n)}/plan`, { fresh: true }),
+
+  /* WP-14.4 (PRD §H.3-§H.5). A style's packs by provenance, and the dossier's head and section
+     counts -- corpus reads, cached like every other one, because the corpus does not change
+     under a server. The example brief is fetched fresh, as `examplePlan` is: it is a document
+     the reader loads to edit, and a stale copy would be a different starting point. */
+  stylePacks: (id) => getJSON(`/api/styles/${seg(id)}/packs`),
+  styleDossier: (id) => getJSON(`/api/styles/${seg(id)}/dossier`),
+  exampleBrief: (name) => getJSON(`/api/briefs/examples/${seg(name)}`, { fresh: true }),
 };
 
 /* Subscribe to a job's SSE stream. Returns an unsubscribe function. */

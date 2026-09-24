@@ -319,6 +319,20 @@ def style(style_id: str, sections: str = None):
     return _ok(core.get_style(style_id, sections=secs))
 
 
+@app.get("/api/styles/{style_id}/packs")
+def style_packs(style_id: str):
+    """WP-14.4 (PRD §H.3): the style's packs by provenance -- own, opted in, delivered by an
+    ancestor, withheld by the opt-in gate, declined -- read off `resolve_kit`, no second cascade."""
+    return _ok(corpus.style_packs(style_id))
+
+
+@app.get("/api/styles/{style_id}/dossier")
+def style_dossier(style_id: str):
+    """WP-14.4 (PRD §H.4): the dossier's head, chain, members and section COUNTS, each count
+    the figure its own endpoint gives; a zero-count section is omitted, never listed empty."""
+    return _ok(corpus.style_dossier(style_id))
+
+
 @app.get("/api/phylogeny")
 def phylogeny():
     return corpus.phylogeny()
@@ -356,15 +370,21 @@ def proportions_list():
 
 @app.get("/api/proportions/{pack_id}")
 def proportions(pack_id: str, column_diameter: float = None, module: float = None,
-                ceiling_height: float = 108.0, opening_width: float = 36.0,
+                ceiling_height: float = None, opening_width: float = None,
                 assembly: str = None, members: bool = False):
+    # WP-14.4: the two defaults are None HERE so the members path can tell "not given" from
+    # "given as 108" -- a pack whose module IS the ceiling defaults to its own module, not to
+    # 108 (corpus.proportions_with_members, PRD §H.1). The other path passes 108 and 36
+    # exactly as it always has.
     if members:
         return _ok(corpus.proportions_with_members(
             pack_id, column_diameter=column_diameter, module=module,
             ceiling_height=ceiling_height, opening_width=opening_width))
-    return _ok(core.get_proportions(pack_id, column_diameter=column_diameter,
-                                    module=module, ceiling_height=ceiling_height,
-                                    opening_width=opening_width, assembly=assembly))
+    return _ok(core.get_proportions(
+        pack_id, column_diameter=column_diameter, module=module,
+        ceiling_height=corpus.CEILING_DEFAULT_IN if ceiling_height is None else ceiling_height,
+        opening_width=corpus.OPENING_DEFAULT_IN if opening_width is None else opening_width,
+        assembly=assembly))
 
 
 @app.get("/api/authorities/{order}")
@@ -477,6 +497,25 @@ def example_plan(name: str):
     except Exception as e:  # a malformed shipped example is a clean 422, not a 500
         raise HTTPException(status_code=422,
                             detail={"error": f"example plan '{safe}' is not readable JSON",
+                                    "detail": str(e)[:200]})
+
+
+@app.get("/api/briefs/examples/{name}")
+def example_brief(name: str):
+    """WP-14.4 (PRD §H.5): the shipped example briefs, loadable into Brief Intake -- the same
+    rule as `example_plan` above, name only and never a path. `/api/schema/brief` lists them
+    with their `.json`, so both `family-georgian` and `family-georgian.json` load."""
+    import json
+    safe = os.path.basename(name)
+    path = os.path.join(corpus.ROOT, "briefs", safe if safe.endswith(".json") else safe + ".json")
+    if not os.path.exists(path):
+        raise HTTPException(status_code=404, detail={"error": f"no example brief '{safe}'"})
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except Exception as e:  # a malformed shipped example is a clean 422, not a 500
+        raise HTTPException(status_code=422,
+                            detail={"error": f"example brief '{safe}' is not readable JSON",
                                     "detail": str(e)[:200]})
 
 
