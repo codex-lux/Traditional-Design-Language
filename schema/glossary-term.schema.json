@@ -1,0 +1,167 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://traditional-design-language.org/schema/glossary-term.schema.json",
+ "title": "Glossary term",
+ "version": "0.1.0",
+ "description": "One sense of one word the workbench shows a reader, written for a practitioner. Every tooltip, page head, rail description, palette line, plate key and edge caption reads one of these records; the app writes no definition of its own. A record is either SOURCED -- its `sources` already sit, character for character, in a corpus bibliography -- or EDITORIAL, in which case its `basis` names the file it read and quotes it verbatim. Editorial is a licence to explain, never a licence to invent, and build/check_glossary.py holds every basis to the file it names. One file per term at glossary/<id>.json; the authoring rules are glossary/README.md.",
+ "type": "object",
+ "additionalProperties": false,
+ "required": ["id", "term", "family", "definition", "kind"],
+ "properties": {
+  "id": {
+   "$ref": "#/$defs/id",
+   "description": "One sense per id, and the filename (glossary/<id>.json). Never reused: a wrong id is superseded, not renamed. A word with two senses is two records with two ids."
+  },
+  "term": {
+   "type": "string",
+   "minLength": 1,
+   "description": "The words the reader meets, exactly as the screen shows them. A rail label, a dossier section label and a page eyebrow ARE this string, not a second spelling of it."
+  },
+  "family": {
+   "enum": ["product", "surface", "section", "nav-group", "layer", "rank",
+            "edge", "carry", "binding", "variant-status", "param-kind",
+            "pack-kind", "severity", "judgment", "constraint-state",
+            "proportion", "pack-relation", "model", "fault", "house",
+            "figure"],
+   "description": "The group the Glossary page lists the term under, in this order. Families surface, section, nav-group, layer and judgment require the id prefix `<family>-`; a record that binds an enum value takes the family of the field it binds."
+  },
+  "definition": {
+   "type": "string",
+   "minLength": 1,
+   "description": "Plain, in a practitioner's register, never addressed to an AI agent. At most forty-five words (the checker counts). No digits, no counts, no build history, no work-package or question numbers, no snake_case identifiers: a definition must still be true when every number in the repository has changed."
+  },
+  "kind": {
+   "enum": ["sourced", "editorial"],
+   "description": "`sourced` requires `sources` and forbids `basis`; `editorial` the reverse. The glossary's own word is not a glossary term: `param-kind-editorial` names a different thing, a kind of kit parameter."
+  },
+  "sources": {
+   "type": "array",
+   "minItems": 1,
+   "items": {"type": "string", "minLength": 1},
+   "description": "Published works this definition rests on. Each string must already appear verbatim as an item of a `sources` list in some record under styles/, faults/, rooms/, proportions/, groupings/ or partis/. The glossary never introduces a source the corpus does not already cite: that is the no-invented-source guard."
+  },
+  "basis": {
+   "type": "string",
+   "minLength": 25,
+   "description": "For an editorial record: the file or files this definition was read from, named by path (rooms/, kits/, styles/, faults/, groupings/, proportions/ or partis/ records; build/ scripts; massings/catalog.json; elements/slots.json; mcp_server/core.py; a schema/ file; VISION.md, README.md or a top-level docs/ page), with at least one passage of twenty-five characters or more quoted verbatim in double quotes. The checker finds each quotation in the file it names and refuses the record if one is missing. docs/open-questions.md is generated and no glossary/ file may be a basis."
+  },
+  "sense": {
+   "type": "string",
+   "minLength": 1,
+   "description": "Which sense this is, in a few words. Mandatory on BOTH records whenever this record's `term` or an `aka` collides, case-insensitively, with another record's; the two must then name each other in `confusable_with`."
+  },
+  "aka": {
+   "type": "array",
+   "uniqueItems": true,
+   "items": {"type": "string", "minLength": 1},
+   "description": "Other words for the same sense. Each joins the homonym check and the search haystack, so an aka that collides with another record's term needs a `sense` on both, exactly as a colliding term does."
+  },
+  "order": {
+   "type": "integer",
+   "minimum": 0,
+   "description": "Position within the family. Required on a record that `binds`, where it must equal the bound value's index in its schema enum; recommended elsewhere."
+  },
+  "analogy": {
+   "type": "string",
+   "minLength": 1,
+   "description": "One sentence, where one is apt: at most thirty words, no digits."
+  },
+  "more": {
+   "type": "string",
+   "minLength": 1,
+   "description": "A longer paragraph shown only on the term's own page, never in a popover. The same hygiene as the definition."
+  },
+  "binds": {
+   "type": "array",
+   "minItems": 1,
+   "items": {"$ref": "#/$defs/bind"},
+   "description": "Ties this word to a real value of a schema enum, so a screen that shows the value can show its definition. The seven fields that may be bound, their schemas and pointers are a closed table in build/check_glossary.py; a field is bound completely or not at all, and each value by exactly one record."
+  },
+  "confusable_with": {
+   "type": "array",
+   "uniqueItems": true,
+   "items": {"$ref": "#/$defs/id"},
+   "description": "Ids of records a reader could mistake this one for. Symmetric: every id named must exist and must name this record back. Required between records whose strings collide."
+  },
+  "see": {
+   "type": "array",
+   "uniqueItems": true,
+   "items": {"type": "string", "minLength": 3},
+   "description": "Citations in the workbench's grammar (`kind:id`), each checked: `term:<id>` against the glossary itself, `brief:<id>` against briefs/, every other kind through the server's own citation validator."
+  },
+  "surface": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": ["what"],
+   "description": "Only on families `surface` and `section`: what a page head says about the page it heads.",
+   "properties": {
+    "what": {
+     "type": "string",
+     "minLength": 1,
+     "description": "The page head's one line: at most thirty words."
+    },
+    "read": {
+     "type": "array",
+     "minItems": 1,
+     "maxItems": 5,
+     "items": {"type": "string", "minLength": 1},
+     "description": "The folded \"how to read this page\" list: each item at most thirty words."
+    },
+    "try": {
+     "type": "string",
+     "minLength": 3,
+     "description": "One citation shown as a link, checked exactly as a `see` item is."
+    }
+   }
+  },
+  "readers": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["who", "line"],
+    "properties": {
+     "who": {"type": "string", "minLength": 1, "description": "The reader, named as VISION.md names them."},
+     "line": {"type": "string", "minLength": 1, "description": "What changes for that reader: at most forty-five words."}
+    }
+   },
+   "description": "Only on `about-tdl`: who the corpus is for, from VISION.md's own account."
+  },
+  "is_not": {
+   "type": "array",
+   "minItems": 1,
+   "maxItems": 5,
+   "items": {"type": "string", "minLength": 1},
+   "description": "Only on `about-tdl`: what the corpus is not, from VISION.md's own account, each at most thirty words."
+  }
+ },
+ "$defs": {
+  "id": {
+   "type": "string",
+   "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+  },
+  "bind": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": ["field", "schema", "pointer", "value"],
+   "description": "One enum value this record names. `schema` and `pointer` must equal the closed table's row for `field`, the pointer must reach an `enum` in that schema, and `value` must be one of its members.",
+   "properties": {
+    "field": {
+     "enum": ["style.rank", "lineage.type", "kit.binding",
+              "kit.variant_status", "kit.parameter_kind", "pack.kind",
+              "fault.severity"]
+    },
+    "schema": {"type": "string", "pattern": "^schema/[a-z-]+\\.schema\\.json$"},
+    "pointer": {"type": "string", "pattern": "^/"},
+    "value": {"type": "string", "minLength": 1}
+   }
+  }
+ },
+ "allOf": [
+  {"if": {"properties": {"kind": {"const": "sourced"}}, "required": ["kind"]},
+   "then": {"required": ["sources"], "not": {"required": ["basis"]}}},
+  {"if": {"properties": {"kind": {"const": "editorial"}}, "required": ["kind"]},
+   "then": {"required": ["basis"], "not": {"required": ["sources"]}}}
+ ]
+}

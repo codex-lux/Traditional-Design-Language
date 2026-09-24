@@ -1,0 +1,9 @@
+{
+  "id": "judgment-not-applicable",
+  "term": "not applicable",
+  "family": "judgment",
+  "order": 3,
+  "definition": "The rule's own precondition does not hold for this house, so it was not run: a rule about dormers, on a house with none. The question does not arise, which is not a pass, not a failure, and not unjudged.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the description of a test's precondition on the measurements: \"Where it evaluates false the test is NOT RUN -- not passed, not failed, absent from the fault's judgement entirely\" and \"Zero dormers is not an even number of dormers\". mcp_server/core.py check_measurements, in the note it returns: \"the question does not arise, which is neither a pass nor an unjudged.\""
+}

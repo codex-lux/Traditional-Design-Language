@@ -754,7 +754,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,643 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 2,718 tests**
 (plus the workbench app suite, **210** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -791,6 +791,9 @@ and reads "50 of 53 checks passed" after the sheet line's three -- `check_stacki
 merge, against a `len(CHECKS)` of 50
 -- **that last one from `make check`, because as of WP-11.12 CI no longer emits the line at
 all**, and the illustration is now of the unsharded run rather than of the corpus job.
+From 24 Sep 2026 it is "51 of 54 checks passed", after WP-14.1's `check_glossary.py`, against a
+`len(CHECKS)` of 51 -- and that one is the IDENTITY above and not a run: WP-14.1 did not run a
+whole `check_all`, and a whole run on its tree also carries the reds its base already had.
 **AND A SEVENTH AT THE 8 SEP MERGE, WHICH IS THE SAME SHAPE AS THE SIXTH ONE PARAGRAPH DOWN**:
 one line published 50 and the other 53, and the merged tree runs 50 in the loop and 53 in total
 -- so 50 appears in BOTH published figures meaning two different things, which is the one way
