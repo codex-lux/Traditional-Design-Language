@@ -1,0 +1,13 @@
+{
+  "id": "figure-drawn-upright",
+  "term": "drawn upright",
+  "family": "figure",
+  "order": 1,
+  "definition": "Every assembly on the plate rises up the wall plane, bottom to top, as a wall section does. A casing is really measured across its face, from the jamb outward, so its widths appear here as heights; the plate does not turn it.",
+  "kind": "editorial",
+  "basis": "Our wording, read from the pack schema's assemblies field and the classical trim family's casing member notes. schema/proportion-pack.schema.json, assemblies description: \"Each assembly is a stack of members, bottom to top, dimensioned in PARTS of the module.\"; proportions/systems/trim-classical.json assemblies.casing_georgian.members[geo_cas_reveal].note: \"This assembly is measured ACROSS the casing from the jamb outward rather than vertically; height_parts is therefore a width.\"; proportions/systems/trim-classical.json assemblies.casing_federal.members[fed_cas_reveal].note: \"Measured across the casing, as in the Georgian assembly.\".",
+  "see": [
+    "pack:trim-classical",
+    "term:wall-plane"
+  ]
+}

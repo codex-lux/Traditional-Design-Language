@@ -61,6 +61,13 @@ the interface's business, not the word's.
   Editorial is a licence to explain, never a licence to invent. If you cannot find the sentence,
   the definition is not yet supported — say less, or find the record that says it.
 
+**Two hazards the first authors met, both in the basis.** A quotation that carries a corpus
+count goes stale without a sound: `build/check_counts.py --fix` rewrites the figures in `README.md`
+and `docs/`, and the next corpus change then breaks the quotation, not the definition. Quote the
+sentence around the number. And every path the checker finds in a basis becomes the record's
+served `reads` provenance line, whether or not anything was quoted from it, so a basis that names
+a file it did not read tells the reader something false about where the definition came from.
+
 **Homonyms are paired.** One sense per id. When a `term` or an `aka` collides, case-insensitively,
 with another record's, **both** records carry a `sense` (a few words saying which sense) and each
 names the other in `confusable_with`. `confusable_with` is symmetric everywhere it appears, names

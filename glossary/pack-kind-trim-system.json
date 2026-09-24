@@ -1,0 +1,21 @@
+{
+  "id": "pack-kind-trim-system",
+  "term": "trim family",
+  "family": "pack-kind",
+  "order": 4,
+  "definition": "A pack for a room's interior trim — its base, casings, rails and cornice — as one family of profiles meant to be used together, dimensioned from a single module such as the ceiling height or one flat board.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's trim-system kind and the modules its packs name. schema/proportion-pack.schema.json, kind description: \"trim-system: the interior profile family.\"; proportions/systems/trim-classical.json module.name: \"The finished ceiling height of the room, finished floor to finished ceiling - the wall the whole trim family is a division of\"; proportions/systems/trim-craftsman.json module.name: \"One nominal one-by-four of dressed flat stock\"; proportions/systems/trim-classical.json notes: \"they are offered at medium confidence as coherent families\".",
+  "binds": [
+    {
+      "field": "pack.kind",
+      "schema": "schema/proportion-pack.schema.json",
+      "pointer": "/properties/kind",
+      "value": "trim-system"
+    }
+  ],
+  "see": [
+    "pack:trim-classical",
+    "pack:trim-craftsman"
+  ]
+}

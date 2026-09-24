@@ -1,0 +1,25 @@
+{
+  "id": "rank-variant",
+  "term": "variant",
+  "family": "rank",
+  "order": 3,
+  "sense": "the finest rank, where a kit is buildable",
+  "definition": "The finest rank: a regional or period expression of a style, at which a kit is actually buildable. Tidewater Georgian is one; it differs from New England Georgian in cladding, chimney position, roof pitch and plan depth, all of them climatic and quantifiable.",
+  "analogy": "As a regional dialect is to its language: the same words, inflected by one place and one time.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, on the rank: \"variant = regional/period expression at which a kit of parts is actually buildable.\" docs/model.md: \"The variant level is where the operational value lives.\" It gives Tidewater Georgian as the example and says it differs from New England Georgian in \"cladding, chimney position, roof pitch, window head, plan depth, and ceiling height\", and \"all of which are climatic and all of which are quantifiable\".",
+  "binds": [
+    {
+      "field": "style.rank",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/rank",
+      "value": "variant"
+    }
+  ],
+  "confusable_with": [
+    "slot-variant"
+  ],
+  "see": [
+    "style:tidewater-georgian"
+  ]
+}

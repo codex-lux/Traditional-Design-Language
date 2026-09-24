@@ -1,0 +1,19 @@
+{
+  "id": "surface-candidates",
+  "term": "Candidates",
+  "family": "surface",
+  "order": 4,
+  "definition": "The houses the composer proposes for a brief: several contrasting plans, each seeded from a canonical plan diagram, ranked and never called good. Each says what it trades away and what it assumed where the brief was silent.",
+  "kind": "editorial",
+  "basis": "Editorial. docs/compose.md: \"Seed from the canonical partis.\" and \"Rank fatal-free first, then by score.\" README.md: the composer returns candidates \"each with what it trades away and a log of every assumption it made.\" VISION.md: \"Several candidates, never one — and never call a plan good.\" \"The generator returns contrasting options, ranked, each stating\" what it trades away, \"and it declines to endorse any of them.\"",
+  "surface": {
+    "what": "The houses composed from your brief, ranked and never called good.",
+    "read": [
+      "Each candidate starts from a canonical plan diagram, native to the style where one exists.",
+      "A candidate with no fatal error ranks above any that has one; after that, they are ranked by score.",
+      "Each says what it trades away and lists what it assumed where the brief was silent.",
+      "Open one on the bench to work on it."
+    ],
+    "try": "parti:centre-passage-double-pile"
+  }
+}

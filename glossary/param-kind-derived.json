@@ -1,0 +1,20 @@
+{
+  "id": "param-kind-derived",
+  "term": "derived",
+  "family": "param-kind",
+  "order": 1,
+  "definition": "Computed by a proportion pack rather than stated outright: the figure is worked out from the building's own dimensions, and the number shown is its value in a stated reference case. A Georgian cornice height is derived from a Gibbs Ionic entablature.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on a figure's kind: \"derived: computed from a proportion pack.\" On its expression: \"Evaluable by the proportion engine in the bound context.\" On the stored value: \"The value the expression yields in a stated reference context, so the file is readable by a person and not only by an engine.\" kits/georgian-colonial-american.kit.json eave_condition.cornice_height_in.note: \"the cornice member of the Gibbs Ionic entablature, taken at the storey\".",
+  "binds": [
+    {
+      "field": "kit.parameter_kind",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/$defs/parameter/properties/kind",
+      "value": "derived"
+    }
+  ],
+  "see": [
+    "kit:georgian-colonial-american#eave_condition"
+  ]
+}

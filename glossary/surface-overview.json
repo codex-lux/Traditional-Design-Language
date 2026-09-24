@@ -1,0 +1,19 @@
+{
+  "id": "surface-overview",
+  "term": "Front door",
+  "family": "surface",
+  "order": 0,
+  "definition": "The first page: it says what this workbench is and who it is for, and offers the ways in, reading a style whole or taking one house from a brief to its drawings, with the libraries after them.",
+  "kind": "editorial",
+  "basis": "The page is the workbench's own, ruled for Phase 14, and no corpus file describes it; what it shows is described where the basis quotes. What it introduces is VISION.md's: who the corpus is for, under \"Who this is for, and what changes for them\", and the path a house takes, \"A brief goes in one end. A house that belongs comes out the other.\"",
+  "surface": {
+    "what": "What this workbench is, who it is for, and where to begin.",
+    "read": [
+      "Read a style whole: find it, then read its dossier from how to identify it to the evidence behind it.",
+      "Take one house through its steps: brief, candidates, plan, drawings and export.",
+      "The library holds what every style and house draws on: proportion packs, named faults and this glossary.",
+      "If you have no style in mind, the guided example is a place to start."
+    ],
+    "try": "style:tidewater-georgian"
+  }
+}

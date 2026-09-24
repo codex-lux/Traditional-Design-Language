@@ -1,0 +1,25 @@
+{
+  "id": "pack-kind-module-system",
+  "term": "material module",
+  "family": "pack-kind",
+  "order": 1,
+  "definition": "A pack whose module is a unit of construction rather than a column: most often a unit of material — a brick course, a dressed stone, a log, a light of glass — or of framing, like a structural bay or a storey's height.",
+  "more": "Most traditional buildings were never proportioned from an order but from a brick course, a joist span or a pane of glass; these packs encode those systems, which are just as parametric.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's module-system kind and the modules its packs name. schema/proportion-pack.schema.json, kind description: \"module-system: a material module governing dimension.\"; schema/proportion-pack.schema.json, top-level description: \"Non-classical packs use the same machinery with a material module (brick course, timber bay, sash light) in place of a column diameter.\"; proportions/modules/brick-course.json module.name: \"One coursing measure: four brick courses, each course being one brick bed-depth plus one bed joint\"; proportions/modules/stone-course.json module.name: \"One dressed stone: the bed height a banker mason cuts a quoin, jamb or lintel to\"; proportions/modules/log-module.json module.name: \"One wall log: the length of a hewn or round log that two men can carry\"; proportions/modules/sash-light.json module.name: \"One light of glass: the largest single pane the period's glasshouse could reliably supply\"; proportions/modules/timber-bay.json module.name: \"One structural bay: the distance from the centre of one principal cross-frame (bent) to the centre of the next\"; proportions/modules/storey-graduation.json module.name: \"One storey height of the principal floor, measured floor surface to floor surface\"; docs/proportion.md: \"Most traditional buildings were never proportioned from an order; they were proportioned from a brick course, a joist span, or a pane of glass.\"; docs/proportion.md: \"Those systems are just as parametric\".",
+  "binds": [
+    {
+      "field": "pack.kind",
+      "schema": "schema/proportion-pack.schema.json",
+      "pointer": "/properties/kind",
+      "value": "module-system"
+    }
+  ],
+  "confusable_with": [
+    "module"
+  ],
+  "see": [
+    "pack:brick-course",
+    "pack:timber-bay"
+  ]
+}

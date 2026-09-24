@@ -1,0 +1,9 @@
+{
+  "id": "layer-vocabulary",
+  "term": "The vocabulary",
+  "family": "layer",
+  "order": 2,
+  "definition": "The style graph: traditions, families, styles and variants, related by typed edges that tell real descent from claimed ancestry. Choosing a style is choosing which values the shared slots take, which variants are forbidden, and which proportioning systems govern.",
+  "kind": "editorial",
+  "basis": "Editorial, from VISION.md's third layer: \"The style graph: a directed acyclic graph of traditions, families, styles and variants across two and a half millennia, related by typed edges.\", and its thesis: \"Choosing a style is not choosing a look; it is choosing which values the slots take, which variants are forbidden, and which proportional systems govern at what precedence.\" \"Claimed ancestry is not transmitted practice, and only the second one inherits.\""
+}

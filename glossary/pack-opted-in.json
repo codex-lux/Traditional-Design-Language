@@ -1,0 +1,16 @@
+{
+  "id": "pack-opted-in",
+  "term": "opted in",
+  "family": "pack-relation",
+  "order": 1,
+  "definition": "A pack an ancestor of this style binds, which this style's own record asks to receive by name. Some packs reach a style only on request; opting in records that someone read what descent would bring and wanted this one.",
+  "kind": "editorial",
+  "basis": "Our wording of the style record's opt-in list and the pack's opt-in delivery. schema/style-node.schema.json, inherits_packs description: \"Pack ids this node OPTS IN to receiving by descent.\"; schema/style-node.schema.json, inherits_packs description: \"this one records a person reading it and wanting one\"; schema/proportion-pack.schema.json, delivery description: \"`opt-in` means it reaches a node only where the node binds it or names it in its own `inherits_packs`.\"; docs/inheritance.md: \"a pack may declare `delivery: opt-in`, and then it arrives only at a node whose own record names it in `inherits_packs`.\".",
+  "confusable_with": [
+    "pack-delivered"
+  ],
+  "see": [
+    "style:tidewater-georgian",
+    "pack:trim-classical"
+  ]
+}

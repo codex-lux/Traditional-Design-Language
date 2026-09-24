@@ -1,0 +1,20 @@
+{
+  "id": "rank-tradition",
+  "term": "tradition",
+  "family": "rank",
+  "order": 0,
+  "definition": "The broadest rank: a civilizational trunk, such as the Classical Mediterranean, under which families are filed. It names a common root rather than a style anyone builds, and it carries no kit of its own.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, on the rank: \"tradition = civilizational trunk; family = coherent grouping sharing a generative logic;\" and on filing: \"a family's is its tradition. Null only for traditions.\" docs/model.md gives the rank's example: \"Civilizational trunk | Classical Mediterranean\". README.md keeps a kit \"One file per style, variant, *and* family\", and no tradition has one.",
+  "binds": [
+    {
+      "field": "style.rank",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/rank",
+      "value": "tradition"
+    }
+  ],
+  "see": [
+    "style:classical-mediterranean"
+  ]
+}

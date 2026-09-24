@@ -1,0 +1,19 @@
+{
+  "id": "section-members",
+  "term": "Filed under this",
+  "family": "section",
+  "order": 1,
+  "definition": "The entries filed directly inside this one, and, for a tradition or family, every style and variant filed beneath it. Filing is for finding things and passes nothing down; where a style really comes from is in Lineage.",
+  "analogy": "Like the drawer a card is kept in: it tells you where to look, not whose child it is.",
+  "kind": "editorial",
+  "basis": "Editorial. README.md: filing \"is the drawer a node lives in. It exists for browsing and nothing else.\" docs/model.md gives the variant as \"The regional or period expression at which a kit is actually buildable\", and filing \"is a strict single-parent tree. Traditions have\" no parent, and \"It does not carry inheritance.\"",
+  "surface": {
+    "what": "The entries filed inside this one.",
+    "read": [
+      "Filing puts each entry in exactly one drawer, for finding it; it carries no inheritance.",
+      "For a tradition or a family, every style and variant filed beneath it is listed too.",
+      "Where a style really comes from is in its Lineage section."
+    ],
+    "try": "style:american-colonial"
+  }
+}

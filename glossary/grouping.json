@@ -1,0 +1,14 @@
+{
+  "id": "grouping",
+  "term": "grouping",
+  "family": "house",
+  "definition": "A reusable cluster of rooms designed as one — a hall-and-parlor pair, a service core, a primary suite, an entry sequence — with its own adjacency rules, its own servicing, and its own rules for how it lands on a massing.",
+  "kind": "editorial",
+  "basis": "schema/grouping.schema.json: \"Nobody composes a house room by room\", and \"A grouping is a reusable assembly of rooms with its own adjacency rules, its own servicing strategy, and its own rules for how it attaches to a massing.\" VISION.md: groupings \"are the scale people actually design at\", and \"A room is a word, a grouping is a phrase\".",
+  "analogy": "A phrase: rooms are its words, and a plan is composed from phrases rather than word by word.",
+  "see": [
+    "grouping:centre-passage-core",
+    "term:parti",
+    "term:massing"
+  ]
+}

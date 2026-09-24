@@ -1,0 +1,11 @@
+{
+  "id": "rank",
+  "term": "rank",
+  "family": "model",
+  "definition": "Where a node sits in the taxonomy: a tradition, the broadest trunk; a family sharing one generative logic; a style a client would select; or a variant, the regional or period expression at which a kit can actually be built.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, the rank field: \"tradition = civilizational trunk; family = coherent grouping sharing a generative logic; style = the nameable style a client would select\". docs/model.md: \"The regional or period expression at which a kit is actually buildable\".",
+  "see": [
+    "term:taxon"
+  ]
+}

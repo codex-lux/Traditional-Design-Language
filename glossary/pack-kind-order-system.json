@@ -1,0 +1,21 @@
+{
+  "id": "pack-kind-order-system",
+  "term": "classical order",
+  "family": "pack-kind",
+  "order": 0,
+  "definition": "A pack for an order as one authority gives it — the column and the entablature it carries, dimensioned from the column's semidiameter or diameter. The Moorish arch and impost system is filed here too, as a system of support and springing.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's order-system kind, the grammar layer's table of kinds, and the Moorish arch pack's own account of why it is filed as an order. schema/proportion-pack.schema.json, kind description: \"order-system: a classical order.\"; docs/proportion.md: \"the column semidiameter — or, for Palladio, the whole diameter; for the Moorish system, the generating square's side\"; proportions/orders/moorish-arch.json notes: \"kind is `order-system` because this IS the system of support and springing, which is what an order is, and the enum has no arch-system.\".",
+  "binds": [
+    {
+      "field": "pack.kind",
+      "schema": "schema/proportion-pack.schema.json",
+      "pointer": "/properties/kind",
+      "value": "order-system"
+    }
+  ],
+  "see": [
+    "pack:vignola-doric",
+    "pack:moorish-arch"
+  ]
+}

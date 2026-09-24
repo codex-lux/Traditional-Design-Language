@@ -1,0 +1,21 @@
+{
+  "id": "binding-extends",
+  "term": "extends",
+  "family": "binding",
+  "order": 1,
+  "definition": "The style keeps what it inherits for this slot and changes part of it: a figure replaced, or an option added or removed, while the rest of the inherited slot stays as it was.",
+  "more": "It is the commonest way a variant is written. A variant usually refines only a few slots of its style, and extending them says only what is different.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on the binding: \"MERGE into the inherited value rather than replacing it\" and \"This is the fix for the commonest authoring case, where a child wants to change one number in a slot whose other fields remain true.\" build/resolve_kit.py: \"`extends` records a delta and the walk CONTINUES to find the base it merges into;\" and \"parameters merge by key; a child key replaces the inherited one outright\". docs/inheritance.md: \"since a variant usually only refines a few slots\".",
+  "binds": [
+    {
+      "field": "kit.binding",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/properties/slots/additionalProperties/properties/binding",
+      "value": "extends"
+    }
+  ],
+  "see": [
+    "kit:tidewater-georgian#chimney"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "pack-kind-facade-system",
+  "term": "facade system",
+  "family": "pack-kind",
+  "order": 2,
+  "definition": "A pack that composes a whole front: the rhythm of its bays, how its storeys graduate in height, and the balance of solid wall to opening.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's facade-system kind. schema/proportion-pack.schema.json, kind description: \"facade-system: bay rhythm, storey graduation, solid-to-void.\"; proportions/systems/facade-classical.json module.name: \"One bay: the centre-to-centre spacing of the vertical rank of openings on the principal elevation\".",
+  "binds": [
+    {
+      "field": "pack.kind",
+      "schema": "schema/proportion-pack.schema.json",
+      "pointer": "/properties/kind",
+      "value": "facade-system"
+    }
+  ],
+  "see": [
+    "pack:facade-classical"
+  ]
+}

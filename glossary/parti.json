@@ -1,0 +1,15 @@
+{
+  "id": "parti",
+  "term": "parti",
+  "family": "house",
+  "definition": "A canonical plan diagram a house is seeded from: which rooms, which walls face outside, and what connects to what — and nothing else. Sizes come from the room records, scaled to the brief. Each descends from something actually built.",
+  "kind": "editorial",
+  "basis": "schema/parti.schema.json: \"A canonical plan diagram, used as a seed.\" It specifies topology and roles and nothing else; \"Dimensions come from the room catalogue and are scaled to the brief\", and \"Every parti here is descended from something that was actually built\". VISION.md: \"a grouping is a phrase, a parti is a sentence pattern, a plan is a sentence.\"",
+  "analogy": "A sentence pattern: a room is a word, a grouping a phrase, and a plan the finished sentence.",
+  "more": "Each parti says what it trades away, because every diagram gives something up, and how it grows: most by widening rooms, some only by adding a link.",
+  "see": [
+    "parti:centre-passage-double-pile",
+    "term:grouping",
+    "term:massing"
+  ]
+}

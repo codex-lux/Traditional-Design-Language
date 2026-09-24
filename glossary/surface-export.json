@@ -1,0 +1,19 @@
+{
+  "id": "surface-export",
+  "term": "Export",
+  "family": "surface",
+  "order": 8,
+  "definition": "Where the work leaves the workbench: the plan record itself, its drawings as vector images, and layered CAD drawings and a building model, made from the same record, that a drafter or a modelling tool can open.",
+  "kind": "editorial",
+  "basis": "Editorial. The plan record, the brief and the check report download from the page itself. docs/export.md: \"The IR leaves the system in the two formats a drafter and a BIM tool actually open.\", and both \"are generated from the same records the SVG renderers draw from\". VISION.md: \"An intermediate representation that cannot leave in a format a drafter opens is an unfulfilled promise.\"",
+  "surface": {
+    "what": "Take the house out: its record, its drawings, and files a drafter or a modelling tool can open.",
+    "read": [
+      "The plan record, the brief and the latest check report download as files.",
+      "Each drawing downloads as a vector image.",
+      "CAD drawings come one file per sheet with the record riding on the drawing, and the building model carries the corpus's own identifiers.",
+      "Downloads are blocked, with the reason, while the placement is refused or is only a working sketch."
+    ],
+    "try": "term:plan-record"
+  }
+}

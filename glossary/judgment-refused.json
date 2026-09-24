@@ -1,0 +1,18 @@
+{
+  "id": "judgment-refused",
+  "term": "refused",
+  "family": "judgment",
+  "definition": "A placement that breaks a hard fact of its house type — a declared stack, bearing continuity, a stated hearth, floor inside no room — or whose facts cannot all hold. No sheet or export draws it; the brief or the parti must change.",
+  "kind": "editorial",
+  "basis": "build/typefacts.py, the refusal to draw: \"a placement that breaks a hard fact of the type is REFUSED, not\" drawn, and \"the bench shows the conflict set; the brief or the parti is what changes\". Its fact titles name \"a declared stack over the room it names\" and \"a stated fire on a wall its massing puts a flue on\"; bearing refuses on continuity alone (\"THE STATUS IS CONTINUITY'S ALONE\"); a proven infeasibility refuses because \"the prover showed the declared facts cannot all hold\". build/export_dxf.py: a CAD file \"is refused here exactly as the sheet is\".",
+  "sense": "a placement the corpus will not draw",
+  "order": 5,
+  "more": "A fact that could not be judged never refuses: only a fact measured and found not to hold, or a proven conflict, does. The refused placement stays on the record, because it is the conflict's own explanation; no surface a person reads draws it.",
+  "confusable_with": [
+    "exception-refused"
+  ],
+  "see": [
+    "term:judgment-failed",
+    "term:judgment-unjudged"
+  ]
+}

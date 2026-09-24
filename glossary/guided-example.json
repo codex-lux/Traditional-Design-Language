@@ -1,0 +1,13 @@
+{
+  "id": "guided-example",
+  "term": "the guided example",
+  "family": "product",
+  "order": 1,
+  "definition": "Tidewater Georgian, offered as the place to begin: a variant of Georgian Colonial American, the first style the corpus filled end to end, read whole in its dossier, with an example brief to compose a house from.",
+  "kind": "editorial",
+  "basis": "Editorial. Which style is offered as the guided example is the workbench's own choice for Phase 14, and no corpus file names one; what the style is, is the corpus's. README.md: \"Georgian Colonial is filled end to end\" as its depth-first proof, and \"Tidewater Georgian is then written as a\" short override of it, \"each resolving the rest from the parent\". The example brief is briefs/family-georgian.json, the one docs/compose.md runs first.",
+  "see": [
+    "style:tidewater-georgian",
+    "brief:family-georgian"
+  ]
+}

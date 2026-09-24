@@ -1,0 +1,23 @@
+{
+  "id": "surface-faults",
+  "term": "Faults",
+  "family": "surface",
+  "order": 10,
+  "sense": "the library of every named error",
+  "definition": "The library of named errors: things that break no written rule and still read as wrong to someone fluent. Each hangs off an element rather than a style, names the styles that are exceptions, and gives a right, a cheap and a dishonest fix.",
+  "kind": "editorial",
+  "basis": "Editorial. VISION.md: \"A solecism is an error that breaks no written rule.\" \"Anyone fluent sees it instantly.\" \"Errors hang off elements, not styles.\" \"Style enters as an exception, and the exceptions matter as much as the rules.\" \"Every error carries three tiers of fix — the right one, the cheap one, and the dishonest one — named that plainly.\"",
+  "confusable_with": [
+    "section-faults"
+  ],
+  "surface": {
+    "what": "Every named error: what it looks like, why it happens, and how to fix it.",
+    "read": [
+      "Severity says how bad the error is: fatal, serious or minor.",
+      "An error hangs off an element; a style enters only as an exception, which it may or may not earn.",
+      "Each error gives three fixes: the right one, the cheap one and the dishonest one.",
+      "Narrow the list by severity, by what drives the error, or by a style to see its verdicts."
+    ],
+    "try": "fault:porch-too-shallow-to-inhabit"
+  }
+}

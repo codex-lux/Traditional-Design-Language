@@ -1,0 +1,15 @@
+{
+  "id": "cascade",
+  "term": "cascade",
+  "family": "model",
+  "definition": "How a style inherits its kit: a slot it does not fix or forbid itself is taken from the nearest ancestor that does, walking back through the styles it descends from and their families. Claimed, rejected or revived ancestry passes nothing down.",
+  "kind": "editorial",
+  "basis": "docs/inheritance.md: \"This makes style inheritance work like a cascade. A child style inherits its parent's bindings and overrides selectively.\" The chain is \"walked highest-weight-first, deduplicated, nearest ancestor first\", with \"each style-rank ancestor's own family\" spliced in. docs/model.md marks references, reacts_against and revives as not carrying the kit cascade, and explains why: \"A revival style is not its model.\" Were the references edge to carry it, a Colonial Revival house would inherit \"hand-planed muntins, true divided lites, plaster on riven lath\"; descends_from is \"Actual transmission of building practice\".",
+  "analogy": "Like a town that adopts a model building code and writes down only its own amendments.",
+  "more": "Only lineage that actually passed building practice down carries the kit. A revival that merely quotes an older style inherits none of its construction: Colonial Revival takes no hand-planed muntins from the Georgian it references.",
+  "see": [
+    "kit:tidewater-georgian",
+    "term:cascade-source",
+    "term:thin-kit"
+  ]
+}

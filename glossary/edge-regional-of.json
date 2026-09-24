@@ -1,0 +1,20 @@
+{
+  "id": "edge-regional-of",
+  "term": "regional of",
+  "family": "edge",
+  "order": 4,
+  "definition": "A variant's relation to its parent style: the same style as built in one region or period. It carries the parent's kit, which the variant usually refines in a few slots rather than restating.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json: \"regional_of = a variant's relation to its parent style.\" and, on the kit flag: \"Only descends_from / regional_of edges should normally set this.\" docs/model.md: \"A variant to its parent style | Yes\" under the column for carrying the kit cascade. docs/inheritance.md: \"since a variant usually only refines a few slots\".",
+  "binds": [
+    {
+      "field": "lineage.type",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/lineage/items/properties/type",
+      "value": "regional_of"
+    }
+  ],
+  "see": [
+    "style:tidewater-georgian"
+  ]
+}

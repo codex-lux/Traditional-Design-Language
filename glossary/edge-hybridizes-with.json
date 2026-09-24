@@ -1,0 +1,23 @@
+{
+  "id": "edge-hybridizes-with",
+  "term": "hybridizes with",
+  "family": "edge",
+  "order": 3,
+  "definition": "A co-parent of comparable weight: two traditions genuinely met and the style blends both. Where the kit genuinely blends, the edge carries the co-parent's kit, sometimes only the slots the meeting was about; where it does not, it carries nothing.",
+  "analogy": "Like a creole language, formed where two languages met and drawing on both.",
+  "more": "Monterey Colonial is the worked case: its adobe wall, lime plaster and shaded exterior circulation are the Hispanic half of its parentage, and its braced-frame carpentry, milled architrave trim, sash and interior stair are the Anglo half, brought by New England shipmasters and carpenters.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json: \"hybridizes_with = reticulation, a co-parent of equal weight.\" docs/model.md: \"Reticulation; a co-parent of comparable weight | Where the kit genuinely blends\". docs/inheritance.md, on scoping: the meeting is usually about one thing, \"a porch treatment, a roof form, a decorative vocabulary\". styles/monterey-colonial.json lineage[hybridizes_with].note: \"the adobe wall, the lime plaster and the shaded exterior circulation are the Hispanic half of the parentage\"; and its third edge: \"braced-frame carpentry, a wood-shingled hip roof, milled architrave trim\" and \"all brought by New England shipmasters and carpenters\".",
+  "binds": [
+    {
+      "field": "lineage.type",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/lineage/items/properties/type",
+      "value": "hybridizes_with"
+    }
+  ],
+  "see": [
+    "style:monterey-colonial",
+    "style:octagon-house"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "surface-proportions",
+  "term": "Proportions",
+  "family": "surface",
+  "order": 9,
+  "sense": "the library of every proportion pack",
+  "definition": "The library of proportion packs: each a system of rules that, given a module and a building's context, sets out an assembly member by member. Classical orders are among them, and so are the brick, timber and sash systems most houses were proportioned from.",
+  "kind": "editorial",
+  "basis": "Editorial. README.md describes the packs this page lists: \"give one a module and a context and it emits a fully dimensioned assembly, member by member, with profiles.\" and \"Brick course, timber bay, sash light, storey graduation and log are the non-classical equivalents\". docs/proportion.md: \"Most traditional buildings were never proportioned from an order; they were proportioned from a brick course, a joist span, or a pane of glass.\"",
+  "confusable_with": [
+    "section-proportions"
+  ],
+  "surface": {
+    "what": "Every proportion pack: the rules that set out an assembly, member by member, from a module.",
+    "read": [
+      "A pack is a function: give it a module and it gives every member's dimension.",
+      "Classical orders are one kind; others proportion from a brick, a timber bay, a pane of glass or the room.",
+      "Each pack names the styles that use it and where it conflicts with building today.",
+      "Each pack is drawn, member by member, from its own figures."
+    ],
+    "try": "pack:trim-classical"
+  }
+}

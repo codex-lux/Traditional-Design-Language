@@ -1,0 +1,13 @@
+{
+  "id": "pack-own",
+  "term": "bound by this style",
+  "family": "pack-relation",
+  "order": 0,
+  "definition": "A pack this style binds in its own record, naming the layer of the building it governs — an order for the classical apparatus, a module system for the envelope, a trim system for the interior.",
+  "kind": "editorial",
+  "basis": "Our wording of the style record's proportion packs field. schema/style-node.schema.json, proportion_packs description: \"The grammar this style is written in. Element slots supply the alphabet; a proportion pack supplies the rules that dimension them.\"; schema/style-node.schema.json, proportion_packs role description: \"Which layer of the building this pack governs. A style normally binds several: an order for the classical apparatus, a module system for the envelope, a trim system for the interior.\".",
+  "see": [
+    "style:tidewater-georgian",
+    "pack:brick-course"
+  ]
+}

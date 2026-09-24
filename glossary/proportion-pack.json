@@ -1,0 +1,17 @@
+{
+  "id": "proportion-pack",
+  "term": "proportion pack",
+  "family": "proportion",
+  "order": 0,
+  "aka": [
+    "pack"
+  ],
+  "definition": "A proportioning system written as a working calculation: from one module — a column's semidiameter, a brick course, a room's ceiling height — it derives every dimension it governs, and gives the rules that carry its proportions into the rest of the house.",
+  "analogy": "If the element slots are a style's alphabet, a pack is its grammar: the rules that say how large each element must be.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema and the grammar layer's own account. schema/proportion-pack.schema.json, top-level description: \"An EXECUTABLE proportioning system. Not a description of proportion — a function. Given a module and a context, a pack emits a fully dimensioned assembly.\"; schema/proportion-pack.schema.json, module.name description: \"What one module IS: 'semidiameter of the column at its base', 'one brick course including joint', 'one structural bay'.\"; proportions/systems/trim-classical.json module.name: \"The finished ceiling height of the room, finished floor to finished ceiling - the wall the whole trim family is a division of\"; docs/proportion.md: \"is the bridge from an order to the kit of parts: the crown as a reduced entablature, the chair rail at the pedestal cap\"; docs/proportion.md: \"Element slots give a style its alphabet. A proportion pack gives it syntax. A style with no pack bound has a vocabulary and no grammar\".",
+  "see": [
+    "pack:trim-classical",
+    "pack:vignola-doric"
+  ]
+}

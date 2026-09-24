@@ -1,0 +1,21 @@
+{
+  "id": "binding-open",
+  "term": "open",
+  "family": "binding",
+  "order": 2,
+  "definition": "The style says nothing of its own about this slot, so the slot takes whatever its ancestors specify. If no ancestor specifies it, the slot is a free choice.",
+  "more": "Open is not blank. An open slot is resolved through the style's ancestors, nearest first, and the kit's source column names the ancestor each value came from.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on the binding: \"open: unspecified, cascades.\" docs/inheritance.md: \"Unspecified. The default. Cascades; if nothing upstream specifies it, the slot is a free choice.\" build/resolve_kit.py: \"`open` is transparent; with no stop found, the slot is open and unresolved\", \"walk the chain nearest first;\" and \"`specified` or `forbidden` stops the walk and supplies the value;\" VISION.md: the kit carries a \"source column showing which ancestor each value came from\".",
+  "binds": [
+    {
+      "field": "kit.binding",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/properties/slots/additionalProperties/properties/binding",
+      "value": "open"
+    }
+  ],
+  "see": [
+    "kit:tidewater-georgian#cornice_return"
+  ]
+}

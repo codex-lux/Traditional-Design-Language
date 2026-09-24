@@ -1,0 +1,9 @@
+{
+  "id": "layer-generator",
+  "term": "The generator",
+  "family": "layer",
+  "order": 7,
+  "definition": "The composer and the geometry solver: from a brief they seed several contrasting plans from canonical diagrams, place and dimension them on the structural grid, and return them ranked, each saying what it trades away, none called good.",
+  "kind": "editorial",
+  "basis": "Editorial, from VISION.md's eighth layer: \"The composer and the geometry solver.\" Its pipeline returns \"several contrasting candidates, each with what it trades away;\" and places them \"on the structural bay grid\", and its commitment is \"Several candidates, never one — and never call a plan good.\" docs/compose.md: \"Seed from the canonical partis.\""
+}

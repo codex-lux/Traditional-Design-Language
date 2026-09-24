@@ -1,0 +1,11 @@
+{
+  "id": "slot-group",
+  "term": "slot group",
+  "family": "model",
+  "definition": "One of the headings the slots are filed under, such as massing and roof, openings, interior language, plan logic, or site and settlement. The headings are the same for every style, because the slots are.",
+  "kind": "editorial",
+  "basis": "elements/slots.json files every slot under a group: Massing & Roof, Envelope & Wall, Openings, Classical Apparatus, Porch & Threshold, Interior Language, Plan Logic, Site & Settlement. docs/inheritance.md, the core move: the slots \"are the same 95 for every style in the taxonomy\", and its slot groups table sets out the headings.",
+  "see": [
+    "term:slot"
+  ]
+}

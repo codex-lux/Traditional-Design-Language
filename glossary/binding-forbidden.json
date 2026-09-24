@@ -1,0 +1,25 @@
+{
+  "id": "binding-forbidden",
+  "term": "forbidden",
+  "family": "binding",
+  "order": 3,
+  "sense": "a slot the style prohibits outright",
+  "definition": "The style prohibits this element outright: no option of it may appear, and nothing an ancestor says about it reaches the style. A Prairie house forbids most of the classical apparatus; a Creole cottage forbids a centred entry door.",
+  "more": "Forbidding a slot refuses the element itself. Forbidding one option of a slot is a narrower statement: the element stays, and only that way of making it is ruled out.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on the binding: \"forbidden: prohibited outright, stops the cascade.\" and, on a variant's status: \"forbidden: wrong, and the note should say why.\" docs/inheritance.md: \"Prairie forbids most classical apparatus; a Creole cottage forbids a centred entry door.\" kits/prairie-school.kit.json cornice.rule: \"No projecting classical cornice occurs\".",
+  "binds": [
+    {
+      "field": "kit.binding",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/properties/slots/additionalProperties/properties/binding",
+      "value": "forbidden"
+    }
+  ],
+  "confusable_with": [
+    "variant-status-forbidden"
+  ],
+  "see": [
+    "kit:prairie-school#cornice"
+  ]
+}

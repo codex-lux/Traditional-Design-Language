@@ -1,0 +1,13 @@
+{
+  "id": "massing",
+  "term": "massing",
+  "family": "house",
+  "definition": "The volumetric skeleton of a house type — its footprint, storeys, bays, roof and how it grows without breaking. It is independent of style: a foursquare can be dressed Craftsman, Colonial Revival or Prairie.",
+  "kind": "editorial",
+  "basis": "schema/massing.schema.json: \"A style-independent volumetric skeleton.\" and \"an American Foursquare massing can be dressed Craftsman, Colonial Revival, or Prairie\"; its fields carry the footprint, stories, bays and default roof, and its expansion logic is \"How the type grows without breaking.\" VISION.md: massings are among the \"Three catalogues that every style draws from and none owns.\"",
+  "see": [
+    "massing:foursquare",
+    "massing:four-over-four",
+    "term:parti"
+  ]
+}

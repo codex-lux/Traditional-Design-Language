@@ -1,0 +1,15 @@
+{
+  "id": "exception",
+  "term": "exception",
+  "family": "fault",
+  "definition": "A style's licence to do what is a fault everywhere else: a five-foot Georgian portico is wrong by Craftsman rules and right by its own. Stated bounds keep it from becoming a loophole; stated conditions say which houses earn it.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json: exceptions are \"the cases where a style legitimately does the thing that is a fault everywhere else. A Georgian entry portico is five feet deep, which is a fault by Craftsman rules and correct by its own.\" Its bounds are \"How far the licence extends, so an exception does not become a loophole.\" and its condition, because \"An exception often depends on construction or region, not only on style\". mcp_server/core.py runs both the licence's own test and the general rule where \"nobody can say which of the two rules governs\", and withholds the verdict only where they disagree.",
+  "order": 1,
+  "more": "Where an exception states its own test and its condition cannot be settled for this house, both that test and the general rule are run, and the verdict is withheld only where the two disagree.",
+  "see": [
+    "fault:porch-too-shallow-to-inhabit",
+    "term:exception-granted",
+    "term:exception-refused"
+  ]
+}

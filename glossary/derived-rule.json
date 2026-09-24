@@ -1,0 +1,19 @@
+{
+  "id": "derived-rule",
+  "term": "derived rule",
+  "family": "proportion",
+  "order": 6,
+  "aka": [
+    "rule"
+  ],
+  "definition": "A pack's formula for one dimension of the house — the crown as a reduced entablature, the chair rail at the pedestal cap, the casing at a sixth of the opening's width. Where the sources do not settle a figure, the rule says so.",
+  "more": "A rule reads the module and the measures of the building it is worked for — ceiling height, door width, storey height. It may also say it was calibrated for certain rooms, that it applies only to one kind of wall, or that it is designed to fail informatively when two dimensions of a room cannot both be classical.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's derived rules and the grammar layer's account of judgment, calibration, scope and diagnostic rules. schema/proportion-pack.schema.json, derived_rules description: \"The bridge from the order to the kit of parts. This is how a proportioning system governs trim, wainscot, and opening proportion\"; schema/proportion-pack.schema.json, derived_rules expression description: \"Formula in named variables the engine binds: module, part, ceiling_height, opening_width, storey_height, column_height.\"; docs/proportion.md: \"is the bridge from an order to the kit of parts: the crown as a reduced entablature, the chair rail at the pedestal cap, the casing at a sixth of the opening width.\"; docs/proportion.md: \"Where the sources genuinely do not determine an answer, a rule carries `judgment: true` and defers.\"; docs/proportion.md: \"the numeric bindings a rule was calibrated for\"; docs/proportion.md: \"the construction, or the resolved slot variant, a rule is stated for\"; docs/proportion.md: \"A rule can also be marked `diagnostic`, meaning it is designed to fail informatively.\"; docs/proportion.md: \"the storey height and the window proportion cannot both be classical in this room\".",
+  "confusable_with": [
+    "invariant"
+  ],
+  "see": [
+    "pack:trim-classical"
+  ]
+}

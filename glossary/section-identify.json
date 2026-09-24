@@ -1,0 +1,19 @@
+{
+  "id": "section-identify",
+  "term": "Identify",
+  "family": "section",
+  "order": 0,
+  "definition": "The first section of a style's dossier: what the style is, the quick tells that set it apart from its nearest neighbours, the styles it is most often confused with, and a summary of each other section.",
+  "kind": "editorial",
+  "basis": "Editorial. README.md lists what a style record carries: \"a description written to be read by a person, defining characteristics, diagnostic tells, disambiguation against its nearest neighbours\". schema/style-node.schema.json: the tells are \"Fast field-identification cues that distinguish it from its nearest siblings.\" and the distinctions \"Explicit disambiguation against commonly-confused neighbours.\"",
+  "surface": {
+    "what": "How to recognise this style, and a summary of each section below.",
+    "read": [
+      "The description says what the style is in plain words.",
+      "The tells are quick field cues that tell it from its nearest neighbours.",
+      "The styles it is most often confused with are listed, each a link.",
+      "Each summary card counts what its section holds; a section with nothing in it is left out."
+    ],
+    "try": "style:tidewater-georgian"
+  }
+}

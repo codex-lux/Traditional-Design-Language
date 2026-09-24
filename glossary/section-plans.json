@@ -1,0 +1,23 @@
+{
+  "id": "section-plans",
+  "term": "Plan types",
+  "family": "section",
+  "order": 5,
+  "definition": "The house types this style is built as: the volumes it is built in and how strongly it favours or refuses each, the plan diagrams native to it, and the room groupings that carry a note about it. A list to read, not a plan.",
+  "kind": "editorial",
+  "basis": "Editorial. README.md: massing is joined to styles \"through `massing_affinities` with an explicit strength\", because \"An American Foursquare can be dressed Craftsman, Colonial Revival, Prairie, or Mission with no change to the volume.\" VISION.md: \"Groupings, and the canonical plan diagrams that give a composer somewhere to start.\"",
+  "confusable_with": [
+    "surface-workbench",
+    "plan-record"
+  ],
+  "surface": {
+    "what": "The house types this style is built as: its volumes, its plan diagrams and its room groupings.",
+    "read": [
+      "Massing is not style: one volume can be dressed in several styles, so each volume shows how strongly this style favours it.",
+      "The plan diagrams are those native to this style, from which the composer starts.",
+      "The groupings listed are those that carry a note about this style.",
+      "This is a list to read; a plan is made on the house journey, starting from a brief."
+    ],
+    "try": "parti:centre-passage-double-pile"
+  }
+}

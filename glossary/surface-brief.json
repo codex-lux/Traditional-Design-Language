@@ -1,0 +1,19 @@
+{
+  "id": "surface-brief",
+  "term": "Brief",
+  "family": "surface",
+  "order": 3,
+  "definition": "Where a house begins: the style, the floor area, and whatever else you choose to state about rooms, site and household. Anything the brief leaves out is decided by the composer and reported as a decision, never as a fact.",
+  "kind": "editorial",
+  "basis": "Editorial. The step is the workbench's own; the brief is schema/brief.schema.json, whose two required fields are the style and the target area: \"What a client asks for. Deliberately short\", and \"Anything absent is decided by the composer and reported as a decision, not smuggled in as a fact.\" docs/compose.md: \"A brief asking for a garage against a parti with none is reported, not satisfied.\"",
+  "surface": {
+    "what": "State what the house must be: its style and floor area first, then anything else you know.",
+    "read": [
+      "Only the style and the target area are required.",
+      "A room you must have is never quietly left out: where a plan diagram has no place for it, the candidate says so.",
+      "Whatever the brief leaves out, the composer decides and reports as a decision.",
+      "An example brief can be loaded to start from."
+    ],
+    "try": "brief:family-georgian"
+  }
+}

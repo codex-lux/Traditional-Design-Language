@@ -1,0 +1,20 @@
+{
+  "id": "variant-status-canonical",
+  "term": "canonical",
+  "family": "variant-status",
+  "order": 0,
+  "definition": "The option this style reaches for by default for this slot. A slot may have more than one: a Georgian roof is canonically a side gable or a hip.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on a variant's status: \"canonical: the default a generator should reach for.\" kits/georgian-colonial-american.kit.json marks both side-gable and hip canonical under roof_form, whose rule reads \"The roof is one simple solid about one ridge, of equal pitch on all slopes\".",
+  "binds": [
+    {
+      "field": "kit.variant_status",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/properties/slots/additionalProperties/properties/variants/items/properties/status",
+      "value": "canonical"
+    }
+  ],
+  "see": [
+    "kit:georgian-colonial-american#roof_form"
+  ]
+}

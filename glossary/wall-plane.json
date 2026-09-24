@@ -1,0 +1,12 @@
+{
+  "id": "wall-plane",
+  "term": "wall plane",
+  "family": "proportion",
+  "order": 10,
+  "definition": "The flat face of the finished wall that trim is fixed to. Each trim member's projection is measured out from this plane, and trim is only as good as the plane it lands on.",
+  "kind": "editorial",
+  "basis": "Our wording, read from the classical trim family's casing member notes, its backband rule and its construction-tolerance conflict. proportions/systems/trim-classical.json assemblies.casing_georgian.members[geo_cas_backband_ogee].note: \"3/4 in wide and 1 1/8 in proud of the wall.\"; proportions/systems/trim-classical.json derived_rules[5].note: \"BACKBAND PROJECTION FROM THE WALL.\"; proportions/systems/trim-classical.json assemblies.wall_section_georgian.members[geo_base_plinth].note: \"6 7/8 in of square board, 7/8 in thick.\"; proportions/systems/trim-classical.json conflicts[4].statement: \"The system assumes a plaster wall on lath, which is set to a straightedge\"; proportions/systems/trim-classical.json conflicts[4].resolution: \"because the trim is only as good as the plane it lands on and no carpenter can fix it afterwards\".",
+  "see": [
+    "pack:trim-classical"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "slot",
+  "term": "slot",
+  "family": "model",
+  "definition": "One element of a house in the universal set every style draws from — a roof pitch, a cornice, a window head, the entry sequence. No style owns a slot: a style does not have a cornice, it specifies one.",
+  "kind": "editorial",
+  "basis": "VISION.md, elements are the alphabet: \"A universal set of element slots that every style draws from and none owns.\" and \"The test of the ontology is that adding a style should never require adding a slot\". docs/inheritance.md: \"Georgian does not own a cornice — it specifies one.\" elements/slots.json lists roof_pitch, cornice, window_head_masonry and entry_sequence among its slots.",
+  "aka": [
+    "element slot"
+  ],
+  "analogy": "A letter of the alphabet every style writes with; adding a style should never need a new letter.",
+  "see": [
+    "slot:cornice",
+    "slot:roof_pitch",
+    "term:slot-group"
+  ]
+}

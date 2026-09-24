@@ -1,0 +1,20 @@
+{
+  "id": "pack-kind-room-system",
+  "term": "room system",
+  "family": "pack-kind",
+  "order": 3,
+  "definition": "A pack of a room's own ratios in plan and section, taking the room's breadth — its short side — as the module from which its length and height are proportioned.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's room-system kind and the modules its two packs name. schema/proportion-pack.schema.json, kind description: \"room-system: plan and section ratios.\"; proportions/systems/room-harmonic.json module.name: \"The short dimension of the room in plan - its breadth - from which the length and then the height are both generated\"; proportions/systems/room-vernacular.json module.name: \"The short dimension of the room as built: one clear joist span from bearing wall to bearing wall\".",
+  "binds": [
+    {
+      "field": "pack.kind",
+      "schema": "schema/proportion-pack.schema.json",
+      "pointer": "/properties/kind",
+      "value": "room-system"
+    }
+  ],
+  "see": [
+    "pack:room-harmonic"
+  ]
+}

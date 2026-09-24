@@ -1,0 +1,14 @@
+{
+  "id": "carries-named-slots",
+  "term": "carries named slots only",
+  "family": "carry",
+  "order": 1,
+  "definition": "The edge hands down only the slots it lists, and nothing else of the ancestor's kit. It is drawn where two traditions met over one aspect, such as a porch treatment, a roof form or a decorative vocabulary.",
+  "more": "Scoping stops a wrong donor; it does not supply a right one. A slot the edge no longer carries falls through to the next ancestor, and what the style genuinely is must still be authored in its own kit. The octagon house takes its Italianate dress this way and not the Italianate roof, because its roof follows its eight-sided plan.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, on an edge's slot list: \"Slot ids this edge transmits, when it transmits only some.\" docs/inheritance.md: \"When it does, that edge transmits those slots and nothing else.\", the meeting being about \"a porch treatment, a roof form, a decorative vocabulary\", and \"scoping stops a wrong donor, it does not supply a right one.\" styles/octagon-house.json lineage[hybridizes_with].note: \"The octagon is a plan thesis wearing Italianate clothes; the clothes are what the edge transmits.\" and \"its roof is eight hips meeting at a point because its plan is eight-sided\".",
+  "see": [
+    "style:octagon-house",
+    "style:monterey-colonial"
+  ]
+}
