@@ -4614,11 +4614,13 @@ sources, unverified editorial text, half-keyed enum families and unpaired homony
 verbatim in a corpus bibliography, an editorial basis quoting its file verbatim); `glossary/README.md`
 and five seed records (`about-tdl` and the four judgment states); `build/check_glossary.py` (exit 3
 when it cannot evaluate); `build/check_openings.py::check_basis` parametrised with `rec_re=`, its
-five existing callers byte-identical; `build/check_all.py` (`TOTAL_CHECKS` 53 → 54); CLAUDE.md's
-check count; `tests/test_check_glossary.py` (twelve mutations). **Verification:** the checker exits
-0 on the real set and 3 with `jsonschema` blocked; the stdout of `check_openings.py`,
-`check_windows.py`, `check_furniture.py`, `check_moves.py` and `check_critic_suspects.py` is
-identical before and after; `test_counts_guard.py` and `test_check_all_shards.py` pass.
+seven existing callers byte-identical (the plan said five; the contracts found seven -- see the
+PRD's §0.1); `build/check_all.py` (`TOTAL_CHECKS` 53 → 54); CLAUDE.md's check count and its largest
+quoted "N of M checks passed"; `tests/test_check_glossary.py` (twelve mutations). **Verification:** the
+checker exits 0 on the real set and 3 with `jsonschema` blocked; the stdout of `check_openings.py`,
+`check_windows.py`, `check_furniture.py`, `check_threshold.py`, `check_moves.py`,
+`check_critic_suspects.py` and `arrangement.py selftest` is identical before and after;
+`test_counts_guard.py` and `test_check_all_shards.py` pass.
 **Depends on:** WP-14.0. **Size:** M.
 
 ### WP-14.2 — Glossary: the tranche-1 records
