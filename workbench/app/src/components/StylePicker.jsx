@@ -71,8 +71,7 @@ export function StylePicker({ value, onChange, label = 'Style', allowNone, noneL
         onChange={(e) => { setQ(e.target.value); setOpen(true); }}
         onKeyDown={onKeyDown}
         style={{ width, font: 'var(--type-data)', color: 'var(--ink-2)', padding: '2px 7px',
-          background: 'var(--paper-mat)', border: '1px solid ' + (open ? 'var(--gilt-deep)' : 'var(--rule)'),
-          outline: 'none' }} />
+          background: 'var(--paper-mat)', border: '1px solid ' + (open ? 'var(--gilt-deep)' : 'var(--rule)') }} />
 
       {open && (
         <div id="stylepicker-list" role="listbox" aria-label={label}

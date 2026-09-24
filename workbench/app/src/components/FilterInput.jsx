@@ -54,7 +54,7 @@ export function FilterInput({ value, onChange, label, placeholder, width = 190, 
         }}
         placeholder={placeholder || 'filter'}
         style={{ width, font: 'var(--type-data)', color: 'var(--ink)', padding: '2px 7px',
-          background: 'var(--paper-mat)', border: '1px solid var(--rule)', outline: 'none' }} />
+          background: 'var(--paper-mat)', border: '1px solid var(--rule)' }} />
       {!draft && (
         <span aria-hidden="true" style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
           color: 'var(--ink-4)' }}>/</span>

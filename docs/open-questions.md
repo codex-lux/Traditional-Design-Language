@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**219 questions, of which 124 are open.** A question is OPEN while
+**220 questions, of which 125 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 124
+## Open — 125
 
 Awaiting a ruling. This is the list to read first.
 
@@ -72,6 +72,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-finding-citation-cannot-name-a-finding** | OPEN | [1,608 of 1,620 finding ids are unciteable by the grammar that has a `finding` kind for them](open-questions/oq-a-finding-citation-cannot-name-a-finding.md) |
 | **oq/a-findings-ordinal-is-not-an-identity** | OPEN | [a finding's id moves when an unrelated sibling clears](open-questions/oq-a-findings-ordinal-is-not-an-identity.md) |
 | **oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group** | OPEN | [38 items name a count and nothing says what the rectangle means](open-questions/oq-a-furniture-footprint-is-sometimes-one-and-sometimes-the-group.md) |
+| **oq/a-glossary-family-has-no-name-of-its-own** | OPEN | [the Glossary groups every word by family, and no record says what a family is called](open-questions/oq-a-glossary-family-has-no-name-of-its-own.md) |
 | **oq/a-kit-binding-propagates-to-descendants-nobody-read** | OPEN | [binding a slot on one node states it for every node under it, and nothing compares the result against those nodes' own records](open-questions/oq-a-kit-binding-propagates-to-descendants-nobody-read.md) |
 | **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
 | **oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants** | OPEN | [a Georgian portico's exception never reaches a Tidewater Georgian house](open-questions/oq-a-licence-matches-the-style-id-exactly-and-never-its-descendants.md) |

@@ -34,6 +34,7 @@ import { DrawingSet } from './surfaces/DrawingSet.jsx';
 import { ExportDetails } from './surfaces/ExportDetails.jsx';
 import { Transcription } from './surfaces/Transcription.jsx';
 import { Overview } from './surfaces/Overview.jsx';
+import { Glossary } from './surfaces/Glossary.jsx';
 
 const SURFACES = {
   overview: Overview,
@@ -48,6 +49,7 @@ const SURFACES = {
   drawings: DrawingSet,
   export: ExportDetails,
   transcription: Transcription,
+  glossary: Glossary,
 };
 
 export default function App() {

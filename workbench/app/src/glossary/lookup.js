@@ -69,5 +69,16 @@ export function indexTerms(payload) {
         return true;
       });
     },
+    /* Every family the payload names, in `by_family`'s order — which the server writes in the
+       schema's enum order, so the Glossary index lists families the way the schema declares
+       them rather than in an order this file would have to invent (WP-14.8). A family with no
+       records is still named: whether to show an empty group is the reader's decision, not the
+       index's. A payload with no `by_family` names none, and a family is never guessed from
+       the records' own `family` fields, because that would drop the schema's order. */
+    families() {
+      const bf = body.by_family && typeof body.by_family === 'object' && !Array.isArray(body.by_family)
+        ? body.by_family : {};
+      return Object.keys(bf).filter((k) => Array.isArray(bf[k]));
+    },
   });
 }

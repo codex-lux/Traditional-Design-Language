@@ -312,19 +312,3 @@ export function FilterGroup({ label, summary, children, defaultOpen = false, act
     </span>
   );
 }
-
-export function SurfaceHead({ eyebrow, title, note, right }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24,
-      padding: '18px 22px 14px', borderBottom: '1px solid var(--rule)' }}>
-      <div>
-        <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', fontVariationSettings: '"opsz" 72',
-          letterSpacing: 'var(--tr-display)', color: 'var(--ink)', margin: '7px 0 0' }}>{title}</h2>
-        {note && <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-3)',
-          margin: '8px 0 0', maxWidth: '78ch' }}>{note}</p>}
-      </div>
-      {right}
-    </div>
-  );
-}

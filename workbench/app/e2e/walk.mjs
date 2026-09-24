@@ -2096,6 +2096,163 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
   }
 }
 
+/* DEFINITIONS ON SCREEN (WP-14.8, PRD §E.2, §E.4, §I.1, §I.4).
+
+   The Glossary index and a term page, read against `GET /api/glossary` rather than against any
+   count typed here: the families the page draws must be the payload's non-empty `by_family` in
+   its order, the words it draws must number the payload's `count`, and a term page must show
+   that record's own definition. Then one `Term`, driven the three ways a reader opens it:
+   Enter (a non-modal dialog, labelled by its word, focus taken inside, "more" at the record's
+   citation), Escape (closed, focus back on the word), and a resting mouse (open after the
+   delay) -- and a change of place closes it. Last, the page reflows: at 1280 px there is no
+   sideways scroll, because the Glossary releases the shell's 1380 px floor.
+
+   WP-14.3 serves the route in parallel with this package. Where it does not answer with a
+   terms list, every check below would be judging an app with no glossary to read, so the block
+   is UNJUDGED by name -- the walk's own third state -- and not a pass. */
+{
+  const gl = await fetch(`${BASE}/api/glossary`)
+    .then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  if (!gl || !Array.isArray(gl.terms) || !gl.terms.length) {
+    unjudged.push('definitions on screen — GET /api/glossary did not answer with a terms list, so '
+      + 'the Glossary, its page head and the Term popover have nothing to be judged against');
+  } else {
+    await visit('#/glossary');
+    await page.waitForSelector('[data-glossary-index], [data-glossary-failed]', { timeout: 30000 })
+      .catch(() => {});
+    const idx = await page.evaluate(() => ({
+      families: [...document.querySelectorAll('[data-glossary-index] [data-family]')]
+        .map((s) => s.getAttribute('data-family')),
+      terms: document.querySelectorAll('[data-glossary-index] [data-glossary-term]').length,
+      heads: [...document.querySelectorAll('[data-page-head]')].map((h) => h.getAttribute('data-page-head')),
+      failed: !!document.querySelector('[data-glossary-failed]'),
+      reflow: !!document.getElementById('root')?.hasAttribute('data-reflow'),
+      noEntry: /no entry:/.test(document.querySelector('main')?.textContent || ''),
+    }));
+    const nonEmpty = Object.entries(gl.by_family || {})
+      .filter(([, ids]) => Array.isArray(ids) && ids.length).map(([f]) => f);
+    check('the Glossary read the glossary rather than reporting it unreadable', !idx.failed);
+    // the denominator first: a selector matching nothing would make every comparison below vacuous
+    check(`the Glossary draws families to judge (${idx.families.length})`, idx.families.length > 0);
+    check(`and they are the payload's non-empty families, in its order (${idx.families.length} of ${nonEmpty.length})`,
+      JSON.stringify(idx.families) === JSON.stringify(nonEmpty));
+    check(`and it lists every word the server serves (${idx.terms} of ${gl.count})`, idx.terms === gl.count);
+    check(`exactly one page head, and it is the Glossary's own record (${JSON.stringify(idx.heads)})`,
+      idx.heads.length === 1 && idx.heads[0] === 'surface-glossary');
+    check('the Glossary releases the 1380 px floor while it is shown', idx.reflow);
+    check('no word on the index reads "no entry"', !idx.noEntry);
+
+    // The page head's "Try" link, where the record's own `surface.try` is a `term:` cite: the
+    // search index names no term, so the link is worded by the glossary record it points at,
+    // never printed as the raw cite. Read hidden or not -- the words are the claim, not the fold.
+    const head = gl.terms.find((t) => t.id === 'surface-glossary');
+    const tryCite = head && head.surface && typeof head.surface.try === 'string' ? head.surface.try : null;
+    if (!tryCite || !tryCite.startsWith('term:')) {
+      unjudged.push(`the page head's Try link -- surface-glossary's try is ${JSON.stringify(tryCite)}, `
+        + 'not a term: cite, so the wording rule has no subject here');
+    } else {
+      const target = gl.terms.find((t) => t.id === tryCite.slice('term:'.length));
+      const tryText = await page.evaluate(() =>
+        document.querySelector('[data-page-head] .tdl-page-head-try .tdl-record-name')?.textContent || '');
+      check(`the page head's Try link is worded by its record, not printed as ${tryCite} (${JSON.stringify(tryText)})`,
+        !!target && tryText.trim() === String(target.term).trim());
+    }
+
+    // The focus ring: the index's filter field, focused, draws the global ring rather than none.
+    const ring = await page.evaluate(() => {
+      const i = document.querySelector('[data-glossary-index] input');
+      if (!i) return null;
+      i.focus();
+      const cs = getComputedStyle(i);
+      return { style: cs.outlineStyle, width: cs.outlineWidth };
+    });
+    check(`a focused text field draws a focus ring (${ring && `${ring.style} ${ring.width}`})`,
+      !!ring && ring.style !== 'none' && parseFloat(ring.width) >= 2);
+
+    // A term page, for a record naming a confusable, so the page carries a Term to open.
+    const rec = gl.terms.find((t) => Array.isArray(t.confusable_with) && t.confusable_with.length);
+    if (!rec) {
+      unjudged.push('the Term popover — no glossary record names a confusable, so no term page '
+        + 'carries a Term to open');
+    } else {
+      await visit(formatHash('glossary', { term: rec.id }));
+      await page.waitForSelector('[data-glossary-page] [data-definition]', { timeout: 15000 })
+        .catch(() => {});
+      const shown = await page.evaluate(() =>
+        document.querySelector('[data-glossary-page] [data-definition]')?.textContent || '');
+      check(`the term page shows the record's own definition (${rec.id})`,
+        shown.trim() === String(rec.definition).trim());
+      const terms = page.locator('[data-glossary-page] button.tdl-term[data-term]');
+      const nTerms = await terms.count();
+      check(`the term page carries a Term to open (${nTerms})`, nTerms > 0);
+      if (nTerms) {
+        const term = terms.first();
+        const tid = await term.getAttribute('data-term');
+        await term.focus();
+        await page.keyboard.press('Enter');
+        await page.waitForSelector('[role="dialog"][data-term-popover]', { timeout: 5000 }).catch(() => {});
+        await page.waitForTimeout(150);
+        const pop = await page.evaluate(() => {
+          const d = document.querySelector('[role="dialog"][data-term-popover]');
+          if (!d) return null;
+          const b = document.querySelector('button.tdl-term[aria-expanded="true"]');
+          const lab = d.getAttribute('aria-labelledby');
+          const r = d.getBoundingClientRect();
+          return {
+            modal: d.getAttribute('aria-modal'),
+            labelled: !!(lab && document.getElementById(lab)?.textContent.trim()),
+            controls: !!b && b.getAttribute('aria-controls') === d.id,
+            more: d.querySelector('.tdl-term-pop-more')?.getAttribute('href') || null,
+            focusInside: d.contains(document.activeElement),
+            inView: r.width > 0 && r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight,
+            def: d.querySelector('.tdl-term-pop-def')?.textContent || '',
+          };
+        });
+        check('Enter on a Term opens its definition as a dialog', pop !== null);
+        if (pop) {
+          check('the dialog is non-modal: it carries no aria-modal', pop.modal === null);
+          check('and is labelled by its word', pop.labelled);
+          check('the word says it is expanded and names the dialog it controls', pop.controls);
+          check(`"more" is the record's citation (${pop.more})`, pop.more === `#/cite/term:${tid}`);
+          check('a keyboard reader is taken into the definition', pop.focusInside);
+          check('the definition stands inside the window', pop.inView);
+          const want = gl.terms.find((t) => t.id === tid)?.definition || '';
+          check('and it says the record’s own definition', !!want && pop.def.trim() === want.trim());
+        }
+        await page.keyboard.press('Escape');
+        await page.waitForTimeout(200);
+        const after = await page.evaluate(() => ({
+          open: !!document.querySelector('[role="dialog"][data-term-popover]'),
+          back: !!document.activeElement?.matches?.('button.tdl-term')
+            && document.activeElement.getAttribute('aria-expanded') === 'false',
+        }));
+        check('Escape closes the definition', !after.open);
+        check('and gives focus back to the word', after.back);
+
+        await page.mouse.move(0, 0);
+        await term.hover();
+        await page.waitForTimeout(800);
+        check('a mouse resting on the word opens it after the delay',
+          (await page.locator('[role="dialog"][data-term-popover]').count()) === 1);
+        await visit('#/glossary');
+        await page.waitForTimeout(300);
+        check('a change of place closes every definition',
+          (await page.locator('[role="dialog"][data-term-popover]').count()) === 0);
+      }
+    }
+
+    // The reflow: below the shell's floor the Glossary still fits the window.
+    const vp = page.viewportSize();
+    await page.setViewportSize({ width: 1280, height: vp.height });
+    await page.waitForTimeout(400);
+    const sideways = await page.evaluate(() =>
+      document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth);
+    check(`the Glossary reflows at 1280 px with no sideways scroll (${sideways} px over)`, sideways <= 1);
+    await page.setViewportSize(vp);
+    await shot('glossary', [SHOT_WIDTH, 1280]);
+  }
+}
+
 await browser.close();
 if (limited) {
   console.error('\nCOULD NOT EVALUATE: the server rate-limited this run (429 at ' + limited

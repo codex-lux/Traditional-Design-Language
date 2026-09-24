@@ -149,6 +149,15 @@ export const api = {
   stylePacks: (id) => getJSON(`/api/styles/${seg(id)}/packs`),
   styleDossier: (id) => getJSON(`/api/styles/${seg(id)}/dossier`),
   exampleBrief: (name) => getJSON(`/api/briefs/examples/${seg(name)}`, { fresh: true }),
+
+  /* The glossary (PRD §C.1-§C.2): every word the workbench shows, read from `glossary/*.json`
+     by the server. The whole set is one GET, cached for the page's life by the map above and
+     shared through `api/useGlossary.js`; `glossaryTerm` is the one record with its confusables
+     and its `see` citations named, and `/api/glossary/about-tdl` is the one path the Gate may
+     read signed out. Fetched, never imported: glossary JSON in the bundle would be a second
+     copy of the definitions that no checker reads (`build/check_frontend.py` looks). */
+  glossary: () => getJSON('/api/glossary'),
+  glossaryTerm: (id) => getJSON(`/api/glossary/${seg(id)}`),
 };
 
 /* Subscribe to a job's SSE stream. Returns an unsubscribe function. */

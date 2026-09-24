@@ -126,7 +126,7 @@ export function CommandPalette({ open, onClose, onAction }) {
             aria-label="Search styles, slots, faults, packs, rooms and surfaces"
             placeholder="a style, a slot, a fault, a room, a surface…"
             style={{ flex: 1, font: 'var(--fw-reg) 16px/1.3 var(--body)', color: 'var(--ink)',
-              background: 'transparent', border: 'none', outline: 'none' }} />
+              background: 'transparent', border: 'none' }} />
           {entries === null && !failed && (
             <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>reading the corpus…</span>
           )}

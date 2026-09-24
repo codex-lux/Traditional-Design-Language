@@ -205,6 +205,96 @@ class TestMainReportsTheStateItReads(unittest.TestCase):
                          "a judgeable bundle with no entry chunk is a FAILURE, not an unjudged state")
 
 
+DEFINITION = ("The style refuses this slot outright, and a kit that binds it anyway is "
+              "convicted by the checker rather than quietly allowed.")
+
+
+def _full_tree(entry_text, glossary=True):
+    """A CURRENT, judgeable tree whose bundle passes every lazy-tier check, so the only thing
+    left to decide is the glossary probe (WP-14.8)."""
+    import json
+    now = time.time()
+    d, _ = _tree(src_mtime=now - 3600, dist_mtime=now)
+    assets = os.path.join(d, "workbench", "app", "dist", "assets")
+    for name, text in (("index-abc.js", entry_text), ("coastlines-medium-1.js", "x"),
+                       ("coastlines-fine-2.js", "x"), ("three-scene-3.js", "x")):
+        with open(os.path.join(assets, name), "w") as f:
+            f.write(text)
+    if glossary:
+        g = os.path.join(d, "glossary")
+        os.makedirs(g)
+        with open(os.path.join(g, "binding-forbidden.json"), "w") as f:
+            json.dump({"id": "binding-forbidden", "term": "forbidden", "definition": DEFINITION}, f)
+    return d
+
+
+class TestTheGlossaryIsFetchedNotBundled(unittest.TestCase):
+    """WP-14.8: a glossary record imported into the bundle is a second copy of the corpus frozen
+    at build time, and Vite would fold it in without a warning. The probe is driven on built
+    trees here, in both directions, and through `main()` so the WIRING is under test too -- the
+    join this file's own history says goes blind first."""
+
+    def test_a_probe_is_a_long_plain_run_of_the_definition(self):
+        import json
+        d = tempfile.mkdtemp()
+        for name, rec in (("a.json", {"id": "a", "definition": DEFINITION}),
+                          ("short.json", {"id": "short", "definition": "A slot."}),
+                          ("README.md", None)):
+            with open(os.path.join(d, name), "w") as f:
+                f.write("# not a record" if rec is None else json.dumps(rec))
+        with open(os.path.join(d, "broken.json"), "w") as f:
+            f.write("{not json")
+        probes = CF.glossary_probes(d)
+        self.assertEqual(sorted(probes), ["a"], "short, broken and non-JSON records give no probe")
+        self.assertGreaterEqual(len(probes["a"]), CF.PROBE_MIN)
+        self.assertIn(probes["a"], DEFINITION)
+
+    def test_a_bundled_definition_is_found_in_the_chunk_that_carries_it(self):
+        d = _full_tree("const g = JSON.parse('{\"definition\":\"" + DEFINITION + "\"}');")
+        assets = os.path.join(d, "workbench", "app", "dist", "assets")
+        hits, probed = CF.bundled_glossary_text(assets, os.path.join(d, "glossary"))
+        self.assertEqual(probed, 1)
+        self.assertEqual(hits, [("binding-forbidden", "index-abc.js")])
+
+    def test_a_clean_bundle_is_not_convicted(self):
+        """The discriminator: a probe that fired on every chunk would convict an honest build."""
+        d = _full_tree("fetch('/api/glossary').then((r) => r.json());")
+        assets = os.path.join(d, "workbench", "app", "dist", "assets")
+        self.assertEqual(CF.bundled_glossary_text(assets, os.path.join(d, "glossary")), ([], 1))
+
+    def _run(self, root):
+        import contextlib
+        import io
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = CF.main(root=root)
+        return code, out.getvalue(), err.getvalue()
+
+    def test_main_fails_a_bundled_glossary_and_clears_a_fetched_one(self):
+        code, _out, err = self._run(_full_tree("var x = '" + DEFINITION + "';"))
+        self.assertEqual(code, 1, "main() did not fail a bundle carrying a record")
+        self.assertIn("FAIL: 1 glossary definition(s) are in the bundle", err)
+        self.assertIn("binding-forbidden", err, "the failure must NAME the record")
+        # The discriminator, read off what main() printed rather than its exit code, so the
+        # node suites it also runs cannot decide this half.
+        _code, out, err = self._run(_full_tree("fetch('/api/glossary');"))
+        self.assertIn("glossary fetched, not bundled: 1 definitions probed", out)
+        self.assertNotIn("glossary definition(s) are in the bundle", err)
+
+    def test_a_glossary_with_nothing_to_probe_is_unjudged_and_never_a_pass(self):
+        d = _full_tree("fetch('/api/glossary');", glossary=False)
+        self.assertEqual(CF.main(root=d), CF.COULD_NOT_EVALUATE)
+
+    def test_the_corpus_gives_the_probe_something_to_look_for(self):
+        """The premise on the real records: most definitions carry a plain run long enough to
+        probe for, so the check is judging the glossary rather than a handful of it."""
+        g = os.path.join(ROOT, "glossary")
+        n = len([f for f in sorted(os.listdir(g)) if f.endswith(".json")])
+        probes = CF.glossary_probes(g)
+        self.assertGreater(n, 0)
+        self.assertGreaterEqual(len(probes), n * 0.9, f"{len(probes)} of {n} records probed")
+
+
 class TestTheSourceGuaranteeThisCheckerCannotSee(unittest.TestCase):
     """The bundle half is unjudged without a build; the SOURCE half never is.
 
