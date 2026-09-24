@@ -10,6 +10,9 @@ import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 // The pane table, so this file is not a second authority over numbers the store owns —
 // which is the sin `--rail-left` was deleted for.
 import { PANES } from '../src/state/layout.js';
+// The router's own table, for the same reason: an address this walk visits, and the surface a
+// rail item reaches, are judged by the module that writes them rather than by a list here.
+import { SURFACE_PATHS, parseHash, formatHash } from '../src/router.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
 const SHOTS = new URL('./shots/', import.meta.url).pathname;
@@ -30,6 +33,65 @@ const failures = [];
    file -- "an unjudged walk is not a green one". */
 const unjudged = [];
 const check = (name, cond) => { if (!cond) failures.push(name); console.log(cond ? ' ok ' : 'FAIL', name); };
+
+/* A SURFACE IS REACHED BY ITS ADDRESS, NOT BY THE WORDS ON A RAIL BUTTON (WP-14.7).
+
+   Every block below used to arrive by clicking the rail by its LABEL -- fourteen clicks
+   spelling "The Kit", "Style Record", "Drawing Set" and the rest -- so renaming a rail item
+   broke the walk in fourteen places that were never about the rail, and a label shared with a
+   second button anywhere on the page made Playwright refuse the click. A place in this app IS
+   a URL (WP-5.6: `router.js` writes it, `nav.go` pushes it), so this sets the hash exactly as
+   `nav.go(surface)` would for a surface with no selection and lets the app take it from there.
+   Whether the rail reaches every surface is still asserted -- once, by itself, in the loop
+   after the Overview block -- rather than fourteen times as a side effect of getting somewhere.
+
+   The address must be one the router WRITES: `parseHash` sends anything it cannot read to the
+   Overview, so a mistyped path here would put a whole block on the wrong surface with nothing
+   saying so. A malformed address is a FAIL, printed only when it happens. */
+async function visit(hash) {
+  const p = parseHash(hash);
+  if (!SURFACE_PATHS[p.surface] || formatHash(p.surface, p.selection, p.params) !== hash) {
+    const name = `visit(${hash}) names an address the router writes`;
+    failures.push(name); console.log('FAIL', name);
+  }
+  // Wait for the hashchange the app listens to, then a frame, so the store has emitted and the
+  // surface has rendered before the block reads it. Setting the hash it already holds is a
+  // no-op, as `nav.go` to the place you are on is.
+  await page.evaluate((h) => new Promise((resolve) => {
+    if (location.hash === h) { resolve(); return; }
+    const done = () => requestAnimationFrame(() => resolve());
+    window.addEventListener('hashchange', done, { once: true });
+    setTimeout(resolve, 3000);
+    location.hash = h;
+  }), hash);
+  // The rail click waited for the shell it clicked in; this waits for the shell's surface pane.
+  await page.waitForSelector('main', { timeout: 30000 }).catch(() => {});
+}
+
+/* A SCREENSHOT, AT THE WIDTH THE WALK OPENS AT OR AT SEVERAL (WP-14.7).
+
+   `shot(name)` writes `<name>.png` at the launch viewport, which is the file every call wrote
+   before this helper existed. `shot(name, [1280, 1440, 1680])` also writes `<name>-1280.png`
+   and `<name>-1440.png`, resizing for each and putting the window back afterwards, so a
+   package reading the shell at narrower widths does not change what any other block sees.
+   The launch width keeps its unsuffixed name deliberately: widening a call never renames the
+   file an earlier review was held against. */
+const SHOT_WIDTH = page.viewportSize().width;
+async function shot(name, widths = [SHOT_WIDTH]) {
+  const vp = page.viewportSize();
+  for (const w of widths) {
+    if (w !== page.viewportSize().width) {
+      await page.setViewportSize({ width: w, height: vp.height });
+      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+      await page.waitForTimeout(300);
+    }
+    await page.screenshot({ path: SHOTS + (w === SHOT_WIDTH ? `${name}.png` : `${name}-${w}.png`) });
+  }
+  if (page.viewportSize().width !== vp.width) {
+    await page.setViewportSize(vp);
+    await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+  }
+}
 
 /* A 429 must announce itself, not surface as a selector timeout thirty seconds later.
 
@@ -54,9 +116,10 @@ page.on('response', (r) => {
 await page.goto(BASE, { waitUntil: 'networkidle' });
 const overview = await (await fetch(BASE + '/api/overview')).json();
 
-// The rail is addressed by its accessible name from here on, and every click into it is
-// scoped to it: since WP-5.6 the Overview offers doors carrying the same labels, so an
-// unscoped getByRole would match two elements and Playwright would refuse both.
+// The rail is addressed by its accessible name, and every read of it is scoped to it: since
+// WP-5.6 the Overview offers doors carrying the same labels, so an unscoped getByRole would
+// match two elements and Playwright would refuse both. The walk no longer CLICKS it to get
+// anywhere (WP-14.7, `visit` above); the loop after the Overview block clicks every item once.
 await page.waitForSelector('nav[aria-label="surfaces"]', { timeout: 15000 });
 const rail = page.locator('nav[aria-label="surfaces"]');
 const railText = await rail.innerText();
@@ -77,13 +140,75 @@ check('the inventory is the corpus inventory',
 check('the ontology version is stated', ovText.includes(overview.ontology_version));
 check('the search invitation is on the landing',
   await page.locator('main').getByRole('button', { name: /Search the corpus/ }).count() > 0);
-await page.screenshot({ path: SHOTS + 'overview.png', fullPage: false });
+await shot('overview');
+
+/* EVERY RAIL ITEM REACHES ITS OWN SURFACE (WP-14.7). This is the rail's half of what the
+   fourteen label clicks used to test in passing, and it is tested here on its own: each item
+   rendered under nav[aria-label="surfaces"] is clicked once, in rendered order, and must move
+   the address to one the router writes, be the one item the rail then marks current, and
+   land somewhere no earlier item landed.
+
+   WHICH SURFACE IS "ITS OWN" IS READ OFF THE ITEM, NOT OFF A LIST HERE. `Chrome.jsx` binds
+   `aria-current` to `current === it.id` with the same `it.id` its onClick hands to `onGo`, and
+   `current` is the surface `nav` parsed out of the hash -- so "this item and no other is
+   current" says the hash parses to this item's surface. `Chrome.jsx` cannot be imported here
+   (it is JSX over React), and a table of labels written into this file is the dependence this
+   package removes. The distinct-address half does not read `aria-current` at all, so an item
+   whose id lands on another item's surface fails whatever the marking says.
+
+   The item already current proves nothing by being clicked -- a dead onClick on it passes --
+   so the walk first moves to another surface the router knows and then clicks. It sits after
+   the Overview block rather than inside the rail block above, because the Overview checks
+   read the COLD LOAD and would otherwise read an address this loop had set. Nothing heavy
+   mounts: no plan is loaded yet, so the bench and the Drawing Set fetch nothing but schema. */
+{
+  const ITEMS = 'nav[aria-label="surfaces"] button:not([aria-expanded])';   // not the fold
+  const items = page.locator(ITEMS);
+  const labels = await items.evaluateAll((bs) =>
+    bs.map((b) => ((b.querySelector('span') || b).textContent || '').trim()));
+  // the denominator first: an empty selection would make every assertion below vacuous
+  check(`the rail offers surfaces to reach (${labels.length})`, labels.length > 0);
+  const reached = new Map();
+  for (let i = 0; i < labels.length; i++) {
+    const item = items.nth(i);
+    if ((await item.getAttribute('aria-current')) === 'page') {
+      const here = parseHash(await page.evaluate(() => location.hash)).surface;
+      await visit(formatHash(Object.keys(SURFACE_PATHS).find((s) => s !== here), {}, {}));
+    }
+    const wasCurrent = (await item.getAttribute('aria-current')) === 'page';
+    const before = await page.evaluate(() => location.hash);
+    await item.click();
+    await page.waitForFunction((h) => location.hash !== h, before, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(([sel, k]) =>
+      document.querySelectorAll(sel)[k]?.getAttribute('aria-current') === 'page',
+    [ITEMS, i], { timeout: 5000 }).catch(() => {});
+    const after = await page.evaluate(() => location.hash);
+    const got = parseHash(after);
+    const marked = await items.evaluateAll((bs) =>
+      bs.map((b, k) => (b.getAttribute('aria-current') === 'page' ? k : -1)).filter((k) => k >= 0));
+    const why = [];
+    if (wasCurrent) why.push('it was current before the click, so the click could not be judged');
+    if (after === before) why.push(`the address did not move from ${before || '(none)'}`);
+    if (!SURFACE_PATHS[got.surface] || formatHash(got.surface, got.selection, got.params) !== after) {
+      why.push(`${after || '(none)'} is not an address the router writes`);
+    }
+    if (marked.length !== 1 || marked[0] !== i) {
+      why.push(`the rail marks ${marked.map((k) => `"${labels[k]}"`).join(', ') || 'nothing'} current`);
+    }
+    if (reached.has(after)) why.push(`"${reached.get(after)}" already reached ${after}`);
+    reached.set(after, labels[i]);
+    check(`the rail item "${labels[i]}" reaches its own surface (${after})`
+      + (why.length ? ' -- ' + why.join('; ') : ''), why.length === 0);
+  }
+  // back where the old walk stood when it went to the bench: the Overview
+  await visit(formatHash('overview', {}, {}));
+}
 
 // ⑦ Plan Workbench: load an example, wait for evaluation
 // The walk used to land here on page load, so this surface was already mounted by the
-// time it was addressed. It is reached by a click now, and only the surface in view is
+// time it was addressed. It is reached by its address now, and only the surface in view is
 // constructed — so wait for its own furniture before reaching for it.
-await rail.getByRole('button', { name: /Plan Workbench/ }).click();
+await visit('#/workbench');
 const example = page.getByRole('button', { name: 'tidewater-georgian-careful' });
 await example.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
 if (await example.count()) await example.click();
@@ -949,7 +1074,7 @@ check(`a click on the handle is not a silent resize (${handleLive?.restored} →
       /WORKING SKETCH/i.test(handleLive?.sketchBanner?.plate || ''));
   }
 }
-await page.screenshot({ path: SHOTS + 'workbench.png', fullPage: false });
+await shot('workbench');
 
 // style switch: same plan, different rules.
 // Driven through the combobox that replaced the 164-option <select> in WP-5.6 — typing a
@@ -966,19 +1091,19 @@ await page.waitForTimeout(2500);
 const after = await page.locator('main').innerText();
 check('style switch re-scores', (after.match(/serious\s+(\d+)/) || [])[1] !== undefined);
 check('no 164-option select survives on the bench', await page.locator('main select').count() === 0);
-await page.screenshot({ path: SHOTS + 'workbench-craftsman.png' });
+await shot('workbench-craftsman');
 await pickStyle('tidewater-georgian');
 await page.waitForTimeout(1500);
 
 // ② Phylogeny
-await rail.getByRole('button', { name: /The Phylogeny/ }).click();
+await visit('#/phylogeny');
 await page.waitForSelector('text=compressed', { timeout: 15000 });
 const phylo = await page.locator('main').innerText();
 check('phylogeny names the missing trunks', /missing peer trunks/i.test(phylo));
-await page.screenshot({ path: SHOTS + 'phylogeny.png' });
+await shot('phylogeny');
 
 // ④ Kit
-await rail.getByRole('button', { name: /The Kit/ }).click();
+await visit('#/kit');
 // Wait for the CLAIM being asserted, not for a heading that renders before it. "cascade" is
 // the section header and is on screen the moment the surface mounts; the note comes from
 // /api/kit/{style}/cascade a round trip later. Locally that gap is invisible and this passed
@@ -987,18 +1112,18 @@ await rail.getByRole('button', { name: /The Kit/ }).click();
 await page.waitForSelector('text=thin kit is correct', { timeout: 20000 });
 const kit = await page.locator('main').innerText();
 check('kit shows thin-kit-is-correct note', /thin kit is correct/i.test(kit));
-await page.screenshot({ path: SHOTS + 'kit.png' });
+await shot('kit');
 
 // ③ Style Record
-await rail.getByRole('button', { name: /Style Record/ }).click();
+await visit('#/style');
 await page.waitForSelector('text=diagnostic tells', { timeout: 15000 });
 const record = await page.locator('main').innerText();
 check('style record: tells get the room', /diagnostic tells/i.test(record));
 check('style record: judgment rows offered back', /refuses to invent/i.test(record));
-await page.screenshot({ path: SHOTS + 'style-record.png' });
+await shot('style-record');
 
 // ⑩ Proportions
-await rail.getByRole('button', { name: /Proportions/ }).click();
+await visit('#/proportions');
 await page.waitForSelector('text=five authorities', { timeout: 20000 });
 const prop = await page.locator('main').innerText();
 check('proportions: material modules lead', /material modules/i.test(prop));
@@ -1069,19 +1194,19 @@ for (const [pack, dia] of [[null, 12], ['vignola-ionic', 12], ['palladio-corinth
     plate.shaftMax > r0 * 0.8 && plate.shaftMax < r0 * 1.35);
   check(`⑩ ${id}: the capital stands clear of the shaft`, plate.capMax >= plate.shaftMax - 0.01);
 }
-await page.screenshot({ path: SHOTS + 'proportions-order.png' });
+await shot('proportions-order');
 
 // ⑨ Fault Corpus
-await rail.getByRole('button', { name: /Fault Corpus/ }).click();
+await visit('#/faults');
 await page.waitForSelector('text=solecisms', { timeout: 15000 });
 await page.waitForSelector('text=dishonest', { timeout: 15000 }).catch(() => {});
 const faults = await page.locator('main').innerText();
 check('fault corpus voice line present', /explaining an economy/i.test(faults));
 check('fix tiers named plainly', /dishonest/i.test(faults));
-await page.screenshot({ path: SHOTS + 'faults.png' });
+await shot('faults');
 
 // ⑤ Brief Intake
-await rail.getByRole('button', { name: /Brief Intake/ }).click();
+await visit('#/brief');
 await page.waitForSelector('text=feasibility', { timeout: 15000 });
 const brief = await page.locator('main').innerText();
 check('silences are named as decisions', /becomes a composer decision/i.test(brief));
@@ -1089,17 +1214,17 @@ check('silences are named as decisions', /becomes a composer decision/i.test(bri
 // rather than that it does not exist. The assertion moved with the claim.
 check('conflict set located, not promised', /conflict set · on the bench, not here/i.test(brief));
 check('feasibility still advisory, never a proof', /never a proof/i.test(brief));
-await page.screenshot({ path: SHOTS + 'brief.png' });
+await shot('brief');
 
 // ⑥ Candidate Set (empty state without a run)
-await rail.getByRole('button', { name: /Candidate Set/ }).click();
+await visit('#/candidates');
 await page.waitForTimeout(500);
-await page.screenshot({ path: SHOTS + 'candidates.png' });
+await shot('candidates');
 
 // (8) Drawing Set - the elevation with its disclosure
-// Scoped to the rail: since WP-5.6 the Overview offers doors carrying the same labels, so an
-// unscoped getByRole matches two elements and Playwright refuses both.
-await rail.getByRole('button', { name: /Drawing Set/ }).click();
+// By its address (WP-14.7). The label click this replaced had to be scoped to the rail, since
+// WP-5.6's Overview doors carry the same words; an address has no second match to refuse.
+await visit('#/drawings');
 
 /* ⑧a — THE ROUND (WP-12.4). The model is the surface's FIRST plate now, so it is what a reader
    arriving here sees; the five flat plates are chips beneath it and everything below this block
@@ -1172,7 +1297,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     check(`and it is placed by a real transform (${ov && ov.t && ov.t.slice(0, 24)})`,
       !!(ov && ov.t && ov.t !== 'none'));
     await page.getByRole('button', { name: 'plate', exact: true }).click();
-    await page.screenshot({ path: SHOTS + 'round-axon-sw.png' });
+    await shot('round-axon-sw');
 
     // AN ORBIT IS NOT A NAMED DRAWING, and the caption must stop claiming to be one. A free
     // view that still called itself SOUTH ELEVATION would be a drawing lying about its own
@@ -1187,7 +1312,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     const capFree = await page.locator('[data-plate-title]').first().innerText();
     check(`after an orbit the caption says it is a free view (${capFree.slice(0, 40)})`,
       /FREE VIEW · NOT A NAMED DRAWING · DIMENSIONS WITHHELD/i.test(capFree));
-    await page.screenshot({ path: SHOTS + 'round-free.png' });
+    await shot('round-free');
 
     // ---------------------------------------------------------- the approach (WP-12.7)
     //
@@ -1226,14 +1351,14 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     const appRefused = +(await cvEl.getAttribute('data-round-refused') || 0);
     check(`and the model is in the renderer at it (${appSolids} solids built)`, appSolids > 100);
     check(`and no solid was refused by the renderer (${appRefused})`, appRefused === 0);
-    await page.screenshot({ path: SHOTS + 'round-approach.png' });
+    await shot('round-approach');
 
     // and a named chip takes it back
     await bar.getByRole('radio', { name: 'PLAN·L0', exact: true }).click();
     await page.waitForTimeout(700);
     check('a named chip snaps back out of the free view',
       /GROUND FLOOR PLAN/i.test(await page.locator('[data-plate-title]').first().innerText()));
-    await page.screenshot({ path: SHOTS + 'round-plan.png' });
+    await shot('round-plan');
 
     // ------------------------------------------------------------ overlays (WP-12.5)
     //
@@ -1254,7 +1379,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     const drew1 = await page.locator('[data-round-canvas]').getAttribute('data-round-overlays');
     check(`the privacy overlay actually draws geometry (${drew1})`,
       /privacy:[1-9]/.test(drew1 || ''));
-    await page.screenshot({ path: SHOTS + 'round-privacy.png' });
+    await shot('round-privacy');
 
     await page.getByRole('button', { name: 'wet', exact: true }).click();
     await page.waitForTimeout(500);
@@ -1276,7 +1401,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
       /EXPLODED BY LEVEL/i.test(capEx));
     check('the modifier is in the URL', /(\?|&)explode=levels/.test(page.url()),
       page.url().slice(-70));
-    await page.screenshot({ path: SHOTS + 'round-explode.png' });
+    await shot('round-explode');
 
     // THE CUT SAYS WHERE IT CAME FROM. With a face selected this is the building section the
     // project does not draw flat, and a reader who mistook it for a plate would be citing a
@@ -1286,7 +1411,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     const capCut = await page.locator('[data-plate-title]').first().innerText();
     check(`a cut says it is derived from the model and not a plate (${capCut.slice(-52)})`,
       /DERIVED FROM THE MODEL, NOT A PLATE/i.test(capCut));
-    await page.screenshot({ path: SHOTS + 'round-cut.png' });
+    await shot('round-cut');
   }
 }
 
@@ -1325,7 +1450,7 @@ check('drawing set: no per-style fault count is printed as if it were universal'
     g && g.bg !== 'rgba(0, 0, 0, 0)');
   check('drawing set: and the sheet still fits its column', g && g.fits);
 }
-await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
+await shot('drawing-elevation');
 
 /* (8a) WP-12.0 — the four faces, and the plate that says which placement drew it.
 
@@ -1421,27 +1546,27 @@ await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
   });
   check(`drawing set: the sheet strip is one row (${strip && strip.h}px) with its download still whole`,
     strip && strip.h <= 40 && strip.dlw > 40);
-  await page.screenshot({ path: SHOTS + 'drawing-elevation-west.png' });
+  await shot('drawing-elevation-west');
 }
 
 // A sheet kind is one of a set, so it is a radio now, not a button — the chips that pick
 // between alternatives say so to a screen reader since WP-5.6.
 await page.getByRole('radio', { name: 'bearing lines' }).click();
 await page.waitForTimeout(3000);
-await page.screenshot({ path: SHOTS + 'drawing-bearing.png' });
+await shot('drawing-bearing');
 
 // (8b) Details & Export - forthcoming, never hidden
-await rail.getByRole('button', { name: /Details & Export/ }).click();
+await visit('#/export');
 await page.waitForSelector('text=forthcoming', { timeout: 15000 });
 const ex = await page.locator('main').innerText();
 check('export: DXF/IFC live (WP-5.1)', /plan dxf/.test(ex) && /ifc model/.test(ex));
 check('export: unbuilt work named with its WP', /WP-5\.3 is not built/.test(ex));
 check('export: no costing engine implied', /No costing engine exists/i.test(ex));
 check('export: conflict count is the recorded 262', /262 recorded pack conflicts/.test(ex));
-await page.screenshot({ path: SHOTS + 'export.png' });
+await shot('export');
 
 // (11) Transcription - a drawing goes in, a record comes out, gaps named
-await rail.getByRole('button', { name: /Transcription/ }).click();
+await visit('#/transcription');
 await page.getByRole('button', { name: 'start a draft' }).click();
 const tr = await page.locator('main').innerText();
 check('transcription: gaps named before it is a record', /not yet a record/i.test(tr));
@@ -1457,7 +1582,7 @@ await page.mouse.up();
 const tr2 = await page.locator('main').innerText();
 check('transcription: a drag traces a room', /type unset/.test(tr2));
 check('transcription: the untyped room is a named gap', /has no type from the catalog/.test(tr2));
-await page.screenshot({ path: SHOTS + 'transcription.png' });
+await shot('transcription');
 
 // the rail's honest no-key state
 const aiRail = await page.locator('aside').last().innerText();
@@ -1491,7 +1616,7 @@ check('/ reaches the filter bar and it narrows', /q=porch/.test(page.url()));
 const faultsFiltered = await page.locator('main').innerText();
 check('the list says how much it is hiding',
   new RegExp(`${overview.counts.faults} solecisms · [1-9]\\d? shown`, 'i').test(faultsFiltered));
-await page.locator('nav[aria-label="surfaces"]').getByRole('button', { name: /The Kit/ }).click();
+await visit('#/kit');
 await page.waitForTimeout(700);
 await page.goBack();
 await page.waitForTimeout(900);
@@ -1502,23 +1627,28 @@ check('one act clears every filter', !/q=porch/.test(page.url()));
 
 // The palette: opened by key, dispatches by citation, reachable by a word a newcomer
 // would actually type.
+// FOUND BY ITS OWN NAME (WP-14.7). It was `[role="dialog"]`, which was true only while the
+// palette was the one dialog this app could open; a definition popover is a dialog too, and
+// the name is the one `palette/CommandPalette.jsx` puts on its dialog element. Its results
+// are read inside it for the same reason -- `[role="option"]` is also any combobox's list.
+const palette = page.getByRole('dialog', { name: 'Search the corpus', exact: true });
 await page.keyboard.press('Control+k');
-await page.waitForSelector('[role="dialog"]', { timeout: 5000 });
-check('⌘K opens the palette', await page.locator('[role="dialog"]').count() > 0);
+await palette.waitFor({ state: 'visible', timeout: 5000 });
+check('⌘K opens the palette', await palette.count() > 0);
 await page.keyboard.type('mistakes');
 await page.waitForTimeout(500);
 check('a newcomer word finds the fault corpus',
-  /Fault Corpus/i.test(await page.locator('[role="option"]').first().innerText()));
+  /Fault Corpus/i.test(await palette.locator('[role="option"]').first().innerText()));
 await page.keyboard.press('Escape');
 await page.waitForTimeout(200);
 await page.keyboard.press('Control+k');
 await page.waitForTimeout(300);
 await page.keyboard.type('tidewater georgian');      // words in either order
 await page.waitForTimeout(500);
-const hit = await page.locator('[role="option"]').first().innerText();
+const hit = await palette.locator('[role="option"]').first().innerText();
 check('half-remembered word order still finds it', /Tidewater/i.test(hit));
 check('the citation is printed beside the result', /style:tidewater-georgian/.test(hit));
-await page.screenshot({ path: SHOTS + 'palette.png' });
+await shot('palette');
 await page.keyboard.press('Enter');
 await page.waitForTimeout(900);
 check('the palette navigates to the cited place', /#\/style\/tidewater-georgian/.test(page.url()));
@@ -1553,7 +1683,7 @@ check('coarse marks are attributed to the record, not to the drawing',
 }
 check('edges inside one hearth are counted, not faked',
   /share a hearth/i.test(mapText) || !/not drawn/i.test(mapText));
-await page.screenshot({ path: SHOTS + 'phylogeny-map.png' });
+await shot('phylogeny-map');
 
 // and the two readings are one graph: switching back keeps the taxon
 await page.locator('main').getByRole('radio', { name: 'tree' }).click();
@@ -1566,7 +1696,10 @@ await page.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
 await page.waitForTimeout(600);
 await page.keyboard.press('?');
 await page.waitForTimeout(400);
-const card = await page.locator('[role="dialog"]').innerText();
+// by its own name, as the palette is and for the same reason (WP-14.7): the dialog
+// `palette/ShortcutCard.jsx` opens, not whichever dialog happens to be on the page
+const card = await page.getByRole('dialog', { name: 'Keyboard shortcuts and addressing', exact: true })
+  .innerText();
 // ── the adversarial audit's fixes, pinned so they cannot come back ──────────────
 // Every one of these passed the suite while being broken; that is why they are here.
 
@@ -1729,7 +1862,7 @@ check('full screen takes the masthead and both rails',
   check(`and the way out is on screen (${box ? Math.round(box.y) : '?'} of ${vp.height})`,
     !!box && box.y >= 0 && box.y + box.height <= vp.height && box.x >= 0);
 }
-await page.screenshot({ path: SHOTS + 'phylogeny-map-full.png' });
+await shot('phylogeny-map-full');
 /* Switching the READING while full used to strand the reader: the exit chip lived only in
    MapView, so pressing `tree` unmounted the one visible way out while the chrome stayed
    hidden. The strip survives both readings, so the control belongs to the strip. */
@@ -1765,7 +1898,7 @@ check('[ and ] fold the surface list and the rail away',
 check('a folded pane leaves a spine to bring it back, not a trapdoor',
   await page.getByRole('button', { name: /show the surface list/i }).count() === 1
   && await page.getByRole('button', { name: /show the rail/i }).count() === 1);
-await page.screenshot({ path: SHOTS + 'phylogeny-map-folded.png' });
+await shot('phylogeny-map-folded');
 await page.getByRole('button', { name: /show the surface list/i }).click();
 await page.getByRole('button', { name: /show the rail/i }).click();
 await page.waitForTimeout(300);
@@ -1933,7 +2066,7 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     check(`the caption publishes the refusal beside the words (${bench.capRefused})`,
       bench.capRefused === r.kind);
 
-    await rail.getByRole('button', { name: /Drawing Set/ }).click();
+    await visit('#/drawings');
     await page.waitForTimeout(2500);
     const ds = await page.evaluate(() => ({
       download: [...document.querySelectorAll('button')]
@@ -1943,7 +2076,7 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     check('the Drawing Set offers no download for a refused record', ds.download === 0);
     check('and draws no plate for one', ds.plates === 0);
 
-    await rail.getByRole('button', { name: /Details & Export/ }).click();
+    await visit('#/export');
     await page.waitForTimeout(800);
     const ex = await page.evaluate(() => {
       const chips = [...document.querySelectorAll('button')]
