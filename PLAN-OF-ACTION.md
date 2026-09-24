@@ -27,6 +27,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **11 — The precedent bench** | **COMPLETE — WP-11.1 through 11.7** | **Every buildable node carries a precedent and every node at every rank cites a source (5-7 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research ran in four tranches. **Tranche 4 (WP-11.7, 7 Sep) wrote 156 sources over the 32 higher-rank nodes — 111 citations of 109 DISTINCT works new to the corpus, plus 45 reuses — and took `sourceless_nodes` 32 → 0**, and found the layer has no identities: 422 free strings, 0 URLs, one confirmed fiction cited by five nodes, and 23 works under 51 spellings whose correction would redden the `shared_only` ceiling by six. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
 | **13 — The coherent sheet** | **WP-13.1 through 13.8 complete (16-17 Sep 2026), and MERGED WITH `origin/main` ON 17 SEP — three lines met and the clean auto-merge was the trap** (a record with seven duplicate JSON keys, and two of this session's own resolutions cancelling each other); the gate is not green and every remaining red is named and attributed against a `git archive` control of BOTH parents | **All four 15 Sep rulings taken the day they were put, and a fifth on 16 Sep: capacity does not refuse a drawing, continuity does** — raised by Lucas against two plates of a Tidewater sheet off the Drawing Set, his second such list in eleven days, with the question whether the fix was "a ridiculous number of additional changes" or "reconsider from the ground up". Measured on `840c7f1` before a line was written: neither. The critic already names four of the nine as SERIOUS; the generator is not held to it, because **the bench draws the prover and the prover has been told nothing about the type** — stacking, tiling, bearing continuity, the bay grid and the hearth are soft, absent or post-hoc on CP-SAT, Phase 11 built them on the search engine nobody sees, and at the bench's 25 s the prover's objective never runs at all. **WP-13.1 is the gate**, `tests/test_sheet_coherence.py`, seventeen rows over four sheets, **43 red on `840c7f1`**, written before any fix and red by design; the adversarial pass corrected five of the plan's own figures before it was committed. Report: `docs/reports/wp-13.1-the-gate.md`  · **WP-13.8 (17 Sep) is the entrance front's population made the main block's** (`docs/reports/wp-13.8-the-front-was-not-the-main-blocks.md`), and its headline did NOT clear the fatal it was written for. **AND THERE ARE TWO PHASE 13s**: a parallel session shipped its own WP-13.1 (`docs/reports/wp-13.1-the-procedure-nobody-read.md`, `build/detection.py`) and WP-13.2 (`docs/reports/wp-13.2-the-checker-that-accused-an-innocent-line.md`, `build/check_frontend.py`), merged to main as PR #34. Both lines coexist, neither is renumbered, and every report is cited by FILENAME — the precedent is the two Phase 11s and the two Phase 9s, and OQ 90's rule that a pushed commit subject cannot be rewritten. **THE MERGE (17 Sep) is recorded in CLAUDE.md's Phase 13 block**: 33 conflicts; this line's WP-13.5 and main's WP-11.16 are the SAME container edit made twice, so the shipped record auto-merged cleanly into seven duplicate keys and was rebuilt by hand; all 41 pin failures were attributed against both parents BEFORE any was touched (36 of 37 pass on this branch's parent, 36 of 36 on main); four corpus digests and the CP proto pins were re-derived with each harness PROVED to reproduce both parents first; three questions were raised (`oq/a-withdrawn-claim-still-steers-the-placer`, `oq/the-prover-draws-a-centre-passage-that-does-not-go-through`, `oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state`) and one CLOSED by the other line's fix (`oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so`). **A SECOND WAVE OF 22 GUARDS THEN WENT RED once the first wave's pins were right**, all of them downstream of the moved placement, and the two findings in it are latent defects the merge made REACHABLE rather than caused: `axis.door_bay` and `elevation.placed_openings` both implement *the widest door on the front is the front door* and rank on two different numbers (a door record may omit `width_ft`, `openings.place` supplies 3.5 ft and `axis` scores the omission ZERO, so the corpus convicts a placement whose widest front door is dead centre -- 1 of 16 plans can reach it and there the answer is right by luck); and `typefacts.bearing_lines` and `structure.build_section` part on a reserved void's wall, ONE line on ONE plan, because main puts `good-03`'s piazza exactly on a bay line where this branch had it off one. **THREE guards' premises ran out in the direction that would have left them green over half a defect** -- the two shipped plans stopped dressing the E face, a blind-bay face stopped drawing anything, and a non-entrance door face stopped existing on either reading its own docstring quoted |
 | **12 — The sheet in the round** | **WP-12.0 through 12.9** | **COMPLETE — WP-12.0 through 12.9 (8-9 Sep 2026), 12.8 being the adversarial audit of the other eight and 12.9 the five items it deferred** — raised by Lucas against Dilum Sanjaya's post on 2D schematics transitioning into 3D, with the question whether SVG remained the medium. **The brief is the PRD**, `docs/prd/phase-12-the-sheet-in-the-round.md` (cite the filename; it is the first document in a new `docs/prd/`). The answer is WP-5.11's, one dimension up: the format was never the constraint, and the missing thing is a constructed-3D layer between the record and the camera — `build/scene.py` — with three.js drawing what Python models and the SVG plates staying authoritative and held to it. **All nine rulings taken the day they were put, and an APPROACH perspective view added to v1.** The review that adopted the PRD found the defect that made WP-12.0: **the drawing set is not one building** — the elevation and roof plates are built with no section, so they take `structure.build_section`'s heuristic default while the plan beside them is a CP proof, under a banner WP-6.4 wrote saying one drawing set is one building or it is nothing. It also found that `render_elevation` has taken a `face` since WP-3.2 and no client has ever sent one, so three of the four elevations this system can draw have never been seen |
+| **14 — The dossier and the journey** | **WP-14.0 through 14.15** — sixteen packages in five waves, WP-14.0 IN PROGRESS, the other fifteen PLANNED · later tranches T2 and T3 planned, not built | **Planned 24 Sep 2026; WP-14.0 in progress** — raised by Lucas reading the Proportions surface on `trim-classical`: *"It's all just a bunch of text, and I'm not sure how it all relates to each other."* A read-only audit of all twelve surfaces (eleven inventories, five lenses, fourteen themes each re-checked against the source, three competing redesigns, two judges) found the workbench organised the way the corpus is STORED — by record type, in the order it was built — while a practitioner works with one style or one house at a time, so every rail click drops the thing being studied and each surface falls back to its own hard-coded record. **Eight rulings taken the same day** (practitioners first; definitions as glossary records; the navigation rebuilt now around a Style Dossier and a House Journey; report and plan then tranche 1; the dossier's section names; the AI pane named now and told nothing new until later; the pane folded on narrow screens; one ungated sentence on the Gate). The brief is the PRD, `docs/prd/phase-14-the-dossier-and-the-journey.md`, and the analysis is `docs/reports/ux-first-principles-2026-09-24.md`; seven questions filed as slugs, none numbered |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -4456,3 +4457,408 @@ defect being removed, committed in the sentence removing it; and the `root=` sea
 place and not its neighbour, so a driven tree came back as `../../../tmp/...`, caught by the
 function's own first test run.
 
+
+---
+
+## Phase 14 — The dossier and the journey
+
+*Raised by Lucas on 24 September 2026, reading the Proportions surface on `trim-classical`:
+**"This traditional design language encyclopedia has become rather difficult to navigate. I admit
+I don't fully know where I'm going or what I'm looking at when I'm browsing these menus and kits
+and items. It's all just a bunch of text, and I'm not sure how it all relates to each other. I'm
+afraid I need a lot tooltips, keys, visuals, etc."** — and he asked for a full first-principles
+analysis of the interface, with attention to the people "just coming to the website with no idea
+what it is and what it's for".*
+
+**The diagnosis, measured before a line was written.** The workbench is organised the way the
+corpus is STORED — by record type, in the order it was built — while a practitioner works with one
+thing at a time: one style, or one house. Every rail item calls `nav.go(id)` with no selection
+(`workbench/app/src/state/nav.js:89-91`) and each surface then falls back to its own hard-coded
+record — Tidewater Georgian on the Style Record and the Kit, `gibbs-doric` on Proportions — so the
+thing being studied is dropped at every click and nothing says how one page relates to the next.
+And the one page in Lucas's screenshot is a drawing machine behind a text interface: the engine
+dimensions `trim-classical`'s six assemblies to 71 profiled members when asked one at a time, and
+the page draws none of them. The analysis — method, the fourteen findings with file and line, the
+first principles, the designs set aside and why, and the baseline `check_all` reds — is
+`docs/reports/ux-first-principles-2026-09-24.md`; the frozen contracts every parallel package builds
+against (glossary fields, payloads, the term-id list, `DOSSIER_SECTIONS`, the navModel ids, the
+route and citation tables, the journey-state vocabulary, the prefs keys) are
+`docs/prd/phase-14-the-dossier-and-the-journey.md`. Cite both by filename.
+
+**Lucas ruled on 24 September, on the eight questions put to him:**
+
+1. **Practitioners first** — architects, designers, plan developers, builders. A newcomer still
+   gets a plain-language front door and a guided example; the instrument is not simplified.
+2. **Definitions live in new glossary records** — a versioned `glossary/` record set in the corpus:
+   a plain definition, an analogy, sources where they exist, a checker, served by the API. Every
+   tooltip reads it; the app writes no definition.
+3. **Rebuild the navigation now**, around a Style Dossier and a House Journey (brief → candidates
+   → plan → drawings); the current surfaces become indexes.
+4. **The deliverable is the report and this plan, then tranche 1**, built with tests.
+5. **The dossier's section names are unambiguous**: Identify · Filed under this · Lineage · Kit ·
+   Proportions · Plan types · Constraints · Faults · Evidence. The URL ids stay `members`, `plans`,
+   `rules`.
+6. **The AI pane is named now and its context waits**: "Ask the corpus · AI assistant", from a
+   glossary record, on the pane head and the folded spine; `rail.py` and what it is sent unchanged
+   until tranche 2.
+7. **The assistant folds on narrow screens**: below about 1500 px with no stored preference it
+   starts folded, and a stored choice wins; the front door and the Glossary reflow; working
+   surfaces keep their minimum.
+8. **The Gate says one sentence**: exactly `GET /api/glossary/about-tdl` is ungated and its
+   definition shown on the Gate; no other corpus text becomes public.
+
+**The fourteen findings, one line each** (evidence in the report):
+
+1. **Nothing says what this is or how the parts relate** — the landing's one paragraph is
+   `core.overview().what_this_is`, written to an AI agent (`mcp_server/core.py:124-127`); there is
+   no diagram in the shell.
+2. **The navigation is a card catalogue and every hop drops your style** — rail clicks clear the
+   selection and each surface shows its own default; family and tradition records render empty
+   because nothing inverts `member_of`; the Phylogeny indents by rank and sorts by date.
+3. **No term is defined where it appears** — about forty corpus words appear bare, all explanation
+   is hover-only `title=`, and three app-written catalogues describe the same surfaces and disagree.
+4. **No page says where you are** — `document.title` never changes, `SurfaceHead` is exported and
+   imported by nothing, and the masthead's persistent content is the bench plan's unlabelled ids.
+5. **Relations run one way** — a pack page does not say which styles use it; `slot:` citations land
+   on Tidewater's kit; rooms, massings, partis and groupings end on a "searched" banner.
+6. **The house journey has no spine and breaks at step one** — three of Brief Intake's four budget
+   options (`BriefIntake.jsx:238`) are outside the brief schema's enum (`brief.schema.json:31`), so
+   choosing one refuses the brief; a failed compose job goes to a no-op handler.
+7. **A drawing machine behind a text interface** — `Proportions.jsx:410` draws a plate for order
+   packs only, and the server serves no assemblies for the 27 packs with no order stack, the order
+   pack `moorish-arch` among them (`workbench/server/corpus.py:328`), so 25 of 57 packs are drawn.
+8. **Marks mean things with no key** — the unjudged hatch carries five meanings and the 45° hatch six;
+   tradition hue `t3` is the brick of *fail*; `Proportions.jsx:530` maps `holds: null` to fail.
+9. **The one complete worked house is never presented as one** — Tidewater Georgian reads as an
+   arbitrary default, and its plans are refused at placement.
+10. **Machine language where names and notation belong** — Courier as the primary label face, pack
+    ids where names are served, decimal inches, build history in reader copy.
+11. **Proof before answer** — Proportions leads with invariants printed as engine expressions and
+    puts the pack's own conflicts last; the fault card never renders `correct_practice` or
+    `detection`.
+12. **The URL falls behind the screen** — a pack click is local state (`Proportions.jsx:463`), so a
+    refresh or a shared link shows `gibbs-doric`; the same on four more surfaces.
+13. **Faint type, uneven focus, no shared status** — most type is at or under 12.5 px, `ink-4` sets
+    text, three inputs remove the focus ring, there is no `aria-live`, a failed `/api/health` renders
+    a blank page, and `#root`'s 1380 px minimum (`theme/tokens.css:455`) scrolls a laptop sideways.
+14. **The AI assistant is unnamed** and is sent nothing about what the reader has selected.
+
+**What already works and is kept:** the URL-as-citation grammar and the ⌘K palette, the loupe, the
+label fitter, `EdgeGlyph`'s captions, `StyleRecord`'s linked distinctions, `Spotlight`,
+`StylePicker`, the `?` shortcut card, the plan sheet's furniture key and ∗/△ caption, the map's
+precision legend, and the three-state verdict discipline.
+
+### The design — two spines and a library
+
+One front door; **two spines** — a STYLE (read one style whole) and a HOUSE (write one house, brief →
+drawings); a **LIBRARY** of indexes (Proportions, Faults, Glossary); and a plaque on every page —
+crumbs, a page title, a "what this is" head, and every word defined where it stands. The
+language-map design (the six vision layers as the rail) was judged and set aside because it put
+Faults between plan steps 3 and 4 and made Lucas's page read "Grammar › Proportions"; its layer
+words survive as a Glossary group.
+
+**The principles every package is held to.** The URL decides what is read; per-browser memory
+(`tdl-workbench-prefs`) only OFFERS a link and never fills a bare URL. Every definition is a
+glossary record and the app writes none. Picture → answer at your building → warnings → sources →
+proof, the proof folded and never removed, and counting unjudged. Unjudged is never collapsed.
+Names first, the id as a margin note; feet-inches to a sixteenth. Counts from the API only. The
+citation grammar stays spelled in exactly three places — routes change, regexes never. MCP payloads,
+`core.overview()`, `rail.py` and `/api/health` stay byte-stable in tranche 1, and `auth.OPEN_PATHS`
+gains exactly the one ruled path. Draw only what the record holds, captioned so. Graphic Standard
+No. 1 is kept: no new colours or inks, and no readable text in `ink-4` in new code.
+
+**Must not:** a fourth grammar spelling; definitions written in the app; an invented source;
+collapsing unjudged; count literals in JSX or tests; memory deciding what a URL shows; help or fold
+state in the URL; changing the byte-stable surfaces above; renaming files tests read by path, the
+localStorage keys or `PANES`; Chip as an act; tooltip, popover or router libraries, or three.js
+imported statically; `src/` tests in subfolders or reaching `node_modules`; arc geometry in JS or
+any change to `OrderPlate`; drawing what the record does not hold; a parti bridge, a tour promising
+a house, or a "desk" metaphor beside "the bench"; new colours; a homeowner reader line; citing a
+report before it exists or numbering a question.
+
+**Numbering.** The number is a label and the report is the citation (OQ 90). Each package ends with
+its report under `docs/reports/`, named in that package's Status line once it exists and not
+before: `build/check_ids.py::check_reports` refuses a cited report path that does not resolve, by
+construction, and it is right to.
+
+**How it is built.** Lanes run as separate agents in their own git worktrees and merge in the
+order 14.7 → 14.6 → 14.5 → 14.1 → 14.4 → 14.2 → 14.3, then 14.8 → {14.9, 14.10, 14.11} → 14.12 →
+14.13 → 14.14 → 14.15. This box caps one workflow at two concurrent agents, so each lane is its own
+agent. Sequential only where files collide: 14.4 then 14.3 (one server agent); 14.1 before 14.2
+merges; 14.8 before 14.9–14.11; 14.12 before 14.13; 14.13 before 14.14's merge. Shared files have
+owners — `App.jsx` (14.8 one line, 14.10 one hunk, 14.12 the surfaces map, 14.13 the rest),
+`api/client.js` append-only, `walk.mjs` per block after 14.7 and never the `engineClaim`-pinned
+lines, `tokens.css` 14.8 only. Commit per package; push after each wave. Every package's
+verification must be able to fail (mutation-checked), and no red may appear that is absent from the
+WP-14.0 baseline.
+
+### WP-14.0 — The analysis report, the contracts, and the deferred rulings filed
+
+**Status: IN PROGRESS (24 Sep 2026).** Wave 0, one lane. **Goal:** put the audit's findings and the
+chosen design in the repository before any code moves, record the baseline `check_all` result, and
+freeze the contracts every parallel package builds against, so that no agent invents an id, a
+payload or a route. **Key files:** `docs/reports/ux-first-principles-2026-09-24.md`;
+`docs/prd/phase-14-the-dossier-and-the-journey.md`; this section and its board row; seven new
+questions under `docs/open-questions/` (listed at the foot of this section) and the index
+regenerated by `build/gen_open_questions.py`; CLAUDE.md's open-question tally. **Verification:**
+`check_ids.py`, `gen_open_questions.py --check`, `check_counts.py` and `check_citations.py` exit 0;
+`pytest tests/test_counts_guard.py` and the CLAUDE.md open-list test pass; `check_all.py` run once
+on the unchanged tree and its reds recorded in the report. **Depends on:** nothing. **Size:** M.
+
+### WP-14.1 — Glossary: schema, checker, registration
+
+**Status: PLANNED.** Wave 1, lane A. **Goal:** ruling 2's definition layer — a versioned record set
+held by a checker that distinguishes pass, fail and could-not-evaluate, and refuses invented
+sources, unverified editorial text, half-keyed enum families and unpaired homonyms. **Key files:**
+`schema/glossary-term.schema.json` (v0.1.0; `kind` sourced | editorial, sources only if they appear
+verbatim in a corpus bibliography, an editorial basis quoting its file verbatim); `glossary/README.md`
+and five seed records (`about-tdl` and the four judgment states); `build/check_glossary.py` (exit 3
+when it cannot evaluate); `build/check_openings.py::check_basis` parametrised with `rec_re=`, its
+five existing callers byte-identical; `build/check_all.py` (`TOTAL_CHECKS` 53 → 54); CLAUDE.md's
+check count; `tests/test_check_glossary.py` (twelve mutations). **Verification:** the checker exits
+0 on the real set and 3 with `jsonschema` blocked; the stdout of `check_openings.py`,
+`check_windows.py`, `check_furniture.py`, `check_moves.py` and `check_critic_suspects.py` is
+identical before and after; `test_counts_guard.py` and `test_check_all_shards.py` pass.
+**Depends on:** WP-14.0. **Size:** M.
+
+### WP-14.2 — Glossary: the tranche-1 records
+
+**Status: PLANNED.** Wave 1, lane A (four disjoint family batches authored in parallel against the
+contract, merged after 14.1). **Goal:** every word a tranche-1 screen puts a `Term` on — about 115,
+fixed by what those screens render — has a record, plain and exact, sourced only from existing
+bibliographies or editorial with a verified basis, complete for every bound enum family, every
+homonym paired (rank variant and slot variant; a moulding's member and member-of; a derived rule
+and a constraint; the cascade and a bibliographic source). **Key files:** `glossary/*.json` only,
+and the report. **Verification:** `check_glossary.py` exits 0; changing one word inside a basis
+quote makes it fail; the diff touches nothing outside `glossary/`. **Depends on:** WP-14.1.
+**Size:** L.
+
+### WP-14.3 — Serve the glossary; the `term` kind; section fragments; the one ungated sentence
+
+**Status: PLANNED.** Wave 1, lane B, after WP-14.4 in the same lane. **Goal:** `GET /api/glossary`
+and `/api/glossary/{id}`; `term:` as a citation kind; dossier-section fragments accepted by the
+validator; terms findable from the palette; exactly `/api/glossary/about-tdl` added to
+`auth.OPEN_PATHS`; MCP payloads, `core.overview()` and `/api/health` byte-stable. **Key files:**
+`mcp_server/core.py` (`_data` only), `workbench/server/corpus.py`, `app.py` (routes, and the
+docstring saying what the ungated surface carries), `server/auth.py`, `server/citations.py`, server
+tests, and `check_counts.py` rows for the two unpoliced copies of the search-index figure.
+**Verification:** the server suite passes with `test_mcp_http.py` and `test_rail_loop.py` unchanged;
+`test_zz_auth_leak_guard.py` extended so that, signed out, `/api/glossary/about-tdl` answers while
+`/api/glossary` and every other term answer 401; `overview()` carries no glossary key; removing
+`term` from `_known_ids` fails `test_search_index`. **Depends on:** WP-14.1, 14.2, 14.5. **Size:** M.
+
+### WP-14.4 — Server: every drawable pack, the module bound to the ceiling, `used_by`, style packs, the dossier summary, example briefs
+
+**Status: PLANNED.** Wave 1, lane B. **Goal:** serve drawable wall-plane geometry for every pack
+that has assemblies and no order stack (27 packs, `moorish-arch` among them, 50 assemblies, 237
+members) by dimensioning each assembly with `include=[aid]`; make `trim-classical`'s plate and its
+rules table describe the same wall by declaring `module.equals: "ceiling_height"` (restating the
+module's own `name`, lie-checked by a new `check_systems` check); serve `used_by` (named in 36
+styles' packs, opted in by 6, listed by 42 in its own `applies_to`), `module_name`, a style's packs
+by provenance, the dossier's section summary, and the example briefs — so every count on screen
+comes from the API. **Key files:** `build/profiles.py` (`pack_geometry(..., datum='wall')`, the
+default byte-identical), `schema/proportion-pack.schema.json`,
+`proportions/systems/trim-classical.json`, `build/check_systems.py`,
+`workbench/server/corpus.py`, `app.py`, `api/client.js`; tests `test_profiles`,
+`test_module_equals`, `test_pack_plates`, `test_dossier_routes`, `test_brief_examples`, every
+expectation computed. **Verification:** order geometry byte-identical (`test_render_profile`,
+`check_orders`, a `render_profile` dry run); MCP `get_proportions` asserted unchanged
+(`oq/mcp-proportions-serve-no-assemblies-for-non-order-packs`). **Depends on:** WP-14.0.
+**Size:** L.
+
+### WP-14.5 — Addresses: sections, glossary, constraint and term routes, context carry (additive)
+
+**Status: PLANNED.** Wave 1, lane C. **Goal:** extend the URL-as-citation system for dossier
+sections, terms and carried style context without a new regex and without yet moving the kit, so
+every existing link still resolves: `style:<id>#<section>` opens a section, `constraint:<style>.cNN`
+opens that style's Constraints, `term:<id>` is new, and `citeFor` never mints `style:x#identify`.
+`DOSSIER_SECTIONS` is one pinned vocabulary shared by `citations.js` and `citations.py`;
+`CONTEXT_KEYS` and `nav.cite(ref, ctx)` carry `?style` only into targets that honour it. **Key
+files:** `citations.js`, `router.js`, `state/nav.js`, `e2e/router-unit.mjs`. **Verification:**
+router-unit's identity holds; making `citeFor` emit `style:x#identify` fails it; `npm test` and
+`check_frontend.py` pass; the walk is unchanged because no surface changes. **Depends on:**
+WP-14.0. **Size:** M.
+
+### WP-14.6 — The pure half
+
+**Status: PLANNED.** Wave 1, lane D. **Goal:** every piece of logic the new screens need, written
+as React-free modules each with a top-level `node --test` file importing nothing from
+`node_modules`, so the components that follow are thin: `fmt.js` (a port of `_fmt_in`, held by
+`tests/test_fmt_parity.py`), `judgment.js`, `names/`, `glossary/lookup.js`,
+`help/placePopover.js`, `journey/journey.js` (reading `sheet/refusal.js`, never re-deriving a
+refusal), `styles/taxa.js` and `styleTree.js`, `plate/assemblyLayout.js`. **Verification:** `npm
+test` including `no_bare_imports` and `refusal`; mapping `null` to *failed* in `judgmentOf` fails
+`judgment.test`. **Depends on:** WP-14.0. **Size:** M.
+
+### WP-14.7 — Walk prep: navigate by address, find the palette by name
+
+**Status: PLANNED.** Wave 1, lane E. **Goal:** remove the browser walk's dependence on rail labels
+and button roles, which every later package would otherwise fight over, without changing what any
+check means: `visit(hash)` replaces fourteen rail-label clicks, a reachability loop is added, and
+the palette is found by its own `aria-label` (Term popovers are dialogs too). **Key files:**
+`workbench/app/e2e/walk.mjs` only. **Verification:** `walk.sh` exits 0 on the unchanged app with
+the same check names plus the loop — exit 3 is not a pass; `npm test` (`engineClaim.test.mjs` reads
+`walk.mjs`) passes. **Depends on:** WP-14.0. **Size:** S.
+
+### WP-14.8 — Definitions on screen
+
+**Status: PLANNED.** Wave 2, first. **Goal:** one definition primitive the app cannot misuse —
+`Term.jsx`, a real button with a non-modal popover (click, tap, Enter; hover after a delay; Esc
+returns focus), with no definition prop and no fallback — plus `PageHead`, `RecordLink` (names
+before ids), a per-browser prefs store, the Glossary index and term pages, focus rings and `ink-2`
+eyebrows, and a ratchet that stops new app-written explanations and count literals. **Key files:**
+`api/useGlossary.js`, `help/popoverStore.js`, `components/Term.jsx`, `PageHead.jsx`,
+`RecordLink.jsx`, `state/prefs.js`, `surfaces/Glossary.jsx`, `Eyebrow.jsx`, `tokens.css` (focus,
+`.tdl-term`, reflow — this package alone edits it), `glossary.test.mjs`, `copy_ratchet.test.mjs`.
+**Verification:** `npm run build`; `check_frontend.py` (entry chunk under its ceiling, three.js
+still lazy, the glossary fetched and never bundled); the walk's definitions block; adding a
+twelve-word `title=` explanation to a JSX file fails `copy_ratchet`. **Depends on:** WP-14.2, 14.3,
+14.5, 14.6, 14.7. **Size:** L.
+
+### WP-14.9 — Proportions, plates first
+
+**Status: PLANNED.** Wave 2, parallel with 14.10 and 14.11. **Goal:** Lucas's page rebuilt in the
+order a practitioner reads it — what the pack is, the drawing, the warnings, the rules at your
+building (with a header row), the authorities (their count from the API), who uses it, the sources,
+then *how this was checked* folded, with `holds: null` read as unjudged. Every stackless pack with
+assemblies is drawn by `AssemblyPlate.jsx` from served paths through a transform only, with leader
+labels in feet-inches, a wall-plane chain line, an in-frame key worded from the glossary, and the
+foot line *"drawn from the record · drawn upright"*. `trim-classical` is drawn at the reader's
+ceiling and the plate and the table agree. Pack clicks, filters and slider values live in the URL.
+**Refused out loud:** the 4 + 12 + 3 dimension string, turned casings, and pictures for the five
+packs with no assemblies (`oq/casings-are-measured-across-and-drawn-upright`). **Key files:**
+`components/AssemblyPlate.jsx`, `surfaces/Proportions.jsx`, `test_grammar_agreement`'s
+`_JS_SURFACES` and an emitter test, the walk's Proportions block and a new `trim-classical` block.
+**Verification:** the plate's bands equal the served members; x ≥ 0; the plate precedes the proof;
+`?ceiling=108` moves the plate and the baseboard row together; an emitter of `data-asm` outside the
+list fails `test_grammar_agreement`. **Depends on:** WP-14.4, 14.6, 14.7, 14.8. **Size:** L.
+
+### WP-14.10 — The house journey
+
+**Status: PLANNED.** Wave 2, parallel with 14.9 and 14.11. **Goal:** brief → candidates → plan →
+drawings → export becomes one visible sequence that says where the house stands in words — refused
+and unjudged included — remembers where the bench plan came from, and no longer breaks at step one.
+One `JourneyBar`, mounted by App above `<main>` on the six house surfaces, whose Next is a link only
+when the step can proceed; budget tiers from the schema's enum; `StylePicker` on Brief Intake;
+`?style` and `?example` seeding; Compose as a real button; compose errors recorded rather than
+handed to `() => {}`; `session.planFrom` provenance. **Key files:** `components/JourneyBar.jsx`,
+`state/session.js`, `BriefIntake.jsx`, `CandidateSet.jsx`, two lines each in `PlanWorkbench.jsx`
+and `Transcription.jsx`, the App hunk, `sse_handlers.test.mjs`. **Verification:** every budget
+option is in the schema's enum; a refused plan shows Drawings and Export as *blocked: refused*,
+not links; the refusal contract's walk checks are intact. **Depends on:** WP-14.4, 14.6, 14.7,
+14.8. **Size:** M.
+
+### WP-14.11 — Two truths: what an edge carries, and what a fault card answers
+
+**Status: PLANNED.** Wave 2, parallel with 14.9 and 14.10. **Goal:** stop two false statements
+already on screen. 42 `hybridizes_with` edges that carry the kit are captioned *carries nothing*
+and listed under *claims only*; `EdgeGlyph` reads `inherits_kit` instead of its own table. The fault
+card puts the right way and how to spot it first, and shows a style's licence with the server's
+verdict on whether it is earned (`for_this_style`). **Key files:** `EdgeGlyph.jsx`,
+`Phylogeny.jsx`, `FaultCard.jsx`. **Verification:** every new `Term` id exists; restoring the
+CARRIES table fails the lineage check. **Depends on:** WP-14.2, 14.4, 14.8. **Size:** S.
+
+### WP-14.12 — The Style Dossier, the Styles index, the slot panel, and `#/kit` retired to an alias
+
+**Status: PLANNED.** Wave 3. **Goal:** everything about one style in one citable place —
+`StyleDossier.jsx` replacing `StyleRecord`, embedding `KitSurface` — section by section in the
+corpus's own consulting order (identify, filed under this, lineage, kit, proportions, plan types,
+constraints, faults, evidence), only the section in view rendered, empty ones omitted, rank-aware,
+every hop written to the URL, with a `RelationsPanel`. A bare `#/style` becomes an outline tree to
+recognise a style by and never shows a record; `slot:` citations land on something about the slot
+(`#/style/-/kit/<slot>`, on the unused `/api/slots/{id}`); legacy `#/kit/<style>/<slot>` links are
+canonicalised to the dossier by `replaceState`. Plan types are listed as information only
+(`oq/a-brief-cannot-name-a-parti`). **Key files:** `surfaces/StyleDossier.jsx`, `dossier/*.jsx`
+(EXTRACTED from `StyleRecord` and `KitSurface`, not rewritten), `dossier/sections.js`,
+`relations.js`, `StylesIndex.jsx`, `RelationsPanel.jsx`, `KitSurface`'s embedded mode, the
+router/citations/nav kit re-cut, router-unit and search-unit, the walk's Kit and Style blocks;
+`PANES.kit` kept. **Verification:** member counts equal the API's; a cold `#/kit/craftsman`
+canonicalises and survives a refresh; a bare `#/style` never shows a record. **Depends on:**
+WP-14.3, 14.4, 14.5, 14.6, 14.8, 14.11. **Size:** L.
+
+### WP-14.13 — The shell
+
+**Status: PLANNED.** Wave 3, after 14.12. **Goal:** every page says where it is, what it is and what
+comes next. The rail is the two spines and the library from one pure `nav/navModel.js`, which also
+feeds the crumbs, the front door's map, the palette and the walk; crumbs follow `member_of` and
+never lineage; `document.title` per place; the wordmark links home; the masthead reads *On the
+bench: <plan name>* with fatal, serious and unjudged as words; a visible **Keys ?** button; the inert
+Export and Settings icons removed; `lastEval` cleared on a plan change; `PageHead` on every surface;
+a one-time banner for a cold deep link; a boot status (*Cannot reach the server · Retry*) instead of
+a blank page. The assistant's pane head and folded spine are worded from its glossary record, and
+`state/layout.js` starts it folded below about 1500 px when nothing is stored — `rail.py` untouched
+(`oq/the-assistant-is-blind-to-the-page`). **Key files:** `nav/navModel.js`, `nav/crumbs.js`,
+`Chrome.jsx`, `App.jsx`, `rail/RailHost.jsx` (copy only), `state/layout.js`, `ColdLinkBanner.jsx`,
+the palette entries, `index.html`'s title. **Verification:** crumbs equal the `member_of` chain;
+titles differ per place; full screen hides crumbs, head and bar; the cold-link banner shows once;
+`layout.test.mjs` extended, not re-pinned (narrow with nothing stored → folded, stored open → open);
+the walk's pane and full-screen block unchanged but for the crumb assertion. **Depends on:**
+WP-14.8, 14.10, 14.12. **Size:** L.
+
+### WP-14.14 — The front door and the Gate
+
+**Status: PLANNED.** Wave 3, parallel with 14.13 and merged after it. **Goal:** a plain-language
+front door built only from glossary records and live counts — what this is and for whom, two
+entrances, the two spines drawn as ruled rows of links so the navigation is learned once, a
+labelled worked example, and a layout that fits a laptop — and the Gate showing the ungated
+`about-tdl` definition, saying nothing if the fetch fails. The worked example stops where the
+corpus does (`oq/the-worked-house-has-no-plan-that-places`). **Key files:** `surfaces/Overview.jsx`,
+`components/TwoSpineMap.jsx` (links, not an SVG engine), `Gate.jsx`. **Verification:** `about-tdl`
+rendered on both; no horizontal scroll at 1280 px; navModel covers the map's nodes; the copy ratchet
+goes down. **Depends on:** WP-14.13. **Size:** M.
+
+### WP-14.15 — Integration
+
+**Status: PLANNED.** Wave 4. **Goal:** prove the tranche end to end in a real browser at 1280, 1440
+and 1680 px with screenshots set beside Lucas's; lower the copy ratchet to its new floor; rewrite
+`docs/workbench.md`'s navigation; correct the figures in CLAUDE.md and `STATE-OF-THE-PROJECT.md`
+through `check_counts --fix` and correct by hand the prose no checker reads (`README.md:51` still
+calls the careful Tidewater plan *0 fatal*); file any question raised on the way. **Verification:**
+`npm run build && npm test`; router-unit and search-unit; `check_frontend.py`; `pytest tests
+workbench/server/tests` with `ifcopenshell`, `ezdxf`, `fastapi` and `httpx` installed so the CAD and
+server tests are judged, not skipped; `check_glossary.py`, `check_ids.py`, `check_counts.py`,
+`gen_open_questions.py --check`, `check_systems.py`, `check_orders.py`; `check_all.py` → 54 checks
+and no red absent from the WP-14.0 baseline; `walk.sh` on a freshly started server, exit 3 not a
+pass. By hand: `#/proportions/trim-classical` draws three wall sections and three casings at the
+ceiling in the URL, names first, the pack's users listed, the invariants folded; `#/style/craftsman`
+→ Kit → a pack → Faults carries Craftsman the whole way. **Depends on:** every package above.
+**Size:** M.
+
+### Later tranches — planned, not built
+
+**T2:** record pages for slot, room, massing, grouping and parti (retiring the "searched" banner);
+comparing two styles (`#/compare/<a>/<b>/<section>` over a server `compare_kits`); the guided tour
+through the house half, which needs a Tidewater plan that places; the parti bridge, which needs a
+brief-schema ruling; keys for every mark, one duty per hatch; Faults read for one style, a
+FaultGauge and a PartiDiagram; an Elements index; the Drawing Set and Export keeping sheet and face
+in the URL; the assistant told what the reader is looking at, with starter questions; MCP parity;
+plate declarations (casing orientation, zone divisions, wall-datum thumbnails); the copy ratchet to
+zero; every pick writing the URL; the instrument surfaces reflowing below 1380 px. **T3:** an
+answer-first Plan Workbench; the glossary beyond tranche 1.
+
+### Open questions filed by WP-14.0
+
+Seven, each a slug file under `docs/open-questions/` carrying its evidence, what each answer would
+change, and what tranche 1 does meanwhile. None is numbered.
+
+- `oq/a-brief-cannot-name-a-parti` — the brief schema admits no parti and `/api/compose` passes
+  only the brief, so the dossier lists plan types as information only.
+- `oq/the-assistant-is-blind-to-the-page` — the pane is named and is sent nothing about the
+  selection; the server reads a candidate key the client never sends; no tool answers pack →
+  styles; tranche 1 keeps `rail.py` byte-stable, stale figure included.
+- `oq/casings-are-measured-across-and-drawn-upright` — which way an assembly runs, and its zones,
+  are stated only in prose; the 4 + 12 + 3 division holds for one wall section of three.
+- `oq/one-duty-per-hatch` — the unjudged hatch carries five meanings, the 45° hatch six, six hatch
+  tokens are unused, `gilt-deep` has eight duties and tradition `t3` is the colour of failure.
+- `oq/mcp-proportions-serve-no-assemblies-for-non-order-packs` — the MCP tool still reports 27
+  packs as having none, serves a nineteen-foot column diameter for `trim-classical`, and should or
+  should not follow the workbench.
+- `oq/the-worked-house-has-no-plan-that-places` — the guided example's plans are refused on both
+  engines, and the README still calls the careful plan 0 fatal against a measured 3.
+- `oq/which-packs-module-is-a-building-input` — three more packs read their module and a same-
+  meaning binding side by side, and `opening-proportion`'s module and slider are two different
+  openings.
+
+The four things Lucas ruled on 24 September — the section names, the assistant's name, the
+narrow-screen fold and the Gate sentence — are recorded above as rulings and in the report, and are
+deliberately not filed as questions.
