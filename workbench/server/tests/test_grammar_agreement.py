@@ -92,6 +92,57 @@ def test_trailing_newline_is_rejected_the_same_way_on_both_sides():
     assert not citations.REF_RE.match("style:craftsman\n")
 
 
+# ---------------------------------------------------------------- WP-14.3: the dossier's sections
+# `DOSSIER_SECTIONS` is a pinned VOCABULARY, not a pattern (PRD phase 14, §D.1): the grammar above
+# is untouched by it, and it decides which `style:` fragments name a section. §D.1 allows it
+# exactly two spellings -- `citations.py`'s tuple and `citations.js`'s frozen array, which the
+# browser needs because it cannot import a Python constant -- and this holds them equal by READING
+# the JavaScript, as the id classes above are held.
+
+_DOSSIER_JS = re.compile(r"^export const DOSSIER_SECTIONS = Object\.freeze\(\[([^\]\n]*)\]\);$", re.M)
+
+
+@pytest.fixture(scope="module")
+def client_sections():
+    import os
+    root = os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__)))))
+    src = open(os.path.join(root, CLIENT), encoding="utf-8").read()
+    hits = _DOSSIER_JS.findall(src)
+    assert len(hits) == 1, (
+        f"found {len(hits)} one-line `export const DOSSIER_SECTIONS = Object.freeze([...]);` in "
+        f"citations.js -- §D.1 fixes that exact one-line form so this reader can hold it; if it "
+        f"was reformatted, restore the form rather than loosening the reader")
+    items = [x.strip() for x in hits[0].split(",") if x.strip()]
+    assert all(len(x) > 2 and x[0] == x[-1] == "'" for x in items), items
+    return tuple(x[1:-1] for x in items)
+
+
+def test_client_and_server_dossier_sections_are_identical(client_sections):
+    assert client_sections == citations.DOSSIER_SECTIONS, (
+        f"the browser routes {client_sections} and the server validates "
+        f"{citations.DOSSIER_SECTIONS}: a section one side knows and the other does not is a "
+        f"citation that validates and then opens nothing, or opens and then streams as dead text")
+
+
+def test_the_server_vocabulary_is_a_tuple_led_by_identify_and_names_each_section_once():
+    s = citations.DOSSIER_SECTIONS
+    assert isinstance(s, tuple), "a list could be widened at run time"
+    assert len(set(s)) == len(s), "a section is listed twice"
+    assert s[0] == "identify", "identify is the section the bare citation names and leads the order"
+
+
+def test_no_slot_id_is_a_section_id():
+    """What makes `style:<id>#<fragment>` mean ONE thing. A slot named like a section would make
+    that citation a slot to the validator and a section to the router, and the fragment rule
+    could not tell which the author meant."""
+    from workbench.server import corpus
+    slots = set(corpus.core._data()["slots"])
+    assert slots, "the premise: the ontology is loaded"
+    clash = sorted(slots & set(citations.DOSSIER_SECTIONS))
+    assert not clash, f"slot ids that are also dossier sections: {clash}"
+
+
 # ---------------------------------------------------------------- OQ 83: no fifth copy
 # The moulding geometry is constructed in build/profiles.py and serialised there. Two JavaScript
 # copies of the SVG sweep rule existed until 27 Aug 2026 and BOTH were wrong: each emitted the

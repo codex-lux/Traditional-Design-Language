@@ -266,6 +266,18 @@ CLAIMS = [
     # deliberately: no document states either, and writing a sentence into the prose so that a
     # checker has something to check would be the wrong way round.
     ("CLAUDE.md",              "search_index",   r"/api/search/index` \((\d+) named things"),
+    # WP-14.3. THE SAME FIGURE IN THREE MORE PLACES AND NOTHING WATCHED ANY OF THEM: the workbench
+    # README said 665 and docs/workbench.md said 666 in one sentence and 665 in the next, while the
+    # CLAUDE.md claim above was policed -- WP-8.14's "a number stated twice needs claiming twice",
+    # broken by the number that rule was written about (WP-12.8 had already corrected one of
+    # these by hand). The index gains the glossary's words in the same package, so all four move
+    # together and all four are claimed. Two more copies sit in comments in the app's JavaScript
+    # (`components/Spotlight.jsx`, `search/match.js`) and are NOT claimed: those files are owned
+    # by other tranche-one packages (Spotlight is "unchanged by design" and leaves in tranche two),
+    # and `--fix` rewriting a file this package may not edit would be an edit by another route.
+    ("workbench/README.md",    "search_index",   r"search everything — (\d+) named things"),
+    ("docs/workbench.md",      "search_index",   r"serves every nameable thing once \((\d+) entries"),
+    ("docs/workbench.md",      "search_index",   r"runs all (\d+) through the server's own validator"),
     # Keyed `parti_count`, NOT `partis`: `test_parti_confinement.py` scans build/ for any line
     # matching `"partis", <identifier>`, which is what a path join looks like, and a CLAIMS tuple
     # whose key is the directory name followed by a raw-string prefix is indistinguishable from

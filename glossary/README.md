@@ -88,8 +88,11 @@ must resolve no other.
 
 **Citations are the workbench's own grammar.** Each `see` item and `surface.try` is `kind:id`:
 `term:<id>` must name a record in this directory, `brief:<id>` a file in `briefs/`, and every other
-kind must resolve through the server's citation validator. In tranche one no record cites a
-dossier section (`style:<id>#<section>`): the server does not accept that fragment yet.
+kind must resolve through the server's citation validator. A `style:` citation's fragment may
+name a slot or a dossier section (`style:<id>#<section>`, one of the sections the server's
+`DOSSIER_SECTIONS` lists); a `kit:` citation's fragment names a slot only, because a kit has no
+sections. Until the server's validator learned the sections, a section fragment was refused here
+by that validator and no record could carry one.
 
 **What is not a basis.** The app strings being retired — the source-kind glosses on `SourceChip`,
 the edge verbs on `EdgeGlyph`, `KIND_LABEL`, the rail's surface descriptions in `Chrome.jsx`, the

@@ -178,6 +178,140 @@ def _author(authority):
     return authority.split(",")[0].strip()[:60] or None
 
 
+# ------------------------------------------------------------------ the glossary (WP-14.3)
+# What each word the workbench shows means, served from `glossary/<id>.json` through
+# `core._data()["glossary"]` and NOWHERE ELSE -- the app writes no definition, and a record is
+# held to its contract by build/check_glossary.py before it can reach this module. The payload
+# shape is docs/prd/phase-14-the-dossier-and-the-journey.md §C.1 and §C.2, and every rule below
+# is that section's rule in code, with the one spelling of each thing it needs IMPORTED:
+#
+#   * which files a basis may name -- `check_openings.GLOSSARY_REC_RE`, the pattern the checker
+#     verifies the basis against, so the `reads` line a popover prints is exactly the population
+#     the checker read and never a second regex's opinion of it;
+#   * the seven bindable fields -- `check_glossary.FIELDS`, whose rows the checker verifies
+#     against the schema files on every run;
+#   * the family order -- the schema's own `family` enum, through `core.schema`.
+#
+# CACHED, and that is measured rather than imitated from search_index: building it walks 121
+# records, a regex over each basis and a JSON serialisation for the digest, and the payload is
+# what every tooltip on every page reads. Returned SHARED, as search_index is -- a caller that
+# means to mutate it copies first. `reset_glossary_payload()` is called by `invalidate()`.
+_GLOSSARY_PAYLOAD = None
+
+# The families a reader meets as a place rather than as a word: a surface, a dossier section and
+# a rail group are reached by the rail and the page head, so the palette does not list them a
+# second time as glossary entries (§C.5). A term in any other family is findable by its words.
+GLOSSARY_FAMILIES_NOT_INDEXED = ("surface", "section", "nav-group")
+
+
+def reset_glossary_payload():
+    global _GLOSSARY_PAYLOAD
+    _GLOSSARY_PAYLOAD = None
+
+
+def _glossary_families():
+    """The schema's `family` enum, in its order. The order IS the Glossary page's order, so it is
+    read from the schema rather than restated here."""
+    return list(core.schema("glossary-term")["properties"]["family"]["enum"])
+
+
+def _glossary_sort_key(families):
+    """§C.1: (index of `family` in the schema enum, `order` if present else +inf, `id`). `order`
+    is tested by PRESENCE, because 0 is a real order and the first value of every bound enum."""
+    inf = float("inf")
+    last = len(families)
+
+    def key(rec):
+        fam = rec.get("family")
+        return (families.index(fam) if fam in families else last,
+                rec["order"] if isinstance(rec.get("order"), int) else inf,
+                rec.get("id", ""))
+    return key
+
+
+def _glossary_reads(rec):
+    """The files the record's basis names, in order of first appearance and de-duplicated -- the
+    popover's provenance line (§C.1). `findall` over GLOSSARY_REC_RE is exactly what
+    `check_openings.check_basis` runs on the same basis, so a file listed here is a file the
+    checker opened and verified the quotation against. A sourced record carries no basis, so it
+    reads `[]` by construction."""
+    rx = core._mod("check_openings", os.path.join(ROOT, "build", "check_openings.py")).GLOSSARY_REC_RE
+    return list(dict.fromkeys(rx.findall(rec.get("basis") or "")))
+
+
+def glossary_payload():
+    """GET /api/glossary -- every record, with the set's version, grouped by family and by the
+    schema field each binds (PRD phase 14, §C.1)."""
+    global _GLOSSARY_PAYLOAD
+    if _GLOSSARY_PAYLOAD is not None:
+        return _GLOSSARY_PAYLOAD
+    G = core._data()["glossary"]
+    families = _glossary_families()
+    schema_version = core.schema("glossary-term")["version"]
+    # The digest is over the records AS AUTHORED -- sorted by id, no `reads` -- so a change to the
+    # derivation of `reads` is not a new version of the glossary, and a change to any record is.
+    authored = [G[k] for k in sorted(G)]
+    digest = hashlib.sha256(json.dumps(authored, sort_keys=True, separators=(",", ":"),
+                                       ensure_ascii=False).encode("utf-8")).hexdigest()[:16]
+    terms = []
+    for rec in sorted(G.values(), key=_glossary_sort_key(families)):
+        t = core.copy_json(rec)          # never hand out core's own record
+        t["reads"] = _glossary_reads(rec)
+        terms.append(t)
+    by_family = {f: [] for f in families}
+    for t in terms:
+        if t.get("family") in by_family:
+            by_family[t["family"]].append(t["id"])
+    fields = core._mod("check_glossary", os.path.join(ROOT, "build", "check_glossary.py")).FIELDS
+    by_field = {f: {} for f in fields}
+    for t in terms:
+        for b in t.get("binds") or []:
+            if b.get("field") in by_field:
+                by_field[b["field"]][b["value"]] = t["id"]
+    _GLOSSARY_PAYLOAD = {
+        "version": schema_version + "+" + digest,
+        "schema_version": schema_version,
+        "digest": digest,
+        "count": len(terms),
+        "terms": terms,
+        "by_family": by_family,
+        "by_field": by_field,
+    }
+    return _GLOSSARY_PAYLOAD
+
+
+def glossary_term(term_id):
+    """GET /api/glossary/{term_id} -- one record, its confusables resolved in declared order and
+    each `see` cite named from the search index by its `cite` (PRD phase 14, §C.2). A miss is an
+    `{"error", "did_you_mean"}` dict, which `_ok()` turns into a 404, and `did_you_mean` is
+    `core.get_fault`'s rule exactly.
+
+    `/api/glossary/about-tdl` is the one path the gate leaves open (§C.3), and this function is
+    what answers it. What it can put in that body is bounded by the RECORD rather than by code
+    here: build/check_glossary.py rule 9 forbids `about-tdl` a `see`, a `confusable_with`, a
+    `binds` or a `surface`, so both resolved lists come back empty and nothing but its own words
+    and the set's version string leaves the building."""
+    G = core._data()["glossary"]
+    rec = G.get(term_id)
+    if rec is None:
+        return {"error": f"no glossary term '{term_id}'",
+                "did_you_mean": [k for k in G if term_id.lower() in k][:8]}
+    term = core.copy_json(rec)
+    term["reads"] = _glossary_reads(rec)
+    confusable = []
+    for oid in rec.get("confusable_with") or []:
+        other = G.get(oid) or {}
+        # check_glossary proves every id named here exists; a record that did not would come back
+        # with its words null rather than be dropped, so the list stays the one the record states.
+        confusable.append({"id": oid, "term": other.get("term"), "sense": other.get("sense")})
+    see = []
+    if rec.get("see"):
+        names = {e["cite"]: e["name"] for e in search_index()["entries"]}
+        see = [{"cite": c, "name": names.get(c)} for c in rec["see"]]
+    return {"version": glossary_payload()["version"], "term": term,
+            "confusable": confusable, "see": see}
+
+
 # Built once per process. The corpus does not change under a running server — that is why the
 # client caches the response forever — but the SERVER was rebuilding all 665 entries and
 # re-globbing and re-parsing the 21 parti files on EVERY request: 214 KB and 3.3 ms of CPU a
@@ -287,13 +421,35 @@ def search_index():
             "hay": _hay(p.get("name"), p["id"], p.get("aka"), p.get("circulation_parti")),
         })
 
+    # WP-14.3. The glossary's words, so a reader can find what a word MEANS by typing it (§C.5).
+    # A term's `sense` goes into its name in parentheses, because two records may share a term
+    # ("variant" is a rank and a slot's option) and a list of two identical names is no answer.
+    # THE DEFINITION IS NEVER IN THE HAYSTACK -- it is prose, and this index's whole boundary is
+    # that it finds a thing by name: typing "wall" must not surface every term whose definition
+    # happens to mention a wall. It travels as `short`, for display, which match.js never reads.
+    # Surfaces, dossier sections and rail groups are places the rail already names, and are left
+    # out (GLOSSARY_FAMILIES_NOT_INDEXED).
+    _gfam = _glossary_families()
+    for t in sorted(D["glossary"].values(), key=_glossary_sort_key(_gfam)):
+        if t.get("family") in GLOSSARY_FAMILIES_NOT_INDEXED:
+            continue
+        e.append({
+            "cite": "term:" + t["id"], "kind": "term", "id": t["id"],
+            "name": t["term"] + (" (" + t["sense"] + ")" if t.get("sense") else ""),
+            "meta": t["family"],
+            "hay": _hay(t["term"], t["id"], t.get("aka"), t.get("sense")),
+            "short": t["definition"],
+        })
+
     _SEARCH_INDEX = {
         "count": len(e),
         "entries": e,
         "indexes": ["name", "id", "aka", "categorical fields (rank, group, category, "
-                    "kind, function_class, scale, circulation_parti)", "style regions"],
+                    "kind, function_class, scale, circulation_parti)", "style regions",
+                    "a glossary term's sense"],
         "does_not_index": ["prose bodies: diagnostic_tells, defining_characteristics, "
-                           "fault cause and correct_practice, slot notes, descriptions"],
+                           "fault cause and correct_practice, slot notes, descriptions",
+                           "glossary definitions: carried as `short` for display, never matched"],
         "note": ("The palette finds things by name. For prose use /api/styles?query=, "
                  "which searches the tells server-side, or ask the rail."),
     }
@@ -1319,4 +1475,7 @@ def invalidate():
                                        # parse and not the validator built from it would leave
                                        # a reload validating against the pre-edit schema.
     reset_search_index()
+    reset_glossary_payload()           # WP-14.3: a module global, not an lru_cache, so the walk
+                                       # in test_invalidate_clears_every_cache_that_exists... cannot
+                                       # see it; test_invalidate_clears_every_cache_it_claims_to names it.
     return {"reloaded": True}

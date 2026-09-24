@@ -59,9 +59,17 @@ def _data():
     precedents = {}
     for f in sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))):
         r = json.load(open(f)); precedents[r["id"]] = r
+    # WP-14.3. What each word the workbench shows means, one record per term, read exactly as
+    # faults/ is read above. Loaded HERE and served by workbench/server/corpus.py only: no MCP
+    # tool and no key of overview() reads it, because both are byte-stable in tranche 1 (PRD
+    # phase 14 §C.4). build/check_glossary.py is what holds the records to their contract.
+    glossary = {}
+    for f in sorted(glob.glob(os.path.join(ROOT, "glossary", "*.json"))):
+        n = json.load(open(f)); glossary[n["id"]] = n
     return {"styles": styles, "faults": faults, "slots": slots, "groups": groups,
             "massings": massings, "assets": assets, "kits": kits,
             "rooms": rooms, "groupings": groupings, "precedents": precedents,
+            "glossary": glossary,
             "ontology_version": sd["version"], "engine": _load_engine()}
 
 _PARTIS_CACHE = None

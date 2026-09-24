@@ -20,6 +20,15 @@ drawings of figures published in treatises between 1562 and 1830, they are what 
 on the page, and none of them carries provenance, review notes or building names. The record
 data behind them is behind /api/. When the first of anything else lands under assets/, this
 paragraph is the thing to re-read before widening the mount.
+
+And ONE route of the API itself, by ruling (24 Sep 2026, the Gate says one sentence): exactly
+`GET /api/glossary/about-tdl` is in `auth.OPEN_PATHS`, so the password screen can say what this
+is before anybody signs in. The gate compares whole paths, so `/api/glossary`, every other term,
+a trailing-slash form and any longer path stay behind it -- `test_zz_auth_leak_guard.py` asks all
+of them signed out. What that one body can carry is bounded by the record rather than by code:
+`build/check_glossary.py` forbids `about-tdl` a `see`, a `confusable_with`, a `binds` and a
+`surface`, so it resolves no other record, and what leaves is VISION.md's own words (the
+definition, and the basis quoting them), the file it read, and the glossary set's version string.
 """
 import os
 import subprocess
@@ -298,6 +307,20 @@ def search_index():
     """Everything nameable, once, for the command palette. Fetched on first open and
     matched in the browser — see corpus.search_index for what is and is not indexed."""
     return corpus.search_index()
+
+
+# ----------------------------------------------------------------- glossary (WP-14.3)
+# What each word the workbench shows means (PRD phase 14, §C). Both routes are gated like every
+# /api/ route but one: `/api/glossary/about-tdl` is in auth.OPEN_PATHS, and the module docstring
+# says what that path can carry.
+@app.get("/api/glossary")
+def glossary_index():
+    return _ok(corpus.glossary_payload())
+
+
+@app.get("/api/glossary/{term_id}")
+def glossary_term(term_id: str):
+    return _ok(corpus.glossary_term(term_id))
 
 
 # ----------------------------------------------------------------- styles

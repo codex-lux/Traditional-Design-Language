@@ -369,14 +369,23 @@ def test_a_confusable_with_naming_nothing_or_itself_fails(CG, control):
 def test_citations_are_held_to_the_grammar(CG, control):
     mutate(control, "test-cites", lambda r: r.__setitem__("see", [
         "term:no-such-term", "brief:no-such-brief", "style:no-such-style",
+        "style:tidewater-georgian#no-such-section", "kit:tidewater-georgian#lineage",
         "style:tidewater-georgian#lineage", "not a citation"]))
     rc, out = run(CG, control)
     assert rc == 1
     assert "see 'term:no-such-term' names no record in this glossary" in out, out
     assert "see 'brief:no-such-brief' names no file briefs/no-such-brief.json" in out, out
     assert "see 'style:no-such-style' does not resolve: unknown style id" in out, out
-    # the tranche-one rule: no dossier-section fragment until the server accepts one
-    assert "see 'style:tidewater-georgian#lineage' does not resolve: unknown slot fragment" in out, out
+    # THE FRAGMENT RULE IS THE SERVER'S, and this checker defers to it rather than spelling a
+    # fourth grammar (PRD phase 14, §A.5 rule 7 and §E.6). Until WP-14.3 the server knew no
+    # dossier section, so `style:<id>#lineage` was refused here -- this assertion read "no
+    # dossier-section fragment until the server accepts one", which is the "until X lands" shape,
+    # and WP-14.3 is X. Re-cut to the property it was always about: a `style:` fragment must be a
+    # slot OR a section, a `kit:` fragment a slot only, and neither is decided in this file.
+    assert ("see 'style:tidewater-georgian#no-such-section' does not resolve: unknown slot or "
+            "section fragment") in out, out
+    assert "see 'kit:tidewater-georgian#lineage' does not resolve: unknown slot fragment" in out, out
+    assert "'style:tidewater-georgian#lineage'" not in out, out
     assert "see 'not a citation' is not a citation in the grammar" in out, out
 
 

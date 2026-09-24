@@ -192,10 +192,12 @@ def test_invalidate_clears_every_cache_it_claims_to():
     core.schema("plan")
     core.schema("brief")
     corpus.search_index()
+    corpus.glossary_payload()
     core._all_partis()
     citations._parti_ids()
     citations._constraint_ids()
     assert corpus._SEARCH_INDEX is not None
+    assert corpus._GLOSSARY_PAYLOAD is not None
     assert core.schema.cache_info().currsize > 0
     assert core._all_partis.cache_info().currsize > 0
     assert citations._parti_ids.cache_info().currsize > 0
@@ -203,6 +205,9 @@ def test_invalidate_clears_every_cache_it_claims_to():
     corpus.invalidate()
 
     assert corpus._SEARCH_INDEX is None, "invalidate() left the search index cached"
+    # WP-14.3. A module global like the search index, so the lru_cache walk in the test below
+    # cannot see it; named here, where the one other global of its kind is named.
+    assert corpus._GLOSSARY_PAYLOAD is None, "invalidate() left the glossary payload cached"
     assert core.schema.cache_info().currsize == 0, "invalidate() left the schemas cached"
     assert core._all_partis.cache_info().currsize == 0, "invalidate() left the partis cached"
     # These two were missed by the first version, so /api/dev/reload left a newly added parti
