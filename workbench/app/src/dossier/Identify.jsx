@@ -27,11 +27,8 @@ export function Identify({ rec, styleId, cards }) {
   const chars = rec.defining_characteristics || [];
   return (
     <div data-dossier-section="identify">
-      {desc.short && <p style={{ ...prose, fontStyle: 'italic', color: 'var(--ink-2)', marginTop: 4 }}>{desc.short}</p>}
-      {desc.long && String(desc.long).split(/\n\n+/).map((p, i) => <p key={i} style={prose}>{p}</p>)}
-
       {cards.length > 0 && (
-        <nav aria-label="the other sections" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, margin: '18px 0 24px' }}>
+        <nav aria-label="the other sections" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, margin: '0 0 20px' }}>
           {cards.map((s) => (
             <a key={s.id} href={sectionAddress(styleId, s.id)} data-summary-card={s.id} data-count={s.count}
               style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 128, padding: '9px 12px',
@@ -42,6 +39,10 @@ export function Identify({ rec, styleId, cards }) {
           ))}
         </nav>
       )}
+
+      {desc.short && <p style={{ ...prose, fontStyle: 'italic', color: 'var(--ink-2)', marginTop: 4 }}>{desc.short}</p>}
+      {desc.long && String(desc.long).split(/\n\n+/).map((p, i) => <p key={i} style={prose}>{p}</p>)}
+
 
       {tells.length > 0 && (
         <Section eyebrow={<><Term id="diagnostic-tell" /> · {tells.length}</>} style={{ marginTop: 24 }}>

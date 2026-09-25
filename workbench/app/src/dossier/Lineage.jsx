@@ -56,7 +56,7 @@ export function Lineage({ rec, styleId, onCite }) {
       </div>
       {ladder.length > 0 && (
         <div style={{ flex: '0 1 320px', minWidth: 260 }}>
-          <Section eyebrow={<Term id="cascade" />}>
+          <Section>
             <ProvenanceTrace cascade={ladder} collapseFrom={7}
               onSelect={(s) => { onCite && onCite('style:' + s); }} />
           </Section>

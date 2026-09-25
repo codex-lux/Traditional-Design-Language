@@ -20,7 +20,8 @@
 
    Beside the sections, in the Kit's old pullable pane (`PANES.kit`, "the style's record"), the
    relations panel: what it is filed under, what is filed under it, its neighbours, and the plan on
-   the bench. */
+   the bench. On the kit section that pane is the kit's own, holding its cascade ladder, as it did
+   when the Kit was a surface: a slot table beside two panes has no width left to be read. */
 import React from 'react';
 import { api } from '../api/client.js';
 import { prefs } from '../state/prefs.js';
@@ -189,10 +190,12 @@ function Dossier({ styleId, selection, setSelection, onCite }) {
           {view.id === 'faults' && <Faults dossier={dossier} styleId={styleId} />}
           {view.id === 'evidence' && <Evidence rec={rec} styleId={styleId} />}
         </div>
-        <PullPane pane="kit" side="right"
-          style={{ borderLeft: '1px solid var(--rule)', overflow: 'auto', background: 'var(--paper)' }}>
-          <RelationsPanel dossier={dossier} styleId={styleId} taxa={taxa} />
-        </PullPane>
+        {!isKit && (
+          <PullPane pane="kit" side="right"
+            style={{ borderLeft: '1px solid var(--rule)', overflow: 'auto', background: 'var(--paper)' }}>
+            <RelationsPanel dossier={dossier} styleId={styleId} taxa={taxa} />
+          </PullPane>
+        )}
       </div>
     </div>
   );

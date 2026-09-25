@@ -12,8 +12,9 @@
      cited and handed on; a slot the URL names that this kit does not list SAYS so, rather than
      opening nothing in silence.
    - The side panel's proportion packs and massing affinities left for the dossier's Proportions
-     and Plan types sections, which draw them in full; the cascade ladder stays, because the
-     source column is read against it.
+     and Plan types sections, which draw them in full; the cascade ladder stays in the pane
+     (`PANES.kit`, kept), because the source column is read against it. On this section the pane
+     is the kit's and the dossier's relations panel steps aside: a slot table needs the width.
    - "A thin kit is correct, not incomplete" is the `thin-kit` glossary record's definition,
      rendered live, and the strip's shown and bound figures are `/api/kit`'s, published as data
      attributes so the walk holds them to that endpoint. */
@@ -31,6 +32,7 @@ import { useGlossary } from '../api/useGlossary.js';
 import { termView } from '../glossary/termView.js';
 import { matches } from '../search/match.js';
 import { cascadeRows as ladderRows } from '../dossier/relations.js';
+import { PullPane } from '../components/PullPane.jsx';
 
 /* resolve_kit rows → SlotRow props. Source strings become {distance, id}; the
    "a + b (extends)" composite renders as the base ancestor plus a marker. */
@@ -174,16 +176,13 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
       </FilterStrip>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        <div style={{ width: 280, flex: 'none', borderRight: '1px solid var(--rule)', overflow: 'auto',
-          padding: '14px 12px 22px' }}>
-          <Eyebrow style={{ marginBottom: 8 }}>
-            <Term id="cascade" />{cascade ? ` · ${cascade.levels}` : ''}
-          </Eyebrow>
+        <PullPane pane="kit" side="left"
+          style={{ borderRight: '1px solid var(--rule)', overflow: 'auto', padding: '14px 12px 22px' }}>
           {cascadeRows.length > 0 && (
             <ProvenanceTrace cascade={cascadeRows} sourceId={source} collapseFrom={7}
               onSelect={(x) => { setSource(x); onCite && onCite('style:' + x); }} />
           )}
-        </div>
+        </PullPane>
 
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
           {!inKit && (
@@ -193,6 +192,10 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
               {specifiedOnly ? ' as bound — “specified only” is on' : ''}
             </p>
           )}
+          {/* The four fixed columns take 448 px, so beside the ladder at a laptop's width the slot
+              column -- the one the table is FOR -- collapsed to a single character. It keeps a floor
+              and the table scrolls sideways instead: a name cut to "a…" is not a row anybody can read. */}
+          <div data-kit-table="" style={{ minWidth: 640 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '10px 10px 8px',
             borderBottom: '1px solid var(--rule)', position: 'sticky', top: 0, background: 'var(--paper)', zIndex: 1 }}>
             <Eyebrow as="span" style={{ width: 132, flex: 'none' }}>group</Eyebrow>
@@ -207,6 +210,7 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
               onSource={(x) => setSource(x)}
               onFault={(x) => onCite && onCite('fault:' + x)} />
           ))}
+          </div>
           <div style={{ padding: '14px 12px 26px', maxWidth: '72ch' }}>
             <Eyebrow style={{ marginBottom: 5 }}><Term id="thin-kit" /></Eyebrow>
             {thin.state === 'ready' && (

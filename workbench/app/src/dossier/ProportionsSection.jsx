@@ -24,20 +24,19 @@ import { packGroups, splitDelivered, deliveredOpen } from './relations.js';
 
 function PackRow({ p, styleId, from, why }) {
   return (
-    <div data-pack={p.pack} style={{ display: 'flex', gap: 10, alignItems: 'baseline', padding: '3px 0', flexWrap: 'wrap' }}>
-      <span style={{ flex: '1 1 260px', minWidth: 0 }}>
-        <RecordLink cite={'pack:' + p.pack} ctx={{ style: styleId }}>{p.name || p.pack}</RecordLink>
-      </span>
-      <span style={{ ...data, width: 120, flex: 'none' }}>
-        {p.kind ? <Term field="pack.kind" value={p.kind} /> : null}
-      </span>
-      <span style={{ ...data, width: 84, flex: 'none' }}>{p.role || ''}</span>
-      {from && (
-        <span style={{ ...data, flex: '1 1 100%' }}>
-          from <RecordLink cite={'style:' + from}>{p.from_name || from}</RecordLink>
+    <div data-pack={p.pack} style={{ padding: '3px 0' }}>
+      <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
+        <span style={{ flex: '1 1 auto', minWidth: 0 }}>
+          <RecordLink cite={'pack:' + p.pack} ctx={{ style: styleId }}>{p.name || p.pack}</RecordLink>
         </span>
+        <span style={{ ...data, whiteSpace: 'nowrap' }}>
+          {p.kind ? <Term field="pack.kind" value={p.kind} /> : null}{p.role ? ` · ${p.role}` : ''}
+        </span>
+      </div>
+      {from && (
+        <div style={data}>from <RecordLink cite={'style:' + from}>{p.from_name || from}</RecordLink></div>
       )}
-      {why && <span style={{ ...quiet, fontSize: 12.5, flex: '1 1 100%' }}>{why}</span>}
+      {why && <p style={{ ...quiet, fontSize: 12.5, marginTop: 2 }}>{why}</p>}
     </div>
   );
 }
