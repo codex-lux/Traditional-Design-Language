@@ -4866,7 +4866,7 @@ set when it merges.
   gauge's missing extent, a parti's missing positions, and the link ink below AA.
 - **WP-14.17 — every definition a record.** Glossary 0.2.0: family, field-label and mark records;
   the fault card's labels; the front door's two headings; starter questions on every surface
-  record. Wave 1. **Status: PLANNED.**
+  record. Wave 1. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.17-every-definition-a-record.md`. Glossary 0.2.0 has three new families (`glossary-field`, `mark`, `family`), an eighth bindable field, starter questions (`surface.ask`, 48 over 18 pages) and a `mark` checked against `tokens.css`. The glossary goes from 121 to 179 records. The Glossary's family headings and field labels, every label on the fault card, and the front door's two lower headings are now records, and `oq/a-glossary-family-has-no-name-of-its-own` is closed. **The fault card had labelled `frequency` "how it lives"**, while its own header says that is `severity_in_use`. It now reads how often, and how it lives is shown where the fault states it (33 of 210). The two copies of the bindable-field table had never been held to each other row for row; now they are.
 - **WP-14.18 — proportions served whole.** Assembly `axis` and `zones` and their checker;
   `module.equals` class A; `tdl_get_proportions` at parity with the workbench, with no false column
   diameter. Wave 1. **Status: PLANNED.**

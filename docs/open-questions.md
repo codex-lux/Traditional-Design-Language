@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**224 questions, of which 128 are open.** A question is OPEN while
+**224 questions, of which 127 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 128
+## Open — 127
 
 Awaiting a ruling. This is the list to read first.
 
@@ -160,7 +160,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 96
+## Settled — 97
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
