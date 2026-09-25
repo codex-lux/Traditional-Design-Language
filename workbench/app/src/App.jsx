@@ -25,10 +25,9 @@ import { RailHost } from './rail/RailHost.jsx';
 import { PlanWorkbench } from './surfaces/PlanWorkbench.jsx';
 import { CandidateSet } from './surfaces/CandidateSet.jsx';
 import { FaultCorpus } from './surfaces/FaultCorpus.jsx';
-import { KitSurface } from './surfaces/KitSurface.jsx';
 import { Phylogeny } from './surfaces/Phylogeny.jsx';
 import { BriefIntake } from './surfaces/BriefIntake.jsx';
-import { StyleRecord } from './surfaces/StyleRecord.jsx';
+import { StyleDossier } from './surfaces/StyleDossier.jsx';
 import { Proportions } from './surfaces/Proportions.jsx';
 import { DrawingSet } from './surfaces/DrawingSet.jsx';
 import { ExportDetails } from './surfaces/ExportDetails.jsx';
@@ -41,10 +40,9 @@ const SURFACES = {
   workbench: PlanWorkbench,
   candidates: CandidateSet,
   faults: FaultCorpus,
-  kit: KitSurface,
   phylogeny: Phylogeny,
   brief: BriefIntake,
-  style: StyleRecord,
+  style: StyleDossier,
   proportions: Proportions,
   drawings: DrawingSet,
   export: ExportDetails,
