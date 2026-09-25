@@ -1,0 +1,14 @@
+{
+  "id": "named-by-the-brief",
+  "term": "named by the brief",
+  "family": "house",
+  "definition": "A plan diagram the brief asks for by name. The composer guarantees it a place among the candidates and scores it like any other; if its own ranking would not return it, it is added after them and displaces none.",
+  "more": "The lot can still rule it out, and the result then says why. A brief whose named diagram cannot be built on the brief's own massing is refused before anything is composed.",
+  "kind": "editorial",
+  "basis": "Our wording of the composer's guarantee. build/compose.py, pick_partis: \"A parti named by the brief is guaranteed a place among the candidates: it is scored by the same arithmetic as every other diagram, never given a bonus for being named, and if the cut falls above it, its row is kept past the cut anyway.\"; build/compose.py, compose: \"appended after the set as one more candidate and displaces nothing\"; build/compose.py, check_brief_refs: \"A brief whose named parti contradicts the brief's own massing is refused by name before a job starts, and never silently re-picked\".",
+  "see": [
+    "term:parti",
+    "term:parti-borrowed",
+    "term:surface-brief"
+  ]
+}

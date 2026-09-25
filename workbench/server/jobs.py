@@ -93,11 +93,18 @@ def _run(job):
     if job.kind == "revise":
         return _run_revise(job)
     job.status = "running"
-    _put(job, "stage", {"stage": "seeding",
-                        "note": "reading the brief, resolving partis native to the style"})
     try:
         composer = core._composer()
+        # WP-14.19: how many diagrams this compose will consider, from the composer's own list
+        # (`compose.considered`, the one list `compose()` works through), so the journey can say
+        # "composing k of N". Every diagram in it is heard from exactly once before the revision
+        # loop -- a `candidate` event, or a `stage` event naming the diagram the lot dropped --
+        # and each carries `considered`, the running count, so k reaches N.
+        total = len(composer.considered(job.brief, job.candidates))
+        _put(job, "stage", {"stage": "seeding", "total": total,
+                            "note": "reading the brief, resolving partis native to the style"})
         done = []
+        heard = [0]
 
         def on_candidate(summary):
             # WP-9.2: compose() fires this a SECOND time per returned candidate once the placed
@@ -118,6 +125,15 @@ def _run(job):
                     "fatal": (summary.get("counts") or {}).get("fatal", 0),
                     "revision_skipped": summary.get("revision_skipped")})
                 return
+            heard[0] += 1
+            if summary.get("dropped_lot"):
+                # a diagram the lot drops is considered and never scored: a `stage` line naming it,
+                # not a `candidate`, so nothing counts it among the scored
+                _put(job, "stage", {"stage": "dropped", "parti": summary.get("parti"),
+                                    "note": f"{summary.get('parti_name')}: {summary.get('why')}",
+                                    "named_by_brief": bool(summary.get("named_by_brief")),
+                                    "considered": heard[0], "total": total})
+                return
             done.append(summary)
             # `disqualified` and the fatal count ride WITH the score, never behind it. The
             # score is now a composite out of 100 that a disqualified candidate can top, and
@@ -129,7 +145,9 @@ def _run(job):
                 "n": len(done), "parti": summary.get("parti"),
                 "parti_name": summary.get("parti_name"), "score": summary.get("score"),
                 "disqualified": bool(summary.get("disqualified")),
-                "fatal": (summary.get("counts") or {}).get("fatal", 0)})
+                "fatal": (summary.get("counts") or {}).get("fatal", 0),
+                "named_by_brief": bool(summary.get("named_by_brief")),
+                "considered": heard[0], "total": total})
 
         # Detect the callback parameter by signature rather than catching
         # TypeError around the call — a genuine TypeError inside a working
@@ -137,13 +155,13 @@ def _run(job):
         import inspect
         takes_callback = "on_candidate" in inspect.signature(composer.compose).parameters
         if takes_callback:
-            _put(job, "stage", {"stage": "composing",
+            _put(job, "stage", {"stage": "composing", "total": total,
                                 "note": "seeding, repairing and scoring every native diagram; then the "
                                         "returned candidates are placed and revised, round by round"})
             result = composer.compose(job.brief, job.candidates, on_candidate=on_candidate,
                                       **(job.options or {}))
         else:
-            _put(job, "stage", {"stage": "composing",
+            _put(job, "stage", {"stage": "composing", "total": total,
                                 "note": "repairing candidates against the validator (~8 s)"})
             result = composer.compose(job.brief, job.candidates)
         job.result = result
@@ -287,8 +305,18 @@ def _validate(kind, obj, error, hint):
 
 
 def _validate_brief(brief):
-    return _validate("brief", brief, "brief does not match the brief schema",
-                     "the minimum is style and target_area_sf")
+    err = _validate("brief", brief, "brief does not match the brief schema",
+                    "the minimum is style and target_area_sf")
+    if err:
+        return err
+    # WP-14.19: the schema can say a `parti` is shaped like an id and cannot say that one by that
+    # name exists, or that it can be built on the brief's own massing. The composer's own check,
+    # BEFORE the job exists, so a contradictory brief is refused by name and never re-picked.
+    composer = core._composer()
+    ref = composer.check_brief_refs(brief)
+    if ref:
+        return {"error": composer.BRIEF_REF_ERROR, "detail": ref, "hint": composer.BRIEF_REF_HINT}
+    return None
 
 
 def get(job_id):

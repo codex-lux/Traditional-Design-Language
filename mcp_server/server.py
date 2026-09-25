@@ -289,19 +289,24 @@ def tdl_check_plan(plan: dict, strict: bool = False) -> str:
 @mcp.tool()
 def tdl_brief_schema() -> str:
     """The brief format for tdl_compose, plus the example briefs in the repository. Only style and
-    target area are required; everything else the composer decides and reports as an assumption."""
+    target area are required; everything else the composer decides and reports as an assumption.
+    A brief may name a `parti` (tdl_list_partis gives the ids): the composer then guarantees that
+    diagram a candidate among the contrasting set, borrowed and saying so where it is not the
+    style's own, and refuses it by name if it cannot be built on the brief's own `massing`."""
     return J(core.brief_schema())
 
 @mcp.tool()
-def tdl_list_partis(style: str = "", massing: str = "") -> str:
-    """The 21 canonical plan diagrams the composer seeds from — centre-passage double and single pile,
+def tdl_list_partis(style: str = "", massing: str = "", include_borrowed: bool = False) -> str:
+    """The canonical plan diagrams the composer seeds from — centre-passage double and single pile,
     hall-and-parlor, side-hall town house, Cape with central chimney, Foursquare, Charleston single with
-    piazza, Creole gallery, bungalow, tripartite ranch, five-part Palladian, gable-front-and-wing, and
-    the nine WP-4.5 added (courtyard-and-portal, dogtrot, shotgun, octagon, tower villa, connected
-    farmstead, great-hall H-plan, living-hall picturesque, single-cell hall). Each carries what it
-    trades away and how it grows, which is the useful part. (This docstring said 12 from WP-4.5 until
-    WP-11.1, a hand-typed count in a place no checker reads.)"""
-    return J(core.list_partis(style or None, massing or None))
+    piazza, Creole gallery, bungalow, tripartite ranch, five-part Palladian, gable-front-and-wing,
+    courtyard-and-portal, dogtrot, shotgun, octagon, tower villa, connected farmstead, great-hall
+    H-plan, living-hall picturesque and single-cell hall. Each carries what it trades away and how it
+    grows, which is the useful part. Given a `style`, each also carries its `nativity`: native (drawn
+    for that style), lineage (drawn for a style it answers to), or borrowed (neither, listed only with
+    `include_borrowed`). A brief may name any of them in `parti`. (This docstring carried a hand-typed
+    count of the catalogue until WP-14.19, in a place no checker reads, and it had been wrong once.)"""
+    return J(core.list_partis(style or None, massing or None, include_borrowed=bool(include_borrowed)))
 
 @mcp.tool()
 def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
@@ -311,6 +316,13 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
     Seeds from the canonical partis native to the style, sizes every room from the room catalogue,
     repairs against the validator until it stops improving, reclaims the area the repair spent, and
     returns candidates fatal-free first and then by score.
+
+    A brief that names a `parti` is guaranteed a candidate built on it: scored by the same arithmetic
+    as the rest, and, if the composer's own ranking does not return it, appended after the set as one
+    more candidate, displacing none. `named_parti` on the result says whether it was returned, at
+    which rank, and whether it was appended -- or, where the lot drops it, why not. Every candidate
+    carries `named_by_brief` and its `nativity` (native, lineage or borrowed); a borrowed one says so
+    in `why_this_diagram` too.
 
     `score` is out of 100 and HIGHER IS BETTER. It is a weighted composite of eight axes, not a total
     of what is wrong: each axis is the share of its own denominator that came back clean, so a bigger

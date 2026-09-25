@@ -508,8 +508,16 @@ def assets(slot: str = None, style: str = None, fault: str = None,
 
 
 @app.get("/api/partis")
-def partis(style: str = None, massing: str = None):
-    return core.list_partis(style=style, massing=massing)
+def partis(style: str = None, massing: str = None, include_borrowed: bool = False):
+    return core.list_partis(style=style, massing=massing, include_borrowed=include_borrowed)
+
+
+@app.get("/api/partis/{parti_id}")
+def parti_record(parti_id: str):
+    """WP-14.19: one parti and the styles it is native or lineage to. Through `core.get_parti`,
+    which reads the file through `core.load_parti` -- the one confined id-to-path join -- so this
+    route adds no path of its own; an unknown id is a 404 naming it."""
+    return _ok(core.get_parti(parti_id))
 
 
 # ----------------------------------------------------------------- schemas

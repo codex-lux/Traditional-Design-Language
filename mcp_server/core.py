@@ -1678,6 +1678,11 @@ def compose(brief, candidates=4, include_plans=False, revise=True, revise_rounds
     except Exception as e:
         return {"error": "brief does not match the brief schema", "detail": str(e)[:400],
                 "hint": "the minimum is style and target_area_sf; see tdl_brief_schema"}
+    # WP-14.19: a named parti must exist and be buildable on the brief's own massing, which the
+    # schema cannot say. Refused by name before anything is composed, never silently re-picked.
+    ref = _composer().check_brief_refs(brief)
+    if ref:
+        return {"error": _composer().BRIEF_REF_ERROR, "detail": ref, "hint": _composer().BRIEF_REF_HINT}
     bounded = []
     candidates = int(_bounded("candidates", candidates, 1, COMPOSE_MAX_CANDIDATES, 4, bounded))
     revise_rounds = int(_bounded("revise_rounds", revise_rounds, 0, REVISE_MAX_ROUNDS, 4, bounded))
@@ -1706,22 +1711,57 @@ def _all_partis():
                  for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))))
 
 
-def list_partis(style=None, massing=None):
-    D = _data()
+def list_partis(style=None, massing=None, include_borrowed=False):
+    """The parti catalogue, or the partis a style can use.
+
+    With a `style`, each parti carries `nativity` -- "native", "lineage" or "borrowed" -- read from
+    `compose.nativity`, the one spelling of that relation, so this list and the composer's own
+    choice cannot disagree about which diagram belongs to which style (WP-14.19). Native and
+    lineage partis are listed; a borrowed one only with `include_borrowed`, because a style's plan
+    types are the diagrams its own line was drawn with. Until WP-14.19 this read `p["styles"]`
+    alone and listed nothing at all for a style with no native parti, while the composer borrowed
+    a diagram for it and said so. Without a `style` there is no relation to state and no row
+    carries `nativity`."""
     out = []
+    nat = _composer().nativity if style else None
     for p in _all_partis():
-        if style and style not in p["styles"]: continue
+        n = nat(p, style) if style else None
+        if style and n == "borrowed" and not include_borrowed: continue
         if massing and p["massing"] != massing and massing not in p.get("alternate_massings", []): continue
-        out.append({"id": p["id"], "name": p["name"], "massing": p["massing"],
-                    "storeys": p.get("storeys"), "area_range_sf": p.get("area_range_sf"),
-                    "bedroom_range": p.get("bedroom_range"), "styles": p["styles"],
-                    "description": p["description"], "trades_away": p.get("trades_away"),
-                    "grows_by": (p.get("scaling") or {}).get("grows_by")})
+        row = {"id": p["id"], "name": p["name"], "massing": p["massing"],
+               "storeys": p.get("storeys"), "area_range_sf": p.get("area_range_sf"),
+               "bedroom_range": p.get("bedroom_range"), "styles": p["styles"],
+               "description": p["description"], "trades_away": p.get("trades_away"),
+               "grows_by": (p.get("scaling") or {}).get("grows_by")}
+        if style:
+            row["nativity"] = n
+        out.append(row)
     return {"count": len(out), "partis": out,
             "note": ("A parti specifies topology and roles only — dimensions come from the room catalogue "
                      "and are scaled to the brief, so the library never duplicates room data. Every one is "
                      "descended from something that was actually built, which is why the composer seeds from "
-                     "them rather than searching from noise.")}
+                     "them rather than searching from noise. Asked for a style, each carries its nativity: "
+                     "native (drawn for this style), lineage (drawn for a style this one answers to) or "
+                     "borrowed (neither, listed only when borrowed diagrams are asked for). A brief may name "
+                     "any of them in `parti` and is guaranteed a candidate built on it.")}
+
+
+def get_parti(parti_id):
+    """One parti record, and which styles it belongs to. Reads the record through `load_parti`,
+    the one confined id-to-path join, and refuses an id whose file names a different record, so
+    `x/centre-passage-double-pile` is not a second address for the parti. `nativity_by_style`
+    lists every style for which `compose.nativity` answers native or lineage; every other style
+    would borrow it, which is the complement and is not listed."""
+    p = load_parti(parti_id)
+    if p is None or p.get("id") != parti_id:
+        return {"error": f"no parti '{parti_id}'", "available": [q["id"] for q in _all_partis()]}
+    nat = _composer().nativity
+    by = {"native": [], "lineage": []}
+    for sid in sorted(_data()["styles"]):
+        n = nat(p, sid)
+        if n in by:
+            by[n].append(sid)
+    return {"parti": copy_json(p), "nativity_by_style": by}
 
 def brief_schema():
     return {"schema": copy_json(schema("brief")),
@@ -1729,7 +1769,9 @@ def brief_schema():
             "hint": ("Only style and target_area_sf are required. Everything absent is decided by the "
                      "composer and reported in the decision log as an assumption, not smuggled in as a fact. "
                      "Put the household in `household` — it is the thing that decides whether the dining room "
-                     "gets built and never used.")}
+                     "gets built and never used. Name a `parti` to guarantee that diagram a candidate among "
+                     "the contrasting set; it is scored like the rest, borrowed where it is not the style's, "
+                     "and refused by name if it cannot be built on the brief's own `massing`.")}
 
 
 # ----------------------------------------------------------------- geometry

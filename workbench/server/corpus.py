@@ -845,15 +845,16 @@ def dossier_faults(style_id):
 
 def dossier_plan_types(style_id):
     """The three lists the Plan types section shows (PRD §H.4): massing affinities from the
-    node, native partis from `core.list_partis`, and the groupings whose `style_variation`
-    NAMES this style with `present` not false. Not `GET /api/groupings?style=`, which returns
-    every grouping not marked absent (PRD §0.1 #12)."""
+    node, the partis `core.list_partis` gives for the style -- native and lineage since WP-14.19,
+    each carrying its `nativity` so the section can say which -- and the groupings whose
+    `style_variation` NAMES this style with `present` not false. Not `GET /api/groupings?style=`,
+    which returns every grouping not marked absent (PRD §0.1 #12)."""
     D = core._data()
     n = D["styles"][style_id]
     affs = [{"massing": m.get("massing"),
              "massing_name": (D["massings"].get(m.get("massing")) or {}).get("name"),
              "affinity": m.get("affinity")} for m in (n.get("massing_affinities") or [])]
-    partis = [{"id": p["id"], "name": p.get("name")}
+    partis = [{"id": p["id"], "name": p.get("name"), "nativity": p.get("nativity")}
               for p in core.list_partis(style=style_id)["partis"]]
     groupings = []
     for gid in sorted(D["groupings"]):

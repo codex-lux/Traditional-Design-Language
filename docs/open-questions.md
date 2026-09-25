@@ -19,7 +19,7 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**226 questions, of which 128 are open.** A question is OPEN while
+**227 questions, of which 128 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
@@ -63,7 +63,7 @@ Awaiting a ruling. This is the list to read first.
 | **98** | HALF CLOSED — the reporting half built in WP-11.12 (7 September 2026); the measurement half is open and wants a ruling | [`span_check` credits a bearing wall across the whole floor plate however short it is, and the validator never mentions span capacity at all](open-questions/098-span-check-credits-bearing-wall-across-whole-floor-plate.md) |
 | **oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band** | OPEN | [two records, one dimension, no overlap](open-questions/oq-a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band.md) |
 | **oq/a-baked-pack-value-is-a-second-delivery-path** | OPEN | [a scope on a rule cannot reach the copy of it in a kit](open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md) |
-| **oq/a-brief-cannot-name-a-parti** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.19 | [the dossier lists a style's plan types and the brief has no field that could carry one](open-questions/oq-a-brief-cannot-name-a-parti.md) |
+| **oq/a-brief-can-name-a-massing-no-parti-is-built-on** | OPEN | [the composer returns no candidates and says nothing about why](open-questions/oq-a-brief-can-name-a-massing-no-parti-is-built-on.md) |
 | **oq/a-child-band-replaces-an-ancestor-derivation** | OPEN | [224 figures where a band stands over an expression](open-questions/oq-a-child-band-replaces-an-ancestor-derivation.md) |
 | **oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition** | OPEN | [one field, two opposite meanings](open-questions/oq-a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition.md) |
 | **oq/a-daily-route-is-an-editorial-model** | OPEN | [four fault tests ask who walks where, and a door graph cannot answer](open-questions/oq-a-daily-route-is-an-editorial-model.md) |
@@ -161,7 +161,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — ruled 25 Sep 2026; WP-14.18 declared `room-harmonic` and check 19 refused the other two class-A packs | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 98
+## Settled — 99
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -237,6 +237,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **95** | CLOSED 27 AUG 2026 | [the placement generator is blind to the other level, and no score term can see past that](open-questions/095-placement-generator-blind-other-level-score-term-see.md) |
 | **97** | CLOSED 27 AUG 2026 | [the search has no span term, so whether a placement clears its own structural capacity is luck](open-questions/097-search-span-term-whether-placement-clears-own-structural.md) |
 | **99** | CLOSED | [an open-question id is issued from the working tree, and this register predicted its own collision](open-questions/099-how-an-open-question-id-is-issued.md) |
+| **oq/a-brief-cannot-name-a-parti** | CLOSED 25 SEP 2026 — answer 1, guaranteed a place, executed by WP-14.19 | [the dossier lists a style's plan types and the brief has no field that could carry one](open-questions/oq-a-brief-cannot-name-a-parti.md) |
 | **oq/a-family-node-has-no-exemplar** | CLOSED 5 Sep 2026 | [32 higher-rank nodes name no building, 72 asset records wait on them, and every one is `confidence: high`](open-questions/oq-a-family-node-has-no-exemplar.md) |
 | **oq/a-glossary-family-has-no-name-of-its-own** | CLOSED 25 Sep 2026 — executed by WP-14.17 | [the Glossary groups every word by family, and no record says what a family is called](open-questions/oq-a-glossary-family-has-no-name-of-its-own.md) |
 | **oq/a-grouping-rule-and-a-room-record-can-disagree** | CLOSED 2 Sep 2026 | [six instances, one of them on fourteen partis, and nothing checks the class](open-questions/oq-a-grouping-rule-and-a-room-record-can-disagree.md) |

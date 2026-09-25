@@ -4877,7 +4877,12 @@ set when it merges.
   - **Questions.** `oq/mcp-proportions-serve-no-assemblies-for-non-order-packs` closed; the module question HALF CLOSED; two filed.
 - **WP-14.19 — a brief may name a parti.** Brief schema 0.2.0; one spelling of nativity; the
   guaranteed place; `GET /api/partis/{id}`; a compose total in the job stream. Wave 1.
-  **Status: PLANNED.**
+  **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.19-a-brief-may-name-a-parti.md`.
+  - **Brief schema 0.2.0.** An optional `parti`; `compose.check_brief_refs` refuses an unknown parti, or one no massing admits, before any job starts, in all three validators.
+  - **One spelling of nativity.** `compose.nativity` decides native / lineage / borrowed for the composer and `core.list_partis` alike: 160 native, 262 lineage and 3,022 borrowed pairs.
+  - **The guarantee.** The named parti is kept past the cut and, if not returned, appended as one more candidate that displaces nothing; the composer's own set is held unchanged by a test.
+  - **Surfaces.** `GET /api/partis/{id}` is added. The dossier's plan types gain the 262 lineage rows. A lot-dropped diagram now emits an event where it used to vanish, and stage events carry `total`.
+  - **Questions.** `oq/a-brief-cannot-name-a-parti` is closed. Filed: five massings no parti is built on, which a brief can name and receive an empty set without being told.
 - **WP-14.20 — small server truths.** `/api/health` states the session; an evaluation names its
   plan; no raw fetches; the sixteenth carry; `DimensionString` removed. Wave 1. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.20-small-server-truths.md`. `/api/health` carries `session`, the gate's own answer, and a signed-out boot makes no gated request: the walk's Gate block reads 0 answered 401, and deleting the branch turns it red. An evaluation names its plan through one `evalPlanOf`, and `oq/an-evaluation-whose-check-errored-names-no-plan` is closed on its answer 1. Both raw fetches go through `client.js`, and a test allows network calls there only. The sixteenth carries into the foot in both formatters; across 9,288 printed inch figures, including every MCP proportions payload, nothing moved. The health key set is pinned as tranche 1's ten plus `session`, lifted by name.
 - **WP-14.21 — the worked house, attempted.** Research, with a stop rule. Wave 1.

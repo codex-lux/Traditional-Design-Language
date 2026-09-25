@@ -118,7 +118,9 @@ def test_unknown_ids_are_404(client):
 
 def test_partis_gate(client):
     r = client.get("/api/partis", params={"style": "tidewater-georgian"}).json()
-    assert r["count"] >= 1  # the style-switch demo depends on a native parti here
+    # the style-switch demo depends on a NATIVE parti here. Since WP-14.19 the list carries
+    # lineage partis too, so a bare count would be satisfied by one that is not native.
+    assert any(p["nativity"] == "native" for p in r["partis"]), r["partis"]
 
 
 def test_example_plan_no_traversal(client):
