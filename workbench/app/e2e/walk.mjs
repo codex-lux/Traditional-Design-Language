@@ -4374,6 +4374,70 @@ async function journeyRead() {
   }
 }
 
+/* TWO STYLES AT ONE ADDRESS, AND THE KIT ROWS ARE THE API'S (WP-14.26, PRD tranche 2 §B.1,
+   §C.7). `#/compare/<a>/<b>` draws four sections down the page -- identify, kit, proportions,
+   plans -- and the kit section's rows are `/api/compare`'s, which the server suite holds equal to
+   the difference of the two `/api/kit` payloads (`test_compare_route.py`). What the walk adds is
+   the page: that the four sections are drawn in that order, that the rows DRAWN are the rows the
+   API returned -- counted in the DOM and on the section's own attribute, and both held to the
+   payload, because a count attribute alone would pass over a page that drew none -- that the
+   address's section is the one scrolled to, and that the two ways in (the dossier head's
+   "compare with…" picker and the family tree's shift-click) both land on the address rather than
+   on a panel. The expected figures are read from the API, never typed here. */
+{
+  const A = 'craftsman', B = 'tidewater-georgian';
+  const cmp = await fetch(`${BASE}/api/compare/${A}/${B}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const apiRows = cmp && cmp.kit && Array.isArray(cmp.kit.rows) ? cmp.kit.rows.length : null;
+  await visit(`#/compare/${A}/${B}`);
+  await page.waitForSelector('[data-compare-section="plans"]', { timeout: 30000 }).catch(() => {});
+  const order = await page.locator('[data-compare-section]')
+    .evaluateAll((els) => els.map((e) => e.getAttribute('data-compare-section')));
+  check(`the compare page draws its four sections in order (${order.join(', ') || 'none'})`,
+    JSON.stringify(order) === JSON.stringify(['identify', 'kit', 'proportions', 'plans']));
+  const drawn = await page.locator('[data-kit-row]').count();
+  const attr = await page.locator('[data-compare-section="kit"]').getAttribute('data-kit-rows').catch(() => null);
+  check(`the compare page draws the API's kit rows (${drawn} drawn, attribute ${attr}, API ${apiRows})`,
+    apiRows != null && apiRows > 0 && drawn === apiRows && Number(attr) === apiRows);
+  const answer = cmp
+    ? cmp.kit.rows.filter((r) => !(r.differs_on.length === 1 && r.differs_on[0] === 'source')).length
+    : null;
+  const drawnAnswer = await page.locator('[data-kit-answer] [data-kit-row]').count();
+  check(`and splits them where the payload says the answer differs (${drawnAnswer} drawn, ${answer} in the payload)`,
+    answer != null && drawnAnswer === answer);
+  await visit(`#/compare/${A}/${B}/kit`);
+  await page.waitForTimeout(600);
+  const offset = await page.evaluate(() => {
+    const box = document.querySelector('[data-compare-scroller]');
+    const el = document.querySelector('[data-compare-section="kit"]');
+    if (!box || !el) return null;
+    return Math.round(el.getBoundingClientRect().top - box.getBoundingClientRect().top);
+  });
+  check(`the address's section is the one scrolled to (kit section ${offset} px below the top of the page's scroller)`,
+    offset != null && Math.abs(offset) < 60);
+  await shot('compare-kit', [1440]);
+
+  await visit(`#/style/${A}`);
+  const picker = page.locator(`[data-compare-with="${A}"] input[role="combobox"]`);
+  await picker.waitFor({ timeout: 15000 }).catch(() => {});
+  await picker.click().catch(() => {});
+  await picker.fill('Tidewater Georgian').catch(() => {});
+  await page.waitForTimeout(300);
+  await picker.press('Enter').catch(() => {});
+  await page.waitForFunction(() => location.hash.startsWith('#/compare/'), null, { timeout: 10000 }).catch(() => {});
+  const fromDossier = await page.evaluate(() => location.hash);
+  check(`the dossier's "compare with…" goes to the address (${fromDossier})`,
+    fromDossier === `#/compare/${A}/${B}`);
+
+  await visit(`#/phylogeny/${A}`);
+  const row = page.getByRole('button', { name: 'Tidewater Georgian', exact: true }).first();
+  await row.waitFor({ timeout: 15000 }).catch(() => {});
+  await row.click({ modifiers: ['Shift'] }).catch(() => {});
+  await page.waitForFunction(() => location.hash.startsWith('#/compare/'), null, { timeout: 10000 }).catch(() => {});
+  const fromTree = await page.evaluate(() => location.hash);
+  check(`the family tree's shift-click goes to the address rather than a panel (${fromTree})`,
+    fromTree === `#/compare/${A}/${B}`);
+}
+
 await browser.close();
 if (limited) {
   console.error('\nCOULD NOT EVALUATE: the server rate-limited this run (429 at ' + limited

@@ -1,6 +1,6 @@
 # oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it — `tdl_get_slot`'s `specified_by_styles` reads each style's own kit file, counts a forbidden binding as a specification, and misses every inherited one
 
-*Status: OPEN · Raised in: WP-14.23 (25 September 2026)*
+*Status: CLOSED 25 Sep 2026 — question 1 answered by the resolved reading, executed by WP-14.26 · Raised in: WP-14.23 (25 September 2026)*
 
 **The finding.** `mcp_server/core.py::get_slot` builds `specified_by_styles` this way: it walks
 `D["kits"]`, which is each node's OWN kit file, and it lists a style whenever that style's record
@@ -63,3 +63,30 @@ defect therefore stands in `tdl_get_slot` and nowhere else.
 **Do not "fix" the own-kit list by filtering out `binding == "forbidden"` alone.** That removes
 the 228 and leaves the 6,380 missing entries in place. The result is a list that looks right and
 answers a narrower question than its name.
+
+## Closed by WP-14.26 (25 September 2026)
+
+**Question 1 is answered by moving the tool, not by renaming what its list means.** The tranche-2
+PRD's ruling 1 lifts tranche 1's freezes on MCP payloads per item and named, and WP-14.26's item
+is one kit authority. `core.get_slot` reads `core._resolved_bindings()` now -- the rule
+`_slot_binding` states, moved from `workbench/server/corpus.py` into `core` so the tool and the
+slot page read ONE spelling of it rather than two that agree today. `specified_by_styles` keeps its
+key and its meaning ("the styles that specify this slot") and is now TRUE of that meaning: over the
+97 slots it names 0 styles that forbid the slot and misses 0 that inherit it, both asserted by
+`tests/test_one_kit_authority.py`, with the premises that make those assertions bite (styles whose
+OWN file forbids a slot exist, and styles specify slots their own file does not bind) asserted
+beside them. The tool's `note` says it reads the kit after the cascade. **The payload moved on all
+97 slots**, which is the frozen surface this package lifts by name in its report.
+
+**Question 2 is answered by the resolver and not by this tool.** A slot a style binds `open`
+takes whatever its nearest specifying or forbidding ancestor says, because `resolve_slots` treats
+`open` as transparent. That is OQ 87's reading and this package does not change it; the tool now
+follows it rather than holding a second one.
+
+**Question 3: the tool does not serve the forbidding styles.** Its keys are held unchanged by a
+test, so a consumer of `tdl_get_slot` meets no new list. `GET /api/slots/{id}` serves both lists
+under `bindings`, as WP-14.23 built it, and that route and the tool read one function.
+
+**The warning at the foot of this entry was heeded**: the fix is not a filter on
+`binding == "forbidden"` over the own-kit list, which would have left the 6,380 missing entries in
+place. Report: `docs/reports/wp-14.26-one-kit-authority-and-two-styles-at-one-address.md`.

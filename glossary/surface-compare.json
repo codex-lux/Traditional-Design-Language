@@ -13,6 +13,7 @@
       "The kit rows are only the slots where the two styles differ.",
       "Shared ancestry is listed, and whether one descends from the other."
     ],
+    "try": "style:tidewater-georgian",
     "ask": [
       "Where do these two styles differ in their kits?",
       "Which proportion packs do these two styles share?",

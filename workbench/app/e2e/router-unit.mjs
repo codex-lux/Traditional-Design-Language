@@ -430,6 +430,27 @@ ok(() => {
   });
 });
 
+/* COMPARE (WP-14.26, tranche 2 §B.1, §B.2): two styles and a section, positionally, and no
+   citation. The address round-trips with and without its section; it is canonical, never a
+   legacy hash; and `citeFor` answers null for every compare place, because the grammar has no
+   two-style kind and none is added -- which is also why no `routeCite` lands on it. */
+ok(() => {
+  const hashes = ['#/compare/craftsman/tidewater-georgian', '#/compare/craftsman/tidewater-georgian/kit',
+    '#/compare/craftsman/tidewater-georgian/plans', '#/compare/craftsman', '#/compare'];
+  hashes.forEach((h) => {
+    const p = parseHash(h);
+    assert.equal(p.surface, 'compare', h);
+    assert.equal(formatHash(p.surface, p.selection, p.params), h, `${h} does not round-trip`);
+    assert.ok(!isLegacyHash(h), `${h} was taken for a retired address`);
+    assert.equal(canonicalHash(h), null, `${h} was rewritten`);
+    assert.equal(citeFor(p.surface, p.selection, p.params), null, `${h} was given a citation`);
+  });
+  assert.deepEqual(parseHash('#/compare/craftsman/tidewater-georgian/kit'),
+    { surface: 'compare', selection: { style: 'craftsman', compare: 'tidewater-georgian', section: 'kit' }, params: {} });
+  assert.equal(SELECTION_KEYS[SELECTION_KEYS.length - 1], 'compare', 'compare was inserted rather than appended');
+  assert.ok(!['style:craftsman', 'kit:craftsman', 'pack:trim-classical'].some((r) => (routeCite(r) || {}).surface === 'compare'));
+});
+
 /* Filters ride in the query and stay out of the selection. */
 ok(() => {
   const p = parseHash('#/faults/porch-too-shallow-to-inhabit?sev=serious&driver=budget');

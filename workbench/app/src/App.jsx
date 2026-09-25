@@ -53,6 +53,7 @@ import { Overview } from './surfaces/Overview.jsx';
 import { Glossary } from './surfaces/Glossary.jsx';
 import { Elements } from './surfaces/Elements.jsx';
 import { RoomPage, MassingPage, GroupingPage, PartiPage } from './surfaces/RecordPage.jsx';
+import { Compare } from './surfaces/Compare.jsx';
 
 const SURFACES = {
   overview: Overview,
@@ -73,6 +74,8 @@ const SURFACES = {
   massing: MassingPage,
   grouping: GroupingPage,
   parti: PartiPage,
+  // two styles side by side (WP-14.26, tranche 2 §B.1)
+  compare: Compare,
 };
 
 export default function App() {

@@ -4920,7 +4920,15 @@ set when it merges.
   - **The three readers that would have mislabelled a lineage parti as native** all read the served nativity now.
   - **Candidates and journey.** The candidate named by the brief is flagged, and the journey says "k of N" from the stream's own total.
   - **Found, not fixed.** The candidate strip reads "returned 2 of 1 asked for" when a named parti is appended, and `CandidateColumn` hard-codes "NOT native" for lineage partis too. Both are WP-14.27's.
-- **WP-14.26 — compare two styles**, on one kit authority. Wave 3. **Status: PLANNED.**
+- **WP-14.26 — compare two styles**, on one kit authority. Wave 3. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.26-one-kit-authority-and-two-styles-at-one-address.md`.
+  - **One kit authority.** `core.resolve_kit` now reads the build's `resolve_slots`, keeping its row shape and deleting the hand-merge. The two resolvers' disagreement goes from 38 of 15,908 (style, slot) pairs to 0, and every moved pair is named in a fixture:
+    - 33 stopped at an `open` record;
+    - 4 ignored OQ 58's scoped edges;
+    - 1 was a duplicate variant id.
+  - **`core.get_slot`** reads the resolved kit too. It lists no forbidding style as specifying, and `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it` is closed.
+  - **Frozen surfaces, lifted by name:** `tdl_resolve_kit`, `tdl_get_slot` and `/api/kit`. A digest over 32 calls to the other 25 tools shows none moved.
+  - **The cost, stated and not restored.** 129 `open` rows lose a `judgment: true` the resolver never delivers through an open record (OQ 87). Restoring it would need a second kit reader.
+  - **Compare.** `GET /api/compare/{a}/{b}` and `#/compare/<a>/<b>[/<section>]`, with sections identify / kit / proportions / plans. Entry is from the dossier head and from the family tree's shift-click, whose JSON panel is gone. `citeFor` returns null, and no regex changed.
 - **WP-14.27 — every pick writes the URL; no default record.** Also Faults read for one style, and
   Export's face picker. Wave 3. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.27-every-pick-writes-the-address.md`.
   - **No default record.** `DEFAULT_FAULT` and `DEFAULT_TAXON` are gone: a bare `#/faults` or `#/phylogeny` shows its list or tree and no record, worded by `no-record-chosen`.

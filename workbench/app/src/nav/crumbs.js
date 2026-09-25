@@ -142,6 +142,21 @@ export function crumbsFor(place, { lookup, dossier, names, styles, journey } = {
     // Library > Elements > the slot (tranche 2 §B.4)
     out.push(here('surface-elements'));
     if (str(sel.slot)) out.push(recordCrumb(recordName(`slot:${sel.slot}`), null, `slot:${sel.slot}`));
+  } else if (surface === 'compare') {
+    /* Styles > <a> > compare with <b> (tranche 2 §B.4). The last crumb is the `compare-with`
+       record's word and the second style's name -- two records' words, joined, and none written
+       here. A compare with only its first style ends at the word alone. */
+    if (str(sel.style)) {
+      out.push(recordCrumb(recordName(`style:${sel.style}`), formatHash('style', { style: sel.style }, {}),
+        `style:${sel.style}`));
+    }
+    const w = wordFor(lookup, 'compare-with');
+    const b = str(sel.compare);
+    out.push({
+      label: w.label && b ? `${w.label} ${recordName(`style:${b}`)}` : w.label,
+      href: null, termId: 'compare-with', missing: w.missing, group: false,
+      cite: b ? `style:${b}` : null,
+    });
   } else if (UNDER[surface]) {
     /* A plan-type record page: Library > Elements > the record (§B.4). Its KIND is the page head's
        eyebrow (`surface-<kind>`, PageHead), not a crumb. A bare record surface is that kind's

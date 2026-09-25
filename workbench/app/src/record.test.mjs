@@ -110,7 +110,10 @@ test('the shell draws a surface for every routed surface, so none falls back to 
 
 test('the four plan-type pages stand under Elements, and the slot page IS Elements', () => {
   assert.equal(SLOT_KIND.surface, 'elements');
-  assert.deepEqual(Object.keys(UNDER).sort(), RECORD_KINDS.map((k) => k.surface).sort());
+  // Compare stands under Find a style (WP-14.26), not Elements; every page that stands under
+  // Elements is a record kind, and every record kind stands there.
+  const underElements = Object.keys(UNDER).filter((s) => UNDER[s] === 'elements');
+  assert.deepEqual(underElements.sort(), RECORD_KINDS.map((k) => k.surface).sort());
   for (const k of RECORD_KINDS) assert.equal(UNDER[k.surface], 'elements', k.surface);
 });
 

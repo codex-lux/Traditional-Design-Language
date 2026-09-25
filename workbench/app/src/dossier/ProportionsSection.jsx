@@ -50,10 +50,61 @@ function Group({ termId, rows, attr, children }) {
   );
 }
 
+/* The five provenance lists for one style's `/api/styles/{id}/packs` payload. Exported for the
+   Compare page (WP-14.26), which draws two of these side by side from `/api/compare`'s
+   `proportions` -- the same payload, so the two places cannot draw one style's packs two ways. */
+export function PackLists({ payload, styleId }) {
+  const fold = React.useSyncExternalStore(prefs.subscribe, () => prefs.fold('delivered'));
+  const g = packGroups(payload);
+  const { near, far } = splitDelivered(g.delivered);
+  const open = deliveredOpen(fold);
+  const farCount = far.reduce((n, grp) => n + grp.packs.length, 0);
+  return (
+    <>
+      <Group termId="pack-own" rows={g.own} attr="own">
+        {g.own.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} />)}
+      </Group>
+      <Group termId="pack-opted-in" rows={g.opted_in} attr="opted_in">
+        {g.opted_in.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} from={p.from} />)}
+      </Group>
+      {near && (
+        <Section eyebrow={<><Term id="pack-delivered" /> · {near.packs.length + farCount}</>} data-pack-group="delivered">
+          <p style={{ ...data, margin: '0 0 4px' }}>
+            from <RecordLink cite={'style:' + near.from}>{near.from_name || near.from}</RecordLink> · ↑{near.distance}
+          </p>
+          {near.packs.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} />)}
+          {far.length > 0 && (
+            <div style={{ marginTop: 10 }}>
+              <button type="button" aria-expanded={open} data-fold="delivered"
+                onClick={() => prefs.setFold('delivered', !open)}
+                style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', padding: '2px 0' }}>
+                {open ? '▾' : '▸'} farther ancestors · {far.length} · {farCount}
+              </button>
+              {open && far.map((grp) => (
+                <div key={grp.from} style={{ marginTop: 8 }}>
+                  <p style={{ ...data, margin: '0 0 4px' }}>
+                    from <RecordLink cite={'style:' + grp.from}>{grp.from_name || grp.from}</RecordLink> · ↑{grp.distance}
+                  </p>
+                  {grp.packs.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} />)}
+                </div>
+              ))}
+            </div>
+          )}
+        </Section>
+      )}
+      <Group termId="pack-withheld" rows={g.withheld} attr="withheld">
+        {g.withheld.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} from={p.from} why={p.why} />)}
+      </Group>
+      <Group termId="pack-declined" rows={g.declined} attr="declined">
+        {g.declined.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} from={p.from} why={p.reason} />)}
+      </Group>
+    </>
+  );
+}
+
 export function ProportionsSection({ rec, styleId }) {
   const [payload, setPayload] = React.useState(null);
   const [failed, setFailed] = React.useState(false);
-  const fold = React.useSyncExternalStore(prefs.subscribe, () => prefs.fold('delivered'));
   React.useEffect(() => {
     setPayload(null); setFailed(false);
     api.stylePacks(styleId).then(setPayload).catch(() => setFailed(true));
@@ -61,9 +112,6 @@ export function ProportionsSection({ rec, styleId }) {
 
   const ps = rec.proportional_system;
   const g = packGroups(payload);
-  const { near, far } = splitDelivered(g.delivered);
-  const open = deliveredOpen(fold);
-  const farCount = far.reduce((n, grp) => n + grp.packs.length, 0);
 
   return (
     <div data-dossier-section="proportions" data-pack-total={payload ? g.total : undefined}>
@@ -77,47 +125,7 @@ export function ProportionsSection({ rec, styleId }) {
       )}
       {failed && <p style={quiet}>The packs that reach this style could not be read.</p>}
       {!payload && !failed && <p style={data}>reading the packs…</p>}
-      {payload && (
-        <>
-          <Group termId="pack-own" rows={g.own} attr="own">
-            {g.own.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} />)}
-          </Group>
-          <Group termId="pack-opted-in" rows={g.opted_in} attr="opted_in">
-            {g.opted_in.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} from={p.from} />)}
-          </Group>
-          {near && (
-            <Section eyebrow={<><Term id="pack-delivered" /> · {near.packs.length + farCount}</>} data-pack-group="delivered">
-              <p style={{ ...data, margin: '0 0 4px' }}>
-                from <RecordLink cite={'style:' + near.from}>{near.from_name || near.from}</RecordLink> · ↑{near.distance}
-              </p>
-              {near.packs.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} />)}
-              {far.length > 0 && (
-                <div style={{ marginTop: 10 }}>
-                  <button type="button" aria-expanded={open} data-fold="delivered"
-                    onClick={() => prefs.setFold('delivered', !open)}
-                    style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', padding: '2px 0' }}>
-                    {open ? '▾' : '▸'} farther ancestors · {far.length} · {farCount}
-                  </button>
-                  {open && far.map((grp) => (
-                    <div key={grp.from} style={{ marginTop: 8 }}>
-                      <p style={{ ...data, margin: '0 0 4px' }}>
-                        from <RecordLink cite={'style:' + grp.from}>{grp.from_name || grp.from}</RecordLink> · ↑{grp.distance}
-                      </p>
-                      {grp.packs.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} />)}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </Section>
-          )}
-          <Group termId="pack-withheld" rows={g.withheld} attr="withheld">
-            {g.withheld.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} from={p.from} why={p.why} />)}
-          </Group>
-          <Group termId="pack-declined" rows={g.declined} attr="declined">
-            {g.declined.map((p) => <PackRow key={p.pack} p={p} styleId={styleId} from={p.from} why={p.reason} />)}
-          </Group>
-        </>
-      )}
+      {payload && <PackLists payload={payload} styleId={styleId} />}
     </div>
   );
 }

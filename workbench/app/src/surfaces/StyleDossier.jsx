@@ -8,7 +8,8 @@
    and its old address is rewritten there by the router.
 
    THE DOSSIER. A head -- rank, what it is filed under, its years, its name with its id as a margin
-   note, its tradition's swatch, a StylePicker and "Design a house in this style" -- then a strip of
+   note, its tradition's swatch, a StylePicker, "Design a house in this style" and, since WP-14.26,
+   "compare with…", which opens this style beside another on the Compare page -- then a strip of
    the sections the dossier payload lists, in `DOSSIER_SECTIONS` order and labelled by their
    `section-*` glossary records, then ONLY THE SECTION IN VIEW. A section whose count is zero is not
    listed and is not drawn: the URL may ask for it and is told, by name, that this record has none.
@@ -27,6 +28,9 @@ import React from 'react';
 import { api } from '../api/client.js';
 import { prefs } from '../state/prefs.js';
 import { formatHash } from '../router.js';
+import { nav } from '../state/nav.js';
+import { useGlossary } from '../api/useGlossary.js';
+import { termView } from '../glossary/termView.js';
 import { DOSSIER_SECTIONS } from '../citations.js';
 import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
@@ -48,6 +52,20 @@ import { PlanTypes } from '../dossier/PlanTypes.jsx';
 import { Rules } from '../dossier/Rules.jsx';
 import { Faults } from '../dossier/Faults.jsx';
 import { Evidence } from '../dossier/Evidence.jsx';
+
+/* "compare with…" (WP-14.26): the `compare-with` record's word and a picker for the second style,
+   which opens the two side by side at `#/compare/<this>/<that>`. The picker's label is the same
+   record's word, read as text because an input's label cannot hold a `Term`. */
+function CompareWith({ styleId }) {
+  const v = termView(useGlossary(), { id: 'compare-with' });
+  return (
+    <span data-compare-with={styleId} style={{ display: 'inline-flex', gap: 7, alignItems: 'center' }}>
+      <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}><Term id="compare-with" /></span>
+      <StylePicker value="" width={190} label={v.state === 'ready' ? v.word : undefined}
+        onChange={(other) => { if (other && other !== styleId) nav.go('compare', { style: styleId, compare: other }); }} />
+    </span>
+  );
+}
 
 const ALL_SECTIONS = 'summary,description,characteristics,lineage,proportion,massing,constraints,exemplars,sources';
 const BUILT = { style: 1, variant: 1 };
@@ -145,6 +163,7 @@ function Dossier({ styleId, selection, setSelection, onCite }) {
             style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', whiteSpace: 'nowrap' }}>
             place in the phylogeny →
           </a>
+          <CompareWith styleId={styleId} />
         </div>
       </header>
 

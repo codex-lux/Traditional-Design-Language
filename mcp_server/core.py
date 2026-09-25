@@ -390,41 +390,96 @@ def get_slot(slot_id):
         return {"error": f"no slot '{slot_id}'",
                 "did_you_mean": [k for k in D["slots"] if slot_id.lower() in k][:8],
                 "hint": "tdl_overview lists the eight slot groups"}
-    specifiers = []
-    for sid, k in D["kits"].items():
-        rec = (k.get("slots") or {}).get(slot_id)
-        if rec and rec.get("status") not in (None, "empty"): specifiers.append(sid)
+    # THE RESOLVED KIT, NEVER THE STYLE'S OWN FILE (WP-14.26, closing
+    # `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`). This walked
+    # `D["kits"]` -- each node's OWN kit file -- and listed a style whenever its record carried a
+    # status other than `empty`, reading no `binding` at all. A forbidden binding carries a status
+    # because the forbidding is authored, so the list named 228 styles that FORBID the slot as
+    # specifying it, and it named no style that specifies the slot by inheriting it: 6,380 missing
+    # (WP-14.23's measurement, over the 97 slots). It reads the cascade now, through the one rule
+    # `_slot_binding` states, which is the rule the workbench's slot page has read since WP-14.23.
+    specifiers = _resolved_bindings()[slot_id]["specified"]
     faults = [{"id": f["id"], "name": f["name"], "severity": f["severity"], "frequency": f.get("frequency")}
               for f in D["faults"].values() if slot_id in f["slots"]]
     return {"slot": s, "specified_by_styles": specifiers,
             "faults_on_this_slot": sorted(faults, key=lambda x: ("fatal","serious","minor").index(x["severity"])),
-            "note": "Slots are universal. A style does not own a cornice; it specifies one."}
+            "note": ("Slots are universal. A style does not own a cornice; it specifies one. "
+                     "specified_by_styles reads each style's kit AFTER the lineage cascade, so a style "
+                     "that inherits the slot is listed and a style that forbids it is not.")}
+
+
+def _slot_binding(rec):
+    """A RESOLVED kit record's binding as a reader of "who specifies this slot" takes it:
+    `specified`, `forbidden`, or None for a slot the style leaves open. A DANGLING `extends` -- a
+    diff with nothing upstream to merge into -- is honoured by `resolve_kit.resolve_slots` "as if
+    specified" (its own words), so it is read here as it resolves and not as it is spelled.
+
+    Moved here from `workbench/server/corpus.py` at WP-14.26, where WP-14.23 wrote it for the
+    slot page: `get_slot` above reads the same rule now, and one rule in two files is how the two
+    readers of "specified by" came to disagree on all 97 slots in the first place."""
+    b = rec.get("binding")
+    if b == "specified" or (b == "extends" and rec.get("_dangling_extends")):
+        return "specified"
+    if b == "forbidden":
+        return "forbidden"
+    return None
+
+
+def _resolved_bindings():
+    """slot id -> {"specified": [style ids], "forbidden": [style ids]}, over every style's
+    RESOLVED kit (`_resolved_kit`, the cascade), each list in id order. The first call resolves
+    every kit (about two seconds, measured at WP-14.23); `_resolved_kit` caches each, and
+    `corpus.invalidate()` clears that cache."""
+    D = _data()
+    out = {sid: {"specified": [], "forbidden": []} for sid in D["slots"]}
+    for style_id in sorted(D["styles"]):
+        kit = _resolved_kit(style_id)
+        if not kit:
+            continue
+        for sid, rec in kit.items():
+            b = _slot_binding(rec)
+            if b and sid in out:
+                out[sid][b].append(style_id)
+    return out
+
+
+def _kit_source(rec):
+    """The provenance string `resolve_kit` has always served, spelled from the build's own record
+    of it (`_source_chain`, base first): `"a"` where one ancestor settled the slot, and
+    `"a + b (extends)"`, one `+ x (extends)` per delta merged onto it, where later ones extended
+    it -- the composite the Kit surface already parses. None where nothing in the cascade binds the
+    slot. A binding read from a node's INLINE kit carries the build's own ` (inline)` tag; no node
+    in the corpus has one today."""
+    ch = rec.get("_source_chain") or []
+    if not ch:
+        return None
+    return ch[0] + "".join(" + %s (extends)" % x for x in ch[1:])
+
 
 def resolve_kit(style_id, group=None, slot=None, ceiling_height=108.0, only_specified=True):
+    """The style's resolved kit, one row per slot, with the ancestor each binding came from.
+
+    ONE KIT AUTHORITY (WP-14.26, tranche 2 PRD §C.7). This was a hand-merge over `D["kits"]`: its
+    own walk, its own `extends` merge, and its own idea of when the walk stops -- an `open` record
+    carrying a status stopped it, where `build/resolve_kit.resolve_slots` treats `open` as
+    transparent (OQ 87); and it never honoured OQ 58's scoped edges. Measured on `5aa8041` it
+    disagreed with `resolve_slots` on 38 of the 15,908 (style, slot) pairs, on the binding, the
+    canonical set or the forbidden set, while every checker, the elevation, the composer and the
+    dossier's own slot page read the other one. It is the build's resolution now, through
+    `_resolved_kit`, and only the row shape below is this function's. The 38 pairs, with what each
+    answered before and after, are `tests/fixtures/kit_authority_moved_pairs.json`, and
+    `tests/test_one_kit_authority.py` holds every pair of every style to `resolve_slots`.
+
+    `only_specified=False` returns a row for EVERY slot of the ontology: a slot nothing in the
+    cascade binds is `open` with no source, which is the resolved kit's own answer for it. The
+    hand-merge listed an open slot only where some kit file had written a record for it, and gave
+    that record's writer as the source of a slot the cascade does not stop at."""
     D = _data(); n = D["styles"].get(style_id)
     if not n: return {"error": f"no style '{style_id}'"}
     chain = [style_id] + _cascade(style_id)
     have = [c for c in chain if c in D["kits"]]
-    resolved, source = {}, {}
-    for cid in reversed(have):                      # furthest ancestor first, nearest wins
-        for sid, rec in (D["kits"][cid].get("slots") or {}).items():
-            if rec.get("status") in (None, "empty") and rec.get("binding", "open") == "open": continue
-            if rec.get("binding") == "extends" and sid in resolved:
-                base = json.loads(json.dumps(resolved[sid]))
-                base.setdefault("parameters", {}).update(rec.get("parameters") or {})
-                for v in rec.get("variants", []):
-                    lst = base.setdefault("variants", [])
-                    idx = next((k for k, x in enumerate(lst) if x.get("id") == v.get("id")), None)
-                    op = v.get("op", "add")
-                    if op == "remove" and idx is not None: lst.pop(idx)
-                    elif idx is not None: lst[idx] = v
-                    else: lst.append(v)
-                if rec.get("rule_append"): base["rule"] = (base.get("rule", "").rstrip(". ") + ". " + rec["rule_append"])
-                for k2 in ("code_conflict", "packs", "note", "judgment", "invented"):
-                    if k2 in rec: base[k2] = rec[k2]
-                resolved[sid] = base; source[sid] = f"{source.get(sid, '?')} + {cid} (extends)"
-            else:
-                resolved[sid] = rec; source[sid] = cid
+    resolved = _resolved_kit(style_id) or {}
+    source = {sid: _kit_source(rec) for sid, rec in resolved.items()}
     if slot: keys = [slot] if slot in resolved else []
     elif group: keys = [k for k in resolved if D["slots"].get(k, {}).get("group") == group]
     else: keys = list(resolved)
@@ -432,8 +487,8 @@ def resolve_kit(style_id, group=None, slot=None, ceiling_height=108.0, only_spec
     for k in sorted(keys):
         r = resolved[k]
         if only_specified and r.get("binding") == "open": continue
-        forb = [v["id"] for v in r.get("variants", []) if v.get("status") == "forbidden"]
-        canon = [v["id"] for v in r.get("variants", []) if v.get("status") == "canonical"]
+        forb = [v["id"] for v in (r.get("variants") or []) if v.get("status") == "forbidden"]
+        canon = [v["id"] for v in (r.get("variants") or []) if v.get("status") == "canonical"]
         rows.append({"slot": k, "group": D["slots"].get(k, {}).get("group"),
                      "binding": r.get("binding"), "source": source.get(k),
                      "rule": r.get("rule"), "canonical": canon, "forbidden": forb,
@@ -441,8 +496,12 @@ def resolve_kit(style_id, group=None, slot=None, ceiling_height=108.0, only_spec
                      "code_conflict": r.get("code_conflict") if slot else bool(r.get("code_conflict")),
                      "judgment": r.get("judgment", False), "invented": r.get("invented", False),
                      "packs": r.get("packs") if slot else None})
+    # Who settled how many of the slots asked about. A slot nothing in the cascade binds has no
+    # source and is counted under none, rather than under a writer the cascade walks past.
     prov = {}
-    for k in keys: prov[source.get(k, "?")] = prov.get(source.get(k, "?"), 0) + 1
+    for k in keys:
+        if source.get(k) is not None:
+            prov[source[k]] = prov.get(source[k], 0) + 1
     return {"style": style_id, "kits_in_chain": have, "cascade": chain,
             # slots_total is the ONTOLOGY's own count, sent live. The workbench used to
             # render `${slots_returned} of 95 slots` against a literal, and the ontology has

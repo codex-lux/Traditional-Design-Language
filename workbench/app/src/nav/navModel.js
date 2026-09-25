@@ -74,12 +74,15 @@ export const NAV = Object.freeze([
 /* PLACES WITH NO RAIL ITEM, AND THE ITEM THEY STAND UNDER (WP-14.23, tranche 2 §B.4). The four
    plan-type record pages are reached from a citation, a search result or the Elements index, not
    from the rail; each stands under Elements, whose rail item is current while one is shown and
-   whose crumb heads its trail. Surface id -> the NAV item id it stands under. */
+   whose crumb heads its trail. Compare (WP-14.26) is reached from a dossier's head or the family
+   tree, and stands under Find a style: two styles side by side are still a reading of styles.
+   Surface id -> the NAV item id it stands under. */
 export const UNDER = Object.freeze({
   room: 'elements',
   massing: 'elements',
   grouping: 'elements',
   parti: 'elements',
+  compare: 'style',
 });
 
 /* The separator between the in-hand style's name and the guided-example term. Punctuation, not
@@ -208,7 +211,7 @@ export function navModel({ lookup, counts, glossaryCount, inHand, dossier, journ
     const meta = META[it.id] ? META[it.id]({ counts, glossaryCount })
       : (stepOf(it.surface) !== null ? journeyWords(journey, it.surface) : null);
     const current = it.id === 'style'
-      ? onStyle && styleKind !== 'dossier'
+      ? (onStyle && styleKind !== 'dossier') || UNDER[here.surface] === it.id
       : here.surface === it.surface || UNDER[here.surface] === it.id;
     return {
       id: it.id,

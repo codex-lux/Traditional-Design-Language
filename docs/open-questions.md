@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**234 questions, of which 131 are open.** A question is OPEN while
+**234 questions, of which 130 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 131
+## Open — 130
 
 Awaiting a ruling. This is the list to read first.
 
@@ -150,7 +150,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-search-is-refused-on-type-facts-nothing-tells-it** | OPEN | [the gate reads four facts and the search scores one of them](open-questions/oq-the-search-is-refused-on-type-facts-nothing-tells-it.md) |
 | **oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in** | OPEN | [the OQ 52 family in the placer's own objective](open-questions/oq-the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in.md) |
 | **oq/the-servicing-layer-does-not-know-about-massing-elements** | OPEN | [a wet pair across a 27 ft gap](open-questions/oq-the-servicing-layer-does-not-know-about-massing-elements.md) |
-| **oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it** | OPEN | [`tdl_get_slot`'s `specified_by_styles` reads each style's own kit file, counts a forbidden binding as a specification, and misses every inherited one](open-questions/oq-the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it.md) |
 | **oq/the-span-count-and-the-span-marks-read-membership-two-ways** | OPEN | [one record, two answers to "which element is this room in"](open-questions/oq-the-span-count-and-the-span-marks-read-membership-two-ways.md) |
 | **oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left** | OPEN | [a terrace on the east of a west wing](open-questions/oq-the-terraces-declared-faces-were-written-for-a-house-its-room-has-left.md) |
 | **oq/the-tiling-fact-cannot-hold-on-a-rounded-or-derived-massing-element** | OPEN | [the prover is asked to tile a box it cannot reach and a box it drew around its own rooms](open-questions/oq-the-tiling-fact-cannot-hold-on-a-rounded-or-derived-massing-element.md) |
@@ -164,7 +163,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — ruled 25 Sep 2026; WP-14.18 declared `room-harmonic` and check 19 refused the other two class-A packs | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 103
+## Settled — 104
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -270,6 +269,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/the-proving-engine-cannot-place-a-second-massing-element** | CLOSED 7 September 2026 (WP-11.11) | [the tag that costs a plan its proof](open-questions/oq-the-proving-engine-cannot-place-a-second-massing-element.md) |
 | **oq/the-revision-loops-authority-over-topology** | RULED 1 Sep 2026 | [what the generator may change when the critic tells it to](open-questions/oq-the-revision-loops-authority-over-topology.md) |
 | **oq/the-search-loses-the-entrance-front-on-a-multi-element-plan** | CLOSED | [the hill-climb draws the tagged Tidewater back to front](open-questions/oq-the-search-loses-the-entrance-front-on-a-multi-element-plan.md) |
+| **oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it** | CLOSED 25 Sep 2026 — question 1 answered by the resolved reading, executed by WP-14.26 | [`tdl_get_slot`'s `specified_by_styles` reads each style's own kit file, counts a forbidden binding as a specification, and misses every inherited one](open-questions/oq-the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it.md) |
 | **oq/the-stair-run-is-spelled-three-times** | CLOSED 2 Sep 2026 | [16, 17 and 21 risers for one house, and the section draws the third](open-questions/oq-the-stair-run-is-spelled-three-times.md) |
 | **oq/the-worked-house-has-no-plan-that-places** | CLOSED 25 September 2026 (WP-14.21) — answer 3, the refusal is the example, on evidence | [Tidewater Georgian is the guided example, and neither shipped plan may be drawn](open-questions/oq-the-worked-house-has-no-plan-that-places.md) |
 | **oq/three-hard-room-rules-forbid-a-detached-kitchen** | RULED 5 Sep 2026 | [the room records assume one rectangle](open-questions/oq-three-hard-room-rules-forbid-a-detached-kitchen.md) |

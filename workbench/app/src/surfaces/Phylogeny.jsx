@@ -1,8 +1,10 @@
 /* Surface ② — the Phylogeny, live. 164 taxa on a broken time axis (nearly all the
    density sits in 1600–2026; the classical tail is compressed and the break is drawn,
    not implied). Both hierarchies at once: filing (`member_of`) as the indent by rank, lineage
-   as edges — kit-carrying edges structurally heavier than claimed ancestry. Select
-   two to compare, and the comparison shows the corpus's real tells.
+   as edges — kit-carrying edges structurally heavier than claimed ancestry. Shift-click a
+   second taxon and the two open side by side on the Compare page (`#/compare/<a>/<b>`,
+   WP-14.26), which is a place with an address; the side-panel comparison it replaces held the
+   pair in component state and printed an entry it did not recognise as JSON.
 
    WHICH EDGES CARRY THE KIT IS THE SERVER'S FLAG, NOT A TABLE OF TYPES (WP-14.11). This file
    had `CARRIES = { descends_from, regional_of }` and drew, filtered and grouped every edge by it,
@@ -77,8 +79,6 @@ function Lineage({ taxon, edges }) {
 export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExitFull }) {
   const [graph, setGraph] = React.useState(null);
   const [sel, setSel] = React.useState(selection?.style || null);
-  const [compare, setCompare] = React.useState(null);
-  const [cmpData, setCmpData] = React.useState(null);
   const [selInfo, setSelInfo] = React.useState(null);
   // the low-confidence mark's word, its record's (WP-14.29); nothing while the glossary loads
   const glossary = useGlossary();
@@ -112,10 +112,6 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
     if (!sel) { setSelInfo(null); return; }
     api.style(sel, 'summary').then(setSelInfo).catch(() => setSelInfo(null));
   }, [sel]);
-  React.useEffect(() => {
-    if (!compare) { setCmpData(null); return; }
-    api.compareStyles(sel, compare).then(setCmpData).catch(() => setCmpData(null));
-  }, [sel, compare]);
 
   const derived = React.useMemo(() => {
     if (!graph) return null;
@@ -175,7 +171,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
     };
     up(sel, 0); down(sel, 0);
   }
-  const lit = (id) => id === sel || id === compare || ancestors[id] || descendants[id];
+  const lit = (id) => id === sel || ancestors[id] || descendants[id];
   const edges = graph.edges.filter((e) => {
     if (!showClaims && !carriesKit(e)) return false;
     return lit(e.from) && lit(e.to) && rowIndex[e.from] != null && rowIndex[e.to] != null;
@@ -186,11 +182,11 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
   const bright = (id) => !sel || lit(id);
   const H = rows.length * ROW + PAD * 2;
   const selNode = allRows[index[sel]];
-  const cmpNode = compare ? allRows[index[compare]] : null;
   const summary = selInfo?.summary || {};
 
   const pick = (ev, id) => {
-    if (ev.shiftKey) setCompare(id === compare ? null : id);
+    // A second taxon opens the two side by side, at an address (WP-14.26).
+    if (ev.shiftKey) { if (id !== sel) nav.go('compare', { style: sel, compare: id }); }
     // Selecting writes the URL, so a taxon — in either reading — is a link.
     else { setSel(id); setSelection && setSelection({ style: id }); }
   };
@@ -216,9 +212,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           <Chip on={showClaims} onClick={() => filters.set('claims', showClaims)}>
             show claimed ancestry
           </Chip>
-          {compare
-            ? <Chip on onClick={() => setCompare(null)}>comparing {compare} ×</Chip>
-            : <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>shift-click a second taxon to compare</span>}
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>shift-click a second taxon to compare</span>
         </span>
       }>
         {/* Two readings of one graph. Which one you are looking at is part of the
@@ -252,7 +246,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           /* The same edge set the tree draws — already narrowed by `showClaims` and lit to
              the selection's ancestry and descent. Drawing all 476 at once would be a ball
              of wool, and the two readings should agree about what is on screen. */
-          <MapView rows={rows} edges={edges} sel={sel} compare={compare} onPick={pick}
+          <MapView rows={rows} edges={edges} sel={sel} onPick={pick}
             traditionHue={(r) => TRADITION_HUES[r.tradition] || 'var(--ink-4)'}
             lit={bright} showClaims={showClaims} rankFilter={rankFilter}
             full={!!full} onExitFull={onExitFull}
@@ -298,7 +292,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             </svg>
 
             {rows.map((r, i) => {
-              const on = r.id === sel, cmp = r.id === compare;
+              const on = r.id === sel;
               const isLit = bright(r.id);
               const hue = TRADITION_HUES[r.tradition] || 'var(--ink-4)';
               const left = tScale(r.from) * 100, right = tScale(Math.min(r.to, 2026)) * 100;
@@ -308,7 +302,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                     style={{ position: 'absolute', left: RANK_INDENT[r.rank] || 0,
                       width: 200 - (RANK_INDENT[r.rank] || 0),
                       textAlign: 'left', height: ROW, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <span style={{ font: (on || cmp ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 12px/1.2 var(--display)',
+                    <span style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 12px/1.2 var(--display)',
                       color: on ? 'var(--ink)' : (isLit ? 'var(--ink-2)' : 'var(--ink-4)'),
                       whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.name}</span>
                     {/* LOW CONFIDENCE IS ONE MARK AND ONE WORD (WP-14.29): a dashed square, the
@@ -327,8 +321,8 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                     <button type="button" onClick={(ev) => pick(ev, r.id)}
                       title={`${r.name} · ${r.rank} · ${yr(r.from)}–${yr(r.to)}`}
                       style={{ position: 'absolute', left: left + '%', width: Math.max(right - left, 0.7) + '%',
-                        top: 6, height: 8, background: hue, opacity: on || cmp ? 1 : (isLit ? 0.7 : 0.26),
-                        border: on || cmp ? '1px solid var(--ink)' : 'none', transition: 'var(--t-finding)' }} />
+                        top: 6, height: 8, background: hue, opacity: on ? 1 : (isLit ? 0.7 : 0.26),
+                        border: on ? '1px solid var(--ink)' : 'none', transition: 'var(--t-finding)' }} />
                   </div>
                 </div>
               );
@@ -377,46 +371,6 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               {summary.regions && (
                 <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', marginTop: 8 }}>
                   {(summary.regions || []).join(' · ')}
-                </div>
-              )}
-
-              {cmpNode && (
-                <div style={{ marginTop: 14, padding: '10px 11px', border: '1px solid var(--rule)',
-                  background: 'var(--paper-deep)' }}>
-                  <Eyebrow tone="accent">distinguished from</Eyebrow>
-                  <div style={{ font: 'var(--fw-reg) 14px/1.2 var(--display)', margin: '5px 0 6px' }}>{cmpNode.name}</div>
-                  {Array.isArray(cmpData?.explicit_disambiguation) && cmpData.explicit_disambiguation.length > 0
-                    ? cmpData.explicit_disambiguation.map((d, i) => (
-                        <p key={i} style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
-                          margin: '0 0 7px' }}>{d.tell || d.note || JSON.stringify(d)}</p>
-                      ))
-                    : (
-                      <>
-                        <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)', margin: '0 0 6px' }}>
-                          No explicit disambiguation recorded — fall back on the tells:
-                        </p>
-                        {(cmpData?.tells_a || []).slice(0, 2).map((t, i) => (
-                          <p key={'a' + i} style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
-                            color: 'var(--ink-2)', margin: '0 0 5px' }}>
-                            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{sel} · </span>
-                            {typeof t === 'string' ? t : t.tell || t.statement}
-                          </p>
-                        ))}
-                        {(cmpData?.tells_b || []).slice(0, 2).map((t, i) => (
-                          <p key={'b' + i} style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
-                            color: 'var(--ink-2)', margin: '0 0 5px' }}>
-                            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{compare} · </span>
-                            {typeof t === 'string' ? t : t.tell || t.statement}
-                          </p>
-                        ))}
-                      </>
-                    )}
-                  {cmpData?.shared_ancestry?.length > 0 && (
-                    <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', marginTop: 6 }}>
-                      shared ancestry · {cmpData.shared_ancestry.slice(0, 4).join(', ')}
-                      {cmpData.shared_ancestry.length > 4 ? '…' : ''}
-                    </div>
-                  )}
                 </div>
               )}
 

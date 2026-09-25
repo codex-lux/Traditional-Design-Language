@@ -178,6 +178,12 @@ export function citeFor(surface, selection, params) {
     case 'massing': return s.massing ? 'massing:' + s.massing : null;
     case 'grouping': return s.grouping ? 'grouping:' + s.grouping : null;
     case 'parti': return s.parti ? 'parti:' + s.parti : null;
+    /* Two styles side by side (WP-14.26, tranche 2 PRD §B.2). The grammar has no two-style kind
+       and none is added, so a compare page is a place with an address and no citation. It is NOT
+       `style:<a>`: that names one of the two and would route back to one dossier, which is the
+       place the reader left. Stated as its own case, not left to `default`, so the answer is a
+       decision a reader can find rather than a fall-through. */
+    case 'compare': return null;
     /* The three surfaces the plan-type kinds used to land on. Their old record keys are read as
        the record pages by the router before a surface sees them (LEGACY_PLACES), so these
        branches name what a surface holding such a key WOULD cite if one arrived by a route that

@@ -175,6 +175,10 @@ export const api = {
   massing: (id) => getJSON(`/api/massings/${seg(id)}`),
   grouping: (id) => getJSON(`/api/groupings/${seg(id)}`),
   parti: (id) => getJSON(`/api/partis/${seg(id)}`),
+
+  /* WP-14.26 (tranche 2 §C.7): two styles side by side, appended and no existing function edited.
+     Its kit rows are the difference of the two `/api/kit` payloads. */
+  compare: (a, b) => getJSON(`/api/compare/${seg(a)}/${seg(b)}`),
 };
 
 /* Subscribe to a job's SSE stream. Returns an unsubscribe function. */

@@ -345,6 +345,14 @@ def styles_compare(a: str, b: str):
     return _ok(core.compare_styles(a, b))
 
 
+@app.get("/api/compare/{a}/{b}")
+def compare(a: str, b: str):
+    """WP-14.26 (PRD §C.7): two styles side by side -- identify, kit, proportions, plans -- the
+    kit rows being the difference of the two `/api/kit` payloads. An unknown style is a 404 whose
+    detail names it."""
+    return _ok(corpus.compare_kits(a, b))
+
+
 @app.get("/api/styles/{style_id}")
 def style(style_id: str, sections: str = None):
     secs = sections.split(",") if sections else None
@@ -384,7 +392,8 @@ def slots():
 @app.get("/api/slots/{slot_id}")
 def slot(slot_id: str):
     # corpus.slot, not core.get_slot: the workbench's copy adds `bindings` read off the resolved
-    # kits (WP-14.23), and `tdl_get_slot`'s payload is left byte-stable.
+    # kits (WP-14.23). `tdl_get_slot`'s own `specified_by_styles` reads the same resolved kits
+    # since WP-14.26, so the two agree by construction.
     return _ok(corpus.slot(slot_id))
 
 

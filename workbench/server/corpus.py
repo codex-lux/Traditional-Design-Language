@@ -940,6 +940,80 @@ def dossier_plan_types(style_id):
     return {"massing_affinities": affs, "partis": partis, "groupings": groupings}
 
 
+# ----------------------------------------------------------------- compare two styles (WP-14.26)
+#
+# Tranche 2 PRD §C.7. The Phylogeny's shift-click comparison printed `core.compare_styles` as a
+# JSON dump and compared nothing about the two KITS, which is where two styles a reader confuses
+# actually differ. The kit half reads `core.resolve_kit` -- the one kit authority since this
+# package rebased it on `build/resolve_kit.resolve_slots` -- so a row here is exactly the
+# difference of the two `/api/kit` payloads a reader could fetch, and cannot be a third answer.
+
+KIT_DIFF_FIELDS = ("binding", "canonical", "forbidden", "source")
+
+
+def _kit_view(row):
+    """The four fields a compare row carries, from one `resolve_kit` row. A slot the resolved kit
+    leaves open still has a row (`only_specified=False` answers every slot), so `None` here means a
+    slot the ONTOLOGY does not hold and cannot occur for a slot id taken from it."""
+    if row is None:
+        return None
+    return {"binding": row.get("binding"), "canonical": list(row.get("canonical") or []),
+            "forbidden": list(row.get("forbidden") or []), "source": row.get("source")}
+
+
+def _kit_differs(va, vb):
+    """Which of the four fields differ. A variant LIST is compared as a set: the order two kit
+    files happen to list their canonical variants in is not a difference between the styles."""
+    out = []
+    for f in KIT_DIFF_FIELDS:
+        x, y = va.get(f), vb.get(f)
+        if isinstance(x, list) or isinstance(y, list):
+            x, y = sorted(x or []), sorted(y or [])
+        if x != y:
+            out.append(f)
+    return out
+
+
+def compare_kits(a, b):
+    """`GET /api/compare/{a}/{b}`: two styles side by side, in four parts.
+
+    identify     `core.compare_styles` -- the explicit disambiguation, the tells, shared ancestry
+    kit          one row per slot where the two RESOLVED kits differ on the binding, the canonical
+                 set, the forbidden set or the source, each naming which in `differs_on`; a row
+                 differing on `source` alone is two styles giving the same answer for different
+                 reasons, and says so rather than being dropped
+    proportions  `style_packs` for each style
+    plans        the partis `core.list_partis` gives each style, with their nativity, exactly as
+                 the dossier's Plan types section reads them
+
+    An unknown style is refused BY NAME: `missing` lists the id(s) the corpus does not hold."""
+    D = core._data()
+    missing = [x for x in (a, b) if x not in D["styles"]]
+    if missing:
+        return {"error": "unknown style id", "missing": missing}
+    ka = {r["slot"]: r for r in core.resolve_kit(a, only_specified=False)["slots"]}
+    kb = {r["slot"]: r for r in core.resolve_kit(b, only_specified=False)["slots"]}
+    rows = []
+    for sid, s in D["slots"].items():
+        va, vb = _kit_view(ka.get(sid)), _kit_view(kb.get(sid))
+        if va is None or vb is None:
+            continue
+        diff = _kit_differs(va, vb)
+        if diff:
+            rows.append({"slot": sid, "group": s.get("group"), "name": s.get("name"),
+                         "differs_on": diff, "a": va, "b": vb})
+    answer = sum(1 for r in rows if r["differs_on"] != ["source"])
+    return {"a": a, "b": b,
+            "identify": core.compare_styles(a, b),
+            "kit": {"fields": list(KIT_DIFF_FIELDS),
+                    "slots_compared": len(D["slots"]),
+                    "rows": rows,
+                    "differ_in_answer": answer,
+                    "differ_in_source_only": len(rows) - answer},
+            "proportions": {"a": style_packs(a), "b": style_packs(b)},
+            "plans": {"a": dossier_plan_types(a)["partis"], "b": dossier_plan_types(b)["partis"]}}
+
+
 # ----------------------------------------------------------------- record pages (WP-14.23)
 #
 # Tranche 2 PRD §C.6. Five kinds of record have a page of their own -- a slot in the Elements
@@ -949,44 +1023,24 @@ def dossier_plan_types(style_id):
 # for) and the inverse is COMPUTED from it here or in core, never authored a second time, so the
 # two sides cannot disagree; `workbench/server/tests/test_record_pages.py` holds each pair.
 #
-# THE MCP PAYLOADS ARE UNTOUCHED. `tdl_get_slot` and `tdl_get_grouping` serve `core.get_slot` and
-# `core.get_grouping`, which build a fresh dict per call; the workbench's routes enrich their own
-# copy, exactly as `style()` above does, and never write into a record core holds.
-
-def _slot_binding(rec):
-    """A RESOLVED kit record's binding as a record page reads it: `specified`, `forbidden`, or None
-    for a slot the style leaves open. A DANGLING `extends` -- a diff with nothing upstream to merge
-    into -- is honoured by `resolve_kit.resolve_slots` "as if specified" (its own words), so it is
-    read here as it resolves and not as it is spelled."""
-    b = rec.get("binding")
-    if b == "specified" or (b == "extends" and rec.get("_dangling_extends")):
-        return "specified"
-    if b == "forbidden":
-        return "forbidden"
-    return None
-
+# THE WORKBENCH NEVER WRITES INTO A RECORD CORE HOLDS. `tdl_get_slot` and `tdl_get_grouping` serve
+# `core.get_slot` and `core.get_grouping`, which build a fresh dict per call; the workbench's routes
+# enrich their own copy, exactly as `style()` above does. (This heading read "the MCP payloads are
+# untouched" until WP-14.26, which lifted the freeze on `tdl_get_slot` BY NAME -- its
+# `specified_by_styles` reads the resolved kit now -- and on `tdl_resolve_kit`. `tdl_get_grouping`
+# is unmoved.)
 
 def _resolved_bindings():
     """slot id -> {"specified": [style ids], "forbidden": [style ids]}, over every style's RESOLVED
-    kit (`core._resolved_kit`, the cascade), each list in id order.
+    kit, each list in id order: `core._resolved_bindings`, the one reader.
 
-    NOT `core.get_slot`'s `specified_by_styles`, which reads each node's OWN kit file and counts
-    every record whose status is not empty -- so it lists a style that FORBIDS the slot as one that
-    specifies it, and misses every style that inherits the slot from an ancestor. That payload is
-    MCP's and is left byte-stable; `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`
-    carries the disagreement. The first call resolves every kit (about two seconds, measured);
-    `core._resolved_kit` caches each, and `invalidate()` clears that cache."""
-    D = core._data()
-    out = {sid: {"specified": [], "forbidden": []} for sid in D["slots"]}
-    for style_id in sorted(D["styles"]):
-        kit = core._resolved_kit(style_id)
-        if not kit:
-            continue
-        for sid, rec in kit.items():
-            b = _slot_binding(rec)
-            if b and sid in out:
-                out[sid][b].append(style_id)
-    return out
+    WP-14.23 wrote this rule here, for the slot page, because `core.get_slot`'s
+    `specified_by_styles` then read each node's OWN kit file -- listing a style that FORBIDS the
+    slot as one that specifies it, and missing every style that inherits it -- and that payload was
+    held byte-stable. WP-14.26 lifted the freeze and moved the rule into core, where `get_slot`
+    reads it too (`oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`, closed),
+    so the tool and the page cannot disagree about who specifies a slot again."""
+    return core._resolved_bindings()
 
 
 def slots_index():
@@ -1006,8 +1060,8 @@ def slots_index():
 def slot(slot_id):
     """`GET /api/slots/{id}`: `core.get_slot`, plus `bindings` -- the styles whose RESOLVED kit
     specifies the slot and those whose resolved kit forbids it (`_resolved_bindings`). The slot's
-    record page reads `bindings`; `specified_by_styles` is served beside it unchanged, because it
-    is `tdl_get_slot`'s field and that payload is held byte-stable."""
+    record page reads `bindings`; `specified_by_styles` beside it is `tdl_get_slot`'s field, which
+    reads the same resolved kits since WP-14.26 and so equals `bindings.specified`."""
     out = core.get_slot(slot_id)
     if not isinstance(out, dict) or "error" in out:
         return out

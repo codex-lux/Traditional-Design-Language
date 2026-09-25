@@ -9,8 +9,11 @@ held here, IN BOTH DIRECTIONS, through the HTTP routes the pages call, against t
 relation read the way the OTHER page reads it (the style dossier's plan types, a parti's own
 record, a grouping's own record). A one-way test would pass over an inverse that listed too much.
 
-And the MCP payloads the routes are built on are held byte-stable: `tdl_get_slot` and
-`tdl_get_grouping` serve `core.get_slot` and `core.get_grouping`, which gain nothing.
+And the MCP payloads the routes are built on gain nothing from them: `tdl_get_slot` and
+`tdl_get_grouping` serve `core.get_slot` and `core.get_grouping`, and the workbench adds its fields
+to its own copy. (`tdl_get_slot`'s `specified_by_styles` MOVED at WP-14.26 -- it reads the resolved
+kit now, which closed `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it` -- and
+its keys did not.)
 
 Every expectation is computed; no count is written down.
 """
@@ -71,20 +74,31 @@ def test_specified_by_is_the_resolved_count_and_the_slot_page_lists_the_same_sty
         assert not set(page["bindings"]["specified"]) & set(page["bindings"]["forbidden"]), sid
 
 
-def test_the_resolved_list_is_not_the_mcp_tools_own_kit_list_and_the_tool_is_unchanged(client):
-    """The premise of `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`: on the
-    corpus as it stands, `core.get_slot`'s own-kit list and the resolved list disagree, and the
-    MCP payload carries none of the workbench's additions. Measured, never assumed: were the two
-    lists ever to agree everywhere the question would be answered and this would say so."""
-    differs = [sid for sid in core._data()["slots"]
-               if sorted(core.get_slot(sid)["specified_by_styles"]) != _independent_resolved_specifiers(sid)]
-    assert differs, "the own-kit list and the resolved list agree on every slot -- close the question"
-    sid = differs[0]
+def test_the_mcp_tools_list_is_the_resolved_list_and_its_keys_did_not_move(client):
+    """WP-14.26 closed `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`: this
+    test stated its PREMISE until then -- that `core.get_slot`'s own-kit list and the resolved list
+    disagree -- and said it would announce the day they agreed. They agree on every slot now,
+    because the tool reads the resolved kit. What stays is the half that was always the point: the
+    MCP payload carries none of the workbench's additions, and its key set did not move with its
+    list. Held over EVERY slot rather than a sample, against a reader written out here."""
+    D = core._data()
+    differs = [sid for sid in D["slots"]
+               if core.get_slot(sid)["specified_by_styles"] != _independent_resolved_specifiers(sid)]
+    assert not differs, (f"the tool's list is not the resolved list on {len(differs)} slot(s), "
+                         f"first {differs[:3]}")
+    # and not vacuously: some slot is specified by someone, and some slot's list is inherited --
+    # a style whose OWN kit file carries no record for the slot still appears on it
+    inherited = [(slot_id, st) for slot_id in D["slots"]
+                 for st in core.get_slot(slot_id)["specified_by_styles"]
+                 if (((D["kits"].get(st) or {}).get("slots") or {}).get(slot_id) or {}).get("status")
+                 in (None, "empty")]
+    assert inherited, "no style is listed through the cascade -- the reader is the own-file one again"
+    sid = sorted(D["slots"])[0]
     page = _get(client, f"/api/slots/{sid}")
     tool = core.get_slot(sid)
     assert "bindings" not in tool, "the MCP payload gained the workbench's field"
     assert set(tool) == {"slot", "specified_by_styles", "faults_on_this_slot", "note"}
-    assert page["specified_by_styles"] == tool["specified_by_styles"]
+    assert page["specified_by_styles"] == tool["specified_by_styles"] == page["bindings"]["specified"]
     # and the index did not write its count into core's own slot record
     corpus.slots_index()
     assert "specified_by" not in core._data()["slots"][sid]

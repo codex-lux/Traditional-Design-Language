@@ -39,7 +39,13 @@ import { routeCite, citeFor } from './citations.js';
    (`roomType`, because `room` names a PLACED room on the bench and `plan:` cites it), so a record
    page is the same (kind, id) pair the grammar always spoke, given a place of its own. Until they
    existed these citations landed on a surface that could not show them, under a "searched"
-   banner. */
+   banner.
+
+   `compare` is two styles side by side (WP-14.26, tranche 2 PRD §B.1): #/compare/<a>/<b>, and a
+   section after them (#/compare/craftsman/tidewater-georgian/kit). Its first key is `style`, the
+   one every style surface carries, so the style a reader came from is the left-hand one; its
+   second is the selection key `compare`. It is a PLACE WITH NO CITATION -- the grammar has no
+   two-style kind and none is added -- so `citeFor` answers null for it (citations.js). */
 export const SURFACE_PATHS = {
   overview: { path: '', keys: [] },
   phylogeny: { path: 'phylogeny', keys: ['style'] },
@@ -58,6 +64,7 @@ export const SURFACE_PATHS = {
   massing: { path: 'massing', keys: ['massing'] },
   grouping: { path: 'grouping', keys: ['grouping'] },
   parti: { path: 'parti', keys: ['parti'] },
+  compare: { path: 'compare', keys: ['style', 'compare', 'section'] },
 };
 
 /* The empty path, and where an unreadable one lands. */
@@ -178,7 +185,7 @@ export function isLegacyHash(hash) {
 export const SELECTION_KEYS = [
   'style', 'slot', 'fault', 'pack', 'candidate', 'finding', 'plan',
   'constraint', 'room', 'roomType', 'massing', 'parti', 'grouping', 'asset',
-  'section', 'term',
+  'section', 'term', 'compare',
 ];
 const NUMERIC_KEYS = ['candidate'];
 
