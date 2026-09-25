@@ -7,7 +7,13 @@ import { api } from '../api/client.js';
 import { planDoc } from '../state/planDoc.js';
 import { session } from '../state/session.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
-import { FilterStrip, Chip, ActionChip } from '../Chrome.jsx';
+import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
+import { Term } from '../components/Term.jsx';
+import { useGlossary } from '../api/useGlossary.js';
+import { describeTerm } from '../glossary/termView.js';
+import { useSurfaceFilters } from '../filters/useFilters.js';
+import { FACES, FACE_TERM, ENTRANCE_FRONT_TERM, parseFace, drawingOpts, cadOpts, sheetFileName,
+  recordWord } from './drawingFaces.js';
 import { ConflictSet } from '../components/ConflictSet.jsx';
 import { evaluateRefusal, placementRefusal, sketchOf, errorText, refusalFromError, isMissingLibrary }
   from '../sheet/refusal.js';
@@ -26,6 +32,13 @@ const card = { border: '1px solid var(--rule)', padding: '14px 16px', flex: '1 1
 const cardTitle = { font: 'var(--fw-reg) 17px/1.2 var(--display)', color: 'var(--ink)', margin: '0 0 7px' };
 const cardBody = { font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: '0 0 12px' };
 
+/* WHICH FACE AN ELEVATION LEAVES AS (WP-14.27, PRD §C.12). Export drew only the face the record
+   calls the entrance front, so the other three elevations the generator draws could be looked at
+   on the Drawing Set and never taken away. The face is an address param like the Drawing Set's,
+   worded by the face's own record; no face is the server's default, the entrance front, and that
+   chip is worded by its record rather than by a compass point this surface would have to derive. */
+const EXPORT_SPEC = { face: { widens: true } };
+
 export function ExportDetails({ lastEval }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
   const s = React.useSyncExternalStore(session.subscribe, session.get);
@@ -33,6 +46,10 @@ export function ExportDetails({ lastEval }) {
   const [busyCad, setBusyCad] = React.useState(null);
   const [note, setNote] = React.useState(null);
   const [refusal, setRefusal] = React.useState(null);
+  const F = useSurfaceFilters(EXPORT_SPEC);
+  const face = parseFace(F.values.face);
+  const glossary = useGlossary();
+  const word = recordWord(glossary);
   /* The fault count below is the corpus's, read from /api/overview: it was typed as "209"
      against a corpus of 210 (WP-14.13). Unread, the sentence names no figure. */
   const [faultCount, setFaultCount] = React.useState(null);
@@ -69,8 +86,8 @@ export function ExportDetails({ lastEval }) {
     if (!plan || blocked) return;
     setBusySvg(kind); setNote(null); setRefusal(null);
     try {
-      const j = await api.drawing(kind, plan);
-      save(`${plan.id}-${kind}.svg`, j.svg, 'image/svg+xml');
+      const j = await api.drawing(kind, plan, drawingOpts(kind, face));
+      save(sheetFileName(plan.id, kind, face || j.entrance_face), j.svg, 'image/svg+xml');
     } catch (e) {
       const r = refusalFromError(e);
       if (r) setRefusal(r);
@@ -90,7 +107,7 @@ export function ExportDetails({ lastEval }) {
     const key = kind ? `${fmt}:${kind}` : fmt;
     setBusyCad(key); setNote(null); setRefusal(null);
     try {
-      const j = await api.exportCad(fmt, plan, kind ? { kind } : {});
+      const j = await api.exportCad(fmt, plan, cadOpts(fmt, kind, face));
       save(j.filename, j.text, fmt === 'dxf' ? 'application/dxf' : 'application/x-step');
     } catch (e) {
       const r = refusalFromError(e);
@@ -108,6 +125,16 @@ export function ExportDetails({ lastEval }) {
         <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
           generated from data, so it cannot drift — and honest about what is not built
         </span>
+        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <Eyebrow as="span"><Term id={FACE_TERM} /></Eyebrow>
+        <ChipGroup label={word(FACE_TERM)}>
+          <Chip radio on={!face} title={describeTerm(glossary, ENTRANCE_FRONT_TERM).title}
+            onClick={() => F.set('face', null)}>{word(ENTRANCE_FRONT_TERM)}</Chip>
+          {FACES.map((f) => (
+            <Chip key={f.id} radio on={face === f.id} title={describeTerm(glossary, f.term).title}
+              onClick={() => F.set('face', f.id)}>{word(f.term)}</Chip>
+          ))}
+        </ChipGroup>
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 36px' }}>

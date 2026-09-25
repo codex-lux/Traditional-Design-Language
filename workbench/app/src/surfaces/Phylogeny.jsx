@@ -27,8 +27,8 @@ import { MapView } from './phylo/MapView.jsx';
 import { MarkGlyph } from '../components/MarkGlyph.jsx';
 import { useGlossary } from '../api/useGlossary.js';
 import { wordOf } from '../glossary/termView.js';
+import { NoRecordChosen } from '../components/NoRecordChosen.jsx';
 
-const DEFAULT_TAXON = 'tidewater-georgian';
 const EMPTY = [];
 
 const BREAK_AT = 1600, BREAK_FRAC = 0.18;
@@ -76,7 +76,7 @@ function Lineage({ taxon, edges }) {
 
 export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExitFull }) {
   const [graph, setGraph] = React.useState(null);
-  const [sel, setSel] = React.useState(selection?.style || DEFAULT_TAXON);
+  const [sel, setSel] = React.useState(selection?.style || null);
   const [compare, setCompare] = React.useState(null);
   const [cmpData, setCmpData] = React.useState(null);
   const [selInfo, setSelInfo] = React.useState(null);
@@ -99,13 +99,17 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
   const showClaims = !filters.values.claims;
 
   React.useEffect(() => { api.phylogeny().then(setGraph).catch(() => {}); }, []);
-  /* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
-   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
-   #/phylogeny left the panel displaying the record you had just left — the address bar and the
-   screen disagreeing, which is the one thing the router exists to prevent. Found by an
-   adversarial audit. */
-  React.useEffect(() => { setSel(selection?.style || DEFAULT_TAXON); }, [selection?.style]);
+  /* The URL owns this, so an ABSENT selection must reset rather than leave the last one showing.
+   Guarding the sync with `if (selection?.x)` meant pressing Back to a bare #/phylogeny left the
+   panel displaying the record you had just left — the address bar and the screen disagreeing,
+   which is the one thing the router exists to prevent. Found by an adversarial audit.
+   AND ABSENT MEANS NONE (WP-14.27). It reset to a hard-coded `tidewater-georgian`, so a bare
+   #/phylogeny showed one taxon's record under an address that named no taxon -- the default
+   record tranche 1 removed from the Styles index and the pack index, surviving here. A bare
+   address draws the tree and says no record is chosen, in the words of its glossary record. */
+  React.useEffect(() => { setSel(selection?.style || null); }, [selection?.style]);
   React.useEffect(() => {
+    if (!sel) { setSelInfo(null); return; }
     api.style(sel, 'summary').then(setSelInfo).catch(() => setSelInfo(null));
   }, [sel]);
   React.useEffect(() => {
@@ -178,6 +182,8 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
   });
 
   const ROW = 20, PAD = 8;
+  // With nothing chosen no lineage is lit, and no row is dimmed for not being part of one.
+  const bright = (id) => !sel || lit(id);
   const H = rows.length * ROW + PAD * 2;
   const selNode = allRows[index[sel]];
   const cmpNode = compare ? allRows[index[compare]] : null;
@@ -248,7 +254,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
              of wool, and the two readings should agree about what is on screen. */
           <MapView rows={rows} edges={edges} sel={sel} compare={compare} onPick={pick}
             traditionHue={(r) => TRADITION_HUES[r.tradition] || 'var(--ink-4)'}
-            lit={lit} showClaims={showClaims} rankFilter={rankFilter}
+            lit={bright} showClaims={showClaims} rankFilter={rankFilter}
             full={!!full} onExitFull={onExitFull}
             onFull={onFull ? () => onFull('phylogeny') : undefined} />
         ) : (
@@ -293,7 +299,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
 
             {rows.map((r, i) => {
               const on = r.id === sel, cmp = r.id === compare;
-              const isLit = lit(r.id);
+              const isLit = bright(r.id);
               const hue = TRADITION_HUES[r.tradition] || 'var(--ink-4)';
               const left = tScale(r.from) * 100, right = tScale(Math.min(r.to, 2026)) * 100;
               return (
@@ -353,10 +359,11 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           <FoldControl pane="phylo" label="the taxon's record" side="right" />
         </div>
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '2px 14px 24px' }}>
+          {!sel && <NoRecordChosen surface="phylogeny" />}
           {selNode && (
             <>
               <Eyebrow>{selNode.rank}</Eyebrow>
-              <h3 style={{ font: 'var(--fw-reg) var(--fs-d3)/1.12 var(--display)', fontVariationSettings: '"opsz" 48',
+              <h3 data-taxon-record={selNode.id} style={{ font: 'var(--fw-reg) var(--fs-d3)/1.12 var(--display)', fontVariationSettings: '"opsz" 48',
                 letterSpacing: 'var(--tr-display)', margin: '6px 0 3px' }}>{selNode.name}</h3>
               <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
                 {selNode.id} · {yr(selNode.from)}–{yr(selNode.to)}
@@ -418,7 +425,10 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid var(--rule)' }}>
                 <Eyebrow style={{ marginBottom: 7 }}>descent</Eyebrow>
                 {graph.edges.filter((e) => e.to === sel).map((e, i) => (
-                  <button key={i} type="button" onClick={() => setSel(e.from)}
+                  /* A descent is a pick like any other: it writes the address (WP-14.27), so
+                     Back returns to the taxon it was reached from and a reload keeps it. */
+                  <button key={i} type="button" data-descent={e.from}
+                    onClick={() => { setSel(e.from); setSelection && setSelection({ style: e.from }); }}
                     style={{ display: 'block', font: 'var(--type-data-s)', textAlign: 'left',
                       color: carriesKit(e) ? 'var(--ink)' : 'var(--ink-2)', padding: '2px 0' }}>
                     {e.from} <span style={{ color: 'var(--ink-4)' }}>· {e.type}</span>

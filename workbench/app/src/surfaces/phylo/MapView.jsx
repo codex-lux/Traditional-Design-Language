@@ -411,8 +411,14 @@ export function MapView({
                 onClick={(ev) => pickFromMap(ev, nextInCluster(c))}
                 style={{ cursor: 'pointer' }}>
                 {/* A country-precision mark is hollow and dashed -- the low-confidence form:
-                    the record named a nation, not a hearth, and a filled dot would claim one. */}
-                <circle cx={c.x} cy={c.y} r={r}
+                    the record named a nation, not a hearth, and a filled dot would claim one.
+                    HOLLOW IS HOW IT LOOKS AND NOT WHERE IT TAKES A CLICK (WP-14.27). SVG's
+                    default `pointer-events` is `visiblePainted`, so a `fill="none"` disc took a
+                    click only on its dashed 1.2 px stroke and a click in its middle fell through
+                    to the map and panned it. `visible` makes the whole disc the target whatever
+                    it is painted with. Found when the walk's map-click check stopped being
+                    carried by a default record and had to pick one. */}
+                <circle cx={c.x} cy={c.y} r={r} pointerEvents="visible"
                   fill={coarse ? 'none' : hue}
                   stroke={holdsSel ? 'var(--ink)' : hue}
                   strokeWidth={holdsSel ? 1.8 : (coarse ? 1.2 : 0.7)}

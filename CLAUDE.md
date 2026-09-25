@@ -774,7 +774,7 @@ A place is now a URL, and that URL is the citation grammar written down — `#/k
 beside it so the two cannot drift. **The grammar is spelled in three places — `REF_RE` and
 `CITE_RE` in `workbench/server/`, `parseCite` in the app — and an audit found two of the three
 disagreeing about the dot in a constraint id, which is why `test_grammar_agreement.py` now
-reads the JavaScript and holds all three against each other. Do not add a fourth copy.** Search is `⌘K` over `/api/search/index` (845 named things,
+reads the JavaScript and holds all three against each other. Do not add a fourth copy.** Search is `⌘K` over `/api/search/index` (855 named things,
 dispatching by citation); `/` filters the list in front of you; `?` explains both. Filters live
 in the query string via `filters/useFilters.js` — do not reintroduce per-surface filter state.
 `Chip` is now only ever a filter; acts are `ActionChip`. Report:

@@ -1,0 +1,13 @@
+{
+  "id": "no-record-chosen",
+  "term": "no record chosen",
+  "family": "product",
+  "order": 5,
+  "definition": "An index opened at an address that names no record shows its list and no record beside it: nothing is chosen for the reader. Choose one from the list and it opens here, and the address then names it.",
+  "kind": "editorial",
+  "basis": "Our wording of the rule that a bare address names no record, which the workbench already keeps for the Styles index and the pack index. docs/workbench.md: \"each surface fell back to its own hard-coded record.\", \"the Styles index, an outline that never shows a record\" and \"A bare `#/proportions` is the pack index and draws no\"",
+  "see": [
+    "term:surface-faults",
+    "term:surface-phylogeny"
+  ]
+}

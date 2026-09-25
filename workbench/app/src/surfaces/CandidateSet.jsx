@@ -24,7 +24,7 @@ import { readRefusal, refusalHeadline, errorText } from '../sheet/refusal.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
-import { ORDERS, order, isNative, nativityOf } from '../candidateOrder.js';
+import { ORDERS, order, isNative, nativityOf, setSize } from '../candidateOrder.js';
 import { Term } from '../components/Term.jsx';
 import { revisedLine, revisedEventLine } from '../revision.js';
 
@@ -38,6 +38,8 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
   const native = isNative(c, nativePartis);
   return {
     id: 'c' + i,
+    // the index in the SERVER's order, which is what the `candidate` address key names
+    n: i,
     parti: c.parti, parti_name: c.parti_name,
     score: c.score ?? null,
     score_axes: (c.score_axes || []).map((a) => (
@@ -87,12 +89,15 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
   };
 }
 
-export function CandidateSet({ onCite, go, selection }) {
+export function CandidateSet({ onCite, go, selection, setSelection }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
-  const [sel, setSel] = React.useState(null);
-  React.useEffect(() => {   // a candidate: citation selects its column
-    if (selection?.candidate != null) setSel('c' + selection.candidate);
-  }, [selection?.candidate]);
+  /* THE COLUMN A READER PICKED IS THE ADDRESS'S (WP-14.27, PRD §C.12). It was `useState`, set by
+     a click and by a `candidate:` citation but never written back, so a reload or a Back lost the
+     column and the decision log beside it, and a picked column could not be sent. The numeric
+     `candidate` selection key names it now -- an index in the SERVER's order, which is what a
+     `candidate:<n>` citation already meant -- and a click writes it, so the address is the one
+     place the choice lives. An absent key is no column chosen. */
+  const sel = selection?.candidate != null ? 'c' + selection.candidate : null;
   const [sort, setSort] = React.useState('score');
   const [nativePartis, setNativePartis] = React.useState(null);
   const result = s.result;
@@ -183,6 +188,7 @@ export function CandidateSet({ onCite, go, selection }) {
   const list = cands.slice().sort(order(chosen.cmp));
   const dropped = result.dropped_lot_infeasible || [];
   const askedFor = s.brief?.candidates || 4;
+  const size = setSize(result, askedFor);
 
   async function openInWorkbench(c) {
     // A refused candidate is not loaded. The conflict set beside its column says what could not
@@ -200,8 +206,16 @@ export function CandidateSet({ onCite, go, selection }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip right={
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
-          returned {cands.length} of {askedFor} asked for
+        <span data-set-size={size.own} data-set-asked={size.asked}
+          style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+          returned {size.own} of {size.asked} asked for
+          {/* the one the brief named and the ranking passed over, appended after the set rather
+              than counted in it (WP-14.19), named by the record that says so */}
+          {size.appended && (
+            <span data-named-appended={size.appended.parti}>
+              {JOURNEY_WORDS.separator}<Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}{size.appended.name}
+            </span>
+          )}
           {dropped.length ? ` · ${dropped.length} dropped for the lot` : ''}
         </span>
       }>
@@ -248,7 +262,7 @@ export function CandidateSet({ onCite, go, selection }) {
         <div style={{ display: 'flex', gap: 12, alignItems: 'stretch' }}>
           {list.map((c, i) => (
             <CandidateColumn key={c.id} candidate={c} rank={i + 1} selected={sel === c.id}
-              onSelect={() => setSel(c.id)} style={{ minWidth: 0 }}>
+              onSelect={() => setSelection && setSelection({ candidate: c.n })} style={{ minWidth: 0 }}>
               {/* WP-14.25: the diagram the brief asked for by name, worded by its own record */}
               {c.named_by_brief && (
                 <span data-named-by-brief={c.parti} style={{ display: 'block', marginTop: 12 }}>

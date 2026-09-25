@@ -4922,7 +4922,13 @@ set when it merges.
   - **Found, not fixed.** The candidate strip reads "returned 2 of 1 asked for" when a named parti is appended, and `CandidateColumn` hard-codes "NOT native" for lineage partis too. Both are WP-14.27's.
 - **WP-14.26 — compare two styles**, on one kit authority. Wave 3. **Status: PLANNED.**
 - **WP-14.27 — every pick writes the URL; no default record.** Also Faults read for one style, and
-  Export's face picker. Wave 3. **Status: PLANNED.**
+  Export's face picker. Wave 3. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.27-every-pick-writes-the-address.md`.
+  - **No default record.** `DEFAULT_FAULT` and `DEFAULT_TAXON` are gone: a bare `#/faults` or `#/phylogeny` shows its list or tree and no record, worded by `no-record-chosen`.
+  - **Every pick writes the address.** Phylogeny's descent, the candidate column (the server's index, not the rank on screen), and the Drawing Set's sheet and face.
+  - **Export** gets a face picker and sends `face`, so it can export more than the entrance elevation. Four SVGs of one house had been saved under one file name.
+  - **Faults read for one style.** With `?style=`, the list is grouped here, lineage and universal, from the dossier's own partition, and held to it.
+  - **WP-14.25's two findings are fixed.** The candidate strip counts the named parti apart, and a lineage column reads as lineage.
+  - **Found by re-cutting a walk check that could not fail.** A hollow country-precision hearth on the map took clicks only on its 1.2 px stroke. Three of the six on screen let a centre click fall through and pan the map. They take the whole disc now.
 - **WP-14.28 — the guided tour through the house.** Built only if WP-14.21 succeeds. Wave 3.
   **Status: NOT BUILT (25 Sep 2026)** — WP-14.21 found no Tidewater plan that places without laundering, so the ruling's condition is unmet. The guided example stops at the refusal and says why; nothing promises a house.
 - **WP-14.29 — one meaning per hatch, one key.** Wave 3. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.29-one-meaning-per-mark.md`.

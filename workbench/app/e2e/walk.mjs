@@ -19,6 +19,9 @@ import { SURFACE_PATHS, parseHash, formatHash } from '../src/router.js';
 import { navModel, flatItems, inHandFrom } from '../src/nav/navModel.js';
 import { PAGE_KINDS, RECORD_KINDS } from '../src/record/kinds.js';
 import { indexTerms } from '../src/glossary/lookup.js';
+// The faces and the nativity words, from the modules the surfaces read them from (WP-14.27).
+import { FACES } from '../src/surfaces/drawingFaces.js';
+import { NATIVITY_TERMS } from '../src/candidateOrder.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
 const SHOTS = new URL('./shots/', import.meta.url).pathname;
@@ -1311,6 +1314,58 @@ const phylo = await page.locator('main').innerText();
 check('phylogeny names the missing trunks', /missing peer trunks/i.test(phylo));
 await shot('phylogeny');
 
+/* NO TAXON IS SHOWN THAT THE ADDRESS DOES NOT NAME, AND EVERY PICK IS AN ADDRESS (WP-14.27).
+   A bare #/phylogeny drew `tidewater-georgian`'s record beside the tree, typed into the component
+   as its default; and the descent list under a record chose a taxon without writing it anywhere,
+   so Back skipped it and a reload lost it. The bare page draws the tree and says no record is
+   chosen, in the `no-record-chosen` record's word. Then a taxon is picked from the tree -- one
+   with something descending from it, read from `/api/phylogeny` and never named here -- and a
+   descent from its record, and each pick is read back off the hash, a reload keeps the second,
+   and Back returns to the first. */
+{
+  const rec = await termOf('no-record-chosen');
+  await page.waitForSelector('main [data-no-record="phylogeny"] [data-term="no-record-chosen"]', { timeout: 15000 })
+    .catch(() => {});
+  const shown = await page.locator('main [data-taxon-record]').count();
+  const word = await page.locator('main [data-no-record="phylogeny"] [data-term="no-record-chosen"]').first()
+    .innerText().catch(() => '');
+  check(`a bare #/phylogeny draws no taxon's record (${shown}) and says none is chosen in its record's word ("${word.trim()}")`,
+    shown === 0 && !!rec && word.trim().toLowerCase() === String(rec.term).toLowerCase());
+  const phyl0 = await (await fetch(BASE + '/api/phylogeny')).json();
+  const names = new Map();
+  for (const t of phyl0.taxa) names.set(t.name, (names.get(t.name) || 0) + 1);
+  const from = phyl0.taxa.map((t) => t.id).sort().find((id) => {
+    const t = phyl0.taxa.find((x) => x.id === id);
+    return names.get(t.name) === 1 && phyl0.edges.some((e) => e.to === id);
+  });
+  if (!from) {
+    unjudged.push('phylogeny picks -- the graph holds no uniquely named taxon with a descent to pick');
+  } else {
+    const t = phyl0.taxa.find((x) => x.id === from);
+    await page.locator('main').getByRole('button', { name: t.name, exact: true }).first().click().catch(() => {});
+    await page.waitForSelector(`main [data-taxon-record="${from}"]`, { timeout: 15000 }).catch(() => {});
+    const at1 = parseHash(await page.evaluate(() => location.hash));
+    check(`picking a taxon in the tree writes it to the address (${from} → ${at1.selection.style})`,
+      at1.surface === 'phylogeny' && at1.selection.style === from
+      && await page.locator(`main [data-taxon-record="${from}"]`).count() === 1);
+    const d = page.locator('main [data-descent]').first();
+    const to = await d.getAttribute('data-descent').catch(() => null);
+    await d.click().catch(() => {});
+    await page.waitForSelector(`main [data-taxon-record="${to}"]`, { timeout: 15000 }).catch(() => {});
+    const at2 = parseHash(await page.evaluate(() => location.hash));
+    check(`a descent is a pick too: it writes the taxon it names (${to} → ${at2.selection.style})`,
+      !!to && at2.selection.style === to && await page.locator(`main [data-taxon-record="${to}"]`).count() === 1);
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.waitForSelector(`main [data-taxon-record="${to}"]`, { timeout: 20000 }).catch(() => {});
+    check(`and a reload keeps it (${to})`, await page.locator(`main [data-taxon-record="${to}"]`).count() === 1);
+    await page.goBack().catch(() => {});
+    await page.waitForSelector(`main [data-taxon-record="${from}"]`, { timeout: 15000 }).catch(() => {});
+    check(`and Back returns to the taxon it descended from (${from})`,
+      parseHash(await page.evaluate(() => location.hash)).selection.style === from
+      && await page.locator(`main [data-taxon-record="${from}"]`).count() === 1);
+  }
+}
+
 /* WHAT AN EDGE CARRIES IS THE SERVED FLAG, READ PER EDGE (WP-14.11, PRD §I.13, §K).
 
    The panel's lineage and the tree's strokes used a table of TYPES (`CARRIES = { descends_from,
@@ -1954,6 +2009,44 @@ await shot('proportions-plates-at-the-packs-word', [1440, 1280]);
 // ⑨ Fault Corpus
 await visit('#/faults');
 await page.waitForSelector('text=solecisms', { timeout: 15000 });
+/* A BARE ADDRESS NAMES NO FAULT, SO NO FAULT IS SHOWN (WP-14.27, PRD §C.12). This block used to
+   wait for the card of `porch-too-shallow-to-inhabit`, which the surface drew under a bare
+   #/faults because it was typed into the component as the default -- a record the address never
+   named. The bare page now lists the corpus and says no record is chosen, in the words of the
+   `no-record-chosen` record; a fault is shown only once it is PICKED, and a pick is an address:
+   it is read back off the hash, survives a reload, and Back returns to the bare page with the card
+   gone. The fault picked is the list's first, read off the page and never named here. */
+let faultPicked = null;
+{
+  await page.waitForSelector('main [data-no-record="faults"] [data-term="no-record-chosen"]', { timeout: 15000 })
+    .catch(() => {});
+  const rec = await termOf('no-record-chosen');
+  const cards = await page.locator('main article[data-fault]').count();
+  const word = await page.locator('main [data-no-record="faults"] [data-term="no-record-chosen"]').first()
+    .innerText().catch(() => '');
+  check(`a bare #/faults shows no fault card (${cards}) and says no record is chosen in its record's word ("${word.trim()}")`,
+    cards === 0 && !!rec && word.trim().toLowerCase() === String(rec.term).toLowerCase());
+  const row = page.locator('main [data-fault-row]').first();
+  faultPicked = await row.getAttribute('data-fault-row').catch(() => null);
+  await row.click().catch(() => {});
+  await page.waitForSelector(`main article[data-fault="${faultPicked}"]`, { timeout: 15000 }).catch(() => {});
+  const placeAfter = parseHash(await page.evaluate(() => location.hash));
+  check(`picking a fault writes it to the address (${faultPicked} → ${placeAfter.selection.fault})`,
+    !!faultPicked && placeAfter.surface === 'faults' && placeAfter.selection.fault === faultPicked);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForSelector(`main article[data-fault="${faultPicked}"]`, { timeout: 15000 }).catch(() => {});
+  check(`and a reload keeps the fault it named (${faultPicked})`,
+    await page.locator(`main article[data-fault="${faultPicked}"]`).count() === 1
+    && await page.locator('main [data-no-record="faults"]').count() === 0);
+  await page.goBack().catch(() => {});
+  await page.waitForSelector('main [data-no-record="faults"]', { timeout: 15000 }).catch(() => {});
+  check('and Back to the bare address takes the card away with it',
+    parseHash(await page.evaluate(() => location.hash)).selection.fault === undefined
+    && await page.locator('main article[data-fault]').count() === 0
+    && await page.locator('main [data-no-record="faults"]').count() === 1);
+  await page.goForward().catch(() => {});
+  await page.waitForSelector(`main article[data-fault="${faultPicked}"]`, { timeout: 15000 }).catch(() => {});
+}
 await page.waitForSelector('main >> text=dishonest', { timeout: 15000 }).catch(() => {});
 const faults = await page.locator('main').innerText();
 check('fault corpus voice line present', /explaining an economy/i.test(faults));
@@ -1977,6 +2070,42 @@ check('fix tiers named plainly', /dishonest/i.test(faults));
     && flat(cp) === flat(rec.correct_practice) && flat(dt) === flat(rec.detection));
 }
 await shot('faults');
+
+/* THE CORPUS READ FOR ONE STYLE, IN THE DOSSIER'S THREE GROUPS (WP-14.27). The dossier's "N more,
+   written for every house" link lands here with `?style=`, and the list used to run every fault
+   the style reads in one undivided column. Held to the dossier's OWN partition, fetched here from
+   the same route the page reads -- the order, the counts and each heading's record -- so the page
+   cannot be passed by re-deriving the partition the way the walk did. */
+{
+  const sid = 'tidewater-georgian';
+  const part = await fetch(`${BASE}/api/styles/${sid}/dossier`).then((r) => (r.ok ? r.json() : null))
+    .then((d) => (d && d.faults) || null).catch(() => null);
+  await visit(formatHash('faults', {}, { style: sid }));
+  await page.waitForSelector('main [data-fault-group], main [data-fault-groups-unjudged]', { timeout: 30000 })
+    .catch(() => {});
+  const groups = await page.$$eval('main [data-fault-group]', (gs) => gs.map((g) => ({
+    id: g.getAttribute('data-fault-group'), n: Number(g.getAttribute('data-fault-group-count')),
+    rows: g.querySelectorAll('[data-fault-row]').length,
+    term: g.querySelector('[data-term]') ? g.querySelector('[data-term]').getAttribute('data-term') : null,
+    word: g.querySelector('[data-term]') ? g.querySelector('[data-term]').innerText.trim() : null })));
+  const unj = await page.locator('main [data-fault-groups-unjudged]').count();
+  if (!part) {
+    unjudged.push(`the Fault Corpus's style groups -- the ${sid} dossier served no fault partition`);
+  } else {
+    const want = [['here', (part.verdict_here || []).length], ['lineage', (part.lineage || []).length],
+      ['universal', part.universal_count]].filter(([, n]) => n > 0);
+    check(`the Fault Corpus read for ${sid} groups its list as the dossier does (${groups.map((g) => `${g.id} ${g.n}`).join(', ') || (unj ? 'unjudged' : 'none')})`,
+      unj === 0 && JSON.stringify(groups.map((g) => [g.id, g.n])) === JSON.stringify(want)
+      && groups.every((g) => g.rows === g.n));
+    const words = await Promise.all(groups.map((g) => termOf(`fault-group-${g.id}`)));
+    // the eyebrow sets its words in capitals, and `innerText` returns them as painted
+    const lc = (x) => String(x || '').toLowerCase();
+    check(`and each group is headed by its own record (${groups.map((g) => `${g.term}: "${g.word}"`).join('; ')})`,
+      groups.length > 0 && groups.every((g, i) => g.term === `fault-group-${g.id}` && !!words[i]
+        && lc(g.word) === lc(words[i].term)));
+  }
+  await shot('faults-grouped');
+}
 
 // ⑤ Brief Intake
 await visit('#/brief');
@@ -2141,6 +2270,62 @@ await shot('brief');
         && !!cand && cand.named_by_brief === true);
       const flagged = await page.$$eval('main [data-named-by-brief]', (fs) => fs.length);
       check(`and only that candidate carries the flag (${flagged})`, flagged === 1);
+
+      /* WP-14.27: the strip above the columns counts the SET and names the appended one apart.
+         It printed `returned {candidates.length} of {asked}`, so asking for one with a named
+         parti the ranking passed over read "returned 2 of 1 asked for" -- a count true of
+         nothing. Held to the job's own `named_parti` rather than to a literal. */
+      const strip = await page.evaluate(() => {
+        const s = document.querySelector('main [data-set-size]');
+        const a = s && s.querySelector('[data-named-appended]');
+        return s ? { own: Number(s.getAttribute('data-set-size')), asked: Number(s.getAttribute('data-set-asked')),
+          appended: a ? a.getAttribute('data-named-appended') : null, text: s.innerText.trim(),
+          word: a && a.querySelector('[data-term]') ? a.querySelector('[data-term]').innerText.trim() : null } : null;
+      });
+      const total = ((job && job.result && job.result.candidates) || []).length;
+      const wantAppended = !!np && np.returned === true && np.appended === true;
+      check(`the strip counts the set and not the appendage (${strip ? strip.text : 'no strip'})`,
+        !!strip && strip.own <= strip.asked && strip.own === total - (wantAppended ? 1 : 0)
+        && new RegExp(`returned ${strip.own} of ${strip.asked} asked for`).test(strip.text));
+      check(`and names the appended candidate apart, by its record (${strip && strip.appended} / "${strip && strip.word}")`,
+        !!strip && (wantAppended
+          ? strip.appended === target.id && !!flagRec && strip.word === flagRec.term
+          : strip.appended === null));
+
+      /* WP-14.27: a column words its nativity from the SERVED nativity, by its record. A lineage
+         diagram used to read "NOT native to this style -- native to an ancestor ...", which
+         contradicts itself in one line. */
+      if (cand && cand.nativity) {
+        const natRec = await termOf(NATIVITY_TERMS[cand.nativity]);
+        const nat = await page.evaluate((id) => {
+          const p = document.querySelector(`main [data-candidate="${id}"] [data-nativity]`);
+          const t = p && p.querySelector('[data-term]');
+          return p ? { nativity: p.getAttribute('data-nativity'), term: t ? t.getAttribute('data-term') : null,
+            word: t ? t.innerText.trim() : null, text: p.innerText } : null;
+        }, target.id);
+        check(`the column words the served nativity (${cand.nativity}) by its record ("${nat && nat.word}")`,
+          !!nat && nat.nativity === cand.nativity && nat.term === NATIVITY_TERMS[cand.nativity]
+          && !!natRec && nat.word === natRec.term
+          && (cand.nativity === 'borrowed' || !/NOT native/i.test(nat.text)));
+      } else {
+        unjudged.push('the column nativity -- the job served no nativity on the named candidate');
+      }
+
+      /* WP-14.27: picking a column writes the numeric `candidate` key and survives a reload. */
+      const n = ((job && job.result && job.result.candidates) || []).findIndex((c) => c.parti === target.id);
+      await page.locator(`main [data-candidate="${target.id}"] h3`).first().click().catch(() => {});
+      await page.waitForFunction((want) => location.hash.startsWith(`#/candidates/${want}`),
+        n, { timeout: 10000 }).catch(() => {});
+      const pickHash = await page.evaluate(() => location.hash);
+      const picked = parseHash(pickHash).selection.candidate;
+      const selNow = async () => page.evaluate((id) =>
+        !!document.querySelector(`main [data-candidate="${id}"][data-selected]`), target.id);
+      check(`picking a candidate's column writes it in the address (candidate=${picked}, the server's index ${n})`,
+        n >= 0 && picked === n && await selNow());
+      await page.reload();
+      await page.waitForSelector(`main [data-candidate="${target.id}"]`, { timeout: 60000 }).catch(() => {});
+      check('and the picked column is still the chosen one after a reload', await selNow());
+
       // the flag sits below the column's scores, so bring it into the picture before shooting
       await page.evaluate((id) => {
         const f = document.querySelector(`main [data-named-by-brief="${id}"]`);
@@ -2433,6 +2618,14 @@ await shot('drawing-elevation');
   }, before, { timeout: 60000 }).catch(() => {});
   check(`drawing set: a chosen face draws a different plate (${before} → ${await ink()})`,
     (await ink()) !== before);
+  /* WP-14.27: the sheet and the face are filters in the address, not state the page forgets.
+     They were React state, so a reload or a shared link drew the plan sheet and the entrance
+     front whatever the reader had been looking at. */
+  {
+    const dsHash = parseHash(await page.evaluate(() => location.hash));
+    check(`drawing set: the sheet and the face are in the address (${JSON.stringify(dsHash.params)})`,
+      dsHash.params.sheet === 'elevation' && dsHash.params.face === NOT_FRONT);
+  }
   const cap = await page.locator('main').innerText();
   /* THE CAPTION THAT NAMES THE FACE IS GATED ON THE DATE OF REPRESENTATION, which is a
      coupling nobody chose and which this subject exposes: `DrawingSet.jsx` renders
@@ -2499,6 +2692,15 @@ await shot('drawing-elevation');
   check(`drawing set: the sheet strip is one row (${strip && strip.h}px) with its download still whole`,
     strip && strip.h <= 40 && strip.dlw > 40);
   await shot('drawing-elevation-west');
+  // ...and a reload draws the same sheet at the same face, because the address says which.
+  await page.reload();
+  await page.waitForSelector('.plate-fit > svg', { timeout: 90000 }).catch(() => {});
+  const checkedOf = async (re) => page.getByRole('radio', { name: re }).first()
+    .getAttribute('aria-checked').catch(() => null);
+  const kindOn = await checkedOf(/^elevation$/);
+  const faceOn = await checkedOf(new RegExp(`^${pick}`, 'i'));
+  check(`drawing set: a reload keeps the sheet and the face (elevation ${kindOn}, ${pick} ${faceOn})`,
+    kindOn === 'true' && faceOn === 'true');
 }
 
 // A sheet kind is one of a set, so it is a radio now, not a button — the chips that pick
@@ -2516,6 +2718,59 @@ check('export: unbuilt work named with its WP', /WP-5\.3 is not built/.test(ex))
 check('export: no costing engine implied', /No costing engine exists/i.test(ex));
 check('export: conflict count is the recorded 262', /262 recorded pack conflicts/.test(ex));
 await shot('export');
+
+/* WP-14.27: an elevation leaves as the face the reader chose. Export drew only the entrance
+   front, so three of the four elevations the Drawing Set shows could be looked at and never
+   taken away. The face is an address filter worded by its record, and what is asserted is the
+   REQUEST BODY -- a picker that changes the chip and not the POST is the defect's own shape.
+   The two routes are answered here with a stand-in, because what is under test is what the
+   page SENDS; the drawing itself is the Drawing Set's subject above. */
+{
+  const faceTerm = (FACES.find((f) => f.id === NOT_FRONT) || {}).term;
+  const faceRec = faceTerm ? await termOf(faceTerm) : null;
+  const faceWord = faceRec && faceRec.term;
+  if (!faceWord) {
+    unjudged.push(`export: the face picker -- no glossary record answers for the ${NOT_FRONT} face`);
+  } else {
+    const chip = page.getByRole('radio', { name: new RegExp(`^${faceWord}$`, 'i') });
+    await chip.first().click().catch(() => {});
+    await page.waitForFunction((f) => new RegExp(`[?&]face=${f}(&|$)`).test(location.hash),
+      NOT_FRONT, { timeout: 10000 }).catch(() => {});
+    const exHash = parseHash(await page.evaluate(() => location.hash));
+    check(`export: picking a face writes it in the address (${JSON.stringify(exHash.params)})`,
+      exHash.surface === 'export' && exHash.params.face === NOT_FRONT);
+    await page.reload();
+    await page.waitForSelector('text=forthcoming', { timeout: 15000 }).catch(() => {});
+    check(`export: and a reload keeps the face picked (${faceWord})`,
+      await chip.first().getAttribute('aria-checked').catch(() => null) === 'true');
+
+    const sent = {};
+    const standIn = async (route, key, body) => {
+      try { sent[key] = JSON.parse(route.request().postData() || '{}'); } catch { sent[key] = {}; }
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
+    };
+    await page.route('**/api/drawings/elevation', (r) => standIn(r, 'svg', { svg: '<svg/>' }));
+    await page.route('**/api/export/dxf', (r) => standIn(r, 'dxf', { filename: 'walk.dxf', text: '' }));
+    const svgBtn = page.locator('main button').filter({ hasText: /^\s*elevation\s*↓?\s*$/ }).first();
+    const dxfBtn = page.locator('main button').filter({ hasText: /^\s*elevation dxf\s*↓?\s*$/ }).first();
+    const enabled = async (b) => (await b.count()) > 0 && !(await b.isDisabled().catch(() => true));
+    if (!(await enabled(svgBtn)) || !(await enabled(dxfBtn))) {
+      unjudged.push('export: the face reaches the request -- the elevation buttons are not live on '
+        + 'this bench (no plan, a refused placement or a sketch), so nothing can be sent');
+    } else {
+      await svgBtn.click().catch(() => {});
+      await page.waitForTimeout(1500);
+      await dxfBtn.click().catch(() => {});
+      await page.waitForTimeout(1500);
+      check(`export: the elevation SVG is asked for at the face picked (${JSON.stringify(sent.svg && { face: sent.svg.face })})`,
+        !!sent.svg && sent.svg.face === NOT_FRONT);
+      check(`export: and so is the elevation DXF (${JSON.stringify(sent.dxf && { kind: sent.dxf.kind, face: sent.dxf.face })})`,
+        !!sent.dxf && sent.dxf.kind === 'elevation' && sent.dxf.face === NOT_FRONT);
+    }
+    await page.unroute('**/api/drawings/elevation');
+    await page.unroute('**/api/export/dxf');
+  }
+}
 
 // (11) Transcription - a drawing goes in, a record comes out, gaps named
 await visit('#/transcription');
@@ -2745,12 +3000,62 @@ check('a bare surface URL does not still show the last record',
 
 // W6: setPointerCapture on the <svg> retargeted the click, so no mark on the map could be
 // selected — while panning still worked, which is why it looked fine.
-await page.goto(BASE + '/#/phylogeny?view=map');
-await page.waitForTimeout(2000);
-await page.locator('main svg g[style*="pointer"]').first().click({ force: true });
-await page.waitForTimeout(900);
-check('a hearth on the map can be clicked',
-  /VARIANT|STYLE|FAMILY|TRADITION/i.test(await page.locator('main').innerText()));
+/* RE-CUT AT WP-14.27: THIS CHECK COULD NOT FAIL. It asserted that the page's text held a rank
+   word, and the page always did -- the rank chips in the strip read "tradition family style
+   variant", and a bare #/phylogeny drew the default taxon's record with its rank beside the map
+   before anything was clicked. Deleting the click, or the hearth's handler, left it green. What a
+   click on a hearth does is PICK a taxon: nothing is shown before it, and after it the address
+   names a taxon and that taxon's own record is open. */
+/* AND THE RE-CUT'S FIRST RUN WENT RED, ON THE INSTRUMENT AND THEN ON THE PRODUCT. The old
+   locator clicked the FIRST hearth in document order with `force`, and the first hearth sits
+   beneath the record pane: its centre is the pane, so the click never reached the map. The
+   hearth clicked now is one whose centre is its own mark, asked of the page with
+   `elementFromPoint`, at that point. And a HOLLOW mark -- a country-precision hearth, drawn
+   `fill="none"` -- took a click only on its dashed stroke: measured, three of the six on screen
+   passed a click at their centre through to the coastline beneath, and the map panned instead of
+   picking. `MapView.jsx` gives the disc `pointer-events: visible` now, and the second check here
+   picks a hollow mark at its centre, which fails with that attribute removed. */
+const hearthCentres = async (hollow) => page.evaluate((h) => {
+  const out = [];
+  for (const c of document.querySelectorAll('main svg g[style*="pointer"] > circle')) {
+    if ((c.getAttribute('fill') === 'none') !== h) continue;
+    const b = c.getBoundingClientRect();
+    const x = b.x + b.width / 2, y = b.y + b.height / 2;
+    const w = document.querySelector('main svg').getBoundingClientRect();
+    // on the plate, and not under the record pane or the strip: the centre must be inside the
+    // map's own box and the topmost thing there must not be outside the map's svg
+    const e = document.elementFromPoint(x, y);
+    if (x > w.left && x < w.right && y > w.top && y < w.bottom && e && e.closest('main svg')) {
+      // `own`: the mark itself is topmost there. `onMark`: SOME mark is -- a neighbouring hearth
+      // may overlap this one at the atlas's scale, and a click there picks that neighbour, which
+      // is a pick; what may not happen is a click at a mark's centre reaching the map beneath.
+      out.push({ x, y, own: c.parentNode.contains(e), onMark: !!e.closest('g[style*="pointer"]'),
+        hit: e.tagName.toLowerCase() });
+    }
+  }
+  return out;
+}, hollow);
+async function pickOnMap(hollow, what) {
+  await page.goto(BASE + '/#/phylogeny?view=map');
+  await page.reload();
+  await page.waitForTimeout(2000);
+  const before = await page.locator('main [data-taxon-record]').count();
+  const marks = await hearthCentres(hollow);
+  const at = marks.find((m) => m.own);
+  if (!at) { unjudged.push(`${what} -- no such mark is on screen at the map's opening view`); return; }
+  // every such mark on screen takes the click at its centre, which is a question of geometry
+  // and asks no request; then one of them is really clicked
+  const through = marks.filter((m) => !m.onMark);
+  check(`${what}: no click at the centre of one on screen falls through to the map (${through.length} of ${marks.length}${through.length ? ': ' + [...new Set(through.map((m) => m.hit))].join(', ') : ''})`,
+    through.length === 0);
+  await page.mouse.click(at.x, at.y);
+  await page.waitForTimeout(900);
+  const picked = parseHash(await page.evaluate(() => location.hash)).selection.style;
+  check(`${what}: it names a taxon in the address and opens its record (${before} shown before, ${picked} after)`,
+    before === 0 && !!picked && await page.locator(`main [data-taxon-record="${picked}"]`).count() === 1);
+}
+await pickOnMap(false, 'a hearth on the map can be clicked');
+await pickOnMap(true, 'a hollow (country-precision) mark is picked by a click in its middle, not only on its stroke');
 
 /* ── WP-14.23: the Elements index and one record of each kind ─────────────────────────────
 

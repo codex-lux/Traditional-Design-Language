@@ -15,6 +15,12 @@ import { engineClaim, statusHead } from '../sheet/engineClaim.js';
 import { errorText, refusalFromError, placementRefusal } from '../sheet/refusal.js';
 import { RoundPlate } from '../round/RoundPlate.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
+import { useGlossary } from '../api/useGlossary.js';
+import { describeTerm } from '../glossary/termView.js';
+import { Term } from '../components/Term.jsx';
+import { JOURNEY_WORDS } from '../journey/journey.js';
+import { FACES, FACE_TERM, ENTRANCE_FRONT_TERM, parseFace, parseSheet, sheetParam, drawingOpts, sheetFileName,
+  faceChipWords, recordWord } from './drawingFaces.js';
 
 /* THE ROUND'S PLACE IS A URL (§7.2), which is WP-5.6's rule and not a new one: a view with
    three overlays and an exploded model is a thing one reader sends another, and until this it
@@ -61,13 +67,9 @@ import { plateKeyFor } from '../round/annotate.js';
    three quarters of what the generator draws had never been seen. Which face is the FRONT is
    a fact the record states (`context.entrance_faces` → `elev.entrance_face`), so the chip
    says the compass point and the caption says the role, exactly as WP-11.9 ruled for the
-   plan's north: plan-N is true-N unless a bearing says otherwise. */
-const FACES = [
-  { id: 'S', label: 'south' },
-  { id: 'N', label: 'north' },
-  { id: 'E', label: 'east' },
-  { id: 'W', label: 'west' },
-];
+   plan's north: plan-N is true-N unless a bearing says otherwise.
+   The four faces, and the words each chip carries, are `drawingFaces.js`'s (WP-14.27): the
+   compass letter the record uses, worded by the face's own glossary record. */
 
 const DISCLOSURE = {
   // The 83-of-177 figure this caption used to print is tidewater-georgian's own count
@@ -97,13 +99,19 @@ export function DrawingSet({ go }) {
   // arriving at ⑧ shows the house rather than one of its faces. It costs no extra call: the
   // scene route returns the six named views' plates WITH the model, where one `api.drawing`
   // returned one plate for the same solve.
-  const [kind, setKind] = React.useState('model');
   const [scene, setScene] = React.useState(null);
   const [sceneErr, setSceneErr] = React.useState(null);
+  /* THE SHEET AND THE FACE ARE THE ADDRESS'S TOO (WP-14.27). Both were `useState`, so a reload
+     or a sent link showed the model whatever the reader had been looking at. Like the Round's
+     four axes they WIDEN rather than narrow -- choosing a drawing hides nothing -- so they are
+     not counted as filters and clear-all leaves them where they are. */
   const F = useSurfaceFilters(React.useMemo(() => ({
     view: { widens: true }, ov: { widens: true },
     explode: { widens: true }, cut: { widens: true },
+    sheet: { widens: true }, face: { widens: true },
   }), []));
+  const kind = parseSheet(F.values.sheet);
+  const setKind = React.useCallback((k) => F.set('sheet', sheetParam(k)), [F]);
   const view = F.values.view;
   const setView = React.useCallback((v) => F.set('view', v), [F]);
   const ov = React.useMemo(() => parseOv(F.values.ov), [F.values.ov]);
@@ -115,8 +123,11 @@ export function DrawingSet({ go }) {
   const [plateOn, setPlateOn] = React.useState(false);
   // null means "whichever face the record calls the entrance front" — the server's own
   // default (`face or elev["entrance_face"]`), so arriving here draws what it always drew
-  // and choosing a face is an act the reader takes.
-  const [face, setFace] = React.useState(null);
+  // and choosing a face is an act the reader takes, and one the address keeps.
+  const face = parseFace(F.values.face);
+  const setFace = React.useCallback((f) => F.set('face', parseFace(f)), [F]);
+  const glossary = useGlossary();
+  const word = recordWord(glossary);
   const [result, setResult] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
@@ -162,7 +173,7 @@ export function DrawingSet({ go }) {
       cache.current[key] = fromScene; setResult(fromScene); setError(null); return;
     }
     setBusy(true); setError(null); setResult(null);
-    api.drawing(kind, plan, kind === 'elevation' && face ? { face } : {})
+    api.drawing(kind, plan, drawingOpts(kind, face))
       .then((j) => { cache.current[key] = j; setResult(j); })
       .catch((e) => setError(e))
       .finally(() => setBusy(false));
@@ -200,7 +211,7 @@ export function DrawingSet({ go }) {
     if (!result?.svg) return;
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([result.svg], { type: 'image/svg+xml' }));
-    a.download = `${plan.id}-${kind}.svg`;
+    a.download = sheetFileName(plan.id, kind, face || result.entrance_face);
     a.click();
     URL.revokeObjectURL(a.href);
   }
@@ -233,13 +244,14 @@ export function DrawingSet({ go }) {
         </ChipGroup>
         {kind === 'elevation' && (
           <>
-            <Eyebrow as="span">face</Eyebrow>
-            <ChipGroup label="face">
+            <Eyebrow as="span"><Term id={FACE_TERM} /></Eyebrow>
+            <ChipGroup label={word(FACE_TERM)}>
               {FACES.map((f) => (
                 <Chip key={f.id} radio
                   on={(face || result?.entrance_face) === f.id}
+                  title={describeTerm(glossary, f.term).title}
                   onClick={() => setFace(f.id)}>
-                  {f.label}{result?.entrance_face === f.id ? ' · the entrance front' : ''}
+                  {faceChipWords(word, f.id, result?.entrance_face, JOURNEY_WORDS.separator)}
                 </Chip>
               ))}
             </ChipGroup>
@@ -357,8 +369,8 @@ export function DrawingSet({ go }) {
               <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '10px 0 0' }}>
                 {(face || result.entrance_face)} elevation
                 {(face || result.entrance_face) === result.entrance_face
-                  ? ' · the entrance front'
-                  : ` · the entrance front is ${result.entrance_face}`} ·
+                  ? JOURNEY_WORDS.separator + word(ENTRANCE_FRONT_TERM)
+                  : `${JOURNEY_WORDS.separator}${word(ENTRANCE_FRONT_TERM)} is ${result.entrance_face}`} ·
                 drawn for {result.date_of_representation} · glass module {result.glass_module_in}″
               </p>
             )}

@@ -198,7 +198,10 @@ test('the Candidate Set hands the served nativity to its reader and reads the na
   assert.match(src, /c\.named_by_brief && \(/);
   assert.match(src, /result\.named_parti\.returned === false/);
   assert.match(src, /\{result\.named_parti\.why\}/, "a named parti the set lacks says why, in the composer's words");
+  // WP-14.27 added the third: the strip names the candidate the brief's parti APPENDED past the
+  // set, by the same record, rather than counting it among the ones asked for.
   const flags = src.match(/<Term id="named-by-the-brief" \/>/g) || [];
-  assert.equal(flags.length, 2, 'the flag on the candidate and the line for a missing one both read the record');
+  assert.equal(flags.length, 3,
+    'the flag on the candidate, the line for a missing one and the strip\'s appended one all read the record');
   assert.ok(existsSync(new URL('../../../glossary/named-by-the-brief.json', import.meta.url)));
 });

@@ -1,5 +1,6 @@
 import React from "react";
-import { whyText } from "../candidateOrder.js";
+import { nativityLine } from "../candidateOrder.js";
+import { Term } from "./Term.jsx";
 
 /* P4 — rank them, never crown one. Three rules this component exists to enforce:
    1. trades_away sits adjacent to the score at all times, never behind a disclosure.
@@ -125,7 +126,12 @@ function CandidateColumn({
 }) {
   const c = candidate;
   const native = !!c.native;
+  // WP-14.27: the served nativity, worded by its record -- see `nativityLine`
+  const line = nativityLine(c);
   return /*#__PURE__*/React.createElement("section", {
+    "data-candidate": c.parti,
+    "data-candidate-n": c.n,
+    "data-selected": selected ? "" : undefined,
     onClick: onSelect ? function () {
       onSelect(c);
     } : undefined,
@@ -186,16 +192,19 @@ function CandidateColumn({
   }, /*#__PURE__*/React.createElement("div", {
     style: EYE
   }, "why"), /*#__PURE__*/React.createElement("p", {
+    "data-nativity": line.nativity || "",
     style: {
       font: 'var(--fw-reg) 13px/1.55 var(--body)',
       margin: '5px 0 0',
       color: native ? 'var(--green-deep)' : 'var(--ink-2)'
     }
-  }, native ? whyText(c.why) : /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
+  }, line.term ? /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'var(--gilt-deep)'
+      color: line.nativity === 'borrowed' ? 'var(--gilt-deep)' : 'inherit'
     }
-  }, "NOT native to this style"), whyText(c.why, true) ? ' \u2014 ' + whyText(c.why, true) : ''))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(Term, {
+    id: line.term
+  })) : null, line.term && line.prose ? ' \u2014 ' : null, line.prose)), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 12
     }

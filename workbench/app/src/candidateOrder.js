@@ -107,3 +107,40 @@ export const ORDERS = {
 export function order(cmp) {
   return (a, b) => ((a.fatal_n ? 1 : 0) - (b.fatal_n ? 1 : 0)) || cmp(a, b);
 }
+
+/** THE NATIVITY LINE A COLUMN PRINTS (WP-14.27). The column typed "NOT native to this style" in
+ *  gold before every candidate that was not native, and a LINEAGE diagram is not native -- so a
+ *  plan type drawn for the style's own ancestor read "NOT native to this style — native to an
+ *  ancestor or relative of the style", which contradicts itself in one line and says the one
+ *  thing about the diagram that is false. The served nativity decides the word now, and the word
+ *  is its glossary record's (`NATIVITY_TERMS`); the composer's reasons follow it, with only the
+ *  borrowed clause the record already says dropped. Where nothing served a nativity there is no
+ *  record to name, and the composer's own sentence is printed whole with no word of ours before it. */
+export function nativityLine(candidate) {
+  const n = served(candidate && candidate.nativity);
+  return {
+    nativity: n,
+    term: n ? NATIVITY_TERMS[n] : null,
+    prose: whyText(candidate ? candidate.why : null, n === 'borrowed'),
+  };
+}
+
+/** WHAT THE STRIP ABOVE THE COLUMNS COUNTS (WP-14.27). It printed `returned {candidates.length}
+ *  of {asked} asked for`, and since WP-14.19 a parti the brief names is APPENDED after the set
+ *  when the composer's own ranking passes it over -- so asking for one returned two and the strip
+ *  read "returned 2 of 1 asked for", a count that cannot be true of anything. The composer says
+ *  which candidate it appended (`named_parti`: `returned`, `appended`, and which parti), so the
+ *  set's own count is the candidates less that one, and the appended one is named beside it by
+ *  the record that says what it is. `asked` is the caller's -- the brief's own count. */
+export function setSize(result, asked) {
+  const cands = Array.isArray(result && result.candidates) ? result.candidates : [];
+  const np = result && result.named_parti;
+  const at = np && np.returned === true && np.appended === true
+    ? cands.findIndex((c) => c && c.parti === np.parti) : -1;
+  const extra = at >= 0 ? cands[at] : null;
+  return {
+    own: cands.length - (extra ? 1 : 0),
+    asked,
+    appended: extra ? { parti: extra.parti, name: extra.parti_name || extra.parti, index: at } : null,
+  };
+}
