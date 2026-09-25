@@ -372,3 +372,24 @@ def test_the_descendant_flag_is_the_workbench_routes_and_not_the_mcp_tools():
     # and the adapter did not reach back into the core's own copy
     assert all(set(r) == {"id", "type"}
                for r in core.get_style(with_desc, sections=["lineage"])["descendants"])
+
+
+def test_the_descendant_join_refuses_an_edge_that_is_not_its_row(monkeypatch):
+    """`corpus.style` joins `get_style`'s rows to `phylogeny()`'s edges by the order both walk the
+    styles in, and REFUSES a row whose id or type disagrees with its edge. The corpus cannot reach
+    that branch -- the two walks are the same walk -- so it is DRIVEN: the edges are handed back
+    rotated by one, which pairs rows with strangers, and the adapter must raise rather than colour a
+    descendant by another edge's flag. The premise (two or more distinct descendants, so the
+    rotation really does mismatch -- a list equals its own rotation only when every entry is the
+    same) is asserted before the branch is."""
+    sid = next(s for s in sorted(_styles())
+               if len({(r["id"], r["type"]) for r in
+                       core.get_style(s, sections=["lineage"]).get("descendants") or []}) >= 2)
+    real = corpus.phylogeny()
+    mine = [e for e in real["edges"] if e["to"] == sid]
+    turned = mine[1:] + mine[:1]
+    assert [(e["from"], e["type"]) for e in mine] != [(e["from"], e["type"]) for e in turned]
+    swapped = dict(real, edges=[e for e in real["edges"] if e["to"] != sid] + turned)
+    monkeypatch.setattr(corpus, "phylogeny", lambda: swapped)
+    with pytest.raises(RuntimeError, match="does not match edge"):
+        corpus.style(sid, sections=["lineage"])
