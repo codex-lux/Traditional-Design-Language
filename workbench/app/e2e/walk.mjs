@@ -175,17 +175,144 @@ check('left rail shows live style count',
 check('no work-package numerals or ids in the rail', !/[②③④⑤⑥⑦⑧⑨⑩⑪]/.test(railText)
   && !/\bWP-\d|\bOQ\s?\d|\boq\//.test(railText));
 
-// ⓪ Overview: the landing, and every claim on it comes from /api/overview
+/* ⓪ THE FRONT DOOR (WP-14.14, PRD §J.1). Every sentence on it is a glossary record's and every
+   figure is `/api/overview`'s, so every expectation below is READ from those two routes and none
+   is typed here: the definition, the three readers and the five things it is not are
+   `about-tdl`'s; the worked example and where it stops are `guided-example`'s; the inventory is
+   `counts.by_rank`, row for row. `what_this_is` is still SERVED by the API -- other readers take
+   it -- and is no longer the landing's paragraph, which is the half of the old check that
+   moved. The map is held to `nav/navModel.js`'s own table here and in both directions in
+   `src/frontDoor.test.mjs`; this block asks the page the one thing a node test cannot, that the
+   drawn links are addresses the router writes. */
 check('a cold load lands on the Overview', new URL(page.url()).hash === '' || /#\/$/.test(page.url()));
+const termOf = async (id) => fetch(`${BASE}/api/glossary/${id}`)
+  .then((r) => (r.ok ? r.json() : null)).then((b) => (b && b.term) || null).catch(() => null);
+const aboutRec = await termOf('about-tdl');
+const guidedRec = await termOf('guided-example');
+await page.waitForSelector('main [data-about-definition], main [data-about] [data-missing]', { timeout: 30000 })
+  .catch(() => {});
+await page.waitForSelector('main [data-inventory] [data-rank]', { timeout: 30000 }).catch(() => {});
 const ovText = await page.locator('main').innerText();
-check('the corpus describes itself in its own words',
-  ovText.includes(overview.what_this_is.slice(0, 60)));
-check('the inventory is the corpus inventory',
-  ovText.includes(String(overview.counts.faults)) && ovText.includes(String(overview.counts.rooms)));
-check('the ontology version is stated', ovText.includes(overview.ontology_version));
-check('the search invitation is on the landing',
+const front = await page.evaluate(() => {
+  const m = document.querySelector('main');
+  const q = (s) => m.querySelector(s);
+  const qa = (s) => [...m.querySelectorAll(s)];
+  const txt = (e) => (e ? e.textContent.replace(/\s+/g, ' ').trim() : null);
+  return {
+    definition: txt(q('[data-about-definition]')),
+    readers: qa('[data-reader]').map(txt),
+    isNot: qa('[data-is-not] li').map(txt),
+    ranks: qa('[data-inventory] [data-rank]').map((d) => [d.dataset.rank, txt(d.querySelector('[data-figure]'))]),
+    versionAttr: q('[data-ontology-version]')?.getAttribute('data-ontology-version') || null,
+    versionText: txt(q('[data-ontology-version]')),
+    guidedDef: txt(q('[data-guided-definition]')),
+    guidedStop: txt(q('[data-guided-stop]')),
+    guidedCites: qa('[data-guided-example] a[data-cite]').map((a) => a.getAttribute('data-cite')),
+    rows: qa('[data-spine-row]').map((d) => d.getAttribute('data-spine-row')),
+    map: qa('[data-map-item]').map((a) => [a.getAttribute('data-map-item'), a.getAttribute('href')]),
+    entrances: qa('[data-entrance-link]').map((a) => [a.getAttribute('data-entrance-link'), a.getAttribute('href')]),
+  };
+});
+if (!aboutRec) {
+  unjudged.push('the front door says what this is — GET /api/glossary/about-tdl did not answer, so '
+    + 'the definition, the readers and what it is not have no record to be judged against');
+} else {
+  check('the front door says what this is in about-tdl\'s own definition', front.definition === aboutRec.definition);
+  const readers = aboutRec.readers || [];
+  check(`the readers are about-tdl's, every one and no other (${front.readers.length} of ${readers.length})`,
+    readers.length > 0 && front.readers.length === readers.length
+    && readers.every((r, i) => front.readers[i]?.includes(r.who) && front.readers[i]?.includes(r.line)));
+  // VISION.md:359's must-not, asked of the page rather than of the record alone.
+  check('no reader line is a homeowner\'s', !front.readers.some((t) => /homeowner/i.test(t)));
+  check(`what it is not is about-tdl's is_not (${front.isNot.length})`,
+    (aboutRec.is_not || []).length > 0
+    && JSON.stringify(front.isNot) === JSON.stringify(aboutRec.is_not.map((s) => s.replace(/\s+/g, ' ').trim())));
+}
+const byRank = (overview.counts && overview.counts.by_rank) || {};
+// the denominator first: an empty by_rank would make the equality below vacuous
+check(`the inventory has rank rows to compare (${Object.keys(byRank).length})`, Object.keys(byRank).length > 0);
+check('the inventory figures are counts.by_rank, row for row',
+  front.ranks.length === Object.keys(byRank).length
+  && front.ranks.every(([k, v]) => k in byRank && v === String(byRank[k])));
+check(`the ontology version stays in main (${overview.ontology_version})`,
+  front.versionAttr === overview.ontology_version && (front.versionText || '').includes(overview.ontology_version));
+check('the search invitation stays in main',
   await page.locator('main').getByRole('button', { name: /Search the corpus/ }).count() > 0);
-await shot('overview');
+check('what_this_is is still served by the API and is no longer the landing\'s paragraph',
+  typeof overview.what_this_is === 'string' && overview.what_this_is.length > 60
+  && !ovText.includes(overview.what_this_is.slice(0, 60)));
+if (!guidedRec) {
+  unjudged.push('the worked example — GET /api/glossary/guided-example did not answer, so the '
+    + 'example and where it stops have no record to be judged against');
+} else {
+  check('the worked example is guided-example\'s definition', front.guidedDef === guidedRec.definition);
+  check('the worked example says where it stops, in the record\'s words (no tour past it)',
+    typeof guidedRec.more === 'string' && front.guidedStop === guidedRec.more.replace(/\s+/g, ' ').trim());
+  check(`the worked example links every record it cites (${front.guidedCites.join(', ')})`,
+    (guidedRec.see || []).length > 0 && guidedRec.see.every((c) => front.guidedCites.includes(c)));
+}
+{
+  // The map's rows are the site map's groups and its links are the site map's items, in order --
+  // held to the site map's own table (WP-14.13's `nav/navModel.js`), imported here inside the
+  // front door's block so this block owns its dependency and no second list is typed.
+  const { NAV } = await import('../src/nav/navModel.js');
+  const navIds = NAV.flatMap((g) => g.items.flatMap((it) => [it.id, ...(it.children || []).map((c) => c.id)]));
+  check(`the map's rows are the site map's groups (${front.rows.join(', ')})`,
+    JSON.stringify(front.rows) === JSON.stringify(NAV.map((g) => g.id)));
+  check(`the map carries every site-map item and nothing else (${front.map.length} of ${navIds.length})`,
+    JSON.stringify(front.map.map(([id]) => id)) === JSON.stringify(navIds));
+  const bad = front.map.filter(([, h]) => {
+    const p = parseHash(h || '');
+    return !SURFACE_PATHS[p.surface] || formatHash(p.surface, p.selection, p.params) !== h;
+  });
+  check(`every map link is an address the router writes${bad.length ? ` (not: ${bad.map(([i, h]) => `${i} ${h}`).join('; ')})` : ''}`,
+    front.map.length > 0 && bad.length === 0);
+  const door = Object.fromEntries(front.entrances);
+  check('the two entrances go to reading a style and writing a house',
+    parseHash(door.style || '').surface === 'style' && parseHash(door.brief || '').surface === 'brief');
+  check('the style in hand is offered as a link, not opened',
+    !!door['in-hand'] && parseHash(door['in-hand']).surface === 'style' && new URL(page.url()).hash.replace(/^#\/?$/, '') === '');
+}
+check('the front door remembers it was seen (prefs.seen["front-door"])',
+  await page.evaluate(() => {
+    try { return JSON.parse(localStorage.getItem('tdl-workbench-prefs') || 'null')?.seen?.['front-door'] === true; }
+    catch { return false; }
+  }));
+await shot('overview', [1280, 1440, SHOT_WIDTH]);
+{
+  /* A LAPTOP IS 1280 px WIDE AND THE FRONT DOOR MUST FIT IT (PRD §I.12). The shell's 1380 px floor
+     is released per surface by `#root[data-reflow]`, and the SHELL sets it for the Overview --
+     WP-14.13's App.jsx, not this page. Where the attribute is there, the page is judged as a
+     reader meets it. Where it is not, the front door's OWN content is measured with the release
+     simulated, and the reader-facing half is reported unjudged by name rather than passed. */
+  const vp = page.viewportSize();
+  await page.setViewportSize({ width: 1280, height: vp.height });
+  await page.waitForTimeout(400);
+  const fit = await page.evaluate(() => {
+    const root = document.getElementById('root');
+    const released = root.hasAttribute('data-reflow');
+    const measure = () => {
+      const fd = document.querySelector('[data-front-door]');
+      return {
+        sideways: document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth,
+        own: fd ? fd.scrollWidth - fd.clientWidth : null,
+      };
+    };
+    if (released) return { released, ...measure() };
+    root.setAttribute('data-reflow', '');
+    const m = measure();
+    root.removeAttribute('data-reflow');
+    return { released, ...m };
+  });
+  check(`the front door's own content fits 1280 px (${fit.own} px over, page ${fit.sideways} px over${fit.released ? '' : ', release simulated'})`,
+    fit.own !== null && fit.own <= 1 && fit.sideways <= 1);
+  if (!fit.released) {
+    unjudged.push('the front door at 1280 px as a reader meets it — #root carries no data-reflow on '
+      + 'the Overview on this tree, so the shell\'s 1380 px floor still scrolls the page sideways; '
+      + 'the release is the shell\'s (WP-14.13), and the content itself fits with it simulated');
+  }
+  await page.setViewportSize(vp);
+}
 
 /* EVERY RAIL ITEM REACHES ITS OWN SURFACE (WP-14.7). This is the rail's half of what the
    fourteen label clicks used to test in passing, and it is tested here on its own: each item
@@ -2911,6 +3038,105 @@ async function journeyRead() {
   await p.waitForSelector('nav[aria-label="surfaces"]', { timeout: 15000 }).catch(() => {});
   check('and Retry brings the shell back', await p.locator('nav[aria-label="surfaces"]').count() === 1);
   await ctx.close();
+}
+
+/* THE GATE SAYS ONE SENTENCE AND ASKS FOR NOTHING ELSE (WP-14.14, PRD §C.3, §J).
+
+   Signed out, exactly one corpus path answers: `GET /api/glossary/about-tdl`, whose definition
+   the Gate shows under its heading. The server this walk is pointed at has no password, so no
+   page on it is ever signed out and the Gate cannot be reached there; this block starts a SECOND
+   server from the same checkout with a password set, opens a fresh context against it, and asks
+   three things: the sentence shown is that record's definition (read from the record, never
+   typed here); the page asked no corpus route but that one; and when that one read fails, the
+   Gate says NOTHING in its place -- no error, no fallback sentence -- so what is left on the
+   form is exactly the signed-out form less the one sentence.
+
+   ONE CALL IS NOT THIS PAGE'S AND IS NAMED RATHER THAN HIDDEN. `App.jsx` boots by asking
+   `/api/overview` once to learn whether this browser already holds a session; signed out it
+   answers 401 and carries no corpus text. The shell is WP-14.13's; the check below requires that
+   probe to have answered 401 and to be the only other call, so a second one -- or a probe that
+   answered with the corpus -- fails. If the gated server cannot be started the block is UNJUDGED
+   by name, never passed. */
+{
+  const GATE_PORT = Number(process.env.WALK_GATE_PORT || (Number(new URL(BASE).port || 80) + 1));
+  const GATE = `http://127.0.0.1:${GATE_PORT}`;
+  const ROOT = new URL('../../../', import.meta.url).pathname;
+  const { spawn } = await import('node:child_process');
+  const srv = spawn('python3', ['-m', 'uvicorn', 'workbench.server.app:app', '--host', '127.0.0.1',
+    '--port', String(GATE_PORT), '--log-level', 'error'], {
+    cwd: ROOT, stdio: 'ignore',
+    env: { ...process.env, WORKBENCH_PASSWORD: `walk-gate-${process.pid}-${Date.now()}` },
+  });
+  const stop = () => { try { srv.kill(); } catch { /* already gone */ } };
+  process.on('exit', stop);
+  let health = null;
+  for (let i = 0; i < 80 && !health; i++) {
+    health = await fetch(GATE + '/api/health').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    if (!health) await new Promise((r) => setTimeout(r, 500));
+  }
+  const closed = health && health.auth && health.auth.required
+    ? await fetch(GATE + '/api/overview').then((r) => r.status).catch(() => null) : null;
+  const aboutOpen = await fetch(GATE + '/api/glossary/about-tdl')
+    .then((r) => (r.ok ? r.json() : null)).then((b) => (b && b.term) || null).catch(() => null);
+  if (!health || closed !== 401 || !aboutOpen) {
+    unjudged.push('the Gate — a password-protected server could not be brought up beside this one '
+      + `on port ${GATE_PORT} (health ${health ? 'answered' : 'did not answer'}, /api/overview `
+      + `${closed === null ? 'unasked' : closed}, about-tdl ${aboutOpen ? 'answered' : 'did not answer'}), `
+      + 'so there is no signed-out page to judge');
+  } else {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const read = async (gp) => gp.evaluate(() => ({
+      about: document.querySelector('[data-about-tdl]')?.textContent || null,
+      lines: (document.querySelector('form')?.innerText || '').split('\n').map((s) => s.trim()).filter(Boolean),
+    }));
+
+    const gp = await ctx.newPage();
+    const calls = [];
+    gp.on('response', (r) => {
+      const u = new URL(r.url());
+      if (u.pathname.startsWith('/api/')) calls.push([u.pathname, r.status()]);
+    });
+    await gp.goto(GATE + '/', { waitUntil: 'networkidle' });
+    await gp.waitForSelector('#wb-password', { timeout: 20000 }).catch(() => {});
+    await gp.waitForSelector('[data-about-tdl]', { timeout: 10000 }).catch(() => {});
+    await gp.waitForTimeout(500);
+    const shown = await read(gp);
+    check('signed out, the Gate shows about-tdl\'s definition, read from the one open glossary path',
+      shown.about === aboutOpen.definition);
+    const probes = calls.filter(([p]) => p === '/api/overview');
+    const others = calls.filter(([p]) => !['/api/health', '/api/login', '/api/glossary/about-tdl', '/api/overview'].includes(p));
+    check(`signed out, the page asked no corpus route but about-tdl (${calls.map(([p, s]) => `${p} ${s}`).join(', ')})`,
+      others.length === 0 && probes.length <= 1 && probes.every(([, s]) => s === 401)
+      && calls.some(([p, s]) => p === '/api/glossary/about-tdl' && s === 200));
+    for (const w of [1280, 1440, 1680]) {
+      await gp.setViewportSize({ width: w, height: { 1280: 800, 1440: 900, 1680: 1050 }[w] });
+      await gp.waitForTimeout(250);
+      await gp.screenshot({ path: SHOTS + `gate-${w}.png` });
+    }
+
+    // The read fails two ways -- no answer at all, and an error answer -- and neither may leave a
+    // sentence behind: the form must read exactly as it does signed out, less the definition.
+    const expected = shown.lines.filter((l) => l !== aboutOpen.definition.trim());
+    for (const [how, handler] of [
+      ['a failed request', (route) => route.abort()],
+      ['a 500', (route) => route.fulfill({ status: 500, contentType: 'application/json', body: '{"detail":"x"}' })],
+    ]) {
+      const fp = await ctx.newPage();
+      await fp.route('**/api/glossary/about-tdl', handler);
+      await fp.goto(GATE + '/', { waitUntil: 'networkidle' });
+      await fp.waitForSelector('#wb-password', { timeout: 20000 }).catch(() => {});
+      await fp.waitForTimeout(700);
+      const got = await read(fp);
+      check(`when the about-tdl read fails (${how}) the Gate says nothing in its place`,
+        // the premise: the signed-out form really carried the sentence, so removing it is a change
+        expected.length === shown.lines.length - 1
+        && got.about === null && got.lines.length > 0
+        && JSON.stringify(got.lines) === JSON.stringify(expected));
+      await fp.close();
+    }
+    await ctx.close();
+  }
+  stop();
 }
 
 await browser.close();
