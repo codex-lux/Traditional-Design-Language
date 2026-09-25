@@ -1102,6 +1102,77 @@ const phylo = await page.locator('main').innerText();
 check('phylogeny names the missing trunks', /missing peer trunks/i.test(phylo));
 await shot('phylogeny');
 
+/* WHAT AN EDGE CARRIES IS THE SERVED FLAG, READ PER EDGE (WP-14.11, PRD §I.13, §K).
+
+   The panel's lineage and the tree's strokes used a table of TYPES (`CARRIES = { descends_from,
+   regional_of }`, in EdgeGlyph.jsx and again in the Phylogeny), which captioned every kit-carrying
+   `hybridizes_with` edge "carries nothing", listed it under "claims only" and drew it light; and
+   EdgeGlyph printed "browsing only — carries no inheritance" under filing, which `build/build.py`
+   has falsified since WP-4.2. This block holds what the page PRINTS to what `/api/phylogeny` STATES,
+   edge by edge. Its reading of the flag is deliberately a SECOND one, written here and not imported
+   from `lineage/carry.js`: a walk that asked the app's own rule would agree with any defect in it.
+   The taxa it reads are chosen from the payload, never named: one with a kit-carrying co-parent
+   beside a claim, and one whose edge carries only the slots it names. Restoring the table in any of
+   the three places -- the glyph's caption, the panel's grouping, the tree's weight -- fails here. */
+{
+  const phyl = await (await fetch(BASE + '/api/phylogeny')).json();
+  const gl = await (await fetch(BASE + '/api/glossary')).json().catch(() => ({}));
+  const wordOf = Object.fromEntries((gl.terms || []).map((t) => [t.id, t.term]));
+  const flagWord = (e) => (e.inherits_kit === true
+    ? (Array.isArray(e.slots) && e.slots.length ? 'carries-named-slots' : 'carries-the-kit')
+    : 'carries-nothing');
+  const byId = Object.fromEntries(phyl.taxa.map((t) => [t.id, t]));
+  const out = (id) => phyl.edges.filter((e) => e.from === id);
+  const kitCoParent = (e) => e.type === 'hybridizes_with' && e.inherits_kit === true;
+  const ids = phyl.taxa.map((t) => t.id).sort();
+  const mixed = ids.find((id) => out(id).some(kitCoParent) && out(id).some((e) => e.inherits_kit !== true)
+    && byId[id].member_of);
+  const scoped = ids.find((id) => out(id).some((e) => e.inherits_kit === true && Array.isArray(e.slots) && e.slots.length));
+  check(`lineage: the payload offers a kit-carrying co-parent beside a claim (${mixed}) and a scoped edge (${scoped})`,
+    Boolean(mixed && scoped));
+  for (const id of [mixed, scoped].filter(Boolean)) {
+    await visit('#/phylogeny/' + id);
+    await page.waitForSelector(`[data-lineage-of="${id}"] [data-edge-carry] button.tdl-term`, { timeout: 20000 })
+      .catch(() => {});
+    const drawn = await page.$$eval(`[data-lineage-of="${id}"] [data-edge]`, (els) => els.map((el) => {
+      const t = el.querySelector('[data-edge-carry] [data-term]');
+      const g = el.closest('[data-carry-group]');
+      return {
+        type: el.getAttribute('data-edge'), target: el.getAttribute('data-edge-target'),
+        term: t ? t.getAttribute('data-term') : null, word: t ? t.innerText : '',
+        group: g ? g.getAttribute('data-carry-group') : null, text: el.innerText,
+      };
+    }));
+    const want = out(id).map((e) => ({ type: e.type, target: e.to, term: flagWord(e) }));
+    if (byId[id].member_of) want.push({ type: 'member_of', target: byId[id].member_of, term: 'member-of' });
+    const key = (x) => `${x.type}>${x.target}:${x.term}`;
+    check(`lineage (${id}): every edge drawn once, captioned with the carry its served flag states (${drawn.length})`,
+      drawn.length > 0 && JSON.stringify(drawn.map(key).sort()) === JSON.stringify(want.map(key).sort()));
+    check(`lineage (${id}): each edge sits in the group of its own carry word`,
+      drawn.length > 0 && drawn.every((d) => d.term && d.group === d.term));
+    check(`lineage (${id}): a co-parent that carries the kit is never captioned carries nothing, nor grouped with the claims`,
+      out(id).filter(kitCoParent).every((e) => drawn.some((d) => d.type === e.type && d.target === e.to
+        && d.term && d.term !== 'carries-nothing' && d.group !== 'carries-nothing')));
+    check(`lineage (${id}): every carry word is the glossary record's own word`,
+      drawn.length > 0 && drawn.every((d) => d.term && wordOf[d.term]
+        && d.word.trim().toLowerCase() === wordOf[d.term].toLowerCase()));
+    const filing = drawn.find((d) => d.type === 'member_of');
+    check(`lineage (${id}): filing reads "${wordOf['member-of']}", and never browsing only or carries nothing`,
+      Boolean(filing) && filing.term === 'member-of'
+        && !/browsing only|carries no inheritance|carries nothing/i.test(filing.text));
+    const paths = await page.$$eval('main svg path[data-edge-from]', (els) => els.map((el) => ({
+      from: el.getAttribute('data-edge-from'), to: el.getAttribute('data-edge-to'),
+      type: el.getAttribute('data-edge-type'), w: Number(el.getAttribute('stroke-width')) })));
+    const mine = paths.filter((pp) => pp.from === id);
+    check(`lineage (${id}): the tree draws each of its edges at the weight its flag states (${mine.length} of ${out(id).length})`,
+      mine.length === out(id).length && mine.every((pp) => {
+        const e = out(id).find((x) => x.to === pp.to && x.type === pp.type);
+        return e && ((e.inherits_kit === true) === (pp.w > 1));
+      }));
+  }
+  await shot('phylogeny-lineage');
+}
+
 // ④ Kit
 await visit('#/kit');
 // Wait for the CLAIM being asserted, not for a heading that renders before it. "cascade" is
@@ -1203,6 +1274,24 @@ await page.waitForSelector('text=dishonest', { timeout: 15000 }).catch(() => {})
 const faults = await page.locator('main').innerText();
 check('fault corpus voice line present', /explaining an economy/i.test(faults));
 check('fix tiers named plainly', /dishonest/i.test(faults));
+/* THE CARD ANSWERS FIRST (WP-14.11). Every fault record carries `correct_practice` (the right way)
+   and `detection` (how to spot it), and the card rendered neither. They lead now, read here in
+   DOCUMENT ORDER off the card, and each is held to the record the API serves for the fault on
+   screen -- whichever one that is, read off the card rather than named. */
+{
+  await page.waitForSelector('main article[data-fault] [data-fault-section]', { timeout: 15000 }).catch(() => {});
+  const fid = await page.locator('main article[data-fault]').first().getAttribute('data-fault').catch(() => null);
+  const order = await page.$$eval('main article[data-fault] [data-fault-section]',
+    (els) => els.map((el) => el.getAttribute('data-fault-section')));
+  check(`the fault card answers first: the right way, then how to spot it, then the rest (${order.join(' · ')})`,
+    order[0] === 'correct_practice' && order[1] === 'detection' && order.length > 2);
+  const rec = fid ? await (await fetch(`${BASE}/api/faults/${fid}`)).json() : {};
+  const flat = (x) => String(x || '').replace(/\s+/g, ' ').trim();
+  const cp = await page.locator('main [data-fault-section="correct_practice"] p').first().innerText().catch(() => '');
+  const dt = await page.locator('main [data-fault-section="detection"] p').first().innerText().catch(() => '');
+  check(`and both are the record's own words (${fid})`, Boolean(rec.correct_practice) && Boolean(rec.detection)
+    && flat(cp) === flat(rec.correct_practice) && flat(dt) === flat(rec.detection));
+}
 await shot('faults');
 
 // ⑤ Brief Intake
@@ -2250,6 +2339,58 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     check(`the Glossary reflows at 1280 px with no sideways scroll (${sideways} px over)`, sideways <= 1);
     await page.setViewportSize(vp);
     await shot('glossary', [SHOT_WIDTH, 1280]);
+  }
+}
+
+/* ── WP-14.11: A LICENCE SHOWS THE SERVER'S VERDICT, NEVER COLLAPSED ────────────────────────────
+   A style's exception is a licence, and whether the style EARNS it is `core.grant_exception`'s
+   verdict, served as `for_this_style.exception.granted`: granted, refused or unjudged. The card
+   printed the licence's own words under an "exception for" heading whatever the verdict, so a
+   refused licence and one nobody could judge both read as earned. One fault and style per verdict
+   is FOUND through `/api/faults?style=` (whose cards name the verdict), never named here; the card
+   must print that verdict's glossary word, after the two answers and before the symptom. A verdict
+   the corpus offers no instance of is COULD NOT EVALUATE, not a pass. */
+{
+  const phyl = await (await fetch(BASE + '/api/phylogeny')).json();
+  const CARD_KEY = { granted: 'EXCEPTION_FOR_THIS_STYLE', refused: 'EXCEPTION_NOT_EARNED_BY_THIS_STYLE',
+    unjudged: 'EXCEPTION_WHOSE_CONDITION_COULD_NOT_BE_JUDGED' };
+  const TERM = { granted: 'exception-granted', refused: 'exception-refused', unjudged: 'judgment-unjudged' };
+  const found = {};
+  for (const id of phyl.taxa.map((t) => t.id).sort()) {
+    if (Object.keys(found).length === 3) break;
+    const r = await (await fetch(`${BASE}/api/faults?style=${encodeURIComponent(id)}&limit=300`)).json();
+    for (const [v, k] of Object.entries(CARD_KEY)) {
+      const c = !found[v] && (r.faults || []).find((f) => f[k]);
+      if (c) found[v] = { fault: c.id, style: id };
+    }
+  }
+  for (const v of ['granted', 'refused', 'unjudged']) {
+    if (!found[v]) {
+      unjudged.push(`a licence ${v} is shown as ${v} — no fault in the corpus carries a ${v} licence for any style`);
+      continue;
+    }
+    const { fault: fid, style: sid } = found[v];
+    const served = await (await fetch(`${BASE}/api/faults/${fid}?style=${encodeURIComponent(sid)}`)).json();
+    const verdict = served && served.for_this_style && served.for_this_style.exception
+      ? served.for_this_style.exception.granted : null;
+    await visit(`#/faults/${fid}?style=${sid}`);
+    await page.waitForSelector('main [data-fault-section="licence"] [data-licence-verdict] button.tdl-term',
+      { timeout: 20000 }).catch(() => {});
+    const shown = await page.$$eval('main [data-fault-section="licence"] [data-licence-verdict] [data-term]',
+      (els) => els.map((el) => el.getAttribute('data-term')));
+    const order = await page.$$eval('main article[data-fault] [data-fault-section]',
+      (els) => els.map((el) => el.getAttribute('data-fault-section')));
+    check(`a ${v} licence (${fid} for ${sid}): the card prints the server's verdict, ${verdict} (${shown.join(',')})`,
+      verdict === v && shown.length === 1 && shown[0] === TERM[verdict]);
+    check(`and the licence follows the two answers and leads the rule (${order.slice(0, 4).join(' · ')})`,
+      order[0] === 'correct_practice' && order[1] === 'detection' && order[2] === 'licence'
+        && order.indexOf('licence') < order.indexOf('symptom'));
+    await page.evaluate(() => {
+      const el = document.querySelector('main [data-fault-section="licence"]');
+      if (el) el.scrollIntoView({ block: 'center' });
+    });
+    await page.waitForTimeout(300);
+    await shot('fault-licence-' + v);
   }
 }
 

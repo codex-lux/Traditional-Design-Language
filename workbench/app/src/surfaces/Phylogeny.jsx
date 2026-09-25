@@ -263,7 +263,8 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             <span style={{ position: 'absolute', left: BREAK_FRAC * 100 + '%', top: 15,
               transform: 'translate(-50%,0)', font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>‖</span>
           </div>
-          <div style={{ marginLeft: 210, display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+          <div style={{ marginLeft: 210, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap',
+            gap: '2px 16px', marginBottom: 10 }}>
             <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>compressed · 700 BC–1600</Eyebrow>
             <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>expanded · 1600–2026</Eyebrow>
           </div>
