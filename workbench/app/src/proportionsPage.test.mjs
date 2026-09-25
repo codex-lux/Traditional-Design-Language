@@ -15,7 +15,7 @@ import {
   PAGE_SECTIONS, PROOF_FOLD, FILTER_SPEC, DEFAULT_DIAMETER_IN, RANGES, measureParam, requestFor,
   sliderAt, plateKind, faceCount, pageSections, authorityLines, invariantMark, invariantTally,
   proofOpen, ruleState, figureWords, rangeWords, usedByGroups, reachOf, packsOfStyle, packGroups,
-  packHref, assemblyWords, orderOf,
+  packHref, assemblyWords, orderOf, authorityWords,
 } from './proportions/page.js';
 import { parseHash } from './router.js';
 
@@ -218,10 +218,17 @@ test('every relation the page names is a record the glossary holds', () => {
 
 /* ---- the list ---- */
 
+/* The LIST route's shape: `authority` is the pack's whole authority record, not the string the
+   detail route serves. This fixture carried strings until the index was opened in a browser and
+   went blank on the first object -- a fixture in the wrong shape agrees with the defect it should
+   catch, so the filter test below passed over a page that could not render. */
 const PACKS = [
-  { id: 'brick', name: 'Brick', kind: 'module-system', authority: 'Mason' },
-  { id: 'trim', name: 'Classical Trim', kind: 'trim-system', authority: 'Vignola' },
-  { id: 'sash', name: 'Sash', kind: 'module-system', authority: 'Glazier' },
+  { id: 'brick', name: 'Brick', kind: 'module-system',
+    authority: { source: 'Measured coursing by a Mason', year: null, strength: 'documented', note: 'n' } },
+  { id: 'trim', name: 'Classical Trim', kind: 'trim-system',
+    authority: { source: 'Regola', author: 'Vignola', year: 1562, strength: 'documented', note: 'n' } },
+  { id: 'sash', name: 'Sash', kind: 'module-system',
+    authority: { source: 'Survey', author: 'after a Glazier', year: 1800, strength: 'reconstructed', note: 'n' } },
 ];
 
 test('the list groups by kind in the server’s order, and keeps the pack on screen whatever filters it', () => {
@@ -234,6 +241,20 @@ test('the list groups by kind in the server’s order, and keeps the pack on scr
   assert.deepEqual(packGroups(PACKS, { q: 'glaz', keep: 'trim' }).flatMap((g) => g.packs.map((p) => p.id)).sort(),
     ['sash', 'trim'], 'the pack being read survives the filter');
   assert.deepEqual(packGroups(PACKS, { only: new Set(['sash']) }).flatMap((g) => g.packs.map((p) => p.id)), ['sash']);
+});
+
+test('a pack’s authority in the index is its author, else its source, then its year, from either route’s shape', () => {
+  assert.equal(authorityWords(PACKS[1].authority), 'Vignola, 1562');
+  assert.equal(authorityWords(PACKS[0].authority), 'Measured coursing by a Mason', 'no author: the source, and no year the record lacks');
+  assert.equal(authorityWords('Vignola’s general rules'), 'Vignola’s general rules', 'the detail route’s string is taken as it is');
+  assert.equal(authorityWords(null), '');
+  assert.equal(authorityWords({ note: 'only a note' }), '', 'a note is not an authority');
+  assert.deepEqual(packGroups(PACKS, { q: 'vignola' }).flatMap((g) => g.packs.map((p) => p.id)), ['trim'],
+    'the filter reads the same words the index prints');
+  // and the index prints THOSE words: a raw `{p.authority}` is an object as a React child.
+  const jsx = live(read('surfaces/Proportions.jsx'));
+  assert.doesNotMatch(jsx, /\{\s*p\.authority\s*\}/, 'the list route’s authority is a record, not a string');
+  assert.match(jsx, /\{authorityWords\(p\.authority\)\}/);
 });
 
 test('the pack’s own words: the authority lines, an assembly’s id as words, an order’s name', () => {

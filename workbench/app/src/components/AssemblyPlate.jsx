@@ -244,7 +244,10 @@ export function AssemblyPlate({ data }) {
     <div ref={ref} data-assembly-plate={data.pack} style={{ minWidth: 0 }}>
       {plans.map((plan) => (
         <div key={plan.index} data-assembly-frame={plan.index} style={{ marginBottom: 18 }}>
-          <PlateViewer label={plan.items.map((it) => assemblyWords(it.id)).join(' · ')}
+          {/* The loupe's label is short on purpose: `PlateViewer` sets it `flex: none` in one
+              row with its zoom keys, and the three assembly names pushed −, +, fit and 1:1 off
+              the pane at 1440 px. The names are on the plate, over each section. */}
+          <PlateViewer label="the plate"
             height={`${Math.ceil(plan.height) + 6}px`}>
             <FrameSvg plan={plan} name={data.name} hatchId={`hatch-${hatchBase}-${plan.index}`} />
           </PlateViewer>

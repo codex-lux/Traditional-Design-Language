@@ -44,7 +44,7 @@ import { feetInches16 } from '../fmt.js';
 import { judgmentOf, JUDGMENT_MARK } from '../judgment.js';
 import {
   FILTER_SPEC, RANGES, PROOF_FOLD, DEFAULT_DIAMETER_IN, requestFor, sliderAt, plateKind,
-  pageSections, authorityLines, invariantMark, invariantTally, proofOpen, ruleState, figureWords,
+  pageSections, authorityLines, authorityWords, invariantMark, invariantTally, proofOpen, ruleState, figureWords,
   rangeWords, usedByGroups, reachOf, packsOfStyle, packGroups, packHref, orderOf,
 } from '../proportions/page.js';
 
@@ -336,7 +336,8 @@ const H3 = {
   color: 'var(--ink-2)', fontWeight: 500, margin: '0 0 10px',
 };
 const NOTE = { font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', maxWidth: '76ch' };
-const CELL = { font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '5px 14px 3px 0', verticalAlign: 'top' };
+const CELL = { font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '5px 14px 3px 0', verticalAlign: 'top',
+  overflowWrap: 'anywhere' };
 const TH = {
   font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
   color: 'var(--ink-2)', textAlign: 'left', padding: '0 14px 6px 0', fontWeight: 500,
@@ -381,9 +382,9 @@ function PackList({ groups, selection, params, packId, compact }) {
               background: compact && p.id === packId ? 'var(--paper-deep)' : 'transparent',
               font: compact ? 'var(--type-data-s)' : 'var(--fw-reg) 14px/1.5 var(--serif)' }}>
               <PackLink id={p.id} name={p.name} selection={selection} params={params} on={p.id === packId} />
-              {!compact && p.authority && (
-                <div style={{ ...NOTE, font: 'var(--fw-reg) 12px/1.45 var(--body)', maxWidth: '90ch' }}>
-                  {p.authority}
+              {!compact && authorityWords(p.authority) && (
+                <div data-pack-authority="" style={{ ...NOTE, font: 'var(--fw-reg) 12px/1.45 var(--body)', maxWidth: '90ch' }}>
+                  {authorityWords(p.authority)}
                 </div>
               )}
             </div>
@@ -508,11 +509,22 @@ function Rules({ rules, styleId }) {
   return (
     <section data-section="rules" style={SECTION_GAP}>
       <h3 style={H3}><Term id="derived-rule">rules</Term> <Term id="your-building" /></h3>
-      <table data-rules="" style={{ borderCollapse: 'collapse', width: '100%', maxWidth: 1100 }}>
+      {/* A FIXED layout, because an auto one sizes each column to its longest unbreakable word
+          (an expression in mono, a slot id) and the five together ran past the pane at 1440 px,
+          clipping the range column and every note under the rail. Fixed, the table is the pane's
+          width and a long word wraps inside its own column. */}
+      <table data-rules="" style={{ borderCollapse: 'collapse', width: '100%', maxWidth: 1100, tableLayout: 'fixed' }}>
+        {/* The slot and its dimension share a column: the slot's id is a margin note that does
+            not wrap (WP-14.8's RecordLink), so its column must be wide enough to hold the
+            longest one, and a fifth column for one short word was what the table could not
+            afford. */}
+        <colgroup>
+          <col style={{ width: '32%' }} /><col style={{ width: '26%' }} />
+          <col style={{ width: '24%' }} /><col style={{ width: '18%' }} />
+        </colgroup>
         <thead>
           <tr data-rules-head="">
-            <th style={TH}><Term id="slot" /></th>
-            <th style={TH}>dimension</th>
+            <th style={TH}><Term id="slot" /> · dimension</th>
             <th style={TH}><Term id="derived-rule" /></th>
             <th style={TH}>value</th>
             <th style={TH}>range</th>
@@ -527,13 +539,13 @@ function Rules({ rules, styleId }) {
                   data-judgment={state}>
                   <td style={CELL}>
                     <RecordLink cite={`slot:${r.target_slot}`} ctx={styleId ? { style: styleId } : undefined} />
+                    <div data-dimension="">{String(r.dimension || '').replace(/_/g, ' ')}</div>
                   </td>
-                  <td style={CELL}>{String(r.dimension || '').replace(/_/g, ' ')}</td>
-                  <td style={{ ...CELL, fontFamily: 'var(--mono)', maxWidth: 280, overflowWrap: 'break-word' }}>
+                  <td style={{ ...CELL, fontFamily: 'var(--mono)', overflowWrap: 'anywhere' }}>
                     {r.expression}
                   </td>
-                  <td data-value="" style={{ ...CELL, color: 'var(--ink)', whiteSpace: 'nowrap' }}>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+                  <td data-value="" style={{ ...CELL, color: 'var(--ink)' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, flexWrap: 'wrap' }}>
                       <JudgmentMark state={JUDGMENT_MARK[state]} />
                       {r.judgment ? <Term id="judgment-yours-to-judge" />
                         : r.error ? <span>could not evaluate — {r.error}</span>
@@ -543,13 +555,13 @@ function Rules({ rules, styleId }) {
                       {r.scope_unjudged && <span>· <Term id="judgment-unjudged">scope not judged</Term></span>}
                     </span>
                   </td>
-                  <td style={{ ...CELL, whiteSpace: 'nowrap' }}>
+                  <td style={CELL}>
                     {rangeWords(r) || ''}{r.in_range === false ? ' · out of band' : ''}
                   </td>
                 </tr>
                 {r.note && (
                   <tr>
-                    <td colSpan={5} style={{ ...NOTE, padding: '0 0 9px 16px', borderBottom: '1px solid var(--rule-soft)' }}>
+                    <td colSpan={4} style={{ ...NOTE, padding: '0 0 9px 16px', borderBottom: '1px solid var(--rule-soft)' }}>
                       {r.note}
                     </td>
                   </tr>

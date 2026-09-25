@@ -1388,12 +1388,46 @@ check('style record: tells get the room', /diagnostic tells/i.test(record));
 check('style record: judgment rows offered back', /refuses to invent/i.test(record));
 await shot('style-record');
 
-// ⑩ Proportions
+// ⑩ Proportions (WP-14.9: plates first, and every figure the page prints is the API's).
+// A bare #/proportions is the INDEX: it draws no pack, and its kind headings are the glossary's
+// own words for `pack.kind`, read off /api/glossary rather than typed here -- the retired check
+// read "material modules" and "five authorities" out of JSX, which is two counts and a label
+// the app wrote for itself (the PRD's own list of copy the app may not write).
+const { feetInches16: fmtIn } = await import('../src/fmt.js');
+const propGlossary = await (await fetch(`${BASE}/api/glossary`)).json();
+const propTermWord = Object.fromEntries((propGlossary.terms || []).map((t) => [t.id, t.term]));
+const propKindWord = (k) => propTermWord[((propGlossary.by_field || {})['pack.kind'] || {})[k]];
 await visit('#/proportions');
-await page.waitForSelector('text=five authorities', { timeout: 20000 });
-const prop = await page.locator('main').innerText();
-check('proportions: material modules lead', /material modules/i.test(prop));
-check('proportions: conflicts with building today', /conflicts with building today/i.test(prop));
+await page.waitForSelector('main [data-pack-list] [data-kind-heading]', { timeout: 20000 });
+await page.waitForFunction(() => [...document.querySelectorAll('main [data-kind-heading]')]
+  .every((h) => h.innerText.trim()), null, { timeout: 15000 }).catch(() => {});
+const propHeads = await page.$$eval('main [data-kind-heading]',
+  (hs) => hs.map((h) => [h.getAttribute('data-kind-heading'), h.innerText.trim()]));
+check(`⑩ the index draws no pack (${propHeads.length} kinds listed)`,
+  propHeads.length > 0 && !(await page.$('main [data-pack-page]')));
+check('⑩ material modules lead the index', propHeads.length > 0 && propHeads[0][0] === 'module-system');
+const propBadHeads = propHeads.filter(([k, w]) => !propKindWord(k) || w.toLowerCase() !== propKindWord(k).toLowerCase());
+check(`⑩ every kind heading is the glossary's word for that kind (${propBadHeads.map((h) => h.join('≠')).join(', ') || 'all'})`,
+  propHeads.length > 0 && propBadHeads.length === 0);
+
+// The authorities heading states the ROWS the route returns, and the conflicts heading the
+// payload's conflicts: composite has fewer authorities than the other orders, which is how a
+// literal "five" was caught being false.
+for (const [pack, order] of [['gibbs-doric', 'doric'], ['vignola-composite', 'composite']]) {
+  await visit(`#/proportions/${pack}`);
+  const got = await page.waitForSelector(`main [data-pack-page="${pack}"] [data-authorities-count]`, { timeout: 30000 })
+    .then(() => true).catch(() => false);
+  const rows = (await (await fetch(`${BASE}/api/authorities/${order}?column_diameter=12`)).json()).authorities || [];
+  const shown = got ? await page.$eval('main [data-authorities-count]', (h) => [h.getAttribute('data-authorities-count'), h.innerText]) : null;
+  check(`⑩ ${pack}: the authorities heading counts the route's rows (${shown && shown[0]} of ${rows.length})`,
+    Boolean(shown) && rows.length > 0 && Number(shown[0]) === rows.length
+      && new RegExp(`\\b${rows.length}\\b`).test(shown[1]));
+  const payload = await (await fetch(`${BASE}/api/proportions/${pack}?members=true&column_diameter=12`)).json();
+  const cc = await page.$eval('main [data-conflicts-count]', (h) => Number(h.getAttribute('data-conflicts-count'))).catch(() => null);
+  const cards = await page.$$eval('main [data-section="conflicts"] [data-conflict]', (cs) => cs.length);
+  check(`⑩ ${pack}: the conflicts heading and cards are the payload's (${cc}, ${cards} of ${(payload.conflicts || []).length})`,
+    cc === (payload.conflicts || []).length && cards === cc);
+}
 
 // The order is ONE stack. Until 26 Aug 2026 the plate added each assembly's base to
 // member positions that were already absolute, so the base floated clear of the plinth
@@ -1404,15 +1438,25 @@ check('proportions: conflicts with building today', /conflicts with building tod
 // slip through. The frame is compared against the engine's own stated stack height rather
 // than against the drawn extent — a frame derived from the bands can never be smaller
 // than the bands, which is what made the first version of this check a tautology.
+// A pack is reached the way a reader reaches it: its link in the list, `[data-cite="pack:…"]`,
+// and the address it writes is asserted (WP-14.9) -- a pack click used to be local state, so
+// the URL fell behind the screen. `readPlate(null)` is the address itself.
 async function readPlate(pack) {
+  const id = pack || 'gibbs-doric';
   if (pack) {
-    const b = page.getByRole('button', { name: pack, exact: true });
-    if (!(await b.count())) return { missing: 'no nav for ' + pack };
-    await b.click();
-    await page.waitForTimeout(1600);
+    const a = page.locator(`main [data-cite="pack:${pack}"]`).first();
+    if (!(await a.count())) return { missing: 'no link for ' + pack };
+    await a.click();
+    const hash = await page.evaluate(() => location.hash);
+    check(`⑩ a pack click writes its address (${hash})`, parseHash(hash).selection.pack === pack
+      && parseHash(hash).surface === 'proportions');
+  } else {
+    await visit('#/proportions/gibbs-doric');
   }
-  return page.evaluate(() => {
-    const svg = document.querySelector('main svg[role="img"]');
+  await page.waitForSelector(`main [data-pack-page="${id}"] [data-section="plate"] svg[role="img"]`, { timeout: 30000 })
+    .catch(() => {});
+  return page.evaluate((pid) => {
+    const svg = document.querySelector(`main [data-pack-page="${pid}"] [data-section="plate"] svg[role="img"]`);
     if (!svg) return { missing: 'no plate' };
     const bands = [...svg.querySelectorAll('path[data-asm]')];
     if (!bands.length) return { missing: 'no bands' };
@@ -1433,7 +1477,7 @@ async function readPlate(pack) {
     out.drawnTop = Math.min(...spans.map((s) => s[0]));
     out.drawnBottom = Math.max(...spans.map((s) => s[1]));
     return out;
-  });
+  }, id);
 }
 // One pack of each reading (OQ 65): gibbs-doric records projections from the naked,
 // vignola-ionic as radii from the axis. Checking only the default pack is how a datum
@@ -1461,6 +1505,119 @@ for (const [pack, dia] of [[null, 12], ['vignola-ionic', 12], ['palladio-corinth
   check(`⑩ ${id}: the capital stands clear of the shaft`, plate.capMax >= plate.shaftMax - 0.01);
 }
 await shot('proportions-order');
+
+// ⑩b THE WALL-DATUM PLATE (WP-14.9, PRD §I.6) -- the page Lucas read on `trim-classical`.
+// Every figure is the served payload's: the band count is the served faces, the baseboard row
+// is the served rule, and `?ceiling=108` must move BOTH, because a plate and a table that answer
+// the same address differently are two buildings on one page (WP-6.4's rule, on this surface).
+const plateRead = (pid) => page.evaluate((p) => {
+  const root = document.querySelector(`main [data-pack-page="${p}"]`);
+  if (!root) return null;
+  const svgs = [...root.querySelectorAll('svg[data-plate]')];
+  const bands = [...root.querySelectorAll('path[data-asm]')].map((b) => {
+    const bb = b.getBBox();
+    return { key: `${b.dataset.asm}.${b.dataset.member}`, x: bb.x, h: bb.height, d: b.getAttribute('d') };
+  });
+  const text = [];
+  for (const svg of svgs) {
+    const vb = svg.viewBox.baseVal;
+    const boxes = [...svg.querySelectorAll('[data-label-text], [data-title], [data-legend] text, [data-scale-bar] text')]
+      .map((t) => { const b = t.getBBox(); return [b.x, b.y, b.x + b.width, b.y + b.height]; });
+    let outside = 0, overlap = 0;
+    for (const [x0, y0, x1, y1] of boxes) if (x0 < -0.5 || y0 < -0.5 || x1 > vb.width + 0.5 || y1 > vb.height + 0.5) outside += 1;
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i], b = boxes[j];
+      if (Math.min(a[2], b[2]) - Math.max(a[0], b[0]) > 0.5 && Math.min(a[3], b[3]) - Math.max(a[1], b[1]) > 0.5) overlap += 1;
+    }
+    text.push({ plate: svg.getAttribute('data-plate'), labels: boxes.length, outside, overlap });
+  }
+  const order = [...root.querySelectorAll('[data-section]')].map((s) => s.getAttribute('data-section'));
+  const base = root.querySelector('[data-rule="baseboard.height"] [data-figure]');
+  return { plates: svgs.length, bands, text, order, baseboard: base ? base.textContent.trim() : null,
+    proofOpen: Boolean(root.querySelector('[data-proof]')), tally: Boolean(root.querySelector('[data-proof-tally]')) };
+}, pid);
+
+await visit('#/proportions/trim-classical');
+await page.waitForSelector('main [data-pack-page="trim-classical"] svg[data-plate]', { timeout: 30000 }).catch(() => {});
+const trimApi = await (await fetch(`${BASE}/api/proportions/trim-classical?members=true`)).json();
+const trimFaces = (trimApi.assemblies || []).reduce((n, a) => n + ((a.geometry && a.geometry.faces) || []).length, 0);
+const trimMembers = (trimApi.assemblies || []).reduce((n, a) => n + (a.members || []).length, 0);
+const trim = await plateRead('trim-classical');
+check(`⑩ trim-classical: the payload asks for the wall-datum plate (${trimApi.drawing})`, trimApi.drawing === 'assemblies');
+check(`⑩ trim-classical: one band per served face (${trim && trim.bands.length} of ${trimFaces})`,
+  Boolean(trim) && trimFaces > 0 && trim.bands.length === trimFaces);
+check(`⑩ trim-classical: the bands are the served members (${trimMembers})`, Boolean(trim) && trim.bands.length === trimMembers);
+check(`⑩ trim-classical: the plate precedes the proof (${trim && trim.order.join(' · ')})`,
+  Boolean(trim) && trim.order.indexOf('plate') >= 0 && trim.order.indexOf('plate') < trim.order.indexOf('proof'));
+check('⑩ trim-classical: how it was checked is folded, and still counted', Boolean(trim) && !trim.proofOpen && trim.tally);
+check(`⑩ trim-classical: every label inside its frame and none on another (${trim && JSON.stringify(trim.text)})`,
+  Boolean(trim) && trim.text.length > 0 && trim.text.every((t) => t.labels > 0 && t.outside === 0 && t.overlap === 0));
+const trimBase = (trimApi.derived_rules || []).find((r) => r.target_slot === 'baseboard' && r.dimension === 'height');
+check(`⑩ trim-classical: the baseboard row is the served rule (${trim && trim.baseboard})`,
+  Boolean(trim && trimBase) && trim.baseboard === fmtIn(trimBase.value));
+await shot('proportions-trim', [1440, 1280]);
+
+// ?ceiling=108: the module is the ceiling, so the drawing and the baseboard row move TOGETHER.
+const trimAt = (trimApi.at && trimApi.at.ceiling_height) || trimApi.module_in;
+const trim108Api = await (await fetch(`${BASE}/api/proportions/trim-classical?members=true&ceiling_height=108`)).json();
+const base108 = fmtIn(((trim108Api.derived_rules || []).find((r) => r.target_slot === 'baseboard' && r.dimension === 'height') || {}).value);
+await visit('#/proportions/trim-classical?ceiling=108');
+await page.waitForFunction((want) => {
+  const f = document.querySelector('main [data-pack-page="trim-classical"] [data-rule="baseboard.height"] [data-figure]');
+  return f && f.textContent.trim() === want;
+}, base108, { timeout: 30000 }).catch(() => {});
+const trim108 = await plateRead('trim-classical');
+check(`⑩ ?ceiling=108 moves the baseboard row (${trim && trim.baseboard} → ${trim108 && trim108.baseboard}, served ${base108})`,
+  Boolean(trim && trim108) && trim108.baseboard === base108 && trim108.baseboard !== trim.baseboard);
+const ratio = trim && trim108 && trim.bands.length && trim108.bands.length
+  ? trim108.bands[0].h / trim.bands[0].h : null;
+check(`⑩ ?ceiling=108 moves the plate with it (${ratio && ratio.toFixed(4)} against ${(108 / trimAt).toFixed(4)})`,
+  ratio !== null && Math.abs(ratio - 108 / trimAt) < 0.002 && trim108.bands[0].d !== trim.bands[0].d);
+
+// Every pack the payload says has assemblies is drawn, band for served face, and no band stands
+// behind the wall plane -- with ONE stated exception, WP-14.4's (`tests/test_profiles.py`): a
+// half round whose recorded face is less than half its height springs behind the plane, and the
+// member walked from it starts there. `facade-portada`'s estípite baluster and the capital walked
+// from it, and `jetty-overhang`'s drop pendant. Named here BY MEMBER and asserted EXERCISED, so it
+// cannot quietly become an exemption for anything else. A pack with no assemblies says so.
+const BEHIND_THE_PLANE = new Set([
+  'facade-portada/estipite.baluster', 'facade-portada/estipite.capital', 'jetty-overhang/framed_jetty.drop_pendant',
+]);
+const packList = (await (await fetch(`${BASE}/api/proportions`)).json()).packs || [];
+const exercised = new Set();
+const behind = [], short = [], refusedMissing = [], textBad = [];
+let assemblyPacks = 0;
+for (const p of packList) {
+  const payload = await (await fetch(`${BASE}/api/proportions/${p.id}?members=true`)).json();
+  if (payload.drawing === 'stack') continue;
+  await visit(`#/proportions/${p.id}`);
+  if (payload.drawing !== 'assemblies') {
+    const said = await page.waitForSelector(`main [data-pack-page="${p.id}"] [data-refused="no-assemblies"]`, { timeout: 30000 })
+      .then(() => true).catch(() => false);
+    const drew = await page.$(`main [data-pack-page="${p.id}"] [data-section="plate"] svg`);
+    if (!said || drew) refusedMissing.push(p.id);
+    continue;
+  }
+  assemblyPacks += 1;
+  await page.waitForSelector(`main [data-pack-page="${p.id}"] svg[data-plate]`, { timeout: 30000 }).catch(() => {});
+  const r = await plateRead(p.id);
+  const faces = (payload.assemblies || []).reduce((n, a) => n + ((a.geometry && a.geometry.faces) || []).length, 0);
+  if (!r || r.bands.length !== faces) short.push(`${p.id} ${r ? r.bands.length : 0}/${faces}`);
+  for (const b of (r ? r.bands : [])) {
+    const key = `${p.id}/${b.key}`;
+    if (b.x < -1e-3) { if (BEHIND_THE_PLANE.has(key)) exercised.add(key); else behind.push(`${key} ${b.x.toFixed(2)}`); }
+  }
+  for (const t of (r ? r.text : [])) if (t.outside || t.overlap) textBad.push(`${p.id}#${t.plate} out ${t.outside} over ${t.overlap}`);
+}
+check(`⑩ every pack with assemblies is drawn band for served face (${assemblyPacks} packs; ${short.join(', ') || 'none short'})`,
+  assemblyPacks > 0 && short.length === 0);
+check(`⑩ no band stands behind the wall plane but WP-14.4's named half rounds (${behind.join(', ') || 'none'})`,
+  behind.length === 0);
+check(`⑩ the half-round exemption is exercised, member by member (${[...exercised].join(', ')})`,
+  exercised.size === BEHIND_THE_PLANE.size);
+check(`⑩ every wall-datum plate keeps its labels inside and apart (${textBad.join('; ') || 'all'})`, textBad.length === 0);
+check(`⑩ a pack with no assemblies says so and draws nothing (${refusedMissing.join(', ') || 'all'})`,
+  refusedMissing.length === 0);
 
 // ⑨ Fault Corpus
 await visit('#/faults');

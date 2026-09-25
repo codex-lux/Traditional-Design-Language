@@ -139,6 +139,22 @@ export function authorityLines(data) {
   return out;
 }
 
+/* A pack's authority in the words the index prints under its name. TWO ROUTES SERVE TWO SHAPES
+   UNDER ONE KEY: `GET /api/proportions/<id>` gives `authority` as the record's `source` string,
+   and the list `GET /api/proportions` gives the pack's whole authority record -- `source`,
+   `author`, `year`, `strength`, `note`, sometimes `url`. The index rendered the list's object as
+   a React child and the whole surface went blank (React error #31, found by opening the page).
+   Who and when, from the record's own fields: the author where one is stated (54 of 57) and the
+   source otherwise, then the year -- never a word the record does not carry. */
+export function authorityWords(a) {
+  if (typeof a === 'string') return a.trim();
+  if (!a || typeof a !== 'object') return '';
+  const who = (typeof a.author === 'string' && a.author.trim())
+    || (typeof a.source === 'string' && a.source.trim()) || '';
+  const year = Number.isFinite(a.year) ? String(a.year) : '';
+  return [who, year].filter(Boolean).join(', ');
+}
+
 /* ─────────────────────────────── the proof ─────────────────────────────── */
 
 /* An invariant's `holds` → the `JudgmentMark` state. The ONE reading (PRD §I.9): `null` is
@@ -254,8 +270,9 @@ export function packGroups(packs, { q = '', keep = null, only = null, words = nu
     const on = p.id === keep;
     if (!on && only && !only.has(p.id)) continue;
     const kindWord = words ? words(p.kind) : null;
-    const hit = !q || (matches ? matches({ ...p, kindWord }, q, ['id', 'name', 'kind', 'kindWord', 'authority'])
-      : [p.id, p.name, p.kind, kindWord, p.authority].some((s) => typeof s === 'string'
+    const authority = authorityWords(p.authority);
+    const hit = !q || (matches ? matches({ ...p, kindWord, authority }, q, ['id', 'name', 'kind', 'kindWord', 'authority'])
+      : [p.id, p.name, p.kind, kindWord, authority].some((s) => typeof s === 'string'
         && s.toLowerCase().includes(String(q).toLowerCase())));
     if (!on && !hit) continue;
     let g = groups.find((x) => x.kind === p.kind);
