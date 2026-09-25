@@ -204,19 +204,23 @@ def test_no_javascript_surface_re_derives_an_arc_sweep():
 
 def _band_emitters(root):
     """Every shipped app source file whose live code emits a `data-asm` band, as repo-relative
-    paths. Enumerated by walking `workbench/app/src` -- a directory the app owns and nothing
-    nests a checkout inside -- in a sorted order, and read with comments stripped, so a file that
-    only DESCRIBES a band is not an emitter."""
-    import os
-    app = os.path.join(root, "workbench", "app", "src")
+    paths, read with comments stripped so a file that only DESCRIBES a band is not an emitter.
+    Enumerated with `git ls-files -co --exclude-standard` and never by walking: WP-13.2 met a test
+    that walked into an agent worktree and went red on a copy of the repository, and a symlinked
+    `node_modules` beside `src` is one misplaced link from being walked the same way."""
+    import os, subprocess
+    out = subprocess.run(
+        ["git", "-C", root, "ls-files", "-co", "--exclude-standard", "-z", "--", "workbench/app/src"],
+        capture_output=True, check=True).stdout.decode("utf-8")
     found = []
-    for dirpath, _dirs, files in sorted(os.walk(app)):
-        for name in sorted(files):
-            if not name.endswith((".js", ".jsx", ".mjs")) or name.endswith(".test.mjs"):
-                continue
-            path = os.path.join(dirpath, name)
-            if "data-asm" in _strip_comments(open(path, encoding="utf-8").read()):
-                found.append(os.path.relpath(path, root).replace(os.sep, "/"))
+    for rel in sorted(p for p in out.split("\0") if p):
+        if not rel.endswith((".js", ".jsx", ".mjs")) or rel.endswith(".test.mjs"):
+            continue
+        path = os.path.join(root, rel)
+        if not os.path.isfile(path):
+            continue
+        if "data-asm" in _strip_comments(open(path, encoding="utf-8").read()):
+            found.append(rel)
     return found
 
 
