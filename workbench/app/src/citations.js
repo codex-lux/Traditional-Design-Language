@@ -105,7 +105,13 @@ export function routeCite(ref) {
     case 'massing': return { surface: 'phylogeny', selection: { massing: c.id } };
     case 'parti': return { surface: 'candidates', selection: { parti: c.id } };
     case 'grouping': return { surface: 'workbench', selection: { grouping: c.id } };
-    case 'brief': return { surface: 'brief', selection: {} };
+    /* A brief citation names one of the shipped example briefs, and the Brief Intake loads it
+       from `?example=<id>` (WP-14.10, `place.params.example`). The id rides as a PARAM and not a
+       selection key: the intake reads it from params, and adding a selection key would move it
+       out of there. It was discarded until WP-14.12, so a guided example opened an EMPTY
+       intake. routeCite is the one function that can say which params a citation carries, so a
+       target may now hold `params`, and nav.cite, hrefFor and the `#/cite/` reader all pass them on. */
+    case 'brief': return { surface: 'brief', selection: {}, params: { example: c.id } };
     case 'asset': return { surface: 'faults', selection: { asset: c.id } };
     default: return null;
   }
@@ -114,18 +120,25 @@ export function routeCite(ref) {
 /* The inverse: what citation names this place? Lives beside routeCite so the two
    directions cannot drift — the URL scheme (router.js) is a serialization of exactly
    these pairs, and e2e/router-unit.mjs pins routeCite → citeFor as an identity for
-   every kind but one.
+   every kind.
 
-   That one is `brief`: routeCite discards the id (there is a single brief), so no
-   citation can be recovered from the surface. It returns null rather than inventing one.
+   `brief` is the one kind whose id travels in the PARAMS (`?example=<id>`) rather than the
+   selection, so it is the one case that reads the third argument. Until WP-14.12 routeCite
+   dropped the id, and this function returned null because there was nothing to recover. A
+   brief surface holding no example is the empty intake, which no citation names, so it still
+   answers null rather than inventing one.
    Where a surface holds several citable keys at once the most specific wins.
 
    Aliases are the other direction's business and are asserted as aliases, never in that
    identity list: `style:<id>#identify` reads as `style:<id>`, and this function never mints
    it. */
-export function citeFor(surface, selection) {
+export function citeFor(surface, selection, params) {
   const s = selection || {};
   switch (surface) {
+    case 'brief': {
+      const ex = params && params.example;
+      return typeof ex === 'string' && ex !== '' ? 'brief:' + ex : null;
+    }
     case 'style':
       // The most specific first: a selected constraint names the place better than the
       // section it sits in.

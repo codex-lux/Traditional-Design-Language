@@ -134,7 +134,10 @@ export function parseHash(hash) {
     const ref = decodeURIComponent(segments.slice(1).join('/'));
     const target = routeCite(ref);
     if (target) {
-      return { surface: target.surface, selection: target.selection || {}, params: query };
+      // A citation's own params (a brief's `example`) win over the link's query, as its own
+      // selection keys win over a carried context.
+      return { surface: target.surface, selection: target.selection || {},
+        params: { ...query, ...(target.params || {}) } };
     }
     return { surface: DEFAULT_SURFACE, selection: {}, params: {} };
   }
@@ -208,8 +211,8 @@ export function canonicalHash(hash) {
 }
 
 /* The citation that names the current place, or null where none does. */
-export function citeForPlace(surface, selection) {
-  return citeFor(surface, selection);
+export function citeForPlace(surface, selection, params) {
+  return citeFor(surface, selection, params);
 }
 
 /* '#/cite/style:craftsman' — the form to hand a machine, or paste in a chat. */
@@ -258,5 +261,5 @@ export function withContext(target, ctx) {
    as an anchor and a link followed by a click land in one place. */
 export function hrefFor(cite, ctx) {
   const t = withContext(routeCite(cite), ctx);
-  return t ? formatHash(t.surface, t.selection, {}) : null;
+  return t ? formatHash(t.surface, t.selection, t.params || {}) : null;
 }

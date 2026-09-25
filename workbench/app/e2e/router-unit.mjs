@@ -107,9 +107,16 @@ ok(() => {
   assert.deepEqual(wrong, [], `${wrong.length} of ${n} constraints do not route to their own style`);
 });
 
-/* ── 2. routeCite → citeFor is an identity for every kind but `brief` ──────────── */
+/* ── 2. routeCite → citeFor is an identity for every kind ─────────────────────── */
 
+/* `brief` joined this list at WP-14.12. Until then routeCite discarded the brief's id and it was
+   the documented exception, so a guided example opened an empty Brief Intake. The id rides in
+   the target's PARAMS (`?example=<id>`, which the intake reads), so every loop below threads
+   `params` through. A loop that did not would pass for every other kind and fail on this one,
+   which is how the identity is known to be tested rather than assumed. The id is a shipped
+   example brief (`briefs/family-georgian.json`), and the router does not check that. */
 const KINDS = [
+  'brief:family-georgian',
   'style:craftsman',
   'style:craftsman#lineage',
   'kit:tidewater-georgian',
@@ -132,17 +139,23 @@ const KINDS = [
 KINDS.forEach((ref) => ok(() => {
   const target = routeCite(ref);
   assert.ok(target, `routeCite could not read ${ref}`);
-  assert.equal(citeFor(target.surface, target.selection), ref,
+  assert.equal(citeFor(target.surface, target.selection, target.params), ref,
     `${ref} did not survive routeCite → citeFor`);
 }));
 
-/* The documented exception, asserted rather than assumed: routeCite discards the brief's
-   id, so no citation can be recovered from the surface, and citeFor says so with null
-   instead of inventing one. */
+/* The brief, by name: the citation opens the intake holding that example, the address is the one
+   the intake reads, and the address cites the brief again. The EMPTY intake is a place no citation
+   names, so it answers null. That is the half of the old exception that still holds. */
 ok(() => {
-  const target = routeCite('brief:anything');
-  assert.deepEqual(target, { surface: 'brief', selection: {} });
+  assert.deepEqual(routeCite('brief:family-georgian'),
+    { surface: 'brief', selection: {}, params: { example: 'family-georgian' } });
+  assert.equal(hrefFor('brief:family-georgian'), '#/brief?example=family-georgian');
+  const p = parseHash('#/brief?example=family-georgian');
+  assert.deepEqual(p, { surface: 'brief', selection: {}, params: { example: 'family-georgian' } });
+  assert.equal(citeFor(p.surface, p.selection, p.params), 'brief:family-georgian');
   assert.equal(citeFor('brief', {}), null);
+  assert.equal(citeFor('brief', {}, {}), null);
+  assert.equal(citeFor('brief', {}, { example: '' }), null);
 });
 
 ok(() => {
@@ -215,17 +228,18 @@ const defined = (o) => Object.fromEntries(Object.entries(o || {}).filter(([, v])
 
 KINDS.forEach((ref) => ok(() => {
   const target = routeCite(ref);
-  const hash = formatHash(target.surface, target.selection, {});
+  const hash = formatHash(target.surface, target.selection, target.params || {});
   const back = parseHash(hash);
   assert.equal(back.surface, target.surface, `${ref} → ${hash} landed on the wrong surface`);
   assert.deepEqual(back.selection, defined(target.selection), `${ref} → ${hash} lost part of its selection`);
-  assert.equal(citeFor(back.surface, back.selection), ref, `${ref} did not survive the URL`);
+  assert.deepEqual(back.params, defined(target.params), `${ref} → ${hash} lost part of its params`);
+  assert.equal(citeFor(back.surface, back.selection, back.params), ref, `${ref} did not survive the URL`);
 }));
 
 /* And the #/cite/ form, which is what a machine writes and a human clicks. */
 KINDS.forEach((ref) => ok(() => {
   const back = parseHash('#/cite/' + ref);
-  assert.equal(citeFor(back.surface, back.selection), ref, `#/cite/${ref} did not resolve to itself`);
+  assert.equal(citeFor(back.surface, back.selection, back.params), ref, `#/cite/${ref} did not resolve to itself`);
 }));
 
 /* ── 3b. Every dossier section round-trips through a URL ───────────────────────── */
@@ -429,7 +443,10 @@ ok(() => {
   });
 });
 
-/* Every selection routeCite can produce is one the URL knows how to carry. */
+/* Every selection routeCite can produce is one the URL knows how to carry. And every PARAM it
+   produces is NOT a selection key: parseHash reads a selection key out of the query into the
+   selection, so a param spelled like one would arrive in the wrong half and a surface reading it
+   from params (the Brief Intake's `example`) would find nothing. */
 ok(() => {
   KINDS.concat(['brief:x']).forEach((ref) => {
     const t = routeCite(ref);
@@ -437,7 +454,13 @@ ok(() => {
       assert.ok(SELECTION_KEYS.includes(k),
         `routeCite('${ref}') produces '${k}', which the URL would drop`);
     });
+    Object.keys(t.params || {}).forEach((k) => {
+      assert.ok(!SELECTION_KEYS.includes(k),
+        `routeCite('${ref}') produces param '${k}', which the URL would read back as a selection key`);
+    });
   });
+  assert.ok(KINDS.some((ref) => Object.keys(routeCite(ref).params || {}).length > 0),
+    'the premise: some citation carries a param, or the second half checks nothing');
 });
 
 /* The context table names only surfaces that have a route and only keys the URL can carry: a
@@ -480,7 +503,8 @@ ok(() => {
     { surface: 'proportions', selection: { pack: 'trim-classical', style: 'craftsman' } });
   assert.deepEqual(withContext(routeCite('fault:porch-too-shallow-to-inhabit'), CTX),
     { surface: 'faults', selection: { fault: 'porch-too-shallow-to-inhabit', style: 'craftsman' } });
-  assert.deepEqual(withContext(routeCite('brief:x'), CTX), { surface: 'brief', selection: { style: 'craftsman' } });
+  assert.deepEqual(withContext(routeCite('brief:x'), CTX),
+    { surface: 'brief', selection: { style: 'craftsman' }, params: { example: 'x' } });
   ['slot:cornice', 'kit:tidewater-georgian#cornice', 'massing:center-passage-single-pile',
     'style:tidewater-georgian#lineage', 'constraint:tidewater-georgian.c01', 'term:judgment-unjudged',
     'candidate:3', 'plan:parlour'].forEach((ref) => {
@@ -526,7 +550,7 @@ ok(() => {
   assert.deepEqual(p, { surface: 'proportions', selection: { pack: 'trim-classical', style: 'craftsman' }, params: {} });
   assert.equal(citeFor(p.surface, p.selection), 'pack:trim-classical');
   assert.equal(hrefFor('fault:porch-too-shallow-to-inhabit', CTX), '#/faults/porch-too-shallow-to-inhabit?style=craftsman');
-  assert.equal(hrefFor('brief:x', CTX), '#/brief?style=craftsman');
+  assert.equal(hrefFor('brief:x', CTX), '#/brief?style=craftsman&example=x');
   assert.equal(hrefFor('slot:cornice', CTX), '#/style/-/kit/cornice');
 });
 

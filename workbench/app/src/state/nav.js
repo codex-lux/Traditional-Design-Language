@@ -146,6 +146,7 @@ export const nav = {
   cite(ref, ctx) {
     const target = withContext(routeCite(ref), ctx);
     if (!target) return;
-    write(target.surface, target.selection || {}, {}, false);
+    // A citation's own params travel (a brief's `example`, WP-14.12); a filter never does.
+    write(target.surface, target.selection || {}, target.params || {}, false);
   },
 };
