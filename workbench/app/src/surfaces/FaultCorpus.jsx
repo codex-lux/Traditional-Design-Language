@@ -46,8 +46,8 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
      OLD fault still in `id`) and again for the fault -- two requests in flight, and whichever
      resolved LAST was drawn. Forced by delaying the stale one, the card read "The Newel That
      Cannot Be Leaned On" under an address naming `surround-that-lies-about-the-wall`, on this
-     tree and on a `git archive` of the base commit alike; the walk met it by timing alone, 1 run
-     in 4 here and 0 in 3 on the base. A card of another fault under this address would also carry
+     tree and on a `git archive` of the base commit alike; unforced it won 2 runs in 5 here (the
+     walk's among them) and 0 in 3 on the base. A card of another fault under this address would also carry
      another fault's licence verdict, which is the thing the card may not get wrong. A superseded
      request is discarded, its assets with it. */
   React.useEffect(() => {
