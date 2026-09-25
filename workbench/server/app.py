@@ -373,9 +373,19 @@ def phylogeny():
 
 
 # ----------------------------------------------------------------- slots & kits
+@app.get("/api/slots")
+def slots():
+    """WP-14.23 (tranche 2 §C.6): every slot row as `core.get_slot` serves it, plus `specified_by`,
+    the count of styles whose RESOLVED kit specifies it -- the Elements index. Declared before
+    `/api/slots/{slot_id}` so the index is not read as a slot named ''."""
+    return corpus.slots_index()
+
+
 @app.get("/api/slots/{slot_id}")
 def slot(slot_id: str):
-    return _ok(core.get_slot(slot_id))
+    # corpus.slot, not core.get_slot: the workbench's copy adds `bindings` read off the resolved
+    # kits (WP-14.23), and `tdl_get_slot`'s payload is left byte-stable.
+    return _ok(corpus.slot(slot_id))
 
 
 @app.get("/api/kit/{style_id}/cascade")
@@ -497,7 +507,9 @@ def groupings(massing: str = None, style: str = None, scale: str = None,
 
 @app.get("/api/groupings/{grouping_id}")
 def grouping(grouping_id: str, style: str = None):
-    return _ok(core.get_grouping(grouping_id=grouping_id, style=style))
+    # corpus.grouping, not core.get_grouping: the workbench's copy adds `carried_by`, the partis
+    # that carry it (WP-14.23, §C.6), and `tdl_get_grouping`'s payload is left byte-stable.
+    return _ok(corpus.grouping(grouping_id, style=style))
 
 
 @app.get("/api/assets")

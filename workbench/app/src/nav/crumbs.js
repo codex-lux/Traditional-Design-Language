@@ -31,14 +31,20 @@
 import { formatHash } from '../router.js';
 import { nameFor } from '../names/names.js';
 import { noEntry } from '../glossary/termView.js';
-import { normalizePlace, sectionOf, stylePlaceKind, wordFor, NAV } from './navModel.js';
+import { normalizePlace, sectionOf, stylePlaceKind, wordFor, NAV, UNDER } from './navModel.js';
+import { RECORD_KINDS } from '../record/kinds.js';
 
 const isObj = (v) => Boolean(v) && typeof v === 'object' && !Array.isArray(v);
 const str = (v) => (typeof v === 'string' && v.trim() ? v.trim() : null);
 
 /* The group each surface's crumb trail begins with — read off NAV, so a surface moved between
-   groups moves its trail with it. */
+   groups moves its trail with it. A place with no rail item begins where the item it stands under
+   does (`UNDER`). */
 function groupOfSurface(surface) {
+  if (UNDER[surface]) {
+    const g = NAV.find((gr) => gr.items.some((it) => it.id === UNDER[surface]));
+    if (g) return g;
+  }
   for (const g of NAV) {
     for (const it of g.items) {
       if (it.surface === surface) return g;
@@ -100,13 +106,8 @@ export function crumbsFor(place, { lookup, dossier, names, styles, journey } = {
   const here = (termId) => termCrumb(lookup, termId, formatHash(surface, {}, {}));
 
   if (surface === 'style') {
-    const kind = stylePlaceKind(sel);
-    if (kind !== 'dossier') {
+    if (stylePlaceKind(sel) !== 'dossier') {
       out.push(termCrumb(lookup, 'surface-style', formatHash('style', {}, {})));
-      if (kind === 'slot') {
-        out.push(termCrumb(lookup, 'section-kit', null));
-        out.push(recordCrumb(recordName(`slot:${sel.slot}`), null, `slot:${sel.slot}`));
-      }
     } else {
       const id = sel.style;
       const mine = isObj(dossier) && dossier.id === id ? dossier : null;
@@ -137,6 +138,19 @@ export function crumbsFor(place, { lookup, dossier, names, styles, journey } = {
   } else if (surface === 'faults') {
     out.push(here('surface-faults'));
     if (str(sel.fault)) out.push(recordCrumb(recordName(`fault:${sel.fault}`), null, `fault:${sel.fault}`));
+  } else if (surface === 'elements') {
+    // Library > Elements > the slot (tranche 2 §B.4)
+    out.push(here('surface-elements'));
+    if (str(sel.slot)) out.push(recordCrumb(recordName(`slot:${sel.slot}`), null, `slot:${sel.slot}`));
+  } else if (UNDER[surface]) {
+    /* A plan-type record page: Library > Elements > the record (§B.4). Its KIND is the page head's
+       eyebrow (`surface-<kind>`, PageHead), not a crumb. A bare record surface is that kind's
+       index, and its crumb is the kind's own surface record. */
+    out.push(termCrumb(lookup, 'surface-elements', formatHash(UNDER[surface], {}, {})));
+    const kind = RECORD_KINDS.find((k) => k.surface === surface);
+    const id = kind ? str(sel[kind.key]) : null;
+    if (id) out.push(recordCrumb(recordName(`${kind.cite}:${id}`), null, `${kind.cite}:${id}`));
+    else out.push(termCrumb(lookup, `surface-${surface}`, null));
   } else if (surface === 'glossary') {
     out.push(here('surface-glossary'));
     if (str(sel.term)) {

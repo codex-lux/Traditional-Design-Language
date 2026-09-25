@@ -8,6 +8,9 @@ import assert from 'node:assert/strict';
 import { score, search, matches, SCORE, KIND_ORDER } from '../src/search/match.js';
 import { STATIC_ENTRIES, SURFACE_ENTRIES, staticEntries } from '../src/search/staticEntries.js';
 import { navModel, flatItems, wordFor } from '../src/nav/navModel.js';
+import { routeCite } from '../src/citations.js';
+import { hrefFor, parseHash, SURFACE_PATHS } from '../src/router.js';
+import { PAGE_KINDS } from '../src/record/kinds.js';
 import { indexTerms } from '../src/glossary/lookup.js';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 
@@ -143,7 +146,8 @@ ok(() => {
     ['floor plan', 'workbench'], ['layout', 'workbench'],
     ['import', 'transcription'], ['trace', 'transcription'],
     ['ratios', 'proportions'], ['orders', 'proportions'],
-    ['elements', 'style'], ['bindings', 'style'], ['kit', 'style'], ['slots', 'style'],
+    ['elements', 'elements'], ['bindings', 'style'], ['kit', 'style'], ['slots', 'elements'],
+    ['massings', 'elements'], ['partis', 'elements'],
     ['sheets', 'drawings'], ['elevation', 'drawings'],
     ['options', 'candidates'],
     ['shortcuts', 'help'], ['keyboard', 'help'],
@@ -187,6 +191,30 @@ ok(() => {
    cite first, and a wrong one would navigate somewhere unrelated. */
 ok(() => {
   STATIC_ENTRIES.forEach((e) => assert.ok(!e.cite, `${e.id} should not carry a citation`));
+});
+
+/* ── a result lands on a page that shows it (WP-14.23) ─────────────────────────── */
+
+/* The palette dispatches every result by its citation (`nav.cite(entry.cite)`), and until
+   WP-14.23 a room, massing, grouping or parti result landed on a surface that could not show the
+   record -- the bench, the family tree, the candidates -- with a "searched" card over it. The
+   property now: a result of every kind with a page lands ON THAT PAGE, holding that record, and
+   the address it lands at is the page's own. Read off the kinds table, so a kind added there and
+   routed elsewhere fails here; and driven through `search()` with corpus-shaped entries, so it is
+   the palette's own dispatch value that is routed and not a citation written here. */
+ok(() => {
+  assert.ok(PAGE_KINDS.length > 0);
+  const pool = PAGE_KINDS.map((k) => E(k.cite, 'specimen-' + k.cite, 'Specimen ' + k.cite));
+  PAGE_KINDS.forEach((k) => {
+    const hit = search(pool, 'specimen-' + k.cite).hits[0];
+    assert.ok(hit && hit.cite, `the palette found no ${k.cite} result to dispatch`);
+    const t = routeCite(hit.cite);
+    assert.deepEqual(t, { surface: k.surface, selection: { [k.key]: hit.id } },
+      `a ${k.cite} result lands on ${JSON.stringify(t)} rather than its record page`);
+    const href = hrefFor(hit.cite);
+    assert.equal(href, '#/' + SURFACE_PATHS[k.surface].path + '/' + hit.id);
+    assert.deepEqual(parseHash(href).selection, { [k.key]: hit.id }, `${href} does not hold the record`);
+  });
 });
 
 console.log(`search-unit: ${checks} checks passed`);

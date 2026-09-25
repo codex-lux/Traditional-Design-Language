@@ -17,6 +17,7 @@
       "Adjacency rules are directional and typed: what the room must adjoin, and what it must not.",
       "The groupings listed are read from the groupings themselves, so the two sides always agree."
     ],
+    "try": "room:parlor",
     "ask": [
       "What furniture must this room hold, with its clearances?",
       "Which rooms should this room sit next to?",

@@ -19,7 +19,6 @@ import { evaluateRefusal, placementRefusal, sketchOf, mayDraw, refusalHeadline, 
   from '../sheet/refusal.js';
 import { ConflictSet } from '../components/ConflictSet.jsx';
 import { nav } from '../state/nav.js';
-import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip, FilterGroup } from '../Chrome.jsx';
 import { StylePicker } from '../components/StylePicker.jsx';
 import { PlateViewer } from '../components/PlateViewer.jsx';
@@ -366,14 +365,6 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
   if (!plan) {
     return (
       <div style={{ padding: '26px 30px', maxWidth: 720 }}>
-        {/* A room or grouping searched from the palette lands HERE, on the empty bench —
-            which is precisely where its acknowledgement was missing. */}
-        <Spotlight kind={selection?.roomType ? 'room' : 'grouping'}
-          id={selection?.roomType || selection?.grouping}
-          note={selection?.roomType
-            ? 'a room type from the catalogue — the bench places rooms, it does not hold the catalogue entry'
-            : 'a grouping from the catalogue — a plan is composed from groupings, the bench does not display one'}
-          onDismiss={() => nav.select({ roomType: null, grouping: null })} />
         <Eyebrow>no plan on the bench</Eyebrow>
         <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', margin: '8px 0 10px' }}>
           Load a plan record
@@ -519,12 +510,6 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           folds hold the rest: what is drawn over the plan, and what the solver is asked to
           do. It carried eight axes in one row before, which meant the three you steer by
           were the same size and weight as the five you touch once an hour. */}
-      <Spotlight kind={selection?.roomType ? 'room' : 'grouping'}
-        id={selection?.roomType || selection?.grouping}
-        note={selection?.roomType
-          ? 'a room type from the catalogue — the plan below places rooms, it does not hold the catalogue entry'
-          : 'a grouping from the catalogue — the plan below is composed from groupings, it does not display one'}
-        onDismiss={() => nav.select({ roomType: null, grouping: null })} />
       <FilterStrip right={
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <FilterGroup label="solver" active={strict ? 1 : 0} summary={strict ? 'strict' : ''}>

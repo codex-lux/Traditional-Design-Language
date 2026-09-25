@@ -167,6 +167,14 @@ export const api = {
      to this file. */
   kitSlot: (styleId, slot) => getJSON(`/api/kit/${seg(styleId)}/slot/${seg(slot)}`),
   proportionPacks: () => getJSON('/api/proportions'),
+
+  /* WP-14.23 (tranche 2 §C.6): the record pages' reads, appended and no existing function edited.
+     `slots()` is the Elements index; the other three are one record each, and each carries its
+     relation from the other side (`used_by`, `carried_by`, `nativity_by_style`). */
+  slots: () => getJSON('/api/slots'),
+  massing: (id) => getJSON(`/api/massings/${seg(id)}`),
+  grouping: (id) => getJSON(`/api/groupings/${seg(id)}`),
+  parti: (id) => getJSON(`/api/partis/${seg(id)}`),
 };
 
 /* Subscribe to a job's SSE stream. Returns an unsubscribe function. */

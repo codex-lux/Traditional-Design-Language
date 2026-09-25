@@ -17,6 +17,7 @@
       "Its internal rules are its own, stated beside the rules of each room in it.",
       "The plan types listed are those that carry this grouping."
     ],
+    "try": "grouping:centre-passage-core",
     "ask": [
       "Which plan diagrams carry this grouping?",
       "How does this grouping attach to a massing?"

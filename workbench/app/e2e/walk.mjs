@@ -17,6 +17,7 @@ import { SURFACE_PATHS, parseHash, formatHash } from '../src/router.js';
 // offers, in what order, and what the crumbs say are the pure modules' answers, read here
 // rather than written here.
 import { navModel, flatItems, inHandFrom } from '../src/nav/navModel.js';
+import { PAGE_KINDS, RECORD_KINDS } from '../src/record/kinds.js';
 import { indexTerms } from '../src/glossary/lookup.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
@@ -2463,12 +2464,50 @@ const styleFilter = await page.locator('main input[role="combobox"]').first().in
 check('a selection-key filter axis actually holds', /craftsman/i.test(styleFilter));
 check('and it counts as narrowing', /1 narrowing/i.test(await page.locator('main').innerText()));
 
-// W3: 138 of 665 palette entries dispatched a selection key no surface read, so the search
-// silently did nothing. A record with no detail view is acknowledged rather than dropped.
-await page.goto(BASE + '/#/cite/room:parlor');
-await page.waitForTimeout(1600);
-check('a searched record with no detail view is acknowledged',
-  /searched/i.test(await page.locator('main').innerText()));
+// W3, RE-CUT AT WP-14.23 (tranche 2 §B.1). 138 of 665 palette entries once dispatched a
+// selection key no surface read, so the search silently did nothing; the fix of the day was a
+// "searched" card floated over a surface that could not show the record -- a room over the
+// bench, a massing over the family tree. Every kind of record has a page of its own now, so the
+// property that card stood in for is asserted instead: A PALETTE RESULT LANDS ON A PAGE SHOWING
+// THAT RECORD. One record of every kind with a page, read from the index the palette searches
+// (the first of its kind by id, never a literal), found in the palette by typing its id,
+// dispatched the way a reader does, and held to three things: the address is its page's own, the
+// page carries that citation, and the record's own head drew -- a page saying the record could
+// not be read is not the record.
+{
+  // the keys card opened above may still be up; the palette is opened from a clear page
+  const keysCard = page.getByRole('dialog', { name: 'Keyboard shortcuts and addressing', exact: true });
+  if (await keysCard.isVisible().catch(() => false)) await page.keyboard.press('Escape');
+  const entries = Array.isArray(INDEX.entries) ? INDEX.entries : [];
+  for (const k of PAGE_KINDS) {
+    const e = entries.filter((x) => x && x.kind === k.cite).sort((a, b) => String(a.id).localeCompare(String(b.id)))[0];
+    if (!e) { check(`the search index holds a ${k.cite} record to look for`, false); continue; }
+    await visit('#/faults');
+    await page.keyboard.press('Control+k');
+    await palette.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    /* The palette focuses its input a tick AFTER it paints (`setTimeout(..., 0)`), so keys typed
+       the moment the dialog is visible can land before the focus does and lose their first
+       characters -- measured on this block's first run: two of five ids went unfound, while the
+       palette's own `search()` ranks every one of the five first. `fill` writes the input itself,
+       which is what a reader's typing ends as, and the option is waited for rather than slept on. */
+    await palette.locator('input').first().fill(e.id);
+    const opt = palette.locator(`[role="option"][data-cite="${e.cite}"]`);
+    await opt.first().waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    if (!(await opt.count())) {
+      check(`the palette offers ${e.cite} when its id is typed`, false);
+      await page.keyboard.press('Escape');
+      continue;
+    }
+    await opt.first().click();
+    const want = '#/' + SURFACE_PATHS[k.surface].path + '/' + e.id;
+    const sel = `[data-record-page="${e.cite}"] [data-record-head="${e.id}"]`;
+    await page.waitForSelector(sel, { timeout: 20000 }).catch(() => {});
+    const at = new URL(page.url()).hash;
+    const heads = await page.locator(sel).count();
+    check(`a palette ${k.cite} result lands on its own page, showing it (${e.cite} -> ${at}, ${heads} head)`,
+      at === want && heads === 1);
+  }
+}
 
 // W5: every surface guarded its sync with `if (selection?.x)`, so going back to a bare
 // surface left the previous record on screen — the URL and the panel disagreeing. The bare
@@ -2493,7 +2532,87 @@ await page.waitForTimeout(2000);
 await page.locator('main svg g[style*="pointer"]').first().click({ force: true });
 await page.waitForTimeout(900);
 check('a hearth on the map can be clicked',
-  /VARIANT|STYLE|FAMILY|TRADITION|searched/i.test(await page.locator('main').innerText()));
+  /VARIANT|STYLE|FAMILY|TRADITION/i.test(await page.locator('main').innerText()));
+
+/* ── WP-14.23: the Elements index and one record of each kind ─────────────────────────────
+
+   The Elements index is every slot the ontology names, each with the count of styles whose
+   RESOLVED kit specifies it; the four plan-type kinds are links to their own indexes above it.
+   Every figure here is read from the API the page reads, never typed: the row count is
+   `GET /api/slots`'s, each row's count is that row's `specified_by`, and a kind's index holds
+   exactly the records the search index names of that kind. Then one record of each kind -- the
+   one its own surface record offers as `try` (§A.2), so the example a reader is handed is the
+   one walked -- each held to its head, and to the relation it shows FROM THE OTHER SIDE, whose
+   count must be the server's own list for that record and must not be zero (a record with an
+   empty inverse would pass the comparison with nothing drawn). The parti's rooms are a TABLE,
+   and its page draws no diagram (§G). */
+{
+  const slotsBody = await (await fetch(BASE + '/api/slots')).json().catch(() => null);
+  const slotRows = slotsBody && Array.isArray(slotsBody.slots) ? slotsBody.slots : [];
+  await visit('#/elements');
+  await page.waitForSelector('[data-elements-index] [data-slot-row]', { timeout: 20000 }).catch(() => {});
+  const drawn = await page.evaluate(() => [...document.querySelectorAll('[data-elements-index] [data-slot-row]')]
+    .map((r) => [r.getAttribute('data-slot-row'), r.getAttribute('data-specified-by')]));
+  const served = new Map(slotRows.map((r) => [r.id, String(r.specified_by)]));
+  const off = drawn.filter(([id, n]) => served.get(id) !== n).map(([id]) => id);
+  check(`Elements lists every slot the ontology names with its served count (${drawn.length} drawn of ${slotRows.length}`
+    + (off.length ? `; off: ${off.slice(0, 5).join(', ')}` : '') + ')',
+    slotRows.length > 0 && drawn.length === slotRows.length && off.length === 0);
+  const kindLinks = await page.evaluate(() => [...document.querySelectorAll('[data-record-kinds] [data-kind-index] a')]
+    .map((a) => [a.closest('[data-kind-index]').getAttribute('data-kind-index'), a.getAttribute('href')]));
+  const wantKinds = RECORD_KINDS.map((k) => [k.surface, formatHash(k.surface, {}, {})]);
+  check(`Elements links each plan-type kind to its own index (${kindLinks.map(([s]) => s).join(', ')})`,
+    JSON.stringify(kindLinks) === JSON.stringify(wantKinds));
+  await shot('elements', [1440]);
+
+  // each kind's index holds exactly the records of that kind the search index names
+  const entries = Array.isArray(INDEX.entries) ? INDEX.entries : [];
+  for (const k of RECORD_KINDS) {
+    await visit(formatHash(k.surface, {}, {}));
+    await page.waitForSelector(`[data-record-index="${k.surface}"] [data-index-row]`, { timeout: 20000 }).catch(() => {});
+    const rows = await page.locator(`[data-record-index="${k.surface}"] [data-index-row]`).count();
+    const want = entries.filter((x) => x && x.kind === k.cite).length;
+    check(`the ${k.surface} index lists every ${k.cite} record (${rows} of ${want})`, want > 0 && rows === want);
+  }
+
+  const terms = GLOSSARY_BODY && Array.isArray(GLOSSARY_BODY.terms) ? GLOSSARY_BODY.terms : [];
+  const tryOf = (surface) => (terms.find((t) => t.id === `surface-${surface}`) || {}).surface?.try || null;
+  // the relation each page shows from the other side, and where the server states it
+  const INVERSE = {
+    slot: { sel: '[data-specified-by]', attr: 'data-specified-by', read: (r) => r.bindings && r.bindings.specified, api: (id) => `/api/slots/${id}` },
+    room: { sel: '[data-inverse="grouping"]', attr: 'data-count', read: (r) => r.appears_in_groupings, api: (id) => `/api/rooms/${id}` },
+    massing: { sel: '[data-inverse="style"]', attr: 'data-count', read: (r) => r.used_by, api: (id) => `/api/massings/${id}` },
+    grouping: { sel: '[data-inverse="parti"]', attr: 'data-count', read: (r) => r.carried_by, api: (id) => `/api/groupings/${id}` },
+    parti: { sel: '[data-inverse="style-native"]', attr: 'data-count', read: (r) => r.nativity_by_style && r.nativity_by_style.native, api: (id) => `/api/partis/${id}` },
+  };
+  for (const k of PAGE_KINDS) {
+    const eg = tryOf(k.surface);
+    const id = typeof eg === 'string' && eg.startsWith(k.cite + ':') ? eg.slice(k.cite.length + 1) : null;
+    if (!id) {
+      check(`surface-${k.surface} offers a ${k.cite} record to try (${eg})`, false);
+      continue;
+    }
+    const inv = INVERSE[k.cite];
+    const rec = await (await fetch(BASE + inv.api(encodeURIComponent(id)))).json().catch(() => null);
+    const list = rec && inv.read(rec);
+    const want = Array.isArray(list) ? list.length : null;
+    await visit(formatHash(k.surface, { [k.key]: id }, {}));
+    const page_ = `[data-record-page="${eg}"]`;
+    await page.waitForSelector(`${page_} [data-record-head="${id}"]`, { timeout: 20000 }).catch(() => {});
+    const head = await page.locator(`${page_} [data-record-head="${id}"]`).count();
+    const got = await page.locator(`${page_} ${inv.sel}`).first().getAttribute(inv.attr, { timeout: 2000 }).catch(() => null);
+    check(`the ${k.cite} page for ${id} draws its head and its other side at the server's count (${got} of ${want})`,
+      head === 1 && typeof want === 'number' && want > 0 && got === String(want));
+    if (k.cite === 'parti') {
+      const tableRows = await page.locator(`${page_} table[data-parti-topology] tr[data-parti-room]`).count();
+      const svgs = await page.locator(`${page_} [data-record-body="parti"] svg`).count();
+      const stated = rec && rec.parti && Array.isArray(rec.parti.rooms) ? rec.parti.rooms.length : null;
+      check(`the parti's rooms are a table of ${stated} rows and the page draws no diagram (${tableRows} rows, ${svgs} svg)`,
+        typeof stated === 'number' && stated > 0 && tableRows === stated && svgs === 0);
+    }
+    await shot(`record-${k.cite}`, [1440]);
+  }
+}
 
 check('? explains the keys and the addressing', /kind:id/.test(card) && /⌘K/.test(card));
 await page.keyboard.press('Escape');

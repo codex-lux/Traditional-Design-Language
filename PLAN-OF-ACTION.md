@@ -4900,7 +4900,12 @@ set when it merges.
   - **"The rail"** leaves every reader-facing refusal.
   - **Questions.** `oq/the-assistant-is-blind-to-the-page` is closed; `oq/no-tool-answers-which-styles-use-a-pack` is filed.
 - **WP-14.23 — record pages and the Elements index.** Spotlight is retired. Wave 2.
-  **Status: PLANNED.**
+  **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.23-a-record-is-a-place.md`.
+  - **Every named thing has a page.** A slot (under Elements), a room, a massing, a grouping and a parti each have one, and every palette result lands on its record's own page. Spotlight and its "searched" banner are deleted.
+  - **Addresses.** The retired addresses are read by one `LEGACY_PLACES` table and rewritten by `replaceState`. `routeCite` and `citeFor` are repointed together, with no regex touched.
+  - **Server.** `GET /api/slots`, and the inverse lists (a slot's resolved bindings, a grouping's partis), each held to its forward relation by a test. MCP payloads are byte-stable.
+  - **The parti page** states its topology as a table and draws nothing.
+  - **Found.** `core.get_slot`'s `specified_by_styles` reads each style's own kit file and counts a refusal as a specification. Over the 97 slots it lists 228 styles that FORBID the slot and misses 6,380 resolved specifiers; `cornice` lists 35 against 85, 10 of them forbidding it. The workbench reads the resolved kit now, and the tool is filed: `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`.
 - **WP-14.24 — plates at the pack's word.** Turned casings, zone strings, class-A sliders,
   thumbnails. Wave 2. **Status: PLANNED.**
 - **WP-14.25 — the parti bridge on the page.** Wave 2. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.25-the-plan-type-starts-the-brief.md`.

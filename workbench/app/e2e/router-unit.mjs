@@ -21,6 +21,7 @@ import { parseCite, routeCite, citeFor, DOSSIER_SECTIONS } from '../src/citation
 import {
   parseHash, formatHash, SURFACE_PATHS, SELECTION_KEYS, DEFAULT_SURFACE,
   CONTEXT_KEYS, withContext, hrefFor, LEGACY_PATHS, isLegacyHash, canonicalHash,
+  LEGACY_PLACES, legacyPlaceOf,
 } from '../src/router.js';
 
 let checks = 0;
@@ -282,8 +283,10 @@ DOSSIER_SECTIONS.forEach((section) => ok(() => {
 }));
 
 /* A slot rides after the section, in the path, and the `-` placeholder holds an absent style —
-   the two shapes §E.2 names, and each is a citation now (WP-14.12): one slot in a style's kit is
-   `kit:<id>#<slot>`, and one slot across styles — the slot panel — is `slot:<id>`. */
+   the two shapes §E.2 names, and each is a citation (WP-14.12): one slot in a style's kit is
+   `kit:<id>#<slot>`, and one slot across styles is `slot:<id>`. Since WP-14.23 the second is the
+   slot's own record page, `#/elements/<slot>` (tranche 2 §B.2), and the style-less kit address it
+   used to open is a kept LEGACY address: read as that page and never written. */
 ok(() => {
   assert.deepEqual(parseHash('#/style/tidewater-georgian/kit/cornice').selection,
     { style: 'tidewater-georgian', section: 'kit', slot: 'cornice' });
@@ -292,10 +295,11 @@ ok(() => {
   assert.equal(citeFor('style', parseHash('#/style/tidewater-georgian/kit/cornice').selection),
     'kit:tidewater-georgian#cornice');
   assert.equal(hrefFor('kit:tidewater-georgian#cornice'), '#/style/tidewater-georgian/kit/cornice');
-  assert.deepEqual(parseHash('#/style/-/kit/cornice').selection, { section: 'kit', slot: 'cornice' });
-  assert.equal(formatHash('style', { section: 'kit', slot: 'cornice' }, {}), '#/style/-/kit/cornice');
+  assert.deepEqual(parseHash('#/style/-/kit/cornice'), { surface: 'elements', selection: { slot: 'cornice' }, params: {} });
+  assert.equal(formatHash('style', { section: 'kit', slot: 'cornice' }, {}), '#/elements/cornice');
   assert.equal(citeFor('style', { section: 'kit', slot: 'cornice' }), 'slot:cornice');
-  assert.equal(hrefFor('slot:cornice'), '#/style/-/kit/cornice');
+  assert.equal(hrefFor('slot:cornice'), '#/elements/cornice');
+  assert.deepEqual(routeCite('slot:cornice'), { surface: 'elements', selection: { slot: 'cornice' } });
   // The kit section with neither a style nor a slot names nothing a citation can: the index.
   assert.equal(citeFor('style', { section: 'kit' }), null);
   assert.deepEqual(parseHash('#/style').selection, {});
@@ -315,19 +319,22 @@ ok(() => {
   assert.ok(Object.isFrozen(LEGACY_PATHS) && Object.isFrozen(LEGACY_PATHS.kit), 'the legacy table can be widened at run time');
   assert.ok(!Object.keys(LEGACY_PATHS).some((k) => SURFACE_PATHS[k]), 'a legacy path is also a live surface');
   Object.values(LEGACY_PATHS).forEach((l) => assert.ok(SURFACE_PATHS[l.to], `a legacy path points at '${l.to}', which has no route`));
+  /* `#/kit/-/cornice` is legacy TWICE since WP-14.23: the retired path reads as the dossier's kit
+     with no style, and that is itself a retired record address (LEGACY_PLACES), so the one
+     rewrite lands on the slot's record page rather than on a second legacy hash. */
   const TABLE = [
-    ['#/kit/craftsman/cornice', { style: 'craftsman', section: 'kit', slot: 'cornice' }, '#/style/craftsman/kit/cornice'],
-    ['#/kit/craftsman', { style: 'craftsman', section: 'kit' }, '#/style/craftsman/kit'],
-    ['#/kit/-/cornice', { section: 'kit', slot: 'cornice' }, '#/style/-/kit/cornice'],
-    ['#/kit', {}, '#/style'],
-    ['#/kit/', {}, '#/style'],
-    ['#/kit/tidewater-georgian/cornice?group=openings&q=cornice',
+    ['#/kit/craftsman/cornice', 'style', { style: 'craftsman', section: 'kit', slot: 'cornice' }, '#/style/craftsman/kit/cornice'],
+    ['#/kit/craftsman', 'style', { style: 'craftsman', section: 'kit' }, '#/style/craftsman/kit'],
+    ['#/kit/-/cornice', 'elements', { slot: 'cornice' }, '#/elements/cornice'],
+    ['#/kit', 'style', {}, '#/style'],
+    ['#/kit/', 'style', {}, '#/style'],
+    ['#/kit/tidewater-georgian/cornice?group=openings&q=cornice', 'style',
       { style: 'tidewater-georgian', section: 'kit', slot: 'cornice' },
       '#/style/tidewater-georgian/kit/cornice?group=openings&q=cornice'],
   ];
-  TABLE.forEach(([legacy, selection, canonical]) => {
+  TABLE.forEach(([legacy, surface, selection, canonical]) => {
     const p = parseHash(legacy);
-    assert.equal(p.surface, 'style', `${legacy} did not read as the dossier`);
+    assert.equal(p.surface, surface, `${legacy} read as '${p.surface}'`);
     assert.deepEqual(p.selection, selection, `${legacy} read as ${JSON.stringify(p.selection)}`);
     assert.ok(isLegacyHash(legacy), `${legacy} is not recognised as legacy`);
     assert.equal(canonicalHash(legacy), canonical, `${legacy} canonicalises to ${canonicalHash(legacy)}`);
@@ -343,7 +350,7 @@ ok(() => {
    surface id is an alias in the writer too. And nothing that is not legacy is taken for it. */
 ok(() => {
   assert.equal(formatHash('kit', { style: 'tidewater-georgian', slot: 'cornice' }, {}), '#/style/tidewater-georgian/kit/cornice');
-  assert.equal(formatHash('kit', { slot: 'cornice' }, {}), '#/style/-/kit/cornice');
+  assert.equal(formatHash('kit', { slot: 'cornice' }, {}), '#/elements/cornice');
   assert.equal(formatHash('kit', {}, {}), '#/style');
   assert.equal(formatHash('kit', { style: 'craftsman' }, { q: 'porch' }), '#/style/craftsman/kit?q=porch');
   ['#/style/craftsman/kit', '#/kitchen', '#/cite/kit:craftsman', '#/', '', '#/style', '#/faults/kit']
@@ -351,6 +358,76 @@ ok(() => {
       assert.ok(!isLegacyHash(h), `${h} was taken for a legacy address`);
       assert.equal(canonicalHash(h), null);
     });
+});
+
+/* THE RECORD ADDRESSES TRANCHE 1 WROTE, KEPT (WP-14.23, tranche 2 §B.3). Every address the old
+   routeCite minted for a plan-type record is somebody's bookmark, so each is READ as the record
+   page and rewritten by replaceState, exactly as `#/kit/` is. The rule is a table, one row per
+   (surface, key), and every row is asserted by reading the table rather than by a list written
+   here -- a list here would be a second spelling that could lose a row the table gained. */
+const LEGACY_PLACE_IDS = { slot: 'cornice', roomType: 'dining-room', massing: 'center-passage-single-pile',
+  grouping: 'service-wing', parti: 'center-passage' };
+ok(() => {
+  assert.ok(Object.isFrozen(LEGACY_PLACES) && LEGACY_PLACES.every(Object.isFrozen), 'the legacy place table can be widened at run time');
+  assert.ok(LEGACY_PLACES.length > 0, 'the legacy place table is empty -- every assertion below would pass over nothing');
+  const seen = new Set();
+  LEGACY_PLACES.forEach((row) => {
+    const pair = row.surface + '/' + row.key;
+    assert.ok(!seen.has(pair), `${pair} is two rows -- one row per (surface, key)`);
+    seen.add(pair);
+    assert.ok(SURFACE_PATHS[row.surface], `a legacy place is read off '${row.surface}', which has no route`);
+    assert.ok(SURFACE_PATHS[row.to], `a legacy place points at '${row.to}', which has no route`);
+    assert.equal(SURFACE_PATHS[row.to].keys[0], row.key,
+      `'${row.to}' does not take '${row.key}' as its record key -- the rewrite would drop the record`);
+    assert.ok(SELECTION_KEYS.includes(row.key), `'${row.key}' is not a selection key, so no old address held it`);
+  });
+});
+
+/* Each row, driven through the URL: the old address (the shape tranche 1's routeCite wrote and a
+   bookmark holds) reads as the record page, canonicalises to the page's own address, and that
+   address is neither legacy nor rewritten again. A WRITER handed the old place mints the new
+   address. The citation the page carries is the record's, so a kept bookmark and a fresh citation
+   are one place. */
+LEGACY_PLACES.forEach((row) => ok(() => {
+  const id = LEGACY_PLACE_IDS[row.key];
+  assert.ok(id, `no specimen id for '${row.key}' -- add one to LEGACY_PLACE_IDS`);
+  const oldSel = { ...row.also, [row.key]: id };
+  const legacy = row.surface === 'style'
+    ? '#/style/-/kit/' + id
+    : '#/' + SURFACE_PATHS[row.surface].path + '?' + row.key + '=' + id;
+  const p = parseHash(legacy);
+  assert.deepEqual(p, { surface: row.to, selection: { [row.key]: id }, params: {} }, `${legacy} read as ${JSON.stringify(p)}`);
+  assert.ok(isLegacyHash(legacy), `${legacy} is not recognised as legacy`);
+  const canonical = '#/' + SURFACE_PATHS[row.to].path + '/' + id;
+  assert.equal(canonicalHash(legacy), canonical);
+  assert.equal(formatHash(row.surface, oldSel, {}), canonical, 'a writer still mints the old address');
+  assert.ok(!isLegacyHash(canonical), `${canonical} is itself legacy -- the rewrite would loop`);
+  assert.equal(canonicalHash(canonical), null);
+  const cite = citeFor(p.surface, p.selection, p.params);
+  assert.equal(hrefFor(cite), canonical, `the bookmark and the citation ${cite} land in two places`);
+  assert.equal(legacyPlaceOf(row.surface, oldSel), row);
+}));
+
+/* What is NOT a retired record address, and must not be rewritten: an old surface holding the key
+   AND something else is a different place (the bench with a placed room, the candidate set with a
+   candidate chosen, the phylogeny on a style) and reading it as the record would drop what the
+   reader was doing; the Brief Intake's `?parti=` is the parti bridge's seed (§C.5), not a record
+   address; and each record page's own address. */
+ok(() => {
+  ['#/brief?parti=center-passage', '#/workbench?roomType=parlor&room=parlour', '#/candidates/2?parti=center-passage',
+    '#/phylogeny/craftsman?massing=center-passage-single-pile', '#/style/craftsman/kit/cornice',
+    '#/elements', '#/elements/cornice', '#/room', '#/room/parlor', '#/massing/x', '#/grouping/x', '#/parti/x',
+    '#/workbench', '#/candidates', '#/phylogeny']
+    .forEach((h) => {
+      assert.ok(!isLegacyHash(h), `${h} was taken for a retired record address`);
+      assert.equal(canonicalHash(h), null, `${h} was rewritten`);
+    });
+  assert.deepEqual(parseHash('#/brief?parti=center-passage'), { surface: 'brief', selection: { parti: 'center-passage' }, params: {} });
+  // A bare record surface is its kind's index and names no record: no citation, and no default.
+  ['elements', 'room', 'massing', 'grouping', 'parti'].forEach((surface) => {
+    assert.deepEqual(parseHash('#/' + SURFACE_PATHS[surface].path), { surface, selection: {}, params: {} });
+    assert.equal(citeFor(surface, {}), null, `the bare '${surface}' index was given a citation`);
+  });
 });
 
 /* Filters ride in the query and stay out of the selection. */
@@ -551,7 +628,7 @@ ok(() => {
   assert.equal(citeFor(p.surface, p.selection), 'pack:trim-classical');
   assert.equal(hrefFor('fault:porch-too-shallow-to-inhabit', CTX), '#/faults/porch-too-shallow-to-inhabit?style=craftsman');
   assert.equal(hrefFor('brief:x', CTX), '#/brief?style=craftsman&example=x');
-  assert.equal(hrefFor('slot:cornice', CTX), '#/style/-/kit/cornice');
+  assert.equal(hrefFor('slot:cornice', CTX), '#/elements/cornice');
 });
 
 /* ── 7. The two writers: nav.cite carries context, nav.go does not ─────────────── */
@@ -584,7 +661,12 @@ ok(() => {
   assert.deepEqual(nav.get().selection, {});
   location.hash = '#/kit/-/cornice';
   hashListeners.forEach((fn) => fn());
-  assert.equal(location.hash, '#/style/-/kit/cornice');
+  assert.equal(location.hash, '#/elements/cornice');
+  // a tranche-1 record address a reader kept is rewritten to the record page (WP-14.23, §B.3)
+  location.hash = '#/workbench?roomType=dining-room';
+  hashListeners.forEach((fn) => fn());
+  assert.equal(location.hash, '#/room/dining-room', 'a kept #/workbench?roomType= bookmark was not rewritten');
+  assert.deepEqual(nav.get(), { surface: 'room', selection: { roomType: 'dining-room' }, params: {} });
   // a canonical address is left exactly as it was
   location.hash = '#/style/craftsman/lineage';
   hashListeners.forEach((fn) => fn());
@@ -595,7 +677,7 @@ ok(() => {
   nav.cite('pack:trim-classical', CTX);
   assert.equal(location.hash, '#/proportions/trim-classical?style=craftsman', 'nav.cite dropped or widened the context');
   nav.cite('slot:cornice', CTX);
-  assert.equal(location.hash, '#/style/-/kit/cornice', 'nav.cite carried context onto a surface that does not honour it');
+  assert.equal(location.hash, '#/elements/cornice', 'nav.cite carried context onto a surface that does not honour it');
   nav.cite('fault:porch-too-shallow-to-inhabit');
   assert.equal(location.hash, '#/faults/porch-too-shallow-to-inhabit', 'nav.cite with no context is not the call it was');
   nav.cite('nosuchkind:x', CTX);

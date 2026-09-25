@@ -29,7 +29,7 @@ export const SURFACE_SYNONYMS = Object.freeze({
   overview: 'front door home landing welcome about introduction what is this start here begin overview',
   style: 'style record styles record full record tells diagnostic constraints sources '
     + 'exemplars characteristics period geography dossier find a style index '
-    + 'the kit kit slots elements bindings cascade inheritance specified forbidden '
+    + 'the kit kit bindings cascade inheritance specified forbidden '
     + 'open extends provenance parts vocabulary',
   phylogeny: 'the phylogeny phylogeny lineage descent ancestry tree family graph taxa taxonomy '
     + 'evolution origins time axis map geography where styles came from',
@@ -50,6 +50,9 @@ export const SURFACE_SYNONYMS = Object.freeze({
   faults: 'fault corpus faults solecisms errors mistakes problems wrong bad practice '
     + 'anti-patterns diagnosis what not to do',
   glossary: 'glossary terms definitions define meaning words dictionary what does it mean',
+  // WP-14.23: the Elements index, where the slots and the plan-type records stand
+  elements: 'elements element slots slot alphabet ontology parts of a building catalogue records '
+    + 'rooms room types massings groupings partis plan types plan diagrams',
 });
 
 function surfaceEntry(it, lookup) {

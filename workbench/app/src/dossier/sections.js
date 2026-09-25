@@ -47,8 +47,9 @@ export function sectionTermId(id) {
 
 const named = (v) => typeof v === 'string' && v !== '';
 
-/* selection -> 'dossier' | 'slot' | 'index' (§E.2), as the site map reads it: the rail, the
-   crumbs, the page head and this surface answer one question about one address with one function. */
+/* selection -> 'dossier' | 'index' (§E.2), as the site map reads it: the rail, the crumbs, the
+   page head and this surface answer one question about one address with one function. The slot
+   panel §E.2 named as a third place is the Elements slot page since WP-14.23. */
 export function placeOf(selection) {
   return stylePlaceKind(selection);
 }

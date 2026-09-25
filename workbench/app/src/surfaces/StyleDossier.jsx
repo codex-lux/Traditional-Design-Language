@@ -1,10 +1,11 @@
 /* The Style Dossier — everything about one style in one citable place (WP-14.12, PRD §D, §E.2).
 
    It replaces `StyleRecord.jsx`, which was one long page, and the Kit surface, which was a second
-   page about the same style reached by a different address. The style surface is three places on
-   one path and `dossier/sections.js::placeOf` says which a selection names, in the PRD's order: a
-   style present opens the DOSSIER; no style, the kit section and a slot open the SLOT PANEL; and
-   anything else is the STYLES INDEX, which never shows a record.
+   page about the same style reached by a different address. The style surface is two places on
+   one path and `dossier/sections.js::placeOf` says which a selection names: a style present opens
+   the DOSSIER, and anything else is the STYLES INDEX, which never shows a record. A third, the
+   slot panel for a slot with no style, left for the Elements index at WP-14.23 (tranche 2 §B.2),
+   and its old address is rewritten there by the router.
 
    THE DOSSIER. A head -- rank, what it is filed under, its years, its name with its id as a margin
    note, its tradition's swatch, a StylePicker and "Design a house in this style" -- then a strip of
@@ -38,7 +39,6 @@ import {
   placeOf, listedSections, sectionInView, summaryCards, sectionAddress, IDENTIFY,
 } from '../dossier/sections.js';
 import { SectionWord } from '../dossier/parts.jsx';
-import { SlotPanel } from '../dossier/SlotPanel.jsx';
 import { Identify } from '../dossier/Identify.jsx';
 import { Members } from '../dossier/Members.jsx';
 import { Lineage } from '../dossier/Lineage.jsx';
@@ -56,7 +56,6 @@ const quietText = { font: 'var(--type-body)', color: 'var(--ink-2)' };
 export function StyleDossier({ onCite, selection, setSelection }) {
   const place = placeOf(selection);
   if (place === 'index') return <StylesIndex />;
-  if (place === 'slot') return <SlotPanel slot={selection.slot} />;
   return <Dossier styleId={selection.style} selection={selection} setSelection={setSelection} onCite={onCite} />;
 }
 

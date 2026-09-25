@@ -1,0 +1,11 @@
+{
+  "id": "massing-storeys",
+  "term": "storeys",
+  "family": "house",
+  "definition": "How many floors a massing stands, as its record states it: a whole number, a half storey under the roof, or a range where the type is built at more than one height.",
+  "kind": "editorial",
+  "basis": "schema/massing.schema.json, the stories field: \"e.g. '1', '1.5', '2', '2.5', '1-2'.\"",
+  "see": [
+    "term:massing"
+  ]
+}

@@ -13,6 +13,7 @@
       "Open a slot to read its variants, the styles that specify it, and the faults filed against it.",
       "A room, a massing, a grouping or a plan type opens as a record of its own from here."
     ],
+    "try": "slot:cornice",
     "ask": [
       "Which styles specify this slot, and which forbid it?",
       "What are the variants of a roof form?",

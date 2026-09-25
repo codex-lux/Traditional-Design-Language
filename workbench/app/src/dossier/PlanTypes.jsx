@@ -13,8 +13,9 @@
    diagram a place among the candidates. The link's word and its description are the glossary
    record `start-a-brief-from-a-plan-type`'s; an anchor cannot hold a `Term`, which is a button,
    so the word is read as the record's own `term`, as the journey bar's steps read theirs. Each
-   row's nativity is the served one, worded by its own record, never decided here. The groupings
-   are named, with their ids beside them, and not linked. */
+   row's nativity is the served one, worded by its own record, never decided here. Each massing,
+   parti and grouping is a RecordLink to its own record page since WP-14.23 (tranche 2 §B.1): the
+   name first, the id beside it. */
 import React from 'react';
 import { Term, useTermDescription } from '../components/Term.jsx';
 import { VariantPill } from '../components/VariantPill.jsx';
@@ -22,6 +23,7 @@ import { useGlossary } from '../api/useGlossary.js';
 import { termView } from '../glossary/termView.js';
 import { formatHash } from '../router.js';
 import { NATIVITY_TERMS } from '../candidateOrder.js';
+import { RecordLink } from '../components/RecordLink.jsx';
 import { Section, quiet, data } from './parts.jsx';
 
 export const START_BRIEF_TERM = 'start-a-brief-from-a-plan-type';
@@ -43,11 +45,12 @@ function StartBrief({ styleId, partiId }) {
   );
 }
 
-function Named({ name, id, note, attr }) {
+function Named({ cite, name, id, note, attr }) {
   return (
     <div {...{ [attr]: id }} style={{ padding: '3px 0' }}>
-      <span style={{ font: 'var(--fw-reg) 14px/1.4 var(--serif)', color: 'var(--ink)' }}>{name || id}</span>
-      <span className="tdl-record-note">{id}</span>
+      <span style={{ font: 'var(--fw-reg) 14px/1.4 var(--serif)' }}>
+        <RecordLink cite={cite}>{name || undefined}</RecordLink>
+      </span>
       {note && <p style={{ ...quiet, fontSize: 12.5, marginTop: 2 }}>{note}</p>}
     </div>
   );
@@ -65,8 +68,8 @@ export function PlanTypes({ dossier }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
             {affs.map((m) => (
               <span key={m.massing} data-massing={m.massing} style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
-                <VariantPill ladder="affinity" name={'massing:' + m.massing} status={m.affinity} />
-                {m.massing_name && <span style={data}>{m.massing_name}</span>}
+                <RecordLink cite={'massing:' + m.massing}>{m.massing_name || undefined}</RecordLink>
+                <VariantPill ladder="affinity" status={m.affinity} />
               </span>
             ))}
           </div>
@@ -76,7 +79,7 @@ export function PlanTypes({ dossier }) {
         <Section eyebrow={<><Term id="parti" /> · {partis.length}</>}>
           {partis.map((p) => (
             <React.Fragment key={p.id}>
-              <Named id={p.id} name={p.name} attr="data-parti" />
+              <Named cite={'parti:' + p.id} id={p.id} name={p.name} attr="data-parti" />
               <div data-parti-start={p.id} data-nativity={p.nativity || undefined}
                 style={{ display: 'flex', gap: 12, alignItems: 'baseline', margin: '0 0 6px' }}>
                 {NATIVITY_TERMS[p.nativity] && <Term id={NATIVITY_TERMS[p.nativity]} />}
@@ -88,7 +91,7 @@ export function PlanTypes({ dossier }) {
       )}
       {groupings.length > 0 && (
         <Section eyebrow={<><Term id="grouping" /> · {groupings.length}</>}>
-          {groupings.map((g) => <Named key={g.id} id={g.id} name={g.name} note={g.note} attr="data-grouping" />)}
+          {groupings.map((g) => <Named key={g.id} cite={'grouping:' + g.id} id={g.id} name={g.name} note={g.note} attr="data-grouping" />)}
         </Section>
       )}
     </div>

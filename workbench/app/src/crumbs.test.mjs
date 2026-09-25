@@ -37,13 +37,23 @@ const NODE = new Map(NODES.map((n) => [n.id, n]));
 const SLOTS = read('elements/slots.json').groups.flatMap((g) => g.slots);
 const PACK = read('proportions/systems/trim-classical.json');
 const FAULT = read('faults/porch-too-shallow-to-inhabit.json');
+// one record of each plan-type kind, read from its own file (WP-14.23)
+const ROOM = read('rooms/parlor.json');
+const MASSING = read('massings/catalog.json').find((m) => m.id === 'center-passage-single-pile');
+const GROUPING = read('groupings/centre-passage-core.json');
+const PARTI = read('partis/centre-passage-double-pile.json');
 
-// the search index's entries, as far as the trail reads them: every style, slot, the pack, the fault
+// the search index's entries, as far as the trail reads them: every style, slot, the pack, the
+// fault, and one record of each plan-type kind
 const ENTRIES = [
   ...NODES.map((n) => ({ cite: `style:${n.id}`, kind: 'style', id: n.id, name: n.name })),
   ...SLOTS.map((s) => ({ cite: `slot:${s.id}`, kind: 'slot', id: s.id, name: s.name })),
   { cite: `pack:${PACK.id}`, kind: 'pack', id: PACK.id, name: PACK.name },
   { cite: `fault:${FAULT.id}`, kind: 'fault', id: FAULT.id, name: FAULT.name },
+  { cite: `room:${ROOM.id}`, kind: 'room', id: ROOM.id, name: ROOM.name },
+  { cite: `massing:${MASSING.id}`, kind: 'massing', id: MASSING.id, name: MASSING.name },
+  { cite: `grouping:${GROUPING.id}`, kind: 'grouping', id: GROUPING.id, name: GROUPING.name },
+  { cite: `parti:${PARTI.id}`, kind: 'parti', id: PARTI.id, name: PARTI.name },
 ];
 
 /* The filing, walked here on its own from the records — the test's reading, not the module's. */
@@ -152,8 +162,25 @@ test('§F.3’s table, place by place', () => {
   const L = (hash) => labels(crumbsFor(at(hash), opts));
   assert.deepEqual(L('#/'), []);
   assert.deepEqual(L('#/style'), [TERM('nav-group-styles'), TERM('surface-style')]);
-  assert.deepEqual(L('#/style/-/kit/cornice'),
-    [TERM('nav-group-styles'), TERM('surface-style'), TERM('section-kit'), 'Main cornice']);
+  // a slot with no style is its record page in the Elements index (WP-14.23, tranche 2 §B.4),
+  // and its tranche-1 address reads as that place
+  assert.deepEqual(L('#/elements/cornice'),
+    [TERM('nav-group-library'), TERM('surface-elements'), 'Main cornice']);
+  assert.deepEqual(L('#/style/-/kit/cornice'), L('#/elements/cornice'));
+  assert.deepEqual(L('#/elements'), [TERM('nav-group-library'), TERM('surface-elements')]);
+  // a plan-type record: Library > Elements > the record; its kind is the page head's eyebrow
+  for (const [path, rec] of [['room', ROOM], ['massing', MASSING], ['grouping', GROUPING], ['parti', PARTI]]) {
+    assert.deepEqual(L(`#/${path}/${rec.id}`), [TERM('nav-group-library'), TERM('surface-elements'), rec.name], path);
+    // the bare surface is its kind's index, named by the kind's own surface record
+    assert.deepEqual(L(`#/${path}`), [TERM('nav-group-library'), TERM('surface-elements'), TERM(`surface-${path}`)], path);
+    const cs = crumbsFor(at(`#/${path}/${rec.id}`), opts);
+    assert.equal(cs[1].href, '#/elements', `${path}: the Elements crumb does not lead to the index`);
+    assert.equal(cs[cs.length - 1].href, null);
+    assert.equal(cs[cs.length - 1].cite, `${path === 'room' ? 'room' : path}:${rec.id}`);
+  }
+  // and a kept tranche-1 record address reads as the record page's trail
+  assert.deepEqual(L(`#/workbench?roomType=${ROOM.id}`), L(`#/room/${ROOM.id}`));
+  assert.deepEqual(L(`#/phylogeny?massing=${MASSING.id}`), L(`#/massing/${MASSING.id}`));
   assert.deepEqual(L('#/phylogeny'), [TERM('nav-group-styles'), TERM('surface-phylogeny')]);
   assert.deepEqual(L('#/phylogeny/craftsman'),
     [TERM('nav-group-styles'), TERM('surface-phylogeny'), NODE.get('craftsman').name]);

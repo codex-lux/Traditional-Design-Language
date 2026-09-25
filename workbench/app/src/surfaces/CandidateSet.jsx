@@ -23,7 +23,6 @@ import { ConflictSet } from '../components/ConflictSet.jsx';
 import { readRefusal, refusalHeadline, errorText } from '../sheet/refusal.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
-import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { ORDERS, order, isNative, nativityOf } from '../candidateOrder.js';
 import { Term } from '../components/Term.jsx';
@@ -200,9 +199,6 @@ export function CandidateSet({ onCite, go, selection }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <Spotlight kind="parti" id={selection?.parti}
-        note="a plan diagram — the candidates below name the parti each was composed from"
-        onDismiss={() => nav.select({ parti: null })} />
       <FilterStrip right={
         <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
           returned {cands.length} of {askedFor} asked for

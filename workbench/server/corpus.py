@@ -866,6 +866,99 @@ def dossier_plan_types(style_id):
     return {"massing_affinities": affs, "partis": partis, "groupings": groupings}
 
 
+# ----------------------------------------------------------------- record pages (WP-14.23)
+#
+# Tranche 2 PRD §C.6. Five kinds of record have a page of their own -- a slot in the Elements
+# index, and the four plan-type records -- and each page shows its relation to the others FROM
+# BOTH SIDES. The forward relation lives on one record (a style names its massing affinities, a
+# parti names its groupings, a grouping names its rooms, a parti names the styles it was drawn
+# for) and the inverse is COMPUTED from it here or in core, never authored a second time, so the
+# two sides cannot disagree; `workbench/server/tests/test_record_pages.py` holds each pair.
+#
+# THE MCP PAYLOADS ARE UNTOUCHED. `tdl_get_slot` and `tdl_get_grouping` serve `core.get_slot` and
+# `core.get_grouping`, which build a fresh dict per call; the workbench's routes enrich their own
+# copy, exactly as `style()` above does, and never write into a record core holds.
+
+def _slot_binding(rec):
+    """A RESOLVED kit record's binding as a record page reads it: `specified`, `forbidden`, or None
+    for a slot the style leaves open. A DANGLING `extends` -- a diff with nothing upstream to merge
+    into -- is honoured by `resolve_kit.resolve_slots` "as if specified" (its own words), so it is
+    read here as it resolves and not as it is spelled."""
+    b = rec.get("binding")
+    if b == "specified" or (b == "extends" and rec.get("_dangling_extends")):
+        return "specified"
+    if b == "forbidden":
+        return "forbidden"
+    return None
+
+
+def _resolved_bindings():
+    """slot id -> {"specified": [style ids], "forbidden": [style ids]}, over every style's RESOLVED
+    kit (`core._resolved_kit`, the cascade), each list in id order.
+
+    NOT `core.get_slot`'s `specified_by_styles`, which reads each node's OWN kit file and counts
+    every record whose status is not empty -- so it lists a style that FORBIDS the slot as one that
+    specifies it, and misses every style that inherits the slot from an ancestor. That payload is
+    MCP's and is left byte-stable; `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`
+    carries the disagreement. The first call resolves every kit (about two seconds, measured);
+    `core._resolved_kit` caches each, and `invalidate()` clears that cache."""
+    D = core._data()
+    out = {sid: {"specified": [], "forbidden": []} for sid in D["slots"]}
+    for style_id in sorted(D["styles"]):
+        kit = core._resolved_kit(style_id)
+        if not kit:
+            continue
+        for sid, rec in kit.items():
+            b = _slot_binding(rec)
+            if b and sid in out:
+                out[sid][b].append(style_id)
+    return out
+
+
+def slots_index():
+    """`GET /api/slots` (§C.6): every slot row exactly as `core.get_slot` serves its `slot`, in the
+    ontology's own order, plus `specified_by` -- the COUNT of styles whose resolved kit binds it
+    specified, computed and never typed -- and the slot groups the rows are filed under."""
+    D = core._data()
+    bound = _resolved_bindings()
+    rows = []
+    for sid, s in D["slots"].items():
+        row = core.copy_json(s)        # never write into core's own record
+        row["specified_by"] = len(bound[sid]["specified"])
+        rows.append(row)
+    return {"groups": core.copy_json(D["groups"]), "slots": rows}
+
+
+def slot(slot_id):
+    """`GET /api/slots/{id}`: `core.get_slot`, plus `bindings` -- the styles whose RESOLVED kit
+    specifies the slot and those whose resolved kit forbids it (`_resolved_bindings`). The slot's
+    record page reads `bindings`; `specified_by_styles` is served beside it unchanged, because it
+    is `tdl_get_slot`'s field and that payload is held byte-stable."""
+    out = core.get_slot(slot_id)
+    if not isinstance(out, dict) or "error" in out:
+        return out
+    b = _resolved_bindings()[slot_id]
+    out["bindings"] = {
+        "specified": b["specified"],
+        "forbidden": b["forbidden"],
+        "note": ("Read from each style's resolved kit, after the lineage cascade: a style that "
+                 "inherits the slot from an ancestor is counted with the ancestor's binding."),
+    }
+    return out
+
+
+def grouping(grouping_id, style=None):
+    """`GET /api/groupings/{id}`: `core.get_grouping`, plus `carried_by` -- the partis whose own
+    `groupings` name this one, in id order (§C.6). The inverse of the parti's field, read from it."""
+    out = core.get_grouping(grouping_id=grouping_id, style=style)
+    if not isinstance(out, dict) or "error" in out:
+        return out
+    out["carried_by"] = [{"id": p["id"], "name": p.get("name")}
+                         for p in sorted(core._all_partis(), key=lambda p: p["id"])
+                         if grouping_id in (p.get("groupings") or [])]
+    return out
+
+
 def style_dossier(style_id):
     """What a Style Dossier's head and section strip need, as COUNTS (PRD §H.4, §D.2).
 

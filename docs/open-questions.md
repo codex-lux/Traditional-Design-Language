@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**230 questions, of which 129 are open.** A question is OPEN while
+**231 questions, of which 130 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 129
+## Open — 130
 
 Awaiting a ruling. This is the list to read first.
 
@@ -149,6 +149,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-search-is-refused-on-type-facts-nothing-tells-it** | OPEN | [the gate reads four facts and the search scores one of them](open-questions/oq-the-search-is-refused-on-type-facts-nothing-tells-it.md) |
 | **oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in** | OPEN | [the OQ 52 family in the placer's own objective](open-questions/oq-the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in.md) |
 | **oq/the-servicing-layer-does-not-know-about-massing-elements** | OPEN | [a wet pair across a 27 ft gap](open-questions/oq-the-servicing-layer-does-not-know-about-massing-elements.md) |
+| **oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it** | OPEN | [`tdl_get_slot`'s `specified_by_styles` reads each style's own kit file, counts a forbidden binding as a specification, and misses every inherited one](open-questions/oq-the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it.md) |
 | **oq/the-span-count-and-the-span-marks-read-membership-two-ways** | OPEN | [one record, two answers to "which element is this room in"](open-questions/oq-the-span-count-and-the-span-marks-read-membership-two-ways.md) |
 | **oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left** | OPEN | [a terrace on the east of a west wing](open-questions/oq-the-terraces-declared-faces-were-written-for-a-house-its-room-has-left.md) |
 | **oq/the-tiling-fact-cannot-hold-on-a-rounded-or-derived-massing-element** | OPEN | [the prover is asked to tile a box it cannot reach and a box it drew around its own rooms](open-questions/oq-the-tiling-fact-cannot-hold-on-a-rounded-or-derived-massing-element.md) |

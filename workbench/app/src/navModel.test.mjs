@@ -18,7 +18,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import {
-  NAV, navModel, headTermFor, guidedExampleStyle, inHandFrom, flatItems, normalizePlace, wordFor,
+  NAV, UNDER, navModel, headTermFor, guidedExampleStyle, inHandFrom, flatItems, normalizePlace, wordFor,
 } from './nav/navModel.js';
 import { indexTerms } from './glossary/lookup.js';
 import { JOURNEY, journeyState } from './journey/journey.js';
@@ -58,7 +58,7 @@ test('the groups and items are §F.1’s, in order, and every record they name e
     ['overview'],
     ['style', 'in-hand', 'phylogeny'],
     ['brief', 'candidates', 'workbench', 'drawings', 'export'],
-    ['proportions', 'faults', 'glossary'],
+    ['proportions', 'faults', 'elements', 'glossary'],
   ]);
   const wb = NAV[2].items.find((i) => i.id === 'workbench');
   assert.deepEqual(wb.children.map((c) => c.id), ['transcription'], 'Trace a drawing is nested under the plan');
@@ -256,7 +256,15 @@ test('at most one item is current, and it is the one §F.2 names', () => {
     ['#/', null, 'overview'],
     ['#/style', null, 'style'],
     ['#/style/-/kit', null, 'style'],
-    ['#/style/-/kit/cornice', null, 'style'],
+    ['#/style/-/kit/cornice', null, 'elements'],
+    ['#/elements', null, 'elements'],
+    ['#/elements/cornice', null, 'elements'],
+    ['#/room', null, 'elements'],
+    ['#/room/parlor', null, 'elements'],
+    ['#/massing/center-passage-single-pile', null, 'elements'],
+    ['#/grouping/centre-passage-core', null, 'elements'],
+    ['#/parti/centre-passage-double-pile', null, 'elements'],
+    ['#/workbench?roomType=parlor', null, 'elements'],
     ['#/style/tidewater-georgian', DOSSIER, 'in-hand:identify'],
     ['#/style/tidewater-georgian/kit/cornice', DOSSIER, 'in-hand:kit'],
     ['#/style/tidewater-georgian/faults', DOSSIER, 'in-hand:faults'],
@@ -264,7 +272,7 @@ test('at most one item is current, and it is the one §F.2 names', () => {
     ['#/style/tidewater-georgian/kit', null, 'in-hand'],
     ['#/style/craftsman', { ...DOSSIER, id: 'craftsman' }, null],
     ['#/kit/tidewater-georgian/cornice', DOSSIER, 'in-hand:kit'],
-    ['#/kit/-/cornice', null, 'style'],
+    ['#/kit/-/cornice', null, 'elements'],
     ['#/phylogeny/craftsman', null, 'phylogeny'],
     ['#/brief', null, 'brief'],
     ['#/candidates/2', null, 'candidates'],
@@ -288,7 +296,14 @@ test('the page head is read from the record §F.2 names, and every one it can na
   assert.equal(headTermFor(at('#/')), 'surface-overview');
   assert.equal(headTermFor(at('#/style')), 'surface-style');
   assert.equal(headTermFor(at('#/style/-/kit')), 'surface-style');
-  assert.equal(headTermFor(at('#/style/-/kit/cornice')), 'section-kit');
+  // a slot with no style is the Elements slot page since WP-14.23 (tranche 2 §B.2)
+  assert.equal(headTermFor(at('#/style/-/kit/cornice')), 'surface-elements');
+  assert.equal(headTermFor(at('#/elements/cornice')), 'surface-elements');
+  // a record page's head is its KIND's surface record: the kind is the eyebrow (§B.4)
+  for (const s of ['room', 'massing', 'grouping', 'parti']) {
+    assert.equal(headTermFor({ surface: s, selection: {} }), `surface-${s}`);
+  }
+  assert.equal(headTermFor(at('#/candidates?parti=centre-passage-double-pile')), 'surface-parti');
   assert.equal(headTermFor(at('#/style/craftsman')), 'section-identify');
   assert.equal(headTermFor(at('#/style/craftsman/lineage')), 'section-lineage');
   assert.equal(headTermFor(at('#/kit/craftsman/cornice')), 'section-kit');
@@ -300,9 +315,38 @@ test('the page head is read from the record §F.2 names, and every one it can na
   for (const id of names) assert.ok(BY_ID.has(id), `the head for some place reads ${id}, which exists`);
 });
 
+/* EVERY ROUTED SURFACE HAS ITS OWN HEAD RECORD, BY NAME (WP-14.23). The loop above collects the
+   heads every surface can name and holds each to a record; this states the rule it rests on
+   directly, so deleting one surface's record fails with that surface named rather than inside a
+   set: a page with no `surface-<id>` record has no eyebrow, no lede and no "how to read this". */
+test('every surface the router routes has a surface-<id> record of its own', () => {
+  const missing = Object.keys(SURFACE_PATHS).filter((s) => !BY_ID.has(`surface-${s}`));
+  assert.deepEqual(missing, [], `no surface record for: ${missing.join(', ')}`);
+  for (const s of Object.keys(SURFACE_PATHS)) {
+    assert.equal(BY_ID.get(`surface-${s}`).family, 'surface', s);
+  }
+});
+
+/* A record page has no rail item and stands under Elements (§B.4): the rail marks Elements while
+   one is shown, and the item it stands under exists in the site map. */
+test('the record pages stand under Elements, which the site map lists', () => {
+  for (const [surface, under] of Object.entries(UNDER)) {
+    assert.ok(surface in SURFACE_PATHS, `${surface} is under ${under} and has no route`);
+    assert.ok(flatItems(navModel({ lookup: LOOKUP, place: at('#/') })).some((it) => it.id === under),
+      `${surface} stands under ${under}, which is not in the site map`);
+    assert.ok(!NAV.some((g) => g.items.some((it) => it.surface === surface)), `${surface} has a rail item of its own`);
+  }
+  assert.ok(Object.isFrozen(UNDER));
+});
+
 test('the legacy kit address is read as the place it names', () => {
   assert.deepEqual(normalizePlace(at('#/kit/craftsman/cornice')),
     { surface: 'style', selection: { style: 'craftsman', slot: 'cornice', section: 'kit' } });
+  // a place built by hand with a retired record address is read as the record page
+  assert.deepEqual(normalizePlace({ surface: 'workbench', selection: { roomType: 'parlor' } }),
+    { surface: 'room', selection: { roomType: 'parlor' } });
+  assert.deepEqual(normalizePlace({ surface: 'style', selection: { section: 'kit', slot: 'cornice' } }),
+    { surface: 'elements', selection: { slot: 'cornice' } });
   assert.deepEqual(normalizePlace(at('#/kit')), { surface: 'style', selection: {} });
   assert.deepEqual(normalizePlace(at('#/faults')), { surface: 'faults', selection: {} });
 });

@@ -17,7 +17,6 @@ import { Term } from '../components/Term.jsx';
 import { TRADITION_HUES, traditionOf } from '../styles/taxa.js';
 import { carriesKit, glyphEdge, filingEdgeOf, groupByCarry } from '../lineage/carry.js';
 import { nav } from '../state/nav.js';
-import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, PaneStub, FoldControl, ActionChip } from '../Chrome.jsx';
 import { Splitter } from '../components/Splitter.jsx';
 import { layout } from '../state/layout.js';
@@ -186,9 +185,6 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <Spotlight kind="massing" id={selection?.massing}
-        note="a massing from the catalogue — a style's affinities for it are listed on its full record"
-        onDismiss={() => nav.select({ massing: null })} />
       <FilterStrip filters={filters} right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           {/* THE WAY OUT LIVES HERE, not only in the atlas's legend.

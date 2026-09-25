@@ -56,11 +56,14 @@ test('a style names its dossier, whatever section or slot rides with it', () => 
   }
 });
 
-test('no style, the kit section and a slot is the slot panel -- and only that combination', () => {
-  assert.equal(placeOf(parseHash('#/style/-/kit/cornice').selection), 'slot');
-  assert.equal(placeOf({ section: 'kit', slot: 'cornice' }), 'slot');
-  assert.equal(placeOf({ section: 'lineage', slot: 'cornice' }), 'index',
-    'a slot outside the kit section opened the slot panel');
+/* The slot panel is not a style place any more (WP-14.23, tranche 2 §B.2): a slot with no style
+   is its record page in the Elements index, and the router reads the old address as that page
+   before the style surface is shown it. On the style surface, no style is the index, whatever
+   rides beside it. */
+test('no style is the Styles index, and a slot with no style is not a style place at all', () => {
+  assert.deepEqual(parseHash('#/style/-/kit/cornice'), { surface: 'elements', selection: { slot: 'cornice' }, params: {} });
+  assert.equal(placeOf({ section: 'kit', slot: 'cornice' }), 'index');
+  assert.equal(placeOf({ section: 'lineage', slot: 'cornice' }), 'index');
   assert.equal(placeOf({ slot: 'cornice' }), 'index');
 });
 
@@ -80,7 +83,7 @@ test('placeOf is the site map\'s reading of a style place, a blank id included',
   for (const c of cases) assert.equal(placeOf(c), stylePlaceKind(c), JSON.stringify(c));
   assert.equal(placeOf({ style: ' ' }), 'index', 'a blank style id opened a dossier');
   assert.equal(placeOf(parseHash('#/style/%20').selection), 'index', '#/style/%20 opened a dossier');
-  assert.equal(placeOf({ section: 'kit', slot: ' ' }), 'index', 'a blank slot opened the slot panel');
+  assert.equal(placeOf({ section: 'kit', slot: ' ' }), 'index');
 });
 
 // ── the strip: the payload's sections, in the vocabulary's order, never at zero ────────────────

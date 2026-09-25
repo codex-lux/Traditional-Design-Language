@@ -30,7 +30,16 @@ import { routeCite, citeFor } from './citations.js';
 
    There is no `kit` surface (WP-14.12): the kit is a SECTION of the style's dossier now
    (#/style/<id>/kit/<slot>), and `#/kit/...` is an alias, read by LEGACY_PATHS below and never
-   written. */
+   written.
+
+   THE RECORD PAGES (WP-14.23, tranche 2 PRD §B.1). `elements` is the index of the element slots
+   and, with a slot, that slot's own page (#/elements/cornice); `room`, `massing`, `grouping` and
+   `parti` are one record each (#/room/parlor), and each bare address is that kind's index, never
+   a default record. Their one positional key is the selection key the citation already carried
+   (`roomType`, because `room` names a PLACED room on the bench and `plan:` cites it), so a record
+   page is the same (kind, id) pair the grammar always spoke, given a place of its own. Until they
+   existed these citations landed on a surface that could not show them, under a "searched"
+   banner. */
 export const SURFACE_PATHS = {
   overview: { path: '', keys: [] },
   phylogeny: { path: 'phylogeny', keys: ['style'] },
@@ -44,6 +53,11 @@ export const SURFACE_PATHS = {
   drawings: { path: 'drawings', keys: [] },
   export: { path: 'export', keys: [] },
   transcription: { path: 'transcription', keys: [] },
+  elements: { path: 'elements', keys: ['slot'] },
+  room: { path: 'room', keys: ['roomType'] },
+  massing: { path: 'massing', keys: ['massing'] },
+  grouping: { path: 'grouping', keys: ['grouping'] },
+  parti: { path: 'parti', keys: ['parti'] },
 };
 
 /* The empty path, and where an unreadable one lands. */
@@ -84,11 +98,73 @@ function fromLegacy(legacy, selection) {
   return named ? { ...sel, section: legacy.section } : sel;
 }
 
-/* Does this hash open with a retired path? `nav.canonicalize` asks, and rewrites it. */
+/* PLACES THAT WERE A RECORD'S ONLY ADDRESS AND ARE ALIASES NOW (WP-14.23, tranche 2 PRD §B.3).
+
+   Until the record pages existed, `routeCite` sent a slot, a room, a grouping, a massing and a
+   parti to a surface that held the id in its selection and could not show the record: the slot
+   panel under the Styles index (`#/style/-/kit/<slot>`), the bench (`#/workbench?roomType=`,
+   `#/workbench?grouping=`), the family tree (`#/phylogeny?massing=`) and the candidates
+   (`#/candidates?parti=`). People kept those links. Each is READ as the record page it meant and
+   rewritten in the address bar by `replaceState` through `state/nav.js`, exactly as `#/kit/...`
+   is, and `formatHash` writes the new address for one, so no writer mints an old one again.
+
+   ONE ROW PER (SURFACE, KEY), NOT A BRANCH. `surface` and `key` are the old place and the
+   selection key it carried; `to` the record surface, whose one path key is that same key (the
+   router-unit suite holds that, so the id rides across unrenamed); `also` what else the old
+   address had to hold to be that place (the slot panel was the kit SECTION with no style). A row
+   applies only when the old selection holds its key, its `also`, and NOTHING ELSE: those are the
+   addresses the old `routeCite` wrote, and a hand-built address naming more than one record is
+   not one of them, so it is left standing rather than read as half of what it said. The old
+   place's filters do not travel -- a surface boundary drops them, as `nav.go` does.
+
+   `#/brief?parti=<id>` is NOT here: it is the parti bridge's seed (§C.5), a live place and not a
+   retired one. */
+const placeRow = (surface, key, to, also) => Object.freeze({ surface, key, to, also: Object.freeze(also || {}) });
+export const LEGACY_PLACES = Object.freeze([
+  placeRow('style', 'slot', 'elements', { section: 'kit' }),
+  placeRow('workbench', 'roomType', 'room'),
+  placeRow('workbench', 'grouping', 'grouping'),
+  placeRow('phylogeny', 'massing', 'massing'),
+  placeRow('candidates', 'parti', 'parti'),
+]);
+
+const filled = (v) => v != null && v !== '';
+
+/* The LEGACY_PLACES row this (surface, selection) is, or null. */
+export function legacyPlaceOf(surface, selection) {
+  const sel = selection && typeof selection === 'object' ? selection : {};
+  const held = Object.keys(sel).filter((k) => filled(sel[k]));
+  for (const row of LEGACY_PLACES) {
+    if (row.surface !== surface || !filled(sel[row.key])) continue;
+    if (!Object.entries(row.also).every(([k, v]) => sel[k] === v)) continue;
+    const allowed = new Set([row.key, ...Object.keys(row.also)]);
+    if (held.every((k) => allowed.has(k))) return row;
+  }
+  return null;
+}
+
+/* Any place → the place the app lives at: a retired surface id (LEGACY_PATHS) read as the place
+   it names, then a retired record address (LEGACY_PLACES) read as the record page. A canonical
+   place comes back as it was. The one rule `parseHash` and `formatHash` both apply, and the one
+   `nav/navModel.js::normalizePlace` reads, so the URL, the rail and the crumbs cannot name one
+   place two ways. */
+export function canonicalPlace(surface, selection, params) {
+  const legacy = legacyOf(surface);
+  const sel = legacy ? fromLegacy(legacy, selection) : { ...(selection || {}) };
+  const target = legacy ? legacy.to : surface;
+  const row = legacyPlaceOf(target, sel);
+  if (row) return { surface: row.to, selection: { [row.key]: sel[row.key] }, params: {} };
+  return { surface: target, selection: sel, params: { ...(params || {}) } };
+}
+
+/* Does this hash open with a retired path, or name a retired record address? `nav.canonicalize`
+   asks, and rewrites it. */
 export function isLegacyHash(hash) {
   const raw = String(hash || '').replace(/^#/, '');
   const first = raw.split('?')[0].split('/').filter((s) => s !== '')[0];
-  return legacyOf(first) !== null;
+  if (legacyOf(first) !== null) return true;
+  const p = readHash(hash);
+  return legacyPlaceOf(p.surface, p.selection) !== null;
 }
 
 /* Selection keys are the ones routeCite() can produce. Anything else in the query
@@ -117,9 +193,18 @@ function coerce(key, value) {
 
 /* '#/style/tidewater-georgian/kit/door-main-entry?group=openings'
      → {surface:'style', selection:{style, section:'kit', slot}, params:{group}}
-   A legacy '#/kit/tidewater-georgian/door-main-entry' reads as the same place (LEGACY_PATHS).
-   An unreadable hash resolves to the default surface rather than a blank screen. */
+   A legacy '#/kit/tidewater-georgian/door-main-entry' reads as the same place (LEGACY_PATHS), and
+   a retired record address as its record page (LEGACY_PLACES): '#/workbench?roomType=parlor' is
+   {surface:'room', selection:{roomType:'parlor'}}. An unreadable hash resolves to the default
+   surface rather than a blank screen. */
 export function parseHash(hash) {
+  const p = readHash(hash);
+  return canonicalPlace(p.surface, p.selection, p.params);
+}
+
+/* The hash as written, a retired PATH already read as the surface it names but a retired record
+   ADDRESS not yet rewritten -- which is what `isLegacyHash` needs to see. */
+function readHash(hash) {
   const raw = String(hash || '').replace(/^#/, '');
   const qAt = raw.indexOf('?');
   const pathPart = qAt === -1 ? raw : raw.slice(0, qAt);
@@ -172,12 +257,14 @@ export function parseHash(hash) {
 /* A retired surface id is written as the place it now names: `formatHash('kit', {style, slot})`
    is the dossier's kit section. Nothing in the app should still say `kit`, but a caller that does
    (a rail item, a door, a palette entry) lands where the reader meant rather than on the Overview,
-   and the address it writes is the canonical one. */
+   and the address it writes is the canonical one. A retired record address is written the same
+   way: `formatHash('workbench', {roomType})` is the room's page (WP-14.23), and a slot panel with
+   its style cleared -- the dossier's picker set to none on a kit slot -- writes the slot's page. */
 export function formatHash(surface, selection, params) {
-  const legacy = legacyOf(surface);
-  const sel = legacy ? fromLegacy(legacy, selection) : (selection || {});
-  const target = legacy ? legacy.to : surface;
-  const spec = SURFACE_PATHS[target] ? target : DEFAULT_SURFACE;
+  const place = canonicalPlace(surface, selection, params);
+  const sel = place.selection;
+  params = place.params;
+  const spec = SURFACE_PATHS[place.surface] ? place.surface : DEFAULT_SURFACE;
   const { path, keys } = SURFACE_PATHS[spec];
 
   const segs = keys.map((k) => (sel[k] == null || sel[k] === '' ? ABSENT : encodeURIComponent(sel[k])));
@@ -201,9 +288,10 @@ export function formatHash(surface, selection, params) {
   return '#/' + [path, ...segs].filter((s) => s !== '').join('/') + (qs ? '?' + qs : '');
 }
 
-/* The address a legacy hash is rewritten to, or null for one that is not legacy. The query rides
-   along as it was, filters included: `#/kit/craftsman?q=porch` was the kit filtered to porch, and
-   so is the address it becomes. */
+/* The address a legacy hash is rewritten to, or null for one that is not legacy. A retired PATH
+   keeps its query, filters included: `#/kit/craftsman?q=porch` was the kit filtered to porch, and
+   so is the address it becomes. A retired record ADDRESS drops its query, because the filters
+   were the old surface's and the record page reads none of them (LEGACY_PLACES). */
 export function canonicalHash(hash) {
   if (!isLegacyHash(hash)) return null;
   const p = parseHash(hash);

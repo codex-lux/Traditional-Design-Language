@@ -77,12 +77,12 @@ export function routeCite(ref) {
       return { surface: 'style', selection: { style: c.id, section: KIT, slot: c.fragment } };
     }
     /* The kit is the dossier's KIT SECTION since WP-14.12 (PRD §E.3): `kit:<id>` opens it and
-       `kit:<id>#<slot>` opens that slot in it. `slot:<id>` names a slot with no style, which is
-       the slot panel — one slot across every style that specifies it — rather than, as it was,
-       Tidewater Georgian's kit, a style the citation never named. */
+       `kit:<id>#<slot>` opens that slot in it. `slot:<id>` names a slot with no style: since
+       WP-14.23 that is the slot's own record page in the Elements index (tranche 2 §B.2), where
+       tranche 1 parked it in the dossier's kit section with no style selected. */
     case 'kit': return { surface: 'style',
       selection: c.fragment ? { style: c.id, section: KIT, slot: c.fragment } : { style: c.id, section: KIT } };
-    case 'slot': return { surface: 'style', selection: { section: KIT, slot: c.id } };
+    case 'slot': return { surface: 'elements', selection: { slot: c.id } };
     case 'fault': return { surface: 'faults', selection: { fault: c.id } };
     case 'pack': return { surface: 'proportions', selection: { pack: c.id } };
     case 'candidate': return { surface: 'candidates', selection: { candidate: Number(c.id) } };
@@ -101,10 +101,14 @@ export function routeCite(ref) {
       return { surface: 'style', selection: { style, section: 'rules', constraint: c.id } };
     }
     case 'term': return { surface: 'glossary', selection: { term: c.id } };
-    case 'room': return { surface: 'workbench', selection: { roomType: c.id } };
-    case 'massing': return { surface: 'phylogeny', selection: { massing: c.id } };
-    case 'parti': return { surface: 'candidates', selection: { parti: c.id } };
-    case 'grouping': return { surface: 'workbench', selection: { grouping: c.id } };
+    /* The four plan-type kinds open their own record pages (WP-14.23, tranche 2 §B.2). Until
+       then each landed on a surface that was about something else — the bench, the phylogeny,
+       the candidate set — and a "searched" card floated the record over it. The addresses those
+       routes wrote are kept, and read as these places (router.js, LEGACY_PLACES). */
+    case 'room': return { surface: 'room', selection: { roomType: c.id } };
+    case 'massing': return { surface: 'massing', selection: { massing: c.id } };
+    case 'parti': return { surface: 'parti', selection: { parti: c.id } };
+    case 'grouping': return { surface: 'grouping', selection: { grouping: c.id } };
     /* A brief citation names one of the shipped example briefs, and the Brief Intake loads it
        from `?example=<id>` (WP-14.10, `place.params.example`). The id rides as a PARAM and not a
        selection key: the intake reads it from params, and adding a selection key would move it
@@ -144,9 +148,11 @@ export function citeFor(surface, selection, params) {
       // section it sits in.
       if (s.constraint) return 'constraint:' + s.constraint;
       /* The kit section is cited by the kit's own kinds (§E.3's second branch, WP-14.12): a
-         style's kit is `kit:<id>`, one slot in it `kit:<id>#<slot>`, and a slot with no style —
-         the slot panel — `slot:<id>`. `style:<id>#kit` and `style:<id>#<slot>` are aliases that
-         route here and are never minted. */
+         style's kit is `kit:<id>` and one slot in it `kit:<id>#<slot>`. `style:<id>#kit` and
+         `style:<id>#<slot>` are aliases that route here and are never minted. A kit section with
+         NO style is the tranche-1 address of a slot with no style, which the router rewrites to
+         the Elements page before any reader sees it (LEGACY_PLACES); should one reach here it is
+         still that slot, and `slot:<id>` is its name. */
       if (s.section === KIT) {
         if (s.style) return 'kit:' + s.style + (s.slot ? '#' + s.slot : '');
         return s.slot ? 'slot:' + s.slot : null;
@@ -165,12 +171,24 @@ export function citeFor(surface, selection, params) {
       if (s.fault) return 'fault:' + s.fault;
       return s.asset ? 'asset:' + s.asset : null;
     case 'proportions': return s.pack ? 'pack:' + s.pack : null;
+    /* The record pages (WP-14.23). A bare record surface is that kind's INDEX and no citation
+       names an index, so each answers null without its key. */
+    case 'elements': return s.slot ? 'slot:' + s.slot : null;
+    case 'room': return s.roomType ? 'room:' + s.roomType : null;
+    case 'massing': return s.massing ? 'massing:' + s.massing : null;
+    case 'grouping': return s.grouping ? 'grouping:' + s.grouping : null;
+    case 'parti': return s.parti ? 'parti:' + s.parti : null;
+    /* The three surfaces the plan-type kinds used to land on. Their old record keys are read as
+       the record pages by the router before a surface sees them (LEGACY_PLACES), so these
+       branches name what a surface holding such a key WOULD cite if one arrived by a route that
+       skips the router — the record, not the surface. Kept because the alternative is a place
+       that holds a key and cites nothing. */
     case 'candidates':
       if (s.parti) return 'parti:' + s.parti;
       return s.candidate != null ? 'candidate:' + s.candidate : null;
     case 'phylogeny':
       // A style on the phylogeny is not `style:` — that citation routes to the full
-      // record by a decision recorded above. Only the massing has an exact inverse here.
+      // record by a decision recorded above.
       return s.massing ? 'massing:' + s.massing : null;
     case 'workbench':
       if (s.finding) return 'finding:' + s.finding;

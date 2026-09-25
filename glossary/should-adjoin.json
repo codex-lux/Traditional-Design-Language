@@ -1,0 +1,12 @@
+{
+  "id": "should-adjoin",
+  "term": "should adjoin",
+  "family": "house",
+  "definition": "The rooms this room is better beside, each with the reason: a preference a plan may give up where something weightier needs the wall, and not a requirement.",
+  "kind": "editorial",
+  "basis": "schema/room.schema.json, the adjacency field: \"The join point to the plan-logic slot group, and the reason this catalogue exists. Rules are directional and typed.\"",
+  "see": [
+    "term:must-adjoin",
+    "term:must-not-adjoin"
+  ]
+}

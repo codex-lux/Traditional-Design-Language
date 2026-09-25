@@ -51,6 +51,8 @@ import { ExportDetails } from './surfaces/ExportDetails.jsx';
 import { Transcription } from './surfaces/Transcription.jsx';
 import { Overview } from './surfaces/Overview.jsx';
 import { Glossary } from './surfaces/Glossary.jsx';
+import { Elements } from './surfaces/Elements.jsx';
+import { RoomPage, MassingPage, GroupingPage, PartiPage } from './surfaces/RecordPage.jsx';
 
 const SURFACES = {
   overview: Overview,
@@ -65,6 +67,12 @@ const SURFACES = {
   export: ExportDetails,
   transcription: Transcription,
   glossary: Glossary,
+  // the Elements index and the four plan-type record pages (WP-14.23, tranche 2 §B)
+  elements: Elements,
+  room: RoomPage,
+  massing: MassingPage,
+  grouping: GroupingPage,
+  parti: PartiPage,
 };
 
 export default function App() {

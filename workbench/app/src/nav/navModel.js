@@ -35,7 +35,7 @@
 
    Pure: no React, no DOM, no fetch. `src/navModel.test.mjs` drives it with the glossary records
    read from `glossary/*.json`. */
-import { formatHash } from '../router.js';
+import { formatHash, canonicalPlace } from '../router.js';
 import { parseCite, DOSSIER_SECTIONS } from '../citations.js';
 import { JOURNEY } from '../journey/journey.js';
 import { isMissing } from '../glossary/lookup.js';
@@ -66,9 +66,21 @@ export const NAV = Object.freeze([
   group('library', 'nav-group-library', [
     item('proportions', 'proportions', 'surface-proportions'),
     item('faults', 'faults', 'surface-faults'),
+    item('elements', 'elements', 'surface-elements'),
     item('glossary', 'glossary', 'surface-glossary'),
   ]),
 ]);
+
+/* PLACES WITH NO RAIL ITEM, AND THE ITEM THEY STAND UNDER (WP-14.23, tranche 2 §B.4). The four
+   plan-type record pages are reached from a citation, a search result or the Elements index, not
+   from the rail; each stands under Elements, whose rail item is current while one is shown and
+   whose crumb heads its trail. Surface id -> the NAV item id it stands under. */
+export const UNDER = Object.freeze({
+  room: 'elements',
+  massing: 'elements',
+  grouping: 'elements',
+  parti: 'elements',
+});
 
 /* The separator between the in-hand style's name and the guided-example term. Punctuation, not
    a word. */
@@ -88,23 +100,19 @@ export function wordFor(lookup, termId) {
   return { label: rec.term, missing: null };
 }
 
-/* Where the reader is, as the style surface reads it. The `kit` surface is the kit section of a
-   style's dossier under its older address (`#/kit/<style>/<slot>`), which PRD §E.1 retires to
-   `#/style/<style>/kit/<slot>`. The retirement LANDED with WP-14.12. `router.parseHash` reads
-   `#/kit/...` as the style surface and `nav` rewrites the address bar, so no place the router
-   hands out says `kit` any more. The branch below stays for a caller that builds a place by hand
-   with the old surface id, and it reads that place as the place it names, so the rail, the crumbs
-   and the head still agree with the URL the reader will be sent to. */
+/* Where the reader is. A place the router hands out is already canonical, and a caller that
+   builds one by hand with a retired surface id (`kit`, §E.1, WP-14.12) or a retired record address
+   (the style-less kit slot, the bench's `roomType`, the phylogeny's `massing` ... -- tranche 2 §B.3,
+   WP-14.23) is read as the place it names by the router's OWN reader, `canonicalPlace`, so the
+   rail, the crumbs and the head agree with the URL the reader will be sent to. Until WP-14.23 this
+   function carried a second spelling of the `kit` rule; a second spelling is how the two
+   disagreed the day the router learned a new one. */
 export function normalizePlace(place) {
   const p = isObj(place) ? place : {};
   const surface = str(p.surface) || 'overview';
   const selection = isObj(p.selection) ? p.selection : {};
-  if (surface !== 'kit') return { surface, selection };
-  const sel = {};
-  if (str(selection.style)) sel.style = selection.style;
-  if (str(selection.slot)) sel.slot = selection.slot;
-  if (sel.style || sel.slot) sel.section = 'kit';
-  return { surface: 'style', selection: sel };
+  const c = canonicalPlace(surface, selection, {});
+  return { surface: c.surface, selection: c.selection };
 }
 
 /* The section a style place is on: a DOSSIER_SECTIONS id, `identify` where none is named or the
@@ -114,13 +122,14 @@ export function sectionOf(selection) {
   return s && DOSSIER_SECTIONS.includes(s) ? s : 'identify';
 }
 
-/* What kind of style place this is: the index, the one-slot panel, or a dossier. §E.2's order —
-   a style present is a dossier; no style, section kit and a slot is the slot panel; anything
-   else is the Styles index. */
+/* What kind of style place this is: a dossier where a style is named, and otherwise the Styles
+   index. §E.2 named a third, the one-slot panel for no style, the kit section and a slot; since
+   WP-14.23 that is the slot's record page in the Elements index (tranche 2 §B.2) and the router
+   rewrites the old address before the style surface is shown it, so the style surface no longer
+   has a third place to be. */
 export function stylePlaceKind(selection) {
   const sel = isObj(selection) ? selection : {};
   if (str(sel.style)) return 'dossier';
-  if (str(sel.section) === 'kit' && str(sel.slot)) return 'slot';
   return 'index';
 }
 
@@ -128,9 +137,7 @@ export function stylePlaceKind(selection) {
 export function headTermFor(place) {
   const { surface, selection } = normalizePlace(place);
   if (surface !== 'style') return `surface-${surface}`;
-  const kind = stylePlaceKind(selection);
-  if (kind === 'dossier') return `section-${sectionOf(selection)}`;
-  if (kind === 'slot') return 'section-kit';
+  if (stylePlaceKind(selection) === 'dossier') return `section-${sectionOf(selection)}`;
   return 'surface-style';
 }
 
@@ -169,6 +176,7 @@ const META = Object.freeze({
   style: ({ counts }) => num(isObj(counts) ? counts.styles : null),
   proportions: ({ counts }) => sumOf(isObj(counts) ? counts.proportion_packs : null),
   faults: ({ counts }) => num(isObj(counts) ? counts.faults : null),
+  elements: ({ counts }) => num(isObj(counts) ? counts.element_slots : null),
   glossary: ({ glossaryCount }) => num(glossaryCount),
 });
 
@@ -201,7 +209,7 @@ export function navModel({ lookup, counts, glossaryCount, inHand, dossier, journ
       : (stepOf(it.surface) !== null ? journeyWords(journey, it.surface) : null);
     const current = it.id === 'style'
       ? onStyle && styleKind !== 'dossier'
-      : here.surface === it.surface;
+      : here.surface === it.surface || UNDER[here.surface] === it.id;
     return {
       id: it.id,
       surface: it.surface,
