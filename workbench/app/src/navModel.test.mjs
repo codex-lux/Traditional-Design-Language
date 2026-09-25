@@ -181,7 +181,9 @@ test('the guided example is the first style cited by its own record', () => {
   assert.equal(guidedExampleStyle(without('guided-example')), null);
   assert.equal(guidedExampleStyle(null), null);
   const reordered = indexTerms({ terms: RECS.map((r) => (r.id === 'guided-example'
-    ? { ...r, see: ['brief:family-georgian', 'style:craftsman#kit', 'style:craftsman', 'style:tidewater-georgian'] } : r)) });
+    ? { ...r, see: ['brief:family-georgian', 'style:greek-revival-american#lineage', 'style:craftsman', 'style:tidewater-georgian'] } : r)) });
+  // a cite with a fragment names a PART of a style, so it is passed over; the fixture's fragment
+  // cite names a different style from the plain one, or the rule would be untested
   assert.equal(guidedExampleStyle(reordered), 'craftsman', 'the first plain style cite, read by the grammar');
 });
 

@@ -1162,7 +1162,10 @@ await page.waitForTimeout(1500);
 
 // ② Phylogeny
 await visit('#/phylogeny');
-await page.waitForSelector('text=compressed', { timeout: 15000 });
+// Scoped to <main> (WP-14.13): the shell's page head sits ABOVE main and carries the glossary's
+// own words about this page, folded after the first visit -- its hidden "How to read" line
+// mentions the compressed axis and, first in DOM order, is what a global text= wait resolved to.
+await page.waitForSelector('main >> text=compressed', { timeout: 15000 });
 const phylo = await page.locator('main').innerText();
 check('phylogeny names the missing trunks', /missing peer trunks/i.test(phylo));
 await shot('phylogeny');
@@ -1335,7 +1338,7 @@ await shot('proportions-order');
 // ⑨ Fault Corpus
 await visit('#/faults');
 await page.waitForSelector('text=solecisms', { timeout: 15000 });
-await page.waitForSelector('text=dishonest', { timeout: 15000 }).catch(() => {});
+await page.waitForSelector('main >> text=dishonest', { timeout: 15000 }).catch(() => {});
 const faults = await page.locator('main').innerText();
 check('fault corpus voice line present', /explaining an economy/i.test(faults));
 check('fix tiers named plainly', /dishonest/i.test(faults));
