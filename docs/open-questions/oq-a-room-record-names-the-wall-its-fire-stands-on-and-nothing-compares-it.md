@@ -60,3 +60,32 @@ inventing facts about fires.
 **Do not close this by deleting the dining room's disagreement.** Moving the Tidewater fire to an
 interior wall would make the corpus green and would remove the one instance anybody has looked at.
 The disagreement is the specimen.
+
+## Amendment (WP-14.21, 25 September 2026): item 4 now decides whether the worked house can place
+
+WP-14.21 tried to author a Tidewater plan that places, and could not. Report:
+`docs/reports/wp-14.21-the-worked-house-and-the-dining-fire.md`. The fact that decides it is this
+entry's specimen.
+
+**With the dining room's fire on the W gable, where the massing's paired end stacks put it**, the
+dining room must span the whole west range to reach the passage. The butler's pantry must door it,
+and then has no place inside its own size bands: it would need a side as long as the drawing room's
+sixteen-foot floor, against its fourteen-foot length ceiling. The proof is in the report's §III, and
+a solver model agrees. **With only the drawing room's fire on the gable**, the model finds a proper
+four-over-four at once: the dining room is set in from the gable, and the pantry stands on the gable
+in the hyphen's band. That is the house `rooms/dining-room.json` describes.
+
+**The trap below held, and it was measured once rather than taken.** One control put the dining
+room's fire on `interior`, labelled as the move this entry forbids.
+
+- The fire then reads **unjudged** under the massing's flue walls: `typefacts.hearth` has no flue to
+  hold an interior fire against.
+- The house was still refused, on tiling and bearing on the prover and on stacks on the search.
+
+So item 4 has a third half the entry did not list. If the room record's statement outranks the
+massing's, the massing must state a flue for an interior fire before the hearth fact can judge one.
+Until then that answer converts a downgraded fact into an unjudged one, which the WP-14.21 ruling
+names as laundering.
+
+`oq/the-worked-house-has-no-plan-that-places` is closed on this evidence, with its owner named as
+item 4 of this entry.

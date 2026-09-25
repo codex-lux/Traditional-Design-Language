@@ -1,6 +1,12 @@
 # oq/the-worked-house-has-no-plan-that-places — Tidewater Georgian is the guided example, and neither shipped plan may be drawn
 
-*Status: OPEN · Raised in: WP-14.0 (24 September 2026)*
+*Status: CLOSED 25 September 2026 (WP-14.21) — answer 3, the refusal is the example, on evidence · Raised in: WP-14.0 (24 September 2026)*
+
+**CLOSED ON ANSWER 3, AFTER ANSWER 1 WAS ATTEMPTED AND FAILED.** Lucas ruled on 25 September:
+*"Try to author one, with a stop rule"*. WP-14.21 tried both starting points and five variants, and
+stopped on the rule. No plan places. The fact that decides it is the house's own, and it waits on a
+ruling this question does not own. The amendment at the foot of this entry has the evidence. The
+reading below is kept as it was written, because it is the account of what was asked.
 
 **The finding.** Phase 14's audit found that the corpus holds one complete worked house and never
 presents it as one: Tidewater Georgian has a brief (`briefs/family-georgian.json`), a plan
@@ -112,3 +118,88 @@ whether or not the worked house ever places; it cannot tell that the `more` has 
 whichever answer closes this question must revise that record's `more` and its basis in the same
 commit — under answer 1 or 4 the sentence is simply wrong, and under answer 2 it must name the
 snapshot. Report: `docs/reports/wp-14.14-the-front-door-and-the-gate.md`.
+
+## Amendment (WP-14.21, 25 September 2026): answer 1 was attempted, and it closes this on answer 3
+
+Answer 1 was ruled on the day it was asked, with a stop rule: *"Try to author one, with a stop
+rule"*. A plan would count as placing only if all of these held:
+
+- the search refuses nothing;
+- `auto` at the batch budget refuses nothing on five of five runs;
+- the drawing set draws;
+- every type fact the careful record judges is held, and none goes unjudged.
+
+It could be reached only by admissible edits, each quoting a corpus file. The laundering the ruling
+lists was refused throughout. Report: `docs/reports/wp-14.21-the-worked-house-and-the-dining-fire.md`.
+
+**What was tried.**
+
+- A copy of the careful record (the record itself is untouched).
+- Three cumulative variants of it:
+  - the hyphen lengthened inside the back hall's band;
+  - the west range at its rooms' floors;
+  - the brief's fourth bedroom.
+- The composer's own native diagram for the example brief, revised on each engine, with the
+  massing's three end-wall fires stated.
+
+**What happened.**
+
+- Every placement was refused: by at least two facts on `auto`, and by at least one on the search.
+- The one variant on which the prover held all three fires and every stack (V3, four runs, the same
+  objective each time) held them by drawing the drawing room at the back of the house. Its return
+  to the front was proven infeasible, and it was refused on tiling and bearing.
+- The stop was reached on rules (c) and (d).
+
+**The fact that decides it, proved by hand in the report's §III.**
+
+- The four-over-four massing says *"Paired end chimneys serve four fireplaces per floor"*, so the
+  dining room's fire is on the west gable.
+- The dining room must then span the whole west range to reach the passage.
+- The butler's pantry must door the dining room, and stands in the block on its own record's word.
+  It then needs a side at least as long as the drawing room's sixteen-foot floor, against its own
+  fourteen-foot length ceiling.
+- A small solver model agrees:
+  - INFEASIBLE with both west fires, with or without the pantry's door to the hyphen;
+  - OPTIMAL with only the drawing room's fire on the gable, where it finds a proper four-over-four
+    with the pantry on the gable in the hyphen's band.
+
+**Where the remedy lives.** Which wall the dining room's fire stands on is item 4 of
+`oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it`:
+
+- the massing says the gable;
+- `rooms/dining-room.json` says *"the interior wall opposite the sideboard"*;
+- that entry's own trap forbids settling it by moving the fire to clear a finding.
+
+Measured once as a control, the interior fire reads unjudged under the massing's flue walls. So even
+that answer does not place the house, and the house is still refused on tiling and bearing.
+
+**The other refusals are the instruments', and each is owned elsewhere:**
+
+- the search is told nothing about the hearth or on-grid bearing:
+  `oq/the-search-is-refused-on-type-facts-nothing-tells-it`, raised here;
+- the prover's tiling of a massing element it rounded inward, or derived from its own rooms:
+  `oq/the-tiling-fact-cannot-hold-on-a-rounded-or-derived-massing-element`, raised here;
+- the stacking default: `oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted`.
+
+**Why answer 3 and not a fifth wait.**
+
+- Answer 1 now has a proof that it cannot succeed under the parti and the rooms' bands until item 4
+  is ruled.
+- Answer 2 would draw a house that no current placement produces.
+- Answer 4 changes which house the example is.
+
+The guided example therefore runs style, brief, candidates, plan, and stops at a named refusal. It
+now says why, and says that the reason is the house's.
+
+**The glossary record is revised in the same commit, as the WP-14.14 amendment required.**
+`glossary/guided-example.json`'s `more` now says why the example stops. Its basis now quotes:
+
+- the massing;
+- the parti;
+- `rooms/butlers-pantry.json`;
+- `rooms/dining-room.json`.
+
+**If item 4 is ruled for the gable, this question does not reopen.** That ruling leaves the proof
+standing, and the refusal stays the example. **If it is ruled for the interior wall**, the hearth
+fact must first judge a fire on a wall the massing states no flue for. After that, a worked house is
+a new attempt under a new question, not a reopening of this one.

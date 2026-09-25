@@ -4886,7 +4886,12 @@ set when it merges.
 - **WP-14.20 — small server truths.** `/api/health` states the session; an evaluation names its
   plan; no raw fetches; the sixteenth carry; `DimensionString` removed. Wave 1. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.20-small-server-truths.md`. `/api/health` carries `session`, the gate's own answer, and a signed-out boot makes no gated request: the walk's Gate block reads 0 answered 401, and deleting the branch turns it red. An evaluation names its plan through one `evalPlanOf`, and `oq/an-evaluation-whose-check-errored-names-no-plan` is closed on its answer 1. Both raw fetches go through `client.js`, and a test allows network calls there only. The sixteenth carries into the foot in both formatters; across 9,288 printed inch figures, including every MCP proportions payload, nothing moved. The health key set is pinned as tranche 1's ten plus `session`, lifted by name.
 - **WP-14.21 — the worked house, attempted.** Research, with a stop rule. Wave 1.
-  **Status: PLANNED.**
+  **Status: COMPLETE (25 Sep 2026), and the answer is no** — `docs/reports/wp-14.21-the-worked-house-and-the-dining-fire.md`.
+  - **What was tried.** Six variants, each with a quoted basis: the careful plan copied; a longer back hall; the west rooms at their size floors; plus the fourth bedroom; and the composer's own candidate, revised, with the fires stated. None placed on both engines, and no declared fact was edited to clear a refusal.
+  - **The refusal is the house's own.** The massing puts the dining room's fire on the west gable beside the drawing room's. The dining room then has to span the west range to reach the passage, which leaves the butler's pantry a side of at least 16 ft against its own 14 ft ceiling. The lane reasoned this by hand, and a small CP-SAT model independently finds it infeasible with both west fires and optimal with one.
+  - **The room record disagrees with the massing.** The dining room's own record puts its fire on the interior wall, and which of the two a plan follows is item 4 of an unruled question.
+  - **The rest is two instruments.** The stacks fail on the search, and the tiling fails on the prover's rounded and derived element boxes. Each is filed as a question.
+  - **Questions.** `oq/the-worked-house-has-no-plan-that-places` is closed on its answer 3: the refusal is the example. `glossary/guided-example.json` says so, in the same commit.
 - **WP-14.22 — the assistant sees the page.** Wave 2. **Status: PLANNED.**
 - **WP-14.23 — record pages and the Elements index.** Spotlight is retired. Wave 2.
   **Status: PLANNED.**
@@ -4897,7 +4902,7 @@ set when it merges.
 - **WP-14.27 — every pick writes the URL; no default record.** Also Faults read for one style, and
   Export's face picker. Wave 3. **Status: PLANNED.**
 - **WP-14.28 — the guided tour through the house.** Built only if WP-14.21 succeeds. Wave 3.
-  **Status: PLANNED.**
+  **Status: NOT BUILT (25 Sep 2026)** — WP-14.21 found no Tidewater plan that places without laundering, so the ruling's condition is unmet. The guided example stops at the refusal and says why; nothing promises a house.
 - **WP-14.29 — one meaning per hatch, one key.** Wave 3. **Status: PLANNED.**
 - **WP-14.30 — reading surfaces reflow at 1280.** Wave 4. **Status: PLANNED.**
 - **WP-14.31 — the last pass on type.** The copy ratchet to zero; readable text off the faint inks.
