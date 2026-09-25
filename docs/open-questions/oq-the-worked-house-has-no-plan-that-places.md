@@ -84,3 +84,16 @@ in words at step 3 and shows Drawings and Export as *blocked: refused*, not as l
 *must not* list forbids a tour promising a house. `README.md:51` is not edited by WP-14.0, which
 touches only the register and the plan; the documentation pass is WP-14.15's, and this entry is
 its instruction to correct that sentence rather than let it stand.
+
+## Amendment, 25 September 2026: the README sentence is corrected, and the question is not
+
+`README.md`'s *"the same corpus applied carefully (0 fatal)"* now states the measurement instead:
+the careful Tidewater record carries 3 fatal findings against the ordinary Colonial's 5, both
+re-measured with `build/plan_check.py --json` on the tree that carried WP-14.8, and both are refused
+at placement. The figures are dated in the sentence because no checker reads them. That corrects
+one of the two documents this entry names; it answers none of the four questions above, and the
+entry stays open.
+
+The same pass found the README's and `STATE-OF-THE-PROJECT.md`'s fault-corpus figures unpoliced
+and stale — 209 faults against a corpus of 210, and *"every slot covered"* while four are not — and
+`build/check_counts.py` now holds the fault count and the two exception counts in both files.
