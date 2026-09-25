@@ -10,6 +10,8 @@
      lookup.term('…')                     lookup.termFor('…', '…')
      termView(…, { id: '…' })             describeTerm(…, '…')
      wordOf(…, '…')                       wordForCite(…, 'term:…')
+     api.glossaryTerm('…')                (the one-record route; the Gate reads `about-tdl`
+                                           through it signed out — WP-14.14)
 
    A literal inside a comment is not shipped code and is not held (Term.jsx's own docstring
    carries examples). An id reached through a VARIABLE is not a literal and cannot be checked
@@ -83,6 +85,7 @@ function scan(source) {
   one(new RegExp(String.raw`\bdescribeTerm\([^,()]*,\s*` + q, 'g'), 'describeTerm');
   one(new RegExp(String.raw`\btermView\([^,()]*,\s*\{\s*id:\s*` + q, 'g'), 'termView');
   one(new RegExp(String.raw`\bwordOf\([^,()]*,\s*` + q, 'g'), 'wordOf');
+  one(new RegExp(String.raw`\bglossaryTerm\(\s*` + q + String.raw`\s*\)`, 'g'), 'glossaryTerm');
   // A literal CITE handed to wordForCite: only its `term:` form names a glossary record.
   for (const m of src.matchAll(new RegExp(String.raw`\bwordForCite\([^,()]*,\s*` + q, 'g'))) {
     const cite = m[1] ?? m[2] ?? m[3];
@@ -112,6 +115,7 @@ test('the scanner recognises every shape a literal glossary id is written in, an
     "lookup.term('a-lookup')", "glossary.lookup.termFor('fault.severity', 'fatal')",
     "termView(glossary, { id: 'a-view' })", "describeTerm(g, 'a-describe')",
     "wordOf(lookup, 'a-word')", "wordForCite(lookup, 'term:a-cite')",
+    "api.glossaryTerm('a-route')",
     "wordForCite(lookup, 'style:not-a-term')",                // another kind: not a glossary id
     "<Term id={c.id} />", "useTermDescription(someId)",       // variables: not literals
     '/* <Term id="in-a-block-comment" /> */', "// <Term id='in-a-line-comment' />",
@@ -119,8 +123,8 @@ test('the scanner recognises every shape a literal glossary id is written in, an
   ].join('\n');
   const got = scan(fixture).map((h) => h.id ?? `${h.field}=${h.value}`);
   assert.deepEqual(got.sort(), [
-    'a-brace', 'a-cite', 'a-describe', 'a-desc', 'a-dq', 'a-head', 'a-lookup', 'a-sq', 'a-tpl',
-    'a-view', 'a-word',
+    'a-brace', 'a-cite', 'a-describe', 'a-desc', 'a-dq', 'a-head', 'a-lookup', 'a-route', 'a-sq',
+    'a-tpl', 'a-view', 'a-word',
     'fault.severity=fatal', 'kit.binding=forbidden', 'kit.binding=open',
   ].sort());
 });
