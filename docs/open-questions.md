@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**221 questions, of which 126 are open.** A question is OPEN while
+**224 questions, of which 129 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 126
+## Open — 129
 
 Awaiting a ruling. This is the list to read first.
 
@@ -63,16 +63,17 @@ Awaiting a ruling. This is the list to read first.
 | **98** | HALF CLOSED — the reporting half built in WP-11.12 (7 September 2026); the measurement half is open and wants a ruling | [`span_check` credits a bearing wall across the whole floor plate however short it is, and the validator never mentions span capacity at all](open-questions/098-span-check-credits-bearing-wall-across-whole-floor-plate.md) |
 | **oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band** | OPEN | [two records, one dimension, no overlap](open-questions/oq-a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band.md) |
 | **oq/a-baked-pack-value-is-a-second-delivery-path** | OPEN | [a scope on a rule cannot reach the copy of it in a kit](open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md) |
-| **oq/a-brief-cannot-name-a-parti** | OPEN | [the dossier lists a style's plan types and the brief has no field that could carry one](open-questions/oq-a-brief-cannot-name-a-parti.md) |
+| **oq/a-brief-cannot-name-a-parti** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.19 | [the dossier lists a style's plan types and the brief has no field that could carry one](open-questions/oq-a-brief-cannot-name-a-parti.md) |
 | **oq/a-child-band-replaces-an-ancestor-derivation** | OPEN | [224 figures where a band stands over an expression](open-questions/oq-a-child-band-replaces-an-ancestor-derivation.md) |
 | **oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition** | OPEN | [one field, two opposite meanings](open-questions/oq-a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition.md) |
 | **oq/a-daily-route-is-an-editorial-model** | OPEN | [four fault tests ask who walks where, and a door graph cannot answer](open-questions/oq-a-daily-route-is-an-editorial-model.md) |
 | **oq/a-declared-measurement-and-a-window-record-state-one-width-twice** | OPEN | [the plan says how wide its windows are in two places that nothing holds together](open-questions/oq-a-declared-measurement-and-a-window-record-state-one-width-twice.md) |
 | **oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity** | OPEN | [the duplicate guard is dropping 51 identities, and some of the drops are right](open-questions/oq-a-district-number-on-a-contributing-property-is-not-that-buildings-identity.md) |
+| **oq/a-fault-gauge-has-no-extent-the-record-states** | OPEN | [a gauge needs both ends of its scale, and a finding carries one number and a threshold](open-questions/oq-a-fault-gauge-has-no-extent-the-record-states.md) |
 | **oq/a-finding-citation-cannot-name-a-finding** | OPEN | [1,608 of 1,620 finding ids are unciteable by the grammar that has a `finding` kind for them](open-questions/oq-a-finding-citation-cannot-name-a-finding.md) |
 | **oq/a-findings-ordinal-is-not-an-identity** | OPEN | [a finding's id moves when an unrelated sibling clears](open-questions/oq-a-findings-ordinal-is-not-an-identity.md) |
 | **oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group** | OPEN | [38 items name a count and nothing says what the rectangle means](open-questions/oq-a-furniture-footprint-is-sometimes-one-and-sometimes-the-group.md) |
-| **oq/a-glossary-family-has-no-name-of-its-own** | OPEN | [the Glossary groups every word by family, and no record says what a family is called](open-questions/oq-a-glossary-family-has-no-name-of-its-own.md) |
+| **oq/a-glossary-family-has-no-name-of-its-own** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.17 | [the Glossary groups every word by family, and no record says what a family is called](open-questions/oq-a-glossary-family-has-no-name-of-its-own.md) |
 | **oq/a-kit-binding-propagates-to-descendants-nobody-read** | OPEN | [binding a slot on one node states it for every node under it, and nothing compares the result against those nodes' own records](open-questions/oq-a-kit-binding-propagates-to-descendants-nobody-read.md) |
 | **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
 | **oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants** | OPEN | [a Georgian portico's exception never reaches a Tidewater Georgian house](open-questions/oq-a-licence-matches-the-style-id-exactly-and-never-its-descendants.md) |
@@ -84,6 +85,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-measured-parameter-with-no-source-is-not-metered** | HALF CLOSED 5 Sep 2026 — part 2 ruled, part 1 still open | [542 kit figures claim to have been measured and nothing on the record says where](open-questions/oq-a-measured-parameter-with-no-source-is-not-metered.md) |
 | **oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times** | OPEN | [the backlog refills as it is worked, and 249 is what is visible at one instant](open-questions/oq-a-node-that-refuses-a-category-must-decline-it-twenty-six-times.md) |
 | **oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure** | OPEN | [Ruling A can only reach a figure that cites nothing](open-questions/oq-a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure.md) |
+| **oq/a-parti-states-rooms-and-doors-and-no-positions** | OPEN | [any diagram of a plan type invents where its rooms are](open-questions/oq-a-parti-states-rooms-and-doors-and-no-positions.md) |
 | **oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds** | HALF CLOSED | [the analyst's `placement` class reads the record's fields for four drawn kinds and the engine's name for five](open-questions/oq-a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds.md) |
 | **oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford** | OPEN | [the candidate count is a design input nobody has priced](open-questions/oq-a-placement-rule-is-free-at-a-pool-the-server-cannot-afford.md) |
 | **oq/a-plan-does-not-name-the-parti-it-was-built-from** | OPEN | [so no checker can hold a plan to the diagram it is a house of](open-questions/oq-a-plan-does-not-name-the-parti-it-was-built-from.md) |
@@ -105,16 +107,16 @@ Awaiting a ruling. This is the list to read first.
 | **oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms** | HALF CLOSED — doors and windows built in WP-11.14 (8 September 2026); the sweep of the other exterior marks is open | [the seventh layer that reads one rectangle](open-questions/oq-an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms.md) |
 | **oq/an-undecided-scout-releases-every-type-fact-at-once** | OPEN | [the ladder's answer to a model it cannot decide](open-questions/oq-an-undecided-scout-releases-every-type-fact-at-once.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
-| **oq/casings-are-measured-across-and-drawn-upright** | OPEN | [an assembly's axis and its zones are stated only in prose, so a plate can draw neither](open-questions/oq-casings-are-measured-across-and-drawn-upright.md) |
+| **oq/casings-are-measured-across-and-drawn-upright** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 (data and checker) and WP-14.24 (the plate) | [an assembly's axis and its zones are stated only in prose, so a plate can draw neither](open-questions/oq-casings-are-measured-across-and-drawn-upright.md) |
 | **oq/clear-counts-a-pass-and-a-tautology-as-one-thing** | OPEN | [half the faults this corpus clears are cleared on the generator's own output](open-questions/oq-clear-counts-a-pass-and-a-tautology-as-one-thing.md) |
 | **oq/fifteen-of-sixteen-plans-name-no-parti** | OPEN | [the facade layer is silent on 94% of this corpus](open-questions/oq-fifteen-of-sixteen-plans-name-no-parti.md) |
 | **oq/fourteen-of-sixteen-plans-name-no-massing** | OPEN | [every massing-gated check is silent on 87.5% of the plan records](open-questions/oq-fourteen-of-sixteen-plans-name-no-massing.md) |
-| **oq/mcp-proportions-serve-no-assemblies-for-non-order-packs** | OPEN | [the workbench will draw twenty-seven packs the MCP tool still reports as having no assemblies](open-questions/oq-mcp-proportions-serve-no-assemblies-for-non-order-packs.md) |
+| **oq/mcp-proportions-serve-no-assemblies-for-non-order-packs** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 | [the workbench will draw twenty-seven packs the MCP tool still reports as having no assemblies](open-questions/oq-mcp-proportions-serve-no-assemblies-for-non-order-packs.md) |
 | **oq/no-plan-record-states-its-bearing** | OPEN | [the compass rule is executed under an assumption on 16 of 16 plans](open-questions/oq-no-plan-record-states-its-bearing.md) |
-| **oq/one-duty-per-hatch** | OPEN | [the unjudged hatch carries five meanings, the 45° hatch six, and a key cannot be drawn for a mark that means several things](open-questions/oq-one-duty-per-hatch.md) |
+| **oq/one-duty-per-hatch** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.29 | [the unjudged hatch carries five meanings, the 45° hatch six, and a key cannot be drawn for a mark that means several things](open-questions/oq-one-duty-per-hatch.md) |
 | **oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated** | OPEN | [23 works under 51 strings, and correcting them reddens the build by six](open-questions/oq-one-work-is-cited-under-several-strings-and-every-source-count-is-inflated.md) |
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
-| **oq/the-assistant-is-blind-to-the-page** | OPEN | [the pane is named now, and it is still told nothing about what the reader has selected](open-questions/oq-the-assistant-is-blind-to-the-page.md) |
+| **oq/the-assistant-is-blind-to-the-page** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.22 | [the pane is named now, and it is still told nothing about what the reader has selected](open-questions/oq-the-assistant-is-blind-to-the-page.md) |
 | **oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either** | OPEN | [two ruled packages, and their composition is worse than either alone](open-questions/oq-the-bay-parity-and-the-band-ranking-compose-worse-than-either.md) |
 | **oq/the-canon-axis-counts-two-grains-as-one** | OPEN | ["23 could not be evaluated" out of a denominator of 10](open-questions/oq-the-canon-axis-counts-two-grains-as-one.md) |
 | **oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw** | OPEN | [the job route strips its record and the bench re-solves it, so the panel's key and the plate are two houses](open-questions/oq-the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw.md) |
@@ -130,6 +132,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |
 | **oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front** | OPEN | [an eighth layer reads the main block as the whole house](open-questions/oq-the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front.md) |
 | **oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state** | OPEN | [the widest-door rule is applied to a field a door record may omit, and a stated 3 ft then beats an unstated 3.5](open-questions/oq-the-front-door-is-chosen-by-a-width-the-record-need-not-state.md) |
+| **oq/the-link-ink-reads-below-aa** | OPEN | [every link in the workbench is set in an ink that falls short of the common legibility floor](open-questions/oq-the-link-ink-reads-below-aa.md) |
 | **oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it** | OPEN | [two vocabularies for one fact](open-questions/oq-the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it.md) |
 | **oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted** | OPEN | [the argument for STACK_HARD being off no longer holds on the plan it was made on](open-questions/oq-the-measurement-that-defaulted-the-stacking-rule-has-inverted.md) |
 | **oq/the-net-clear-opening-is-half-of-every-sash** | OPEN | [a double-hung's model applied to a casement, and a fault cleared by 1.4 inches on it](open-questions/oq-the-net-clear-opening-is-half-of-every-sash.md) |
@@ -156,7 +159,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/thirty-five-measurements-the-elevation-states-as-literals** | OPEN | [the critic convicts every classical plan of the same faults, and the numbers are the generator's](open-questions/oq-thirty-five-measurements-the-elevation-states-as-literals.md) |
 | **oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies** | OPEN | [the real shape of "120 faults unjudged"](open-questions/oq-two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
-| **oq/which-packs-module-is-a-building-input** | OPEN | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
+| **oq/which-packs-module-is-a-building-input** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
 ## Settled — 95

@@ -1,6 +1,6 @@
 # oq/a-glossary-family-has-no-name-of-its-own — the Glossary groups every word by family, and no record says what a family is called
 
-*Status: OPEN · Raised in: WP-14.8 (24 September 2026)*
+*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.17 · Raised in: WP-14.8 (24 September 2026)*
 
 **The question.** The Glossary index (`#/glossary`, WP-14.8) lists the 121 glossary records
 grouped by `family`, in the order of `schema/glossary-term.schema.json`'s `family` enum, which the
@@ -51,3 +51,7 @@ if a family heading needs a record, the case that a field label does not is weak
   nothing. **Do not add a family-name table to `surfaces/Glossary.jsx`**: that is the second
   vocabulary this question exists to avoid, and `src/copy_ratchet.test.mjs` would not see it,
   because a short label is neither an explanation nor a count.
+
+## Ruled 25 September 2026
+
+**Answer 3, a record per family, and the field labels are records too.** Both were taken with the tranche-2 plan's approval, on the standing rule that a label the app needs is a record. `glossary.family` becomes the eighth bindable field, one `family-*` record per family value. The term page's eight labels are `glossary-field-*` records. The contract is `docs/prd/phase-14-tranche-2.md` §A. The question closes when WP-14.17 lands.

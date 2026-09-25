@@ -1,6 +1,6 @@
 # oq/casings-are-measured-across-and-drawn-upright — an assembly's axis and its zones are stated only in prose, so a plate can draw neither
 
-*Status: OPEN · Raised in: WP-14.0 (24 September 2026)*
+*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 (data and checker) and WP-14.24 (the plate) · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding.** WP-14.4 serves every pack that has assemblies and no order stack, and WP-14.9
 draws them — `trim-classical` among them, the page Lucas was reading. Two facts a draughtsman would
@@ -80,3 +80,7 @@ assemblies at all (`opening-proportion`, `room-harmonic`, `room-vernacular`, `st
 
 - `oq/which-packs-module-is-a-building-input` — the other half of drawing this plate truthfully:
   at what size.
+
+## Ruled 25 September 2026
+
+**Answer 1: axis and zones as data.** An assembly may declare `axis` and optional `zones`. `build/check_orders.py` holds every zone boundary to a cumulative member-height sum. The plate draws casings turned and prints the zone string, and the MCP payload carries both fields. Zones are declared only where the pack's own words give them; nothing is authored from outside the pack. The contract is `docs/prd/phase-14-tranche-2.md` §C.3 and §C.9. The question closes when WP-14.24 lands, the second of the two.

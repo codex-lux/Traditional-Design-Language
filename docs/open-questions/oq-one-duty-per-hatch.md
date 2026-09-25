@@ -1,6 +1,6 @@
 # oq/one-duty-per-hatch — the unjudged hatch carries five meanings, the 45° hatch six, and a key cannot be drawn for a mark that means several things
 
-*Status: OPEN · Raised in: WP-14.0 (24 September 2026)*
+*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.29 · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding.** Phase 14's reader asked for keys. A key says what a mark MEANS, so it can only be
 written for a mark with one meaning, and the workbench's marks were never assigned one each. Every
@@ -93,3 +93,14 @@ that plate and claims nothing for it elsewhere. WP-14.6's `judgment.js` gives th
 their names in code, and WP-14.9 reads it where `Proportions.jsx:530` maps `holds: null` to *fail*
 today (latent: no invariant in the corpus is `null` now) — the words are fixed before the marks
 are.
+
+## Ruled 25 September 2026
+
+**One meaning per hatch, one product key.** The duty table is `docs/prd/phase-14-tranche-2.md` §D:
+
+- loading and low confidence move off the judgment hatch;
+- the 45-degree hatch is split between "wanted" and "set aside", and "not built" takes the forthcoming hatch;
+- every mark is named by one glossary record;
+- `--t3` takes `--salmon`, an existing ink distinct from `--brick`.
+
+The key is worded from the records. The question closes when WP-14.29 lands.

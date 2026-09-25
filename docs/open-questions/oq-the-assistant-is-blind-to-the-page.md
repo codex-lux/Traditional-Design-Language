@@ -1,6 +1,6 @@
 # oq/the-assistant-is-blind-to-the-page — the pane is named now, and it is still told nothing about what the reader has selected
 
-*Status: OPEN · Raised in: WP-14.0 (24 September 2026)*
+*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.22 · Raised in: WP-14.0 (24 September 2026)*
 
 **What was ruled and what was not.** On 24 September Lucas ruled that the right-hand pane is
 named — *"Ask the corpus · AI assistant"*, worded from a glossary record, on the pane head and the
@@ -72,3 +72,7 @@ dossier's *used by* list (WP-14.4's `used_by`) is served to the page and not to 
 
 - `oq/mcp-proportions-serve-no-assemblies-for-non-order-packs` — the other place a machine client
   of this corpus receives less than the page shows.
+
+## Ruled 25 September 2026
+
+**The page's citation, plus starter questions (answers 1 and 3, in the citation form).** The context gains one line naming the record in view. The line is written only when the server's own citation validator accepts it, and the model fetches the record with the tools it already has. Starter questions come from each page's `surface-*` glossary record. The same commit corrects the prompt's stale facts: the typed fault figure, "the rail", and the missing citation kinds. The contract is `docs/prd/phase-14-tranche-2.md` §C.8. The tranche-1 freeze on `rail.py` is lifted for this item alone. The question closes when WP-14.22 lands.

@@ -27,7 +27,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **11 — The precedent bench** | **COMPLETE — WP-11.1 through 11.7** | **Every buildable node carries a precedent and every node at every rank cites a source (5-7 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research ran in four tranches. **Tranche 4 (WP-11.7, 7 Sep) wrote 156 sources over the 32 higher-rank nodes — 111 citations of 109 DISTINCT works new to the corpus, plus 45 reuses — and took `sourceless_nodes` 32 → 0**, and found the layer has no identities: 422 free strings, 0 URLs, one confirmed fiction cited by five nodes, and 23 works under 51 spellings whose correction would redden the `shared_only` ceiling by six. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
 | **13 — The coherent sheet** | **WP-13.1 through 13.8 complete (16-17 Sep 2026), and MERGED WITH `origin/main` ON 17 SEP — three lines met and the clean auto-merge was the trap** (a record with seven duplicate JSON keys, and two of this session's own resolutions cancelling each other); the gate is not green and every remaining red is named and attributed against a `git archive` control of BOTH parents | **All four 15 Sep rulings taken the day they were put, and a fifth on 16 Sep: capacity does not refuse a drawing, continuity does** — raised by Lucas against two plates of a Tidewater sheet off the Drawing Set, his second such list in eleven days, with the question whether the fix was "a ridiculous number of additional changes" or "reconsider from the ground up". Measured on `840c7f1` before a line was written: neither. The critic already names four of the nine as SERIOUS; the generator is not held to it, because **the bench draws the prover and the prover has been told nothing about the type** — stacking, tiling, bearing continuity, the bay grid and the hearth are soft, absent or post-hoc on CP-SAT, Phase 11 built them on the search engine nobody sees, and at the bench's 25 s the prover's objective never runs at all. **WP-13.1 is the gate**, `tests/test_sheet_coherence.py`, seventeen rows over four sheets, **43 red on `840c7f1`**, written before any fix and red by design; the adversarial pass corrected five of the plan's own figures before it was committed. Report: `docs/reports/wp-13.1-the-gate.md`  · **WP-13.8 (17 Sep) is the entrance front's population made the main block's** (`docs/reports/wp-13.8-the-front-was-not-the-main-blocks.md`), and its headline did NOT clear the fatal it was written for. **AND THERE ARE TWO PHASE 13s**: a parallel session shipped its own WP-13.1 (`docs/reports/wp-13.1-the-procedure-nobody-read.md`, `build/detection.py`) and WP-13.2 (`docs/reports/wp-13.2-the-checker-that-accused-an-innocent-line.md`, `build/check_frontend.py`), merged to main as PR #34. Both lines coexist, neither is renumbered, and every report is cited by FILENAME — the precedent is the two Phase 11s and the two Phase 9s, and OQ 90's rule that a pushed commit subject cannot be rewritten. **THE MERGE (17 Sep) is recorded in CLAUDE.md's Phase 13 block**: 33 conflicts; this line's WP-13.5 and main's WP-11.16 are the SAME container edit made twice, so the shipped record auto-merged cleanly into seven duplicate keys and was rebuilt by hand; all 41 pin failures were attributed against both parents BEFORE any was touched (36 of 37 pass on this branch's parent, 36 of 36 on main); four corpus digests and the CP proto pins were re-derived with each harness PROVED to reproduce both parents first; three questions were raised (`oq/a-withdrawn-claim-still-steers-the-placer`, `oq/the-prover-draws-a-centre-passage-that-does-not-go-through`, `oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state`) and one CLOSED by the other line's fix (`oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so`). **A SECOND WAVE OF 22 GUARDS THEN WENT RED once the first wave's pins were right**, all of them downstream of the moved placement, and the two findings in it are latent defects the merge made REACHABLE rather than caused: `axis.door_bay` and `elevation.placed_openings` both implement *the widest door on the front is the front door* and rank on two different numbers (a door record may omit `width_ft`, `openings.place` supplies 3.5 ft and `axis` scores the omission ZERO, so the corpus convicts a placement whose widest front door is dead centre -- 1 of 16 plans can reach it and there the answer is right by luck); and `typefacts.bearing_lines` and `structure.build_section` part on a reserved void's wall, ONE line on ONE plan, because main puts `good-03`'s piazza exactly on a bay line where this branch had it off one. **THREE guards' premises ran out in the direction that would have left them green over half a defect** -- the two shipped plans stopped dressing the E face, a blind-bay face stopped drawing anything, and a non-entrance door face stopped existing on either reading its own docstring quoted |
 | **12 — The sheet in the round** | **WP-12.0 through 12.9** | **COMPLETE — WP-12.0 through 12.9 (8-9 Sep 2026), 12.8 being the adversarial audit of the other eight and 12.9 the five items it deferred** — raised by Lucas against Dilum Sanjaya's post on 2D schematics transitioning into 3D, with the question whether SVG remained the medium. **The brief is the PRD**, `docs/prd/phase-12-the-sheet-in-the-round.md` (cite the filename; it is the first document in a new `docs/prd/`). The answer is WP-5.11's, one dimension up: the format was never the constraint, and the missing thing is a constructed-3D layer between the record and the camera — `build/scene.py` — with three.js drawing what Python models and the SVG plates staying authoritative and held to it. **All nine rulings taken the day they were put, and an APPROACH perspective view added to v1.** The review that adopted the PRD found the defect that made WP-12.0: **the drawing set is not one building** — the elevation and roof plates are built with no section, so they take `structure.build_section`'s heuristic default while the plan beside them is a CP proof, under a banner WP-6.4 wrote saying one drawing set is one building or it is nothing. It also found that `render_elevation` has taken a `face` since WP-3.2 and no client has ever sent one, so three of the four elevations this system can draw have never been seen |
-| **14 — The dossier and the journey** | **WP-14.0 through 14.15** — sixteen packages in five waves, WP-14.0 through 14.15 COMPLETE, tranche 1 built · later tranches T2 and T3 planned, not built | **Tranche 1 COMPLETE 25 Sep 2026** (planned 24 Sep) — raised by Lucas reading the Proportions surface on `trim-classical`: *"It's all just a bunch of text, and I'm not sure how it all relates to each other."* A read-only audit of all twelve surfaces (eleven inventories, five lenses, fourteen themes each re-checked against the source, three competing redesigns, two judges) found the workbench organised the way the corpus is STORED — by record type, in the order it was built — while a practitioner works with one style or one house at a time, so every rail click drops the thing being studied and each surface falls back to its own hard-coded record. **Eight rulings taken the same day** (practitioners first; definitions as glossary records; the navigation rebuilt now around a Style Dossier and a House Journey; report and plan then tranche 1; the dossier's section names; the AI pane named now and told nothing new until later; the pane folded on narrow screens; one ungated sentence on the Gate). The brief is the PRD, `docs/prd/phase-14-the-dossier-and-the-journey.md`, and the analysis is `docs/reports/ux-first-principles-2026-09-24.md`; seven questions filed as slugs, none numbered |
+| **14 — The dossier and the journey** | **WP-14.0 through 14.15** — sixteen packages in five waves, WP-14.0 through 14.15 COMPLETE, tranche 1 built · **tranche 2 (WP-14.16 through 14.32) planned 25 Sep, WP-14.16 COMPLETE** · T3 planned, not built | **Tranche 1 COMPLETE 25 Sep 2026** (planned 24 Sep); **tranche 2 planned 25 Sep** on seven rulings, contracts `docs/prd/phase-14-tranche-2.md` — raised by Lucas reading the Proportions surface on `trim-classical`: *"It's all just a bunch of text, and I'm not sure how it all relates to each other."* A read-only audit of all twelve surfaces (eleven inventories, five lenses, fourteen themes each re-checked against the source, three competing redesigns, two judges) found the workbench organised the way the corpus is STORED — by record type, in the order it was built — while a practitioner works with one style or one house at a time, so every rail click drops the thing being studied and each surface falls back to its own hard-coded record. **Eight rulings taken the same day** (practitioners first; definitions as glossary records; the navigation rebuilt now around a Style Dossier and a House Journey; report and plan then tranche 1; the dossier's section names; the AI pane named now and told nothing new until later; the pane folded on narrow screens; one ungated sentence on the Gate). The brief is the PRD, `docs/prd/phase-14-the-dossier-and-the-journey.md`, and the analysis is `docs/reports/ux-first-principles-2026-09-24.md`; seven questions filed as slugs, none numbered |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -4826,17 +4826,76 @@ ceiling in the URL, names first, the pack's users listed, the invariants folded;
 → Kit → a pack → Faults carries Craftsman the whole way. **Depends on:** every package above.
 **Size:** M.
 
-### Later tranches — planned, not built
+### Tranche 2 — every record a page, every mark one meaning, the house half honest
 
-**T2:** record pages for slot, room, massing, grouping and parti (retiring the "searched" banner);
-comparing two styles (`#/compare/<a>/<b>/<section>` over a server `compare_kits`); the guided tour
-through the house half, which needs a Tidewater plan that places; the parti bridge, which needs a
-brief-schema ruling; keys for every mark, one duty per hatch; Faults read for one style, a
-FaultGauge and a PartiDiagram; an Elements index; the Drawing Set and Export keeping sheet and face
-in the URL; the assistant told what the reader is looking at, with starter questions; MCP parity;
-plate declarations (casing orientation, zone divisions, wall-datum thumbnails); the copy ratchet to
-zero; every pick writing the URL; the instrument surfaces reflowing below 1380 px. **T3:** an
-answer-first Plan Workbench; the glossary beyond tranche 1.
+*Planned 25 September 2026. Lucas asked for the next tranche to be planned. The contracts are
+`docs/prd/phase-14-tranche-2.md`. Three read-only surveys fed the plan: every deferred item, the
+gating questions, and the code. Seven rulings were taken the same day.*
+
+**The rulings (25 Sep 2026).**
+1. **The tranche-1 freezes are lifted per item, and named.** A package may change exactly the frozen
+   surface its item needs (an MCP payload, `rail.py`, `/api/health`, `core.overview()`). Its report
+   names the change, and it re-cuts that surface's byte-stability test.
+2. **The worked house.** Try to author a Tidewater plan that places, with a stop rule. No declared
+   fact may be edited to clear a refusal. On failure, the refusal stays the example and the question
+   closes on the evidence.
+3. **The parti bridge.** A brief may name a parti, and the composer guarantees it a place among the
+   candidates. A borrowed parti says it is borrowed.
+4. **The assistant** is told the page's citation and offers each page's starter questions. Its
+   prompt's stale facts are corrected in the same commit.
+5. **Plate declarations.** An assembly may declare `axis` and `zones` as data, held to its members
+   by a checker. The plate draws casings turned and prints the zone string.
+6. **Marks.** One meaning per hatch, and one product key worded from glossary records. `--t3` takes
+   an existing ink distinct from `--brick`.
+7. **Width.** The reading surfaces reflow at 1280 px. The drawing surfaces keep a floor, with the
+   masthead held to the window.
+
+With the plan's approval, six defaults were also taken (PRD §0.3):
+- Transcription keeps a floor and Export reflows.
+- Family headings and the term page's field labels become records.
+- `--t3` is `--salmon`.
+- A brief whose parti contradicts its massing is refused by name.
+- FaultGauge and PartiDiagram are deferred to T3, each with an open question.
+- Wall-datum thumbnails come from served geometry only.
+
+**The packages.** Waves, owners and merge order are in PRD §F. Each package carries a Status line,
+set when it merges.
+
+- **WP-14.16 — the contracts.** Wave 0. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.16-the-contracts-for-tranche-two.md`. The PRD above. Seven
+  gating questions are marked IN PROGRESS with their rulings. Three questions are filed: a fault
+  gauge's missing extent, a parti's missing positions, and the link ink below AA.
+- **WP-14.17 — every definition a record.** Glossary 0.2.0: family, field-label and mark records;
+  the fault card's labels; the front door's two headings; starter questions on every surface
+  record. Wave 1. **Status: PLANNED.**
+- **WP-14.18 — proportions served whole.** Assembly `axis` and `zones` and their checker;
+  `module.equals` class A; `tdl_get_proportions` at parity with the workbench, with no false column
+  diameter. Wave 1. **Status: PLANNED.**
+- **WP-14.19 — a brief may name a parti.** Brief schema 0.2.0; one spelling of nativity; the
+  guaranteed place; `GET /api/partis/{id}`; a compose total in the job stream. Wave 1.
+  **Status: PLANNED.**
+- **WP-14.20 — small server truths.** `/api/health` states the session; an evaluation names its
+  plan; no raw fetches; the sixteenth carry; `DimensionString` removed. Wave 1. **Status: PLANNED.**
+- **WP-14.21 — the worked house, attempted.** Research, with a stop rule. Wave 1.
+  **Status: PLANNED.**
+- **WP-14.22 — the assistant sees the page.** Wave 2. **Status: PLANNED.**
+- **WP-14.23 — record pages and the Elements index.** Spotlight is retired. Wave 2.
+  **Status: PLANNED.**
+- **WP-14.24 — plates at the pack's word.** Turned casings, zone strings, class-A sliders,
+  thumbnails. Wave 2. **Status: PLANNED.**
+- **WP-14.25 — the parti bridge on the page.** Wave 2. **Status: PLANNED.**
+- **WP-14.26 — compare two styles**, on one kit authority. Wave 3. **Status: PLANNED.**
+- **WP-14.27 — every pick writes the URL; no default record.** Also Faults read for one style, and
+  Export's face picker. Wave 3. **Status: PLANNED.**
+- **WP-14.28 — the guided tour through the house.** Built only if WP-14.21 succeeds. Wave 3.
+  **Status: PLANNED.**
+- **WP-14.29 — one meaning per hatch, one key.** Wave 3. **Status: PLANNED.**
+- **WP-14.30 — reading surfaces reflow at 1280.** Wave 4. **Status: PLANNED.**
+- **WP-14.31 — the last pass on type.** The copy ratchet to zero; readable text off the faint inks.
+  Wave 5. **Status: PLANNED.**
+- **WP-14.32 — integration.** Wave 6. **Status: PLANNED.**
+
+**T3, still planned and not built:** an answer-first Plan Workbench; the glossary beyond tranche 2;
+FaultGauge and PartiDiagram, once their questions are answered.
 
 ### Open questions filed by WP-14.0
 

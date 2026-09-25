@@ -1,6 +1,6 @@
 # oq/mcp-proportions-serve-no-assemblies-for-non-order-packs — the workbench will draw twenty-seven packs the MCP tool still reports as having no assemblies
 
-*Status: OPEN · Raised in: WP-14.0 (24 September 2026)*
+*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding.** `tdl_get_proportions` (`mcp_server/server.py:117`) calls
 `core.get_proportions`, which dimensions the pack with
@@ -75,3 +75,7 @@ package that creates it.
   the empty list.
 - `oq/casings-are-measured-across-and-drawn-upright` — what a payload that does list these
   assemblies would still not say about them.
+
+## Ruled 25 September 2026
+
+**Answer 1, full parity.** It follows the ruling that lifts tranche 1's freezes per item, named. `tdl_get_proportions` lists a stackless pack's own assemblies. Its hint names them. It withholds the column diameter on a pack with no column. It reads the module binding from the one spelling the workbench also reads. A digest pin holds the stacked packs' payloads byte-identical. The contract is `docs/prd/phase-14-tranche-2.md` §C.4. The question closes when WP-14.18 lands.

@@ -1,6 +1,6 @@
 # oq/which-packs-module-is-a-building-input — `trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are
 
-*Status: OPEN · Raised in: WP-14.0 (24 September 2026)*
+*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding that makes this a question.** On the Proportions page one pack could describe two
 different walls at once. `trim-classical`'s module is, in its own words, *"The finished ceiling
@@ -99,3 +99,7 @@ pack's default, so the page never implies a building the reader did not describe
 
 - `oq/casings-are-measured-across-and-drawn-upright` — the other half of drawing a trim pack
   truthfully: which way it runs, and where its zones fall.
+
+## Ruled 25 September 2026
+
+**Answer 1, class A only**, taken with the tranche-2 plan's approval. `module.equals` gains the storey, room-width and opening-width dimensions, and the three class-A packs declare them. Each declaration is made only where the existing lie-check (check 19(c)) passes. Where it fails, the package files a question and authors no number. The contract is `docs/prd/phase-14-tranche-2.md` §C.3. The question closes when WP-14.18 lands.

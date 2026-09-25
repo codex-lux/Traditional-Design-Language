@@ -1,6 +1,6 @@
 # oq/a-brief-cannot-name-a-parti — the dossier lists a style's plan types and the brief has no field that could carry one
 
-*Status: OPEN · Raised in: WP-14.0 (24 September 2026)*
+*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.19 · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding.** Phase 14 gives every style a dossier, and one of its sections lists the partis
 native to that style — the plan types. The obvious next affordance is *"start a brief from this
@@ -62,3 +62,7 @@ information only; there is no "start a brief from this parti" control anywhere, 
 - `oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room` — a set the composer
   chose, answering the brief with two unusable houses; a named parti is one way a reader might
   try to route around it, which is an argument about this question and not a reason to answer it.
+
+## Ruled 25 September 2026
+
+**Answer 1, guaranteed a place.** Brief schema 0.2.0 gains an optional `parti`. The composer guarantees the named parti one candidate among the contrasting set: it is kept past the cut and, if the returned set does not already hold it, appended as one more candidate, so it displaces nothing. A parti not native to the style is borrowed, and the candidate says so. A named parti that contradicts the brief's own massing is refused by name before a job starts. The contract is `docs/prd/phase-14-tranche-2.md` §C.5. The question closes when WP-14.19 lands.
