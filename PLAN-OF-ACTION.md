@@ -4957,7 +4957,14 @@ set when it merges.
   - **One regression, fixed at the merge.** On the bench, `re-solve` sat behind the filter strip's scrollbar at 1280; the strip wraps now.
   - **Filed.** With the assistant open, 16 reading pages still scroll inside `<main>`: `oq/no-sideways-scroll-at-1280-with-the-assistant-open`.
 - **WP-14.31 — the last pass on type.** The copy ratchet to zero; readable text off the faint inks.
-  Wave 5. **Status: PLANNED.**
+  Wave 5. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.31-an-empty-list-from-a-blind-reader.md`.
+  - **The copy ratchet is empty and is a ban now.** Its readers were widened first. They had been blind to a `title:` property, an irregular plural, adjectives before the noun and a share, so emptying the old list would have published a ban that did not hold: 20 committed rows and 28 once widened, now 0.
+  - **Readable text is off the faint inks.** 204 rows go to 3, the survivors being two fills inside `OrderPlate` and the sheet's hair-weight bay figures. One guard, `src/inks.test.mjs`, covers all of `src`.
+  - **Build history leaves reader copy.** 18 lines go to 1, `OrderPlate`'s caption, which the contract forbids touching.
+  - **27 records added.** They cover the palette's kind labels, the dossier's fault groups, and the Export page's not-built cards and costing line.
+  - **The Export page's typed "262"** is now the sum of each pack's served count, held to the files by a server test.
+  - **The Plan Workbench panel** is grouped by mark, each group counted from its own list. The old heading had drawn the check-by-hand rows under "could not evaluate" without counting them.
+  - **Filed:** the app still writes paragraphs the ratchet cannot read (38 prose runs), because where a definition ends is a ruling.
 - **WP-14.32 — integration.** Wave 6. **Status: PLANNED.**
 
 **T3, still planned and not built:** an answer-first Plan Workbench; the glossary beyond tranche 2;
