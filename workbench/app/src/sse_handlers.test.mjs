@@ -160,6 +160,24 @@ test("a site's own reaction runs AFTER the session is told, and cannot stand in 
   assert.equal(store.told[0][1].jobError.reason, 'boom');
 });
 
+/* The Candidate Set's reattach stream is CLOSED when the surface goes away (WP-14.10). Its handle
+   used to be discarded -- `jobEvents(...)` called for its side effect -- so every visit to the
+   Candidate Set during a compose opened an EventSource nothing could close, against a browser's
+   six per origin; Brief Intake had learned that and closes its own. A React effect cannot be
+   driven here, so this reads the one effect that opens the stream: the handle must be kept, and
+   the cleanup the effect returns must release it. It is a reading of source and says so; the
+   property it guards is structural to the effect, and nothing below React reaches it. */
+test("the Candidate Set keeps its stream's handle and releases it when it goes away", () => {
+  const src = read('workbench/app/src/surfaces/CandidateSet.jsx');
+  const at = src.indexOf('jobEvents(');
+  assert.ok(at > 0, 'the Candidate Set opens a compose stream');
+  const effect = src.slice(src.lastIndexOf('React.useEffect(', at), src.indexOf('}, [s.jobId]);', at));
+  const kept = effect.match(/\b(\w+) = jobEvents\(/);
+  assert.ok(kept, 'the handle jobEvents returns is kept');
+  assert.match(effect, new RegExp(`return \\(\\) => \\{[^}]*\\b${kept[1]}\\(\\)`),
+    `the effect's cleanup calls ${kept[1]}(), closing the stream`);
+});
+
 test('the revise call site registers every revise event, round included', () => {
   const sites = callSites('workbench/app/src/surfaces/PlanWorkbench.jsx');
   assert.equal(sites.length, 1);

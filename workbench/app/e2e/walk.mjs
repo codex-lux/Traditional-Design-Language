@@ -284,6 +284,19 @@ if (await example.count()) await example.click();
   check('the panel names its round count', /\d+ rounds?\b/i.test(panel));
   check('and a refused placement is stated beside the key',
     /still refused|may not be drawn/i.test(panel));
+  /* WP-14.10 (PRD §J.1): AND THE HOUSE JOURNEY SAYS WHAT THE MISSING PLATE MEANS. A refused house
+     has no drawings and no export to go on to, so both steps read "blocked: refused" and neither
+     is a link a reader could follow to a plate the contract forbids. The bar sits above <main>,
+     so nothing any check above reads out of `main` includes it. */
+  const jb = await journeyRead();
+  check('the house journey is on the bench, above the surface rather than inside it', !!jb && !jb.inMain);
+  for (const id of ['drawings', 'export']) {
+    const st = jb && jb.steps[id];
+    check(`and it reads the ${id} step as blocked: refused, and not as a link (${st ? `${st.tag}, ${st.blocked}, "${st.words}"` : 'absent'})`,
+      !!st && st.tag === 'span' && st.blocked === 'refused' && !st.href);
+  }
+  check(`and the plan step's Next is its reason, not a link (${jb && jb.next ? jb.next.text : 'absent'})`,
+    !!jb && !!jb.next && jb.next.tag !== 'a');
 }
 
 /* AND NOW A SUBJECT THAT DRAWS, because everything below measures a DRAWING: labels inside
@@ -1303,7 +1316,72 @@ check('silences are named as decisions', /becomes a composer decision/i.test(bri
 // rather than that it does not exist. The assertion moved with the claim.
 check('conflict set located, not promised', /conflict set · on the bench, not here/i.test(brief));
 check('feasibility still advisory, never a proof', /never a proof/i.test(brief));
+/* WP-14.10 (PRD §J.1): EVERY BUDGET OPTION IS ONE THE BRIEF SCHEMA ADMITS, AND THEY ARE ALL OF
+   THEM. The form offered `entry`, `move-up`, `custom` and `estate` against a schema admitting
+   `value`, `mid`, `custom` and `unlimited`, so three of the four a reader could pick refused the
+   whole brief at compose. Read against the schema the server serves, not against a list here --
+   a list here would be a third spelling of the enum. The count of options is asserted first, so
+   a selector matching nothing cannot make "every option is admitted" true of no options. */
+{
+  const sch = await fetch(BASE + '/api/schema/brief').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const tiers = sch && sch.schema && sch.schema.properties && sch.schema.properties.context
+    && sch.schema.properties.context.properties && sch.schema.properties.context.properties.budget_tier
+    && sch.schema.properties.context.properties.budget_tier.enum;
+  if (!Array.isArray(tiers) || !tiers.length) {
+    unjudged.push('the budget tiers -- GET /api/schema/brief states no budget_tier enum to hold them to');
+  } else {
+    await page.waitForFunction(() =>
+      document.querySelectorAll('select[data-field="budget_tier"] option[data-tier]').length > 0,
+    null, { timeout: 15000 }).catch(() => {});
+    const opts = await page.$$eval('select[data-field="budget_tier"] option',
+      (os) => os.map((o) => o.value).filter(Boolean));
+    const off = opts.filter((o) => !tiers.includes(o));
+    check(`the budget offers tiers to be judged (${opts.length})`, opts.length > 0);
+    check(`every budget option is one the brief schema admits (${off.length ? 'off it: ' + off.join(', ') : 'none off it'})`,
+      opts.length > 0 && off.length === 0);
+    check(`and the options are the schema's, all of them (${opts.length} of ${tiers.length})`,
+      opts.length === tiers.length);
+  }
+  // an act is a button, not a filter chip announcing itself as a toggle
+  const compose = await page.evaluate(() => {
+    const b = document.querySelector('main button[data-compose]');
+    return b ? { pressed: b.getAttribute('aria-pressed'), text: b.textContent.trim() } : null;
+  });
+  check(`Compose is a real button, not a toggle (${compose ? compose.text : 'absent'})`,
+    !!compose && compose.pressed === null && /compose/i.test(compose.text));
+}
 await shot('brief');
+
+/* `?style=` SEEDS THE BRIEF AND `?example=` LOADS ONE (WP-14.10, PRD §E). The style is read back
+   from the picker by the style's NAME, which is what the reader sees, against the name the API
+   gives that id; the example by its own `name` field, and the address must lose `example` once it
+   has done its work, so a refresh keeps a reader's edits rather than loading the example over them. */
+{
+  const seed = 'craftsman';
+  const rec = await fetch(`${BASE}/api/styles/${seed}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const want = rec && (rec.name || (rec.summary && rec.summary.name));
+  await visit(`#/brief?style=${seed}`);
+  await page.waitForFunction((w) => {
+    const i = document.querySelector('main input[role="combobox"]');
+    return i && w && i.value === w;
+  }, want, { timeout: 15000 }).catch(() => {});
+  const shown = await page.evaluate(() => document.querySelector('main input[role="combobox"]')?.value || null);
+  check(`?style= seeds the brief's style, shown by name (${shown} against ${want})`, !!want && shown === want);
+
+  const ex = await fetch(`${BASE}/api/briefs/examples/family-georgian`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  if (!ex || !ex.name) {
+    unjudged.push('?example= -- the server serves no family-georgian example brief to load');
+  } else {
+    await visit('#/brief?example=family-georgian');
+    await page.waitForFunction((n) => [...document.querySelectorAll('main input')].some((i) => i.value === n),
+      ex.name, { timeout: 15000 }).catch(() => {});
+    const loaded = await page.evaluate((n) => [...document.querySelectorAll('main input')].some((i) => i.value === n), ex.name);
+    const hash = await page.evaluate(() => location.hash);
+    check(`?example= loads the shipped brief by its name (${ex.name})`, loaded);
+    check(`and leaves the address naming its style rather than the example (${hash})`,
+      !/example=/.test(hash) && parseHash(hash).selection.style === ex.style);
+  }
+}
 
 // ⑥ Candidate Set (empty state without a run)
 await visit('#/candidates');
@@ -2164,6 +2242,15 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     }));
     check('the Drawing Set offers no download for a refused record', ds.download === 0);
     check('and draws no plate for one', ds.plates === 0);
+    // WP-14.10: and the journey, standing on the drawings step, does not offer them either
+    {
+      const jb = await journeyRead();
+      const st = jb && jb.steps.drawings;
+      check(`the journey on the Drawing Set reads its own step as blocked: refused (${st ? `${st.tag}, ${st.blocked}` : 'absent'})`,
+        !!st && st.tag === 'span' && st.blocked === 'refused' && st.current === 'step');
+      check('and offers no link on to the export', !!jb && !(jb.next && jb.next.tag === 'a')
+        && !!jb.steps.export && jb.steps.export.tag === 'span');
+    }
 
     await visit('#/export');
     await page.waitForTimeout(800);
@@ -2182,6 +2269,13 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     check(`and every one is disabled on a refused record (${ex.enabled} enabled)`, ex.enabled === 0);
     check('and it says why', ex.blocked === true);
     check('and shows the same conflict set the bench showed', ex.panel === true);
+    // WP-14.10: and the journey on the export step says the same, as text and not a link
+    {
+      const jb = await journeyRead();
+      const st = jb && jb.steps.export;
+      check(`the journey on Details & Export reads its own step as blocked: refused (${st ? `${st.tag}, ${st.blocked}` : 'absent'})`,
+        !!st && st.tag === 'span' && st.blocked === 'refused' && st.current === 'step');
+    }
   }
 }
 
@@ -2340,6 +2434,91 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     await page.setViewportSize(vp);
     await shot('glossary', [SHOT_WIDTH, 1280]);
   }
+}
+
+/* ------------------------------------------------------------ WP-14.10: THE HOUSE JOURNEY
+
+   One bar, mounted by App above <main> on the six house surfaces -- the five steps and the
+   tracing surface that joins them at the plan -- and on no other. Where it is shown is read off
+   the router's own table of surfaces, so a surface added later is judged without this list
+   growing; which six are the house is the bar's rule and is stated here once, for the check.
+   Full screen is not driven: only the family tree offers it and the bar is not there anyway, so a
+   walk check would pass over an absence it did not cause. `journey/bar.js`'s `showJourneyBar`
+   is driven over every surface with full screen on in `src/journeyBar.test.mjs`. */
+async function journeyRead() {
+  // A FUNCTION DECLARATION, so the two refusal blocks above can call it: it is hoisted to the
+  // top of the module, where a const or a block-scoped declaration here would not be.
+  return page.evaluate(() => {
+    const bar = document.querySelector('nav[aria-label="house journey"]');
+    if (!bar) return null;
+    const steps = {};
+    for (const el of bar.querySelectorAll('[data-step]')) {
+      const id = el.getAttribute('data-step');
+      const w = bar.querySelector(`[data-step-words="${id}"]`);
+      steps[id] = { tag: el.tagName.toLowerCase(), blocked: el.getAttribute('data-blocked'),
+        current: el.getAttribute('aria-current'), href: el.getAttribute('href'),
+        words: w ? w.textContent.replace(/\s+/g, ' ').trim() : null };
+    }
+    const next = bar.querySelector('[data-next]');
+    return {
+      inMain: !!bar.closest('main'),
+      steps,
+      next: next ? { tag: next.tagName.toLowerCase(), id: next.getAttribute('data-next'),
+        href: next.getAttribute('href'), text: next.textContent.replace(/\s+/g, ' ').trim() } : null,
+      origin: bar.querySelector('[data-journey-origin]')?.getAttribute('data-journey-origin') || null,
+    };
+  });
+}
+{
+  const HOUSE = { brief: 'brief', candidates: 'candidates', workbench: 'plan', drawings: 'drawings',
+    export: 'export', transcription: 'transcription' };
+  const surfaces = Object.keys(SURFACE_PATHS);
+  // the denominator first: the router must still know every house surface this names
+  const unknown = Object.keys(HOUSE).filter((s) => !surfaces.includes(s));
+  check(`the router knows every house surface the bar is for (${unknown.join(', ') || 'all six'})`, !unknown.length);
+  const shownOn = [];
+  const wrong = [];
+  for (const s of surfaces) {
+    await visit(formatHash(s, {}, {}));
+    await page.waitForTimeout(250);
+    const jb = await journeyRead();
+    if (jb) shownOn.push(s);
+    if (HOUSE[s]) {
+      const cur = jb && Object.entries(jb.steps).filter(([, v]) => v.current === 'step').map(([k]) => k);
+      if (!jb) wrong.push(`${s}: no bar`);
+      else if (jb.inMain) wrong.push(`${s}: the bar is inside <main>`);
+      else if (!cur || cur.length !== 1 || cur[0] !== HOUSE[s]) wrong.push(`${s}: marks ${JSON.stringify(cur)} current`);
+    } else if (jb) {
+      wrong.push(`${s}: a bar where there is no house step`);
+    }
+  }
+  check(`the journey is on the six house surfaces and no other (shown on ${shownOn.join(', ')})`
+    + (wrong.length ? ' -- ' + wrong.join('; ') : ''), wrong.length === 0 && shownOn.length === 6);
+
+  /* Next is a link exactly where the step in view can proceed. Read on the steps a fresh reader
+     meets: whatever the bench holds by now, the export step is last and offers no Next, and a
+     step that is blocked is never the target of a link. */
+  await visit('#/export');
+  await page.waitForTimeout(250);
+  const last = await journeyRead();
+  check('the last step offers no Next', !!last && !last.next);
+  for (const s of ['brief', 'candidates', 'workbench', 'drawings']) {
+    await visit(formatHash(s, {}, {}));
+    await page.waitForTimeout(250);
+    const jb = await journeyRead();
+    const n = jb && jb.next;
+    const target = n && jb.steps[n.id];
+    const why = [];
+    if (!n) why.push('no Next at all');
+    else if (n.tag === 'a' && (!target || target.tag !== 'a')) why.push(`a link on to ${n.id}, which is ${target ? target.blocked : 'absent'}`);
+    else if (n.tag === 'a' && parseHash(n.href).surface !== parseHash(target.href).surface) why.push(`it links to ${n.href}, not the ${n.id} step`);
+    else if (n.tag !== 'a' && !n.text) why.push('a blocked Next that does not say why');
+    check(`Next on ${s} is a link only where the step can proceed (${n ? `${n.tag} "${n.text}"` : 'none'})`
+      + (why.length ? ' -- ' + why.join('; ') : ''), why.length === 0);
+  }
+  await visit('#/workbench');
+  await page.waitForTimeout(250);
+  await shot('journey', [SHOT_WIDTH, 1440, 1280]);
 }
 
 /* ── WP-14.11: A LICENCE SHOWS THE SERVER'S VERDICT, NEVER COLLAPSED ────────────────────────────
