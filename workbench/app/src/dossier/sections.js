@@ -1,7 +1,12 @@
 /* WHAT THE STYLE SURFACE SHOWS, DECIDED WITHOUT REACT (WP-14.12, PRD §D, §E.2).
 
-   The style surface is three places on one path, and which one a selection names is decided here
-   and nowhere else, in the PRD's order (§E.2):
+   The style surface is three places on one path, and which one a selection names is decided ONCE,
+   in the PRD's order (§E.2). The one spelling is `nav/navModel.js::stylePlaceKind` (WP-14.13), and
+   `placeOf` below reads it. The two packages were built in parallel and each wrote the rule, and
+   they met at the merge of the lead's tip. They agreed on every address a router writes and parted
+   on ones it can read: a whitespace-only style id (`#/style/%20`) or slot id. On `#/style/%20` the
+   shell's crumbs said the Styles index and this surface fetched a record named " ". The shell's
+   reading is kept, because a blank id names no record:
 
      a style present                       -> the DOSSIER (no section means `identify`)
      no style, section `kit`, a slot       -> the SLOT PANEL (one slot across every style)
@@ -26,9 +31,11 @@
    kit. The label of a section is its `section-<id>` glossary record's `term`, and this file writes
    no word a reader sees.
 
-   Pure; imports only the grammar's vocabulary and the router's address writer. */
+   Pure; imports the grammar's vocabulary, the router's address writer and the site map's one
+   reading of a style place. */
 import { DOSSIER_SECTIONS } from '../citations.js';
 import { formatHash } from '../router.js';
+import { stylePlaceKind } from '../nav/navModel.js';
 
 export const IDENTIFY = 'identify';
 export const KIT = 'kit';
@@ -40,12 +47,10 @@ export function sectionTermId(id) {
 
 const named = (v) => typeof v === 'string' && v !== '';
 
-/* selection -> 'dossier' | 'slot' | 'index' (§E.2). */
+/* selection -> 'dossier' | 'slot' | 'index' (§E.2), as the site map reads it: the rail, the
+   crumbs, the page head and this surface answer one question about one address with one function. */
 export function placeOf(selection) {
-  const s = selection || {};
-  if (named(s.style)) return 'dossier';
-  if (s.section === KIT && named(s.slot)) return 'slot';
-  return 'index';
+  return stylePlaceKind(selection);
 }
 
 /* The dossier payload -> [{ id, count }] in DOSSIER_SECTIONS order: `identify` first and always,

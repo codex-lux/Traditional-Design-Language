@@ -90,9 +90,11 @@ export function wordFor(lookup, termId) {
 
 /* Where the reader is, as the style surface reads it. The `kit` surface is the kit section of a
    style's dossier under its older address (`#/kit/<style>/<slot>`), which PRD §E.1 retires to
-   `#/style/<style>/kit/<slot>`; until that retirement lands, and for any link still written the
-   old way, it is read as the place it names so the rail, the crumbs and the head agree with the
-   URL the reader will be sent to. */
+   `#/style/<style>/kit/<slot>`. The retirement LANDED with WP-14.12. `router.parseHash` reads
+   `#/kit/...` as the style surface and `nav` rewrites the address bar, so no place the router
+   hands out says `kit` any more. The branch below stays for a caller that builds a place by hand
+   with the old surface id, and it reads that place as the place it names, so the rail, the crumbs
+   and the head still agree with the URL the reader will be sent to. */
 export function normalizePlace(place) {
   const p = isObj(place) ? place : {};
   const surface = str(p.surface) || 'overview';

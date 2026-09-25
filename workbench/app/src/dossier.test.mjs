@@ -30,6 +30,7 @@ import { carryTermOf } from './lineage/carry.js';
 import { DOSSIER_SECTIONS } from './citations.js';
 import { CONSTRAINT_STATES } from './judgment.js';
 import { parseHash } from './router.js';
+import { stylePlaceKind } from './nav/navModel.js';
 
 const ROOT = new URL('../../../', import.meta.url);
 const SRC = new URL('./', import.meta.url);
@@ -61,6 +62,25 @@ test('no style, the kit section and a slot is the slot panel -- and only that co
   assert.equal(placeOf({ section: 'lineage', slot: 'cornice' }), 'index',
     'a slot outside the kit section opened the slot panel');
   assert.equal(placeOf({ slot: 'cornice' }), 'index');
+});
+
+/* One reading of a style place (merge of the lead's tip, 25 Sep): the shell's
+   `nav/navModel.js::stylePlaceKind` and this surface's `placeOf` were written in parallel, agreed
+   on every address the router writes, and parted on a blank id -- `#/style/%20` put the crumbs on
+   the index and the surface on a record named " ". `placeOf` reads the shell's function now. The
+   sweep holds the two to one answer; the two blank cases are the ones that told them apart, and
+   restoring the old body of `placeOf` fails them. */
+test('placeOf is the site map\'s reading of a style place, a blank id included', () => {
+  const cases = [
+    undefined, {}, { style: 'craftsman' }, { style: ' ' }, { style: 7 }, [],
+    { section: 'kit', slot: 'cornice' }, { section: 'kit', slot: ' ' }, { section: 'lineage', slot: 'cornice' },
+    ...['#/style', '#/style/craftsman/kit/cornice', '#/style/-/kit/cornice', '#/style/%20', '#/kit/-/cornice']
+      .map((h) => parseHash(h).selection),
+  ];
+  for (const c of cases) assert.equal(placeOf(c), stylePlaceKind(c), JSON.stringify(c));
+  assert.equal(placeOf({ style: ' ' }), 'index', 'a blank style id opened a dossier');
+  assert.equal(placeOf(parseHash('#/style/%20').selection), 'index', '#/style/%20 opened a dossier');
+  assert.equal(placeOf({ section: 'kit', slot: ' ' }), 'index', 'a blank slot opened the slot panel');
 });
 
 // ── the strip: the payload's sections, in the vocabulary's order, never at zero ────────────────
