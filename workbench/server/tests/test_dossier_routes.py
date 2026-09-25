@@ -330,3 +330,28 @@ def test_every_phylogeny_edge_carries_its_lineage_records_slot_scope(client):
         assert e["slots"] == want, e
         scoped += want is not None
     assert scoped, "no lineage edge states a slot scope; the served key is never exercised"
+
+
+# --------------------------------------------------------------- descendants (WP-14.12)
+def test_a_descendant_carries_its_edges_own_flag_and_scope(client):
+    """`/api/styles/{id}`'s `descendants` serves each edge's `inherits_kit` and `slots`, and each
+    is held here to what `/api/phylogeny` serves for the SAME edge -- the one spelling the app's
+    `lineage/carry.js` reads. Without the flag the dossier's lineage section could only colour a
+    descendant by its edge's TYPE, which is the table WP-14.11 removed from three surfaces and
+    which is wrong wherever a `hybridizes_with` edge carries the kit.
+
+    Read through the HTTP routes, for every style some edge points AT (a style no edge names has
+    no descendants to check), and the premise is asserted both ways: some descendant carries and
+    some does not, so a route serving one constant cannot pass."""
+    edges = _get(client, "/api/phylogeny")["edges"]
+    served = {(e["from"], e["to"], e["type"]): e for e in edges}
+    targets = sorted({e["to"] for e in edges})
+    seen = {True: 0, False: 0}
+    for sid in targets:
+        rows = _get(client, f"/api/styles/{sid}", sections="lineage")["descendants"]
+        for d in rows:
+            e = served[(d["id"], sid, d["type"])]
+            assert d["inherits_kit"] is e["inherits_kit"], (sid, d, e)
+            assert d["slots"] == e["slots"], (sid, d, e)
+            seen[d["inherits_kit"]] += 1
+    assert seen[True] and seen[False], f"every descendant reads one way: {seen}"

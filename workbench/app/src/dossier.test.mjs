@@ -24,8 +24,9 @@ import {
   sectionAddress,
 } from './dossier/sections.js';
 import {
-  siblingsOf, packGroups, splitDelivered, deliveredOpen, cascadeRows, benchOf,
+  siblingsOf, packGroups, splitDelivered, deliveredOpen, cascadeRows, benchOf, descendantEdge,
 } from './dossier/relations.js';
+import { carryTermOf } from './lineage/carry.js';
 import { DOSSIER_SECTIONS } from './citations.js';
 import { CONSTRAINT_STATES } from './judgment.js';
 import { parseHash } from './router.js';
@@ -207,6 +208,29 @@ test('the bench says whether its plan is of this style, and nothing when there i
   assert.deepEqual(benchOf({ id: 'p', title: 'T', style: 'a' }, 'a'), { id: 'p', title: 'T', style: 'a', here: true });
   assert.equal(benchOf({ id: 'p', style: 'b' }, 'a').here, false);
   assert.equal(benchOf({ id: 'p' }, 'a').here, false, 'a plan stating no style was called this one');
+});
+
+test('a descendant is read by the flag its edge is served with, never by its type', () => {
+  const kin = descendantEdge({ id: 'b', type: 'hybridizes_with', inherits_kit: true, slots: null }, 'a');
+  assert.deepEqual(kin, { type: 'hybridizes_with', inherits_kit: true, slots: null, from: 'b', target: 'a' });
+  assert.equal(carryTermOf(kin), 'carries-the-kit', 'a kit-carrying co-parent was read by its type');
+  // the two directions a type table gets wrong: a cascade TYPE whose flag is not true, and a
+  // non-cascade type whose flag is -- both are the served flag's to decide
+  assert.equal(carryTermOf(descendantEdge({ id: 'b', type: 'descends_from', inherits_kit: false }, 'a')),
+    'carries-nothing');
+  assert.equal(carryTermOf(descendantEdge({ id: 'b', type: 'regional_of' }, 'a')), 'carries-nothing',
+    'an absent flag was read as a carry');
+  assert.equal(carryTermOf(descendantEdge({ id: 'b', type: 'hybridizes_with', inherits_kit: true,
+    slots: ['cornice'] }, 'a')), 'carries-named-slots');
+  assert.equal(descendantEdge(null, 'a').target, 'a');
+});
+
+test('the lineage section carries no table of edge types', () => {
+  const s = code(src('dossier/Lineage.jsx'));
+  assert.doesNotMatch(s, /descends_from|regional_of|hybridizes_with|CARRIES/,
+    'a type table is back in the lineage section');
+  assert.match(s, /<EdgeGlyph edge=\{e\} width=\{44\} \/>/, 'the glyph is not handed the served edge');
+  assert.match(s, /carryTermOf\(edge\)/);
 });
 
 // ── the surfaces on this path, held to the facts a render test would need a browser for ────────

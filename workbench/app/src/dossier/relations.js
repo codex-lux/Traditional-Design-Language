@@ -17,6 +17,8 @@
      cascadeRows    `/api/kit/{id}/cascade` as the ladder `ProvenanceTrace` draws -- lifted out of
                     `surfaces/KitSurface.jsx` unchanged, because the lineage section draws the
                     same ladder and two copies of one reading is how they come to disagree.
+     descendantEdge a served descendant as the edge it is, its flag untouched, for
+                    `lineage/carry.js` to read -- never a table keyed on the edge's type.
      benchOf        the plan on the bench, as it bears on this style.
 
    Pure; imports only the taxonomy's own readers. */
@@ -81,6 +83,20 @@ export function cascadeRows(cascade) {
       r.forbidden ? `${r.forbidden} forbidden` : null,
     ].filter(Boolean).join(', ') || (r.has_kit ? 'nothing of its own' : 'no kit'),
   }));
+}
+
+/* A served descendant (`{id, type, inherits_kit, slots}`, from `/api/styles/{id}`) as the edge it
+   is -- from the descendant TO this style -- with the served flag and scope passed through
+   untouched, so `lineage/carry.js` reads what the server states and nothing here decides it. */
+export function descendantEdge(d, styleId) {
+  const row = d && typeof d === 'object' ? d : {};
+  return {
+    type: row.type,
+    inherits_kit: row.inherits_kit,
+    slots: row.slots ?? null,
+    from: row.id,
+    target: styleId,
+  };
 }
 
 /* The plan on the bench -> what the panel says about it: null when there is none; otherwise its
