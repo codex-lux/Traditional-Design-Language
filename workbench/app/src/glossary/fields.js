@@ -1,4 +1,4 @@
-/* THE SEVEN SCHEMA FIELDS A GLOSSARY RECORD MAY BIND A WORD TO (WP-14.6, PRD §A.4).
+/* THE SCHEMA FIELDS A GLOSSARY RECORD MAY BIND A WORD TO (WP-14.6, PRD §A.4; WP-14.17).
 
    A glossary record's `binds` ties a word to one real member of a schema enum — `binding-open` to
    `kit.binding = open` — so a surface can ask "what is this value called?" through
@@ -8,10 +8,16 @@
 
    It is spelled twice by design: here, and as `FIELDS` in `build/check_glossary.py` (WP-14.1).
    `src/glossary.test.mjs` (WP-14.8) holds this table to the records both ways, and
-   `src/lookup.test.mjs` holds each pointer to the schema file it names, so neither copy can name a
+   `src/lookup.test.mjs` holds each pointer to the schema file it names AND holds this table to the
+   checker's row for row (WP-14.17), so neither copy can name a field the other does not, or a
    field whose enum is not where it says. The id of the record binding a value is NOT derived
    here: that is `by_field`'s, read off the records' own `binds`, and a second rule for it would
    be a second answer.
+
+   `glossary.family` (glossary schema 0.2.0, WP-14.17) binds the glossary's OWN family enum: one
+   `family-<value>` record per family, whose word is the heading the Glossary index groups that
+   family under and the kicker a term page names its family by. A family was the one label the
+   Glossary printed as a machine value until then (`oq/a-glossary-family-has-no-name-of-its-own`).
 
    Pure data. */
 
@@ -29,4 +35,5 @@ export const FIELDS = Object.freeze({
     '/$defs/parameter/properties/kind'),
   'pack.kind': field('pack-kind', 'schema/proportion-pack.schema.json', '/properties/kind'),
   'fault.severity': field('severity', 'schema/fault.schema.json', '/properties/severity'),
+  'glossary.family': field('family', 'schema/glossary-term.schema.json', '/properties/family'),
 });

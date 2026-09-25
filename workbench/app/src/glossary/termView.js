@@ -122,6 +122,15 @@ export function wordOf(lookup, id) {
   return isMissing(rec) ? noEntry(rec.missing) : rec.term;
 }
 
+/* The word a bound VALUE is called by — `glossary.family = product` → "This workbench" — for a
+   control a `Term` may not sit inside (a filter chip is a button): the record `by_field` names for
+   the value, or `noEntry` naming what is missing. The id is never built from the value here; that
+   is `by_field`'s, and a second rule for it would be a second answer (glossary/fields.js). */
+export function wordForValue(lookup, field, value) {
+  const rec = lookup.termFor(field, value);
+  return isMissing(rec) ? noEntry(rec.missing) : rec.term;
+}
+
 export function wordForCite(lookup, cite) {
   const p = typeof cite === 'string' ? parseCite(cite) : null;
   return p && p.kind === 'term' ? wordOf(lookup, p.id) : undefined;

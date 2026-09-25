@@ -9,13 +9,24 @@
       which read as earned for a licence the style is refused and for one nobody could judge. The
       verdict word is the glossary record's (`exception-granted`, `exception-refused`,
       `judgment-unjudged`), through `Term`.
-   3. Two severity axes — how it reads, how it lives — are two axes, not one badge.
+   3. Two severity axes — how it reads, how it lives — are two axes, not one badge. How it lives
+      is the record's `severity_in_use`, drawn where the record states it; until WP-14.17 that
+      label sat over `frequency`, which is how OFTEN, and is labelled so now.
    4. All three fix tiers appear, named right / cheap / dishonest, because the cheap one
-      is what actually gets built and naming the dishonest one is how the corpus stays honest. */
+      is what actually gets built and naming the dishonest one is how the corpus stays honest.
+   5. THE CARD WRITES NO WORD ABOUT ITS OWN PARTS (WP-14.17). Every heading, tier word and axis
+      label is a glossary record, drawn through `Term` from `faults/licence.js`'s tables, which
+      `src/faultCard.test.mjs` holds to `glossary/`. What the card still prints unworded is the
+      fault's own content and the record's machine values (a category, a driver, a slot id). */
 import React from 'react';
 import { Term } from './Term.jsx';
 import { RecordLink } from './RecordLink.jsx';
-import { licenceOf, faultSections } from '../faults/licence.js';
+import { useGlossary } from '../api/useGlossary.js';
+import { isMissing } from '../glossary/lookup.js';
+import {
+  licenceOf, faultSections, inUseOf,
+  FAULT_SECTION_TERM, COST_SAVED_TERM, FIX_TIERS, FIX_TIER_TERM, FAULT_AXIS_TERM,
+} from '../faults/licence.js';
 
 const SEV = {
   fatal: 'var(--sev-fatal)',
@@ -47,13 +58,30 @@ const LICENCE_FRAME = {
   unjudged: { borderLeft: '2px dashed var(--ink-2)', backgroundImage: 'var(--hatch-unjudged)' },
 };
 
-function Axis({ label, value, colour }) {
+/* An axis is labelled by the record for the field it reads (`FAULT_AXIS_TERM`). */
+function Axis({ field, value, colour }) {
   return (
     <span style={{ display: 'inline-flex', flexDirection: 'column', gap: 3, minWidth: 92 }}>
-      <span style={EYE}>{label}</span>
+      <span style={EYE}><Term id={FAULT_AXIS_TERM[field]} /></span>
       <span style={{ font: 'var(--type-data)', color: colour || 'var(--ink-2)' }}>{value}</span>
     </span>
   );
+}
+
+/* A section's heading: the record for its place in FAULT_CARD_ORDER. */
+function Head({ section, style }) {
+  return <div style={{ ...EYE, ...style }}><Term id={FAULT_SECTION_TERM[section]} /></div>;
+}
+
+/* How it lives, in the severity's own words where the value is a severity (`fault.severity`'s
+   records name fatal, serious and minor); the schema's fourth value names no severity and is
+   printed as the record states it, like the category and the driver, rather than drawn as a
+   "no entry" or handed a word from another sense. */
+function InUse({ value }) {
+  const glossary = useGlossary();
+  const unbound = glossary.status === 'ready' && glossary.lookup
+    && isMissing(glossary.lookup.termFor('fault.severity', value));
+  return unbound ? value : <Term field="fault.severity" value={value} />;
 }
 
 /* The verdict word, by literal id, so `glossary.test.mjs` holds each to a record. */
@@ -71,7 +99,7 @@ function Licence({ licence }) {
       <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap',
         background: licence.state === 'unjudged' ? 'var(--paper)' : 'transparent',
         padding: licence.state === 'unjudged' ? '2px 6px' : 0, width: 'fit-content' }}>
-        <span style={{ ...EYE, color: 'var(--gilt-deep)' }}><Term id="exception" /></span>
+        <span style={{ ...EYE, color: 'var(--gilt-deep)' }}><Term id={FAULT_SECTION_TERM.licence} /></span>
         <RecordLink cite={'style:' + licence.style} />
         <span data-licence-verdict={licence.state}
           style={{ font: 'var(--type-data)', color: 'var(--ink)', border: '1px solid currentColor',
@@ -100,16 +128,17 @@ function Licence({ licence }) {
 
 function FaultCard({ fault, styleInView, onSlot, style }) {
   const licence = licenceOf(fault, styleInView);
+  const inUse = inUseOf(fault);
   const sections = {
     correct_practice: () => (
       <section key="correct_practice" data-fault-section="correct_practice" style={{ marginTop: 16 }}>
-        <div style={{ ...EYE, color: 'var(--fix-right)' }}>the right way</div>
+        <Head section="correct_practice" style={{ color: 'var(--fix-right)' }} />
         <p style={PROSE}>{fault.correct_practice}</p>
       </section>
     ),
     detection: () => (
       <section key="detection" data-fault-section="detection" style={{ marginTop: 16 }}>
-        <div style={EYE}>how to spot it</div>
+        <Head section="detection" />
         <p style={{ ...PROSE, color: 'var(--ink-2)' }}>{fault.detection}</p>
       </section>
     ),
@@ -117,25 +146,27 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
     symptom: () => (
       <section key="symptom" data-fault-section="symptom"
         style={{ marginTop: 18, borderTop: '1px solid var(--rule-soft)', paddingTop: 14 }}>
-        <div style={EYE}>symptom</div>
+        <Head section="symptom" />
         <p style={PROSE}>{fault.symptom}</p>
       </section>
     ),
     cause: () => (
       <section key="cause" data-fault-section="cause" style={{ marginTop: 16 }}>
-        <div style={EYE}>cause — driver: {fault.cause.driver}</div>
+        <div style={EYE}>
+          <Term id={FAULT_SECTION_TERM.cause} /> — <Term id={FAULT_AXIS_TERM['cause.driver']} />: {fault.cause.driver}
+        </div>
         <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink-2)',
           maxWidth: 'var(--measure-prose)', margin: '7px 0 0' }}>{fault.cause.explanation}</p>
         {fault.cause.cost_saved && (
           <p style={{ font: 'var(--fw-med) 13.5px/1.55 var(--body)', color: 'var(--gilt-deep)', margin: '9px 0 0' }}>
-            <span style={{ ...EYE, marginRight: 8 }}>cost saved</span>{fault.cause.cost_saved}
+            <span style={{ ...EYE, marginRight: 8 }}><Term id={COST_SAVED_TERM} /></span>{fault.cause.cost_saved}
           </p>
         )}
       </section>
     ),
     rule_violated: () => (
       <section key="rule_violated" data-fault-section="rule_violated" style={{ marginTop: 16 }}>
-        <div style={EYE}>rule violated</div>
+        <Head section="rule_violated" />
         {fault.rule_violated.map((r, i) => (
           <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'baseline', marginTop: 7 }}>
             <span style={{ ...META, width: 168, flex: 'none' }}>{r.kind} · {r.ref}</span>
@@ -148,11 +179,11 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
     fixes: () => (
       <section key="fixes" data-fault-section="fixes"
         style={{ marginTop: 18, borderTop: '1px solid var(--rule-soft)', paddingTop: 14 }}>
-        <div style={EYE}>fix — three tiers, named plainly</div>
-        {['right', 'cheap', 'dishonest'].map((tier) => (fault.fix[tier] ? (
-          <div key={tier} style={{ display: 'flex', gap: 12, alignItems: 'baseline', marginTop: 9 }}>
+        <Head section="fixes" />
+        {FIX_TIERS.map((tier) => (fault.fix[tier] ? (
+          <div key={tier} data-fix-tier={tier} style={{ display: 'flex', gap: 12, alignItems: 'baseline', marginTop: 9 }}>
             <span style={{ font: 'var(--type-data-s)', color: FIX[tier], border: '1px solid currentColor',
-              padding: '1px 6px', width: 78, flex: 'none', textAlign: 'center' }}>{tier}</span>
+              padding: '1px 6px', width: 78, flex: 'none', textAlign: 'center' }}><Term id={FIX_TIER_TERM[tier]} /></span>
             <span style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink-2)',
               maxWidth: 'var(--measure-prose)' }}>{fault.fix[tier]}</span>
           </div>
@@ -161,7 +192,7 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
     ),
     test: () => (
       <section key="test" data-fault-section="test" style={{ marginTop: 16 }}>
-        <div style={EYE}>test — beside the statement, never instead of it</div>
+        <Head section="test" />
         <pre style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', background: 'var(--paper-mat)',
           border: '1px solid var(--rule-soft)', padding: '8px 10px', marginTop: 7,
           whiteSpace: 'pre-wrap' }}>{fault.test}</pre>
@@ -183,14 +214,15 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
         )}
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', margin: '14px 0 0', paddingBottom: 14,
           borderBottom: '1px solid var(--rule-soft)' }}>
-          <Axis label="how it reads" colour={SEV[fault.severity]}
+          <Axis field="severity" colour={SEV[fault.severity]}
             value={fault.severity ? <Term field="fault.severity" value={fault.severity} /> : null} />
-          <Axis label="how it lives" value={fault.frequency} />
-          <Axis label="category" value={fault.category} />
-          <Axis label="cause driver" value={fault.cause && fault.cause.driver} />
+          <Axis field="frequency" value={fault.frequency} />
+          {inUse && <Axis field="severity_in_use" colour={SEV[inUse]} value={<InUse value={inUse} />} />}
+          <Axis field="category" value={fault.category} />
+          <Axis field="cause.driver" value={fault.cause && fault.cause.driver} />
           {fault.slots && (
             <span style={{ display: 'inline-flex', flexDirection: 'column', gap: 3 }}>
-              <span style={EYE}>filed against</span>
+              <span style={EYE}><Term id={FAULT_AXIS_TERM.slots} /></span>
               <span style={{ display: 'flex', gap: 8 }}>
                 {fault.slots.map((s) => (onSlot ? (
                   <button key={s} type="button" onClick={() => onSlot(s)}

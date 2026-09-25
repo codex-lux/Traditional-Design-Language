@@ -332,3 +332,41 @@ test('the front door names no style id, no longer reads what_this_is, and keeps 
     assert.doesNotMatch(l, /--ink-4/, `${f}: no readable text in --ink-4 in new code`);
   }
 });
+
+/* WHAT IT HOLDS AND WHAT IT IS NOT EACH CARRY A HEADING, AND THE HEADING'S WORD IS A RECORD
+   (WP-14.17, tranche 2's PRD §A.4). The two lower sections were a column of figures under a
+   version string and a list of refusals, with nothing naming either region. A source guard, the
+   weaker form, and it says so: it reads what the file WRITES inside each section. The walk reads
+   the page. */
+function sectionOf(src, attr) {
+  const live = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
+  const at = live.search(new RegExp(`<section\\s+${attr}=`));
+  if (at < 0) return null;
+  const end = live.indexOf('</section>', at);
+  return end < 0 ? null : live.slice(at, end);
+}
+
+const HEADINGS = [['data-inventory', 'front-door-holds'], ['data-is-not-section', 'front-door-is-not']];
+
+test('what it holds and what it is not each open with an h2 whose word is a record', () => {
+  const src = source('surfaces/Overview.jsx');
+  assert.equal(sectionOf('<section data-x="">a<Eyebrow as="h2"><Term id="r" /></Eyebrow></section>', 'data-x'),
+    '<section data-x="">a<Eyebrow as="h2"><Term id="r" /></Eyebrow>',
+    'the premise: the reader cuts one section out of a file');
+  for (const [attr, id] of HEADINGS) {
+    const sec = sectionOf(src, attr);
+    assert.ok(sec, `${attr}: the section is in Overview.jsx`);
+    const h2 = sec.match(/<Eyebrow\s+as="h2"[^>]*>([\s\S]*?)<\/Eyebrow>/);
+    assert.ok(h2, `${attr}: the section opens with an h2`);
+    assert.equal(sec.indexOf(h2[0]), sec.search(/<Eyebrow\b/), `${attr}: the h2 is the section's first eyebrow`);
+    assert.deepEqual([...h2[1].matchAll(/<Term\s+id="([^"]+)"\s*\/>/g)].map((m) => m[1]), [id],
+      `${attr}: the heading draws exactly one record, ${id}`);
+    assert.doesNotMatch(h2[1].replace(/<Term[^>]*\/>/g, ''), /[A-Za-z]/,
+      `${attr}: nothing but the Term in the h2 -- no word typed beside it`);
+    const rec = BY_ID.get(id);
+    assert.ok(rec, `${id} is a glossary record`);
+    assert.equal(rec.family, 'product', `${id} is the product's own word, beside about-tdl`);
+  }
+  assert.match(sectionOf(src, 'data-is-not-section'), /<ul\s+data-is-not=/,
+    'the is-not list sits inside its headed section, keeping the attribute the walk reads');
+});

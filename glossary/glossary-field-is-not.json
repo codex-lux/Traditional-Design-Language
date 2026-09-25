@@ -1,0 +1,9 @@
+{
+  "id": "glossary-field-is-not",
+  "term": "What it is not",
+  "family": "glossary-field",
+  "order": 3,
+  "definition": "What the corpus declines to be, in its own account of itself, so that nobody takes it for something it is not.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of the `is_not` field, which this word labels on an entry's own page: \"Only on `about-tdl`: what the corpus is not\"."
+}

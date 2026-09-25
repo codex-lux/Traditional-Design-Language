@@ -26,7 +26,8 @@ The contract is docs/prd/phase-14-the-dossier-and-the-journey.md §A. The rules,
       generated docs/open-questions.md or any glossary/ file is an error, and a key path the
       verifier cannot walk is an ERROR here rather than an unjudged count: the glossary starts
       with no backlog, so its ceiling is zero.
-   5. BINDS -- the seven fields in FIELDS, their schemas and pointers checked against the
+   5. BINDS -- the fields in FIELDS (the glossary's own `glossary.family` among them since
+      WP-14.17), their schemas and pointers checked against the
       schema files as they stand; the value in the enum; the record's family, id and order
       derived from the row; each value bound once; and a field bound at all is bound
       COMPLETELY, every missing value an error.
@@ -44,13 +45,24 @@ The contract is docs/prd/phase-14-the-dossier-and-the-journey.md §A. The rules,
       `surface` only in families surface and section.
   10. LENGTHS -- definition and each readers line at most forty-five words; analogy, the page
       head, each how-to-read line and each is_not at most thirty.
-  11. NAMING -- families surface, section, nav-group, layer and judgment take the id prefix
-      `<family>-`, and an id carrying one of those prefixes is in that family.
+  11. NAMING -- families surface, section, nav-group, layer, judgment, glossary-field, mark and
+      family take the id prefix `<family>-`, and an id carrying one of those prefixes is in that
+      family.
+  12. ASK (0.2.0, WP-14.17) -- every record in family `surface` carries `surface.ask`, the
+      assistant's starter questions for that page: one to three, each at most twenty words and
+      ending with a question mark, under rule 8's hygiene. A dossier section may carry them.
+  13. MARKS (0.2.0, WP-14.17) -- `mark` appears only on families judgment, mark, severity and
+      variant-status; each value names a custom property workbench/app/src/theme/tokens.css
+      DEFINES (read as text, a declaration and not a use), and each property is named by exactly
+      one record. The stylesheet is the only file outside the corpus directories this checker
+      reads. Where a record carries a `mark` and the stylesheet cannot be read, the rule is
+      COULD NOT EVALUATE, and the run exits 3 unless another rule has already failed it.
 
 Usage:
     python3 build/check_glossary.py                         # the repository's glossary/
     python3 build/check_glossary.py --glossary DIR [...]    # these directories, as ONE set
     python3 build/check_glossary.py --quiet                 # errors and the verdict only
+    python3 build/check_glossary.py --tokens FILE           # hold `mark` to this stylesheet
 
 `--glossary` may be repeated; every directory named is read and the union is checked as one set
 (an id in two directories is a duplicate). It replaces the default rather than adding to it, so
@@ -72,6 +84,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GLOSSARY = os.path.join(ROOT, "glossary")
 SCHEMA = os.path.join(ROOT, "schema", "glossary-term.schema.json")
 BRIEFS = os.path.join(ROOT, "briefs")
+# Rule 13: the one stylesheet a `mark` is held to. `--tokens` points the check at another file,
+# which is how tests/test_check_glossary.py drives the rule without writing inside the repository.
+TOKENS = os.path.join(ROOT, "workbench", "app", "src", "theme", "tokens.css")
 
 # The runner's protocol (build/check_all.py): 3 is COULD NOT EVALUATE, never a pass.
 COULD_NOT_EVALUATE = 3
@@ -87,10 +102,13 @@ CO = modcache.load("check_openings", os.path.join(ROOT, "build", "check_openings
 BIBLIOGRAPHY_GLOBS = ("styles/*.json", "faults/*.json", "rooms/*.json",
                       "proportions/**/*.json", "groupings/*.json", "partis/*.json")
 
-# The seven bindable fields (rule 5): field -> (schema file, JSON pointer to the enum, family).
-# workbench/app/src/glossary/fields.js holds the same seven keys; the contract's §A.4 is the table
-# both are read from. Each row is verified against the schema file on every run, so a pointer
-# that stops resolving is an error here rather than a word bound to nothing.
+# The bindable fields (rule 5): field -> (schema file, JSON pointer to the enum, family).
+# workbench/app/src/glossary/fields.js holds the same keys; tranche 1's §A.4 and tranche 2's §A.1
+# are the table both are read from, and `src/lookup.test.mjs` holds the two copies row for row.
+# Each row is verified against the schema file on every run, so a pointer that stops resolving is
+# an error here rather than a word bound to nothing. The eighth row, `glossary.family` (0.2.0,
+# WP-14.17), binds the glossary's own family enum: one `family-*` record per family, whose term is
+# the heading the Glossary page groups that family under.
 FIELDS = {
     "style.rank": ("schema/style-node.schema.json", "/properties/rank", "rank"),
     "lineage.type": ("schema/style-node.schema.json",
@@ -104,6 +122,7 @@ FIELDS = {
                            "param-kind"),
     "pack.kind": ("schema/proportion-pack.schema.json", "/properties/kind", "pack-kind"),
     "fault.severity": ("schema/fault.schema.json", "/properties/severity", "severity"),
+    "glossary.family": ("schema/glossary-term.schema.json", "/properties/family", "family"),
 }
 
 # Rule 9: the five seeds WP-14.1 writes and every other record may lean on.
@@ -115,7 +134,20 @@ ABOUT_FORBIDS = ("see", "confusable_with", "binds", "surface")
 SURFACE_FAMILIES = ("surface", "section")
 
 # Rule 11.
-PREFIXED_FAMILIES = ("surface", "section", "nav-group", "layer", "judgment")
+PREFIXED_FAMILIES = ("surface", "section", "nav-group", "layer", "judgment",
+                     "glossary-field", "mark", "family")
+
+# Rule 12: the starter questions.
+ASK_REQUIRED_FAMILY = "surface"
+ASK_MIN, ASK_MAX = 1, 3
+MAX_WORDS_ASK = 20
+
+# Rule 13: the families a `mark` may sit on, and the shape of a mark's value.
+MARK_FAMILIES = ("judgment", "mark", "severity", "variant-status")
+_MARK_RE = re.compile(r"^--mark-[a-z0-9-]+$")
+# A custom property DECLARED, not used: the name at the start of a declaration -- after `{`, `;`
+# or a line start -- followed by a colon. `var(--mark-x)` is a use and defines nothing.
+_DECLARED_RE = re.compile(r"(?:^|[{;])\s*(--[A-Za-z0-9_-]+)\s*:", re.M)
 
 # Rule 8. A numeral is caught by its Unicode category rather than by `\d` alone, so a circled
 # figure or a fraction -- the build-history shapes the workbench's own copy carried -- cannot pass
@@ -234,6 +266,8 @@ def prose_fields(rec):
         out.append(("surface.what", surf["what"]))
     for i, s in enumerate(_strs(surf.get("read"))):
         out.append((f"surface.read[{i}]", s))
+    for i, s in enumerate(_strs(surf.get("ask"))):
+        out.append((f"surface.ask[{i}]", s))
     for i, r in enumerate(_list(rec.get("readers"))):
         if isinstance(r, dict):
             for k in ("who", "line"):
@@ -246,6 +280,12 @@ def prose_fields(rec):
 
 def _words(s):
     return len(s.split())
+
+
+def declared_properties(css):
+    """Every custom property a stylesheet DECLARES, read as text with its comments removed."""
+    live = re.sub(r"/\*[\s\S]*?\*/", " ", css)
+    return set(_DECLARED_RE.findall(live))
 
 
 # ------------------------------------------------------------------------------ the check
@@ -261,6 +301,9 @@ def main(argv=None):
                     help="a directory of glossary records; repeat to check several as one set "
                          "(default: this repository's glossary/)")
     ap.add_argument("--quiet", action="store_true", help="print errors and the verdict only")
+    ap.add_argument("--tokens", metavar="FILE",
+                    help="the stylesheet a record's `mark` is held to (default: the workbench's "
+                         "workbench/app/src/theme/tokens.css)")
     args = ap.parse_args(argv)
     dirs = [os.path.abspath(d) for d in (args.glossary or [GLOSSARY])]
 
@@ -285,6 +328,7 @@ def main(argv=None):
     from jsonschema.exceptions import ValidationError
 
     rep = Report()
+    unjudged = []                   # rules that could not be evaluated, each with its reason
 
     # 2 -- shape
     records = {}                    # id -> record (the last one read, where ids collide)
@@ -563,6 +607,68 @@ def main(argv=None):
                 rep.err(at(rid), f"its id begins {pf + '-'!r} and it is in family {fam!r}, "
                                  f"not {pf!r}")
 
+    # 12 -- the starter questions
+    n_asks = 0
+    for rid, rec in sorted(records.items()):
+        surf = rec.get("surface") if isinstance(rec.get("surface"), dict) else None
+        asks = surf.get("ask") if surf is not None else None
+        if rec.get("family") == ASK_REQUIRED_FAMILY and not (isinstance(asks, list) and asks):
+            rep.err(at(rid), "is a page (family 'surface') and carries no `surface.ask`: every page "
+                             "offers the assistant's starter questions, and a page with none leaves "
+                             "a reader nothing to begin from")
+            continue
+        if asks is None:
+            continue
+        if not isinstance(asks, list) or not ASK_MIN <= len(asks) <= ASK_MAX:
+            n = len(asks) if isinstance(asks, list) else "no list of"
+            rep.err(at(rid), f"`surface.ask` holds {n} question(s); a page offers from "
+                             f"{ASK_MIN} to {ASK_MAX}")
+            continue
+        for i, q in enumerate(asks):
+            n_asks += 1
+            if not isinstance(q, str) or not q.strip():
+                rep.err(at(rid), f"surface.ask[{i}] is not a question")
+                continue
+            if not q.rstrip().endswith("?"):
+                rep.err(at(rid), f"surface.ask[{i}] does not end with a question mark: {q!r}")
+            if _words(q) > MAX_WORDS_ASK:
+                rep.err(at(rid), f"surface.ask[{i}] is {_words(q)} words; the most is {MAX_WORDS_ASK}")
+
+    # 13 -- marks
+    marked = [(rid, rec.get("mark")) for rid, rec in sorted(records.items()) if "mark" in rec]
+    n_marks = 0
+    if marked:
+        tokens = os.path.abspath(args.tokens) if args.tokens else TOKENS
+        shown_tokens = os.path.relpath(tokens, ROOT) if tokens.startswith(ROOT + os.sep) else tokens
+        try:
+            with open(tokens, encoding="utf-8") as fh:
+                defined = declared_properties(fh.read())
+        except OSError as exc:
+            defined = None
+            unjudged.append(f"{len(marked)} record(s) carry a `mark` and {shown_tokens} cannot be "
+                            f"read ({exc.strerror or exc}), so no mark can be held to a property "
+                            f"the stylesheet defines")
+        named = {}
+        for rid, value in marked:
+            fam = records[rid].get("family")
+            if fam not in MARK_FAMILIES:
+                rep.err(at(rid), f"carries `mark` in family {fam!r}; a mark sits only on families "
+                                 f"{', '.join(MARK_FAMILIES)}")
+            if not isinstance(value, str) or not _MARK_RE.match(value):
+                rep.err(at(rid), f"`mark` {value!r} is not a custom property named --mark-<name>")
+                continue
+            named.setdefault(value, []).append(rid)
+            if defined is None:
+                continue
+            n_marks += 1
+            if value not in defined:
+                rep.err(at(rid), f"`mark` {value} is a property {shown_tokens} does not define: a "
+                                 f"word may not name a mark the stylesheet cannot draw")
+        for value, who in sorted(named.items()):
+            if len(who) > 1:
+                rep.err(f"mark {value}", f"named by {len(who)} records: {who}. One mark, one "
+                                         f"meaning -- a property two words share says two things")
+
     # ---- report
     if not args.quiet:
         print(f"glossary: {n_files} file(s), {len(records)} record(s) in "
@@ -576,6 +682,7 @@ def main(argv=None):
         print(f"  bound fields: {len(fields_bound)} of {len(FIELDS)}"
               + (f" ({', '.join(fields_bound)})" if fields_bound else "")
               + f"; homonym pairs: {collisions}")
+        print(f"  starter questions checked: {n_asks}; marks held to the stylesheet: {n_marks}")
         for w in rep.warnings:
             print(f"  WARN {w}")
     if rep.errors:
@@ -583,6 +690,10 @@ def main(argv=None):
             print(f"  ERROR {e}")
         print(f"\ncheck_glossary: {len(rep.errors)} error(s) over {len(records)} record(s)")
         return 1
+    if unjudged:
+        for u in unjudged:
+            print(f"  UNJUDGED {u}")
+        return could_not_evaluate("; ".join(unjudged))
     print(f"OK — glossary: {len(records)} record(s), {n_quotes} quotation(s) verified, "
           f"{n_sources} source(s) found in the bibliography, {len(fields_bound)} field(s) bound "
           f"completely, {collisions} homonym pair(s) declared")

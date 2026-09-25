@@ -211,6 +211,11 @@ const front = await page.evaluate(() => {
     rows: qa('[data-spine-row]').map((d) => d.getAttribute('data-spine-row')),
     map: qa('[data-map-item]').map((a) => [a.getAttribute('data-map-item'), a.getAttribute('href')]),
     entrances: qa('[data-entrance-link]').map((a) => [a.getAttribute('data-entrance-link'), a.getAttribute('href')]),
+    // WP-14.17: the two lower sections' headings, as the term each h2 draws
+    heads: ['data-inventory', 'data-is-not-section'].map((attr) => {
+      const t = q(`[${attr}] h2 [data-term]`);
+      return [attr, t ? t.getAttribute('data-term') : null, txt(t)];
+    }),
   };
 });
 if (!aboutRec) {
@@ -234,6 +239,14 @@ check(`the inventory has rank rows to compare (${Object.keys(byRank).length})`, 
 check('the inventory figures are counts.by_rank, row for row',
   front.ranks.length === Object.keys(byRank).length
   && front.ranks.every(([k, v]) => k in byRank && v === String(byRank[k])));
+// WP-14.17: each lower section is headed by its record's own word, read from the API and not
+// written here -- an absent record is unjudged, never a pass
+for (const [attr, id] of [['data-inventory', 'front-door-holds'], ['data-is-not-section', 'front-door-is-not']]) {
+  const want = await termOf(id);
+  const got = front.heads.find((h) => h[0] === attr) || [];
+  if (!want) unjudged.push(`the ${attr} heading — GET /api/glossary/${id} did not answer`);
+  else check(`the ${attr} section is headed by ${id}'s word (${got[2]})`, got[1] === id && got[2] === want.term);
+}
 check(`the ontology version stays in main (${overview.ontology_version})`,
   front.versionAttr === overview.ontology_version && (front.versionText || '').includes(overview.ontology_version));
 check('the search invitation stays in main',

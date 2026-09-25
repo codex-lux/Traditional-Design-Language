@@ -148,7 +148,8 @@ def test_the_control_passes(CG, control):
     rc, out = run(CG, control)
     assert rc == 0, out
     # and it exercised what it exists to exercise, rather than passing by checking nothing
-    assert "bound fields: 1 of 7 (style.rank)" in out, out
+    # The denominator is the checker's own table, never a typed count (WP-14.17 added the eighth).
+    assert f"bound fields: 1 of {len(CG.FIELDS)} (style.rank)" in out, out
     assert "homonym pairs: 1" in out, out
     assert "sources checked against the bibliography: 1" in out, out
     assert "citations checked: 4" in out, out
@@ -445,6 +446,125 @@ def test_prefixed_families_are_named_by_their_prefix(CG, control):
     assert rc == 1
     assert "layer-alphabet.json: its id begins 'layer-' and it is in family 'model'" in out, out
     assert "the-critic.json: is in family 'layer' and its id does not begin 'layer-'" in out, out
+
+
+def test_the_new_prefixed_families_are_named_by_their_prefix(CG, control):
+    """Glossary schema 0.2.0 (WP-14.17) added three families that head a page's parts, and all three
+    join rule 11: a `family-*` id outside family `family` is refused, and so is the reverse."""
+    for fam in ("glossary-field", "mark", "family"):
+        assert fam in CG.PREFIXED_FAMILIES
+    write(control, _editorial("glossary-field-aka", "a label", "model"))
+    write(control, _editorial("a-heading", "a heading", "family"))
+    rc, out = run(CG, control)
+    assert rc == 1
+    assert "glossary-field-aka.json: its id begins 'glossary-field-' and it is in family 'model'" in out, out
+    assert "a-heading.json: is in family 'family' and its id does not begin 'family-'" in out, out
+
+
+# ------------------------------------------------------------------ rule 12: the starter questions
+
+def _surface(rid, **surface):
+    return _editorial(rid, "a page word " + rid, "surface", surface=dict({"what": "A page head."}, **surface))
+
+
+def test_a_page_with_starter_questions_passes_and_is_counted(CG, control):
+    write(control, _surface("surface-test", ask=["Where should I begin on this page?"]))
+    rc, out = run(CG, control)
+    assert rc == 0, out
+    assert "starter questions checked: 1;" in out, out
+
+
+def test_a_page_without_starter_questions_fails(CG, control):
+    """`surface.ask` is required on a PAGE (family `surface`), and allowed on a dossier section."""
+    write(control, _surface("surface-test"))
+    write(control, _editorial("section-test", "a section word", "section",
+                              surface={"what": "A section head."}))
+    rc, out = run(CG, control)
+    assert rc == 1
+    assert "surface-test.json: is a page (family 'surface') and carries no `surface.ask`" in out, out
+    assert "section-test.json" not in out, "a section may carry starter questions and need not"
+
+
+def test_each_starter_question_is_held_to_its_rules(CG, control):
+    too_long = " ".join(["word"] * 20) + " more?"
+    write(control, _surface("surface-long", ask=[too_long]))
+    write(control, _surface("surface-flat", ask=["This is a statement and not a question."]))
+    write(control, _surface("surface-count", ask=["Why are there 3 fatal findings on this plan?"]))
+    write(control, _surface("surface-many", ask=["One?", "Two?", "Three?", "Four?"]))
+    rc, out = run(CG, control)
+    assert rc == 1
+    assert "surface-long.json: surface.ask[0] is 21 words; the most is 20" in out, out
+    assert "surface-flat.json: surface.ask[0] does not end with a question mark" in out, out
+    assert "surface-count.json: surface.ask[0] carries the numeral '3'" in out, out
+    assert "surface-many.json: `surface.ask` holds 4 question(s); a page offers from 1 to 3" in out, out
+
+
+# ------------------------------------------------------------------ rule 13: marks
+
+def _tokens(tmp_path, css):
+    p = tmp_path / "tokens.css"
+    p.write_text(css, encoding="utf-8")
+    return str(p)
+
+
+def test_a_mark_naming_a_property_the_stylesheet_does_not_define_fails(CG, control):
+    """The real stylesheet: a word may not name a mark the workbench cannot draw."""
+    mutate(control, "judgment-passed", lambda r: r.__setitem__("mark", "--mark-no-such-token"))
+    rc, out = run(CG, control)
+    assert rc == 1
+    assert ("judgment-passed.json: `mark` --mark-no-such-token is a property "
+            "workbench/app/src/theme/tokens.css does not define") in out, out
+
+
+def test_a_mark_is_held_to_what_the_stylesheet_declares_not_to_what_it_mentions(CG, control, tmp_path):
+    """Defined means DECLARED: a property only used through var(), or only named in a comment,
+    defines nothing -- and the declared one passes, which is the control for the other two."""
+    css = (":root {\n  --mark-passed: var(--green-deep);\n}\n"
+           ".x { background: var(--mark-used-only); }\n"
+           "/* --mark-in-a-comment: a note, not a declaration; */\n")
+    tokens = _tokens(tmp_path, css)
+    mutate(control, "judgment-passed", lambda r: r.__setitem__("mark", "--mark-passed"))
+    rc, out = run(CG, control, extra=("--tokens", tokens))
+    assert rc == 0, out
+    assert "marks held to the stylesheet: 1" in out, out
+    mutate(control, "judgment-failed", lambda r: r.__setitem__("mark", "--mark-used-only"))
+    mutate(control, "judgment-unjudged", lambda r: r.__setitem__("mark", "--mark-in-a-comment"))
+    rc, out = run(CG, control, extra=("--tokens", tokens))
+    assert rc == 1
+    assert "judgment-failed.json: `mark` --mark-used-only is a property" in out, out
+    assert "judgment-unjudged.json: `mark` --mark-in-a-comment is a property" in out, out
+    assert "judgment-passed.json" not in out, out
+
+
+def test_one_mark_named_by_two_records_fails(CG, control, tmp_path):
+    tokens = _tokens(tmp_path, ":root { --mark-shared: var(--ink); }\n")
+    for rid in ("judgment-passed", "judgment-failed"):
+        mutate(control, rid, lambda r: r.__setitem__("mark", "--mark-shared"))
+    rc, out = run(CG, control, extra=("--tokens", tokens))
+    assert rc == 1
+    assert "mark --mark-shared: named by 2 records" in out, out
+
+
+def test_a_mark_outside_its_families_or_its_shape_fails(CG, control, tmp_path):
+    tokens = _tokens(tmp_path, ":root { --mark-x: var(--ink); --hatch-45: none; }\n")
+    mutate(control, "test-cites", lambda r: r.__setitem__("mark", "--mark-x"))
+    mutate(control, "judgment-passed", lambda r: r.__setitem__("mark", "--hatch-45"))
+    rc, out = run(CG, control, extra=("--tokens", tokens))
+    assert rc == 1
+    assert "test-cites.json: carries `mark` in family 'model'" in out, out
+    assert "judgment-passed.json: `mark` '--hatch-45' is not a custom property named --mark-<name>" in out, out
+
+
+def test_an_unreadable_stylesheet_is_could_not_evaluate_and_never_a_pass(CG, control, tmp_path):
+    mutate(control, "judgment-passed", lambda r: r.__setitem__("mark", "--mark-passed"))
+    rc, out = run(CG, control, extra=("--tokens", str(tmp_path / "no-such-tokens.css")))
+    assert rc == CG.COULD_NOT_EVALUATE, out
+    assert "UNJUDGED 1 record(s) carry a `mark`" in out, out
+    assert "COULD NOT EVALUATE" in out, out
+    # and a failure elsewhere is still a failure, not hidden behind the unjudged rule
+    mutate(control, "judgment-failed", lambda r: r.__setitem__("definition", "Has 7 digits."))
+    rc, out = run(CG, control, extra=("--tokens", str(tmp_path / "no-such-tokens.css")))
+    assert rc == 1, out
 
 
 def test_an_id_in_two_directories_is_a_duplicate(CG, control, tmp_path):

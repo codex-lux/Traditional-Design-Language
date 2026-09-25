@@ -9,6 +9,9 @@
     "element slot"
   ],
   "analogy": "A letter of the alphabet every style writes with; adding a style should never need a new letter.",
+  "confusable_with": [
+    "slot-variant"
+  ],
   "see": [
     "slot:cornice",
     "slot:roof_pitch",

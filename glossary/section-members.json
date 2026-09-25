@@ -15,5 +15,8 @@
       "Where a style really comes from is in its Lineage section."
     ],
     "try": "style:american-colonial"
-  }
+  },
+  "confusable_with": [
+    "member"
+  ]
 }

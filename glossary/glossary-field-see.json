@@ -1,0 +1,9 @@
+{
+  "id": "glossary-field-see",
+  "term": "See",
+  "family": "glossary-field",
+  "order": 5,
+  "definition": "Other places in the workbench this word leads to, such as a style, a fault, a pack or another entry, each checked to exist before it is shown.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of the `see` field, which this word labels on an entry's own page: \"Citations in the workbench's grammar (`kind:id`), each checked\"."
+}

@@ -219,12 +219,12 @@ def _author(authority):
 #   * which files a basis may name -- `check_openings.GLOSSARY_REC_RE`, the pattern the checker
 #     verifies the basis against, so the `reads` line a popover prints is exactly the population
 #     the checker read and never a second regex's opinion of it;
-#   * the seven bindable fields -- `check_glossary.FIELDS`, whose rows the checker verifies
+#   * the bindable fields -- `check_glossary.FIELDS`, whose rows the checker verifies
 #     against the schema files on every run;
 #   * the family order -- the schema's own `family` enum, through `core.schema`.
 #
-# CACHED, and that is measured rather than imitated from search_index: building it walks 121
-# records, a regex over each basis and a JSON serialisation for the digest, and the payload is
+# CACHED, and that is measured rather than imitated from search_index: building it walks every
+# record (121 when it was measured), a regex over each basis and a JSON serialisation for the digest, and the payload is
 # what every tooltip on every page reads. Returned SHARED, as search_index is -- a caller that
 # means to mutate it copies first. `reset_glossary_payload()` is called by `invalidate()`.
 _GLOSSARY_PAYLOAD = None

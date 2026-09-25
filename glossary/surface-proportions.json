@@ -8,7 +8,8 @@
   "kind": "editorial",
   "basis": "Editorial. README.md describes the packs this page lists: \"give one a module and a context and it emits a fully dimensioned assembly, member by member, with profiles.\" and \"Brick course, timber bay, sash light, storey graduation and log are the non-classical equivalents\". docs/proportion.md: \"Most traditional buildings were never proportioned from an order; they were proportioned from a brick course, a joist span, or a pane of glass.\"",
   "confusable_with": [
-    "section-proportions"
+    "section-proportions",
+    "proportion-pack"
   ],
   "surface": {
     "what": "Every proportion pack: the rules that set out an assembly, member by member, from a module.",
@@ -18,6 +19,11 @@
       "Each pack names the styles that use it and where it conflicts with building today.",
       "Each pack is drawn, member by member, from its own figures."
     ],
-    "try": "pack:trim-classical"
+    "try": "pack:trim-classical",
+    "ask": [
+      "How does a proportion pack size a cornice from a module?",
+      "Which packs govern the openings of a Georgian house?",
+      "Where does a classical order conflict with building today?"
+    ]
   }
 }

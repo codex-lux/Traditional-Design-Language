@@ -14,6 +14,11 @@
       "The library holds what every style and house draws on: proportion packs, named faults and this glossary.",
       "If you have no style in mind, the guided example is a place to start."
     ],
-    "try": "style:tidewater-georgian"
+    "try": "style:tidewater-georgian",
+    "ask": [
+      "What is this workbench for, and where should I begin?",
+      "How does a brief become a checked and drawn house?",
+      "What does the corpus refuse to decide for me?"
+    ]
   }
 }

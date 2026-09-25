@@ -14,6 +14,10 @@
       "value": "family"
     }
   ],
+  "confusable_with": [
+    "pack-kind-trim-system",
+    "rank"
+  ],
   "see": [
     "style:english-classical"
   ]

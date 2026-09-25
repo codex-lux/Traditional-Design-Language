@@ -15,6 +15,9 @@
       "value": "extends"
     }
   ],
+  "confusable_with": [
+    "binding"
+  ],
   "see": [
     "kit:tidewater-georgian#chimney"
   ]

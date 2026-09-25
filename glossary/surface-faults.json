@@ -18,6 +18,11 @@
       "Each error gives three fixes: the right one, the cheap one and the dishonest one.",
       "Narrow the list by severity, by what drives the error, or by a style to see its verdicts."
     ],
-    "try": "fault:porch-too-shallow-to-inhabit"
+    "try": "fault:porch-too-shallow-to-inhabit",
+    "ask": [
+      "Which faults are fatal on a Tidewater Georgian house?",
+      "Why does the cheap fix usually get built?",
+      "Which styles hold an exception to this fault?"
+    ]
   }
 }

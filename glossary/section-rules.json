@@ -14,5 +14,8 @@
       "A rule its sources state only in words is left to your judgment, never passed in silence."
     ],
     "try": "constraint:charleston-georgian.c01"
-  }
+  },
+  "confusable_with": [
+    "derived-rule"
+  ]
 }

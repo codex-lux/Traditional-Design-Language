@@ -1,0 +1,22 @@
+{
+  "id": "surface-compare",
+  "term": "Compare",
+  "family": "surface",
+  "order": 17,
+  "definition": "The page that sets two styles side by side: how to tell them apart, the slots where their kits differ, the proportion packs each carries, and the plan types native to each.",
+  "kind": "editorial",
+  "basis": "The page is the workbench's own, ruled for Phase 14; what it compares is each style's record. schema/style-node.schema.json: \"Explicit disambiguation against commonly-confused neighbours.\" and \"Fast field-identification cues that distinguish it from its nearest siblings.\" mcp_server/core.py compares two styles by their disambiguation, their tells and \"fall back on the tells below\"",
+  "surface": {
+    "what": "Two styles side by side: how to tell them apart, where their kits differ slot by slot, the proportion packs each carries, and the plan types native to each.",
+    "read": [
+      "Where the corpus records how to tell the two apart, that comes first; otherwise each style's own tells.",
+      "The kit rows are only the slots where the two styles differ.",
+      "Shared ancestry is listed, and whether one descends from the other."
+    ],
+    "ask": [
+      "Where do these two styles differ in their kits?",
+      "Which proportion packs do these two styles share?",
+      "How would I tell these two styles apart on the street?"
+    ]
+  }
+}

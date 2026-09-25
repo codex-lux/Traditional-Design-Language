@@ -1,0 +1,9 @@
+{
+  "id": "fault-section-rule-violated",
+  "term": "rule violated",
+  "family": "fault",
+  "order": 9,
+  "definition": "The rule the fault breaks, and what kind of rule it is: a proportion pack's rule, a style's constraint, a kit's variant, a first principle, or a building code, which a house can meet and still be wrong.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `rule_violated` field, whose kinds are a pack rule, a style constraint, a kit variant, a first principle and a code: \"A house can be code-minimum and wrong, and the code is a real authority a fault is traded against\"."
+}

@@ -1,0 +1,9 @@
+{
+  "id": "glossary-field-aka",
+  "term": "Also called",
+  "family": "glossary-field",
+  "order": 0,
+  "definition": "Other words for the same sense of a word, from another trade, region or century. Each is searched as the word itself is, and held to the same rule when it collides with another entry's word.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of the `aka` field, which this word labels on an entry's own page: \"Other words for the same sense. Each joins the homonym check and the search haystack\"."
+}

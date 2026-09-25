@@ -22,8 +22,12 @@
      the example       `guided-example`: its definition, its citations as links, and where it
                        stops, in its own words (`oq/the-worked-house-has-no-plan-that-places`)
      what it holds     `/api/overview`'s counts, named by the records for each rank and kind,
-                       and the ontology version
-     what it is not    `about-tdl`'s `is_not`
+                       and the ontology version, under `front-door-holds`'s heading
+     what it is not    `about-tdl`'s `is_not`, under `front-door-is-not`'s heading
+
+   THE TWO LOWER SECTIONS HAD NO HEADING (WP-14.17): a column of figures under a version string and
+   a list of refusals, each a region a screen reader could not name and a sighted reader had to
+   infer. Each carries an `h2` now, and its word is a record like every other word here.
 
    The page is written by `frontdoor/frontDoor.js`, which is pure and tested, and this file draws
    it. `src/frontDoor.test.mjs` reads this file for count literals, app-written prose, a style id
@@ -251,9 +255,13 @@ export function Overview({ onSearch, lastEval }) {
         <div style={{ marginTop: 34, display: 'grid', gap: '26px 40px',
           gridTemplateColumns: 'repeat(auto-fit, minmax(17rem, 1fr))', alignItems: 'start' }}>
           <section data-inventory="" style={{ ...rule, paddingTop: 10, minWidth: 0 }}>
-            <Eyebrow as="div" data-ontology-version={o ? o.ontology_version : undefined}>
-              {o ? `ontology ${o.ontology_version}` : ' '}
+            <Eyebrow as="h2" data-heading="front-door-holds" style={{ margin: 0 }}>
+              <Term id="front-door-holds" />
             </Eyebrow>
+            <div data-ontology-version={o ? o.ontology_version : undefined}
+              style={{ ...note, margin: '4px 0 0' }}>
+              {o ? `ontology ${o.ontology_version}` : ' '}
+            </div>
             {counts && (
               <dl style={{ margin: '8px 0 0' }}>
                 {rankRows(counts, lookup).map((r) => (
@@ -284,11 +292,16 @@ export function Overview({ onSearch, lastEval }) {
           </section>
 
           {about.state === 'ready' && about.isNot.length > 0 && (
-            <ul data-is-not="" style={{ ...rule, listStyle: 'none', padding: '10px 0 0', margin: 0, minWidth: 0 }}>
-              {about.isNot.map((line) => (
-                <li key={line} style={{ ...small, color: 'var(--ink-2)', padding: '4px 0' }}>{line}</li>
-              ))}
-            </ul>
+            <section data-is-not-section="" style={{ ...rule, paddingTop: 10, minWidth: 0 }}>
+              <Eyebrow as="h2" data-heading="front-door-is-not" style={{ margin: 0 }}>
+                <Term id="front-door-is-not" />
+              </Eyebrow>
+              <ul data-is-not="" style={{ listStyle: 'none', padding: '4px 0 0', margin: 0, minWidth: 0 }}>
+                {about.isNot.map((line) => (
+                  <li key={line} style={{ ...small, color: 'var(--ink-2)', padding: '4px 0' }}>{line}</li>
+                ))}
+              </ul>
+            </section>
           )}
         </div>
       </div>

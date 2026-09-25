@@ -12,7 +12,8 @@
   "basis": "Editorial. docs/workbench.md: every edit changes the declared record \"and a debounced `POST /api/plan/evaluate` carries the whole record back\", and the sheet \"draws only from record + placement\". README.md: geometry is \"Bay-grid slicing with the relaxations counted\", and the bench shows \"the drawing with the critique on it\". VISION.md: a plan developer \"can move a wall and watch what it breaks.\", and \"Every check distinguishes evaluated-and-failed, evaluated-and-passed, and\" could-not-evaluate.",
   "confusable_with": [
     "plan-record",
-    "section-plans"
+    "section-plans",
+    "on-the-bench"
   ],
   "surface": {
     "what": "One house on the bench: placed, drawn from its record, and judged.",
@@ -22,6 +23,11 @@
       "Change a room and the plan is placed and judged again.",
       "Where the placement breaks a fact of the house type, the plan is refused and the conflict named instead of drawn."
     ],
-    "try": "term:judgment-unjudged"
+    "try": "term:judgment-unjudged",
+    "ask": [
+      "Why is this room judged too narrow?",
+      "Which findings on this plan could a revision fix?",
+      "What would I have to change to clear the fatal findings?"
+    ]
   }
 }

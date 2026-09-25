@@ -1,4 +1,4 @@
-/* THE GLOSSARY READER AND THE SEVEN BOUND FIELDS (WP-14.6).
+/* THE GLOSSARY READER AND THE BOUND FIELDS (WP-14.6; the eighth, `glossary.family`, WP-14.17).
 
    `glossary/lookup.js` is driven here with payloads built to `GET /api/glossary`'s contract (PRD
    §C.1), because the server half (WP-14.3) and the records (WP-14.1, WP-14.2) land in other lanes:
@@ -54,8 +54,11 @@ function schemaPayload() {
   return { version: '0.1.0+0123456789abcdef', count: terms.length, terms, by_field: byFieldOf(terms) };
 }
 
-test('each of the seven fields points at a real enum in the schema file it names', () => {
-  assert.equal(Object.keys(FIELDS).length, 7);
+test('each bound field points at a real enum in the schema file it names', () => {
+  // The number of fields is the glossary schema's to state, not this file's: a typed count here
+  // would go stale the day a field is added, which is what the eighth did (WP-14.17).
+  const bindable = readJSON('schema/glossary-term.schema.json').$defs.bind.properties.field.enum;
+  assert.equal(Object.keys(FIELDS).length, bindable.length);
   assert.ok(Object.isFrozen(FIELDS));
   for (const [f, spec] of Object.entries(FIELDS)) {
     assert.ok(existsSync(new URL(spec.schema, ROOT)), `${f}: ${spec.schema} must exist`);
@@ -80,7 +83,7 @@ test('every bound enum value resolves through by_field to its record', () => {
       n += 1;
     }
   }
-  assert.ok(n >= 7);
+  assert.ok(n >= Object.keys(FIELDS).length);
 });
 
 test('a missing record is an answer that names what is missing, never undefined and never a gloss', () => {
@@ -158,6 +161,40 @@ test('FIELDS names exactly the fields the glossary schema lets a record bind', (
   const schema = JSON.parse(readFileSync(GLOSSARY_SCHEMA, 'utf8'));
   const allowed = schema.$defs.bind.properties.field.enum;
   assert.deepEqual([...allowed].sort(), Object.keys(FIELDS).sort());
+});
+
+/* THE TWO COPIES OF THE TABLE, ROW FOR ROW (WP-14.17). `FIELDS` is spelled here and in
+   `build/check_glossary.py`, by design (fields.js says why), and until now nothing compared the
+   two: the schema test above holds each copy's KEYS to the schema's bind enum, which a row carrying
+   the wrong pointer or family in one copy passes. The checker's block is read as text — the one
+   Python dict literal the checker declares, each row a tuple of string literals, adjacent
+   literals joined as Python joins them — and every row must match this file's exactly. */
+function checkerFields(src) {
+  const start = src.indexOf('\nFIELDS = {');
+  const end = src.indexOf('\n}', start);
+  assert.ok(start >= 0 && end > start, 'the premise: build/check_glossary.py declares FIELDS = { … }');
+  const block = src.slice(start, end);
+  const rows = {};
+  for (const m of block.matchAll(/"([\w.]+)":\s*\(([^()]*)\)/g)) {
+    const parts = m[2].split(',').map((p) => [...p.matchAll(/"([^"]*)"/g)].map((s) => s[1]).join(''))
+      .filter((p) => p !== '');
+    assert.equal(parts.length, 3, `${m[1]}: a row is (schema, pointer, family)`);
+    rows[m[1]] = { schema: parts[0], pointer: parts[1], family: parts[2] };
+  }
+  return rows;
+}
+
+test('fields.js and build/check_glossary.py hold the same table, row for row', () => {
+  const src = readFileSync(new URL('build/check_glossary.py', ROOT), 'utf8');
+  const theirs = checkerFields(src);
+  // the premise: the reader finds every row of a table it is handed, joined literals included
+  const fixture = '\nFIELDS = {\n    "a.b": ("schema/x.json",\n            "/p/q"\n            "/r", "fam"),\n}\n';
+  assert.deepEqual(checkerFields(fixture), { 'a.b': { schema: 'schema/x.json', pointer: '/p/q/r', family: 'fam' } });
+  const ours = Object.fromEntries(Object.entries(FIELDS)
+    .map(([f, s]) => [f, { schema: s.schema, pointer: s.pointer, family: s.family }]));
+  assert.deepEqual(Object.keys(theirs).sort(), Object.keys(ours).sort(),
+    'a field one copy names and the other does not is a field one reader binds and the other refuses');
+  assert.deepEqual(theirs, ours);
 });
 
 test('every bind on a real glossary record names its field’s own schema and pointer', (t) => {

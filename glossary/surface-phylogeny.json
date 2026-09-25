@@ -14,6 +14,11 @@
       "Select two styles to compare their tells.",
       "The map places each style where its record says it arose; the coordinates are the workbench's, not the corpus's."
     ],
-    "try": "style:greek-revival-american"
+    "try": "style:greek-revival-american",
+    "ask": [
+      "Where did this style arise, and what did it descend from?",
+      "What is the difference between descending from a style and referencing it?",
+      "Which styles revive an earlier one after a gap?"
+    ]
   }
 }

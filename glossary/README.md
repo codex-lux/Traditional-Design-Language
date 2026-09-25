@@ -21,13 +21,15 @@ it for a person, and let it survive only as a quotation in a basis.
 
 **At most forty-five words** in a definition. An `analogy` is one sentence of at most thirty; a
 page head (`surface.what`), each "how to read this page" line (`surface.read`) and each `is_not`
-at most thirty. The checker counts words split on whitespace.
+at most thirty; each starter question (`surface.ask`) at most twenty. The checker counts words
+split on whitespace.
 
 **No digits, no counts, no colours, no build history.** A definition must still be true when every
 number in the repository has changed, so no numeral of any script (a circled figure or a fraction
 counts), no count of records, no work-package or open-question number, no command-line flag and
 no snake_case identifier appears in any prose a reader sees: `term`, `sense`, `aka`,
-`definition`, `analogy`, `more`, `surface.what`, `surface.read`, `readers`, `is_not`. A number
+`definition`, `analogy`, `more`, `surface.what`, `surface.read`, `surface.ask`, `readers`,
+`is_not`. A number
 spelled as a word is not caught by the checker and is still a count; write around it. Colours are
 the interface's business, not the word's.
 
@@ -75,13 +77,31 @@ only records that exist, and never names its own record. The collisions tranche 
 listed in the contract's §B.6; any other is a defect in whichever batch introduced it.
 
 **A bound word takes its name from the value.** A record that `binds` a schema enum value (the
-seven fields are a closed table in `build/check_glossary.py`) is in that field's family, is named
+fields are a closed table in `build/check_glossary.py`, held row for row to the app's own copy in
+`workbench/app/src/glossary/fields.js`) is in that field's family, is named
 `<family>-<value>` with underscores as hyphens, carries `order` equal to the value's index in the
 enum, and is the only record binding that value. A field is bound completely or not at all.
 
 **Families that head a page are prefixed.** Records in families `surface`, `section`, `nav-group`,
-`layer` and `judgment` have ids beginning `<family>-`, and an id with one of those prefixes is in
-that family. `surface` (`{what, read, try}`) appears only in families `surface` and `section`.
+`layer`, `judgment`, `glossary-field`, `mark` and `family` have ids beginning `<family>-`, and an
+id with one of those prefixes is in that family. `surface` (`{what, read, try, ask}`) appears only
+in families `surface` and `section`.
+
+**Every page offers its starter questions.** A record in family `surface` carries `surface.ask`:
+one to three questions a reader might put to the assistant on that page, each ending with a
+question mark. A section record may carry them and need not. They are the page's, written for a
+practitioner like every other line here, and the hygiene rules above reach them.
+
+**A family is named by a record too.** The glossary's own `family` field is bound like any other
+enum: each value has one `family-<value>` record, whose term heads that family's group on the
+Glossary page. So are the labels on a term's own page (`glossary-field-<name>`), and the parts a
+fault card is read by. The app names none of them.
+
+**A mark names a property the stylesheet declares.** A record in family `judgment`, `mark`,
+`severity` or `variant-status` may carry `mark`: a custom property named `--mark-<name>`, which
+`workbench/app/src/theme/tokens.css` must DECLARE (a `var()` use or a comment defines nothing).
+One mark, one record: a property two words share says two things. Where the stylesheet cannot be
+read the check is unjudged, never passed.
 `readers` and `is_not` appear only on `about-tdl`, which carries no `see`, `confusable_with`,
 `binds` or `surface`, because it is the one record served to a reader who is not signed in and it
 must resolve no other.

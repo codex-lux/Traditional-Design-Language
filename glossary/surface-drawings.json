@@ -14,6 +14,11 @@
       "The model can be turned, cut and taken apart, and its named views lay the flat sheets over it.",
       "A sheet that cannot be drawn names why rather than showing a wrong house."
     ],
-    "try": "fault:storeys-out-of-vertical-alignment"
+    "try": "fault:storeys-out-of-vertical-alignment",
+    "ask": [
+      "Why does the elevation put the front door where it does?",
+      "What does the section say about the floor spans?",
+      "Which drawing shows where the chimneys stand?"
+    ]
   }
 }

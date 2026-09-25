@@ -1,6 +1,6 @@
 # oq/a-glossary-family-has-no-name-of-its-own — the Glossary groups every word by family, and no record says what a family is called
 
-*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.17 · Raised in: WP-14.8 (24 September 2026)*
+*Status: CLOSED 25 Sep 2026 — executed by WP-14.17 · Raised in: WP-14.8 (24 September 2026)*
 
 **The question.** The Glossary index (`#/glossary`, WP-14.8) lists the 121 glossary records
 grouped by `family`, in the order of `schema/glossary-term.schema.json`'s `family` enum, which the
@@ -55,3 +55,28 @@ if a family heading needs a record, the case that a field label does not is weak
 ## Ruled 25 September 2026
 
 **Answer 3, a record per family, and the field labels are records too.** Both were taken with the tranche-2 plan's approval, on the standing rule that a label the app needs is a record. `glossary.family` becomes the eighth bindable field, one `family-*` record per family value. The term page's eight labels are `glossary-field-*` records. The contract is `docs/prd/phase-14-tranche-2.md` §A. The question closes when WP-14.17 lands.
+
+## Closed 25 September 2026 (WP-14.17)
+
+**Executed as ruled, and the report is `docs/reports/wp-14.17-every-definition-a-record.md`.**
+`schema/glossary-term.schema.json` is at 0.2.0: the family enum gains `glossary-field`, `mark`
+and `family`, and `glossary.family` is the eighth bindable field. `build/check_glossary.py`'s
+`FIELDS` and `workbench/app/src/glossary/fields.js` gained the same row, and
+`src/lookup.test.mjs` now reads the checker's table and holds the two to each other row for row,
+where before it pinned the app's copy at a literal count of seven.
+
+- **A record per family**: 24 `family-*` records, one per enum value including the three new
+  ones, each binding its value through `glossary.family` with `order` equal to the enum index, so
+  rule 5 holds them exactly as it holds a kit binding or a severity. Every basis quotes the
+  schema's own gloss for the value.
+- **The term page's labels are records**: 8 `glossary-field-*` records, one per label the page
+  showed, each quoting the schema's description of the field it names.
+- **`surfaces/Glossary.jsx` prints no enum value and types no label.** The group heading and the
+  kicker draw `<Term field="glossary.family" value=…>`, the family chips read the bound word
+  through `termView.wordForValue`, and the eight field labels are `<Term id="glossary-field-…">`.
+  `src/glossary.test.mjs` refuses a literal label or a raw family value by reading the file.
+
+The heading source this question called the only honest one while no record existed, the enum
+value printed as it is, is retired. Where a family ever lacks its record, the chip and the heading
+say which binding is missing rather than falling back to the value, which is the fallback this
+question warned against in another form.

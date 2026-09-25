@@ -191,3 +191,33 @@ test('every field a record binds is one FIELDS names, at a value its enum really
   }
   assert.ok(n >= Object.keys(FIELDS).length, 'the premise: the records carry binds to check');
 });
+
+/* ---- the Glossary's own labels are records (WP-14.17, tranche 2's PRD §A.3) ---- */
+
+/* The family headings and the term page's labels were the app's words until glossary schema 0.2.0:
+   the schema's machine values (`param-kind`) as headings and eight labels typed into
+   Glossary.jsx. Each is a record now. What is held here is what the FILE SAYS (it imports React
+   and cannot run under node --test): every `glossary-field-*` record on the tree is drawn by its
+   literal id, a heading or a kicker reads its family through the bound field and never prints
+   the value, and no `label=` is a string. The walk's glossary block holds what is DRAWN. */
+test('the Glossary draws its family headings and its term page labels from records, and types none', (t) => {
+  const recs = records();
+  if (!recs.length) { t.skip('COULD NOT EVALUATE: no glossary/*.json records on this tree'); return; }
+  const src = stripComments(readFileSync(join(SRC, 'surfaces/Glossary.jsx'), 'utf8'));
+  const labels = recs.filter((r) => r.family === 'glossary-field').map((r) => r.id).sort();
+  assert.ok(labels.length > 0, 'the premise: the glossary holds the term page’s label records');
+  const drawn = scan(src).filter((h) => h.shape === '<Term id>' && h.id.startsWith('glossary-field-'))
+    .map((h) => h.id).sort();
+  assert.deepEqual(drawn, labels, 'each label record is drawn once by its literal id, and only those');
+  assert.doesNotMatch(src, /<Field\s+label=\s*(?:"|'|\{\s*['"`])/,
+    'a term page label written as a string is the app writing a word');
+  assert.ok((src.match(/<Field\s+label=\{<Term id="glossary-field-/g) || []).length === labels.length,
+    'every Field takes its label from a glossary-field record');
+  // the family: through `glossary.family`, at the index heading and at the term page's kicker
+  const byField = [...src.matchAll(/<Term field="glossary\.family" value=\{[^}]+\} \/>/g)];
+  assert.ok(byField.length >= 2, `the heading and the kicker both read the bound field (${byField.length})`);
+  assert.match(src, /wordForValue\(lookup, 'glossary\.family', f\)/,
+    'a chip, which a Term may not sit in, takes the same record’s word');
+  assert.doesNotMatch(src, /\{(?:g|rec)\.family\}\s*</, 'a family printed as its machine value');
+  assert.doesNotMatch(src, />\s*\{f\}\s*<\/Chip>/, 'a chip printed as its machine value');
+});

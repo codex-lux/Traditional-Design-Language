@@ -7,6 +7,7 @@
   "basis": "schema/style-node.schema.json, the sources field: \"Works establishing this node.\" VISION.md, sources or an honest mark: \"Every number carries a source or is explicitly labelled as an editorial judgment.\" and \"Where no precedent exists at all, the value is labelled\" invented.",
   "sense": "a published work the corpus cites",
   "confusable_with": [
-    "cascade-source"
+    "cascade-source",
+    "authority"
   ]
 }

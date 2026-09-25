@@ -14,6 +14,9 @@
       "value": "trim-system"
     }
   ],
+  "confusable_with": [
+    "rank-family"
+  ],
   "see": [
     "pack:trim-classical",
     "pack:trim-craftsman"

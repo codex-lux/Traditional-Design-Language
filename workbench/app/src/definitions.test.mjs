@@ -16,6 +16,7 @@ import { fileURLToPath } from 'node:url';
 import { indexTerms } from './glossary/lookup.js';
 import {
   noEntry, noGlossary, keyFor, provenanceOf, termHref, termView, describeTerm, wordOf, wordForCite,
+  wordForValue,
 } from './glossary/termView.js';
 import { linkView, isPlainPrimaryClick } from './names/recordLink.js';
 import { glossaryListing, matchesQuery, haystackOf } from './glossary/listing.js';
@@ -147,6 +148,21 @@ test('a link to a glossary record is worded by the record, or by noEntry, and an
   assert.equal(wordForCite(lookup, 'style:tidewater-georgian'), undefined);
   assert.equal(wordForCite(lookup, 'not a cite'), undefined);
   assert.equal(wordForCite(lookup, null), undefined);
+});
+
+test('a bound value is worded through by_field, and a value no record names says which is missing (WP-14.17)', () => {
+  const { lookup } = ready();
+  // the Glossary's family chips: a button a Term may not sit inside, worded by the value's record
+  assert.equal(wordForValue(lookup, 'kit.binding', 'forbidden'), 'forbidden');
+  assert.equal(wordForValue(lookup, 'kit.binding', 'extends'), 'no entry: kit.binding:extends',
+    'a value by_field does not carry is missing under field:value, never printed raw');
+  assert.equal(wordForValue(lookup, 'glossary.family', 'rank'), 'no entry: glossary.family:rank',
+    'the id is by_field’s: a record named family-rank is not reached by building its id');
+  const withFamily = indexTerms({ ...payload(),
+    terms: [...payload().terms, { id: 'family-rank', term: 'Ranks', family: 'family', order: 5,
+      definition: 'x', kind: 'editorial', basis: 'x' }],
+    by_field: { ...payload().by_field, 'glossary.family': { rank: 'family-rank' } } });
+  assert.equal(wordForValue(withFamily, 'glossary.family', 'rank'), 'Ranks');
 });
 
 /* ---- recordLink: a name first, an address from the router ---- */

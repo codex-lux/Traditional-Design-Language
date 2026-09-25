@@ -2,7 +2,7 @@
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "https://traditional-design-language.org/schema/glossary-term.schema.json",
  "title": "Glossary term",
- "version": "0.1.0",
+ "version": "0.2.0",
  "description": "One sense of one word the workbench shows a reader, written for a practitioner. Every tooltip, page head, rail description, palette line, plate key and edge caption reads one of these records; the app writes no definition of its own. A record is either SOURCED -- its `sources` already sit, character for character, in a corpus bibliography -- or EDITORIAL, in which case its `basis` names the file it read and quotes it verbatim. Editorial is a licence to explain, never a licence to invent, and build/check_glossary.py holds every basis to the file it names. One file per term at glossary/<id>.json; the authoring rules are glossary/README.md.",
  "type": "object",
  "additionalProperties": false,
@@ -22,8 +22,8 @@
             "edge", "carry", "binding", "variant-status", "param-kind",
             "pack-kind", "severity", "judgment", "constraint-state",
             "proportion", "pack-relation", "model", "fault", "house",
-            "figure"],
-   "description": "The group the Glossary page lists the term under, in this order. Families surface, section, nav-group, layer and judgment require the id prefix `<family>-`; a record that binds an enum value takes the family of the field it binds."
+            "figure", "glossary-field", "mark", "family"],
+   "description": "The group the Glossary page lists the term under, in this order. Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page. `product` holds the workbench itself, the tools it offers and where a reader begins; `surface` holds the pages of the workbench, each record heading its own page; `section` holds the parts of a style's dossier, each record heading its own part; `nav-group` holds the groups the site map files its places under; `layer` holds the layers of the architecture, each a precondition for the one above it; `rank` holds the ranks of the style taxonomy, from a tradition down to a buildable variant; `edge` holds the typed relations a style's lineage records between two styles; `carry` holds what a lineage edge hands down of an ancestor's kit; `binding` holds what a style may say about one slot of its kit; `variant-status` holds the standing a style gives each variant a slot may take; `param-kind` holds the kinds of figure a kit parameter may be, by where the figure came from; `pack-kind` holds the kinds of proportion pack, by what each one proportions; `severity` holds how badly a named error reads to someone fluent; `judgment` holds the verdicts a rule can return on a house, unjudged among them; `constraint-state` holds whether a style's constraint carries a machine test; `proportion` holds the words of the proportioning grammar: packs, assemblies, members and modules; `pack-relation` holds how a proportion pack reaches a style, or is kept from it; `model` holds the words of the data model itself: slots, bindings, the cascade and its sources; `fault` holds the named errors, their exceptions and the parts of a fault card; `house` holds the records one house is composed, placed and drawn from; `figure` holds how a figure on a drawn plate relates to the record it came from; `glossary-field` holds the parts of a glossary record, which label the term page; `mark` holds the marks on screen that are not a judgment; `family` holds the families themselves, which head the Glossary page's groups. Families surface, section, nav-group, layer, judgment, glossary-field, mark and family require the id prefix `<family>-`; a record that binds an enum value takes the family of the field it binds."
   },
   "definition": {
    "type": "string",
@@ -75,7 +75,7 @@
    "type": "array",
    "minItems": 1,
    "items": {"$ref": "#/$defs/bind"},
-   "description": "Ties this word to a real value of a schema enum, so a screen that shows the value can show its definition. The seven fields that may be bound, their schemas and pointers are a closed table in build/check_glossary.py; a field is bound completely or not at all, and each value by exactly one record."
+   "description": "Ties this word to a real value of a schema enum, so a screen that shows the value can show its definition. The fields that may be bound, their schemas and pointers are a closed table in build/check_glossary.py, mirrored by workbench/app/src/glossary/fields.js; a field is bound completely or not at all, and each value by exactly one record."
   },
   "confusable_with": {
    "type": "array",
@@ -111,8 +111,20 @@
      "type": "string",
      "minLength": 3,
      "description": "One citation shown as a link, checked exactly as a `see` item is."
+    },
+    "ask": {
+     "type": "array",
+     "minItems": 1,
+     "maxItems": 3,
+     "items": {"type": "string", "minLength": 1, "pattern": "\\?$"},
+     "description": "The starter questions the assistant offers a reader on this page, shown as they are written and never sent on their own. Each is at most twenty words and ends with a question mark, under the same hygiene as the definition. Required on a page (family `surface`), allowed on a dossier section."
     }
    }
+  },
+  "mark": {
+   "type": "string",
+   "pattern": "^--mark-[a-z0-9-]+$",
+   "description": "The custom property in workbench/app/src/theme/tokens.css that draws this word's mark on screen. Allowed on families judgment, mark, severity and variant-status. The checker holds each value to a property the stylesheet defines, read as text, and each property is named by exactly one record."
   },
   "readers": {
    "type": "array",
@@ -150,7 +162,7 @@
     "field": {
      "enum": ["style.rank", "lineage.type", "kit.binding",
               "kit.variant_status", "kit.parameter_kind", "pack.kind",
-              "fault.severity"]
+              "fault.severity", "glossary.family"]
     },
     "schema": {"type": "string", "pattern": "^schema/[a-z-]+\\.schema\\.json$"},
     "pointer": {"type": "string", "pattern": "^/"},
@@ -162,6 +174,11 @@
   {"if": {"properties": {"kind": {"const": "sourced"}}, "required": ["kind"]},
    "then": {"required": ["sources"], "not": {"required": ["basis"]}}},
   {"if": {"properties": {"kind": {"const": "editorial"}}, "required": ["kind"]},
-   "then": {"required": ["basis"], "not": {"required": ["sources"]}}}
+   "then": {"required": ["basis"], "not": {"required": ["sources"]}}},
+  {"if": {"properties": {"family": {"const": "surface"}}, "required": ["family"]},
+   "then": {"required": ["surface"], "properties": {"surface": {"required": ["what", "ask"]}}}},
+  {"if": {"properties": {"family": {"not": {"enum": ["judgment", "mark", "severity", "variant-status"]}}},
+          "required": ["family"]},
+   "then": {"not": {"required": ["mark"]}}}
  ]
 }

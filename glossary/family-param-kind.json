@@ -1,0 +1,17 @@
+{
+  "id": "family-param-kind",
+  "term": "Parameter kinds",
+  "family": "family",
+  "order": 10,
+  "definition": "The group of words for the kinds of figure a kit parameter may be, told apart by where the figure came from: measured, derived, editorial, invented, or imposed by a building code.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`param-kind` holds the kinds of figure a kit parameter may be, by where the figure came from\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "param-kind"
+    }
+  ]
+}

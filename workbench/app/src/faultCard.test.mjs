@@ -10,7 +10,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
-import { LICENCE_STATES, LICENCE_TERM, FAULT_CARD_ORDER, licenceOf, faultSections } from './faults/licence.js';
+import {
+  LICENCE_STATES, LICENCE_TERM, FAULT_CARD_ORDER, licenceOf, faultSections,
+  FAULT_SECTION_TERM, COST_SAVED_TERM, FIX_TIERS, FIX_TIER_TERM, FAULT_AXES, FAULT_AXIS_TERM, inUseOf,
+} from './faults/licence.js';
 
 const ROOT = new URL('../../../', import.meta.url);
 const read = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -121,4 +124,75 @@ test('the card draws the verdict by literal glossary id, takes the order from li
   assert.match(src, /fault\.correct_practice/);
   assert.match(src, /fault\.detection/);
   assert.doesNotMatch(src, /--ink-4/, 'no readable text in --ink-4');
+});
+
+/* ---- the card's own words are records (WP-14.17, tranche 2's PRD §A.3) ---- */
+
+const GLOSSARY_IDS = new Set(readdirSync(new URL('glossary/', ROOT)).filter((f) => f.endsWith('.json'))
+  .map((f) => JSON.parse(read(`glossary/${f}`)).id));
+const FAULT_SCHEMA = JSON.parse(read('schema/fault.schema.json'));
+
+test('every heading, tier word and axis label the card draws names a glossary record that exists', () => {
+  assert.deepEqual(Object.keys(FAULT_SECTION_TERM), [...FAULT_CARD_ORDER],
+    'one heading per section, keyed and ordered by FAULT_CARD_ORDER');
+  assert.deepEqual(Object.keys(FIX_TIER_TERM), [...FIX_TIERS]);
+  assert.deepEqual(Object.keys(FAULT_AXIS_TERM), [...FAULT_AXES]);
+  const ids = [...Object.values(FAULT_SECTION_TERM), COST_SAVED_TERM, ...Object.values(FIX_TIER_TERM),
+    ...Object.values(FAULT_AXIS_TERM)];
+  assert.ok(ids.length > FAULT_CARD_ORDER.length, 'the premise: the tables name more than the headings');
+  assert.deepEqual(ids.filter((id) => !GLOSSARY_IDS.has(id)), [],
+    'each of these would render "no entry: …" on the card; write the record or fix the id');
+  assert.equal(new Set(ids).size, ids.length, 'no record labels two parts of the card');
+});
+
+test('the tiers are the schema’s own fixes, in its order, and each axis reads a field the record really has', () => {
+  assert.deepEqual([...FIX_TIERS], Object.keys(FAULT_SCHEMA.properties.fixes.properties));
+  for (const field of FAULT_AXES) {
+    const [head, sub] = field.split('.');
+    const prop = FAULT_SCHEMA.properties[head];
+    assert.ok(prop, `${field}: the fault schema has no ${head}`);
+    if (sub) assert.ok(prop.properties && prop.properties[sub], `${field}: the fault schema has no ${field}`);
+  }
+  /* The second severity axis is the in-use severity and not the frequency (the label sat over the
+     wrong field until WP-14.17): each is its own record, and the in-use one reads severity_in_use. */
+  assert.equal(FAULT_AXIS_TERM.severity_in_use, 'fault-axis-how-it-lives');
+  assert.equal(FAULT_AXIS_TERM.frequency, 'fault-axis-frequency');
+  const stated = FAULTS.filter((f) => inUseOf(f) !== null);
+  assert.ok(stated.length > 0 && stated.length < FAULTS.length,
+    'the premise: some faults state how they live and some do not, so both branches are real');
+  for (const f of FAULTS) {
+    assert.equal(inUseOf(f), typeof f.severity_in_use === 'string' ? f.severity_in_use : null, f.id);
+  }
+  assert.equal(inUseOf(null), null);
+  assert.equal(inUseOf({ severity_in_use: '' }), null, 'an empty value states nothing');
+});
+
+/* JSX text the card writes: runs after a tag's `>` or an expression's `}`, up to the next `<` or `{`,
+   carrying a letter. A run that opens with a comma is the next key of an object literal
+   (`}, refused: {`), not text on the page. A reader of text, not a parser; the fixture below
+   proves what it finds and what it leaves. */
+function jsxText(src) {
+  return [...src.matchAll(/(?<!=)[>}]([^<>{}]*)(?=[<{])/g)].map((m) => m[1].replace(/\s+/g, ' ').trim())
+    .filter((t) => /[A-Za-z]/.test(t) && !/[;=()'"`]/.test(t) && !/^,/.test(t)
+      && !/^(else|return|from|import|const|let|if|finally)\b/.test(t));
+}
+
+test('the card writes no word about its own parts: every label is a Term, drawn from licence.js’s tables', () => {
+  assert.deepEqual(jsxText('<div style={EYE}>symptom</div><span>{a} — {b}</span>'
+    + '<div>cause — driver: {x}</div>const F = { a: {x: 1}, refused: {y: 2} };'), ['symptom', 'cause — driver:'],
+    'the premise: the reader finds a label typed as JSX text, and not punctuation or an object key');
+  const src = live(read('workbench/app/src/components/FaultCard.jsx'));
+  assert.deepEqual(jsxText(src), [],
+    'a word typed into the card is a definition nothing checks: make it a glossary record');
+  assert.doesNotMatch(src, /\blabel="/, 'an axis label as a string');
+  assert.doesNotMatch(src, /three tiers|beside the statement/, 'the retired self-explanations');
+  assert.doesNotMatch(src, /\['right', 'cheap', 'dishonest'\]/, 'the tiers are FIX_TIERS, one list');
+  assert.match(src, /<Term id=\{FAULT_SECTION_TERM\[section\]\} \/>/, 'a heading is its section’s record');
+  assert.match(src, /<Term id=\{FIX_TIER_TERM\[tier\]\} \/>/, 'a tier word is its tier’s record');
+  assert.match(src, /<Term id=\{FAULT_AXIS_TERM\[field\]\} \/>/, 'an axis label is its field’s record');
+  assert.match(src, /<Term id=\{COST_SAVED_TERM\} \/>/);
+  assert.match(src, /inUseOf\(fault\)/, 'how it lives is drawn from the record’s severity_in_use');
+  for (const k of FAULT_CARD_ORDER.filter((s) => s !== 'licence' && s !== 'cause')) {
+    assert.match(src, new RegExp(`<Head section="${k}"`), `${k}: its heading is drawn through Head`);
+  }
 });

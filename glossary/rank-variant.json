@@ -17,7 +17,8 @@
     }
   ],
   "confusable_with": [
-    "slot-variant"
+    "slot-variant",
+    "rank"
   ],
   "see": [
     "style:tidewater-georgian"

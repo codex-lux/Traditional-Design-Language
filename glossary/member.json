@@ -6,6 +6,10 @@
   "definition": "One piece of an assembly — a fillet, a fascia, a cyma, a backband, a baseboard — with its own height and projection, in parts of the module, and its own profile: the shape a millworker actually needs.",
   "kind": "editorial",
   "basis": "Our wording of the pack schema's member fields, with members of the classical trim family as the examples. schema/proportion-pack.schema.json, assemblies description: \"Each assembly is a stack of members, bottom to top, dimensioned in PARTS of the module.\"; schema/proportion-pack.schema.json, members profile description: \"The moulding profile. This is what makes an order drawable and what a millworker actually needs.\"; schema/proportion-pack.schema.json, members projection_parts description: \"Projection in PARTS, measured from the datum this pack's projection_datum names\"; docs/proportion.md: \"fillet, listel, fascia, plinth, corona, abacus\"; proportions/systems/trim-classical.json assemblies.wall_section_georgian.members[geo_base_cap_cyma].note: \"The cyma reversa - concave above, convex below - is the correct cap for a base\"; proportions/systems/trim-classical.json notes: \"Georgian 6 in in seven members with a bold applied backband\".",
+  "confusable_with": [
+    "member-of",
+    "section-members"
+  ],
   "see": [
     "pack:trim-classical",
     "term:assembly",

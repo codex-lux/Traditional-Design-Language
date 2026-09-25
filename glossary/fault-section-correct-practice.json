@@ -1,0 +1,9 @@
+{
+  "id": "fault-section-correct-practice",
+  "term": "the right way",
+  "family": "fault",
+  "order": 4,
+  "definition": "What to do instead of the fault, with numbers wherever numbers exist: the answer a practitioner opens a named error to find.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `correct_practice` field: \"What to do instead, with numbers wherever numbers exist.\""
+}

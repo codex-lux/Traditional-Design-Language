@@ -14,6 +14,10 @@
       "Or start from a drafter's CAD file: its closed outlines arrive as proposed rooms, never as decisions.",
       "Once nothing is missing, check the record, send it to the bench, or download it."
     ],
-    "try": "term:plan-record"
+    "try": "term:plan-record",
+    "ask": [
+      "How do I turn an existing drawing into a plan record?",
+      "What gaps does a traced drawing usually leave?"
+    ]
   }
 }

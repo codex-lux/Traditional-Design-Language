@@ -134,6 +134,7 @@ python3 build/build.py               # kits/, dist/taxonomy.json, dist/taxonomy.
 python3 build/gen_assets.py          # assets/manifest.json
 python3 build/render_html.py         # dist/taxonomy.html
 python3 build/check_faults.py        # faults: schema, slot/style refs, test coverage
+python3 build/check_glossary.py      # glossary: every definition sourced or quoting the file it read
 python3 build/check_rooms.py         # rooms and groupings: adjacency, privacy gradient, massing refs
 python3 build/plan_check.py plans/spec-builder-colonial.json
 python3 build/compose.py briefs/family-georgian.json

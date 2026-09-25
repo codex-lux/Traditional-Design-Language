@@ -17,7 +17,8 @@
     }
   ],
   "confusable_with": [
-    "variant-status-forbidden"
+    "variant-status-forbidden",
+    "binding"
   ],
   "see": [
     "kit:prairie-school#cornice"

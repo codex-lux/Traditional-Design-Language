@@ -14,6 +14,11 @@
       "Each says what it trades away and lists what it assumed where the brief was silent.",
       "Open one on the bench to work on it."
     ],
-    "try": "parti:centre-passage-double-pile"
+    "try": "parti:centre-passage-double-pile",
+    "ask": [
+      "Why is this candidate ranked above the others?",
+      "What does each of these plans trade away?",
+      "Which candidate uses a plan diagram native to my style?"
+    ]
   }
 }

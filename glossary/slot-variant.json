@@ -7,7 +7,8 @@
   "kind": "editorial",
   "basis": "schema/kit.schema.json, on a slot's variants: \"Records, not bare strings. Most of what a style says about a slot is which options it REFUSES\", each carrying a status: \"canonical: the default a generator should reach for. permitted: correct but not first choice.\" kits/georgian-colonial-american.kit.json lists side-gable and hip among the variants of roof_form, whose rule reads \"The roof is one simple solid about one ridge\".",
   "confusable_with": [
-    "rank-variant"
+    "rank-variant",
+    "slot"
   ],
   "see": [
     "slot:roof_form"

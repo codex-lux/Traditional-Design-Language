@@ -4,5 +4,8 @@
   "family": "house",
   "definition": "The plan record now open in the Plan step: the one house the bench edits, evaluates and draws. Your browser holds it and the server keeps no plan of its own; opening a candidate hands its record to the bench.",
   "kind": "editorial",
-  "basis": "docs/workbench.md, the client-owned plan record: \"The plan record is a document the browser owns\", each edit is evaluated as a request that \"carries the whole record back\", and \"The server holds no plan state.\" Its routes table: a candidate's plan route \"hands one record to the workbench\"."
+  "basis": "docs/workbench.md, the client-owned plan record: \"The plan record is a document the browser owns\", each edit is evaluated as a request that \"carries the whole record back\", and \"The server holds no plan state.\" Its routes table: a candidate's plan route \"hands one record to the workbench\".",
+  "confusable_with": [
+    "surface-workbench"
+  ]
 }

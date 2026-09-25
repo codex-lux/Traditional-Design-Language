@@ -14,6 +14,10 @@
       "CAD drawings come one file per sheet with the record riding on the drawing, and the building model carries the corpus's own identifiers.",
       "Downloads are blocked, with the reason, while the placement is refused or is only a working sketch."
     ],
-    "try": "term:plan-record"
+    "try": "term:plan-record",
+    "ask": [
+      "Which file should I send to a drafter?",
+      "What does the exported record carry that the drawings do not?"
+    ]
   }
 }

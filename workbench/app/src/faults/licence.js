@@ -40,6 +40,65 @@ export const FAULT_CARD_ORDER = Object.freeze([
   'correct_practice', 'detection', 'licence', 'symptom', 'cause', 'rule_violated', 'fixes', 'test',
 ]);
 
+/* EVERY WORD THE CARD PRINTS ABOUT ITS OWN PARTS IS A GLOSSARY RECORD (WP-14.17, tranche 2's PRD
+   §A.3). The card typed its headings ("the right way", "how to spot it", "rule violated"…), its
+   tier words and its axis labels, and two of them explained themselves in words nothing checked
+   ("fix — three tiers, named plainly", "test — beside the statement, never instead of it"). Each
+   is a record now, named here BY ID, one table the card draws through `Term` and
+   `src/faultCard.test.mjs` holds to `glossary/` both ways. The ids are data rather than literals
+   in the card because the card draws its sections in `FAULT_CARD_ORDER`, so the table is keyed by
+   that order's own words. */
+export const FAULT_SECTION_TERM = Object.freeze({
+  correct_practice: 'fault-section-correct-practice',
+  detection: 'fault-section-detection',
+  licence: 'exception',                     // the licence's heading was already a record
+  symptom: 'fault-section-symptom',
+  cause: 'fault-section-cause',
+  rule_violated: 'fault-section-rule-violated',
+  fixes: 'fault-section-fix',
+  test: 'fault-section-test',
+});
+
+/* The cause's own line, under the cause heading. */
+export const COST_SAVED_TERM = 'fault-section-cost-saved';
+
+/* The fix tiers in the order the card reads them, which is `schema/fault.schema.json`'s own
+   `fixes` order (the test holds the two to each other), and the record naming each. */
+export const FIX_TIERS = Object.freeze(['right', 'cheap', 'dishonest']);
+export const FIX_TIER_TERM = Object.freeze({
+  right: 'fix-tier-right', cheap: 'fix-tier-cheap', dishonest: 'fix-tier-dishonest',
+});
+
+/* The card's header axes, keyed by the field of the fault record each one reads (`cause.driver`
+   is the cause's own field), in the order the header draws them.
+
+   THE SECOND SEVERITY AXIS WAS DRAWN OVER THE WRONG FIELD. The card's own opening note says "two
+   severity axes — how it reads, how it lives — are two axes, not one badge", and `how it lives`
+   is the schema's `severity_in_use`: *"A stack with nowhere to land is invisible in a photograph
+   and fatal in occupation."* The label sat over `frequency` (endemic … rare), which is a
+   different question — how OFTEN a fault occurs. Naming each label's record made the mismatch
+   visible: `frequency` takes its own word now (`how often`), and `how it lives` is drawn over
+   `severity_in_use` wherever a fault states one. */
+export const FAULT_AXES = Object.freeze([
+  'severity', 'frequency', 'severity_in_use', 'category', 'cause.driver', 'slots',
+]);
+export const FAULT_AXIS_TERM = Object.freeze({
+  severity: 'fault-axis-how-it-reads',
+  frequency: 'fault-axis-frequency',
+  severity_in_use: 'fault-axis-how-it-lives',
+  category: 'fault-axis-category',
+  'cause.driver': 'fault-axis-driver',
+  slots: 'fault-axis-filed-against',
+});
+
+/* The in-use severity where the record states one, or null: a fault that says nothing about how
+   it lives is not drawn as though it had said "minor". */
+export function inUseOf(fault) {
+  const f = obj(fault);
+  const v = f ? f.severity_in_use : null;
+  return typeof v === 'string' && v ? v : null;
+}
+
 const obj = (x) => (x && typeof x === 'object' && !Array.isArray(x) ? x : null);
 
 /* fault → the licence this style holds against it, with the server's verdict, or null where no

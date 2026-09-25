@@ -1,0 +1,9 @@
+{
+  "id": "fix-tier-dishonest",
+  "term": "dishonest",
+  "family": "fault",
+  "order": 14,
+  "definition": "The tempting shortcut that looks like a fix and is not. Naming it protects the reader, and is how the corpus stays honest while still offering the cheap answer.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the dishonest fix: \"The tempting shortcut that looks like a fix and is not. Naming it is protective.\" VISION.md: \"Naming the dishonest one is how the corpus stays honest while\""
+}

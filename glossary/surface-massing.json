@@ -1,0 +1,25 @@
+{
+  "id": "surface-massing",
+  "term": "Massing",
+  "family": "surface",
+  "order": 14,
+  "sense": "the page for one massing",
+  "definition": "The page for one massing: the skeleton's footprint, storeys and bays, why it takes that shape, how it grows without breaking, and the styles whose records name it.",
+  "kind": "editorial",
+  "basis": "The page is the workbench's own; what it shows is the massing record. schema/massing.schema.json: \"A style-independent volumetric skeleton.\" with \"Why the volume is this shape: span limits, framing, heating, ventilation, land division.\" and \"How the type grows without breaking.\" schema/style-node.schema.json, a style's massing affinities: \"This is the join table between the skeleton catalog and the style grammar.\"",
+  "confusable_with": [
+    "massing"
+  ],
+  "surface": {
+    "what": "One massing: its footprint, storeys and bays, why the volume takes its shape, how it grows without breaking, and the styles commonly built on it.",
+    "read": [
+      "A massing is not a style: one skeleton can be dressed in several styles.",
+      "How it grows without breaking is stated beside why the volume takes its shape.",
+      "The styles listed are those whose own records name this massing."
+    ],
+    "ask": [
+      "How does this massing grow without breaking?",
+      "Which styles are commonly built on this massing?"
+    ]
+  }
+}

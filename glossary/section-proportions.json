@@ -8,7 +8,8 @@
   "kind": "editorial",
   "basis": "Editorial. schema/style-node.schema.json: the packs are \"The grammar this style is written in. Element slots supply the alphabet; a proportion pack supplies the rules that dimension them.\" A style \"OPTS IN to receiving by descent\" where a pack asks for it, and may decline \"Packs that reach this node BY DESCENT and do not belong on it.\"",
   "confusable_with": [
-    "surface-proportions"
+    "surface-proportions",
+    "proportion-pack"
   ],
   "surface": {
     "what": "The proportion packs that reach this style, and how each arrives.",

@@ -14,6 +14,10 @@
       "Whatever the brief leaves out, the composer decides and reports as a decision.",
       "An example brief can be loaded to start from."
     ],
-    "try": "brief:family-georgian"
+    "try": "brief:family-georgian",
+    "ask": [
+      "What does a brief need before the composer can start?",
+      "What happens to anything the brief leaves unsaid?"
+    ]
   }
 }

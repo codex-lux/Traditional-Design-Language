@@ -116,7 +116,8 @@ function current() {
 /* The baseline, measured on this tree at WP-14.8. It may only lose rows. WP-14.13 took out six:
    the masthead's unjudged tooltip (the count is a `Term` now), the rail's "9 sections" and
    "4 formats" (its figures are the API's), and the three stale "209 faults" against a corpus
-   of 210 (read from the API). */
+   of 210 (read from the API). WP-14.17 took out one more: the Fault Card's "three tiers" went with
+   the heading that carried it, every label on the card being a glossary record now. */
 // BASELINE-BEGIN
 const BASELINE = {
   titles: [
@@ -138,7 +139,6 @@ const BASELINE = {
   counts: [
     ["components/CandidateColumn.jsx", "100 points"],
     ["components/ConflictSet.jsx", "six reads"],
-    ["components/FaultCard.jsx", "three tiers"],
     ["surfaces/BriefIntake.jsx", "132 styles"],
     ["surfaces/CandidateSet.jsx", "eight axes"],
     ["surfaces/PlanWorkbench.jsx", "6 rounds"],

@@ -1,0 +1,9 @@
+{
+  "id": "fault-section-test",
+  "term": "test",
+  "family": "fault",
+  "order": 11,
+  "definition": "The fault's measurable form, usually one ratio against a threshold, which a model or a platform can evaluate directly. It stands beside the written statement, never instead of it.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `test` field: \"The measurable form of the fault. Most faults reduce to one ratio against a threshold\" and \"a model with measurements from a photograph, or a platform with a model, can evaluate it directly.\" VISION.md: \"Prose stays beside the test.\""
+}

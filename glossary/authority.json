@@ -7,6 +7,9 @@
   "more": "Vignola is the spine of the classical orders here; Palladio, Gibbs, Chambers and Benjamin are overlays — packs that carry only what they change and inherit the rest — so a style can say which authority it is built to.",
   "kind": "editorial",
   "basis": "Our wording of the pack schema's authority strength and the grammar layer's account of overlays. schema/proportion-pack.schema.json, authority.strength description: \"canonical: a named treatise everyone builds from. documented: attested in period sources but not codified. reconstructed: derived by measurement from surviving fabric. conventional: current professional practice. house-rule: our own judgement, and marked as such.\"; schema/proportion-pack.schema.json, overlay_of description: \"An overlay carries only its deltas; everything unstated inherits.\"; docs/proportion.md: \"Vignola is the spine. Palladio, Gibbs, Chambers and Benjamin are\"; docs/proportion.md: \"packs carrying only their deltas, with everything unstated inherited. So you can ask which authority you are building to and get a real answer.\"; schema/style-node.schema.json, proportion_packs authority description: \"Preferred authority overlay for this style, e.g. gibbs-ionic for colonial Georgian\".",
+  "confusable_with": [
+    "bibliographic-source"
+  ],
   "see": [
     "pack:vignola-ionic",
     "pack:gibbs-ionic"

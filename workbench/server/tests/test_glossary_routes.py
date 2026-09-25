@@ -7,7 +7,7 @@ serves it. The rules held:
 
   * §C.1 the payload: its seven keys, the version rule, the digest recomputed here from the
     files AS AUTHORED, the term order, `reads` as a property of each basis, `by_family` complete
-    over the schema enum, `by_field` complete over the seven fields;
+    over the schema enum, `by_field` complete over the bindable fields;
   * §C.2 one term: the record, its confusables in declared order, its `see` names from the
     search index, and a miss as a 404 carrying `core.get_fault`'s `did_you_mean` rule;
   * §C.4 what must NOT move: `core.overview()` gains no glossary key and no glossary count, and
@@ -134,7 +134,7 @@ def test_by_family_is_every_schema_family_in_enum_order(payload):
 
 def test_by_field_is_every_field_and_every_bound_value(payload):
     fields = _fields()
-    assert list(payload["by_field"]) == list(fields), "all seven FIELDS keys, in their order"
+    assert list(payload["by_field"]) == list(fields), "every FIELDS key, in its order"
     want = {f: {} for f in fields}
     for rec in _files().values():
         for b in rec.get("binds") or []:

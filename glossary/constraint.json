@@ -6,6 +6,9 @@
   "kind": "editorial",
   "basis": "schema/constraint.schema.json: \"One enforceable rule of assembly on a style node.\" Its severity enum is hard, soft and advisory; a test is \"Present only when scope is not 'judgment' and the statement itself supplies a number or an enumerable set\", and \"The human-readable `statement` is kept beside the `test` in every case\". It is the fault's opposite in sense: \"a constraint states what must be true, a fault states what must not be\". schema/fault.schema.json: \"Faults are ELEMENT-FIRST — they hang off slots, not styles\". VISION.md: \"it never replaces the human-readable statement\".",
   "more": "Not the same as a fault: a constraint says what must be true of a house in one style; a fault names what must not be, and hangs off an element rather than a style.",
+  "confusable_with": [
+    "derived-rule"
+  ],
   "see": [
     "constraint:tidewater-georgian.c02",
     "term:constraint-executable",

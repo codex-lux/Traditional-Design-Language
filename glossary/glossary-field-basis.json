@@ -1,0 +1,9 @@
+{
+  "id": "glossary-field-basis",
+  "term": "Rests on",
+  "family": "glossary-field",
+  "order": 7,
+  "definition": "Where an entry's definition comes from: the published works it rests on, or, for an editorial entry, the corpus files it was read from, each quotation checked against the file it names.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of the `basis` field, which this word labels on an entry's own page: \"Published works this definition rests on.\" and \"the file or files this definition was read from, named by path\" and \"The checker finds each quotation in the file it names and refuses the record if one is missing.\""
+}

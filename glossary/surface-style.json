@@ -13,6 +13,11 @@
       "A variant is where a kit becomes buildable; the broader ranks group and explain.",
       "Type to narrow the tree."
     ],
-    "try": "style:craftsman"
+    "try": "style:craftsman",
+    "ask": [
+      "Which styles descend from Georgian Colonial American?",
+      "How do I tell Federal from Georgian at a glance?",
+      "Which variants can I build a house from?"
+    ]
   }
 }

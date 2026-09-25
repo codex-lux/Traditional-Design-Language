@@ -1,0 +1,22 @@
+{
+  "id": "surface-elements",
+  "term": "Elements",
+  "family": "surface",
+  "order": 11,
+  "definition": "The page for the element slots every style draws on: each slot with its variants, the styles that specify it and the faults filed against it. The records of rooms, massings, groupings and plan types open from here too.",
+  "kind": "editorial",
+  "basis": "The page is the workbench's own, and what it lists is the corpus's element slots. elements/slots.json: \"Slots are universal; a style is a set of bindings and constraints on these slots.\" mcp_server/core.py, serving one slot with its specifying styles and its faults: \"Slots are universal. A style does not own a cornice; it specifies one.\"",
+  "surface": {
+    "what": "Every element slot the corpus names: the variants each may take, the styles that specify it, and the faults filed against it.",
+    "read": [
+      "Slots are universal: a style does not own a cornice, it specifies one.",
+      "Open a slot to read its variants, the styles that specify it, and the faults filed against it.",
+      "A room, a massing, a grouping or a plan type opens as a record of its own from here."
+    ],
+    "ask": [
+      "Which styles specify this slot, and which forbid it?",
+      "What are the variants of a roof form?",
+      "Which faults hang off this element?"
+    ]
+  }
+}

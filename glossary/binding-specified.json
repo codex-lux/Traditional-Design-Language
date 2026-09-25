@@ -14,6 +14,9 @@
       "value": "specified"
     }
   ],
+  "confusable_with": [
+    "binding"
+  ],
   "see": [
     "kit:tidewater-georgian#roof_pitch"
   ]
