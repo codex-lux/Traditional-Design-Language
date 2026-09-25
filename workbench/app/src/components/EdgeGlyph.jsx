@@ -18,8 +18,9 @@
    record's, or the `lineage.type` record the server's `by_field` names for the verb, through
    `Term`. There is no caption string in this file and `lineage.test.mjs` reads it to keep it so.
 
-   A filing edge has one word, not two: "filed under" is both the relation and what it carries, and
-   the `member-of` record says both halves — that filing is not lineage, and that it is not inert.
+   A filing edge has one word, not two: "filed under" is both the relation and what it carries. The
+   `member-of` record says filing is not lineage and does NOT say it hands nothing down, which it
+   does: a family's own kit reaches the styles filed under it, and `section-members` says so.
    The target is a `RecordLink`, so the reader sees the style's name with its id beside it, and can
    follow it. */
 import React from 'react';

@@ -41,10 +41,20 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
     setId(selection?.fault || DEFAULT_FAULT);
   }, [selection?.fault]);
 
+  /* ONLY THE ANSWER TO THE LATEST QUESTION IS SHOWN (WP-14.11). A move to a new address changes
+     the fault and the style in one navigation, and this effect runs once for the style (with the
+     OLD fault still in `id`) and again for the fault -- two requests in flight, and whichever
+     resolved LAST was drawn. Forced by delaying the stale one, the card read "The Newel That
+     Cannot Be Leaned On" under an address naming `surround-that-lies-about-the-wall`, on this
+     tree and on a `git archive` of the base commit alike; the walk met it by timing alone, 1 run
+     in 4 here and 0 in 3 on the base. A card of another fault under this address would also carry
+     another fault's licence verdict, which is the thing the card may not get wrong. A superseded
+     request is discarded, its assets with it. */
   React.useEffect(() => {
-    if (!id) return;
+    if (!id) return undefined;
+    let current = true;
     api.fault(id, styleInView || undefined)
-      .then((f) => setFault({
+      .then((f) => current && setFault({
         ...f,
         fix: f.fixes,   // the card reads `fix`; the record says `fixes`
         // the card reads exception.statement + a printable bounds; the record says
@@ -70,8 +80,11 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
             (f.test.note ? ` — ${f.test.note}` : '')
           : null,
       }))
-      .catch(() => setFault(null));
-    api.assets({ fault: id, limit: 4 }).then((r) => setAssets(r.assets || [])).catch(() => setAssets([]));
+      .catch(() => { if (current) setFault(null); });
+    api.assets({ fault: id, limit: 4 })
+      .then((r) => { if (current) setAssets(r.assets || []); })
+      .catch(() => { if (current) setAssets([]); });
+    return () => { current = false; };
   }, [id, styleInView]);
 
   const sevCounts = all.reduce((a, f) => { a[f.severity] = (a[f.severity] || 0) + 1; return a; }, {});
