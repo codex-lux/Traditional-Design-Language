@@ -19,6 +19,43 @@ import core  # noqa: E402  (mcp_server/core.py)
 CASCADE_EDGES = ("descends_from", "regional_of")
 
 
+def served_inherits_kit(edge):
+    """Does this lineage edge hand the kit down, as the workbench SERVES it -- the one spelling,
+    read by `phylogeny()`'s edges and by `style()`'s descendants (WP-14.12), so the two payloads
+    cannot state two different answers about one edge."""
+    return bool(edge.get("inherits_kit")) or edge["type"] in CASCADE_EDGES
+
+
+def style(style_id, sections=None):
+    """`/api/styles/{id}`: `core.get_style` with one addition and nothing changed (WP-14.12).
+
+    Each `descendants` row gains its edge's served `inherits_kit` and `slots`, the fields
+    `phylogeny()` serves for the same edge, so a reader asking what a descendant's edge hands
+    down reads the flag (`lineage/carry.js`) and never keys a table on the edge's TYPE -- the
+    table WP-14.11 removed from three surfaces had a fourth copy colouring exactly these rows.
+
+    THE ADDITION IS MADE HERE AND NOT IN `core.get_style`, deliberately: `tdl_get_style` serves
+    that function's output over MCP and the MCP payloads are held byte-stable, so the workbench's
+    route enriches its own copy. `get_style` builds a fresh dict on every call, so nothing shared
+    is mutated. The rows are matched to their edges by walking the styles in the order
+    `get_style` walks them and REFUSING a row whose id or type disagrees, rather than trusting
+    the order silently."""
+    out = core.get_style(style_id, sections=sections)
+    rows = out.get("descendants") if isinstance(out, dict) else None
+    if rows is None:
+        return out
+    edges = [(m["id"], e) for m in core._data()["styles"].values()
+             for e in m.get("lineage", []) if e["target"] == style_id]
+    if len(edges) != len(rows):
+        raise RuntimeError(f"{style_id}: {len(rows)} descendants against {len(edges)} edges")
+    for row, (mid, e) in zip(rows, edges):
+        if row.get("id") != mid or row.get("type") != e["type"]:
+            raise RuntimeError(f"{style_id}: descendant {row} does not match edge {mid}/{e['type']}")
+        row["inherits_kit"] = served_inherits_kit(e)
+        row["slots"] = e.get("slots")
+    return out
+
+
 def phylogeny():
     """The whole style graph, flattened for the Phylogeny surface.
 
@@ -64,7 +101,7 @@ def phylogeny():
             edges.append({
                 "from": n["id"], "to": e["target"], "type": e["type"],
                 "weight": e.get("weight"),
-                "inherits_kit": bool(e.get("inherits_kit")) or e["type"] in CASCADE_EDGES,
+                "inherits_kit": served_inherits_kit(e),
                 # WP-14.4 (PRD §H.6): the lineage record's own slot scope where it states one
                 # (OQ 58 -- a scoped edge carries THOSE slots and nothing else), null where it
                 # does not. Served rather than re-read by the app, beside the one spelling of

@@ -227,15 +227,7 @@ def get_style(style_id, sections=None):
         out["distinguished_from"] = n.get("distinguished_from", [])
     if "lineage" in sec:
         out["lineage"] = n.get("lineage", [])
-        # WP-14.12: a descendant carries its edge's own `inherits_kit` and `slots`, so a reader
-        # asking what the edge hands down reads the flag (`lineage/carry.js`) and never keys a
-        # table on the edge's TYPE -- the table WP-14.11 removed from three surfaces had a fourth
-        # copy colouring these rows. The same record fields `lineage` serves raw one line up;
-        # `test_dossier_routes.py` holds them to `/api/phylogeny`'s served flag edge by edge.
-        out["descendants"] = [{"id": m["id"], "type": e["type"],
-                               "inherits_kit": e.get("inherits_kit") is True,
-                               "slots": e.get("slots")}
-                              for m in D["styles"].values()
+        out["descendants"] = [{"id": m["id"], "type": e["type"]} for m in D["styles"].values()
                               for e in m.get("lineage", []) if e["target"] == style_id]
         out["cascade"] = _cascade(style_id)
     if "proportion" in sec:

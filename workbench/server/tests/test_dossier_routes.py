@@ -334,9 +334,9 @@ def test_every_phylogeny_edge_carries_its_lineage_records_slot_scope(client):
 
 # --------------------------------------------------------------- descendants (WP-14.12)
 def test_a_descendant_carries_its_edges_own_flag_and_scope(client):
-    """`/api/styles/{id}`'s `descendants` serves each edge's `inherits_kit` and `slots`, and each
-    is held here to what `/api/phylogeny` serves for the SAME edge -- the one spelling the app's
-    `lineage/carry.js` reads. Without the flag the dossier's lineage section could only colour a
+    """`/api/styles/{id}`'s `descendants` serves each edge's `inherits_kit` and `slots` (added by
+    `corpus.style`, the route's adapter), and each is held here to what `/api/phylogeny` serves for
+    the SAME edge -- the one spelling the app's `lineage/carry.js` reads. Without the flag the dossier's lineage section could only colour a
     descendant by its edge's TYPE, which is the table WP-14.11 removed from three surfaces and
     which is wrong wherever a `hybridizes_with` edge carries the kit.
 
@@ -355,3 +355,20 @@ def test_a_descendant_carries_its_edges_own_flag_and_scope(client):
             assert d["slots"] == e["slots"], (sid, d, e)
             seen[d["inherits_kit"]] += 1
     assert seen[True] and seen[False], f"every descendant reads one way: {seen}"
+
+
+def test_the_descendant_flag_is_the_workbench_routes_and_not_the_mcp_tools():
+    """The MCP payloads are held byte-stable, and `tdl_get_style` serves `core.get_style`'s own
+    output: the addition lives in `corpus.style`, the workbench route's adapter, and the core
+    function's descendants stay `{id, type}`. A move of the enrichment into core -- which is
+    where it was first written -- changes an MCP tool's output and fails here."""
+    with_desc = next(sid for sid in sorted(_styles())
+                     if core.get_style(sid, sections=["lineage"]).get("descendants"))
+    rows = core.get_style(with_desc, sections=["lineage"])["descendants"]
+    assert all(set(r) == {"id", "type"} for r in rows), rows[:3]
+    enriched = corpus.style(with_desc, sections=["lineage"])["descendants"]
+    assert [(r["id"], r["type"]) for r in enriched] == [(r["id"], r["type"]) for r in rows]
+    assert all({"inherits_kit", "slots"} <= set(r) for r in enriched)
+    # and the adapter did not reach back into the core's own copy
+    assert all(set(r) == {"id", "type"}
+               for r in core.get_style(with_desc, sections=["lineage"])["descendants"])
