@@ -3,14 +3,14 @@
   "term": "Filed under this",
   "family": "section",
   "order": 1,
-  "definition": "The entries filed directly inside this one, and, for a tradition or family, every style and variant filed beneath it. Filing is for finding things and passes nothing down; where a style really comes from is in Lineage.",
+  "definition": "The entries filed inside this one, and for a tradition or family every style and variant beneath it. Filing is for finding things, not descent: where a style comes from is in Lineage, though a family's own kit does reach the styles filed under it.",
   "analogy": "Like the drawer a card is kept in: it tells you where to look, not whose child it is.",
   "kind": "editorial",
-  "basis": "Editorial. README.md: filing \"is the drawer a node lives in. It exists for browsing and nothing else.\" docs/model.md gives the variant as \"The regional or period expression at which a kit is actually buildable\", and filing \"is a strict single-parent tree. Traditions have\" no parent, and \"It does not carry inheritance.\"",
+  "basis": "Editorial. schema/style-node.schema.json, on filing: \"Single-parent containment for browsing/UI. NOT lineage.\" README.md: filing \"is the drawer a node lives in\". docs/inheritance.md: \"Family participation is a second, independent mechanism from lineage descent, not a special case of it.\" and build/build.py, building a style's cascade: \"i's own family comes before i's own lineage ancestors\". README.md's \"It exists for browsing and nothing else.\" and docs/model.md's \"It does not carry inheritance.\" predate that splice, which is why the definition does not repeat them.",
   "surface": {
     "what": "The entries filed inside this one.",
     "read": [
-      "Filing puts each entry in exactly one drawer, for finding it; it carries no inheritance.",
+      "Filing puts each entry in exactly one drawer, for finding it; a family's own kit also reaches the styles filed under it.",
       "For a tradition or a family, every style and variant filed beneath it is listed too.",
       "Where a style really comes from is in its Lineage section."
     ],
