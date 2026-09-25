@@ -5,7 +5,7 @@
   "order": 1,
   "definition": "The index of the style graph: every tradition, family, style and variant, filed from the broadest down to the regional variants a house can actually be built in. Choose one to open its dossier.",
   "kind": "editorial",
-  "basis": "The page is the workbench's own, ruled for Phase 14, and no corpus file describes it; what it shows is described where the basis quotes. README.md: \"Four ranks — tradition → family → style → variant.\" and filing \"is the drawer a node lives in. It exists for browsing and nothing else.\" docs/model.md gives the variant as \"The regional or period expression at which a kit is actually buildable\".",
+  "basis": "The page is the workbench's own, ruled for Phase 14, and no corpus file describes it; what it shows is described where the basis quotes. README.md: \"Four ranks — tradition → family → style → variant.\" and filing \"is the drawer a node lives in. It exists for browsing, and it is not lineage\" docs/model.md gives the variant as \"The regional or period expression at which a kit is actually buildable\".",
   "surface": {
     "what": "Every tradition, family, style and variant, filed broadest first. Open one to read its dossier.",
     "read": [

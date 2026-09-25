@@ -121,7 +121,7 @@ export function pageSections(data, { authorities } = {}) {
     rules: Array.isArray(data.derived_rules) && data.derived_rules.length > 0,
     authorities: Array.isArray(authorities) && authorities.length > 0,
     'used-by': Boolean(data.used_by && typeof data.used_by === 'object'),
-    sources: authorityLines(data).length > 0,
+    sources: authorityLines(data).length > 0 || sourceLines(data).length > 0,
     proof: true,
   };
   return PAGE_SECTIONS.filter((s) => has[s]);
@@ -135,6 +135,18 @@ export function authorityLines(data) {
   if (data) {
     add(data.authority);
     for (const a of Array.isArray(data.assemblies) ? data.assemblies : []) add(a && a.authority);
+  }
+  return out;
+}
+
+/* The pack's own `sources` as the detail route serves them (WP-14.15), in the record's order,
+   each once, and never one already printed as an authority line above it. Only strings: the
+   record's field is a list of citations and anything else is not one. */
+export function sourceLines(data) {
+  const seen = new Set(authorityLines(data));
+  const out = [];
+  for (const s of (data && Array.isArray(data.sources)) ? data.sources : []) {
+    if (typeof s === 'string' && s.trim() && !seen.has(s)) { seen.add(s); out.push(s); }
   }
   return out;
 }

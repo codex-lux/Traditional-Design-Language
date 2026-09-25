@@ -21,7 +21,7 @@ One JSON file per taxon. Four ranks — tradition → family → style → varia
 
 Nodes relate to each other in two independent ways, and the separation is the point:
 
-- `member_of` — a strict single-parent hierarchy. This is the drawer a node lives in. It exists for browsing and nothing else.
+- `member_of` — a strict single-parent hierarchy. This is the drawer a node lives in. It exists for browsing, and it is not lineage; it carries one thing, and only through a family: the family a style is filed under joins that style's kit cascade, so the family's own kit reaches it.
 - `lineage` — a directed acyclic graph with typed edges. This is actual descent, and nodes routinely have several parents.
 
 **2. The element ontology** (`elements/slots.json`) and **massing catalog** (`massings/catalog.json`)

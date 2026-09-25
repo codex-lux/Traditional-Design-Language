@@ -85,6 +85,39 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 
 ## Where the work stands (4 Sep 2026)
 
+**PHASE 14 — THE DOSSIER AND THE JOURNEY — TRANCHE 1 IS BUILT, WP-14.0 THROUGH 14.15 (24–25 Sep
+2026). READ THIS BEFORE TOUCHING THE WORKBENCH'S NAVIGATION, A LABEL, OR A DRAWING IN THE LOUPE.**
+Lucas read the Proportions surface on `trim-classical` and found *"all just a bunch of text"*. The
+analysis is `docs/reports/ux-first-principles-2026-09-24.md`, the contracts are
+`docs/prd/phase-14-the-dossier-and-the-journey.md`, and `docs/workbench.md` has a section on the
+new shell. The workbench is organised the way a practitioner works now, one style or one house at
+a time, and no longer the way the corpus is stored.
+- **One site map.** `nav/navModel.js` holds ids and glossary record ids and no words.
+- **One style in one place.** The Style Dossier is `#/style/<id>[/<section>]`, and `#/kit` is an
+  alias for its kit section.
+- **One house, step by step.** A `JourneyBar` runs Brief · Candidates · Plan · Drawings · Export.
+- **A plaque on every page.** Every page has crumbs, a title and a `PageHead`.
+**EVERY DEFINITION IS A GLOSSARY RECORD AND THE APP WRITES NONE**: `glossary/*.json`,
+`schema/glossary-term.schema.json` and `build/check_glossary.py` (the 54th check) verify every
+quotation a record's basis makes. A label, a heading or a tooltip the app needs is a record, and
+`src/copy_ratchet.test.mjs` refuses a new long title or a typed count BY IDENTITY.
+`GET /api/glossary/about-tdl` is the one ungated corpus path, ruled so the Gate can say what this
+is. The shell asks for nothing gated until it knows the lock.
+**AND THE LOUPE PAINTED ITS TEXT FROM A LAYOUT IT HAD ALREADY LEFT, AND NO CHECK COULD SEE IT
+(WP-14.15).** `PlateViewer` gave the stage its measured width and its fitted scale in one commit,
+and Chromium painted every SVG text from the first layout while `getBBox`, `getBoundingClientRect`
+and `getScreenCTM` all reported the second. The effect:
+- the labels of Lucas's own `trim-classical` plate were painted 1.2× out, clear of their leaders
+  and off the frame;
+- the bench sheet's bay-grid figures were painted up to 52 px off.
+The walk's *"every label inside its frame"* check reads `getBBox`, and was green throughout. The
+stage's content is keyed on the measured width now, and the guard compares PIXELS: the first fit
+against a fresh one, byte for byte. **A check that reads geometry cannot see paint; when a
+drawing must be seen to be right, look at it, and guard it by what was painted.**
+WP-14.0's report is the analysis named above, and WP-14.1 through 14.15 each have their own. The
+last is `docs/reports/wp-14.15-the-picture-the-geometry-did-not-see.md`, and PLAN-OF-ACTION's
+Phase 14 board names every package's report by filename.
+
 **AND READ `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` BEFORE TOUCHING THE PLACER, THE
 SHEET OR THE PARTI (4 Sep 2026).** Lucas put the bench's own Tidewater sheet in front of a session
 and asked for the diagnosis before his own list. Fifty-one findings, eight root causes, four strata

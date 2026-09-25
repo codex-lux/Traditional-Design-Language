@@ -13,7 +13,7 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import {
   PAGE_SECTIONS, PROOF_FOLD, FILTER_SPEC, DEFAULT_DIAMETER_IN, RANGES, measureParam, requestFor,
-  sliderAt, plateKind, faceCount, pageSections, authorityLines, invariantMark, invariantTally,
+  sliderAt, plateKind, faceCount, pageSections, authorityLines, sourceLines, invariantMark, invariantTally,
   proofOpen, ruleState, figureWords, rangeWords, usedByGroups, reachOf, packsOfStyle, packGroups,
   packHref, assemblyWords, orderOf, authorityWords,
 } from './proportions/page.js';
@@ -262,6 +262,20 @@ test('the pack’s own words: the authority lines, an assembly’s id as words, 
   assert.equal(assemblyWords('wall_section_georgian'), 'wall section georgian');
   assert.equal(orderOf('vignola-composite'), 'composite');
   assert.equal(orderOf('gibbs'), null);
+});
+
+test('the pack’s own sources: in its order, each once, never an authority line twice', () => {
+  const d = { authority: 'A', sources: ['A', 'W1', 'W2', 'W1', '', 7, null] };
+  assert.deepEqual(sourceLines(d), ['W1', 'W2']);
+  assert.deepEqual(sourceLines({ sources: 'not a list' }), []);
+  assert.deepEqual(sourceLines(null), []);
+  // a pack whose only words are its sources still has a sources section
+  assert.ok(pageSections({ sources: ['W'] }).includes('sources'));
+  assert.ok(!pageSections({ sources: [] }).includes('sources'));
+  // and the section draws them: the component reads the served list, not the authority alone
+  const jsx = live(read('surfaces/Proportions.jsx'));
+  assert.match(jsx, /sourceLines\(data\)/);
+  assert.match(jsx, /data-source-line/);
 });
 
 /* ---- the plate component ---- */

@@ -1625,6 +1625,36 @@ check(`⑩ trim-classical: every label inside its frame and none on another (${t
 const trimBase = (trimApi.derived_rules || []).find((r) => r.target_slot === 'baseboard' && r.dimension === 'height');
 check(`⑩ trim-classical: the baseboard row is the served rule (${trim && trim.baseboard})`,
   Boolean(trim && trimBase) && trim.baseboard === fmtIn(trimBase.value));
+/* THE PLATE IS PAINTED WHERE ITS GEOMETRY SAYS (WP-14.15). Every check above reads getBBox, and
+   so did the one that passed while this was broken. The loupe lays the plate out before the pane
+   is measured, then gives the stage its width and its fitted scale in one commit, and Chromium went
+   on PAINTING the text from the first layout while every geometry call reported the second. At
+   1440 px the labels were painted 1.2x out from the plate's edge, clear of their leaders and off
+   the frame. So this compares PIXELS: the plate at its first fit against the same plate after 1:1
+   and fit again, which lays it out fresh. They must be the same picture. Driven: without the
+   stage's key on the pane width, 2 of 2 runs differ. */
+{
+  const pf = page.locator('main [data-pack-page="trim-classical"] [data-assembly-frame]').first();
+  const psvg = pf.locator('svg[data-plate]');
+  await visit('#/proportions/trim-classical');
+  await page.waitForSelector('main [data-pack-page="trim-classical"] svg[data-plate]', { timeout: 30000 }).catch(() => {});
+  await psvg.scrollIntoViewIfNeeded().catch(() => {});
+  await page.waitForTimeout(800);
+  const b1 = await psvg.boundingBox().catch(() => null);
+  const c1 = b1 && { x: Math.max(0, b1.x), y: Math.max(0, b1.y), width: Math.min(b1.width, 720), height: Math.min(b1.height, 320) };
+  const first = c1 ? await page.screenshot({ clip: c1 }) : null;
+  await pf.getByRole('button', { name: '1:1' }).click().catch(() => {});
+  await page.waitForTimeout(500);
+  await pf.getByRole('button', { name: 'fit' }).click().catch(() => {});
+  await page.waitForTimeout(800);
+  await psvg.scrollIntoViewIfNeeded().catch(() => {});
+  await page.waitForTimeout(300);
+  const b2 = await psvg.boundingBox().catch(() => null);
+  const c2 = b2 && c1 && { x: Math.max(0, b2.x), y: Math.max(0, b2.y), width: c1.width, height: c1.height };
+  const again = c2 ? await page.screenshot({ clip: c2 }) : null;
+  check('⑩ trim-classical: the plate is painted as it is laid out -- its first fit and a fresh fit are one picture',
+    Boolean(first && again) && Math.abs(b1.width - b2.width) < 0.5 && first.equals(again));
+}
 await shot('proportions-trim', [1440, 1280]);
 
 // ?ceiling=108: the module is the ceiling, so the drawing and the baseboard row move TOGETHER.

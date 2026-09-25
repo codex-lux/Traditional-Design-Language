@@ -18,7 +18,7 @@ from workbench.server import corpus
 
 core = corpus.core
 
-NEW_KEYS = ("drawing", "at", "module_name", "module_bound_to", "kind", "used_by")
+NEW_KEYS = ("drawing", "at", "module_name", "module_bound_to", "kind", "used_by", "sources")
 
 
 def _pe():
@@ -103,6 +103,18 @@ def test_the_mcp_payload_is_unchanged_and_still_serves_no_assemblies_for_trim_cl
         "of oq/mcp-proportions-serve-no-assemblies-for-non-order-packs and must be ruled there, "
         "not changed silently under the workbench's package")
     assert not set(NEW_KEYS) & set(got), "a workbench-only key leaked into the MCP payload"
+
+
+def test_the_detail_route_serves_the_packs_own_sources_in_its_own_order(client):
+    """WP-14.15. The page's sources section could print only the authority line, because this
+    route served no `sources` although most packs carry them. Held pack by pack against the
+    RECORD's own list, not a count, and the premise asserted so an empty corpus cannot pass it."""
+    carrying = 0
+    for pid, pk in _all():
+        own = [s for s in (pk.get("sources") or []) if isinstance(s, str)]
+        carrying += bool(own)
+        assert _members(client, pid)["sources"] == own, pid
+    assert carrying > 0, "no pack carries sources, so this test has nothing to hold"
 
 
 # ------------------------------------------------------------------------ every drawable pack

@@ -141,6 +141,60 @@ the parser was never handed. The two Python copies now share `ID_CHARS`/`FRAG_CH
 `workbench/server/tests/test_grammar_agreement.py` reads the JavaScript to hold the third
 against them, end to end. **Do not add a fourth copy.**
 
+## The shell since Phase 14: two spines and a library
+
+Until Phase 14 the workbench was organised the way the corpus is STORED: one rail item per record
+type, in the order the surfaces were built, and every rail click dropped the style being read, so
+each surface fell back to its own hard-coded record. Since Phase 14 it is organised the way a
+practitioner WORKS: one style at a time, or one house at a time
+(`docs/reports/ux-first-principles-2026-09-24.md` is the analysis,
+`docs/prd/phase-14-the-dossier-and-the-journey.md` the contracts).
+
+**One site map.** `app/src/nav/navModel.js` holds the rail's groups and items as ids and the
+glossary record each is called by, and nothing else: the rail, the crumbs (`nav/crumbs.js`, which
+follow `member_of` and never lineage), the front door's map (`components/TwoSpineMap.jsx`), the
+palette's surface entries and the browser walk all read it. It holds no words. A label is its
+record's `term`, and a record the glossary does not hold is printed as a visible "no entry". A
+count beside an item is the API's or the journey's, never a number written in the app.
+
+- **Start**: the front door (`#/`), built from glossary records and live counts only.
+- **Styles**: *Find a style* (`#/style`, the Styles index, an outline that never shows a record);
+  the style in hand, by name, a link and never a default; the family tree and map (`#/phylogeny`).
+- **A house**: Brief · Candidates · Plan · Drawings · Export, with *trace a drawing* joining at
+  the plan. One `JourneyBar` (`journey/journey.js` through `journey/bar.js`) says each step's
+  state in words, and a step that cannot proceed (a refused plan's Drawings and Export) is not a
+  link.
+- **Library**: Proportions, Faults, the Glossary.
+
+**The Style Dossier** (`surfaces/StyleDossier.jsx`, sections in `dossier/`) is everything about
+one style at one address, `#/style/<id>[/<section>]`, read in the corpus's own consulting order.
+The section ids are frozen in `citations.js`'s `DOSSIER_SECTIONS` and held against
+`server/citations.py` by `test_grammar_agreement.py`: `identify` (the bare address), `members`
+(*Filed under this*), `lineage`, `kit`, `proportions`, `plans` (*Plan types*), `rules`
+(*Constraints*), `faults` and `evidence`. Only the section in view is drawn, and a section with
+nothing in it is not offered. `dossier/sections.js::placeOf` reads `navModel.stylePlaceKind`, so
+the surface and the crumbs cannot disagree about which place a URL is. `#/style/-/kit/<slot>` is
+one slot across every style.
+
+**Every page says where it is**: a crumb strip, a `document.title` of its own, a `PageHead`
+worded from its `surface-*` record, a masthead reading *On the bench:* with the plan's state in
+words, and a visible **Keys** button for the card `?` opens. The assistant's pane is named
+*Ask the corpus · AI assistant* from its record and starts folded below 1500 px when the reader
+has stored no choice; a stored choice wins. Below 1380 px only the front door and the Glossary
+reflow (`#root[data-reflow]`). The working surfaces keep `tokens.css`'s 1380 px floor by ruling,
+so on a 1280 px window they scroll 100 px sideways. That is recorded, not fixed.
+
+**The Gate** shows one sentence, `about-tdl`'s definition, read from the one ungated `/api/`
+path. The shell asks for nothing gated until it knows the lock: `useGlossary`, `useNames` and
+`useStyles` take an `enabled` argument, and `App` passes `locked === false`.
+
+**Addresses that moved, and none that broke.** `#/kit/<style>/<slot>` is an alias, canonicalised
+in place to `#/style/<style>/kit/<slot>`. A bare `#/proportions` is the pack index and draws no
+pack. `brief:<id>` opens the Brief Intake holding that example (`#/brief?example=<id>`).
+`term:<id>` opens the Glossary at that word, and `constraint:<style>.cNN` opens that style's
+Constraints section. The regexes did not change, and there is still no fourth spelling of the
+grammar.
+
 ## Navigation and addressing (WP-5.6)
 
 **A place is a URL, and a URL is a citation.** The hash serializes `(surface, selection,
@@ -151,22 +205,23 @@ over `hashchange` in the same idiom as `planDoc`.
 
 ```
 #/                                   the Overview
-#/<surface>                          #/kit  #/faults  #/phylogeny
-#/<surface>/<id>[/<sub-id>]          #/kit/tidewater-georgian/cornice
+#/<surface>                          #/style  #/faults  #/phylogeny
+#/<surface>/<id>[/<sub-id>]          #/style/tidewater-georgian/kit/cornice
 #/cite/<kind>:<id>                   a citation, verbatim, as a link
 #/<surface>/<id>?sev=serious&q=porch filters, in the query
 #/phylogeny?view=map                 which reading of a surface you are in
 ```
 
 - `citeFor(surface, selection)` in `citations.js` is the inverse of `routeCite`, kept
-  beside it so the two cannot drift. It is an identity for every kind but `brief`, where
-  `routeCite` discards the id; it returns null there rather than inventing one.
+  beside it so the two cannot drift. Until WP-14.12 it returned null for `brief`, because
+  `routeCite` discarded the id. A brief's id now travels as `?example=<id>` and round-trips,
+  and a brief surface holding no example is still the empty intake, which no citation names.
 - Surface and selection changes **push** history; filter changes **replace** it, so
   chipping through a strip does not fill the back button.
 - `#/cite/…` canonicalises in place to the URL of the place it names — but only when the
   citation resolved. A broken one is left standing rather than redirected to a default
   surface, which would disguise a dead link as a working one.
-- `-` holds an absent leading path key (`#/kit/-/cornice` is a slot with no style).
+- `-` holds an absent leading path key (`#/style/-/kit/cornice` is a slot with no style).
 - A URL cannot express "present, but null", and nothing downstream reads one.
 
 **Search.** `GET /api/search/index` serves every nameable thing once (762 entries, ~242 KB

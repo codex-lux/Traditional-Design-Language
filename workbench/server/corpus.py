@@ -594,6 +594,10 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     out["module_bound_to"] = equals
     out["kind"] = pk["kind"]
     out["used_by"] = pack_users(pk["id"])
+    # WP-14.15: the pack's own `sources`, which 55 of 57 packs carry and this route did not
+    # serve, so the page's sources section could print only the authority line. Served here
+    # and not in core.get_proportions, which is the MCP payload and is held byte-stable.
+    out["sources"] = [s for s in (pk.get("sources") or []) if isinstance(s, str)]
     return out
 
 

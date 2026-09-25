@@ -239,7 +239,17 @@ export function PlateViewer({ children, height = 'clamp(380px, 70vh, 880px)', la
             position: 'relative', margin: '0 auto' }}>
             <div ref={stageRef} style={{ position: 'absolute', top: 0, left: 0,
               width: frame.w || '100%', transform: `scale(${z})`, transformOrigin: '0 0' }}>
-              {children}
+              {/* KEYED ON THE MEASURED PANE WIDTH (WP-14.15). The plate is first laid out before
+                  the pane is measured, at `width: 100%` and scale 1, and the next commit gives the
+                  stage its width and its fitted scale together. Chromium then went on PAINTING
+                  every SVG text from the first layout while every geometry call (getBBox,
+                  getBoundingClientRect, getScreenCTM) reported the new one: on `trim-classical`
+                  at 1440 px the labels were painted 1.2× out from the plate's edge (1 / 0.83,
+                  the fit), clear of their leaders and off the frame, and a DOM check could not
+                  see it. A later zoom that changes only the scale paints true. Mounting the
+                  plate afresh once the width is known, and again only if the pane is resized,
+                  lays the text out under the width and scale it is painted at. */}
+              <div key={Math.round(frame.w)} data-stage-width={Math.round(frame.w)}>{children}</div>
             </div>
           </div>
         </div>

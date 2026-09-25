@@ -44,7 +44,7 @@ import { feetInches16 } from '../fmt.js';
 import { judgmentOf, JUDGMENT_MARK } from '../judgment.js';
 import {
   FILTER_SPEC, RANGES, PROOF_FOLD, DEFAULT_DIAMETER_IN, requestFor, sliderAt, plateKind,
-  pageSections, authorityLines, authorityWords, invariantMark, invariantTally, proofOpen, ruleState, figureWords,
+  pageSections, authorityLines, sourceLines, authorityWords, invariantMark, invariantTally, proofOpen, ruleState, figureWords,
   rangeWords, usedByGroups, reachOf, packsOfStyle, packGroups, packHref, orderOf,
 } from '../proportions/page.js';
 
@@ -659,13 +659,15 @@ function Reach({ reach, styleId, error }) {
 
 function Sources({ data }) {
   const lines = authorityLines(data);
+  const works = sourceLines(data);
+  const line = { font: 'italic var(--fw-reg) 13.5px/1.55 var(--serif)', color: 'var(--ink)',
+    margin: '0 0 6px', maxWidth: '84ch' };
   return (
     <section data-section="sources" style={SECTION_GAP}>
-      <h3 style={H3}><Term id="authority" /></h3>
-      {lines.map((s, i) => (
-        <p key={i} data-authority-line="" style={{ font: 'italic var(--fw-reg) 13.5px/1.55 var(--serif)',
-          color: 'var(--ink)', margin: '0 0 6px', maxWidth: '84ch' }}>{s}</p>
-      ))}
+      {lines.length > 0 && <h3 style={H3}><Term id="authority" /></h3>}
+      {lines.map((s, i) => <p key={i} data-authority-line="" style={line}>{s}</p>)}
+      {works.length > 0 && <h3 style={H3}><Term id="bibliographic-source" /></h3>}
+      {works.map((s, i) => <p key={i} data-source-line="" style={line}>{s}</p>)}
     </section>
   );
 }
