@@ -1,0 +1,13 @@
+{
+  "id": "mark-loading",
+  "term": "loading",
+  "family": "mark",
+  "mark": "--mark-loading",
+  "order": 0,
+  "definition": "Something on the page is still arriving from the corpus. It is shown as its word alone, with no square, because it is not a state of the house and must never be read as a verdict or as a rule that could not run.",
+  "kind": "editorial",
+  "basis": "workbench/app/src/theme/tokens.css, the duty block's comment on this mark: \"Loading: no square at all, only the word in this ink, and aria-busy on whatever is still arriving.\" and on the group it heads: \"The marks that are not a verdict, and so never borrow a verdict's form\". The block states the rule every mark keeps: \"Each duty token below means one thing wherever it is drawn\".",
+  "see": [
+    "term:judgment-unjudged"
+  ]
+}

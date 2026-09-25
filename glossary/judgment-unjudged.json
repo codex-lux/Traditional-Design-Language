@@ -2,6 +2,7 @@
   "id": "judgment-unjudged",
   "term": "unjudged",
   "family": "judgment",
+  "mark": "--mark-unjudged",
   "order": 2,
   "aka": ["could not evaluate"],
   "definition": "The rule could not be tested on this house: a measurement it needs is missing, or the tool that would take it is absent. Unjudged is not passed, and it is never counted as a pass.",

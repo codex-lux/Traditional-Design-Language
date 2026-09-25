@@ -1,6 +1,6 @@
 # oq/one-duty-per-hatch — the unjudged hatch carries five meanings, the 45° hatch six, and a key cannot be drawn for a mark that means several things
 
-*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.29 · Raised in: WP-14.0 (24 September 2026)*
+*Status: CLOSED 25 SEP 2026 — ruled the same day, executed by WP-14.29 · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding.** Phase 14's reader asked for keys. A key says what a mark MEANS, so it can only be
 written for a mark with one meaning, and the workbench's marks were never assigned one each. Every
@@ -104,3 +104,40 @@ are.
 - `--t3` takes `--salmon`, an existing ink distinct from `--brick`.
 
 The key is worded from the records. The question closes when WP-14.29 lands.
+
+## Closed 25 September 2026 (WP-14.29)
+
+Executed as the PRD's table states it, with one row's consumers widened by a consumer of the
+same meaning and no row's meaning widened. The report is
+`docs/reports/wp-14.29-one-meaning-per-mark.md`.
+
+- **Twelve duty tokens, one form each.** `theme/tokens.css` declares every `--mark-*` in one
+  block under a comment per mark, and those comments are what the five new `mark-*` records quote
+  as their basis. `src/marks.js` states each mark's FORM (a filled square, an open one, the hatched
+  one, a dashed one, an em rule, a field of lines, or the word alone for loading), because a custom
+  property can hold a paint and cannot hold a shape.
+- **Every mark is one record**: the six judgment records and `variant-status-forbidden` carry
+  `mark`, and `mark-loading`, `mark-low-confidence`, `mark-not-built`, `mark-wanted` and
+  `mark-set-aside` are new. `build/check_glossary.py` rule 13 holds each record to a declared
+  property; `workbench/app/src/marks.test.mjs` holds the other direction, every declared duty to
+  exactly one record, which rule 13 does not read.
+- **`JudgmentMark` draws six states, not three**, and each state's word is its record's and
+  reaches assistive tech on both of its branches -- the square was `aria-hidden` and its words
+  sat in a map a screen reader never met.
+- **The key** is `components/MarkKey.jsx` on the Glossary's Marks family, reached from the `?`
+  card. It reads the records and holds no list of marks.
+- **The raw hatch is gone from the app.** No shipped file names `var(--hatch-...)`; inside the
+  stylesheet only a `--mark-*` declaration reads one. The four materials (masonry, crosshatch,
+  water, the lawn's stipple) are named as exempt, and `--hatch-cross` carries no duty and is drawn
+  by nothing.
+- **`--t3` is `var(--salmon)`**, held to both halves of the ruling by the same test.
+- **The MapView docstring above is corrected**: the country-precision ring is the low-confidence
+  mark's DASHED form, drawn in the tradition's hue, and never was hatched.
+
+**What this question named and the ruling did not reach, left as it was and said so.** `--gilt-deep`
+carries its eight colour duties and now a ninth, the yours-to-judge outline the PRD's table names
+for it. Pass and fail still differ by 1.08 : 1 in luminance; the words beside every verdict square
+are the answer to that, and the ink is untouched. `OrderPlate`'s dashed confidence stroke paints
+the low-confidence form through `--judge-unjudged` by name, and the tranche forbids any change to
+`OrderPlate`. And a refusal is drawn in two inks, one of them a tradition's hue:
+`oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue`.

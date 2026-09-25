@@ -126,6 +126,16 @@ def control(tmp_path):
     d.mkdir()
     for rid in SEEDS:
         shutil.copy(os.path.join(ROOT, "glossary", rid + ".json"), d / (rid + ".json"))
+    # WP-14.29 gave the four judgment seeds their real `mark`s. Rule 13's tests drive a SYNTHETIC
+    # stylesheet declaring only what each test names, so a seed carrying a real mark would be
+    # judged against a stylesheet that never declared it and every such test would be red for a
+    # reason it is not about. The control starts with no mark; the real marks are held to the real
+    # stylesheet by the checker's own run over the corpus, and by workbench/app/src/marks.test.mjs.
+    for rid in SEEDS:
+        rec = read(d, rid)
+        if rec.pop("mark", None) is not None:
+            write(d, rec)
+            assert "mark" not in read(d, rid), f"the control could not clear {rid}'s mark"
     field, schema, pointer = RANK
     for i, v in enumerate(RANK_VALUES):
         write(d, _editorial(f"rank-{v}", f"rank word {v}", "rank", order=i,
@@ -674,7 +684,10 @@ def test_glossary_rec_re_admits_what_the_contract_names_and_nothing_else():
     rx = CO.GLOSSARY_REC_RE
     admitted = ["VISION.md", "README.md", "docs/geometry.md", "schema/kit.schema.json",
                 "mcp_server/core.py", "partis/five-part-palladian.json", "build/roof.py",
-                "massings/catalog.json", "elements/slots.json", "proportions/systems/x.json"]
+                "massings/catalog.json", "elements/slots.json", "proportions/systems/x.json",
+                # WP-14.29: the one app file, by its exact path -- the duty-block comments are
+                # the written meaning of every `--mark-*` the `mark-*` records name.
+                "workbench/app/src/theme/tokens.css"]
     for p in admitted:
         assert rx.findall(f"read {p} here") == [p], p
     # Real paths, on purpose: build/check_ids.py reads every file for `docs/reports/<name>.md` and
@@ -682,7 +695,10 @@ def test_glossary_rec_re_admits_what_the_contract_names_and_nothing_else():
     # file's first run of that checker.
     for p in ("workbench/README.md", "docs/reports/ux-first-principles-2026-09-24.md",
               "docs/open-questions/oq-one-duty-per-hatch.md",
-              "CLAUDE.md", "glossary/about-tdl.json", "precedents/x.json"):
+              "CLAUDE.md", "glossary/about-tdl.json", "precedents/x.json",
+              # ...and nothing else of the app: not a neighbour of the stylesheet, not a CSS
+              # file by suffix, not the module that draws the marks.
+              "workbench/app/src/marks.js", "workbench/app/src/theme/fonts.css"):
         assert p not in rx.findall(f"read {p} here"), p
     assert rx.findall("read workbench/README.md here") == []
 

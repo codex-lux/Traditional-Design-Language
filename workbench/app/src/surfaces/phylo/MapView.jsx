@@ -14,8 +14,10 @@
 
    2. Precision is drawn, not hidden. Half the corpus names only a country — "England",
       "United States nationwide" — which is not a hearth, and a firm dot would invent one.
-      Those are drawn as hollow hatched rings, the same hatch the product uses everywhere
-      for "not judged", and the legend counts them.
+      Those are drawn as hollow DASHED rings -- never hatched, whatever this line said
+      until WP-14.29 -- which is the low-confidence mark's form (a dashed outline, for a
+      placement the record holds only loosely), drawn here in the tradition's hue because on
+      the map the hue is what names the tradition; the legend draws it in ink and counts them.
 
    3. Coincident styles cluster rather than overlap. Twenty-five traditions sharing
       "England" is a fact about the records, not about England, so the mark carries the
@@ -408,8 +410,8 @@ export function MapView({
               <g key={c.key} onMouseEnter={() => setHover(c)} onMouseLeave={() => setHover(null)}
                 onClick={(ev) => pickFromMap(ev, nextInCluster(c))}
                 style={{ cursor: 'pointer' }}>
-                {/* A country-precision mark is hollow and hatched: the record named a
-                    nation, not a hearth, and a filled dot would claim one. */}
+                {/* A country-precision mark is hollow and dashed -- the low-confidence form:
+                    the record named a nation, not a hearth, and a filled dot would claim one. */}
                 <circle cx={c.x} cy={c.y} r={r}
                   fill={coarse ? 'none' : hue}
                   stroke={holdsSel ? 'var(--ink)' : hue}

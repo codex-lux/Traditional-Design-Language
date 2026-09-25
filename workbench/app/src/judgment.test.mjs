@@ -11,6 +11,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import {
   JUDGMENT_STATES, judgmentOf, JUDGMENT_MARK, judgmentTermId, CONSTRAINT_STATES, constraintStateOf,
 } from './judgment.js';
+import { JUDGMENT_MARKS } from './marks.js';
 
 const ROOT = new URL('../../../', import.meta.url);
 
@@ -45,20 +46,23 @@ test('the term id of a judgment is the glossary id the PRD names, for each state
     ['judgment-passed', 'judgment-failed', 'judgment-unjudged']);
 });
 
-test('JUDGMENT_MARK speaks JudgmentMark’s own three states, read off the component', () => {
-  /* The mark is a React component the corpus job cannot import; its states are read out of its
-     source instead. The premise is asserted first: if the component stopped comparing `state`
-     against these strings, this test would otherwise be comparing JUDGMENT_MARK with nothing. */
+test('JUDGMENT_MARK speaks states JudgmentMark draws, read off the table the component reads', () => {
+  /* The mark is a React component the corpus job cannot import. Until WP-14.29 its states were
+     read out of a `words` map in its source; it keeps no words now (each state's word is its
+     glossary record's) and draws exactly the states `marks.js`'s JUDGMENT_MARKS names, which is
+     pure and is imported here. The premise is asserted first: the component really does read
+     that table, or this test would be comparing JUDGMENT_MARK with a table nothing draws. */
   const src = readFileSync(new URL('components/JudgmentMark.jsx', import.meta.url), 'utf8');
-  const compared = [...src.matchAll(/state === '([a-z]+)'/g)].map((m) => m[1]);
-  assert.ok(compared.length >= 2, 'JudgmentMark must still branch on its state prop');
-  const wordsBlock = /const words = \{([^}]*)\}/.exec(src);
-  assert.ok(wordsBlock, 'JudgmentMark must still word each state it draws');
-  const worded = [...wordsBlock[1].matchAll(/([a-z]+):\s*'/g)].map((m) => m[1]);
-  assert.equal(worded.length, 3, `JudgmentMark words ${worded.length} states`);
-  const markStates = new Set([...compared, ...worded]);
-  assert.deepEqual([...markStates].sort(), Object.values(JUDGMENT_MARK).sort(),
-    'every judgment must map onto a state JudgmentMark draws, and no state may be left without one');
+  assert.match(src, /import \{ JUDGMENT_MARKS \} from '\.\.\/marks\.js'/,
+    'JudgmentMark must draw the states marks.js names');
+  assert.match(src, /JUDGMENT_MARKS\[known\]/, 'and look each one up there, not in a table of its own');
+  assert.doesNotMatch(src, /const words = \{/, 'a words map in the component is a second spelling of the records');
+  for (const s of Object.values(JUDGMENT_MARK)) {
+    assert.ok(Object.prototype.hasOwnProperty.call(JUDGMENT_MARKS, s),
+      `every judgment must map onto a state JudgmentMark draws: ${s} has none`);
+  }
+  // an unknown state is drawn unjudged -- the one direction a wrong state may fall
+  assert.match(src, /hasOwnProperty\.call\(JUDGMENT_MARKS, state\) \? state : 'unjudged'/);
   // and the two collapses, stated as the mark's own states
   assert.notEqual(JUDGMENT_MARK[judgmentOf(null)], 'fail');
   assert.notEqual(JUDGMENT_MARK[judgmentOf(null)], 'pass');

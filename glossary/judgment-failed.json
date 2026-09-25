@@ -2,6 +2,7 @@
   "id": "judgment-failed",
   "term": "failed",
   "family": "judgment",
+  "mark": "--mark-failed",
   "order": 1,
   "definition": "The rule was tested against this house and the house does not meet it. A failure is reported only when a test actually ran and came out against the house, never for want of a number.",
   "kind": "editorial",

@@ -25,6 +25,7 @@ import { PlateViewer } from '../components/PlateViewer.jsx';
 import { PullPane } from '../components/PullPane.jsx';
 import { RevisionPanel } from '../components/RevisionPanel.jsx';
 import { classesById, engineLabel, classTag, CLASSES } from '../revision.js';
+import { styleFindingMark } from '../judgment.js';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -415,8 +416,13 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
   const nonInfo = findings.filter((f) => f.severity !== 'info').length;
   const classified = assessment ? CLASSES.reduce((n, c) => n + (assessment.counts[c] || 0), 0) : 0;
 
-  const unjudgedConstraints = findings.filter((f) =>
-    f.layer === 'style' && /cannot evaluate|check by hand/i.test(f.statement));
+  /* Two kinds of style row reach this panel and they are not one state (WP-14.29): a test that
+     could not run is UNJUDGED, and a hard rule the corpus carries no test for is handed to the
+     reader, YOURS TO JUDGE. `judgment.styleFindingMark` reads which from the finding's own kind;
+     each row is drawn in its own mark and says its own word. */
+  const unjudgedConstraints = findings
+    .map((f) => ({ f, mark: styleFindingMark(f.raw || f) }))
+    .filter((x) => x.mark);
   const faultUnjudged = lastEval?.fault_unjudged || [];
   // THE FOURTH STATE (WP-5.13), which reached this surface only after the WP-5.14 audit went
   // looking. A fault whose every test declined its `applies_when` precondition appears in no
@@ -660,9 +666,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                 {cs ? ` · ${cs.unjudged} of this style's constraints` : ''}
                 {faultUnjudged.length ? ` · ${faultUnjudged.length} faults` : ''}
               </Eyebrow>
-              {unjudgedConstraints.map((u) => (
-                <div key={u.id} style={{ marginBottom: 10 }}>
-                  <JudgmentMark state="unjudged" label={u.statement} reason={u.why || 'scope: judgment'} />
+              {unjudgedConstraints.map(({ f: u, mark }) => (
+                <div key={u.id} data-style-mark={mark} style={{ marginBottom: 10 }}>
+                  <JudgmentMark state={mark} label={u.statement} reason={u.why || 'scope: judgment'} />
                 </div>
               ))}
               {faultUnjudged.slice(0, 8).map((u) => (
@@ -672,7 +678,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               ))}
               {faultNotApplicable.slice(0, 4).map((u) => (
                 <div key={u.fault} style={{ marginBottom: 10 }}>
-                  <JudgmentMark state="unjudged" label={u.name + ' — not applicable'}
+                  <JudgmentMark state="not-applicable" label={u.name}
                     reason={'every test is preconditioned on ' + (u.because || []).join(', ')
                             + ' (' + (u.required || []).join(', ') + '); none ran'} />
                 </div>

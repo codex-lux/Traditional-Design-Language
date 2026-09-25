@@ -50,12 +50,13 @@ const PROSE = {
   margin: '7px 0 0', textWrap: 'pretty',
 };
 /* The licence's frame by verdict, in the standard's own tokens: gilt where it is earned, the
-   plain rule where it is refused (the general rule stands), and the unjudged hatch where nobody
-   could say — the mark this workbench already uses for not judged. */
+   plain rule where it is refused (the general rule stands), and the could-not-evaluate mark where
+   nobody could say. That field is `--mark-unjudged`, the one duty the unjudged hatch carries, and
+   never the hatch by name (WP-14.29, `src/marks.test.mjs`). */
 const LICENCE_FRAME = {
   granted: { borderLeft: '2px solid var(--gilt-deep)', background: 'var(--paper-deep)' },
   refused: { borderLeft: '2px solid var(--ink-2)', background: 'var(--paper)' },
-  unjudged: { borderLeft: '2px dashed var(--ink-2)', backgroundImage: 'var(--hatch-unjudged)' },
+  unjudged: { borderLeft: '2px dashed var(--ink-2)', backgroundImage: 'var(--mark-unjudged)' },
 };
 
 /* An axis is labelled by the record for the field it reads (`FAULT_AXIS_TERM`). */

@@ -202,7 +202,7 @@ function SlotRow({
         border: '1px solid currentColor',
         padding: '1px 6px',
         background: v.status === 'forbidden' ? 'var(--bind-forbidden-field)' : 'transparent',
-        backgroundImage: v.status === 'forbidden' ? 'var(--hatch-forbidden)' : 'none',
+        backgroundImage: v.status === 'forbidden' ? 'var(--mark-forbidden)' : 'none',
         textDecoration: v.status === 'forbidden' ? 'line-through' : 'none'
       }
     }, v.name);

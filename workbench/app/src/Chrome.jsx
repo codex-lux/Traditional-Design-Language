@@ -19,6 +19,7 @@ import { noEntry } from './glossary/termView.js';
 import { crumbLabel } from './nav/crumbs.js';
 import { JOURNEY_WORDS, JOURNEY_TERMS } from './journey/journey.js';
 import { layout } from './state/layout.js';
+import { MarkGlyph } from './components/MarkGlyph.jsx';
 
 /* A count and its word, apart from the other two: a count the check did not state is "not
    counted", never a zero (journey/journey.js's rule, in its words). */
@@ -48,15 +49,21 @@ function OnTheBench({ plan, planStep }) {
           whiteSpace: 'nowrap', font: 'var(--fw-reg) 12.5px/1.4 var(--body)' }}>
         On the bench: {name}
       </a>
-      {state === 'refused' && <span data-bench-refused=""><Term id={JOURNEY_TERMS.refused} /></span>}
+      {/* Each count and the refusal word stand beside their mark's own form (WP-14.29): the
+          duty token, never a raw hatch, and the word the count's own Term already says. */}
+      {state === 'refused' && (
+        <span data-bench-refused="" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <MarkGlyph token="--mark-refused" size={10} />
+          <Term id={JOURNEY_TERMS.refused} />
+        </span>
+      )}
       {counts ? (
         <span data-bench-counts="" style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6,
           whiteSpace: 'nowrap' }}>
           <Count n={counts.fatal} termId={JOURNEY_TERMS.fatal} />{sep}
           <Count n={counts.serious} termId={JOURNEY_TERMS.serious} />{sep}
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <span aria-hidden="true" style={{ width: 10, height: 10, flex: 'none',
-              border: '1px solid var(--judge-unjudged)', backgroundImage: 'var(--hatch-unjudged)' }} />
+            <MarkGlyph token="--mark-unjudged" size={10} />
             <Count n={counts.unjudged} termId={JOURNEY_TERMS.unjudged} />
           </span>
         </span>

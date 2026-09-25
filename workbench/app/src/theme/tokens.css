@@ -86,8 +86,11 @@
   --wash-sepia-1:rgba(179,148,106,.16);  --wash-sepia-2:rgba(179,148,106,.30);
   --wash-graphite-1:rgba(63,58,49,.07);  --wash-graphite-2:rgba(63,58,49,.14);
 
-  /* Five traditions, reseated from the quiet colors. Stable mapping. */
-  --t0:#B3946A; --t1:#8FA07F; --t2:#8CA4AA; --t3:#AF6B50; --t4:#837D91;
+  /* Five traditions, reseated from the quiet colors. Stable mapping.
+     --t3 was #AF6B50, byte for byte the brick of the UI's fatal, so every style of the Iberian
+     tradition was drawn in the colour of failure. It takes an existing ink distinct from brick
+     now, which was ruled on 25 Sep 2026; src/marks.test.mjs holds it to both halves. */
+  --t0:#B3946A; --t1:#8FA07F; --t2:#8CA4AA; --t3:var(--salmon); --t4:#837D91;
 }
 
 /* ── TDL typography — THE LETTER ────────────────────────────────────────────
@@ -196,7 +199,13 @@
   --tracing-paper:linear-gradient(180deg,rgba(247,242,228,.9),rgba(232,222,199,.82)); /* @kind other */
   --paper-vignette:inset 0 0 0 1px var(--rule-soft); /* @kind shadow */
 
-  /* ── Hatches. Drawn, not textured — the same weighted lines as the drawing. ── */
+  /* ── Hatches. Drawn, not textured — the same weighted lines as the drawing. ──
+     A hatch is a FORM, and a form means nothing until a duty is given to it: no component
+     reads a hatch below by name. The five that mark a state on screen are each read through
+     exactly one --mark-* token in the duty block further down, and the four materials --
+     masonry, crosshatch, water and the lawn's stipple -- are drawing materials with one meaning
+     each, keyed on the sheet that draws them. --hatch-cross carries no duty and is drawn by
+     nothing. */
   --hatch-45:repeating-linear-gradient(45deg,currentColor 0 1px,transparent 1px 6px); /* @kind other */
   --hatch-135:repeating-linear-gradient(-45deg,currentColor 0 1px,transparent 1px 6px); /* @kind other */
   --hatch-cross:repeating-linear-gradient(45deg,currentColor 0 1px,transparent 1px 5px),repeating-linear-gradient(-45deg,currentColor 0 1px,transparent 1px 5px); /* @kind other */
@@ -359,12 +368,52 @@
   --sev-minor-field:rgba(175,141,73,.11);
   --sev-cleared-field:rgba(107,124,92,.12);
 
-  /* ── Judgment, three states. Unjudged is a FORM — an open square hatched in
-     neutral graphite, the same size and weight as the verdicts. Never a colour. */
+  /* ── Judgment. Unjudged is a FORM — an open square hatched in neutral graphite, the
+     same size and weight as the verdicts. Never a colour. The inks a judgment is drawn in;
+     the squares themselves are drawn through the duty tokens below, and the fill alias this
+     block used to carry is retired, because a second name for one hatch is a second place a
+     second meaning can be given to it. */
   --judge-pass:var(--green-deep);
   --judge-fail:var(--brick);
   --judge-unjudged:var(--ink-3);
-  --judge-unjudged-fill:var(--hatch-unjudged); /* @kind other */
+
+  /* ── Marks, one duty each (WP-14.29, ruled 25 Sep 2026) ─────────────────────────
+     A key can only say what a mark means if the mark means one thing. Until this block the
+     unjudged hatch carried five meanings and the falling hatch six, so no key could be
+     written for either. Each duty token below means one thing wherever it is drawn, and each
+     is named by exactly one glossary record whose mark is that token. A component draws a
+     state with a duty token and never with a raw hatch; src/marks.test.mjs holds that, the
+     one-to-one with the records, and --t3 above. The value is the paint of the mark's form;
+     the form is src/marks.js's, and the product key (components/MarkKey.jsx) draws each one
+     beside its record's word.
+
+     What a rule can return on a house, each state in its own form, and the three that are
+     not a verdict never drawn as one another: */
+  /* Could not evaluate: the hatched square, for a rule that would run on this house and could not. */
+  --mark-unjudged:var(--hatch-unjudged); /* @kind other */
+  /* Yours to judge: an open square outlined in gilt and never hatched, a decision the sources leave to the reader. */
+  --mark-yours-to-judge:var(--gilt-deep);
+  /* Not applicable: an em rule and no square, because the question does not arise for this house. */
+  --mark-not-applicable:var(--ink-2);
+  /* Passed and failed: a filled square with its word always beside it, so a verdict is never told by colour alone. */
+  --mark-passed:var(--green-deep);
+  --mark-failed:var(--brick);
+  /* Refused: a heavy open square in brick, for a placement the corpus will not draw at all. */
+  --mark-refused:var(--brick);
+
+  /* The marks that are not a verdict, and so never borrow a verdict's form: */
+  /* Loading: no square at all, only the word in this ink, and aria-busy on whatever is still arriving. */
+  --mark-loading:var(--ink-2);
+  /* Low confidence: a dashed outline, for a date or a placement the record holds only loosely. */
+  --mark-low-confidence:var(--ink-3);
+  /* Not built: upright ruled lines, for structure that is designed and that the corpus does not yet hold. */
+  --mark-not-built:var(--hatch-forthcoming); /* @kind other */
+  /* Wanted: lines falling to the right, for something the corpus asks for and does not hold. */
+  --mark-wanted:var(--hatch-45); /* @kind other */
+  /* Set aside: lines rising to the right, for something considered and deliberately left out, with its reason beside it. */
+  --mark-set-aside:var(--hatch-135); /* @kind other */
+  /* Forbidden: close rising lines over the variant a style's kit rules out, its name struck through. */
+  --mark-forbidden:var(--hatch-forbidden); /* @kind other */
 
   /* ── Kit slot binding: specified · extends · forbidden · open ────────────── */
   --bind-specified:var(--ink);
@@ -574,3 +623,15 @@ html,body{height:100%}body{overflow:auto}#root{height:100%;min-width:1380px}inpu
   .tdl-glossary-filters{flex-direction:column;align-items:flex-start}
   .tdl-glossary-readers{grid-template-columns:1fr}
 }
+
+/* The key to the marks (WP-14.29, `components/MarkKey.jsx`): each mark's specimen in a fixed
+   column, its word, and the record's definition. No colour is set here -- each specimen paints
+   itself from its own duty token -- and no word is set in an ink below --ink-2. */
+.tdl-mark-key{padding:14px 22px 6px;border-bottom:1px solid var(--rule-soft)}
+.tdl-mark-key-group{margin:0 0 10px}
+.tdl-mark-key-family{font:var(--type-data-s);color:var(--ink-2);margin:10px 0 6px}
+.tdl-mark-key-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(20rem,1fr));gap:10px 28px;margin:0}
+.tdl-mark-key-row dt{display:flex;align-items:center;gap:10px;font:var(--type-name)}
+.tdl-mark-key-specimen{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:3.2rem;min-height:18px}
+.tdl-mark-key-row dd{margin:4px 0 0;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}
+@media (max-width:1379px){.tdl-mark-key-list{grid-template-columns:1fr}}

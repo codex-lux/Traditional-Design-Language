@@ -19,7 +19,7 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**233 questions, of which 131 are open.** A question is OPEN while
+**234 questions, of which 131 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
@@ -88,6 +88,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds** | HALF CLOSED | [the analyst's `placement` class reads the record's fields for four drawn kinds and the engine's name for five](open-questions/oq-a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds.md) |
 | **oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford** | OPEN | [the candidate count is a design input nobody has priced](open-questions/oq-a-placement-rule-is-free-at-a-pool-the-server-cannot-afford.md) |
 | **oq/a-plan-does-not-name-the-parti-it-was-built-from** | OPEN | [so no checker can hold a plan to the diagram it is a house of](open-questions/oq-a-plan-does-not-name-the-parti-it-was-built-from.md) |
+| **oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue** | OPEN | [the refused mark is brick, every refusal card is violet, and violet is North America's hue](open-questions/oq-a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue.md) |
 | **oq/a-room-count-cap-on-the-heavy-routes** | OPEN | [nothing bounds how many rooms a heavy route will solve, and the body cap is 2,000 times too loose to be the bound](open-questions/oq-a-room-count-cap-on-the-heavy-routes.md) |
 | **oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it** | OPEN | [two records do, and a prose reader would be 40% precise](open-questions/oq-a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it.md) |
 | **oq/a-room-records-prose-states-a-floor-its-own-band-does-not** | OPEN | [35 figures in prose, and nothing can say which are governing](open-questions/oq-a-room-records-prose-states-a-floor-its-own-band-does-not.md) |
@@ -111,7 +112,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/fourteen-of-sixteen-plans-name-no-massing** | OPEN | [every massing-gated check is silent on 87.5% of the plan records](open-questions/oq-fourteen-of-sixteen-plans-name-no-massing.md) |
 | **oq/no-plan-record-states-its-bearing** | OPEN | [the compass rule is executed under an assumption on 16 of 16 plans](open-questions/oq-no-plan-record-states-its-bearing.md) |
 | **oq/no-tool-answers-which-styles-use-a-pack** | OPEN | [the assistant is told which pack is on the page, and no tool it has can say which styles use it](open-questions/oq-no-tool-answers-which-styles-use-a-pack.md) |
-| **oq/one-duty-per-hatch** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.29 | [the unjudged hatch carries five meanings, the 45° hatch six, and a key cannot be drawn for a mark that means several things](open-questions/oq-one-duty-per-hatch.md) |
 | **oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated** | OPEN | [23 works under 51 strings, and correcting them reddens the build by six](open-questions/oq-one-work-is-cited-under-several-strings-and-every-source-count-is-inflated.md) |
 | **oq/six-order-assemblies-state-a-division-and-carry-no-zones** | OPEN | [the order packs state how six of their assemblies divide, and WP-14.18 declared zones on a wall section only](open-questions/oq-six-order-assemblies-state-a-division-and-carry-no-zones.md) |
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
@@ -164,7 +164,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — ruled 25 Sep 2026; WP-14.18 declared `room-harmonic` and check 19 refused the other two class-A packs | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 102
+## Settled — 103
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -256,6 +256,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/fetching-through-a-tier-the-proxy-denies** | RULED 31 Aug 2026 | [the egress denial is a policy, and two other tiers reach past it](open-questions/oq-fetching-through-a-tier-the-proxy-denies.md) |
 | **oq/forbidden-stops-the-pack-cascade** | CLOSED 28 Aug 2026 | [787 pack rules dimension a slot the resolved kit forbids, and nobody chose one of them](open-questions/oq-forbidden-stops-the-pack-cascade.md) |
 | **oq/mcp-proportions-serve-no-assemblies-for-non-order-packs** | CLOSED — ruled 25 Sep 2026 (answer 1), executed by WP-14.18 on 25 Sep 2026 | [the workbench will draw twenty-seven packs the MCP tool still reports as having no assemblies](open-questions/oq-mcp-proportions-serve-no-assemblies-for-non-order-packs.md) |
+| **oq/one-duty-per-hatch** | CLOSED 25 SEP 2026 — ruled the same day, executed by WP-14.29 | [the unjudged hatch carries five meanings, the 45° hatch six, and a key cannot be drawn for a mark that means several things](open-questions/oq-one-duty-per-hatch.md) |
 | **oq/regenerating-the-asset-manifest-discards-what-was-added-to-it** | CLOSED 31 Aug 2026 | [and it would also quintuple it](open-questions/oq-regenerating-the-asset-manifest-discards-what-was-added-to-it.md) |
 | **oq/register-is-not-style** | RULED 1 Sep 2026 | [folk and polite are not two styles, and the corpus has nowhere to say so](open-questions/oq-register-is-not-style.md) |
 | **oq/the-assistant-is-blind-to-the-page** | CLOSED 25 SEP 2026 — answers 1 and 3, in the citation form, executed by WP-14.22 | [the pane is named now, and it is still told nothing about what the reader has selected](open-questions/oq-the-assistant-is-blind-to-the-page.md) |

@@ -265,6 +265,17 @@ export function ruleState(r) {
   return judgmentOf(rule.in_range);
 }
 
+/* The MARK a derived rule is drawn with, which is not always its verdict's (WP-14.29). A rule
+   the sources leave to the reader has no verdict -- `ruleState` says unjudged, and the tally
+   counts it so -- but it is not a rule that failed to run either: it is a decision handed back,
+   and it is drawn as one, in the yours-to-judge mark beside that record's word. Every other rule
+   takes its verdict's own mark. */
+export function ruleMark(r) {
+  const rule = r || {};
+  if (rule.judgment) return 'yours-to-judge';
+  return JUDGMENT_MARK[ruleState(rule)];
+}
+
 /* A figure in the corpus's notation: inches as feet-inches to a sixteenth, anything else as the
    number and its unit. */
 export function figureWords(value, units) {

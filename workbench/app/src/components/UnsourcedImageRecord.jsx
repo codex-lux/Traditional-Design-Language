@@ -30,7 +30,7 @@ function UnsourcedImageRecord({
       display: 'grid',
       placeItems: 'center',
       color: 'var(--unsourced)',
-      backgroundImage: record.file ? undefined : 'var(--hatch-45)',
+      backgroundImage: record.file ? undefined : 'var(--mark-wanted)',
       padding: record.file ? 8 : 0,
       borderBottom: '1px solid var(--rule)'
     }

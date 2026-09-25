@@ -124,12 +124,18 @@ _REC_RE = re.compile(r"((?:rooms|kits|styles|faults|groupings|proportions)/[A-Za
 # docs/ page). The lookbehind keeps `workbench/README.md` from being read as the root README.md;
 # `docs/` is TOP LEVEL ONLY, so docs/reports/ and docs/open-questions/ are never admitted.
 # Passed to check_basis as `rec_re=`; every other caller passes nothing and gets `_REC_RE`.
+# WP-14.29 admits ONE file of the app, by its exact path and no pattern: the workbench's
+# stylesheet, whose duty-block comments are the only written statement of what each `--mark-*`
+# on screen means (PRD tranche 2 §A.2 names them as the `mark-*` records' basis). It is the
+# same file rule 13 already reads to hold a record's `mark` to a declared property; nothing
+# else under workbench/ is admitted, which the test beside this pattern says in both directions.
 GLOSSARY_REC_RE = re.compile(
     r"(?<![A-Za-z0-9_./-])("
     r"(?:rooms|kits|styles|faults|groupings|proportions|partis)/[A-Za-z0-9_.\-/]+\.json"
     r"|build/[A-Za-z0-9_]+\.py"
     r"|massings/catalog\.json|elements/slots\.json|mcp_server/core\.py"
     r"|schema/[A-Za-z0-9_.\-]+\.json"
+    r"|workbench/app/src/theme/tokens\.css"
     r"|VISION\.md|README\.md|docs/[A-Za-z0-9_.\-]+\.md)")
 _QUOTE_RE = re.compile(r"\"([^\"]{25,})\"")
 # `rooms/x.json adjacency.must_adjoin[dining-room].why: "..."` -- the record, then the KEY

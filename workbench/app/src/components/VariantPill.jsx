@@ -49,7 +49,7 @@ function VariantPill({
       padding: '1px 6px',
       whiteSpace: 'nowrap',
       background: forbidden ? 'var(--bind-forbidden-field)' : 'transparent',
-      backgroundImage: forbidden ? 'var(--hatch-forbidden)' : 'none',
+      backgroundImage: forbidden ? 'var(--mark-forbidden)' : 'none',
       textDecoration: forbidden ? 'line-through' : 'none',
       textDecorationThickness: '1px'
     }

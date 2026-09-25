@@ -1,0 +1,13 @@
+{
+  "id": "mark-not-built",
+  "term": "not built",
+  "family": "mark",
+  "mark": "--mark-not-built",
+  "order": 2,
+  "definition": "Something designed that the workbench does not yet have, such as an export format not yet written. It is drawn in upright ruled lines, so it cannot be mistaken for something wanted, set aside, refused or unjudged.",
+  "kind": "editorial",
+  "basis": "workbench/app/src/theme/tokens.css, the duty block's comment on this mark: \"Not built: upright ruled lines, for structure that is designed and that the corpus does not yet hold.\" It stands among \"The marks that are not a verdict, and so never borrow a verdict's form\", and the block states the rule every mark keeps: \"Each duty token below means one thing wherever it is drawn\".",
+  "see": [
+    "term:mark-wanted"
+  ]
+}

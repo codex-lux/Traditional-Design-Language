@@ -3,8 +3,9 @@
    The constraints column of `surfaces/StyleRecord.jsx`, extracted. It sorted a constraint by
    `c.test` and `c.scope` inline and printed "executable" or "no test yet" in words of its own; the
    state is `judgment.constraintStateOf` now, the one reading, and its name is that state's
-   glossary record. A judgment row keeps its hatched mark -- the corpus declining to invent an
-   answer is offered back to the reader, not hidden -- and the footnote counting "295 of 660"
+   glossary record. A judgment row keeps its mark -- the corpus declining to invent an answer is
+   offered back to the reader, not hidden -- and since WP-14.29 that mark is yours-to-judge's
+   gilt square and no longer the could-not-evaluate hatch; the footnote counting "295 of 660"
    corpus-wide is gone: a figure typed into a page is true the day it is typed.
 
    `?constraint=` selects one: it is marked, scrolled to, and its own id is a link to exactly this
@@ -42,7 +43,7 @@ export function Rules({ rec, styleId, selected }) {
                 background: on ? 'var(--paper-deep)' : 'transparent',
                 borderLeft: on ? '2px solid var(--gilt-deep)' : '2px solid transparent' }}>
               {state === 'judgment-yours-to-judge'
-                ? <JudgmentMark state="unjudged" label={c.statement} />
+                ? <JudgmentMark state="yours-to-judge" label={c.statement} showWord={false} />
                 : <p style={{ ...prose, marginBottom: 4 }}>{c.statement}</p>}
               <span style={data}>
                 <a href={formatHash('style', { style: styleId, section: 'rules', constraint: c.id }, {})}

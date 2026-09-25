@@ -55,3 +55,24 @@ export function constraintStateOf(c) {
   if (rec.scope === 'judgment') return 'judgment-yours-to-judge';
   return 'constraint-no-test-yet';
 }
+
+/* A style-layer finding the plan check could not settle → the `JudgmentMark` state it is drawn
+   with, or null for any other finding (WP-14.29). The Plan Workbench drew both kinds with the
+   could-not-evaluate hatch, which said a rule had failed to run about a rule the corpus hands to
+   the reader on purpose. `build/plan_check.py` says which by the finding's `kind`:
+   `constraint-unjudged` is a test that could not be evaluated for want of a figure, and
+   `constraint-unformalised` is a hard constraint with no test -- which
+   `build/check_constraints.py` admits only as `scope: judgment`, the sources declining to settle
+   it -- so it is yours to judge. A finding reaching this without a `kind` is read by the two
+   statements `plan_check` writes for them, and anything else is not one of these rows. */
+export function styleFindingMark(f) {
+  const rec = f && typeof f === 'object' ? f : {};
+  if (rec.layer !== undefined && rec.layer !== 'style') return null;
+  if (rec.kind === 'constraint-unjudged') return 'unjudged';
+  if (rec.kind === 'constraint-unformalised') return 'yours-to-judge';
+  if (rec.kind !== undefined && rec.kind !== null) return null;
+  const s = typeof rec.statement === 'string' ? rec.statement : '';
+  if (/^cannot evaluate\b/i.test(s)) return 'unjudged';
+  if (/^check by hand\b/i.test(s)) return 'yours-to-judge';
+  return null;
+}

@@ -24,6 +24,9 @@ import { FilterInput } from '../components/FilterInput.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
 import { MapView } from './phylo/MapView.jsx';
+import { MarkGlyph } from '../components/MarkGlyph.jsx';
+import { useGlossary } from '../api/useGlossary.js';
+import { wordOf } from '../glossary/termView.js';
 
 const DEFAULT_TAXON = 'tidewater-georgian';
 const EMPTY = [];
@@ -77,6 +80,9 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
   const [compare, setCompare] = React.useState(null);
   const [cmpData, setCmpData] = React.useState(null);
   const [selInfo, setSelInfo] = React.useState(null);
+  // the low-confidence mark's word, its record's (WP-14.29); nothing while the glossary loads
+  const glossary = useGlossary();
+  const confidenceWord = glossary.status === 'ready' ? wordOf(glossary.lookup, 'mark-low-confidence') : '';
 
   const filters = useSurfaceFilters(PHYLO_SPEC);
   /* The record beside the drawing pulls too. It is 320px of prose against a map whose
@@ -299,10 +305,16 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                     <span style={{ font: (on || cmp ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 12px/1.2 var(--display)',
                       color: on ? 'var(--ink)' : (isLit ? 'var(--ink-2)' : 'var(--ink-4)'),
                       whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.name}</span>
-                    {r.confidence && r.confidence !== 'high' && (
-                      <span title={'confidence: ' + r.confidence}
-                        style={{ width: 7, height: 7, flex: 'none', border: '1px solid var(--ink-4)',
-                          backgroundImage: r.confidence === 'low' ? 'var(--hatch-unjudged)' : 'none' }} />
+                    {/* LOW CONFIDENCE IS ONE MARK AND ONE WORD (WP-14.29): a dashed square, the
+                        record's word to assistive tech and to the pointer. A medium node is not
+                        marked -- medium is the style schema's own default, the unmarked case -- and
+                        its square no longer wears the open outline yours-to-judge draws. */}
+                    {r.confidence === 'low' && (
+                      <span data-low-confidence="" title={confidenceWord}
+                        style={{ display: 'inline-flex', flex: 'none' }}>
+                        <MarkGlyph token="--mark-low-confidence" size={7} />
+                        <span className="tdl-sr-only">{confidenceWord}</span>
+                      </span>
                     )}
                   </button>
                   <div style={{ position: 'absolute', left: 210, right: 0, top: 0, height: ROW }}>
@@ -318,7 +330,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           </div>
 
           <div style={{ marginLeft: 210, marginTop: 18, border: '1px solid var(--rule)',
-            color: 'var(--ink-4)', backgroundImage: 'var(--hatch-45)', padding: '14px 16px' }}>
+            color: 'var(--unsourced)', backgroundImage: 'var(--mark-wanted)', padding: '14px 16px' }}>
             <div style={{ background: 'var(--paper)', display: 'inline-block', padding: '4px 8px' }}>
               <Eyebrow tone="secondary" as="span">acknowledged missing peer trunks</Eyebrow>
               <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '6px 0 0',

@@ -1,0 +1,13 @@
+{
+  "id": "mark-wanted",
+  "term": "wanted",
+  "family": "mark",
+  "mark": "--mark-wanted",
+  "order": 3,
+  "definition": "Something the corpus asks for and does not hold: a photograph nobody has sourced yet, or an ancestor a lineage names and has not recorded. It is drawn in lines falling to the right, and it marks a gap, never a failure.",
+  "kind": "editorial",
+  "basis": "workbench/app/src/theme/tokens.css, the duty block's comment on this mark: \"Wanted: lines falling to the right, for something the corpus asks for and does not hold.\" It stands among \"The marks that are not a verdict, and so never borrow a verdict's form\", and the block states the rule every mark keeps: \"Each duty token below means one thing wherever it is drawn\".",
+  "see": [
+    "term:mark-not-built"
+  ]
+}

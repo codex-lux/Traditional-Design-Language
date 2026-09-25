@@ -41,12 +41,12 @@ import { prefs } from '../state/prefs.js';
 import { isPlainPrimaryClick } from '../names/recordLink.js';
 import { ft } from '../sheet/derive.js';
 import { feetInches16 } from '../fmt.js';
-import { judgmentOf, JUDGMENT_MARK } from '../judgment.js';
+import { judgmentOf } from '../judgment.js';
 import {
   FILTER_SPEC, RANGES, PROOF_FOLD, DEFAULT_DIAMETER_IN, requestFor, sliderAt, plateKind,
   pageSections, authorityLines, sourceLines, authorityWords, invariantMark, invariantTally, proofOpen, ruleState, figureWords,
   rangeWords, usedByGroups, reachOf, packsOfStyle, packGroups, packHref, orderOf,
-  classASlider, zonesByAssembly, assemblyWords,
+  classASlider, zonesByAssembly, assemblyWords, ruleMark,
 } from '../proportions/page.js';
 
 function inches(v) {
@@ -580,7 +580,7 @@ function Rules({ rules, styleId }) {
                   </td>
                   <td data-value="" style={{ ...CELL, color: 'var(--ink)' }}>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, flexWrap: 'wrap' }}>
-                      <JudgmentMark state={JUDGMENT_MARK[state]} />
+                      <JudgmentMark state={ruleMark(r)} />
                       {r.judgment ? <Term id="judgment-yours-to-judge" />
                         : r.error ? <span>could not evaluate — {r.error}</span>
                           : r.value == null ? <Term id="judgment-unjudged">not evaluated</Term>

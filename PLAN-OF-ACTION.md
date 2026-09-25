@@ -4925,7 +4925,11 @@ set when it merges.
   Export's face picker. Wave 3. **Status: PLANNED.**
 - **WP-14.28 — the guided tour through the house.** Built only if WP-14.21 succeeds. Wave 3.
   **Status: NOT BUILT (25 Sep 2026)** — WP-14.21 found no Tidewater plan that places without laundering, so the ruling's condition is unmet. The guided example stops at the refusal and says why; nothing promises a house.
-- **WP-14.29 — one meaning per hatch, one key.** Wave 3. **Status: PLANNED.**
+- **WP-14.29 — one meaning per hatch, one key.** Wave 3. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.29-one-meaning-per-mark.md`.
+  - **One mark, one meaning.** Twelve `--mark-*` duty tokens, each one meaning with its own form and each named by one glossary record. Could not evaluate, yours to judge and not applicable are three different forms now, where they had been one hatch. Loading is the word alone with `aria-busy`, and low confidence is a dashed outline. The 45° hatch is split into wanted and set aside, and not built takes the forthcoming hatch. No consumer reads a raw `--hatch-*` except the named materials. `--t3` is `--salmon`.
+  - **`JudgmentMark`** draws six states, and each state's word reaches assistive tech on every branch.
+  - **`MarkKey`** on the Glossary is the product key, built from the records and linked from the `?` card.
+  - **Questions.** `oq/one-duty-per-hatch` is closed. Filed: a refusal is drawn in two inks, and one of them, violet, is also `--t4`, a tradition's hue.
 - **WP-14.30 — reading surfaces reflow at 1280.** Wave 4. **Status: PLANNED.**
 - **WP-14.31 — the last pass on type.** The copy ratchet to zero; readable text off the faint inks.
   Wave 5. **Status: PLANNED.**

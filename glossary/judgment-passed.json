@@ -2,6 +2,7 @@
   "id": "judgment-passed",
   "term": "passed",
   "family": "judgment",
+  "mark": "--mark-passed",
   "order": 0,
   "definition": "The rule was tested against this house and the house meets it. A pass is always a measurement: a rule that could not be tested is never shown as passed.",
   "kind": "editorial",

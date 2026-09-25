@@ -1,0 +1,12 @@
+{
+  "id": "key-to-the-marks",
+  "term": "Key to the marks",
+  "family": "product",
+  "order": 5,
+  "definition": "Every mark the workbench draws, each shown in its own form beside the one word it means. A mark means one thing wherever it appears, so the key reads the same on every page and a mark it does not show is not a mark.",
+  "kind": "editorial",
+  "basis": "workbench/app/src/theme/tokens.css, the head of the block of marks: \"A key can only say what a mark means if the mark means one thing.\" and \"Each duty token below means one thing wherever it is drawn, and each is named by exactly one glossary record whose mark is that token.\" and \"the product key (components/MarkKey.jsx) draws each one beside its record's word.\"",
+  "see": [
+    "term:family-mark"
+  ]
+}

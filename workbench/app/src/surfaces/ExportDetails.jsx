@@ -215,7 +215,7 @@ export function ExportDetails({ lastEval }) {
               'with their resolution prose. Ranked substitution sets are planned structure the ' +
               'corpus does not yet hold — this card will not pretend otherwise.' },
           ].map((c) => (
-            <div key={c.t} style={{ ...card, backgroundImage: 'var(--hatch-45)' }}>
+            <div key={c.t} data-not-built="" style={{ ...card, backgroundImage: 'var(--mark-not-built)' }}>
               <div style={{ background: 'var(--paper)', padding: '8px 10px' }}>
                 <h3 style={{ ...cardTitle, color: 'var(--ink-2)' }}>{c.t}</h3>
                 <p style={{ ...cardBody, color: 'var(--ink-3)', marginBottom: 8 }}>{c.body}</p>

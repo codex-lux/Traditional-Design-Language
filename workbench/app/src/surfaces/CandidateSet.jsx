@@ -295,8 +295,8 @@ export function CandidateSet({ onCite, go, selection }) {
         )}
 
         {dropped.length > 0 && (
-          <div style={{ marginTop: 16, border: '1px solid var(--rule)', padding: '11px 13px',
-            backgroundImage: 'var(--hatch-45)' }}>
+          <div data-set-aside="" style={{ marginTop: 16, border: '1px solid var(--rule)', padding: '11px 13px',
+            color: 'var(--ink-3)', backgroundImage: 'var(--mark-set-aside)' }}>
             <span style={{ background: 'var(--paper)', display: 'inline-block', padding: '3px 7px' }}>
               <Eyebrow as="span" tone="secondary">
                 {dropped.length} diagram{dropped.length === 1 ? '' : 's'} considered and dropped — the lot, not the score

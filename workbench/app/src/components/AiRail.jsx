@@ -16,17 +16,15 @@ import { ToolTrace } from './ToolTrace.jsx';
 import { citeHref } from '../router.js';
 import { layout } from '../state/layout.js';
 import { FoldControl } from '../Chrome.jsx';
+import { MarkGlyph } from './MarkGlyph.jsx';
+import { JudgmentMark } from './JudgmentMark.jsx';
+import { Term } from './Term.jsx';
 
 const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
   color: 'var(--ink-3)',
-};
-
-const UNJUDGED_SWATCH = {
-  border: '1px solid var(--judge-unjudged)',
-  backgroundImage: 'var(--hatch-unjudged)',
 };
 
 /* A real anchor to the citation's own URL. Left-click still routes in place — the href is
@@ -74,9 +72,12 @@ function RefusalTurn({ text, reason }) {
 function QuestionTurn({ text, cite, onCite }) {
   return (
     <div style={{ border: '1px solid var(--rule)', background: 'var(--paper-deep)', padding: '11px 12px' }}>
-      <div style={{ ...EYE, marginBottom: 6, display: 'flex', alignItems: 'center', gap: 7 }}>
-        <span aria-hidden="true" style={{ width: 10, height: 10, ...UNJUDGED_SWATCH }} />
-        for you to decide
+      {/* A question handed to the reader is a decision left to them, which is the
+          yours-to-judge mark and its record's word -- not the could-not-evaluate hatch it wore
+          until WP-14.29, which said a rule had failed to run. */}
+      <div data-rail-question="" style={{ ...EYE, marginBottom: 6, display: 'flex', alignItems: 'center', gap: 7 }}>
+        <MarkGlyph token="--mark-yours-to-judge" size={10} />
+        <Term id="judgment-yours-to-judge" />
       </div>
       <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink)', margin: 0 }}>{text}</p>
       {cite && <div style={{ marginTop: 7 }}><Citation cite={cite} onCite={onCite} /></div>}
@@ -100,14 +101,12 @@ function AssistantTurn({ turn, onCite }) {
         </div>
       )}
       {/* The three-state rule, in the rail: what could not be evaluated is said, and it is
-          said with the hatch rather than a colour, because it is neither pass nor fail. */}
+          said with the could-not-evaluate mark rather than a colour, because it is neither pass
+          nor fail. `JudgmentMark` carries the state's own word to assistive tech too. */}
       {turn.unjudged && (
-        <p style={{ display: 'flex', gap: 8, alignItems: 'flex-start',
-          font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '9px 0 0' }}>
-          <span aria-hidden="true" style={{ width: 11, height: 11, flex: 'none', marginTop: 3,
-            ...UNJUDGED_SWATCH }} />
-          {turn.unjudged}
-        </p>
+        <div data-rail-unjudged="" style={{ margin: '9px 0 0' }}>
+          <JudgmentMark state="unjudged" size={11} label={turn.unjudged} showWord={false} />
+        </div>
       )}
     </div>
   );

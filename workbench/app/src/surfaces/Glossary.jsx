@@ -39,6 +39,7 @@ import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
 import { FilterInput } from '../components/FilterInput.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
+import { MarkKey } from '../components/MarkKey.jsx';
 import { Chip } from '../Chrome.jsx';
 
 const FILTERS = { q: { type: 'text' }, family: {} };
@@ -73,6 +74,10 @@ function GlossaryIndex({ lookup }) {
           ))}
         </span>
       </div>
+      {/* The product key to the marks (WP-14.29): on the unfiltered index and on the Marks family,
+          which is where the `?` card links. A search narrows the list to words, and the key is
+          not a word to be searched for, so a query leaves it out. */}
+      {!values.q && (!values.family || values.family === 'mark') && <MarkKey />}
       {groups.map((g) => (
         <section key={g.family} className="tdl-glossary-family" data-family={g.family}
           aria-labelledby={`tdl-glossary-family-${g.family}`}>

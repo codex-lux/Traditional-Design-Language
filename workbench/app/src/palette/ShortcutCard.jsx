@@ -7,7 +7,25 @@
    is the form. */
 import React from 'react';
 import { SHORTCUTS } from '../keys.js';
+import { formatHash } from '../router.js';
+import { useGlossary } from '../api/useGlossary.js';
+import { wordOf } from '../glossary/termView.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
+
+/* The key to the marks lives on the Glossary (WP-14.29, `components/MarkKey.jsx`), and this card
+   is where a reader who has met a mark and not known it goes looking for a key. The link is
+   worded by the key's own record, never by this file; while the glossary loads it says nothing. */
+function MarkKeyLink({ onClose }) {
+  const glossary = useGlossary();
+  const word = glossary.status === 'ready' && glossary.lookup ? wordOf(glossary.lookup, 'key-to-the-marks') : '';
+  return (
+    <p style={{ margin: '0 0 18px' }}>
+      <a href={formatHash('glossary', {}, { family: 'mark' })} data-mark-key-link="" onClick={onClose}
+        aria-busy={word ? undefined : 'true'}
+        style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)' }}>{word}</a>
+    </p>
+  );
+}
 
 export function ShortcutCard({ open, onClose }) {
   if (!open) return null;
@@ -36,6 +54,8 @@ export function ShortcutCard({ open, onClose }) {
             ))}
           </tbody>
         </table>
+
+        <MarkKeyLink onClose={onClose} />
 
         <Eyebrow>how a thing is addressed</Eyebrow>
         <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--ink-2)',

@@ -2,6 +2,7 @@
   "id": "judgment-not-applicable",
   "term": "not applicable",
   "family": "judgment",
+  "mark": "--mark-not-applicable",
   "order": 3,
   "definition": "The rule's own precondition does not hold for this house, so it was not run: a rule about dormers, on a house with none. The question does not arise, which is not a pass, not a failure, and not unjudged.",
   "kind": "editorial",

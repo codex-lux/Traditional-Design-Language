@@ -3969,6 +3969,106 @@ async function journeyRead() {
   await ctx.close();
 }
 
+/* THE KEY TO THE MARKS (WP-14.29, ruled 25 Sep 2026; PRD tranche 2 §D).
+
+   One meaning per mark, and one key that says each. The key is `components/MarkKey.jsx` on the
+   Glossary's Marks family, reached from the `?` card. What is asserted is its PROPERTY, from the
+   glossary the server serves and never from a list typed here: every record carrying a `mark` is
+   a row, once; the row's specimen is drawn by that record's own duty token and actually paints
+   something; and beside it stands the record's own word. The denominator first, so a selector
+   matching nothing cannot pass by finding no row to fault. */
+{
+  const marked = LOOKUP ? (GLOSSARY_BODY.terms || []).filter((t) => typeof t.mark === 'string') : [];
+  if (!LOOKUP) {
+    unjudged.push('the key to the marks -- GET /api/glossary did not answer, so there is no mark to key');
+  } else if (!marked.length) {
+    unjudged.push('the key to the marks -- no glossary record carries a mark, so there is no key to draw');
+  } else {
+    const keyHref = formatHash('glossary', {}, { family: 'mark' });
+    await visit(keyHref);
+    await page.waitForSelector('[data-mark-key] [data-mark-row]', { timeout: 20000 }).catch(() => {});
+    const rows = await page.evaluate(() => [...document.querySelectorAll('[data-mark-key] [data-mark-row]')]
+      .map((row) => {
+        const g = row.querySelector('[data-duty]');
+        const cs = g ? getComputedStyle(g) : null;
+        const box = g ? g.getBoundingClientRect() : null;
+        // a mark paints SOMETHING: a hatch or a fill, a border, a rule, or -- for loading -- its word
+        const painted = !!cs && (cs.backgroundImage !== 'none'
+          || (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent')
+          || parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderLeftWidth) > 0
+          || (g.textContent || '').trim().length > 0);
+        return { token: row.getAttribute('data-mark-row'), id: row.getAttribute('data-mark-term'),
+          duty: g ? g.getAttribute('data-duty') : null, painted, w: box ? Math.round(box.width) : 0,
+          word: (row.querySelector('[data-mark-word]')?.textContent || '').trim() };
+      }));
+    check(`the key to the marks draws a row for every marked record (${rows.length} of ${marked.length})`,
+      rows.length === marked.length && new Set(rows.map((r) => r.id)).size === rows.length);
+    const wrong = [];
+    for (const rec of marked) {
+      const r = rows.filter((x) => x.id === rec.id);
+      if (r.length !== 1) { wrong.push(`${rec.id}: ${r.length} rows`); continue; }
+      const [row] = r;
+      if (row.token !== rec.mark || row.duty !== rec.mark) wrong.push(`${rec.id}: drawn by ${row.duty}, not ${rec.mark}`);
+      if (!row.painted || row.w <= 0) wrong.push(`${rec.id}: its specimen paints nothing`);
+      if (row.word !== String(rec.term).trim()) wrong.push(`${rec.id}: worded ${JSON.stringify(row.word)}`);
+    }
+    check(`each mark in the key is its own duty token, painted, beside its record's word${wrong.length ? ' -- ' + wrong.join('; ') : ''}`,
+      rows.length > 0 && wrong.length === 0);
+    await shot('mark-key', [1440]);
+
+    // and the `?` card reaches it: a link worded by the key's own record, to the address the router writes
+    await visit('#/faults');
+    await page.keyboard.press('?');
+    const keys = page.getByRole('dialog', { name: 'Keyboard shortcuts and addressing', exact: true });
+    await keys.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    const link = keys.locator('[data-mark-key-link]');
+    const linkHref = await link.getAttribute('href').catch(() => null);
+    const linkWord = ((await link.textContent().catch(() => '')) || '').trim();
+    check(`the ? card links the key to the marks, worded by its record (${JSON.stringify(linkWord)} -> ${linkHref})`,
+      linkHref === keyHref && !!TERM('key-to-the-marks') && linkWord === TERM('key-to-the-marks'));
+    if (linkHref) {
+      await link.click().catch(() => {});
+      await page.waitForSelector('[data-mark-key] [data-mark-row]', { timeout: 10000 }).catch(() => {});
+      check('and following it lands on the key, with the card closed',
+        page.url().endsWith(keyHref) && await page.locator('[data-mark-key] [data-mark-row]').count() > 0
+        && !(await keys.isVisible().catch(() => false)));
+    }
+  }
+}
+
+/* A JUDGMENT MARK'S WORD REACHES ASSISTIVE TECH (WP-14.29). Passed and failed differ in colour,
+   and the could-not-evaluate, yours-to-judge and not-applicable marks differ in form; none of that
+   reaches a screen reader, so the glyph is `aria-hidden` and the state's own glossary word stands
+   beside it -- visibly, or as visually hidden text where the row already names its state. Read
+   through the ACCESSIBILITY TREE (`ariaSnapshot`), not the DOM, because hidden-from-sight and
+   hidden-from-assistive-tech are different properties and only the second is the claim. Craftsman
+   states a judgment constraint; that premise is asserted before any row is judged. */
+{
+  const word = TERM('judgment-yours-to-judge');
+  await visit('#/style/craftsman/rules');
+  await page.waitForSelector('[data-constraint]', { timeout: 20000 }).catch(() => {});
+  const rows = page.locator('[data-constraint][data-constraint-state="judgment-yours-to-judge"]');
+  const n = await rows.count();
+  if (!word) {
+    unjudged.push("a judgment mark's word reaches assistive tech -- the glossary has no judgment-yours-to-judge word to hold it to");
+  } else {
+    check(`the rules offer a judgment row to read (${n})`, n > 0);
+    const marks = await rows.evaluateAll((rs) => rs.map((r) => {
+      const m = r.querySelector('[data-judgment-mark]');
+      const g = m && m.querySelector('[data-duty]');
+      return { state: m ? m.getAttribute('data-judgment-mark') : null,
+        glyphHidden: g ? g.getAttribute('aria-hidden') : null,
+        duty: g ? g.getAttribute('data-duty') : null };
+    }));
+    check('each judgment row is drawn in the yours-to-judge mark, never the could-not-evaluate hatch',
+      marks.length > 0 && marks.every((m) => m.state === 'yours-to-judge' && m.duty === '--mark-yours-to-judge'));
+    check('and its glyph is decorative (aria-hidden)', marks.length > 0 && marks.every((m) => m.glyphHidden === 'true'));
+    const tree = n ? await rows.first().locator('[data-judgment-mark]').ariaSnapshot().catch(() => '') : '';
+    check(`and the state's word is in the accessibility tree (${JSON.stringify(tree.slice(0, 120))})`,
+      tree.toLowerCase().includes(word.toLowerCase()));
+  }
+}
+
 await browser.close();
 if (limited) {
   console.error('\nCOULD NOT EVALUATE: the server rate-limited this run (429 at ' + limited

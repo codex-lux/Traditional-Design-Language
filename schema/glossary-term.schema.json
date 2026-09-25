@@ -43,7 +43,7 @@
   "basis": {
    "type": "string",
    "minLength": 25,
-   "description": "For an editorial record: the file or files this definition was read from, named by path (rooms/, kits/, styles/, faults/, groupings/, proportions/ or partis/ records; build/ scripts; massings/catalog.json; elements/slots.json; mcp_server/core.py; a schema/ file; VISION.md, README.md or a top-level docs/ page), with at least one passage of twenty-five characters or more quoted verbatim in double quotes. The checker finds each quotation in the file it names and refuses the record if one is missing. docs/open-questions.md is generated and no glossary/ file may be a basis."
+   "description": "For an editorial record: the file or files this definition was read from, named by path (rooms/, kits/, styles/, faults/, groupings/, proportions/ or partis/ records; build/ scripts; massings/catalog.json; elements/slots.json; mcp_server/core.py; a schema/ file; VISION.md, README.md or a top-level docs/ page; and, for the marks, workbench/app/src/theme/tokens.css, whose comments state what each mark means), with at least one passage of twenty-five characters or more quoted verbatim in double quotes. The checker finds each quotation in the file it names and refuses the record if one is missing. docs/open-questions.md is generated and no glossary/ file may be a basis."
   },
   "sense": {
    "type": "string",

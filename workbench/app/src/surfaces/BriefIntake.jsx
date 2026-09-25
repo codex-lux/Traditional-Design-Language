@@ -48,6 +48,7 @@ import { wordOf, noGlossary } from '../glossary/termView.js';
 import { StylePicker } from '../components/StylePicker.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
+import { MarkGlyph } from '../components/MarkGlyph.jsx';
 import { Term } from '../components/Term.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
 
@@ -477,14 +478,19 @@ export function BriefIntake({ go }) {
             <Eyebrow style={{ marginBottom: 12 }}>feasibility · advisory, computed as you type</Eyebrow>
 
             {/* The style's plan types, BY THE NATIVITY THE SERVER STATED (WP-14.25). A request in
-                flight is not a verdict, so the loading state is `aria-busy` and draws nothing; the
-                one JudgmentMark left is the real could-not-evaluate, with no style to read. */}
+                flight is not a verdict, so the loading state is `aria-busy` and draws no square:
+                since WP-14.29 it says its word, the loading mark's own record, and nothing else.
+                The one JudgmentMark left is the real could-not-evaluate, with no style to read. */}
             <div style={{ marginBottom: 12 }} data-plan-types={brief.style ? own.state : 'no-style'}
               aria-busy={own.state === 'loading' ? 'true' : undefined}>
               {!brief.style ? (
                 <JudgmentMark state="unjudged" label="native partis unknown" reason="no style is chosen yet" />
               ) : own.state === 'failed' ? (
                 <Advisory tone="limit" label={`the plan types could not be read: ${own.reason}`} />
+              ) : own.state === 'loading' ? (
+                <MarkGlyph token="--mark-loading">
+                  {glossary.status === 'ready' ? wordOf(glossary.lookup, 'mark-loading') : ''}
+                </MarkGlyph>
               ) : own.state !== 'ready' ? null : ownGroups.length === 0 ? (
                 <Advisory tone="limit"
                   label={<>{styleName(brief.style)} has no <Term id="parti-native" /> and no <Term id="parti-lineage" /> — the composer will borrow diagrams</>} />
@@ -527,13 +533,16 @@ export function BriefIntake({ go }) {
               </p>
             </div>
 
-            <div style={{ marginTop: 14, border: '1px solid var(--rule)', padding: '9px 11px',
-              backgroundImage: 'var(--hatch-45)' }}>
-              <span style={{ background: 'var(--paper)', display: 'inline-block', padding: '2px 6px' }}>
+            {/* A POINTER, NOT A STATE (WP-14.29, PRD tranche 2 §D). The conflict set lives on the
+                bench, so this is a link there and wears no hatch: it wore the falling hatch, which
+                means wanted now, and nothing here is wanted -- it is somewhere else. */}
+            <div data-conflict-pointer="" style={{ marginTop: 14, border: '1px solid var(--rule)',
+              padding: '9px 11px' }}>
+              <a href={formatHash('workbench', {}, {})} data-conflict-link="">
                 <Eyebrow as="span" tone="quiet">conflict set · on the bench, not here</Eyebrow>
-              </span>
+              </a>
               <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)',
-                margin: '6px 0 0', background: 'var(--paper)', padding: '2px 6px' }}>
+                margin: '6px 0 0' }}>
                 The CP-SAT solver landed (WP-2.3): where a plan&rsquo;s declared facts cannot all hold,
                 it names the minimal set that conflicts. It proves a PLAN, though, not a brief — so the
                 naming happens on the Plan Workbench, under <em>prove placement</em>, once a candidate
