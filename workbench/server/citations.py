@@ -38,6 +38,17 @@ REF_RE = re.compile(rf"^([a-z]+):([{ID_CHARS}]+)(?:#([{FRAG_CHARS}]+))?\Z")
 DOSSIER_SECTIONS = ("identify", "members", "lineage", "kit", "proportions", "plans", "rules",
                     "faults", "evidence")
 
+# THE CITATION KINDS, ONE VOCABULARY (WP-14.22, PRD tranche 2 §C.8). A tuple of kind NAMES and not
+# a pattern: REF_RE above admits any `[a-z]+` as a kind, and this is what decides which of those
+# words a citation may use. It had no single spelling. `validate` below carried two lists (the
+# registry chain in `_known_ids` and a literal tuple of the session kinds), and rail.py's prompt
+# typed a THIRD, which named thirteen kinds of the sixteen the validator accepts -- `term`, `brief`
+# and `asset` were valid citations the model was never told it could write. The prompt and the
+# validator both read this now. The first eleven are answered by a live registry in `_known_ids`;
+# the last five are session- or file-scoped and are resolved by the client.
+KINDS = ("style", "kit", "slot", "fault", "room", "grouping", "massing", "pack", "parti",
+         "constraint", "term", "candidate", "finding", "plan", "brief", "asset")
+
 
 def _known_ids(kind):
     D = core._data()
@@ -95,6 +106,8 @@ def validate(ref, context=None):
     if not m:
         return False, "not a kind:id ref"
     kind, ident, frag = m.groups()
+    if kind not in KINDS:
+        return False, f"unknown citation kind '{kind}'"
     ids = _known_ids(kind)
     if ids is not None:
         if ident not in ids:
@@ -113,6 +126,7 @@ def validate(ref, context=None):
         if n is not None and (not ident.isdigit() or not (0 <= int(ident) < n)):
             return False, f"candidate {ident} is not in the current set"
         return True, None
-    if kind in ("finding", "plan", "brief", "asset"):
-        return True, None  # session- or corpus-file-scoped; the client resolves
-    return False, f"unknown citation kind '{kind}'"
+    # Every other kind in KINDS (finding, plan, brief, asset) is session- or corpus-file-scoped
+    # and the client resolves it. Reaching here means the kind is one KINDS names, so there is
+    # no second list of them to fall out of step with the first.
+    return True, None

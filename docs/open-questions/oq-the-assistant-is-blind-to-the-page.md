@@ -1,6 +1,6 @@
 # oq/the-assistant-is-blind-to-the-page — the pane is named now, and it is still told nothing about what the reader has selected
 
-*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.22 · Raised in: WP-14.0 (24 September 2026)*
+*Status: CLOSED 25 SEP 2026 — answers 1 and 3, in the citation form, executed by WP-14.22 · Raised in: WP-14.0 (24 September 2026)*
 
 **What was ruled and what was not.** On 24 September Lucas ruled that the right-hand pane is
 named — *"Ask the corpus · AI assistant"*, worded from a glossary record, on the pane head and the
@@ -76,3 +76,44 @@ dossier's *used by* list (WP-14.4's `used_by`) is served to the page and not to 
 ## Ruled 25 September 2026
 
 **The page's citation, plus starter questions (answers 1 and 3, in the citation form).** The context gains one line naming the record in view. The line is written only when the server's own citation validator accepts it, and the model fetches the record with the tools it already has. Starter questions come from each page's `surface-*` glossary record. The same commit corrects the prompt's stale facts: the typed fault figure, "the rail", and the missing citation kinds. The contract is `docs/prd/phase-14-tranche-2.md` §C.8. The tranche-1 freeze on `rail.py` is lifted for this item alone. The question closes when WP-14.22 lands.
+
+
+## Closed 25 September 2026 (WP-14.22)
+
+**What the assistant is told now.** Two keys join what the pane sends, and the four it sent
+before are built exactly as they were.
+
+- **`cite`.** This is the page's own `citeFor(...)`, from `workbench/app/src/citations.js`,
+  read by `rail/railContext.js` from the nav store. It is absent where the page names no record.
+  `rail._context_block` writes one line naming it, and only when `citations.validate` accepts
+  it. A citation the validator refuses is omitted and never echoed, including one carrying a
+  newline and instructions after a real ref.
+- **`candidate_summaries`.** This is one compact row per candidate, each carrying the index a
+  `candidate:<index>` citation names. The client builds the rows under a 3,000-character budget
+  and the server under its own 4,000, both in whole rows. Where the set holds more candidates
+  than reach the prompt, one line says how many. The server read this key before and no client
+  sent it. The old block cut the JSON at 4,000 characters, which would have handed the model half
+  an object.
+
+**What the prompt says now.** It is built on each turn. Its self-description is
+`glossary/assistant.json`'s term and definition, and nothing of its `aka`, which keeps "the rail"
+as history. Its readers are the three `glossary/about-tdl.json` names, where it had named one of
+them as *the* user. The fault figure is counted off the records: 210, where it typed 209. The
+tool count is the length of the list the turn hands the model. The citation kinds come from
+`citations.KINDS`, one vocabulary that the validator now reads too, and they are sixteen where
+the prompt listed thirteen: it omitted `term`, `brief` and `asset`. The prompt grows from 2,932
+characters to 4,084, and the three reader lines are most of the difference.
+
+**Starter questions.** Each page's `surface-*` record's `ask` is shown verbatim as buttons in the
+pane (`rail/starters.js`). A click fills the input and focuses it, and sends nothing. Nothing is
+shown while the glossary loads, where it failed, or where a page has no record.
+
+**What moved that the ruling did not name.** The context's `surface` line had echoed the
+caller's string raw. It is written now only for a lowercase surface id, on the same grounds as
+the cite. The limiter's five refusals, the key-missing error, `tools.py`'s docstring and three
+MCP tool DESCRIPTIONS no longer say "the rail" or type a count. The descriptions are
+`tdl_find_faults` and `tdl_check_plan` (209) and `tdl_get_massing` (40). No MCP payload moved.
+
+**Not done.** No tool answers "which styles use this pack?", and the ruling kept to the tools the
+model already has. That is `oq/no-tool-answers-which-styles-use-a-pack`. The report is
+`docs/reports/wp-14.22-the-assistant-sees-the-page.md`.

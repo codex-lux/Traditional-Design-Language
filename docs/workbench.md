@@ -112,6 +112,13 @@ enforced structurally:
   overview rides in the system prompt so orientation costs no rounds; 8 tool rounds
   per turn, hard cap.
 - No `ANTHROPIC_API_KEY` → the rail renders a labelled off state. Never a broken one.
+- The model is told the page (WP-14.22). `app/src/rail/railContext.js` sends the page's own
+  `citeFor(...)` as `context.cite` and the candidate set as compact `candidate_summaries`, and
+  `rail._context_block` names the cite in one line only when `citations.validate` accepts it.
+  The system prompt is built per turn, from `glossary/assistant.json`, `glossary/about-tdl.json`,
+  the fault records, the tool list and `citations.KINDS`, so it types no count. Each page's
+  `surface-*` record's `ask` is offered in the pane as starter questions that fill the input and
+  never send (`app/src/rail/starters.js`).
 
 Citation grammar (one router, `app/src/citations.js`, used by rail chips, finding
 rule refs and cross-surface links alike):
@@ -119,11 +126,15 @@ rule refs and cross-surface links alike):
 ```
 ref  := kind ":" id ("#" fragment)?
 kind := style | slot | kit | fault | room | grouping | massing | parti | pack
-      | constraint | candidate | finding | brief | plan | asset
+      | constraint | term | candidate | finding | brief | plan | asset
 ```
 
+The kinds are one vocabulary, `citations.KINDS` in `server/citations.py`, which the validator
+and the rail's prompt both read. It is a list of names and not a pattern: the grammar keeps its
+three spellings (`REF_RE`, `CITE_RE`, `parseCite`).
+
 Corpus-backed kinds (style, slot, kit, fault, room, grouping, massing, pack, parti,
-constraint) validate against their live registries; candidate validates against the
+constraint, term) validate against their live registries; candidate validates against the
 session's set; finding/plan/brief/asset are session- or file-scoped and resolve
 client-side. Kinds beyond style/slot/kit/fault/pack/candidate/finding/plan currently
 navigate to their surface without a per-item highlight — a known limitation recorded

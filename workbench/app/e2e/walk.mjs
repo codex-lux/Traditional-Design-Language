@@ -3464,6 +3464,60 @@ async function journeyRead() {
   stop();
 }
 
+/* THE ASSISTANT OFFERS THE PAGE'S OWN QUESTIONS, AND A CLICK FILLS AND NEVER SENDS (WP-14.22,
+   PRD tranche 2 §C.8, §C.10). A page's starter questions are its `surface-*` glossary record's
+   `ask`, shown verbatim as buttons in the assistant's pane; a click puts the question in the input
+   and focuses it, and the reader sends it with Enter or not at all. So what is asserted is the
+   record's own strings (read from the API, never typed here), that they follow the page, and that
+   a click posts nothing to `/api/rail/messages` -- a starter that sent itself would bill a turn the
+   reader never asked for. A fresh context, so no fold or width an earlier block left in this
+   browser's storage decides whether the pane is open at all. */
+{
+  const askOf = async (id) => {
+    const r = await (await fetch(BASE + '/api/glossary/' + id)).json().catch(() => null);
+    return r && r.term && r.term.surface && Array.isArray(r.term.surface.ask) ? r.term.surface.ask : null;
+  };
+  const wantProportions = await askOf('surface-proportions');
+  const wantFaults = await askOf('surface-faults');
+  const ctx = await browser.newContext({ viewport: { width: 1680, height: 1000 } });
+  const p = await ctx.newPage();
+  let railPosts = 0;
+  p.on('request', (r) => { if (r.url().includes('/api/rail/messages')) railPosts += 1; });
+  const shownOn = async () => {
+    const aside = p.locator('aside[aria-label*="the rail"]');
+    await aside.locator('[data-rail-starter]').first().waitFor({ timeout: 15000 }).catch(() => {});
+    return aside.locator('[data-rail-starter]')
+      .evaluateAll((bs) => bs.map((b) => (b.textContent || '').trim()));
+  };
+  await p.goto(BASE + '/#/proportions', { waitUntil: 'networkidle' });
+  const shown = await shownOn();
+  check(`the assistant offers the page's own starter questions, verbatim (${shown.length} shown, `
+    + `${wantProportions ? wantProportions.length : 'none'} in surface-proportions)`,
+    Array.isArray(wantProportions) && wantProportions.length > 0
+    && JSON.stringify(shown) === JSON.stringify(wantProportions));
+  await p.locator('aside[aria-label*="the rail"]').screenshot({ path: SHOTS + 'assistant-starters.png' })
+    .catch(() => {});
+  const input = p.locator('aside[aria-label*="the rail"] input[aria-label="Ask the corpus"]');
+  if (shown.length) await p.locator('aside[aria-label*="the rail"] [data-rail-starter]').last().click();
+  await p.waitForTimeout(500);
+  const value = await input.inputValue().catch(() => null);
+  const focused = await input.evaluate((el) => document.activeElement === el).catch(() => false);
+  check(`a starter question fills the input, focused, and sends nothing (${JSON.stringify(value)}; `
+    + `${railPosts} request(s) to /api/rail/messages)`,
+    shown.length > 0 && value === shown[shown.length - 1] && focused && railPosts === 0);
+  await p.evaluate(() => { location.hash = '#/faults'; });
+  await p.waitForFunction((first) => {
+    const b = document.querySelector('aside[aria-label*="the rail"] [data-rail-starter]');
+    return b && (b.textContent || '').trim() === first;
+  }, wantFaults ? wantFaults[0] : '', { timeout: 15000 }).catch(() => {});
+  const onFaults = await shownOn();
+  check(`and the questions follow the page (${onFaults.length} on the Faults page, `
+    + `${wantFaults ? wantFaults.length : 'none'} in surface-faults)`,
+    Array.isArray(wantFaults) && wantFaults.length > 0
+    && JSON.stringify(onFaults) === JSON.stringify(wantFaults));
+  await ctx.close();
+}
+
 await browser.close();
 if (limited) {
   console.error('\nCOULD NOT EVALUATE: the server rate-limited this run (429 at ' + limited

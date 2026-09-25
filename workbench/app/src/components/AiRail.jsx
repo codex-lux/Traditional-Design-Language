@@ -113,7 +113,36 @@ function AssistantTurn({ turn, onCite }) {
   );
 }
 
-function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, title }) {
+/* THE PAGE'S STARTER QUESTIONS (WP-14.22, PRD tranche 2 §C.10). Each is a glossary record's
+   `ask`, handed in by RailHost through `rail/starters.js` and shown verbatim; this component
+   writes no question of its own. A click FILLS the input and never sends: the reader may edit
+   the question first, and a turn is billed only when they press Enter. So a click calls no
+   `onSend` -- `e2e/walk.mjs` asserts that no `/api/rail/messages` request leaves on one. */
+function Starters({ starters, onPick }) {
+  if (!starters || !starters.length) return null;
+  return (
+    <div data-rail-starters="" style={{ display: 'flex', flexDirection: 'column', gap: 5,
+      marginBottom: 8 }}>
+      {starters.map((q) => (
+        <button key={q} type="button" data-rail-starter="" onClick={() => onPick(q)}
+          style={{ textAlign: 'left', background: 'var(--paper-deep)',
+            border: '1px solid var(--rule-soft)', color: 'var(--ink-2)',
+            font: 'var(--fw-reg) 12.5px/1.45 var(--body)', padding: '5px 8px', cursor: 'pointer' }}>
+          {q}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, title, starters }) {
+  const inputRef = React.useRef(null);
+  const fill = (q) => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.value = q;
+    el.focus();
+  };
   /* The rail's own width, pulled from the shell's layout store rather than a token, so
      the splitter on its left edge and the aside itself cannot disagree about it.
 
@@ -160,7 +189,8 @@ function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, t
 
       <form onSubmit={(e) => e.preventDefault()}
         style={{ flex: 'none', borderTop: '1px solid var(--rule)', padding: 10 }}>
-        <input aria-label="Ask the corpus" placeholder={placeholder || 'Ask the corpus…'}
+        <Starters starters={starters} onPick={fill} />
+        <input ref={inputRef} aria-label="Ask the corpus" placeholder={placeholder || 'Ask the corpus…'}
           onKeyDown={onSend ? (e) => {
             if (e.key === 'Enter') {
               // only clear when the host accepted the message — a busy rail must not

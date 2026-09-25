@@ -4892,7 +4892,13 @@ set when it merges.
   - **The room record disagrees with the massing.** The dining room's own record puts its fire on the interior wall, and which of the two a plan follows is item 4 of an unruled question.
   - **The rest is two instruments.** The stacks fail on the search, and the tiling fails on the prover's rounded and derived element boxes. Each is filed as a question.
   - **Questions.** `oq/the-worked-house-has-no-plan-that-places` is closed on its answer 3: the refusal is the example. `glossary/guided-example.json` says so, in the same commit.
-- **WP-14.22 — the assistant sees the page.** Wave 2. **Status: PLANNED.**
+- **WP-14.22 — the assistant sees the page.** Wave 2. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.22-the-assistant-sees-the-page.md`. The freeze on `rail.py`, the rail's context and the MCP tool descriptions was lifted for this item alone, and no MCP payload or `core.overview()` moved.
+  - **The page's citation.** The pane sends it, and `_context_block` names it to the model only when the server's own validator accepts it. `pack:nope` and injection-shaped cites are omitted, never echoed.
+  - **The candidates.** They arrive as whole rows under a budget; the server had been reading a key nobody sent and would have cut its JSON mid-object.
+  - **The prompt.** It is built each turn: self-description and readers from glossary records, fault figure and tool count computed, citation kinds from one `citations.KINDS` vocabulary the validator reads too. It had said 209 and 13 kinds; it now says 210 and 16.
+  - **Starter questions** come verbatim from each page's `surface-*` record and fill the input without sending.
+  - **"The rail"** leaves every reader-facing refusal.
+  - **Questions.** `oq/the-assistant-is-blind-to-the-page` is closed; `oq/no-tool-answers-which-styles-use-a-pack` is filed.
 - **WP-14.23 — record pages and the Elements index.** Spotlight is retired. Wave 2.
   **Status: PLANNED.**
 - **WP-14.24 — plates at the pack's word.** Turned casings, zone strings, class-A sliders,

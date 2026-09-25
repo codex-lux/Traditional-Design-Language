@@ -8,7 +8,7 @@ Run:  python3 mcp_server/server.py            (stdio)
 Register with Claude Code:
       claude mcp add tdl -- python3 /abs/path/to/mcp_server/server.py
 
-The same 27 tools are also served over HTTP when the workbench mounts this module at
+The same tools are also served over HTTP when the workbench mounts this module at
 /mcp — see docs/deployment.md. Nothing here knows which transport it is answering on.
 """
 import json, os, sys
@@ -152,7 +152,7 @@ def tdl_compare_authorities(order: str, column_diameter: float = 12.0) -> str:
 def tdl_find_faults(style: str = "", slot: str = "", group: str = "", severity: str = "",
                     frequency: str = "", measurable_from: str = "", query: str = "",
                     limit: int = 25) -> str:
-    """Search 209 named errors. Faults are ELEMENT-FIRST: most are universal and style is a facet.
+    """Search the corpus's named errors. Faults are ELEMENT-FIRST: most are universal and style is a facet.
     Filter by slot, group, severity (fatal|serious|minor), frequency (endemic|common|occasional),
     or measurable_from (photograph|elevation|plan|section|site-visit). Passing style also surfaces
     INVERTED_FOR_THIS_STYLE and ONE of three exception keys — check those before repeating a rule
@@ -215,7 +215,7 @@ def tdl_check_style_constraints(style: str, measurements: dict) -> str:
 
 @mcp.tool()
 def tdl_get_massing(massing_id: str = "", style: str = "") -> str:
-    """The volumetric skeleton catalogue — 40 types with their structural logic and, importantly,
+    """The volumetric skeleton catalogue — every type with its structural logic and, importantly,
     their expansion logic: how each grows without breaking. Massing is NOT style; a Foursquare
     wears Craftsman or Colonial Revival with no change of volume. Pass style to get its affinities."""
     return J(core.get_massing(massing_id or None, style or None))
@@ -272,7 +272,7 @@ def tdl_check_plan(plan: dict, strict: bool = False) -> str:
     against window head. ADJACENCY: typed directional rules with their style exceptions, honouring
     two-hop connection through a hall because that is how houses actually work. PRIVACY: the
     public-to-private gradient, with circulation treated as rank-transparent. GROUPING: declared
-    groupings' required rooms and massing fit. FAULT: the 209-fault corpus against whatever
+    groupings' required rooms and massing fit. FAULT: the whole fault corpus against whatever
     measurements the plan supplies. CODE: IRC model text, ADVISORY and jurisdictional — never a
     permit review. STYLE: forbidden variants the plan declares, and the style's own migrated
     constraints evaluated present/clear/unjudged (WP-1.2) — a constraint without a test yet is
