@@ -144,7 +144,6 @@ const BASELINE = {
     ["surfaces/KitSurface.jsx", "two namespaces"],
     ["surfaces/PlanWorkbench.jsx", "6 rounds"],
     ["surfaces/PlanWorkbench.jsx", "4 rounds"],
-    ["surfaces/Proportions.jsx", "five authorities"],
     ["surfaces/Proportions.jsx", "three inches"],
     ["surfaces/StyleRecord.jsx", "660 constraints"],
   ],

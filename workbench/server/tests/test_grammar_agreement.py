@@ -159,6 +159,7 @@ _ARC_MATH = ("sweep", "a1 > a0", "a1>a0")
 _JS_SURFACES = [
     ("build/orders_template.html", "the order tool"),
     ("workbench/app/src/surfaces/Proportions.jsx", "the workbench Proportions plate"),
+    ("workbench/app/src/components/AssemblyPlate.jsx", "the workbench wall-datum plate"),
 ]
 
 
@@ -199,6 +200,42 @@ def test_no_javascript_surface_re_derives_an_arc_sweep():
     assert not offenders, (
         "a JavaScript surface is deriving arc geometry again -- build/profiles.py serves finished "
         "paths in model space precisely so that no consumer has to:\n  " + "\n  ".join(offenders))
+
+
+def _band_emitters(root):
+    """Every shipped app source file whose live code emits a `data-asm` band, as repo-relative
+    paths. Enumerated by walking `workbench/app/src` -- a directory the app owns and nothing
+    nests a checkout inside -- in a sorted order, and read with comments stripped, so a file that
+    only DESCRIBES a band is not an emitter."""
+    import os
+    app = os.path.join(root, "workbench", "app", "src")
+    found = []
+    for dirpath, _dirs, files in sorted(os.walk(app)):
+        for name in sorted(files):
+            if not name.endswith((".js", ".jsx", ".mjs")) or name.endswith(".test.mjs"):
+                continue
+            path = os.path.join(dirpath, name)
+            if "data-asm" in _strip_comments(open(path, encoding="utf-8").read()):
+                found.append(os.path.relpath(path, root).replace(os.sep, "/"))
+    return found
+
+
+def test_every_app_file_that_draws_a_band_is_one_this_guard_reads():
+    """PRD §I.6 (WP-14.9). A plate band is `<path data-asm data-member>` drawn from a SERVED face
+    path, and `_JS_SURFACES` is the list of files held to building no arc. A second plate that
+    emitted bands without joining the list would be a surface the arc guard above never opens --
+    exactly how a fifth copy of the sweep rule would arrive. So the list is held to the tree:
+    every file emitting `data-asm` must be on it."""
+    root = _repo_root()
+    emitters = _band_emitters(root)
+    listed = {rel for rel, _ in _JS_SURFACES}
+    assert "workbench/app/src/components/AssemblyPlate.jsx" in emitters \
+        and "workbench/app/src/surfaces/Proportions.jsx" in emitters, \
+        f"the premise: the walk finds both plates that draw bands ({emitters})"
+    unlisted = [e for e in emitters if e not in listed]
+    assert not unlisted, (
+        "these app files draw plate bands (`data-asm`) and are not in _JS_SURFACES, so nothing "
+        "holds them to building no arc -- add each to the list:\n  " + "\n  ".join(unlisted))
 
 
 def test_the_served_geometry_actually_carries_a_path():
