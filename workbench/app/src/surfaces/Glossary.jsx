@@ -24,9 +24,9 @@
    is read (PRD §F.4). `?q=` narrows by the words a reader would type and `?family=` to one family,
    both in the URL through `useSurfaceFilters`, so a narrowed glossary is a link.
 
-   The page reflows below the shell's 1380 px floor: the shell marks `#root` with `data-reflow`
-   on this surface and the front door (PRD §I.12, WP-14.13), which `theme/tokens.css` releases,
-   and the entries are laid out on a grid that folds to one column. The page head is the
+   The page reflows: `state/layout.js`'s table says so, the shell marks `#root` with `data-reflow`
+   from it (WP-14.30; the pair it replaced was WP-14.13's, and the 1380 px floor it released is
+   gone), and the entries are laid out on a grid that folds to one column. The page head is the
    shell's too — it heads every surface from `nav/navModel.js`'s `headTermFor` — so neither is
    mounted here: `e2e/walk.mjs` asserts there is exactly one head, and two would fail it. */
 import React from 'react';

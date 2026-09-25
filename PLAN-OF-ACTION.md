@@ -4944,7 +4944,18 @@ set when it merges.
   - **`JudgmentMark`** draws six states, and each state's word reaches assistive tech on every branch.
   - **`MarkKey`** on the Glossary is the product key, built from the records and linked from the `?` card.
   - **Questions.** `oq/one-duty-per-hatch` is closed. Filed: a refusal is drawn in two inks, and one of them, violet, is also `--t4`, a tradition's hue.
-- **WP-14.30 — reading surfaces reflow at 1280.** Wave 4. **Status: PLANNED.**
+- **WP-14.30 — reading surfaces reflow at 1280.** Wave 4. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.30-the-floor-is-where-the-drawing-is.md`.
+  - **The mechanism.** `#root`'s 1380 px floor is gone, and one table in `state/layout.js` names every surface reflow or floor. The three drawing surfaces (the bench sheet, the Drawing Set, Transcription) keep an 800 px floor on `<main>`'s grid column. So `<main>` scrolls inside itself and the masthead never does.
+  - **Measured at 1280 × 800.**
+
+    | | Before | After |
+    |---|---|---|
+    | Document scroll | +100 px on 17 of 19 addresses | 0 on all |
+    | Masthead | 1380 px, Keys button off screen | 1280 px, Keys button on screen |
+
+  - **Checks.** A width block in the walk judges `<main>` and every sideways scroller inside it. A document-width check is blind in this shell, whose outer frame is `overflow:hidden`.
+  - **One regression, fixed at the merge.** On the bench, `re-solve` sat behind the filter strip's scrollbar at 1280; the strip wraps now.
+  - **Filed.** With the assistant open, 16 reading pages still scroll inside `<main>`: `oq/no-sideways-scroll-at-1280-with-the-assistant-open`.
 - **WP-14.31 — the last pass on type.** The copy ratchet to zero; readable text off the faint inks.
   Wave 5. **Status: PLANNED.**
 - **WP-14.32 — integration.** Wave 6. **Status: PLANNED.**

@@ -191,9 +191,13 @@ one slot across every style.
 worded from its `surface-*` record, a masthead reading *On the bench:* with the plan's state in
 words, and a visible **Keys** button for the card `?` opens. The assistant's pane is named
 *Ask the corpus · AI assistant* from its record and starts folded below 1500 px when the reader
-has stored no choice; a stored choice wins. Below 1380 px only the front door and the Glossary
-reflow (`#root[data-reflow]`). The working surfaces keep `tokens.css`'s 1380 px floor by ruling,
-so on a 1280 px window they scroll 100 px sideways. That is recorded, not fixed.
+has stored no choice; a stored choice wins. **Width** (WP-14.30): `#root` carries no floor. The
+reading surfaces reflow, and at 1280 × 800 with nothing stored none scrolls sideways. The three
+that draw keep a floor: the plan sheet, the Drawing Set with the Round, and Transcription. Their
+`<main>` is held to `MAIN_FLOOR_PX` and scrolls inside itself, so the masthead and its Keys button
+stay at the window's width. `state/layout.js`'s `SURFACE_WIDTH` says which is which, and `App.jsx`
+marks the page `data-reflow` or `data-floor` from it. Until WP-14.30 the whole shell was held at
+1380 px, and on a 1280 px window every page but two scrolled 100 px sideways.
 
 **The Gate** shows one sentence, `about-tdl`'s definition, read from the one ungated `/api/`
 path. The shell asks for nothing gated until it knows the lock: `useGlossary`, `useNames` and

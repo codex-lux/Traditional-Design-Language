@@ -33,9 +33,10 @@
    it. `src/frontDoor.test.mjs` reads this file for count literals, app-written prose, a style id
    and readable `--ink-4`, and `src/copy_ratchet.test.mjs` holds the tree's count literals.
 
-   IT FITS A LAPTOP: no fixed width over a column's share, every row wraps. The shell releases the
-   1380 px floor for this page (`#root[data-reflow]`, PRD §I.12, WP-14.13); this page does not set
-   that attribute itself, because the shell owns `#root`. */
+   IT FITS A LAPTOP: no fixed width over a column's share, every row wraps. `state/layout.js`'s
+   table makes this page 'reflow' and the shell marks `#root[data-reflow]` from it (WP-14.30; the
+   1380 px floor that attribute once released is gone). This page does not set that attribute
+   itself, because the shell owns `#root`. */
 import React from 'react';
 import { api } from '../api/client.js';
 import { useGlossary } from '../api/useGlossary.js';

@@ -313,13 +313,25 @@ export function LeftRail({ model, busy }) {
    passing it puts a standing "N narrowing · clear" at the right-hand end. Every surface
    that filters gets the same one, in the same place, saying the same thing — there was
    one clear-all in the whole product before, hand-built on the Plan Workbench, and no
-   surface at all said how many filters were on. */
-export function FilterStrip({ children, right, filters }) {
+   surface at all said how many filters were on.
+
+   `wrap` IS FOR A PAGE THAT REFLOWS (WP-14.30, tranche 2 PRD §E). The strip is one line, 34 px
+   tall, and scrolls sideways when it is full. On a reflow surface that is the one thing the
+   ruling forbids: at 1280 × 800 the Phylogeny's strip held 1176 px of controls in a 1018 px
+   column and scrolled 158 px. With `wrap` the strip keeps its one-line height as a floor and
+   takes a second line when it needs one; nothing in it is dropped. It is opt-in because three
+   of this strip's callers are the floored surfaces that draw, where a second line would take
+   height from the sheet. The walk's width block says which page needs it. */
+export function FilterStrip({ children, right, filters, wrap }) {
   const n = filters ? filters.activeCount : 0;
+  const line = wrap
+    ? { minHeight: 'var(--substrip-h)', flexWrap: 'wrap', rowGap: 4, padding: '4px 14px' }
+    : { height: 'var(--substrip-h)', padding: '0 14px', overflowX: 'auto', overflowY: 'hidden',
+      scrollbarWidth: 'thin' };
   return (
-    <div style={{ height: 'var(--substrip-h)', flex: 'none', display: 'flex', alignItems: 'center',
-      gap: 14, padding: '0 14px', borderBottom: '1px solid var(--rule)', background: 'var(--paper)',
-      overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'thin' }}>
+    <div data-filter-strip={wrap ? 'wrap' : 'line'}
+      style={{ ...line, flex: 'none', display: 'flex', alignItems: 'center', columnGap: 14,
+        borderBottom: '1px solid var(--rule)', background: 'var(--paper)' }}>
       {children}
       <div style={{ flex: 1, minWidth: 14 }} />
       {/* Before `right`, not after it. The clear-all is the escape hatch from a strip that

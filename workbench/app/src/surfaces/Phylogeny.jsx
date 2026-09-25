@@ -193,7 +193,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip filters={filters} right={
+      <FilterStrip wrap filters={filters} right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           {/* THE WAY OUT LIVES HERE, not only in the atlas's legend.
 

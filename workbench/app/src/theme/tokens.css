@@ -501,8 +501,24 @@ hr{border:0;border-top:var(--rule-hair);margin:var(--sp-6) 0}
 ::-webkit-scrollbar-thumb{background:var(--rule);border:2px solid var(--paper-mat)}
 ::-webkit-scrollbar-thumb:hover{background:var(--ink-3)}
 
-html,body{height:100%}body{overflow:auto}#root{height:100%;min-width:1380px}input[type=range]{height:14px}
-#root[data-reflow]{min-width:0}
+html,body{height:100%}body{overflow:auto}#root{height:100%}input[type=range]{height:14px}
+
+/* The width floor lives on `<main>`, and only for the surfaces that draw (WP-14.30, tranche 2 PRD
+   §E). `#root` carried `min-width:1380px` until then, so the WHOLE shell was held at 1380: on a
+   1280 px laptop every page scrolled sideways by 100 px and the masthead's Keys button stood off
+   the edge. `#root` has no minimum now. `App.jsx` marks the page `data-reflow` or `data-floor`
+   from `state/layout.js`'s table, and sets `--main-floor` from the same file. A floored page's
+   `<main>` lays its surface in ONE grid track that is never narrower than the floor, and scrolls
+   sideways inside itself when the window leaves it less, so the masthead, the crumbs and both
+   rails are always the window's width. Nothing here names a width: the number is the table's.
+
+   THE FLOOR IS ON THE TRACK AND NOT ON THE SURFACE'S BOX, and that was measured. The first
+   version set `min-width` on `main>*`, and a `min-width` beats the surface's own `max-width`: the
+   three floored pages' empty states are 720 px prose columns and came out 800 wide. In a track,
+   the surface stretches to the track and keeps its own `max-width`. The row is `minmax(0,1fr)`
+   so the surface still takes `<main>`'s height, which the flex column gave it. `!important`
+   answers one thing: `<main>` carries `display:flex` inline, and an inline style beats a sheet. */
+#root[data-floor] main{display:grid!important;grid-template-columns:minmax(var(--main-floor),1fr);grid-template-rows:minmax(0,1fr);overflow-x:auto}
 
 /* A rendered sheet, fitted to its column.
 
@@ -530,9 +546,10 @@ html,body{height:100%}body{overflow:auto}#root{height:100%;min-width:1380px}inpu
    pointer click draws nothing a pointer reader did not ask for. `src/definitions.test.mjs`
    fails if an inline `outline: 'none'` comes back in any `.jsx`.
 
-   `#root[data-reflow]` releases the shell's 1380 px floor for a surface that can reflow
-   (PRD §I.12). The shell sets it for `overview` and `glossary` in WP-14.13; until then the
-   Glossary sets it on itself and removes it when it unmounts. */
+   `#root[data-reflow]` released the shell's 1380 px floor for a surface that could reflow
+   (PRD §I.12). That floor is gone (WP-14.30, rule above): the shell sets `data-reflow` or
+   `data-floor` for every surface from `state/layout.js`'s table, and neither the Glossary nor
+   any other page sets it on itself. */
 
 /* A word the glossary defines, where it stands: a real button that looks like the text it sits
    in, marked by a dotted underline in `--ink-2`. The global `button` rule sets the serif and

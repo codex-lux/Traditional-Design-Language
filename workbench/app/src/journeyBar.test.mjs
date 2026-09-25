@@ -48,7 +48,11 @@ test('the bar is on the six house surfaces, nowhere else, and never in full scre
 });
 
 test('App mounts the bar once, above <main>, and only where showJourneyBar says', () => {
-  const app = read('./App.jsx');
+  /* LIVE CODE, NOT PROSE (WP-14.30). This read the raw file, so the first `<main` it found could
+     be a COMMENT: WP-14.30's width effect names `<main>` in its comment above the JSX and turned
+     this guard red on an edit that moved no element. A selector over the source text goes red on a
+     rewording as readily as it goes blind on one; the element is what the rule is about. */
+  const app = read('./App.jsx').replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
   const mounts = [...app.matchAll(/<JourneyBar\b/g)];
   assert.equal(mounts.length, 1, 'mounted once, by App');
   const at = mounts[0].index;

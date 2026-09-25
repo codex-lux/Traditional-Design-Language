@@ -8,8 +8,10 @@ try { ({ chromium } = require('playwright')); }
 catch { ({ chromium } = require('/opt/node22/lib/node_modules/playwright')); }
 import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 // The pane table, so this file is not a second authority over numbers the store owns —
-// which is the sin `--rail-left` was deleted for.
-import { PANES } from '../src/state/layout.js';
+// which is the sin `--rail-left` was deleted for. The width table and the floor beside it
+// (WP-14.30) for the same reason: which pages reflow is the store's answer, not this file's.
+import { PANES, SURFACE_WIDTH, MAIN_FLOOR_PX } from '../src/state/layout.js';
+import { routeCite, DOSSIER_SECTIONS } from '../src/citations.js';
 // The router's own table, for the same reason: an address this walk visits, and the surface a
 // rail item reaches, are judged by the module that writes them rather than by a list here.
 import { SURFACE_PATHS, parseHash, formatHash } from '../src/router.js';
@@ -297,10 +299,11 @@ check('the front door remembers it was seen (prefs.seen["front-door"])',
   }));
 await shot('overview', [1280, 1440, SHOT_WIDTH]);
 {
-  /* A LAPTOP IS 1280 px WIDE AND THE FRONT DOOR MUST FIT IT (PRD §I.12). The shell's 1380 px floor
-     is released per surface by `#root[data-reflow]`, and the SHELL sets it for the Overview --
-     WP-14.13's App.jsx, not this page. Where the attribute is there, the page is judged as a
-     reader meets it. Where it is not, the front door's OWN content is measured with the release
+  /* A LAPTOP IS 1280 px WIDE AND THE FRONT DOOR MUST FIT IT (PRD §I.12). The SHELL marks a page
+     that reflows with `#root[data-reflow]`, from `state/layout.js`'s table since WP-14.30 (the
+     shell's 1380 px floor that attribute used to release is gone; the width block at the foot of
+     this file holds every surface to the table). Where the attribute is there, the page is judged
+     as a reader meets it. Where it is not, the front door's OWN content is measured with the mark
      simulated, and the reader-facing half is reported unjudged by name rather than passed. */
   const vp = page.viewportSize();
   await page.setViewportSize({ width: 1280, height: vp.height });
@@ -325,8 +328,8 @@ await shot('overview', [1280, 1440, SHOT_WIDTH]);
     fit.own !== null && fit.own <= 1 && fit.sideways <= 1);
   if (!fit.released) {
     unjudged.push('the front door at 1280 px as a reader meets it — #root carries no data-reflow on '
-      + 'the Overview on this tree, so the shell\'s 1380 px floor still scrolls the page sideways; '
-      + 'the release is the shell\'s (WP-14.13), and the content itself fits with it simulated');
+      + 'the Overview on this tree, so the shell has not marked it a reflow page; '
+      + 'the mark is the shell\'s (WP-14.30), and the content itself fits with it simulated');
   }
   await page.setViewportSize(vp);
 }
@@ -3521,7 +3524,8 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
    Enter (a non-modal dialog, labelled by its word, focus taken inside, "more" at the record's
    citation), Escape (closed, focus back on the word), and a resting mouse (open after the
    delay) -- and a change of place closes it. Last, the page reflows: at 1280 px there is no
-   sideways scroll, because the Glossary releases the shell's 1380 px floor.
+   sideways scroll, and the shell marks it a reflow page (WP-14.30's table; the 1380 px floor it
+   once released is gone).
 
    WP-14.3 serves the route in parallel with this package. Where it does not answer with a
    terms list, every check below would be judging an app with no glossary to read, so the block
@@ -3555,7 +3559,7 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     check(`and it lists every word the server serves (${idx.terms} of ${gl.count})`, idx.terms === gl.count);
     check(`exactly one page head, and it is the Glossary's own record (${JSON.stringify(idx.heads)})`,
       idx.heads.length === 1 && idx.heads[0] === 'surface-glossary');
-    check('the Glossary releases the 1380 px floor while it is shown', idx.reflow);
+    check('the shell marks the Glossary a reflow page while it is shown', idx.reflow);
     check('no word on the index reads "no entry"', !idx.noEntry);
 
     // The page head's "Try" link, where the record's own `surface.try` is a `term:` cite: the
@@ -3657,7 +3661,7 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
       }
     }
 
-    // The reflow: below the shell's floor the Glossary still fits the window.
+    // The reflow: at a laptop's width the Glossary still fits the window.
     const vp = page.viewportSize();
     await page.setViewportSize({ width: 1280, height: vp.height });
     await page.waitForTimeout(400);
@@ -4436,6 +4440,211 @@ async function journeyRead() {
   const fromTree = await page.evaluate(() => location.hash);
   check(`the family tree's shift-click goes to the address rather than a panel (${fromTree})`,
     fromTree === `#/compare/${A}/${B}`);
+}
+
+/* THE READING SURFACES REFLOW AT 1280 × 800, AND THE THREE THAT DRAW KEEP A FLOOR ON `<main>`
+   (WP-14.30, tranche 2 PRD §E, ruled 25 Sep 2026).
+
+   `#root` carried `min-width:1380px` until this package, so on a 1280 px laptop every page but two
+   scrolled sideways by exactly 100 px, the masthead was drawn 1380 px wide and its Keys button
+   stood at x = 1364, off the right edge. `state/layout.js`'s table now says which pages reflow and
+   which keep a floor, and this block holds every surface the router writes to that table.
+
+   THE DOCUMENT'S OWN SCROLL IS HALF A GUARD, AND THE BLIND HALF IS THE ONE THAT MATTERS. The
+   shell's outer frame is `overflow: hidden`, so with the floor off `#root` the document can read
+   0 px over while a page's content is CLIPPED inside `<main>` or scrolls sideways in a pane of
+   its own. So a reflow page is judged three ways: the document, `<main>` itself, and every
+   element inside `<main>` that scrolls or clips sideways. Two things are set aside and counted:
+   a visually hidden text span one pixel wide, which is how a word reaches a screen reader, and a
+   cell cut on purpose with `text-overflow: ellipsis`, which truncates and does not scroll.
+
+   THE LAYOUT IS THE LAPTOP THE PRD MEASURES, AND IT IS A FRESH CONTEXT. The reader's records are
+   carried across (the compose job, what they have seen), their pane layout is not. With nothing
+   stored, the assistant starts folded below NARROW_FOLD_PX (PRD §I.11), so that is the reflow
+   case. The same pages are then read with the assistant OPEN at its shipped width, where
+   `<main>` is 700 px. There a floored page must keep its floor and scroll inside `<main>`, and the
+   masthead must still be the window's width on every page. A reflow page's figures in that
+   layout are PRINTED and not judged, because §E rules the laptop default and not every pane
+   layout; the report carries them.
+
+   THE PLAN ON THE BENCH IS NOT CARRIED, AND THAT IS THE RATE LIMITER. The bench evaluates its plan
+   on load and the Drawing Set asks for a scene, both metered at 60 an hour per identity, which CI
+   runs this walk under. A floored page's floor is a rule on `<main>` and holds whatever `<main>`
+   holds, so the three floored pages are read in their own empty states. Every metered POST these
+   contexts make is counted and the count must be zero. */
+{
+  const W = 1280, H = 800;
+  const LAYOUT_KEY = 'tdl-workbench-layout';
+  const carried = await page.evaluate((layoutKey) => {
+    const o = {};
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const k = localStorage.key(i);
+      if (k !== layoutKey && k !== 'tdl-workbench-plan') o[k] = localStorage.getItem(k);
+    }
+    return o;
+  }, LAYOUT_KEY);
+
+  /* Where to look, from data rather than from a list typed here: every surface's bare address;
+     the record its own glossary record offers as `try`, landing on whatever surface that cite
+     routes to; every dossier section of the style the Styles surface offers, with a slot open in
+     its kit; and a taxon picked on the family tree, and the map reading. */
+  const termsBody = GLOSSARY_BODY && Array.isArray(GLOSSARY_BODY.terms) ? GLOSSARY_BODY.terms : [];
+  const tryOf = (s) => (termsBody.find((t) => t.id === `surface-${s}`) || {}).surface?.try || null;
+  const idOf = (cite, kind) => (typeof cite === 'string' && cite.startsWith(kind + ':') ? cite.slice(kind.length + 1) : null);
+  const addresses = new Set();
+  for (const s of Object.keys(SURFACE_WIDTH)) {
+    if (!SURFACE_PATHS[s]) continue;               // `compare` before WP-14.26 routes it (PRD §E)
+    addresses.add(formatHash(s, {}, {}));
+    const r = tryOf(s) ? routeCite(tryOf(s)) : null;
+    if (r && SURFACE_PATHS[r.surface]) addresses.add(formatHash(r.surface, r.selection || {}, r.params || {}));
+  }
+  const dossierStyle = idOf(tryOf('style'), 'style');
+  const openSlot = idOf(tryOf('elements'), 'slot');
+  if (dossierStyle) {
+    for (const section of DOSSIER_SECTIONS) {
+      if (section !== 'identify') addresses.add(formatHash('style', { style: dossierStyle, section }, {}));
+    }
+    if (openSlot) addresses.add(formatHash('style', { style: dossierStyle, section: 'kit', slot: openSlot }, {}));
+  }
+  const taxon = idOf(tryOf('phylogeny'), 'style');
+  if (taxon) addresses.add(formatHash('phylogeny', { style: taxon }, {}));
+  addresses.add(formatHash('phylogeny', {}, { view: 'map' }));
+  if (SURFACE_PATHS.compare && dossierStyle) {
+    // WP-14.26's page, the moment its route lands: two styles side by side, PRD §B.1's address
+    const other = idOf(tryOf('overview'), 'style');
+    if (other && other !== dossierStyle) addresses.add(formatHash('compare', { style: dossierStyle, compare: other }, {}));
+  }
+  const places = [...addresses].map((hash) => ({ hash, surface: parseHash(hash).surface }));
+  // the premise: every surface the router writes and the table names is read at least once
+  const reached = new Set(places.map((p) => p.surface));
+  const unreached = Object.keys(SURFACE_WIDTH).filter((s) => SURFACE_PATHS[s] && !reached.has(s));
+  check(`the width block reads every surface the router writes (${reached.size} surfaces over ${places.length} addresses`
+    + (unreached.length ? `; none for ${unreached.join(', ')}` : '') + ')', places.length > 0 && unreached.length === 0);
+
+  const METERED = /\/api\/(plan\/(evaluate|critique|revise)|compose|drawings\/|scene|export\/|ingest\/)/;
+  let metered = 0;
+  const readAll = async (seedLayout) => {
+    const ctx = await browser.newContext({ viewport: { width: W, height: H } });
+    await ctx.addInitScript(({ items, layoutKey, layout }) => {
+      try {                                          // about:blank has no storage to seed
+        if (sessionStorage.getItem('tdl-walk-seeded')) return;   // once: the app's own writes then stand
+        sessionStorage.setItem('tdl-walk-seeded', '1');
+        for (const [k, v] of Object.entries(items)) localStorage.setItem(k, v);
+        if (layout) localStorage.setItem(layoutKey, layout);
+      } catch { /* an opaque origin */ }
+    }, { items: carried, layoutKey: LAYOUT_KEY, layout: seedLayout ? JSON.stringify(seedLayout) : null });
+    const p = await ctx.newPage();
+    p.on('request', (rq) => { if (rq.method() === 'POST' && METERED.test(rq.url())) metered += 1; });
+    const out = [];
+    for (const place of places) {
+      // A fresh document per address: a hash change inside one document keeps whatever the last
+      // page left in the stores, and `networkidle` does not wait on a same-document navigation.
+      await p.goto('about:blank');
+      await p.goto(BASE + '/' + place.hash, { waitUntil: 'networkidle', timeout: 30000 })
+        .catch(() => p.waitForLoadState('load').catch(() => {}));
+      await p.waitForSelector('main', { timeout: 20000 }).catch(() => {});
+      await p.waitForTimeout(500);
+      const m = await p.evaluate(() => {
+        const se = document.scrollingElement;
+        const main = document.querySelector('main');
+        const home = document.querySelector('[data-home]');
+        const mast = home ? home.closest('header') : null;
+        const keys = document.querySelector('[data-keys]');
+        const root = document.getElementById('root');
+        const inner = [];
+        let scanned = 0, hidden = 0, cut = 0;
+        if (main) {
+          for (const e of main.querySelectorAll('*')) {
+            scanned += 1;
+            const cs = getComputedStyle(e);
+            if (!['auto', 'scroll', 'hidden', 'clip'].includes(cs.overflowX)) continue;
+            if (e.scrollWidth - e.clientWidth <= 1) continue;
+            if (e.clientWidth <= 1) { hidden += 1; continue; }
+            if (cs.textOverflow === 'ellipsis') { cut += 1; continue; }
+            const tag = e.tagName.toLowerCase();
+            const data = [...e.attributes].filter((a) => a.name.startsWith('data-')).map((a) => a.name).join(',');
+            inner.push(`${tag}${data ? '[' + data + ']' : ''} +${e.scrollWidth - e.clientWidth}px in ${e.clientWidth}`);
+          }
+        }
+        let scrollsInside = null;
+        if (main && main.scrollWidth - main.clientWidth > 1) {
+          main.scrollLeft = 40;
+          scrollsInside = main.scrollLeft > 0;
+          main.scrollLeft = 0;
+        }
+        const kr = keys ? keys.getBoundingClientRect() : null;
+        return {
+          doc: se.scrollWidth - se.clientWidth,
+          main: main ? main.scrollWidth - main.clientWidth : null,
+          mainW: main ? main.clientWidth : null,
+          drawn: main && main.firstElementChild ? main.firstElementChild.getBoundingClientRect().height > 0 : false,
+          scrollsInside, inner, scanned, hidden, cut,
+          mast: mast ? Math.round(mast.getBoundingClientRect().width) : null,
+          win: window.innerWidth,
+          keysOn: kr ? kr.left >= 0 && kr.right <= window.innerWidth && kr.width > 0 : false,
+          marked: root.hasAttribute('data-reflow') ? 'reflow' : (root.hasAttribute('data-floor') ? 'floor' : null),
+        };
+      });
+      out.push({ ...place, ...m });
+    }
+    await ctx.close();
+    return out;
+  };
+
+  const laptop = await readAll(null);
+  const railOpen = await readAll({ widths: {}, collapsed: { rail: false } });
+
+  // the premise: each page drew something, the shell marked it as the table says, and the
+  // inner scan read elements rather than an empty `<main>`
+  const unmarked = laptop.filter((m) => m.marked !== SURFACE_WIDTH[m.surface]).map((m) => `${m.hash} ${m.marked}`);
+  check(`the shell marks every page as the table says it is (${laptop.length - unmarked.length} of ${laptop.length}`
+    + (unmarked.length ? `; ${unmarked.join(', ')}` : '') + ')', laptop.length > 0 && unmarked.length === 0);
+  const blank = laptop.filter((m) => !m.drawn || m.scanned === 0).map((m) => m.hash);
+  check(`every page the width block reads drew its content (${blank.length ? 'blank: ' + blank.join(', ') : 'all drawn'})`,
+    blank.length === 0);
+
+  // the masthead is the window's width and its Keys button is on screen, on EVERY page in BOTH layouts
+  for (const [label, rows] of [['nothing stored', laptop], ['the assistant open', railOpen]]) {
+    const off = rows.filter((m) => m.mast !== m.win || !m.keysOn).map((m) => `${m.hash} (masthead ${m.mast} of ${m.win}${m.keysOn ? '' : ', Keys off screen'})`);
+    check(`at ${W} × ${H} with ${label}, the masthead is the window's width and Keys is on screen on all ${rows.length} pages`
+      + (off.length ? ` -- ${off.join('; ')}` : ''), rows.length > 0 && off.length === 0);
+  }
+
+  // a reflow page: no sideways scroll on the document, in <main>, or anywhere inside it
+  const reflow = laptop.filter((m) => SURFACE_WIDTH[m.surface] === 'reflow');
+  for (const m of reflow) {
+    check(`${m.hash} reflows at ${W} × ${H} (document +${m.doc}px, main +${m.main}px in ${m.mainW}`
+      + (m.inner.length ? `, inside: ${m.inner.slice(0, 3).join('; ')}` : '')
+      + (m.cut ? `; ${m.cut} cell(s) cut on purpose` : '') + ')',
+      m.doc <= 1 && m.main !== null && m.main <= 1 && m.inner.length === 0);
+  }
+
+  // a floored page: the document never scrolls. Where <main> is narrower than the floor -- the
+  // assistant-open layout, at 1280 -- its content is still the floor's width and <main> scrolls
+  // sideways inside itself, reachably. With nothing stored <main> is wider than the floor, so the
+  // floor does not bind there and only the document half is judged; if it did not bind with the
+  // assistant open either, the floor would be judged nowhere, and that is said rather than passed.
+  for (const [label, rows] of [['nothing stored', laptop], ['the assistant open', railOpen]]) {
+    for (const m of rows.filter((x) => SURFACE_WIDTH[x.surface] === 'floor')) {
+      const binds = m.mainW !== null && m.mainW < MAIN_FLOOR_PX;
+      check(`${m.hash} does not scroll the document with ${label} (+${m.doc}px, main ${m.mainW})`, m.doc <= 1);
+      if (binds) {
+        check(`and with main at ${m.mainW} px it keeps its ${MAIN_FLOOR_PX} px floor and scrolls inside <main> `
+          + `(content ${m.mainW + m.main} px, reachable ${m.scrollsInside})`,
+          m.mainW + m.main >= MAIN_FLOOR_PX - 1 && m.scrollsInside === true);
+      } else if (label === 'the assistant open') {
+        unjudged.push(`${m.hash}'s floor with the assistant open -- main is ${m.mainW} px, not narrower than `
+          + `the ${MAIN_FLOOR_PX} px floor, so the floor binds in neither layout and is judged nowhere`);
+      }
+    }
+  }
+  check(`the width block made no metered call (${metered} POSTs to a heavy route)`, metered === 0);
+
+  // what a reflow page does with the assistant open at 1280: printed, not judged (see above)
+  const tight = railOpen.filter((m) => SURFACE_WIDTH[m.surface] === 'reflow' && (m.main > 1 || m.inner.length));
+  console.log(`\n     with the assistant open at ${W} (main ${railOpen[0] ? railOpen[0].mainW : '?'} px), `
+    + `${tight.length} of ${railOpen.filter((m) => SURFACE_WIDTH[m.surface] === 'reflow').length} reflow pages scroll sideways inside (not judged):`);
+  for (const m of tight) console.log(`       ${m.hash}: main +${m.main}px; ${m.inner.slice(0, 3).join('; ')}`);
 }
 
 await browser.close();

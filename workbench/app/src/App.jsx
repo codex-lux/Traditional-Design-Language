@@ -26,7 +26,7 @@ import { ShortcutCard } from './palette/ShortcutCard.jsx';
 import { Masthead, LeftRail, PaneStub, CrumbStrip } from './Chrome.jsx';
 import { Splitter } from './components/Splitter.jsx';
 import { JourneyBar, showJourneyBar } from './components/JourneyBar.jsx';
-import { layout, PANES } from './state/layout.js';
+import { layout, PANES, surfaceWidth, MAIN_FLOOR_PX } from './state/layout.js';
 import { Gate } from './Gate.jsx';
 import { RailHost, assistantName } from './rail/RailHost.jsx';
 import { PageHead } from './components/PageHead.jsx';
@@ -263,13 +263,21 @@ export default function App() {
     if (title && typeof document !== 'undefined') document.title = title;
   }, [title]);
 
-  /* The front door and the Glossary reflow below the shell's 1380 px floor (tokens.css,
-     WP-14.8); every working surface keeps its minimum. */
-  React.useEffect(() => {
+  /* Whether the page in view reflows or keeps a floor, from `state/layout.js`'s table (WP-14.30,
+     tranche 2 PRD §E). This used to be a hard-coded pair, the front door and the Glossary, each
+     releasing a 1380 px floor on `#root` that every other page kept; the floor is gone. A
+     'reflow' page is marked `data-reflow` and takes the window. A 'floor' page is marked
+     `data-floor`, and the stylesheet holds `<main>`'s content to `--main-floor` and lets `<main>`
+     scroll sideways inside itself, so the masthead and its Keys button stay on screen. An id the
+     table does not hold is judged as the surface that actually renders, which is the bench.
+     A LAYOUT effect, because a plain one paints a floored page for one frame without its floor. */
+  React.useLayoutEffect(() => {
     const root = typeof document !== 'undefined' ? document.getElementById('root') : null;
     if (!root) return;
-    if (surface === 'overview' || surface === 'glossary') root.setAttribute('data-reflow', '');
-    else root.removeAttribute('data-reflow');
+    const floored = surfaceWidth(SURFACES[surface] ? surface : 'workbench') === 'floor';
+    root.toggleAttribute('data-reflow', !floored);
+    root.toggleAttribute('data-floor', floored);
+    root.style.setProperty('--main-floor', `${MAIN_FLOOR_PX}px`);
   }, [surface]);
 
   /* The first place this page loaded, and whether it was a cold deep link. Visiting the front

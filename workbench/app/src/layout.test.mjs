@@ -11,6 +11,7 @@
    node, never a pass). */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 
 /* A localStorage stand-in, installed BEFORE the store is imported — the store reads it at
    module scope, and a static import would be hoisted above the assignment. */
@@ -405,4 +406,91 @@ test('the fold performs no localStorage write', async () => {
   layout.setWidth('nav', 250);
   layout.flush();
   assert.equal(JSON.parse(store.map.get(KEY)).collapsed.rail, true);
+});
+
+/* WHICH SURFACES REFLOW AND WHICH KEEP A FLOOR (WP-14.30, tranche 2 PRD §E).
+
+   The table replaced a pair hard-coded in App.jsx (the front door and the Glossary, each
+   releasing a 1380 px floor on `#root` that every other page kept). These cases hold the table
+   to the router, to the PRD's floor list, to the shell that reads it and to the stylesheet that
+   draws it. The behaviour itself -- no sideways scroll at 1280 × 800, the masthead at the
+   window's width -- is the walk's width block, because only a browser lays a page out. */
+
+const srcText = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8');
+const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+
+/* The ids the PRD names before the package that routes them has landed. Held to EXACTLY
+   `compare` (WP-14.26; PRD §B.1 gives its route and §E its width), and only while the router
+   does not write it: once `compare` is in SURFACE_PATHS the allowance is empty in effect. Any
+   other row the router lacks is a row nobody reads. */
+const NAMED_AHEAD = ['compare'];
+
+test('the width table covers every surface the router writes, and nothing the router lacks but compare', async () => {
+  const { SURFACE_WIDTH } = await fresh();
+  const { SURFACE_PATHS } = await import('./router.js');
+  const routed = Object.keys(SURFACE_PATHS);
+  assert.ok(routed.length > 0 && routed.includes('workbench'), 'the premise: the router table was read');
+  const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+  assert.deepEqual(routed.filter((id) => !has(SURFACE_WIDTH, id)), [],
+    'a surface the router writes that nobody decided about');
+  const extra = Object.keys(SURFACE_WIDTH).filter((id) => !has(SURFACE_PATHS, id)).sort();
+  assert.deepEqual(extra, NAMED_AHEAD.filter((id) => !has(SURFACE_PATHS, id)).sort(),
+    'the only row the router may lack is one the PRD names ahead of its package (compare)');
+});
+
+test('every row says reflow or floor, and the floored ones are the three that draw', async () => {
+  const { SURFACE_WIDTH } = await fresh();
+  const kinds = new Set(Object.values(SURFACE_WIDTH));
+  assert.deepEqual([...kinds].filter((k) => k !== 'reflow' && k !== 'floor'), []);
+  const floored = Object.keys(SURFACE_WIDTH).filter((id) => SURFACE_WIDTH[id] === 'floor').sort();
+  // PRD §E's floor list: the Plan Workbench sheet, the Drawing Set (the Round among it), Transcription
+  assert.deepEqual(floored, ['drawings', 'transcription', 'workbench']);
+  // PRD §0.3, default 1: Transcription keeps a floor because it traces; Export reflows, a form
+  assert.equal(SURFACE_WIDTH.export, 'reflow');
+  assert.ok(Object.isFrozen(SURFACE_WIDTH), 'a table the shell reads is not a table anything may write');
+});
+
+test('no surface is named twice in the table, where a duplicate key would be silent', async () => {
+  /* An object literal keeps the LAST of two equal keys and says nothing, so a second
+     `workbench: 'reflow'` below the first would put a floored surface on the reflow list with
+     the row above still reading `floor`. Only the source text can see that. */
+  const { SURFACE_WIDTH } = await fresh();
+  const src = srcText('./state/layout.js');
+  const at = src.indexOf('export const SURFACE_WIDTH');
+  assert.ok(at >= 0, 'the premise: the table is where this test looks');
+  const block = stripComments(src.slice(at, src.indexOf('});', at)));
+  const keys = [...block.matchAll(/^\s*([a-z][\w-]*)\s*:\s*'(reflow|floor)'/gm)].map((m) => m[1]);
+  assert.ok(keys.length > 0, 'the premise: the scan reads the rows');
+  assert.deepEqual(keys.filter((k, i) => keys.indexOf(k) !== i), [], 'a surface written twice');
+  assert.equal(keys.length, Object.keys(SURFACE_WIDTH).length, 'every row in the source is a row in the value');
+});
+
+test('an id nobody decided about keeps a floor, never a reflow', async () => {
+  const { surfaceWidth, SURFACE_WIDTH } = await fresh();
+  for (const id of ['no-such-surface', '', undefined, null, 'toString', '__proto__', 'constructor']) {
+    assert.equal(surfaceWidth(id), 'floor', String(id));
+  }
+  for (const id of Object.keys(SURFACE_WIDTH)) assert.equal(surfaceWidth(id), SURFACE_WIDTH[id], id);
+});
+
+test('the floor is a width, and the shell and the stylesheet agree on how it is marked', async () => {
+  const { MAIN_FLOOR_PX } = await fresh();
+  assert.ok(Number.isFinite(MAIN_FLOOR_PX) && MAIN_FLOOR_PX > 0);
+  const app = stripComments(srcText('./App.jsx'));
+  const css = srcText('./theme/tokens.css');
+  assert.match(app, /surfaceWidth\(/, 'the shell reads the table');
+  assert.doesNotMatch(app, /surface\s*===\s*'(overview|glossary)'\s*\|\|/, 'the hard-coded pair is gone');
+  assert.match(app, /MAIN_FLOOR_PX/, 'the floor the shell hands the stylesheet is the table\'s');
+  // the join: every #root attribute the stylesheet's width rules select is one the shell sets,
+  // and the custom property the stylesheet reads is the one the shell writes
+  const toggled = new Set([...app.matchAll(/toggleAttribute\('(data-[\w-]+)'/g)].map((m) => m[1]));
+  const selected = [...css.matchAll(/#root\[(data-(?:floor|reflow))\][^{]*\{/g)].map((m) => m[1]);
+  assert.ok(selected.includes('data-floor'), 'the premise: the stylesheet draws the floor');
+  assert.deepEqual(selected.filter((a) => !toggled.has(a)), [], 'a selector no shell attribute can satisfy');
+  // the floor is main's one grid track, never narrower than the property the shell writes
+  const rule = (css.match(/#root\[data-floor\] main\{([^}]*)\}/) || [])[1] || '';
+  assert.match(rule, /overflow-x:auto/, 'a floored main scrolls sideways inside itself');
+  const prop = (rule.match(/grid-template-columns:minmax\(var\((--[\w-]+)\),1fr\)/) || [])[1];
+  assert.equal(prop, '--main-floor');
+  assert.match(app, new RegExp(`setProperty\\('${prop}'`), 'the shell writes the property the floor reads');
 });

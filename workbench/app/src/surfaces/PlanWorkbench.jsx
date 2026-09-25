@@ -515,8 +515,11 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
       {/* The strip holds what you are LOOKING AT — the style, the level, the ghost. Two
           folds hold the rest: what is drawn over the plan, and what the solver is asked to
           do. It carried eight axes in one row before, which meant the three you steer by
-          were the same size and weight as the five you touch once an hour. */}
-      <FilterStrip right={
+          were the same size and weight as the five you touch once an hour.
+          IT WRAPS (lead, at WP-14.30's merge): the strip needs about 1085 px and, with the
+          assistant folded at 1280, the bench's `<main>` is 1018 -- so on one line `re-solve` sat
+          behind the strip's own scrollbar, found by WP-14.30 and outside its scope to fix. */}
+      <FilterStrip wrap right={
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <FilterGroup label="solver" active={strict ? 1 : 0} summary={strict ? 'strict' : ''}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>

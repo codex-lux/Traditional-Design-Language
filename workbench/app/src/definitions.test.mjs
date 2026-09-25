@@ -290,10 +290,20 @@ test('no component sets an inline outline: none, which would beat the focus ring
   assert.deepEqual(hits.map((p) => p.slice(SRC.length)), []);
 });
 
-test('the stylesheet draws a focus ring for everything, releases the floor for a reflowing page, and marks a Term', () => {
+test('the stylesheet draws a focus ring for everything, holds no floor on the shell for a reflowing page, and marks a Term', () => {
   const css = read('theme/tokens.css');
   assert.match(css, /(^|\n):focus-visible\{outline:2px solid var\(--border-focus\)/, 'a GLOBAL :focus-visible, not a:focus-visible alone');
-  assert.match(css, /#root\[data-reflow\]\{min-width:0\}/);
+  /* THE PROPERTY, NOT THE RULE THAT ONCE HELD IT (re-cut by WP-14.30). This asserted the literal
+     `#root[data-reflow]{min-width:0}`, which released a 1380 px floor on `#root`. The floor is
+     gone, so the release has nothing to release; what a reflowing page is owed is that no rule
+     styling `#root` ITSELF -- bare or under any attribute -- gives it a minimum width. A floor,
+     where the PRD keeps one, is on `<main>` (layout.test.mjs holds that half). */
+  const live = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const onRoot = [...live.matchAll(/(^|[},\s])(#root(?:\[[^\]]*\])*)\s*\{([^}]*)\}/g)];
+  assert.ok(onRoot.length > 0, 'the premise: the scan finds the rules that style #root itself');
+  const floors = onRoot.filter(([, , , body]) => /min-width\s*:\s*(?!0(px)?\s*(;|$))/.test(body))
+    .map(([, , sel, body]) => `${sel}{${body}}`);
+  assert.deepEqual(floors, [], 'a width floor on the shell makes every page scroll sideways below it');
   assert.match(css, /\.tdl-term\{[^}]*text-decoration:underline dotted var\(--ink-2\)/);
   const block = css.slice(css.indexOf('DEFINITIONS ON SCREEN (WP-14.8)'));
   assert.ok(block.length > 1000, 'the premise: the package’s block is where this test looks');
