@@ -175,7 +175,7 @@ count beside an item is the API's or the journey's, never a number written in th
   the plan. One `JourneyBar` (`journey/journey.js` through `journey/bar.js`) says each step's
   state in words, and a step that cannot proceed (a refused plan's Drawings and Export) is not a
   link.
-- **Library**: Proportions, Faults, the Glossary.
+- **Library**: Proportions, Faults, Elements (since WP-14.23), the Glossary.
 
 **The Style Dossier** (`surfaces/StyleDossier.jsx`, sections in `dossier/`) is everything about
 one style at one address, `#/style/<id>[/<section>]`, read in the corpus's own consulting order.
@@ -184,8 +184,9 @@ The section ids are frozen in `citations.js`'s `DOSSIER_SECTIONS` and held again
 (*Filed under this*), `lineage`, `kit`, `proportions`, `plans` (*Plan types*), `rules`
 (*Constraints*), `faults` and `evidence`. Only the section in view is drawn, and a section with
 nothing in it is not offered. `dossier/sections.js::placeOf` reads `navModel.stylePlaceKind`, so
-the surface and the crumbs cannot disagree about which place a URL is. `#/style/-/kit/<slot>` is
-one slot across every style.
+the surface and the crumbs cannot disagree about which place a URL is. One slot across every
+style is `#/elements/<slot>` since WP-14.23; the old `#/style/-/kit/<slot>` is read as it and
+rewritten in the address bar.
 
 **Every page says where it is**: a crumb strip, a `document.title` of its own, a `PageHead`
 worded from its `surface-*` record, a masthead reading *On the bench:* with the plan's state in
@@ -209,6 +210,38 @@ pack. `brief:<id>` opens the Brief Intake holding that example (`#/brief?example
 `term:<id>` opens the Glossary at that word, and `constraint:<style>.cNN` opens that style's
 Constraints section. The regexes did not change, and there is still no fourth spelling of the
 grammar.
+
+**Tranche 2 (WP-14.16 through 14.31, 25 Sep 2026).** The contracts are
+`docs/prd/phase-14-tranche-2.md`. Each package has its own report.
+
+- **Every named thing has a page.** A slot, room, massing, grouping and parti each have one:
+  `#/elements/<slot>`, `#/room/<id>`, `#/massing/<id>`, `#/grouping/<id>`, `#/parti/<id>`. Each
+  kind's bare path is its index, and Elements indexes the slots. The palette lands every result on
+  its own page, and the "searched" banner is gone. The addresses the old router wrote are read by
+  one `LEGACY_PLACES` table and rewritten in place. A parti's page states its topology as a table
+  and draws no diagram, because a parti states no positions.
+- **Two styles at one address.** `#/compare/<a>/<b>[/<section>]` reads one kit authority, the
+  build's `resolve_slots`, which `core.resolve_kit` now reads too. It is entered from the dossier
+  head or the family tree's shift-click. `citeFor` returns null for it, because the grammar has no
+  two-style kind.
+- **A plan type starts a brief.** Each row of the dossier's Plan types links to
+  `#/brief?style=&parti=`. Brief Intake groups partis native, lineage and borrowed, and the
+  candidate the brief named is flagged. The composer guarantees that candidate a place and
+  displaces nothing for it.
+- **The assistant knows the page.** The pane sends the page's own citation. The server names it
+  to the model only when its validator accepts it. Each page's starter questions come from its
+  `surface-*` record's `ask`.
+- **Plates at the pack's word.** An assembly declaring `across-from-the-jamb` is drawn turned. A
+  declared zone set prints its string (the Georgian wall's 4 + 12 + 3). A bound module
+  (`room-harmonic`'s room width) takes a slider. The pack index carries wall-datum thumbnails.
+- **One meaning per mark.** Twelve `--mark-*` duty tokens, each named by one glossary record, and
+  one key on the Glossary, linked from the `?` card.
+- **Every pick writes the address.** No surface shows a default record, and a bare `#/faults` or
+  `#/phylogeny` draws its list. The Drawing Set's sheet and face, and Export's face, ride in the
+  query.
+- **The copy ratchet is a ban.** A long app-written title, a typed count or a build numeral in
+  reader copy fails the suite. Readable text is off the faint inks, and `src/inks.test.mjs`
+  guards all of `src`.
 
 ## Navigation and addressing (WP-5.6)
 
