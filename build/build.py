@@ -2,10 +2,11 @@
 """Build the Traditional Design Language artifacts.
 
 Outputs
-  kits/<id>.kit.json     one per style/variant: the 82-slot directory, ready to populate
+  kits/<id>.kit.json     one per style/variant: the slot directory, one entry per ontology slot
   dist/taxonomy.json     the whole graph in one file, for platform/agent ingestion
   dist/taxonomy.agent.md a compact context-window digest, one block per node
   dist/taxonomy.html     the interactive phylogeny
+  dist/orders.html       the order-drawing tool (render_orders.py, run from here since WP-14.15)
 """
 import json, os, glob, html, re, subprocess, sys
 
@@ -211,7 +212,26 @@ if _html.returncode != 0:
     print("render_html.py FAILED:\n" + _html.stdout + _html.stderr)
     sys.exit(1)
 
+# ---------- 6. orders.html ----------
+# THE SAME DEFECT A FOURTH TIME, FOUND 25 SEP 2026 (WP-14.15). The paragraph above fixed the
+# third generated artifact and did not look for a fourth: `render_orders.py` writes
+# `dist/orders.html`, the order-drawing tool, and was in no check and in this script nowhere. It
+# was last regenerated on 1 Sep, so for twenty-three days it served `storey-graduation`'s
+# riser rule as `ceil(module / 7.25)` with the note "Seventeen on the default ten-foot storey"
+# -- the divisor Lucas moved to 7.5 on 2 Sep (`d184cf3`) and every other reader of that pack
+# has taken since -- together with two packs' `applies_to` lists from before the opt-in flips
+# and none of WP-14.4's `module.equals`. The data was right and the plate a reader opens was
+# not, which is the whole of this section's first paragraph one file over. It is 0.2 s and
+# deterministic (two runs hash identically), so it is rendered here for the same reason and at
+# the same cost, and TOTAL_CHECKS does not move.
+_orders = subprocess.run([sys.executable, os.path.join(ROOT, "build", "render_orders.py")],
+                         capture_output=True, text=True, cwd=ROOT)
+if _orders.returncode != 0:
+    print("render_orders.py FAILED:\n" + _orders.stdout + _orders.stderr)
+    sys.exit(1)
+
 print(f"kits written: {made}  (ontology {slots_doc['version']}, kit schema {KIT_VERSION}, {len(SLOTS)} slots)")
 print(f"dist/taxonomy.json  {os.path.getsize('dist/taxonomy.json')/1e6:.2f} MB")
 print(f"dist/taxonomy.agent.md {os.path.getsize('dist/taxonomy.agent.md')/1e3:.0f} KB")
 print(f"dist/taxonomy.html  {os.path.getsize('dist/taxonomy.html')/1e6:.2f} MB")
+print(f"dist/orders.html    {os.path.getsize('dist/orders.html')/1e6:.2f} MB")
