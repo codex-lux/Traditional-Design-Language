@@ -48,12 +48,13 @@ function load() {
 
 /* → {styles, failed}. `failed` is the Error, so a caller can name what went wrong rather
    than drawing an empty list. */
-export function useStyles() {
+/* `enabled`: see `api/useGlossary.js` — the shell's lock, and nothing else. */
+export function useStyles(enabled = true) {
   const [, bump] = React.useReducer((n) => n + 1, 0);
   React.useEffect(() => {
     listeners.add(bump);
-    load();
+    if (enabled) load();
     return () => { listeners.delete(bump); };
-  }, []);
+  }, [enabled]);
   return { styles: cache || [], failed: failure };
 }

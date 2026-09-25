@@ -19,9 +19,10 @@ import { nameFor } from './names.js';
 const store = createFetchOnce(() => api.searchIndex(), adaptSearchIndex);
 const EMPTY = new Map();
 
-export function useNames() {
+/* `enabled`: see `api/useGlossary.js` — the shell's lock, and nothing else. */
+export function useNames(enabled = true) {
   const s = React.useSyncExternalStore(store.subscribe, store.get);
-  React.useEffect(() => { store.load(); }, []);
+  React.useEffect(() => { if (enabled) store.load(); }, [enabled]);
   return React.useMemo(() => {
     const index = s.status === 'ready' ? s.value : EMPTY;
     return { status: s.status, index, error: s.error, nameFor: (cite) => nameFor(cite, index) };

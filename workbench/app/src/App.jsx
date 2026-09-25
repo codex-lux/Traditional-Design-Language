@@ -186,10 +186,14 @@ export default function App() {
   const Active = SURFACES[surface] || SURFACES.workbench;
 
   /* ── Where you are (WP-14.13). ─────────────────────────────────────────────────────── */
-  const glossary = useGlossary();
+  /* Nothing gated is asked while the lock is unknown or shut (PRD §C.3): the Gate is the one
+     place a signed-out browser may read, and it reads one record. `locked === false` is the
+     only state in which these three may fetch, and they fetch when it arrives. */
+  const unlocked = locked === false;
+  const glossary = useGlossary(unlocked);
   const lookup = glossary.lookup;
-  const names = useNames();
-  const { styles } = useStyles();
+  const names = useNames(unlocked);
+  const { styles } = useStyles(unlocked);
   const memory = React.useSyncExternalStore(prefs.subscribe, prefs.get);
   const sessionNow = React.useSyncExternalStore(session.subscribe, session.get);
 

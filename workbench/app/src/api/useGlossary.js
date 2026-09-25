@@ -21,9 +21,15 @@ import { adaptGlossary } from './adapters.js';
 
 const store = createFetchOnce(() => api.glossary(), adaptGlossary);
 
-export function useGlossary() {
+/* `enabled` (default on) exists for the shell alone (WP-14.15). App mounts this hook before it
+   knows whether the browser is signed in, and a hook that loads on mount fetched a gated corpus
+   route behind the Gate, where PRD §C.3 allows exactly one path to be asked. It also loaded ONCE,
+   so the 401 it got there stood as a failure after the reader signed in. The shell passes
+   `locked === false`: nothing is asked until the lock is known, and the read happens when the
+   Gate opens. Every other caller mounts after that and keeps the default. */
+export function useGlossary(enabled = true) {
   const s = React.useSyncExternalStore(store.subscribe, store.get);
-  React.useEffect(() => { store.load(); }, []);
+  React.useEffect(() => { if (enabled) store.load(); }, [enabled]);
   return React.useMemo(() => ({
     status: s.status,
     lookup: s.status === 'ready' ? s.value : null,
