@@ -38,7 +38,9 @@ for (const [w, h] of SIZES) {
       const ex = page.getByRole('button', { name: 'tidewater-georgian-careful' });
       await ex.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
       if (await ex.count()) await ex.click();
-      await page.waitForSelector('[data-bench-counts]', { timeout: 90000 }).catch(() => {});
+      // `[data-bench-counts]` also carries "not yet evaluated", so wait for a COUNT: the
+      // masthead has something to say only once the evaluate has answered.
+      await page.waitForSelector('[data-count]', { timeout: 150000 }).catch(() => {});
     }
     await page.waitForTimeout(1500);
     const file = `${OUT}/${name}-${w}.png`;

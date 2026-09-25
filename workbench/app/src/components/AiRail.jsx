@@ -129,18 +129,20 @@ function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, t
         flexDirection: 'column', borderLeft: '1px solid var(--rule)', background: 'var(--paper)',
         minHeight: 0, ...style }}>
 
-      <header style={{ height: 'var(--substrip-h)', flex: 'none', display: 'flex',
-        alignItems: 'center', gap: 10, padding: '0 6px 0 12px',
+      <header style={{ minHeight: 'var(--substrip-h)', flex: 'none', display: 'flex',
+        alignItems: 'center', gap: 10, padding: '4px 6px 4px 12px',
         borderBottom: '1px solid var(--rule)' }}>
         {/* The assistant's NAME, from its glossary record (WP-14.13, PRD §I.11): the host passes
             the record's term, so nothing here says what the pane is. The aside's label and the
-            fold's stay "the rail" — they are how the walk and a screen reader find the pane. */}
-        <span style={{ ...EYE, color: 'var(--ink-2)', minWidth: 0, whiteSpace: 'nowrap', overflow: 'hidden',
-          textOverflow: 'ellipsis' }} data-rail-head="" title={title}>{title}</span>
+            fold's stay "the rail" — they are how the walk and a screen reader find the pane.
+            The name WRAPS rather than truncating, and the head grows to hold it: at the pane's
+            shipped 344 px the record's term, letterspaced, read "ASK THE CORPUS · AI ASSIS…",
+            which is a name the reader was not given. */}
+        <span style={{ ...EYE, color: 'var(--ink-2)', minWidth: 0 }} data-rail-head="">{title}</span>
         <span style={{ flex: 1 }} />
         {/* Counted by the server, which is the only thing that knows. Absent rather than
             guessed while /api/health is still in flight. */}
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', flex: 'none', whiteSpace: 'nowrap' }}>
           {toolCount == null ? '' : `${toolCount} tools`}
         </span>
         <FoldControl pane="rail" label="the rail" side="right" />

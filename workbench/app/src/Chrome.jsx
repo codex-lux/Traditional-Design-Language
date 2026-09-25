@@ -193,7 +193,10 @@ export function FoldControl({ pane, label, side }) {
    and its description are its glossary record's (`useTermDescription`, since a Term may not sit
    inside an anchor); a record the glossary lacks is named as missing, visibly. A step number is
    the journey's order; a figure is the API's; a journey word goes on its own line, because a
-   house step's state is a phrase and not a count. */
+   house step's state is a phrase and not a count. The label WRAPS and is never cut: the style in
+   hand is named "<name> · the guided example", and at the rail's shipped width an ellipsis
+   left the reader "the guided exa…". Its id is the margin note under it (navModel's `note`).
+   */
 function RailLink({ it, depth, width, desc }) {
   const on = !!it.current;
   const label = it.label != null ? it.label : (it.missing ? noEntry(it.missing) : '…');
@@ -216,8 +219,8 @@ function RailLink({ it, depth, width, desc }) {
           )}
           <span data-missing={it.label == null && it.missing ? '' : undefined}
             style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)',
-              color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 1, minWidth: 0, whiteSpace: 'nowrap',
-              overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 1, minWidth: 0,
+              overflowWrap: 'anywhere' }}>
             {label}
           </span>
           {/* The figure is the first thing to go when the rail is pulled narrow: it is
@@ -231,6 +234,10 @@ function RailLink({ it, depth, width, desc }) {
           <span data-meta="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
             paddingLeft: it.step != null ? 17 : 0, whiteSpace: 'nowrap', overflow: 'hidden',
             textOverflow: 'ellipsis' }}>{words}</span>
+        )}
+        {it.note && width >= 200 && (
+          <span data-note="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)',
+            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.note}</span>
         )}
       </a>
       {desc ? desc.element : null}
