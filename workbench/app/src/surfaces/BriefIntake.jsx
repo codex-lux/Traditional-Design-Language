@@ -2,11 +2,26 @@
    visible before they become assumptions: every field left blank is named as a
    decision the composer will take and report. The household stays prose — it is the
    most design-relevant sentence in the file. Feasibility is advisory, computed live,
-   and never implies feasibility was proved (the conflict-set display waits on WP-2.3). */
+   and never implies feasibility was proved (the conflict-set display waits on WP-2.3).
+
+   WP-14.10 (PRD §E, §F.4, §G.1): step one of the house journey, which used to break. The budget
+   tiers are the brief schema's own enum, read from `GET /api/schema/brief` -- three of the four
+   this form offered were off that list and refused the whole brief at compose. The style is
+   chosen with the `StylePicker` every other surface uses, and is never a constant here: it
+   arrives from `?style=`, from the picker, or from the reader's own draft. `?example=<name>`
+   loads a shipped brief by name. Compose is a real button. And the compose stream is handed
+   `journey/sessionWrites.js`'s one handler set, the same the Candidate Set hands its own, so a
+   failed job is recorded where the journey reads it. */
 import React from 'react';
 import { api, jobEvents } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
 import { session } from '../state/session.js';
+import { nav } from '../state/nav.js';
+import { formatHash } from '../router.js';
+import { errorText } from '../sheet/refusal.js';
+import { composeStart, composeHandlers } from '../journey/sessionWrites.js';
+import { briefFrom, budgetTiers, offSchemaTier, exampleId, briefReady } from '../journey/briefForm.js';
+import { StylePicker } from '../components/StylePicker.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
@@ -39,25 +54,24 @@ const input = { background: 'var(--paper-mat)', border: '1px solid var(--rule-so
 
 export function BriefIntake({ go }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
-  const defaults = {
-    id: 'new-brief', name: '', style: 'tidewater-georgian',
-    target_area_sf: 3200, bedrooms: 4, bathrooms: 3.5,
-    must_have: [], context: {}, household: '', candidates: 4,
-  };
+  const place = React.useSyncExternalStore(nav.subscribe, nav.get);
   // merge over defaults: a brief persisted by an older shape must never crash the form
-  const [brief, setBrief] = React.useState(
-    { ...defaults, ...(s.brief || {}), context: { ...(s.brief?.context || {}) } });
+  const [brief, setBrief] = React.useState(() => briefFrom(s.brief));
   /* One list, one order — the shared hook, not a fourth private copy. Three surfaces kept
      calling api.styles({limit: 200}) sorted by id while useStyles asked for 250 sorted by
      name: two cache entries, two round trips and two orderings of the same 164 styles,
      depending which surface you were standing on. The hook's own header claimed it had
      replaced six surfaces; it had replaced three. Found by an adversarial audit. */
   const { styles: styleRecords } = useStyles();
-  const styleOptions = React.useMemo(() => styleRecords.map((s) => s.id), [styleRecords]);
+  // a style is shown by its NAME; the id is what the brief carries
+  const styleName = (id) => (styleRecords.find((r) => r.id === id) || {}).name || id;
   const [partis, setPartis] = React.useState(null);
   const [rooms, setRooms] = React.useState([]);
   const [composing, setComposing] = React.useState(false);
   const [error, setError] = React.useState(null);
+  const [schema, setSchema] = React.useState({ state: 'loading' });
+  const [examples, setExamples] = React.useState([]);
+  const [exampleError, setExampleError] = React.useState(null);
   const unsubRef = React.useRef(null);
 
   /* Close the stream when this surface goes away. compose() calls go('candidates'), which
@@ -72,9 +86,60 @@ export function BriefIntake({ go }) {
     api.rooms({ limit: 60 }).then((r) => setRooms((r.results || r.rooms || []).map((x) => x.id)));
   }, []);
   React.useEffect(() => {
-    if (!brief.style) return;
+    if (!brief.style) { setPartis(null); return; }
     api.partis({ style: brief.style }).then(setPartis).catch(() => setPartis(null));
   }, [brief.style]);
+
+  /* THE SCHEMA SAYS WHAT A BUDGET TIER IS, and names the shipped example briefs. Each example is
+     then read once for its own `name`, because a reader is offered a brief by what it is called
+     and the schema payload carries file names only. An example that cannot be read is offered by
+     its id rather than dropped. */
+  React.useEffect(() => {
+    let live = true;
+    api.briefSchema().then((payload) => {
+      if (!live) return;
+      setSchema({ state: 'ready', tiers: budgetTiers(payload) });
+      const ids = (Array.isArray(payload && payload.examples) ? payload.examples : [])
+        .map(exampleId).filter(Boolean);
+      Promise.all(ids.map((id) => api.exampleBrief(id)
+        .then((rec) => ({ id, name: (rec && typeof rec.name === 'string' && rec.name) || null }))
+        .catch(() => ({ id, name: null }))))
+        .then((xs) => { if (live) setExamples(xs); });
+    }).catch((e) => { if (live) setSchema({ state: 'failed', reason: errorText(e) }); });
+    return () => { live = false; };
+  }, []);
+
+  /* `?style=` SEEDS THE BRIEF (PRD §E). A style arriving in the address is the reader's, and it
+     is applied when the ADDRESS changes -- not whenever the two differ, which would undo every
+     pick the reader makes in the picker below while the address still names the old one. */
+  const urlStyle = place.selection.style || null;
+  React.useEffect(() => {
+    if (urlStyle) setBrief((b) => (b.style === urlStyle ? b : { ...b, style: urlStyle }));
+  }, [urlStyle]);
+
+  /* `?example=<name>` LOADS A SHIPPED BRIEF, once. The parameter is an act rather than a place --
+     once loaded the brief is the reader's to edit -- so it leaves the address when it has done
+     its work, and a refresh keeps the edits rather than loading the example over them. The
+     address then names the example's style, so it and the form agree. */
+  const urlExample = place.params.example || null;
+  React.useEffect(() => {
+    if (!urlExample) return undefined;
+    let live = true;
+    setExampleError(null);
+    api.exampleBrief(urlExample).then((rec) => {
+      if (!live) return;
+      setBrief(briefFrom(rec));
+      nav.select({ style: (rec && rec.style) || null }, { replace: true });
+      nav.setParams({ example: null });
+    }).catch((e) => { if (live) setExampleError({ id: urlExample, reason: errorText(e) }); });
+    return () => { live = false; };
+  }, [urlExample]);
+
+  // the picker writes the address too, so what the address says and what the form shows agree
+  const pickStyle = (v) => {
+    setBrief((b) => ({ ...b, style: v || '' }));
+    nav.select({ style: v || null }, { replace: true });
+  };
   React.useEffect(() => { session.set({ brief }); }, [brief]);
 
   const set = (k, v) => setBrief((b) => ({ ...b, [k]: v }));
@@ -95,7 +160,6 @@ export function BriefIntake({ go }) {
   async function compose() {
     setError(null);
     setComposing(true);
-    session.set({ result: null, progress: [] });
     const clean = JSON.parse(JSON.stringify(brief, (k, v) =>
       (v === '' || v === null || (Array.isArray(v) && !v.length)
         || (typeof v === 'object' && v && !Array.isArray(v) && !Object.keys(v).length)) ? undefined : v));
@@ -108,18 +172,21 @@ export function BriefIntake({ go }) {
     if (!Number.isFinite(wanted) || wanted < 1) delete clean.candidates;
     try {
       const { job_id } = await api.compose(clean, wanted >= 1 ? wanted : 4);
-      session.set({ jobId: job_id });
+      /* The compose is accepted, so everything the last one said is cleared at once -- result,
+         progress, a recorded failure -- and the new job named (PRD §G.1). Written AFTER the
+         server accepts rather than before, so a brief the schema refuses leaves the candidates
+         the last brief produced standing, which is what they still are. */
+      session.set(composeStart(job_id));
       if (unsubRef.current) unsubRef.current();   // a superseded compose drops its stream
-      unsubRef.current = jobEvents(job_id, {
-        stage: (d) => session.pushProgress(d),
-        candidate: (d) => session.pushProgress(d),
-        revised: (d) => session.pushProgress({ ...d, revised: true }),   // WP-9.3
-        // no navigation here: yanking the user to the Candidate Set minutes later,
-        // from wherever they are, is worse than letting the rail chip or the nav
-        // take them — the immediate go() below already lands them there once
-        done: (d) => { session.set({ result: d }); setComposing(false); },
-        error: (d) => { setError(d.error); setComposing(false); },
-      });
+      // The one handler set (journey/sessionWrites.js): the session is told every event, a
+      // failure included; what follows each is this form's own spinner and nothing more. No
+      // navigation here: yanking the user to the Candidate Set minutes later, from wherever
+      // they are, is worse than letting the rail chip or the nav take them — the immediate
+      // go() below already lands them there once.
+      unsubRef.current = jobEvents(job_id, composeHandlers(session, job_id, {
+        done: () => setComposing(false),
+        error: (d) => { setError(d && d.error); setComposing(false); },
+      }));
       go('candidates');
     } catch (e) {
       setError(e.body?.detail?.detail || e.body?.detail?.error || e.message);
@@ -127,12 +194,24 @@ export function BriefIntake({ go }) {
     }
   }
 
+  const ready = briefReady(brief);
+  const tiers = schema.state === 'ready' ? schema.tiers : null;
+  const offTier = offSchemaTier(tiers, brief.context.budget_tier);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip right={
-        <Chip on={composing} onClick={composing ? undefined : compose}>
+        /* An act, so a button: not a Chip, which is a filter and announces itself as a toggle.
+           Disabled until the brief states the two fields its schema requires -- the same test
+           the journey's brief step makes -- and the strip beside it says which two. */
+        <button type="button" data-compose="" onClick={compose} disabled={composing || !ready}
+          aria-busy={composing || undefined}
+          style={{ font: 'var(--type-data-s)', padding: '3px 10px', whiteSpace: 'nowrap',
+            border: '1px solid ' + (composing || !ready ? 'var(--rule)' : 'var(--gilt-deep)'),
+            color: composing || !ready ? 'var(--text-disabled)' : 'var(--gilt-deep)',
+            background: 'transparent', cursor: composing || !ready ? 'default' : 'pointer' }}>
           {composing ? 'composing…' : `compose ${brief.candidates || 4} candidates`}
-        </Chip>
+        </button>
       }>
         <Eyebrow as="span">brief intake</Eyebrow>
         <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
@@ -147,11 +226,32 @@ export function BriefIntake({ go }) {
             The brief was refused: {String(error)}
           </div>
         )}
+        {exampleError && (
+          <div data-example-error={exampleError.id}
+            style={{ border: '1px solid var(--sev-serious)', padding: '10px 12px', marginBottom: 16,
+              font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink)' }}>
+            The example brief <code>{exampleError.id}</code> could not be read: {exampleError.reason}
+          </div>
+        )}
 
         <div style={{ display: 'flex', gap: 28, alignItems: 'flex-start', flexWrap: 'wrap' }}>
           {/* the brief */}
           <div style={{ flex: '1 1 420px', minWidth: 380, maxWidth: 560 }}>
             <Eyebrow style={{ marginBottom: 12 }}>the brief</Eyebrow>
+            {examples.length > 0 && (
+              <p data-example-briefs="" style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink-2)',
+                margin: '-4px 0 14px' }}>
+                or start from an example:{' '}
+                {examples.map((x, i) => (
+                  <React.Fragment key={x.id}>
+                    {i > 0 && ' · '}
+                    <a href={formatHash('brief', {}, { example: x.id })} data-example-brief={x.id}>
+                      {x.name || <code>{x.id}</code>}
+                    </a>
+                  </React.Fragment>
+                ))}
+              </p>
+            )}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               <div>
                 <span style={label}>name</span>
@@ -160,9 +260,7 @@ export function BriefIntake({ go }) {
               </div>
               <div>
                 <span style={label}>style · required</span>
-                <select style={input} value={brief.style} onChange={(e) => set('style', e.target.value)}>
-                  {styleOptions.map((x) => <option key={x} value={x}>{x}</option>)}
-                </select>
+                <StylePicker value={brief.style} onChange={pickStyle} label="style" width={232} />
               </div>
               <div>
                 <span style={label}>target area, sf · required</span>
@@ -232,11 +330,20 @@ export function BriefIntake({ go }) {
               </div>
               <div>
                 <span style={label}>budget tier</span>
-                <select style={input} value={brief.context.budget_tier ?? ''}
+                {/* The schema's own enum and nothing else. A tier an older draft carries that the
+                    schema does not admit is shown as what it is -- the server would refuse it --
+                    rather than dropped from the reader's brief without a word. */}
+                <select style={input} data-field="budget_tier" value={brief.context.budget_tier ?? ''}
                   onChange={(e) => setCtx('budget_tier', e.target.value || null)}>
                   <option value="">unstated</option>
-                  {['entry', 'move-up', 'custom', 'estate'].map((b) => <option key={b} value={b}>{b}</option>)}
+                  {(tiers || []).map((b) => <option key={b} value={b} data-tier={b}>{b}</option>)}
+                  {offTier && <option value={offTier} data-off-schema={offTier}>{offTier} — not in the brief schema</option>}
                 </select>
+                {schema.state === 'failed' && (
+                  <span data-tiers-unread="" style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 4 }}>
+                    the tiers could not be read: {schema.reason}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -264,14 +371,15 @@ export function BriefIntake({ go }) {
 
             <div style={{ marginBottom: 12 }}>
               {partis === null ? (
-                <JudgmentMark state="unjudged" label="native partis unknown" reason="reading the corpus…" />
+                <JudgmentMark state="unjudged" label="native partis unknown"
+                  reason={brief.style ? 'reading the corpus…' : 'no style is chosen yet'} />
               ) : native.length === 0 ? (
                 <Advisory tone="limit"
-                  label={`${brief.style} has no native parti — the composer will borrow diagrams`}
+                  label={`${styleName(brief.style)} has no native parti — the composer will borrow diagrams`}
                   detail="Three of the corpus's 132 styles and variants have none — egyptian-revival, new-urbanist-traditional and tuscan-vernacular — and every candidate here will carry the NOT-native label. This is one of the three, not the norm: WP-4.5 took native coverage from 93 uncovered to 0, and this panel claimed the pre-WP-4.5 figure until 26 Aug 2026." />
               ) : (
                 <Advisory
-                  label={`${native.length} parti${native.length === 1 ? '' : 's'} native to ${brief.style}`}
+                  label={`${native.length} parti${native.length === 1 ? '' : 's'} native to ${styleName(brief.style)}`}
                   detail={native.map((p) => p.name).join(' · ')} />
               )}
             </div>

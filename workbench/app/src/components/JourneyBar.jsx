@@ -119,7 +119,7 @@ function Next({ next }) {
     return (
       <a href={next.href} data-next={next.id}
         style={{ font: 'var(--fw-reg) 14px/1.35 var(--body)', whiteSpace: 'nowrap' }}>
-        next: {word} <span aria-hidden="true">→</span>
+        {W.next}: {word} <span aria-hidden="true">→</span>
       </a>
     );
   }

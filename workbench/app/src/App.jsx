@@ -19,6 +19,7 @@ import { CommandPalette } from './palette/CommandPalette.jsx';
 import { ShortcutCard } from './palette/ShortcutCard.jsx';
 import { Masthead, LeftRail, PaneStub } from './Chrome.jsx';
 import { Splitter } from './components/Splitter.jsx';
+import { JourneyBar, showJourneyBar } from './components/JourneyBar.jsx';
 import { layout } from './state/layout.js';
 import { Gate } from './Gate.jsx';
 import { RailHost } from './rail/RailHost.jsx';
@@ -172,6 +173,7 @@ export default function App() {
           rather than a mode of the surface, so every surface can ask for it and none of
           them has to reimplement getting out. */}
       {!full && <Masthead plan={plan} judgment={unjudged} onSearch={() => setPalette(true)} />}
+      {showJourneyBar(surface, full) && <JourneyBar surface={surface} lastEval={lastEval} />}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         {!full && <LeftRail current={surface} onGo={go} counts={overview?.counts} />}
         {!full && layout.isOpen('nav') && <Splitter pane="nav" grows="left" />}
