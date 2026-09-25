@@ -284,6 +284,15 @@ def health(request: Request, response: Response):
             "sha": BUILD_SHA, "sha_source": BUILD_SHA_SOURCE,
             "rail": bool(rail.key()),
             "auth": auth.state(), "limits": limits.state(),
+            # WP-14.20: whether THIS request would pass the gate -- `auth.authorised`'s own answer,
+            # the one the gate middleware asks, and not a second reading of the cookie. A signed-out
+            # browser learns here that it has no session and asks for NOTHING gated: the boot used
+            # to find out by probing `/api/overview` and taking the 401, which put one gated request
+            # on every signed-out visit. It reveals only the caller's own state (a bool about the
+            # request it answers), so the route stays ungated and `auth.OPEN_PATHS` is unchanged.
+            # On a server with no gate every request passes, so it reads true, and `auth.required`
+            # beside it says why.
+            "session": auth.authorised(request),
             # /api/health is deliberately ungated (the platform healthcheck has no
             # credentials), so it must not enumerate hostnames. allowed_hosts can carry
             # internal service names, so the list is shown only to an authorised caller;

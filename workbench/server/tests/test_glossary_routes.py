@@ -236,3 +236,23 @@ def test_health_counts_are_still_exactly_the_overviews(client):
     body = client.get("/api/health").json()
     assert body["counts"] == core.overview()["counts"]
     assert "glossary" not in body and "glossary" not in body["counts"]
+
+
+# PRD §C.4 names this file as holding `/api/health`'s KEYS as well as its counts, and until
+# WP-14.20 nothing here read the keys -- a claim with no assertion behind it. The freeze was
+# lifted per item on 25 Sep 2026 ("lift per item, named"), so the pin is the tranche-1 set plus
+# the one key each named package lifted, and nothing else: a key added or dropped without a
+# package to name turns this red.
+HEALTH_KEYS_TRANCHE_1 = frozenset({"ok", "jsonschema", "counts", "sha", "sha_source", "rail",
+                                   "auth", "limits", "mcp", "note"})
+HEALTH_KEYS_LIFTED = {"session": "WP-14.20"}
+
+
+def test_health_keys_are_tranche_ones_plus_exactly_the_keys_lifted_by_name(client):
+    body = client.get("/api/health").json()
+    lifted = set(HEALTH_KEYS_LIFTED)
+    assert not HEALTH_KEYS_TRANCHE_1 & lifted, "a lifted key is a NEW key"
+    assert set(body) == HEALTH_KEYS_TRANCHE_1 | lifted, (
+        f"/api/health's keys moved: added {sorted(set(body) - HEALTH_KEYS_TRANCHE_1 - lifted)}, "
+        f"missing {sorted((HEALTH_KEYS_TRANCHE_1 | lifted) - set(body))}")
+    assert isinstance(body["session"], bool), "a bool about the request it answers, nothing more"

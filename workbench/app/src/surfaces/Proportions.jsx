@@ -722,8 +722,9 @@ export function Proportions({ selection }) {
   const [listError, setListError] = React.useState(null);
   React.useEffect(() => {
     let live = true;
-    fetch('/api/proportions')
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+    // through the client (WP-14.20), so a 401 raises the Gate; the line below still says why
+    // the list is empty, in the client's own words for the failed request
+    api.proportionPacks()
       .then((r) => { if (live) setPacks(r.packs || []); })
       .catch((e) => { if (live) { setListError(String(e.message || e)); setPacks([]); } });
     return () => { live = false; };

@@ -4874,7 +4874,7 @@ set when it merges.
   guaranteed place; `GET /api/partis/{id}`; a compose total in the job stream. Wave 1.
   **Status: PLANNED.**
 - **WP-14.20 — small server truths.** `/api/health` states the session; an evaluation names its
-  plan; no raw fetches; the sixteenth carry; `DimensionString` removed. Wave 1. **Status: PLANNED.**
+  plan; no raw fetches; the sixteenth carry; `DimensionString` removed. Wave 1. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.20-small-server-truths.md`. `/api/health` carries `session`, the gate's own answer, and a signed-out boot makes no gated request: the walk's Gate block reads 0 answered 401, and deleting the branch turns it red. An evaluation names its plan through one `evalPlanOf`, and `oq/an-evaluation-whose-check-errored-names-no-plan` is closed on its answer 1. Both raw fetches go through `client.js`, and a test allows network calls there only. The sixteenth carries into the foot in both formatters; across 9,288 printed inch figures, including every MCP proportions payload, nothing moved. The health key set is pinned as tranche 1's ten plus `session`, lifted by name.
 - **WP-14.21 — the worked house, attempted.** Research, with a stop rule. Wave 1.
   **Status: PLANNED.**
 - **WP-14.22 — the assistant sees the page.** Wave 2. **Status: PLANNED.**

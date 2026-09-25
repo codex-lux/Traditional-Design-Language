@@ -3320,12 +3320,13 @@ async function journeyRead() {
    Gate says NOTHING in its place -- no error, no fallback sentence -- so what is left on the
    form is exactly the signed-out form less the one sentence.
 
-   ONE CALL IS NOT THIS PAGE'S AND IS NAMED RATHER THAN HIDDEN. `App.jsx` boots by asking
-   `/api/overview` once to learn whether this browser already holds a session; signed out it
-   answers 401 and carries no corpus text. The shell is WP-14.13's; the check below requires that
-   probe to have answered 401 and to be the only other call, so a second one -- or a probe that
-   answered with the corpus -- fails. If the gated server cannot be started the block is UNJUDGED
-   by name, never passed. */
+   SIGNED OUT, NOTHING GATED IS ASKED AT ALL (WP-14.20). Until WP-14.20 `App.jsx` booted by
+   asking `/api/overview` once to learn whether this browser already held a session, and signed
+   out it answered 401 -- one gated request on every signed-out visit, which this block named and
+   allowed. `/api/health` states `session` now (the gate's own answer), so the shell learns it
+   from the one ungated route and the check below allows NO request that answers 401 and no
+   `/api/overview` at all: restoring the probe turns it red. If the gated server cannot be
+   started the block is UNJUDGED by name, never passed. */
 {
   const GATE_PORT = Number(process.env.WALK_GATE_PORT || (Number(new URL(BASE).port || 80) + 1));
   const GATE = `http://127.0.0.1:${GATE_PORT}`;
@@ -3373,11 +3374,15 @@ async function journeyRead() {
     const shown = await read(gp);
     check('signed out, the Gate shows about-tdl\'s definition, read from the one open glossary path',
       shown.about === aboutOpen.definition);
-    const probes = calls.filter(([p]) => p === '/api/overview');
-    const others = calls.filter(([p]) => !['/api/health', '/api/login', '/api/glossary/about-tdl', '/api/overview'].includes(p));
+    const gated = calls.filter(([, s]) => s === 401);
+    const others = calls.filter(([p]) => !['/api/health', '/api/login', '/api/glossary/about-tdl'].includes(p));
     check(`signed out, the page asked no corpus route but about-tdl (${calls.map(([p, s]) => `${p} ${s}`).join(', ')})`,
-      others.length === 0 && probes.length <= 1 && probes.every(([, s]) => s === 401)
-      && calls.some(([p, s]) => p === '/api/glossary/about-tdl' && s === 200));
+      others.length === 0 && calls.some(([p, s]) => p === '/api/glossary/about-tdl' && s === 200));
+    // WP-14.20: ZERO gated requests signed out -- the boot learns the session from /api/health
+    check(`signed out, /api/health said there is no session and the page made no gated request `
+      + `(session ${JSON.stringify(health.session)}; ${gated.length} answered 401: `
+      + `${gated.map(([p]) => p).join(', ') || 'none'})`,
+      health.session === false && gated.length === 0 && calls.some(([p]) => p === '/api/health'));
     for (const w of [1280, 1440, 1680]) {
       await gp.setViewportSize({ width: w, height: { 1280: 800, 1440: 900, 1680: 1050 }[w] });
       await gp.waitForTimeout(250);
@@ -3431,6 +3436,11 @@ async function journeyRead() {
           || /^\u2026$/.test((a.innerText || '').split('\n')[0].trim())).map((a) => a.getAttribute('data-nav')) };
     });
     const after = calls.slice(before);
+    // and the other half of `session`, read by the signed-in page itself, cookie and all
+    const sessionIn = await gp.evaluate(() => fetch('/api/health', { cache: 'no-store' })
+      .then((r) => r.json()).then((h) => h.session)).catch(() => null);
+    check(`signed in, /api/health says this browser holds a session (session ${JSON.stringify(sessionIn)})`,
+      sessionIn === true);
     check(`signed in on the page the Gate was, its rail carries its glossary words (${rail.n} items, `
       + `${rail.unworded.length ? 'unworded: ' + rail.unworded.join(', ') : 'none unworded'}; `
       + `/api/glossary ${after.filter(([p]) => p === '/api/glossary').map(([, st]) => st).join('/') || 'never asked'})`,

@@ -14,13 +14,17 @@
    1. `frac * 16` IS ROUNDED HALF-TO-EVEN, because Python's `round()` is. `Math.round` rounds a
       half UP, so a natural port prints 0.03125 in (exactly half a sixteenth) as `0 1/16"` where the
       engine prints `0"`, and 0.15625 as `0 3/16"` where the engine prints `0 1/8"`.
-   2. A SIXTEENTH THAT ROUNDS UP TO SIXTEEN CARRIES INTO THE INCH AND NOT INTO THE FOOT. The
-      engine's `if six == 16: whole += 1` never looks at the foot, so 23.99 prints `1'-12"` and
-      11.97 prints `12"`. That is the engine's behaviour reproduced, NOT endorsed: changing it
-      changes every plate and CLI that prints it, and that is outside tranche 1 (PRD §I.8, §L).
+   2. A SIXTEENTH THAT ROUNDS UP TO SIXTEEN CARRIES INTO THE INCH, AND AN INCH THAT REACHES
+      TWELVE CARRIES INTO THE FOOT, so 23.99 prints `2'-0"` and 11.97 prints `1'-0"`. Until
+      WP-14.20 the engine stopped at the inch and printed `1'-12"` and `12"`, and tranche 1 ported
+      that deliberately rather than improving it on one side; WP-14.20 fixed it on BOTH sides in
+      one commit. The inch is tested and not the sixteenth, because `divmod` can hand back a
+      remainder of exactly 12.0 with no sixteenth at all (item 3). A natural port that carries
+      only on the sixteenth fails -1e-20.
    3. `divmod(x, 12)` IS PYTHON'S FLOOR DIVMOD, not JavaScript's truncating `%`: a negative figure
       takes a negative foot and a positive remainder (-3.5 prints `-1'-8 1/2"`), and a vanishing
-      negative figure lands on a remainder of exactly 12.0 (-1e-20 prints `-1'-12"`). The float
+      negative figure lands on a remainder of exactly 12.0, which item 2 carries into the foot
+      (-1e-20 prints `0"`, where it printed `-1'-12"` until WP-14.20). The float
       algorithm below is CPython's `_float_div_mod` line for line, because a floor written as
       `Math.floor(x / 12)` disagrees with it at the edges.
    4. `int(ft)` PRINTS THE WHOLE INTEGER. Past 2**53 a JavaScript number's `String()` prints its
@@ -95,11 +99,13 @@ export function feetInches16(x) {
   let whole = Math.trunc(rem);
   const frac = rem - whole;
   let six = roundHalfEven(frac * SIXTEENTHS);
-  if (six === SIXTEENTHS) { whole += 1; six = 0; }          // into the inch, never into the foot
+  if (six === SIXTEENTHS) { whole += 1; six = 0; }          // into the inch...
+  let foot = ft;
+  if (whole === FOOT) { foot += 1; whole = 0; }             // ...and a full foot into the foot
   let fs = '';
   if (six) {
     const g = gcd(six, SIXTEENTHS);
     fs = ` ${six / g}/${SIXTEENTHS / g}`;
   }
-  return (ft ? `${intString(ft)}'-` : '') + `${whole}${fs}"`;
+  return (foot ? `${intString(foot)}'-` : '') + `${whole}${fs}"`;
 }

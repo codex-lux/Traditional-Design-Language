@@ -662,6 +662,13 @@ def _fmt_in(x):
     whole = int(rem); frac = rem - whole
     six = round(frac * 16)
     if six == 16: whole += 1; six = 0
+    # A SIXTEENTH CARRIED INTO THE INCH CAN FILL THE FOOT, AND THEN IT CARRIES INTO THE FOOT
+    # (WP-14.20). Until this line 23.99 printed `1'-12"` and 11.97 printed `12"` -- a figure no
+    # draughtsman writes, because twelve inches is a foot. `whole` also reaches 12 with NO
+    # sixteenth at all: `divmod(-1e-20, 12)` is `(-1.0, 12.0)`, since `12 - 1e-20` is 12.0 in a
+    # double, so the test is on the inch and not on the sixteenth. `workbench/app/src/fmt.js`
+    # carries the same line, and `tests/test_fmt_parity.py` holds the two to one answer.
+    if whole == 12: ft += 1; whole = 0
     fs = f" {six}/16" if six else ""
     from fractions import Fraction
     if six:

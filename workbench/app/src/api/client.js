@@ -158,6 +158,15 @@ export const api = {
      copy of the definitions that no checker reads (`build/check_frontend.py` looks). */
   glossary: () => getJSON('/api/glossary'),
   glossaryTerm: (id) => getJSON(`/api/glossary/${seg(id)}`),
+
+  /* WP-14.20: the last two surfaces calling `fetch` by hand, and the reason is the one WP-12.0
+     and WP-13.4 each gave for theirs. A raw fetch is outside `noteUnauthorized`, so a session that
+     expired while the reader was on the Kit or Proportions threw instead of showing the Gate; and
+     the Kit's slot read interpolated the style and the slot RAW into its path, which is the
+     unencoded-id defect `seg` exists for. `src/no_raw_fetch.test.mjs` holds the rest of the app
+     to this file. */
+  kitSlot: (styleId, slot) => getJSON(`/api/kit/${seg(styleId)}/slot/${seg(slot)}`),
+  proportionPacks: () => getJSON('/api/proportions'),
 };
 
 /* Subscribe to a job's SSE stream. Returns an unsubscribe function. */

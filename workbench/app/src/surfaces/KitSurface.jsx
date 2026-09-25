@@ -110,7 +110,8 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
     const key = `${styleId}:${openSlot}`;   // keyed by style too — a style switch
     if (!openSlot || detail[key]) return;   // must never serve the old style's record
     Promise.all([
-      fetch(`/api/kit/${styleId}/slot/${openSlot}`).then((r) => (r.ok ? r.json() : null)),
+      // through the client (WP-14.20): its path encoded, and a 401 raising the Gate
+      api.kitSlot(styleId, openSlot).catch(() => null),
       api.faults({ slot: openSlot, style: styleId, limit: 8 }).catch(() => null),
     ]).then(([d, fl]) => {
       if (d) setDetail((prev) => ({ ...prev, [key]: {

@@ -18,8 +18,13 @@ Two halves, and they catch different things:
    passes most of a hand-written table and fails this in hundreds of places. It needs `node`; where
    there is none it is SKIPPED, by name, as COULD NOT EVALUATE, which is not a pass.
 
-The engine's carry behaviour (`23.99 -> 1'-12"`) is reproduced here, not endorsed: changing
-`_fmt_in` changes every plate and CLI that prints it, which is outside Phase 14's tranche 1.
+THE CARRY WAS FIXED ON BOTH SIDES AT WP-14.20. Until then `_fmt_in` carried a sixteenth into the
+inch and stopped there, so 23.99 printed `1'-12"` -- reproduced by the port, not endorsed (PRD
+§I.8). A twelve-inch figure is a foot, and both functions carry it into the foot now: 23.99 prints
+`2'-0"`. `test_the_sixteenth_carries_through_the_inch_into_the_foot` is that row, and the
+invariant under it -- no output in the sweep has an inch figure of twelve -- is what makes it a rule
+rather than one value. Every other output the engine prints was measured before and after the
+change and none moved (docs/reports/wp-14.20-small-server-truths.md).
 """
 import json
 import math
@@ -44,9 +49,9 @@ PORT = os.path.join(APP, "fmt.js")
 
 BEGIN, END = "/* VECTORS-BEGIN */", "/* VECTORS-END */"
 
-# An inch figure of twelve is only ever a sixteenth carried into the inch: a whole foot prints as
-# the foot and "0", so "12\"" at the end means the carry the engine does not take into the foot.
-CARRIED = re.compile(r"(^|-)12\"$")
+# An inch figure of twelve: a whole foot prints as the foot and "0", so "12\"" at the end of an
+# output is a foot left in the inches. Since WP-14.20 it must never appear.
+TWELVE_INCHES = re.compile(r"(^|-)12\"$")
 
 
 def _on_a_half_sixteenth(x):
@@ -55,6 +60,17 @@ def _on_a_half_sixteenth(x):
         return False
     rem = divmod(x, 12)[1]
     return ((rem - int(rem)) * 16) % 1 == 0.5
+
+
+def _carries_into_the_foot(x):
+    """True where the remainder `_fmt_in` hands on reaches twelve inches -- by a sixteenth rounding up
+    to sixteen, or with no sixteenth at all when `divmod` itself returns 12.0 for a vanishing
+    negative. Read off the engine's own divmod and round, as `_on_a_half_sixteenth` is."""
+    if not math.isfinite(x):
+        return False
+    rem = divmod(x, 12)[1]
+    whole = int(rem)
+    return whole + (round((rem - whole) * 16) == 16) == 12
 
 
 def _table():
@@ -79,8 +95,23 @@ def test_the_table_exercises_both_behaviours_a_natural_port_gets_wrong():
     rows = _table()
     halves = [x for x, _ in rows if isinstance(x, float) and _on_a_half_sixteenth(x)]
     assert halves, "no row sits exactly on a half-sixteenth, so round-half-up would pass the table"
-    carries = [x for x, s in rows if isinstance(s, str) and CARRIED.search(s)]
-    assert carries, "no row shows a sixteenth carried into the inch and not the foot"
+    carries = [x for x, _ in rows if isinstance(x, float) and _carries_into_the_foot(x)]
+    assert carries, "no row carries a remainder of twelve inches into the foot"
+    assert any(x < 0 and divmod(x, 12)[1] == 12.0 for x in carries), (
+        "no row reaches twelve inches with no sixteenth at all, so a carry tested on the sixteenth "
+        "rather than on the inch would pass the table")
+
+
+def test_the_sixteenth_carries_through_the_inch_into_the_foot():
+    """WP-14.20. Twelve inches is a foot, so a sixteenth that rounds the inch up to twelve carries
+    on into the foot: 23.99 in is `2'-0"`, never `1'-12"`. The three rows the old behaviour got wrong
+    in three different ways, then the invariant over the whole sweep -- a rule, not three values."""
+    assert PE._fmt_in(23.99) == "2'-0\""
+    assert PE._fmt_in(11.97) == "1'-0\""
+    assert PE._fmt_in(-1e-20) == '0"', "divmod's 12.0 remainder with no sixteenth carries too"
+    twelve = [(x, PE._fmt_in(x)) for x in _sweep_inputs() if TWELVE_INCHES.search(PE._fmt_in(x))]
+    assert not twelve, (f"{len(twelve)} outputs still print twelve inches; the first five: "
+                        + ", ".join(f"{x!r} -> {o}" for x, o in twelve[:5]))
 
 
 def test_the_engine_refuses_what_the_port_refuses():
@@ -157,6 +188,6 @@ def test_the_sweep_covers_what_it_claims_to():
     sixteenth carries -- so a sweep that quietly lost them cannot pass for one that has them."""
     xs = _sweep_inputs()
     on_half = [x for x in xs if _on_a_half_sixteenth(x)]
-    carried = [x for x in xs if CARRIED.search(PE._fmt_in(x))]
+    carried = [x for x in xs if _carries_into_the_foot(x)]
     assert len(on_half) >= 100, f"only {len(on_half)} sweep inputs sit on a half-sixteenth"
-    assert len(carried) >= 50, f"only {len(carried)} sweep inputs carry a sixteenth into the inch"
+    assert len(carried) >= 50, f"only {len(carried)} sweep inputs carry twelve inches into the foot"

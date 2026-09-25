@@ -16,6 +16,52 @@ def test_health_is_never_cached(client):
     assert "no-store" in r.headers.get("cache-control", "")
 
 
+def test_health_states_the_session_both_ways_and_agrees_with_the_gate(monkeypatch):
+    """WP-14.20. `/api/health` says whether THIS request carries a session, so a signed-out
+    browser can show the Gate without asking a gated route to find out. The key is only honest if
+    it is the gate's own answer, so every state is held against what the gate then DOES with the
+    same client: `session` is true exactly where `/api/overview` does not answer 401. A key that
+    read the cookie alone would call a bearer caller signed out; one that read nothing would call
+    everybody signed in. Each state gets a fresh client, because a cookie left in the shared
+    session-scoped `client` would reach every test after this one (OQ 69's shape)."""
+    from fastapi.testclient import TestClient
+    from workbench.server import auth, limits
+    from workbench.server.app import app
+
+    limits.reset()   # the one login below must not meet a throttle another file filled
+
+    def state(c, **kw):
+        h = c.get("/api/health", **kw)
+        assert h.status_code == 200, "the health route is never gated"
+        return h.json()["session"], c.get("/api/overview", **kw).status_code
+
+    # an open server: every request passes, and `auth.required` beside it says why
+    monkeypatch.delenv("WORKBENCH_PASSWORD", raising=False)
+    monkeypatch.delenv("WORKBENCH_API_TOKEN", raising=False)
+    c = TestClient(app)
+    assert c.get("/api/health").json()["auth"]["required"] is False
+    assert state(c) == (True, 200)
+
+    monkeypatch.setenv("WORKBENCH_PASSWORD", "hunter2")
+    monkeypatch.setenv("WORKBENCH_SECRET", "test-secret")
+    c = TestClient(app)
+    assert c.get("/api/health").json()["auth"]["required"] is True
+    assert state(c) == (False, 401), "signed out: no session, and the gate refuses"
+    assert c.post("/api/login", json={"password": "hunter2"}).status_code == 200
+    assert state(c) == (True, 200), "signed in: a session, and the gate lets it through"
+
+    forged = TestClient(app)
+    forged.cookies.set(auth.COOKIE, "not-a-signed-session")
+    assert state(forged) == (False, 401), "a cookie is not a session until it verifies"
+
+    monkeypatch.setenv("WORKBENCH_API_TOKEN", "s3kr1t")
+    bearer = TestClient(app)
+    assert state(bearer, headers={"authorization": "Bearer s3kr1t"}) == (True, 200), (
+        "a bearer caller passes the gate, so `session` must say so -- the gate's answer, "
+        "not a second reading of the cookie")
+    assert state(bearer, headers={"authorization": "Bearer wrong"}) == (False, 401)
+
+
 def test_health_reports_the_rail_from_the_same_reading_the_turn_uses(client, monkeypatch):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "  ")   # truthy to bool(), worth nothing
     assert client.get("/api/health").json()["rail"] is False

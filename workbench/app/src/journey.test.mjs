@@ -15,10 +15,12 @@
    - an evaluation of the house before is not an evaluation of this one. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import {
   JOURNEY, ALTERNATE, JOURNEY_WORDS, JOURNEY_TERMS, journeyState, stepOfSurface, countsOf,
+  evalPlanOf,
 } from './journey/journey.js';
+import { barView } from './journey/bar.js';
 import { SURFACE_PATHS, parseHash } from './router.js';
 
 const ROOT = new URL('../../../', import.meta.url);
@@ -194,6 +196,70 @@ test('an evaluation of another plan is not an evaluation of this one', () => {
   // a plan with no id can be matched to nothing
   const anon = journeyState({ session: {}, plan: { levels: [] }, lastEval: { check: { counts: {} } } });
   assert.equal(step(anon, 'plan').state, 'unevaluated');
+});
+
+test('an evaluation whose check errored names its plan at the top, and a refusal on it blocks the drawings (WP-14.20)', () => {
+  /* `oq/an-evaluation-whose-check-errored-names-no-plan`. `core.check_plan`'s error payloads carry
+     no plan id, and the evaluate route keeps `placement_refused` alive through that early return;
+     since WP-14.20 the route states the id at the top of its response. Read only off the check,
+     this body named no plan, so the journey said "not yet evaluated" and offered the drawings and
+     the export as ready LINKS over a refused house. Dropping the `lastEval.plan` read from
+     `evalPlanOf` turns every assertion below red. */
+  const errored = { plan: PLAN.id, check: { error: 'plan does not match the plan schema' },
+    placement_refused: REFUSAL };
+  assert.equal(errored.check.plan, undefined, 'the premise: the check itself names no plan');
+  assert.equal(evalPlanOf(errored), PLAN.id);
+  const st = journeyState({ session: {}, plan: PLAN, lastEval: errored });
+  const [p, d, e] = ['plan', 'drawings', 'export'].map((id) => step(st, id));
+  assert.equal(p.state, 'refused');
+  assert.equal(d.state, 'refused');
+  assert.equal(e.state, 'refused');
+  assert.deepEqual(p.counts, { fatal: null, serious: null, unjudged: null },
+    'an errored check counted nothing, and nothing it did not count reads as zero');
+  const v = barView(st, { surface: 'workbench' });
+  const item = (id) => v.items.find((i) => i.id === id);
+  assert.equal(item('drawings').link, false, 'the drawings of a refused house are not a link');
+  assert.equal(item('export').link, false, 'nor is its export');
+  assert.equal(item('drawings').blocked, 'refused');
+  assert.equal(item('export').blocked, 'refused');
+  // and the identity rule still holds on this path: an errored evaluation of ANOTHER plan
+  const other = { ...errored, plan: 'some-other-plan' };
+  assert.equal(step(journeyState({ session: {}, plan: PLAN, lastEval: other }), 'drawings').state, 'ready',
+    'a refusal of the house before must not block the drawings of this one');
+});
+
+test('evalPlanOf reads the route\'s id first and the check\'s second, and nothing else', () => {
+  assert.equal(evalPlanOf({ check: { plan: 'a' } }), 'a', 'a completed check names its plan');
+  assert.equal(evalPlanOf({ plan: 'b', check: { error: 'x' } }), 'b', 'the route names it on an error');
+  assert.equal(evalPlanOf({ plan: 'b', check: { plan: 'b' } }), 'b');
+  for (const nothing of [null, undefined, {}, { check: {} }, { plan: '', check: {} }, { plan: 7 },
+    { check: { plan: ['a'] } }, 'p-1']) {
+    assert.equal(evalPlanOf(nothing), null, `${JSON.stringify(nothing)} names no plan`);
+  }
+});
+
+test('every site that matches an evaluation to a plan reads evalPlanOf, and none reads the check by hand', () => {
+  /* Two sites matched an evaluation to a plan -- this module and `App.jsx`'s stale-evaluation
+     clear -- and each spelled `check.plan` itself, which is how the errored path came to be read
+     one way in one place. The walk is over the app's own sources, tests excluded. */
+  const SRC = new URL('./', import.meta.url);
+  const files = [];
+  const walk = (dir) => {
+    for (const f of readdirSync(dir).sort()) {
+      const u = new URL(f, dir);
+      if (statSync(u).isDirectory()) walk(new URL(f + '/', dir));
+      else if (/\.(m?js|jsx)$/.test(f) && !/\.test\.mjs$/.test(f)) files.push(u);
+    }
+  };
+  walk(SRC);
+  const byHand = /\bcheck\s*\??\.\s*plan\b/;
+  const offenders = files.filter((u) => !u.pathname.endsWith('/journey/journey.js'))
+    .filter((u) => byHand.test(readFileSync(u, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '')))
+    .map((u) => u.pathname.slice(SRC.pathname.length));
+  assert.deepEqual(offenders, [], 'these read an evaluation\'s plan off its check by hand');
+  assert.ok(files.length > 50, 'the walk reached the app\'s sources');
+  assert.match(readFileSync(new URL('App.jsx', SRC), 'utf8'), /evalPlanOf\(ev\) === planId/,
+    'App.jsx\'s stale-evaluation clear reads evalPlanOf');
 });
 
 test('no plan: drawings and export need one, and the candidates step offers the way', () => {

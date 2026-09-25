@@ -16,8 +16,14 @@
 
    AN EVALUATION COUNTS ONLY FOR THE PLAN IT WAS OF. `lastEval` is the shell's, and it outlives a
    plan change; a verdict about the house before is not a verdict about this one, so it is read
-   only where `lastEval.check.plan === plan.id` (`plan_check` returns the plan id). Otherwise the
-   plan is UNEVALUATED — never "0 fatal", which would be a pass nobody measured.
+   only where `evalPlanOf(lastEval) === plan.id`. Otherwise the plan is UNEVALUATED — never
+   "0 fatal", which would be a pass nobody measured. `evalPlanOf` is the ONE reader of which plan
+   an evaluation was of (WP-14.20): the evaluate route states it at the top of its response, before
+   the early return a check that ERRORED takes — `plan_check` writes the id only on a completed
+   check, so an errored check carrying `placement_refused` used to name no plan, read here as
+   "not yet evaluated", and left the drawings and the export as ready links over a refused house
+   (`oq/an-evaluation-whose-check-errored-names-no-plan`). The check's own id is read second, for
+   an evaluation from anywhere that does not state the top-level one.
 
    THREE COUNTS, NEVER ONE. Fatal, serious and unjudged are three numbers and stay three: an
    unjudged constraint is not a failure and not a pass, and adding it to either would say
@@ -96,6 +102,14 @@ const str = (v) => (typeof v === 'string' && v.trim() ? v.trim() : null);
 const isObj = (v) => Boolean(v) && typeof v === 'object' && !Array.isArray(v);
 const count = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 
+/* Which plan an evaluation was of: the route's own statement first, then the check's. Every site
+   that matches an evaluation to a plan reads this and nothing else (`App.jsx`'s stale-evaluation
+   clear, and `journeyState` below), so the two cannot come to disagree about one evaluation. */
+export function evalPlanOf(lastEval) {
+  if (!isObj(lastEval)) return null;
+  return str(lastEval.plan) ?? (isObj(lastEval.check) ? str(lastEval.check.plan) : null);
+}
+
 /* The step a surface belongs to, or null — `transcription` joins at the plan. */
 export function stepOfSurface(surface) {
   const s = JOURNEY.find((j) => j.surface === surface);
@@ -166,7 +180,7 @@ export function journeyState({ session, plan, lastEval } = {}) {
   const hasPlan = isObj(plan);
   const planId = hasPlan ? str(plan.id) : null;
   // the evaluation of THIS plan, or nothing
-  const ev = planId && isObj(lastEval) && isObj(lastEval.check) && lastEval.check.plan === planId
+  const ev = planId && isObj(lastEval) && isObj(lastEval.check) && evalPlanOf(lastEval) === planId
     ? lastEval : null;
   const refusal = ev ? (evaluateRefusal(ev) || placementRefusal(ev.placement)) : null;
   const sketch = ev ? sketchOf(ev.placement) : null;

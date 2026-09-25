@@ -36,7 +36,7 @@ import { useNames } from './names/useNames.js';
 import { useStyles } from './api/useStyles.js';
 import { prefs } from './state/prefs.js';
 import { session } from './state/session.js';
-import { journeyState } from './journey/journey.js';
+import { journeyState, evalPlanOf } from './journey/journey.js';
 import { navModel, headTermFor, inHandFrom, normalizePlace, stylePlaceKind } from './nav/navModel.js';
 import { crumbsFor, titleFor } from './nav/crumbs.js';
 import { PlanWorkbench } from './surfaces/PlanWorkbench.jsx';
@@ -89,8 +89,14 @@ export default function App() {
     api.health().then((h) => {
       setHealth(h);
       if (!h.auth?.required) { setLocked(false); }
-      // A password is set, but this browser may already hold a session. One real
-      // request is the only way to find out.
+      /* SIGNED OUT, NOTHING GATED IS ASKED (WP-14.20). A password is set and /api/health says
+         this request carries no session -- the gate's own answer, `auth.authorised` -- so the
+         Gate shows and no gated route is called to find that out. Until WP-14.20 the only way to
+         learn it was to probe `/api/overview` and take the 401, which put one gated request on
+         every signed-out visit (the walk's Gate block counts them, and must count none). A
+         server that does not state `session` is the one case left to the probe below, because
+         there a real request is still the only way to find out. */
+      else if (h.session === false) { setLocked(true); return undefined; }
       return api.overview()
         .then((o) => { setOverview(o); setLocked(false); })
         .catch((e) => {
@@ -199,13 +205,16 @@ export default function App() {
      loaded plan's name could sit beside the previous plan's counts in the masthead. It is
      cleared when the plan's id changes — UNLESS it is already this plan's: the bench loads a
      revised record and sets its evaluation in one tick, and a blanket clear running after
-     both would throw away the verdict it had just been handed. */
+     both would throw away the verdict it had just been handed. Which plan an evaluation was of
+     is `evalPlanOf`'s answer, the journey's own reader, so an evaluation whose check errored --
+     which names its plan only at the top of the route's response -- is kept for its plan here
+     exactly as the journey reads it (WP-14.20). */
   const planId = plan ? plan.id : null;
   const lastPlanId = React.useRef(planId);
   React.useEffect(() => {
     if (lastPlanId.current === planId) return;
     lastPlanId.current = planId;
-    setLastEval((ev) => (ev && ev.check && ev.check.plan === planId ? ev : null));
+    setLastEval((ev) => (ev && evalPlanOf(ev) === planId ? ev : null));
   }, [planId]);
 
   /* The style dossier's head, for a style's place: its chain names the crumbs and its sections
