@@ -117,7 +117,10 @@ function current() {
    the masthead's unjudged tooltip (the count is a `Term` now), the rail's "9 sections" and
    "4 formats" (its figures are the API's), and the three stale "209 faults" against a corpus
    of 210 (read from the API). WP-14.17 took out one more: the Fault Card's "three tiers" went with
-   the heading that carried it, every label on the card being a glossary record now. */
+   the heading that carried it, every label on the card being a glossary record now. WP-14.25 took
+   out Brief Intake's "132 styles": the advisory that carried it said three styles had no native
+   parti, and since WP-14.19 lists lineage partis all three have plan types, so the sentence, its
+   typed count and its three hand-named styles went together. */
 // BASELINE-BEGIN
 const BASELINE = {
   titles: [
@@ -139,7 +142,6 @@ const BASELINE = {
   counts: [
     ["components/CandidateColumn.jsx", "100 points"],
     ["components/ConflictSet.jsx", "six reads"],
-    ["surfaces/BriefIntake.jsx", "132 styles"],
     ["surfaces/CandidateSet.jsx", "eight axes"],
     ["surfaces/PlanWorkbench.jsx", "6 rounds"],
     ["surfaces/PlanWorkbench.jsx", "4 rounds"],

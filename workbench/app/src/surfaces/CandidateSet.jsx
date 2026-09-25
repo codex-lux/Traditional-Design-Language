@@ -25,7 +25,8 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
-import { ORDERS, order, isNative } from '../candidateOrder.js';
+import { ORDERS, order, isNative, nativityOf } from '../candidateOrder.js';
+import { Term } from '../components/Term.jsx';
 import { revisedLine, revisedEventLine } from '../revision.js';
 
 /* `what` — the sentence saying what an axis measures — rides on the RESULT once rather than
@@ -33,6 +34,8 @@ import { revisedLine, revisedEventLine } from '../revision.js';
    model for the payload. Merged back onto the rows here so the column stays a pure function
    of its own candidate, and defaulted so a result composed before this shipped still renders. */
 function adaptCandidate(c, i, nativePartis, axisWhat) {
+  // WP-14.25: the served nativity, read off the candidate or the style's own list, never an
+  // id's presence in a list -- a lineage parti is on the list and is not native
   const native = isNative(c, nativePartis);
   return {
     id: 'c' + i,
@@ -49,6 +52,8 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
     counts: c.counts,
     fatal_n: (c.counts && c.counts.fatal) || 0,
     native,
+    nativity: nativityOf(c, nativePartis),
+    named_by_brief: !!c.named_by_brief,
     why: c.why_this_diagram,
     trades_away: c.trades_away,
     area: `${(c.area_sf || 0).toLocaleString()} sf (${c.area_miss_pct}% off target)`,
@@ -127,7 +132,9 @@ export function CandidateSet({ onCite, go, selection }) {
   React.useEffect(() => {
     const style = result?.style || s.brief?.style;
     if (!style) return;
-    api.partis({ style }).then((r) => setNativePartis(new Set((r.partis || []).map((p) => p.id))))
+    // id -> the nativity the server states for it (WP-14.25); a Set of ids read every listed
+    // parti as native, which was wrong from the day the list held lineage partis beside them
+    api.partis({ style }).then((r) => setNativePartis(new Map((r.partis || []).map((p) => [p.id, p.nativity]))))
       .catch(() => setNativePartis(null));
   }, [result?.style, s.brief?.style]);
 
@@ -246,6 +253,12 @@ export function CandidateSet({ onCite, go, selection }) {
           {list.map((c, i) => (
             <CandidateColumn key={c.id} candidate={c} rank={i + 1} selected={sel === c.id}
               onSelect={() => setSel(c.id)} style={{ minWidth: 0 }}>
+              {/* WP-14.25: the diagram the brief asked for by name, worded by its own record */}
+              {c.named_by_brief && (
+                <span data-named-by-brief={c.parti} style={{ display: 'block', marginTop: 12 }}>
+                  <Term id="named-by-the-brief" />
+                </span>
+              )}
               {c.refused
                 ? <span data-candidate-refused={c.refused.kind}
                     style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--refusal)',
@@ -271,6 +284,19 @@ export function CandidateSet({ onCite, go, selection }) {
             <ConflictSet refusal={c.refused} where={`candidate ${c.parti_name || c.parti}`} />
           </div>
         ))}
+
+        {/* WP-14.25: the diagram the brief named and the set does not hold, in the composer's own
+            words -- the lot dropped it, or it was never composed. Never a silence: a set lacking
+            the diagram the brief asked for would otherwise read as the guarantee kept. */}
+        {result.named_parti && result.named_parti.returned === false && (
+          <p data-named-parti-missing={result.named_parti.parti} role="note"
+            style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: '16px 0 0',
+              borderLeft: '2px solid var(--refusal)', paddingLeft: 12, maxWidth: '74ch' }}>
+            <Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{result.named_parti.parti}</span>
+            {JOURNEY_WORDS.separator}{result.named_parti.why}
+          </p>
+        )}
 
         {dropped.length > 0 && (
           <div style={{ marginTop: 16, border: '1px solid var(--rule)', padding: '11px 13px',

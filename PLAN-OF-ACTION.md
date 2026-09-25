@@ -4903,7 +4903,12 @@ set when it merges.
   **Status: PLANNED.**
 - **WP-14.24 — plates at the pack's word.** Turned casings, zone strings, class-A sliders,
   thumbnails. Wave 2. **Status: PLANNED.**
-- **WP-14.25 — the parti bridge on the page.** Wave 2. **Status: PLANNED.**
+- **WP-14.25 — the parti bridge on the page.** Wave 2. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.25-the-plan-type-starts-the-brief.md`.
+  - **Dossier.** Every row of the Plan types section carries "start a brief from this plan type", worded by a new record, and its served nativity as a Term: 422 rows over 132 styles.
+  - **Brief Intake.** A parti select, grouped native / lineage / borrowed, with borrowed partis behind an explicit filter. A `?parti=` seed, and a parti no group holds is shown as itself rather than dropped. The composer's refusal appears in its own words. Loading no longer draws a judgment mark.
+  - **The three readers that would have mislabelled a lineage parti as native** all read the served nativity now.
+  - **Candidates and journey.** The candidate named by the brief is flagged, and the journey says "k of N" from the stream's own total.
+  - **Found, not fixed.** The candidate strip reads "returned 2 of 1 asked for" when a named parti is appended, and `CandidateColumn` hard-codes "NOT native" for lineage partis too. Both are WP-14.27's.
 - **WP-14.26 — compare two styles**, on one kit authority. Wave 3. **Status: PLANNED.**
 - **WP-14.27 — every pick writes the URL; no default record.** Also Faults read for one style, and
   Export's face picker. Wave 3. **Status: PLANNED.**

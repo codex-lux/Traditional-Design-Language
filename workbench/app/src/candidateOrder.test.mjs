@@ -4,7 +4,8 @@
    pass). */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { whyText, isNative, byScore, ORDERS, order } from './candidateOrder.js';
+import { readFileSync, existsSync } from 'node:fs';
+import { whyText, isNative, nativityOf, NATIVITY_TERMS, byScore, ORDERS, order } from './candidateOrder.js';
 
 test('whyText joins the reasons list instead of concatenating it', () => {
   const why = ['native to tidewater-georgian',
@@ -47,8 +48,52 @@ test('isNative handles both shapes and lets the authoritative set win', () => {
   assert.equal(isNative(borrowed, null), false);
   assert.equal(isNative(native, null), true);
   assert.equal(isNative({ parti: 'x' }, null), true, 'no reasons recorded is not "borrowed"');
-  assert.equal(isNative(borrowed, new Set(['octagon-radial'])), true,
+  // the /api/partis answer outranks the prose fallback -- read as the row's own served
+  // nativity since WP-14.25, never as whether the id is on the list
+  assert.equal(isNative(borrowed, new Map([['octagon-radial', 'native']])), true,
     'the /api/partis answer outranks the prose fallback');
+});
+
+/* A LINEAGE PARTI IS NOT NATIVE, AND THE LIST IT IS ON IS NOT THE ANSWER (WP-14.25).
+
+   `/api/partis?style=` lists a style's lineage partis beside its native ones since WP-14.19, each
+   row carrying `nativity`. `isNative` used to read that list as a set of ids -- on it, native --
+   so a lineage candidate flipped from not native to native the moment the list resolved. The
+   fixture is a real relation: `five-part-palladian` is lineage to `adam-style` (WP-14.19's own
+   census names the pair), and the reasons line is the composer's own lineage clause from
+   `build/compose.py`. */
+test('a lineage parti reads as lineage and never as native, from the candidate or from the list', () => {
+  const why = ['native to an ancestor or relative of the style'];
+  const lineage = { parti: 'five-part-palladian', nativity: 'lineage', why_this_diagram: why };
+  const rows = new Map([['five-part-palladian', 'lineage'], ['centre-passage-double-pile', 'native']]);
+  // the premise: the fixture IS on the list, so an id-in-list reading would call it native
+  assert.ok(rows.has(lineage.parti), 'the lineage parti is on the list /api/partis gave');
+  assert.equal(nativityOf(lineage, rows), 'lineage');
+  assert.equal(isNative(lineage, rows), false, 'a lineage parti read as native because it was listed');
+  assert.equal(isNative(lineage, null), false, "the candidate's own nativity decides with no list");
+  // a candidate carrying no nativity of its own is read off its row, still never by membership
+  const bare = { parti: 'five-part-palladian', why_this_diagram: why };
+  assert.equal(nativityOf(bare, rows), 'lineage');
+  assert.equal(isNative(bare, rows), false, 'the row on the list read as native because it was listed');
+  // and a native one is native, by the same reading
+  assert.equal(isNative({ parti: 'centre-passage-double-pile' }, rows), true);
+  // the candidate's own statement outranks the list: it is the composer's, for this brief
+  assert.equal(nativityOf({ parti: 'centre-passage-double-pile', nativity: 'borrowed' }, rows), 'borrowed');
+  // a parti absent from a list that did not ask for borrowed rows is unknown, not borrowed
+  assert.equal(nativityOf({ parti: 'octagon-radial' }, rows), null);
+  // a value the relation does not have is not an answer, and neither is a list of bare ids
+  assert.equal(nativityOf({ parti: 'x', nativity: 'native-ish' }, null), null);
+  assert.equal(nativityOf(bare, new Set(['five-part-palladian'])), null);
+});
+
+test("every nativity is worded by a glossary record that exists, in the composer's own order", () => {
+  assert.deepEqual(Object.keys(NATIVITY_TERMS), ['native', 'lineage', 'borrowed'],
+    "compose.nativity's three answers, in its own order");
+  for (const [n, id] of Object.entries(NATIVITY_TERMS)) {
+    const f = new URL(`../../../glossary/${id}.json`, import.meta.url);
+    assert.ok(existsSync(f), `${n} is worded by ${id}, which has no record`);
+    assert.equal(JSON.parse(readFileSync(f, 'utf8')).id, id);
+  }
 });
 
 const C = (parti, score, fatal_n = 0, native = false, demerits = 0) =>
@@ -136,4 +181,24 @@ test('the disqualified group is still ordered by the chosen ordering, not by fat
   assert.deepEqual(list.slice().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
     ['clean', 'dq-one-fatal-low-score', 'dq-two-fatals-high-score'],
     'under "fatal first" the disqualified group must be ordered by fatal count');
+});
+
+test('the Candidate Set hands the served nativity to its reader and reads the named parti the server wrote', () => {
+  /* WP-14.25. Two things this surface reads and must not rebuild: the style's own partis as an
+     id -> nativity MAP (a Set of ids is what made every listed lineage parti read as native), and
+     the composer's `named_by_brief` / `named_parti` fields, worded by the `named-by-the-brief`
+     record. A source guard because the surface is a React component the node suite cannot mount;
+     the behaviour it feeds is held by the two tests above. */
+  const src = readFileSync(new URL('./surfaces/CandidateSet.jsx', import.meta.url), 'utf8');
+  assert.match(src, /new Map\(\(r\.partis \|\| \[\]\)\.map\(\(p\) => \[p\.id, p\.nativity\]\)\)/,
+    'the partis effect must build an id -> nativity Map from the served rows');
+  assert.doesNotMatch(src, /new Set\(\(r\.partis/, 'a Set of ids reads a lineage parti as native');
+  assert.match(src, /nativity: nativityOf\(c, nativePartis\)/);
+  assert.match(src, /named_by_brief: !!c\.named_by_brief/);
+  assert.match(src, /c\.named_by_brief && \(/);
+  assert.match(src, /result\.named_parti\.returned === false/);
+  assert.match(src, /\{result\.named_parti\.why\}/, "a named parti the set lacks says why, in the composer's words");
+  const flags = src.match(/<Term id="named-by-the-brief" \/>/g) || [];
+  assert.equal(flags.length, 2, 'the flag on the candidate and the line for a missing one both read the record');
+  assert.ok(existsSync(new URL('../../../glossary/named-by-the-brief.json', import.meta.url)));
 });

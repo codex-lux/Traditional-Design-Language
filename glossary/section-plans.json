@@ -3,9 +3,9 @@
   "term": "Plan types",
   "family": "section",
   "order": 5,
-  "definition": "The house types this style is built as: the volumes it is built in and how strongly it favours or refuses each, the plan diagrams native to it, and the room groupings that carry a note about it. A list to read, not a plan.",
+  "definition": "The house types this style is built as: the volumes it is built in and how strongly it favours or refuses each, the plan diagrams drawn for it or its line, and the room groupings that note it. A list to read, not a plan.",
   "kind": "editorial",
-  "basis": "Editorial. README.md: massing is joined to styles \"through `massing_affinities` with an explicit strength\", because \"An American Foursquare can be dressed Craftsman, Colonial Revival, Prairie, or Mission with no change to the volume.\" VISION.md: \"Groupings, and the canonical plan diagrams that give a composer somewhere to start.\"",
+  "basis": "Editorial. README.md: massing is joined to styles \"through `massing_affinities` with an explicit strength\", because \"An American Foursquare can be dressed Craftsman, Colonial Revival, Prairie, or Mission with no change to the volume.\" VISION.md: \"Groupings, and the canonical plan diagrams that give a composer somewhere to start.\" Which diagrams are listed: mcp_server/core.py, list_partis: \"Native and lineage partis are listed\", and build/compose.py, nativity: \"Lineage means the diagram was drawn for a style this one answers to\". That a listed diagram can start a brief: schema/brief.schema.json, the description of `parti`: \"The named parti is GUARANTEED A PLACE among the contrasting candidates\".",
   "confusable_with": [
     "surface-workbench",
     "plan-record"
@@ -14,9 +14,9 @@
     "what": "The house types this style is built as: its volumes, its plan diagrams and its room groupings.",
     "read": [
       "Massing is not style: one volume can be dressed in several styles, so each volume shows how strongly this style favours it.",
-      "The plan diagrams are those native to this style, from which the composer starts.",
+      "The plan diagrams are those drawn for this style or for one it answers to, each marked native or lineage; the composer starts from them.",
       "The groupings listed are those that carry a note about this style.",
-      "This is a list to read; a plan is made on the house journey, starting from a brief."
+      "This is a list to read; a plan is made on the house journey, and each diagram here can start its brief."
     ],
     "try": "parti:centre-passage-double-pile"
   }

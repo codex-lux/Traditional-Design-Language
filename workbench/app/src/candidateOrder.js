@@ -10,8 +10,39 @@
      RegExp.test coerces via Array.prototype.toString.
    - the orderings decide which column reads as first, which is the whole subject of the
      change these were written for.
+   - isNative read a SET OF IDS from `/api/partis` as the answer, which was right while that
+     list held native partis alone. WP-14.19 made it list a style's lineage partis beside its
+     native ones, each carrying `nativity`, so a lineage candidate read as native the moment the
+     list resolved (WP-14.25). The relation is served now -- on the candidate itself, and on
+     every row of the list -- and `nativityOf` reads it and never re-derives it: which diagram
+     belongs to which style is `compose.nativity`'s answer, the one spelling there is.
 
    No React import, no JSX: `node --test` runs this file's suite directly. */
+
+/* The three answers `compose.nativity` gives, each to the glossary record that says what it
+   means. Every surface that labels a parti's nativity -- the Brief's select, the dossier's plan
+   types, a candidate's column -- takes the word from here, so there is one map and no surface
+   words a nativity of its own. */
+export const NATIVITY_TERMS = Object.freeze({
+  native: 'parti-native',
+  lineage: 'parti-lineage',
+  borrowed: 'parti-borrowed',
+});
+
+const NATIVITIES = Object.keys(NATIVITY_TERMS);
+const served = (v) => (typeof v === 'string' && NATIVITIES.includes(v) ? v : null);
+
+/** The nativity the server stated for this candidate's diagram, or null where nothing did.
+ *  The candidate's own `nativity` first (the composer writes it on every candidate), then the
+ *  row `/api/partis` gave for its parti (`rows`, a Map of parti id to that row's `nativity`).
+ *  A row the list does not hold is NOT read as borrowed: the list may simply not have been
+ *  asked for borrowed rows, and an absence is not an answer. */
+export function nativityOf(candidate, rows) {
+  const own = served(candidate && candidate.nativity);
+  if (own) return own;
+  if (rows instanceof Map && candidate && rows.has(candidate.parti)) return served(rows.get(candidate.parti));
+  return null;
+}
 
 /** The reasons list, joined as prose. `dropNativity` strips only the clause the caller has
  *  already printed in its own colour — never the sentence it opens, because "the composer is
@@ -23,10 +54,12 @@ export function whyText(why, dropNativity) {
     .join('; ');
 }
 
-/** True when the diagram belongs to the brief's own style. `nativePartis` is authoritative
- *  when /api/partis has resolved; the reasons list is the fallback until it does. */
-export function isNative(candidate, nativePartis) {
-  if (nativePartis) return nativePartis.has(candidate.parti);
+/** True when the diagram was drawn for the brief's own style -- `native`, and never `lineage`,
+ *  which is a diagram drawn for a style this one answers to. The served nativity decides
+ *  (`nativityOf`); the reasons list is the fallback only where nothing served one. */
+export function isNative(candidate, rows) {
+  const n = nativityOf(candidate, rows);
+  if (n) return n === 'native';
   const lines = Array.isArray(candidate.why_this_diagram)
     ? candidate.why_this_diagram : [candidate.why_this_diagram].filter(Boolean);
   return !lines.some((w) => /NOT native to this style/i.test(String(w)));

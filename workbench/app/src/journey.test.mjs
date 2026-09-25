@@ -124,7 +124,49 @@ test('composing counts candidates scored and never claims a total the stream doe
   assert.equal(c.state, 'composing');
   assert.equal(c.words, JOURNEY_WORDS.candidates.composing(2));
   assert.match(c.words, /\b2\b/);
-  assert.doesNotMatch(c.words, /\bof\b/, 'k of N: N is not knowable from the stream');
+  assert.doesNotMatch(c.words, /\bof\b/, 'k of N: this stream states no N, so none is printed');
+});
+
+/* "k OF N" FROM THE STREAM'S OWN TOTAL (WP-14.25). The events are the shapes
+   `workbench/server/jobs.py` puts since WP-14.19: every stage carries `total`, and every diagram
+   considered -- scored as a `candidate`, or dropped for the lot as a `dropped` stage -- carries
+   `considered`, the running count. The fixture's N is chosen to be neither the scored count nor
+   the event count, so a reading that counted either instead of reading `total` cannot pass. */
+test('composing says k of N, with N the total the stream states and k the diagrams considered', () => {
+  const N = 7;
+  const progress = [
+    { stage: 'seeding', total: N, note: 'reading the brief' },
+    { stage: 'composing', total: N, note: 'seeding, repairing and scoring' },
+    { n: 1, parti: 'a', score: 60, considered: 1, total: N },
+    { stage: 'dropped', parti: 'b', note: 'B: the lot', considered: 2, total: N },
+    { n: 2, parti: 'c', score: 58, considered: 3, total: N },
+    { n: 1, revised: true, parti: 'a' },      // the loop's second word on one already counted
+  ];
+  const c = step(journeyState({ session: { jobId: 'j', progress } }), 'candidates');
+  assert.equal(c.state, 'composing');
+  // the premise: scored (2) and events (6) are both different from the diagrams considered (3)
+  assert.equal(progress.filter((e) => Number.isInteger(e.n) && !e.revised).length, 2);
+  assert.equal(c.words, JOURNEY_WORDS.candidates.composing(3, N));
+  assert.match(c.words, new RegExp(`\\b3 of ${N}\\b`), 'the diagrams considered, of the total the stream states');
+  assert.notEqual(JOURNEY_WORDS.candidates.composing(3, N), JOURNEY_WORDS.candidates.composing(3),
+    'a total changes the words');
+  // before any diagram is heard from, k is nought of N -- counted, and not the old "scored"
+  const early = step(journeyState({ session: { jobId: 'j', progress: progress.slice(0, 2) } }), 'candidates');
+  assert.equal(early.words, JOURNEY_WORDS.candidates.composing(0, N));
+  // a total that is not a count is no total
+  for (const t of [0, -1, 2.5, '7', null]) {
+    assert.equal(JOURNEY_WORDS.candidates.composing(1, t), JOURNEY_WORDS.candidates.composing(1), String(t));
+  }
+});
+
+test('the journey writes no total of its own: N comes from the stream and nowhere else', () => {
+  const src = readFileSync(new URL('./journey/journey.js', import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+  // the composing words are a function of the stream's numbers, with no count literal in them
+  const line = src.split('\n').find((l) => /composing:\s*\(k, total\)/.test(l));
+  assert.ok(line, 'the composing words take the total they print');
+  assert.doesNotMatch(src.slice(src.indexOf(line), src.indexOf(line) + 200), /of \d/,
+    'a count literal in the composing words');
 });
 
 test('a refused house never proceeds to its drawings or its export, whichever route the verdict took', () => {

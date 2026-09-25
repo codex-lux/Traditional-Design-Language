@@ -11,22 +11,68 @@
    arrives from `?style=`, from the picker, or from the reader's own draft. `?example=<name>`
    loads a shipped brief by name. Compose is a real button. And the compose stream is handed
    `journey/sessionWrites.js`'s one handler set, the same the Candidate Set hands its own, so a
-   failed job is recorded where the journey reads it. */
+   failed job is recorded where the journey reads it.
+
+   WP-14.25 (PRD §C.5, ruled 25 Sep 2026): A BRIEF MAY NAME A PARTI, AND THE FORM CAN SAY SO NOW.
+   The composer guarantees a named parti a place among the candidates (WP-14.19 built that half),
+   and this form carries the name: a select listing the style's own plan types grouped by the
+   nativity the server STATES -- native, lineage -- each group worded by its glossary record, and
+   borrowed diagrams only behind an explicit "include borrowed", which asks the same route with
+   `include_borrowed`. `?parti=` seeds it, as `?style=` seeds the style, so a plan type read on a
+   dossier starts its own brief. The composer refuses an unknown parti, or one the brief's own
+   massing contradicts, BY NAME and before any job starts; the form shows that refusal in its own
+   words and decides nothing about it.
+   THE FEASIBILITY PANEL READ EVERY LISTED PARTI AS NATIVE. It took `/api/partis`'s whole list as
+   "native", right while the list held native partis alone and wrong from the day WP-14.19 listed
+   lineage ones beside them: the three styles its "no native parti" advisory named in its own detail
+   text now list lineage partis, so the advisory was unreachable for all three, and its count called
+   lineage partis "native to" the style. It reads the served nativity now, and says each group by
+   its record. And the list's LOADING state is no longer a `JudgmentMark`: a request in flight is
+   not a verdict on anything, so it is `aria-busy` and nothing else until a record words it. */
 import React from 'react';
 import { api, jobEvents } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
+import { useGlossary } from '../api/useGlossary.js';
 import { session } from '../state/session.js';
 import { nav } from '../state/nav.js';
 import { formatHash } from '../router.js';
 import { errorText } from '../sheet/refusal.js';
 import { composeStart, composeHandlers } from '../journey/sessionWrites.js';
-import { briefFrom, budgetTiers, offSchemaTier, exampleId, briefReady } from '../journey/briefForm.js';
+import {
+  briefFrom, budgetTiers, offSchemaTier, exampleId, briefReady, composeRequest, partiOptions,
+  nativityOfParti,
+} from '../journey/briefForm.js';
+import { NATIVITY_TERMS } from '../candidateOrder.js';
+import { useSurfaceFilters } from '../filters/useFilters.js';
+import { wordOf, noGlossary } from '../glossary/termView.js';
 import { StylePicker } from '../components/StylePicker.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
+import { Term } from '../components/Term.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
 
 const COMPASS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+
+/* Including borrowed diagrams WIDENS the list the select offers, so it is a view of the place and
+   rides in the address (`useFilters.js`), never in a private `useState`. */
+const BRIEF_SPEC = { borrowed: { widens: true, type: 'bool' } };
+
+/* One read of `/api/partis` for a style, in three states and never a fourth: `loading` while the
+   request is out, `ready` with the payload, `failed` with the server's own words. A failed read is
+   said; it is not an empty list, which would read as a style with no plan types. */
+function usePartis(style, includeBorrowed) {
+  const [state, setState] = React.useState({ state: 'idle' });
+  React.useEffect(() => {
+    if (!style) { setState({ state: 'idle' }); return undefined; }
+    let live = true;
+    setState({ state: 'loading' });
+    api.partis(includeBorrowed ? { style, include_borrowed: true } : { style })
+      .then((payload) => { if (live) setState({ state: 'ready', payload }); })
+      .catch((e) => { if (live) setState({ state: 'failed', reason: errorText(e) }); });
+    return () => { live = false; };
+  }, [style, includeBorrowed]);
+  return state;
+}
 
 /* An advisory fact, deliberately NOT a JudgmentMark: pass/fail belongs to evaluation
    against a plan, and this surface promises never to imply feasibility was proved.
@@ -65,7 +111,16 @@ export function BriefIntake({ go }) {
   const { styles: styleRecords } = useStyles();
   // a style is shown by its NAME; the id is what the brief carries
   const styleName = (id) => (styleRecords.find((r) => r.id === id) || {}).name || id;
-  const [partis, setPartis] = React.useState(null);
+  const filters = useSurfaceFilters(BRIEF_SPEC);
+  const includeBorrowed = !!filters.values.borrowed;
+  // the style's own plan types, and the borrowed ones only where the reader asked for them
+  const own = usePartis(brief.style, false);
+  const wide = usePartis(includeBorrowed ? brief.style : null, true);
+  const glossary = useGlossary();
+  // an optgroup label is a string, so a record's word is read as one -- the record's own `term`
+  const word = (id) => (glossary.status === 'ready' ? wordOf(glossary.lookup, id)
+    : glossary.status === 'failed' ? noGlossary(id) : '…');
+  const partiLabel = React.useId();
   const [rooms, setRooms] = React.useState([]);
   const [composing, setComposing] = React.useState(false);
   const [error, setError] = React.useState(null);
@@ -85,10 +140,6 @@ export function BriefIntake({ go }) {
   React.useEffect(() => {
     api.rooms({ limit: 60 }).then((r) => setRooms((r.results || r.rooms || []).map((x) => x.id)));
   }, []);
-  React.useEffect(() => {
-    if (!brief.style) { setPartis(null); return; }
-    api.partis({ style: brief.style }).then(setPartis).catch(() => setPartis(null));
-  }, [brief.style]);
 
   /* THE SCHEMA SAYS WHAT A BUDGET TIER IS, and names the shipped example briefs. Each example is
      then read once for its own `name`, because a reader is offered a brief by what it is called
@@ -117,6 +168,15 @@ export function BriefIntake({ go }) {
     if (urlStyle) setBrief((b) => (b.style === urlStyle ? b : { ...b, style: urlStyle }));
   }, [urlStyle]);
 
+  /* `?parti=` SEEDS THE BRIEF'S PARTI (WP-14.25), on the same rule: applied when the address
+     changes, so a plan type's "start a brief" link arrives holding it and a pick in the select
+     below is not undone while the address still names the old one. `parti` is a selection key
+     the router already carries (`router.js` SELECTION_KEYS); this file adds no route. */
+  const urlParti = place.selection.parti || null;
+  React.useEffect(() => {
+    if (urlParti) setBrief((b) => (b.parti === urlParti ? b : { ...b, parti: urlParti }));
+  }, [urlParti]);
+
   /* `?example=<name>` LOADS A SHIPPED BRIEF, once. The parameter is an act rather than a place --
      once loaded the brief is the reader's to edit -- so it leaves the address when it has done
      its work, and a refresh keeps the edits rather than loading the example over them. The
@@ -129,7 +189,8 @@ export function BriefIntake({ go }) {
     api.exampleBrief(urlExample).then((rec) => {
       if (!live) return;
       setBrief(briefFrom(rec));
-      nav.select({ style: (rec && rec.style) || null }, { replace: true });
+      // the address names what the loaded brief names -- its style, and its parti or none
+      nav.select({ style: (rec && rec.style) || null, parti: (rec && rec.parti) || null }, { replace: true });
       nav.setParams({ example: null });
     }).catch((e) => { if (live) setExampleError({ id: urlExample, reason: errorText(e) }); });
     return () => { live = false; };
@@ -140,16 +201,30 @@ export function BriefIntake({ go }) {
     setBrief((b) => ({ ...b, style: v || '' }));
     nav.select({ style: v || null }, { replace: true });
   };
+  const pickParti = (v) => {
+    setBrief((b) => ({ ...b, parti: v || '' }));
+    nav.select({ parti: v || null }, { replace: true });
+  };
   React.useEffect(() => { session.set({ brief }); }, [brief]);
 
   const set = (k, v) => setBrief((b) => ({ ...b, [k]: v }));
   const setCtx = (k, v) => setBrief((b) => ({ ...b, context: { ...b.context, [k]: v } }));
 
-  // Feasibility, all advisory
-  const native = partis?.partis || [];
-  const areaHit = native.filter((p) => p.area_range_sf
+  /* WHAT THE SELECT OFFERS, grouped by the nativity the server stated (`journey/briefForm.js`),
+     with the borrowed rows only from the list asked for them. */
+  const options = partiOptions(own.state === 'ready' ? own.payload : null,
+    includeBorrowed && wide.state === 'ready' ? wide.payload : null, brief.parti);
+  const chosenNativity = brief.parti ? nativityOfParti(options, brief.parti) : null;
+
+  // Feasibility, all advisory. The style's OWN plan types -- native and lineage, by the nativity
+  // the server stated -- and never the whole list read as native, which is what this used to do.
+  const ownGroups = partiOptions(own.state === 'ready' ? own.payload : null, null, null).groups;
+  const ownIds = new Set(ownGroups.flatMap((g) => g.rows.map((r) => r.id)));
+  const ownRows = (own.state === 'ready' && Array.isArray(own.payload?.partis) ? own.payload.partis : [])
+    .filter((p) => ownIds.has(p.id));
+  const areaHit = ownRows.filter((p) => p.area_range_sf
     && brief.target_area_sf >= p.area_range_sf[0] && brief.target_area_sf <= p.area_range_sf[1]);
-  const bedHit = native.filter((p) => p.bedroom_range
+  const bedHit = ownRows.filter((p) => p.bedroom_range
     && brief.bedrooms >= p.bedroom_range[0] && brief.bedrooms <= p.bedroom_range[1]);
   const silent = [
     !brief.context.lot_width_ft && 'lot width', !brief.context.climate_zone && 'climate zone',
@@ -160,18 +235,12 @@ export function BriefIntake({ go }) {
   async function compose() {
     setError(null);
     setComposing(true);
-    const clean = JSON.parse(JSON.stringify(brief, (k, v) =>
-      (v === '' || v === null || (Array.isArray(v) && !v.length)
-        || (typeof v === 'object' && v && !Array.isArray(v) && !Object.keys(v).length)) ? undefined : v));
-    // `min="1"` on the number input is decorative here — submit is a Chip, not a form, so
-    // the browser never enforces it, and an empty field reads back as 0. The brief schema
-    // gained `minimum: 1` on candidates, so 0 now refuses the WHOLE brief with a validation
-    // error about a field the user was not thinking about. It was already ignored on the
-    // wire (the count travels as its own argument), so drop it rather than refuse on it.
-    const wanted = Number(brief.candidates);
-    if (!Number.isFinite(wanted) || wanted < 1) delete clean.candidates;
+    /* The brief the form posts is `journey/briefForm.js`'s `composeRequest` -- blanks dropped, a
+       count that is not one or more left to the client's own default, and the `parti` the reader
+       named kept (WP-14.25). It lived here as an inline expression with no test until then. */
+    const req = composeRequest(brief);
     try {
-      const { job_id } = await api.compose(clean, wanted >= 1 ? wanted : 4);
+      const { job_id } = await api.compose(req.brief, req.candidates ?? undefined);
       /* The compose is accepted, so everything the last one said is cleared at once -- result,
          progress, a recorded failure -- and the new job named (PRD §G.1). Written AFTER the
          server accepts rather than before, so a brief the schema refuses leaves the candidates
@@ -221,7 +290,10 @@ export function BriefIntake({ go }) {
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '20px 24px 34px' }}>
         {error && (
-          <div style={{ border: '1px solid var(--sev-serious)', padding: '10px 12px', marginBottom: 16,
+          /* The server's own words, never ours: a brief naming a parti nobody holds, or one its own
+             massing contradicts, is refused by the composer by name before any job starts. */
+          <div data-brief-refused="" role="alert"
+            style={{ border: '1px solid var(--sev-serious)', padding: '10px 12px', marginBottom: 16,
             font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink)' }}>
             The brief was refused: {String(error)}
           </div>
@@ -282,6 +354,41 @@ export function BriefIntake({ go }) {
                 <input style={input} type="number" step="0.5" value={brief.bathrooms ?? ''}
                   onChange={(e) => set('bathrooms', e.target.value === '' ? null : +e.target.value)} />
               </div>
+            </div>
+
+            {/* THE PARTI (WP-14.25). The style's own plan types, grouped by the nativity the server
+                stated and labelled by each nativity's record; borrowed diagrams only when the reader
+                includes them. Unstated, the composer chooses every diagram itself. A parti the brief
+                names that no group here holds is shown as itself rather than dropped. */}
+            <div style={{ marginTop: 16 }} data-parti-field=""
+              aria-busy={own.state === 'loading' || (includeBorrowed && wide.state === 'loading') ? 'true' : undefined}>
+              <span id={partiLabel} style={label}><Term id="parti" /></span>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                <select style={{ ...input, width: 300 }} data-field="parti" aria-labelledby={partiLabel}
+                  value={brief.parti || ''} disabled={!brief.style}
+                  onChange={(e) => pickParti(e.target.value)}>
+                  <option value="">unstated</option>
+                  {options.groups.map((g) => (
+                    <optgroup key={g.nativity} label={word(g.termId)} data-nativity={g.nativity}>
+                      {g.rows.map((r) => (
+                        <option key={r.id} value={r.id} data-parti={r.id} data-nativity={g.nativity}>{r.name}</option>
+                      ))}
+                    </optgroup>
+                  ))}
+                  {options.offList && <option value={options.offList} data-off-list={options.offList}>{options.offList}</option>}
+                </select>
+                {chosenNativity && (
+                  <span data-parti-nativity={chosenNativity}><Term id={NATIVITY_TERMS[chosenNativity]} /></span>
+                )}
+                <Chip on={includeBorrowed} onClick={() => filters.set('borrowed', !includeBorrowed)}>
+                  include borrowed
+                </Chip>
+              </div>
+              {includeBorrowed && wide.state === 'failed' && (
+                <span data-borrowed-unread="" style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 4 }}>
+                  the borrowed plan types could not be read: {wide.reason}
+                </span>
+              )}
             </div>
 
             <div style={{ marginTop: 16 }}>
@@ -369,35 +476,42 @@ export function BriefIntake({ go }) {
           <div style={{ flex: '0 1 330px', minWidth: 300 }}>
             <Eyebrow style={{ marginBottom: 12 }}>feasibility · advisory, computed as you type</Eyebrow>
 
-            <div style={{ marginBottom: 12 }}>
-              {partis === null ? (
-                <JudgmentMark state="unjudged" label="native partis unknown"
-                  reason={brief.style ? 'reading the corpus…' : 'no style is chosen yet'} />
-              ) : native.length === 0 ? (
+            {/* The style's plan types, BY THE NATIVITY THE SERVER STATED (WP-14.25). A request in
+                flight is not a verdict, so the loading state is `aria-busy` and draws nothing; the
+                one JudgmentMark left is the real could-not-evaluate, with no style to read. */}
+            <div style={{ marginBottom: 12 }} data-plan-types={brief.style ? own.state : 'no-style'}
+              aria-busy={own.state === 'loading' ? 'true' : undefined}>
+              {!brief.style ? (
+                <JudgmentMark state="unjudged" label="native partis unknown" reason="no style is chosen yet" />
+              ) : own.state === 'failed' ? (
+                <Advisory tone="limit" label={`the plan types could not be read: ${own.reason}`} />
+              ) : own.state !== 'ready' ? null : ownGroups.length === 0 ? (
                 <Advisory tone="limit"
-                  label={`${styleName(brief.style)} has no native parti — the composer will borrow diagrams`}
-                  detail="Three of the corpus's 132 styles and variants have none — egyptian-revival, new-urbanist-traditional and tuscan-vernacular — and every candidate here will carry the NOT-native label. This is one of the three, not the norm: WP-4.5 took native coverage from 93 uncovered to 0, and this panel claimed the pre-WP-4.5 figure until 26 Aug 2026." />
+                  label={<>{styleName(brief.style)} has no <Term id="parti-native" /> and no <Term id="parti-lineage" /> — the composer will borrow diagrams</>} />
               ) : (
-                <Advisory
-                  label={`${native.length} parti${native.length === 1 ? '' : 's'} native to ${styleName(brief.style)}`}
-                  detail={native.map((p) => p.name).join(' · ')} />
+                ownGroups.map((g) => (
+                  <div key={g.nativity} data-nativity-group={g.nativity} style={{ marginBottom: 8 }}>
+                    <Advisory label={<><Term id={g.termId} /> · {g.rows.length}</>}
+                      detail={g.rows.map((r) => r.name).join(' · ')} />
+                  </div>
+                ))
               )}
             </div>
 
-            {native.length > 0 && (
+            {ownRows.length > 0 && (
               <div style={{ marginBottom: 12 }}>
                 {areaHit.length > 0
-                  ? <Advisory label={`${brief.target_area_sf?.toLocaleString()} sf sits inside ${areaHit.length} native area band${areaHit.length === 1 ? '' : 's'}`} />
+                  ? <Advisory label={`${brief.target_area_sf?.toLocaleString()} sf sits inside ${areaHit.length} of their area band${areaHit.length === 1 ? '' : 's'}`} />
                   : <Advisory tone="limit"
-                      label={`${brief.target_area_sf?.toLocaleString()} sf is outside every native parti's area band`}
-                      detail={native.map((p) => `${p.name}: ${p.area_range_sf?.[0]}–${p.area_range_sf?.[1]} sf`).join(' · ')} />}
+                      label={`${brief.target_area_sf?.toLocaleString()} sf is outside every one of their area bands`}
+                      detail={ownRows.map((p) => `${p.name}: ${p.area_range_sf?.[0]}–${p.area_range_sf?.[1]} sf`).join(' · ')} />}
               </div>
             )}
-            {native.length > 0 && brief.bedrooms != null && (
+            {ownRows.length > 0 && brief.bedrooms != null && (
               <div style={{ marginBottom: 12 }}>
                 {bedHit.length > 0
-                  ? <Advisory label={`${brief.bedrooms} bedrooms fits ${bedHit.length} native diagram${bedHit.length === 1 ? '' : 's'}`} />
-                  : <Advisory tone="limit" label={`${brief.bedrooms} bedrooms is outside the native bedroom ranges`} />}
+                  ? <Advisory label={`${brief.bedrooms} bedrooms fits ${bedHit.length} of these diagram${bedHit.length === 1 ? '' : 's'}`} />
+                  : <Advisory tone="limit" label={`${brief.bedrooms} bedrooms is outside the bedroom ranges of every one`} />}
               </div>
             )}
 

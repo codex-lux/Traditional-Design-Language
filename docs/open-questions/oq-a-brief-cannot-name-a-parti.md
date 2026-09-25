@@ -110,3 +110,12 @@ the lines.
 **Not done here.** The brief-side control is the "start a brief from this parti" bridge the
 tranche-1 plan forbade until this was ruled. It belongs to the packages that own Brief Intake and
 the Plan types section. The report is `docs/reports/wp-14.19-a-brief-may-name-a-parti.md`.
+
+**The page half (WP-14.25, 25 Sep 2026).** The bridge is built. Each plan type on a style's
+dossier links to Brief Intake with the style and the parti named, worded by the glossary record
+`start-a-brief-from-a-plan-type`. Brief Intake carries a parti select grouped by the nativity the
+server states, with borrowed diagrams only behind an explicit choice, and shows the composer's
+refusal in the composer's own words. The Candidate Set marks the candidate the brief named, and
+prints `named_parti.why` where the set does not hold it. The two readers named above read
+`nativity` now, and so does a third, the feasibility panel's native count. The report is
+`docs/reports/wp-14.25-the-plan-type-starts-the-brief.md`.

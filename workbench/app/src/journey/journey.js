@@ -31,8 +31,15 @@
    real zero (`plan_check` writes a key only when a finding carries that severity); an absent
    `counts` object or an absent `unjudged` is NOT a zero, and reads as not counted.
 
-   "k SCORED", NEVER "k OF N". The compose job's `candidate` event carries its arrival index and no
-   total (`workbench/server/jobs.py`), so N is not knowable from the stream and is not printed.
+   "k OF N" WHERE THE STREAM STATES N, AND "k SCORED" WHERE IT DOES NOT (WP-14.25). Until WP-14.19
+   the compose job's events carried an arrival index and no total, so N was not knowable and was
+   not printed. Every `stage` event now carries `total` -- the length of `compose.considered`, the
+   one list the composer works through -- and every diagram in it is heard from exactly once,
+   as a `candidate` event or as a `dropped` stage, each carrying `considered`, the running count
+   (`workbench/server/jobs.py`). So k is the stream's own `considered` and N its own `total`, both
+   read and neither counted here; a diagram the lot drops is considered and never scored, which is
+   why k counts it and "scored" would not. A stream stating no total (a job from before the field)
+   keeps the old words, and N is never guessed.
 
    Every word the journey shows is in JOURNEY_WORDS, one spelling. The four that are also glossary
    terms (refused, fatal, serious, unjudged) are named in JOURNEY_TERMS so the bar can render them as
@@ -62,7 +69,9 @@ export const JOURNEY_WORDS = Object.freeze({
     ready: (k) => plural(k, 'candidate', 'candidates'),
     failed: 'failed',
     expired: 'expired',
-    composing: (k) => `composing · ${k} scored`,
+    composing: (k, total) => (Number.isInteger(total) && total > 0
+      ? `composing · ${k} of ${total}`
+      : `composing · ${k} scored`),
     none: 'none yet',
   }),
   plan: Object.freeze({
@@ -134,6 +143,24 @@ export function countsWords(counts) {
   return ['fatal', 'serious', 'unjudged'].map(one).join(W.separator);
 }
 
+/* How far a compose has got, from the stream's own events: `scored`, the candidate events heard
+   (a revision is the loop's second word on one already counted, and is not counted again);
+   `considered`, the highest running count any event states; `total`, the N the stage events
+   state. Each is null where no event states it -- never a zero, which would be a count nobody
+   made. */
+export function composeProgress(progress) {
+  const evs = Array.isArray(progress) ? progress.filter(isObj) : [];
+  const nat = (v) => (Number.isInteger(v) && v >= 0 ? v : null);
+  const scored = evs.filter((e) => count(e.n) !== null && !e.revised).length;
+  const totals = evs.map((e) => nat(e.total)).filter((t) => t !== null && t > 0);
+  const heard = evs.map((e) => nat(e.considered)).filter((c) => c !== null);
+  return {
+    scored,
+    considered: heard.length ? Math.max(...heard) : null,
+    total: totals.length ? totals[totals.length - 1] : null,
+  };
+}
+
 function briefStep(session) {
   const b = isObj(session.brief) ? session.brief : null;
   const area = b ? b.target_area_sf : null;
@@ -150,9 +177,9 @@ function candidatesStep(session) {
   if (err && err.state === 'failed') return { state: 'failed', words: W.candidates.failed, failure: str(err.reason) };
   if (err && err.state === 'expired') return { state: 'expired', words: W.candidates.expired, failure: str(err.reason) };
   if (str(session.jobId)) {
-    const progress = Array.isArray(session.progress) ? session.progress : [];
-    const k = progress.filter((e) => isObj(e) && count(e.n) !== null && !e.revised).length;
-    return { state: 'composing', words: W.candidates.composing(k) };
+    const p = composeProgress(session.progress);
+    const k = p.total !== null && p.considered !== null ? p.considered : p.scored;
+    return { state: 'composing', words: W.candidates.composing(k, p.total) };
   }
   return { state: 'none', words: W.candidates.none };
 }

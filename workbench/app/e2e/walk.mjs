@@ -1835,6 +1835,120 @@ await shot('brief');
   }
 }
 
+/* A PLAN TYPE STARTS THE BRIEF THAT NAMES IT, AND THE CANDIDATE SAYS SO (WP-14.25, PRD §C.5).
+   Ruled 25 Sep 2026: a brief may name a parti and the composer guarantees it a place among the
+   candidates. The plan type is READ off the dossier the server serves, preferring a lineage one
+   where the style has one: the composer's own ranking is the least likely to return it, so it is
+   the guarantee and not the ranking that puts it among the candidates. The compose is posted by
+   the form itself, and the walk adds ONE field to that post, `revise: false`, because the placed
+   revision loop runs for minutes on the proving engine and the flag this block reads is written by
+   the composer before any round runs. The brief the form posted is read back off that same post,
+   so the parti is asserted on what left the browser and not on what the page shows. */
+{
+  const sid = 'tidewater-georgian';
+  const dos = await fetch(`${BASE}/api/styles/${sid}/dossier`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const pts = (dos && dos.plan_types && dos.plan_types.partis) || [];
+  const target = pts.find((p) => p.nativity === 'lineage') || pts[0];
+  // the walk's own reader of a record (`termOf`, above): the route wraps the record in `term`
+  const rec = await termOf('start-a-brief-from-a-plan-type');
+  const flagRec = await termOf('named-by-the-brief');
+  if (!target) {
+    unjudged.push(`the plan-type link -- the ${sid} dossier lists no plan type to start a brief from`);
+  } else {
+    await visit(formatHash('style', { style: sid, section: 'plans' }, {}));
+    const link = page.locator(`main a[data-start-brief="${target.id}"]`);
+    await link.first().waitFor({ timeout: 15000 }).catch(() => {});
+    const n = await link.count();
+    check(`the plan type ${target.id} (${target.nativity}) offers to start a brief (${n} link)`, n === 1);
+    const word = n ? (await link.first().innerText()).trim() : '';
+    check(`and the link is worded by its glossary record ("${word}")`, !!rec && !!rec.term && word === rec.term);
+    if (n) {
+      await link.first().click();
+      await page.waitForFunction(() => location.hash.startsWith('#/brief'), null, { timeout: 15000 }).catch(() => {});
+    }
+    const hash = await page.evaluate(() => location.hash);
+    const sel = parseHash(hash).selection;
+    check(`the link lands on Brief Intake naming the style and the parti (${hash})`,
+      parseHash(hash).surface === 'brief' && sel.style === sid && sel.parti === target.id);
+    await page.waitForFunction((id) => {
+      const s = document.querySelector('main select[data-field="parti"]');
+      return s && s.value === id;
+    }, target.id, { timeout: 20000 }).catch(() => {});
+    const shown = await page.evaluate(() => {
+      const s = document.querySelector('main select[data-field="parti"]');
+      const o = s && s.selectedOptions[0];
+      return s ? { value: s.value, nativity: o ? o.getAttribute('data-nativity') : null,
+        group: o && o.parentElement && o.parentElement.tagName === 'OPTGROUP' ? o.parentElement.label : null } : null;
+    });
+    check(`the parti select shows the plan type the link named (${shown ? shown.value : 'no select'})`,
+      !!shown && shown.value === target.id);
+    check(`and files it under the nativity the server stated (${shown && shown.nativity} in "${shown && shown.group}")`,
+      !!shown && shown.nativity === target.nativity);
+    await shot('brief-parti', [1440]);
+
+    // one candidate asked for, so a named parti the ranking passes over is APPENDED rather than returned
+    await page.locator('main div:has(> span:text-is("candidates")) > input').first().fill('1').catch(() => {});
+    let posted = null;
+    const route = '**/api/compose';
+    await page.route(route, async (r) => {
+      let body = {};
+      try { body = JSON.parse(r.request().postData() || '{}'); } catch { body = {}; }
+      posted = body;
+      await r.continue({ postData: JSON.stringify({ ...body, revise: false }),
+        headers: { ...r.request().headers(), 'content-type': 'application/json' } });
+    });
+    const accepted = page.waitForResponse((r) => r.url().endsWith('/api/compose') && r.request().method() === 'POST',
+      { timeout: 30000 }).catch(() => null);
+    await page.locator('main button[data-compose]').click().catch(() => {});
+    const resp = await accepted;
+    await page.unroute(route);
+    const jobId = resp && resp.ok() ? (await resp.json().catch(() => ({}))).job_id : null;
+    check(`the brief the form posted names the parti (${posted && posted.brief ? posted.brief.parti : 'nothing posted'})`,
+      !!posted && !!posted.brief && posted.brief.parti === target.id);
+    check(`and the composer accepted it (${resp ? resp.status() : 'no response'})`, !!jobId);
+    if (jobId) {
+      await page.waitForSelector(`main [data-named-by-brief="${target.id}"]`, { timeout: 240000 }).catch(() => {});
+      const flag = await page.evaluate((id) => {
+        const f = document.querySelector(`main [data-named-by-brief="${id}"]`);
+        return f ? f.innerText.trim() : null;
+      }, target.id);
+      check(`the candidate composed from it is marked named by the brief ("${flag}")`,
+        !!flag && !!flagRec && flag === flagRec.term);
+      const job = await fetch(`${BASE}/api/jobs/${jobId}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+      const np = job && job.result && job.result.named_parti;
+      const cand = job && job.result && (job.result.candidates || []).find((c) => c.parti === target.id);
+      check(`and the job says the same: named_parti ${np ? JSON.stringify({ returned: np.returned, appended: np.appended, nativity: np.nativity }) : 'absent'}`,
+        !!np && np.parti === target.id && np.returned === true && np.nativity === target.nativity
+        && !!cand && cand.named_by_brief === true);
+      const flagged = await page.$$eval('main [data-named-by-brief]', (fs) => fs.length);
+      check(`and only that candidate carries the flag (${flagged})`, flagged === 1);
+      // the flag sits below the column's scores, so bring it into the picture before shooting
+      await page.evaluate((id) => {
+        const f = document.querySelector(`main [data-named-by-brief="${id}"]`);
+        if (f) f.scrollIntoView({ block: 'center' });
+      }, target.id);
+      await shot('candidates-named', [1440]);
+    }
+
+    /* A parti nobody holds is refused by the composer, by name, before a job exists -- and the
+       form shows the server's sentence rather than one of its own. No job, so no cost. */
+    const bogus = 'no-such-plan-diagram';
+    await visit(formatHash('brief', { style: sid, parti: bogus }, {}));
+    await page.waitForFunction((id) => {
+      const s = document.querySelector('main select[data-field="parti"]');
+      return s && s.value === id;
+    }, bogus, { timeout: 20000 }).catch(() => {});
+    const off = await page.evaluate((id) => !!document.querySelector(`main option[data-off-list="${id}"]`), bogus);
+    check('a parti no group holds is shown as itself, not dropped', off);
+    await page.locator('main button[data-compose]').click().catch(() => {});
+    await page.waitForSelector('main [data-brief-refused]', { timeout: 30000 }).catch(() => {});
+    const refusal = await page.evaluate(() => document.querySelector('main [data-brief-refused]')?.innerText || '');
+    check(`and composing it is refused in the composer's own words (${refusal.slice(0, 90)}…)`,
+      refusal.includes(bogus) && /no parti has that id/.test(refusal));
+    await page.selectOption('main select[data-field="parti"]', '').catch(() => {});
+  }
+}
+
 // ⑥ Candidate Set (empty state without a run)
 await visit('#/candidates');
 await page.waitForTimeout(500);
