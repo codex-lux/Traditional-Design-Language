@@ -6,7 +6,19 @@
 
 import assert from 'node:assert/strict';
 import { score, search, matches, SCORE, KIND_ORDER } from '../src/search/match.js';
-import { STATIC_ENTRIES, SURFACE_ENTRIES } from '../src/search/staticEntries.js';
+import { STATIC_ENTRIES, SURFACE_ENTRIES, staticEntries } from '../src/search/staticEntries.js';
+import { navModel, flatItems, wordFor } from '../src/nav/navModel.js';
+import { indexTerms } from '../src/glossary/lookup.js';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
+
+/* The glossary records, read from disk: a surface entry is named by its record (WP-14.13), so
+   "typing a place's name finds it" is asserted over the names a reader will actually see. */
+const GLOSSARY = new URL('../../../glossary/', import.meta.url);
+const RECS = existsSync(GLOSSARY)
+  ? readdirSync(GLOSSARY).filter((f) => f.endsWith('.json')).sort()
+    .map((f) => JSON.parse(readFileSync(new URL(f, GLOSSARY), 'utf8')))
+  : [];
+const LOOKUP = indexTerms({ terms: RECS });
 
 let checks = 0;
 const ok = (fn) => { fn(); checks += 1; };
@@ -73,8 +85,10 @@ ok(() => {
 
 /* Every kind the palette can show has a place in the order, or ties sort arbitrarily. */
 ok(() => {
-  ['surface', 'action', 'style', 'slot', 'pack', 'fault', 'room', 'massing', 'parti', 'grouping']
+  ['surface', 'action', 'style', 'slot', 'pack', 'fault', 'room', 'massing', 'parti', 'grouping', 'term']
     .forEach((k) => assert.ok(KIND_ORDER.includes(k), `${k} has no rank`));
+  // and a kind the index does not serve has none: the kit is a section of a style's dossier
+  assert.ok(!KIND_ORDER.includes('kit'), 'kit is not a kind the palette can show');
 });
 
 /* ── words in any order, but all of them ───────────────────────────────────────── */
@@ -129,7 +143,7 @@ ok(() => {
     ['floor plan', 'workbench'], ['layout', 'workbench'],
     ['import', 'transcription'], ['trace', 'transcription'],
     ['ratios', 'proportions'], ['orders', 'proportions'],
-    ['elements', 'kit'], ['bindings', 'kit'],
+    ['elements', 'style'], ['bindings', 'style'],
     ['sheets', 'drawings'], ['elevation', 'drawings'],
     ['options', 'candidates'],
     ['shortcuts', 'help'], ['keyboard', 'help'],
@@ -143,16 +157,29 @@ ok(() => {
 
 /* Every surface entry names a surface, and every action names a handler. */
 ok(() => {
-  SURFACE_ENTRIES.forEach((e) => {
+  assert.ok(RECS.length > 0, 'COULD NOT EVALUATE without glossary/*.json: the names are the records');
+  const named = staticEntries(LOOKUP);
+  const surfaces = named.filter((e) => e.kind === 'surface');
+  // the palette's places are the site map's, in its order, the front door first (PRD §I.12)
+  const map = flatItems(navModel({ lookup: LOOKUP, place: { surface: 'overview', selection: {} } }))
+    .filter((it) => it.id !== 'in-hand');
+  assert.deepEqual(surfaces.map((e) => e.id), map.map((it) => it.id));
+  assert.equal(surfaces[0].id, 'overview');
+  surfaces.forEach((e) => {
     assert.equal(e.kind, 'surface');
     assert.ok(e.surface, `${e.id} has no surface to go to`);
+    // Names come from navModel, which reads the glossary record: the rail's word, not a copy.
+    assert.equal(e.name, wordFor(LOOKUP, e.termId).label, `${e.id} is named by ${e.termId}`);
+    assert.equal(e.name, map.find((it) => it.id === e.id).label);
     // Typing the label on the rail must find the surface it labels. Asserted through
     // search() rather than against the haystack, because the name is matched directly:
-    // "Details & Export" is findable without the ampersand ever being indexed.
-    const { hits } = search(STATIC_ENTRIES, e.name);
+    // "Family tree & map" is findable without the ampersand ever being indexed.
+    const { hits } = search(named, e.name);
     assert.equal(hits[0] && hits[0].id, e.id, `typing "${e.name}" should offer ${e.id} first`);
   });
-  STATIC_ENTRIES.filter((e) => e.kind === 'action')
+  // before the glossary answers, a place is shown by its record id and never by a made-up name
+  SURFACE_ENTRIES.forEach((e) => assert.equal(e.name, e.termId));
+  named.filter((e) => e.kind === 'action')
     .forEach((e) => assert.ok(e.run, `${e.id} has no action to run`));
 });
 

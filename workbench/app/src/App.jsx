@@ -9,7 +9,13 @@
    `layout.full`, which the atlas asks for and escape gives back. What the layout store
    holds is a preference about this browser, so it lives in localStorage; it deliberately
    stays out of the URL, because a citation that carried the sender's rail width would be
-   handing the reader the sender's monitor. */
+   handing the reader the sender's monitor.
+
+   WP-14.13 made every page say where it is, what it is and what comes next. The rail, the
+   crumb strip and the tab title are `nav/navModel.js`'s and `nav/crumbs.js`'s, fed from here
+   with what only the shell holds — the place, the glossary, the names, the style list, the
+   style in hand, the journey and the counts — and each page is headed by its own glossary
+   record (`PageHead`). The URL decides what is read; per-browser memory only offers. */
 import React from 'react';
 import { api, setUnauthorizedHandler } from './api/client.js';
 import { planDoc } from './state/planDoc.js';
@@ -17,12 +23,22 @@ import { nav } from './state/nav.js';
 import { useGlobalKeys, requestFilterFocus } from './keys.js';
 import { CommandPalette } from './palette/CommandPalette.jsx';
 import { ShortcutCard } from './palette/ShortcutCard.jsx';
-import { Masthead, LeftRail, PaneStub } from './Chrome.jsx';
+import { Masthead, LeftRail, PaneStub, CrumbStrip } from './Chrome.jsx';
 import { Splitter } from './components/Splitter.jsx';
 import { JourneyBar, showJourneyBar } from './components/JourneyBar.jsx';
-import { layout } from './state/layout.js';
+import { layout, PANES } from './state/layout.js';
 import { Gate } from './Gate.jsx';
-import { RailHost } from './rail/RailHost.jsx';
+import { RailHost, assistantName } from './rail/RailHost.jsx';
+import { PageHead } from './components/PageHead.jsx';
+import { ColdLinkBanner } from './components/ColdLinkBanner.jsx';
+import { useGlossary } from './api/useGlossary.js';
+import { useNames } from './names/useNames.js';
+import { useStyles } from './api/useStyles.js';
+import { prefs } from './state/prefs.js';
+import { session } from './state/session.js';
+import { journeyState } from './journey/journey.js';
+import { navModel, headTermFor, inHandFrom, normalizePlace, stylePlaceKind } from './nav/navModel.js';
+import { crumbsFor, titleFor } from './nav/crumbs.js';
 import { PlanWorkbench } from './surfaces/PlanWorkbench.jsx';
 import { CandidateSet } from './surfaces/CandidateSet.jsx';
 import { FaultCorpus } from './surfaces/FaultCorpus.jsx';
@@ -62,9 +78,15 @@ export default function App() {
   // null while unknown — rendering the shell before we know would flash it at a locked
   // visitor, and rendering the gate before we know would flash it at an open server.
   const [locked, setLocked] = React.useState(null);
+  /* A server that does not answer is SAID, not drawn as a blank page (WP-14.13). `locked`
+     stays null until /api/health answers, and it used to stay null for ever when it could
+     not, which rendered nothing at all — to a stranger handed the URL during a slow boot, a
+     broken product. */
+  const [bootFailed, setBootFailed] = React.useState(false);
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
 
   const boot = React.useCallback(() => {
+    setBootFailed(false);
     // /api/health is never gated, so it answers either way and tells us which way.
     api.health().then((h) => {
       setHealth(h);
@@ -73,8 +95,11 @@ export default function App() {
       // request is the only way to find out.
       return api.overview()
         .then((o) => { setOverview(o); setLocked(false); })
-        .catch((e) => { if (e.status === 401) setLocked(true); });
-    }).catch(() => setHealth({ ok: false }));
+        .catch((e) => {
+          if (e.status === 401) setLocked(true);
+          else if (h.auth?.required) setBootFailed(true);   // still unknown which way: say so
+        });
+    }).catch(() => { setHealth({ ok: false }); setBootFailed(true); });
   }, []);
 
   React.useEffect(boot, [boot]);
@@ -160,9 +185,95 @@ export default function App() {
   // each with its own mount effects waiting to fire.
   const Active = SURFACES[surface] || SURFACES.workbench;
 
-  const unjudged = lastEval?.check?.constraint_summary?.unjudged;
+  /* ── Where you are (WP-14.13). ─────────────────────────────────────────────────────── */
+  const glossary = useGlossary();
+  const lookup = glossary.lookup;
+  const names = useNames();
+  const { styles } = useStyles();
+  const memory = React.useSyncExternalStore(prefs.subscribe, prefs.get);
+  const sessionNow = React.useSyncExternalStore(session.subscribe, session.get);
 
-  if (locked === null) return null;                 // one frame, before we know which
+  /* An evaluation belongs to the plan it was of. `lastEval` outlived a plan change, so a newly
+     loaded plan's name could sit beside the previous plan's counts in the masthead. It is
+     cleared when the plan's id changes — UNLESS it is already this plan's: the bench loads a
+     revised record and sets its evaluation in one tick, and a blanket clear running after
+     both would throw away the verdict it had just been handed. */
+  const planId = plan ? plan.id : null;
+  const lastPlanId = React.useRef(planId);
+  React.useEffect(() => {
+    if (lastPlanId.current === planId) return;
+    lastPlanId.current = planId;
+    setLastEval((ev) => (ev && ev.check && ev.check.plan === planId ? ev : null));
+  }, [planId]);
+
+  /* The style dossier's head, for a style's place: its chain names the crumbs and its sections
+     are the in-hand item's children. Read through the GET cache, which the dossier surface
+     shares, so a place costs one request however many readers it has. */
+  const here = normalizePlace(place);
+  const dossierStyle = here.surface === 'style' && stylePlaceKind(here.selection) === 'dossier'
+    ? here.selection.style : null;
+  const [dossier, setDossier] = React.useState(null);
+  React.useEffect(() => {
+    if (!dossierStyle) return undefined;
+    let live = true;
+    api.styleDossier(dossierStyle)
+      .then((d) => { if (live) setDossier(d && typeof d === 'object' ? d : null); })
+      .catch(() => { if (live) setDossier(null); });
+    return () => { live = false; };
+  }, [dossierStyle]);
+  const dossierHere = dossier && dossier.id === dossierStyle ? dossier : null;
+
+  const styleName = React.useCallback((id) => {
+    const n = names.nameFor(`style:${id}`);
+    if (n.resolved) return n.name;
+    const s = styles.find((x) => x.id === id);
+    return s ? s.name : null;
+  }, [names, styles]);
+  const inHand = inHandFrom(memory.styleInHand, lookup, styleName);
+  const journey = journeyState({ session: sessionNow, plan, lastEval });
+  const model = navModel({
+    lookup, counts: overview?.counts, glossaryCount: lookup ? lookup.count : null,
+    inHand, dossier: dossierHere, journey, place,
+  });
+  const crumbs = crumbsFor(place, { lookup, dossier: dossierHere, names: names.index, styles, journey });
+  const title = titleFor(crumbs, lookup);
+  React.useEffect(() => {
+    if (title && typeof document !== 'undefined') document.title = title;
+  }, [title]);
+
+  /* The front door and the Glossary reflow below the shell's 1380 px floor (tokens.css,
+     WP-14.8); every working surface keeps its minimum. */
+  React.useEffect(() => {
+    const root = typeof document !== 'undefined' ? document.getElementById('root') : null;
+    if (!root) return;
+    if (surface === 'overview' || surface === 'glossary') root.setAttribute('data-reflow', '');
+    else root.removeAttribute('data-reflow');
+  }, [surface]);
+
+  /* The first place this page loaded, and whether it was a cold deep link. Visiting the front
+     door is having seen it. */
+  const firstPlace = React.useRef(place);
+  React.useEffect(() => { if (surface === 'overview') prefs.markSeen('front-door'); }, [surface]);
+  const coldLink = firstPlace.current.surface !== 'overview' && !memory.seen['front-door'];
+
+  const railName = assistantName(glossary);
+
+  if (locked === null) {                            // one frame, before we know which
+    if (!bootFailed) return null;
+    return (
+      <div role="status" data-boot-status=""
+        style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          gap: 10, font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--ink)',
+          background: 'var(--paper)' }}>
+        Cannot reach the server
+        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>·</span>
+        <button type="button" onClick={boot}
+          style={{ font: 'inherit', color: 'var(--link)', borderBottom: '1px solid var(--link-underline)' }}>
+          Retry
+        </button>
+      </div>
+    );
+  }
   if (locked) return <Gate onUnlocked={boot} auth={health?.auth} />;
 
   return (
@@ -172,14 +283,25 @@ export default function App() {
           was more of the window than the atlas's legend. It is a state of the shell
           rather than a mode of the surface, so every surface can ask for it and none of
           them has to reimplement getting out. */}
-      {!full && <Masthead plan={plan} judgment={unjudged} onSearch={() => setPalette(true)} />}
-      {showJourneyBar(surface, full) && <JourneyBar surface={surface} lastEval={lastEval} />}
+      {!full && (
+        <Masthead plan={plan} planStep={journey.steps.find((s) => s.id === 'plan')}
+          onSearch={() => setPalette(true)}
+          onKeys={() => { setPalette(false); setHelpCard(true); }} />
+      )}
+      {!full && coldLink && (
+        <ColdLinkBanner crumbs={crumbs} onDismiss={() => prefs.markSeen('front-door')} />
+      )}
+      {!full && <CrumbStrip crumbs={crumbs} />}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        {!full && <LeftRail current={surface} onGo={go} counts={overview?.counts} />}
+        {!full && <LeftRail model={model} busy={glossary.status === 'loading'} />}
         {!full && layout.isOpen('nav') && <Splitter pane="nav" grows="left" />}
-        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
-          <Active {...shared} />
-        </main>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
+          {!full && <PageHead termId={headTermFor(place)} />}
+          {showJourneyBar(surface, full) && <JourneyBar surface={surface} lastEval={lastEval} />}
+          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
+            <Active {...shared} />
+          </main>
+        </div>
         {!full && layout.isOpen('rail') && <Splitter pane="rail" grows="right" />}
         {!full && (layout.isOpen('rail')
           ? (
@@ -187,7 +309,7 @@ export default function App() {
               railAvailable={health ? !!health.rail : null}
               toolCount={health?.mcp?.tools} />
           )
-          : <PaneStub pane="rail" label="the rail" side="right" />)}
+          : <PaneStub pane="rail" label={PANES.rail.label} spine={railName} side="right" />)}
       </div>
       <CommandPalette open={palette} onClose={() => setPalette(false)}
         onAction={(run) => { if (run === 'help') setHelpCard(true); }} />

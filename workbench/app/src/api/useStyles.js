@@ -18,7 +18,7 @@
 import React from 'react';
 import { api } from './client.js';
 
-let cache = null;      // resolved [{id, name, rank}]
+let cache = null;      // resolved [{id, name, rank, member_of}] — member_of is the list's `in`, which the crumbs walk (nav/crumbs.js)
 let inflight = null;
 let failure = null;
 const listeners = new Set();
@@ -30,7 +30,7 @@ function load() {
     inflight = api.styles({ limit: 250 })
       .then((r) => {
         cache = (r.results || [])
-          .map((s) => ({ id: s.id, name: s.name || s.id, rank: s.rank }))
+          .map((s) => ({ id: s.id, name: s.name || s.id, rank: s.rank, member_of: s.in || null }))
           .sort((a, b) => a.name.localeCompare(b.name));
         failure = null;
         emit();

@@ -113,12 +113,14 @@ function current() {
   return { titles, counts };
 }
 
-/* The baseline, measured on this tree at WP-14.8. It may only lose rows. */
+/* The baseline, measured on this tree at WP-14.8. It may only lose rows. WP-14.13 took out six:
+   the masthead's unjudged tooltip (the count is a `Term` now), the rail's "9 sections" and
+   "4 formats" (its figures are the API's), and the three stale "209 faults" against a corpus
+   of 210 (read from the API). */
 // BASELINE-BEGIN
 const BASELINE = {
   titles: [
     ["Chrome.jsx", "Search styles, slots, faults, packs and rooms — ⌘K"],
-    ["Chrome.jsx", "constraints the corpus could not evaluate on this plan — unjudged is not passed"],
     ["components/Splitter.jsx", "Drag to resize · arrows nudge, shift-arrows stride, | Home or double-click for its shipped width"],
     ["round/RoundPlate.jsx", "lay the drawn plate over the model at this view"],
     ["round/RoundPlate.jsx", "is read off a plan and is not drawn in a free view | show"],
@@ -134,16 +136,11 @@ const BASELINE = {
     ["surfaces/phylo/MapView.jsx", "Give the instrument back — or press escape | Give the atlas the whole window — escape brings the instrument back"],
   ],
   counts: [
-    ["Chrome.jsx", "9 sections"],
-    ["Chrome.jsx", "4 formats"],
     ["components/CandidateColumn.jsx", "100 points"],
     ["components/ConflictSet.jsx", "six reads"],
     ["components/FaultCard.jsx", "three tiers"],
     ["surfaces/BriefIntake.jsx", "132 styles"],
     ["surfaces/CandidateSet.jsx", "eight axes"],
-    ["surfaces/ExportDetails.jsx", "209 faults"],
-    ["surfaces/FaultCorpus.jsx", "209 faults"],
-    ["surfaces/FaultCorpus.jsx", "209 faults"],
     ["surfaces/KitSurface.jsx", "two namespaces"],
     ["surfaces/PlanWorkbench.jsx", "6 rounds"],
     ["surfaces/PlanWorkbench.jsx", "4 rounds"],

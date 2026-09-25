@@ -33,6 +33,14 @@ export function ExportDetails({ lastEval }) {
   const [busyCad, setBusyCad] = React.useState(null);
   const [note, setNote] = React.useState(null);
   const [refusal, setRefusal] = React.useState(null);
+  /* The fault count below is the corpus's, read from /api/overview: it was typed as "209"
+     against a corpus of 210 (WP-14.13). Unread, the sentence names no figure. */
+  const [faultCount, setFaultCount] = React.useState(null);
+  React.useEffect(() => {
+    let live = true;
+    api.overview().then((o) => { if (live) setFaultCount(o?.counts?.faults ?? null); }).catch(() => {});
+    return () => { live = false; };
+  }, []);
 
   /* NOTHING LEAVES THIS SYSTEM FROM A REFUSED PLACEMENT, AND NOTHING LEAVES IT FROM A SKETCH
      (WP-13.4). The verdict is the one the bench already holds — `/api/plan/evaluate`'s own
@@ -228,7 +236,7 @@ export function ExportDetails({ lastEval }) {
 
         <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
           margin: '24px 0 0', maxWidth: '76ch' }}>
-          No costing engine exists: every one of the 209 faults carries a recorded{' '}
+          No costing engine exists: every one of the{faultCount != null ? ` ${faultCount}` : ''} faults carries a recorded{' '}
           <span style={{ fontFamily: 'var(--mono)' }}>cost_saved</span> (86 of them priced in
           dollars) and nothing here prices a plan. Code findings are advisory IRC model text
           and are never rendered as compliance.

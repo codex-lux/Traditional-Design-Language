@@ -69,7 +69,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
         })),
         // the card typesets `test` as prose beside the statement; the record's is a
         // structured rule — render it as the sentence it encodes, note included
-        /* `between` carries BOTH edges — 40 of the 209 faults use it — and only
+        /* `between` carries BOTH edges — 40 of 210 faults, measured 25 Sep 2026 — and only
            `threshold` was printed, so a two-sided band rendered as "between 7.0 ratio"
            and a reader could not tell whether 12.0 passed. */
         test: f.test
@@ -110,9 +110,12 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
             noneLabel="no style" />
         </span>
       }>
+        {/* The corpus's own count, from the list the API answered — it said "209" against a
+            corpus of 210 (WP-14.13). While the list is still loading it names no figure. */}
         <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={list.length}
-          label="Filter the 209 faults by name, slot, severity or driver"
-          placeholder="filter 209 faults" width={180} />
+          label={all.length ? `Filter the ${all.length} faults by name, slot, severity or driver`
+            : 'Filter the faults by name, slot, severity or driver'}
+          placeholder={all.length ? `filter ${all.length} faults` : 'filter the faults'} width={180} />
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
         <ChipGroup label="severity">
           <Eyebrow as="span">severity</Eyebrow>

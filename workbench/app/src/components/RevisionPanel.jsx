@@ -133,7 +133,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
 
       {r && r.rounds.length > 0 && (
         <div style={{ marginTop: 10 }}>
-          <Eyebrow tone="quiet">rounds</Eyebrow>
+          <Eyebrow>rounds</Eyebrow>
           {r.rounds.map((rd) => (
             <div key={rd.n} style={{ margin: '6px 0 0', paddingLeft: 10,
               borderLeft: `2px solid ${rd.accepted ? 'var(--gilt-deep)' : 'var(--brick)'}` }}>
@@ -167,7 +167,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
 
       {r && (
         <div style={{ marginTop: 12 }}>
-          <Eyebrow tone="quiet">what remains, by class</Eyebrow>
+          <Eyebrow>what remains, by class</Eyebrow>
           <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 4 }}>
             {CLASSES.map((c) => (
               <span key={c} style={{ ...quiet, color: r.remaining[c].length ? 'var(--ink-2)' : 'var(--ink-4)' }}>
@@ -177,7 +177,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
           </div>
           {r.handed.length > 0 && (
             <div style={{ marginTop: 8 }}>
-              <Eyebrow tone="quiet">handed to the architect</Eyebrow>
+              <Eyebrow>handed to the architect</Eyebrow>
               <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18 }}>
                 {r.handed.slice(0, 8).map((h) => (
                   <li key={h.id} style={{ marginBottom: 4 }}>
@@ -196,7 +196,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
           )}
           {r.suspects.length > 0 && (
             <div style={{ marginTop: 8 }}>
-              <Eyebrow tone="quiet">the critic's own — neither clear nor failed</Eyebrow>
+              <Eyebrow>the critic's own — neither clear nor failed</Eyebrow>
               <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18, color: 'var(--ink-3)' }}>
                 {r.suspects.slice(0, 6).map((s) => (
                   <li key={s.id} style={{ marginBottom: 3 }}>

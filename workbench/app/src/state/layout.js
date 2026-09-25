@@ -48,6 +48,18 @@ export const PANES = {
   transcription: { def: 360, min: 260, max: 640, label: 'the record' },
 };
 
+/* BELOW THIS, THE ASSISTANT STARTS FOLDED — WHEN THE READER HAS NOT SAID OTHERWISE (ruled
+   24 Sep 2026, PRD §I.11). The two shell rails open by default are 580 px of furniture, and
+   with the 1380 px floor on `#root` a 1280 px laptop scrolled sideways before it showed a word.
+   So the store's FIRST `clampAll` — the shell calls it on mount with the window's width — folds
+   the assistant's pane when the window is narrower than this AND the stored layout carries no
+   choice about that pane. A stored choice, open or folded, always wins; a later resize folds
+   and unfolds nothing (a reader who widens the window has not asked for the pane, and one who
+   narrows it has not dismissed it); and the fold is published like every other fit, with
+   `save = false`, so it writes nothing. It becomes a stored choice only the way every layout
+   state does — the next time the reader's own act persists the whole object. */
+export const NARROW_FOLD_PX = 1500;
+
 /* The narrowest a pane may be squeezed BY THE WINDOW (as opposed to by the reader). Below
    this it is not a pane, it is a stripe, and the reader should fold it instead.
 
@@ -97,11 +109,17 @@ function fit(widths, collapsed, windowWidth) {
 function readStored() {
   const widths = {};
   const collapsed = {};
+  let railChosen = false;
   Object.keys(PANES).forEach((k) => { widths[k] = PANES[k].def; collapsed[k] = false; });
   try {
     const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
     if (saved && typeof saved === 'object' && !Array.isArray(saved)) {
       const sw = saved.widths, sc = saved.collapsed;
+      // A stored CHOICE about the assistant: an own `rail` key holding a boolean, open or
+      // folded. Anything else — no entry, no `collapsed`, no `rail` in it, a `rail` that is
+      // not a boolean — is no choice, and the narrow fold below may apply (PRD §I.11).
+      railChosen = Boolean(sc && typeof sc === 'object' && !Array.isArray(sc)
+        && Object.prototype.hasOwnProperty.call(sc, 'rail') && typeof sc.rail === 'boolean');
       Object.keys(PANES).forEach((k) => {
         if (sw && typeof sw === 'object' && sw[k] != null) widths[k] = clamp(k, sw[k]);
         // A pane that is the surface's own subject has no folded state to be put into,
@@ -114,7 +132,7 @@ function readStored() {
       });
     }
   } catch { /* a corrupt entry is not worth a broken shell — start from the defaults */ }
-  return { widths, collapsed };
+  return { widths, collapsed, railChosen };
 }
 
 /* `full` is NOT persisted, and that is the point of the word "temporarily" in the
@@ -131,6 +149,8 @@ let state = {
 };
 
 const listeners = new Set();
+/* Whether `clampAll` has run: the narrow fold belongs to the first call alone. */
+let firstClamped = false;
 
 /* PERSISTENCE IS DEBOUNCED, AND THE RENDER IS NOT.
 
@@ -244,6 +264,13 @@ export const layout = {
      widening back restores it. Called by the shell on mount and on every resize. */
   clampAll(windowWidth) {
     if (!Number.isFinite(windowWidth) || windowWidth <= 0) return;
-    publish(state.widths, state.collapsed, windowWidth, false);
+    let collapsed = state.collapsed;
+    if (!firstClamped) {
+      firstClamped = true;
+      if (!state.railChosen && windowWidth < NARROW_FOLD_PX && !collapsed.rail) {
+        collapsed = { ...collapsed, rail: true };
+      }
+    }
+    publish(state.widths, collapsed, windowWidth, false);
   },
 };

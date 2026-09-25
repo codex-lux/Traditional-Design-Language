@@ -1,6 +1,8 @@
 /* Scored substring matching. Not a fuzzy matcher, deliberately.
 
-   The corpus is 665 nameable things with careful, distinct names. Edit-distance fuzz
+   The corpus is several hundred nameable things with careful, distinct names — how many is
+   `/api/search/index`'s own `count`, read there and never written here, because this comment
+   said 665 while the index held 762. Edit-distance fuzz
    earns its keep over millions of noisy strings; over this it mostly invents matches —
    "cape" scoring against "escape hatch" is a worse answer than no answer, and in a corpus
    whose whole point is that the words are precise, a loose match is a small lie.
@@ -21,10 +23,13 @@ export const SCORE = {
 
 /* Kinds in the order a reader wants them, not alphabetically. A style is what people
    look for most; a slot is a piece of one; a fault is a diagnosis. Ties break here so
-   two equally-scored hits come back in a stable, explicable order. */
+   two equally-scored hits come back in a stable, explicable order. A glossary term comes
+   last: it is what a word MEANS, and a reader who typed a record's name wants the record.
+   There is no `kit` kind: the index names none, and the kit is a section of a style's
+   dossier (PRD §E.1). */
 export const KIND_ORDER = [
-  'surface', 'action', 'style', 'kit', 'slot', 'pack',
-  'fault', 'room', 'massing', 'parti', 'grouping',
+  'surface', 'action', 'style', 'slot', 'pack',
+  'fault', 'room', 'massing', 'parti', 'grouping', 'term',
 ];
 
 const kindRank = (k) => {

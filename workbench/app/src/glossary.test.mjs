@@ -137,10 +137,13 @@ test('every literal glossary id in the shipped app resolves to a record', (t) =>
   for (const p of shippedFiles()) {
     for (const h of scan(readFileSync(p, 'utf8'))) hits.push({ ...h, file: p.slice(SRC.length) });
   }
-  /* The premise: the scan reached the one surface this package ships a literal on. Without it a
-     scanner that matched nothing would pass every tree. */
-  assert.ok(hits.some((h) => h.file === 'surfaces/Glossary.jsx' && h.id === 'surface-glossary'
-    && h.shape === '<PageHead termId>'), 'the premise: Glossary.jsx’s own page head was found');
+  /* The premise: the scan reached a literal the app really ships. Without it a scanner that
+     matched nothing would pass every tree. It read Glossary.jsx's own page head until WP-14.13
+     moved every page head into the shell, where the id is `headTermFor(place)` — a variable,
+     held to its records by `navModel.test.mjs` instead — so it reads the assistant's name now,
+     the one literal the shell's own files ask the glossary for by id. */
+  assert.ok(hits.some((h) => h.file === 'rail/RailHost.jsx' && h.id === 'assistant'
+    && h.shape === 'termView'), 'the premise: RailHost’s assistant record was found');
   const unresolved = hits.filter((h) => (h.id !== undefined
     ? !ids.has(h.id)
     : !(bf[h.field] && typeof bf[h.field][h.value] === 'string' && ids.has(bf[h.field][h.value]))));

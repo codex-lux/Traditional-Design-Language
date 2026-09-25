@@ -113,7 +113,7 @@ function AssistantTurn({ turn, onCite }) {
   );
 }
 
-function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount }) {
+function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, title }) {
   /* The rail's own width, pulled from the shell's layout store rather than a token, so
      the splitter on its left edge and the aside itself cannot disagree about it.
 
@@ -132,7 +132,10 @@ function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount })
       <header style={{ height: 'var(--substrip-h)', flex: 'none', display: 'flex',
         alignItems: 'center', gap: 10, padding: '0 6px 0 12px',
         borderBottom: '1px solid var(--rule)' }}>
-        <span style={EYE}>the rail</span>
+        {/* The assistant's NAME, from its glossary record (WP-14.13, PRD §I.11): the host passes
+            the record's term, so nothing here says what the pane is. The aside's label and the
+            fold's stay "the rail" — they are how the walk and a screen reader find the pane. */}
+        <span style={{ ...EYE, color: 'var(--ink-2)' }} data-rail-head="">{title}</span>
         <span style={{ flex: 1 }} />
         {/* Counted by the server, which is the only thing that knows. Absent rather than
             guessed while /api/health is still in flight. */}

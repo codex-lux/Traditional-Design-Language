@@ -18,19 +18,17 @@
    is read (PRD §F.4). `?q=` narrows by the words a reader would type and `?family=` to one family,
    both in the URL through `useSurfaceFilters`, so a narrowed glossary is a link.
 
-   The page reflows below the shell's 1380 px floor: it marks `#root` with `data-reflow`, which
-   `theme/tokens.css` releases, and lays its entries out on a grid that folds to one column. The
-   shell will set that mark for this surface itself (PRD §I.12, WP-14.13); this effect is the
-   surface asking for it until then, and it removes the mark when it leaves. The PageHead below
-   is mounted here for the same reason and the shell's mount replaces it — `e2e/walk.mjs`
-   asserts there is exactly one, so the day both are mounted it fails rather than drawing two. */
+   The page reflows below the shell's 1380 px floor: the shell marks `#root` with `data-reflow`
+   on this surface and the front door (PRD §I.12, WP-14.13), which `theme/tokens.css` releases,
+   and the entries are laid out on a grid that folds to one column. The page head is the
+   shell's too — it heads every surface from `nav/navModel.js`'s `headTermFor` — so neither is
+   mounted here: `e2e/walk.mjs` asserts there is exactly one head, and two would fail it. */
 import React from 'react';
 import { useGlossary } from '../api/useGlossary.js';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { formatHash } from '../router.js';
 import { glossaryListing } from '../glossary/listing.js';
 import { termView, provenanceOf, wordOf, wordForCite } from '../glossary/termView.js';
-import { PageHead } from '../components/PageHead.jsx';
 import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
 import { FilterInput } from '../components/FilterInput.jsx';
@@ -38,15 +36,6 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Chip } from '../Chrome.jsx';
 
 const FILTERS = { q: { type: 'text' }, family: {} };
-
-function useReflow() {
-  React.useEffect(() => {
-    const root = typeof document !== 'undefined' ? document.getElementById('root') : null;
-    if (!root) return undefined;
-    root.setAttribute('data-reflow', '');
-    return () => root.removeAttribute('data-reflow');
-  }, []);
-}
 
 function Status({ glossary }) {
   if (glossary.status === 'failed') {
@@ -208,12 +197,10 @@ function TermPage({ id, glossary }) {
 
 export function Glossary({ selection }) {
   const glossary = useGlossary();
-  useReflow();
   const termId = selection && typeof selection.term === 'string' ? selection.term : null;
   return (
     <div className="tdl-glossary-scroll">
       <div className="tdl-glossary" data-glossary="">
-        <PageHead termId="surface-glossary" />
         {glossary.status !== 'ready'
           ? <Status glossary={glossary} />
           : (termId
