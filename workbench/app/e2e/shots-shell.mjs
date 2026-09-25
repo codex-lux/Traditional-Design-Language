@@ -47,7 +47,12 @@ for (const [w, h] of SIZES) {
     await page.screenshot({ path: file });
     const title = await page.title();
     const rail = await page.locator('aside[aria-label*="the rail"]').count();
-    console.log(`${w}x${h} ${hash} -> ${file} | title "${title}" | assistant ${rail ? 'open' : 'folded'}`);
+    // How far the page scrolls sideways, and whether the shell released #root's floor here.
+    const over = await page.evaluate(() =>
+      document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth);
+    const reflow = await page.evaluate(() => document.getElementById('root').hasAttribute('data-reflow'));
+    console.log(`${w}x${h} ${hash} -> ${file} | title "${title}" | assistant ${rail ? 'open' : 'folded'}`
+      + ` | sideways ${over} px | data-reflow ${reflow}`);
     await ctx.close();
   }
 }
