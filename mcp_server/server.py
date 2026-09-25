@@ -115,17 +115,31 @@ def tdl_resolve_kit(style_id: str, group: str = "", slot: str = "",
 
 @mcp.tool()
 def tdl_get_proportions(pack_id: str, column_diameter: float = 0, module: float = 0,
-                        ceiling_height: float = 108.0, opening_width: float = 36.0,
-                        assembly: str = "", include_rules: bool = True) -> str:
+                        ceiling_height: float = 0, opening_width: float = 0,
+                        assembly: str = "", include_rules: bool = True,
+                        storey_height: float = 0, room_width: float = 0) -> str:
     """Dimension a proportion pack at a real size. Order packs are <authority>-<order>, e.g.
     gibbs-ionic, vignola-doric, benjamin-corinthian. System packs include trim-classical,
     trim-craftsman, opening-proportion, facade-classical, room-harmonic, brick-course, sash-light.
-    Give column_diameter for an order (never a module — authorities do not share one) and
-    ceiling_height for a trim or opening system. assembly='cornice' returns member-by-member
-    dimensions with mouldings. derived_rules are how the order governs trim, casing and openings;
-    anything flagged judgment is NOT determined by the sources and should be put to the human."""
-    return J(core.get_proportions(pack_id, column_diameter or None, module or None,
-                                  ceiling_height, opening_width, include_rules, assembly or None))
+    Every size is in inches and 0 means not given. Give column_diameter for an order (never a
+    module — authorities do not share one). Where a pack's module IS a dimension of the building
+    the payload says so in module_bound_to (trim-classical's is its ceiling_height): give that
+    dimension and the members and the rules are both worked at it; give none and they are at the
+    pack's own default module, and module_from says which. Otherwise ceiling_height and
+    opening_width are variables the rules read (108 and 36 if not given), as are storey_height
+    and room_width where a rule uses them. A pack with no column stack lists its own assemblies
+    and the hint names them; pass assembly='<id>' (assembly='cornice' on an order) for
+    member-by-member dimensions with mouldings. An assembly may state axis (across-from-the-jamb:
+    its member heights are widths, measured out from the jamb) and zones (the divisions its pack
+    names, each ending at a running total in parts). derived_rules are how the pack governs trim,
+    casing and openings; anything flagged judgment is NOT determined by the sources and should be
+    put to the human."""
+    return J(core.get_proportions(pack_id, column_diameter=column_diameter or None,
+                                  module=module or None, ceiling_height=ceiling_height or None,
+                                  opening_width=opening_width or None,
+                                  include_rules=include_rules, assembly=assembly or None,
+                                  storey_height=storey_height or None,
+                                  room_width=room_width or None))
 
 @mcp.tool()
 def tdl_compare_authorities(order: str, column_diameter: float = 12.0) -> str:

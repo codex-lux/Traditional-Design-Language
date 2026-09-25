@@ -1,6 +1,6 @@
 # oq/mcp-proportions-serve-no-assemblies-for-non-order-packs — the workbench will draw twenty-seven packs the MCP tool still reports as having no assemblies
 
-*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 · Raised in: WP-14.0 (24 September 2026)*
+*Status: CLOSED — ruled 25 Sep 2026 (answer 1), executed by WP-14.18 on 25 Sep 2026 · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding.** `tdl_get_proportions` (`mcp_server/server.py:117`) calls
 `core.get_proportions`, which dimensions the pack with
@@ -79,3 +79,39 @@ package that creates it.
 ## Ruled 25 September 2026
 
 **Answer 1, full parity.** It follows the ruling that lifts tranche 1's freezes per item, named. `tdl_get_proportions` lists a stackless pack's own assemblies. Its hint names them. It withholds the column diameter on a pack with no column. It reads the module binding from the one spelling the workbench also reads. A digest pin holds the stacked packs' payloads byte-identical. The contract is `docs/prd/phase-14-tranche-2.md` §C.4. The question closes when WP-14.18 lands.
+
+## Closed 25 September 2026, by WP-14.18
+
+Answer 1 is built (`docs/reports/wp-14.18-proportions-served-whole.md`), and the freeze on this
+one MCP payload is lifted by name. Measured on that package's tree, over all 57 packs, with
+`core.get_proportions` called with no arguments:
+
+- **The 27 stackless packs with assemblies list all 50 of them**, each as
+  `{id, height_modules, height_in, members: <count>}` plus `axis` and `zones` where the pack
+  declares them. The counts sum to **237**, the figure this entry published, and
+  `trim-classical`'s six are 20, 21, 12, 7, 7 and 4 (71). Members still come one assembly at a
+  time, which keeps the tool's progressive disclosure.
+- **The hint names the pack's own assembly ids on all 27**, with no misses. A pack with no
+  assemblies (the five named above) says it states none and does not name an order's.
+- **`lower_diameter_in` is withheld on all 32 stackless packs**, and none of them declares a
+  column. `trim-classical`'s totals were `{stack_height_in: 0.0, lower_diameter_in: 228.0}` on
+  `f0dc52a` and are `{stack_height_in: 0.0}` now. This is done in `core`, and
+  `build/proportion_engine.py` is unchanged.
+- **The module binding has one spelling**, `core.module_binding`, and
+  `corpus.proportions_with_members` reads it. That settles the 108-against-114 disagreement: a
+  pack bound to a building dimension, with that dimension not given, is worked at its own
+  `default_size_in` on both surfaces, and the payload says so (`module_bound_to`, `module_from`).
+  Measured on a `git archive` of `f0dc52a`, the tool dimensioned `trim-classical` at 114 in and
+  evaluated its rules at a ceiling of 108, so its base board read **8.5263 in** beside members
+  drawn at a 6 in part. It reads **9.0** now, at 114 on both.
+- **A contradictory call is refused by name**: a column diameter on a pack whose module is a
+  building dimension, or a `module` that differs from the dimension the module IS. The
+  workbench route answers 422 with the same refusal.
+- **The pin.** `workbench/server/tests/test_pack_plates.py` hashes the payload of every STACKED
+  pack (25) over seven call shapes to `7ac8e89730301b1d`. It was derived first on a `git archive`
+  of `f0dc52a` and reproduced on the package's tree, and a wrapper that adds one key to one
+  stacked payload turns it red.
+
+What stays open is the plate's half of `oq/casings-are-measured-across-and-drawn-upright`, which
+is WP-14.24's, and the two class-A packs `oq/two-class-a-modules-are-refused-for-a-rule-that-reads-the-input-and-its-part`
+records.

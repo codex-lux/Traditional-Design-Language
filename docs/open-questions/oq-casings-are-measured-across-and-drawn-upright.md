@@ -84,3 +84,45 @@ assemblies at all (`opening-proportion`, `room-harmonic`, `room-vernacular`, `st
 ## Ruled 25 September 2026
 
 **Answer 1: axis and zones as data.** An assembly may declare `axis` and optional `zones`. `build/check_orders.py` holds every zone boundary to a cumulative member-height sum. The plate draws casings turned and prints the zone string, and the MCP payload carries both fields. Zones are declared only where the pack's own words give them; nothing is authored from outside the pack. The contract is `docs/prd/phase-14-tranche-2.md` §C.3 and §C.9. The question closes when WP-14.24 lands, the second of the two.
+
+## Amended 25 September 2026: the data and checker half is built (WP-14.18); the plate half is WP-14.24's
+
+WP-14.18 built the half this question gave it (`docs/reports/wp-14.18-proportions-served-whole.md`),
+and the question stays IN PROGRESS because the plate does not yet read either field.
+
+- **The schema** admits `axis` (`up-the-wall` | `across-from-the-jamb`, absent meaning
+  up-the-wall) and `zones` (`[{name, to_parts}]`, at least two) on the assembly object. Answer 1
+  says *"a version bump"*, and `schema/proportion-pack.schema.json` carries no version field, so
+  there was nothing to bump. Both fields are optional, and no order pack declares either.
+- **The checker.** `build/check_orders.py::assembly_declaration_errors`, called from `check_pack`
+  beside the sum check, holds four rules: zones strictly increase, every boundary is a running
+  member total, the last is the assembly's whole height, and a `sums_check: false` assembly
+  declares none. Every error names the pack, the assembly and the zone.
+  `tests/test_assembly_zones.py` drives each rule. **The Federal wall given the Georgian
+  4 / 16 / 19 goes red on its pedestal and its field and not on its entablature**, which is this
+  entry's own case.
+- **The data, and only what the pack's words give.** The three casings are
+  `across-from-the-jamb` on their reveal notes: *"This assembly is measured ACROSS the casing from
+  the jamb outward rather than vertically; height_parts is therefore a width."*, *"Measured across
+  the casing, as in the Georgian assembly."* and *"Measured across the casing, as in the other two
+  families."* The Georgian wall section takes zones pedestal 4, wall field 16, entablature 19, from
+  *"Pedestal 4, wall field 12, entablature 3"*. Its running totals really pass through 4, 16 and
+  19 (after `geo_surbase_listel`, `geo_wall_field` and `geo_cornice_fillet`).
+  **The Federal and the Greek Revival sections take NO zones.** The Federal's pedestal ends at
+  3.75 parts and its field at 16.25, so the pack's one stated division is false of it, and no
+  sentence gives its own. The Greek Revival's base ends at 1.9 parts because *"the dado has been
+  abandoned and the pedestal has collapsed into the base board"*. That sentence states the
+  collapse and not a figure, so a zone there would be read back off the members.
+- **Where the fields travel.** Both are passed through exactly as declared, on the MCP payload's
+  assembly rows and on the workbench route's members rows (`corpus._wall_assemblies`). They are
+  not put inside `profiles.pack_geometry`'s geometry, which stays upright. Turning is the plate's
+  work, one `rotate` per §C.9 of the tranche-2 PRD, and `build/profiles.py` and
+  `render_profile.py` are unchanged.
+
+**Two sentences are now ahead of what they describe, until WP-14.24 lands.** The Proportions
+page's refusal note (`data-refused="zones"`) says *"nothing in the record says where a zone
+ends"*, which is false of `trim-classical`'s Georgian wall from this commit. The
+`figure-drawn-upright` glossary record says *"the plate does not turn it"*, which is still true of
+the plate, and the record now holds the axis the plate will turn by. Both are WP-14.24's to
+change: the page file is outside WP-14.18's lane, and `glossary/figure-drawn-turned.json` is
+written here for the caption that package will draw.

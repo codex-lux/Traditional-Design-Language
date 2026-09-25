@@ -454,8 +454,106 @@ def resolve_kit(style_id, group=None, slot=None, ceiling_height=108.0, only_spec
             "hint": "pass slot='<id>' for the full record including parameters and pack bindings"}
 
 # ----------------------------------------------------------------- proportion
-def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=108.0,
-                    opening_width=36.0, include_rules=True, assembly=None):
+# The two building inputs this tool has always bound for a pack whose module is a size of its own:
+# a 9 ft ceiling and a 3 ft opening. They are the defaults for an UNBOUND pack only. A pack that
+# declares `module.equals` defaults to its own module instead (module_binding, below), which is how
+# `trim-classical` stopped being dimensioned at 114 in while its rules were read at 108.
+# workbench/server/corpus.py reads these rather than restating them.
+CEILING_DEFAULT_IN = 108.0
+OPENING_DEFAULT_IN = 36.0
+# The building dimensions a caller may give and `module.equals` may name -- the schema's enum, in
+# its order. storey_height and room_width are passed to the engine only when given, so a call
+# that gives neither binds exactly what it always bound (the engine's own DEFAULT_BINDINGS).
+BUILDING_INPUTS = ("ceiling_height", "storey_height", "room_width", "opening_width")
+
+
+def module_binding(pk, module=None, column_diameter=None, ceiling_height=None,
+                   opening_width=None, storey_height=None, room_width=None):
+    """WHICH BUILDING DIMENSION A PACK'S MODULE IS, AND AT WHAT SIZE THIS CALL DIMENSIONS IT.
+
+    The ONE spelling (WP-14.18, PRD tranche 2 §C.4). `get_proportions` -- the MCP tool, the rail's
+    tool and the plain route -- and `workbench/server/corpus.proportions_with_members` both read it,
+    so the tool and the plate cannot give two answers to "what module is this pack at".
+    -> {"module_in", "bindings", "bound_to", "from"}, or {"error", "hint", "refused": [...]}.
+
+    `module_in` None means the pack's own `default_size_in`, which `dimension()` and `evaluate()`
+    fall back to themselves. `bindings` is what the engine's rules read.
+
+    UNBOUND (no `module.equals`, every stacked pack and most others): exactly what this tool
+    always did -- an explicit `module`, else `column_diameter` times the pack's diameters per
+    module, else the default; the ceiling and the opening at the reader's figure or 108 in and
+    36 in. `bound_to` and `from` are None.
+
+    BOUND (`module.equals` names a building dimension, which check 19 of build/check_systems.py
+    lie-checks): the module IS that dimension, so one number is both the module and the binding
+    the rules read. It is the caller's figure for that dimension where given; else the caller's
+    `module`, read AS that dimension because the pack says they are one; else the pack's own
+    `default_size_in` -- never the unrelated 108 in, which is the 108-against-114 disagreement
+    `oq/which-packs-module-is-a-building-input` records. `from` names which of the three it was,
+    so a caller can see whether a figure describes their building or the pack's default.
+
+    REFUSED, never guessed: a bound pack given a `module` AND a different figure for the dimension
+    it IS (two sizes for one quantity), or given a `column_diameter` (the module is a building
+    dimension and the pack has no column for a diameter to measure)."""
+    given = {"ceiling_height": ceiling_height, "opening_width": opening_width,
+             "storey_height": storey_height, "room_width": room_width}
+    bindings = {"ceiling_height": CEILING_DEFAULT_IN if ceiling_height is None else ceiling_height,
+                "opening_width": OPENING_DEFAULT_IN if opening_width is None else opening_width}
+    for k in ("storey_height", "room_width"):
+        if given[k] is not None:
+            bindings[k] = given[k]
+    mod_rec = pk.get("module") or {}
+    bound = mod_rec.get("equals")
+    if not bound:
+        pe = _data()["engine"]
+        dpm = pe.diameters_per_module(pk)
+        mod = module if module is not None else ((column_diameter * dpm) if column_diameter else None)
+        return {"module_in": mod, "bindings": bindings, "bound_to": None, "from": None}
+    refused = []
+    if column_diameter is not None:
+        refused.append("column_diameter")
+    if module is not None and given.get(bound) is not None and abs(module - given[bound]) > 1e-9:
+        refused.append("module")
+    if refused:
+        return {"error": (f"'{pk['id']}' declares that its module IS the {bound.replace('_', ' ')}"
+                          f" (module.equals: {bound}), so "
+                          + ("a column diameter measures nothing here" if "column_diameter" in refused
+                             else f"module={module:g} and {bound}={given[bound]:g} are two sizes "
+                                  f"for one quantity")),
+                "hint": f"give {bound} (or module, which is read as {bound}) and nothing else "
+                        f"for the module",
+                "refused": refused}
+    if given.get(bound) is not None:
+        value, src = given[bound], bound
+    elif module is not None:
+        value, src = module, "module"
+    else:
+        value, src = mod_rec.get("default_size_in"), "default"
+    bindings[bound] = value
+    return {"module_in": value, "bindings": bindings, "bound_to": bound, "from": src}
+
+
+def _assembly_row(pe, pk, a, with_members):
+    """One served assembly: the stack path's row, and the same row for a stackless pack, so the
+    two cannot drift. `axis` and `zones` ride only where the pack DECLARES them (an absent axis
+    means up-the-wall, and no stacked pack declares either, which is what keeps every stacked
+    payload byte-identical -- held by workbench/server/tests/test_pack_plates.py's digest pin)."""
+    row = {"id": a["id"], "height_modules": a["height_modules"], "height_in": a["height_in_stated"],
+           "members": a["members"] if with_members else len(a["members"])}
+    rec = (pk.get("assemblies") or {}).get(a["id"]) or {}
+    for k in ("axis", "zones"):
+        if k in rec:
+            row[k] = rec[k]
+    owner = pe.assembly_owner(pk["id"], a["id"])
+    if owner and owner != pk["id"]:
+        row["inherited_from"] = owner
+        row["authority"] = pe.assembly_authority(pk["id"], a["id"])[0]
+    return row
+
+
+def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=None,
+                    opening_width=None, include_rules=True, assembly=None,
+                    storey_height=None, room_width=None):
     D = _data(); pe = D["engine"]
     try: pk = pe.resolve(pack_id)
     except Exception:
@@ -463,29 +561,53 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
                 "available": sorted(pe.PACKS.keys()),
                 "hint": "order packs are <authority>-<order>, e.g. gibbs-ionic"}
     dpm = pe.diameters_per_module(pk)
-    mod = module if module is not None else ((column_diameter * dpm) if column_diameter else None)
-    d = pe.dimension(pk, mod, [assembly] if assembly else None)
+    b = module_binding(pk, module=module, column_diameter=column_diameter,
+                       ceiling_height=ceiling_height, opening_width=opening_width,
+                       storey_height=storey_height, room_width=room_width)
+    if "error" in b:
+        return b
+    mod = b["module_in"]
+    stack = pe.stack_for(pk)
+    # WP-14.18 (oq/mcp-proportions-serve-no-assemblies-for-non-order-packs, answer 1). With no
+    # `assembly` the engine dimensions `stack_for(pk)`, which knows only an ORDER's assembly names,
+    # so every pack without a column stack came back with `assemblies: []` -- 27 packs, 50
+    # assemblies, although asked one at a time the same engine dimensions them all. A stackless
+    # pack now lists each of its OWN assemblies, in its declaration order, each dimensioned on its
+    # own (`include=[aid]`, as the workbench's wall-datum plate does) and served with its member
+    # COUNT -- the tool's progressive disclosure is kept: members only on request.
+    if assembly or stack:
+        d = pe.dimension(pk, mod, [assembly] if assembly else None)
+        dims = d["assemblies"]
+    else:
+        d = pe.dimension(pk, mod, [])
+        dims = [x for aid in (pk.get("assemblies") or {})
+                for x in pe.dimension(pk, mod, [aid])["assemblies"]]
+    totals = d["totals"]
+    if not stack and not pk.get("column"):
+        # `dimension()` divides the module by diameters-per-module for EVERY pack, so a pack with
+        # no column was served a column diameter -- `trim-classical`'s 9 ft 6 in ceiling read as a
+        # 19 ft shaft. Withheld here, not in the engine: a measurement stated where none was
+        # taken is OQ 52's shape, and the engine's other readers are another package's.
+        totals = {k: v for k, v in totals.items() if k != "lower_diameter_in"}
     out = {"pack": pk["id"], "name": pk["name"], "authority": pk.get("authority", {}).get("source"),
            "resolved_from": pk.get("_resolved_from", [pk["id"]]),
            "module_in": d["module_in"], "parts": d["parts"], "part_in": round(d["part_in"], 4),
-           "diameters_per_module": dpm, "totals": d["totals"],
+           "diameters_per_module": dpm, "totals": totals,
            # PER-ASSEMBLY ATTRIBUTION, because `authority` above is the PACK's and an overlay
            # inherits what it does not state. `palladio-tuscan` states no entablature on purpose
            # -- that is OQ 7 -- so this tool served Vignola's cornice members under Palladio's
            # citation, on the assembly the open question exists for. `states_no_own` names the
            # pack that actually gives the figures, and is absent where the pack gives them
            # itself.
-           "assemblies": [dict({"id": a["id"], "height_modules": a["height_modules"],
-                                "height_in": a["height_in_stated"],
-                                "members": a["members"] if assembly else len(a["members"])},
-                               **({} if not pe.assembly_owner(pk["id"], a["id"])
-                                     or pe.assembly_owner(pk["id"], a["id"]) == pk["id"]
-                                  else {"inherited_from": pe.assembly_owner(pk["id"], a["id"]),
-                                        "authority": pe.assembly_authority(pk["id"], a["id"])[0]}))
-                          for a in d["assemblies"]],
+           "assemblies": [_assembly_row(pe, pk, a, bool(assembly)) for a in dims],
            "invariants": pe.check_invariants(pk)}
+    if b["bound_to"]:
+        # Only on a pack that declares `module.equals` -- no stacked pack does -- so the key is new
+        # where it is true and absent everywhere else.
+        out["module_bound_to"] = b["bound_to"]
+        out["module_from"] = b["from"]
     if include_rules:
-        ev = pe.evaluate(pk, mod, {"ceiling_height": ceiling_height, "opening_width": opening_width})
+        ev = pe.evaluate(pk, mod, b["bindings"])
         # `quantity` (OQ 48) names what the rule MEASURES, which is what makes (slot, dimension)
         # not the real address. Omitting it here left every MCP consumer seeing two rules that the
         # corpus deliberately distinguishes as if they were the same address. `calibrated_for`
@@ -519,7 +641,20 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
         out["derived_rules"] = [{k: r.get(k) for k in RULE_KEYS} for r in ev["rules"]]
         out["judgment_rules"] = [r["target_slot"] for r in ev["rules"] if r.get("judgment")]
     out["conflicts"] = pk.get("conflicts", [])
-    if not assembly: out["hint"] = "pass assembly='cornice' (or capital, base, entablature, pedestal) for member-by-member dimensions"
+    if not assembly:
+        # THE HINT NAMES THE PACK'S OWN ASSEMBLIES (WP-14.18). It named an order's for every pack,
+        # so a machine client reading `trim-classical` was told to ask for a cornice the pack does
+        # not have, and could learn its real assembly ids only by parsing invariant expressions.
+        # A stacked pack keeps the sentence it always had, byte for byte.
+        own = list(pk.get("assemblies") or {})
+        if stack:
+            out["hint"] = "pass assembly='cornice' (or capital, base, entablature, pedestal) for member-by-member dimensions"
+        elif own:
+            out["hint"] = ("pass assembly='<id>' for member-by-member dimensions; this pack's "
+                           "assemblies are " + ", ".join(own))
+        else:
+            out["hint"] = ("this pack states no assemblies: its derived_rules are the whole of it, "
+                           "and assembly= has nothing to return")
     return out
 
 def compare_authorities(order, column_diameter=12.0):

@@ -15,7 +15,7 @@ Three keys, and they are the whole map:
 
 | | |
 |---|---|
-| `⌘K` · `ctrl-K` | search everything — 814 named things: styles, slots, faults, packs, rooms, massings, groupings, partis and the glossary's words, and the surfaces themselves |
+| `⌘K` · `ctrl-K` | search everything — 817 named things: styles, slots, faults, packs, rooms, massings, groupings, partis and the glossary's words, and the surfaces themselves |
 | `/` | filter the list in front of you |
 | `?` | the keys, and how a thing is addressed |
 

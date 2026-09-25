@@ -29,9 +29,11 @@ Checks, in order:
      with equality relaxed to the invariant's tolerance
  18. every derived_rules[].expression evaluates to a finite number over a sweep of
      sample bindings, and lands inside its declared range (warning if outside)
- 19. MODULE BOUND TO A BUILDING INPUT (WP-14.4): a pack declaring `module.equals = V` --
+ 19. MODULE BOUND TO A BUILDING INPUT (WP-14.4; widened by WP-14.18 from the ceiling alone to
+     the storey, the room's breadth and the opening): a pack declaring `module.equals = V` --
      "my module IS the room's ceiling height" -- is LIE-CHECKED rather than trusted, because
-     the workbench dimensions such a pack AT the reader's building on the strength of it:
+     the workbench AND the MCP tool dimension such a pack AT the building on the strength of it
+     (`mcp_server/core.py::module_binding`, the one spelling both read):
      (a) V is a variable the engine binds (RULE_VARS); (b) at least one derived rule reads
      V; (c) no rule reads V together with `module` or `part`, which would count the one
      input twice; (d) module.default_size_in is a number, because the default ceiling comes
@@ -255,7 +257,17 @@ def module_equals_errors(pack):
       (c) no rule reads V together with `module` or `part` -- once the module IS V, a rule
           reading both counts the one building input twice and scales with its square;
       (d) module.default_size_in is a number -- the ceiling a reader sees before they give one.
-    An absent declaration returns nothing: most packs' modules are sizes of their own."""
+    An absent declaration returns nothing: most packs' modules are sizes of their own.
+
+    WP-14.18 ran this over the ruling's three class-A packs before authoring anything and it
+    passed on one: `room-harmonic` declares `room_width`. `storey-graduation` is refused by (c)
+    on its belt course and `opening-pointed` by (c) on its light count, and neither was declared
+    -- editing either rule to let the declaration through would be the check answering itself.
+    Declared, the belt course's six inches over the storey would become five per cent of it and
+    the light count would be two at every opening, so (c) is right on both.
+    `oq/two-class-a-modules-are-refused-for-a-rule-that-reads-the-input-and-its-part` records the
+    measurement, and asks whether either rule should be restated on a fixed length the pack does
+    not yet state."""
     mod = pack.get("module") or {}
     if "equals" not in mod:
         return []

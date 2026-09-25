@@ -506,8 +506,11 @@ def pack_list():
                      "DIAMETER, never a common module — authorities do not share one.")}
 
 
-CEILING_DEFAULT_IN = 108.0     # the route's defaults since WP-5.2, now applied HERE so the
-OPENING_DEFAULT_IN = 36.0      # route can tell "not given" from "given as 108" (PRD §H.1)
+# The route's defaults since WP-5.2. They live in mcp_server/core.py now, beside the one spelling
+# of the module binding that applies them (WP-14.18), and are named here only so the existing
+# readers of `corpus.CEILING_DEFAULT_IN` keep reading the same number rather than a copy of it.
+CEILING_DEFAULT_IN = core.CEILING_DEFAULT_IN
+OPENING_DEFAULT_IN = core.OPENING_DEFAULT_IN
 
 
 def _profiles():
@@ -516,7 +519,8 @@ def _profiles():
 
 
 def proportions_with_members(pack_id, column_diameter=None, module=None,
-                             ceiling_height=None, opening_width=None):
+                             ceiling_height=None, opening_width=None,
+                             storey_height=None, room_width=None):
     """core.get_proportions plus full member lists for EVERY assembly — the plate
     drawing needs the whole stack at once, and the API's one-assembly-at-a-time
     shape (right for an agent's context budget) would cost seven round-trips.
@@ -540,13 +544,16 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
       null          -- nothing to draw (five packs: no assemblies at all). Never a picture of
                        something the record does not hold.
 
-    THE MODULE BOUND TO THE CEILING. A pack whose `module.equals` is `ceiling_height` states that
-    its module IS the room's ceiling (`build/check_systems.py` check 19 lie-checks the claim), so
-    the module IS the ceiling here: the plate and the rules table describe one wall, and a reader
-    moving the ceiling moves both. Where no ceiling is given it defaults to the pack's own
-    `default_size_in` -- `trim-classical`'s 114 in, at which its part is exactly six inches --
-    and not to the route's 108, which would silently re-dimension the pack every reader opens
-    first. Every other pack takes today's call with today's defaults.
+    THE MODULE BOUND TO A BUILDING DIMENSION. A pack whose `module.equals` names a dimension of the
+    building -- `trim-classical`'s ceiling, `room-harmonic`'s breadth -- states that its module IS
+    that dimension (`build/check_systems.py` check 19 lie-checks the claim), so the plate and the
+    rules table describe one building and a reader moving that dimension moves both. Where it is
+    not given the module is the pack's own `default_size_in` -- `trim-classical`'s 114 in, at which
+    its part is exactly six inches -- and not the route's 108. Since WP-14.18 that reading is
+    `core.module_binding`, the ONE spelling the MCP tool reads too, so the tool and this plate cannot
+    dimension one pack at two sizes; a contradictory call (a module and a different figure for the
+    dimension it IS, or a column diameter on a pack whose module is a building dimension) is
+    refused by it, by name. Every unbound pack takes today's call with today's defaults.
     """
     pe = core._data()["engine"]
     try:
@@ -555,22 +562,14 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
         # core's own refusal shape -- {"error", "available", "hint"} -- rather than a second
         # wording of "no such pack".
         return core.get_proportions(pack_id)
-    equals = (pk.get("module") or {}).get("equals")
-    bound = equals == "ceiling_height"
-    if ceiling_height is not None:
-        ceiling = ceiling_height
-    elif bound:
-        ceiling = pk["module"]["default_size_in"]
-    else:
-        ceiling = CEILING_DEFAULT_IN
-    opening = opening_width if opening_width is not None else OPENING_DEFAULT_IN
-    if bound:
-        # the `module` and `column_diameter` arguments are NOT read: the module is the ceiling
-        out = core.get_proportions(pack_id, module=ceiling, ceiling_height=ceiling,
-                                   opening_width=opening)
-    else:
-        out = core.get_proportions(pack_id, column_diameter=column_diameter, module=module,
-                                   ceiling_height=ceiling, opening_width=opening)
+    given = {"column_diameter": column_diameter, "module": module,
+             "ceiling_height": ceiling_height, "opening_width": opening_width,
+             "storey_height": storey_height, "room_width": room_width}
+    b = core.module_binding(pk, **given)
+    if "error" in b:
+        return b
+    equals = b["bound_to"]
+    out = core.get_proportions(pack_id, **given)
     if "error" in out:
         return out
     stacked = bool(pe.stack_for(pk))
@@ -588,8 +587,15 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
         out["assemblies"] = (_wall_assemblies(pk, pe, out["module_in"])
                              if drawing == "assemblies" else [])
     out["drawing"] = drawing
-    out["at"] = {"ceiling_height": ceiling, "opening_width": opening,
-                 "module_in": out["module_in"]}
+    # What the drawing and the rules were worked at: the ceiling and the opening always (as since
+    # WP-14.4), and the dimension a bound module IS where that is another one -- `room-harmonic`'s
+    # breadth -- so a slider driven by `module_bound_to` finds its own figure here.
+    at = {"ceiling_height": b["bindings"]["ceiling_height"],
+          "opening_width": b["bindings"]["opening_width"]}
+    if equals and equals not in at:
+        at[equals] = b["bindings"][equals]
+    at["module_in"] = out["module_in"]
+    out["at"] = at
     out["module_name"] = pk["module"]["name"]
     out["module_bound_to"] = equals
     out["kind"] = pk["kind"]
@@ -614,21 +620,30 @@ def _wall_assemblies(pk, pe, module_in):
     reaches it. `owner` is the pack in the overlay chain that actually STATES the assembly
     (`pe.assembly_owner`, the one spelling) -- no stackless pack is an overlay today, so that
     case is driven too. `unconstructed`
-    is what `profiles.py` could not construct -- reported, never drawn as something else."""
+    is what `profiles.py` could not construct -- reported, never drawn as something else.
+
+    `axis` and `zones` (WP-14.18) are passed through exactly as the pack declares them and only
+    where it does: an absent axis means up-the-wall, and a zone is a division the pack's own words
+    give, held to the members by build/check_orders.py. The plate turns and dimensions from these;
+    nothing here derives either."""
     prof = _profiles()
     rows = []
-    for aid in (pk.get("assemblies") or {}):
+    for aid, rec in (pk.get("assemblies") or {}).items():
         d = pe.dimension(pk, module_in, [aid])
         if not d["assemblies"]:
             continue
         da = d["assemblies"][0]
         g = prof.pack_geometry(d, datum="wall")
-        rows.append({"id": aid, "height_modules": da["height_modules"],
-                     "height_in": da["height_in_summed"],
-                     "height_in_stated": da["height_in_stated"],
-                     "sums_check": da["sums_check"], "members": da["members"],
-                     "owner": pe.assembly_owner(pk["id"], aid),
-                     "geometry": g["assemblies"][0], "unconstructed": g["unconstructed"]})
+        row = {"id": aid, "height_modules": da["height_modules"],
+               "height_in": da["height_in_summed"],
+               "height_in_stated": da["height_in_stated"],
+               "sums_check": da["sums_check"], "members": da["members"],
+               "owner": pe.assembly_owner(pk["id"], aid),
+               "geometry": g["assemblies"][0], "unconstructed": g["unconstructed"]}
+        for k in ("axis", "zones"):
+            if k in (rec or {}):
+                row[k] = rec[k]
+        rows.append(row)
     return rows
 
 

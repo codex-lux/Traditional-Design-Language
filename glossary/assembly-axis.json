@@ -1,0 +1,14 @@
+{
+  "id": "assembly-axis",
+  "term": "axis of an assembly",
+  "family": "proportion",
+  "order": 12,
+  "definition": "Which way an assembly runs. Most rise up the wall, bottom to top, so each member's figure is a height; a casing runs across its face from the jamb outward, so its figures are widths. The pack states it; nothing guesses it.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's axis field and the classical trim family's casing member notes. schema/proportion-pack.schema.json, axis description: \"Which way the assembly runs, stated on the assembly rather than left in a member's note.\"; schema/proportion-pack.schema.json, axis description: \"up-the-wall: the members stack bottom to top, as an order and a wall section do\"; proportions/systems/trim-classical.json assemblies.casing_georgian.members[geo_cas_reveal].note: \"This assembly is measured ACROSS the casing from the jamb outward rather than vertically; height_parts is therefore a width.\".",
+  "see": [
+    "pack:trim-classical",
+    "term:assembly",
+    "term:figure-drawn-turned"
+  ]
+}

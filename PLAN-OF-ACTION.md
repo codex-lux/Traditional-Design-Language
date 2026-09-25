@@ -4869,7 +4869,12 @@ set when it merges.
   record. Wave 1. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.17-every-definition-a-record.md`. Glossary 0.2.0 has three new families (`glossary-field`, `mark`, `family`), an eighth bindable field, starter questions (`surface.ask`, 48 over 18 pages) and a `mark` checked against `tokens.css`. The glossary goes from 121 to 179 records. The Glossary's family headings and field labels, every label on the fault card, and the front door's two lower headings are now records, and `oq/a-glossary-family-has-no-name-of-its-own` is closed. **The fault card had labelled `frequency` "how it lives"**, while its own header says that is `severity_in_use`. It now reads how often, and how it lives is shown where the fault states it (33 of 210). The two copies of the bindable-field table had never been held to each other row for row; now they are.
 - **WP-14.18 — proportions served whole.** Assembly `axis` and `zones` and their checker;
   `module.equals` class A; `tdl_get_proportions` at parity with the workbench, with no false column
-  diameter. Wave 1. **Status: PLANNED.**
+  diameter. Wave 1. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.18-proportions-served-whole.md`.
+  - **Declared, only where the pack's own words give it.** Assemblies may declare `axis` and `zones`, and `check_orders` holds each zone to a cumulative member sum. `trim-classical`'s three casings run `across-from-the-jamb`, each on its own member's note. The Georgian wall section is zoned 4 / 16 / 19 from "Pedestal 4, wall field 12, entablature 3".
+  - **Not declared.** The Federal section breaks that division (3.75 / 16.25). Greek Revival states a collapse and no figure.
+  - **Class A.** Only `room-harmonic` binds (`room_width`). `storey-graduation` and `opening-pointed` are refused by the lie-check, each on a named rule that reads the input and its part, and filed.
+  - **MCP parity.** `tdl_get_proportions` serves the 27 stackless packs' 50 assemblies (237 members) and withholds the false column diameter on all 32 stackless packs, under a lift named by the ruling. The 25 stacked packs' payloads are byte-identical, pinned as one digest over 175 calls, and the one module binding settles 108 against 114.
+  - **Questions.** `oq/mcp-proportions-serve-no-assemblies-for-non-order-packs` closed; the module question HALF CLOSED; two filed.
 - **WP-14.19 — a brief may name a parti.** Brief schema 0.2.0; one spelling of nativity; the
   guaranteed place; `GET /api/partis/{id}`; a compose total in the job stream. Wave 1.
   **Status: PLANNED.**

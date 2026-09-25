@@ -1,6 +1,6 @@
 # oq/which-packs-module-is-a-building-input — `trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are
 
-*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 · Raised in: WP-14.0 (24 September 2026)*
+*Status: HALF CLOSED — ruled 25 Sep 2026; WP-14.18 declared `room-harmonic` and check 19 refused the other two class-A packs · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding that makes this a question.** On the Proportions page one pack could describe two
 different walls at once. `trim-classical`'s module is, in its own words, *"The finished ceiling
@@ -103,3 +103,33 @@ pack's default, so the page never implies a building the reader did not describe
 ## Ruled 25 September 2026
 
 **Answer 1, class A only**, taken with the tranche-2 plan's approval. `module.equals` gains the storey, room-width and opening-width dimensions, and the three class-A packs declare them. Each declaration is made only where the existing lie-check (check 19(c)) passes. Where it fails, the package files a question and authors no number. The contract is `docs/prd/phase-14-tranche-2.md` §C.3. The question closes when WP-14.18 lands.
+
+## Executed 25 September 2026, by WP-14.18, and half closed
+
+The enum is `ceiling_height`, `storey_height`, `room_width` and `opening_width`, each a variable
+the engine binds (`tests/test_module_equals.py` holds the enum inside `check_systems.RULE_VARS`).
+Check 19 was run on each class-A pack before anything was written, and it passed on ONE:
+
+- **`room-harmonic` declares `module.equals: room_width`.** Its module name is *"The short
+  dimension of the room in plan - its breadth"*. Its three vaulted-ceiling means read
+  `room_width` and `room_length` alone, and every other rule reads `module` or no variable at all,
+  so no rule counts the breadth twice. The MCP tool and the workbench route take `room_width` now, and with none given
+  the pack is worked at its own 192 in (`module_from: "default"`).
+- **`storey-graduation` and `opening-pointed` are REFUSED**, each by one rule that reads the input
+  together with `part`: `belt_course.height = storey_height + part * 0.6` and
+  `window_lite_pattern.count = max(2, round(opening_width / (part * 5)))`. Declared, the first
+  would move the belt course from six inches above every storey to five per cent of the storey,
+  and the second would give two lights at every opening width, never reaching its own range of 2
+  to 4. No number was authored to dissolve either. The measurements and the answers are in
+  `oq/two-class-a-modules-are-refused-for-a-rule-that-reads-the-input-and-its-part`.
+
+**What this leaves open.** The half of answer 1 that is built is closed. The refusals are
+recorded in their own question, and classes B, C and D are unruled here, as they were. **One
+thing measured while doing it belongs to class A's own half:** `room-harmonic` generates the
+room's LENGTH from its module (`room_adjacency_overrides`, `module * 4 / 3` and the rest), while
+the vaulted-ceiling means read a `room_length` binding that nobody sets and that defaults to
+288 in, which is 192 × 3/2 and no other ratio. With the module following the reader's breadth,
+the length those means read is still the default's. That is the same two-numbers-for-one-quantity
+shape one dimension over, and declaring `room_width` did not create it: before the declaration
+the module stayed at 192 whatever breadth was given, so the means and the widths already
+disagreed. The report names it and nothing was changed for it.

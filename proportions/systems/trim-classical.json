@@ -28,6 +28,20 @@
     "wall_section_georgian": {
       "height_modules": 1.0,
       "sums_check": true,
+      "zones": [
+        {
+          "name": "pedestal",
+          "to_parts": 4
+        },
+        {
+          "name": "wall field",
+          "to_parts": 16
+        },
+        {
+          "name": "entablature",
+          "to_parts": 19
+        }
+      ],
       "members": [
         {
           "id": "geo_base_plinth",
@@ -502,6 +516,7 @@
     "casing_georgian": {
       "height_modules": 0.0526315789,
       "sums_check": true,
+      "axis": "across-from-the-jamb",
       "members": [
         {
           "id": "geo_cas_reveal",
@@ -566,6 +581,7 @@
     "casing_federal": {
       "height_modules": 0.0394736842,
       "sums_check": true,
+      "axis": "across-from-the-jamb",
       "members": [
         {
           "id": "fed_cas_reveal",
@@ -632,6 +648,7 @@
     "casing_greek_revival": {
       "height_modules": 0.0605263158,
       "sums_check": true,
+      "axis": "across-from-the-jamb",
       "members": [
         {
           "id": "grk_cas_reveal",

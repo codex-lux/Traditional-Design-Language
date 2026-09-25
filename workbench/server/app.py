@@ -405,20 +405,26 @@ def proportions_list():
 @app.get("/api/proportions/{pack_id}")
 def proportions(pack_id: str, column_diameter: float = None, module: float = None,
                 ceiling_height: float = None, opening_width: float = None,
+                storey_height: float = None, room_width: float = None,
                 assembly: str = None, members: bool = False):
-    # WP-14.4: the two defaults are None HERE so the members path can tell "not given" from
-    # "given as 108" -- a pack whose module IS the ceiling defaults to its own module, not to
-    # 108 (corpus.proportions_with_members, PRD §H.1). The other path passes 108 and 36
-    # exactly as it always has.
+    # Every building input is None HERE so both paths can tell "not given" from "given as 108"
+    # (WP-14.4 for the members path; WP-14.18 for the other, which forced 108 and 36 and so
+    # dimensioned `trim-classical` at 114 in while reading its rules at 108). What a missing input
+    # means is `core.module_binding`'s to say, once: 108 and 36 for a pack whose module is a size
+    # of its own -- exactly what this route always passed -- and the pack's own module for one
+    # whose module IS that dimension. storey_height and room_width are the two WP-14.18 made
+    # bindable, for the packs whose module is a storey or a room's breadth.
+    kw = dict(column_diameter=column_diameter, module=module, ceiling_height=ceiling_height,
+              opening_width=opening_width, storey_height=storey_height, room_width=room_width)
     if members:
-        return _ok(corpus.proportions_with_members(
-            pack_id, column_diameter=column_diameter, module=module,
-            ceiling_height=ceiling_height, opening_width=opening_width))
-    return _ok(core.get_proportions(
-        pack_id, column_diameter=column_diameter, module=module,
-        ceiling_height=corpus.CEILING_DEFAULT_IN if ceiling_height is None else ceiling_height,
-        opening_width=corpus.OPENING_DEFAULT_IN if opening_width is None else opening_width,
-        assembly=assembly))
+        got = corpus.proportions_with_members(pack_id, **kw)
+    else:
+        got = core.get_proportions(pack_id, assembly=assembly, **kw)
+    if isinstance(got, dict) and got.get("refused"):
+        # A contradictory request -- two sizes for one quantity -- is the caller's to correct,
+        # not a missing pack: 422, naming the refused arguments, never _ok's 404.
+        raise HTTPException(status_code=422, detail=got)
+    return _ok(got)
 
 
 @app.get("/api/authorities/{order}")

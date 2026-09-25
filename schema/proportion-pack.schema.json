@@ -116,9 +116,12 @@
         },
         "equals": {
           "enum": [
-            "ceiling_height"
+            "ceiling_height",
+            "storey_height",
+            "room_width",
+            "opening_width"
           ],
-          "description": "The pack's own statement that its module IS this building input, restating what `name` already says in prose so a reader can act on it (WP-14.4). A pack whose module is the room's finished ceiling height -- `trim-classical`'s nineteen parts are a division of exactly that wall -- is dimensioned AT the reader's ceiling, so its drawn assemblies and its derived rules describe one wall and move together. Absent, the module is a size of its own and the ceiling is only a variable its rules may read. LIE-CHECKED rather than trusted by build/check_systems.py check 19: the value must be a variable the engine binds, at least one derived rule must read it, no rule may read it together with `module` or `part` (that would count the input twice), and `default_size_in` must be a number. Which other packs' modules are building inputs is an open question (`oq/which-packs-module-is-a-building-input`); a declaration is added only where a pack's own record says so."
+          "description": "The pack's own statement that its module IS one of the building's own dimensions, restating what `name` already says in prose so a reader can act on it (WP-14.4 for the ceiling, WP-14.18 for the other three). ceiling_height: the room's finished ceiling, floor to ceiling. storey_height: one storey, measured floor surface to floor surface. room_width: the short dimension of the room in plan, its breadth. opening_width: the span of an opening. A pack whose module is one of these is dimensioned AT the building's own figure: where that dimension is given the module is set to it, so the drawn assemblies and the derived rules describe one building and move together; where it is not given the module is the pack's own default_size_in and the rules read that same number, never an unrelated default for the variable. Absent, the module is a size of its own and the building dimension is only a variable its rules may read. LIE-CHECKED rather than trusted by build/check_systems.py check 19: the value must be a variable the engine binds, at least one derived rule must read it, no rule may read it together with `module` or `part` (that would count the input twice), and `default_size_in` must be a number. A declaration is added only where the pack's own module name says so AND check 19 passes; where the check refuses, the pack stays undeclared and the refusal is an open question, never a rule quietly rewritten to let the declaration through (`oq/which-packs-module-is-a-building-input`)."
         }
       }
     },
@@ -186,6 +189,38 @@
             "type": "boolean",
             "default": true,
             "description": "If true the validator asserts that member heights sum to height_modules. Set false only for assemblies where a member deliberately overlaps."
+          },
+          "axis": {
+            "enum": [
+              "up-the-wall",
+              "across-from-the-jamb"
+            ],
+            "description": "Which way the assembly runs, stated on the assembly rather than left in a member's note. up-the-wall: the members stack bottom to top, as an order and a wall section do, and each height_parts is a height. across-from-the-jamb: the members run outward from the jamb across the face of a casing, and each height_parts is therefore a width, so a plate that draws the assembly draws it turned. An absent axis means up-the-wall, which is every stack in the corpus. Declared only where the pack's own words say which way its members are measured; the classical trim family's three casings are the case the field exists for."
+          },
+          "zones": {
+            "type": "array",
+            "minItems": 2,
+            "description": "The divisions a pack's own words give an assembly, each a named run of whole members, cumulative from the foot of the assembly (or from the jamb, for an assembly running across). A zone ends at its to_parts, the running total of member heights in parts at the member boundary it stops on: the zones strictly increase, every boundary falls exactly at a member boundary, and the last zone ends at the assembly's whole height in parts. At least two, because a single zone is the assembly itself. Declared ONLY where the pack's own text states the division, never read back off the member heights, since a zone that merely restates the members says nothing a reader could not already see. An assembly whose members stand side by side (sums_check false) has no running total and may not declare zones. Held to all four rules by build/check_orders.py.",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "to_parts"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "What the pack's own text calls this run of members: the classical wall's pedestal, wall field and entablature."
+                },
+                "to_parts": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "description": "Where the zone ends, in parts measured from the foot of the assembly: the running total of member heights at the member boundary the zone stops on."
+                }
+              }
+            }
           },
           "members": {
             "type": "array",

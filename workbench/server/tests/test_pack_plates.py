@@ -9,7 +9,15 @@ the same engine dimensions happily one at a time, came back with no assemblies a
 
 Every expectation here is COMPUTED from the engine, the corpus or another endpoint -- no count
 is written down -- and the stacked path is held to what it served before, key by key.
+
+WP-14.18 (PRD tranche 2 §C.4) lifts tranche 1's freeze on the `tdl_get_proportions` payload for
+exactly one item, MCP parity, and this file's MCP guard is RE-CUT to it rather than re-pinned:
+a stackless pack lists its own assemblies with member counts, its hint names them, and no column
+diameter is served without a stack or a column -- while every STACKED pack's payload is held
+byte-identical by a digest derived first on a `git archive` of the base commit, `f0dc52a`.
 """
+import hashlib
+import json
 import os
 
 import pytest
@@ -19,6 +27,33 @@ from workbench.server import corpus
 core = corpus.core
 
 NEW_KEYS = ("drawing", "at", "module_name", "module_bound_to", "kind", "used_by", "sources")
+
+# THE STACKED MCP PAYLOADS, BYTE FOR BYTE (WP-14.18). Derived on a `git archive` of `f0dc52a` --
+# the commit before this package -- with the harness below, and reproduced on this tree before
+# any edit: sha256 over every stacked pack's `core.get_proportions` payload, serialised exactly
+# as mcp_server/server.py's J() serialises it, at each of STACKED_KWS. The argument sets are the
+# ones valid on BOTH trees (the base took ceiling_height=108.0 as a default, so it is always
+# passed explicitly or not at all). A movement here is a changed MCP payload for an order, which
+# no ruling in tranche 2 permits.
+STACKED_DIGEST = "7ac8e89730301b1d"
+STACKED_KWS = ({}, {"column_diameter": 12.0}, {"module": 9.0},
+               {"ceiling_height": 96.0, "opening_width": 42.0}, {"assembly": "cornice"},
+               {"assembly": "capital", "column_diameter": 18.0}, {"include_rules": False})
+
+
+def stacked_digest(get=None):
+    """-> (16-hex digest, payloads hashed). `get` defaults to core.get_proportions; a test hands
+    in a wrapped one to prove the pin can fail."""
+    get = get or core.get_proportions
+    pe = _pe()
+    h, n = hashlib.sha256(), 0
+    for pid in sorted(p for p in pe.PACKS if pe.stack_for(pe.resolve(p))):
+        for kw in STACKED_KWS:
+            out = get(pid, **kw)
+            h.update(pid.encode() + b"\0" + json.dumps(kw, sort_keys=True).encode() + b"\0")
+            h.update(json.dumps(out, ensure_ascii=False, indent=1).encode())
+            n += 1
+    return h.hexdigest()[:16], n
 
 
 def _pe():
@@ -93,16 +128,123 @@ def test_a_stacked_pack_keeps_every_key_and_value_it_served_before():
             assert "datum" not in out["geometry"], f"{pid}: the order plate got the wall datum"
 
 
-def test_the_mcp_payload_is_unchanged_and_still_serves_no_assemblies_for_trim_classical():
-    """MCP parity is NOT this package's. `tdl_get_proportions` serves the pack as it always
-    has -- no assemblies for a pack with no column stack -- and that is asserted, not assumed,
-    so the day somebody changes it the question it belongs to is named."""
-    got = core.get_proportions("trim-classical")
-    assert got["assemblies"] == [], (
-        "core.get_proportions now serves assemblies for trim-classical; that is the MCP half "
-        "of oq/mcp-proportions-serve-no-assemblies-for-non-order-packs and must be ruled there, "
-        "not changed silently under the workbench's package")
-    assert not set(NEW_KEYS) & set(got), "a workbench-only key leaked into the MCP payload"
+# ------------------------------------------------------------------------ MCP parity (WP-14.18)
+# This block replaces WP-14.4's `test_the_mcp_payload_is_unchanged_and_still_serves_no_assemblies_
+# for_trim_classical`, which asserted `assemblies == []` and said in its own message that a change
+# "must be ruled there" -- in oq/mcp-proportions-serve-no-assemblies-for-non-order-packs. It was,
+# on 25 Sep 2026, answer 1; the guard fired on this package's first run exactly as written, and
+# is re-cut to the ruled property rather than re-pinned to the new output.
+
+def _stackless():
+    pe = _pe()
+    return [(pid, pk) for pid, pk in _all() if not pe.stack_for(pk)]
+
+
+def test_every_stacked_packs_mcp_payload_is_byte_identical_to_the_base():
+    """THE PIN. Every stacked pack at every argument set, hashed as the MCP client receives it.
+    Its premise is asserted too: a digest over nothing would hash to a constant."""
+    pe = _pe()
+    stacked = [p for p in pe.PACKS if pe.stack_for(pe.resolve(p))]
+    assert stacked, "no stacked pack; the digest below would be over nothing"
+    got, n = stacked_digest()
+    assert n == len(stacked) * len(STACKED_KWS)
+    assert got == STACKED_DIGEST, (
+        f"a stacked pack's tdl_get_proportions payload moved ({STACKED_DIGEST} -> {got}). "
+        f"Tranche 2 lifts that freeze for STACKLESS packs only (PRD §C.4); find the key that "
+        f"moved on an order before touching this pin")
+
+
+def test_the_pin_can_fail():
+    """A digest that cannot move proves nothing. One key added to ONE stacked payload -- the shape
+    a careless `axis` or `zones` pass-through would take -- must change it."""
+    victim = sorted(p for p in _pe().PACKS if _pe().stack_for(_pe().resolve(p)))[0]
+
+    def leaky(pid, **kw):
+        out = core.get_proportions(pid, **kw)
+        if pid == victim and out.get("assemblies"):
+            out["assemblies"][0]["axis"] = "up-the-wall"
+        return out
+    assert stacked_digest(leaky)[0] != STACKED_DIGEST
+
+
+def test_a_stackless_pack_lists_its_own_assemblies_with_member_counts():
+    """Answer 1's first clause: `{id, height_modules, height_in, members: <count>, axis?, zones?}`
+    for every assembly, in the pack's own declaration order, each dimensioned on its own -- the
+    workbench plate's own call -- and `axis`/`zones` exactly where the pack declares them."""
+    pe = _pe()
+    carrying = zoned = turned = 0
+    for pid, pk in _stackless():
+        got = core.get_proportions(pid)
+        assert [a["id"] for a in got["assemblies"]] == list(pk.get("assemblies") or {}), pid
+        for a in got["assemblies"]:
+            da = pe.dimension(pk, got["module_in"], [a["id"]])["assemblies"][0]
+            rec = pk["assemblies"][a["id"]]
+            assert a["members"] == len(da["members"]), (pid, a["id"])
+            assert a["height_in"] == da["height_in_stated"], (pid, a["id"])
+            assert a["height_modules"] == da["height_modules"], (pid, a["id"])
+            for k in ("axis", "zones"):
+                assert (k in a) == (k in rec), f"{pid}/{a['id']}: {k} served or dropped"
+                if k in rec:
+                    assert a[k] == rec[k], (pid, a["id"], k)
+            zoned += "zones" in a
+            turned += "axis" in a
+        carrying += bool(got["assemblies"])
+    assert carrying, "no stackless pack has assemblies; the census above is vacuous"
+    assert zoned and turned, "no served assembly carries zones or an axis; the pass-through is unexercised"
+
+
+def test_the_hint_names_the_packs_own_assemblies_and_never_an_order_it_lacks():
+    order_words = ("cornice", "capital", "base", "entablature", "pedestal")
+    for pid, pk in _stackless():
+        hint = core.get_proportions(pid)["hint"]
+        own = list(pk.get("assemblies") or {})
+        for aid in own:
+            assert aid in hint, f"{pid}: the hint does not name its own assembly {aid!r}"
+        for w in order_words:
+            if w not in (pk.get("assemblies") or {}):
+                assert f"assembly='{w}'" not in hint, f"{pid}: the hint offers an order's {w!r}"
+        if not own:
+            assert "no assemblies" in hint, f"{pid}: a pack with nothing to list says so"
+
+
+def test_no_column_diameter_is_served_without_a_stack_or_a_column():
+    """`dimension()` divides the module by diameters-per-module for every pack, so a pack with no
+    column was served one -- `trim-classical`'s 9 ft 6 in ceiling as a 19 ft shaft. Withheld in
+    core exactly where there is neither a stack nor a column, on the plain call and on an
+    assembly call alike, and kept wherever there is one."""
+    pe = _pe()
+    withheld = kept = 0
+    for pid, pk in _all():
+        has = bool(pe.stack_for(pk) or pk.get("column"))
+        calls = [{}] + [{"assembly": a} for a in list(pk.get("assemblies") or {})[:1]]
+        for kw in calls:
+            got = core.get_proportions(pid, **kw)
+            assert ("lower_diameter_in" in got["totals"]) == has, (pid, kw)
+        withheld += not has
+        kept += has
+    assert withheld and kept, "one side of the rule has no pack in it"
+
+
+def test_no_workbench_only_key_leaks_into_the_mcp_payload():
+    """`module_bound_to` is the one key the two payloads share, and it rides on the MCP payload
+    only where a pack declares `module.equals` -- with `module_from` beside it."""
+    for pid, pk in _all():
+        got = core.get_proportions(pid)
+        leaked = set(got) & (set(NEW_KEYS) - {"module_bound_to"})
+        assert not leaked, f"{pid}: workbench-only key(s) {leaked} in the MCP payload"
+        bound = pk["module"].get("equals")
+        assert got.get("module_bound_to") == bound, pid
+        assert ("module_from" in got) == bool(bound), pid
+
+
+def test_the_mcp_tool_itself_reads_zero_as_not_given():
+    """The tool's signature, not only core's: `tdl_get_proportions` with no size given serves a
+    bound pack at its own module and an unbound one at 108 and 36 -- the same payload core gives
+    with nothing passed."""
+    from workbench.server import tools
+    for pid in ("trim-classical", "gibbs-ionic", "sash-light"):
+        via_tool = json.loads(tools.run_tool("tdl_get_proportions", {"pack_id": pid}))
+        assert via_tool == json.loads(json.dumps(core.get_proportions(pid))), pid
 
 
 def test_the_detail_route_serves_the_packs_own_sources_in_its_own_order(client):
@@ -208,6 +350,75 @@ def _bound():
     return b
 
 
+def _names(expr):
+    import ast
+    return {n.id for n in ast.walk(ast.parse(expr, mode="eval")) if isinstance(n, ast.Name)}
+
+
+def _any_bound():
+    b = [(pid, pk) for pid, pk in _all() if pk["module"].get("equals")]
+    assert {pk["module"]["equals"] for _, pk in b} - {"ceiling_height"}, \
+        "no pack binds its module to anything but the ceiling; the generic test is the ceiling one"
+    return b
+
+
+def test_every_bound_pack_is_worked_at_its_own_dimension_on_both_payloads(client):
+    """WP-14.18: the binding is ONE spelling (`core.module_binding`) and both payloads read it.
+    For every pack declaring `module.equals = V`, whatever V is: with nothing given, the module is
+    the pack's own default and `module_from` says so; given V, the module IS V, the workbench's
+    `at` carries V, and every rule reading V is evaluated at that same number."""
+    pe = _pe()
+    for pid, pk in _any_bound():
+        v, want = pk["module"]["equals"], pk["module"]["default_size_in"]
+        plain = core.get_proportions(pid)
+        assert plain["module_in"] == want and plain["module_from"] == "default", pid
+        size = want * 1.25
+        for got in (core.get_proportions(pid, **{v: size}),
+                    _members(client, pid, **{v: size})):
+            assert got["module_in"] == size and got["module_from"] == v, pid
+            readers = [r for r in got["derived_rules"]
+                       if r.get("value") is not None and v in _names(r["expression"])]
+            assert readers, f"{pid}: no rule reads {v}; check 19 should have refused the declaration"
+            for r in readers:
+                env = dict(pe.DEFAULT_BINDINGS, **{v: size, "module": size,
+                                                   "part": size / got["parts"]})
+                try:
+                    exp = pe.evaluate_expr(r["expression"], env)
+                except Exception:
+                    continue
+                assert r["value"] == pytest.approx(exp, abs=1e-3), (pid, r["target_slot"])
+        at = _members(client, pid, **{v: size})["at"]
+        assert at[v] == at["module_in"] == size, (pid, at)
+
+
+def test_a_contradictory_call_is_refused_by_name_and_the_route_answers_422(client):
+    """Two sizes for one quantity -- a module and a different figure for the dimension it IS --
+    and a column diameter on a pack whose module is a building dimension are refused, never
+    resolved by picking one. The route answers 422: the caller's to correct, not a missing pack."""
+    for pid, pk in _any_bound():
+        v, d = pk["module"]["equals"], pk["module"]["default_size_in"]
+        both = core.get_proportions(pid, module=d, **{v: d * 1.5})
+        assert both.get("refused") == ["module"] and v.replace("_", " ") in both["error"], pid
+        col = core.get_proportions(pid, column_diameter=12.0)
+        assert col.get("refused") == ["column_diameter"], pid
+        agree = core.get_proportions(pid, module=d * 1.5, **{v: d * 1.5})
+        assert "error" not in agree and agree["module_in"] == d * 1.5, pid
+        for members in ("true", "false"):
+            r = client.get(f"/api/proportions/{pid}",
+                           params={"members": members, "module": d, v: d * 1.5})
+            assert r.status_code == 422 and r.json()["detail"]["refused"] == ["module"], pid
+
+
+def test_the_members_route_passes_axis_and_zones_through_exactly_where_declared(client):
+    for pid, pk in _stackless():
+        if not pk.get("assemblies"):
+            continue
+        for a in _members(client, pid)["assemblies"]:
+            rec = pk["assemblies"][a["id"]]
+            for k in ("axis", "zones"):
+                assert (k in a) == (k in rec) and a.get(k) == rec.get(k), (pid, a["id"], k)
+
+
 def test_a_bound_pack_defaults_to_its_own_module_not_to_the_routes_108(client):
     for pid, pk in _bound():
         out = _members(client, pid)
@@ -251,13 +462,27 @@ def test_at_a_given_ceiling_the_plate_and_the_rules_describe_one_wall(client):
             pe.evaluate_expr(base_rule["expression"], {"ceiling_height": ceiling}), abs=1e-3)
 
 
-def test_the_non_members_path_passes_108_and_36_exactly_as_before(client):
+def test_the_non_members_path_is_cores_own_call_and_an_unbound_pack_still_gets_108_and_36(client):
+    """RE-CUT BY WP-14.18. This route forced 108 and 36 into core, which was right for an unbound
+    pack and was the 108-against-114 disagreement for a bound one: `trim-classical`'s members at
+    its 114 in module and its rules at 108. It passes what it was given now and lets
+    `core.module_binding` say what a missing input means. Two halves, both held: an UNBOUND pack's
+    payload is exactly what the old call produced, and a BOUND pack's rules read its own module."""
     for pid in ("trim-classical", "gibbs-ionic"):
         r = client.get(f"/api/proportions/{pid}")
         assert r.status_code == 200
-        assert r.json() == core.get_proportions(pid, ceiling_height=108.0, opening_width=36.0)
+        assert r.json() == json.loads(json.dumps(core.get_proportions(pid)))
         r2 = client.get(f"/api/proportions/{pid}", params={"ceiling_height": 96})
-        assert r2.json() == core.get_proportions(pid, ceiling_height=96.0, opening_width=36.0)
+        assert r2.json() == json.loads(json.dumps(core.get_proportions(pid, ceiling_height=96.0)))
+    old = core.get_proportions("gibbs-ionic", ceiling_height=108.0, opening_width=36.0)
+    assert client.get("/api/proportions/gibbs-ionic").json() == json.loads(json.dumps(old))
+    tc = client.get("/api/proportions/trim-classical").json()
+    base = next(r for r in tc["derived_rules"]
+                if r["target_slot"] == "baseboard" and r["dimension"] == "height")
+    assert tc["module_in"] == _pe().resolve("trim-classical")["module"]["default_size_in"]
+    assert base["value"] == pytest.approx(
+        _pe().evaluate_expr(base["expression"], {"ceiling_height": tc["module_in"]}), abs=1e-3), \
+        "the plain route's baseboard rule is not read at the module its members are drawn at"
 
 
 def test_an_unknown_pack_is_a_404_in_cores_own_words(client):

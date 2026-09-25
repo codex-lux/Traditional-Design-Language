@@ -88,11 +88,65 @@ class TestEveryDeclarationIsBorneOutByItsOwnRules:
     def test_the_declaration_restates_what_the_module_name_already_says(self):
         """`trim-classical` declares its module is the ceiling because its own `module.name`
         says so in prose -- the field makes an authored sentence machine-readable, it does
-        not add a fact. Held for every declarer: the name must speak of a ceiling."""
+        not add a fact. Held for every declarer, for every value the schema admits (WP-14.18
+        widened it to four): the name must speak of the dimension it declares."""
+        speaks = {"ceiling_height": ("ceiling",), "storey_height": ("storey",),
+                  "room_width": ("breadth", "width"), "opening_width": ("opening", "span")}
+        assert set(speaks) == set(_equals_enum()), \
+            "the schema admits a value this test has no words for; add them here first"
         for pid, (_, p) in _packs().items():
-            if p["module"].get("equals") == "ceiling_height":
-                assert "ceiling" in p["module"]["name"].lower(), \
-                    f"{pid} declares its module is the ceiling and its own name does not say so"
+            v = p["module"].get("equals")
+            if v:
+                name = p["module"]["name"].lower()
+                assert any(w in name for w in speaks[v]), \
+                    f"{pid} declares its module is the {v} and its own name does not say so"
+
+
+def _equals_enum():
+    schema = json.load(open(os.path.join(ROOT, "schema", "proportion-pack.schema.json")))
+    return schema["properties"]["module"]["properties"]["equals"]["enum"]
+
+
+class TestTheSchemaAndTheCheckAgree:
+    def test_every_value_the_schema_admits_is_a_variable_the_engine_binds(self):
+        """Check 19(a) refuses a value the engine does not bind; the schema must not admit one,
+        or a valid record could carry a declaration no call could ever supply."""
+        assert set(_equals_enum()) <= CS.RULE_VARS, set(_equals_enum()) - CS.RULE_VARS
+
+
+class TestTheClassAOutcome:
+    """WP-14.18 executed the ruling on `oq/which-packs-module-is-a-building-input` (answer 1,
+    class A only): declare `module.equals` on `storey-graduation`, `room-harmonic` and
+    `opening-pointed` ONLY where check 19 passes, and where it fails author no number and file
+    a question. Measured: it passes on `room-harmonic` and refuses the other two, each on one
+    rule of its own that reads the building input together with `part`. These tests hold the
+    REASON, not only the outcome, so the day a rule changes and the refusal no longer stands, the
+    question it rests on is named rather than silently overtaken."""
+
+    REFUSED = {"storey-graduation": ("storey_height", "belt_course"),
+               "opening-pointed": ("opening_width", "window_lite_pattern")}
+    DECLARED = {"room-harmonic": "room_width"}
+
+    def test_the_declared_class_a_pack_carries_its_dimension(self):
+        for pid, v in self.DECLARED.items():
+            assert _packs()[pid][1]["module"].get("equals") == v, pid
+
+    def test_each_refused_pack_is_undeclared_and_refused_by_its_own_rule(self):
+        for pid, (v, slot) in self.REFUSED.items():
+            _, p = _packs()[pid]
+            assert "equals" not in p["module"], (
+                f"{pid} now declares module.equals; check 19 refused it on {slot} and "
+                f"oq/two-class-a-modules-are-refused-for-a-rule-that-reads-the-input-and-its-part "
+                f"is where that is decided")
+            mutated = copy.deepcopy(p)
+            mutated["module"]["equals"] = v
+            errs = CS.module_equals_errors(mutated)
+            culprits = [i for i, r in enumerate(p["derived_rules"])
+                        if r["target_slot"] == slot and v in CS.rule_expr_vars(r["expression"])]
+            assert culprits, f"{pid}: no {slot} rule reads {v}; the recorded reason is gone"
+            assert errs and all("counted twice" in e for e in errs), (pid, errs)
+            assert {int(e.split("[")[1].split("]")[0]) for e in errs} == set(culprits), (
+                f"{pid}: check 19 now refuses on other rules than {slot}; re-measure the question")
 
 
 class TestEachConditionCanFail:

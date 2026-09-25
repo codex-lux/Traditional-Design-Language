@@ -1,0 +1,14 @@
+{
+  "id": "zone",
+  "term": "zone",
+  "family": "proportion",
+  "order": 11,
+  "definition": "A run of whole members that a pack's own words name as one division of an assembly, such as the classical wall's pedestal, wall field and entablature. It ends where a member ends, and is stated by the pack, never read off its members.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's zones field, with the classical trim family's Georgian wall as the example. schema/proportion-pack.schema.json, zones description: \"The divisions a pack's own words give an assembly, each a named run of whole members\"; schema/proportion-pack.schema.json, zones description: \"Declared ONLY where the pack's own text states the division, never read back off the member heights\"; schema/proportion-pack.schema.json, zone name description: \"the classical wall's pedestal, wall field and entablature\"; proportions/systems/trim-classical.json module.note: \"Pedestal 4, wall field 12, entablature 3.\".",
+  "see": [
+    "pack:trim-classical",
+    "term:assembly",
+    "term:member"
+  ]
+}
