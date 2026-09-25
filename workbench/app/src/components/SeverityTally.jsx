@@ -8,7 +8,8 @@ const COLOUR = {
   serious: 'var(--sev-serious)',
   minor: 'var(--sev-minor)',
   advisory: 'var(--sev-advisory)',
-  info: 'var(--sev-info)'
+  // info is set in --ink-2, not --sev-info (--ink-3): the word is read, and --ink-3 reads 3.15 : 1
+  info: 'var(--ink-2)'
 };
 const FIELD = {
   fatal: 'var(--sev-fatal-field)',
@@ -56,13 +57,13 @@ function SeverityTally({
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--fw-med) ' + (small ? '11px' : '12px') + '/1 var(--body)',
-        color: dim ? 'var(--ink-4)' : COLOUR[s],
+        color: dim ? 'var(--ink-2)' : COLOUR[s],
         letterSpacing: '.01em'
       }
     }, s), /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: dim ? 'var(--ink-4)' : 'var(--ink-2)',
+        color: 'var(--ink-2)',
         marginLeft: small ? 6 : 0,
         display: small ? 'inline' : 'block',
         marginTop: small ? 0 : 4

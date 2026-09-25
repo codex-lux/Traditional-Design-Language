@@ -96,7 +96,7 @@ function Identify({ a, b, identify }) {
 
 /* ── kit ───────────────────────────────────────────────────────────────────────────────────── */
 function KitCell({ side, differs }) {
-  const on = (f) => (differs.includes(f) ? { color: 'var(--ink)' } : { color: 'var(--ink-3)' });
+  const on = (f) => (differs.includes(f) ? { color: 'var(--ink)' } : { color: 'var(--ink-2)' });
   return (
     <div style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)' }}>
       <div style={on('binding')} data-field="binding">

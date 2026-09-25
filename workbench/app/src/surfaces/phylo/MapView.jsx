@@ -74,7 +74,7 @@ const MIN_W = 3, MAX_W = 340;
 
 const ZOOM_KEY = {
   font: 'var(--type-data-s)', fontFamily: 'var(--mono)', width: 22, height: 20,
-  color: 'var(--ink-3)', background: 'transparent', cursor: 'pointer',
+  color: 'var(--ink-2)', background: 'transparent', cursor: 'pointer',
   transition: 'var(--t-hover)',
 };
 
@@ -471,7 +471,7 @@ export function MapView({
                 <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                   {counts[p]} {p}
                 </span>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                   · {PRECISION_NOTE[p]}
                 </span>
               </span>
@@ -481,7 +481,7 @@ export function MapView({
 
         <div style={{ flex: 1, minWidth: 260 }}>
           <Eyebrow style={{ marginBottom: 6 }}>what this drawing does not know</Eyebrow>
-          <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-3)',
+          <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)',
             margin: 0, maxWidth: '74ch' }}>
             The corpus records where a style arose in prose, not coordinates. These points
             come from a gazetteer in the interface, keyed on the region and hearth names the
@@ -506,11 +506,11 @@ export function MapView({
           </p>
           {/* What the outline itself can and cannot show, at this scale, right now. The
               three states are kept apart: drawn, still coming, and could not be had. */}
-          <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '6px 0 0' }}>
+          <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
             Coastline · {coast.drawn.source}, simplified at {coast.drawn.tolerance}° —
             {' '}{land.length} of {coast.drawn.rings} rings in view.
             {coast.pending && (
-              <span style={{ color: 'var(--ink-3)' }}> Fetching the {coast.wanted.name} outline
+              <span style={{ color: 'var(--ink-2)' }}> Fetching the {coast.wanted.name} outline
                 for this scale; what is drawn is still the {coast.drawnName} one.</span>
             )}
             {coast.failed && (
@@ -561,7 +561,7 @@ export function MapView({
             </ActionChip>
           )}
         <span style={{ flex: 1 }} />
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>drag · scroll to zoom</span>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>drag · scroll to zoom</span>
       </div>
       </div>
 
@@ -572,7 +572,7 @@ export function MapView({
           background: 'var(--paper)', border: '1px solid var(--rule)', padding: '9px 11px',
           pointerEvents: 'none' }}>
           <Eyebrow tone="secondary" as="span">{hover.region}</Eyebrow>
-          <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '3px 0 6px' }}>
+          <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '3px 0 6px' }}>
             {hover.precision} · {PRECISION_NOTE[hover.precision]}
           </div>
           {hover.members.slice(0, 9).map((m) => (
@@ -581,7 +581,7 @@ export function MapView({
             </div>
           ))}
           {hover.members.length > 9 && (
-            <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', marginTop: 3 }}>
+            <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 3 }}>
               and {hover.members.length - 9} more
             </div>
           )}

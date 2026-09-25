@@ -42,9 +42,9 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-3)',
+  color: 'var(--ink-2)',
 };
-const META = { font: 'var(--type-data-s)', color: 'var(--ink-3)' };
+const META = { font: 'var(--type-data-s)', color: 'var(--ink-2)' };
 const PROSE = {
   font: 'var(--type-prose)', color: 'var(--ink)', maxWidth: 'var(--measure-prose)',
   margin: '7px 0 0', textWrap: 'pretty',

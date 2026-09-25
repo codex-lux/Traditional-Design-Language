@@ -28,7 +28,7 @@ function Key({ onClick, children, title, disabled }) {
   return (
     <button type="button" onClick={onClick} title={title} disabled={disabled}
       style={{ font: 'var(--type-data-s)', padding: '1px 7px', minWidth: 22, flex: 'none',
-        border: '1px solid var(--rule)', color: disabled ? 'var(--ink-4)' : 'var(--ink-3)',
+        border: '1px solid var(--rule)', color: disabled ? 'var(--text-disabled)' : 'var(--ink-2)',
         background: 'transparent', cursor: disabled ? 'default' : 'pointer',
         transition: 'var(--t-hover)' }}>{children}</button>
   );
@@ -217,7 +217,7 @@ export function PlateViewer({ children, height = 'clamp(380px, 70vh, 880px)', la
           disabled={fitted}>fit</Key>
         <Key onClick={() => zoomTo(1)} title="the plate at the pane's own width">1:1</Key>
         <span style={{ flex: 1, minWidth: 10 }} />
-        <span title={note || NOTE} style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)',
+        <span title={note || NOTE} style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
           textAlign: 'right', minWidth: 0, whiteSpace: 'nowrap', overflow: 'hidden',
           textOverflow: 'ellipsis' }}>
           {note || NOTE}

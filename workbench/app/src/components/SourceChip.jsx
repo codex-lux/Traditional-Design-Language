@@ -47,7 +47,7 @@ function SourceChip({
     }
   }, value, unit && /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'var(--ink-3)',
+      color: 'var(--ink-2)',
       marginLeft: 3
     }
   }, unit)), label && /*#__PURE__*/React.createElement("span", {

@@ -114,7 +114,7 @@ function Dossier({ styleId, selection, setSelection, onCite }) {
     );
   }
   if (!dossier || !rec) {
-    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--ink-3)' }}>reading the record…</div>;
+    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--ink-2)' }}>reading the record…</div>;
   }
 
   const listed = listedSections(dossier);
@@ -180,7 +180,7 @@ function Dossier({ styleId, selection, setSelection, onCite }) {
                 borderBottom: on ? '2px solid var(--gilt-deep)' : '2px solid transparent',
                 font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.3 var(--body)' }}>
               <SectionWord id={sec.id} />
-              {sec.count != null && <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>{sec.count}</span>}
+              {sec.count != null && <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{sec.count}</span>}
             </a>
           );
         })}

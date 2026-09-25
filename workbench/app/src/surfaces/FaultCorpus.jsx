@@ -143,8 +143,8 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
           color: on ? 'var(--ink)' : 'var(--ink-2)' }}>{f.name}</div>
         <div style={{ display: 'flex', gap: 10, marginTop: 5 }}>
           <span style={{ font: 'var(--type-data-s)', color: SEV_C[f.severity] }}>{f.severity}</span>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{f.frequency}</span>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{f.slots && f.slots[0]}</span>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{f.frequency}</span>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{f.slots && f.slots[0]}</span>
         </div>
       </button>
     );
@@ -194,7 +194,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
               {all.length} solecisms · {list.length} shown here
               {list.length !== all.length && filters.activeCount > 0 ? ' · filtered' : ''}
             </Eyebrow>
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '7px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '7px 0 0' }}>
               {/* `all` is the FAULT list, and it is capped at the query's own limit — the
                    denominator was labelled "cause drivers" and would silently truncate. */}
               Of the {all.length} solecisms listed, exactly {driverCounts.ignorance || 0} name{driverCounts.ignorance === 1 ? 's' : ''}{' '}
@@ -203,14 +203,14 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
             </p>
           </div>
           {list.length === 0 && all.length > 0 && (
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)',
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
               margin: 0, padding: '14px 12px' }}>
               No fault matches. The corpus holds {all.length}; the filters above are hiding
               all of them.
             </p>
           )}
           {grouping && grouping.state === 'unjudged' && (
-            <p data-fault-groups-unjudged="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)',
+            <p data-fault-groups-unjudged="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
               margin: 0, padding: '10px 12px', borderBottom: '1px solid var(--rule-soft)' }}>
               {grouping.reason}
             </p>
@@ -248,7 +248,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
                   {assets.some((a) => a.file) ? 'evidence' : 'evidence · specified, not yet sourced'}
                 </Eyebrow>
                 {assets.length === 0 && (
-                  <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-4)', margin: 0 }}>
+                  <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
                     No image records are filed against this fault yet — the record is the
                     object until one is.
                   </p>

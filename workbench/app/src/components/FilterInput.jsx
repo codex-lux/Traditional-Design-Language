@@ -57,7 +57,7 @@ export function FilterInput({ value, onChange, label, placeholder, width = 190, 
           background: 'var(--paper-mat)', border: '1px solid var(--rule)' }} />
       {!draft && (
         <span aria-hidden="true" style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
-          color: 'var(--ink-4)' }}>/</span>
+          color: 'var(--ink-2)' }}>/</span>
       )}
       {draft && (
         <>
@@ -65,13 +65,13 @@ export function FilterInput({ value, onChange, label, placeholder, width = 190, 
               to 3 should say so where the typing happened. The count follows the committed
               value, not the draft, so it never contradicts the list below it. */}
           {count != null && value === draft && (
-            <span style={{ font: 'var(--type-data-s)', color: count === 0 ? 'var(--ink-3)' : 'var(--ink-4)' }}>
+            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
               {count === 0 ? 'none match' : count}
             </span>
           )}
           <button type="button" onClick={clear} aria-label="Clear the filter"
             title="Clear the filter"
-            style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', padding: '0 2px' }}>×</button>
+            style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '0 2px' }}>×</button>
         </>
       )}
     </span>

@@ -59,7 +59,7 @@ export function StylePicker({ value, onChange, label = 'Style', allowNone, noneL
     <span ref={boxRef} style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', flex: 'none' }}>
       {failed && (
         <span title={String(failed)}
-          style={{ font: 'var(--type-data-s)', color: 'var(--sev-fatal, var(--ink-3))' }}>
+          style={{ font: 'var(--type-data-s)', color: 'var(--sev-fatal)' }}>
           the style list could not be read
         </span>
       )}
@@ -79,7 +79,7 @@ export function StylePicker({ value, onChange, label = 'Style', allowNone, noneL
             width: Math.max(width, 260), maxHeight: 320, overflow: 'auto', background: 'var(--paper)',
             border: '1px solid var(--rule)', boxShadow: '0 6px 20px rgba(40,36,28,.18)' }}>
           {options.length === 0 && (
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-4)',
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
               margin: 0, padding: '8px 10px' }}>No style is called that.</p>
           )}
           {options.map((s, i) => {
@@ -94,7 +94,7 @@ export function StylePicker({ value, onChange, label = 'Style', allowNone, noneL
                 <span style={{ font: 'var(--fw-reg) 13px/1.35 var(--body)', color: 'var(--ink)' }}>{s.name}</span>
                 <span style={{ flex: 1 }} />
                 {s.id && (
-                  <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--ink-4)' }}>
+                  <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--ink-2)' }}>
                     {s.id}
                   </span>
                 )}

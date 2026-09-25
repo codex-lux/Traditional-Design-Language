@@ -40,7 +40,7 @@ function OnTheBench({ plan, planStep }) {
   const counts = planStep && planStep.counts;
   const state = planStep ? planStep.state : null;
   const name = typeof plan.name === 'string' && plan.name.trim() ? plan.name : plan.id;
-  const sep = <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>{JOURNEY_WORDS.separator}</span>;
+  const sep = <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>{JOURNEY_WORDS.separator}</span>;
   return (
     <span data-bench style={{ display: 'inline-flex', alignItems: 'baseline', gap: 10, minWidth: 0,
       font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
@@ -93,7 +93,7 @@ export function Masthead({ plan, planStep, onSearch, onKeys }) {
           title="Search styles, slots, faults, packs and rooms — ⌘K"
           style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 210,
             padding: '3px 9px', border: '1px solid var(--rule)', background: 'var(--paper-mat)',
-            color: 'var(--ink-3)', transition: 'var(--t-hover)' }}>
+            color: 'var(--ink-2)', transition: 'var(--t-hover)' }}>
           <span style={{ font: 'var(--fw-reg) 12.5px/1.4 var(--body)' }}>Search the corpus</span>
           <span style={{ flex: 1 }} />
           <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
@@ -134,7 +134,7 @@ export function CrumbStrip({ crumbs }) {
             <li key={`${i}:${c.cite || c.termId || text}`}
               style={{ display: 'inline-flex', alignItems: 'baseline', gap: 8,
                 font: (last ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)', color: ink }}>
-              {i > 0 && <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>›</span>}
+              {i > 0 && <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>›</span>}
               {last
                 ? <span aria-current="page" data-missing={c.missing ? '' : undefined}>{text}</span>
                 : (c.href
@@ -163,7 +163,7 @@ export function PaneStub({ pane, label, spine, side }) {
       display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 0 }}>
       <button type="button" onClick={() => layout.setCollapsed(pane, false)}
         aria-expanded={false} aria-label={`show ${label}`} title={`show ${label}`}
-        style={{ width: 26, height: 30, flex: 'none', color: 'var(--ink-3)',
+        style={{ width: 26, height: 30, flex: 'none', color: 'var(--ink-2)',
           font: 'var(--type-data-s)', fontFamily: 'var(--mono)', cursor: 'pointer',
           transition: 'var(--t-hover)' }}>
         {side === 'left' ? '›' : '‹'}
@@ -188,7 +188,7 @@ export function FoldControl({ pane, label, side }) {
   return (
     <button type="button" onClick={() => layout.setCollapsed(pane, true)}
       aria-expanded aria-label={`hide ${label}`} title={`hide ${label}`}
-      style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--ink-4)',
+      style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--ink-2)',
         padding: '0 6px', cursor: 'pointer', flex: 'none', transition: 'var(--t-hover)' }}>
       {side === 'left' ? '‹' : '›'}
     </button>
@@ -243,7 +243,7 @@ function RailLink({ it, depth, width, desc }) {
             textOverflow: 'ellipsis' }}>{words}</span>
         )}
         {it.note && width >= 200 && (
-          <span data-note="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)',
+          <span data-note="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
             whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.note}</span>
         )}
       </a>
@@ -378,7 +378,7 @@ export function Chip({ on, onClick, children, tone, title, radio }) {
     <button type="button" onClick={onClick} title={title} {...aria}
       style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
         border: '1px solid ' + (on ? (tone || 'var(--gilt-deep)') : 'var(--rule)'),
-        color: on ? (tone || 'var(--gilt-deep)') : 'var(--ink-3)',
+        color: on ? (tone || 'var(--gilt-deep)') : 'var(--ink-2)',
         background: on ? 'var(--paper-deep)' : 'transparent', transition: 'var(--t-hover)' }}>{children}</button>
   );
 }
@@ -393,7 +393,7 @@ export function ActionChip({ onClick, children, title, disabled, affix = '→' }
         color: disabled ? 'var(--text-disabled)' : 'var(--gilt-deep)',
         cursor: disabled ? 'default' : 'pointer', transition: 'var(--t-hover)' }}>
       {children}
-      {affix && <span aria-hidden="true" style={{ color: 'var(--ink-4)' }}>{affix}</span>}
+      {affix && <span aria-hidden="true" style={{ color: disabled ? 'var(--text-disabled)' : 'var(--ink-2)' }}>{affix}</span>}
     </button>
   );
 }
@@ -422,12 +422,12 @@ export function FilterGroup({ label, summary, children, defaultOpen = false, act
         style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
           display: 'inline-flex', alignItems: 'center', gap: 6,
           border: '1px solid ' + (active ? 'var(--gilt-deep)' : 'var(--rule)'),
-          color: active ? 'var(--gilt-deep)' : 'var(--ink-3)',
+          color: active ? 'var(--gilt-deep)' : 'var(--ink-2)',
           background: open ? 'var(--paper-deep)' : 'transparent', transition: 'var(--t-hover)' }}>
-        <span aria-hidden="true" style={{ color: 'var(--ink-4)' }}>{open ? '−' : '+'}</span>
+        <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>{open ? '−' : '+'}</span>
         {label}
         {!open && summary && (
-          <span style={{ color: active ? 'var(--gilt-deep)' : 'var(--ink-4)' }}>· {summary}</span>
+          <span style={{ color: active ? 'var(--gilt-deep)' : 'var(--ink-2)' }}>· {summary}</span>
         )}
       </button>
       {open && children}

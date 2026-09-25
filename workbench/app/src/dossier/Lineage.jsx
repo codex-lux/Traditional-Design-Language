@@ -52,7 +52,7 @@ export function Lineage({ rec, styleId, onCite }) {
                 <p key={d.id + d.type} data-descendant={d.id} data-carries={carries ? '' : undefined}
                   data-carry={carryTermOf(edge)} style={{ ...quiet, marginBottom: 5 }}>
                   <RecordLink cite={'style:' + d.id} />{' '}
-                  <span style={{ font: 'var(--type-data-s)', color: carries ? 'var(--gilt-deep)' : 'var(--ink-3)' }}>
+                  <span style={{ font: 'var(--type-data-s)', color: carries ? 'var(--gilt-deep)' : 'var(--ink-2)' }}>
                     <Term field="lineage.type" value={d.type} /> · <Term id={carryTermOf(edge)} />
                   </span>
                 </p>

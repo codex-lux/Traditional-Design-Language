@@ -82,7 +82,7 @@ function RecordCard({ solid, onClose }) {
         {ft(size[0])} × {ft(size[1])} × {ft(size[2])}
       </div>
       {src ? (
-        <div style={{ marginTop: 6, font: '11px/1.4 var(--mono, monospace)', color: 'var(--ink-3)', wordBreak: 'break-all' }}>
+        <div style={{ marginTop: 6, font: '11px/1.4 var(--mono, monospace)', color: 'var(--ink-2)', wordBreak: 'break-all' }}>
           {src}
         </div>
       ) : null}

@@ -383,7 +383,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             })}>{e}</Chip>
           ))}
         </div>
-        <label style={{ display: 'block', marginTop: 18, font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>
+        <label style={{ display: 'block', marginTop: 18, font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
           …or paste a plan record JSON
           <textarea rows={4} style={{ display: 'block', width: '100%', marginTop: 6,
             background: 'var(--paper-mat)', border: '1px solid var(--rule-soft)', color: 'var(--ink)',
@@ -525,7 +525,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
               <Chip on={strict} onClick={() => setStrict(!strict)}
                 title="the completeness layer: treat absent room types as failures (--strict)">strict</Chip>
-              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>candidates {seeds}</span>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>candidates {seeds}</span>
               <input type="range" min="40" max="800" step="40" value={seeds} aria-label="how many candidate placements the search tries"
                 onChange={(e) => setSeeds(+e.target.value)} style={{ width: 84, accentColor: 'var(--gilt-deep)' }} />
               <ActionChip onClick={() => runEvaluate(plan, { engine: 'cp' })} affix="⊢"
@@ -611,7 +611,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             </div>
             {(room || sev || layer) && (
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 9 }}>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>
+                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                   {shown.length} of {findings.length} findings shown
                   {room ? ` · at ${room}` : ''}
                 </span>
@@ -621,7 +621,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               </div>
             )}
             {newKeys > 0 && (
-              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', marginTop: 7 }}>
+              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 7 }}>
                 {newKeys} finding{newKeys === 1 ? '' : 's'} new since the last evaluation
               </div>
             )}
@@ -635,7 +635,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   borderBottom: '1px solid var(--rule)', padding: '5px 10px', display: 'flex',
                   justifyContent: 'space-between' }}>
                   <Eyebrow tone="secondary" as="span">{g.layer}</Eyebrow>
-                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{g.rows.length}</span>
+                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{g.rows.length}</span>
                 </div>
                 {g.rows.map((f) => (
                   <FindingRow key={f.id} finding={f} dense expanded={openId === f.id}
@@ -687,11 +687,11 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                 </div>
               ))}
               {faultUnjudged.length > 8 && (
-                <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', marginBottom: 8 }}>
+                <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginBottom: 8 }}>
                   and {faultUnjudged.length - 8} more faults beyond evaluation on this record
                 </div>
               )}
-              <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
+              <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '4px 0 0' }}>
                 Unjudged is not passed. The counts above are this plan's; corpus-wide, 295 of
                 660 style constraints carry no test at all, which is why so many land here.
               </p>
@@ -708,7 +708,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                       style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>revoke</button>
                   </p>
                 ))}
-                <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-4)', margin: 0 }}>
+                <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
                   An assertion clears a finding only if the validator clears it.
                 </p>
               </div>
@@ -770,7 +770,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               </div>
             </div>
             {check && (
-              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                 check {lastEval.timing_ms?.check} ms · place {lastEval.timing_ms?.place ?? '—'} ms
               </div>
             )}
@@ -791,7 +791,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   <li key={d.id} style={{ color: TONE[d.tone] || 'var(--ink-2)' }}>{d.text}</li>
                 ))}
               </ul>
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '8px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '8px 0 0' }}>
                 Each line is a count the placement record already carried and no surface read.
                 A proof against a relaxed hard set is a proof of a different question.
               </p>
@@ -813,7 +813,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   </li>
                 ))}
               </ul>
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '8px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '8px 0 0' }}>
                 The record still declares the full size; only the placement is short, and nothing
                 downstream reads these coordinates — so without this panel the trade is invisible.
                 A room below its band is a defect that survives the life of the building.
@@ -836,13 +836,13 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 6,
                 font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                 {CLASSES.map((c) => (
-                  <span key={c} style={{ color: assessment.counts[c] ? 'var(--ink-2)' : 'var(--ink-4)' }}>
+                  <span key={c} style={{ color: 'var(--ink-2)' }}>
                     {CLASS_SHORT[c]} {assessment.counts[c] || 0}
                   </span>
                 ))}
-                <span style={{ color: 'var(--ink-4)' }}>could not evaluate {assessment.couldNot}</span>
+                <span style={{ color: 'var(--ink-2)' }}>could not evaluate {assessment.couldNot}</span>
               </div>
-              <p style={{ font: 'var(--type-data-s)', color: assessmentStale ? 'var(--sev-serious)' : 'var(--ink-3)', margin: '8px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: assessmentStale ? 'var(--sev-serious)' : 'var(--ink-2)', margin: '8px 0 0' }}>
                 {assessmentStale
                   ? 'this critique is of an earlier evaluation — the record has changed; run it again'
                   : 'each finding row carries its class; a move answers it, or it is the engine\'s, the critic\'s own, or the architect\'s. Nothing here calls the plan good.'}
@@ -852,7 +852,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           <RevisionPanel report={plan.revision_report} live={live} statements={statements}
             onCiteFinding={(id) => { setOpenId(id); const f = findings.find((x) => x.id === id); if (f?.at) setRoom(f.at); }} />
           {placement?.geometry_report?.solver?.refinements?.length > 0 && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '0 0 10px' }}>
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '0 0 10px' }}>
               solver refinements ({placement.geometry_report.solver.refinements.length}):{' '}
               {placement.geometry_report.solver.refinements.slice(0, 2).join(' · ')}
               {placement.geometry_report.solver.refinements.length > 2 ? ' · …' : ''}
@@ -914,7 +914,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           <p data-engine-claim={claim.verdict} data-engine-name={claim.engine || ''}
             data-placement-refused={refusal ? refusal.kind : ''}
             data-working-sketch={sketch ? 'true' : ''}
-            style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
+            style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
               margin: '16px 0 0', maxWidth: '76ch' }}>
             {/* A REFUSAL IS SAID BEFORE THE ENGINE IS NAMED. The sentences below are about a
                 placement on a sheet, and on a refusal there is no sheet: without this the

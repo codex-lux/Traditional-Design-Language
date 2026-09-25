@@ -24,7 +24,7 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-3)',
+  color: 'var(--ink-2)',
 };
 
 /* A real anchor to the citation's own URL. Left-click still routes in place — the href is
@@ -170,7 +170,7 @@ function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, t
         <span style={{ flex: 1 }} />
         {/* Counted by the server, which is the only thing that knows. Absent rather than
             guessed while /api/health is still in flight. */}
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', flex: 'none', whiteSpace: 'nowrap' }}>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', flex: 'none', whiteSpace: 'nowrap' }}>
           {toolCount == null ? '' : `${toolCount} tools`}
         </span>
         <FoldControl pane="rail" label="the rail" side="right" />

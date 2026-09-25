@@ -24,7 +24,7 @@ import { PullPane } from '../components/PullPane.jsx';
 const SNAP = 0.5;
 const snap = (v) => Math.round(v / SNAP) * SNAP;
 
-const label = { display: 'block', font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '8px 0 2px' };
+const label = { display: 'block', font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '8px 0 2px' };
 const input = { width: '100%', font: 'var(--fw-reg) 12.5px/1.4 var(--mono, monospace)',
   color: 'var(--ink)', background: 'var(--paper-deep)', border: '1px solid var(--rule)',
   padding: '4px 6px' };
@@ -185,7 +185,7 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
                   {want && (
                     <text x={cx} y={top + lab.height + mfit.size * 0.7} fontSize={mfit.size}
                       textAnchor="middle" dominantBaseline="middle"
-                      fill={r.type ? 'var(--ink-3)' : 'var(--judge-unjudged)'}
+                      fill="var(--ink-2)"
                       fontFamily="var(--mono, monospace)">{mfit.text}</text>
                   )}
                 </g>
@@ -235,7 +235,7 @@ function RoomEditor({ draft, room, roomTypes }) {
         <Field name="level" value={room.level} type="number" w="0 0 70px"
           onChange={(v) => up((r) => { r.level = Number(v) || 0; })} />
       </div>
-      <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '6px 0 0' }}>
+      <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
         {room.w}×{room.h} ft · exterior: {ext.join(' ') || 'none'} ·
         shares a wall with: {near.join(', ') || 'nothing yet'}
       </p>
@@ -451,7 +451,7 @@ export function Transcription({ go }) {
                 </label>
               </>
             )}
-            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
               stays in this browser — never uploaded
             </span>
           </div>
@@ -509,9 +509,9 @@ export function Transcription({ go }) {
           <Eyebrow style={{ margin: '16px 0 2px' }}>from a drafter's DXF</Eyebrow>
           <input type="file" accept=".dxf" style={{ font: 'var(--type-data-s)' }}
             onChange={(e) => e.target.files[0] && loadDxf(e.target.files[0])} />
-          {busy && <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>working…</p>}
+          {busy && <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>working…</p>}
           {ingest && ingest.error && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--forthcoming)', margin: '6px 0 0' }}>
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
               refused — {ingest.error}
               {ingest.units?.scores && ` (heuristic: ${JSON.stringify(ingest.units.scores)})`}
             </p>
@@ -525,7 +525,7 @@ export function Transcription({ go }) {
             <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
               {ingest.counts.kept} candidate room(s), units {ingest.units.units} ({ingest.units.basis},
               plausibility {ingest.units.plausibility} of 1, higher is better){ingest.units.note ? ` — ${ingest.units.note}` : ''}
-              <div style={{ color: 'var(--ink-3)', marginTop: 4 }}>
+              <div style={{ color: 'var(--ink-2)', marginTop: 4 }}>
                 gaps the extractor names:
                 {ingest.gaps.map((g, i) => <div key={i}>· {g}</div>)}
               </div>
@@ -534,7 +534,7 @@ export function Transcription({ go }) {
 
           {selRoom
             ? <RoomEditor draft={draft} room={selRoom} roomTypes={roomTypes} />
-            : <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '14px 0 0' }}>
+            : <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '14px 0 0' }}>
                 drag on the canvas to trace a room; click one to edit it
               </p>}
 
@@ -542,7 +542,7 @@ export function Transcription({ go }) {
             {gaps.length ? `not yet a record — ${gaps.length} gap(s)` : 'ready — every gap filled'}
           </Eyebrow>
           {gaps.map((g, i) => (
-            <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--judge-unjudged, var(--ink-3))' }}>
+            <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
               · {g}
             </div>
           ))}

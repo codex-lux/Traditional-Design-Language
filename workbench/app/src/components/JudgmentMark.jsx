@@ -79,7 +79,7 @@ function JudgmentMark({
           <span style={{
             display: 'block',
             font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
-            color: 'var(--ink-3)',
+            color: 'var(--ink-2)',
             maxWidth: 'var(--measure-note)'
           }}>{reason}</span>
         )}

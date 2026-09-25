@@ -44,7 +44,7 @@ const PANEL = {
 const LEAD = { font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: '7px 0 0' };
 const LIST = { font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
   margin: '8px 0 0', paddingLeft: 18 };
-const FINE = { font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '9px 0 0' };
+const FINE = { font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '9px 0 0' };
 
 export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = 'the drawing', note }) {
   if (refusal) {

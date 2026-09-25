@@ -133,7 +133,7 @@ export function CommandPalette({ open, onClose, onAction }) {
             style={{ flex: 1, font: 'var(--fw-reg) 16px/1.3 var(--body)', color: 'var(--ink)',
               background: 'transparent', border: 'none' }} />
           {entries === null && !failed && (
-            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>reading the corpus…</span>
+            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>reading the corpus…</span>
           )}
         </div>
 
@@ -141,7 +141,7 @@ export function CommandPalette({ open, onClose, onAction }) {
           style={{ overflow: 'auto', minHeight: 0, padding: '6px 0 8px' }}>
 
           {failed && (
-            <p style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink-3)',
+            <p style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink-2)',
               margin: 0, padding: '12px 16px' }}>
               The index could not be read, so this is searching the surfaces only — not the
               corpus. Nothing is missing from the corpus itself; this palette simply cannot
@@ -150,7 +150,7 @@ export function CommandPalette({ open, onClose, onAction }) {
           )}
 
           {!hits.length && (
-            <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-3)',
+            <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
               margin: 0, padding: '14px 16px' }}>
               Nothing in the corpus is called that.
               {entries !== null && (
@@ -178,13 +178,13 @@ export function CommandPalette({ open, onClose, onAction }) {
                     <span style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 14px/1.35 var(--body)',
                       color: 'var(--ink)', flex: 'none' }}>{h.name}</span>
                     {h.short && (
-                      <span style={{ font: 'var(--fw-reg) 12px/1.4 var(--body)', color: 'var(--ink-4)',
+                      <span style={{ font: 'var(--fw-reg) 12px/1.4 var(--body)', color: 'var(--ink-2)',
                         flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap' }}>{h.short}</span>
                     )}
                     {!h.short && <span style={{ flex: 1 }} />}
                     {h.meta && (
-                      <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', flex: 'none' }}>
+                      <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', flex: 'none' }}>
                         {h.meta}
                       </span>
                     )}
@@ -192,7 +192,7 @@ export function CommandPalette({ open, onClose, onAction }) {
                         everywhere else in the product — here is where you meet it. */}
                     {h.cite && (
                       <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
-                        color: on ? 'var(--gilt-deep)' : 'var(--ink-4)', flex: 'none' }}>{h.cite}</span>
+                        color: on ? 'var(--gilt-deep)' : 'var(--ink-2)', flex: 'none' }}>{h.cite}</span>
                     )}
                   </div>
                 );
@@ -201,7 +201,7 @@ export function CommandPalette({ open, onClose, onAction }) {
           ))}
 
           {result.cut > 0 && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: 0,
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: 0,
               padding: '9px 16px 2px' }}>
               {result.total} match — {result.cut} more not listed. Type more of the name.
             </p>
@@ -209,7 +209,7 @@ export function CommandPalette({ open, onClose, onAction }) {
         </div>
 
         <div style={{ flex: 'none', display: 'flex', gap: 16, padding: '7px 14px',
-          borderTop: '1px solid var(--rule)', font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+          borderTop: '1px solid var(--rule)', font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
           <span>↑↓ move</span><span>↵ open</span><span>esc close</span>
           <span style={{ flex: 1 }} />
           <span>names and ids, not prose</span>

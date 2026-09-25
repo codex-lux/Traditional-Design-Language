@@ -152,7 +152,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
   const graphEdges = derived ? graph.edges : EMPTY;
 
   if (!derived) {
-    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--ink-3)' }}>reading the graph…</div>;
+    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--ink-2)' }}>reading the graph…</div>;
   }
 
   const { index } = derived;
@@ -212,7 +212,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           <Chip on={showClaims} onClick={() => filters.set('claims', showClaims)}>
             show claimed ancestry
           </Chip>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>shift-click a second taxon to compare</span>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>shift-click a second taxon to compare</span>
         </span>
       }>
         {/* Two readings of one graph. Which one you are looking at is part of the
@@ -247,7 +247,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
              the selection's ancestry and descent. Drawing all 476 at once would be a ball
              of wool, and the two readings should agree about what is on screen. */
           <MapView rows={rows} edges={edges} sel={sel} onPick={pick}
-            traditionHue={(r) => TRADITION_HUES[r.tradition] || 'var(--ink-4)'}
+            traditionHue={(r) => TRADITION_HUES[r.tradition] || 'var(--hair)'}
             lit={bright} showClaims={showClaims} rankFilter={rankFilter}
             full={!!full} onExitFull={onExitFull}
             onFull={onFull ? () => onFull('phylogeny') : undefined} />
@@ -256,7 +256,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           <div style={{ position: 'relative', height: 26, marginLeft: 210, marginBottom: 4 }}>
             {[-700, 1600, 1700, 1800, 1900, 2000].map((y) => (
               <span key={y} style={{ position: 'absolute', left: tScale(y) * 100 + '%', top: 0,
-                transform: 'translateX(-50%)', font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+                transform: 'translateX(-50%)', font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                 {y < 0 ? Math.abs(y) + ' BC' : y}
               </span>
             ))}
@@ -294,7 +294,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             {rows.map((r, i) => {
               const on = r.id === sel;
               const isLit = bright(r.id);
-              const hue = TRADITION_HUES[r.tradition] || 'var(--ink-4)';
+              const hue = TRADITION_HUES[r.tradition] || 'var(--hair)';
               const left = tScale(r.from) * 100, right = tScale(Math.min(r.to, 2026)) * 100;
               return (
                 <div key={r.id} style={{ position: 'absolute', left: 0, right: 0, top: i * ROW + PAD, height: ROW }}>
@@ -303,7 +303,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                       width: 200 - (RANK_INDENT[r.rank] || 0),
                       textAlign: 'left', height: ROW, display: 'flex', alignItems: 'center', gap: 6 }}>
                     <span style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 12px/1.2 var(--display)',
-                      color: on ? 'var(--ink)' : (isLit ? 'var(--ink-2)' : 'var(--ink-4)'),
+                      color: on || isLit ? 'var(--ink)' : 'var(--ink-2)',
                       whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.name}</span>
                     {/* LOW CONFIDENCE IS ONE MARK AND ONE WORD (WP-14.29): a dashed square, the
                         record's word to assistive tech and to the pointer. A medium node is not
@@ -330,10 +330,10 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           </div>
 
           <div style={{ marginLeft: 210, marginTop: 18, border: '1px solid var(--rule)',
-            color: 'var(--unsourced)', backgroundImage: 'var(--mark-wanted)', padding: '14px 16px' }}>
+            color: 'var(--ink-2)', backgroundImage: 'var(--mark-wanted)', padding: '14px 16px' }}>
             <div style={{ background: 'var(--paper)', display: 'inline-block', padding: '4px 8px' }}>
               <Eyebrow tone="secondary" as="span">acknowledged missing peer trunks</Eyebrow>
-              <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '6px 0 0',
+              <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '6px 0 0',
                 maxWidth: '68ch' }}>
                 Japanese, Islamic, South Asian and African traditions are absent. The schema extends to
                 them without modification, and one node — <span style={{ fontFamily: 'var(--mono)' }}>cape-dutch</span> —
@@ -359,7 +359,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               <Eyebrow>{selNode.rank}</Eyebrow>
               <h3 data-taxon-record={selNode.id} style={{ font: 'var(--fw-reg) var(--fs-d3)/1.12 var(--display)', fontVariationSettings: '"opsz" 48',
                 letterSpacing: 'var(--tr-display)', margin: '6px 0 3px' }}>{selNode.name}</h3>
-              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                 {selNode.id} · {yr(selNode.from)}–{yr(selNode.to)}
                 {selNode.confidence ? ` · confidence ${selNode.confidence}` : ''}
               </div>
@@ -369,7 +369,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                 </p>
               )}
               {summary.regions && (
-                <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', marginTop: 8 }}>
+                <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 8 }}>
                   {(summary.regions || []).join(' · ')}
                 </div>
               )}
@@ -385,11 +385,11 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                     onClick={() => { setSel(e.from); setSelection && setSelection({ style: e.from }); }}
                     style={{ display: 'block', font: 'var(--type-data-s)', textAlign: 'left',
                       color: carriesKit(e) ? 'var(--ink)' : 'var(--ink-2)', padding: '2px 0' }}>
-                    {e.from} <span style={{ color: 'var(--ink-4)' }}>· {e.type}</span>
+                    {e.from} <span style={{ color: 'var(--ink-2)' }}>· {e.type}</span>
                   </button>
                 ))}
                 {graph.edges.filter((e) => e.to === sel).length === 0 && (
-                  <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-4)', margin: 0 }}>
+                  <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
                     Nothing descends from this node in the corpus.
                   </p>
                 )}

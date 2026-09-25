@@ -9,7 +9,8 @@ const SEV = {
   serious: 'var(--sev-serious)',
   minor: 'var(--sev-minor)',
   advisory: 'var(--sev-advisory)',
-  info: 'var(--sev-info)'
+  // info is set in --ink-2, not --sev-info (--ink-3): the word is read, and --ink-3 reads 3.15 : 1
+  info: 'var(--ink-2)'
 };
 const FIELD = {
   fatal: 'var(--sev-fatal-field)',
@@ -20,7 +21,7 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-3)'
+  color: 'var(--ink-2)'
 };
 function FindingRow({
   finding,
@@ -42,7 +43,7 @@ function FindingRow({
   const [openInner, setOpenInner] = React.useState(false);
   const open = expanded != null ? expanded : openInner;
   const sev = finding.severity;
-  const colour = SEV[sev] || 'var(--ink-3)';
+  const colour = SEV[sev] || 'var(--ink-2)';
   const toggle = function () {
     onToggle ? onToggle(finding) : setOpenInner(!open);
   };
@@ -84,7 +85,7 @@ function FindingRow({
   }, sev), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-3)',
+      color: 'var(--ink-2)',
       width: 76,
       flex: 'none'
     }
@@ -93,7 +94,7 @@ function FindingRow({
     title: "which engine placed the house this finding was read from (WP-9.1: every drawn finding carries it)",
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-4)',
+      color: 'var(--ink-2)',
       flex: 'none'
     }
   }, engineTag), classTag && /*#__PURE__*/React.createElement("span", {
@@ -114,7 +115,7 @@ function FindingRow({
   }, finding.statement), finding.at && /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-4)',
+      color: 'var(--ink-2)',
       flex: 'none'
     }
   }, finding.at)), open && /*#__PURE__*/React.createElement("div", {
@@ -157,7 +158,7 @@ function FindingRow({
     onClick: onCite ? function () { onCite(finding.rule_ref); } : undefined,
     style: {
       font: 'var(--type-data-s)',
-      color: onCite ? 'var(--gilt-deep)' : 'var(--ink-4)',
+      color: onCite ? 'var(--gilt-deep)' : 'var(--ink-2)',
       borderBottom: onCite ? '1px solid var(--link-underline)' : 'none'
     }
   }, finding.rule_ref), onLocate && /*#__PURE__*/React.createElement("button", {

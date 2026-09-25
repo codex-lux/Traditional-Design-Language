@@ -164,7 +164,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
           <div style={{ border: '1px solid var(--rule)', padding: '10px 12px', marginBottom: 14 }}>
             <Eyebrow style={{ marginBottom: 6 }}>composing…</Eyebrow>
             {s.progress.map((p, i) => (
-              <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', padding: '1px 0' }}>
+              <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '1px 0' }}>
                 {p.stage ? `${p.stage} — ${p.note || ''}`
                   : p.revised ? revisedEventLine(p)
                   /* "tried", not "candidate N": this is the order compose() reached the
@@ -207,7 +207,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip right={
         <span data-set-size={size.own} data-set-asked={size.asked}
-          style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+          style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
           returned {size.own} of {size.asked} asked for
           {/* the one the brief named and the ranking passed over, appended after the set rather
               than counted in it (WP-14.19), named by the record that says so */}
@@ -310,7 +310,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
 
         {dropped.length > 0 && (
           <div data-set-aside="" style={{ marginTop: 16, border: '1px solid var(--rule)', padding: '11px 13px',
-            color: 'var(--ink-3)', backgroundImage: 'var(--mark-set-aside)' }}>
+            color: 'var(--ink-2)', backgroundImage: 'var(--mark-set-aside)' }}>
             <span style={{ background: 'var(--paper)', display: 'inline-block', padding: '3px 7px' }}>
               <Eyebrow as="span" tone="secondary">
                 {dropped.length} diagram{dropped.length === 1 ? '' : 's'} considered and dropped — the lot, not the score
@@ -356,17 +356,17 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               const rows = c.decisions_structured
                 || (c.decisions || []).map((d) => ({ statement: d, kind: 'assumption' }));
               const TONE = { judgment: 'var(--gilt-deep)', refusal: 'var(--brick)',
-                unsolved: 'var(--ink-3)', disclosure: 'var(--sepia)', authored: 'var(--ink-2)',
+                unsolved: 'var(--ink-2)', disclosure: 'var(--sepia)', authored: 'var(--ink-2)',
                 // WP-9.2's sixth kind: a move the loop applied, with its basis as `because`
                 revision: 'var(--gilt)' };
               return rows.map((d, i) => (
                 <div key={i} style={{ margin: '0 0 9px', paddingLeft: 12,
                   borderLeft: `2px solid ${TONE[d.kind] || 'var(--rule-soft)'}` }}>
                   {d.kind && d.kind !== 'assumption' && (
-                    <Eyebrow as="span" tone="quiet" style={{ color: TONE[d.kind] }}>{d.kind}</Eyebrow>
+                    <Eyebrow as="span" style={{ color: TONE[d.kind] }}>{d.kind}</Eyebrow>
                   )}
                   {d.field && (
-                    <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)',
+                    <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
                       marginLeft: d.kind && d.kind !== 'assumption' ? 8 : 0 }}>
                       {d.field}{d.chose ? ` · ${d.chose}` : ''}
                     </span>
@@ -380,7 +380,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
           <div style={{ flex: '0 1 420px', minWidth: 380 }}>
             <Eyebrow style={{ marginBottom: 9 }}>how to read this</Eyebrow>
             {(result.how_to_read_this || []).map((h, i) => (
-              <p key={i} style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)',
+              <p key={i} style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
                 margin: '0 0 8px' }}>{h}</p>
             ))}
           </div>

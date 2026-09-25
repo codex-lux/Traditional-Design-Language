@@ -21,7 +21,7 @@ export function NoRecordChosen({ surface }) {
       <Eyebrow style={{ marginBottom: 6 }}><Term id="no-record-chosen" /></Eyebrow>
       {v.state === 'ready' && (
         <p data-term-definition="no-record-chosen"
-          style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)', margin: 0 }}>
+          style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
           {v.definition}
         </p>
       )}

@@ -88,14 +88,14 @@ function Advisory({ label, detail, tone }) {
         <span style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)',
           color: tone === 'limit' ? 'var(--ink)' : 'var(--ink-2)' }}>{label}</span>
         {detail && <span style={{ display: 'block', font: 'var(--fw-reg) 12px/1.5 var(--body)',
-          color: 'var(--ink-3)' }}>{detail}</span>}
+          color: 'var(--ink-2)' }}>{detail}</span>}
       </span>
     </div>
   );
 }
 
 const label = { font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-  textTransform: 'uppercase', color: 'var(--ink-3)', display: 'block', marginBottom: 5 };
+  textTransform: 'uppercase', color: 'var(--ink-2)', display: 'block', marginBottom: 5 };
 const input = { background: 'var(--paper-mat)', border: '1px solid var(--rule-soft)',
   color: 'var(--ink)', font: 'var(--type-data)', padding: '5px 8px', width: '100%' };
 
@@ -284,7 +284,7 @@ export function BriefIntake({ go }) {
         </button>
       }>
         <Eyebrow as="span">brief intake</Eyebrow>
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
           only style and target area are required — everything else absent becomes a logged decision
         </span>
       </FilterStrip>
@@ -541,7 +541,7 @@ export function BriefIntake({ go }) {
               <a href={formatHash('workbench', {}, {})} data-conflict-link="">
                 <Eyebrow as="span" tone="quiet">conflict set · on the bench, not here</Eyebrow>
               </a>
-              <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)',
+              <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
                 margin: '6px 0 0' }}>
                 The CP-SAT solver landed (WP-2.3): where a plan&rsquo;s declared facts cannot all hold,
                 it names the minimal set that conflicts. It proves a PLAN, though, not a brief — so the

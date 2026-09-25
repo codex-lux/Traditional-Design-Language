@@ -73,7 +73,7 @@ export function Gate({ onUnlocked, auth }) {
           }}>{about}</p>
         )}
         <p style={{
-          font: 'var(--type-aside)', color: 'var(--ink-3)', margin: '0 0 22px',
+          font: 'var(--type-aside)', color: 'var(--ink-2)', margin: '0 0 22px',
           lineHeight: 1.5,
         }}>
           {auth && auth.required && auth.password === false

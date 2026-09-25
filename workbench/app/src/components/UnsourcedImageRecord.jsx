@@ -29,7 +29,7 @@ function UnsourcedImageRecord({
       aspectRatio: record.file ? undefined : aspect,
       display: 'grid',
       placeItems: 'center',
-      color: 'var(--unsourced)',
+      color: 'var(--ink-2)',
       backgroundImage: record.file ? undefined : 'var(--mark-wanted)',
       padding: record.file ? 8 : 0,
       borderBottom: '1px solid var(--rule)'
@@ -58,7 +58,7 @@ function UnsourcedImageRecord({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-4)'
+      color: 'var(--ink-2)'
     }
   }, record.id, record.status ? ' \xB7 ' + record.status : ''), /*#__PURE__*/React.createElement("p", {
     style: {
@@ -78,13 +78,13 @@ function UnsourcedImageRecord({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--ink-3)',
+      color: 'var(--ink-2)',
       marginRight: 7
     }
   }, "shot spec"), record.shot_spec), record.alt && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 12.5px/1.55 var(--body)',
-      color: 'var(--ink-3)',
+      color: 'var(--ink-2)',
       margin: '7px 0 0',
       maxWidth: 'var(--measure-note)'
     }
@@ -93,25 +93,25 @@ function UnsourcedImageRecord({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--ink-4)',
+      color: 'var(--ink-2)',
       marginRight: 7
     }
   }, "alt"), record.alt), record.generated_from && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-3)',
+      color: 'var(--ink-2)',
       margin: '9px 0 0'
     }
   }, "generated from ", record.generated_from.pack, " \u2014 a drawing of the rule, not a photograph of a building"), record.rights && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-data-s)',
-      color: record.rights.publishable ? 'var(--ink-4)' : 'var(--unsourced)',
+      color: 'var(--ink-2)',
       margin: '6px 0 0'
     }
   }, "licence: ", record.rights.license, record.rights.publishable ? '' : ' \u2014 not cleared to publish'), record.provenance_required && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-4)',
+      color: 'var(--ink-2)',
       margin: '9px 0 0'
     }
   }, "provenance required: ", record.provenance_required), onRequest && /*#__PURE__*/React.createElement("button", {

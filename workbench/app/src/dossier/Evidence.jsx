@@ -38,10 +38,10 @@ export function Evidence({ rec, styleId }) {
                     are what a reader can check. An exemplar with no record says so rather than
                     looking like one that has. */}
                 {e.standing ? (
-                  <span style={{ marginLeft: 8, fontSize: 11, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-3)', border: '1px solid var(--line)', borderRadius: 3, padding: '0 5px' }}>{e.standing}</span>
+                  <span style={{ marginLeft: 8, fontSize: 11, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-2)', border: '1px solid var(--line)', borderRadius: 3, padding: '0 5px' }}>{e.standing}</span>
                 ) : null}
-                {e.note ? <span style={{ display: 'block', color: 'var(--ink-3)' }}>{e.note}</span> : null}
-                {e.why ? <span style={{ display: 'block', color: 'var(--ink-3)', fontStyle: 'italic' }}>{e.why}</span> : null}
+                {e.note ? <span style={{ display: 'block', color: 'var(--ink-2)' }}>{e.note}</span> : null}
+                {e.why ? <span style={{ display: 'block', color: 'var(--ink-2)', fontStyle: 'italic' }}>{e.why}</span> : null}
                 {e.precedent_record && e.precedent_record.refs ? (
                   <span style={{ display: 'block', fontSize: 12 }}>
                     {e.precedent_record.refs.filter((r) => r.url).map((r, j) => (
@@ -49,10 +49,10 @@ export function Evidence({ rec, styleId }) {
                         {r.kind}{r.id ? ` ${r.id}` : ''}
                       </a>
                     ))}
-                    {e.precedent_record.has_survey ? <span style={{ color: 'var(--ink-3)' }}>· HABS written data on the record</span> : null}
+                    {e.precedent_record.has_survey ? <span style={{ color: 'var(--ink-2)' }}>· HABS written data on the record</span> : null}
                   </span>
                 ) : (
-                  <span style={{ display: 'block', fontSize: 12, color: 'var(--ink-3)' }}>no precedent record yet — a name a reader can find and a checker cannot resolve</span>
+                  <span style={{ display: 'block', fontSize: 12, color: 'var(--ink-2)' }}>no precedent record yet — a name a reader can find and a checker cannot resolve</span>
                 )}
               </p>
             ))}

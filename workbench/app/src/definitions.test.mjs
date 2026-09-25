@@ -317,9 +317,11 @@ test('no readable text in --ink-4 in the new components or the package’s style
   for (const f of files) {
     const live = stripComments(read(f));
     const uses = [...live.matchAll(/--ink-4/g)].length;
-    // Eyebrow keeps `quiet: 'var(--ink-4)'` for a caller who asks for it by name; nothing else
-    const ok = f === 'components/Eyebrow.jsx' ? 1 : 0;
-    assert.equal(uses, ok, `${f} uses --ink-4 ${uses} time(s)`);
+    // Eyebrow kept `quiet: 'var(--ink-4)'` for a caller who asked for it by name until WP-14.31,
+    // which removed the tone: an eyebrow is always text. The whole of src is held by
+    // src/inks.test.mjs now; this file keeps its stricter rule for its own files (no --ink-4 at
+    // all, text or not).
+    assert.equal(uses, 0, `${f} uses --ink-4 ${uses} time(s)`);
   }
   const css = read('theme/tokens.css');
   const block = css.slice(css.indexOf('DEFINITIONS ON SCREEN (WP-14.8)')).replace(/\/\*[\s\S]*?\*\//g, '');

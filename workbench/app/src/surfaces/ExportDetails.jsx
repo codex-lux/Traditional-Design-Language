@@ -122,7 +122,7 @@ export function ExportDetails({ lastEval }) {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip>
         <Eyebrow as="span">details &amp; export</Eyebrow>
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
           generated from data, so it cannot drift — and honest about what is not built
         </span>
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
@@ -149,7 +149,7 @@ export function ExportDetails({ lastEval }) {
               // the NOT-BUILT colour is for what is not built. An export that FAILED is not a
               // forthcoming feature, and painting the two the same made a refused house read
               // as a gap in the product.
-              color: note.missing ? 'var(--forthcoming)' : 'var(--sev-serious)',
+              color: note.missing ? 'var(--ink-2)' : 'var(--sev-serious)',
               margin: '0 0 14px', maxWidth: '76ch' }}>
             {note.missing
               ? `not built on this server — ${note.text}`
@@ -245,8 +245,8 @@ export function ExportDetails({ lastEval }) {
             <div key={c.t} data-not-built="" style={{ ...card, backgroundImage: 'var(--mark-not-built)' }}>
               <div style={{ background: 'var(--paper)', padding: '8px 10px' }}>
                 <h3 style={{ ...cardTitle, color: 'var(--ink-2)' }}>{c.t}</h3>
-                <p style={{ ...cardBody, color: 'var(--ink-3)', marginBottom: 8 }}>{c.body}</p>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--forthcoming)' }}>
+                <p style={{ ...cardBody, color: 'var(--ink-2)', marginBottom: 8 }}>{c.body}</p>
+                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                   forthcoming — {c.wp} is not built
                 </span>
               </div>
@@ -254,14 +254,14 @@ export function ExportDetails({ lastEval }) {
           ))}
         </div>
 
-        <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
+        <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
           margin: '16px 0 0', maxWidth: '76ch' }}>
           Drawing-to-record ingestion was named forthcoming here until it existed; it shipped
           as the Transcription surface (WP-5.5) — a drawing goes in by tracing or a
           drafter&rsquo;s DXF, and a record comes out with its gaps named.
         </p>
 
-        <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
+        <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
           margin: '24px 0 0', maxWidth: '76ch' }}>
           No costing engine exists: every one of the{faultCount != null ? ` ${faultCount}` : ''} faults carries a recorded{' '}
           <span style={{ fontFamily: 'var(--mono)' }}>cost_saved</span> (86 of them priced in

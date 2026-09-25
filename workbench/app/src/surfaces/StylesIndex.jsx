@@ -90,7 +90,7 @@ export function StylesIndex() {
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '16px 26px 40px' }}>
         {failed && <p style={{ font: 'var(--type-body)', color: 'var(--ink-2)' }}>The styles could not be read.</p>}
-        {!tree && !failed && <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>reading the styles…</p>}
+        {!tree && !failed && <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>reading the styles…</p>}
         {tree && (
           <div role="tree" aria-label="the styles, filed">
             {rows.map((r) => {
@@ -105,7 +105,7 @@ export function StylesIndex() {
                   <span style={{ font: r.depth === 0 ? 'var(--fw-reg) 17px/1.3 var(--display)' : 'var(--fw-reg) 14px/1.45 var(--serif)' }}>
                     <RecordLink cite={'style:' + r.id}>{t.name || r.id}</RecordLink>
                   </span>
-                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>
+                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                     {r.rank ? <RankWord rank={r.rank} /> : null}
                     {t.floruit_start != null ? ` · ${t.floruit_start}` : ''}
                   </span>

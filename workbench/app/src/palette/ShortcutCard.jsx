@@ -46,7 +46,7 @@ export function ShortcutCard({ open, onClose }) {
                 <td style={{ font: 'var(--type-data)', fontFamily: 'var(--mono)', color: 'var(--ink)',
                   padding: '3px 14px 3px 0', whiteSpace: 'nowrap', verticalAlign: 'baseline', width: 1 }}>
                   {s.keys}
-                  {s.alt && <span style={{ color: 'var(--ink-4)' }}> · {s.alt}</span>}
+                  {s.alt && <span style={{ color: 'var(--ink-2)' }}> · {s.alt}</span>}
                 </td>
                 <td style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink-2)',
                   padding: '3px 0', verticalAlign: 'baseline' }}>{s.does}</td>
@@ -77,14 +77,14 @@ export function ShortcutCard({ open, onClose }) {
               <tr key={ref}>
                 <td style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--gilt-deep)',
                   padding: '2px 14px 2px 0', whiteSpace: 'nowrap', verticalAlign: 'baseline' }}>{ref}</td>
-                <td style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)',
+                <td style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
                   padding: '2px 0', verticalAlign: 'baseline' }}>{what}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-4)',
+        <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
           margin: 0, maxWidth: '62ch' }}>
           The palette searches names, ids and akas — not the prose of a tell or a remedy.
           For a half-remembered phrase, ask the rail: it reads the records properly, and

@@ -14,7 +14,7 @@ import { sectionTermId } from './sections.js';
 
 export const prose = { font: 'var(--fw-reg) 14px/1.62 var(--body)', color: 'var(--ink)', margin: '0 0 10px', maxWidth: '74ch' };
 export const quiet = { font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: 0, maxWidth: '72ch' };
-export const data = { font: 'var(--type-data-s)', color: 'var(--ink-3)' };
+export const data = { font: 'var(--type-data-s)', color: 'var(--ink-2)' };
 
 export function Section({ eyebrow, children, style, ...rest }) {
   return (

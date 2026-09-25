@@ -225,12 +225,12 @@ export function DrawingSet({ go }) {
           the same reason the clear-all control in `Chrome.jsx` is sticky. */}
       <FilterStrip right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center', flex: 'none' }}>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', whiteSpace: 'nowrap' }}>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
             {plan.id} · {plan.style}
           </span>
           {downloadable
             ? <ActionChip affix="↓" onClick={download}>download SVG</ActionChip>
-            : <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', whiteSpace: 'nowrap' }}>
+            : <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
                 {refusal ? 'nothing to download — refused' : 'nothing to download yet'}
               </span>}
         </span>
@@ -260,7 +260,7 @@ export function DrawingSet({ go }) {
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 34px' }}>
-        {busy && <p style={{ font: 'var(--type-body)', color: 'var(--ink-3)' }}>generating from the record…</p>}
+        {busy && <p style={{ font: 'var(--type-body)', color: 'var(--ink-2)' }}>generating from the record…</p>}
         {/* THE CONFLICT SET STANDS WHERE THE PLATE WOULD BE (WP-13.4). This panel has been "the
             generator refused" since WP-5.1 and it is the natural host: what is new is that a
             refusal may now be the TYPE's rather than the record's, and it arrives with the facts
@@ -274,7 +274,7 @@ export function DrawingSet({ go }) {
             <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: 0 }}>
               {errText}
             </p>
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '7px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '7px 0 0' }}>
               A refusal is content: this record does not carry what the {kind} generator
               needs, and it says so rather than inventing it.
             </p>
@@ -360,13 +360,13 @@ export function DrawingSet({ go }) {
             </div>
             </PlateViewer>
             {result.relaxations && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '10px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '10px 0 0' }}>
                 {result.relaxations.count} cut(s) off the bay line
                 {result.relaxations.count ? ` · worst ${result.relaxations.max_off_grid_ft} ft` : ''}
               </p>
             )}
             {kind === 'elevation' && result.date_of_representation && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '10px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '10px 0 0' }}>
                 {(face || result.entrance_face)} elevation
                 {(face || result.entrance_face) === result.entrance_face
                   ? JOURNEY_WORDS.separator + word(ENTRANCE_FRONT_TERM)
@@ -381,7 +381,7 @@ export function DrawingSet({ go }) {
                 elevation and roof plates could not, because they were built on a placement
                 of their own. */}
             {result.solver && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '4px 0 0' }}>
                 {/* Three states, not two. A ternary here would have made an ABSENT engine
                     read as "searched", which is a definite claim about a placement nobody
                     can name — the one collapse this corpus refuses first. */}

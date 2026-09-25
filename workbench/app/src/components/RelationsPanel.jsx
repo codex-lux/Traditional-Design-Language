@@ -22,7 +22,7 @@ import { Eyebrow } from './Eyebrow.jsx';
 import { siblingsOf, benchOf } from '../dossier/relations.js';
 
 const block = { marginBottom: 20 };
-const note = { font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: 0 };
+const note = { font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: 0 };
 
 function Links({ nodes, attr }) {
   return (

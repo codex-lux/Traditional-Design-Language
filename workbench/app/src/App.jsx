@@ -296,7 +296,7 @@ export default function App() {
           gap: 10, font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--ink)',
           background: 'var(--paper)' }}>
         Cannot reach the server
-        <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>·</span>
+        <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>·</span>
         <button type="button" onClick={boot}
           style={{ font: 'inherit', color: 'var(--link)', borderBottom: '1px solid var(--link-underline)' }}>
           Retry
