@@ -3219,10 +3219,11 @@ async function journeyRead() {
   const GATE = `http://127.0.0.1:${GATE_PORT}`;
   const ROOT = new URL('../../../', import.meta.url).pathname;
   const { spawn } = await import('node:child_process');
+  const PASSWORD = `walk-gate-${process.pid}-${Date.now()}`;
   const srv = spawn('python3', ['-m', 'uvicorn', 'workbench.server.app:app', '--host', '127.0.0.1',
     '--port', String(GATE_PORT), '--log-level', 'error'], {
     cwd: ROOT, stdio: 'ignore',
-    env: { ...process.env, WORKBENCH_PASSWORD: `walk-gate-${process.pid}-${Date.now()}` },
+    env: { ...process.env, WORKBENCH_PASSWORD: PASSWORD },
   });
   const stop = () => { try { srv.kill(); } catch { /* already gone */ } };
   process.on('exit', stop);
@@ -3291,6 +3292,38 @@ async function journeyRead() {
         && JSON.stringify(got.lines) === JSON.stringify(expected));
       await fp.close();
     }
+
+    /* AND SIGNING IN WORKS, AND THE WORDS ARRIVE (WP-14.15). Nothing else in this walk signs in:
+       the server it is pointed at has no password. When WP-14.15 made the shell's glossary, name
+       and style reads wait for the lock, the risk was a read that then never happened. So the
+       sequence a password-protected deployment always runs is walked: sign in on the page that
+       was signed out, with no reload. The shell must come up with its rail carrying its glossary
+       words, and the glossary must have been asked and answered. The check does NOT show that
+       the pre-fix code failed this. It passed it: readers mounting after the Gate opens call
+       `load()`, and `fetchOnce` retries the failed read. What it catches is a sign-in that does
+       not bring the shell up (driven: `Gate.jsx` not calling `onUnlocked` turns it red, with 0
+       items and the glossary never asked). */
+    const before = calls.length;
+    await gp.fill('#wb-password', PASSWORD);
+    await gp.press('#wb-password', 'Enter');
+    await gp.waitForSelector('nav[aria-label="surfaces"] a[data-nav]', { timeout: 20000 }).catch(() => {});
+    await gp.waitForFunction(() => {
+      const as = [...document.querySelectorAll('nav[aria-label="surfaces"] a[data-nav]')];
+      return as.length > 0 && !as.some((a) => a.querySelector('[data-missing]')
+        || /^\u2026$/.test((a.innerText || '').split('\n')[0].trim()));
+    }, null, { timeout: 15000 }).catch(() => {});
+    const rail = await gp.evaluate(() => {
+      const as = [...document.querySelectorAll('nav[aria-label="surfaces"] a[data-nav]')];
+      return { n: as.length,
+        unworded: as.filter((a) => a.querySelector('[data-missing]')
+          || /^\u2026$/.test((a.innerText || '').split('\n')[0].trim())).map((a) => a.getAttribute('data-nav')) };
+    });
+    const after = calls.slice(before);
+    check(`signed in on the page the Gate was, its rail carries its glossary words (${rail.n} items, `
+      + `${rail.unworded.length ? 'unworded: ' + rail.unworded.join(', ') : 'none unworded'}; `
+      + `/api/glossary ${after.filter(([p]) => p === '/api/glossary').map(([, st]) => st).join('/') || 'never asked'})`,
+      rail.n > 0 && rail.unworded.length === 0
+      && after.some(([p, st]) => p === '/api/glossary' && st === 200));
     await ctx.close();
   }
   stop();
