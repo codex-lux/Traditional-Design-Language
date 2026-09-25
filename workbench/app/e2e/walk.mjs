@@ -13,6 +13,11 @@ import { PANES } from '../src/state/layout.js';
 // The router's own table, for the same reason: an address this walk visits, and the surface a
 // rail item reaches, are judged by the module that writes them rather than by a list here.
 import { SURFACE_PATHS, parseHash, formatHash } from '../src/router.js';
+// The site map and the trail, for the same reason again (WP-14.13): which places the rail
+// offers, in what order, and what the crumbs say are the pure modules' answers, read here
+// rather than written here.
+import { navModel, flatItems, inHandFrom } from '../src/nav/navModel.js';
+import { indexTerms } from '../src/glossary/lookup.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
 const SHOTS = new URL('./shots/', import.meta.url).pathname;
@@ -122,13 +127,53 @@ const overview = await (await fetch(BASE + '/api/overview')).json();
 // anywhere (WP-14.7, `visit` above); the loop after the Overview block clicks every item once.
 await page.waitForSelector('nav[aria-label="surfaces"]', { timeout: 15000 });
 const rail = page.locator('nav[aria-label="surfaces"]');
+/* THE RAIL IS THE SITE MAP (WP-14.13, PRD §F). It used to be asserted by its words —
+   /Overview/, /Drawing Set/ — which is a second copy of labels the app wrote; the labels are
+   glossary records' terms now and the places are `nav/navModel.js`'s. So the walk asks the
+   same module what the rail must hold, from the glossary and the counts the server serves,
+   and holds the rendered anchors to it: every place, in order, each an anchor to its own
+   address, each labelled by its record, the style count the API's. */
+const GLOSSARY_BODY = await (await fetch(BASE + '/api/glossary')).json().catch(() => null);
+const LOOKUP = GLOSSARY_BODY && Array.isArray(GLOSSARY_BODY.terms) ? indexTerms(GLOSSARY_BODY) : null;
+const TERM = (id) => (LOOKUP ? LOOKUP.term(id).term : undefined);
+const INDEX = await (await fetch(BASE + '/api/search/index')).json().catch(() => ({ entries: [] }));
+const NAME_OF = (cite) => ((INDEX.entries || []).find((e) => e.cite === cite) || {}).name || null;
+await page.waitForFunction(() => {
+  const n = document.querySelector('nav[aria-label="surfaces"]');
+  return n && n.getAttribute('aria-busy') !== 'true' && n.querySelector('a[data-nav]');
+}, null, { timeout: 15000 }).catch(() => {});
+{
+  const expected = flatItems(navModel({
+    lookup: LOOKUP, counts: overview.counts, glossaryCount: LOOKUP ? LOOKUP.count : null,
+    inHand: inHandFrom(null, LOOKUP, (id) => NAME_OF(`style:${id}`)), place: { surface: 'overview', selection: {} },
+  }));
+  const rendered = await rail.locator('a[data-nav]').evaluateAll((as) => as.map((a) => ({
+    id: a.getAttribute('data-nav'), href: a.getAttribute('href'),
+    label: (a.querySelector('span > span:not([data-step-n]):not([data-meta])') || a).textContent.trim(),
+  })));
+  check(`the glossary answered, so the rail's words can be judged (${LOOKUP ? LOOKUP.count : 'no'} records)`,
+    Boolean(LOOKUP));
+  check(`every place the site map names is in the rail, in its order (${rendered.length})`,
+    rendered.length > 0 && JSON.stringify(rendered.map((r) => r.id)) === JSON.stringify(expected.map((e) => e.id)));
+  const wrong = [];
+  for (const e of expected) {
+    const r = rendered.find((x) => x.id === e.id);
+    if (!r) continue;
+    if (r.href !== e.href) wrong.push(`${e.id} links ${r.href}, not ${e.href}`);
+    if (e.termId && e.label && r.label !== e.label) wrong.push(`${e.id} reads "${r.label}", its record says "${e.label}"`);
+    if (e.href && formatHash(parseHash(e.href).surface, parseHash(e.href).selection, {}) !== e.href) wrong.push(`${e.href} is not an address the router writes`);
+  }
+  check('each rail anchor links its own address and reads its own record' + (wrong.length ? ' -- ' + wrong.join('; ') : ''),
+    wrong.length === 0);
+}
 const railText = await rail.innerText();
-check('left rail shows live style count', railText.includes(String(overview.counts.styles)));
-check('all twelve surfaces in the rail', /Overview/.test(railText) && /Drawing Set/.test(railText)
-  && /Details & Export/.test(railText) && /Transcription/.test(railText));
+check('left rail shows live style count',
+  (await rail.locator('a[data-nav="style"] [data-meta]').first().textContent().catch(() => '')).trim()
+    === String(overview.counts.styles));
 // The work-package numerals are gone: they read as an ordering while meaning build order,
-// went 2,3,4,9,10,5… and two surfaces both wore ⑧.
-check('no work-package numerals in the rail', !/[②③④⑤⑥⑦⑧⑨⑩⑪]/.test(railText));
+// went 2,3,4,9,10,5… and two surfaces both wore ⑧. Nor may build history leak in as an id.
+check('no work-package numerals or ids in the rail', !/[②③④⑤⑥⑦⑧⑨⑩⑪]/.test(railText)
+  && !/\bWP-\d|\bOQ\s?\d|\boq\//.test(railText));
 
 // ⓪ Overview: the landing, and every claim on it comes from /api/overview
 check('a cold load lands on the Overview', new URL(page.url()).hash === '' || /#\/$/.test(page.url()));
@@ -162,42 +207,49 @@ await shot('overview');
    read the COLD LOAD and would otherwise read an address this loop had set. Nothing heavy
    mounts: no plan is loaded yet, so the bench and the Drawing Set fetch nothing but schema. */
 {
-  const ITEMS = 'nav[aria-label="surfaces"] button:not([aria-expanded])';   // not the fold
-  const items = page.locator(ITEMS);
-  const labels = await items.evaluateAll((bs) =>
-    bs.map((b) => ((b.querySelector('span') || b).textContent || '').trim()));
+  /* Re-cut at WP-14.13: the items are ANCHORS carrying `data-nav` now, and each is judged by
+     its id and its own `href` rather than by its position — the style in hand grows its
+     dossier's sections as children once its dossier is the page, so an index would point at a
+     different item after that click. The one allowance is exactly that: on the in-hand style's
+     own dossier the rail marks the section shown (`in-hand:identify`) rather than the style. */
+  const ITEMS = 'nav[aria-label="surfaces"] a[data-nav]';
+  const ids = await page.locator(ITEMS).evaluateAll((as) => as.map((a) => a.getAttribute('data-nav')));
   // the denominator first: an empty selection would make every assertion below vacuous
-  check(`the rail offers surfaces to reach (${labels.length})`, labels.length > 0);
+  check(`the rail offers surfaces to reach (${ids.length})`, ids.length > 0);
   const reached = new Map();
-  for (let i = 0; i < labels.length; i++) {
-    const item = items.nth(i);
+  const marked = () => page.locator(ITEMS).evaluateAll((as) =>
+    as.filter((a) => a.getAttribute('aria-current') === 'page').map((a) => a.getAttribute('data-nav')));
+  for (const id of ids) {
+    const item = page.locator(`${ITEMS}[data-nav="${id}"]`).first();
     if ((await item.getAttribute('aria-current')) === 'page') {
       const here = parseHash(await page.evaluate(() => location.hash)).surface;
-      await visit(formatHash(Object.keys(SURFACE_PATHS).find((s) => s !== here), {}, {}));
+      await visit(formatHash(Object.keys(SURFACE_PATHS).find((s) => s !== here && s !== 'style' && s !== 'kit'), {}, {}));
     }
     const wasCurrent = (await item.getAttribute('aria-current')) === 'page';
+    const href = await item.getAttribute('href');
     const before = await page.evaluate(() => location.hash);
     await item.click();
     await page.waitForFunction((h) => location.hash !== h, before, { timeout: 5000 }).catch(() => {});
-    await page.waitForFunction(([sel, k]) =>
-      document.querySelectorAll(sel)[k]?.getAttribute('aria-current') === 'page',
-    [ITEMS, i], { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(([sel, k]) => [...document.querySelectorAll(sel)].some((a) =>
+      a.getAttribute('aria-current') === 'page'
+        && (a.getAttribute('data-nav') === k || a.getAttribute('data-nav') === `${k}:identify`)),
+    [ITEMS, id], { timeout: 5000 }).catch(() => {});
     const after = await page.evaluate(() => location.hash);
     const got = parseHash(after);
-    const marked = await items.evaluateAll((bs) =>
-      bs.map((b, k) => (b.getAttribute('aria-current') === 'page' ? k : -1)).filter((k) => k >= 0));
+    const on = await marked();
     const why = [];
     if (wasCurrent) why.push('it was current before the click, so the click could not be judged');
     if (after === before) why.push(`the address did not move from ${before || '(none)'}`);
+    if (after !== href) why.push(`it links ${href} and landed on ${after || '(none)'}`);
     if (!SURFACE_PATHS[got.surface] || formatHash(got.surface, got.selection, got.params) !== after) {
       why.push(`${after || '(none)'} is not an address the router writes`);
     }
-    if (marked.length !== 1 || marked[0] !== i) {
-      why.push(`the rail marks ${marked.map((k) => `"${labels[k]}"`).join(', ') || 'nothing'} current`);
+    if (on.length !== 1 || (on[0] !== id && on[0] !== `${id}:identify`)) {
+      why.push(`the rail marks ${on.map((k) => `"${k}"`).join(', ') || 'nothing'} current`);
     }
     if (reached.has(after)) why.push(`"${reached.get(after)}" already reached ${after}`);
-    reached.set(after, labels[i]);
-    check(`the rail item "${labels[i]}" reaches its own surface (${after})`
+    reached.set(after, id);
+    check(`the rail item "${id}" reaches its own surface (${after})`
       + (why.length ? ' -- ' + why.join('; ') : ''), why.length === 0);
   }
   // back where the old walk stood when it went to the bench: the Overview
@@ -1751,9 +1803,18 @@ check('transcription: a drag traces a room', /type unset/.test(tr2));
 check('transcription: the untyped room is a named gap', /has no type from the catalog/.test(tr2));
 await shot('transcription');
 
-// the rail's honest no-key state
-const aiRail = await page.locator('aside').last().innerText();
-check('rail present on every surface', /the rail/i.test(aiRail));
+// The assistant's pane is here, and it is NAMED — by its own glossary record, not by the words
+// "the rail" the pane printed before it said what it was (WP-14.13, PRD §I.11). The aside's
+// label is unchanged and is how it is found; the head is read with textContent, because the
+// eyebrow is upper-cased by CSS and innerText would return what the CSS drew.
+{
+  const assistant = await (await fetch(BASE + '/api/glossary/assistant')).json().catch(() => null);
+  const want = assistant && assistant.term ? assistant.term.term : null;
+  const aside = page.locator('aside[aria-label*="the rail"]');
+  const head = ((await aside.locator('[data-rail-head]').first().textContent().catch(() => '')) || '').trim();
+  check(`rail present on every surface, named by its record (${JSON.stringify(head)})`,
+    await aside.count() === 1 && Boolean(want) && head === want);
+}
 
 // ── WP-5.6: navigation, addressing and search ──────────────────────────────────
 // A place is a URL. Everything below is the one claim, tested from both ends.
@@ -1804,8 +1865,10 @@ await palette.waitFor({ state: 'visible', timeout: 5000 });
 check('⌘K opens the palette', await palette.count() > 0);
 await page.keyboard.type('mistakes');
 await page.waitForTimeout(500);
+// By the option's own id (WP-14.13): the place's words are its glossary record's and may be
+// reworded there; the id is the site map's and does not move.
 check('a newcomer word finds the fault corpus',
-  /Fault Corpus/i.test(await palette.locator('[role="option"]').first().innerText()));
+  (await palette.locator('[role="option"]').first().getAttribute('data-id')) === 'faults');
 await page.keyboard.press('Escape');
 await page.waitForTimeout(200);
 await page.keyboard.press('Control+k');
@@ -1815,6 +1878,8 @@ await page.waitForTimeout(500);
 const hit = await palette.locator('[role="option"]').first().innerText();
 check('half-remembered word order still finds it', /Tidewater/i.test(hit));
 check('the citation is printed beside the result', /style:tidewater-georgian/.test(hit));
+check('and the result carries its citation as data, which a place does not',
+  (await palette.locator('[role="option"]').first().getAttribute('data-cite')) === 'style:tidewater-georgian');
 await shot('palette');
 await page.keyboard.press('Enter');
 await page.waitForTimeout(900);
@@ -2615,6 +2680,234 @@ async function journeyRead() {
         + `the late answer was ${stale}, the card is ${onCard}`, onCard === to.fault);
     }
   }
+}
+
+/* ------------------------------------------------------------------ WP-14.13: THE SHELL
+
+   Every page says where it is, what it is and what comes next. What is asserted here is read
+   off the server — the glossary, the dossier, the search index, /api/overview — never a figure
+   or a label written into this file, and every negative assertion first proves that the thing
+   it looks for can be found. Each block that needs an empty browser opens its own context, so
+   nothing the walk above stored in localStorage decides what these see. */
+{
+  const glossaryOk = Boolean(LOOKUP);
+  if (!glossaryOk) {
+    unjudged.push('the shell\'s crumbs, titles and names -- GET /api/glossary did not answer with a terms '
+      + 'list, so there is no record to hold a crumb or a title against');
+  }
+
+  // (1) THE TRAIL. Styles, then the member_of chain root first, then the style, the section and
+  // the slot; every name the server's, the last crumb the page and no link.
+  await page.goto(BASE + '/#/style/tidewater-georgian/kit/cornice', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(1200);
+  const dossier = await (await fetch(BASE + '/api/styles/tidewater-georgian/dossier')).json().catch(() => null);
+  const crumbs = page.locator('nav[aria-label="crumbs"] li');
+  const got = (await crumbs.evaluateAll((lis) => lis.map((li) => {
+    const t = li.querySelector('a, [aria-current], span:not([aria-hidden])');
+    return { text: (t ? t.textContent : '').trim(), href: li.querySelector('a')?.getAttribute('href') || null,
+      current: li.querySelector('[aria-current="page"]') ? true : false };
+  })));
+  if (glossaryOk && dossier && Array.isArray(dossier.chain)) {
+    const want = [TERM('nav-group-styles'), ...dossier.chain.map((c) => c.name), dossier.name,
+      TERM('section-kit'), NAME_OF('slot:cornice')];
+    check(`the crumbs follow the filing, not the lineage (${got.map((g) => g.text).join(' › ')})`,
+      JSON.stringify(got.map((g) => g.text)) === JSON.stringify(want));
+    check('each ancestor crumb links its own dossier',
+      dossier.chain.every((c, i) => got[1 + i] && got[1 + i].href === formatHash('style', { style: c.id }, {})));
+    check('the last crumb is the page, and not a link',
+      got.length > 0 && got[got.length - 1].current && got[got.length - 1].href === null
+      && got.filter((g) => g.current).length === 1);
+  } else {
+    unjudged.push('the crumb trail -- /api/styles/tidewater-georgian/dossier answered no chain to hold it to');
+  }
+  const crumbText = await page.locator('nav[aria-label="crumbs"]').innerText().catch(() => '');
+  check('no work-package or question ids in the crumbs', crumbText.length > 0
+    && !/\bWP-\d|\bOQ\s?\d|\boq\//.test(crumbText));
+  check('the front door has no trail', await (async () => {
+    await visit('#/');
+    await page.waitForTimeout(300);
+    return (await page.locator('nav[aria-label="crumbs"]').count()) === 0;
+  })());
+
+  // (2) THE PAGE HEAD: one per page, and the record the site map names for the place.
+  for (const [hash, want] of [['#/faults', 'surface-faults'], ['#/proportions', 'surface-proportions'],
+    ['#/style/tidewater-georgian/lineage', 'section-lineage'], ['#/workbench', 'surface-workbench']]) {
+    await visit(hash);
+    await page.waitForTimeout(300);
+    const heads = await page.locator('[data-page-head]').evaluateAll((hs) => hs.map((h) => h.getAttribute('data-page-head')));
+    check(`${hash} is headed by its own record, once (${JSON.stringify(heads)})`,
+      heads.length === 1 && heads[0] === want);
+  }
+
+  // (3) THE TAB TITLE: the page first, the product last, and no two places alike.
+  if (glossaryOk) {
+    const titles = new Map();
+    const places = ['#/', '#/style', '#/style/tidewater-georgian', '#/style/tidewater-georgian/kit/cornice',
+      '#/style/craftsman', '#/phylogeny', '#/brief', '#/candidates', '#/workbench', '#/transcription',
+      '#/drawings', '#/export', '#/proportions', '#/proportions/trim-classical', '#/faults', '#/glossary',
+      '#/glossary/judgment-unjudged'];
+    const clashes = [];
+    for (const h of places) {
+      await visit(h);
+      await page.waitForFunction((about) => document.title && (location.hash === '#/' || location.hash === ''
+        || document.title !== about), TERM('about-tdl'), { timeout: 5000 }).catch(() => {});
+      await page.waitForTimeout(250);
+      const t = await page.title();
+      if (titles.has(t)) clashes.push(`${h} and ${titles.get(t)} both read "${t}"`);
+      titles.set(t, h);
+    }
+    check(`no two places share a tab title (${titles.size} of ${places.length})` + (clashes.length ? ' -- ' + clashes.join('; ') : ''),
+      clashes.length === 0 && titles.size === places.length);
+    check('the front door\'s title is the product\'s name alone', titles.get(TERM('about-tdl')) === '#/');
+    check('a page\'s title ends with the product\'s name',
+      [...titles.keys()].every((t) => t.endsWith(TERM('about-tdl'))));
+  }
+
+  // (4) THE MASTHEAD: home, the bench as a place and three counts, the keys, and nothing inert.
+  await visit('#/faults');
+  await page.waitForTimeout(300);
+  const header = page.locator('header').first();
+  check('the wordmark is the way home', await header.locator('a[href="#/"]').count() === 1);
+  const headText = await header.innerText();
+  check('the masthead no longer calls a page "the workbench"', !/\bthe workbench\b/i.test(headText));
+  check('the inert Export and Settings icons are gone',
+    await header.locator('[title="Export"], [title="Settings"], svg[aria-label="Export"], svg[aria-label="Settings"]').count() === 0);
+  check('no work-package or question ids in the masthead', !/\bWP-\d|\bOQ\s?\d|\boq\//.test(headText));
+  const stored = await page.evaluate(() => { try { return JSON.parse(localStorage.getItem('tdl-workbench-plan') || 'null'); } catch { return null; } });
+  const benchPlan = stored && (stored.plan || stored.doc || stored);
+  const benchLink = header.locator('[data-bench-link]');
+  if (benchPlan && (benchPlan.name || benchPlan.id)) {
+    const text = (await benchLink.first().textContent().catch(() => '')) || '';
+    check(`the bench is a place: "On the bench: <its name>" links to it (${JSON.stringify(text.trim())})`,
+      await benchLink.count() === 1 && (await benchLink.getAttribute('href')) === '#/workbench'
+      && text.includes(benchPlan.name || benchPlan.id));
+    const counted = await header.locator('[data-count]').count();
+    const terms = await header.locator('[data-bench-counts] [data-term]').evaluateAll((ts) => ts.map((t) => t.getAttribute('data-term')));
+    check(`fatal, serious and unjudged stay three, or the plan says it is not yet evaluated (${JSON.stringify(terms)})`,
+      counted === 0
+        ? /not yet evaluated/.test(await header.innerText())
+        : JSON.stringify(terms) === JSON.stringify(['severity-fatal', 'severity-serious', 'judgment-unjudged']));
+  } else {
+    unjudged.push('the masthead\'s bench line -- no plan was on the bench to name');
+  }
+  const keys = header.getByRole('button', { name: /^Keys/ });
+  check('a visible Keys button', await keys.count() === 1 && await keys.isVisible());
+  await keys.click();
+  const card = page.getByRole('dialog', { name: 'Keyboard shortcuts and addressing', exact: true });
+  await card.waitFor({ state: 'visible', timeout: 3000 }).catch(() => {});
+  check('and it opens the keys card', await card.count() === 1);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(200);
+
+  // (5) FULL SCREEN TAKES THE TRAIL AND THE HEAD WITH IT. Asserted present first, so the two
+  // zeroes cannot both be the shell failing to draw them.
+  await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(1500);
+  const trailAndHead = async () => [await page.locator('nav[aria-label="crumbs"]').count(),
+    await page.locator('[data-page-head]').count()];
+  const before = await trailAndHead();
+  check(`the trail and the head are on this page to begin with (${before})`, before[0] === 1 && before[1] === 1);
+  await page.getByRole('button', { name: /full screen/i }).first().click();
+  await page.waitForTimeout(500);
+  const inFull = await trailAndHead();
+  check(`full screen hides the crumbs and the page head (${inFull})`, inFull[0] === 0 && inFull[1] === 0);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(500);
+  const after = await trailAndHead();
+  check(`and leaving it brings both back (${after})`, after[0] === 1 && after[1] === 1);
+}
+
+/* (6) THE COLD LINK, ONCE PER BROWSER. A fresh browser opening a deep link is told what this is
+   and where it has landed; dismissing it is remembered; a browser that has seen the front door
+   is never told. Three contexts, each with empty storage. */
+{
+  const about = await (await fetch(BASE + '/api/glossary/about-tdl')).json().catch(() => null);
+  const def = about && about.term ? about.term.definition : null;
+  const ctx = await browser.newContext({ viewport: { width: 1680, height: 1000 } });
+  const p = await ctx.newPage();
+  await p.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(1000);
+  const banner = p.locator('[data-cold-link]');
+  const text = (await banner.first().textContent().catch(() => '')) || '';
+  check('a cold deep link is told what this is', await banner.count() === 1 && Boolean(def) && text.includes(def));
+  check('and where it has landed', /Faults/.test(await banner.locator('[data-cold-link-trail]').first().textContent().catch(() => '')));
+  check('with the front door and the guided example as its two ways in',
+    (await banner.locator('[data-cold-link-front]').getAttribute('href')) === '#/'
+    && /^#\/style\//.test((await banner.locator('[data-cold-link-guided]').getAttribute('href')) || ''));
+  await banner.locator('[data-cold-link-dismiss]').click();
+  await p.waitForTimeout(300);
+  check('dismissing it takes it away', await p.locator('[data-cold-link]').count() === 0);
+  await p.reload({ waitUntil: 'networkidle' });
+  await p.waitForTimeout(800);
+  check('and it does not come back on a reload', await p.locator('[data-cold-link]').count() === 0);
+  await ctx.close();
+
+  const ctx2 = await browser.newContext({ viewport: { width: 1680, height: 1000 } });
+  const p2 = await ctx2.newPage();
+  await p2.goto(BASE + '/', { waitUntil: 'networkidle' });
+  await p2.waitForTimeout(800);
+  check('the front door itself shows no banner', await p2.locator('[data-cold-link]').count() === 0);
+  await p2.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
+  await p2.reload({ waitUntil: 'networkidle' });
+  await p2.waitForTimeout(800);
+  check('a browser that has seen the front door is not told again', await p2.locator('[data-cold-link]').count() === 0);
+  await ctx2.close();
+}
+
+/* (7) THE NARROW FOLD (PRD §I.11). With nothing stored the assistant starts folded below
+   NARROW_FOLD_PX and open above it; a stored choice wins; the spine carries its record's name. */
+{
+  const assistant = await (await fetch(BASE + '/api/glossary/assistant')).json().catch(() => null);
+  const name = assistant && assistant.term ? assistant.term.term : null;
+  const open = async (w, seed) => {
+    const ctx = await browser.newContext({ viewport: { width: w, height: 800 } });
+    if (seed) await ctx.addInitScript((v) => { localStorage.setItem('tdl-workbench-layout', v); }, JSON.stringify(seed));
+    const p = await ctx.newPage();
+    await p.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
+    await p.waitForSelector('nav[aria-label="surfaces"]', { timeout: 15000 }).catch(() => {});
+    await p.waitForTimeout(600);
+    return { ctx, p, pane: await p.locator('aside[aria-label*="the rail"]').count(),
+      stub: await p.getByRole('button', { name: /show the rail/i }).count() };
+  };
+  const a = await open(1280);
+  check(`at 1280 px with nothing stored the assistant starts folded (${a.pane} pane, ${a.stub} spine)`, a.pane === 0 && a.stub === 1);
+  const spine = ((await a.p.locator('button[aria-label="show the rail"] + span').first().textContent().catch(() => '')) || '').trim();
+  check(`and its spine carries its name (${JSON.stringify(spine)})`, Boolean(name) && spine === name);
+  const storedAfter = await a.p.evaluate(() => localStorage.getItem('tdl-workbench-layout'));
+  check('and the fold was not written for the reader', storedAfter === null);
+  await a.p.setViewportSize({ width: 1680, height: 800 });
+  await a.p.waitForTimeout(400);
+  check('widening the window does not unfold it', await a.p.locator('aside[aria-label*="the rail"]').count() === 0);
+  await a.ctx.close();
+  const b = await open(1680);
+  check('at 1680 px with nothing stored it is open', b.pane === 1);
+  await b.p.setViewportSize({ width: 1280, height: 800 });
+  await b.p.waitForTimeout(400);
+  check('and narrowing the window does not fold it', await b.p.locator('aside[aria-label*="the rail"]').count() === 1);
+  await b.ctx.close();
+  const c = await open(1280, { widths: {}, collapsed: { rail: false } });
+  check('a stored open assistant stays open at 1280 px', c.pane === 1);
+  await c.ctx.close();
+  const d = await open(1680, { widths: {}, collapsed: { rail: true } });
+  check('a stored folded assistant stays folded at 1680 px', d.pane === 0 && d.stub === 1);
+  await d.ctx.close();
+}
+
+/* (8) A SERVER THAT DOES NOT ANSWER IS SAID, WITH A WAY TO TRY AGAIN — never a blank page. */
+{
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const p = await ctx.newPage();
+  await p.route('**/api/health', (r) => r.abort());
+  await p.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  const status = p.locator('[role="status"][data-boot-status]');
+  await status.waitFor({ state: 'visible', timeout: 10000 }).catch(() => {});
+  check('an unreachable server is said, not a blank page',
+    await status.count() === 1 && /Cannot reach the server/.test(await status.innerText()));
+  await p.unroute('**/api/health');
+  await status.getByRole('button', { name: 'Retry' }).click();
+  await p.waitForSelector('nav[aria-label="surfaces"]', { timeout: 15000 }).catch(() => {});
+  check('and Retry brings the shell back', await p.locator('nav[aria-label="surfaces"]').count() === 1);
+  await ctx.close();
 }
 
 await browser.close();

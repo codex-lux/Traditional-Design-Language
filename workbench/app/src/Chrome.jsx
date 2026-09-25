@@ -169,7 +169,7 @@ export function PaneStub({ pane, label, spine, side }) {
       <span aria-hidden="true"
         style={{ writingMode: 'vertical-rl', font: 'var(--type-eyebrow)',
           letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
-          color: 'var(--ink-4)', marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden' }}>
+          color: 'var(--ink-2)', marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden' }}>
         {spine || label}
       </span>
     </div>

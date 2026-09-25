@@ -135,7 +135,8 @@ function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, t
         {/* The assistant's NAME, from its glossary record (WP-14.13, PRD §I.11): the host passes
             the record's term, so nothing here says what the pane is. The aside's label and the
             fold's stay "the rail" — they are how the walk and a screen reader find the pane. */}
-        <span style={{ ...EYE, color: 'var(--ink-2)' }} data-rail-head="">{title}</span>
+        <span style={{ ...EYE, color: 'var(--ink-2)', minWidth: 0, whiteSpace: 'nowrap', overflow: 'hidden',
+          textOverflow: 'ellipsis' }} data-rail-head="" title={title}>{title}</span>
         <span style={{ flex: 1 }} />
         {/* Counted by the server, which is the only thing that knows. Absent rather than
             guessed while /api/health is still in flight. */}
