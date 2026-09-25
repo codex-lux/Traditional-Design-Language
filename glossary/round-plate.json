@@ -1,0 +1,12 @@
+{
+  "id": "round-plate",
+  "term": "plate",
+  "family": "figure",
+  "definition": "The flat drawing of this view laid over the model at the same scale, so the two can be checked against each other. It is offered only at a view a plate is drawn for, and never over a perspective, which has no single scale.",
+  "kind": "editorial",
+  "basis": "Our wording of the plate over the model. docs/scene.md: \"The flat plate is laid over the model by\" the frame each renderer writes, and a perspective takes none, because \"The overlay's whole argument is a uniform scale\".",
+  "see": [
+    "term:in-the-round",
+    "term:round-cut"
+  ]
+}

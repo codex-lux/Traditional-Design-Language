@@ -40,6 +40,8 @@ import { gridStep, ticks } from './graticule.js';
 import { Eyebrow } from '../../components/Eyebrow.jsx';
 import { ActionChip } from '../../Chrome.jsx';
 import { carriesKit } from '../../lineage/carry.js';
+import { useGlossary } from '../../api/useGlossary.js';
+import { describeTerm } from '../../glossary/termView.js';
 
 /* Equirectangular, and deliberately so: it is the projection the coastline asset is
    stored in, it keeps the transform to two subtractions, and at this scale — a diagram of
@@ -122,6 +124,7 @@ export function MapView({
      the fix that cannot come back: with no letterbox there is no second coordinate space
      left to get wrong. */
   const [place, setPlace] = React.useState(HOME);
+  const glossary = useGlossary();
   const [aspect, setAspect] = React.useState(134 / 43);
   const [hover, setHover] = React.useState(null);
   const svgRef = React.useRef(null);
@@ -554,9 +557,7 @@ export function MapView({
           {(onFull || onExitFull) && (
             <ActionChip affix={null}
               onClick={() => (full ? onExitFull && onExitFull() : requestFull(onFull))}
-              title={full
-                ? 'Give the instrument back — or press escape'
-                : 'Give the atlas the whole window — escape brings the instrument back'}>
+              title={describeTerm(glossary, 'full-screen').title}>
               {full ? '⤡ leave full screen · esc' : '⤢ full screen'}
             </ActionChip>
           )}

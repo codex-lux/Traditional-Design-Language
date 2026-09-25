@@ -28,7 +28,7 @@ import { matches } from '../search/match.js';
 import { MapView } from './phylo/MapView.jsx';
 import { MarkGlyph } from '../components/MarkGlyph.jsx';
 import { useGlossary } from '../api/useGlossary.js';
-import { wordOf } from '../glossary/termView.js';
+import { describeTerm, wordOf } from '../glossary/termView.js';
 import { NoRecordChosen } from '../components/NoRecordChosen.jsx';
 
 const EMPTY = [];
@@ -205,27 +205,28 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               readings, so the control belongs to the strip. */}
           {full && (
             <ActionChip affix={null} onClick={onExitFull}
-              title="Give the instrument back — or press escape">
+              title={describeTerm(glossary, 'full-screen').title}>
               ⤡ leave full screen · esc
             </ActionChip>
           )}
           <Chip on={showClaims} onClick={() => filters.set('claims', showClaims)}>
             show claimed ancestry
           </Chip>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>shift-click a second taxon to compare</span>
+          {/* The gesture and what it opens are the `shift-click-to-compare` record's (WP-14.31). */}
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}><Term id="shift-click-to-compare" /></span>
         </span>
       }>
         {/* Two readings of one graph. Which one you are looking at is part of the
             address, so a map view can be linked to. */}
         <ChipGroup label="reading">
           <Chip radio on={!isMap} onClick={() => filters.set('view', null)}
-            title="Descent against time">tree</Chip>
+            title={describeTerm(glossary, 'reading-tree').title}>tree</Chip>
           <Chip radio on={isMap} onClick={() => filters.set('view', 'map')}
-            title="Where each style arose, and where its lineage travelled">map</Chip>
+            title={describeTerm(glossary, 'reading-map').title}>map</Chip>
         </ChipGroup>
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
         <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={rows.length}
-          label="Filter the taxa by name, rank or region" placeholder="filter 164 taxa" width={165} />
+          label="Filter the taxa by name, rank or region" placeholder={`filter ${allRows.length} taxa`} width={165} />
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
         <ChipGroup label="rank">
           <Eyebrow as="span">rank</Eyebrow>

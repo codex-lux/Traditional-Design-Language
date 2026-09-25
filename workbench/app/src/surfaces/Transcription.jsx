@@ -511,14 +511,16 @@ export function Transcription({ go }) {
             onChange={(e) => e.target.files[0] && loadDxf(e.target.files[0])} />
           {busy && <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>working…</p>}
           {ingest && ingest.error && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
+            /* a refused ingest is a refusal, in the ink Export gives one, and not the faint
+               NOT-BUILT ink it was painted before WP-14.31's sweep */
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--sev-serious)', margin: '6px 0 0' }}>
               refused — {ingest.error}
               {ingest.units?.scores && ` (heuristic: ${JSON.stringify(ingest.units.scores)})`}
             </p>
           )}
           {ingest && !ingest.error && ingest.complete && (
             <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
-              a TDL-emitted sheet — the complete record went straight to the bench (⑦)
+              a TDL-emitted sheet — the complete record went straight to the bench
             </p>
           )}
           {ingest && !ingest.error && !ingest.complete && (
@@ -563,7 +565,7 @@ export function Transcription({ go }) {
                 ? `could not check — ${checked.check.error}`
                 : `checked: ${(checked.check?.findings || []).length} finding(s) · ` +
                   `${checked.check?.constraint_summary?.unjudged ?? '?'} unjudged — ` +
-                  'the full critique lives on the bench (⑦)'}
+                  'the full critique lives on the bench'}
             </p>
           )}
         </PullPane>

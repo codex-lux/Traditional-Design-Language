@@ -1,4 +1,6 @@
 import React from "react";
+import { useGlossary } from '../api/useGlossary.js';
+import { describeTerm } from '../glossary/termView.js';
 
 /* The workhorse. 142 findings must fit on one screen collapsed, and any one of them must
    open to full prose: statement / why / fix, always in that order. Note that a fix often
@@ -40,6 +42,9 @@ function FindingRow({
   classTag
 }) {
   const [hover, setHover] = React.useState(false);
+  /* What the engine tag and the class tag MEAN is each a glossary record's (WP-14.31); the two
+     tooltips were written here, one of them carrying the work package that added the tag. */
+  const glossary = useGlossary();
   const [openInner, setOpenInner] = React.useState(false);
   const open = expanded != null ? expanded : openInner;
   const sev = finding.severity;
@@ -91,7 +96,7 @@ function FindingRow({
     }
   }, finding.layer), engineTag && /*#__PURE__*/React.createElement("span", {
     "data-engine-tag": "",
-    title: "which engine placed the house this finding was read from (WP-9.1: every drawn finding carries it)",
+    title: describeTerm(glossary, 'finding-engine').title,
     style: {
       font: 'var(--type-data-s)',
       color: 'var(--ink-2)',
@@ -99,7 +104,7 @@ function FindingRow({
     }
   }, engineTag), classTag && /*#__PURE__*/React.createElement("span", {
     "data-class-tag": "",
-    title: "what this finding means to a generator, from the last critique",
+    title: describeTerm(glossary, 'finding-class').title,
     style: {
       font: 'var(--type-data-s)',
       color: 'var(--gilt-deep)',

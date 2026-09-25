@@ -72,6 +72,30 @@ function OnTheBench({ plan, planStep }) {
   );
 }
 
+/* The invitation to search. Its label is the one phrase the shell writes for an act (the front
+   door's own test rules the same phrase there), and it is the `search-the-corpus` record's term,
+   which `src/readerCopy.test.mjs` holds it to. What the search DOES -- which it used to explain in
+   an eight-word tooltip written here -- is that record's definition, carried as the title and
+   the described-by text (WP-14.31). */
+function SearchInvitation({ onSearch }) {
+  const d = useTermDescription('search-the-corpus');
+  return (
+    <>
+      <button type="button" onClick={onSearch} aria-label="Search the corpus"
+        aria-describedby={d.describedBy} title={d.title}
+        style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 210,
+          padding: '3px 9px', border: '1px solid var(--rule)', background: 'var(--paper-mat)',
+          color: 'var(--ink-2)', transition: 'var(--t-hover)' }}>
+        <span style={{ font: 'var(--fw-reg) 12.5px/1.4 var(--body)' }}>Search the corpus</span>
+        <span style={{ flex: 1 }} />
+        <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
+          color: 'var(--ink-2)' }}>⌘K</span>
+      </button>
+      {d.element}
+    </>
+  );
+}
+
 export function Masthead({ plan, planStep, onSearch, onKeys }) {
   return (
     <header style={{ height: 'var(--topbar-h)', flex: 'none', display: 'flex', alignItems: 'center',
@@ -88,18 +112,7 @@ export function Masthead({ plan, planStep, onSearch, onKeys }) {
       {plan && <OnTheBench plan={plan} planStep={planStep} />}
       {/* The shortcut is the fast way in; this is the way anyone finds it at all. It is
           drawn as a field rather than a button because that is what it opens. */}
-      {onSearch && (
-        <button type="button" onClick={onSearch} aria-label="Search the corpus"
-          title="Search styles, slots, faults, packs and rooms — ⌘K"
-          style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 210,
-            padding: '3px 9px', border: '1px solid var(--rule)', background: 'var(--paper-mat)',
-            color: 'var(--ink-2)', transition: 'var(--t-hover)' }}>
-          <span style={{ font: 'var(--fw-reg) 12.5px/1.4 var(--body)' }}>Search the corpus</span>
-          <span style={{ flex: 1 }} />
-          <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
-            color: 'var(--ink-2)' }}>⌘K</span>
-        </button>
-      )}
+      {onSearch && <SearchInvitation onSearch={onSearch} />}
       {/* The keys card was reachable only by `?` or a typed palette query — which is to say by
           somebody who already knew it was there. */}
       {onKeys && (

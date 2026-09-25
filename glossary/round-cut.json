@@ -1,0 +1,12 @@
+{
+  "id": "round-cut",
+  "term": "cut",
+  "family": "figure",
+  "definition": "A section plane through the model, at a level or along a line across it, taken from the model itself and not from a drawn plate.",
+  "kind": "editorial",
+  "basis": "Our wording of the model's section plane. docs/scene.md: a camera wants \"a section plane moved by hand\", and needs nothing more than the scene, \"because everything a camera can show is already in the record\".",
+  "see": [
+    "term:round-plate",
+    "term:in-the-round"
+  ]
+}

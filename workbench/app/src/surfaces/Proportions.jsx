@@ -448,7 +448,7 @@ function Plate({ data }) {
     return (
       <section data-section="plate" style={SECTION_GAP}>
         <PlateViewer label="the plate" height="clamp(400px, 72vh, 900px)"
-          note="a cyma is three inches — ⌘/ctrl-scroll to zoom · drag to pan">
+          note="⌘/ctrl-scroll to zoom · drag to pan">
           <OrderPlate data={data} />
         </PlateViewer>
       </section>

@@ -579,7 +579,47 @@ await page.waitForSelector('svg[role="img"]', { timeout: 150000 });
   await page.waitForSelector('svg[role="img"]', { timeout: 150000 }).catch(() => {});
 }
 const body = await page.locator('main').innerText();
-check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
+/* WP-14.31: THE PANEL IS GROUPED BY MARK AND EACH COUNT IS ITS ROWS. It was one heading, "could
+   not evaluate · N of this style's constraints", over rows in three states, and N counted one of
+   them; this check matched the heading's words and so passed over exactly that. It reads the
+   groups now: every group is headed by its own mark's record, and its count is the rows drawn
+   under it plus the ones it says it did not list. */
+{
+  const groups = await page.$$eval('main [data-judgment-group]', (gs) => gs.map((g) => ({
+    mark: g.getAttribute('data-judgment-group'), n: Number(g.getAttribute('data-count')),
+    rows: Number(g.getAttribute('data-rows')), more: Number(g.getAttribute('data-more')),
+    drawn: g.querySelectorAll('[data-judgment-row]').length,
+    term: g.querySelector('[data-term]') ? g.querySelector('[data-term]').getAttribute('data-term') : null })));
+  check(`the three-state panel is grouped by mark, each count its rows (${groups.map((g) => `${g.mark} ${g.n}`).join(', ') || 'none'})`,
+    groups.length > 0 && groups.every((g) => g.term === `judgment-${g.mark}`
+      && g.n === g.rows + g.more && g.drawn === g.rows));
+  /* ONE WORD, TWO POPULATIONS. The masthead's unjudged count is the check's constraint summary,
+     the style's constraints alone; the panel's unjudged group holds those AND the corpus's
+     faults. Read side by side, "4 unjudged" over "unjudged · 125" is a contradiction unless the
+     panel names its parts, so the constraint part must be the masthead's number and the two
+     parts must make the group's. */
+  // The parts are read as the reader sees them -- each span's own record and the figure printed
+  // beside it -- and not off the group's attributes, which a second expression could keep right
+  // while the printed line said something else.
+  const split = await page.$eval('main [data-judgment-group="unjudged"]', (g) => {
+    const part = { constraint: 0, fault: 0 };
+    for (const s of g.querySelectorAll('[data-judgment-split] > span')) {
+      const t = s.querySelector('[data-term]');
+      const m = /(\d+)\s*$/.exec(s.innerText);
+      if (t && m && t.getAttribute('data-term') in part) part[t.getAttribute('data-term')] = Number(m[1]);
+    }
+    return { c: part.constraint, f: part.fault, n: Number(g.getAttribute('data-count')) };
+  }).catch(() => null);
+  const mast = await page.locator('[data-bench-counts] [data-count="judgment-unjudged"]').first()
+    .innerText().catch(() => '');
+  const mastN = /^\s*\d+\s*$/.test(mast) ? Number(mast) : null;
+  if (split && mastN != null) {
+    check(`the panel's unjudged constraints are the masthead's unjudged count, and the faults are counted apart (${split.c} + ${split.f} = ${split.n}; masthead ${mastN})`,
+      split.c === mastN && split.c + split.f === split.n);
+  } else {
+    unjudged.push(`the panel's unjudged constraints are the masthead's unjudged count — ${split ? 'the masthead states no unjudged count for this plan' : 'this plan has no unjudged group'}, so there are not two figures to hold together`);
+  }
+}
 check('hill-climb honesty line present', /hill-climb/i.test(body));
 check('the proof is offered, not just the search', /prove placement/i.test(body));
 // …and the caption names the engine that ACTUALLY DREW THIS SHEET, and claims a proof only
@@ -2117,8 +2157,25 @@ const brief = await page.locator('main').innerText();
 check('silences are named as decisions', /becomes a composer decision/i.test(brief));
 // WP-2.3 landed; the panel now says WHERE the conflict set is named (the bench, on a plan)
 // rather than that it does not exist. The assertion moved with the claim.
-check('conflict set located, not promised', /conflict set · on the bench, not here/i.test(brief));
-check('feasibility still advisory, never a proof', /never a proof/i.test(brief));
+/* WP-14.31: the pointer's words are two records' and its sentence the conflict set's definition,
+   so they are held to those records rather than to a phrase this file remembers. */
+{
+  const [csRec, benchRec] = await Promise.all([termOf('conflict-set'), termOf('on-the-bench')]);
+  const link = page.locator('main [data-conflict-link]').first();
+  const linkText = (await link.innerText().catch(() => '')).replace(/\s+/g, ' ').trim();
+  const href = await link.getAttribute('href').catch(() => null);
+  const defText = (await page.locator('main [data-conflict-definition]').first().innerText().catch(() => ''))
+    .replace(/\s+/g, ' ').trim();
+  if (!csRec || !benchRec) {
+    unjudged.push('the brief\'s conflict-set pointer -- GET /api/glossary/conflict-set or on-the-bench did not answer');
+  } else {
+    check(`conflict set located, not promised (${linkText})`,
+      linkText.toLowerCase() === `${csRec.term} · ${benchRec.term}`.toLowerCase()
+      && !!href && parseHash(href).surface === 'workbench');
+    check('feasibility still advisory, and the conflict set is a plan\'s, never a brief\'s',
+      /feasibility\s*·\s*advisory/i.test(brief) && defText === csRec.definition.replace(/\s+/g, ' ').trim());
+  }
+}
 /* WP-14.10 (PRD §J.1): EVERY BUDGET OPTION IS ONE THE BRIEF SCHEMA ADMITS, AND THEY ARE ALL OF
    THEM. The form offered `entry`, `move-up`, `custom` and `estate` against a schema admitting
    `value`, `mid`, `custom` and `unlimited`, so three of the four a reader could pick refused the
@@ -2714,12 +2771,39 @@ await shot('drawing-bearing');
 
 // (8b) Details & Export - forthcoming, never hidden
 await visit('#/export');
-await page.waitForSelector('text=forthcoming', { timeout: 15000 });
+await page.waitForSelector('main [data-not-built]', { timeout: 15000 });
 const ex = await page.locator('main').innerText();
 check('export: DXF/IFC live (WP-5.1)', /plan dxf/.test(ex) && /ifc model/.test(ex));
-check('export: unbuilt work named with its WP', /WP-5\.3 is not built/.test(ex));
-check('export: no costing engine implied', /No costing engine exists/i.test(ex));
-check('export: conflict count is the recorded 262', /262 recorded pack conflicts/.test(ex));
+/* WP-14.31: WHAT IS NOT BUILT IS NAMED BY WHAT IT IS, AND THE FIGURE IS THE API'S. These checks
+   pinned "WP-5.3 is not built", "No costing engine exists" and "262 recorded pack conflicts" --
+   a work-package numeral in reader copy, a sentence written in the page, and a count typed into
+   it. Each unbuilt card is a glossary record now and is held to that record's own words; the
+   costing sentence is the `no-costing-engine` record's; and the conflict figure the page draws
+   is held to the pack index's own rows, summed here from the route rather than remembered. */
+{
+  const cards = await page.$$eval('main [data-not-built]', (cs) => cs.map((c) => ({
+    id: c.getAttribute('data-not-built'),
+    title: ((c.querySelector('h3') || {}).innerText || '').replace(/\s+/g, ' ').trim(),
+    body: ((c.querySelector('[data-not-built-definition]') || {}).innerText || '').replace(/\s+/g, ' ').trim() })));
+  const recs = await Promise.all(cards.map((c) => termOf(c.id)));
+  const flat = (t) => String(t || '').replace(/\s+/g, ' ').trim();
+  check(`export: each unbuilt card states its forthcoming work in its record's words (${cards.map((c) => c.id).join(', ') || 'none'})`,
+    cards.length > 0 && cards.every((c, i) => recs[i] && c.title === flat(recs[i].term) && c.body === flat(recs[i].definition)));
+  check('export: no unbuilt card names the work package that would build it',
+    cards.length > 0 && !cards.some((c) => /\bWP-\d/.test(`${c.title} ${c.body}`)));
+  const costRec = await termOf('no-costing-engine');
+  const cost = flat(await page.locator('main [data-no-costing]').first().innerText().catch(() => ''));
+  if (!costRec) unjudged.push('export: no costing engine implied -- GET /api/glossary/no-costing-engine did not answer');
+  else check('export: no costing engine implied, in its record\'s words', cost.includes(flat(costRec.definition)));
+  const packs = await fetch(`${BASE}/api/proportions`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const rows = packs && Array.isArray(packs.packs) ? packs.packs : [];
+  const want = rows.length && rows.every((r) => Number.isInteger(r.conflicts))
+    ? rows.reduce((n, r) => n + r.conflicts, 0) : null;
+  const drawn = await page.locator('main [data-pack-conflicts]').first().getAttribute('data-pack-conflicts').catch(() => null);
+  if (want == null) unjudged.push('export: the conflict count -- GET /api/proportions states no per-pack conflicts');
+  else check(`export: the conflict count is the pack index's own rows summed (${drawn} against ${want})`,
+    drawn !== null && Number(drawn) === want && ex.includes(String(want)));
+}
 await shot('export');
 
 /* WP-14.27: an elevation leaves as the face the reader chose. Export drew only the entrance
@@ -2743,7 +2827,7 @@ await shot('export');
     check(`export: picking a face writes it in the address (${JSON.stringify(exHash.params)})`,
       exHash.surface === 'export' && exHash.params.face === NOT_FRONT);
     await page.reload();
-    await page.waitForSelector('text=forthcoming', { timeout: 15000 }).catch(() => {});
+    await page.waitForSelector('main [data-not-built]', { timeout: 15000 }).catch(() => {});
     check(`export: and a reload keeps the face picked (${faceWord})`,
       await chip.first().getAttribute('aria-checked').catch(() => null) === 'true');
 
@@ -2855,7 +2939,11 @@ check('one act clears every filter', !/q=porch/.test(page.url()));
 // palette was the one dialog this app could open; a definition popover is a dialog too, and
 // the name is the one `palette/CommandPalette.jsx` puts on its dialog element. Its results
 // are read inside it for the same reason -- `[role="option"]` is also any combobox's list.
-const palette = page.getByRole('dialog', { name: 'Search the corpus', exact: true });
+// AND THAT NAME IS A RECORD'S (WP-14.31): the dialog is labelled with the `search-the-corpus`
+// record's term, so the walk reads the name from the record rather than remembering it.
+const paletteName = await termOf('search-the-corpus').then((r) => (r && r.term) || null);
+if (!paletteName) unjudged.push('the palette -- GET /api/glossary/search-the-corpus did not answer, so its name is unknown');
+const palette = page.getByRole('dialog', { name: paletteName || 'Search the corpus', exact: true });
 await page.keyboard.press('Control+k');
 await palette.waitFor({ state: 'visible', timeout: 5000 });
 check('⌘K opens the palette', await palette.count() > 0);

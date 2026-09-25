@@ -78,7 +78,7 @@ const DISCLOSURE = {
   // build/elevation.py emits either number, so the caption could never drift back into
   // agreement with the generator. Stated as the limit it is, without a borrowed count.
   elevation: 'The elevation generator models a part of the photograph-measurable fault ' +
-    'corpus and no more; the rest have no model at this layer yet (WP-3.2, disclosed rather ' +
+    'corpus and no more; the rest have no model at this layer yet (disclosed rather ' +
     'than closed by fabricating data), and what it could not measure is absent from the ' +
     'measurements rather than reported as zero. Sash lights are ' +
     'set for the declared date; the cornice is the style’s own entablature reduction at the ' +

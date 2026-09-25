@@ -383,6 +383,21 @@ export function assemblyWords(id) {
 }
 
 /* The authorities route's order for an order pack: `<authority>-<order>` → `<order>`. */
+/* The conflicts with building today the corpus records, summed off `GET /api/proportions`'s rows
+   (each row states its own pack's, WP-14.31). A row that states no whole count makes the sum
+   UNKNOWN rather than smaller: a list missing one pack's figure would print a total that reads as
+   the corpus's and is not, and a page that typed the figure instead was how Export said 262. */
+export function conflictTotal(list) {
+  const rows = list && Array.isArray(list.packs) ? list.packs : null;
+  if (!rows || !rows.length) return null;
+  let n = 0;
+  for (const r of rows) {
+    if (!r || !Number.isInteger(r.conflicts) || r.conflicts < 0) return null;
+    n += r.conflicts;
+  }
+  return n;
+}
+
 export function orderOf(packId) {
   return typeof packId === 'string' && packId.includes('-') ? packId.split('-').slice(1).join('-') : null;
 }

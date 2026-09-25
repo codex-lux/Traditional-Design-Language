@@ -1,0 +1,12 @@
+{
+  "id": "reading-tree",
+  "term": "tree",
+  "family": "product",
+  "definition": "The family tree read as descent against time: every style laid along a time axis, joined to the styles it comes from by its typed relations, many parents where the record names many.",
+  "kind": "editorial",
+  "basis": "The reading is the workbench's own; what it draws is described in docs/model.md: lineage \"is the real structure: a directed acyclic graph with typed, weighted edges. Multiple parents are normal.\"",
+  "see": [
+    "term:reading-map",
+    "term:surface-phylogeny"
+  ]
+}

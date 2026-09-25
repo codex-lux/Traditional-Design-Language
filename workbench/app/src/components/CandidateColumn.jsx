@@ -111,7 +111,10 @@ function ScoreBlock({ candidate: c }) {
        " could not be evaluated on this plan. They are outside the fraction, not counted as passed."),
     c.score_weight_unevaluated > 0 && h("p", {
       style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)', margin: '6px 0 0' }
-    }, `Scored over ${c.score_weight_evaluated} of 100 points of evidence — `
+    /* The whole is the two halves the payload states, never a typed 100 (WP-14.31): a figure
+       written into the page is true on the day it is typed and silently false after. */
+    }, `Scored over ${c.score_weight_evaluated} of `
+     + `${c.score_weight_evaluated + c.score_weight_unevaluated} points of evidence — `
      + `${c.score_weight_unevaluated} could not be evaluated on this plan, and are dropped `
      + `rather than passed.`));
 }

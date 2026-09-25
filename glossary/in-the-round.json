@@ -1,0 +1,12 @@
+{
+  "id": "in-the-round",
+  "term": "in the round",
+  "family": "product",
+  "definition": "See the plan on the bench as a model, in the Drawing Set: the house built from its record and turned in the hand, with the flat drawings laid over it at their named views.",
+  "kind": "editorial",
+  "basis": "Our wording of the way to the model. docs/scene.md: a continuous camera, \"an orbit, a section plane moved by hand — needs a scene resident in the browser\", and it needs no modelling kernel \"because everything a camera can show is already in the record\".",
+  "see": [
+    "term:surface-drawings",
+    "term:round-plate"
+  ]
+}

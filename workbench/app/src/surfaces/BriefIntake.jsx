@@ -2,7 +2,7 @@
    visible before they become assumptions: every field left blank is named as a
    decision the composer will take and report. The household stays prose — it is the
    most design-relevant sentence in the file. Feasibility is advisory, computed live,
-   and never implies feasibility was proved (the conflict-set display waits on WP-2.3).
+   and never implies feasibility was proved: the conflict set is the solver's, on the bench.
 
    WP-14.10 (PRD §E, §F.4, §G.1): step one of the house journey, which used to break. The budget
    tiers are the brief schema's own enum, read from `GET /api/schema/brief` -- three of the four
@@ -44,7 +44,7 @@ import {
 } from '../journey/briefForm.js';
 import { NATIVITY_TERMS } from '../candidateOrder.js';
 import { useSurfaceFilters } from '../filters/useFilters.js';
-import { wordOf, noGlossary } from '../glossary/termView.js';
+import { wordOf, noGlossary, describeTerm } from '../glossary/termView.js';
 import { StylePicker } from '../components/StylePicker.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
@@ -535,19 +535,19 @@ export function BriefIntake({ go }) {
 
             {/* A POINTER, NOT A STATE (WP-14.29, PRD tranche 2 §D). The conflict set lives on the
                 bench, so this is a link there and wears no hatch: it wore the falling hatch, which
-                means wanted now, and nothing here is wanted -- it is somewhere else. */}
+                means wanted now, and nothing here is wanted -- it is somewhere else.
+                ITS WORDS ARE TWO RECORDS' (WP-14.31): the link is the `conflict-set` and
+                `on-the-bench` terms, and the sentence under it the conflict set's definition. It
+                was a paragraph written here that opened with the work package the solver landed
+                in, and the link wore the faint tone the ink sweep retired. */}
             <div data-conflict-pointer="" style={{ marginTop: 14, border: '1px solid var(--rule)',
               padding: '9px 11px' }}>
               <a href={formatHash('workbench', {}, {})} data-conflict-link="">
-                <Eyebrow as="span" tone="quiet">conflict set · on the bench, not here</Eyebrow>
+                <Eyebrow as="span">{word('conflict-set')} · {word('on-the-bench')}</Eyebrow>
               </a>
-              <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
-                margin: '6px 0 0' }}>
-                The CP-SAT solver landed (WP-2.3): where a plan&rsquo;s declared facts cannot all hold,
-                it names the minimal set that conflicts. It proves a PLAN, though, not a brief — so the
-                naming happens on the Plan Workbench, under <em>prove placement</em>, once a candidate
-                exists. The feasibility note above this stays what it says it is: advisory arithmetic on
-                area and lot, and never a proof.
+              <p data-conflict-definition="" style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
+                color: 'var(--ink-2)', margin: '6px 0 0' }}>
+                {describeTerm(glossary, 'conflict-set').text}
               </p>
             </div>
           </div>

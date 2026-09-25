@@ -32,6 +32,19 @@ export const KIND_ORDER = [
   'fault', 'room', 'massing', 'parti', 'grouping', 'term',
 ];
 
+/* The glossary record whose word heads each kind's group in the palette (WP-14.31). The palette
+   carried its own labels (`KIND_LABEL`: "element slots", "proportion packs", ...), which the
+   glossary's authoring rules name as app strings being retired. Each kind is headed now by the
+   record for the thing its rows ARE -- a `style` row is any node of the taxonomy, so `taxon`; a
+   `term` row is a word of the glossary, so the Glossary's own page -- and a record, not this
+   file, is where the word lives. `src/readerCopy.test.mjs` holds the table to the glossary:
+   every kind has one, and every one names a record that exists. */
+export const KIND_TERM = Object.freeze({
+  surface: 'page', action: 'palette-act', style: 'taxon', slot: 'slot', pack: 'proportion-pack',
+  fault: 'fault', room: 'room', massing: 'massing', parti: 'parti', grouping: 'grouping',
+  term: 'surface-glossary',
+});
+
 const kindRank = (k) => {
   const i = KIND_ORDER.indexOf(k);
   return i === -1 ? KIND_ORDER.length : i;

@@ -1,7 +1,14 @@
-/* Surface ⑧b — Details & Export. What works today works plainly: the plan record,
-   the brief, the check report and every generated SVG leave as files. What is not
-   built is present, disabled, and named with its work package — forthcoming, never
-   hidden. The interface must not imply a completeness the corpus does not have. */
+/* Details & Export. What works today works plainly: the plan record, the brief, the check
+   report and every generated SVG leave as files. What is not built is present, disabled, and
+   named as not built -- never hidden. The interface must not imply a completeness the corpus
+   does not have.
+
+   AND IT NAMES WHAT IS NOT BUILT BY WHAT IT IS, NOT BY THE PACKAGE THAT WOULD BUILD IT
+   (WP-14.31). Each unbuilt card carried a work-package numeral and a description written here,
+   the details card a typed "262 recorded pack conflicts", and the costing paragraph a typed
+   "86 of them priced in dollars" beside a field name. A work package is the build's history and
+   not something a reader can use; the two cards and the costing sentence are glossary records
+   now, and the conflict figure is the sum of the pack index's own `conflicts` rows. */
 import React from 'react';
 import { api } from '../api/client.js';
 import { planDoc } from '../state/planDoc.js';
@@ -11,6 +18,8 @@ import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { Term } from '../components/Term.jsx';
 import { useGlossary } from '../api/useGlossary.js';
 import { describeTerm } from '../glossary/termView.js';
+import { formatHash } from '../router.js';
+import { conflictTotal } from '../proportions/page.js';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { FACES, FACE_TERM, ENTRANCE_FRONT_TERM, parseFace, drawingOpts, cadOpts, sheetFileName,
   recordWord } from './drawingFaces.js';
@@ -39,6 +48,10 @@ const cardBody = { font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--in
    chip is worded by its record rather than by a compass point this surface would have to derive. */
 const EXPORT_SPEC = { face: { widens: true } };
 
+/* The designed and unbuilt cards, each one glossary record: its term is the card's title and its
+   definition the card's body. */
+const NOT_BUILT = ['design-guidelines', 'details-library'];
+
 export function ExportDetails({ lastEval }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
   const s = React.useSyncExternalStore(session.subscribe, session.get);
@@ -50,12 +63,14 @@ export function ExportDetails({ lastEval }) {
   const face = parseFace(F.values.face);
   const glossary = useGlossary();
   const word = recordWord(glossary);
-  /* The fault count below is the corpus's, read from /api/overview: it was typed as "209"
-     against a corpus of 210 (WP-14.13). Unread, the sentence names no figure. */
-  const [faultCount, setFaultCount] = React.useState(null);
+  /* The pack-conflict figure is the corpus's, summed off the pack index's rows; the costing
+     sentence that carried a fault count read from /api/overview (WP-14.13, after it was typed as
+     "209" against a corpus of 210) is a glossary record now and names no figure at all. Unread,
+     the card names no figure either. */
+  const [packConflicts, setPackConflicts] = React.useState(null);
   React.useEffect(() => {
     let live = true;
-    api.overview().then((o) => { if (live) setFaultCount(o?.counts?.faults ?? null); }).catch(() => {});
+    api.proportionPacks().then((j) => { if (live) setPackConflicts(conflictTotal(j)); }).catch(() => {});
     return () => { live = false; };
   }, []);
 
@@ -122,9 +137,6 @@ export function ExportDetails({ lastEval }) {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip>
         <Eyebrow as="span">details &amp; export</Eyebrow>
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
-          generated from data, so it cannot drift — and honest about what is not built
-        </span>
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
         <Eyebrow as="span"><Term id={FACE_TERM} /></Eyebrow>
         <ChipGroup label={word(FACE_TERM)}>
@@ -202,7 +214,7 @@ export function ExportDetails({ lastEval }) {
             </span>
           </div>
           <div style={card}>
-            <h3 style={cardTitle}>DXF &amp; IFC (WP-5.1)</h3>
+            <h3 style={cardTitle}>DXF &amp; IFC</h3>
             <p style={cardBody}>
               Layered DXF per sheet, in inches, the record riding on the entities as XDATA —
               round-trip proven: DXF → plan record → validator gives the same findings. And an
@@ -230,43 +242,35 @@ export function ExportDetails({ lastEval }) {
           </div>
         </div>
 
-        <Eyebrow style={{ margin: '28px 0 12px' }}>forthcoming — designed, not built, and saying so</Eyebrow>
+        <Eyebrow style={{ margin: '28px 0 12px' }}><Term id="mark-not-built" /></Eyebrow>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'stretch' }}>
-          {[
-            { t: 'Design guidelines, per style', wp: 'WP-5.3', body:
-              'A generated book per style: constraints, forbidden variants, faults with their ' +
-              'exceptions, pack bindings, rendered orders and details. HTML and PDF, from data, ' +
-              'so it cannot drift.' },
-            { t: 'The details library', wp: 'WP-5.3', body:
-              'Every measured detail rendered by the engine, and all 262 recorded pack conflicts ' +
-              'with their resolution prose. Ranked substitution sets are planned structure the ' +
-              'corpus does not yet hold — this card will not pretend otherwise.' },
-          ].map((c) => (
-            <div key={c.t} data-not-built="" style={{ ...card, backgroundImage: 'var(--mark-not-built)' }}>
+          {NOT_BUILT.map((id) => (
+            <div key={id} data-not-built={id} style={{ ...card, backgroundImage: 'var(--mark-not-built)' }}>
               <div style={{ background: 'var(--paper)', padding: '8px 10px' }}>
-                <h3 style={{ ...cardTitle, color: 'var(--ink-2)' }}>{c.t}</h3>
-                <p style={{ ...cardBody, color: 'var(--ink-2)', marginBottom: 8 }}>{c.body}</p>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
-                  forthcoming — {c.wp} is not built
-                </span>
+                <h3 style={{ ...cardTitle, color: 'var(--ink-2)' }}>{word(id)}</h3>
+                <p data-not-built-definition="" style={{ ...cardBody, color: 'var(--ink-2)', marginBottom: 8 }}>
+                  {describeTerm(glossary, id).text}
+                </p>
+                {id === 'details-library' && packConflicts != null && (
+                  <span data-pack-conflicts={packConflicts}
+                    style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                    <Term id="pack-conflict" /> · {packConflicts}
+                  </span>
+                )}
               </div>
             </div>
           ))}
         </div>
 
-        <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
-          margin: '16px 0 0', maxWidth: '76ch' }}>
-          Drawing-to-record ingestion was named forthcoming here until it existed; it shipped
-          as the Transcription surface (WP-5.5) — a drawing goes in by tracing or a
-          drafter&rsquo;s DXF, and a record comes out with its gaps named.
+        <p data-transcription-pointer="" style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)',
+          color: 'var(--ink-2)', margin: '16px 0 0', maxWidth: '76ch' }}>
+          <a href={formatHash('transcription')}>{word('surface-transcription')}</a>
+          {' — '}{describeTerm(glossary, 'surface-transcription').text}
         </p>
 
-        <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
+        <p data-no-costing="" style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
           margin: '24px 0 0', maxWidth: '76ch' }}>
-          No costing engine exists: every one of the{faultCount != null ? ` ${faultCount}` : ''} faults carries a recorded{' '}
-          <span style={{ fontFamily: 'var(--mono)' }}>cost_saved</span> (86 of them priced in
-          dollars) and nothing here prices a plan. Code findings are advisory IRC model text
-          and are never rendered as compliance.
+          <Term id="no-costing-engine" />{' — '}{describeTerm(glossary, 'no-costing-engine').text}
         </p>
       </div>
     </div>

@@ -1,0 +1,12 @@
+{
+  "id": "critique",
+  "term": "critique",
+  "family": "house",
+  "definition": "Place the house once, judge it, and sort each finding by what it means to the generator: a move answers it, the placement engine could, the critic itself is suspect, or it is the architect's to decide. It runs on demand, never on every edit.",
+  "kind": "editorial",
+  "basis": "Our wording of the analyst. docs/revise.md: it \"Places once, or reuses the placement the record carries\" and \"sorts every non-info finding into exactly one class, first match wins\"; on the bench it \"and tags every finding row with its class\".",
+  "see": [
+    "term:finding-class",
+    "term:revise-on-the-search"
+  ]
+}

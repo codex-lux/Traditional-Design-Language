@@ -1,0 +1,12 @@
+{
+  "id": "search-the-corpus",
+  "term": "Search the corpus",
+  "family": "product",
+  "definition": "Type a name and go straight to it: a style, a slot, a proportion pack, a fault, a room, a massing, a grouping, a plan type, a glossary word or a page. It matches names, ids and other names, never the prose inside a record.",
+  "kind": "editorial",
+  "basis": "Our wording of the workbench's search, which docs/workbench.md describes: the index \"serves every nameable thing once\" \"and the palette matches it in the browser. It indexes names, ids, akas, short categorical\" fields, and the palette \"dispatches through the citation router and cannot reach a place a citation could\" not name.",
+  "see": [
+    "term:search-no-match",
+    "term:page"
+  ]
+}

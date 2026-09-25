@@ -1,0 +1,12 @@
+{
+  "id": "re-solve",
+  "term": "re-solve",
+  "family": "house",
+  "definition": "Solve the plan on the bench again from its record, then run corrective rounds on what the critic finds before the sheet is drawn. A placement the solver proved should come back the same; one from the fast search may differ run to run.",
+  "kind": "editorial",
+  "basis": "Our wording of an explicit solve. docs/revise.md: \"an explicit solve runs one or two corrective rounds before the plan is surfaced\", while \"the WALL DRAG sends none, because a gesture cannot wait for a loop any more than it can wait\" for a proof.",
+  "see": [
+    "term:prove-placement",
+    "term:on-the-bench"
+  ]
+}

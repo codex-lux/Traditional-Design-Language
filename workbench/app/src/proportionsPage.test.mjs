@@ -15,7 +15,7 @@ import {
   PAGE_SECTIONS, PROOF_FOLD, FILTER_SPEC, DEFAULT_DIAMETER_IN, RANGES, measureParam, requestFor,
   sliderAt, plateKind, faceCount, pageSections, authorityLines, sourceLines, invariantMark, invariantTally,
   proofOpen, ruleState, figureWords, rangeWords, usedByGroups, reachOf, packsOfStyle, packGroups,
-  packHref, assemblyWords, orderOf, authorityWords, classASlider, zonesByAssembly,
+  packHref, assemblyWords, orderOf, authorityWords, classASlider, zonesByAssembly, conflictTotal,
 } from './proportions/page.js';
 import { parseHash } from './router.js';
 
@@ -349,4 +349,25 @@ test('the page says out loud what it will not draw', () => {
   assert.match(src, /data-refused="no-assemblies"/, 'a pack with no assemblies says it has no drawing');
   assert.match(src, /data-refused="zones"/, 'no zone dimension string, and the page says why');
   assert.match(src, /data-plate-at=/, 'whether the plate is at your building is the pack’s to say');
+});
+
+/* ---- the conflicts the corpus records (WP-14.31) ---- */
+
+test('the recorded conflicts are the pack index’s own rows summed, and unknown where one is missing', () => {
+  assert.equal(conflictTotal({ packs: [{ id: 'a', conflicts: 3 }, { id: 'b', conflicts: 0 }, { id: 'c', conflicts: 4 }] }), 7);
+  assert.equal(conflictTotal({ packs: [{ id: 'a', conflicts: 3 }, { id: 'b' }] }), null,
+    'a row stating no count makes the total unknown, never a smaller total');
+  assert.equal(conflictTotal({ packs: [{ id: 'a', conflicts: 2.5 }] }), null, 'a count is whole');
+  assert.equal(conflictTotal({ packs: [{ id: 'a', conflicts: -1 }] }), null);
+  assert.equal(conflictTotal({ packs: [] }), null, 'no packs is no figure, not zero');
+  assert.equal(conflictTotal(null), null);
+  assert.equal(conflictTotal({ count: 3 }), null);
+});
+
+test('the Export page counts the conflicts off the pack index and types no figure for them', () => {
+  const src = live(read('surfaces/ExportDetails.jsx'));
+  assert.match(src, /api\.proportionPacks\(\)\.then\(\(j\) => \{[^}]*conflictTotal\(j\)/,
+    'the figure is the pack index summed by the one reader');
+  assert.match(src, /data-pack-conflicts=\{packConflicts\}/, 'and the page states which figure it drew');
+  assert.doesNotMatch(src, /\b\d{2,}\s+(?:recorded\s+)?(?:pack\s+)?conflicts\b/, 'no count is typed');
 });

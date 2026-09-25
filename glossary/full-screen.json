@@ -1,0 +1,12 @@
+{
+  "id": "full-screen",
+  "term": "full screen",
+  "family": "product",
+  "definition": "The map takes the whole window: the masthead and both side panes fold away. Escape, or the same control, gives the instrument back, and a page closed in full screen opens again with everything in place.",
+  "kind": "editorial",
+  "basis": "Our wording of full screen, which docs/workbench.md describes: it \"drops the masthead and both rails\", and a reader who \"closes the tab in full screen gets the instrument back rather than a chrome-less shell\".",
+  "see": [
+    "term:reading-map",
+    "term:surface-phylogeny"
+  ]
+}

@@ -7,9 +7,18 @@
    nothing here re-derives it. At a tradition or a family the universal line is not drawn: a
    universal fault is about a house, a tradition is not built, and the dossier's own count for the
    section leaves them out for exactly that reason (§D.2) -- drawing them would make the page and
-   its strip disagree. */
+   its strip disagree.
+
+   THE THREE HEADINGS ARE THE FAULT CORPUS'S OWN RECORDS (WP-14.31): `fault-group-here`,
+   `-lineage` and `-universal` head the same three groups on that surface, and this section wrote
+   its own three phrases for them, one of which ("written for every house") restated the
+   universal record's definition in a link. A reader who met the groups here and there met two
+   vocabularies for one partition. */
 import React from 'react';
 import { RecordLink } from '../components/RecordLink.jsx';
+import { Term } from '../components/Term.jsx';
+import { useGlossary } from '../api/useGlossary.js';
+import { wordOf } from '../glossary/termView.js';
 import { formatHash } from '../router.js';
 import { Section, data } from './parts.jsx';
 
@@ -28,23 +37,25 @@ export function Faults({ dossier, styleId }) {
   const here = f.verdict_here || [];
   const lineage = f.lineage || [];
   const universal = BUILT[dossier.rank] ? f.universal_count : null;
+  const glossary = useGlossary();
+  const corpusWord = glossary.status === 'ready' && glossary.lookup ? wordOf(glossary.lookup, 'surface-faults') : '';
   return (
     <div data-dossier-section="faults" style={{ maxWidth: 760 }}>
       {here.length > 0 && (
-        <Section eyebrow={<>read for this style · {here.length}</>}>
+        <Section eyebrow={<><Term id="fault-group-here" /> · {here.length}</>}>
           <FaultList ids={here} styleId={styleId} attr="data-fault-here" />
         </Section>
       )}
       {lineage.length > 0 && (
-        <Section eyebrow={<>written for its lineage · {lineage.length}</>}>
+        <Section eyebrow={<><Term id="fault-group-lineage" /> · {lineage.length}</>}>
           <FaultList ids={lineage} styleId={styleId} attr="data-fault-lineage" />
         </Section>
       )}
       {typeof universal === 'number' && universal > 0 && (
-        <Section eyebrow="universal">
+        <Section eyebrow={<><Term id="fault-group-universal" /> · {universal}</>}>
           <a href={formatHash('faults', { style: styleId }, {})} data-fault-universal={universal}
             style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>
-            {universal} more, written for every house → the Fault Corpus
+            {corpusWord} →
           </a>
           <p style={{ ...data, marginTop: 4 }}>{f.matches} in all</p>
         </Section>

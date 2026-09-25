@@ -1,0 +1,12 @@
+{
+  "id": "finding-engine",
+  "term": "engine",
+  "family": "house",
+  "definition": "Which engine placed the house a finding on the drawing was read from: the fast search or the proof. A finding about the drawn house is only as firm as the placement under it.",
+  "kind": "editorial",
+  "basis": "Our wording of the engine a finding carries. docs/revise.md: the bench's evaluate judges the solved record, \"and each drawn finding row carries the engine that placed it\".",
+  "see": [
+    "term:prove-placement",
+    "term:finding-class"
+  ]
+}

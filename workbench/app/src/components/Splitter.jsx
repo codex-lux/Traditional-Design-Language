@@ -23,6 +23,7 @@
    neighbouring pane's own border. */
 import React from 'react';
 import { layout, PANES } from '../state/layout.js';
+import { useTermDescription } from './Term.jsx';
 
 const STRIDE = 48;
 const NUDGE = 8;
@@ -33,6 +34,7 @@ export function Splitter({ pane, grows = 'left' }) {
   const drag = React.useRef(null);
   const [pulling, setPulling] = React.useState(false);
   const [near, setNear] = React.useState(false);
+  const desc = useTermDescription('pane-margin');
   const width = React.useSyncExternalStore(layout.subscribe, () => layout.width(pane));
   const open = React.useSyncExternalStore(layout.subscribe, () => layout.isOpen(pane));
 
@@ -90,8 +92,9 @@ export function Splitter({ pane, grows = 'left' }) {
         onPointerUp={onPointerUp} onPointerCancel={onPointerUp}
         onKeyDown={onKeyDown}
         onDoubleClick={() => layout.reset(pane)}
-        title={`Drag to resize ${spec ? spec.label : pane} · arrows nudge, shift-arrows stride, `
-          + `Home or double-click for its shipped width${spec && spec.foldable ? ', Enter folds' : ''}`}
+        /* What the margin does and which keys move it is the `pane-margin` record's definition
+           (WP-14.31); an eight-word tooltip written here explained it until then. */
+        aria-describedby={desc.describedBy} title={desc.title}
         /* Asymmetric, and biased the SAME way whichever side the pane is on. A centred
            10px strip put 5px of itself over its left neighbour's right edge — which in a
            left-to-right layout is exactly where that neighbour's vertical scrollbar lives,
@@ -118,6 +121,7 @@ export function Splitter({ pane, grows = 'left' }) {
         onPointerLeave={() => setNear(false)}
         onFocus={() => setNear(true)}
         onBlur={() => setNear(false)} />
+      {desc.element}
     </div>
   );
 }

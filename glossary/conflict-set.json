@@ -1,0 +1,12 @@
+{
+  "id": "conflict-set",
+  "term": "conflict set",
+  "family": "house",
+  "definition": "The smallest set of a plan's declared facts that cannot all hold at once, named by the solver when it proves the plan cannot be placed as declared. It is found for a plan on the bench, never for a brief.",
+  "kind": "editorial",
+  "basis": "Our wording of the refusal the solver gives. VISION.md: the system \"should be able to return a named conflict set\"; docs/geometry.md: \"The footprint grows a bay before any requirement is blamed.\", and for five rooms all doored to one another \"the conflict set names the door pairs\".",
+  "see": [
+    "term:prove-placement",
+    "term:on-the-bench"
+  ]
+}

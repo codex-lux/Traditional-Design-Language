@@ -567,7 +567,12 @@ def pack_list():
                     "overlay_on": p.get("overlay_on"),
                     "drawing": drawing,
                     "module_bound_to": (pk.get("module") or {}).get("equals"),
-                    "thumb": _pack_thumb(pk, pe) if drawing == "assemblies" else None})
+                    "thumb": _pack_thumb(pk, pe) if drawing == "assemblies" else None,
+                    # WP-14.31: the conflicts with building today the pack's OWN file records --
+                    # the raw pack, not the resolved one, because an overlay's resolved list
+                    # repeats its base's and a sum over resolved packs counts one conflict twice.
+                    # The Export page typed "262 recorded pack conflicts"; it sums this now.
+                    "conflicts": len(p.get("conflicts") or [])})
     kind_rank = {"module-system": 0, "trim-system": 1, "opening-system": 2,
                  "room-system": 3, "facade-system": 4, "order-system": 5}
     out.sort(key=lambda r: (kind_rank.get(r["kind"], 9), r["id"]))

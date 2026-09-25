@@ -239,9 +239,11 @@ over `hashchange` in the same idiom as `planDoc`.
 - `-` holds an absent leading path key (`#/style/-/kit/cornice` is a slot with no style).
 - A URL cannot express "present, but null", and nothing downstream reads one.
 
-**Search.** `GET /api/search/index` serves every nameable thing once (858 entries, ~258 KB
-served, measured 25 Sep 2026 after the glossary records of WP-14.17, WP-14.18 and WP-14.19; ~242 KB at 762 entries on the tree
-before it, which is where WP-14.3's glossary words had taken it from ~206 KB)
+**Search.** `GET /api/search/index` serves every nameable thing once (885 entries, 282,370 bytes
+served as Starlette writes it, measured 25 Sep 2026 after WP-14.31's 27 glossary records, which
+are 9,774 of those bytes; ~258 KB at 858 entries after the glossary records of WP-14.17, WP-14.18
+and WP-14.19, ~242 KB at 762 entries on the tree before them, which is where WP-14.3's glossary
+words had taken it from ~206 KB)
 and the palette matches it in the browser. It indexes names, ids, akas, short categorical
 fields and a glossary term's sense — **not prose**: a glossary definition travels in the entry
 as `short`, for display, and is never matched; indexing every fault's remedy and every style's
@@ -249,7 +251,7 @@ diagnostic tells quadrupled the payload and produced matches nobody could accoun
 payload states that boundary in its own `indexes` / `does_not_index` fields. Prose search
 belongs to `/api/styles?query=` and to the rail. Every entry carries a `cite`, so the
 palette dispatches through the citation router and cannot reach a place a citation could
-not name; `test_search_index.py` runs all 858 through the server's own validator.
+not name; `test_search_index.py` runs all 885 through the server's own validator.
 
 **Keys.** `app/src/keys.js` is the only file that binds one, and it binds three: `⌘K`/`ctrl-K`
 (palette), `/` (focus this surface's filter bar, via a one-line registration bus so the

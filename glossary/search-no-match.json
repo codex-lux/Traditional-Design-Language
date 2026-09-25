@@ -1,0 +1,12 @@
+{
+  "id": "search-no-match",
+  "term": "nothing is called that",
+  "family": "product",
+  "definition": "Nothing in the corpus is called what you typed. The search reads names, ids and other names only, never the prose of a tell or a remedy; for a remembered phrase, ask the assistant, which reads the records themselves.",
+  "kind": "editorial",
+  "basis": "Our wording of what an empty search means. docs/workbench.md gives the boundary the search keeps and why: \"indexing every fault's remedy and every style's\" \"diagnostic tells quadrupled the payload and produced matches nobody could account for\".",
+  "see": [
+    "term:search-the-corpus",
+    "term:assistant"
+  ]
+}

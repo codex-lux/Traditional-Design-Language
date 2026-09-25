@@ -242,13 +242,18 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               {cands.length} contrasting plans, <i>ranked</i>
             </h2>
             {/* The order the columns are actually in, said out loud. The ordinal in each
-                column is a position in THIS order and nothing more. */}
-            <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
-              margin: '8px 0 0', maxWidth: '62ch' }}>
-              {chosen.says} Score is out of 100 and higher is better — a weighted composite of
-              eight axes, each one the share of its own checks that came back clean, so a
-              bigger house is not marked down for being checked more times. Every column shows
-              the whole arithmetic.
+                column is a position in THIS order and nothing more.
+                WHAT THE SCORE IS belongs to the `candidate-score` record and HOW BIG it is to the
+                result's own `score_model` (WP-14.31): this paragraph typed "out of 100" and
+                "eight axes" beside a definition written here, three facts nothing checked. */}
+            <p data-score-model={result.score_model ? result.score_model.of : undefined}
+              style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
+                margin: '8px 0 0', maxWidth: '62ch' }}>
+              {chosen.says}
+              {result.score_model && Array.isArray(result.score_model.axes) && (
+                <> <Term id="candidate-score" />: out of {result.score_model.of}, over{' '}
+                  {result.score_model.axes.length} axes.</>
+              )}
             </p>
           </div>
           {s.brief?.household && (

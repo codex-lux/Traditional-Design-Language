@@ -25,7 +25,19 @@
 
    `COPY_RATCHET_PRINT=1 node --test src/copy_ratchet.test.mjs` prints the current rows as the
    baseline's JSON, for the commit that removes one. Adding a row to the baseline to make a new
-   explanation pass is the move this file exists to refuse; the glossary is where it goes. */
+   explanation pass is the move this file exists to refuse; the glossary is where it goes.
+
+   THE BASELINE IS EMPTY (WP-14.31), SO THE RATCHET IS A BAN NOW. Its last fourteen titles became
+   glossary records read through `describeTerm`/`useTermDescription`, and its six counts were
+   either read from the payload in hand ("100 points" is the score's own two halves, "eight axes"
+   the result's `score_model`) or went with the sentence that carried them.
+   AND THE SCANNERS WERE WIDENED FIRST, BECAUSE AN EMPTY LIST FROM A BLIND READER IS NOT EMPTY.
+   Measured on the tree before this package, the old readers missed a tooltip written as a
+   `title:` property (the compiled components pass props as an object -- FindingRow's two), a
+   count with an irregular plural ("filter 164 taxa"), one with adjectives between the number and
+   its noun ("all 262 recorded pack conflicts", "660 style constraints"), and one written as a
+   share ("86 of them", "295 of 660"). Each form is a fixture below, and a word that merely ends
+   in s ("1 is", "100 and higher is") is not a plural. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -69,27 +81,69 @@ function literals(expr) {
 const letterWords = (s) => s.split(/\s+/).filter((w) => /[A-Za-z]/.test(w)).length;
 const squash = (s) => s.replace(/\s+/g, ' ').trim();
 
-/* source → the title rows: [text] for every title= whose literals total TITLE_WORDS or more. */
-function titleRows(source) {
+/* The value of an object property starting at `i`: up to the first comma, `}` or `)` at its own
+   depth, strings skipped -- `title: on ? 'a' : 'b',` is the whole conditional. */
+function valueEnd(src, i) {
+  let depth = 0;
+  for (let j = i; j < src.length; j += 1) {
+    const c = src[j];
+    if (c === "'" || c === '"' || c === '`') {
+      let k = j + 1;
+      while (k < src.length && src[k] !== c) { if (src[k] === '\\') k += 1; k += 1; }
+      j = k;
+      continue;
+    }
+    if (c === '(' || c === '[' || c === '{') depth += 1;
+    else if (c === ')' || c === ']' || c === '}') { if (depth === 0) return src.slice(i, j); depth -= 1; }
+    else if (c === ',' && depth === 0) return src.slice(i, j);
+  }
+  return src.slice(i);
+}
+
+/* source → the title rows: [text] for every tooltip whose literals total `min` words or more --
+   a JSX `title=` attribute, or a `title:` property (a compiled component passes its props as an
+   object, which is how FindingRow's two explanations were invisible to this reader). */
+function titleRows(source, min = TITLE_WORDS) {
   const src = stripComments(source);
   const rows = [];
-  for (const m of src.matchAll(/\btitle=/g)) {
+  for (const m of src.matchAll(/\btitle(=|:\s*)/g)) {
     const at = m.index + m[0].length;
     let lits = [];
-    if (src[at] === '"' || src[at] === "'") lits = [src.slice(at + 1, src.indexOf(src[at], at + 1))];
-    else if (src[at] === '{') lits = literals(balanced(src, at));
-    if (lits.reduce((n, l) => n + letterWords(l), 0) >= TITLE_WORDS) rows.push(squash(lits.join(' | ')));
+    if (m[1] === '=') {
+      if (src[at] === '"' || src[at] === "'") lits = [src.slice(at + 1, src.indexOf(src[at], at + 1))];
+      else if (src[at] === '{') lits = literals(balanced(src, at));
+    } else {
+      lits = literals(valueEnd(src, at));
+    }
+    if (lits.reduce((n, l) => n + letterWords(l), 0) >= min) rows.push(squash(lits.join(' | ')));
   }
   return rows;
 }
 
 const NUMBER_WORDS = 'two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen'
   + '|fifteen|sixteen|seventeen|eighteen|nineteen|twenty';
-const COUNT = new RegExp(String.raw`(?<![\w.$#\-/])(\d+|${NUMBER_WORDS})\s+([a-z][a-z-]*s)\b`, 'gi');
+const N = String.raw`(?<![\w.$#\-/])(?:\d+|${NUMBER_WORDS})`;
+/* A word ending in s that is not a plural: a count is never followed by one of these. */
+const NOT_PLURAL = String.raw`(?!(?:is|was|has|this|its|as|us|thus|yes|his|less|always|plus|across|perhaps|whereas|unless|does|goes)\b)`;
+/* The words that join a phrase and never qualify a noun, so "100 and higher is" is not a count. */
+const JOIN = String.raw`(?!(?:and|or|of|the|a|an|to|in|on|at|by|for|is|are|was|be|than|then|if|as|so|but|with|from|that|this|it)\b)`;
+const PLURAL = String.raw`${NOT_PLURAL}[a-z][a-z-]*s\b`;
+const COUNT_FORMS = [
+  new RegExp(String.raw`${N}\s+${PLURAL}`, 'gi'),                               // 9 sections
+  new RegExp(String.raw`${N}\s+(?:taxa|criteria|data|people|feet|inches|men|women|children)\b`, 'gi'),
+  new RegExp(String.raw`${N}(?:\s+${JOIN}[a-z][a-z-]*){1,2}\s+${PLURAL}`, 'gi'), // 262 recorded pack conflicts
+  new RegExp(String.raw`${N}\s+of\s+(?:\d+|them|these|those|${NUMBER_WORDS})\b`, 'gi'), // 86 of them
+];
 
-/* source → the count rows: [phrase] for every number-then-plural in the live source. */
+/* source → the count rows: [phrase] for every count in the live source, in source order, one row
+   per place (the first form to match a place names it). */
 function countRows(source) {
-  return [...stripComments(source).matchAll(COUNT)].map((m) => squash(m[0]));
+  const src = stripComments(source);
+  const at = new Map();
+  for (const re of COUNT_FORMS) {
+    for (const m of src.matchAll(re)) if (!at.has(m.index)) at.set(m.index, squash(m[0]));
+  }
+  return [...at.entries()].sort((a, b) => a[0] - b[0]).map(([, t]) => t);
 }
 
 function jsxFiles(dir = SRC, out = []) {
@@ -101,13 +155,13 @@ function jsxFiles(dir = SRC, out = []) {
   return out;
 }
 
-function current() {
+function current(minTitle = TITLE_WORDS) {
   const titles = [];
   const counts = [];
   for (const p of jsxFiles()) {
     const rel = p.slice(SRC.length);
     const src = readFileSync(p, 'utf8');
-    for (const t of titleRows(src)) titles.push([rel, t]);
+    for (const t of titleRows(src, minTitle)) titles.push([rel, t]);
     for (const c of countRows(src)) counts.push([rel, c]);
   }
   return { titles, counts };
@@ -120,33 +174,13 @@ function current() {
    the heading that carried it, every label on the card being a glossary record now. WP-14.25 took
    out Brief Intake's "132 styles": the advisory that carried it said three styles had no native
    parti, and since WP-14.19 lists lineage partis all three have plan types, so the sentence, its
-   typed count and its three hand-named styles went together. */
+   typed count and its three hand-named styles went together. WP-14.31 took out the last fourteen
+   titles and six counts, and the eight rows the widened scanners found on the way (two `title:`
+   properties and six counts, every one of them removed rather than baselined). */
 // BASELINE-BEGIN
 const BASELINE = {
-  titles: [
-    ["Chrome.jsx", "Search styles, slots, faults, packs and rooms — ⌘K"],
-    ["components/Splitter.jsx", "Drag to resize · arrows nudge, shift-arrows stride, | Home or double-click for its shipped width"],
-    ["round/RoundPlate.jsx", "lay the drawn plate over the model at this view"],
-    ["round/RoundPlate.jsx", "is read off a plan and is not drawn in a free view | show"],
-    ["round/RoundPlate.jsx", "a section plane through the model, derived from the model and not from a plate"],
-    ["surfaces/Phylogeny.jsx", "Where each style arose, and where its lineage travelled"],
-    ["surfaces/PlanWorkbench.jsx", "the completeness layer: treat absent room types as failures (--strict)"],
-    ["surfaces/PlanWorkbench.jsx", "WP-2.3: prove the placement with CP-SAT — hard constraints on the record's declared facts, a named conflict set if they cannot all hold. Takes seconds; per-drag re-scores stay on the fast search."],
-    ["surfaces/PlanWorkbench.jsx", "WP-9.1: the analyst — place once, check, and sort every finding into what it means to a generator: a move answers it, the engine's, the critic's own invention, or the architect's. One heavy call; not run per edit."],
-    ["surfaces/PlanWorkbench.jsx", "WP-9.2: the corrective revisions on the fast search — up to 6 rounds, 60 s. Accepts a round only on a strict improvement, rolls back otherwise, and loads the result as one undo step. Refusals on the search are usually the engine's noise; read the panel's engine line."],
-    ["surfaces/PlanWorkbench.jsx", "WP-9.2: the corrective revisions proof-backed — CP-SAT is asked for before any declared move; up to 4 rounds, 120 s. Minutes, not seconds; the panel shows each round as it lands."],
-    ["surfaces/PlanWorkbench.jsx", "see this record as a model, in the Drawing Set"],
-    ["surfaces/PlanWorkbench.jsx", "CP-SAT proved this placement; re-solving takes seconds and should return the same one | this placement came from the hill-climb; results differ across runs | — and runs corrective rounds on what the critic finds before drawing (WP-13.9)"],
-    ["surfaces/phylo/MapView.jsx", "Give the instrument back — or press escape | Give the atlas the whole window — escape brings the instrument back"],
-  ],
-  counts: [
-    ["components/CandidateColumn.jsx", "100 points"],
-    ["components/ConflictSet.jsx", "six reads"],
-    ["surfaces/CandidateSet.jsx", "eight axes"],
-    ["surfaces/PlanWorkbench.jsx", "6 rounds"],
-    ["surfaces/PlanWorkbench.jsx", "4 rounds"],
-    ["surfaces/Proportions.jsx", "three inches"],
-  ],
+  titles: [],
+  counts: [],
 };
 // BASELINE-END
 
@@ -185,6 +219,19 @@ test('the scanner finds an explanation in every form a title is written, and not
   assert.ok(rows.every((r) => r.startsWith('this tooltip explains')));
 });
 
+test('the scanner finds a tooltip written as a title: property, which is how a compiled component writes one', () => {
+  const twelve = 'this tooltip explains in twelve words what the glossary should be saying instead';
+  const fixture = [
+    `React.createElement("span", { "data-tag": "", title: "${twelve}", style: { font: 'x' } })`,
+    `h("a", { title: on ? '${twelve}' : 'short', href: x })`,
+    "h('b', { title: describeTerm(glossary, 'finding-class').title })",   // a record's: nothing to find
+    "const card = { title: 'The plan record' };",                        // a label
+  ].join('\n');
+  const rows = titleRows(fixture);
+  assert.equal(rows.length, 2, `found ${JSON.stringify(rows)}`);
+  assert.ok(rows.every((r) => r.startsWith('this tooltip explains')));
+});
+
 test('the scanner finds a count written as a digit or a word, and not a size, a time or a comment', () => {
   const fixture = [
     '<p>the 9 sections of a dossier</p>',
@@ -198,13 +245,33 @@ test('the scanner finds a count written as a digit or a word, and not a size, a 
   assert.deepEqual(countRows(fixture), ['9 sections', '4 formats', 'five authorities']);
 });
 
-test('the premise: the scan reads the app’s components and finds the copy they already carry', () => {
+test('the scanner finds the counts the first reader missed, and not a word that merely ends in s', () => {
+  const fixture = [
+    '<input placeholder="filter 164 taxa" />',                               // an irregular plural
+    "'with all 262 recorded pack conflicts'",                                // adjectives between
+    '<p>corpus-wide, 295 of 660 style constraints carry no test</p>',        // a share
+    '<span>(86 of them priced in dollars)</span>',
+    '<p>column numbered 1 is the most native</p>',                           // "is" is not a plural
+    '<p>Score is out of 100 and higher is better</p>',                       // nor is a joined phrase
+    '<p>{n} of {m} findings shown</p>',                                      // counts from data
+  ].join('\n');
+  assert.deepEqual(countRows(fixture),
+    ['164 taxa', '262 recorded pack conflicts', '295 of 660', '660 style constraints', '86 of them']);
+});
+
+/* THE BASELINE IS EMPTY, SO THIS IS WHAT STOPS AN EMPTY RESULT FROM BEING A BLIND ONE. A scanner
+   that read no file, or no title, or no count-shaped text, would report the same empty lists as
+   a clean tree. So: the walk reads the components; the title reader, asked for shorter titles,
+   finds the labels the tree does carry (they are what an explanation would be written beside);
+   and the tree carries counts written from DATA -- `{n} findings` -- which the count reader
+   deliberately passes, so it is reading JSX text and choosing. */
+test('the premise: the scan reads the app’s components, its titles and its count-shaped text', () => {
   const files = jsxFiles();
   assert.ok(files.length > 20, 'the walk found the components');
-  const { titles, counts } = current();
-  assert.ok(BASELINE.titles.length > 0 && BASELINE.counts.length > 0,
-    'the baseline records the tree’s existing rows; an empty one would make the ratchet a ban');
-  assert.ok(titles.length > 0 && counts.length > 0, 'a scanner that finds nothing passes every tree');
+  assert.ok(current(3).titles.length > 10, 'the title reader sees the short titles the tree carries');
+  const fromData = files.map((p) => stripComments(readFileSync(p, 'utf8')))
+    .reduce((n, s) => n + [...s.matchAll(/\}\s+[a-z][a-z-]*s\b/g)].length, 0);
+  assert.ok(fromData > 10, 'the tree writes counts from data, which the count reader passes by design');
 });
 
 test('no new app-written explanation in a title=', () => {

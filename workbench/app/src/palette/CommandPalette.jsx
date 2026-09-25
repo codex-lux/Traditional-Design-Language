@@ -11,16 +11,18 @@
 import React from 'react';
 import { api } from '../api/client.js';
 import { nav } from '../state/nav.js';
-import { search, KIND_ORDER } from '../search/match.js';
+import { search, KIND_ORDER, KIND_TERM } from '../search/match.js';
 import { staticEntries } from '../search/staticEntries.js';
 import { useGlossary } from '../api/useGlossary.js';
+import { describeTerm, wordOf } from '../glossary/termView.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 
-const KIND_LABEL = {
-  surface: 'surfaces', action: 'actions', style: 'styles', slot: 'element slots',
-  pack: 'proportion packs', fault: 'faults', room: 'rooms', massing: 'massings',
-  parti: 'partis', grouping: 'groupings', term: 'glossary terms',
-};
+/* The group headings, the dialog's name and the three things the palette says of itself -- the
+   index still loading, the index unreadable, nothing matching -- are glossary records now
+   (WP-14.31). The palette carried its own `KIND_LABEL` table and three sentences of its own, which
+   is exactly what "every definition is a glossary record and the app writes none" retires. The
+   kind-to-record table lives beside `KIND_ORDER` in `search/match.js`, and a missing record says
+   so in the heading (`noEntry`) rather than falling back to a word written here. */
 
 export function CommandPalette({ open, onClose, onAction }) {
   const [q, setQ] = React.useState('');
@@ -32,6 +34,9 @@ export function CommandPalette({ open, onClose, onAction }) {
   /* The places are the site map's, named by their glossary records (WP-14.13): the palette,
      the rail and the crumbs call a place one thing. */
   const glossary = useGlossary();
+  const ready = glossary.status === 'ready' && !!glossary.lookup;
+  const kindWord = (kind) => (ready && KIND_TERM[kind] ? wordOf(glossary.lookup, KIND_TERM[kind]) : '');
+  const name = ready ? wordOf(glossary.lookup, 'search-the-corpus') : '';
   const statics = React.useMemo(() => staticEntries(glossary.lookup), [glossary.lookup]);
   /* What to show before anything is typed: the places, in the site map's order, the front
      door first. An empty palette that says nothing teaches nothing. */
@@ -117,7 +122,7 @@ export function CommandPalette({ open, onClose, onAction }) {
     <div role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
       style={{ position: 'fixed', inset: 0, zIndex: 60, background: 'var(--wash-2, rgba(40,36,28,.28))',
         display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: '11vh' }}>
-      <div role="dialog" aria-modal="true" aria-label="Search the corpus"
+      <div role="dialog" aria-modal="true" aria-label={name || undefined} aria-busy={ready ? undefined : true}
         style={{ width: 'min(620px, calc(100vw - 32px))', maxHeight: '74vh', display: 'flex',
           flexDirection: 'column', background: 'var(--paper)', border: '1px solid var(--rule)',
           boxShadow: '0 10px 34px rgba(40,36,28,.24)' }}>
@@ -128,12 +133,14 @@ export function CommandPalette({ open, onClose, onAction }) {
           <input ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKeyDown}
             role="combobox" aria-expanded="true" aria-controls="palette-list" aria-autocomplete="list"
             aria-activedescendant={hits[cursor] ? `palette-opt-${cursor}` : undefined}
-            aria-label="Search styles, slots, faults, packs, rooms and surfaces"
-            placeholder="a style, a slot, a fault, a room, a surface…"
+            aria-label={name || undefined}
+            placeholder="a style, a slot, a fault, a room, a page…"
             style={{ flex: 1, font: 'var(--fw-reg) 16px/1.3 var(--body)', color: 'var(--ink)',
               background: 'transparent', border: 'none' }} />
           {entries === null && !failed && (
-            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>reading the corpus…</span>
+            <span aria-busy="true" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+              {ready ? wordOf(glossary.lookup, 'mark-loading') : ''}
+            </span>
           )}
         </div>
 
@@ -141,30 +148,23 @@ export function CommandPalette({ open, onClose, onAction }) {
           style={{ overflow: 'auto', minHeight: 0, padding: '6px 0 8px' }}>
 
           {failed && (
-            <p style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink-2)',
-              margin: 0, padding: '12px 16px' }}>
-              The index could not be read, so this is searching the surfaces only — not the
-              corpus. Nothing is missing from the corpus itself; this palette simply cannot
-              see it right now.
+            <p data-search-unavailable="1" style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)',
+              color: 'var(--ink-2)', margin: 0, padding: '12px 16px' }}>
+              {describeTerm(glossary, 'search-index-unavailable').text}
             </p>
           )}
 
           {!hits.length && (
-            <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
-              margin: 0, padding: '14px 16px' }}>
-              Nothing in the corpus is called that.
-              {entries !== null && (
-                <>
-                  {' '}This searches names, ids and akas — not the prose. For a phrase from a
-                  tell or a remedy, ask the rail.
-                </>
-              )}
+            <p data-search-no-match="1" style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)',
+              color: 'var(--ink-2)', margin: 0, padding: '14px 16px' }}>
+              {describeTerm(glossary, 'search-no-match').text}
             </p>
           )}
 
           {groups.map(([kind, rows]) => (
-            <div key={kind} role="group" aria-label={KIND_LABEL[kind] || kind}>
-              <Eyebrow style={{ padding: '9px 16px 4px' }}>{KIND_LABEL[kind] || kind}</Eyebrow>
+            <div key={kind} role="group" aria-label={kindWord(kind) || undefined}
+              data-kind-term={KIND_TERM[kind] || undefined}>
+              <Eyebrow style={{ padding: '9px 16px 4px' }}>{kindWord(kind)}</Eyebrow>
               {rows.map((h) => {
                 const on = h._i === cursor;
                 return (
@@ -211,8 +211,6 @@ export function CommandPalette({ open, onClose, onAction }) {
         <div style={{ flex: 'none', display: 'flex', gap: 16, padding: '7px 14px',
           borderTop: '1px solid var(--rule)', font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
           <span>↑↓ move</span><span>↵ open</span><span>esc close</span>
-          <span style={{ flex: 1 }} />
-          <span>names and ids, not prose</span>
         </div>
       </div>
     </div>

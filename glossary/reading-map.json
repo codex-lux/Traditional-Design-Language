@@ -1,0 +1,12 @@
+{
+  "id": "reading-map",
+  "term": "map",
+  "family": "product",
+  "definition": "The family tree read as geography: each style placed where its record says it arose, and its relations drawn where the lineage travelled. The positions are the workbench's own, placed from the record's words, and are not corpus data.",
+  "kind": "editorial",
+  "basis": "The reading is the workbench's own. docs/workbench.md: the map places each style \"taking the finest thing either names\" of its regions and its hearth, from a gazetteer that is \"interface furniture, not corpus data\".",
+  "see": [
+    "term:reading-tree",
+    "term:surface-phylogeny"
+  ]
+}

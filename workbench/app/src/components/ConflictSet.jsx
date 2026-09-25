@@ -71,8 +71,7 @@ export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = '
         {unstated > 0 && (
           <p style={FINE}>
             and {unstated} further conflict{unstated === 1 ? '' : 's'} the refusal states no
-            sentence for — counted here rather than left out, because a panel that shows four
-            of six reads as six.
+            sentence for.
           </p>
         )}
         {!named && (

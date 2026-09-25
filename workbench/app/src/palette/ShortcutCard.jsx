@@ -9,7 +9,7 @@ import React from 'react';
 import { SHORTCUTS } from '../keys.js';
 import { formatHash } from '../router.js';
 import { useGlossary } from '../api/useGlossary.js';
-import { wordOf } from '../glossary/termView.js';
+import { describeTerm, wordOf } from '../glossary/termView.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 
 /* The key to the marks lives on the Glossary (WP-14.29, `components/MarkKey.jsx`), and this card
@@ -23,6 +23,18 @@ function MarkKeyLink({ onClose }) {
       <a href={formatHash('glossary', {}, { family: 'mark' })} data-mark-key-link="" onClick={onClose}
         aria-busy={word ? undefined : 'true'}
         style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)' }}>{word}</a>
+    </p>
+  );
+}
+
+/* What the search reaches is the `search-the-corpus` record's definition (WP-14.31); the card
+   wrote its own sentence about it, a second account beside the palette's. */
+function SearchReach() {
+  const glossary = useGlossary();
+  return (
+    <p data-search-reach="" style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
+      margin: 0, maxWidth: '62ch' }}>
+      {describeTerm(glossary, 'search-the-corpus').text}
     </p>
   );
 }
@@ -84,12 +96,7 @@ export function ShortcutCard({ open, onClose }) {
           </tbody>
         </table>
 
-        <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
-          margin: 0, maxWidth: '62ch' }}>
-          The palette searches names, ids and akas — not the prose of a tell or a remedy.
-          For a half-remembered phrase, ask the rail: it reads the records properly, and
-          says what it could not evaluate.
-        </p>
+        <SearchReach />
 
         <div style={{ marginTop: 16, textAlign: 'right' }}>
           <button type="button" onClick={onClose}
