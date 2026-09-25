@@ -339,7 +339,9 @@ def styles_compare(a: str, b: str):
 @app.get("/api/styles/{style_id}")
 def style(style_id: str, sections: str = None):
     secs = sections.split(",") if sections else None
-    return _ok(core.get_style(style_id, sections=secs))
+    # corpus.style, not core.get_style: the workbench's copy adds each descendant's served
+    # `inherits_kit` and `slots` (WP-14.12), and the MCP tool's payload is left byte-stable.
+    return _ok(corpus.style(style_id, sections=secs))
 
 
 @app.get("/api/styles/{style_id}/packs")

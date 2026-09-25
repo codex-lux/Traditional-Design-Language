@@ -330,3 +330,66 @@ def test_every_phylogeny_edge_carries_its_lineage_records_slot_scope(client):
         assert e["slots"] == want, e
         scoped += want is not None
     assert scoped, "no lineage edge states a slot scope; the served key is never exercised"
+
+
+# --------------------------------------------------------------- descendants (WP-14.12)
+def test_a_descendant_carries_its_edges_own_flag_and_scope(client):
+    """`/api/styles/{id}`'s `descendants` serves each edge's `inherits_kit` and `slots` (added by
+    `corpus.style`, the route's adapter), and each is held here to what `/api/phylogeny` serves for
+    the SAME edge -- the one spelling the app's `lineage/carry.js` reads. Without the flag the dossier's lineage section could only colour a
+    descendant by its edge's TYPE, which is the table WP-14.11 removed from three surfaces and
+    which is wrong wherever a `hybridizes_with` edge carries the kit.
+
+    Read through the HTTP routes, for every style some edge points AT (a style no edge names has
+    no descendants to check), and the premise is asserted both ways: some descendant carries and
+    some does not, so a route serving one constant cannot pass."""
+    edges = _get(client, "/api/phylogeny")["edges"]
+    served = {(e["from"], e["to"], e["type"]): e for e in edges}
+    targets = sorted({e["to"] for e in edges})
+    seen = {True: 0, False: 0}
+    for sid in targets:
+        rows = _get(client, f"/api/styles/{sid}", sections="lineage")["descendants"]
+        for d in rows:
+            e = served[(d["id"], sid, d["type"])]
+            assert d["inherits_kit"] is e["inherits_kit"], (sid, d, e)
+            assert d["slots"] == e["slots"], (sid, d, e)
+            seen[d["inherits_kit"]] += 1
+    assert seen[True] and seen[False], f"every descendant reads one way: {seen}"
+
+
+def test_the_descendant_flag_is_the_workbench_routes_and_not_the_mcp_tools():
+    """The MCP payloads are held byte-stable, and `tdl_get_style` serves `core.get_style`'s own
+    output: the addition lives in `corpus.style`, the workbench route's adapter, and the core
+    function's descendants stay `{id, type}`. A move of the enrichment into core -- which is
+    where it was first written -- changes an MCP tool's output and fails here."""
+    with_desc = next(sid for sid in sorted(_styles())
+                     if core.get_style(sid, sections=["lineage"]).get("descendants"))
+    rows = core.get_style(with_desc, sections=["lineage"])["descendants"]
+    assert all(set(r) == {"id", "type"} for r in rows), rows[:3]
+    enriched = corpus.style(with_desc, sections=["lineage"])["descendants"]
+    assert [(r["id"], r["type"]) for r in enriched] == [(r["id"], r["type"]) for r in rows]
+    assert all({"inherits_kit", "slots"} <= set(r) for r in enriched)
+    # and the adapter did not reach back into the core's own copy
+    assert all(set(r) == {"id", "type"}
+               for r in core.get_style(with_desc, sections=["lineage"])["descendants"])
+
+
+def test_the_descendant_join_refuses_an_edge_that_is_not_its_row(monkeypatch):
+    """`corpus.style` joins `get_style`'s rows to `phylogeny()`'s edges by the order both walk the
+    styles in, and REFUSES a row whose id or type disagrees with its edge. The corpus cannot reach
+    that branch -- the two walks are the same walk -- so it is DRIVEN: the edges are handed back
+    rotated by one, which pairs rows with strangers, and the adapter must raise rather than colour a
+    descendant by another edge's flag. The premise (two or more distinct descendants, so the
+    rotation really does mismatch -- a list equals its own rotation only when every entry is the
+    same) is asserted before the branch is."""
+    sid = next(s for s in sorted(_styles())
+               if len({(r["id"], r["type"]) for r in
+                       core.get_style(s, sections=["lineage"]).get("descendants") or []}) >= 2)
+    real = corpus.phylogeny()
+    mine = [e for e in real["edges"] if e["to"] == sid]
+    turned = mine[1:] + mine[:1]
+    assert [(e["from"], e["type"]) for e in mine] != [(e["from"], e["type"]) for e in turned]
+    swapped = dict(real, edges=[e for e in real["edges"] if e["to"] != sid] + turned)
+    monkeypatch.setattr(corpus, "phylogeny", lambda: swapped)
+    with pytest.raises(RuntimeError, match="does not match edge"):
+        corpus.style(sid, sections=["lineage"])

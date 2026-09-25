@@ -1368,25 +1368,95 @@ await shot('phylogeny');
   await shot('phylogeny-lineage');
 }
 
-// ④ Kit
-await visit('#/kit');
-// Wait for the CLAIM being asserted, not for a heading that renders before it. "cascade" is
-// the section header and is on screen the moment the surface mounts; the note comes from
-// /api/kit/{style}/cascade a round trip later. Locally that gap is invisible and this passed
-// every run; on a CI runner it lost the race and failed the one assertion below. A wait that
+// ④ Kit -- a SECTION of the style's dossier since WP-14.12 (PRD §D.1, §J.1). `#/kit` is an
+// alias the router canonicalises (the refresh block below drives it); this block goes to the
+// canonical address, naming the style it reads, because the bare `#/kit` that used to show
+// Tidewater's kit showed a default the URL never said.
+// Wait for the CLAIM being asserted, not for a heading that renders before it: the note is the
+// glossary's `thin-kit` record and arrives a round trip after the surface mounts. A wait that
 // does not wait for the thing under test is a flake with a plausible-looking line number.
-await page.waitForSelector('text=thin kit is correct', { timeout: 20000 });
-const kit = await page.locator('main').innerText();
-check('kit shows thin-kit-is-correct note', /thin kit is correct/i.test(kit));
+// The expectation is that record's own definition, asked of the API -- the phrase this block
+// used to type ("thin kit is correct") was a copy of the corpus -- and the count beside the
+// table is the kit payload's own.
+await visit('#/style/tidewater-georgian/kit');
+await page.waitForSelector('[data-term-definition="thin-kit"]', { timeout: 20000 });
+{
+  const gl = await (await fetch(`${BASE}/api/glossary/thin-kit`)).json();
+  const kitApi = await (await fetch(`${BASE}/api/kit/tidewater-georgian?only_specified=true`)).json();
+  const note = (await page.locator('[data-term-definition="thin-kit"]').innerText()).trim();
+  const want = ((gl && gl.term && gl.term.definition) || '').trim();
+  check('kit: the thin-kit note is the glossary\'s own definition', want !== '' && note === want);
+  await page.waitForSelector('[data-kit-shown]', { timeout: 20000 });
+  const n = await page.locator('[data-kit-shown]').evaluate((e) =>
+    ({ shown: Number(e.dataset.kitShown), total: Number(e.dataset.kitTotal) }));
+  check(`kit: the count beside the table is the payload's (${n.shown} of ${n.total})`,
+    (kitApi.slots || []).length > 0 && n.shown === kitApi.slots.length && n.total === kitApi.slots_total);
+}
 await shot('kit');
 
-// ③ Style Record
-await visit('#/style');
-await page.waitForSelector('text=diagnostic tells', { timeout: 15000 });
-const record = await page.locator('main').innerText();
-check('style record: tells get the room', /diagnostic tells/i.test(record));
-check('style record: judgment rows offered back', /refuses to invent/i.test(record));
+// ③ The Style Dossier (WP-14.12, PRD §D, §J.1). The Style Record was one long page reached by
+// a bare `#/style` that opened Tidewater Georgian by default; the bare address is the Styles
+// index now (W5 below), so this block names its record. Every expectation is read off the API
+// the page reads -- the tells are the record's own list, the strip is the dossier payload's own
+// sections at its own counts -- and never off a phrase typed here, which is how the old checks
+// ("diagnostic tells", "refuses to invent") could pass on a page that drew something else.
+await visit('#/style/tidewater-georgian');
+await page.waitForSelector('[data-dossier-head="tidewater-georgian"]', { timeout: 20000 });
+await page.waitForSelector('[data-tell]', { timeout: 20000 }).catch(() => {});
+{
+  const dos = await (await fetch(`${BASE}/api/styles/tidewater-georgian/dossier`)).json();
+  const ch = await (await fetch(`${BASE}/api/styles/tidewater-georgian?sections=characteristics`)).json();
+  const want = (ch.diagnostic_tells || []).length;
+  const tells = await page.locator('[data-tell]').count();
+  check(`dossier: every diagnostic tell the record states is drawn (${tells} of ${want})`,
+    want > 0 && tells === want);
+  const strip = await page.locator('[data-section-strip] [data-section]').evaluateAll((as) =>
+    as.map((a) => [a.dataset.section, a.dataset.count === undefined ? null : a.dataset.count]));
+  const served = (dos.sections || []).filter((s) => s.id === 'identify' || s.count > 0)
+    .map((s) => [s.id, s.count == null ? null : String(s.count)]);
+  const key = (rows) => JSON.stringify(rows.map((r) => r.join(':')).sort());
+  check(`dossier: the strip is the payload's sections at the payload's counts (${strip.length})`,
+    strip.length > 1 && key(strip) === key(served));
+  check('dossier: no section is offered at zero', strip.every(([, n]) => n !== '0'));
+}
 await shot('style-record');
+
+// The constraints section: every constraint a row in its one state, and a `?constraint=`
+// citation opening on the row it names. Craftsman is read because its record states a judgment
+// constraint; on a style whose constraints are all executable the judgment count would be
+// 0 === 0 and prove nothing, so that premise is asserted before the count is.
+await visit('#/style/craftsman/rules');
+await page.waitForSelector('[data-constraint]', { timeout: 20000 });
+{
+  const rec = await (await fetch(`${BASE}/api/styles/craftsman?sections=constraints`)).json();
+  const cs = rec.constraints || [];
+  const judged = cs.filter((c) => c.scope === 'judgment' && (c.test === undefined || c.test === null));
+  check(`dossier rules: the record states a judgment to offer back (${judged.length})`, judged.length > 0);
+  const rows = await page.locator('[data-constraint]').count();
+  const yours = await page.locator('[data-constraint][data-constraint-state="judgment-yours-to-judge"]').count();
+  check(`dossier rules: every constraint is a row (${rows} of ${cs.length})`, cs.length > 0 && rows === cs.length);
+  check(`dossier rules: judgment rows offered back (${yours} of ${judged.length})`, yours === judged.length);
+  if (judged.length) {
+    const id = judged[0].id;
+    await visit(formatHash('style', { style: 'craftsman', section: 'rules', constraint: id }, {}));
+    await page.waitForSelector(`[data-constraint="${id}"][data-selected]`, { timeout: 10000 }).catch(() => {});
+    check('dossier rules: a constraint citation opens on the row it names',
+      await page.locator(`[data-constraint="${id}"][data-selected]`).count() === 1
+      && await page.locator('[data-constraint][data-selected]').count() === 1);
+  }
+}
+
+// What is filed under a tradition: its members and the buildable styles under it, each counted
+// against the dossier payload the section reads.
+await visit('#/style/north-american/members');
+await page.waitForSelector('[data-dossier-section="members"] [data-member]', { timeout: 20000 }).catch(() => {});
+{
+  const dos = await (await fetch(`${BASE}/api/styles/north-american/dossier`)).json();
+  const m = await page.locator('[data-dossier-section="members"] [data-member]').count();
+  const b = await page.locator('[data-dossier-section="members"] [data-buildable]').count();
+  check(`dossier members: what is filed under a tradition is listed (${m} members, ${b} buildable)`,
+    m > 0 && m === (dos.members || []).length && b === (dos.buildable_at || []).length);
+}
 
 // ⑩ Proportions (WP-14.9: plates first, and every figure the page prints is the API's).
 // A bare #/proportions is the INDEX: it draws no pack, and its kind headings are the glossary's
@@ -2113,13 +2183,18 @@ await page.waitForTimeout(1200);
 check('a #/cite/ link resolves cold', /#\/faults\/porch-too-shallow-to-inhabit/.test(page.url()));
 check('and it landed on the fault', /four-foot porch/i.test(await page.locator('main').innerText()));
 
-// A deep link restores on refresh — the thing no amount of useState could do.
+// A deep link restores on refresh — the thing no amount of useState could do. The link is the
+// RETIRED `#/kit/craftsman` on purpose (WP-14.12, PRD §E.1): it is read as the dossier's kit
+// section and the address bar is rewritten without a history entry, so a link pasted before the
+// Kit moved still arrives, and the refresh below is of the address the app lives at.
 await page.goto(BASE + '/#/kit/craftsman', { waitUntil: 'networkidle' });
 await page.waitForTimeout(1500);
+check('a legacy #/kit address is rewritten to the dossier\'s kit section',
+  /#\/style\/craftsman\/kit$/.test(page.url()));
 await page.reload({ waitUntil: 'networkidle' });
 await page.waitForTimeout(1500);
-check('a refresh keeps the place', /#\/kit\/craftsman/.test(page.url()));
-check('and the place is loaded', /craftsman/i.test(await page.locator('main').innerText()));
+check('a refresh keeps the place', /#\/style\/craftsman\/kit$/.test(page.url()));
+check('and the place is loaded', await page.locator('[data-kit-style="craftsman"]').count() === 1);
 
 // Filters live in the URL, survive leaving and returning, and can be cleared in one act.
 await page.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
@@ -2131,7 +2206,7 @@ check('/ reaches the filter bar and it narrows', /q=porch/.test(page.url()));
 const faultsFiltered = await page.locator('main').innerText();
 check('the list says how much it is hiding',
   new RegExp(`${overview.counts.faults} solecisms · [1-9]\\d? shown`, 'i').test(faultsFiltered));
-await visit('#/kit');
+await visit('#/style');
 await page.waitForTimeout(700);
 await page.goBack();
 await page.waitForTimeout(900);
@@ -2239,13 +2314,20 @@ check('a searched record with no detail view is acknowledged',
   /searched/i.test(await page.locator('main').innerText()));
 
 // W5: every surface guarded its sync with `if (selection?.x)`, so going back to a bare
-// surface left the previous record on screen — the URL and the panel disagreeing.
-await page.goto(BASE + '/#/kit/craftsman');
-await page.waitForTimeout(1400);
-await page.goto(BASE + '/#/kit');
-await page.waitForTimeout(1400);
+// surface left the previous record on screen — the URL and the panel disagreeing. The bare
+// style surface is the Styles INDEX since WP-14.12 (PRD §E.2) and never a record, so the check
+// is structural -- the index is on screen and no dossier head is -- where it read the first
+// 400 characters for one word. The premise is asserted first: a record that never rendered
+// cannot be left behind, and the check would pass on it.
+await page.goto(BASE + '/#/style/craftsman');
+await page.waitForSelector('[data-dossier-head="craftsman"]', { timeout: 15000 }).catch(() => {});
+check('W5 premise: the record was on screen before the bare address',
+  await page.locator('[data-dossier-head="craftsman"]').count() === 1);
+await page.goto(BASE + '/#/style');
+await page.waitForSelector('[data-styles-index]', { timeout: 15000 }).catch(() => {});
 check('a bare surface URL does not still show the last record',
-  !/craftsman/i.test((await page.locator('main').innerText()).slice(0, 400)));
+  await page.locator('[data-styles-index]').count() === 1
+  && await page.locator('[data-dossier-head]').count() === 0);
 
 // W6: setPointerCapture on the <svg> retargeted the click, so no mark on the map could be
 // selected — while panning still worked, which is why it looked fine.
@@ -2400,7 +2482,7 @@ check('escape gives the instrument back',
 // chrome-less shell onto a surface with no control to leave it by.
 await page.getByRole('button', { name: /full screen/i }).click();
 await page.waitForTimeout(400);
-await page.goto(BASE + '/#/kit', { waitUntil: 'networkidle' });
+await page.goto(BASE + '/#/style', { waitUntil: 'networkidle' });
 await page.waitForTimeout(1200);
 check('leaving the atlas leaves full screen with it, not a shell with no way out',
   await page.locator('nav[aria-label="surfaces"]').count() === 1);

@@ -24,8 +24,10 @@
       a dot, and a suffix (660 of 660 at the PRD's measurement; `citations.py` validates the kind
       against the ids carried on the style records). The name is the STYLE's; the note is the
       constraint id, so a reader is never told a constraint is called "Tidewater Georgian".
-      PRD §E.3 routes the same cite by the same rule (text before the last dot). An id with no dot
-      names no style and is left bare.
+      The style is `constraintStyleOf`'s, imported from `../citations.js` — the rule `routeCite`
+      routes the same cite by. This file carried its own copy of it until WP-14.12, when the
+      routing side settled; one rule, one spelling. An id with no dot names no style and is left
+      bare.
    3. A `kit:` cite — the grammar's `kit` id is a style id (`citations.py` validates it against the
       style registry, and `routeCite` reads it as `{style}`), so it takes that style's name; the
       note is the id and its fragment.
@@ -33,8 +35,8 @@
       — takes the record's name, and the note carries the fragment. The fragment is a part of the
       record, never the record's name.
 
-   Pure, imports nothing but the grammar. `names/useNames.js` (WP-14.8) is its React hook. */
-import { parseCite } from '../citations.js';
+   Pure, imports nothing but the grammar and its constraint rule. `names/useNames.js` (WP-14.8) is its React hook. */
+import { parseCite, constraintStyleOf } from '../citations.js';
 
 const INDEXES = new WeakMap();
 
@@ -81,9 +83,9 @@ export function nameFor(cite, source) {
   }
 
   if (c.kind === 'constraint') {
-    const dot = c.id.lastIndexOf('.');
-    if (dot <= 0) return bare(cite);
-    const style = index.get('style:' + c.id.slice(0, dot));
+    const styleId = constraintStyleOf(c.id);
+    if (!styleId) return bare(cite);
+    const style = index.get('style:' + styleId);
     return style && isName(style.name) ? named(style, c.id, 'style-of-constraint') : bare(cite);
   }
 

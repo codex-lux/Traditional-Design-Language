@@ -141,11 +141,9 @@ const BASELINE = {
     ["components/FaultCard.jsx", "three tiers"],
     ["surfaces/BriefIntake.jsx", "132 styles"],
     ["surfaces/CandidateSet.jsx", "eight axes"],
-    ["surfaces/KitSurface.jsx", "two namespaces"],
     ["surfaces/PlanWorkbench.jsx", "6 rounds"],
     ["surfaces/PlanWorkbench.jsx", "4 rounds"],
     ["surfaces/Proportions.jsx", "three inches"],
-    ["surfaces/StyleRecord.jsx", "660 constraints"],
   ],
 };
 // BASELINE-END

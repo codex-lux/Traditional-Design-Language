@@ -122,7 +122,10 @@ test('the grammar is read through parseCite and spelled nowhere in this module',
      with itself about a dot. Comments are stripped first, because they may quote a pattern. */
   const src = readFileSync(new URL('names/names.js', import.meta.url), 'utf8')
     .replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
-  assert.match(src, /import \{ parseCite \} from '\.\.\/citations\.js'/);
+  // The grammar's own module, and only it: parseCite, and since WP-14.12 the constraint rule
+  // routeCite routes by (`constraintStyleOf`), which this module carried a copy of until then.
+  assert.match(src, /import \{ (?:[\w, ]+, )?parseCite(?:, [\w, ]+)? \} from '\.\.\/citations\.js'/);
+  assert.doesNotMatch(src, /lastIndexOf\('\.'\)/, 'the constraint rule is constraintStyleOf, not a local copy');
   assert.match(src, /parseCite\(/);
   assert.doesNotMatch(src, /RegExp|\.exec\(|\.test\(|\.match\(|ID_CHARS|FRAG_CHARS/,
     'names.js must not carry a pattern of its own');

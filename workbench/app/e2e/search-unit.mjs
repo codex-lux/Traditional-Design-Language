@@ -143,7 +143,7 @@ ok(() => {
     ['floor plan', 'workbench'], ['layout', 'workbench'],
     ['import', 'transcription'], ['trace', 'transcription'],
     ['ratios', 'proportions'], ['orders', 'proportions'],
-    ['elements', 'style'], ['bindings', 'style'],
+    ['elements', 'style'], ['bindings', 'style'], ['kit', 'style'], ['slots', 'style'],
     ['sheets', 'drawings'], ['elevation', 'drawings'],
     ['options', 'candidates'],
     ['shortcuts', 'help'], ['keyboard', 'help'],

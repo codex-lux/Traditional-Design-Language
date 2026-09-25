@@ -19,6 +19,37 @@ import core  # noqa: E402  (mcp_server/core.py)
 CASCADE_EDGES = ("descends_from", "regional_of")
 
 
+def style(style_id, sections=None):
+    """`/api/styles/{id}`: `core.get_style` with one addition and nothing changed (WP-14.12).
+
+    Each `descendants` row gains its edge's served `inherits_kit` and `slots`, COPIED OFF THE
+    EDGE `phylogeny()` SERVES, so a reader asking what a descendant's edge hands down reads the
+    flag (`lineage/carry.js`) and never keys a table on the edge's TYPE -- the table WP-14.11
+    removed from three surfaces had a fourth copy colouring exactly these rows. The rule that
+    decides the flag is spelled once, in `phylogeny()`, and this function does not restate it:
+    a second spelling here is how the two payloads would come to disagree about one edge.
+
+    THE ADDITION IS MADE HERE AND NOT IN `core.get_style`, deliberately: `tdl_get_style` serves
+    that function's output over MCP and the MCP payloads are held byte-stable, so the workbench's
+    route enriches its own copy. `get_style` builds a fresh dict on every call, so nothing shared
+    is mutated. The rows are matched to their edges by walking the styles in the order both
+    functions walk them and REFUSING a row whose id or type disagrees, rather than trusting the
+    order silently."""
+    out = core.get_style(style_id, sections=sections)
+    rows = out.get("descendants") if isinstance(out, dict) else None
+    if rows is None:
+        return out
+    edges = [e for e in phylogeny()["edges"] if e["to"] == style_id]
+    if len(edges) != len(rows):
+        raise RuntimeError(f"{style_id}: {len(rows)} descendants against {len(edges)} edges")
+    for row, e in zip(rows, edges):
+        if row.get("id") != e["from"] or row.get("type") != e["type"]:
+            raise RuntimeError(f"{style_id}: descendant {row} does not match edge {e['from']}/{e['type']}")
+        row["inherits_kit"] = e["inherits_kit"]
+        row["slots"] = e["slots"]
+    return out
+
+
 def phylogeny():
     """The whole style graph, flattened for the Phylogeny surface.
 

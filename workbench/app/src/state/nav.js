@@ -5,7 +5,7 @@
    The snapshot identity is stable between navigations: useSyncExternalStore compares by
    reference, and rebuilding the object on every read would loop forever. */
 
-import { parseHash, formatHash, withContext, DEFAULT_SURFACE } from '../router.js';
+import { parseHash, formatHash, withContext, canonicalHash, DEFAULT_SURFACE } from '../router.js';
 import { routeCite } from '../citations.js';
 
 const listeners = new Set();
@@ -28,10 +28,21 @@ function emit() { listeners.forEach((fn) => fn()); }
 
    Only a citation that actually resolved is rewritten. A broken one is left standing in
    the address bar: it did not navigate anywhere (nav.cite refuses), and quietly replacing
-   it with the default surface would disguise a dead link as a working one. */
+   it with the default surface would disguise a dead link as a working one.
+
+   A RETIRED ADDRESS IS REWRITTEN THE SAME WAY (WP-14.12, PRD §E.1): `#/kit/craftsman/cornice`
+   is read as the dossier's kit section and the address bar is moved to
+   `#/style/craftsman/kit/cornice`, without a history entry, so a refresh and a copied link carry
+   the address the app lives at. `router.js`'s `canonicalHash` is the one rule; this is where it
+   meets the address bar. */
 function canonicalize() {
   if (typeof location === 'undefined' || typeof history === 'undefined') return;
   const hash = location.hash || '';
+  const legacy = canonicalHash(hash);
+  if (legacy !== null) {
+    if (legacy !== hash && history.replaceState) history.replaceState(null, '', legacy);
+    return;
+  }
   if (!hash.startsWith('#/cite/')) return;
   const ref = decodeURIComponent(hash.slice('#/cite/'.length).split('?')[0]);
   if (!routeCite(ref)) return;
@@ -135,6 +146,7 @@ export const nav = {
   cite(ref, ctx) {
     const target = withContext(routeCite(ref), ctx);
     if (!target) return;
-    write(target.surface, target.selection || {}, {}, false);
+    // A citation's own params travel (a brief's `example`, WP-14.12); a filter never does.
+    write(target.surface, target.selection || {}, target.params || {}, false);
   },
 };
