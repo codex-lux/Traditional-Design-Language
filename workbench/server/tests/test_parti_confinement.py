@@ -38,7 +38,11 @@ ESCAPES = [
     pytest.param("../schema/plan.schema", id="relative"),
     pytest.param(os.path.join(ROOT, "schema", "plan.schema"), id="absolute"),
     pytest.param("../plans/tidewater-georgian-careful", id="sibling-directory"),
-    pytest.param("../../Traditional-Design-Language/schema/brief.schema", id="up-and-back"),
+    # up out of partis/ AND out of the checkout, then back in by the checkout's OWN name. It was
+    # the literal "Traditional-Design-Language", which is the name of one clone: in any other
+    # (every agent worktree, any fork cloned under another name) the path resolved to nothing and
+    # the guard-on-the-guard below went red on a test-data accident (found by WP-14.9).
+    pytest.param(f"../../{os.path.basename(ROOT)}/schema/brief.schema", id="up-and-back"),
     pytest.param("./../schema/plan.schema", id="dot-slash-prefixed"),
 ]
 
