@@ -35,7 +35,7 @@ export function Lineage({ rec, styleId, onCite }) {
           <Section eyebrow="lineage · carries ≠ claims">
             {rec.lineage.map((e, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <EdgeGlyph type={e.type} width={44} to={e.target} note={e.note} />
+                <EdgeGlyph edge={e} width={44} />
               </div>
             ))}
           </Section>

@@ -1,12 +1,21 @@
 /* Surface ② — the Phylogeny, live. 164 taxa on a broken time axis (nearly all the
    density sits in 1600–2026; the classical tail is compressed and the break is drawn,
-   not implied). Both hierarchies at once: rank as indent (browsing only), lineage as
-   edges — cascade-carrying edges structurally heavier than claimed ancestry. Select
-   two to compare, and the comparison shows the corpus's real tells. */
+   not implied). Both hierarchies at once: filing (`member_of`) as the indent by rank, lineage
+   as edges — kit-carrying edges structurally heavier than claimed ancestry. Select
+   two to compare, and the comparison shows the corpus's real tells.
+
+   WHICH EDGES CARRY THE KIT IS THE SERVER'S FLAG, NOT A TABLE OF TYPES (WP-14.11). This file
+   had `CARRIES = { descends_from, regional_of }` and drew, filtered and grouped every edge by it,
+   so the 42 `hybridizes_with` edges that carry the kit were drawn light, hidden with the claims,
+   and listed under "claims only". Each edge's `inherits_kit` (and `slots`) from `/api/phylogeny`
+   decides now, through `lineage/carry.js`; the tradition hues are `styles/taxa.js`'s. */
 import React from 'react';
 import { api } from '../api/client.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { EdgeGlyph } from '../components/EdgeGlyph.jsx';
+import { Term } from '../components/Term.jsx';
+import { TRADITION_HUES, traditionOf } from '../styles/taxa.js';
+import { carriesKit, glyphEdge, filingEdgeOf, groupByCarry } from '../lineage/carry.js';
 import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, PaneStub, FoldControl, ActionChip } from '../Chrome.jsx';
@@ -25,18 +34,43 @@ function tScale(y) {
   if (y <= BREAK_AT) return ((y + 700) / (BREAK_AT + 700)) * BREAK_FRAC;
   return BREAK_FRAC + ((y - BREAK_AT) / (2026 - BREAK_AT)) * (1 - BREAK_FRAC);
 }
-const CARRIES = { descends_from: 1, regional_of: 1 };
 const RANK_INDENT = { tradition: 0, family: 10, style: 20, variant: 30 };
-const TRADITION_HUES = {
-  'classical-mediterranean': 'var(--t0)',
-  'british-isles': 'var(--t1)',
-  'northern-european-vernacular': 'var(--t2)',
-  'iberian-mediterranean': 'var(--t3)',
-  'north-american': 'var(--t4)',
-};
 const yr = (v) => (v == null ? '?' : v < 0 ? Math.abs(v) + ' BC' : String(v));
 
 const PHYLO_SPEC = { view: { widens: true }, rank: {}, q: { type: 'text' }, claims: { type: 'bool' } };
+
+/* The selected taxon's own edges, grouped by what each CARRIES and never by its type: the drawer
+   it is filed in first, then the lineage edges that hand the kit down, then those that hand
+   nothing down. Each group is omitted when empty, and every word is a glossary record's — the
+   heading is the `section-lineage` record, and each glyph names its own carry. `from` is dropped
+   because the taxon is the panel's subject. */
+function Lineage({ taxon, edges }) {
+  const filed = filingEdgeOf(taxon);
+  const groups = groupByCarry((edges || []).filter((e) => e.from === taxon.id)
+    .map((e) => ({ ...glyphEdge(e), from: null })));
+  if (!filed && groups.length === 0) return null;
+  return (
+    <section data-lineage-of={taxon.id} style={{ marginTop: 18 }}>
+      <Eyebrow style={{ marginBottom: 8 }}><Term id="section-lineage" /></Eyebrow>
+      {filed && (
+        <div data-carry-group="member-of" style={{ marginBottom: 11 }}>
+          <EdgeGlyph edge={{ ...filed, from: null }} width={44} />
+        </div>
+      )}
+      {groups.map((g, gi) => (
+        <div key={g.carry} data-carry-group={g.carry}
+          style={{ marginTop: gi || filed ? 10 : 0, paddingTop: gi || filed ? 10 : 0,
+            borderTop: gi || filed ? '1px solid var(--rule-soft)' : 'none' }}>
+          {g.edges.map((e, i) => (
+            <div key={e.type + ':' + e.target + ':' + i} style={{ marginBottom: 11 }}>
+              <EdgeGlyph edge={e} width={44} />
+            </div>
+          ))}
+        </div>
+      ))}
+    </section>
+  );
+}
 
 export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExitFull }) {
   const [graph, setGraph] = React.useState(null);
@@ -78,17 +112,11 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
     if (!graph) return null;
     const byId = {};
     graph.taxa.forEach((t) => { byId[t.id] = t; });
-    const traditionOf = (id, depth = 0) => {
-      const n = byId[id];
-      if (!n || depth > 8) return null;
-      if (n.rank === 'tradition') return n.id;
-      return traditionOf(n.member_of, depth + 1);
-    };
     const rows = graph.taxa.map((t) => ({
       ...t,
       from: t.floruit_start ?? t.origin ?? 1800,
       to: t.floruit_end ?? t.decline_end ?? (t.floruit_start ?? 1800) + 60,
-      tradition: traditionOf(t.id),
+      tradition: traditionOf(t.id, byId),
     })).sort((a, b) => a.from - b.from || a.id.localeCompare(b.id));
     const index = {};
     rows.forEach((r, i) => { index[r.id] = i; });
@@ -140,7 +168,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
   }
   const lit = (id) => id === sel || id === compare || ancestors[id] || descendants[id];
   const edges = graph.edges.filter((e) => {
-    if (!showClaims && !CARRIES[e.type]) return false;
+    if (!showClaims && !carriesKit(e)) return false;
     return lit(e.from) && lit(e.to) && rowIndex[e.from] != null && rowIndex[e.to] != null;
   });
 
@@ -218,7 +246,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
              of wool, and the two readings should agree about what is on screen. */
           <MapView rows={rows} edges={edges} sel={sel} compare={compare} onPick={pick}
             traditionHue={(r) => TRADITION_HUES[r.tradition] || 'var(--ink-4)'}
-            lit={lit} carries={CARRIES} showClaims={showClaims} rankFilter={rankFilter}
+            lit={lit} showClaims={showClaims} rankFilter={rankFilter}
             full={!!full} onExitFull={onExitFull}
             onFull={onFull ? () => onFull('phylogeny') : undefined} />
         ) : (
@@ -236,8 +264,8 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               transform: 'translate(-50%,0)', font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>‖</span>
           </div>
           <div style={{ marginLeft: 210, display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-            <Eyebrow tone="quiet" as="span" style={{ whiteSpace: 'nowrap' }}>compressed · 700 BC–1600</Eyebrow>
-            <Eyebrow tone="quiet" as="span" style={{ whiteSpace: 'nowrap' }}>expanded · 1600–2026</Eyebrow>
+            <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>compressed · 700 BC–1600</Eyebrow>
+            <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>expanded · 1600–2026</Eyebrow>
           </div>
 
           <div style={{ position: 'relative', height: H }}>
@@ -248,10 +276,11 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                 if (!a || !b) return null;
                 const x1 = tScale(a.from) * 1000, y1 = rowIndex[e.from] * ROW + PAD + ROW / 2;
                 const x2 = tScale(b.to) * 1000, y2 = rowIndex[e.to] * ROW + PAD + ROW / 2;
-                const carries = !!CARRIES[e.type];
+                const carries = carriesKit(e);
                 const mx = (x1 + x2) / 2;
                 return (
                   <path key={i} d={`M${x2} ${y2} C ${mx} ${y2}, ${mx} ${y1}, ${x1} ${y1}`}
+                    data-edge-from={e.from} data-edge-to={e.to} data-edge-type={e.type}
                     fill="none" stroke={carries ? 'var(--edge-carries)' : 'var(--edge-claims)'}
                     strokeWidth={carries ? 1.6 : 0.8} strokeDasharray={carries ? 'none' : '3 3'}
                     vectorEffect="non-scaling-stroke" opacity={carries ? 0.8 : 0.65} />
@@ -375,34 +404,14 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                 </div>
               )}
 
-              <div style={{ marginTop: 18 }}>
-                <Eyebrow style={{ marginBottom: 8 }}>lineage · carries the cascade</Eyebrow>
-                {graph.edges.filter((e) => e.from === sel && CARRIES[e.type]).map((e, i) => (
-                  <div key={i} style={{ marginBottom: 11 }}>
-                    <EdgeGlyph type={e.type} width={44} to={e.to} note={e.note} />
-                  </div>
-                ))}
-              </div>
-              <div style={{ marginTop: 12 }}>
-                <Eyebrow style={{ marginBottom: 8 }}>lineage · claims only</Eyebrow>
-                {graph.edges.filter((e) => e.from === sel && !CARRIES[e.type]).map((e, i) => (
-                  <div key={i} style={{ marginBottom: 11 }}>
-                    <EdgeGlyph type={e.type} width={44} to={e.to} note={e.note} />
-                  </div>
-                ))}
-                {graph.edges.filter((e) => e.from === sel && !CARRIES[e.type]).length === 0 && (
-                  <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-4)', margin: 0 }}>
-                    None recorded.
-                  </p>
-                )}
-              </div>
+              <Lineage taxon={selNode} edges={graph.edges} />
 
               <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid var(--rule)' }}>
                 <Eyebrow style={{ marginBottom: 7 }}>descent</Eyebrow>
                 {graph.edges.filter((e) => e.to === sel).map((e, i) => (
                   <button key={i} type="button" onClick={() => setSel(e.from)}
                     style={{ display: 'block', font: 'var(--type-data-s)', textAlign: 'left',
-                      color: CARRIES[e.type] ? 'var(--ink-2)' : 'var(--ink-4)', padding: '2px 0' }}>
+                      color: carriesKit(e) ? 'var(--ink)' : 'var(--ink-2)', padding: '2px 0' }}>
                     {e.from} <span style={{ color: 'var(--ink-4)' }}>· {e.type}</span>
                   </button>
                 ))}

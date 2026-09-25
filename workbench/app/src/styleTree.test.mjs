@@ -152,12 +152,20 @@ test('a reversed order reverses the roots; an undated sibling follows every date
 });
 
 // ------------------------------------------------------------------------------------- taxa.js
-test("TRADITION_HUES is Phylogeny.jsx's own table, over exactly the corpus's traditions", () => {
+/* RE-CUT AT WP-14.11, NOT DELETED. Until then Phylogeny.jsx carried its own copy of the hues and
+   this held the two copies equal; the surface IMPORTS the table now, so the property is that there
+   is one table — the import is asserted, and so is the absence of any second table in the file
+   (a local `TRADITION_HUES` or a literal tradition swatch map), because an import beside a copy
+   that shadows it would pass an import-only check. */
+test("TRADITION_HUES is one table: Phylogeny.jsx imports it from taxa.js, over exactly the corpus's traditions", () => {
   const src = read('workbench/app/src/surfaces/Phylogeny.jsx');
-  const m = src.match(/const TRADITION_HUES = \{([\s\S]*?)\};/);
-  assert.ok(m, 'Phylogeny.jsx no longer carries its copy; delete this half of the guard with it');
-  const theirs = Object.fromEntries([...m[1].matchAll(/'([^']+)':\s*'([^']+)'/g)].map((x) => [x[1], x[2]]));
-  assert.deepEqual({ ...TRADITION_HUES }, theirs);
+  const live = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[\s;,{}()])\/\/[^\n]*/g, '$1');
+  assert.match(live, /import\s*\{[^}]*\bTRADITION_HUES\b[^}]*\}\s*from\s*'\.\.\/styles\/taxa\.js'/,
+    'Phylogeny.jsx must take its tradition hues from styles/taxa.js');
+  assert.doesNotMatch(live, /\b(?:const|let|var)\s+TRADITION_HUES\b/, 'a second table would shadow the import');
+  for (const id of Object.keys(TRADITION_HUES)) {
+    assert.doesNotMatch(live, new RegExp(`['"]${id}['"]\\s*:`), `Phylogeny.jsx keys a swatch by ${id} itself`);
+  }
   assert.deepEqual(Object.keys(TRADITION_HUES).sort(), TAXA.filter((t) => t.rank === 'tradition').map((t) => t.id).sort());
   assert.ok(Object.isFrozen(TRADITION_HUES));
 });

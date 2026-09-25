@@ -37,6 +37,7 @@ import { useCoastline } from './useCoastline.js';
 import { gridStep, ticks } from './graticule.js';
 import { Eyebrow } from '../../components/Eyebrow.jsx';
 import { ActionChip } from '../../Chrome.jsx';
+import { carriesKit } from '../../lineage/carry.js';
 
 /* Equirectangular, and deliberately so: it is the projection the coastline asset is
    stored in, it keeps the transform to two subtractions, and at this scale — a diagram of
@@ -100,7 +101,7 @@ const PRECISION_NOTE = {
 };
 
 export function MapView({
-  rows, edges, sel, compare, onPick, traditionHue, lit, carries, showClaims, rankFilter,
+  rows, edges, sel, compare, onPick, traditionHue, lit, showClaims, rankFilter,
   full, onFull, onExitFull,
 }) {
   /* `place` is {x, cy, w} — a longitude span and the point it is centred on. THE HEIGHT
@@ -199,10 +200,11 @@ export function MapView({
       const a = byId[e.from], b = byId[e.to];
       if (!a || !b) return;
       if (a.key === b.key) { same += 1; return; }
-      out.push({ i, e, a, b, carries: !!carries[e.type] });
+      // The served flag, per edge (WP-14.11): a table of types drew 42 kit-carrying co-parents light.
+      out.push({ i, e, a, b, carries: carriesKit(e) });
     });
     return { arcs: out, sameHearth: same };
-  }, [edges, byId, carries]);
+  }, [edges, byId]);
 
   /* Zoom about a point, keeping that point still. Exact now that the viewBox and the
      element are the same shape: the fractions below are the fractions on screen. */
@@ -384,6 +386,7 @@ export function MapView({
             const cx = mx - (dy / len) * bow, cy = my + (dx / len) * bow;
             return (
               <path key={i} d={`M${a.x},${a.y} Q${cx},${cy} ${b.x},${b.y}`}
+                data-edge-from={e.from} data-edge-to={e.to} data-edge-type={e.type}
                 vectorEffect="non-scaling-stroke"
                 stroke={cc ? 'var(--edge-carries)' : 'var(--edge-claims)'}
                 strokeWidth={cc ? 1.5 : 0.8}
