@@ -13,12 +13,14 @@
    largest of them was the worst plan. Nothing renders that quantity now. */
 import React from 'react';
 import { api, jobEvents } from '../api/client.js';
-import { session } from '../state/session.js';
+import { session, recordPlanFrom } from '../state/session.js';
+import { composeHandlers, reattach, jobExpired, briefNameOf } from '../journey/sessionWrites.js';
+import { JOURNEY_WORDS } from '../journey/journey.js';
 import { planDoc } from '../state/planDoc.js';
 import { CandidateColumn } from '../components/CandidateColumn.jsx';
 import { RefusalCard } from '../components/RefusalCard.jsx';
 import { ConflictSet } from '../components/ConflictSet.jsx';
-import { readRefusal, refusalHeadline } from '../sheet/refusal.js';
+import { readRefusal, refusalHeadline, errorText } from '../sheet/refusal.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
@@ -95,29 +97,31 @@ export function CandidateSet({ onCite, go, selection }) {
   React.useEffect(() => {
     // reattach to a job that survived a refresh — including one still RUNNING
     // (the SSE endpoint supports late attach and closes with a synthetic done)
-    if (s.jobId && !s.result) {
-      api.job(s.jobId).then((j) => {
-        if (j.status === 'done') {
-          session.set({ result: j.result });
-        } else if (j.status === 'error') {
-          session.set({ jobId: null });
-        } else {
-          jobEvents(s.jobId, {
-            stage: (d) => session.pushProgress(d),
-            candidate: (d) => session.pushProgress(d),
-            // WP-9.3: the loop's second word on a candidate. Dropped on the floor since
-            // WP-9.2 -- jobEvents subscribes only to the names it is handed.
-            revised: (d) => session.pushProgress({ ...d, revised: true }),
-            done: (d) => session.set({ result: d }),
-            error: () => {},
-          });
-        }
-      }).catch((e) => {
-        // only forget the job when the server says it no longer exists —
-        // a transient network failure must not strand a live job
-        if (e.status === 404) session.set({ jobId: null });
-      });
-    }
+    if (!s.jobId || s.result) return undefined;
+    const jobId = s.jobId;
+    let live = true;
+    let unsub = null;
+    /* WP-14.10 (PRD §G.1). What the server says about the job is written through
+       `journey/sessionWrites.js`, the one spelling of every write the house journey reads: a job
+       the server gave up on is `failed` with ITS reason, a 404 is `expired`, and the stream is
+       handed the same handler set Brief Intake hands its own -- so its `error` records the
+       failure instead of going to `() => {}`, which is where it went until this package and why
+       the Candidate Set read "composing" for ever over a job that had already failed. */
+    api.job(jobId).then((j) => {
+      if (!live) return;
+      const next = reattach(jobId, j);
+      session.set(next.patch);
+      if (next.stream) unsub = jobEvents(jobId, composeHandlers(session, jobId));
+    }).catch((e) => {
+      // only forget the job when the server says it no longer exists —
+      // a transient network failure must not strand a live job
+      if (live && e.status === 404) session.set(jobExpired(jobId, errorText(e)));
+    });
+    /* The stream is closed when this surface goes away, for the reason Brief Intake closes its
+       own: an EventSource nobody holds cannot be closed, and a reader moving between surfaces
+       during a compose opened one per visit against a browser's six per origin. The job keeps
+       running on the server and the next visit asks it again. */
+    return () => { live = false; if (unsub) unsub(); };
   }, [s.jobId]);
 
   React.useEffect(() => {
@@ -138,6 +142,13 @@ export function CandidateSet({ onCite, go, selection }) {
           The composer returns several contrasting candidates, fatal-free first and then by
           score, and never calls one good. Start at Brief Intake.
         </p>
+        {s.jobError && (
+          <p data-job-error={s.jobError.state}
+            style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--ink)', margin: '0 0 14px' }}>
+            {JOURNEY_WORDS.candidates[s.jobError.state]}
+            {s.jobError.reason && <span style={{ color: 'var(--ink-2)' }}>{JOURNEY_WORDS.separator}{s.jobError.reason}</span>}
+          </p>
+        )}
         {s.progress.length > 0 && (
           <div style={{ border: '1px solid var(--rule)', padding: '10px 12px', marginBottom: 14 }}>
             <Eyebrow style={{ marginBottom: 6 }}>composing…</Eyebrow>
@@ -174,7 +185,9 @@ export function CandidateSet({ onCite, go, selection }) {
     if (c.refused) return;
     const n = cands.findIndex((x) => x.id === c.id);
     const plan = await api.candidatePlan(s.jobId, n);
-    planDoc.load(plan);
+    // where the plan came from, recorded BEFORE it is loaded (PRD §G.1): the job, the index the
+    // plan was fetched at, and the brief's name where the draft in hand is the brief it names
+    planDoc.load(recordPlanFrom('candidate', plan, { jobId: s.jobId, n, briefName: briefNameOf(result, s.brief) }));
     go('workbench');
   }
 
@@ -203,7 +216,10 @@ export function CandidateSet({ onCite, go, selection }) {
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
           gap: 24, marginBottom: 16 }}>
           <div>
-            <Eyebrow>brief · {result.brief}</Eyebrow>
+            {/* The brief by NAME where the draft in hand is the brief this result names; the id
+                otherwise, in the corpus's mono, because the result carries nothing else. */}
+            <Eyebrow>brief · {briefNameOf(result, s.brief)
+              || <code style={{ fontFamily: 'var(--mono)', textTransform: 'none' }}>{result.brief}</code>}</Eyebrow>
             <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', fontVariationSettings: '"opsz" 72',
               letterSpacing: 'var(--tr-display)', margin: '7px 0 0' }}>
               {cands.length} contrasting plans, <i>ranked</i>

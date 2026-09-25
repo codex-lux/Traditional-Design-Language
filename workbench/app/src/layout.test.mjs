@@ -160,7 +160,12 @@ test('a narrow window borrows the width; it does not take it', async () => {
   // one second of a narrow window — a PDF beside the workbench, a rotated tablet — wrote
   // all eight panes to their floors and committed it. Widening back restored nothing,
   // because a clamp that only shrinks has no counterpart.
-  const { layout } = await fresh();
+  //
+  // The layout STATES an open assistant (WP-14.13): with nothing stored, the store's first
+  // narrow `clampAll` folds that pane (PRD §I.11), which is a different property with its own
+  // cases below. This one is about the width a narrow window borrows, so its fixture holds a
+  // reader who chose the pane open; the assertions are unchanged.
+  const { layout } = await fresh({ [KEY]: JSON.stringify({ collapsed: { rail: false } }) });
   layout.setWidth('nav', 400);
   layout.setWidth('rail', 600);
   layout.setWidth('kit', 600);
@@ -310,4 +315,94 @@ test('a private window that refuses to store still gets a working layout', async
   assert.equal(layout.width('nav'), 260);
   // leave the global in a usable state for anything that runs after this file
   stub();
+});
+
+/* THE NARROW FOLD (WP-14.13, PRD §I.11). Below NARROW_FOLD_PX, with no stored choice about the
+   assistant's pane, the store's FIRST clampAll folds it; a stored choice wins in both
+   directions; no later resize folds or unfolds anything; and the fold writes nothing. Each case
+   is the PRD's, driven at a width where it binds. */
+
+test('the narrow fold is the ruled width, and PANES is unchanged by it', async () => {
+  const { NARROW_FOLD_PX, PANES } = await fresh();
+  assert.equal(NARROW_FOLD_PX, 1500);
+  assert.equal(PANES.rail.label, 'the rail', 'the pane keeps its name: the walk and the spine read it');
+  assert.ok(PANES.kit, 'PANES.kit is kept');
+});
+
+test('nothing stored and a first clampAll at 1280: the assistant starts folded', async () => {
+  const { layout } = await fresh();
+  assert.equal(layout.isOpen('rail'), true, 'premise: open before the window is known');
+  layout.clampAll(1280);
+  assert.equal(layout.isOpen('rail'), false);
+  assert.equal(layout.width('rail'), 0);
+  assert.equal(layout.isOpen('nav'), true, 'the surface list is not the assistant');
+});
+
+test('nothing stored and a first clampAll at 1680: the assistant stays open', async () => {
+  const { layout, PANES } = await fresh();
+  layout.clampAll(1680);
+  assert.equal(layout.isOpen('rail'), true);
+  assert.equal(layout.width('rail'), PANES.rail.def);
+});
+
+test('a stored open assistant stays open at 1280', async () => {
+  const { layout } = await fresh({ [KEY]: JSON.stringify({ widths: {}, collapsed: { rail: false } }) });
+  layout.clampAll(1280);
+  assert.equal(layout.isOpen('rail'), true);
+});
+
+test('a stored folded assistant stays folded at 1680', async () => {
+  const { layout } = await fresh({ [KEY]: JSON.stringify({ widths: {}, collapsed: { rail: true } }) });
+  layout.clampAll(1680);
+  assert.equal(layout.isOpen('rail'), false);
+});
+
+test('only the first clampAll folds: 1680 then 1280 leaves it open', async () => {
+  const { layout } = await fresh();
+  layout.clampAll(1680);
+  layout.clampAll(1280);
+  assert.equal(layout.isOpen('rail'), true, 'a narrowed window has not dismissed the pane');
+  // and the other way: a reader who unfolds it on a narrow window keeps it through a resize
+  const b = await fresh();
+  b.layout.clampAll(1280);
+  b.layout.setCollapsed('rail', false);
+  b.layout.clampAll(1000);
+  b.layout.clampAll(1280);
+  assert.equal(b.layout.isOpen('rail'), true);
+});
+
+test('1499 folds and 1500 does not', async () => {
+  const a = await fresh();
+  a.layout.clampAll(1499);
+  assert.equal(a.layout.isOpen('rail'), false);
+  const b = await fresh();
+  b.layout.clampAll(1500);
+  assert.equal(b.layout.isOpen('rail'), true);
+});
+
+test('what is not a stored choice does not stop the fold', async () => {
+  for (const collapsed of [undefined, {}, { nav: true }, { rail: 'no' }, { rail: 0 }, { rail: null }]) {
+    const { layout } = await fresh({ [KEY]: JSON.stringify({ widths: { rail: 400 }, collapsed }) });
+    layout.clampAll(1280);
+    assert.equal(layout.isOpen('rail'), false, JSON.stringify(collapsed));
+    assert.equal(layout.preferred('rail'), 400, 'the fold keeps the chosen width for its return');
+  }
+});
+
+test('the fold performs no localStorage write', async () => {
+  // No waiting on the debounce here: a module instance from an earlier case can still hold a
+  // pending write, and it would land in this case's stub. `flush()` persists exactly when THIS
+  // store scheduled a write, so calling it at once is the discriminator.
+  const { layout, store } = await fresh();
+  const before = store.writes();
+  const stored = store.map.get(KEY);
+  layout.clampAll(1280);
+  assert.equal(layout.isOpen('rail'), false, 'premise: it folded');
+  layout.flush();
+  assert.equal(store.writes(), before, 'a fold the reader did not make is not written for them');
+  assert.equal(store.map.get(KEY), stored);
+  // a reader's own act afterwards persists the whole object, fold included: a stored choice from then on
+  layout.setWidth('nav', 250);
+  layout.flush();
+  assert.equal(JSON.parse(store.map.get(KEY)).collapsed.rail, true);
 });

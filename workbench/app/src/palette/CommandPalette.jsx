@@ -12,18 +12,15 @@ import React from 'react';
 import { api } from '../api/client.js';
 import { nav } from '../state/nav.js';
 import { search, KIND_ORDER } from '../search/match.js';
-import { STATIC_ENTRIES } from '../search/staticEntries.js';
+import { staticEntries } from '../search/staticEntries.js';
+import { useGlossary } from '../api/useGlossary.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 
 const KIND_LABEL = {
   surface: 'surfaces', action: 'actions', style: 'styles', slot: 'element slots',
   pack: 'proportion packs', fault: 'faults', room: 'rooms', massing: 'massings',
-  parti: 'partis', grouping: 'groupings', kit: 'kits',
+  parti: 'partis', grouping: 'groupings', term: 'glossary terms',
 };
-
-/* What to show before anything is typed: the surfaces, in rail order. An empty palette
-   that says nothing teaches nothing. */
-const OPENING_HAND = STATIC_ENTRIES.filter((e) => e.kind === 'surface');
 
 export function CommandPalette({ open, onClose, onAction }) {
   const [q, setQ] = React.useState('');
@@ -32,9 +29,17 @@ export function CommandPalette({ open, onClose, onAction }) {
   const [failed, setFailed] = React.useState(false);
   const inputRef = React.useRef(null);
   const listRef = React.useRef(null);
+  /* The places are the site map's, named by their glossary records (WP-14.13): the palette,
+     the rail and the crumbs call a place one thing. */
+  const glossary = useGlossary();
+  const statics = React.useMemo(() => staticEntries(glossary.lookup), [glossary.lookup]);
+  /* What to show before anything is typed: the places, in the site map's order, the front
+     door first. An empty palette that says nothing teaches nothing. */
+  const openingHand = React.useMemo(() => statics.filter((e) => e.kind === 'surface'), [statics]);
 
-  /* Fetched once, on first open — 665 records is a lot to carry for a session that
-     never searches, and nothing to carry for one that does. */
+  /* Fetched once, on first open — several hundred records (the index states its own count)
+     is a lot to carry for a session that never searches, and nothing to carry for one that
+     does. */
   React.useEffect(() => {
     if (!open || entries || failed) return;
     let live = true;
@@ -55,14 +60,14 @@ export function CommandPalette({ open, onClose, onAction }) {
   }, [open]);
 
   const pool = React.useMemo(
-    () => [...STATIC_ENTRIES, ...(entries || [])],
-    [entries],
+    () => [...statics, ...(entries || [])],
+    [statics, entries],
   );
 
   const result = React.useMemo(() => {
-    if (!q.trim()) return { hits: OPENING_HAND, total: OPENING_HAND.length, cut: 0 };
+    if (!q.trim()) return { hits: openingHand, total: openingHand.length, cut: 0 };
     return search(pool, q, 40);
-  }, [pool, q]);
+  }, [pool, q, openingHand]);
 
   const hits = result.hits;
   React.useEffect(() => { setCursor(0); }, [q]);
@@ -164,7 +169,7 @@ export function CommandPalette({ open, onClose, onAction }) {
                 const on = h._i === cursor;
                 return (
                   <div key={h.cite || h.id} id={`palette-opt-${h._i}`} role="option" aria-selected={on}
-                    data-on={on ? '1' : '0'}
+                    data-on={on ? '1' : '0'} data-id={h.id} data-cite={h.cite || undefined}
                     onMouseMove={() => setCursor(h._i)}
                     onMouseDown={(e) => { e.preventDefault(); dispatch(h); }}
                     style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '5px 16px',

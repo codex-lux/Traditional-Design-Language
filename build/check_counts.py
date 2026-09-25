@@ -85,6 +85,14 @@ def computed():
     v["groupings"] = len(sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))))
     v["partis"] = len(sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))))
     v["faults"] = len(sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))))
+    # WP-14.15. README.md and STATE-OF-THE-PROJECT.md said 209 faults for a whole phase against a
+    # corpus of 210, and quoted the exception figures beside it, with no row policing any of them --
+    # the prose a front door is written from, read by no checker. The two exception counts are
+    # derived here so the sentences quoting them are held to the files they describe.
+    _faults = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json")))]
+    v["fault_exceptions"] = sum(len(f.get("exceptions") or []) for f in _faults)
+    v["fault_exceptions_bounded"] = sum(1 for f in _faults for e in (f.get("exceptions") or [])
+                                        if e.get("bounds_test"))
     v["massings"] = len(json.load(open(os.path.join(ROOT, "massings", "catalog.json"))))
 
     # WP-6.2. The opening grammar's size, so a sentence quoting it cannot drift from it.
@@ -243,6 +251,18 @@ CLAIMS = [
     ("CLAUDE.md",              "rooms",         r"· (\d+) rooms ·"),
     ("CLAUDE.md",              "groupings",     r"· (\d+) groupings ·"),
     ("CLAUDE.md",              "faults",        r"· (\d+) faults ·"),
+    # WP-14.15: the fault corpus as README.md and STATE-OF-THE-PROJECT.md describe it.
+    ("README.md",              "faults",        r"^(\d+) named errors, \*\*element-first\*\*"),
+    ("README.md",              "fault_exceptions", r"(\d+) style exceptions, \d+ with numeric bounds"),
+    ("README.md",              "fault_exceptions_bounded", r"\d+ style exceptions, (\d+) with numeric bounds"),
+    ("README.md",              "faults",        r"Exactly \w+ of (\d+) faults has `driver: ignorance`"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"\(`faults/`\) — (\d+) named errors, hung"),
+    ("STATE-OF-THE-PROJECT.md", "fault_exceptions", r"Style enters through (\d+) exceptions"),
+    ("STATE-OF-THE-PROJECT.md", "fault_exceptions_bounded", r"through \d+ exceptions \((\d+) with numeric bounds\)"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"exactly \w+ of (\d+) is ignorance"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"`check_faults\.py` passes: (\d+) faults,"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"pack conflicts \(resolution prose, not yet the planned ranked substitution structure\), (\d+) faults with three-tier fixes"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"^\| Solecisms \| `faults/` \| (\d+), all tested \|"),
     ("CLAUDE.md",              "opening_rules", r"(\d+) opening-grammar rules"),
     ("docs/reports/wp-6.2-opening-semantics.md", "opening_rules",
      r"\*\*`openings/grammar\.json`\*\* — (\d+) rules"),

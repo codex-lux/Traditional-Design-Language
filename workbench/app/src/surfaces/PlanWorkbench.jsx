@@ -8,6 +8,7 @@ import React from 'react';
 import { api, jobEvents } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
 import { planDoc, mutations } from '../state/planDoc.js';
+import { recordPlanFrom } from '../state/session.js';
 import { FindingRow } from '../components/FindingRow.jsx';
 import { SeverityTally } from '../components/SeverityTally.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
@@ -386,7 +387,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           {examples.map((e) => (
             <Chip key={e} onClick={() => api.examplePlan(e).then((p) => {
               reviseNextRef.current = true;          // an example is an explicit solve (WP-13.9)
-              planDoc.load(p);
+              planDoc.load(recordPlanFrom('example', p));
             })}>{e}</Chip>
           ))}
         </div>

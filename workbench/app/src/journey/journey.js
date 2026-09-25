@@ -73,6 +73,7 @@ export const JOURNEY_WORDS = Object.freeze({
   }),
   counts: Object.freeze({ fatal: 'fatal', serious: 'serious', unjudged: 'unjudged', notCounted: 'not counted' }),
   separator: ' · ',
+  next: 'next',   // the bar's link on to the following step (WP-14.10)
   reasons: Object.freeze({ brief: 'compose the brief first', candidates: 'open a candidate on the bench' }),
   origin: Object.freeze({
     candidate: (n) => (Number.isInteger(n) && n >= 0 ? `candidate ${n + 1}` : 'a candidate'),

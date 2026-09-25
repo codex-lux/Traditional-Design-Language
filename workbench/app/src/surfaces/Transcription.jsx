@@ -14,6 +14,7 @@ import { fitLabel, fitLine, useFontMetrics } from '../sheet/label.js';
 import { api } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
 import { planDoc } from '../state/planDoc.js';
+import { recordPlanFrom } from '../state/session.js';
 import { draftDoc, emptyDraft, completeness, toRecord, exteriorWalls, neighbours, backdropStore }
   from '../state/draftDoc.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
@@ -549,7 +550,7 @@ export function Transcription({ go }) {
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 12 }}>
             <Chip onClick={gaps.length ? undefined : checkRecord}
               title={gaps.length ? 'fill the named gaps first' : ''}>check as record</Chip>
-            <Chip onClick={gaps.length ? undefined : () => { planDoc.load(toRecord(draft)); go?.('workbench'); }}
+            <Chip onClick={gaps.length ? undefined : () => { planDoc.load(recordPlanFrom('traced', toRecord(draft))); go?.('workbench'); }}
               title={gaps.length ? 'fill the named gaps first' : ''}>send to the bench</Chip>
             <Chip onClick={gaps.length ? undefined : () => save(`${draft.meta.id || 'record'}.json`, toRecord(draft))}>
               download record

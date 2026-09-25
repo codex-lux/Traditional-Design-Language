@@ -1,72 +1,84 @@
-/* The instrument's frame: masthead, the left rail, the vocabulary filter strip. Ported
-   from the mockup; the counts stop being literals and come from /api/overview. All
-   eleven surfaces are live (⑪ Transcription joined in WP-5.5) — the forthcoming-not-hidden
-   treatment lives on the Export surface's cards, where the unbuilt work packages are
-   named.
+/* The instrument's frame: masthead, the trail, the left rail, the vocabulary filter strip.
 
    It is no longer FIXED, which is the change WP-5.7 made here. The left rail was 236px
    and the AI rail 344px at every window size and on every errand, which is 580px of
    permanent furniture — a third of a laptop screen — held whether you were navigating or
-   reading a map. Both fold now, both pull, and `state/layout.js` owns the numbers. */
+   reading a map. Both fold now, both pull, and `state/layout.js` owns the numbers.
+
+   AND IT SAYS WHERE YOU ARE (WP-14.13). No page did: the tab title never changed, the masthead's
+   persistent content was the bench plan's unlabelled ids, and the rail was a card catalogue of
+   eleven surfaces in the order they were built, each labelled in words this file wrote and the
+   palette and the Overview wrote differently. The rail is `nav/navModel.js`'s now — two spines
+   (a style, a house) and a library, every label a glossary record's `term`, every figure beside
+   one the API's — and the crumb strip is `nav/crumbs.js`'s. This file draws them and decides
+   nothing about either. */
 import React from 'react';
-import { KINDS as DRAWING_KINDS } from './surfaces/drawingKinds.js';
 import { Eyebrow } from './components/Eyebrow.jsx';
-import { Icon } from './components/Icon.jsx';
+import { Term, useTermDescription } from './components/Term.jsx';
+import { noEntry } from './glossary/termView.js';
+import { crumbLabel } from './nav/crumbs.js';
+import { JOURNEY_WORDS, JOURNEY_TERMS } from './journey/journey.js';
 import { layout } from './state/layout.js';
 
-/* The rail, grouped by what you are trying to do rather than by the order the surfaces
-   were built in.
-
-   The circled numerals are gone. They were work-package numbers — ②③④⑨⑩ then ⑤⑥⑦⑧⑧⑪ —
-   so they read as an ordering while meaning build history, sent the eye down a sequence
-   that goes 2,3,4,9,10 and then back to 5, and two surfaces both wore ⑧. The docs keep
-   the WP numbering, which is where it belongs.
-
-   `output` and `ingest` are split out of what used to be one long `compose` list of six.
-   Composing a house and exporting a drawing are different errands, and the Drawing Set
-   sitting under "compose" was the reason Export and Drawings kept being confused. */
-export function surfaces(counts) {
-  const c = counts || {};
-  const packs = c.proportion_packs
-    ? Object.values(c.proportion_packs).reduce((a, b) => a + b, 0) : null;
-  return [
-    { group: 'start', items: [
-      { id: 'overview', label: 'Overview', meta: 'what this holds' },
-    ] },
-    { group: 'read the corpus', items: [
-      { id: 'phylogeny', label: 'The Phylogeny', meta: c.styles ? `${c.styles} taxa` : '' },
-      { id: 'style', label: 'Style Record', meta: '9 sections' },
-      { id: 'proportions', label: 'Proportions', meta: packs ? `${packs} packs` : '' },
-      { id: 'faults', label: 'Fault Corpus', meta: c.faults ? `${c.faults} solecisms` : '' },
-    ] },
-    { group: 'compose', items: [
-      { id: 'brief', label: 'Brief Intake', meta: 'state the brief' },
-      { id: 'candidates', label: 'Candidate Set', meta: 'and its criticism' },
-      { id: 'workbench', label: 'Plan Workbench', meta: 'place and solve' },
-    ] },
-    { group: 'take it out', items: [
-      { id: 'drawings', label: 'Drawing Set · in the round', meta: `the model · ${DRAWING_KINDS.length} sheets` },
-      // The four format names fit the Overview, not a 236px rail — spelled out here they
-      // pushed "Details & Export" onto three lines, broken at the ampersand.
-      { id: 'export', label: 'Details & Export', meta: '4 formats' },
-    ] },
-    { group: 'bring it in', items: [
-      { id: 'transcription', label: 'Transcription', meta: 'drawing in' },
-    ] },
-  ];
+/* A count and its word, apart from the other two: a count the check did not state is "not
+   counted", never a zero (journey/journey.js's rule, in its words). */
+function Count({ n, termId }) {
+  return (
+    <span style={{ whiteSpace: 'nowrap' }}>
+      {n == null ? null : <span data-count={termId}>{n} </span>}
+      <Term id={termId} />
+      {n == null ? ` ${JOURNEY_WORDS.counts.notCounted}` : null}
+    </span>
+  );
 }
 
-export function Masthead({ plan, judgment, onSearch }) {
+/* What is on the bench, said as a place and three counts — never the plan's id and style as
+   bare text, and never the counts of a plan that is not this one (the journey reads an
+   evaluation only for the plan it was of). */
+function OnTheBench({ plan, planStep }) {
+  const counts = planStep && planStep.counts;
+  const state = planStep ? planStep.state : null;
+  const name = typeof plan.name === 'string' && plan.name.trim() ? plan.name : plan.id;
+  const sep = <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>{JOURNEY_WORDS.separator}</span>;
+  return (
+    <span data-bench style={{ display: 'inline-flex', alignItems: 'baseline', gap: 10, minWidth: 0,
+      font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+      <a href="#/workbench" data-bench-link
+        style={{ minWidth: 0, maxWidth: 360, overflow: 'hidden', textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap', font: 'var(--fw-reg) 12.5px/1.4 var(--body)' }}>
+        On the bench: {name}
+      </a>
+      {state === 'refused' && <span data-bench-refused=""><Term id={JOURNEY_TERMS.refused} /></span>}
+      {counts ? (
+        <span data-bench-counts="" style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6,
+          whiteSpace: 'nowrap' }}>
+          <Count n={counts.fatal} termId={JOURNEY_TERMS.fatal} />{sep}
+          <Count n={counts.serious} termId={JOURNEY_TERMS.serious} />{sep}
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <span aria-hidden="true" style={{ width: 10, height: 10, flex: 'none',
+              border: '1px solid var(--judge-unjudged)', backgroundImage: 'var(--hatch-unjudged)' }} />
+            <Count n={counts.unjudged} termId={JOURNEY_TERMS.unjudged} />
+          </span>
+        </span>
+      ) : (state === 'unevaluated' ? <span data-bench-counts="">{JOURNEY_WORDS.plan.unevaluated}</span> : null)}
+    </span>
+  );
+}
+
+export function Masthead({ plan, planStep, onSearch, onKeys }) {
   return (
     <header style={{ height: 'var(--topbar-h)', flex: 'none', display: 'flex', alignItems: 'center',
       gap: 20, padding: '0 16px', borderBottom: '1px solid var(--rule)', background: 'var(--paper)' }}>
-      <div style={{ font: 'var(--fw-med) 13px/1 var(--serif)', letterSpacing: '.3em',
-        textTransform: 'uppercase', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+      {/* The wordmark is the way home: once the rail folds, it was the only thing left on
+          screen that looked like it named the product, and it went nowhere. */}
+      <a href="#/" data-home=""
+        style={{ font: 'var(--fw-med) 13px/1 var(--serif)', letterSpacing: '.3em',
+          textTransform: 'uppercase', color: 'var(--ink)', whiteSpace: 'nowrap',
+          borderBottom: 'none' }}>
         Traditional&#183;Design&#183;Language
-      </div>
-      <span style={{ width: 1, height: 22, background: 'var(--rule)' }} />
-      <Eyebrow tone="secondary" as="span">the workbench</Eyebrow>
+      </a>
       <div style={{ flex: 1 }} />
+      {plan && <OnTheBench plan={plan} planStep={planStep} />}
       {/* The shortcut is the fast way in; this is the way anyone finds it at all. It is
           drawn as a field rather than a button because that is what it opens. */}
       {onSearch && (
@@ -78,24 +90,54 @@ export function Masthead({ plan, judgment, onSearch }) {
           <span style={{ font: 'var(--fw-reg) 12.5px/1.4 var(--body)' }}>Search the corpus</span>
           <span style={{ flex: 1 }} />
           <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
-            color: 'var(--ink-4)' }}>⌘K</span>
+            color: 'var(--ink-2)' }}>⌘K</span>
         </button>
       )}
-      {plan && <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>{plan.id}</span>}
-      {plan && <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{plan.style}</span>}
-      {judgment != null && (
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, font: 'var(--type-data-s)',
-          color: 'var(--ink-3)' }}
-          title="constraints the corpus could not evaluate on this plan — unjudged is not passed">
-          <span aria-hidden="true" style={{ width: 10, height: 10, border: '1px solid var(--judge-unjudged)',
-            backgroundImage: 'var(--hatch-unjudged)' }} />
-          {judgment} unjudged
-        </span>
+      {/* The keys card was reachable only by `?` or a typed palette query — which is to say by
+          somebody who already knew it was there. */}
+      {onKeys && (
+        <button type="button" onClick={onKeys} data-keys="" aria-haspopup="dialog"
+          style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6, padding: '3px 9px',
+            border: '1px solid var(--rule)', font: 'var(--type-data-s)', color: 'var(--ink-2)',
+            whiteSpace: 'nowrap', transition: 'var(--t-hover)' }}>
+          Keys <kbd style={{ fontFamily: 'var(--mono)' }}>?</kbd>
+        </button>
       )}
-      <span style={{ color: 'var(--ink-3)', display: 'inline-flex', gap: 12 }}>
-        <Icon name="file-down" title="Export" /><Icon name="settings-2" title="Settings" />
-      </span>
     </header>
+  );
+}
+
+/* Where you are, as a trail. Full width, between the masthead and the three panes, so it reads
+   as the address of everything below it rather than of one pane. A group crumb is a heading and
+   not a place, so it is not a link; the last crumb is the page and says so to a screen reader.
+   The front door is the root and has no trail. */
+export function CrumbStrip({ crumbs }) {
+  if (!Array.isArray(crumbs) || !crumbs.length) return null;
+  return (
+    <nav aria-label="crumbs"
+      style={{ flex: 'none', borderBottom: '1px solid var(--rule)', background: 'var(--paper)',
+        padding: '0 16px', minHeight: 30, display: 'flex', alignItems: 'center', overflowX: 'auto' }}>
+      <ol style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: '0 8px',
+        listStyle: 'none', margin: 0, padding: '5px 0' }}>
+        {crumbs.map((c, i) => {
+          const last = i === crumbs.length - 1;
+          const text = crumbLabel(c);
+          const ink = last ? 'var(--ink)' : 'var(--ink-2)';
+          return (
+            <li key={`${i}:${c.cite || c.termId || text}`}
+              style={{ display: 'inline-flex', alignItems: 'baseline', gap: 8,
+                font: (last ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)', color: ink }}>
+              {i > 0 && <span aria-hidden="true" style={{ color: 'var(--ink-3)' }}>›</span>}
+              {last
+                ? <span aria-current="page" data-missing={c.missing ? '' : undefined}>{text}</span>
+                : (c.href
+                  ? <a href={c.href} data-cite={c.cite || undefined}>{text}</a>
+                  : <span data-group={c.group ? '' : undefined}>{text}</span>)}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
   );
 }
 
@@ -127,7 +169,7 @@ export function PaneStub({ pane, label, spine, side }) {
       <span aria-hidden="true"
         style={{ writingMode: 'vertical-rl', font: 'var(--type-eyebrow)',
           letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
-          color: 'var(--ink-4)', marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden' }}>
+          color: 'var(--ink-2)', marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden' }}>
         {spine || label}
       </span>
     </div>
@@ -146,45 +188,107 @@ export function FoldControl({ pane, label, side }) {
   );
 }
 
-export function LeftRail({ current, onGo, counts }) {
+/* One place in the rail: an ANCHOR to its address, because a place is a link a reader can open
+   in a new tab or copy — the rail was eleven buttons, and a button cannot be either. Its label
+   and its description are its glossary record's (`useTermDescription`, since a Term may not sit
+   inside an anchor); a record the glossary lacks is named as missing, visibly. A step number is
+   the journey's order; a figure is the API's; a journey word goes on its own line, because a
+   house step's state is a phrase and not a count. The label WRAPS and is never cut: the style in
+   hand is named "<name> · the guided example", and at the rail's shipped width an ellipsis
+   left the reader "the guided exa…". Its id is the margin note under it (navModel's `note`).
+   */
+function RailLink({ it, depth, width, desc }) {
+  const on = !!it.current;
+  const label = it.label != null ? it.label : (it.missing ? noEntry(it.missing) : '…');
+  const figure = typeof it.meta === 'number';
+  const words = typeof it.meta === 'string' ? it.meta : null;
+  return (
+    <>
+      <a data-nav={it.id} href={it.href} aria-current={on ? 'page' : undefined}
+        aria-describedby={desc ? desc.describedBy : undefined} title={desc ? desc.title : undefined}
+        style={{ display: 'flex', flexDirection: 'column', width: '100%', boxSizing: 'border-box',
+          padding: `4px 14px 4px ${14 + depth * 14}px`, minHeight: 28, borderBottom: 'none',
+          textDecoration: 'none', cursor: 'pointer',
+          background: on ? 'var(--paper-deep)' : 'transparent',
+          borderLeft: on ? '2px solid var(--gilt-deep)' : '2px solid transparent',
+          transition: 'var(--t-hover)' }}>
+        <span style={{ display: 'flex', alignItems: 'baseline', gap: 9, width: '100%' }}>
+          {it.step != null && (
+            <span data-step-n="" style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
+              color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 'none' }}>{it.step}</span>
+          )}
+          <span data-missing={it.label == null && it.missing ? '' : undefined}
+            style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)',
+              color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 1, minWidth: 0,
+              overflowWrap: 'anywhere' }}>
+            {label}
+          </span>
+          {/* The figure is the first thing to go when the rail is pulled narrow: it is
+              orientation, and the label is the control. */}
+          {figure && width >= 200 && (
+            <span data-meta="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', flex: 'none',
+              whiteSpace: 'nowrap' }}>{it.meta}</span>
+          )}
+        </span>
+        {words && width >= 200 && (
+          <span data-meta="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
+            paddingLeft: it.step != null ? 17 : 0, whiteSpace: 'nowrap', overflow: 'hidden',
+            textOverflow: 'ellipsis' }}>{words}</span>
+        )}
+        {it.note && width >= 200 && (
+          <span data-note="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)',
+            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.note}</span>
+        )}
+      </a>
+      {desc ? desc.element : null}
+    </>
+  );
+}
+
+function DescribedRailLink(props) {
+  const desc = useTermDescription(props.it.termId);
+  return <RailLink {...props} desc={desc} />;
+}
+
+function RailItem({ it, depth, width }) {
+  return (
+    <li style={{ listStyle: 'none' }}>
+      {it.termId
+        ? <DescribedRailLink it={it} depth={depth} width={width} />
+        : <RailLink it={it} depth={depth} width={width} desc={null} />}
+      {it.children && it.children.length > 0 && (
+        <ul style={{ margin: 0, padding: 0 }}>
+          {it.children.map((c) => <RailItem key={c.id} it={c} depth={depth + 1} width={width} />)}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+export function LeftRail({ model, busy }) {
   const open = React.useSyncExternalStore(layout.subscribe, () => layout.isOpen('nav'));
   const width = React.useSyncExternalStore(layout.subscribe, () => layout.width('nav'));
+  const uid = React.useId().replace(/[^A-Za-z0-9_-]/g, '');
   if (!open) return <PaneStub pane="nav" label="the surface list" spine="surfaces" side="left" />;
 
+  const groups = model && Array.isArray(model.groups) ? model.groups : [];
   return (
-    <nav aria-label="surfaces"
+    <nav aria-label="surfaces" aria-busy={busy ? 'true' : undefined}
       style={{ width, flex: 'none', borderRight: '1px solid var(--rule)',
         background: 'var(--paper)', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
       <div style={{ flex: 1, overflow: 'auto', padding: '14px 0 18px' }}>
-        {surfaces(counts).map((g) => (
-          <div key={g.group} style={{ marginBottom: 18 }}>
-            <Eyebrow style={{ padding: '0 14px 8px' }}>{g.group}</Eyebrow>
-            {g.items.map((it) => {
-              const on = current === it.id;
-              return (
-                <button key={it.id} type="button" onClick={() => onGo(it.id)}
-                  aria-current={on ? 'page' : undefined}
-                  style={{ display: 'flex', alignItems: 'baseline', gap: 9, width: '100%', textAlign: 'left',
-                    padding: '4px 14px', minHeight: 28, cursor: 'pointer',
-                    background: on ? 'var(--paper-deep)' : 'transparent',
-                    borderLeft: on ? '2px solid var(--gilt-deep)' : '2px solid transparent',
-                    transition: 'var(--t-hover)' }}>
-                  <span style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)',
-                    color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 1, whiteSpace: 'nowrap',
-                    overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {it.label}
-                  </span>
-                  {/* The meta column is the first thing to go when the rail is pulled
-                      narrow: it is orientation, and the label is the control. */}
-                  {width >= 200 && (
-                    <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', flex: 'none',
-                      whiteSpace: 'nowrap' }}>{it.meta}</span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        ))}
+        {groups.map((g) => {
+          const headId = `rail-${uid}-${g.id}`;
+          const head = g.label != null ? g.label : (g.missing ? noEntry(g.missing) : '…');
+          return (
+            <section key={g.id} data-nav-group={g.id} aria-labelledby={headId} style={{ marginBottom: 18 }}>
+              <Eyebrow id={headId} style={{ padding: '0 14px 8px' }}>{head}</Eyebrow>
+              <ul style={{ margin: 0, padding: 0 }}>
+                {g.items.map((it) => <RailItem key={it.id} it={it} depth={0} width={width} />)}
+              </ul>
+            </section>
+          );
+        })}
       </div>
       {/* The corpus inventory used to live here, on every surface, in a rail that is for
           navigating. It is orientation — read once — so it moved to the Overview, and the
