@@ -3,11 +3,13 @@
   "term": "drawn upright",
   "family": "figure",
   "order": 1,
-  "definition": "Every assembly on the plate rises up the wall plane, bottom to top, as a wall section does. A casing is really measured across its face, from the jamb outward, so its widths appear here as heights; the plate does not turn it.",
+  "definition": "Said of an assembly that rises up the wall plane, bottom to top, as a wall section does: each member's figure is a height, and the plate stands it on the floor line. A casing, which runs across from the jamb, is drawn turned instead.",
   "kind": "editorial",
-  "basis": "Our wording, read from the pack schema's assemblies field and the classical trim family's casing member notes. schema/proportion-pack.schema.json, assemblies description: \"Each assembly is a stack of members, bottom to top, dimensioned in PARTS of the module.\"; proportions/systems/trim-classical.json assemblies.casing_georgian.members[geo_cas_reveal].note: \"This assembly is measured ACROSS the casing from the jamb outward rather than vertically; height_parts is therefore a width.\"; proportions/systems/trim-classical.json assemblies.casing_federal.members[fed_cas_reveal].note: \"Measured across the casing, as in the Georgian assembly.\".",
+  "basis": "Our wording, read from the pack schema's assemblies and axis fields and the classical trim family's casing member notes. schema/proportion-pack.schema.json, assemblies description: \"Each assembly is a stack of members, bottom to top, dimensioned in PARTS of the module.\"; schema/proportion-pack.schema.json, axis description: \"up-the-wall: the members stack bottom to top, as an order and a wall section do\"; proportions/systems/trim-classical.json assemblies.casing_georgian.members[geo_cas_reveal].note: \"This assembly is measured ACROSS the casing from the jamb outward rather than vertically; height_parts is therefore a width.\".",
   "see": [
     "pack:trim-classical",
-    "term:wall-plane"
+    "term:wall-plane",
+    "term:figure-drawn-turned",
+    "term:assembly-axis"
   ]
 }

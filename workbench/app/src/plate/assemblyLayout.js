@@ -46,13 +46,36 @@
    inside `top`/`bottom` where they fit — `overflow` says so where they do not, rather than
    overlapping them.
 
+   A TURNED ASSEMBLY IS LAID ON ITS SIDE, AND ITS EXTENT IS SWAPPED (WP-14.24, PRD tranche 2 §C.3,
+   §C.9). An assembly whose record declares `axis: "across-from-the-jamb"` — `trim-classical`'s
+   three casings, each on its own reveal member's note — runs outward from the jamb, so each
+   member's `height_in` is a WIDTH. The server's geometry stays upright (`build/profiles.py` is not
+   told the axis), and the plate turns it with ONE `rotate` beside its translate and scale, so the
+   drawn box is the served box turned: `extentOf` gives such an assembly the swapped extent — its
+   horizontal extent is the jamb to the far edge, 0 to `height_in`, and its vertical one (`minY`,
+   `maxY`) is what the served figures give as the extent from the wall plane. The plate hangs it
+   from the wall plane as a plan section does: the jamb at the left, the members reading outward
+   left to right in their own order, the wall above the plane and the profile below it. An
+   assembly's frame is decided by its DRAWN height, which for a turned one is its depth off the
+   wall plus the wall strip above that plane, so three casings an inch or so deep are not drawn at
+   the scale of a nine-foot wall.
+
+   A ZONED ASSEMBLY RESERVES ROOM BEHIND ITS WALL STRIP for the zone dimension line the plate
+   draws along the wall (`ZONE_FRAC` of the frame's height, a fraction for the reason the gutter
+   is one). Zones are the pack's (`zones: [{name, to_parts}]`, held to the members by
+   `build/check_orders.py`); nothing here reads where one ends.
+
    Pure; imports only the corpus's notation. */
 import { feetInches16 } from '../fmt.js';
 
 export const JOIN_RATIO = 2;          // a frame's tallest is at most twice a joining assembly's height
 export const GUTTER_FRAC = 0.35;      // room after each item's face for its leaders, of the frame height
 export const WALL_STRIP_FRAC = 0.06;  // the nominal hatched wall strip behind the plane, of the frame height
+export const ZONE_FRAC = 0.1;         // room behind a zoned item's wall strip for its zone dimension line
 export const SCALE_BAR_FRAC = 0.25;   // the scale bar is at most this share of the frame height
+/* The one axis value that turns an assembly (schema/proportion-pack.schema.json's `axis` enum);
+   absent, or `up-the-wall`, it rises up the wall as every stack does. */
+export const TURNED_AXIS = 'across-from-the-jamb';
 export const SCALE_LADDER_IN = Object.freeze([
   1 / 16, 1 / 8, 1 / 4, 1 / 2, 1, 2, 3, 6, 12, 18, 24, 36, 48, 72, 96, 120, 144, 240,
 ]);
@@ -67,8 +90,29 @@ function swept(a0, a1, t) {
   return t + k * TAU <= hi + 1e-12;
 }
 
-/* The horizontal extent a served assembly draws, measured from the wall plane. */
+/* Does the record turn this assembly? Only the pack's own `axis` says so. */
+export function isTurned(asm) {
+  return Boolean(asm) && asm.axis === TURNED_AXIS;
+}
+
+/* Does the record divide this assembly into zones? At least two, as the schema requires; a
+   malformed list is not a division and reserves nothing. */
+export function hasZones(asm) {
+  return Boolean(asm) && Array.isArray(asm.zones) && asm.zones.length >= 2;
+}
+
+/* The extent a served assembly draws. Upright: the horizontal extent, measured from the wall
+   plane. Turned: SWAPPED — `minX`/`maxX` run from the jamb (0) to `height_in`, and `minY`/`maxY`
+   are the served figures' extent from the wall plane, which the plate lays down the page. */
 export function extentOf(asm) {
+  const e = wallExtentOf(asm);
+  if (!isTurned(asm)) return e;
+  const h = num(asm.height_in);
+  return { minX: 0, maxX: h !== null && h > 0 ? h : 0, minY: e.minX, maxY: e.maxX, extentFrom: e.extentFrom, turned: true };
+}
+
+/* The extent measured from the wall plane, whichever way the assembly runs. */
+function wallExtentOf(asm) {
   const xs = [];
   const faces = asm && asm.geometry && Array.isArray(asm.geometry.faces) ? asm.geometry.faces : null;
   if (faces && faces.length) {
@@ -98,6 +142,17 @@ export function scaleBarIn(heightIn) {
   return best === null ? SCALE_LADDER_IN[0] : best;
 }
 
+/* The height a frame must be to hold a TURNED assembly hung from its wall plane: the wall strip
+   (or anything behind the plane, whichever is deeper) and any zone reserve above the plane, the
+   profile below it. Both reserves are fractions of the frame's own height, so the height is the
+   least H with max(WALL_STRIP_FRAC·H, behind) + ZONE_FRAC·H·[zoned] + depth ≤ H — each branch of
+   the max solved on its own. */
+function turnedNeed(ext, zoned) {
+  const depth = Math.max(0, ext.maxY), behind = Math.max(0, -ext.minY);
+  const z = zoned ? ZONE_FRAC : 0;
+  return Math.max(depth / (1 - WALL_STRIP_FRAC - z), (behind + depth) / (1 - z));
+}
+
 export function assemblyLayout(assemblies, { box = null } = {}) {
   const list = Array.isArray(assemblies) ? assemblies : [];
   const placeable = [];
@@ -108,39 +163,79 @@ export function assemblyLayout(assemblies, { box = null } = {}) {
     if (id === null) unplaced.push({ id: null, index, reason: 'the assembly states no id' });
     else if (h === null) unplaced.push({ id, index, reason: 'the assembly states no height_in' });
     else if (h <= 0) unplaced.push({ id, index, reason: `height_in is ${h}; nothing to draw at no height` });
-    else placeable.push({ a, id, index, h });
+    else {
+      const ext = extentOf(a);
+      const turned = ext.turned === true;
+      const zoned = hasZones(a);
+      // the page height the item needs: upright, its height; turned, its depth hung from the wall
+      const need = turned ? turnedNeed(ext, zoned) : h;
+      if (turned && !(need > 0)) {
+        unplaced.push({ id, index, reason: 'turned across the jamb, it projects nothing from the wall plane; nothing to draw at no depth' });
+      } else placeable.push({ a, id, index, h, ext, turned, zoned, need });
+    }
   });
 
-  // tallest first, stably by declaration
-  const byHeight = [...placeable].sort((p, q) => (q.h - p.h) || (p.index - q.index));
+  // tallest (as drawn) first, stably by declaration
+  const byHeight = [...placeable].sort((p, q) => (q.need - p.need) || (p.index - q.index));
   const groups = [];
   for (const p of byHeight) {
     const cur = groups[groups.length - 1];
-    if (cur && cur[0].h <= JOIN_RATIO * p.h) cur.push(p);
+    if (cur && cur[0].need <= JOIN_RATIO * p.need) cur.push(p);
     else groups.push([p]);
   }
 
   const frames = groups.map((g, fi) => {
-    const heightIn = g[0].h;
+    const heightIn = g[0].need;
     const gutterIn = GUTTER_FRAC * heightIn;
     const wallIn = WALL_STRIP_FRAC * heightIn;
+    const zoneIn = ZONE_FRAC * heightIn;
     const inOrder = [...g].sort((p, q) => p.index - q.index);
     let cursor = 0;
     const items = inOrder.map((p) => {
-      const ext = extentOf(p.a);
-      const behind = Math.max(wallIn, -ext.minX);
-      const xIn = cursor + behind;
-      const item = {
-        id: p.id,
-        index: p.index,
-        xIn,
-        heightIn: p.h,
-        leftIn: xIn - behind,
-        rightIn: xIn + ext.maxX,
-        minXIn: ext.minX,
-        maxXIn: ext.maxX,
-        extentFrom: ext.extentFrom,
-      };
+      const { ext } = p;
+      const zoneReserveIn = p.zoned ? zoneIn : 0;
+      let item;
+      if (!p.turned) {
+        // behind the plane: the wall strip, or a hollow deeper than it, then the zone reserve
+        const stripIn = Math.max(wallIn, -ext.minX);
+        const xIn = cursor + stripIn + zoneReserveIn;
+        item = {
+          id: p.id,
+          index: p.index,
+          turned: false,
+          xIn,
+          heightIn: p.h,
+          sizeIn: p.h,
+          leftIn: cursor,
+          rightIn: xIn + ext.maxX,
+          minXIn: ext.minX,
+          maxXIn: ext.maxX,
+          stripIn,
+          zoneReserveIn,
+          extentFrom: ext.extentFrom,
+        };
+      } else {
+        // hung from its wall plane: the jamb at the item's left, the plane `planeIn` below the
+        // frame's top (the strip and the zone reserve above it), the profile below the plane
+        const stripIn = Math.max(wallIn, -ext.minY);
+        const planeIn = stripIn + zoneReserveIn;
+        item = {
+          id: p.id,
+          index: p.index,
+          turned: true,
+          xIn: cursor,
+          heightIn: p.h,
+          sizeIn: planeIn + Math.max(0, ext.maxY),
+          leftIn: cursor,
+          rightIn: cursor + p.h,
+          planeIn,
+          minXIn: ext.minY,
+          maxXIn: ext.maxY,
+          stripIn,
+          zoneReserveIn,
+          extentFrom: ext.extentFrom,
+        };
+      }
       cursor = item.rightIn + gutterIn;
       return item;
     });
@@ -151,7 +246,7 @@ export function assemblyLayout(assemblies, { box = null } = {}) {
       scale.pxPerIn = Math.min(box.widthPx / widthIn, box.heightPx / heightIn);
       scale.barPx = barIn * scale.pxPerIn;
     }
-    return { index: fi, heightIn, widthIn, gutterIn, wallIn, items, scale };
+    return { index: fi, heightIn, widthIn, gutterIn, wallIn, zoneIn, items, scale };
   });
 
   return { frames, unplaced };

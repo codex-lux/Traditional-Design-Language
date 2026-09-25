@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**231 questions, of which 130 are open.** A question is OPEN while
+**233 questions, of which 131 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 130
+## Open — 131
 
 Awaiting a ruling. This is the list to read first.
 
@@ -105,9 +105,9 @@ Awaiting a ruling. This is the list to read first.
 | **oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms** | HALF CLOSED — doors and windows built in WP-11.14 (8 September 2026); the sweep of the other exterior marks is open | [the seventh layer that reads one rectangle](open-questions/oq-an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms.md) |
 | **oq/an-undecided-scout-releases-every-type-fact-at-once** | OPEN | [the ladder's answer to a model it cannot decide](open-questions/oq-an-undecided-scout-releases-every-type-fact-at-once.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
-| **oq/casings-are-measured-across-and-drawn-upright** | IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 (data and checker) and WP-14.24 (the plate) | [an assembly's axis and its zones are stated only in prose, so a plate can draw neither](open-questions/oq-casings-are-measured-across-and-drawn-upright.md) |
 | **oq/clear-counts-a-pass-and-a-tautology-as-one-thing** | OPEN | [half the faults this corpus clears are cleared on the generator's own output](open-questions/oq-clear-counts-a-pass-and-a-tautology-as-one-thing.md) |
 | **oq/fifteen-of-sixteen-plans-name-no-parti** | OPEN | [the facade layer is silent on 94% of this corpus](open-questions/oq-fifteen-of-sixteen-plans-name-no-parti.md) |
+| **oq/four-assemblies-state-projection-parts-as-a-run-a-face-or-a-width** | OPEN | [four assemblies write a horizontal run, a face length or a pier width in the field that means a projection, and the plate draws each as a projection](open-questions/oq-four-assemblies-state-projection-parts-as-a-run-a-face-or-a-width.md) |
 | **oq/fourteen-of-sixteen-plans-name-no-massing** | OPEN | [every massing-gated check is silent on 87.5% of the plan records](open-questions/oq-fourteen-of-sixteen-plans-name-no-massing.md) |
 | **oq/no-plan-record-states-its-bearing** | OPEN | [the compass rule is executed under an assumption on 16 of 16 plans](open-questions/oq-no-plan-record-states-its-bearing.md) |
 | **oq/no-tool-answers-which-styles-use-a-pack** | OPEN | [the assistant is told which pack is on the page, and no tool it has can say which styles use it](open-questions/oq-no-tool-answers-which-styles-use-a-pack.md) |
@@ -117,6 +117,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
 | **oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either** | OPEN | [two ruled packages, and their composition is worse than either alone](open-questions/oq-the-bay-parity-and-the-band-ranking-compose-worse-than-either.md) |
 | **oq/the-canon-axis-counts-two-grains-as-one** | OPEN | ["23 could not be evaluated" out of a denominator of 10](open-questions/oq-the-canon-axis-counts-two-grains-as-one.md) |
+| **oq/the-ceiling-and-opening-sliders-show-on-packs-that-read-neither** | OPEN | [the Proportions page offers a ceiling and an opening slider on every non-order pack, and 22 of the 32 name neither in any rule](open-questions/oq-the-ceiling-and-opening-sliders-show-on-packs-that-read-neither.md) |
 | **oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw** | OPEN | [the job route strips its record and the bench re-solves it, so the panel's key and the plate are two houses](open-questions/oq-the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw.md) |
 | **oq/the-composer-ranks-first-a-house-that-may-not-be-drawn** | OPEN | [`_sort_key` never reads the refusal written onto the dict it sorts](open-questions/oq-the-composer-ranks-first-a-house-that-may-not-be-drawn.md) |
 | **oq/the-composer-ranks-on-an-assumed-bearing** | OPEN | [an aspect verdict entered the fitness function without being ruled into it](open-questions/oq-the-composer-ranks-on-an-assumed-bearing.md) |
@@ -163,7 +164,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — ruled 25 Sep 2026; WP-14.18 declared `room-harmonic` and check 19 refused the other two class-A packs | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 101
+## Settled — 102
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -251,6 +252,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/a-surveyors-prose-may-source-an-envelope-figure** | RULED 5 Sep 2026 | [may a HABS written-data quote source a `measured` kit parameter?](open-questions/oq-a-surveyors-prose-may-source-an-envelope-figure.md) |
 | **oq/an-evaluation-whose-check-errored-names-no-plan** | CLOSED 25 September 2026 (WP-14.20) — on answer 1: the route names the plan, the journey reads it through one `evalPlanOf` | [the journey cannot tell which house an errored evaluation was of, so a refusal the route preserved reaches no step](open-questions/oq-an-evaluation-whose-check-errored-names-no-plan.md) |
 | **oq/an-exemplar-that-is-not-one-whole-building** | RULED 5 Sep 2026, the same day it was raised | [an archive, a body of work and a phase, and none of the three can carry a precedent](open-questions/oq-an-exemplar-that-is-not-one-whole-building.md) |
+| **oq/casings-are-measured-across-and-drawn-upright** | CLOSED 25 Sep 2026 — answer 1, executed by WP-14.18 (data and checker) and WP-14.24 (the plate) | [an assembly's axis and its zones are stated only in prose, so a plate can draw neither](open-questions/oq-casings-are-measured-across-and-drawn-upright.md) |
 | **oq/fetching-through-a-tier-the-proxy-denies** | RULED 31 Aug 2026 | [the egress denial is a policy, and two other tiers reach past it](open-questions/oq-fetching-through-a-tier-the-proxy-denies.md) |
 | **oq/forbidden-stops-the-pack-cascade** | CLOSED 28 Aug 2026 | [787 pack rules dimension a slot the resolved kit forbids, and nobody chose one of them](open-questions/oq-forbidden-stops-the-pack-cascade.md) |
 | **oq/mcp-proportions-serve-no-assemblies-for-non-order-packs** | CLOSED — ruled 25 Sep 2026 (answer 1), executed by WP-14.18 on 25 Sep 2026 | [the workbench will draw twenty-seven packs the MCP tool still reports as having no assemblies](open-questions/oq-mcp-proportions-serve-no-assemblies-for-non-order-packs.md) |

@@ -15,7 +15,7 @@ import {
   PAGE_SECTIONS, PROOF_FOLD, FILTER_SPEC, DEFAULT_DIAMETER_IN, RANGES, measureParam, requestFor,
   sliderAt, plateKind, faceCount, pageSections, authorityLines, sourceLines, invariantMark, invariantTally,
   proofOpen, ruleState, figureWords, rangeWords, usedByGroups, reachOf, packsOfStyle, packGroups,
-  packHref, assemblyWords, orderOf, authorityWords,
+  packHref, assemblyWords, orderOf, authorityWords, classASlider, zonesByAssembly,
 } from './proportions/page.js';
 import { parseHash } from './router.js';
 
@@ -289,8 +289,59 @@ test('the wall-datum plate draws served paths through a transform and builds no 
     assert.ok(!src.includes(banned), `AssemblyPlate.jsx reads ${banned}`);
   }
   assert.match(src, /wordOf\(lookup, 'member'\)/, 'the key’s words are the glossary’s');
-  assert.match(src, /<Term id="figure-drawn-from-record" \/> · <Term id="figure-drawn-upright" \/>/,
-    'the foot line is the two records');
+  assert.match(src, /wordOf\(lookup, 'zone'\)/, 'and the zone mark’s word is the zone record’s');
+  // WP-14.24: each frame's foot says how ITS assemblies run, each caption a record and each
+  // gated on what the frame holds -- "drawn upright" only where one rises up the wall
+  assert.match(src, /<Term id="figure-drawn-from-record" \/>/, 'drawn from the record, always');
+  assert.match(src, /\{upright && <> · <Term id="figure-drawn-upright" \/><\/>\}/,
+    'drawn upright only where an assembly rises up the wall');
+  assert.match(src, /\{turned && <> · <Term id="figure-drawn-turned" \/><\/>\}/,
+    'drawn turned only where one runs across from the jamb');
+});
+
+/* ---- WP-14.24: the class-A slider and the zones, at the pack's word ---- */
+
+test('a class-A slider is the pack’s own bound dimension, and no pack whose module is not bound gets one', () => {
+  const rw = classASlider('room_width');
+  assert.deepEqual(rw, { dimension: 'room_width', key: 'room_width', words: 'room width' });
+  assert.ok(RANGES[rw.key], 'the slider has a range');
+  assert.ok(FILTER_SPEC[rw.key] && FILTER_SPEC[rw.key].widens, 'carried in the address, as a reading and not a filter');
+  assert.equal(classASlider(null), null, 'a module bound to nothing has no slider');
+  assert.equal(classASlider(undefined), null);
+  assert.equal(classASlider('ceiling_height'), null, 'the ceiling already has its slider on every pack');
+  assert.equal(classASlider('storey_height'), null, 'a bound dimension the page does not carry shows none');
+  // the request sends the class-A input to the pack whose module IS it, and to no other
+  const params = { room_width: '240', ceiling: '108' };
+  assert.equal(requestFor({ isOrder: false, params, bound: 'room_width' }).room_width, 240);
+  assert.equal(requestFor({ isOrder: false, params, bound: null }).room_width, undefined,
+    'carried over by a pack click, it would move another pack’s rules with no slider saying so');
+  assert.equal(requestFor({ isOrder: false, params, bound: 'ceiling_height' }).room_width, undefined);
+  assert.equal(requestFor({ isOrder: false, params: {}, bound: 'room_width' }).room_width, undefined,
+    'no figure in the address: the pack is worked at its own default');
+  assert.equal(sliderAt('room_width', {}, 192, 0), 192, 'at rest the slider shows what the payload was worked at');
+  // the component reads the served binding and draws the slider only through classASlider
+  const src = live(read('surfaces/Proportions.jsx'));
+  assert.match(src, /classASlider\(\(data && data\.module_bound_to\)/);
+  assert.match(src, /\{classA && \(/, 'no class-A slider without a bound module');
+});
+
+test('the zones note says per assembly which carry the pack’s division and which carry none', () => {
+  const asms = [
+    { id: 'wall_g', zones: [{ name: 'pedestal', to_parts: 4 }, { name: 'field', to_parts: 16 }, { name: 'top', to_parts: 19 }] },
+    { id: 'wall_f' },
+    { id: 'casing', axis: 'across-from-the-jamb' },
+    { id: 'bad', zones: [{ name: 'one', to_parts: 5 }] },
+    {},
+  ];
+  assert.deepEqual(zonesByAssembly(asms), {
+    zoned: [{ id: 'wall_g', parts: '4 + 12 + 3' }],
+    unzoned: ['wall_f', 'casing', 'bad'],
+  });
+  assert.deepEqual(zonesByAssembly(null), { zoned: [], unzoned: [] });
+  const src = live(read('surfaces/Proportions.jsx'));
+  assert.match(src, /zonesByAssembly\(assemblies\)/, 'the note reads the served assemblies');
+  assert.doesNotMatch(src, /nothing in the record says where a zone ends/,
+    'the tranche-1 sentence is false of the Georgian wall since WP-14.18 and is gone');
 });
 
 test('the page says out loud what it will not draw', () => {

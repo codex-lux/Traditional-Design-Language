@@ -1,6 +1,6 @@
 # oq/casings-are-measured-across-and-drawn-upright — an assembly's axis and its zones are stated only in prose, so a plate can draw neither
 
-*Status: IN PROGRESS — ruled 25 Sep 2026, executed by WP-14.18 (data and checker) and WP-14.24 (the plate) · Raised in: WP-14.0 (24 September 2026)*
+*Status: CLOSED 25 Sep 2026 — answer 1, executed by WP-14.18 (data and checker) and WP-14.24 (the plate) · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding.** WP-14.4 serves every pack that has assemblies and no order stack, and WP-14.9
 draws them — `trim-classical` among them, the page Lucas was reading. Two facts a draughtsman would
@@ -126,3 +126,36 @@ ends"*, which is false of `trim-classical`'s Georgian wall from this commit. The
 the plate, and the record now holds the axis the plate will turn by. Both are WP-14.24's to
 change: the page file is outside WP-14.18's lane, and `glossary/figure-drawn-turned.json` is
 written here for the caption that package will draw.
+
+## Amended 25 September 2026: the plate half is built (WP-14.24), and the question closes
+
+WP-14.24 built the plate half (`docs/reports/wp-14.24-plates-at-the-packs-word.md`). The ruling
+said the question closes when that package lands, and it closes here.
+
+- **The casings are drawn turned.** `plate/assemblyLayout.js::extentOf` swaps the extent of an
+  assembly declaring `across-from-the-jamb`, and `plate/assemblyPlan.js::bandTransform` adds one
+  `rotate(90)` between the translate and the scale. The served paths are not touched, so no arc
+  arithmetic reaches JavaScript and `OrderPlate` is unchanged. On `trim-classical` the three
+  casings stand in a frame of their own, hanging from their wall plane with the jamb at the left,
+  and each drawn box is wider than it is tall (measured in the browser walk, `⑩c`). The wall
+  sections stay upright.
+- **The Georgian wall prints its zones.** `zoneString` is the one reading of the served
+  `to_parts`: the differences `4 + 12 + 3`, and the same in feet and inches through
+  `feetInches16`, under the wall with zone ticks on a dimension line beside it. The Federal and
+  the Greek Revival sections, which carry no zones, print no string. A constant `4 + 12 + 3`
+  drawn on a Federal fixture turns `src/assemblyPlan.test.mjs` red, and the same mutation turns
+  the walk red.
+- **The two sentences this entry said were ahead of what they describe.** The page's
+  `data-refused="zones"` note is now true per assembly: it names the assemblies that carry the
+  pack's division and, separately, those the record gives none (`zonesByAssembly`). The
+  `figure-drawn-upright` record is rewritten for the plate that turns, and the caption is shown
+  only on a frame that draws something upright. *Drawn turned* (`figure-drawn-turned`, written by
+  WP-14.18) is shown only on a frame that draws something turned.
+
+**What this closure does not answer.** The entry's other finding was that four assemblies write
+a horizontal run, a face length or a pier width in `projection_parts`. It was offered as
+answer 2 and not ruled. It is raised as its own question,
+`oq/four-assemblies-state-projection-parts-as-a-run-a-face-or-a-width`, so that closing this one
+does not leave it with no home. Zones on the ORDER packs are
+`oq/six-order-assemblies-state-a-division-and-carry-no-zones` (WP-14.18), and nothing here
+changes it.

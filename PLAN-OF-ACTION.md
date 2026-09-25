@@ -4907,7 +4907,13 @@ set when it merges.
   - **The parti page** states its topology as a table and draws nothing.
   - **Found.** `core.get_slot`'s `specified_by_styles` reads each style's own kit file and counts a refusal as a specification. Over the 97 slots it lists 228 styles that FORBID the slot and misses 6,380 resolved specifiers; `cornice` lists 35 against 85, 10 of them forbidding it. The workbench reads the resolved kit now, and the tool is filed: `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`.
 - **WP-14.24 — plates at the pack's word.** Turned casings, zone strings, class-A sliders,
-  thumbnails. Wave 2. **Status: PLANNED.**
+  thumbnails. Wave 2. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.24-plates-at-the-packs-word.md`.
+  - **Turned casings.** An assembly declaring `across-from-the-jamb` is drawn turned: one `rotate(90)` in the band transform, no arc arithmetic in JS, and `OrderPlate` unchanged. `trim-classical`'s three casings draw wider than tall in a frame of their own.
+  - **Zones.** The Georgian wall prints `4 + 12 + 3` and `2'-0" + 6'-0" + 1'-6"`, read from the served zones; the Federal and Greek Revival sections print nothing.
+  - **Captions** are worded per frame from glossary records.
+  - **Class-A slider.** `room-harmonic` takes a `?room_width=` slider driven by the served binding, sent to no other pack.
+  - **Thumbnails.** The pack index draws a wall-datum thumbnail for the 27 stackless packs with assemblies, at 8.6 KB gzipped more, under its budget. Stacked orders get none: 10 of the 25 have no width at the wall datum.
+  - **Questions.** `oq/casings-are-measured-across-and-drawn-upright` closed. Filed: the ceiling and opening sliders show on 22 packs that read neither, and four assemblies state `projection_parts` as a run, a face or a width.
 - **WP-14.25 — the parti bridge on the page.** Wave 2. **Status: COMPLETE (25 Sep 2026)** — `docs/reports/wp-14.25-the-plan-type-starts-the-brief.md`.
   - **Dossier.** Every row of the Plan types section carries "start a brief from this plan type", worded by a new record, and its served nativity as a Term: 422 rows over 132 styles.
   - **Brief Intake.** A parti select, grouped native / lineage / borrowed, with borrowed partis behind an explicit filter. A `?parti=` seed, and a parti no group holds is shown as itself rather than dropped. The composer's refusal appears in its own words. Loading no longer draws a judgment mark.

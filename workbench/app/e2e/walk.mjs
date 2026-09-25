@@ -1733,6 +1733,224 @@ check(`⑩ every wall-datum plate keeps its labels inside and apart (${textBad.j
 check(`⑩ a pack with no assemblies says so and draws nothing (${refusedMissing.join(', ') || 'all'})`,
   refusedMissing.length === 0);
 
+// ⑩c PLATES AT THE PACK'S WORD (WP-14.24, PRD tranche 2 §C.9). Axis and zones are the pack's data
+// (Lucas, 25 Sep): a casing measured ACROSS from the jamb is drawn turned, an assembly the record
+// divides into zones carries its zone string, and a pack whose module IS a building dimension is
+// worked at the reader's figure for it. Every expectation below is read off the served payload --
+// which assemblies turn, which carry zones, what the string says -- so no count or id of a turned
+// or zoned assembly is written here. What this can see is geometry (the drawn boxes, the text a
+// plate prints); the paint half is WP-14.15's pixel guard in ⑩b, which must still pass.
+{
+  const tcApi = await (await fetch(`${BASE}/api/proportions/trim-classical?members=true`)).json();
+  const tcAsm = tcApi.assemblies || [];
+  const turnedIds = tcAsm.filter((a) => a.axis === 'across-from-the-jamb').map((a) => a.id);
+  const uprightIds = tcAsm.filter((a) => a.axis !== 'across-from-the-jamb').map((a) => a.id);
+  const zoneWant = Object.fromEntries(tcAsm.filter((a) => (a.zones || []).length).map((a) => {
+    const to = a.zones.map((z) => z.to_parts);
+    const diffs = to.map((t, i) => t - (i ? to[i - 1] : 0));
+    return [a.id, { parts: diffs.map(String).join(' + '),
+      inches: diffs.map((d) => fmtIn(d * tcApi.part_in)).join(' + ') }];
+  }));
+  await visit('#/proportions/trim-classical');
+  await page.waitForSelector('main [data-pack-page="trim-classical"] [data-bands]', { timeout: 30000 }).catch(() => {});
+  const tc = await page.evaluate(() => {
+    const root = document.querySelector('main [data-pack-page="trim-classical"]');
+    if (!root) return null;
+    const box = (el) => { const r = el.getBoundingClientRect(); return { w: r.width, h: r.height }; };
+    const items = {};
+    for (const it of root.querySelectorAll('svg[data-plate] [data-item]')) {
+      const g = it.querySelector('[data-bands]');
+      const zs = it.closest('svg').querySelector(`[data-zones="${it.getAttribute('data-item')}"]`);
+      items[it.getAttribute('data-item')] = {
+        axis: it.getAttribute('data-axis'), box: g ? box(g) : null,
+        string: zs && zs.querySelector('[data-zone-string]') ? zs.querySelector('[data-zone-string]').textContent.trim() : null,
+        inches: zs && zs.querySelector('[data-zone-inches]') ? zs.querySelector('[data-zone-inches]').textContent.trim() : null,
+      };
+    }
+    // the zone text, held to the frame and apart from every other text the plate prints --
+    // ⑩b's label check reads the plate's own labels and does not know these exist
+    const zoneText = [];
+    for (const svg of root.querySelectorAll('svg[data-plate]')) {
+      const vb = svg.viewBox.baseVal;
+      const bb = (t) => { const b = t.getBBox(); return [b.x, b.y, b.x + b.width, b.y + b.height]; };
+      const zones = [...svg.querySelectorAll('[data-zone-figure], [data-zone-string], [data-zone-inches]')].map(bb);
+      const others = [...svg.querySelectorAll('[data-label-text], [data-title], [data-legend] text, [data-scale-bar] text')].map(bb);
+      let outside = 0, overlap = 0;
+      for (const [x0, y0, x1, y1] of zones) if (x0 < -0.5 || y0 < -0.5 || x1 > vb.width + 0.5 || y1 > vb.height + 0.5) outside += 1;
+      const hit = (a, b) => Math.min(a[2], b[2]) - Math.max(a[0], b[0]) > 0.5 && Math.min(a[3], b[3]) - Math.max(a[1], b[1]) > 0.5;
+      for (let i = 0; i < zones.length; i++) {
+        for (let j = i + 1; j < zones.length; j++) if (hit(zones[i], zones[j])) overlap += 1;
+        for (const o of others) if (hit(zones[i], o)) overlap += 1;
+      }
+      zoneText.push({ plate: svg.getAttribute('data-plate'), zones: zones.length, outside, overlap });
+    }
+    const note = root.querySelector('[data-zones-note]');
+    const drawn = note && note.querySelector('[data-zones-drawn]');
+    const refused = note && note.querySelector('[data-refused="zones"]');
+    const feet = [...root.querySelectorAll('[data-foot]')].map((f) => ({
+      captions: f.getAttribute('data-captions'),
+      upright: Boolean(f.querySelector('[data-term="figure-drawn-upright"], [data-cite="term:figure-drawn-upright"]')),
+      turned: Boolean(f.querySelector('[data-term="figure-drawn-turned"], [data-cite="term:figure-drawn-turned"]')),
+    }));
+    return { items, zoneText, feet,
+      drawnIds: drawn ? drawn.getAttribute('data-zones-drawn').split(' ').filter(Boolean) : [],
+      refusedIds: refused ? refused.getAttribute('data-assemblies').split(' ').filter(Boolean) : [] };
+  });
+  const tcItems = tc ? tc.items : {};
+  const notTurned = turnedIds.filter((id) => !(tcItems[id] && tcItems[id].axis === 'turned' && tcItems[id].box
+    && tcItems[id].box.w > tcItems[id].box.h));
+  check(`⑩c trim-classical: every assembly the record turns is drawn turned, wider than tall (${turnedIds.map((id) => `${id} ${tcItems[id] && tcItems[id].box ? `${tcItems[id].box.w.toFixed(0)}×${tcItems[id].box.h.toFixed(0)}` : '—'}`).join(', ')})`,
+    turnedIds.length > 0 && notTurned.length === 0);
+  const notUpright = uprightIds.filter((id) => !(tcItems[id] && tcItems[id].axis === 'upright' && tcItems[id].box
+    && tcItems[id].box.h > tcItems[id].box.w));
+  check(`⑩c trim-classical: every other assembly stands upright, taller than wide (${notUpright.join(', ') || 'all'})`,
+    uprightIds.length > 0 && notUpright.length === 0);
+  const zoneIds = Object.keys(zoneWant);
+  const zoneBad = zoneIds.filter((id) => !(tcItems[id] && tcItems[id].string === zoneWant[id].parts
+    && tcItems[id].inches === zoneWant[id].inches));
+  check(`⑩c trim-classical: each zoned assembly prints the differences of its served to_parts (${zoneIds.map((id) => `${id} "${tcItems[id] && tcItems[id].string}" of "${zoneWant[id].parts}"`).join(', ')})`,
+    zoneIds.length > 0 && zoneBad.length === 0);
+  const strayZones = Object.keys(tcItems).filter((id) => !zoneWant[id] && tcItems[id].string !== null);
+  check(`⑩c trim-classical: an assembly the record gives no zones prints no zone string (${strayZones.join(', ') || 'none'})`,
+    strayZones.length === 0 && Object.keys(tcItems).length > zoneIds.length);
+  const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
+  check(`⑩c trim-classical: the zones note names the zoned and the unzoned as the payload does (${tc && tc.drawnIds.join(' ')} | ${tc && tc.refusedIds.join(' ')})`,
+    Boolean(tc) && sameSet(tc.drawnIds, zoneIds) && sameSet(tc.refusedIds, tcAsm.map((a) => a.id).filter((id) => !zoneWant[id])));
+  check(`⑩c trim-classical: the zone text stays inside its frame and clear of every other text (${tc && JSON.stringify(tc.zoneText)})`,
+    Boolean(tc) && tc.zoneText.some((t) => t.zones > 0) && tc.zoneText.every((t) => t.outside === 0 && t.overlap === 0));
+  // the caption says which way each frame is drawn, and only the way it IS drawn
+  const footBad = tc ? tc.feet.filter((f) => {
+    const cs = (f.captions || '').split(' ').filter(Boolean);
+    return f.upright !== cs.includes('upright') || f.turned !== cs.includes('turned') || !cs.length;
+  }) : [null];
+  check(`⑩c trim-classical: each frame's foot captions the orientation it draws, and no other (${tc && tc.feet.map((f) => f.captions).join(' / ')})`,
+    Boolean(tc) && tc.feet.length > 0 && footBad.length === 0
+      && tc.feet.some((f) => f.turned) && tc.feet.some((f) => f.upright));
+
+  // THE CLASS-A SLIDER: a pack whose module IS a building dimension is worked at the reader's
+  // figure for it. The pack is FOUND from the list's `module_bound_to`, not named; the head's
+  // module figure and a served rule must both move to the payload's values at two widths.
+  const listed = (await (await fetch(`${BASE}/api/proportions`)).json()).packs || [];
+  const bound = listed.find((p) => p.module_bound_to === 'room_width');
+  if (!bound) {
+    unjudged.push('⑩c a class-A slider moves its pack — no listed pack binds its module to room_width');
+    console.log(' N/EV ⑩c no listed pack binds its module to room_width');
+  } else {
+    // the sliders live in the strip's folded "at" group: open it, then read what it offers. A
+    // slider absent from a group nobody opened is absent from every page, which is how a
+    // no-slider check passes vacuously -- so the ceiling slider's presence is read as the premise
+    const openSliders = async () => {
+      const at = page.locator('button[aria-expanded="false"][title="Show the at filters"]').first();
+      if (await at.count()) { await at.click(); await page.waitForTimeout(200); }
+      return page.evaluate(() => ({
+        ceiling: Boolean(document.querySelector('input[type=range][aria-label="ceiling height, inches"]')),
+        classA: [...document.querySelectorAll('[data-class-a]')].map((e) => ({
+          dim: e.getAttribute('data-class-a'), value: (e.querySelector('input[type=range]') || {}).value ?? null })),
+      }));
+    };
+    const readAt = async (w) => {
+      const api = await (await fetch(`${BASE}/api/proportions/${bound.id}?members=true&room_width=${w}`)).json();
+      await visit(`#/proportions/${bound.id}?room_width=${w}`);
+      const want = fmtIn(api.module_in);
+      await page.waitForFunction(([pid, m]) => {
+        const el = document.querySelector(`main [data-pack-page="${pid}"] [data-module]`);
+        return el && el.textContent.includes(m);
+      }, [bound.id, want], { timeout: 30000 }).catch(() => {});
+      const byKey = {};
+      for (const r of api.derived_rules || []) (byKey[`${r.target_slot}.${r.dimension}`] ||= []).push(r);
+      const shown = await page.evaluate((pid) => {
+        const root = document.querySelector(`main [data-pack-page="${pid}"]`);
+        if (!root) return null;
+        const rules = {};
+        for (const tr of root.querySelectorAll('[data-rule]')) {
+          const f = tr.querySelector('[data-figure]');
+          (rules[tr.getAttribute('data-rule')] ||= []).push(f ? f.textContent.trim() : null);
+        }
+        const m = root.querySelector('[data-module]');
+        return { module: m ? m.textContent : '', rules };
+      }, bound.id);
+      return { api, want, byKey, shown, sliders: await openSliders() };
+    };
+    const at192 = await readAt(192);
+    const at288 = await readAt(288);
+    // the rows whose served value moves with the width -- those are the ones that prove it
+    const moving = Object.keys(at192.byKey).filter((k) => at288.byKey[k] && at192.byKey[k].length === 1
+      && at288.byKey[k].length === 1 && at192.byKey[k][0].units === 'in'
+      && at192.byKey[k][0].value !== at288.byKey[k][0].value);
+    const rowsAgree = (at) => moving.every((k) => at.shown && (at.shown.rules[k] || []).includes(fmtIn(at.byKey[k][0].value)));
+    check(`⑩c ${bound.id}: ?room_width= moves the module to the served figure (${at192.want} → ${at288.want})`,
+      Boolean(at192.shown && at288.shown) && at192.want !== at288.want
+        && at192.shown.module.includes(at192.want) && at288.shown.module.includes(at288.want));
+    check(`⑩c ${bound.id}: ?room_width= moves the rules to the served figures (${moving.length} rows that move)`,
+      moving.length > 0 && rowsAgree(at192) && rowsAgree(at288));
+    const offered = at288.sliders.classA;
+    check(`⑩c ${bound.id}: the page offers its class-A slider, resting at the address's width (${JSON.stringify(offered)})`,
+      at288.sliders.ceiling && offered.length === 1 && offered[0].dim === 'room_width' && offered[0].value === '288');
+    // and moving it writes the address, the way ?ceiling= is written -- the URL decides
+    const want240 = fmtIn((await (await fetch(`${BASE}/api/proportions/${bound.id}?members=true&room_width=240`)).json()).module_in);
+    await page.evaluate(() => {
+      const el = document.querySelector('[data-class-a="room_width"] input[type=range]');
+      if (!el) return;
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, '240');
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await page.waitForFunction(([pid, m]) => {
+      const el = document.querySelector(`main [data-pack-page="${pid}"] [data-module]`);
+      return /room_width=240\b/.test(location.hash) && el && el.textContent.includes(m);
+    }, [bound.id, want240], { timeout: 30000 }).catch(() => {});
+    const moved = await page.evaluate((pid) => ({ hash: location.hash,
+      module: (document.querySelector(`main [data-pack-page="${pid}"] [data-module]`) || {}).textContent || '' }), bound.id);
+    check(`⑩c ${bound.id}: moving the slider writes ?room_width= and re-dimensions the pack (${moved.hash}, ${want240})`,
+      /room_width=240\b/.test(moved.hash) && moved.module.includes(want240) && want240 !== at288.want);
+    // and no other pack offers one: a pack whose module is bound to nothing, and a pack whose
+    // module is bound to a dimension every pack already has a slider for (the ceiling)
+    const others = [listed.find((p) => !p.module_bound_to && p.drawing === 'assemblies'),
+      listed.find((p) => p.module_bound_to && p.module_bound_to !== 'room_width')].filter(Boolean);
+    for (const o of others) {
+      await visit(`#/proportions/${o.id}?room_width=288`);
+      await page.waitForSelector(`main [data-pack-page="${o.id}"] [data-module]`, { timeout: 30000 }).catch(() => {});
+      const sl = await openSliders();
+      check(`⑩c ${o.id}: a pack whose module is ${o.module_bound_to || 'bound to nothing'} offers no class-A slider, whatever the address carries (${sl.classA.map((c) => c.dim).join(', ') || 'none'})`,
+        sl.ceiling && sl.classA.length === 0);
+    }
+    check(`⑩c the no-slider half has both of its cases (${others.map((o) => o.id).join(', ')})`, others.length === 2);
+  }
+
+  // THE INDEX THUMBNAILS: one per pack the list serves a thumbnail for, drawn member for served
+  // face, and none -- a stated blank -- for a pack with no assemblies or a stacked order.
+  await visit('#/proportions');
+  await page.waitForSelector('main [data-pack-list] [data-pack-row]', { timeout: 20000 }).catch(() => {});
+  const idx = await page.evaluate(() => {
+    const out = {};
+    for (const row of document.querySelectorAll('main [data-pack-list] [data-pack-row]')) {
+      const svg = row.querySelector('svg[data-thumb]');
+      const none = row.querySelector('[data-thumb-none]');
+      out[row.getAttribute('data-pack-row')] = {
+        thumb: svg ? svg.getAttribute('data-thumb') : null,
+        assembly: svg ? svg.getAttribute('data-thumb-assembly') : null,
+        members: svg ? svg.querySelectorAll('[data-thumb-member]').length : 0,
+        none: none ? none.getAttribute('data-thumb-none') : null,
+      };
+    }
+    return out;
+  });
+  const thumbBad = [], thumbStray = [];
+  for (const p of listed) {
+    const row = idx[p.id];
+    if (!row) { thumbBad.push(`${p.id} not listed`); continue; }
+    if (p.thumb) {
+      if (row.thumb !== p.id || row.assembly !== p.thumb.assembly || row.members !== (p.thumb.geometry.faces || []).length)
+        thumbBad.push(`${p.id} ${row.members}/${(p.thumb.geometry.faces || []).length}`);
+    } else if (row.thumb || row.none === null) thumbStray.push(`${p.id} (${p.drawing || 'no assemblies'})`);
+  }
+  check(`⑩c the index draws each served thumbnail, member for served face (${listed.filter((p) => p.thumb).length} packs; ${thumbBad.join(', ') || 'none short'})`,
+    listed.some((p) => p.thumb) && thumbBad.length === 0);
+  check(`⑩c a pack with no assemblies, or a stacked order, draws no thumbnail and says which (${thumbStray.join(', ') || 'none drawn'})`,
+    listed.some((p) => !p.drawing) && thumbStray.length === 0
+      && listed.filter((p) => !p.thumb).every((p) => idx[p.id] && idx[p.id].none === (p.drawing || 'none')));
+}
+await shot('proportions-plates-at-the-packs-word', [1440, 1280]);
+
 // ⑨ Fault Corpus
 await visit('#/faults');
 await page.waitForSelector('text=solecisms', { timeout: 15000 });

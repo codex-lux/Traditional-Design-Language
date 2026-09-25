@@ -13,17 +13,22 @@
    learn. The number of `path[data-asm]` it draws is the number of faces served, whatever that
    number is.
 
-   IT WRITES NO WORD A GLOSSARY RECORD SHOULD. The in-frame key's three words are the records
-   `member`, `wall-plane` and `part` (through `wordOf`, since a `Term` is a button and cannot sit
-   in an SVG), the same three stand as `Term`s over the numeral key, and the foot line is the two
-   records `figure-drawn-from-record` and `figure-drawn-upright`. The member names and heights on
-   the leaders are the payload's, in the engine's own notation (`feetInches16`).
+   IT WRITES NO WORD A GLOSSARY RECORD SHOULD. The in-frame key's words are the records
+   `member`, `wall-plane`, `part` and `zone` (through `wordOf`, since a `Term` is a button and
+   cannot sit in an SVG), the same stand as `Term`s over the numeral key, and each frame's foot
+   line is the records `figure-drawn-from-record` and, by what the frame holds,
+   `figure-drawn-upright` and `figure-drawn-turned`. The member names and heights on the leaders
+   are the payload's, in the engine's own notation (`feetInches16`).
 
-   IT DRAWS WHAT THE RECORD HOLDS AND NOTHING THE RECORD HOLDS ONLY AS PROSE: every assembly
-   upright from the wall plane (a casing is measured ACROSS its face, and the pack says so only in
-   a member note — `oq/casings-are-measured-across-and-drawn-upright`), and no 4 + 12 + 3 zone
-   dimension string, because the zones are an invariant sentence and not a structure a boundary
-   can be read from. Both refusals are said on the page, by the foot line and by the page.
+   IT DRAWS WHAT THE RECORD HOLDS, AT THE PACK'S WORD (WP-14.24). Until tranche 2 a casing's
+   axis and a wall's zones were in the pack only as prose, so this plate drew every assembly
+   upright and no zone string, and said so. The pack now states both as data
+   (`oq/casings-are-measured-across-and-drawn-upright`, ruled 25 Sep 2026; WP-14.18 declared
+   them): an assembly declaring `axis: "across-from-the-jamb"` is drawn TURNED, by one `rotate`
+   in `plate/assemblyPlan.js`, and one declaring `zones` carries its zone ticks and its zone
+   string, the differences of its served `to_parts`. An assembly declaring neither is drawn
+   upright with no string, and the frame's foot says which it is: "drawn upright" appears only
+   where an assembly rises up the wall, "drawn turned" only where one runs across from the jamb.
 
    IT LAYS OUT NOTHING ITSELF. `plate/assemblyLayout.js` decides the frames and their scale,
    `plate/assemblyPlan.js` every pixel inside a frame (leaders, labels, numerals, ticks, the
@@ -39,7 +44,7 @@ import { useGlossary } from '../api/useGlossary.js';
 import { wordOf } from '../glossary/termView.js';
 import { fitLine, useFontMetrics } from '../sheet/label.js';
 import { assemblyLayout } from '../plate/assemblyLayout.js';
-import { planFrame, PAD_X, LINE_PX, TITLE_FONT_PX } from '../plate/assemblyPlan.js';
+import { planFrame, planThumb, PAD_X, LINE_PX, TITLE_FONT_PX } from '../plate/assemblyPlan.js';
 import { assemblyWords } from '../proportions/page.js';
 import { feetInches16 } from '../fmt.js';
 
@@ -69,31 +74,36 @@ function FrameSvg({ plan, name, hatchId }) {
         </pattern>
       </defs>
       {plan.items.map((it) => (
-        <g key={it.id} data-item={it.id}>
+        <g key={it.id} data-item={it.id} data-axis={it.turned ? 'turned' : 'upright'}>
           {/* the nominal wall behind the plane: interface furniture, not a record of any wall */}
           <rect data-furniture="wall-strip" aria-hidden="true" x={it.strip.x} y={it.strip.y}
             width={it.strip.width} height={it.strip.height}
             style={{ fill: `url(#${hatchId})`, stroke: 'none' }} />
-          <g transform={it.transform}>
-            {it.bands.map((b) => (
-              <path key={b.member} data-asm={b.asm} data-member={b.member}
-                data-unconstructed={b.unconstructed ? '' : undefined} d={b.d}
-                vectorEffect="non-scaling-stroke"
-                style={{ fill: 'var(--paper-lit)', stroke: 'var(--ink)', strokeWidth: 0.9,
-                  strokeDasharray: b.unconstructed ? '3 2' : undefined }}>
-                <title>{`${b.name} · ${feetInches16(b.heightIn)}`}</title>
-              </path>
-            ))}
+          {/* the bands, measured as drawn: this group has no transform of its own, so its box is
+              the served faces' box after the plan's one translate, rotate and scale */}
+          <g data-bands={it.id}>
+            <g transform={it.transform}>
+              {it.bands.map((b) => (
+                <path key={b.member} data-asm={b.asm} data-member={b.member}
+                  data-unconstructed={b.unconstructed ? '' : undefined} d={b.d}
+                  vectorEffect="non-scaling-stroke"
+                  style={{ fill: 'var(--paper-lit)', stroke: 'var(--ink)', strokeWidth: 0.9,
+                    strokeDasharray: b.unconstructed ? '3 2' : undefined }}>
+                  <title>{`${b.name} · ${feetInches16(b.heightIn)}`}</title>
+                </path>
+              ))}
+            </g>
           </g>
           {/* the wall plane every projection is measured from */}
-          <line data-wall-plane="" x1={it.chain.x} y1={it.chain.y0} x2={it.chain.x} y2={it.chain.y1}
+          <line data-wall-plane="" x1={it.chain.x1} y1={it.chain.y1} x2={it.chain.x2} y2={it.chain.y2}
             vectorEffect="non-scaling-stroke"
             style={{ stroke: 'var(--ink-2)', strokeWidth: 0.7, strokeDasharray: '12 3 2 3' }} />
-          {it.ticks.map((y, j) => (
-            <line key={j} data-part-tick="" x1={it.chain.x - Math.min(6, it.strip.width)} y1={y}
-              x2={it.chain.x} y2={y} vectorEffect="non-scaling-stroke"
+          {it.ticks.map(([x1, y1, x2, y2], j) => (
+            <line key={j} data-part-tick="" x1={x1} y1={y1} x2={x2} y2={y2}
+              vectorEffect="non-scaling-stroke"
               style={{ stroke: 'var(--draw-dim)', strokeWidth: 0.7 }} />
           ))}
+          {it.zones && <ZoneMarks it={it} />}
           <ItemTitle it={it} />
         </g>
       ))}
@@ -119,6 +129,42 @@ function ItemTitle({ it }) {
       style={{ ...INK2, font: `${fit.size}px var(--serif)`, letterSpacing: `${fit.track}px` }}>
       {text}
     </text>
+  );
+}
+
+/* The pack's own division of an assembly: a dimension line along the wall behind the strip, a
+   tick at every boundary, each zone's figure in parts beside its run (its name and inches on
+   hover), and the zone string under the assembly -- in parts, then in inches. Every figure is
+   `zoneString`'s reading of the served `to_parts`; nothing here computes one. */
+function ZoneMarks({ it }) {
+  const z = it.zones;
+  const dim = { stroke: 'var(--ink-2)', strokeWidth: 0.7 };
+  return (
+    <g data-zones={it.id}>
+      {z.line && (
+        <line data-zone-line="" x1={z.line.x1} y1={z.line.y1} x2={z.line.x2} y2={z.line.y2}
+          vectorEffect="non-scaling-stroke" style={dim} />
+      )}
+      {z.ticks.map(([x1, y1, x2, y2], j) => (
+        <line key={j} data-zone-tick="" x1={x1} y1={y1} x2={x2} y2={y2}
+          vectorEffect="non-scaling-stroke" style={dim} />
+      ))}
+      {z.figures.map((f, j) => (
+        <text key={j} data-zone-figure={f.run.parts} x={f.x} y={f.y} textAnchor={f.anchor}
+          style={{ ...INK2, font: `${f.font}px var(--serif)` }}>
+          <title>{[f.run.name, f.run.parts, f.run.inches].filter(Boolean).join(' · ')}</title>
+          {f.run.parts}
+        </text>
+      ))}
+      {z.string && (
+        <text data-zone-string={z.parts} x={z.string.x} y={z.string.y}
+          style={{ ...INK, font: `${z.string.font}px var(--serif)` }}>{z.parts}</text>
+      )}
+      {z.inchesLine && (
+        <text data-zone-inches={z.inches} x={z.inchesLine.x} y={z.inchesLine.y}
+          style={{ ...INK2, font: `${z.inchesLine.font}px var(--serif)` }}>{z.inches}</text>
+      )}
+    </g>
   );
 }
 
@@ -167,6 +213,16 @@ function Legend({ legend }) {
           {e.kind === 'tick' && (
             <line x1={e.x} y1={e.y - 1} x2={e.x + e.markW} y2={e.y - 1} vectorEffect="non-scaling-stroke"
               style={{ stroke: 'var(--draw-dim)', strokeWidth: 0.7 }} />
+          )}
+          {e.kind === 'zone' && (
+            <g>
+              <line x1={e.x} y1={e.y - 1} x2={e.x + e.markW} y2={e.y - 1} vectorEffect="non-scaling-stroke"
+                style={{ stroke: 'var(--ink-2)', strokeWidth: 0.7 }} />
+              {[e.x, e.x + e.markW].map((xx, i) => (
+                <line key={i} x1={xx} y1={e.y - 4} x2={xx} y2={e.y + 2} vectorEffect="non-scaling-stroke"
+                  style={{ stroke: 'var(--ink-2)', strokeWidth: 0.7 }} />
+              ))}
+            </g>
           )}
           {e.word && (
             <text x={e.wordX} y={e.y + 2.5} style={{ ...INK2, font: '10.5px var(--serif)' }}>{e.word}</text>
@@ -234,7 +290,8 @@ export function AssemblyPlate({ data }) {
   const layout = assemblyLayout(assemblies, { box });
   const lookup = glossary.status === 'ready' ? glossary.lookup : null;
   const legendWords = lookup
-    ? { member: wordOf(lookup, 'member'), wallPlane: wordOf(lookup, 'wall-plane'), part: wordOf(lookup, 'part') }
+    ? { member: wordOf(lookup, 'member'), wallPlane: wordOf(lookup, 'wall-plane'), part: wordOf(lookup, 'part'),
+      zone: wordOf(lookup, 'zone') }
     : {};
   const plans = box
     ? layout.frames.map((f) => planFrame(f, byId, { partIn: data.part_in, measure, legendWords })).filter(Boolean)
@@ -253,8 +310,10 @@ export function AssemblyPlate({ data }) {
           </PlateViewer>
           <div data-key-terms="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 2px 0' }}>
             <Term id="member" /> · <Term id="wall-plane" /> · <Term id="part" />
+            {plan.items.some((it) => it.zones) && <> · <Term id="zone" /></>}
           </div>
           <NumeralKey plan={plan} />
+          <FrameFoot plan={plan} />
         </div>
       ))}
       {layout.unplaced.length > 0 && (
@@ -264,11 +323,56 @@ export function AssemblyPlate({ data }) {
           ))}
         </ul>
       )}
-      <p data-foot="" style={{ font: 'italic var(--fw-reg) 13px/1.5 var(--serif)', color: 'var(--ink-2)',
-        margin: '4px 2px 0' }}>
-        <Term id="figure-drawn-from-record" /> · <Term id="figure-drawn-upright" />
-      </p>
     </div>
+  );
+}
+
+/* A frame's foot: drawn from the record, and how each of its assemblies runs on the sheet —
+   "drawn upright" only where one rises up the wall (no axis declared, or `up-the-wall`), "drawn
+   turned" only where one runs across from the jamb. Both are glossary records; `data-captions`
+   names which, for the walk. */
+function FrameFoot({ plan }) {
+  const { upright, turned } = plan.orientations;
+  const captions = [upright && 'upright', turned && 'turned'].filter(Boolean).join(' ');
+  return (
+    <p data-foot={plan.index} data-captions={captions}
+      style={{ font: 'italic var(--fw-reg) 13px/1.5 var(--serif)', color: 'var(--ink-2)', margin: '4px 2px 0' }}>
+      <Term id="figure-drawn-from-record" />
+      {upright && <> · <Term id="figure-drawn-upright" /></>}
+      {turned && <> · <Term id="figure-drawn-turned" /></>}
+    </p>
+  );
+}
+
+/* A PACK'S FIRST ASSEMBLY, SMALL, FOR THE PACK INDEX (WP-14.24, PRD tranche 2 §C.9, §0.3 default
+   6). `thumb` is the list route's (`corpus._pack_thumb`): the first assembly the pack's own plate
+   draws, at the wall datum, served whole. `planThumb` fits it in the box under the same one
+   transform the plate uses, turned where the record turns it, and this draws its paths and
+   nothing else -- no curve, no word but the assembly's own id. A pack whose list row carries no
+   thumbnail (a stacked order, drawn on its column's axis; or a pack with no assembly) gets none. */
+export const THUMB_W = 40;
+export const THUMB_H = 52;
+
+export function AssemblyThumb({ pack, thumb }) {
+  const asm = thumb && typeof thumb === 'object'
+    ? { id: thumb.assembly, height_in: thumb.height_in, axis: thumb.axis, geometry: thumb.geometry } : null;
+  const plan = asm ? planThumb(asm, { widthPx: THUMB_W, heightPx: THUMB_H }) : null;
+  if (!plan) return null;
+  return (
+    <svg role="img" data-thumb={pack} data-thumb-assembly={thumb.assembly}
+      data-axis={plan.turned ? 'turned' : 'upright'} viewBox={`0 0 ${THUMB_W} ${THUMB_H}`}
+      width={THUMB_W} height={THUMB_H}
+      style={{ display: 'block', flex: 'none', background: 'var(--paper-lit)', border: '1px solid var(--rule-soft)' }}>
+      <title>{assemblyWords(thumb.assembly)}</title>
+      <g data-thumb-bands="">
+        <g transform={plan.transform}>
+          {plan.paths.map((p) => (
+            <path key={p.member} data-thumb-member={p.member} d={p.d} vectorEffect="non-scaling-stroke"
+              style={{ fill: 'var(--paper-lit)', stroke: 'var(--ink)', strokeWidth: 0.6 }} />
+          ))}
+        </g>
+      </g>
+    </svg>
   );
 }
 

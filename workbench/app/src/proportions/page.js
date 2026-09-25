@@ -21,10 +21,20 @@
 
    COUNTS ARE THE PAYLOAD'S. Nothing in this file states how many of anything a pack has.
 
-   Pure; imports only the router's address writer, the corpus's notation and the verdict leaf. */
+   A CLASS-A SLIDER IS DRIVEN BY THE PACK'S OWN WORD (WP-14.24, PRD tranche 2 §C.9). A pack whose
+   `module.equals` names a building dimension (`module_bound_to`, served on both routes) is worked
+   at the reader's figure for that dimension, and the page offers a slider for it -- `room_width`
+   on `room-harmonic`, the one WP-14.18 declared beside `trim-classical`'s ceiling. A pack whose
+   module is NOT bound gets no such slider, because a slider there would move nothing the pack is
+   made from (`oq/which-packs-module-is-a-building-input`: *"a slider on these would be a lie
+   about how they were set out"*), and the request never sends that input to it.
+
+   Pure; imports only the router's address writer, the corpus's notation, the verdict leaf and the
+   plate's one reading of a zone list. */
 import { formatHash } from '../router.js';
 import { feetInches16 } from '../fmt.js';
 import { judgmentOf, JUDGMENT_MARK, JUDGMENT_STATES } from '../judgment.js';
+import { zoneString } from '../plate/assemblyPlan.js';
 
 /* The page, top to bottom. Appended, never reordered: the walk and `proportionsPage.test.mjs`
    hold the plate before the proof. */
@@ -44,7 +54,33 @@ export const FILTER_SPEC = Object.freeze({
   ceiling: Object.freeze({ widens: true }),
   opening: Object.freeze({ widens: true }),
   diameter: Object.freeze({ widens: true }),
+  room_width: Object.freeze({ widens: true }),
 });
+
+/* The building dimensions a pack's module may be bound to that the page carries, each with its
+   address key. The ceiling and the opening have had sliders on every pack since WP-5.2, and
+   some packs' rules read them -- measured by WP-14.24, 10 of the 32 non-order packs name either
+   in an expression and 22 name neither, so on those 22 both sliders move nothing
+   (`oq/the-ceiling-and-opening-sliders-show-on-packs-that-read-neither`, not changed here); a
+   dimension marked `bound` has a slider ONLY on a pack whose module IS it. The
+   storey height is in the schema's enum and no pack binds it (WP-14.18 refused the one that
+   would), so it has no row: a bound dimension the page does not carry shows no slider, and the
+   plate's own note still says what the module is. */
+export const BUILDING_INPUTS = Object.freeze({
+  ceiling_height: Object.freeze({ key: 'ceiling', bound: false }),
+  opening_width: Object.freeze({ key: 'opening', bound: false }),
+  room_width: Object.freeze({ key: 'room_width', bound: true }),
+});
+
+/* The class-A slider a pack gets, from its served `module_bound_to`: `{ dimension, key, words }`,
+   or null where the module is not bound, is bound to a dimension that already has its slider on
+   every pack, or to one the page does not carry. `words` are the served dimension's own
+   characters, the way the plate's note prints it. */
+export function classASlider(bound) {
+  const input = typeof bound === 'string' ? BUILDING_INPUTS[bound] : null;
+  if (!input || !input.bound) return null;
+  return { dimension: bound, key: input.key, words: bound.replace(/_/g, ' ') };
+}
 
 /* The column diameter an order pack is dimensioned at when the address names none: the
    authorities route's own default (`app.py`), so the plate and the comparison beside it are
@@ -57,6 +93,10 @@ export const RANGES = Object.freeze({
   diameter: Object.freeze({ min: 6, max: 36, step: 1 }),
   ceiling: Object.freeze({ min: 84, max: 144, step: 2 }),
   opening: Object.freeze({ min: 18, max: 96, step: 2 }),
+  // 12 ft to 30 ft, from the only pack that binds it, in its own words:
+  // proportions/systems/room-harmonic.json module.note, "THE RANGE: 12-14 ft for a chamber or a
+  // closet, 16-20 ft for a principal room, 20-30 ft for a hall or a salone."
+  room_width: Object.freeze({ min: 144, max: 360, step: 6 }),
 });
 
 /* A measure from the address → a finite positive number, or null. A malformed value is not a
@@ -70,7 +110,7 @@ export function measureParam(raw) {
 /* What the request asks for: the address's measures, and for an order pack a diameter (the
    route default where the address names none). A measure the address does not name is NOT sent,
    so a pack whose module is bound to the ceiling is dimensioned at its own default (PRD §E.4). */
-export function requestFor({ isOrder, params }) {
+export function requestFor({ isOrder, params, bound = null }) {
   const p = params || {};
   const out = { members: true };
   if (isOrder) out.column_diameter = measureParam(p.diameter) ?? DEFAULT_DIAMETER_IN;
@@ -78,6 +118,13 @@ export function requestFor({ isOrder, params }) {
   const opening = measureParam(p.opening);
   if (ceiling !== null) out.ceiling_height = ceiling;
   if (opening !== null) out.opening_width = opening;
+  // a class-A input goes only to the pack whose module IS it: carried over by a pack click, it
+  // would otherwise move another pack's rules with no slider on the page saying so
+  const a = classASlider(bound);
+  if (a) {
+    const v = measureParam(p[a.key]);
+    if (v !== null) out[a.dimension] = v;
+  }
   return out;
 }
 
@@ -125,6 +172,24 @@ export function pageSections(data, { authorities } = {}) {
     proof: true,
   };
   return PAGE_SECTIONS.filter((s) => has[s]);
+}
+
+/* WHAT THE PAGE SAYS ABOUT ZONES, ASSEMBLY BY ASSEMBLY (WP-14.24). Tranche 1 said of every
+   plate that "nothing in the record says where a zone ends"; since WP-14.18 the Georgian wall
+   section's record does, and the sentence became false of it while staying true of the other
+   five on the same plate. So the page reads each served assembly: `zoned` carries the pack's
+   division (its string, `zoneString`'s one reading of the served `to_parts`), `unzoned` states
+   none. Declaration order, and an assembly with no id is not one to speak of. */
+export function zonesByAssembly(assemblies) {
+  const zoned = [];
+  const unzoned = [];
+  for (const a of Array.isArray(assemblies) ? assemblies : []) {
+    if (!a || typeof a.id !== 'string') continue;
+    const z = zoneString(a.zones, null);
+    if (z) zoned.push({ id: a.id, parts: z.parts });
+    else unzoned.push(a.id);
+  }
+  return { zoned, unzoned };
 }
 
 /* The pack's authority statements: the pack's own, then any assembly's that differs from it (an

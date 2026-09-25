@@ -34,7 +34,7 @@ import { PlateViewer } from '../components/PlateViewer.jsx';
 import { PullPane } from '../components/PullPane.jsx';
 import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
-import { AssemblyPlate } from '../components/AssemblyPlate.jsx';
+import { AssemblyPlate, AssemblyThumb, THUMB_W } from '../components/AssemblyPlate.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { nav } from '../state/nav.js';
 import { prefs } from '../state/prefs.js';
@@ -46,6 +46,7 @@ import {
   FILTER_SPEC, RANGES, PROOF_FOLD, DEFAULT_DIAMETER_IN, requestFor, sliderAt, plateKind,
   pageSections, authorityLines, sourceLines, authorityWords, invariantMark, invariantTally, proofOpen, ruleState, figureWords,
   rangeWords, usedByGroups, reachOf, packsOfStyle, packGroups, packHref, orderOf,
+  classASlider, zonesByAssembly, assemblyWords,
 } from '../proportions/page.js';
 
 function inches(v) {
@@ -380,13 +381,21 @@ function PackList({ groups, selection, params, packId, compact }) {
             <div key={p.id} data-pack-row={p.id} style={{ padding: compact ? '2px 12px' : '4px 0',
               borderLeft: compact ? `2px solid ${p.id === packId ? 'var(--gilt-deep)' : 'transparent'}` : 'none',
               background: compact && p.id === packId ? 'var(--paper-deep)' : 'transparent',
-              font: compact ? 'var(--type-data-s)' : 'var(--fw-reg) 14px/1.5 var(--serif)' }}>
-              <PackLink id={p.id} name={p.name} selection={selection} params={params} on={p.id === packId} />
-              {!compact && authorityWords(p.authority) && (
-                <div data-pack-authority="" style={{ ...NOTE, font: 'var(--fw-reg) 12px/1.45 var(--body)', maxWidth: '90ch' }}>
-                  {authorityWords(p.authority)}
-                </div>
-              )}
+              font: compact ? 'var(--type-data-s)' : 'var(--fw-reg) 14px/1.5 var(--serif)',
+              display: compact ? 'block' : 'flex', gap: 12, alignItems: 'flex-start' }}>
+              {/* WP-14.24: the pack's first assembly at the wall datum, from the list route's served
+                  geometry; a row whose pack has none keeps the column and draws nothing in it */}
+              {!compact && (p.thumb
+                ? <AssemblyThumb pack={p.id} thumb={p.thumb} />
+                : <span data-thumb-none={p.drawing || 'none'} aria-hidden="true" style={{ width: THUMB_W, flex: 'none' }} />)}
+              <div style={{ minWidth: 0 }}>
+                <PackLink id={p.id} name={p.name} selection={selection} params={params} on={p.id === packId} />
+                {!compact && authorityWords(p.authority) && (
+                  <div data-pack-authority="" style={{ ...NOTE, font: 'var(--fw-reg) 12px/1.45 var(--body)', maxWidth: '90ch' }}>
+                    {authorityWords(p.authority)}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -457,10 +466,7 @@ function Plate({ data }) {
               bind its module to a measure of your building, so no slider moves this drawing.</>}
         </p>
         <AssemblyPlate data={data} />
-        <p data-refused="zones" style={{ ...NOTE, margin: '8px 2px 0' }}>
-          No dimension string divides a wall into zones: the pack states its zones in an{' '}
-          <Term id="invariant" /> sentence and in notes, and nothing in the record says where a zone ends.
-        </p>
+        <ZonesNote assemblies={data.assemblies} />
       </section>
     );
   }
@@ -471,6 +477,34 @@ function Plate({ data }) {
         plate is drawn.
       </p>
     </section>
+  );
+}
+
+/* What is true of zones on THIS plate, assembly by assembly (WP-14.24): the ones whose record
+   gives the pack's division carry its zone string on the plate, and the ones whose record gives
+   none are named as drawing none. Tranche 1's one sentence for every plate ("nothing in the
+   record says where a zone ends") became false of the Georgian wall the day WP-14.18 declared it. */
+function ZonesNote({ assemblies }) {
+  const { zoned, unzoned } = zonesByAssembly(assemblies);
+  const names = (ids) => ids.map((id) => assemblyWords(id)).join(', ');
+  return (
+    <div data-zones-note="" style={{ margin: '8px 2px 0' }}>
+      {zoned.length > 0 && (
+        <p data-zones-drawn={zoned.map((z) => z.id).join(' ')} style={{ ...NOTE, margin: 0 }}>
+          Divided into <Term id="zone">zones</Term> as the record states:{' '}
+          {zoned.map((z, i) => (
+            <React.Fragment key={z.id}>{i > 0 && '; '}{assemblyWords(z.id)}, {z.parts}</React.Fragment>
+          ))}.
+        </p>
+      )}
+      {unzoned.length > 0 && (
+        <p data-refused="zones" data-assemblies={unzoned.join(' ')} style={{ ...NOTE, margin: zoned.length ? '4px 0 0' : 0 }}>
+          {zoned.length > 0
+            ? <>No zone string where the record gives an assembly no <Term id="zone">zones</Term>: {names(unzoned)}.</>
+            : <>No zone string: the record gives no assembly of this pack <Term id="zone">zones</Term>.</>}
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -732,7 +766,9 @@ export function Proportions({ selection }) {
 
   const meta = (packs || []).find((p) => p.id === packId) || null;
   const isOrder = meta ? meta.kind === 'order-system' : false;
-  const req = requestFor({ isOrder, params: f.values });
+  // the class-A input goes only to the pack whose module IS it -- read off the list row, so the
+  // first request already knows (the payload's own `module_bound_to` says the same)
+  const req = requestFor({ isOrder, params: f.values, bound: meta ? meta.module_bound_to : null });
   const reqKey = JSON.stringify(req);
 
   /* The pack, dimensioned. The previous payload stays on screen while the SAME pack is
@@ -789,6 +825,11 @@ export function Proportions({ selection }) {
   const ceiling = sliderAt('ceiling', f.values, data?.at?.ceiling_height, 108);
   const opening = sliderAt('opening', f.values, data?.at?.opening_width, 36);
   const diamAt = sliderAt('diameter', f.values, null, DEFAULT_DIAMETER_IN);
+  // WP-14.24: a class-A pack's own building input, driven by the served `module_bound_to` and
+  // resting at what the payload was worked at; no slider at all on a pack whose module is not bound
+  const classA = classASlider((data && data.module_bound_to) || (meta && meta.module_bound_to));
+  const classAAt = classA
+    ? sliderAt(classA.key, f.values, data?.at?.[classA.dimension] ?? data?.module_in, RANGES[classA.key].min) : null;
 
   const clearStyle = () => nav.select({ style: null }, { replace: true });
 
@@ -816,7 +857,8 @@ export function Proportions({ selection }) {
           </span>
         </FilterGroup>
       ) : (
-        <FilterGroup label="at" summary={`${feetInches16(ceiling)} ceiling · ${feetInches16(opening)} opening`}>
+        <FilterGroup label="at" summary={`${feetInches16(ceiling)} ceiling · ${feetInches16(opening)} opening`
+          + (classA ? ` · ${feetInches16(classAAt)} ${classA.words}` : '')}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <Eyebrow as="span">ceiling</Eyebrow>
             <input type="range" {...RANGES.ceiling} value={ceiling} aria-label="ceiling height, inches"
@@ -828,6 +870,15 @@ export function Proportions({ selection }) {
               onChange={(e) => f.set('opening', e.target.value)}
               style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
             <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(opening)}</span>
+            {classA && (
+              <span data-class-a={classA.dimension} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <Eyebrow as="span">{classA.words}</Eyebrow>
+                <input type="range" {...RANGES[classA.key]} value={classAAt} aria-label={`${classA.words}, inches`}
+                  onChange={(e) => f.set(classA.key, e.target.value)}
+                  style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
+                <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(classAAt)}</span>
+              </span>
+            )}
           </span>
         </FilterGroup>
       ))}

@@ -487,23 +487,94 @@ def search_index():
     return _SEARCH_INDEX
 
 
+_PACK_LIST = None
+
+
+def reset_pack_list():
+    global _PACK_LIST
+    _PACK_LIST = None
+
+
+def pack_drawing(pk, pe):
+    """Which plate a resolved pack is drawn on: "stack", "assemblies", or None (nothing to draw).
+    The ONE spelling of the rule `proportions_with_members` writes as `drawing` -- the list route
+    reads it here so the index and the pack page cannot disagree about which packs are drawn."""
+    if pe.stack_for(pk):
+        return "stack"
+    return "assemblies" if pk.get("assemblies") else None
+
+
+def _pack_thumb(pk, pe):
+    """WP-14.24 (PRD tranche 2 §C.9, §0.3 default 6): the pack's FIRST assembly at the wall datum,
+    for the index's thumbnail -- served geometry only, and exactly the geometry the pack's own
+    plate draws first at no reader input: `_wall_assemblies`, the one wall-datum dimensioning, at
+    the module `core.module_binding` gives when nothing is given (the plate's own call).
+
+    Only for a pack whose plate IS at the wall datum (`drawing == "assemblies"`). A stacked pack
+    is drawn on its column's axis, not a wall, and measured: its first assembly at the wall datum
+    has NO WIDTH on 10 of the 25 stacked packs (the five `chambers-*`, three `palladio-*`,
+    `benjamin-doric` and `greek-doric`) and reads the 14 `axis`-datum packs' radii as projections
+    off a wall, which is OQ 65's error one surface over (`build/profiles.py`'s own docstring: the
+    wall datum is for "the 27 packs that carry assemblies and no column stack"). So a stacked pack
+    carries no thumbnail and the list says why, in `drawing`, rather than drawing a picture of
+    the wrong datum.
+
+    Trimmed to what a thumbnail reads: the faces (their paths, and the figures `extentOf` bounds
+    them by), the height, and the `axis` where the pack declares one, so a turned assembly is
+    turned in the index as it is on the plate. Members and zones stay on the pack page."""
+    first = next(iter(pk.get("assemblies") or {}), None)
+    if first is None:
+        return None
+    rows = _wall_assemblies(pk, pe, core.module_binding(pk)["module_in"], only=[first])
+    if not rows:
+        return None
+    row = rows[0]
+    thumb = {"assembly": row["id"], "height_in": row["height_in"],
+             "geometry": {"faces": row["geometry"]["faces"]}}
+    if "axis" in row:
+        thumb["axis"] = row["axis"]
+    return thumb
+
+
 def pack_list():
     """Every proportion pack, for the Proportions surface's navigation. The
     non-classical packs are equal citizens — most traditional buildings were
     proportioned from a material module, not a column — so the list leads with the
-    system and module packs and the kind is first-class, not an afterthought."""
-    packs = core._data()["engine"].PACKS
+    system and module packs and the kind is first-class, not an afterthought.
+
+    WP-14.24 adds three keys per row: `drawing` (`pack_drawing`, the pack page's own word),
+    `module_bound_to` (the building dimension a pack's module IS, where it declares one -- what
+    the page's class-A slider is driven by, so a request never sends a building input to a pack
+    that does not bind it) and `thumb` (`_pack_thumb`, or null). Building the list this way costs
+    about 36 ms, median of 40 interleaved builds -- resolving every pack for `drawing` about 27 and
+    the 27 thumbnails about 7 to 9 -- against the old list's 0.02 ms, so it is built once per
+    process and `invalidate()` drops it, as it drops the search index. Measured at gzip level 4, the level
+    `GZipExceptSSE` deploys, on the body Starlette's JSONResponse writes: 65,799 raw / 20,709
+    gzipped before, 105,740 / 29,360 after -- 8,651 gzipped bytes for 27 thumbnails, inside the
+    brief's ~60 KB, so they ride on this route rather than a route of their own
+    (`workbench/server/tests/test_pack_thumbs.py` asserts the bound)."""
+    global _PACK_LIST
+    if _PACK_LIST is not None:
+        return _PACK_LIST
+    pe = core._data()["engine"]
+    packs = pe.PACKS
     out = []
     for pid, p in packs.items():
+        pk = pe.resolve(pid)
+        drawing = pack_drawing(pk, pe)
         out.append({"id": pid, "name": p.get("name", pid), "kind": p.get("kind"),
                     "authority": p.get("authority"),
-                    "overlay_on": p.get("overlay_on")})
+                    "overlay_on": p.get("overlay_on"),
+                    "drawing": drawing,
+                    "module_bound_to": (pk.get("module") or {}).get("equals"),
+                    "thumb": _pack_thumb(pk, pe) if drawing == "assemblies" else None})
     kind_rank = {"module-system": 0, "trim-system": 1, "opening-system": 2,
                  "room-system": 3, "facade-system": 4, "order-system": 5}
     out.sort(key=lambda r: (kind_rank.get(r["kind"], 9), r["id"]))
-    return {"count": len(out), "packs": out,
-            "note": ("Order packs are <authority>-<order> and compare at a common column "
-                     "DIAMETER, never a common module — authorities do not share one.")}
+    _PACK_LIST = {"count": len(out), "packs": out,
+                  "note": ("Order packs are <authority>-<order> and compare at a common column "
+                           "DIAMETER, never a common module — authorities do not share one.")}
+    return _PACK_LIST
 
 
 # The route's defaults since WP-5.2. They live in mcp_server/core.py now, beside the one spelling
@@ -572,8 +643,7 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     out = core.get_proportions(pack_id, **given)
     if "error" in out:
         return out
-    stacked = bool(pe.stack_for(pk))
-    drawing = "stack" if stacked else ("assemblies" if pk.get("assemblies") else None)
+    drawing = pack_drawing(pk, pe)
     if drawing == "stack":
         _stacked_members(out, pk, pe)
     else:
@@ -607,8 +677,10 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     return out
 
 
-def _wall_assemblies(pk, pe, module_in):
+def _wall_assemblies(pk, pe, module_in, only=None):
     """Each assembly of a stackless pack, in the pack's declaration order, on the wall datum.
+    `only` (WP-14.24) names the assemblies wanted, still in declaration order -- the index's
+    thumbnail asks for the first alone, so it is this function's row and not a second spelling.
 
     `height_in` is the SUMMED extent -- what is drawn -- and `height_in_stated` the stated
     height. They are EQUAL on all 50 assemblies of the 27 stackless packs, measured: side-by-side
@@ -629,6 +701,8 @@ def _wall_assemblies(pk, pe, module_in):
     prof = _profiles()
     rows = []
     for aid, rec in (pk.get("assemblies") or {}).items():
+        if only is not None and aid not in only:
+            continue
         d = pe.dimension(pk, module_in, [aid])
         if not d["assemblies"]:
             continue
@@ -1622,4 +1696,6 @@ def invalidate():
     reset_glossary_payload()           # WP-14.3: a module global, not an lru_cache, so the walk
                                        # in test_invalidate_clears_every_cache_that_exists... cannot
                                        # see it; test_invalidate_clears_every_cache_it_claims_to names it.
+    reset_pack_list()                  # WP-14.24: the pack list and its thumbnails, a module
+                                       # global of the same kind, named in the same test.
     return {"reloaded": True}
