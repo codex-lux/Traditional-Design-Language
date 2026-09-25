@@ -36,7 +36,6 @@ export function surfaces(counts) {
     { group: 'read the corpus', items: [
       { id: 'phylogeny', label: 'The Phylogeny', meta: c.styles ? `${c.styles} taxa` : '' },
       { id: 'style', label: 'Style Record', meta: '9 sections' },
-      { id: 'kit', label: 'The Kit', meta: c.element_slots ? `${c.element_slots} slots` : '' },
       { id: 'proportions', label: 'Proportions', meta: packs ? `${packs} packs` : '' },
       { id: 'faults', label: 'Fault Corpus', meta: c.faults ? `${c.faults} solecisms` : '' },
     ] },

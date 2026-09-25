@@ -42,6 +42,19 @@ export const DOSSIER_SECTIONS = Object.freeze(['identify', 'members', 'lineage',
    bare form and never written: a place with it selected and a place with no section are one
    place, and one place has one citation. */
 const IDENTIFY = 'identify';
+const KIT = 'kit';
+
+/* The style a constraint belongs to: the text before the LAST dot of its id, or null for an id
+   with no dot or an empty style. 660 of 660 constraint ids in the corpus are
+   `<style id>.<suffix>` with the id of the very node whose `constraints` carry them, and no style
+   id contains a dot (both measured 24 Sep 2026; e2e/router-unit.mjs re-derives the first over the
+   whole corpus on every run). THE ONE SPELLING: `routeCite` routes a constraint by it and
+   `names/names.js` names one by it (WP-14.12 moved names.js's temporary copy here). */
+export function constraintStyleOf(id) {
+  if (typeof id !== 'string') return null;
+  const at = id.lastIndexOf('.');
+  return at > 0 ? id.slice(0, at) : null;
+}
 
 /* Returns {surface, selection} — App owns applying it. */
 export function routeCite(ref) {
@@ -52,15 +65,24 @@ export function routeCite(ref) {
     // the phylogeny stays one rail-click away and links back
     case 'style': {
       // A fragment that is a section opens it. `#identify` is an alias and carries NO section
-      // key, so it cannot round-trip into a URL that mints it. A fragment that is not a
-      // section — a slot id, or nothing the corpus knows — is dropped exactly as it always
-      // was; §E.3 gives routing a slot fragment into the kit to the package that moves the kit.
-      const section = c.fragment && c.fragment !== IDENTIFY && DOSSIER_SECTIONS.includes(c.fragment)
-        ? c.fragment : null;
-      return { surface: 'style', selection: section ? { style: c.id, section } : { style: c.id } };
+      // key, so it cannot round-trip into a URL that mints it. Any OTHER fragment is a slot: the
+      // server's validator admits a `style:` fragment only when it is a slot id or a section id
+      // (§E.6), and no slot id is a section id, so what is left is a slot — and it opens in the
+      // style's kit, as `kit:<id>#<slot>` does (WP-14.12; until then it was dropped). A fragment
+      // the corpus does not hold still opens the kit, which says it holds no such slot.
+      if (!c.fragment || c.fragment === IDENTIFY) return { surface: 'style', selection: { style: c.id } };
+      if (DOSSIER_SECTIONS.includes(c.fragment)) {
+        return { surface: 'style', selection: { style: c.id, section: c.fragment } };
+      }
+      return { surface: 'style', selection: { style: c.id, section: KIT, slot: c.fragment } };
     }
-    case 'kit': return { surface: 'kit', selection: { style: c.id, slot: c.fragment } };
-    case 'slot': return { surface: 'kit', selection: { slot: c.id } };
+    /* The kit is the dossier's KIT SECTION since WP-14.12 (PRD §E.3): `kit:<id>` opens it and
+       `kit:<id>#<slot>` opens that slot in it. `slot:<id>` names a slot with no style, which is
+       the slot panel — one slot across every style that specifies it — rather than, as it was,
+       Tidewater Georgian's kit, a style the citation never named. */
+    case 'kit': return { surface: 'style',
+      selection: c.fragment ? { style: c.id, section: KIT, slot: c.fragment } : { style: c.id, section: KIT } };
+    case 'slot': return { surface: 'style', selection: { section: KIT, slot: c.id } };
     case 'fault': return { surface: 'faults', selection: { fault: c.id } };
     case 'pack': return { surface: 'proportions', selection: { pack: c.id } };
     case 'candidate': return { surface: 'candidates', selection: { candidate: Number(c.id) } };
@@ -71,15 +93,12 @@ export function routeCite(ref) {
        Plan Workbench, which reads no `constraint` from its selection and never has — every
        constraint citation landed on the bench with nothing highlighted.
 
-       The style is the text before the LAST dot: 660 of 660 constraint ids in the corpus are
-       `<style id>.<suffix>` with the id of the very node whose `constraints` carry them, and
-       no style id contains a dot (both measured 24 Sep 2026; e2e/router-unit.mjs re-derives
-       the first over the whole corpus on every run). An id with no dot names no style, and
-       landing it on an arbitrary one would be worse than not moving, so it is null. */
+       The style is `constraintStyleOf`'s, above. An id with no dot names no style, and landing
+       it on an arbitrary one would be worse than not moving, so it is null. */
     case 'constraint': {
-      const at = c.id.lastIndexOf('.');
-      if (at <= 0) return null;
-      return { surface: 'style', selection: { style: c.id.slice(0, at), section: 'rules', constraint: c.id } };
+      const style = constraintStyleOf(c.id);
+      if (!style) return null;
+      return { surface: 'style', selection: { style, section: 'rules', constraint: c.id } };
     }
     case 'term': return { surface: 'glossary', selection: { term: c.id } };
     case 'room': return { surface: 'workbench', selection: { roomType: c.id } };
@@ -111,6 +130,14 @@ export function citeFor(surface, selection) {
       // The most specific first: a selected constraint names the place better than the
       // section it sits in.
       if (s.constraint) return 'constraint:' + s.constraint;
+      /* The kit section is cited by the kit's own kinds (§E.3's second branch, WP-14.12): a
+         style's kit is `kit:<id>`, one slot in it `kit:<id>#<slot>`, and a slot with no style —
+         the slot panel — `slot:<id>`. `style:<id>#kit` and `style:<id>#<slot>` are aliases that
+         route here and are never minted. */
+      if (s.section === KIT) {
+        if (s.style) return 'kit:' + s.style + (s.slot ? '#' + s.slot : '');
+        return s.slot ? 'slot:' + s.slot : null;
+      }
       if (!s.style) return null;
       /* A section is written only when it is one — `identify` is the bare form, and a section
          id the vocabulary does not hold (a hand-typed `#/style/x/nonsense`) is not a place a
@@ -121,9 +148,6 @@ export function citeFor(surface, selection) {
       }
       return 'style:' + s.style;
     case 'glossary': return s.term ? 'term:' + s.term : null;
-    case 'kit':
-      if (s.style) return 'kit:' + s.style + (s.slot ? '#' + s.slot : '');
-      return s.slot ? 'slot:' + s.slot : null;
     case 'faults':
       if (s.fault) return 'fault:' + s.fault;
       return s.asset ? 'asset:' + s.asset : null;

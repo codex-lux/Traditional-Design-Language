@@ -16,7 +16,7 @@ import { routeCite, citeFor } from './citations.js';
 
 /* Each surface's path segment, and which selection keys ride in the path rather than
    the query. Order matters: the keys are positional. `-` stands in for an absent
-   leading key (a slot with no style: #/kit/-/door-main-entry).
+   leading key (a slot with no style: #/style/-/kit/door-main-entry).
 
    `style` carries a dossier SECTION after the style (#/style/craftsman/lineage) and a slot
    after that, honoured only in the kit section (#/style/craftsman/kit/cornice) — PRD phase 14,
@@ -26,12 +26,15 @@ import { routeCite, citeFor } from './citations.js';
 
    `glossary` is the address of the glossary and of one term in it (#/glossary,
    #/glossary/judgment-unjudged); `term:<id>` is the citation that lands there. Which component
-   draws it is App's business, not this table's. */
+   draws it is App's business, not this table's.
+
+   There is no `kit` surface (WP-14.12): the kit is a SECTION of the style's dossier now
+   (#/style/<id>/kit/<slot>), and `#/kit/...` is an alias, read by LEGACY_PATHS below and never
+   written. */
 export const SURFACE_PATHS = {
   overview: { path: '', keys: [] },
   phylogeny: { path: 'phylogeny', keys: ['style'] },
   style: { path: 'style', keys: ['style', 'section', 'slot'] },
-  kit: { path: 'kit', keys: ['style', 'slot'] },
   faults: { path: 'faults', keys: ['fault'] },
   proportions: { path: 'proportions', keys: ['pack'] },
   glossary: { path: 'glossary', keys: ['term'] },
@@ -49,6 +52,44 @@ const ABSENT = '-';
 
 const BY_PATH = {};
 Object.entries(SURFACE_PATHS).forEach(([id, spec]) => { BY_PATH[spec.path] = id; });
+
+/* ADDRESSES THAT WERE PLACES AND ARE ALIASES NOW (WP-14.12, PRD §E.1).
+
+   `#/kit/<style>/<slot>` has been the Kit surface's address since WP-5.6 made places URLs, and
+   it is in commit messages, reports, the walk and every link a reader has kept. The kit moved into the
+   style's dossier, so the old address is READ — positionally, with the same `-` placeholder — as
+   the dossier's kit section, and never WRITTEN: `formatHash` answers the canonical form for it,
+   and `state/nav.js` rewrites a legacy hash in the address bar by `replaceState`, as it rewrites a
+   `#/cite/` link, so a refresh or a copied link carries the new address.
+
+   `section: 'kit'` is set ONLY when a style or a slot is present. A bare `#/kit` named no style
+   (it used to show Tidewater's kit, a default the URL never said), and its honest reading is the
+   Styles index rather than the kit of a style nobody chose.
+
+   `keys` are the legacy path's positional keys; `to` is the surface it now names; `section` the
+   dossier section it opens. A table, so a second retired address is one row and not a branch. */
+export const LEGACY_PATHS = Object.freeze({
+  kit: Object.freeze({ keys: Object.freeze(['style', 'slot']), to: 'style', section: 'kit' }),
+});
+
+const legacyOf = (key) => (typeof key === 'string' && Object.prototype.hasOwnProperty.call(LEGACY_PATHS, key)
+  ? LEGACY_PATHS[key] : null);
+
+/* A legacy selection → the canonical one: the legacy keys kept, and the section added where the
+   legacy address named a record at all. */
+function fromLegacy(legacy, selection) {
+  const sel = { ...(selection || {}) };
+  delete sel.section;
+  const named = legacy.keys.some((k) => sel[k] != null && sel[k] !== '');
+  return named ? { ...sel, section: legacy.section } : sel;
+}
+
+/* Does this hash open with a retired path? `nav.canonicalize` asks, and rewrites it. */
+export function isLegacyHash(hash) {
+  const raw = String(hash || '').replace(/^#/, '');
+  const first = raw.split('?')[0].split('/').filter((s) => s !== '')[0];
+  return legacyOf(first) !== null;
+}
 
 /* Selection keys are the ones routeCite() can produce. Anything else in the query
    string is a filter, and belongs to the surface rather than to the record. Keeping
@@ -74,8 +115,9 @@ function coerce(key, value) {
   return value;
 }
 
-/* '#/kit/tidewater-georgian/door-main-entry?group=openings'
-     → {surface:'kit', selection:{style, slot}, params:{group}}
+/* '#/style/tidewater-georgian/kit/door-main-entry?group=openings'
+     → {surface:'style', selection:{style, section:'kit', slot}, params:{group}}
+   A legacy '#/kit/tidewater-georgian/door-main-entry' reads as the same place (LEGACY_PATHS).
    An unreadable hash resolves to the default surface rather than a blank screen. */
 export function parseHash(hash) {
   const raw = String(hash || '').replace(/^#/, '');
@@ -97,16 +139,18 @@ export function parseHash(hash) {
     return { surface: DEFAULT_SURFACE, selection: {}, params: {} };
   }
 
-  const surface = BY_PATH[segments[0] || ''] || DEFAULT_SURFACE;
+  const legacy = legacyOf(segments[0]);
+  const surface = legacy ? legacy.to : (BY_PATH[segments[0] || ''] || DEFAULT_SURFACE);
   const spec = SURFACE_PATHS[surface];
-  const selection = {};
+  let selection = {};
 
-  spec.keys.forEach((key, i) => {
+  (legacy ? legacy.keys : spec.keys).forEach((key, i) => {
     const seg = segments[i + 1];
     if (seg == null || seg === ABSENT) return;
     const v = coerce(key, decodeURIComponent(seg));
     if (v !== undefined) selection[key] = v;
   });
+  if (legacy) selection = fromLegacy(legacy, selection);
 
   // Selection keys a surface does not carry in its path still travel, in the query.
   const params = {};
@@ -122,10 +166,16 @@ export function parseHash(hash) {
   return { surface, selection, params };
 }
 
+/* A retired surface id is written as the place it now names: `formatHash('kit', {style, slot})`
+   is the dossier's kit section. Nothing in the app should still say `kit`, but a caller that does
+   (a rail item, a door, a palette entry) lands where the reader meant rather than on the Overview,
+   and the address it writes is the canonical one. */
 export function formatHash(surface, selection, params) {
-  const spec = SURFACE_PATHS[surface] ? surface : DEFAULT_SURFACE;
+  const legacy = legacyOf(surface);
+  const sel = legacy ? fromLegacy(legacy, selection) : (selection || {});
+  const target = legacy ? legacy.to : surface;
+  const spec = SURFACE_PATHS[target] ? target : DEFAULT_SURFACE;
   const { path, keys } = SURFACE_PATHS[spec];
-  const sel = selection || {};
 
   const segs = keys.map((k) => (sel[k] == null || sel[k] === '' ? ABSENT : encodeURIComponent(sel[k])));
   while (segs.length && segs[segs.length - 1] === ABSENT) segs.pop();   // no trailing '-'
@@ -146,6 +196,15 @@ export function formatHash(surface, selection, params) {
 
   const qs = query.toString();
   return '#/' + [path, ...segs].filter((s) => s !== '').join('/') + (qs ? '?' + qs : '');
+}
+
+/* The address a legacy hash is rewritten to, or null for one that is not legacy. The query rides
+   along as it was, filters included: `#/kit/craftsman?q=porch` was the kit filtered to porch, and
+   so is the address it becomes. */
+export function canonicalHash(hash) {
+  if (!isLegacyHash(hash)) return null;
+  const p = parseHash(hash);
+  return formatHash(p.surface, p.selection, p.params);
 }
 
 /* The citation that names the current place, or null where none does. */

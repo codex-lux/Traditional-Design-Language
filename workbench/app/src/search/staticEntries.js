@@ -16,16 +16,16 @@ export const SURFACE_ENTRIES = [
     hay: 'the phylogeny phylogeny lineage descent ancestry tree family graph taxa taxonomy '
        + 'evolution origins time axis map geography where styles came from',
   },
+  /* One entry for the styles since WP-14.12: the Kit is a section of a style's dossier now
+     (`#/style/<id>/kit`) and `#/kit` survives only as an alias the router rewrites. The Kit's
+     own words stay in the haystack -- somebody who types "elements" or "bindings" is looking
+     for what a style specifies, and that is on this surface. */
   {
     kind: 'surface', id: 'style', name: 'Style Record', surface: 'style',
-    meta: '9 sections', short: 'One style in full: tells, constraints, sources, exemplars.',
-    hay: 'style record styles record full record tells diagnostic constraints sources '
-       + 'exemplars characteristics period geography',
-  },
-  {
-    kind: 'surface', id: 'kit', name: 'The Kit', surface: 'kit',
-    meta: 'slots', short: 'What a style specifies, slot by slot, and where each binding came from.',
-    hay: 'the kit kit slots elements bindings cascade inheritance specified forbidden '
+    meta: 'dossier', short: 'One style in full: its lineage, its kit, its proportions, its rules and its evidence.',
+    hay: 'style record styles record full record dossier tells diagnostic constraints sources '
+       + 'exemplars characteristics period geography '
+       + 'the kit kit slots elements bindings cascade inheritance specified forbidden '
        + 'open extends provenance parts vocabulary',
   },
   {
