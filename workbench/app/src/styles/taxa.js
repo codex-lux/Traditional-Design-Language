@@ -8,10 +8,11 @@
    from anything that walks edges.
 
    `Phylogeny.jsx` had its own `traditionOf` inline, with a depth cap of eight standing in for a
-   cycle guard, and its own copy of the tradition hues. The hues move here (the surface imports them
-   at WP-14.11; until then `styleTree.test.mjs` holds the two copies equal) and the walk is written
-   once, guarded by what it has seen rather than by a depth: a cycle in the filing is a defect in the
-   data, and a reader of it must stop and say nothing rather than loop or invent a parent.
+   cycle guard, and its own copy of the tradition hues. Both live here now: the surface imports the
+   hues and `traditionOf` (WP-14.11, and `styleTree.test.mjs` asserts the import and that no second
+   table is left in the file), and the walk is written once, guarded by what it has seen rather than
+   by a depth: a cycle in the filing is a defect in the data, and a reader of it must stop and say
+   nothing rather than loop or invent a parent.
 
    `byId` may be a Map or a plain object keyed by id; a taxon is a `/api/phylogeny` taxon
    (`floruit_start` at the top) or a style record (`period.floruit_start`), because both are what a
