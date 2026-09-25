@@ -2431,7 +2431,14 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
    refused licence and one nobody could judge both read as earned. One fault and style per verdict
    is FOUND through `/api/faults?style=` (whose cards name the verdict), never named here; the card
    must print that verdict's glossary word, after the two answers and before the symptom. A verdict
-   the corpus offers no instance of is COULD NOT EVALUATE, not a pass. */
+   the corpus offers no instance of is COULD NOT EVALUATE, not a pass.
+
+   AND THE CARD MUST BE THE FAULT THE ADDRESS NAMES. This block's first run went red on the refused
+   case with no licence on the card at all -- and the card was not the fault asked for: moving to a
+   new fault AND a new style in one navigation sent two requests (the old fault under the new style,
+   then the new fault), and whichever resolved last was drawn. Every check here reads the card's own
+   `data-fault` first, and the last check forces the stale answer to land last, so the guard does
+   not depend on the machine's timing to bite. */
 {
   const phyl = await (await fetch(BASE + '/api/phylogeny')).json();
   const CARD_KEY = { granted: 'EXCEPTION_FOR_THIS_STYLE', refused: 'EXCEPTION_NOT_EARNED_BY_THIS_STYLE',
@@ -2446,6 +2453,7 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
       if (c) found[v] = { fault: c.id, style: id };
     }
   }
+  let last = null;
   for (const v of ['granted', 'refused', 'unjudged']) {
     if (!found[v]) {
       unjudged.push(`a licence ${v} is shown as ${v} — no fault in the corpus carries a ${v} licence for any style`);
@@ -2456,14 +2464,19 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     const verdict = served && served.for_this_style && served.for_this_style.exception
       ? served.for_this_style.exception.granted : null;
     await visit(`#/faults/${fid}?style=${sid}`);
-    await page.waitForSelector('main [data-fault-section="licence"] [data-licence-verdict] button.tdl-term',
+    last = { fault: fid, style: sid };
+    await page.waitForSelector(
+      `main article[data-fault="${fid}"] [data-fault-section="licence"] [data-licence-verdict] button.tdl-term`,
       { timeout: 20000 }).catch(() => {});
+    const onCard = await page.$eval('main article[data-fault]', (el) => el.getAttribute('data-fault'))
+      .catch(() => null);
     const shown = await page.$$eval('main [data-fault-section="licence"] [data-licence-verdict] [data-term]',
       (els) => els.map((el) => el.getAttribute('data-term')));
     const order = await page.$$eval('main article[data-fault] [data-fault-section]',
       (els) => els.map((el) => el.getAttribute('data-fault-section')));
-    check(`a ${v} licence (${fid} for ${sid}): the card prints the server's verdict, ${verdict} (${shown.join(',')})`,
-      verdict === v && shown.length === 1 && shown[0] === TERM[verdict]);
+    check(`${v === 'unjudged' ? 'an' : 'a'} ${v} licence (${fid} for ${sid}): the card is that fault (${onCard}) and prints the server's `
+      + `verdict, ${verdict} (${shown.join(',')})`,
+      onCard === fid && verdict === v && shown.length === 1 && shown[0] === TERM[verdict]);
     check(`and the licence follows the two answers and leads the rule (${order.slice(0, 4).join(' · ')})`,
       order[0] === 'correct_practice' && order[1] === 'detection' && order[2] === 'licence'
         && order.indexOf('licence') < order.indexOf('symptom'));
@@ -2473,6 +2486,37 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     });
     await page.waitForTimeout(300);
     await shot('fault-licence-' + v);
+  }
+
+  /* The superseded answer, forced. Delay every response about the fault on screen, then move to
+     another fault under another style: the request the surface sends for the OLD fault under the
+     NEW style now lands last, and the card must still be the fault the address names. */
+  const to = ['granted', 'refused', 'unjudged'].map((v) => found[v])
+    .find((f) => f && last && f.fault !== last.fault && f.style !== last.style);
+  if (!to) {
+    unjudged.push('a superseded fault request does not replace the card — the corpus offered no '
+      + 'second fault under a second style to move to');
+  } else {
+    const stale = last.fault;
+    const slow = (url) => url.pathname === '/api/faults/' + stale;
+    let delayed = 0;
+    await page.route(slow, async (route) => {
+      delayed += 1;
+      await new Promise((r) => setTimeout(r, 900));
+      await route.continue().catch(() => {});
+    });
+    await visit(`#/faults/${to.fault}?style=${to.style}`);
+    await page.waitForTimeout(2500);
+    const onCard = await page.$eval('main article[data-fault]', (el) => el.getAttribute('data-fault'))
+      .catch(() => null);
+    await page.unroute(slow);
+    if (!delayed) {
+      unjudged.push(`a superseded fault request does not replace the card — moving from ${stale} to `
+        + `${to.fault} sent no request for ${stale}, so there was no stale answer to hold back`);
+    } else {
+      check(`a superseded fault request does not replace the card: the address names ${to.fault}, `
+        + `the late answer was ${stale}, the card is ${onCard}`, onCard === to.fault);
+    }
   }
 }
 

@@ -5,7 +5,9 @@
      member-of            the edge is FILING (`member_of`): the drawer a record is kept in, which is
                           not lineage — and not inert either, because the family a style is filed
                           under joins that style's kit cascade (`build/build.py`'s `family_of`,
-                          WP-4.2). The `member-of` glossary record says both halves.
+                          WP-4.2). The `member-of` record says the first half and claims nothing
+                          about the second, which is why its word is the right one to print here;
+                          the second half is the `section-members` record's to say, and says.
      carries-the-kit      `inherits_kit` is true and the edge names no slots: the whole kit.
      carries-named-slots  `inherits_kit` is true and the edge lists the slots it carries (OQ 58).
      carries-nothing      `inherits_kit` is anything but true: a relation of meaning, no binding.
