@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**237 questions, of which 129 are open.** A question is OPEN while
+**237 questions, of which 128 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 129
+## Open — 128
 
 Awaiting a ruling. This is the list to read first.
 
@@ -115,7 +115,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated** | OPEN | [23 works under 51 strings, and correcting them reddens the build by six](open-questions/oq-one-work-is-cited-under-several-strings-and-every-source-count-is-inflated.md) |
 | **oq/six-order-assemblies-state-a-division-and-carry-no-zones** | OPEN | [the order packs state how six of their assemblies divide, and WP-14.18 declared zones on a wall section only](open-questions/oq-six-order-assemblies-state-a-division-and-carry-no-zones.md) |
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
-| **oq/the-app-still-writes-paragraphs-the-ratchet-does-not-read** | OPEN | [the copy ratchet reads zero, and it reads titles and counts only](open-questions/oq-the-app-still-writes-paragraphs-the-ratchet-does-not-read.md) |
 | **oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either** | OPEN | [two ruled packages, and their composition is worse than either alone](open-questions/oq-the-bay-parity-and-the-band-ranking-compose-worse-than-either.md) |
 | **oq/the-canon-axis-counts-two-grains-as-one** | OPEN | ["23 could not be evaluated" out of a denominator of 10](open-questions/oq-the-canon-axis-counts-two-grains-as-one.md) |
 | **oq/the-ceiling-and-opening-sliders-show-on-packs-that-read-neither** | OPEN | [the Proportions page offers a ceiling and an opening slider on every non-order pack, and 22 of the 32 name neither in any rule](open-questions/oq-the-ceiling-and-opening-sliders-show-on-packs-that-read-neither.md) |
@@ -162,7 +161,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 108
+## Settled — 109
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -259,6 +258,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/one-duty-per-hatch** | CLOSED 25 SEP 2026 — ruled the same day, executed by WP-14.29 | [the unjudged hatch carries five meanings, the 45° hatch six, and a key cannot be drawn for a mark that means several things](open-questions/oq-one-duty-per-hatch.md) |
 | **oq/regenerating-the-asset-manifest-discards-what-was-added-to-it** | CLOSED 31 Aug 2026 | [and it would also quintuple it](open-questions/oq-regenerating-the-asset-manifest-discards-what-was-added-to-it.md) |
 | **oq/register-is-not-style** | RULED 1 Sep 2026 | [folk and polite are not two styles, and the corpus has nowhere to say so](open-questions/oq-register-is-not-style.md) |
+| **oq/the-app-still-writes-paragraphs-the-ratchet-does-not-read** | CLOSED — ruled 26 September 2026 (answer 3), executed in WP-14.33 | [the copy ratchet reads zero, and it reads titles and counts only](open-questions/oq-the-app-still-writes-paragraphs-the-ratchet-does-not-read.md) |
 | **oq/the-assistant-is-blind-to-the-page** | CLOSED 25 SEP 2026 — answers 1 and 3, in the citation form, executed by WP-14.22 | [the pane is named now, and it is still told nothing about what the reader has selected](open-questions/oq-the-assistant-is-blind-to-the-page.md) |
 | **oq/the-candidate-score-cannot-see-a-massing-element** | RULED 5 Sep 2026 | [the composer ranks the better house lower](open-questions/oq-the-candidate-score-cannot-see-a-massing-element.md) |
 | **oq/the-coverage-floor-is-an-exact-cover-per-element** | CLOSED — answered by measurement in WP-11.13, and not by choosing a number (7 September 2026) | [0.97 of each box, and the boxes have no slack](open-questions/oq-the-coverage-floor-is-an-exact-cover-per-element.md) |

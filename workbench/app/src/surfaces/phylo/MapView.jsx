@@ -41,7 +41,8 @@ import { Eyebrow } from '../../components/Eyebrow.jsx';
 import { ActionChip } from '../../Chrome.jsx';
 import { carriesKit } from '../../lineage/carry.js';
 import { useGlossary } from '../../api/useGlossary.js';
-import { describeTerm } from '../../glossary/termView.js';
+import { describeTerm, termView } from '../../glossary/termView.js';
+import { Term } from '../../components/Term.jsx';
 
 /* Equirectangular, and deliberately so: it is the projection the coastline asset is
    stored in, it keeps the transform to two subtractions, and at this scale — a diagram of
@@ -125,6 +126,7 @@ export function MapView({
      left to get wrong. */
   const [place, setPlace] = React.useState(HOME);
   const glossary = useGlossary();
+  const positionsView = termView(glossary, { id: 'map-positions' });
   const [aspect, setAspect] = React.useState(134 / 43);
   const [hover, setHover] = React.useState(null);
   const svgRef = React.useRef(null);
@@ -483,13 +485,16 @@ export function MapView({
         </div>
 
         <div style={{ flex: 1, minWidth: 260 }}>
-          <Eyebrow style={{ marginBottom: 6 }}>what this drawing does not know</Eyebrow>
-          <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)',
-            margin: 0, maxWidth: '74ch' }}>
-            The corpus records where a style arose in prose, not coordinates. These points
-            come from a gazetteer in the interface, keyed on the region and hearth names the
-            records use — they are accurate to the size of the thing named and no better,
-            and none of them is a source.
+          {/* WHERE THE POINTS COME FROM IS A RECORD (WP-14.33, ruled 26 Sep 2026: a sentence
+              stating a corpus fact is derived or recorded). "The corpus records where a style
+              arose in prose, not coordinates" was typed here; it is the `map-positions` glossary
+              record's now, which quotes docs/workbench.md. What follows it is this drawing's own
+              disclosure, every figure in it counted off the marks in hand. */}
+          <Eyebrow style={{ marginBottom: 6 }}><Term id="map-positions" /></Eyebrow>
+          <p data-term-definition="map-positions" style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)',
+            color: 'var(--ink-2)', margin: 0, maxWidth: '74ch' }}>
+            {positionsView.state === 'ready'
+              ? `${positionsView.definition} ${positionsView.record.more || ''}`.trim() : ''}
             {abstract > 0 && (
               <> {abstract} of the {counts.country} country-wide marks are country-wide
                 because the corpus says so rather than because this drawing failed: a family

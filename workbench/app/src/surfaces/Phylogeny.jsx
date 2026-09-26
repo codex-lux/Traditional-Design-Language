@@ -28,7 +28,7 @@ import { matches } from '../search/match.js';
 import { MapView } from './phylo/MapView.jsx';
 import { MarkGlyph } from '../components/MarkGlyph.jsx';
 import { useGlossary } from '../api/useGlossary.js';
-import { describeTerm, wordOf } from '../glossary/termView.js';
+import { describeTerm, termView, wordOf } from '../glossary/termView.js';
 import { NoRecordChosen } from '../components/NoRecordChosen.jsx';
 
 const EMPTY = [];
@@ -183,6 +183,9 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
   const H = rows.length * ROW + PAD * 2;
   const selNode = allRows[index[sel]];
   const summary = selInfo?.summary || {};
+  // the trunks the tree holds, read off the graph (WP-14.33); what it lacks is a record's words
+  const heldTrunks = allRows.filter((r) => r.rank === 'tradition');
+  const trunksView = termView(glossary, { id: 'missing-peer-trunks' });
 
   const pick = (ev, id) => {
     // A second taxon opens the two side by side, at an address (WP-14.26).
@@ -330,16 +333,40 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             })}
           </div>
 
-          <div style={{ marginLeft: 210, marginTop: 18, border: '1px solid var(--rule)',
+          {/* WHAT THE TREE DOES NOT HOLD IS A RECORD, AND WHAT IT DOES HOLD IS DERIVED (WP-14.33,
+              ruled 26 Sep 2026: a sentence stating a corpus fact is derived or recorded). This
+              block typed the absent traditions and cape-dutch's unnamed strand into the JSX, where
+              no check reads them and nothing would notice the day a peer trunk is added. The
+              absence is the `missing-peer-trunks` glossary record's, which quotes the README; the
+              trunks the tree holds are its own tradition-rank nodes, read off the graph in hand. */}
+          <div data-peer-trunks="" style={{ marginLeft: 210, marginTop: 18, border: '1px solid var(--rule)',
             color: 'var(--ink-2)', backgroundImage: 'var(--mark-wanted)', padding: '14px 16px' }}>
             <div style={{ background: 'var(--paper)', display: 'inline-block', padding: '4px 8px' }}>
-              <Eyebrow tone="secondary" as="span">acknowledged missing peer trunks</Eyebrow>
-              <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '6px 0 0',
-                maxWidth: '68ch' }}>
-                Japanese, Islamic, South Asian and African traditions are absent. The schema extends to
-                them without modification, and one node — <span style={{ fontFamily: 'var(--mono)' }}>cape-dutch</span> —
-                already points at an ancestor the graph cannot name.
-              </p>
+              <Eyebrow tone="secondary" as="span"><Term id="missing-peer-trunks" /></Eyebrow>
+              {trunksView.state === 'ready' && (
+                <>
+                  <p data-term-definition="missing-peer-trunks"
+                    style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '6px 0 0',
+                      maxWidth: '68ch' }}>{trunksView.definition}</p>
+                  {trunksView.record.more && (
+                    <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '4px 0 0',
+                      maxWidth: '68ch' }}>{trunksView.record.more}</p>
+                  )}
+                </>
+              )}
+              <div data-present-trunks={heldTrunks.length} style={{ display: 'flex', flexWrap: 'wrap',
+                alignItems: 'center', gap: '4px 12px', marginTop: 8 }}>
+                <Eyebrow as="span"><Term id="rank-tradition" /></Eyebrow>
+                {heldTrunks.map((t) => (
+                  <button key={t.id} type="button" data-trunk={t.id} onClick={(ev) => pick(ev, t.id)}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 5,
+                      font: 'var(--fw-reg) 12px/1.3 var(--display)', color: 'var(--ink)' }}>
+                    <span style={{ width: 8, height: 8, flex: 'none',
+                      background: TRADITION_HUES[t.tradition] || 'var(--hair)' }} />
+                    {t.name}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>

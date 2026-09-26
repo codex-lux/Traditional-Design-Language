@@ -1355,6 +1355,22 @@ await visit('#/phylogeny');
 await page.waitForSelector('main >> text=compressed', { timeout: 15000 });
 const phylo = await page.locator('main').innerText();
 check('phylogeny names the missing trunks', /missing peer trunks/i.test(phylo));
+/* THE TRUNKS THE TREE HOLDS ARE ITS OWN, AND THE ONES IT LACKS ARE A RECORD (WP-14.33, ruled 26
+   Sep 2026: a sentence stating a corpus fact is derived or recorded). The block under the tree
+   typed the absent traditions and cape-dutch's unnamed strand into the JSX. The trunks it holds
+   are read off the graph now, so the page must list exactly the tradition-rank taxa
+   `/api/phylogeny` states -- the expectation read from the API and never named here -- and the
+   absence is the `missing-peer-trunks` record's definition. */
+{
+  const ph = await (await fetch(BASE + '/api/phylogeny')).json();
+  const want = (ph.taxa || []).filter((t) => t.rank === 'tradition').map((t) => t.id).sort();
+  const drew = (await page.$$eval('main [data-present-trunks] [data-trunk]',
+    (els) => els.map((e) => e.getAttribute('data-trunk')))).sort();
+  check(`the trunks listed under the tree are its tradition-rank taxa (${drew.length} drawn, ${want.length} stated)`,
+    want.length > 0 && JSON.stringify(drew) === JSON.stringify(want));
+  check('the absent trunks are the missing-peer-trunks record, shown as its definition',
+    await page.locator('main [data-term-definition="missing-peer-trunks"]').count() === 1);
+}
 await shot('phylogeny');
 
 /* NO TAXON IS SHOWN THAT THE ADDRESS DOES NOT NAME, AND EVERY PICK IS AN ADDRESS (WP-14.27).
@@ -2981,8 +2997,16 @@ const mapText = await page.locator('main').innerText();
 // says so rather than planting a firm dot in the middle of a nation.
 check('placement precision is counted, not implied', /\d+ country/i.test(mapText)
   && /no hearth to place it at/i.test(mapText));
-check('the gazetteer is disclaimed as interface, not source',
-  /in prose, not coordinates/i.test(mapText) && /none of them is a source/i.test(mapText));
+// The disclaimer is the `map-positions` record's definition since WP-14.33 (a corpus fact is
+// recorded, not typed): held to the record the API serves rather than to a phrase copied here.
+{
+  const rec = await termOf('map-positions');
+  const flat = (t) => String(t).replace(/\s+/g, ' ').trim();
+  check('the gazetteer is disclaimed as interface, not source, in the map-positions record\'s words',
+    !!rec && typeof rec.definition === 'string' && typeof rec.more === 'string'
+    && flat(mapText).includes(flat(rec.definition)) && flat(mapText).includes(flat(rec.more))
+    && await page.locator('main [data-term-definition="map-positions"]').count() === 1);
+}
 // OQ 65: a country-wide mark must be distinguishable from a failure to place. Every one
 // of them is now country-wide by the corpus's own account — a family, a tradition, or a
 // record whose hearth says it has none — and the drawing says which.

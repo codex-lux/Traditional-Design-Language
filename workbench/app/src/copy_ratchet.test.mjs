@@ -37,7 +37,12 @@
    count with an irregular plural ("filter 164 taxa"), one with adjectives between the number and
    its noun ("all 262 recorded pack conflicts", "660 style constraints"), and one written as a
    share ("86 of them", "295 of 660"). Each form is a fixture below, and a word that merely ends
-   in s ("1 is", "100 and higher is") is not a plural. */
+   in s ("1 is", "100 and higher is") is not a plural.
+
+   A THIRD SCANNER, PROSE, IS A RATCHET AND NOT A BAN (WP-14.33). Paragraphs the app writes are
+   mostly its own voice and stay, so their baseline is not empty: it holds each one BY IDENTITY with
+   a class, and a new one fails until it is either classed or -- where it states a corpus fact --
+   derived or recorded instead. Its own header is below, beside the reader. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -146,6 +151,46 @@ function countRows(source) {
   return [...at.entries()].sort((a, b) => a[0] - b[0]).map(([, t]) => t);
 }
 
+/* PROSE (WP-14.33, ruled 26 Sep 2026). A JSX text run of TWELVE or more words is a paragraph the
+   app wrote, and a paragraph stating a CORPUS FACT -- what the corpus holds or lacks, a count, a
+   value a record carries -- is derived from the payload in hand or recorded in the glossary, never
+   typed; a sentence about how the workbench behaves is the workbench's own voice and stays. The
+   Phylogeny's "Japanese, Islamic, South Asian and African traditions are absent" was the case:
+   true on the day it was typed, read by no check, and silent the day a peer trunk arrives.
+
+   A run starts after a tag's `>` and runs to the next `<`, or to a `{` that opens anything but a
+   plain interpolation -- `{n}` joins the run and is written `{…}` in the row, `{on && (<b>…</b>)}`
+   ends it. A `>` that is the tail of `=>` or `->` is code and starts nothing, and a run carrying
+   an unmistakable code token (a `const`, an ` = `, `===`, `=>`, `&&`, `||`, `?.` or a backtick)
+   is code the reader wandered into, not text. Twelve words is the threshold the open question
+   was measured at, and it is not a clean gap. The seven-to-eleven band held thirty-seven runs on
+   the tree this was written on, nearly all status and error lines ("the style list could not be
+   read"); WP-14.33 read every one by hand and found no corpus fact among them, which is a reading
+   of that tree and not something this scanner will go on saying.
+
+   The baseline carries a CLASS on every row -- `voice` (how the workbench behaves), `disclosure`
+   (a statement about the payload in hand, its figures read from it) or `not-prose` (a reader
+   false positive) -- and there is NO `corpus` class, so a new corpus fact fails, naming itself,
+   until it is derived or recorded. The class is a CLAIM a reviewer reads: no regex can tell a
+   corpus fact from the workbench's voice, and baselining one as `voice` to get it past is a false
+   line in a file whose every other line is checked. What the reader does not see is
+   stated rather than implied: prose in a string constant, a prop or a `.js` module, which the
+   title and count scanners above cover only in their own two shapes. */
+const PROSE_WORDS = 12;
+const CODE = /\bconst\s|\blet\s+\w+\s*=|\s=\s|===|!==|=>|&&|\|\||\?\.|`/;
+
+function proseRows(source, min = PROSE_WORDS) {
+  const src = stripComments(source);
+  const rows = [];
+  for (const m of src.matchAll(/>([^<>{}]*(?:\{[^{}<>]*\}[^<>{}]*)*)(?=[<{])/g)) {
+    if (m.index > 0 && '=-'.includes(src[m.index - 1])) continue;
+    if (CODE.test(m[1].replace(/\{[^{}]*\}/g, ' '))) continue;
+    const text = squash(m[1].replace(/\{\s*\}/g, ' ').replace(/\{[^{}]*\}/g, ' {…} '));
+    if (letterWords(text) >= min) rows.push(text);
+  }
+  return rows;
+}
+
 function jsxFiles(dir = SRC, out = []) {
   for (const f of readdirSync(dir).sort()) {
     const p = join(dir, f);
@@ -155,16 +200,18 @@ function jsxFiles(dir = SRC, out = []) {
   return out;
 }
 
-function current(minTitle = TITLE_WORDS) {
+function current(minTitle = TITLE_WORDS, minProse = PROSE_WORDS) {
   const titles = [];
   const counts = [];
+  const prose = [];
   for (const p of jsxFiles()) {
     const rel = p.slice(SRC.length);
     const src = readFileSync(p, 'utf8');
     for (const t of titleRows(src, minTitle)) titles.push([rel, t]);
     for (const c of countRows(src)) counts.push([rel, c]);
+    for (const r of proseRows(src, minProse)) prose.push([rel, r]);
   }
-  return { titles, counts };
+  return { titles, counts, prose };
 }
 
 /* The baseline, measured on this tree at WP-14.8. It may only lose rows. WP-14.13 took out six:
@@ -181,6 +228,85 @@ function current(minTitle = TITLE_WORDS) {
 const BASELINE = {
   titles: [],
   counts: [],
+  /* [file, class, text]: `voice` or `disclosure` or `not-prose`, and never `corpus` (WP-14.33). */
+  prose: [
+    ["components/ConflictSet.jsx", "disclosure",
+      "This refusal names no fact, no conflict and no sentence. That is a defect in the refusal, not a small refusal: it is being shown as it arrived rather than dressed up."],
+    ["components/ConflictSet.jsx", "disclosure",
+      "Nothing is drawn from this placement. The record still carries the search&rsquo;s least-bad arrangement — it is what the conflict set above is an explanation of — and no surface draws it and no export may take it. {…}"],
+    ["components/RevisionPanel.jsx", "disclosure",
+      "The placement was refused when the loop started and is not now: the type’s own facts hold on the house it ended with."],
+    ["dossier/Evidence.jsx", "disclosure",
+      "no precedent record yet — a name a reader can find and a checker cannot resolve"],
+    ["palette/ShortcutCard.jsx", "voice",
+      ". The rail cites in it, the palette prints it beside every result, and a URL is that address written down — so any view can be refreshed, gone back from, or handed to somebody else."],
+    ["surfaces/BriefIntake.jsx", "voice",
+      "only style and target area are required — everything else absent becomes a logged decision"],
+    ["surfaces/CandidateSet.jsx", "voice",
+      "The composer returns several contrasting candidates, fatal-free first and then by score, and never calls one good. Start at Brief Intake."],
+    ["surfaces/CandidateSet.jsx", "voice",
+      "A plan with no fatal findings is not therefore good. The corpus can tell you what is wrong and cannot tell you what is alive."],
+    ["surfaces/CandidateSet.jsx", "voice",
+      "What the composer chose where the brief was silent. Read it — those are the assumptions, not facts."],
+    ["surfaces/DrawingSet.jsx", "voice",
+      "The drawing set is generated from the plan record on the workbench. Load or compose one first."],
+    ["surfaces/DrawingSet.jsx", "disclosure",
+      "A refusal is content: this record does not carry what the {…} generator needs, and it says so rather than inventing it."],
+    ["surfaces/ExportDetails.jsx", "voice",
+      "The IR itself — the record every drawing and finding renders from. Clear dimensions, declared walls, doors, assertions. JSON against"],
+    ["surfaces/ExportDetails.jsx", "voice",
+      "The brief as typed, and the validator's latest full report — counts, findings, constraint summary and the could-not-judge list, none of it collapsed."],
+    ["surfaces/ExportDetails.jsx", "voice",
+      "Every sheet the generators produce, in the Drawn Language. The drawing is a render of the record; export re-renders, it never snapshots the screen."],
+    ["surfaces/ExportDetails.jsx", "voice",
+      "Layered DXF per sheet, in inches, the record riding on the entities as XDATA — round-trip proven: DXF → plan record → validator gives the same findings. And an IFC4 model: walls, slabs, openings, roof and spaces, every product carrying its TDL ids in a"],
+    ["surfaces/FaultCorpus.jsx", "disclosure",
+      "No fault matches. The corpus holds {…} ; the filters above are hiding all of them."],
+    ["surfaces/FaultCorpus.jsx", "disclosure",
+      "No image records are filed against this fault yet — the record is the object until one is."],
+    ["surfaces/PlanWorkbench.jsx", "voice",
+      "Open one of the corpus's example plans, compose candidates from a brief, or paste a record. The drawing is a render of the record — nothing is drawn that is not in it."],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      "Each line is a count the placement record already carried and no surface read. A proof against a relaxed hard set is a proof of a different question."],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      "The record still declares the full size; only the placement is short, and nothing downstream reads these coordinates — so without this panel the trade is invisible. A room below its band is a defect that survives the life of the building. {…}"],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      ", not drawn: the conflict set above names what could not hold. The record still carries the search&rsquo;s least-bad arrangement — nothing here draws it and no export may take it. {…}"],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      "by CP-SAT, not searched: it held the record's own declared facts as hard constraints and returned {…} {…} . {…}"],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      ": the solver returned {…} inside its budget — a placement that holds the declared facts it kept, with optimality never established, so nothing on this sheet is a proof. {…}"],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      "The solve ran out of budget before the compositional objective, so no term for the front, the axis or the stack was scored on this drawing — it is the first feasible placement, not the best one."],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      "declared fact(s) this one holds ( {…} ). A lower score is not on its own a better house: choosing the search is choosing a better composition over a feasibility CP-SAT found, and that is the choice."],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      "Where a set of them could not all hold, the ones it had to give up are named in"],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      "The refused placement carries its own engine and status in the conflict set above; no engine is named for a sheet, because there is none."],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      "No placement is on this sheet yet, so no engine is named for it."],
+    ["surfaces/PlanWorkbench.jsx", "disclosure",
+      ", which is a hill-climb and not an optimiser: seconds-cheap, not deterministic across runs, and nothing it draws asserts that feasibility was proved."],
+    ["surfaces/Proportions.jsx", "disclosure",
+      "Half the order in section: every band is a member the engine emitted, run from the axis to the outer face this pack states — none traced. This pack measures its projections {…} , and says so {…} . {…}"],
+    ["surfaces/Proportions.jsx", "disclosure",
+      ", {…} : the pack does not bind its module to a measure of your building, so no slider moves this drawing."],
+    ["surfaces/Proportions.jsx", "disclosure",
+      "to draw: this pack gives rules, not an assembly, and no plate is drawn."],
+    ["surfaces/Transcription.jsx", "voice",
+      "Trace rooms over a scanned drawing, or start from a drafter's DXF — its extraction arrives as candidates with the gaps named, and a human fills every one. Nothing is guessed into the record."],
+    ["surfaces/Transcription.jsx", "voice",
+      "drag on the canvas to trace a room; click one to edit it"],
+    ["surfaces/phylo/MapView.jsx", "disclosure",
+      "{…} of the {…} country-wide marks are country-wide because the corpus says so rather than because this drawing failed: a family or a tradition is an abstraction over styles and has no birthplace, and a style whose hearth reads \"no design hearth\" is telling you something true."],
+    ["surfaces/phylo/MapView.jsx", "disclosure",
+      "{…} lineage {…} not drawn: both ends share a hearth, so the transmission happened inside one place and has no line to occupy."],
+    ["surfaces/phylo/MapView.jsx", "disclosure",
+      "Fetching the {…} outline for this scale; what is drawn is still the {…} one."],
+    ["surfaces/phylo/MapView.jsx", "disclosure",
+      "The {…} outline could not be fetched ( {…} ), so this is the {…} one at a scale it cannot carry — the facets are the simplification, not the shore. {…}"],
+  ],
 };
 // BASELINE-END
 
@@ -287,9 +413,54 @@ test('no new count literal in JSX', () => {
     'a count typed into a page goes stale silently: take it from the API or the payload in hand');
 });
 
+test('the prose reader finds a paragraph the app wrote, and not a label, a comment or code', () => {
+  const fixture = [
+    '<p>Japanese, Islamic, South Asian and African traditions are absent, and the schema extends to them.</p>',
+    '<p>No fault matches. The corpus holds {n}; the filters above are hiding all of them.</p>',
+    '<p>The corpus records where a style arose in prose and not in coordinates at all.\n  {abstract > 0 && (<b>x</b>)}</p>',
+    '<span>the style list could not be read</span>',                           // a short status line
+    '{/* <p>a commented paragraph of well over twelve words that no reader shows anyone</p> */}',
+    '// <p>a line comment holding a paragraph of well over twelve words nobody reads</p>',
+    // code the reader wanders into: a `>` comparison whose tail runs twelve words to a `{`
+    'if (a.length > b.length && first.kind === second.kind && ok(first, second, third, fourth, '
+      + 'fifth, sixth, seventh, eighth, ninth, tenth)) { go(); }',
+  ].join('\n');
+  assert.deepEqual(proseRows(fixture), [
+    'Japanese, Islamic, South Asian and African traditions are absent, and the schema extends to them.',
+    'No fault matches. The corpus holds {…} ; the filters above are hiding all of them.',
+    'The corpus records where a style arose in prose and not in coordinates at all.',
+  ]);
+});
+
+/* An empty result from a blind reader looks exactly like a tree with no paragraphs, so the premise
+   is asserted: the tree's own voice is found, and a lower threshold finds strictly more. */
+test('the premise: the prose reader sees the paragraphs the tree carries', () => {
+  const at12 = current().prose.length;
+  assert.ok(at12 > 20, `the reader found ${at12} paragraphs`);
+  assert.ok(current(TITLE_WORDS, 7).prose.length > at12, 'a lower threshold finds the status lines too');
+});
+
+test('every baselined paragraph carries a class, and none is a corpus fact', () => {
+  const CLASSES = new Set(['voice', 'disclosure', 'not-prose']);
+  const bad = BASELINE.prose.filter((r) => r.length !== 3 || !CLASSES.has(r[1]));
+  assert.deepEqual(bad, [],
+    'a prose row is [file, class, text] and its class is voice, disclosure or not-prose. There is no '
+    + 'corpus class: a corpus fact is derived from the payload or recorded in the glossary');
+});
+
+test('no new app-written paragraph', () => {
+  const baseline = BASELINE.prose.map(([f, , t]) => [f, t]);
+  const added = minus(current().prose, baseline);
+  assert.deepEqual(added, [],
+    'a paragraph of twelve or more words the app wrote: if it states a corpus fact, derive it from '
+    + 'the payload in hand or record it in glossary/; if it is the workbench\'s own voice or a '
+    + 'disclosure about the payload, add it to BASELINE.prose with that class');
+});
+
 test('the baseline only shrinks: a row that is gone must leave the baseline in the same commit', () => {
   const now = current();
-  const gone = [...minus(BASELINE.titles, now.titles), ...minus(BASELINE.counts, now.counts)];
+  const gone = [...minus(BASELINE.titles, now.titles), ...minus(BASELINE.counts, now.counts),
+    ...minus(BASELINE.prose.map(([f, , t]) => [f, t]), now.prose)];
   assert.deepEqual(gone, [],
     'these baseline rows no longer exist in the tree; delete them from BASELINE so the ratchet '
     + 'cannot be refilled by a new row of the same text');
