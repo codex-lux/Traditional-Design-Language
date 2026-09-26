@@ -7,7 +7,7 @@
   "the belvedere plan"
  ],
  "description": "An asymmetrical block with a tower at the inside angle of an L, the entrance at the tower's foot, and the principal rooms opening off a hall that runs from it. The tower is not an ornament added to a plan: it is the plan's pivot. It takes the front door, the stair and the top-floor belvedere, and because it does, the two ranges of the L are freed from having to be symmetrical about anything - which is precisely what the picturesque theorists wanted and what the Georgian plan could not give them. Take the tower away and the diagram collapses into an ordinary side-hall house with an awkward corner. An Italianate tower villa of the largest sort runs to 5,500 sf with a service wing and a conservatory. Its stated area range is what these rooms reach at the top of their own bands.",
- "note": "The range above is what these rooms reach; it was 5,500, of which 97% was reachable (OQ 45).",
+ "note": "The record's `area_range_sf` is what these rooms reach; it was 5,500, of which 97% was reachable (OQ 45).",
  "massing": "villa-tower",
  "alternate_massings": [
   "cross-gable-victorian",

@@ -268,38 +268,81 @@ if _tracked is not None:
 # carried one (a grouping's `dependency-and-hyphen`, a style's `references` and
 # `descends_from`) and were reworded in the words a reader uses.
 # IT RUNS INSIDE THIS CHECKER SO `TOTAL_CHECKS` DOES NOT MOVE, beside the duplicate-key sweep.
-def description_texts(root=None):
+def description_texts(root=None, unreadable=None):
     """`[(where, text)]` for every description a record page shows. Globbed per directory, never
-    walked, and sorted, so a git-ignored copy of the tree cannot be read into it."""
+    walked, and sorted, so a git-ignored copy of the tree cannot be read into it.
+
+    A FILE THAT CANNOT BE READ IS NAMED, NOT RAISED (WP-14.33's audit). The first version let a
+    malformed record escape as a bare traceback, and read a massing catalogue that was not a list
+    as zero massings -- an empty read that looks exactly like a clean one. Each failure is
+    appended to `unreadable`, and the module fails the build on it, because a description the
+    sweep could not open is a description it did not judge."""
     import glob as _glob
     base = ROOT if root is None else root
+    bad = unreadable if unreadable is not None else []
     out = []
+
+    def _load(rel):
+        try:
+            return json.load(open(os.path.join(base, rel), encoding="utf-8"))
+        except Exception as e:          # noqa: BLE001 -- named below, never swallowed
+            bad.append(f"{rel}: could not be read for its description ({type(e).__name__}: {e})")
+            return None
+
     for kind in ("partis", "groupings", "rooms"):
         for path in sorted(_glob.glob(os.path.join(base, kind, "*.json"))):
-            d = json.load(open(path, encoding="utf-8"))
+            rel = f"{kind}/{os.path.basename(path)}"
+            d = _load(rel)
+            if d is None:
+                continue
+            if not isinstance(d, dict):
+                bad.append(f"{rel}: is not a record object, so its description could not be read")
+                continue
             if isinstance(d.get("description"), str):
-                out.append((f"{kind}/{os.path.basename(path)}", d["description"]))
-    cat = os.path.join(base, "massings", "catalog.json")
-    if os.path.isfile(cat):
-        for m in json.load(open(cat, encoding="utf-8")):
+                out.append((rel, d["description"]))
+    if os.path.isfile(os.path.join(base, "massings", "catalog.json")):
+        cat = _load("massings/catalog.json")
+        if cat is not None and not isinstance(cat, list):
+            bad.append("massings/catalog.json: is not a list of massings, so no description in it "
+                       "could be read")
+        for m in (cat if isinstance(cat, list) else []):
             if isinstance(m, dict) and isinstance(m.get("description"), str):
                 out.append((f"massings/catalog.json#{m.get('id')}", m["description"]))
     for path in sorted(_glob.glob(os.path.join(base, "styles", "*.json"))):
-        d = json.load(open(path, encoding="utf-8")).get("description")
+        rel = f"styles/{os.path.basename(path)}"
+        d = _load(rel)
+        if d is None:
+            continue
+        d = d.get("description") if isinstance(d, dict) else None
         if isinstance(d, dict):
             for part in ("short", "long"):
                 if isinstance(d.get(part), str):
-                    out.append((f"styles/{os.path.basename(path)}#{part}", d[part]))
+                    out.append((f"{rel}#{part}", d[part]))
     return out
+
+
+# WHAT BUILD HISTORY LOOKS LIKE IN PROSE. Widened by WP-14.33's audit, which found the first
+# forms missing `WP 14`, a lower-case `wp-`, `OQ45` and `OQs 12`, a code span wrapped across a
+# line, and the two shapes a reworded description had actually kept: a repository path
+# (`docs/inheritance.md`) and a snake_case identifier (`garage_strategy`). Measured over the 466
+# descriptions on the day it was widened, the path and identifier forms each hit that ONE
+# description and nothing else, and it was reworded. A backtick is refused whatever it encloses,
+# across a line break too, and a lone one runs to the end of the text, because the page prints
+# plain text and a reader sees the character.
+HISTORY_FORMS = (
+    (r"(?i)\bWP[- ]?\d", "a work-package number"),
+    (r"(?i)\bOQs?[- ]?\d", "an open-question number"),
+    (r"(?i)\boq/[a-z0-9]", "an open-question slug"),
+    (r"`[^`]*`?", "a code span"),
+    (r"\b[\w.-]+/[\w./-]*\.(?:md|py|json|jsx|js|mjs|css|html|svg)\b", "a repository path"),
+    (r"\b[a-z][a-z0-9]*_[a-z0-9_]*[a-z0-9]\b", "a snake_case identifier"),
+)
 
 
 def build_history_in(texts):
     """One sentence per piece of build history found in `[(where, text)]`. Pure."""
     import re as _re
-    forms = ((_re.compile(r"\bWP-\d"), "a work-package number"),
-             (_re.compile(r"\bOQ \d"), "an open-question number"),
-             (_re.compile(r"\boq/[a-z0-9]"), "an open-question slug"),
-             (_re.compile(r"`[^`\n]+`"), "a code span"))
+    forms = [(_re.compile(rx), what) for rx, what in HISTORY_FORMS]
     found = []
     for where, text in texts:
         for rx, what in forms:
@@ -309,9 +352,9 @@ def build_history_in(texts):
     return found
 
 
-_desc_bad = 0
-_desc_texts = description_texts()
-_desc_found = build_history_in(_desc_texts)
+_desc_unread = []
+_desc_texts = description_texts(unreadable=_desc_unread)
+_desc_found = build_history_in(_desc_texts) + _desc_unread
 print(f"\ndescriptions read for build history: {len(_desc_texts)}  found: {len(_desc_found)}")
 for _d in _desc_found[:40]:
     print("  x " + _d)

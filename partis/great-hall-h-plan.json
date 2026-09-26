@@ -7,7 +7,7 @@
   "E-plan (with a porch)"
  ],
  "description": "A hall in the middle with a cross-wing at each end, entered at one end of the hall through a screens passage. The plan is a hierarchy laid out in a line and it reads in one direction only: service at the low end beyond the screens, the hall itself in the middle, the family's chambers at the high end beyond the dais. Everything about the type follows from that gradient - which end the door is at, which end the best window is at, which wing gets the chimney stack, and why the two wings are never interchangeable however symmetrical the elevation looks. The H is what remains when the fourth range of a courtyard is left off and the two remaining ends grow forward. An English H-plan manor of the first rank runs to 12,000 sf and past it, and it does so with a long gallery, a chapel, a second service court and lodgings this room list does not name. Its stated area range is what these rooms reach at the top of their own bands.",
- "note": "The range above is what these rooms reach at the top of their own bands; it was 12,000, of which the composer could reach 82% (OQ 45).",
+ "note": "The record's `area_range_sf` is what these rooms reach at the top of their own bands; it was 12,000, of which the composer could reach 82% (OQ 45).",
  "massing": "h-plan-manor",
  "alternate_massings": [
   "hall-single-cell"
