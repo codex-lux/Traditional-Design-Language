@@ -132,8 +132,13 @@ class TestTheWiringAndThePremise:
         it end to end means writing a bad record into the repository."""
         src = open(VALIDATE, encoding="utf-8").read()
         assert "_dup_bad = 1 if _dups else 0" in src
-        assert "if _scene_bad or _dup_bad:" in src, \
-            "the duplicate sweep's verdict must reach sys.exit"
+        # THE EXIT CONDITION IS READ, NOT MATCHED (WP-14.33). This pinned the literal line
+        # `if _scene_bad or _dup_bad:` and went red when the description sweep added its own
+        # flag to that line -- a change that kept this sweep's verdict reaching the exit exactly
+        # as before. The property is that the final `if` names the flag, whatever else it names.
+        last_if = [n for n in ast.parse(src).body if isinstance(n, ast.If)][-1]
+        named = {x.id for x in ast.walk(last_if.test) if isinstance(x, ast.Name)}
+        assert "_dup_bad" in named, "the duplicate sweep's verdict must reach sys.exit"
 
     def test_the_sweep_really_opened_the_corpus_and_found_none(self):
         """UNJUDGED IS NOT PASSED, applied to the instrument. A sweep that enumerated nothing
