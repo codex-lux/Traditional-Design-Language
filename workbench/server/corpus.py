@@ -19,6 +19,37 @@ import core  # noqa: E402  (mcp_server/core.py)
 CASCADE_EDGES = ("descends_from", "regional_of")
 
 
+def style(style_id, sections=None):
+    """`/api/styles/{id}`: `core.get_style` with one addition and nothing changed (WP-14.12).
+
+    Each `descendants` row gains its edge's served `inherits_kit` and `slots`, COPIED OFF THE
+    EDGE `phylogeny()` SERVES, so a reader asking what a descendant's edge hands down reads the
+    flag (`lineage/carry.js`) and never keys a table on the edge's TYPE -- the table WP-14.11
+    removed from three surfaces had a fourth copy colouring exactly these rows. The rule that
+    decides the flag is spelled once, in `phylogeny()`, and this function does not restate it:
+    a second spelling here is how the two payloads would come to disagree about one edge.
+
+    THE ADDITION IS MADE HERE AND NOT IN `core.get_style`, deliberately: `tdl_get_style` serves
+    that function's output over MCP and the MCP payloads are held byte-stable, so the workbench's
+    route enriches its own copy. `get_style` builds a fresh dict on every call, so nothing shared
+    is mutated. The rows are matched to their edges by walking the styles in the order both
+    functions walk them and REFUSING a row whose id or type disagrees, rather than trusting the
+    order silently."""
+    out = core.get_style(style_id, sections=sections)
+    rows = out.get("descendants") if isinstance(out, dict) else None
+    if rows is None:
+        return out
+    edges = [e for e in phylogeny()["edges"] if e["to"] == style_id]
+    if len(edges) != len(rows):
+        raise RuntimeError(f"{style_id}: {len(rows)} descendants against {len(edges)} edges")
+    for row, e in zip(rows, edges):
+        if row.get("id") != e["from"] or row.get("type") != e["type"]:
+            raise RuntimeError(f"{style_id}: descendant {row} does not match edge {e['from']}/{e['type']}")
+        row["inherits_kit"] = e["inherits_kit"]
+        row["slots"] = e["slots"]
+    return out
+
+
 def phylogeny():
     """The whole style graph, flattened for the Phylogeny surface.
 
@@ -65,6 +96,11 @@ def phylogeny():
                 "from": n["id"], "to": e["target"], "type": e["type"],
                 "weight": e.get("weight"),
                 "inherits_kit": bool(e.get("inherits_kit")) or e["type"] in CASCADE_EDGES,
+                # WP-14.4 (PRD §H.6): the lineage record's own slot scope where it states one
+                # (OQ 58 -- a scoped edge carries THOSE slots and nothing else), null where it
+                # does not. Served rather than re-read by the app, beside the one spelling of
+                # "this edge carries the cascade" above.
+                "slots": e.get("slots"),
             })
     return {"taxa": taxa, "edges": edges,
             "edge_types": {"cascade_carrying": list(CASCADE_EDGES),
@@ -171,6 +207,140 @@ def _author(authority):
     if not isinstance(authority, str):
         return None
     return authority.split(",")[0].strip()[:60] or None
+
+
+# ------------------------------------------------------------------ the glossary (WP-14.3)
+# What each word the workbench shows means, served from `glossary/<id>.json` through
+# `core._data()["glossary"]` and NOWHERE ELSE -- the app writes no definition, and a record is
+# held to its contract by build/check_glossary.py before it can reach this module. The payload
+# shape is docs/prd/phase-14-the-dossier-and-the-journey.md §C.1 and §C.2, and every rule below
+# is that section's rule in code, with the one spelling of each thing it needs IMPORTED:
+#
+#   * which files a basis may name -- `check_openings.GLOSSARY_REC_RE`, the pattern the checker
+#     verifies the basis against, so the `reads` line a popover prints is exactly the population
+#     the checker read and never a second regex's opinion of it;
+#   * the bindable fields -- `check_glossary.FIELDS`, whose rows the checker verifies
+#     against the schema files on every run;
+#   * the family order -- the schema's own `family` enum, through `core.schema`.
+#
+# CACHED, and that is measured rather than imitated from search_index: building it walks every
+# record (121 when it was measured), a regex over each basis and a JSON serialisation for the digest, and the payload is
+# what every tooltip on every page reads. Returned SHARED, as search_index is -- a caller that
+# means to mutate it copies first. `reset_glossary_payload()` is called by `invalidate()`.
+_GLOSSARY_PAYLOAD = None
+
+# The families a reader meets as a place rather than as a word: a surface, a dossier section and
+# a rail group are reached by the rail and the page head, so the palette does not list them a
+# second time as glossary entries (§C.5). A term in any other family is findable by its words.
+GLOSSARY_FAMILIES_NOT_INDEXED = ("surface", "section", "nav-group")
+
+
+def reset_glossary_payload():
+    global _GLOSSARY_PAYLOAD
+    _GLOSSARY_PAYLOAD = None
+
+
+def _glossary_families():
+    """The schema's `family` enum, in its order. The order IS the Glossary page's order, so it is
+    read from the schema rather than restated here."""
+    return list(core.schema("glossary-term")["properties"]["family"]["enum"])
+
+
+def _glossary_sort_key(families):
+    """§C.1: (index of `family` in the schema enum, `order` if present else +inf, `id`). `order`
+    is tested by PRESENCE, because 0 is a real order and the first value of every bound enum."""
+    inf = float("inf")
+    last = len(families)
+
+    def key(rec):
+        fam = rec.get("family")
+        return (families.index(fam) if fam in families else last,
+                rec["order"] if isinstance(rec.get("order"), int) else inf,
+                rec.get("id", ""))
+    return key
+
+
+def _glossary_reads(rec):
+    """The files the record's basis names, in order of first appearance and de-duplicated -- the
+    popover's provenance line (§C.1). `findall` over GLOSSARY_REC_RE is exactly what
+    `check_openings.check_basis` runs on the same basis, so a file listed here is a file the
+    checker opened and verified the quotation against. A sourced record carries no basis, so it
+    reads `[]` by construction."""
+    rx = core._mod("check_openings", os.path.join(ROOT, "build", "check_openings.py")).GLOSSARY_REC_RE
+    return list(dict.fromkeys(rx.findall(rec.get("basis") or "")))
+
+
+def glossary_payload():
+    """GET /api/glossary -- every record, with the set's version, grouped by family and by the
+    schema field each binds (PRD phase 14, §C.1)."""
+    global _GLOSSARY_PAYLOAD
+    if _GLOSSARY_PAYLOAD is not None:
+        return _GLOSSARY_PAYLOAD
+    G = core._data()["glossary"]
+    families = _glossary_families()
+    schema_version = core.schema("glossary-term")["version"]
+    # The digest is over the records AS AUTHORED -- sorted by id, no `reads` -- so a change to the
+    # derivation of `reads` is not a new version of the glossary, and a change to any record is.
+    authored = [G[k] for k in sorted(G)]
+    digest = hashlib.sha256(json.dumps(authored, sort_keys=True, separators=(",", ":"),
+                                       ensure_ascii=False).encode("utf-8")).hexdigest()[:16]
+    terms = []
+    for rec in sorted(G.values(), key=_glossary_sort_key(families)):
+        t = core.copy_json(rec)          # never hand out core's own record
+        t["reads"] = _glossary_reads(rec)
+        terms.append(t)
+    by_family = {f: [] for f in families}
+    for t in terms:
+        if t.get("family") in by_family:
+            by_family[t["family"]].append(t["id"])
+    fields = core._mod("check_glossary", os.path.join(ROOT, "build", "check_glossary.py")).FIELDS
+    by_field = {f: {} for f in fields}
+    for t in terms:
+        for b in t.get("binds") or []:
+            if b.get("field") in by_field:
+                by_field[b["field"]][b["value"]] = t["id"]
+    _GLOSSARY_PAYLOAD = {
+        "version": schema_version + "+" + digest,
+        "schema_version": schema_version,
+        "digest": digest,
+        "count": len(terms),
+        "terms": terms,
+        "by_family": by_family,
+        "by_field": by_field,
+    }
+    return _GLOSSARY_PAYLOAD
+
+
+def glossary_term(term_id):
+    """GET /api/glossary/{term_id} -- one record, its confusables resolved in declared order and
+    each `see` cite named from the search index by its `cite` (PRD phase 14, §C.2). A miss is an
+    `{"error", "did_you_mean"}` dict, which `_ok()` turns into a 404, and `did_you_mean` is
+    `core.get_fault`'s rule exactly.
+
+    `/api/glossary/about-tdl` is the one path the gate leaves open (§C.3), and this function is
+    what answers it. What it can put in that body is bounded by the RECORD rather than by code
+    here: build/check_glossary.py rule 9 forbids `about-tdl` a `see`, a `confusable_with`, a
+    `binds` or a `surface`, so both resolved lists come back empty and nothing but its own words
+    and the set's version string leaves the building."""
+    G = core._data()["glossary"]
+    rec = G.get(term_id)
+    if rec is None:
+        return {"error": f"no glossary term '{term_id}'",
+                "did_you_mean": [k for k in G if term_id.lower() in k][:8]}
+    term = core.copy_json(rec)
+    term["reads"] = _glossary_reads(rec)
+    confusable = []
+    for oid in rec.get("confusable_with") or []:
+        other = G.get(oid) or {}
+        # check_glossary proves every id named here exists; a record that did not would come back
+        # with its words null rather than be dropped, so the list stays the one the record states.
+        confusable.append({"id": oid, "term": other.get("term"), "sense": other.get("sense")})
+    see = []
+    if rec.get("see"):
+        names = {e["cite"]: e["name"] for e in search_index()["entries"]}
+        see = [{"cite": c, "name": names.get(c)} for c in rec["see"]]
+    return {"version": glossary_payload()["version"], "term": term,
+            "confusable": confusable, "see": see}
 
 
 # Built once per process. The corpus does not change under a running server — that is why the
@@ -282,49 +452,282 @@ def search_index():
             "hay": _hay(p.get("name"), p["id"], p.get("aka"), p.get("circulation_parti")),
         })
 
+    # WP-14.3. The glossary's words, so a reader can find what a word MEANS by typing it (§C.5).
+    # A term's `sense` goes into its name in parentheses, because two records may share a term
+    # ("variant" is a rank and a slot's option) and a list of two identical names is no answer.
+    # THE DEFINITION IS NEVER IN THE HAYSTACK -- it is prose, and this index's whole boundary is
+    # that it finds a thing by name: typing "wall" must not surface every term whose definition
+    # happens to mention a wall. It travels as `short`, for display, which match.js never reads.
+    # Surfaces, dossier sections and rail groups are places the rail already names, and are left
+    # out (GLOSSARY_FAMILIES_NOT_INDEXED).
+    _gfam = _glossary_families()
+    for t in sorted(D["glossary"].values(), key=_glossary_sort_key(_gfam)):
+        if t.get("family") in GLOSSARY_FAMILIES_NOT_INDEXED:
+            continue
+        e.append({
+            "cite": "term:" + t["id"], "kind": "term", "id": t["id"],
+            "name": t["term"] + (" (" + t["sense"] + ")" if t.get("sense") else ""),
+            "meta": t["family"],
+            "hay": _hay(t["term"], t["id"], t.get("aka"), t.get("sense")),
+            "short": t["definition"],
+        })
+
     _SEARCH_INDEX = {
         "count": len(e),
         "entries": e,
         "indexes": ["name", "id", "aka", "categorical fields (rank, group, category, "
-                    "kind, function_class, scale, circulation_parti)", "style regions"],
+                    "kind, function_class, scale, circulation_parti)", "style regions",
+                    "a glossary term's sense"],
         "does_not_index": ["prose bodies: diagnostic_tells, defining_characteristics, "
-                           "fault cause and correct_practice, slot notes, descriptions"],
+                           "fault cause and correct_practice, slot notes, descriptions",
+                           "glossary definitions: carried as `short` for display, never matched"],
         "note": ("The palette finds things by name. For prose use /api/styles?query=, "
                  "which searches the tells server-side, or ask the rail."),
     }
     return _SEARCH_INDEX
 
 
+_PACK_LIST = None
+
+
+def reset_pack_list():
+    global _PACK_LIST
+    _PACK_LIST = None
+
+
+def pack_drawing(pk, pe):
+    """Which plate a resolved pack is drawn on: "stack", "assemblies", or None (nothing to draw).
+    The ONE spelling of the rule `proportions_with_members` writes as `drawing` -- the list route
+    reads it here so the index and the pack page cannot disagree about which packs are drawn."""
+    if pe.stack_for(pk):
+        return "stack"
+    return "assemblies" if pk.get("assemblies") else None
+
+
+def _pack_thumb(pk, pe):
+    """WP-14.24 (PRD tranche 2 §C.9, §0.3 default 6): the pack's FIRST assembly at the wall datum,
+    for the index's thumbnail -- served geometry only, and exactly the geometry the pack's own
+    plate draws first at no reader input: `_wall_assemblies`, the one wall-datum dimensioning, at
+    the module `core.module_binding` gives when nothing is given (the plate's own call).
+
+    Only for a pack whose plate IS at the wall datum (`drawing == "assemblies"`). A stacked pack
+    is drawn on its column's axis, not a wall, and measured: its first assembly at the wall datum
+    has NO WIDTH on 10 of the 25 stacked packs (the five `chambers-*`, three `palladio-*`,
+    `benjamin-doric` and `greek-doric`) and reads the 14 `axis`-datum packs' radii as projections
+    off a wall, which is OQ 65's error one surface over (`build/profiles.py`'s own docstring: the
+    wall datum is for "the 27 packs that carry assemblies and no column stack"). So a stacked pack
+    carries no thumbnail and the list says why, in `drawing`, rather than drawing a picture of
+    the wrong datum.
+
+    Trimmed to what a thumbnail reads: the faces (their paths, and the figures `extentOf` bounds
+    them by), the height, and the `axis` where the pack declares one, so a turned assembly is
+    turned in the index as it is on the plate. Members and zones stay on the pack page."""
+    first = next(iter(pk.get("assemblies") or {}), None)
+    if first is None:
+        return None
+    rows = _wall_assemblies(pk, pe, core.module_binding(pk)["module_in"], only=[first])
+    if not rows:
+        return None
+    row = rows[0]
+    thumb = {"assembly": row["id"], "height_in": row["height_in"],
+             "geometry": {"faces": row["geometry"]["faces"]}}
+    if "axis" in row:
+        thumb["axis"] = row["axis"]
+    return thumb
+
+
 def pack_list():
     """Every proportion pack, for the Proportions surface's navigation. The
     non-classical packs are equal citizens — most traditional buildings were
     proportioned from a material module, not a column — so the list leads with the
-    system and module packs and the kind is first-class, not an afterthought."""
-    packs = core._data()["engine"].PACKS
+    system and module packs and the kind is first-class, not an afterthought.
+
+    WP-14.24 adds three keys per row: `drawing` (`pack_drawing`, the pack page's own word),
+    `module_bound_to` (the building dimension a pack's module IS, where it declares one -- what
+    the page's class-A slider is driven by, so a request never sends a building input to a pack
+    that does not bind it) and `thumb` (`_pack_thumb`, or null). Building the list this way costs
+    about 36 ms, median of 40 interleaved builds -- resolving every pack for `drawing` about 27 and
+    the 27 thumbnails about 7 to 9 -- against the old list's 0.02 ms, so it is built once per
+    process and `invalidate()` drops it, as it drops the search index. Measured at gzip level 4, the level
+    `GZipExceptSSE` deploys, on the body Starlette's JSONResponse writes: 65,799 raw / 20,709
+    gzipped before, 105,740 / 29,360 after -- 8,651 gzipped bytes for 27 thumbnails, inside the
+    brief's ~60 KB, so they ride on this route rather than a route of their own
+    (`workbench/server/tests/test_pack_thumbs.py` asserts the bound)."""
+    global _PACK_LIST
+    if _PACK_LIST is not None:
+        return _PACK_LIST
+    pe = core._data()["engine"]
+    packs = pe.PACKS
     out = []
     for pid, p in packs.items():
+        pk = pe.resolve(pid)
+        drawing = pack_drawing(pk, pe)
         out.append({"id": pid, "name": p.get("name", pid), "kind": p.get("kind"),
                     "authority": p.get("authority"),
-                    "overlay_on": p.get("overlay_on")})
+                    "overlay_on": p.get("overlay_on"),
+                    "drawing": drawing,
+                    "module_bound_to": (pk.get("module") or {}).get("equals"),
+                    "thumb": _pack_thumb(pk, pe) if drawing == "assemblies" else None,
+                    # WP-14.31: the conflicts with building today the pack's OWN file records --
+                    # the raw pack, not the resolved one, because an overlay's resolved list
+                    # repeats its base's and a sum over resolved packs counts one conflict twice.
+                    # The Export page typed "262 recorded pack conflicts"; it sums this now.
+                    "conflicts": len(p.get("conflicts") or [])})
     kind_rank = {"module-system": 0, "trim-system": 1, "opening-system": 2,
                  "room-system": 3, "facade-system": 4, "order-system": 5}
     out.sort(key=lambda r: (kind_rank.get(r["kind"], 9), r["id"]))
-    return {"count": len(out), "packs": out,
-            "note": ("Order packs are <authority>-<order> and compare at a common column "
-                     "DIAMETER, never a common module — authorities do not share one.")}
+    _PACK_LIST = {"count": len(out), "packs": out,
+                  "note": ("Order packs are <authority>-<order> and compare at a common column "
+                           "DIAMETER, never a common module — authorities do not share one.")}
+    return _PACK_LIST
+
+
+# The route's defaults since WP-5.2. They live in mcp_server/core.py now, beside the one spelling
+# of the module binding that applies them (WP-14.18), and are named here only so the existing
+# readers of `corpus.CEILING_DEFAULT_IN` keep reading the same number rather than a copy of it.
+CEILING_DEFAULT_IN = core.CEILING_DEFAULT_IN
+OPENING_DEFAULT_IN = core.OPENING_DEFAULT_IN
+
+
+def _profiles():
+    """`build/profiles.py`, through modcache -- never a local by-path loader."""
+    return core._mod("profiles", os.path.join(ROOT, "build", "profiles.py"))
 
 
 def proportions_with_members(pack_id, column_diameter=None, module=None,
-                             ceiling_height=108.0, opening_width=36.0):
+                             ceiling_height=None, opening_width=None,
+                             storey_height=None, room_width=None):
     """core.get_proportions plus full member lists for EVERY assembly — the plate
     drawing needs the whole stack at once, and the API's one-assembly-at-a-time
-    shape (right for an agent's context budget) would cost seven round-trips."""
-    out = core.get_proportions(pack_id, column_diameter=column_diameter, module=module,
-                               ceiling_height=ceiling_height, opening_width=opening_width)
+    shape (right for an agent's context budget) would cost seven round-trips.
+
+    WP-14.4 (PRD §H.1): EVERY PACK THE ENGINE CAN DRAW, NOT ONLY THE 25 WITH A COLUMN STACK.
+    `pe.dimension(pk, mod, None)` dimensions `stack_for(pk)`, which knows only order assembly
+    names, so for every pack without a stack it returned ZERO assemblies -- although asked one
+    assembly at a time the same engine dimensions `trim-classical`'s three wall sections and
+    three casings, 71 members. `drawing` says which path a pack takes:
+      "stack"       -- `stack_for` is non-empty: THE EXISTING PATH, every pre-existing key's value
+                       byte for byte (held by workbench/server/tests/test_pack_plates.py against
+                       `core.get_proportions`, and in the WP-14.4 report by the base commit's
+                       own function over all 25 stacked packs at four argument sets, 100 of
+                       100). Only the new keys below are added.
+      "assemblies"  -- no stack and the pack carries assemblies (26 non-order packs and
+                       `moorish-arch`, an order pack whose impost, arch and alfiz are no column):
+                       each assembly dimensioned on its own with `include=[aid]`, so its y runs
+                       from 0, and its geometry built on the WALL datum, because none of these
+                       stands on a column and the order datum read `trim-classical`'s ceiling
+                       module as a column radius.
+      null          -- nothing to draw (five packs: no assemblies at all). Never a picture of
+                       something the record does not hold.
+
+    THE MODULE BOUND TO A BUILDING DIMENSION. A pack whose `module.equals` names a dimension of the
+    building -- `trim-classical`'s ceiling, `room-harmonic`'s breadth -- states that its module IS
+    that dimension (`build/check_systems.py` check 19 lie-checks the claim), so the plate and the
+    rules table describe one building and a reader moving that dimension moves both. Where it is
+    not given the module is the pack's own `default_size_in` -- `trim-classical`'s 114 in, at which
+    its part is exactly six inches -- and not the route's 108. Since WP-14.18 that reading is
+    `core.module_binding`, the ONE spelling the MCP tool reads too, so the tool and this plate cannot
+    dimension one pack at two sizes; a contradictory call (a module and a different figure for the
+    dimension it IS, or a column diameter on a pack whose module is a building dimension) is
+    refused by it, by name. Every unbound pack takes today's call with today's defaults.
+    """
+    pe = core._data()["engine"]
+    try:
+        pk = pe.resolve(pack_id)
+    except Exception:
+        # core's own refusal shape -- {"error", "available", "hint"} -- rather than a second
+        # wording of "no such pack".
+        return core.get_proportions(pack_id)
+    given = {"column_diameter": column_diameter, "module": module,
+             "ceiling_height": ceiling_height, "opening_width": opening_width,
+             "storey_height": storey_height, "room_width": room_width}
+    b = core.module_binding(pk, **given)
+    if "error" in b:
+        return b
+    equals = b["bound_to"]
+    out = core.get_proportions(pack_id, **given)
     if "error" in out:
         return out
-    pe = core._data()["engine"]
-    pk = pe.resolve(pack_id)
+    drawing = pack_drawing(pk, pe)
+    if drawing == "stack":
+        _stacked_members(out, pk, pe)
+    else:
+        # The per-assembly geometry carries what the plate draws. The pack-level `geometry`
+        # is null: under the order datum it drew every one of these packs off its own wall.
+        if pk.get("column"):
+            out["column"] = {k: v for k, v in pk["column"].items()
+                             if k in ("entasis_begins_at",)}
+        out["projection_datum"] = pk.get("projection_datum")
+        out["geometry"] = None
+        out["assemblies"] = (_wall_assemblies(pk, pe, out["module_in"])
+                             if drawing == "assemblies" else [])
+    out["drawing"] = drawing
+    # What the drawing and the rules were worked at: the ceiling and the opening always (as since
+    # WP-14.4), and the dimension a bound module IS where that is another one -- `room-harmonic`'s
+    # breadth -- so a slider driven by `module_bound_to` finds its own figure here.
+    at = {"ceiling_height": b["bindings"]["ceiling_height"],
+          "opening_width": b["bindings"]["opening_width"]}
+    if equals and equals not in at:
+        at[equals] = b["bindings"][equals]
+    at["module_in"] = out["module_in"]
+    out["at"] = at
+    out["module_name"] = pk["module"]["name"]
+    out["module_bound_to"] = equals
+    out["kind"] = pk["kind"]
+    out["used_by"] = pack_users(pk["id"])
+    # WP-14.15: the pack's own `sources`, which 55 of 57 packs carry and this route did not
+    # serve, so the page's sources section could print only the authority line. Served here
+    # and not in core.get_proportions, which is the MCP payload and is held byte-stable.
+    out["sources"] = [s for s in (pk.get("sources") or []) if isinstance(s, str)]
+    return out
+
+
+def _wall_assemblies(pk, pe, module_in, only=None):
+    """Each assembly of a stackless pack, in the pack's declaration order, on the wall datum.
+    `only` (WP-14.24) names the assemblies wanted, still in declaration order -- the index's
+    thumbnail asks for the first alone, so it is this function's row and not a second spelling.
+
+    `height_in` is the SUMMED extent -- what is drawn -- and `height_in_stated` the stated
+    height. They are EQUAL on all 50 assemblies of the 27 stackless packs, measured: side-by-side
+    members (`sums_check: false`, `moorish-arch`'s arch and alfiz) are given the stated height by
+    `dimension()` itself, and a stacked record whose members do not sum to it is refused by
+    `check_systems.py` check 11 and by `check_orders.py`. Both are served because a record
+    COULD state a height its members do not fill, and the plate must draw what is there -- the
+    case is DRIVEN in `workbench/server/tests/test_pack_plates.py`, since no shipped record
+    reaches it. `owner` is the pack in the overlay chain that actually STATES the assembly
+    (`pe.assembly_owner`, the one spelling) -- no stackless pack is an overlay today, so that
+    case is driven too. `unconstructed`
+    is what `profiles.py` could not construct -- reported, never drawn as something else.
+
+    `axis` and `zones` (WP-14.18) are passed through exactly as the pack declares them and only
+    where it does: an absent axis means up-the-wall, and a zone is a division the pack's own words
+    give, held to the members by build/check_orders.py. The plate turns and dimensions from these;
+    nothing here derives either."""
+    prof = _profiles()
+    rows = []
+    for aid, rec in (pk.get("assemblies") or {}).items():
+        if only is not None and aid not in only:
+            continue
+        d = pe.dimension(pk, module_in, [aid])
+        if not d["assemblies"]:
+            continue
+        da = d["assemblies"][0]
+        g = prof.pack_geometry(d, datum="wall")
+        row = {"id": aid, "height_modules": da["height_modules"],
+               "height_in": da["height_in_summed"],
+               "height_in_stated": da["height_in_stated"],
+               "sums_check": da["sums_check"], "members": da["members"],
+               "owner": pe.assembly_owner(pk["id"], aid),
+               "geometry": g["assemblies"][0], "unconstructed": g["unconstructed"]}
+        for k in ("axis", "zones"):
+            if k in (rec or {}):
+                row[k] = rec[k]
+        rows.append(row)
+    return rows
+
+
+def _stacked_members(out, pk, pe):
+    """The stack path, unchanged since WP-5.11: every pre-existing key's value byte for byte."""
     d = pe.dimension(pk, out["module_in"], None)
     members = {a["id"]: a["members"] for a in d["assemblies"]}
     for a in out["assemblies"]:
@@ -356,6 +759,402 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
         prof = _il.module_from_spec(_s); _s.loader.exec_module(prof)
     out["geometry"] = prof.pack_geometry(d, pk.get("column"), pk.get("projection_datum"))
     return out
+
+
+# ----------------------------------------------------------------- who uses a pack (WP-14.4)
+def _pack_card(pid, binding=None):
+    """A pack by name and kind from the registry, plus the binding's role and precedence."""
+    raw = core._data()["engine"].PACKS.get(pid) or {}
+    card = {"pack": pid, "name": raw.get("name"), "kind": raw.get("kind")}
+    if binding is not None:
+        card["role"] = binding.get("role")
+        card["precedence"] = binding.get("precedence")
+    return card
+
+
+def _style_name(sid):
+    if sid is None:
+        return None
+    return (core._data()["styles"].get(sid) or {}).get("name")
+
+
+def pack_users(pack_id):
+    """Who this pack reaches, by INVERTING `build/resolve_kit.resolve_packs` over every node of
+    `core._kit_graph()` (PRD §H.2) -- no second cascade. `resolve_packs` is the one function
+    that decides pack MEMBERSHIP, declines and the opt-in gate included, so a second walk here
+    would be a third spelling of OQ 51's rule the first time either moved.
+
+      own                      nodes that bind the pack themselves (`_source` is the node)
+      delivered                nodes it reaches through an ancestor, with the ancestor, the
+                               binding's role, and whether the node names it in `inherits_packs`
+      applies_to_only          named in the pack's own `applies_to` and reached by nothing
+      bound_not_in_applies_to  bound by a node the pack's `applies_to` does not name
+    """
+    rk, g = core._kit_graph()
+    own, delivered = [], []
+    for nid in sorted(g.get("nodes") or {}):
+        rec = rk.resolve_packs(g, rk.chain_for(g, nid)).get(pack_id)
+        if rec is None:
+            continue
+        if rec["_source"] == nid:
+            own.append(nid)
+        else:
+            node = g["nodes"][nid]
+            delivered.append({"style": nid, "from": rec["_source"], "role": rec.get("role"),
+                              "opted_in": pack_id in (node.get("inherits_packs") or [])})
+    try:
+        applies = list(core._data()["engine"].resolve(pack_id).get("applies_to") or [])
+    except Exception:
+        applies = []
+    reached = set(own) | {d["style"] for d in delivered}
+    return {"own": own, "delivered": delivered,
+            "applies_to_only": sorted(set(applies) - reached),
+            "bound_not_in_applies_to": sorted(set(own) - set(applies))}
+
+
+def _precedence_key(card):
+    p = card.get("precedence")
+    return (p is None, p if p is not None else 0, card["pack"])
+
+
+def style_packs(style_id):
+    """A style's packs by provenance (PRD §H.3), from `resolve_packs` over its own chain.
+
+    own       the node binds it
+    opted_in  an ancestor delivers it AND the node names it in `inherits_packs`
+    delivered an ancestor delivers it by cascade, grouped by that ancestor, nearest first
+    withheld  the opt-in gate stopped it (`resolve_kit.withheld_for`, the one reader)
+    declined  the node refused it (`resolve_kit.refusals_for`, the one reader)
+
+    Five lists and never fewer: a pack that reaches a node, one withheld from it and one it
+    declined are three different facts, and a reader asking "why does this style not have that
+    pack" is answered by the last two."""
+    D = core._data()
+    rk, g = core._kit_graph()
+    if style_id not in D["styles"] or style_id not in (g.get("nodes") or {}):
+        return core.get_style(style_id)          # get_style's own refusal shape -> a 404
+    chain = rk.chain_for(g, style_id)
+    node = g["nodes"][style_id]
+    opted = set(node.get("inherits_packs") or [])
+    own, opted_in, groups = [], [], {}
+    for pid, rec in rk.resolve_packs(g, chain).items():
+        src = rec["_source"]
+        card = _pack_card(pid, rec)
+        if src == style_id:
+            own.append(card)
+        elif pid in opted:
+            opted_in.append(dict(card, **{"from": src, "from_name": _style_name(src)}))
+        else:
+            groups.setdefault(src, []).append(card)
+    own.sort(key=_precedence_key)
+    opted_in.sort(key=_precedence_key)
+    delivered = []
+    for src in sorted(groups, key=chain.index):
+        # the packs in THAT ancestor's own binding order
+        order = [pb["pack"] for pb in (g["nodes"][src].get("proportion_packs") or [])]
+        packs = sorted(groups[src], key=lambda c: order.index(c["pack"])
+                       if c["pack"] in order else len(order))
+        delivered.append({"from": src, "from_name": _style_name(src),
+                          "distance": chain.index(src), "packs": packs})
+    withheld = []
+    for pid, rec in rk.withheld_for(g, style_id).items():
+        src = rec.get("_would_have_come_from")
+        withheld.append(dict(_pack_card(pid), role=rec.get("role"), **{
+            "from": src, "from_name": _style_name(src), "why": rec.get("_why")}))
+    declined = []
+    for rec in rk.refusals_for(g, style_id):
+        src = rec.get("_would_have_come_from")
+        declined.append(dict(_pack_card(rec["pack"]), **{
+            "from": src, "from_name": _style_name(src),
+            "reason": rec.get("reason"), "basis": rec.get("basis")}))
+    return {"style": style_id, "own": own, "opted_in": opted_in, "delivered": delivered,
+            "withheld": withheld, "declined": declined,
+            "counts": {"own": len(own), "opted_in": len(opted_in),
+                       "delivered": sum(len(gr["packs"]) for gr in delivered),
+                       "withheld": len(withheld), "declined": len(declined)}}
+
+
+# ----------------------------------------------------------------- the dossier (WP-14.4)
+# THE SECTION ORDER IS `citations.DOSSIER_SECTIONS` (PRD §D.1), which WP-14.3 adds and pins to
+# the app's copy in `test_grammar_agreement.py`. Until it lands this module carries the nine
+# strings as a FALLBACK and reads the real one the moment it exists; WP-14.3 deletes this line.
+# `workbench/server/tests/test_dossier_routes.py` fails if the two ever disagree, so the
+# fallback cannot quietly become a third spelling.
+_SECTIONS_UNTIL_14_3 = ("identify", "members", "lineage", "kit", "proportions", "plans",
+                        "rules", "faults", "evidence")
+_VERDICT_KEYS = ("EXCEPTION_FOR_THIS_STYLE", "EXCEPTION_NOT_EARNED_BY_THIS_STYLE",
+                 "EXCEPTION_WHOSE_CONDITION_COULD_NOT_BE_JUDGED", "INVERTED_FOR_THIS_STYLE")
+
+
+def dossier_sections():
+    """The dossier's section ids, in order: the citations module's, else the fallback."""
+    from . import citations
+    return tuple(getattr(citations, "DOSSIER_SECTIONS", None) or _SECTIONS_UNTIL_14_3)
+
+
+def _node_ref(n):
+    return {"id": n["id"], "name": n.get("name"), "rank": n.get("rank")}
+
+
+def _by_floruit(n):
+    return ((n.get("period") or {}).get("floruit_start") is None,
+            (n.get("period") or {}).get("floruit_start") or 0, n["id"])
+
+
+def dossier_faults(style_id):
+    """`core.find_faults(style=...)` partitioned three ways (PRD §H.4): a verdict for THIS style
+    (an exception read for it, an inversion, or a severity its record states for it), a fault
+    written for its lineage rather than for every house, and the universal rest. The three
+    partition `matches`, which the route's test holds."""
+    D = core._data()
+    res = core.find_faults(style=style_id, limit=300)
+    here, lineage, universal = [], [], 0
+    for card in res["faults"]:
+        rec = D["faults"].get(card["id"]) or {}
+        if any(k in card for k in _VERDICT_KEYS) or any(
+                s.get("style") == style_id for s in (rec.get("severity_by_style") or [])):
+            here.append(card["id"])
+        elif "universal" not in (rec.get("applies_to") or []):
+            lineage.append(card["id"])
+        else:
+            universal += 1
+    return {"verdict_here": here, "lineage": lineage, "universal_count": universal,
+            "matches": res["matches"]}
+
+
+def dossier_plan_types(style_id):
+    """The three lists the Plan types section shows (PRD §H.4): massing affinities from the
+    node, the partis `core.list_partis` gives for the style -- native and lineage since WP-14.19,
+    each carrying its `nativity` so the section can say which -- and the groupings whose
+    `style_variation` NAMES this style with `present` not false. Not `GET /api/groupings?style=`,
+    which returns every grouping not marked absent (PRD §0.1 #12)."""
+    D = core._data()
+    n = D["styles"][style_id]
+    affs = [{"massing": m.get("massing"),
+             "massing_name": (D["massings"].get(m.get("massing")) or {}).get("name"),
+             "affinity": m.get("affinity")} for m in (n.get("massing_affinities") or [])]
+    partis = [{"id": p["id"], "name": p.get("name"), "nativity": p.get("nativity")}
+              for p in core.list_partis(style=style_id)["partis"]]
+    groupings = []
+    for gid in sorted(D["groupings"]):
+        gr = D["groupings"][gid]
+        for sv in gr.get("style_variation") or []:
+            if sv.get("style") == style_id and sv.get("present") is not False:
+                groupings.append({"id": gid, "name": gr.get("name"), "note": sv.get("note")})
+                break
+    return {"massing_affinities": affs, "partis": partis, "groupings": groupings}
+
+
+# ----------------------------------------------------------------- compare two styles (WP-14.26)
+#
+# Tranche 2 PRD §C.7. The Phylogeny's shift-click comparison printed `core.compare_styles` as a
+# JSON dump and compared nothing about the two KITS, which is where two styles a reader confuses
+# actually differ. The kit half reads `core.resolve_kit` -- the one kit authority since this
+# package rebased it on `build/resolve_kit.resolve_slots` -- so a row here is exactly the
+# difference of the two `/api/kit` payloads a reader could fetch, and cannot be a third answer.
+
+KIT_DIFF_FIELDS = ("binding", "canonical", "forbidden", "source")
+
+
+def _kit_view(row):
+    """The four fields a compare row carries, from one `resolve_kit` row. A slot the resolved kit
+    leaves open still has a row (`only_specified=False` answers every slot), so `None` here means a
+    slot the ONTOLOGY does not hold and cannot occur for a slot id taken from it."""
+    if row is None:
+        return None
+    return {"binding": row.get("binding"), "canonical": list(row.get("canonical") or []),
+            "forbidden": list(row.get("forbidden") or []), "source": row.get("source")}
+
+
+def _kit_differs(va, vb):
+    """Which of the four fields differ. A variant LIST is compared as a set: the order two kit
+    files happen to list their canonical variants in is not a difference between the styles."""
+    out = []
+    for f in KIT_DIFF_FIELDS:
+        x, y = va.get(f), vb.get(f)
+        if isinstance(x, list) or isinstance(y, list):
+            x, y = sorted(x or []), sorted(y or [])
+        if x != y:
+            out.append(f)
+    return out
+
+
+def compare_kits(a, b):
+    """`GET /api/compare/{a}/{b}`: two styles side by side, in four parts.
+
+    identify     `core.compare_styles` -- the explicit disambiguation, the tells, shared ancestry
+    kit          one row per slot where the two RESOLVED kits differ on the binding, the canonical
+                 set, the forbidden set or the source, each naming which in `differs_on`; a row
+                 differing on `source` alone is two styles giving the same answer for different
+                 reasons, and says so rather than being dropped
+    proportions  `style_packs` for each style
+    plans        the partis `core.list_partis` gives each style, with their nativity, exactly as
+                 the dossier's Plan types section reads them
+
+    An unknown style is refused BY NAME: `missing` lists the id(s) the corpus does not hold."""
+    D = core._data()
+    missing = [x for x in (a, b) if x not in D["styles"]]
+    if missing:
+        return {"error": "unknown style id", "missing": missing}
+    ka = {r["slot"]: r for r in core.resolve_kit(a, only_specified=False)["slots"]}
+    kb = {r["slot"]: r for r in core.resolve_kit(b, only_specified=False)["slots"]}
+    rows = []
+    for sid, s in D["slots"].items():
+        va, vb = _kit_view(ka.get(sid)), _kit_view(kb.get(sid))
+        if va is None or vb is None:
+            continue
+        diff = _kit_differs(va, vb)
+        if diff:
+            rows.append({"slot": sid, "group": s.get("group"), "name": s.get("name"),
+                         "differs_on": diff, "a": va, "b": vb})
+    answer = sum(1 for r in rows if r["differs_on"] != ["source"])
+    return {"a": a, "b": b,
+            "identify": core.compare_styles(a, b),
+            "kit": {"fields": list(KIT_DIFF_FIELDS),
+                    "slots_compared": len(D["slots"]),
+                    "rows": rows,
+                    "differ_in_answer": answer,
+                    "differ_in_source_only": len(rows) - answer},
+            "proportions": {"a": style_packs(a), "b": style_packs(b)},
+            "plans": {"a": dossier_plan_types(a)["partis"], "b": dossier_plan_types(b)["partis"]}}
+
+
+# ----------------------------------------------------------------- record pages (WP-14.23)
+#
+# Tranche 2 PRD §C.6. Five kinds of record have a page of their own -- a slot in the Elements
+# index, and the four plan-type records -- and each page shows its relation to the others FROM
+# BOTH SIDES. The forward relation lives on one record (a style names its massing affinities, a
+# parti names its groupings, a grouping names its rooms, a parti names the styles it was drawn
+# for) and the inverse is COMPUTED from it here or in core, never authored a second time, so the
+# two sides cannot disagree; `workbench/server/tests/test_record_pages.py` holds each pair.
+#
+# THE WORKBENCH NEVER WRITES INTO A RECORD CORE HOLDS. `tdl_get_slot` and `tdl_get_grouping` serve
+# `core.get_slot` and `core.get_grouping`, which build a fresh dict per call; the workbench's routes
+# enrich their own copy, exactly as `style()` above does. (This heading read "the MCP payloads are
+# untouched" until WP-14.26, which lifted the freeze on `tdl_get_slot` BY NAME -- its
+# `specified_by_styles` reads the resolved kit now -- and on `tdl_resolve_kit`. `tdl_get_grouping`
+# is unmoved.)
+
+def _resolved_bindings():
+    """slot id -> {"specified": [style ids], "forbidden": [style ids]}, over every style's RESOLVED
+    kit, each list in id order: `core._resolved_bindings`, the one reader.
+
+    WP-14.23 wrote this rule here, for the slot page, because `core.get_slot`'s
+    `specified_by_styles` then read each node's OWN kit file -- listing a style that FORBIDS the
+    slot as one that specifies it, and missing every style that inherits it -- and that payload was
+    held byte-stable. WP-14.26 lifted the freeze and moved the rule into core, where `get_slot`
+    reads it too (`oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`, closed),
+    so the tool and the page cannot disagree about who specifies a slot again."""
+    return core._resolved_bindings()
+
+
+def slots_index():
+    """`GET /api/slots` (§C.6): every slot row exactly as `core.get_slot` serves its `slot`, in the
+    ontology's own order, plus `specified_by` -- the COUNT of styles whose resolved kit binds it
+    specified, computed and never typed -- and the slot groups the rows are filed under."""
+    D = core._data()
+    bound = _resolved_bindings()
+    rows = []
+    for sid, s in D["slots"].items():
+        row = core.copy_json(s)        # never write into core's own record
+        row["specified_by"] = len(bound[sid]["specified"])
+        rows.append(row)
+    return {"groups": core.copy_json(D["groups"]), "slots": rows}
+
+
+def slot(slot_id):
+    """`GET /api/slots/{id}`: `core.get_slot`, plus `bindings` -- the styles whose RESOLVED kit
+    specifies the slot and those whose resolved kit forbids it (`_resolved_bindings`). The slot's
+    record page reads `bindings`; `specified_by_styles` beside it is `tdl_get_slot`'s field, which
+    reads the same resolved kits since WP-14.26 and so equals `bindings.specified`."""
+    out = core.get_slot(slot_id)
+    if not isinstance(out, dict) or "error" in out:
+        return out
+    b = _resolved_bindings()[slot_id]
+    out["bindings"] = {
+        "specified": b["specified"],
+        "forbidden": b["forbidden"],
+        "note": ("Read from each style's resolved kit, after the lineage cascade: a style that "
+                 "inherits the slot from an ancestor is counted with the ancestor's binding."),
+    }
+    return out
+
+
+def grouping(grouping_id, style=None):
+    """`GET /api/groupings/{id}`: `core.get_grouping`, plus `carried_by` -- the partis whose own
+    `groupings` name this one, in id order (§C.6). The inverse of the parti's field, read from it."""
+    out = core.get_grouping(grouping_id=grouping_id, style=style)
+    if not isinstance(out, dict) or "error" in out:
+        return out
+    out["carried_by"] = [{"id": p["id"], "name": p.get("name")}
+                         for p in sorted(core._all_partis(), key=lambda p: p["id"])
+                         if grouping_id in (p.get("groupings") or [])]
+    return out
+
+
+def style_dossier(style_id):
+    """What a Style Dossier's head and section strip need, as COUNTS (PRD §H.4, §D.2).
+
+    Each count is the figure its own endpoint would give -- the kit's is `/api/kit`'s
+    `slots_returned`, the proportions' is the sum of `/api/styles/{id}/packs`' five lists --
+    and `workbench/server/tests/test_dossier_routes.py` holds every one to that endpoint, so the
+    strip cannot promise a section the section does not deliver. A section whose count is zero
+    is OMITTED rather than listed empty; `identify` is always listed and has no count. That rule
+    over these counts IS the rank-awareness -- a tradition has no kit, no rules, no packs -- with
+    one rank rule for faults: at a tradition or a family only the lineage and the verdicts count,
+    because a universal fault is about a house and a tradition is not built."""
+    D = core._data()
+    n = D["styles"].get(style_id)
+    if not n:
+        return core.get_style(style_id)          # get_style's own refusal shape -> a 404
+    S = D["styles"]
+    chain, cur, seen = [], S.get(n.get("member_of") or ""), {style_id}
+    while cur and cur["id"] not in seen:
+        seen.add(cur["id"])
+        chain.append(_node_ref(cur))
+        cur = S.get(cur.get("member_of") or "")
+    chain.reverse()                              # root first
+    members = sorted((m for m in S.values() if m.get("member_of") == style_id), key=_by_floruit)
+    buildable = []
+    if n.get("rank") in ("tradition", "family"):
+        frontier, found = [style_id], {}
+        while frontier:
+            nxt = [m for m in S.values() if m.get("member_of") in frontier and m["id"] not in found]
+            for m in nxt:
+                found[m["id"]] = m
+            frontier = [m["id"] for m in nxt]
+        buildable = [_node_ref(m) for m in sorted(found.values(), key=_by_floruit)
+                     if m.get("rank") in ("style", "variant")]
+    faults = dossier_faults(style_id)
+    plans = dossier_plan_types(style_id)
+    packs = style_packs(style_id)
+    descendants = sum(1 for m in S.values() for e in (m.get("lineage") or [])
+                      if e.get("target") == style_id)
+    if n.get("rank") in ("style", "variant"):
+        fault_count = faults["matches"]
+    else:
+        fault_count = len(faults["verdict_here"]) + len(faults["lineage"])
+    counts = {
+        "members": len(members),
+        "lineage": len(n.get("lineage") or []) + descendants,
+        "kit": core.resolve_kit(style_id).get("slots_returned", 0),
+        "proportions": sum((packs.get("counts") or {}).values()),
+        "plans": sum(len(v) for v in plans.values()),
+        "rules": len(n.get("constraints") or []),
+        "faults": fault_count,
+        "evidence": (len(n.get("exemplars") or []) + len(n.get("sources") or [])
+                     + core.find_assets(style=style_id)["matches"]),
+    }
+    sections = []
+    for sid in dossier_sections():
+        if sid == "identify":
+            sections.append({"id": "identify", "count": None})
+        elif counts.get(sid):
+            sections.append({"id": sid, "count": counts[sid]})
+    return {"id": style_id, "name": n.get("name"), "rank": n.get("rank"),
+            "member_of": n.get("member_of"), "chain": chain,
+            "members": [_node_ref(m) for m in members], "buildable_at": buildable,
+            "sections": sections, "faults": faults, "plan_types": plans}
 
 
 def _typefacts():
@@ -953,4 +1752,9 @@ def invalidate():
                                        # parse and not the validator built from it would leave
                                        # a reload validating against the pre-edit schema.
     reset_search_index()
+    reset_glossary_payload()           # WP-14.3: a module global, not an lru_cache, so the walk
+                                       # in test_invalidate_clears_every_cache_that_exists... cannot
+                                       # see it; test_invalidate_clears_every_cache_it_claims_to names it.
+    reset_pack_list()                  # WP-14.24: the pack list and its thumbnails, a module
+                                       # global of the same kind, named in the same test.
     return {"reloaded": True}

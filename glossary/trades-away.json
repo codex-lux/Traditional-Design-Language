@@ -1,0 +1,11 @@
+{
+  "id": "trades-away",
+  "term": "what it gives up",
+  "family": "house",
+  "definition": "What a plan diagram sacrifices for what it is good at, stated as plainly as its strengths, because a composer that cannot say what a diagram gives up will choose badly.",
+  "kind": "editorial",
+  "basis": "schema/parti.schema.json, the trades_away field: \"What this diagram gives up. Every parti gives something up, and a composer that cannot say what will pick badly.\"",
+  "see": [
+    "term:parti"
+  ]
+}

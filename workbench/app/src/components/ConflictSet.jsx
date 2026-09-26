@@ -44,7 +44,7 @@ const PANEL = {
 const LEAD = { font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: '7px 0 0' };
 const LIST = { font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
   margin: '8px 0 0', paddingLeft: 18 };
-const FINE = { font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '9px 0 0' };
+const FINE = { font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '9px 0 0' };
 
 export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = 'the drawing', note }) {
   if (refusal) {
@@ -71,8 +71,7 @@ export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = '
         {unstated > 0 && (
           <p style={FINE}>
             and {unstated} further conflict{unstated === 1 ? '' : 's'} the refusal states no
-            sentence for — counted here rather than left out, because a panel that shows four
-            of six reads as six.
+            sentence for.
           </p>
         )}
         {!named && (
@@ -99,7 +98,7 @@ export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = '
     const conflicts = Array.isArray(infeasible.conflicts) ? infeasible.conflicts : [];
     return (
       <div data-conflict-set="infeasible" data-refusal-kind="" data-refusal-facts={0}
-        data-refusal-lines={conflicts.length} style={{ ...PANEL, borderLeft: '2px solid var(--sev-serious)' }}>
+        data-refusal-lines={conflicts.length} style={{ ...PANEL, borderLeft: '2px solid var(--refusal)' }}>
         <Eyebrow tone="secondary">
           infeasible as declared — proven ({conflicts.length} conflict{conflicts.length === 1 ? '' : 's'})
         </Eyebrow>

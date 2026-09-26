@@ -1,0 +1,10 @@
+{
+  "id": "judgment-failed",
+  "term": "failed",
+  "family": "judgment",
+  "mark": "--mark-failed",
+  "order": 1,
+  "definition": "The rule was tested against this house and the house does not meet it. A failure is reported only when a test actually ran and came out against the house, never for want of a number.",
+  "kind": "editorial",
+  "basis": "VISION.md section VII: \"Every check distinguishes evaluated-and-failed, evaluated-and-passed\". mcp_server/core.py, in the note check_measurements returns with every verdict: \"A fault only counts as present when a test actually failed.\" and the same rule for a style's own constraints: \"A constraint only counts as present (violated) when a test actually failed.\""
+}

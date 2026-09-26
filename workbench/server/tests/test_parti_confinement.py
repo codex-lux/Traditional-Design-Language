@@ -16,6 +16,7 @@ was checked by removing it, not assumed.
 """
 import json
 import os
+import re
 
 import pytest
 
@@ -38,7 +39,11 @@ ESCAPES = [
     pytest.param("../schema/plan.schema", id="relative"),
     pytest.param(os.path.join(ROOT, "schema", "plan.schema"), id="absolute"),
     pytest.param("../plans/tidewater-georgian-careful", id="sibling-directory"),
-    pytest.param("../../Traditional-Design-Language/schema/brief.schema", id="up-and-back"),
+    # up out of partis/ AND out of the checkout, then back in by the checkout's OWN name. It was
+    # the literal "Traditional-Design-Language", which is the name of one clone: in any other
+    # (every agent worktree, any fork cloned under another name) the path resolved to nothing and
+    # the guard-on-the-guard below went red on a test-data accident (found by WP-14.9).
+    pytest.param(f"../../{os.path.basename(ROOT)}/schema/brief.schema", id="up-and-back"),
     pytest.param("./../schema/plan.schema", id="dot-slash-prefixed"),
 ]
 
@@ -135,21 +140,27 @@ def test_endpoint_routes_its_parti_through_the_confined_loader(client, monkeypat
         "which is how /api/drawings and /api/export stayed vulnerable after the first fix")
 
 
-PARTI_JOIN = None      # compiled below; several spellings, see the test
+# The first version matched only `"partis", f"{`. The form most likely to appear next —
+# f"{ROOT}/partis/{x}.json" — is used by seven files in build/ and sailed straight through,
+# so the docstring's promise that "this fails when a fourth appears" held for exactly one
+# spelling.
+# WP-14.19 added the ROUTE `/api/partis/{parti_id}`, a URL template and not a path: the
+# bare `/partis/\{` spelling convicted the decorator and every docstring naming the route.
+# The lookbehind excludes exactly `/api/partis/{` -- the repository has no `api/` directory
+# beside `partis/`, so no filesystem join can hide behind it, and the f-string join it was
+# written for (`{ROOT}/partis/{x}`) still matches. Both halves are held by
+# `test_the_join_pattern_tells_a_route_from_a_path`.
+PARTI_JOIN = re.compile(
+    r'["\']partis["\']\s*,\s*(f?["\']\{|[A-Za-z_])'    # os.path.join(ROOT, "partis", x)
+    r'|(?<!/api)/partis/\{'                             # f"{ROOT}/partis/{x}.json"
+    r'|["\']partis["\']\s*\)\s*,\s*[A-Za-z_]')        # join(join(ROOT,"partis"), x)
 
 
 def _parti_join_sites(subtrees):
     """Every line in `subtrees` that turns something into a path under partis/."""
     import glob as _glob
-    import re
-    # The first version matched only `"partis", f"{`. The form most likely to appear next —
-    # f"{ROOT}/partis/{x}.json" — is used by seven files in build/ and sailed straight through,
-    # so the docstring's promise that "this fails when a fourth appears" held for exactly one
-    # spelling. sorted glob is the idiom tests/test_determinism.py enforces.
-    pattern = re.compile(
-        r'["\']partis["\']\s*,\s*(f?["\']\{|[A-Za-z_])'    # os.path.join(ROOT, "partis", x)
-        r'|/partis/\{'                                      # f"{ROOT}/partis/{x}.json"
-        r'|["\']partis["\']\s*\)\s*,\s*[A-Za-z_]')        # join(join(ROOT,"partis"), x)
+    # sorted glob is the idiom tests/test_determinism.py enforces.
+    pattern = PARTI_JOIN
     out = []
     for sub in subtrees:
         for path in sorted(_glob.glob(os.path.join(ROOT, sub, "**", "*.py"), recursive=True)):
@@ -159,6 +170,18 @@ def _parti_join_sites(subtrees):
                 if pattern.search(line):
                     out.append((os.path.relpath(path, ROOT), n, line.strip()))
     return out
+
+
+def test_the_join_pattern_tells_a_route_from_a_path():
+    """The narrowing for WP-14.19's route must not open a hole: every join spelling the guard was
+    written for still matches, and only a URL under `/api/` is let through."""
+    for join in ('json.load(open(f"{ROOT}/partis/{a.parti}.json"))',
+                 'os.path.join(ROOT, "partis", f"{safe}.json")',
+                 'os.path.join(os.path.join(ROOT, "partis"), name)',
+                 'p = f"{base}/partis/{x}.json"'):
+        assert PARTI_JOIN.search(join), join
+    for route in ('@app.get("/api/partis/{parti_id}")', "GET `/api/partis/{id}` is one parti"):
+        assert not PARTI_JOIN.search(route), route
 
 
 def test_no_server_reachable_module_spells_the_parti_join_itself():

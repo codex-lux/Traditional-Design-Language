@@ -1,0 +1,24 @@
+{
+  "id": "surface-phylogeny",
+  "term": "Family tree & map",
+  "family": "surface",
+  "order": 2,
+  "definition": "Every style laid out across time with its typed relations to the styles it comes from, and a map that places each where its record says it arose. The map's positions are the workbench's own, not corpus data.",
+  "kind": "editorial",
+  "basis": "The page is the workbench's own, ruled for Phase 14, and no corpus file describes it; what it shows is described where the basis quotes. docs/model.md gives the relations: lineage \"is the real structure: a directed acyclic graph with typed, weighted edges. Multiple parents are normal.\" docs/workbench.md gives the map, which places each style \"taking the finest thing either names\" of its regions and its hearth, from a gazetteer that is \"interface furniture, not corpus data\".",
+  "surface": {
+    "what": "Every style across time, with the relations that show where each comes from.",
+    "read": [
+      "Styles are laid out on a time axis whose early centuries are compressed; the break is drawn.",
+      "Relations are typed, and those that pass a kit down are drawn heavier than an ancestry a style only claims.",
+      "Select two styles to compare their tells.",
+      "The map places each style where its record says it arose; the coordinates are the workbench's, not the corpus's."
+    ],
+    "try": "style:greek-revival-american",
+    "ask": [
+      "Where did this style arise, and what did it descend from?",
+      "What is the difference between descending from a style and referencing it?",
+      "Which styles revive an earlier one after a gap?"
+    ]
+  }
+}

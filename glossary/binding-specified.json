@@ -1,0 +1,23 @@
+{
+  "id": "binding-specified",
+  "term": "specified",
+  "family": "binding",
+  "order": 0,
+  "definition": "The style fixes this slot itself: its own options and figures are the answer, and nothing an ancestor says about the slot reaches it.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on the binding: \"specified: this style fixes the slot and stops the cascade.\" docs/inheritance.md: \"This node fixes the slot. Stops the cascade.\" build/resolve_kit.py: \"`specified` or `forbidden` stops the walk and supplies the value;\"",
+  "binds": [
+    {
+      "field": "kit.binding",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/properties/slots/additionalProperties/properties/binding",
+      "value": "specified"
+    }
+  ],
+  "confusable_with": [
+    "binding"
+  ],
+  "see": [
+    "kit:tidewater-georgian#roof_pitch"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "family-carry",
+  "term": "What an edge carries",
+  "family": "family",
+  "order": 7,
+  "definition": "The group of words for how much of an ancestor's kit a lineage edge hands down: the whole kit, named slots only, or nothing.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`carry` holds what a lineage edge hands down of an ancestor's kit\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "carry"
+    }
+  ]
+}

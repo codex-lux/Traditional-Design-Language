@@ -85,6 +85,14 @@ def computed():
     v["groupings"] = len(sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))))
     v["partis"] = len(sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))))
     v["faults"] = len(sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))))
+    # WP-14.15. README.md and STATE-OF-THE-PROJECT.md said 209 faults for a whole phase against a
+    # corpus of 210, and quoted the exception figures beside it, with no row policing any of them --
+    # the prose a front door is written from, read by no checker. The two exception counts are
+    # derived here so the sentences quoting them are held to the files they describe.
+    _faults = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json")))]
+    v["fault_exceptions"] = sum(len(f.get("exceptions") or []) for f in _faults)
+    v["fault_exceptions_bounded"] = sum(1 for f in _faults for e in (f.get("exceptions") or [])
+                                        if e.get("bounds_test"))
     v["massings"] = len(json.load(open(os.path.join(ROOT, "massings", "catalog.json"))))
 
     # WP-6.2. The opening grammar's size, so a sentence quoting it cannot drift from it.
@@ -243,6 +251,18 @@ CLAIMS = [
     ("CLAUDE.md",              "rooms",         r"· (\d+) rooms ·"),
     ("CLAUDE.md",              "groupings",     r"· (\d+) groupings ·"),
     ("CLAUDE.md",              "faults",        r"· (\d+) faults ·"),
+    # WP-14.15: the fault corpus as README.md and STATE-OF-THE-PROJECT.md describe it.
+    ("README.md",              "faults",        r"^(\d+) named errors, \*\*element-first\*\*"),
+    ("README.md",              "fault_exceptions", r"(\d+) style exceptions, \d+ with numeric bounds"),
+    ("README.md",              "fault_exceptions_bounded", r"\d+ style exceptions, (\d+) with numeric bounds"),
+    ("README.md",              "faults",        r"Exactly \w+ of (\d+) faults has `driver: ignorance`"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"\(`faults/`\) — (\d+) named errors, hung"),
+    ("STATE-OF-THE-PROJECT.md", "fault_exceptions", r"Style enters through (\d+) exceptions"),
+    ("STATE-OF-THE-PROJECT.md", "fault_exceptions_bounded", r"through \d+ exceptions \((\d+) with numeric bounds\)"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"exactly \w+ of (\d+) is ignorance"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"`check_faults\.py` passes: (\d+) faults,"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"pack conflicts \(resolution prose, not yet the planned ranked substitution structure\), (\d+) faults with three-tier fixes"),
+    ("STATE-OF-THE-PROJECT.md", "faults",       r"^\| Solecisms \| `faults/` \| (\d+), all tested \|"),
     ("CLAUDE.md",              "opening_rules", r"(\d+) opening-grammar rules"),
     ("docs/reports/wp-6.2-opening-semantics.md", "opening_rules",
      r"\*\*`openings/grammar\.json`\*\* — (\d+) rules"),
@@ -266,6 +286,18 @@ CLAIMS = [
     # deliberately: no document states either, and writing a sentence into the prose so that a
     # checker has something to check would be the wrong way round.
     ("CLAUDE.md",              "search_index",   r"/api/search/index` \((\d+) named things"),
+    # WP-14.3. THE SAME FIGURE IN THREE MORE PLACES AND NOTHING WATCHED ANY OF THEM: the workbench
+    # README said 665 and docs/workbench.md said 666 in one sentence and 665 in the next, while the
+    # CLAUDE.md claim above was policed -- WP-8.14's "a number stated twice needs claiming twice",
+    # broken by the number that rule was written about (WP-12.8 had already corrected one of
+    # these by hand). The index gains the glossary's words in the same package, so all four move
+    # together and all four are claimed. Two more copies sit in comments in the app's JavaScript
+    # (`components/Spotlight.jsx`, `search/match.js`) and are NOT claimed: those files are owned
+    # by other tranche-one packages (Spotlight is "unchanged by design" and leaves in tranche two),
+    # and `--fix` rewriting a file this package may not edit would be an edit by another route.
+    ("workbench/README.md",    "search_index",   r"search everything — (\d+) named things"),
+    ("docs/workbench.md",      "search_index",   r"serves every nameable thing once \((\d+) entries"),
+    ("docs/workbench.md",      "search_index",   r"runs all (\d+) through the server's own validator"),
     # Keyed `parti_count`, NOT `partis`: `test_parti_confinement.py` scans build/ for any line
     # matching `"partis", <identifier>`, which is what a path join looks like, and a CLAIMS tuple
     # whose key is the directory name followed by a raw-string prefix is indistinguishable from

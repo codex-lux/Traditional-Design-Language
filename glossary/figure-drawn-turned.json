@@ -1,0 +1,14 @@
+{
+  "id": "figure-drawn-turned",
+  "term": "drawn turned",
+  "family": "figure",
+  "order": 2,
+  "definition": "Said of an assembly that runs across from the jamb: the plate lays it on its side, so its members read outward from the jamb as they are measured and its figures are widths, not heights.",
+  "kind": "editorial",
+  "basis": "Our wording, read from the pack schema's axis field and the classical trim family's casing member notes. schema/proportion-pack.schema.json, axis description: \"across-from-the-jamb: the members run outward from the jamb across the face of a casing, and each height_parts is therefore a width, so a plate that draws the assembly draws it turned.\"; proportions/systems/trim-classical.json assemblies.casing_federal.members[fed_cas_reveal].note: \"Measured across the casing, as in the Georgian assembly.\"; proportions/systems/trim-classical.json assemblies.casing_greek_revival.members[grk_cas_reveal].note: \"Measured across the casing, as in the other two families.\".",
+  "see": [
+    "pack:trim-classical",
+    "term:figure-drawn-upright",
+    "term:assembly-axis"
+  ]
+}

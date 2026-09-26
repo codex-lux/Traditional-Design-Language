@@ -1,0 +1,12 @@
+{
+  "id": "figure-drawn-from-record",
+  "term": "drawn from the record",
+  "family": "figure",
+  "order": 0,
+  "definition": "The plate is drawn from the pack's own figures and nothing else: each band is a member at the height and projection the record states, its profile constructed by rule, never traced. A carved profile that cannot be constructed is drawn plain and says so.",
+  "kind": "editorial",
+  "basis": "Our wording of how a plate's profiles are made, from the moulding-geometry module and the grammar layer. build/profiles.py: \"every shape below is drawn from the member's own two numbers by a rule named in its docstring.\"; build/profiles.py: \"Nothing here traces a photograph or fits a curve to one\"; build/profiles.py: \"These return a plain swelling and set `unconstructed`, so a caller can say so.\"; docs/proportion.md: \"from the member's own height and projection, never a curve fitted to look right\"; docs/proportion.md: \"these draw as a swelling and report themselves unconstructed so a caller can say so on the sheet\"; docs/proportion.md: \"A drawing generated from the data cannot silently disagree with the dimensions taken from it\".",
+  "see": [
+    "term:member"
+  ]
+}

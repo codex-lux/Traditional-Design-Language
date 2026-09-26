@@ -1,0 +1,18 @@
+{
+  "id": "binding",
+  "term": "binding",
+  "family": "model",
+  "definition": "What a style says about one slot: it fixes it, adds to what it inherits, leaves it open, or forbids it outright. A style is these bindings, with its constraints, laid on one universal set of slots.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, the slot binding: specified, \"this style fixes the slot and stops the cascade\"; extends, \"MERGE into the inherited value rather than replacing it\"; open, \"open: unspecified, cascades\"; forbidden, \"prohibited outright, stops the cascade\". docs/inheritance.md: \"A style is not a bag of parts.\" It is a set of bindings and constraints on a universal set of slots.",
+  "confusable_with": [
+    "binding-specified",
+    "binding-extends",
+    "binding-open",
+    "binding-forbidden"
+  ],
+  "see": [
+    "term:slot",
+    "term:cascade"
+  ]
+}

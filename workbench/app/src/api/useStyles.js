@@ -18,7 +18,7 @@
 import React from 'react';
 import { api } from './client.js';
 
-let cache = null;      // resolved [{id, name, rank}]
+let cache = null;      // resolved [{id, name, rank, member_of}] — member_of is the list's `in`, which the crumbs walk (nav/crumbs.js)
 let inflight = null;
 let failure = null;
 const listeners = new Set();
@@ -30,7 +30,7 @@ function load() {
     inflight = api.styles({ limit: 250 })
       .then((r) => {
         cache = (r.results || [])
-          .map((s) => ({ id: s.id, name: s.name || s.id, rank: s.rank }))
+          .map((s) => ({ id: s.id, name: s.name || s.id, rank: s.rank, member_of: s.in || null }))
           .sort((a, b) => a.name.localeCompare(b.name));
         failure = null;
         emit();
@@ -48,12 +48,13 @@ function load() {
 
 /* → {styles, failed}. `failed` is the Error, so a caller can name what went wrong rather
    than drawing an empty list. */
-export function useStyles() {
+/* `enabled`: see `api/useGlossary.js` — the shell's lock, and nothing else. */
+export function useStyles(enabled = true) {
   const [, bump] = React.useReducer((n) => n + 1, 0);
   React.useEffect(() => {
     listeners.add(bump);
-    load();
+    if (enabled) load();
     return () => { listeners.delete(bump); };
-  }, []);
+  }, [enabled]);
   return { styles: cache || [], failed: failure };
 }

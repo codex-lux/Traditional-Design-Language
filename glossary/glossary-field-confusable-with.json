@@ -1,0 +1,9 @@
+{
+  "id": "glossary-field-confusable-with",
+  "term": "Not to be confused with",
+  "family": "glossary-field",
+  "order": 1,
+  "definition": "The words a reader could mistake this one for, each linked to its own entry. The link runs both ways: every entry named here names this one back.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of the `confusable_with` field, which this word labels on an entry's own page: \"Ids of records a reader could mistake this one for.\" and \"Symmetric: every id named must exist and must name this record back.\""
+}

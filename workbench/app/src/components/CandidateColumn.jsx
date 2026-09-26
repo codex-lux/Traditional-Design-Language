@@ -1,5 +1,6 @@
 import React from "react";
-import { whyText } from "../candidateOrder.js";
+import { nativityLine } from "../candidateOrder.js";
+import { Term } from "./Term.jsx";
 
 /* P4 — rank them, never crown one. Three rules this component exists to enforce:
    1. trades_away sits adjacent to the score at all times, never behind a disclosure.
@@ -20,7 +21,7 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-3)'
+  color: 'var(--ink-2)'
 };
 const SEV = {
   fatal: 'var(--sev-fatal)',
@@ -43,14 +44,14 @@ function ScoreBlock({ candidate: c }) {
       h("span", { style: { font: 'var(--fw-reg) 26px/1 var(--mono)', color: 'var(--ink)' } },
         unscored ? '—' : c.score.toFixed(1)),
       h("span", { style: { ...EYE } }, unscored ? "not scored" : "score")),
-    !unscored && h("div", { style: { ...EYE, color: 'var(--ink-4)', marginTop: 3 } },
+    !unscored && h("div", { style: { ...EYE, color: 'var(--ink-2)', marginTop: 3 } },
       "out of 100 · higher is better"),
     /* WP-9.3: what the placed revision loop bought here, one line, from revision.js. Absent
        where the compose ran --no-revise; "nothing moved" rather than "was X" against the
        same X. `rank_before` is the server's order before revision, said in words. */
     c.revisedLine && h("div", {
       "data-revised": "",
-      style: { ...EYE, color: 'var(--ink-3)', marginTop: 4, textTransform: 'none', letterSpacing: 0 }
+      style: { ...EYE, color: 'var(--ink-2)', marginTop: 4, textTransform: 'none', letterSpacing: 0 }
     }, c.revisedLine + (typeof c.rank_before === 'number' ? ` · the server ranked it ${c.rank_before} before revision` : '')),
     /* A disqualified candidate is still scored and its number can be the highest on the
        screen — every ordering puts it last, and this band is why. It is a rule, not a
@@ -63,7 +64,7 @@ function ScoreBlock({ candidate: c }) {
                         margin: '3px 0 0' } },
         c.disqualified_because || "a fatal finding")),
     c.score_unscored_because && h("p", {
-      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)',
+      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
                margin: '6px 0 0' }
     }, c.score_unscored_because),
     axes.length > 0 && h("div", { style: { marginTop: 10 } },
@@ -94,23 +95,26 @@ function ScoreBlock({ candidate: c }) {
             a.axis,
             /* the mark, not the number — the count would wrap every row it appears on and
                make the eight axes unreadable as a block. It is said once, in full, below. */
-            a.unjudged ? h("span", { style: { color: 'var(--ink-4)' } }, " °") : null),
+            a.unjudged ? h("span", { style: { color: 'var(--ink-2)' } }, " °") : null),
           h("span", { style: { font: 'var(--type-data-s)',
-                               color: pct == null ? 'var(--ink-4)' : 'var(--ink-3)' } },
+                               color: 'var(--ink-2)' } },
             pct == null ? 'not evaluated' : pct + '%'),
-          h("span", { style: { font: 'var(--type-data-s)', color: 'var(--ink-4)' } },
+          h("span", { style: { font: 'var(--type-data-s)', color: 'var(--ink-2)' } },
             (a.points == null ? '—' : a.points) + '/' + a.weight));
       })),
     /* Unjudged is not passed, and it is never left to a tooltip: the axes carrying checks
        the corpus could not evaluate are named here in full, under the mark they carry. */
     axes.some(function (a) { return a.unjudged; }) && h("p", {
-      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-3)', margin: '7px 0 0' }
+      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)', margin: '7px 0 0' }
     }, "° ", axes.filter(function (a) { return a.unjudged; })
              .map(function (a) { return `${a.unjudged} ${a.axis}`; }).join(", "),
        " could not be evaluated on this plan. They are outside the fraction, not counted as passed."),
     c.score_weight_unevaluated > 0 && h("p", {
-      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-3)', margin: '6px 0 0' }
-    }, `Scored over ${c.score_weight_evaluated} of 100 points of evidence — `
+      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)', margin: '6px 0 0' }
+    /* The whole is the two halves the payload states, never a typed 100 (WP-14.31): a figure
+       written into the page is true on the day it is typed and silently false after. */
+    }, `Scored over ${c.score_weight_evaluated} of `
+     + `${c.score_weight_evaluated + c.score_weight_unevaluated} points of evidence — `
      + `${c.score_weight_unevaluated} could not be evaluated on this plan, and are dropped `
      + `rather than passed.`));
 }
@@ -125,7 +129,12 @@ function CandidateColumn({
 }) {
   const c = candidate;
   const native = !!c.native;
+  // WP-14.27: the served nativity, worded by its record -- see `nativityLine`
+  const line = nativityLine(c);
   return /*#__PURE__*/React.createElement("section", {
+    "data-candidate": c.parti,
+    "data-candidate-n": c.n,
+    "data-selected": selected ? "" : undefined,
     onClick: onSelect ? function () {
       onSelect(c);
     } : undefined,
@@ -148,7 +157,7 @@ function CandidateColumn({
   }, /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-4)'
+      color: 'var(--ink-2)'
     }
   }, rank), /*#__PURE__*/React.createElement("h3", {
     style: {
@@ -174,7 +183,7 @@ function CandidateColumn({
       key: s,
       style: {
         font: 'var(--type-data-s)',
-        color: n === 0 ? 'var(--ink-4)' : SEV[s]
+        color: n === 0 ? 'var(--ink-2)' : SEV[s]
       }
     }, s, " ", n);
   })), /*#__PURE__*/React.createElement("div", {
@@ -186,16 +195,19 @@ function CandidateColumn({
   }, /*#__PURE__*/React.createElement("div", {
     style: EYE
   }, "why"), /*#__PURE__*/React.createElement("p", {
+    "data-nativity": line.nativity || "",
     style: {
       font: 'var(--fw-reg) 13px/1.55 var(--body)',
       margin: '5px 0 0',
       color: native ? 'var(--green-deep)' : 'var(--ink-2)'
     }
-  }, native ? whyText(c.why) : /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
+  }, line.term ? /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'var(--gilt-deep)'
+      color: line.nativity === 'borrowed' ? 'var(--gilt-deep)' : 'inherit'
     }
-  }, "NOT native to this style"), whyText(c.why, true) ? ' \u2014 ' + whyText(c.why, true) : ''))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(Term, {
+    id: line.term
+  })) : null, line.term && line.prose ? ' \u2014 ' : null, line.prose)), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 12
     }

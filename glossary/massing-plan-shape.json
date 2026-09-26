@@ -1,0 +1,11 @@
+{
+  "id": "massing-plan-shape",
+  "term": "plan shape",
+  "family": "house",
+  "definition": "The outline a massing makes on the ground: a plain rectangle, an L, a T, a cross, a U, a ring round a courtyard, or a line of parts added one after another.",
+  "kind": "editorial",
+  "basis": "schema/massing.schema.json, the footprint field: \"Plan geometry: rectangle, L, T, cross, U, courtyard, linear-additive, irregular.\"",
+  "see": [
+    "term:massing"
+  ]
+}

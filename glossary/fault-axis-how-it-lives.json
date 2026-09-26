@@ -1,0 +1,9 @@
+{
+  "id": "fault-axis-how-it-lives",
+  "term": "how it lives",
+  "family": "fault",
+  "order": 17,
+  "definition": "A fault's severity in occupation rather than in the style reading: a stack with nowhere to land is invisible in a photograph and fatal to live with. Shown only where a fault states it.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `severity_in_use` field: \"Severity is defined against the STYLE READING, which is the wrong scale for the plan and services layer. A stack with nowhere to land is invisible in a photograph and fatal in occupation.\""
+}

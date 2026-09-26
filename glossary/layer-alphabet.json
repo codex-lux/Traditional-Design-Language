@@ -1,0 +1,9 @@
+{
+  "id": "layer-alphabet",
+  "term": "The alphabet",
+  "family": "layer",
+  "order": 0,
+  "definition": "The shared catalogues every style draws from and none owns: the element slots, the volumes a house can take, and the room types. A style does not own a cornice; it specifies one.",
+  "kind": "editorial",
+  "basis": "Editorial, from VISION.md's first layer: \"Element slots, volumetric massings, and room types. Three catalogues that every style draws from and none owns.\", and its thesis: \"The test of the ontology is that adding a style should never require adding a slot\". docs/inheritance.md: \"Georgian does not own a cornice — it specifies one.\""
+}

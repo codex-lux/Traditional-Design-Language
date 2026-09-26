@@ -1,0 +1,11 @@
+{
+  "id": "entrance-front",
+  "term": "the entrance front",
+  "family": "house",
+  "definition": "The face of the house the plan record names as its front, the side the entrance is approached from. Where the record names none, the south face is taken as the front.",
+  "kind": "editorial",
+  "basis": "Our wording. build/compass.py: \"`context.entrance_faces` states which plan face is the front\"; build/axis.py: \"The entrance front's default. `context.entrance_faces` states it per plan; south is the\"",
+  "see": [
+    "term:elevation-face"
+  ]
+}

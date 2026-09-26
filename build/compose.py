@@ -393,9 +393,92 @@ def score_candidate(res, plan, brief, fit, fp, miss, tol):
 # fit function discriminated nothing double the composer's work.
 MAX_TIE_EXPANSION = 3
 
+# ---------------------------------------------------------------- nativity
+# The three answers nativity() gives, in the order a reader should prefer them.
+NATIVITY = ("native", "lineage", "borrowed")
+
+
+def nativity(parti, style, chain=None):
+    """How a parti belongs to a style: "native", "lineage" or "borrowed". One spelling of that
+    relation (WP-14.19, ruled 25 Sep 2026), read by `pick_partis` below and by
+    `core.list_partis`, which until this answered the same question two different ways:
+    `pick_partis` borrowed a diagram and said so, while `core.list_partis` filtered on the
+    parti's own `styles` and listed nothing at all for a style with no native parti.
+
+    Native means the style itself is one the diagram was drawn for: the style's id is in the
+    parti's own list of styles.
+
+    Lineage means the diagram was drawn for a style this one answers to, an ancestor it
+    inherits its kit from or a container it is a member of, and not for this style itself.
+
+    Borrowed means neither: the composer is using a diagram that nothing in this style's own
+    line was drawn with, and every candidate built on it says so.
+
+    `parti` is a record or an id; an id nobody holds raises KeyError, because a relation about
+    a diagram that does not exist is not "borrowed". `chain` is `plan_check.style_chain` for
+    the style, passed by a caller that asks about many partis at once."""
+    p = parti if isinstance(parti, dict) else PARTIS[parti]
+    styles = set(p.get("styles") or [])
+    if style in styles:
+        return "native"
+    if styles & (PC.style_chain(style, C) if chain is None else chain):
+        return "lineage"
+    return "borrowed"
+
+
+def _massing_admits(p, massing):
+    """Whether a parti can be built on the massing a brief names: an unset massing admits every
+    diagram, and a set one admits the parti's own massing and its `alternate_massings`. The one
+    test `pick_partis` filters on and `check_brief_refs` refuses on, so the filter and the
+    refusal cannot come to disagree about what a contradiction is."""
+    return (not massing) or p["massing"] == massing or massing in (p.get("alternate_massings") or [])
+
+
+# What a refused brief is called, and what to do about it. Read by `core.compose` and by
+# `workbench/server/jobs.py` rather than spelled again in either.
+BRIEF_REF_ERROR = "the brief names a parti the composer will not honour"
+BRIEF_REF_HINT = ("leave `parti` unset to let the composer choose, name an id tdl_list_partis "
+                  "returns, or name a parti built on the brief's own massing")
+
+
+def check_brief_refs(brief):
+    """None when every record the brief names by id resolves and agrees with the rest of the
+    brief; otherwise one sentence naming the refusal. The schema can say a `parti` is shaped
+    like an id and cannot say that a parti by that name exists, so this runs after it, in all
+    three places a brief is let in -- `core.compose`, `workbench/server/jobs.py` before a job
+    exists, and this file's own `main()` -- and again at the top of `compose()`.
+
+    A brief whose named parti contradicts the brief's own massing is refused by name before a
+    job starts, and never silently re-picked: the massing filter would otherwise drop the
+    named diagram before it was scored, and the guarantee would fail in silence."""
+    named = (brief or {}).get("parti")
+    if named is None:
+        return None
+    if not isinstance(named, str) or named not in PARTIS:
+        return (f"the brief names parti {named!r} and no parti has that id; "
+                f"the catalogue holds {', '.join(sorted(PARTIS))}")
+    p = PARTIS[named]
+    massing = brief.get("massing")
+    if not _massing_admits(p, massing):
+        alts = p.get("alternate_massings") or []
+        on = p["massing"] + (f" (or {', '.join(alts)})" if alts else "")
+        return (f"the brief names parti {named!r} and massing {massing!r}, and that parti is built "
+                f"on {on}, never on {massing}. The two fields contradict each other, and the "
+                f"composer will not choose between them for you")
+    return None
+
+
 # ---------------------------------------------------------------- selection
 def pick_partis(brief, limit=12):
+    """The diagrams worth composing for this brief, best fit first, cut at `limit` without
+    cutting through a narrow tie.
+
+    A parti named by the brief is guaranteed a place among the candidates: it is scored by the
+    same arithmetic as every other diagram, never given a bonus for being named, and if the cut
+    falls above it, its row is kept past the cut anyway. Every row carries `nativity` and
+    `named_by_brief`."""
     style = brief["style"]
+    named = brief.get("parti")
     chain = PC.style_chain(style, C)
     st = C["styles"].get(style, {})
     aff = {m["massing"]: m["affinity"] for m in st.get("massing_affinities", [])}
@@ -403,13 +486,16 @@ def pick_partis(brief, limit=12):
     area = brief["target_area_sf"]
     out = []
     for p in PARTIS.values():
-        if brief.get("massing") and p["massing"] != brief["massing"] and brief["massing"] not in p.get("alternate_massings", []):
+        if not _massing_admits(p, brief.get("massing")):
             continue
         br = p.get("bedroom_range") or [1, 9]
         ar = p.get("area_range_sf") or [0, 99999]
         fit, why = 0.0, []
-        if style in p["styles"]: fit += 3.0; why.append(f"native to {style}")
-        elif set(p["styles"]) & chain: fit += 1.6; why.append("native to an ancestor or relative of the style")
+        nat = nativity(p, style, chain)
+        if p["id"] == named: why.append("named by the brief, which guarantees it a place among the candidates")
+        if nat == "native": fit += 3.0; why.append(f"native to {style}")
+        elif nat == "lineage": fit += 1.6; why.append("native to an ancestor or relative of the style")
+        elif p["id"] == named: why.append("NOT native to this style — the brief named this diagram, so the composer is borrowing it")
         else: why.append("NOT native to this style — the composer is borrowing a diagram")
         # The affinity of the BEST massing this parti can be built on, not only its
         # primary. A parti reached through its alternate_massings is still that
@@ -432,7 +518,8 @@ def pick_partis(brief, limit=12):
         if ar[0] * 0.8 <= area <= ar[1] * 1.2: fit += 1.0
         else: fit -= 1.5; why.append(f"{area:.0f} sf is outside the diagram's range of {ar[0]:.0f}-{ar[1]:.0f}")
         gset = set(p.get("groupings", []))
-        out.append({"parti": p["id"], "fit": round(fit, 2), "why": why, "groupings": sorted(gset)})
+        out.append({"parti": p["id"], "fit": round(fit, 2), "why": why, "groupings": sorted(gset),
+                    "nativity": nat, "named_by_brief": p["id"] == named})
 
     # Tie-break by id so the order is the same on every machine. Without it the sort is
     # stable over PARTIS insertion order, which is directory order, which differs by
@@ -441,6 +528,17 @@ def pick_partis(brief, limit=12):
 
     if limit <= 0:
         return []          # out[limit-1] would index from the END and return everything
+    kept = _cut(out, limit)
+    # THE NAMED PARTI IS KEPT PAST THE CUT, at its own fit and in its own words: nothing about
+    # being named moves it up the list, and nothing about the list may lose it.
+    if named and not any(x["parti"] == named for x in kept):
+        kept = kept + [x for x in out if x["parti"] == named]
+    return kept
+
+
+def _cut(out, limit):
+    """`out` (already sorted) cut at `limit`, never through a narrow tie. Lifted out of
+    `pick_partis` unchanged so the named parti's guarantee can run after it."""
     if len(out) <= limit:
         return out
 
@@ -1579,17 +1677,34 @@ def footprint(plan, parti):
             "lot_note": lot_note, "tests_run": FOOTPRINT_TESTS, "tests_failed": failed}
 
 # ---------------------------------------------------------------- compose
+def considered(brief, candidates=4):
+    """The diagrams `compose()` will instantiate for this brief, in pick order: the one list
+    `compose()` itself works through, exposed so `workbench/server/jobs.py` can say how many
+    there are before the first one is done ("composing k of N") without a second spelling of
+    the window.
+
+    The window is max(candidates + 4, 12), widened by WP-4.5 when the parti catalogue reached
+    the twenties: at +2 a new parti could evict an existing one merely by tying with it, and 6
+    searched a twentieth of the catalogue. Kept over main's +2/6 at the 25 Aug merge because
+    the catalogue it was sized for is the one on this branch. A parti the brief names is in the
+    list wherever the cut falls (`pick_partis`)."""
+    return pick_partis(brief, limit=max(candidates + 4, 12))
+
+
 def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4,
             revise_engine="auto", revise_budget_s=120.0):
     # on_candidate: optional callable invoked once per completed (kept) candidate with its
     # summary dict, plan excluded. Added for the workbench's compose progress stream;
-    # None leaves behaviour identical and the CLI never passes it.
-    #
-    # The window is max(candidates + 4, 12), widened by WP-4.5 when the parti catalogue
-    # reached the twenties: at +2 a new parti could evict an existing one merely by tying
-    # with it, and 6 searched a twentieth of the catalogue. Kept over main's +2/6 at the
-    # 25 Aug merge because the catalogue it was sized for is the one on this branch.
-    picks = pick_partis(brief, limit=max(candidates + 4, 12))
+    # None leaves behaviour identical and the CLI never passes it. A diagram the lot drops is
+    # reported through it too, as `{"parti", "parti_name", "why", "dropped_lot": True}`, so
+    # every diagram in `considered()` is heard from exactly once before the revision loop.
+    ref = check_brief_refs(brief)
+    if ref:
+        # the validators refuse this before a job exists; a direct caller is refused here,
+        # because a named parti the massing filter drops would otherwise vanish in silence
+        raise ValueError(f"{BRIEF_REF_ERROR}: {ref}")
+    named = brief.get("parti")
+    picks = considered(brief, candidates)
     out, dropped_lot = [], []
     for pick in picks:
         plan, log, parti = instantiate(pick["parti"], brief)
@@ -1626,6 +1741,9 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             # not merely outscored, so it can never appear even as the only candidate.
             dropped_lot.append({"parti": pick["parti"], "parti_name": parti["name"],
                                 "why": fp.get("lot_note") or fp["notes"][-1]})
+            if on_candidate:
+                on_candidate({**dropped_lot[-1], "dropped_lot": True,
+                              "named_by_brief": pick["parti"] == named})
             continue
         # `demerits` is the old lower-is-better total, kept because it is a real quantity and
         # because a report or a commit written before this change quotes it. It no longer
@@ -1640,6 +1758,7 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             "footprint": fp,
             "trades_away": parti["trades_away"],
             "why_this_diagram": pick["why"],
+            "nativity": pick["nativity"], "named_by_brief": pick["named_by_brief"],
             "decisions": log + _summarise(rlog),
             # The same lines, structured (OQ 34). The prose list above is unchanged and stays
             # the thing to read; this is what the workbench's DecisionLogEntry renders.
@@ -1692,79 +1811,133 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # the budget does not bound, stated: each candidate's FIRST placement (up to a 25 s proof
     # on `auto`), one in-flight critique past its share, and the reclaim's re-critique; the
     # worst case is candidates x ~35 s + the budget.
-    if revise and out:
+    deadline = None if revise_budget_s is None else time.perf_counter() + float(revise_budget_s)
+
+    def _skip_revision(c, rank, skipped, line):
+        # a candidate the set's budget did not reach is returned as composed and SAYS so
+        c.update({"score_before": c["score"], "rank_before": rank,
+                  "revision": None, "revision_skipped": skipped,
+                  "decisions": c["decisions"] + [line]})
+        c["decisions_structured"] = structure_decisions(c["decisions"])
+        if on_candidate:
+            on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
+
+    def _revise_one(c, rank, share):
+        # one candidate through the placed loop, re-scored on its declared record. Lifted out of
+        # the loop below unchanged (WP-14.19) so the diagram a brief names, appended after the
+        # set, is revised by the same code with whatever budget the set left.
         RV = _mod("revise", f"{ROOT}/build/revise.py")
         OP = _mod("openings", f"{ROOT}/build/openings.py")
-        deadline = None if revise_budget_s is None else time.perf_counter() + float(revise_budget_s)
+        parti_rec = PARTIS[c["parti"]]
+        declared_pass = c["plan"].pop("revision_report", None)
+        rv = RV.revise(c["plan"], rounds=revise_rounds, engine=revise_engine,
+                       budget_s=share, brief=brief, parti=parti_rec, place=True, C=C)
+        plan2 = rv["plan"]
+        if declared_pass:
+            plan2["revision_report"]["declared_pass"] = declared_pass.get("summary")
+        declared = OP.strip_placement(copy.deepcopy(plan2))
+        declared.pop("revision_report", None)
+        res2 = PC.check(declared, C)
+        area2 = sum(r.get("width_ft", 0) * r.get("length_ft", 0)
+                    for lv in plan2["levels"] for r in lv["rooms"]
+                    if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
+        miss2 = abs(area2 - brief["target_area_sf"]) / brief["target_area_sf"]
+        fp2 = footprint(plan2, parti_rec)
+        card2 = score_candidate(res2, plan2, brief, c["style_fit"], fp2, miss2, tol)
+        rep = rv["report"]
+        lines = ["REVISED: " + m["log"] for rd in rv["rounds"] for m in rd["moves"]
+                 if m.get("accepted") and m.get("log")]
+        c.update({
+            "score_before": c["score"], "counts_before": c["counts"], "rank_before": rank,
+            **card2, "counts": res2["counts"], "area_sf": round(area2),
+            "area_miss_pct": round(miss2 * 100, 1), "footprint": fp2,
+            "demerits": round(score(res2) + (60 if miss2 > tol else 0) - c["style_fit"] * NATIVITY_W, 1),
+            "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
+                      for f in res2["findings"] if f["severity"] in ("fatal", "serious")][:8],
+            "decisions": c["decisions"] + lines,
+            "decisions_structured": structure_decisions(c["decisions"] + lines),
+            "drawn_key_before": rv["key_before"], "drawn_key_after": rv["key_after"],
+            "revision": {"summary": rep["summary"], "stop_reason": rep["stop_reason"],
+                         "engine": rep["engine"],
+                         "rounds": [{"n": rd["n"], "accepted": rd["accepted"], "engine": rd.get("engine"),
+                                     "key_before": rd["key_before"], "key_after": rd.get("key_after"),
+                                     "moves": [{k: m.get(k) for k in ("move", "finding", "log", "basis",
+                                                                       "tier", "accepted", "cleared",
+                                                                       "refused", "refused_by_measurement")}
+                                               for m in rd["moves"]]}
+                                    for rd in rep["rounds"]],
+                         "remaining": {k: len(v) for k, v in rep["remaining"].items()},
+                         "handed_to_architect": rep["handed_to_architect"],
+                         "suspects": [{"id": s["id"], "statement": s["statement"]} for s in rep["suspects"]],
+                         "refused": len(rep["refused"]), "declared_pass": rep.get("declared_pass")},
+            # WP-13.4, and THIS is the one that carries a value: the revision loop PLACES,
+            # so `plan2` is a placed record and `geometry._disclose` has written the verdict
+            # onto it. Read, never re-derived. (Note the neighbour above it inside
+            # `revision`: `refused` there is the loop's count of refused ROUNDS, an integer
+            # and a different question -- two words one nesting level apart, kept apart by
+            # being read from two different places.)
+            "refused": ((plan2.get("geometry_report") or {}).get("refused")),
+            "plan": plan2})
+        if on_candidate:
+            on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
+
+    if revise and out:
         n_out = len(out[:candidates])
         for rank, c in enumerate(out[:candidates], 1):
-            parti_rec = PARTIS[c["parti"]]
             remaining = None if deadline is None else deadline - time.perf_counter()
             share = None if remaining is None else max(remaining / (n_out - rank + 1), min(remaining, 1.0))
             if remaining is not None and remaining < 1.0:
-                c.update({"score_before": c["score"], "rank_before": rank,
-                          "revision": None,
-                          "revision_skipped": (f"the set's revise budget ({revise_budget_s:g} s) was spent on "
-                                               f"the {rank - 1} candidate(s) ranked above; this one is as composed"),
-                          "decisions": c["decisions"] + [f"REVISION SKIPPED: the set's revise budget of "
-                                                         f"{revise_budget_s:g} s was spent before this candidate; "
-                                                         f"it is returned as composed."]})
-                c["decisions_structured"] = structure_decisions(c["decisions"])
-                if on_candidate:
-                    on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
+                _skip_revision(c, rank,
+                               (f"the set's revise budget ({revise_budget_s:g} s) was spent on "
+                                f"the {rank - 1} candidate(s) ranked above; this one is as composed"),
+                               (f"REVISION SKIPPED: the set's revise budget of "
+                                f"{revise_budget_s:g} s was spent before this candidate; "
+                                f"it is returned as composed."))
                 continue
-            declared_pass = c["plan"].pop("revision_report", None)
-            rv = RV.revise(c["plan"], rounds=revise_rounds, engine=revise_engine,
-                           budget_s=share, brief=brief, parti=parti_rec, place=True, C=C)
-            plan2 = rv["plan"]
-            if declared_pass:
-                plan2["revision_report"]["declared_pass"] = declared_pass.get("summary")
-            declared = OP.strip_placement(copy.deepcopy(plan2))
-            declared.pop("revision_report", None)
-            res2 = PC.check(declared, C)
-            area2 = sum(r.get("width_ft", 0) * r.get("length_ft", 0)
-                        for lv in plan2["levels"] for r in lv["rooms"]
-                        if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
-            miss2 = abs(area2 - brief["target_area_sf"]) / brief["target_area_sf"]
-            fp2 = footprint(plan2, parti_rec)
-            card2 = score_candidate(res2, plan2, brief, c["style_fit"], fp2, miss2, tol)
-            rep = rv["report"]
-            lines = ["REVISED: " + m["log"] for rd in rv["rounds"] for m in rd["moves"]
-                     if m.get("accepted") and m.get("log")]
-            c.update({
-                "score_before": c["score"], "counts_before": c["counts"], "rank_before": rank,
-                **card2, "counts": res2["counts"], "area_sf": round(area2),
-                "area_miss_pct": round(miss2 * 100, 1), "footprint": fp2,
-                "demerits": round(score(res2) + (60 if miss2 > tol else 0) - c["style_fit"] * NATIVITY_W, 1),
-                "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
-                          for f in res2["findings"] if f["severity"] in ("fatal", "serious")][:8],
-                "decisions": c["decisions"] + lines,
-                "decisions_structured": structure_decisions(c["decisions"] + lines),
-                "drawn_key_before": rv["key_before"], "drawn_key_after": rv["key_after"],
-                "revision": {"summary": rep["summary"], "stop_reason": rep["stop_reason"],
-                             "engine": rep["engine"],
-                             "rounds": [{"n": rd["n"], "accepted": rd["accepted"], "engine": rd.get("engine"),
-                                         "key_before": rd["key_before"], "key_after": rd.get("key_after"),
-                                         "moves": [{k: m.get(k) for k in ("move", "finding", "log", "basis",
-                                                                           "tier", "accepted", "cleared",
-                                                                           "refused", "refused_by_measurement")}
-                                                   for m in rd["moves"]]}
-                                        for rd in rep["rounds"]],
-                             "remaining": {k: len(v) for k, v in rep["remaining"].items()},
-                             "handed_to_architect": rep["handed_to_architect"],
-                             "suspects": [{"id": s["id"], "statement": s["statement"]} for s in rep["suspects"]],
-                             "refused": len(rep["refused"]), "declared_pass": rep.get("declared_pass")},
-                # WP-13.4, and THIS is the one that carries a value: the revision loop PLACES,
-                # so `plan2` is a placed record and `geometry._disclose` has written the verdict
-                # onto it. Read, never re-derived. (Note the neighbour above it inside
-                # `revision`: `refused` there is the loop's count of refused ROUNDS, an integer
-                # and a different question -- two words one nesting level apart, kept apart by
-                # being read from two different places.)
-                "refused": ((plan2.get("geometry_report") or {}).get("refused")),
-                "plan": plan2})
-            if on_candidate:
-                on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
+            _revise_one(c, rank, share)
         out[:candidates] = sorted(out[:candidates], key=_sort_key)
+    # THE NAMED PARTI'S GUARANTEED PLACE (WP-14.19, ruled 25 Sep 2026). A parti named by the brief
+    # is guaranteed a place among the candidates, and the guarantee is a place and not a rank: it is
+    # scored by the same arithmetic as every other diagram and sorted by the same key, so if the
+    # composer's own ranking returns it, it stands where that ranking put it; if it does not, it is
+    # appended after the set as one more candidate and displaces nothing. That is what keeps "a plan
+    # carrying a fatal never displaces a clean one" true with a name in the brief -- the composer's
+    # own set is the set it would have returned anyway, in the order it would have returned it.
+    # The appended candidate is revised after the set, on whatever the set's budget left, and says
+    # so where the budget is spent. If the lot drops it there is nothing to append, and the result
+    # says so rather than returning a set that silently lacks the diagram the brief asked for.
+    returned = out[:candidates]
+    appended = False
+    if named and named not in {c["parti"] for c in returned}:
+        extra = next((c for c in out if c["parti"] == named), None)
+        if extra is not None:
+            appended = True
+            returned = returned + [extra]
+            if revise:
+                remaining = None if deadline is None else deadline - time.perf_counter()
+                if remaining is not None and remaining < 1.0:
+                    _skip_revision(extra, len(returned),
+                                   (f"the set's revise budget ({revise_budget_s:g} s) was spent on the "
+                                    f"{len(returned) - 1} candidate(s) the composer chose; the diagram the "
+                                    f"brief named was appended after them and is as composed"),
+                                   (f"REVISION SKIPPED: the set's revise budget of {revise_budget_s:g} s was "
+                                    f"spent on the candidates the composer chose; the diagram the brief named "
+                                    f"is appended after them as composed."))
+                else:
+                    _revise_one(extra, len(returned), remaining)
+    named_parti = None
+    if named:
+        nat = nativity(named, brief["style"])
+        at = next((i for i, c in enumerate(returned) if c["parti"] == named), None)
+        if at is not None:
+            named_parti = {"parti": named, "nativity": nat, "returned": True,
+                           "appended": appended, "rank": at + 1}
+        else:
+            drop = next((d for d in dropped_lot if d["parti"] == named), None)
+            named_parti = {"parti": named, "nativity": nat, "returned": False,
+                           "why": (f"the lot drops it: {drop['why']}" if drop else
+                                   "it was not among the diagrams composed, which the brief checks "
+                                   "made before the job should have made impossible")}
     # `score` is None only in the unreachable no-evidence case above; the sentinel keeps such
     # a candidate last within its fatal group rather than sorting None against a float.
     # The axis definitions ride on the RESULT, not on every candidate. They are constant
@@ -1776,7 +1949,8 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     result = {"brief": brief.get("id") or brief.get("name"), "style": brief["style"],
             "score_model": score_model,
             "target_area_sf": brief["target_area_sf"], "bedrooms": brief.get("bedrooms", 3),
-            "candidates": out[:candidates],
+            "candidates": returned,
+            "named_parti": named_parti,
             "how_to_read_this": [
               "Score is out of 100 and HIGHER IS BETTER. It is not a total of what is wrong: it is a weighted composite of eight axes, each one a share of its own denominator -- what came back clean out of what was actually checked -- so a bigger house is not penalised for being checked more times. score_axes carries every axis, its weight, its share and the denominator that share was taken over.",
               "An axis nothing could be evaluated on has its WEIGHT DROPPED and the total renormalised over the rest, never scored as a pass and never as a zero. score_weight_unevaluated says how much of the hundred that was, so a score computed over 94 points of evidence cannot be read as one computed over 100.",
@@ -1787,6 +1961,21 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
               "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",
               "decisions_structured is the same list with a kind on each line (judgment, refusal, authored, unsolved, disclosure, assumption) and field/chose/because DERIVED from the sentence — absent where the sentence does not carry them, and marked derived so nothing reads them as authored.",
               "A plan with no fatal findings is not therefore good. The corpus can tell you what is wrong and cannot tell you what is alive."]}
+    if named_parti:
+        np_ = named_parti
+        borrowed = (f" It is borrowed: it was drawn for no style {brief['style']} answers to."
+                    if np_["nativity"] == "borrowed" else "")
+        if not np_["returned"]:
+            line = f"The brief named {named}, and it is not among the candidates: {np_['why']}."
+        elif np_["appended"]:
+            line = (f"The brief named {named}. The composer's own ranking did not return it among the "
+                    f"{len(returned) - 1} candidate(s) asked for, so it is appended as candidate "
+                    f"{np_['rank']} and displaces none of them. It is scored by the same arithmetic as "
+                    f"the rest; its place in the list is the guarantee, not a rank it earned.")
+        else:
+            line = (f"The brief named {named}, and the composer's own ranking returned it, as candidate "
+                    f"{np_['rank']}. Being named bought it no points.")
+        result["how_to_read_this"].append(line + borrowed)
     if dropped_lot:
         result["dropped_lot_infeasible"] = dropped_lot
         result["how_to_read_this"].append(
@@ -1806,6 +1995,9 @@ def main():
     brief = json.load(open(a.brief))
     import jsonschema
     jsonschema.validate(brief, json.load(open(f"{ROOT}/schema/brief.schema.json")))
+    ref = check_brief_refs(brief)
+    if ref:
+        sys.exit(f"{BRIEF_REF_ERROR}: {ref}\n  {BRIEF_REF_HINT}")
     res = compose(brief, a.candidates or brief.get("candidates", 4), revise=not a.no_revise,
                   revise_rounds=a.revise_rounds, revise_engine=a.revise_engine,
                   revise_budget_s=a.revise_budget_s)

@@ -1,0 +1,11 @@
+{
+  "id": "candidate-score",
+  "term": "score",
+  "family": "house",
+  "definition": "How a candidate reads against the corpus, higher being better: a weighted blend of axes, each the share of its own checks that came back clean, so a bigger house is not marked down for being checked more. An axis nothing could check is dropped.",
+  "kind": "editorial",
+  "basis": "Our wording of the composer's score. build/compose.py: \"It is not a total of what is wrong\", each axis is a share of its own denominator, \"so a bigger house is not penalised for being checked more times\", and an axis nothing could be evaluated on is \"never scored as a pass and never as a zero\".",
+  "see": [
+    "term:surface-candidates"
+  ]
+}

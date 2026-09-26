@@ -1,0 +1,10 @@
+{
+  "id": "layer-solecisms",
+  "term": "The solecisms",
+  "family": "layer",
+  "order": 4,
+  "definition": "The named errors: things that break no written rule and still read as wrong to anyone fluent, such as the four-foot porch or the half-width shutter. Each hangs off an element, admits styles as exceptions, and names its right, cheap and dishonest fixes.",
+  "analogy": "Like a phrase that breaks no rule in the grammar book and still marks its speaker as not fluent.",
+  "kind": "editorial",
+  "basis": "Editorial, from VISION.md's fifth layer, the fault corpus, and its account of why the solecisms are the centre of the project: \"A solecism is an error that breaks no written rule.\" \"Errors hang off elements, not styles.\" \"Style enters as an exception, and the exceptions matter as much as the rules.\" \"Every error carries three tiers of fix — the right one, the cheap one, and the dishonest one — named that plainly.\" Its named examples begin \"The Four-Foot Porch. The Half-Width Shutter.\""
+}

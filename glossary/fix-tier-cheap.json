@@ -1,0 +1,9 @@
+{
+  "id": "fix-tier-cheap",
+  "term": "cheap",
+  "family": "fault",
+  "order": 13,
+  "definition": "The best answer at little or no added cost, often a change of proportion or placement rather than of material. It is the tier that actually gets built.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the cheap fix: \"The best available answer at no or low added cost. Often a change of proportion or placement rather than of material.\" and \"The cheap tier is the one that actually gets built.\""
+}

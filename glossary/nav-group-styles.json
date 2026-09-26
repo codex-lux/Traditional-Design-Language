@@ -1,0 +1,9 @@
+{
+  "id": "nav-group-styles",
+  "term": "Styles",
+  "family": "nav-group",
+  "order": 1,
+  "definition": "The group for reading styles: the index of every tradition, family, style and variant, the style you have in hand with its dossier's sections, and the family tree and map.",
+  "kind": "editorial",
+  "basis": "Editorial. The groups are the workbench's own navigation, ruled for Phase 14, and no corpus file names them; what it holds is VISION.md's vocabulary layer, \"The style graph: a directed acyclic graph of traditions, families, styles and variants across two and a half millennia, related by typed edges.\""
+}

@@ -482,3 +482,131 @@ class TestTheDatumDetectionsOwnBlindSpot:
             "the datum detection's blind spot now has data in it; the zero-signal must be "
             "narrowed (e.g. to fire only when the assembly that DEFINES the group's naked is "
             "wholly unrecorded) before these draw:\n  " + "\n  ".join(offenders))
+
+
+# ---------------------------------------------------------------- WP-14.4: the wall datum
+def _stackless_with_assemblies():
+    """Every pack the engine can draw that has no column stack: the population the workbench's
+    assembly plates are built from (PRD §H.1). COMPUTED from the engine, never listed."""
+    out = []
+    for pid in sorted(PE.PACKS):
+        pk = PE.resolve(pid)
+        if not PE.stack_for(pk) and pk.get("assemblies"):
+            out.append((pid, pk))
+    return out
+
+
+def _wall_cases():
+    for pid, pk in _stackless_with_assemblies():
+        for aid in pk["assemblies"]:
+            d = PE.dimension(pk, None, [aid])
+            if d["assemblies"]:
+                yield pid, pk, aid, d
+
+
+def _path_ends(path):
+    """The first point after `M` and the last point before `Z`, read off a served path."""
+    toks = path.replace(",", " ").split()
+    assert toks[0] == "M" and toks[-1] == "Z", path[:80]
+    nums = [t for t in toks[:-1] if t not in ("M", "L", "A")]
+    return (float(toks[1]), float(toks[2])), (float(nums[-2]), float(nums[-1]))
+
+
+class TestTheWallDatum:
+    """WP-14.4. A trim wall section, a casing, a water table, an arch's impost stand on no
+    column, and under the ORDER datum `pack_geometry` read `trim-classical`'s ceiling module as
+    a column radius and drew every wall section 9'-6" off its own wall. `datum="wall"` measures
+    every face from the wall plane. The DEFAULT is held byte-identical by every other test in
+    this file and by test_render_profile.py, test_drawn_geometry.py and check_orders.py."""
+
+    def test_the_population_is_the_engines_own_and_is_not_empty(self):
+        cases = list(_wall_cases())
+        packs = {pid for pid, *_ in cases}
+        assert packs and len(cases) > len(packs), \
+            "no stackless pack with assemblies -- every assertion below would be vacuous"
+        # every such pack has at least one assembly the engine dimensions on its own
+        assert packs == {pid for pid, _ in _stackless_with_assemblies()}
+
+    def test_the_default_datum_is_the_order_datum_and_adds_no_key(self):
+        for pid in sorted(PE.PACKS):
+            r = PE.resolve(pid)
+            d = PE.dimension(r, 36.0)
+            a = PROF.pack_geometry(d, r.get("column"), r.get("projection_datum"))
+            b = PROF.pack_geometry(d, r.get("column"), r.get("projection_datum"), datum="order")
+            assert a == b, f"{pid}: the explicit order datum differs from the default"
+            assert "datum" not in a, f"{pid}: the default output grew a key"
+
+    def test_an_unknown_datum_is_refused_not_read_as_the_default(self):
+        pid, pk = _stackless_with_assemblies()[0]
+        with pytest.raises(ValueError):
+            PROF.pack_geometry(PE.dimension(pk, None), datum="walls")
+
+    def test_under_the_order_datum_these_packs_stand_off_their_wall(self):
+        """The discriminator, so the wall datum is not merely re-deriving what the default
+        already did: under the order datum the first face of every one of these assemblies
+        starts at the bogus radius `dimension()` computes for every pack, not at 0."""
+        for pid, pk, aid, d in _wall_cases():
+            g = PROF.pack_geometry(d)
+            radius = d["totals"]["lower_diameter_in"] / 2.0
+            first = g["assemblies"][0]["faces"][0]
+            assert radius > 0 and first["x_from"] == pytest.approx(radius), (pid, aid)
+
+    def test_every_face_is_measured_from_the_wall_plane(self):
+        for pid, pk, aid, d in _wall_cases():
+            g = PROF.pack_geometry(d, datum="wall")
+            assert g["datum"] == "wall"
+            assert g["lower_radius_in"] == g["upper_radius_in"] == g["die_naked_in"] == 0.0
+            assert g["shaft"] is None and g["unrecorded"] == []
+            a = g["assemblies"][0]
+            assert a["naked_in"] == 0.0 and g["assembly_datum"][aid] == "wall"
+            assert a["faces"], f"{pid}/{aid}: nothing drawn"
+            assert a["faces"][0]["x_from"] == 0.0, \
+                f"{pid}/{aid}: the walk does not start at the wall plane"
+            for f in a["faces"]:
+                (x0, y0), (x1, y1) = _path_ends(f["path"])
+                assert (x0, y0) == pytest.approx((0.0, f["y0"]), abs=1e-4), (pid, aid, f["id"])
+                assert (x1, y1) == pytest.approx((0.0, f["y1"]), abs=1e-4), \
+                    f"{pid}/{aid}/{f['id']}: the face does not close to the wall plane"
+
+    def test_nothing_is_drawn_behind_the_wall_except_what_a_half_round_constructs_there(self):
+        """No point of any face lies behind the wall plane, with ONE stated exception, and the
+        exception is the TORUS CONSTRUCTION and not the datum: a half round's height is its
+        diameter, so a round whose recorded face is less than half its height springs behind
+        the plane it stands on, and the member walked from it starts there. Measured at
+        WP-14.4, three faces in the corpus; the exemption is asserted to be exercised so it
+        cannot quietly become an exemption for anything."""
+        springs = []
+        for pid, pk, aid, d in _wall_cases():
+            g = PROF.pack_geometry(d, datum="wall")
+            profile = {m["id"]: (m.get("profile") or "flat").lower()
+                       for m in d["assemblies"][0]["members"]}
+            for f in g["assemblies"][0]["faces"]:
+                low = min([f["x_from"], f["x"]] + [x for x, _ in _sample(f["segments"])])
+                allowed = min(0.0, f["x_from"])
+                if profile.get(f["id"]) in PROF.ROUNDS:
+                    spring = f["x"] - (f["y1"] - f["y0"]) / 2.0
+                    if spring < 0:
+                        springs.append(f"{pid}/{aid}/{f['id']}")
+                    allowed = min(allowed, spring)
+                assert low >= allowed - 1e-6, \
+                    f"{pid}/{aid}/{f['id']}: drawn {low:.3f} in behind the wall plane"
+        assert springs, "the half-round exemption is never exercised; narrow it to nothing"
+
+    def test_the_wall_datum_is_linear_in_the_module(self):
+        """The property that lets the plate be computed once and scaled (see
+        TestScaleInvariance): at module k*m every point is k times its place at module m.
+        To `dimension()`'s own rounding, which writes every member figure to four decimal
+        places -- so the tolerance is a thousandth of an inch, not a float epsilon."""
+        k = 1.37
+        tol = 1e-3
+        for pid, pk, aid, d in _wall_cases():
+            m = d["module_in"]
+            ga = PROF.pack_geometry(PE.dimension(pk, m, [aid]), datum="wall")["assemblies"][0]
+            gb = PROF.pack_geometry(PE.dimension(pk, m * k, [aid]), datum="wall")["assemblies"][0]
+            assert len(ga["faces"]) == len(gb["faces"]), (pid, aid)
+            for fa, fb in zip(ga["faces"], gb["faces"]):
+                pa, pb = _sample(fa["segments"]), _sample(fb["segments"])
+                assert len(pa) == len(pb), (pid, aid, fa["id"])
+                for (xa, ya), (xb, yb) in zip(pa, pb):
+                    assert xa * k == pytest.approx(xb, abs=tol), (pid, aid, fa["id"])
+                    assert ya * k == pytest.approx(yb, abs=tol), (pid, aid, fa["id"])

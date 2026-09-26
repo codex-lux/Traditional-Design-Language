@@ -92,6 +92,57 @@ def test_trailing_newline_is_rejected_the_same_way_on_both_sides():
     assert not citations.REF_RE.match("style:craftsman\n")
 
 
+# ---------------------------------------------------------------- WP-14.3: the dossier's sections
+# `DOSSIER_SECTIONS` is a pinned VOCABULARY, not a pattern (PRD phase 14, §D.1): the grammar above
+# is untouched by it, and it decides which `style:` fragments name a section. §D.1 allows it
+# exactly two spellings -- `citations.py`'s tuple and `citations.js`'s frozen array, which the
+# browser needs because it cannot import a Python constant -- and this holds them equal by READING
+# the JavaScript, as the id classes above are held.
+
+_DOSSIER_JS = re.compile(r"^export const DOSSIER_SECTIONS = Object\.freeze\(\[([^\]\n]*)\]\);$", re.M)
+
+
+@pytest.fixture(scope="module")
+def client_sections():
+    import os
+    root = os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__)))))
+    src = open(os.path.join(root, CLIENT), encoding="utf-8").read()
+    hits = _DOSSIER_JS.findall(src)
+    assert len(hits) == 1, (
+        f"found {len(hits)} one-line `export const DOSSIER_SECTIONS = Object.freeze([...]);` in "
+        f"citations.js -- §D.1 fixes that exact one-line form so this reader can hold it; if it "
+        f"was reformatted, restore the form rather than loosening the reader")
+    items = [x.strip() for x in hits[0].split(",") if x.strip()]
+    assert all(len(x) > 2 and x[0] == x[-1] == "'" for x in items), items
+    return tuple(x[1:-1] for x in items)
+
+
+def test_client_and_server_dossier_sections_are_identical(client_sections):
+    assert client_sections == citations.DOSSIER_SECTIONS, (
+        f"the browser routes {client_sections} and the server validates "
+        f"{citations.DOSSIER_SECTIONS}: a section one side knows and the other does not is a "
+        f"citation that validates and then opens nothing, or opens and then streams as dead text")
+
+
+def test_the_server_vocabulary_is_a_tuple_led_by_identify_and_names_each_section_once():
+    s = citations.DOSSIER_SECTIONS
+    assert isinstance(s, tuple), "a list could be widened at run time"
+    assert len(set(s)) == len(s), "a section is listed twice"
+    assert s[0] == "identify", "identify is the section the bare citation names and leads the order"
+
+
+def test_no_slot_id_is_a_section_id():
+    """What makes `style:<id>#<fragment>` mean ONE thing. A slot named like a section would make
+    that citation a slot to the validator and a section to the router, and the fragment rule
+    could not tell which the author meant."""
+    from workbench.server import corpus
+    slots = set(corpus.core._data()["slots"])
+    assert slots, "the premise: the ontology is loaded"
+    clash = sorted(slots & set(citations.DOSSIER_SECTIONS))
+    assert not clash, f"slot ids that are also dossier sections: {clash}"
+
+
 # ---------------------------------------------------------------- OQ 83: no fifth copy
 # The moulding geometry is constructed in build/profiles.py and serialised there. Two JavaScript
 # copies of the SVG sweep rule existed until 27 Aug 2026 and BOTH were wrong: each emitted the
@@ -108,6 +159,7 @@ _ARC_MATH = ("sweep", "a1 > a0", "a1>a0")
 _JS_SURFACES = [
     ("build/orders_template.html", "the order tool"),
     ("workbench/app/src/surfaces/Proportions.jsx", "the workbench Proportions plate"),
+    ("workbench/app/src/components/AssemblyPlate.jsx", "the workbench wall-datum plate"),
 ]
 
 
@@ -148,6 +200,46 @@ def test_no_javascript_surface_re_derives_an_arc_sweep():
     assert not offenders, (
         "a JavaScript surface is deriving arc geometry again -- build/profiles.py serves finished "
         "paths in model space precisely so that no consumer has to:\n  " + "\n  ".join(offenders))
+
+
+def _band_emitters(root):
+    """Every shipped app source file whose live code emits a `data-asm` band, as repo-relative
+    paths, read with comments stripped so a file that only DESCRIBES a band is not an emitter.
+    Enumerated with `git ls-files -co --exclude-standard` and never by walking: WP-13.2 met a test
+    that walked into an agent worktree and went red on a copy of the repository, and a symlinked
+    `node_modules` beside `src` is one misplaced link from being walked the same way."""
+    import os, subprocess
+    out = subprocess.run(
+        ["git", "-C", root, "ls-files", "-co", "--exclude-standard", "-z", "--", "workbench/app/src"],
+        capture_output=True, check=True).stdout.decode("utf-8")
+    found = []
+    for rel in sorted(p for p in out.split("\0") if p):
+        if not rel.endswith((".js", ".jsx", ".mjs")) or rel.endswith(".test.mjs"):
+            continue
+        path = os.path.join(root, rel)
+        if not os.path.isfile(path):
+            continue
+        if "data-asm" in _strip_comments(open(path, encoding="utf-8").read()):
+            found.append(rel)
+    return found
+
+
+def test_every_app_file_that_draws_a_band_is_one_this_guard_reads():
+    """PRD §I.6 (WP-14.9). A plate band is `<path data-asm data-member>` drawn from a SERVED face
+    path, and `_JS_SURFACES` is the list of files held to building no arc. A second plate that
+    emitted bands without joining the list would be a surface the arc guard above never opens --
+    exactly how a fifth copy of the sweep rule would arrive. So the list is held to the tree:
+    every file emitting `data-asm` must be on it."""
+    root = _repo_root()
+    emitters = _band_emitters(root)
+    listed = {rel for rel, _ in _JS_SURFACES}
+    assert "workbench/app/src/components/AssemblyPlate.jsx" in emitters \
+        and "workbench/app/src/surfaces/Proportions.jsx" in emitters, \
+        f"the premise: the walk finds both plates that draw bands ({emitters})"
+    unlisted = [e for e in emitters if e not in listed]
+    assert not unlisted, (
+        "these app files draw plate bands (`data-asm`) and are not in _JS_SURFACES, so nothing "
+        "holds them to building no arc -- add each to the list:\n  " + "\n  ".join(unlisted))
 
 
 def test_the_served_geometry_actually_carries_a_path():

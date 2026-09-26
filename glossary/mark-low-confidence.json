@@ -1,0 +1,10 @@
+{
+  "id": "mark-low-confidence",
+  "term": "low confidence",
+  "family": "mark",
+  "mark": "--mark-low-confidence",
+  "order": 1,
+  "definition": "The record holds this date or this placement only loosely, so it is drawn with a dashed outline. It says how firmly the corpus knows something; it is not a verdict on a house and not a rule left unrun.",
+  "kind": "editorial",
+  "basis": "workbench/app/src/theme/tokens.css, the duty block's comment on this mark: \"Low confidence: a dashed outline, for a date or a placement the record holds only loosely.\" It stands among \"The marks that are not a verdict, and so never borrow a verdict's form\", and the block states the rule every mark keeps: \"Each duty token below means one thing wherever it is drawn\"."
+}

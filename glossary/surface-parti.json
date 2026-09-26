@@ -1,0 +1,27 @@
+{
+  "id": "surface-parti",
+  "term": "Parti",
+  "family": "surface",
+  "order": 16,
+  "sense": "the page for one plan diagram",
+  "definition": "The page for one plan diagram: its rooms, outside walls and connections, how it grows, what it trades away, and the styles it is native to.",
+  "kind": "editorial",
+  "basis": "The page is the workbench's own; what it shows is the parti record. schema/parti.schema.json: \"Dimensions come from the room catalogue and are scaled to the brief\" and \"Every parti gives something up, and a composer that cannot say what will pick badly.\" and \"A style not listed can still use it; the composer will say so.\"",
+  "confusable_with": [
+    "parti"
+  ],
+  "surface": {
+    "what": "One plan diagram: its rooms, which walls face outside and what connects to what, how it grows, what it gives up, and the styles it is native to.",
+    "read": [
+      "A parti states topology and roles only; room sizes come from the room catalogue, scaled to the brief.",
+      "What it trades away is stated as plainly as what it is good at.",
+      "A style not listed may still borrow it, and the composer says so when it does."
+    ],
+    "try": "parti:centre-passage-double-pile",
+    "ask": [
+      "Which styles is this plan diagram native to?",
+      "What does this diagram trade away?",
+      "How does this diagram grow when the brief gets bigger?"
+    ]
+  }
+}

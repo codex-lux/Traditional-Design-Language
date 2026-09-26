@@ -1,0 +1,13 @@
+{
+  "id": "bibliographic-source",
+  "term": "source",
+  "family": "model",
+  "definition": "A published work that a record names as the ground for what it says, as a style names the works establishing it. The corpus's rule: every number carries one, or is openly marked as editorial judgment, or as invented where no precedent exists.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, the sources field: \"Works establishing this node.\" VISION.md, sources or an honest mark: \"Every number carries a source or is explicitly labelled as an editorial judgment.\" and \"Where no precedent exists at all, the value is labelled\" invented.",
+  "sense": "a published work the corpus cites",
+  "confusable_with": [
+    "cascade-source",
+    "authority"
+  ]
+}

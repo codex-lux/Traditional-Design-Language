@@ -1,0 +1,9 @@
+{
+  "id": "front-door-holds",
+  "term": "What the corpus holds",
+  "family": "product",
+  "order": 3,
+  "definition": "What the corpus holds today, counted by the server rather than written down: the styles at each rank, the element slots every style draws on, the proportion packs, the named errors, the massings and the room groupings.",
+  "kind": "editorial",
+  "basis": "mcp_server/core.py, the overview whose counts the front door shows: \"An evolutionary taxonomy of traditional architecture with an executable\" and \"proportioning grammar, a kit-of-parts directory per style, and a corpus of\". VISION.md, on the element slots, massings and room types: \"Three catalogues that every style draws from and none owns.\""
+}

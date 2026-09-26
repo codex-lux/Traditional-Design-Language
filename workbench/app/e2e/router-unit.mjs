@@ -7,11 +7,22 @@
    The modules are ESM with no JSX, so node runs them directly. Nothing here may import
    a .jsx file — if a future edit makes router.js or citations.js pull in a component,
    this test stops running and that is the point at which to split the module, not to
-   delete the test. */
+   delete the test.
+
+   Two sections reach past the modules, and both say so where they do (WP-14.5): the
+   constraint sweep READS styles/ from the checkout, because "a constraint opens its own
+   style" is a claim about the corpus and not about the code; and section 7 imports
+   state/nav.js behind a stand-in `location`, because withContext being right says nothing
+   about whether nav.cite calls it. Still no DOM and no server. */
 
 import assert from 'node:assert/strict';
-import { parseCite, routeCite, citeFor } from '../src/citations.js';
-import { parseHash, formatHash, SURFACE_PATHS, SELECTION_KEYS, DEFAULT_SURFACE } from '../src/router.js';
+import { readFileSync, readdirSync } from 'node:fs';
+import { parseCite, routeCite, citeFor, DOSSIER_SECTIONS } from '../src/citations.js';
+import {
+  parseHash, formatHash, SURFACE_PATHS, SELECTION_KEYS, DEFAULT_SURFACE,
+  CONTEXT_KEYS, withContext, hrefFor, LEGACY_PATHS, isLegacyHash, canonicalHash,
+  LEGACY_PLACES, legacyPlaceOf,
+} from '../src/router.js';
 
 let checks = 0;
 const ok = (fn) => { fn(); checks += 1; };
@@ -29,18 +40,86 @@ ok(() => {
 
 /* Dots in ids. The server's REF_RE has always allowed them because constraint ids are
    style-id.cNN; this half did not, so all 660 constraint citations parsed to null and
-   navigated nowhere. Regression pin for that fix (WP-5.6). */
+   navigated nowhere. Regression pin for that fix (WP-5.6).
+
+   WP-14.5 re-cut the ROUTE half of this pin, not the parse half. It used to assert the
+   constraint landed on the Plan Workbench, which reads no `constraint` from its selection —
+   so the pin held a citation to a place that showed nothing about it. The property now is
+   that a constraint opens where its style states it: that style's rules section, with the
+   constraint selected, and citeFor naming it again from there. */
 ok(() => {
   const c = parseCite('constraint:tidewater-georgian.c01');
   assert.deepEqual(c, { kind: 'constraint', id: 'tidewater-georgian.c01', fragment: null });
   assert.deepEqual(routeCite('constraint:tidewater-georgian.c01'),
-    { surface: 'workbench', selection: { constraint: 'tidewater-georgian.c01' } });
+    { surface: 'style',
+      selection: { style: 'tidewater-georgian', section: 'rules', constraint: 'tidewater-georgian.c01' } });
+  assert.equal(citeFor('style', routeCite('constraint:tidewater-georgian.c01').selection),
+    'constraint:tidewater-georgian.c01');
 });
 
-/* ── 2. routeCite → citeFor is an identity for every kind but `brief` ──────────── */
+/* The style is the text before the LAST dot, and an id with no dot names no style. The corpus
+   holds no dotted style id, so the last-dot half is pinned on a synthetic id — it is the
+   stated rule (§E.3), and a first-dot reading would pass every real id while being wrong. */
+ok(() => {
+  assert.equal(routeCite('constraint:a.b.c07').selection.style, 'a.b');
+  assert.equal(routeCite('constraint:nodot'), null, 'a constraint with no style must go nowhere');
+  assert.equal(routeCite('constraint:.c01'), null, 'an empty style is no style');
+});
 
+/* The address itself: a real constraint, written as the dossier writes it, parses to the
+   rules section with the constraint selected and inverts to the citation. */
+ok(() => {
+  const hash = '#/style/tidewater-georgian/rules?constraint=tidewater-georgian.c01';
+  const p = parseHash(hash);
+  assert.deepEqual(p, {
+    surface: 'style',
+    selection: { style: 'tidewater-georgian', section: 'rules', constraint: 'tidewater-georgian.c01' },
+    params: {},
+  });
+  assert.equal(citeFor(p.surface, p.selection), 'constraint:tidewater-georgian.c01');
+  assert.equal(formatHash(p.surface, p.selection, p.params), hash, 'the dossier address is not canonical');
+  assert.equal(hrefFor('constraint:tidewater-georgian.c01'), hash);
+});
+
+/* "The constraint's own style" is a claim about the CORPUS, so it is re-derived from the
+   corpus on every run rather than trusted: every constraint a style node states must route to
+   THAT node. Read from styles/ as the server's `_constraint_ids` reads it (each node's
+   `constraints[].id`). A constraint filed under one style with another style's prefix would
+   route silently to the wrong dossier, and nothing else would notice. */
+ok(() => {
+  const dir = new URL('../../../styles/', import.meta.url);
+  const files = readdirSync(dir).filter((f) => f.endsWith('.json')).sort();
+  let n = 0;
+  const wrong = [];
+  files.forEach((f) => {
+    const node = JSON.parse(readFileSync(new URL(f, dir), 'utf8'));
+    (node.constraints || []).forEach((con) => {
+      if (!con || !con.id) return;
+      n += 1;
+      const t = routeCite('constraint:' + con.id);
+      if (!t || t.surface !== 'style' || t.selection.style !== node.id || t.selection.section !== 'rules'
+          || t.selection.constraint !== con.id || citeFor(t.surface, t.selection) !== 'constraint:' + con.id) {
+        wrong.push(`${con.id} (stated by ${node.id}) → ${JSON.stringify(t)}`);
+      }
+    });
+  });
+  // The premise, or a styles/ that moved would make this pass over nothing.
+  assert.ok(files.length > 0 && n > 0, `read ${files.length} style files and ${n} constraints — the sweep saw nothing`);
+  assert.deepEqual(wrong, [], `${wrong.length} of ${n} constraints do not route to their own style`);
+});
+
+/* ── 2. routeCite → citeFor is an identity for every kind ─────────────────────── */
+
+/* `brief` joined this list at WP-14.12. Until then routeCite discarded the brief's id and it was
+   the documented exception, so a guided example opened an empty Brief Intake. The id rides in
+   the target's PARAMS (`?example=<id>`, which the intake reads), so every loop below threads
+   `params` through. A loop that did not would pass for every other kind and fail on this one,
+   which is how the identity is known to be tested rather than assumed. The id is a shipped
+   example brief (`briefs/family-georgian.json`), and the router does not check that. */
 const KINDS = [
+  'brief:family-georgian',
   'style:craftsman',
+  'style:craftsman#lineage',
   'kit:tidewater-georgian',
   'kit:tidewater-georgian#cornice',
   'slot:cornice',
@@ -55,28 +134,88 @@ const KINDS = [
   'parti:center-passage',
   'grouping:service-wing',
   'asset:habs-va-123',
+  'term:judgment-unjudged',
 ];
 
 KINDS.forEach((ref) => ok(() => {
   const target = routeCite(ref);
   assert.ok(target, `routeCite could not read ${ref}`);
-  assert.equal(citeFor(target.surface, target.selection), ref,
+  assert.equal(citeFor(target.surface, target.selection, target.params), ref,
     `${ref} did not survive routeCite → citeFor`);
 }));
 
-/* The documented exception, asserted rather than assumed: routeCite discards the brief's
-   id, so no citation can be recovered from the surface, and citeFor says so with null
-   instead of inventing one. */
+/* The brief, by name: the citation opens the intake holding that example, the address is the one
+   the intake reads, and the address cites the brief again. The EMPTY intake is a place no citation
+   names, so it answers null. That is the half of the old exception that still holds. */
 ok(() => {
-  const target = routeCite('brief:anything');
-  assert.deepEqual(target, { surface: 'brief', selection: {} });
+  assert.deepEqual(routeCite('brief:family-georgian'),
+    { surface: 'brief', selection: {}, params: { example: 'family-georgian' } });
+  assert.equal(hrefFor('brief:family-georgian'), '#/brief?example=family-georgian');
+  const p = parseHash('#/brief?example=family-georgian');
+  assert.deepEqual(p, { surface: 'brief', selection: {}, params: { example: 'family-georgian' } });
+  assert.equal(citeFor(p.surface, p.selection, p.params), 'brief:family-georgian');
   assert.equal(citeFor('brief', {}), null);
+  assert.equal(citeFor('brief', {}, {}), null);
+  assert.equal(citeFor('brief', {}, { example: '' }), null);
 });
 
 ok(() => {
   assert.equal(routeCite('nosuchkind:x'), null);
   assert.equal(citeFor('nosuchsurface', { style: 'x' }), null);
   assert.equal(citeFor('style', {}), null);
+});
+
+/* ── 2b. Aliases: read, never written, and never in the identity list ──────────── */
+
+/* `style:<id>#identify` is the bare style under another name. It routes with NO section key,
+   so it cannot be written back into an address; the address it opens is the bare dossier; and
+   the citation recovered from it is the bare one. An address that does carry `/identify` — a
+   hand-typed one — is read as the same place: citeFor never mints `style:x#identify`. That
+   last assertion is the one a writer that minted the alias would fail, which is why it reads
+   the parsed URL rather than routeCite's output (routeCite has already dropped the section). */
+ok(() => {
+  assert.deepEqual(routeCite('style:craftsman#identify'), { surface: 'style', selection: { style: 'craftsman' } });
+  assert.equal(citeFor('style', routeCite('style:craftsman#identify').selection), 'style:craftsman');
+  assert.equal(hrefFor('style:craftsman#identify'), '#/style/craftsman', 'a writer emitted the identify form');
+  const typed = parseHash('#/style/craftsman/identify');
+  assert.deepEqual(typed.selection, { style: 'craftsman', section: 'identify' });
+  assert.equal(citeFor(typed.surface, typed.selection), 'style:craftsman', 'citeFor minted style:x#identify');
+  assert.equal(citeFor('style', { style: 'craftsman', section: 'identify' }), 'style:craftsman');
+  assert.ok(!KINDS.some((k) => k.endsWith('#identify')), 'an alias was put in the identity list');
+});
+
+/* A fragment that is not a section is a SLOT, and it opens in the style's kit (WP-14.12, §E.3):
+   the server's validator admits a `style:` fragment only as a slot id or a section id (§E.6), and
+   no slot id is a section id. Until the kit moved into the dossier the fragment was dropped here
+   and the reader landed on the style's top with nothing about the slot on screen. It is an ALIAS
+   of `kit:<id>#<slot>` — read, never minted, and never in the identity list. The same holds for
+   `style:<id>#kit`, an alias of `kit:<id>` (it was an identity at WP-14.5, before the kit moved).
+
+   An address holding an unknown section is not cited by it — `style:x#nonsense` is a ref the
+   server's validator refuses, so citeFor names the style and nothing it cannot stand behind. An
+   absent or empty section is the bare place. */
+ok(() => {
+  assert.deepEqual(routeCite('style:craftsman#cornice'),
+    { surface: 'style', selection: { style: 'craftsman', section: 'kit', slot: 'cornice' } });
+  assert.equal(citeFor('style', routeCite('style:craftsman#cornice').selection), 'kit:craftsman#cornice',
+    'a slot fragment is cited by the kit it opens');
+  assert.equal(hrefFor('style:craftsman#cornice'), '#/style/craftsman/kit/cornice');
+  assert.deepEqual(routeCite('style:craftsman#kit'), { surface: 'style', selection: { style: 'craftsman', section: 'kit' } });
+  assert.equal(citeFor('style', routeCite('style:craftsman#kit').selection), 'kit:craftsman');
+  assert.ok(!KINDS.some((k) => /^style:[^#]+#(kit|cornice)$/.test(k)), 'an alias was put in the identity list');
+  assert.equal(citeFor('style', { style: 'craftsman', section: 'nosuch' }), 'style:craftsman');
+  assert.equal(citeFor('style', { style: 'craftsman' }), 'style:craftsman');
+  assert.equal(citeFor('style', { style: 'craftsman', section: '' }), 'style:craftsman');
+});
+
+/* The glossary: a term citation lands on the term; the bare glossary is a place no citation
+   names, so citeFor says null rather than inventing one. */
+ok(() => {
+  assert.deepEqual(routeCite('term:judgment-unjudged'), { surface: 'glossary', selection: { term: 'judgment-unjudged' } });
+  assert.deepEqual(parseHash('#/glossary'), { surface: 'glossary', selection: {}, params: {} });
+  assert.deepEqual(parseHash('#/glossary/judgment-unjudged').selection, { term: 'judgment-unjudged' });
+  assert.equal(citeFor('glossary', {}), null);
+  assert.equal(hrefFor('term:judgment-unjudged'), '#/glossary/judgment-unjudged');
 });
 
 /* ── 3. Every citation survives a round trip through a URL ─────────────────────── */
@@ -90,33 +229,226 @@ const defined = (o) => Object.fromEntries(Object.entries(o || {}).filter(([, v])
 
 KINDS.forEach((ref) => ok(() => {
   const target = routeCite(ref);
-  const hash = formatHash(target.surface, target.selection, {});
+  const hash = formatHash(target.surface, target.selection, target.params || {});
   const back = parseHash(hash);
   assert.equal(back.surface, target.surface, `${ref} → ${hash} landed on the wrong surface`);
   assert.deepEqual(back.selection, defined(target.selection), `${ref} → ${hash} lost part of its selection`);
-  assert.equal(citeFor(back.surface, back.selection), ref, `${ref} did not survive the URL`);
+  assert.deepEqual(back.params, defined(target.params), `${ref} → ${hash} lost part of its params`);
+  assert.equal(citeFor(back.surface, back.selection, back.params), ref, `${ref} did not survive the URL`);
 }));
 
 /* And the #/cite/ form, which is what a machine writes and a human clicks. */
 KINDS.forEach((ref) => ok(() => {
   const back = parseHash('#/cite/' + ref);
-  assert.equal(citeFor(back.surface, back.selection), ref, `#/cite/${ref} did not resolve to itself`);
+  assert.equal(citeFor(back.surface, back.selection, back.params), ref, `#/cite/${ref} did not resolve to itself`);
 }));
+
+/* ── 3b. Every dossier section round-trips through a URL ───────────────────────── */
+
+/* The vocabulary's properties, not its words: the words are spelled in citations.js and, by
+   §D.1, once more on the server, and a third copy here would be one more thing to drift.
+   Frozen, no duplicate, `identify` first (the alias is defined against it), and every id a
+   fragment the grammar can carry and a path segment that needs no escaping — a section no
+   citation could name, or one whose address is written percent-encoded, is not a place. */
+ok(() => {
+  assert.ok(Object.isFrozen(DOSSIER_SECTIONS), 'DOSSIER_SECTIONS can be widened at run time');
+  assert.equal(new Set(DOSSIER_SECTIONS).size, DOSSIER_SECTIONS.length, 'a section id is listed twice');
+  assert.equal(DOSSIER_SECTIONS[0], 'identify');
+  DOSSIER_SECTIONS.forEach((s) => {
+    assert.equal(parseCite('style:craftsman#' + s)?.fragment, s, `'${s}' is not a fragment the grammar can carry`);
+    assert.equal(encodeURIComponent(s), s, `'${s}' would be written escaped in the address`);
+  });
+});
+
+/* Each section, as the dossier's address and back. `identify` survives the URL as a selection
+   and is cited as the bare style — the reader treats the two forms alike; `kit` is cited by the
+   kit's own kind, `kit:<id>` (§E.3, final since WP-14.12), and routes back to the same selection;
+   every other section is its own citation, which routes back to the same selection and draws the
+   same address. */
+DOSSIER_SECTIONS.forEach((section) => ok(() => {
+  const sel = { style: 'craftsman', section };
+  const hash = formatHash('style', sel, {});
+  const back = parseHash(hash);
+  assert.deepEqual(back, { surface: 'style', selection: sel, params: {} }, `${section}: ${hash} lost its section`);
+  const ref = citeFor(back.surface, back.selection);
+  if (section === 'identify') {
+    assert.equal(ref, 'style:craftsman', 'the identify section minted its own citation');
+    return;
+  }
+  assert.equal(hash, '#/style/craftsman/' + section);
+  assert.equal(ref, section === 'kit' ? 'kit:craftsman' : 'style:craftsman#' + section);
+  assert.deepEqual(routeCite(ref), { surface: 'style', selection: sel });
+  assert.equal(hrefFor(ref), hash);
+  assert.equal(citeFor(parseHash('#/cite/' + ref).surface, parseHash('#/cite/' + ref).selection), ref);
+}));
+
+/* A slot rides after the section, in the path, and the `-` placeholder holds an absent style —
+   the two shapes §E.2 names, and each is a citation (WP-14.12): one slot in a style's kit is
+   `kit:<id>#<slot>`, and one slot across styles is `slot:<id>`. Since WP-14.23 the second is the
+   slot's own record page, `#/elements/<slot>` (tranche 2 §B.2), and the style-less kit address it
+   used to open is a kept LEGACY address: read as that page and never written. */
+ok(() => {
+  assert.deepEqual(parseHash('#/style/tidewater-georgian/kit/cornice').selection,
+    { style: 'tidewater-georgian', section: 'kit', slot: 'cornice' });
+  assert.equal(formatHash('style', { style: 'tidewater-georgian', section: 'kit', slot: 'cornice' }, {}),
+    '#/style/tidewater-georgian/kit/cornice');
+  assert.equal(citeFor('style', parseHash('#/style/tidewater-georgian/kit/cornice').selection),
+    'kit:tidewater-georgian#cornice');
+  assert.equal(hrefFor('kit:tidewater-georgian#cornice'), '#/style/tidewater-georgian/kit/cornice');
+  assert.deepEqual(parseHash('#/style/-/kit/cornice'), { surface: 'elements', selection: { slot: 'cornice' }, params: {} });
+  assert.equal(formatHash('style', { section: 'kit', slot: 'cornice' }, {}), '#/elements/cornice');
+  assert.equal(citeFor('style', { section: 'kit', slot: 'cornice' }), 'slot:cornice');
+  assert.equal(hrefFor('slot:cornice'), '#/elements/cornice');
+  assert.deepEqual(routeCite('slot:cornice'), { surface: 'elements', selection: { slot: 'cornice' } });
+  // The kit section with neither a style nor a slot names nothing a citation can: the index.
+  assert.equal(citeFor('style', { section: 'kit' }), null);
+  assert.deepEqual(parseHash('#/style').selection, {});
+  assert.deepEqual(parseHash('#/style/-').selection, {});
+});
 
 /* ── 4. The URL shapes themselves ──────────────────────────────────────────────── */
 
+/* THE KIT IS NOT A SURFACE, AND ITS OLD ADDRESS IS AN ALIAS (WP-14.12, PRD §E.1). Every row of
+   §E.1's legacy table, read positionally with the same `-` placeholder; `section: 'kit'` set only
+   where a style or a slot is named, so a bare `#/kit` — which used to show Tidewater's kit, a
+   style the URL never said — is the Styles index. Each row is asserted three ways: what it parses
+   to, the canonical address `formatHash` and `canonicalHash` write for it, and that the canonical
+   address is not itself legacy (a rewrite that produced another legacy hash would loop). */
 ok(() => {
-  assert.deepEqual(parseHash('#/kit/tidewater-georgian/cornice'),
-    { surface: 'kit', selection: { style: 'tidewater-georgian', slot: 'cornice' }, params: {} });
-  assert.equal(formatHash('kit', { style: 'tidewater-georgian', slot: 'cornice' }, {}),
-    '#/kit/tidewater-georgian/cornice');
+  assert.equal(SURFACE_PATHS.kit, undefined, 'the kit is still a surface of its own');
+  assert.ok(Object.isFrozen(LEGACY_PATHS) && Object.isFrozen(LEGACY_PATHS.kit), 'the legacy table can be widened at run time');
+  assert.ok(!Object.keys(LEGACY_PATHS).some((k) => SURFACE_PATHS[k]), 'a legacy path is also a live surface');
+  Object.values(LEGACY_PATHS).forEach((l) => assert.ok(SURFACE_PATHS[l.to], `a legacy path points at '${l.to}', which has no route`));
+  /* `#/kit/-/cornice` is legacy TWICE since WP-14.23: the retired path reads as the dossier's kit
+     with no style, and that is itself a retired record address (LEGACY_PLACES), so the one
+     rewrite lands on the slot's record page rather than on a second legacy hash. */
+  const TABLE = [
+    ['#/kit/craftsman/cornice', 'style', { style: 'craftsman', section: 'kit', slot: 'cornice' }, '#/style/craftsman/kit/cornice'],
+    ['#/kit/craftsman', 'style', { style: 'craftsman', section: 'kit' }, '#/style/craftsman/kit'],
+    ['#/kit/-/cornice', 'elements', { slot: 'cornice' }, '#/elements/cornice'],
+    ['#/kit', 'style', {}, '#/style'],
+    ['#/kit/', 'style', {}, '#/style'],
+    ['#/kit/tidewater-georgian/cornice?group=openings&q=cornice', 'style',
+      { style: 'tidewater-georgian', section: 'kit', slot: 'cornice' },
+      '#/style/tidewater-georgian/kit/cornice?group=openings&q=cornice'],
+  ];
+  TABLE.forEach(([legacy, surface, selection, canonical]) => {
+    const p = parseHash(legacy);
+    assert.equal(p.surface, surface, `${legacy} read as '${p.surface}'`);
+    assert.deepEqual(p.selection, selection, `${legacy} read as ${JSON.stringify(p.selection)}`);
+    assert.ok(isLegacyHash(legacy), `${legacy} is not recognised as legacy`);
+    assert.equal(canonicalHash(legacy), canonical, `${legacy} canonicalises to ${canonicalHash(legacy)}`);
+    assert.equal(formatHash(p.surface, p.selection, p.params), canonical);
+    assert.ok(!isLegacyHash(canonical), `${canonical} is itself legacy — the rewrite would loop`);
+    assert.equal(canonicalHash(canonical), null, 'a canonical address was rewritten again');
+  });
+  // The filters rode along into params, not the selection.
+  assert.deepEqual(parseHash('#/kit/tidewater-georgian/cornice?group=openings').params, { group: 'openings' });
 });
 
-/* A slot with no style: the placeholder holds the empty leading position rather than
-   letting the slot slide into it. */
+/* A caller that still says `kit` writes the canonical address, not the Overview's: a retired
+   surface id is an alias in the writer too. And nothing that is not legacy is taken for it. */
 ok(() => {
-  assert.equal(formatHash('kit', { slot: 'cornice' }, {}), '#/kit/-/cornice');
-  assert.deepEqual(parseHash('#/kit/-/cornice').selection, { slot: 'cornice' });
+  assert.equal(formatHash('kit', { style: 'tidewater-georgian', slot: 'cornice' }, {}), '#/style/tidewater-georgian/kit/cornice');
+  assert.equal(formatHash('kit', { slot: 'cornice' }, {}), '#/elements/cornice');
+  assert.equal(formatHash('kit', {}, {}), '#/style');
+  assert.equal(formatHash('kit', { style: 'craftsman' }, { q: 'porch' }), '#/style/craftsman/kit?q=porch');
+  ['#/style/craftsman/kit', '#/kitchen', '#/cite/kit:craftsman', '#/', '', '#/style', '#/faults/kit']
+    .forEach((h) => {
+      assert.ok(!isLegacyHash(h), `${h} was taken for a legacy address`);
+      assert.equal(canonicalHash(h), null);
+    });
+});
+
+/* THE RECORD ADDRESSES TRANCHE 1 WROTE, KEPT (WP-14.23, tranche 2 §B.3). Every address the old
+   routeCite minted for a plan-type record is somebody's bookmark, so each is READ as the record
+   page and rewritten by replaceState, exactly as `#/kit/` is. The rule is a table, one row per
+   (surface, key), and every row is asserted by reading the table rather than by a list written
+   here -- a list here would be a second spelling that could lose a row the table gained. */
+const LEGACY_PLACE_IDS = { slot: 'cornice', roomType: 'dining-room', massing: 'center-passage-single-pile',
+  grouping: 'service-wing', parti: 'center-passage' };
+ok(() => {
+  assert.ok(Object.isFrozen(LEGACY_PLACES) && LEGACY_PLACES.every(Object.isFrozen), 'the legacy place table can be widened at run time');
+  assert.ok(LEGACY_PLACES.length > 0, 'the legacy place table is empty -- every assertion below would pass over nothing');
+  const seen = new Set();
+  LEGACY_PLACES.forEach((row) => {
+    const pair = row.surface + '/' + row.key;
+    assert.ok(!seen.has(pair), `${pair} is two rows -- one row per (surface, key)`);
+    seen.add(pair);
+    assert.ok(SURFACE_PATHS[row.surface], `a legacy place is read off '${row.surface}', which has no route`);
+    assert.ok(SURFACE_PATHS[row.to], `a legacy place points at '${row.to}', which has no route`);
+    assert.equal(SURFACE_PATHS[row.to].keys[0], row.key,
+      `'${row.to}' does not take '${row.key}' as its record key -- the rewrite would drop the record`);
+    assert.ok(SELECTION_KEYS.includes(row.key), `'${row.key}' is not a selection key, so no old address held it`);
+  });
+});
+
+/* Each row, driven through the URL: the old address (the shape tranche 1's routeCite wrote and a
+   bookmark holds) reads as the record page, canonicalises to the page's own address, and that
+   address is neither legacy nor rewritten again. A WRITER handed the old place mints the new
+   address. The citation the page carries is the record's, so a kept bookmark and a fresh citation
+   are one place. */
+LEGACY_PLACES.forEach((row) => ok(() => {
+  const id = LEGACY_PLACE_IDS[row.key];
+  assert.ok(id, `no specimen id for '${row.key}' -- add one to LEGACY_PLACE_IDS`);
+  const oldSel = { ...row.also, [row.key]: id };
+  const legacy = row.surface === 'style'
+    ? '#/style/-/kit/' + id
+    : '#/' + SURFACE_PATHS[row.surface].path + '?' + row.key + '=' + id;
+  const p = parseHash(legacy);
+  assert.deepEqual(p, { surface: row.to, selection: { [row.key]: id }, params: {} }, `${legacy} read as ${JSON.stringify(p)}`);
+  assert.ok(isLegacyHash(legacy), `${legacy} is not recognised as legacy`);
+  const canonical = '#/' + SURFACE_PATHS[row.to].path + '/' + id;
+  assert.equal(canonicalHash(legacy), canonical);
+  assert.equal(formatHash(row.surface, oldSel, {}), canonical, 'a writer still mints the old address');
+  assert.ok(!isLegacyHash(canonical), `${canonical} is itself legacy -- the rewrite would loop`);
+  assert.equal(canonicalHash(canonical), null);
+  const cite = citeFor(p.surface, p.selection, p.params);
+  assert.equal(hrefFor(cite), canonical, `the bookmark and the citation ${cite} land in two places`);
+  assert.equal(legacyPlaceOf(row.surface, oldSel), row);
+}));
+
+/* What is NOT a retired record address, and must not be rewritten: an old surface holding the key
+   AND something else is a different place (the bench with a placed room, the candidate set with a
+   candidate chosen, the phylogeny on a style) and reading it as the record would drop what the
+   reader was doing; the Brief Intake's `?parti=` is the parti bridge's seed (§C.5), not a record
+   address; and each record page's own address. */
+ok(() => {
+  ['#/brief?parti=center-passage', '#/workbench?roomType=parlor&room=parlour', '#/candidates/2?parti=center-passage',
+    '#/phylogeny/craftsman?massing=center-passage-single-pile', '#/style/craftsman/kit/cornice',
+    '#/elements', '#/elements/cornice', '#/room', '#/room/parlor', '#/massing/x', '#/grouping/x', '#/parti/x',
+    '#/workbench', '#/candidates', '#/phylogeny']
+    .forEach((h) => {
+      assert.ok(!isLegacyHash(h), `${h} was taken for a retired record address`);
+      assert.equal(canonicalHash(h), null, `${h} was rewritten`);
+    });
+  assert.deepEqual(parseHash('#/brief?parti=center-passage'), { surface: 'brief', selection: { parti: 'center-passage' }, params: {} });
+  // A bare record surface is its kind's index and names no record: no citation, and no default.
+  ['elements', 'room', 'massing', 'grouping', 'parti'].forEach((surface) => {
+    assert.deepEqual(parseHash('#/' + SURFACE_PATHS[surface].path), { surface, selection: {}, params: {} });
+    assert.equal(citeFor(surface, {}), null, `the bare '${surface}' index was given a citation`);
+  });
+});
+
+/* COMPARE (WP-14.26, tranche 2 §B.1, §B.2): two styles and a section, positionally, and no
+   citation. The address round-trips with and without its section; it is canonical, never a
+   legacy hash; and `citeFor` answers null for every compare place, because the grammar has no
+   two-style kind and none is added -- which is also why no `routeCite` lands on it. */
+ok(() => {
+  const hashes = ['#/compare/craftsman/tidewater-georgian', '#/compare/craftsman/tidewater-georgian/kit',
+    '#/compare/craftsman/tidewater-georgian/plans', '#/compare/craftsman', '#/compare'];
+  hashes.forEach((h) => {
+    const p = parseHash(h);
+    assert.equal(p.surface, 'compare', h);
+    assert.equal(formatHash(p.surface, p.selection, p.params), h, `${h} does not round-trip`);
+    assert.ok(!isLegacyHash(h), `${h} was taken for a retired address`);
+    assert.equal(canonicalHash(h), null, `${h} was rewritten`);
+    assert.equal(citeFor(p.surface, p.selection, p.params), null, `${h} was given a citation`);
+  });
+  assert.deepEqual(parseHash('#/compare/craftsman/tidewater-georgian/kit'),
+    { surface: 'compare', selection: { style: 'craftsman', compare: 'tidewater-georgian', section: 'kit' }, params: {} });
+  assert.equal(SELECTION_KEYS[SELECTION_KEYS.length - 1], 'compare', 'compare was inserted rather than appended');
+  assert.ok(!['style:craftsman', 'kit:craftsman', 'pack:trim-classical'].some((r) => (routeCite(r) || {}).surface === 'compare'));
 });
 
 /* Filters ride in the query and stay out of the selection. */
@@ -209,7 +541,10 @@ ok(() => {
   });
 });
 
-/* Every selection routeCite can produce is one the URL knows how to carry. */
+/* Every selection routeCite can produce is one the URL knows how to carry. And every PARAM it
+   produces is NOT a selection key: parseHash reads a selection key out of the query into the
+   selection, so a param spelled like one would arrive in the wrong half and a surface reading it
+   from params (the Brief Intake's `example`) would find nothing. */
 ok(() => {
   KINDS.concat(['brief:x']).forEach((ref) => {
     const t = routeCite(ref);
@@ -217,7 +552,169 @@ ok(() => {
       assert.ok(SELECTION_KEYS.includes(k),
         `routeCite('${ref}') produces '${k}', which the URL would drop`);
     });
+    Object.keys(t.params || {}).forEach((k) => {
+      assert.ok(!SELECTION_KEYS.includes(k),
+        `routeCite('${ref}') produces param '${k}', which the URL would read back as a selection key`);
+    });
+  });
+  assert.ok(KINDS.some((ref) => Object.keys(routeCite(ref).params || {}).length > 0),
+    'the premise: some citation carries a param, or the second half checks nothing');
+});
+
+/* The context table names only surfaces that have a route and only keys the URL can carry: a
+   key withContext added that is not a selection key would be written nowhere by formatHash —
+   carried in memory and lost from the link. Frozen, so no reader can widen it for everyone. */
+ok(() => {
+  assert.ok(Object.isFrozen(CONTEXT_KEYS), 'CONTEXT_KEYS can be widened at run time');
+  Object.entries(CONTEXT_KEYS).forEach(([surface, keys]) => {
+    assert.ok(SURFACE_PATHS[surface], `CONTEXT_KEYS names '${surface}', which has no route`);
+    assert.ok(Object.isFrozen(keys), `CONTEXT_KEYS.${surface} can be widened at run time`);
+    keys.forEach((k) => assert.ok(SELECTION_KEYS.includes(k),
+      `CONTEXT_KEYS.${surface} carries '${k}', which the URL would drop`));
   });
 });
+
+/* ── 6. Context carry ──────────────────────────────────────────────────────────── */
+
+/* What a reader holds where a link is drawn. Deliberately a selection carrying keys no surface
+   may receive beside the one some may, so that "keeps only the allowed keys" has something to
+   refuse. */
+const CTX = {
+  style: 'craftsman', fault: 'porch-too-shallow-to-inhabit', slot: 'cornice', pack: 'brick-course',
+  section: 'kit', term: 'judgment-unjudged', constraint: 'craftsman.c01', candidate: 2,
+};
+
+/* Every surface, from an empty selection, gains exactly the keys the table lists for it, each
+   with the context's value, and nothing else; a surface with no entry gains nothing. */
+Object.keys(SURFACE_PATHS).forEach((surface) => ok(() => {
+  const got = withContext({ surface, selection: {} }, CTX);
+  const want = Object.fromEntries((CONTEXT_KEYS[surface] || []).map((k) => [k, CTX[k]]));
+  assert.deepEqual(got, { surface, selection: want }, `withContext carried the wrong keys onto '${surface}'`);
+}));
+
+/* The same, by citation, as a reader follows them: the three targets §E.5 names take the
+   style, and places that could hold a style and do not honour a carried one take nothing —
+   the kit and the phylogeny carry `style` in their own paths, and a carried value there would
+   silently change which record the reader is shown. */
+ok(() => {
+  assert.deepEqual(withContext(routeCite('pack:trim-classical'), CTX),
+    { surface: 'proportions', selection: { pack: 'trim-classical', style: 'craftsman' } });
+  assert.deepEqual(withContext(routeCite('fault:porch-too-shallow-to-inhabit'), CTX),
+    { surface: 'faults', selection: { fault: 'porch-too-shallow-to-inhabit', style: 'craftsman' } });
+  assert.deepEqual(withContext(routeCite('brief:x'), CTX),
+    { surface: 'brief', selection: { style: 'craftsman' }, params: { example: 'x' } });
+  ['slot:cornice', 'kit:tidewater-georgian#cornice', 'massing:center-passage-single-pile',
+    'style:tidewater-georgian#lineage', 'constraint:tidewater-georgian.c01', 'term:judgment-unjudged',
+    'candidate:3', 'plan:parlour'].forEach((ref) => {
+    assert.deepEqual(withContext(routeCite(ref), CTX), routeCite(ref), `${ref} received context it does not honour`);
+  });
+});
+
+/* The target always wins: a citation that names a style means that style. */
+ok(() => {
+  const t = { surface: 'faults', selection: { fault: 'porch-too-shallow-to-inhabit', style: 'gothic-revival' } };
+  assert.equal(withContext(t, CTX).selection.style, 'gothic-revival');
+});
+
+/* Only a non-empty string travels; no context is no change; and a citation that resolves
+   nowhere still goes nowhere — a context must not turn a dead link into a live one. */
+ok(() => {
+  const t = routeCite('pack:trim-classical');
+  [{}, { style: '' }, { style: null }, { style: 7 }, { style: ['craftsman'] }].forEach((ctx) => {
+    assert.deepEqual(withContext(t, ctx).selection, { pack: 'trim-classical' }, `carried ${JSON.stringify(ctx)}`);
+  });
+  assert.deepEqual(withContext(t, undefined), t);
+  assert.deepEqual(withContext(t, null), t);
+  assert.equal(withContext(null, CTX), null);
+  assert.equal(withContext(routeCite('nosuchkind:x'), CTX), null);
+  assert.equal(hrefFor('nosuchkind:x', CTX), null);
+});
+
+/* It never mutates what it was handed — routeCite's result is a fresh object today, and a
+   caller holding a target it did not build must not find a style written into it. */
+ok(() => {
+  const t = { surface: 'proportions', selection: { pack: 'trim-classical' } };
+  const before = JSON.stringify(t);
+  withContext(t, CTX);
+  assert.equal(JSON.stringify(t), before, 'withContext wrote into the target it was handed');
+});
+
+/* The carried key survives the address, and is context rather than citation: the page it opens
+   is still cited as the pack alone. */
+ok(() => {
+  const hash = hrefFor('pack:trim-classical', CTX);
+  assert.equal(hash, '#/proportions/trim-classical?style=craftsman');
+  const p = parseHash(hash);
+  assert.deepEqual(p, { surface: 'proportions', selection: { pack: 'trim-classical', style: 'craftsman' }, params: {} });
+  assert.equal(citeFor(p.surface, p.selection), 'pack:trim-classical');
+  assert.equal(hrefFor('fault:porch-too-shallow-to-inhabit', CTX), '#/faults/porch-too-shallow-to-inhabit?style=craftsman');
+  assert.equal(hrefFor('brief:x', CTX), '#/brief?style=craftsman&example=x');
+  assert.equal(hrefFor('slot:cornice', CTX), '#/elements/cornice');
+});
+
+/* ── 7. The two writers: nav.cite carries context, nav.go does not ─────────────── */
+
+/* withContext being right says nothing about whether nav.cite calls it — each half driven and
+   the join asserted by nothing is how a guard goes blind. So the join is driven, against a
+   stand-in address bar: nav.js reaches `location`, `history` and `window` only behind `typeof`
+   guards and follows a citation with `location.hash = …`, so an object with a `hash` field is
+   the whole of what it needs. No DOM. */
+/* WP-14.12 adds `history` and `window` stand-ins, and starts the address bar on a LEGACY hash:
+   nav.js canonicalizes on a cold load (behind `typeof window`) and on every hashchange, and the
+   one way to know it rewrites `#/kit/...` is to load it on one and read the address bar after.
+   `replaceState` writes the address without firing a hashchange, as a browser's does. */
+const hashListeners = [];
+globalThis.location = { hash: '#/kit/craftsman/cornice?q=porch' };
+globalThis.history = { replaceState: (_s, _t, url) => { globalThis.location.hash = url; } };
+globalThis.window = { addEventListener: (type, fn) => { if (type === 'hashchange') hashListeners.push(fn); } };
+const { nav } = await import('../src/state/nav.js');
+
+ok(() => {
+  assert.equal(location.hash, '#/style/craftsman/kit/cornice?q=porch',
+    'a cold load on a legacy #/kit address was not rewritten to the dossier');
+  assert.deepEqual(nav.get(), { surface: 'style',
+    selection: { style: 'craftsman', section: 'kit', slot: 'cornice' }, params: { q: 'porch' } });
+  // and on a hashchange, as a reader typing or following an old link produces
+  assert.equal(hashListeners.length, 1, 'nav.js does not listen for the address changing');
+  location.hash = '#/kit';
+  hashListeners.forEach((fn) => fn());
+  assert.equal(location.hash, '#/style', 'a bare #/kit was not rewritten to the Styles index');
+  assert.deepEqual(nav.get().selection, {});
+  location.hash = '#/kit/-/cornice';
+  hashListeners.forEach((fn) => fn());
+  assert.equal(location.hash, '#/elements/cornice');
+  // a tranche-1 record address a reader kept is rewritten to the record page (WP-14.23, §B.3)
+  location.hash = '#/workbench?roomType=dining-room';
+  hashListeners.forEach((fn) => fn());
+  assert.equal(location.hash, '#/room/dining-room', 'a kept #/workbench?roomType= bookmark was not rewritten');
+  assert.deepEqual(nav.get(), { surface: 'room', selection: { roomType: 'dining-room' }, params: {} });
+  // a canonical address is left exactly as it was
+  location.hash = '#/style/craftsman/lineage';
+  hashListeners.forEach((fn) => fn());
+  assert.equal(location.hash, '#/style/craftsman/lineage');
+});
+
+ok(() => {
+  nav.cite('pack:trim-classical', CTX);
+  assert.equal(location.hash, '#/proportions/trim-classical?style=craftsman', 'nav.cite dropped or widened the context');
+  nav.cite('slot:cornice', CTX);
+  assert.equal(location.hash, '#/elements/cornice', 'nav.cite carried context onto a surface that does not honour it');
+  nav.cite('fault:porch-too-shallow-to-inhabit');
+  assert.equal(location.hash, '#/faults/porch-too-shallow-to-inhabit', 'nav.cite with no context is not the call it was');
+  nav.cite('nosuchkind:x', CTX);
+  assert.equal(location.hash, '#/faults/porch-too-shallow-to-inhabit', 'an unresolvable citation moved the reader');
+  nav.go('proportions', { pack: 'trim-classical' }, CTX);
+  assert.equal(location.hash, '#/proportions/trim-classical', 'nav.go carried context across a surface boundary');
+});
+
+/* An anchor drawn with hrefFor and a click through nav.cite land in one place, for every kind. */
+KINDS.concat(['brief:x']).forEach((ref) => ok(() => {
+  nav.cite(ref, CTX);
+  assert.equal(location.hash, hrefFor(ref, CTX), `${ref}: the anchor and the click disagree`);
+}));
+
+delete globalThis.location;
+delete globalThis.history;
+delete globalThis.window;
 
 console.log(`router-unit: ${checks} checks passed`);

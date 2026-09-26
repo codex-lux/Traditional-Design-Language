@@ -28,7 +28,7 @@ function RefusalCard({
     }
   }, "refused", tool && /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'var(--ink-4)',
+      color: 'var(--ink-2)',
       marginLeft: 8
     }
   }, tool)), /*#__PURE__*/React.createElement("p", {
@@ -54,7 +54,7 @@ function RefusalCard({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--ink-3)',
+      color: 'var(--ink-2)',
       marginRight: 8
     }
   }, "what would change it"), wouldChange));

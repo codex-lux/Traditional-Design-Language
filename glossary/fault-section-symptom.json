@@ -1,0 +1,9 @@
+{
+  "id": "fault-section-symptom",
+  "term": "symptom",
+  "family": "fault",
+  "order": 6,
+  "definition": "What you actually see when the fault is present, written so that someone who is not an architect can check it.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `symptom` field: \"What you actually see. Written so someone who is not an architect can check it.\""
+}

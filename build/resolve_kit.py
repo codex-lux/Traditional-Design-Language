@@ -91,36 +91,48 @@ MERGE_REPLACE = ("rule", "packs", "code_conflict", "determined_by",
 
 
 def apply_variant_ops(base, deltas):
-    """Apply add / remove / replace records onto an inherited variant list."""
+    """Apply add / remove / replace records onto an inherited variant list.
+
+    AN OP ACTS ON EVERY INHERITED ROW CARRYING ITS ID (WP-14.33's audit). A base may state one
+    variant twice -- a plain row and a conditional one, which R8 of 26 Sep 2026 ruled
+    legitimate -- and the first version indexed each id to its LAST row, so a child's `replace`
+    overwrote only the conditional row, dropped its condition, and left the parent's plain row
+    standing beside the child's. `tidewater-georgian`'s gambrel resolved `permitted` AND
+    `forbidden`, neither conditional: the two-answers shape R8 deleted from the kit files,
+    surviving in the resolved record every consumer reads (6 triples over 3 styles, and it
+    moved nothing else in the 164). A `replace`, or an `add` over an inherited id, supersedes
+    every inherited row with that id at the position of the first; a `remove` removes them
+    all. Rows the SAME delta list has already written are the child's own statement, so a later
+    row with the same id sits beside them -- which is how a child states a variant plainly and
+    again under a condition."""
     out = [copy.deepcopy(v) for v in base]
-    idx = {v["id"]: i for i, v in enumerate(out)}
+    mine = [False] * len(out)            # True where this delta list wrote the row
     log = []
+    written = set()
     for d in deltas:
         op = d.get("op", "add")
         vid = d["id"]
         rec = {k: v for k, v in d.items() if k != "op"}
         if op == "remove":
-            if vid in idx:
-                out[idx[vid]] = None
-                log.append("-%s" % vid)
-            else:
-                log.append("-%s (absent)" % vid)
-        elif op == "replace":
-            if vid in idx:
-                out[idx[vid]] = rec
-                log.append("~%s" % vid)
-            else:
-                out.append(rec)
-                idx[vid] = len(out) - 1
-                log.append("+%s (replace with no base)" % vid)
-        else:                                   # add
-            if vid in idx:
-                out[idx[vid]] = rec
-                log.append("~%s (add over existing)" % vid)
-            else:
-                out.append(rec)
-                idx[vid] = len(out) - 1
-                log.append("+%s" % vid)
+            hits = [i for i, v in enumerate(out) if v is not None and v["id"] == vid]
+            for i in hits:
+                out[i] = None
+            log.append("-%s" % vid if hits else "-%s (absent)" % vid)
+            continue
+        inherited = [i for i, v in enumerate(out)
+                     if v is not None and v["id"] == vid and not mine[i]]
+        if vid in written or not inherited:
+            out.append(rec)
+            mine.append(True)
+            log.append("+%s (replace with no base)" % vid
+                       if op == "replace" and vid not in written else "+%s" % vid)
+        else:
+            out[inherited[0]] = rec
+            mine[inherited[0]] = True
+            for i in inherited[1:]:
+                out[i] = None
+            log.append("~%s" % vid if op == "replace" else "~%s (add over existing)" % vid)
+        written.add(vid)
     return [v for v in out if v is not None], log
 
 

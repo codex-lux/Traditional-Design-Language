@@ -1,0 +1,9 @@
+{
+  "id": "layer-critic",
+  "term": "The critic",
+  "family": "layer",
+  "order": 6,
+  "definition": "The plan validator, built before the generator on purpose, because a generator needs a measure of better and worse. It checks rooms, adjacency, privacy, daylight, servicing, code, style rules and named faults, and reports what it could not judge as unjudged.",
+  "kind": "editorial",
+  "basis": "Editorial, from VISION.md's seventh layer: \"The plan validator — built\" before the composer, \"on purpose, because a composer needs a fitness function and this is it.\" The pipeline scores each plan \"against rooms, adjacency, privacy, daylight,\" servicing, code, style constraints and the fault corpus, and \"Every check distinguishes evaluated-and-failed, evaluated-and-passed, and\" could-not-evaluate."
+}

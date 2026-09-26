@@ -1,0 +1,23 @@
+{
+  "id": "surface-transcription",
+  "term": "Trace a drawing",
+  "family": "surface",
+  "order": 6,
+  "definition": "Bring an existing drawing in as a plan record: lay a scanned plan behind the grid, trace its rooms, and supply what a drawing cannot state. Every gap is named, and the record cannot leave until none remain.",
+  "kind": "editorial",
+  "basis": "Editorial. docs/ingestion.md: \"A drawing goes in; a record comes out.\" A scanned drawing is loaded \"as a backdrop (it stays in the browser — never uploaded)\", each room \"then needs what a drawing cannot state\", and the \"completeness panel names every gap\" before the record may leave. Its discipline: \"a human makes every judgment; extraction only ever proposes.\"",
+  "surface": {
+    "what": "Turn an existing drawing into a plan record, with every gap named.",
+    "read": [
+      "The scanned drawing stays in your browser and is never uploaded.",
+      "Trace each room as a rectangle, then give it a type, its windows and doors, and its level.",
+      "Or start from a drafter's CAD file: its closed outlines arrive as proposed rooms, never as decisions.",
+      "Once nothing is missing, check the record, send it to the bench, or download it."
+    ],
+    "try": "term:plan-record",
+    "ask": [
+      "How do I turn an existing drawing into a plan record?",
+      "What gaps does a traced drawing usually leave?"
+    ]
+  }
+}

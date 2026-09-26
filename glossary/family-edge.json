@@ -1,0 +1,17 @@
+{
+  "id": "family-edge",
+  "term": "Lineage edges",
+  "family": "family",
+  "order": 6,
+  "definition": "The group of words for the typed relations a style's lineage records between two styles: descends from, references, revives and the rest. The type of an edge carries most of its meaning.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`edge` holds the typed relations a style's lineage records between two styles\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "edge"
+    }
+  ]
+}

@@ -13,17 +13,19 @@
    largest of them was the worst plan. Nothing renders that quantity now. */
 import React from 'react';
 import { api, jobEvents } from '../api/client.js';
-import { session } from '../state/session.js';
+import { session, recordPlanFrom } from '../state/session.js';
+import { composeHandlers, reattach, jobExpired, briefNameOf } from '../journey/sessionWrites.js';
+import { JOURNEY_WORDS } from '../journey/journey.js';
 import { planDoc } from '../state/planDoc.js';
 import { CandidateColumn } from '../components/CandidateColumn.jsx';
 import { RefusalCard } from '../components/RefusalCard.jsx';
 import { ConflictSet } from '../components/ConflictSet.jsx';
-import { readRefusal, refusalHeadline } from '../sheet/refusal.js';
+import { readRefusal, refusalHeadline, errorText } from '../sheet/refusal.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
-import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
-import { ORDERS, order, isNative } from '../candidateOrder.js';
+import { ORDERS, order, isNative, nativityOf, setSize } from '../candidateOrder.js';
+import { Term } from '../components/Term.jsx';
 import { revisedLine, revisedEventLine } from '../revision.js';
 
 /* `what` — the sentence saying what an axis measures — rides on the RESULT once rather than
@@ -31,9 +33,13 @@ import { revisedLine, revisedEventLine } from '../revision.js';
    model for the payload. Merged back onto the rows here so the column stays a pure function
    of its own candidate, and defaulted so a result composed before this shipped still renders. */
 function adaptCandidate(c, i, nativePartis, axisWhat) {
+  // WP-14.25: the served nativity, read off the candidate or the style's own list, never an
+  // id's presence in a list -- a lineage parti is on the list and is not native
   const native = isNative(c, nativePartis);
   return {
     id: 'c' + i,
+    // the index in the SERVER's order, which is what the `candidate` address key names
+    n: i,
     parti: c.parti, parti_name: c.parti_name,
     score: c.score ?? null,
     score_axes: (c.score_axes || []).map((a) => (
@@ -47,6 +53,8 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
     counts: c.counts,
     fatal_n: (c.counts && c.counts.fatal) || 0,
     native,
+    nativity: nativityOf(c, nativePartis),
+    named_by_brief: !!c.named_by_brief,
     why: c.why_this_diagram,
     trades_away: c.trades_away,
     area: `${(c.area_sf || 0).toLocaleString()} sf (${c.area_miss_pct}% off target)`,
@@ -81,12 +89,15 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
   };
 }
 
-export function CandidateSet({ onCite, go, selection }) {
+export function CandidateSet({ onCite, go, selection, setSelection }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
-  const [sel, setSel] = React.useState(null);
-  React.useEffect(() => {   // a candidate: citation selects its column
-    if (selection?.candidate != null) setSel('c' + selection.candidate);
-  }, [selection?.candidate]);
+  /* THE COLUMN A READER PICKED IS THE ADDRESS'S (WP-14.27, PRD §C.12). It was `useState`, set by
+     a click and by a `candidate:` citation but never written back, so a reload or a Back lost the
+     column and the decision log beside it, and a picked column could not be sent. The numeric
+     `candidate` selection key names it now -- an index in the SERVER's order, which is what a
+     `candidate:<n>` citation already meant -- and a click writes it, so the address is the one
+     place the choice lives. An absent key is no column chosen. */
+  const sel = selection?.candidate != null ? 'c' + selection.candidate : null;
   const [sort, setSort] = React.useState('score');
   const [nativePartis, setNativePartis] = React.useState(null);
   const result = s.result;
@@ -95,35 +106,39 @@ export function CandidateSet({ onCite, go, selection }) {
   React.useEffect(() => {
     // reattach to a job that survived a refresh — including one still RUNNING
     // (the SSE endpoint supports late attach and closes with a synthetic done)
-    if (s.jobId && !s.result) {
-      api.job(s.jobId).then((j) => {
-        if (j.status === 'done') {
-          session.set({ result: j.result });
-        } else if (j.status === 'error') {
-          session.set({ jobId: null });
-        } else {
-          jobEvents(s.jobId, {
-            stage: (d) => session.pushProgress(d),
-            candidate: (d) => session.pushProgress(d),
-            // WP-9.3: the loop's second word on a candidate. Dropped on the floor since
-            // WP-9.2 -- jobEvents subscribes only to the names it is handed.
-            revised: (d) => session.pushProgress({ ...d, revised: true }),
-            done: (d) => session.set({ result: d }),
-            error: () => {},
-          });
-        }
-      }).catch((e) => {
-        // only forget the job when the server says it no longer exists —
-        // a transient network failure must not strand a live job
-        if (e.status === 404) session.set({ jobId: null });
-      });
-    }
+    if (!s.jobId || s.result) return undefined;
+    const jobId = s.jobId;
+    let live = true;
+    let unsub = null;
+    /* WP-14.10 (PRD §G.1). What the server says about the job is written through
+       `journey/sessionWrites.js`, the one spelling of every write the house journey reads: a job
+       the server gave up on is `failed` with ITS reason, a 404 is `expired`, and the stream is
+       handed the same handler set Brief Intake hands its own -- so its `error` records the
+       failure instead of going to `() => {}`, which is where it went until this package and why
+       the Candidate Set read "composing" for ever over a job that had already failed. */
+    api.job(jobId).then((j) => {
+      if (!live) return;
+      const next = reattach(jobId, j);
+      session.set(next.patch);
+      if (next.stream) unsub = jobEvents(jobId, composeHandlers(session, jobId));
+    }).catch((e) => {
+      // only forget the job when the server says it no longer exists —
+      // a transient network failure must not strand a live job
+      if (live && e.status === 404) session.set(jobExpired(jobId, errorText(e)));
+    });
+    /* The stream is closed when this surface goes away, for the reason Brief Intake closes its
+       own: an EventSource nobody holds cannot be closed, and a reader moving between surfaces
+       during a compose opened one per visit against a browser's six per origin. The job keeps
+       running on the server and the next visit asks it again. */
+    return () => { live = false; if (unsub) unsub(); };
   }, [s.jobId]);
 
   React.useEffect(() => {
     const style = result?.style || s.brief?.style;
     if (!style) return;
-    api.partis({ style }).then((r) => setNativePartis(new Set((r.partis || []).map((p) => p.id))))
+    // id -> the nativity the server states for it (WP-14.25); a Set of ids read every listed
+    // parti as native, which was wrong from the day the list held lineage partis beside them
+    api.partis({ style }).then((r) => setNativePartis(new Map((r.partis || []).map((p) => [p.id, p.nativity]))))
       .catch(() => setNativePartis(null));
   }, [result?.style, s.brief?.style]);
 
@@ -138,11 +153,18 @@ export function CandidateSet({ onCite, go, selection }) {
           The composer returns several contrasting candidates, fatal-free first and then by
           score, and never calls one good. Start at Brief Intake.
         </p>
+        {s.jobError && (
+          <p data-job-error={s.jobError.state}
+            style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--ink)', margin: '0 0 14px' }}>
+            {JOURNEY_WORDS.candidates[s.jobError.state]}
+            {s.jobError.reason && <span style={{ color: 'var(--ink-2)' }}>{JOURNEY_WORDS.separator}{s.jobError.reason}</span>}
+          </p>
+        )}
         {s.progress.length > 0 && (
           <div style={{ border: '1px solid var(--rule)', padding: '10px 12px', marginBottom: 14 }}>
             <Eyebrow style={{ marginBottom: 6 }}>composing…</Eyebrow>
             {s.progress.map((p, i) => (
-              <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', padding: '1px 0' }}>
+              <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '1px 0' }}>
                 {p.stage ? `${p.stage} — ${p.note || ''}`
                   : p.revised ? revisedEventLine(p)
                   /* "tried", not "candidate N": this is the order compose() reached the
@@ -166,6 +188,7 @@ export function CandidateSet({ onCite, go, selection }) {
   const list = cands.slice().sort(order(chosen.cmp));
   const dropped = result.dropped_lot_infeasible || [];
   const askedFor = s.brief?.candidates || 4;
+  const size = setSize(result, askedFor);
 
   async function openInWorkbench(c) {
     // A refused candidate is not loaded. The conflict set beside its column says what could not
@@ -174,18 +197,25 @@ export function CandidateSet({ onCite, go, selection }) {
     if (c.refused) return;
     const n = cands.findIndex((x) => x.id === c.id);
     const plan = await api.candidatePlan(s.jobId, n);
-    planDoc.load(plan);
+    // where the plan came from, recorded BEFORE it is loaded (PRD §G.1): the job, the index the
+    // plan was fetched at, and the brief's name where the draft in hand is the brief it names
+    planDoc.load(recordPlanFrom('candidate', plan, { jobId: s.jobId, n, briefName: briefNameOf(result, s.brief) }));
     go('workbench');
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <Spotlight kind="parti" id={selection?.parti}
-        note="a plan diagram — the candidates below name the parti each was composed from"
-        onDismiss={() => nav.select({ parti: null })} />
       <FilterStrip right={
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
-          returned {cands.length} of {askedFor} asked for
+        <span data-set-size={size.own} data-set-asked={size.asked}
+          style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+          returned {size.own} of {size.asked} asked for
+          {/* the one the brief named and the ranking passed over, appended after the set rather
+              than counted in it (WP-14.19), named by the record that says so */}
+          {size.appended && (
+            <span data-named-appended={size.appended.parti}>
+              {JOURNEY_WORDS.separator}<Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}{size.appended.name}
+            </span>
+          )}
           {dropped.length ? ` · ${dropped.length} dropped for the lot` : ''}
         </span>
       }>
@@ -203,19 +233,27 @@ export function CandidateSet({ onCite, go, selection }) {
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
           gap: 24, marginBottom: 16 }}>
           <div>
-            <Eyebrow>brief · {result.brief}</Eyebrow>
+            {/* The brief by NAME where the draft in hand is the brief this result names; the id
+                otherwise, in the corpus's mono, because the result carries nothing else. */}
+            <Eyebrow>brief · {briefNameOf(result, s.brief)
+              || <code style={{ fontFamily: 'var(--mono)', textTransform: 'none' }}>{result.brief}</code>}</Eyebrow>
             <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', fontVariationSettings: '"opsz" 72',
               letterSpacing: 'var(--tr-display)', margin: '7px 0 0' }}>
               {cands.length} contrasting plans, <i>ranked</i>
             </h2>
             {/* The order the columns are actually in, said out loud. The ordinal in each
-                column is a position in THIS order and nothing more. */}
-            <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
-              margin: '8px 0 0', maxWidth: '62ch' }}>
-              {chosen.says} Score is out of 100 and higher is better — a weighted composite of
-              eight axes, each one the share of its own checks that came back clean, so a
-              bigger house is not marked down for being checked more times. Every column shows
-              the whole arithmetic.
+                column is a position in THIS order and nothing more.
+                WHAT THE SCORE IS belongs to the `candidate-score` record and HOW BIG it is to the
+                result's own `score_model` (WP-14.31): this paragraph typed "out of 100" and
+                "eight axes" beside a definition written here, three facts nothing checked. */}
+            <p data-score-model={result.score_model ? result.score_model.of : undefined}
+              style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
+                margin: '8px 0 0', maxWidth: '62ch' }}>
+              {chosen.says}
+              {result.score_model && Array.isArray(result.score_model.axes) && (
+                <> <Term id="candidate-score" />: out of {result.score_model.of}, over{' '}
+                  {result.score_model.axes.length} axes.</>
+              )}
             </p>
           </div>
           {s.brief?.household && (
@@ -229,7 +267,13 @@ export function CandidateSet({ onCite, go, selection }) {
         <div style={{ display: 'flex', gap: 12, alignItems: 'stretch' }}>
           {list.map((c, i) => (
             <CandidateColumn key={c.id} candidate={c} rank={i + 1} selected={sel === c.id}
-              onSelect={() => setSel(c.id)} style={{ minWidth: 0 }}>
+              onSelect={() => setSelection && setSelection({ candidate: c.n })} style={{ minWidth: 0 }}>
+              {/* WP-14.25: the diagram the brief asked for by name, worded by its own record */}
+              {c.named_by_brief && (
+                <span data-named-by-brief={c.parti} style={{ display: 'block', marginTop: 12 }}>
+                  <Term id="named-by-the-brief" />
+                </span>
+              )}
               {c.refused
                 ? <span data-candidate-refused={c.refused.kind}
                     style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--refusal)',
@@ -237,8 +281,8 @@ export function CandidateSet({ onCite, go, selection }) {
                     title={refusalHeadline(c.refused)}>
                     refused — not loadable; the conflict set is below
                   </span>
-                : <button type="button" onClick={() => openInWorkbench(c)}
-                    style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', marginTop: 14 }}>
+                : <button type="button" onClick={() => openInWorkbench(c)} className="tdl-link"
+                    style={{ font: 'var(--type-data-s)', marginTop: 14 }}>
                     open in the workbench
                   </button>}
             </CandidateColumn>
@@ -256,9 +300,22 @@ export function CandidateSet({ onCite, go, selection }) {
           </div>
         ))}
 
+        {/* WP-14.25: the diagram the brief named and the set does not hold, in the composer's own
+            words -- the lot dropped it, or it was never composed. Never a silence: a set lacking
+            the diagram the brief asked for would otherwise read as the guarantee kept. */}
+        {result.named_parti && result.named_parti.returned === false && (
+          <p data-named-parti-missing={result.named_parti.parti} role="note"
+            style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: '16px 0 0',
+              borderLeft: '2px solid var(--refusal)', paddingLeft: 12, maxWidth: '74ch' }}>
+            <Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{result.named_parti.parti}</span>
+            {JOURNEY_WORDS.separator}{result.named_parti.why}
+          </p>
+        )}
+
         {dropped.length > 0 && (
-          <div style={{ marginTop: 16, border: '1px solid var(--rule)', padding: '11px 13px',
-            backgroundImage: 'var(--hatch-45)' }}>
+          <div data-set-aside="" style={{ marginTop: 16, border: '1px solid var(--rule)', padding: '11px 13px',
+            color: 'var(--ink-2)', backgroundImage: 'var(--mark-set-aside)' }}>
             <span style={{ background: 'var(--paper)', display: 'inline-block', padding: '3px 7px' }}>
               <Eyebrow as="span" tone="secondary">
                 {dropped.length} diagram{dropped.length === 1 ? '' : 's'} considered and dropped — the lot, not the score
@@ -304,17 +361,17 @@ export function CandidateSet({ onCite, go, selection }) {
               const rows = c.decisions_structured
                 || (c.decisions || []).map((d) => ({ statement: d, kind: 'assumption' }));
               const TONE = { judgment: 'var(--gilt-deep)', refusal: 'var(--brick)',
-                unsolved: 'var(--ink-3)', disclosure: 'var(--sepia)', authored: 'var(--ink-2)',
+                unsolved: 'var(--ink-2)', disclosure: 'var(--sepia)', authored: 'var(--ink-2)',
                 // WP-9.2's sixth kind: a move the loop applied, with its basis as `because`
                 revision: 'var(--gilt)' };
               return rows.map((d, i) => (
                 <div key={i} style={{ margin: '0 0 9px', paddingLeft: 12,
                   borderLeft: `2px solid ${TONE[d.kind] || 'var(--rule-soft)'}` }}>
                   {d.kind && d.kind !== 'assumption' && (
-                    <Eyebrow as="span" tone="quiet" style={{ color: TONE[d.kind] }}>{d.kind}</Eyebrow>
+                    <Eyebrow as="span" style={{ color: TONE[d.kind] }}>{d.kind}</Eyebrow>
                   )}
                   {d.field && (
-                    <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)',
+                    <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
                       marginLeft: d.kind && d.kind !== 'assumption' ? 8 : 0 }}>
                       {d.field}{d.chose ? ` · ${d.chose}` : ''}
                     </span>
@@ -328,7 +385,7 @@ export function CandidateSet({ onCite, go, selection }) {
           <div style={{ flex: '0 1 420px', minWidth: 380 }}>
             <Eyebrow style={{ marginBottom: 9 }}>how to read this</Eyebrow>
             {(result.how_to_read_this || []).map((h, i) => (
-              <p key={i} style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)',
+              <p key={i} style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
                 margin: '0 0 8px' }}>{h}</p>
             ))}
           </div>

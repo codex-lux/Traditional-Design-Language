@@ -1,0 +1,11 @@
+{
+  "id": "diagnostic-tell",
+  "term": "diagnostic tell",
+  "family": "model",
+  "definition": "A quick field cue that tells a style from its nearest neighbours: the 'if you see this and that together, it is this style' test, such as Tidewater Georgian's tall gable-end chimneys standing well clear of the roof.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, diagnostic tells: \"Fast field-identification cues that distinguish it from its nearest siblings. The 'if you see X and Y together, it is this' set.\" styles/tidewater-georgian.json lists among its tells \"Tall gable-end chimneys standing well clear of the roof\".",
+  "see": [
+    "style:tidewater-georgian"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "face-south",
+  "term": "south",
+  "family": "house",
+  "order": 0,
+  "definition": "The face of the house that looks south, drawn along the foot of the plan. Plan south is true south unless the plan record states a bearing that turns the house.",
+  "kind": "editorial",
+  "basis": "Our wording. build/compass.py: \"plan-N IS true-N unless a bearing says otherwise\" and \"Nominal bearings of the eight points, clockwise from north.\"; build/axis.py: \"convention every renderer in this tree already draws to (x east, y north, origin at the\"",
+  "see": [
+    "term:elevation-face",
+    "term:face-north",
+    "term:face-east",
+    "term:face-west"
+  ]
+}

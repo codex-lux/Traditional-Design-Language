@@ -1,0 +1,12 @@
+{
+  "id": "design-guidelines",
+  "term": "Design guidelines, per style",
+  "family": "product",
+  "definition": "A book generated for each style from its records: its constraints, the variants it forbids, the named errors with their exceptions, its proportion packs, and its orders and details drawn, in a form that can be read or printed.",
+  "kind": "editorial",
+  "basis": "Our wording of designed work, drawn from what the corpus says of it. README.md: \"Generated guidelines and details, and costs\"; VISION.md, of what leaves the system: \"generated from the data rather than written, so they cannot drift from it\".",
+  "see": [
+    "term:details-library",
+    "term:mark-not-built"
+  ]
+}

@@ -54,7 +54,10 @@ third is the local default, and `/api/health` reports it in words rather than le
 absent check read as a passed one. `/api/health` is itself never gated, because the
 platform's healthcheck arrives with no cookie and a gated health endpoint fails every
 deploy. Only `/api/*` is gated: the static shell must load in order to draw the password
-screen, and it carries no corpus data.
+screen, and it carries no corpus data. **One `/api/` path answers a stranger by ruling** (24 Sep
+2026): exactly `GET /api/glossary/about-tdl`, the one sentence the password screen shows, and
+nothing else under `/api/glossary` -- `workbench/server/app.py`'s module docstring states what
+that body can carry, and `test_zz_auth_leak_guard.py` asks every other glossary path signed out.
 
 Identity is answered in the same module because the rate limiter needs a stable per-caller
 string. A shared password gives no real identity, so each successful login mints a random

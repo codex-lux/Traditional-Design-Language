@@ -180,12 +180,18 @@ def test_no_parti_declares_an_area_range_its_own_rooms_cannot_reach():
 def test_the_four_corrected_ranges_keep_the_type_s_true_size_in_prose(pid, top, was):
     """Correcting the number must not delete the fact. A real hacienda DOES run to 9,000 sf --
     it gets there by having more rooms and a second court, which is what the description now
-    says and what the range never could. Each description also names the figure it replaced, so
-    the correction records what it corrected rather than quietly overwriting it."""
+    says and what the range never could. Each record also names the figure it replaced, so
+    the correction records what it corrected rather than quietly overwriting it.
+
+    THE CORRECTION'S RECORD IS IN `note` NOW (WP-14.33, ruled 26 Sep 2026): a description is for
+    a reader and carries no build history, so "it was 9,000 ... (OQ 45)" moved to the parti's
+    `note` word for word. The type's true size stays in the description, where it is a fact
+    about the type and not about the record's history."""
     d = json.load(open(os.path.join(ROOT, "partis", "%s.json" % pid)))
     assert d["area_range_sf"][1] == top
-    assert "OQ 45" in d["description"]
-    assert was in d["description"], "the old top must still be named in the prose"
+    assert was in d["description"], "the type's true size must still be named in the prose"
+    assert "OQ 45" in d["note"] and "OQ 45" not in d["description"]
+    assert ("it was " + was) in d["note"], "the old top must still be named in the note"
 
 
 def test_the_ceiling_counts_rooms_that_repeat_with_the_bedroom_count():

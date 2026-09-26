@@ -1,0 +1,24 @@
+{
+  "id": "rank-family",
+  "term": "family",
+  "family": "rank",
+  "order": 1,
+  "definition": "A coherent grouping of styles that share one generative logic, such as English Classical. A family carries a kit of its own: the shared base on which every style filed under it builds.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, on the rank: \"family = coherent grouping sharing a generative logic\". docs/model.md gives the example: \"A grouping sharing a generative logic | English Classical\". README.md keeps a kit \"One file per style, variant, *and* family\", and build/build.py puts a style's own family at the head of its kit cascade as the \"shared base a style extends against\".",
+  "binds": [
+    {
+      "field": "style.rank",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/rank",
+      "value": "family"
+    }
+  ],
+  "confusable_with": [
+    "pack-kind-trim-system",
+    "rank"
+  ],
+  "see": [
+    "style:english-classical"
+  ]
+}

@@ -51,6 +51,12 @@ CASES = {
     "proportion-pack.schema.json": lambda: json.load(
         open(sorted(glob.glob(f"{ROOT}/proportions/**/*.json", recursive=True))[0],
              encoding="utf-8")),
+    # WP-14.1. build/check_glossary.py validates every glossary record through the compiled path,
+    # and its message is the one a record author reads. The glossary schema's `allOf` if/then --
+    # sourced forbids a basis, editorial forbids sources -- is the branch `best_match` has to
+    # choose through, which is why removing `kind` below is worth comparing.
+    "glossary-term.schema.json": lambda: json.load(
+        open(f"{ROOT}/glossary/about-tdl.json", encoding="utf-8")),
 }
 
 

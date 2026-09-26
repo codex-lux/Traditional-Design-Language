@@ -1,0 +1,27 @@
+{
+  "id": "surface-room",
+  "term": "Room",
+  "family": "surface",
+  "order": 13,
+  "sense": "the page for one room type",
+  "definition": "The page for one room type: what it is for, the furniture it must hold with clearances, the rooms it must and must not adjoin, and the groupings that contain it.",
+  "kind": "editorial",
+  "basis": "The page is the workbench's own; what it shows is the room record. schema/room.schema.json: \"What has to fit, with clearances. This is the real constraint on a room\" and adjacency \"Rules are directional and typed.\" and \"What the room is FOR, independent of what it is called.\"",
+  "confusable_with": [
+    "room"
+  ],
+  "surface": {
+    "what": "One room type: what it is for, what has to fit in it with clearances, what it must sit beside, and the groupings that contain it.",
+    "read": [
+      "Furniture is the real constraint on a room: each piece is listed with the clearance it needs.",
+      "Adjacency rules are directional and typed: what the room must adjoin, and what it must not.",
+      "The groupings listed are read from the groupings themselves, so the two sides always agree."
+    ],
+    "try": "room:parlor",
+    "ask": [
+      "What furniture must this room hold, with its clearances?",
+      "Which rooms should this room sit next to?",
+      "Which room groupings contain this room?"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "severity-fatal",
+  "term": "fatal",
+  "family": "severity",
+  "definition": "The gravest grade of fault: it destroys the style reading, and no amount of quality elsewhere in the house recovers it.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the severity field: \"fatal: destroys the style reading, and no amount of quality elsewhere recovers it. serious: visibly wrong to anyone trained, and cheap to have avoided. minor: a refinement that separates good from very good.\"",
+  "order": 0,
+  "binds": [
+    {
+      "field": "fault.severity",
+      "schema": "schema/fault.schema.json",
+      "pointer": "/properties/severity",
+      "value": "fatal"
+    }
+  ],
+  "see": [
+    "fault:shutter-half-width-leaf",
+    "term:fault"
+  ]
+}

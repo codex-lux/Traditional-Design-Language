@@ -1,207 +1,318 @@
-/* Where you land. The calm room before the dense ones.
+/* THE FRONT DOOR (WP-14.14). Where somebody arrives with no idea what this is.
 
-   The workbench opened directly onto the Plan Workbench — the single most instrument-like
-   surface in the product, eight filter axes and a solver — which is a reasonable place to
-   RESUME and a poor place to ARRIVE. Somebody seeing this for the first time met a
-   half-built plan and eleven unexplained words down the left-hand side.
+   Phase 14's first finding was that nothing said. The landing's one paragraph was
+   `core.overview().what_this_is`, which is the MCP server's orientation string, written to an AI
+   agent and still SERVED by `/api/overview` for it — but it never said that a house can be
+   composed, checked and drawn here, and it is no longer this page's paragraph. The rest was
+   `DOORS`: eleven buttons in three groups, each with a label and a description typed into this
+   file, under a comment claiming "not one number, claim or sentence on this page is written in
+   the app". Both are retired.
 
-   Everything here is already served by /api/overview. Not one number, claim or sentence
-   on this page is written in the app: `what_this_is` is the corpus's own description of
-   itself, the counts are the counts, and the traditions are the five trunks it holds. A
-   landing page that describes a corpus in words the corpus does not use is a landing page
-   that goes stale silently, and this one is the first thing anybody reads.
+   EVERY WORD ON THIS PAGE IS A GLOSSARY RECORD'S, AND EVERY FIGURE IS THE API'S:
 
-   Returning readers are served by the URL rather than by this page: every place is now
-   addressable, so a refresh, a bookmark or a back button puts you where you were. */
+     what this is      `about-tdl`'s term and definition — the one sentence the Gate also shows
+     who it is for     `about-tdl`'s readers, VISION IX's practitioners; the record leaves the
+                       homeowner out on purpose, and so does this page
+     two entrances     the site map's own items for Find a style and the first house step, each
+                       with its surface record's `what`; the style in hand OFFERED as a link
+                       beside the first (memory only offers — PRD §F.4) and, where a house is
+                       under way, the journey's own resume beside the second
+     the map           `components/TwoSpineMap.jsx`, which is `nav/navModel.js` drawn as ruled
+                       rows — the rail's own table, so the navigation is learned once
+     the example       `guided-example`: its definition, its citations as links, and where it
+                       stops, in its own words (`oq/the-worked-house-has-no-plan-that-places`)
+     what it holds     `/api/overview`'s counts, named by the records for each rank and kind,
+                       and the ontology version, under `front-door-holds`'s heading
+     what it is not    `about-tdl`'s `is_not`, under `front-door-is-not`'s heading
+
+   THE TWO LOWER SECTIONS HAD NO HEADING (WP-14.17): a column of figures under a version string and
+   a list of refusals, each a region a screen reader could not name and a sighted reader had to
+   infer. Each carries an `h2` now, and its word is a record like every other word here.
+
+   The page is written by `frontdoor/frontDoor.js`, which is pure and tested, and this file draws
+   it. `src/frontDoor.test.mjs` reads this file for count literals, app-written prose, a style id
+   and readable `--ink-4`, and `src/copy_ratchet.test.mjs` holds the tree's count literals.
+
+   IT FITS A LAPTOP: no fixed width over a column's share, every row wraps. `state/layout.js`'s
+   table makes this page 'reflow' and the shell marks `#root[data-reflow]` from it (WP-14.30; the
+   1380 px floor that attribute once released is gone). This page does not set that attribute
+   itself, because the shell owns `#root`. */
 import React from 'react';
 import { api } from '../api/client.js';
+import { useGlossary } from '../api/useGlossary.js';
+import { useNames } from '../names/useNames.js';
 import { nav } from '../state/nav.js';
 import { planDoc } from '../state/planDoc.js';
+import { session } from '../state/session.js';
+import { prefs } from '../state/prefs.js';
+import { navModel, inHandFrom } from '../nav/navModel.js';
+import { journeyState } from '../journey/journey.js';
+import {
+  aboutView, guidedView, rankRows, total, entranceItems, resumeView,
+} from '../frontdoor/frontDoor.js';
+import { isMissing } from '../glossary/lookup.js';
+import { Term, noEntry } from '../components/Term.jsx';
+import { RecordLink } from '../components/RecordLink.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
+import { TwoSpineMap } from '../components/TwoSpineMap.jsx';
 
-/* The three things anybody is here to do. The rail groups by the same three, so the
-   vocabulary is learned once. */
-const DOORS = [
-  {
-    group: 'Read the corpus',
-    blurb: 'What the tradition holds, and where each figure came from.',
-    items: [
-      ['phylogeny', 'The Phylogeny', 'every style, and what descends from what'],
-      ['style', 'Style Record', 'one style in full — tells, constraints, sources'],
-      ['kit', 'The Kit', 'what a style specifies, slot by slot'],
-      ['proportions', 'Proportions', 'the systems that dimension it'],
-      ['faults', 'Fault Corpus', 'the named errors, and why each reads as wrong'],
-    ],
-  },
-  {
-    group: 'Compose a house',
-    blurb: 'A brief in, candidates out, one plan on the bench. In that order.',
-    items: [
-      ['brief', 'Brief Intake', 'state what the house is for'],
-      ['candidates', 'Candidate Set', 'what the composer proposed, and its criticism'],
-      ['workbench', 'Plan Workbench', 'place rooms, solve, read the findings'],
-    ],
-  },
-  {
-    group: 'Take it out, or bring it in',
-    blurb: 'The record is the object; these are its renderings.',
-    items: [
-      ['drawings', 'Drawing Set', 'plan, elevation, section, bearing, roof'],
-      ['export', 'Details & Export', 'JSON · SVG · DXF · IFC'],
-      ['transcription', 'Transcription', 'a drawing in, a plan record out'],
-    ],
-  },
-];
+const prose = { font: 'var(--type-prose)', color: 'var(--ink)', margin: 0 };
+const small = { font: 'var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)', color: 'var(--ink)' };
+const note = { font: 'var(--type-data-s)', color: 'var(--ink-2)' };
+const rule = { borderTop: '1px solid var(--rule-soft)' };
+/* Its anchors take the `a` rule whole: an inline underline here beat `a:hover` (WP-14.33's audit). */
 
-const NUM = (n) => (n == null ? '—' : String(n));
+/* A place's word, or `noEntry(id)` where the record is missing; nothing while it loads. */
+function Word({ label, missing }) {
+  if (label) return label;
+  if (missing) return <span data-missing="" style={note}>{noEntry(missing)}</span>;
+  return null;
+}
 
-export function Overview({ onSearch }) {
-  const [o, setO] = React.useState(null);
+/* A surface record's `what`, the one line its own page head leads with. */
+function whatOf(rec) {
+  if (!rec) return null;
+  if (isMissing(rec)) return <span data-missing="" style={note}>{noEntry(rec.missing)}</span>;
+  return rec.surface && typeof rec.surface.what === 'string' ? rec.surface.what : null;
+}
+
+function Entrance({ group, item, what, children }) {
+  return (
+    <section data-entrance={item ? item.id : ''} style={{
+      border: '1px solid var(--rule)', background: 'var(--paper-lit)', padding: '14px 16px 15px',
+      minWidth: 0,
+    }}>
+      <Eyebrow as="div">{group}</Eyebrow>
+      {item && (
+        <a href={item.href} data-entrance-link={item.id} style={{
+          display: 'inline-block', marginTop: 8,
+          font: 'var(--fw-reg) var(--fs-d4)/1.25 var(--display)',
+        }}>
+          {item.step != null && <span style={{ ...note, marginRight: 8 }}>{item.step}</span>}
+          <Word label={item.label} missing={item.missing} />
+          {item.meta != null && <span style={{ ...note, marginLeft: 9 }}>{String(item.meta)}</span>}
+        </a>
+      )}
+      {what && <p style={{ ...small, margin: '7px 0 0' }}>{what}</p>}
+      {children}
+    </section>
+  );
+}
+
+export function Overview({ onSearch, lastEval }) {
+  const glossary = useGlossary();
+  const lookup = glossary.lookup;
+  const names = useNames();
+  const place = React.useSyncExternalStore(nav.subscribe, nav.get);
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
+  const sess = React.useSyncExternalStore(session.subscribe, session.get);
+  const held = React.useSyncExternalStore(prefs.subscribe, prefs.get).styleInHand;
 
-  React.useEffect(() => { api.overview().then(setO).catch(() => setO(null)); }, []);
+  const [o, setO] = React.useState(null);
+  React.useEffect(() => { api.overview().then(setO, () => setO(null)); }, []);
+  // The front door has been visited: the cold-link banner (WP-14.13) reads this and never shows.
+  React.useEffect(() => { prefs.markSeen('front-door'); }, []);
 
-  const c = (o && o.counts) || {};
-  const packs = c.proportion_packs
-    ? Object.values(c.proportion_packs).reduce((a, b) => a + b, 0) : null;
+  const about = aboutView(lookup);
+  const guided = guidedView(lookup);
 
-  const inventory = [
-    ['styles', c.styles], ['lineage edges', c.lineage_edges], ['element slots', c.element_slots],
-    ['proportion packs', packs], ['massings', c.massings], ['rooms', c.rooms],
-    ['room groupings', c.room_groupings], ['faults', c.faults], ['image records', c.image_records],
-  ];
+  // The example brief's own name: `brief:` is a kind the search index does not name, so the link
+  // is worded by the record it cites, read from the route that serves it — or left as the cite.
+  const [briefName, setBriefName] = React.useState(null);
+  const briefId = guided.state === 'ready' ? guided.briefId : null;
+  React.useEffect(() => {
+    if (!briefId) return undefined;
+    let live = true;
+    api.exampleBrief(briefId).then((b) => {
+      if (live) setBriefName(b && typeof b.name === 'string' && b.name.trim() ? b.name.trim() : null);
+    }, () => {});
+    return () => { live = false; };
+  }, [briefId]);
 
-  const countFor = {
-    phylogeny: c.styles && `${c.styles} taxa`,
-    kit: c.element_slots && `${c.element_slots} slots`,
-    faults: c.faults && `${c.faults} named`,
-    proportions: packs && `${packs} packs`,
+  const counts = o && o.counts ? o.counts : null;
+  const nameOf = (id) => {
+    const n = names.nameFor('style:' + id);
+    return n.resolved ? n.name : null;
   };
+  const journey = journeyState({ session: sess, plan, lastEval });
+  const model = lookup
+    ? navModel({ lookup, counts, glossaryCount: lookup.count, inHand: inHandFrom(held, lookup, nameOf),
+      journey, place })
+    : null;
+  const doors = entranceItems(model);
+  const resume = resumeView(journey, model);
 
   return (
-    <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
-      <div style={{ maxWidth: 940, margin: '0 auto', padding: '42px 34px 60px' }}>
+    <div data-front-door="" style={{ flex: 1, overflow: 'auto', minHeight: 0, minWidth: 0 }}>
+      <div style={{ maxWidth: 1060, margin: '0 auto', padding: '34px clamp(16px, 3vw, 34px) 56px' }}>
 
-        <Eyebrow tone="secondary">the corpus</Eyebrow>
-        <h1 style={{ font: 'var(--fw-reg) var(--fs-d1)/1.08 var(--display)',
-          fontVariationSettings: '"opsz" 72', letterSpacing: 'var(--tr-display)',
-          color: 'var(--ink)', margin: '10px 0 0' }}>
-          Traditional Design Language
-        </h1>
+        {/* WHAT THIS IS — the one sentence the Gate shows too. */}
+        <header data-about="" aria-busy={about.state === 'loading' ? 'true' : undefined}>
+          {about.state === 'missing' && <p data-missing="" style={note}>{noEntry(about.missing)}</p>}
+          {about.state === 'ready' && (
+            <>
+              <h1 style={{ font: 'var(--fw-reg) var(--fs-d1)/1.08 var(--display)',
+                fontVariationSettings: '"opsz" 72', letterSpacing: 'var(--tr-display)',
+                color: 'var(--ink)', margin: 0 }}>
+                {about.term}
+              </h1>
+              <p data-about-definition="" style={{ ...prose, font: 'var(--fw-reg) var(--fs-lede)/1.5 var(--serif)',
+                margin: '12px 0 0', maxWidth: '64ch' }}>
+                {about.definition}
+              </p>
 
-        {/* The corpus describing itself. Not a word of this is written in the app. */}
-        <p style={{ font: 'var(--fw-reg) 15.5px/1.65 var(--body)', color: 'var(--ink-2)',
-          margin: '16px 0 0', maxWidth: '66ch' }}>
-          {o ? o.what_this_is : ' '}
-        </p>
+              {/* WHO IT IS FOR — VISION IX's practitioners, as the record gives them. */}
+              <ul data-readers="" style={{ listStyle: 'none', padding: 0, margin: '22px 0 0', display: 'grid',
+                gap: '12px 26px', gridTemplateColumns: 'repeat(auto-fit, minmax(15rem, 1fr))' }}>
+                {about.readers.map((r) => (
+                  <li key={r.who} data-reader="" style={{ ...rule, paddingTop: 9, minWidth: 0 }}>
+                    <div style={{ font: 'var(--type-name)', fontSize: 'var(--fs-body)', color: 'var(--ink)' }}>{r.who}</div>
+                    <p style={{ ...small, margin: '4px 0 0' }}>{r.line}</p>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </header>
 
-        {/* The one invitation. A newcomer's first useful act is to look something up. */}
+        {/* TWO ENTRANCES — read a style, or write a house. The site map's own items. */}
+        <div data-entrances="" style={{ marginTop: 28, display: 'grid', gap: 16,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(17rem, 1fr))' }}>
+          <Entrance group={<Term id="nav-group-styles" />} item={doors.style}
+            what={lookup ? whatOf(lookup.term('surface-style')) : null}>
+            {doors.inHand && (
+              <p style={{ ...small, margin: '10px 0 0' }}>
+                <a href={doors.inHand.href} data-entrance-link="in-hand">
+                  <Word label={doors.inHand.label} missing={doors.inHand.missing} />
+                </a>
+                {doors.inHand.note && <span className="tdl-record-note">{doors.inHand.note}</span>}
+              </p>
+            )}
+          </Entrance>
+          <Entrance group={<Term id="nav-group-a-house" />} item={doors.brief}
+            what={lookup ? whatOf(lookup.term('surface-brief')) : null}>
+            {resume && (
+              <p data-resume={resume.id} style={{ ...small, margin: '10px 0 0' }}>
+                {resume.plan && plan && (
+                  <span style={{ marginRight: 8 }}>
+                    <Term id="on-the-bench" />
+                    <span style={{ marginLeft: 7 }}>{plan.name || plan.id}</span>
+                  </span>
+                )}
+                <a href={resume.href}>
+                  <span style={{ ...note, marginRight: 6 }}>{resume.n}</span>
+                  <Word label={resume.label} missing={resume.missing} />
+                </a>
+                {resume.words && <span style={{ ...note, marginLeft: 8 }}>{resume.words}</span>}
+              </p>
+            )}
+          </Entrance>
+        </div>
+
+        {/* The one invitation that is not a place: look something up. */}
         <button type="button" onClick={onSearch}
           style={{ display: 'flex', alignItems: 'center', gap: 14, width: '100%', maxWidth: 560,
-            margin: '26px 0 0', padding: '12px 15px', textAlign: 'left',
+            margin: '16px 0 0', padding: '11px 15px', textAlign: 'left',
             border: '1px solid var(--rule)', background: 'var(--paper-mat)',
             transition: 'var(--t-hover)' }}>
           <span style={{ font: 'var(--fw-reg) 15px/1.4 var(--body)', color: 'var(--ink-2)' }}>
             Search the corpus
           </span>
           <span style={{ flex: 1 }} />
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
-            {o ? `${NUM(c.styles)} styles · ${NUM(c.element_slots)} slots · ${NUM(c.faults)} faults` : ''}
-          </span>
-          <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--ink-3)' }}>⌘K</span>
+          <span style={{ ...note, fontFamily: 'var(--mono)' }}>⌘K</span>
         </button>
 
-        {/* What is on the bench, if anything. The one piece of state a returning reader
-            most wants, and the reason not to make them go looking for it. */}
-        {plan && (
-          <button type="button" onClick={() => nav.go('workbench')}
-            style={{ display: 'block', width: '100%', maxWidth: 560, textAlign: 'left',
-              margin: '12px 0 0', padding: '11px 15px', border: '1px solid var(--rule)',
-              borderLeft: '2px solid var(--gilt-deep)', background: 'var(--paper)',
-              transition: 'var(--t-hover)' }}>
-            <Eyebrow tone="accent" as="span">on the bench</Eyebrow>
-            <div style={{ font: 'var(--fw-reg) 14.5px/1.35 var(--body)', color: 'var(--ink)',
-              marginTop: 5 }}>
-              {plan.id}
-              {plan.style && (
-                <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
-                  color: 'var(--ink-4)' }}> · {plan.style}</span>
-              )}
-            </div>
-          </button>
-        )}
+        {/* THE MAP, and THE WORKED EXAMPLE beside it. */}
+        <div style={{ marginTop: 34, display: 'grid', gap: '26px 40px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(20rem, 1fr))', alignItems: 'start' }}>
+          <div style={{ minWidth: 0 }}>{model && <TwoSpineMap model={model} />}</div>
 
-        {/* The doors. */}
-        <div style={{ marginTop: 40, display: 'grid', gap: 30,
-          gridTemplateColumns: 'repeat(auto-fit, minmax(268px, 1fr))' }}>
-          {DOORS.map((d) => (
-            <section key={d.group}>
-              <h2 style={{ font: 'var(--fw-reg) var(--fs-d4)/1.2 var(--display)',
-                letterSpacing: 'var(--tr-display)', color: 'var(--ink)', margin: 0 }}>{d.group}</h2>
-              <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-4)',
-                margin: '5px 0 12px', maxWidth: '38ch' }}>{d.blurb}</p>
-              {d.items.map(([id, label, what]) => (
-                <button key={id} type="button" onClick={() => nav.go(id)}
-                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '6px 9px',
-                    marginLeft: -9, borderLeft: '2px solid transparent', transition: 'var(--t-hover)' }}>
-                  <span style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                    <span style={{ font: 'var(--fw-reg) 14px/1.3 var(--body)', color: 'var(--ink)' }}>
-                      {label}
-                    </span>
-                    {countFor[id] && (
-                      <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
-                        {countFor[id]}
-                      </span>
-                    )}
-                  </span>
-                  <span style={{ display: 'block', font: 'var(--fw-reg) 12px/1.45 var(--body)',
-                    color: 'var(--ink-3)', marginTop: 2 }}>{what}</span>
-                </button>
-              ))}
-            </section>
-          ))}
+          <section data-guided-example="" style={{ ...rule, paddingTop: 10, minWidth: 0 }}>
+            {guided.state === 'missing' && <p data-missing="" style={note}>{noEntry(guided.missing)}</p>}
+            {guided.state === 'ready' && (
+              <>
+                <Eyebrow as="h2" style={{ margin: 0 }}>{guided.word}</Eyebrow>
+                <p data-guided-definition="" style={{ ...prose, margin: '8px 0 0' }}>{guided.definition}</p>
+                {guided.cites.length > 0 && (
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '10px 0 0' }}>
+                    {guided.cites.map((c) => (
+                      <li key={c} style={{ ...small, padding: '3px 0' }}>
+                        <RecordLink cite={c}>{c === guided.briefCite && briefName ? briefName : undefined}</RecordLink>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {/* WHERE IT STOPS, in the record's words and no others. */}
+                {guided.more && (
+                  <p data-guided-stop="" style={{ ...small, margin: '10px 0 0', paddingLeft: 10,
+                    borderLeft: '2px solid var(--rule)' }}>{guided.more}</p>
+                )}
+              </>
+            )}
+          </section>
         </div>
 
-        {/* The inventory, moved off the rail — it is orientation, read once, not
-            navigation, read constantly. It was taking 140px of the rail on every surface. */}
-        <div style={{ marginTop: 44, paddingTop: 18, borderTop: '1px solid var(--rule)' }}>
-          <Eyebrow style={{ marginBottom: 11 }}>
-            what it holds{o ? ` · ontology ${o.ontology_version}` : ''}
-          </Eyebrow>
-          <div style={{ display: 'grid', gap: '3px 30px',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))' }}>
-            {inventory.map(([label, n]) => (
-              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: 10,
-                borderBottom: '1px solid var(--rule-soft)', padding: '3px 0' }}>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>{label}</span>
-                <span style={{ font: 'var(--type-data)', color: 'var(--ink-2)' }}>{NUM(n)}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* The five trunks, named. The absence of the others is stated on the Phylogeny
-              itself; this only says what is here. */}
-          {o && o.traditions && (
-            <div style={{ marginTop: 22 }}>
-              <Eyebrow style={{ marginBottom: 9 }}>{o.traditions.length} traditions</Eyebrow>
-              {o.traditions.map((t) => (
-                <button key={t.id} type="button" onClick={() => nav.cite('style:' + t.id)}
-                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '5px 0',
-                    borderBottom: '1px solid var(--rule-soft)' }}>
-                  <span style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-                    <span style={{ font: 'var(--fw-reg) 13.5px/1.35 var(--body)', color: 'var(--ink)' }}>
-                      {t.name}
-                    </span>
-                    <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{t.years}</span>
-                  </span>
-                  <span style={{ display: 'block', font: 'var(--fw-reg) 12px/1.5 var(--body)',
-                    color: 'var(--ink-3)', marginTop: 2, maxWidth: '80ch' }}>{t.short}</span>
-                </button>
-              ))}
+        {/* WHAT IT HOLDS, and WHAT IT IS NOT. */}
+        <div style={{ marginTop: 34, display: 'grid', gap: '26px 40px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(17rem, 1fr))', alignItems: 'start' }}>
+          <section data-inventory="" style={{ ...rule, paddingTop: 10, minWidth: 0 }}>
+            <Eyebrow as="h2" data-heading="front-door-holds" style={{ margin: 0 }}>
+              <Term id="front-door-holds" />
+            </Eyebrow>
+            <div data-ontology-version={o ? o.ontology_version : undefined}
+              style={{ ...note, margin: '4px 0 0' }}>
+              {o ? `ontology ${o.ontology_version}` : ' '}
             </div>
+            {counts && (
+              <dl style={{ margin: '8px 0 0' }}>
+                {rankRows(counts, lookup).map((r) => (
+                  <div key={r.key} data-rank={r.key} style={invRow}>
+                    <dt>{r.termId ? <Term field="style.rank" value={r.key} />
+                      : <span data-missing="" style={note}>{noEntry(r.missing || r.key)}</span>}</dt>
+                    <dd data-figure="" style={figure}>{r.figure}</dd>
+                  </div>
+                ))}
+                <div data-holds="slot" style={invRow}>
+                  <dt><Term id="slot" /></dt><dd data-figure="" style={figure}>{counts.element_slots}</dd>
+                </div>
+                <div data-holds="proportion-pack" style={invRow}>
+                  <dt><Term id="proportion-pack" /></dt>
+                  <dd data-figure="" style={figure}>{total(counts.proportion_packs)}</dd>
+                </div>
+                <div data-holds="fault" style={invRow}>
+                  <dt><Term id="fault" /></dt><dd data-figure="" style={figure}>{counts.faults}</dd>
+                </div>
+                <div data-holds="massing" style={invRow}>
+                  <dt><Term id="massing" /></dt><dd data-figure="" style={figure}>{counts.massings}</dd>
+                </div>
+                <div data-holds="grouping" style={invRow}>
+                  <dt><Term id="grouping" /></dt><dd data-figure="" style={figure}>{counts.room_groupings}</dd>
+                </div>
+              </dl>
+            )}
+          </section>
+
+          {about.state === 'ready' && about.isNot.length > 0 && (
+            <section data-is-not-section="" style={{ ...rule, paddingTop: 10, minWidth: 0 }}>
+              <Eyebrow as="h2" data-heading="front-door-is-not" style={{ margin: 0 }}>
+                <Term id="front-door-is-not" />
+              </Eyebrow>
+              <ul data-is-not="" style={{ listStyle: 'none', padding: '4px 0 0', margin: 0, minWidth: 0 }}>
+                {about.isNot.map((line) => (
+                  <li key={line} style={{ ...small, color: 'var(--ink-2)', padding: '4px 0' }}>{line}</li>
+                ))}
+              </ul>
+            </section>
           )}
         </div>
       </div>
     </div>
   );
 }
+
+const invRow = {
+  display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12,
+  borderBottom: '1px solid var(--rule-soft)', padding: '3px 0',
+  font: 'var(--fw-reg) var(--fs-body-s)/1.4 var(--serif)', color: 'var(--ink)',
+};
+const figure = { margin: 0, font: 'var(--type-data)', color: 'var(--ink)' };

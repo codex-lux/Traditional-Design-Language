@@ -1,28 +1,53 @@
-/* Surface ⑩ — Proportions & Orders, live. The grammar drawn from the engine's own
-   dimension() output — every band on the plate is a member the engine emitted, none
-   traced. The non-classical packs (brick course, timber bay, sash light, storey
-   graduation, log module) are equal citizens and lead the navigation: most
-   traditional buildings were proportioned from a material module, not a column.
-   Authorities compare at a common column DIAMETER, never a common module. Rules
-   flagged judgment render the hatch, unfilled — the sources do not determine them. */
+/* Surface ⑩ — Proportions, plates first (WP-14.9; the page Lucas read on `trim-classical`).
+
+   A practitioner reads a pack in one order and the page is that order, top to bottom:
+   what the pack is (its name, its id beside it, its kind as a glossary word), the drawing,
+   what goes wrong with it today, the rules worked out at the reader's building, whose figures
+   they are, who uses the pack, where it comes from — and only then HOW IT WAS CHECKED, folded,
+   because a proof is what a reader asks for second. The order is `proportions/page.js`'s
+   `PAGE_SECTIONS`, and this file renders by walking it; every other decision the page makes
+   about a payload is a pure function there, driven under `node --test`.
+
+   THE URL DECIDES WHAT IS READ. A pack click, the filter, the ceiling, the opening and the
+   column diameter all live in the address (`useSurfaceFilters`, replace), so a pack page is a
+   link somebody can send and Back goes where it should. A bare `#/proportions` is the INDEX —
+   it never shows a remembered or hard-coded pack (PRD §E, `DEFAULT_PACK` is gone). `?style=`
+   narrows the index to that style's packs and, on a pack, marks the style in "used by" and says
+   how the pack reaches it (`GET /api/styles/<id>/packs`).
+
+   TWO PLATES. An order pack's stack is `OrderPlate`, below, UNCHANGED by this package. Every
+   other pack with assemblies is `components/AssemblyPlate.jsx`, from served paths through a
+   transform only. A pack with nothing to draw says so and draws nothing.
+
+   Material modules lead the list: most traditional buildings were proportioned from a unit of
+   material, not a column. Authorities compare at a common column DIAMETER, never a common
+   module. */
 import React from 'react';
 import { api } from '../api/client.js';
+import { useGlossary } from '../api/useGlossary.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { FilterStrip, Chip, FilterGroup } from '../Chrome.jsx';
 import { FilterInput } from '../components/FilterInput.jsx';
 import { matches } from '../search/match.js';
 import { PlateViewer } from '../components/PlateViewer.jsx';
-import { ft } from '../sheet/derive.js';
 import { PullPane } from '../components/PullPane.jsx';
-
-const DEFAULT_PACK = 'gibbs-doric';
-
-const KIND_LABEL = {
-  'module-system': 'material modules', 'trim-system': 'trim systems',
-  'opening-system': 'openings', 'room-system': 'rooms', 'facade-system': 'facades',
-  'order-system': 'the orders',
-};
+import { Term } from '../components/Term.jsx';
+import { RecordLink } from '../components/RecordLink.jsx';
+import { AssemblyPlate, AssemblyThumb, THUMB_W } from '../components/AssemblyPlate.jsx';
+import { useSurfaceFilters } from '../filters/useFilters.js';
+import { nav } from '../state/nav.js';
+import { prefs } from '../state/prefs.js';
+import { isPlainPrimaryClick } from '../names/recordLink.js';
+import { ft } from '../sheet/derive.js';
+import { feetInches16 } from '../fmt.js';
+import { judgmentOf } from '../judgment.js';
+import {
+  FILTER_SPEC, RANGES, PROOF_FOLD, DEFAULT_DIAMETER_IN, requestFor, sliderAt, plateKind,
+  pageSections, authorityLines, sourceLines, authorityWords, invariantMark, invariantTally, proofOpen, ruleState, figureWords,
+  rangeWords, usedByGroups, reachOf, packsOfStyle, packGroups, packHref, orderOf,
+  classASlider, zonesByAssembly, assemblyWords, ruleMark,
+} from '../proportions/page.js';
 
 function inches(v) {
   if (v == null) return '—';
@@ -292,7 +317,7 @@ function OrderPlate({ data }) {
           Half the order in section: every band is a member the engine emitted, run from the
           axis to the outer face this pack states — none traced. This pack measures its
           projections{fromAxis ? ' from the axis' : ' from each member’s own naked'}, and
-          says so{undeclared ? ' nowhere — that reading is assumed (OQ 65)' : ' (OQ 65: the corpus uses both)'}.
+          says so{undeclared ? ' nowhere — that reading is assumed' : ''}.
           {nominal ? ' This pack publishes no column diameter; the naked is drawn nominal.' : ''}
           {unrecorded.size
             ? ` ${unrecorded.size} member${unrecorded.size === 1 ? '' : 's'} state no projection at all and are drawn at the naked — that is an absent figure, not a flush face.`
@@ -304,325 +329,615 @@ function OrderPlate({ data }) {
   );
 }
 
-function RulesTable({ rules }) {
+/* ───────────────────────────── the page's parts ───────────────────────────── */
+
+const SECTION_GAP = { marginTop: 30 };
+const H3 = {
+  font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
+  color: 'var(--ink-2)', fontWeight: 500, margin: '0 0 10px',
+};
+const NOTE = { font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', maxWidth: '76ch' };
+const CELL = { font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '5px 14px 3px 0', verticalAlign: 'top',
+  overflowWrap: 'anywhere' };
+const TH = {
+  font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
+  color: 'var(--ink-2)', textAlign: 'left', padding: '0 14px 6px 0', fontWeight: 500,
+  borderBottom: '1px solid var(--rule)',
+};
+
+/* A pack, named first with its id beside it, as a real link to its address on this surface.
+   A plain click names a different pack on the SAME page (`nav.select`, which keeps the reader's
+   measures, filter and style); a modified click is the browser's. `RecordLink` is not used here
+   because it navigates through `nav.cite`, which drops the measures — right for a link into
+   another surface, wrong for the next pack on this one. */
+function PackLink({ id, name, selection, params, on, children }) {
+  const href = packHref(id, selection, params);
+  const onClick = (ev) => {
+    if (!isPlainPrimaryClick(ev)) return;
+    ev.preventDefault();
+    nav.select({ pack: id });
+  };
   return (
-    <table style={{ borderCollapse: 'collapse', width: '100%' }}>
-      <tbody>
-        {rules.map((r, i) => (
-          <React.Fragment key={i}>
-            <tr>
-              <td style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '6px 14px 2px 0',
-                whiteSpace: 'nowrap', verticalAlign: 'top' }}>
-                {r.judgment && (
-                  <span aria-hidden="true" style={{ display: 'inline-block', width: 9, height: 9,
-                    marginRight: 7, border: '1px solid var(--judge-unjudged)',
-                    backgroundImage: 'var(--hatch-unjudged)', verticalAlign: 'baseline' }} />
-                )}
-                {r.target_slot}
-              </td>
-              <td style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', padding: '6px 12px 2px 0',
-                verticalAlign: 'top' }}>{r.dimension}</td>
-              <td style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', padding: '6px 12px 2px 0',
-                fontFamily: 'var(--mono)', verticalAlign: 'top', maxWidth: 280, overflowWrap: 'break-word' }}>
-                {r.expression}
-              </td>
-              <td style={{ font: 'var(--type-data)', color: r.judgment ? 'var(--ink-3)' : 'var(--ink)',
-                padding: '6px 12px 2px 0', whiteSpace: 'nowrap', verticalAlign: 'top' }}>
-                {/* `error` is the engine saying it could not evaluate this rule. It was
-                    outside core.py's RULE_KEYS until 26 Aug 2026, so it never arrived and
-                    this cell drew "null in" — a refusal rendered as a measurement, which is
-                    the one direction this corpus must not round in. */}
-                {r.judgment ? 'yours to decide'
-                  : r.error ? <span style={{ color: 'var(--ink-3)' }}>could not evaluate — {r.error}</span>
-                  : r.value == null ? <span style={{ color: 'var(--ink-3)' }}>not evaluated</span>
-                  : `${r.value} ${r.units || ''}`}
-              </td>
-              <td style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', padding: '6px 0 2px 0',
-                whiteSpace: 'nowrap', verticalAlign: 'top' }}>
-                {r.range ? `${r.range[0]}–${r.range[1]}` : ''}
-                {r.in_range === false ? ' · out of band' : ''}
-              </td>
-            </tr>
-            {r.note && (
-              <tr>
-                <td colSpan={5} style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)',
-                  padding: '0 0 8px 16px', borderBottom: '1px solid var(--rule-soft)',
-                  maxWidth: '78ch' }}>{r.note}</td>
-              </tr>
-            )}
-          </React.Fragment>
-        ))}
-      </tbody>
-    </table>
+    <span className="tdl-record-link" data-on={on ? '' : undefined}>
+      <a className="tdl-record-name" href={href} data-cite={`pack:${id}`} onClick={onClick}
+        aria-current={on ? 'page' : undefined}
+        style={{ borderBottom: on ? '2px solid var(--link-underline-hover)' : undefined }}>{children ?? name ?? id}</a>
+      {(children ?? name) && name !== id && <span className="tdl-record-note">{id}</span>}
+    </span>
   );
 }
 
-export function Proportions({ onCite, selection }) {
-  const [packs, setPacks] = React.useState([]);
-  const [packId, setPackId] = React.useState(selection?.pack || DEFAULT_PACK);
-  const [packFilter, setPackFilter] = React.useState('');
-  const [data, setData] = React.useState(null);
-  const [compare, setCompare] = React.useState(null);
-  const [diameter, setDiameter] = React.useState(12);
-  const [ceiling, setCeiling] = React.useState(108);
-  const [opening, setOpening] = React.useState(36);
+/* The list of packs by kind, the kind named by its glossary record. On the index it is the
+   page; beside a pack it is the navigation. */
+function PackList({ groups, selection, params, packId, compact }) {
+  return (
+    <div data-pack-list="">
+      {groups.map((g) => (
+        <div key={g.kind} style={{ marginBottom: compact ? 14 : 24 }}>
+          <h3 data-kind-heading={g.kind} style={{ ...H3, padding: compact ? '0 12px' : 0, marginBottom: 6 }}>
+            <Term field="pack.kind" value={g.kind} />
+          </h3>
+          {g.packs.map((p) => (
+            <div key={p.id} data-pack-row={p.id} style={{ padding: compact ? '2px 12px' : '4px 0',
+              borderLeft: compact ? `2px solid ${p.id === packId ? 'var(--gilt-deep)' : 'transparent'}` : 'none',
+              background: compact && p.id === packId ? 'var(--paper-deep)' : 'transparent',
+              font: compact ? 'var(--type-data-s)' : 'var(--fw-reg) 14px/1.5 var(--serif)',
+              display: compact ? 'block' : 'flex', gap: 12, alignItems: 'flex-start' }}>
+              {/* WP-14.24: the pack's first assembly at the wall datum, from the list route's served
+                  geometry; a row whose pack has none keeps the column and draws nothing in it */}
+              {!compact && (p.thumb
+                ? <AssemblyThumb pack={p.id} thumb={p.thumb} />
+                : <span data-thumb-none={p.drawing || 'none'} aria-hidden="true" style={{ width: THUMB_W, flex: 'none' }} />)}
+              <div style={{ minWidth: 0 }}>
+                <PackLink id={p.id} name={p.name} selection={selection} params={params} on={p.id === packId} />
+                {!compact && authorityWords(p.authority) && (
+                  <div data-pack-authority="" style={{ ...NOTE, font: 'var(--fw-reg) 12px/1.45 var(--body)', maxWidth: '90ch' }}>
+                    {authorityWords(p.authority)}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
-  React.useEffect(() => {
-    fetch('/api/proportions').then((r) => r.json()).then((r) => setPacks(r.packs || []));
-  }, []);
-  /* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
-   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
-   #/proportions left the panel displaying the record you had just left — the address bar and the
-   screen disagreeing, which is the one thing the router exists to prevent. Found by an
-   adversarial audit. */
-  React.useEffect(() => { setPackId(selection?.pack || DEFAULT_PACK); }, [selection?.pack]);
+function Head({ data, meta, isOrder }) {
+  const resolved = Array.isArray(data.resolved_from) && data.resolved_from.length > 1 ? data.resolved_from : null;
+  return (
+    <header data-section="head">
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
+        <h2 data-pack-name="" style={{ font: 'var(--fw-reg) var(--fs-d3)/1.12 var(--display)',
+          letterSpacing: 'var(--tr-display)', margin: '0 0 2px' }}>{data.name}</h2>
+        <span className="tdl-record-note" data-pack-id="">{data.pack}</span>
+      </div>
+      <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 4 }}>
+        <Term field="pack.kind" value={data.kind || meta?.kind} />
+        {resolved && <> · an overlay, read through {resolved.join(' → ')}</>}
+      </div>
+      <div data-module="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 8, maxWidth: '90ch' }}>
+        <Term id="module" /> {feetInches16(data.module_in)}
+        {data.module_name && <span style={{ fontFamily: 'var(--serif)', fontSize: 13 }}> — {data.module_name}</span>}
+        {' · '}{data.parts} <Term id="part">parts</Term> of {feetInches16(data.part_in)}
+        {isOrder && data.diameters_per_module != null ? ` · ${data.diameters_per_module} diameters to the module` : ''}
+      </div>
+      {isOrder && data.totals && (
+        <div style={{ marginTop: 10, maxWidth: 360 }}>
+          {Object.entries(data.totals).map(([k, v]) => (
+            <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '1px 0' }}>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{k.replace(/_/g, ' ')}</span>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink)' }}>
+                {k.endsWith('_in') ? feetInches16(v) : v}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </header>
+  );
+}
 
-  const meta = packs.find((p) => p.id === packId);
-  const isOrder = meta?.kind === 'order-system';
-
-  React.useEffect(() => {
-    if (!packId) return;
-    setData(null);
-    api.proportions(packId, {
-      members: true,
-      column_diameter: isOrder ? diameter : undefined,
-      ceiling_height: ceiling, opening_width: opening,
-    }).then(setData).catch(() => setData(null));
-  }, [packId, diameter, ceiling, opening, isOrder]);
-
-  React.useEffect(() => {
-    if (!isOrder || !packId) { setCompare(null); return; }
-    const order = packId.split('-').slice(1).join('-');
-    api.authorities(order, { column_diameter: diameter }).then(setCompare).catch(() => setCompare(null));
-  }, [packId, diameter, isOrder]);
-
-  // The selected pack always survives the filter: the plate on the right is reading it,
-  // and hiding its row while continuing to draw it would be a lie about where you are.
-  const listed = packs.filter((p) => p.id === packId
-    || matches(p, packFilter, ['id', 'name', 'kind', 'authority']));
-  const byKind = [];
-  for (const p of listed) {
-    const g = byKind.find((x) => x.kind === p.kind);
-    if (g) g.items.push(p); else byKind.push({ kind: p.kind, items: [p] });
+/* The plate, or the sentence that says there is none. For the wall-datum plate, whether the
+   drawing is at the reader's building is the PACK's to say (`module_bound_to`), and a pack that
+   does not bind its module to the building is drawn at its own module and says so. */
+function Plate({ data }) {
+  const kind = plateKind(data);
+  if (kind === 'stack') {
+    return (
+      <section data-section="plate" style={SECTION_GAP}>
+        <PlateViewer label="the plate" height="clamp(400px, 72vh, 900px)"
+          note="⌘/ctrl-scroll to zoom · drag to pan">
+          <OrderPlate data={data} />
+        </PlateViewer>
+      </section>
+    );
   }
-  const judgment = new Set(data?.judgment_rules || []);
-  const rules = data?.derived_rules || [];
-  const hasPlate = isOrder && (data?.assemblies || []).some((a) => (a.members || []).length);
+  if (kind === 'assemblies') {
+    const bound = data.module_bound_to;
+    const at = data.at || {};
+    return (
+      <section data-section="plate" style={SECTION_GAP}>
+        <p data-plate-at={bound || 'pack-module'} style={{ ...NOTE, margin: '0 0 10px' }}>
+          {bound
+            ? <>Drawn <Term id="your-building" />: the module is the {bound.replace(/_/g, ' ')}, {feetInches16(at[bound] ?? data.module_in)}.</>
+            : <>Drawn at the pack’s own <Term id="module" />, {feetInches16(data.module_in)}: the pack does not
+              bind its module to a measure of your building, so no slider moves this drawing.</>}
+        </p>
+        <AssemblyPlate data={data} />
+        <ZonesNote assemblies={data.assemblies} />
+      </section>
+    );
+  }
+  return (
+    <section data-section="plate" style={SECTION_GAP}>
+      <p data-refused="no-assemblies" style={{ ...NOTE, margin: 0 }}>
+        The record holds no <Term id="assembly" /> to draw: this pack gives rules, not an assembly, and no
+        plate is drawn.
+      </p>
+    </section>
+  );
+}
+
+/* What is true of zones on THIS plate, assembly by assembly (WP-14.24): the ones whose record
+   gives the pack's division carry its zone string on the plate, and the ones whose record gives
+   none are named as drawing none. Tranche 1's one sentence for every plate ("nothing in the
+   record says where a zone ends") became false of the Georgian wall the day WP-14.18 declared it. */
+function ZonesNote({ assemblies }) {
+  const { zoned, unzoned } = zonesByAssembly(assemblies);
+  const names = (ids) => ids.map((id) => assemblyWords(id)).join(', ');
+  return (
+    <div data-zones-note="" style={{ margin: '8px 2px 0' }}>
+      {zoned.length > 0 && (
+        <p data-zones-drawn={zoned.map((z) => z.id).join(' ')} style={{ ...NOTE, margin: 0 }}>
+          Divided into <Term id="zone">zones</Term> as the record states:{' '}
+          {zoned.map((z, i) => (
+            <React.Fragment key={z.id}>{i > 0 && '; '}{assemblyWords(z.id)}, {z.parts}</React.Fragment>
+          ))}.
+        </p>
+      )}
+      {unzoned.length > 0 && (
+        <p data-refused="zones" data-assemblies={unzoned.join(' ')} style={{ ...NOTE, margin: zoned.length ? '4px 0 0' : 0 }}>
+          {zoned.length > 0
+            ? <>No zone string where the record gives an assembly no <Term id="zone">zones</Term>: {names(unzoned)}.</>
+            : <>No zone string: the record gives no assembly of this pack <Term id="zone">zones</Term>.</>}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function Conflicts({ conflicts }) {
+  return (
+    <section data-section="conflicts" style={SECTION_GAP}>
+      <h3 style={H3} data-conflicts-count={conflicts.length}>
+        <Term id="pack-conflict" /> · {conflicts.length}
+      </h3>
+      {conflicts.map((c, i) => (
+        <div key={i} data-conflict={c.with || ''} style={{ border: '1px solid var(--rule)',
+          borderLeft: '2px solid var(--sev-serious)', padding: '11px 13px', marginBottom: 12, maxWidth: '84ch' }}>
+          <div style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
+            textTransform: 'uppercase', color: 'var(--sev-serious)', marginBottom: 6 }}>
+            against {c.with}{c.severity ? ` · ${c.severity}` : ''}
+          </div>
+          <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: 0 }}>{c.statement}</p>
+          {c.resolution && (
+            <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--ink-2)', margin: '8px 0 0' }}>
+              <span style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
+                textTransform: 'uppercase', color: 'var(--ink-2)', marginRight: 8 }}>resolution</span>
+              {c.resolution}
+            </p>
+          )}
+        </div>
+      ))}
+    </section>
+  );
+}
+
+/* The rules at the reader's building, with a header row. A rule's value is a figure in the
+   engine's notation; a rule the sources leave to the reader, one the engine could not evaluate
+   and one worked outside the rooms it was calibrated for each carry the unjudged mark and say
+   which, and none of them is drawn as a verdict. */
+function Rules({ rules, styleId }) {
+  return (
+    <section data-section="rules" style={SECTION_GAP}>
+      <h3 style={H3}><Term id="derived-rule">rules</Term> <Term id="your-building" /></h3>
+      {/* A FIXED layout, because an auto one sizes each column to its longest unbreakable word
+          (an expression in mono, a slot id) and the five together ran past the pane at 1440 px,
+          clipping the range column and every note under the rail. Fixed, the table is the pane's
+          width and a long word wraps inside its own column. */}
+      <table data-rules="" style={{ borderCollapse: 'collapse', width: '100%', maxWidth: 1100, tableLayout: 'fixed' }}>
+        {/* The slot and its dimension share a column: the slot's id is a margin note that does
+            not wrap (WP-14.8's RecordLink), so its column must be wide enough to hold the
+            longest one, and a fifth column for one short word was what the table could not
+            afford. */}
+        <colgroup>
+          <col style={{ width: '32%' }} /><col style={{ width: '26%' }} />
+          <col style={{ width: '24%' }} /><col style={{ width: '18%' }} />
+        </colgroup>
+        <thead>
+          <tr data-rules-head="">
+            <th style={TH}><Term id="slot" /> · dimension</th>
+            <th style={TH}><Term id="derived-rule" /></th>
+            <th style={TH}>value</th>
+            <th style={TH}>range</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rules.map((r, i) => {
+            const state = ruleState(r);
+            return (
+              <React.Fragment key={i}>
+                <tr data-rule={`${r.target_slot}.${r.dimension}`} data-quantity={r.quantity || undefined}
+                  data-judgment={state}>
+                  <td style={CELL}>
+                    <RecordLink cite={`slot:${r.target_slot}`} ctx={styleId ? { style: styleId } : undefined} />
+                    <div data-dimension="">{String(r.dimension || '').replace(/_/g, ' ')}</div>
+                  </td>
+                  <td style={{ ...CELL, fontFamily: 'var(--mono)', overflowWrap: 'anywhere' }}>
+                    {r.expression}
+                  </td>
+                  <td data-value="" style={{ ...CELL, color: 'var(--ink)' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, flexWrap: 'wrap' }}>
+                      <JudgmentMark state={ruleMark(r)} />
+                      {r.judgment ? <Term id="judgment-yours-to-judge" />
+                        : r.error ? <span>could not evaluate — {r.error}</span>
+                          : r.value == null ? <Term id="judgment-unjudged">not evaluated</Term>
+                            : <span data-figure="">{figureWords(r.value, r.units)}</span>}
+                      {r.out_of_calibration && <span>· <Term id="your-building">out of calibration</Term></span>}
+                      {r.scope_unjudged && <span>· <Term id="judgment-unjudged">scope not judged</Term></span>}
+                    </span>
+                  </td>
+                  <td style={CELL}>
+                    {rangeWords(r) || ''}{r.in_range === false ? ' · out of band' : ''}
+                  </td>
+                </tr>
+                {r.note && (
+                  <tr>
+                    <td colSpan={4} style={{ ...NOTE, padding: '0 0 9px 16px', borderBottom: '1px solid var(--rule-soft)' }}>
+                      {r.note}
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+  );
+}
+
+function Authorities({ compare, packId, selection, params }) {
+  const rows = compare.authorities || [];
+  return (
+    <section data-section="authorities" style={SECTION_GAP}>
+      <h3 style={H3} data-authorities-count={rows.length}>
+        <Term id="authority">authorities</Term> · {rows.length} · at {feetInches16(compare.at_common_column_diameter_in)} diameter
+      </h3>
+      <table style={{ borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={TH}><Term id="authority" /></th>
+            <th style={TH}>year</th>
+            <th style={TH}>column</th>
+            <th style={TH}>entablature</th>
+            <th style={TH}>ratio</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((a) => (
+            <tr key={a.pack} data-authority-row={a.pack}
+              style={{ background: a.pack === packId ? 'var(--paper-deep)' : 'transparent' }}>
+              <td style={CELL}>
+                <PackLink id={a.pack} name={a.authority} selection={selection} params={params} on={a.pack === packId} />
+              </td>
+              <td style={CELL}>{a.year}</td>
+              <td style={{ ...CELL, color: 'var(--ink)' }}>{feetInches16(a.column_in)}</td>
+              <td style={{ ...CELL, color: 'var(--ink)' }}>{feetInches16(a.entablature_in)}</td>
+              <td style={CELL}>{a.entablature_over_column}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  );
+}
+
+function UsedBy({ usedBy, styleId }) {
+  const groups = usedByGroups(usedBy);
+  return (
+    <section data-section="used-by" style={SECTION_GAP}>
+      <h3 style={H3}>used by</h3>
+      {groups.length === 0 && <p style={{ ...NOTE, margin: 0 }}>No style binds, receives or names this pack.</p>}
+      {groups.map((g) => (
+        <div key={g.key} data-used-by={g.key} style={{ marginBottom: 12 }}>
+          <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginBottom: 4 }}>
+            {g.term ? <Term id={g.term} /> : <>named in the pack’s <code>applies_to</code>, not reached by it</>}
+            {' · '}{g.rows.length}
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px 18px' }}>
+            {g.rows.map((row) => (
+              <span key={row.style} data-used-by-style={row.style}
+                data-in-hand={row.style === styleId ? '' : undefined}
+                style={{ font: 'var(--fw-reg) 13.5px/1.5 var(--serif)',
+                  borderBottom: row.style === styleId ? '1px solid var(--gilt-deep)' : undefined }}>
+                <RecordLink cite={`style:${row.style}`} />
+                {row.from && <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                  {' '}from <RecordLink cite={`style:${row.from}`} /></span>}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+/* How the pack reaches the style the reader holds (`?style=`). */
+function Reach({ reach, styleId, error }) {
+  if (error) {
+    return <p data-reach="unjudged" style={{ ...NOTE, margin: '10px 0 0' }}>Could not read which packs reach <RecordLink cite={`style:${styleId}`} />: {error}</p>;
+  }
+  if (!reach) return <p data-reach="loading" style={{ ...NOTE, margin: '10px 0 0' }}>reading how this pack reaches <RecordLink cite={`style:${styleId}`} />…</p>;
+  return (
+    <p data-reach={reach.relation} style={{ ...NOTE, margin: '10px 0 0' }}>
+      <RecordLink cite={`style:${styleId}`} />
+      {reach.term
+        ? <>: <Term id={reach.term} />{reach.from && <> from <RecordLink cite={`style:${reach.from}`} /></>}</>
+        : <>: this pack does not reach it.</>}
+    </p>
+  );
+}
+
+function Sources({ data }) {
+  const lines = authorityLines(data);
+  const works = sourceLines(data);
+  const line = { font: 'italic var(--fw-reg) 13.5px/1.55 var(--serif)', color: 'var(--ink)',
+    margin: '0 0 6px', maxWidth: '84ch' };
+  return (
+    <section data-section="sources" style={SECTION_GAP}>
+      {lines.length > 0 && <h3 style={H3}><Term id="authority" /></h3>}
+      {lines.map((s, i) => <p key={i} data-authority-line="" style={line}>{s}</p>)}
+      {works.length > 0 && <h3 style={H3}><Term id="bibliographic-source" /></h3>}
+      {works.map((s, i) => <p key={i} data-source-line="" style={line}>{s}</p>)}
+    </section>
+  );
+}
+
+/* "How this was checked": the pack's invariants, folded by default (prefs `folds.proof`), and
+   counted in all three states while folded — a check that is hidden is not a check that is
+   absent. `holds: null` is UNJUDGED: `invariantMark` is `JUDGMENT_MARK[judgmentOf(holds)]`,
+   never a ternary on truthiness. */
+function Proof({ invariants }) {
+  React.useSyncExternalStore(prefs.subscribe, prefs.get);
+  const open = proofOpen(prefs.fold(PROOF_FOLD));
+  const tally = invariantTally(invariants);
+  const bodyId = 'tdl-proportions-proof';
+  return (
+    <section data-section="proof" style={{ ...SECTION_GAP, borderTop: '1px solid var(--rule)', paddingTop: 14 }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
+        <button type="button" data-proof-toggle="" aria-expanded={open} aria-controls={bodyId}
+          onClick={() => prefs.setFold(PROOF_FOLD, !open)}
+          style={{ ...H3, margin: 0, border: 'none', background: 'none', cursor: 'pointer', padding: 0 }}>
+          <span aria-hidden="true" style={{ marginRight: 8 }}>{open ? '−' : '+'}</span>How this was checked
+        </button>
+        <span data-proof-tally="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+          <Term id="invariant">invariants</Term>: {tally.passed} <Term id="judgment-passed" />
+          {' · '}{tally.failed} <Term id="judgment-failed" />
+          {' · '}{tally.unjudged} <Term id="judgment-unjudged" />
+        </span>
+      </div>
+      {open && (
+        <div id={bodyId} data-proof="" style={{ marginTop: 12 }}>
+          {invariants.map((iv, i) => (
+            <div key={i} data-invariant="" data-judgment={judgmentOf(iv.holds)} style={{ marginBottom: 8 }}>
+              <JudgmentMark state={invariantMark(iv.holds)} label={iv.statement} reason={iv.expression} />
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ───────────────────────────── the surface ───────────────────────────── */
+
+export function Proportions({ selection }) {
+  const f = useSurfaceFilters(FILTER_SPEC);
+  const params = f.params;
+  const sel = selection || {};
+  const packId = sel.pack || null;
+  const styleId = sel.style || null;
+  const glossary = useGlossary();
+
+  const [packs, setPacks] = React.useState(null);
+  const [listError, setListError] = React.useState(null);
+  React.useEffect(() => {
+    let live = true;
+    // through the client (WP-14.20), so a 401 raises the Gate; the line below still says why
+    // the list is empty, in the client's own words for the failed request
+    api.proportionPacks()
+      .then((r) => { if (live) setPacks(r.packs || []); })
+      .catch((e) => { if (live) { setListError(String(e.message || e)); setPacks([]); } });
+    return () => { live = false; };
+  }, []);
+
+  const meta = (packs || []).find((p) => p.id === packId) || null;
+  const isOrder = meta ? meta.kind === 'order-system' : false;
+  // the class-A input goes only to the pack whose module IS it -- read off the list row, so the
+  // first request already knows (the payload's own `module_bound_to` says the same)
+  const req = requestFor({ isOrder, params: f.values, bound: meta ? meta.module_bound_to : null });
+  const reqKey = JSON.stringify(req);
+
+  /* The pack, dimensioned. The previous payload stays on screen while the SAME pack is
+     re-dimensioned (a slider moving), so the plate does not blink; a different pack clears it. */
+  const [got, setGot] = React.useState({ pack: null, data: null, error: null });
+  React.useEffect(() => {
+    if (!packId || packs === null) return undefined;
+    let live = true;
+    setGot((g) => (g.pack === packId ? g : { pack: packId, data: null, error: null }));
+    api.proportions(packId, req)
+      .then((d) => { if (live) setGot({ pack: packId, data: d, error: null }); })
+      .catch((e) => { if (live) setGot({ pack: packId, data: null, error: String(e.message || e) }); });
+    return () => { live = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [packId, reqKey, packs === null]);
+  const data = got.pack === packId ? got.data : null;
+
+  const diameter = req.column_diameter ?? DEFAULT_DIAMETER_IN;
+  const [compare, setCompare] = React.useState(null);
+  React.useEffect(() => {
+    if (!isOrder || !packId) { setCompare(null); return undefined; }
+    let live = true;
+    const order = orderOf(packId);
+    api.authorities(order, { column_diameter: diameter })
+      .then((c) => { if (live) setCompare({ pack: packId, ...c }); })
+      .catch(() => { if (live) setCompare(null); });
+    return () => { live = false; };
+  }, [packId, diameter, isOrder]);
+  const compareHere = compare && compare.pack === packId && Array.isArray(compare.authorities) ? compare : null;
+
+  const [styleGot, setStyleGot] = React.useState({ style: null, packs: null, error: null });
+  React.useEffect(() => {
+    if (!styleId) return undefined;
+    let live = true;
+    setStyleGot({ style: styleId, packs: null, error: null });
+    api.stylePacks(styleId)
+      .then((sp) => { if (live) setStyleGot({ style: styleId, packs: sp, error: null }); })
+      .catch((e) => { if (live) setStyleGot({ style: styleId, packs: null, error: String(e.message || e) }); });
+    return () => { live = false; };
+  }, [styleId]);
+  const stylePacks = styleGot.style === styleId ? styleGot.packs : null;
+  const styleError = styleGot.style === styleId ? styleGot.error : null;
+
+  const lookup = glossary.status === 'ready' ? glossary.lookup : null;
+  const kindWord = React.useCallback((k) => {
+    if (!lookup) return null;
+    const rec = lookup.termFor('pack.kind', k);
+    return rec && typeof rec.term === 'string' ? rec.term : null;
+  }, [lookup]);
+  const only = styleId && stylePacks ? packsOfStyle(stylePacks) : null;
+  const groups = packGroups(packs || [], { q: f.values.q || '', keep: packId, only, words: kindWord, matches });
+  const listed = groups.reduce((n, g) => n + g.packs.length, 0);
+
+  const ceiling = sliderAt('ceiling', f.values, data?.at?.ceiling_height, 108);
+  const opening = sliderAt('opening', f.values, data?.at?.opening_width, 36);
+  const diamAt = sliderAt('diameter', f.values, null, DEFAULT_DIAMETER_IN);
+  // WP-14.24: a class-A pack's own building input, driven by the served `module_bound_to` and
+  // resting at what the payload was worked at; no slider at all on a pack whose module is not bound
+  const classA = classASlider((data && data.module_bound_to) || (meta && meta.module_bound_to));
+  const classAAt = classA
+    ? sliderAt(classA.key, f.values, data?.at?.[classA.dimension] ?? data?.module_in, RANGES[classA.key].min) : null;
+
+  const clearStyle = () => nav.select({ style: null }, { replace: true });
+
+  const strip = (
+    <FilterStrip filters={f}>
+      <FilterInput value={f.values.q || ''} onChange={(v) => f.set('q', v)} count={listed}
+        label="Filter the proportion packs by name, kind or authority"
+        placeholder="filter the packs" width={165} />
+      {styleId && (
+        <span data-style-in-hand={styleId} style={{ display: 'inline-flex', alignItems: 'center', gap: 6,
+          font: 'var(--type-data-s)', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
+          for <RecordLink cite={`style:${styleId}`} />
+          <Chip on onClick={clearStyle} title="read every pack again">×</Chip>
+        </span>
+      )}
+      {packId && <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />}
+      {packId && (isOrder ? (
+        <FilterGroup label="at" summary={`${feetInches16(diamAt)} column`}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <Eyebrow as="span">column diameter</Eyebrow>
+            <input type="range" {...RANGES.diameter} value={diamAt} aria-label="column diameter, inches"
+              onChange={(e) => f.set('diameter', e.target.value)}
+              style={{ width: 110, accentColor: 'var(--gilt-deep)' }} />
+            <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(diamAt)}</span>
+          </span>
+        </FilterGroup>
+      ) : (
+        <FilterGroup label="at" summary={`${feetInches16(ceiling)} ceiling · ${feetInches16(opening)} opening`
+          + (classA ? ` · ${feetInches16(classAAt)} ${classA.words}` : '')}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <Eyebrow as="span">ceiling</Eyebrow>
+            <input type="range" {...RANGES.ceiling} value={ceiling} aria-label="ceiling height, inches"
+              onChange={(e) => f.set('ceiling', e.target.value)}
+              style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
+            <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(ceiling)}</span>
+            <Eyebrow as="span">opening</Eyebrow>
+            <input type="range" {...RANGES.opening} value={opening} aria-label="opening width, inches"
+              onChange={(e) => f.set('opening', e.target.value)}
+              style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
+            <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(opening)}</span>
+            {classA && (
+              <span data-class-a={classA.dimension} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <Eyebrow as="span">{classA.words}</Eyebrow>
+                <input type="range" {...RANGES[classA.key]} value={classAAt} aria-label={`${classA.words}, inches`}
+                  onChange={(e) => f.set(classA.key, e.target.value)}
+                  style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
+                <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{feetInches16(classAAt)}</span>
+              </span>
+            )}
+          </span>
+        </FilterGroup>
+      ))}
+    </FilterStrip>
+  );
+
+  const listState = packs === null ? <p style={NOTE}>reading the packs…</p>
+    : listError ? <p style={NOTE}>The pack list could not be read: {listError}</p>
+      : styleId && !stylePacks && !styleError ? <p style={NOTE}>reading which packs reach the style…</p>
+        : null;
+
+  /* THE INDEX: no pack named, so no pack drawn. */
+  if (!packId) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
+        {strip}
+        <div data-proportions-index="" style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 24px 34px' }}>
+          {styleError && <p style={NOTE}>Could not read which packs reach <RecordLink cite={`style:${styleId}`} />: {styleError}</p>}
+          {listState || <PackList groups={groups} selection={sel} params={params} packId={null} />}
+        </div>
+      </div>
+    );
+  }
+
+  const sections = data ? pageSections(data, { authorities: compareHere ? compareHere.authorities : null }) : [];
+  const render = {
+    head: () => <Head key="head" data={data} meta={meta} isOrder={isOrder} />,
+    plate: () => <Plate key="plate" data={data} />,
+    conflicts: () => <Conflicts key="conflicts" conflicts={data.conflicts} />,
+    rules: () => <Rules key="rules" rules={data.derived_rules} styleId={styleId} />,
+    authorities: () => <Authorities key="authorities" compare={compareHere} packId={packId} selection={sel} params={params} />,
+    'used-by': () => <UsedBy key="used-by" usedBy={data.used_by} styleId={styleId} />,
+    sources: () => <Sources key="sources" data={data} />,
+    proof: () => <Proof key="proof" invariants={data.invariants || []} />,
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip right={
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
-          comparisons at a common column diameter · never a common module
-        </span>
-      }>
-        <FilterInput value={packFilter} onChange={setPackFilter} count={listed.length}
-          label="Filter the proportion packs by name, kind or authority"
-          placeholder={`filter ${packs.length} packs`} width={165} />
-        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
-        {/* The sliders fold, and the fold shows the figures they are set to — which is
-            what a reader wants from them nine visits in ten. */}
-        {isOrder ? (
-          <FilterGroup label="at" summary={`${diameter}″ column`}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-              <Eyebrow as="span">column diameter</Eyebrow>
-              <input type="range" min="6" max="36" step="1" value={diameter} aria-label="column diameter, inches"
-                onChange={(e) => setDiameter(+e.target.value)}
-                style={{ width: 110, accentColor: 'var(--gilt-deep)' }} />
-              <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{diameter}″</span>
-            </span>
-          </FilterGroup>
-        ) : (
-          <FilterGroup label="at" summary={`${inches(ceiling)} ceiling · ${inches(opening)} opening`}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-              <Eyebrow as="span">ceiling</Eyebrow>
-              <input type="range" min="84" max="144" step="2" value={ceiling} aria-label="ceiling height, inches"
-                onChange={(e) => setCeiling(+e.target.value)}
-                style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
-              <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{inches(ceiling)}</span>
-              <Eyebrow as="span">opening</Eyebrow>
-              <input type="range" min="18" max="96" step="2" value={opening} aria-label="opening width, inches"
-                onChange={(e) => setOpening(+e.target.value)}
-                style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
-              <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{inches(opening)}</span>
-            </span>
-          </FilterGroup>
-        )}
-      </FilterStrip>
-
+      {strip}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        {/* pack navigation — material modules lead */}
         <PullPane pane="proportions" side="left"
           style={{ borderRight: '1px solid var(--rule)', overflow: 'auto', padding: '12px 0 20px' }}>
-          {byKind.map((g) => (
-            <div key={g.kind} style={{ marginBottom: 14 }}>
-              <Eyebrow style={{ padding: '0 12px 6px' }}>{KIND_LABEL[g.kind] || g.kind}</Eyebrow>
-              {g.items.map((p) => {
-                const on = p.id === packId;
-                return (
-                  <button key={p.id} type="button" onClick={() => setPackId(p.id)}
-                    style={{ display: 'block', width: '100%', textAlign: 'left', padding: '3px 12px',
-                      borderLeft: '2px solid ' + (on ? 'var(--gilt-deep)' : 'transparent'),
-                      background: on ? 'var(--paper-deep)' : 'transparent',
-                      font: 'var(--type-data-s)', color: on ? 'var(--ink)' : 'var(--ink-2)' }}>
-                    {p.id}
-                    {p.overlay_on && <span style={{ color: 'var(--ink-4)' }}> · overlay</span>}
-                  </button>
-                );
-              })}
-            </div>
-          ))}
+          {listState || <PackList groups={groups} selection={sel} params={params} packId={packId} compact />}
         </PullPane>
-
-        {/* the pack, dimensioned */}
-        <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 24px 34px' }}>
-          {!data ? (
-            <p style={{ font: 'var(--type-body)', color: 'var(--ink-3)' }}>dimensioning…</p>
+        <div data-pack-page={packId} style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 24px 34px' }}>
+          {got.error && got.pack === packId ? (
+            <p style={NOTE}>This pack could not be dimensioned: {got.error}</p>
+          ) : !data ? (
+            <p style={{ ...NOTE, font: 'var(--type-body)' }}>dimensioning…</p>
           ) : (
-            /* The plate is the instrument on this surface, so it gets a column of its own
-               beside the record rather than a place in a wrapping row: at any pane narrower
-               than about 830px the old flex row put it BELOW the invariants and the
-               authorities table, a screen and a half down, where a reader looking for the
-               drawing would not find it. The rules table spans the full width underneath,
-               which is what a five-column table with a paragraph of note per row wanted
-               all along. */
-            /* `minmax(300px, …)` twice is a hard 626px floor with no query to relax it,
-               and at the app's own enforced minimum (#root min-width 1380, less the 236px
-               rail, the 344px AI rail, the 250px pack nav and the padding) this pane gets
-               502px — so the fix for "the plate ends up below the tables" bought a
-               horizontal scrollbar. `auto-fit` with a 290px track drops to one column
-               when it must, which is the wrap the old layout had, without the wrap
-               putting the drawing a screen and a half down. */
-            <div style={{ display: 'grid', gap: 26, alignItems: 'start', maxWidth: 1240,
-              gridTemplateColumns: hasPlate
-                ? 'repeat(auto-fit, minmax(min(290px, 100%), 1fr))' : 'minmax(0, 1fr)' }}>
-              <div>
-                <Eyebrow>{meta?.kind}{data.resolved_from?.length > 1 ? ` · overlay resolved through ${data.resolved_from.join(' → ')}` : ''}</Eyebrow>
-                <h2 style={{ font: 'var(--fw-reg) var(--fs-d3)/1.12 var(--display)',
-                  letterSpacing: 'var(--tr-display)', margin: '6px 0 3px' }}>{data.name}</h2>
-                {data.authority && (
-                  <p style={{ font: 'italic var(--fw-reg) 13px/1.5 var(--serif)', color: 'var(--ink-2)',
-                    margin: '4px 0 0' }}>{data.authority}</p>
-                )}
-                <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', marginTop: 8 }}>
-                  module {inches(data.module_in)} · {data.parts} parts of {data.part_in}″
-                  {isOrder ? ` · ${data.diameters_per_module} diameters/module` : ''}
-                </div>
-
-                {isOrder && data.totals && (
-                  <div style={{ marginTop: 12, borderTop: '1px solid var(--rule)', paddingTop: 10 }}>
-                    {Object.entries(data.totals).map(([k, v]) => (
-                      <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '1px 0' }}>
-                        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>{k.replace(/_/g, ' ')}</span>
-                        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink)' }}>
-                          {k.includes('_in') ? inches(v) : v}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {(data.invariants || []).length > 0 && (
-                  <div style={{ marginTop: 14 }}>
-                    <Eyebrow style={{ marginBottom: 8 }}>invariants · proved against the data</Eyebrow>
-                    {data.invariants.map((iv, i) => (
-                      <div key={i} style={{ marginBottom: 8 }}>
-                        <JudgmentMark state={iv.holds ? 'pass' : 'fail'} label={iv.statement}
-                          reason={iv.expression} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {compare?.authorities && (
-                  <div style={{ marginTop: 16 }}>
-                    <Eyebrow style={{ marginBottom: 8 }}>
-                      five authorities · at {compare.at_common_column_diameter_in}″ diameter
-                    </Eyebrow>
-                    <table style={{ borderCollapse: 'collapse' }}>
-                      <thead>
-                        <tr>
-                          {['authority', 'year', 'column', 'entablature', 'ratio'].map((h) => (
-                            <th key={h} style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-                              textTransform: 'uppercase', color: 'var(--ink-4)', textAlign: 'left',
-                              padding: '0 14px 5px 0', fontWeight: 500 }}>{h}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {compare.authorities.map((a) => {
-                          const on = a.pack === packId;
-                          return (
-                            <tr key={a.pack} style={{ cursor: 'pointer',
-                              background: on ? 'var(--paper-deep)' : 'transparent' }}
-                              onClick={() => setPackId(a.pack)}>
-                              <td style={{ font: 'var(--type-data-s)', color: on ? 'var(--gilt-deep)' : 'var(--ink-2)',
-                                padding: '2px 14px 2px 0' }}>{a.authority}</td>
-                              <td style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', padding: '2px 14px 2px 0' }}>{a.year}</td>
-                              <td style={{ font: 'var(--type-data-s)', color: 'var(--ink)', padding: '2px 14px 2px 0' }}>{inches(a.column_in)}</td>
-                              <td style={{ font: 'var(--type-data-s)', color: 'var(--ink)', padding: '2px 14px 2px 0' }}>{inches(a.entablature_in)}</td>
-                              <td style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', padding: '2px 0' }}>{a.entablature_over_column}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </div>
-
-              {hasPlate && (
-                <div style={{ minWidth: 0 }}>
-                  <PlateViewer label="the plate" height="clamp(400px, 72vh, 900px)"
-                    note="a cyma is three inches — ⌘/ctrl-scroll to zoom · drag to pan">
-                    <OrderPlate data={data} />
-                  </PlateViewer>
-                </div>
-              )}
-
-              <div style={{ gridColumn: '1 / -1', minWidth: 0 }}>
-                {rules.length > 0 && (
-                  <>
-                    <Eyebrow style={{ marginBottom: 4 }}>
-                      how the pack governs · {rules.length} rules
-                      {judgment.size ? ` · ${judgment.size} deferred to you` : ''}
-                    </Eyebrow>
-                    <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)',
-                      margin: '0 0 10px', maxWidth: '72ch' }}>
-                      A hatched mark is a rule the sources do not determine — the pack asks rather
-                      than inventing a number.
-                    </p>
-                    <RulesTable rules={rules} />
-                  </>
-                )}
-
-                {(data.conflicts || []).length > 0 && (
-                  <div style={{ marginTop: 22 }}>
-                    <Eyebrow style={{ marginBottom: 8 }}>
-                      conflicts with building today · {data.conflicts.length}
-                    </Eyebrow>
-                    {data.conflicts.map((c, i) => (
-                      <div key={i} style={{ border: '1px solid var(--rule)',
-                        borderLeft: '2px solid var(--sev-serious)', padding: '11px 13px', marginBottom: 12 }}>
-                        <div style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-                          textTransform: 'uppercase', color: 'var(--sev-serious)', marginBottom: 6 }}>
-                          against {c.with}{c.severity ? ` · ${c.severity}` : ''}
-                        </div>
-                        <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)',
-                          margin: 0, maxWidth: '76ch' }}>{c.statement}</p>
-                        {c.resolution && (
-                          <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--ink-2)',
-                            margin: '8px 0 0', maxWidth: '76ch' }}>
-                            <span style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-                              textTransform: 'uppercase', color: 'var(--ink-3)', marginRight: 8 }}>resolution</span>
-                            {c.resolution}
-                          </p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+            <div style={{ maxWidth: 1240 }}>
+              {sections.map((s) => (
+                <React.Fragment key={s}>
+                  {render[s]()}
+                  {s === 'head' && styleId && (
+                    <Reach reach={stylePacks ? reachOf(stylePacks, packId) : null} styleId={styleId} error={styleError} />
+                  )}
+                </React.Fragment>
+              ))}
             </div>
           )}
         </div>

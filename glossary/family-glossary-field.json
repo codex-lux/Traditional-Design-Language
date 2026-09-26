@@ -1,0 +1,17 @@
+{
+  "id": "family-glossary-field",
+  "term": "Parts of an entry",
+  "family": "family",
+  "order": 21,
+  "definition": "The group of words that label the parts of a glossary entry on its own page: its other names, the words not to confuse it with, what it rests on, and the rest.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`glossary-field` holds the parts of a glossary record, which label the term page\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "glossary-field"
+    }
+  ]
+}

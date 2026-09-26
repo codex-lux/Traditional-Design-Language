@@ -1,0 +1,21 @@
+{
+  "id": "edge-reacts-against",
+  "term": "reacts against",
+  "family": "edge",
+  "order": 2,
+  "definition": "Defined by inverting a predecessor: the style takes its identity from what it refuses, as Greek Revival answered Federal delicacy with mass. A reaction passes on no part of the kit, and it commonly stands beside a descent from the same predecessor.",
+  "more": "English Palladian reacts against English Baroque and inherits its trades; French Neoclassical repudiates the Baroque surface while continuing its plan types and stonecutting. The reaction and the descent are both true, and both are recorded.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json: \"reacts_against = defined by inversion of a predecessor.\" docs/model.md marks it as not carrying the kit, \"Defined by inversion of a predecessor | **No**\", and says \"A style commonly both descends from and reacts against the same predecessor.\" and \"English Palladian reacts against English Baroque and inherits its trades.\" styles/greek-revival-american.json lineage[reacts_against].note: \"Greek Revival answers with mass\", where the edge is drawn to federal-style, whose note also says \"Federal had thinned American classicism until it was a membrane\".",
+  "binds": [
+    {
+      "field": "lineage.type",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/lineage/items/properties/type",
+      "value": "reacts_against"
+    }
+  ],
+  "see": [
+    "style:greek-revival-american"
+  ]
+}

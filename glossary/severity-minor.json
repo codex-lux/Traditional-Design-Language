@@ -1,0 +1,21 @@
+{
+  "id": "severity-minor",
+  "term": "minor",
+  "family": "severity",
+  "definition": "The lightest grade of fault: a refinement, the kind that separates good work from very good.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the severity field: \"fatal: destroys the style reading, and no amount of quality elsewhere recovers it. serious: visibly wrong to anyone trained, and cheap to have avoided. minor: a refinement that separates good from very good.\"",
+  "order": 2,
+  "binds": [
+    {
+      "field": "fault.severity",
+      "schema": "schema/fault.schema.json",
+      "pointer": "/properties/severity",
+      "value": "minor"
+    }
+  ],
+  "see": [
+    "fault:capless-stack",
+    "term:fault"
+  ]
+}

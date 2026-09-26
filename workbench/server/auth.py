@@ -34,8 +34,12 @@ from . import limits
 COOKIE = "wb_session"
 TTL_S = 30 * 24 * 3600  # 30 days
 
-# Paths that must answer before a caller could possibly hold a session.
-OPEN_PATHS = ("/api/health", "/api/login")
+# Paths that must answer before a caller could possibly hold a session -- and, by ruling
+# (24 Sep 2026: the Gate says one sentence), the ONE glossary record the password screen shows.
+# Whole paths, compared with `in`: no prefix, no trailing-slash form, not `/api/glossary`. What the
+# third path can carry is stated in workbench/server/app.py's module docstring, and
+# test_zz_auth_leak_guard.py asks every other glossary path signed out.
+OPEN_PATHS = ("/api/health", "/api/login", "/api/glossary/about-tdl")
 
 # Set once per process when WORKBENCH_SECRET is absent. Sessions then die on restart,
 # which is a visible inconvenience rather than a silent weakening of the signature.

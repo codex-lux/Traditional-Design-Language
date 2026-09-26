@@ -99,6 +99,13 @@ CHECKS = [
     ("check_constraints.py", []),
     ("check_pack_bindings.py", ["--strict"]),
     ("check_faults.py", []),
+    # WP-14.1. The glossary: every word the workbench shows a reader, defined in one record the
+    # app reads and never writes. Sourced from a work the corpus already cites, or editorial with
+    # a basis quoting the file it read -- verified by check_openings.check_basis, CALLED and not
+    # copied -- plus complete enum bindings, paired homonyms, citations held to the server's own
+    # grammar, and no digits or build history in reader prose. Exits 3 without jsonschema or the
+    # server's citation validator: unjudged, never passed.
+    ("check_glossary.py", []),
     # Every dividing test against every measurement a generator supplies as ZERO. The corpus's
     # flagship failure is a rule that presupposes the thing it measures -- `dormer_count % 2`
     # on a house stating no dormers -- and the standing rule that any dividing test needs an

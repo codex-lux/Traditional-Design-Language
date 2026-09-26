@@ -1,0 +1,11 @@
+{
+  "id": "parti-doors",
+  "term": "doors",
+  "family": "house",
+  "definition": "The rooms a room opens directly into, and whether it has a door to the outside. A door runs both ways, so each connection is read from either room.",
+  "kind": "editorial",
+  "basis": "schema/plan.schema.json, a room's doors: \"Doors imply a direct-door adjacency in both directions; the validator derives the graph from them.\" schema/parti.schema.json: \"room ids, or 'exterior'\"",
+  "see": [
+    "term:parti"
+  ]
+}

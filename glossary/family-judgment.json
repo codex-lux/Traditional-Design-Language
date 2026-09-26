@@ -1,0 +1,17 @@
+{
+  "id": "family-judgment",
+  "term": "Judgments",
+  "family": "family",
+  "order": 13,
+  "definition": "The group of words for the verdicts a rule can return on a house. Unjudged is among them, and it is never a pass.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`judgment` holds the verdicts a rule can return on a house, unjudged among them\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "judgment"
+    }
+  ]
+}

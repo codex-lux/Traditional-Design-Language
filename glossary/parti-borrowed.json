@@ -1,0 +1,13 @@
+{
+  "id": "parti-borrowed",
+  "term": "borrowed parti",
+  "family": "house",
+  "definition": "A plan diagram drawn for neither this style nor any style it answers to. The composer may still build a candidate on it, but only as a borrowing, and every candidate built on it says so.",
+  "kind": "editorial",
+  "basis": "Our wording of the composer's nativity relation. build/compose.py, nativity: \"Borrowed means neither: the composer is using a diagram that nothing in this style's own line was drawn with, and every candidate built on it says so.\"; build/compose.py, pick_partis: \"NOT native to this style — the composer is borrowing a diagram\".",
+  "see": [
+    "term:parti",
+    "term:parti-native",
+    "term:parti-lineage"
+  ]
+}

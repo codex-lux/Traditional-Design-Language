@@ -1,0 +1,18 @@
+{
+  "id": "room",
+  "term": "room",
+  "family": "house",
+  "sense": "a type of room, as the corpus catalogues it",
+  "definition": "A room type the corpus catalogues apart from any style, such as a parlor or a stair hall: what it is for, what has to fit in it, what it must sit beside, the light it takes and how it is serviced.",
+  "kind": "editorial",
+  "basis": "schema/room.schema.json: \"A style-independent room.\" and \"What a room actually constrains is dimension, daylight, adjacency and servicing, and those are physical facts before they are stylistic ones.\" Its furniture is \"What has to fit, with clearances.\" and its function class is \"What the room is FOR, independent of what it is called.\" VISION.md: \"A room is a word, a grouping is a phrase\"",
+  "analogy": "A word: a grouping is a phrase made of rooms, and a plan the sentence.",
+  "confusable_with": [
+    "surface-room"
+  ],
+  "see": [
+    "room:parlor",
+    "term:grouping",
+    "term:massing"
+  ]
+}

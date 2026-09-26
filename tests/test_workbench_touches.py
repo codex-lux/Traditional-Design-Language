@@ -32,10 +32,13 @@ def test_check_returns_fault_unjudged_detail():
 def test_compose_on_candidate_callback():
     comp = _load("compose")
     brief = json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
-    seen = []
-    res = comp.compose(brief, 2, on_candidate=lambda c: seen.append(c), revise=False)
+    heard = []
+    res = comp.compose(brief, 2, on_candidate=lambda c: heard.append(c), revise=False)
+    assert all("plan" not in c for c in heard)  # summaries only, never the whole plan
+    # WP-14.19: a diagram the lot drops is heard from too, so a job can count k of N, and it
+    # carries no score -- it was never scored. The kept candidates are the rest.
+    seen = [c for c in heard if not c.get("dropped_lot")]
     assert len(seen) >= len(res["candidates"])  # dropped-for-lot may reduce the kept set
-    assert all("plan" not in c for c in seen)   # summaries only, never the whole plan
     assert all("score" in c and "parti" in c for c in seen)
     # The keys workbench/server/jobs.py::on_candidate actually reads, and the reason it reads
     # them: the progress strip publishes a score, and a disqualified candidate's score can be

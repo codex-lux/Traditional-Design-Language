@@ -1,0 +1,25 @@
+{
+  "id": "variant-status-forbidden",
+  "term": "forbidden",
+  "family": "variant-status",
+  "mark": "--mark-forbidden",
+  "order": 3,
+  "sense": "a variant the style rules out",
+  "definition": "Wrong for this style: one option of a slot that the style rules out, with a note saying why. The element stays in use; only this way of making it is refused, as a Georgian roof refuses a cross gable.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on a variant's status: \"forbidden: wrong, and the note should say why.\" and on a slot's variants: \"Most of what a style says about a slot is which options it REFUSES\". kits/georgian-colonial-american.kit.json roof_form.variants[cross-gable].note: \"Breaks the single unaccented cornice line the whole composition depends on.\"",
+  "binds": [
+    {
+      "field": "kit.variant_status",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/properties/slots/additionalProperties/properties/variants/items/properties/status",
+      "value": "forbidden"
+    }
+  ],
+  "confusable_with": [
+    "binding-forbidden"
+  ],
+  "see": [
+    "kit:georgian-colonial-american#roof_form"
+  ]
+}

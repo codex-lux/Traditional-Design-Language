@@ -1,0 +1,13 @@
+{
+  "id": "pack-conflict",
+  "term": "conflict with building today",
+  "family": "proportion",
+  "order": 7,
+  "definition": "A place where a pack's proportions collide with how houses are built now — cost, codes, structure, materials, climate, zoning or construction tolerance — recorded with its severity and with what a good architect actually does about it.",
+  "more": "The classical trim family's defining conflict is the eight-foot ceiling: the derivation puts the chair rail below the back of a chair, so the pack marks the conflict blocking and says first to raise the ceiling, and failing that to use the Greek Revival family.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's conflicts field, whose with-list names energy, egress and accessibility codes, structural, cost, material availability, climate, zoning and construction tolerance, and whose severity is blocking, material or minor; with the classical trim family's defining conflict as the example. schema/proportion-pack.schema.json, conflicts description: \"Where this pack collides with contemporary code, cost, or construction.\"; schema/proportion-pack.schema.json, conflicts resolution description: \"What a good architect actually does about it.\"; docs/proportion.md: \"Every pack records where it collides with building today, with a severity and a resolution\"; proportions/systems/trim-classical.json conflicts[0].statement: \"The eight-foot ceiling against a full classical trim family, and it is the defining conflict of the whole pack.\"; proportions/systems/trim-classical.json conflicts[0].statement: \"The chair rail is below the back of a chair\"; proportions/systems/trim-classical.json notes: \"the conflict with the eight-foot ceiling is marked blocking because it is\"; proportions/systems/trim-classical.json conflicts[0].resolution: \"RAISE THE CEILING. Nine feet costs a 104 5/8 in stud\"; proportions/systems/trim-classical.json conflicts[0].resolution: \"IF THE CEILING IS FIXED AT EIGHT FEET, USE THE GREEK REVIVAL FAMILY AND NOTHING ELSE.\".",
+  "see": [
+    "pack:trim-classical"
+  ]
+}

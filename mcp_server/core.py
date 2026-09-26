@@ -59,9 +59,17 @@ def _data():
     precedents = {}
     for f in sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))):
         r = json.load(open(f)); precedents[r["id"]] = r
+    # WP-14.3. What each word the workbench shows means, one record per term, read exactly as
+    # faults/ is read above. Loaded HERE and served by workbench/server/corpus.py only: no MCP
+    # tool and no key of overview() reads it, because both are byte-stable in tranche 1 (PRD
+    # phase 14 §C.4). build/check_glossary.py is what holds the records to their contract.
+    glossary = {}
+    for f in sorted(glob.glob(os.path.join(ROOT, "glossary", "*.json"))):
+        n = json.load(open(f)); glossary[n["id"]] = n
     return {"styles": styles, "faults": faults, "slots": slots, "groups": groups,
             "massings": massings, "assets": assets, "kits": kits,
             "rooms": rooms, "groupings": groupings, "precedents": precedents,
+            "glossary": glossary,
             "ontology_version": sd["version"], "engine": _load_engine()}
 
 _PARTIS_CACHE = None
@@ -382,41 +390,96 @@ def get_slot(slot_id):
         return {"error": f"no slot '{slot_id}'",
                 "did_you_mean": [k for k in D["slots"] if slot_id.lower() in k][:8],
                 "hint": "tdl_overview lists the eight slot groups"}
-    specifiers = []
-    for sid, k in D["kits"].items():
-        rec = (k.get("slots") or {}).get(slot_id)
-        if rec and rec.get("status") not in (None, "empty"): specifiers.append(sid)
+    # THE RESOLVED KIT, NEVER THE STYLE'S OWN FILE (WP-14.26, closing
+    # `oq/the-slot-tool-lists-a-style-that-forbids-a-slot-as-specifying-it`). This walked
+    # `D["kits"]` -- each node's OWN kit file -- and listed a style whenever its record carried a
+    # status other than `empty`, reading no `binding` at all. A forbidden binding carries a status
+    # because the forbidding is authored, so the list named 228 styles that FORBID the slot as
+    # specifying it, and it named no style that specifies the slot by inheriting it: 6,380 missing
+    # (WP-14.23's measurement, over the 97 slots). It reads the cascade now, through the one rule
+    # `_slot_binding` states, which is the rule the workbench's slot page has read since WP-14.23.
+    specifiers = _resolved_bindings()[slot_id]["specified"]
     faults = [{"id": f["id"], "name": f["name"], "severity": f["severity"], "frequency": f.get("frequency")}
               for f in D["faults"].values() if slot_id in f["slots"]]
     return {"slot": s, "specified_by_styles": specifiers,
             "faults_on_this_slot": sorted(faults, key=lambda x: ("fatal","serious","minor").index(x["severity"])),
-            "note": "Slots are universal. A style does not own a cornice; it specifies one."}
+            "note": ("Slots are universal. A style does not own a cornice; it specifies one. "
+                     "specified_by_styles reads each style's kit AFTER the lineage cascade, so a style "
+                     "that inherits the slot is listed and a style that forbids it is not.")}
+
+
+def _slot_binding(rec):
+    """A RESOLVED kit record's binding as a reader of "who specifies this slot" takes it:
+    `specified`, `forbidden`, or None for a slot the style leaves open. A DANGLING `extends` -- a
+    diff with nothing upstream to merge into -- is honoured by `resolve_kit.resolve_slots` "as if
+    specified" (its own words), so it is read here as it resolves and not as it is spelled.
+
+    Moved here from `workbench/server/corpus.py` at WP-14.26, where WP-14.23 wrote it for the
+    slot page: `get_slot` above reads the same rule now, and one rule in two files is how the two
+    readers of "specified by" came to disagree on all 97 slots in the first place."""
+    b = rec.get("binding")
+    if b == "specified" or (b == "extends" and rec.get("_dangling_extends")):
+        return "specified"
+    if b == "forbidden":
+        return "forbidden"
+    return None
+
+
+def _resolved_bindings():
+    """slot id -> {"specified": [style ids], "forbidden": [style ids]}, over every style's
+    RESOLVED kit (`_resolved_kit`, the cascade), each list in id order. The first call resolves
+    every kit (about two seconds, measured at WP-14.23); `_resolved_kit` caches each, and
+    `corpus.invalidate()` clears that cache."""
+    D = _data()
+    out = {sid: {"specified": [], "forbidden": []} for sid in D["slots"]}
+    for style_id in sorted(D["styles"]):
+        kit = _resolved_kit(style_id)
+        if not kit:
+            continue
+        for sid, rec in kit.items():
+            b = _slot_binding(rec)
+            if b and sid in out:
+                out[sid][b].append(style_id)
+    return out
+
+
+def _kit_source(rec):
+    """The provenance string `resolve_kit` has always served, spelled from the build's own record
+    of it (`_source_chain`, base first): `"a"` where one ancestor settled the slot, and
+    `"a + b (extends)"`, one `+ x (extends)` per delta merged onto it, where later ones extended
+    it -- the composite the Kit surface already parses. None where nothing in the cascade binds the
+    slot. A binding read from a node's INLINE kit carries the build's own ` (inline)` tag; no node
+    in the corpus has one today."""
+    ch = rec.get("_source_chain") or []
+    if not ch:
+        return None
+    return ch[0] + "".join(" + %s (extends)" % x for x in ch[1:])
+
 
 def resolve_kit(style_id, group=None, slot=None, ceiling_height=108.0, only_specified=True):
+    """The style's resolved kit, one row per slot, with the ancestor each binding came from.
+
+    ONE KIT AUTHORITY (WP-14.26, tranche 2 PRD §C.7). This was a hand-merge over `D["kits"]`: its
+    own walk, its own `extends` merge, and its own idea of when the walk stops -- an `open` record
+    carrying a status stopped it, where `build/resolve_kit.resolve_slots` treats `open` as
+    transparent (OQ 87); and it never honoured OQ 58's scoped edges. Measured on `5aa8041` it
+    disagreed with `resolve_slots` on 38 of the 15,908 (style, slot) pairs, on the binding, the
+    canonical set or the forbidden set, while every checker, the elevation, the composer and the
+    dossier's own slot page read the other one. It is the build's resolution now, through
+    `_resolved_kit`, and only the row shape below is this function's. The 38 pairs, with what each
+    answered before and after, are `tests/fixtures/kit_authority_moved_pairs.json`, and
+    `tests/test_one_kit_authority.py` holds every pair of every style to `resolve_slots`.
+
+    `only_specified=False` returns a row for EVERY slot of the ontology: a slot nothing in the
+    cascade binds is `open` with no source, which is the resolved kit's own answer for it. The
+    hand-merge listed an open slot only where some kit file had written a record for it, and gave
+    that record's writer as the source of a slot the cascade does not stop at."""
     D = _data(); n = D["styles"].get(style_id)
     if not n: return {"error": f"no style '{style_id}'"}
     chain = [style_id] + _cascade(style_id)
     have = [c for c in chain if c in D["kits"]]
-    resolved, source = {}, {}
-    for cid in reversed(have):                      # furthest ancestor first, nearest wins
-        for sid, rec in (D["kits"][cid].get("slots") or {}).items():
-            if rec.get("status") in (None, "empty") and rec.get("binding", "open") == "open": continue
-            if rec.get("binding") == "extends" and sid in resolved:
-                base = json.loads(json.dumps(resolved[sid]))
-                base.setdefault("parameters", {}).update(rec.get("parameters") or {})
-                for v in rec.get("variants", []):
-                    lst = base.setdefault("variants", [])
-                    idx = next((k for k, x in enumerate(lst) if x.get("id") == v.get("id")), None)
-                    op = v.get("op", "add")
-                    if op == "remove" and idx is not None: lst.pop(idx)
-                    elif idx is not None: lst[idx] = v
-                    else: lst.append(v)
-                if rec.get("rule_append"): base["rule"] = (base.get("rule", "").rstrip(". ") + ". " + rec["rule_append"])
-                for k2 in ("code_conflict", "packs", "note", "judgment", "invented"):
-                    if k2 in rec: base[k2] = rec[k2]
-                resolved[sid] = base; source[sid] = f"{source.get(sid, '?')} + {cid} (extends)"
-            else:
-                resolved[sid] = rec; source[sid] = cid
+    resolved = _resolved_kit(style_id) or {}
+    source = {sid: _kit_source(rec) for sid, rec in resolved.items()}
     if slot: keys = [slot] if slot in resolved else []
     elif group: keys = [k for k in resolved if D["slots"].get(k, {}).get("group") == group]
     else: keys = list(resolved)
@@ -424,8 +487,8 @@ def resolve_kit(style_id, group=None, slot=None, ceiling_height=108.0, only_spec
     for k in sorted(keys):
         r = resolved[k]
         if only_specified and r.get("binding") == "open": continue
-        forb = [v["id"] for v in r.get("variants", []) if v.get("status") == "forbidden"]
-        canon = [v["id"] for v in r.get("variants", []) if v.get("status") == "canonical"]
+        forb = [v["id"] for v in (r.get("variants") or []) if v.get("status") == "forbidden"]
+        canon = [v["id"] for v in (r.get("variants") or []) if v.get("status") == "canonical"]
         rows.append({"slot": k, "group": D["slots"].get(k, {}).get("group"),
                      "binding": r.get("binding"), "source": source.get(k),
                      "rule": r.get("rule"), "canonical": canon, "forbidden": forb,
@@ -433,8 +496,12 @@ def resolve_kit(style_id, group=None, slot=None, ceiling_height=108.0, only_spec
                      "code_conflict": r.get("code_conflict") if slot else bool(r.get("code_conflict")),
                      "judgment": r.get("judgment", False), "invented": r.get("invented", False),
                      "packs": r.get("packs") if slot else None})
+    # Who settled how many of the slots asked about. A slot nothing in the cascade binds has no
+    # source and is counted under none, rather than under a writer the cascade walks past.
     prov = {}
-    for k in keys: prov[source.get(k, "?")] = prov.get(source.get(k, "?"), 0) + 1
+    for k in keys:
+        if source.get(k) is not None:
+            prov[source[k]] = prov.get(source[k], 0) + 1
     return {"style": style_id, "kits_in_chain": have, "cascade": chain,
             # slots_total is the ONTOLOGY's own count, sent live. The workbench used to
             # render `${slots_returned} of 95 slots` against a literal, and the ontology has
@@ -446,8 +513,106 @@ def resolve_kit(style_id, group=None, slot=None, ceiling_height=108.0, only_spec
             "hint": "pass slot='<id>' for the full record including parameters and pack bindings"}
 
 # ----------------------------------------------------------------- proportion
-def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=108.0,
-                    opening_width=36.0, include_rules=True, assembly=None):
+# The two building inputs this tool has always bound for a pack whose module is a size of its own:
+# a 9 ft ceiling and a 3 ft opening. They are the defaults for an UNBOUND pack only. A pack that
+# declares `module.equals` defaults to its own module instead (module_binding, below), which is how
+# `trim-classical` stopped being dimensioned at 114 in while its rules were read at 108.
+# workbench/server/corpus.py reads these rather than restating them.
+CEILING_DEFAULT_IN = 108.0
+OPENING_DEFAULT_IN = 36.0
+# The building dimensions a caller may give and `module.equals` may name -- the schema's enum, in
+# its order. storey_height and room_width are passed to the engine only when given, so a call
+# that gives neither binds exactly what it always bound (the engine's own DEFAULT_BINDINGS).
+BUILDING_INPUTS = ("ceiling_height", "storey_height", "room_width", "opening_width")
+
+
+def module_binding(pk, module=None, column_diameter=None, ceiling_height=None,
+                   opening_width=None, storey_height=None, room_width=None):
+    """WHICH BUILDING DIMENSION A PACK'S MODULE IS, AND AT WHAT SIZE THIS CALL DIMENSIONS IT.
+
+    The ONE spelling (WP-14.18, PRD tranche 2 §C.4). `get_proportions` -- the MCP tool, the rail's
+    tool and the plain route -- and `workbench/server/corpus.proportions_with_members` both read it,
+    so the tool and the plate cannot give two answers to "what module is this pack at".
+    -> {"module_in", "bindings", "bound_to", "from"}, or {"error", "hint", "refused": [...]}.
+
+    `module_in` None means the pack's own `default_size_in`, which `dimension()` and `evaluate()`
+    fall back to themselves. `bindings` is what the engine's rules read.
+
+    UNBOUND (no `module.equals`, every stacked pack and most others): exactly what this tool
+    always did -- an explicit `module`, else `column_diameter` times the pack's diameters per
+    module, else the default; the ceiling and the opening at the reader's figure or 108 in and
+    36 in. `bound_to` and `from` are None.
+
+    BOUND (`module.equals` names a building dimension, which check 19 of build/check_systems.py
+    lie-checks): the module IS that dimension, so one number is both the module and the binding
+    the rules read. It is the caller's figure for that dimension where given; else the caller's
+    `module`, read AS that dimension because the pack says they are one; else the pack's own
+    `default_size_in` -- never the unrelated 108 in, which is the 108-against-114 disagreement
+    `oq/which-packs-module-is-a-building-input` records. `from` names which of the three it was,
+    so a caller can see whether a figure describes their building or the pack's default.
+
+    REFUSED, never guessed: a bound pack given a `module` AND a different figure for the dimension
+    it IS (two sizes for one quantity), or given a `column_diameter` (the module is a building
+    dimension and the pack has no column for a diameter to measure)."""
+    given = {"ceiling_height": ceiling_height, "opening_width": opening_width,
+             "storey_height": storey_height, "room_width": room_width}
+    bindings = {"ceiling_height": CEILING_DEFAULT_IN if ceiling_height is None else ceiling_height,
+                "opening_width": OPENING_DEFAULT_IN if opening_width is None else opening_width}
+    for k in ("storey_height", "room_width"):
+        if given[k] is not None:
+            bindings[k] = given[k]
+    mod_rec = pk.get("module") or {}
+    bound = mod_rec.get("equals")
+    if not bound:
+        pe = _data()["engine"]
+        dpm = pe.diameters_per_module(pk)
+        mod = module if module is not None else ((column_diameter * dpm) if column_diameter else None)
+        return {"module_in": mod, "bindings": bindings, "bound_to": None, "from": None}
+    refused = []
+    if column_diameter is not None:
+        refused.append("column_diameter")
+    if module is not None and given.get(bound) is not None and abs(module - given[bound]) > 1e-9:
+        refused.append("module")
+    if refused:
+        return {"error": (f"'{pk['id']}' declares that its module IS the {bound.replace('_', ' ')}"
+                          f" (module.equals: {bound}), so "
+                          + ("a column diameter measures nothing here" if "column_diameter" in refused
+                             else f"module={module:g} and {bound}={given[bound]:g} are two sizes "
+                                  f"for one quantity")),
+                "hint": f"give {bound} (or module, which is read as {bound}) and nothing else "
+                        f"for the module",
+                "refused": refused}
+    if given.get(bound) is not None:
+        value, src = given[bound], bound
+    elif module is not None:
+        value, src = module, "module"
+    else:
+        value, src = mod_rec.get("default_size_in"), "default"
+    bindings[bound] = value
+    return {"module_in": value, "bindings": bindings, "bound_to": bound, "from": src}
+
+
+def _assembly_row(pe, pk, a, with_members):
+    """One served assembly: the stack path's row, and the same row for a stackless pack, so the
+    two cannot drift. `axis` and `zones` ride only where the pack DECLARES them (an absent axis
+    means up-the-wall, and no stacked pack declares either, which is what keeps every stacked
+    payload byte-identical -- held by workbench/server/tests/test_pack_plates.py's digest pin)."""
+    row = {"id": a["id"], "height_modules": a["height_modules"], "height_in": a["height_in_stated"],
+           "members": a["members"] if with_members else len(a["members"])}
+    rec = (pk.get("assemblies") or {}).get(a["id"]) or {}
+    for k in ("axis", "zones"):
+        if k in rec:
+            row[k] = rec[k]
+    owner = pe.assembly_owner(pk["id"], a["id"])
+    if owner and owner != pk["id"]:
+        row["inherited_from"] = owner
+        row["authority"] = pe.assembly_authority(pk["id"], a["id"])[0]
+    return row
+
+
+def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=None,
+                    opening_width=None, include_rules=True, assembly=None,
+                    storey_height=None, room_width=None):
     D = _data(); pe = D["engine"]
     try: pk = pe.resolve(pack_id)
     except Exception:
@@ -455,29 +620,53 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
                 "available": sorted(pe.PACKS.keys()),
                 "hint": "order packs are <authority>-<order>, e.g. gibbs-ionic"}
     dpm = pe.diameters_per_module(pk)
-    mod = module if module is not None else ((column_diameter * dpm) if column_diameter else None)
-    d = pe.dimension(pk, mod, [assembly] if assembly else None)
+    b = module_binding(pk, module=module, column_diameter=column_diameter,
+                       ceiling_height=ceiling_height, opening_width=opening_width,
+                       storey_height=storey_height, room_width=room_width)
+    if "error" in b:
+        return b
+    mod = b["module_in"]
+    stack = pe.stack_for(pk)
+    # WP-14.18 (oq/mcp-proportions-serve-no-assemblies-for-non-order-packs, answer 1). With no
+    # `assembly` the engine dimensions `stack_for(pk)`, which knows only an ORDER's assembly names,
+    # so every pack without a column stack came back with `assemblies: []` -- 27 packs, 50
+    # assemblies, although asked one at a time the same engine dimensions them all. A stackless
+    # pack now lists each of its OWN assemblies, in its declaration order, each dimensioned on its
+    # own (`include=[aid]`, as the workbench's wall-datum plate does) and served with its member
+    # COUNT -- the tool's progressive disclosure is kept: members only on request.
+    if assembly or stack:
+        d = pe.dimension(pk, mod, [assembly] if assembly else None)
+        dims = d["assemblies"]
+    else:
+        d = pe.dimension(pk, mod, [])
+        dims = [x for aid in (pk.get("assemblies") or {})
+                for x in pe.dimension(pk, mod, [aid])["assemblies"]]
+    totals = d["totals"]
+    if not stack and not pk.get("column"):
+        # `dimension()` divides the module by diameters-per-module for EVERY pack, so a pack with
+        # no column was served a column diameter -- `trim-classical`'s 9 ft 6 in ceiling read as a
+        # 19 ft shaft. Withheld here, not in the engine: a measurement stated where none was
+        # taken is OQ 52's shape, and the engine's other readers are another package's.
+        totals = {k: v for k, v in totals.items() if k != "lower_diameter_in"}
     out = {"pack": pk["id"], "name": pk["name"], "authority": pk.get("authority", {}).get("source"),
            "resolved_from": pk.get("_resolved_from", [pk["id"]]),
            "module_in": d["module_in"], "parts": d["parts"], "part_in": round(d["part_in"], 4),
-           "diameters_per_module": dpm, "totals": d["totals"],
+           "diameters_per_module": dpm, "totals": totals,
            # PER-ASSEMBLY ATTRIBUTION, because `authority` above is the PACK's and an overlay
            # inherits what it does not state. `palladio-tuscan` states no entablature on purpose
            # -- that is OQ 7 -- so this tool served Vignola's cornice members under Palladio's
            # citation, on the assembly the open question exists for. `states_no_own` names the
            # pack that actually gives the figures, and is absent where the pack gives them
            # itself.
-           "assemblies": [dict({"id": a["id"], "height_modules": a["height_modules"],
-                                "height_in": a["height_in_stated"],
-                                "members": a["members"] if assembly else len(a["members"])},
-                               **({} if not pe.assembly_owner(pk["id"], a["id"])
-                                     or pe.assembly_owner(pk["id"], a["id"]) == pk["id"]
-                                  else {"inherited_from": pe.assembly_owner(pk["id"], a["id"]),
-                                        "authority": pe.assembly_authority(pk["id"], a["id"])[0]}))
-                          for a in d["assemblies"]],
+           "assemblies": [_assembly_row(pe, pk, a, bool(assembly)) for a in dims],
            "invariants": pe.check_invariants(pk)}
+    if b["bound_to"]:
+        # Only on a pack that declares `module.equals` -- no stacked pack does -- so the key is new
+        # where it is true and absent everywhere else.
+        out["module_bound_to"] = b["bound_to"]
+        out["module_from"] = b["from"]
     if include_rules:
-        ev = pe.evaluate(pk, mod, {"ceiling_height": ceiling_height, "opening_width": opening_width})
+        ev = pe.evaluate(pk, mod, b["bindings"])
         # `quantity` (OQ 48) names what the rule MEASURES, which is what makes (slot, dimension)
         # not the real address. Omitting it here left every MCP consumer seeing two rules that the
         # corpus deliberately distinguishes as if they were the same address. `calibrated_for`
@@ -511,7 +700,20 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
         out["derived_rules"] = [{k: r.get(k) for k in RULE_KEYS} for r in ev["rules"]]
         out["judgment_rules"] = [r["target_slot"] for r in ev["rules"] if r.get("judgment")]
     out["conflicts"] = pk.get("conflicts", [])
-    if not assembly: out["hint"] = "pass assembly='cornice' (or capital, base, entablature, pedestal) for member-by-member dimensions"
+    if not assembly:
+        # THE HINT NAMES THE PACK'S OWN ASSEMBLIES (WP-14.18). It named an order's for every pack,
+        # so a machine client reading `trim-classical` was told to ask for a cornice the pack does
+        # not have, and could learn its real assembly ids only by parsing invariant expressions.
+        # A stacked pack keeps the sentence it always had, byte for byte.
+        own = list(pk.get("assemblies") or {})
+        if stack:
+            out["hint"] = "pass assembly='cornice' (or capital, base, entablature, pedestal) for member-by-member dimensions"
+        elif own:
+            out["hint"] = ("pass assembly='<id>' for member-by-member dimensions; this pack's "
+                           "assemblies are " + ", ".join(own))
+        else:
+            out["hint"] = ("this pack states no assemblies: its derived_rules are the whole of it, "
+                           "and assembly= has nothing to return")
     return out
 
 def compare_authorities(order, column_diameter=12.0):
@@ -1535,6 +1737,11 @@ def compose(brief, candidates=4, include_plans=False, revise=True, revise_rounds
     except Exception as e:
         return {"error": "brief does not match the brief schema", "detail": str(e)[:400],
                 "hint": "the minimum is style and target_area_sf; see tdl_brief_schema"}
+    # WP-14.19: a named parti must exist and be buildable on the brief's own massing, which the
+    # schema cannot say. Refused by name before anything is composed, never silently re-picked.
+    ref = _composer().check_brief_refs(brief)
+    if ref:
+        return {"error": _composer().BRIEF_REF_ERROR, "detail": ref, "hint": _composer().BRIEF_REF_HINT}
     bounded = []
     candidates = int(_bounded("candidates", candidates, 1, COMPOSE_MAX_CANDIDATES, 4, bounded))
     revise_rounds = int(_bounded("revise_rounds", revise_rounds, 0, REVISE_MAX_ROUNDS, 4, bounded))
@@ -1563,22 +1770,57 @@ def _all_partis():
                  for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))))
 
 
-def list_partis(style=None, massing=None):
-    D = _data()
+def list_partis(style=None, massing=None, include_borrowed=False):
+    """The parti catalogue, or the partis a style can use.
+
+    With a `style`, each parti carries `nativity` -- "native", "lineage" or "borrowed" -- read from
+    `compose.nativity`, the one spelling of that relation, so this list and the composer's own
+    choice cannot disagree about which diagram belongs to which style (WP-14.19). Native and
+    lineage partis are listed; a borrowed one only with `include_borrowed`, because a style's plan
+    types are the diagrams its own line was drawn with. Until WP-14.19 this read `p["styles"]`
+    alone and listed nothing at all for a style with no native parti, while the composer borrowed
+    a diagram for it and said so. Without a `style` there is no relation to state and no row
+    carries `nativity`."""
     out = []
+    nat = _composer().nativity if style else None
     for p in _all_partis():
-        if style and style not in p["styles"]: continue
+        n = nat(p, style) if style else None
+        if style and n == "borrowed" and not include_borrowed: continue
         if massing and p["massing"] != massing and massing not in p.get("alternate_massings", []): continue
-        out.append({"id": p["id"], "name": p["name"], "massing": p["massing"],
-                    "storeys": p.get("storeys"), "area_range_sf": p.get("area_range_sf"),
-                    "bedroom_range": p.get("bedroom_range"), "styles": p["styles"],
-                    "description": p["description"], "trades_away": p.get("trades_away"),
-                    "grows_by": (p.get("scaling") or {}).get("grows_by")})
+        row = {"id": p["id"], "name": p["name"], "massing": p["massing"],
+               "storeys": p.get("storeys"), "area_range_sf": p.get("area_range_sf"),
+               "bedroom_range": p.get("bedroom_range"), "styles": p["styles"],
+               "description": p["description"], "trades_away": p.get("trades_away"),
+               "grows_by": (p.get("scaling") or {}).get("grows_by")}
+        if style:
+            row["nativity"] = n
+        out.append(row)
     return {"count": len(out), "partis": out,
             "note": ("A parti specifies topology and roles only — dimensions come from the room catalogue "
                      "and are scaled to the brief, so the library never duplicates room data. Every one is "
                      "descended from something that was actually built, which is why the composer seeds from "
-                     "them rather than searching from noise.")}
+                     "them rather than searching from noise. Asked for a style, each carries its nativity: "
+                     "native (drawn for this style), lineage (drawn for a style this one answers to) or "
+                     "borrowed (neither, listed only when borrowed diagrams are asked for). A brief may name "
+                     "any of them in `parti` and is guaranteed a candidate built on it.")}
+
+
+def get_parti(parti_id):
+    """One parti record, and which styles it belongs to. Reads the record through `load_parti`,
+    the one confined id-to-path join, and refuses an id whose file names a different record, so
+    `x/centre-passage-double-pile` is not a second address for the parti. `nativity_by_style`
+    lists every style for which `compose.nativity` answers native or lineage; every other style
+    would borrow it, which is the complement and is not listed."""
+    p = load_parti(parti_id)
+    if p is None or p.get("id") != parti_id:
+        return {"error": f"no parti '{parti_id}'", "available": [q["id"] for q in _all_partis()]}
+    nat = _composer().nativity
+    by = {"native": [], "lineage": []}
+    for sid in sorted(_data()["styles"]):
+        n = nat(p, sid)
+        if n in by:
+            by[n].append(sid)
+    return {"parti": copy_json(p), "nativity_by_style": by}
 
 def brief_schema():
     return {"schema": copy_json(schema("brief")),
@@ -1586,7 +1828,9 @@ def brief_schema():
             "hint": ("Only style and target_area_sf are required. Everything absent is decided by the "
                      "composer and reported in the decision log as an assumption, not smuggled in as a fact. "
                      "Put the household in `household` — it is the thing that decides whether the dining room "
-                     "gets built and never used.")}
+                     "gets built and never used. Name a `parti` to guarantee that diagram a candidate among "
+                     "the contrasting set; it is scored like the rest, borrowed where it is not the style's, "
+                     "and refused by name if it cannot be built on the brief's own `massing`.")}
 
 
 # ----------------------------------------------------------------- geometry

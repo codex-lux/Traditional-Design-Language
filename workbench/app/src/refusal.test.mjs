@@ -271,6 +271,7 @@ const READERS = [
   ['surfaces/ExportDetails.jsx', '../sheet/refusal.js'],
   ['surfaces/CandidateSet.jsx', '../sheet/refusal.js'],
   ['sheet/Sheet.jsx', './refusal.js'],
+  ['journey/journey.js', '../sheet/refusal.js'],
 ];
 
 test('every surface that decides whether to draw READS the leaf', () => {

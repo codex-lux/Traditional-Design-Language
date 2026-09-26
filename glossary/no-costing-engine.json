@@ -1,0 +1,12 @@
+{
+  "id": "no-costing-engine",
+  "term": "no costing engine",
+  "family": "product",
+  "definition": "Nothing here prices a plan. Each named error records roughly what its shortcut saves, and a building-code finding is advisory model text, never a permit review and never rendered as compliance.",
+  "kind": "editorial",
+  "basis": "Our wording of what the workbench does not do. schema/fault.schema.json, of the cost a fault records: \"Roughly what the shortcut saves, because the argument for doing it right has to survive contact with a budget.\" build/plan_check.py, of code findings: \"They are the IRC model text, routinely amended locally, and must never be treated as a permit review.\"",
+  "see": [
+    "term:fault-section-cost-saved",
+    "term:param-kind-code"
+  ]
+}

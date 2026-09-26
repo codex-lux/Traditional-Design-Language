@@ -1,0 +1,20 @@
+{
+  "id": "section-kit",
+  "term": "Kit",
+  "family": "section",
+  "order": 3,
+  "definition": "The style's kit: the same set of element slots every style shares, filled in for this one. For each slot it says whether the style specifies it, extends an ancestor's, leaves it open or forbids it, and which ancestor each inherited value came from.",
+  "analogy": "Like a specification written against a standard schedule: every style works from the same list of parts and fills it in its own way.",
+  "kind": "editorial",
+  "basis": "Editorial. VISION.md: \"One kit per node, materialising every slot, so that selecting a style resolves to a directory of specified, inherited, open or forbidden elements\" \"with a source column showing which ancestor each value came from.\" docs/inheritance.md: \"A style is not a bag of parts.\" \"Georgian does not own a cornice — it specifies one.\"",
+  "surface": {
+    "what": "What this style specifies, slot by slot, and where each value came from.",
+    "read": [
+      "Every style fills the same set of slots; a style specifies a cornice, it does not own one.",
+      "Specified fixes a slot, extends adds to an ancestor's, open leaves it free, and forbidden rules it out.",
+      "A value this style did not write names the ancestor it came from.",
+      "Open a slot to see its variants, its figures and where each figure comes from."
+    ],
+    "try": "kit:tidewater-georgian#cornice"
+  }
+}

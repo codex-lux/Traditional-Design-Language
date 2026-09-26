@@ -1,0 +1,14 @@
+{
+  "id": "constraint-executable",
+  "term": "executable",
+  "family": "constraint-state",
+  "definition": "A constraint that carries a machine test beside its sentence, so a house can be checked against it wherever the figures the test reads are known. The test formalises only what the sentence states; the rest stays in words.",
+  "kind": "editorial",
+  "basis": "schema/constraint.schema.json: a test is \"Present only when scope is not 'judgment' and the statement itself supplies a number or an enumerable set\", and \"if the test can only formalise part of the statement, the test covers that part and the rest stays prose\". VISION.md: \"The sentence is what a person argues with; the test is what a machine enforces\".",
+  "order": 0,
+  "see": [
+    "term:constraint",
+    "term:constraint-no-test-yet",
+    "term:judgment-yours-to-judge"
+  ]
+}

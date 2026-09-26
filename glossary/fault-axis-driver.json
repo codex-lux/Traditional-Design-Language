@@ -1,0 +1,9 @@
+{
+  "id": "fault-axis-driver",
+  "term": "cause driver",
+  "family": "fault",
+  "order": 19,
+  "definition": "What drives a fault: a stock size, a cost, a trade sequence, a code, a substituted material, a catalogue default, a drafting convention, maintenance or, rarely, ignorance.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the cause's `driver`: \"nearly always a stock size, a trade sequence, a code, or a line item.\" and \"Naming the driver is what makes the fault fixable rather than merely deplorable.\""
+}

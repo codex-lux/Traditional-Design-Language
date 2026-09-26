@@ -1,0 +1,12 @@
+{
+  "id": "must-adjoin",
+  "term": "must adjoin",
+  "family": "house",
+  "definition": "The rooms this room has to sit directly beside, each with the reason. A rule runs one way, from this room to the other, so the other room's record may say something different about this one.",
+  "kind": "editorial",
+  "basis": "schema/room.schema.json, the adjacency field: \"The join point to the plan-logic slot group, and the reason this catalogue exists. Rules are directional and typed.\"",
+  "see": [
+    "term:should-adjoin",
+    "term:must-not-adjoin"
+  ]
+}

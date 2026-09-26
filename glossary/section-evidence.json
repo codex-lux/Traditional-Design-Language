@@ -1,0 +1,18 @@
+{
+  "id": "section-evidence",
+  "term": "Evidence",
+  "family": "section",
+  "order": 8,
+  "definition": "What the style's record rests on: the real buildings that exemplify it, the published works it cites, and the image records specified for it, each saying whether its picture exists yet.",
+  "kind": "editorial",
+  "basis": "Editorial. README.md: each style record carries \"real exemplars, and sources\", and image records are written before their pictures \"so the gap is visible, the shot list exists, and an agent can use the record while the file is still missing.\" VISION.md: \"Sources, or an honest mark.\"",
+  "surface": {
+    "what": "What this style's record rests on.",
+    "read": [
+      "Exemplars are real buildings that show the style, most with a record of the building itself.",
+      "Sources are the published works the style's record cites.",
+      "Image records are written before the picture exists, and each says whether its picture exists yet."
+    ],
+    "try": "style:georgian-colonial-american"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "elevation-face",
+  "term": "face",
+  "family": "house",
+  "definition": "The side of the house an elevation draws, named by the compass point it looks toward. The plan record states which face is the entrance front; where it states none, the south face is taken as the front.",
+  "kind": "editorial",
+  "basis": "Our wording. build/compass.py: \"Nominal bearings of the eight points, clockwise from north.\" and \"`context.entrance_faces` states which plan face is the front\"; build/axis.py: \"The entrance front's default. `context.entrance_faces` states it per plan; south is the\"",
+  "see": [
+    "term:entrance-front",
+    "term:face-south",
+    "term:face-north",
+    "term:face-east",
+    "term:face-west"
+  ]
+}

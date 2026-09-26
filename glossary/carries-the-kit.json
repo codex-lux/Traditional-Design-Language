@@ -1,0 +1,12 @@
+{
+  "id": "carries-the-kit",
+  "term": "carries the kit",
+  "family": "carry",
+  "order": 0,
+  "definition": "The edge hands the ancestor's whole kit down: the descendant inherits its bindings for every slot and states only where it differs. Descent and regional edges carry the kit, and so does a co-parent where the kit genuinely blends.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, on an edge's slot list: \"Absent means the edge carries the ancestor's whole kit\", and on the kit flag: \"If true, this edge participates in the kit-of-parts cascade. Only descends_from / regional_of edges should normally set this.\" docs/inheritance.md: \"A child style inherits its parent's bindings and overrides selectively.\" docs/model.md: \"Where the kit genuinely blends\". README.md: \"a style only needs to state what the cascade doesn't already give it for free\".",
+  "see": [
+    "style:tidewater-georgian"
+  ]
+}

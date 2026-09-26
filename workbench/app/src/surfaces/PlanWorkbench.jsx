@@ -8,6 +8,7 @@ import React from 'react';
 import { api, jobEvents } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
 import { planDoc, mutations } from '../state/planDoc.js';
+import { recordPlanFrom } from '../state/session.js';
 import { FindingRow } from '../components/FindingRow.jsx';
 import { SeverityTally } from '../components/SeverityTally.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
@@ -18,13 +19,16 @@ import { evaluateRefusal, placementRefusal, sketchOf, mayDraw, refusalHeadline, 
   from '../sheet/refusal.js';
 import { ConflictSet } from '../components/ConflictSet.jsx';
 import { nav } from '../state/nav.js';
-import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip, FilterGroup } from '../Chrome.jsx';
 import { StylePicker } from '../components/StylePicker.jsx';
 import { PlateViewer } from '../components/PlateViewer.jsx';
 import { PullPane } from '../components/PullPane.jsx';
 import { RevisionPanel } from '../components/RevisionPanel.jsx';
 import { classesById, engineLabel, classTag, CLASSES } from '../revision.js';
+import { styleFindingMark } from '../judgment.js';
+import { Term } from '../components/Term.jsx';
+import { useGlossary } from '../api/useGlossary.js';
+import { describeTerm } from '../glossary/termView.js';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -97,6 +101,10 @@ const INLINE_REVISE_ROUNDS = 2;
 
 export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
+  /* Every act in the solver fold says what it does in its glossary record's definition
+     (WP-14.31). The tooltips were written here and carried the work package that built each
+     act -- a build history, not something a reader of the bench can use. */
+  const glossary = useGlossary();
   const [level, setLevel] = React.useState(0);
   const [ghost, setGhost] = React.useState(true);
   const [ov, setOv] = React.useState({ daylight: false, wet: false, privacy: false });
@@ -365,20 +373,12 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
   if (!plan) {
     return (
       <div style={{ padding: '26px 30px', maxWidth: 720 }}>
-        {/* A room or grouping searched from the palette lands HERE, on the empty bench —
-            which is precisely where its acknowledgement was missing. */}
-        <Spotlight kind={selection?.roomType ? 'room' : 'grouping'}
-          id={selection?.roomType || selection?.grouping}
-          note={selection?.roomType
-            ? 'a room type from the catalogue — the bench places rooms, it does not hold the catalogue entry'
-            : 'a grouping from the catalogue — a plan is composed from groupings, the bench does not display one'}
-          onDismiss={() => nav.select({ roomType: null, grouping: null })} />
         <Eyebrow>no plan on the bench</Eyebrow>
         <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', margin: '8px 0 10px' }}>
           Load a plan record
         </h2>
         <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--ink-2)', margin: '0 0 16px' }}>
-          Open one of the corpus's example plans, compose candidates from a brief (⑤ → ⑥),
+          Open one of the corpus's example plans, compose candidates from a brief,
           or paste a record. The drawing is a render of the record — nothing is drawn that
           is not in it.
         </p>
@@ -386,11 +386,11 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           {examples.map((e) => (
             <Chip key={e} onClick={() => api.examplePlan(e).then((p) => {
               reviseNextRef.current = true;          // an example is an explicit solve (WP-13.9)
-              planDoc.load(p);
+              planDoc.load(recordPlanFrom('example', p));
             })}>{e}</Chip>
           ))}
         </div>
-        <label style={{ display: 'block', marginTop: 18, font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>
+        <label style={{ display: 'block', marginTop: 18, font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
           …or paste a plan record JSON
           <textarea rows={4} style={{ display: 'block', width: '100%', marginTop: 6,
             background: 'var(--paper-mat)', border: '1px solid var(--rule-soft)', color: 'var(--ink)',
@@ -423,15 +423,37 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
   const nonInfo = findings.filter((f) => f.severity !== 'info').length;
   const classified = assessment ? CLASSES.reduce((n, c) => n + (assessment.counts[c] || 0), 0) : 0;
 
-  const unjudgedConstraints = findings.filter((f) =>
-    f.layer === 'style' && /cannot evaluate|check by hand/i.test(f.statement));
+  /* Two kinds of style row reach this panel and they are not one state (WP-14.29): a test that
+     could not run is UNJUDGED, and a hard rule the corpus carries no test for is handed to the
+     reader, YOURS TO JUDGE. `judgment.styleFindingMark` reads which from the finding's own kind;
+     each row is drawn in its own mark and says its own word. */
+  const unjudgedConstraints = findings
+    .map((f) => ({ f, mark: styleFindingMark(f.raw || f) }))
+    .filter((x) => x.mark);
   const faultUnjudged = lastEval?.fault_unjudged || [];
   // THE FOURTH STATE (WP-5.13), which reached this surface only after the WP-5.14 audit went
   // looking. A fault whose every test declined its `applies_when` precondition appears in no
   // other list, so leaving it out of the bench reproduced here the exact collapse the state was
   // invented to prevent: absent from every list reads as clear.
   const faultNotApplicable = lastEval?.fault_not_applicable || [];
-  const cs = check?.constraint_summary;
+  /* THE PANEL IS GROUPED BY MARK, AND EACH GROUP'S COUNT IS THE ROWS IN IT (WP-14.31). Its one
+     heading read "could not evaluate · N of this style's constraints · M faults" over rows in
+     three states: N was `constraint_summary.unjudged`, which counts the constraints whose test
+     could not run and not the hard rules carrying no test, which are drawn here in the
+     YOURS-TO-JUDGE mark; and the not-applicable faults, a third state, sat under the same
+     heading uncounted. So the heading's figure was not the number of rows beneath it and its
+     words were true of only one of the three. Each state is a group headed by its own
+     glossary record now, and its figure is the length of the list it heads. */
+  const judgmentGroups = [
+    { mark: 'unjudged', termId: 'judgment-unjudged',
+      constraints: unjudgedConstraints.filter((x) => x.mark === 'unjudged'), faults: faultUnjudged },
+    { mark: 'yours-to-judge', termId: 'judgment-yours-to-judge',
+      constraints: unjudgedConstraints.filter((x) => x.mark === 'yours-to-judge'), faults: [] },
+    { mark: 'not-applicable', termId: 'judgment-not-applicable',
+      constraints: [], faults: faultNotApplicable },
+  ].map((g) => ({ ...g, n: g.constraints.length + g.faults.length }))
+    .filter((g) => g.n > 0);
+  const FAULT_ROWS = 8;
   const relax = placement?.geometry_report?.relaxations;
   /* WHICH ENGINE ACTUALLY DREW THIS, read from the record rather than asserted. Until
      WP-6.3 the paragraph under the sheet said flatly that "each edit re-scores on the fast
@@ -508,7 +530,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
      to render, so the two cannot both claim the plate, and `drawnBelow` decides whether that
      panel may go on saying a drawing is below it. */
   const infeasible = refusal ? null : placement?.geometry_report?.infeasible;
-  const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--verd)' };
+  // `--verd` names no token; the stylesheet's is `--verdigris`, so a green disclosure line drew in
+  // the inherited ink (WP-14.33's audit).
+  const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--verdigris)' };
   const levelIndices = (plan.levels || []).map((l) => l.index ?? 0);
   const declared = plan.adjacencies || [];
 
@@ -517,35 +541,32 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
       {/* The strip holds what you are LOOKING AT — the style, the level, the ghost. Two
           folds hold the rest: what is drawn over the plan, and what the solver is asked to
           do. It carried eight axes in one row before, which meant the three you steer by
-          were the same size and weight as the five you touch once an hour. */}
-      <Spotlight kind={selection?.roomType ? 'room' : 'grouping'}
-        id={selection?.roomType || selection?.grouping}
-        note={selection?.roomType
-          ? 'a room type from the catalogue — the plan below places rooms, it does not hold the catalogue entry'
-          : 'a grouping from the catalogue — the plan below is composed from groupings, it does not display one'}
-        onDismiss={() => nav.select({ roomType: null, grouping: null })} />
-      <FilterStrip right={
+          were the same size and weight as the five you touch once an hour.
+          IT WRAPS (lead, at WP-14.30's merge): the strip needs about 1085 px and, with the
+          assistant folded at 1280, the bench's `<main>` is 1018 -- so on one line `re-solve` sat
+          behind the strip's own scrollbar, found by WP-14.30 and outside its scope to fix. */}
+      <FilterStrip wrap right={
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <FilterGroup label="solver" active={strict ? 1 : 0} summary={strict ? 'strict' : ''}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
               <Chip on={strict} onClick={() => setStrict(!strict)}
-                title="the completeness layer: treat absent room types as failures (--strict)">strict</Chip>
-              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>candidates {seeds}</span>
+                title={describeTerm(glossary, 'strict-completeness').title}>strict</Chip>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>candidates {seeds}</span>
               <input type="range" min="40" max="800" step="40" value={seeds} aria-label="how many candidate placements the search tries"
                 onChange={(e) => setSeeds(+e.target.value)} style={{ width: 84, accentColor: 'var(--gilt-deep)' }} />
               <ActionChip onClick={() => runEvaluate(plan, { engine: 'cp' })} affix="⊢"
-                title="WP-2.3: prove the placement with CP-SAT — hard constraints on the record's declared facts, a named conflict set if they cannot all hold. Takes seconds; per-drag re-scores stay on the fast search.">
+                title={describeTerm(glossary, 'prove-placement').title}>
                 prove placement (CP-SAT)</ActionChip>
               <ActionChip onClick={runCritique} affix="?" disabled={critiquing || !!revising}
-                title="WP-9.1: the analyst — place once, check, and sort every finding into what it means to a generator: a move answers it, the engine's, the critic's own invention, or the architect's. One heavy call; not run per edit.">
+                title={describeTerm(glossary, 'critique').title}>
                 {critiquing ? 'critiquing…' : 'critique'}</ActionChip>
               <ActionChip onClick={() => runRevise({ engine: 'heuristic', rounds: 6, budget_s: 60 })}
                 affix="≫" disabled={!!revising}
-                title="WP-9.2: the corrective revisions on the fast search — up to 6 rounds, 60 s. Accepts a round only on a strict improvement, rolls back otherwise, and loads the result as one undo step. Refusals on the search are usually the engine's noise; read the panel's engine line.">
+                title={describeTerm(glossary, 'revise-on-the-search').title}>
                 {revising && live.length === 0 && revising !== 'running' ? 'revise (search)…' : 'revise (search)'}</ActionChip>
               <ActionChip onClick={() => runRevise({ engine: 'auto', rounds: 4, budget_s: 120 })}
                 affix="≫" disabled={!!revising}
-                title="WP-9.2: the corrective revisions proof-backed — CP-SAT is asked for before any declared move; up to 4 rounds, 120 s. Minutes, not seconds; the panel shows each round as it lands.">
+                title={describeTerm(glossary, 'revise-with-the-proof').title}>
                 revise (proof)</ActionChip>
             </span>
           </FilterGroup>
@@ -558,15 +579,12 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               Round is a way of LOOKING at the record on the bench, which is a thing a reader
               reaches for immediately, and the fold is for acts that cost a solve. `ActionChip`'s
               default affix is already →, so the arrow is not typed. */}
-          <ActionChip onClick={() => go && go('drawings')} title="see this record as a model, in the Drawing Set">
+          <ActionChip onClick={() => go && go('drawings')} title={describeTerm(glossary, 'in-the-round').title}>
             in the round
           </ActionChip>
           <ActionChip onClick={() => planDoc.undo()} affix="↩" title="undo the last record edit">undo</ActionChip>
           <ActionChip onClick={() => runEvaluate(plan, { revise: true })} affix="↻" disabled={busy}
-            title={(proved
-              ? 'CP-SAT proved this placement; re-solving takes seconds and should return the same one'
-              : 'this placement came from the hill-climb; results differ across runs')
-              + ` — and runs ${INLINE_REVISE_ROUNDS} corrective rounds on what the critic finds before drawing (WP-13.9)`}>
+            title={describeTerm(glossary, 're-solve').title}>
             {busy ? (revisingInline ? 'solving and revising…' : 're-solving…') : 're-solve'}
           </ActionChip>
         </span>
@@ -616,17 +634,16 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             </div>
             {(room || sev || layer) && (
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 9 }}>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>
+                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                   {shown.length} of {findings.length} findings shown
                   {room ? ` · at ${room}` : ''}
                 </span>
                 <button type="button" onClick={() => { setRoom(null); setSev(null); setLayer(null); }}
-                  style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
-                    borderBottom: '1px solid var(--link-underline)' }}>clear</button>
+                  className="tdl-link" style={{ font: 'var(--type-data-s)' }}>clear</button>
               </div>
             )}
             {newKeys > 0 && (
-              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', marginTop: 7 }}>
+              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 7 }}>
                 {newKeys} finding{newKeys === 1 ? '' : 's'} new since the last evaluation
               </div>
             )}
@@ -640,7 +657,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   borderBottom: '1px solid var(--rule)', padding: '5px 10px', display: 'flex',
                   justifyContent: 'space-between' }}>
                   <Eyebrow tone="secondary" as="span">{g.layer}</Eyebrow>
-                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{g.rows.length}</span>
+                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{g.rows.length}</span>
                 </div>
                 {g.rows.map((f) => (
                   <FindingRow key={f.id} finding={f} dense expanded={openId === f.id}
@@ -668,39 +685,52 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               </div>
             ))}
 
-            <div style={{ borderTop: '2px solid var(--rule)', padding: '12px 12px 16px' }}>
-              <Eyebrow style={{ marginBottom: 9 }}>
-                could not evaluate
-                {cs ? ` · ${cs.unjudged} of this style's constraints` : ''}
-                {faultUnjudged.length ? ` · ${faultUnjudged.length} faults` : ''}
-              </Eyebrow>
-              {unjudgedConstraints.map((u) => (
-                <div key={u.id} style={{ marginBottom: 10 }}>
-                  <JudgmentMark state="unjudged" label={u.statement} reason={u.why || 'scope: judgment'} />
-                </div>
-              ))}
-              {faultUnjudged.slice(0, 8).map((u) => (
-                <div key={u.fault} style={{ marginBottom: 10 }}>
-                  <JudgmentMark state="unjudged" label={u.name} reason={unjudgedReason(u)} />
-                </div>
-              ))}
-              {faultNotApplicable.slice(0, 4).map((u) => (
-                <div key={u.fault} style={{ marginBottom: 10 }}>
-                  <JudgmentMark state="unjudged" label={u.name + ' — not applicable'}
-                    reason={'every test is preconditioned on ' + (u.because || []).join(', ')
-                            + ' (' + (u.required || []).join(', ') + '); none ran'} />
-                </div>
-              ))}
-              {faultUnjudged.length > 8 && (
-                <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', marginBottom: 8 }}>
-                  and {faultUnjudged.length - 8} more faults beyond evaluation on this record
-                </div>
-              )}
-              <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
-                Unjudged is not passed. The counts above are this plan's; corpus-wide, 295 of
-                660 style constraints carry no test at all, which is why so many land here.
-              </p>
-            </div>
+            {judgmentGroups.length > 0 && (
+              <div data-judgment-panel="" style={{ borderTop: '2px solid var(--rule)', padding: '12px 12px 16px' }}>
+                {judgmentGroups.map((g) => {
+                  const faultRows = g.faults.slice(0, FAULT_ROWS);
+                  const more = g.faults.length - faultRows.length;
+                  return (
+                    <div key={g.mark} data-judgment-group={g.mark} data-count={g.n}
+                      data-rows={g.constraints.length + faultRows.length} data-more={more}
+                      data-constraints={g.constraints.length} data-faults={g.faults.length}
+                      style={{ marginBottom: 12 }}>
+                      <Eyebrow style={{ marginBottom: 6 }}>
+                        <Term id={g.termId} /> · {g.n}
+                      </Eyebrow>
+                      {/* A group can hold two populations, the style's constraints and the corpus's
+                          faults, and the masthead counts only the first: its unjudged figure is the
+                          check's `constraint_summary.unjudged`. Each is named apart, so the masthead's
+                          number is visibly one part of this one rather than a contradiction of it. */}
+                      <div data-judgment-split="" style={{ display: 'flex', flexWrap: 'wrap', gap: 14,
+                        font: 'var(--type-data-s)', color: 'var(--ink-2)', marginBottom: 9 }}>
+                        {g.constraints.length > 0 && <span><Term id="constraint" /> · {g.constraints.length}</span>}
+                        {g.faults.length > 0 && <span><Term id="fault" /> · {g.faults.length}</span>}
+                      </div>
+                      {g.constraints.map(({ f: u, mark }) => (
+                        <div key={u.id} data-judgment-row="" data-style-mark={mark} style={{ marginBottom: 10 }}>
+                          <JudgmentMark state={mark} label={u.statement} reason={u.why || 'scope: judgment'} />
+                        </div>
+                      ))}
+                      {faultRows.map((u) => (
+                        <div key={u.fault} data-judgment-row="" style={{ marginBottom: 10 }}>
+                          {g.mark === 'not-applicable'
+                            ? <JudgmentMark state="not-applicable" label={u.name}
+                                reason={'every test is preconditioned on ' + (u.because || []).join(', ')
+                                        + ' (' + (u.required || []).join(', ') + '); none ran'} />
+                            : <JudgmentMark state="unjudged" label={u.name} reason={unjudgedReason(u)} />}
+                        </div>
+                      ))}
+                      {more > 0 && (
+                        <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginBottom: 8 }}>
+                          and {more} more
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
 
             {declared.length > 0 && (
               <div style={{ borderTop: '1px solid var(--rule)', padding: '12px', background: 'var(--paper-mat)' }}>
@@ -713,7 +743,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                       style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>revoke</button>
                   </p>
                 ))}
-                <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-4)', margin: 0 }}>
+                <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
                   An assertion clears a finding only if the validator clears it.
                 </p>
               </div>
@@ -775,7 +805,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               </div>
             </div>
             {check && (
-              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                 check {lastEval.timing_ms?.check} ms · place {lastEval.timing_ms?.place ?? '—'} ms
               </div>
             )}
@@ -796,7 +826,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   <li key={d.id} style={{ color: TONE[d.tone] || 'var(--ink-2)' }}>{d.text}</li>
                 ))}
               </ul>
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '8px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '8px 0 0' }}>
                 Each line is a count the placement record already carried and no surface read.
                 A proof against a relaxed hard set is a proof of a different question.
               </p>
@@ -818,7 +848,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   </li>
                 ))}
               </ul>
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '8px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '8px 0 0' }}>
                 The record still declares the full size; only the placement is short, and nothing
                 downstream reads these coordinates — so without this panel the trade is invisible.
                 A room below its band is a defect that survives the life of the building.
@@ -841,13 +871,13 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 6,
                 font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                 {CLASSES.map((c) => (
-                  <span key={c} style={{ color: assessment.counts[c] ? 'var(--ink-2)' : 'var(--ink-4)' }}>
+                  <span key={c} style={{ color: 'var(--ink-2)' }}>
                     {CLASS_SHORT[c]} {assessment.counts[c] || 0}
                   </span>
                 ))}
-                <span style={{ color: 'var(--ink-4)' }}>could not evaluate {assessment.couldNot}</span>
+                <span style={{ color: 'var(--ink-2)' }}>could not evaluate {assessment.couldNot}</span>
               </div>
-              <p style={{ font: 'var(--type-data-s)', color: assessmentStale ? 'var(--sev-serious)' : 'var(--ink-3)', margin: '8px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: assessmentStale ? 'var(--sev-serious)' : 'var(--ink-2)', margin: '8px 0 0' }}>
                 {assessmentStale
                   ? 'this critique is of an earlier evaluation — the record has changed; run it again'
                   : 'each finding row carries its class; a move answers it, or it is the engine\'s, the critic\'s own, or the architect\'s. Nothing here calls the plan good.'}
@@ -857,7 +887,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           <RevisionPanel report={plan.revision_report} live={live} statements={statements}
             onCiteFinding={(id) => { setOpenId(id); const f = findings.find((x) => x.id === id); if (f?.at) setRoom(f.at); }} />
           {placement?.geometry_report?.solver?.refinements?.length > 0 && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '0 0 10px' }}>
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '0 0 10px' }}>
               solver refinements ({placement.geometry_report.solver.refinements.length}):{' '}
               {placement.geometry_report.solver.refinements.slice(0, 2).join(' · ')}
               {placement.geometry_report.solver.refinements.length > 2 ? ' · …' : ''}
@@ -919,7 +949,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
           <p data-engine-claim={claim.verdict} data-engine-name={claim.engine || ''}
             data-placement-refused={refusal ? refusal.kind : ''}
             data-working-sketch={sketch ? 'true' : ''}
-            style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
+            style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
               margin: '16px 0 0', maxWidth: '76ch' }}>
             {/* A REFUSAL IS SAID BEFORE THE ENGINE IS NAMED. The sentences below are about a
                 placement on a sheet, and on a refusal there is no sheet: without this the
@@ -957,8 +987,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   : ' '}
                 {gaveUp.length
                   ? <>Where a set of them could not all hold, the ones it had to give up are named
-                    in <em>what this placement gave up</em> above — until WP-11.1 this sentence
-                    claimed they were named and no surface named them. </>
+                    in <em>what this placement gave up</em> above. </>
                   : 'It gave nothing up. '}
                 <em>Prove placement (CP-SAT)</em> above runs the same act on demand. </>
               : claim.verdict === 'unjudged'
@@ -979,7 +1008,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             A wall drag deliberately re-scores on the fast search — a hill-climb, not an optimiser —
             because a gesture cannot wait for a proof; every other edit takes the proof where it can
             be had. Either engine trades a room's
-            size away when it must, and says so under the drawing rather than silently (OQ 54). A plan
+            size away when it must, and says so under the drawing rather than silently. A plan
             with no fatal findings is still not therefore good.
           </p>
         </div>

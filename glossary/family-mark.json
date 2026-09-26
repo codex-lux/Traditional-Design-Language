@@ -1,0 +1,17 @@
+{
+  "id": "family-mark",
+  "term": "Marks",
+  "family": "family",
+  "order": 22,
+  "definition": "The group of words for the marks the workbench draws on screen that are not a verdict on a house, each naming the one thing its mark means.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`mark` holds the marks on screen that are not a judgment\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "mark"
+    }
+  ]
+}

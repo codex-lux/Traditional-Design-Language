@@ -8,8 +8,22 @@ try { ({ chromium } = require('playwright')); }
 catch { ({ chromium } = require('/opt/node22/lib/node_modules/playwright')); }
 import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 // The pane table, so this file is not a second authority over numbers the store owns —
-// which is the sin `--rail-left` was deleted for.
-import { PANES } from '../src/state/layout.js';
+// which is the sin `--rail-left` was deleted for. The width table and the floor beside it
+// (WP-14.30) for the same reason: which pages reflow is the store's answer, not this file's.
+import { PANES, SURFACE_WIDTH, MAIN_FLOOR_PX } from '../src/state/layout.js';
+import { routeCite, DOSSIER_SECTIONS } from '../src/citations.js';
+// The router's own table, for the same reason: an address this walk visits, and the surface a
+// rail item reaches, are judged by the module that writes them rather than by a list here.
+import { SURFACE_PATHS, parseHash, formatHash } from '../src/router.js';
+// The site map and the trail, for the same reason again (WP-14.13): which places the rail
+// offers, in what order, and what the crumbs say are the pure modules' answers, read here
+// rather than written here.
+import { navModel, flatItems, inHandFrom } from '../src/nav/navModel.js';
+import { PAGE_KINDS, RECORD_KINDS } from '../src/record/kinds.js';
+import { indexTerms } from '../src/glossary/lookup.js';
+// The faces and the nativity words, from the modules the surfaces read them from (WP-14.27).
+import { FACES } from '../src/surfaces/drawingFaces.js';
+import { NATIVITY_TERMS } from '../src/candidateOrder.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
 const SHOTS = new URL('./shots/', import.meta.url).pathname;
@@ -30,6 +44,65 @@ const failures = [];
    file -- "an unjudged walk is not a green one". */
 const unjudged = [];
 const check = (name, cond) => { if (!cond) failures.push(name); console.log(cond ? ' ok ' : 'FAIL', name); };
+
+/* A SURFACE IS REACHED BY ITS ADDRESS, NOT BY THE WORDS ON A RAIL BUTTON (WP-14.7).
+
+   Every block below used to arrive by clicking the rail by its LABEL -- fourteen clicks
+   spelling "The Kit", "Style Record", "Drawing Set" and the rest -- so renaming a rail item
+   broke the walk in fourteen places that were never about the rail, and a label shared with a
+   second button anywhere on the page made Playwright refuse the click. A place in this app IS
+   a URL (WP-5.6: `router.js` writes it, `nav.go` pushes it), so this sets the hash exactly as
+   `nav.go(surface)` would for a surface with no selection and lets the app take it from there.
+   Whether the rail reaches every surface is still asserted -- once, by itself, in the loop
+   after the Overview block -- rather than fourteen times as a side effect of getting somewhere.
+
+   The address must be one the router WRITES: `parseHash` sends anything it cannot read to the
+   Overview, so a mistyped path here would put a whole block on the wrong surface with nothing
+   saying so. A malformed address is a FAIL, printed only when it happens. */
+async function visit(hash) {
+  const p = parseHash(hash);
+  if (!SURFACE_PATHS[p.surface] || formatHash(p.surface, p.selection, p.params) !== hash) {
+    const name = `visit(${hash}) names an address the router writes`;
+    failures.push(name); console.log('FAIL', name);
+  }
+  // Wait for the hashchange the app listens to, then a frame, so the store has emitted and the
+  // surface has rendered before the block reads it. Setting the hash it already holds is a
+  // no-op, as `nav.go` to the place you are on is.
+  await page.evaluate((h) => new Promise((resolve) => {
+    if (location.hash === h) { resolve(); return; }
+    const done = () => requestAnimationFrame(() => resolve());
+    window.addEventListener('hashchange', done, { once: true });
+    setTimeout(resolve, 3000);
+    location.hash = h;
+  }), hash);
+  // The rail click waited for the shell it clicked in; this waits for the shell's surface pane.
+  await page.waitForSelector('main', { timeout: 30000 }).catch(() => {});
+}
+
+/* A SCREENSHOT, AT THE WIDTH THE WALK OPENS AT OR AT SEVERAL (WP-14.7).
+
+   `shot(name)` writes `<name>.png` at the launch viewport, which is the file every call wrote
+   before this helper existed. `shot(name, [1280, 1440, 1680])` also writes `<name>-1280.png`
+   and `<name>-1440.png`, resizing for each and putting the window back afterwards, so a
+   package reading the shell at narrower widths does not change what any other block sees.
+   The launch width keeps its unsuffixed name deliberately: widening a call never renames the
+   file an earlier review was held against. */
+const SHOT_WIDTH = page.viewportSize().width;
+async function shot(name, widths = [SHOT_WIDTH]) {
+  const vp = page.viewportSize();
+  for (const w of widths) {
+    if (w !== page.viewportSize().width) {
+      await page.setViewportSize({ width: w, height: vp.height });
+      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+      await page.waitForTimeout(300);
+    }
+    await page.screenshot({ path: SHOTS + (w === SHOT_WIDTH ? `${name}.png` : `${name}-${w}.png`) });
+  }
+  if (page.viewportSize().width !== vp.width) {
+    await page.setViewportSize(vp);
+    await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+  }
+}
 
 /* A 429 must announce itself, not surface as a selector timeout thirty seconds later.
 
@@ -54,36 +127,287 @@ page.on('response', (r) => {
 await page.goto(BASE, { waitUntil: 'networkidle' });
 const overview = await (await fetch(BASE + '/api/overview')).json();
 
-// The rail is addressed by its accessible name from here on, and every click into it is
-// scoped to it: since WP-5.6 the Overview offers doors carrying the same labels, so an
-// unscoped getByRole would match two elements and Playwright would refuse both.
+// The rail is addressed by its accessible name, and every read of it is scoped to it: since
+// WP-5.6 the Overview offers doors carrying the same labels, so an unscoped getByRole would
+// match two elements and Playwright would refuse both. The walk no longer CLICKS it to get
+// anywhere (WP-14.7, `visit` above); the loop after the Overview block clicks every item once.
 await page.waitForSelector('nav[aria-label="surfaces"]', { timeout: 15000 });
 const rail = page.locator('nav[aria-label="surfaces"]');
+/* THE RAIL IS THE SITE MAP (WP-14.13, PRD §F). It used to be asserted by its words —
+   /Overview/, /Drawing Set/ — which is a second copy of labels the app wrote; the labels are
+   glossary records' terms now and the places are `nav/navModel.js`'s. So the walk asks the
+   same module what the rail must hold, from the glossary and the counts the server serves,
+   and holds the rendered anchors to it: every place, in order, each an anchor to its own
+   address, each labelled by its record, the style count the API's. */
+const GLOSSARY_BODY = await (await fetch(BASE + '/api/glossary')).json().catch(() => null);
+const LOOKUP = GLOSSARY_BODY && Array.isArray(GLOSSARY_BODY.terms) ? indexTerms(GLOSSARY_BODY) : null;
+const TERM = (id) => (LOOKUP ? LOOKUP.term(id).term : undefined);
+const INDEX = await (await fetch(BASE + '/api/search/index')).json().catch(() => ({ entries: [] }));
+const NAME_OF = (cite) => ((INDEX.entries || []).find((e) => e.cite === cite) || {}).name || null;
+await page.waitForFunction(() => {
+  const n = document.querySelector('nav[aria-label="surfaces"]');
+  return n && n.getAttribute('aria-busy') !== 'true' && n.querySelector('a[data-nav]');
+}, null, { timeout: 15000 }).catch(() => {});
+{
+  const expected = flatItems(navModel({
+    lookup: LOOKUP, counts: overview.counts, glossaryCount: LOOKUP ? LOOKUP.count : null,
+    inHand: inHandFrom(null, LOOKUP, (id) => NAME_OF(`style:${id}`)), place: { surface: 'overview', selection: {} },
+  }));
+  const rendered = await rail.locator('a[data-nav]').evaluateAll((as) => as.map((a) => ({
+    id: a.getAttribute('data-nav'), href: a.getAttribute('href'),
+    label: (a.querySelector('span > span:not([data-step-n]):not([data-meta])') || a).textContent.trim(),
+  })));
+  check(`the glossary answered, so the rail's words can be judged (${LOOKUP ? LOOKUP.count : 'no'} records)`,
+    Boolean(LOOKUP));
+  check(`every place the site map names is in the rail, in its order (${rendered.length})`,
+    rendered.length > 0 && JSON.stringify(rendered.map((r) => r.id)) === JSON.stringify(expected.map((e) => e.id)));
+  const wrong = [];
+  for (const e of expected) {
+    const r = rendered.find((x) => x.id === e.id);
+    if (!r) continue;
+    if (r.href !== e.href) wrong.push(`${e.id} links ${r.href}, not ${e.href}`);
+    if (e.termId && e.label && r.label !== e.label) wrong.push(`${e.id} reads "${r.label}", its record says "${e.label}"`);
+    if (e.href && formatHash(parseHash(e.href).surface, parseHash(e.href).selection, {}) !== e.href) wrong.push(`${e.href} is not an address the router writes`);
+  }
+  check('each rail anchor links its own address and reads its own record' + (wrong.length ? ' -- ' + wrong.join('; ') : ''),
+    wrong.length === 0);
+}
 const railText = await rail.innerText();
-check('left rail shows live style count', railText.includes(String(overview.counts.styles)));
-check('all twelve surfaces in the rail', /Overview/.test(railText) && /Drawing Set/.test(railText)
-  && /Details & Export/.test(railText) && /Transcription/.test(railText));
+check('left rail shows live style count',
+  (await rail.locator('a[data-nav="style"] [data-meta]').first().textContent().catch(() => '')).trim()
+    === String(overview.counts.styles));
 // The work-package numerals are gone: they read as an ordering while meaning build order,
-// went 2,3,4,9,10,5… and two surfaces both wore ⑧.
-check('no work-package numerals in the rail', !/[②③④⑤⑥⑦⑧⑨⑩⑪]/.test(railText));
+// went 2,3,4,9,10,5… and two surfaces both wore ⑧. Nor may build history leak in as an id.
+check('no work-package numerals or ids in the rail', !/[②③④⑤⑥⑦⑧⑨⑩⑪]/.test(railText)
+  && !/\bWP-\d|\bOQ\s?\d|\boq\//.test(railText));
 
-// ⓪ Overview: the landing, and every claim on it comes from /api/overview
+/* ⓪ THE FRONT DOOR (WP-14.14, PRD §J.1). Every sentence on it is a glossary record's and every
+   figure is `/api/overview`'s, so every expectation below is READ from those two routes and none
+   is typed here: the definition, the three readers and the five things it is not are
+   `about-tdl`'s; the worked example and where it stops are `guided-example`'s; the inventory is
+   `counts.by_rank`, row for row. `what_this_is` is still SERVED by the API -- other readers take
+   it -- and is no longer the landing's paragraph, which is the half of the old check that
+   moved. The map is held to `nav/navModel.js`'s own table here and in both directions in
+   `src/frontDoor.test.mjs`; this block asks the page the one thing a node test cannot, that the
+   drawn links are addresses the router writes. */
 check('a cold load lands on the Overview', new URL(page.url()).hash === '' || /#\/$/.test(page.url()));
+const termOf = async (id) => fetch(`${BASE}/api/glossary/${id}`)
+  .then((r) => (r.ok ? r.json() : null)).then((b) => (b && b.term) || null).catch(() => null);
+const aboutRec = await termOf('about-tdl');
+const guidedRec = await termOf('guided-example');
+await page.waitForSelector('main [data-about-definition], main [data-about] [data-missing]', { timeout: 30000 })
+  .catch(() => {});
+await page.waitForSelector('main [data-inventory] [data-rank]', { timeout: 30000 }).catch(() => {});
 const ovText = await page.locator('main').innerText();
-check('the corpus describes itself in its own words',
-  ovText.includes(overview.what_this_is.slice(0, 60)));
-check('the inventory is the corpus inventory',
-  ovText.includes(String(overview.counts.faults)) && ovText.includes(String(overview.counts.rooms)));
-check('the ontology version is stated', ovText.includes(overview.ontology_version));
-check('the search invitation is on the landing',
+const front = await page.evaluate(() => {
+  const m = document.querySelector('main');
+  const q = (s) => m.querySelector(s);
+  const qa = (s) => [...m.querySelectorAll(s)];
+  const txt = (e) => (e ? e.textContent.replace(/\s+/g, ' ').trim() : null);
+  return {
+    definition: txt(q('[data-about-definition]')),
+    readers: qa('[data-reader]').map(txt),
+    isNot: qa('[data-is-not] li').map(txt),
+    ranks: qa('[data-inventory] [data-rank]').map((d) => [d.dataset.rank, txt(d.querySelector('[data-figure]'))]),
+    versionAttr: q('[data-ontology-version]')?.getAttribute('data-ontology-version') || null,
+    versionText: txt(q('[data-ontology-version]')),
+    guidedDef: txt(q('[data-guided-definition]')),
+    guidedStop: txt(q('[data-guided-stop]')),
+    guidedCites: qa('[data-guided-example] a[data-cite]').map((a) => a.getAttribute('data-cite')),
+    rows: qa('[data-spine-row]').map((d) => d.getAttribute('data-spine-row')),
+    map: qa('[data-map-item]').map((a) => [a.getAttribute('data-map-item'), a.getAttribute('href')]),
+    entrances: qa('[data-entrance-link]').map((a) => [a.getAttribute('data-entrance-link'), a.getAttribute('href')]),
+    // WP-14.17: the two lower sections' headings, as the term each h2 draws
+    heads: ['data-inventory', 'data-is-not-section'].map((attr) => {
+      const t = q(`[${attr}] h2 [data-term]`);
+      return [attr, t ? t.getAttribute('data-term') : null, txt(t)];
+    }),
+  };
+});
+if (!aboutRec) {
+  unjudged.push('the front door says what this is — GET /api/glossary/about-tdl did not answer, so '
+    + 'the definition, the readers and what it is not have no record to be judged against');
+} else {
+  check('the front door says what this is in about-tdl\'s own definition', front.definition === aboutRec.definition);
+  const readers = aboutRec.readers || [];
+  check(`the readers are about-tdl's, every one and no other (${front.readers.length} of ${readers.length})`,
+    readers.length > 0 && front.readers.length === readers.length
+    && readers.every((r, i) => front.readers[i]?.includes(r.who) && front.readers[i]?.includes(r.line)));
+  // VISION.md:359's must-not, asked of the page rather than of the record alone.
+  check('no reader line is a homeowner\'s', !front.readers.some((t) => /homeowner/i.test(t)));
+  check(`what it is not is about-tdl's is_not (${front.isNot.length})`,
+    (aboutRec.is_not || []).length > 0
+    && JSON.stringify(front.isNot) === JSON.stringify(aboutRec.is_not.map((s) => s.replace(/\s+/g, ' ').trim())));
+}
+const byRank = (overview.counts && overview.counts.by_rank) || {};
+// the denominator first: an empty by_rank would make the equality below vacuous
+check(`the inventory has rank rows to compare (${Object.keys(byRank).length})`, Object.keys(byRank).length > 0);
+check('the inventory figures are counts.by_rank, row for row',
+  front.ranks.length === Object.keys(byRank).length
+  && front.ranks.every(([k, v]) => k in byRank && v === String(byRank[k])));
+// WP-14.17: each lower section is headed by its record's own word, read from the API and not
+// written here -- an absent record is unjudged, never a pass
+for (const [attr, id] of [['data-inventory', 'front-door-holds'], ['data-is-not-section', 'front-door-is-not']]) {
+  const want = await termOf(id);
+  const got = front.heads.find((h) => h[0] === attr) || [];
+  if (!want) unjudged.push(`the ${attr} heading — GET /api/glossary/${id} did not answer`);
+  else check(`the ${attr} section is headed by ${id}'s word (${got[2]})`, got[1] === id && got[2] === want.term);
+}
+check(`the ontology version stays in main (${overview.ontology_version})`,
+  front.versionAttr === overview.ontology_version && (front.versionText || '').includes(overview.ontology_version));
+check('the search invitation stays in main',
   await page.locator('main').getByRole('button', { name: /Search the corpus/ }).count() > 0);
-await page.screenshot({ path: SHOTS + 'overview.png', fullPage: false });
+check('what_this_is is still served by the API and is no longer the landing\'s paragraph',
+  typeof overview.what_this_is === 'string' && overview.what_this_is.length > 60
+  && !ovText.includes(overview.what_this_is.slice(0, 60)));
+if (!guidedRec) {
+  unjudged.push('the worked example — GET /api/glossary/guided-example did not answer, so the '
+    + 'example and where it stops have no record to be judged against');
+} else {
+  check('the worked example is guided-example\'s definition', front.guidedDef === guidedRec.definition);
+  check('the worked example says where it stops, in the record\'s words (no tour past it)',
+    typeof guidedRec.more === 'string' && front.guidedStop === guidedRec.more.replace(/\s+/g, ' ').trim());
+  check(`the worked example links every record it cites (${front.guidedCites.join(', ')})`,
+    (guidedRec.see || []).length > 0 && guidedRec.see.every((c) => front.guidedCites.includes(c)));
+}
+{
+  // The map's rows are the site map's groups and its links are the site map's items, in order --
+  // held to the site map's own table (WP-14.13's `nav/navModel.js`), imported here inside the
+  // front door's block so this block owns its dependency and no second list is typed.
+  const { NAV } = await import('../src/nav/navModel.js');
+  const navIds = NAV.flatMap((g) => g.items.flatMap((it) => [it.id, ...(it.children || []).map((c) => c.id)]));
+  check(`the map's rows are the site map's groups (${front.rows.join(', ')})`,
+    JSON.stringify(front.rows) === JSON.stringify(NAV.map((g) => g.id)));
+  check(`the map carries every site-map item and nothing else (${front.map.length} of ${navIds.length})`,
+    JSON.stringify(front.map.map(([id]) => id)) === JSON.stringify(navIds));
+  const bad = front.map.filter(([, h]) => {
+    const p = parseHash(h || '');
+    return !SURFACE_PATHS[p.surface] || formatHash(p.surface, p.selection, p.params) !== h;
+  });
+  check(`every map link is an address the router writes${bad.length ? ` (not: ${bad.map(([i, h]) => `${i} ${h}`).join('; ')})` : ''}`,
+    front.map.length > 0 && bad.length === 0);
+  const door = Object.fromEntries(front.entrances);
+  check('the two entrances go to reading a style and writing a house',
+    parseHash(door.style || '').surface === 'style' && parseHash(door.brief || '').surface === 'brief');
+  check('the style in hand is offered as a link, not opened',
+    !!door['in-hand'] && parseHash(door['in-hand']).surface === 'style' && new URL(page.url()).hash.replace(/^#\/?$/, '') === '');
+}
+check('the front door remembers it was seen (prefs.seen["front-door"])',
+  await page.evaluate(() => {
+    try { return JSON.parse(localStorage.getItem('tdl-workbench-prefs') || 'null')?.seen?.['front-door'] === true; }
+    catch { return false; }
+  }));
+await shot('overview', [1280, 1440, SHOT_WIDTH]);
+{
+  /* A LAPTOP IS 1280 px WIDE AND THE FRONT DOOR MUST FIT IT (PRD §I.12). The SHELL marks a page
+     that reflows with `#root[data-reflow]`, from `state/layout.js`'s table since WP-14.30 (the
+     shell's 1380 px floor that attribute used to release is gone; the width block at the foot of
+     this file holds every surface to the table). Where the attribute is there, the page is judged
+     as a reader meets it. Where it is not, the front door's OWN content is measured with the mark
+     simulated, and the reader-facing half is reported unjudged by name rather than passed. */
+  const vp = page.viewportSize();
+  await page.setViewportSize({ width: 1280, height: vp.height });
+  await page.waitForTimeout(400);
+  const fit = await page.evaluate(() => {
+    const root = document.getElementById('root');
+    const released = root.hasAttribute('data-reflow');
+    const measure = () => {
+      const fd = document.querySelector('[data-front-door]');
+      return {
+        sideways: document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth,
+        own: fd ? fd.scrollWidth - fd.clientWidth : null,
+      };
+    };
+    if (released) return { released, ...measure() };
+    root.setAttribute('data-reflow', '');
+    const m = measure();
+    root.removeAttribute('data-reflow');
+    return { released, ...m };
+  });
+  check(`the front door's own content fits 1280 px (${fit.own} px over, page ${fit.sideways} px over${fit.released ? '' : ', release simulated'})`,
+    fit.own !== null && fit.own <= 1 && fit.sideways <= 1);
+  if (!fit.released) {
+    unjudged.push('the front door at 1280 px as a reader meets it — #root carries no data-reflow on '
+      + 'the Overview on this tree, so the shell has not marked it a reflow page; '
+      + 'the mark is the shell\'s (WP-14.30), and the content itself fits with it simulated');
+  }
+  await page.setViewportSize(vp);
+}
+
+/* EVERY RAIL ITEM REACHES ITS OWN SURFACE (WP-14.7). This is the rail's half of what the
+   fourteen label clicks used to test in passing, and it is tested here on its own: each item
+   rendered under nav[aria-label="surfaces"] is clicked once, in rendered order, and must move
+   the address to one the router writes, be the one item the rail then marks current, and
+   land somewhere no earlier item landed.
+
+   WHICH SURFACE IS "ITS OWN" IS READ OFF THE ITEM, NOT OFF A LIST HERE. `Chrome.jsx` binds
+   `aria-current` to `current === it.id` with the same `it.id` its onClick hands to `onGo`, and
+   `current` is the surface `nav` parsed out of the hash -- so "this item and no other is
+   current" says the hash parses to this item's surface. `Chrome.jsx` cannot be imported here
+   (it is JSX over React), and a table of labels written into this file is the dependence this
+   package removes. The distinct-address half does not read `aria-current` at all, so an item
+   whose id lands on another item's surface fails whatever the marking says.
+
+   The item already current proves nothing by being clicked -- a dead onClick on it passes --
+   so the walk first moves to another surface the router knows and then clicks. It sits after
+   the Overview block rather than inside the rail block above, because the Overview checks
+   read the COLD LOAD and would otherwise read an address this loop had set. Nothing heavy
+   mounts: no plan is loaded yet, so the bench and the Drawing Set fetch nothing but schema. */
+{
+  /* Re-cut at WP-14.13: the items are ANCHORS carrying `data-nav` now, and each is judged by
+     its id and its own `href` rather than by its position — the style in hand grows its
+     dossier's sections as children once its dossier is the page, so an index would point at a
+     different item after that click. The one allowance is exactly that: on the in-hand style's
+     own dossier the rail marks the section shown (`in-hand:identify`) rather than the style. */
+  const ITEMS = 'nav[aria-label="surfaces"] a[data-nav]';
+  const ids = await page.locator(ITEMS).evaluateAll((as) => as.map((a) => a.getAttribute('data-nav')));
+  // the denominator first: an empty selection would make every assertion below vacuous
+  check(`the rail offers surfaces to reach (${ids.length})`, ids.length > 0);
+  const reached = new Map();
+  const marked = () => page.locator(ITEMS).evaluateAll((as) =>
+    as.filter((a) => a.getAttribute('aria-current') === 'page').map((a) => a.getAttribute('data-nav')));
+  for (const id of ids) {
+    const item = page.locator(`${ITEMS}[data-nav="${id}"]`).first();
+    if ((await item.getAttribute('aria-current')) === 'page') {
+      const here = parseHash(await page.evaluate(() => location.hash)).surface;
+      await visit(formatHash(Object.keys(SURFACE_PATHS).find((s) => s !== here && s !== 'style' && s !== 'kit'), {}, {}));
+    }
+    const wasCurrent = (await item.getAttribute('aria-current')) === 'page';
+    const href = await item.getAttribute('href');
+    const before = await page.evaluate(() => location.hash);
+    await item.click();
+    await page.waitForFunction((h) => location.hash !== h, before, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(([sel, k]) => [...document.querySelectorAll(sel)].some((a) =>
+      a.getAttribute('aria-current') === 'page'
+        && (a.getAttribute('data-nav') === k || a.getAttribute('data-nav') === `${k}:identify`)),
+    [ITEMS, id], { timeout: 5000 }).catch(() => {});
+    const after = await page.evaluate(() => location.hash);
+    const got = parseHash(after);
+    const on = await marked();
+    const why = [];
+    if (wasCurrent) why.push('it was current before the click, so the click could not be judged');
+    if (after === before) why.push(`the address did not move from ${before || '(none)'}`);
+    if (after !== href) why.push(`it links ${href} and landed on ${after || '(none)'}`);
+    if (!SURFACE_PATHS[got.surface] || formatHash(got.surface, got.selection, got.params) !== after) {
+      why.push(`${after || '(none)'} is not an address the router writes`);
+    }
+    if (on.length !== 1 || (on[0] !== id && on[0] !== `${id}:identify`)) {
+      why.push(`the rail marks ${on.map((k) => `"${k}"`).join(', ') || 'nothing'} current`);
+    }
+    if (reached.has(after)) why.push(`"${reached.get(after)}" already reached ${after}`);
+    reached.set(after, id);
+    check(`the rail item "${id}" reaches its own surface (${after})`
+      + (why.length ? ' -- ' + why.join('; ') : ''), why.length === 0);
+  }
+  // back where the old walk stood when it went to the bench: the Overview
+  await visit(formatHash('overview', {}, {}));
+}
 
 // ⑦ Plan Workbench: load an example, wait for evaluation
 // The walk used to land here on page load, so this surface was already mounted by the
-// time it was addressed. It is reached by a click now, and only the surface in view is
+// time it was addressed. It is reached by its address now, and only the surface in view is
 // constructed — so wait for its own furniture before reaching for it.
-await rail.getByRole('button', { name: /Plan Workbench/ }).click();
+await visit('#/workbench');
 const example = page.getByRole('button', { name: 'tidewater-georgian-careful' });
 await example.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
 if (await example.count()) await example.click();
@@ -159,6 +483,19 @@ if (await example.count()) await example.click();
   check('the panel names its round count', /\d+ rounds?\b/i.test(panel));
   check('and a refused placement is stated beside the key',
     /still refused|may not be drawn/i.test(panel));
+  /* WP-14.10 (PRD §J.1): AND THE HOUSE JOURNEY SAYS WHAT THE MISSING PLATE MEANS. A refused house
+     has no drawings and no export to go on to, so both steps read "blocked: refused" and neither
+     is a link a reader could follow to a plate the contract forbids. The bar sits above <main>,
+     so nothing any check above reads out of `main` includes it. */
+  const jb = await journeyRead();
+  check('the house journey is on the bench, above the surface rather than inside it', !!jb && !jb.inMain);
+  for (const id of ['drawings', 'export']) {
+    const st = jb && jb.steps[id];
+    check(`and it reads the ${id} step as blocked: refused, and not as a link (${st ? `${st.tag}, ${st.blocked}, "${st.words}"` : 'absent'})`,
+      !!st && st.tag === 'span' && st.blocked === 'refused' && !st.href);
+  }
+  check(`and the plan step's Next is its reason, not a link (${jb && jb.next ? jb.next.text : 'absent'})`,
+    !!jb && !!jb.next && jb.next.tag !== 'a');
 }
 
 /* AND NOW A SUBJECT THAT DRAWS, because everything below measures a DRAWING: labels inside
@@ -242,7 +579,47 @@ await page.waitForSelector('svg[role="img"]', { timeout: 150000 });
   await page.waitForSelector('svg[role="img"]', { timeout: 150000 }).catch(() => {});
 }
 const body = await page.locator('main').innerText();
-check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
+/* WP-14.31: THE PANEL IS GROUPED BY MARK AND EACH COUNT IS ITS ROWS. It was one heading, "could
+   not evaluate · N of this style's constraints", over rows in three states, and N counted one of
+   them; this check matched the heading's words and so passed over exactly that. It reads the
+   groups now: every group is headed by its own mark's record, and its count is the rows drawn
+   under it plus the ones it says it did not list. */
+{
+  const groups = await page.$$eval('main [data-judgment-group]', (gs) => gs.map((g) => ({
+    mark: g.getAttribute('data-judgment-group'), n: Number(g.getAttribute('data-count')),
+    rows: Number(g.getAttribute('data-rows')), more: Number(g.getAttribute('data-more')),
+    drawn: g.querySelectorAll('[data-judgment-row]').length,
+    term: g.querySelector('[data-term]') ? g.querySelector('[data-term]').getAttribute('data-term') : null })));
+  check(`the three-state panel is grouped by mark, each count its rows (${groups.map((g) => `${g.mark} ${g.n}`).join(', ') || 'none'})`,
+    groups.length > 0 && groups.every((g) => g.term === `judgment-${g.mark}`
+      && g.n === g.rows + g.more && g.drawn === g.rows));
+  /* ONE WORD, TWO POPULATIONS. The masthead's unjudged count is the check's constraint summary,
+     the style's constraints alone; the panel's unjudged group holds those AND the corpus's
+     faults. Read side by side, "4 unjudged" over "unjudged · 125" is a contradiction unless the
+     panel names its parts, so the constraint part must be the masthead's number and the two
+     parts must make the group's. */
+  // The parts are read as the reader sees them -- each span's own record and the figure printed
+  // beside it -- and not off the group's attributes, which a second expression could keep right
+  // while the printed line said something else.
+  const split = await page.$eval('main [data-judgment-group="unjudged"]', (g) => {
+    const part = { constraint: 0, fault: 0 };
+    for (const s of g.querySelectorAll('[data-judgment-split] > span')) {
+      const t = s.querySelector('[data-term]');
+      const m = /(\d+)\s*$/.exec(s.innerText);
+      if (t && m && t.getAttribute('data-term') in part) part[t.getAttribute('data-term')] = Number(m[1]);
+    }
+    return { c: part.constraint, f: part.fault, n: Number(g.getAttribute('data-count')) };
+  }).catch(() => null);
+  const mast = await page.locator('[data-bench-counts] [data-count="judgment-unjudged"]').first()
+    .innerText().catch(() => '');
+  const mastN = /^\s*\d+\s*$/.test(mast) ? Number(mast) : null;
+  if (split && mastN != null) {
+    check(`the panel's unjudged constraints are the masthead's unjudged count, and the faults are counted apart (${split.c} + ${split.f} = ${split.n}; masthead ${mastN})`,
+      split.c === mastN && split.c + split.f === split.n);
+  } else {
+    unjudged.push(`the panel's unjudged constraints are the masthead's unjudged count — ${split ? 'the masthead states no unjudged count for this plan' : 'this plan has no unjudged group'}, so there are not two figures to hold together`);
+  }
+}
 check('hill-climb honesty line present', /hill-climb/i.test(body));
 check('the proof is offered, not just the search', /prove placement/i.test(body));
 // …and the caption names the engine that ACTUALLY DREW THIS SHEET, and claims a proof only
@@ -949,7 +1326,7 @@ check(`a click on the handle is not a silent resize (${handleLive?.restored} →
       /WORKING SKETCH/i.test(handleLive?.sketchBanner?.plate || ''));
   }
 }
-await page.screenshot({ path: SHOTS + 'workbench.png', fullPage: false });
+await shot('workbench');
 
 // style switch: same plan, different rules.
 // Driven through the combobox that replaced the 164-option <select> in WP-5.6 — typing a
@@ -966,43 +1343,295 @@ await page.waitForTimeout(2500);
 const after = await page.locator('main').innerText();
 check('style switch re-scores', (after.match(/serious\s+(\d+)/) || [])[1] !== undefined);
 check('no 164-option select survives on the bench', await page.locator('main select').count() === 0);
-await page.screenshot({ path: SHOTS + 'workbench-craftsman.png' });
+await shot('workbench-craftsman');
 await pickStyle('tidewater-georgian');
 await page.waitForTimeout(1500);
 
 // ② Phylogeny
-await rail.getByRole('button', { name: /The Phylogeny/ }).click();
-await page.waitForSelector('text=compressed', { timeout: 15000 });
+await visit('#/phylogeny');
+// Scoped to <main> (WP-14.13): the shell's page head sits ABOVE main and carries the glossary's
+// own words about this page, folded after the first visit -- its hidden "How to read" line
+// mentions the compressed axis and, first in DOM order, is what a global text= wait resolved to.
+await page.waitForSelector('main >> text=compressed', { timeout: 15000 });
 const phylo = await page.locator('main').innerText();
 check('phylogeny names the missing trunks', /missing peer trunks/i.test(phylo));
-await page.screenshot({ path: SHOTS + 'phylogeny.png' });
+/* THE TRUNKS THE TREE HOLDS ARE ITS OWN, AND THE ONES IT LACKS ARE A RECORD (WP-14.33, ruled 26
+   Sep 2026: a sentence stating a corpus fact is derived or recorded). The block under the tree
+   typed the absent traditions and cape-dutch's unnamed strand into the JSX. The trunks it holds
+   are read off the graph now, so the page must list exactly the tradition-rank taxa
+   `/api/phylogeny` states -- the expectation read from the API and never named here -- and the
+   absence is the `missing-peer-trunks` record's definition. */
+{
+  const ph = await (await fetch(BASE + '/api/phylogeny')).json();
+  const want = (ph.taxa || []).filter((t) => t.rank === 'tradition').map((t) => t.id).sort();
+  const drew = (await page.$$eval('main [data-present-trunks] [data-trunk]',
+    (els) => els.map((e) => e.getAttribute('data-trunk')))).sort();
+  check(`the trunks listed under the tree are its tradition-rank taxa (${drew.length} drawn, ${want.length} stated)`,
+    want.length > 0 && JSON.stringify(drew) === JSON.stringify(want));
+  // Its TEXT, and a definition with something in it (WP-14.33's audit: a count of one element
+  // passed over an empty paragraph, and `includes('')` is true).
+  const trunksRec = await termOf('missing-peer-trunks');
+  const trunksEl = page.locator('main [data-term-definition="missing-peer-trunks"]');
+  const trunksText = (await trunksEl.count()) === 1 ? (await trunksEl.innerText()).replace(/\s+/g, ' ').trim() : '';
+  check('the absent trunks are the missing-peer-trunks record, shown as its definition',
+    !!trunksRec && typeof trunksRec.definition === 'string' && trunksRec.definition.trim().length > 20
+    && trunksText === trunksRec.definition.replace(/\s+/g, ' ').trim());
+}
+await shot('phylogeny');
 
-// ④ Kit
-await rail.getByRole('button', { name: /The Kit/ }).click();
-// Wait for the CLAIM being asserted, not for a heading that renders before it. "cascade" is
-// the section header and is on screen the moment the surface mounts; the note comes from
-// /api/kit/{style}/cascade a round trip later. Locally that gap is invisible and this passed
-// every run; on a CI runner it lost the race and failed the one assertion below. A wait that
+/* NO TAXON IS SHOWN THAT THE ADDRESS DOES NOT NAME, AND EVERY PICK IS AN ADDRESS (WP-14.27).
+   A bare #/phylogeny drew `tidewater-georgian`'s record beside the tree, typed into the component
+   as its default; and the descent list under a record chose a taxon without writing it anywhere,
+   so Back skipped it and a reload lost it. The bare page draws the tree and says no record is
+   chosen, in the `no-record-chosen` record's word. Then a taxon is picked from the tree -- one
+   with something descending from it, read from `/api/phylogeny` and never named here -- and a
+   descent from its record, and each pick is read back off the hash, a reload keeps the second,
+   and Back returns to the first. */
+{
+  const rec = await termOf('no-record-chosen');
+  await page.waitForSelector('main [data-no-record="phylogeny"] [data-term="no-record-chosen"]', { timeout: 15000 })
+    .catch(() => {});
+  const shown = await page.locator('main [data-taxon-record]').count();
+  const word = await page.locator('main [data-no-record="phylogeny"] [data-term="no-record-chosen"]').first()
+    .innerText().catch(() => '');
+  check(`a bare #/phylogeny draws no taxon's record (${shown}) and says none is chosen in its record's word ("${word.trim()}")`,
+    shown === 0 && !!rec && word.trim().toLowerCase() === String(rec.term).toLowerCase());
+  const phyl0 = await (await fetch(BASE + '/api/phylogeny')).json();
+  const names = new Map();
+  for (const t of phyl0.taxa) names.set(t.name, (names.get(t.name) || 0) + 1);
+  const from = phyl0.taxa.map((t) => t.id).sort().find((id) => {
+    const t = phyl0.taxa.find((x) => x.id === id);
+    return names.get(t.name) === 1 && phyl0.edges.some((e) => e.to === id);
+  });
+  if (!from) {
+    unjudged.push('phylogeny picks -- the graph holds no uniquely named taxon with a descent to pick');
+  } else {
+    const t = phyl0.taxa.find((x) => x.id === from);
+    await page.locator('main').getByRole('button', { name: t.name, exact: true }).first().click().catch(() => {});
+    await page.waitForSelector(`main [data-taxon-record="${from}"]`, { timeout: 15000 }).catch(() => {});
+    const at1 = parseHash(await page.evaluate(() => location.hash));
+    check(`picking a taxon in the tree writes it to the address (${from} → ${at1.selection.style})`,
+      at1.surface === 'phylogeny' && at1.selection.style === from
+      && await page.locator(`main [data-taxon-record="${from}"]`).count() === 1);
+    const d = page.locator('main [data-descent]').first();
+    const to = await d.getAttribute('data-descent').catch(() => null);
+    await d.click().catch(() => {});
+    await page.waitForSelector(`main [data-taxon-record="${to}"]`, { timeout: 15000 }).catch(() => {});
+    const at2 = parseHash(await page.evaluate(() => location.hash));
+    check(`a descent is a pick too: it writes the taxon it names (${to} → ${at2.selection.style})`,
+      !!to && at2.selection.style === to && await page.locator(`main [data-taxon-record="${to}"]`).count() === 1);
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.waitForSelector(`main [data-taxon-record="${to}"]`, { timeout: 20000 }).catch(() => {});
+    check(`and a reload keeps it (${to})`, await page.locator(`main [data-taxon-record="${to}"]`).count() === 1);
+    await page.goBack().catch(() => {});
+    await page.waitForSelector(`main [data-taxon-record="${from}"]`, { timeout: 15000 }).catch(() => {});
+    check(`and Back returns to the taxon it descended from (${from})`,
+      parseHash(await page.evaluate(() => location.hash)).selection.style === from
+      && await page.locator(`main [data-taxon-record="${from}"]`).count() === 1);
+  }
+}
+
+/* WHAT AN EDGE CARRIES IS THE SERVED FLAG, READ PER EDGE (WP-14.11, PRD §I.13, §K).
+
+   The panel's lineage and the tree's strokes used a table of TYPES (`CARRIES = { descends_from,
+   regional_of }`, in EdgeGlyph.jsx and again in the Phylogeny), which captioned every kit-carrying
+   `hybridizes_with` edge "carries nothing", listed it under "claims only" and drew it light; and
+   EdgeGlyph printed "browsing only — carries no inheritance" under filing, which `build/build.py`
+   has falsified since WP-4.2. This block holds what the page PRINTS to what `/api/phylogeny` STATES,
+   edge by edge. Its reading of the flag is deliberately a SECOND one, written here and not imported
+   from `lineage/carry.js`: a walk that asked the app's own rule would agree with any defect in it.
+   The taxa it reads are chosen from the payload, never named: one with a kit-carrying co-parent
+   beside a claim, and one whose edge carries only the slots it names. Restoring the table in any of
+   the three places -- the glyph's caption, the panel's grouping, the tree's weight -- fails here. */
+{
+  const phyl = await (await fetch(BASE + '/api/phylogeny')).json();
+  const gl = await (await fetch(BASE + '/api/glossary')).json().catch(() => ({}));
+  const wordOf = Object.fromEntries((gl.terms || []).map((t) => [t.id, t.term]));
+  const flagWord = (e) => (e.inherits_kit === true
+    ? (Array.isArray(e.slots) && e.slots.length ? 'carries-named-slots' : 'carries-the-kit')
+    : 'carries-nothing');
+  const byId = Object.fromEntries(phyl.taxa.map((t) => [t.id, t]));
+  const out = (id) => phyl.edges.filter((e) => e.from === id);
+  const kitCoParent = (e) => e.type === 'hybridizes_with' && e.inherits_kit === true;
+  const ids = phyl.taxa.map((t) => t.id).sort();
+  const mixed = ids.find((id) => out(id).some(kitCoParent) && out(id).some((e) => e.inherits_kit !== true)
+    && byId[id].member_of);
+  const scoped = ids.find((id) => out(id).some((e) => e.inherits_kit === true && Array.isArray(e.slots) && e.slots.length));
+  check(`lineage: the payload offers a kit-carrying co-parent beside a claim (${mixed}) and a scoped edge (${scoped})`,
+    Boolean(mixed && scoped));
+  for (const id of [mixed, scoped].filter(Boolean)) {
+    await visit('#/phylogeny/' + id);
+    await page.waitForSelector(`[data-lineage-of="${id}"] [data-edge-carry] button.tdl-term`, { timeout: 20000 })
+      .catch(() => {});
+    const drawn = await page.$$eval(`[data-lineage-of="${id}"] [data-edge]`, (els) => els.map((el) => {
+      const t = el.querySelector('[data-edge-carry] [data-term]');
+      const g = el.closest('[data-carry-group]');
+      return {
+        type: el.getAttribute('data-edge'), target: el.getAttribute('data-edge-target'),
+        term: t ? t.getAttribute('data-term') : null, word: t ? t.innerText : '',
+        group: g ? g.getAttribute('data-carry-group') : null, text: el.innerText,
+      };
+    }));
+    const want = out(id).map((e) => ({ type: e.type, target: e.to, term: flagWord(e) }));
+    if (byId[id].member_of) want.push({ type: 'member_of', target: byId[id].member_of, term: 'member-of' });
+    const key = (x) => `${x.type}>${x.target}:${x.term}`;
+    check(`lineage (${id}): every edge drawn once, captioned with the carry its served flag states (${drawn.length})`,
+      drawn.length > 0 && JSON.stringify(drawn.map(key).sort()) === JSON.stringify(want.map(key).sort()));
+    check(`lineage (${id}): each edge sits in the group of its own carry word`,
+      drawn.length > 0 && drawn.every((d) => d.term && d.group === d.term));
+    check(`lineage (${id}): a co-parent that carries the kit is never captioned carries nothing, nor grouped with the claims`,
+      out(id).filter(kitCoParent).every((e) => drawn.some((d) => d.type === e.type && d.target === e.to
+        && d.term && d.term !== 'carries-nothing' && d.group !== 'carries-nothing')));
+    check(`lineage (${id}): every carry word is the glossary record's own word`,
+      drawn.length > 0 && drawn.every((d) => d.term && wordOf[d.term]
+        && d.word.trim().toLowerCase() === wordOf[d.term].toLowerCase()));
+    const filing = drawn.find((d) => d.type === 'member_of');
+    check(`lineage (${id}): filing reads "${wordOf['member-of']}", and never browsing only or carries nothing`,
+      Boolean(filing) && filing.term === 'member-of'
+        && !/browsing only|carries no inheritance|carries nothing/i.test(filing.text));
+    const paths = await page.$$eval('main svg path[data-edge-from]', (els) => els.map((el) => ({
+      from: el.getAttribute('data-edge-from'), to: el.getAttribute('data-edge-to'),
+      type: el.getAttribute('data-edge-type'), w: Number(el.getAttribute('stroke-width')) })));
+    const mine = paths.filter((pp) => pp.from === id);
+    check(`lineage (${id}): the tree draws each of its edges at the weight its flag states (${mine.length} of ${out(id).length})`,
+      mine.length === out(id).length && mine.every((pp) => {
+        const e = out(id).find((x) => x.to === pp.to && x.type === pp.type);
+        return e && ((e.inherits_kit === true) === (pp.w > 1));
+      }));
+  }
+  await shot('phylogeny-lineage');
+}
+
+// ④ Kit -- a SECTION of the style's dossier since WP-14.12 (PRD §D.1, §J.1). `#/kit` is an
+// alias the router canonicalises (the refresh block below drives it); this block goes to the
+// canonical address, naming the style it reads, because the bare `#/kit` that used to show
+// Tidewater's kit showed a default the URL never said.
+// Wait for the CLAIM being asserted, not for a heading that renders before it: the note is the
+// glossary's `thin-kit` record and arrives a round trip after the surface mounts. A wait that
 // does not wait for the thing under test is a flake with a plausible-looking line number.
-await page.waitForSelector('text=thin kit is correct', { timeout: 20000 });
-const kit = await page.locator('main').innerText();
-check('kit shows thin-kit-is-correct note', /thin kit is correct/i.test(kit));
-await page.screenshot({ path: SHOTS + 'kit.png' });
+// The expectation is that record's own definition, asked of the API -- the phrase this block
+// used to type ("thin kit is correct") was a copy of the corpus -- and the count beside the
+// table is the kit payload's own.
+await visit('#/style/tidewater-georgian/kit');
+await page.waitForSelector('[data-term-definition="thin-kit"]', { timeout: 20000 });
+{
+  const gl = await (await fetch(`${BASE}/api/glossary/thin-kit`)).json();
+  const kitApi = await (await fetch(`${BASE}/api/kit/tidewater-georgian?only_specified=true`)).json();
+  const note = (await page.locator('[data-term-definition="thin-kit"]').innerText()).trim();
+  const want = ((gl && gl.term && gl.term.definition) || '').trim();
+  check('kit: the thin-kit note is the glossary\'s own definition', want !== '' && note === want);
+  await page.waitForSelector('[data-kit-shown]', { timeout: 20000 });
+  const n = await page.locator('[data-kit-shown]').evaluate((e) =>
+    ({ shown: Number(e.dataset.kitShown), total: Number(e.dataset.kitTotal) }));
+  check(`kit: the count beside the table is the payload's (${n.shown} of ${n.total})`,
+    (kitApi.slots || []).length > 0 && n.shown === kitApi.slots.length && n.total === kitApi.slots_total);
+}
+await shot('kit');
 
-// ③ Style Record
-await rail.getByRole('button', { name: /Style Record/ }).click();
-await page.waitForSelector('text=diagnostic tells', { timeout: 15000 });
-const record = await page.locator('main').innerText();
-check('style record: tells get the room', /diagnostic tells/i.test(record));
-check('style record: judgment rows offered back', /refuses to invent/i.test(record));
-await page.screenshot({ path: SHOTS + 'style-record.png' });
+// ③ The Style Dossier (WP-14.12, PRD §D, §J.1). The Style Record was one long page reached by
+// a bare `#/style` that opened Tidewater Georgian by default; the bare address is the Styles
+// index now (W5 below), so this block names its record. Every expectation is read off the API
+// the page reads -- the tells are the record's own list, the strip is the dossier payload's own
+// sections at its own counts -- and never off a phrase typed here, which is how the old checks
+// ("diagnostic tells", "refuses to invent") could pass on a page that drew something else.
+await visit('#/style/tidewater-georgian');
+await page.waitForSelector('[data-dossier-head="tidewater-georgian"]', { timeout: 20000 });
+await page.waitForSelector('[data-tell]', { timeout: 20000 }).catch(() => {});
+{
+  const dos = await (await fetch(`${BASE}/api/styles/tidewater-georgian/dossier`)).json();
+  const ch = await (await fetch(`${BASE}/api/styles/tidewater-georgian?sections=characteristics`)).json();
+  const want = (ch.diagnostic_tells || []).length;
+  const tells = await page.locator('[data-tell]').count();
+  check(`dossier: every diagnostic tell the record states is drawn (${tells} of ${want})`,
+    want > 0 && tells === want);
+  const strip = await page.locator('[data-section-strip] [data-section]').evaluateAll((as) =>
+    as.map((a) => [a.dataset.section, a.dataset.count === undefined ? null : a.dataset.count]));
+  const served = (dos.sections || []).filter((s) => s.id === 'identify' || s.count > 0)
+    .map((s) => [s.id, s.count == null ? null : String(s.count)]);
+  const key = (rows) => JSON.stringify(rows.map((r) => r.join(':')).sort());
+  check(`dossier: the strip is the payload's sections at the payload's counts (${strip.length})`,
+    strip.length > 1 && key(strip) === key(served));
+  check('dossier: no section is offered at zero', strip.every(([, n]) => n !== '0'));
+}
+await shot('style-record');
 
-// ⑩ Proportions
-await rail.getByRole('button', { name: /Proportions/ }).click();
-await page.waitForSelector('text=five authorities', { timeout: 20000 });
-const prop = await page.locator('main').innerText();
-check('proportions: material modules lead', /material modules/i.test(prop));
-check('proportions: conflicts with building today', /conflicts with building today/i.test(prop));
+// The constraints section: every constraint a row in its one state, and a `?constraint=`
+// citation opening on the row it names. Craftsman is read because its record states a judgment
+// constraint; on a style whose constraints are all executable the judgment count would be
+// 0 === 0 and prove nothing, so that premise is asserted before the count is.
+await visit('#/style/craftsman/rules');
+await page.waitForSelector('[data-constraint]', { timeout: 20000 });
+{
+  const rec = await (await fetch(`${BASE}/api/styles/craftsman?sections=constraints`)).json();
+  const cs = rec.constraints || [];
+  const judged = cs.filter((c) => c.scope === 'judgment' && (c.test === undefined || c.test === null));
+  check(`dossier rules: the record states a judgment to offer back (${judged.length})`, judged.length > 0);
+  const rows = await page.locator('[data-constraint]').count();
+  const yours = await page.locator('[data-constraint][data-constraint-state="judgment-yours-to-judge"]').count();
+  check(`dossier rules: every constraint is a row (${rows} of ${cs.length})`, cs.length > 0 && rows === cs.length);
+  check(`dossier rules: judgment rows offered back (${yours} of ${judged.length})`, yours === judged.length);
+  if (judged.length) {
+    const id = judged[0].id;
+    await visit(formatHash('style', { style: 'craftsman', section: 'rules', constraint: id }, {}));
+    await page.waitForSelector(`[data-constraint="${id}"][data-selected]`, { timeout: 10000 }).catch(() => {});
+    check('dossier rules: a constraint citation opens on the row it names',
+      await page.locator(`[data-constraint="${id}"][data-selected]`).count() === 1
+      && await page.locator('[data-constraint][data-selected]').count() === 1);
+  }
+}
+
+// What is filed under a tradition: its members and the buildable styles under it, each counted
+// against the dossier payload the section reads.
+await visit('#/style/north-american/members');
+await page.waitForSelector('[data-dossier-section="members"] [data-member]', { timeout: 20000 }).catch(() => {});
+{
+  const dos = await (await fetch(`${BASE}/api/styles/north-american/dossier`)).json();
+  const m = await page.locator('[data-dossier-section="members"] [data-member]').count();
+  const b = await page.locator('[data-dossier-section="members"] [data-buildable]').count();
+  check(`dossier members: what is filed under a tradition is listed (${m} members, ${b} buildable)`,
+    m > 0 && m === (dos.members || []).length && b === (dos.buildable_at || []).length);
+}
+
+// ⑩ Proportions (WP-14.9: plates first, and every figure the page prints is the API's).
+// A bare #/proportions is the INDEX: it draws no pack, and its kind headings are the glossary's
+// own words for `pack.kind`, read off /api/glossary rather than typed here -- the retired check
+// read "material modules" and "five authorities" out of JSX, which is two counts and a label
+// the app wrote for itself (the PRD's own list of copy the app may not write).
+const { feetInches16: fmtIn } = await import('../src/fmt.js');
+const propGlossary = await (await fetch(`${BASE}/api/glossary`)).json();
+const propTermWord = Object.fromEntries((propGlossary.terms || []).map((t) => [t.id, t.term]));
+const propKindWord = (k) => propTermWord[((propGlossary.by_field || {})['pack.kind'] || {})[k]];
+await visit('#/proportions');
+await page.waitForSelector('main [data-pack-list] [data-kind-heading]', { timeout: 20000 });
+await page.waitForFunction(() => [...document.querySelectorAll('main [data-kind-heading]')]
+  .every((h) => h.innerText.trim()), null, { timeout: 15000 }).catch(() => {});
+const propHeads = await page.$$eval('main [data-kind-heading]',
+  (hs) => hs.map((h) => [h.getAttribute('data-kind-heading'), h.innerText.trim()]));
+check(`⑩ the index draws no pack (${propHeads.length} kinds listed)`,
+  propHeads.length > 0 && !(await page.$('main [data-pack-page]')));
+check('⑩ material modules lead the index', propHeads.length > 0 && propHeads[0][0] === 'module-system');
+const propBadHeads = propHeads.filter(([k, w]) => !propKindWord(k) || w.toLowerCase() !== propKindWord(k).toLowerCase());
+check(`⑩ every kind heading is the glossary's word for that kind (${propBadHeads.map((h) => h.join('≠')).join(', ') || 'all'})`,
+  propHeads.length > 0 && propBadHeads.length === 0);
+
+// The authorities heading states the ROWS the route returns, and the conflicts heading the
+// payload's conflicts: composite has fewer authorities than the other orders, which is how a
+// literal "five" was caught being false.
+for (const [pack, order] of [['gibbs-doric', 'doric'], ['vignola-composite', 'composite']]) {
+  await visit(`#/proportions/${pack}`);
+  const got = await page.waitForSelector(`main [data-pack-page="${pack}"] [data-authorities-count]`, { timeout: 30000 })
+    .then(() => true).catch(() => false);
+  const rows = (await (await fetch(`${BASE}/api/authorities/${order}?column_diameter=12`)).json()).authorities || [];
+  const shown = got ? await page.$eval('main [data-authorities-count]', (h) => [h.getAttribute('data-authorities-count'), h.innerText]) : null;
+  check(`⑩ ${pack}: the authorities heading counts the route's rows (${shown && shown[0]} of ${rows.length})`,
+    Boolean(shown) && rows.length > 0 && Number(shown[0]) === rows.length
+      && new RegExp(`\\b${rows.length}\\b`).test(shown[1]));
+  const payload = await (await fetch(`${BASE}/api/proportions/${pack}?members=true&column_diameter=12`)).json();
+  const cc = await page.$eval('main [data-conflicts-count]', (h) => Number(h.getAttribute('data-conflicts-count'))).catch(() => null);
+  const cards = await page.$$eval('main [data-section="conflicts"] [data-conflict]', (cs) => cs.length);
+  check(`⑩ ${pack}: the conflicts heading and cards are the payload's (${cc}, ${cards} of ${(payload.conflicts || []).length})`,
+    cc === (payload.conflicts || []).length && cards === cc);
+}
 
 // The order is ONE stack. Until 26 Aug 2026 the plate added each assembly's base to
 // member positions that were already absolute, so the base floated clear of the plinth
@@ -1013,15 +1642,25 @@ check('proportions: conflicts with building today', /conflicts with building tod
 // slip through. The frame is compared against the engine's own stated stack height rather
 // than against the drawn extent — a frame derived from the bands can never be smaller
 // than the bands, which is what made the first version of this check a tautology.
+// A pack is reached the way a reader reaches it: its link in the list, `[data-cite="pack:…"]`,
+// and the address it writes is asserted (WP-14.9) -- a pack click used to be local state, so
+// the URL fell behind the screen. `readPlate(null)` is the address itself.
 async function readPlate(pack) {
+  const id = pack || 'gibbs-doric';
   if (pack) {
-    const b = page.getByRole('button', { name: pack, exact: true });
-    if (!(await b.count())) return { missing: 'no nav for ' + pack };
-    await b.click();
-    await page.waitForTimeout(1600);
+    const a = page.locator(`main [data-cite="pack:${pack}"]`).first();
+    if (!(await a.count())) return { missing: 'no link for ' + pack };
+    await a.click();
+    const hash = await page.evaluate(() => location.hash);
+    check(`⑩ a pack click writes its address (${hash})`, parseHash(hash).selection.pack === pack
+      && parseHash(hash).surface === 'proportions');
+  } else {
+    await visit('#/proportions/gibbs-doric');
   }
-  return page.evaluate(() => {
-    const svg = document.querySelector('main svg[role="img"]');
+  await page.waitForSelector(`main [data-pack-page="${id}"] [data-section="plate"] svg[role="img"]`, { timeout: 30000 })
+    .catch(() => {});
+  return page.evaluate((pid) => {
+    const svg = document.querySelector(`main [data-pack-page="${pid}"] [data-section="plate"] svg[role="img"]`);
     if (!svg) return { missing: 'no plate' };
     const bands = [...svg.querySelectorAll('path[data-asm]')];
     if (!bands.length) return { missing: 'no bands' };
@@ -1042,7 +1681,7 @@ async function readPlate(pack) {
     out.drawnTop = Math.min(...spans.map((s) => s[0]));
     out.drawnBottom = Math.max(...spans.map((s) => s[1]));
     return out;
-  });
+  }, id);
 }
 // One pack of each reading (OQ 65): gibbs-doric records projections from the naked,
 // vignola-ionic as radii from the axis. Checking only the default pack is how a datum
@@ -1069,37 +1708,751 @@ for (const [pack, dia] of [[null, 12], ['vignola-ionic', 12], ['palladio-corinth
     plate.shaftMax > r0 * 0.8 && plate.shaftMax < r0 * 1.35);
   check(`⑩ ${id}: the capital stands clear of the shaft`, plate.capMax >= plate.shaftMax - 0.01);
 }
-await page.screenshot({ path: SHOTS + 'proportions-order.png' });
+await shot('proportions-order');
+
+// ⑩b THE WALL-DATUM PLATE (WP-14.9, PRD §I.6) -- the page Lucas read on `trim-classical`.
+// Every figure is the served payload's: the band count is the served faces, the baseboard row
+// is the served rule, and `?ceiling=108` must move BOTH, because a plate and a table that answer
+// the same address differently are two buildings on one page (WP-6.4's rule, on this surface).
+const plateRead = (pid) => page.evaluate((p) => {
+  const root = document.querySelector(`main [data-pack-page="${p}"]`);
+  if (!root) return null;
+  const svgs = [...root.querySelectorAll('svg[data-plate]')];
+  const bands = [...root.querySelectorAll('path[data-asm]')].map((b) => {
+    const bb = b.getBBox();
+    return { key: `${b.dataset.asm}.${b.dataset.member}`, x: bb.x, h: bb.height, d: b.getAttribute('d') };
+  });
+  const text = [];
+  for (const svg of svgs) {
+    const vb = svg.viewBox.baseVal;
+    const boxes = [...svg.querySelectorAll('[data-label-text], [data-title], [data-legend] text, [data-scale-bar] text')]
+      .map((t) => { const b = t.getBBox(); return [b.x, b.y, b.x + b.width, b.y + b.height]; });
+    let outside = 0, overlap = 0;
+    for (const [x0, y0, x1, y1] of boxes) if (x0 < -0.5 || y0 < -0.5 || x1 > vb.width + 0.5 || y1 > vb.height + 0.5) outside += 1;
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i], b = boxes[j];
+      if (Math.min(a[2], b[2]) - Math.max(a[0], b[0]) > 0.5 && Math.min(a[3], b[3]) - Math.max(a[1], b[1]) > 0.5) overlap += 1;
+    }
+    text.push({ plate: svg.getAttribute('data-plate'), labels: boxes.length, outside, overlap });
+  }
+  const order = [...root.querySelectorAll('[data-section]')].map((s) => s.getAttribute('data-section'));
+  const base = root.querySelector('[data-rule="baseboard.height"] [data-figure]');
+  return { plates: svgs.length, bands, text, order, baseboard: base ? base.textContent.trim() : null,
+    proofOpen: Boolean(root.querySelector('[data-proof]')), tally: Boolean(root.querySelector('[data-proof-tally]')) };
+}, pid);
+
+await visit('#/proportions/trim-classical');
+await page.waitForSelector('main [data-pack-page="trim-classical"] svg[data-plate]', { timeout: 30000 }).catch(() => {});
+const trimApi = await (await fetch(`${BASE}/api/proportions/trim-classical?members=true`)).json();
+const trimFaces = (trimApi.assemblies || []).reduce((n, a) => n + ((a.geometry && a.geometry.faces) || []).length, 0);
+const trimMembers = (trimApi.assemblies || []).reduce((n, a) => n + (a.members || []).length, 0);
+const trim = await plateRead('trim-classical');
+check(`⑩ trim-classical: the payload asks for the wall-datum plate (${trimApi.drawing})`, trimApi.drawing === 'assemblies');
+check(`⑩ trim-classical: one band per served face (${trim && trim.bands.length} of ${trimFaces})`,
+  Boolean(trim) && trimFaces > 0 && trim.bands.length === trimFaces);
+check(`⑩ trim-classical: the bands are the served members (${trimMembers})`, Boolean(trim) && trim.bands.length === trimMembers);
+check(`⑩ trim-classical: the plate precedes the proof (${trim && trim.order.join(' · ')})`,
+  Boolean(trim) && trim.order.indexOf('plate') >= 0 && trim.order.indexOf('plate') < trim.order.indexOf('proof'));
+check('⑩ trim-classical: how it was checked is folded, and still counted', Boolean(trim) && !trim.proofOpen && trim.tally);
+check(`⑩ trim-classical: every label inside its frame and none on another (${trim && JSON.stringify(trim.text)})`,
+  Boolean(trim) && trim.text.length > 0 && trim.text.every((t) => t.labels > 0 && t.outside === 0 && t.overlap === 0));
+const trimBase = (trimApi.derived_rules || []).find((r) => r.target_slot === 'baseboard' && r.dimension === 'height');
+check(`⑩ trim-classical: the baseboard row is the served rule (${trim && trim.baseboard})`,
+  Boolean(trim && trimBase) && trim.baseboard === fmtIn(trimBase.value));
+/* THE PLATE IS PAINTED WHERE ITS GEOMETRY SAYS (WP-14.15). Every check above reads getBBox, and
+   so did the one that passed while this was broken. The loupe lays the plate out before the pane
+   is measured, then gives the stage its width and its fitted scale in one commit, and Chromium went
+   on PAINTING the text from the first layout while every geometry call reported the second. At
+   1440 px the labels were painted 1.2x out from the plate's edge, clear of their leaders and off
+   the frame. So this compares PIXELS: the plate at its first fit against the same plate after 1:1
+   and fit again, which lays it out fresh. They must be the same picture. Driven: without the
+   stage's key on the pane width, 2 of 2 runs differ. */
+{
+  const pf = page.locator('main [data-pack-page="trim-classical"] [data-assembly-frame]').first();
+  const psvg = pf.locator('svg[data-plate]');
+  await visit('#/proportions/trim-classical');
+  await page.waitForSelector('main [data-pack-page="trim-classical"] svg[data-plate]', { timeout: 30000 }).catch(() => {});
+  await psvg.scrollIntoViewIfNeeded().catch(() => {});
+  await page.waitForTimeout(800);
+  const b1 = await psvg.boundingBox().catch(() => null);
+  const c1 = b1 && { x: Math.max(0, b1.x), y: Math.max(0, b1.y), width: Math.min(b1.width, 720), height: Math.min(b1.height, 320) };
+  const first = c1 ? await page.screenshot({ clip: c1 }) : null;
+  await pf.getByRole('button', { name: '1:1' }).click().catch(() => {});
+  await page.waitForTimeout(500);
+  await pf.getByRole('button', { name: 'fit' }).click().catch(() => {});
+  await page.waitForTimeout(800);
+  await psvg.scrollIntoViewIfNeeded().catch(() => {});
+  await page.waitForTimeout(300);
+  const b2 = await psvg.boundingBox().catch(() => null);
+  const c2 = b2 && c1 && { x: Math.max(0, b2.x), y: Math.max(0, b2.y), width: c1.width, height: c1.height };
+  const again = c2 ? await page.screenshot({ clip: c2 }) : null;
+  check('⑩ trim-classical: the plate is painted as it is laid out -- its first fit and a fresh fit are one picture',
+    Boolean(first && again) && Math.abs(b1.width - b2.width) < 0.5 && first.equals(again));
+}
+await shot('proportions-trim', [1440, 1280]);
+
+// ?ceiling=108: the module is the ceiling, so the drawing and the baseboard row move TOGETHER.
+const trimAt = (trimApi.at && trimApi.at.ceiling_height) || trimApi.module_in;
+const trim108Api = await (await fetch(`${BASE}/api/proportions/trim-classical?members=true&ceiling_height=108`)).json();
+const base108 = fmtIn(((trim108Api.derived_rules || []).find((r) => r.target_slot === 'baseboard' && r.dimension === 'height') || {}).value);
+await visit('#/proportions/trim-classical?ceiling=108');
+await page.waitForFunction((want) => {
+  const f = document.querySelector('main [data-pack-page="trim-classical"] [data-rule="baseboard.height"] [data-figure]');
+  return f && f.textContent.trim() === want;
+}, base108, { timeout: 30000 }).catch(() => {});
+const trim108 = await plateRead('trim-classical');
+check(`⑩ ?ceiling=108 moves the baseboard row (${trim && trim.baseboard} → ${trim108 && trim108.baseboard}, served ${base108})`,
+  Boolean(trim && trim108) && trim108.baseboard === base108 && trim108.baseboard !== trim.baseboard);
+const ratio = trim && trim108 && trim.bands.length && trim108.bands.length
+  ? trim108.bands[0].h / trim.bands[0].h : null;
+check(`⑩ ?ceiling=108 moves the plate with it (${ratio && ratio.toFixed(4)} against ${(108 / trimAt).toFixed(4)})`,
+  ratio !== null && Math.abs(ratio - 108 / trimAt) < 0.002 && trim108.bands[0].d !== trim.bands[0].d);
+
+// Every pack the payload says has assemblies is drawn, band for served face, and no band stands
+// behind the wall plane -- with ONE stated exception, WP-14.4's (`tests/test_profiles.py`): a
+// half round whose recorded face is less than half its height springs behind the plane, and the
+// member walked from it starts there. `facade-portada`'s estípite baluster and the capital walked
+// from it, and `jetty-overhang`'s drop pendant. Named here BY MEMBER and asserted EXERCISED, so it
+// cannot quietly become an exemption for anything else. A pack with no assemblies says so.
+const BEHIND_THE_PLANE = new Set([
+  'facade-portada/estipite.baluster', 'facade-portada/estipite.capital', 'jetty-overhang/framed_jetty.drop_pendant',
+]);
+const packList = (await (await fetch(`${BASE}/api/proportions`)).json()).packs || [];
+const exercised = new Set();
+const behind = [], short = [], refusedMissing = [], textBad = [];
+let assemblyPacks = 0;
+for (const p of packList) {
+  const payload = await (await fetch(`${BASE}/api/proportions/${p.id}?members=true`)).json();
+  if (payload.drawing === 'stack') continue;
+  await visit(`#/proportions/${p.id}`);
+  if (payload.drawing !== 'assemblies') {
+    const said = await page.waitForSelector(`main [data-pack-page="${p.id}"] [data-refused="no-assemblies"]`, { timeout: 30000 })
+      .then(() => true).catch(() => false);
+    const drew = await page.$(`main [data-pack-page="${p.id}"] [data-section="plate"] svg`);
+    if (!said || drew) refusedMissing.push(p.id);
+    continue;
+  }
+  assemblyPacks += 1;
+  await page.waitForSelector(`main [data-pack-page="${p.id}"] svg[data-plate]`, { timeout: 30000 }).catch(() => {});
+  const r = await plateRead(p.id);
+  const faces = (payload.assemblies || []).reduce((n, a) => n + ((a.geometry && a.geometry.faces) || []).length, 0);
+  if (!r || r.bands.length !== faces) short.push(`${p.id} ${r ? r.bands.length : 0}/${faces}`);
+  for (const b of (r ? r.bands : [])) {
+    const key = `${p.id}/${b.key}`;
+    if (b.x < -1e-3) { if (BEHIND_THE_PLANE.has(key)) exercised.add(key); else behind.push(`${key} ${b.x.toFixed(2)}`); }
+  }
+  for (const t of (r ? r.text : [])) if (t.outside || t.overlap) textBad.push(`${p.id}#${t.plate} out ${t.outside} over ${t.overlap}`);
+}
+check(`⑩ every pack with assemblies is drawn band for served face (${assemblyPacks} packs; ${short.join(', ') || 'none short'})`,
+  assemblyPacks > 0 && short.length === 0);
+check(`⑩ no band stands behind the wall plane but WP-14.4's named half rounds (${behind.join(', ') || 'none'})`,
+  behind.length === 0);
+check(`⑩ the half-round exemption is exercised, member by member (${[...exercised].join(', ')})`,
+  exercised.size === BEHIND_THE_PLANE.size);
+check(`⑩ every wall-datum plate keeps its labels inside and apart (${textBad.join('; ') || 'all'})`, textBad.length === 0);
+check(`⑩ a pack with no assemblies says so and draws nothing (${refusedMissing.join(', ') || 'all'})`,
+  refusedMissing.length === 0);
+
+// ⑩c PLATES AT THE PACK'S WORD (WP-14.24, PRD tranche 2 §C.9). Axis and zones are the pack's data
+// (Lucas, 25 Sep): a casing measured ACROSS from the jamb is drawn turned, an assembly the record
+// divides into zones carries its zone string, and a pack whose module IS a building dimension is
+// worked at the reader's figure for it. Every expectation below is read off the served payload --
+// which assemblies turn, which carry zones, what the string says -- so no count or id of a turned
+// or zoned assembly is written here. What this can see is geometry (the drawn boxes, the text a
+// plate prints); the paint half is WP-14.15's pixel guard in ⑩b, which must still pass.
+{
+  const tcApi = await (await fetch(`${BASE}/api/proportions/trim-classical?members=true`)).json();
+  const tcAsm = tcApi.assemblies || [];
+  const turnedIds = tcAsm.filter((a) => a.axis === 'across-from-the-jamb').map((a) => a.id);
+  const uprightIds = tcAsm.filter((a) => a.axis !== 'across-from-the-jamb').map((a) => a.id);
+  const zoneWant = Object.fromEntries(tcAsm.filter((a) => (a.zones || []).length).map((a) => {
+    const to = a.zones.map((z) => z.to_parts);
+    const diffs = to.map((t, i) => t - (i ? to[i - 1] : 0));
+    return [a.id, { parts: diffs.map(String).join(' + '),
+      inches: diffs.map((d) => fmtIn(d * tcApi.part_in)).join(' + ') }];
+  }));
+  await visit('#/proportions/trim-classical');
+  await page.waitForSelector('main [data-pack-page="trim-classical"] [data-bands]', { timeout: 30000 }).catch(() => {});
+  const tc = await page.evaluate(() => {
+    const root = document.querySelector('main [data-pack-page="trim-classical"]');
+    if (!root) return null;
+    const box = (el) => { const r = el.getBoundingClientRect(); return { w: r.width, h: r.height }; };
+    const items = {};
+    for (const it of root.querySelectorAll('svg[data-plate] [data-item]')) {
+      const g = it.querySelector('[data-bands]');
+      const zs = it.closest('svg').querySelector(`[data-zones="${it.getAttribute('data-item')}"]`);
+      items[it.getAttribute('data-item')] = {
+        axis: it.getAttribute('data-axis'), box: g ? box(g) : null,
+        string: zs && zs.querySelector('[data-zone-string]') ? zs.querySelector('[data-zone-string]').textContent.trim() : null,
+        inches: zs && zs.querySelector('[data-zone-inches]') ? zs.querySelector('[data-zone-inches]').textContent.trim() : null,
+      };
+    }
+    // the zone text, held to the frame and apart from every other text the plate prints --
+    // ⑩b's label check reads the plate's own labels and does not know these exist
+    const zoneText = [];
+    for (const svg of root.querySelectorAll('svg[data-plate]')) {
+      const vb = svg.viewBox.baseVal;
+      const bb = (t) => { const b = t.getBBox(); return [b.x, b.y, b.x + b.width, b.y + b.height]; };
+      const zones = [...svg.querySelectorAll('[data-zone-figure], [data-zone-string], [data-zone-inches]')].map(bb);
+      const others = [...svg.querySelectorAll('[data-label-text], [data-title], [data-legend] text, [data-scale-bar] text')].map(bb);
+      let outside = 0, overlap = 0;
+      for (const [x0, y0, x1, y1] of zones) if (x0 < -0.5 || y0 < -0.5 || x1 > vb.width + 0.5 || y1 > vb.height + 0.5) outside += 1;
+      const hit = (a, b) => Math.min(a[2], b[2]) - Math.max(a[0], b[0]) > 0.5 && Math.min(a[3], b[3]) - Math.max(a[1], b[1]) > 0.5;
+      for (let i = 0; i < zones.length; i++) {
+        for (let j = i + 1; j < zones.length; j++) if (hit(zones[i], zones[j])) overlap += 1;
+        for (const o of others) if (hit(zones[i], o)) overlap += 1;
+      }
+      zoneText.push({ plate: svg.getAttribute('data-plate'), zones: zones.length, outside, overlap });
+    }
+    const note = root.querySelector('[data-zones-note]');
+    const drawn = note && note.querySelector('[data-zones-drawn]');
+    const refused = note && note.querySelector('[data-refused="zones"]');
+    const feet = [...root.querySelectorAll('[data-foot]')].map((f) => ({
+      captions: f.getAttribute('data-captions'),
+      upright: Boolean(f.querySelector('[data-term="figure-drawn-upright"], [data-cite="term:figure-drawn-upright"]')),
+      turned: Boolean(f.querySelector('[data-term="figure-drawn-turned"], [data-cite="term:figure-drawn-turned"]')),
+    }));
+    return { items, zoneText, feet,
+      drawnIds: drawn ? drawn.getAttribute('data-zones-drawn').split(' ').filter(Boolean) : [],
+      refusedIds: refused ? refused.getAttribute('data-assemblies').split(' ').filter(Boolean) : [] };
+  });
+  const tcItems = tc ? tc.items : {};
+  const notTurned = turnedIds.filter((id) => !(tcItems[id] && tcItems[id].axis === 'turned' && tcItems[id].box
+    && tcItems[id].box.w > tcItems[id].box.h));
+  check(`⑩c trim-classical: every assembly the record turns is drawn turned, wider than tall (${turnedIds.map((id) => `${id} ${tcItems[id] && tcItems[id].box ? `${tcItems[id].box.w.toFixed(0)}×${tcItems[id].box.h.toFixed(0)}` : '—'}`).join(', ')})`,
+    turnedIds.length > 0 && notTurned.length === 0);
+  const notUpright = uprightIds.filter((id) => !(tcItems[id] && tcItems[id].axis === 'upright' && tcItems[id].box
+    && tcItems[id].box.h > tcItems[id].box.w));
+  check(`⑩c trim-classical: every other assembly stands upright, taller than wide (${notUpright.join(', ') || 'all'})`,
+    uprightIds.length > 0 && notUpright.length === 0);
+  const zoneIds = Object.keys(zoneWant);
+  const zoneBad = zoneIds.filter((id) => !(tcItems[id] && tcItems[id].string === zoneWant[id].parts
+    && tcItems[id].inches === zoneWant[id].inches));
+  check(`⑩c trim-classical: each zoned assembly prints the differences of its served to_parts (${zoneIds.map((id) => `${id} "${tcItems[id] && tcItems[id].string}" of "${zoneWant[id].parts}"`).join(', ')})`,
+    zoneIds.length > 0 && zoneBad.length === 0);
+  const strayZones = Object.keys(tcItems).filter((id) => !zoneWant[id] && tcItems[id].string !== null);
+  check(`⑩c trim-classical: an assembly the record gives no zones prints no zone string (${strayZones.join(', ') || 'none'})`,
+    strayZones.length === 0 && Object.keys(tcItems).length > zoneIds.length);
+  const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
+  check(`⑩c trim-classical: the zones note names the zoned and the unzoned as the payload does (${tc && tc.drawnIds.join(' ')} | ${tc && tc.refusedIds.join(' ')})`,
+    Boolean(tc) && sameSet(tc.drawnIds, zoneIds) && sameSet(tc.refusedIds, tcAsm.map((a) => a.id).filter((id) => !zoneWant[id])));
+  check(`⑩c trim-classical: the zone text stays inside its frame and clear of every other text (${tc && JSON.stringify(tc.zoneText)})`,
+    Boolean(tc) && tc.zoneText.some((t) => t.zones > 0) && tc.zoneText.every((t) => t.outside === 0 && t.overlap === 0));
+  // the caption says which way each frame is drawn, and only the way it IS drawn
+  const footBad = tc ? tc.feet.filter((f) => {
+    const cs = (f.captions || '').split(' ').filter(Boolean);
+    return f.upright !== cs.includes('upright') || f.turned !== cs.includes('turned') || !cs.length;
+  }) : [null];
+  check(`⑩c trim-classical: each frame's foot captions the orientation it draws, and no other (${tc && tc.feet.map((f) => f.captions).join(' / ')})`,
+    Boolean(tc) && tc.feet.length > 0 && footBad.length === 0
+      && tc.feet.some((f) => f.turned) && tc.feet.some((f) => f.upright));
+
+  // THE CLASS-A SLIDER: a pack whose module IS a building dimension is worked at the reader's
+  // figure for it. The pack is FOUND from the list's `module_bound_to`, not named; the head's
+  // module figure and a served rule must both move to the payload's values at two widths.
+  const listed = (await (await fetch(`${BASE}/api/proportions`)).json()).packs || [];
+  const bound = listed.find((p) => p.module_bound_to === 'room_width');
+  if (!bound) {
+    unjudged.push('⑩c a class-A slider moves its pack — no listed pack binds its module to room_width');
+    console.log(' N/EV ⑩c no listed pack binds its module to room_width');
+  } else {
+    // the sliders live in the strip's folded "at" group: open it, then read what it offers. A
+    // slider absent from a group nobody opened is absent from every page, which is how a
+    // no-slider check passes vacuously -- so the ceiling slider's presence is read as the premise
+    const openSliders = async () => {
+      const at = page.locator('button[aria-expanded="false"][title="Show the at filters"]').first();
+      if (await at.count()) { await at.click(); await page.waitForTimeout(200); }
+      return page.evaluate(() => ({
+        ceiling: Boolean(document.querySelector('input[type=range][aria-label="ceiling height, inches"]')),
+        classA: [...document.querySelectorAll('[data-class-a]')].map((e) => ({
+          dim: e.getAttribute('data-class-a'), value: (e.querySelector('input[type=range]') || {}).value ?? null })),
+      }));
+    };
+    const readAt = async (w) => {
+      const api = await (await fetch(`${BASE}/api/proportions/${bound.id}?members=true&room_width=${w}`)).json();
+      await visit(`#/proportions/${bound.id}?room_width=${w}`);
+      const want = fmtIn(api.module_in);
+      await page.waitForFunction(([pid, m]) => {
+        const el = document.querySelector(`main [data-pack-page="${pid}"] [data-module]`);
+        return el && el.textContent.includes(m);
+      }, [bound.id, want], { timeout: 30000 }).catch(() => {});
+      const byKey = {};
+      for (const r of api.derived_rules || []) (byKey[`${r.target_slot}.${r.dimension}`] ||= []).push(r);
+      const shown = await page.evaluate((pid) => {
+        const root = document.querySelector(`main [data-pack-page="${pid}"]`);
+        if (!root) return null;
+        const rules = {};
+        for (const tr of root.querySelectorAll('[data-rule]')) {
+          const f = tr.querySelector('[data-figure]');
+          (rules[tr.getAttribute('data-rule')] ||= []).push(f ? f.textContent.trim() : null);
+        }
+        const m = root.querySelector('[data-module]');
+        return { module: m ? m.textContent : '', rules };
+      }, bound.id);
+      return { api, want, byKey, shown, sliders: await openSliders() };
+    };
+    const at192 = await readAt(192);
+    const at288 = await readAt(288);
+    // the rows whose served value moves with the width -- those are the ones that prove it
+    const moving = Object.keys(at192.byKey).filter((k) => at288.byKey[k] && at192.byKey[k].length === 1
+      && at288.byKey[k].length === 1 && at192.byKey[k][0].units === 'in'
+      && at192.byKey[k][0].value !== at288.byKey[k][0].value);
+    const rowsAgree = (at) => moving.every((k) => at.shown && (at.shown.rules[k] || []).includes(fmtIn(at.byKey[k][0].value)));
+    check(`⑩c ${bound.id}: ?room_width= moves the module to the served figure (${at192.want} → ${at288.want})`,
+      Boolean(at192.shown && at288.shown) && at192.want !== at288.want
+        && at192.shown.module.includes(at192.want) && at288.shown.module.includes(at288.want));
+    check(`⑩c ${bound.id}: ?room_width= moves the rules to the served figures (${moving.length} rows that move)`,
+      moving.length > 0 && rowsAgree(at192) && rowsAgree(at288));
+    const offered = at288.sliders.classA;
+    check(`⑩c ${bound.id}: the page offers its class-A slider, resting at the address's width (${JSON.stringify(offered)})`,
+      at288.sliders.ceiling && offered.length === 1 && offered[0].dim === 'room_width' && offered[0].value === '288');
+    // and moving it writes the address, the way ?ceiling= is written -- the URL decides
+    const want240 = fmtIn((await (await fetch(`${BASE}/api/proportions/${bound.id}?members=true&room_width=240`)).json()).module_in);
+    await page.evaluate(() => {
+      const el = document.querySelector('[data-class-a="room_width"] input[type=range]');
+      if (!el) return;
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(el, '240');
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await page.waitForFunction(([pid, m]) => {
+      const el = document.querySelector(`main [data-pack-page="${pid}"] [data-module]`);
+      return /room_width=240\b/.test(location.hash) && el && el.textContent.includes(m);
+    }, [bound.id, want240], { timeout: 30000 }).catch(() => {});
+    const moved = await page.evaluate((pid) => ({ hash: location.hash,
+      module: (document.querySelector(`main [data-pack-page="${pid}"] [data-module]`) || {}).textContent || '' }), bound.id);
+    check(`⑩c ${bound.id}: moving the slider writes ?room_width= and re-dimensions the pack (${moved.hash}, ${want240})`,
+      /room_width=240\b/.test(moved.hash) && moved.module.includes(want240) && want240 !== at288.want);
+    // and no other pack offers one: a pack whose module is bound to nothing, and a pack whose
+    // module is bound to a dimension every pack already has a slider for (the ceiling)
+    const others = [listed.find((p) => !p.module_bound_to && p.drawing === 'assemblies'),
+      listed.find((p) => p.module_bound_to && p.module_bound_to !== 'room_width')].filter(Boolean);
+    for (const o of others) {
+      await visit(`#/proportions/${o.id}?room_width=288`);
+      await page.waitForSelector(`main [data-pack-page="${o.id}"] [data-module]`, { timeout: 30000 }).catch(() => {});
+      const sl = await openSliders();
+      check(`⑩c ${o.id}: a pack whose module is ${o.module_bound_to || 'bound to nothing'} offers no class-A slider, whatever the address carries (${sl.classA.map((c) => c.dim).join(', ') || 'none'})`,
+        sl.ceiling && sl.classA.length === 0);
+    }
+    check(`⑩c the no-slider half has both of its cases (${others.map((o) => o.id).join(', ')})`, others.length === 2);
+  }
+
+  // THE INDEX THUMBNAILS: one per pack the list serves a thumbnail for, drawn member for served
+  // face, and none -- a stated blank -- for a pack with no assemblies or a stacked order.
+  await visit('#/proportions');
+  await page.waitForSelector('main [data-pack-list] [data-pack-row]', { timeout: 20000 }).catch(() => {});
+  const idx = await page.evaluate(() => {
+    const out = {};
+    for (const row of document.querySelectorAll('main [data-pack-list] [data-pack-row]')) {
+      const svg = row.querySelector('svg[data-thumb]');
+      const none = row.querySelector('[data-thumb-none]');
+      out[row.getAttribute('data-pack-row')] = {
+        thumb: svg ? svg.getAttribute('data-thumb') : null,
+        assembly: svg ? svg.getAttribute('data-thumb-assembly') : null,
+        members: svg ? svg.querySelectorAll('[data-thumb-member]').length : 0,
+        none: none ? none.getAttribute('data-thumb-none') : null,
+      };
+    }
+    return out;
+  });
+  const thumbBad = [], thumbStray = [];
+  for (const p of listed) {
+    const row = idx[p.id];
+    if (!row) { thumbBad.push(`${p.id} not listed`); continue; }
+    if (p.thumb) {
+      if (row.thumb !== p.id || row.assembly !== p.thumb.assembly || row.members !== (p.thumb.geometry.faces || []).length)
+        thumbBad.push(`${p.id} ${row.members}/${(p.thumb.geometry.faces || []).length}`);
+    } else if (row.thumb || row.none === null) thumbStray.push(`${p.id} (${p.drawing || 'no assemblies'})`);
+  }
+  check(`⑩c the index draws each served thumbnail, member for served face (${listed.filter((p) => p.thumb).length} packs; ${thumbBad.join(', ') || 'none short'})`,
+    listed.some((p) => p.thumb) && thumbBad.length === 0);
+  check(`⑩c a pack with no assemblies, or a stacked order, draws no thumbnail and says which (${thumbStray.join(', ') || 'none drawn'})`,
+    listed.some((p) => !p.drawing) && thumbStray.length === 0
+      && listed.filter((p) => !p.thumb).every((p) => idx[p.id] && idx[p.id].none === (p.drawing || 'none')));
+}
+await shot('proportions-plates-at-the-packs-word', [1440, 1280]);
 
 // ⑨ Fault Corpus
-await rail.getByRole('button', { name: /Fault Corpus/ }).click();
+await visit('#/faults');
 await page.waitForSelector('text=solecisms', { timeout: 15000 });
-await page.waitForSelector('text=dishonest', { timeout: 15000 }).catch(() => {});
+/* A BARE ADDRESS NAMES NO FAULT, SO NO FAULT IS SHOWN (WP-14.27, PRD §C.12). This block used to
+   wait for the card of `porch-too-shallow-to-inhabit`, which the surface drew under a bare
+   #/faults because it was typed into the component as the default -- a record the address never
+   named. The bare page now lists the corpus and says no record is chosen, in the words of the
+   `no-record-chosen` record; a fault is shown only once it is PICKED, and a pick is an address:
+   it is read back off the hash, survives a reload, and Back returns to the bare page with the card
+   gone. The fault picked is the list's first, read off the page and never named here. */
+let faultPicked = null;
+{
+  await page.waitForSelector('main [data-no-record="faults"] [data-term="no-record-chosen"]', { timeout: 15000 })
+    .catch(() => {});
+  const rec = await termOf('no-record-chosen');
+  const cards = await page.locator('main article[data-fault]').count();
+  const word = await page.locator('main [data-no-record="faults"] [data-term="no-record-chosen"]').first()
+    .innerText().catch(() => '');
+  check(`a bare #/faults shows no fault card (${cards}) and says no record is chosen in its record's word ("${word.trim()}")`,
+    cards === 0 && !!rec && word.trim().toLowerCase() === String(rec.term).toLowerCase());
+  const row = page.locator('main [data-fault-row]').first();
+  faultPicked = await row.getAttribute('data-fault-row').catch(() => null);
+  await row.click().catch(() => {});
+  await page.waitForSelector(`main article[data-fault="${faultPicked}"]`, { timeout: 15000 }).catch(() => {});
+  const placeAfter = parseHash(await page.evaluate(() => location.hash));
+  check(`picking a fault writes it to the address (${faultPicked} → ${placeAfter.selection.fault})`,
+    !!faultPicked && placeAfter.surface === 'faults' && placeAfter.selection.fault === faultPicked);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForSelector(`main article[data-fault="${faultPicked}"]`, { timeout: 15000 }).catch(() => {});
+  check(`and a reload keeps the fault it named (${faultPicked})`,
+    await page.locator(`main article[data-fault="${faultPicked}"]`).count() === 1
+    && await page.locator('main [data-no-record="faults"]').count() === 0);
+  await page.goBack().catch(() => {});
+  await page.waitForSelector('main [data-no-record="faults"]', { timeout: 15000 }).catch(() => {});
+  check('and Back to the bare address takes the card away with it',
+    parseHash(await page.evaluate(() => location.hash)).selection.fault === undefined
+    && await page.locator('main article[data-fault]').count() === 0
+    && await page.locator('main [data-no-record="faults"]').count() === 1);
+  await page.goForward().catch(() => {});
+  await page.waitForSelector(`main article[data-fault="${faultPicked}"]`, { timeout: 15000 }).catch(() => {});
+}
+await page.waitForSelector('main >> text=dishonest', { timeout: 15000 }).catch(() => {});
 const faults = await page.locator('main').innerText();
 check('fault corpus voice line present', /explaining an economy/i.test(faults));
 check('fix tiers named plainly', /dishonest/i.test(faults));
-await page.screenshot({ path: SHOTS + 'faults.png' });
+/* THE CARD ANSWERS FIRST (WP-14.11). Every fault record carries `correct_practice` (the right way)
+   and `detection` (how to spot it), and the card rendered neither. They lead now, read here in
+   DOCUMENT ORDER off the card, and each is held to the record the API serves for the fault on
+   screen -- whichever one that is, read off the card rather than named. */
+{
+  await page.waitForSelector('main article[data-fault] [data-fault-section]', { timeout: 15000 }).catch(() => {});
+  const fid = await page.locator('main article[data-fault]').first().getAttribute('data-fault').catch(() => null);
+  const order = await page.$$eval('main article[data-fault] [data-fault-section]',
+    (els) => els.map((el) => el.getAttribute('data-fault-section')));
+  check(`the fault card answers first: the right way, then how to spot it, then the rest (${order.join(' · ')})`,
+    order[0] === 'correct_practice' && order[1] === 'detection' && order.length > 2);
+  const rec = fid ? await (await fetch(`${BASE}/api/faults/${fid}`)).json() : {};
+  const flat = (x) => String(x || '').replace(/\s+/g, ' ').trim();
+  const cp = await page.locator('main [data-fault-section="correct_practice"] p').first().innerText().catch(() => '');
+  const dt = await page.locator('main [data-fault-section="detection"] p').first().innerText().catch(() => '');
+  check(`and both are the record's own words (${fid})`, Boolean(rec.correct_practice) && Boolean(rec.detection)
+    && flat(cp) === flat(rec.correct_practice) && flat(dt) === flat(rec.detection));
+}
+await shot('faults');
+
+/* THE CORPUS READ FOR ONE STYLE, IN THE DOSSIER'S THREE GROUPS (WP-14.27). The dossier's "N more,
+   written for every house" link lands here with `?style=`, and the list used to run every fault
+   the style reads in one undivided column. Held to the dossier's OWN partition, fetched here from
+   the same route the page reads -- the order, the counts and each heading's record -- so the page
+   cannot be passed by re-deriving the partition the way the walk did. */
+{
+  const sid = 'tidewater-georgian';
+  const part = await fetch(`${BASE}/api/styles/${sid}/dossier`).then((r) => (r.ok ? r.json() : null))
+    .then((d) => (d && d.faults) || null).catch(() => null);
+  await visit(formatHash('faults', {}, { style: sid }));
+  await page.waitForSelector('main [data-fault-group], main [data-fault-groups-unjudged]', { timeout: 30000 })
+    .catch(() => {});
+  const groups = await page.$$eval('main [data-fault-group]', (gs) => gs.map((g) => ({
+    id: g.getAttribute('data-fault-group'), n: Number(g.getAttribute('data-fault-group-count')),
+    rows: g.querySelectorAll('[data-fault-row]').length,
+    term: g.querySelector('[data-term]') ? g.querySelector('[data-term]').getAttribute('data-term') : null,
+    word: g.querySelector('[data-term]') ? g.querySelector('[data-term]').innerText.trim() : null })));
+  const unj = await page.locator('main [data-fault-groups-unjudged]').count();
+  if (!part) {
+    unjudged.push(`the Fault Corpus's style groups -- the ${sid} dossier served no fault partition`);
+  } else {
+    const want = [['here', (part.verdict_here || []).length], ['lineage', (part.lineage || []).length],
+      ['universal', part.universal_count]].filter(([, n]) => n > 0);
+    check(`the Fault Corpus read for ${sid} groups its list as the dossier does (${groups.map((g) => `${g.id} ${g.n}`).join(', ') || (unj ? 'unjudged' : 'none')})`,
+      unj === 0 && JSON.stringify(groups.map((g) => [g.id, g.n])) === JSON.stringify(want)
+      && groups.every((g) => g.rows === g.n));
+    const words = await Promise.all(groups.map((g) => termOf(`fault-group-${g.id}`)));
+    // the eyebrow sets its words in capitals, and `innerText` returns them as painted
+    const lc = (x) => String(x || '').toLowerCase();
+    check(`and each group is headed by its own record (${groups.map((g) => `${g.term}: "${g.word}"`).join('; ')})`,
+      groups.length > 0 && groups.every((g, i) => g.term === `fault-group-${g.id}` && !!words[i]
+        && lc(g.word) === lc(words[i].term)));
+  }
+  await shot('faults-grouped');
+}
 
 // ⑤ Brief Intake
-await rail.getByRole('button', { name: /Brief Intake/ }).click();
+await visit('#/brief');
 await page.waitForSelector('text=feasibility', { timeout: 15000 });
 const brief = await page.locator('main').innerText();
 check('silences are named as decisions', /becomes a composer decision/i.test(brief));
 // WP-2.3 landed; the panel now says WHERE the conflict set is named (the bench, on a plan)
 // rather than that it does not exist. The assertion moved with the claim.
-check('conflict set located, not promised', /conflict set · on the bench, not here/i.test(brief));
-check('feasibility still advisory, never a proof', /never a proof/i.test(brief));
-await page.screenshot({ path: SHOTS + 'brief.png' });
+/* WP-14.31: the pointer's words are two records' and its sentence the conflict set's definition,
+   so they are held to those records rather than to a phrase this file remembers. */
+{
+  const [csRec, benchRec] = await Promise.all([termOf('conflict-set'), termOf('on-the-bench')]);
+  const link = page.locator('main [data-conflict-link]').first();
+  const linkText = (await link.innerText().catch(() => '')).replace(/\s+/g, ' ').trim();
+  const href = await link.getAttribute('href').catch(() => null);
+  const defText = (await page.locator('main [data-conflict-definition]').first().innerText().catch(() => ''))
+    .replace(/\s+/g, ' ').trim();
+  if (!csRec || !benchRec) {
+    unjudged.push('the brief\'s conflict-set pointer -- GET /api/glossary/conflict-set or on-the-bench did not answer');
+  } else {
+    check(`conflict set located, not promised (${linkText})`,
+      linkText.toLowerCase() === `${csRec.term} · ${benchRec.term}`.toLowerCase()
+      && !!href && parseHash(href).surface === 'workbench');
+    check('feasibility still advisory, and the conflict set is a plan\'s, never a brief\'s',
+      /feasibility\s*·\s*advisory/i.test(brief) && defText === csRec.definition.replace(/\s+/g, ' ').trim());
+  }
+}
+/* WP-14.10 (PRD §J.1): EVERY BUDGET OPTION IS ONE THE BRIEF SCHEMA ADMITS, AND THEY ARE ALL OF
+   THEM. The form offered `entry`, `move-up`, `custom` and `estate` against a schema admitting
+   `value`, `mid`, `custom` and `unlimited`, so three of the four a reader could pick refused the
+   whole brief at compose. Read against the schema the server serves, not against a list here --
+   a list here would be a third spelling of the enum. The count of options is asserted first, so
+   a selector matching nothing cannot make "every option is admitted" true of no options. */
+{
+  const sch = await fetch(BASE + '/api/schema/brief').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const tiers = sch && sch.schema && sch.schema.properties && sch.schema.properties.context
+    && sch.schema.properties.context.properties && sch.schema.properties.context.properties.budget_tier
+    && sch.schema.properties.context.properties.budget_tier.enum;
+  if (!Array.isArray(tiers) || !tiers.length) {
+    unjudged.push('the budget tiers -- GET /api/schema/brief states no budget_tier enum to hold them to');
+  } else {
+    await page.waitForFunction(() =>
+      document.querySelectorAll('select[data-field="budget_tier"] option[data-tier]').length > 0,
+    null, { timeout: 15000 }).catch(() => {});
+    const opts = await page.$$eval('select[data-field="budget_tier"] option',
+      (os) => os.map((o) => o.value).filter(Boolean));
+    const off = opts.filter((o) => !tiers.includes(o));
+    check(`the budget offers tiers to be judged (${opts.length})`, opts.length > 0);
+    check(`every budget option is one the brief schema admits (${off.length ? 'off it: ' + off.join(', ') : 'none off it'})`,
+      opts.length > 0 && off.length === 0);
+    check(`and the options are the schema's, all of them (${opts.length} of ${tiers.length})`,
+      opts.length === tiers.length);
+  }
+  // an act is a button, not a filter chip announcing itself as a toggle
+  const compose = await page.evaluate(() => {
+    const b = document.querySelector('main button[data-compose]');
+    return b ? { pressed: b.getAttribute('aria-pressed'), text: b.textContent.trim() } : null;
+  });
+  check(`Compose is a real button, not a toggle (${compose ? compose.text : 'absent'})`,
+    !!compose && compose.pressed === null && /compose/i.test(compose.text));
+}
+await shot('brief');
+
+/* `?style=` SEEDS THE BRIEF AND `?example=` LOADS ONE (WP-14.10, PRD §E). The style is read back
+   from the picker by the style's NAME, which is what the reader sees, against the name the API
+   gives that id; the example by its own `name` field, and the address must lose `example` once it
+   has done its work, so a refresh keeps a reader's edits rather than loading the example over them. */
+{
+  const seed = 'craftsman';
+  const rec = await fetch(`${BASE}/api/styles/${seed}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const want = rec && (rec.name || (rec.summary && rec.summary.name));
+  await visit(`#/brief?style=${seed}`);
+  await page.waitForFunction((w) => {
+    const i = document.querySelector('main input[role="combobox"]');
+    return i && w && i.value === w;
+  }, want, { timeout: 15000 }).catch(() => {});
+  const shown = await page.evaluate(() => document.querySelector('main input[role="combobox"]')?.value || null);
+  check(`?style= seeds the brief's style, shown by name (${shown} against ${want})`, !!want && shown === want);
+
+  const ex = await fetch(`${BASE}/api/briefs/examples/family-georgian`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  if (!ex || !ex.name) {
+    unjudged.push('?example= -- the server serves no family-georgian example brief to load');
+  } else {
+    await visit('#/brief?example=family-georgian');
+    await page.waitForFunction((n) => [...document.querySelectorAll('main input')].some((i) => i.value === n),
+      ex.name, { timeout: 15000 }).catch(() => {});
+    const loaded = await page.evaluate((n) => [...document.querySelectorAll('main input')].some((i) => i.value === n), ex.name);
+    const hash = await page.evaluate(() => location.hash);
+    check(`?example= loads the shipped brief by its name (${ex.name})`, loaded);
+    check(`and leaves the address naming its style rather than the example (${hash})`,
+      !/example=/.test(hash) && parseHash(hash).selection.style === ex.style);
+  }
+}
+
+/* A PLAN TYPE STARTS THE BRIEF THAT NAMES IT, AND THE CANDIDATE SAYS SO (WP-14.25, PRD §C.5).
+   Ruled 25 Sep 2026: a brief may name a parti and the composer guarantees it a place among the
+   candidates. The plan type is READ off the dossier the server serves, preferring a lineage one
+   where the style has one: the composer's own ranking is the least likely to return it, so it is
+   the guarantee and not the ranking that puts it among the candidates. The compose is posted by
+   the form itself, and the walk adds ONE field to that post, `revise: false`, because the placed
+   revision loop runs for minutes on the proving engine and the flag this block reads is written by
+   the composer before any round runs. The brief the form posted is read back off that same post,
+   so the parti is asserted on what left the browser and not on what the page shows. */
+{
+  const sid = 'tidewater-georgian';
+  const dos = await fetch(`${BASE}/api/styles/${sid}/dossier`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const pts = (dos && dos.plan_types && dos.plan_types.partis) || [];
+  const target = pts.find((p) => p.nativity === 'lineage') || pts[0];
+  // the walk's own reader of a record (`termOf`, above): the route wraps the record in `term`
+  const rec = await termOf('start-a-brief-from-a-plan-type');
+  const flagRec = await termOf('named-by-the-brief');
+  if (!target) {
+    unjudged.push(`the plan-type link -- the ${sid} dossier lists no plan type to start a brief from`);
+  } else {
+    await visit(formatHash('style', { style: sid, section: 'plans' }, {}));
+    const link = page.locator(`main a[data-start-brief="${target.id}"]`);
+    await link.first().waitFor({ timeout: 15000 }).catch(() => {});
+    const n = await link.count();
+    check(`the plan type ${target.id} (${target.nativity}) offers to start a brief (${n} link)`, n === 1);
+    const word = n ? (await link.first().innerText()).trim() : '';
+    check(`and the link is worded by its glossary record ("${word}")`, !!rec && !!rec.term && word === rec.term);
+    if (n) {
+      await link.first().click();
+      await page.waitForFunction(() => location.hash.startsWith('#/brief'), null, { timeout: 15000 }).catch(() => {});
+    }
+    const hash = await page.evaluate(() => location.hash);
+    const sel = parseHash(hash).selection;
+    check(`the link lands on Brief Intake naming the style and the parti (${hash})`,
+      parseHash(hash).surface === 'brief' && sel.style === sid && sel.parti === target.id);
+    await page.waitForFunction((id) => {
+      const s = document.querySelector('main select[data-field="parti"]');
+      return s && s.value === id;
+    }, target.id, { timeout: 20000 }).catch(() => {});
+    const shown = await page.evaluate(() => {
+      const s = document.querySelector('main select[data-field="parti"]');
+      const o = s && s.selectedOptions[0];
+      return s ? { value: s.value, nativity: o ? o.getAttribute('data-nativity') : null,
+        group: o && o.parentElement && o.parentElement.tagName === 'OPTGROUP' ? o.parentElement.label : null } : null;
+    });
+    check(`the parti select shows the plan type the link named (${shown ? shown.value : 'no select'})`,
+      !!shown && shown.value === target.id);
+    check(`and files it under the nativity the server stated (${shown && shown.nativity} in "${shown && shown.group}")`,
+      !!shown && shown.nativity === target.nativity);
+    await shot('brief-parti', [1440]);
+
+    // one candidate asked for, so a named parti the ranking passes over is APPENDED rather than returned
+    await page.locator('main div:has(> span:text-is("candidates")) > input').first().fill('1').catch(() => {});
+    let posted = null;
+    const route = '**/api/compose';
+    await page.route(route, async (r) => {
+      let body = {};
+      try { body = JSON.parse(r.request().postData() || '{}'); } catch { body = {}; }
+      posted = body;
+      await r.continue({ postData: JSON.stringify({ ...body, revise: false }),
+        headers: { ...r.request().headers(), 'content-type': 'application/json' } });
+    });
+    const accepted = page.waitForResponse((r) => r.url().endsWith('/api/compose') && r.request().method() === 'POST',
+      { timeout: 30000 }).catch(() => null);
+    await page.locator('main button[data-compose]').click().catch(() => {});
+    const resp = await accepted;
+    await page.unroute(route);
+    const jobId = resp && resp.ok() ? (await resp.json().catch(() => ({}))).job_id : null;
+    check(`the brief the form posted names the parti (${posted && posted.brief ? posted.brief.parti : 'nothing posted'})`,
+      !!posted && !!posted.brief && posted.brief.parti === target.id);
+    check(`and the composer accepted it (${resp ? resp.status() : 'no response'})`, !!jobId);
+    if (jobId) {
+      await page.waitForSelector(`main [data-named-by-brief="${target.id}"]`, { timeout: 240000 }).catch(() => {});
+      const flag = await page.evaluate((id) => {
+        const f = document.querySelector(`main [data-named-by-brief="${id}"]`);
+        return f ? f.innerText.trim() : null;
+      }, target.id);
+      check(`the candidate composed from it is marked named by the brief ("${flag}")`,
+        !!flag && !!flagRec && flag === flagRec.term);
+      const job = await fetch(`${BASE}/api/jobs/${jobId}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+      const np = job && job.result && job.result.named_parti;
+      const cand = job && job.result && (job.result.candidates || []).find((c) => c.parti === target.id);
+      check(`and the job says the same: named_parti ${np ? JSON.stringify({ returned: np.returned, appended: np.appended, nativity: np.nativity }) : 'absent'}`,
+        !!np && np.parti === target.id && np.returned === true && np.nativity === target.nativity
+        && !!cand && cand.named_by_brief === true);
+      const flagged = await page.$$eval('main [data-named-by-brief]', (fs) => fs.length);
+      check(`and only that candidate carries the flag (${flagged})`, flagged === 1);
+
+      /* WP-14.27: the strip above the columns counts the SET and names the appended one apart.
+         It printed `returned {candidates.length} of {asked}`, so asking for one with a named
+         parti the ranking passed over read "returned 2 of 1 asked for" -- a count true of
+         nothing. Held to the job's own `named_parti` rather than to a literal. */
+      const strip = await page.evaluate(() => {
+        const s = document.querySelector('main [data-set-size]');
+        const a = s && s.querySelector('[data-named-appended]');
+        return s ? { own: Number(s.getAttribute('data-set-size')), asked: Number(s.getAttribute('data-set-asked')),
+          appended: a ? a.getAttribute('data-named-appended') : null, text: s.innerText.trim(),
+          word: a && a.querySelector('[data-term]') ? a.querySelector('[data-term]').innerText.trim() : null } : null;
+      });
+      const total = ((job && job.result && job.result.candidates) || []).length;
+      const wantAppended = !!np && np.returned === true && np.appended === true;
+      check(`the strip counts the set and not the appendage (${strip ? strip.text : 'no strip'})`,
+        !!strip && strip.own <= strip.asked && strip.own === total - (wantAppended ? 1 : 0)
+        && new RegExp(`returned ${strip.own} of ${strip.asked} asked for`).test(strip.text));
+      check(`and names the appended candidate apart, by its record (${strip && strip.appended} / "${strip && strip.word}")`,
+        !!strip && (wantAppended
+          ? strip.appended === target.id && !!flagRec && strip.word === flagRec.term
+          : strip.appended === null));
+
+      /* WP-14.27: a column words its nativity from the SERVED nativity, by its record. A lineage
+         diagram used to read "NOT native to this style -- native to an ancestor ...", which
+         contradicts itself in one line. */
+      if (cand && cand.nativity) {
+        const natRec = await termOf(NATIVITY_TERMS[cand.nativity]);
+        const nat = await page.evaluate((id) => {
+          const p = document.querySelector(`main [data-candidate="${id}"] [data-nativity]`);
+          const t = p && p.querySelector('[data-term]');
+          return p ? { nativity: p.getAttribute('data-nativity'), term: t ? t.getAttribute('data-term') : null,
+            word: t ? t.innerText.trim() : null, text: p.innerText } : null;
+        }, target.id);
+        check(`the column words the served nativity (${cand.nativity}) by its record ("${nat && nat.word}")`,
+          !!nat && nat.nativity === cand.nativity && nat.term === NATIVITY_TERMS[cand.nativity]
+          && !!natRec && nat.word === natRec.term
+          && (cand.nativity === 'borrowed' || !/NOT native/i.test(nat.text)));
+      } else {
+        unjudged.push('the column nativity -- the job served no nativity on the named candidate');
+      }
+
+      /* WP-14.27: picking a column writes the numeric `candidate` key and survives a reload. */
+      const n = ((job && job.result && job.result.candidates) || []).findIndex((c) => c.parti === target.id);
+      await page.locator(`main [data-candidate="${target.id}"] h3`).first().click().catch(() => {});
+      await page.waitForFunction((want) => location.hash.startsWith(`#/candidates/${want}`),
+        n, { timeout: 10000 }).catch(() => {});
+      const pickHash = await page.evaluate(() => location.hash);
+      const picked = parseHash(pickHash).selection.candidate;
+      const selNow = async () => page.evaluate((id) =>
+        !!document.querySelector(`main [data-candidate="${id}"][data-selected]`), target.id);
+      /* The address is written FIRST and the column is marked a frame later: `nav.select` pushes
+         with `location.hash = …`, and the render follows the asynchronous `hashchange`. Read once
+         the moment the hash matched, the mark was absent in 15 of 16 picks on a probe (about
+         20 ms late every time, never missing), so this check went red on WP-14.33's walk over
+         code nothing had touched. It waits for the mark now, bounded; a column that is never
+         marked still fails, five seconds later. */
+      await page.waitForFunction((id) =>
+        !!document.querySelector(`main [data-candidate="${id}"][data-selected]`), target.id,
+      { timeout: 5000 }).catch(() => {});
+      check(`picking a candidate's column writes it in the address (candidate=${picked}, the server's index ${n})`,
+        n >= 0 && picked === n && await selNow());
+      await page.reload();
+      await page.waitForSelector(`main [data-candidate="${target.id}"]`, { timeout: 60000 }).catch(() => {});
+      check('and the picked column is still the chosen one after a reload', await selNow());
+
+      // the flag sits below the column's scores, so bring it into the picture before shooting
+      await page.evaluate((id) => {
+        const f = document.querySelector(`main [data-named-by-brief="${id}"]`);
+        if (f) f.scrollIntoView({ block: 'center' });
+      }, target.id);
+      await shot('candidates-named', [1440]);
+    }
+
+    /* A parti nobody holds is refused by the composer, by name, before a job exists -- and the
+       form shows the server's sentence rather than one of its own. No job, so no cost. */
+    const bogus = 'no-such-plan-diagram';
+    await visit(formatHash('brief', { style: sid, parti: bogus }, {}));
+    await page.waitForFunction((id) => {
+      const s = document.querySelector('main select[data-field="parti"]');
+      return s && s.value === id;
+    }, bogus, { timeout: 20000 }).catch(() => {});
+    const off = await page.evaluate((id) => !!document.querySelector(`main option[data-off-list="${id}"]`), bogus);
+    check('a parti no group holds is shown as itself, not dropped', off);
+    await page.locator('main button[data-compose]').click().catch(() => {});
+    await page.waitForSelector('main [data-brief-refused]', { timeout: 30000 }).catch(() => {});
+    const refusal = await page.evaluate(() => document.querySelector('main [data-brief-refused]')?.innerText || '');
+    check(`and composing it is refused in the composer's own words (${refusal.slice(0, 90)}…)`,
+      refusal.includes(bogus) && /no parti has that id/.test(refusal));
+    await page.selectOption('main select[data-field="parti"]', '').catch(() => {});
+  }
+}
 
 // ⑥ Candidate Set (empty state without a run)
-await rail.getByRole('button', { name: /Candidate Set/ }).click();
+await visit('#/candidates');
 await page.waitForTimeout(500);
-await page.screenshot({ path: SHOTS + 'candidates.png' });
+await shot('candidates');
 
 // (8) Drawing Set - the elevation with its disclosure
-// Scoped to the rail: since WP-5.6 the Overview offers doors carrying the same labels, so an
-// unscoped getByRole matches two elements and Playwright refuses both.
-await rail.getByRole('button', { name: /Drawing Set/ }).click();
+// By its address (WP-14.7). The label click this replaced had to be scoped to the rail, since
+// WP-5.6's Overview doors carry the same words; an address has no second match to refuse.
+await visit('#/drawings');
 
 /* ⑧a — THE ROUND (WP-12.4). The model is the surface's FIRST plate now, so it is what a reader
    arriving here sees; the five flat plates are chips beneath it and everything below this block
@@ -1172,7 +2525,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     check(`and it is placed by a real transform (${ov && ov.t && ov.t.slice(0, 24)})`,
       !!(ov && ov.t && ov.t !== 'none'));
     await page.getByRole('button', { name: 'plate', exact: true }).click();
-    await page.screenshot({ path: SHOTS + 'round-axon-sw.png' });
+    await shot('round-axon-sw');
 
     // AN ORBIT IS NOT A NAMED DRAWING, and the caption must stop claiming to be one. A free
     // view that still called itself SOUTH ELEVATION would be a drawing lying about its own
@@ -1187,7 +2540,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     const capFree = await page.locator('[data-plate-title]').first().innerText();
     check(`after an orbit the caption says it is a free view (${capFree.slice(0, 40)})`,
       /FREE VIEW · NOT A NAMED DRAWING · DIMENSIONS WITHHELD/i.test(capFree));
-    await page.screenshot({ path: SHOTS + 'round-free.png' });
+    await shot('round-free');
 
     // ---------------------------------------------------------- the approach (WP-12.7)
     //
@@ -1226,14 +2579,14 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     const appRefused = +(await cvEl.getAttribute('data-round-refused') || 0);
     check(`and the model is in the renderer at it (${appSolids} solids built)`, appSolids > 100);
     check(`and no solid was refused by the renderer (${appRefused})`, appRefused === 0);
-    await page.screenshot({ path: SHOTS + 'round-approach.png' });
+    await shot('round-approach');
 
     // and a named chip takes it back
     await bar.getByRole('radio', { name: 'PLAN·L0', exact: true }).click();
     await page.waitForTimeout(700);
     check('a named chip snaps back out of the free view',
       /GROUND FLOOR PLAN/i.test(await page.locator('[data-plate-title]').first().innerText()));
-    await page.screenshot({ path: SHOTS + 'round-plan.png' });
+    await shot('round-plan');
 
     // ------------------------------------------------------------ overlays (WP-12.5)
     //
@@ -1254,7 +2607,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     const drew1 = await page.locator('[data-round-canvas]').getAttribute('data-round-overlays');
     check(`the privacy overlay actually draws geometry (${drew1})`,
       /privacy:[1-9]/.test(drew1 || ''));
-    await page.screenshot({ path: SHOTS + 'round-privacy.png' });
+    await shot('round-privacy');
 
     await page.getByRole('button', { name: 'wet', exact: true }).click();
     await page.waitForTimeout(500);
@@ -1276,7 +2629,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
       /EXPLODED BY LEVEL/i.test(capEx));
     check('the modifier is in the URL', /(\?|&)explode=levels/.test(page.url()),
       page.url().slice(-70));
-    await page.screenshot({ path: SHOTS + 'round-explode.png' });
+    await shot('round-explode');
 
     // THE CUT SAYS WHERE IT CAME FROM. With a face selected this is the building section the
     // project does not draw flat, and a reader who mistook it for a plate would be citing a
@@ -1286,7 +2639,7 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     const capCut = await page.locator('[data-plate-title]').first().innerText();
     check(`a cut says it is derived from the model and not a plate (${capCut.slice(-52)})`,
       /DERIVED FROM THE MODEL, NOT A PLATE/i.test(capCut));
-    await page.screenshot({ path: SHOTS + 'round-cut.png' });
+    await shot('round-cut');
   }
 }
 
@@ -1325,7 +2678,7 @@ check('drawing set: no per-style fault count is printed as if it were universal'
     g && g.bg !== 'rgba(0, 0, 0, 0)');
   check('drawing set: and the sheet still fits its column', g && g.fits);
 }
-await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
+await shot('drawing-elevation');
 
 /* (8a) WP-12.0 — the four faces, and the plate that says which placement drew it.
 
@@ -1356,6 +2709,14 @@ await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
   }, before, { timeout: 60000 }).catch(() => {});
   check(`drawing set: a chosen face draws a different plate (${before} → ${await ink()})`,
     (await ink()) !== before);
+  /* WP-14.27: the sheet and the face are filters in the address, not state the page forgets.
+     They were React state, so a reload or a shared link drew the plan sheet and the entrance
+     front whatever the reader had been looking at. */
+  {
+    const dsHash = parseHash(await page.evaluate(() => location.hash));
+    check(`drawing set: the sheet and the face are in the address (${JSON.stringify(dsHash.params)})`,
+      dsHash.params.sheet === 'elevation' && dsHash.params.face === NOT_FRONT);
+  }
   const cap = await page.locator('main').innerText();
   /* THE CAPTION THAT NAMES THE FACE IS GATED ON THE DATE OF REPRESENTATION, which is a
      coupling nobody chose and which this subject exposes: `DrawingSet.jsx` renders
@@ -1421,27 +2782,116 @@ await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
   });
   check(`drawing set: the sheet strip is one row (${strip && strip.h}px) with its download still whole`,
     strip && strip.h <= 40 && strip.dlw > 40);
-  await page.screenshot({ path: SHOTS + 'drawing-elevation-west.png' });
+  await shot('drawing-elevation-west');
+  // ...and a reload draws the same sheet at the same face, because the address says which.
+  await page.reload();
+  await page.waitForSelector('.plate-fit > svg', { timeout: 90000 }).catch(() => {});
+  const checkedOf = async (re) => page.getByRole('radio', { name: re }).first()
+    .getAttribute('aria-checked').catch(() => null);
+  const kindOn = await checkedOf(/^elevation$/);
+  const faceOn = await checkedOf(new RegExp(`^${pick}`, 'i'));
+  check(`drawing set: a reload keeps the sheet and the face (elevation ${kindOn}, ${pick} ${faceOn})`,
+    kindOn === 'true' && faceOn === 'true');
 }
 
 // A sheet kind is one of a set, so it is a radio now, not a button — the chips that pick
 // between alternatives say so to a screen reader since WP-5.6.
 await page.getByRole('radio', { name: 'bearing lines' }).click();
 await page.waitForTimeout(3000);
-await page.screenshot({ path: SHOTS + 'drawing-bearing.png' });
+await shot('drawing-bearing');
 
 // (8b) Details & Export - forthcoming, never hidden
-await rail.getByRole('button', { name: /Details & Export/ }).click();
-await page.waitForSelector('text=forthcoming', { timeout: 15000 });
+await visit('#/export');
+await page.waitForSelector('main [data-not-built]', { timeout: 15000 });
 const ex = await page.locator('main').innerText();
 check('export: DXF/IFC live (WP-5.1)', /plan dxf/.test(ex) && /ifc model/.test(ex));
-check('export: unbuilt work named with its WP', /WP-5\.3 is not built/.test(ex));
-check('export: no costing engine implied', /No costing engine exists/i.test(ex));
-check('export: conflict count is the recorded 262', /262 recorded pack conflicts/.test(ex));
-await page.screenshot({ path: SHOTS + 'export.png' });
+/* WP-14.31: WHAT IS NOT BUILT IS NAMED BY WHAT IT IS, AND THE FIGURE IS THE API'S. These checks
+   pinned "WP-5.3 is not built", "No costing engine exists" and "262 recorded pack conflicts" --
+   a work-package numeral in reader copy, a sentence written in the page, and a count typed into
+   it. Each unbuilt card is a glossary record now and is held to that record's own words; the
+   costing sentence is the `no-costing-engine` record's; and the conflict figure the page draws
+   is held to the pack index's own rows, summed here from the route rather than remembered. */
+{
+  const cards = await page.$$eval('main [data-not-built]', (cs) => cs.map((c) => ({
+    id: c.getAttribute('data-not-built'),
+    title: ((c.querySelector('h3') || {}).innerText || '').replace(/\s+/g, ' ').trim(),
+    body: ((c.querySelector('[data-not-built-definition]') || {}).innerText || '').replace(/\s+/g, ' ').trim() })));
+  const recs = await Promise.all(cards.map((c) => termOf(c.id)));
+  const flat = (t) => String(t || '').replace(/\s+/g, ' ').trim();
+  check(`export: each unbuilt card states its forthcoming work in its record's words (${cards.map((c) => c.id).join(', ') || 'none'})`,
+    cards.length > 0 && cards.every((c, i) => recs[i] && c.title === flat(recs[i].term) && c.body === flat(recs[i].definition)));
+  check('export: no unbuilt card names the work package that would build it',
+    cards.length > 0 && !cards.some((c) => /\bWP-\d/.test(`${c.title} ${c.body}`)));
+  const costRec = await termOf('no-costing-engine');
+  const cost = flat(await page.locator('main [data-no-costing]').first().innerText().catch(() => ''));
+  if (!costRec) unjudged.push('export: no costing engine implied -- GET /api/glossary/no-costing-engine did not answer');
+  else check('export: no costing engine implied, in its record\'s words', cost.includes(flat(costRec.definition)));
+  const packs = await fetch(`${BASE}/api/proportions`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const rows = packs && Array.isArray(packs.packs) ? packs.packs : [];
+  const want = rows.length && rows.every((r) => Number.isInteger(r.conflicts))
+    ? rows.reduce((n, r) => n + r.conflicts, 0) : null;
+  const drawn = await page.locator('main [data-pack-conflicts]').first().getAttribute('data-pack-conflicts').catch(() => null);
+  if (want == null) unjudged.push('export: the conflict count -- GET /api/proportions states no per-pack conflicts');
+  else check(`export: the conflict count is the pack index's own rows summed (${drawn} against ${want})`,
+    drawn !== null && Number(drawn) === want && ex.includes(String(want)));
+}
+await shot('export');
+
+/* WP-14.27: an elevation leaves as the face the reader chose. Export drew only the entrance
+   front, so three of the four elevations the Drawing Set shows could be looked at and never
+   taken away. The face is an address filter worded by its record, and what is asserted is the
+   REQUEST BODY -- a picker that changes the chip and not the POST is the defect's own shape.
+   The two routes are answered here with a stand-in, because what is under test is what the
+   page SENDS; the drawing itself is the Drawing Set's subject above. */
+{
+  const faceTerm = (FACES.find((f) => f.id === NOT_FRONT) || {}).term;
+  const faceRec = faceTerm ? await termOf(faceTerm) : null;
+  const faceWord = faceRec && faceRec.term;
+  if (!faceWord) {
+    unjudged.push(`export: the face picker -- no glossary record answers for the ${NOT_FRONT} face`);
+  } else {
+    const chip = page.getByRole('radio', { name: new RegExp(`^${faceWord}$`, 'i') });
+    await chip.first().click().catch(() => {});
+    await page.waitForFunction((f) => new RegExp(`[?&]face=${f}(&|$)`).test(location.hash),
+      NOT_FRONT, { timeout: 10000 }).catch(() => {});
+    const exHash = parseHash(await page.evaluate(() => location.hash));
+    check(`export: picking a face writes it in the address (${JSON.stringify(exHash.params)})`,
+      exHash.surface === 'export' && exHash.params.face === NOT_FRONT);
+    await page.reload();
+    await page.waitForSelector('main [data-not-built]', { timeout: 15000 }).catch(() => {});
+    check(`export: and a reload keeps the face picked (${faceWord})`,
+      await chip.first().getAttribute('aria-checked').catch(() => null) === 'true');
+
+    const sent = {};
+    const standIn = async (route, key, body) => {
+      try { sent[key] = JSON.parse(route.request().postData() || '{}'); } catch { sent[key] = {}; }
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
+    };
+    await page.route('**/api/drawings/elevation', (r) => standIn(r, 'svg', { svg: '<svg/>' }));
+    await page.route('**/api/export/dxf', (r) => standIn(r, 'dxf', { filename: 'walk.dxf', text: '' }));
+    const svgBtn = page.locator('main button').filter({ hasText: /^\s*elevation\s*↓?\s*$/ }).first();
+    const dxfBtn = page.locator('main button').filter({ hasText: /^\s*elevation dxf\s*↓?\s*$/ }).first();
+    const enabled = async (b) => (await b.count()) > 0 && !(await b.isDisabled().catch(() => true));
+    if (!(await enabled(svgBtn)) || !(await enabled(dxfBtn))) {
+      unjudged.push('export: the face reaches the request -- the elevation buttons are not live on '
+        + 'this bench (no plan, a refused placement or a sketch), so nothing can be sent');
+    } else {
+      await svgBtn.click().catch(() => {});
+      await page.waitForTimeout(1500);
+      await dxfBtn.click().catch(() => {});
+      await page.waitForTimeout(1500);
+      check(`export: the elevation SVG is asked for at the face picked (${JSON.stringify(sent.svg && { face: sent.svg.face })})`,
+        !!sent.svg && sent.svg.face === NOT_FRONT);
+      check(`export: and so is the elevation DXF (${JSON.stringify(sent.dxf && { kind: sent.dxf.kind, face: sent.dxf.face })})`,
+        !!sent.dxf && sent.dxf.kind === 'elevation' && sent.dxf.face === NOT_FRONT);
+    }
+    await page.unroute('**/api/drawings/elevation');
+    await page.unroute('**/api/export/dxf');
+  }
+}
 
 // (11) Transcription - a drawing goes in, a record comes out, gaps named
-await rail.getByRole('button', { name: /Transcription/ }).click();
+await visit('#/transcription');
 await page.getByRole('button', { name: 'start a draft' }).click();
 const tr = await page.locator('main').innerText();
 check('transcription: gaps named before it is a record', /not yet a record/i.test(tr));
@@ -1457,11 +2907,20 @@ await page.mouse.up();
 const tr2 = await page.locator('main').innerText();
 check('transcription: a drag traces a room', /type unset/.test(tr2));
 check('transcription: the untyped room is a named gap', /has no type from the catalog/.test(tr2));
-await page.screenshot({ path: SHOTS + 'transcription.png' });
+await shot('transcription');
 
-// the rail's honest no-key state
-const aiRail = await page.locator('aside').last().innerText();
-check('rail present on every surface', /the rail/i.test(aiRail));
+// The assistant's pane is here, and it is NAMED — by its own glossary record, not by the words
+// "the rail" the pane printed before it said what it was (WP-14.13, PRD §I.11). The aside's
+// label is unchanged and is how it is found; the head is read with textContent, because the
+// eyebrow is upper-cased by CSS and innerText would return what the CSS drew.
+{
+  const assistant = await (await fetch(BASE + '/api/glossary/assistant')).json().catch(() => null);
+  const want = assistant && assistant.term ? assistant.term.term : null;
+  const aside = page.locator('aside[aria-label*="the rail"]');
+  const head = ((await aside.locator('[data-rail-head]').first().textContent().catch(() => '')) || '').trim();
+  check(`rail present on every surface, named by its record (${JSON.stringify(head)})`,
+    await aside.count() === 1 && Boolean(want) && head === want);
+}
 
 // ── WP-5.6: navigation, addressing and search ──────────────────────────────────
 // A place is a URL. Everything below is the one claim, tested from both ends.
@@ -1473,13 +2932,18 @@ await page.waitForTimeout(1200);
 check('a #/cite/ link resolves cold', /#\/faults\/porch-too-shallow-to-inhabit/.test(page.url()));
 check('and it landed on the fault', /four-foot porch/i.test(await page.locator('main').innerText()));
 
-// A deep link restores on refresh — the thing no amount of useState could do.
+// A deep link restores on refresh — the thing no amount of useState could do. The link is the
+// RETIRED `#/kit/craftsman` on purpose (WP-14.12, PRD §E.1): it is read as the dossier's kit
+// section and the address bar is rewritten without a history entry, so a link pasted before the
+// Kit moved still arrives, and the refresh below is of the address the app lives at.
 await page.goto(BASE + '/#/kit/craftsman', { waitUntil: 'networkidle' });
 await page.waitForTimeout(1500);
+check('a legacy #/kit address is rewritten to the dossier\'s kit section',
+  /#\/style\/craftsman\/kit$/.test(page.url()));
 await page.reload({ waitUntil: 'networkidle' });
 await page.waitForTimeout(1500);
-check('a refresh keeps the place', /#\/kit\/craftsman/.test(page.url()));
-check('and the place is loaded', /craftsman/i.test(await page.locator('main').innerText()));
+check('a refresh keeps the place', /#\/style\/craftsman\/kit$/.test(page.url()));
+check('and the place is loaded', await page.locator('[data-kit-style="craftsman"]').count() === 1);
 
 // Filters live in the URL, survive leaving and returning, and can be cleared in one act.
 await page.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
@@ -1491,7 +2955,7 @@ check('/ reaches the filter bar and it narrows', /q=porch/.test(page.url()));
 const faultsFiltered = await page.locator('main').innerText();
 check('the list says how much it is hiding',
   new RegExp(`${overview.counts.faults} solecisms · [1-9]\\d? shown`, 'i').test(faultsFiltered));
-await page.locator('nav[aria-label="surfaces"]').getByRole('button', { name: /The Kit/ }).click();
+await visit('#/style');
 await page.waitForTimeout(700);
 await page.goBack();
 await page.waitForTimeout(900);
@@ -1502,23 +2966,36 @@ check('one act clears every filter', !/q=porch/.test(page.url()));
 
 // The palette: opened by key, dispatches by citation, reachable by a word a newcomer
 // would actually type.
+// FOUND BY ITS OWN NAME (WP-14.7). It was `[role="dialog"]`, which was true only while the
+// palette was the one dialog this app could open; a definition popover is a dialog too, and
+// the name is the one `palette/CommandPalette.jsx` puts on its dialog element. Its results
+// are read inside it for the same reason -- `[role="option"]` is also any combobox's list.
+// AND THAT NAME IS A RECORD'S (WP-14.31): the dialog is labelled with the `search-the-corpus`
+// record's term, so the walk reads the name from the record rather than remembering it.
+const paletteName = await termOf('search-the-corpus').then((r) => (r && r.term) || null);
+if (!paletteName) unjudged.push('the palette -- GET /api/glossary/search-the-corpus did not answer, so its name is unknown');
+const palette = page.getByRole('dialog', { name: paletteName || 'Search the corpus', exact: true });
 await page.keyboard.press('Control+k');
-await page.waitForSelector('[role="dialog"]', { timeout: 5000 });
-check('⌘K opens the palette', await page.locator('[role="dialog"]').count() > 0);
+await palette.waitFor({ state: 'visible', timeout: 5000 });
+check('⌘K opens the palette', await palette.count() > 0);
 await page.keyboard.type('mistakes');
 await page.waitForTimeout(500);
+// By the option's own id (WP-14.13): the place's words are its glossary record's and may be
+// reworded there; the id is the site map's and does not move.
 check('a newcomer word finds the fault corpus',
-  /Fault Corpus/i.test(await page.locator('[role="option"]').first().innerText()));
+  (await palette.locator('[role="option"]').first().getAttribute('data-id')) === 'faults');
 await page.keyboard.press('Escape');
 await page.waitForTimeout(200);
 await page.keyboard.press('Control+k');
 await page.waitForTimeout(300);
 await page.keyboard.type('tidewater georgian');      // words in either order
 await page.waitForTimeout(500);
-const hit = await page.locator('[role="option"]').first().innerText();
+const hit = await palette.locator('[role="option"]').first().innerText();
 check('half-remembered word order still finds it', /Tidewater/i.test(hit));
 check('the citation is printed beside the result', /style:tidewater-georgian/.test(hit));
-await page.screenshot({ path: SHOTS + 'palette.png' });
+check('and the result carries its citation as data, which a place does not',
+  (await palette.locator('[role="option"]').first().getAttribute('data-cite')) === 'style:tidewater-georgian');
+await shot('palette');
 await page.keyboard.press('Enter');
 await page.waitForTimeout(900);
 check('the palette navigates to the cited place', /#\/style\/tidewater-georgian/.test(page.url()));
@@ -1535,8 +3012,17 @@ const mapText = await page.locator('main').innerText();
 // says so rather than planting a firm dot in the middle of a nation.
 check('placement precision is counted, not implied', /\d+ country/i.test(mapText)
   && /no hearth to place it at/i.test(mapText));
-check('the gazetteer is disclaimed as interface, not source',
-  /in prose, not coordinates/i.test(mapText) && /none of them is a source/i.test(mapText));
+// The disclaimer is the `map-positions` record's definition since WP-14.33 (a corpus fact is
+// recorded, not typed): held to the record the API serves rather than to a phrase copied here.
+{
+  const rec = await termOf('map-positions');
+  const flat = (t) => String(t).replace(/\s+/g, ' ').trim();
+  check('the gazetteer is disclaimed as interface, not source, in the map-positions record\'s words',
+    !!rec && typeof rec.definition === 'string' && typeof rec.more === 'string'
+    && flat(rec.definition).length > 20 && flat(rec.more).length > 20
+    && flat(mapText).includes(flat(rec.definition)) && flat(mapText).includes(flat(rec.more))
+    && await page.locator('main [data-term-definition="map-positions"]').count() === 1);
+}
 // OQ 65: a country-wide mark must be distinguishable from a failure to place. Every one
 // of them is now country-wide by the corpus's own account — a family, a tradition, or a
 // record whose hearth says it has none — and the drawing says which.
@@ -1553,7 +3039,7 @@ check('coarse marks are attributed to the record, not to the drawing',
 }
 check('edges inside one hearth are counted, not faked',
   /share a hearth/i.test(mapText) || !/not drawn/i.test(mapText));
-await page.screenshot({ path: SHOTS + 'phylogeny-map.png' });
+await shot('phylogeny-map');
 
 // and the two readings are one graph: switching back keeps the taxon
 await page.locator('main').getByRole('radio', { name: 'tree' }).click();
@@ -1566,7 +3052,10 @@ await page.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
 await page.waitForTimeout(600);
 await page.keyboard.press('?');
 await page.waitForTimeout(400);
-const card = await page.locator('[role="dialog"]').innerText();
+// by its own name, as the palette is and for the same reason (WP-14.7): the dialog
+// `palette/ShortcutCard.jsx` opens, not whichever dialog happens to be on the page
+const card = await page.getByRole('dialog', { name: 'Keyboard shortcuts and addressing', exact: true })
+  .innerText();
 // ── the adversarial audit's fixes, pinned so they cannot come back ──────────────
 // Every one of these passed the suite while being broken; that is why they are here.
 
@@ -1579,30 +3068,205 @@ const styleFilter = await page.locator('main input[role="combobox"]').first().in
 check('a selection-key filter axis actually holds', /craftsman/i.test(styleFilter));
 check('and it counts as narrowing', /1 narrowing/i.test(await page.locator('main').innerText()));
 
-// W3: 138 of 665 palette entries dispatched a selection key no surface read, so the search
-// silently did nothing. A record with no detail view is acknowledged rather than dropped.
-await page.goto(BASE + '/#/cite/room:parlor');
-await page.waitForTimeout(1600);
-check('a searched record with no detail view is acknowledged',
-  /searched/i.test(await page.locator('main').innerText()));
+// W3, RE-CUT AT WP-14.23 (tranche 2 §B.1). 138 of 665 palette entries once dispatched a
+// selection key no surface read, so the search silently did nothing; the fix of the day was a
+// "searched" card floated over a surface that could not show the record -- a room over the
+// bench, a massing over the family tree. Every kind of record has a page of its own now, so the
+// property that card stood in for is asserted instead: A PALETTE RESULT LANDS ON A PAGE SHOWING
+// THAT RECORD. One record of every kind with a page, read from the index the palette searches
+// (the first of its kind by id, never a literal), found in the palette by typing its id,
+// dispatched the way a reader does, and held to three things: the address is its page's own, the
+// page carries that citation, and the record's own head drew -- a page saying the record could
+// not be read is not the record.
+{
+  // the keys card opened above may still be up; the palette is opened from a clear page
+  const keysCard = page.getByRole('dialog', { name: 'Keyboard shortcuts and addressing', exact: true });
+  if (await keysCard.isVisible().catch(() => false)) await page.keyboard.press('Escape');
+  const entries = Array.isArray(INDEX.entries) ? INDEX.entries : [];
+  for (const k of PAGE_KINDS) {
+    const e = entries.filter((x) => x && x.kind === k.cite).sort((a, b) => String(a.id).localeCompare(String(b.id)))[0];
+    if (!e) { check(`the search index holds a ${k.cite} record to look for`, false); continue; }
+    await visit('#/faults');
+    await page.keyboard.press('Control+k');
+    await palette.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    /* The palette focuses its input a tick AFTER it paints (`setTimeout(..., 0)`), so keys typed
+       the moment the dialog is visible can land before the focus does and lose their first
+       characters -- measured on this block's first run: two of five ids went unfound, while the
+       palette's own `search()` ranks every one of the five first. `fill` writes the input itself,
+       which is what a reader's typing ends as, and the option is waited for rather than slept on. */
+    await palette.locator('input').first().fill(e.id);
+    const opt = palette.locator(`[role="option"][data-cite="${e.cite}"]`);
+    await opt.first().waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    if (!(await opt.count())) {
+      check(`the palette offers ${e.cite} when its id is typed`, false);
+      await page.keyboard.press('Escape');
+      continue;
+    }
+    await opt.first().click();
+    const want = '#/' + SURFACE_PATHS[k.surface].path + '/' + e.id;
+    const sel = `[data-record-page="${e.cite}"] [data-record-head="${e.id}"]`;
+    await page.waitForSelector(sel, { timeout: 20000 }).catch(() => {});
+    const at = new URL(page.url()).hash;
+    const heads = await page.locator(sel).count();
+    check(`a palette ${k.cite} result lands on its own page, showing it (${e.cite} -> ${at}, ${heads} head)`,
+      at === want && heads === 1);
+  }
+}
 
 // W5: every surface guarded its sync with `if (selection?.x)`, so going back to a bare
-// surface left the previous record on screen — the URL and the panel disagreeing.
-await page.goto(BASE + '/#/kit/craftsman');
-await page.waitForTimeout(1400);
-await page.goto(BASE + '/#/kit');
-await page.waitForTimeout(1400);
+// surface left the previous record on screen — the URL and the panel disagreeing. The bare
+// style surface is the Styles INDEX since WP-14.12 (PRD §E.2) and never a record, so the check
+// is structural -- the index is on screen and no dossier head is -- where it read the first
+// 400 characters for one word. The premise is asserted first: a record that never rendered
+// cannot be left behind, and the check would pass on it.
+await page.goto(BASE + '/#/style/craftsman');
+await page.waitForSelector('[data-dossier-head="craftsman"]', { timeout: 15000 }).catch(() => {});
+check('W5 premise: the record was on screen before the bare address',
+  await page.locator('[data-dossier-head="craftsman"]').count() === 1);
+await page.goto(BASE + '/#/style');
+await page.waitForSelector('[data-styles-index]', { timeout: 15000 }).catch(() => {});
 check('a bare surface URL does not still show the last record',
-  !/craftsman/i.test((await page.locator('main').innerText()).slice(0, 400)));
+  await page.locator('[data-styles-index]').count() === 1
+  && await page.locator('[data-dossier-head]').count() === 0);
 
 // W6: setPointerCapture on the <svg> retargeted the click, so no mark on the map could be
 // selected — while panning still worked, which is why it looked fine.
-await page.goto(BASE + '/#/phylogeny?view=map');
-await page.waitForTimeout(2000);
-await page.locator('main svg g[style*="pointer"]').first().click({ force: true });
-await page.waitForTimeout(900);
-check('a hearth on the map can be clicked',
-  /VARIANT|STYLE|FAMILY|TRADITION|searched/i.test(await page.locator('main').innerText()));
+/* RE-CUT AT WP-14.27: THIS CHECK COULD NOT FAIL. It asserted that the page's text held a rank
+   word, and the page always did -- the rank chips in the strip read "tradition family style
+   variant", and a bare #/phylogeny drew the default taxon's record with its rank beside the map
+   before anything was clicked. Deleting the click, or the hearth's handler, left it green. What a
+   click on a hearth does is PICK a taxon: nothing is shown before it, and after it the address
+   names a taxon and that taxon's own record is open. */
+/* AND THE RE-CUT'S FIRST RUN WENT RED, ON THE INSTRUMENT AND THEN ON THE PRODUCT. The old
+   locator clicked the FIRST hearth in document order with `force`, and the first hearth sits
+   beneath the record pane: its centre is the pane, so the click never reached the map. The
+   hearth clicked now is one whose centre is its own mark, asked of the page with
+   `elementFromPoint`, at that point. And a HOLLOW mark -- a country-precision hearth, drawn
+   `fill="none"` -- took a click only on its dashed stroke: measured, three of the six on screen
+   passed a click at their centre through to the coastline beneath, and the map panned instead of
+   picking. `MapView.jsx` gives the disc `pointer-events: visible` now, and the second check here
+   picks a hollow mark at its centre, which fails with that attribute removed. */
+const hearthCentres = async (hollow) => page.evaluate((h) => {
+  const out = [];
+  for (const c of document.querySelectorAll('main svg g[style*="pointer"] > circle')) {
+    if ((c.getAttribute('fill') === 'none') !== h) continue;
+    const b = c.getBoundingClientRect();
+    const x = b.x + b.width / 2, y = b.y + b.height / 2;
+    const w = document.querySelector('main svg').getBoundingClientRect();
+    // on the plate, and not under the record pane or the strip: the centre must be inside the
+    // map's own box and the topmost thing there must not be outside the map's svg
+    const e = document.elementFromPoint(x, y);
+    if (x > w.left && x < w.right && y > w.top && y < w.bottom && e && e.closest('main svg')) {
+      // `own`: the mark itself is topmost there. `onMark`: SOME mark is -- a neighbouring hearth
+      // may overlap this one at the atlas's scale, and a click there picks that neighbour, which
+      // is a pick; what may not happen is a click at a mark's centre reaching the map beneath.
+      out.push({ x, y, own: c.parentNode.contains(e), onMark: !!e.closest('g[style*="pointer"]'),
+        hit: e.tagName.toLowerCase() });
+    }
+  }
+  return out;
+}, hollow);
+async function pickOnMap(hollow, what) {
+  await page.goto(BASE + '/#/phylogeny?view=map');
+  await page.reload();
+  await page.waitForTimeout(2000);
+  const before = await page.locator('main [data-taxon-record]').count();
+  const marks = await hearthCentres(hollow);
+  const at = marks.find((m) => m.own);
+  if (!at) { unjudged.push(`${what} -- no such mark is on screen at the map's opening view`); return; }
+  // every such mark on screen takes the click at its centre, which is a question of geometry
+  // and asks no request; then one of them is really clicked
+  const through = marks.filter((m) => !m.onMark);
+  check(`${what}: no click at the centre of one on screen falls through to the map (${through.length} of ${marks.length}${through.length ? ': ' + [...new Set(through.map((m) => m.hit))].join(', ') : ''})`,
+    through.length === 0);
+  await page.mouse.click(at.x, at.y);
+  await page.waitForTimeout(900);
+  const picked = parseHash(await page.evaluate(() => location.hash)).selection.style;
+  check(`${what}: it names a taxon in the address and opens its record (${before} shown before, ${picked} after)`,
+    before === 0 && !!picked && await page.locator(`main [data-taxon-record="${picked}"]`).count() === 1);
+}
+await pickOnMap(false, 'a hearth on the map can be clicked');
+await pickOnMap(true, 'a hollow (country-precision) mark is picked by a click in its middle, not only on its stroke');
+
+/* ── WP-14.23: the Elements index and one record of each kind ─────────────────────────────
+
+   The Elements index is every slot the ontology names, each with the count of styles whose
+   RESOLVED kit specifies it; the four plan-type kinds are links to their own indexes above it.
+   Every figure here is read from the API the page reads, never typed: the row count is
+   `GET /api/slots`'s, each row's count is that row's `specified_by`, and a kind's index holds
+   exactly the records the search index names of that kind. Then one record of each kind -- the
+   one its own surface record offers as `try` (§A.2), so the example a reader is handed is the
+   one walked -- each held to its head, and to the relation it shows FROM THE OTHER SIDE, whose
+   count must be the server's own list for that record and must not be zero (a record with an
+   empty inverse would pass the comparison with nothing drawn). The parti's rooms are a TABLE,
+   and its page draws no diagram (§G). */
+{
+  const slotsBody = await (await fetch(BASE + '/api/slots')).json().catch(() => null);
+  const slotRows = slotsBody && Array.isArray(slotsBody.slots) ? slotsBody.slots : [];
+  await visit('#/elements');
+  await page.waitForSelector('[data-elements-index] [data-slot-row]', { timeout: 20000 }).catch(() => {});
+  const drawn = await page.evaluate(() => [...document.querySelectorAll('[data-elements-index] [data-slot-row]')]
+    .map((r) => [r.getAttribute('data-slot-row'), r.getAttribute('data-specified-by')]));
+  const served = new Map(slotRows.map((r) => [r.id, String(r.specified_by)]));
+  const off = drawn.filter(([id, n]) => served.get(id) !== n).map(([id]) => id);
+  check(`Elements lists every slot the ontology names with its served count (${drawn.length} drawn of ${slotRows.length}`
+    + (off.length ? `; off: ${off.slice(0, 5).join(', ')}` : '') + ')',
+    slotRows.length > 0 && drawn.length === slotRows.length && off.length === 0);
+  const kindLinks = await page.evaluate(() => [...document.querySelectorAll('[data-record-kinds] [data-kind-index] a')]
+    .map((a) => [a.closest('[data-kind-index]').getAttribute('data-kind-index'), a.getAttribute('href')]));
+  const wantKinds = RECORD_KINDS.map((k) => [k.surface, formatHash(k.surface, {}, {})]);
+  check(`Elements links each plan-type kind to its own index (${kindLinks.map(([s]) => s).join(', ')})`,
+    JSON.stringify(kindLinks) === JSON.stringify(wantKinds));
+  await shot('elements', [1440]);
+
+  // each kind's index holds exactly the records of that kind the search index names
+  const entries = Array.isArray(INDEX.entries) ? INDEX.entries : [];
+  for (const k of RECORD_KINDS) {
+    await visit(formatHash(k.surface, {}, {}));
+    await page.waitForSelector(`[data-record-index="${k.surface}"] [data-index-row]`, { timeout: 20000 }).catch(() => {});
+    const rows = await page.locator(`[data-record-index="${k.surface}"] [data-index-row]`).count();
+    const want = entries.filter((x) => x && x.kind === k.cite).length;
+    check(`the ${k.surface} index lists every ${k.cite} record (${rows} of ${want})`, want > 0 && rows === want);
+  }
+
+  const terms = GLOSSARY_BODY && Array.isArray(GLOSSARY_BODY.terms) ? GLOSSARY_BODY.terms : [];
+  const tryOf = (surface) => (terms.find((t) => t.id === `surface-${surface}`) || {}).surface?.try || null;
+  // the relation each page shows from the other side, and where the server states it
+  const INVERSE = {
+    slot: { sel: '[data-specified-by]', attr: 'data-specified-by', read: (r) => r.bindings && r.bindings.specified, api: (id) => `/api/slots/${id}` },
+    room: { sel: '[data-inverse="grouping"]', attr: 'data-count', read: (r) => r.appears_in_groupings, api: (id) => `/api/rooms/${id}` },
+    massing: { sel: '[data-inverse="style"]', attr: 'data-count', read: (r) => r.used_by, api: (id) => `/api/massings/${id}` },
+    grouping: { sel: '[data-inverse="parti"]', attr: 'data-count', read: (r) => r.carried_by, api: (id) => `/api/groupings/${id}` },
+    parti: { sel: '[data-inverse="style-native"]', attr: 'data-count', read: (r) => r.nativity_by_style && r.nativity_by_style.native, api: (id) => `/api/partis/${id}` },
+  };
+  for (const k of PAGE_KINDS) {
+    const eg = tryOf(k.surface);
+    const id = typeof eg === 'string' && eg.startsWith(k.cite + ':') ? eg.slice(k.cite.length + 1) : null;
+    if (!id) {
+      check(`surface-${k.surface} offers a ${k.cite} record to try (${eg})`, false);
+      continue;
+    }
+    const inv = INVERSE[k.cite];
+    const rec = await (await fetch(BASE + inv.api(encodeURIComponent(id)))).json().catch(() => null);
+    const list = rec && inv.read(rec);
+    const want = Array.isArray(list) ? list.length : null;
+    await visit(formatHash(k.surface, { [k.key]: id }, {}));
+    const page_ = `[data-record-page="${eg}"]`;
+    await page.waitForSelector(`${page_} [data-record-head="${id}"]`, { timeout: 20000 }).catch(() => {});
+    const head = await page.locator(`${page_} [data-record-head="${id}"]`).count();
+    const got = await page.locator(`${page_} ${inv.sel}`).first().getAttribute(inv.attr, { timeout: 2000 }).catch(() => null);
+    check(`the ${k.cite} page for ${id} draws its head and its other side at the server's count (${got} of ${want})`,
+      head === 1 && typeof want === 'number' && want > 0 && got === String(want));
+    if (k.cite === 'parti') {
+      const tableRows = await page.locator(`${page_} table[data-parti-topology] tr[data-parti-room]`).count();
+      const svgs = await page.locator(`${page_} [data-record-body="parti"] svg`).count();
+      const stated = rec && rec.parti && Array.isArray(rec.parti.rooms) ? rec.parti.rooms.length : null;
+      check(`the parti's rooms are a table of ${stated} rows and the page draws no diagram (${tableRows} rows, ${svgs} svg)`,
+        typeof stated === 'number' && stated > 0 && tableRows === stated && svgs === 0);
+    }
+    await shot(`record-${k.cite}`, [1440]);
+  }
+}
 
 check('? explains the keys and the addressing', /kind:id/.test(card) && /⌘K/.test(card));
 await page.keyboard.press('Escape');
@@ -1729,7 +3393,7 @@ check('full screen takes the masthead and both rails',
   check(`and the way out is on screen (${box ? Math.round(box.y) : '?'} of ${vp.height})`,
     !!box && box.y >= 0 && box.y + box.height <= vp.height && box.x >= 0);
 }
-await page.screenshot({ path: SHOTS + 'phylogeny-map-full.png' });
+await shot('phylogeny-map-full');
 /* Switching the READING while full used to strand the reader: the exit chip lived only in
    MapView, so pressing `tree` unmounted the one visible way out while the chrome stayed
    hidden. The strip survives both readings, so the control belongs to the strip. */
@@ -1748,7 +3412,7 @@ check('escape gives the instrument back',
 // chrome-less shell onto a surface with no control to leave it by.
 await page.getByRole('button', { name: /full screen/i }).click();
 await page.waitForTimeout(400);
-await page.goto(BASE + '/#/kit', { waitUntil: 'networkidle' });
+await page.goto(BASE + '/#/style', { waitUntil: 'networkidle' });
 await page.waitForTimeout(1200);
 check('leaving the atlas leaves full screen with it, not a shell with no way out',
   await page.locator('nav[aria-label="surfaces"]').count() === 1);
@@ -1765,7 +3429,7 @@ check('[ and ] fold the surface list and the rail away',
 check('a folded pane leaves a spine to bring it back, not a trapdoor',
   await page.getByRole('button', { name: /show the surface list/i }).count() === 1
   && await page.getByRole('button', { name: /show the rail/i }).count() === 1);
-await page.screenshot({ path: SHOTS + 'phylogeny-map-folded.png' });
+await shot('phylogeny-map-folded');
 await page.getByRole('button', { name: /show the surface list/i }).click();
 await page.getByRole('button', { name: /show the rail/i }).click();
 await page.waitForTimeout(300);
@@ -1933,7 +3597,7 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     check(`the caption publishes the refusal beside the words (${bench.capRefused})`,
       bench.capRefused === r.kind);
 
-    await rail.getByRole('button', { name: /Drawing Set/ }).click();
+    await visit('#/drawings');
     await page.waitForTimeout(2500);
     const ds = await page.evaluate(() => ({
       download: [...document.querySelectorAll('button')]
@@ -1942,8 +3606,17 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     }));
     check('the Drawing Set offers no download for a refused record', ds.download === 0);
     check('and draws no plate for one', ds.plates === 0);
+    // WP-14.10: and the journey, standing on the drawings step, does not offer them either
+    {
+      const jb = await journeyRead();
+      const st = jb && jb.steps.drawings;
+      check(`the journey on the Drawing Set reads its own step as blocked: refused (${st ? `${st.tag}, ${st.blocked}` : 'absent'})`,
+        !!st && st.tag === 'span' && st.blocked === 'refused' && st.current === 'step');
+      check('and offers no link on to the export', !!jb && !(jb.next && jb.next.tag === 'a')
+        && !!jb.steps.export && jb.steps.export.tag === 'span');
+    }
 
-    await rail.getByRole('button', { name: /Details & Export/ }).click();
+    await visit('#/export');
     await page.waitForTimeout(800);
     const ex = await page.evaluate(() => {
       const chips = [...document.querySelectorAll('button')]
@@ -1960,7 +3633,1148 @@ check('and the spine brings it back', await page.locator('nav[aria-label="surfac
     check(`and every one is disabled on a refused record (${ex.enabled} enabled)`, ex.enabled === 0);
     check('and it says why', ex.blocked === true);
     check('and shows the same conflict set the bench showed', ex.panel === true);
+    // WP-14.10: and the journey on the export step says the same, as text and not a link
+    {
+      const jb = await journeyRead();
+      const st = jb && jb.steps.export;
+      check(`the journey on Details & Export reads its own step as blocked: refused (${st ? `${st.tag}, ${st.blocked}` : 'absent'})`,
+        !!st && st.tag === 'span' && st.blocked === 'refused' && st.current === 'step');
+    }
   }
+}
+
+/* DEFINITIONS ON SCREEN (WP-14.8, PRD §E.2, §E.4, §I.1, §I.4).
+
+   The Glossary index and a term page, read against `GET /api/glossary` rather than against any
+   count typed here: the families the page draws must be the payload's non-empty `by_family` in
+   its order, the words it draws must number the payload's `count`, and a term page must show
+   that record's own definition. Then one `Term`, driven the three ways a reader opens it:
+   Enter (a non-modal dialog, labelled by its word, focus taken inside, "more" at the record's
+   citation), Escape (closed, focus back on the word), and a resting mouse (open after the
+   delay) -- and a change of place closes it. Last, the page reflows: at 1280 px there is no
+   sideways scroll, and the shell marks it a reflow page (WP-14.30's table; the 1380 px floor it
+   once released is gone).
+
+   WP-14.3 serves the route in parallel with this package. Where it does not answer with a
+   terms list, every check below would be judging an app with no glossary to read, so the block
+   is UNJUDGED by name -- the walk's own third state -- and not a pass. */
+{
+  const gl = await fetch(`${BASE}/api/glossary`)
+    .then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  if (!gl || !Array.isArray(gl.terms) || !gl.terms.length) {
+    unjudged.push('definitions on screen — GET /api/glossary did not answer with a terms list, so '
+      + 'the Glossary, its page head and the Term popover have nothing to be judged against');
+  } else {
+    await visit('#/glossary');
+    await page.waitForSelector('[data-glossary-index], [data-glossary-failed]', { timeout: 30000 })
+      .catch(() => {});
+    const idx = await page.evaluate(() => ({
+      families: [...document.querySelectorAll('[data-glossary-index] [data-family]')]
+        .map((s) => s.getAttribute('data-family')),
+      terms: document.querySelectorAll('[data-glossary-index] [data-glossary-term]').length,
+      heads: [...document.querySelectorAll('[data-page-head]')].map((h) => h.getAttribute('data-page-head')),
+      failed: !!document.querySelector('[data-glossary-failed]'),
+      reflow: !!document.getElementById('root')?.hasAttribute('data-reflow'),
+      noEntry: /no entry:/.test(document.querySelector('main')?.textContent || ''),
+    }));
+    const nonEmpty = Object.entries(gl.by_family || {})
+      .filter(([, ids]) => Array.isArray(ids) && ids.length).map(([f]) => f);
+    check('the Glossary read the glossary rather than reporting it unreadable', !idx.failed);
+    // the denominator first: a selector matching nothing would make every comparison below vacuous
+    check(`the Glossary draws families to judge (${idx.families.length})`, idx.families.length > 0);
+    check(`and they are the payload's non-empty families, in its order (${idx.families.length} of ${nonEmpty.length})`,
+      JSON.stringify(idx.families) === JSON.stringify(nonEmpty));
+    check(`and it lists every word the server serves (${idx.terms} of ${gl.count})`, idx.terms === gl.count);
+    check(`exactly one page head, and it is the Glossary's own record (${JSON.stringify(idx.heads)})`,
+      idx.heads.length === 1 && idx.heads[0] === 'surface-glossary');
+    check('the shell marks the Glossary a reflow page while it is shown', idx.reflow);
+    check('no word on the index reads "no entry"', !idx.noEntry);
+
+    // The page head's "Try" link, where the record's own `surface.try` is a `term:` cite: the
+    // search index names no term, so the link is worded by the glossary record it points at,
+    // never printed as the raw cite. Read hidden or not -- the words are the claim, not the fold.
+    const head = gl.terms.find((t) => t.id === 'surface-glossary');
+    const tryCite = head && head.surface && typeof head.surface.try === 'string' ? head.surface.try : null;
+    if (!tryCite || !tryCite.startsWith('term:')) {
+      unjudged.push(`the page head's Try link -- surface-glossary's try is ${JSON.stringify(tryCite)}, `
+        + 'not a term: cite, so the wording rule has no subject here');
+    } else {
+      const target = gl.terms.find((t) => t.id === tryCite.slice('term:'.length));
+      const tryText = await page.evaluate(() =>
+        document.querySelector('[data-page-head] .tdl-page-head-try .tdl-record-name')?.textContent || '');
+      check(`the page head's Try link is worded by its record, not printed as ${tryCite} (${JSON.stringify(tryText)})`,
+        !!target && tryText.trim() === String(target.term).trim());
+    }
+
+    // The focus ring: the index's filter field, focused, draws the global ring rather than none.
+    const ring = await page.evaluate(() => {
+      const i = document.querySelector('[data-glossary-index] input');
+      if (!i) return null;
+      i.focus();
+      const cs = getComputedStyle(i);
+      return { style: cs.outlineStyle, width: cs.outlineWidth };
+    });
+    check(`a focused text field draws a focus ring (${ring && `${ring.style} ${ring.width}`})`,
+      !!ring && ring.style !== 'none' && parseFloat(ring.width) >= 2);
+
+    // A term page, for a record naming a confusable, so the page carries a Term to open.
+    const rec = gl.terms.find((t) => Array.isArray(t.confusable_with) && t.confusable_with.length);
+    if (!rec) {
+      unjudged.push('the Term popover — no glossary record names a confusable, so no term page '
+        + 'carries a Term to open');
+    } else {
+      await visit(formatHash('glossary', { term: rec.id }));
+      await page.waitForSelector('[data-glossary-page] [data-definition]', { timeout: 15000 })
+        .catch(() => {});
+      const shown = await page.evaluate(() =>
+        document.querySelector('[data-glossary-page] [data-definition]')?.textContent || '');
+      check(`the term page shows the record's own definition (${rec.id})`,
+        shown.trim() === String(rec.definition).trim());
+      const terms = page.locator('[data-glossary-page] button.tdl-term[data-term]');
+      const nTerms = await terms.count();
+      check(`the term page carries a Term to open (${nTerms})`, nTerms > 0);
+      if (nTerms) {
+        const term = terms.first();
+        const tid = await term.getAttribute('data-term');
+        await term.focus();
+        await page.keyboard.press('Enter');
+        await page.waitForSelector('[role="dialog"][data-term-popover]', { timeout: 5000 }).catch(() => {});
+        await page.waitForTimeout(150);
+        const pop = await page.evaluate(() => {
+          const d = document.querySelector('[role="dialog"][data-term-popover]');
+          if (!d) return null;
+          const b = document.querySelector('button.tdl-term[aria-expanded="true"]');
+          const lab = d.getAttribute('aria-labelledby');
+          const r = d.getBoundingClientRect();
+          return {
+            modal: d.getAttribute('aria-modal'),
+            labelled: !!(lab && document.getElementById(lab)?.textContent.trim()),
+            controls: !!b && b.getAttribute('aria-controls') === d.id,
+            more: d.querySelector('.tdl-term-pop-more')?.getAttribute('href') || null,
+            focusInside: d.contains(document.activeElement),
+            inView: r.width > 0 && r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight,
+            def: d.querySelector('.tdl-term-pop-def')?.textContent || '',
+          };
+        });
+        check('Enter on a Term opens its definition as a dialog', pop !== null);
+        if (pop) {
+          check('the dialog is non-modal: it carries no aria-modal', pop.modal === null);
+          check('and is labelled by its word', pop.labelled);
+          check('the word says it is expanded and names the dialog it controls', pop.controls);
+          check(`"more" is the record's citation (${pop.more})`, pop.more === `#/cite/term:${tid}`);
+          check('a keyboard reader is taken into the definition', pop.focusInside);
+          check('the definition stands inside the window', pop.inView);
+          const want = gl.terms.find((t) => t.id === tid)?.definition || '';
+          check('and it says the record’s own definition', !!want && pop.def.trim() === want.trim());
+        }
+        await page.keyboard.press('Escape');
+        await page.waitForTimeout(200);
+        const after = await page.evaluate(() => ({
+          open: !!document.querySelector('[role="dialog"][data-term-popover]'),
+          back: !!document.activeElement?.matches?.('button.tdl-term')
+            && document.activeElement.getAttribute('aria-expanded') === 'false',
+        }));
+        check('Escape closes the definition', !after.open);
+        check('and gives focus back to the word', after.back);
+
+        await page.mouse.move(0, 0);
+        await term.hover();
+        await page.waitForTimeout(800);
+        check('a mouse resting on the word opens it after the delay',
+          (await page.locator('[role="dialog"][data-term-popover]').count()) === 1);
+        await visit('#/glossary');
+        await page.waitForTimeout(300);
+        check('a change of place closes every definition',
+          (await page.locator('[role="dialog"][data-term-popover]').count()) === 0);
+      }
+    }
+
+    // The reflow: at a laptop's width the Glossary still fits the window.
+    const vp = page.viewportSize();
+    await page.setViewportSize({ width: 1280, height: vp.height });
+    await page.waitForTimeout(400);
+    const sideways = await page.evaluate(() =>
+      document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth);
+    check(`the Glossary reflows at 1280 px with no sideways scroll (${sideways} px over)`, sideways <= 1);
+    await page.setViewportSize(vp);
+    await shot('glossary', [SHOT_WIDTH, 1280]);
+  }
+}
+
+/* ------------------------------------------------------------ WP-14.10: THE HOUSE JOURNEY
+
+   One bar, mounted by App above <main> on the six house surfaces -- the five steps and the
+   tracing surface that joins them at the plan -- and on no other. Where it is shown is read off
+   the router's own table of surfaces, so a surface added later is judged without this list
+   growing; which six are the house is the bar's rule and is stated here once, for the check.
+   Full screen is not driven: only the family tree offers it and the bar is not there anyway, so a
+   walk check would pass over an absence it did not cause. `journey/bar.js`'s `showJourneyBar`
+   is driven over every surface with full screen on in `src/journeyBar.test.mjs`. */
+async function journeyRead() {
+  // A FUNCTION DECLARATION, so the two refusal blocks above can call it: it is hoisted to the
+  // top of the module, where a const or a block-scoped declaration here would not be.
+  return page.evaluate(() => {
+    const bar = document.querySelector('nav[aria-label="house journey"]');
+    if (!bar) return null;
+    const steps = {};
+    for (const el of bar.querySelectorAll('[data-step]')) {
+      const id = el.getAttribute('data-step');
+      const w = bar.querySelector(`[data-step-words="${id}"]`);
+      steps[id] = { tag: el.tagName.toLowerCase(), blocked: el.getAttribute('data-blocked'),
+        current: el.getAttribute('aria-current'), href: el.getAttribute('href'),
+        words: w ? w.textContent.replace(/\s+/g, ' ').trim() : null };
+    }
+    const next = bar.querySelector('[data-next]');
+    return {
+      inMain: !!bar.closest('main'),
+      steps,
+      next: next ? { tag: next.tagName.toLowerCase(), id: next.getAttribute('data-next'),
+        href: next.getAttribute('href'), text: next.textContent.replace(/\s+/g, ' ').trim() } : null,
+      origin: bar.querySelector('[data-journey-origin]')?.getAttribute('data-journey-origin') || null,
+    };
+  });
+}
+{
+  const HOUSE = { brief: 'brief', candidates: 'candidates', workbench: 'plan', drawings: 'drawings',
+    export: 'export', transcription: 'transcription' };
+  const surfaces = Object.keys(SURFACE_PATHS);
+  // the denominator first: the router must still know every house surface this names
+  const unknown = Object.keys(HOUSE).filter((s) => !surfaces.includes(s));
+  check(`the router knows every house surface the bar is for (${unknown.join(', ') || 'all six'})`, !unknown.length);
+  const shownOn = [];
+  const wrong = [];
+  for (const s of surfaces) {
+    await visit(formatHash(s, {}, {}));
+    await page.waitForTimeout(250);
+    const jb = await journeyRead();
+    if (jb) shownOn.push(s);
+    if (HOUSE[s]) {
+      const cur = jb && Object.entries(jb.steps).filter(([, v]) => v.current === 'step').map(([k]) => k);
+      if (!jb) wrong.push(`${s}: no bar`);
+      else if (jb.inMain) wrong.push(`${s}: the bar is inside <main>`);
+      else if (!cur || cur.length !== 1 || cur[0] !== HOUSE[s]) wrong.push(`${s}: marks ${JSON.stringify(cur)} current`);
+    } else if (jb) {
+      wrong.push(`${s}: a bar where there is no house step`);
+    }
+  }
+  check(`the journey is on the six house surfaces and no other (shown on ${shownOn.join(', ')})`
+    + (wrong.length ? ' -- ' + wrong.join('; ') : ''), wrong.length === 0 && shownOn.length === 6);
+
+  /* Next is a link exactly where the step in view can proceed. Read on the steps a fresh reader
+     meets: whatever the bench holds by now, the export step is last and offers no Next, and a
+     step that is blocked is never the target of a link. */
+  await visit('#/export');
+  await page.waitForTimeout(250);
+  const last = await journeyRead();
+  check('the last step offers no Next', !!last && !last.next);
+  for (const s of ['brief', 'candidates', 'workbench', 'drawings']) {
+    await visit(formatHash(s, {}, {}));
+    await page.waitForTimeout(250);
+    const jb = await journeyRead();
+    const n = jb && jb.next;
+    const target = n && jb.steps[n.id];
+    const why = [];
+    if (!n) why.push('no Next at all');
+    else if (n.tag === 'a' && (!target || target.tag !== 'a')) why.push(`a link on to ${n.id}, which is ${target ? target.blocked : 'absent'}`);
+    else if (n.tag === 'a' && parseHash(n.href).surface !== parseHash(target.href).surface) why.push(`it links to ${n.href}, not the ${n.id} step`);
+    else if (n.tag !== 'a' && !n.text) why.push('a blocked Next that does not say why');
+    check(`Next on ${s} is a link only where the step can proceed (${n ? `${n.tag} "${n.text}"` : 'none'})`
+      + (why.length ? ' -- ' + why.join('; ') : ''), why.length === 0);
+  }
+  await visit('#/workbench');
+  await page.waitForTimeout(250);
+  await shot('journey', [SHOT_WIDTH, 1440, 1280]);
+}
+
+/* ── WP-14.11: A LICENCE SHOWS THE SERVER'S VERDICT, NEVER COLLAPSED ────────────────────────────
+   A style's exception is a licence, and whether the style EARNS it is `core.grant_exception`'s
+   verdict, served as `for_this_style.exception.granted`: granted, refused or unjudged. The card
+   printed the licence's own words under an "exception for" heading whatever the verdict, so a
+   refused licence and one nobody could judge both read as earned. One fault and style per verdict
+   is FOUND through `/api/faults?style=` (whose cards name the verdict), never named here; the card
+   must print that verdict's glossary word, after the two answers and before the symptom. A verdict
+   the corpus offers no instance of is COULD NOT EVALUATE, not a pass.
+
+   AND THE CARD MUST BE THE FAULT THE ADDRESS NAMES. This block's first run went red on the refused
+   case with no licence on the card at all -- and the card was not the fault asked for: moving to a
+   new fault AND a new style in one navigation sent two requests (the old fault under the new style,
+   then the new fault), and whichever resolved last was drawn. Every check here reads the card's own
+   `data-fault` first, and the last check forces the stale answer to land last, so the guard does
+   not depend on the machine's timing to bite. */
+{
+  const phyl = await (await fetch(BASE + '/api/phylogeny')).json();
+  const CARD_KEY = { granted: 'EXCEPTION_FOR_THIS_STYLE', refused: 'EXCEPTION_NOT_EARNED_BY_THIS_STYLE',
+    unjudged: 'EXCEPTION_WHOSE_CONDITION_COULD_NOT_BE_JUDGED' };
+  const TERM = { granted: 'exception-granted', refused: 'exception-refused', unjudged: 'judgment-unjudged' };
+  const found = {};
+  for (const id of phyl.taxa.map((t) => t.id).sort()) {
+    if (Object.keys(found).length === 3) break;
+    const r = await (await fetch(`${BASE}/api/faults?style=${encodeURIComponent(id)}&limit=300`)).json();
+    for (const [v, k] of Object.entries(CARD_KEY)) {
+      const c = !found[v] && (r.faults || []).find((f) => f[k]);
+      if (c) found[v] = { fault: c.id, style: id };
+    }
+  }
+  let last = null;
+  for (const v of ['granted', 'refused', 'unjudged']) {
+    if (!found[v]) {
+      unjudged.push(`a licence ${v} is shown as ${v} — no fault in the corpus carries a ${v} licence for any style`);
+      continue;
+    }
+    const { fault: fid, style: sid } = found[v];
+    const served = await (await fetch(`${BASE}/api/faults/${fid}?style=${encodeURIComponent(sid)}`)).json();
+    const verdict = served && served.for_this_style && served.for_this_style.exception
+      ? served.for_this_style.exception.granted : null;
+    await visit(`#/faults/${fid}?style=${sid}`);
+    last = { fault: fid, style: sid };
+    await page.waitForSelector(
+      `main article[data-fault="${fid}"] [data-fault-section="licence"] [data-licence-verdict] button.tdl-term`,
+      { timeout: 20000 }).catch(() => {});
+    const onCard = await page.$eval('main article[data-fault]', (el) => el.getAttribute('data-fault'))
+      .catch(() => null);
+    const shown = await page.$$eval('main [data-fault-section="licence"] [data-licence-verdict] [data-term]',
+      (els) => els.map((el) => el.getAttribute('data-term')));
+    const order = await page.$$eval('main article[data-fault] [data-fault-section]',
+      (els) => els.map((el) => el.getAttribute('data-fault-section')));
+    check(`${v === 'unjudged' ? 'an' : 'a'} ${v} licence (${fid} for ${sid}): the card is that fault (${onCard}) and prints the server's `
+      + `verdict, ${verdict} (${shown.join(',')})`,
+      onCard === fid && verdict === v && shown.length === 1 && shown[0] === TERM[verdict]);
+    check(`and the licence follows the two answers and leads the rule (${order.slice(0, 4).join(' · ')})`,
+      order[0] === 'correct_practice' && order[1] === 'detection' && order[2] === 'licence'
+        && order.indexOf('licence') < order.indexOf('symptom'));
+    await page.evaluate(() => {
+      const el = document.querySelector('main [data-fault-section="licence"]');
+      if (el) el.scrollIntoView({ block: 'center' });
+    });
+    await page.waitForTimeout(300);
+    await shot('fault-licence-' + v);
+  }
+
+  /* The superseded answer, forced. Delay every response about the fault on screen, then move to
+     another fault under another style: the request the surface sends for the OLD fault under the
+     NEW style now lands last, and the card must still be the fault the address names. */
+  const to = ['granted', 'refused', 'unjudged'].map((v) => found[v])
+    .find((f) => f && last && f.fault !== last.fault && f.style !== last.style);
+  if (!to) {
+    unjudged.push('a superseded fault request does not replace the card — the corpus offered no '
+      + 'second fault under a second style to move to');
+  } else {
+    const stale = last.fault;
+    const slow = (url) => url.pathname === '/api/faults/' + stale;
+    let delayed = 0;
+    await page.route(slow, async (route) => {
+      delayed += 1;
+      await new Promise((r) => setTimeout(r, 900));
+      await route.continue().catch(() => {});
+    });
+    await visit(`#/faults/${to.fault}?style=${to.style}`);
+    await page.waitForTimeout(2500);
+    const onCard = await page.$eval('main article[data-fault]', (el) => el.getAttribute('data-fault'))
+      .catch(() => null);
+    await page.unroute(slow);
+    if (!delayed) {
+      unjudged.push(`a superseded fault request does not replace the card — moving from ${stale} to `
+        + `${to.fault} sent no request for ${stale}, so there was no stale answer to hold back`);
+    } else {
+      check(`a superseded fault request does not replace the card: the address names ${to.fault}, `
+        + `the late answer was ${stale}, the card is ${onCard}`, onCard === to.fault);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ WP-14.13: THE SHELL
+
+   Every page says where it is, what it is and what comes next. What is asserted here is read
+   off the server — the glossary, the dossier, the search index, /api/overview — never a figure
+   or a label written into this file, and every negative assertion first proves that the thing
+   it looks for can be found. Each block that needs an empty browser opens its own context, so
+   nothing the walk above stored in localStorage decides what these see. */
+{
+  const glossaryOk = Boolean(LOOKUP);
+  if (!glossaryOk) {
+    unjudged.push('the shell\'s crumbs, titles and names -- GET /api/glossary did not answer with a terms '
+      + 'list, so there is no record to hold a crumb or a title against');
+  }
+
+  // (1) THE TRAIL. Styles, then the member_of chain root first, then the style, the section and
+  // the slot; every name the server's, the last crumb the page and no link.
+  await page.goto(BASE + '/#/style/tidewater-georgian/kit/cornice', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(1200);
+  const dossier = await (await fetch(BASE + '/api/styles/tidewater-georgian/dossier')).json().catch(() => null);
+  const crumbs = page.locator('nav[aria-label="crumbs"] li');
+  const got = (await crumbs.evaluateAll((lis) => lis.map((li) => {
+    const t = li.querySelector('a, [aria-current], span:not([aria-hidden])');
+    return { text: (t ? t.textContent : '').trim(), href: li.querySelector('a')?.getAttribute('href') || null,
+      current: li.querySelector('[aria-current="page"]') ? true : false };
+  })));
+  if (glossaryOk && dossier && Array.isArray(dossier.chain)) {
+    const want = [TERM('nav-group-styles'), ...dossier.chain.map((c) => c.name), dossier.name,
+      TERM('section-kit'), NAME_OF('slot:cornice')];
+    check(`the crumbs follow the filing, not the lineage (${got.map((g) => g.text).join(' › ')})`,
+      JSON.stringify(got.map((g) => g.text)) === JSON.stringify(want));
+    check('each ancestor crumb links its own dossier',
+      dossier.chain.every((c, i) => got[1 + i] && got[1 + i].href === formatHash('style', { style: c.id }, {})));
+    check('the last crumb is the page, and not a link',
+      got.length > 0 && got[got.length - 1].current && got[got.length - 1].href === null
+      && got.filter((g) => g.current).length === 1);
+  } else {
+    unjudged.push('the crumb trail -- /api/styles/tidewater-georgian/dossier answered no chain to hold it to');
+  }
+  const crumbText = await page.locator('nav[aria-label="crumbs"]').innerText().catch(() => '');
+  check('no work-package or question ids in the crumbs', crumbText.length > 0
+    && !/\bWP-\d|\bOQ\s?\d|\boq\//.test(crumbText));
+  check('the front door has no trail', await (async () => {
+    await visit('#/');
+    await page.waitForTimeout(300);
+    return (await page.locator('nav[aria-label="crumbs"]').count()) === 0;
+  })());
+
+  // (2) THE PAGE HEAD: one per page, and the record the site map names for the place.
+  for (const [hash, want] of [['#/faults', 'surface-faults'], ['#/proportions', 'surface-proportions'],
+    ['#/style/tidewater-georgian/lineage', 'section-lineage'], ['#/workbench', 'surface-workbench']]) {
+    await visit(hash);
+    await page.waitForTimeout(300);
+    const heads = await page.locator('[data-page-head]').evaluateAll((hs) => hs.map((h) => h.getAttribute('data-page-head')));
+    check(`${hash} is headed by its own record, once (${JSON.stringify(heads)})`,
+      heads.length === 1 && heads[0] === want);
+  }
+
+  // (3) THE TAB TITLE: the page first, the product last, and no two places alike.
+  if (glossaryOk) {
+    const titles = new Map();
+    const places = ['#/', '#/style', '#/style/tidewater-georgian', '#/style/tidewater-georgian/kit/cornice',
+      '#/style/craftsman', '#/phylogeny', '#/brief', '#/candidates', '#/workbench', '#/transcription',
+      '#/drawings', '#/export', '#/proportions', '#/proportions/trim-classical', '#/faults', '#/glossary',
+      '#/glossary/judgment-unjudged'];
+    const clashes = [];
+    for (const h of places) {
+      await visit(h);
+      await page.waitForFunction((about) => document.title && (location.hash === '#/' || location.hash === ''
+        || document.title !== about), TERM('about-tdl'), { timeout: 5000 }).catch(() => {});
+      await page.waitForTimeout(250);
+      const t = await page.title();
+      if (titles.has(t)) clashes.push(`${h} and ${titles.get(t)} both read "${t}"`);
+      titles.set(t, h);
+    }
+    check(`no two places share a tab title (${titles.size} of ${places.length})` + (clashes.length ? ' -- ' + clashes.join('; ') : ''),
+      clashes.length === 0 && titles.size === places.length);
+    check('the front door\'s title is the product\'s name alone', titles.get(TERM('about-tdl')) === '#/');
+    check('a page\'s title ends with the product\'s name',
+      [...titles.keys()].every((t) => t.endsWith(TERM('about-tdl'))));
+  }
+
+  // (4) THE MASTHEAD: home, the bench as a place and three counts, the keys, and nothing inert.
+  await visit('#/faults');
+  await page.waitForTimeout(300);
+  const header = page.locator('header').first();
+  check('the wordmark is the way home', await header.locator('a[href="#/"]').count() === 1);
+  const headText = await header.innerText();
+  check('the masthead no longer calls a page "the workbench"', !/\bthe workbench\b/i.test(headText));
+  check('the inert Export and Settings icons are gone',
+    await header.locator('[title="Export"], [title="Settings"], svg[aria-label="Export"], svg[aria-label="Settings"]').count() === 0);
+  check('no work-package or question ids in the masthead', !/\bWP-\d|\bOQ\s?\d|\boq\//.test(headText));
+  const stored = await page.evaluate(() => { try { return JSON.parse(localStorage.getItem('tdl-workbench-plan') || 'null'); } catch { return null; } });
+  const benchPlan = stored && (stored.plan || stored.doc || stored);
+  const benchLink = header.locator('[data-bench-link]');
+  if (benchPlan && (benchPlan.name || benchPlan.id)) {
+    const text = (await benchLink.first().textContent().catch(() => '')) || '';
+    check(`the bench is a place: "On the bench: <its name>" links to it (${JSON.stringify(text.trim())})`,
+      await benchLink.count() === 1 && (await benchLink.getAttribute('href')) === '#/workbench'
+      && text.includes(benchPlan.name || benchPlan.id));
+    const counted = await header.locator('[data-count]').count();
+    const terms = await header.locator('[data-bench-counts] [data-term]').evaluateAll((ts) => ts.map((t) => t.getAttribute('data-term')));
+    check(`fatal, serious and unjudged stay three, or the plan says it is not yet evaluated (${JSON.stringify(terms)})`,
+      counted === 0
+        ? /not yet evaluated/.test(await header.innerText())
+        : JSON.stringify(terms) === JSON.stringify(['severity-fatal', 'severity-serious', 'judgment-unjudged']));
+  } else {
+    unjudged.push('the masthead\'s bench line -- no plan was on the bench to name');
+  }
+  const keys = header.getByRole('button', { name: /^Keys/ });
+  check('a visible Keys button', await keys.count() === 1 && await keys.isVisible());
+  await keys.click();
+  const card = page.getByRole('dialog', { name: 'Keyboard shortcuts and addressing', exact: true });
+  await card.waitFor({ state: 'visible', timeout: 3000 }).catch(() => {});
+  check('and it opens the keys card', await card.count() === 1);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(200);
+
+  // (5) FULL SCREEN TAKES THE TRAIL AND THE HEAD WITH IT. Asserted present first, so the two
+  // zeroes cannot both be the shell failing to draw them.
+  await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(1500);
+  const trailAndHead = async () => [await page.locator('nav[aria-label="crumbs"]').count(),
+    await page.locator('[data-page-head]').count()];
+  const before = await trailAndHead();
+  check(`the trail and the head are on this page to begin with (${before})`, before[0] === 1 && before[1] === 1);
+  await page.getByRole('button', { name: /full screen/i }).first().click();
+  await page.waitForTimeout(500);
+  const inFull = await trailAndHead();
+  check(`full screen hides the crumbs and the page head (${inFull})`, inFull[0] === 0 && inFull[1] === 0);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(500);
+  const after = await trailAndHead();
+  check(`and leaving it brings both back (${after})`, after[0] === 1 && after[1] === 1);
+}
+
+/* (6) THE COLD LINK, ONCE PER BROWSER. A fresh browser opening a deep link is told what this is
+   and where it has landed; dismissing it is remembered; a browser that has seen the front door
+   is never told. Three contexts, each with empty storage. */
+{
+  const about = await (await fetch(BASE + '/api/glossary/about-tdl')).json().catch(() => null);
+  const def = about && about.term ? about.term.definition : null;
+  const ctx = await browser.newContext({ viewport: { width: 1680, height: 1000 } });
+  const p = await ctx.newPage();
+  await p.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(1000);
+  const banner = p.locator('[data-cold-link]');
+  const text = (await banner.first().textContent().catch(() => '')) || '';
+  check('a cold deep link is told what this is', await banner.count() === 1 && Boolean(def) && text.includes(def));
+  check('and where it has landed', /Faults/.test(await banner.locator('[data-cold-link-trail]').first().textContent().catch(() => '')));
+  check('with the front door and the guided example as its two ways in',
+    (await banner.locator('[data-cold-link-front]').getAttribute('href')) === '#/'
+    && /^#\/style\//.test((await banner.locator('[data-cold-link-guided]').getAttribute('href')) || ''));
+  await banner.locator('[data-cold-link-dismiss]').click();
+  await p.waitForTimeout(300);
+  check('dismissing it takes it away', await p.locator('[data-cold-link]').count() === 0);
+  await p.reload({ waitUntil: 'networkidle' });
+  await p.waitForTimeout(800);
+  check('and it does not come back on a reload', await p.locator('[data-cold-link]').count() === 0);
+  await ctx.close();
+
+  const ctx2 = await browser.newContext({ viewport: { width: 1680, height: 1000 } });
+  const p2 = await ctx2.newPage();
+  await p2.goto(BASE + '/', { waitUntil: 'networkidle' });
+  await p2.waitForTimeout(800);
+  check('the front door itself shows no banner', await p2.locator('[data-cold-link]').count() === 0);
+  await p2.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
+  await p2.reload({ waitUntil: 'networkidle' });
+  await p2.waitForTimeout(800);
+  check('a browser that has seen the front door is not told again', await p2.locator('[data-cold-link]').count() === 0);
+  await ctx2.close();
+}
+
+/* (7) THE NARROW FOLD (PRD §I.11). With nothing stored the assistant starts folded below
+   NARROW_FOLD_PX and open above it; a stored choice wins; the spine carries its record's name. */
+{
+  const assistant = await (await fetch(BASE + '/api/glossary/assistant')).json().catch(() => null);
+  const name = assistant && assistant.term ? assistant.term.term : null;
+  const open = async (w, seed) => {
+    const ctx = await browser.newContext({ viewport: { width: w, height: 800 } });
+    if (seed) await ctx.addInitScript((v) => { localStorage.setItem('tdl-workbench-layout', v); }, JSON.stringify(seed));
+    const p = await ctx.newPage();
+    await p.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
+    await p.waitForSelector('nav[aria-label="surfaces"]', { timeout: 15000 }).catch(() => {});
+    await p.waitForTimeout(600);
+    return { ctx, p, pane: await p.locator('aside[aria-label*="the rail"]').count(),
+      stub: await p.getByRole('button', { name: /show the rail/i }).count() };
+  };
+  const a = await open(1280);
+  check(`at 1280 px with nothing stored the assistant starts folded (${a.pane} pane, ${a.stub} spine)`, a.pane === 0 && a.stub === 1);
+  const spine = ((await a.p.locator('button[aria-label="show the rail"] + span').first().textContent().catch(() => '')) || '').trim();
+  check(`and its spine carries its name (${JSON.stringify(spine)})`, Boolean(name) && spine === name);
+  const storedAfter = await a.p.evaluate(() => localStorage.getItem('tdl-workbench-layout'));
+  check('and the fold was not written for the reader', storedAfter === null);
+  await a.p.setViewportSize({ width: 1680, height: 800 });
+  await a.p.waitForTimeout(400);
+  check('widening the window does not unfold it', await a.p.locator('aside[aria-label*="the rail"]').count() === 0);
+  await a.ctx.close();
+  const b = await open(1680);
+  check('at 1680 px with nothing stored it is open', b.pane === 1);
+  await b.p.setViewportSize({ width: 1280, height: 800 });
+  await b.p.waitForTimeout(400);
+  check('and narrowing the window does not fold it', await b.p.locator('aside[aria-label*="the rail"]').count() === 1);
+  await b.ctx.close();
+  const c = await open(1280, { widths: {}, collapsed: { rail: false } });
+  check('a stored open assistant stays open at 1280 px', c.pane === 1);
+  await c.ctx.close();
+  const d = await open(1680, { widths: {}, collapsed: { rail: true } });
+  check('a stored folded assistant stays folded at 1680 px', d.pane === 0 && d.stub === 1);
+  await d.ctx.close();
+}
+
+/* (8) A SERVER THAT DOES NOT ANSWER IS SAID, WITH A WAY TO TRY AGAIN — never a blank page. */
+{
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const p = await ctx.newPage();
+  await p.route('**/api/health', (r) => r.abort());
+  await p.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
+  const status = p.locator('[role="status"][data-boot-status]');
+  await status.waitFor({ state: 'visible', timeout: 10000 }).catch(() => {});
+  check('an unreachable server is said, not a blank page',
+    await status.count() === 1 && /Cannot reach the server/.test(await status.innerText()));
+  await p.unroute('**/api/health');
+  await status.getByRole('button', { name: 'Retry' }).click();
+  await p.waitForSelector('nav[aria-label="surfaces"]', { timeout: 15000 }).catch(() => {});
+  check('and Retry brings the shell back', await p.locator('nav[aria-label="surfaces"]').count() === 1);
+  await ctx.close();
+}
+
+/* THE GATE SAYS ONE SENTENCE AND ASKS FOR NOTHING ELSE (WP-14.14, PRD §C.3, §J).
+
+   Signed out, exactly one corpus path answers: `GET /api/glossary/about-tdl`, whose definition
+   the Gate shows under its heading. The server this walk is pointed at has no password, so no
+   page on it is ever signed out and the Gate cannot be reached there; this block starts a SECOND
+   server from the same checkout with a password set, opens a fresh context against it, and asks
+   three things: the sentence shown is that record's definition (read from the record, never
+   typed here); the page asked no corpus route but that one; and when that one read fails, the
+   Gate says NOTHING in its place -- no error, no fallback sentence -- so what is left on the
+   form is exactly the signed-out form less the one sentence.
+
+   SIGNED OUT, NOTHING GATED IS ASKED AT ALL (WP-14.20). Until WP-14.20 `App.jsx` booted by
+   asking `/api/overview` once to learn whether this browser already held a session, and signed
+   out it answered 401 -- one gated request on every signed-out visit, which this block named and
+   allowed. `/api/health` states `session` now (the gate's own answer), so the shell learns it
+   from the one ungated route and the check below allows NO request that answers 401 and no
+   `/api/overview` at all: restoring the probe turns it red. If the gated server cannot be
+   started the block is UNJUDGED by name, never passed. */
+{
+  const GATE_PORT = Number(process.env.WALK_GATE_PORT || (Number(new URL(BASE).port || 80) + 1));
+  const GATE = `http://127.0.0.1:${GATE_PORT}`;
+  const ROOT = new URL('../../../', import.meta.url).pathname;
+  const { spawn } = await import('node:child_process');
+  const PASSWORD = `walk-gate-${process.pid}-${Date.now()}`;
+  const srv = spawn('python3', ['-m', 'uvicorn', 'workbench.server.app:app', '--host', '127.0.0.1',
+    '--port', String(GATE_PORT), '--log-level', 'error'], {
+    cwd: ROOT, stdio: 'ignore',
+    env: { ...process.env, WORKBENCH_PASSWORD: PASSWORD },
+  });
+  const stop = () => { try { srv.kill(); } catch { /* already gone */ } };
+  process.on('exit', stop);
+  let health = null;
+  for (let i = 0; i < 80 && !health; i++) {
+    health = await fetch(GATE + '/api/health').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    if (!health) await new Promise((r) => setTimeout(r, 500));
+  }
+  const closed = health && health.auth && health.auth.required
+    ? await fetch(GATE + '/api/overview').then((r) => r.status).catch(() => null) : null;
+  const aboutOpen = await fetch(GATE + '/api/glossary/about-tdl')
+    .then((r) => (r.ok ? r.json() : null)).then((b) => (b && b.term) || null).catch(() => null);
+  if (!health || closed !== 401 || !aboutOpen) {
+    unjudged.push('the Gate — a password-protected server could not be brought up beside this one '
+      + `on port ${GATE_PORT} (health ${health ? 'answered' : 'did not answer'}, /api/overview `
+      + `${closed === null ? 'unasked' : closed}, about-tdl ${aboutOpen ? 'answered' : 'did not answer'}), `
+      + 'so there is no signed-out page to judge');
+  } else {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const read = async (gp) => gp.evaluate(() => ({
+      about: document.querySelector('[data-about-tdl]')?.textContent || null,
+      lines: (document.querySelector('form')?.innerText || '').split('\n').map((s) => s.trim()).filter(Boolean),
+    }));
+
+    const gp = await ctx.newPage();
+    const calls = [];
+    gp.on('response', (r) => {
+      const u = new URL(r.url());
+      if (u.pathname.startsWith('/api/')) calls.push([u.pathname, r.status()]);
+    });
+    await gp.goto(GATE + '/', { waitUntil: 'networkidle' });
+    await gp.waitForSelector('#wb-password', { timeout: 20000 }).catch(() => {});
+    await gp.waitForSelector('[data-about-tdl]', { timeout: 10000 }).catch(() => {});
+    await gp.waitForTimeout(500);
+    const shown = await read(gp);
+    check('signed out, the Gate shows about-tdl\'s definition, read from the one open glossary path',
+      shown.about === aboutOpen.definition);
+    const gated = calls.filter(([, s]) => s === 401);
+    const others = calls.filter(([p]) => !['/api/health', '/api/login', '/api/glossary/about-tdl'].includes(p));
+    check(`signed out, the page asked no corpus route but about-tdl (${calls.map(([p, s]) => `${p} ${s}`).join(', ')})`,
+      others.length === 0 && calls.some(([p, s]) => p === '/api/glossary/about-tdl' && s === 200));
+    // WP-14.20: ZERO gated requests signed out -- the boot learns the session from /api/health
+    check(`signed out, /api/health said there is no session and the page made no gated request `
+      + `(session ${JSON.stringify(health.session)}; ${gated.length} answered 401: `
+      + `${gated.map(([p]) => p).join(', ') || 'none'})`,
+      health.session === false && gated.length === 0 && calls.some(([p]) => p === '/api/health'));
+    for (const w of [1280, 1440, 1680]) {
+      await gp.setViewportSize({ width: w, height: { 1280: 800, 1440: 900, 1680: 1050 }[w] });
+      await gp.waitForTimeout(250);
+      await gp.screenshot({ path: SHOTS + `gate-${w}.png` });
+    }
+
+    // The read fails two ways -- no answer at all, and an error answer -- and neither may leave a
+    // sentence behind: the form must read exactly as it does signed out, less the definition.
+    const expected = shown.lines.filter((l) => l !== aboutOpen.definition.trim());
+    for (const [how, handler] of [
+      ['a failed request', (route) => route.abort()],
+      ['a 500', (route) => route.fulfill({ status: 500, contentType: 'application/json', body: '{"detail":"x"}' })],
+    ]) {
+      const fp = await ctx.newPage();
+      await fp.route('**/api/glossary/about-tdl', handler);
+      await fp.goto(GATE + '/', { waitUntil: 'networkidle' });
+      await fp.waitForSelector('#wb-password', { timeout: 20000 }).catch(() => {});
+      await fp.waitForTimeout(700);
+      const got = await read(fp);
+      check(`when the about-tdl read fails (${how}) the Gate says nothing in its place`,
+        // the premise: the signed-out form really carried the sentence, so removing it is a change
+        expected.length === shown.lines.length - 1
+        && got.about === null && got.lines.length > 0
+        && JSON.stringify(got.lines) === JSON.stringify(expected));
+      await fp.close();
+    }
+
+    /* AND SIGNING IN WORKS, AND THE WORDS ARRIVE (WP-14.15). Nothing else in this walk signs in:
+       the server it is pointed at has no password. When WP-14.15 made the shell's glossary, name
+       and style reads wait for the lock, the risk was a read that then never happened. So the
+       sequence a password-protected deployment always runs is walked: sign in on the page that
+       was signed out, with no reload. The shell must come up with its rail carrying its glossary
+       words, and the glossary must have been asked and answered. The check does NOT show that
+       the pre-fix code failed this. It passed it: readers mounting after the Gate opens call
+       `load()`, and `fetchOnce` retries the failed read. What it catches is a sign-in that does
+       not bring the shell up (driven: `Gate.jsx` not calling `onUnlocked` turns it red, with 0
+       items and the glossary never asked). */
+    const before = calls.length;
+    await gp.fill('#wb-password', PASSWORD);
+    await gp.press('#wb-password', 'Enter');
+    await gp.waitForSelector('nav[aria-label="surfaces"] a[data-nav]', { timeout: 20000 }).catch(() => {});
+    await gp.waitForFunction(() => {
+      const as = [...document.querySelectorAll('nav[aria-label="surfaces"] a[data-nav]')];
+      return as.length > 0 && !as.some((a) => a.querySelector('[data-missing]')
+        || /^\u2026$/.test((a.innerText || '').split('\n')[0].trim()));
+    }, null, { timeout: 15000 }).catch(() => {});
+    const rail = await gp.evaluate(() => {
+      const as = [...document.querySelectorAll('nav[aria-label="surfaces"] a[data-nav]')];
+      return { n: as.length,
+        unworded: as.filter((a) => a.querySelector('[data-missing]')
+          || /^\u2026$/.test((a.innerText || '').split('\n')[0].trim())).map((a) => a.getAttribute('data-nav')) };
+    });
+    const after = calls.slice(before);
+    // and the other half of `session`, read by the signed-in page itself, cookie and all
+    const sessionIn = await gp.evaluate(() => fetch('/api/health', { cache: 'no-store' })
+      .then((r) => r.json()).then((h) => h.session)).catch(() => null);
+    check(`signed in, /api/health says this browser holds a session (session ${JSON.stringify(sessionIn)})`,
+      sessionIn === true);
+    check(`signed in on the page the Gate was, its rail carries its glossary words (${rail.n} items, `
+      + `${rail.unworded.length ? 'unworded: ' + rail.unworded.join(', ') : 'none unworded'}; `
+      + `/api/glossary ${after.filter(([p]) => p === '/api/glossary').map(([, st]) => st).join('/') || 'never asked'})`,
+      rail.n > 0 && rail.unworded.length === 0
+      && after.some(([p, st]) => p === '/api/glossary' && st === 200));
+    await ctx.close();
+  }
+  stop();
+}
+
+/* THE ASSISTANT OFFERS THE PAGE'S OWN QUESTIONS, AND A CLICK FILLS AND NEVER SENDS (WP-14.22,
+   PRD tranche 2 §C.8, §C.10). A page's starter questions are its `surface-*` glossary record's
+   `ask`, shown verbatim as buttons in the assistant's pane; a click puts the question in the input
+   and focuses it, and the reader sends it with Enter or not at all. So what is asserted is the
+   record's own strings (read from the API, never typed here), that they follow the page, and that
+   a click posts nothing to `/api/rail/messages` -- a starter that sent itself would bill a turn the
+   reader never asked for. A fresh context, so no fold or width an earlier block left in this
+   browser's storage decides whether the pane is open at all. */
+{
+  const askOf = async (id) => {
+    const r = await (await fetch(BASE + '/api/glossary/' + id)).json().catch(() => null);
+    return r && r.term && r.term.surface && Array.isArray(r.term.surface.ask) ? r.term.surface.ask : null;
+  };
+  const wantProportions = await askOf('surface-proportions');
+  const wantFaults = await askOf('surface-faults');
+  const ctx = await browser.newContext({ viewport: { width: 1680, height: 1000 } });
+  const p = await ctx.newPage();
+  let railPosts = 0;
+  p.on('request', (r) => { if (r.url().includes('/api/rail/messages')) railPosts += 1; });
+  const shownOn = async () => {
+    const aside = p.locator('aside[aria-label*="the rail"]');
+    await aside.locator('[data-rail-starter]').first().waitFor({ timeout: 15000 }).catch(() => {});
+    return aside.locator('[data-rail-starter]')
+      .evaluateAll((bs) => bs.map((b) => (b.textContent || '').trim()));
+  };
+  await p.goto(BASE + '/#/proportions', { waitUntil: 'networkidle' });
+  const shown = await shownOn();
+  check(`the assistant offers the page's own starter questions, verbatim (${shown.length} shown, `
+    + `${wantProportions ? wantProportions.length : 'none'} in surface-proportions)`,
+    Array.isArray(wantProportions) && wantProportions.length > 0
+    && JSON.stringify(shown) === JSON.stringify(wantProportions));
+  await p.locator('aside[aria-label*="the rail"]').screenshot({ path: SHOTS + 'assistant-starters.png' })
+    .catch(() => {});
+  const input = p.locator('aside[aria-label*="the rail"] input[aria-label="Ask the corpus"]');
+  if (shown.length) await p.locator('aside[aria-label*="the rail"] [data-rail-starter]').last().click();
+  await p.waitForTimeout(500);
+  const value = await input.inputValue().catch(() => null);
+  const focused = await input.evaluate((el) => document.activeElement === el).catch(() => false);
+  check(`a starter question fills the input, focused, and sends nothing (${JSON.stringify(value)}; `
+    + `${railPosts} request(s) to /api/rail/messages)`,
+    shown.length > 0 && value === shown[shown.length - 1] && focused && railPosts === 0);
+  await p.evaluate(() => { location.hash = '#/faults'; });
+  await p.waitForFunction((first) => {
+    const b = document.querySelector('aside[aria-label*="the rail"] [data-rail-starter]');
+    return b && (b.textContent || '').trim() === first;
+  }, wantFaults ? wantFaults[0] : '', { timeout: 15000 }).catch(() => {});
+  const onFaults = await shownOn();
+  check(`and the questions follow the page (${onFaults.length} on the Faults page, `
+    + `${wantFaults ? wantFaults.length : 'none'} in surface-faults)`,
+    Array.isArray(wantFaults) && wantFaults.length > 0
+    && JSON.stringify(onFaults) === JSON.stringify(wantFaults));
+  await ctx.close();
+}
+
+/* THE KEY TO THE MARKS (WP-14.29, ruled 25 Sep 2026; PRD tranche 2 §D).
+
+   One meaning per mark, and one key that says each. The key is `components/MarkKey.jsx` on the
+   Glossary's Marks family, reached from the `?` card. What is asserted is its PROPERTY, from the
+   glossary the server serves and never from a list typed here: every record carrying a `mark` is
+   a row, once; the row's specimen is drawn by that record's own duty token and actually paints
+   something; and beside it stands the record's own word. The denominator first, so a selector
+   matching nothing cannot pass by finding no row to fault. */
+{
+  const marked = LOOKUP ? (GLOSSARY_BODY.terms || []).filter((t) => typeof t.mark === 'string') : [];
+  if (!LOOKUP) {
+    unjudged.push('the key to the marks -- GET /api/glossary did not answer, so there is no mark to key');
+  } else if (!marked.length) {
+    unjudged.push('the key to the marks -- no glossary record carries a mark, so there is no key to draw');
+  } else {
+    const keyHref = formatHash('glossary', {}, { family: 'mark' });
+    await visit(keyHref);
+    await page.waitForSelector('[data-mark-key] [data-mark-row]', { timeout: 20000 }).catch(() => {});
+    const rows = await page.evaluate(() => [...document.querySelectorAll('[data-mark-key] [data-mark-row]')]
+      .map((row) => {
+        const g = row.querySelector('[data-duty]');
+        const cs = g ? getComputedStyle(g) : null;
+        const box = g ? g.getBoundingClientRect() : null;
+        // a mark paints SOMETHING: a hatch or a fill, a border, a rule, or -- for loading -- its word
+        const painted = !!cs && (cs.backgroundImage !== 'none'
+          || (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent')
+          || parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderLeftWidth) > 0
+          || (g.textContent || '').trim().length > 0);
+        return { token: row.getAttribute('data-mark-row'), id: row.getAttribute('data-mark-term'),
+          duty: g ? g.getAttribute('data-duty') : null, painted, w: box ? Math.round(box.width) : 0,
+          word: (row.querySelector('[data-mark-word]')?.textContent || '').trim() };
+      }));
+    check(`the key to the marks draws a row for every marked record (${rows.length} of ${marked.length})`,
+      rows.length === marked.length && new Set(rows.map((r) => r.id)).size === rows.length);
+    const wrong = [];
+    for (const rec of marked) {
+      const r = rows.filter((x) => x.id === rec.id);
+      if (r.length !== 1) { wrong.push(`${rec.id}: ${r.length} rows`); continue; }
+      const [row] = r;
+      if (row.token !== rec.mark || row.duty !== rec.mark) wrong.push(`${rec.id}: drawn by ${row.duty}, not ${rec.mark}`);
+      if (!row.painted || row.w <= 0) wrong.push(`${rec.id}: its specimen paints nothing`);
+      if (row.word !== String(rec.term).trim()) wrong.push(`${rec.id}: worded ${JSON.stringify(row.word)}`);
+    }
+    check(`each mark in the key is its own duty token, painted, beside its record's word${wrong.length ? ' -- ' + wrong.join('; ') : ''}`,
+      rows.length > 0 && wrong.length === 0);
+    await shot('mark-key', [1440]);
+
+    // and the `?` card reaches it: a link worded by the key's own record, to the address the router writes
+    await visit('#/faults');
+    await page.keyboard.press('?');
+    const keys = page.getByRole('dialog', { name: 'Keyboard shortcuts and addressing', exact: true });
+    await keys.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    const link = keys.locator('[data-mark-key-link]');
+    const linkHref = await link.getAttribute('href').catch(() => null);
+    const linkWord = ((await link.textContent().catch(() => '')) || '').trim();
+    check(`the ? card links the key to the marks, worded by its record (${JSON.stringify(linkWord)} -> ${linkHref})`,
+      linkHref === keyHref && !!TERM('key-to-the-marks') && linkWord === TERM('key-to-the-marks'));
+    if (linkHref) {
+      await link.click().catch(() => {});
+      await page.waitForSelector('[data-mark-key] [data-mark-row]', { timeout: 10000 }).catch(() => {});
+      check('and following it lands on the key, with the card closed',
+        page.url().endsWith(keyHref) && await page.locator('[data-mark-key] [data-mark-row]').count() > 0
+        && !(await keys.isVisible().catch(() => false)));
+    }
+  }
+}
+
+/* A JUDGMENT MARK'S WORD REACHES ASSISTIVE TECH (WP-14.29). Passed and failed differ in colour,
+   and the could-not-evaluate, yours-to-judge and not-applicable marks differ in form; none of that
+   reaches a screen reader, so the glyph is `aria-hidden` and the state's own glossary word stands
+   beside it -- visibly, or as visually hidden text where the row already names its state. Read
+   through the ACCESSIBILITY TREE (`ariaSnapshot`), not the DOM, because hidden-from-sight and
+   hidden-from-assistive-tech are different properties and only the second is the claim. Craftsman
+   states a judgment constraint; that premise is asserted before any row is judged. */
+{
+  const word = TERM('judgment-yours-to-judge');
+  await visit('#/style/craftsman/rules');
+  await page.waitForSelector('[data-constraint]', { timeout: 20000 }).catch(() => {});
+  const rows = page.locator('[data-constraint][data-constraint-state="judgment-yours-to-judge"]');
+  const n = await rows.count();
+  if (!word) {
+    unjudged.push("a judgment mark's word reaches assistive tech -- the glossary has no judgment-yours-to-judge word to hold it to");
+  } else {
+    check(`the rules offer a judgment row to read (${n})`, n > 0);
+    const marks = await rows.evaluateAll((rs) => rs.map((r) => {
+      const m = r.querySelector('[data-judgment-mark]');
+      const g = m && m.querySelector('[data-duty]');
+      return { state: m ? m.getAttribute('data-judgment-mark') : null,
+        glyphHidden: g ? g.getAttribute('aria-hidden') : null,
+        duty: g ? g.getAttribute('data-duty') : null };
+    }));
+    check('each judgment row is drawn in the yours-to-judge mark, never the could-not-evaluate hatch',
+      marks.length > 0 && marks.every((m) => m.state === 'yours-to-judge' && m.duty === '--mark-yours-to-judge'));
+    check('and its glyph is decorative (aria-hidden)', marks.length > 0 && marks.every((m) => m.glyphHidden === 'true'));
+    const tree = n ? await rows.first().locator('[data-judgment-mark]').ariaSnapshot().catch(() => '') : '';
+    check(`and the state's word is in the accessibility tree (${JSON.stringify(tree.slice(0, 120))})`,
+      tree.toLowerCase().includes(word.toLowerCase()));
+  }
+}
+
+/* TWO STYLES AT ONE ADDRESS, AND THE KIT ROWS ARE THE API'S (WP-14.26, PRD tranche 2 §B.1,
+   §C.7). `#/compare/<a>/<b>` draws four sections down the page -- identify, kit, proportions,
+   plans -- and the kit section's rows are `/api/compare`'s, which the server suite holds equal to
+   the difference of the two `/api/kit` payloads (`test_compare_route.py`). What the walk adds is
+   the page: that the four sections are drawn in that order, that the rows DRAWN are the rows the
+   API returned -- counted in the DOM and on the section's own attribute, and both held to the
+   payload, because a count attribute alone would pass over a page that drew none -- that the
+   address's section is the one scrolled to, and that the two ways in (the dossier head's
+   "compare with…" picker and the family tree's shift-click) both land on the address rather than
+   on a panel. The expected figures are read from the API, never typed here. */
+{
+  const A = 'craftsman', B = 'tidewater-georgian';
+  const cmp = await fetch(`${BASE}/api/compare/${A}/${B}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const apiRows = cmp && cmp.kit && Array.isArray(cmp.kit.rows) ? cmp.kit.rows.length : null;
+  await visit(`#/compare/${A}/${B}`);
+  await page.waitForSelector('[data-compare-section="plans"]', { timeout: 30000 }).catch(() => {});
+  const order = await page.locator('[data-compare-section]')
+    .evaluateAll((els) => els.map((e) => e.getAttribute('data-compare-section')));
+  check(`the compare page draws its four sections in order (${order.join(', ') || 'none'})`,
+    JSON.stringify(order) === JSON.stringify(['identify', 'kit', 'proportions', 'plans']));
+  const drawn = await page.locator('[data-kit-row]').count();
+  const attr = await page.locator('[data-compare-section="kit"]').getAttribute('data-kit-rows').catch(() => null);
+  check(`the compare page draws the API's kit rows (${drawn} drawn, attribute ${attr}, API ${apiRows})`,
+    apiRows != null && apiRows > 0 && drawn === apiRows && Number(attr) === apiRows);
+  const answer = cmp
+    ? cmp.kit.rows.filter((r) => !(r.differs_on.length === 1 && r.differs_on[0] === 'source')).length
+    : null;
+  const drawnAnswer = await page.locator('[data-kit-answer] [data-kit-row]').count();
+  check(`and splits them where the payload says the answer differs (${drawnAnswer} drawn, ${answer} in the payload)`,
+    answer != null && drawnAnswer === answer);
+  await visit(`#/compare/${A}/${B}/kit`);
+  await page.waitForTimeout(600);
+  const offset = await page.evaluate(() => {
+    const box = document.querySelector('[data-compare-scroller]');
+    const el = document.querySelector('[data-compare-section="kit"]');
+    if (!box || !el) return null;
+    return Math.round(el.getBoundingClientRect().top - box.getBoundingClientRect().top);
+  });
+  check(`the address's section is the one scrolled to (kit section ${offset} px below the top of the page's scroller)`,
+    offset != null && Math.abs(offset) < 60);
+  await shot('compare-kit', [1440]);
+
+  await visit(`#/style/${A}`);
+  const picker = page.locator(`[data-compare-with="${A}"] input[role="combobox"]`);
+  await picker.waitFor({ timeout: 15000 }).catch(() => {});
+  await picker.click().catch(() => {});
+  await picker.fill('Tidewater Georgian').catch(() => {});
+  await page.waitForTimeout(300);
+  await picker.press('Enter').catch(() => {});
+  await page.waitForFunction(() => location.hash.startsWith('#/compare/'), null, { timeout: 10000 }).catch(() => {});
+  const fromDossier = await page.evaluate(() => location.hash);
+  check(`the dossier's "compare with…" goes to the address (${fromDossier})`,
+    fromDossier === `#/compare/${A}/${B}`);
+
+  await visit(`#/phylogeny/${A}`);
+  const row = page.getByRole('button', { name: 'Tidewater Georgian', exact: true }).first();
+  await row.waitFor({ timeout: 15000 }).catch(() => {});
+  await row.click({ modifiers: ['Shift'] }).catch(() => {});
+  await page.waitForFunction(() => location.hash.startsWith('#/compare/'), null, { timeout: 10000 }).catch(() => {});
+  const fromTree = await page.evaluate(() => location.hash);
+  check(`the family tree's shift-click goes to the address rather than a panel (${fromTree})`,
+    fromTree === `#/compare/${A}/${B}`);
+}
+
+/* THE READING SURFACES REFLOW AT 1280 × 800, AND THE THREE THAT DRAW KEEP A FLOOR ON `<main>`
+   (WP-14.30, tranche 2 PRD §E, ruled 25 Sep 2026).
+
+   `#root` carried `min-width:1380px` until this package, so on a 1280 px laptop every page but two
+   scrolled sideways by exactly 100 px, the masthead was drawn 1380 px wide and its Keys button
+   stood at x = 1364, off the right edge. `state/layout.js`'s table now says which pages reflow and
+   which keep a floor, and this block holds every surface the router writes to that table.
+
+   THE DOCUMENT'S OWN SCROLL IS HALF A GUARD, AND THE BLIND HALF IS THE ONE THAT MATTERS. The
+   shell's outer frame is `overflow: hidden`, so with the floor off `#root` the document can read
+   0 px over while a page's content is CLIPPED inside `<main>` or scrolls sideways in a pane of
+   its own. So a reflow page is judged three ways: the document, `<main>` itself, and every
+   element inside `<main>` that scrolls or clips sideways. Two things are set aside and counted:
+   a visually hidden text span one pixel wide, which is how a word reaches a screen reader, and a
+   cell cut on purpose with `text-overflow: ellipsis`, which truncates and does not scroll.
+
+   THE LAYOUT IS THE LAPTOP THE PRD MEASURES, AND IT IS A FRESH CONTEXT. The reader's records are
+   carried across (the compose job, what they have seen), their pane layout is not. With nothing
+   stored, the assistant starts folded below NARROW_FOLD_PX (PRD §I.11), so that is the reflow
+   case. The same pages are then read with the assistant OPEN at its shipped width, where
+   `<main>` is 700 px. There a floored page must keep its floor and scroll inside `<main>`, and the
+   masthead must still be the window's width on every page. A reflow page's figures in that
+   layout are PRINTED and not judged, because §E rules the laptop default and not every pane
+   layout; the report carries them.
+
+   THE PLAN ON THE BENCH IS NOT CARRIED, AND THAT IS THE RATE LIMITER. The bench evaluates its plan
+   on load and the Drawing Set asks for a scene, both metered at 60 an hour per identity, which CI
+   runs this walk under. A floored page's floor is a rule on `<main>` and holds whatever `<main>`
+   holds, so the three floored pages are read in their own empty states. Every metered POST these
+   contexts make is counted and the count must be zero. */
+{
+  const W = 1280, H = 800;
+  const LAYOUT_KEY = 'tdl-workbench-layout';
+  const carried = await page.evaluate((layoutKey) => {
+    const o = {};
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const k = localStorage.key(i);
+      if (k !== layoutKey && k !== 'tdl-workbench-plan') o[k] = localStorage.getItem(k);
+    }
+    return o;
+  }, LAYOUT_KEY);
+
+  /* Where to look, from data rather than from a list typed here: every surface's bare address;
+     the record its own glossary record offers as `try`, landing on whatever surface that cite
+     routes to; every dossier section of the style the Styles surface offers, with a slot open in
+     its kit; and a taxon picked on the family tree, and the map reading. */
+  const termsBody = GLOSSARY_BODY && Array.isArray(GLOSSARY_BODY.terms) ? GLOSSARY_BODY.terms : [];
+  const tryOf = (s) => (termsBody.find((t) => t.id === `surface-${s}`) || {}).surface?.try || null;
+  const idOf = (cite, kind) => (typeof cite === 'string' && cite.startsWith(kind + ':') ? cite.slice(kind.length + 1) : null);
+  const addresses = new Set();
+  for (const s of Object.keys(SURFACE_WIDTH)) {
+    if (!SURFACE_PATHS[s]) continue;               // `compare` before WP-14.26 routes it (PRD §E)
+    addresses.add(formatHash(s, {}, {}));
+    const r = tryOf(s) ? routeCite(tryOf(s)) : null;
+    if (r && SURFACE_PATHS[r.surface]) addresses.add(formatHash(r.surface, r.selection || {}, r.params || {}));
+  }
+  const dossierStyle = idOf(tryOf('style'), 'style');
+  const openSlot = idOf(tryOf('elements'), 'slot');
+  if (dossierStyle) {
+    for (const section of DOSSIER_SECTIONS) {
+      if (section !== 'identify') addresses.add(formatHash('style', { style: dossierStyle, section }, {}));
+    }
+    if (openSlot) addresses.add(formatHash('style', { style: dossierStyle, section: 'kit', slot: openSlot }, {}));
+  }
+  const taxon = idOf(tryOf('phylogeny'), 'style');
+  if (taxon) addresses.add(formatHash('phylogeny', { style: taxon }, {}));
+  addresses.add(formatHash('phylogeny', {}, { view: 'map' }));
+  if (SURFACE_PATHS.compare && dossierStyle) {
+    // WP-14.26's page, the moment its route lands: two styles side by side, PRD §B.1's address
+    const other = idOf(tryOf('overview'), 'style');
+    if (other && other !== dossierStyle) addresses.add(formatHash('compare', { style: dossierStyle, compare: other }, {}));
+  }
+  const places = [...addresses].map((hash) => ({ hash, surface: parseHash(hash).surface }));
+  // the premise: every surface the router writes and the table names is read at least once
+  const reached = new Set(places.map((p) => p.surface));
+  const unreached = Object.keys(SURFACE_WIDTH).filter((s) => SURFACE_PATHS[s] && !reached.has(s));
+  check(`the width block reads every surface the router writes (${reached.size} surfaces over ${places.length} addresses`
+    + (unreached.length ? `; none for ${unreached.join(', ')}` : '') + ')', places.length > 0 && unreached.length === 0);
+
+  const METERED = /\/api\/(plan\/(evaluate|critique|revise)|compose|drawings\/|scene|export\/|ingest\/)/;
+  let metered = 0;
+  const readAll = async (seedLayout) => {
+    const ctx = await browser.newContext({ viewport: { width: W, height: H } });
+    await ctx.addInitScript(({ items, layoutKey, layout }) => {
+      try {                                          // about:blank has no storage to seed
+        if (sessionStorage.getItem('tdl-walk-seeded')) return;   // once: the app's own writes then stand
+        sessionStorage.setItem('tdl-walk-seeded', '1');
+        for (const [k, v] of Object.entries(items)) localStorage.setItem(k, v);
+        if (layout) localStorage.setItem(layoutKey, layout);
+      } catch { /* an opaque origin */ }
+    }, { items: carried, layoutKey: LAYOUT_KEY, layout: seedLayout ? JSON.stringify(seedLayout) : null });
+    const p = await ctx.newPage();
+    p.on('request', (rq) => { if (rq.method() === 'POST' && METERED.test(rq.url())) metered += 1; });
+    const out = [];
+    for (const place of places) {
+      // A fresh document per address: a hash change inside one document keeps whatever the last
+      // page left in the stores, and `networkidle` does not wait on a same-document navigation.
+      await p.goto('about:blank');
+      await p.goto(BASE + '/' + place.hash, { waitUntil: 'networkidle', timeout: 30000 })
+        .catch(() => p.waitForLoadState('load').catch(() => {}));
+      await p.waitForSelector('main', { timeout: 20000 }).catch(() => {});
+      await p.waitForTimeout(500);
+      const m = await p.evaluate(() => {
+        const se = document.scrollingElement;
+        const main = document.querySelector('main');
+        const home = document.querySelector('[data-home]');
+        const mast = home ? home.closest('header') : null;
+        const keys = document.querySelector('[data-keys]');
+        const root = document.getElementById('root');
+        const inner = [];
+        let scanned = 0, hidden = 0, cut = 0;
+        if (main) {
+          for (const e of main.querySelectorAll('*')) {
+            scanned += 1;
+            const cs = getComputedStyle(e);
+            if (!['auto', 'scroll', 'hidden', 'clip'].includes(cs.overflowX)) continue;
+            if (e.scrollWidth - e.clientWidth <= 1) continue;
+            if (e.clientWidth <= 1) { hidden += 1; continue; }
+            if (cs.textOverflow === 'ellipsis') { cut += 1; continue; }
+            const tag = e.tagName.toLowerCase();
+            const data = [...e.attributes].filter((a) => a.name.startsWith('data-')).map((a) => a.name).join(',');
+            inner.push(`${tag}${data ? '[' + data + ']' : ''} +${e.scrollWidth - e.clientWidth}px in ${e.clientWidth}`);
+          }
+        }
+        let scrollsInside = null;
+        if (main && main.scrollWidth - main.clientWidth > 1) {
+          main.scrollLeft = 40;
+          scrollsInside = main.scrollLeft > 0;
+          main.scrollLeft = 0;
+        }
+        const kr = keys ? keys.getBoundingClientRect() : null;
+        return {
+          doc: se.scrollWidth - se.clientWidth,
+          main: main ? main.scrollWidth - main.clientWidth : null,
+          mainW: main ? main.clientWidth : null,
+          drawn: main && main.firstElementChild ? main.firstElementChild.getBoundingClientRect().height > 0 : false,
+          scrollsInside, inner, scanned, hidden, cut,
+          mast: mast ? Math.round(mast.getBoundingClientRect().width) : null,
+          win: window.innerWidth,
+          keysOn: kr ? kr.left >= 0 && kr.right <= window.innerWidth && kr.width > 0 : false,
+          marked: root.hasAttribute('data-reflow') ? 'reflow' : (root.hasAttribute('data-floor') ? 'floor' : null),
+        };
+      });
+      out.push({ ...place, ...m });
+    }
+    await ctx.close();
+    return out;
+  };
+
+  const laptop = await readAll(null);
+  const railOpen = await readAll({ widths: {}, collapsed: { rail: false } });
+
+  // the premise: each page drew something, the shell marked it as the table says, and the
+  // inner scan read elements rather than an empty `<main>`
+  const unmarked = laptop.filter((m) => m.marked !== SURFACE_WIDTH[m.surface]).map((m) => `${m.hash} ${m.marked}`);
+  check(`the shell marks every page as the table says it is (${laptop.length - unmarked.length} of ${laptop.length}`
+    + (unmarked.length ? `; ${unmarked.join(', ')}` : '') + ')', laptop.length > 0 && unmarked.length === 0);
+  const blank = laptop.filter((m) => !m.drawn || m.scanned === 0).map((m) => m.hash);
+  check(`every page the width block reads drew its content (${blank.length ? 'blank: ' + blank.join(', ') : 'all drawn'})`,
+    blank.length === 0);
+
+  // the masthead is the window's width and its Keys button is on screen, on EVERY page in BOTH layouts
+  for (const [label, rows] of [['nothing stored', laptop], ['the assistant open', railOpen]]) {
+    const off = rows.filter((m) => m.mast !== m.win || !m.keysOn).map((m) => `${m.hash} (masthead ${m.mast} of ${m.win}${m.keysOn ? '' : ', Keys off screen'})`);
+    check(`at ${W} × ${H} with ${label}, the masthead is the window's width and Keys is on screen on all ${rows.length} pages`
+      + (off.length ? ` -- ${off.join('; ')}` : ''), rows.length > 0 && off.length === 0);
+  }
+
+  // a reflow page: no sideways scroll on the document, in <main>, or anywhere inside it
+  const reflow = laptop.filter((m) => SURFACE_WIDTH[m.surface] === 'reflow');
+  for (const m of reflow) {
+    check(`${m.hash} reflows at ${W} × ${H} (document +${m.doc}px, main +${m.main}px in ${m.mainW}`
+      + (m.inner.length ? `, inside: ${m.inner.slice(0, 3).join('; ')}` : '')
+      + (m.cut ? `; ${m.cut} cell(s) cut on purpose` : '') + ')',
+      m.doc <= 1 && m.main !== null && m.main <= 1 && m.inner.length === 0);
+  }
+
+  // a floored page: the document never scrolls. Where <main> is narrower than the floor -- the
+  // assistant-open layout, at 1280 -- its content is still the floor's width and <main> scrolls
+  // sideways inside itself, reachably. With nothing stored <main> is wider than the floor, so the
+  // floor does not bind there and only the document half is judged; if it did not bind with the
+  // assistant open either, the floor would be judged nowhere, and that is said rather than passed.
+  for (const [label, rows] of [['nothing stored', laptop], ['the assistant open', railOpen]]) {
+    for (const m of rows.filter((x) => SURFACE_WIDTH[x.surface] === 'floor')) {
+      const binds = m.mainW !== null && m.mainW < MAIN_FLOOR_PX;
+      check(`${m.hash} does not scroll the document with ${label} (+${m.doc}px, main ${m.mainW})`, m.doc <= 1);
+      if (binds) {
+        check(`and with main at ${m.mainW} px it keeps its ${MAIN_FLOOR_PX} px floor and scrolls inside <main> `
+          + `(content ${m.mainW + m.main} px, reachable ${m.scrollsInside})`,
+          m.mainW + m.main >= MAIN_FLOOR_PX - 1 && m.scrollsInside === true);
+      } else if (label === 'the assistant open') {
+        unjudged.push(`${m.hash}'s floor with the assistant open -- main is ${m.mainW} px, not narrower than `
+          + `the ${MAIN_FLOOR_PX} px floor, so the floor binds in neither layout and is judged nowhere`);
+      }
+    }
+  }
+  check(`the width block made no metered call (${metered} POSTs to a heavy route)`, metered === 0);
+
+  // what a reflow page does with the assistant open at 1280: printed, not judged. RULED 26 Sep
+  // 2026 (oq/no-sideways-scroll-at-1280-with-the-assistant-open, closed): "no sideways scroll at
+  // 1280" means the shell as it opens, so this residue is information and never a verdict.
+  const tight = railOpen.filter((m) => SURFACE_WIDTH[m.surface] === 'reflow' && (m.main > 1 || m.inner.length));
+  console.log(`\n     with the assistant open at ${W} (main ${railOpen[0] ? railOpen[0].mainW : '?'} px), `
+    + `${tight.length} of ${railOpen.filter((m) => SURFACE_WIDTH[m.surface] === 'reflow').length} reflow pages scroll sideways inside (not judged):`);
+  for (const m of tight) console.log(`       ${m.hash}: main +${m.main}px; ${m.inner.slice(0, 3).join('; ')}`);
 }
 
 await browser.close();

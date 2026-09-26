@@ -115,6 +115,28 @@ def resolve(g, a_id, a_room, b_id, b_room):
 # GENERATOR saying what it does not model, and that sentence lives in its source, not in a record.
 _REC_RE = re.compile(r"((?:rooms|kits|styles|faults|groupings|proportions)/[A-Za-z0-9_.\-/]+\.json"
                      r"|build/[A-Za-z0-9_]+\.py)")
+# WP-14.1. The ONE spelling of which files a GLOSSARY basis may name. build/check_glossary.py
+# reads it to verify a definition against what it quotes, and the phase-14 contract
+# (docs/prd/phase-14-the-dossier-and-the-journey.md §C.1) makes it the pattern a served record's
+# `reads` line is derived with -- so the popover's provenance and the checker's verification
+# cannot name different files. Do not spell it a second time. Wider than `_REC_RE` because a definition may rest
+# on prose that is not a grammar record (VISION.md, a schema's own description, a top-level
+# docs/ page). The lookbehind keeps `workbench/README.md` from being read as the root README.md;
+# `docs/` is TOP LEVEL ONLY, so docs/reports/ and docs/open-questions/ are never admitted.
+# Passed to check_basis as `rec_re=`; every other caller passes nothing and gets `_REC_RE`.
+# WP-14.29 admits ONE file of the app, by its exact path and no pattern: the workbench's
+# stylesheet, whose duty-block comments are the only written statement of what each `--mark-*`
+# on screen means (PRD tranche 2 §A.2 names them as the `mark-*` records' basis). It is the
+# same file rule 13 already reads to hold a record's `mark` to a declared property; nothing
+# else under workbench/ is admitted, which the test beside this pattern says in both directions.
+GLOSSARY_REC_RE = re.compile(
+    r"(?<![A-Za-z0-9_./-])("
+    r"(?:rooms|kits|styles|faults|groupings|proportions|partis)/[A-Za-z0-9_.\-/]+\.json"
+    r"|build/[A-Za-z0-9_]+\.py"
+    r"|massings/catalog\.json|elements/slots\.json|mcp_server/core\.py"
+    r"|schema/[A-Za-z0-9_.\-]+\.json"
+    r"|workbench/app/src/theme/tokens\.css"
+    r"|VISION\.md|README\.md|docs/[A-Za-z0-9_.\-]+\.md)")
 _QUOTE_RE = re.compile(r"\"([^\"]{25,})\"")
 # `rooms/x.json adjacency.must_adjoin[dining-room].why: "..."` -- the record, then the KEY
 # PATH the quote is said to live under. WP-9.4 found the path was never read: a real
@@ -157,18 +179,29 @@ def _walk_keypath(obj, path):
     return cur
 
 
-def check_basis(rep, rule, source="openings/grammar.json"):
+def check_basis(rep, rule, source="openings/grammar.json", rec_re=None):
     """A basis must name a record that exists, and any long quotation in it must appear in
     that record. Editorial is a licence to judge, never a licence to make things up.
 
     `source` names the file being checked so build/check_windows.py can call this rather than
-    grow a second copy — the corpus has been bitten three times by one rule spelled twice."""
+    grow a second copy — the corpus has been bitten three times by one rule spelled twice.
+
+    `rec_re` (WP-14.1) is the pattern for which files a basis may name. None is `_REC_RE`,
+    exactly as before, and that is what all seven existing callers pass -- their output is
+    byte-identical across the change, which WP-14.1 verified by diffing each one's stdout,
+    stderr and exit code before and after. build/check_glossary.py passes GLOSSARY_REC_RE.
+
+    RETURNS the number of quotations verified in full -- every part of the quotation found in
+    the records named. The callers that ignore it are unchanged; the glossary needs it, because
+    a basis whose only quotation is under twenty-five characters is never seen by `_QUOTE_RE`
+    at all and would otherwise pass as a basis that quoted nothing wrongly."""
+    rec_re = _REC_RE if rec_re is None else rec_re
     basis = rule.get("basis") or ""
     where = f"{source}[{rule['id']}]"
-    paths = _REC_RE.findall(basis)
+    paths = rec_re.findall(basis)
     if not paths:
         rep.err(where, "basis names no record — an editorial call must say what it read")
-        return
+        return 0
     blobs = []
     for rel in paths:
         full = os.path.join(ROOT, rel)
@@ -178,17 +211,22 @@ def check_basis(rep, rule, source="openings/grammar.json"):
         with open(full, "r", encoding="utf-8") as fh:
             blobs.append(fh.read())
     if not blobs:
-        return
+        return 0
     hay = "\n".join(blobs)
     # normalise the way JSON stores prose: escaped quotes, and any run of whitespace
     hay_n = re.sub(r"\s+", " ", hay.replace('\\"', '"'))
+    verified = 0
     for q in _QUOTE_RE.findall(basis):
         needle = re.sub(r"\s+", " ", q).strip()
         # an elision is the author's, and the halves either side must each be real
         parts = [p.strip() for p in needle.split("...") if len(p.strip()) >= 20]
+        found = True
         for part in (parts or [needle]):
             if part not in hay_n:
                 rep.err(where, f"basis quotes {part[:70]!r}, which is not in {', '.join(paths)}")
+                found = False
+        if found:
+            verified += 1
     # and UNDER THE KEY the basis names, where it names one and the record can be walked
     for rel, keypath, q in [(m.group(1), m.group(2), None) for m in _KEYPATH_RE.finditer(basis)]:
         full = os.path.join(ROOT, rel)
@@ -213,6 +251,7 @@ def check_basis(rep, rule, source="openings/grammar.json"):
         for part in parts:
             if part not in under:
                 rep.err(where, f"basis quotes {part[:60]!r} under {rel} {keypath}, and that key does not say it")
+    return verified
 
 
 def main():

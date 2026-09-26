@@ -1,0 +1,17 @@
+{
+  "id": "family-model",
+  "term": "The data model",
+  "family": "family",
+  "order": 17,
+  "definition": "The group of words of the data model itself: slots and their variants, bindings, the cascade, and the sources a figure rests on.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`model` holds the words of the data model itself: slots, bindings, the cascade and its sources\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "model"
+    }
+  ]
+}

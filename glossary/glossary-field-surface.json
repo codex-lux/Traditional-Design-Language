@@ -1,0 +1,9 @@
+{
+  "id": "glossary-field-surface",
+  "term": "The page",
+  "family": "glossary-field",
+  "order": 4,
+  "definition": "What a page's head says about the page it heads: one line on what the page shows, how to read it, and the questions a reader may start from.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of the `surface` field, which this word labels on an entry's own page: \"what a page head says about the page it heads\" and \"The starter questions the assistant offers a reader on this page\"."
+}

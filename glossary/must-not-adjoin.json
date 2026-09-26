@@ -1,0 +1,12 @@
+{
+  "id": "must-not-adjoin",
+  "term": "must not adjoin",
+  "family": "house",
+  "definition": "The rooms this room must be kept away from, each with the reason: a noise, a smell, a view or a door that ought never to open onto it.",
+  "kind": "editorial",
+  "basis": "schema/room.schema.json, the adjacency field: \"The join point to the plan-logic slot group, and the reason this catalogue exists. Rules are directional and typed.\"",
+  "see": [
+    "term:must-adjoin",
+    "term:should-adjoin"
+  ]
+}

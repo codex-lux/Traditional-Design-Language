@@ -1,0 +1,21 @@
+{
+  "id": "param-kind-measured",
+  "term": "measured",
+  "family": "param-kind",
+  "order": 0,
+  "definition": "Taken from surviving fabric or from a documented standard. The figure is a report of what was found or laid down, not a calculation and not a judgment.",
+  "more": "A guess must never be marked measured. Passed off as a measurement, it cannot be detected later, and it corrupts everything computed from it.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on a figure's kind: \"measured: from surviving fabric or a documented standard. derived: computed from a proportion pack. editorial: our considered convention.\" VISION.md: \"Laundering a guess as a measurement is the worst thing that can be done to this corpus, because it is undetectable later and it poisons everything downstream.\"",
+  "binds": [
+    {
+      "field": "kit.parameter_kind",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/$defs/parameter/properties/kind",
+      "value": "measured"
+    }
+  ],
+  "see": [
+    "kit:tidewater-georgian#roof_pitch"
+  ]
+}

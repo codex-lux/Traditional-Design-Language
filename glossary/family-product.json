@@ -1,0 +1,17 @@
+{
+  "id": "family-product",
+  "term": "This workbench",
+  "family": "family",
+  "order": 0,
+  "definition": "The group of words about the workbench itself: what it is, the tools it offers, and where a reader begins.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`product` holds the workbench itself, the tools it offers and where a reader begins\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "product"
+    }
+  ]
+}

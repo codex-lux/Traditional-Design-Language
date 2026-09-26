@@ -1,0 +1,20 @@
+{
+  "id": "pack-kind-opening-system",
+  "term": "opening system",
+  "family": "pack-kind",
+  "order": 5,
+  "definition": "A pack that proportions doors and windows: the shape of the opening and what frames it — its ratio, where its head sits, how it diminishes from storey to storey, how wide its surround is.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's opening-system kind and the opening pack's own statement of what it owns. schema/proportion-pack.schema.json, kind description: \"opening-system: window and door proportion.\"; proportions/systems/opening-proportion.json notes: \"It owns the RECTANGLE: the ratio of an opening, where its head sits, how it diminishes by storey, how wide its surround is\".",
+  "binds": [
+    {
+      "field": "pack.kind",
+      "schema": "schema/proportion-pack.schema.json",
+      "pointer": "/properties/kind",
+      "value": "opening-system"
+    }
+  ],
+  "see": [
+    "pack:opening-proportion"
+  ]
+}
