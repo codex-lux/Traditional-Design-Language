@@ -15,6 +15,7 @@ it did not, and the assertion that it ranks first failed.
 The tests below defend the two halves of the fix independently, because either one alone
 leaves the other failure mode live.
 """
+import ast
 import glob as glob_module
 import json
 import os
@@ -170,60 +171,162 @@ def test_the_tie_the_other_two_tests_rest_on_is_still_there(compose_mod):
 # ---------------------------------------------------------------- the solve cache and a patch
 # WP-14.33. `geometry._SOLVE_CACHE` is keyed on the plan, the parti, the candidate count, the
 # seed, the engine and the budget -- and on NOTHING a test can patch. So a test that patches a
-# module the solve reads, and then solves, leaves behind a result computed under the patch at a
-# key any later caller can ask for. `tests/test_hearths_on_flue.py` did exactly that on the
-# SHIPPED Tidewater record at the DEFAULT key, with `hearths.stack_axes` raising; clearing the
-# cache BEFORE its solve did not help, because the poison is what the solve itself writes. The
-# next file to ask for that plan was `tests/test_openings.py`, whose fixture pin then read the
-# hall bath's tub as fitting -- no stack run had been reserved -- and went red ONLY in a shard
-# order that put the hearth file first. Measured: those two tests alone, in that order, fail on
-# WP-14.33's tree AND on WP-14.32's; reversed, both pass. It surfaced when this package's two
-# new test files repacked the shards, which is `check_all`'s own note that the shard a red lands
-# in is the packing and not the defect. An order dependence is a determinism defect of exactly
-# the kind this file exists for: the result depended on something that is not the input.
+# module the solve reads, and then solves, leaves behind a result computed under the patch, and
+# any later call AT THE SAME KEY is served it. `tests/test_hearths_on_flue.py` did exactly that
+# on the SHIPPED Tidewater record at the heuristic engine's key, with `hearths.stack_axes`
+# raising; clearing the cache BEFORE its solve did not help, because the poison is what the
+# solve itself writes. The next file to ask for that plan at that key was `tests/test_openings.py`,
+# whose fixture pin then read the hall bath's tub as fitting -- no stack run had been reserved
+# -- and went red ONLY in a shard order that put the hearth file first. Measured: run as that
+# pair, in that order, the second fails (1 failed, 1 passed) on WP-14.33's tree AND on
+# WP-14.32's; reversed, both pass. It surfaced when this package's two new test files repacked
+# the shards, which is `check_all`'s own note that the shard a red lands in is the packing and
+# not the defect. An order dependence is a determinism defect of exactly the kind this file
+# exists for: the result depended on something that is not the input.
+#
+# THE FIRST SCANNER READ TEXT, AND WP-14.33's AUDIT DROVE THE DEFECT PAST IT FOUR WAYS: the
+# isolation surviving only as a `# comment`, the isolation moved AFTER the solve (the pair then
+# went red again with the scanner green), a patch by `unittest.mock.patch.object`, and a patch by
+# direct assignment (`GEO.X = ...`). It reads the AST now: a patch is a call or an assignment,
+# the isolation is a real `setattr(<module>, "_SOLVE_CACHE", {})` CALL on a line BEFORE the first
+# solve the patch precedes, or a `_SOLVE_CACHE.clear()` in the `finally` of a `try` whose body
+# solves. It also stopped costing eighteen seconds: `ast.get_source_segment` re-split the whole
+# file once per function.
+#
+# WHAT IT STILL CANNOT SEE, stated: a solve reached through a helper the function calls, and a
+# patch made in a fixture the test requests. The behavioural test below it is the other half.
+
+SOLVE_NAMES = ("solve", "solve_heuristic")
+PATCH_METHODS = ("setattr", "setitem", "delattr", "delitem", "setenv", "delenv")
+
+
+def _is_private_cache(call):
+    return (isinstance(call, ast.Call) and isinstance(call.func, ast.Attribute)
+            and call.func.attr == "setattr" and len(call.args) >= 3
+            and isinstance(call.args[1], ast.Constant) and call.args[1].value == "_SOLVE_CACHE"
+            and isinstance(call.args[2], ast.Dict) and not call.args[2].keys)
+
+
+def _is_cache_clear(call):
+    return (isinstance(call, ast.Call) and isinstance(call.func, ast.Attribute)
+            and call.func.attr == "clear" and isinstance(call.func.value, ast.Attribute)
+            and call.func.value.attr == "_SOLVE_CACHE")
+
+
+def _calls_solve(node):
+    for c in ast.walk(node):
+        if isinstance(c, ast.Call):
+            f = c.func
+            name = f.attr if isinstance(f, ast.Attribute) else getattr(f, "id", None)
+            if name in SOLVE_NAMES:
+                yield c.lineno
+
+
+def _patch_sites(fn):
+    """`[(line, what)]`: every way this function patches something a solve might read."""
+    out = []
+    for d in fn.decorator_list:
+        for c in ast.walk(d):
+            if isinstance(c, ast.Call) and "patch" in ast.unparse(c.func).split("."):
+                out.append((fn.lineno, "@" + ast.unparse(c.func)))
+    for n in ast.walk(fn):
+        if isinstance(n, ast.Call) and not _is_private_cache(n):
+            f = ast.unparse(n.func)
+            if isinstance(n.func, ast.Attribute) and n.func.attr in PATCH_METHODS:
+                out.append((n.lineno, f))
+            elif "patch" in f.split("."):
+                out.append((n.lineno, f))
+        elif isinstance(n, (ast.Assign, ast.AugAssign)):
+            for t in (n.targets if isinstance(n, ast.Assign) else [n.target]):
+                # `mod.attr = ...` on a name: a module patched by hand. `self.x` is the test's own
+                # state, and `fn._v` on the enclosing function is a memo, not a patch.
+                if (isinstance(t, ast.Attribute) and isinstance(t.value, ast.Name)
+                        and t.value.id not in ("self", "cls", fn.name)):
+                    out.append((n.lineno, ast.unparse(t) + " ="))
+    return out
+
+
+def solve_cache_verdicts(path, src):
+    """`[(path, function, verdict)]` for every function in `src` that patches and then solves.
+    The verdict is "private", "cleared-in-finally" or None. Pure, so it can be driven."""
+    tree = ast.parse(src)
+    out = []
+    for fn in ast.walk(tree):
+        if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        patches = _patch_sites(fn)
+        if not patches:
+            continue
+        first_patch = min(line for line, _ in patches)
+        solves = sorted(line for line in _calls_solve(fn) if line >= first_patch)
+        if not solves:
+            continue
+        verdict = None
+        if any(_is_private_cache(n) and n.lineno < solves[0] for n in ast.walk(fn)):
+            verdict = "private"
+        else:
+            for t in ast.walk(fn):
+                if (isinstance(t, ast.Try) and any(True for b in t.body for _ in _calls_solve(b))
+                        and any(_is_cache_clear(c) for b in t.finalbody for c in ast.walk(b))):
+                    verdict = "cleared-in-finally"
+        out.append((path, fn.name, verdict))
+    return out
+
 
 def _patch_and_solve_functions():
-    """Every test function that patches something and calls a solve, with whether it isolates
-    the solve cache. A guard on ONE ROUTE IN: a solve reached through a helper the function
-    calls is invisible here, which is why the behavioural test below exists beside it."""
-    import ast
     out = []
-    roots = [os.path.join(ROOT, "tests"), os.path.join(ROOT, "workbench", "server", "tests")]
-    for root in roots:
+    for root in (os.path.join(ROOT, "tests"), os.path.join(ROOT, "workbench", "server", "tests")):
         for path in sorted(glob_module.glob(os.path.join(root, "test_*.py"))):
-            src = open(path, encoding="utf-8").read()
-            tree = ast.parse(src)
-            for fn in ast.walk(tree):
-                if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                    continue
-                seg = ast.get_source_segment(src, fn) or ""
-                patches = any(s in seg for s in ("setattr(", "setitem(", "mock.patch"))
-                solves = ".solve(" in seg or "solve_heuristic(" in seg
-                if not (patches and solves):
-                    continue
-                private = ('"_SOLVE_CACHE", {}' in seg) or ("'_SOLVE_CACHE', {}" in seg)
-                cleared_in_finally = any(
-                    "_SOLVE_CACHE.clear()" in (ast.get_source_segment(src, b) or "")
-                    for t in ast.walk(fn) if isinstance(t, ast.Try) for b in t.finalbody)
-                out.append((os.path.relpath(path, ROOT), fn.name, private or cleared_in_finally))
+            out += solve_cache_verdicts(os.path.relpath(path, ROOT),
+                                        open(path, encoding="utf-8").read())
     return out
 
 
 def test_a_test_that_patches_and_solves_isolates_the_solve_cache():
     found = _patch_and_solve_functions()
     names = {n for _p, n, _ok in found}
-    # The premise: the scanner reaches the three functions it was written from, so a scanner
-    # that stopped matching cannot pass by finding nothing.
+    # The premise: the scanner reaches the functions it was written from, so a scanner that
+    # stopped matching cannot pass by finding nothing.
     for known in ("test_an_unreadable_hearth_is_recorded_by_the_placer_and_republished_by_the_roof",
                   "test_A_RECONCILIATION_THAT_CANNOT_BE_READ_IS_A_FOURTH_STATE",
-                  "test_without_ortools_the_fallback_says_so"):
+                  "test_without_ortools_the_fallback_says_so",
+                  "test_the_solver_hands_exterior_score_the_per_element_bounds"):
         assert known in names, f"the scanner no longer reaches {known}; it has gone blind"
     bad = [f"{p}::{n}" for p, n, ok in found if not ok]
     assert not bad, (
         "a test patches something and solves without isolating geometry's solve cache, so a "
         "result computed under the patch outlives it at a key a later test file can ask for. "
-        "Use monkeypatch.setattr(GEO, \"_SOLVE_CACHE\", {}) before the solve, or clear the "
-        "cache in a `finally` after it:\n  " + "\n  ".join(bad))
+        "Use monkeypatch.setattr(GEO, \"_SOLVE_CACHE\", {}) BEFORE the solve, or clear the "
+        "cache in the `finally` of the `try` that solves:\n  " + "\n  ".join(bad))
+
+
+def test_the_scanner_sees_the_shapes_the_first_one_could_not():
+    """Driven over sources written here, one per shape the audit used, so a scanner that went
+    blind to one of them fails by name rather than reading the tree as clean."""
+    head = "def test_x(monkeypatch):\n"
+    cases = {
+        "isolated before": (head + "    monkeypatch.setattr(GEO, '_SOLVE_CACHE', {})\n"
+                            "    monkeypatch.setattr(HE, 'f', g)\n    GEO.solve(p)\n", "private"),
+        "comment only": (head + "    # monkeypatch.setattr(GEO, '_SOLVE_CACHE', {})\n"
+                         "    monkeypatch.setattr(HE, 'f', g)\n    GEO.solve(p)\n", None),
+        "isolated after": (head + "    monkeypatch.setattr(HE, 'f', g)\n    GEO.solve(p)\n"
+                           "    monkeypatch.setattr(GEO, '_SOLVE_CACHE', {})\n", None),
+        "patch.object": ("def test_x():\n    with unittest.mock.patch.object(HE, 'f', g):\n"
+                         "        GEO.solve(p)\n", None),
+        "decorator": ("@mock.patch('hearths.f')\ndef test_x(m):\n    GEO.solve(p)\n", None),
+        "direct assignment": ("def test_x():\n    GEO.STACK_HARD = True\n    GEO.solve(p)\n", None),
+        "cleared in finally": ("def test_x():\n    GEO.f = spy\n    try:\n        GEO.solve(p)\n"
+                               "    finally:\n        GEO.f = real\n        GEO._SOLVE_CACHE.clear()\n",
+                               "cleared-in-finally"),
+        "cleared before": ("def test_x():\n    GEO.f = spy\n    GEO._SOLVE_CACHE.clear()\n"
+                           "    GEO.solve(p)\n", None),
+    }
+    for name, (src, want) in cases.items():
+        got = solve_cache_verdicts("x.py", src)
+        assert len(got) == 1 and got[0][2] == want, (name, got)
+    # and the two shapes that are NOT a patch of a module
+    assert solve_cache_verdicts("x.py", "def f():\n    f._v = GEO.solve(p)\n") == []
+    assert solve_cache_verdicts("x.py", "def f(self):\n    self.v = 1\n    GEO.solve(p)\n") == []
 
 
 def test_the_private_cache_idiom_really_isolates(monkeypatch):
@@ -231,7 +334,8 @@ def test_the_private_cache_idiom_really_isolates(monkeypatch):
     time. Solve the shipped record under a patch with a private cache, then solve it again
     after: the second answer must be the unpatched one."""
     import sys
-    sys.path.insert(0, os.path.join(ROOT, "build"))
+    if os.path.join(ROOT, "build") not in sys.path:
+        sys.path.insert(0, os.path.join(ROOT, "build"))
     import modcache
     GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
     HE = modcache.load("hearths", os.path.join(ROOT, "build", "hearths.py"))

@@ -630,6 +630,10 @@ class TestTheAuditGapsInTheBlockWork:
             g.solve(plan, None, engine="heuristic")
         finally:
             g.exterior_score = real
+            # A solve made under a patch is not left in the shared cache for a later caller at
+            # the same key (WP-14.33): this spy passes through, so the result is the unpatched
+            # one today, and the rule does not depend on a patch being harmless.
+            g._SOLVE_CACHE.clear()
         assert seen, "the solver never scored exteriors at all -- this guard has gone blind"
         assert any(b for b in seen), (
             "the solver scores every candidate's exterior walls against the MAIN block's "

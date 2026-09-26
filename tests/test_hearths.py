@@ -661,11 +661,17 @@ class TestTheCriticAndThePlate:
         svg = open(out, encoding="utf-8").read()
         assert svg.count("fireplace,") == drawn, (
             f"one breast per fire the placement drew: {drawn} drawn of {stated} stated")
-        if refused:
-            line = f"{len(refused)} OF {stated} STATED FIRE(S) NOT DRAWN"
-            assert line in svg, f"a stated fire the plate does not draw must be named: {line!r}"
-            for u in refused:
-                assert u["room"].upper() in svg.split(line, 1)[1][:400], (
-                    f"the refused fire's room {u['room']!r} is named on the line")
+        # The naming half ran under an `if refused:` with no premise, so a placement drawing
+        # all three fires would have skipped it in silence (WP-14.33's audit drove exactly that
+        # with the disclosure deleted, and the test stayed green). The premise is stated: if a
+        # placement change ever draws every fire here, this fails by name and the naming half
+        # needs a refused hearth driven by hand rather than a skipped branch.
+        assert refused, ("the premise: this placement refuses at least one stated fire, so the "
+                         "line naming it can be read; it now draws all of them")
+        line = f"{len(refused)} OF {stated} STATED FIRE(S) NOT DRAWN"
+        assert line in svg, f"a stated fire the plate does not draw must be named: {line!r}"
+        for u in refused:
+            assert u["room"].upper() in svg.split(line, 1)[1][:400], (
+                f"the refused fire's room {u['room']!r} is named on the line")
         assert "Morris 1734, judgment" in svg, (
             "the plate must say the projection is a judgment, not a measurement")

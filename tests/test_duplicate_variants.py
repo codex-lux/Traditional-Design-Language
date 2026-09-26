@@ -26,7 +26,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def _ck():
-    sys.path.insert(0, os.path.join(ROOT, "build"))
+    if os.path.join(ROOT, "build") not in sys.path:
+        sys.path.insert(0, os.path.join(ROOT, "build"))
     import check_kits
     return check_kits
 
@@ -159,7 +160,8 @@ def test_no_resolved_kit_states_one_variant_twice_without_a_condition():
     `permitted` AND `forbidden`, neither conditional -- 6 (style, slot, id) triples over 3
     styles. Swept over all 164 styles; the premise asserts the conditional repeats survive, so an
     empty result cannot come from the resolver dropping every repeat."""
-    sys.path.insert(0, os.path.join(ROOT, "build"))
+    if os.path.join(ROOT, "build") not in sys.path:
+        sys.path.insert(0, os.path.join(ROOT, "build"))
     import modcache
     rk = modcache.load("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
     ck = _ck()
@@ -191,7 +193,8 @@ def test_no_resolved_kit_states_one_variant_twice_without_a_condition():
 
 
 def _ops(base, deltas):
-    sys.path.insert(0, os.path.join(ROOT, "build"))
+    if os.path.join(ROOT, "build") not in sys.path:
+        sys.path.insert(0, os.path.join(ROOT, "build"))
     import modcache
     rk = modcache.load("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
     return rk.apply_variant_ops(base, deltas)[0]

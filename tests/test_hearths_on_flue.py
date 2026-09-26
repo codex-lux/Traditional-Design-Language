@@ -537,7 +537,7 @@ class TestThePlansStacksAreTheRoofsStacks:
             raise ValueError("a hearth wall nobody wrote down")
         monkeypatch.setattr(HE, "stack_axes", boom)
         # A PRIVATE CACHE, RESTORED UNTOUCHED ON TEARDOWN (WP-14.33). This solve is of the
-        # SHIPPED record at the DEFAULT key, and `_SOLVE_CACHE` outlives the patch: clearing it
+        # SHIPPED record at the heuristic key, and `_SOLVE_CACHE` outlives the patch: clearing it
         # BEFORE the solve left the result computed with `stack_axes` raising -- no breasts, no
         # stack runs reserved -- for the next test file that asks for this plan.
         # `test_openings.py`'s fixture pin read it as the hall bath's tub fitting, and went red
