@@ -249,6 +249,74 @@ if _tracked is not None:
         print("  x " + _d)
     _dup_bad = 1 if _dups else 0
 
+# WP-14.33: A DESCRIPTION IS FOR A READER, AND ITS BUILD HISTORY IS NOT (ruled 26 Sep 2026).
+#
+# The record pages (WP-14.23) print a parti's, a room's, a grouping's and a massing's
+# `description` as the page's own prose. Five parti descriptions carried the account of how the
+# record came to say what it says -- "WP-13.5 states the container ... `block: service` ...
+# `geometry.blocks_for`", "it was 9,000, which the composer could reach 43% of ... (OQ 45)" --
+# which is a maintainer's note printed where a reader looks
+# (`oq/five-parti-descriptions-carry-build-history-a-reader-now-sees`). The history moved to the
+# parti's `note` (parti schema 0.2.0) and this sweep keeps it from coming back, in every record
+# kind whose description a page shows: partis, groupings, rooms, massings and the style nodes.
+#
+# WHAT IT REFUSES: a work-package number, an open-question number or slug, and a CODE SPAN --
+# ANY backticked run, because the record page prints a description as plain text and a reader
+# sees the backticks. The first draft refused only a span holding a `.`, `:`, `=` or `(` and
+# let a backticked id through, and a mutation putting `area_range_sf` into a description sailed
+# past it: an identifier in backticks is code whatever characters it holds. Two descriptions
+# carried one (a grouping's `dependency-and-hyphen`, a style's `references` and
+# `descends_from`) and were reworded in the words a reader uses.
+# IT RUNS INSIDE THIS CHECKER SO `TOTAL_CHECKS` DOES NOT MOVE, beside the duplicate-key sweep.
+def description_texts(root=None):
+    """`[(where, text)]` for every description a record page shows. Globbed per directory, never
+    walked, and sorted, so a git-ignored copy of the tree cannot be read into it."""
+    import glob as _glob
+    base = ROOT if root is None else root
+    out = []
+    for kind in ("partis", "groupings", "rooms"):
+        for path in sorted(_glob.glob(os.path.join(base, kind, "*.json"))):
+            d = json.load(open(path, encoding="utf-8"))
+            if isinstance(d.get("description"), str):
+                out.append((f"{kind}/{os.path.basename(path)}", d["description"]))
+    cat = os.path.join(base, "massings", "catalog.json")
+    if os.path.isfile(cat):
+        for m in json.load(open(cat, encoding="utf-8")):
+            if isinstance(m, dict) and isinstance(m.get("description"), str):
+                out.append((f"massings/catalog.json#{m.get('id')}", m["description"]))
+    for path in sorted(_glob.glob(os.path.join(base, "styles", "*.json"))):
+        d = json.load(open(path, encoding="utf-8")).get("description")
+        if isinstance(d, dict):
+            for part in ("short", "long"):
+                if isinstance(d.get(part), str):
+                    out.append((f"styles/{os.path.basename(path)}#{part}", d[part]))
+    return out
+
+
+def build_history_in(texts):
+    """One sentence per piece of build history found in `[(where, text)]`. Pure."""
+    import re as _re
+    forms = ((_re.compile(r"\bWP-\d"), "a work-package number"),
+             (_re.compile(r"\bOQ \d"), "an open-question number"),
+             (_re.compile(r"\boq/[a-z0-9]"), "an open-question slug"),
+             (_re.compile(r"`[^`\n]+`"), "a code span"))
+    found = []
+    for where, text in texts:
+        for rx, what in forms:
+            for m in rx.finditer(text):
+                found.append(f"{where}: its description carries {what} ({m.group(0)!r}) -- "
+                             f"build history goes in the record's `note`, not where a reader looks")
+    return found
+
+
+_desc_bad = 0
+_desc_texts = description_texts()
+_desc_found = build_history_in(_desc_texts)
+print(f"\ndescriptions read for build history: {len(_desc_texts)}  found: {len(_desc_found)}")
+for _d in _desc_found[:40]:
+    print("  x " + _d)
+_desc_bad = 1 if _desc_found else 0
+
 print("\nOK — schema valid, references resolve, no cycles.")
-if _scene_bad or _dup_bad:
+if _scene_bad or _dup_bad or _desc_bad:
     sys.exit(1)

@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**237 questions, of which 128 are open.** A question is OPEN while
+**237 questions, of which 127 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 128
+## Open — 127
 
 Awaiting a ruling. This is the list to read first.
 
@@ -107,7 +107,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/clear-counts-a-pass-and-a-tautology-as-one-thing** | OPEN | [half the faults this corpus clears are cleared on the generator's own output](open-questions/oq-clear-counts-a-pass-and-a-tautology-as-one-thing.md) |
 | **oq/fifteen-of-sixteen-plans-name-no-parti** | OPEN | [the facade layer is silent on 94% of this corpus](open-questions/oq-fifteen-of-sixteen-plans-name-no-parti.md) |
-| **oq/five-parti-descriptions-carry-build-history-a-reader-now-sees** | OPEN | [a record's own prose names work packages and code, and the record page shows it](open-questions/oq-five-parti-descriptions-carry-build-history-a-reader-now-sees.md) |
 | **oq/four-assemblies-state-projection-parts-as-a-run-a-face-or-a-width** | OPEN | [four assemblies write a horizontal run, a face length or a pier width in the field that means a projection, and the plate draws each as a projection](open-questions/oq-four-assemblies-state-projection-parts-as-a-run-a-face-or-a-width.md) |
 | **oq/fourteen-of-sixteen-plans-name-no-massing** | OPEN | [every massing-gated check is silent on 87.5% of the plan records](open-questions/oq-fourteen-of-sixteen-plans-name-no-massing.md) |
 | **oq/no-plan-record-states-its-bearing** | OPEN | [the compass rule is executed under an assumption on 16 of 16 plans](open-questions/oq-no-plan-record-states-its-bearing.md) |
@@ -161,7 +160,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 109
+## Settled — 110
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -252,6 +251,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/an-exemplar-that-is-not-one-whole-building** | RULED 5 Sep 2026, the same day it was raised | [an archive, a body of work and a phase, and none of the three can carry a precedent](open-questions/oq-an-exemplar-that-is-not-one-whole-building.md) |
 | **oq/casings-are-measured-across-and-drawn-upright** | CLOSED 25 Sep 2026 — answer 1, executed by WP-14.18 (data and checker) and WP-14.24 (the plate) | [an assembly's axis and its zones are stated only in prose, so a plate can draw neither](open-questions/oq-casings-are-measured-across-and-drawn-upright.md) |
 | **oq/fetching-through-a-tier-the-proxy-denies** | RULED 31 Aug 2026 | [the egress denial is a policy, and two other tiers reach past it](open-questions/oq-fetching-through-a-tier-the-proxy-denies.md) |
+| **oq/five-parti-descriptions-carry-build-history-a-reader-now-sees** | CLOSED — ruled 26 September 2026 (descriptions are for readers), executed in WP-14.33 | [a record's own prose names work packages and code, and the record page shows it](open-questions/oq-five-parti-descriptions-carry-build-history-a-reader-now-sees.md) |
 | **oq/forbidden-stops-the-pack-cascade** | CLOSED 28 Aug 2026 | [787 pack rules dimension a slot the resolved kit forbids, and nobody chose one of them](open-questions/oq-forbidden-stops-the-pack-cascade.md) |
 | **oq/mcp-proportions-serve-no-assemblies-for-non-order-packs** | CLOSED — ruled 25 Sep 2026 (answer 1), executed by WP-14.18 on 25 Sep 2026 | [the workbench will draw twenty-seven packs the MCP tool still reports as having no assemblies](open-questions/oq-mcp-proportions-serve-no-assemblies-for-non-order-packs.md) |
 | **oq/no-sideways-scroll-at-1280-with-the-assistant-open** | CLOSED 26 September 2026 (WP-14.33) — answer 1, the ruling means the shell as it opens | [the width ruling was measured with the assistant folded, and sixteen pages still scroll inside themselves when it is open](open-questions/oq-no-sideways-scroll-at-1280-with-the-assistant-open.md) |
