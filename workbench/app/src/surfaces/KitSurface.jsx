@@ -166,7 +166,7 @@ export function KitSurface({ styleId, onCite, selection, setSelection }) {
             Folded by default — open, they pushed the count and the specified-only toggle
             off the right-hand edge of the strip, which is how a bar of filters starts
             hiding the things it is supposed to be reporting. */}
-        <FilterGroup label="slot group" active={group ? 1 : 0} summary={group || 'all 8'}>
+        <FilterGroup label="slot group" active={group ? 1 : 0} summary={group || (groups.length ? `all ${groups.length}` : 'all')}>
           <ChipGroup label="slot group">
             {groups.map((g) => (
               <Chip key={g.id} radio on={group === g.id}

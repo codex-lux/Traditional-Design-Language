@@ -15,10 +15,11 @@
    key) does not carry one of these patterns, which is measured: the scan over the tree finds only
    copy.
 
-   THE ONE ROW LEFT IS NOT THIS PACKAGE'S TO TOUCH. The order plate's caption in
-   `surfaces/Proportions.jsx` names OQ 65 twice, on one line; the plate is another package's
-   (WP-14.31's brief leaves `OrderPlate` alone), so that line stands in the baseline, named, and
-   the report says so. `READER_COPY_PRINT=1 node --test src/readerCopy.test.mjs` prints the current rows.
+   THE BASELINE IS EMPTY, SO THIS IS A BAN (WP-14.33's audit). Its one row was the order plate's
+   caption in `surfaces/Proportions.jsx`, which named OQ 65 twice and told a reader "the corpus
+   uses both" -- a corpus fact, and a closed question cited to someone who cannot look it up. It was
+   left because the plate was another package's; the audit's copy fix took the citation and the
+   claim out together. `READER_COPY_PRINT=1 node --test src/readerCopy.test.mjs` prints the current rows.
 
    AND THE PALETTE'S KIND TABLE IS HELD TO THE GLOSSARY HERE, because it is where the palette's
    group headings come from now (`search/match.js::KIND_TERM`): every kind the search orders has
@@ -29,16 +30,17 @@ import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { KIND_ORDER, KIND_TERM } from './search/match.js';
+import { stripComments } from './sourceReader.mjs';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const GLOSSARY = fileURLToPath(new URL('../../../glossary/', import.meta.url));
 
 export const HISTORY = /\bWP-\d|\bOQ\s*\d|[①-⑳⓪-⓿❶-➓]/;
 
-/* Comments are not copy: block comments (a JSX `{/* ... *\/}` included) and line comments,
-   whether they open a line or trail code. A `//` after `:` is a URL inside a string and kept. */
-const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
-  .replace(/(^|[\s;,{}()])\/\/[^\n]*/g, '$1');
+/* Comments are not copy, and they are stripped by `sourceReader.mjs`, the lexer both copy
+   ratchets share (WP-14.33's audit): the pair of regular expressions this file carried read the
+   file-type pattern in `Transcription.jsx`'s `accept=` attribute as the start of a comment and was
+   blind to the 79 lines after it. */
 const squash = (s) => s.replace(/\s+/g, ' ').trim();
 
 /* source → the history rows: every line of LIVE source carrying a work package, an
@@ -70,10 +72,7 @@ function current() {
 }
 
 // BASELINE-BEGIN
-const BASELINE = [
-  ['surfaces/Proportions.jsx',
-    "says so{undeclared ? ' nowhere — that reading is assumed (OQ 65)' : ' (OQ 65: the corpus uses both)'}."],
-];
+const BASELINE = [];
 // BASELINE-END
 
 function minus(a, b) {
@@ -113,6 +112,17 @@ test('the scanner finds the build history in every form copy takes, and not in a
     '<h3>DXF &amp; IFC (WP-5.1)</h3>',
     '<p>a gesture cannot wait for a proof; the rest (OQ 54) can</p>',
   ]);
+});
+
+test('a comment\'s characters inside a string do not hide the lines after it (WP-14.33\'s audit)', () => {
+  // The shipped shape: an attribute holding a slash-star opened a "comment" the regex strip ran to
+  // the next star-slash, and every line between was unread -- a work package there passed.
+  const fixture = [
+    '<input accept="image/' + '*" />',
+    '<p>forthcoming — WP-5.3 is not built</p>',
+    '{/' + '* a real comment naming OQ 12 *' + '/}',
+  ].join('\n');
+  assert.deepEqual(historyRows(fixture), ['<p>forthcoming — WP-5.3 is not built</p>']);
 });
 
 test('the premise: the scan reads the app’s sources, and the circled numerals it refuses are real', () => {

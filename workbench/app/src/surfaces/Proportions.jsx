@@ -317,7 +317,7 @@ function OrderPlate({ data }) {
           Half the order in section: every band is a member the engine emitted, run from the
           axis to the outer face this pack states — none traced. This pack measures its
           projections{fromAxis ? ' from the axis' : ' from each member’s own naked'}, and
-          says so{undeclared ? ' nowhere — that reading is assumed (OQ 65)' : ' (OQ 65: the corpus uses both)'}.
+          says so{undeclared ? ' nowhere — that reading is assumed' : ''}.
           {nominal ? ' This pack publishes no column diameter; the naked is drawn nominal.' : ''}
           {unrecorded.size
             ? ` ${unrecorded.size} member${unrecorded.size === 1 ? '' : 's'} state no projection at all and are drawn at the naked — that is an absent figure, not a flush face.`

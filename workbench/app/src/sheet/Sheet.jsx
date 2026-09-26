@@ -1014,7 +1014,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
               presenting a convention as a reading. */}
           {wall.stated
             ? `Walls ${wall.type.replace(/-/g, ' ')}: envelope ${(wall.exterior_ft * 12).toFixed(1)} in outside the placed rooms, partitions ${(wall.partition_ft * 12).toFixed(1)} in centred on them; room figures are the record's clear extents. `
-            : 'The record states no wall assembly, so the walls are drawn at this sheet\'s conventional 9 in and 5 in — a convention, not a reading. '}
+            : `The record states no wall assembly, so the walls are drawn at this sheet's conventional ${Math.round(wall.exterior_ft * 12)} in and ${Math.round(wall.partition_ft * 12)} in — a convention, not a reading. `}
           {wall.note ? wall.note + ' ' : ''}
           {/* "each marked \u25B3 where it falls" was a claim about every mark, and a mark the
               solver located nowhere is now not drawn at all rather than dropped at the
