@@ -427,3 +427,21 @@ Numbering an open question, or citing a report before it exists.
 
 The seven questions ruled on 25 September are marked IN PROGRESS, each with its ruling and the
 package that executes it. Each is closed by that package.
+
+## I. The rulings of 26 September, executed by WP-14.33
+
+Tranche 2 left seven rulings owed (`docs/reports/wp-14.32-tranche-two-built.md` §V), and one data
+defect was found while it ran. Lucas ruled all eight on 26 September 2026, each on the recommended
+answer. WP-14.33 executes them and adds no surface. Its report is
+`docs/reports/wp-14.33-the-eight-rulings.md`.
+
+| # | Question | Ruling | What it binds |
+|---|---|---|---|
+| R1 | Which wall the dining fire stands on (item 4 of `oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it`) | **The style's massing and kit govern**, not the room type's generic record. | Nothing is edited. The worked house stays refused on its own facts and stays the guided example. WP-14.28 stays not built. Items 1 to 3 of the question stay open. |
+| R2 | A refusal drawn in two inks | **Brick everywhere.** | `--refusal` is `var(--brick)`, the same ink as `--mark-refused`. Violet is `--t4` alone, a tradition's hue. `src/marks.test.mjs` holds the three together. |
+| R3 | The link ink reads below AA | **Ink text, gilt underline.** | `--link` is `--ink`, 9.48 : 1 on paper. The gilt moves into `--link-underline`. `src/inks.test.mjs` computes the contrast on four papers and refuses a gilt anchor or link-button colour anywhere in `src`. |
+| R4 | No sideways scroll at 1280 with the assistant open | **The ruling means the shell as it opens.** | That is met as built. The walk's assistant-open figure stays a report. |
+| R5 | The app still writes paragraphs | **Split by what a sentence claims about the corpus.** | A corpus fact is derived or recorded, and the workbench's voice stays. `src/copy_ratchet.test.mjs` gains a third scanner, PROSE, baselined by identity with a class and no `corpus` class. |
+| R6 | Five parti descriptions carry build history | **A description is for a reader.** | Parti schema 0.2.0 gains `note`. `build/validate.py` refuses a WP or OQ number, an OQ slug or a backticked span in any description a record page shows. |
+| R7 | Two class-A modules refused | **Leave both undeclared, and close.** | Nothing is declared. `oq/which-packs-module-is-a-building-input` stays half closed on classes B, C and D. |
+| R8 | Repeated variant ids in `georgian-colonial-american` | **A conditional repeat is legitimate; delete the five unconditional ones.** | `check_kits.py::check_duplicate_variants` refuses the shape. Whether a region or construction condition is ever applied is filed as `oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied`. |

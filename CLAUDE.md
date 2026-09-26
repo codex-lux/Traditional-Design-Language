@@ -110,7 +110,14 @@ a time, and no longer the way the corpus is stored.
 
 **THE FIRST RULING LIFTED TRANCHE 1'S FREEZES PER ITEM AND NAMED.** MCP payloads, `rail.py`, `/api/health` and `core.overview()` moved only where a package's own item needed it, and each report names what moved. `tdl_get_proportions`, `tdl_resolve_kit`, `tdl_get_slot`, `tdl_brief_schema`, `tdl_compose`, `tdl_list_partis` and `/api/health` changed, with byte-stability pins on everything else.
 **THE KIT HAS ONE AUTHORITY NOW (WP-14.26).** `core.resolve_kit` hand-merged the cascade, disagreed with the build's `resolve_slots` on 38 of 15,908 (style, slot) pairs, and served the MCP tools. `tdl_get_slot` listed 228 styles that FORBID a slot as specifying it. Both read `resolve_slots` now.
-**THE WORKED HOUSE CANNOT BE DRAWN AND THE REASON IS THE HOUSE'S (WP-14.21).** The massing puts the dining room's fire on the west gable, and the dining room's own record puts it on an interior wall. Followed as the massing says, the butler's pantry is forced past its own 14 ft ceiling. The refusal stays the guided example, and WP-14.28, the tour, is NOT BUILT.
+**THE WORKED HOUSE CANNOT BE DRAWN AND THE REASON IS THE HOUSE'S (WP-14.21).** The massing puts the dining room's fire on the west gable, and the dining room's own record puts it on an interior wall. Followed as the massing says, the butler's pantry is forced past its own 14 ft ceiling. The refusal stays the guided example, and WP-14.28, the tour, is NOT BUILT. **Ruled 26 Sep (WP-14.33): the style's massing and kit govern the fire's wall**, so the refusal is the house's own on a ruled reading.
+**EIGHT RULINGS OF 26 SEP 2026 ROUNDED THE TRANCHE OUT, AND WP-14.33 EXECUTED THEM** (`docs/reports/wp-14.33-the-eight-rulings.md`, PRD §I):
+- A refusal is brick everywhere, and a link is ink with a gilt underline.
+- A corpus fact in app prose is derived or a glossary record, and `copy_ratchet`'s PROSE scanner baselines every other JSX paragraph by identity, with no `corpus` class.
+- A description carries no build history: a parti's goes in its `note`, and `validate.py` sweeps every description a record page shows.
+- A variant id repeats in a kit slot only as a condition (`check_kits.py::check_duplicate_variants`).
+- Nothing applies a `regions` or `construction` condition, so 249 resolved rows read as canonical or forbidden everywhere. That is filed as `oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied`.
+- **And a pre-commit run piped through `tail` let a red test in**: `b33b210` went in with 1 failed, and `51e5151` records it. Read the exit code of pytest, not of the pipe.
 **SHARD `check_all` IN `git worktree`s, NOT `git archive` EXTRACTS.** Seven tests and `check_ids.py` ask git for the tracked population and go red in an extract with no `.git`. That looks exactly like a regression and is not one (WP-14.32 §III.3).
 **EVERY DEFINITION IS A GLOSSARY RECORD AND THE APP WRITES NONE**: `glossary/*.json`,
 `schema/glossary-term.schema.json` and `build/check_glossary.py` (the 54th check) verify every

@@ -243,6 +243,28 @@ grammar.
   reader copy fails the suite. Readable text is off the faint inks, and `src/inks.test.mjs`
   guards all of `src`.
 
+The eight rulings of 26 Sep 2026 changed four things here (WP-14.33,
+`docs/reports/wp-14.33-the-eight-rulings.md`).
+
+- **A refusal is brick, everywhere.** `--refusal` is `var(--brick)`, the ink `--mark-refused`
+  draws. Violet is `--t4` alone, and a tradition's hue never says "refused". The atlas's
+  coastline-not-fetched note is not a refusal and is set in ink. `src/marks.test.mjs` resolves all
+  three from the stylesheet.
+- **A link is ink with a gilt underline.** `--link` is `--ink`, 9.48 : 1 on paper, and the gilt is
+  in `--link-underline`, solid `--gilt-deep` on hover. `--gilt-deep` as text read 4.09 : 1.
+  `src/inks.test.mjs` computes the contrast on the four papers, and it refuses a gilt `color` on
+  any anchor or link-button in `src`. Eighteen non-link labels still set `--gilt-deep` as text;
+  they are the known remainder, unruled.
+- **A corpus fact in app prose is derived or recorded.** The family tree lists the trunks it holds
+  from its own tradition-rank taxa. The traditions it lacks are the `missing-peer-trunks` record.
+  The atlas's account of where its points come from is the `map-positions` record.
+  `src/copy_ratchet.test.mjs`'s third scanner, PROSE, baselines every JSX paragraph of twelve or
+  more words by identity, each with a class: `voice`, `disclosure` or `not-prose`. There is no
+  `corpus` class.
+- **A record page's description carries no build history.** A parti's history is in its `note`
+  (parti schema 0.2.0), which the page does not show. `build/validate.py` refuses a WP or OQ
+  number, an OQ slug or a backticked span in any description a record page prints.
+
 ## Navigation and addressing (WP-5.6)
 
 **A place is a URL, and a URL is a citation.** The hash serializes `(surface, selection,
