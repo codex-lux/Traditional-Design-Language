@@ -51,9 +51,11 @@ makes the underline a full gilt rule on hover. On each paper, `--ink` reads:
 
 **The elements, found by what they draw rather than by a list.**
 
-- Nine link-styled buttons and spans drew the link underline under `--gilt-deep` text, in
-  `AiRail`, `FindingRow`, `ShortcutCard`, the atlas (two), the bench's filter clear, the family
-  tree (two) and the chrome's filter clear. All nine take `var(--link)` now.
+- Nine link-styled elements drew the link underline under `--gilt-deep` text, in `AiRail`,
+  `FindingRow`, `ShortcutCard`, the atlas (two), the bench's filter clear, the family tree (two)
+  and the chrome's filter clear. All nine take `var(--link)` now. *(Corrected by WP-14.33's audit:
+  `AiRail`'s is an anchor, so this is eight buttons and spans and one anchor, and four anchors in
+  all overrode the `a` rule.)*
 - Three anchors set their own `--gilt-deep` over the `a` rule's ink: the dossier's
   corpus-faults link, and its two head links. All three take `var(--link)`.
 - The current pack in the Proportions index was told by gilt text. It is told by a 2 px gilt
@@ -72,11 +74,16 @@ makes the underline a full gilt rule on hover. On each paper, `--ink` reads:
 Each part was driven by mutation: `--link` back to gilt, one button back to gilt, one anchor back
 to gilt. All three went red.
 
-**The remainder, stated.** Eighteen elements still set `--gilt-deep` text that is not a link:
+**The remainder, stated -- and stated wrongly, which WP-14.33's audit corrected.** This said
+eighteen elements still set `--gilt-deep` text that is not a link, among them *"three controls that
+act in place (a fold toggle, `revoke`, a slot chip)"*, and that the WP-14.33 report named them.
 
-- eyebrows and labels in `FaultCard`, `SlotRow`, `FindingRow`'s class tag, `ToolTrace` and
-  `ProvenanceTrace`;
-- three controls that act in place (a fold toggle, `revoke`, a slot chip).
-
-They read 4.09 : 1 on paper, which is the same shape, and they are not links, which is what was
-ruled. The WP-14.33 report names them. A ruling on gilt as a text ink at all would move them.
+- **Eighteen was the count of one literal spelling**, `color: 'var(--gilt-deep)'`, with the
+  conditional and tone-table spellings uncounted.
+- **Two of the eighteen were links.** FaultCard's slot chip calls `onCite('slot:...')` and SlotRow's
+  fault names call `onCite('fault:...')`, so neither "acts in place". ToolTrace's "open" was a third.
+  All three take the link ink and the `.tdl-link` class now.
+- **The report named none of them.**
+- **The remainder is measured now**, by the clickable reader in `src/inks.test.mjs`: 11 controls,
+  8 that act in place and 3 chips, held by identity, plus the non-clickable gilt labels. It is the
+  subject of `oq/two-inks-set-as-small-text-read-below-aa`.

@@ -251,19 +251,30 @@ The eight rulings of 26 Sep 2026 changed four things here (WP-14.33,
   coastline-not-fetched note is not a refusal and is set in ink. `src/marks.test.mjs` resolves all
   three from the stylesheet.
 - **A link is ink with a gilt underline.** `--link` is `--ink`, 9.48 : 1 on paper, and the gilt is
-  in `--link-underline`, solid `--gilt-deep` on hover. `--gilt-deep` as text read 4.09 : 1.
-  `src/inks.test.mjs` computes the contrast on the four papers, and it refuses a gilt `color` on
-  any anchor or link-button in `src`. Eighteen non-link labels still set `--gilt-deep` as text;
-  they are the known remainder, unruled.
+  the underline, `--link-underline`, going to a solid `--link-underline-hover` on hover.
+  `--gilt-deep` as text read 4.09 : 1. A button that is a link takes the `.tdl-link` class, which
+  carries both states; an inline underline beats `a:hover` and no `a` rule reaches a button, so
+  before WP-14.33's audit ten of the thirteen converted controls showed no hover at all.
+  `src/inks.test.mjs` computes the contrast on the four papers and holds four things: the link
+  tokens and both hover rules; every element drawing the underline inline; every anchor; and
+  every CLICKABLE element whose own text can take an ink under 4.5 : 1, held by identity as an
+  `action` or a `chip` and never as a link. The remainder is 11 controls (8 actions, 3 chips) and
+  the non-clickable gilt labels; `oq/two-inks-set-as-small-text-read-below-aa` asks what to do with
+  them and with the refusal's brick as text.
 - **A corpus fact in app prose is derived or recorded.** The family tree lists the trunks it holds
   from its own tradition-rank taxa. The traditions it lacks are the `missing-peer-trunks` record.
   The atlas's account of where its points come from is the `map-positions` record.
-  `src/copy_ratchet.test.mjs`'s third scanner, PROSE, baselines every JSX paragraph of twelve or
-  more words by identity, each with a class: `voice`, `disclosure` or `not-prose`. There is no
-  `corpus` class.
+  `src/copy_ratchet.test.mjs`'s PROSE scanner reads each JSX paragraph of twelve or more words off
+  the element tree (inline children joined, a block child ending it), and its STRINGS scanner every
+  string literal of twelve or more natural-language words in every non-test module, `+` chains
+  joined. Both baseline by identity, each row with a class: `voice`, `disclosure` or `not-prose`.
+  There is no `corpus` class. Both read through `src/sourceReader.mjs`, the one lexer the copy
+  ratchets share, held against `@babel/parser` on every comment, element, paragraph and string.
 - **A record page's description carries no build history.** A parti's history is in its `note`
   (parti schema 0.2.0), which the page does not show. `build/validate.py` refuses a WP or OQ
-  number, an OQ slug or a backticked span in any description a record page prints.
+  number, an OQ slug, a backtick, a repository path or a snake_case identifier in any
+  `description` a record page prints. Other fields those pages print are not swept:
+  `oq/build-history-is-shown-in-page-fields-the-description-sweep-does-not-read`.
 
 ## Navigation and addressing (WP-5.6)
 
@@ -294,8 +305,11 @@ over `hashchange` in the same idiom as `planDoc`.
 - `-` holds an absent leading path key (`#/style/-/kit/cornice` is a slot with no style).
 - A URL cannot express "present, but null", and nothing downstream reads one.
 
-**Search.** `GET /api/search/index` serves every nameable thing once (887 entries, 282,370 bytes
-served as Starlette writes it, measured 25 Sep 2026 after WP-14.31's 27 glossary records, which
+**Search.** `GET /api/search/index` serves every nameable thing once (887 entries, 283,092 bytes
+served as Starlette writes it, measured 26 Sep 2026 after WP-14.33's two glossary records; the
+282,370 that stood here was the 885-entry figure, left beside a count `check_counts.py --fix`
+rewrote, which is the one number of a pair that tool can reach. 282,370 was measured 25 Sep 2026
+after WP-14.31's 27 glossary records, which
 are 9,774 of those bytes; ~258 KB at 858 entries after the glossary records of WP-14.17, WP-14.18
 and WP-14.19, ~242 KB at 762 entries on the tree before them, which is where WP-14.3's glossary
 words had taken it from ~206 KB)

@@ -59,7 +59,8 @@ nothing else.
   tradition in brick. Restoring `--refusal:var(--violet)` turns it red, *"a refusal is drawn in
   two inks"*.
 - **The cost the entry named is accepted.** Brick now carries the fatal severity, the failed
-  verdict, the forbidden variant and the refusal. They are four duties, and they are told apart
+  verdict, the forbidden variant and the refusal. They are four duties -- five, WP-14.33's audit
+  corrected: `--kind-invented` resolves to it as well -- and they are told apart
   by form and by word, never by colour alone, which is WP-14.29's rule.
 - **The printed plates were checked and need nothing.** No renderer in `build/` names violet or its
   hex, so the Python sheet had no second refusal ink to move.

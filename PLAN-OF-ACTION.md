@@ -4981,22 +4981,49 @@ set when it merges.
     as it opens. Both class-A packs stay undeclared.
   - **Inks (R2, R3).** A refusal is brick everywhere and violet is a tradition's hue alone. A link
     is ink, 9.48 : 1 on paper, with a gilt underline. Both are held to the stylesheet by computed
-    guards. Eighteen non-link `--gilt-deep` labels remain, and they are unruled.
+    guards. *(The audit corrected "eighteen non-link labels": 18 was the count of one literal
+    spelling, two of the eighteen navigated, and the conditional spellings were uncounted. The
+    remainder is now measured, below.)*
   - **Prose (R5).** Two corpus facts typed as prose became glossary records, and the family tree
-    lists its trunks from the graph. A third copy-ratchet scanner baselines every other JSX
-    paragraph by identity with a class. 38 rows: 13 voice, 25 disclosure, no code.
+    lists its trunks from the graph. A third copy-ratchet scanner baselines JSX paragraphs by
+    identity with a class. *(The audit found it blind to text after a closing brace, to a
+    paragraph split by inline tags, and to every string: see below. Its 38 rows became 43
+    paragraphs and 66 strings.)*
   - **Descriptions (R6).** Parti schema 0.2.0 gains `note`, and five partis moved their history
-    into it word for word. `validate.py` sweeps all 466 descriptions a record page shows.
-  - **Kits (R8).** Five unconditional repeated variant ids were deleted, moving 18 of 164 resolved
+    into it. `validate.py` sweeps all 466 descriptions a record page shows. *(Four notes had
+    "The range above" re-anchored to `area_range_sf` by the audit, so they are no longer word for
+    word.)*
+  - **Kits (R8).** Five unconditional repeated variant rows were deleted, moving 18 of 164 resolved
     styles, and `check_kits.py` refuses the shape. Filed:
     `oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied`.
-  - **Six questions closed, one item of a seventh ruled, one filed.** The register holds 238
-    entries, 128 of them open.
+  - **Six questions closed, one item of a seventh ruled, one filed.** The register held 238
+    entries, 128 of them open; the audit filed two more, so it holds 240, 130 of them open.
   - **The verification found a poisoned solve cache, which predates this package.** Two hearth
     tests solved the shipped record under a patch at a key other tests ask for. That put a
     fixture pin red in one shard order, and it had kept a stale breast test green inside its
     file. Both patched solves take a private cache now, the breast test is re-cut onto the
     property, and `tests/test_determinism.py` guards the class.
+  - **THE ADVERSARIAL AUDIT (26 Sep 2026): nothing blocked deployment, and every finding worth
+    fixing was fixed** (report §VI). Five read-only auditors, one per angle, with every mutation
+    run in its own worktree.
+    - **R8 was true of the kit files and false of the resolved kits.** The resolver indexed an id to
+      its last row, so a child's `replace` left a parent's plain row beside it: `tidewater-georgian`'s
+      gambrel resolved `permitted` and `forbidden`. It acts on every inherited row of an id now,
+      and a guard sweeps all 164 resolved kits.
+    - **Three test files stripped comments with one regex that read a string as a comment**, and 79
+      lines of `Transcription.jsx` were unread by the title, count, prose, history and ink scanners.
+      `workbench/app/src/sourceReader.mjs` is the one lexer they share now, held against
+      `@babel/parser` on every comment, JSX element, paragraph and string.
+    - **The guards held tokens and not the components choosing them.** Three navigating controls
+      were still gilt and four refusals were drawn in `--sev-serious` or gilt. Both are read at the
+      component now, and `.tdl-link` gives a button that is a link the hover state an inline
+      underline could not.
+    - **Four guards could not fail on the shape they named**: the description sweep's exit wiring
+      (`or` → `and` passed), the solve-cache scanner (an isolation after the solve passed), the
+      variant check's wiring (a call under `if False:` passed) and its conditions (a note, or one
+      condition spelled twice, passed). Each is re-cut and mutation-checked.
+    - **Filed:** `oq/build-history-is-shown-in-page-fields-the-description-sweep-does-not-read` and
+      `oq/two-inks-set-as-small-text-read-below-aa`.
 
 **T3, still planned and not built:** an answer-first Plan Workbench; the glossary beyond tranche 2;
 FaultGauge and PartiDiagram, once their questions are answered.
