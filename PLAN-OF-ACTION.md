@@ -4992,6 +4992,11 @@ set when it merges.
     `oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied`.
   - **Six questions closed, one item of a seventh ruled, one filed.** The register holds 238
     entries, 128 of them open.
+  - **The verification found a poisoned solve cache, which predates this package.** Two hearth
+    tests solved the shipped record under a patch at a key other tests ask for. That put a
+    fixture pin red in one shard order, and it had kept a stale breast test green inside its
+    file. Both patched solves take a private cache now, the breast test is re-cut onto the
+    property, and `tests/test_determinism.py` guards the class.
 
 **T3, still planned and not built:** an answer-first Plan Workbench; the glossary beyond tranche 2;
 FaultGauge and PartiDiagram, once their questions are answered.
