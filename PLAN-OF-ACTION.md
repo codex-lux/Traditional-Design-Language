@@ -5024,6 +5024,14 @@ set when it merges.
       condition spelled twice, passed). Each is re-cut and mutation-checked.
     - **Filed:** `oq/build-history-is-shown-in-page-fields-the-description-sweep-does-not-read` and
       `oq/two-inks-set-as-small-text-read-below-aa`.
+    - **Verified on the audited tree (report §VII).** Four worktree shards: 2,777 passed, 22 failed,
+      25 skipped. Every failure is in the WP-14.32 baseline, by id, and `check_partis`'s
+      `side-hall-townhouse` finding is the only other red. The walk gave 541 ok, 0 FAIL and 4
+      could-not-evaluate. **Its first run went red on WP-14.27's candidate-pick check, over code
+      nothing had touched**: the address is written a frame before the column is marked, and the
+      check read the page once. A probe measured it: absent at that instant in 15 of 16 picks,
+      present about 20 ms later in all 16. The check now waits for the mark, and a mutation shows
+      it still bites.
 
 **T3, still planned and not built:** an answer-first Plan Workbench; the glossary beyond tranche 2;
 FaultGauge and PartiDiagram, once their questions are answered.

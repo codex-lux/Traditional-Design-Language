@@ -2402,6 +2402,15 @@ await shot('brief');
       const picked = parseHash(pickHash).selection.candidate;
       const selNow = async () => page.evaluate((id) =>
         !!document.querySelector(`main [data-candidate="${id}"][data-selected]`), target.id);
+      /* The address is written FIRST and the column is marked a frame later: `nav.select` pushes
+         with `location.hash = …`, and the render follows the asynchronous `hashchange`. Read once
+         the moment the hash matched, the mark was absent in 15 of 16 picks on a probe (about
+         20 ms late every time, never missing), so this check went red on WP-14.33's walk over
+         code nothing had touched. It waits for the mark now, bounded; a column that is never
+         marked still fails, five seconds later. */
+      await page.waitForFunction((id) =>
+        !!document.querySelector(`main [data-candidate="${id}"][data-selected]`), target.id,
+      { timeout: 5000 }).catch(() => {});
       check(`picking a candidate's column writes it in the address (candidate=${picked}, the server's index ${n})`,
         n >= 0 && picked === n && await selNow());
       await page.reload();
