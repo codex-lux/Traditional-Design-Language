@@ -1,6 +1,6 @@
 # oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it — two records do, and a prose reader would be 40% precise
 
-*Status: OPEN · Raised in: WP-11.4, the hearth (4 September 2026)*
+*Status: OPEN — item 4 ruled 26 September 2026 (WP-14.33); items 1 to 3 remain · Raised in: WP-11.4, the hearth (4 September 2026)*
 
 ## The instance, which was a false claim in this package's own data
 
@@ -89,3 +89,32 @@ names as laundering.
 
 `oq/the-worked-house-has-no-plan-that-places` is closed on this evidence, with its owner named as
 item 4 of this entry.
+
+## Ruled 26 September 2026: item 4, the style's statement governs (WP-14.33)
+
+Lucas ruled item 4 on the day it was put to him, after WP-14.21 had made it the fact that decides
+whether the worked house can be drawn: **the massing and the kit govern, and the room type's generic
+record does not.** The Tidewater kit's `hearth_position` states the rule for this style in its own
+words -- *"Hearths are at the gable ends, on the outside walls of the end rooms, so the mass of the
+stack sits outside the heated volume in summer."* -- and `massings/catalog.json`'s four-over-four
+pairs its stacks on the gables. `rooms/dining-room.json`'s *"interior wall opposite the sideboard"*
+is a statement about the dining room as a type, across every style that has one, and a style that
+states where its own fires stand outranks it.
+
+**What the ruling changes, and what it does not.**
+
+- **Nothing in the data moves.** `plans/tidewater-georgian-careful.json` already puts the dining
+  fire on the W gable, which is what the ruling says it should. The trap below still holds: the
+  dining room's record is not edited, because its sentence is true of the type and the disagreement
+  is the specimen.
+- **The worked house stays refused, and the refusal is now the house's own on a ruled reading.**
+  Followed as the style says, the butler's pantry has no place inside its own size bands
+  (WP-14.21 §III). The guided example stops at the brief, as it did; `glossary/guided-example.json`
+  says the question is ruled rather than open. WP-14.28, the tour, stays NOT BUILT.
+- **Items 1 to 3 are not answered by this**, so the entry stays open. A checker that REPORTS the
+  disagreement, naming both walls, is what `oq/a-grouping-rule-and-a-room-record-can-disagree`'s
+  ruling asks of any two records that disagree; it needs the wall as an authored field on the room
+  record (item 1), a way to state a disjunction (item 2) and a reading of `interior` as a relation
+  (item 3). None is built, and the prose reader this entry measured at two hits in five is still
+  refused.
+

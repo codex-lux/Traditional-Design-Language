@@ -517,12 +517,12 @@ export function MapView({
                 for this scale; what is drawn is still the {coast.drawnName} one.</span>
             )}
             {coast.failed && (
-              <span style={{ color: 'var(--refusal)' }}> The {coast.wanted.name} outline could
+              <span style={{ color: 'var(--ink)' }}> The {coast.wanted.name} outline could
                 not be fetched ({coast.failed}), so this is the {coast.drawnName} one at a
                 scale it cannot carry — the facets are the simplification, not the shore.
                 {' '}
                 <button type="button" onClick={coast.retry}
-                  style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
+                  style={{ font: 'var(--type-data-s)', color: 'var(--link)',
                     borderBottom: '1px solid var(--link-underline)' }}>try again</button>
               </span>
             )}
@@ -549,7 +549,7 @@ export function MapView({
               style={{ ...ZOOM_KEY, borderLeft: '1px solid var(--rule)' }}>−</button>
           </span>
           <button type="button" onClick={() => setPlace(HOME)}
-            style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
+            style={{ font: 'var(--type-data-s)', color: 'var(--link)',
               borderBottom: '1px solid var(--link-underline)' }}>reset the view</button>
           {/* The whole window, temporarily. The rails and the masthead are 580px and 52px
               of instrument around a drawing whose whole errand is extent; this hands them

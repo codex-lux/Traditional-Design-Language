@@ -282,7 +282,8 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                     refused — not loadable; the conflict set is below
                   </span>
                 : <button type="button" onClick={() => openInWorkbench(c)}
-                    style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', marginTop: 14 }}>
+                    style={{ font: 'var(--type-data-s)', color: 'var(--link)', marginTop: 14,
+                      borderBottom: '1px solid var(--link-underline)' }}>
                     open in the workbench
                   </button>}
             </CandidateColumn>

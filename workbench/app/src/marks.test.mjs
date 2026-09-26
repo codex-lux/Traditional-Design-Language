@@ -298,6 +298,39 @@ test('the --t3 verdict refuses the brick, a typed colour and a non-ink, each for
   assert.match(t3Verdict(css.replace(decl, '--t3:var(--judge-fail);')), /not a palette ink/);
 });
 
+/* ─────────────────────────── 5. --refusal ─────────────────────────── */
+
+/* RULED 26 Sep 2026 (oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue, closed): a
+   refusal is brick everywhere. The mark in the masthead (`--mark-refused`) and every refusal card,
+   banner and plate (`--refusal`) were two inks, and the card's violet was byte for byte `--t4`,
+   the hue every North American style is drawn in. Both are resolved from the stylesheet here, so
+   a colour typed into either, or a tradition taking the refusal's ink, fails by name. */
+function refusalVerdict(css) {
+  const { byName } = readTokens(css);
+  const card = resolve(byName, '--refusal');
+  const mark = resolve(byName, '--mark-refused');
+  if (card !== mark) return `--refusal resolves to ${card} and --mark-refused to ${mark}: a refusal is drawn in two inks`;
+  if (card !== resolve(byName, '--brick')) return `--refusal resolves to ${card}, not the brick of the UI's fatal`;
+  const t = [...byName.keys()].filter((n) => /^--t\d$/.test(n)).find((n) => resolve(byName, n) === card);
+  if (t) return `${t}, a tradition's hue, resolves to the refusal's ink`;
+  return null;
+}
+
+test('a refusal is one ink, the brick of the fatal, and no tradition is drawn in it', () => {
+  assert.equal(refusalVerdict(), null);
+});
+
+test('the refusal verdict refuses the old violet, a second ink, and a tradition in brick', () => {
+  const css = readFileSync(TOKENS, 'utf8');
+  const decl = /--refusal:[^;]+;/;
+  assert.ok(decl.test(stripCss(css)), 'the premise: --refusal is declared where this reader looks');
+  assert.match(refusalVerdict(css.replace(decl, '--refusal:var(--violet);')), /two inks/);
+  const mark = /--mark-refused:[^;]+;/;
+  assert.match(refusalVerdict(css.replace(decl, '--refusal:var(--salmon);').replace(mark, '--mark-refused:var(--salmon);')),
+    /not the brick/);
+  assert.match(refusalVerdict(css.replace(/--t4:[^;]+;/, '--t4:var(--brick);')), /--t4, a tradition/);
+});
+
 /* ─────────────────────────── the readers that choose a mark ─────────────────────────── */
 
 test('a style finding the check could not settle takes the mark its own kind names', () => {

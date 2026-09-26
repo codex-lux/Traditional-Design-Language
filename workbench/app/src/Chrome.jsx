@@ -360,7 +360,7 @@ export function FilterStrip({ children, right, filters, wrap }) {
       {n > 0 && (
         <button type="button" onClick={filters.clear}
           title="Show everything again"
-          style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', whiteSpace: 'nowrap',
+          style={{ font: 'var(--type-data-s)', color: 'var(--link)', whiteSpace: 'nowrap',
             flex: 'none', borderBottom: '1px solid var(--link-underline)',
             position: 'sticky', right: 0, background: 'var(--paper)',
             paddingLeft: 8, zIndex: 2 }}>

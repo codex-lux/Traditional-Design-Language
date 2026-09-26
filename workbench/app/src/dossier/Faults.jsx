@@ -54,7 +54,7 @@ export function Faults({ dossier, styleId }) {
       {typeof universal === 'number' && universal > 0 && (
         <Section eyebrow={<><Term id="fault-group-universal" /> · {universal}</>}>
           <a href={formatHash('faults', { style: styleId }, {})} data-fault-universal={universal}
-            style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>
+            style={{ font: 'var(--type-data-s)', color: 'var(--link)' }}>
             {corpusWord} →
           </a>
           <p style={{ ...data, marginTop: 4 }}>{f.matches} in all</p>

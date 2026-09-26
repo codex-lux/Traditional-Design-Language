@@ -1,6 +1,6 @@
 # oq/two-class-a-modules-are-refused-for-a-rule-that-reads-the-input-and-its-part — `storey-graduation` and `opening-pointed` each carry one rule that reads the building input AND the module's part, so declaring the module equal to that input counts the input twice
 
-*Status: OPEN · Raised in: WP-14.18 (25 September 2026)*
+*Status: CLOSED 26 September 2026 (WP-14.33) — answer 2, both packs stay undeclared · Raised in: WP-14.18 (25 September 2026)*
 
 **The finding.** `oq/which-packs-module-is-a-building-input` was ruled on 25 Sep 2026 (answer 1,
 class A only): declare `module.equals` on `storey-graduation`, `room-harmonic` and
@@ -75,3 +75,32 @@ a stated number of lights (a proportion)?
 room width by one spelling, `mcp_server/core.py::module_binding`. The MCP tool and the workbench
 route both take `storey_height` and `room_width` as of WP-14.18, so answer 1 needs no surface work
 once the rules are re-expressed.
+
+## Ruled 26 September 2026: answer 2 (WP-14.33)
+
+Lucas ruled that **both packs stay undeclared**. `storey-graduation` and `opening-pointed` keep
+their fixed default modules, 120 in and 36 in, and carry no `module.equals`. The 25 September
+ruling said to author no number where check 19 fails, and it fails on both. Re-expressing either
+rule on a fixed length would put two figures into the corpus that no source states: 6 in of joist
+zone and a 15 in light.
+
+**What would reopen it** is the tradition's own reading, sourced:
+
+- whether a belt course sits a joist's depth above the storey whatever the storey, or at a
+  proportion of it;
+- whether a pointed window repeats a light width, or divides its opening into a stated number of
+  lights.
+
+Either source would let the rule be re-expressed on an independent quantity, check 19 would pass,
+and the declaration would follow with no surface work (`mcp_server/core.py::module_binding` already
+takes both inputs).
+
+**What the reader lives with meanwhile** is the double reading that
+`oq/which-packs-module-is-a-building-input` describes, for these two packs:
+
+- on the Proportions page, the opening slider changes how many lights a window has and not the
+  arch they sit under;
+- the storey pack's module and its `storey_height` binding stay two numbers that agree only at
+  120 in.
+
+Answer 3, widening check 19(c), stays refused.

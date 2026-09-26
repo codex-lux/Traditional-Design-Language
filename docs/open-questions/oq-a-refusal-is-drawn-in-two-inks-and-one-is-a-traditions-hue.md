@@ -1,6 +1,6 @@
 # oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue — the refused mark is brick, every refusal card is violet, and violet is North America's hue
 
-*Status: OPEN · Raised in: WP-14.29 (25 September 2026)*
+*Status: CLOSED 26 September 2026 (WP-14.33) — answer 1, a refusal is brick everywhere · Raised in: WP-14.29 (25 September 2026)*
 
 **The finding.** WP-14.29 gave every mark one meaning, and one meaning still has two inks.
 `docs/prd/phase-14-tranche-2.md` §D names the refused mark's form as a *"brick outline"*, and
@@ -41,3 +41,25 @@ package left both inks as they were.
 
 - `oq/one-duty-per-hatch` -- the ruling this follows, closed by WP-14.29.
 - `docs/reports/wp-14.29-one-meaning-per-mark.md` -- the package that found it.
+
+## Ruled and executed 26 September 2026: answer 1 (WP-14.33)
+
+Lucas ruled that **a refusal is brick everywhere**. `--refusal` is `var(--brick)` in
+`workbench/app/src/theme/tokens.css`, the same ink as `--mark-refused`. A refused placement now
+reads the same on the masthead's mark and on the card, banner and plate it links to. It reads as
+the drawing's fatal, which is how the corpus already describes a refusal. Violet is `--t4` and
+nothing else.
+
+- **The one non-refusal use of the token is gone.** The atlas's note that a finer coastline could
+  not be fetched was a failure to load and never a refusal. It is set in `--ink` now, one step
+  heavier than the pending note's `--ink-2`, so the two states stay apart.
+- **The guard is `src/marks.test.mjs`.** Reading the stylesheet's own values, it holds three
+  things: `--refusal` and `--mark-refused` resolve to one ink; that ink is the brick; and no
+  `--t0`..`--t4` resolves to it. Driven three ways: the old violet, a shared non-brick ink, and a
+  tradition in brick. Restoring `--refusal:var(--violet)` turns it red, *"a refusal is drawn in
+  two inks"*.
+- **The cost the entry named is accepted.** Brick now carries the fatal severity, the failed
+  verdict, the forbidden variant and the refusal. They are four duties, and they are told apart
+  by form and by word, never by colour alone, which is WP-14.29's rule.
+- **The printed plates were checked and need nothing.** No renderer in `build/` names violet or its
+  hex, so the Python sheet had no second refusal ink to move.

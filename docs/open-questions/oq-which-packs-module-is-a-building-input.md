@@ -1,6 +1,6 @@
 # oq/which-packs-module-is-a-building-input — `trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are
 
-*Status: HALF CLOSED — ruled 25 Sep 2026; WP-14.18 declared `room-harmonic` and check 19 refused the other two class-A packs · Raised in: WP-14.0 (24 September 2026)*
+*Status: HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled · Raised in: WP-14.0 (24 September 2026)*
 
 **The finding that makes this a question.** On the Proportions page one pack could describe two
 different walls at once. `trim-classical`'s module is, in its own words, *"The finished ceiling
@@ -133,3 +133,13 @@ the length those means read is still the default's. That is the same two-numbers
 shape one dimension over, and declaring `room_width` did not create it: before the declaration
 the module stayed at 192 whatever breadth was given, so the means and the widths already
 disagreed. The report names it and nothing was changed for it.
+
+## Amendment, 26 September 2026 (WP-14.33): class A is settled
+
+Class A is settled. `room-harmonic` stays declared. Lucas ruled on 26 September that
+`storey-graduation` and `opening-pointed` stay undeclared, and he did not author the two
+fixed lengths it would take to dissolve their refusals. The ruling and what would reopen it are
+recorded in `oq/two-class-a-modules-are-refused-for-a-rule-that-reads-the-input-and-its-part`, now
+closed. This entry stays HALF CLOSED for classes B, C and D, which nobody has ruled. It also stays
+half closed for the `room_length` default the executed half measured, which nothing has changed.
+

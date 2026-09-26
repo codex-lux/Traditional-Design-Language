@@ -163,7 +163,7 @@ function FindingRow({
     onClick: onCite ? function () { onCite(finding.rule_ref); } : undefined,
     style: {
       font: 'var(--type-data-s)',
-      color: onCite ? 'var(--gilt-deep)' : 'var(--ink-2)',
+      color: onCite ? 'var(--link)' : 'var(--ink-2)',
       borderBottom: onCite ? '1px solid var(--link-underline)' : 'none'
     }
   }, finding.rule_ref), onLocate && /*#__PURE__*/React.createElement("button", {

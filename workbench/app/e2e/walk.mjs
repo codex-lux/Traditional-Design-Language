@@ -4728,7 +4728,9 @@ async function journeyRead() {
   }
   check(`the width block made no metered call (${metered} POSTs to a heavy route)`, metered === 0);
 
-  // what a reflow page does with the assistant open at 1280: printed, not judged (see above)
+  // what a reflow page does with the assistant open at 1280: printed, not judged. RULED 26 Sep
+  // 2026 (oq/no-sideways-scroll-at-1280-with-the-assistant-open, closed): "no sideways scroll at
+  // 1280" means the shell as it opens, so this residue is information and never a verdict.
   const tight = railOpen.filter((m) => SURFACE_WIDTH[m.surface] === 'reflow' && (m.main > 1 || m.inner.length));
   console.log(`\n     with the assistant open at ${W} (main ${railOpen[0] ? railOpen[0].mainW : '?'} px), `
     + `${tight.length} of ${railOpen.filter((m) => SURFACE_WIDTH[m.surface] === 'reflow').length} reflow pages scroll sideways inside (not judged):`);

@@ -155,12 +155,12 @@ function Dossier({ styleId, selection, setSelection, onCite }) {
           <StylePicker value={styleId} width={230} label="Which style's dossier to read" onChange={pick} />
           {BUILT[dossier.rank] && (
             <a data-design-house={styleId} href={formatHash('brief', { style: styleId }, {})}
-              style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', whiteSpace: 'nowrap' }}>
+              style={{ font: 'var(--type-data-s)', color: 'var(--link)', whiteSpace: 'nowrap' }}>
               Design a house in this style →
             </a>
           )}
           <a href={formatHash('phylogeny', { style: styleId }, {})}
-            style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', whiteSpace: 'nowrap' }}>
+            style={{ font: 'var(--type-data-s)', color: 'var(--link)', whiteSpace: 'nowrap' }}>
             place in the phylogeny →
           </a>
           <CompareWith styleId={styleId} />

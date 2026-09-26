@@ -100,7 +100,7 @@ export function ShortcutCard({ open, onClose }) {
 
         <div style={{ marginTop: 16, textAlign: 'right' }}>
           <button type="button" onClick={onClose}
-            style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
+            style={{ font: 'var(--type-data-s)', color: 'var(--link)',
               borderBottom: '1px solid var(--link-underline)' }}>close · esc</button>
         </div>
       </div>

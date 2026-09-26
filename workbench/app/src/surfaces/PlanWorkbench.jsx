@@ -637,7 +637,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   {room ? ` · at ${room}` : ''}
                 </span>
                 <button type="button" onClick={() => { setRoom(null); setSev(null); setLayer(null); }}
-                  style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
+                  style={{ font: 'var(--type-data-s)', color: 'var(--link)',
                     borderBottom: '1px solid var(--link-underline)' }}>clear</button>
               </div>
             )}

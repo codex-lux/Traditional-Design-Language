@@ -1,6 +1,6 @@
 # oq/no-sideways-scroll-at-1280-with-the-assistant-open — the width ruling was measured with the assistant folded, and sixteen pages still scroll inside themselves when it is open
 
-*Status: OPEN · Raised in: WP-14.30 (25 September 2026)*
+*Status: CLOSED 26 September 2026 (WP-14.33) — answer 1, the ruling means the shell as it opens · Raised in: WP-14.30 (25 September 2026)*
 
 **The ruling.** On 25 September Lucas ruled that the reading surfaces reflow so that nothing scrolls
 sideways at 1280 px, and that the drawing surfaces keep a floor with the masthead held to the
@@ -41,3 +41,16 @@ The walk prints these 16 and does not judge them. The question is whether the ru
 
 Answer 1 is what is built. The walk prints the assistant-open residue on every run, so the number
 can be watched even though nothing fails on it.
+
+## Ruled 26 September 2026: answer 1 (WP-14.33)
+
+Lucas ruled that *"no sideways scroll at 1280"* means **the shell as it opens**, which WP-14.30
+built. At 1280 px the assistant is folded by default, `<main>` is 1018 px and no reading surface
+scrolls sideways. A reader who opens the assistant gives `<main>` 700 px and accepts the scroll
+inside `<main>` on the sixteen addresses named above.
+
+**What stays and why.** The assistant stays a column beside the page it is talking about, rather
+than an overlay that covers it. That column is the point of WP-14.22, which told the assistant
+which page is in view. The walk goes on printing the assistant-open residue on every run, labelled
+as information and judged as nothing, so the number can still be watched. A later ruling that
+wants the stricter reading has the sixteen named here and the measurement to start from.

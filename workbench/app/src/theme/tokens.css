@@ -349,11 +349,15 @@
   --border-paper:var(--rule);
   --border-focus:var(--gilt-deep);
 
-  /* Links — gilt struck into the page; hairline underline, never blue. */
-  --link:var(--gilt-deep);
-  --link-hover:var(--gilt);
-  --link-on-paper:var(--gilt-deep);
+  /* Links — set in the working ink, marked by a gilt hairline underline, never blue. The text was
+     --gilt-deep until 26 Sep 2026 and read 4.09 : 1 on --paper and 3.64 on --paper-deep, under
+     the 4.5 a line of small type needs; --ink reads 9.48 : 1 (ruled, oq/the-link-ink-reads-below-aa).
+     The gilt stays the link's mark: the underline, and on hover a full gilt rule. */
+  --link:var(--ink);
+  --link-hover:var(--ink);
+  --link-on-paper:var(--ink);
   --link-underline:rgba(175,141,73,.45);
+  --link-underline-hover:var(--gilt-deep);
 
   /* ── Finding severity: fatal · serious · minor · advisory · info ──────────
      brick → salmon-deep → gilt-deep, then two graphites for the non-verdicts. */
@@ -456,7 +460,10 @@
   /* States that are not verdicts */
   --forthcoming:var(--ink-4);
   --unsourced:var(--ink-3);
-  --refusal:var(--violet);
+  /* A refusal is the drawing's fatal, so it takes the fatal's brick -- the same ink as
+     --mark-refused, on the card and on the mark alike (ruled 26 Sep 2026,
+     oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue). Violet is --t4 and nothing else. */
+  --refusal:var(--brick);
   --receipt:var(--ink-2);
 
   /* Retired names (the dark-instrument system), kept as compat aliases so older markup
@@ -487,7 +494,7 @@ p:last-child{margin-bottom:0}
 em,i{font-style:italic}
 strong{font-weight:var(--fw-semi)}
 a{color:var(--link);text-decoration:none;border-bottom:1px solid var(--link-underline);transition:var(--t-hover)}
-a:hover{color:var(--link-hover);border-bottom-color:var(--link-hover)}
+a:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
 :focus-visible{outline:2px solid var(--border-focus);outline-offset:2px}
 code,kbd,samp,pre{font-family:var(--mono);font-size:var(--fs-mono-s)}
 pre{margin:0;white-space:pre}
@@ -599,7 +606,7 @@ html,body{height:100%}body{overflow:auto}#root{height:100%}input[type=range]{hei
 .tdl-page-head-what{font:var(--type-prose);color:var(--ink);margin:6px 0 0;max-width:72ch}
 .tdl-page-head-toggle{font:var(--type-data-s);color:var(--link);margin-top:8px;
   border-bottom:1px solid var(--link-underline)}
-.tdl-page-head-toggle:hover{color:var(--link-hover);border-bottom-color:var(--link-hover)}
+.tdl-page-head-toggle:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
 .tdl-page-head-read{margin-top:8px;max-width:72ch}
 .tdl-page-head-read ul{margin:0;padding-left:1.2em;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}
 .tdl-page-head-try{margin-top:6px;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}

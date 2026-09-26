@@ -361,7 +361,7 @@ function PackLink({ id, name, selection, params, on, children }) {
     <span className="tdl-record-link" data-on={on ? '' : undefined}>
       <a className="tdl-record-name" href={href} data-cite={`pack:${id}`} onClick={onClick}
         aria-current={on ? 'page' : undefined}
-        style={{ color: on ? 'var(--gilt-deep)' : undefined }}>{children ?? name ?? id}</a>
+        style={{ borderBottom: on ? '2px solid var(--link-underline-hover)' : undefined }}>{children ?? name ?? id}</a>
       {(children ?? name) && name !== id && <span className="tdl-record-note">{id}</span>}
     </span>
   );
