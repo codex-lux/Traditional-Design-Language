@@ -69,7 +69,7 @@ def test_the_premise_the_sweep_reads_every_kind_a_page_shows():
     kinds = {w.split("/")[0] for w, _ in texts}
     assert kinds == {"partis", "groupings", "rooms", "massings", "styles"}, kinds
     partis = [w for w, _ in texts if w.startswith("partis/")]
-    assert len(partis) == len([f for f in os.listdir(os.path.join(ROOT, "partis"))
+    assert len(partis) == len([f for f in sorted(os.listdir(os.path.join(ROOT, "partis")))
                                if f.endswith(".json")])
     assert _lifted("build_history_in")(texts) == []
 
