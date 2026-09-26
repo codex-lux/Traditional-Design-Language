@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**236 questions, of which 132 are open.** A question is OPEN while
+**237 questions, of which 133 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 132
+## Open — 133
 
 Awaiting a ruling. This is the list to read first.
 
@@ -108,6 +108,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/clear-counts-a-pass-and-a-tautology-as-one-thing** | OPEN | [half the faults this corpus clears are cleared on the generator's own output](open-questions/oq-clear-counts-a-pass-and-a-tautology-as-one-thing.md) |
 | **oq/fifteen-of-sixteen-plans-name-no-parti** | OPEN | [the facade layer is silent on 94% of this corpus](open-questions/oq-fifteen-of-sixteen-plans-name-no-parti.md) |
+| **oq/five-parti-descriptions-carry-build-history-a-reader-now-sees** | OPEN | [a record's own prose names work packages and code, and the record page shows it](open-questions/oq-five-parti-descriptions-carry-build-history-a-reader-now-sees.md) |
 | **oq/four-assemblies-state-projection-parts-as-a-run-a-face-or-a-width** | OPEN | [four assemblies write a horizontal run, a face length or a pier width in the field that means a projection, and the plate draws each as a projection](open-questions/oq-four-assemblies-state-projection-parts-as-a-run-a-face-or-a-width.md) |
 | **oq/fourteen-of-sixteen-plans-name-no-massing** | OPEN | [every massing-gated check is silent on 87.5% of the plan records](open-questions/oq-fourteen-of-sixteen-plans-name-no-massing.md) |
 | **oq/no-plan-record-states-its-bearing** | OPEN | [the compass rule is executed under an assumption on 16 of 16 plans](open-questions/oq-no-plan-record-states-its-bearing.md) |
