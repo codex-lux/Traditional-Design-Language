@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**237 questions, of which 127 are open.** A question is OPEN while
+**238 questions, of which 128 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 127
+## Open — 128
 
 Awaiting a ruling. This is the list to read first.
 
@@ -99,6 +99,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity** | OPEN | [the guard compares numbers and cannot compare meanings](open-questions/oq-a-source-that-agrees-numerically-may-be-the-wrong-quantity.md) |
 | **oq/a-stated-position-on-an-item-too-thin-to-draw** | OPEN | [the record's plainest positions are on things the plan never draws](open-questions/oq-a-stated-position-on-an-item-too-thin-to-draw.md) |
 | **oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it** | OPEN | [17 `measured` figures a survey disproves, three by the node's own exemplar](open-questions/oq-a-survey-contradicts-a-kit-figure-and-nothing-decides-it.md) |
+| **oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied** | OPEN | [a kit states where a status holds, and every reader reads it as holding everywhere](open-questions/oq-a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied.md) |
 | **oq/a-withdrawn-claim-still-steers-the-placer** | OPEN | [a claim withdrawn because it cannot be judged costs three rooms their reachability](open-questions/oq-a-withdrawn-claim-still-steers-the-placer.md) |
 | **oq/an-at-grade-appendage-is-drawn-and-not-judged** | OPEN | [the terrace is on the sheet and held against no band](open-questions/oq-an-at-grade-appendage-is-drawn-and-not-judged.md) |
 | **oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from** | OPEN | [and every face in the corpus is symmetric, so nothing can catch it](open-questions/oq-an-elevation-does-not-state-which-end-of-the-face-it-starts-from.md) |

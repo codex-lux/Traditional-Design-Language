@@ -441,6 +441,49 @@ def check_slot_fields(errs, warns, nid, kit, ont_fields):
                                 % (nid, sid, got, fld["id"], allowed))
 
 
+def check_duplicate_variants(errs, nid, kit):
+    """A variant id may appear twice in one slot ONLY as a condition (WP-14.33, ruled 26 Sep 2026).
+
+    `georgian-colonial-american` carried seventeen repeated ids and they were two different
+    things. Twelve are a variant stated once plainly and again under an `applies_when` -- gambrel
+    permitted, and atypical in New England and the Hudson Valley -- which is how a kit says a
+    status depends on the place, the date or the wall, and is legitimate. Five were not: a bare
+    row and a noted row saying the same thing, or saying two things with nothing to choose
+    between them (`order/corinthian` both permitted and atypical, and the resolver kept BOTH, so
+    a reader taking the first row read "permitted" and one keying by id read "atypical"). Those
+    five were deleted, the noted row kept, and this refuses the shape.
+
+    THE RULE, over rows with or without an `op`: an id may repeat only if every row after its
+    first carries an `applies_when`, and no two of its rows carry the same one. The first row is
+    the unconditional statement and each later one a distinct condition on it. Two `op` rows for
+    one id are held to the same rule -- `apply_variant_ops` lets the last silently win, which is
+    the same two-answers defect with the choice made by position.
+
+    Whether the resolver APPLIES a region or a construction condition is a different question,
+    and the answer today is no: `oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied`.
+    """
+    for sid, rec in (kit.get("slots") or {}).items():
+        if not isinstance(rec, dict):
+            continue
+        rows = collections.defaultdict(list)
+        for v in rec.get("variants") or []:
+            if isinstance(v, dict) and isinstance(v.get("id"), str):
+                rows[v["id"]].append(v)
+        for vid, rs in rows.items():
+            if len(rs) < 2:
+                continue
+            bare = [i for i, r in enumerate(rs[1:], 2) if not r.get("applies_when")]
+            conds = [json.dumps(r.get("applies_when"), sort_keys=True) for r in rs if r.get("applies_when")]
+            if bare:
+                errs.append("%s: slot '%s' states variant '%s' %d times and row %s carries no "
+                            "`applies_when` -- a repeat is a condition on the first statement or it "
+                            "is a second answer to the same question; keep one row"
+                            % (nid, sid, vid, len(rs), ", ".join(str(i) for i in bare)))
+            elif len(conds) != len(set(conds)):
+                errs.append("%s: slot '%s' states variant '%s' twice under the same `applies_when`"
+                            % (nid, sid, vid))
+
+
 def main():
     ap = argparse.ArgumentParser(description="Validate the kit corpus")
     ap.add_argument("style", nargs="?", help="check one kit only")
@@ -502,6 +545,7 @@ def main():
         check_rule_blocks(errs, warns, base, kit, rule_slots, rooms)
         check_determined_by(errs, warns, base, kit, ont_set)
         check_slot_fields(errs, warns, base, kit, ont_fields)
+        check_duplicate_variants(errs, base, kit)
         check_baked_snapshots(errs, baked_unjudged, flag_unjudged, base, kit, stats)
         for _sid, _s in (kit.get("slots") or {}).items():
             for _pk, _pv in (_s.get("parameters") or {}).items():
