@@ -448,7 +448,10 @@ class TestTheStackStandsOverAFire:
             raise ValueError("a hearth wall nobody wrote down")
 
         monkeypatch.setattr(HE, "stack_axes", boom)
-        GEO._SOLVE_CACHE.clear()
+        # A private cache, restored untouched on teardown: a result solved under this patch
+        # must not be served to a later caller at the same key (WP-14.33, and
+        # `test_determinism.py::test_a_test_that_patches_and_solves_isolates_the_solve_cache`).
+        monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})
         placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
         assert "a hearth wall nobody wrote down" in (placed["hearths"].get("hearths_unreadable") or "")
         sec = ST.build_section(placed)
@@ -630,12 +633,39 @@ class TestTheCriticAndThePlate:
         assert not [f for f in c["findings"]
                     if f.get("kind") == "hearth-off-the-stack-wall"]
 
-    def test_the_plate_draws_the_breast(self, tmp_path):
+    def test_the_plate_draws_the_breast(self, tmp_path, monkeypatch):
+        """One breast on the plate per fire the placement drew, and every stated fire it did
+        not draw NAMED on the plate -- never a count of stated hearths.
+
+        RE-CUT AT WP-14.33, AND IT HAD BEEN PASSING ON ANOTHER TEST'S RESULT. It asserted
+        *"three stated hearths, three breasts on the plate"*, and alone it fails on WP-14.32's
+        tree and on this one, 2 against 3: the heuristic draws two of the record's three fires
+        and refuses the dining room's by name (the room's stated W wall carries no flue on this
+        placement -- the fire R1 of 26 Sep ruled on). It went green only inside its own file,
+        because `test_A_RECONCILIATION_THAT_CANNOT_BE_READ_IS_A_FOURTH_STATE` solved the same
+        record at the same key with `stack_axes` raising and left that result in the cache: no
+        breasts, the centre-line fallback, three `fireplace,` marks. A test served a poisoned
+        result is a test of the poison. The private cache below makes it hermetic, and
+        `test_determinism.py::test_a_test_that_patches_and_solves_isolates_the_solve_cache` keeps
+        the poison from being written in the first place."""
         RP = modcache.load("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
+        monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})
         placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
+        stated = sum(len(r.get("hearth") or []) for lv in placed["levels"] for r in lv["rooms"])
+        refused = [u for u in (placed["hearths"].get("unplaced") or []) if u.get("room")]
+        assert stated == 3, "the premise: the shipped record states three fires"
+        drawn = stated - len(refused)
+        assert drawn >= 1, "the premise: the plate draws at least one breast to count"
         out = str(tmp_path / "sheet.svg")
         RP.render(placed, out)
         svg = open(out, encoding="utf-8").read()
-        assert svg.count("fireplace,") == 3, "three stated hearths, three breasts on the plate"
+        assert svg.count("fireplace,") == drawn, (
+            f"one breast per fire the placement drew: {drawn} drawn of {stated} stated")
+        if refused:
+            line = f"{len(refused)} OF {stated} STATED FIRE(S) NOT DRAWN"
+            assert line in svg, f"a stated fire the plate does not draw must be named: {line!r}"
+            for u in refused:
+                assert u["room"].upper() in svg.split(line, 1)[1][:400], (
+                    f"the refused fire's room {u['room']!r} is named on the line")
         assert "Morris 1734, judgment" in svg, (
             "the plate must say the projection is a judgment, not a measurement")

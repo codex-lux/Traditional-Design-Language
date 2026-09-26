@@ -165,3 +165,87 @@ def test_the_tie_the_other_two_tests_rest_on_is_still_there(compose_mod):
     assert at_two == ["charleston-single-piazza", "connected-farmstead",
                       "courtyard-and-portal", "living-hall-picturesque",
                       "octagon-radial", "ranch-tripartite", "tower-villa"], at_two
+
+
+# ---------------------------------------------------------------- the solve cache and a patch
+# WP-14.33. `geometry._SOLVE_CACHE` is keyed on the plan, the parti, the candidate count, the
+# seed, the engine and the budget -- and on NOTHING a test can patch. So a test that patches a
+# module the solve reads, and then solves, leaves behind a result computed under the patch at a
+# key any later caller can ask for. `tests/test_hearths_on_flue.py` did exactly that on the
+# SHIPPED Tidewater record at the DEFAULT key, with `hearths.stack_axes` raising; clearing the
+# cache BEFORE its solve did not help, because the poison is what the solve itself writes. The
+# next file to ask for that plan was `tests/test_openings.py`, whose fixture pin then read the
+# hall bath's tub as fitting -- no stack run had been reserved -- and went red ONLY in a shard
+# order that put the hearth file first. Measured: those two tests alone, in that order, fail on
+# WP-14.33's tree AND on WP-14.32's; reversed, both pass. It surfaced when this package's two
+# new test files repacked the shards, which is `check_all`'s own note that the shard a red lands
+# in is the packing and not the defect. An order dependence is a determinism defect of exactly
+# the kind this file exists for: the result depended on something that is not the input.
+
+def _patch_and_solve_functions():
+    """Every test function that patches something and calls a solve, with whether it isolates
+    the solve cache. A guard on ONE ROUTE IN: a solve reached through a helper the function
+    calls is invisible here, which is why the behavioural test below exists beside it."""
+    import ast
+    out = []
+    roots = [os.path.join(ROOT, "tests"), os.path.join(ROOT, "workbench", "server", "tests")]
+    for root in roots:
+        for path in sorted(glob_module.glob(os.path.join(root, "test_*.py"))):
+            src = open(path, encoding="utf-8").read()
+            tree = ast.parse(src)
+            for fn in ast.walk(tree):
+                if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    continue
+                seg = ast.get_source_segment(src, fn) or ""
+                patches = any(s in seg for s in ("setattr(", "setitem(", "mock.patch"))
+                solves = ".solve(" in seg or "solve_heuristic(" in seg
+                if not (patches and solves):
+                    continue
+                private = ('"_SOLVE_CACHE", {}' in seg) or ("'_SOLVE_CACHE', {}" in seg)
+                cleared_in_finally = any(
+                    "_SOLVE_CACHE.clear()" in (ast.get_source_segment(src, b) or "")
+                    for t in ast.walk(fn) if isinstance(t, ast.Try) for b in t.finalbody)
+                out.append((os.path.relpath(path, ROOT), fn.name, private or cleared_in_finally))
+    return out
+
+
+def test_a_test_that_patches_and_solves_isolates_the_solve_cache():
+    found = _patch_and_solve_functions()
+    names = {n for _p, n, _ok in found}
+    # The premise: the scanner reaches the three functions it was written from, so a scanner
+    # that stopped matching cannot pass by finding nothing.
+    for known in ("test_an_unreadable_hearth_is_recorded_by_the_placer_and_republished_by_the_roof",
+                  "test_A_RECONCILIATION_THAT_CANNOT_BE_READ_IS_A_FOURTH_STATE",
+                  "test_without_ortools_the_fallback_says_so"):
+        assert known in names, f"the scanner no longer reaches {known}; it has gone blind"
+    bad = [f"{p}::{n}" for p, n, ok in found if not ok]
+    assert not bad, (
+        "a test patches something and solves without isolating geometry's solve cache, so a "
+        "result computed under the patch outlives it at a key a later test file can ask for. "
+        "Use monkeypatch.setattr(GEO, \"_SOLVE_CACHE\", {}) before the solve, or clear the "
+        "cache in a `finally` after it:\n  " + "\n  ".join(bad))
+
+
+def test_the_private_cache_idiom_really_isolates(monkeypatch):
+    """Behavioural half: the idiom works only because `solve` reads the module global at call
+    time. Solve the shipped record under a patch with a private cache, then solve it again
+    after: the second answer must be the unpatched one."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache
+    GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    HE = modcache.load("hearths", os.path.join(ROOT, "build", "hearths.py"))
+    path = os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")
+
+    def boom(plan, C):
+        raise ValueError("patched for the isolation test")
+
+    with monkeypatch.context() as m:
+        m.setattr(HE, "stack_axes", boom)
+        m.setattr(GEO, "_SOLVE_CACHE", {})
+        patched = GEO.solve(json.load(open(path)), None, 250, engine="heuristic")
+    assert patched["hearths"].get("hearths_unreadable"), "the patch did not reach the solve"
+    after = GEO.solve(json.load(open(path)), None, 250, engine="heuristic")
+    assert not after["hearths"].get("hearths_unreadable"), (
+        "a result solved under the patch was served after the patch was undone")
+    assert after["hearths"]["breasts"], "the unpatched record draws its breasts"
