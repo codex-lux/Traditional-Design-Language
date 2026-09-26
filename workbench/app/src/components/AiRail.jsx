@@ -41,8 +41,7 @@ function Citation({ cite, onCite }) {
         onCite(cite);
       }}
       title={`go to ${cite}`}
-      style={{ font: 'var(--type-data-s)', color: 'var(--link)',
-        borderBottom: '1px solid var(--link-underline)', textDecoration: 'none' }}>
+      style={{ font: 'var(--type-data-s)' }}>
       {cite}
     </a>
   );

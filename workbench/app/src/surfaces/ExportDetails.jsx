@@ -161,7 +161,7 @@ export function ExportDetails({ lastEval }) {
               // the NOT-BUILT colour is for what is not built. An export that FAILED is not a
               // forthcoming feature, and painting the two the same made a refused house read
               // as a gap in the product.
-              color: note.missing ? 'var(--ink-2)' : 'var(--sev-serious)',
+              color: note.missing ? 'var(--ink-2)' : 'var(--refusal)',
               margin: '0 0 14px', maxWidth: '76ch' }}>
             {note.missing
               ? `not built on this server — ${note.text}`

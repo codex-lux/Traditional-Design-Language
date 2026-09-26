@@ -99,9 +99,8 @@ export function ShortcutCard({ open, onClose }) {
         <SearchReach />
 
         <div style={{ marginTop: 16, textAlign: 'right' }}>
-          <button type="button" onClick={onClose}
-            style={{ font: 'var(--type-data-s)', color: 'var(--link)',
-              borderBottom: '1px solid var(--link-underline)' }}>close · esc</button>
+          <button type="button" onClick={onClose} className="tdl-link"
+            style={{ font: 'var(--type-data-s)' }}>close · esc</button>
         </div>
       </div>
     </div>

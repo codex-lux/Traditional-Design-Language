@@ -267,17 +267,26 @@ export function DrawingSet({ go }) {
             that could not hold. The plain panel below it is for everything else -- a missing
             library, an unreadable record -- which is a different sentence and keeps its own. */}
         <ConflictSet refusal={refusal} where={'the ' + kind} />
+        {/* ONLY A 422 IS THE GENERATOR REFUSING (WP-14.33's audit). The drawing route answers 422
+            for a record it will not draw; a server error, a rate limit or a lost connection
+            reached this same panel and was called a refusal, in the refusal's ink. */}
         {!refusal && error && (
-          <div style={{ border: '1px solid var(--rule)', borderLeft: '2px solid var(--refusal)',
-            background: 'var(--paper-deep)', padding: '12px 14px', maxWidth: 640 }}>
-            <Eyebrow tone="secondary" style={{ marginBottom: 6 }}>the generator refused</Eyebrow>
+          <div data-drawing-error={error.status === 422 ? 'refused' : 'failed'}
+            style={{ border: '1px solid var(--rule)',
+              borderLeft: `2px solid ${error.status === 422 ? 'var(--refusal)' : 'var(--ink-2)'}`,
+              background: 'var(--paper-deep)', padding: '12px 14px', maxWidth: 640 }}>
+            <Eyebrow tone="secondary" style={{ marginBottom: 6 }}>
+              {error.status === 422 ? 'the generator refused' : 'the drawing could not be made'}
+            </Eyebrow>
             <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: 0 }}>
               {errText}
             </p>
+            {error.status === 422 && (
             <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '7px 0 0' }}>
               A refusal is content: this record does not carry what the {kind} generator
               needs, and it says so rather than inventing it.
             </p>
+            )}
           </div>
         )}
         {kind === 'model' && (

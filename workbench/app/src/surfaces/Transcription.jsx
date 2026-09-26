@@ -513,7 +513,7 @@ export function Transcription({ go }) {
           {ingest && ingest.error && (
             /* a refused ingest is a refusal, in the ink Export gives one, and not the faint
                NOT-BUILT ink it was painted before WP-14.31's sweep */
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--sev-serious)', margin: '6px 0 0' }}>
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--refusal)', margin: '6px 0 0' }}>
               refused — {ingest.error}
               {ingest.units?.scores && ` (heuristic: ${JSON.stringify(ingest.units.scores)})`}
             </p>

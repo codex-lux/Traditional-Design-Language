@@ -530,7 +530,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
      to render, so the two cannot both claim the plate, and `drawnBelow` decides whether that
      panel may go on saying a drawing is below it. */
   const infeasible = refusal ? null : placement?.geometry_report?.infeasible;
-  const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--verd)' };
+  // `--verd` names no token; the stylesheet's is `--verdigris`, so a green disclosure line drew in
+  // the inherited ink (WP-14.33's audit).
+  const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--verdigris)' };
   const levelIndices = (plan.levels || []).map((l) => l.index ?? 0);
   const declared = plan.adjacencies || [];
 
@@ -637,8 +639,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   {room ? ` · at ${room}` : ''}
                 </span>
                 <button type="button" onClick={() => { setRoom(null); setSev(null); setLayer(null); }}
-                  style={{ font: 'var(--type-data-s)', color: 'var(--link)',
-                    borderBottom: '1px solid var(--link-underline)' }}>clear</button>
+                  className="tdl-link" style={{ font: 'var(--type-data-s)' }}>clear</button>
               </div>
             )}
             {newKeys > 0 && (

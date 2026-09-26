@@ -1368,8 +1368,14 @@ check('phylogeny names the missing trunks', /missing peer trunks/i.test(phylo));
     (els) => els.map((e) => e.getAttribute('data-trunk')))).sort();
   check(`the trunks listed under the tree are its tradition-rank taxa (${drew.length} drawn, ${want.length} stated)`,
     want.length > 0 && JSON.stringify(drew) === JSON.stringify(want));
+  // Its TEXT, and a definition with something in it (WP-14.33's audit: a count of one element
+  // passed over an empty paragraph, and `includes('')` is true).
+  const trunksRec = await termOf('missing-peer-trunks');
+  const trunksEl = page.locator('main [data-term-definition="missing-peer-trunks"]');
+  const trunksText = (await trunksEl.count()) === 1 ? (await trunksEl.innerText()).replace(/\s+/g, ' ').trim() : '';
   check('the absent trunks are the missing-peer-trunks record, shown as its definition',
-    await page.locator('main [data-term-definition="missing-peer-trunks"]').count() === 1);
+    !!trunksRec && typeof trunksRec.definition === 'string' && trunksRec.definition.trim().length > 20
+    && trunksText === trunksRec.definition.replace(/\s+/g, ' ').trim());
 }
 await shot('phylogeny');
 
@@ -3004,6 +3010,7 @@ check('placement precision is counted, not implied', /\d+ country/i.test(mapText
   const flat = (t) => String(t).replace(/\s+/g, ' ').trim();
   check('the gazetteer is disclaimed as interface, not source, in the map-positions record\'s words',
     !!rec && typeof rec.definition === 'string' && typeof rec.more === 'string'
+    && flat(rec.definition).length > 20 && flat(rec.more).length > 20
     && flat(mapText).includes(flat(rec.definition)) && flat(mapText).includes(flat(rec.more))
     && await page.locator('main [data-term-definition="map-positions"]').count() === 1);
 }

@@ -297,8 +297,7 @@ export default function App() {
           background: 'var(--paper)' }}>
         Cannot reach the server
         <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>·</span>
-        <button type="button" onClick={boot}
-          style={{ font: 'inherit', color: 'var(--link)', borderBottom: '1px solid var(--link-underline)' }}>
+        <button type="button" onClick={boot} className="tdl-link" style={{ font: 'inherit' }}>
           Retry
         </button>
       </div>

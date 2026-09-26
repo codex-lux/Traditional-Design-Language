@@ -491,7 +491,8 @@ export function MapView({
               record's now, which quotes docs/workbench.md. What follows it is this drawing's own
               disclosure, every figure in it counted off the marks in hand. */}
           <Eyebrow style={{ marginBottom: 6 }}><Term id="map-positions" /></Eyebrow>
-          <p data-term-definition="map-positions" style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)',
+          <p data-term-definition={positionsView.state === 'ready' ? 'map-positions' : undefined}
+            style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)',
             color: 'var(--ink-2)', margin: 0, maxWidth: '74ch' }}>
             {positionsView.state === 'ready'
               ? `${positionsView.definition} ${positionsView.record.more || ''}`.trim() : ''}
@@ -526,9 +527,8 @@ export function MapView({
                 not be fetched ({coast.failed}), so this is the {coast.drawnName} one at a
                 scale it cannot carry — the facets are the simplification, not the shore.
                 {' '}
-                <button type="button" onClick={coast.retry}
-                  style={{ font: 'var(--type-data-s)', color: 'var(--link)',
-                    borderBottom: '1px solid var(--link-underline)' }}>try again</button>
+                <button type="button" onClick={coast.retry} className="tdl-link"
+                  style={{ font: 'var(--type-data-s)' }}>try again</button>
               </span>
             )}
           </p>
@@ -553,9 +553,8 @@ export function MapView({
               disabled={view.w >= MAX_W * 0.999} aria-label="zoom out" title="Further out"
               style={{ ...ZOOM_KEY, borderLeft: '1px solid var(--rule)' }}>−</button>
           </span>
-          <button type="button" onClick={() => setPlace(HOME)}
-            style={{ font: 'var(--type-data-s)', color: 'var(--link)',
-              borderBottom: '1px solid var(--link-underline)' }}>reset the view</button>
+          <button type="button" onClick={() => setPlace(HOME)} className="tdl-link"
+            style={{ font: 'var(--type-data-s)' }}>reset the view</button>
           {/* The whole window, temporarily. The rails and the masthead are 580px and 52px
               of instrument around a drawing whose whole errand is extent; this hands them
               back for as long as the reader wants them back, and escape ends it. */}

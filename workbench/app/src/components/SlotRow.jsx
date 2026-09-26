@@ -25,6 +25,16 @@ const KIND = {
   invented: 'var(--kind-invented)',
   code: 'var(--kind-code)'
 };
+const FAULT_LINK = {
+  display: 'block',
+  font: 'var(--fw-reg) 13px/1.5 var(--display)',
+  marginTop: 4,
+  textAlign: 'left'
+};
+const FAULT_TEXT = {
+  ...FAULT_LINK,
+  color: 'var(--ink-2)'
+};
 const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
@@ -259,19 +269,16 @@ function SlotRow({
   })), slot.faults && slot.faults.length > 0 && /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
     style: EYE
   }, "faults filed here"), slot.faults.map(function (fl) {
-    return /*#__PURE__*/React.createElement("button", {
+    // A fault name navigates to its record, so it is a link and takes `.tdl-link` whole; with no
+    // handler it is plain text in the working grey (WP-14.33's audit).
+    return /*#__PURE__*/React.createElement(onFault ? "button" : "span", {
       key: fl.id,
-      type: "button",
+      type: onFault ? "button" : undefined,
       onClick: onFault ? function () {
         onFault(fl.id);
       } : undefined,
-      style: {
-        display: 'block',
-        font: 'var(--fw-reg) 13px/1.5 var(--display)',
-        color: 'var(--gilt-deep)',
-        marginTop: 4,
-        textAlign: 'left'
-      }
+      className: onFault ? "tdl-link" : undefined,
+      style: onFault ? FAULT_LINK : FAULT_TEXT
     }, fl.name);
   })), slot.source && onSource && /*#__PURE__*/React.createElement("button", {
     type: "button",

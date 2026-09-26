@@ -27,6 +27,7 @@ import { MARK_FORMS, JUDGMENT_MARKS, markGlyph, markKeyGroups } from './marks.js
 import { JUDGMENT_MARK, styleFindingMark } from './judgment.js';
 import { ruleMark, ruleState } from './proportions/page.js';
 import { indexTerms } from './glossary/lookup.js';
+import { elements, stripComments } from './sourceReader.mjs';
 
 const SRC = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = new URL('../../../', import.meta.url);
@@ -57,8 +58,10 @@ function declarations(css) {
 function readTokens(css = readFileSync(TOKENS, 'utf8')) {
   const decls = declarations(css);
   assert.ok(decls.length > 0, 'the premise: tokens.css declares custom properties this reader can see');
+  // LAST DECLARATION WINS, as CSS has it (WP-14.33's audit): taking the first let an appended
+  // `:root{--refusal:var(--violet)}` pass every verdict below while the page drew the violet.
   const byName = new Map();
-  for (const [n, v] of decls) if (!byName.has(n)) byName.set(n, v);
+  for (const [n, v] of decls) byName.set(n, v);
   return { css, decls, byName };
 }
 
@@ -307,6 +310,13 @@ test('the --t3 verdict refuses the brick, a typed colour and a non-ink, each for
    a colour typed into either, or a tradition taking the refusal's ink, fails by name. */
 function refusalVerdict(css) {
   const { byName } = readTokens(css);
+  // NAMED, NOT TYPED (WP-14.33's audit: the comment above said a typed colour fails by name, and a
+  // hex equal to the brick passed, because only the resolved value was compared).
+  for (const n of ['--refusal', '--mark-refused']) {
+    if (!/^var\(\s*--[A-Za-z0-9_-]+\s*\)$/.test(byName.get(n) || '')) {
+      return `${n} is ${byName.get(n)}, a colour typed where the brick should be named`;
+    }
+  }
   const card = resolve(byName, '--refusal');
   const mark = resolve(byName, '--mark-refused');
   if (card !== mark) return `--refusal resolves to ${card} and --mark-refused to ${mark}: a refusal is drawn in two inks`;
@@ -329,6 +339,73 @@ test('the refusal verdict refuses the old violet, a second ink, and a tradition 
   assert.match(refusalVerdict(css.replace(decl, '--refusal:var(--salmon);').replace(mark, '--mark-refused:var(--salmon);')),
     /not the brick/);
   assert.match(refusalVerdict(css.replace(/--t4:[^;]+;/, '--t4:var(--brick);')), /--t4, a tradition/);
+  // a hex equal to the brick is still typed, and a later declaration is the one the page draws
+  assert.match(refusalVerdict(css.replace(decl, '--refusal:#AF6B50;')), /typed/);
+  assert.match(refusalVerdict(css + '\n:root{--refusal:var(--violet)}\n'), /two inks/);
+});
+
+/* A REFUSAL IS DRAWN IN THE REFUSAL'S INK WHEREVER IT IS DRAWN (WP-14.33's audit). The verdict above
+   holds the TOKENS, and four components set a refusal in another ink while every token was right:
+   the proven-infeasible conflict set's rule and a refused export in `--sev-serious`, a refused
+   ingest the same, and the bench sheet's "stair not drawn" in gilt. Every element that carries a
+   refusal -- a `data-refusal*`, `data-conflict-set`, `data-drawing-error`, `data-export-note` or
+   `data-stair="refused"` attribute, or text that opens "refused" -- in JSX or in a compiled
+   `createElement`, draws only in the refusal's ink or the working inks and papers. The JSX is read
+   by `sourceReader.mjs`; a refusal in a string (ExportDetails's "refused — ...") is reached through
+   the element's own marker attribute. */
+const CARRIES = /data-refusal|data-conflict-set|data-drawing-error|data-export-note|data-sketch-refused|data-stair=["']refused/;
+function refusalInkRows(src, css = readFileSync(TOKENS, 'utf8')) {
+  const { byName } = readTokens(css);
+  const hexOf = (n) => { try { const v = resolve(byName, n); return /^#[0-9A-F]{6}$/.test(v) ? v : null; } catch { return null; } };
+  const allowed = new Set(['--refusal', '--mark-refused', '--ink', '--ink-2', '--rule', '--rule-soft', '--hair',
+    '--paper', '--paper-deep', '--paper-mat', '--paper-lit'].map(hexOf).filter(Boolean));
+  const rows = [];
+  const judge = (where, head) => {
+    for (const m of head.matchAll(/var\((--[a-z0-9-]+)\)/g)) {
+      const h = hexOf(m[1]);
+      if (h && !allowed.has(h)) rows.push([where, m[1]]);
+    }
+  };
+  let seen = 0;
+  for (const e of elements(src)) {
+    const first = (e.children.find((c) => c.text !== undefined && c.text.trim()) || {}).text || '';
+    if (CARRIES.test(e.head) || /^\s*refused\b/i.test(first)) { seen += 1; judge(e.name, e.head); }
+  }
+  const live = stripComments(src);
+  for (const m of live.matchAll(/createElement\(\s*([^,{}()]+?)\s*,\s*\{/g)) {
+    const o = m.index + m[0].length - 1;
+    let d = 0; let end = o;
+    for (let j = o; j < live.length; j += 1) {
+      if (live[j] === '{') d += 1; else if (live[j] === '}') { d -= 1; if (d === 0) { end = j + 1; break; } }
+    }
+    const props = live.slice(o, end);
+    const after = live.slice(end, end + 40);
+    if (CARRIES.test(props) || /^\s*,\s*["'`]refused\b/i.test(after)) { seen += 1; judge(m[1].trim(), props); }
+  }
+  return { rows, seen };
+}
+
+test('every element that carries a refusal is drawn in the refusal ink or a working ink', () => {
+  const rows = [];
+  let seen = 0;
+  for (const p of shipped().filter((f) => /\.jsx$/.test(f))) {
+    const r = refusalInkRows(readFileSync(p, 'utf8'));
+    seen += r.seen;
+    for (const row of r.rows) rows.push([p.slice(SRC.length), ...row]);
+  }
+  assert.ok(seen >= 8, `the premise: the refusals the app draws are found (${seen})`);
+  assert.deepEqual(rows, [], 'a refusal drawn in another ink reads as a severity or a link; draw it in var(--refusal)');
+});
+
+test('the refusal-ink reader sees JSX and compiled refusals, and passes the working inks', () => {
+  const f = (s) => refusalInkRows(s).rows.map((r) => r[1]);
+  assert.deepEqual(f("<p style={{ color: 'var(--sev-serious)' }}>refused — {x}</p>"), ['--sev-serious']);
+  assert.deepEqual(f('<div data-conflict-set="infeasible" style={{ borderLeft: \'2px solid var(--sev-serious)\' }} />'),
+    ['--sev-serious']);
+  assert.deepEqual(f('<text data-stair="refused" fill="var(--gilt-deep)">stair not drawn</text>'), ['--gilt-deep']);
+  assert.deepEqual(f('React.createElement("div", { style: { color: \'var(--violet)\' } }, "refused", x)'), ['--violet']);
+  assert.deepEqual(f("<p style={{ color: 'var(--refusal)', borderLeft: '2px solid var(--rule)' }}>refused — x</p>"), []);
+  assert.deepEqual(f("<p style={{ color: 'var(--gilt-deep)' }}>not a refusal</p>"), []);
 });
 
 /* ─────────────────────────── the readers that choose a mark ─────────────────────────── */

@@ -14,10 +14,14 @@
 
    No parser may be imported (the suite runs with no npm install, `no_bare_imports.test.mjs`), so it
    lexes just enough: comments, strings, template literals, regular-expression literals, balanced
-   brackets and JSX elements. HELD AGAINST `@babel/parser` over every file under src/ on the day it
-   was written, outside the suite: the same 2,810 comments, and the same 43 JSX paragraphs and 67
+   brackets and JSX elements. HELD AGAINST `@babel/parser` over every file under src/, outside the
+   suite: the same 2,867 comments, the same 2,496 JSX elements, and the same 43 JSX paragraphs and 67
    string literals of twelve or more words. That check shares the block-element list below with
-   this reader, so it proves the lexing and the element tree, not the list. */
+   this reader, so it proves the lexing and the element tree, not the list.
+   AND THE FIRST COMPARISON WAS OF PARAGRAPHS ONLY, WHICH IS HOW THIS READER SHIPPED MISSING SEVEN
+   ELEMENTS in four files -- every one after a comment in an expression position, where the look
+   back read the comment's closing slash as a division. None held a paragraph of twelve words, so
+   the paragraph comparison agreed and said nothing about them; counting the elements found them. */
 
 const IDENT = /[A-Za-z0-9_$]/;
 const EXPR_KEYWORDS = new Set(['return', 'case', 'typeof', 'void', 'delete', 'in', 'of', 'new',
@@ -30,10 +34,18 @@ export const BLOCK = new Set(['p', 'div', 'section', 'article', 'header', 'foote
   'desc', 'foreignObject', 'select', 'option', 'textarea', 'input', 'hr', 'img', 'canvas',
   'video', 'iframe']);
 
-/* Does the `/` or `<` at `i` begin an operand (a regex, JSX) rather than an operator? */
-function operandPosition(src, i) {
+/* Does the `/` or `<` at `i` begin an operand (a regex, JSX) rather than an operator? Looking back
+   past whitespace AND past any comment already read (`ends` maps a comment's end to its start): a
+   `<p>` after an open bracket and a block comment is JSX, and reading the comment's closing slash
+   as a division made it an operator -- the refused ingest in `Transcription.jsx` went unread
+   that way. (Quoting that comment here would close this one.) */
+function operandPosition(src, i, ends) {
   let k = i - 1;
-  while (k >= 0 && /\s/.test(src[k])) k -= 1;
+  for (;;) {
+    while (k >= 0 && /\s/.test(src[k])) k -= 1;
+    if (ends && ends.has(k + 1)) { k = ends.get(k + 1) - 1; continue; }
+    break;
+  }
   if (k < 0) return true;
   const c = src[k];
   if ('([{,;:=?!&|+-*%~^<>'.includes(c)) return true;
@@ -87,6 +99,7 @@ class Reader {
   constructor(src) {
     this.src = src;
     this.comments = [];
+    this.ends = new Map();    // a comment's end -> its start
     this.literals = [];     // [text, index]
     this.roots = [];        // JSX elements reached from JavaScript
   }
@@ -99,12 +112,14 @@ class Reader {
       let e = s.indexOf('\n', k);
       if (e < 0) e = s.length;
       this.comments.push([k, e]);
+      this.ends.set(e, k);
       return e;
     }
     if (s[k + 1] === '*') {
       let e = s.indexOf('*/', k + 2);
       e = e < 0 ? s.length : e + 2;
       this.comments.push([k, e]);
+      this.ends.set(e, k);
       return e;
     }
     return -1;
@@ -201,8 +216,8 @@ class Reader {
         k = literal(text, k);
         continue;
       }
-      if (c === '/' && operandPosition(s, k)) { k = regexEnd(s, k); continue; }
-      if (c === '<' && /[A-Za-z>]/.test(s[k + 1] || '') && operandPosition(s, k)) {
+      if (c === '/' && operandPosition(s, k, this.ends)) { k = regexEnd(s, k); continue; }
+      if (c === '<' && /[A-Za-z>]/.test(s[k + 1] || '') && operandPosition(s, k, this.ends)) {
         const [e, el] = this.element(k);
         this.roots.push(el);
         k = e;
@@ -236,7 +251,8 @@ class Reader {
       if (s[j] === '{') { j = this.js(j + 1, '}') + 1; continue; }
       j += 1;
     }
-    if (s[j] === '/') return [j + 2, { name, children: [] }];
+    const head = s.slice(k, j + (s[j] === '/' ? 2 : 1));   // the opening tag, attributes whole
+    if (s[j] === '/') return [j + 2, { name, head, children: [] }];
     j += 1;
     const children = [];
     let text = '';
@@ -246,7 +262,7 @@ class Reader {
       if (c === '<' && s[j + 1] === '/') {
         pushText();
         while (j < s.length && s[j] !== '>') j += 1;
-        return [j + 1, { name, children }];
+        return [j + 1, { name, head, children }];
       }
       if (c === '<' && /[A-Za-z>]/.test(s[j + 1] || '')) {
         pushText();
@@ -266,7 +282,7 @@ class Reader {
       j += 1;
     }
     pushText();
-    return [j, { name, children }];
+    return [j, { name, head, children }];
   }
 }
 
@@ -299,7 +315,15 @@ export function read(src) {
   r.js(0, '\u0000');
   const paras = [];
   for (const root of r.roots) paragraphs(root, paras);
-  return { comments: r.comments, literals: r.literals.map(([t]) => t), paras };
+  return { comments: r.comments, literals: r.literals.map(([t]) => t), paras, roots: r.roots };
+}
+
+/* Every JSX element in a source, each with `name`, `head` (its opening tag) and `children`. */
+export function elements(src) {
+  const out = [];
+  const walk = (e) => { out.push(e); for (const ch of e.children) if (ch.name !== undefined) walk(ch); };
+  for (const root of read(src).roots) walk(root);
+  return out;
 }
 
 /* The source with every comment blanked to spaces (newlines kept), as the lexer found them. */

@@ -98,7 +98,7 @@ export function ConflictSet({ refusal, infeasible, drawnBelow = false, where = '
     const conflicts = Array.isArray(infeasible.conflicts) ? infeasible.conflicts : [];
     return (
       <div data-conflict-set="infeasible" data-refusal-kind="" data-refusal-facts={0}
-        data-refusal-lines={conflicts.length} style={{ ...PANEL, borderLeft: '2px solid var(--sev-serious)' }}>
+        data-refusal-lines={conflicts.length} style={{ ...PANEL, borderLeft: '2px solid var(--refusal)' }}>
         <Eyebrow tone="secondary">
           infeasible as declared — proven ({conflicts.length} conflict{conflicts.length === 1 ? '' : 's'})
         </Eyebrow>

@@ -226,8 +226,8 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
               <span style={EYE}><Term id={FAULT_AXIS_TERM.slots} /></span>
               <span style={{ display: 'flex', gap: 8 }}>
                 {fault.slots.map((s) => (onSlot ? (
-                  <button key={s} type="button" onClick={() => onSlot(s)}
-                    style={{ font: 'var(--type-data)', color: 'var(--gilt-deep)' }}>{s}</button>
+                  <button key={s} type="button" onClick={() => onSlot(s)} className="tdl-link"
+                    style={{ font: 'var(--type-data)' }}>{s}</button>
                 ) : (
                   <span key={s} style={{ font: 'var(--type-data)', color: 'var(--ink-2)' }}>{s}</span>
                 )))}

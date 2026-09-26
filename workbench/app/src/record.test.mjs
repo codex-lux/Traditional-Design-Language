@@ -176,3 +176,20 @@ test('the searched card is retired: no component file, no import, no call site',
   walk(SRC);
   assert.deepEqual(offenders, [], `the searched card is named in: ${offenders.join(', ')}`);
 });
+
+/* A PARTI'S `note` IS FOR MAINTAINERS AND THE PAGE DOES NOT SHOW IT (WP-14.33, R6 of 26 Sep 2026).
+   The parti schema's own description says so and nothing held it (WP-14.33's audit): `/api/partis`
+   serves the record whole, so the day `PartiBody` reads `p.note` the build history R6 moved out of
+   the description is on the page again. Read as source, the way this file reads `App.jsx`: the
+   parti the page draws is `p` (`rec.parti`), and `scaling.note` -- the record's statement of how
+   the plan grows -- is a different field the page is meant to show. */
+test('the parti page reads no top-level `note` from the record it draws', () => {
+  const src = readFileSync(new URL('./record/PartiBody.jsx', import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:'"`])\/\/[^\n]*/g, '$1');
+  assert.match(src, /const p = rec\.parti/, 'the premise: the page names the parti `p`');
+  assert.match(src, /scaling\.note/, 'the premise: the growth note is read, so a read of `note` is visible');
+  for (const shape of [/\bp\s*\??\.\s*note\b/, /\brec\.parti\s*\??\.\s*note\b/, /\bp\s*\[\s*['"]note['"]\s*\]/,
+    /\{[^}=]*\bnote\b[^}=]*\}\s*=\s*(?:p|rec\.parti)\b/]) {
+    assert.doesNotMatch(src, shape, `PartiBody reads the parti's maintainer note (${shape})`);
+  }
+});

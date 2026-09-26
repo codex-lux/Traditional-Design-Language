@@ -74,9 +74,9 @@ function ToolTrace({
       onClick: function () {
         onCite(c.cite);
       },
+      className: "tdl-link",
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--gilt-deep)',
         flex: 'none'
       }
     }, "open"));

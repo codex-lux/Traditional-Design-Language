@@ -60,7 +60,7 @@ const prose = { font: 'var(--type-prose)', color: 'var(--ink)', margin: 0 };
 const small = { font: 'var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)', color: 'var(--ink)' };
 const note = { font: 'var(--type-data-s)', color: 'var(--ink-2)' };
 const rule = { borderTop: '1px solid var(--rule-soft)' };
-const link = { color: 'var(--ink)', textDecoration: 'none', borderBottom: '1px solid var(--link-underline)' };
+/* Its anchors take the `a` rule whole: an inline underline here beat `a:hover` (WP-14.33's audit). */
 
 /* A place's word, or `noEntry(id)` where the record is missing; nothing while it loads. */
 function Word({ label, missing }) {
@@ -85,7 +85,7 @@ function Entrance({ group, item, what, children }) {
       <Eyebrow as="div">{group}</Eyebrow>
       {item && (
         <a href={item.href} data-entrance-link={item.id} style={{
-          ...link, display: 'inline-block', marginTop: 8,
+          display: 'inline-block', marginTop: 8,
           font: 'var(--fw-reg) var(--fs-d4)/1.25 var(--display)',
         }}>
           {item.step != null && <span style={{ ...note, marginRight: 8 }}>{item.step}</span>}
@@ -182,7 +182,7 @@ export function Overview({ onSearch, lastEval }) {
             what={lookup ? whatOf(lookup.term('surface-style')) : null}>
             {doors.inHand && (
               <p style={{ ...small, margin: '10px 0 0' }}>
-                <a href={doors.inHand.href} data-entrance-link="in-hand" style={link}>
+                <a href={doors.inHand.href} data-entrance-link="in-hand">
                   <Word label={doors.inHand.label} missing={doors.inHand.missing} />
                 </a>
                 {doors.inHand.note && <span className="tdl-record-note">{doors.inHand.note}</span>}
@@ -199,7 +199,7 @@ export function Overview({ onSearch, lastEval }) {
                     <span style={{ marginLeft: 7 }}>{plan.name || plan.id}</span>
                   </span>
                 )}
-                <a href={resume.href} style={link}>
+                <a href={resume.href}>
                   <span style={{ ...note, marginRight: 6 }}>{resume.n}</span>
                   <Word label={resume.label} missing={resume.missing} />
                 </a>

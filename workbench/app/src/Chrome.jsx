@@ -358,10 +358,9 @@ export function FilterStrip({ children, right, filters, wrap }) {
           leave-full-screen control away, and the same rule: a way out that can be scrolled
           away is not a way out. */}
       {n > 0 && (
-        <button type="button" onClick={filters.clear}
+        <button type="button" onClick={filters.clear} className="tdl-link"
           title="Show everything again"
-          style={{ font: 'var(--type-data-s)', color: 'var(--link)', whiteSpace: 'nowrap',
-            flex: 'none', borderBottom: '1px solid var(--link-underline)',
+          style={{ font: 'var(--type-data-s)', whiteSpace: 'nowrap', flex: 'none',
             position: 'sticky', right: 0, background: 'var(--paper)',
             paddingLeft: 8, zIndex: 2 }}>
           {n} narrowing · clear

@@ -281,9 +281,8 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                     title={refusalHeadline(c.refused)}>
                     refused — not loadable; the conflict set is below
                   </span>
-                : <button type="button" onClick={() => openInWorkbench(c)}
-                    style={{ font: 'var(--type-data-s)', color: 'var(--link)', marginTop: 14,
-                      borderBottom: '1px solid var(--link-underline)' }}>
+                : <button type="button" onClick={() => openInWorkbench(c)} className="tdl-link"
+                    style={{ font: 'var(--type-data-s)', marginTop: 14 }}>
                     open in the workbench
                   </button>}
             </CandidateColumn>

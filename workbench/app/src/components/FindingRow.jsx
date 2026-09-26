@@ -25,6 +25,16 @@ const EYE = {
   textTransform: 'uppercase',
   color: 'var(--ink-2)'
 };
+/* The rule a finding cites: a link that takes `.tdl-link` whole where it navigates, the working
+   grey where it cannot (WP-14.33's audit). */
+const RULE_LINK = {
+  font: 'var(--type-data-s)'
+};
+const RULE_TEXT = {
+  font: 'var(--type-data-s)',
+  color: 'var(--ink-2)'
+};
+
 function FindingRow({
   finding,
   expanded,
@@ -161,11 +171,8 @@ function FindingRow({
   }, finding.rule_ref && /*#__PURE__*/React.createElement(onCite ? "button" : "span", {
     type: onCite ? "button" : undefined,
     onClick: onCite ? function () { onCite(finding.rule_ref); } : undefined,
-    style: {
-      font: 'var(--type-data-s)',
-      color: onCite ? 'var(--link)' : 'var(--ink-2)',
-      borderBottom: onCite ? '1px solid var(--link-underline)' : 'none'
-    }
+    className: onCite ? "tdl-link" : undefined,
+    style: onCite ? RULE_LINK : RULE_TEXT
   }, finding.rule_ref), onLocate && /*#__PURE__*/React.createElement("button", {
     type: "button",
     onClick: function () {

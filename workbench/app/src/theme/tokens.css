@@ -352,7 +352,8 @@
   /* Links — set in the working ink, marked by a gilt hairline underline, never blue. The text was
      --gilt-deep until 26 Sep 2026 and read 4.09 : 1 on --paper and 3.64 on --paper-deep, under
      the 4.5 a line of small type needs; --ink reads 9.48 : 1 (ruled, oq/the-link-ink-reads-below-aa).
-     The gilt stays the link's mark: the underline, and on hover a full gilt rule. */
+     The gilt stays the link's mark: the underline, and on hover a full gilt rule -- reached through
+     the `a` rule and `.tdl-link` below, never through an inline border, which no hover rule can beat. */
   --link:var(--ink);
   --link-hover:var(--ink);
   --link-on-paper:var(--ink);
@@ -495,6 +496,12 @@ em,i{font-style:italic}
 strong{font-weight:var(--fw-semi)}
 a{color:var(--link);text-decoration:none;border-bottom:1px solid var(--link-underline);transition:var(--t-hover)}
 a:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
+/* A BUTTON THAT NAVIGATES OR ACTS AS A LINK takes the link's two states from this class (WP-14.33's
+   audit). No `a` rule reaches a button, and an inline `borderBottom` beats `a:hover`, so ten of the
+   thirteen controls the R3 ruling set in ink showed no change on hover at all. An element carrying
+   the class sets neither its colour nor its underline inline; `inks.test.mjs` holds that. */
+.tdl-link{color:var(--link);border-bottom:1px solid var(--link-underline);transition:var(--t-hover)}
+.tdl-link:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
 :focus-visible{outline:2px solid var(--border-focus);outline-offset:2px}
 code,kbd,samp,pre{font-family:var(--mono);font-size:var(--fs-mono-s)}
 pre{margin:0;white-space:pre}

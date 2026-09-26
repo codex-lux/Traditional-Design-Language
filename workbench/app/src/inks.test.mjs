@@ -36,24 +36,31 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { stripComments } from './sourceReader.mjs';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const TOKENS = join(SRC, 'theme', 'tokens.css');
 
-/* Comments are not ink. Block comments (which covers a JSX comment in braces) and line comments
-   that start a line or trail code; a `//` after `:` is a URL inside a string and is kept. Every
-   comment is blanked to spaces rather than removed, so an offset in the stripped source is the
-   same offset in the file. */
-const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
-  .replace(/(^|[\s;,{}()])\/\/[^\n]*/g, (m, lead) => lead + ' '.repeat(m.length - lead.length));
+/* Comments are not ink. They are blanked to spaces by `sourceReader.mjs`, the lexer the copy
+   ratchets share, so an offset in the stripped source is the same offset in the file. The pair of
+   regular expressions this file carried read the file-type pattern in `Transcription.jsx`'s
+   `accept=` attribute as the start of a comment, and was blind to the 79 lines after it
+   (WP-14.33's audit). */
+
+/* A stylesheet's custom properties, LAST DECLARATION WINNING as CSS has it (WP-14.33's audit: this
+   file took the first, so a second `:root{--link:...}` appended below the first passed every
+   verdict here while the page drew the second). The reduced-motion durations are the one
+   legitimate redeclaration, and `test_no colour token is declared twice` holds the rest. */
+export function cssTokens(css) {
+  const live = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const defs = {};
+  for (const m of live.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;}]+)[;}]/gi)) defs[m[1]] = m[2].trim();
+  return defs;
+}
 
 /* ── the stylesheet's own answer: which tokens are a faint ink ── */
 export function faintTokens(css) {
-  const live = css.replace(/\/\*[\s\S]*?\*\//g, '');
-  const defs = {};
-  for (const m of live.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;}]+)[;}]/gi)) {
-    if (!(m[1] in defs)) defs[m[1]] = m[2].trim();
-  }
+  const defs = cssTokens(css);
   const resolve = (name, seen = new Set()) => {
     if (seen.has(name) || defs[name] == null) return null;
     seen.add(name);
@@ -273,11 +280,7 @@ test('the list only shrinks: a row that is gone must leave it in the same commit
 const PAPERS = ['--paper', '--paper-mat', '--paper-deep', '--paper-lit'];
 
 function tokenValues(css) {
-  const live = css.replace(/\/\*[\s\S]*?\*\//g, '');
-  const defs = {};
-  for (const m of live.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;}]+)[;}]/gi)) {
-    if (!(m[1] in defs)) defs[m[1]] = m[2].trim();
-  }
+  const defs = cssTokens(css);
   const hex = (name, seen = new Set()) => {
     if (seen.has(name) || defs[name] == null) return null;
     seen.add(name);
@@ -313,6 +316,23 @@ export function linkTokenVerdict(css) {
   }
   if (!/175\s*,\s*141\s*,\s*73|var\(--gilt/i.test(defs['--link-underline'] || '')) {
     return `--link-underline is ${defs['--link-underline']}, which is not the gilt`;
+  }
+  // THE HOVER HALF (WP-14.33's audit): the ruling's "on hover a full gilt rule" was held by nothing,
+  // and `--link-underline-hover: var(--ink)` passed. It resolves to a gilt, and both the `a` rule and
+  // `.tdl-link` -- the class a button that is a link takes -- switch to it on hover.
+  const gilts = new Set(['--gilt', '--gilt-deep'].map((n) => hex(n)).filter(Boolean));
+  if (!gilts.has(hex('--link-underline-hover'))) {
+    return `--link-underline-hover is ${defs['--link-underline-hover']}, which is not the gilt`;
+  }
+  for (const sel of ['a:hover', '.tdl-link:hover']) {
+    const r = new RegExp(`(^|\\n)${sel.replace('.', '\\.')}\\{([^}]*)\\}`).exec(live);
+    if (!r || !/border-bottom-color:\s*var\(--link-underline-hover\)/.test(r[2])) {
+      return `the \`${sel}\` rule does not draw the gilt rule on hover`;
+    }
+  }
+  const cls = /(^|\n)\.tdl-link\{([^}]*)\}/.exec(live);
+  if (!cls || !/color:\s*var\(--link\)/.test(cls[2]) || !/border-bottom:[^;]*var\(--link-underline\)/.test(cls[2])) {
+    return 'the `.tdl-link` class does not set the link ink and its underline';
   }
   return null;
 }
@@ -373,9 +393,12 @@ test('every style that draws the link underline sets its own text in an ink that
   let seen = 0;
   for (const p of files()) {
     const src = readFileSync(p, 'utf8');
-    seen += (stripComments(src).match(/var\(--link-underline\)/g) || []).length;
+    const live = stripComments(src);
+    seen += (live.match(/var\(--link-underline\)/g) || []).length;
+    seen += (live.match(/className[=:]\s*[^,}\n]*tdl-link/g) || []).length;
     for (const r of linkUnderlineRows(src, css)) rows.push([p.slice(SRC.length), ...r]);
   }
+  // Inline, or through the `.tdl-link` class most controls took at WP-14.33's audit.
   assert.ok(seen >= 10, `the premise: the underline is drawn in many places (${seen})`);
   assert.deepEqual(rows, [], 'a link-styled element reads below 4.5 : 1; set it in var(--link)');
 });
@@ -435,4 +458,200 @@ test('the anchor reader sees a gilt anchor and passes one in the link ink', () =
     .map((r) => r[0]), ['--gilt-deep']);
   assert.deepEqual(anchorColourRows("<a href=\"#x\" style={{ color: 'var(--link)' }}>x</a>", css), []);
   assert.deepEqual(anchorColourRows("<a href=\"#x\">x</a><span style={{ color: 'var(--gilt-deep)' }}/>", css), []);
+});
+
+/* ─────────── A CONTROL'S OWN TEXT INK, AND THE LINK CLASS (WP-14.33's audit) ───────────
+
+   The two readers above see an element that draws the link underline and an `<a>`. A button that
+   NAVIGATES and draws no underline was invisible to both, and three were still in --gilt-deep at
+   4.09 : 1: FaultCard's slot names, SlotRow's fault names and ToolTrace's "open", each calling
+   `onCite` on the way. And a control converted at R3 could be reverted to exactly its pre-ruling
+   state with both readers green. So every CLICKABLE element in src -- JSX, or a compiled
+   `createElement(tag, { onClick ... })` -- whose own `color` can take an ink under 4.5 : 1 on paper
+   is a row, held BY IDENTITY with a class:
+     action   it acts in place -- a fold, a compose, a revoke, a request, "show on drawing"
+     chip     a bordered chip, whose ink is `Chrome.jsx`'s own
+   There is no `link` class: a control that navigates is set in `var(--link)`, and a row whose
+   handler reaches `onCite`, `onFault`, `onSlot`, `go(` or a `href` fails whatever it is classed.
+   The remainder in gilt is the same shape as the links were, below AA; it is the open question
+   `oq/two-inks-set-as-small-text-read-below-aa`, not a pass. `--text-disabled` is the disabled
+   state's own token and is never a row. */
+function span(src, i, open, close) {
+  let d = 0;
+  for (let j = i; j < src.length; j += 1) {
+    const c = src[j];
+    if (c === '"' || c === "'" || c === '`') {
+      let k = j + 1;
+      while (k < src.length && src[k] !== c) { if (src[k] === '\\') k += 1; k += 1; }
+      j = k;
+      continue;
+    }
+    if (c === open) d += 1;
+    else if (c === close) { d -= 1; if (d === 0) return j + 1; }
+  }
+  return src.length;
+}
+
+/* The opening tag of the JSX element at `i`, attributes and their `{...}` whole. */
+function tagHead(src, i) {
+  for (let j = i + 1; j < src.length; j += 1) {
+    const c = src[j];
+    if (c === '"' || c === "'") { let k = j + 1; while (k < src.length && src[k] !== c) k += 1; j = k; continue; }
+    if (c === '{') { j = span(src, j, '{', '}') - 1; continue; }
+    if (c === '>') return src.slice(i, j + 1);
+  }
+  return src.slice(i);
+}
+
+/* Every element head in a source: [tag, head], a JSX opening tag or a createElement props object.
+   A head is cut at the first nested `<`, so an attribute holding another element's JSX is not read
+   as this element's own. */
+function heads(live) {
+  const out = [];
+  for (const m of live.matchAll(/<([A-Za-z][\w.]*)\b/g)) {
+    let h = tagHead(live, m.index);
+    const inner = h.indexOf('<', 1);
+    if (inner > 0) h = h.slice(0, inner);
+    out.push([m[1], h]);
+  }
+  // The tag is any first argument, `onCite ? "button" : "span"` included: requiring a literal or a
+  // bare name left FindingRow's rule reference unread (found by this file's own first run).
+  for (const m of live.matchAll(/createElement\(\s*([^,{}()]+?)\s*,\s*\{/g)) {
+    const o = m.index + m[0].length - 1;
+    out.push([m[1].replace(/\s+/g, ' ').replace(/["']/g, ''), live.slice(o, span(live, o, '{', '}'))]);
+  }
+  return out;
+}
+
+const COLOUR = /(?:^|[{\s,;])color\s*:\s*([^,;}\n]+(?:\?[^,;}\n]+)?)/;
+export function clickableInkRows(src, css) {
+  const { hex } = tokenValues(css);
+  const paper = hex('--paper');
+  const rows = [];
+  for (const [tag, head] of heads(stripComments(src))) {
+    const oc = /\bonClick\s*[=:]\s*/.exec(head);
+    if (!oc) continue;
+    const colour = COLOUR.exec(head);
+    if (!colour) continue;
+    const handler = head.slice(oc.index + oc[0].length).replace(/\s+/g, ' ').trim().slice(0, 60);
+    for (const x of colour[1].matchAll(/var\((--[a-z0-9-]+)\)/g)) {
+      if (x[1] === DISABLED) continue;
+      const h = hex(x[1]);
+      const r = h ? contrast(h, paper) : 0;
+      if (r < 4.5) rows.push([tag, x[1], handler]);
+    }
+  }
+  return rows;
+}
+
+/* An element carrying `.tdl-link` that sets its own colour or underline inline defeats the class's
+   hover, which is the defect the class exists to remove. */
+export function linkClassOverrides(src) {
+  const rows = [];
+  for (const [tag, head] of heads(stripComments(src))) {
+    if (!/className\s*[=:]\s*[^,}\n]*tdl-link/.test(head)) continue;
+    const style = /\bstyle\s*[=:]\s*/.exec(head);
+    if (!style) continue;
+    const body = head.slice(style.index);
+    if (/(?:^|[{\s,;])(?:color|borderBottom|borderColor|border|textDecoration)\s*:/.test(body)) rows.push([tag, body.slice(0, 80)]);
+  }
+  return rows;
+}
+
+function clickableRows() {
+  const css = readFileSync(TOKENS, 'utf8');
+  const rows = [];
+  for (const p of files()) {
+    if (!/\.(jsx|js)$/.test(p)) continue;
+    for (const r of clickableInkRows(readFileSync(p, 'utf8'), css)) rows.push([p.slice(SRC.length), ...r]);
+  }
+  return rows;
+}
+
+const NAVIGATES = /\bonCite\s*\(|\bonFault\s*\(|\bonSlot\s*\(|\bgo\s*\(|\bhref\b|location\.hash/;
+
+// CLICKABLE-BEGIN
+/* [file, tag, token, handler, class]: `action` or `chip`, and never `link`. */
+const CLICKABLE = [
+  ["Chrome.jsx", "button", "--gilt-deep",
+    "{onClick} title={title} {...aria} style={{ font: 'var(--type", "chip"],
+  ["Chrome.jsx", "button", "--gilt-deep",
+    "{onClick} title={title} disabled={disabled} style={{ font: '", "chip"],
+  ["Chrome.jsx", "button", "--gilt-deep",
+    "{() => setOpen(!open)} aria-expanded={open} title={open ? `F", "action"],
+  ["components/FindingRow.jsx", "button", "--gilt-deep",
+    "function () { onLocate(finding); }, style: { font: 'var(--ty", "action"],
+  ["components/FindingRow.jsx", "button", "--green-deep",
+    "function () { onAssert(finding); }, style: { font: 'var(--ty", "action"],
+  ["components/ProvenanceTrace.jsx", "button", "--gilt-deep",
+    "function () { setAll(true); }, style: { ...EYE, color: 'var(", "action"],
+  ["components/SlotRow.jsx", "button", "--gilt-deep",
+    "function () { onSource(slot.source.id); }, style: { ...EYE, ", "action"],
+  ["components/UnsourcedImageRecord.jsx", "button", "--gilt-deep",
+    "function () { onRequest(record); }, style: { font: 'var(--ty", "action"],
+  ["dossier/ProportionsSection.jsx", "button", "--gilt-deep",
+    "{() => prefs.setFold('delivered', !open)} style={{ font: 'va", "action"],
+  ["surfaces/BriefIntake.jsx", "button", "--gilt-deep",
+    "{compose} disabled={composing || !ready} aria-busy={composin", "action"],
+  ["surfaces/PlanWorkbench.jsx", "button", "--gilt-deep",
+    "{() => planDoc.update(mutations.revokeRelation(i))} style={{", "action"],
+];
+// CLICKABLE-END
+
+if (process.env.INK_RATCHET_PRINT) console.log(JSON.stringify(clickableRows(), null, 1));
+
+test('the clickable reader finds a gilt control in JSX and compiled form, and passes the link ink', () => {
+  const css = readFileSync(TOKENS, 'utf8');
+  const f = (x) => clickableInkRows(x, css).map((r) => [r[0], r[1]]);
+  assert.deepEqual(f("<button onClick={() => onSlot(s)} style={{ color: 'var(--gilt-deep)' }}>s</button>"),
+    [['button', '--gilt-deep']]);
+  assert.deepEqual(f('React.createElement("button", { onClick: function () { onCite(c); }, '
+    + "style: { font: 'x', color: 'var(--gilt-deep)' } }, 'open')"), [['button', '--gilt-deep']]);
+  assert.deepEqual(f("<button onClick={go} style={{ color: on ? 'var(--ink)' : 'var(--green-deep)' }} />"),
+    [['button', '--green-deep']]);
+  assert.deepEqual(f("<button onClick={go} className=\"tdl-link\" style={{ font: 'x' }} />"), []);
+  assert.deepEqual(f("<button onClick={go} style={{ color: 'var(--text-disabled)' }} />"), []);
+  assert.deepEqual(f("<span style={{ color: 'var(--gilt-deep)' }}>not clickable</span>"), []);
+  // another element's JSX inside an attribute is not this element's own
+  assert.deepEqual(f("<Strip right={<b onClick={x} style={{ color: 'var(--gilt-deep)' }} />}>"),
+    [['b', '--gilt-deep']]);
+});
+
+test('a control that navigates is set in the link ink, and the gilt remainder only shrinks', () => {
+  const now = clickableRows();
+  assert.ok(files().length > 60, 'the premise: the walk found the sources');
+  const key = (r) => JSON.stringify(r.slice(0, 4));
+  const base = CLICKABLE.map((r) => r.slice(0, 4));
+  assert.deepEqual(minus(now, base), [],
+    'a clickable element sets its text below 4.5 : 1. If it navigates, give it className="tdl-link" '
+    + 'and drop its colour; if it acts in place, add it to CLICKABLE with its class');
+  assert.deepEqual(minus(base, now), [], 'these rows are gone; delete them from CLICKABLE');
+  const navigating = CLICKABLE.filter((r) => NAVIGATES.test(r[3]));
+  assert.deepEqual(navigating, [], 'a control that navigates is a link and may not be held as a remainder');
+  assert.deepEqual(CLICKABLE.filter((r) => !['action', 'chip'].includes(r[4])), [], 'class is action or chip');
+  assert.equal(new Set(CLICKABLE.map(key)).size <= CLICKABLE.length, true);
+});
+
+test('an element with the link class sets neither its colour nor its underline inline', () => {
+  const rows = [];
+  let uses = 0;
+  for (const p of files()) {
+    if (!/\.(jsx|js)$/.test(p)) continue;
+    const src = readFileSync(p, 'utf8');
+    uses += (stripComments(src).match(/className[=:]\s*[^,}\n]*tdl-link/g) || []).length;
+    for (const r of linkClassOverrides(src)) rows.push([p.slice(SRC.length), ...r]);
+  }
+  assert.ok(uses >= 10, `the premise: the class is in use (${uses})`);
+  assert.deepEqual(rows, [], 'an inline colour or underline beats the class and its hover state');
+  assert.deepEqual(linkClassOverrides("<button className=\"tdl-link\" style={{ borderBottom: 'none' }} />").length, 1);
+});
+
+test('no colour token is declared twice, so the reader and the page agree on every ink', () => {
+  const css = readFileSync(TOKENS, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const seen = {};
+  for (const m of css.matchAll(/(--[a-z0-9-]+)\s*:/g)) seen[m[1]] = (seen[m[1]] || 0) + 1;
+  const twice = Object.keys(seen).filter((k) => seen[k] > 1 && !k.startsWith('--dur-'));
+  assert.deepEqual(twice, [], 'a token declared twice is read by CSS at its last declaration');
+  // and the reader is last-wins, as CSS is
+  assert.equal(cssTokens(':root{--x:#111111}\n:root{--x:#222222}')['--x'], '#222222');
 });

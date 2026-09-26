@@ -423,14 +423,12 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                 )}
               </div>
 
-              <button type="button" onClick={() => onCite && onCite('style:' + sel)}
-                style={{ marginTop: 16, marginRight: 16, font: 'var(--type-data-s)', color: 'var(--link)',
-                  borderBottom: '1px solid var(--link-underline)' }}>
+              <button type="button" onClick={() => onCite && onCite('style:' + sel)} className="tdl-link"
+                style={{ marginTop: 16, marginRight: 16, font: 'var(--type-data-s)' }}>
                 full record →
               </button>
-              <button type="button" onClick={() => onCite && onCite('kit:' + sel)}
-                style={{ marginTop: 16, font: 'var(--type-data-s)', color: 'var(--link)',
-                  borderBottom: '1px solid var(--link-underline)' }}>
+              <button type="button" onClick={() => onCite && onCite('kit:' + sel)} className="tdl-link"
+                style={{ marginTop: 16, font: 'var(--type-data-s)' }}>
                 resolve this style's kit →
               </button>
             </>
