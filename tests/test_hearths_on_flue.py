@@ -567,8 +567,36 @@ class TestThePlansStacksAreTheRoofsStacks:
         import ast
         tree = ast.parse(open(path, encoding="utf-8").read())
         groups, means = [], []
+        # TWO MORE SPELLINGS OF THE SAME RULE (audit, 27 Sep 2026; auditor B, M6). The first reader
+        # knew `.setdefault(k, [])`, `defaultdict(list)` and a `sum` containing "position_ft", and
+        # 43f93e8's own premise mutation used a fourth spelling to blind it: `d[k] = d.get(k, []) +
+        # [a]`, a grouping by assignment. And a mean over a list built a line earlier -- `ps = [...]`
+        # then `sum(ps) / len(ps)` -- carries no "position_ft" inside the `sum` at all. Both are
+        # read now: an assignment into `X[K]` of `X.get(K, <list>)`, and any `sum(n) / len(n)` or
+        # `mean(...)`. A band midpoint, `sum(band) / 2.0`, is neither and is not read.
+        _is_list = lambda d: isinstance(d, (ast.List, ast.ListComp)) or (
+            isinstance(d, ast.Call) and isinstance(d.func, ast.Name) and d.func.id == "list")
         for node in ast.walk(tree):
+            if isinstance(node, ast.Assign) and len(node.targets) == 1 \
+                    and isinstance(node.targets[0], ast.Subscript):
+                tgt = node.targets[0]
+                for c in ast.walk(node.value):
+                    if (isinstance(c, ast.Call) and isinstance(c.func, ast.Attribute)
+                            and c.func.attr == "get" and len(c.args) == 2 and _is_list(c.args[1])
+                            and ast.dump(c.func.value) == ast.dump(tgt.value)
+                            and ast.dump(c.args[0]) == ast.dump(tgt.slice)):
+                        groups.append(node.lineno)
+            if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div) \
+                    and all(isinstance(x, ast.Call) and isinstance(x.func, ast.Name) and x.args
+                            for x in (node.left, node.right)) \
+                    and (node.left.func.id, node.right.func.id) == ("sum", "len") \
+                    and ast.dump(node.left.args[0]) == ast.dump(node.right.args[0]):
+                means.append(node.lineno)
             if not isinstance(node, ast.Call):
+                continue
+            if (isinstance(node.func, ast.Name) and node.func.id in ("mean", "fmean")) or (
+                    isinstance(node.func, ast.Attribute) and node.func.attr in ("mean", "fmean")):
+                means.append(node.lineno)
                 continue
             f = node.func
             if isinstance(f, ast.Attribute) and f.attr == "setdefault" and len(node.args) == 2:
@@ -582,7 +610,8 @@ class TestThePlansStacksAreTheRoofsStacks:
             elif isinstance(f, ast.Name) and f.id == "sum" and any(
                     isinstance(c, ast.Constant) and c.value == "position_ft" for c in ast.walk(node)):
                 means.append(node.lineno)
-        return groups, means
+        # one line, one shape: `sum(a["position_ft"] for a in keep) / len(keep)` is read by two rules
+        return sorted(set(groups)), sorted(set(means))
 
     def test_the_rule_is_spelled_once_and_roof_py_no_longer_groups_by_flue(self):
         """RE-CUT AT WP-14.6 AGAINST THE SHAPE OF THE RULE, NOT THE NAME OF A VARIABLE. This read

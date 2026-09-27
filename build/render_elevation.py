@@ -1088,6 +1088,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
     stack_sides = set()
     stacks_unplaced = 0
     stacks_hidden = 0
+    stacks_refused_else = {}          # any other refusal `_stack_outline` names, counted and said
     stacks_not_side_gable = False
     ch = roof.get("chimneys") or {}
     stacks_unsized = bool(ch.get("applicable") and ch.get("positions")
@@ -1118,6 +1119,10 @@ def render_elevation(elev, path, face=None, scale=24.0):
                 stacks_hidden += 1
                 continue
             if got.get("refused"):
+                # NOT IN SILENCE (audit, 27 Sep 2026): `no-profile` -- a roof record with no end
+                # profile to foot a stack on -- fell here and was dropped with no word, while its
+                # two siblings above are counted and said on the sheet
+                stacks_refused_else[got["refused"]] = stacks_refused_else.get(got["refused"], 0) + 1
                 continue
             pts = got["outline"]
             key = tuple((round(u, 3), round(h, 3)) for u, h in pts)
@@ -1353,6 +1358,10 @@ def render_elevation(elev, path, face=None, scale=24.0):
     if stacks_not_side_gable:
         notes.append('STACKS NOT DRAWN — THIS ROOF\u2019S RIDGE RUNS FRONT TO BACK, AND THIS SHEET '
                      'DRAWS A STACK AGAINST A SIDE GABLE\u2019S RAKE ONLY')
+    for _why, _n in sorted(stacks_refused_else.items()):
+        notes.append(f'{_n} STACK(S) NOT DRAWN — ' + (
+            'THE ROOF RECORD GIVES NO END PROFILE TO FOOT THEM ON' if _why == 'no-profile'
+            else f'REFUSED AS {str(_why).upper()}'))
     for i, n in enumerate(notes):
         s.append(f'<text class="dm" x="{pad}" y="{legend_y+26+i*10:.1f}">{_esc(n)}</text>')
     # THE SHEET GROWS WITH ITS NOTES (WP-14.3). The legend was a fixed 90 px, which holds six
