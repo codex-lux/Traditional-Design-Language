@@ -1031,10 +1031,16 @@ async function readPlate(pack) {
        <g transform> that flips y and scales the module, and getBBox() is in the path's LOCAL
        space -- model inches, y up. It read right only because the corpus serves the geometry at
        the module the plate draws (f = 1) and the flip is symmetric about the frame. Each corner
-       is taken through getCTM(), which maps the local space into the viewBox's. */
+       is taken into the SVG's OWN user space, which is the viewBox's inches: the band's screen
+       matrix, undone by the root's. `getCTM()` alone was the first version and it is not that --
+       it ends in the root's VIEWPORT, which is CSS pixels, so every pack read about 600" tall
+       (the height of the pane the plate is fitted to) against a stated 108 to 192. That version
+       shipped unrun in WP-14.2 step 6, and its first run was red on 77 checks: three on each
+       of the 25 packs with a stack, and two capitals. */
     const pt = svg.createSVGPoint();
+    const toSvg = svg.getScreenCTM().inverse();
     const box = (el) => {
-      const b = el.getBBox(), m = el.getCTM();
+      const b = el.getBBox(), m = toSvg.multiply(el.getScreenCTM());
       const xs = [], ys = [];
       for (const [x, y] of [[b.x, b.y], [b.x + b.width, b.y], [b.x, b.y + b.height],
                             [b.x + b.width, b.y + b.height]]) {
@@ -1100,7 +1106,18 @@ for (const id of orderPacks) {
   // naked to a figure that was already a radius drew exactly that, on twelve packs.
   check(`⑩ ${id}: the shaft is a column and not a stick (${plate.shaftMax.toFixed(2)}″ against r ${r0}″)`,
     plate.shaftMax > r0 * 0.8 && plate.shaftMax < r0 * 1.35);
-  check(`⑩ ${id}: the capital stands clear of the shaft`, plate.capMax >= plate.shaftMax - 0.01);
+  /* A CAPITAL WHOSE RECORD PUBLISHES NO PROJECTION IS UNJUDGED, NOT NARROW (WP-14.2). Palladio's
+     Doric and Tuscan capitals state no projection for any member, so since step 2 the plate
+     draws each at its naked, dashed, and says so. How far that capital stands out is not a fact
+     the record holds, and reading its ghosts as the capital's width convicted both. */
+  const capMembers = (api.assemblies.find((a) => a.id === 'capital') || {}).members || [];
+  if (capMembers.length && capMembers.every((m) => m.projection_parts == null)) {
+    unjudged.push(`⑩ ${id}: the capital stands clear of the shaft — its record publishes no `
+      + `projection for any of its ${capMembers.length} members, which the plate draws at the `
+      + 'naked, dashed');
+  } else {
+    check(`⑩ ${id}: the capital stands clear of the shaft`, plate.capMax >= plate.shaftMax - 0.01);
+  }
 }
 await page.screenshot({ path: SHOTS + 'proportions-order.png' });
 

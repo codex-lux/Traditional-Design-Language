@@ -90,7 +90,7 @@ INSTRUMENT.** Lucas asked whether every drawn trim, casing, column and entablatu
 other drawn figure, reflects the plates and dimensions researched to source it, on every surface that
 draws SVG. **Read `docs/fidelity.md` before touching any renderer**: it is the standard (five links,
 three verdicts, four defect classes) and the live census. `tests/inkread.py` reads the SVG a reader is
-served; `tests/svg_census.py` holds forty-five checks over the 73 profile plates, the order stack, the orders
+served; `tests/svg_census.py` holds forty-seven checks over the 73 profile plates, the order stack, the orders
 page (its own scripts run in `node:vm`), the Proportions plate (its arithmetic lifted into
 `workbench/app/src/proportions/plate.js`), the elevation and its inset, the section, the roof, the plan
 and the DXF. **`tests/fixtures/ink_known_disagreements.json` pins every disagreement BY ID AND BY
@@ -103,6 +103,44 @@ forbids) is put back to Lucas**: 51 of the 79 styles it would change are convict
 ban, and colonial-revival's own note contradicts the ban on its doorcase
 (`oq/an-inherited-ban-decides-what-the-elevation-may-draw`). Report:
 `docs/reports/wp-14.1-the-ink-read-back.md`.
+
+**WP-14.2 TOOK THE ORDERS AND MOULDINGS TO ZERO: KNOWN DISAGREEMENTS 452 -> 255, AND EVERY P, E, O AND
+R CHECK NOW AGREES ON ITS WHOLE POPULATION (27 Sep 2026).** The 255 left are the elevation, section,
+roof, DXF and plan, WP-14.3's and WP-14.4's. Read
+`docs/reports/wp-14.2-the-orders-held-to-what-they-state.md` before touching `proportion_engine`,
+`profiles`, `render_profile`, `render_orders` or `plate.js`. **An unpublished projection is `None`
+from the engine to the schema, drawn as a ghost at its naked and counted**. It used to be read as 0,
+which drew 94 members flush on every surface and bit fourteen tori into the shaft they stand on.
+**No JavaScript surface computes an order any more.** The orders page's engine port is deleted and
+`plate.js` reads the datum, frame, die and unpublished list Python serves. The port agreed with Python
+on 156 of 156 cases and went anyway, because a copy that agrees today is the one nobody re-checks when
+the engine moves. **The stack is the one each pack states**:
+- an overlay's own column sets its shaft;
+- an entablature the pack states beats an inherited triplet that contradicts it, and a triplet that
+  divides the pack's own total is kept;
+- Benjamin's subplinth is `alternative_to` the pedestal;
+- `stack_notes` says on every surface what was left out.
+
+**THE TRAP WORTH CARRYING IS R4's: A GUARD'S REFERENCE MUST NOT BE WHAT THE SUBJECT SERVES.** R4 first
+held the plate's words to the notes the server served. A server that stopped serving them would have
+emptied both sides, and they would have agreed. Proved, not argued: that mutation was GREEN (0 rows)
+against the first R4, and is red against the engine's own stack. Two more from the same package:
+- **two runs sharing a CPU are not a control.** The composer read 70.6 against 67.4 concurrently and
+  agreed exactly run serially;
+- **a shell variable set inside one `&` job does not reach its sibling.** A second job ran a bare
+  `pytest` in the main checkout, which is the six in-place mutators. It was stopped with SIGINT so
+  their `finally` blocks ran, and the checkout was proved byte-identical to the worktree before
+  anything else was done;
+- **`getCTM()` ends in the root's VIEWPORT, in CSS pixels, not in its viewBox.** The walk's ⑩
+  plate reader, extended to all 26 packs and committed unrun, read every stack about 600″ tall
+  (the pane) against 108″ to 192″, red on 77 checks. The viewBox's own space is the element's
+  screen matrix undone by the root's. And a capital whose record publishes no projection is
+  COULD NOT EVALUATE in the walk, not narrow. The closing build is `3 of 53` with every red on the
+  control's list by id, and the walk 347 green, 0 failed, 6 unjudged.
+
+**The test figure in the counts paragraph below was re-collected at WP-14.2's close: 2,806, and the
+app suite 255.** It had read 2,643 and 210, and neither was right before Phase 14 began either:
+on `d565dea`, the phase's parent, `pytest --collect-only` returns 2,675 and the app suite runs 221.
 
 **AND READ `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` BEFORE TOUCHING THE PLACER, THE
 SHEET OR THE PARTI (4 Sep 2026).** Lucas put the bench's own Tidewater sheet in front of a session
@@ -773,8 +811,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,643 tests**
-(plus the workbench app suite, **210** under `node --test`). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,806 tests**
+(plus the workbench app suite, **255** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
