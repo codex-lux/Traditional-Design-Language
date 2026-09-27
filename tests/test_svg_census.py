@@ -165,6 +165,8 @@ class TestTheChecksCanDisagree:
         assert live[("P9", "palladio-tuscan-cornice-profile")] == "agrees"
         assert live[("P1", "palladio-ionic-base-profile")] == "agrees"
         assert live[("P2", "palladio-doric-capital-profile")] == "agrees"
+        assert live[("P13", "vignola-ionic-capital-profile")] == "agrees"
+        assert live[("P8", "vignola-corinthian-capital-profile")] == "agrees"
 
     def test_p5_sees_a_plate_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
         got = _verdicts(monkeypatch, "P5", _planted(self.PLATE, self._scaled(1.1)))
@@ -205,6 +207,33 @@ class TestTheChecksCanDisagree:
             return s.replace("2.75\u2033 of relief from the naked.",
                              "no relief: every published face is flush with the naked.")
         got = _verdicts(monkeypatch, "P2", _planted(self.PLATE, change))
+        assert got == ["disagrees"], got
+
+    def test_p8_sees_a_curve_inked_for_a_member_it_calls_not_constructed(self, monkeypatch):
+        """WP-14.2 draws an unconstructed member as its envelope, so P8 has no live disagreement;
+        this puts the swelling's arc back into one acanthus row of the committed plate."""
+        import re
+        plate = "vignola-corinthian-capital-profile"
+        a, g, pl, rec = next(x for x in C._profile_assets() if x[0]["id"] == plate)
+        acanthus = next(m for m in rec["members"] if m["id"] == "acanthus_row_1")
+
+        def change(svg):
+            def one(m):
+                u, v = pl.model((float(m.group(1)), float(m.group(2))))
+                if abs(v - acanthus["y_top_in"]) < 0.01 and u > pl.naked() + 0.01:
+                    return "A 9 9 0 0 1 %s,%s" % (m.group(1), m.group(2))
+                return m.group(0)
+            fill = re.search(r'<path d="([^"]+)" fill="#[0-9a-fA-F]+"', svg)
+            new_d = re.sub(r"L ([\d.]+),([\d.]+)", one, fill.group(1), count=0)
+            return svg.replace(fill.group(1), new_d, 1)
+        got = _verdicts(monkeypatch, "P8", _planted(plate, change))
+        assert got == ["disagrees"], got
+
+    def test_p13_sees_a_section_passed_off_as_the_capital(self, monkeypatch):
+        """WP-14.2 made the Ionic capitals say their volute is not recorded, so P13 has no live
+        disagreement; this is that silence put back."""
+        got = _verdicts(monkeypatch, "P13", _planted(
+            "vignola-ionic-capital-profile", lambda s: s.replace("NOT RECORDED: THE VOLUTE", "THE VOLUTE")))
         assert got == ["disagrees"], got
 
     def test_a_plate_with_no_frame_is_unjudged_and_not_a_crash(self, monkeypatch):

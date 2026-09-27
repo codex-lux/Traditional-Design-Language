@@ -76967,9 +76967,9 @@
         "path": "assets/generated/benjamin-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 830,
-        "bytes": 3592,
-        "sha256": "c58d744c36e213fa032187bd2b13673ce5abea063000b989666d0ee2fa145b59"
+        "height": 841,
+        "bytes": 4016,
+        "sha256": "d1f99c214811ddf32da07b41cfaadc94e90c4dcf0b3c5ec0cec0532414a07c60"
       },
       "status": "sourced",
       "priority": "high",
@@ -77182,9 +77182,9 @@
         "path": "assets/generated/benjamin-ionic-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 747,
-        "bytes": 3177,
-        "sha256": "cc2affc5710526b25bafd6ab4b9ca7d49fd375fd658c22c868e4a2e0892bf770"
+        "height": 769,
+        "bytes": 3417,
+        "sha256": "5ac168525fbfc03ad82d9b31871d91c562818f3e76c7c62694c5b536240177a0"
       },
       "status": "sourced",
       "priority": "high",
@@ -77441,8 +77441,8 @@
         "format": "svg",
         "width": 738,
         "height": 841,
-        "bytes": 4216,
-        "sha256": "2a65c71fdf20e5b700bf2c6ffe501cd7de3f82d1105c4b7cfce6505925618cea"
+        "bytes": 4599,
+        "sha256": "081880c021395fcd8b132161e221a031fb9d06c952a9fcd838c4a57afac54584"
       },
       "status": "sourced",
       "priority": "high",
@@ -77569,9 +77569,9 @@
         "path": "assets/generated/chambers-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 830,
-        "bytes": 3580,
-        "sha256": "63530a0fe3c610f3ceae932767021d2880c474e7c746e1d3b595e154703903f8"
+        "height": 841,
+        "bytes": 4004,
+        "sha256": "a6f3745c975951a144d9afd34350386f9a5b656f2940a21139e2ecd0f33b8633"
       },
       "status": "sourced",
       "priority": "high",
@@ -77827,9 +77827,9 @@
         "path": "assets/generated/chambers-ionic-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 747,
-        "bytes": 3165,
-        "sha256": "875fdc1b5ecb7d7b2cf91e817e91983a08497767ec2e4f96f24096e6f00c28ea"
+        "height": 769,
+        "bytes": 3405,
+        "sha256": "1f14d25700eb745a62df50972aa88a426962b3769d86739d3330479ce9aca481"
       },
       "status": "sourced",
       "priority": "high",
@@ -78086,8 +78086,8 @@
         "format": "svg",
         "width": 738,
         "height": 841,
-        "bytes": 4207,
-        "sha256": "fabbfb821693e32df0b2e90de9dafab706775de9dda6365294d7498908cc2be4"
+        "bytes": 4590,
+        "sha256": "aab6e6d57b5760c2cc7f6efd2ebe583d2ec03eabbf70a7dd15e757573497f636"
       },
       "status": "sourced",
       "priority": "high",
@@ -78214,9 +78214,9 @@
         "path": "assets/generated/gibbs-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 830,
-        "bytes": 3571,
-        "sha256": "f51632f8f5c345d32265f29d5dc2b216183c4af7a5be2cbdefe8a2ac4b6a7725"
+        "height": 841,
+        "bytes": 3995,
+        "sha256": "42b476dd236ae88a2e4158dce3fe858546630cee8caf72a730aa1f9c9735f77c"
       },
       "status": "sourced",
       "priority": "high",
@@ -78472,9 +78472,9 @@
         "path": "assets/generated/gibbs-ionic-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 722,
-        "bytes": 3143,
-        "sha256": "ef8961712892a50e891163eb580ade150660d756db10b01ba7da1d20e1e6bfaa"
+        "height": 733,
+        "bytes": 3419,
+        "sha256": "8eb6c7646733ebb23ac23d747366a3a9f2cc55cafbbc9861a6815baa7c9e1a29"
       },
       "status": "sourced",
       "priority": "high",
@@ -78817,8 +78817,8 @@
         "format": "svg",
         "width": 738,
         "height": 841,
-        "bytes": 4220,
-        "sha256": "2464af17a6e3304be4fb1bf6dabcafa1be890a2dce119f65088aacdfa6a43f36"
+        "bytes": 4603,
+        "sha256": "c5bf8c42932474201c6de5f362db0a5424bad5855cd17f9488e06d7227a3c73a"
       },
       "status": "sourced",
       "priority": "high",
@@ -78945,9 +78945,9 @@
         "path": "assets/generated/palladio-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 830,
-        "bytes": 3584,
-        "sha256": "ccc610d49db3dd9432ffd71519c78137e3b4e4fee61ce9713c17c133fcf31f4c"
+        "height": 841,
+        "bytes": 4008,
+        "sha256": "cfbc5c34ff28d893e86057a27a88ce7fcffa6decfc67e1ecadba70e4f64939fc"
       },
       "status": "sourced",
       "priority": "high",
@@ -79203,9 +79203,9 @@
         "path": "assets/generated/palladio-ionic-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 766,
-        "bytes": 3178,
-        "sha256": "c8e70be0397537da95d6438901b52872936aa42fc24c1944117fad53ce8192fb"
+        "height": 788,
+        "bytes": 3418,
+        "sha256": "2b2f47fd508ed80476cffc1fc8fd00c2490fb30f4eef58bebb10900b06d1fd68"
       },
       "status": "sourced",
       "priority": "high",
@@ -79462,8 +79462,8 @@
         "format": "svg",
         "width": 738,
         "height": 808,
-        "bytes": 3890,
-        "sha256": "ae2e37a0cbc0e0bfeedb09792bfb1323b250e43f7d94377392a9fe0a32f8d048"
+        "bytes": 4273,
+        "sha256": "ed6ee208cddf950761b9b0b36a0b9581cbe05dcf5a0d7e30c3956daed9d25a61"
       },
       "status": "sourced",
       "priority": "high",
@@ -79590,9 +79590,9 @@
         "path": "assets/generated/vignola-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 797,
-        "bytes": 3252,
-        "sha256": "37cbba9c0c24a3a10b615bc4f420f9bf014a552e1120300628fc0eac1e5dc23e"
+        "height": 808,
+        "bytes": 3676,
+        "sha256": "656222e80eadb3f90e74a5c106394e9ae7846917989f33e10aa5668e64b13f35"
       },
       "status": "sourced",
       "priority": "high",
@@ -79848,9 +79848,9 @@
         "path": "assets/generated/vignola-ionic-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 714,
-        "bytes": 2847,
-        "sha256": "6661c9c5009f09a5f957f2e927504f3ec3432546067c51853edc9f16c4154b4b"
+        "height": 736,
+        "bytes": 3087,
+        "sha256": "bbcdb2871a678d5e0429cbdb598c352c2fb50ccbb03c6ac6262bb92a0e0715ed"
       },
       "status": "sourced",
       "priority": "high",

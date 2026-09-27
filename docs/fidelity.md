@@ -114,11 +114,12 @@ join the app without either a census row or a stated reason it is not an archite
 | P5 | profile-plates | every member boundary the record states is a drawn vertex, and the drawn height is the stated height | every committed profile plate | 73 | 73 | 0 | 0 |
 | P6 | profile-plates | a member whose face is at its mid-height (a step or a half round) is drawn out to the face its record states | members with a published projection | 73 | 68 | 0 | 5 |
 | P7 | profile-plates | a member the record gives no projection for is SAID to have none, not drawn as though measured flush -- and a plate where every member publishes one says that | every committed profile plate | 73 | 73 | 0 | 0 |
-| P8 | profile-plates | a member the plate calls NOT CONSTRUCTED has no curve drawn for it | plates holding a volute or acanthus member | 10 | 0 | 10 | 0 |
+| P8 | profile-plates | a member the plate calls NOT CONSTRUCTED has no curve drawn for it | plates holding a volute or acanthus member | 10 | 10 | 0 | 0 |
 | P9 | profile-plates | a plate showing another authority's members says whose they are | every committed profile plate | 73 | 73 | 0 | 0 |
 | P10 | profile-plates | a member whose record confidence is not high is marked as such on the plate | plates holding a medium- or low-confidence member | 65 | 0 | 65 | 0 |
 | P11 | profile-plates | a curved member drawn as a straight line says so | plates holding a curved profile kind | 49 | 46 | 3 | 0 |
 | P12 | profile-plates | the committed plate is the renderer's current output | every committed profile plate | 73 | 73 | 0 | 0 |
+| P13 | profile-plates | a part the assembly's own members are named for, and no member records, is said on the plate -- not drawn as though the section were the whole | plates whose members are named for a part no member records | 4 | 4 | 0 | 0 |
 | E1 | order-stack | the column drawn (base + shaft + capital) is the column height the pack states | order packs stating a column height | 25 | 18 | 5 | 2 |
 | E2 | order-stack | the entablature drawn is the one the pack itself states | order packs that state a whole entablature | 25 | 21 | 4 | 0 |
 | E3 | order-stack | an assembly offered as an ALTERNATIVE to another is never stacked on it (Benjamin's subplinth stands a column instead of a pedestal) | order packs stating a subplinth | 3 | 0 | 3 | 0 |

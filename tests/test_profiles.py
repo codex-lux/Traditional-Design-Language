@@ -241,8 +241,10 @@ class TestRepetition:
 
 
 class TestUnconstructedShapes:
-    """A volute is a spiral whose construction sits on a plate this corpus cannot reach. Drawing a
-    swelling in its place is acceptable; drawing it without saying so is not."""
+    """A volute is a spiral whose construction sits on a plate this corpus cannot reach. It is
+    drawn as its ENVELOPE -- the box its published height and projection bound -- and never as a
+    swelling (WP-14.2): a quarter-ellipse is something plausible, and the plates said that nothing
+    plausible had been drawn while drawing one."""
 
     @pytest.mark.parametrize("profile", ("volute", "acanthus"))
     def test_they_report_themselves(self, profile):
@@ -250,6 +252,31 @@ class TestUnconstructedShapes:
                                 "y_top_in": 4.0, "projection_in": 3.0}], 0.0)
         assert res["unconstructed"]
         assert res["unconstructed"][0]["profile"] == profile
+
+    @pytest.mark.parametrize("profile", ("volute", "acanthus"))
+    def test_the_envelope_is_square_marked_and_the_ink_leaves_it_to_the_dashed_box(self, profile):
+        res = PROF.silhouette([{"id": "m", "profile": profile, "y_bottom_in": 1.0,
+                                "y_top_in": 5.0, "projection_in": 3.0}], 0.0)
+        body = [s for s in res["segments"] if s.get("unconstructed")]
+        assert body and all(s["kind"] == "line" and s.get("envelope") for s in body), body
+        assert not any(s["kind"] == "arc" for s in res["segments"])
+        u = res["unconstructed"][0]
+        assert (u["x0"], u["x1"], u["y0"], u["y1"]) == (0.0, 3.0, 1.0, 5.0)
+        assert res["envelope_path"] == PROF.envelope_box(0.0, 1.0, 3.0, 5.0)
+        ink = PROF.svg_path(res["segments"], start=res["start"], ghosts="move")
+        fill = PROF.svg_path(res["segments"], start=res["start"])
+        assert "L 3.000,5.000" in fill and "L 3.000,5.000" not in ink
+
+    def test_a_part_named_and_not_recorded_is_found_by_the_names_and_never_by_a_note(self):
+        channel = [{"id": "volute_gorge", "name": "Gorge", "profile": "cavetto"},
+                   {"id": "abacus", "name": "Abacus", "profile": "abacus"}]
+        got = PROF.named_not_recorded(channel)
+        assert got == [{"part": "volute", "profile": "volute", "named_by": ["volute_gorge"]}]
+        assert PROF.named_not_recorded(channel + [{"id": "v", "name": "Scroll",
+                                                   "profile": "volute"}]) == []
+        noted = [{"id": "astragal", "name": "Astragal", "profile": "astragal",
+                  "note": "level with the eye of the volute"}]
+        assert PROF.named_not_recorded(noted) == []
 
     def test_a_constructed_stack_reports_nothing(self):
         res = PROF.silhouette([{"id": "m", "profile": "ovolo", "y_bottom_in": 0.0,

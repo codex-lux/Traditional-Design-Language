@@ -1045,6 +1045,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
     if ghosts:
         s.append(f'<path class="ghost" d="{ghosts}" fill="none" stroke="{PAL["ink"]}" '
                  f'stroke-width="0.7" stroke-dasharray="3 2"/>')
+    envs = " ".join(e for e in (PROF.envelope_box(u["x0"], u["y0"], u["x1"], u["y1"], isx, isy)
+                                for u in sil["unconstructed"]) if e)
+    if envs:
+        s.append(f'<path class="envelope" d="{envs}" fill="none" stroke="{PAL["ink"]}" '
+                 f'stroke-width="0.7" stroke-dasharray="1.5 2"/>')
 
     # Member leaders. Each member is named at its own height, decluttered downward so two thin
     # members cannot print over each other -- a label that overlaps its neighbour names nothing.
@@ -1100,7 +1105,8 @@ def render_elevation(elev, path, face=None, scale=24.0):
         cap.append(f"ORDER PROJECTS {relief:.1f}″; THE DOMESTIC ENVELOPE RULE SAYS {env:.1f}″ — BOTH SOURCED")
     if sil["unconstructed"]:
         # Never draw a shape this corpus has no construction for without saying which.
-        cap.append(", ".join(sorted({u["profile"].upper() for u in sil["unconstructed"]})) + " NOT CONSTRUCTED")
+        cap.append(", ".join(sorted({u["profile"].upper() for u in sil["unconstructed"]}))
+                   + " NOT CONSTRUCTED — DRAWN AS THE DASHED BOX THEIR HEIGHT AND PROJECTION BOUND")
     if sil["unpublished"]:
         # A face drawn flush because the authority published no figure looks exactly like a face
         # measured flush. Saying which is the whole difference.

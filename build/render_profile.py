@@ -123,8 +123,26 @@ def _count_words(n_members, n_unpublished):
             "no face is drawn for them." % n_unpublished)
 
 
+def _unconstructed_words(unconstructed):
+    """What the plate says about a member it holds no construction for, and it says what the INK
+    does (WP-14.2). This read "NOT CONSTRUCTED, AND NOT DRAWN AS SOMETHING PLAUSIBLE" over a
+    quarter-ellipse swelling -- which is something plausible, drawn."""
+    return ("NOT CONSTRUCTED: DRAWN AS THEIR DASHED ENVELOPE, THE BOX THEIR HEIGHT AND PROJECTION "
+            "BOUND, WITH NO SHAPE INSIDE IT: " + ", ".join(_named(unconstructed)))
+
+
+def _not_recorded_words(n):
+    """A part the assembly's own members are named for and no member records (WP-14.2): four of
+    the five Ionic capitals record the volute's channel and fillet and no volute, and said
+    nothing, so the capital's section passed for the capital."""
+    return ("NOT RECORDED: THE %s. %s %s named for it and no member records it, so this plate is "
+            "the assembly's section and draws no %s."
+            % (n["part"].upper(), ", ".join(str(x).replace("_", " ") for x in n["named_by"]),
+               "is" if len(n["named_by"]) == 1 else "are", n["part"]))
+
+
 def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, relief, unconstructed,
-                  published=True, n_unpublished=0):
+                  published=True, n_unpublished=0, not_recorded=()):
     """What the plate says about itself. One function, because the height calculation and the
     drawing both read it and a second copy would let them disagree about how tall it is.
 
@@ -149,14 +167,14 @@ def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, reli
         auth = (src.get("authority") or {}).get("source")
         if auth:
             lines.append("AFTER: " + auth)
-        return lines + ([] if not unconstructed else [
-            "NOT CONSTRUCTED, AND NOT DRAWN AS SOMETHING PLAUSIBLE: " + ", ".join(_named(unconstructed))])
+        return lines + ([] if not unconstructed else [_unconstructed_words(unconstructed)]) + \
+            [_not_recorded_words(n) for n in not_recorded]
     auth = (pack.get("authority") or {}).get("source")
     if auth:
         lines.append("AFTER: " + auth)
     if unconstructed:
-        lines.append("NOT CONSTRUCTED, AND NOT DRAWN AS SOMETHING PLAUSIBLE: "
-                     + ", ".join(_named(unconstructed)))
+        lines.append(_unconstructed_words(unconstructed))
+    lines += [_not_recorded_words(n) for n in not_recorded]
     return lines
 
 
@@ -226,7 +244,8 @@ def render(pack_id, assembly_id, module_in=6.0):
     # left the other still passing `module_in`: the plate would have been sized for one footer
     # and drawn with another.
     footer = _footer_lines(pack, pack_id, assembly_id, diameter_in, members, y1 - y0, relief,
-                           unconstructed, published, len(ghost_ids))
+                           unconstructed, published, len(ghost_ids),
+                           sil.get("named_not_recorded") or ())
     for _ln in footer:
         _foot_rows += max(1, -(-len(_ln) // _foot_budget))
     H = int(pad * 2 + box_h + 34 + _foot_rows * 11)
@@ -279,6 +298,11 @@ def render(pack_id, assembly_id, module_in=6.0):
     if ghosts:
         s.append(f'<path class="ghost" d="{ghosts}" fill="none" stroke="{PAL["ink"]}" '
                  f'stroke-width=".7" stroke-dasharray="3 2"/>')
+    envs = " ".join(e for e in (PROF.envelope_box(u["x0"], u["y0"], u["x1"], u["y1"], sx, sy)
+                                for u in unconstructed) if e)
+    if envs:
+        s.append(f'<path class="envelope" d="{envs}" fill="none" stroke="{PAL["ink"]}" '
+                 f'stroke-width=".7" stroke-dasharray="1.5 2"/>')
 
     # Member leaders, decluttered upward. Members arrive bottom-to-top, so screen y decreases as
     # the list advances and each label must clear the one BELOW it; nudging the other way walks

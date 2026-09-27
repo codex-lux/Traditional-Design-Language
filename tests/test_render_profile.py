@@ -72,14 +72,31 @@ def test_every_plate_says_it_is_not_a_building():
 
 def test_an_unconstructed_member_is_named_and_not_invented():
     """`vignola-corinthian`'s capital has two acanthus rows and a caulicoli this corpus records
-    no construction for. They draw as the plain bell they are and the plate says so. A drawing
-    that quietly substitutes a plausible swelling for a construction it does not have is the
-    laundering this corpus forbids, in ink instead of in JSON."""
+    no construction for. They draw as their dashed ENVELOPE (WP-14.2) and the plate says so, in
+    words that describe that ink. A drawing that quietly substitutes a plausible swelling for a
+    construction it does not have is the laundering this corpus forbids, in ink instead of in
+    JSON -- and until WP-14.2 the plates did exactly that under a line saying they had not."""
     svg, rep = RP.render("vignola-corinthian", "capital", module_in=6.0)
     assert len(rep["unconstructed"]) == 3, rep["unconstructed"]
-    assert "NOT CONSTRUCTED" in svg
+    assert "NOT CONSTRUCTED: DRAWN AS THEIR DASHED ENVELOPE" in svg
+    assert "NOT DRAWN AS SOMETHING PLAUSIBLE" not in svg
+    env = re.search(r'<path class="envelope" d="([^"]+)"[^>]*stroke-dasharray', svg)
+    assert env and env.group(1).count("Z") == 3, "one dashed box per unconstructed member"
+    # read as a reader reads it: the disclosure wraps, and a name split across two lines is
+    # still on the plate
+    text = re.sub(r"\s+", " ", " ".join(re.findall(r">([^<]*)</text>", svg)))
     for name in ("acanthus row 1", "caulicoli"):
-        assert name in svg, name
+        assert name in text, name
+
+
+def test_a_section_that_names_a_volute_it_does_not_record_says_so():
+    """Vignola's Ionic capital records `volute_gorge` and `volute_fillet` and no volute: the
+    section through the channel, which every surface presented as the capital (WP-14.2)."""
+    svg, rep = RP.render("vignola-ionic", "capital", module_in=6.0)
+    text = re.sub(r"\s+", " ", " ".join(re.findall(r">([^<]*)</text>", svg)))
+    assert "NOT RECORDED: THE VOLUTE. volute gorge, volute fillet are named for it" in text
+    svg, rep = RP.render("gibbs-ionic", "capital", module_in=6.0)
+    assert "NOT RECORDED" not in svg      # Gibbs records his volute: nothing to say
 
 
 def test_a_fully_constructed_plate_makes_no_such_claim():

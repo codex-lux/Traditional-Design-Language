@@ -172,6 +172,18 @@ radius, never on the `R × 1.2` it used to invent. The 46 written zeros that rem
 zero, and `tests/test_unpublished_projections.py` pins why: a datum plane, the origin of a relief
 sequence, or a note that says so.
 
+**A shape the corpus cannot construct is drawn as its envelope, and a part it does not record is
+named** (WP-14.2). A volute, an acanthus row and the caulicoli have a published height and face and
+no construction here (the OQ 7–11 class). They used to be drawn as a quarter-ellipse swelling under
+plate words promising that nothing plausible had been drawn. That swelling *was* something plausible.
+Each is now the box its two figures bound. The edges are marked `envelope`, the ink does not stroke
+them, and `envelope_path` draws the box dashed, so no capital inks a curve for a member it says is
+not constructed. And where an assembly's own members are *named* for such a part and no member
+records it, `named_not_recorded()` says so. Four of the five Ionic capitals record the volute's
+channel and fillet and no volute, and every surface had presented that section as the capital. The
+test reads member names, never notes: the shaft's upper astragal note mentions the volute's eye, and
+a shaft owes no volute.
+
 **The paths are serialised in Python, in model space, and no consumer re-derives a curve** (OQ 83).
 `pack_geometry` emits `path` per pack and per face in MODEL inches (x out from the axis, y up); the
 order tool and the workbench plate apply an SVG `<g transform="… scale(k,-k)">`. A model-space path

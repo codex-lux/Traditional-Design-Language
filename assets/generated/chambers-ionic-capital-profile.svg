@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 747" width="738" height="747" data-frame='{"plates":[{"id":"capital","proj":"profile","unit":"in","px_per_in":137.144816,"origin_px":[70,74],"at_origin_in":[5.0,140.4],"datum":"axis"}]}'>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 769" width="738" height="769" data-frame='{"plates":[{"id":"capital","proj":"profile","unit":"in","px_per_in":137.144816,"origin_px":[70,74],"at_origin_in":[5.0,140.4],"datum":"axis"}]}'>
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
-<rect width="738" height="747" fill="#faf8f3"/>
+<rect width="738" height="769" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Chambers's Ionic Order (overlay on Vignola) — capital</text>
 <rect class="pf" x="36" y="38" width="666" height="591"/>
 <line x1="70.0" y1="622.6" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
@@ -23,4 +23,6 @@
 <text class="dm" x="44" y="687.0">INHERITED: chambers-ionic STATES NO CAPITAL OF ITS OWN. These members are vignola-ionic's, delivered by the overlay, and the</text>
 <text class="dm" x="44" y="698.0">citation below is THEIRS.</text>
 <text class="dm" x="44" y="709.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII</text>
+<text class="dm" x="44" y="720.0">NOT RECORDED: THE VOLUTE. volute gorge, volute fillet are named for it and no member records it, so this plate is the assembly's</text>
+<text class="dm" x="44" y="731.0">section and draws no volute.</text>
 </svg>

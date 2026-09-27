@@ -445,6 +445,32 @@ def p12():
     return out
 
 
+@check("P13", "profile-plates", "a part the assembly's own members are named for, and no member "
+       "records, is said on the plate -- not drawn as though the section were the whole",
+       "plates whose members are named for a part no member records")
+def p13():
+    """Read off the RECORD's own member names, independently of `profiles.named_not_recorded`:
+    four Ionic capitals record the volute's channel and fillet and no volute (WP-14.2)."""
+    out = []
+    parts = (("volute", "volute"), ("acanthus", "acanthus"), ("caulicol", "volute"))
+    for a, g, pl, rec in _profile_assets():
+        members = list(rec["raw"].values())
+        profs = {(m.get("profile") or "").lower() for m in members}
+        missing = [w for w, prof in parts if prof not in profs and any(
+            w in ((m.get("id") or "") + " " + (m.get("name") or "")).lower() for m in members)]
+        if not missing:
+            continue
+        unsaid = [w for w in missing if ("NOT RECORDED: THE %s" % w.upper())
+                  not in pl.flat_text.upper()]
+        if unsaid:
+            out.append(row("P13", a["id"], "disagrees",
+                           "members are named for a %s no member records, and the plate says "
+                           "nothing" % ", ".join(unsaid)))
+        else:
+            out.append(row("P13", a["id"], "agrees", ", ".join(missing)))
+    return out
+
+
 # ------------------------------------------------------------------ the order stack (link 2)
 # The orders tool and the Proportions plate draw a WHOLE column and entablature, stacked by the
 # engine's `stack_for` and dimensioned by `dimension()` -- the orders page through a JavaScript

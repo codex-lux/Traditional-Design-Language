@@ -52,8 +52,13 @@ WHERE THE SHAPES COME FROM, and what is construction rather than measurement:
   * bevel                            the straight line it is.
   * volute, acanthus                 NOT CONSTRUCTED. A volute is a spiral whose construction is
                                      on a plate this corpus cannot reach (the OQ 7-11 class), and
-                                     an acanthus is foliage, not a curve. These return a plain
-                                     swelling and set `unconstructed`, so a caller can say so.
+                                     an acanthus is foliage, not a curve. They are drawn as their
+                                     ENVELOPE -- the box their published height and projection
+                                     bound -- with edges marked `envelope` that the ink does not
+                                     stroke, and `envelope_path` draws that box dashed. They used to
+                                     return a swelling under words saying they were "NOT DRAWN AS
+                                     SOMETHING PLAUSIBLE" (WP-14.2): a quarter-ellipse IS something
+                                     plausible, which is exactly why it was the wrong mark.
   * any member whose projection      NOT CONSTRUCTED EITHER, and for a sharper reason (WP-14.2): a
     nobody published                 construction needs the face, and the face is the figure nobody
                                      transcribed. It used to arrive as a 0, and a torus built from a
@@ -204,6 +209,43 @@ def ghost_bracket(x, y0, y1, tick, sx=None, sy=None):
                     for i, (u, v) in enumerate(pts))
 
 
+def envelope_box(x0, y0, x1, y1, sx=None, sy=None):
+    """The dashed box an UNCONSTRUCTED member is drawn as: from its naked to its published face,
+    across its height. MODEL space unless given the caller's screen transforms. One rule, so every
+    surface draws the same mark for the same unknown shape."""
+    if y1 - y0 <= _EPS or abs(x1 - x0) <= _EPS:
+        return ""
+    sx = sx or (lambda v: v)
+    sy = sy or (lambda v: v)
+    pts = ((x0, y0), (x1, y0), (x1, y1), (x0, y1))
+    return " ".join(("M" if i == 0 else "L") + " %.4f,%.4f" % (sx(u), sy(v))
+                    for i, (u, v) in enumerate(pts)) + " Z"
+
+
+# The parts this module cannot construct, and the member profile that records each. A member NAMED
+# for one of these, in an assembly where no member records it, is a part the record points at and
+# does not hold.
+NAMED_PARTS = (("volute", "volute"), ("acanthus", "acanthus"), ("caulicol", "volute"))
+
+
+def named_not_recorded(members):
+    """Parts an assembly's own members are NAMED for that no member records (WP-14.2).
+
+    Vignola's Ionic capital records `volute_gorge` -- "the face of the volute channel" -- and
+    `volute_fillet`, and no member whose profile is a volute, so every surface drew an Ionic
+    capital with no volute and said nothing: the section through the channel, presented as the
+    capital. Four of the five Ionic packs inherit it. Names only, never notes: the shaft's upper
+    astragal NOTE mentions the volute's eye, and a shaft owes no volute."""
+    profs = {(m.get("profile") or "").lower() for m in members}
+    out = []
+    for word, prof in NAMED_PARTS:
+        named = [m.get("id") for m in members
+                 if word in ((m.get("id") or "") + " " + (m.get("name") or "")).lower()]
+        if named and prof not in profs:
+            out.append({"part": word, "profile": prof, "named_by": named})
+    return out
+
+
 def _extent(start, segments):
     """(x0, y0, x1, y1) of a walk: its start, every end point, and every arc's own extremes. An
     arc's bounding box is NOT its two end points' box -- a quarter that swells past both of them
@@ -343,10 +385,13 @@ def member_path(profile, x_from, y0, x_face, y1, note=None):
         return segs, x_face
 
     if p in UNCONSTRUCTED:
-        # Said plainly rather than drawn confidently: this is a swelling standing in for a shape
-        # this corpus does not hold the construction for.
-        segs.append(_ell_arc(x_from, y1, dx, h, (x_from, y0), (x_face, y1)))
-        segs[-1]["unconstructed"] = p
+        # THE ENVELOPE, NOT A SWELLING (WP-14.2). What the record gives is a height and a face; the
+        # shape between is a spiral or a leaf this corpus has no construction for. So the member
+        # is drawn as the box those two figures bound -- square edges, each marked `envelope`,
+        # which the ink does not stroke and `envelope_path` draws dashed. The swelling this
+        # replaced was a quarter-ellipse under words promising nothing plausible had been drawn.
+        segs.append(dict(_line(x_face, y0), unconstructed=p, envelope=True))
+        segs.append(dict(_line(x_face, y1), unconstructed=p, envelope=True))
         return segs, x_face
 
     # Square step -- fillet, fascia, corona, plinth, abacus, and the repeating members whose
@@ -397,7 +442,8 @@ def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
     with ticks `tick` inches long (by default a tenth of the greatest published relief)."""
     if not members:
         return {"start": (0.0, 0.0), "segments": [], "unconstructed": [], "unpublished": [],
-                "ghost_path": "", "ghost_tick": 0.0, "notes": []}
+                "ghost_path": "", "ghost_tick": 0.0, "envelope_path": "",
+                "named_not_recorded": [], "notes": []}
     if naked_at is None:
         naked_at = 0.0
     nk = naked_at if callable(naked_at) else (lambda _y, _v=float(naked_at): _v)
@@ -419,9 +465,10 @@ def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
         face = outer_face(naked, p, from_axis)
         relief = max(relief, face - naked)
         segs, x_cur = member_path(m.get("profile"), x_cur, y0, face, y1, note=m.get("note"))
-        for s in segs:
-            if s.get("unconstructed"):
-                unconstructed.append({"id": m.get("id"), "profile": s["unconstructed"]})
+        if any(s.get("unconstructed") for s in segs):
+            unconstructed.append({"id": m.get("id"), "profile": (m.get("profile") or "").lower(),
+                                  "x0": round(naked, 6), "x1": round(face, 6),
+                                  "y0": y0, "y1": y1})
         out.extend(segs)
     if close and out:
         y_end = members[-1]["y_top_in"]
@@ -431,9 +478,12 @@ def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
         tick = relief * 0.1 if relief > 0 else float("inf")
     ghosts = " ".join(g for g in (ghost_bracket(u["x"], u["y0"], u["y1"], tick)
                                   for u in unpublished) if g)
+    envelopes = " ".join(e for e in (envelope_box(u["x0"], u["y0"], u["x1"], u["y1"])
+                                     for u in unconstructed) if e)
     return {"start": (round(x_cur if not out else nk(y_start), 6), round(y_start, 6)),
             "segments": out, "unconstructed": unconstructed, "unpublished": unpublished,
-            "ghost_path": ghosts, "ghost_tick": tick, "notes": []}
+            "ghost_path": ghosts, "ghost_tick": tick, "envelope_path": envelopes,
+            "named_not_recorded": named_not_recorded(members), "notes": []}
 
 
 # ---------------------------------------------------------------- repetition
@@ -559,7 +609,7 @@ def _seg_cmds_model(segments, ghosts="draw"):
     out = []
     for s in segments:
         if s["kind"] == "line":
-            op = "M" if (ghosts == "move" and s.get("ghost")) else "L"
+            op = "M" if (ghosts == "move" and (s.get("ghost") or s.get("envelope"))) else "L"
             out.append(f"{op} {s['to'][0]:.4f},{s['to'][1]:.4f}")
         elif s["kind"] == "arc":
             # y is UP here and the transform that flips it is the caller's `<g>`, so the model
@@ -801,15 +851,17 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
             faces.append({"id": m.get("id"), "x": round(face, 5), "tapered": False,
                           "x_from": round(x_from, 5), "y0": y0, "y1": y1, "segments": ms,
                           "projection": "published"})
-            for s in ms:
-                if s.get("unconstructed"):
-                    uncon.append({"assembly": aid, "id": m.get("id"), "profile": s["unconstructed"]})
+            if any(s.get("unconstructed") for s in ms):
+                uncon.append({"assembly": aid, "id": m.get("id"),
+                              "profile": (m.get("profile") or "").lower(),
+                              "x0": round(naked, 5), "x1": round(face, 5), "y0": y0, "y1": y1})
             segs.extend(ms)
         out["assemblies"].append({
             "id": aid, "y0": a["y_bottom_in"], "y1": a["y_top_in"],
             "naked_in": round(datum_for(aid, a["y_bottom_in"]), 5),
             "start": (round(start[0], 5), round(start[1], 5)),
             "segments": segs, "faces": faces,
+            "named_not_recorded": named_not_recorded(a["members"]),
         })
         out["unconstructed"].extend(uncon)
     # OQ 83: the finished paths, so no consumer re-derives a curve or a sweep flag. `path` is the
@@ -820,6 +872,8 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
     out["outline_path"] = silhouette_path_model(out, stroke=True)
     out["ghost_path"] = " ".join(g for g in (ghost_bracket(u["x"], u["y0"], u["y1"], tick)
                                              for u in out["unpublished"]) if g)
+    out["envelope_path"] = " ".join(e for e in (envelope_box(u["x0"], u["y0"], u["x1"], u["y1"])
+                                                for u in out["unconstructed"]) if e)
     for a in out["assemblies"]:
         for f in a.get("faces", []):
             segs = f.get("segments") or []
@@ -849,7 +903,8 @@ def svg_path(segments, sx=None, sy=None, start=None, ghosts="draw"):
     """An SVG `d` string. sx/sy are the same screen transforms every renderer here already uses.
 
     `ghosts="move"` is the INK of a silhouette rather than its fill (WP-14.2): an unpublished
-    member's edges become moves, so no outline is drawn across a face nobody measured, and the
+    member's edges become moves, so no outline is drawn across a face nobody measured -- and so
+    do an unconstructed member's envelope edges, which `envelope_path` draws dashed -- and the
     closing edge is not drawn at all. That edge runs back down the NAKED, which is exactly where
     every ghost stands, so stroking it drew a solid line across the very members the brackets say
     are unknown -- found by looking at the first plate rendered this way. The naked is the plate's
@@ -887,7 +942,7 @@ def svg_path(segments, sx=None, sy=None, start=None, ghosts="draw"):
             if ghosts != "move":
                 d.append("Z")
         elif s["kind"] == "line":
-            op = "M" if (ghosts == "move" and s.get("ghost")) else "L"
+            op = "M" if (ghosts == "move" and (s.get("ghost") or s.get("envelope"))) else "L"
             d.append(f"{op} {sx(s['to'][0]):.3f},{sy(s['to'][1]):.3f}")
         else:
             ccw = s["a1"] > s["a0"]
