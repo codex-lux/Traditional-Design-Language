@@ -44,15 +44,22 @@ Every defect falls into one of four classes, and the class decides the remedy:
 - **D. An unpublished, apportioned, editorial or judgment figure drawn as if it were measured.**
   Marked on the plate and said in words.
 
-## The known disagreements are held by identity
+## The known disagreements are held by identity, with their figures
 
-`tests/fixtures/ink_known_disagreements.json` names every row that disagrees today, and
-`tests/test_svg_census.py` holds the live set **equal** to it. A new disagreement fails the build;
-a fixed one fails it too until it is removed from the file. That is the one-way door
+`tests/fixtures/ink_known_disagreements.json` names every row that disagrees today and what it
+measured, and `tests/test_svg_census.py` holds the live map **equal** to it. A new disagreement
+fails the build. A fixed one fails it too, until it is removed from the file. So does one whose
+figures moved, until a commit re-pins it and says which way and why. That is the one-way door
 `build/measured_unsourced_grandfathered.json` already uses. It was chosen over `xfail`, which
 passes whether or not the defect is still there, and over a permanently red build, because a
 suite already red for one cause cannot report a second (WP-13.8's finding about three
 `test_composer.py` rows that absorbed a second regression in silence).
+
+**The figures are pinned because ids alone were measured blind.** The first version held only
+the ids. Corrupting V1's own rung table, and making V5 count the wrong muntins, both left the
+build green: every V1 and V5 row already disagreed, so a change in *what* a row reported could
+not be seen. The same finding, one level down: a row red for one cause cannot report a second
+unless its figures are held as well as its verdict.
 
 ## Running it
 
@@ -125,6 +132,21 @@ join the app without either a census row or a stated reason it is not an archite
 | R1 | proportions-plate | the plate's frame holds its own ink (the dimension gutter begins where the widest moulding ends) | order packs the plate draws, at 12 in | 25 | 13 | 12 | 0 |
 | R2 | proportions-plate | the members the plate says 'state no projection at all' are exactly the members whose record states none | order packs the plate draws, at 12 in | 25 | 8 | 17 | 0 |
 | R3 | proportions-plate | the datum the plate's caption states is the datum every assembly was drawn on | order packs the plate draws, at 12 in | 25 | 11 | 14 | 0 |
+| V1 | elevation | every mark carrying a line-weight rung is drawn at that rung's width | every elevation sheet (plans x faces) | 44 | 0 | 44 | 0 |
+| V2 | elevation | nothing the style's resolved kit forbids is drawn, slot or variant (the row names where each prohibition comes from) | every node with a kit, on the Tidewater placement | 159 | 80 | 79 | 0 |
+| V3 | elevation | every transom or sidelight variant the style's kit makes canonical is drawn | every node with a kit, on the Tidewater placement | 26 | 0 | 26 | 0 |
+| V4 | elevation | each shutter leaf is (opening - 1 in) / 2, sash-light's own rule, 'so that the pair actually covers the window when closed' | elevation sheets drawing shutters | 24 | 0 | 24 | 0 |
+| V5 | elevation | the lights drawn in a sash are sash-light's own count for the width the window is drawn at | elevation sheets drawing a glazed sash | 27 | 0 | 27 | 0 |
+| V6 | elevation | a door the plan calls a garage door is not drawn as a six-panel leaf | plans placing a garage door on an elevation face | 4 | 0 | 4 | 0 |
+| V7 | elevation | an arched head is drawn as the circular segment it is set out as, not a parabola | elevation sheets drawing an arched head: shipped plans, and every style's front | 162 | 162 | 0 | 0 |
+| V8 | elevation | a figure its own rule marks judgment is not published as a measurement | plans whose elevation draws | 11 | 0 | 11 | 0 |
+| V9 | elevation | a size drawn with no figure behind it is said: the keystone's depth x 0.6 and the chimney's 22 in fallback | sheets drawing a keystone or a chimney: shipped plans, and every style's front | 163 | 163 | 0 | 0 |
+| V11 | elevation | an opening or a belt that misses the brick courses the sheet draws is said to | masonry elevation sheets | 3 | 0 | 3 | 0 |
+| V13 | elevation | the eave inset draws every cornice member at the height and face its record states | elevation sheets drawing the eave inset | 11 | 11 | 0 | 0 |
+| S1 | section | exterior walls are drawn as bodies of the thickness the record states | plans whose section draws | 16 | 0 | 16 | 0 |
+| F1 | roof | a chimney stack is drawn at the plan size the record states, and a judged size is said to be one | plans whose roof plan draws a stack | 1 | 0 | 1 | 0 |
+| X1 | elevation | the DXF elevation draws the sidelights the SVG draws beside the doorcase | plans whose entrance SVG draws sidelights | 5 | 0 | 5 | 0 |
+| PL1 | plan | a bay grid is drawn on a module the record states, or the sheet says the module is a default | every plan sheet, working register | 16 | 1 | 15 | 0 |
 <!-- census:checks:end -->
 
 ## What each plate states about itself

@@ -79,18 +79,22 @@ class TestTheRegistryIsTheTree:
 # ------------------------------------------------------------------ the known set is the live set
 class TestTheKnownDisagreements:
     def test_the_live_disagreements_are_exactly_the_known_ones(self):
-        known = set(json.load(open(C.KNOWN))["ids"])
-        live = set(C.disagreement_ids(_rows()))
-        new, fixed = sorted(live - known), sorted(known - live)
-        assert not new and not fixed, (
+        known = json.load(open(C.KNOWN))["disagreements"]
+        live = C.disagreements(_rows())
+        new = sorted(set(live) - set(known))
+        fixed = sorted(set(known) - set(live))
+        moved = sorted("%s: %r -> %r" % (k, known[k], live[k]) for k in set(known) & set(live)
+                       if known[k] != live[k])
+        assert not new and not fixed and not moved, (
             "the census moved. NEW disagreements (a drawing now departs from its record; fix it, "
             "or if it is a defect newly MEASURED rather than newly made, add it and say so in the "
             "commit): %s. FIXED (remove from tests/fixtures/ink_known_disagreements.json in the "
-            "same commit as the fix): %s" % (new, fixed))
+            "same commit as the fix): %s. MOVED (a disagreement whose figures changed -- re-pin it "
+            "in a commit that says which way and why): %s" % (new, fixed, moved[:12]))
 
     def test_the_known_list_is_sorted_and_says_what_it_is(self):
         doc = json.load(open(C.KNOWN))
-        assert doc["ids"] == sorted(set(doc["ids"])), "keep the list sorted and unique"
+        assert list(doc["disagreements"]) == sorted(doc["disagreements"]), "keep the ids sorted"
         assert "held by identity" in doc["about"]
 
 
@@ -225,3 +229,49 @@ class TestTheJavaScriptSurfaces:
                                                          "generate.py"), "--check"],
                            capture_output=True, text=True)
         assert r.returncode == 0, r.stdout + r.stderr
+
+
+class TestTheBuildingSheetsCanDisagree:
+    """V7, V9 and V13 agree on every sheet the corpus draws today, so the corpus never reaches the
+    branch that says otherwise. Each is driven with the defect it exists for."""
+
+    def _one(self, pid, face=None):
+        rec = C._sheets()[pid]
+        face = face or rec["elev"]["entrance_face"]
+        return rec, face, rec["faces"][face]
+
+    def test_v7_sees_a_head_that_is_not_a_circle(self, monkeypatch):
+        import re
+        rec, face, svg = self._one("tidewater-georgian-careful")
+        # raise one head's Bezier control point by 60 px: a parabola that tall is far from any circle
+        planted = re.sub(r'(<path class="arch w-med" d="M [\d.]+,[\d.]+ Q [\d.]+,)([\d.]+)',
+                         lambda m: m.group(1) + "%.1f" % (float(m.group(2)) - 60.0), svg, count=1)
+        assert planted != svg, "the plant did not land"
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", rec["elev"], planted)]))
+        assert [r["verdict"] for r in C.CHECKS["V7"]["fn"]()] == ["disagrees"]
+
+    def test_v9_sees_the_renderers_own_fallbacks_when_the_record_gives_no_figure(self, monkeypatch):
+        import copy
+        RE = C.SURF._mod("render_elevation")
+        rec, face, _svg = self._one("tidewater-georgian-careful", "E")
+        el = copy.deepcopy(rec["elev"])
+        assert el.get("chimney_stack_plan_in"), "the premise: this record states a stack size"
+        el["chimney_stack_plan_in"] = None                   # the renderer falls back to 22 in
+        planted = C._render(RE.render_elevation, el, face="E")
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", el, planted)]))
+        got = C.CHECKS["V9"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "22 in" in got[0]["detail"]
+
+    def test_v13_sees_an_inset_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
+        import copy
+        import re
+        rec, face, svg = self._one("tidewater-georgian-careful")
+        planted = re.sub(r'("id":"inset","proj":"profile","unit":"in","px_per_in":)([\d.]+)',
+                         lambda m: m.group(1) + repr(float(m.group(2)) * 1.1), svg, count=1)
+        assert planted != svg, "the plant did not land"
+        sheets = copy.copy(C._sheets())
+        one = dict(sheets["tidewater-georgian-careful"])
+        one["faces"] = {face: planted}
+        monkeypatch.setattr(C, "_SHEETS", {"tidewater-georgian-careful": one})
+        assert [r["verdict"] for r in C.CHECKS["V13"]["fn"]()] == ["disagrees"]

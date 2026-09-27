@@ -15,9 +15,10 @@ EVERY CHECK HAS THREE ANSWERS: agrees, disagrees (with the figures), COULD NOT E
 reason). A check that finds nothing to evaluate is a check that evaluated nothing; its
 population is printed beside its verdicts so a zero reads as a zero and not as a pass.
 
-THE KNOWN DISAGREEMENTS ARE HELD BY IDENTITY. `tests/fixtures/ink_known_disagreements.json`
-names every row that disagrees today, and the test holds the live set EQUAL to it: a new
-disagreement fails, and a fixed one must be removed from the file. That is the one-way door
+THE KNOWN DISAGREEMENTS ARE HELD BY IDENTITY, WITH THEIR FIGURES. `tests/fixtures/
+ink_known_disagreements.json` names every row that disagrees today and what it measured, and the
+test holds the live set EQUAL to it: a new disagreement fails, a fixed one must be removed from
+the file, and one whose figures moved must be re-pinned by a commit that says why. That is the one-way door
 `build/measured_unsourced_grandfathered.json` already uses, chosen over `xfail` and over a red
 build because a suite already red for one cause cannot report a second.
 """
@@ -834,6 +835,705 @@ def r3():
     return out
 
 
+# ------------------------------------------------------------------ the building sheets
+# Every shipped plan is placed on the DETERMINISTIC engine (`engine="heuristic"`). What these rows
+# measure is how each renderer draws the record it is handed, not which house the placer found, and
+# a census built on a wall-clock solver would move between runs on the same tree (CLAUDE.md:
+# ratchet the deterministic figures only). The sheets are rendered into a temporary directory
+# outside the repository and read back from the files, as a reader is served them.
+import copy as _copy          # noqa: E402
+import glob as _glob          # noqa: E402
+import tempfile as _tempfile  # noqa: E402
+
+_SHEETS = None
+
+
+def _plan_files():
+    return sorted(_glob.glob(os.path.join(ROOT, "plans", "*.json"))) + \
+        sorted(_glob.glob(os.path.join(ROOT, "plans", "reference", "*.json")))
+
+
+def _render(fn, *args, **kw):
+    """Call a renderer whose signature is fn(record, path, ...) and read back what it wrote."""
+    d = _tempfile.mkdtemp(prefix="svg_census_")
+    out = os.path.join(d, "sheet.svg")
+    try:
+        fn(*args, out, **kw)
+        return open(out, encoding="utf-8").read()
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def _sheets():
+    """{plan_id: {plan, placed, section, roof, elev, faces: {face: svg}, sec_svg, roof_svg, plan_svg}}"""
+    global _SHEETS
+    if _SHEETS is not None:
+        return _SHEETS
+    G, ST, RF, EL = (SURF._mod(n) for n in ("geometry", "structure", "roof", "elevation"))
+    RE, RS, RR, RP = (SURF._mod(n) for n in ("render_elevation", "render_section", "render_roof", "render_plan"))
+    out = {}
+    for f in _plan_files():
+        plan = json.load(open(f))
+        pid = os.path.basename(f)[:-5]
+        placed = G.solve(_copy.deepcopy(plan), engine="heuristic")
+        rec = {"plan": plan, "placed": placed, "faces": {}}
+        rec["plan_svg"] = _render(RP.render, placed, register="presentation")
+        rec["plan_svg_working"] = _render(RP.render, placed, register="working")
+        sec = ST.build_section(placed, None, geometry_result=placed)
+        if "error" not in sec:
+            rec["section"] = sec
+            rec["sec_svg"] = _render(RS.render_section, sec)
+            rf = RF.build_roof(placed, None, section=sec)
+            if "error" not in rf:
+                rec["roof"] = rf
+                rec["roof_svg"] = _render(RR.render_roof, rf)
+                el = EL.build_elevation(placed, None, section=sec, roof=rf)
+                if "error" not in el and el.get("applicable", True):
+                    rec["elev"] = el
+                    for face in ("S", "N", "E", "W"):
+                        rec["faces"][face] = _render(RE.render_elevation, el, face=face)
+        out[pid] = rec
+    _SHEETS = out
+    return out
+
+
+def _elev_sheets():
+    for pid, rec in sorted(_sheets().items()):
+        for face, svg in sorted(rec["faces"].items()):
+            yield pid, face, rec, svg
+
+
+def _face_plate(ink):
+    return next((p for p in ink.frames() if p.get("proj") == "elevation"), None)
+
+
+RUNGS = {"w-hair": 0.4, "w-fine": 0.8, "w-med": 1.2, "w-prof": 1.6, "w-cut": 2.0, "w-ground": 2.4}
+
+
+@check("V1", "elevation", "every mark carrying a line-weight rung is drawn at that rung's width",
+       "every elevation sheet (plans x faces)")
+def v1():
+    out = []
+    for pid, face, rec, svg in _elev_sheets():
+        ink = IR.Ink(svg)
+        bad, n = {}, 0
+        for it in ink.items:
+            rung = [c for c in it.classes if c in RUNGS]
+            if not rung:
+                continue
+            n += 1
+            got = float(it.style.get("stroke-width") or "nan")
+            if abs(got - RUNGS[rung[0]]) > 1e-6:
+                k = "%s at %g (rung %g)" % (" ".join(sorted(it.classes)), got, RUNGS[rung[0]])
+                bad[k] = bad.get(k, 0) + 1
+        subject = "%s/%s" % (pid, face)
+        if not n:
+            out.append(row("V1", subject, "cne", "no rung-classed mark on the sheet"))
+        elif bad:
+            out.append(row("V1", subject, "disagrees", "%d of %d: %s" % (
+                sum(bad.values()), n, "; ".join("%s x%d" % kv for kv in sorted(bad.items())))))
+        else:
+            out.append(row("V1", subject, "agrees", "%d marks" % n))
+    return out
+
+
+def _rects(ink, *classes):
+    return [it for it in ink.select("rect") if all(c in it.classes for c in classes)]
+
+
+def _box(it):
+    return it.bbox()
+
+
+def _sidelights(ink):
+    """Glass rectangles standing hard against either side of the entrance casing."""
+    cs = _rects(ink, "cs")
+    if not cs:
+        return []
+    cx0, cy0, cx1, cy1 = _box(cs[0])
+    out = []
+    for r in _rects(ink, "op"):
+        x0, y0, x1, y1 = _box(r)
+        if abs(x1 - cx0) < 0.3 or abs(x0 - cx1) < 0.3:
+            out.append(r)
+    return out
+
+
+def _kit(style):
+    RK = SURF._mod("resolve_kit")
+    g = _graph()
+    slots, _ = RK.resolve_slots(g, RK.chain_for(g, style), RK.scope_for(g, style))
+    return slots
+
+
+_G = None
+
+
+def _graph():
+    global _G
+    if _G is None:
+        _G = SURF._mod("resolve_kit").load_graph()
+    return _G
+
+
+# What each thing the elevation can draw IS, in the kit's vocabulary. A CLOSED table, on
+# construction_vocabulary.py's precedent: a variant id is matched by the words below and nothing
+# else, and a feature is forbidden only where the slot is bound forbidden or EVERY variant the
+# words match is forbidden -- a kit that forbids one keyed arch and makes another canonical has
+# not forbidden the keystone.
+FEATURES = (
+    ("water table", "water_table", None),
+    ("belt course", "belt_course", None),
+    ("frieze", "frieze", None),
+    ("cornice", "cornice", None),
+    ("modillions", "cornice", ("modillion",)),
+    ("doorcase", "door_surround", ("pilasters-and-entablature",)),
+    ("sidelights", "transom_sidelight", ("sidelight",)),
+    ("shutters", "shutter", None),
+    ("keystone", "window_head_masonry", ("keyed", "keystone")),
+)
+
+
+def _drawn_features(svg):
+    ink = IR.Ink(svg)
+    pl = _face_plate(ink)
+    got = set()
+    if _rects(ink, "wt", "w-prof"):
+        got.add("water table")
+    if _rects(ink, "wt", "w-med"):
+        got.add("belt course")
+    if _rects(ink, "bd", "w-prof"):
+        got.add("cornice")
+    if _rects(ink, "bd", "w-fine") or re.search(r"MODILLION BAND DRAWN SOLID", svg):
+        got.add("modillions")
+    if pl:
+        for it in ink.select("line", cls="wtm"):
+            (x0, y0), (x1, y1) = it.points(n=1)[0], it.points(n=1)[-1]
+            if IR.to_model(pl, x0, y0)[1] > 6.0:          # above the plinth: the frieze's bed
+                got.add("frieze")
+    if _rects(ink, "cs"):
+        got.add("doorcase")
+    if _sidelights(ink):
+        got.add("sidelights")
+    if _rects(ink, "sh"):
+        got.add("shutters")
+    for r in _rects(ink, "arch"):
+        got.add("keystone")
+    return got
+
+
+def _forbidden(slots, slot, words):
+    """None if the kit does not forbid it; else the node the prohibition comes from."""
+    r = slots.get(slot)
+    if not r:
+        return None
+    src = r.get("_source") or "?"
+    if r.get("binding") == "forbidden":
+        return src
+    if not words:
+        return None
+    match = [v for v in (r.get("variants") or []) if any(w in (v.get("id") or "") for w in words)]
+    if match and all(v.get("status") == "forbidden" for v in match):
+        return src
+    return None
+
+
+_SWEEP = None
+
+
+def _style_sweep():
+    """{style: front-face svg}: every node with a kit, drawn on the Tidewater plan's placement with
+    the style swapped -- the roof sweep's precedent. Ten seconds for 159 elevations."""
+    global _SWEEP
+    if _SWEEP is not None:
+        return _SWEEP
+    G, ST, RF, EL, RK = (SURF._mod(n) for n in ("geometry", "structure", "roof", "elevation", "resolve_kit"))
+    RE = SURF._mod("render_elevation")
+    base = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    placed = G.solve(base, engine="heuristic")
+    g = _graph()
+    out = {}
+    for sid in sorted(n for n in g["nodes"] if RK.load_kit(n)):
+        p = _copy.deepcopy(placed)
+        p.setdefault("declared", {})["style"] = sid
+        sec = ST.build_section(p, None, geometry_result=p)
+        rf = RF.build_roof(p, None, section=sec) if "error" not in sec else {"error": "section"}
+        el = EL.build_elevation(p, None, section=sec, roof=rf) if "error" not in rf else rf
+        if "error" in el or not el.get("applicable", True):
+            out[sid] = None
+            continue
+        out[sid] = (el, _render(RE.render_elevation, el, face=el["entrance_face"]))
+    _SWEEP = out
+    return out
+
+
+@check("V2", "elevation", "nothing the style's resolved kit forbids is drawn, slot or variant (the "
+       "row names where each prohibition comes from)", "every node with a kit, on the Tidewater placement")
+def v2():
+    out = []
+    for sid, got in sorted(_style_sweep().items()):
+        if got is None:
+            out.append(row("V2", sid, "cne", "no elevation drawn for this style"))
+            continue
+        el, svg = got
+        slots = _kit(sid)
+        drawn = _drawn_features(svg)
+        bad = []
+        for name, slot, words in FEATURES:
+            if name in drawn:
+                src = _forbidden(slots, slot, words)
+                if src:
+                    bad.append("%s (%s: %s)" % (name, slot, "own" if src == sid else "inherited from " + src))
+        out.append(row("V2", sid, "disagrees" if bad else "agrees", "; ".join(bad)))
+    return out
+
+
+@check("V3", "elevation", "every transom or sidelight variant the style's kit makes canonical is "
+       "drawn", "every node with a kit, on the Tidewater placement")
+def v3():
+    out = []
+    for sid, got in sorted(_style_sweep().items()):
+        if got is None:
+            continue
+        el, svg = got
+        r = _kit(sid).get("transom_sidelight") or {}
+        if r.get("binding") == "forbidden":
+            continue
+        canon = [v["id"] for v in (r.get("variants") or []) if v.get("status") == "canonical" and v.get("id") != "none"]
+        if not canon:
+            continue
+        drawn = _drawn_features(svg)
+        missing = [v for v in canon if not ("sidelight" in v and "sidelights" in drawn)]
+        out.append(row("V3", sid, "disagrees" if missing else "agrees",
+                       ("canonical and not drawn: " + ", ".join(missing)) if missing else ""))
+    return out
+
+
+def _window_boxes(ink):
+    """(glass box, [shutter boxes], [vertical muntins], [horizontal muntins]) per window, in px."""
+    sh = [_box(r) for r in _rects(ink, "sh")]
+    mt = [it for it in ink.select("line", cls="mt") if "w-med" not in it.classes]
+    side = {tuple(round(v, 1) for v in _box(r)) for r in _sidelights(ink)}
+    out = []
+    for r in _rects(ink, "op"):
+        b = _box(r)
+        if tuple(round(v, 1) for v in b) in side:
+            continue
+        x0, y0, x1, y1 = b
+        leaves = [s for s in sh if (abs(s[2] - x0) < 0.3 or abs(s[0] - x1) < 0.3) and abs(s[1] - y0) < 0.3]
+        vert, hor = [], []
+        for it in mt:
+            (ax, ay), (bx, by) = it.points(n=1)[0], it.points(n=1)[-1]
+            if x0 - 0.2 <= ax <= x1 + 0.2 and y0 - 0.2 <= min(ay, by) and max(ay, by) <= y1 + 0.2:
+                (vert if abs(ax - bx) < 0.05 else hor).append(it)
+        out.append((b, leaves, vert, hor))
+    return out
+
+
+@check("V4", "elevation", "each shutter leaf is (opening - 1 in) / 2, sash-light's own rule, 'so "
+       "that the pair actually covers the window when closed'", "elevation sheets drawing shutters")
+def v4():
+    out = []
+    for pid, face, rec, svg in _elev_sheets():
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        k = pl["px_per_ft"] / 12.0
+        wins = [w for w in _window_boxes(ink) if w[1]]
+        if not wins:
+            continue
+        worst = []
+        for (x0, y0, x1, y1), leaves, _v, _h in wins:
+            want = ((x1 - x0) / k - 1.0) / 2.0
+            for s in leaves:
+                got = (s[2] - s[0]) / k
+                if abs(got - want) > 0.25:
+                    worst.append(got / want)
+        subject = "%s/%s" % (pid, face)
+        if worst:
+            out.append(row("V4", subject, "disagrees", "%d leaves off the rule; each is %.0f%%-%.0f%% of "
+                           "the leaf its window needs" % (len(worst), 100 * min(worst), 100 * max(worst))))
+        else:
+            out.append(row("V4", subject, "agrees", "%d windows" % len(wins)))
+    return out
+
+
+def _sash_rule(style, width_in, glass_module_in, which):
+    """sash-light's own light count at a width, through the engine (never the renderer)."""
+    EL = SURF._mod("elevation")
+    PE = SURF._mod("proportion_engine")
+    pack = PE.resolve("sash-light")
+    v, _r = EL._val(pack, "window_lite_pattern", {"opening_width": width_in, "module": glass_module_in},
+                    note_substr=which, dimension="count")
+    return None if v is None else int(round(v))
+
+
+@check("V5", "elevation", "the lights drawn in a sash are sash-light's own count for the width the "
+       "window is drawn at", "elevation sheets drawing a glazed sash")
+def v5():
+    out = []
+    for pid, face, rec, svg in _elev_sheets():
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        k = pl["px_per_ft"] / 12.0
+        gm = rec["elev"].get("glass_module_in")
+        wins = _window_boxes(ink)
+        if not wins or not gm:
+            continue
+        bad = []
+        for (x0, y0, x1, y1), _l, vert, hor in wins:
+            w_in = (x1 - x0) / k
+            want_a = _sash_rule(None, w_in, gm, "lights across")
+            got_a = len({round(it.points(n=1)[0][0], 1) for it in vert}) + 1
+            if want_a is not None and got_a != want_a:
+                bad.append("%.1f in wide: %d across drawn, the rule gives %d" % (w_in, got_a, want_a))
+        subject = "%s/%s" % (pid, face)
+        out.append(row("V5", subject, "disagrees" if bad else "agrees",
+                       "; ".join(sorted(set(bad))[:3]) if bad else "%d windows" % len(wins)))
+    return out
+
+
+@check("V6", "elevation", "a door the plan calls a garage door is not drawn as a six-panel leaf",
+       "plans placing a garage door on an elevation face")
+def v6():
+    EL = SURF._mod("elevation")
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        el = rec.get("elev")
+        if not el:
+            continue
+        types = {}
+        for lv in rec["placed"].get("levels", []):
+            for r in lv["rooms"]:
+                for d in r.get("doors", []) or []:
+                    if d.get("to") == "exterior" and d.get("type"):
+                        types[r["id"]] = d["type"]
+        for face, svg in sorted(rec["faces"].items()):
+            garage = [x for x in EL.opening_rects(el, face)["rects"]
+                      if x["kind"] == "door" and "garage" in str(types.get(x.get("room"), ""))]
+            if not garage:
+                continue
+            ink = IR.Ink(svg)
+            pl = _face_plate(ink)
+            k = pl["px_per_ft"] / 12.0
+            panels = 0
+            for x in garage:
+                gx0, gx1 = IR.from_model(pl, x["x0_in"] / 12.0, 0)[0], IR.from_model(pl, x["x1_in"] / 12.0, 0)[0]
+                panels += sum(1 for r in _rects(ink, "pnl") if gx0 - 0.5 <= _box(r)[0] and _box(r)[2] <= gx1 + 0.5)
+            out.append(row("V6", "%s/%s" % (pid, face), "disagrees" if panels else "agrees",
+                           ("%d door panels drawn on a garage door %d in wide" % (panels, garage[0]["x1_in"] - garage[0]["x0_in"]))
+                           if panels else ""))
+    return out
+
+
+def _elev_and_sweep():
+    """The shipped plans' sheets, then every style's front on the Tidewater placement: a head's
+    kind and a keystone vary by STYLE, so two plans' sheets reach almost none of them."""
+    for pid, face, rec, svg in _elev_sheets():
+        yield "%s/%s" % (pid, face), rec["elev"], svg
+    for sid, got in sorted(_style_sweep().items()):
+        if got:
+            yield "style:%s" % sid, got[0], got[1]
+
+
+@check("V7", "elevation", "an arched head is drawn as the circular segment it is set out as, not a "
+       "parabola", "elevation sheets drawing an arched head: shipped plans, and every style's front")
+def v7():
+    out = []
+    for subject, el, svg in _elev_and_sweep():
+        ink = IR.Ink(svg)
+        heads = ink.select("path", cls="arch")
+        if not heads:
+            continue
+        worst = 0.0
+        judged = 0
+        for h in heads:
+            cmds = h.cmds
+            if len(cmds) < 2 or cmds[1][0] not in ("Q", "C", "A"):
+                continue
+            first = [cmds[0], cmds[1]]
+            (pts,) = IR.sample_commands(first, m=h.ctm, n=32)
+            try:
+                cx, cy, r, _rms = IR.fit_circle(pts)
+            except ValueError:
+                continue                      # a straight soffit: nothing to judge
+            judged += 1
+            worst = max(worst, max(abs(((x - cx) ** 2 + (y - cy) ** 2) ** 0.5 - r) for x, y in pts))
+        if not judged:
+            continue
+        # half the print quantum: a departure below 0.05 px cannot be seen or measured on the sheet
+        if worst > 0.05:
+            out.append(row("V7", subject, "disagrees", "%d heads; the drawn soffit departs from a circle "
+                           "by up to %.2f px" % (judged, worst)))
+        else:
+            out.append(row("V7", subject, "agrees", "%d heads" % judged))
+    return out
+
+
+# (measurement, pack, slot, dimension): figures the elevation publishes that a rule states. The
+# rule's own `judgment` flag is read from the pack every run, so the row follows the record.
+JUDGED_MEASUREMENTS = (
+    ("transom_height_in", "opening-proportion", "transom_sidelight", "height"),
+    ("pilaster_projection_in", "gibbs-ionic", "pilaster", "projection"),
+)
+
+
+@check("V8", "elevation", "a figure its own rule marks judgment is not published as a measurement",
+       "plans whose elevation draws")
+def v8():
+    PE = SURF._mod("proportion_engine")
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        el = rec.get("elev")
+        if not el:
+            continue
+        m = el.get("measurements") or {}
+        bad = []
+        for name, pack, slot, dim in JUDGED_MEASUREMENTS:
+            rule = next((r for r in (PE.resolve(pack).get("derived_rules") or [])
+                         if r.get("target_slot") == slot and r.get("dimension") == dim), None)
+            if rule and rule.get("judgment") and m.get(name) is not None:
+                bad.append("%s = %s (%s %s/%s is judgment)" % (name, m[name], pack, slot, dim))
+        out.append(row("V8", pid, "disagrees" if bad else "agrees", "; ".join(bad)))
+    return out
+
+
+@check("V9", "elevation", "a size drawn with no figure behind it is said: the keystone's depth x 0.6 "
+       "and the chimney's 22 in fallback", "sheets drawing a keystone or a chimney: shipped plans, and every style's front")
+def v9():
+    out = []
+    for subject, el, svg in _elev_and_sweep():
+        ink = IR.Ink(svg)
+        said = " ".join(t for t, _a, _it in ink.texts()).upper()
+        bad = []
+        heads = [sw.get("head_treatment") or {} for sw in el.get("storey_windows") or []]
+        if _rects(ink, "arch") and any(h.get("keystone") and not h.get("keystone_width_in") for h in heads):
+            if "KEYSTONE" not in said:
+                bad.append("a keystone drawn at 0.6 x the arch depth, which no record states, and not said")
+        if _rects(ink, "ch") and not el.get("chimney_stack_plan_in"):
+            bad.append("a stack drawn at 22 in square with no figure behind it, and not said")
+        if not (_rects(ink, "arch") or _rects(ink, "ch")):
+            continue
+        out.append(row("V9", subject, "disagrees" if bad else "agrees", "; ".join(bad)))
+    return out
+
+
+@check("V11", "elevation", "an opening or a belt that misses the brick courses the sheet draws is "
+       "said to", "masonry elevation sheets")
+def v11():
+    out = []
+    for pid, face, rec, svg in _elev_sheets():
+        el = rec["elev"]
+        wtb = el.get("water_table_belt") or {}
+        c = wtb.get("course_height_in")
+        if not c or not wtb.get("applicable"):
+            continue
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        courses = sorted(IR.to_model(pl, *it.points(n=1)[0])[1] * 12.0 for it in ink.select("line", cls="course"))
+        if not courses:
+            continue
+        miss = 0
+        judged = 0
+        for r in _rects(ink, "op"):
+            x0, y0, x1, y1 = _box(r)
+            for ypx in (y0, y1):
+                v = IR.to_model(pl, x0, ypx)[1] * 12.0
+                if v < courses[0] or v > courses[-1]:
+                    continue
+                judged += 1
+                if min(abs(v - cv) for cv in courses) > 0.05:
+                    miss += 1
+        if not judged:
+            continue
+        said = "COURSE" in " ".join(t for t, _a, _it in ink.texts()).upper()
+        subject = "%s/%s" % (pid, face)
+        if miss and not said:
+            out.append(row("V11", subject, "disagrees", "%d of %d sill and head lines miss the %.2f in courses "
+                           "drawn behind them, unsaid" % (miss, judged, c)))
+        else:
+            out.append(row("V11", subject, "agrees", "%d of %d miss%s" % (miss, judged, ", said" if miss else "")))
+    return out
+
+
+@check("V13", "elevation", "the eave inset draws every cornice member at the height and face its "
+       "record states", "elevation sheets drawing the eave inset")
+def v13():
+    PROF = SURF._mod("profiles")
+    out = []
+    for pid, face, rec, svg in _elev_sheets():
+        if face != rec["elev"].get("entrance_face"):
+            continue
+        ink = IR.Ink(svg)
+        inset = next((p for p in ink.frames() if p.get("id") == "inset"), None)
+        if inset is None:
+            out.append(row("V13", pid, "cne", "the sheet states no frame for its inset"))
+            continue
+        fills = [it for it in ink.select("path") if (it.style.get("fill") or "none") not in ("none",)
+                 and not it.classes]
+        if len(fills) != 1:
+            out.append(row("V13", pid, "cne", "%d unclassed filled paths where one profile was expected" % len(fills)))
+            continue
+        pts = [IR.to_model(inset, x, y) for sub in fills[0].subpaths(n=48, lines=True) for x, y in sub]
+        cor = rec["elev"]["eave_cornice"]
+        members = cor["members"]
+        naked = inset["at_origin_in"][0]
+        axis = inset.get("datum") == "axis"
+        bad = []
+        want_h = max(m["y_top_in"] for m in members)
+        got_h = max(v for u, v in pts) - min(v for u, v in pts)
+        if abs(got_h - want_h) > 0.02:
+            bad.append("drawn %.2f in high against %.2f" % (got_h, want_h))
+        for m in members:
+            if (m.get("profile") or "flat") not in SURF.FACE_AT_MID:
+                continue
+            want = PROF.outer_face(naked, m.get("projection_in") or 0.0, axis)
+            vm = (m["y_bottom_in"] + m["y_top_in"]) / 2.0
+            xs = []
+            for sub in fills[0].subpaths(n=64, lines=True):
+                q = [IR.to_model(inset, x, y) for x, y in sub]
+                for (u0, v0), (u1, v1) in zip(q, q[1:]):
+                    if (v0 - vm) * (v1 - vm) <= 0 and v0 != v1:
+                        xs.append(u0 + (u1 - u0) * (vm - v0) / (v1 - v0))
+            got = max(xs) if xs else None
+            if got is None or abs(got - want) > 0.02:
+                bad.append("%s drawn to %s, record %.2f" % (m["id"], "nothing" if got is None else "%.2f" % got, want))
+        out.append(row("V13", pid, "disagrees" if bad else "agrees", "; ".join(bad[:4])))
+    return out
+
+
+@check("S1", "section", "exterior walls are drawn as bodies of the thickness the record states",
+       "plans whose section draws")
+def s1():
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        svg = rec.get("sec_svg")
+        if not svg:
+            continue
+        t = ((rec["section"].get("wall") or {}).get("exterior_in"))
+        ink = IR.Ink(svg)
+        pl = next((p for p in ink.frames() if p.get("proj") == "section"), None)
+        eave = rec["section"]["roof"]["grade_to_eave_ft"]
+        span = min(rec["section"]["footprint"]["width_ft"], rec["section"]["footprint"]["depth_ft"])
+        # A WALL BODY is a CLOSED shape about as wide as the stated wall, standing from grade most of
+        # the way to the eave, at either end of the span. The first version counted any `wl` path,
+        # and the roof's own eave-to-ridge line is a `wl` path: three plans read as walls drawn.
+        bodies = {}
+        for it in ink.items:
+            closed = it.tag in ("rect", "polygon") or (it.tag == "path" and any(c[0] == "Z" for c in it.cmds or []))
+            if not closed or not it.cmds:
+                continue
+            (x0, y0), (x1, y1) = [IR.to_model(pl, *xy) for xy in ((it.bbox()[0], it.bbox()[3]), (it.bbox()[2], it.bbox()[1]))]
+            w_in, h_ft = (x1 - x0) * 12.0, y1 - y0
+            if t and abs(w_in - t) <= 0.25 * t and y0 <= 0.5 and h_ft >= 0.5 * eave:
+                side = "left" if abs(x0) < 1.5 or abs(x1) < 1.5 else ("right" if abs(x0 - span) < 1.5 or abs(x1 - span) < 1.5 else None)
+                if side:
+                    bodies[side] = w_in
+        walls = [it for it in ink.items if "wl" in it.classes and it.tag == "line"]
+        if not t:
+            out.append(row("S1", pid, "cne", "the record states no exterior wall thickness"))
+        elif len(bodies) < 2:
+            out.append(row("S1", pid, "disagrees", "the record states %.1f in; %s drawn as a body, and the "
+                           "envelope is %d lines of no thickness" % (t, ", ".join(sorted(bodies)) or "neither wall",
+                                                                      len(walls))))
+        else:
+            out.append(row("S1", pid, "agrees"))
+    return out
+
+
+@check("F1", "roof", "a chimney stack is drawn at the plan size the record states, and a judged "
+       "size is said to be one", "plans whose roof plan draws a stack")
+def f1():
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        svg = rec.get("roof_svg")
+        if not svg:
+            continue
+        ink = IR.Ink(svg)
+        pl = next((p for p in ink.frames() if p.get("proj") == "roof"), None)
+        stacks = [it for it in ink.items if "chm" in it.classes]
+        if not stacks:
+            continue
+        size = (rec.get("elev") or {}).get("chimney_stack_plan_in")
+        drawn = [(b[2] - b[0]) / pl["px_per_ft"] * 12.0 for b in (it.bbox() for it in stacks)]
+        if not size:
+            out.append(row("F1", pid, "cne", "%d stacks drawn and the record states no plan size" % len(stacks)))
+        elif any(abs(d - size) > 0.5 for d in drawn):
+            out.append(row("F1", pid, "disagrees", "%d stacks drawn %.1f in across; the record states %.0f in"
+                           % (len(stacks), drawn[0], size)))
+        else:
+            out.append(row("F1", pid, "agrees"))
+    return out
+
+
+@check("X1", "elevation", "the DXF elevation draws the sidelights the SVG draws beside the doorcase",
+       "plans whose entrance SVG draws sidelights")
+def x1():
+    try:
+        import ezdxf  # noqa: F401
+    except ImportError:
+        return [row("X1", "export_dxf", "cne", "ezdxf is not installed, so the DXF cannot be drawn")]
+    DX = SURF._mod("export_dxf")
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        el = rec.get("elev")
+        if not el:
+            continue
+        face = el["entrance_face"]
+        svg_side = len(_sidelights(IR.Ink(rec["faces"][face])))
+        if not svg_side:
+            continue
+        d = _tempfile.mkdtemp(prefix="svg_census_")
+        try:
+            path = os.path.join(d, "e.dxf")
+            DX.export_elevation_dxf(el, path, face=face)
+            doc = ezdxf.readfile(path)
+            boxes = []
+            for e in doc.modelspace().query("LWPOLYLINE"):
+                xs = [p[0] for p in e.get_points()]
+                ys = [p[1] for p in e.get_points()]
+                boxes.append((min(xs), min(ys), max(xs), max(ys), e.dxf.layer))
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        ent = next((r for r in SURF._mod("elevation").opening_rects(el, face)["rects"] if r.get("entrance")), None)
+        cw = el["entrance"]["casing_width_in"]
+        cx0, cx1 = ent["x0_in"] - cw, ent["x1_in"] + cw
+        dxf_side = sum(1 for b in boxes if abs(b[2] - cx0) < 0.05 or abs(b[0] - cx1) < 0.05)
+        out.append(row("X1", pid, "agrees" if dxf_side == svg_side else "disagrees",
+                       "" if dxf_side == svg_side else "the SVG draws %d sidelights, the DXF %d" % (svg_side, dxf_side)))
+    return out
+
+
+@check("PL1", "plan", "a bay grid is drawn on a module the record states, or the sheet says the "
+       "module is a default", "every plan sheet, working register")
+def pl1():
+    G = SURF._mod("geometry")
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        parti = G.parti_for(rec["plan"], None)
+        stated = ((parti or {}).get("scaling") or {}).get("bay_module_ft")
+        fp = rec["placed"].get("footprint") or {}
+        # the WORKING register: `render()`'s default, and the one that draws the bay grid (the
+        # presentation register draws none, so reading it here judged nothing on 15 plans)
+        svg = rec["plan_svg_working"]
+        ink = IR.Ink(svg)
+        grid = [it for it in ink.items if "gd" in it.classes]
+        # ONE SENTENCE that is about the bay module and says it was not stated. The first version
+        # searched the whole sheet for DEFAULT or ASSUMED and was satisfied by "NO CONSTRUCTION_TYPE
+        # DECLARED ON THIS PLAN; ASSUMED PLATFORM-FRAME" -- a true sentence about the walls, read as
+        # a disclosure about the grid.
+        said = any(re.search(r"\bBAYS?\b.*\b(DEFAULT|ASSUMED|NOT STATED)|\b(DEFAULT|ASSUMED|NOT STATED)\b.*\bBAYS?\b",
+                             (t or "").upper()) for t, _a, _it in ink.texts())
+        if stated:
+            out.append(row("PL1", pid, "agrees", "%g ft, from the parti" % stated))
+        elif grid and not said:
+            out.append(row("PL1", pid, "disagrees", "a %g ft grid of %d lines drawn and labelled; no parti "
+                           "states a module and the sheet does not say it is the placer's default"
+                           % (fp.get("bay_module_ft") or 0, len(grid))))
+        else:
+            out.append(row("PL1", pid, "agrees"))
+    return out
+
+
 # ------------------------------------------------------------------ running it
 def run(only=None):
     rows = []
@@ -859,6 +1559,15 @@ def summary(rows):
 
 def disagreement_ids(rows):
     return sorted("%s:%s" % (r["check"], r["subject"]) for r in rows if r["verdict"] == "disagrees")
+
+
+def disagreements(rows):
+    """{id: detail} for every row that disagrees. THE DETAIL IS PINNED WITH THE ID, and the reason
+    is measured: with ids alone, corrupting V1's own rung table and making V5 count the wrong
+    muntins both left the build green -- every V1 and V5 row already disagreed, so a change in
+    WHAT a row reports was invisible. A row red for one cause cannot report a second unless its
+    figures are held as well as its verdict."""
+    return {"%s:%s" % (r["check"], r["subject"]): r["detail"] for r in rows if r["verdict"] == "disagrees"}
 
 
 def render_doc_tables(rows):

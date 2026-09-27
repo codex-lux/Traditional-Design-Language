@@ -1109,12 +1109,22 @@ class TestEveryPlateStatesTheFrameItWasDrawnIn:
         return _json.loads(m.group(1).replace("&apos;", "'"))
 
     def _plates(self, svg):
+        """Every plate a sheet states, with the building's own plates (in FEET) first. An
+        elevation also states its eave inset as a plate in INCHES (WP-14.1), which is a profile
+        at its own scale and is never registered on the model -- so it is checked for its own
+        unit and returned after the feet plates, never mistaken for one of them."""
         f = self._frame(svg)
         assert isinstance(f.get("plates"), list) and f["plates"], "data-frame carries no plates"
         for p in f["plates"]:
+            if p.get("unit") == "in":
+                assert {"id", "proj", "px_per_in", "origin_px", "at_origin_in"} <= set(p), p
+                assert p["proj"] == "profile" and p["px_per_in"] > 0
+                continue
             assert self.KEYS <= set(p), f"a plate frame is missing {self.KEYS - set(p)}"
             assert isinstance(p["px_per_ft"], (int, float)) and p["px_per_ft"] > 0
             assert len(p["origin_px"]) == 2 and len(p["at_origin_ft"]) == 2
+        feet = [p for p in f["plates"] if p.get("unit") != "in"]
+        assert f["plates"][:len(feet)] == feet, "a plate in inches is listed before a plate in feet"
         return f["plates"]
 
     def test_the_plan_states_one_frame_per_level_and_agrees_with_its_own_plate_top(self, tmp_path):
@@ -1231,7 +1241,8 @@ class TestEveryPlateStatesTheFrameItWasDrawnIn:
             out = str(tmp_path / f"e{face}.svg")
             re_r.render_elevation(ev, out, face=face)
             ps = self._plates(open(out).read())
-            assert len(ps) == 1 and ps[0]["proj"] == "elevation"
+            # the face, then its eave inset (WP-14.1): a second plate at its own scale, in inches
+            assert len(ps) == 2 and ps[0]["proj"] == "elevation" and ps[1]["id"] == "inset", ps
             assert ps[0]["id"] == face and ps[0]["face"] == face, (
                 f"the {face} elevation's frame names {ps[0]['id']!r}")
             assert ps[0]["at_origin_ft"][0] == 0.0, "a face is measured from its own left edge"

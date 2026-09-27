@@ -670,9 +670,12 @@ def render_elevation(elev, path, face=None, scale=24.0):
     _frames = {"plates": [{"id": face, "proj": "elevation", "face": face,
                            "px_per_ft": scale, "origin_px": [ox, oy],
                            "at_origin_ft": [0.0, round(top_height_ft, 3)]}]}
-    s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
-         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
-         f'style="background:{PAL["ground"]}">']
+    # A FUNCTION, because the eave inset appends a second plate once its own scale is known,
+    # far below, and the root element is rewritten then (WP-14.1).
+    _head = lambda: (f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
+                     f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
+                     f'style="background:{PAL["ground"]}">')
+    s = [_head()]
     s.append(_style_block())
     # _esc on `face` too: it arrives as body.get("face") on /api/drawings and /api/export, and
     # this string is rendered into the page by DrawingSet.jsx with dangerouslySetInnerHTML.
@@ -1009,6 +1012,17 @@ def render_elevation(elev, path, face=None, scale=24.0):
     px0, py0 = ibox_x + 16, ibox_y + 20          # profile origin: frieze face, springing of the bed
     isx = lambda x: px0 + (x - naked_in) * ik
     isy = lambda y: py0 + (drawn_h - y) * ik
+    # WP-14.1: THE INSET IS A SECOND PLATE, at its own scale and in INCHES, and it says so. Its
+    # pixels are not the face's: a reader holding the face plate's px_per_ft over this profile
+    # reads a 24 in cornice as a few inches of building. `u` is inches out from the frieze naked
+    # (which sits at u = naked_in), `v` inches up from the cornice's springing; `datum` is the
+    # entablature's own. Appended LAST, so a reader selecting the face by its id -- the Round's
+    # frameOf -- still finds the face plate first.
+    _frames["plates"].append({"id": "inset", "proj": "profile", "unit": "in",
+                              "px_per_in": round(ik, 6), "origin_px": [round(px0, 4), round(py0, 4)],
+                              "at_origin_in": [round(naked_in, 6), round(drawn_h, 6)],
+                              "datum": "axis" if from_axis else "naked"})
+    s[0] = _head()
 
     s.append(f'<rect class="pf" x="{ibox_x:.1f}" y="{ibox_y:.1f}" width="{ibox_w:.1f}" height="{ibox_h:.1f}"/>')
     s.append(f'<text class="lb" x="{ibox_x+8:.1f}" y="{ibox_y-4:.1f}">EAVE CORNICE PROFILE</text>')
