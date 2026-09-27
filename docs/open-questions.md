@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**216 questions, of which 120 are open.** A question is OPEN while
+**219 questions, of which 123 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 120
+## Open — 123
 
 Awaiting a ruling. This is the list to read first.
 
@@ -80,6 +80,8 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-massing-states-its-structure-and-nothing-reads-it** | OPEN | [the stair hall is supposed to be the spine wall, and the search does not know it has a job](open-questions/oq-a-massing-states-its-structure-and-nothing-reads-it.md) |
 | **oq/a-material-neutral-assembly-decides-a-material-question** | OPEN | [the authority walk lets a slot that says nothing about a material refuse a question about it](open-questions/oq-a-material-neutral-assembly-decides-a-material-question.md) |
 | **oq/a-measured-parameter-with-no-source-is-not-metered** | HALF CLOSED 5 Sep 2026 — part 2 ruled, part 1 still open | [542 kit figures claim to have been measured and nothing on the record says where](open-questions/oq-a-measured-parameter-with-no-source-is-not-metered.md) |
+| **oq/a-members-note-states-a-figure-its-record-does-not-carry** | OPEN | [thirteen figures the notes beside them contradict](open-questions/oq-a-members-note-states-a-figure-its-record-does-not-carry.md) |
+| **oq/a-metric-source-figure-is-carried-rounded** | OPEN | [six measured kit figures round the millimetres their notes quote](open-questions/oq-a-metric-source-figure-is-carried-rounded.md) |
 | **oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times** | OPEN | [the backlog refills as it is worked, and 249 is what is visible at one instant](open-questions/oq-a-node-that-refuses-a-category-must-decline-it-twenty-six-times.md) |
 | **oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure** | OPEN | [Ruling A can only reach a figure that cites nothing](open-questions/oq-a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure.md) |
 | **oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds** | HALF CLOSED | [the analyst's `placement` class reads the record's fields for four drawn kinds and the engine's name for five](open-questions/oq-a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds.md) |
@@ -105,6 +107,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/clear-counts-a-pass-and-a-tautology-as-one-thing** | OPEN | [half the faults this corpus clears are cleared on the generator's own output](open-questions/oq-clear-counts-a-pass-and-a-tautology-as-one-thing.md) |
 | **oq/fifteen-of-sixteen-plans-name-no-parti** | OPEN | [the facade layer is silent on 94% of this corpus](open-questions/oq-fifteen-of-sixteen-plans-name-no-parti.md) |
+| **oq/four-attic-bases-project-a-third-of-a-diameter** | OPEN | [the corpus says Palladio gives his Doric base a sixth](open-questions/oq-four-attic-bases-project-a-third-of-a-diameter.md) |
 | **oq/fourteen-of-sixteen-plans-name-no-massing** | OPEN | [every massing-gated check is silent on 87.5% of the plan records](open-questions/oq-fourteen-of-sixteen-plans-name-no-massing.md) |
 | **oq/no-plan-record-states-its-bearing** | OPEN | [the compass rule is executed under an assumption on 16 of 16 plans](open-questions/oq-no-plan-record-states-its-bearing.md) |
 | **oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated** | OPEN | [23 works under 51 strings, and correcting them reddens the build by six](open-questions/oq-one-work-is-cited-under-several-strings-and-every-source-count-is-inflated.md) |

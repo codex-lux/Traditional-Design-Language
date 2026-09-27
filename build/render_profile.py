@@ -42,6 +42,7 @@ manifest_io = modcache.load(
 PE = modcache.load("proportion_engine", os.path.join(ROOT, "build", "proportion_engine.py"))
 PROF = modcache.load("profiles", os.path.join(ROOT, "build", "profiles.py"))
 SS = modcache.load("sheet_style", os.path.join(ROOT, "build", "sheet_style.py"))
+PR = modcache.load("plate_review", os.path.join(ROOT, "build", "plate_review.py"))
 
 ASSETS = os.path.join(ROOT, "assets", "manifest.json")
 _ID_RE = re.compile(r"[a-z0-9]+(-[a-z0-9]+)*")   # schema/asset.schema.json's own pattern
@@ -421,6 +422,17 @@ def render(pack_id, assembly_id, module_in=6.0):
                           "plate_w": W, "plate_h": H}
 
 
+def review_note(asset, rep):
+    """The review note a plate's record carries (WP-14.5): what the record can be held to without
+    the plate, the plate not seen, and nobody's approval. ONE spelling, which `--write` files and
+    census P14 holds the manifest to -- so a note that says `agrees` is the verdict the record
+    earns now, not the one it earned when the plate was last written."""
+    g = asset["generated_from"]
+    return PR.review_note(g["pack"], (g.get("parameters") or {}).get("assembly"),
+                          "%s in" % _inches(rep["diameter_in"]),
+                          (asset.get("provenance") or {}).get("source"), rep["unconstructed"])
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--write", action="store_true",
@@ -480,15 +492,11 @@ def main():
             # `sourced` means "file present, unreviewed" -- which is now true, and was not when
             # the harvester set it on records whose `file` stayed null.
             asset["status"] = "sourced"
-            asset["review_note"] = (
-                "Drawn by build/render_profile.py from %s at a %s in column. Every dimension "
-                "comes from proportion_engine.dimension() and every curve from profiles.py, so "
-                "the drawing and the data cannot silently disagree. NOT reviewed: nobody has "
-                "looked at this plate and confirmed it shows what the record says it shows.%s"
-                % (g["pack"], _inches(rep["diameter_in"]),
-                   ("" if not rep["unconstructed"] else
-                    " PARTIAL: %s are named on the plate and not drawn, because this corpus "
-                    "records no construction for them." % ", ".join(rep["unconstructed"]))))
+            # WHAT WAS CHECKED AND WHAT WAS NOT (WP-14.5). The note said "NOT reviewed: nobody has
+            # looked at this plate" and nothing else, which was true and said nothing a reader
+            # could act on. It carries the internal verdict now, and the source as COULD NOT
+            # EVALUATE with the plate named. `sourced` stays: approving a plate is a person's act.
+            asset["review_note"] = review_note(asset, rep)
 
     print("\ndrawn %d, failed %d" % (drawn, failed))
     if a.write and drawn:

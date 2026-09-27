@@ -69,9 +69,12 @@ python3 tests/svg_census.py --json       # every row, with its figures
 python3 tests/svg_census.py --write-doc  # regenerate the two tables below
 ```
 
-The census runs in under a second on the standard library. It reads the COMMITTED plates, which
-are what `/corpus/assets/generated/*.svg` serves; `P12` holds them to the renderer's current
-output, so a plate nobody re-rendered is a disagreement rather than a silent drift.
+The census runs on the standard library, in about half a minute: 25.8 s on 27 Sep 2026, on
+the WP-14.5 tree. This sentence said "under a second" from WP-14.1, when the census read the
+profile plates alone, and it went on saying so while the census grew to sixty checks over the
+building sheets. It reads the COMMITTED plates, which are what `/corpus/assets/generated/*.svg`
+serves; `P12` holds them to the renderer's current output, so a plate nobody re-rendered is a
+disagreement rather than a silent drift.
 
 ## Every surface that draws
 
@@ -119,6 +122,7 @@ join the app without either a census row or a stated reason it is not an archite
 | P10 | profile-plates | a member whose record confidence is not high is marked as such on the plate -- in its own label, and by a dashed outline over its own height | plates holding a medium- or low-confidence member | 65 | 65 | 0 | 0 |
 | P11 | profile-plates | a curved member drawn as a straight line says so | plates holding a curved profile kind | 49 | 49 | 0 | 0 |
 | P12 | profile-plates | the committed plate is the renderer's current output | every committed profile plate | 73 | 73 | 0 | 0 |
+| P14 | profile-plates | the review note a plate's record carries is the internal verdict the plate earns now, says the source was not evaluated, and approves nothing | every committed profile plate | 73 | 73 | 0 | 0 |
 | P13 | profile-plates | a part the assembly's own members are named for, and no member records, is said on the plate -- not drawn as though the section were the whole | plates whose members are named for a part no member records | 4 | 4 | 0 | 0 |
 | E1 | order-stack | the column drawn (base + shaft + capital) is the column height the pack states | order packs stating a column height | 25 | 25 | 0 | 0 |
 | E2 | order-stack | the entablature drawn is the one the pack itself states | order packs that state a whole entablature | 25 | 25 | 0 | 0 |
@@ -155,6 +159,11 @@ join the app without either a census row or a stated reason it is not an archite
 | S1 | section | exterior walls are drawn as bodies of the thickness the record states | plans whose section draws | 16 | 16 | 0 | 0 |
 | F1 | roof | a chimney stack is drawn at the plan size the record states, and a judged size is said to be one | plans whose roof plan draws a stack | 1 | 1 | 0 | 0 |
 | X1 | elevation | the DXF elevation draws the sidelights the SVG draws beside the doorcase | plans whose entrance SVG draws sidelights | 2 | 2 | 0 | 0 |
+| P15 | profile-plates | a plate's alt text names the members the plate draws, bottom to top, with the heights the record gives them | every committed profile plate | 73 | 73 | 0 | 0 |
+| N0 | record | every note that states a figure has been read into build/note_figures.json, and every row there still quotes its note verbatim | order-pack member notes stating a number; the measured kit parameters the elevation reads whose note states one; every overlay's module note | 418 | 418 | 0 | 0 |
+| N1 | record | a figure a member's note states about a recorded figure is the figure the record carries | order-pack members whose note states a figure about a recorded one | 265 | 251 | 14 | 0 |
+| N2 | record | an overlay converts every figure it inherits by the factor its own module note states | every overlay pack | 18 | 18 | 0 | 0 |
+| N3 | record | a figure a measured kit parameter's note states about the parameter is the figure the parameter carries | measured kit parameters the elevation reads whose note states a figure about theirs | 66 | 60 | 6 | 0 |
 | PL1 | plan | a bay grid is drawn on a module the record states, or the sheet says the module is a default | every plan sheet, working register | 16 | 16 | 0 | 0 |
 | PL2 | plan | every exterior opening is cut out of the wall body of its OWN element's face, and no exterior wall body is broken where the record places no opening | every exterior door and window on every placed level of every plan sheet, and every break in an exterior wall body, working register | 16 | 16 | 0 | 0 |
 | PL3 | plan | no wall body is drawn over another -- a wall two elements share is one wall | every pair of wall bodies on every plate of every plan sheet, working register | 16 | 16 | 0 | 0 |
@@ -190,3 +199,30 @@ response 403` on 26 Sep and again on 27 Sep 2026. Tavily is not authorized in th
 So link 1 is held by internal checks, never by a reading of the plate, and nothing here may be
 closed from a secondary source or a modern redrawing (CLAUDE.md, OQ 7–11). What a person has to
 fetch is listed in `Plan Examples/Plates/WANTED.md` (WP-14.5), on the WP-9.2 HABS precedent.
+
+### What the internal checks can say, and what they cannot (WP-14.5)
+
+- **A figure is held to the sentence beside it.** `build/note_figures.json` holds, for every note
+  that states a number, what it states about which recorded figure, with the quote it rests on.
+  Agents read the notes and the lead verified them. `build/plate_review.py` evaluates both sides
+  over the record's own numbers on every run, so the arithmetic is never the table's. Each quote
+  is held to be a verbatim substring of its note, so an edited note makes its row stale (N0)
+  rather than silently wrong.
+- **N1 and N3 say "states", not "quotes from its authority".** Many of these figures are the
+  transcriber's own arithmetic on the author's words, and a note is not a plate. An `agrees`
+  means the record and the sentence beside it agree. Whether either one agrees with the plate is
+  `SOURCE: COULD NOT EVALUATE` on every plate's review note.
+- **A note that states nothing cannot disagree.** The population is bounded by what the
+  transcriber chose to quote. Gibbs's rule that a pedestal cap projects two thirds of its height
+  is quoted only in the Composite's note, so N1 sees the Composite's cap one part short. The
+  Ionic's and Corinthian's caps are short by the same part and N1 does not see them.
+  `oq/a-members-note-states-a-figure-its-record-does-not-carry` records them.
+- **A claim counts on the plate whose record it judges.** When one pack's note states a figure
+  about another pack's record, the claim reaches that other pack's plate: Palladio's Corinthian
+  base note disputes his Doric base's plinth, so it is the Doric plate that reads DISAGREES.
+- **An overlay's conversion is read from its output.** N2 compares every figure an overlay
+  inherits against the base's figure times the factor its own module note states. The engine
+  derives that factor independently, from the module's name.
+- **What a person must fetch.** Every figure a note disputes is class 0 of
+  `Plan Examples/Plates/WANTED.md`, under the book that settles it. That list is generated from
+  the same judgment N1 pins.

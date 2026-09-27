@@ -717,3 +717,101 @@ class TestTheBenchCanDisagree:
         monkeypatch.setattr(C.subprocess, "run", doctored)
         got = {r["subject"]: r["verdict"] for r in C.CHECKS["TR1"]["fn"]()}
         assert got[self.PID] == "disagrees" and got["spec-builder-colonial"] == "agrees", got
+
+
+class TestTheRecordCanDisagree:
+    """N0 to N3, P14 and P15 read the record against its own notes and a plate's record against
+    what it says of itself (WP-14.5). Each is driven here THROUGH THE CENSUS, with its defect
+    planted in the table or the asset record the census reads: `test_plate_review.py` drives the
+    reviewer, and this is the join -- a census that stopped calling it would be green over any
+    table at all."""
+
+    PLATE = "vignola-doric-base-profile"
+    NOTE = ("vignola-doric", "base", "base_torus")
+
+    @pytest.fixture
+    def table(self, monkeypatch):
+        import copy
+        PR = C._review()
+        PR.reset()
+        t = copy.deepcopy(PR.table())
+        monkeypatch.setattr(PR, "_TABLE", t)
+        PR._MEMO.clear()
+        yield t
+        PR.reset()
+
+    def _row(self, cid, subject):
+        rows = [r for r in C.CHECKS[cid]["fn"]() if r["subject"] == subject]
+        assert len(rows) == 1, (cid, subject, rows)
+        return rows[0]
+
+    def _entry(self, t, key):
+        return next(e for e in t["members"] if (e["pack"], e["assembly"], e["member"]) == key)
+
+    def test_the_premise_the_driven_rows_agree_unplanted(self):
+        subj = "/".join(self.NOTE)
+        assert self._row("N0", subj)["verdict"] == "agrees"
+        assert self._row("N1", subj)["verdict"] == "agrees"
+        assert self._row("N2", "chambers-ionic")["verdict"] == "agrees"
+        assert self._row("N3", "craftsman/casing/leg_in")["verdict"] == "agrees"
+
+    def test_n0_sees_a_note_nobody_read(self, table):
+        table["members"].remove(self._entry(table, self.NOTE))
+        got = self._row("N0", "/".join(self.NOTE))
+        assert got["verdict"] == "disagrees" and "has not been read" in got["detail"], got
+
+    def test_n0_sees_a_quote_that_has_left_its_note(self, table):
+        self._entry(table, self.NOTE)["claims"][0]["quote"] = "words the note never said"
+        got = self._row("N0", "/".join(self.NOTE))
+        assert got["verdict"] == "disagrees", got
+
+    def test_n1_sees_a_note_that_states_another_figure(self, table):
+        c = self._entry(table, self.NOTE)["claims"][0]
+        c["states"] = "(%s) * 2" % c["states"]
+        got = self._row("N1", "/".join(self.NOTE))
+        assert got["verdict"] == "disagrees" and "the record" in got["detail"], got
+
+    def test_n2_sees_a_conversion_stated_wrongly(self, table):
+        table["modules"]["chambers-ionic"]["part_factor"] = "2"
+        assert self._row("N2", "chambers-ionic")["verdict"] == "disagrees"
+
+    def test_n3_sees_a_kit_note_that_states_another_figure(self, table):
+        e = next(k for k in table["kits"] if (k["kit"], k["slot"], k["parameter"]) == ("craftsman", "casing", "leg_in"))
+        e["claims"][0]["states"] = "(%s) + 1" % e["claims"][0]["states"]
+        assert self._row("N3", "craftsman/casing/leg_in")["verdict"] == "disagrees"
+
+    def _one_plate(self, monkeypatch, change):
+        import copy
+        a, g, pl, rec = next(x for x in C._profile_assets() if x[0]["id"] == self.PLATE)
+        a = copy.deepcopy(a)
+        change(a)
+        monkeypatch.setattr(C, "_PLATES", [(a, g, pl, rec)])
+
+    def test_p14_and_p15_agree_unplanted(self, monkeypatch):
+        self._one_plate(monkeypatch, lambda a: None)
+        assert [r["verdict"] for r in C.CHECKS["P14"]["fn"]()] == ["agrees"]
+        assert [r["verdict"] for r in C.CHECKS["P15"]["fn"]()] == ["agrees"]
+
+    def test_p14_sees_a_review_note_nobody_rewrote(self, monkeypatch):
+        self._one_plate(monkeypatch, lambda a: a.update(
+            review_note=a["review_note"].replace("INTERNAL: DISAGREES", "INTERNAL: AGREES")))
+        got = C.CHECKS["P14"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "stale" in got[0]["detail"], got
+
+    def test_p14_sees_a_note_that_approves_what_nobody_approved(self, monkeypatch):
+        """The second branch, which a current note reaches only when the ONE spelling itself stops
+        saying the source was not evaluated: both halves are planted, so the note is current."""
+        RP = C.SURF._mod("render_profile")
+        monkeypatch.setattr(RP, "review_note", lambda asset, rep: "Approved.")
+        self._one_plate(monkeypatch, lambda a: a.update(review_note="Approved."))
+        got = C.CHECKS["P14"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "approved" in got[0]["detail"], got
+
+    def test_p15_sees_an_alt_text_that_lists_another_stack(self, monkeypatch):
+        self._one_plate(monkeypatch, lambda a: a.update(alt_text=a["alt_text"].replace("(5p)", "(6p)", 1)))
+        got = C.CHECKS["P15"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+
+    def test_p15_says_it_cannot_read_an_alt_text_in_another_form(self, monkeypatch):
+        self._one_plate(monkeypatch, lambda a: a.update(alt_text="A drawing of a base."))
+        assert [r["verdict"] for r in C.CHECKS["P15"]["fn"]()] == ["cne"]

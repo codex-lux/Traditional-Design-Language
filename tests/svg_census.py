@@ -453,13 +453,46 @@ def p11():
 @check("P12", "profile-plates", "the committed plate is the renderer's current output",
        "every committed profile plate")
 def p12():
+    out = []
+    for a, g, pl, rec in _profile_assets():
+        svg, _rep = _rendered(a, g)
+        out.append(row("P12", a["id"], "agrees" if svg + "\n" == pl.svg else "disagrees",
+                       "" if svg + "\n" == pl.svg else "stale: re-run build/render_profile.py --write"))
+    return out
+
+
+_RENDERS = {}
+
+
+def _rendered(a, g):
+    """The renderer's current output for a plate, once per run: P12 and P14 both need it."""
+    if a["id"] not in _RENDERS:
+        RP = SURF._mod("render_profile")
+        _RENDERS[a["id"]] = RP.render(g["pack"], (g.get("parameters") or {}).get("assembly"),
+                                      module_in=g.get("module_in") or 6.0)
+    return _RENDERS[a["id"]]
+
+
+@check("P14", "profile-plates", "the review note a plate's record carries is the internal verdict the "
+       "plate earns now, says the source was not evaluated, and approves nothing",
+       "every committed profile plate")
+def p14():
+    """WP-14.5. The note is composed by `render_profile.review_note`, the one spelling `--write`
+    files; this holds the manifest to what that spelling says NOW, so a verdict that moves (a
+    note edited, a figure corrected) is a stale note and not a claim that outlived its evidence."""
     RP = SURF._mod("render_profile")
     out = []
     for a, g, pl, rec in _profile_assets():
-        svg, _rep = RP.render(g["pack"], (g.get("parameters") or {}).get("assembly"),
-                              module_in=g.get("module_in") or 6.0)
-        out.append(row("P12", a["id"], "agrees" if svg + "\n" == pl.svg else "disagrees",
-                       "" if svg + "\n" == pl.svg else "stale: re-run build/render_profile.py --write"))
+        _svg, rep = _rendered(a, g)
+        have = a.get("review_note") or ""
+        want = RP.review_note(a, rep)
+        if have != want:
+            out.append(row("P14", a["id"], "disagrees", "stale: re-run build/render_profile.py --write"))
+        elif "SOURCE: COULD NOT EVALUATE" not in have or "NOT approved" not in have:
+            out.append(row("P14", a["id"], "disagrees", "the note does not say the source was not "
+                           "evaluated and nobody approved the plate"))
+        else:
+            out.append(row("P14", a["id"], "agrees"))
     return out
 
 
@@ -1973,6 +2006,123 @@ def x1():
         dxf_side = sum(1 for b in boxes if abs(b[2] - cx0) < 0.05 or abs(b[0] - cx1) < 0.05)
         out.append(row("X1", pid, "agrees" if dxf_side == svg_side else "disagrees",
                        "" if dxf_side == svg_side else "the SVG draws %d sidelights, the DXF %d" % (svg_side, dxf_side)))
+    return out
+
+
+@check("P15", "profile-plates", "a plate's alt text names the members the plate draws, bottom to top, "
+       "with the heights the record gives them", "every committed profile plate")
+def p15():
+    """WP-14.5. `gen_assets.py` writes the alt text once, from the engine, and nothing rewrites it:
+    a pack edited since would leave a reader of the alt text a different stack from the plate.
+    The record here is `ink_surfaces.profile_record`, read off the record rather than the engine.
+    `gen_assets` lists at most twelve members, so only those twelve are held."""
+    out = []
+    for a, g, pl, rec in _profile_assets():
+        m = re.search(r"Members bottom to top: (.*?)\. Every dimension", a.get("alt_text") or "")
+        if not m:
+            out.append(row("P15", a["id"], "cne", "the alt text lists no members in the form it is written in"))
+            continue
+        got = [(nm, float(p)) for nm, p in re.findall(r"(.+?) \(([\d.]+)p\)(?:, |$)", m.group(1))]
+        want = [(x["name"], x.get("height_parts") or 0.0) for x in rec["members"]][:12]
+        bad = [f"{g_[0]} {g_[1]:g}p against {w[0]} {w[1]:g}p" for g_, w in zip(got, want)
+               if g_[0] != w[0] or abs(g_[1] - w[1]) > 1e-6]
+        if len(got) != len(want):
+            bad.insert(0, "%d members listed, %d drawn" % (len(got), len(want)))
+        out.append(row("P15", a["id"], "disagrees" if bad else "agrees", "; ".join(bad[:3])))
+    return out
+
+
+# ------------------------------------------------------------------ the record held to its own notes
+# THE PLATE-TO-RECORD LINK (WP-14.5), which the census could not read until now. Every host the
+# packs cite refuses a CONNECT from here, so no figure can be held against its plate. A figure CAN
+# be held against the one its own note states about it, an overlay against the conversion
+# its own module note states, and that is what these read. `build/plate_review.py` judges, over
+# the table the lead verified (`build/note_figures.json`); the known-disagreements pin holds its
+# verdicts, so a verdict that moves is a row that moves.
+def _review():
+    return SURF._mod("plate_review")
+
+
+def _claim_detail(e):
+    bad = [c for c in e["claims"] if not c["agrees"]]
+    return "; ".join("%s%s: the record %.4g, the note %.4g <- %s"
+                     % (("%s/%s " % (c["target_pack"], c["target_assembly"])) if c.get("target_pack") else "",
+                        c["target"], c["record"], c["note"], c["quote"][:70]) for c in bad)
+
+
+@check("N0", "record", "every note that states a figure has been read into build/note_figures.json, "
+       "and every row there still quotes its note verbatim",
+       "order-pack member notes stating a number; the measured kit parameters the elevation reads "
+       "whose note states one; every overlay's module note")
+def n0():
+    PR = _review()
+    out = []
+    for e in PR.member_entries():
+        subj = "%s/%s/%s" % (e["pack"], e["assembly"], e["member"])
+        if e["verdict"] == "not-read":
+            out.append(row("N0", subj, "disagrees", "its note states a figure and has not been read"))
+        elif e["verdict"] == "stale":
+            out.append(row("N0", subj, "disagrees", "; ".join(e["stale"])[:300]))
+        else:
+            out.append(row("N0", subj, "agrees"))
+    for e in PR.kit_entries():
+        subj = "kit:%s/%s/%s" % (e["kit"], e["slot"], e["parameter"])
+        if e["verdict"] == "not-read":
+            out.append(row("N0", subj, "disagrees", "its note states a figure and has not been read"))
+        elif e["verdict"] == "stale":
+            out.append(row("N0", subj, "disagrees", "; ".join(e["stale"])[:300]))
+        else:
+            out.append(row("N0", subj, "agrees"))
+    for c in PR.conversions():
+        subj = "module:%s" % c["pack"]
+        if c["verdict"] in ("not-read", "stale"):
+            out.append(row("N0", subj, "disagrees", c.get("why") or c["verdict"]))
+        else:
+            out.append(row("N0", subj, "agrees"))
+    return out
+
+
+@check("N1", "record", "a figure a member's note states about a recorded figure is the figure the "
+       "record carries", "order-pack members whose note states a figure about a recorded one")
+def n1():
+    """WP-14.5. STATES, and not QUOTES FROM ITS AUTHORITY: many of these figures are the
+    transcriber's own arithmetic from the authority's words ("three of which are given to the
+    first fascia", read as 3/12 of four fifths), and a note is not a plate. What this can say is
+    that the record and the sentence beside it agree; whether either agrees with the plate is
+    SOURCE: COULD NOT EVALUATE on every review note."""
+    out = []
+    for e in _review().member_entries():
+        if e["verdict"] not in ("agrees", "disagrees"):
+            continue
+        subj = "%s/%s/%s" % (e["pack"], e["assembly"], e["member"])
+        out.append(row("N1", subj, e["verdict"], _claim_detail(e) if e["verdict"] == "disagrees" else ""))
+    return out
+
+
+@check("N2", "record", "an overlay converts every figure it inherits by the factor its own module "
+       "note states", "every overlay pack")
+def n2():
+    out = []
+    for c in _review().conversions():
+        if c["verdict"] in ("not-read", "stale"):
+            continue
+        v = {"agrees": "agrees", "disagrees": "disagrees", "could-not-evaluate": "cne"}[c["verdict"]]
+        detail = ("; ".join(c.get("off", [])[:4]) if v == "disagrees"
+                  else (c.get("why") or "") if v == "cne" else "")
+        out.append(row("N2", c["pack"], v, detail))
+    return out
+
+
+@check("N3", "record", "a figure a measured kit parameter's note states about the parameter is the "
+       "figure the parameter carries", "measured kit parameters the elevation reads whose note states "
+       "a figure about theirs")
+def n3():
+    out = []
+    for e in _review().kit_entries():
+        if e["verdict"] not in ("agrees", "disagrees"):
+            continue
+        subj = "%s/%s/%s" % (e["kit"], e["slot"], e["parameter"])
+        out.append(row("N3", subj, e["verdict"], _claim_detail(e) if e["verdict"] == "disagrees" else ""))
     return out
 
 

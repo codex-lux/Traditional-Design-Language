@@ -106,7 +106,8 @@ GENERATOR_FILES = ("elevation.py", "roof.py", "structure.py", "storeys.py", "com
 #   exemplars_with_precedent 171 A FLOOR: exemplars naming a `precedents/` record.
 #   nodes_with_a_precedent 27    A FLOOR.
 RATCHET = {
-    "measured_unsourced": 536,      # 542 at WP-11.1; six sourced by WP-11.4 Ruling A
+    "measured_unsourced": 534,      # 542 at WP-11.1; six sourced by WP-11.4 Ruling A; two more by
+                                    # WP-14.5 (craftsman's casing, to the trim-craftsman pack it cites)
     # RE-BASELINED UPWARD AT THE MERGE, WITH THE INSTRUMENT NAMED (8 Sep 2026). 272 at WP-11.1,
     # 270 after WP-11.4 Ruling A sourced two of the six, 267 on the merged corpus -- and 299 the
     # moment `threshold.py` joined GENERATOR_FILES above, because four slots the corpus really
@@ -120,7 +121,8 @@ RATCHET = {
     # source, on american-farmhouse-vernacular, german-pennsylvania-colonial, mission-revival,
     # monterey-colonial and nordic-alpine-vernacular, and georgian-colonial-american's two
     # editorial architrave widths -- counted by name before the ceilings moved.
-    "measured_unsourced_read": 304,
+    # 304 -> 302 at WP-14.5, by the same two: `casing` is a read slot.
+    "measured_unsourced_read": 302,
     "editorial_read": 80,            # 69 before the threshold.py widening; 68 on the merged
                                      # corpus; 78 then; 80 after WP-14.3's two surround slots
     "shared_only_nodes": 24,

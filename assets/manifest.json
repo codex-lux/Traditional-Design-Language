@@ -76935,7 +76935,7 @@
         "generated",
         "benjamin-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (2 agree); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Asher Benjamin, The American Builder's Companion; or, A System of Architecture, particularly adapted to the present style of building, THIRD EDITION, corrected and enlarged (Boston: R. P. & C. Williams, April 1816), Plate 15, with Plates 21, 23, 24, 26-28, 35 was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "benjamin-corinthian-capital-profile",
@@ -76978,7 +76978,7 @@
         "generated",
         "benjamin-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from benjamin-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (70 of 70 parts); the figures notes state about its record: disagrees (7 agree; vignola-corinthian/capital h_acanthus_row_1: the record 12, a note 6 (three equal sixths of a diameter)); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV — INHERITED: benjamin-corinthian states no capital of its own, and these members are vignola-corinthian's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "benjamin-corinthian-cornice-profile",
@@ -77021,7 +77021,7 @@
         "generated",
         "benjamin-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (60 of 60 parts); the figures notes state about its record: agrees (16 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV — INHERITED: benjamin-corinthian states no cornice of its own, and these members are vignola-corinthian's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "benjamin-doric-capital-profile",
@@ -77064,7 +77064,7 @@
         "generated",
         "benjamin-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: disagrees (1 agree; p_cap_annulets: the record 2, a note 3.5 (the upper fillet of the capital, which projects three and a …); p_cap_annulets: the record 2, a note 3.5 (The upper fillet of the capital, from which the architrave …)); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Asher Benjamin, The Practical House Carpenter (Boston, 1830), 'Doric Order, Example No. 3', Plate VI, with Plates IV (Grecian Doric from the Temple of Theseus, after Stuart and Revett), VII, VIII, XIV, XXIII, XXIV, XXXIV-XXXVII, XXXIX-XLVIII. Text collated from the 1843 printing issued as The Architect, or Practical House Carpenter was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "benjamin-doric-entablature-profile",
@@ -77107,7 +77107,7 @@
         "generated",
         "benjamin-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (120 of 120 parts); the figures notes state about its record: agrees (8 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Asher Benjamin, The Practical House Carpenter (Boston, 1830), 'Doric Order, Example No. 3', Plate VI, with Plates IV (Grecian Doric from the Temple of Theseus, after Stuart and Revett), VII, VIII, XIV, XXIII, XXIV, XXXIV-XXXVII, XXXIX-XLVIII. Text collated from the 1843 printing issued as The Architect, or Practical House Carpenter was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "benjamin-ionic-base-profile",
@@ -77150,7 +77150,7 @@
         "generated",
         "benjamin-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (4 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII — INHERITED: benjamin-ionic states no base of its own, and these members are vignola-ionic's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "benjamin-ionic-capital-profile",
@@ -77193,7 +77193,7 @@
         "generated",
         "benjamin-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (20 of 20 parts); the figures notes state about its record: agrees (7 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII — INHERITED: benjamin-ionic states no capital of its own, and these members are vignola-ionic's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "benjamin-ionic-cornice-profile",
@@ -77236,7 +77236,7 @@
         "generated",
         "benjamin-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (52.5 of 52.5 parts); the figures notes state about its record: agrees (7 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII — INHERITED: benjamin-ionic states no cornice of its own, and these members are vignola-ionic's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "benjamin-tuscan-base-profile",
@@ -77279,7 +77279,7 @@
         "generated",
         "benjamin-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (9 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Asher Benjamin, The American Builder's Companion; or, A System of Architecture, particularly adapted to the present style of building, THIRD EDITION, corrected and enlarged (Boston: R. P. & C. Williams, April 1816), Plates 12, 24, 26-28, 35 - with the Tuscan of The Practical House Carpenter (Boston, 1830; text collated from the 1843 printing issued as The Architect, or Practical House Carpenter), Plate III, recorded as a second stratum in the notes and conflicts was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "benjamin-tuscan-capital-profile",
@@ -77322,7 +77322,7 @@
         "generated",
         "benjamin-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: disagrees (6 agree; vignola-tuscan/capital p_cap_abacus: the record 5, a note 3 (projects its own height from the face of the architrave)); the conversion of what it inherits: agrees (by the 30/12 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII — INHERITED: benjamin-tuscan states no capital of its own, and these members are vignola-tuscan's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "benjamin-tuscan-cornice-profile",
@@ -77365,7 +77365,7 @@
         "generated",
         "benjamin-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from benjamin-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from benjamin-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (40 of 40 parts); the figures notes state about its record: agrees (4 agree); the conversion of what it inherits: agrees (by the 30/12 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII — INHERITED: benjamin-tuscan states no cornice of its own, and these members are vignola-tuscan's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-composite-base-profile",
@@ -77408,7 +77408,7 @@
         "generated",
         "chambers-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (4 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII — INHERITED: chambers-composite states no base of its own, and these members are vignola-composite's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-composite-capital-profile",
@@ -77451,7 +77451,7 @@
         "generated",
         "chambers-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from chambers-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (70 of 70 parts); the figures notes state about its record: agrees (3 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII — INHERITED: chambers-composite states no capital of its own, and these members are vignola-composite's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "chambers-composite-cornice-profile",
@@ -77494,7 +77494,7 @@
         "generated",
         "chambers-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (60 of 60 parts); the figures notes state about its record: agrees (6 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII — INHERITED: chambers-composite states no cornice of its own, and these members are vignola-composite's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-corinthian-base-profile",
@@ -77537,7 +77537,7 @@
         "generated",
         "chambers-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: could not evaluate (no note states a figure about a figure it records); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- William Chambers, A Treatise on Civil Architecture, London 1759, 'Of the Corinthian Order' and 'Of Pedestals'; expanded 1791 as A Treatise on the Decorative Part of Civil Architecture was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-corinthian-capital-profile",
@@ -77580,7 +77580,7 @@
         "generated",
         "chambers-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from chambers-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (70 of 70 parts); the figures notes state about its record: disagrees (7 agree; vignola-corinthian/capital h_acanthus_row_1: the record 12, a note 6 (three equal sixths of a diameter)); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV — INHERITED: chambers-corinthian states no capital of its own, and these members are vignola-corinthian's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "chambers-corinthian-cornice-profile",
@@ -77623,7 +77623,7 @@
         "generated",
         "chambers-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (60 of 60 parts); the figures notes state about its record: agrees (16 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV — INHERITED: chambers-corinthian states no cornice of its own, and these members are vignola-corinthian's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-doric-base-profile",
@@ -77666,7 +77666,7 @@
         "generated",
         "chambers-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (5 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- William Chambers, A Treatise on Civil Architecture, London 1759, 'Of the Doric Order' and 'Of Pedestals'; expanded 1791 as A Treatise on the Decorative Part of Civil Architecture was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-doric-capital-profile",
@@ -77709,7 +77709,7 @@
         "generated",
         "chambers-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: disagrees (7 agree; vignola-doric/capital p_cap_abacus: the record 5.5, a note 4 (the abacus projects one sixth on each side beyond the upper …)); the conversion of what it inherits: agrees (by the 2.5 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature) — INHERITED: chambers-doric states no capital of its own, and these members are vignola-doric's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-doric-cornice-profile",
@@ -77752,7 +77752,7 @@
         "generated",
         "chambers-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (45 of 45 parts); the figures notes state about its record: agrees (18 agree); the conversion of what it inherits: agrees (by the 2.5 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature) — INHERITED: chambers-doric states no cornice of its own, and these members are vignola-doric's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-ionic-base-profile",
@@ -77795,7 +77795,7 @@
         "generated",
         "chambers-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: could not evaluate (no note states a figure about a figure it records); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- William Chambers, A Treatise on Civil Architecture, London 1759, 'Of the Ionic Order' and 'Of Pedestals'; expanded 1791 as A Treatise on the Decorative Part of Civil Architecture was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-ionic-capital-profile",
@@ -77838,7 +77838,7 @@
         "generated",
         "chambers-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (20 of 20 parts); the figures notes state about its record: agrees (7 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII — INHERITED: chambers-ionic states no capital of its own, and these members are vignola-ionic's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-ionic-cornice-profile",
@@ -77881,7 +77881,7 @@
         "generated",
         "chambers-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (52.5 of 52.5 parts); the figures notes state about its record: agrees (7 agree); the conversion of what it inherits: agrees (by the 30/18 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII — INHERITED: chambers-ionic states no cornice of its own, and these members are vignola-ionic's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-tuscan-base-profile",
@@ -77924,7 +77924,7 @@
         "generated",
         "chambers-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (7 agree); the conversion of what it inherits: agrees (by the 2.5 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII — INHERITED: chambers-tuscan states no base of its own, and these members are vignola-tuscan's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-tuscan-capital-profile",
@@ -77967,7 +77967,7 @@
         "generated",
         "chambers-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: disagrees (6 agree; vignola-tuscan/capital p_cap_abacus: the record 5, a note 3 (projects its own height from the face of the architrave)); the conversion of what it inherits: agrees (by the 2.5 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII — INHERITED: chambers-tuscan states no capital of its own, and these members are vignola-tuscan's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "chambers-tuscan-cornice-profile",
@@ -78010,7 +78010,7 @@
         "generated",
         "chambers-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from chambers-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from chambers-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (40 of 40 parts); the figures notes state about its record: agrees (4 agree); the conversion of what it inherits: agrees (by the 2.5 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII — INHERITED: chambers-tuscan states no cornice of its own, and these members are vignola-tuscan's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-composite-base-profile",
@@ -78053,7 +78053,7 @@
         "generated",
         "gibbs-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: agrees (4 agree); the conversion of what it inherits: agrees (by the 1 its module note states); the pack's invariants: agrees (5 of 5 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII — INHERITED: gibbs-composite states no base of its own, and these members are vignola-composite's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-composite-capital-profile",
@@ -78096,7 +78096,7 @@
         "generated",
         "gibbs-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from gibbs-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (42 of 42 parts); the figures notes state about its record: agrees (3 agree); the conversion of what it inherits: agrees (by the 1 its module note states); the pack's invariants: agrees (5 of 5 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII — INHERITED: gibbs-composite states no capital of its own, and these members are vignola-composite's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "gibbs-composite-cornice-profile",
@@ -78139,7 +78139,7 @@
         "generated",
         "gibbs-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (28.8 of 28.8 parts); the figures notes state about its record: agrees (20 agree); the pack's invariants: agrees (5 of 5 hold). SOURCE: COULD NOT EVALUATE -- James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 5, XX, XXI, XXII, XXIII, XXIV, XXV, XXVI, XXXIV, XXXVIII no. 3, XL was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-corinthian-base-profile",
@@ -78182,7 +78182,7 @@
         "generated",
         "gibbs-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: agrees (4 agree); the conversion of what it inherits: agrees (by the 1 its module note states); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV — INHERITED: gibbs-corinthian states no base of its own, and these members are vignola-corinthian's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-corinthian-capital-profile",
@@ -78225,7 +78225,7 @@
         "generated",
         "gibbs-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from gibbs-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (42 of 42 parts); the figures notes state about its record: disagrees (7 agree; vignola-corinthian/capital h_acanthus_row_1: the record 12, a note 6 (three equal sixths of a diameter)); the conversion of what it inherits: agrees (by the 1 its module note states); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV — INHERITED: gibbs-corinthian states no capital of its own, and these members are vignola-corinthian's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "gibbs-corinthian-cornice-profile",
@@ -78268,7 +78268,7 @@
         "generated",
         "gibbs-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (28.8 of 28.8 parts); the figures notes state about its record: agrees (31 agree); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 4, XVI, XVII, XVIII, XIX, XXIV, XXV, XXVI, XXXIII, XXXVIII, XLI, XLII, LXIV was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-doric-base-profile",
@@ -78311,7 +78311,7 @@
         "generated",
         "gibbs-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (12 of 12 parts); the figures notes state about its record: agrees (2 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 2, VI, VII, VIII, IX, XXIV, XXV, XXVI, XXXI, XXXVII no. 2, XLIV was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-doric-capital-profile",
@@ -78354,7 +78354,7 @@
         "generated",
         "gibbs-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (12 of 12 parts); the figures notes state about its record: disagrees (7 agree; vignola-doric/capital p_cap_abacus: the record 5.5, a note 4 (the abacus projects one sixth on each side beyond the upper …)); the conversion of what it inherits: agrees (by the 1 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature) — INHERITED: gibbs-doric states no capital of its own, and these members are vignola-doric's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-doric-cornice-profile",
@@ -78397,7 +78397,7 @@
         "generated",
         "gibbs-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: agrees (19 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 2, VI, VII, VIII, IX, XXIV, XXV, XXVI, XXXI, XXXVII no. 2, XLIV was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-ionic-base-profile",
@@ -78440,7 +78440,7 @@
         "generated",
         "gibbs-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: agrees (4 agree); the conversion of what it inherits: agrees (by the 1 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII — INHERITED: gibbs-ionic states no base of its own, and these members are vignola-ionic's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-ionic-capital-profile",
@@ -78483,7 +78483,7 @@
         "generated",
         "gibbs-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: cap volute (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from gibbs-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: disagrees (3 agree; h_cap_ovolo / h_cap_bead: the record 3, a note 2 (two of them give the Ovolo, one the Bead); h_cap_abacus_ovolo: the record 2.25, a note 1.125 (the upper half into four, of which you must give three to …); h_cap_abacus_fillet: the record 0.75, a note 0.375 (and one to the Lift of the Abacus)); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 3, X, XI, XII, XIII, XIV, XV, XXIV, XXV, XXVI, XXXII, XXXVII no. 3, XLVIII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: cap volute (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "gibbs-ionic-cornice-profile",
@@ -78526,7 +78526,7 @@
         "generated",
         "gibbs-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (25.92 of 25.92 parts); the figures notes state about its record: agrees (10 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 3, X, XI, XII, XIII, XIV, XV, XXIV, XXV, XXVI, XXXII, XXXVII no. 3, XLVIII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-tuscan-base-profile",
@@ -78569,7 +78569,7 @@
         "generated",
         "gibbs-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (12 of 12 parts); the figures notes state about its record: agrees (7 agree); the conversion of what it inherits: agrees (by the 1 its module note states); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII — INHERITED: gibbs-tuscan states no base of its own, and these members are vignola-tuscan's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-tuscan-capital-profile",
@@ -78612,7 +78612,7 @@
         "generated",
         "gibbs-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (12 of 12 parts); the figures notes state about its record: disagrees (6 agree; vignola-tuscan/capital p_cap_abacus: the record 5, a note 3 (projects its own height from the face of the architrave)); the conversion of what it inherits: agrees (by the 1 its module note states); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII — INHERITED: gibbs-tuscan states no capital of its own, and these members are vignola-tuscan's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "gibbs-tuscan-cornice-profile",
@@ -78655,7 +78655,7 @@
         "generated",
         "gibbs-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from gibbs-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from gibbs-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: agrees (14 agree); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- James Gibbs, Rules for Drawing the Several Parts of Architecture, in a more exact and easy manner than has been heretofore practised, by which all fractions, in dividing the principal members and their parts, are avoided (London, 1732), Plates I, III, IV, V, VI, XXIV, XXV, XXVI, XXX was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "greek-doric-capital-profile",
@@ -78698,7 +78698,7 @@
         "generated",
         "greek-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from greek-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from greek-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: could not evaluate (no note states a figure about a figure it records); the pack's invariants: agrees (4 of 4 hold). SOURCE: COULD NOT EVALUATE -- James Stuart and Nicholas Revett, The Antiquities of Athens, London 1762-1816, on the Parthenon and the Hephaisteion; Minard Lafever, The Beauties of Modern Architecture, New York 1835, for the American transmission was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "greek-doric-entablature-profile",
@@ -78741,7 +78741,7 @@
         "generated",
         "greek-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from greek-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from greek-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (105 of 105 parts); the figures notes state about its record: could not evaluate (no note states a figure about a figure it records); the pack's invariants: agrees (4 of 4 hold). SOURCE: COULD NOT EVALUATE -- James Stuart and Nicholas Revett, The Antiquities of Athens, London 1762-1816, on the Parthenon and the Hephaisteion; Minard Lafever, The Beauties of Modern Architecture, New York 1835, for the American transmission was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-composite-base-profile",
@@ -78784,7 +78784,7 @@
         "generated",
         "palladio-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (4 agree); the conversion of what it inherits: agrees (by the 10/6 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII — INHERITED: palladio-composite states no base of its own, and these members are vignola-composite's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-composite-capital-profile",
@@ -78827,7 +78827,7 @@
         "generated",
         "palladio-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (70 of 70 parts); the figures notes state about its record: agrees (3 agree); the conversion of what it inherits: agrees (by the 10/6 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII — INHERITED: palladio-composite states no capital of its own, and these members are vignola-composite's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "palladio-composite-cornice-profile",
@@ -78870,7 +78870,7 @@
         "generated",
         "palladio-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (60 of 60 parts); the figures notes state about its record: agrees (6 agree); the conversion of what it inherits: agrees (by the 10/6 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII — INHERITED: palladio-composite states no cornice of its own, and these members are vignola-composite's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-corinthian-base-profile",
@@ -78913,7 +78913,7 @@
         "generated",
         "palladio-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (6 agree); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVII and XIX was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-corinthian-capital-profile",
@@ -78956,7 +78956,7 @@
         "generated",
         "palladio-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (70 of 70 parts); the figures notes state about its record: disagrees (7 agree; vignola-corinthian/capital h_acanthus_row_1: the record 12, a note 6 (three equal sixths of a diameter)); the conversion of what it inherits: agrees (by the 10/6 its module note states); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV — INHERITED: palladio-corinthian states no capital of its own, and these members are vignola-corinthian's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "palladio-corinthian-cornice-profile",
@@ -78999,7 +78999,7 @@
         "generated",
         "palladio-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (47.5 of 47.5 parts); the figures notes state about its record: agrees (13 agree); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVII and XIX was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-doric-base-profile",
@@ -79042,7 +79042,7 @@
         "generated",
         "palladio-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: disagrees (11 agree; p_base_plinth: the record 20, a note 10 (greater than the sixth Palladio gives the Tuscan and Doric …)); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XV and XIX was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-doric-capital-profile",
@@ -79085,7 +79085,7 @@
         "generated",
         "palladio-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (9 agree); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XV and XIX was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-doric-cornice-profile",
@@ -79128,7 +79128,7 @@
         "generated",
         "palladio-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (45 of 45 parts); the figures notes state about its record: agrees (18 agree); the conversion of what it inherits: agrees (by the 2.5 its module note states); the pack's invariants: agrees (7 of 7 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature) — INHERITED: palladio-doric states no cornice of its own, and these members are vignola-doric's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-ionic-base-profile",
@@ -79171,7 +79171,7 @@
         "generated",
         "palladio-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (5 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVI and XIX was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-ionic-capital-profile",
@@ -79214,7 +79214,7 @@
         "generated",
         "palladio-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (20 of 20 parts); the figures notes state about its record: agrees (7 agree); the conversion of what it inherits: agrees (by the 10/6 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII — INHERITED: palladio-ionic states no capital of its own, and these members are vignola-ionic's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-ionic-cornice-profile",
@@ -79257,7 +79257,7 @@
         "generated",
         "palladio-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (45 of 45 parts); the figures notes state about its record: agrees (7 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVI and XIX was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-tuscan-base-profile",
@@ -79300,7 +79300,7 @@
         "generated",
         "palladio-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (8 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII-XIV and XIX was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-tuscan-capital-profile",
@@ -79343,7 +79343,7 @@
         "generated",
         "palladio-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (30 of 30 parts); the figures notes state about its record: agrees (8 agree); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII-XIV and XIX was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "palladio-tuscan-cornice-profile",
@@ -79386,7 +79386,7 @@
         "generated",
         "palladio-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (40 of 40 parts); the figures notes state about its record: agrees (4 agree); the conversion of what it inherits: agrees (by the 2.5 its module note states); the pack's invariants: agrees (6 of 6 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII — INHERITED: palladio-tuscan states no cornice of its own, and these members are vignola-tuscan's. was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-composite-base-profile",
@@ -79429,7 +79429,7 @@
         "generated",
         "vignola-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: agrees (4 agree); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-composite-capital-profile",
@@ -79472,7 +79472,7 @@
         "generated",
         "vignola-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from vignola-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (42 of 42 parts); the figures notes state about its record: agrees (3 agree); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "vignola-composite-cornice-profile",
@@ -79515,7 +79515,7 @@
         "generated",
         "vignola-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-composite at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (36 of 36 parts); the figures notes state about its record: agrees (6 agree); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-corinthian-base-profile",
@@ -79558,7 +79558,7 @@
         "generated",
         "vignola-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: agrees (4 agree); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-corinthian-capital-profile",
@@ -79601,7 +79601,7 @@
         "generated",
         "vignola-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from vignola-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (42 of 42 parts); the figures notes state about its record: disagrees (7 agree; h_acanthus_row_1: the record 12, a note 6 (three equal sixths of a diameter)); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "vignola-corinthian-cornice-profile",
@@ -79644,7 +79644,7 @@
         "generated",
         "vignola-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-corinthian at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (36 of 36 parts); the figures notes state about its record: agrees (16 agree); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-doric-base-profile",
@@ -79687,7 +79687,7 @@
         "generated",
         "vignola-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (12 of 12 parts); the figures notes state about its record: disagrees (4 agree; p_base_plinth: the record 5, a note 4 (1/6 D for both the height and the projection of the plinth …); max(p_base_plinth, p_base_torus, p_base_bead, p_base_apophyge): the record 5, a note 4.8 ('poco meno della quinta parte del diametro')); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature) was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-doric-capital-profile",
@@ -79730,7 +79730,7 @@
         "generated",
         "vignola-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (12 of 12 parts); the figures notes state about its record: disagrees (7 agree; p_cap_abacus: the record 5.5, a note 4 (the abacus projects one sixth on each side beyond the upper …)); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature) was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-doric-cornice-profile",
@@ -79773,7 +79773,7 @@
         "generated",
         "vignola-doric"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-doric at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: agrees (18 agree); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature) was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-ionic-base-profile",
@@ -79816,7 +79816,7 @@
         "generated",
         "vignola-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (18 of 18 parts); the figures notes state about its record: agrees (4 agree); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-ionic-capital-profile",
@@ -79859,7 +79859,7 @@
         "generated",
         "vignola-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (12 of 12 parts); the figures notes state about its record: agrees (7 agree); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-ionic-cornice-profile",
@@ -79902,7 +79902,7 @@
         "generated",
         "vignola-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-ionic at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (31.5 of 31.5 parts); the figures notes state about its record: agrees (7 agree); the pack's invariants: agrees (9 of 9 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-tuscan-base-profile",
@@ -79945,7 +79945,7 @@
         "generated",
         "vignola-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (12 of 12 parts); the figures notes state about its record: agrees (7 agree); the pack's invariants: agrees (8 of 8 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-tuscan-capital-profile",
@@ -79988,7 +79988,7 @@
         "generated",
         "vignola-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: DISAGREES -- the members sum to the assembly: agrees (12 of 12 parts); the figures notes state about its record: disagrees (6 agree; p_cap_abacus: the record 5, a note 3 (projects its own height from the face of the architrave)); the pack's invariants: agrees (8 of 8 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     },
     {
       "id": "vignola-tuscan-cornice-profile",
@@ -80031,7 +80031,7 @@
         "generated",
         "vignola-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from vignola-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from vignola-tuscan at a 12 in column; every dimension comes from proportion_engine.dimension() and every curve from profiles.py. INTERNAL: AGREES -- the members sum to the assembly: agrees (16 of 16 parts); the figures notes state about its record: agrees (4 agree); the pack's invariants: agrees (8 of 8 hold). SOURCE: COULD NOT EVALUATE -- Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII was not reachable from here, and the figures it would settle are listed in Plan Examples/Plates/WANTED.md. NOT approved: approving a plate is a person's act."
     }
   ]
 }

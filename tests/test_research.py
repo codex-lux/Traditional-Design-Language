@@ -375,7 +375,8 @@ def test_the_grandfathered_set_is_exactly_todays_unsourced_measured_parameters()
     CK = modcache.load("check_kits", os.path.join(ROOT, "build", "check_kits.py"))
     assert CK.GRANDFATHERED == live
     # and it agrees with the ceiling the OTHER checker publishes, so the two cannot drift apart
-    assert len(live) == CR.RATCHET["measured_unsourced"] == 536
+    # 536 -> 534 at WP-14.5: craftsman's casing leg and head, sourced to trim-craftsman
+    assert len(live) == CR.RATCHET["measured_unsourced"] == 534
 
 
 def test_the_gate_is_per_parameter_and_not_a_net_count():

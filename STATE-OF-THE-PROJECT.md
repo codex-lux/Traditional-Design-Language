@@ -134,7 +134,7 @@ the survey found the corpus templated on the surface — every buildable node 2�
 5 constraints — and unmetered underneath (**the exemplar half of that has since moved and the other three
 have not**: three research tranches took the corpus to 800 exemplars, 4 to 9 a node, while sources are
 still 4–5, constraints still exactly 5 on all 132 and distinctions
-still 3 on 128): **536 `measured` kit parameters cite no source** on the parameter
+still 3 on 128): **534 `measured` kit parameters cite no source** on the parameter
 or its slot while the provenance census had pinned editorial-bare at 0 for a year; **an exemplar had no
 locator** (482, 410 buildings, zero URLs in `styles/`); 24 buildable nodes cite only what ANOTHER NODE cites
 (the word was "a sibling" in ten places across eight files until WP-11.7, half of them found only by sweeping; the counter is corpus-wide and the true sibling reading is 9);
