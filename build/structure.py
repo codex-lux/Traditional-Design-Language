@@ -504,7 +504,16 @@ def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
     # A SPAN IS NOT COMPUTED ACROSS THE GAP, because each element's span_check sees only its own
     # bearing lines. That is the entry's "manufactures a clear span across the gap between the
     # house and the dependency", and it goes away by construction here rather than by a filter.
-    _els = [b for b in ((plan.get("footprint") or {}).get("blocks") or [])]
+    #
+    # THE ELEMENTS ARE THE PLACEMENT'S, LIKE EVERY OTHER NUMBER IN THIS FUNCTION (audit, 27 Sep
+    # 2026). This read `plan["footprint"]["blocks"]` while the width, the depth and the rooms came
+    # from `geometry_result` -- and `geometry.solve` writes a placement INTO the record it is handed
+    # on a cache miss and returns a copy on a hit, so the same product call built a per-element
+    # section on a record's first request and a one-element section after it. Measured on the
+    # tagged Tidewater: handed the placed record, the dependency has its envelope walls at x -34
+    # and -7 and three over-capacity spans; handed the declared record beside the SAME placement,
+    # it had no dependency walls and one invented span across the whole house.
+    _els = [b for b in (clear_fp.get("blocks") or [])]
     levels_out = []
     for lv in geometry_result["levels"]:
         W, H = clear_fp["width_ft"], clear_fp["depth_ft"]

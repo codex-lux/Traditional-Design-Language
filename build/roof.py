@@ -212,7 +212,9 @@ def main_roof(plan, section, style):
     else:
         result["note"] = f"Roof form '{form}' is not one of gable/hip/gambrel/cross-gable -- geometry not modelled; grade_to_eave_ft is the only number this file adds for it."
 
-    result["openings"] = _roof_openings(plan)
+    # the section's placement, as the stacks are: the voids are placed rooms, and a record handed
+    # declared (a warm request) carries none (audit, 27 Sep 2026)
+    result["openings"] = _roof_openings(section.get("geometry") if isinstance(section.get("geometry"), dict) else plan)
     return result
 
 

@@ -85,12 +85,19 @@ def slab_boxes(plan, section, t_ext):
 
     Returns `[{level, element, width_ft, depth_ft, cx, cy, thickness_ft, grade_to_floor_ft}]`,
     main block first on each storey."""
-    fp = section["geometry"]["footprint"]
+    # THE ELEMENTS AND THE ROOMS ARE THE SECTION'S PLACEMENT'S (audit, 27 Sep 2026), as the
+    # footprint already was: this read both off `plan`, which a product caller hands placed on a
+    # record's first request and declared after it (`geometry.solve` writes into its argument on a
+    # cache miss only), so the IFC's slabs depended on the cache -- one slab per storey on a warm
+    # request, a dependency slab missing, and the dependency's rooms over nothing. `plan` stays in
+    # the signature for its callers; nothing in it is read here.
+    geo = section["geometry"]
+    fp = geo["footprint"]
     W, D = fp["width_ft"], fp["depth_ft"]
-    blocks = {b["id"]: b for b in ((plan.get("footprint") or {}).get("blocks") or [])}
+    blocks = {b["id"]: b for b in (fp.get("blocks") or [])}
     GEOM = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     on_level = {}
-    for lv in plan.get("levels", []):
+    for lv in geo.get("levels", []):
         idx = lv.get("index", 0)
         for r in lv.get("rooms", []):
             if not r.get("geometry"):
@@ -174,6 +181,17 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
     ios = _ifc()
     if ios is None:
         return dict(REFUSAL)
+    # THE CLI AND LIBRARY PATH REFUSES WHAT THE SHEET REFUSES (audit, 27 Sep 2026). With no
+    # placement handed, this took `build_section`'s internal heuristic default and judged nothing:
+    # `export_ifc(<the Tidewater record>)` wrote 50 walls, 4 slabs and 24 spaces of a placement
+    # the same record's plan sheet, DXF and heuristic verdict all refuse. It takes the DXF's own
+    # `_solved_copy` now -- the one spelling of "place for export and refuse", on the engine the
+    # bench draws with -- so the CLI's two CAD files are one building and one verdict.
+    if geometry_result is None:
+        EX = _mod("export_dxf", f"{ROOT}/build/export_dxf.py")
+        _orig, geometry_result = EX._solved_copy(plan, parti)
+        if "error" in geometry_result:
+            return dict(geometry_result, unexported=True)
     ST = _mod("structure", f"{ROOT}/build/structure.py")
     RF = _mod("roof", f"{ROOT}/build/roof.py")
     section = ST.build_section(copy.deepcopy(plan), parti, geometry_result=geometry_result)
@@ -533,12 +551,23 @@ def selftest():
         return 3
     import ifcopenshell.util.element as uel
     import tempfile
-    failures = 0
+    failures = unevaluated = 0
     for rel in SELFTEST_PLANS:
         plan = json.load(open(os.path.join(ROOT, rel)))
         with tempfile.TemporaryDirectory() as td:
             path = os.path.join(td, "out.ifc")
             res = export_ifc(plan, path)
+            # A REFUSED PLACEMENT IS COULD NOT EVALUATE, NEITHER A PASS NOR A FAILURE -- the DXF
+            # selftest's rule since 16 Sep, reached here the day this path learned to refuse
+            # (audit, 27 Sep 2026). Until then this passed by writing an IFC of a placement the
+            # ruling forbids drawing.
+            if res.get("refused_placement"):
+                why = res["refused_placement"]
+                print(f"  COULD NOT EVALUATE {rel}: the placement is refused for "
+                      f"{', '.join(why.get('facts') or ['an unnamed fact'])}, so no IFC was "
+                      f"written and the acceptance surface was not exercised. This is not a pass.")
+                unevaluated += 1
+                continue
             if "error" in res:
                 print(f"  FAIL {rel}: {res['error']}")
                 failures += 1
@@ -572,6 +601,10 @@ def selftest():
     if failures:
         print(f"\n{failures} selftest failure(s).")
         return 1
+    if unevaluated:
+        print(f"\nCOULD NOT EVALUATE: {unevaluated} of {len(SELFTEST_PLANS)} plan(s) are refused "
+              f"and no IFC was written for them. This is not a pass.")
+        return 3
     print("\nexport_ifc selftest: acceptance surface present on both plans.")
     return 0
 

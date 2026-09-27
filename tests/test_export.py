@@ -208,11 +208,21 @@ def test_windows_drawn_at_true_width_not_the_svg_shrink(dxf_sets):
 def ifc_models(tmp_path_factory):
     ios = pytest.importorskip("ifcopenshell")
     EI = mc.load("export_ifc", os.path.join(BUILD, "export_ifc.py"))
+    # THE WRITER IS HANDED ITS PLACEMENT, AND THAT IS WHAT THESE TESTS ARE ABOUT (audit, 27 Sep
+    # 2026). They read the IFC's acceptance surface, its ids, its spaces and its roof planes off
+    # the two shipped plans -- properties of the WRITER given a placement. The CLI path placed for
+    # itself on `build_section`'s heuristic default and judged nothing, so it wrote both of these
+    # records although both are refused; it refuses them now (`tests/test_refusal.py`), so the
+    # fixture hands the writer the placement it always drew -- the heuristic solve
+    # `test_ifc_spaces_are_the_placed_rooms` names -- and the product's route, which refuses
+    # before it calls the writer, is unchanged.
+    GEO = mc.load("geometry", os.path.join(BUILD, "geometry.py"))
     out = {}
     for rel in PLANS:
         plan = _load(rel)
         p = str(tmp_path_factory.mktemp("ifc") / "out.ifc")
-        res = EI.export_ifc(copy.deepcopy(plan), p)
+        placed = GEO.solve(copy.deepcopy(plan), engine="heuristic")
+        res = EI.export_ifc(copy.deepcopy(plan), p, geometry_result=placed)
         assert "error" not in res, (rel, res)
         out[rel] = (plan, res, ios.open(p))
     return out

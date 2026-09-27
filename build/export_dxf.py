@@ -229,11 +229,14 @@ def _plan_meta(plan):
     return meta
 
 
-def export_plan_dxf(plan, path, parti=None, candidates=250):
+def export_plan_dxf(plan, path, parti=None, candidates=250, solved=None):
+    """`solved` is the set's one placement where a caller already holds it (`export_all`), so the
+    plan sheet is drawn from the placement the other three sheets are; `plan` is then the record
+    the XDATA carries. Without it the placement is made and judged here, as it always was."""
     ezdxf = _ezdxf()
     if ezdxf is None:
         return dict(REFUSAL)
-    original, solved = _solved_copy(plan, parti, candidates)
+    original, solved = (plan, solved) if solved is not None else _solved_copy(plan, parti, candidates)
     if "error" in solved:
         # FORWARDED, NOT FLATTENED (WP-13.4). This read `{"error": solved["error"], ...}`
         # and dropped everything else, so a refusal computed one frame down arrived at the
@@ -750,24 +753,37 @@ def export_all(plan, outdir, parti=None, candidates=250, face=None):
     pid = plan.get("id", "plan")
     out = {"plan_id": pid, "sheets": {}}
 
-    out["sheets"]["plan"] = export_plan_dxf(plan, os.path.join(outdir, f"{pid}-plan.dxf"),
-                                            parti, candidates)
+    # ONE PLACEMENT FOR THE SET, AND A REFUSED ONE EXPORTS NO SHEET (audit, 27 Sep 2026). The plan
+    # sheet went through `_solved_copy`, which places on `auto` and refuses what the type forbids;
+    # the section, roof and elevation then called `build_section(plan)` with no placement, which
+    # re-solves on its internal HEURISTIC default -- so on the Tidewater record the plan sheet was
+    # refused while the other three were written, of a placement the refusal was never asked
+    # about, and on bad-06 the plan sheet was CP-SAT's house and the section the search's, all
+    # seven rooms at a different rectangle. WP-6.4's one building, lost in the CLI set, and
+    # WP-13.4's refusal reaching one sheet of four.
+    original, solved = _solved_copy(plan, parti, candidates)
+    if "error" in solved:
+        for kind in ("plan", "section", "roof", "elevation"):
+            out["sheets"][kind] = dict(_forward(solved), unexported=True)
+        return out
+    out["sheets"]["plan"] = export_plan_dxf(original, os.path.join(outdir, f"{pid}-plan.dxf"),
+                                            parti, candidates, solved=solved)
     ST = _mod("structure", f"{ROOT}/build/structure.py")
-    section = ST.build_section(copy.deepcopy(plan), parti)
+    section = ST.build_section(copy.deepcopy(original), parti, geometry_result=solved)
     if "error" in section:
         out["sheets"]["section"] = dict(_forward(section), unexported=True)
         return out
     out["sheets"]["section"] = export_section_dxf(section, os.path.join(outdir, f"{pid}-section.dxf"))
 
     RF = _mod("roof", f"{ROOT}/build/roof.py")
-    roof = RF.build_roof(copy.deepcopy(plan), parti, section=section)
+    roof = RF.build_roof(copy.deepcopy(original), parti, section=section)
     if "error" in roof:
         out["sheets"]["roof"] = dict(_forward(roof), unexported=True)
     else:
         out["sheets"]["roof"] = export_roof_dxf(roof, os.path.join(outdir, f"{pid}-roof.dxf"))
 
     EL = _mod("elevation", f"{ROOT}/build/elevation.py")
-    elev = EL.build_elevation(copy.deepcopy(plan), parti,
+    elev = EL.build_elevation(copy.deepcopy(original), parti,
                               section=section, roof=None if "error" in roof else roof)
     if "error" in elev:
         out["sheets"]["elevation"] = dict(_forward(elev), unexported=True)

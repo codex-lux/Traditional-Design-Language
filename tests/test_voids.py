@@ -210,6 +210,25 @@ def test_the_roof_pass_records_the_hole_rather_than_spanning_it_silently(roof_mo
     assert roof_module._roof_openings({"levels": []})["count"] == 0
 
 
+def test_the_roof_reads_its_openings_off_the_sections_placement(geometry_module, roof_module,
+                                                                structure_module, court_plan):
+    """AUDIT, 27 SEP 2026: `build_roof` read the open voids off the record it was HANDED, and a
+    product caller hands the declared record on a warm request (`geometry.solve` writes into its
+    argument on a cache miss only), which carries no placed rooms -- so the same court read "one
+    opening" on a first request and "No opening in the roof volume." after it. The voids are read
+    off the section's placement now, as the stacks are. The premise is that the court IS open."""
+    saved = geometry_module._SOLVE_CACHE
+    geometry_module._SOLVE_CACHE = {}
+    try:
+        placed = geometry_module.solve(copy.deepcopy(court_plan), engine="heuristic")
+    finally:
+        geometry_module._SOLVE_CACHE = saved
+    sec = structure_module.build_section(placed, None, geometry_result=placed)
+    want = roof_module.build_roof(placed, section=sec)["main"]["openings"]
+    assert want["count"] >= 1, "the premise: the composed court is open to the sky"
+    assert roof_module.build_roof(copy.deepcopy(court_plan), section=sec)["main"]["openings"] == want
+
+
 def test_the_drawing_shows_the_court_open(geometry_module, court_plan, tmp_path):
     """The drawing is a render of the data (decision #11). A court drawn as a dark room is the
     picture disagreeing with the record it is supposed to be a view of."""

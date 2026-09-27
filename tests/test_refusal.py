@@ -259,6 +259,60 @@ def test_the_dxf_refuses_a_refused_placement_on_both_paths():
         "a record carrying a refused placement was accepted by the short circuit")
 
 
+def _carried_refused():
+    """The Tidewater record placed on the search, carried in already placed: refused on this tree
+    (the premise is asserted by each caller), and reached with no CP solve."""
+    carried = GEO.solve(copy.deepcopy(_plan()), None, 60, engine="heuristic")
+    if not (carried.get("geometry_report") or {}).get("refused"):
+        pytest.skip("COULD NOT EVALUATE: this record is not refused on this tree")
+    return carried
+
+
+def test_the_ifc_refuses_a_refused_placement_on_its_own_path(tmp_path):
+    """AUDIT, 27 SEP 2026. `export_ifc` with no placement handed took `build_section`'s heuristic
+    default and judged nothing, so the CLI wrote an IFC of the Tidewater record -- 50 walls, 4
+    slabs, 24 spaces -- that the same record's plan sheet, its DXF and its own verdict refuse. It
+    routes through `export_dxf._solved_copy` now, the one spelling of place-and-refuse."""
+    pytest.importorskip("ifcopenshell", reason="COULD NOT EVALUATE: ifcopenshell is not installed")
+    EI = mc.load("export_ifc", os.path.join(ROOT, "build", "export_ifc.py"))
+    path = tmp_path / "refused.ifc"
+    res = EI.export_ifc(_carried_refused(), str(path))
+    assert res.get("refused_placement", {}).get("lines"), res
+    assert res.get("unexported") is True and "refusal" not in res
+    assert not path.exists(), "a refused placement wrote an IFC"
+
+
+def test_the_dxf_set_is_one_placement_and_is_refused_whole(tmp_path, monkeypatch):
+    """AUDIT, 27 SEP 2026. `export_all` refused the plan sheet and then built the section, the
+    roof and the elevation from `build_section(plan)` with no placement -- a second, heuristic
+    solve -- so a refused house had three sheets written, and a drawable one had its section of
+    a different placement from its plan sheet. Both halves: a refused record exports no sheet at
+    all, and a drawable one is solved ONCE for all four (counted, not assumed)."""
+    pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+    EX = mc.load("export_dxf", os.path.join(ROOT, "build", "export_dxf.py"))
+    out = EX.export_all(_carried_refused(), str(tmp_path / "refused"))
+    assert set(out["sheets"]) == {"plan", "section", "roof", "elevation"}, out["sheets"].keys()
+    for kind, sheet in out["sheets"].items():
+        assert sheet.get("refused_placement"), (kind, sheet)
+        assert "path" not in sheet, kind
+    calls = []
+    real = GEO.solve
+    monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})
+    monkeypatch.setattr(GEO, "solve", lambda *a, **k: calls.append(k.get("engine")) or real(*a, **k))
+    drawable = None
+    for name in ("bad-06-open-concept-render", "bad-04-log-cabin", "bad-03-narrow-lot-townhome"):
+        calls.clear()
+        res = EX.export_all(copy.deepcopy(_plan(name)), str(tmp_path / name))
+        if "refused_placement" not in res["sheets"]["plan"]:
+            drawable = name
+            break
+    if drawable is None:
+        pytest.skip("COULD NOT EVALUATE: none of the three cheapest records is drawable here")
+    assert calls == ["auto"], f"{drawable}: the set solved {len(calls)} time(s), {calls}"
+    for kind in ("plan", "section", "roof"):
+        assert "path" in res["sheets"][kind], (drawable, kind, res["sheets"][kind])
+
+
 def test_the_dxf_forwards_its_refusal_rather_than_flattening_it(tmp_path):
     """AND THE FRAME ABOVE `_solved_copy` MUST NOT DROP IT, which the guard above cannot see.
 

@@ -457,7 +457,14 @@ def _placed(plan, parti=None, candidates=250):
     # to identify what was HANDED to the solver.
     digest = hashlib.sha256(json.dumps(plan, sort_keys=True,
                                        default=str).encode()).hexdigest()[:12]
-    out = geo.solve(plan, parti, candidates, engine="auto")
+    # A COPY, SO THE RECORD HANDED IS THE RECORD AFTER (audit, 27 Sep 2026). `geometry.solve`
+    # writes the placement INTO its argument on a cache miss and returns a copy on a hit, so every
+    # branch below handed its builders the PLACED record on a record's first request and the
+    # DECLARED one after -- and four readers took something off that record (the roof's stacks
+    # and its voids, the section's massing elements, the IFC's slabs), so one request drew the
+    # house and the next drew another. Those readers take the placement now; this removes the
+    # asymmetry itself, so no reader added later can answer by cache state.
+    out = geo.solve(core.copy_json(plan), parti, candidates, engine="auto")
     if "error" in out:
         return out
     sv = (out.get("geometry_report") or {}).setdefault("solver", {})
