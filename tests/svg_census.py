@@ -204,6 +204,11 @@ def p2():
     out = []
     for a, g, pl, rec in _profile_assets():
         got = _fig(r"([\d.]+)″ of relief", pl.flat_text)
+        # A plate whose ink draws no relief SAYS so in words rather than printing a figure
+        # (WP-14.2), and "no relief" is a claim of zero that the ink can contradict -- read it as
+        # one, never as a plate that printed nothing.
+        if got is None and re.search(r"\bno relief\b", pl.flat_text):
+            got = 0.0
         why = _unreadable(pl) or (None if got is not None else "no relief printed")
         if why:
             out.append(row("P2", a["id"], "cne", why))
@@ -1599,8 +1604,33 @@ def main():
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--write-doc", action="store_true")
     ap.add_argument("--surface", action="append")
+    ap.add_argument("--diff", action="store_true",
+                    help="what moved against tests/fixtures/ink_known_disagreements.json")
+    ap.add_argument("--pin", action="store_true",
+                    help="rewrite the known disagreements to the live census (say why in the commit)")
     a = ap.parse_args()
     rows = run(set(a.surface) if a.surface else None)
+    if a.diff or a.pin:
+        if a.surface:
+            ap.error("--diff and --pin read the WHOLE census: a partial run would call every "
+                     "unrun row fixed")
+        doc = json.load(open(KNOWN))
+        known, live = doc["disagreements"], disagreements(rows)
+        new = sorted(set(live) - set(known))
+        fixed = sorted(set(known) - set(live))
+        moved = sorted(k for k in set(known) & set(live) if known[k] != live[k])
+        for label, ids in (("NEW", new), ("FIXED", fixed), ("MOVED", moved)):
+            print("%s %d" % (label, len(ids)))
+            for k in ids:
+                print("   %s  %s" % (k, live.get(k, known.get(k)) if label != "MOVED"
+                                     else "%r -> %r" % (known[k], live[k])))
+        if a.pin:
+            doc["disagreements"] = {k: live[k] for k in sorted(live)}
+            with open(KNOWN, "w", encoding="utf-8") as fh:
+                json.dump(doc, fh, indent=1, ensure_ascii=False)
+                fh.write("\n")
+            print("pinned", len(live))
+        return 0
     if a.json:
         print(json.dumps({"summary": summary(rows), "rows": rows}, indent=1))
         return 0

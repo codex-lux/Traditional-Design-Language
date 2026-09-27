@@ -107,8 +107,8 @@ join the app without either a census row or a stated reason it is not an archite
 <!-- census:checks:begin -->
 | check | surface | statement | population | rows | agrees | disagrees | could not evaluate |
 |---|---|---|---|---:|---:|---:|---:|
-| P1 | profile-plates | the column diameter a plate prints is the diameter it is drawn at | every committed profile plate | 73 | 61 | 12 | 0 |
-| P2 | profile-plates | the relief a plate prints is the relief its ink draws | every committed profile plate | 73 | 68 | 5 | 0 |
+| P1 | profile-plates | the column diameter a plate prints is the diameter it is drawn at | every committed profile plate | 73 | 73 | 0 | 0 |
+| P2 | profile-plates | the relief a plate prints is the relief its ink draws | every committed profile plate | 73 | 73 | 0 | 0 |
 | P3 | profile-plates | no ink falls inside the assembly's own naked (a moulding bitten into the member it stands on) | every committed profile plate | 73 | 67 | 6 | 0 |
 | P4 | profile-plates | every mark of ink is inside the plate's viewBox | every committed profile plate | 73 | 71 | 2 | 0 |
 | P5 | profile-plates | every member boundary the record states is a drawn vertex, and the drawn height is the stated height | every committed profile plate | 73 | 73 | 0 | 0 |

@@ -78775,7 +78775,7 @@
         "width": 738,
         "height": 808,
         "bytes": 3021,
-        "sha256": "a73c409726714f345a6b4d871ea05442ec2cc3fa103b1ce58d304f2b534d7812"
+        "sha256": "1f1f7aeb8015cc87eee66da6ece341b35d88dd3e8992690f50ca8f1661e11bc4"
       },
       "status": "sourced",
       "priority": "high",
@@ -78784,7 +78784,7 @@
         "generated",
         "palladio-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "palladio-composite-capital-profile",
@@ -78818,7 +78818,7 @@
         "width": 738,
         "height": 830,
         "bytes": 3713,
-        "sha256": "d469ea19da9f7592cedd63a821cd2ea445e7628fd2cff139f7bc36882249d6e9"
+        "sha256": "f38b19f9c1196b5fd4de6888b4189ad0d1a2286c1bab042fbb949d7070a4b9c1"
       },
       "status": "sourced",
       "priority": "high",
@@ -78827,7 +78827,7 @@
         "generated",
         "palladio-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), volute and echinus (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "palladio-composite-cornice-profile",
@@ -78861,7 +78861,7 @@
         "width": 738,
         "height": 508,
         "bytes": 3823,
-        "sha256": "dae2b4996396553b0c39c418a69e471b15e5fd09c187bf25b8c09a8c7491a281"
+        "sha256": "3e7cb5f6690ba8764ade9357338edd590b5e29fec2e179d0657d6cf9f6568ee6"
       },
       "status": "sourced",
       "priority": "high",
@@ -78870,7 +78870,7 @@
         "generated",
         "palladio-composite"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-composite at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "palladio-corinthian-base-profile",
@@ -78904,7 +78904,7 @@
         "width": 738,
         "height": 786,
         "bytes": 2785,
-        "sha256": "b60e3846045eb7b51ccb567eef482f03643a7858b77a007d1e28ada8aa2b273a"
+        "sha256": "5400836a1d2babbb676325f678b0ab284ca030afe55809c3f705eba221027391"
       },
       "status": "sourced",
       "priority": "high",
@@ -78913,7 +78913,7 @@
         "generated",
         "palladio-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "palladio-corinthian-capital-profile",
@@ -78947,7 +78947,7 @@
         "width": 738,
         "height": 819,
         "bytes": 3207,
-        "sha256": "ec413d70baaff4dd358fcd60c5ad524195c4db94ba67827e2282ee91f56e9bb1"
+        "sha256": "e65fe496ad08b84f6c4637a46fae1e7acedae8ba79d33d654bc5fb4140a8c660"
       },
       "status": "sourced",
       "priority": "high",
@@ -78956,7 +78956,7 @@
         "generated",
         "palladio-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
+      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "palladio-corinthian-cornice-profile",
@@ -78989,8 +78989,8 @@
         "format": "svg",
         "width": 738,
         "height": 785,
-        "bytes": 2418,
-        "sha256": "298cc90ea0a74ddcfbe6b24895c283c60e33e40f1d6f854fe4c9dcc3e69bbe75"
+        "bytes": 2435,
+        "sha256": "0eed640268969f56b0de8302b74d8e1ad9794d1de4e6615fb0f12931b7921a84"
       },
       "status": "sourced",
       "priority": "high",
@@ -78999,7 +78999,7 @@
         "generated",
         "palladio-corinthian"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "palladio-doric-base-profile",
@@ -79075,8 +79075,8 @@
         "format": "svg",
         "width": 738,
         "height": 786,
-        "bytes": 2391,
-        "sha256": "ff3663b33beea2090ff34e505991a082eb5ecdbb4420094ca99617badc3d34a2"
+        "bytes": 2408,
+        "sha256": "e61264edf6f9ee3b9283961788897ec4cdc07fac1bc6146391236f351fcc3a9e"
       },
       "status": "sourced",
       "priority": "high",
@@ -79161,8 +79161,8 @@
         "format": "svg",
         "width": 738,
         "height": 786,
-        "bytes": 2754,
-        "sha256": "ea058e5c64c9cf4f7361946a3151bba9f858bd504e4abf66ef7ab8acd1f2b727"
+        "bytes": 2771,
+        "sha256": "fc23fac8a9861ff0ef5341bcf99255d1ef9958acfdf55470e5843ebcd25e3b90"
       },
       "status": "sourced",
       "priority": "high",
@@ -79171,7 +79171,7 @@
         "generated",
         "palladio-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "palladio-ionic-capital-profile",
@@ -79205,7 +79205,7 @@
         "width": 738,
         "height": 755,
         "bytes": 2798,
-        "sha256": "d61137ebec8d4369cc722fcf13eb8be9bd36f4f846349a76e2693d067800649c"
+        "sha256": "e12c2fa1d2543dcb5aa9595d51ec9476cb21480527514fa8ef99f1bfb26f3f12"
       },
       "status": "sourced",
       "priority": "high",
@@ -79214,7 +79214,7 @@
         "generated",
         "palladio-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "palladio-ionic-cornice-profile",
@@ -79247,8 +79247,8 @@
         "format": "svg",
         "width": 738,
         "height": 786,
-        "bytes": 2047,
-        "sha256": "3baaa3f9858d4d12a0a848e4a605353cc188fa18ae503c87edb87024a244727d"
+        "bytes": 2064,
+        "sha256": "30d0df9c116b36e33a92479e63048a0728182f3aa77047bc9563716ad53c9bcb"
       },
       "status": "sourced",
       "priority": "high",
@@ -79257,7 +79257,7 @@
         "generated",
         "palladio-ionic"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "palladio-tuscan-base-profile",
@@ -79291,7 +79291,7 @@
         "width": 738,
         "height": 786,
         "bytes": 2145,
-        "sha256": "efb532bf646e43758ed94bf0614de60b271707e4589e531f897cb715b7cd4b3b"
+        "sha256": "553d121be91a91893a3926578d1773c49cc1bc4d378e4490e9c352484ce24639"
       },
       "status": "sourced",
       "priority": "high",
@@ -79300,7 +79300,7 @@
         "generated",
         "palladio-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "palladio-tuscan-capital-profile",
@@ -79333,8 +79333,8 @@
         "format": "svg",
         "width": 738,
         "height": 786,
-        "bytes": 2180,
-        "sha256": "4f58f1e8a1a4b005c75d64713c9d2024a3785d887b92e2a6ff1aaa17a29949d1"
+        "bytes": 2197,
+        "sha256": "8d7b91b5d7a1ffda9fd30ff45e75ff7d2010f8d546a191091a02b977f94a97ea"
       },
       "status": "sourced",
       "priority": "high",
@@ -79343,7 +79343,7 @@
         "generated",
         "palladio-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "palladio-tuscan-cornice-profile",
@@ -79377,7 +79377,7 @@
         "width": 738,
         "height": 508,
         "bytes": 3086,
-        "sha256": "782c0824726a26010c79170c7e41a23ac4a4bfd71c0ff2a417c8e8483609e131"
+        "sha256": "d430949ef83d2c636c1eb524e0d8d76e996fc9888800543bb96a25fd4791d98d"
       },
       "status": "sourced",
       "priority": "high",
@@ -79386,7 +79386,7 @@
         "generated",
         "palladio-tuscan"
       ],
-      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 24 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
+      "review_note": "Drawn by build/render_profile.py from palladio-tuscan at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "vignola-composite-base-profile",

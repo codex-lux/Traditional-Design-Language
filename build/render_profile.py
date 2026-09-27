@@ -96,14 +96,39 @@ def states_assembly(pack_id, assembly_id):
     return PE.assembly_owner(pack_id, assembly_id)
 
 
-def _footer_lines(pack, pack_id, assembly_id, module_in, members, height, relief, unconstructed):
+def _inches(x):
+    """A figure in inches as a person writes it: 12, 12.5, 0.75 -- never 12.00 or 1e1."""
+    return ("%.2f" % x).rstrip("0").rstrip(".")
+
+
+def _relief_words(relief, published):
+    """THE RELIEF A PLATE PRINTS IS THE RELIEF ITS INK DRAWS (WP-14.2). This line used to print
+    the layout's own floor -- `relief or 1.0` -- so five plates that draw no relief at all said
+    "1.00 in of relief", a figure no record states and no ink shows. A zero is said as what it is:
+    either no member publishes a projection, or every published face is flush."""
+    if relief > 1e-9:
+        return "%.2f\u2033 of relief from the naked" % relief
+    if not published:
+        return "no relief drawn: no member publishes a projection"
+    return "no relief: every published face is flush with the naked"
+
+
+def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, relief, unconstructed,
+                  published=True):
     """What the plate says about itself. One function, because the height calculation and the
-    drawing both read it and a second copy would let them disagree about how tall it is."""
+    drawing both read it and a second copy would let them disagree about how tall it is.
+
+    THE COLUMN IS THE ONE THE PLATE IS DRAWN AT, read off `dimension()`'s own
+    `totals.lower_diameter_in` (WP-14.2). This used to print `module_in * 2`, which is a column
+    only where the module is the SEMIdiameter: Palladio's module is the WHOLE diameter
+    (`proportion_engine.diameters_per_module`), so twelve Palladio plates drawn at a 12 in column
+    said "at a 24 in column" -- the arithmetic `dimension()` exists to get right, done again
+    wrong one function away."""
     lines = ["GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL "
              "BUILDING.",
-             "%s, assembly %s, at a %.0f\u2033 column. %d member(s), %.2f\u2033 high, %.2f\u2033 "
-             "of relief from the naked." % (pack.get("name") or pack_id, assembly_id,
-                                            module_in * 2, len(members), height, relief)]
+             "%s, assembly %s, at a %s\u2033 column. %d member(s), %.2f\u2033 high, %s." % (
+                 pack.get("name") or pack_id, assembly_id, _inches(diameter_in), len(members),
+                 height, _relief_words(relief, published))]
     owner = states_assembly(pack_id, assembly_id)
     if owner and owner != pack_id:
         src = PE.PACKS.get(owner) or {}
@@ -156,8 +181,13 @@ def render(pack_id, assembly_id, module_in=6.0):
     y0 = min(m["y_bottom_in"] for m in members)
     y1 = max(m["y_top_in"] for m in members)
     drawn_h = (y1 - y0) or 1.0
+    # The relief the INK draws, and nothing else: the layout's own floor is applied to the scale
+    # below and is never a figure on the plate (WP-14.2).
     relief = max((PROF.outer_face(naked, m.get("projection_in") or 0.0, from_axis) - naked)
-                 for m in members) or 1.0
+                 for m in members)
+    raw = {m["id"]: m for m in ((pack.get("assemblies") or {}).get(assembly_id) or {}).get("members", [])}
+    published = any("projection_parts" in (raw.get(m["id"]) or {}) for m in members)
+    diameter_in = dim["totals"]["lower_diameter_in"]
 
     pad = PAD
     # Scale to the relief, then let the height follow. Capped so a tall capital cannot run to a
@@ -179,8 +209,13 @@ def render(pack_id, assembly_id, module_in=6.0):
     # a plate that is slightly tall.
     _foot_budget = int((W - pad * 2) / CH_W)
     _foot_rows = 0
-    for _ln in _footer_lines(pack, pack_id, assembly_id, module_in, members, y1 - y0, relief,
-                             unconstructed):
+    # ONE list, built once and read twice -- by the height calculation here and by the drawing
+    # below. They were two calls with their own arguments, and WP-14.2's change to one of them
+    # left the other still passing `module_in`: the plate would have been sized for one footer
+    # and drawn with another.
+    footer = _footer_lines(pack, pack_id, assembly_id, diameter_in, members, y1 - y0, relief,
+                           unconstructed, published)
+    for _ln in footer:
         _foot_rows += max(1, -(-len(_ln) // _foot_budget))
     H = int(pad * 2 + box_h + 34 + _foot_rows * 11)
 
@@ -264,8 +299,7 @@ def render(pack_id, assembly_id, module_in=6.0):
 
     # The plate says what it is and what it is not.
     foot = H - pad + 6
-    lines = _footer_lines(pack, pack_id, assembly_id, module_in, members, y1 - y0, relief,
-                          unconstructed)
+    lines = footer
     # The footer is prose and prose is not width-aware. Wrap it rather than let a pack with a
     # long name push its own disclosure off the paper -- the disclosure is the one line on this
     # plate that must never be the thing that gets cut.
@@ -283,6 +317,7 @@ def render(pack_id, assembly_id, module_in=6.0):
 
     return "\n".join(s), {"members": len(members), "unconstructed": _named(unconstructed),
                           "height_in": round(y1 - y0, 3), "relief_in": round(relief, 3),
+                          "diameter_in": diameter_in,
                           "plate_w": W, "plate_h": H}
 
 
@@ -346,11 +381,11 @@ def main():
             # the harvester set it on records whose `file` stayed null.
             asset["status"] = "sourced"
             asset["review_note"] = (
-                "Drawn by build/render_profile.py from %s at a %.0f in column. Every dimension "
+                "Drawn by build/render_profile.py from %s at a %s in column. Every dimension "
                 "comes from proportion_engine.dimension() and every curve from profiles.py, so "
                 "the drawing and the data cannot silently disagree. NOT reviewed: nobody has "
                 "looked at this plate and confirmed it shows what the record says it shows.%s"
-                % (g["pack"], (g.get("module_in") or 6.0) * 2,
+                % (g["pack"], _inches(rep["diameter_in"]),
                    ("" if not rep["unconstructed"] else
                     " PARTIAL: %s are named on the plate and not drawn, because this corpus "
                     "records no construction for them." % ", ".join(rep["unconstructed"]))))

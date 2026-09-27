@@ -145,8 +145,8 @@ def _verdicts(monkeypatch, cid, plates):
 
 
 class TestTheChecksCanDisagree:
-    """P5, P6, P9 and P12 have no live disagreement, so the corpus never reaches the branch
-    that says one. Each is driven with the defect it exists for."""
+    """P1, P2, P5, P6, P9 and P12 have no live disagreement, so the corpus never reaches the
+    branch that says one. Each is driven with the defect it exists for."""
 
     PLATE = "vignola-doric-capital-profile"
 
@@ -160,9 +160,11 @@ class TestTheChecksCanDisagree:
     def test_the_unplanted_plates_agree_so_each_verdict_below_is_the_plant(self):
         """The control. Without it a 'disagrees' below could be the plate and not the plant."""
         live = {(r["check"], r["subject"]): r["verdict"] for r in _rows()}
-        for cid in ("P5", "P6", "P12"):
+        for cid in ("P2", "P5", "P6", "P12"):
             assert live[(cid, self.PLATE)] == "agrees", cid
         assert live[("P9", "palladio-tuscan-cornice-profile")] == "agrees"
+        assert live[("P1", "palladio-ionic-base-profile")] == "agrees"
+        assert live[("P2", "palladio-doric-capital-profile")] == "agrees"
 
     def test_p5_sees_a_plate_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
         got = _verdicts(monkeypatch, "P5", _planted(self.PLATE, self._scaled(1.1)))
@@ -179,6 +181,30 @@ class TestTheChecksCanDisagree:
 
     def test_p12_sees_a_committed_plate_nobody_re_rendered(self, monkeypatch):
         got = _verdicts(monkeypatch, "P12", _planted(self.PLATE, lambda s: s.replace("</svg>", "<g/></svg>")))
+        assert got == ["disagrees"], got
+
+    def test_p1_sees_a_plate_that_prints_a_column_it_is_not_drawn_at(self, monkeypatch):
+        """WP-14.2 fixed the twelve Palladio plates that said "at a 24 in column" over a 12 in
+        drawing, so P1 has no live disagreement; this is that defect put back."""
+        got = _verdicts(monkeypatch, "P1", _planted(
+            "palladio-ionic-base-profile", lambda s: s.replace("at a 12\u2033 column", "at a 24\u2033 column")))
+        assert got == ["disagrees"], got
+
+    def test_p2_sees_the_layout_floor_printed_as_relief(self, monkeypatch):
+        """The other WP-14.2 defect put back: a plate whose ink draws no relief, printing the
+        layout's own 1.00 in floor as if the record stated it."""
+        def change(s):
+            return s.replace("no relief drawn: no</text>", "1.00\u2033 of relief from the naked.</text>")
+        got = _verdicts(monkeypatch, "P2", _planted("palladio-doric-capital-profile", change))
+        assert got == ["disagrees"], got
+
+    def test_p2_reads_no_relief_as_a_claim_of_zero_that_ink_can_contradict(self, monkeypatch):
+        """"no relief" is read as zero rather than as a plate that printed nothing, so a plate
+        saying it over ink that DOES project is a disagreement and not COULD NOT EVALUATE."""
+        def change(s):
+            return s.replace("2.75\u2033 of relief from the naked.",
+                             "no relief: every published face is flush with the naked.")
+        got = _verdicts(monkeypatch, "P2", _planted(self.PLATE, change))
         assert got == ["disagrees"], got
 
     def test_a_plate_with_no_frame_is_unjudged_and_not_a_crash(self, monkeypatch):
