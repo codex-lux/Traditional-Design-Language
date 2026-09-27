@@ -4357,8 +4357,11 @@ Report: `docs/reports/wp-14.5-the-record-held-to-its-own-notes.md`.
 A mutating agent in its own checkout beside read-only auditors; every published figure re-derived; the
 final census diffed against WP-14.1's; a whole `check_all.py` and the walk.
 
-**Status: COMPLETE (27 Sep 2026)**, in a commit carrying its report, and the whole build's verdict
-in a second. The census went from 60 checks and 41
+**Status: COMPLETE (27 Sep 2026)**, in a commit carrying its report. A second commit, `43f93e8`,
+fixes six of the package's own guards that its first whole build found red. It also isolates a
+solve cache that two tests had poisoned, one guard having been green only on the poisoned result.
+The whole build on `43f93e8` was running when this was committed; its verdict replaces this
+sentence. The census went from 60 checks and 41
 known disagreements to 68 and 46. **The audit's finding is the fifth link, surface against surface.**
 WP-14.1 held each drawing to its record and nothing held one drawing of an object to another:
 

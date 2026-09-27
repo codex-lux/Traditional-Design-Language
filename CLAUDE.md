@@ -337,6 +337,16 @@ another:
 70 mutations, all red in the end. 7 were blind on their first run, and each got a guard before it
 was re-run.
 
+**AND THE PACKAGE'S OWN WHOLE BUILD FOUND SIX OF ITS GUARDS RED, AND A GUARD THAT HAD BEEN FED ITS
+ANSWER.** The six were moved by the package and not re-run before its commit. Fixing them found
+that two unreadable-hearth tests solved the declared Tidewater record with `stack_axes` raising and
+left the result in `geometry._SOLVE_CACHE`. `test_the_plate_draws_the_breast` had been green only
+on that placement, counting a breast nobody judged; alone, on this tree and on `117e839` (this
+package's parent), it read two. **A test that patches what a solve reads must give it a private cache**
+(`monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})`), and **a guard green in company and red alone is
+not green**. The build that followed was running when this was committed, and its verdict replaces this
+sentence.
+
 **The test figure in the counts paragraph below is 2,977: re-collected at WP-14.6's close at 2,976,
 and the app suite 279, each reconciled BY NAME against a `git archive` of the parent -- 45 tests and
 4 app tests added, none removed -- and one more when the package's own whole build found six of its
