@@ -18,6 +18,7 @@ for (const [key, data] of Object.entries(cases)) {
   out[key] = {
     H: P.H, maxX: P.maxX, dimX: P.dimX, fromAxis: P.fromAxis, undeclared: P.undeclared,
     nominal: P.nominal, r0: P.r0, dieNaked: P.dieNaked, f: P.f, datumWords: P.datumWords,
+    stackWords: P.stackWords,
     noGeometry: P.noGeometry,
     viewBox: [-P.CAP, -3 * P.U, P.CAP + P.maxX + P.RIGHT, P.H + 6 * P.U],
     unrecorded: [...P.unrecorded].sort(),

@@ -120,10 +120,10 @@ join the app without either a census row or a stated reason it is not an archite
 | P11 | profile-plates | a curved member drawn as a straight line says so | plates holding a curved profile kind | 49 | 49 | 0 | 0 |
 | P12 | profile-plates | the committed plate is the renderer's current output | every committed profile plate | 73 | 73 | 0 | 0 |
 | P13 | profile-plates | a part the assembly's own members are named for, and no member records, is said on the plate -- not drawn as though the section were the whole | plates whose members are named for a part no member records | 4 | 4 | 0 | 0 |
-| E1 | order-stack | the column drawn (base + shaft + capital) is the column height the pack states | order packs stating a column height | 25 | 18 | 5 | 2 |
-| E2 | order-stack | the entablature drawn is the one the pack itself states | order packs that state a whole entablature | 25 | 21 | 4 | 0 |
-| E3 | order-stack | an assembly offered as an ALTERNATIVE to another is never stacked on it (Benjamin's subplinth stands a column instead of a pedestal) | order packs stating a subplinth | 3 | 0 | 3 | 0 |
-| E4 | order-stack | the pedestal die is drawn at a naked the record gives, never the 1.2 x R stand-in profiles.pack_geometry takes when the base publishes no plinth | order packs drawing a pedestal | 23 | 22 | 1 | 0 |
+| E1 | order-stack | the column drawn (base + shaft + capital) is the column height the pack states | order packs stating a column height | 25 | 25 | 0 | 0 |
+| E2 | order-stack | the entablature drawn is the one the pack itself states | order packs that state a whole entablature | 25 | 25 | 0 | 0 |
+| E3 | order-stack | an assembly offered as an ALTERNATIVE to another is never stacked on it (Benjamin's subplinth stands a column instead of a pedestal) | order packs stating a subplinth | 3 | 3 | 0 | 0 |
+| E4 | order-stack | the pedestal's die stands on a face the record gives -- the base's plinth as drawn -- or, where the base publishes none, the geometry says the die is not derived and why, and stands it on the column's own radius rather than on a stand-in figure | order packs drawing a pedestal | 23 | 23 | 0 | 0 |
 | O1 | orders-tool | the committed page is what build/render_orders.py builds now | the one page | 1 | 1 | 0 | 0 |
 | O2 | orders-tool | the section the page draws is the height the engine dimensions, at every diameter it offers, pedestal on and off | every order pack with a stack x 12/24/36 in x pedestal | 150 | 150 | 0 | 0 |
 | O3 | orders-tool | the section reaches as far out as the geometry Python constructed for it, scaled to the diameter drawn | every order pack with a stack x 12/24/36 in x pedestal | 150 | 150 | 0 | 0 |
@@ -134,9 +134,11 @@ join the app without either a census row or a stated reason it is not an archite
 | O8 | orders-tool | a member the orders page calls NOT CONSTRUCTED is drawn as its dashed envelope and counted | every order pack with a stack, at 12 in with the pedestal | 25 | 25 | 0 | 0 |
 | O9 | orders-tool | a curved member the orders page draws as a straight line is counted as one | every order pack with a stack, at 12 in with the pedestal | 25 | 25 | 0 | 0 |
 | O10 | orders-tool | the datum the orders page states for each assembly is the datum that assembly was drawn on | every order pack with a stack, at 12 in with the pedestal | 25 | 25 | 0 | 0 |
+| O11 | orders-tool | what the stack leaves out -- an assembly offered instead of another, an inherited entablature that contradicts the pack's own -- is said on the orders page | every order pack with a stack, at 12 in with the pedestal | 25 | 25 | 0 | 0 |
 | R1 | proportions-plate | the plate's frame holds its own ink (the dimension gutter begins where the widest moulding ends) | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
 | R2 | proportions-plate | the members the plate says publish no projection are exactly the members whose record states none (the shaft's own body, which is the column, excepted) | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
 | R3 | proportions-plate | the datum the plate's caption states for each assembly is the datum that assembly was drawn on | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
+| R4 | proportions-plate | what the stack leaves out -- an assembly offered instead of another, an inherited entablature that contradicts the pack's own -- is said on the plate | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
 | V1 | elevation | every mark carrying a line-weight rung is drawn at that rung's width | every elevation sheet (plans x faces) | 44 | 0 | 44 | 0 |
 | V2 | elevation | nothing the style's resolved kit forbids is drawn, slot or variant (the row names where each prohibition comes from) | every node with a kit, on the Tidewater placement | 159 | 80 | 79 | 0 |
 | V3 | elevation | every transom or sidelight variant the style's kit makes canonical is drawn | every node with a kit, on the Tidewater placement | 26 | 0 | 26 | 0 |

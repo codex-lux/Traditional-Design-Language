@@ -17,7 +17,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { plateGeometry } from './proportions/plate.js';
+import { plateGeometry, stackWords } from './proportions/plate.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FIX = join(HERE, '..', '..', '..', 'tests', 'fixtures', 'proportions_plate');
@@ -151,6 +151,20 @@ test('every figure read off the geometry scales with the module the plate draws 
     assert.equal(b.x1, a.x1 * 2, a.key);
     assert.equal(b.x0, a.x0 * 2, a.key);
   }
+});
+
+test('what the stack left out is said, one sentence each, and nothing when it left nothing out', () => {
+  /* The three fixtures leave nothing out, so the words are driven here in the shape
+     proportion_engine.stack_notes serves (census R4 holds them to every pack). */
+  assert.equal(stackWords([]), '');
+  const both = stackWords([
+    { kind: 'alternative', assembly: 'subplinth', instead_of: 'pedestal', drawn: 'pedestal' },
+    { kind: 'entablature-whole', assembly: 'entablature', owner: 'benjamin-corinthian',
+      triplet_owners: { architrave: 'vignola-corinthian', frieze: 'vignola-corinthian', cornice: 'vignola-corinthian' } },
+  ]);
+  assert.match(both, /The subplinth is not drawn: it is offered instead of the pedestal, never on it\./);
+  assert.match(both, /The entablature is drawn whole, as benjamin-corinthian states it: .* from vignola-corinthian add up/);
+  for (const [, data] of fixtures) assert.equal(plateGeometry(data).stackWords, '', data.pack);
 });
 
 test('a pack served without geometry is drawn at the radius and says it has none', () => {

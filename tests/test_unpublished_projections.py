@@ -360,11 +360,18 @@ class TestADatumWithNoEvidenceIsUnjudged:
         ("palladio-corinthian", "pedestal"), ("palladio-composite", "pedestal"),
         ("chambers-ionic", "pedestal"), ("chambers-corinthian", "pedestal"),
         ("chambers-composite", "pedestal"),
+        # WP-14.2 step 7: these two overlays are stacked with their OWN whole entablature now,
+        # because the triplet they inherited contradicts its height -- and Palladio's whole
+        # entablature (architrave, frieze and cornice as three members of 4 : 3 : 5 twelfths)
+        # publishes no projection, so no datum can be read for it. The group was "naked" only
+        # while it held Vignola's inherited, published triplet.
+        ("palladio-corinthian", "entablature"), ("palladio-composite", "entablature"),
     }
 
-    def test_the_unjudged_assemblies_are_exactly_the_nine(self):
+    def test_the_unjudged_assemblies_are_exactly_the_named_ones(self):
         """Measured when the rule changed: nine assemblies went "naked" -> "unjudged", none of
-        them holding a figure, and no group moved between "axis" and "naked"."""
+        them holding a figure, and no group moved between "axis" and "naked". ELEVEN since step 7
+        of the same package, the two added being named in UNJUDGED with their reason."""
         live = set()
         for pid in _order_ids():
             _r, _d, g = _geometry(pid)

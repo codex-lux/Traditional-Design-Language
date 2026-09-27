@@ -61,6 +61,7 @@ def stack_variants(r):
                 members.setdefault(a["id"] + "/" + m["id"], {k: m.get(k) for k in PAGE_MEMBER_KEYS})
         out[key] = {
             "module_in": d["module_in"], "parts": d["parts"], "totals": d["totals"],
+            "stack_notes": d.get("stack_notes") or [],
             "assemblies": [{"id": a["id"], "height_modules": a["height_modules"],
                             "height_in": a["height_in_stated"], "summed_in": a["height_in_summed"],
                             "y0": a["y_bottom_in"], "y1": a["y_top_in"],

@@ -180,6 +180,7 @@ export function plateGeometry(data) {
     undeclared,
     datum,
     datumWords: datumWords(datum, undeclared),
+    stackWords: stackWords(data.stack_notes),
     dieNaked,
     dieReason,
     unrecorded,
@@ -199,6 +200,22 @@ export function plateGeometry(data) {
 
 function andList(xs) {
   return xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`;
+}
+
+/* What the stack left out, and why, in the words the orders page uses (WP-14.2): Benjamin's
+   subplinth offered instead of the pedestal, and an entablature drawn whole because the triplet it
+   inherits contradicts it. Read off `stack_notes` as proportion_engine serves it. */
+export function stackWords(notes) {
+  const out = [];
+  for (const n of notes || []) {
+    if (n.kind === 'alternative') {
+      out.push(`The ${n.assembly} is not drawn: it is offered instead of the ${n.instead_of}, never on it.`);
+    } else if (n.kind === 'entablature-whole') {
+      const from = [...new Set(Object.values(n.triplet_owners || {}))];
+      out.push(`The entablature is drawn whole, as ${n.owner} states it: the architrave, frieze and cornice it inherits from ${andList(from)} add up to a different height, so they are not drawn here.`);
+    }
+  }
+  return out.join(' ');
 }
 
 /* The caption's datum sentence, per assembly as Python read it (WP-14.2). One function, so the

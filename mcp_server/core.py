@@ -483,8 +483,11 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
     # asks for: the datum is judged per assembly GROUP (OQ 78), and the cornice judged alone could
     # read differently from the entablature it belongs to.
     prof = _mod("profiles", os.path.join(ROOT, "build", "profiles.py"))
-    g = prof.pack_geometry(d if not assembly else pe.dimension(pk, d["module_in"], None),
-                           pk.get("column"), pk.get("projection_datum"))
+    full = d if not assembly else pe.dimension(pk, d["module_in"], None)
+    g = prof.pack_geometry(full, pk.get("column"), pk.get("projection_datum"))
+    # what the stack left out and why: an alternative (Benjamin's subplinth) not drawn, or an
+    # entablature drawn whole because the triplet it inherited contradicts it
+    out["stack_notes"] = full.get("stack_notes") or []
     out["projection_datum"] = pk.get("projection_datum")
     out["assembly_datum"] = g["assembly_datum"]
     out["unpublished"] = [{"assembly": u["assembly"], "id": u["id"]} for u in g["unpublished"]]

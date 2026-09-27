@@ -170,7 +170,12 @@ def _assembly_source(pack_id, assembly_id, resolved):
 for pid in sorted(pe.PACKS):
     if pid not in pe.PACKS: continue
     pk = pe.resolve(pid)
-    d = pe.dimension(pk, 12 * pe.diameters_per_module(pk))
+    # THE TRIPLET'S STACK (WP-14.2). An overlay whose own whole entablature its inherited triplet
+    # contradicts is stacked with the whole now -- benjamin-corinthian, benjamin-ionic and the two
+    # Palladio overlays -- and the default stack would drop their cornice plates, which draw the
+    # inherited cornice and say whose it is. Those plates stay; the set is unchanged.
+    d = pe.dimension(pk, 12 * pe.diameters_per_module(pk),
+                     include=pe.stack_for(pk, entablature="triplet"))
     for asm in d["assemblies"]:
         if asm["id"] not in ("cornice", "capital", "base", "entablature"): continue
         assets.append({

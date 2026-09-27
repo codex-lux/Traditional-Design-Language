@@ -472,6 +472,13 @@ function drawingWords(pk, dim){
     out.push(G.die_naked==="derived"
       ? "The pedestal’s die is drawn on the face of the base’s plinth, read on the base’s own datum."
       : `The pedestal’s die is not derived: ${esc(G.die_naked_reason||"")}.`);
+  // what the stack left out, and why (proportion_engine.stack_notes)
+  for(const n of (G.stack_notes||[])){
+    if(n.kind==="alternative")
+      out.push(`The ${esc(n.assembly)} is not drawn: it is offered instead of the ${esc(n.instead_of)}, never on it${n.note?` — ${esc(n.note)}`:""}.`);
+    else if(n.kind==="entablature-whole")
+      out.push(`The entablature is drawn whole, as ${esc(n.owner)} states it: the architrave, frieze and cornice it inherits from ${esc(andList([...new Set(Object.values(n.triplet_owners||{}))]))} add up to a different height, so they are not drawn here, and their own plates say whose they are.`);
+  }
   if(G.flutes && S.elev) out.push(`${G.flutes.count} flutes: the lines on the elevation are where ${G.flutes.count} flutes project, set out with a flute on the axis — ${esc(G.flutes.setting_is)}.`);
   return `<h3 class="sec">What the drawing does not state</h3>` + out.map(t=>`<p class="note disclose">${t}</p>`).join("");
 }

@@ -809,6 +809,11 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     relief = max((m["projection_in"] for m in cor_asm["members"]
                   if m.get("projection_in") is not None), default=0.0) - frieze_naked_in
     return {
+        # WHICH PACK'S CORNICE THIS IS, for the inset's caption to name rather than assume
+        # (WP-14.2): the caption hard-coded "GIBBS IONIC" whatever pack was passed in, and the
+        # cornice may be one its pack inherits.
+        "order_pack": gibbs_pack.get("id"),
+        "cornice_owner": PE.assembly_owner(gibbs_pack.get("id"), "cornice"),
         "frieze_height_in": round(frieze_h, 3), "cornice_height_in": round(cor_asm["height_in_summed"], 3),
         "cornice_projection_in": round(cornice_proj, 3),
         "reduced_gibbs_module_in": round(reduced_module_in, 3),

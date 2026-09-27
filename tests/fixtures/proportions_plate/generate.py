@@ -27,7 +27,8 @@ def trimmed(pid):
     sys.path.insert(0, os.path.join(ROOT, "workbench", "server"))
     import corpus  # noqa: E402
     d = corpus.proportions_with_members(pid, column_diameter=DIAMETER)
-    out = {k: d[k] for k in ("pack", "name", "module_in", "projection_datum", "column", "totals")}
+    out = {k: d[k] for k in ("pack", "name", "module_in", "projection_datum", "column", "totals",
+                             "stack_notes")}
     out["assemblies"] = [{"id": a["id"], "height_in": a["height_in"],
                           "members": [{k: m.get(k) for k in MEMBER_KEYS} for m in a["members"]]}
                          for a in d["assemblies"]]

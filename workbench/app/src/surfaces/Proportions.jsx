@@ -39,8 +39,8 @@ function inches(v) {
 function OrderPlate({ data }) {
   const P = plateGeometry(data);
   if (!P) return null;
-  const { rows, H, nominal, r0, datumWords, unrecorded, noGeometry, dieNaked, dieReason, bands,
-    maxX, U, CAP, RIGHT, sy, dimX, bandPath } = P;
+  const { rows, H, nominal, r0, datumWords, stackWords, unrecorded, noGeometry, dieNaked, dieReason,
+    bands, maxX, U, CAP, RIGHT, sy, dimX, bandPath } = P;
   const hasPedestal = rows.some((r) => r.id === 'pedestal' || r.id === 'subplinth');
 
   return (
@@ -134,6 +134,7 @@ function OrderPlate({ data }) {
             ? ` ${unrecorded.size} member(s) publish no projection and are drawn dashed at the naked — an absent figure, not a flush face.`
             : ` All ${bands.length} member(s) publish a projection.`}
           {hasPedestal && dieNaked == null && dieReason ? ` The pedestal’s die is not derived: ${dieReason}.` : ''}
+          {stackWords ? ` ${stackWords}` : ''}
           {' '}Hover a band for its record.
         </span>
       </div>

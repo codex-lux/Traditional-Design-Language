@@ -1102,7 +1102,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # Caption, wrapped to the plate's own measure rather than run off its edge. `.dm` is the
     # monospaced class, so a character count is a real width here.
     env = cornice.get("envelope_projection_in")
-    cap = [f'GIBBS IONIC · {len(members)} MEMBERS AT A {round(cornice["reduced_gibbs_module_in"],1)}″ MODULE',
+    # THE PACK DRAWN, named (WP-14.2): this read 'GIBBS IONIC' as a literal whatever pack
+    # elevation.eave_cornice had been handed. A cornice the pack inherits says whose it is.
+    pk, owner = cornice.get("order_pack") or "?", cornice.get("cornice_owner")
+    who = pk.upper() + ("" if not owner or owner == pk else f" (THE CORNICE {owner.upper()}'S)")
+    cap = [f'{who} · {len(members)} MEMBERS AT A {round(cornice["reduced_gibbs_module_in"],1)}″ MODULE',
            ("PROJECTIONS ARE RADII FROM THE COLUMN AXIS" if from_axis
             else "PROJECTIONS ARE RELIEF FROM THE FRIEZE NAKED")]
     if env and abs(env - relief) > 0.5:

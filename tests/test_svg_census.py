@@ -389,6 +389,22 @@ class TestTheJavaScriptSurfaces:
         got = self._got("R2")
         assert got["palladio-doric"] == "agrees" and got["palladio-tuscan"] == "agrees"
 
+    def test_o11_sees_an_alternative_left_out_and_unsaid(self, monkeypatch):
+        self._orders_planted(monkeypatch, "benjamin-tuscan@12", info=lambda s: s.replace(
+            "is not drawn: it is offered instead of the", "is not drawn instead of the"))
+        got = self._got("O11")
+        assert got["benjamin-tuscan"] == "disagrees" and got["benjamin-ionic"] == "agrees"
+
+    def test_o11_sees_an_entablature_drawn_whole_and_unsaid(self, monkeypatch):
+        self._orders_planted(monkeypatch, "palladio-corinthian@12", info=lambda s: s.replace(
+            "The entablature is drawn whole, as", "The entablature, as"))
+        assert self._got("O11")["palladio-corinthian"] == "disagrees"
+
+    def test_r4_sees_the_plate_stop_saying_what_the_stack_left_out(self, monkeypatch):
+        self._plate_planted(monkeypatch, "benjamin-corinthian", stackWords=lambda w: "")
+        got = self._got("R4")
+        assert got["benjamin-corinthian"] == "disagrees" and got["benjamin-ionic"] == "agrees"
+
     def test_r3_sees_an_assembly_named_under_the_wrong_datum(self, monkeypatch):
         self._plate_planted(monkeypatch, "vignola-ionic", datumWords=lambda w: w.replace(
             "and from each member’s own naked for the architrave",
@@ -423,7 +439,8 @@ class TestTheJavaScriptSurfaces:
         monkeypatch.setattr(C.shutil, "which", lambda name: None)
         monkeypatch.setattr(C, "_ORDERS", None)
         monkeypatch.setattr(C, "_PLATEJS", None)
-        for cid in ("O2", "O3", "O4", "O5", "O6", "O7", "O8", "O9", "O10", "R1", "R2", "R3"):
+        for cid in ("O2", "O3", "O4", "O5", "O6", "O7", "O8", "O9", "O10", "O11",
+                    "R1", "R2", "R3", "R4"):
             got = C.CHECKS[cid]["fn"]()
             assert got and all(r["verdict"] == "cne" for r in got), (cid, got)
             assert "node" in got[0]["detail"], got[0]
@@ -433,6 +450,41 @@ class TestTheJavaScriptSurfaces:
                                                          "generate.py"), "--check"],
                            capture_output=True, text=True)
         assert r.returncode == 0, r.stdout + r.stderr
+
+
+class TestTheOrderStackCanDisagree:
+    """E1-E4 agree on every pack since WP-14.2 step 7, so each is driven with the defect it
+    exists for, on the geometry its own reader reads."""
+
+    def test_e4_sees_a_die_drawn_at_a_stand_in(self, monkeypatch):
+        """The 1.2 x R stand-in the old E4 assumed and could not see removed, planted back."""
+        PROF = C.SURF._mod("profiles")
+        real = PROF.pack_geometry
+
+        def planted(dim, column=None, projection_datum=None, **kw):
+            g = real(dim, column, projection_datum, **kw)
+            if dim.get("pack") == "palladio-ionic":
+                for a in g["assemblies"]:
+                    if a["id"] == "pedestal":
+                        a["naked_in"] = g["lower_radius_in"] * 1.2
+            return g
+        monkeypatch.setattr(PROF, "pack_geometry", planted)
+        got = {r["subject"]: r["verdict"] for r in C.CHECKS["E4"]["fn"]()}
+        assert got["palladio-ionic"] == "disagrees" and got["vignola-ionic"] == "agrees"
+
+    def test_e4_sees_a_derived_die_that_does_not_carry_the_plinth(self, monkeypatch):
+        PROF = C.SURF._mod("profiles")
+        real = PROF.pack_geometry
+
+        def planted(dim, column=None, projection_datum=None, **kw):
+            g = real(dim, column, projection_datum, **kw)
+            if dim.get("pack") == "benjamin-corinthian":
+                for a in g["assemblies"]:
+                    if a["id"] == "pedestal":
+                        a["naked_in"] -= 1.0
+            return g
+        monkeypatch.setattr(PROF, "pack_geometry", planted)
+        assert {r["subject"]: r["verdict"] for r in C.CHECKS["E4"]["fn"]()}["benjamin-corinthian"] == "disagrees"
 
 
 class TestTheBuildingSheetsCanDisagree:

@@ -14,6 +14,7 @@
   "upper_diameter_in": 10.0,
   "entablature_height_in": 27.0
  },
+ "stack_notes": [],
  "assemblies": [
   {
    "id": "pedestal",

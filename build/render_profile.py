@@ -220,7 +220,15 @@ def render(pack_id, assembly_id, module_in=6.0):
     # That is the raw-record read this corpus has been caught by on kits, on slots and on the
     # cascade -- the answer lives in the inheritance, not in the file.
     pack = PE.resolve(pack_id)
-    dim = PE.dimension(pack, module_in=module_in)
+    # THE STACK THAT HOLDS THIS ASSEMBLY (WP-14.2). An overlay whose own whole entablature the
+    # inherited triplet contradicts is stacked with the whole now, so its default stack has no
+    # cornice -- and its cornice plate, which draws the inherited cornice and says whose it is, is
+    # drawn from the stack that has one. Asking for the default and finding nothing would delete the
+    # plate; asking for the triplet everywhere would move every other plate's datum evidence.
+    include = PE.stack_for(pack)
+    if assembly_id not in include and assembly_id in PE.stack_for(pack, entablature="triplet"):
+        include = PE.stack_for(pack, entablature="triplet")
+    dim = PE.dimension(pack, module_in=module_in, include=include)
     geo = PROF.pack_geometry(dim, column=(pack.get("column") or {}),
                              projection_datum=pack.get("projection_datum"))
     members = assembly_members(dim, assembly_id)

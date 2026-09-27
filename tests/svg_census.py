@@ -514,11 +514,17 @@ def e1():
         col = dim["totals"].get("column_height_in")
         if not col:
             continue
-        if not all(a in H for a in ("base", "shaft", "capital")):
+        # A Greek Doric column has NO BASE, and its pack says so (greek-doric's first invariant;
+        # Benjamin's Greek Doric likewise): its column is shaft and capital. This demanded a base
+        # until WP-14.2 and reported the two baseless orders COULD NOT EVALUATE for a part the
+        # record says the order does not have. A column missing a shaft or a capital is still not
+        # a column.
+        if not all(a in H for a in ("shaft", "capital")) or \
+                ("base" not in H and "base" in (pack.get("assemblies") or {})):
             out.append(row("E1", pid, "cne", "the stack holds %s, not a whole column"
                            % ", ".join(sorted(H)) or "nothing"))
             continue
-        drawn = sum(H[a] for a in ("base", "shaft", "capital"))
+        drawn = sum(H.get(a, 0.0) for a in ("base", "shaft", "capital"))
         if abs(drawn - col) > 0.01:
             out.append(row("E1", pid, "disagrees", "states %.2f in, draws %.2f in (at a 6 in module)"
                            % (col, drawn)))
@@ -565,23 +571,41 @@ def e3():
     return out
 
 
-@check("E4", "order-stack", "the pedestal die is drawn at a naked the record gives, never the "
-       "1.2 x R stand-in profiles.pack_geometry takes when the base publishes no plinth",
+@check("E4", "order-stack", "the pedestal's die stands on a face the record gives -- the base's "
+       "plinth as drawn -- or, where the base publishes none, the geometry says the die is not "
+       "derived and why, and stands it on the column's own radius rather than on a stand-in figure",
        "order packs drawing a pedestal")
 def e4():
+    """READS THE GEOMETRY, NOT THE RECORD (re-cut WP-14.2). This check used to read the base's
+    projections from the record and, where there were none, ASSERT what the geometry did -- "the die
+    is drawn at 1.2 x R". Step 2 of this package removed that stand-in, and the row went on
+    disagreeing, because the verdict was computed from the input and never looked at the output:
+    an instrument that could not see the fix it was written to demand. It is carried in the known
+    list as a disagreement from 27 Sep to the commit that re-cut it."""
+    PROF = SURF._mod("profiles")
     out = []
     for pid, pack, dim, H in _order_packs():
-        asms = {a["id"]: a for a in dim["assemblies"]}
-        if "pedestal" not in asms and "subplinth" not in asms:
+        if "pedestal" not in H and "subplinth" not in H:
             continue
-        base = asms.get("base")
-        plinth = max([m.get("projection_in") or 0.0 for m in base["members"]], default=0.0) if base else 0.0
-        if plinth:
-            out.append(row("E4", pid, "agrees"))
+        geo = PROF.pack_geometry(dim, pack.get("column"), pack.get("projection_datum"))
+        asm = {a["id"]: a for a in geo["assemblies"]}
+        ped = asm.get("pedestal") or asm.get("subplinth")
+        base = asm.get("base")
+        faces = [f["x"] for f in (base or {}).get("faces", []) if f.get("projection") == "published"]
+        R = geo["lower_radius_in"]
+        if faces:
+            ok = geo["die_naked"] == "derived" and abs(ped["naked_in"] - max(faces)) < 0.01
+            out.append(row("E4", pid, "agrees" if ok else "disagrees",
+                           "" if ok else "the die stands at %.3f in; the base's plinth is drawn at %.3f in"
+                           % (ped["naked_in"], max(faces))))
         else:
-            out.append(row("E4", pid, "disagrees",
-                           "the base publishes no projection, so the die is drawn at 1.2 x R, a "
-                           "figure no record states"))
+            ok = (geo["die_naked"] == "unjudged" and bool(geo.get("die_naked_reason"))
+                  and abs(ped["naked_in"] - R) < 0.01)
+            out.append(row("E4", pid, "agrees" if ok else "disagrees",
+                           "the base publishes nothing: the die stands on the column's radius, said"
+                           if ok else "the base publishes nothing and the die stands at %.3f in (R %.3f), "
+                           "%s" % (ped["naked_in"], R, "unexplained" if not geo.get("die_naked_reason")
+                                   else "against its own reason")))
     return out
 
 
@@ -884,6 +908,38 @@ def o10():
     return out
 
 
+_LEFT_OUT = (("alternative", r"is not drawn: it is offered instead of the"),
+             ("entablature-whole", r"The entablature is drawn whole, as"))
+
+
+def _left_out_row(cid, subject, notes, text):
+    """One row: every thing Python's stack left out is said, once, and nothing else is."""
+    want = {k: sum(1 for n in notes if n.get("kind") == k) for k, _r in _LEFT_OUT}
+    said = {k: len(re.findall(r, text or "")) for k, r in _LEFT_OUT}
+    if want == said:
+        return row(cid, subject, "agrees", ", ".join("%s %d" % kv for kv in sorted(want.items()) if kv[1]))
+    return row(cid, subject, "disagrees", "the stack left out %s; the surface says %s" % (want, said))
+
+
+@check("O11", "orders-tool", "what the stack leaves out -- an assembly offered instead of another, an "
+       "inherited entablature that contradicts the pack's own -- is said on the orders page",
+       "every order pack with a stack, at 12 in with the pedestal")
+def o11():
+    run = _orders_run()
+    if isinstance(run, str):
+        return [row("O11", "dist/orders.html", "cne", run)]
+    out = []
+    for c in run["cases"]:
+        if c.get("patch") or c["diameter"] != 12 or not c["ped"]:
+            continue
+        dim, _geo, _p = _python_stack(c["pid"], c["diameter"], c["ped"])
+        if not dim["assemblies"]:
+            continue
+        out.append(_left_out_row("O11", c["pid"], dim.get("stack_notes") or [],
+                                 _orders_said(run["out"][c["key"]]["info"])))
+    return out
+
+
 # ------------------------------------------------------------------ the Proportions plate (JavaScript)
 # The workbench plate draws Python's face paths inside a frame and beside words that
 # workbench/app/src/proportions/plate.js computes. That module is run by tests/js/
@@ -1025,6 +1081,25 @@ def r3():
         drawn = {a["id"]: datum.get(a["id"]) for a in served.get("assemblies", [])
                  if a.get("members")}
         out.append(_datum_rows("R3", pid, drawn, P.get("datumWords")))
+    return out
+
+
+@check("R4", "proportions-plate", "what the stack leaves out -- an assembly offered instead of "
+       "another, an inherited entablature that contradicts the pack's own -- is said on the plate",
+       "order packs the plate draws, at 12 in")
+def r4():
+    run, bad = _plate_rows("R4")
+    if bad:
+        return bad
+    PE = SURF._mod("proportion_engine")
+    out = []
+    for pid, P in sorted(run["plate"].items()):
+        if P is None:
+            continue
+        # THE ENGINE'S OWN STACK, not what the server served: a server that stopped serving the
+        # notes would leave both sides of this comparison empty, and agreeing.
+        notes = PE.dimension(PE.resolve(pid))["stack_notes"]
+        out.append(_left_out_row("R4", pid, notes, P.get("stackWords")))
     return out
 
 

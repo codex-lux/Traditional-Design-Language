@@ -123,7 +123,13 @@ def profile_record(pack_id, assembly_id, module_in):
     the engine carries a missing figure: that is the defect WP-14.2 removed."""
     PE = _mod("proportion_engine")
     pack = PE.resolve(pack_id)
-    dim = PE.dimension(pack, module_in=module_in)
+    # The stack that HOLDS the assembly (WP-14.2): an overlay drawn with its own whole entablature
+    # has no cornice in its default stack, and its cornice plate draws the inherited triplet's --
+    # a plate's frame states the assembly's height in the stack it was drawn in, so read that one.
+    include = PE.stack_for(pack)
+    if assembly_id not in include and assembly_id in PE.stack_for(pack, entablature="triplet"):
+        include = PE.stack_for(pack, entablature="triplet")
+    dim = PE.dimension(pack, module_in=module_in, include=include)
     members = next((a["members"] for a in dim["assemblies"] if a["id"] == assembly_id), [])
     raw = {m["id"]: m for m in ((pack.get("assemblies") or {}).get(assembly_id) or {}).get("members", [])}
     side = bool((pack.get("assemblies") or {}).get(assembly_id, {}).get("sums_check") is False)

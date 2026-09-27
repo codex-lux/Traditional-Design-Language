@@ -181,6 +181,14 @@
             "default": true,
             "description": "If true the validator asserts that member heights sum to height_modules. Set false only for assemblies where a member deliberately overlaps."
           },
+          "alternative_to": {
+            "type": "string",
+            "description": "WP-14.2. The id of another assembly in the same stack that this one is offered INSTEAD OF, never on top of: Benjamin's subplinth stands a column in place of a pedestal ('on nothing, on a pedestal, or on a subplinth'). The engine's stack takes one or the other -- by default the assembly this one is an alternative to -- and reports the one it left out. State it only where the authority offers the two as alternatives; quote the sentence that does in `alternative_note`."
+          },
+          "alternative_note": {
+            "type": "string",
+            "description": "The authority's own words offering this assembly as an alternative, quoted, so `alternative_to` is a reading of the record and not an editorial choice."
+          },
           "members": {
             "type": "array",
             "items": {
