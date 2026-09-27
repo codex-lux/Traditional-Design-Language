@@ -11,9 +11,13 @@ that citation **overwritten** to gain a building. Measured across the whole corp
 |---|---|
 | an INTERNAL source — a constraint id, the node's own `proportional_system typical_ratios` | **489** |
 | a PRECEDENT (Ruling A, applied by hand) | 6 |
-| nothing at all (the grandfathered set) | 536 |
+| nothing at all (the grandfathered set) | 534 |
 
-**So Ruling A's reachable set is exactly the 536, and the 489 are closed to it.** The corpus's
+*(Amended 27 Sep 2026, WP-14.6: the grandfathered set was 536 when this was raised. WP-14.5
+sourced `craftsman`'s window casing leg and head to the trim-craftsman pack its own note cites, and
+the two left the set through its one-way door. The 489 and the 6 were not re-derived here.)*
+
+**So Ruling A's reachable set is exactly the grandfathered set, and the 489 are closed to it.** The corpus's
 most-reasoned figures — the ones whose author took the trouble to say *"adam-style proportional_system
 typical_ratios: 'Columns …'"* or *"german-fachwerk.c03"* — are precisely the ones no building may
 corroborate. That is backwards: a figure reasoned from the node's own constraint is exactly the figure

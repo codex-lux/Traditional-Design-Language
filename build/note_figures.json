@@ -7289,14 +7289,8 @@
    "kit": "storybook-style",
    "slot": "door_surround",
    "parameter": "catslide_ground_clearance_ft",
-   "claims": [
-    {
-     "quote": "within 6 or 7 ft of the ground",
-     "target": "value",
-     "states": "7",
-     "reading": "The quote gives the catslide's clearance above the ground as 6 or 7 ft; 7 ft, the larger alternative, is what the parameter holds."
-    }
-   ]
+   "claims": [],
+   "why": "The note's only figure is an either-or, 'within 6 or 7 ft of the ground'; the parameter holds one alternative, and a claim of either value would keep one half of the statement and silently drop the other (WP-14.6's audit: this row claimed the 7 after the 6 had been dropped for exactly that reason)."
   },
   {
    "kit": "storybook-style",

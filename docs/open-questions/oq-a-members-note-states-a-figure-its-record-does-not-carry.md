@@ -97,11 +97,14 @@ They fall into five shapes. Figures are in each pack's own parts.
 - **Measured across all five orders:**
   - The Tuscan (4 3/8) and the Doric (5) follow the rule.
   - The Ionic records 7 against the rule's 8.1, the Corinthian 8 against 9, and the Composite 8
-    against 9. Each is short by about a part.
+    against 9: short by 1.1, 1 and 1 parts.
   - In each of those three, the base projects the same short figure as its cap.
-- **Only the Composite reaches N1**, because only its note quotes the rule. **A note that states
-  nothing cannot disagree, so the census's population is bounded by what the transcriber chose to
-  quote.** The Ionic's and Corinthian's shortfall is recorded here and nowhere else.
+- **Of the three short caps only the Composite reaches N1**, because of those three only its note
+  quotes the rule. The Tuscan's note quotes it too, and N1 holds it: 4 3/8 against the rule's
+  4 3/8. (This paragraph said "only the Composite's note quotes the rule" until WP-14.6's audit
+  read the Tuscan's.) **A note that states nothing cannot disagree, so the census's population is
+  bounded by what the transcriber chose to quote.** The Ionic's and Corinthian's shortfall is
+  recorded here and nowhere else.
 
 ## 5. A figure stated in words over an illegible plate: Benjamin's Doric
 

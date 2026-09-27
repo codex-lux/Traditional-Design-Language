@@ -238,9 +238,58 @@ that keeps the words. And three of the new census checks lost their
 first draft to the instrument rather than the sheet: PL2 convicted a correct terrace door and then
 a correct join broken by its own doors, and B2 rounded twice and failed every plan.
 
-**The test figure in the counts paragraph below was re-collected at WP-14.4's close: 2,892, and the
-app suite 275.** At WP-14.3's close it read 2,863 and 255, at WP-14.2's 2,806 and 255, and before
-Phase 14 2,643 and 210. **That last pair was not right when it was written**: on `d565dea`, the
+**WP-14.5 HELD THE RECORD TO ITS OWN NOTES, BECAUSE THE PLATES ARE UNREACHABLE, AND LISTED THE
+PLATES A PERSON MUST FETCH (27 Sep 2026).** Read
+`docs/reports/wp-14.5-the-record-held-to-its-own-notes.md` before touching `build/plate_review.py`,
+`build/note_figures.json`, `build/gen_plate_wants.py` or a plate's `review_note`.
+
+- **`build/note_figures.json` holds what every numeric note states, and about which recorded
+  figure:** 293 member notes, 107 kit notes and 18 module notes, each with its verbatim quote.
+  Agents read them and the lead verified them.
+- **`build/plate_review.py` evaluates both sides over the record, on every run.**
+  - N0 holds every quote to its note, so an edited note is stale rather than silently wrong.
+  - N1: 14 of 265 member notes disagree with their record.
+  - N3: 6 of 65 kit notes disagree, all of them millimetres rounded.
+  - N2: all 18 overlays convert as their module notes say, over 968 figures. The engine takes its
+    factor from the module's numeric `diameters` (25 of 26 packs; `moorish-arch` alone from its
+    name) and the check from the note's WORDS, so the two are independent. This line said the
+    engine read the NAME until WP-14.6's audit read the function.
+- **N1 SAYS "STATES", NOT "QUOTES FROM ITS AUTHORITY".** Many of these figures are the
+  transcriber's arithmetic on the author's words. An `agrees` means only that the record and the
+  sentence beside it agree. SOURCE is COULD NOT EVALUATE on every plate.
+- **A NOTE THAT STATES NOTHING CANNOT DISAGREE.** Gibbs's two-thirds rule for pedestal caps is
+  quoted in the Tuscan's note, whose cap follows it, and in the Composite's, whose cap is a part
+  short. N1 sees that one short cap; the Ionic's and Corinthian's are short by 1.1 and 1 parts and
+  their notes do not quote the rule.
+- **A CLAIM COUNTS ON THE PLATE WHOSE RECORD IT JUDGES.** The first version counted a claim where
+  its note sat. Palladio's Corinthian base plate read DISAGREES over a record nobody disputes, and
+  the Doric plate AGREED over the 20 minutes in question. That was a false `agrees`, in the field a
+  reader is told to trust, and it was found only by reading the notes `--write` produced.
+- **`Plan Examples/Plates/WANTED.md` is generated** and held current by
+  `build/gen_plate_wants.py --check`:
+  - 15 figures a note disputes;
+  - 21 assemblies and 23 members with no projection;
+  - 110 apportioned heights;
+  - 14 other low-confidence members.
+
+  Each is listed under the pack that STATES it, and the books are ordered by their gaps.
+- **One record was corrected, because its own note proved it.** `craftsman`'s casing was 4/6 and
+  is now 3.5/5.5; the note cited the pack that states the dressed size. The other 20 disagreements
+  are open questions, and every one is pinned by identity.
+
+**THE TRAP WORTH CARRYING: A GUARD THAT GOES RED FOR THE WRONG REASON IS NOT EVIDENCE.** With
+`-x`, four mutations of the wanted list's class 0 first went red on the list-is-current check.
+That check reddens on ANY change to the generator. Re-run against the class-0 tests alone, all
+four were red again. That second run is the only one that says the new assertions bite. **The
+phase's audit then found the same shape twice more in this package**: "Palladio comes first" and
+N2's 968 figures were held only by currency or by nothing, and three of the plate reviewer's
+verdict branches were undriven -- one of them counting an invariant the engine could not evaluate
+as held, in the note filed on every plate. And the figure this package moved, `measured_unsourced`
+536 -> 534, stood at 536 in four places no `check_counts` claim read; all four read now.
+
+**The test figure in the counts paragraph below was re-collected at WP-14.5's close: 2,931, and the
+app suite 275.** At WP-14.4's close it read 2,892 and 275, at WP-14.3's 2,863 and 255, at WP-14.2's
+2,806 and 255, and before Phase 14 2,643 and 210. **That last pair was not right when it was written**: on `d565dea`, the
 phase's parent, `pytest --collect-only` returns 2,675 and the app suite runs 221. (This sentence
 said NEITHER of the older pairs was right until WP-14.6's audit re-collected the WP-14.2 one and
 found it right.)
@@ -914,7 +963,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,892 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,931 tests**
 (plus the workbench app suite, **275** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -1321,8 +1370,8 @@ reddens for a naive 543 -- but source one grandfathered figure and add an unsour
 commit and it stays at 542 and stays green. MEASURED: `check_research --strict` returned 0 with an
 unsourced `measured` parameter sitting in the tree while `check_kits.py` returned 1. A counter that
 nets out, guarding the very rule the ruling is about. `build/measured_unsourced_grandfathered.json`
-holds 536 `(node, slot, parameter)` triples and refusal is BY IDENTITY, which cannot net; removing
-one is a one-way door. **Part 1 is NOT ruled: nothing is re-kinded.**
+holds 534 `(node, slot, parameter)` triples (536 until WP-14.5 sourced craftsman's casing) and
+refusal is BY IDENTITY, which cannot net; removing one is a one-way door. **Part 1 is NOT ruled: nothing is re-kinded.**
 **A PRECEDENT MAY BE A DISTRICT OR A TYPE MODEL, AND THE CORPUS HAD ANSWERED THAT THIRTEEN TIMES
 BEFORE ANYONE ASKED.** `record_kind` (building | district | type-model | group) and `no_precedent`
 (archive | body-of-work | phase | not-yet-researched). The duplicate-id rule's `DISTRICT_RE`
@@ -1358,8 +1407,8 @@ that needed it**, so a merge done exactly right still convicted itself.
 **RULING A YIELDED NOTHING FROM EUROPE, AND THE REASON IS STRUCTURAL RATHER THAN A RESEARCH
 FAILURE.** 18 `citable` candidates, 0 applied. **A parameter has ONE `source` field**, and **489
 `measured` parameters already cite an INTERNAL source** (a constraint id, the node's own
-`typical_ratios`) against 6 citing a precedent -- so Ruling A can only ever reach the 536 that cite
-nothing, and the corpus's most-reasoned figures are exactly the ones a building may not corroborate
+`typical_ratios`) against 6 citing a precedent -- so Ruling A can only ever reach the ones that cite
+nothing (536 then, 534 since WP-14.5), and the corpus's most-reasoned figures are exactly the ones a building may not corroborate
 (`oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure`). Five more
 candidates point at a `set`-shaped parameter `kit_source_agrees` cannot compare at all -- and two of
 them, Royal Crescent at FOUR bays and Kedleston at ELEVEN, say the set is INCOMPLETE. Five more point

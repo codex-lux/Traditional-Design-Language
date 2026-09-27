@@ -163,7 +163,7 @@ join the app without either a census row or a stated reason it is not an archite
 | N0 | record | every note that states a figure has been read into build/note_figures.json, and every row there still quotes its note verbatim | order-pack member notes stating a number; the measured kit parameters the elevation reads whose note states one; every overlay's module note | 418 | 418 | 0 | 0 |
 | N1 | record | a figure a member's note states about a recorded figure is the figure the record carries | order-pack members whose note states a figure about a recorded one | 265 | 251 | 14 | 0 |
 | N2 | record | an overlay converts every figure it inherits by the factor its own module note states | every overlay pack | 18 | 18 | 0 | 0 |
-| N3 | record | a figure a measured kit parameter's note states about the parameter is the figure the parameter carries | measured kit parameters the elevation reads whose note states a figure about theirs | 66 | 60 | 6 | 0 |
+| N3 | record | a figure a measured kit parameter's note states about the parameter is the figure the parameter carries | measured kit parameters the elevation reads whose note states a figure about theirs | 65 | 59 | 6 | 0 |
 | PL1 | plan | a bay grid is drawn on a module the record states, or the sheet says the module is a default | every plan sheet, working register | 16 | 16 | 0 | 0 |
 | PL2 | plan | every exterior opening is cut out of the wall body of its OWN element's face, and no exterior wall body is broken where the record places no opening | every exterior door and window on every placed level of every plan sheet, and every break in an exterior wall body, working register | 16 | 16 | 0 | 0 |
 | PL3 | plan | no wall body is drawn over another -- a wall two elements share is one wall | every pair of wall bodies on every plate of every plan sheet, working register | 16 | 16 | 0 | 0 |
@@ -214,15 +214,17 @@ fetch is listed in `Plan Examples/Plates/WANTED.md` (WP-14.5), on the WP-9.2 HAB
   `SOURCE: COULD NOT EVALUATE` on every plate's review note.
 - **A note that states nothing cannot disagree.** The population is bounded by what the
   transcriber chose to quote. Gibbs's rule that a pedestal cap projects two thirds of its height
-  is quoted only in the Composite's note, so N1 sees the Composite's cap one part short. The
-  Ionic's and Corinthian's caps are short by the same part and N1 does not see them.
+  is quoted in the Tuscan's note, where the cap follows it, and in the Composite's, where N1 sees
+  the cap one part short. The Ionic's and Corinthian's caps are short by 1.1 and 1 parts, their
+  notes do not quote the rule, and N1 does not see them.
   `oq/a-members-note-states-a-figure-its-record-does-not-carry` records them.
 - **A claim counts on the plate whose record it judges.** When one pack's note states a figure
   about another pack's record, the claim reaches that other pack's plate: Palladio's Corinthian
   base note disputes his Doric base's plinth, so it is the Doric plate that reads DISAGREES.
 - **An overlay's conversion is read from its output.** N2 compares every figure an overlay
-  inherits against the base's figure times the factor its own module note states. The engine
-  derives that factor independently, from the module's name.
+  inherits against the base's figure times the factor its own module note states in words. The
+  engine takes its factor from a different record: the module's numeric `diameters` on 25 of the
+  26 order packs, and the module's name on the one that states none (`moorish-arch`).
 - **What a person must fetch.** Every figure a note disputes is class 0 of
   `Plan Examples/Plates/WANTED.md`, under the book that settles it. That list is generated from
   the same judgment N1 pins.

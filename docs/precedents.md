@@ -279,8 +279,9 @@ exemplar with none says `precedent_record: null` rather than looking like one th
 **All four of this layer's founding questions were ruled on 5 Sep 2026 and three are executed**, so
 what stood here is in the sections above rather than in this list: A (a kit figure may cite a
 building), C part 2 (a new `measured` figure must carry a source), D (a record may be a district or
-a type model) and B (a family carries derived type specimens). **C part 1 is NOT ruled**: the 536
-existing unsourced `measured` figures are metered and none is re-kinded.
+a type model) and B (a family carries derived type specimens). **C part 1 is NOT ruled**: the 534
+existing unsourced `measured` figures are metered and none is re-kinded (536 until WP-14.5 sourced
+craftsman's casing to the pack its own note cites).
 
 What is open here now:
 
