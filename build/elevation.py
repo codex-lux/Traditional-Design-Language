@@ -243,11 +243,31 @@ def window_surround(slot, name="window_surround", date=None, construction=None):
     not apply, and the record names one. A variant applies where its date range holds the house's
     date (`resolve_kit.in_period`, the resolver's own reading) and its construction list holds the
     section's construction type; a condition the house states nothing about is not a condition
-    that failed."""
+    that failed.
+
+    AND "WHOSE WALLS ARE FRAME" ABOVE IS THE SECTION'S DEFAULT, NOT THE RECORDS (audit, 27 Sep
+    2026). Ten of the eleven shipped plans that draw an elevation declare no construction at all;
+    `assemblies.wall_thickness` assumes `platform-frame` for them and says so, and "the section's
+    construction type" above was that assumption. The condition is read against the DECLARED wall
+    now. Re-measured: eight of the ten carry no variant whose condition is in play and still name
+    the architrave alone; `good-03` and `good-05` reach the masonry reveal's condition, and are told
+    the choice turns on a wall their record does not state, naming it. Undecided -- neither
+    failed nor held -- is the third state, and it is not either of the other two."""
+    # AND THE WALL IT IS READ AGAINST IS THE ONE THE RECORD DECLARES (audit, 27 Sep 2026). The
+    # caller passed `section.wall.construction_type`, which `assemblies.wall_thickness` fills with
+    # `platform-frame` wherever the plan declares nothing -- 15 of the 16 shipped plans -- so the
+    # condition was decided against an ASSUMED wall: the masonry reveal was ruled out, the flat
+    # casing left alone, and the sheet said "A FLAT CASING NARROW IS CANONICAL" of a house that
+    # never said it is frame. The caller passes the declared construction now, and a variant whose
+    # condition names a wall the record does not declare is UNDECIDED rather than failed or held.
+    undecided = set()
+
     def _applies(v):
         if not RK.in_period(v, date):
             return False
         cons = (v.get("applies_when") or {}).get("construction")
+        if cons and construction is None:
+            undecided.add(v["id"])
         return not (cons and construction and construction not in cons)
     canon = sorted({v["id"] for v in (slot.get("variants") or [])
                     if v.get("status") == "canonical" and _applies(v)})
@@ -261,6 +281,18 @@ def window_surround(slot, name="window_surround", date=None, construction=None):
     # SPLITTING BY HAND". The elevation reads the slot and never the sentence, so what it says
     # is what the slot says: `oq/the-window-surround-slots-were-never-split`.
     slot_words = name.replace("_", " ")
+    if len(canon) > 1 and undecided & set(canon):
+        und = sorted(undecided & set(canon))
+        cond = {v["id"]: (v.get("applies_when") or {}).get("construction") or []
+                for v in (slot.get("variants") or [])}
+        held = [c for c in canon if c not in undecided]
+        return {"canonical": canon, "drawn": False, "undecided_by_the_wall": und,
+                "why": f"the kit's {slot_words} slot makes "
+                       + (f"{' and '.join(words(c) for c in held)} canonical, and " if held else "")
+                       + " and ".join(f"{words(c)} canonical where the wall is "
+                                      f"{' or '.join(words(w) for w in cond[c])}" for c in und)
+                       + "; this record declares no wall construction, so which surround this "
+                         "house has is not stated"}
     if len(canon) > 1:
         return {"canonical": canon, "drawn": False,
                 "why": f"the kit's {slot_words} slot makes {' and '.join(words(c) for c in canon)} "
@@ -2931,7 +2963,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "entrance": ent, "eave_cornice": cornice, "water_table_belt": wtb,
         "window_surround": window_surround(surround_slot, "window_surround_masonry" if is_masonry
                                            else "window_surround_wood", date=date,
-                                           construction=(section.get("wall") or {}).get("construction_type")),
+                                           construction=(plan.get("declared") or {}).get("construction_type")),
         # NOT a measurement, and deliberately absent from `measurements` below: brick-course
         # flags this rule `judgment: true`. It is here so the DRAWING can show a stack at the
         # corpus's own figure instead of the 36 in constant it used to assert, and so the sheet

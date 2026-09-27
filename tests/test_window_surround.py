@@ -101,9 +101,15 @@ def test_a_variant_whose_own_condition_fails_is_not_canonical_for_this_house():
     brick = EL.window_surround(slot, "window_surround_wood", construction="solid-masonry-two-wythe")
     assert brick["canonical"] == ["flat-architrave-with-crown", "none-masonry-reveal"]
     assert "both canonical" in brick["why"]
-    # a house that states no construction has not failed the condition: unjudged is not refused
+    # a house that states no construction has not failed the condition, and has not held it
+    # either: the choice turns on a wall the record does not declare, and the reason says THAT
+    # (audit, 27 Sep 2026) rather than the "both canonical" of a house that declares one
     unstated = EL.window_surround(slot, "window_surround_wood")
-    assert "both canonical" in unstated["why"]
+    assert unstated["canonical"] == ["flat-architrave-with-crown", "none-masonry-reveal"]
+    assert unstated["undecided_by_the_wall"] == ["none-masonry-reveal"]
+    assert "declares no wall construction" in unstated["why"]
+    assert "solid masonry two wythe" in unstated["why"], "the reason names the wall it turns on"
+    assert "undecided_by_the_wall" not in frame and "undecided_by_the_wall" not in brick
 
 
 def test_a_variant_outside_its_own_date_range_is_not_canonical_at_that_date():
@@ -117,13 +123,25 @@ def test_a_variant_outside_its_own_date_range_is_not_canonical_at_that_date():
     assert EL.window_surround(slot)["canonical"] == ["flat-casing"]
 
 
-def test_the_shipped_frame_plans_are_told_the_surround_their_kit_names():
-    """The premise that makes the two drives above a statement about the corpus: `good-03`'s
-    frame wall reaches the masonry-only condition through `greek-revival-american`'s cascade."""
+def test_a_shipped_plan_that_declares_no_wall_is_told_the_choice_turns_on_it():
+    """`good-03` reaches the masonry-only condition through `greek-revival-american`'s cascade.
+
+    RE-CUT BY THE AUDIT OF THE AUDIT (27 Sep 2026). This asserted the architrave ALONE, against a
+    premise reading "a frame wall" -- and the wall is not frame by anything the record says:
+    good-03 declares no construction, and `assemblies.wall_thickness` fills the section with
+    `platform-frame` by default and says so in its note. The caller handed `window_surround` that
+    default, so the condition was decided against an ASSUMED wall and the sheet said "A FLAT
+    ARCHITRAVE WITH CROWN IS CANONICAL" of a house that never said it is frame. The caller hands it
+    the DECLARED construction now, and the verdict is the undecided one, naming the wall it turns
+    on. The old assertion certified the defect."""
     G, ST, RF, EL = _m("geometry"), _m("structure"), _m("roof"), _m("elevation")
     plan = json.load(open(os.path.join(ROOT, "plans", "reference", "good-03-parlor-drawing-room-house.json")))
+    assert not (plan.get("declared") or {}).get("construction_type"), "premise: no wall declared"
     placed = G.solve(copy.deepcopy(plan), engine="heuristic")
     sec = ST.build_section(placed, None, geometry_result=placed)
-    assert sec["wall"]["construction_type"] != "solid-masonry-two-wythe", "premise: a frame wall"
+    assert sec["wall"]["construction_type"] == "platform-frame" and sec["wall"]["note"], \
+        "premise: the section's frame wall is the ASSUMED default, and says so"
     el = EL.build_elevation(placed, None, section=sec, roof=RF.build_roof(placed, None, section=sec))
-    assert el["window_surround"]["canonical"] == ["flat-architrave-with-crown"], el["window_surround"]
+    ws = el["window_surround"]
+    assert ws["undecided_by_the_wall"] == ["none-masonry-reveal"], ws
+    assert "declares no wall construction" in ws["why"]
