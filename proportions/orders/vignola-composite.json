@@ -300,7 +300,7 @@
           "name": "Ovolo of the abacus",
           "height_parts": 2,
           "projection_parts": 36,
-          "profile": "abacus",
+          "profile": "ovolo",
           "note": "Plan and profile of the abacus as the Corinthian, with a flower in the centre of each side.",
           "confidence": "medium"
         }

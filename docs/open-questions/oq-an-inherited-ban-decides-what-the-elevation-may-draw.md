@@ -94,3 +94,31 @@ instrument that stops swapping fails loudly instead of measuring one house.
 
 The two cases that give the question its shape, `colonial-revival` and `tidewater-georgian`, read
 the same on the corrected sweep.
+
+## Amendment — the counter-case left the census for a different reason (WP-14.6, 27 September 2026)
+
+**The census now convicts 15 of the 41 drawn styles, not 21: 1 by its own record alone
+(`new-england-colonial`), 10 only by an ancestor's, and 4 by both.** The largest donors of
+inherited prohibitions are `shingle-style` (12), `new-england-colonial` (5),
+`gothic-revival-british` (4), and `colonial-revival` and `american-farmhouse-vernacular` (3 each).
+`georgian-colonial-american` is no longer among them. Every row the table above counts stands
+unchanged except the sidelights, which go from 2 own and 5 inherited to none. **The ban did not
+cause that.**
+
+WP-14.6's `elevation._clearances` refuses a sidelight pair where the plan's placed openings leave
+it no wall. The census draws every style on the Tidewater placement, and there the passage window
+stands 12.0 in from the leaf, where the casing and a sidelight need 21.1. So no style drawn there
+draws sidelights, and each sheet says why ("SIDELIGHTS NOT DRAWN — THE LEFT SIDELIGHT WOULD STAND
+9.0 IN OVER PASSAGE'S WINDOW"). Six styles left V2 by this route:
+
+- `tidewater-georgian`, the counter-case above;
+- `charleston-georgian`, `jeffersonian-classicism`, `mid-atlantic-georgian`,
+  `new-england-georgian` and `georgian-colonial-american` itself.
+
+`minimal-traditional` lost its own sidelight clause and kept the rest.
+
+**So the counter-case still stands and the census can no longer show it.** On a placement with room
+beside the door, the Tidewater sidelights would be drawn again, over a ban meant to reach a house
+dated 1765. Decision 4 is what refuses them on the ban's own terms. What this amendment changes is
+the census's count, and it does not answer the question: the six were fixed by where a window
+stands, not by what the kit forbids.

@@ -7,12 +7,20 @@ matching the corpus (a disagreement nobody pinned, or a fix nobody unpinned), it
 its own document, and it stops being able to say "disagrees" at all.
 
 The last is the one this repository keeps meeting. A check whose disagreeing branch the corpus
-never reaches is green whatever the ink does, so every check with no live disagreement is DRIVEN
-here: the defect it exists to catch is planted in a copy of a real plate, in memory, and the
-check must report it. Nothing here writes inside the repository.
+never reaches is green whatever the ink does, so a check with no live disagreement is DRIVEN here
+where it can be: the defect it exists to catch is planted in a copy of a real plate, in memory,
+and the check must report it. Nothing here writes inside the repository.
+
+NOT EVERY ONE, AND THIS SAID EVERY ONE UNTIL WP-14.6 (G6). Counted at WP-14.6: of 68 checks, 64
+carry no live disagreement and 17 of those are driven in this file. The other 47 are held by
+nothing here. Where one was mutation-checked when it was written -- the defect injected into the
+SUBJECT, in an isolated copy, and the check seen to go red -- that is recorded in its package's
+report, and it is a proof made once; a drive is a proof made every run. A check among the 47
+whose disagreeing branch goes blind later is caught by nothing in this file.
 """
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -81,16 +89,24 @@ class TestTheKnownDisagreements:
     def test_the_live_disagreements_are_exactly_the_known_ones(self):
         known = json.load(open(C.KNOWN))["disagreements"]
         live = C.disagreements(_rows())
-        new = sorted(set(live) - set(known))
-        fixed = sorted(set(known) - set(live))
-        moved = sorted("%s: %r -> %r" % (k, known[k], live[k]) for k in set(known) & set(live)
-                       if known[k] != live[k])
+        new, fixed, moved_ids = C.compare(known, live)
+        moved = ["%s: %r -> %r" % (k, known[k], live[k]) for k in moved_ids]
         assert not new and not fixed and not moved, (
             "the census moved. NEW disagreements (a drawing now departs from its record; fix it, "
             "or if it is a defect newly MEASURED rather than newly made, add it and say so in the "
             "commit): %s. FIXED (remove from tests/fixtures/ink_known_disagreements.json in the "
             "same commit as the fix): %s. MOVED (a disagreement whose figures changed -- re-pin it "
             "in a commit that says which way and why): %s" % (new, fixed, moved[:12]))
+
+    def test_a_disagreement_whose_figures_changed_is_moved_and_not_passed(self):
+        """DRIVEN (WP-14.6, auditor C). The id is the row and the detail is its figures; the pin
+        holds both because a row already red for one cause cannot report a second unless its
+        figures are held. A change to the DETAIL alone is the case a set comparison on ids would
+        call unchanged, so it is driven by hand, beside one of each other kind."""
+        known = {"V1:a": "3 marks off", "V1:b": "stays", "V2:c": "gone next run"}
+        live = {"V1:a": "5 marks off", "V1:b": "stays", "V9:d": "arrived"}
+        assert C.compare(known, live) == (["V9:d"], ["V2:c"], ["V1:a"])
+        assert C.compare(known, dict(known)) == ([], [], [])
 
     def test_the_known_list_is_sorted_and_says_what_it_is(self):
         doc = json.load(open(C.KNOWN))
@@ -293,8 +309,19 @@ class TestTheJavaScriptSurfaces:
         which the old one did, 156 of 156 -- so the absence is held here, by name."""
         import re
         tpl = open(os.path.join(C.ROOT, "build", "orders_template.html"), encoding="utf-8").read()
+        # ANY WAY OF DEFINING ONE (WP-14.6, G10): the pattern read `function name(` alone, so
+        # `const dimension = (pk, d) =>` -- the page's own idiom elsewhere -- would have come back
+        # through it. Driven below on each form, so the pattern cannot narrow unseen.
+        defines = lambda name: re.compile(  # noqa: E731
+            r"(?:\bfunction\s+%(n)s\s*\(|\b(?:const|let|var)\s+%(n)s\s*=|\b%(n)s\s*:\s*(?:function\b|\()"
+            r"|^\s*%(n)s\s*\([^)]*\)\s*\{)" % {"n": re.escape(name)}, re.M)
+        for form in ("function dimension(pk, d) {", "const dimension = (pk, d) => {",
+                     "let dimension = function (pk) {", "var dimension=pk=>pk", "  dimension: (pk) => pk,",
+                     "  dimension(pk, d) {"):
+            assert defines("dimension").search(form), form
+        assert not defines("dimension").search("const g = dimension(pk, d);")
         for name in ("dimension", "synthShaft", "stackFor", "colRadiusFromGeometry", "geomMaxX"):
-            assert not re.search(r"function\s+%s\s*\(" % name, tpl), name
+            assert not defines(name).search(tpl), name
         assert "height_parts" not in re.sub(r"s\.height_parts", "", tpl), \
             "the page multiplies a member's parts again"
         assert "fl/2.4" not in tpl.replace(" ", "")
@@ -305,6 +332,16 @@ class TestTheJavaScriptSurfaces:
         self._orders_planted(monkeypatch, key, info=lambda s: re.sub(
             r'(<div class="inv"><span class="m )un">N/EV', r'\1no">FAIL', s, count=1))
         assert [r["verdict"] for r in C.CHECKS["O4"]["fn"]()] == ["disagrees"]
+
+    def test_o4_sees_an_unjudged_invariant_printed_as_holding(self, monkeypatch):
+        """WP-14.6, G1: the other direction, and the more dangerous one. O4 agreed with anything
+        but FAIL, so an unjudged invariant printed "holds" -- a pass nobody measured -- agreed."""
+        import re
+        key = "vignola-ionic@12-unjudged-invariant"
+        self._orders_planted(monkeypatch, key, info=lambda s: re.sub(
+            r'(<div class="inv"><span class="m )un">N/EV', r'\1ok">holds', s, count=1))
+        got = C.CHECKS["O4"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "'holds'" in got[0]["detail"], got
 
     def test_o5_sees_a_pack_no_button_reaches(self, monkeypatch):
         self._orders_planted(monkeypatch, "vignola-ionic@12",
@@ -435,12 +472,36 @@ class TestTheJavaScriptSurfaces:
             assert got[key] == "disagrees", cid
             assert got["vignola-ionic@24"] == "agrees", cid          # the control, unplanted
 
+    # Every check that runs javascript, spelled out so a reader sees them. The list is HELD to the
+    # call graph below: it once named fourteen of these and left out the bench's two (B1, B2) and the
+    # tracing canvas (TR1), which WP-14.4 added -- three checks whose unjudged state no test read.
+    NODE_CHECKS = ("O2", "O3", "O4", "O5", "O6", "O7", "O8", "O9", "O10", "O11",
+                   "R1", "R2", "R3", "R4", "B1", "B2", "TR1")
+
+    def test_the_javascript_list_is_every_check_that_reaches_node(self):
+        """A check is javascript-backed if its function -- or anything it calls in the census,
+        transitively -- runs `node`. Derived, so a new check cannot be born outside the list."""
+        import inspect
+        funcs = {n: f for n, f in vars(C).items() if inspect.isfunction(f) and f.__module__ == C.__name__}
+        src = {n: inspect.getsource(f) for n, f in funcs.items()}
+        backed = {n for n, s in src.items() if 'subprocess.run(["node"' in s}
+        assert backed, "no function in the census runs node -- the derivation is reading nothing"
+        while True:
+            more = {n for n, s in src.items() if n not in backed
+                    and any(re.search(r"\b%s\(" % re.escape(h), s) for h in backed)}
+            if not more:
+                break
+            backed |= more
+        derived = {cid for cid, c in C.CHECKS.items() if c["fn"].__name__ in backed}
+        assert derived == set(self.NODE_CHECKS), (sorted(derived - set(self.NODE_CHECKS)),
+                                                  sorted(set(self.NODE_CHECKS) - derived))
+
     def test_without_node_every_javascript_row_is_unjudged(self, monkeypatch):
         monkeypatch.setattr(C.shutil, "which", lambda name: None)
         monkeypatch.setattr(C, "_ORDERS", None)
         monkeypatch.setattr(C, "_PLATEJS", None)
-        for cid in ("O2", "O3", "O4", "O5", "O6", "O7", "O8", "O9", "O10", "O11",
-                    "R1", "R2", "R3", "R4"):
+        monkeypatch.setattr(C, "_BENCH", None)
+        for cid in self.NODE_CHECKS:
             got = C.CHECKS[cid]["fn"]()
             assert got and all(r["verdict"] == "cne" for r in got), (cid, got)
             assert "node" in got[0]["detail"], got[0]
@@ -575,6 +636,29 @@ class TestTheBuildingSheetsCanDisagree:
         monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", el, drawn)]))
         got = C.CHECKS["V9"]["fn"]()
         assert [r["verdict"] for r in got] == ["disagrees"] and "no record states" in got[0]["detail"], got
+
+    def test_v9_sees_a_keystone_drawn_or_left_unsaid(self, monkeypatch):
+        """WP-14.6, G4. The test above drives V9's stack half only; its keystone half was reached
+        by the sweep and driven by nothing. `georgian-revival`'s canonical head is keyed and no
+        record gives the keystone a width, so its sheet says KEYSTONE NOT DRAWN. Take the words
+        away and V9 convicts; draw a keystone and it convicts on the other clause."""
+        sweep = C._style_sweep()
+        sid = "georgian-revival"
+        el, svg = sweep[sid]
+        heads = [sw.get("head_treatment") or {} for sw in el.get("storey_windows") or []]
+        assert any(h.get("keystone") and not h.get("keystone_width_in") for h in heads), \
+            "the premise: a keyed head with no stated keystone width"
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", el, svg)]))
+        assert [r["verdict"] for r in C.CHECKS["V9"]["fn"]()] == ["agrees"]
+        silent = svg.replace("KEYSTONE NOT DRAWN", "KEYSTONE")
+        assert silent != svg, "the premise: the sheet says the keystone is not drawn"
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", el, silent)]))
+        got = C.CHECKS["V9"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "keystone with no width" in got[0]["detail"], got
+        drawn = svg.replace("</svg>", '<rect class="arch" x="100" y="100" width="6" height="9"/></svg>')
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", el, drawn)]))
+        got = C.CHECKS["V9"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "keystone drawn at a width" in got[0]["detail"], got
 
     def test_v13_sees_an_inset_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
         import copy
@@ -815,3 +899,45 @@ class TestTheRecordCanDisagree:
     def test_p15_says_it_cannot_read_an_alt_text_in_another_form(self, monkeypatch):
         self._one_plate(monkeypatch, lambda a: a.update(alt_text="A drawing of a base."))
         assert [r["verdict"] for r in C.CHECKS["P15"]["fn"]()] == ["cne"]
+
+
+class TestTheSectionCanDisagree:
+    """S1 and S2 agree on every section once WP-14.6 draws each floor structure above its storey's
+    ceiling, so each is driven with its defect planted in a real section's ink."""
+
+    PID = "tidewater-georgian-careful"
+
+    def _planted(self, monkeypatch, change):
+        import re
+        rec = dict(C._sheets()[self.PID])
+        rec["sec_svg"] = change(rec["sec_svg"], rec, re)
+        assert rec["sec_svg"] != C._sheets()[self.PID]["sec_svg"], "the planted defect did not land"
+        monkeypatch.setattr(C, "_SHEETS", {self.PID: rec})
+
+    def test_the_premise_both_agree_unplanted(self):
+        got = {cid: {r["subject"]: r["verdict"] for r in C.CHECKS[cid]["fn"]()}[self.PID] for cid in ("S1", "S2")}
+        assert got == {"S1": "agrees", "S2": "agrees"}, got
+
+    def test_s2_sees_a_floor_structure_hung_under_its_own_floor(self, monkeypatch):
+        """The defect WP-14.6 removed: each body under its storey's floor line, one storey out."""
+        import inkread as IR
+
+        def change(svg, rec, re):
+            pl = next(p for p in IR.Ink(svg).frames() if p.get("proj") == "section")
+            k, oy, av = pl.get("px_per_ft"), pl["origin_px"][1], pl["at_origin_ft"][1]
+            floors = {str(st["index"]): st["grade_to_floor_ft"] for st in rec["section"]["storeys"]}
+            return re.sub(r'(<rect class="fs" data-storey="(\w+)" x="[^"]*" y=")([^"]*)"',
+                          lambda m: '%s%.2f"' % (m.group(1), oy + (av - floors[m.group(2)]) * k), svg)
+        self._planted(monkeypatch, change)
+        got = C.CHECKS["S2"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "storey 0" in got[0]["detail"] and "storey 1" in got[0]["detail"], got
+
+    def test_s1_sees_a_wall_drawn_a_fifth_too_thin(self, monkeypatch):
+        """The tolerance was a quarter of the wall: 0.78 of every wall agreed on 16 of 16."""
+        def change(svg, rec, re):
+            return re.sub(r'(<rect class="wb" x="[^"]*" y="[^"]*" width=")([^"]*)"',
+                          lambda m: '%s%.2f"' % (m.group(1), float(m.group(2)) * 0.8), svg)
+        self._planted(monkeypatch, change)
+        got = C.CHECKS["S1"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"], got

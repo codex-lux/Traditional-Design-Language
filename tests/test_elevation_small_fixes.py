@@ -98,12 +98,14 @@ def test_a_stack_with_no_stated_plan_size_is_not_drawn_and_is_said(placed, tmp_p
     el = _elev(placed)
     face = next(f for f in "EW" if el.get("chimney_stack_plan_in"))
     ink, _pl, said = _sheet(el, face, tmp_path)
-    assert [it for it in ink.select("rect") if "ch" in it.classes], (
+    # ANY ELEMENT (WP-14.6): the stack is a polygon now its foot follows the rake, and a `rect`
+    # selector here would make the premise fail -- loudly -- and the refusal below pass vacuously
+    assert ink.select(cls="ch"), (
         "the premise: this face draws the stacks at their stated size")
     assert "STACKS NOT DRAWN" not in said
     el2 = copy.deepcopy(el)
     el2["chimney_stack_plan_in"] = None
     ink2, _pl2, said2 = _sheet(el2, face, tmp_path)
-    assert not [it for it in ink2.select("rect") if "ch" in it.classes], (
+    assert not ink2.select(cls="ch"), (
         "a stack was drawn at a plan size no record states")
     assert "STACKS NOT DRAWN" in said2

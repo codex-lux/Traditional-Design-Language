@@ -92,14 +92,20 @@ def render_roof(roof, path, scale=7.0):
     # a judgment the sheet says so in the one spelling the plan sheet uses too. A stack whose
     # record states no size is drawn as its position -- a cross, which has no size to misstate --
     # and the sheet says that as well.
+    #
+    # AND WHERE THE PLACEMENT SEATS IT (WP-14.6, audit F4). The square was centred on the record's
+    # position, which is the gable wall's OUTSIDE FACE, so half of an exterior stack was drawn
+    # inside the wall it stands against -- while the plan sheet, the elevation and the scene each
+    # put the same stack somewhere else. `plan_rect_ft` is the placement's own square, carried in
+    # this record's frame by roof.py, and it is the one every surface now draws.
     positions = roof.get("chimneys", {}).get("positions", [])
     unsized = 0
     for c in positions:
         cx, cy = X(c["x_ft"]), Y(c["y_ft"])
-        if c.get("stack_plan_in"):
-            half = c["stack_plan_in"] / 24.0 * scale
-            s.append(f'<rect class="chm" x="{cx - half:.2f}" y="{cy - half:.2f}" '
-                     f'width="{2 * half:.2f}" height="{2 * half:.2f}"/>')
+        r = c.get("plan_rect_ft")
+        if c.get("stack_plan_in") and r:
+            s.append(f'<rect class="chm" x="{X(r[0]):.2f}" y="{Y(r[3]):.2f}" '
+                     f'width="{(r[2] - r[0]) * scale:.2f}" height="{(r[3] - r[1]) * scale:.2f}"/>')
         else:
             unsized += 1
             s.append(f'<path class="chm" d="M {cx-3:.1f} {cy-3:.1f} L {cx+3:.1f} {cy+3:.1f} '
@@ -110,7 +116,7 @@ def render_roof(roof, path, scale=7.0):
         stack_notes.append(judged["text"])
     if unsized:
         stack_notes.append(f"{unsized} STACK(S) DRAWN AS A POSITION ONLY \u2014 THE RECORD STATES "
-                           "NO PLAN SIZE FOR THEM")
+                           "NO PLAN SIZE OR NO SEATED SQUARE FOR THEM")
 
     legend_y = oy + ph + 18
     s.append(f'<text class="dm" x="{ox:.1f}" y="{legend_y:.1f}">{LEGEND}</text>')

@@ -2,7 +2,7 @@
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
 <rect width="738" height="841" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Corinthian Order (Asher Benjamin) - overlay on Vignola — base</text>
-<rect class="pf" x="36" y="38" width="666" height="662"/>
+<rect class="pf" x="8" y="38" width="722" height="662"/>
 <line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
 <path d="M 70.000,694.000 L 318.000,694.000 L 318.000,384.000 L 266.333,384.000 A 51.667 51.667 0 0 0 318.000,332.333 A 51.667 51.667 0 0 0 266.333,280.667 L 235.333,280.667 L 235.333,260.000 A 82.667 41.333 0 0 1 152.667,218.667 A 41.333 41.333 0 0 1 194.000,177.333 L 235.333,177.333 L 235.333,156.667 L 214.667,156.667 A 41.333 41.333 0 0 0 256.000,115.333 A 41.333 41.333 0 0 0 214.667,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="none"/>
 <path d="M 70.000,694.000 L 318.000,694.000 L 318.000,384.000 L 266.333,384.000 A 51.667 51.667 0 0 0 318.000,332.333 A 51.667 51.667 0 0 0 266.333,280.667 L 235.333,280.667 L 235.333,260.000 A 82.667 41.333 0 0 1 152.667,218.667 A 41.333 41.333 0 0 1 194.000,177.333 L 235.333,177.333 L 235.333,156.667 L 214.667,156.667 A 41.333 41.333 0 0 0 256.000,115.333 A 41.333 41.333 0 0 0 214.667,74.000 L 70.000,74.000" fill="none" stroke="#1b1a17" stroke-width=".9"/>

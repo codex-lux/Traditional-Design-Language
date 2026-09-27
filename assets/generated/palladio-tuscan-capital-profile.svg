@@ -2,7 +2,7 @@
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
 <rect width="738" height="819" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Palladio's Tuscan Order (overlay on Vignola) — capital</text>
-<rect class="pf" x="36" y="38" width="666" height="662"/>
+<rect class="pf" x="8" y="38" width="722" height="662"/>
 <line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
 <path d="M 70.000,694.000 L 70.000,516.856 L 70.000,487.333 L 70.000,280.667 L 70.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="none"/>
 <path d="M 70.000,694.000 M 70.000,516.856 M 70.000,487.333 M 70.000,280.667 M 70.000,74.000 L 70.000,74.000" fill="none" stroke="#1b1a17" stroke-width=".9"/>
@@ -11,7 +11,7 @@
 <line x1="71.0" y1="605.4" x2="404.0" y2="605.4" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="608.0">Collarino (necking) — flat, 1.71″, no projection</text>
 <line x1="71.0" y1="502.1" x2="404.0" y2="502.1" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="504.7">Fillet under t… — fillet, 0.29″, no projection, medium confidence</text>
+<text class="dm" x="408.0" y="504.7">Fillet under… — fillet, 0.29″, no projection, medium confidence</text>
 <line x1="71.0" y1="384.0" x2="404.0" y2="384.0" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="386.6">Ovolo — ovolo, 2.00″, no projection</text>
 <line x1="71.0" y1="177.3" x2="404.0" y2="177.3" stroke="#6f6a60" stroke-width=".35"/>

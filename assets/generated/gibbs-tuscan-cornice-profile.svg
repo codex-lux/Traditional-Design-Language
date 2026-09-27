@@ -2,7 +2,7 @@
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
 <rect width="738" height="541" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Tuscan Order (Gibbs) - overlay on Vignola — cornice</text>
-<rect class="pf" x="36" y="38" width="666" height="362"/>
+<rect class="pf" x="8" y="38" width="722" height="362"/>
 <line x1="70.0" y1="394.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
 <path d="M 70.000,394.000 A 53.333 42.667 0 0 1 123.333,351.333 L 132.222,351.333 L 132.222,340.667 A 26.667 42.667 0 0 0 158.889,298.000 L 167.778,298.000 L 167.778,287.333 L 318.889,287.333 L 318.889,198.444 L 336.667,198.444 L 336.667,180.667 A 22.222 22.222 0 0 0 354.444,145.111 A 22.222 22.222 0 0 1 372.222,109.556 L 390.000,109.556 L 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="none"/>
 <path d="M 70.000,394.000 A 53.333 42.667 0 0 1 123.333,351.333 L 132.222,351.333 L 132.222,340.667 A 26.667 42.667 0 0 0 158.889,298.000 L 167.778,298.000 L 167.778,287.333 L 318.889,287.333 L 318.889,198.444 L 336.667,198.444 L 336.667,180.667 A 22.222 22.222 0 0 0 354.444,145.111 A 22.222 22.222 0 0 1 372.222,109.556 L 390.000,109.556 L 390.000,74.000 L 70.000,74.000" fill="none" stroke="#1b1a17" stroke-width=".9"/>
@@ -16,7 +16,7 @@
 <line x1="159.9" y1="319.3" x2="404.0" y2="314.7" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="317.3">Ovolo — ovolo, 1.20″</text>
 <line x1="168.8" y1="292.7" x2="404.0" y2="288.0" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="290.6">Fillet over the ovolo, formin… — fillet, 0.30″, medium confidence</text>
+<text class="dm" x="408.0" y="290.6">Fillet over the ovolo, formi… — fillet, 0.30″, medium confidence</text>
 <line x1="319.9" y1="242.9" x2="404.0" y2="238.2" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="240.8">Corona — corona, 2.50″</text>
 <line x1="337.7" y1="189.6" x2="404.0" y2="184.9" stroke="#6f6a60" stroke-width=".35"/>

@@ -1012,12 +1012,12 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             ? `Walls ${wall.type.replace(/-/g, ' ')}: envelope ${(wall.exterior_ft * 12).toFixed(1)} in outside the placed rooms, partitions ${(wall.partition_ft * 12).toFixed(1)} in centred on them; room figures are the record's clear extents. `
             : 'The record states no wall assembly, so the walls are drawn at this sheet\'s conventional 9 in and 5 in — a convention, not a reading. '}
           {wall.note ? wall.note + ' ' : ''}
-          {/* WP-14.4: whose bay module the grid is, and whose walls these are */}
-          {!(fp.bay_module_ft > 0)
-            ? 'The record states no bay module, so no bay grid is drawn. '
-            : (placement?.geometry_report?.bay_module && !placement.geometry_report.bay_module.stated_by
-              ? `The bay grid is the placer’s own ${placement.geometry_report.bay_module.ft} ft default — no parti states a module, and the bearing walls are read off it. `
-              : '')}
+          {/* WP-14.4: a record with no bay module gets no grid, and this sheet says so. WHOSE
+              module a drawn grid is -- the placer's own default where no parti states one -- is
+              `build/disclosures.py::bay_module`, which the bench shows in its strip beside this
+              plate: this caption spelled it a second time until WP-14.6 (audit F15), a third
+              spelling of one line after the plate's and the strip's. */}
+          {!(fp.bay_module_ft > 0) ? 'The record states no bay module, so no bay grid is drawn. ' : ''}
           {served ? (served.unmatched_openings
             ? `${served.unmatched_openings} opening(s) on no wall line of their own level — drawn, but no wall body is opened for them. `
             : '')

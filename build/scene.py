@@ -645,6 +645,15 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=Non
                         note=f"drawn open; {r.get('shutter_panel_count')} panels a leaf. Its "
                              "width and height are the record's; its THICKNESS is not stated "
                              "anywhere in this corpus and is drawn at the sash bar's"))
+            elif rec.get("shutters_carried") and r.get("shutters_refused"):
+                # A PAIR THE WALL CANNOT CARRY IS SAID, NOT DROPPED (WP-14.6). `opening_rects`
+                # refuses a window's leaves where they would lie over a neighbour or its leaves,
+                # and the plate says so in its legend; the model, which draws off the same rect,
+                # dropped them with nothing in `not_modelled` -- a style that carries shutters
+                # and a window standing bare, with no reason anywhere in the record.
+                states.cannot(f"the shutters of {r['id']}", r["shutters_refused"],
+                              f"elevation.opening_rects({face}).{r['id']}.shutters_refused",
+                              cls="shutter")
     # THE WINDOW SURROUND, refused where the plate refuses it and for the same reason (WP-14.3).
     ws = (elev or {}).get("window_surround") or {}
     if ws.get("why") and any(r.get("kind") == "window" for rs in rects_by_face.values() for r in rs):
@@ -783,7 +792,7 @@ def _entrance(elev, section, states):
                       "half of, and one rule with two readers is this corpus's commonest defect",
                       "elevation.entrance.casing_width_in", cls="entrance")
 
-    if ent.get("sidelights_present") and ent.get("sidelight_width_in"):
+    if ent.get("sidelights_present") and ent.get("sidelight_width_in") and door.get("sidelights_drawn", True):
         sw = ent["sidelight_width_in"] / 12.0
         for side, a in (("left", x0 - cw - sw), ("right", x1 + cw)):
             out.append(_plane(
@@ -1416,14 +1425,27 @@ def _chimneys(roof, elev, section, states):
                           "far a stack stands above a ridge is not this layer's to invent",
                           f"roof.chimneys.positions[{i}].total_height_grade_ft", cls="chimney")
             continue
+        # THE PLACEMENT'S SQUARE, WHICH EVERY SURFACE DRAWS (WP-14.6, audit F4). `roof.py` carries
+        # the square `threshold._stack_rect` seats -- an exterior stack wholly outboard of the
+        # gable wall, an interior one inboard -- in the roof's frame, one wall thickness from this
+        # one. This function centred its box and its axis on the flue's point on the wall's
+        # outside face, so the model stood every stack half inside the wall while the plan sheet,
+        # the roof plan and the elevation (now) put it on one side of it.
+        sq = pos.get("plan_rect_ft")
+        if sq:
+            ax_x = round((sq[0] + sq[2]) / 2.0 - t_ext, 3)
+            ax_y = round((sq[1] + sq[3]) / 2.0 - t_ext, 3)
+        else:
+            ax_x, ax_y = round(x - t_ext, 3), round(y - t_ext, 3)
         if is_judgment or not plan_in:
             # THE AXIS, and nothing wider. A line has no plan size, which is precisely the fact
-            # the corpus is declining to settle.
+            # the corpus is declining to settle. It stands at the centre of the square the
+            # placement seats where there is one, and on the flue's own point where there is not:
+            # a position the record states either way, and no size.
             out.append(_solid(
                 f"chimney-{i}-axis", "chimney",
-                {"type": "plane", "vertices": [[round(x - t_ext, 3), round(y - t_ext, 3), 0.0],
-                                               [round(x - t_ext, 3), round(y - t_ext, 3),
-                                                round(top, 3)]]},
+                {"type": "plane", "vertices": [[ax_x, ax_y, 0.0],
+                                               [ax_x, ax_y, round(top, 3)]]},
                 # `construction` and not `hidden`: the schema's ink enum is
                 # cut/profile/seen/fine/construction and `hidden` is a word I invented. An axis
                 # IS a construction line, which is the enum's own name for it.
@@ -1442,12 +1464,21 @@ def _chimneys(roof, elev, section, states):
                           "reading the difference as a disagreement about the house.",
                           "elevation.chimney_stack_plan_in")
             continue
-        w = plan_in / 12.0
+        if not sq:
+            # A BOX NEEDS A SEAT AND THE PLACEMENT GAVE NONE: which side of its wall a stack
+            # stands on is the plan's fact, and a box centred on the flue would stand half inside
+            # the wall. Refused by name rather than seated by this layer.
+            states.cannot(f"chimney stack {i}",
+                          "the placement seats no square for it, and which side of the gable wall "
+                          "a stack stands on is the plan's fact -- a box centred on the flue would "
+                          "stand half inside the wall",
+                          f"roof.chimneys.positions[{i}].plan_rect_ft", cls="chimney")
+            continue
         out.append(_solid(
             f"chimney-{i}", "chimney",
             {"type": "box",
-             "origin": [round(x - t_ext - w / 2, 3), round(y - t_ext - w / 2, 3), 0.0],
-             "size": [round(w, 3), round(w, 3), round(top, 3)]},
+             "origin": [round(sq[0] - t_ext, 3), round(sq[1] - t_ext, 3), 0.0],
+             "size": [round(sq[2] - sq[0], 3), round(sq[3] - sq[1], 3), round(top, 3)]},
             "cut", "salmon",
             {"record": f"roof.chimneys.positions[{i}]",
              "also": ["elevation.chimney_stack_plan_in"]},

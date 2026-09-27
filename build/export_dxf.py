@@ -518,8 +518,20 @@ def export_roof_dxf(roof, path):
         msp.add_line((ln["x1"] * IN, ln["y1"] * IN), (ln["x2"] * IN, ln["y2"] * IN),
                      dxfattribs={"layer": layer})
     chim = _layer(doc, "TDL-ROOF-CHIMNEY", color=1)
+    # THE PLACEMENT'S SQUARE, AS THE ROOF PLAN SVG DRAWS IT (WP-14.6). Every stack was a circle of
+    # 18 in RADIUS -- a 36 in round chimney -- whatever the record stated, on the one surface a
+    # reader takes into CAD to measure: the stated square is 22 in and it stands outboard of the
+    # gable wall, not centred on its face. `plan_rect_ft` is the square roof.py carries from the
+    # placement. A stack with no seated square is a POINT, which has no size to misstate, as the
+    # SVG draws a cross.
     for c in roof.get("chimneys", {}).get("positions", []):
-        msp.add_circle((c["x_ft"] * IN, c["y_ft"] * IN), 18.0, dxfattribs={"layer": chim})
+        r = c.get("plan_rect_ft")
+        if c.get("stack_plan_in") and r:
+            msp.add_lwpolyline([(r[0] * IN, r[1] * IN), (r[2] * IN, r[1] * IN),
+                                (r[2] * IN, r[3] * IN), (r[0] * IN, r[3] * IN)],
+                               close=True, dxfattribs={"layer": chim})
+        else:
+            msp.add_point((c["x_ft"] * IN, c["y_ft"] * IN), dxfattribs={"layer": chim})
     m = roof["main"]
     pitch = f"{m['pitch_rise_per_12']}:12" if m.get("pitch_rise_per_12") else "PITCH UNJUDGED"
     _text(msp, anno, f"{roof.get('plan_id','')} - ROOF PLAN - {roof.get('style','')} - "
@@ -700,16 +712,15 @@ def export_elevation_dxf(elev, path, face=None):
                 _xdata(poly, "TDL::transom", {"height_in": tr["height_in"], "judgment": True,
                                               "lights": tr["lights"],
                                               "source": tr.get("height_source")})
-                n = tr["lights"]
-                mw = ((elev.get("storey_windows") or [{}])[0].get("muntin_width_in") or 0.0) / 2.0
-                for i in range(1, n):
-                    gx = x0 + (x1 - x0) * i / n
-                    msp.add_lwpolyline([(gx - mw, head), (gx + mw, head), (gx + mw, top), (gx - mw, top)],
+                mw = (elev.get("storey_windows") or [{}])[0].get("muntin_width_in") or 0.0
+                # the SVG's own division, `elevation.even_bars` (WP-14.6), not a second spelling
+                for gx0, gx1 in EL.even_bars(x0, x1, tr["lights"], mw)[1]:
+                    msp.add_lwpolyline([(gx0, head), (gx1, head), (gx1, top), (gx0, top)],
                                        close=True, dxfattribs={"layer": sash})
             msp.add_lwpolyline([(x0 - cw, sill), (x1 + cw, sill),
                                 (x1 + cw, top + eh), (x0 - cw, top + eh)],
                                close=True, dxfattribs={"layer": sash})
-            if ent.get("sidelights_present") and ent.get("sidelight_width_in"):
+            if ent.get("sidelights_present") and ent.get("sidelight_width_in") and r.get("sidelights_drawn", True):
                 slw = ent["sidelight_width_in"]
                 for a in (x0 - cw - slw, x1 + cw):
                     msp.add_lwpolyline([(a, sill), (a + slw, sill), (a + slw, head), (a, head)],

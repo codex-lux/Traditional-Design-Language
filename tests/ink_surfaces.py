@@ -41,9 +41,11 @@ UNCONSTRUCTED = frozenset(("volute", "acanthus"))
 # a pixel, so a vertex read back is off its model value by up to 0.0005 px / px_per_in -- 5.7e-6 in
 # on a plate drawn at 87 px/in. The census's first run used 1e-6, which is TIGHTER than the print
 # quantum, and so called an ovolo that is drawn as an arc "drawn straight" on thirty plates: the
-# instrument reporting its own rounding as a defect in the drawing. 0.001 in is two orders above
-# the quantum at every scale these plates are drawn at (`ProfilePlate` asserts that) and two below
-# the thinnest member any pack states.
+# instrument reporting its own rounding as a defect in the drawing. 0.001 in is 50 to 284 times the
+# half-quantum on the plates committed today (25.3 to 141.8 px/in) and two orders below the thinnest
+# member any pack states. `ProfilePlate` asserts ONE order on every plate read, not two: this said
+# "two orders ... at every scale" until WP-14.6, and 32 of the 73 plates draw under 50 px/in, where
+# the margin is under a hundred.
 EPS_IN = 0.001
 
 

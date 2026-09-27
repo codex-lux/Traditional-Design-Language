@@ -364,6 +364,10 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
         const mid = (seat.lo + seat.hi) / 2;
         exterior.push({
           wall: seat.wall, w: width, type, room: r.id, inferredWall: true,
+          // WP-14.6: the record's jamb here too, as `render_plan.derive_openings` has carried it
+          // on this path all along. WP-14.4 restored it to the SEATED exterior branch above and
+          // left this one dropping it, where no frozen fixture reaches: every door there is seated.
+          hinge: d.hinge || 'low',
           inferredWidth: declaredW == null, edge_ft: edge3(seat.at),
           span: [mid - width / 2, mid + width / 2],
           x: seat.wall === 'W' || seat.wall === 'E' ? seat.at : mid,

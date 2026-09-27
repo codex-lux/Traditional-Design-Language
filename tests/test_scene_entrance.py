@@ -146,7 +146,11 @@ def test_the_transom_is_one_decision_on_the_plate_and_in_the_model(both, tmp_pat
         judged = [n for n in scene.get("judgment", []) if "transom" in n["what"]]
         refused = [n for n in scene["not_modelled"] if n["source"] == "elevation.entrance.transom"]
         if tr["drawn"]:
-            assert "TRANSOM DRAWN" in said and "A JUDGMENT" in said, pid
+            # ON THE TRANSOM'S OWN LINE (WP-14.6, G7). "A JUDGMENT" anywhere on the sheet was also
+            # the STACK's note -- "STACK DRAWN 22\u2033 SQUARE \u2014 A JUDGMENT" -- so the transom's
+            # clause could be dropped with this green.
+            import re as _re
+            assert _re.search(r"TRANSOM DRAWN [\d.]+\u2033 HIGH \u2014 A JUDGMENT", said), pid
             assert len(model) == 1 and model[0]["kind"] == "judgment", (pid, model)
             assert model[0]["ink"] == "construction"
             assert judged and not refused, pid

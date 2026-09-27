@@ -113,3 +113,26 @@ def test_a_note_about_another_packs_record_is_listed_under_that_pack():
     palladio-doric's, and so is the book that settles it."""
     rows = [r for r in _disputed() if any(n["in"].startswith("palladio-corinthian/") for n in r["notes"])]
     assert rows and all(r["pack"] == "palladio-doric" for r in rows), rows
+
+
+def test_the_books_come_in_the_order_a_persons_time_is_best_spent():
+    """WP-14.6, promised by WP-14.5's report. "Palladio comes first" was held only by `--check`: a
+    generator listing the books fewest gaps first failed the currency test and passed every
+    semantic one, because none of them read the ORDER -- which is the list's whole point, a
+    person's time at a library. Asserted from the rows, independently of the sort that produced
+    the table: the first book has the most assemblies with no projection published at all, and
+    that column never rises down the table."""
+    import collections
+    import re
+    per = collections.Counter(GW._book(r["pack"]) for r in GW.rows() if r["cls"] == 1)
+    assert per, "premise: some assembly publishes no projection"
+    text = GW.render()
+    table = text.split("## The books, in the order to fetch them", 1)[1].split("\n## ", 1)[0]
+    data = [l for l in table.splitlines()
+            if l.startswith("| ") and not l.startswith("| book") and "**total**" not in l]
+    assert data, "the book table is empty"
+    books = [GW._book(re.findall(r"`([a-z0-9-]+)`", l.split("|")[2])[0]) for l in data]
+    col = [int(l.split("|")[4]) for l in data]
+    assert col == [per.get(b, 0) for b in books], "the table's class-1 column is not the rows' count"
+    assert col[0] == max(per.values()), "the first book is not the one with the most whole gaps"
+    assert col == sorted(col, reverse=True), "a book with more whole gaps comes after one with fewer"

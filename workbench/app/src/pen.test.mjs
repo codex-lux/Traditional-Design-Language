@@ -77,7 +77,18 @@ test("the bench's poche is the printed plate's, token for token", async () => {
     return `var(--${m[1].replace(/_/g, '-')})`;
   };
   assert.equal(POCHE.partition.fill, tokenOf('partition'));
-  // the masonry token is spelled through its duty name on the bench and its colour on the plate
-  assert.equal(POCHE.masonry.fill, 'var(--poche-masonry)');
-  assert.equal(tokenOf('masonry'), 'var(--salmon)');
+  // The masonry token is spelled through its DUTY name on the bench and its COLOUR on the plate,
+  // so the duty name is resolved through the standard's own declaration before the two are
+  // compared. The first version asserted each side against its own literal -- `var(--poche-masonry)`
+  // and `var(--salmon)` -- and related them by nothing, so re-pointing `--poche-masonry` at another
+  // ink in tokens.css left it green while the two sheets drew two colours (WP-14.6).
+  const css = readFileSync(join(here, 'theme', 'tokens.css'), 'utf8');
+  const decls = [...css.matchAll(/--poche-masonry\s*:\s*([^;]+);/g)].map(m => m[1].trim());
+  assert.equal(decls.length, 1, `the premise: tokens.css declares --poche-masonry once (${decls.length})`);
+  const resolve = (fill) => {
+    const name = /^var\((--[a-z-]+)\)$/.exec(fill);
+    assert.ok(name, `the bench's masonry fill is not a token: ${fill}`);
+    return name[1] === '--poche-masonry' ? decls[0] : fill;
+  };
+  assert.equal(resolve(POCHE.masonry.fill), tokenOf('masonry'));
 });

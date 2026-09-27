@@ -77,6 +77,18 @@ test('the stair arrow points the way the flight runs, over its middle', () => {
   // the head is at the shaft's end
   assert.deepEqual([n.head[2], n.head[3]], [n.shaft[2], n.shaft[3]]);
   assert.equal(stairArrow({ ...f }), null, 'a flight stating no direction gets no arrow');
+  // AND IT STANDS OVER THE FLIGHT'S MIDDLE (WP-14.6, auditor C). Everything above reads which
+  // way the shaft runs, so an arrow drawn a flight's width off to the side -- or across the
+  // landing -- passed it. The shaft's midpoint is the flight's own centre, in the sheet's
+  // coordinates (y flipped), and it runs over the middle 68 per cent of the flight's length.
+  const cx = f.x_ft + f.width_ft / 2, cy = -(f.y_ft + f.depth_ft / 2);
+  for (const [dir, len] of [['N', f.depth_ft], ['S', f.depth_ft], ['E', f.width_ft], ['W', f.width_ft]]) {
+    const [x0, y0, x1, y1] = stairArrow({ ...f, direction: dir }).shaft;
+    assert.ok(Math.abs((x0 + x1) / 2 - cx) < 1e-9 && Math.abs((y0 + y1) / 2 - cy) < 1e-9,
+      `the ${dir} arrow's middle is (${(x0 + x1) / 2}, ${(y0 + y1) / 2}), the flight's is (${cx}, ${cy})`);
+    assert.ok(Math.abs(Math.hypot(x1 - x0, y1 - y0) - 0.68 * len) < 1e-9,
+      `the ${dir} arrow runs ${Math.hypot(x1 - x0, y1 - y0)} ft over a ${len} ft flight`);
+  }
 });
 
 test("a bay line is labelled with the record's own figure, not a rounded one", () => {

@@ -147,6 +147,55 @@ for (const fx of fixtures) {
     assert.ok(seen > 10, `only ${seen} doors compared -- the contract would pass on a sheet with none`);
   });
 
+  /* WP-14.6: EVERY FROZEN DOOR IS HUNG FROM ITS LOW JAMB -- `openings.place` writes `hinge: low`
+     on every door it seats -- so the test above could not tell a derive that carries the record's
+     hinge from one that always answers 'low'. The Python half re-derives a high-jamb copy of each
+     fixture; this half cannot call Python, so it asserts the property itself: the record hangs
+     every door from its high jamb, and every door the bench draws hangs from it. */
+  test(`${fx.plan}: a door the record hangs from its high jamb is drawn from its high jamb`, () => {
+    let seen = 0;
+    for (const lv of fx.levels) {
+      const rooms = JSON.parse(JSON.stringify(lv.rooms));
+      for (const r of rooms) for (const d of (r.doors || [])) d.hinge = 'high';
+      const got = doors(toRects(rooms), W, H);
+      for (const d of [...got.interior, ...got.exterior]) {
+        assert.equal(d.hinge, 'high', `${lv.id}: ${d.pair ? d.pair.join('|') : d.room} drawn from the ${d.hinge} jamb`);
+        seen += 1;
+      }
+    }
+    assert.ok(seen > 10, `only ${seen} doors re-hung -- the check would pass on a sheet with none`);
+  });
+
+  /* WP-14.6: AND ON THE PATHS NO FROZEN DOOR REACHES. Every door in these fixtures is seated, so
+     the two branches that draw a door the record does not seat -- an interior door on the rooms'
+     shared run, an exterior door on the first declared wall the placement put outside -- were
+     reached by nothing above, and a mutation hanging either from the low jamb whatever the record
+     said left this suite green. The inferred exterior branch was in fact dropping the record's
+     hinge, as the seated one had until WP-14.4. Unseat every door and each must still hang from
+     the jamb the record names, on both paths, with each path shown to draw something. */
+  test(`${fx.plan}: a door the record does not seat still hangs from the jamb it names`, () => {
+    let interior = 0, exterior = 0;
+    for (const lv of fx.levels) {
+      const rooms = JSON.parse(JSON.stringify(lv.rooms));
+      for (const r of rooms) for (const d of (r.doors || [])) {
+        delete d.wall; delete d.position_ft; delete d.unplaced; d.hinge = 'high';
+      }
+      const got = doors(toRects(rooms), W, H);
+      assert.equal(got.inferredPositions > 0, true, `${lv.id}: the premise -- the unseated paths ran`);
+      for (const d of got.interior) {
+        assert.equal(d.hinge, 'high', `${lv.id}: ${d.pair.join('|')} (shared run) drawn from the ${d.hinge} jamb`);
+        interior += 1;
+      }
+      for (const d of got.exterior) {
+        assert.equal(d.inferredWall, true, `${lv.id}: ${d.room} was seated after its seat was removed`);
+        assert.equal(d.hinge, 'high', `${lv.id}: ${d.room}/${d.wall} (inferred wall) drawn from the ${d.hinge} jamb`);
+        exterior += 1;
+      }
+    }
+    assert.ok(interior > 3 && exterior > 0,
+      `only ${interior} interior and ${exterior} exterior doors drawn unseated -- a path the check does not reach`);
+  });
+
   test(`${fx.plan}: every window stands on the face the Python renderer stands it on`, () => {
     let seen = 0;
     for (const lv of fx.levels) {

@@ -522,6 +522,12 @@ def chimney_positions(plan, style, section, main):
     axes_error = None
     unpositioned = 0
     refused_flues = []
+    t_ext = (section.get("wall") or {}).get("exterior_in")
+    t_ext = (t_ext / 12.0) if t_ext is not None else \
+        (section["footprint"].get("exterior_wall_thickness_in") or 0.0) / 12.0
+    # THE STACK'S OWN SQUARE, ONE PER POSITION, READ FROM THE PLACEMENT LAYER (WP-14.6). See the
+    # comment where the chimney records are built.
+    squares = []
     hr = plan.get("hearths") if isinstance(plan.get("hearths"), dict) else None
     if hr is not None and hr.get("hearths_unreadable"):
         axes_error = hr["hearths_unreadable"]
@@ -540,9 +546,6 @@ def chimney_positions(plan, style, section, main):
         # after the plan side started reading the same record. The two records still do not
         # share an origin (`oq/the-roof-record-and-the-plan-record-do-not-share-an-origin`);
         # what this does is stop ONE record mixing both frames in one coordinate pair.
-        t_ext = (section.get("wall") or {}).get("exterior_in")
-        t_ext = (t_ext / 12.0) if t_ext is not None else \
-            (section["footprint"].get("exterior_wall_thickness_in") or 0.0) / 12.0
         # THE STACK'S PLAN SIZE, READ ONCE (WP-14.3). The roof plan drew every stack as a 3.2 px
         # dot whatever the record said (census F1: 11 in across against a stated 22). The size is
         # ONE figure for the house -- `threshold.py` reads `chimney.stack_plan_in` from the
@@ -555,11 +558,13 @@ def chimney_positions(plan, style, section, main):
         _keys = ("stack_plan_in", "stack_plan_judgment", "stack_plan_basis")
         _sizes = {tuple(sk.get(k) for k in _keys) for sk in (hr.get("stacks") or [])}
         stack_size = dict(zip(_keys, next(iter(_sizes)))) if len(_sizes) == 1 else {}
+        by_flue = {sk.get("flue"): sk for sk in (hr.get("stacks") or []) if sk.get("flue") is not None}
         for fl in (hr.get("flues") or []):
             wall, pos = fl.get("wall"), fl.get("position_ft")
             if pos is None or wall not in ("E", "W", "N", "S"):
                 unpositioned += 1
                 continue
+            squares.append(by_flue.get(fl.get("flue")))
             along = pos + t_ext
             if wall == "W":
                 stated.append((0.0, along))
@@ -595,6 +600,11 @@ def chimney_positions(plan, style, section, main):
             + ". A stack over no fire is what this reconciliation removes (WP-11.4).")
         positions = stated
     else:
+        if hr is not None and hr.get("placed_from") == "centre-line":
+            # the placement layer's centre-line stacks, one per gable-end wall, in the order
+            # `gable_end_points` gives the positions above -- paired by WALL, never by position
+            by_wall = {sk.get("wall"): sk for sk in (hr.get("stacks") or [])}
+            squares = [by_wall.get(w) for w in _threshold().gable_end_walls(axis)]
         try:
             HE = _mod("hearths", f"{ROOT}/build/hearths.py")
             axes = HE.stack_axes(plan, C)
@@ -626,6 +636,26 @@ def chimney_positions(plan, style, section, main):
     chimneys = [{"x_ft": round(x, 2), "y_ft": round(y, 2), "grade_to_ridge_ft": ridge_ft,
                  "height_above_ridge_ft": height_above_ridge_ft, "total_height_grade_ft": round(ridge_ft + height_above_ridge_ft, 2)}
                 for x, y in positions]
+    # THE STACK'S SQUARE IS THE PLACEMENT'S, AND EVERY DRAWING OF IT READS THIS ONE (WP-14.6).
+    # `threshold._stack_rect` seats each stack on the face of its wall the hearth record names --
+    # an EXTERIOR stack wholly outboard of the outside face, an INTERIOR one inboard of the inside
+    # face -- and the plan sheet has drawn that square since WP-11.4. The roof plan centred its
+    # own square on the position above, which is the wall's outside face, so half of an exterior
+    # stack stood inside the wall; the elevation pushed it outboard by half its width on the long
+    # face and did not move it at all on the gable face; the DXF drew a 36 in circle; the scene a
+    # box centred on the flue. Four surfaces, four places for one chimney (audit F4). The square
+    # is carried here in THIS record's outside-to-outside frame, one wall thickness from the
+    # plan's, with the side it stands on, and every surface draws that. Where the placement
+    # wrote no square for a stack -- a declared record, or a stack it refused -- none is carried
+    # and none is invented: the surfaces say the stack's footprint is not stated.
+    for c, sq in zip(chimneys, squares):
+        if not sq or sq.get("x_ft") is None or not sq.get("width_ft") or not sq.get("depth_ft"):
+            continue
+        # `+ 0.0` so a face that lands exactly on the origin reads 0.0 and not -0.0
+        c["plan_rect_ft"] = [round(sq["x_ft"] + t_ext, 3) + 0.0, round(sq["y_ft"] + t_ext, 3) + 0.0,
+                             round(sq["x_ft"] + sq["width_ft"] + t_ext, 3) + 0.0,
+                             round(sq["y_ft"] + sq["depth_ft"] + t_ext, 3) + 0.0]
+        c["side"] = sq.get("side")
     if hearth_note:
         for c in chimneys:
             c.update({k: v for k, v in stack_size.items() if v is not None})
@@ -897,7 +927,19 @@ def build_roof(plan, parti=None, section=None):
     style = plan.get("style")
     main = main_roof(plan, section, style)
     wing = wing_step_down(plan, section, main)
-    chimneys = chimney_positions(plan, style, section, main)
+    # THE STACKS STAND WHERE THE SECTION'S OWN PLACEMENT PUTS THE FIRES (WP-14.6). Every
+    # user-facing caller builds the section on the placed record and then hands THIS function the
+    # record it was given -- `corpus.drawing` (the bench's Drawing Set, three routes), the DXF and
+    # IFC exporters, and `build_elevation` itself when it places a declared draft -- and the client
+    # posts the DECLARED record, which carries no `hearths`. So on the Drawing Set the roof plan and
+    # the elevation stood the Tidewater stacks on the gable centre line, 12.3 ft from the flues the
+    # plan sheet beside them stands them over, under a note saying the plan "carries no placement"
+    # while the section on the same sheet carried one. WP-6.4's rule -- one drawing set is one
+    # building -- met at the chimney. The census never saw it because it hands this function the
+    # PLACED record; the product did not. The section's `geometry` is the placement it was built
+    # on (`structure.build_section` writes it on every path), so the hearths are read from there.
+    placed = section.get("geometry") if isinstance(section.get("geometry"), dict) else None
+    chimneys = chimney_positions(placed or plan, style, section, main)
     checks = {
         "wing_step_down": wing,
         "cape_eave": cape_eave_check(style, section, main),

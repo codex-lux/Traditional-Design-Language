@@ -1287,7 +1287,15 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                 cur = trial
         wrapped.append((ink, cur))
     schedule = wrapped
-    sched_h = 14.0 * len(schedule) + 14.0
+    # THE △'S DEFINITION IS A ROW OF THE SCHEDULE AND THE BAND HOLDS IT (WP-14.6, audit F10). It
+    # is drawn one row below the last line in the working register, and the band had no row for
+    # it, so the record table's heading was printed 4.7 px above it: the two lines overprinted
+    # on every working sheet with a relaxation and a diverged room. Only the working register
+    # draws it, so a presentation sheet is laid out exactly as it was.
+    _legend_row = 1 if (working and (gr.get("relaxations", {}) or {}).get("count")) else 0
+    # the legend's baseline stands 3 px below its row (`ly + 3`), so its row takes 14 + 3, and the
+    # table's heading then keeps the 14 px every schedule row keeps from the next
+    sched_h = 14.0 * len(schedule) + 14.0 + (19.0 if _legend_row else 0.0)
     # THE TABLE'S HEIGHT IS COMPUTED, NEVER A FIXED ALLOWANCE. A fixed one under the plates is
     # how a third of an upper floor came to be drawn outside this canvas (WP-9.6), and the
     # table is the last thing on the sheet, so anything it overruns is simply not drawn.
@@ -1406,7 +1414,9 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         band_top = Y(draw_y0) + extra_bottom
         band_bot = band_top + DIM_RUN_OFF_PX[1] + DIM_TICK_PX
         for n, b in enumerate(stops[1:-1], 1):
-            s.append(f'<line class="gd" x1="{X(b):.1f}" y1="{Y(draw_y0 + draw_H) - 16:.1f}" '
+            # `data-bay`: a bay line is told from the other construction lines sharing `.gd` by
+            # what it IS, so "no module, no bay line" can be asserted as none (WP-14.6, G5)
+            s.append(f'<line class="gd" data-bay="{n}" x1="{X(b):.1f}" y1="{Y(draw_y0 + draw_H) - 16:.1f}" '
                      f'x2="{X(b):.1f}" y2="{band_bot:.1f}"/>')
             s.append(f'<text class="dm" x="{X(b):.1f}" y="{Y(draw_y0 + draw_H) - 20:.1f}" '
                      f'text-anchor="middle" style="font-size:7px;fill:{L["hair"]}">{n * bm:g}</text>')
@@ -1964,7 +1974,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     # reader meeting one on the drawing had nothing to read it BY and reported it as arrows
     # that "seem to point to anything and everything". A symbol a drawing uses is a symbol the
     # drawing defines, and the definition belongs in the margin with the rest of the notes.
-    if working and (gr.get("relaxations", {}) or {}).get("count"):
+    if _legend_row:
         ly = sched_y + 14 * len(schedule)
         s.append(f'<path class="mk" d="M {M+BP+4:.1f} {ly-4.5:.1f} L {M+BP+8:.1f} {ly+3.0:.1f} '
                  f'L {M+BP:.1f} {ly+3.0:.1f} Z"/>')

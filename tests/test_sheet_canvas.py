@@ -317,3 +317,27 @@ class TestADependencyIsDrawnInsideItsOwnPanel:
             f"{W} ft block). Its west dependency is what makes this record the exception the "
             f"line above names -- if it has stopped being drawn outside, the exception is stale "
             f"and the fifteen above should be sixteen.")
+
+
+def test_no_two_lines_of_the_margin_are_printed_through_one_another(tmp_path):
+    """WP-14.6, audit F10. The working register draws the relaxation mark's definition one row
+    below the schedule, and the band the schedule reserved had no row for it, so the record table's
+    heading was printed 4.7 px above it: two lines through one another on every working sheet
+    with a relaxation and a room drawn off its declared size. Every text line under the plates is
+    held to the 14 px the schedule keeps between rows -- read off the sheet `render()` draws by
+    default, which is the working one."""
+    checked = 0
+    for name in _plans():
+        svg = _sheet(name, tmp_path)
+        lines = sorted(float(y) for y in re.findall(r'<text class="lb" x="[\d.]+" y="([\d.]+)"(?: style="[^"]*")?>', svg))
+        head = re.search(r'y="([\d.]+)"[^>]*>WHAT THE RECORD ASKED FOR', svg)
+        legend = re.search(r'y="([\d.]+)">A CUT OFF THE BAY LINE', svg)
+        if head and legend:
+            checked += 1
+            gap = float(head.group(1)) - float(legend.group(1))
+            assert gap >= 12.0, "%s: the record table's heading stands %.1f px under the △'s definition" % (name, gap)
+        top = float(re.search(r'data-plate-top="([-\d.]+)"', svg).group(1))
+        margin = [y for y in lines if y > top]
+        for a, b in zip(margin, margin[1:]):
+            assert b - a >= 12.0 or b == a, "%s: two margin lines %.1f px apart at y %.1f" % (name, b - a, a)
+    assert checked, "premise: some shipped sheet draws both the △'s definition and the table"

@@ -197,3 +197,91 @@ def test_a_clipped_quote_says_it_was_clipped():
     assert PR._clip("short") == "short"
     out = PR._clip("word " * 30)
     assert out.endswith(" …") and not out[:-2].endswith("wor") and len(out) <= 62
+
+
+# ------------------------------------------------------------------ the plate's own branches
+# WP-14.6, auditor C. Every test above drives an ENTRY; the plate's verdict is composed from those
+# and from two checks no entry reaches -- the members' sum and the pack's invariants -- and the
+# three routes by which a plate stops agreeing were asserted by no test. Each is planted here on
+# the worked example's plate, whose checks all agree as shipped (asserted first, so a plant that
+# changes nothing cannot pass for one that bit).
+def _checks(r):
+    return {n: v for n, v, _d in r["checks"]}
+
+
+def test_premise_the_worked_example_plate_agrees_as_shipped():
+    r = PR.plate_review("palladio-ionic", "architrave")
+    assert r["verdict"] == "agrees" and set(_checks(r).values()) == {"agrees"}, r
+
+
+def test_an_invariant_that_could_not_be_judged_is_not_counted_as_holding(monkeypatch):
+    """`check_invariants` answers True, False or None -- None where the invariant's expression
+    could not be evaluated. A plate whose every invariant held but one that could not be judged
+    must not say its invariants agree."""
+    real = PE.check_invariants(PE.resolve("palladio-ionic"))
+    assert real and all(r.get("holds") is True for r in real), "premise: every invariant holds"
+    monkeypatch.setattr(PE, "check_invariants", lambda res: [dict(real[0]), dict(real[0], holds=None)])
+    r = PR.plate_review("palladio-ionic", "architrave")
+    assert _checks(r)["the pack's invariants"] == "could-not-evaluate", r
+    # and the headline says so: the plate still AGREES where it was judged, and not in general
+    note = PR.review_note("palladio-ionic", "architrave", "12 in", "Palladio 1570", ())
+    assert "INTERNAL: AGREES WHERE JUDGED, 1 OF %d CHECKS COULD NOT BE EVALUATED" % len(r["checks"]) in note, note
+
+
+def test_a_quote_that_has_left_its_note_makes_the_plate_disagree(planted):
+    """A stale entry is not merely unread on the entry's own row: the plate that draws its member
+    reads DISAGREES and names the member, because a table that no longer describes its note has
+    stopped vouching for the figure on the plate."""
+    e = _entry(planted, "palladio-ionic", "architrave", "arch_fascia_1")
+    e["claims"] = [{"quote": "a sentence this note has never contained", "target": "h_arch_fascia_1",
+                    "states": "7.2"}]
+    r = PR.plate_review("palladio-ionic", "architrave")
+    assert r["verdict"] == "disagrees", r
+    detail = dict((n, d) for n, _v, d in r["checks"])["the figures notes state about its record"]
+    assert "arch_fascia_1: the table no longer describes the note" in detail, detail
+
+
+def test_a_member_height_that_breaks_the_assemblys_sum_makes_the_plate_disagree(monkeypatch):
+    """The members' sum is the one check the plate makes of the record against itself. Planted by
+    handing the reviewer a pack whose first architrave member is one part taller."""
+    real = PE.resolve
+
+    def taller(pid, *a, **k):
+        res = copy.deepcopy(real(pid, *a, **k))
+        if pid == "palladio-ionic":
+            res["assemblies"]["architrave"]["members"][0]["height_parts"] += 1
+        return res
+
+    monkeypatch.setattr(PE, "resolve", taller)
+    r = PR.plate_review("palladio-ionic", "architrave")
+    assert _checks(r)["the members sum to the assembly"] == "disagrees", r
+    assert r["verdict"] == "disagrees"
+
+
+def test_an_agreement_with_nothing_unjudged_carries_the_plain_headline():
+    note = PR.review_note("palladio-ionic", "architrave", "12 in", "Palladio 1570", ())
+    assert "INTERNAL: AGREES -- " in note and "WHERE JUDGED" not in note, note
+
+
+# THE POPULATION N2 READS, PINNED PER OVERLAY (WP-14.6, promised by WP-14.5's report). N2 says every
+# overlay converts what it inherits by the factor its own module note states, over 968 figures --
+# and nothing held the 968: dropping `projection_parts` from the comparison cut it to 541 with all
+# eighteen overlays still agreeing and the census unmoved, because an agreement over fewer figures
+# is still an agreement. A count that moves is not a failure of the corpus; it is a change to
+# account for, in the commit that makes it.
+N2_FIGURES = {
+    "benjamin-corinthian": 76, "benjamin-ionic": 73, "benjamin-tuscan": 39,
+    "chambers-composite": 91, "chambers-corinthian": 84, "chambers-doric": 62,
+    "chambers-ionic": 65, "chambers-tuscan": 54,
+    "gibbs-composite": 41, "gibbs-corinthian": 37, "gibbs-doric": 42, "gibbs-ionic": 23,
+    "gibbs-tuscan": 26,
+    "palladio-composite": 84, "palladio-corinthian": 45, "palladio-doric": 55,
+    "palladio-ionic": 43, "palladio-tuscan": 28,
+}
+
+
+def test_every_overlay_is_judged_over_the_figures_it_was_judged_over():
+    got = {c["pack"]: c.get("figures") for c in PR.conversions()}
+    assert got == N2_FIGURES, {k: (N2_FIGURES.get(k), got.get(k)) for k in set(got) | set(N2_FIGURES)
+                               if got.get(k) != N2_FIGURES.get(k)}
+    assert sum(N2_FIGURES.values()) == 968

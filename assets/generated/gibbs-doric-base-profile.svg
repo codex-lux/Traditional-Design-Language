@@ -2,7 +2,7 @@
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
 <rect width="738" height="819" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Doric Order (Gibbs) - overlay on Vignola — base</text>
-<rect class="pf" x="36" y="38" width="666" height="662"/>
+<rect class="pf" x="8" y="38" width="722" height="662"/>
 <line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
 <path d="M 70.000,694.000 L 276.667,694.000 L 276.667,487.333 L 212.083,487.333 A 64.583 64.583 0 0 0 276.667,422.750 A 64.583 64.583 0 0 0 212.083,358.167 L 199.167,358.167 L 199.167,345.250 A 96.875 58.125 0 0 1 102.292,287.125 A 58.125 58.125 0 0 1 160.417,229.000 L 199.167,229.000 L 199.167,216.083 L 173.333,216.083 A 51.667 51.667 0 0 0 225.000,164.417 A 51.667 51.667 0 0 0 173.333,112.750 A 51.667 38.750 0 0 1 121.667,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="none"/>
 <path d="M 70.000,694.000 L 276.667,694.000 L 276.667,487.333 L 212.083,487.333 A 64.583 64.583 0 0 0 276.667,422.750 A 64.583 64.583 0 0 0 212.083,358.167 L 199.167,358.167 L 199.167,345.250 A 96.875 58.125 0 0 1 102.292,287.125 A 58.125 58.125 0 0 1 160.417,229.000 L 199.167,229.000 L 199.167,216.083 L 173.333,216.083 A 51.667 51.667 0 0 0 225.000,164.417 A 51.667 51.667 0 0 0 173.333,112.750 A 51.667 38.750 0 0 1 121.667,74.000 L 70.000,74.000" fill="none" stroke="#1b1a17" stroke-width=".9"/>
@@ -26,7 +26,7 @@
 <line x1="226.0" y1="164.4" x2="404.0" y2="164.4" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="167.0">Upper torus — torus, 1.00″, low confidence</text>
 <line x1="122.7" y1="93.4" x2="404.0" y2="93.4" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="96.0">Cincture and congé of the shaft — apophyge, 0.38″, low confidence</text>
+<text class="dm" x="408.0" y="96.0">Cincture and congé of the sha… — apophyge, 0.38″, low confidence</text>
 <text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
 <text class="dm" x="44" y="726.0">Doric Order (Gibbs) - overlay on Vignola, assembly base, at a 12″ column. 7 member(s), 6.00″ high, 2.00″ of relief from the naked.</text>
 <text class="dm" x="44" y="737.0">All 7 member(s) publish a projection.</text>

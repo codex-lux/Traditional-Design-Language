@@ -217,7 +217,7 @@ def entrance_transom(ent, slot, sash_pack, glass_module_in):
                              "judgment: the measured spread is enormous"}
 
 
-def window_surround(slot, name="window_surround"):
+def window_surround(slot, name="window_surround", date=None, construction=None):
     """The surround a window's own kit makes canonical, as the elevation can honour it (WP-14.3).
 
     No surface draws an exterior window surround, and Phase 14's scope says a figure the record
@@ -227,10 +227,30 @@ def window_surround(slot, name="window_surround"):
     say which this house has, and 19 make no surround canonical. The first is refused with its
     reason, the transom's precedent for a record that names two forms; the second is the
     ordinary answer and is not said. A surround the kit makes canonical ALONE is not drawn by any
-    surface either, and is said, because no style reaches it and a construction nobody can see
-    drawn is not one this package writes. The reveal is a different slot (`reveal_masonry`,
-    `reveal_frame`) and is drawn where it is stated."""
-    canon = sorted({v["id"] for v in (slot.get("variants") or []) if v.get("status") == "canonical"})
+    surface either, and is said. WP-14.3 wrote that no style reaches that case, and it was a
+    measurement of ONE HOUSE: the style sweep draws every style on the Tidewater placement, whose
+    wall is declared solid masonry, so it never read the wood slot. On the shipped plans, whose
+    walls are frame, TEN OF ELEVEN reach it (WP-14.6) -- and none can be drawn without choosing a
+    figure: `colonial-revival`'s slot states only a MAXIMUM width, 3 in, and `greek-revival-
+    american`'s an editorial band of 5 to 6 in. The reveal is a different slot (`reveal_masonry`,
+    `reveal_frame`) and is drawn where it is stated.
+
+    A VARIANT'S OWN CONDITION IS READ (WP-14.6, audit F9). `none-masonry-reveal` is canonical on
+    `georgian-colonial-american` only `applies_when` the wall is `solid-masonry-two-wythe`, and
+    the cascade carries it into the WOOD slot with that condition; `new-england-colonial`'s flat
+    casing is canonical for 1700-1780. Unread, the frame `good-03` and `good-05` were refused as
+    naming two surrounds "and not saying which this house has" -- on a frame wall the reveal does
+    not apply, and the record names one. A variant applies where its date range holds the house's
+    date (`resolve_kit.in_period`, the resolver's own reading) and its construction list holds the
+    section's construction type; a condition the house states nothing about is not a condition
+    that failed."""
+    def _applies(v):
+        if not RK.in_period(v, date):
+            return False
+        cons = (v.get("applies_when") or {}).get("construction")
+        return not (cons and construction and construction not in cons)
+    canon = sorted({v["id"] for v in (slot.get("variants") or [])
+                    if v.get("status") == "canonical" and _applies(v)})
     real = [c for c in canon if not c.startswith("none")]
     words = lambda c: c.replace("-", " ")
     if slot.get("binding") == "forbidden" or not real:
@@ -350,6 +370,20 @@ def _bay_count(facade_pack, span_ft):
 # so the row cannot see the difference -- noted rather than loosened.)
 FACE_MIRRORED = {"S": False, "E": False, "N": False, "W": False}
 X_DATUM = "outside face"
+
+
+def face_u_words():
+    """`face_u_ft` in words, READ OFF `FACE_MIRRORED` (WP-14.6, audit F14). The datum record wrote
+    this out by hand -- "u = clear span + t - along on N and W" -- and went on saying the north and
+    west faces are mirrored after WP-13.3 unmirrored them, so a reader converting a plan coordinate
+    by the record's own sentence put every N and W opening at the wrong end of its face."""
+    def _and(fs):
+        return " and ".join(fs)
+    plain = [f for f in FACES if not FACE_MIRRORED[f]]
+    mirrored = [f for f in FACES if FACE_MIRRORED[f]]
+    parts = ([f"u = along + t on {_and(plain)}"] if plain else []) + \
+            ([f"u = clear span + t - along on {_and(mirrored)}"] if mirrored else [])
+    return "; ".join(parts) + " (`elevation.face_u_ft`)"
 
 
 def face_u_ft(face, along_ft, clear_w_ft, clear_d_ft, t_ft):
@@ -701,8 +735,7 @@ def placed_openings(placed, section, entrance_face, faces=None):
     return {"faces": out, "unplaced_doors": unplaced_doors,
             "datum": {"x": X_DATUM, "wall_thickness_ft": round(t_ft, 4),
                       "clear_width_ft": Wc, "clear_depth_ft": Dc, "mirrored": FACE_MIRRORED,
-                      "conversion": ("u = along + t on S and E; u = clear span + t - along on N "
-                                     "and W (`elevation.face_u_ft`)")},
+                      "conversion": face_u_words()},
             "source": "section.geometry, read through render_plan.openings_of_level"}
 
 
@@ -1060,6 +1093,19 @@ SASH_FRAME = {"stile_in": 2.0, "top_rail_in": 2.0, "bottom_rail_in": 3.0, "meeti
 SASH_JAMB_IN = 0.75
 
 
+def even_bars(a, b, n, m):
+    """The n - 1 bars, each `m` wide, that divide [a, b] into n lights of ONE width (WP-14.6).
+
+    Returns (light width, [(bar start, bar end), ...]), in whatever unit `a`, `b` and `m` are in.
+    THE ONE SPELLING of "divide the glass evenly": the sash's muntins, both directions, and the
+    transom's. Until WP-14.6 the transom was spelled twice more, in the SVG and in the DXF, as
+    `a + (b - a) * i / n` -- the bar CENTRED on each division point of the whole width -- which
+    leaves the two end lights half a bar wider than the middle ones: 10.06 in against 9.62 on
+    every drawn transom (census V18), under a legend saying the lights divide it evenly."""
+    lw = (b - a - (n - 1) * m) / n
+    return lw, [(a + i * lw + (i - 1) * m, a + i * lw + i * m) for i in range(1, n)]
+
+
 def sash_layout(x0_in, x1_in, sill_in, head_in, lights_across, lights_high, muntin_in):
     """A double-hung sash as the members that make it, in the face's own inches (WP-14.3).
 
@@ -1090,8 +1136,9 @@ def sash_layout(x0_in, x1_in, sill_in, head_in, lights_across, lights_high, munt
     gx0, gx1 = x0_in + jb + st, x1_in - jb - st
     mid = (sill_in + head_in) / 2.0
     glass = {"upper": (mid + mr, head_in - tr), "lower": (sill_in + br, mid - mr)}
-    lw = (gx1 - gx0 - (n - 1) * m) / n
-    lh = {k: (b - a - (h - 1) * m) / h for k, (a, b) in glass.items()}
+    lw, vbars = even_bars(gx0, gx1, n, m)
+    rows = {k: even_bars(a, b, h, m) for k, (a, b) in glass.items()}
+    lh = {k: v[0] for k, v in rows.items()}
     if lw <= 0 or min(lh.values()) <= 0:
         return {"refused": f"a {x1_in - x0_in:.1f} x {head_in - sill_in:.1f} in opening leaves no "
                            f"glass for {n} x {h} lights a sash inside the frame the record states"}
@@ -1111,12 +1158,10 @@ def sash_layout(x0_in, x1_in, sill_in, head_in, lights_across, lights_high, munt
     ]
     muntins, panes = [], []
     for sash, (ya, yb) in glass.items():
-        for i in range(1, n):
-            cx = gx0 + i * lw + (i - 0.5) * m
-            muntins.append(box("muntin", cx - m / 2.0, cx + m / 2.0, ya, yb, sash=sash, dir="v", n=i))
-        for j in range(1, h):
-            cy = ya + j * lh[sash] + (j - 0.5) * m
-            muntins.append(box("muntin", gx0, gx1, cy - m / 2.0, cy + m / 2.0, sash=sash, dir="h", n=j))
+        for i, (bx0, bx1) in enumerate(vbars, 1):
+            muntins.append(box("muntin", bx0, bx1, ya, yb, sash=sash, dir="v", n=i))
+        for j, (by0, by1) in enumerate(rows[sash][1], 1):
+            muntins.append(box("muntin", gx0, gx1, by0, by1, sash=sash, dir="h", n=j))
         for i in range(n):
             for j in range(h):
                 px, py = gx0 + i * (lw + m), ya + j * (lh[sash] + m)
@@ -1683,11 +1728,17 @@ def _derive_measurements(elev):
     # was being INVENTED. The fact was already computed 500 lines away and never consulted.
     #
     # Three states, and the middle one is the point:
-    #   carried      -> the real pair. A standard pair (2 leaves) per opening, both genuinely
-    #                   clearing on the hinge side: `pier_width_in` (computed, not assumed) is
-    #                   comfortably wider than `shutter_leaf_width_in` at this bay spacing, so
-    #                   both leaves really do have a full leaf-width of uninterrupted wall to
-    #                   swing onto.
+    #   carried      -> a standard pair (2 leaves) per opening, both CLEARING ON THE RHYTHM:
+    #                   `pier_width_in` is wider than `shutter_leaf_width_in` at the bay spacing
+    #                   this file composes. CORRECTED AT WP-14.6: that spacing is not what the
+    #                   sheet draws. Since WP-13.3 the elevation draws the PLAN's placed openings,
+    #                   and `_clearances` -- which reads them -- refuses the pair on 37 of the 60
+    #                   windows that carry one across the ten shipped plans that carry shutters,
+    #                   for want of wall to swing onto (8 of 9 on `good-02`). So this 2-of-2
+    #                   clears `shutter-on-an-unshutterable-opening` on a facade the sheet does
+    #                   not draw, while the sheet beside it says SHUTTERS NOT DRAWN. Not moved
+    #                   here, because it moves a fault verdict on eight plans:
+    #                   `oq/the-shutter-fault-clears-on-the-rhythm-while-the-sheet-refuses-the-leaves`.
     #   not carried  -> a MEASURED ZERO. The house has no shutter leaves and that is a fact
     #                   about it, not a gap in what we modelled. Withholding it would be the
     #                   opposite error -- refusing to state a quantity the record knows.
@@ -2180,7 +2231,106 @@ def opening_rects(elev, face):
                                    rect["lights_across"], rect["lights_high_per_sash"],
                                    rec.get("muntin_width_in"))
         rects.append(rect)
+    _clearances(rects, front.get("outside_width_in"))
     return {"rects": rects, "refused": refused}
+
+
+def _clearances(rects, face_width_in=None):
+    """WHAT ITS NEIGHBOURS LEAVE AN OPENING ROOM TO CARRY (WP-14.6), decided once, here, for the
+    SVG, the DXF and the scene alike.
+
+    The entrance composition chooses its sidelights against facade-classical's bay cap, and every
+    storey window carries its shutter pair at sash-light's leaf width -- and neither ever looked
+    at the openings the PLAN places beside it. Since WP-13.3 the elevation draws those placed
+    openings, so both could be drawn over a neighbour, and were: rendered and looked at by
+    WP-14.6's audit, the Tidewater front drew its left sidelight 9 in over the passage window
+    the plan places 12 in from the leaf, and 14 of 44 elevation sheets drew a shutter leaf over
+    the next window's glass or over another leaf. A leaf is a real thing that swings onto real
+    wall; where the wall is not there, the leaf cannot be hung.
+
+    REFUSED, AND SAID, NEVER NARROWED. A narrower leaf or sidelight would be a figure no record
+    states. Sidelights go as the pair they are composed as (the width cap omits both or neither),
+    and a window's leaves go as the pair a window carries. What is refused stays on the rect with
+    its reason, and each surface says it.
+
+      * `sidelights_refused` on the entrance door: why the pair is not drawn;
+      * `shutters_refused` and `shutter_leaf_width_refused_in` on a window: why its leaves are
+        not drawn, with the rule's width kept beside it; `shutter_leaf_width_in` goes to None,
+        which is what every surface already draws on.
+    """
+    def _vo(a, b):
+        return min(a["head_in"], b["head_in"]) - max(a["sill_in"], b["sill_in"]) > 0.01
+
+    def _ho(a0, a1, b0, b1):
+        return min(a1, b1) - max(a0, b0)
+
+    def _who(o):
+        return f"{o.get('room')}'s {o.get('kind')}"
+
+    # 1. The entrance's sidelights, against every other opening on the face.
+    for r in rects:
+        e = r.get("entrance") or {}
+        if r["kind"] != "door" or not e or "garage" in str(r.get("type") or "").lower():
+            continue
+        if not e.get("sidelights_present") or not e.get("sidelight_width_in"):
+            continue
+        cw, sw = e["casing_width_in"], e["sidelight_width_in"]
+        sides = (("left", r["x0_in"] - cw - sw, r["x0_in"] - cw),
+                 ("right", r["x1_in"] + cw, r["x1_in"] + cw + sw))
+        hits = []
+        for side, a0, a1 in sides:
+            for o in rects:
+                if o is r or not _vo(r, o):
+                    continue
+                ov = _ho(a0, a1, o["x0_in"], o["x1_in"])
+                if ov > 0.01:
+                    gap = (r["x0_in"] - o["x1_in"]) if side == "left" else (o["x0_in"] - r["x1_in"])
+                    hits.append(f"the {side} sidelight would stand {ov:.1f} in over {_who(o)}, which "
+                                f"the plan places {gap:.1f} in from the leaf where the casing and a "
+                                f"sidelight need {cw + sw:.1f} in")
+            if face_width_in and (a0 < -0.01 or a1 > face_width_in + 0.01):
+                hits.append(f"the {side} sidelight would stand past the corner of the face")
+        r["sidelights_drawn"] = not hits
+        if hits:
+            r["sidelights_refused"] = "; ".join(hits)
+
+    # 2. The shutter pairs, against every opening as it is now composed and every other leaf.
+    def _extent(o):
+        e = o.get("entrance") or {}
+        if o["kind"] == "door" and e and "garage" not in str(o.get("type") or "").lower():
+            cw = e.get("casing_width_in") or 0.0
+            sw = (e.get("sidelight_width_in") or 0.0) if o.get("sidelights_drawn") else 0.0
+            return o["x0_in"] - cw - sw, o["x1_in"] + cw + sw
+        return o["x0_in"], o["x1_in"]
+
+    leaves = {id(o): ((o["x0_in"] - o["shutter_leaf_width_in"], o["x0_in"]),
+                      (o["x1_in"], o["x1_in"] + o["shutter_leaf_width_in"]))
+              for o in rects if o["kind"] == "window" and o.get("shutter_leaf_width_in")}
+    refuse = {}
+    for o in rects:
+        if id(o) not in leaves:
+            continue
+        for a0, a1 in leaves[id(o)]:
+            for p in rects:
+                if p is o or not _vo(o, p):
+                    continue
+                b0, b1 = _extent(p)
+                if _ho(a0, a1, b0, b1) > 0.01:
+                    refuse.setdefault(id(o), []).append(
+                        f"a {o['shutter_leaf_width_in']:.1f} in leaf would lie {_ho(a0, a1, b0, b1):.1f} in "
+                        f"over {_who(p)}")
+                for c0, c1 in leaves.get(id(p), ()):
+                    if _ho(a0, a1, c0, c1) > 0.01:
+                        pier = p["x0_in"] - o["x1_in"] if p["x0_in"] >= o["x1_in"] else o["x0_in"] - p["x1_in"]
+                        refuse.setdefault(id(o), []).append(
+                            f"its leaves and {_who(p)}'s would lie over one another in a {pier:.1f} in pier")
+            if face_width_in and (a0 < -0.01 or a1 > face_width_in + 0.01):
+                refuse.setdefault(id(o), []).append("a leaf would hang past the corner of the face")
+    for o in rects:
+        if id(o) in refuse:
+            o["shutter_leaf_width_refused_in"] = o["shutter_leaf_width_in"]
+            o["shutter_leaf_width_in"] = None
+            o["shutters_refused"] = "; ".join(dict.fromkeys(refuse[id(o)]))
 
 
 SASH_PACK_ID = "sash-light"
@@ -2472,6 +2622,11 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     head_params = head_slot.get("parameters") or {}
     CHANGE_BAND = (1720, 1750)      # brick-course's own words, as the band it states
 
+    def _keyed(variant_id):
+        """A head variant whose own id says it carries a keystone -- `keystoned-flat-arch`,
+        `segmental-arch-keyed` -- read as a whole token of the id, never as a substring."""
+        return any(t in ("keyed", "keystone", "keystoned") for t in str(variant_id).split("-"))
+
     def _head_treatment(w_in):
         if not is_masonry:
             return None
@@ -2525,8 +2680,14 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         elif isinstance(ks.get("value"), (int, float)) or ks.get("range"):
             out["keystone"] = True
             out["keystone_width_in"] = ks.get("value") or list(ks["range"])
-        elif any("keystoned" in k for k, v in head_variants.items() if v == "canonical"):
-            out["keystone"] = True          # the variant is canonical; its width is unstated
+        elif kind and _keyed(kind):
+            # THE HEAD THIS WINDOW TAKES IS A KEYED ONE, so it has a keystone whose width is
+            # unstated (WP-14.6, audit F8). This read `"keystoned" in k` over EVERY canonical head,
+            # which missed `segmental-arch-keyed` -- canonical on 12 of the 41 styles the elevation
+            # draws, so their arches went up with no keystone and nothing said so -- and would have
+            # put a keystone on a plain arch wherever the date rule chose a different canonical
+            # head from a keyed one. The token is read off the variant CHOSEN, as a whole word.
+            out["keystone"] = True
         # else: the kit is silent, and so is this record.
         return out
 
@@ -2543,7 +2704,14 @@ def build_elevation(plan, parti=None, section=None, roof=None):
 
     faces = {}
     blinded_bays = {}
-    _stack_w_ft = (chimney_plan_in or 22.0) / 12.0
+    # A STACK WHOSE PLAN SIZE NO RECORD STATES IS ITS AXIS AND NOTHING WIDER (WP-14.6). This read
+    # `or 22.0` -- brick-course's figure for ONE coursing, itself a judgment -- so a stack of no
+    # stated size blinded bays and refused placed windows 11 in either side of an axis on an
+    # invented width, while the sheet declined to draw that stack for want of the same figure.
+    # Only the axis is known, so only an opening standing ON it is refused; every reader of
+    # `stack_half_width_ft` already reads 0 that way. No sheet reaches it: swept over the eleven
+    # plans that draw an elevation and every style's front, no stack lacks a stated plan size.
+    _stack_w_ft = chimney_plan_in / 12.0 if chimney_plan_in else 0.0
     # WP-11.7: the plan's own bay count, where the facade layer could DERIVE one. It refuses on
     # any record that names no parti (fifteen of the sixteen here) and on a non-centre-door
     # diagram BY NAME, so this is None far more often than not and the formula below stays the
@@ -2737,7 +2905,8 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "applicable": True,
         "entrance": ent, "eave_cornice": cornice, "water_table_belt": wtb,
         "window_surround": window_surround(surround_slot, "window_surround_masonry" if is_masonry
-                                           else "window_surround_wood"),
+                                           else "window_surround_wood", date=date,
+                                           construction=(section.get("wall") or {}).get("construction_type")),
         # NOT a measurement, and deliberately absent from `measurements` below: brick-course
         # flags this rule `judgment: true`. It is here so the DRAWING can show a stack at the
         # corpus's own figure instead of the 36 in constant it used to assert, and so the sheet

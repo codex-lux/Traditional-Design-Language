@@ -790,6 +790,21 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
       bodies: svg.querySelectorAll('rect[data-wall]').length,
       derived: !!svg.querySelector('[data-walls="derived"]'),
       bar: (svg.querySelector('[data-scale-bar]') || { getAttribute: () => null }).getAttribute('transform'),
+      // Where the bar's ticks and figures LAND in the sheet's own units (feet from the clear face),
+      // composed through every transform above them -- not the attribute on the group, which a
+      // tick offset inside the group would leave true (WP-14.6).
+      ticks: (() => {
+        const g = svg.querySelector('[data-scale-bar]');
+        if (!g) return null;
+        const at = (el, x, y) => {
+          const p = svg.createSVGPoint(); p.x = x; p.y = y;
+          return p.matrixTransform(el.getCTM().multiply(svg.getCTM().inverse())).x;
+        };
+        return {
+          lines: [...g.querySelectorAll('line')].map((l) => at(l, +l.getAttribute('x1'), 0)),
+          figures: [...g.querySelectorAll('text')].map((t) => [t.textContent, at(t, +t.getAttribute('x'), 0)]),
+        };
+      })(),
       flights: svg.querySelectorAll('[data-stair] > g > rect').length,
       arrow: svg.querySelectorAll('[data-stair-arrow]').length,
     } : null;
@@ -808,6 +823,19 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
   }
   check(`the scale bar's zero stands on the clear face x = 0 (${sheetWalls?.bar})`,
     !!sheetWalls && /^translate\(0,/.test(sheetWalls.bar || ''));
+  {
+    // and its marks say what its figures say: every figure stands on a tick, at the distance it
+    // names from the tick that says 0, and that tick is on x = 0
+    const t = sheetWalls?.ticks;
+    const fig = (t?.figures || []).map(([s, x]) => [parseFloat(s), x]).filter(([n]) => Number.isFinite(n));
+    const zero = fig.find(([n]) => n === 0);
+    const onTick = (x) => (t?.lines || []).some((lx) => Math.abs(lx - x) < 1e-3);
+    check(`the scale bar's figures stand on its ticks at the feet they name, from a zero on x = 0 `
+          + `(figures ${JSON.stringify(fig.map(([n, x]) => [n, +x.toFixed(3)]))}, `
+          + `ticks ${JSON.stringify((t?.lines || []).map((x) => +x.toFixed(3)))})`,
+      !!zero && fig.length >= 3 && Math.abs(zero[1]) < 1e-3
+      && fig.every(([n, x]) => onTick(x) && Math.abs((x - zero[1]) - n) < 1e-3));
+  }
   if (!sheetWalls || !sheetWalls.flights) {
     unjudged.push(`the stair's arrow says which way is up — ${DRAWABLE} draws no flight on this `
                   + 'level, so there is no stair to point');

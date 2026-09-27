@@ -201,11 +201,16 @@ def _plate_from(fx):
     return IR, IR.Ink(open(out).read())
 
 
-def _rehung_high(fx):
+def _rehung_high(fx, unseat=False):
     """DRIVEN: every door in the record hung from its HIGH jamb, and the contract re-derived from
     the rooms by the one function that states it. `openings.place` writes `hinge: "low"` on every
     door it seats, so no frozen fixture reaches the other jamb -- and a mutation hanging a high
-    leaf from the low jamb left the ink check green until this existed."""
+    leaf from the low jamb left the ink check green until this existed.
+
+    `unseat` (WP-14.6) also strips each door's seat, so every door is drawn on the paths the
+    frozen fixtures never reach: an interior door on the two rooms' shared run, an exterior door
+    on the first declared wall the placement put outside. The bench was dropping the record's
+    hinge on the second, and nothing on either side read those paths."""
     import copy
     fx = copy.deepcopy(fx)
     W, H = fx["footprint"]["width_ft"], fx["footprint"]["depth_ft"]
@@ -213,13 +218,20 @@ def _rehung_high(fx):
         for r in lv["rooms"]:
             for d in r.get("doors") or []:
                 d["hinge"] = "high"
+                if unseat:
+                    for k in ("wall", "position_ft", "unplaced"):
+                        d.pop(k, None)
         lv["expected"] = render_plan.derive_openings(lv["rooms"], W, H)
     assert any(d["hinge"] == "high" for lv in fx["levels"] for d in lv["expected"]["interior"]), (
         "the premise: the re-derived contract hangs its doors from the high jamb")
+    if unseat:
+        assert any(d["inferred_wall"] and d["hinge"] == "high" for lv in fx["levels"]
+                   for d in lv["expected"]["exterior"]), (
+            "the premise: an unseated exterior door is drawn on an inferred wall, hung high")
     return fx
 
 
-@pytest.mark.parametrize("hinge", ["as-frozen", "high"])
+@pytest.mark.parametrize("hinge", ["as-frozen", "high", "unseated-high"])
 @pytest.mark.parametrize("path", _fixtures(), ids=lambda p: p.stem)
 def test_the_python_ink_stands_every_leaf_and_window_where_the_contract_does(path, hinge):
     """WP-14.4: THE CONTRACT WAS A CONTRACT ABOUT A MODEL. `derive_openings` was held to the
@@ -229,8 +241,8 @@ def test_the_python_ink_stands_every_leaf_and_window_where_the_contract_does(pat
     drawing). Every single leaf's hinge and swing, and every window's glazing, is read off the
     rendered plate through the plate's own stated frame and put where the contract says."""
     fx = json.loads(path.read_text())
-    if hinge == "high":
-        fx = _rehung_high(fx)
+    if hinge != "as-frozen":
+        fx = _rehung_high(fx, unseat=(hinge == "unseated-high"))
     IR, ink = _plate_from(fx)
     plates = {p["level"]: p for p in ink.frames() if p.get("proj") == "plan"}
     wall = render_plan.ASSEMBLIES.wall_thickness({"footprint": fx["footprint"]})

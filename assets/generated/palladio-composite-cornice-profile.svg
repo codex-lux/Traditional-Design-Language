@@ -2,7 +2,7 @@
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
 <rect width="738" height="541" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Palladio's Composite Order (overlay on Vignola) — cornice</text>
-<rect class="pf" x="36" y="38" width="666" height="362"/>
+<rect class="pf" x="8" y="38" width="722" height="362"/>
 <line x1="70.0" y1="394.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
 <path d="M 70.000,394.000 A 14.444 14.444 0 0 1 78.889,380.667 A 14.444 14.444 0 0 0 87.779,367.333 L 92.221,367.333 L 92.221,362.888 L 127.779,362.888 L 127.779,298.888 L 136.667,298.888 L 136.667,287.333 A 31.112 35.555 0 0 0 167.779,251.779 L 172.221,251.779 L 172.221,247.333 L 301.112,247.333 L 301.112,171.779 L 310.000,171.779 L 310.000,165.112 A 33.730 33.730 0 0 0 343.333,126.223 A 33.730 33.730 0 0 1 376.667,87.333 L 390.000,87.333 L 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="none"/>
 <path d="M 70.000,394.000 A 14.444 14.444 0 0 1 78.889,380.667 A 14.444 14.444 0 0 0 87.779,367.333 L 92.221,367.333 L 92.221,362.888 L 127.779,362.888 L 127.779,298.888 L 136.667,298.888 L 136.667,287.333 A 31.112 35.555 0 0 0 167.779,251.779 L 172.221,251.779 L 172.221,247.333 L 301.112,247.333 L 301.112,171.779 L 310.000,171.779 L 310.000,165.112 A 33.730 33.730 0 0 0 343.333,126.223 A 33.730 33.730 0 0 1 376.667,87.333 L 390.000,87.333 L 390.000,74.000 L 70.000,74.000" fill="none" stroke="#1b1a17" stroke-width=".9"/>
@@ -16,7 +16,7 @@
 <path class="confidence" data-member="cyma_recta" d="M 70.000,165.112 L 310.000,165.112 A 33.730 33.730 0 0 0 343.333,126.223 A 33.730 33.730 0 0 1 376.667,87.333 L 70.000,87.333 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
 <path class="confidence" data-member="cyma_fillet" d="M 70.000,87.333 L 376.667,87.333 L 390.000,87.333 L 390.000,74.000 L 70.000,74.000 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
 <line x1="88.8" y1="380.7" x2="404.0" y2="368.0" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="370.6">Cyma reversa of the bed… — cyma reversa, 1.00″, medium confidence</text>
+<text class="dm" x="408.0" y="370.6">Cyma reversa of the be… — cyma reversa, 1.00″, medium confidence</text>
 <line x1="93.2" y1="365.1" x2="404.0" y2="352.4" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="355.0">Fillet — fillet, 0.17″, medium confidence</text>
 <line x1="128.8" y1="330.9" x2="404.0" y2="318.2" stroke="#6f6a60" stroke-width=".35"/>

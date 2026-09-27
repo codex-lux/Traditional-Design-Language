@@ -471,33 +471,61 @@ class TestNoOpeningIsDrawnWhereAStackStands:
     """
 
     def _rec(self, style_plan="tidewater-georgian-careful"):
+        """THE STACKS DRIVEN ONTO THE GABLE END'S CENTRE LINE (WP-14.6). This built the elevation
+        from the DECLARED record and read its blind bay -- and the only reason a stack stood on
+        the centre line at all was a defect: `build_roof` read the fires off the record it was
+        handed and not off the placement its own section was built on, so a declared draft's
+        stacks fell back to the centre-line rule under a note saying the plan "carries no
+        placement". With that fixed the stacks stand over their stated flues, exactly as they
+        have on every placed record since WP-11.4, and no record in this corpus produces a blind
+        bay -- which CLAUDE.md has said since WP-12.2 and which is why every guard on the blind
+        bay must be DRIVEN. The roof's stacks are moved onto the centre line here, the premise is
+        asserted, and the elevation is built on that roof."""
+        import copy as _c
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
-        return e.build_elevation(_one_element(
-            _j.load(open(os.path.join(ROOT, "plans", f"{style_plan}.json")))))   # WP-13.5
+        rf = modcache.load("roof", os.path.join(ROOT, "build", "roof.py"))
+        st = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
+        plan = _one_element(_j.load(open(os.path.join(ROOT, "plans", f"{style_plan}.json"))))  # WP-13.5
+        section = st.build_section(plan)
+        roof = _c.deepcopy(rf.build_roof(plan, section=section))
+        mid = section["footprint"]["depth_ft"] / 2.0
+        for c in roof["chimneys"]["positions"]:
+            c["y_ft"] = mid
+            if c.get("plan_rect_ft"):
+                h = (c["plan_rect_ft"][3] - c["plan_rect_ft"][1]) / 2.0
+                c["plan_rect_ft"] = [c["plan_rect_ft"][0], mid - h, c["plan_rect_ft"][2], mid + h]
+        assert roof["chimneys"]["positions"], "the fixture is blind: this roof places no stack"
+        return e.build_elevation(plan, section=section, roof=roof)
 
     def test_the_gable_end_centre_bay_is_blind_and_the_flanks_are_not(self):
         rec = self._rec()
         for f in ("E", "W"):
             kinds = rec["faces"][f]["kinds"]
             assert kinds == ["window", "blind", "window"], f"{f}: {kinds}"
-            # 20.375, moved from 21.33 by WP-11.2: the stack stands on the gable end's own
-            # centre line, and that depth moved when the plan began taking its parti's bay
-            # module (40.75 ft outside, from 42.66). The NUMBER is not the subject here --
-            # the subject is that the blind bay's centre and the stack's axis are still ONE
-            # number, which is what OQ 85 closed. So this reads the roof's own stack axis
-            # rather than a literal, and cannot go stale again with the footprint.
-            rf = modcache.load("roof", os.path.join(ROOT, "build", "roof.py"))
-            st = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
-            import json as _j2
-            _plan = _one_element(_j2.load(open(os.path.join(   # WP-13.5
-                ROOT, "plans", "tidewater-georgian-careful.json"))))
-            _roof = rf.build_roof(_plan, section=st.build_section(_plan))
-            axes = sorted({round(c["y_ft"], 3) for c in _roof["chimneys"]["positions"]
+            # The NUMBER is not the subject here -- the subject is that the blind bay's centre and
+            # the stack's axis are ONE number, which is what OQ 85 closed. So this reads the
+            # roof's own stack axis, which the fixture put on the centre line.
+            axes = sorted({round(c["y_ft"], 3) for c in rec["roof_record"]["chimneys"]["positions"]
                            if c.get("y_ft") is not None})
             assert axes, "the fixture is blind: this roof places no stack with an axis"
             assert rec["faces"][f]["blind_bay_centres_ft"] == [pytest.approx(axes[0], abs=0.01)]
             assert rec["faces"][f].get("blind_bay_reason")
+
+    def test_the_undriven_record_stands_its_stacks_over_its_flues_and_blinds_nothing(self):
+        """The other half, and the reason the fixture above is driven: the record as it is
+        stands both stacks over the flues its placement states -- the section's own placement,
+        read by the roof -- and so blinds no bay on any face."""
+        import json as _j
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        rec = e.build_elevation(_one_element(
+            _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))))
+        flues = (rec["section"]["geometry"].get("hearths") or {}).get("flues") or []
+        assert flues, "the premise: this placement states the flues its stacks stand over"
+        assert "carries no placement" not in (rec["roof_record"]["chimneys"].get("note") or "")
+        assert rec["roof_record"]["chimneys"].get("from_stated_hearths") is True
+        for f in "SNEW":
+            assert "blind" not in rec["faces"][f]["kinds"], f
 
     def test_the_long_faces_lose_nothing(self):
         """The rule must be a collision test, not "gable ends have a blind centre". Both stacks
@@ -611,13 +639,30 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
     top-left corner, touching no roof at all, on every gable elevation this corpus has ever
     drawn."""
 
-    def _rects(self, svg, cls="ch"):
+    def _stacks(self, svg):
+        """Every stack drawn, as its outline's points and their box in px. A POLYGON since
+        WP-14.6: on a gable face its foot follows the rake, which a rectangle cannot. A selector on
+        `<rect>` would read no stack on every sheet that draws one -- the `class="ch"` lesson one
+        attribute over -- so the count is asserted positively in every test below."""
         import re
         out = []
-        for m in re.finditer(r'<rect class="' + cls + r'[^"]*"([^>]*)/>', svg):
-            a = dict(re.findall(r'(\w+)="([-\d.]+)"', m.group(1)))
-            out.append({k: float(v) for k, v in a.items()})
+        for pts in re.findall(r'<polygon class="ch[^"]*" points="([^"]+)"', svg):
+            p = [tuple(float(v) for v in pt.split(",")) for pt in pts.split()]
+            xs, ys = [x for x, _y in p], [y for _x, y in p]
+            out.append({"points": p, "x": min(xs), "width": max(xs) - min(xs),
+                        "y": min(ys), "height": max(ys) - min(ys)})
         return out
+
+    def _roof_top_px(self, svg, x):
+        """The drawn roof silhouette's top at x, read off the roof polygon's own ink."""
+        import re
+        m = re.search(r'<polygon class="rf[^"]*" points="([^"]+)"', svg)
+        pts = [tuple(float(v) for v in pt.split(",")) for pt in m.group(1).split()]
+        ys = []
+        for (x1, y1), (x2, y2) in zip(pts, pts[1:] + pts[:1]):
+            if x1 != x2 and min(x1, x2) - 1e-6 <= x <= max(x1, x2) + 1e-6:
+                ys.append(y1 + (y2 - y1) * (x - x1) / (x2 - x1))
+        return min(ys) if ys else None
 
     def _draw(self, tmp_path, face):
         import json as _j
@@ -633,14 +678,14 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
         """The kit calls the paired stacks "visible from a mile away and conclusive against New
         England", and the sheet everyone actually looks at drew neither."""
         rec, svg = self._draw(tmp_path, "S")
-        stacks = self._rects(svg)
+        stacks = self._stacks(svg)
         assert len(stacks) == 2, "two gable-end stacks, one at each end of the ridge"
         xs = sorted(r["x"] for r in stacks)
         assert xs[1] - xs[0] > 1000, "they are at opposite ends of the front, not stacked together"
 
     def test_a_gable_end_draws_one_stack_at_the_position_the_record_states(self, tmp_path):
         rec, svg = self._draw(tmp_path, "E")
-        stacks = self._rects(svg)
+        stacks = self._stacks(svg)
         assert len(stacks) == 1, "one stack per gable end; the record carries one at each"
         roof = rec["roof_record"]
         y_ft = roof["chimneys"]["positions"][0]["y_ft"]
@@ -650,7 +695,23 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
         assert abs((centre_px - 46.0) / 24.0 - y_ft) < 0.2, (
             f"the stack is drawn at {(centre_px-46)/24:.2f} ft along the gable end and the record "
             f"puts it at {y_ft} ft — the 3 ft constant is back")
-        assert abs(y_ft - depth_ft / 2.0) < 0.5, "on this house that position is the ridge line"
+        # AND THAT POSITION IS THE FLUE THE PLACEMENT STATES (WP-14.6). This asserted "on this
+        # house that position is the ridge line" -- which was the defect: the roof read the fires
+        # off the declared record it was handed rather than off the placement its section was
+        # built on, so a declared draft's stacks fell back to the gable's centre line, 12.3 ft
+        # from the flue the plan sheet stands them over. The flue is read here from the SECTION's
+        # own placement, one wall thickness into the roof's outside-to-outside frame.
+        sec = rec["section"]
+        flues = [fl for fl in (sec["geometry"].get("hearths") or {}).get("flues") or []
+                 if fl.get("wall") in ("E", "W") and fl.get("position_ft") is not None]
+        assert flues, "the premise: the placement states a gable-end flue"
+        t_ft = sec["wall"]["exterior_in"] / 12.0
+        assert any(abs(fl["position_ft"] + t_ft - y_ft) < 0.02 for fl in flues), (
+            f"the stack stands at {y_ft} ft and no flue the placement states is there: "
+            f"{[round(fl['position_ft'] + t_ft, 2) for fl in flues]}")
+        assert abs(y_ft - depth_ft / 2.0) > 1.0, (
+            "the premise of the re-cut: on this placement the flue is off the centre line, so a "
+            "stack on the centre line is the old defect and not a coincidence")
 
     def test_no_stack_is_drawn_below_the_roof_it_comes_through(self, tmp_path):
         """Only the part above the roof is drawn, and that is a claim about EVIDENCE rather than
@@ -658,12 +719,29 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
         width this corpus states is the STACK's, and a chimney breast is several feet across. 47
         ft of 22 in brick asserts a chimney nobody measured. The sheet says so in its legend."""
         rec, svg = self._draw(tmp_path, "E")
-        roof = rec["roof_record"]
-        c = roof["chimneys"]["positions"][0]
-        above_ft = c["total_height_grade_ft"] - c["grade_to_ridge_ft"]
-        st = self._rects(svg)[0]
-        assert abs(st["height"] / 24.0 - above_ft) < 0.05, (
-            f"drawn {st['height']/24:.2f} ft of stack; {above_ft} ft clears the ridge")
+        stacks = self._stacks(svg)
+        assert len(stacks) == 1, "the premise: the gable end draws its stack"
+        st = stacks[0]
+        # THE FOOT FOLLOWS THE RAKE (WP-14.6, audit F13). This asserted the stack's height as
+        # the part above the RIDGE, which was true of a stack straddling the ridge line and cut
+        # level there -- and a level cut at the stack's centre floats it clear of the rake on the
+        # low side and sinks it into the gable on the high side wherever the stack is not centred
+        # on the ridge. Every foot vertex must lie on the roof the sheet DRAWS, read off the roof
+        # polygon's own ink rather than off the profile the renderer used.
+        feet = st["points"][2:]
+        assert len(feet) >= 2, st
+        for x, y in feet:
+            rt = self._roof_top_px(svg, x)
+            assert rt is not None and abs(rt - y) < 0.6, (
+                f"a foot vertex at ({x:.1f}, {y:.1f}) px is {abs((rt or 0) - y) / 24:.2f} ft off "
+                f"the drawn rake")
+        # and where the rake falls across the stack the foot is not level
+        ys = [y for _x, y in feet]
+        assert max(ys) - min(ys) > 1.0, "a foot cut level across a sloping rake"
+        # the top is the record's own height
+        c = rec["roof_record"]["chimneys"]["positions"][0]
+        tops = [y for _x, y in st["points"][:2]]
+        assert abs(tops[0] - tops[1]) < 1e-6
         assert "BREAST BELOW" in svg.upper(), "the sheet must say what it is not drawing"
 
 
@@ -1307,6 +1385,70 @@ def _level_openings(rp, placed, i, lv):
 
 
 # WP-13.5, THE CONTAINER. The Tidewater record states three massing elements now. This file
+class TestTheBearingSheetMarksASpanInsideItsOwnElement:
+    """WP-14.6. The bearing diagram marks every clear span over capacity with a dashed bar across
+    the bay that fails, and the bar used to stand across the MAIN BLOCK's middle whatever element
+    the span was measured in -- so on the tagged Tidewater plan the west dependency's 21 ft span
+    was marked at x = 22.5 ft, inside the main block, 13 ft east of the walls it spans between.
+    `build_section` names each span's element and the renderer reads it now; nothing asserted
+    where the bar stood (a mutation putting it back on the main block's middle left every test
+    green), because the only test of this sheet asked that SOME bar was drawn. Read back through
+    the plate's own frame (`tests/inkread.py`), never through the renderer's lambdas."""
+
+    def test_each_marker_runs_the_span_inside_the_element_that_carries_it(self, tmp_path):
+        import inkread as IR
+        g = modcache.load("geometry", f"{ROOT}/build/geometry.py")
+        st = modcache.load("structure", f"{ROOT}/build/structure.py")
+        rs = modcache.load("render_section", f"{ROOT}/build/render_section.py")
+        plan = json.load(open(f"{ROOT}/plans/tidewater-georgian-careful.json"))
+        placed = g.solve(plan, engine="heuristic")
+        sec = st.build_section(placed, None, geometry_result=placed)
+        blocks = {b["id"]: b for b in sec["geometry"]["footprint"]["blocks"]}
+        out = str(tmp_path / "bear.svg")
+        rs.render_bearing_diagram(sec, out)
+        ink = IR.Ink(open(out).read())
+        plates = ink.frames()
+        checked = 0
+        for i, lv in enumerate(sec["levels"]):
+            pl = plates[i]
+            x_lo = pl["origin_px"][0]
+            x_hi = x_lo + 10_000 if i == len(plates) - 1 else plates[i + 1]["origin_px"][0]
+            bars = []
+            for it in ink.items:
+                if "bad" in it.classes and it.tag == "line":
+                    b = it.bbox()
+                    if x_lo - 1 <= b[0] < x_hi:
+                        (u0, v1), (u1, v0) = IR.to_model(pl, b[0], b[1]), IR.to_model(pl, b[2], b[3])
+                        bars.append((u0, v0, u1, v1))
+            spans = lv.get("spans_exceeding_capacity", [])
+            assert len(bars) == len(spans), (lv.get("id"), len(bars), len(spans))
+            for sp in spans:
+                eb = blocks.get(sp.get("element"))
+                if not eb:
+                    continue
+                if sp["axis"] == "x":          # a horizontal bar, from one x-wall to the next
+                    hit = [b for b in bars if abs(b[0] - sp["from_ft"]) < 0.1 and abs(b[2] - sp["to_ft"]) < 0.1]
+                    across = [(b[1] + b[3]) / 2.0 for b in hit]
+                    lo, hi = eb["y_ft"], eb["y_ft"] + eb["depth_ft"]
+                else:                            # a vertical bar, from one y-wall to the next
+                    hit = [b for b in bars if abs(b[1] - sp["from_ft"]) < 0.1 and abs(b[3] - sp["to_ft"]) < 0.1]
+                    across = [(b[0] + b[2]) / 2.0 for b in hit]
+                    lo, hi = eb["x_ft"], eb["x_ft"] + eb["width_ft"]
+                assert hit, f"no bar runs the {sp['axis']}-span {sp['from_ft']}..{sp['to_ft']} ft"
+                assert all(lo <= a <= hi for a in across), (
+                    f"the {sp['span_ft']} ft span in `{sp['element']}` is marked at {across} ft, "
+                    f"outside that element's {lo:.2f}..{hi:.2f} ft")
+                checked += 1
+        # THE PREMISE: some span sits in an element whose middle is not the main block's, or the
+        # mutation this guards against would draw the same bar and this would pass by luck
+        mid_x = blocks["main"]["x_ft"] + blocks["main"]["width_ft"] / 2.0
+        off = [sp for lv in sec["levels"] for sp in lv.get("spans_exceeding_capacity", [])
+               if sp["axis"] == "y" and sp.get("element") in blocks
+               and not (blocks[sp["element"]]["x_ft"] <= mid_x
+                        <= blocks[sp["element"]]["x_ft"] + blocks[sp["element"]]["width_ft"])]
+        assert checked and off, "no span stands in an element the main block's middle misses"
+
+
 # measures the ELEVATION and the drawn ink, which are the main block's, so every fixture here
 # reads the record as the ONE-ELEMENT house it was until that package -- the same strip
 # `tests/test_one_bay_system.py` makes and for the same reason. The cost of the container on

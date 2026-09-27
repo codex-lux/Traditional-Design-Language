@@ -157,6 +157,32 @@ def test_no_ink_crosses_the_plates_own_border():
     assert not bad, "\n".join(bad[:10])
 
 
+def test_no_label_crosses_the_plates_own_border():
+    """THE WORDS THE TEST ABOVE SKIPS (WP-14.6, audit F11). Every member's label stood inside a
+    budget that ran to the canvas edge while the border's right rule stood 36 px in, so 150
+    labels on 58 of the 73 plates were drawn through the border -- and the containment test
+    above exempts every `text` element, so nothing could see it. A label's extent is estimated
+    here at 0.6 em a character, the advance of the 8 px monospace face the plate names, and
+    not with the renderer's own `CH_W`: a reader that shares the writer's constant agrees with
+    it by construction."""
+    import re
+    sys.path.insert(0, os.path.join(ROOT, "tests"))
+    import inkread as IR
+    bad, seen = [], 0
+    for a, svg, _ in _plates():
+        ink = IR.Ink(svg)
+        x0, y0, x1, y1 = [it for it in ink.items if it.tag == "rect" and "pf" in it.classes][0].bbox()
+        for x, y, txt in re.findall(r'<text class="dm" x="([\d.]+)" y="([\d.]+)">([^<]*)</text>', svg):
+            if not (y0 <= float(y) <= y1):
+                continue                    # the footer lines stand below the border by design
+            seen += 1
+            n = len(txt.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">"))
+            if float(x) + n * 0.6 * 8 > x1 + 0.5:
+                bad.append("%s: %r runs %.1f px past the border" % (a["id"], txt[:40], float(x) + n * 4.8 - x1))
+    assert seen >= 467, "premise: every member's label was read -- 467 over the 73 plates (%d)" % seen
+    assert not bad, "\n".join(bad[:10])
+
+
 def test_the_size_survives_when_a_label_has_to_be_cut():
     """Two clamps keep a label on the paper, and they cut different halves. The first elides the
     NAME and keeps the dimension; the second is a blind truncation that would take the figure

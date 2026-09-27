@@ -328,8 +328,22 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 #
 # The fifteen are PROVED to be that line and nothing else: rendered with `bay_module` returning
 # nothing, all fifteen are byte-identical to the parent's, and the sixteenth is the joins.
-CORPUS_SHEET_SHA = "5d8412d472bf6bef"
-CORPUS_SHEET_SHA_NO_FRAME = "f7c27150a503acc6"
+# WP-14.6, TWO CHANGES, ALL SIXTEEN SHEETS, HARNESS PROVED FIRST. The harness reproduces
+# 5d8412d472bf6bef / f7c27150a503acc6 to the character on a `git archive` of `117e839` before the
+# new pair was read. Both changes reach every sheet:
+#
+#   the relaxation legend's row  the △'s definition is drawn one row below the margin schedule in
+#                                the working register, and the band reserved no row for it, so the
+#                                record table's heading was printed 4.7 px above it: the two lines
+#                                overprinted on every working sheet with a relaxation and a
+#                                diverged room (audit F10). The band reserves the row now, +19 px,
+#                                and all sixteen of these sheets carry a relaxation.
+#   `data-bay` on each bay line  so "no module, no bay line" is asserted as none (G5).
+#
+# PROVED to be those two and nothing else: with the reserve reverted and ` data-bay="n"` stripped,
+# all sixteen sheets are byte-identical to `117e839`'s and the pair is its pair exactly.
+CORPUS_SHEET_SHA = "0e884588994f0442"
+CORPUS_SHEET_SHA_NO_FRAME = "406f55e6b4aaca8c"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

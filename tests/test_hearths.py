@@ -428,9 +428,21 @@ class TestTheStackStandsOverAFire:
         along its wall comes from the room's placed rectangle. The note said "this record
         states no hearth" about a record carrying three — the class of false claim this whole
         package is fixing."""
-        ch = RF.build_roof(tidewater(), section=ST.build_section(tidewater()))["chimneys"]
+        # DRIVEN SINCE WP-14.6. This built the section from the declared record, which PLACES it
+        # (`build_section` solves whatever it is handed), and then read the fires off the declared
+        # record anyway -- so this note was printed about a roof whose own section carried every
+        # hearth positioned. The roof reads the section's placement now, so the state this test is
+        # about -- a record with stated hearths and no placement anywhere -- is reached by a
+        # section that carries none, which is the only way it can arise.
+        sec = dict(ST.build_section(tidewater()), geometry=None)
+        ch = RF.build_roof(tidewater(), section=sec)["chimneys"]
         assert "STATES 3 hearth(s)" in ch["note"]
         assert not ch.get("from_stated_hearths")
+        # and the placed half: with the section's own placement present the same call stands
+        # the stacks over the flues it states, not on the centre line under a false note
+        ch2 = RF.build_roof(tidewater(), section=ST.build_section(tidewater()))["chimneys"]
+        assert ch2.get("from_stated_hearths") is True, ch2.get("note")
+        assert "carries no placement" not in ch2["note"]
 
     def test_A_RECONCILIATION_THAT_CANNOT_BE_READ_IS_A_FOURTH_STATE(self, monkeypatch):
         """The first draft wrapped `stack_axes` in a bare `except Exception: axes = None`, which

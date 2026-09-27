@@ -314,7 +314,10 @@ def render(pack_id, assembly_id, module_in=6.0):
     # drawn ten pixels through the bottom rule -- visible on every plate and found only by looking
     # at one (WP-14.2). `box_h + 42` puts the rule six pixels clear of the ink and still eight
     # above the first footer line.
-    s.append(f'<rect class="pf" x="{pad-8}" y="{pad-6}" width="{W-pad*2+16}" height="{box_h+42:.0f}"/>')
+    # AND IT HOLDS THE LEGEND (WP-14.6, audit F11): its right rule stood 36 px in from the canvas
+    # edge, inside the column the labels are laid out in, so they crossed it. It is 8 px in on
+    # both sides now.
+    s.append(f'<rect class="pf" x="8" y="{pad-6}" width="{W-16}" height="{box_h+42:.0f}"/>')
 
     # The naked: the plane every projection in this assembly is measured from.
     s.append(f'<line x1="{sx(naked):.1f}" y1="{sy(y0):.1f}" x2="{sx(naked):.1f}" y2="{sy(y1):.1f}" '
@@ -382,7 +385,12 @@ def render(pack_id, assembly_id, module_in=6.0):
         tail = " — %s, %.2f\u2033%s%s" % (
             pf, m["height_in"], ", no projection" if ghost else "",
             (", %s confidence" % (conf or "unstated")) if PROF.is_weak(conf) else "")
-        budget = int((W - 8 - lx) / CH_W)
+        # INSIDE THE FRAME'S RULE (WP-14.6, audit F11). The budget ran to `W - 8` and the rule
+        # stood at `W - pad + 8`, so 150 labels on 58 of the 73 plates were drawn through the
+        # border by up to 27.8 px. The legend column is `LEGEND_W` wide for exactly these labels,
+        # so the FRAME moved out to hold it (above) rather than every name being cut 7 characters
+        # shorter -- which, measured, also pushed one label past this clamp's last resort.
+        budget = int((W - 8 - 4 - lx) / CH_W)
         room = budget - len(tail)
         if len(nm) > room:
             nm = nm[:max(room - 1, 3)].rstrip() + "\u2026"

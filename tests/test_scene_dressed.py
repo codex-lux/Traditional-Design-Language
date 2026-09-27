@@ -142,7 +142,18 @@ def test_shutters_are_drawn_iff_the_storey_window_carries_them(spec, tidewater):
     tc = _classes(t_scene)
     win = len([s for s in s_scene["solids"]
                if s["class"] == "opening-frame" and not s["id"].endswith("-door")])
-    assert sc["shutter"] == 2 * win, f"{sc['shutter']} leaves against {win} windows"
+    # TWO LEAVES A WINDOW THE WALL CAN CARRY THEM ON (WP-14.6). `opening_rects` refuses a pair
+    # that would lie over a neighbour or its leaves; each refusal is said in `not_modelled`, and
+    # the three counts must account for every window.
+    EL = _mod("elevation")
+    rects = [r for f in "SNEW" for r in EL.opening_rects(s_ev, f)["rects"] if r["kind"] == "window"]
+    leaved = [r for r in rects if r.get("shutter_leaf_width_in")]
+    refused = [r for r in rects if r.get("shutters_refused")]
+    assert len(leaved) + len(refused) == win == len(rects), (len(leaved), len(refused), win, len(rects))
+    assert sc["shutter"] == 2 * len(leaved), f"{sc['shutter']} leaves against {len(leaved)} windows"
+    said = [n for n in s_scene["not_modelled"] if n.get("class") == "shutter"]
+    assert sorted(n["what"] for n in said) == sorted(f"the shutters of {r['id']}" for r in refused), (
+        "a window whose leaves the wall cannot carry stands bare with no reason in the record")
     assert "shutter" not in tc, (
         "the Tidewater house draws shutters. Its own kit makes `none` CANONICAL — 'NO EXTERIOR "
         "SHUTTERS on the solid-masonry Tidewater house', adjudicated in WP-5.13 against four "
@@ -219,8 +230,10 @@ def test_a_leaf_is_the_width_the_record_states(spec):
     was taken at another width and left leaves covering 78 to 117 per cent of their window."""
     s_scene, s_ev = spec
     EL = _mod("elevation")
+    # a window whose leaves are refused carries none (WP-14.6), and draws none -- held above
     want = {r["id"]: r["shutter_leaf_width_in"] / 12.0
-            for f in "SNEW" for r in EL.opening_rects(s_ev, f)["rects"] if r["kind"] == "window"}
+            for f in "SNEW" for r in EL.opening_rects(s_ev, f)["rects"]
+            if r["kind"] == "window" and r.get("shutter_leaf_width_in")}
     seen = 0
     for s in s_scene["solids"]:
         if s["class"] != "shutter":
@@ -274,6 +287,47 @@ def test_a_judged_stack_is_an_axis_and_a_named_judgment_and_never_a_solid(tidewa
     assert any("mason will build 18 or 27" in j["why"] for j in stacks)
 
 
+def test_a_judged_stacks_axis_stands_at_the_centre_of_the_square_the_placement_seats():
+    """DRIVEN (WP-14.6). The axis is what the shipped corpus draws -- every stack's plan size is a
+    judgment -- and nothing pinned WHERE it stands: moving it back onto the flue's point on the
+    gable wall's outside face, where it stood until WP-14.6, left every test green. The seat is
+    the roof record's `plan_rect_ft`, one wall thickness from the scene's clear frame; with the
+    old point the axis stands 1 ft east of the seat's centre, inside the wall."""
+    states = SC._States()
+    roof = {"chimneys": {"applicable": True, "positions": [
+                {"x_ft": 0.0, "y_ft": 5.0, "grade_to_ridge_ft": 28.0,
+                 "height_above_ridge_ft": 8.0, "total_height_grade_ft": 36.0,
+                 "plan_rect_ft": [-2.0, 4.0, 0.0, 6.0], "side": "exterior"}]},
+            "main": {"ridge": {"grade_to_ridge_ft": 28.0}}}
+    section = {"footprint": {"width_ft": 40, "depth_ft": 30}, "wall": {"exterior_in": 12}}
+    out = SC._chimneys(roof, {"chimney_stack_plan_in": 24.0,
+                              "chimney_stack_plan_judgment": True}, section, states)
+    assert [s["geometry"]["type"] for s in out] == ["plane"], out
+    verts = out[0]["geometry"]["vertices"]
+    # the seat's centre is (-1, 5) in the roof's frame, so (-2, 4) in this one
+    assert [v[:2] for v in verts] == [[-2.0, 4.0], [-2.0, 4.0]], verts
+    assert [v[2] for v in verts] == [0.0, 36.0], "from grade to the record's own height"
+
+
+def test_a_stack_the_placement_seated_no_square_for_is_refused_and_not_centred():
+    """DRIVEN, as the solid branch above is. A box needs a seat: which side of its gable wall a
+    stack stands on is the plan's fact, written by `threshold._stack_rect` and carried by
+    `roof.py` as `plan_rect_ft`. With none the old code centred the box on the flue's point on
+    the wall's outside face -- half of it inside the wall. It is refused by name now."""
+    states = SC._States()
+    roof = {"chimneys": {"applicable": True, "positions": [
+                {"x_ft": 0.0, "y_ft": 5.0, "grade_to_ridge_ft": 28.0,
+                 "height_above_ridge_ft": 8.0, "total_height_grade_ft": 36.0}]},
+            "main": {"ridge": {"grade_to_ridge_ft": 28.0}}}
+    section = {"footprint": {"width_ft": 40, "depth_ft": 30}, "wall": {"exterior_in": 12}}
+    out = SC._chimneys(roof, {"chimney_stack_plan_in": 24.0,
+                              "chimney_stack_plan_judgment": False}, section, states)
+    assert out == [], out
+    said = [n for n in states.not_modelled if n.get("class") == "chimney"]
+    assert len(said) == 1 and "seats no square" in said[0]["why"], said
+    assert said[0]["source"] == "roof.chimneys.positions[0].plan_rect_ft"
+
+
 def test_a_stack_whose_plan_size_is_stated_is_a_solid():
     """DRIVEN. No node in this corpus states a chimney plan size that is not a judgment, so the
     solid branch is unreachable and a guard over the shipped plans would pass with it deleted."""
@@ -283,9 +337,12 @@ def test_a_stack_whose_plan_size_is_stated_is_a_solid():
     # above the ridge -- so the test drove the branch and asserted the PLAN size while nothing
     # anywhere read the stack's HEIGHT, which is how a stack six feet short of its own record
     # shipped through a suite written for exactly this function.
+    # THE SQUARE THE PLACEMENT SEATS (WP-14.6): an exterior stack on the W gable, wholly
+    # outboard of its outside face (x = 0 in the roof's frame), 2 ft square about y = 5.
     roof = {"chimneys": {"applicable": True, "positions": [
-                {"x_ft": 10.0, "y_ft": 5.0, "grade_to_ridge_ft": 28.0,
-                 "height_above_ridge_ft": 8.0, "total_height_grade_ft": 36.0}]},
+                {"x_ft": 0.0, "y_ft": 5.0, "grade_to_ridge_ft": 28.0,
+                 "height_above_ridge_ft": 8.0, "total_height_grade_ft": 36.0,
+                 "plan_rect_ft": [-2.0, 4.0, 0.0, 6.0], "side": "exterior"}]},
             "main": {"ridge": {"grade_to_ridge_ft": 28.0}}}
     section = {"footprint": {"width_ft": 40, "depth_ft": 30}, "wall": {"exterior_in": 12}}
     out = SC._chimneys(roof, {"chimney_stack_plan_in": 24.0,
@@ -293,6 +350,9 @@ def test_a_stack_whose_plan_size_is_stated_is_a_solid():
     assert [s["class"] for s in out] == ["chimney"]
     assert out[0]["geometry"]["type"] == "box"
     assert abs(out[0]["geometry"]["size"][0] - 2.0) < 1e-9, "24 in is 2 ft"
+    # ON THE SEAT, one wall thickness (1 ft) into this frame: wholly outboard of the wall's
+    # outside face at x = -1, where the old box straddled the face, half inside the wall
+    assert out[0]["geometry"]["origin"][:2] == [-3.0, 3.0], out[0]["geometry"]
     # AND THE HEIGHT IS THE RECORD'S, WHICH NOTHING ASSERTED (WP-12.8). `_chimneys` read
     # `grade_to_cap_ft` -- a key nothing in this repository writes -- so the `or` fell through
     # to an editorial 2.0 ft above the ridge on every stack on every plan. On the Tidewater

@@ -6086,6 +6086,19 @@
    ]
   },
   {
+   "kit": "andalusian-spanish-revival",
+   "slot": "reveal_masonry",
+   "parameter": "reveal_to_wall_ratio_min",
+   "claims": [
+    {
+     "quote": "Not less than one-third the apparent wall thickness",
+     "target": "value",
+     "states": "1 / 3",
+     "reading": "The note's minimum is one third of the wall's apparent thickness, which the record carries as 0.333."
+    }
+   ]
+  },
+  {
    "kit": "arts-and-crafts-american",
    "slot": "porch_depth",
    "parameter": "depth_ft",
@@ -6623,6 +6636,13 @@
   },
   {
    "kit": "georgian-colonial-american",
+   "slot": "dormer",
+   "parameter": "sash_pattern",
+   "claims": [],
+   "why": "The note's 'one' counts storey-steps down from the second-floor sash; it is not a figure of the pattern, and the pattern the step gives is not stated in the note."
+  },
+  {
+   "kit": "georgian-colonial-american",
    "slot": "reveal_frame",
    "parameter": "reveal_in",
    "claims": [],
@@ -6965,6 +6985,19 @@
    "parameter": "depth_ft",
    "claims": [],
    "why": "The note's only figure is the parent style's 8-14 ft portal depth, quoted for comparison; c01 is a constraint id."
+  },
+  {
+   "kit": "monterey-colonial",
+   "slot": "reveal_masonry",
+   "parameter": "reveal_depth_in",
+   "claims": [
+    {
+     "quote": "reveal is two feet deep",
+     "target": "value",
+     "states": "24",
+     "reading": "The quoted description gives the reveal two feet, 24 in, which is the record's depth."
+    }
+   ]
   },
   {
    "kit": "monterey-colonial",
@@ -7350,6 +7383,25 @@
    ]
   },
   {
+   "kit": "swiss-chalet",
+   "slot": "window_grouping_rule",
+   "parameter": "lights_per_band",
+   "claims": [
+    {
+     "quote": "bands of three, four or six small lights",
+     "target": "lo",
+     "states": "3",
+     "reading": "The quoted enumeration's smallest band is three lights, the record's floor."
+    },
+    {
+     "quote": "bands of three, four or six small lights",
+     "target": "hi",
+     "states": "6",
+     "reading": "Its largest is six, the record's ceiling. The note ENUMERATES three, four or six and the record is a range, so five lights is admitted by the record and by no word of the note; the bounds agree and the enumeration is not the record's shape."
+    }
+   ]
+  },
+  {
    "kit": "tidewater-georgian",
    "slot": "chimney",
    "parameter": "height_above_ridge_min",
@@ -7365,9 +7417,23 @@
   {
    "kit": "tidewater-georgian",
    "slot": "reveal_masonry",
+   "parameter": "exterior_architrave",
+   "claims": [],
+   "why": "The note's only number-word is a pronoun -- 'a Massachusetts one at the same size' -- and states no figure; the parameter is the word 'none'."
+  },
+  {
+   "kit": "tidewater-georgian",
+   "slot": "reveal_masonry",
    "parameter": "reveal",
    "claims": [],
    "why": "The note's only digits are an open-question number (OQ 19); it states no figure for the reveal."
+  },
+  {
+   "kit": "tidewater-georgian",
+   "slot": "reveal_masonry",
+   "parameter": "step_at_floor",
+   "claims": [],
+   "why": "The note states the step in bricks, 'A half brick', and gives no brick size beside it to put that in inches; the record's 4.5 in is half of a 9 in brick, which nothing in the note says."
   },
   {
    "kit": "tidewater-georgian",

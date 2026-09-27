@@ -30,6 +30,16 @@ class TestThePathGrammar:
         got = IR.parse_path("M0 0A10 10 0 015 5")
         assert got[1] == ("A", 10.0, 10.0, 0.0, 0, 1, 5.0, 5.0)
 
+    def test_a_relative_arc_ends_relative_to_the_pen_and_keeps_its_radii(self):
+        """WP-14.6, auditor C. Only the absolute `A` was driven, so a reader that forgot to add
+        the pen to a relative `a`'s END -- or added it to the radii too -- stayed green. The
+        radii, the rotation and both flags are not coordinates and must pass through unmoved."""
+        got = IR.parse_path("M 10 20 a 5 7 30 1 0 10 -4")
+        assert got[1] == ("A", 5.0, 7.0, 30.0, 1, 0, 20.0, 16.0)
+        # and a second relative arc is relative to the FIRST's end, not to the subpath's start
+        got = IR.parse_path("m 10 20 a 5 5 0 0 1 10 0 a 5 5 0 0 1 10 0")
+        assert got[1][-2:] == (20.0, 20.0) and got[2][-2:] == (30.0, 20.0)
+
     def test_horizontal_and_vertical_carry_the_other_coordinate(self):
         assert IR.parse_path("M 2 3 H 9 V 7 h -1 v -1") == [
             ("M", 2.0, 3.0), ("L", 9.0, 3.0), ("L", 9.0, 7.0), ("L", 8.0, 7.0), ("L", 8.0, 6.0)]
@@ -169,6 +179,19 @@ class TestTheCascade:
         inner = ink.select("line", cls="inner")[0]
         assert inner.style["stroke-width"] == "4"      # from the group, inherited
         assert inner.style["stroke"] == "#f00"         # `.g .inner`
+
+    def test_a_descendant_rule_beats_a_later_rule_of_lower_specificity(self):
+        """WP-14.6, auditor C. `.g .inner` was the only rule the sheet above gives `.inner`, so a
+        cascade that scored a selector by its LAST compound alone -- `.inner`, (0,1,0) -- could
+        not be told from a correct one. Here a less specific rule comes later: `.g .x` is (0,2,0)
+        and wins whatever the source order; `.x` alone decides only outside the group."""
+        ink = IR.Ink('<svg xmlns="http://www.w3.org/2000/svg"><style>'
+                     '.g .x{stroke:#f00}.x{stroke:#00f}</style>'
+                     '<g class="g"><line class="x" x1="0" y1="0" x2="1" y2="0"/></g>'
+                     '<line class="x" x1="0" y1="0" x2="1" y2="0"/></svg>')
+        inside, outside = ink.select("line")
+        assert inside.style["stroke"] == "#f00", "the descendant rule is more specific"
+        assert outside.style["stroke"] == "#00f"
 
     def test_a_class_beats_a_tag(self):
         ink = IR.Ink(SHEET)

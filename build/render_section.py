@@ -137,12 +137,17 @@ def render_section(section, path, scale=7.0):
         floor = st.get("grade_to_floor_ft")
         if floor is None: continue
         ceil_line = floor + st["storey_height_ft"]
-        # THE FLOOR STRUCTURE AT ITS STATED DEPTH, under the floor line, between the walls: the
-        # record has stated `floor_structure_depth_in` for every storey and printed it as a
-        # label beside a floor drawn as a dashed line.
+        # THE FLOOR STRUCTURE AT ITS STATED DEPTH, between this storey's CEILING and the floor
+        # above it (the eave, at the top storey), between the walls. `storeys.py` derives
+        # `floor_structure_depth_in` as exactly that gap -- the storey height less the clear
+        # ceiling -- so that is where the joists are. The first version (WP-14.3) hung the body
+        # UNDER the storey's own floor: one storey out on every section, with a ground-storey
+        # body standing in the crawl space where the record states only grade-to-floor, and
+        # nothing under the eave. Found by rendering the sections and looking (WP-14.6).
         fd = st.get("floor_structure_depth_in")
         if fd:
-            s.append(f'<rect class="fs" x="{ox + tw:.2f}" y="{Y(floor):.2f}" '
+            s.append(f'<rect class="fs" data-storey="{_esc(str(st.get("index")))}" x="{ox + tw:.2f}" '
+                     f'y="{Y(floor + st["storey_height_ft"]):.2f}" '
                      f'width="{pw - 2 * tw:.2f}" height="{fd / 12.0 * scale:.2f}"/>')
         s.append(f'<line class="fl" x1="{ox:.1f}" y1="{Y(floor):.1f}" x2="{ox+pw:.1f}" y2="{Y(floor):.1f}"/>')
         cy = Y((floor + ceil_line) / 2)
@@ -187,7 +192,24 @@ def render_bearing_diagram(section, path, scale=7.0):
     W, H = fp["clear_width_ft"], fp["clear_depth_ft"]   # wall_lines() was built in the clear coordinate frame
     levels = section["levels"]
     pad, gap, top = 42, 54, 78
-    pw, ph = W * scale, H * scale
+    # EACH PLATE IS THE EXTENT OF THE WALLS IT DRAWS, NOT OF THE MAIN BLOCK (WP-14.6, audit F5).
+    # The canvas was the clear footprint, which since WP-11.6 is the main block alone, while
+    # `build_section` lays each massing element's walls out in the same frame -- so the tagged
+    # Tidewater plan's west dependency, 34 ft west of the block's origin, drew its bearing lines
+    # up to 196 px off the left edge of the sheet, where nothing is read. The frame's origin
+    # moves with the extent and `data-frame` states it, so a reader of the plate still maps
+    # every pixel to the clear frame. On a one-rectangle house every wall lies inside [0, W] x
+    # [0, H] and the sheet is byte-identical.
+    _xs, _ys = [0.0, W], [0.0, H]
+    for lv in levels:
+        for w in lv["walls"]:
+            (_xs if w["axis"] == "x" else _ys).append(w["position_ft"])
+            (_ys if w["axis"] == "x" else _xs).extend((w["lo_ft"], w["hi_ft"]))
+    X0, X1, Y0, Y1 = min(_xs), max(_xs), min(_ys), max(_ys)
+    _blocks = {b.get("id"): b for b in
+               (((section.get("geometry") or {}).get("footprint") or {}).get("blocks") or [])
+               if b.get("id") is not None}
+    pw, ph = (X1 - X0) * scale, (Y1 - Y0) * scale
     total_w = pad * 2 + len(levels) * pw + max(0, len(levels) - 1) * gap
     total_h = top + ph + 60
 
@@ -202,7 +224,7 @@ def render_bearing_diagram(section, path, scale=7.0):
         {"id": lv.get("id") or str(i), "proj": "bearing", "level": lv.get("index", i),
          "px_per_ft": scale,
          "origin_px": [round(_plate_origin(i)[0], 3), round(_plate_origin(i)[1], 3)],
-         "at_origin_ft": [0.0, round(H, 3)]}
+         "at_origin_ft": [round(X0, 3) + 0.0, round(Y1, 3)]}
         for i, lv in enumerate(levels)]}
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
          f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
@@ -213,10 +235,10 @@ def render_bearing_diagram(section, path, scale=7.0):
 
     for i, lv in enumerate(levels):
         ox, oy = _plate_origin(i)      # the SAME function data-frame was built from
-        X = lambda v, ox=ox: ox + v * scale
-        Yc = lambda v, oy=oy: oy + (H - v) * scale
+        X = lambda v, ox=ox: ox + (v - X0) * scale
+        Yc = lambda v, oy=oy: oy + (Y1 - v) * scale
         s.append(f'<text class="lb" x="{ox:.1f}" y="{oy-10:.1f}">{_esc((lv.get("id") or "").upper())}</text>')
-        s.append(f'<rect x="{X(0):.1f}" y="{Yc(H):.1f}" width="{pw:.1f}" height="{ph:.1f}" fill="{PAL["paper"]}" stroke="none"/>')
+        s.append(f'<rect x="{X(X0):.1f}" y="{Yc(Y1):.1f}" width="{pw:.1f}" height="{ph:.1f}" fill="{PAL["paper"]}" stroke="none"/>')
 
         for w in lv["walls"]:
             cls = "wl" if w["bearing"] else "fl"
@@ -241,12 +263,19 @@ def render_bearing_diagram(section, path, scale=7.0):
         # bearing flag. The first thing that fix did was make a wrong drawing visible.
         for sp in lv.get("spans_exceeding_capacity", []):
             a, b = sp["from_ft"], sp["to_ft"]
+            # ACROSS THE MIDDLE OF THE SPAN'S OWN ELEMENT (WP-14.6), which `build_section` names on
+            # every span it measures per element; the main block's middle is the fallback for a
+            # span that names none. The main block's middle put the west dependency's 27 ft span
+            # across the hyphen gap, clear of the walls it spans between.
+            eb = _blocks.get(sp.get("element"))
+            mid_y = (eb["y_ft"] + eb["depth_ft"] / 2.0) if eb else H / 2.0
+            mid_x = (eb["x_ft"] + eb["width_ft"] / 2.0) if eb else W / 2.0
             if sp["axis"] == "x":
-                x1, x2 = X(a), X(b); y = Yc(H / 2.0)
+                x1, x2 = X(a), X(b); y = Yc(mid_y)
                 s.append(f'<line class="bad" x1="{x1:.1f}" y1="{y:.1f}" x2="{x2:.1f}" y2="{y:.1f}" stroke-dasharray="6 3"/>')
                 lx, ly = (x1 + x2) / 2.0, y - 4
             else:
-                y1, y2 = Yc(a), Yc(b); x = X(W / 2.0)
+                y1, y2 = Yc(a), Yc(b); x = X(mid_x)
                 s.append(f'<line class="bad" x1="{x:.1f}" y1="{y1:.1f}" x2="{x:.1f}" y2="{y2:.1f}" stroke-dasharray="6 3"/>')
                 lx, ly = x + 4, (y1 + y2) / 2.0
             # style=, not fill=: `.dm` sets a fill and a class rule beats a presentation

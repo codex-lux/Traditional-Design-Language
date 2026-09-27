@@ -77,7 +77,32 @@ def test_a_record_with_no_module_gets_no_grid_and_says_so():
     del q["footprint"]["bay_module_ft"]
     q["geometry_report"].pop("bay_module", None)
     after = _sheet(q)
-    grid = lambda s: len(re.findall(r'<line class="gd"', s))  # noqa: E731
-    assert grid(after) < grid(before), "a grid was drawn on a module the record does not state"
+    # BAY LINES BY WHAT THEY ARE (WP-14.6, G5): `.gd` is shared with the plate's end lines and the
+    # dimension runs, so this asserted "fewer" -- and a sheet drawing half its bay lines on a module
+    # nobody stated passed it. A bay line carries `data-bay`, and with no module there are none.
+    grid = lambda s: len(re.findall(r'<line class="gd" data-bay=', s))  # noqa: E731
+    assert grid(before) > 0, "the premise: the placed record's sheet draws bay lines"
+    assert grid(after) == 0, "a bay line was drawn on a module the record does not state"
     assert "NO BAY MODULE ON THE RECORD" in after
     assert "NO BAY MODULE ON THE RECORD" not in before
+
+
+def test_the_app_prints_the_served_line_and_spells_none_of_its_own():
+    """WP-14.6, audit F15. `disclosures.bay_module` is the one line both surfaces print -- the plate
+    draws it, the bench shows it in the strip `placement.disclosures` carries -- and the bench
+    sheet's caption spelled the same disclosure a third time in its own words ("the placer's own
+    ... default -- no parti states a module"). A second spelling of a disclosure is how two of
+    them come to disagree; the app may print what it is served and may not compose this one."""
+    import subprocess
+    src = subprocess.run(["git", "ls-files", "workbench/app/src"], cwd=ROOT, capture_output=True,
+                         text=True, check=True).stdout.split()
+    hits = []
+    for f in src:
+        if f.endswith((".js", ".jsx", ".mjs")) and ".test." not in f:
+            text = open(os.path.join(ROOT, f), encoding="utf-8").read()
+            if re.search(r"no parti states a module", text, re.I):
+                hits.append(f)
+    assert not hits, "the app spells the bay-module disclosure itself: %s" % hits
+    # and the line it is served is the disclosure's own
+    assert "NO PARTI STATES A MODULE" in DISC.bay_module(
+        {"geometry_report": {"bay_module": {"ft": 10.0, "stated_by": None}}})["text"]

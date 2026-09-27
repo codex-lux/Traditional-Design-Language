@@ -536,6 +536,25 @@ class TestRenderSection:
         render_section_module.render_section(section, str(out))
         text = out.read_text()
         assert "RIDGE UNJUDGED" in text
+        # THE WHOLE NOTE, WRAPPED AND NOT CUT (WP-14.3; asserted at WP-14.6, auditor C). It was cut
+        # at seventy characters -- mid-word, before the reason -- and the only assertion here was
+        # that the two words above appear, which a note cut to "RIDGE UNJUDGED" also satisfies.
+        # The sheet's lines, joined, are the record's note word for word; and it takes more than
+        # one line, or the wrapping was never exercised.
+        import html
+        import re as _re
+        lines = [html.unescape(t) for t in _re.findall(r'<text class="dm"[^>]*>([^<]*)</text>', text)]
+        start = next(i for i, t in enumerate(lines) if t.startswith("RIDGE UNJUDGED"))
+        want = ("RIDGE UNJUDGED — " + section["roof"]["note"]).split()
+        got = []
+        for t in lines[start:]:
+            got += t.split()
+            if len(got) >= len(want):
+                break
+        assert got == want, "the sheet's ridge note is not the record's, word for word"
+        assert len(want) > 14, "premise: the record's note is long enough to need wrapping"
+        assert got and lines[start + 1].split()[0] == want[len(lines[start].split())], (
+            "premise: the note runs onto a second line")
 
     def test_render_bearing_diagram_writes_a_valid_svg_and_flags_over_capacity_spans(self, structure_module, render_section_module, tmp_path):
         # `tidewater-georgian-careful`, not `spec-builder-colonial`: WP-11.8's ranking left the

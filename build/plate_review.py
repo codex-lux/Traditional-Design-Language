@@ -213,7 +213,9 @@ def kit_params():
             if sid not in slots:
                 continue
             for pk, pv in sorted((s.get("parameters") or {}).items()):
-                if isinstance(pv, dict) and pv.get("kind") == "measured" and DIGIT.search(pv.get("note") or ""):
+                # NUMBER, as the member notes are read (WP-14.6, G9): `DIGIT` alone passed over a kit
+                # note stating its figure in words -- "one-third", "two feet" -- six of them.
+                if isinstance(pv, dict) and pv.get("kind") == "measured" and NUMBER.search(pv.get("note") or ""):
                     out.append((kid, sid, pk, pv))
     return out
 
@@ -445,6 +447,14 @@ def review_note(pid, aid, diameter_words, source, unconstructed=()):
     r = plate_review(pid, aid)
     word = {"agrees": "AGREES", "disagrees": "DISAGREES",
             "could-not-evaluate": "COULD NOT EVALUATE"}[r["verdict"]]
+    # AN AGREEMENT OVER A CHECK THAT COULD NOT RUN SAYS SO IN ITS HEADLINE (WP-14.6, auditor C).
+    # The verdict is `agrees` wherever something agreed and nothing disagreed, so four plates read
+    # INTERNAL: AGREES with one of their three checks unjudged -- listed after the dash, where a
+    # reader of the headline does not look. Unjudged is not passed, and the word that summarises
+    # the checks must not be read as saying it is.
+    unjudged = sum(1 for _n, v, _d in r["checks"] if v == "could-not-evaluate")
+    if r["verdict"] == "agrees" and unjudged:
+        word = "AGREES WHERE JUDGED, %d OF %d CHECKS COULD NOT BE EVALUATED" % (unjudged, len(r["checks"]))
     parts = ["%s: %s (%s)" % (n, v.replace("-", " "), d) for n, v, d in r["checks"]]
     note = ("Drawn by build/render_profile.py from %s at a %s column; every dimension comes from "
             "proportion_engine.dimension() and every curve from profiles.py. INTERNAL: %s -- %s. "
