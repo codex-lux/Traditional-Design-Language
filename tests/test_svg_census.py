@@ -506,6 +506,36 @@ class TestTheBuildingSheetsCanDisagree:
         monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", rec["elev"], planted)]))
         assert [r["verdict"] for r in C.CHECKS["V7"]["fn"]()] == ["disagrees"]
 
+    def test_v6_counts_the_panels_in_the_leaf_and_not_the_shutters_over_it(self, monkeypatch):
+        """Corrected at WP-14.3: V6 counted every panel within the garage door's WIDTH, so the
+        shutters of the window over bad-03's garage door were read as the door's own panels (10
+        against 6). A panel planted over the door is not counted; the same panel planted in the
+        leaf is, so the bound is neither missing nor blind."""
+        pid = "bad-03-narrow-lot-townhome"
+        rec = C._sheets()[pid]
+        EL = C.SURF._mod("elevation")
+        door = [x for x in EL.opening_rects(rec["elev"], "S")["rects"] if x["kind"] == "door"][0]
+        types = {r["id"]: d.get("type") for lv in rec["placed"]["levels"] for r in lv["rooms"]
+                 for d in r.get("doors") or [] if d.get("to") == "exterior"}
+        assert types.get(door["room"]) == "garage", "the premise: the door on S is the garage's"
+        pl = C._face_plate(C.IR.Ink(rec["faces"]["S"]))
+        x0 = C.IR.from_model(pl, door["x0_in"] / 12.0, 0)[0]
+        head = C.IR.from_model(pl, 0, door["head_in"] / 12.0)[1]
+
+        def count(y):
+            svg = rec["faces"]["S"].replace(
+                "</svg>", '<rect class="pnl w-fine" x="%.1f" y="%.1f" width="20.0" height="30.0"/>'
+                "</svg>" % (x0 + 10.0, y))
+            monkeypatch.setitem(rec, "faces", dict(rec["faces"], S=svg))
+            row = {r["subject"]: r for r in C.CHECKS["V6"]["fn"]()}[pid + "/S"]
+            return int(row["detail"].split()[0]) if row["detail"] else 0
+
+        monkeypatch.setitem(rec, "faces", dict(rec["faces"]))
+        before = {r["subject"]: r for r in C.CHECKS["V6"]["fn"]()}[pid + "/S"]
+        n = int(before["detail"].split()[0]) if before["detail"] else 0
+        assert count(head - 80.0) == n, "a panel over the door was counted as the door's"
+        assert count(head + 10.0) == n + 1, "a panel in the leaf was not counted"
+
     def test_v9_sees_the_renderers_own_fallbacks_when_the_record_gives_no_figure(self, monkeypatch):
         import copy
         RE = C.SURF._mod("render_elevation")

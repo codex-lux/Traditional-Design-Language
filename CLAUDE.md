@@ -99,10 +99,32 @@ a new defect fails, and a moved figure must be re-pinned by a commit that says w
 measured blind. **Every plate now states its `data-frame`**, the profile plates and the elevation's eave
 inset in INCHES, so never re-derive a plate's scale from its renderer. `dist/orders.html` is rebuilt by
 `build.py` now, from `render_orders.build_page()`. **Decision 4 (refuse what a style's resolved kit
-forbids) is put back to Lucas**: 51 of the 79 styles it would change are convicted only by an ancestor's
-ban, and colonial-revival's own note contradicts the ban on its doorcase
-(`oq/an-inherited-ban-decides-what-the-elevation-may-draw`). Report:
-`docs/reports/wp-14.1-the-ink-read-back.md`.
+forbids) is put back to Lucas**: of the 41 styles the elevation draws, 21 draw something their
+resolved kit forbids and 15 of those only by an ancestor's ban, and colonial-revival's own note
+contradicts the ban on its doorcase (`oq/an-inherited-ban-decides-what-the-elevation-may-draw`).
+**Those figures were published first as "51 of the 79", and every one was the instrument's** -- read
+the next paragraph. Report: `docs/reports/wp-14.1-the-ink-read-back.md`.
+
+**THE CENSUS'S STYLE SWEEP DREW ONE STYLE 159 TIMES, AND THE QUESTION PUT TO LUCAS RESTED ON IT
+(corrected 27 Sep 2026, WP-14.1's report §VII).** `_style_sweep` swapped each style in by writing
+`declared.style`, which nothing reads: `build_elevation`, `build_section` and `build_roof` read the
+plan's own `style`, and every other style sweep in `tests/` writes that. So V2, V3, V7 and V9 held the
+Tidewater elevation against 159 kits. Re-derived with nothing changed but the instrument, the census
+goes 255 -> 203:
+- the elevation REFUSES 118 of the 159 styles by its own gate (outside `opening-proportion`'s and
+  `facade-classical`'s `applies_to`), so the population was never 159 drawings but 41;
+- V2 79 -> 21 styles, own / inherited / both 11/51/17 -> 2/15/4;
+- V3 26 -> 19;
+- V7 0 -> 13: 13 styles set a head rising 4.2 to 5 in (12 keyed segmental arches and one
+  keystoned flat arch at its kit's 4 to 6 in rise), and every one departed from its circle, so
+  WP-14.1's finding that the quadratic heads were not defects was a finding about Tidewater's
+  0.4 in camber;
+- V6 counted a shutter's panels as the garage door's (10 -> 6).
+**It was found by a drawing, not by reading**: WP-14.3's transom came back drawn for `adam-style`,
+whose kit makes a radiating fanlight canonical. The sweep now ASSERTS, per style, that the elevation
+it built is of the style it asked for, and the mutation that restores `declared.style` raises on the
+first style. **An instrument whose every row agreed with the one house it drew could not tell a sweep
+from a copy of one plate.**
 
 **WP-14.2 TOOK THE ORDERS AND MOULDINGS TO ZERO: KNOWN DISAGREEMENTS 452 -> 255, AND EVERY P, E, O AND
 R CHECK NOW AGREES ON ITS WHOLE POPULATION (27 Sep 2026).** The 255 left are the elevation, section,

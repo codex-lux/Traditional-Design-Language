@@ -1323,13 +1323,23 @@ def _style_sweep():
     out = {}
     for sid in sorted(n for n in g["nodes"] if RK.load_kit(n)):
         p = _copy.deepcopy(placed)
-        p.setdefault("declared", {})["style"] = sid
+        # THE PLAN'S OWN `style`, which is the field every layer reads (`build_elevation`,
+        # `build_section`, `build_roof`). Until the WP-14.3 correction this wrote
+        # `declared.style`, which nothing reads, so every row of this sweep was the Tidewater
+        # elevation drawn 159 times and held against 159 different kits.
+        p["style"] = sid
         sec = ST.build_section(p, None, geometry_result=p)
         rf = RF.build_roof(p, None, section=sec) if "error" not in sec else {"error": "section"}
         el = EL.build_elevation(p, None, section=sec, roof=rf) if "error" not in rf else rf
         if "error" in el or not el.get("applicable", True):
             out[sid] = None
             continue
+        # THE SWEEP'S OWN PREMISE, asserted rather than trusted: the elevation must be of the
+        # style it was asked for. The first version swapped a field nothing reads, drew Tidewater
+        # every time, and no row of any check it fed could tell.
+        if el.get("style") != sid:
+            raise AssertionError(f"the style sweep asked for {sid} and the elevation drew "
+                                 f"{el.get('style')}: the swap is not reaching the layers")
         out[sid] = (el, _render(RE.render_elevation, el, face=el["entrance_face"]))
     _SWEEP = out
     return out
@@ -1486,7 +1496,14 @@ def v6():
             panels = 0
             for x in garage:
                 gx0, gx1 = IR.from_model(pl, x["x0_in"] / 12.0, 0)[0], IR.from_model(pl, x["x1_in"] / 12.0, 0)[0]
-                panels += sum(1 for r in _rects(ink, "pnl") if gx0 - 0.5 <= _box(r)[0] and _box(r)[2] <= gx1 + 0.5)
+                gyb = IR.from_model(pl, 0, x["sill_in"] / 12.0)[1]
+                gyt = IR.from_model(pl, 0, x["head_in"] / 12.0)[1]
+                # INSIDE THE LEAF, in both axes (corrected at WP-14.3): a shutter's panels carry the
+                # same class, and counting by x alone read the shutters of the window over the
+                # garage door as the door's own panels
+                panels += sum(1 for r in _rects(ink, "pnl")
+                              if gx0 - 0.5 <= _box(r)[0] and _box(r)[2] <= gx1 + 0.5
+                              and gyt - 0.5 <= _box(r)[1] and _box(r)[3] <= gyb + 0.5)
             out.append(row("V6", "%s/%s" % (pid, face), "disagrees" if panels else "agrees",
                            ("%d door panels drawn on a garage door %d in wide" % (panels, garage[0]["x1_in"] - garage[0]["x0_in"]))
                            if panels else ""))
