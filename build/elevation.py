@@ -2696,7 +2696,15 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         if not is_masonry:
             return None
         canonical = [k for k, v in head_variants.items() if v == "canonical"]
-        arch_kinds = _prefer_own([k for k in canonical if "arch" in k])
+        # AN ARCH IS A WHOLE TOKEN OF THE ID, as a keystone is in `_keyed` nine lines up (audit,
+        # 27 Sep 2026). `"arch" in k` matched `unmoulded-flat-architrave` -- Regency's own head,
+        # which its kit calls "a plain, flat, unmoulded band ... never the deep keyed arch" -- so
+        # the one head the kit names was read as "the only canonical masonry head", given a
+        # brick-course camber of 0.352 in and drawn as five arches. The same substring had already
+        # been corrected for the keystone and not here. Over the corpus's 16 head ids containing
+        # "arch", the two architraves are the only ones without it as a whole token.
+        _tok = lambda k: str(k).split("-")
+        arch_kinds = _prefer_own([k for k in canonical if "arch" in _tok(k)])
         kind, why = None, None
         if len(arch_kinds) == 1:
             kind, why = arch_kinds[0], "the style's kit makes it the only canonical masonry head"
@@ -2706,10 +2714,10 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                 why = ("the kit permits more than one masonry head and this plan states no date, "
                        "so which one it is cannot be judged here")
             elif yr < CHANGE_BAND[0]:
-                kind = next((k for k in arch_kinds if "segmental" in k), arch_kinds[0])
+                kind = next((k for k in arch_kinds if "segmental" in _tok(k)), arch_kinds[0])
                 why = f"{yr} is before brick-course's stated {CHANGE_BAND[0]}-{CHANGE_BAND[1]} change"
             elif yr > CHANGE_BAND[1]:
-                kind = next((k for k in arch_kinds if "flat" in k), arch_kinds[0])
+                kind = next((k for k in arch_kinds if "flat" in _tok(k)), arch_kinds[0])
                 why = f"{yr} is after brick-course's stated {CHANGE_BAND[0]}-{CHANGE_BAND[1]} change"
             else:
                 why = (f"{yr} falls inside brick-course's own {CHANGE_BAND[0]}-{CHANGE_BAND[1]} "

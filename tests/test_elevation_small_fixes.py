@@ -127,3 +127,36 @@ def test_one_light_and_four_still_divide_as_they_did():
     lw, bars = EL.even_bars(0.0, 36.0, 4, 0.875)
     assert len(bars) == 3 and abs(lw * 4 + 3 * 0.875 - 36.0) < 1e-9
     assert all(abs((b1 - b0) - 0.875) < 1e-9 for b0, b1 in bars)
+
+
+def test_an_architrave_is_not_an_arch_and_an_arch_still_is():
+    """AUDIT, 27 SEP 2026 (auditor D, F5). The masonry head was chosen from the kit's canonical
+    variants whose id CONTAINED "arch", so Regency's `unmoulded-flat-architrave` -- "a plain, flat,
+    unmoulded band ... never the deep keyed arch", in its own kit -- was read as "the only
+    canonical masonry head", given a brick-course camber and drawn as five arches. An arch is a
+    whole token of the id now, as a keystone already was (`_keyed`). The same placement drawn
+    three ways, and the positive control is on the same sheet class, so renaming the arch's class
+    cannot turn the negative half into a pass: the two arched styles must still draw arches."""
+    G, ST, EL, RE = _m("geometry"), _m("structure"), _m("elevation"), _m("render_elevation")
+    saved = G._SOLVE_CACHE
+    G._SOLVE_CACHE = {}
+    try:
+        placed = G.solve(json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))),
+                         None, 250, engine="heuristic")
+    finally:
+        G._SOLVE_CACHE = saved
+    import tempfile
+    got = {}
+    for sid in ("regency", "tidewater-georgian", "mid-atlantic-georgian"):
+        p = copy.deepcopy(placed)
+        p["style"] = sid
+        sec = ST.build_section(p, None, geometry_result=p)
+        el = EL.build_elevation(p, None, section=sec)
+        heads = {(sw.get("head_treatment") or {}).get("kind") for sw in el["storey_windows"]}
+        with tempfile.TemporaryDirectory() as td:
+            out = os.path.join(td, "S.svg")
+            RE.render_elevation(el, out, face="S")
+            got[sid] = (heads, open(out).read().count('class="arch'))
+    assert got["regency"] == ({None}, 0), got["regency"]
+    assert all("arch" in str(h).split("-") for h in got["tidewater-georgian"][0]), got
+    assert got["tidewater-georgian"][1] > 0 and got["mid-atlantic-georgian"][1] > 0, got
