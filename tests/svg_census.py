@@ -3082,9 +3082,10 @@ def _bench_run():
     return _BENCH
 
 
-@check("B1", "bench-sheet", "every window and exterior door the bench draws is cut in its OWN wall: "
-       "outside its room's own face, as deep as the wall the record states",
-       "every exterior opening on every placed level of every plan, as the bench computes it")
+@check("B1", "bench-sheet", "every window, exterior door and door onto an at-grade appendage the bench "
+       "draws is cut in its OWN wall: outside its room's own face, as deep as the wall the record states",
+       "every exterior opening, and every interior door standing in an exterior wall (a door onto an "
+       "at-grade appendage), on every placed level of every plan, as the bench computes it")
 def b1():
     run = _bench_run()
     if isinstance(run, str):
@@ -3094,6 +3095,15 @@ def b1():
     for pid, rec in sorted(_sheets().items()):
         placed = rec["placed"]
         t = AS.wall_thickness(placed)["exterior_in"] / 12.0
+        # WP-14.6's second audit: THE POPULATION WAS THE EXTERIOR ENTRIES, AND A DOOR ONTO A TERRACE
+        # IS AN INTERIOR ONE. The terrace is a room, placed OUTSIDE the block against the room's own
+        # face (build/appendages.py), so the door between them is an interior entry standing in the
+        # house's exterior wall -- PL2 already counts it so (WP-14.4 §III). The bench was served no
+        # appendages and named both such doors on the shipped plans undrawable, and this row agreed,
+        # because neither was in its population.
+        aps = {}
+        for a in ((placed.get("appendages") or {}).get("placed") or []):
+            aps.setdefault(a.get("level", 0), set()).add(a["room"])
         bad, n = [], 0
         for i, lv in enumerate(lv for lv in placed.get("levels", []) if any(r.get("geometry") for r in lv["rooms"])):
             got = run["marks"].get("%s@%s" % (pid, lv.get("index", i)))
@@ -3113,6 +3123,28 @@ def b1():
                 elif abs(m["across"][0] - lo) > 1e-3 or abs(m["across"][1] - hi) > 1e-3:
                     bad.append("L%s %s %s %s drawn across %.2f..%.2f where its wall is %.2f..%.2f"
                                % (lv.get("index", i), kind, d.get("room"), d["wall"], m["across"][0], m["across"][1], lo, hi))
+            geo = {r["id"]: r["geometry"] for r in lv["rooms"] if r.get("geometry")}
+            here = aps.get(lv.get("index", i), set())
+            for d in op["interior"]:
+                room = [x for x in d["pair"] if x in geo]
+                if not room or not any(x in here for x in d["pair"]):
+                    continue
+                n += 1
+                g, e = geo[room[0]], d["at_ft"]
+                # the room's face the door stands on: the nearer of the two across the line
+                if d["horiz"]:
+                    wl = "S" if abs(e - g["y_ft"]) <= abs(e - (g["y_ft"] + g["depth_ft"])) else "N"
+                else:
+                    wl = "W" if abs(e - g["x_ft"]) <= abs(e - (g["x_ft"] + g["width_ft"])) else "E"
+                lo, hi = (e - t, e) if wl in "SW" else (e, e + t)
+                who = "L%s door %s %s" % (lv.get("index", i), "-".join(d["pair"]), wl)
+                m = next((m for m in got.get("interior") or [] if sorted(m["pair"]) == sorted(d["pair"])
+                          and abs(m["along"] - d["pos_ft"]) < 1e-3), None)
+                if m is None:
+                    bad.append("%s at %.2f is not drawn" % (who, d["pos_ft"]))
+                elif abs(m["across"][0] - lo) > 1e-3 or abs(m["across"][1] - hi) > 1e-3:
+                    bad.append("%s drawn across %.2f..%.2f where its wall is %.2f..%.2f"
+                               % (who, m["across"][0], m["across"][1], lo, hi))
         if not n:
             out.append(row("B1", pid, "cne", "no exterior opening is placed on this record"))
         elif bad:

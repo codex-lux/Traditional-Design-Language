@@ -1736,6 +1736,14 @@ def placement_summary(out):
             # furniture, one package earlier, in this same return.
             "threshold": out.get("threshold"),
             "hearths": out.get("hearths"),
+            # WP-14.6's second audit: the at-grade appendages, on the argument every entry above
+            # makes -- a placement fact a surface reads and nothing else can supply. `Sheet.jsx` has
+            # read `placement.appendages.placed` since WP-11.10 and nothing served it, so on good-02
+            # and good-04 the bench named the terrace door undrawable ("the other room is not placed
+            # on this level") over a served wall band carrying the empty hole the plate cut for it
+            # (6 ft on good-02, 4 ft on good-04). `tests/test_sheet_symbols.py` holds every key the
+            # app reads to this return.
+            "appendages": out.get("appendages"),
             "opening_report": out.get("opening_report"),
             "svg": out.get("svg"),
             "note": ("Coordinates are in feet with the origin at the south-west corner, x east and y north. "

@@ -611,8 +611,15 @@ def test_both_renderers_read_the_record_and_derive_nothing():
     js_params = [q.split("=")[0].strip() for q in m.group(1).split(",")]
     assert js_params[:4] == ["rooms", "W", "H", "tol"] and js_params[4] == "appendages", (
         f"doors() takes {js_params}; the two renderers disagree about the argument order")
-    assert "for (const a of appendages || []) if (!idx.has(a.id)) idx.set(a.id, a);" in dj
-    assert "const drs = doors(rooms, W, H, 0.6, appendages.map((a) => ({" in js
+    # WP-14.6's second audit lifted the sheet's appendage reading into derive.js
+    # (`levelAppendages`, `appendageRects`), because the census's reader of the bench
+    # (tests/js/bench_marks.mjs) passed `null` here while the sheet passed the placed appendages
+    # -- a copy of the sheet that had drifted from it. Both read those two functions now, and
+    # these lines read the lift rather than the inline spelling it replaced; the behaviour is
+    # held by workbench/app/src/benchSheet.test.mjs (E1).
+    assert re.search(r"for \(const a of appendages \|\| \[\]\) if \(!idx\.has\(a\.id\)\) "
+                     r"\{ idx\.set\(a\.id, a\);", dj), "the door lookup does not take the appendages"
+    assert "const drs = doors(rooms, W, H, 0.6, appendageRects(appendages), elBounds);" in js
     # Neither renderer may decide a face or a size: those are the record's. Scoped to the
     # appendage block in each file rather than to the whole of it -- `render_plan.py` reads
     # `exterior_walls` legitimately for the openings it derives, and a whole-file assertion
@@ -622,12 +629,14 @@ def test_both_renderers_read_the_record_and_derive_nothing():
     py_draw = py_draw[:py_draw.index("for st in ((plan.get(\"threshold\")")]
     js_block = js[js.index("{appendages.map((ap, i) => ("):]
     js_block = js_block[:js_block.index("{levelIndex === 0 && ((placement?.threshold?.steps)")]
+    dj_block = dj[dj.index("export function levelAppendages("):dj.index("export function doors(")]
     for src, where in ((py_block, "render_plan.appendage_rects"), (py_draw, "render_plan draw"),
-                       (js_block, "Sheet.jsx")):
+                       (js_block, "Sheet.jsx"), (dj_block, "derive.js levelAppendages/appendageRects")):
         for banned in ("exterior_walls", "OPPOSITE", "width_ft / 2 +"):
             assert banned not in src, f"{where} is deriving what the record already states"
-    assert 'const appendages = ((placement?.appendages?.placed) || [])' in js
-    assert '.filter((a) => (a.level ?? 0) === levelIndex);' in js, (
+    assert "const appendages = levelAppendages(placement, levelIndex);" in js
+    assert re.search(r"return \(\(placement\?\.appendages\?\.placed\) \|\| \[\]\)"
+                     r"\.filter\(\(a\) => \(a\.level \?\? 0\) === levelIndex\);", dj_block), (
         "the JS draws every appendage on every plate")
     assert "...appendages.map((a) => a.rect)," in js, "the JS plate is not sized for it"
 

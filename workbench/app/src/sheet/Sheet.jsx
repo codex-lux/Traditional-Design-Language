@@ -12,13 +12,15 @@ import {
   daylightReachFt, isWet, privacyOpacity,
 } from './overlayRules.js';
 import { elementBounds, wallOf, levelRooms, partitions, windows, doors, bayLines, litWalls,
-         divergence, interpunctTitle, relaxationMarks, ft } from './derive.js';
+         divergence, interpunctTitle, relaxationMarks, ft, levelAppendages, appendageRects,
+         massingBlocks, levelBlocks, drawnBreasts, keyObstacles, plateNote } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
 import { PEN, POCHE, DASH, inked } from './pen.js';
 import { furnitureKeyPlan, keyCount, KEY } from './furnitureKey.js';
 import { engineClaim, statusHead } from './engineClaim.js';
 import { sketchOf } from './refusal.js';
-import { add, bayLabel, doorFrame, mid, stairArrow, sweepFlag, windowMark } from './marks.js';
+import { bayLabel, breastOpening, doorFrame, exteriorDoorMark, interiorDoorMark, leafOf, pairOf,
+         stairArrow, sweepFlag, windowMark } from './marks.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
@@ -46,14 +48,15 @@ function DimRun({ from, to, at, vertical, stops }) {
   );
 }
 
-function Leaf({ hinge, nrm, len, to }) {
-  const open = add(hinge, nrm, len);
-  const sweep = sweepFlag(hinge, open, to);
+/* One leaf and its arc, drawn from `marks.js::swingOf`'s numbers and nothing else: the hinge, the
+   open tip, the far jamb and the sweep are computed there, where `marks.test.mjs` can hold them
+   to the points the Python plate's leaves are held to (WP-14.6's second audit). */
+function Leaf({ s }) {
   return (
     <g>
-      <line x1={hinge[0]} y1={hinge[1]} x2={open[0]} y2={open[1]}
+      <line x1={s.hinge[0]} y1={s.hinge[1]} x2={s.tip[0]} y2={s.tip[1]}
         style={PEN.medium} vectorEffect="non-scaling-stroke" />
-      <path d={`M ${open[0]} ${open[1]} A ${len} ${len} 0 0 ${sweep} ${to[0]} ${to[1]}`}
+      <path d={`M ${s.tip[0]} ${s.tip[1]} A ${s.len} ${s.len} 0 0 ${s.sweep} ${s.far[0]} ${s.far[1]}`}
         style={PEN.construction} vectorEffect="non-scaling-stroke" />
     </g>
   );
@@ -79,16 +82,16 @@ function Jambs({ A, B, vert }) {
 function DoorMark({ d }) {
   const f = doorFrame(d);
   const type = d.type || 'swing';
-  const M = mid(f.A, f.B);
   const common = { 'data-door-type': type, 'data-door-w': d.w };
   const brk = <rect {...f.rect} fill="var(--paper-lit)" />;
 
   if (type === 'double') {
+    const [a, b] = pairOf(d);
     return (
       <g {...common}>
         {brk}
-        <Leaf hinge={f.A} nrm={f.nrm} len={f.w / 2} to={M} />
-        <Leaf hinge={f.B} nrm={f.nrm} len={f.w / 2} to={M} />
+        <Leaf s={a} />
+        <Leaf s={b} />
       </g>
     );
   }
@@ -124,13 +127,12 @@ function DoorMark({ d }) {
       </g>
     );
   }
-  // a single leaf hangs from the jamb the RECORD names (WP-13.2): "low" is A, "high" is B
-  const H = d.hinge === 'high' ? f.B : f.A;
-  const T = d.hinge === 'high' ? f.A : f.B;
+  // a single leaf hangs from the jamb the RECORD names (WP-13.2): "low" is A, "high" is B, and
+  // which one that is, where the leaf opens to and which way its arc turns are `marks.leafOf`'s
   return (
     <g {...common}>
       {brk}
-      <Leaf hinge={H} nrm={f.nrm} len={f.w} to={T} />
+      <Leaf s={leafOf(d)} />
     </g>
   );
 }
@@ -270,31 +272,19 @@ function roomLabel(r, wall) {
   return { ...L, turned: !!useTurned, cx: r.x + r.w / 2, cy: -r.y - r.h / 2 };
 }
 
-/* The furniture key's inputs, gathered ONCE for the plate and its caption (WP-13.2): the
-   partitions as drawn, every door leaf's swing square AS DRAWN (the same `swingUp` /
-   `swingRight` DoorMark reads, so the key avoids the arc the reader sees), the stair, and
-   each room's label through `roomLabel` -- the one fitter, so the key knows where the name
-   is without a second measurement of it. build/render_plan.py::furniture_key_plan is the
-   same gathering in sheet px. */
-function keyPlanFor(rooms, wall, drs, parts, stair, levelIndex) {
-  const swings = [];
-  for (const d of drs.interior) {
-    if (d.horiz) swings.push({ x: d.x - d.w / 2, y: d.swingUp ? d.y : d.y - d.w, w: d.w, h: d.w });
-    else swings.push({ x: d.swingRight ? d.x : d.x - d.w, y: d.y - d.w / 2, w: d.w, h: d.w });
-  }
-  for (const d of drs.exterior) {
-    if (d.wall === 'W' || d.wall === 'E') {
-      swings.push({ x: d.wall === 'W' ? d.x : d.x - d.w, y: d.y - d.w / 2, w: d.w, h: d.w });
-    } else {
-      swings.push({ x: d.x - d.w / 2, y: d.wall === 'S' ? d.y : d.y - d.w, w: d.w, h: d.w });
-    }
-  }
-  const stairRects = (stair && (stair.level ?? 0) === levelIndex)
-    ? (stair.well ? [stair.well] : (stair.flights || [])) : [];
+/* The furniture key's inputs, gathered ONCE for the plate and its caption (WP-13.2): the walls
+   AS DRAWN, every door leaf's swing square AS DRAWN, the stair and the chimney breasts -- all
+   `derive.js::keyObstacles`, which `benchSheet.test.mjs` reads -- and each room's label through
+   `roomLabel`, the one fitter, so the key knows where the name is without a second measurement of
+   it. build/render_plan.py::furniture_key_plan is the same gathering in sheet px.
+
+   WP-14.6's second audit: the walls here were `derive.partitions`' 4.5 in lines while the plate
+   drew the SERVED bands, so 11 of the 146 keys fitted over the sixteen plans stood on a drawn wall
+   body, all eleven on the Tidewater plan; and the key knew nothing of a breast, because the bench
+   drew none. */
+function keyPlanFor(rooms, wall, drs, parts, stair, levelIndex, served, breasts) {
   return furnitureKeyPlan(rooms, {
-    partitions: parts,
-    swings,
-    stairRects: stairRects.map((s) => ({ x: s.x_ft, y: s.y_ft, w: s.width_ft, h: s.depth_ft })),
+    ...keyObstacles({ drs, served, parts, stair, levelIndex, breasts }),
     labelBox: (r) => {
       const lab = roomLabel(r, wall);
       if (!lab) return null;
@@ -325,16 +315,16 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
      without the plate's walls, which the note below says. */
   const served = Array.isArray(placement?.walls)
     ? (placement.walls.find((b) => (b.level ?? 0) === levelIndex) || null) : null;
-  const blocks = (fp.blocks && fp.blocks.length)
-    ? fp.blocks.map((b) => ({ x: b.x_ft, y: b.y_ft, w: b.width_ft, h: b.depth_ft }))
-    : [{ x: 0, y: 0, w: W, h: H }];
+  // every massing element, for the plate's FRAME: the same on every level, so a level and its
+  // ghost of the other register. The FLOOR is drawn for this level's own elements (below).
+  const blocks = massingBlocks(fp, W, H);
   // doors first, then windows into what the doors have left: an opening may not be drawn
   // over another opening, and on this sheet the door is the one that keeps its place
   // WP-11.10 — the at-grade appendages on THIS level, as bare rectangles for the door
   // lookup. An appendage's room carries no geometry, so without this a door the record says
-  // is seated comes back "the other room is not placed on this level".
-  const appendages = ((placement?.appendages?.placed) || [])
-    .filter((a) => (a.level ?? 0) === levelIndex);
+  // is seated comes back "the other room is not placed on this level". The placement did not
+  // SERVE them until WP-14.6's second audit, so this was empty on every plan (derive.js says more).
+  const appendages = levelAppendages(placement, levelIndex);
   // WP-11.14 — which massing element each room stands in, as [x, y, W, H]. The join is
   // geometric containment, which is build/elements.py::element_of's own rule; a room in NO
   // element is ABSENT from the map, never given the main block's box, because defaulting it
@@ -352,9 +342,9 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // WP-12.5 lifted this into derive.js::elementBounds, because the Round needed the same
   // question answered and a second copy is how the 0.01-against-0.5 tolerance split happened.
   const elBounds = elementBounds(rooms, fp);
-  const drs = doors(rooms, W, H, 0.6, appendages.map((a) => ({
-    id: a.room, x: a.rect.x_ft, y: a.rect.y_ft, w: a.rect.width_ft, h: a.rect.depth_ft })),
-    elBounds);
+  // the floor fields: this level's own elements, `render_plan.wall_bodies::_blocks_here`'s rule
+  const floors = levelBlocks(blocks, rooms, elBounds);
+  const drs = doors(rooms, W, H, 0.6, appendageRects(appendages), elBounds);
   const wins = windows(rooms, W, H, 0.6, drs.exterior, elBounds);
   const diverged = divergence(rooms);
   const divergedIds = new Set(diverged.map((d) => d.id));
@@ -362,7 +352,9 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // plan schema 0.3.0 (WP-6.2): the stair is an object on the record, or it is absent —
   // never an empty room presented as a finished one
   const stair = placement?.stair || plan?.stair;
-  const keyPlan = keyPlanFor(rooms, wall, drs, parts, stair, levelIndex);    // WP-13.2
+  // the chimney breasts the placement's own verdicts let this plate draw
+  const breasts = drawnBreasts(placement, levelIndex);
+  const keyPlan = keyPlanFor(rooms, wall, drs, parts, stair, levelIndex, served, breasts);  // WP-13.2
   const ghostRooms = ghost != null ? levelRooms(plan, placement, ghost) : [];
   const roomsMeta = ov.meta || {};
 
@@ -460,6 +452,9 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         : 'Placement searched, not proved — hill-climb'
           + (claim.fellBack ? `, because ${claim.reason}` : '')
           + '. ';
+  // everything the plate says after the sketch and the engine (WP-14.6's second audit)
+  const note = plateNote({ wall, footprint: fp, placement, levelIndex, rooms, served, relax,
+                           rxMarks, spanCap, drs, wins, diverged, keyMargin: keyPlan.margin, bays });
 
   return (
     <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
@@ -535,9 +530,11 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         )}
 
         {/* interior floor: reserved vellum, one field per massing element (WP-14.4: the main
-            block's alone left a wing's floor the colour of the paper round it) */}
-        {blocks.map((b, i) => (
-          <rect key={'fl' + i} x={b.x} y={-b.y - b.h} width={b.w} height={b.h} fill="var(--paper-lit)" />
+            block's alone left a wing's floor the colour of the paper round it) -- per element
+            ON THIS LEVEL (WP-14.6's second audit: every element on every level drew the tagged
+            Tidewater's upper plate with floor over a wing and a hyphen that have no upper storey) */}
+        {floors.map((b, i) => (
+          <rect key={'fl' + i} data-floor="" x={b.x} y={-b.y - b.h} width={b.w} height={b.h} fill="var(--paper-lit)" />
         ))}
 
         {/* analytic overlays, glazed on the sheet */}
@@ -639,13 +636,15 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         })}
 
         {/* the walls, as the plate draws them: masonry in salmon flesh, partitions in sepia,
-            coal skin on both. The cut line bounds all poche. */}
+            coal skin on both. The cut line bounds all poche. A level with no placed room gets no
+            walls at all -- a ring round the footprint there is a storey nobody placed, which is
+            WP-11.9's finding about the envelope (WP-14.6's second audit: bad-03's third storey). */}
         {served ? served.bands.map((b, i) => (
           <rect key={'wb' + i} data-wall={b.wall} data-t={Math.round(b.t_ft * 120) / 10}
             data-block={b.block ?? undefined}
             x={b.x_ft} y={-b.y_ft - b.depth_ft} width={b.width_ft} height={b.depth_ft}
             style={b.kind === 'masonry' ? POCHE.masonry : POCHE.partition} vectorEffect="non-scaling-stroke" />
-        )) : (
+        )) : rooms.length > 0 && (
           <g data-walls="derived">
             {parts.map((p, i) => (
               <rect key={'pt' + i} x={p.x} y={-p.y - p.h} width={p.w} height={p.h} style={POCHE.partition} vectorEffect="non-scaling-stroke" />
@@ -657,17 +656,41 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           </g>
         )}
 
+        {/* THE FIRE (WP-14.6's second audit): each chimney breast the placement's verdict lets
+            this plate draw, in the masonry poche -- a breast is brick, and a thin outline would
+            read as a cupboard -- with its opening on the room face, as build/render_plan.py draws
+            it. Drawn BEFORE the openings, as the plate does, so a window reads over the breast.
+            `hearths.breasts` is served and was read by nothing here: the strip said one of three
+            stated fires was not drawn and the plate drew none of the three. A refused fire is
+            said in the note below, on the plate, and not drawn. */}
+        {breasts.map((b) => {
+          const rm = rooms.find((r) => r.id === b.room);
+          const h = ((rm && rm.record && rm.record.hearth) || [])[b.index] || {};
+          const op = breastOpening(b, h.width_in);
+          return (
+            <g key={'br' + b.room + b.index} data-breast={b.room} data-breast-wall={b.wall}>
+              <rect x={b.x_ft} y={-b.y_ft - b.depth_ft} width={b.width_ft} height={b.depth_ft}
+                style={POCHE.masonry} vectorEffect="non-scaling-stroke">
+                {/* the attribution is part of the figure: `render_plan.py`'s title, word for word */}
+                <title>{`${(rm && rm.name) || b.room}: fireplace, ${h.width_in ?? 'unstated'} in opening, breast ${b.projection_in} in — Morris 1734, judgment`}</title>
+              </rect>
+              {op && (
+                <line x1={op[0]} y1={op[1]} x2={op[2]} y2={op[3]}
+                  style={inked(PEN.medium, 'salmon-deep')} vectorEffect="non-scaling-stroke" />
+              )}
+            </g>
+          );
+        })}
+
         {/* openings. Windows are laid into the run the doors left, so a door is never
             painted over by a window again — but the doors are still drawn AFTER, because
-            a break in the poché belongs on top of the wall it breaks. */}
+            a break in the poché belongs on top of the wall it breaks. What each door is drawn
+            from is `marks.js`'s, the one spelling the census's reader of the bench reads too. */}
         {wins.map((w, i) => <WindowMark key={'w' + i} w={w} t={wall.exterior_ft} />)}
         {drs.exterior.map((d, i) => (
-          <DoorMark key={'ed' + i} d={{ x: d.x, y: d.y, w: d.w, type: d.type,
-            horiz: !(d.wall === 'W' || d.wall === 'E'), hinge: d.hinge,
-            exterior: true, t: wall.exterior_ft,
-            wall: d.wall, swingUp: d.wall === 'S', swingRight: d.wall === 'W' }} />
+          <DoorMark key={'ed' + i} d={exteriorDoorMark(d, wall.exterior_ft)} />
         ))}
-        {drs.interior.map((d, i) => <DoorMark key={'d' + i} d={d} />)}
+        {drs.interior.map((d, i) => <DoorMark key={'d' + i} d={interiorDoorMark(d, wall.exterior_ft)} />)}
 
         {/* WP-6.2 — the stair, drawn from plan.stair and from nothing else. There has never
             been a line of stair-drawing code in this system: a stair hall was an empty
@@ -699,10 +722,14 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
                 </g>
               );
             })}
+            {/* the arrow and the riser count are LETTERING over the stair hall, not controls:
+                `pointerEvents: none`, the furniture key's and the relaxation run's rule (WP-6.3,
+                "an annotation must not eat the click under it"), so a click on the arrow still
+                selects the room it is drawn in (WP-14.6's second audit) */}
             {(() => {
               const ar = stairArrow(stair.flights[0]);
               return ar && (
-                <g data-stair-arrow={stair.flights[0].direction}>
+                <g data-stair-arrow={stair.flights[0].direction} pointerEvents="none">
                   <line x1={ar.shaft[0]} y1={ar.shaft[1]} x2={ar.shaft[2]} y2={ar.shaft[3]}
                     style={PEN.medium} vectorEffect="non-scaling-stroke" />
                   <path d={`M ${ar.head[0]} ${ar.head[1]} L ${ar.head[2]} ${ar.head[3]} L ${ar.head[4]} ${ar.head[5]}`}
@@ -712,7 +739,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             })()}
             <text x={stair.flights[0].x_ft + stair.flights[0].width_ft / 2}
               y={-stair.flights[0].y_ft - stair.flights[0].depth_ft / 2}
-              fontSize="1" fontFamily="var(--serif)" letterSpacing=".18"
+              fontSize="1" fontFamily="var(--serif)" letterSpacing=".18" pointerEvents="none"
               fill="var(--gilt-deep)" textAnchor="middle" dominantBaseline="middle">
               UP {stair.risers}R
             </text>
@@ -1002,75 +1029,18 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
               + '; it may not be exported. '
             : ''}
           {engineLine}
-          {/* THE WALL IS A READING OR IT IS A CONVENTION, AND THE PLATE HAS TO SAY WHICH.
-              Before plan schema 0.5.1 this sheet drew a 9 in envelope and a 5 in partition
-              from two literals in derive.js -- numbers matching no assembly in the catalogue,
-              on every house whatever it was built of. It draws the record's own now, and a
-              record that carries none takes the fallback and says so here rather than
-              presenting a convention as a reading. */}
-          {wall.stated
-            ? `Walls ${wall.type.replace(/-/g, ' ')}: envelope ${(wall.exterior_ft * 12).toFixed(1)} in outside the placed rooms, partitions ${(wall.partition_ft * 12).toFixed(1)} in centred on them; room figures are the record's clear extents. `
-            : 'The record states no wall assembly, so the walls are drawn at this sheet\'s conventional 9 in and 5 in — a convention, not a reading. '}
-          {wall.note ? wall.note + ' ' : ''}
-          {/* WP-14.4: a record with no bay module gets no grid, and this sheet says so. WHOSE
-              module a drawn grid is -- the placer's own default where no parti states one -- is
-              `build/disclosures.py::bay_module`, which the bench shows in its strip beside this
-              plate: this caption spelled it a second time until WP-14.6 (audit F15), a third
-              spelling of one line after the plate's and the strip's. */}
-          {!(fp.bay_module_ft > 0) ? 'The record states no bay module, so no bay grid is drawn. ' : ''}
-          {served ? (served.unmatched_openings
-            ? `${served.unmatched_openings} opening(s) on no wall line of their own level — drawn, but no wall body is opened for them. `
-            : '')
-            : 'The server sent no wall bodies with this placement, so the walls are drawn as one ring round the footprint — a wing or a join is not drawn. '}
-          {/* "each marked \u25B3 where it falls" was a claim about every mark, and a mark the
-              solver located nowhere is now not drawn at all rather than dropped at the
-              middle of the plan. So the sentence counts what it actually marked. */}
-          {relax
-            ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft, ${rxMarks.drawn.length} marked \u25B3 on this level where it falls` : ''}. `
-            : ''}
-          {rxMarks.unlocated.length
-            ? `${rxMarks.unlocated.length} cut(s) the solver located on no wall of this level \u2014 counted, not drawn. `
-            : ''}
-          {spanCap && spanCap.over_capacity == null
-            ? 'Clear span not evaluated \u2014 the construction catalogue could not be read; no span is claimed clear. '
-            : ''}
-          {spanCap && spanCap.over_capacity
-            ? `${spanCap.over_capacity} clear span(s) over the framing capacity, worst ${spanCap.worst_span_ft} ft \u2014 at least that many: a bearing line is credited across the whole plate however short the wall runs. `
-            : ''}
-          {spanCap && spanCap.over_capacity === 0
-            ? '0 clear span(s) over the framing capacity \u2014 at least none found: a bearing line is credited across the whole plate however short the wall runs. '
-            : ''}
-          {drs.undrawable.length
-            ? `${drs.undrawable.length} declared door(s) without a drawable opening — in the record, not the linework: `
-              + drs.undrawable.map((u) => `${u.from}–${u.to}`).join(', ') + '. '
-            : ''}
-          {wins.offFootprint
-            ? `${wins.offFootprint} declared window(s) not situated on this footprint — declared, not drawn. `
-            : ''}
-          {wins.crowded
-            ? `${wins.crowded} declared window(s) had no clear run left on their wall beside its doors — declared, not drawn. `
-            : ''}
-          {diverged.length
-            ? `${diverged.length} room(s) are drawn at a size the record does not declare — worst `
-              + `${diverged[0].name} ${diverged[0].pct > 0 ? '+' : ''}${diverged[0].pct.toFixed(0)}% by area, marked \u2217. `
-            : ''}
-          {drs.inferredWidths
-            ? `${drs.inferredWidths} door(s) declare no width; drawn at the conventional leaf. `
-            : ''}
-          {/* WP-13.2 -- a furniture key no corner of its room could hold at the smallest
-              legible size, flat or turned, is set here under the room's name rather than
-              dropped. build/render_plan.py puts the same line in its margin schedule. */}
-          {keyPlan.margin.map((m) => (
-            <span key={'km' + m.id} data-furniture-key-margin={m.id}>
-              {`Furniture key, ${m.name} — no corner of the room holds it: ${m.lines.join('; ')}. `}
-            </span>
+          {/* EVERYTHING ELSE THE PLATE SAYS IS `derive.js::plateNote`'s, sentence by sentence and
+              in this order, and nothing is composed here (WP-14.6's second audit). It was all
+              composed inline in this JSX, where no test under `node --test` could read it: the
+              bay-module line WP-14.6 deleted without printing the served one, "the grid remains"
+              beside "no bay grid is drawn", "the server sent no wall bodies" on a level the
+              placement never placed, and a count of refused windows nobody printed. Each line is
+              published as `data-note`, and a furniture key refused to the margin keeps its
+              `data-furniture-key-margin` (WP-13.2). */}
+          {note.map((n, i) => (
+            <span key={n.id + (n.room || '') + i} data-note={n.id}
+              data-furniture-key-margin={n.room ?? undefined}>{n.text}</span>
           ))}
-          {drs.inferredPositions
-            ? `${drs.inferredPositions} exterior door(s) carry no placement in the record and are `
-              + 'drawn at conventional mid-wall position, on a wall inferred from the room\u2019s '
-              + 'declared exterior walls. '
-            : ''}
-          The grid remains — evidence the plan was composed, not arranged.
         </div>
       </div>
     </div>

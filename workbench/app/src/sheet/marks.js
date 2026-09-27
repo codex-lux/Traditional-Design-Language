@@ -54,6 +54,80 @@ export function sweepFlag(hinge, tip, far) {
   return c > 0 ? 1 : 0;
 }
 
+/* One leaf and its arc: hung at `hinge`, open along `nrm` by `len` to `tip`, closing on `far`.
+   `Sheet.jsx::Leaf` draws the leaf from the hinge to the tip and the arc from the tip to the far
+   jamb about the hinge, at radius `len`, with this `sweep`.
+
+   WP-14.6's second audit: THE LEAF WAS CHOSEN IN THE JSX AND NOTHING UNDER `node --test` COULD
+   READ IT. `DoorMark` picked the jamb inline (`d.hinge === 'high' ? f.B : f.A`) and `Leaf` derived
+   the tip and the sweep inline, so six mutations of the bench's door and window geometry -- either
+   wall's jambs swapped, the vertical swing turned the other way, the sweep flag inverted, the
+   glazing moved to the wall's face, a W or E sill moved into the room -- left all 279 app tests
+   green. The tip, the far jamb and the sweep are computed here now, and `marks.test.mjs` holds
+   them to the points the Python ink test holds the printed plate's leaves to. */
+export function swingOf(hinge, nrm, len, far) {
+  const tip = add(hinge, nrm, len);
+  return { hinge, tip, far, len, sweep: sweepFlag(hinge, tip, far) };
+}
+
+/* A single leaf, hung from the jamb the RECORD names (WP-13.2): "low" is A, "high" is B, which is
+   `render_plan.py::_door`'s reading of the same word. The far jamb is the other one. */
+export function leafOf(d) {
+  const f = doorFrame(d);
+  const high = d.hinge === 'high';
+  return swingOf(high ? f.B : f.A, f.nrm, f.w, high ? f.A : f.B);
+}
+
+/* A pair of doors: a leaf of half the width from each jamb, the two meeting at the middle, as
+   `render_plan.py::_door` draws a `double`. */
+export function pairOf(d) {
+  const f = doorFrame(d);
+  const M = mid(f.A, f.B);
+  return [swingOf(f.A, f.nrm, f.w / 2, M), swingOf(f.B, f.nrm, f.w / 2, M)];
+}
+
+/* WHAT `DoorMark` DRAWS AN ENTRY FROM, in one place (WP-14.6's second audit). The exterior
+   descriptor was written out inline in `Sheet.jsx` and a THIRD time in tests/js/bench_marks.mjs,
+   which is the census's reader of the bench, so the census could be reading a door the sheet does
+   not draw. An exterior door swings into its room: north off an S wall, east off a W one.
+
+   `t` is the wall's own thickness (`wallOf(footprint).exterior_ft`): an exterior door's break is
+   the wall itself, from the room's face outward, which is where the plate cuts the hole. */
+export function exteriorDoorMark(d, t) {
+  const vert = d.wall === 'W' || d.wall === 'E';
+  return { x: d.x, y: d.y, w: d.w, type: d.type, horiz: !vert, hinge: d.hinge,
+           exterior: true, t, wall: d.wall, swingUp: d.wall === 'S', swingRight: d.wall === 'W' };
+}
+
+/* An interior entry is drawn from itself -- its swing is toward the room it opens into -- EXCEPT
+   its break, where it stands on an exterior wall: a door onto an at-grade appendage (a terrace) is
+   an interior entry, because the terrace is a room, standing in the house's EXTERIOR wall, and the
+   plate cuts its hole through that wall outward from the room's face exactly as it does an
+   exterior door's (`render_plan.opening_gaps`). A 0.7 ft break centred on the face left the wall's
+   outer half standing across the doorway and cut the inner half out of the room's floor.
+   `derive.doors()` marks such an entry with the wall it stands in, as `exteriorWall`. */
+export function interiorDoorMark(d, t) {
+  return d.exteriorWall ? { ...d, exterior: true, t, wall: d.exteriorWall } : d;
+}
+
+/* The fireplace opening on a drawn chimney breast (WP-14.6's second audit): a line on the breast's
+   room-side face, the opening's width long and centred on the breast -- `render_plan.py`'s mark
+   (the block under "the fire"), in screen coordinates. `widthIn` is the room record's own stated
+   opening; where the record states none this returns null and no opening is drawn, rather than the
+   plate's conventional 36 in, which would be a second spelling of that convention. */
+export function breastOpening(b, widthIn) {
+  if (!(widthIn > 0)) return null;
+  const ow = widthIn / 12;
+  if (b.wall === 'E' || b.wall === 'W') {
+    const x = b.x_ft + (b.wall === 'W' ? b.width_ft : 0);
+    const y0 = b.y_ft + (b.depth_ft - ow) / 2;
+    return [x, -(y0 + ow), x, -y0];
+  }
+  const x0 = b.x_ft + (b.width_ft - ow) / 2;
+  const y = b.y_ft + (b.wall === 'S' ? b.depth_ft : 0);
+  return [x0, -y, x0 + ow, -y];
+}
+
 /* A window: the break in the wall, the glazing on its centre line, and the sill projecting past
    the jambs. Returns the three as numbers; `WindowMark` draws them.
 

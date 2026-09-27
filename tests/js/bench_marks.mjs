@@ -7,8 +7,17 @@
 // (screen y un-flipped). It imports the modules the sheet imports and re-derives nothing: the JSX
 // only copies these numbers into elements, and that copy was proved byte-identical when the marks
 // were lifted out of it.
-import { levelRooms, elementBounds, doors, windows, wallOf } from '../../workbench/app/src/sheet/derive.js';
-import { windowMark, doorFrame } from '../../workbench/app/src/sheet/marks.js';
+//
+// WP-14.6's second audit: this passed `null` for the appendages where the sheet passes the
+// served `placement.appendages.placed`, and wrote the exterior door's descriptor out a third time.
+// Both are the sheet's own functions now (`derive.levelAppendages`/`appendageRects`,
+// `marks.exteriorDoorMark`/`interiorDoorMark`), so the census reads the doors the sheet draws. And
+// it reports the INTERIOR doors as well, because a door onto an at-grade appendage is an interior
+// entry standing in an exterior wall, and census B1 holds those too.
+import { levelRooms, elementBounds, doors, windows, wallOf, levelAppendages, appendageRects }
+  from '../../workbench/app/src/sheet/derive.js';
+import { windowMark, doorFrame, exteriorDoorMark, interiorDoorMark }
+  from '../../workbench/app/src/sheet/marks.js';
 
 let raw = '';
 process.stdin.setEncoding('utf8');
@@ -23,7 +32,7 @@ for (const [key, c] of Object.entries(cases)) {
   const wall = wallOf(fp);
   const rooms = levelRooms(c.plan, c.placement, c.level);
   const el = elementBounds(rooms, fp);
-  const drs = doors(rooms, W, H, 0.6, null, el);
+  const drs = doors(rooms, W, H, 0.6, appendageRects(levelAppendages(c.placement, c.level)), el);
   const wins = windows(rooms, W, H, 0.6, drs.exterior, el);
   out[key] = {
     t: wall.exterior_ft,
@@ -32,8 +41,12 @@ for (const [key, c] of Object.entries(cases)) {
       across: across(windowMark(w, wall.exterior_ft).rect, w.wall) })),
     exterior: drs.exterior.map((d) => ({ room: d.room, wall: d.wall, edge_ft: d.edge_ft, hinge: d.hinge,
       along: (d.span[0] + d.span[1]) / 2,
-      across: across(doorFrame({ x: d.x, y: d.y, w: d.w, horiz: !(d.wall === 'W' || d.wall === 'E'),
-        wall: d.wall, exterior: true, t: wall.exterior_ft }).rect, d.wall) })),
+      across: across(doorFrame(exteriorDoorMark(d, wall.exterior_ft)).rect, d.wall) })),
+    // every interior door the sheet draws, with the extent of its break ACROSS the line it stands
+    // on (x on a vertical wall, y on a horizontal one), in model feet
+    interior: drs.interior.map((d) => ({ pair: d.pair, horiz: d.horiz, exterior_wall: d.exteriorWall || null,
+      along: d.horiz ? d.x : d.y,
+      across: across(doorFrame(interiorDoorMark(d, wall.exterior_ft)).rect, d.horiz ? 'S' : 'W') })),
   };
 }
 process.stdout.write(JSON.stringify(out));
