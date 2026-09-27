@@ -100,7 +100,7 @@ def test_a_shipped_window_is_drawn_at_a_width_whose_lights_differ_from_its_store
 
 # ------------------------------------------------------------------ the rectangle holds the rule
 def test_every_window_carries_the_rules_own_numbers_at_the_width_it_is_drawn(built):
-    n = 0
+    n = drawn = refused = 0
     for pid, (_s, _c, _r, ev) in built.items():
         gm = ev["glass_module_in"]
         for f, r in _windows(ev):
@@ -111,10 +111,22 @@ def test_every_window_carries_the_rules_own_numbers_at_the_width_it_is_drawn(bui
                 assert r["shutter_leaf_width_in"] is None, (
                     f"{pid} {r['id']}: the storey carries no shutters and the opening was given a leaf")
             else:
-                assert r["shutter_leaf_width_in"] == pytest.approx(leaf, abs=0.001), (pid, r["id"])
-                assert r["shutter_leaf_width_in"] == pytest.approx((r["width_in"] - 1.0) / 2.0, abs=0.001)
+                # A PAIR `_clearances` REFUSED (WP-14.6) keeps the rule's figure under
+                # `shutter_leaf_width_refused_in` and draws nothing, so the drawn width is None
+                # there and the figure is read where the refusal put it. This read the drawn width
+                # on every window and went red the day the refusal was written (audit, 27 Sep 2026).
+                if r.get("shutters_refused"):
+                    assert r["shutter_leaf_width_in"] is None, (pid, r["id"], "refused and drawn")
+                    got = r["shutter_leaf_width_refused_in"]
+                    refused += 1
+                else:
+                    got = r["shutter_leaf_width_in"]
+                    drawn += 1
+                assert got == pytest.approx(leaf, abs=0.001), (pid, r["id"])
+                assert got == pytest.approx((r["width_in"] - 1.0) / 2.0, abs=0.001)
             n += 1
     assert n >= 20, n
+    assert drawn and refused, ("the premise: some leaves drawn and some refused", drawn, refused)
 
 
 def test_the_storey_window_is_the_same_function_at_the_storeys_width(built):

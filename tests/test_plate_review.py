@@ -263,6 +263,55 @@ def test_an_agreement_with_nothing_unjudged_carries_the_plain_headline():
     assert "INTERNAL: AGREES -- " in note and "WHERE JUDGED" not in note, note
 
 
+# THE HEADLINE'S TWO OTHER VERDICTS, EACH BESIDE A CHECK THAT COULD NOT RUN (WP-14.6's second audit,
+# W6). `review_note` qualifies an AGREEMENT whose checks include an unjudged one, and the only
+# thing keeping that qualifier off a disagreement is `r["verdict"] == "agrees" and` in its guard:
+# measured, deleting those words left every test above green, because each drives the qualifier on
+# an agreeing plate and none on a plate that disagrees or could judge nothing. Without them a plate
+# disagreeing on its figures would carry "INTERNAL: AGREES WHERE JUDGED" in the note filed on it.
+# The headline is read as the token between "INTERNAL: " and " -- ", because "DISAGREES" contains
+# "AGREES" and a substring test cannot tell the two apart.
+def _headline(note):
+    import re
+    m = re.search(r"INTERNAL: (.*?) -- ", note)
+    assert m, note
+    return m.group(1)
+
+
+def test_a_disagreement_beside_an_unjudged_check_is_headed_disagrees(planted, monkeypatch):
+    e = _entry(planted, "palladio-ionic", "architrave", "arch_fascia_1")
+    e["claims"] = [{"quote": QUOTE, "target": "h_arch_fascia_1", "states": "10"}]
+    real = PE.check_invariants(PE.resolve("palladio-ionic"))
+    assert real and all(r.get("holds") is True for r in real), "premise: every invariant holds"
+    monkeypatch.setattr(PE, "check_invariants", lambda res: [dict(real[0]), dict(real[0], holds=None)])
+    r = PR.plate_review("palladio-ionic", "architrave")
+    assert r["verdict"] == "disagrees", r
+    assert "could-not-evaluate" in _checks(r).values(), "premise: a check beside it could not run"
+    note = PR.review_note("palladio-ionic", "architrave", "12 in", "Palladio 1570", ())
+    assert _headline(note) == "DISAGREES", note
+    assert "WHERE JUDGED" not in note, note
+
+
+def test_a_plate_whose_every_check_could_not_run_is_headed_could_not_evaluate(planted, monkeypatch):
+    """`vignola-doric`'s frieze is the plate whose members' sum is unjudged as shipped (its
+    author's members do not sum to it, and a note says why); take away the figures its notes state
+    and let no invariant be judged, and nothing is left to agree."""
+    for e in planted["members"]:
+        if (e["pack"], e["assembly"]) == ("vignola-doric", "frieze"):
+            e["claims"], e["why"] = [], "driven"
+        e["claims"] = [c for c in e["claims"]
+                       if (c.get("target_pack"), c.get("target_assembly")) != ("vignola-doric", "frieze")]
+    real = PE.check_invariants(PE.resolve("vignola-doric"))
+    assert real, "premise: the pack states invariants"
+    monkeypatch.setattr(PE, "check_invariants", lambda res: [dict(x, holds=None) for x in real])
+    r = PR.plate_review("vignola-doric", "frieze")
+    assert r["verdict"] == "could-not-evaluate", r
+    assert set(_checks(r).values()) == {"could-not-evaluate"}, "premise: every check unjudged: %s" % r
+    note = PR.review_note("vignola-doric", "frieze", "12 in", "Vignola 1562", ())
+    assert _headline(note) == "COULD NOT EVALUATE", note
+    assert "AGREES" not in _headline(note), note
+
+
 # THE POPULATION N2 READS, PINNED PER OVERLAY (WP-14.6, promised by WP-14.5's report). N2 says every
 # overlay converts what it inherits by the factor its own module note states, over 968 figures --
 # and nothing held the 968: dropping `projection_parts` from the comparison cut it to 541 with all

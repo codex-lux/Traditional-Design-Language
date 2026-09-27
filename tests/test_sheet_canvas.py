@@ -324,8 +324,14 @@ def test_no_two_lines_of_the_margin_are_printed_through_one_another(tmp_path):
     below the schedule, and the band the schedule reserved had no row for it, so the record table's
     heading was printed 4.7 px above it: two lines through one another on every working sheet
     with a relaxation and a room drawn off its declared size. Every text line under the plates is
-    held to the 14 px the schedule keeps between rows -- read off the sheet `render()` draws by
-    default, which is the working one."""
+    held at least 12 px from the next -- read off the sheet `render()` draws by default, which is
+    the working one.
+
+    12 AND NOT THE SCHEDULE'S NOMINAL 14 (audit, 27 Sep 2026). This docstring said "held to the
+    14 px the schedule keeps between rows" over an assertion of 12. Measured, the heading gap runs
+    13.5 to 14.5 px across the shipped sheets (13.9 on spec-builder-colonial), because each row is
+    laid from its own baseline and rounded to a tenth. So 14 cannot be asserted, and 12 keeps an
+    8.5 px line clear of the one above it, which is the property."""
     checked = 0
     for name in _plans():
         svg = _sheet(name, tmp_path)

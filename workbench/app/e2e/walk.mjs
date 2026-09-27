@@ -796,9 +796,14 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
       ticks: (() => {
         const g = svg.querySelector('[data-scale-bar]');
         if (!g) return null;
+        // The element's matrix FIRST, then the root's undone: S^-1 . E, as the plate reader below
+        // composes `toSvg.multiply(el.getScreenCTM())`. It read E . S^-1 until WP-14.6's second
+        // audit, which is the same map only while the group's x translation is 0 (or the root's
+        // scale is 1), so it agreed with the bar as drawn and would misplace a tick the day the bar
+        // moved -- the reading this check exists to make exactly.
         const at = (el, x, y) => {
           const p = svg.createSVGPoint(); p.x = x; p.y = y;
-          return p.matrixTransform(el.getCTM().multiply(svg.getCTM().inverse())).x;
+          return p.matrixTransform(svg.getCTM().inverse().multiply(el.getCTM())).x;
         };
         return {
           lines: [...g.querySelectorAll('line')].map((l) => at(l, +l.getAttribute('x1'), 0)),

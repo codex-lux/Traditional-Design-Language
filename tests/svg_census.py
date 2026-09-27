@@ -437,17 +437,27 @@ _CURVE_WORD = r"(ovolo|cyma|cymatium|torus|scotia|cavetto|astragal|bead|echinus|
 _CURVE_NAME = re.compile(r"^(?:(?:first|second|third|lower|upper|great|small|large|the)\s+)*"
                          + _CURVE_WORD + r"\b|,\s*" + _CURVE_WORD + r"\s*$", re.I)
 
+# WHAT A CHECK JUDGED, MEMBER BY MEMBER (WP-14.6's second audit, M11). P11's population is two
+# readers ORed together -- the member's profile kind and its own name -- and blinding the name
+# reader outright (`_CURVE_NAME` matching nothing) left every P11 row agreeing and the census
+# unmoved: a plate with fewer members to judge has fewer to find drawn straight, and an agreement
+# over fewer members is still an agreement (N2's lesson, `tests/test_plate_review.N2_FIGURES`).
+# The check records here what it judged; `tests/test_svg_census.py` holds that to both readers.
+POPULATION = {}
+
 
 @check("P11", "profile-plates", "a curved member drawn as a straight line says so -- curved by its "
        "profile kind or by its own name", "plates holding a curved member")
 def p11():
     out = []
+    judged = POPULATION["P11"] = []
     for a, g, pl, rec in _profile_assets():
         # A member whose projection is unpublished is not drawn straight: it is not constructed
         # at all, and P7 holds the plate to saying so (WP-14.2).
         curved = [m for m in rec["members"]
                   if ((m.get("profile") or "") in SURF.CURVED or _CURVE_NAME.search(m.get("name") or ""))
                   and not rec["side_by_side"] and rec["published"].get(m["id"])]
+        judged.extend((a["id"], m["id"]) for m in curved)
         if not curved:
             continue
         if _unreadable(pl):
@@ -726,14 +736,73 @@ def _python_stack(pid, diameter, ped):
     return dim, geo, pts
 
 
+ORDERS_PAGE_IN_GIT = "dist/orders.html"
+
+
+def _committed_orders_page(root=None):
+    """HEAD's own `dist/orders.html`, read through git: `("page", text)`, `("absent", why)` where
+    HEAD holds no such file, or `("cne", why)` where the committed page cannot be read at all.
+
+    WP-14.6's second audit, C6. O1 read the WORKING TREE's page, and `build/check_all.py` runs
+    `build/build.py` before any checker -- whose step 6 is `render_orders.py`, which rewrites that
+    very file. So in the one run that gates a merge O1 compared the generator's output with the
+    generator's output and could not fail: a page committed WITHOUT a build agreed, because the
+    build had just written the missing one into the working tree. What a reader of the repository
+    is served is what the commit holds, so that is what is read. Where git is not installed, where
+    the root is not the top of a git work tree, or where HEAD names no commit, the committed page
+    cannot be read, and the answer says which -- never a fall back to the working tree, which is
+    the reading that could not fail."""
+    root = root or ROOT
+    git = shutil.which("git")
+    if not git:
+        return "cne", "git is not installed, so the committed page cannot be read"
+
+    def _git(*args):
+        return subprocess.run([git, *args], cwd=root, capture_output=True, timeout=120)
+
+    def _said(r):
+        return (r.stderr.decode("utf-8", "replace").strip().splitlines() or ["no message"])[-1]
+
+    top = _git("rev-parse", "--show-toplevel")
+    if top.returncode:
+        return "cne", "%s is not in a git work tree (%s), so there is no committed page" % (root, _said(top))
+    where = top.stdout.decode("utf-8", "replace").strip()
+    if os.path.realpath(where) != os.path.realpath(root):
+        return "cne", ("%s is not the top of its git work tree (%s is), so HEAD's page would be "
+                       "another tree's" % (root, where))
+    head = _git("rev-parse", "--verify", "--quiet", "HEAD^{commit}")
+    if head.returncode:
+        return "cne", "HEAD names no commit (an unborn branch), so there is no committed page"
+    blob = _git("show", "HEAD:" + ORDERS_PAGE_IN_GIT)
+    if blob.returncode:
+        return "absent", "HEAD holds no %s (%s)" % (ORDERS_PAGE_IN_GIT, _said(blob))
+    return "page", blob.stdout.decode("utf-8")
+
+
 @check("O1", "orders-tool", "the committed page is what build/render_orders.py builds now",
        "the one page")
 def o1():
     RO = SURF._mod("render_orders")
-    have = open(ORDERS_PAGE, encoding="utf-8").read()
-    ok = have == RO.build_page()
-    return [row("O1", "dist/orders.html", "agrees" if ok else "disagrees",
-                "" if ok else "stale: run python3 build/render_orders.py (build.py does)")]
+    state, got = _committed_orders_page()
+    if state == "cne":
+        return [row("O1", "dist/orders.html", "cne", got)]
+    if state == "absent":
+        return [row("O1", "dist/orders.html", "disagrees", got)]
+    built = RO.build_page()
+    ok = got == built
+    if ok:
+        return [row("O1", "dist/orders.html", "agrees")]
+    # The working tree beside the SAME root the committed page was read from -- not `ORDERS_PAGE`,
+    # which is bound at import to the real checkout and would answer for another tree whenever the
+    # root is not that one.
+    try:
+        current = open(os.path.join(ROOT, *ORDERS_PAGE_IN_GIT.split("/")), encoding="utf-8").read() == built
+    except OSError:
+        current = False
+    return [row("O1", "dist/orders.html", "disagrees",
+                "stale: HEAD's page is not what build/render_orders.py builds -- run it (build.py "
+                "does) and commit the page" + ("; the working tree's page is current and uncommitted"
+                                               if current else ""))]
 
 
 @check("O2", "orders-tool", "the section the page draws is the height the engine dimensions, "
@@ -2044,6 +2113,126 @@ def v20():
             continue
         out.append(row("V20", subject, "disagrees" if bad else "agrees",
                        "; ".join(sorted(set(bad))) if bad else "%d openings and leaves" % len(things)))
+    return out
+
+
+_SHUTTERS_REFUSED = "SHUTTERS NOT DRAWN ON"
+_SIDELIGHTS_REFUSED = "SIDELIGHTS NOT DRAWN"
+_SHUTTER_COUNT = re.compile(r"^SHUTTERS NOT DRAWN ON (\d+) WINDOW")
+_SHUTTER_CLASS = re.compile(r"^· (\d+) \((.*?)\): ")
+
+
+def _names_room(room, line):
+    """Whether a legend line names a room id as a WORD: `LIVING` is not named by `LIVING-ROOM`,
+    nor `BED3` by a line naming `BEDROOM3`."""
+    return re.search(r"(?<![A-Z0-9_-])%s(?![A-Z0-9_-])" % re.escape(str(room).upper()), line) is not None
+
+
+@check("V22", "elevation", "every opening whose record refuses its sidelights or its shutter leaves is "
+       "said on its own sheet: a SIDELIGHTS NOT DRAWN line for each doorcase refused, one SHUTTERS NOT "
+       "DRAWN line counting every window refused its leaves and naming every room, and, where the "
+       "record gives more than one reason, a line for each reason counting and naming its own", "elevation sheets whose record refuses a sidelight or shutter pair, or "
+       "that say one is refused: shipped plans, every face, and every style's front")
+def v22():
+    """WP-14.6's second audit, W3. `elevation._clearances` refuses a sidelight pair or a shutter
+    pair that would stand over a neighbour, and the plate says so in two legend sentences
+    (`render_elevation`: SIDELIGHTS NOT DRAWN, SHUTTERS NOT DRAWN ON N WINDOW(S)). V20 reads the INK
+    -- nothing drawn over anything -- and a refusal that is honoured and NOT SAID passes it, because
+    an absent leaf overlaps nothing. Measured before this check existed: deleting the sidelight
+    sentence, deleting the shutter sentence, and printing the rooms' count where the windows'
+    belongs all left the census as it was but for V3, whose clause happened to need the words on
+    the eight style sheets where the transom's refusal sits beside the sidelights'.
+
+    This holds the SENTENCES to the RECORD the sheet was drawn from -- `opening_rects` on the face
+    the frame states, the function the renderer itself calls -- by their prefixes, their counts and
+    the room ids they name, never by the explanation after them, which is prose and moves. A window
+    refused for several CLASSES of reason (`shutters_refused_by`: over an opening, over another
+    leaf, past the corner) is owed one line per class and is counted once in each; a rect that
+    carries no class is one anonymous class, which is what the sheet printed until the classes were
+    written."""
+    EL = SURF._mod("elevation")
+    out = []
+    for subject, el, svg in _elev_and_sweep():
+        ink = IR.Ink(svg)
+        said = [" ".join(t.split()).upper() for t, _a, _it in ink.texts() if t and t.strip()]
+        shut = [s for s in said if s.startswith(_SHUTTERS_REFUSED)]
+        side = [s for s in said if s.startswith(_SIDELIGHTS_REFUSED)]
+        face = (_face_plate(ink) or {}).get("face")
+        if not face:
+            if shut or side:
+                out.append(row("V22", subject, "cne", "the sheet says a refusal and its frame states no "
+                                                      "face, so the record's openings cannot be read"))
+            continue
+        rects = EL.opening_rects(el, face)["rects"]
+        wins = [r for r in rects if r.get("shutters_refused")]
+        doors = [r for r in rects if r.get("sidelights_refused")]
+        if not (wins or doors or shut or side):
+            continue
+        bad = []
+        if len(side) != len(doors):
+            bad.append("the record refuses %d doorcase(s) their sidelights and the sheet says %d"
+                       % (len(doors), len(side)))
+        # THE LEGEND AS IT IS PRINTED (audit, 27 Sep 2026, re-cut when this check met the grouped
+        # legend). ONE total line, "SHUTTERS NOT DRAWN ON n WINDOW(S) — ROOMS — …", counts each
+        # refused window ONCE; where the windows are refused for more than one reason a line per
+        # reason follows it, "· k (ROOMS): why", counting each window under EVERY reason it
+        # carries, and the total then says a window refused twice is counted under both. This
+        # check was first written against one full line per reason, before the grouped legend
+        # existed, and read every grouped sheet as a disagreement.
+        classes = {}
+        for r in wins:
+            for k in (r.get("shutters_refused_by") or ("unclassed",)):
+                classes.setdefault(k, []).append(r)
+        totals = [i for i, s in enumerate(said) if s.startswith(_SHUTTERS_REFUSED)]
+        if len(totals) != (1 if wins else 0):
+            bad.append("the record refuses the leaves of %d window(s) and the sheet prints %d "
+                       "SHUTTERS NOT DRAWN line(s)" % (len(wins), len(totals)))
+        for i in totals[:1]:
+            head = said[i]
+            m = _SHUTTER_COUNT.match(head)
+            if not m:
+                bad.append("the SHUTTERS NOT DRAWN line states no count of windows: %r" % head[:70])
+            elif int(m.group(1)) != len(wins):
+                bad.append("the record refuses the leaves of %d window(s) and the sheet counts %d"
+                           % (len(wins), int(m.group(1))))
+            named = head.split(" — ")[1] if head.count(" — ") >= 2 else ""
+            if not named.endswith("…"):
+                for room in sorted({str(r.get("room")) for r in wins}):
+                    if not _names_room(room, named):
+                        bad.append("%s's refused leaves are not named on the SHUTTERS NOT DRAWN line"
+                                   % room)
+            subs = []
+            for t in said[i + 1:]:
+                sm = _SHUTTER_CLASS.match(t)
+                if not sm:
+                    break
+                subs.append((int(sm.group(1)), sm.group(2)))
+            want = 0 if len(classes) == 1 else len(classes)
+            if len(subs) != want:
+                bad.append("%d class(es) of shutter refusal on the record and %d line(s) of reason "
+                           "under the total" % (len(classes), len(subs)))
+            elif want:
+                left = dict(classes)
+                for n, rooms in subs:
+                    names = {x.strip() for x in rooms.replace(" …", "").split(",") if x.strip()}
+                    hit = next((k for k, rs in sorted(left.items())
+                                if len(rs) == n and ({str(r.get("room")).upper() for r in rs} == names
+                                                     or (rooms.endswith("…")
+                                                         and names <= {str(r.get("room")).upper() for r in rs}))),
+                               None)
+                    if hit is None:
+                        bad.append("a line of reason counts %d window(s) in %s and no class on the record "
+                                   "holds those" % (n, rooms))
+                    else:
+                        del left[hit]
+            twice = sum(len(rs) for rs in classes.values()) > len(wins)
+            if twice != ("COUNTED UNDER BOTH" in head):
+                bad.append("a window is refused for two reasons and the total does not say it is counted "
+                           "under both" if twice else
+                           "the total says a window is counted under two reasons and none is")
+        out.append(row("V22", subject, "disagrees" if bad else "agrees",
+                       "; ".join(bad) if bad else "%d doorcase(s) and %d window(s) refused, all said"
+                       % (len(doors), len(wins))))
     return out
 
 

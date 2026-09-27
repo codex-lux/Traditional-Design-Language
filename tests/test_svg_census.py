@@ -17,7 +17,18 @@ nothing here. Where one was mutation-checked when it was written -- the defect i
 SUBJECT, in an isolated copy, and the check seen to go red -- that is recorded in its package's
 report, and it is a proof made once; a drive is a proof made every run. A check among the 47
 whose disagreeing branch goes blind later is caught by nothing in this file.
+
+AND THAT COUNT WAS WRONG, IN THE DIRECTION THAT UNDERSTATES THE FILE (re-derived 27 Sep, WP-14.6's
+second audit). Read off every test body -- a test that names a check and requires "disagrees" --
+the file at WP-14.6 drove 41 of the 64, not 17, and 23 were held by nothing here; seventeen is
+`len(NODE_CHECKS)`, the JavaScript-backed checks, which is the likeliest source of the figure.
+With V22 the census holds 69 checks, 65 carry no live disagreement, and 42 of those are driven
+here. The 23 that are not: E1, E2, E3, F1, P3, P4, P7, PL1, S3, V1, V3, V4, V5, V6, V8, V11, V14,
+V17, V18, V20, V21, X1, X2. A count in a docstring is read by no checker: re-derive it, do not
+quote it.
 """
+import ast
+import copy
 import json
 import os
 import re
@@ -37,6 +48,103 @@ def _rows():
     if _ROWS is None:
         _ROWS = C.run()
     return _ROWS
+
+
+# ------------------------------------------------------------------ which functions run node
+# Read off the SYNTAX TREE and not the text (WP-14.6's second audit, M12): a subprocess call whose
+# command's first word is the `node` executable, however the call and the command are spelled.
+_SUBPROCESS_CALLS = frozenset(("run", "Popen", "call", "check_call", "check_output"))
+
+
+def _is_node(expr, env, seen=()):
+    """Whether one expression names the `node` executable: the word itself or a path to it, a
+    `which("node")`, or a name bound to either."""
+    if isinstance(expr, ast.Constant) and isinstance(expr.value, str):
+        return os.path.basename(expr.value.strip()) == "node"
+    if isinstance(expr, ast.Call):
+        f = expr.func
+        name = f.attr if isinstance(f, ast.Attribute) else getattr(f, "id", None)
+        return (name == "which" and bool(expr.args) and isinstance(expr.args[0], ast.Constant)
+                and expr.args[0].value == "node")
+    if isinstance(expr, ast.Name) and expr.id in env and expr.id not in seen:
+        return _is_node(env[expr.id], env, seen + (expr.id,))
+    return False
+
+
+def _command_runs_node(expr, env, seen=()):
+    """Whether a command -- an argv list or tuple, a sum beginning with one, a shell string, or a
+    name bound to any of these -- begins with the `node` executable."""
+    if isinstance(expr, (ast.List, ast.Tuple)):
+        if not expr.elts:
+            return False
+        first = expr.elts[0]
+        if isinstance(first, ast.Starred):
+            return _command_runs_node(first.value, env, seen)
+        return _is_node(first, env, seen)
+    if isinstance(expr, ast.BinOp) and isinstance(expr.op, ast.Add):
+        return _command_runs_node(expr.left, env, seen)
+    if isinstance(expr, ast.Constant) and isinstance(expr.value, str):
+        words = expr.value.split()
+        return bool(words) and os.path.basename(words[0]) == "node"
+    if isinstance(expr, ast.JoinedStr) and expr.values and isinstance(expr.values[0], ast.Constant):
+        words = str(expr.values[0].value).split()
+        return bool(words) and os.path.basename(words[0]) == "node"
+    if isinstance(expr, ast.Name) and expr.id in env and expr.id not in seen:
+        return _command_runs_node(env[expr.id], env, seen + (expr.id,))
+    return False
+
+
+def _bindings(nodes):
+    """name -> the expression a plain `name = expr` binds it to."""
+    env = {}
+    for n in nodes:
+        if isinstance(n, ast.Assign) and len(n.targets) == 1 and isinstance(n.targets[0], ast.Name):
+            env[n.targets[0].id] = n.value
+        elif isinstance(n, ast.AnnAssign) and isinstance(n.target, ast.Name) and n.value is not None:
+            env[n.target.id] = n.value
+    return env
+
+
+def _node_backed(src):
+    """The top-level functions of a module that run `node`, directly or through any function of
+    the same module they call or refer to, transitively."""
+    tree = ast.parse(src)
+    mods, bare = set(), set()
+    for n in tree.body:
+        if isinstance(n, ast.Import):
+            mods |= {a.asname or a.name for a in n.names if a.name == "subprocess"}
+        elif isinstance(n, ast.ImportFrom) and n.module == "subprocess":
+            bare |= {a.asname or a.name for a in n.names if a.name in _SUBPROCESS_CALLS}
+    module_env = _bindings(tree.body)
+    fns = {n.name: n for n in tree.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))}
+
+    def runs(fn):
+        env = dict(module_env, **_bindings(ast.walk(fn)))
+        for call in (c for c in ast.walk(fn) if isinstance(c, ast.Call)):
+            f = call.func
+            if isinstance(f, ast.Attribute) and isinstance(f.value, ast.Name):
+                if f.value.id == "os":
+                    ok = f.attr in ("system", "popen")
+                else:
+                    ok = f.value.id in mods and f.attr in _SUBPROCESS_CALLS
+            else:
+                ok = isinstance(f, ast.Name) and f.id in bare
+            if not ok:
+                continue
+            cmd = call.args[0] if call.args else next(
+                (k.value for k in call.keywords if k.arg in ("args", "cmd", "command")), None)
+            if cmd is not None and _command_runs_node(cmd, env):
+                return True
+        return False
+
+    refs = {name: {x.id for x in ast.walk(fn) if isinstance(x, ast.Name) and isinstance(x.ctx, ast.Load)}
+            for name, fn in fns.items()}
+    backed = {name for name, fn in fns.items() if runs(fn)}
+    while True:
+        more = {name for name in fns if name not in backed and refs[name] & backed}
+        if not more:
+            return backed
+        backed |= more
 
 
 # ------------------------------------------------------------------ the registry is the tree
@@ -264,6 +372,63 @@ class TestTheChecksCanDisagree:
             lambda s: s.replace("CURVED MEMBER(S) DRAWN STRAIGHT", "CURVED MEMBER(S)")))
         assert got == ["disagrees"], got
 
+    # P11's POPULATION IS TWO READERS ORed, AND THE DRIVE ABOVE REACHES ONE (WP-14.6's second audit,
+    # M11). Its plate's straight member is a cyma reversa, curved by its profile KIND, so blinding
+    # the NAME reader (`_CURVE_NAME` matching nothing) left the drive, the control and every census
+    # row green: measured, 58 of the 171 members P11 judges fell out and nothing said so.
+    P11_BY_KIND, P11_BY_NAME_ALONE = 113, 58
+
+    def test_p11_judges_every_member_either_reader_calls_a_curve(self):
+        """The premise, over the population P11 records it judged (`svg_census.POPULATION`): every
+        published member whose profile KIND is a curve, read here from `ink_surfaces.CURVED` itself
+        and not through the census's filter, plus the members only their NAME calls one -- pinned
+        per reader on N2's precedent, because an agreement over fewer members is still an
+        agreement. A count that moves is not a failure of the corpus; it is a change to account
+        for in the commit that makes it."""
+        C.CHECKS["P11"]["fn"]()
+        judged = set(C.POPULATION["P11"])
+        by_kind = {(a["id"], m["id"]) for a, g, pl, rec in C._profile_assets() if not rec["side_by_side"]
+                   for m in rec["members"]
+                   if rec["published"].get(m["id"]) and (m.get("profile") or "") in SURF.CURVED}
+        assert len(by_kind) == self.P11_BY_KIND, len(by_kind)
+        assert by_kind <= judged, sorted(by_kind - judged)[:5]
+        assert len(judged - by_kind) == self.P11_BY_NAME_ALONE, (
+            "P11 judged %d members only their name calls a curve, against %d when this was "
+            "pinned: %s" % (len(judged - by_kind), self.P11_BY_NAME_ALONE, sorted(judged - by_kind)[:5]))
+        assert len(judged) == len(C.POPULATION["P11"]), "a member judged twice"
+
+    @staticmethod
+    def _planted_record(asset_id, change):
+        """One committed plate with its RECORD altered in memory by `change(rec)`."""
+        for a, g, pl, rec in C._profile_assets():
+            if a["id"] == asset_id:
+                planted = copy.deepcopy(rec)
+                change(planted)
+                assert planted != rec, "the planted defect did not land"
+                return [(a, g, pl, planted)]
+        raise KeyError(asset_id)
+
+    def _straight_by_both(self, m):
+        assert (m.get("profile") or "") not in SURF.CURVED and not C._CURVE_NAME.search(m.get("name") or ""), (
+            "the premise: %s is a straight member by both readers" % m["id"])
+
+    def test_p11_sees_a_member_its_name_calls_a_curve_drawn_straight(self, monkeypatch):
+        """A fillet renamed an ovolo -- the shape of WP-14.6's F7, where three members NAMED a
+        curve were drawn square -- is judged by its name and convicts the plate, whose words count
+        one straight curve and whose ink now holds two."""
+        def change(rec):
+            m = next(x for x in rec["members"] if x["id"] == "cap_fillet")
+            self._straight_by_both(m)
+            m["name"] = "Ovolo of the abacus"
+        assert _verdicts(monkeypatch, "P11", self._planted_record(self.PLATE, change)) == ["disagrees"]
+
+    def test_p11_sees_a_member_its_kind_calls_a_curve_drawn_straight(self, monkeypatch):
+        def change(rec):
+            m = next(x for x in rec["members"] if x["id"] == "cap_abacus")
+            self._straight_by_both(m)
+            m["profile"] = "cavetto"
+        assert _verdicts(monkeypatch, "P11", self._planted_record(self.PLATE, change)) == ["disagrees"]
+
     def test_p13_sees_a_section_passed_off_as_the_capital(self, monkeypatch):
         """WP-14.2 made the Ionic capitals say their volute is not recorded, so P13 has no live
         disagreement; this is that silence put back."""
@@ -449,11 +614,101 @@ class TestTheJavaScriptSurfaces:
         got = self._got("R3")
         assert got["vignola-ionic"] == "disagrees" and got["gibbs-doric"] == "agrees"
 
+    # O1 READS THE COMMITTED PAGE, THROUGH GIT (WP-14.6's second audit, C6). It read the working
+    # tree's, and `check_all` runs `build.py` first, whose step 6 rewrites that file from the
+    # generator -- so in the gating run O1 held the generator to its own output and a page committed
+    # without a build agreed. Measured: the generator moved, the page left as committed, the build's
+    # own step run, and O1 said AGREES over a HEAD page it did not match. Each state below is a real
+    # git repository in a temporary directory, so the reader under test is the one that runs.
+    @staticmethod
+    def _repo(root, page=None, commit=True):
+        """A git repository at `root` whose tree holds `page` as dist/orders.html (or no page at
+        all), committed or left on an unborn branch. Outside the repository under test."""
+        root.mkdir(parents=True, exist_ok=True)
+        env = dict(os.environ, GIT_AUTHOR_NAME="census", GIT_AUTHOR_EMAIL="census@example.invalid",
+                   GIT_COMMITTER_NAME="census", GIT_COMMITTER_EMAIL="census@example.invalid")
+        for k in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"):
+            env.pop(k, None)
+
+        def git(*a):
+            subprocess.run(["git", *a], cwd=root, env=env, check=True, capture_output=True)
+
+        git("init", "-q")
+        if page is not None:
+            (root / "dist").mkdir()
+            (root / "dist" / "orders.html").write_text(page, encoding="utf-8")
+        else:
+            (root / "README").write_text("no page here\n", encoding="utf-8")
+        if commit:
+            git("add", "-A")
+            git("commit", "-q", "-m", "fixture")
+        return root
+
+    def _o1_at(self, monkeypatch, root):
+        monkeypatch.setattr(C, "ROOT", str(root))
+        got = C.CHECKS["O1"]["fn"]()
+        assert len(got) == 1, got
+        return got[0]
+
+    def test_o1_reads_the_page_head_holds_and_agrees_where_it_is_current(self, monkeypatch, tmp_path):
+        """The control, through the same instrument as every drive below: a repository whose HEAD
+        holds the page the generator builds now agrees -- and the real repository does too."""
+        built = C.SURF._mod("render_orders").build_page()
+        r = self._o1_at(monkeypatch, self._repo(tmp_path / "current", built))
+        assert r["verdict"] == "agrees", r
+        monkeypatch.undo()
+        state, got = C._committed_orders_page()
+        if state == "cne":
+            pytest.skip("COULD NOT EVALUATE here, and not a pass: " + got)
+        assert state == "page" and got == built, "HEAD's dist/orders.html is stale on this commit"
+
     def test_o1_sees_a_page_committed_without_a_build(self, monkeypatch, tmp_path):
-        stale = tmp_path / "orders.html"
-        stale.write_text(open(C.ORDERS_PAGE, encoding="utf-8").read() + "<!-- -->", encoding="utf-8")
-        monkeypatch.setattr(C, "ORDERS_PAGE", str(stale))
-        assert [r["verdict"] for r in C.CHECKS["O1"]["fn"]()] == ["disagrees"]
+        """A HEAD page the generator no longer builds disagrees -- even with a CURRENT page in the
+        working tree beside it, which is the state `build.py` leaves the gating run in and the one
+        the old reading called agreement."""
+        built = C.SURF._mod("render_orders").build_page()
+        stale = built + "<!-- committed before the generator moved -->"
+        root = self._repo(tmp_path / "stale", stale)
+        (root / "dist" / "orders.html").write_text(built, encoding="utf-8")      # the build ran
+        r = self._o1_at(monkeypatch, root)
+        assert r["verdict"] == "disagrees" and "stale" in r["detail"], r
+        assert "the working tree's page is current and uncommitted" in r["detail"], r
+        # ...and the clause is about THIS root's working tree. The same stale commit with the build
+        # NOT run leaves the working-tree page stale too, and the clause must not be said: it was
+        # read off the module's own `ORDERS_PAGE`, bound at import to the real checkout, so under
+        # a moved `ROOT` it described another tree -- the `root=` seam wired in one place and not
+        # its neighbour (WP-13.2), found by writing this half.
+        monkeypatch.undo()
+        r = self._o1_at(monkeypatch, self._repo(tmp_path / "unbuilt", stale))
+        assert r["verdict"] == "disagrees" and "stale" in r["detail"], r
+        assert "current and uncommitted" not in r["detail"], r
+
+    def test_o1_sees_a_head_that_holds_no_page(self, monkeypatch, tmp_path):
+        r = self._o1_at(monkeypatch, self._repo(tmp_path / "pageless", page=None))
+        assert r["verdict"] == "disagrees" and "HEAD holds no dist/orders.html" in r["detail"], r
+
+    def test_o1_cannot_evaluate_where_the_committed_page_cannot_be_read(self, monkeypatch, tmp_path):
+        """Four states in which there is no committed page to read, each COULD NOT EVALUATE naming
+        which -- never a comparison with the working tree, which is the reading that could not
+        fail."""
+        built = C.SURF._mod("render_orders").build_page()
+        bare = tmp_path / "not-a-repo"
+        bare.mkdir()
+        r = self._o1_at(monkeypatch, bare)
+        assert r["verdict"] == "cne" and "not in a git work tree" in r["detail"], r
+
+        r = self._o1_at(monkeypatch, self._repo(tmp_path / "unborn", built, commit=False))
+        assert r["verdict"] == "cne" and "HEAD names no commit" in r["detail"], r
+
+        outer = self._repo(tmp_path / "outer", built)
+        inner = outer / "dist"                                   # inside a tree, not its top
+        r = self._o1_at(monkeypatch, inner)
+        assert r["verdict"] == "cne" and "not the top of its git work tree" in r["detail"], r
+
+        real_which = C.shutil.which
+        monkeypatch.setattr(C.shutil, "which", lambda name: None if name == "git" else real_which(name))
+        r = self._o1_at(monkeypatch, outer)
+        assert r["verdict"] == "cne" and "git is not installed" in r["detail"], r
 
     def test_o2_and_o3_see_a_section_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
         import copy
@@ -480,21 +735,53 @@ class TestTheJavaScriptSurfaces:
 
     def test_the_javascript_list_is_every_check_that_reaches_node(self):
         """A check is javascript-backed if its function -- or anything it calls in the census,
-        transitively -- runs `node`. Derived, so a new check cannot be born outside the list."""
-        import inspect
-        funcs = {n: f for n, f in vars(C).items() if inspect.isfunction(f) and f.__module__ == C.__name__}
-        src = {n: inspect.getsource(f) for n, f in funcs.items()}
-        backed = {n for n, s in src.items() if 'subprocess.run(["node"' in s}
-        assert backed, "no function in the census runs node -- the derivation is reading nothing"
-        while True:
-            more = {n for n, s in src.items() if n not in backed
-                    and any(re.search(r"\b%s\(" % re.escape(h), s) for h in backed)}
-            if not more:
-                break
-            backed |= more
+        transitively -- runs `node`. Derived, so a new check cannot be born outside the list.
+
+        READ OFF THE SYNTAX TREE (WP-14.6's second audit, M12). The first version matched the
+        TEXT `subprocess.run(["node"`, so the same call spelled `subprocess.run(args=["node", ...])`,
+        with the command in a variable, through `shutil.which("node")`, or by `Popen` was a check
+        born outside the list: measured, a node call planted in P12 in the keyword spelling left
+        this test green, and respelling the bench's real call that way made it convict B1 and B2
+        of NOT reaching node. `_node_backed` reads the call, and is driven below on every
+        spelling it claims."""
+        backed = _node_backed(open(C.__file__, encoding="utf-8").read())
+        assert {"_orders_run", "_plate_run", "_bench_run", "tr1"} <= backed, (
+            "the four functions that run node today are not all found -- the derivation is "
+            "reading nothing: %s" % sorted(backed))
         derived = {cid for cid, c in C.CHECKS.items() if c["fn"].__name__ in backed}
         assert derived == set(self.NODE_CHECKS), (sorted(derived - set(self.NODE_CHECKS)),
                                                   sorted(set(self.NODE_CHECKS) - derived))
+
+    @pytest.mark.parametrize("src", [
+        'import subprocess\ndef f():\n    subprocess.run(["node", "x.mjs"])\n',
+        'import subprocess\ndef f():\n    subprocess.run(args=["node", "x.mjs"], capture_output=True)\n',
+        'import subprocess\ndef f(rest):\n    subprocess.Popen(["node"] + rest)\n',
+        'import subprocess, shutil\ndef f():\n    subprocess.check_output([shutil.which("node"), "x"])\n',
+        'import subprocess\nNODE = "node"\ndef f():\n    subprocess.run([NODE, "x"])\n',
+        'import subprocess\ndef f():\n    cmd = ["node", "x"]\n    subprocess.run(cmd)\n',
+        'import subprocess\ndef f():\n    subprocess.run("node x.mjs", shell=True)\n',
+        'import subprocess as sp\ndef f():\n    sp.check_call(("/usr/bin/node", "x"))\n',
+        'from subprocess import run as go\ndef f():\n    go(["node", "x"])\n',
+        'import os\ndef f():\n    os.system("node x.mjs")\n',
+        'import subprocess\ndef f():\n    def inner():\n        subprocess.run(["node"])\n    return inner()\n',
+    ])
+    def test_the_node_reader_finds_every_spelling_of_a_node_call(self, src):
+        assert _node_backed(src) == {"f"}, src
+
+    @pytest.mark.parametrize("src", [
+        'import subprocess, shutil\ndef f():\n    git = shutil.which("git")\n    subprocess.run([git, "show"])\n',
+        'import subprocess\ndef f():\n    subprocess.run(["python3", "node.py"])\n',
+        'import shutil\ndef f():\n    return shutil.which("node") is None\n',
+        'def f():\n    return "node"\n',
+        'import subprocess\ndef f():\n    subprocess.run("nodemon x.js", shell=True)\n',
+    ])
+    def test_the_node_reader_is_not_fooled_by_a_call_that_runs_something_else(self, src):
+        assert _node_backed(src) == set(), src
+
+    def test_the_node_reader_carries_a_call_through_every_caller(self):
+        src = ('import subprocess\ndef f():\n    subprocess.run(["node"])\n'
+               'def g():\n    return f()\ndef h():\n    return g\ndef k():\n    return 1\n')
+        assert _node_backed(src) == {"f", "g", "h"}
 
     def test_without_node_every_javascript_row_is_unjudged(self, monkeypatch):
         monkeypatch.setattr(C.shutil, "which", lambda name: None)
@@ -672,6 +959,126 @@ class TestTheBuildingSheetsCanDisagree:
         one["faces"] = {face: planted}
         monkeypatch.setattr(C, "_SHEETS", {"tidewater-georgian-careful": one})
         assert [r["verdict"] for r in C.CHECKS["V13"]["fn"]()] == ["disagrees"]
+
+
+class TestTheRefusalsAreSaid:
+    """V22 (WP-14.6's second audit, W3). `_clearances` refuses a sidelight pair or a shutter pair
+    that would stand over a neighbour and the legend says so; V20 reads the INK, which an honoured
+    refusal leaves blank whether or not it is said, so deleting either sentence -- or printing the
+    rooms' count where the windows' belongs -- moved nothing in the census but three of V3's rows
+    by coincidence. V22 agrees on every sheet today, so each defect is planted here. The sentences
+    are read by their PREFIXES, counts and room ids and never by the explanation after them, so a
+    reworded tail cannot turn these red; each plant says what it changed, and lands or fails."""
+
+    SHUTTERED = "spec-builder-colonial/S"        # windows refused their leaves, over two rooms
+    SIDELIT = "tidewater-georgian-careful/S"     # the doorcase refused its sidelights
+
+    @staticmethod
+    def _all():
+        return {s: (el, svg) for s, el, svg in C._elev_and_sweep()}
+
+    @staticmethod
+    def _v22(monkeypatch, planted):
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter(planted))
+        return {r["subject"]: r for r in C.CHECKS["V22"]["fn"]()}
+
+    @staticmethod
+    def _refused(el, face, key):
+        return [r for r in C.SURF._mod("elevation").opening_rects(el, face)["rects"] if r.get(key)]
+
+    def test_the_premise_both_sheets_refuse_something_and_say_so(self, monkeypatch):
+        """The control. Without it a 'disagrees' below could be the plate and not the plant."""
+        a = self._all()
+        el, _svg = a[self.SHUTTERED]
+        wins = self._refused(el, "S", "shutters_refused")
+        assert len(wins) >= 2 and len({r["room"] for r in wins}) >= 2, (
+            "the premise: this face refuses leaves over more than one room")
+        assert not self._refused(el, "S", "sidelights_refused"), "the premise: and no sidelights"
+        el, _svg = a[self.SIDELIT]
+        assert self._refused(el, "S", "sidelights_refused"), "the premise: this face refuses sidelights"
+        got = self._v22(monkeypatch, [(s, *a[s]) for s in (self.SHUTTERED, self.SIDELIT)])
+        assert got[self.SHUTTERED]["verdict"] == "agrees", got[self.SHUTTERED]
+        assert got[self.SIDELIT]["verdict"] == "agrees", got[self.SIDELIT]
+
+    def _planted(self, monkeypatch, subject, change):
+        el, svg = self._all()[subject]
+        planted = change(svg)
+        assert planted != svg, "the plant did not land"
+        return self._v22(monkeypatch, [(subject, el, planted)])[subject]
+
+    def test_v22_sees_the_shutter_sentence_left_out(self, monkeypatch):
+        r = self._planted(monkeypatch, self.SHUTTERED,
+                          lambda s: re.sub(r"<text[^>]*>SHUTTERS NOT DRAWN ON[^<]*</text>", "", s))
+        assert r["verdict"] == "disagrees" and "prints 0 SHUTTERS NOT DRAWN line(s)" in r["detail"], r
+
+    def test_v22_sees_the_windows_miscounted(self, monkeypatch):
+        r = self._planted(monkeypatch, self.SHUTTERED, lambda s: re.sub(
+            r"(SHUTTERS NOT DRAWN ON )(\d+)", lambda m: m.group(1) + str(int(m.group(2)) - 1), s, count=1))
+        assert r["verdict"] == "disagrees" and "the sheet counts" in r["detail"], r
+
+    def test_v22_sees_a_room_left_unnamed(self, monkeypatch):
+        el, _svg = self._all()[self.SHUTTERED]
+        room = sorted({r["room"] for r in self._refused(el, "S", "shutters_refused")})[0].upper()
+
+        def change(svg):
+            def drop(m):
+                return re.sub(r"(?<![A-Z0-9_-])%s(?![A-Z0-9_-])(, )?" % re.escape(room), "", m.group(0))
+            return re.sub(r">SHUTTERS NOT DRAWN ON[^<]*<", drop, svg)
+        r = self._planted(monkeypatch, self.SHUTTERED, change)
+        assert r["verdict"] == "disagrees" and (
+            "%s's refused leaves are not named" % room.lower()) in r["detail"].lower(), r
+
+    def test_v22_sees_the_sidelight_sentence_left_out(self, monkeypatch):
+        r = self._planted(monkeypatch, self.SIDELIT,
+                          lambda s: re.sub(r"<text[^>]*>SIDELIGHTS NOT DRAWN[^<]*</text>", "", s))
+        assert r["verdict"] == "disagrees" and "the sheet says 0" in r["detail"], r
+
+    def test_v22_sees_a_refusal_said_that_the_record_does_not_make(self, monkeypatch):
+        r = self._planted(monkeypatch, self.SHUTTERED, lambda s: s.replace(
+            "</svg>", '<text class="dm" x="0" y="0">SIDELIGHTS NOT DRAWN — PLANTED</text></svg>'))
+        assert r["verdict"] == "disagrees" and "refuses 0 doorcase(s)" in r["detail"], r
+
+    def test_v22_owes_a_line_for_every_class_of_refusal(self, monkeypatch):
+        """The record may refuse one window's leaves for several CLASSES of reason
+        (`shutters_refused_by`), and the legend prints them GROUPED (audit, 27 Sep 2026): one total
+        line counting each window once, then a line per reason, "· k (ROOMS): why", counting each
+        window under every reason it carries -- and the total says a window refused twice is counted
+        under both. Given two classes on every refused window, a legend with no line of reason is
+        short by two; the grouped legend agrees; and the same legend without its counted-under-both
+        clause disagrees. Written against the RECORD, so it reads the classes whenever the record
+        carries them. (This test was first written against one full line per class, before the
+        grouped legend existed.)"""
+        a = self._all()
+        el, svg = a[self.SHUTTERED]
+        EL = C.SURF._mod("elevation")
+        real = EL.opening_rects
+
+        def classed(elev, face):
+            got = real(elev, face)
+            for r in got["rects"]:
+                if r.get("shutters_refused"):
+                    r["shutters_refused_by"] = ["corner", "opening"]
+            return got
+
+        wins = self._refused(el, "S", "shutters_refused")
+        monkeypatch.setattr(EL, "opening_rects", classed)
+        bare = re.sub(r"<text[^>]*>· [^<]*</text>", "", svg)
+        r = self._v22(monkeypatch, [(self.SHUTTERED, el, bare)])[self.SHUTTERED]
+        assert r["verdict"] == "disagrees" and "2 class(es)" in r["detail"], r
+        rooms = ", ".join(sorted({x["room"].upper() for x in wins}))
+        both = " (A WINDOW REFUSED FOR TWO REASONS IS COUNTED UNDER BOTH)"
+
+        def grouped(clause):
+            head = ('<text class="dm" x="0" y="0">SHUTTERS NOT DRAWN ON %d WINDOW(S) — %s — A LEAF THAT '
+                    'CANNOT SWING ONTO WALL CANNOT BE HUNG%s:</text>' % (len(wins), rooms, clause))
+            lines = "".join('<text class="dm" x="0" y="%d">· %d (%s): %s</text>' % (i + 1, len(wins), rooms, why)
+                            for i, why in enumerate(("CORNER", "OPENING")))
+            return re.sub(r"<text[^>]*>SHUTTERS NOT DRAWN ON[^<]*</text>", "", bare).replace(
+                "</svg>", head + lines + "</svg>")
+        r = self._v22(monkeypatch, [(self.SHUTTERED, el, grouped(both))])[self.SHUTTERED]
+        assert r["verdict"] == "agrees", r
+        r = self._v22(monkeypatch, [(self.SHUTTERED, el, grouped(""))])[self.SHUTTERED]
+        assert r["verdict"] == "disagrees" and "counted under both" in r["detail"], r
 
 
 class TestThePlanSheetsCanDisagree:

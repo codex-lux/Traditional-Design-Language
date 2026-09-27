@@ -270,3 +270,38 @@ def test_the_plan_sheet_prints_the_one_spelling_in_both_registers():
         RP.render(q, out, register=reg)
         got = re.findall(r">([^<]*BAY MODULE ON THE RECORD[^<]*)<", open(out, encoding="utf-8").read())
         assert got == [want], (reg, got)
+
+
+def _code(js):
+    """A JavaScript source with its comments taken out -- `/* */` blocks (JSX's `{/* */}` among
+    them) and `//` line comments, but not the `//` of a URL -- so what is left is what RUNS."""
+    js = re.sub(r"/\*.*?\*/", " ", js, flags=re.S)
+    return re.sub(r"(?m)(^|[^:\\'\"`\w])//[^\n]*", r"\1", js)
+
+
+def test_the_app_reads_nothing_the_disclosure_is_composed_from():
+    """WP-14.6's second audit, M5. The phrase check above holds the app to one WORDING, and a second
+    spelling need not use it: measured, a caption composed in other words from
+    `placement.geometry_report.bay_module.stated_by` -- the very field `disclosures.bay_module`
+    reads -- left the whole file green. The app may print the disclosure it is served
+    (`placement.disclosures`); it may not read what the disclosure is made from, so no line of the
+    app's live code names `bay_module` or `stated_by`. `bay_module_ft`, the footprint's module the
+    grid is drawn on, is a different field and is not matched."""
+    import subprocess
+    src = subprocess.run(["git", "ls-files", "workbench/app/src"], cwd=ROOT, capture_output=True,
+                         text=True, check=True).stdout.split()
+    sheet = "workbench/app/src/sheet/Sheet.jsx"
+    assert sheet in src, "the premise: the bench sheet is where the second spelling was"
+    reads = {}
+    for f in src:
+        if f.endswith((".js", ".jsx", ".mjs")) and ".test." not in f:
+            code = _code(open(os.path.join(ROOT, f), encoding="utf-8").read())
+            got = re.findall(r"\b(?:bay_module|stated_by)\b", code)
+            if got:
+                reads[f] = got
+    assert not reads, "the app reads what the bay-module disclosure is composed from: %s" % reads
+    # the instrument: it sees such a read in live code, and not in a comment or in `bay_module_ft`
+    assert re.findall(r"\b(?:bay_module|stated_by)\b", _code(
+        "const who = placement?.geometry_report?.bay_module?.stated_by; // bay_module\n"
+        "/* stated_by */ const ft = fp.bay_module_ft; const u = 'https://x.invalid/a';\n")) == [
+            "bay_module", "stated_by"]

@@ -160,3 +160,29 @@ def test_an_architrave_is_not_an_arch_and_an_arch_still_is():
     assert got["regency"] == ({None}, 0), got["regency"]
     assert all("arch" in str(h).split("-") for h in got["tidewater-georgian"][0]), got
     assert got["tidewater-georgian"][1] > 0 and got["mid-atlantic-georgian"][1] > 0, got
+
+
+def test_the_datums_words_follow_the_table_when_it_mirrors_a_face(monkeypatch):
+    """WP-14.6's second audit, M4. `face_u_words()` reads `FACE_MIRRORED`, and the one test of it
+    (`tests/test_elevation.py`) runs on the shipped table, where no face is mirrored, so the
+    MIRRORED clause had never been read: measured, labelling it with the plain rule, and dropping
+    it altogether, both left every test green. The table is set here as a ruling would set it --
+    N and W read against the plan's axis -- and the words are held to the table and to what
+    `face_u_ft` then returns, face by face. With every face mirrored the plain clause is the one
+    with nothing to say, which is the other end of the same join."""
+    import re
+    EL = _m("elevation")
+    monkeypatch.setattr(EL, "FACE_MIRRORED", {"S": False, "E": False, "N": True, "W": True})
+    words = EL.face_u_words()
+    assert words == ("u = along + t on S and E; u = clear span + t - along on N and W "
+                     "(`elevation.face_u_ft`)"), words
+    for face in EL.FACES:
+        rule = next((r for r in words.split(";") if re.search(r"\b%s\b" % face, r)), None)
+        assert rule is not None, (face, words)
+        mirrored = "clear span" in rule
+        assert mirrored == EL.FACE_MIRRORED[face], (face, words)
+        span = 40.0 if face in ("S", "N") else 30.0
+        assert EL.face_u_ft(face, 10.0, 40.0, 30.0, 1.0) == ((span + 1.0 - 10.0) if mirrored else 11.0), face
+    monkeypatch.setattr(EL, "FACE_MIRRORED", {f: True for f in EL.FACES})
+    assert EL.face_u_words() == ("u = clear span + t - along on S and N and E and W "
+                                 "(`elevation.face_u_ft`)"), EL.face_u_words()
