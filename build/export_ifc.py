@@ -146,6 +146,21 @@ def _pset(f, product, props):
 
 
 def _placement(f, product, xyz, rot_z_deg=0.0):
+    """`xyz` is in the PROJECT's unit -- the record's feet, or in the stated SI fallback the same
+    feet values, as that fallback's note says.
+
+    `is_si=False`, AND ITS ABSENCE HAD PUT EVERY PRODUCT OF EVERY MODEL AT 3.28 TIMES ITS PLACE
+    (audit, 27 Sep 2026). `geometry.edit_object_placement` defaults to `is_si=True`: it reads the
+    matrix as METRES and converts it into the project's unit, so a coordinate in feet was divided
+    by 0.3048 on its way into the file. Every body (`_box`, a profile in the record's own feet) is
+    the right size and every placement is 3.2808 times too far from the origin -- measured on
+    `spec-builder-colonial`, the Foyer's centre (6.75, 27.72) ft written at (22.13, 90.93). A
+    model of scattered, correctly-sized pieces, and the storey's `Elevation` (set directly, in
+    feet) disagreeing with its own placement. Since this function was written, and invisible to
+    every guard: the selftest counts entities and ids, the ids test reads the pset, and the one
+    test comparing opening and wall reads them RELATIVE to each other, where a uniform scale
+    cancels. `tests/test_ifc_openings_are_the_sheets.py` reads placements against the record now.
+    """
     import numpy as np
     m = np.eye(4)
     if rot_z_deg:
@@ -153,7 +168,7 @@ def _placement(f, product, xyz, rot_z_deg=0.0):
         m[0][0], m[0][1] = math.cos(a), -math.sin(a)
         m[1][0], m[1][1] = math.sin(a), math.cos(a)
     m[0][3], m[1][3], m[2][3] = xyz
-    _run("geometry.edit_object_placement", f, product=product, matrix=m)
+    _run("geometry.edit_object_placement", f, product=product, matrix=m, is_si=False)
 
 
 def _box(f, body_ctx, product, w, d, h):
@@ -275,7 +290,11 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
         counts["slabs"] += 1
 
     # ---- walls per level, from structure.py's own wall lines
-    exterior_walls = {}   # (level, wall_letter) -> (IfcWall, along_axis)
+    # EVERY EXTERIOR WALL, WITH ITS FACE AND ITS RUN (audit, 27 Sep 2026). This was a map keyed
+    # (level, letter), so on a house of several massing elements the LAST element's W wall hosted
+    # every W window of the level; an opening now finds the exterior wall of its letter whose face
+    # is the opening's own face and whose run contains it -- `_host`, below.
+    exterior_walls = {}   # level -> [(IfcWall, along_axis, cx, cy, z, t, letter, face, lo, hi)]
     for lv in section["levels"]:
         idx = lv.get("index", 0)
         if idx not in storeys:
@@ -301,8 +320,14 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
             cx = wl["position_ft"] if along_y else (wl["lo_ft"] + wl["hi_ft"]) / 2
             cy = (wl["lo_ft"] + wl["hi_ft"]) / 2 if along_y else wl["position_ft"]
             if wl["role"] == "exterior":
-                # inner face on the clear line: shift half a thickness outward
-                out = -t / 2 if wl["position_ft"] <= 0.01 else t / 2
+                # inner face on the clear line: shift half a thickness OUTWARD, which is the side
+                # the wall's own letter names (audit, 27 Sep 2026). This read `position_ft <= 0.01`,
+                # which is the same answer on a one-rectangle house and the wrong one for a
+                # dependency's E wall at x = -7: it shifted west, into the dependency. A wall with no
+                # compass letter (one facing a court) keeps the old reading.
+                letter = wl.get("wall")
+                out = ((-t / 2 if letter in ("W", "S") else t / 2) if letter in ("N", "E", "S", "W")
+                       else (-t / 2 if wl["position_ft"] <= 0.01 else t / 2))
                 if along_y:
                     cx += out
                 else:
@@ -318,7 +343,17 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
                             "construction_type": wall_rec["construction_type"]})
             counts["walls"] += 1
             if wl["role"] == "exterior":
-                exterior_walls[(idx, wl["wall"])] = (wall, "y" if along_y else "x", cx, cy, z, t)
+                exterior_walls.setdefault(idx, []).append(
+                    (wall, "y" if along_y else "x", cx, cy, z, t, wl.get("wall"),
+                     wl["position_ft"], wl["lo_ft"], wl["hi_ft"]))
+
+    def _host(idx, letter, face, along):
+        return next((h for h in exterior_walls.get(idx, [])
+                     if h[6] == letter and abs(h[7] - face) <= 0.05
+                     and h[8] - 0.05 <= along <= h[9] + 0.05), None)
+
+    RP = _mod("render_plan", f"{ROOT}/build/render_plan.py")
+    EL_ = _mod("elements", f"{ROOT}/build/elements.py")
 
     # ---- spaces and their windows/doors, from the solved placement
     for lv in geo["levels"]:
@@ -327,6 +362,7 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
             continue
         storey, st = storeys[idx]
         z = float(st["grade_to_floor_ft"])
+        bounds = EL_.bounds_index(geo, lv["rooms"])
         for r in lv["rooms"]:
             g = r.get("geometry")
             if not g:
@@ -345,31 +381,48 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
 
             for wi, win in enumerate(r.get("windows") or []):
                 wall_letter = win.get("wall")
-                host = exterior_walls.get((idx, wall_letter))
                 cnt = win.get("count") or 1
                 w_ft = win.get("width_ft") or 3.0
                 h_ft = win.get("height_ft")
                 head_ft = r.get("window_head_ft")
+                # WHERE THE PLACEMENT SEATS EACH UNIT, AND NOWHERE ELSE (audit, 27 Sep 2026). This
+                # spaced every declared unit evenly along the room's edge (`(k + 1) / (cnt + 1)`) on
+                # the footprint's outer face, and never read the placed `positions_ft` or the
+                # placer's `unplaced` -- measured over the twelve drawable reference plans, 112
+                # window units cut against the 57 the plan sheet draws, 55 of them units the placer
+                # REFUSED (bad-01 5 against 3, good-03 11 against 2, good-04 9 against 2). A unit is
+                # cut where the record seats it, on the face `render_plan._boundary_wall` gives the
+                # sheet (the room's own element's), in the exterior wall that face belongs to; a
+                # unit the placer refused is carried as data with the placer's own reason.
+                seat = RP._boundary_wall(g, wall_letter, W, D, 0.6, bounds.get(r["id"]))
+                pos = [float(q) for q in (win.get("positions_ft") or [])] if seat else []
                 for k in range(cnt):
                     window = _run("root.create_entity", f, ifc_class="IfcWindow",
                                   name=f"{r['id']} window {wi}.{k}")
-                    note = None
-                    if host is None:
-                        note = (f"record names wall '{wall_letter}' but the solved placement "
-                                f"has no exterior wall of that letter on this level — no "
-                                f"geometry emitted, the record is carried as data")
-                    elif h_ft is None:
-                        note = "record states no height_ft — no geometry emitted, not guessed"
+                    note, host = None, None
+                    if k >= len(pos):
+                        why = ((win.get("unplaced") or {}).get("reason")
+                               or ("the placement puts this room on no such boundary wall"
+                                   if not seat else "the record carries no placed position for it"))
+                        note = (f"not placed: {why} — no geometry emitted, the record is carried "
+                                f"as data, and the plan sheet draws no sash here either")
+                    else:
+                        host = _host(idx, wall_letter, seat[3], pos[k])
+                        if host is None:
+                            note = (f"record names wall '{wall_letter}' but the solved placement "
+                                    f"has no exterior wall of that letter on this room's face — no "
+                                    f"geometry emitted, the record is carried as data")
+                        elif h_ft is None:
+                            note = "record states no height_ft — no geometry emitted, not guessed"
                     if note is None:
-                        t_frac = (k + 1) / (cnt + 1)
-                        # along the room's own edge on that wall, the plan-render convention
+                        # centred IN its wall, through its whole thickness: the box took the wall's
+                        # thickness and stood on the wall's inner face, so it cut only the inner
+                        # half of the wall it was meant to pierce (same audit)
                         if wall_letter in ("S", "N"):
-                            cx = g["x_ft"] + g["width_ft"] * t_frac
-                            cy = 0.0 if wall_letter == "S" else D
+                            cx, cy = pos[k], host[3]
                             w_, d_ = w_ft, host[5]
                         else:
-                            cx = 0.0 if wall_letter == "W" else W
-                            cy = g["y_ft"] + g["depth_ft"] * t_frac
+                            cx, cy = host[2], pos[k]
                             w_, d_ = host[5], w_ft
                         # the record's own sill_ft first (schema has carried it
                         # since 0.1.0, unused until WP-5.5 noticed), then the
@@ -392,6 +445,7 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
                                           "tdl_id": f"{r['id']}-window-{wi}-{k}",
                                           "room": r["id"], "wall": wall_letter,
                                           "width_ft": w_ft, "height_ft": h_ft,
+                                          "position_ft": round(pos[k], 3),
                                           "sill_ft": round(sill, 2), "sill_source": sill_src,
                                           "operable": win.get("operable")})
                     else:
@@ -407,17 +461,25 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
 
     # ---- interior doors: an IfcDoor per shared-wall door record (drawn once per
     # pair, the plan-render convention); exterior doors carry data, no geometry
-    RP = _mod("render_plan", f"{ROOT}/build/render_plan.py")
-    for lv in geo["levels"]:
+    #
+    # WHERE THE SHEET HANGS EACH LEAF (audit, 27 Sep 2026). A door stood at the midpoint of the
+    # shared run `render_plan._shared` found, which is where a door was drawn before WP-6.2 gave
+    # every door a placed position -- measured over the twelve drawable reference plans, 10 of 84
+    # interior doors stood somewhere the plan sheet does not draw them, the worst 4.23 ft away
+    # (good-02, family to kitchen). The door is read from `render_plan.openings_of_level`, the
+    # sheet's own call: its seat where it has one, its refusal, in the placer's words, where not.
+    for i_lv, lv in enumerate(geo["levels"]):
         idx = lv.get("index", 0)
         if idx not in storeys:
             continue
         storey, st = storeys[idx]
         z = float(st["grade_to_floor_ft"])
-        rects = {r["id"]: r.get("geometry") for r in lv["rooms"] if r.get("geometry")}
+        ops = RP.openings_of_level(geo, lv, i_lv)
+        seated = {tuple(sorted(e["pair"])): e for e in ops["interior"]}
+        refused = {tuple(sorted((u["from"], u["to"]))): u.get("reason")
+                   for u in ops["undrawable"] if u.get("to") != "exterior"}
         drawn = set()
         for r in lv["rooms"]:
-            a = rects.get(r["id"])
             for di, d in enumerate(r.get("doors") or []):
                 to = d["to"]
                 key = tuple(sorted((r["id"], to)))
@@ -426,24 +488,24 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
                 props = {"plan_id": pid, "style": style,
                          "tdl_id": f"{r['id']}-door-{di}", "room": r["id"], "to": to,
                          "width_ft": d.get("width_ft")}
-                # WP-6.1: the door's own leaf and jambs decide whether it has a wall to
-                # sit in, not a flat 3.2 ft applied to every door alike (OQ 41/63)
-                seg = (RP._shared(a, rects[to], width_ft=(d.get("width_ft") or RP.DEFAULT_DOOR_FT))
-                       if (a and to in rects) else None)
-                if to == "exterior" or seg is None or key in drawn:
-                    props["geometry_note"] = ("exterior door — leaf placement is the elevation "
-                                              "generator's judgment, not the plan record's"
-                                              if to == "exterior" else
-                                              "no shared wall segment in the solved placement"
-                                              if seg is None else
-                                              "pair already carries the placed leaf")
+                e = seated.get(key)
+                if to == "exterior" or e is None or key in drawn:
+                    props["geometry_note"] = (
+                        "exterior door — carried as data; this model cuts no exterior door "
+                        "opening (the plan sheet and the elevation draw it where the placement "
+                        "seats it)" if to == "exterior" else
+                        f"not placed: {refused.get(key) or 'no shared wall segment in the solved placement'}"
+                        if e is None else
+                        "pair already carries the placed leaf")
                 else:
                     drawn.add(key)
-                    (px, py), horiz = seg
-                    w_ft = d.get("width_ft") or 3.0
+                    horiz = e["horiz"]
+                    px, py = (e["pos_ft"], e["at_ft"]) if horiz else (e["at_ft"], e["pos_ft"])
+                    w_ft = e["width_ft"]
                     w_, d_ = (w_ft, t_part) if horiz else (t_part, w_ft)
                     _box(f, body, door, w_, d_, 6.67)
                     _placement(f, door, (px, py, z))
+                    props["position_ft"] = round(e["pos_ft"], 3)
                     props["height_ft"] = 6.67
                     props["height_source"] = "editorial default 6 ft 8 in leaf"
                 _run("spatial.assign_container", f, products=[door], relating_structure=storey)
