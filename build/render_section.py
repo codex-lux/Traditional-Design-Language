@@ -13,6 +13,7 @@ and it is the same discipline `render_plan.py` already applies to a solved plan.
                                              span_check() found exceeds its structure's capacity.
 """
 import os
+import textwrap
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def _mod(n, p):
@@ -26,6 +27,7 @@ def _mod(n, p):
     import modcache as _mc
     return _mc.load(n, p)
 SS = _mod("sheet_style", f"{ROOT}/build/sheet_style.py")
+DISC = _mod("disclosures", f"{ROOT}/build/disclosures.py")
 
 # The palette is build/sheet_style.py's now -- ONE spelling, not four. It carried a verbatim
 # copy of the same ten-key dict, under a comment saying the duplication was the price of every
@@ -212,7 +214,19 @@ def render_bearing_diagram(section, path, scale=7.0):
                if b.get("id") is not None}
     pw, ph = (X1 - X0) * scale, (Y1 - Y0) * scale
     total_w = pad * 2 + len(levels) * pw + max(0, len(levels) - 1) * gap
-    total_h = top + ph + 60
+    # THE MODULE THE BEARING WALLS ARE READ OFF, WHERE THE RECORD STATES NONE (audit, 27 Sep 2026).
+    # `build_section` records whether its module is the record's or the placer's default, and this
+    # plate -- whose whole subject is the walls read off that module -- said nothing, while the
+    # plan sheet has said it since WP-14.4. One spelling, `disclosures.no_bay_module`; WRAPPED to
+    # the canvas (7.5 px monospace, 4.6 px a character), because a one-level plate of a narrow
+    # house is narrower than the sentence and a line run off the sheet is a disclosure it does not
+    # make. The canvas grows by the extra lines; with no note it is byte-identical.
+    _bm = section.get("bay_module") or {}
+    _bm_lines = (textwrap.wrap(DISC.no_bay_module(DISC.bearing_off_default(_bm["ft"])),
+                               max(24, int((total_w - 2 * pad) / 4.6)),
+                               break_long_words=False, break_on_hyphens=False)
+                 if _bm and not _bm.get("on_record") else [])
+    total_h = top + ph + 60 + 10 * max(0, len(_bm_lines) - 1)
 
     # WP-12.4: one plate per level, so one entry per level -- and the loop below reads the
     # SAME origin function, which is what stops the attribute and the ink drifting apart.
@@ -287,6 +301,9 @@ def render_bearing_diagram(section, path, scale=7.0):
         bearing_n = sum(1 for w in lv["walls"] if w["bearing"])
         s.append(f'<text class="dm" x="{ox:.1f}" y="{oy+ph+18:.1f}">{len(lv["walls"])} WALL LINES, {bearing_n} BEARING, '
                   f'{len(lv.get("spans_exceeding_capacity", []))} SPAN(S) OVER CAPACITY</text>')
+
+    for _k, _ln in enumerate(_bm_lines):
+        s.append(f'<text class="dm" x="{pad}" y="{top+ph+36+10*_k:.1f}">{_esc(_ln)}</text>')
 
     s.append('</svg>')
     open(path, "w").write("\n".join(s))

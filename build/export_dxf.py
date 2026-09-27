@@ -64,6 +64,7 @@ def _mod(n, p):
 # WP-12.2: the opening rectangle and the loop around it are `elevation.opening_rects`,
 # read here rather than transcribed a second time.
 EL = _mod("elevation", f"{ROOT}/build/elevation.py")
+DISC = _mod("disclosures", f"{ROOT}/build/disclosures.py")
 
 APPID = "TDL"
 IN = 12.0                      # record feet -> drawing inches
@@ -298,13 +299,24 @@ def export_plan_dxf(plan, path, parti=None, candidates=250, solved=None):
                             (x0 + lw - ss_in, y0 + ld - sr_in), (x0 + ss_in, y0 + ld - sr_in)],
                            close=True, dxfattribs={"layer": site_layer})
 
-    # bay grid
-    bm = (fp.get("bay_module_ft") or 10) * IN
+    # bay grid -- NONE WHERE THE RECORD STATES NO MODULE (audit, 27 Sep 2026). This read
+    # `or 10` and drew a 10 ft grid under a title printing "BAYS OF ? FT", the fallback WP-14.4
+    # removed from the plan sheet and the bench ("a record with no module at all draws no grid
+    # on either sheet") surviving in the third drawing of the same plan. It fires on nothing
+    # shipped -- every placed record states a module -- and it drew 2 to 9 grid lines a plan on
+    # the twelve drawable reference plans once the module was withdrawn (auditor D's probe).
+    # The sentence is `disclosures.no_bay_module`'s, with THIS drawing's consequence only: the
+    # DXF draws no grid and tells no wall bearing from partition, so it claims nothing about the
+    # walls.
+    bm = (fp.get("bay_module_ft") or 0) * IN
     grid_layer = _layer(doc, "TDL-GRID", color=8, linetype="DASHED")
-    b = bm
-    while b < W - 0.1:
-        msp.add_line((b, 0), (b, H), dxfattribs={"layer": grid_layer})
-        b += bm
+    if bm:
+        b = bm
+        while b < W - 0.1:
+            msp.add_line((b, 0), (b, H), dxfattribs={"layer": grid_layer})
+            b += bm
+    else:
+        _text(msp, title_layer, DISC.no_bay_module(DISC.NO_BAY_GRID), 0, -2.5 * TITLE_H, h=TEXT_H)
 
     levels = [lv for lv in solved["levels"] if any("geometry" in r for r in lv["rooms"])]
     doors_not_drawn = []

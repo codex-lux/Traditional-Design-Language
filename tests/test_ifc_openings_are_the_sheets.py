@@ -46,8 +46,8 @@ def _L(n):
 
 
 GEO, EI, RP, ST = _L("geometry"), _L("export_ifc"), _L("render_plan"), _L("structure")
-PLANS = sorted(glob.glob(os.path.join(ROOT, "plans", "*.json"))
-               + glob.glob(os.path.join(ROOT, "plans", "reference", "*.json")))
+PLANS = (sorted(glob.glob(os.path.join(ROOT, "plans", "*.json")))
+         + sorted(glob.glob(os.path.join(ROOT, "plans", "reference", "*.json"))))
 TOL = 0.01          # ft; every figure below is written at three decimals or better
 
 

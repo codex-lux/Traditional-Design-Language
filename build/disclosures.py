@@ -441,6 +441,37 @@ def bay_module(plan):
                     f"AND THE BEARING WALLS ARE READ OFF IT"}
 
 
+NO_BAY_GRID = "NO BAY GRID DRAWN"
+
+
+def bearing_off_default(ft):
+    """What a module-less record costs the bearing walls: they are told from partitions on a grid
+    nobody stated. `ft` is the default the READER used, handed in, never a figure this module
+    owns."""
+    return f"THE BEARING WALLS ARE READ OFF THE PLACER'S DEFAULT {ft:g} FT"
+
+
+def no_bay_module(*consequences):
+    """THE ONE SPELLING OF A RECORD THAT STATES NO BAY MODULE AT ALL (audit, 27 Sep 2026).
+
+    Not `bay_module` above, which is a module the placer DID state, from its own default, with no
+    parti behind it. This is the other case: a record carrying no `bay_module_ft` whatever -- one
+    ingested from a drawing, or placed before the field existed. It fires on nothing shipped,
+    because every placed record states a module; it is the case WP-14.4 wrote for the plan sheet
+    (*"a record with no module at all draws no grid on either sheet"*) and auditor D found three
+    drawings of the same plan still defaulting in silence: the DXF drew a 10 ft grid under a title
+    printing "BAYS OF ? FT", and the bearing plate -- the sheet whose subject is the walls read off
+    that module -- said nothing at all.
+
+    THE FACT IS SHARED AND THE CONSEQUENCE IS NOT, so each surface hands in what the missing module
+    decided on IT: the plan sheet draws no grid and reads its bearing walls off the default, the
+    DXF draws no grid, the bearing plate reads its walls off it. A surface on which the module
+    decides nothing drawn -- the elevation, whose storey windows are sized off a head and a sill
+    and consult the module only for a cross-check the record carries -- prints nothing, because a
+    sentence claiming the default shaped that drawing would be false."""
+    return "NO BAY MODULE ON THE RECORD — " + "; ".join(consequences)
+
+
 def transfers(plan):
     """Upper wall lines landing on no wall below. Each is a transfer beam, and the count lives
     only inside an English sentence in `geometry_report.vertical`."""

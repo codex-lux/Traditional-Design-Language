@@ -458,6 +458,13 @@ def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
     clear_fp = geometry_result["footprint"]
     outside_fp = outside_to_outside_footprint(clear_fp, wall)
     bay_module_ft = clear_fp.get("bay_module_ft") or 10.0
+    # A RECORD STATING NO BAY MODULE IS SAID AND NOT DEFAULTED IN SILENCE (audit, 27 Sep 2026).
+    # The bearing walls below are read off a module, and where the record states none they are
+    # read off the placer's own 10 ft -- which the plan sheet has said since WP-14.4 ("NO BAY
+    # MODULE ON THE RECORD ... THE BEARING WALLS ARE READ OFF THE PLACER'S DEFAULT 10 FT") while
+    # the bearing plate, the sheet whose subject is those walls, said nothing. Carried here so
+    # every reader of the section says it from one record.
+    bay_module = {"ft": bay_module_ft, "on_record": bool(clear_fp.get("bay_module_ft"))}
 
     # span_check() decides hand-timber-vs-light-frame from the plan's STYLE against timber-
     # bay.json's own applies_to list (see that function's docstring for why). That is a real,
@@ -556,7 +563,7 @@ def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
         "plan_id": plan.get("id"), "style": plan.get("style"), "wall": wall,
         "footprint": outside_fp, "levels": levels_out, "storeys": storeys,
         "storey_graduation": grad, "roof": roof, "stair": stair,
-        "framing_basis": framing_basis,
+        "framing_basis": framing_basis, "bay_module": bay_module,
         "geometry": geometry_result,
     }
 

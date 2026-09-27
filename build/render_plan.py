@@ -1194,8 +1194,11 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # a drawing, or placed before the field existed -- and read the bearing walls off it. The
         # grid is not drawn; the walls still need a module to be told bearing from partition, so
         # they take the placer's own default and this line says so.
-        schedule.append((L["salmon_deep"], "NO BAY MODULE ON THE RECORD — NO BAY GRID DRAWN; THE "
-                         "BEARING WALLS ARE READ OFF THE PLACER'S DEFAULT 10 FT"))
+        # The sentence is `disclosures.no_bay_module`'s (audit, 27 Sep 2026): the bearing plate
+        # and the DXF say the same fact with their own consequence, and 10.0 is `wall_bands`' own
+        # default, the one the walls on this sheet were read off.
+        schedule.append((L["salmon_deep"], DISC.no_bay_module(DISC.NO_BAY_GRID,
+                                                              DISC.bearing_off_default(10.0))))
     if all_stray:
         # An opening whose wall the band pass could not find. It is still DRAWN as a leaf or a
         # sill by the passes below -- this says only that no wall body was opened for it, which

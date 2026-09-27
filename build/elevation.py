@@ -2523,6 +2523,17 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         _storey_window(op_pack, sash_pack, ground, bay_module_ft * 12.0, glass_module_in),
         _storey_window(op_pack, sash_pack, upper, bay_module_ft * 12.0, glass_module_in),
     ]
+    # THE CROSS-CHECK SAYS WHICH MODULE IT READ (audit, 27 Sep 2026). The storey windows are sized
+    # off a head and a sill (`_storey_window`'s docstring); the bay module decides only the
+    # room-width diagnostic beside them. So a record stating no module is said HERE, in the record
+    # that carries the diagnostic, and NOT on the plate -- a sentence there claiming the placer's
+    # default shaped the drawing would be false. Auditor D's F9 listed this line "for window
+    # sizing"; reading `_storey_window` is what showed it sizes nothing drawn.
+    if not section["geometry"]["footprint"].get("bay_module_ft"):
+        for _sw in storey_windows:
+            _sw["room_width_diagnostic_note"] += (
+                f" The bay module used as that proxy is the placer's default {bay_module_ft:g} ft: "
+                f"the record states none.")
 
     entrance_face = (plan.get("context") or {}).get("entrance_faces") or "S"
     is_masonry = section["wall"].get("bearing") == "load-bearing-masonry"
