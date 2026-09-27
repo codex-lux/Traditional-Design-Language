@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 480" width="738" height="480">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 480" width="738" height="480" data-frame='{"plates":[{"id":"cornice","proj":"profile","unit":"in","px_per_in":30.967842,"origin_px":[70,74],"at_origin_in":[5.0,171.0],"datum":"naked"}]}'>
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
 <rect width="738" height="480" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Vignola's Ionic Order — cornice</text>

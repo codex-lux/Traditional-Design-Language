@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 830" width="738" height="830">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 830" width="738" height="830" data-frame='{"plates":[{"id":"capital","proj":"profile","unit":"in","px_per_in":44.285714,"origin_px":[70,74],"at_origin_in":[5.07692,160.0],"datum":"axis"}]}'>
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
 <rect width="738" height="830" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Palladio's Composite Order (overlay on Vignola) — capital</text>

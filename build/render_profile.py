@@ -41,6 +41,7 @@ manifest_io = modcache.load(
 
 PE = modcache.load("proportion_engine", os.path.join(ROOT, "build", "proportion_engine.py"))
 PROF = modcache.load("profiles", os.path.join(ROOT, "build", "profiles.py"))
+SS = modcache.load("sheet_style", os.path.join(ROOT, "build", "sheet_style.py"))
 
 ASSETS = os.path.join(ROOT, "assets", "manifest.json")
 _ID_RE = re.compile(r"[a-z0-9]+(-[a-z0-9]+)*")   # schema/asset.schema.json's own pattern
@@ -183,7 +184,19 @@ def render(pack_id, assembly_id, module_in=6.0):
         _foot_rows += max(1, -(-len(_ln) // _foot_budget))
     H = int(pad * 2 + box_h + 34 + _foot_rows * 11)
 
-    s = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">',
+    # WP-14.1: WHAT THIS PLATE'S PIXELS MEAN IN INCHES, stated rather than left for a reader to
+    # re-derive from this function's own arithmetic. `sheet_style.frame_attr`'s one affine, in the
+    # plate's own unit: u is inches out from the axis (the naked sits at u = `naked`), v is inches
+    # up the stack. A reader that recomputed `k` from the geometry would be checking this file
+    # against itself; the frame is what lets `tests/inkread.py` read the ink back independently.
+    # `datum` is the one this assembly was DRAWN on (profiles.axis_holds_for's per-group answer),
+    # so a reader holding the ink to the record measures each face from the plane the ink used.
+    _frames = {"plates": [{"id": assembly_id, "proj": "profile", "unit": "in",
+                           "px_per_in": round(k, 6), "origin_px": [px0, py0],
+                           "at_origin_in": [round(naked, 6), round(y1, 6)],
+                           "datum": "axis" if from_axis else "naked"}]}
+    s = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" '
+         f"data-frame='{SS.frame_attr(_frames)}'>",
          '<style>'
          f'.lb{{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:{PAL["ink"]};letter-spacing:.08em}}'
          f'.dm{{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:{PAL["ink3"]}}}'
@@ -316,7 +329,14 @@ def main():
                 continue
             rel = os.path.join("assets", "generated", asset["id"] + ".svg")
             path = os.path.join(ROOT, rel)
-            open(path, "w").write(svg + "\n")
+            # ATOMIC, on build/build.py's own idiom and for its reason: an in-place `open(path,
+            # "w")` truncates before it writes, so a process killed mid-write leaves a COMMITTED
+            # plate truncated on disk and every reader of it (the manifest's digest, the
+            # server's /corpus/assets route, the census) reading half a drawing. WP-14.1.
+            tmp = path + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as fh:
+                fh.write(svg + "\n")
+            os.replace(tmp, path)
             data = open(path, "rb").read()
             asset["file"] = {"path": rel, "format": "svg",
                              "width": rep["plate_w"], "height": rep["plate_h"],

@@ -15,8 +15,8 @@ model was interrogated and the drawing was not.
 
 So this file starts from the emitted string and works backwards:
 
-  * `_svg_arc_centre` is the W3C SVG 1.1 F.6.5 endpoint-to-centre parameterisation, implemented
-    here rather than imported from the code under test, because a guard that shares an
+  * `_svg_arc_centre` is the W3C SVG 1.1 F.6.5 endpoint-to-centre parameterisation, taken
+    from `tests/inkread.py` and never from the code under test, because a guard that shares an
     implementation with its subject cannot catch that implementation being wrong.
   * `drawn_points` renders a member through the real `svg_path()` and returns where the ink
     actually goes.
@@ -50,36 +50,11 @@ SX = lambda x: OX + x * K          # noqa: E731
 SY = lambda y: OY - y * K          # noqa: E731
 
 
-def _svg_arc_centre(x1, y1, rx, ry, phi, fa, fs, x2, y2):
-    """W3C SVG 1.1 F.6.5. Deliberately an independent implementation."""
-    cphi, sphi = math.cos(phi), math.sin(phi)
-    dx2, dy2 = (x1 - x2) / 2.0, (y1 - y2) / 2.0
-    x1p, y1p = cphi * dx2 + sphi * dy2, -sphi * dx2 + cphi * dy2
-    lam = (x1p * x1p) / (rx * rx) + (y1p * y1p) / (ry * ry)
-    if lam > 1:
-        rx *= math.sqrt(lam)
-        ry *= math.sqrt(lam)
-    num = rx * rx * ry * ry - rx * rx * y1p * y1p - ry * ry * x1p * x1p
-    den = rx * rx * y1p * y1p + ry * ry * x1p * x1p
-    co = math.sqrt(max(0.0, num / den))
-    if fa == fs:
-        co = -co
-    cxp, cyp = co * (rx * y1p / ry), co * (-ry * x1p / rx)
-    cx = cphi * cxp - sphi * cyp + (x1 + x2) / 2.0
-    cy = sphi * cxp + cphi * cyp + (y1 + y2) / 2.0
-
-    def ang(ux, uy, vx, vy):
-        d = (ux * vx + uy * vy) / (math.hypot(ux, uy) * math.hypot(vx, vy))
-        a = math.acos(max(-1.0, min(1.0, d)))
-        return -a if (ux * vy - uy * vx) < 0 else a
-
-    th1 = ang(1, 0, (x1p - cxp) / rx, (y1p - cyp) / ry)
-    dth = ang((x1p - cxp) / rx, (y1p - cyp) / ry, (-x1p - cxp) / rx, (-y1p - cyp) / ry)
-    if fs == 0 and dth > 0:
-        dth -= 2 * math.pi
-    if fs == 1 and dth < 0:
-        dth += 2 * math.pi
-    return cx, cy, rx, ry, th1, dth
+# THE ONE INDEPENDENT COPY OF W3C F.6.5 lives in `tests/inkread.py` now (WP-14.1). This file and
+# `tests/test_sheet_coherence.py` each carried their own until then; the move was proved
+# bit-identical to both on a seeded sweep of ten thousand arcs before either was deleted, and
+# the independence argument is unchanged -- `inkread` imports nothing from `build/`.
+from inkread import arc_centre as _svg_arc_centre  # noqa: E402
 
 
 _TOK = re.compile(r"([MLA])\s*([-\d.,\s]+)")

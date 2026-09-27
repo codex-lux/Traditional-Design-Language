@@ -1,0 +1,183 @@
+"""The census's own guards (WP-14.1).
+
+`tests/svg_census.py` answers Lucas's question -- does every drawn figure on every surface agree
+with the record it was drawn from -- as a table. These tests keep the table honest in the four
+ways a table goes wrong: it stops covering the tree (a new surface nobody listed), it stops
+matching the corpus (a disagreement nobody pinned, or a fix nobody unpinned), it stops matching
+its own document, and it stops being able to say "disagrees" at all.
+
+The last is the one this repository keeps meeting. A check whose disagreeing branch the corpus
+never reaches is green whatever the ink does, so every check with no live disagreement is DRIVEN
+here: the defect it exists to catch is planted in a copy of a real plate, in memory, and the
+check must report it. Nothing here writes inside the repository.
+"""
+import json
+import os
+import subprocess
+
+import pytest
+
+import ink_surfaces as SURF
+import svg_census as C
+
+_ROWS = None
+
+
+def _rows():
+    global _ROWS
+    if _ROWS is None:
+        _ROWS = C.run()
+    return _ROWS
+
+
+# ------------------------------------------------------------------ the registry is the tree
+class TestTheRegistryIsTheTree:
+    def test_every_file_that_draws_svg_is_registered(self):
+        missing = C.unregistered()
+        assert not missing, (
+            "these files emit SVG and tests/svg_census.py's REGISTRY does not name them: %s. A "
+            "surface that draws a building needs census rows; one that does not needs a row with "
+            "role 'out-of-scope' and a reason." % missing)
+
+    def test_every_registered_file_exists(self):
+        """A row naming a file that is gone is a claim of coverage over nothing."""
+        gone = [r["file"] for r in C.REGISTRY if not os.path.exists(os.path.join(C.ROOT, r["file"]))]
+        assert not gone, gone
+
+    def test_every_producer_and_carrier_is_found_by_the_scan(self):
+        """If the scan cannot see a surface already listed, it could not see a new one either,
+        and `test_every_file_that_draws_svg_is_registered` would be green over a blind scan.
+        A helper builds path data a producer emits and writes no element of its own, so it is
+        the one role the scan is not asked to find."""
+        seen = set(C.emitters())
+        blind = [r["file"] for r in C.REGISTRY
+                 if r["role"] in ("producer", "carrier", "out-of-scope") and r["file"] not in seen]
+        assert not blind, blind
+
+    def test_every_out_of_scope_row_says_why(self):
+        for r in C.REGISTRY:
+            assert r["role"] in ("producer", "carrier", "helper", "out-of-scope"), r
+            if r["role"] == "out-of-scope":
+                assert len(r.get("reason") or "") > 20, r
+            else:
+                assert r.get("surface"), r
+
+    def test_the_scan_sees_a_component_that_writes_no_svg_root(self, tmp_path):
+        """The first scan matched `<svg` and nothing else, and was blind to a component that
+        returns a `<path>` inside its parent's `<svg>` -- which is where a second spelling of a
+        mark grows. Driven on a throwaway repository, with the two things that must NOT count:
+        a docstring naming `<path>[]` and a route regex's `(?P<path>`."""
+        subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+        (tmp_path / "Mark.jsx").write_text("export const Mark = () => <path d='M0 0 L1 1' />;\n")
+        (tmp_path / "carrier.jsx").write_text("<div dangerouslySetInnerHTML={{__html: s}} />\n")
+        (tmp_path / "prose.py").write_text('"""a list is reported as `<path>[]`"""\n'
+                                           'R = r"^/mcp(?P<path>/.*)$"\n')
+        assert C.emitters(str(tmp_path)) == ["Mark.jsx", "carrier.jsx"]
+
+
+# ------------------------------------------------------------------ the known set is the live set
+class TestTheKnownDisagreements:
+    def test_the_live_disagreements_are_exactly_the_known_ones(self):
+        known = set(json.load(open(C.KNOWN))["ids"])
+        live = set(C.disagreement_ids(_rows()))
+        new, fixed = sorted(live - known), sorted(known - live)
+        assert not new and not fixed, (
+            "the census moved. NEW disagreements (a drawing now departs from its record; fix it, "
+            "or if it is a defect newly MEASURED rather than newly made, add it and say so in the "
+            "commit): %s. FIXED (remove from tests/fixtures/ink_known_disagreements.json in the "
+            "same commit as the fix): %s" % (new, fixed))
+
+    def test_the_known_list_is_sorted_and_says_what_it_is(self):
+        doc = json.load(open(C.KNOWN))
+        assert doc["ids"] == sorted(set(doc["ids"])), "keep the list sorted and unique"
+        assert "held by identity" in doc["about"]
+
+
+# ------------------------------------------------------------------ the doc is the census
+class TestTheDocIsTheCensus:
+    def test_the_tables_in_docs_fidelity_are_current(self):
+        reg, table = C.render_doc_tables(_rows())
+        text = open(C.DOC).read()
+        assert C.splice(C.splice(text, "registry", reg), "checks", table) == text, (
+            "docs/fidelity.md is stale: run `python3 tests/svg_census.py --write-doc`")
+
+
+# ------------------------------------------------------------------ no check is vacuous
+class TestNoCheckIsVacuous:
+    def test_every_check_evaluated_something(self):
+        s = C.summary(_rows())
+        empty = [cid for cid, x in s.items() if not x["rows"]]
+        assert not empty, "a check that evaluated nothing reads as a check that found nothing: %s" % empty
+
+    def test_a_check_over_every_plate_reads_every_plate(self):
+        n = len(C._profile_assets())
+        assert n == 73, n
+        for cid, c in C.CHECKS.items():
+            if c["population"] == "every committed profile plate":
+                assert C.summary(_rows())[cid]["rows"] == n, cid
+
+    def test_every_committed_plate_states_its_frame_and_its_datum(self):
+        for a, g, pl, rec in C._profile_assets():
+            assert pl.plate is not None, a["id"]
+            assert pl.plate["datum"] in ("axis", "naked"), a["id"]
+            assert pl.outline is not None, (a["id"], pl.n_outlines)
+
+
+# ------------------------------------------------------------------ the checks can say "disagrees"
+def _planted(asset_id, change):
+    """One committed plate, altered in memory by `change(svg) -> svg`, as the census reads it."""
+    for a, g, pl, rec in C._profile_assets():
+        if a["id"] == asset_id:
+            svg = change(pl.svg)
+            assert svg != pl.svg, "the planted defect did not land"
+            return [(a, g, SURF.ProfilePlate(svg), rec)]
+    raise KeyError(asset_id)
+
+
+def _verdicts(monkeypatch, cid, plates):
+    monkeypatch.setattr(C, "_PLATES", plates)
+    return [r["verdict"] for r in C.CHECKS[cid]["fn"]()]
+
+
+class TestTheChecksCanDisagree:
+    """P5, P6, P9 and P12 have no live disagreement, so the corpus never reaches the branch
+    that says one. Each is driven with the defect it exists for."""
+
+    PLATE = "vignola-doric-capital-profile"
+
+    def _scaled(self, factor):
+        def change(svg):
+            import re
+            return re.sub(r'"px_per_in":([\d.]+)',
+                          lambda m: '"px_per_in":%.6f' % (float(m.group(1)) * factor), svg, count=1)
+        return change
+
+    def test_the_unplanted_plates_agree_so_each_verdict_below_is_the_plant(self):
+        """The control. Without it a 'disagrees' below could be the plate and not the plant."""
+        live = {(r["check"], r["subject"]): r["verdict"] for r in _rows()}
+        for cid in ("P5", "P6", "P12"):
+            assert live[(cid, self.PLATE)] == "agrees", cid
+        assert live[("P9", "palladio-tuscan-cornice-profile")] == "agrees"
+
+    def test_p5_sees_a_plate_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
+        got = _verdicts(monkeypatch, "P5", _planted(self.PLATE, self._scaled(1.1)))
+        assert got == ["disagrees"], got
+
+    def test_p6_sees_a_face_drawn_off_its_record(self, monkeypatch):
+        got = _verdicts(monkeypatch, "P6", _planted(self.PLATE, self._scaled(1.1)))
+        assert got == ["disagrees"], got
+
+    def test_p9_sees_an_inherited_plate_that_stops_saying_so(self, monkeypatch):
+        inherited = "palladio-tuscan-cornice-profile"      # Palladio states no Tuscan cornice (OQ 7)
+        got = _verdicts(monkeypatch, "P9", _planted(inherited, lambda s: s.replace("INHERITED", "OWN")))
+        assert got == ["disagrees"], got
+
+    def test_p12_sees_a_committed_plate_nobody_re_rendered(self, monkeypatch):
+        got = _verdicts(monkeypatch, "P12", _planted(self.PLATE, lambda s: s.replace("</svg>", "<g/></svg>")))
+        assert got == ["disagrees"], got
+
+    def test_a_plate_with_no_frame_is_unjudged_and_not_a_crash(self, monkeypatch):
+        import re
+        stripped = _planted(self.PLATE, lambda s: re.sub(r" data-frame='[^']*'", "", s, count=1))
+        for cid in ("P2", "P3", "P5", "P6"):
+            assert _verdicts(monkeypatch, cid, stripped) == ["cne"], cid

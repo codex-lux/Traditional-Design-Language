@@ -177,23 +177,14 @@ def _attrs(s):
 
 
 def _svg_arc_centre(x1, y1, rx, ry, phi, fa, fs, x2, y2):
-    """W3C SVG 1.1 F.6.5 endpoint-to-centre. Deliberately an independent implementation,
-    the same one `tests/test_drawn_geometry.py` carries for the mouldings -- a guard that
-    shares an implementation with its subject cannot catch that implementation being wrong."""
-    cphi, sphi = math.cos(phi), math.sin(phi)
-    dx2, dy2 = (x1 - x2) / 2.0, (y1 - y2) / 2.0
-    x1p, y1p = cphi * dx2 + sphi * dy2, -sphi * dx2 + cphi * dy2
-    lam = (x1p * x1p) / (rx * rx) + (y1p * y1p) / (ry * ry)
-    if lam > 1:
-        rx *= math.sqrt(lam)
-        ry *= math.sqrt(lam)
-    num = rx * rx * ry * ry - rx * rx * y1p * y1p - ry * ry * x1p * x1p
-    den = rx * rx * y1p * y1p + ry * ry * x1p * x1p
-    co = math.sqrt(max(0.0, num / den)) if den else 0.0
-    if fa == fs:
-        co = -co
-    cxp, cyp = co * (rx * y1p / ry), co * (-ry * x1p / rx)
-    return cphi * cxp - sphi * cyp + (x1 + x2) / 2.0, sphi * cxp + cphi * cyp + (y1 + y2) / 2.0
+    """W3C SVG 1.1 F.6.5 endpoint-to-centre, the centre only. The rule itself is
+    `tests/inkread.py::arc_centre`, the ONE independent copy in the tree since WP-14.1 (this file
+    and `tests/test_drawn_geometry.py` each carried their own; the move was proved
+    bit-identical to both on ten thousand seeded arcs). A guard that shares an implementation
+    with its subject cannot catch that implementation being wrong, and `inkread` imports
+    nothing from `build/`."""
+    from inkread import arc_centre
+    return arc_centre(x1, y1, rx, ry, phi, fa, fs, x2, y2)[:2]
 
 
 _LEAF = re.compile(
