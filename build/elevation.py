@@ -1133,7 +1133,15 @@ def even_bars(a, b, n, m):
     transom's. Until WP-14.6 the transom was spelled twice more, in the SVG and in the DXF, as
     `a + (b - a) * i / n` -- the bar CENTRED on each division point of the whole width -- which
     leaves the two end lights half a bar wider than the middle ones: 10.06 in against 9.62 on
-    every drawn transom (census V18), under a legend saying the lights divide it evenly."""
+    every drawn transom (census V18), under a legend saying the lights divide it evenly.
+
+    FEWER THAN ONE LIGHT IS NO DIVISION, AND DOES NOT RAISE (audit, 27 Sep 2026). The loops this
+    replaced drew nothing for a count of 0; this divided by it, so a transom or a sash whose record
+    carried 0 lights -- none in this corpus does, every drawn transom has 4 -- took the sheet down
+    with a ZeroDivisionError, and a negative count drew a negative light. The glass is one
+    undivided light and no bar is drawn, which is what the old loops did."""
+    if not n or n < 1:
+        return b - a, []
     lw = (b - a - (n - 1) * m) / n
     return lw, [(a + i * lw + (i - 1) * m, a + i * lw + i * m) for i in range(1, n)]
 

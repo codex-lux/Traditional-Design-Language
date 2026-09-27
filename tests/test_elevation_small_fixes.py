@@ -109,3 +109,21 @@ def test_a_stack_with_no_stated_plan_size_is_not_drawn_and_is_said(placed, tmp_p
     assert not ink2.select(cls="ch"), (
         "a stack was drawn at a plan size no record states")
     assert "STACKS NOT DRAWN" in said2
+
+
+@pytest.mark.parametrize("n", [0, -2, None])
+def test_fewer_than_one_light_is_no_division_and_does_not_raise(n):
+    """AUDIT, 27 SEP 2026. `elevation.even_bars` divided by the light count, so a record carrying
+    0 lights took the sheet down with a ZeroDivisionError and a negative count drew a negative
+    light, where the loops it replaced drew nothing. The glass stays one undivided light."""
+    EL = _m("elevation")
+    assert EL.even_bars(2.0, 38.0, n, 0.875) == (36.0, [])
+
+
+def test_one_light_and_four_still_divide_as_they_did():
+    """The control: the guard above changes nothing for a real count."""
+    EL = _m("elevation")
+    assert EL.even_bars(0.0, 36.0, 1, 0.875) == (36.0, [])
+    lw, bars = EL.even_bars(0.0, 36.0, 4, 0.875)
+    assert len(bars) == 3 and abs(lw * 4 + 3 * 0.875 - 36.0) < 1e-9
+    assert all(abs((b1 - b0) - 0.875) < 1e-9 for b0, b1 in bars)
