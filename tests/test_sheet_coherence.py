@@ -514,7 +514,15 @@ def test_the_plans_stacks_are_the_roofs_stacks(sheets, kind, engine):
     construction and measures the frame, not the house. What a reader sees is whether the
     chimney stands over the fire ALONG the gable, and which end it is on."""
     out, _svg, _ = sheets(kind, engine)
-    roof = RF.build_roof(copy.deepcopy(out))
+    # THE SECTION IS BUILT ON THE SHEET'S OWN PLACEMENT, AS EVERY PRODUCT CALLER BUILDS IT (audit of
+    # Phase 14, 27 Sep 2026). This called `build_roof(out)` with no section. Since `767a683` the
+    # roof reads nothing but its section's placement, so with none handed it built its own on the
+    # SEARCH engine's re-solve. On the prover's sheet that is another building, and this row, green
+    # on `c003fd6`, read the roof's W stack 19.9 ft from the plan's, three runs of three. It is
+    # WP-12.0's defect in a caller that is a test: `corpus.drawing`, both exporters and the scene all
+    # hand the roof its section, and `767a683` re-cut the two hearth tests the same way.
+    rec = copy.deepcopy(out)
+    roof = RF.build_roof(rec, section=ST.build_section(rec, geometry_result=rec))
     assert "error" not in roof, roof.get("error")
     positions = (roof.get("chimneys") or {}).get("positions") or []
     stacks = _stacks(out)

@@ -45,7 +45,10 @@ python3 build/check_all.py     # every checker, then tests/ AND workbench/server
                                # (the two CAD-export selftests report N/EV -- COULD NOT
                                #  EVALUATE -- without the optional ezdxf/ifcopenshell, and the
                                #  workbench suite the same without fastapi/httpx; that is a
-                               #  named unjudged state, never a pass)
+                               #  named unjudged state, never a pass. AND WITH THE LIBRARIES
+                               #  INSTALLED THE TWO SELFTESTS ARE N/EV TOO: WP-13.4's
+                               #  refuse-to-draw refuses both shipped plans, so neither has a
+                               #  drawable plan to round-trip -- measured 27 Sep 2026)
 ```
 
 The data and every checker run on the standard library alone, deliberately — `requirements.txt`
@@ -90,7 +93,7 @@ WHICH WAITS ON LUCAS (27 Sep 2026); WP-14.1 IS THE INSTRUMENT.** Lucas asked whe
 other drawn figure, reflects the plates and dimensions researched to source it, on every surface that
 draws SVG. **Read `docs/fidelity.md` before touching any renderer**: it is the standard (five links,
 three verdicts, four defect classes) and the live census. `tests/inkread.py` reads the SVG a reader is
-served; `tests/svg_census.py` holds sixty-eight checks over the 73 profile plates, the order stack, the orders
+served; `tests/svg_census.py` holds sixty-nine checks (sixty-eight until the audit's V22, 27 Sep 2026) over the 73 profile plates, the order stack, the orders
 page (its own scripts run in `node:vm`), the Proportions plate (its arithmetic lifted into
 `workbench/app/src/proportions/plate.js`), the elevation and its inset, the section, the roof, the plan,
 the DXF, the bench sheet (its marks lifted into `sheet/marks.js`), the tracing canvas, and the record
@@ -323,6 +326,11 @@ another:
   path.** Every user-facing caller hands `build_roof` the DECLARED record beside a section built
   on the placement. So the Drawing Set stood the Tidewater stacks 12.3 ft from their fires, under
   a note that the plan "carries no placement", while the census, feeding the placed record, agreed.
+  **CORRECTED 27 SEP 2026 (the audit of Phase 14, report §XI, A7): THE DRAWING SET NEVER DREW THAT
+  RECORD.** The product refuses the Tidewater placement on both engines, so no Drawing Set sheet
+  of it exists. The defect was real on the command-line paths that hand `build_roof` the declared
+  record and in `plan_check`'s declared-record elevation layer, and the trap stands for those. The
+  sentence named the one surface that could not show it.
 - **A V2 row can leave for the wrong reason.** Six sidelight rows left because the Tidewater
   placement has no wall beside the door, not because the kit's ban was honoured. Do not read V2's
   fall from 21 to 15 as decision 4.
@@ -345,9 +353,64 @@ on that placement, counting a breast nobody judged; alone, on this tree and on `
 package's parent), it read two. **A test that patches what a solve reads must give it a private cache**
 (`monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})`), and **a guard green in company and red alone is
 not green**. The build that followed was running when this was committed, and its verdict replaces this
-sentence.
+sentence. *(27 Sep 2026: that run stopped at 57% of the suite and left no verdict. By then it had
+shown one red of the package's own, `test_opening_sash`, which the audit of Phase 14 found and
+fixed. The audit then ran the whole build on its own head, recorded in the audit's entry below.)*
 
-**The test figure in the counts paragraph below is 2,977: re-collected at WP-14.6's close at 2,976,
+**THE AUDIT OF PHASE 14 (27 SEP 2026) FOUND TWO THINGS THAT BLOCKED DEPLOYMENT, AND NEITHER WAS THE
+PHASE'S.** Lucas asked for it before the work was called done: an attempt to find what is wrong,
+not a re-read. **Read the WP-14.6 report's §XI and §XII before trusting anything Phase 14 or its
+audit published.** §XI gives every finding, its severity, its origin, and whether it was fixed or
+deferred. §XII covers the guards.
+
+- **How it was run.** Five read-only auditors worked `117e839..c003fd6` from five angles, and two
+  mutating agents worked alone in their own trees. Every finding was reproduced before it was fixed.
+- **A stored XSS** (older than the phase, from 4 and 15 Sep). A room or level id carrying `"` closed
+  seven attribute values on the plan sheet. The Drawing Set and the Round inject that SVG with
+  `dangerouslySetInnerHTML`. `sheet_style.attr` is the one spelling now, and a hostile-id probe runs
+  through every renderer.
+- **EVERY IFC THIS SYSTEM HAS WRITTEN STOOD AT 3.2808 TIMES ITS COORDINATES** (older than the phase).
+  `edit_object_placement` read feet as metres. It was found only while writing the guard for a
+  different defect: the IFC cut 178 window units against the 98 the sheet draws. **The IFC selftest
+  round-trips ids and not geometry, so no check in the tree could have seen a scale.** The guard
+  reads absolute placements now.
+- **A BUILDER READ THE RECORD IT WAS HANDED, AND THAT RECORD WAS THE PLACEMENT ON A COLD SOLVE AND
+  THE DECLARED ONE ON A WARM ONE.**
+  - The section, the bearing plate, the IFC slabs and the roof's voids differed by CACHE STATE.
+    On the tagged Tidewater, one call gave the dependency three over-capacity spans and the other
+    invented one across the house.
+  - Every builder reads the placement now, and `corpus._placed` solves a copy. The shape is worth
+    carrying: **a result that depends on which test ran first is a result that depends on the cache.**
+- **A test certified its own defect.** `window_surround` judged a variant's condition against an
+  ASSUMED frame wall on ten of eleven plans, and its test asserted the assumed answer. An undeclared
+  wall leaves the condition undecided now, and the sheet says so.
+- **WP-14.6's headline named the one surface that could not show its defect.** See the dated
+  correction in that package's traps above.
+- **The bench agent stopped on the account's weekly limit** partway through verification.
+  - Its uncommitted worktree was committed as work in progress on its own branch before anything
+    else was done. It was then reviewed, mutation-checked and finished here.
+  - **Commit an agent's worktree before verifying it.** An uncommitted worktree is one restart from
+    gone.
+- **Where it leaves things.**
+  - The census holds at 69 checks and 46 known disagreements, both unmoved.
+  - `oq/the-dxf-draws-its-own-windows` is CLOSED.
+  - `oq/a-leaf-refused-for-a-neighbour-that-is-itself-refused` is raised. 232 of 255 leaved windows
+    lose their shutters today, judged against pairs that are themselves refused. The fewest any
+    order can refuse is 150, and one pass along the face reaches it. On 43 of 63 sheets several best
+    sets exist, so the order decides WHICH windows keep their shutters.
+- **The verdict: for what this session changed, deployment-ready, yes.** Nothing that blocks
+  deployment or is worth fixing is left unfixed.
+  - The whole build on the audit's code is `3 of 53 checks failed`. Each of its 24 failing tests is
+    attributed by id: 23 are red on the parent's code too.
+  - The 24th was the audit's own. A1's fix left a gate row handing the roof no section, so the roof
+    built its own on the search engine's re-solve. It is fixed in the audit's last commit.
+  - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
+    the next piece of work.
+
+**The test figure in the counts paragraph below is 3,090 and the app suite 316 (27 Sep 2026, the
+audit of Phase 14), each reconciled BY NAME against `c003fd6`: 116 tests added and 3 renamed away
+(two hinge-parameter ids the bench work re-cut and one surround test A6 re-cut), 37 app tests
+added and none removed.** Before the audit it was 2,977: re-collected at WP-14.6's close at 2,976,
 and the app suite 279, each reconciled BY NAME against a `git archive` of the parent -- 45 tests and
 4 app tests added, none removed -- and one more when the package's own whole build found six of its
 guards moved (a solve-cache hygiene guard, reconciled by name against `9503e61`).** At WP-14.5's close it read 2,931 and 275, at WP-14.4's 2,892 and 275, at WP-14.3's 2,863 and 255, at WP-14.2's
@@ -1025,8 +1088,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,977 tests**
-(plus the workbench app suite, **279** under `node --test`). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 3,090 tests**
+(plus the workbench app suite, **316** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
@@ -3469,6 +3532,9 @@ report by FILENAME, because the NUMBER names two packages.
   boundaries against the FOOTPRINT -- so it will also drop every dependency window once a record
   is tagged. WP-6.4 fixed "a drawing set is ONE building" at the PLACEMENT level; this is the
   same finding surviving in the window path. `oq/the-dxf-draws-its-own-windows`.
+  **CLOSED 27 SEP 2026 (the audit of Phase 14, `843b1a3`):** the DXF draws exactly the windows
+  `derive_openings` gives the sheet, where it gives them, and says the units it does not draw. The
+  unfixed exporter disagreed with the sheet on 8 of 16 plans.
 - **THE PHANTOM REPLACED A REAL SPAN RATHER THAN ADDING TO ONE, SO EVERY COUNT WAS IDENTICAL
   (WP-11.15).** The invented 30 ft run at −37..−7 displaced a real 29.9 ft run at 0..29.9:
   `over_capacity` **4**, `len(marks)` **4**, `worst_span_ft` **40.0 ft**, the same three numbers

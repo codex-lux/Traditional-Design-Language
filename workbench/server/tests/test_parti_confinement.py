@@ -38,7 +38,11 @@ ESCAPES = [
     pytest.param("../schema/plan.schema", id="relative"),
     pytest.param(os.path.join(ROOT, "schema", "plan.schema"), id="absolute"),
     pytest.param("../plans/tidewater-georgian-careful", id="sibling-directory"),
-    pytest.param("../../Traditional-Design-Language/schema/brief.schema", id="up-and-back"),
+    # The checkout's OWN name, read rather than typed (audit of Phase 14, 27 Sep 2026): this was
+    # the literal "Traditional-Design-Language", so in any checkout of another name -- a `git
+    # worktree`, which is how every whole build here is run -- the traversal landed on nothing,
+    # the premise test below went red, and it said nothing about confinement.
+    pytest.param(f"../../{os.path.basename(ROOT)}/schema/brief.schema", id="up-and-back"),
     pytest.param("./../schema/plan.schema", id="dot-slash-prefixed"),
 ]
 
