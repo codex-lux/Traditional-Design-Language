@@ -109,15 +109,15 @@ join the app without either a census row or a stated reason it is not an archite
 |---|---|---|---|---:|---:|---:|---:|
 | P1 | profile-plates | the column diameter a plate prints is the diameter it is drawn at | every committed profile plate | 73 | 73 | 0 | 0 |
 | P2 | profile-plates | the relief a plate prints is the relief its ink draws | every committed profile plate | 73 | 73 | 0 | 0 |
-| P3 | profile-plates | no ink falls inside the assembly's own naked (a moulding bitten into the member it stands on) | every committed profile plate | 73 | 67 | 6 | 0 |
-| P4 | profile-plates | every mark of ink is inside the plate's viewBox | every committed profile plate | 73 | 71 | 2 | 0 |
+| P3 | profile-plates | no ink falls inside the assembly's own naked (a moulding bitten into the member it stands on) | every committed profile plate | 73 | 73 | 0 | 0 |
+| P4 | profile-plates | every mark of ink is inside the plate's viewBox | every committed profile plate | 73 | 73 | 0 | 0 |
 | P5 | profile-plates | every member boundary the record states is a drawn vertex, and the drawn height is the stated height | every committed profile plate | 73 | 73 | 0 | 0 |
 | P6 | profile-plates | a member whose face is at its mid-height (a step or a half round) is drawn out to the face its record states | members with a published projection | 73 | 68 | 0 | 5 |
-| P7 | profile-plates | a member the record gives no projection for is SAID to have none, not drawn as though measured flush | plates holding an unpublished member | 11 | 0 | 11 | 0 |
+| P7 | profile-plates | a member the record gives no projection for is SAID to have none, not drawn as though measured flush -- and a plate where every member publishes one says that | every committed profile plate | 73 | 73 | 0 | 0 |
 | P8 | profile-plates | a member the plate calls NOT CONSTRUCTED has no curve drawn for it | plates holding a volute or acanthus member | 10 | 0 | 10 | 0 |
 | P9 | profile-plates | a plate showing another authority's members says whose they are | every committed profile plate | 73 | 73 | 0 | 0 |
 | P10 | profile-plates | a member whose record confidence is not high is marked as such on the plate | plates holding a medium- or low-confidence member | 65 | 0 | 65 | 0 |
-| P11 | profile-plates | a curved member drawn as a straight line says so | plates holding a curved profile kind | 53 | 46 | 7 | 0 |
+| P11 | profile-plates | a curved member drawn as a straight line says so | plates holding a curved profile kind | 49 | 46 | 3 | 0 |
 | P12 | profile-plates | the committed plate is the renderer's current output | every committed profile plate | 73 | 73 | 0 | 0 |
 | E1 | order-stack | the column drawn (base + shaft + capital) is the column height the pack states | order packs stating a column height | 25 | 18 | 5 | 2 |
 | E2 | order-stack | the entablature drawn is the one the pack itself states | order packs that state a whole entablature | 25 | 21 | 4 | 0 |
@@ -130,8 +130,8 @@ join the app without either a census row or a stated reason it is not an archite
 | O5 | orders-tool | every order pack the page carries can be reached from its controls | every order pack in the page | 26 | 24 | 2 | 0 |
 | O6 | orders-tool | the flute lines on the elevation fall where the stated number of flutes projects | fluted order packs, at 12 in, pedestal on | 20 | 0 | 20 | 0 |
 | R1 | proportions-plate | the plate's frame holds its own ink (the dimension gutter begins where the widest moulding ends) | order packs the plate draws, at 12 in | 25 | 13 | 12 | 0 |
-| R2 | proportions-plate | the members the plate says 'state no projection at all' are exactly the members whose record states none | order packs the plate draws, at 12 in | 25 | 8 | 17 | 0 |
-| R3 | proportions-plate | the datum the plate's caption states is the datum every assembly was drawn on | order packs the plate draws, at 12 in | 25 | 11 | 14 | 0 |
+| R2 | proportions-plate | the members the plate says 'state no projection at all' are exactly the members whose record states none | order packs the plate draws, at 12 in | 25 | 3 | 22 | 0 |
+| R3 | proportions-plate | the datum the plate's caption states is the datum every assembly was drawn on | order packs the plate draws, at 12 in | 25 | 12 | 13 | 0 |
 | V1 | elevation | every mark carrying a line-weight rung is drawn at that rung's width | every elevation sheet (plans x faces) | 44 | 0 | 44 | 0 |
 | V2 | elevation | nothing the style's resolved kit forbids is drawn, slot or variant (the row names where each prohibition comes from) | every node with a kit, on the Tidewater placement | 159 | 80 | 79 | 0 |
 | V3 | elevation | every transom or sidelight variant the style's kit makes canonical is drawn | every node with a kit, on the Tidewater placement | 26 | 0 | 26 | 0 |

@@ -440,9 +440,15 @@ class TestTheDatumDetectionsOwnBlindSpot:
     the other.
 
     So the rule is right on every group the corpus actually contains, and this test watches the
-    edge it does not: a COLUMN OR PEDESTAL group carrying both a real radius and an unrecorded
-    zero. If one is ever authored, this fails and says what to do, rather than the drawing quietly
-    doubling."""
+    edge it does not: a COLUMN OR PEDESTAL group carrying both a real radius and a WRITTEN zero.
+    If one is ever authored, this fails and says what to do, rather than the drawing quietly
+    doubling.
+
+    SINCE WP-14.2 A MISSING FIGURE IS NOT A ZERO, HERE OR IN THE RULE. `dimension()` carries an
+    unpublished projection as None and `axis_holds_for()` reads published figures only, so a
+    member nobody transcribed is no evidence for either reading. This test read `or 0.0` until
+    then -- the conflation WP-14.2 removed -- and survived only because the one pedestal whose
+    die is unjudged (`palladio-ionic`) holds no zero for the comparison to reach."""
 
     def test_no_column_group_mixes_a_real_radius_with_an_unrecorded_zero(self):
         offenders = []
@@ -455,7 +461,9 @@ class TestTheDatumDetectionsOwnBlindSpot:
             if d.get("projection_datum") != "axis":
                 continue
             geo = PROF.pack_geometry(d, r.get("column"), d.get("projection_datum"))
-            nakeds = {"pedestal": geo["die_naked_in"], "subplinth": geo["die_naked_in"],
+            # The die as DRAWN: where it is unjudged the pedestal stands on the column's radius.
+            die = geo["die_naked_in"] if geo["die_naked_in"] is not None else geo["lower_radius_in"]
+            nakeds = {"pedestal": die, "subplinth": die,
                       "base": geo["lower_radius_in"], "shaft": geo["lower_radius_in"],
                       "capital": geo["upper_radius_in"]}
             groups = {}
@@ -469,14 +477,15 @@ class TestTheDatumDetectionsOwnBlindSpot:
                     continue                      # entablatures are the known, correct case
                 groups.setdefault(g, []).append(a)
             for gname, gasms in groups.items():
-                projs = [m.get("projection_in") or 0.0 for a in gasms for m in a["members"]]
+                projs = [m["projection_in"] for a in gasms for m in a["members"]
+                         if m.get("projection_in") is not None]
                 if not projs:
                     continue
                 naked = nakeds.get(gname, geo["upper_radius_in"])
                 if min(projs) <= 0.01 and max(projs) >= naked - 0.01:
                     offenders.append(
                         f"{pid}/{gname}: holds a figure of {max(projs):.2f} that reaches its naked "
-                        f"({naked:.2f}) AND an unrecorded 0 — axis_holds_for() will downgrade the "
+                        f"({naked:.2f}) AND a written 0 — axis_holds_for() will downgrade the "
                         f"whole group on the zero and draw that radius roughly twice too wide")
         assert not offenders, (
             "the datum detection's blind spot now has data in it; the zero-signal must be "

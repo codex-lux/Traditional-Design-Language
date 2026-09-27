@@ -153,6 +153,25 @@ entablature is one group because architrave, frieze and cornice share a naked; t
 the column's three assemblies each have their own and are judged separately. `check_orders.py` prints
 a NOTE for every axis pack naming which of its assemblies contradict the declaration — 14 packs do.
 
+**A projection nobody published is `null`, not `0`** (WP-14.2, Phase 14 decision 2). `dimension()`
+used to read a missing `projection_parts` as 0, so 94 resolved members whose authority gives no
+projection reached every surface as faces *measured* flush with their naked, and a torus built from a
+crown of 0 was drawn bitten into the shaft it stands on. An absent or null figure now travels as
+`None` — `width_parts`' rule, one field over — and three things follow. **The member is a ghost:**
+`profiles.py` does not construct it (a construction needs the face, which is the missing figure); it
+stands at its naked as straight edges marked `ghost`, which the fill closes over and the ink
+(`outline_path`, or `svg_path(..., ghosts="move")`) does not stroke, and `ghost_path` draws a dashed
+bracket there. Every profile plate counts them, including the plates where the count is zero. **The
+datum can be unjudged:** `axis_holds_for()` reads published figures only, so a group with none —
+nine assemblies — is `"unjudged"` rather than read "naked" on the strength of its own silence; a pack
+declaring `naked` is still taken at its word. **The die is read off the base:** a pedestal's die
+carries the base's plinth, so its face is the plinth's face *on the base's own datum* — it had been
+read on the pack's, which put Benjamin's Corinthian die 2.8 in inside the plinth standing on it — and
+where the base publishes nothing the die is `"unjudged"` and the pedestal stands on the column's own
+radius, never on the `R × 1.2` it used to invent. The 46 written zeros that remain are each a real
+zero, and `tests/test_unpublished_projections.py` pins why: a datum plane, the origin of a relief
+sequence, or a note that says so.
+
 **The paths are serialised in Python, in model space, and no consumer re-derives a curve** (OQ 83).
 `pack_geometry` emits `path` per pack and per face in MODEL inches (x out from the axis, y up); the
 order tool and the workbench plate apply an SVG `<g transform="… scale(k,-k)">`. A model-space path

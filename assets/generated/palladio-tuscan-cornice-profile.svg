@@ -1,10 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 508" width="738" height="508" data-frame='{"plates":[{"id":"cornice","proj":"profile","unit":"in","px_per_in":40.0,"origin_px":[70,74],"at_origin_in":[4.5,117.0],"datum":"naked"}]}'>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 519" width="738" height="519" data-frame='{"plates":[{"id":"cornice","proj":"profile","unit":"in","px_per_in":40.0,"origin_px":[70,74],"at_origin_in":[4.5,117.0],"datum":"naked"}]}'>
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
-<rect width="738" height="508" fill="#faf8f3"/>
+<rect width="738" height="519" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Palladio's Tuscan Order (overlay on Vignola) — cornice</text>
-<rect class="pf" x="36" y="38" width="666" height="346"/>
+<rect class="pf" x="36" y="38" width="666" height="362"/>
 <line x1="70.0" y1="394.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
-<path d="M 70.000,394.000 A 41.667 41.667 0 0 1 100.000,354.000 A 41.667 41.667 0 0 0 130.000,314.000 L 150.000,314.000 L 150.000,294.000 L 310.000,294.000 L 310.000,194.000 L 330.000,194.000 L 330.000,174.000 L 340.000,174.000 A 10.000 10.000 0 0 0 350.000,164.000 A 10.000 10.000 0 0 0 340.000,154.000 A 50.000 80.000 0 0 0 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<path d="M 70.000,394.000 A 41.667 41.667 0 0 1 100.000,354.000 A 41.667 41.667 0 0 0 130.000,314.000 L 150.000,314.000 L 150.000,294.000 L 310.000,294.000 L 310.000,194.000 L 330.000,194.000 L 330.000,174.000 L 340.000,174.000 A 10.000 10.000 0 0 0 350.000,164.000 A 10.000 10.000 0 0 0 340.000,154.000 A 50.000 80.000 0 0 0 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="none"/>
+<path d="M 70.000,394.000 A 41.667 41.667 0 0 1 100.000,354.000 A 41.667 41.667 0 0 0 130.000,314.000 L 150.000,314.000 L 150.000,294.000 L 310.000,294.000 L 310.000,194.000 L 330.000,194.000 L 330.000,174.000 L 340.000,174.000 A 10.000 10.000 0 0 0 350.000,164.000 A 10.000 10.000 0 0 0 340.000,154.000 A 50.000 80.000 0 0 0 390.000,74.000 L 70.000,74.000" fill="none" stroke="#1b1a17" stroke-width=".9"/>
 <line x1="131.0" y1="354.0" x2="404.0" y2="354.0" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="356.6">Bed mould, cyma reversa (gola rovescia) — cyma reversa, 2.00″</text>
 <line x1="151.0" y1="304.0" x2="404.0" y2="304.0" stroke="#6f6a60" stroke-width=".35"/>
@@ -20,7 +21,8 @@
 <text class="dm" x="44" y="415.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
 <text class="dm" x="44" y="426.0">Palladio's Tuscan Order (overlay on Vignola), assembly cornice, at a 12″ column. 6 member(s), 8.00″ high, 8.00″ of relief from the</text>
 <text class="dm" x="44" y="437.0">naked.</text>
-<text class="dm" x="44" y="448.0">INHERITED: palladio-tuscan STATES NO CORNICE OF ITS OWN. These members are vignola-tuscan's, delivered by the overlay, and the</text>
-<text class="dm" x="44" y="459.0">citation below is THEIRS.</text>
-<text class="dm" x="44" y="470.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII</text>
+<text class="dm" x="44" y="448.0">All 6 member(s) publish a projection.</text>
+<text class="dm" x="44" y="459.0">INHERITED: palladio-tuscan STATES NO CORNICE OF ITS OWN. These members are vignola-tuscan's, delivered by the overlay, and the</text>
+<text class="dm" x="44" y="470.0">citation below is THEIRS.</text>
+<text class="dm" x="44" y="481.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII</text>
 </svg>

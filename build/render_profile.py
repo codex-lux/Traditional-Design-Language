@@ -113,8 +113,18 @@ def _relief_words(relief, published):
     return "no relief: every published face is flush with the naked"
 
 
+def _count_words(n_members, n_unpublished):
+    """THE COUNT GOES ON EVERY PLATE (WP-14.2, decision 2): how many of the members drawn here
+    publish a projection, and what the rest are drawn as. A plate that says nothing when every
+    figure is present reads exactly like a plate that says nothing because nobody looked."""
+    if not n_unpublished:
+        return "All %d member(s) publish a projection." % n_members
+    return ("%d member(s) drawn as a dashed bracket at the naked: no projection published, so "
+            "no face is drawn for them." % n_unpublished)
+
+
 def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, relief, unconstructed,
-                  published=True):
+                  published=True, n_unpublished=0):
     """What the plate says about itself. One function, because the height calculation and the
     drawing both read it and a second copy would let them disagree about how tall it is.
 
@@ -128,7 +138,8 @@ def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, reli
              "BUILDING.",
              "%s, assembly %s, at a %s\u2033 column. %d member(s), %.2f\u2033 high, %s." % (
                  pack.get("name") or pack_id, assembly_id, _inches(diameter_in), len(members),
-                 height, _relief_words(relief, published))]
+                 height, _relief_words(relief, published)),
+             _count_words(len(members), n_unpublished)]
     owner = states_assembly(pack_id, assembly_id)
     if owner and owner != pack_id:
         src = PE.PACKS.get(owner) or {}
@@ -181,12 +192,16 @@ def render(pack_id, assembly_id, module_in=6.0):
     y0 = min(m["y_bottom_in"] for m in members)
     y1 = max(m["y_top_in"] for m in members)
     drawn_h = (y1 - y0) or 1.0
+    # The silhouette FIRST: it is what knows which members publish no projection (WP-14.2), and the
+    # relief, the count and the legend all read that one answer rather than re-deriving it.
+    sil = PROF.silhouette(members, naked_at=naked, from_axis=from_axis)
+    unconstructed = sil.get("unconstructed") or []
+    ghost_ids = {u["id"] for u in sil["unpublished"]}
     # The relief the INK draws, and nothing else: the layout's own floor is applied to the scale
-    # below and is never a figure on the plate (WP-14.2).
-    relief = max((PROF.outer_face(naked, m.get("projection_in") or 0.0, from_axis) - naked)
-                 for m in members)
-    raw = {m["id"]: m for m in ((pack.get("assemblies") or {}).get(assembly_id) or {}).get("members", [])}
-    published = any("projection_parts" in (raw.get(m["id"]) or {}) for m in members)
+    # below and is never a figure on the plate, and a ghost stands at the naked (WP-14.2).
+    relief = max([PROF.outer_face(naked, m["projection_in"], from_axis) - naked
+                  for m in members if m["id"] not in ghost_ids] or [0.0])
+    published = len(ghost_ids) < len(members)
     diameter_in = dim["totals"]["lower_diameter_in"]
 
     pad = PAD
@@ -201,9 +216,6 @@ def render(pack_id, assembly_id, module_in=6.0):
     sx = lambda x: px0 + (x - naked) * k
     sy = lambda y: py0 + (y1 - y) * k
 
-    sil = PROF.silhouette(members, naked_at=naked, from_axis=from_axis)
-    unconstructed = sil.get("unconstructed") or []
-
     # Wrap the footer BEFORE the plate height is committed: a disclosure that needs three lines
     # on a plate sized for two prints outside the viewBox and is invisible, which is worse than
     # a plate that is slightly tall.
@@ -214,7 +226,7 @@ def render(pack_id, assembly_id, module_in=6.0):
     # left the other still passing `module_in`: the plate would have been sized for one footer
     # and drawn with another.
     footer = _footer_lines(pack, pack_id, assembly_id, diameter_in, members, y1 - y0, relief,
-                           unconstructed, published)
+                           unconstructed, published, len(ghost_ids))
     for _ln in footer:
         _foot_rows += max(1, -(-len(_ln) // _foot_budget))
     H = int(pad * 2 + box_h + 34 + _foot_rows * 11)
@@ -242,16 +254,31 @@ def render(pack_id, assembly_id, module_in=6.0):
 
     title = "%s — %s" % (pack.get("name") or pack_id, assembly_id)
     s.append(f'<text class="ti" x="{pad}" y="{pad-14}">{_esc(title)}</text>')
-    s.append(f'<rect class="pf" x="{pad-8}" y="{pad-6}" width="{W-pad*2+16}" height="{box_h+26:.0f}"/>')
+    # THE BORDER HOLDS THE INK. It was `box_h + 26` tall from `pad - 6`, while the profile starts
+    # at `pad + 30` and runs `box_h` down, so every plate whose ink filled its box had its foot
+    # drawn ten pixels through the bottom rule -- visible on every plate and found only by looking
+    # at one (WP-14.2). `box_h + 42` puts the rule six pixels clear of the ink and still eight
+    # above the first footer line.
+    s.append(f'<rect class="pf" x="{pad-8}" y="{pad-6}" width="{W-pad*2+16}" height="{box_h+42:.0f}"/>')
 
     # The naked: the plane every projection in this assembly is measured from.
     s.append(f'<line x1="{sx(naked):.1f}" y1="{sy(y0):.1f}" x2="{sx(naked):.1f}" y2="{sy(y1):.1f}" '
              f'stroke="{PAL["ink3"]}" stroke-width=".5" stroke-dasharray="2 2"/>')
 
+    # THE FILL AND THE INK ARE TWO PATHS (WP-14.2). The body is one closed shape through every
+    # member, a ghost included, because an unpublished member is real and stands at least as far
+    # out as its naked. The outline is NOT drawn across a face nobody published -- a stroke there
+    # is a measurement nobody made -- and the dashed bracket says what is missing instead.
     d = PROF.svg_path(sil["segments"], sx, sy, start=sil["start"])
     if d:
-        s.append(f'<path d="{d}" fill="{PAL["brass"]}" fill-opacity=".5" '
-                 f'stroke="{PAL["ink"]}" stroke-width=".9"/>')
+        s.append(f'<path d="{d}" fill="{PAL["brass"]}" fill-opacity=".5" stroke="none"/>')
+        ink = PROF.svg_path(sil["segments"], sx, sy, start=sil["start"], ghosts="move")
+        s.append(f'<path d="{ink}" fill="none" stroke="{PAL["ink"]}" stroke-width=".9"/>')
+    ghosts = " ".join(g for g in (PROF.ghost_bracket(u["x"], u["y0"], u["y1"], sil["ghost_tick"],
+                                                     sx, sy) for u in sil["unpublished"]) if g)
+    if ghosts:
+        s.append(f'<path class="ghost" d="{ghosts}" fill="none" stroke="{PAL["ink"]}" '
+                 f'stroke-width=".7" stroke-dasharray="3 2"/>')
 
     # Member leaders, decluttered upward. Members arrive bottom-to-top, so screen y decreases as
     # the list advances and each label must clear the one BELOW it; nudging the other way walks
@@ -273,15 +300,16 @@ def render(pack_id, assembly_id, module_in=6.0):
         ys = [band_bot - (ys[0] - y) * ((band_bot - band_top) / span) for y in ys]
 
     for m, anchor, my in zip(members, anchors, ys):
-        face = sx(PROF.outer_face(naked, m.get("projection_in") or 0.0, from_axis))
+        ghost = m["id"] in ghost_ids
+        face = sx(naked if ghost else PROF.outer_face(naked, m["projection_in"], from_axis))
         s.append(f'<line x1="{face+1:.1f}" y1="{anchor:.1f}" x2="{lx-4:.1f}" y2="{my:.1f}" '
                  f'stroke="{PAL["ink3"]}" stroke-width=".35"/>')
         nm = (m.get("name") or m.get("id") or "").replace("-", " ")
         pf = (m.get("profile") or "flat").replace("-", " ")
         # The size is the point of a detail plate, so it is never what gets cut: the NAME is
         # elided to fit and the figure always survives. A label that runs off the plate is a
-        # dimension the millworker does not have.
-        tail = " — %s, %.2f\u2033" % (pf, m["height_in"])
+        # dimension the millworker does not have. A ghost says so in its own label (WP-14.2).
+        tail = " — %s, %.2f\u2033%s" % (pf, m["height_in"], ", no projection" if ghost else "")
         budget = int((W - 8 - lx) / CH_W)
         room = budget - len(tail)
         if len(nm) > room:
@@ -316,6 +344,7 @@ def render(pack_id, assembly_id, module_in=6.0):
     s.append("</svg>")
 
     return "\n".join(s), {"members": len(members), "unconstructed": _named(unconstructed),
+                          "unpublished": sorted(ghost_ids),
                           "height_in": round(y1 - y0, 3), "relief_in": round(relief, 3),
                           "diameter_in": diameter_in,
                           "plate_w": W, "plate_h": H}

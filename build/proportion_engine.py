@@ -314,11 +314,19 @@ def dimension(pack, module_in=None, include=None):
         for m in a.get("members", []):
             h = m.get("height_parts", 0) * part_in
             my0 = ay if side else y
+            # AN UNPUBLISHED PROJECTION IS None, NEVER 0 (WP-14.2). This read `.get(..., 0)`, so
+            # 94 members whose authority gives no projection -- every torus, scotia and plinth
+            # among them -- arrived at every surface as a face MEASURED flush with its naked, and
+            # a torus drawn from a crown of 0 bit into the shaft it stands on. A 0 is a statement
+            # about a face and a missing figure is a statement about a plate nobody transcribed;
+            # the drawing may put both at the naked, but only one of them is a measurement.
+            # `width_parts` has carried its null this way since WP-5.11; this is the same rule.
+            pp = m.get("projection_parts")
             members.append({
                 "id": m["id"], "name": m["name"], "profile": m.get("profile", "flat"),
                 "height_parts": m.get("height_parts", 0), "height_in": round(h, 4),
-                "projection_parts": m.get("projection_parts", 0),
-                "projection_in": round(m.get("projection_parts", 0) * part_in, 4),
+                "projection_parts": pp,
+                "projection_in": None if pp is None else round(pp * part_in, 4),
                 "y_bottom_in": round(my0, 4), "y_top_in": round(my0 + h, 4), "side_by_side": side,
                 "count": m.get("count"), "spacing_in": (m["spacing_parts"] * part_in) if m.get("spacing_parts") else None,
                 # WP-5.11: the pitch says where the teeth fall, the width says how much of that
@@ -373,14 +381,16 @@ def observed_projection_datum(dimensioned):
         body = next((m for m in shaft["members"]
                      if m["id"] != "shaft_derived"
                      and (m["y_top_in"] - m["y_bottom_in"]) > span * 0.6), None)
-        if body is not None:
-            p = body.get("projection_in") or 0.0
+        # An UNPUBLISHED shaft body is no evidence either way (WP-14.2): it used to read as a 0
+        # and therefore as "naked", which is the reading a missing figure happens to resemble.
+        if body is not None and body.get("projection_in") is not None:
+            p = body["projection_in"]
             if abs(p) < 0.01: return "naked"
             if abs(p - r0) < 0.51: return "axis"
             return None                        # neither reading fits: say so, do not pick
-    near = [m.get("projection_in") or 0.0
+    near = [m["projection_in"]
             for k in ("base", "capital") if k in asms
-            for m in asms[k].get("members", [])]
+            for m in asms[k].get("members", []) if m.get("projection_in") is not None]
     if not near: return None
     return "axis" if max(near) >= r0 - 0.01 else "naked"
 

@@ -177,7 +177,7 @@
      "profile": "congé",
      "y_bottom_in": 118.5,
      "y_top_in": 119.25,
-     "projection_in": 0.0,
+     "projection_in": null,
      "side_by_side": false,
      "confidence": "low"
     },
@@ -491,7 +491,7 @@
      },
      {
       "id": "shaft_apophyge",
-      "path": "M 0,118.5000 L 5.0021,118.5000 A 0.0009 0.7500 0 0 0 5.0012,119.2500 L 0,119.2500 Z"
+      "path": "M 0,118.5000 L 5.0021,118.5000 L 5.0012,118.5000 L 5.0012,119.2500 L 0,119.2500 Z"
      },
      {
       "id": "shaft_fillet",

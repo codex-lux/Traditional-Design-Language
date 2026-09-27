@@ -317,12 +317,22 @@ def p6():
 
 
 @check("P7", "profile-plates", "a member the record gives no projection for is SAID to have "
-       "none, not drawn as though measured flush", "plates holding an unpublished member")
+       "none, not drawn as though measured flush -- and a plate where every member publishes one "
+       "says that", "every committed profile plate")
 def p7():
     out = []
     for a, g, pl, rec in _profile_assets():
         n = sum(1 for m in rec["members"] if not rec["published"].get(m["id"]))
         if not n:
+            # THE COUNT GOES ON EVERY PLATE (decision 2, WP-14.2): silence on a complete plate
+            # reads exactly like silence on a plate nobody checked.
+            said = re.search(r"ALL (\d+) MEMBER\(S\) PUBLISH A PROJECTION", pl.flat_text.upper())
+            if said and int(said.group(1)) == len(rec["members"]):
+                out.append(row("P7", a["id"], "agrees", "all %d published, said" % len(rec["members"])))
+            else:
+                out.append(row("P7", a["id"], "disagrees",
+                               "every member publishes a projection and the plate %s"
+                               % ("says %s" % said.group(1) if said else "does not say so")))
             continue
         said = re.search(r"(\d+) MEMBER\(S\)[^.]*NO PROJECTION PUBLISHED", pl.flat_text.upper())
         if said and int(said.group(1)) == n:
@@ -399,8 +409,10 @@ def p10():
 def p11():
     out = []
     for a, g, pl, rec in _profile_assets():
+        # A member whose projection is unpublished is not drawn straight: it is not constructed
+        # at all, and P7 holds the plate to saying so (WP-14.2).
         curved = [m for m in rec["members"] if (m.get("profile") or "") in SURF.CURVED
-                  and not rec["side_by_side"]]
+                  and not rec["side_by_side"] and rec["published"].get(m["id"])]
         if not curved:
             continue
         if _unreadable(pl):
@@ -804,7 +816,7 @@ def r2():
         record = set()
         for aid, a in (pack.get("assemblies") or {}).items():
             for m in a.get("members", []):
-                if "projection_parts" not in m:
+                if m.get("projection_parts") is None:        # absent, or written null
                     record.add("%s.%s" % (aid, m["id"]))
         drawn = {b["key"] for b in P["bands"]}
         record &= drawn                     # only what this plate draws can be counted on it
@@ -831,7 +843,9 @@ def r3():
             continue
         said = "axis" if P["fromAxis"] else "naked"
         drawn = (run["served"][pid].get("geometry") or {}).get("assembly_datum") or {}
-        off = sorted(a for a, d in drawn.items() if d != said)
+        # An "unjudged" group publishes no projection (WP-14.2): nothing in it is drawn by either
+        # datum, so it cannot contradict the caption and is not counted against it.
+        off = sorted(a for a, d in drawn.items() if d in ("axis", "naked") and d != said)
         if off:
             out.append(row("R3", pid, "disagrees", "says '%s'; %s drawn from the other datum"
                            % (said, ", ".join(off))))

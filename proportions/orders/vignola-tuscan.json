@@ -137,9 +137,9 @@
           "id": "shaft_apophyge",
           "name": "Apophyge at the top of the shaft (sommoscapo)",
           "height_parts": 1.5,
-          "projection_parts": 0,
+          "projection_parts": null,
           "profile": "congé",
-          "note": "Height apportioned; Vignola gives it graphically only.",
+          "note": "Height apportioned; Vignola gives it graphically only. PROJECTION NOT PUBLISHED (WP-14.2): graphically only means no figure was transcribed, and the 0 it was written as drew an apophyge that never flares out to the fillet it exists to meet. Null, so every surface draws it as a marked ghost at the naked and says so.",
           "confidence": "low"
         },
         {

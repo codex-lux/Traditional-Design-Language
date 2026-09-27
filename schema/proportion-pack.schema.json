@@ -202,8 +202,11 @@
                   "type": "number"
                 },
                 "projection_parts": {
-                  "type": "number",
-                  "description": "Projection in PARTS, measured from the datum this pack's projection_datum names -- the member's own naked, or the column axis. Never both: see OQ 65."
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "description": "Projection in PARTS, measured from the datum this pack's projection_datum names -- the member's own naked, or the column axis. Never both: see OQ 65. Null, or absent, where the authority publishes no projection for this member: the member is then drawn as a marked ghost at its naked AND THE PLATE SAYS SO, which is the honest output (WP-14.2, on width_parts' precedent). A 0 is a statement that the face is flush with its naked and must never stand in for a figure nobody transcribed."
                 },
                 "profile": {
                   "enum": [

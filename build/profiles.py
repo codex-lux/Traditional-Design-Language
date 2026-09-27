@@ -54,6 +54,15 @@ WHERE THE SHAPES COME FROM, and what is construction rather than measurement:
                                      on a plate this corpus cannot reach (the OQ 7-11 class), and
                                      an acanthus is foliage, not a curve. These return a plain
                                      swelling and set `unconstructed`, so a caller can say so.
+  * any member whose projection      NOT CONSTRUCTED EITHER, and for a sharper reason (WP-14.2): a
+    nobody published                 construction needs the face, and the face is the figure nobody
+                                     transcribed. It used to arrive as a 0, and a torus built from a
+                                     crown of 0 springs half its height INSIDE the naked -- fourteen
+                                     tori and scotias bit into the shaft they stand on. The member
+                                     occupies its height at its naked as a straight edge marked
+                                     `ghost`, which `svg_path(..., ghosts="move")` does not stroke,
+                                     and `ghost_path` draws a dashed bracket there that SAYS the face
+                                     is unknown. A caller counts them through `unpublished`.
 
 TWO THINGS A CALLER MUST NOT RE-DERIVE:
 
@@ -160,6 +169,59 @@ def arc_tangent(seg, t=1.0):
         dx, dy = -dx, -dy
     n = math.hypot(dx, dy)
     return (dx / n, dy / n) if n > _EPS else (0.0, 0.0)
+
+
+# ---------------------------------------------------------------- an unpublished member
+def _ghost(x_naked, x_from, y0, y1, mid):
+    """The segments for a member whose projection nobody published (WP-14.2).
+
+    It occupies its own height at its naked, as straight edges, each marked `ghost` with the
+    member's id. Nothing is constructed: a moulding's shape is built from its face, and the face
+    is exactly what is missing. The edges are there so a FILL stays one closed body -- the member
+    is real and stands at least as far out as its naked -- and the mark is there so a STROKE can
+    leave them out (`svg_path(..., ghosts="move")`), because an outline drawn across an unknown
+    face is a measurement nobody made."""
+    segs = []
+    if abs(x_from - x_naked) > _EPS:
+        segs.append(dict(_line(x_naked, y0), ghost=mid))
+    segs.append(dict(_line(x_naked, y1), ghost=mid))
+    return segs
+
+
+def ghost_bracket(x, y0, y1, tick, sx=None, sy=None):
+    """A dashed bracket's path: up the naked across the member's height, with a tick at each end
+    pointing OUT, toward the face nobody published. In MODEL space unless given the caller's
+    screen transforms sx/sy, which every renderer here already has. Empty for a member with no
+    height, which has nothing to bracket. ONE rule for the bracket, so a plate and the pack's own
+    `ghost_path` cannot draw two different marks for one unknown."""
+    if y1 - y0 <= _EPS:
+        return ""
+    sx = sx or (lambda v: v)
+    sy = sy or (lambda v: v)
+    t = max(0.0, min((y1 - y0) / 2.0, tick))
+    pts = ((x + t, y0), (x, y0), (x, y1), (x + t, y1))
+    return " ".join(("M" if i == 0 else "L") + " %.4f,%.4f" % (sx(u), sy(v))
+                    for i, (u, v) in enumerate(pts))
+
+
+def _extent(start, segments):
+    """(x0, y0, x1, y1) of a walk: its start, every end point, and every arc's own extremes. An
+    arc's bounding box is NOT its two end points' box -- a quarter that swells past both of them
+    is the whole reason a moulding is not a chamfer."""
+    xs, ys = [start[0]], [start[1]]
+    for sg in segments:
+        if sg["kind"] == "close":
+            continue
+        xs.append(sg["to"][0]); ys.append(sg["to"][1])
+        if sg["kind"] == "arc":
+            lo, hi = sorted((sg["a0"], sg["a1"]))
+            k = math.ceil(lo / (math.pi / 2.0))
+            while k * (math.pi / 2.0) <= hi:
+                a = k * (math.pi / 2.0)
+                xs.append(sg["cx"] + sg["rx"] * math.cos(a))
+                ys.append(sg["cy"] + sg["ry"] * math.sin(a))
+                k += 1
+    return min(xs), min(ys), max(xs), max(ys)
 
 
 # ---------------------------------------------------------------- the OQ 65 datum rule
@@ -312,7 +374,7 @@ def member_path(profile, x_from, y0, x_face, y1, note=None):
 
 
 # ---------------------------------------------------------------- a whole stack
-def silhouette(members, naked_at=None, from_axis=False, close=True):
+def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
     """The profile of a stack of members, bottom to top, as segments in inches.
 
     `members` is exactly what proportion_engine.dimension() puts in an assembly's `members` list
@@ -321,31 +383,41 @@ def silhouette(members, naked_at=None, from_axis=False, close=True):
     column radius for a shaft); pass a float for a constant. `from_axis` is the pack's declared
     `projection_datum` == "axis".
 
-    Returns {"start", "segments", "unconstructed", "unrecorded", "notes"}.
+    Returns {"start", "segments", "unconstructed", "unpublished", "ghost_path", "notes"}.
     A caller that wants to SAY which members it could not construct reads `unconstructed`, and
-    which members the authority never gave a projection for reads `unrecorded`. Both are the
+    which members the authority never gave a projection for reads `unpublished`. Both are the
     difference between a drawing that is honest about what it does not know and one that
     pretends: a volute drawn as a swelling and a face drawn flush because nobody measured it
-    look, on the sheet, exactly like a volute and a flush face."""
+    look, on the sheet, exactly like a volute and a flush face.
+
+    UNPUBLISHED (WP-14.2) is a projection of None -- what `dimension()` carries for a figure
+    nobody transcribed -- and, under the axis reading, a recorded 0, which OQ 65 ruled an absent
+    figure because nothing with width stands on the centre line. Such a member is not
+    constructed (see `_ghost`); `ghost_path` is the dashed brackets that mark it, in MODEL space,
+    with ticks `tick` inches long (by default a tenth of the greatest published relief)."""
     if not members:
-        return {"start": (0.0, 0.0), "segments": [], "unconstructed": [], "notes": []}
+        return {"start": (0.0, 0.0), "segments": [], "unconstructed": [], "unpublished": [],
+                "ghost_path": "", "ghost_tick": 0.0, "notes": []}
     if naked_at is None:
         naked_at = 0.0
     nk = naked_at if callable(naked_at) else (lambda _y, _v=float(naked_at): _v)
 
     y_start = members[0]["y_bottom_in"]
     x_cur = nk(y_start)
-    out, unconstructed, unrecorded = [], [], []
+    out, unconstructed, unpublished = [], [], []
+    relief = 0.0
     for m in members:
         y0, y1 = m["y_bottom_in"], m["y_top_in"]
-        # Under the axis reading a recorded 0 is a projection the authority never published, and
-        # outer_face() draws it at its naked. That is the right shape and a silent one, so the
-        # member is COLLECTED here: the docstring has always promised the caller could count
-        # these and until 27 Aug 2026 there was no channel to count them through, which made a
-        # face drawn flush indistinguishable from a face measured flush on every surface.
-        if from_axis and not (m.get("projection_in") or 0.0) > 0:
-            unrecorded.append({"id": m.get("id"), "profile": m.get("profile")})
-        face = outer_face(nk((y0 + y1) / 2.0), m.get("projection_in") or 0.0, from_axis)
+        naked = nk((y0 + y1) / 2.0)
+        p = m.get("projection_in")
+        if p is None or (from_axis and not p > 0):
+            unpublished.append({"id": m.get("id"), "profile": m.get("profile"),
+                                "x": round(naked, 6), "y0": y0, "y1": y1})
+            out.extend(_ghost(naked, x_cur, y0, y1, m.get("id")))
+            x_cur = naked
+            continue
+        face = outer_face(naked, p, from_axis)
+        relief = max(relief, face - naked)
         segs, x_cur = member_path(m.get("profile"), x_cur, y0, face, y1, note=m.get("note"))
         for s in segs:
             if s.get("unconstructed"):
@@ -355,9 +427,13 @@ def silhouette(members, naked_at=None, from_axis=False, close=True):
         y_end = members[-1]["y_top_in"]
         out.append(_line(nk(y_end), y_end))
         out.append({"kind": "close"})
+    if tick is None:
+        tick = relief * 0.1 if relief > 0 else float("inf")
+    ghosts = " ".join(g for g in (ghost_bracket(u["x"], u["y0"], u["y1"], tick)
+                                  for u in unpublished) if g)
     return {"start": (round(x_cur if not out else nk(y_start), 6), round(y_start, 6)),
-            "segments": out, "unconstructed": unconstructed, "unrecorded": unrecorded,
-            "notes": []}
+            "segments": out, "unconstructed": unconstructed, "unpublished": unpublished,
+            "ghost_path": ghosts, "ghost_tick": tick, "notes": []}
 
 
 # ---------------------------------------------------------------- repetition
@@ -445,8 +521,12 @@ def column_radius_at(y, shaft_y0, shaft_y1, r_lower, diminution=None, entasis_be
 COLUMN_ASM = ("pedestal", "subplinth", "base", "shaft", "capital")
 
 
-def silhouette_path_model(geo):
+def silhouette_path_model(geo, stroke=False):
     """The whole stack as ONE closed outline, in MODEL inches — x out from the axis, y up.
+
+    `stroke=True` is the same walk for the INK rather than the fill (WP-14.2): a ghost member's
+    edges become moves, so no outline is drawn across a face nobody published, and the walk stays
+    open along the axis -- the fill is what closes the body.
 
     Emitted here rather than in JavaScript (OQ 83, ruled 27 Aug 2026). The page used to walk these
     segments itself and re-derive the SVG sweep flag while doing it, in two copies, one of which
@@ -467,18 +547,20 @@ def silhouette_path_model(geo):
     for a in live:
         sx0, sy0 = a["start"][0], (y0 if first else a["start"][1])
         d.append(f"L {sx0:.4f},{sy0:.4f}")
-        d.append(_seg_cmds_model(a["segments"]))
+        d.append(_seg_cmds_model(a["segments"], ghosts="move" if stroke else "draw"))
         first = False
-    d.append(f"L 0,{y1:.4f} Z")
+    d.append(f"L 0,{y1:.4f}" if stroke else f"L 0,{y1:.4f} Z")
     return " ".join(x for x in d if x)
 
 
-def _seg_cmds_model(segments):
-    """Segments to path commands in MODEL space (identity transform, y up)."""
+def _seg_cmds_model(segments, ghosts="draw"):
+    """Segments to path commands in MODEL space (identity transform, y up). `ghosts="move"`
+    moves across an unpublished member's edges instead of drawing them (WP-14.2)."""
     out = []
     for s in segments:
         if s["kind"] == "line":
-            out.append(f"L {s['to'][0]:.4f},{s['to'][1]:.4f}")
+            op = "M" if (ghosts == "move" and s.get("ghost")) else "L"
+            out.append(f"{op} {s['to'][0]:.4f},{s['to'][1]:.4f}")
         elif s["kind"] == "arc":
             # y is UP here and the transform that flips it is the caller's `<g>`, so the model
             # path's own handedness is the model's: counter-clockwise IS sweep 1. No flip
@@ -523,10 +605,10 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
     dimin = column.get("diminution") or 1.0
     r_top = R * dimin
     asms = {a["id"]: a for a in dim.get("assemblies", [])}
-
-    base = asms.get("base")
-    plinth = max([m.get("projection_in") or 0.0 for m in base["members"]], default=0.0) if base else 0.0
-    die_naked = (max(R, plinth if from_axis else R + plinth) if plinth else R * 1.2)
+    # A ghost bracket's ticks, in inches: a tenth of the column's radius, so the mark scales with
+    # the order exactly as everything else here does (the geometry is linear in the module, and
+    # tests/test_profiles.py proves it) and never reaches past a real moulding's face.
+    tick = R * 0.1 if R else float("inf")
 
     shaft = asms.get("shaft")
     sy0 = shaft["y_bottom_in"] if shaft else 0.0
@@ -537,9 +619,12 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
     def radius_at(y):
         return column_radius_at(y, sy0, sy1, R, dimin, ent_at)
 
+    # THE DIE, derived below from the BASE's own reading (WP-14.2), and needed by datum_for.
+    die = {"x": R}
+
     def datum_for(aid, y):
         if aid in ("pedestal", "subplinth"):
-            return die_naked
+            return die["x"]
         if aid == "base":
             return R
         if aid == "capital":
@@ -566,6 +651,7 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
 
     def axis_holds_for(group_asms, naked):
         """Is the PACK's `axis` declaration true of THIS group? (OQ 78, ruled 27 Aug 2026.)
+        Returns "axis", "naked" or -- since WP-14.2 -- "unjudged".
 
         A pack declares `projection_datum` once and it is not uniform across the pack's own
         assemblies. `gibbs-ionic` declares `axis` -- true of its shaft, whose body records exactly
@@ -582,6 +668,14 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
           2. Nothing in the group reaches its own naked. Every member would then sit inside the
              shaft. This is the signal a capital gives, whose figures are all real and all small.
 
+        EVIDENCE IS A PUBLISHED FIGURE (WP-14.2). A projection nobody transcribed used to arrive
+        here as a 0 and count as evidence 1, so a group with no figure at all was confidently read
+        "naked" on the strength of its own silence -- nine assemblies. A group with no published
+        figure is now "unjudged": nothing in it can be placed by either reading, so its members
+        are ghosts at the naked whichever it is, and saying which reading holds would be the
+        fake-pass shape. Measured over every order pack when this changed: no group moved between
+        "axis" and "naked", and nine went "naked" -> "unjudged", none of them holding a figure.
+
         It only ever downgrades axis to naked, never the reverse: a pack declaring `naked` is
         taken at its word, and a group with one plausible radius and some smaller members keeps
         the declaration rather than being second-guessed.
@@ -590,35 +684,71 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
         other surface kept the literal reading, so the same cornice drew two ways, 2.37x apart,
         in one product. It lives here now so every consumer gets one answer."""
         if not from_axis:
-            return False
-        projs = [m.get("projection_in") or 0.0 for a in group_asms for m in a.get("members", [])]
+            return "naked"
+        projs = [m["projection_in"] for a in group_asms for m in a.get("members", [])
+                 if m.get("projection_in") is not None]
         if not projs:
-            return True
+            return "unjudged"
         if min(projs) <= 0.01:
-            return False
-        return max(projs) >= naked - 0.01
-
-    out = {"module_in": dim.get("module_in"), "projection_datum": projection_datum,
-           "lower_radius_in": round(R, 5), "upper_radius_in": round(r_top, 5),
-           "die_naked_in": round(die_naked, 5),
-           "shaft": ({"y0": sy0, "y1": sy1, "entasis_begins_at": ent_at,
-                      "diminution": dimin} if shaft else None),
-           "assemblies": [], "unconstructed": [], "unrecorded": [],
-           "assembly_datum": {}}
+            return "naked"
+        return "axis" if max(projs) >= naked - 0.01 else "naked"
 
     groups = {}
     for a in dim.get("assemblies", []):
         groups.setdefault(_group(a["id"]), []).append(a)
-    group_axis = {}
-    for gname, gasms in groups.items():
+    group_datum = {}
+
+    def _judge(gname):
+        gasms = groups[gname]
         mid_y = (gasms[0]["y_bottom_in"] + gasms[-1]["y_top_in"]) / 2.0
-        group_axis[gname] = axis_holds_for(gasms, datum_for(gasms[0]["id"], mid_y))
+        group_datum[gname] = axis_holds_for(gasms, datum_for(gasms[0]["id"], mid_y))
+
+    # Every group but the pedestal first: the die is read off the BASE's reading, not the pack's.
+    for gname in groups:
+        if gname != "pedestal":
+            _judge(gname)
+
+    # THE DIE CARRIES THE BASE'S PLINTH, so its face is the plinth's face -- READ ON THE BASE'S
+    # OWN DATUM (WP-14.2). This used the PACK's declaration, so an axis-declared pack whose base
+    # figures are relief (OQ 78's "naked" reading) put its die at max(R, plinth) = R while the
+    # plinth standing on it projected to R + plinth: benjamin-corinthian's die was drawn 2.8 in
+    # narrower than the plinth it carries, at a 6 in module, and chambers-ionic's and
+    # chambers-corinthian's 4.0 in. And where the base published no projection at all, the die
+    # was R x 1.2 -- a figure no record states. It is UNJUDGED now, drawn from the column's own
+    # radius, and says so.
+    base = asms.get("base")
+    base_pub = [m["projection_in"] for m in (base or {}).get("members", [])
+                if m.get("projection_in") is not None]
+    if base_pub:
+        die["x"] = outer_face(R, max(base_pub), group_datum.get("base") == "axis")
+        die_status = "derived"
+        die_reason = ("the face of the base's plinth, read on the base's own datum: the "
+                      "pedestal's die carries the plinth")
+    else:
+        die["x"] = R
+        die_status = "unjudged"
+        die_reason = (("no member of the base publishes a projection" if base else
+                       "the pack states no base") +
+                      ", so the plinth the die carries has no face to read: the pedestal is "
+                      "drawn from the column's own radius, and that is a placement, not a figure")
+    if "pedestal" in groups:
+        _judge("pedestal")
+
+    out = {"module_in": dim.get("module_in"), "projection_datum": projection_datum,
+           "lower_radius_in": round(R, 5), "upper_radius_in": round(r_top, 5),
+           "die_naked_in": round(die["x"], 5) if die_status == "derived" else None,
+           "die_naked": die_status, "die_naked_reason": die_reason,
+           "shaft": ({"y0": sy0, "y1": sy1, "entasis_begins_at": ent_at,
+                      "diminution": dimin} if shaft else None),
+           "assemblies": [], "unconstructed": [], "published": [], "unpublished": [],
+           "assembly_datum": {}}
 
     for a in dim.get("assemblies", []):
         aid = a["id"]
         segs, uncon, faces = [], [], []
-        axis_here = group_axis[_group(aid)]
-        out["assembly_datum"][aid] = "axis" if axis_here else "naked"
+        datum_here = group_datum[_group(aid)]
+        axis_here = datum_here == "axis"
+        out["assembly_datum"][aid] = datum_here
         x_cur = datum_for(aid, a["y_bottom_in"])
         start = (x_cur, a["y_bottom_in"])
         seen_side = False
@@ -633,7 +763,9 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
             is_shaft_body = aid == "shaft" and (y1 - y0) > (sy1 - sy0) * 0.6
             if is_shaft_body:
                 # The taper, sampled. NOT a classical entasis construction -- see
-                # column_radius_at()'s own docstring, and the open question it names.
+                # column_radius_at()'s own docstring, and the open question it names. Its face is
+                # the column the pack states, so whether its own projection was published does
+                # not arise.
                 for i in range(1, taper_steps + 1):
                     yy = y0 + (y1 - y0) * (i / taper_steps)
                     segs.append(_line(radius_at(yy), yy))
@@ -642,20 +774,33 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
                            for i in range(1, taper_steps + 1)]
                 faces.append({"id": m.get("id"), "x": round(radius_at(y1), 5), "tapered": True,
                               "x_from": round(radius_at(y0), 5), "y0": y0, "y1": y1,
-                              "segments": x_taper})
+                              "segments": x_taper, "projection": "taper"})
                 x_cur = radius_at(y1)
                 continue
-            if axis_here and not (m.get("projection_in") or 0.0) > 0:
-                out["unrecorded"].append({"assembly": aid, "id": m.get("id"),
-                                          "profile": m.get("profile")})
-            face = outer_face(datum_for(aid, (y0 + y1) / 2.0), m.get("projection_in") or 0.0, axis_here)
+            naked = datum_for(aid, (y0 + y1) / 2.0)
+            p = m.get("projection_in")
             x_from = x_cur
+            if p is None or (axis_here and not p > 0):
+                # UNPUBLISHED (WP-14.2): not constructed, a ghost at its naked. See _ghost().
+                ms = _ghost(naked, x_cur, y0, y1, m.get("id"))
+                x_cur = naked
+                out["unpublished"].append({"assembly": aid, "id": m.get("id"),
+                                           "profile": m.get("profile"), "x": round(naked, 5),
+                                           "y0": y0, "y1": y1})
+                faces.append({"id": m.get("id"), "x": round(naked, 5), "tapered": False,
+                              "x_from": round(x_from, 5), "y0": y0, "y1": y1, "segments": ms,
+                              "projection": "unpublished"})
+                segs.extend(ms)
+                continue
+            out["published"].append({"assembly": aid, "id": m.get("id")})
+            face = outer_face(naked, p, axis_here)
             ms, x_cur = member_path(m.get("profile"), x_cur, y0, face, y1, note=m.get("note"))
             # Each member's OWN segments, so a plate that draws band by band (the workbench's
             # does, and its walk asserts one path per member) draws the real moulded edge rather
             # than a straight line between two projections.
             faces.append({"id": m.get("id"), "x": round(face, 5), "tapered": False,
-                          "x_from": round(x_from, 5), "y0": y0, "y1": y1, "segments": ms})
+                          "x_from": round(x_from, 5), "y0": y0, "y1": y1, "segments": ms,
+                          "projection": "published"})
             for s in ms:
                 if s.get("unconstructed"):
                     uncon.append({"assembly": aid, "id": m.get("id"), "profile": s["unconstructed"]})
@@ -667,20 +812,48 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
             "segments": segs, "faces": faces,
         })
         out["unconstructed"].extend(uncon)
-    # OQ 83: the finished paths, so no consumer re-derives a curve or a sweep flag.
+    # OQ 83: the finished paths, so no consumer re-derives a curve or a sweep flag. `path` is the
+    # FILL -- one closed body through every member, ghosts included, since each stands at least as
+    # far out as its naked. `outline_path` is the INK: the same walk with no edge drawn across an
+    # unpublished face (WP-14.2), and `ghost_path` the dashed brackets that mark those faces.
     out["path"] = silhouette_path_model(out)
+    out["outline_path"] = silhouette_path_model(out, stroke=True)
+    out["ghost_path"] = " ".join(g for g in (ghost_bracket(u["x"], u["y0"], u["y1"], tick)
+                                             for u in out["unpublished"]) if g)
     for a in out["assemblies"]:
         for f in a.get("faces", []):
             segs = f.get("segments") or []
             if segs:
                 f["path"] = (f"M 0,{f['y0']:.4f} L {f.get('x_from', f['x']):.4f},{f['y0']:.4f} "
                              + _seg_cmds_model(segs) + f" L 0,{f['y1']:.4f} Z")
+    # THE EXTENT OF EVERYTHING DRAWN, in model inches (WP-14.2), so a plate sizes its frame from
+    # the ink this function made rather than re-deriving a face from the pack-level datum. That
+    # re-derivation is how the workbench's frame came out narrower than its own ink on twelve of
+    # the fourteen axis packs.
+    live = [a for a in out["assemblies"] if a["segments"]]
+    if live:
+        boxes = [_extent(a["start"], a["segments"]) for a in live]
+        x1 = max(b[2] for b in boxes)
+        if out["unpublished"] and tick != float("inf"):
+            x1 = max([x1] + [u["x"] + min(tick, (u["y1"] - u["y0"]) / 2.0)
+                             for u in out["unpublished"]])
+        out["bbox_in"] = {"x0": 0.0, "y0": round(min(b[1] for b in boxes), 5),
+                          "x1": round(x1, 5), "y1": round(max(b[3] for b in boxes), 5)}
+    else:
+        out["bbox_in"] = None
     return out
 
 
 # ---------------------------------------------------------------- serialisers
-def svg_path(segments, sx=None, sy=None, start=None):
+def svg_path(segments, sx=None, sy=None, start=None, ghosts="draw"):
     """An SVG `d` string. sx/sy are the same screen transforms every renderer here already uses.
+
+    `ghosts="move"` is the INK of a silhouette rather than its fill (WP-14.2): an unpublished
+    member's edges become moves, so no outline is drawn across a face nobody measured, and the
+    closing edge is not drawn at all. That edge runs back down the NAKED, which is exactly where
+    every ghost stands, so stroking it drew a solid line across the very members the brackets say
+    are unknown -- found by looking at the first plate rendered this way. The naked is the plate's
+    own dashed datum line; the ink ends where the profile does.
 
     The sweep flag is computed in SCREEN space, not model space: every plate in this corpus
     flips y (model inches up, screen pixels down), and a flip reverses the direction an arc
@@ -711,9 +884,11 @@ def svg_path(segments, sx=None, sy=None, start=None):
         d.append(f"M {sx(start[0]):.3f},{sy(start[1]):.3f}")
     for s in segments:
         if s["kind"] == "close":
-            d.append("Z")
+            if ghosts != "move":
+                d.append("Z")
         elif s["kind"] == "line":
-            d.append(f"L {sx(s['to'][0]):.3f},{sy(s['to'][1]):.3f}")
+            op = "M" if (ghosts == "move" and s.get("ghost")) else "L"
+            d.append(f"{op} {sx(s['to'][0]):.3f},{sy(s['to'][1]):.3f}")
         else:
             ccw = s["a1"] > s["a0"]
             sweep = 1 if (ccw != flip) else 0

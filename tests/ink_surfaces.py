@@ -117,8 +117,10 @@ class ProfilePlate:
 
 def profile_record(pack_id, assembly_id, module_in):
     """What the record says the plate should show: the resolved pack's members for this
-    assembly with their dimensioned heights, and the RAW presence of `projection_parts` (the
-    engine turns an absent key into 0; the record does not)."""
+    assembly with their dimensioned heights, and whether the RAW record publishes each member's
+    `projection_parts` -- a figure, as against a key that is absent or written null (WP-14.2).
+    Read off the record and never off the engine, so the census cannot inherit a defect in how
+    the engine carries a missing figure: that is the defect WP-14.2 removed."""
     PE = _mod("proportion_engine")
     pack = PE.resolve(pack_id)
     dim = PE.dimension(pack, module_in=module_in)
@@ -129,5 +131,5 @@ def profile_record(pack_id, assembly_id, module_in):
         "pack": pack, "dim": dim, "members": members, "raw": raw, "side_by_side": side,
         "lower_diameter_in": dim["totals"]["lower_diameter_in"],
         "owner": PE.assembly_owner(pack_id, assembly_id),
-        "published": {mid: ("projection_parts" in r) for mid, r in raw.items()},
+        "published": {mid: (r.get("projection_parts") is not None) for mid, r in raw.items()},
     }

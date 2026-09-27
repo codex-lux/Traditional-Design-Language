@@ -105,6 +105,31 @@ def test_no_text_escapes_the_plate():
     assert not bad, "\n".join(bad)
 
 
+def test_no_ink_crosses_the_plates_own_border():
+    """The border was drawn ten pixels short of the ink it frames, so the foot of every full
+    plate ran through the bottom rule (WP-14.2). Read back through tests/inkread.py: every drawn
+    mark but the words and the border itself lies inside the border."""
+    sys.path.insert(0, os.path.join(ROOT, "tests"))
+    import inkread as IR
+    bad = []
+    for a, svg, _ in _plates():
+        ink = IR.Ink(svg)
+        frame = [it for it in ink.items if it.tag == "rect" and "pf" in it.classes]
+        assert len(frame) == 1, a["id"]
+        x0, y0, x1, y1 = frame[0].bbox()
+        for it in ink.items:
+            if it.tag == "text" or it is frame[0] or not it.cmds:
+                continue
+            if it.tag == "rect" and not it.classes:        # the paper
+                continue
+            for x, y in it.points(n=16):
+                if not (x0 - 0.5 <= x <= x1 + 0.5 and y0 - 0.5 <= y <= y1 + 0.5):
+                    bad.append("%s: a %s at (%.1f, %.1f) outside [%.1f..%.1f, %.1f..%.1f]"
+                               % (a["id"], it.tag, x, y, x0, x1, y0, y1))
+                    break
+    assert not bad, "\n".join(bad[:10])
+
+
 def test_the_size_survives_when_a_label_has_to_be_cut():
     """Two clamps keep a label on the paper, and they cut different halves. The first elides the
     NAME and keeps the dimension; the second is a blind truncation that would take the figure

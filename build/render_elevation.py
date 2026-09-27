@@ -1004,7 +1004,8 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # records a projection of 0 clamps its bed mould flush and deletes it from the drawing.
     from_axis = cornice.get("entablature_projection_datum", cornice.get("projection_datum")) == "axis"
     relief = cornice.get("order_relief_beyond_frieze_in") or max(
-        (mm["projection_in"] for mm in cornice["members"]), default=1.0)
+        (mm["projection_in"] for mm in cornice["members"]
+         if mm.get("projection_in") is not None), default=1.0)
     members = cornice["members"]
     drawn_h = max((mm["y_top_in"] for mm in members), default=1.0) or 1.0
     prof_w = ibox_w * 0.34                       # the profile's own column; the rest is legend
@@ -1030,9 +1031,20 @@ def render_elevation(elev, path, face=None, scale=24.0):
     s.append(f'<line x1="{isx(naked_in):.1f}" y1="{isy(0):.1f}" x2="{isx(naked_in):.1f}" y2="{isy(drawn_h):.1f}" '
              f'stroke="{PAL["ink3"]}" stroke-width="0.5" stroke-dasharray="2 2"/>')
     sil = PROF.silhouette(members, naked_at=naked_in, from_axis=from_axis)
+    # The fill and the ink are two paths, and a member whose projection nobody published is a
+    # dashed bracket rather than a face (WP-14.2) -- the profile plates' rule, on the one plate
+    # that sits on a building sheet.
     d = PROF.svg_path(sil["segments"], isx, isy, start=sil["start"])
     if d:
-        s.append(f'<path d="{d}" fill="{PAL["brass"]}" fill-opacity="0.5" stroke="{PAL["ink"]}" stroke-width="0.9"/>')
+        s.append(f'<path d="{d}" fill="{PAL["brass"]}" fill-opacity="0.5" stroke="none"/>')
+        ink = PROF.svg_path(sil["segments"], isx, isy, start=sil["start"], ghosts="move")
+        s.append(f'<path d="{ink}" fill="none" stroke="{PAL["ink"]}" stroke-width="0.9"/>')
+    ghost_ids = {u["id"] for u in sil["unpublished"]}
+    ghosts = " ".join(g for g in (PROF.ghost_bracket(u["x"], u["y0"], u["y1"], sil["ghost_tick"],
+                                                     isx, isy) for u in sil["unpublished"]) if g)
+    if ghosts:
+        s.append(f'<path class="ghost" d="{ghosts}" fill="none" stroke="{PAL["ink"]}" '
+                 f'stroke-width="0.7" stroke-dasharray="3 2"/>')
 
     # Member leaders. Each member is named at its own height, decluttered downward so two thin
     # members cannot print over each other -- a label that overlaps its neighbour names nothing.
@@ -1057,7 +1069,8 @@ def render_elevation(elev, path, face=None, scale=24.0):
         span = max(ys[0] - ys[-1], 1e-6)
         ys = [band_bot - (ys[0] - y) * ((band_bot - band_top) / span) for y in ys]
     for m, anchor, my in zip(members, anchors, ys):
-        face = isx(PROF.outer_face(naked_in, m.get("projection_in") or 0.0, from_axis))
+        face = isx(naked_in if m.get("id") in ghost_ids
+                   else PROF.outer_face(naked_in, m["projection_in"], from_axis))
         s.append(f'<line x1="{face+1:.1f}" y1="{anchor:.1f}" x2="{lx-3:.1f}" y2="{my:.1f}" '
                  f'stroke="{PAL["ink3"]}" stroke-width="0.35"/>')
         nm = (m.get("profile") or "flat").replace("-", " ").upper()
@@ -1088,10 +1101,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
     if sil["unconstructed"]:
         # Never draw a shape this corpus has no construction for without saying which.
         cap.append(", ".join(sorted({u["profile"].upper() for u in sil["unconstructed"]})) + " NOT CONSTRUCTED")
-    if sil.get("unrecorded"):
+    if sil["unpublished"]:
         # A face drawn flush because the authority published no figure looks exactly like a face
         # measured flush. Saying which is the whole difference.
-        cap.append(f'{len(sil["unrecorded"])} MEMBER(S) DRAWN AT THE NAKED — NO PROJECTION PUBLISHED')
+        cap.append(f'{len(sil["unpublished"])} MEMBER(S) DRAWN AS A DASHED BRACKET AT THE NAKED — '
+                   f'NO PROJECTION PUBLISHED')
     lines = [ln for c in cap for ln in _wrap(c, int((ibox_w - 16) / 4.3))]
     for i, ln in enumerate(lines):
         s.append(f'<text class="dm" x="{ibox_x+8:.1f}" '

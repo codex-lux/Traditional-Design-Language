@@ -804,7 +804,10 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     totals = full.get("totals", {})
     col_naked_in = (totals.get("upper_diameter_in") or totals.get("lower_diameter_in") or 0.0) / 2.0
     frieze_naked_in = col_naked_in if entab_from_axis else 0.0
-    relief = max((m["projection_in"] for m in cor_asm["members"]), default=0.0) - frieze_naked_in
+    # Over PUBLISHED figures only (WP-14.2): a member whose projection nobody transcribed is None
+    # and has no face to be the greatest.
+    relief = max((m["projection_in"] for m in cor_asm["members"]
+                  if m.get("projection_in") is not None), default=0.0) - frieze_naked_in
     return {
         "frieze_height_in": round(frieze_h, 3), "cornice_height_in": round(cor_asm["height_in_summed"], 3),
         "cornice_projection_in": round(cornice_proj, 3),
@@ -826,7 +829,9 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
             f"facade-classical's domestic envelope rule gives {round(cornice_proj,2)} in. Both are sourced "
             f"and they disagree; neither is chosen here."),
         "members": cor_asm["members"],
-        "bed_mould_projection_in": round(bed_member["projection_in"], 3) if bed_member else None,
+        "bed_mould_projection_in": (round(bed_member["projection_in"], 3)
+                                    if bed_member and bed_member.get("projection_in") is not None
+                                    else None),
         "member_count": len(cor_asm["members"]),
         "note": (f"Gibbs Ionic's cornice assembly ({gibbs_cornice_modules} modules of its own column-scale module) is "
                  f"regenerated at a {round(reduced_module_in,2)} in module so its {len(cor_asm['members'])} members sum to "

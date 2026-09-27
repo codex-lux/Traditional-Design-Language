@@ -753,15 +753,21 @@ def _entrance(elev, section, states):
     for m in ent.get("entablature_members") or []:
         h0 = z1 + (m.get("y_bottom_in") or 0) / 12.0
         h1 = z1 + (m.get("y_top_in") or 0) / 12.0
+        unpublished = m.get("projection_in") is None
         pr = (m.get("projection_in") or 0) / 12.0
         cx = (x0 + x1) / 2.0
         cwid = (ent.get("entrance_composition_width_in") or 0) / 12.0 or (x1 - x0)
         u0, u1 = cx - cwid / 2.0, cx + cwid / 2.0
         src = {"record": f"elevation.entrance.entablature_members[{m.get('id')}]"}
         if pr <= 0:
+            # A projection nobody published is not a projection of 0 (WP-14.2): the member is laid
+            # on the naked either way, and the note says which of the two it is.
             out.append(_plane(f"{door['id']}-{m['id']}", "entablature", u0, u1, h0, h1,
-                              f"{m.get('name')} -- flush with the naked, which is what its own "
-                              "projection of 0 states",
+                              (f"{m.get('name')} -- laid on the naked because its record "
+                               "publishes no projection, which is not a projection of 0")
+                              if unpublished else
+                              (f"{m.get('name')} -- flush with the naked, which is what its own "
+                               "projection of 0 states"),
                               f"elevation.entrance.entablature_members[{m.get('id')}]"))
             continue
         pl, at, outline = _face_extrude(face, u0, u1, h0, h1, ox, oy, W, D, t_ext)
