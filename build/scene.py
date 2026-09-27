@@ -800,6 +800,15 @@ def _entrance(elev, section, states):
                 "a sidelight of the composition. Drawn as a face area rather than an opening "
                 "frame: it is not one of `opening_rects`' rectangles",
                 "elevation.entrance.sidelight_width_in"))
+    elif door.get("sidelights_refused"):
+        # REFUSED ON THE PLATE, AND SO REFUSED HERE IN WORDS (audit, 27 Sep 2026). `_clearances`
+        # refuses a pair that would stand over a neighbouring opening and the plate says
+        # SIDELIGHTS NOT DRAWN; this layer honoured `sidelights_drawn` and said nothing, so the
+        # model read as a doorcase that never had sidelights -- the silent absence a refusal must
+        # never look like. The reason is the record's own, republished, not composed again.
+        states.cannot("the sidelights", door["sidelights_refused"],
+                      f"elevation.opening_rects({face}).{door['id']}.sidelights_refused",
+                      cls="entrance")
 
     # THE TRANSOM (WP-14.3). The plate draws the rectangular transom the style's kit makes
     # canonical, at opening-proportion's height -- which that rule marks JUDGMENT -- and says so

@@ -720,9 +720,14 @@ def export_elevation_dxf(elev, path, face=None):
                 for gx0, gx1 in EL.even_bars(x0, x1, tr["lights"], mw)[1]:
                     msp.add_lwpolyline([(gx0, head), (gx1, head), (gx1, top), (gx0, top)],
                                        close=True, dxfattribs={"layer": sash})
-            msp.add_lwpolyline([(x0 - cw, sill), (x1 + cw, sill),
-                                (x1 + cw, top + eh), (x0 - cw, top + eh)],
-                               close=True, dxfattribs={"layer": sash})
+            case = msp.add_lwpolyline([(x0 - cw, sill), (x1 + cw, sill),
+                                       (x1 + cw, top + eh), (x0 - cw, top + eh)],
+                                      close=True, dxfattribs={"layer": sash})
+            # A REFUSED PAIR IS SAID IN THE FILE, as the plate says it (audit, 27 Sep 2026): this
+            # loop honoured `sidelights_drawn` and wrote nothing, so a CAD reader had a doorcase
+            # with no sidelights and no word of why. The record's own reason, on the doorcase.
+            if r.get("sidelights_refused"):
+                _xdata(case, "TDL::sidelights-refused", {"reason": r["sidelights_refused"]})
             if ent.get("sidelights_present") and ent.get("sidelight_width_in") and r.get("sidelights_drawn", True):
                 slw = ent["sidelight_width_in"]
                 for a in (x0 - cw - slw, x1 + cw):

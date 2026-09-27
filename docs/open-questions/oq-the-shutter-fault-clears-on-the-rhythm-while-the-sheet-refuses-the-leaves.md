@@ -56,3 +56,25 @@ so on each sheet, held the ink to that with census row V20, drove every branch o
 by hand, and corrected the comment in `_derive_measurements` that said the pier leaves every leaf
 room. It moved no fault verdict, because doing so on eight plans inside an ink audit is two
 packages reasoned about as one.
+
+## Amendment, 27 Sep 2026 (the audit of the audit): the SIDELIGHTS are the same question
+
+`elevation._clearances` refuses a sidelight pair on the same ground as a shutter pair, and the same
+fault shape follows it. On `tidewater-georgian-careful`, placed on the search as the census draws it,
+the plate says SIDELIGHTS NOT DRAWN -- *"the left sidelight would stand 9.0 in over passage's
+window, which the plan places 12.0 in from the leaf"* -- while `sidelights-as-storefront-glass`
+comes back **clear** on `sidelight_width_in / door_leaf_width_in`, a ratio of the composition's
+sidelight to its leaf. The glass the fault judges is glass the sheet refuses to draw. `plan_check`
+already lists that verdict in `fault_clear_on_a_generator_constant` (its only read is
+`sidelight_width_in`, which `critic_suspects` names as the elevation's own constant), so the
+critique does not present it as a finding about the house -- but it counts among the clears.
+
+Both of this question's first two rulings reach it unchanged: which facade the measurements
+describe (the composition's, or the placed openings'), and what a refused pair counts as (a pair
+the kit calls for and the placement leaves no wall for is the fault's own subject; a pair counted
+only where drawn makes the ratio vacuous). Nothing moves here either.
+
+**What the audit did do**: the scene and the DXF, which honoured `sidelights_drawn` and said
+nothing, now republish the refusal's own reason (`states.cannot`, and `TDL::sidelights-refused`
+XDATA on the doorcase), so no surface shows a doorcase with no sidelights and no word of why --
+`tests/test_refused_sidelights_are_said.py`.
