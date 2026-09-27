@@ -131,6 +131,15 @@ def _unconstructed_words(unconstructed):
             "BOUND, WITH NO SHAPE INSIDE IT: " + ", ".join(_named(unconstructed)))
 
 
+def _straight_words(straight):
+    """A curve drawn as a line, said (WP-14.2): the record gives it the same face as the member
+    below it, so it has no run to curve through. A cyma drawn as a vertical stroke looks exactly
+    like a fascia, and none of the 25 in the order stacks was said."""
+    return ("%d CURVED MEMBER(S) DRAWN STRAIGHT: the record gives each the same face as the "
+            "member below it, so it has no run to curve through: %s."
+            % (len(straight), ", ".join(_named(straight))))
+
+
 def _not_recorded_words(n):
     """A part the assembly's own members are named for and no member records (WP-14.2): four of
     the five Ionic capitals record the volute's channel and fillet and no volute, and said
@@ -142,7 +151,7 @@ def _not_recorded_words(n):
 
 
 def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, relief, unconstructed,
-                  published=True, n_unpublished=0, not_recorded=()):
+                  published=True, n_unpublished=0, not_recorded=(), straight=()):
     """What the plate says about itself. One function, because the height calculation and the
     drawing both read it and a second copy would let them disagree about how tall it is.
 
@@ -168,12 +177,15 @@ def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, reli
         if auth:
             lines.append("AFTER: " + auth)
         return lines + ([] if not unconstructed else [_unconstructed_words(unconstructed)]) + \
+            ([] if not straight else [_straight_words(straight)]) + \
             [_not_recorded_words(n) for n in not_recorded]
     auth = (pack.get("authority") or {}).get("source")
     if auth:
         lines.append("AFTER: " + auth)
     if unconstructed:
         lines.append(_unconstructed_words(unconstructed))
+    if straight:
+        lines.append(_straight_words(straight))
     lines += [_not_recorded_words(n) for n in not_recorded]
     return lines
 
@@ -245,7 +257,7 @@ def render(pack_id, assembly_id, module_in=6.0):
     # and drawn with another.
     footer = _footer_lines(pack, pack_id, assembly_id, diameter_in, members, y1 - y0, relief,
                            unconstructed, published, len(ghost_ids),
-                           sil.get("named_not_recorded") or ())
+                           sil.get("named_not_recorded") or (), sil.get("drawn_straight") or ())
     for _ln in footer:
         _foot_rows += max(1, -(-len(_ln) // _foot_budget))
     H = int(pad * 2 + box_h + 34 + _foot_rows * 11)

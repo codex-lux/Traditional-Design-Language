@@ -284,6 +284,62 @@ class TestUnconstructedShapes:
         assert res["unconstructed"] == []
 
 
+class TestACurveWithNoRunIsSaid:
+    """A quarter or a cyma is a curve between two faces. Given one face twice it is a vertical
+    line, and until WP-14.2 nothing said so: a cyma drawn that way looks exactly like a fascia.
+    Why these 25 have no run is `oq/which-end-of-a-moulding-its-projection-names`; that they are
+    SAID is this class."""
+
+    STRAIGHT = {
+        ("vignola-doric", "capital", "cap_cyma"), ("gibbs-doric", "capital", "cap_cyma"),
+        ("chambers-doric", "capital", "cap_cyma"),
+        ("vignola-ionic", "pedestal", "ped_base_cyma"),
+        ("vignola-corinthian", "pedestal", "ped_base_cyma"),
+        ("vignola-composite", "pedestal", "ped_base_cyma"),
+        ("palladio-ionic", "pedestal", "ped_base_cyma"),
+        ("gibbs-doric", "pedestal", "ped_base_ogee"), ("gibbs-ionic", "pedestal", "ped_base_ogee"),
+        ("gibbs-corinthian", "pedestal", "ped_base_ogee"),
+        ("gibbs-composite", "pedestal", "ped_base_ogee"),
+    } | {(p, "shaft", "apophyge_lower") for p in (
+        "vignola-ionic", "vignola-corinthian", "vignola-composite", "palladio-ionic",
+        "palladio-corinthian", "palladio-composite", "gibbs-ionic", "gibbs-corinthian",
+        "gibbs-composite", "chambers-ionic", "chambers-corinthian", "chambers-composite",
+        "benjamin-ionic", "benjamin-corinthian")}
+
+    def test_a_curve_given_one_face_twice_is_marked_and_reported(self):
+        res = PROF.silhouette([
+            {"id": "a", "profile": "fascia", "y_bottom_in": 0.0, "y_top_in": 1.0, "projection_in": 2.0},
+            {"id": "b", "profile": "cyma-reversa", "y_bottom_in": 1.0, "y_top_in": 2.0, "projection_in": 2.0}], 0.0)
+        assert [u["id"] for u in res["drawn_straight"]] == ["b"]
+        assert [s for s in res["segments"] if s.get("straight")] and \
+            not any(s["kind"] == "arc" for s in res["segments"])
+
+    def test_a_square_step_with_no_run_is_not_a_curve_drawn_straight(self):
+        res = PROF.silhouette([
+            {"id": "a", "profile": "fascia", "y_bottom_in": 0.0, "y_top_in": 1.0, "projection_in": 2.0},
+            {"id": "b", "profile": "fillet", "y_bottom_in": 1.0, "y_top_in": 2.0, "projection_in": 2.0}], 0.0)
+        assert res["drawn_straight"] == []
+
+    def test_an_unconstructed_member_with_no_run_is_still_reported_unconstructed(self):
+        """The no-run shortcut used to come FIRST, so a volute whose face equalled the one below
+        it was drawn as a plain line and reported as nothing at all."""
+        res = PROF.silhouette([
+            {"id": "a", "profile": "fascia", "y_bottom_in": 0.0, "y_top_in": 1.0, "projection_in": 2.0},
+            {"id": "v", "profile": "volute", "y_bottom_in": 1.0, "y_top_in": 3.0, "projection_in": 2.0}], 0.0)
+        assert [u["id"] for u in res["unconstructed"]] == ["v"]
+        assert res["drawn_straight"] == []
+
+    def test_the_twenty_five_are_exactly_these(self):
+        live = set()
+        for pid in sorted(PE.PACKS):
+            if PE.PACKS[pid].get("kind") != "order-system":
+                continue
+            r = PE.resolve(pid)
+            g = PROF.pack_geometry(PE.dimension(r, 36.0), r.get("column"), r.get("projection_datum"))
+            live |= {(pid, u["assembly"], u["id"]) for u in g["drawn_straight"]}
+        assert live == self.STRAIGHT, (sorted(live - self.STRAIGHT), sorted(self.STRAIGHT - live))
+
+
 class TestSerialisers:
     def test_svg_arcs_flip_their_sweep_when_the_transform_flips_y(self):
         """Every plate here draws model inches up and screen pixels down. A sweep flag computed in

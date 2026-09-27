@@ -1107,6 +1107,10 @@ def render_elevation(elev, path, face=None, scale=24.0):
         # Never draw a shape this corpus has no construction for without saying which.
         cap.append(", ".join(sorted({u["profile"].upper() for u in sil["unconstructed"]}))
                    + " NOT CONSTRUCTED — DRAWN AS THE DASHED BOX THEIR HEIGHT AND PROJECTION BOUND")
+    if sil["drawn_straight"]:
+        # A cyma drawn as a vertical stroke looks exactly like a fascia (WP-14.2).
+        cap.append(f'{len(sil["drawn_straight"])} CURVED MEMBER(S) DRAWN STRAIGHT — '
+                   f'NO RUN BETWEEN THEIR FACES')
     if sil["unpublished"]:
         # A face drawn flush because the authority published no figure looks exactly like a face
         # measured flush. Saying which is the whole difference.

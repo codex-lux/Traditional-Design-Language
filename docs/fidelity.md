@@ -117,7 +117,7 @@ join the app without either a census row or a stated reason it is not an archite
 | P8 | profile-plates | a member the plate calls NOT CONSTRUCTED has no curve drawn for it | plates holding a volute or acanthus member | 10 | 10 | 0 | 0 |
 | P9 | profile-plates | a plate showing another authority's members says whose they are | every committed profile plate | 73 | 73 | 0 | 0 |
 | P10 | profile-plates | a member whose record confidence is not high is marked as such on the plate | plates holding a medium- or low-confidence member | 65 | 0 | 65 | 0 |
-| P11 | profile-plates | a curved member drawn as a straight line says so | plates holding a curved profile kind | 49 | 46 | 3 | 0 |
+| P11 | profile-plates | a curved member drawn as a straight line says so | plates holding a curved profile kind | 49 | 49 | 0 | 0 |
 | P12 | profile-plates | the committed plate is the renderer's current output | every committed profile plate | 73 | 73 | 0 | 0 |
 | P13 | profile-plates | a part the assembly's own members are named for, and no member records, is said on the plate -- not drawn as though the section were the whole | plates whose members are named for a part no member records | 4 | 4 | 0 | 0 |
 | E1 | order-stack | the column drawn (base + shaft + capital) is the column height the pack states | order packs stating a column height | 25 | 18 | 5 | 2 |

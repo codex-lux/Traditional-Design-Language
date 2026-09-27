@@ -167,6 +167,7 @@ class TestTheChecksCanDisagree:
         assert live[("P2", "palladio-doric-capital-profile")] == "agrees"
         assert live[("P13", "vignola-ionic-capital-profile")] == "agrees"
         assert live[("P8", "vignola-corinthian-capital-profile")] == "agrees"
+        assert live[("P11", "vignola-doric-capital-profile")] == "agrees"
 
     def test_p5_sees_a_plate_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
         got = _verdicts(monkeypatch, "P5", _planted(self.PLATE, self._scaled(1.1)))
@@ -227,6 +228,14 @@ class TestTheChecksCanDisagree:
             new_d = re.sub(r"L ([\d.]+),([\d.]+)", one, fill.group(1), count=0)
             return svg.replace(fill.group(1), new_d, 1)
         got = _verdicts(monkeypatch, "P8", _planted(plate, change))
+        assert got == ["disagrees"], got
+
+    def test_p11_sees_a_curve_drawn_straight_and_not_said(self, monkeypatch):
+        """WP-14.2 made the three Doric capitals say their cymatium is drawn straight, so P11 has
+        no live disagreement; this is that silence put back."""
+        got = _verdicts(monkeypatch, "P11", _planted(
+            "vignola-doric-capital-profile",
+            lambda s: s.replace("CURVED MEMBER(S) DRAWN STRAIGHT", "CURVED MEMBER(S)")))
         assert got == ["disagrees"], got
 
     def test_p13_sees_a_section_passed_off_as_the_capital(self, monkeypatch):

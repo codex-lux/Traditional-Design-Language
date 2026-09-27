@@ -97,6 +97,9 @@ SQUARE = ("fillet", "listel", "fascia", "plinth", "corona", "abacus", "metope",
 UNCONSTRUCTED = ("volute", "acanthus")
 # Profiles whose repetition is the point: a band of them is not a solid band.
 REPEATING = ("dentil", "modillion", "mutule", "triglyph")
+# The profiles that ARE a curve between two faces, and so cannot be drawn when the two faces are
+# one: a quarter and a cyma need a run. (A half round and a scotia carry their own depth.)
+CURVED = CONVEX_QUARTER + CONCAVE_QUARTER + ("cyma-recta", "cyma-reversa", "ogee")
 
 
 # ---------------------------------------------------------------- segment primitives
@@ -305,11 +308,32 @@ def member_path(profile, x_from, y0, x_face, y1, note=None):
             segs.append(_line(x_face, y1))
         return segs, x_face
 
+    if p in UNCONSTRUCTED:
+        # THE ENVELOPE, NOT A SWELLING (WP-14.2). What the record gives is a height and a face; the
+        # shape between is a spiral or a leaf this corpus has no construction for. So the member
+        # is drawn as the box those two figures bound -- square edges, each marked `envelope`,
+        # which the ink does not stroke and `envelope_path` draws dashed. The swelling this
+        # replaced was a quarter-ellipse under words promising nothing plausible had been drawn.
+        # Tested BEFORE the no-run case below, which would otherwise swallow an unconstructed
+        # member whose face happens to equal the one beneath it and report nothing.
+        segs.append(dict(_line(x_face, y0), unconstructed=p, envelope=True))
+        segs.append(dict(_line(x_face, y1), unconstructed=p, envelope=True))
+        return segs, x_face
+
     # No horizontal run: every curve degenerates to the vertical face it actually is. This is
     # the case the old seg_to() hit on EVERY member -- it was always called with xa == xb -- which
     # is why its curves never appeared and the cornice came out a flight of steps.
+    #
+    # A CURVE WITH NO RUN IS MARKED `straight` (WP-14.2) so a caller can SAY it was drawn as a
+    # line. 25 of the 161 published curved members in the order stacks reach here, and not
+    # one plate said so: a cyma drawn as a vertical line looks exactly like a fascia. Why they
+    # have no run is a question about the record, not this function --
+    # `oq/which-end-of-a-moulding-its-projection-names`.
     if abs(dx) < _EPS and p not in ROUNDS and p != "scotia":
-        segs.append(_line(x_face, y1))
+        seg = _line(x_face, y1)
+        if p in CURVED:
+            seg["straight"] = p
+        segs.append(seg)
         return segs, x_face
 
     if p in CONVEX_QUARTER:
@@ -384,16 +408,6 @@ def member_path(profile, x_from, y0, x_face, y1, note=None):
         segs.append(_line(x_face, y1))
         return segs, x_face
 
-    if p in UNCONSTRUCTED:
-        # THE ENVELOPE, NOT A SWELLING (WP-14.2). What the record gives is a height and a face; the
-        # shape between is a spiral or a leaf this corpus has no construction for. So the member
-        # is drawn as the box those two figures bound -- square edges, each marked `envelope`,
-        # which the ink does not stroke and `envelope_path` draws dashed. The swelling this
-        # replaced was a quarter-ellipse under words promising nothing plausible had been drawn.
-        segs.append(dict(_line(x_face, y0), unconstructed=p, envelope=True))
-        segs.append(dict(_line(x_face, y1), unconstructed=p, envelope=True))
-        return segs, x_face
-
     # Square step -- fillet, fascia, corona, plinth, abacus, and the repeating members whose
     # section is square even though their elevation is a row of teeth.
     if p == "corona" and note and "drip" in str(note).lower():
@@ -443,14 +457,14 @@ def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
     if not members:
         return {"start": (0.0, 0.0), "segments": [], "unconstructed": [], "unpublished": [],
                 "ghost_path": "", "ghost_tick": 0.0, "envelope_path": "",
-                "named_not_recorded": [], "notes": []}
+                "drawn_straight": [], "named_not_recorded": [], "notes": []}
     if naked_at is None:
         naked_at = 0.0
     nk = naked_at if callable(naked_at) else (lambda _y, _v=float(naked_at): _v)
 
     y_start = members[0]["y_bottom_in"]
     x_cur = nk(y_start)
-    out, unconstructed, unpublished = [], [], []
+    out, unconstructed, unpublished, straight = [], [], [], []
     relief = 0.0
     for m in members:
         y0, y1 = m["y_bottom_in"], m["y_top_in"]
@@ -469,6 +483,9 @@ def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
             unconstructed.append({"id": m.get("id"), "profile": (m.get("profile") or "").lower(),
                                   "x0": round(naked, 6), "x1": round(face, 6),
                                   "y0": y0, "y1": y1})
+        if any(s.get("straight") for s in segs):
+            straight.append({"id": m.get("id"), "profile": (m.get("profile") or "").lower(),
+                             "x": round(face, 6), "y0": y0, "y1": y1})
         out.extend(segs)
     if close and out:
         y_end = members[-1]["y_top_in"]
@@ -483,6 +500,7 @@ def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
     return {"start": (round(x_cur if not out else nk(y_start), 6), round(y_start, 6)),
             "segments": out, "unconstructed": unconstructed, "unpublished": unpublished,
             "ghost_path": ghosts, "ghost_tick": tick, "envelope_path": envelopes,
+            "drawn_straight": straight,
             "named_not_recorded": named_not_recorded(members), "notes": []}
 
 
@@ -791,7 +809,7 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
            "shaft": ({"y0": sy0, "y1": sy1, "entasis_begins_at": ent_at,
                       "diminution": dimin} if shaft else None),
            "assemblies": [], "unconstructed": [], "published": [], "unpublished": [],
-           "assembly_datum": {}}
+           "drawn_straight": [], "assembly_datum": {}}
 
     for a in dim.get("assemblies", []):
         aid = a["id"]
@@ -855,6 +873,10 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
                 uncon.append({"assembly": aid, "id": m.get("id"),
                               "profile": (m.get("profile") or "").lower(),
                               "x0": round(naked, 5), "x1": round(face, 5), "y0": y0, "y1": y1})
+            if any(s.get("straight") for s in ms):
+                out["drawn_straight"].append({"assembly": aid, "id": m.get("id"),
+                                              "profile": (m.get("profile") or "").lower(),
+                                              "x": round(face, 5), "y0": y0, "y1": y1})
             segs.extend(ms)
         out["assemblies"].append({
             "id": aid, "y0": a["y_bottom_in"], "y1": a["y_top_in"],

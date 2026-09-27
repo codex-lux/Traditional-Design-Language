@@ -89,6 +89,16 @@ def test_an_unconstructed_member_is_named_and_not_invented():
         assert name in text, name
 
 
+def test_a_curve_drawn_straight_is_counted_on_the_plate():
+    """WP-14.2: Vignola's Doric cymatium has the abacus's face as its own, so it is drawn as a
+    line -- and the plate says so, naming it, rather than letting it pass for a fascia."""
+    svg, rep = RP.render("vignola-doric", "capital", module_in=6.0)
+    text = re.sub(r"\s+", " ", " ".join(re.findall(r">([^<]*)</text>", svg)))
+    assert "1 CURVED MEMBER(S) DRAWN STRAIGHT" in text and "cap cyma (cyma-reversa)" in text
+    svg, rep = RP.render("vignola-doric", "cornice", module_in=6.0)
+    assert "DRAWN STRAIGHT" not in svg
+
+
 def test_a_section_that_names_a_volute_it_does_not_record_says_so():
     """Vignola's Ionic capital records `volute_gorge` and `volute_fillet` and no volute: the
     section through the channel, which every surface presented as the capital (WP-14.2)."""

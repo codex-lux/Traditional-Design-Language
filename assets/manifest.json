@@ -77698,9 +77698,9 @@
         "path": "assets/generated/chambers-doric-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3619,
-        "sha256": "3cec6f29e554253ef4f282c6fd027ef64d2649391ceb14b94a9295d5ec18fc07"
+        "height": 841,
+        "bytes": 3856,
+        "sha256": "b463e50ef2a92d6323e31b5c10b757fb9813cc8ce8452d6ec86c3fd5990393e8"
       },
       "status": "sourced",
       "priority": "high",
@@ -78343,9 +78343,9 @@
         "path": "assets/generated/gibbs-doric-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3610,
-        "sha256": "d9bc417bf2909b2a96061ae73cd10c224c7032c6cb47a016998ad667ee982250"
+        "height": 841,
+        "bytes": 3847,
+        "sha256": "69e0e7f33ef2b327e7128a2bbece98b4c7fd92756a7ba34d0da8907578342af7"
       },
       "status": "sourced",
       "priority": "high",
@@ -79719,9 +79719,9 @@
         "path": "assets/generated/vignola-doric-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 786,
-        "bytes": 3321,
-        "sha256": "4430894cd85123f684ccb7c326d336d0793b5954587f99293394bd6eec8f63ea"
+        "height": 808,
+        "bytes": 3558,
+        "sha256": "89b8a87036f3c77cc293066754849c35da8b546439f0fe5b51f11afeb8d3fca6"
       },
       "status": "sourced",
       "priority": "high",
