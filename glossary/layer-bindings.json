@@ -1,0 +1,9 @@
+{
+  "id": "layer-bindings",
+  "term": "The bindings",
+  "family": "layer",
+  "order": 3,
+  "definition": "One kit per style, filling every slot as specified, inherited, open or forbidden, with a column showing which ancestor each value came from. This is where a style becomes buildable rather than merely describable.",
+  "kind": "editorial",
+  "basis": "Editorial, from VISION.md's fourth layer: \"One kit per node, materialising every slot, so that selecting a style resolves to a directory of specified, inherited, open or forbidden elements\" \"with a source column showing which ancestor each value came from.\" \"This is where a style becomes buildable rather than merely describable.\""
+}

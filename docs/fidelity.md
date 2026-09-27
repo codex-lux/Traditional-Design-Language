@@ -89,6 +89,7 @@ join the app without either a census row or a stated reason it is not an archite
 | profile-plates | producer | `build/render_profile.py` | 73 moulding-profile plates committed under assets/generated/ |
 | orders-tool | producer | `build/orders_template.html` | the order-drawing tool dist/orders.html (half section, mirrored elevation) |
 | proportions-plate | producer | `workbench/app/src/surfaces/Proportions.jsx` | the workbench Proportions plate (half section of each order pack) |
+| assembly-plate | producer | `workbench/app/src/components/AssemblyPlate.jsx` | the workbench Proportions plate of a pack drawn as assemblies (`drawing: "assemblies"`): each assembly's served faces at the wall datum, one frame each. The other Phase 14's WP-14.9, registered at the merge (27 Sep 2026). NO CENSUS CHECK READS IT, so every figure it draws is unjudged here; its faces are Python's (`profiles.pack_geometry(datum="wall")`) and its layout is held by that line's own `plate/assembly*.test.mjs` |
 | elevation | producer | `build/render_elevation.py` | elevation sheets, each with an eave-cornice profile inset |
 | section | producer | `build/render_section.py` | the building section and the bearing diagram |
 | roof | producer | `build/render_roof.py` | the roof plan |

@@ -1,0 +1,12 @@
+{
+  "id": "attaches-to",
+  "term": "attaches to",
+  "family": "house",
+  "definition": "The massings a grouping can be laid into, each with how well it fits, where in the house it goes, and the massings it is kept out of.",
+  "kind": "editorial",
+  "basis": "schema/grouping.schema.json, the attaches_to field: \"How the grouping lands in a skeleton. This is the join between the room catalogue and the massing catalogue, and it is what makes the two composable.\"",
+  "see": [
+    "term:grouping",
+    "term:massing"
+  ]
+}

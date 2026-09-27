@@ -14,8 +14,10 @@
 
    2. Precision is drawn, not hidden. Half the corpus names only a country — "England",
       "United States nationwide" — which is not a hearth, and a firm dot would invent one.
-      Those are drawn as hollow hatched rings, the same hatch the product uses everywhere
-      for "not judged", and the legend counts them.
+      Those are drawn as hollow DASHED rings -- never hatched, whatever this line said
+      until WP-14.29 -- which is the low-confidence mark's form (a dashed outline, for a
+      placement the record holds only loosely), drawn here in the tradition's hue because on
+      the map the hue is what names the tradition; the legend draws it in ink and counts them.
 
    3. Coincident styles cluster rather than overlap. Twenty-five traditions sharing
       "England" is a fact about the records, not about England, so the mark carries the
@@ -37,6 +39,10 @@ import { useCoastline } from './useCoastline.js';
 import { gridStep, ticks } from './graticule.js';
 import { Eyebrow } from '../../components/Eyebrow.jsx';
 import { ActionChip } from '../../Chrome.jsx';
+import { carriesKit } from '../../lineage/carry.js';
+import { useGlossary } from '../../api/useGlossary.js';
+import { describeTerm, termView } from '../../glossary/termView.js';
+import { Term } from '../../components/Term.jsx';
 
 /* Equirectangular, and deliberately so: it is the projection the coastline asset is
    stored in, it keeps the transform to two subtractions, and at this scale — a diagram of
@@ -71,7 +77,7 @@ const MIN_W = 3, MAX_W = 340;
 
 const ZOOM_KEY = {
   font: 'var(--type-data-s)', fontFamily: 'var(--mono)', width: 22, height: 20,
-  color: 'var(--ink-3)', background: 'transparent', cursor: 'pointer',
+  color: 'var(--ink-2)', background: 'transparent', cursor: 'pointer',
   transition: 'var(--t-hover)',
 };
 
@@ -100,7 +106,7 @@ const PRECISION_NOTE = {
 };
 
 export function MapView({
-  rows, edges, sel, compare, onPick, traditionHue, lit, carries, showClaims, rankFilter,
+  rows, edges, sel, compare, onPick, traditionHue, lit, showClaims, rankFilter,
   full, onFull, onExitFull,
 }) {
   /* `place` is {x, cy, w} — a longitude span and the point it is centred on. THE HEIGHT
@@ -119,6 +125,8 @@ export function MapView({
      the fix that cannot come back: with no letterbox there is no second coordinate space
      left to get wrong. */
   const [place, setPlace] = React.useState(HOME);
+  const glossary = useGlossary();
+  const positionsView = termView(glossary, { id: 'map-positions' });
   const [aspect, setAspect] = React.useState(134 / 43);
   const [hover, setHover] = React.useState(null);
   const svgRef = React.useRef(null);
@@ -199,10 +207,11 @@ export function MapView({
       const a = byId[e.from], b = byId[e.to];
       if (!a || !b) return;
       if (a.key === b.key) { same += 1; return; }
-      out.push({ i, e, a, b, carries: !!carries[e.type] });
+      // The served flag, per edge (WP-14.11): a table of types drew 42 kit-carrying co-parents light.
+      out.push({ i, e, a, b, carries: carriesKit(e) });
     });
     return { arcs: out, sameHearth: same };
-  }, [edges, byId, carries]);
+  }, [edges, byId]);
 
   /* Zoom about a point, keeping that point still. Exact now that the viewBox and the
      element are the same shape: the fractions below are the fractions on screen. */
@@ -384,6 +393,7 @@ export function MapView({
             const cx = mx - (dy / len) * bow, cy = my + (dx / len) * bow;
             return (
               <path key={i} d={`M${a.x},${a.y} Q${cx},${cy} ${b.x},${b.y}`}
+                data-edge-from={e.from} data-edge-to={e.to} data-edge-type={e.type}
                 vectorEffect="non-scaling-stroke"
                 stroke={cc ? 'var(--edge-carries)' : 'var(--edge-claims)'}
                 strokeWidth={cc ? 1.5 : 0.8}
@@ -405,9 +415,15 @@ export function MapView({
               <g key={c.key} onMouseEnter={() => setHover(c)} onMouseLeave={() => setHover(null)}
                 onClick={(ev) => pickFromMap(ev, nextInCluster(c))}
                 style={{ cursor: 'pointer' }}>
-                {/* A country-precision mark is hollow and hatched: the record named a
-                    nation, not a hearth, and a filled dot would claim one. */}
-                <circle cx={c.x} cy={c.y} r={r}
+                {/* A country-precision mark is hollow and dashed -- the low-confidence form:
+                    the record named a nation, not a hearth, and a filled dot would claim one.
+                    HOLLOW IS HOW IT LOOKS AND NOT WHERE IT TAKES A CLICK (WP-14.27). SVG's
+                    default `pointer-events` is `visiblePainted`, so a `fill="none"` disc took a
+                    click only on its dashed 1.2 px stroke and a click in its middle fell through
+                    to the map and panned it. `visible` makes the whole disc the target whatever
+                    it is painted with. Found when the walk's map-click check stopped being
+                    carried by a default record and had to pick one. */}
+                <circle cx={c.x} cy={c.y} r={r} pointerEvents="visible"
                   fill={coarse ? 'none' : hue}
                   stroke={holdsSel ? 'var(--ink)' : hue}
                   strokeWidth={holdsSel ? 1.8 : (coarse ? 1.2 : 0.7)}
@@ -460,7 +476,7 @@ export function MapView({
                 <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                   {counts[p]} {p}
                 </span>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
+                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
                   · {PRECISION_NOTE[p]}
                 </span>
               </span>
@@ -469,13 +485,17 @@ export function MapView({
         </div>
 
         <div style={{ flex: 1, minWidth: 260 }}>
-          <Eyebrow style={{ marginBottom: 6 }}>what this drawing does not know</Eyebrow>
-          <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-3)',
-            margin: 0, maxWidth: '74ch' }}>
-            The corpus records where a style arose in prose, not coordinates. These points
-            come from a gazetteer in the interface, keyed on the region and hearth names the
-            records use — they are accurate to the size of the thing named and no better,
-            and none of them is a source.
+          {/* WHERE THE POINTS COME FROM IS A RECORD (WP-14.33, ruled 26 Sep 2026: a sentence
+              stating a corpus fact is derived or recorded). "The corpus records where a style
+              arose in prose, not coordinates" was typed here; it is the `map-positions` glossary
+              record's now, which quotes docs/workbench.md. What follows it is this drawing's own
+              disclosure, every figure in it counted off the marks in hand. */}
+          <Eyebrow style={{ marginBottom: 6 }}><Term id="map-positions" /></Eyebrow>
+          <p data-term-definition={positionsView.state === 'ready' ? 'map-positions' : undefined}
+            style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)',
+            color: 'var(--ink-2)', margin: 0, maxWidth: '74ch' }}>
+            {positionsView.state === 'ready'
+              ? `${positionsView.definition} ${positionsView.record.more || ''}`.trim() : ''}
             {abstract > 0 && (
               <> {abstract} of the {counts.country} country-wide marks are country-wide
                 because the corpus says so rather than because this drawing failed: a family
@@ -495,21 +515,20 @@ export function MapView({
           </p>
           {/* What the outline itself can and cannot show, at this scale, right now. The
               three states are kept apart: drawn, still coming, and could not be had. */}
-          <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '6px 0 0' }}>
+          <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
             Coastline · {coast.drawn.source}, simplified at {coast.drawn.tolerance}° —
             {' '}{land.length} of {coast.drawn.rings} rings in view.
             {coast.pending && (
-              <span style={{ color: 'var(--ink-3)' }}> Fetching the {coast.wanted.name} outline
+              <span style={{ color: 'var(--ink-2)' }}> Fetching the {coast.wanted.name} outline
                 for this scale; what is drawn is still the {coast.drawnName} one.</span>
             )}
             {coast.failed && (
-              <span style={{ color: 'var(--refusal)' }}> The {coast.wanted.name} outline could
+              <span style={{ color: 'var(--ink)' }}> The {coast.wanted.name} outline could
                 not be fetched ({coast.failed}), so this is the {coast.drawnName} one at a
                 scale it cannot carry — the facets are the simplification, not the shore.
                 {' '}
-                <button type="button" onClick={coast.retry}
-                  style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
-                    borderBottom: '1px solid var(--link-underline)' }}>try again</button>
+                <button type="button" onClick={coast.retry} className="tdl-link"
+                  style={{ font: 'var(--type-data-s)' }}>try again</button>
               </span>
             )}
           </p>
@@ -534,23 +553,20 @@ export function MapView({
               disabled={view.w >= MAX_W * 0.999} aria-label="zoom out" title="Further out"
               style={{ ...ZOOM_KEY, borderLeft: '1px solid var(--rule)' }}>−</button>
           </span>
-          <button type="button" onClick={() => setPlace(HOME)}
-            style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
-              borderBottom: '1px solid var(--link-underline)' }}>reset the view</button>
+          <button type="button" onClick={() => setPlace(HOME)} className="tdl-link"
+            style={{ font: 'var(--type-data-s)' }}>reset the view</button>
           {/* The whole window, temporarily. The rails and the masthead are 580px and 52px
               of instrument around a drawing whose whole errand is extent; this hands them
               back for as long as the reader wants them back, and escape ends it. */}
           {(onFull || onExitFull) && (
             <ActionChip affix={null}
               onClick={() => (full ? onExitFull && onExitFull() : requestFull(onFull))}
-              title={full
-                ? 'Give the instrument back — or press escape'
-                : 'Give the atlas the whole window — escape brings the instrument back'}>
+              title={describeTerm(glossary, 'full-screen').title}>
               {full ? '⤡ leave full screen · esc' : '⤢ full screen'}
             </ActionChip>
           )}
         <span style={{ flex: 1 }} />
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>drag · scroll to zoom</span>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>drag · scroll to zoom</span>
       </div>
       </div>
 
@@ -561,7 +577,7 @@ export function MapView({
           background: 'var(--paper)', border: '1px solid var(--rule)', padding: '9px 11px',
           pointerEvents: 'none' }}>
           <Eyebrow tone="secondary" as="span">{hover.region}</Eyebrow>
-          <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '3px 0 6px' }}>
+          <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '3px 0 6px' }}>
             {hover.precision} · {PRECISION_NOTE[hover.precision]}
           </div>
           {hover.members.slice(0, 9).map((m) => (
@@ -570,7 +586,7 @@ export function MapView({
             </div>
           ))}
           {hover.members.length > 9 && (
-            <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', marginTop: 3 }}>
+            <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 3 }}>
               and {hover.members.length - 9} more
             </div>
           )}

@@ -1,0 +1,12 @@
+{
+  "id": "withheld-in-a-free-view",
+  "term": "withheld in a free view",
+  "family": "figure",
+  "definition": "An overlay read off a plan, such as the datums, the daylight reach or the wet stacks, means nothing once the model is turned freely, so a free view does not draw it, and says it withheld it rather than leaving it silently off.",
+  "kind": "editorial",
+  "basis": "Our wording of the rule for overlays in the model. docs/scene.md withholds from a view what cannot be read there: \"Every one of those is a measurement read off the plate\". docs/workbench.md: the \"daylight overlay is gated on the same test, so overlay and drawing cannot contradict\" each other.",
+  "see": [
+    "term:round-plate",
+    "term:in-the-round"
+  ]
+}

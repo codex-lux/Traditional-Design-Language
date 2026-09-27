@@ -1,400 +1,460 @@
-/* The sheet's marks, measured where a reader would measure them (WP-14.4).
+/* ONE MEANING PER HATCH, ONE PRODUCT KEY (WP-14.29, ruled 25 Sep 2026; PRD tranche 2 §D).
 
-   `sheet/marks.js` is the geometry the bench sheet draws its openings and its stair from, lifted
-   out of the JSX so it can be held to the record without a browser. The lift moved no ink: all 22
-   bench plates of the sixteen shipped plans were server-rendered before and after it and compared
-   byte for byte. Each test below is a behaviour the lift made testable and the package changed. */
-import test from 'node:test';
+   Until this package the unjudged hatch drew five things and the 45° hatch six, and the brick of
+   the UI's fatal was also the colour of a whole tradition. Four properties keep that from coming
+   back, and each is held here from the files themselves rather than from a list typed into the
+   test, so the day a new mark or a new hatch lands the test reads it without being edited:
+
+     1. every STATE hatch in `theme/tokens.css` carries exactly one duty -- one `--mark-*` reads
+        it -- and the named MATERIAL hatches carry none (they are drawing materials, keyed on the
+        sheet that draws them);
+     2. no shipped file draws a hatch by name: `var(--hatch-...)` appears nowhere outside the
+        stylesheet, and inside it only in a `--mark-*` declaration;
+     3. the `--mark-*` properties, the glossary records carrying `mark`, and `marks.js`'s forms
+        correspond one to one, so the product key cannot show a mark with no word or a word with
+        no mark;
+     4. `--t3` is an existing ink of the palette, named rather than typed, and is not brick.
+
+   No count literals: every population is derived from the stylesheet, the records or the code,
+   and each is asserted non-empty first, so a parser that stopped matching cannot pass by
+   reading nothing. Imports nothing outside `node:` and the pure modules under test. */
+import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { MARK_FORMS, JUDGMENT_MARKS, markGlyph, markKeyGroups } from './marks.js';
+import { JUDGMENT_MARK, styleFindingMark } from './judgment.js';
+import { ruleMark, ruleState } from './proportions/page.js';
+import { indexTerms } from './glossary/lookup.js';
+import { elements, stripComments } from './sourceReader.mjs';
 
-import { doorFrame, windowMark, stairArrow, bayLabel, leafOf, pairOf, sweepFlag, exteriorDoorMark,
-         interiorDoorMark, breastOpening } from './sheet/marks.js';
-import { bayLines, doors, levelRooms, wallOf, windows } from './sheet/derive.js';
+const SRC = fileURLToPath(new URL('.', import.meta.url));
+const ROOT = new URL('../../../', import.meta.url);
+const TOKENS = join(SRC, 'theme', 'tokens.css');
 
-const HERE = dirname(fileURLToPath(import.meta.url));
+/* The four drawing materials. Each is one material with one meaning, keyed where the sheet keys
+   it (PRD tranche 2 §D), and carries no on-screen duty. Named here because the PRD names them;
+   every OTHER hatch the stylesheet declares is a state hatch and owes exactly one duty. */
+const MATERIALS = Object.freeze(['--hatch-masonry', '--hatch-crosshatch', '--hatch-water', '--stipple-lawn']);
+/* A hatch the stylesheet declares that nothing draws. It carries no duty, and property 2 keeps
+   any code from starting to draw it by name. */
+const UNUSED = Object.freeze(['--hatch-cross']);
 
-const T = 1.2917;                     // the Tidewater envelope, 15.5 in
+const stripCss = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ');
+const stripJs = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1');
 
-/* the rect's extent in MODEL feet: x as drawn, y un-flipped */
-const extent = (r) => ({ x0: r.x, x1: r.x + r.width, y0: -(r.y + r.height), y1: -r.y });
-
-test('a window stands in its OWN wall, outside its own face, whichever wall it is on', () => {
-  // a dependency at negative x: a face that is not the footprint's on every side
-  const face = { W: -34, E: -7, S: 5.28, N: 31.96 };
-  for (const wall of ['W', 'E', 'S', 'N']) {
-    const w = wall === 'W' || wall === 'E'
-      ? { wall, x: face[wall], y: 12, w: 3 } : { wall, x: -20, y: face[wall], w: 3 };
-    const e = extent(windowMark(w, T).rect);
-    const out = { W: [e.x0, e.x1], E: [e.x0, e.x1], S: [e.y0, e.y1], N: [e.y0, e.y1] }[wall];
-    const want = { W: [face.W - T, face.W], E: [face.E, face.E + T],
-                   S: [face.S - T, face.S], N: [face.N, face.N + T] }[wall];
-    assert.ok(Math.abs(out[0] - want[0]) < 1e-9 && Math.abs(out[1] - want[1]) < 1e-9,
-      `${wall} window drawn across ${out.map((v) => v.toFixed(2))} where its wall is ${want.map((v) => v.toFixed(2))}`);
+/* Every custom property the stylesheet declares, as [name, value] in order. A declaration is a
+   name after `{`, `;` or a line start, then a colon -- the same reading `build/check_glossary.py`
+   rule 13 makes -- and a `var(--x)` is a use, never a declaration. */
+function declarations(css) {
+  const out = [];
+  for (const m of stripCss(css).matchAll(/(?:^|[{;])\s*(--[A-Za-z0-9_-]+)\s*:\s*([^;{}]*)/gm)) {
+    out.push([m[1], m[2].trim()]);
   }
-});
-
-test('the window is as deep as the wall it is cut in, and the sill stands outside it', () => {
-  for (const t of [0.667, T]) {
-    const { rect, sill } = windowMark({ wall: 'S', x: 10, y: 0, w: 3 }, t);
-    assert.equal(rect.height, t);
-    assert.ok(sill[1] > rect.y + rect.height, 'the sill is past the wall\'s outer face');
-  }
-});
-
-test("an exterior door's break is the wall, outward from the room's face", () => {
-  const cases = { S: [0, 12], N: [30, 12], W: [0, 12], E: [40, 12] };
-  for (const [wall, [edge, at]] of Object.entries(cases)) {
-    const horiz = wall === 'S' || wall === 'N';
-    const d = { x: horiz ? at : edge, y: horiz ? edge : at, w: 3, wall, horiz, exterior: true, t: T };
-    const e = extent(doorFrame(d).rect);
-    const [lo, hi] = horiz ? [e.y0, e.y1] : [e.x0, e.x1];
-    const want = { S: [-T, 0], N: [30, 30 + T], W: [-T, 0], E: [40, 40 + T] }[wall];
-    assert.ok(Math.abs(lo - want[0]) < 1e-9 && Math.abs(hi - want[1]) < 1e-9,
-      `${wall} door break ${lo.toFixed(2)}..${hi.toFixed(2)} where the wall is ${want}`);
-  }
-});
-
-test("an interior door's break is unchanged: 0.7 ft centred on the shared line", () => {
-  const r = doorFrame({ x: 12, y: 20, w: 3, horiz: true }).rect;
-  assert.deepEqual([r.height, -(r.y + r.height / 2)], [0.7, 20]);
-});
-
-test('the exterior door carries the jamb the record hangs it from', () => {
-  const room = { id: 'hall', x: 0, y: 0, w: 10, h: 10, exterior_walls: ['S'], windows: [],
-    doors: [{ to: 'exterior', width_ft: 3, wall: 'S', position_ft: 5, hinge: 'high' }] };
-  const got = doors([room], 10, 10).exterior;
-  assert.equal(got.length, 1);
-  assert.equal(got[0].hinge, 'high', 'the record says high and the entry must too');
-  room.doors[0].hinge = undefined;
-  assert.equal(doors([room], 10, 10).exterior[0].hinge, 'low', 'and low where it says nothing, as the interior branch');
-});
-
-test('the stair arrow points the way the flight runs, over its middle', () => {
-  const f = { x_ft: 18, y_ft: 24.62, width_ft: 3.5, depth_ft: 7.5 };
-  const n = stairArrow({ ...f, direction: 'N' });
-  assert.ok(n.shaft[3] < n.shaft[1], 'a flight running north points up the screen');
-  const s = stairArrow({ ...f, direction: 'S' });
-  assert.ok(s.shaft[3] > s.shaft[1]);
-  const e = stairArrow({ ...f, direction: 'E' });
-  assert.ok(e.shaft[2] > e.shaft[0] && e.shaft[1] === e.shaft[3]);
-  // the head is at the shaft's end
-  assert.deepEqual([n.head[2], n.head[3]], [n.shaft[2], n.shaft[3]]);
-  assert.equal(stairArrow({ ...f }), null, 'a flight stating no direction gets no arrow');
-  // AND IT STANDS OVER THE FLIGHT'S MIDDLE (WP-14.6, auditor C). Everything above reads which
-  // way the shaft runs, so an arrow drawn a flight's width off to the side -- or across the
-  // landing -- passed it. The shaft's midpoint is the flight's own centre, in the sheet's
-  // coordinates (y flipped), and it runs over the middle 68 per cent of the flight's length.
-  const cx = f.x_ft + f.width_ft / 2, cy = -(f.y_ft + f.depth_ft / 2);
-  for (const [dir, len] of [['N', f.depth_ft], ['S', f.depth_ft], ['E', f.width_ft], ['W', f.width_ft]]) {
-    const [x0, y0, x1, y1] = stairArrow({ ...f, direction: dir }).shaft;
-    assert.ok(Math.abs((x0 + x1) / 2 - cx) < 1e-9 && Math.abs((y0 + y1) / 2 - cy) < 1e-9,
-      `the ${dir} arrow's middle is (${(x0 + x1) / 2}, ${(y0 + y1) / 2}), the flight's is (${cx}, ${cy})`);
-    assert.ok(Math.abs(Math.hypot(x1 - x0, y1 - y0) - 0.68 * len) < 1e-9,
-      `the ${dir} arrow runs ${Math.hypot(x1 - x0, y1 - y0)} ft over a ${len} ft flight`);
-  }
-});
-
-test("a bay line is labelled with the record's own figure, not a rounded one", () => {
-  assert.equal(bayLabel(36.51), '36.51');
-  assert.equal(bayLabel(9), '9');
-  const xs = bayLines({ width_ft: 60.85, bay_module_ft: 12.17 });
-  assert.deepEqual(xs.map(bayLabel), ['12.17', '24.34', '36.51', '48.68']);
-});
-
-test('a record stating no bay module gets no bay lines, not a 10 ft grid', () => {
-  assert.deepEqual(bayLines({ width_ft: 40 }), []);
-  assert.deepEqual(bayLines({ width_ft: 40, bay_module_ft: 0 }), []);
-  assert.deepEqual(bayLines({ width_ft: 40, bay_module_ft: 10 }), [10, 20, 30]);
-});
-
-/* ------------------------------------------------------------------ the leaf (WP-14.6's second audit)
-
-   THE BENCH'S DOOR LEAF, ARC AND WINDOW WERE GUARDED BY NOTHING. Six mutations of the geometry
-   below left all 279 app tests green: the jambs of a vertical wall swapped, the jambs of a
-   horizontal wall swapped, a vertical wall's swing turned the other way, the sweep flag inverted,
-   the glazing moved onto the wall's face, and a W or E sill moved into the room. The tests before
-   these read the break's EXTENT and never which jamb a leaf hangs from, where it opens to, which
-   way its arc turns, or where the glazing and the sill stand. */
-
-const model = (p) => [p[0], -p[1]];                       // screen feet -> model feet
-const near = (p, q, tol = 1e-6) => Math.abs(p[0] - q[0]) < tol && Math.abs(p[1] - q[1]) < tol;
-
-/* The W3C SVG implementation notes, F.6.5, for a circle (rx = ry = r, no rotation): the CENTRE a
-   renderer draws an arc about, given the arc's two ends, its radius and its flags. Reading the
-   drawn arc back through this is what tests/test_drawn_geometry.py does for the profiles, and it
-   is the one check that tells an arc from its own mirror about the chord -- the sweep bug that
-   drew every horizontal-wall leaf in the Python sheet inside out for seven phases. */
-function arcCentre([x1, y1], [x2, y2], r, sweep, large = 0) {
-  const x1p = (x1 - x2) / 2, y1p = (y1 - y2) / 2;
-  const d2 = x1p * x1p + y1p * y1p;
-  const rr = Math.max(r, Math.sqrt(d2));
-  const k = (large !== sweep ? 1 : -1) * Math.sqrt(Math.max(0, (rr * rr - d2) / d2));
-  return [k * y1p + (x1 + x2) / 2, -k * x1p + (y1 + y2) / 2];
+  return out;
 }
 
-/* The leaf the contract states, exactly as tests/test_sheet_symbols.py's ink test states it for
-   the printed plate: hung at the record's jamb ("low" is the lower coordinate ALONG the wall),
-   open a leaf's width into the room it swings into, closing on the other jamb. Model feet. */
-function contractLeaf(horiz, along, across, w, positive, hinge) {
-  const [ha, fa] = hinge === 'high' ? [along + w / 2, along - w / 2] : [along - w / 2, along + w / 2];
-  const H = horiz ? [ha, across] : [across, ha];
-  const F = horiz ? [fa, across] : [across, fa];
-  const E = horiz ? [ha, across + (positive ? w : -w)] : [across + (positive ? w : -w), ha];
-  return { H, E, F };
+function readTokens(css = readFileSync(TOKENS, 'utf8')) {
+  const decls = declarations(css);
+  assert.ok(decls.length > 0, 'the premise: tokens.css declares custom properties this reader can see');
+  // LAST DECLARATION WINS, as CSS has it (WP-14.33's audit): taking the first let an appended
+  // `:root{--refusal:var(--violet)}` pass every verdict below while the page drew the violet.
+  const byName = new Map();
+  for (const [n, v] of decls) byName.set(n, v);
+  return { css, decls, byName };
 }
 
-function assertLeaf(lf, want, what) {
-  assert.ok(near(model(lf.hinge), want.H), `${what}: hung at ${model(lf.hinge)}, the contract's hinge is ${want.H}`);
-  assert.ok(near(model(lf.tip), want.E), `${what}: open to ${model(lf.tip)}, the contract's leaf ends at ${want.E}`);
-  assert.ok(near(model(lf.far), want.F), `${what}: closes on ${model(lf.far)}, the other jamb is ${want.F}`);
-  assert.ok(near(arcCentre(lf.tip, lf.far, lf.len, lf.sweep), lf.hinge),
-    `${what}: the arc is drawn about ${arcCentre(lf.tip, lf.far, lf.len, lf.sweep)}, not its hinge ${lf.hinge} -- its mirror about the chord`);
+const isHatch = (n) => /^--(hatch|stipple)-/.test(n);
+const readsVar = (value) => [...value.matchAll(/var\(\s*(--[A-Za-z0-9_-]+)/g)].map((m) => m[1]);
+
+/* Every glossary record, read with node:fs alone. */
+function records() {
+  const dir = new URL('glossary/', ROOT);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir).filter((f) => f.endsWith('.json')).sort()
+    .map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8')));
 }
 
-/* Every case a single leaf can be: a horizontal or a vertical wall, hung low or high, opening to
-   the positive side (north / east) or the negative. The last column is the SVG sweep flag, the
-   value build/render_plan.py::sweep_flag gives the same three points (tests/test_sheet_symbols.py
-   holds this module to that function under node). */
-const LEAF_CASES = [
-  [true, 'low', true, 1], [true, 'low', false, 0], [true, 'high', true, 0], [true, 'high', false, 1],
-  [false, 'low', true, 0], [false, 'low', false, 1], [false, 'high', true, 1], [false, 'high', false, 0],
-];
+/* Every shipped source file under src/: .js and .jsx, never a test. */
+function shipped(dir = SRC) {
+  const out = [];
+  for (const name of readdirSync(dir).sort()) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) { out.push(...shipped(full)); continue; }
+    if (/\.(js|jsx)$/.test(name) && !/\.test\./.test(name)) out.push(full);
+  }
+  return out;
+}
 
-test('a single leaf hangs from the jamb its record names, opens into its room, and turns about its hinge', () => {
-  for (const [horiz, hinge, positive, flag] of LEAF_CASES) {
-    const d = horiz ? { x: 10, y: 5, w: 3, horiz, hinge, swingUp: positive }
-      : { x: 10, y: 5, w: 3, horiz, hinge, swingRight: positive };
-    const lf = leafOf(d);
-    const what = `${horiz ? 'horizontal' : 'vertical'} wall, hung ${hinge}, opening ${positive ? '+' : '-'}`;
-    assertLeaf(lf, contractLeaf(horiz, horiz ? 10 : 5, horiz ? 5 : 10, 3, positive, hinge), what);
-    assert.equal(lf.len, 3, `${what}: the arc's radius is the leaf's width`);
-    assert.equal(lf.sweep, flag, `${what}: sweep ${lf.sweep}, render_plan.py's rule gives ${flag}`);
+/* ─────────────────────────── 1. one duty per hatch ─────────────────────────── */
+
+function dutiesOf(css) {
+  const { byName } = readTokens(css);
+  const hatches = [...byName.keys()].filter(isHatch);
+  const marks = [...byName.keys()].filter((n) => n.startsWith('--mark-'));
+  const readers = Object.fromEntries(hatches.map((h) => [h, []]));
+  for (const m of marks) {
+    const read = readsVar(byName.get(m)).filter(isHatch);
+    assert.ok(read.length <= 1, `${m} paints with ${read.length} hatches (${read}); a mark is one form`);
+    for (const h of read) (readers[h] || (readers[h] = [])).push(m);
+  }
+  return { hatches, marks, readers };
+}
+
+test('every state hatch carries exactly one duty, and no material or unused hatch carries any', () => {
+  const { hatches, readers } = dutiesOf();
+  const state = hatches.filter((h) => !MATERIALS.includes(h) && !UNUSED.includes(h));
+  assert.ok(state.length > 0, 'the premise: the stylesheet declares state hatches');
+  // the named materials and the unused hatch are really declared, or naming them exempts nothing
+  for (const h of [...MATERIALS, ...UNUSED]) assert.ok(hatches.includes(h), `${h} is named here and not declared`);
+  for (const h of state) {
+    assert.equal(readers[h].length, 1,
+      `${h} carries ${readers[h].length} duties (${readers[h].join(', ') || 'none'}): one meaning per hatch`);
+  }
+  for (const h of [...MATERIALS, ...UNUSED]) {
+    assert.deepEqual(readers[h], [], `${h} is a material or unused hatch and a mark reads it: ${readers[h]}`);
   }
 });
 
-test('a pair is a half leaf from each jamb, meeting at the middle, each turning about its own hinge', () => {
-  for (const horiz of [true, false]) {
-    for (const positive of [true, false]) {
-      const d = horiz ? { x: 10, y: 5, w: 6, horiz, swingUp: positive, type: 'double' }
-        : { x: 10, y: 5, w: 6, horiz, swingRight: positive, type: 'double' };
-      const [a, b] = pairOf(d);
-      const along = horiz ? 10 : 5, across = horiz ? 5 : 10;
-      const M = horiz ? [along, across] : [across, along];
-      for (const [lf, jamb] of [[a, along - 3], [b, along + 3]]) {
-        const H = horiz ? [jamb, across] : [across, jamb];
-        const E = horiz ? [jamb, across + (positive ? 3 : -3)] : [across + (positive ? 3 : -3), jamb];
-        assertLeaf(lf, { H, E, F: M }, `a ${horiz ? 'horizontal' : 'vertical'} pair's leaf at ${jamb}`);
-        assert.equal(lf.len, 3);
-      }
+test('the one-duty reader fails a stylesheet where two marks share a hatch, or a hatch has none', () => {
+  // driven, so the assertion above cannot pass by never finding a second reader
+  const base = ':root{--hatch-a:linear-gradient(red,red);--hatch-b:linear-gradient(red,red);'
+    + '--mark-x:var(--hatch-a);}';
+  assert.deepEqual(dutiesOf(base).readers, { '--hatch-a': ['--mark-x'], '--hatch-b': [] });
+  const two = base.replace('}', '--mark-y:var(--hatch-a);}');
+  assert.deepEqual(dutiesOf(two).readers['--hatch-a'], ['--mark-x', '--mark-y']);
+  // a mark named inside a comment is not a reader
+  const commented = base.replace('}', '/* --mark-z:var(--hatch-b); */}');
+  assert.deepEqual(dutiesOf(commented).readers['--hatch-b'], []);
+});
+
+/* ─────────────────────────── 2. no hatch drawn by name ─────────────────────────── */
+
+function rawHatchUses(src) {
+  return [...stripJs(src).matchAll(/var\(\s*(--(?:hatch|stipple)-[A-Za-z0-9_-]+)/g)].map((m) => m[1]);
+}
+
+test('no shipped file draws a hatch by name: a state is drawn through its duty token', () => {
+  const files = shipped();
+  assert.ok(files.length > 0, 'the premise: the shipped sources are on this tree');
+  let dutyUses = 0;
+  const offenders = [];
+  for (const f of files) {
+    const src = readFileSync(f, 'utf8');
+    for (const h of rawHatchUses(src)) {
+      if (!MATERIALS.includes(h)) offenders.push(`${f.slice(SRC.length)}: var(${h})`);
+    }
+    dutyUses += (stripJs(src).match(/var\(--mark-[a-z0-9-]+\)/g) || []).length;
+  }
+  assert.deepEqual(offenders, [], 'a raw hatch in shipped code gives a hatch a second meaning');
+  // and the consumers really do draw through the duty tokens, so the zero above is a zero of
+  // hatches and not a zero of files read
+  assert.ok(dutyUses > 0, 'no shipped file draws a --mark-* duty token: the scan above is reading nothing');
+});
+
+test('inside the stylesheet a hatch is read only by a --mark-* declaration', () => {
+  const { decls } = readTokens();
+  const stray = decls
+    .filter(([n, v]) => !n.startsWith('--mark-') && !isHatch(n) && readsVar(v).some(isHatch))
+    .map(([n]) => n);
+  assert.deepEqual(stray, [], `these properties read a hatch without being a duty: ${stray}`);
+  // the rule-level CSS below the :root blocks (a selector's own background-image) as well
+  const rules = stripCss(readFileSync(TOKENS, 'utf8'))
+    .split('}').filter((b) => !/:root\s*\{/.test(b) && /var\(\s*--(hatch|stipple)-/.test(b));
+  assert.deepEqual(rules, [], 'a selector in tokens.css paints a hatch by name');
+});
+
+test('the raw-hatch reader sees a use in code and ignores one in a comment', () => {
+  assert.deepEqual(rawHatchUses("style={{ backgroundImage: 'var(--hatch-45)' }}"), ['--hatch-45']);
+  assert.deepEqual(rawHatchUses("// backgroundImage: 'var(--hatch-45)'\n/* var(--hatch-135) */"), []);
+  assert.deepEqual(rawHatchUses("backgroundImage: 'var(--mark-wanted)'"), []);
+});
+
+/* ─────────────────────────── 3. tokens, records and forms, one to one ─────────────────────────── */
+
+test('each --mark-* property is named by exactly one record, each record names a declared one', (t) => {
+  const recs = records();
+  if (!recs.length) { t.skip('COULD NOT EVALUATE: no glossary/*.json records on this tree'); return; }
+  const { marks } = dutiesOf();
+  assert.ok(marks.length > 0, 'the premise: the stylesheet declares duty tokens');
+  const named = new Map();
+  for (const r of recs.filter((x) => typeof x.mark === 'string')) {
+    named.set(r.mark, [...(named.get(r.mark) || []), r.id]);
+  }
+  for (const m of marks) {
+    const who = named.get(m) || [];
+    assert.equal(who.length, 1, `${m} is named by ${who.length} records (${who.join(', ') || 'none'}): `
+      + 'a mark with no record has no word for the key, and two records give it two');
+  }
+  for (const m of named.keys()) {
+    assert.ok(marks.includes(m), `a record names ${m}, which tokens.css does not declare`);
+  }
+});
+
+test('marks.js gives a form to exactly the duty tokens the stylesheet declares', () => {
+  const { marks } = dutiesOf();
+  assert.deepEqual(Object.keys(MARK_FORMS).sort(), [...marks].sort(),
+    'a token with no form cannot be drawn; a form for an undeclared token draws nothing');
+  for (const token of marks) {
+    const style = markGlyph(token, 13);
+    assert.ok(style && typeof style === 'object', `${token} draws nothing`);
+    // every form paints from its own token, never from another mark's or a hatch's
+    const paints = JSON.stringify(style).match(/var\(--(?:mark|hatch|stipple)-[a-z0-9-]+\)/g) || [];
+    assert.deepEqual([...new Set(paints)], [`var(${token})`], `${token} paints with ${paints}`);
+  }
+  assert.equal(markGlyph('--mark-nothing-by-this-name'), null, 'an unknown token draws nothing, not another mark');
+});
+
+test('the three that are not a verdict are never drawn as one another, nor as a verdict', () => {
+  const form = (state) => MARK_FORMS[JUDGMENT_MARKS[state].token];
+  const nonVerdicts = ['unjudged', 'yours-to-judge', 'not-applicable'];
+  const forms = nonVerdicts.map(form);
+  assert.equal(new Set(forms).size, forms.length, `two of ${nonVerdicts} share a form: ${forms}`);
+  const verdictForms = new Set(['pass', 'fail'].map(form));
+  for (const s of nonVerdicts) assert.ok(!verdictForms.has(form(s)), `${s} is drawn in a verdict's form`);
+  // and the marks that are not a state of a house borrow no judgment's form either
+  const judgmentForms = new Set(Object.keys(JUDGMENT_MARKS).map(form));
+  for (const r of records().filter((x) => x.family === 'mark' && x.mark)) {
+    assert.ok(!judgmentForms.has(MARK_FORMS[r.mark]), `${r.id} is drawn in a judgment's form`);
+  }
+});
+
+test('every state JudgmentMark draws has its record, and that record names its token', (t) => {
+  const recs = records();
+  if (!recs.length) { t.skip('COULD NOT EVALUATE: no glossary/*.json records on this tree'); return; }
+  const byId = new Map(recs.map((r) => [r.id, r]));
+  for (const [state, { token, record }] of Object.entries(JUDGMENT_MARKS)) {
+    assert.ok(byId.has(record), `${state}'s record ${record} does not exist`);
+    assert.equal(byId.get(record).mark, token, `${record} does not name ${token}`);
+  }
+  // and the other direction: a judgment record carrying a mark is a state JudgmentMark can draw
+  const drawn = new Set(Object.values(JUDGMENT_MARKS).map((m) => m.record));
+  for (const r of recs.filter((x) => x.family === 'judgment' && x.mark)) {
+    assert.ok(drawn.has(r.id), `${r.id} carries a mark JudgmentMark has no state for`);
+  }
+  // every judgment `judgment.js` can return is one of JudgmentMark's states
+  for (const s of Object.values(JUDGMENT_MARK)) assert.ok(s in JUDGMENT_MARKS, `${s} has no mark`);
+});
+
+/* The server's order: the schema's family enum, then `order`, then id. */
+function payload(recs) {
+  const fams = JSON.parse(readFileSync(new URL('schema/glossary-term.schema.json', ROOT), 'utf8'))
+    .properties.family.enum;
+  const sorted = [...recs].sort((a, b) => fams.indexOf(a.family) - fams.indexOf(b.family)
+    || (a.order ?? 1e9) - (b.order ?? 1e9) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  const byFamily = Object.fromEntries(fams.map((f) => [f, sorted.filter((r) => r.family === f).map((r) => r.id)]));
+  return { terms: sorted, by_family: byFamily };
+}
+
+test('the product key is every marked record, once, grouped under its family, and nothing else', (t) => {
+  const recs = records();
+  if (!recs.length) { t.skip('COULD NOT EVALUATE: no glossary/*.json records on this tree'); return; }
+  const groups = markKeyGroups(indexTerms(payload(recs)));
+  const shown = groups.flatMap((g) => g.rows.map((r) => r.id));
+  const marked = recs.filter((r) => typeof r.mark === 'string').map((r) => r.id);
+  assert.ok(marked.length > 0, 'the premise: some record carries a mark');
+  assert.deepEqual([...shown].sort(), [...marked].sort(), 'the key shows exactly the marked records');
+  assert.equal(new Set(shown).size, shown.length, 'no record is shown twice');
+  for (const g of groups) for (const r of g.rows) assert.equal(r.family, g.family);
+  // and the key's every row can be drawn
+  for (const g of groups) for (const r of g.rows) assert.ok(markGlyph(r.mark), `${r.id}'s mark has no form`);
+  assert.deepEqual(markKeyGroups(null), [], 'no glossary, no key -- never an invented one');
+});
+
+/* ─────────────────────────── 4. --t3 ─────────────────────────── */
+
+/* A palette ink: a custom property the stylesheet declares with a hex literal. */
+function resolve(byName, name, seen = new Set()) {
+  assert.ok(!seen.has(name), `${name} refers to itself`);
+  seen.add(name);
+  const v = byName.get(name);
+  assert.ok(v !== undefined, `${name} is not declared`);
+  const ref = /^var\(\s*(--[A-Za-z0-9_-]+)\s*\)$/.exec(v);
+  return ref ? resolve(byName, ref[1], seen) : v.toUpperCase();
+}
+
+function t3Verdict(css) {
+  const { byName } = readTokens(css);
+  const v = byName.get('--t3');
+  const ref = v && /^var\(\s*(--[A-Za-z0-9_-]+)\s*\)$/.exec(v);
+  if (!ref) return `--t3 is ${v}, a colour typed where an existing ink should be named`;
+  const ink = ref[1];
+  const inkValue = byName.get(ink);
+  if (!/^#[0-9A-Fa-f]{6}$/.test(inkValue || '')) return `--t3 names ${ink}, which is not a palette ink`;
+  if (/^--t\d$/.test(ink)) return `--t3 names another tradition, ${ink}`;
+  if (resolve(byName, '--t3') === resolve(byName, '--brick')) return '--t3 resolves to the brick of the UI\'s fatal';
+  return null;
+}
+
+test('--t3 names an existing ink of the palette, and that ink is not brick', () => {
+  assert.equal(t3Verdict(), null);
+});
+
+test('the --t3 verdict refuses the brick, a typed colour and a non-ink, each for its own reason', () => {
+  const css = readFileSync(TOKENS, 'utf8');
+  const decl = /--t3:[^;]+;/;
+  assert.ok(decl.test(stripCss(css)), 'the premise: --t3 is declared where this reader looks');
+  assert.match(t3Verdict(css.replace(decl, '--t3:var(--brick);')), /brick/);
+  assert.match(t3Verdict(css.replace(decl, '--t3:#AF6B50;')), /typed/);
+  assert.match(t3Verdict(css.replace(decl, '--t3:#123456;')), /typed/);
+  assert.match(t3Verdict(css.replace(decl, '--t3:var(--judge-fail);')), /not a palette ink/);
+});
+
+/* ─────────────────────────── 5. --refusal ─────────────────────────── */
+
+/* RULED 26 Sep 2026 (oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue, closed): a
+   refusal is brick everywhere. The mark in the masthead (`--mark-refused`) and every refusal card,
+   banner and plate (`--refusal`) were two inks, and the card's violet was byte for byte `--t4`,
+   the hue every North American style is drawn in. Both are resolved from the stylesheet here, so
+   a colour typed into either, or a tradition taking the refusal's ink, fails by name. */
+function refusalVerdict(css) {
+  const { byName } = readTokens(css);
+  // NAMED, NOT TYPED (WP-14.33's audit: the comment above said a typed colour fails by name, and a
+  // hex equal to the brick passed, because only the resolved value was compared).
+  for (const n of ['--refusal', '--mark-refused']) {
+    if (!/^var\(\s*--[A-Za-z0-9_-]+\s*\)$/.test(byName.get(n) || '')) {
+      return `${n} is ${byName.get(n)}, a colour typed where the brick should be named`;
     }
   }
-});
-
-test('the sweep flag is the sign of the turn from the tip to the far jamb about the hinge', () => {
-  // screen space, y down: a clockwise quarter-turn as a reader sees it is 1
-  assert.equal(sweepFlag([0, 0], [0, -3], [3, 0]), 1);
-  assert.equal(sweepFlag([0, 0], [3, 0], [0, -3]), 0);
-  assert.equal(sweepFlag([0, 0], [0, 3], [3, 0]), 0);
-  assert.equal(sweepFlag([0, 0], [-3, 0], [0, -3]), 1);
-});
-
-test("a window's glazing is on its own wall's centre line and its sill outside the wall, on every wall", () => {
-  const face = { W: -34, E: -7, S: 5.28, N: 31.96 };
-  for (const t of [0.667, T]) {
-    for (const wall of ['W', 'E', 'S', 'N']) {
-      const vert = wall === 'W' || wall === 'E';
-      const w = vert ? { wall, x: face[wall], y: 12, w: 3 } : { wall, x: -20, y: face[wall], w: 3 };
-      const { glazing: g, sill: s } = windowMark(w, t);
-      const [ga, gb] = [model([g[0], g[1]]), model([g[2], g[3]])];
-      const centre = { W: face.W - t / 2, E: face.E + t / 2, S: face.S - t / 2, N: face.N + t / 2 }[wall];
-      const [gAcross, gAcross2] = vert ? [ga[0], gb[0]] : [ga[1], gb[1]];
-      assert.ok(Math.abs(gAcross - centre) < 1e-9 && Math.abs(gAcross2 - centre) < 1e-9,
-        `${wall} glazing stands at ${gAcross}, the wall's centre line is ${centre}`);
-      const [gLo, gHi] = vert ? [Math.min(ga[1], gb[1]), Math.max(ga[1], gb[1])] : [Math.min(ga[0], gb[0]), Math.max(ga[0], gb[0])];
-      const along = vert ? w.y : w.x;
-      assert.ok(Math.abs(gLo - (along - 1.5)) < 1e-9 && Math.abs(gHi - (along + 1.5)) < 1e-9,
-        `${wall} glazing runs ${gLo}..${gHi} along the wall, the opening ${along - 1.5}..${along + 1.5}`);
-      // the sill: parallel to the wall, past its OUTER face, and at least as long as the opening
-      const [sa, sb] = [model([s[0], s[1]]), model([s[2], s[3]])];
-      const outer = { W: face.W - t, E: face.E + t, S: face.S - t, N: face.N + t }[wall];
-      const sAcross = vert ? [sa[0], sb[0]] : [sa[1], sb[1]];
-      assert.equal(sAcross[0], sAcross[1], `${wall} sill is parallel to its wall`);
-      const out = wall === 'W' || wall === 'S' ? outer - sAcross[0] : sAcross[0] - outer;
-      assert.ok(out >= -1e-9, `${wall} sill stands at ${sAcross[0]}, inside the wall's outer face ${outer} -- in the wall or the room`);
-      const [sLo, sHi] = vert ? [Math.min(sa[1], sb[1]), Math.max(sa[1], sb[1])] : [Math.min(sa[0], sb[0]), Math.max(sa[0], sb[0])];
-      assert.ok(sLo <= along - 1.5 + 1e-9 && sHi >= along + 1.5 - 1e-9, `${wall} sill does not span the opening`);
-    }
-  }
-});
-
-test('an exterior door opens into its room off every wall, and its break is the wall outward from the face', () => {
-  const t = T;
-  for (const [wall, positive] of [['S', true], ['N', false], ['W', true], ['E', false]]) {
-    const horiz = wall === 'S' || wall === 'N';
-    const d = { wall, x: horiz ? 12 : 30, y: horiz ? 30 : 12, w: 3, type: 'swing', hinge: 'low' };
-    const desc = exteriorDoorMark(d, t);
-    assert.equal(desc.horiz, horiz, `${wall}: orientation`);
-    const across = horiz ? d.y : d.x, along = horiz ? d.x : d.y;
-    assertLeaf(leafOf(desc), contractLeaf(horiz, along, across, 3, positive, 'low'), `exterior ${wall} door`);
-    const e = extent(doorFrame(desc).rect);
-    const [lo, hi] = horiz ? [e.y0, e.y1] : [e.x0, e.x1];
-    const want = wall === 'S' || wall === 'W' ? [across - t, across] : [across, across + t];
-    assert.ok(Math.abs(lo - want[0]) < 1e-9 && Math.abs(hi - want[1]) < 1e-9, `${wall} door break ${lo}..${hi}, the wall is ${want}`);
-  }
-});
-
-test("a door onto an at-grade appendage is cut through the room's exterior wall, outward from its face", () => {
-  // good-02's family room and the terrace placed against its W face (build/appendages.py): the
-  // door is an INTERIOR entry, because the terrace is a room, standing in the house's exterior wall
-  const family = { id: 'family', x: 0, y: 20, w: 16, h: 16, exterior_walls: ['W'], windows: [],
-    doors: [{ to: 'terrace', width_ft: 6, type: 'double', wall: 'W', position_ft: 27.98 }] };
-  const terrace = { id: 'terrace', x: -10, y: 11.96, w: 10, h: 24 };
-  const t = 0.6667;
-  const got = doors([family], 50, 40, 0.6, [terrace]);
-  assert.equal(got.undrawable.length, 0, 'the door is seated and must be drawn');
-  const d = got.interior[0];
-  assert.equal(d.exteriorWall, 'W', 'the entry says which exterior wall it stands in');
-  const e = extent(doorFrame(interiorDoorMark(d, t)).rect);
-  assert.ok(Math.abs(e.x0 - -t) < 1e-9 && Math.abs(e.x1 - 0) < 1e-9, `the break runs ${e.x0}..${e.x1}, the wall -${t}..0`);
-  assert.ok(Math.abs(e.y0 - 24.98) < 1e-9 && Math.abs(e.y1 - 30.98) < 1e-9, 'over the door\'s own 6 ft');
-  // and it still swings out onto the terrace, which is the room it opens into
-  for (const lf of pairOf(interiorDoorMark(d, t))) assert.ok(model(lf.tip)[0] < 0, 'a leaf onto the terrace opens west');
-  // an interior door between two rooms keeps the 0.7 ft break centred on the line they share
-  const plain = { x: 12, y: 20, w: 3, horiz: true, swingUp: true, pair: ['a', 'b'], hinge: 'low' };
-  assert.deepEqual(interiorDoorMark(plain, t), plain);
-});
-
-test('the fireplace opening is on the breast\'s room face, centred, the stated width long', () => {
-  // the Tidewater dining room's breast on its W wall, and the same breast turned onto the others
-  const W_ = { wall: 'W', x_ft: 0, y_ft: 28.551, width_ft: 1.807, depth_ft: 4.758 };
-  const [x1, y1, x2, y2] = breastOpening(W_, 41.1);
-  assert.equal(x1, 1.807, 'on the room-side face of a W breast');
-  assert.equal(x2, 1.807);
-  const mid = 28.551 + 4.758 / 2;
-  assert.ok(Math.abs((-y1 + -y2) / 2 - mid) < 1e-9 && Math.abs(Math.abs(y2 - y1) - 41.1 / 12) < 1e-9);
-  const E_ = { ...W_, wall: 'E', x_ft: 43.269 };
-  assert.equal(breastOpening(E_, 39.8)[0], 43.269, 'on the room-side face of an E breast');
-  const S_ = { wall: 'S', x_ft: 10, y_ft: 0, width_ft: 4.9, depth_ft: 1.9 };
-  const s = breastOpening(S_, 36);
-  assert.equal(-s[1], 1.9, 'on the room-side face of an S breast');
-  assert.ok(Math.abs((s[0] + s[2]) / 2 - 12.45) < 1e-9 && Math.abs(s[2] - s[0] - 3) < 1e-9);
-  assert.equal(-breastOpening({ ...S_, wall: 'N', y_ft: 20 }, 36)[1], 20, 'on the room-side face of an N breast');
-  assert.equal(breastOpening(W_, undefined), null, 'no stated opening, no opening drawn -- not a conventional 36 in');
-});
-
-/* ------------------------------------------------------------------ every door in the contract
-
-   Held per fixture door to the SAME points tests/test_sheet_symbols.py's ink test holds the printed
-   plate's leaves to, so the two sheets hang one record's doors alike. Three hangings of every
-   fixture: as frozen (every door low, because `openings.place` writes low on every door it
-   seats), every door high, and MIXED -- alternate doors hung high -- because a fixture hung one
-   way cannot tell a leaf that reads the record from one that always answers that way. And a
-   fourth with every door UNSEATED and mixed, which reaches the two paths no frozen door does. */
-const FIX = join(HERE, '..', '..', '..', 'tests', 'fixtures', 'sheet_symbols');
-const FIXTURES = readdirSync(FIX).filter((f) => f.endsWith('.json')).sort()
-  .map((f) => JSON.parse(readFileSync(join(FIX, f), 'utf8')));
-
-const doorKey = (roomId, d) => (d.to === 'exterior' ? `ext|${roomId}` : `int|${[roomId, d.to].sort().join('|')}`);
-
-function rehang(levels, mode, unseat) {
-  const lv2 = JSON.parse(JSON.stringify(levels));
-  const keys = [...new Set(lv2.flatMap((lv) => lv.rooms.flatMap((r) => (r.doors || []).map((d) => doorKey(r.id, d)))))].sort();
-  const hingeOf = (k) => (mode === 'high' ? 'high' : mode === 'mixed' ? (keys.indexOf(k) % 2 ? 'high' : 'low') : null);
-  const record = new Map();
-  for (const lv of lv2) for (const r of lv.rooms) for (const d of (r.doors || [])) {
-    const k = doorKey(r.id, d);
-    if (mode !== 'frozen') d.hinge = hingeOf(k);
-    if (unseat) { delete d.wall; delete d.position_ft; delete d.unplaced; }
-    record.set(k, d.hinge || 'low');
-  }
-  return { levels: lv2, record };
+  const card = resolve(byName, '--refusal');
+  const mark = resolve(byName, '--mark-refused');
+  if (card !== mark) return `--refusal resolves to ${card} and --mark-refused to ${mark}: a refusal is drawn in two inks`;
+  if (card !== resolve(byName, '--brick')) return `--refusal resolves to ${card}, not the brick of the UI's fatal`;
+  const t = [...byName.keys()].filter((n) => /^--t\d$/.test(n)).find((n) => resolve(byName, n) === card);
+  if (t) return `${t}, a tradition's hue, resolves to the refusal's ink`;
+  return null;
 }
 
-for (const fx of FIXTURES) {
-  const W = fx.footprint.width_ft, H = fx.footprint.depth_ft;
-  const t = wallOf(fx.footprint).exterior_ft;
-  for (const [mode, unseat] of [['frozen', false], ['high', false], ['mixed', false], ['mixed', true]]) {
-    test(`${fx.plan}: every leaf the bench draws stands where the contract stands it (${mode}${unseat ? ', unseated' : ''})`, () => {
-      const { levels, record } = rehang(fx.levels, mode, unseat);
-      let seen = 0;
-      const hinges = new Set();
-      for (const lv of levels) {
-        const plan = { levels };
-        const rooms = levelRooms(plan, plan, lv.index);
-        const got = doors(rooms, W, H);
-        const exp = fx.levels.find((l) => l.index === lv.index).expected;
-        for (const d of got.interior) {
-          if ((d.type || 'swing') !== 'swing') continue;
-          const hinge = record.get(`int|${d.pair.slice().sort().join('|')}`);
-          let want;
-          if (unseat) {
-            // no frozen position on this path: the bench's own, with the record's hinge
-            want = contractLeaf(d.horiz, d.horiz ? d.x : d.y, d.horiz ? d.y : d.x, d.w,
-              d.horiz ? d.swingUp : d.swingRight, hinge);
-          } else {
-            const e = exp.interior.find((x) => x.pair.slice().sort().join('|') === d.pair.slice().sort().join('|'));
-            assert.ok(e, `${lv.id}: ${d.pair.join('|')} is not in the contract`);
-            want = contractLeaf(e.horiz, e.pos_ft, e.at_ft, e.width_ft, e.swing_positive, hinge);
-          }
-          assertLeaf(leafOf(interiorDoorMark(d, t)), want, `${lv.id} ${d.pair.join('|')} hung ${hinge}`);
-          hinges.add(hinge);
-          seen += 1;
-        }
-        for (const d of got.exterior) {
-          if ((d.type || 'swing') !== 'swing') continue;
-          const hinge = record.get(`ext|${d.room}`);
-          const horiz = d.wall === 'S' || d.wall === 'N';
-          let want;
-          if (unseat) {
-            want = contractLeaf(horiz, (d.span[0] + d.span[1]) / 2, d.edge_ft, d.w, d.wall === 'S' || d.wall === 'W', hinge);
-          } else {
-            const e = exp.exterior.find((x) => x.room === d.room && x.wall === d.wall);
-            assert.ok(e, `${lv.id}: the ${d.room}/${d.wall} exterior door is not in the contract`);
-            want = contractLeaf(horiz, e.at_ft, e.edge_ft, e.width_ft, e.wall === 'S' || e.wall === 'W', hinge);
-          }
-          assertLeaf(leafOf(exteriorDoorMark(d, t)), want, `${lv.id} ${d.room}/${d.wall} hung ${hinge}`);
-          hinges.add(hinge);
-          seen += 1;
-        }
-      }
-      assert.ok(seen > 10, `only ${seen} leaves read -- the check would pass on a sheet with none`);
-      if (mode === 'mixed') {
-        assert.deepEqual([...hinges].sort(), ['high', 'low'],
-          'the premise: a mixed hanging reaches both jambs, or it cannot tell a leaf that reads the record from one that does not');
-      }
-    });
-  }
+test('a refusal is one ink, the brick of the fatal, and no tradition is drawn in it', () => {
+  assert.equal(refusalVerdict(), null);
+});
 
-  test(`${fx.plan}: every window the bench draws is glazed where the contract glazes it`, () => {
-    let seen = 0;
-    for (const lv of fx.levels) {
-      const plan = { levels: fx.levels };
-      const rooms = levelRooms(plan, plan, lv.index);
-      const wins = windows(rooms, W, H, 0.6, doors(rooms, W, H).exterior);
-      for (const e of lv.expected.windows) {
-        const w = wins.find((x) => x.room === e.room && x.wall === e.wall
-          && Math.abs(((x.wall === 'S' || x.wall === 'N') ? x.x : x.y) - e.at_ft) < 1e-3);
-        assert.ok(w, `${lv.id}: the ${e.room}/${e.wall} window at ${e.at_ft} is not drawn`);
-        const g = windowMark(w, t).glazing;
-        const [a, b] = [model([g[0], g[1]]), model([g[2], g[3]])];
-        const mid = e.wall === 'S' || e.wall === 'W' ? e.edge_ft - t / 2 : e.edge_ft + t / 2;
-        const M = e.wall === 'S' || e.wall === 'N' ? [e.at_ft, mid] : [mid, e.at_ft];
-        assert.ok(near([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], M, 1e-6)
-          && Math.abs(Math.hypot(a[0] - b[0], a[1] - b[1]) - e.width_ft) < 1e-6,
-          `${lv.id}: the ${e.width_ft} ft ${e.wall} window of ${e.room} is glazed at ${[(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]}, the contract at ${M}`);
-        // and its sill stands outside the wall's outer face, where the plate stands its own (the
-        // plate's is ON that face; the bench's is a hair past it, which is outside too)
-        const s = windowMark(w, t).sill;
-        const sAcross = e.wall === 'S' || e.wall === 'N' ? -s[1] : s[0];
-        const outer = e.wall === 'S' || e.wall === 'W' ? e.edge_ft - t : e.edge_ft + t;
-        assert.ok(e.wall === 'S' || e.wall === 'W' ? sAcross <= outer + 1e-9 : sAcross >= outer - 1e-9,
-          `${lv.id}: the ${e.wall} sill of ${e.room} stands at ${sAcross}, inside the wall's outer face ${outer}`);
-        seen += 1;
-      }
+test('the refusal verdict refuses the old violet, a second ink, and a tradition in brick', () => {
+  const css = readFileSync(TOKENS, 'utf8');
+  const decl = /--refusal:[^;]+;/;
+  assert.ok(decl.test(stripCss(css)), 'the premise: --refusal is declared where this reader looks');
+  assert.match(refusalVerdict(css.replace(decl, '--refusal:var(--violet);')), /two inks/);
+  const mark = /--mark-refused:[^;]+;/;
+  assert.match(refusalVerdict(css.replace(decl, '--refusal:var(--salmon);').replace(mark, '--mark-refused:var(--salmon);')),
+    /not the brick/);
+  assert.match(refusalVerdict(css.replace(/--t4:[^;]+;/, '--t4:var(--brick);')), /--t4, a tradition/);
+  // a hex equal to the brick is still typed, and a later declaration is the one the page draws
+  assert.match(refusalVerdict(css.replace(decl, '--refusal:#AF6B50;')), /typed/);
+  assert.match(refusalVerdict(css + '\n:root{--refusal:var(--violet)}\n'), /two inks/);
+});
+
+/* A REFUSAL IS DRAWN IN THE REFUSAL'S INK WHEREVER IT IS DRAWN (WP-14.33's audit). The verdict above
+   holds the TOKENS, and four components set a refusal in another ink while every token was right:
+   the proven-infeasible conflict set's rule and a refused export in `--sev-serious`, a refused
+   ingest the same, and the bench sheet's "stair not drawn" in gilt. Every element that carries a
+   refusal -- a `data-refusal*`, `data-conflict-set`, `data-drawing-error`, `data-export-note` or
+   `data-stair="refused"` attribute, or text that opens "refused" -- in JSX or in a compiled
+   `createElement`, draws only in the refusal's ink or the working inks and papers. The JSX is read
+   by `sourceReader.mjs`; a refusal in a string (ExportDetails's "refused — ...") is reached through
+   the element's own marker attribute. */
+const CARRIES = /data-refusal|data-conflict-set|data-drawing-error|data-export-note|data-sketch-refused|data-stair=["']refused/;
+function refusalInkRows(src, css = readFileSync(TOKENS, 'utf8')) {
+  const { byName } = readTokens(css);
+  const hexOf = (n) => { try { const v = resolve(byName, n); return /^#[0-9A-F]{6}$/.test(v) ? v : null; } catch { return null; } };
+  const allowed = new Set(['--refusal', '--mark-refused', '--ink', '--ink-2', '--rule', '--rule-soft', '--hair',
+    '--paper', '--paper-deep', '--paper-mat', '--paper-lit'].map(hexOf).filter(Boolean));
+  const rows = [];
+  const judge = (where, head) => {
+    for (const m of head.matchAll(/var\((--[a-z0-9-]+)\)/g)) {
+      const h = hexOf(m[1]);
+      if (h && !allowed.has(h)) rows.push([where, m[1]]);
     }
-    assert.ok(seen > 5, `only ${seen} windows read`);
-  });
+  };
+  let seen = 0;
+  for (const e of elements(src)) {
+    const first = (e.children.find((c) => c.text !== undefined && c.text.trim()) || {}).text || '';
+    if (CARRIES.test(e.head) || /^\s*refused\b/i.test(first)) { seen += 1; judge(e.name, e.head); }
+  }
+  const live = stripComments(src);
+  for (const m of live.matchAll(/createElement\(\s*([^,{}()]+?)\s*,\s*\{/g)) {
+    const o = m.index + m[0].length - 1;
+    let d = 0; let end = o;
+    for (let j = o; j < live.length; j += 1) {
+      if (live[j] === '{') d += 1; else if (live[j] === '}') { d -= 1; if (d === 0) { end = j + 1; break; } }
+    }
+    const props = live.slice(o, end);
+    const after = live.slice(end, end + 40);
+    if (CARRIES.test(props) || /^\s*,\s*["'`]refused\b/i.test(after)) { seen += 1; judge(m[1].trim(), props); }
+  }
+  return { rows, seen };
 }
+
+test('every element that carries a refusal is drawn in the refusal ink or a working ink', () => {
+  const rows = [];
+  let seen = 0;
+  for (const p of shipped().filter((f) => /\.jsx$/.test(f))) {
+    const r = refusalInkRows(readFileSync(p, 'utf8'));
+    seen += r.seen;
+    for (const row of r.rows) rows.push([p.slice(SRC.length), ...row]);
+  }
+  assert.ok(seen >= 8, `the premise: the refusals the app draws are found (${seen})`);
+  assert.deepEqual(rows, [], 'a refusal drawn in another ink reads as a severity or a link; draw it in var(--refusal)');
+});
+
+test('the refusal-ink reader sees JSX and compiled refusals, and passes the working inks', () => {
+  const f = (s) => refusalInkRows(s).rows.map((r) => r[1]);
+  assert.deepEqual(f("<p style={{ color: 'var(--sev-serious)' }}>refused — {x}</p>"), ['--sev-serious']);
+  assert.deepEqual(f('<div data-conflict-set="infeasible" style={{ borderLeft: \'2px solid var(--sev-serious)\' }} />'),
+    ['--sev-serious']);
+  assert.deepEqual(f('<text data-stair="refused" fill="var(--gilt-deep)">stair not drawn</text>'), ['--gilt-deep']);
+  assert.deepEqual(f('React.createElement("div", { style: { color: \'var(--violet)\' } }, "refused", x)'), ['--violet']);
+  assert.deepEqual(f("<p style={{ color: 'var(--refusal)', borderLeft: '2px solid var(--rule)' }}>refused — x</p>"), []);
+  assert.deepEqual(f("<p style={{ color: 'var(--gilt-deep)' }}>not a refusal</p>"), []);
+});
+
+/* ─────────────────────────── the readers that choose a mark ─────────────────────────── */
+
+test('a style finding the check could not settle takes the mark its own kind names', () => {
+  assert.equal(styleFindingMark({ layer: 'style', kind: 'constraint-unjudged', statement: 'x' }), 'unjudged');
+  assert.equal(styleFindingMark({ layer: 'style', kind: 'constraint-unformalised', statement: 'x' }),
+    'yours-to-judge');
+  // the kind decides, not the words
+  assert.equal(styleFindingMark({ layer: 'style', kind: 'constraint-unformalised',
+    statement: 'Cannot evaluate this' }), 'yours-to-judge');
+  assert.equal(styleFindingMark({ layer: 'style', kind: 'variant-forbidden', statement: 'Check by hand' }), null);
+  // a finding with no kind is read by the two sentences the check writes, and nothing else
+  assert.equal(styleFindingMark({ layer: 'style', statement: 'Cannot evaluate c.1 (kind): s' }), 'unjudged');
+  assert.equal(styleFindingMark({ layer: 'style', statement: 'Check by hand: s' }), 'yours-to-judge');
+  assert.equal(styleFindingMark({ layer: 'style', statement: 'A forbidden variant' }), null);
+  // another layer is not this panel's
+  assert.equal(styleFindingMark({ layer: 'fault', kind: 'constraint-unjudged' }), null);
+  assert.equal(styleFindingMark(null), null);
+});
+
+test('a derived rule the sources leave to the reader is drawn as that, while its verdict stays unjudged', () => {
+  const judged = { judgment: true, value: 3 };
+  assert.equal(ruleState(judged), 'unjudged', 'the tally still counts it as no verdict');
+  assert.equal(ruleMark(judged), 'yours-to-judge', 'and the mark says it is handed to the reader');
+  assert.equal(ruleMark({ value: 3, in_range: true }), 'pass');
+  assert.equal(ruleMark({ value: 3, in_range: false }), 'fail');
+  assert.equal(ruleMark({ value: null }), 'unjudged');
+  assert.equal(ruleMark({ value: 3, in_range: true, out_of_calibration: true }), 'unjudged');
+  for (const r of [judged, { value: 3, in_range: true }, { value: null }]) {
+    assert.ok(ruleMark(r) in JUDGMENT_MARKS, `${JSON.stringify(r)} takes a state JudgmentMark cannot draw`);
+  }
+});
+
+test('JudgmentMark carries the state word to assistive tech on both of its branches', () => {
+  /* The component imports React and cannot be loaded here; its source is read. Each branch must
+     put the word in the DOM -- visibly or as visually hidden text -- beside a glyph that is
+     aria-hidden, so passed and failed are never told apart by colour alone. */
+  const src = readFileSync(join(SRC, 'components', 'JudgmentMark.jsx'), 'utf8');
+  assert.match(src, /JUDGMENT_MARKS\[known\]/, 'JudgmentMark reads its states from marks.js');
+  const bare = /if \(!label\) \{([\s\S]*?)\n  \}/.exec(src);
+  assert.ok(bare, 'the premise: JudgmentMark still has a branch for a mark with no label');
+  assert.match(bare[1], /className="tdl-sr-only" data-judgment-word="">\{word\}/,
+    'the bare glyph must carry its word as visually hidden text');
+  const labelled = src.slice(bare.index + bare[0].length);
+  assert.match(labelled, /data-judgment-word=""[\s\S]*?<Term id=\{mark\.record\} \/>/,
+    'the labelled mark must show its record\'s word');
+  assert.match(labelled, /className="tdl-sr-only" data-judgment-word="">\{word\}/,
+    'and where the visible word is withheld, it still reaches assistive tech');
+  const glyph = readFileSync(join(SRC, 'components', 'MarkGlyph.jsx'), 'utf8');
+  assert.match(glyph, /aria-hidden="true" data-duty=\{token\}/, 'a glyph is decorative; its word says it');
+});

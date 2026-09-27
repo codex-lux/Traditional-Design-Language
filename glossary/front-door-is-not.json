@@ -1,0 +1,9 @@
+{
+  "id": "front-door-is-not",
+  "term": "What this is not",
+  "family": "product",
+  "order": 4,
+  "definition": "What the corpus declines to be, in its own account of itself: not the automation of the architect, not style policing, not historical reconstruction, not a compliance engine, and not complete.",
+  "kind": "editorial",
+  "basis": "VISION.md, section X, the list the front door shows under this heading: \"The system is built to refuse, to defer, and to present options it will not choose between.\", \"The corpus records what a style *does*, with its exceptions\", \"The code layer is advisory model text and is labelled as such.\" and \"Several of the world's building traditions are absent\""
+}

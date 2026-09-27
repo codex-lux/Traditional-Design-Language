@@ -1,0 +1,13 @@
+{
+  "id": "mark-set-aside",
+  "term": "set aside",
+  "family": "mark",
+  "mark": "--mark-set-aside",
+  "order": 4,
+  "definition": "Something considered and deliberately left out, with its reason stated beside it, such as a diagram the composer weighed and did not offer. It is drawn in lines rising to the right, lighter and more widely spaced than the forbidden mark.",
+  "kind": "editorial",
+  "basis": "workbench/app/src/theme/tokens.css, the duty block's comment on this mark: \"Set aside: lines rising to the right, for something considered and deliberately left out, with its reason beside it.\" and on the forbidden mark it must not be read as: \"Forbidden: close rising lines over the variant a style's kit rules out, its name struck through.\" The block states the rule every mark keeps: \"Each duty token below means one thing wherever it is drawn\".",
+  "see": [
+    "term:variant-status-forbidden"
+  ]
+}

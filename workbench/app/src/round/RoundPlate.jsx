@@ -25,6 +25,8 @@ import {
 import { Round, readTokens } from './Round.jsx';
 import { extent } from './solids.js';
 import { ConflictSet } from '../components/ConflictSet.jsx';
+import { useGlossary } from '../api/useGlossary.js';
+import { describeTerm, wordOf } from '../glossary/termView.js';
 
 function TitleBlock({ title, styleName, subtitle }) {
   return (
@@ -64,7 +66,7 @@ function RecordCard({ solid, onClose }) {
         {ft(size[0])} × {ft(size[1])} × {ft(size[2])}
       </div>
       {src ? (
-        <div style={{ marginTop: 6, font: '11px/1.4 var(--mono, monospace)', color: 'var(--ink-3)', wordBreak: 'break-all' }}>
+        <div style={{ marginTop: 6, font: '11px/1.4 var(--mono, monospace)', color: 'var(--ink-2)', wordBreak: 'break-all' }}>
           {src}
         </div>
       ) : null}
@@ -90,6 +92,11 @@ export function RoundPlate({
 }) {
   const [picked, setPicked] = React.useState(null);
   const [box, setBox] = React.useState({ width: 0, height: 0 });
+  /* What the plate, the cut and a withheld overlay ARE is each a glossary record's (WP-14.31):
+     the three tooltips that explained them were written here, eight words and more apiece. */
+  const glossary = useGlossary();
+  const withheldWord = glossary.status === 'ready' && glossary.lookup
+    ? wordOf(glossary.lookup, 'withheld-in-a-free-view') : '';
   const mountRef = React.useRef(null);
   const views = React.useMemo(() => (scene ? namedViews(scene) : []), [scene]);
 
@@ -197,7 +204,7 @@ export function RoundPlate({
           ))}
         </ChipGroup>
         {key ? (
-          <Chip on={!!plateOn} onClick={() => onPlate(!plateOn)} title="lay the drawn plate over the model at this view">
+          <Chip on={!!plateOn} onClick={() => onPlate(!plateOn)} title={describeTerm(glossary, 'round-plate').title}>
             plate
           </Chip>
         ) : null}
@@ -211,7 +218,7 @@ export function RoundPlate({
               on={wanted.includes(o)}
               onClick={() => onOv(wanted.includes(o) ? wanted.filter((x) => x !== o) : [...wanted, o])}
               title={ovDropped.includes(o)
-                ? `${o} is read off a plan and is not drawn in a free view`
+                ? describeTerm(glossary, 'withheld-in-a-free-view').title
                 : `show ${o}`}
             >
               {ovDropped.includes(o) ? `${o} ·` : o}
@@ -238,7 +245,7 @@ export function RoundPlate({
               radio
               on={(cut || {}).axis === a}
               onClick={() => onCut((cut || {}).axis === a ? {} : { axis: a, at: a === 'level' ? undefined : 20 })}
-              title="a section plane through the model, derived from the model and not from a plate"
+              title={describeTerm(glossary, 'round-cut').title}
             >
               {a}
             </Chip>
@@ -281,7 +288,7 @@ export function RoundPlate({
             : [
               nm,
               unlocated ? `${unlocated} relaxation mark${unlocated === 1 ? '' : 's'} the placement could not locate — named, not placed` : null,
-              ovDropped.length ? `${ovDropped.join(', ')} withheld: read off a plan, and this is a free view` : null,
+              ovDropped.length ? `${ovDropped.join(', ')} — ${withheldWord}` : null,
             ].filter(Boolean).join(' · ')}
         </div>
       </div>

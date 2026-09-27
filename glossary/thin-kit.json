@@ -1,0 +1,13 @@
+{
+  "id": "thin-kit",
+  "term": "thin kit",
+  "family": "model",
+  "definition": "A kit that binds few slots of its own. That is correct, not incomplete: a style states only what its cascade does not already give it, so most of what it is arrives from its ancestors.",
+  "kind": "editorial",
+  "basis": "README.md, the kit directories: depth of authoring varies, \"which is expected and correct\" because \"a style only needs to state what the cascade doesn't already give it for free\". build/resolve_kit.py: \"A kit file is not a parts list, it is a diff against its ancestors.\"",
+  "analogy": "Like a dialect described only where it departs from the language it belongs to.",
+  "see": [
+    "term:cascade",
+    "kit:tidewater-georgian"
+  ]
+}

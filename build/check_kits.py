@@ -441,6 +441,85 @@ def check_slot_fields(errs, warns, nid, kit, ont_fields):
                                 % (nid, sid, got, fld["id"], allowed))
 
 
+def check_duplicate_variants(errs, nid, kit):
+    """A variant id may appear twice in one slot ONLY as a condition (WP-14.33, ruled 26 Sep 2026).
+
+    `georgian-colonial-american` carried seventeen repeated ids and they were two different
+    things. Twelve are a variant stated once plainly and again under an `applies_when` -- gambrel
+    permitted, and atypical in New England and the Hudson Valley -- which is how a kit says a
+    status depends on the place, the date or the wall, and is legitimate. Five were not: a bare
+    row and a noted row saying the same thing, or saying two things with nothing to choose
+    between them (`order/corinthian` both permitted and atypical, and the resolver kept BOTH, so
+    a reader taking the first row read "permitted" and one keying by id read "atypical"). Those
+    five were deleted, the noted row kept, and this refuses the shape.
+
+    THE RULE, over rows with or without an `op`: an id may repeat only if every row after its
+    first carries an `applies_when`, and no two of its rows carry the same one. The first row is
+    the unconditional statement and each later one a distinct condition on it. Two `op` rows for
+    one id are held to the same rule -- `apply_variant_ops` lets the last silently win, which is
+    the same two-answers defect with the choice made by position.
+
+    Whether the resolver APPLIES a region or a construction condition is a different question,
+    and the answer today is no: `oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied`.
+
+    THREE SHAPES THE FIRST VERSION LET THROUGH (WP-14.33's audit). A condition is compared by
+    what it CONDITIONS ON, never by its text: `applies_when: {"note": ...}` conditions on nothing
+    a reader could test, so a row carrying only a note is a bare row wearing a condition; two
+    conditions differing only in a note, or in the order of a region list, are one condition.
+    And a `remove` row beside another row of its own id makes the answer depend on which op the
+    resolver meets first, so it may not share its id with anything.
+    """
+    for sid, rec in (kit.get("slots") or {}).items():
+        if not isinstance(rec, dict):
+            continue
+        rows = collections.defaultdict(list)
+        for v in rec.get("variants") or []:
+            if isinstance(v, dict) and isinstance(v.get("id"), str):
+                rows[v["id"]].append(v)
+        for vid, rs in rows.items():
+            if len(rs) < 2:
+                continue
+            if any(r.get("op") == "remove" for r in rs):
+                errs.append("%s: slot '%s' removes variant '%s' and states it again -- a `remove` "
+                            "may not share its id with another row, or the answer depends on "
+                            "which the resolver meets first" % (nid, sid, vid))
+                continue
+            conds = [condition_key(r.get("applies_when")) for r in rs]
+            bare = [i for i, c in enumerate(conds[1:], 2) if c is None]
+            stated = [c for c in conds if c is not None]
+            if bare:
+                errs.append("%s: slot '%s' states variant '%s' %d times and row %s carries no "
+                            "`applies_when` a reader could test (a note alone conditions on "
+                            "nothing) -- a repeat is a condition on the first statement or it "
+                            "is a second answer to the same question; keep one row"
+                            % (nid, sid, vid, len(rs), ", ".join(str(i) for i in bare)))
+            elif len(stated) != len(set(stated)):
+                errs.append("%s: slot '%s' states variant '%s' twice under the same `applies_when`"
+                            % (nid, sid, vid))
+
+
+# What a condition CONDITIONS ON: every key the schema gives `applies_when` except its `note`.
+CONDITION_KEYS = ("date_range", "regions", "construction", "climate_zones")
+
+
+def condition_key(aw):
+    """The comparable form of a variant's `applies_when`, or None where it conditions on nothing.
+
+    A list of names is a set (`["A", "B"]` and `["B", "A"]` are one region condition); a
+    `date_range` is an ordered pair and stays one; a `note` is prose for a reader and is ignored."""
+    if not isinstance(aw, dict):
+        return None
+    out = {}
+    for k in CONDITION_KEYS:
+        v = aw.get(k)
+        if v in (None, [], ""):
+            continue
+        if isinstance(v, list) and k != "date_range":
+            v = sorted(v, key=str)
+        out[k] = v
+    return json.dumps(out, sort_keys=True) if out else None
+
+
 def main():
     ap = argparse.ArgumentParser(description="Validate the kit corpus")
     ap.add_argument("style", nargs="?", help="check one kit only")
@@ -502,6 +581,7 @@ def main():
         check_rule_blocks(errs, warns, base, kit, rule_slots, rooms)
         check_determined_by(errs, warns, base, kit, ont_set)
         check_slot_fields(errs, warns, base, kit, ont_fields)
+        check_duplicate_variants(errs, base, kit)
         check_baked_snapshots(errs, baked_unjudged, flag_unjudged, base, kit, stats)
         for _sid, _s in (kit.get("slots") or {}).items():
             for _pk, _pv in (_s.get("parameters") or {}).items():

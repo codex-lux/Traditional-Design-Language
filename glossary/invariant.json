@@ -1,0 +1,17 @@
+{
+  "id": "invariant",
+  "term": "invariant",
+  "family": "proportion",
+  "order": 5,
+  "definition": "A relation a pack claims about itself, written so it can be evaluated — that the entablature is a quarter of the column, or that a room's wall divides into four, twelve and three parts — and checked against the pack's own figures.",
+  "analogy": "Like checking that a drawing's running dimensions add up to its overall one: the pack proves its own parts sum as it says they do.",
+  "more": "An invariant records what an authority drew, not only what he said: where Vignola's own Corinthian and Composite break his rule for the pedestal, the pack keeps the exception rather than letting the number lie.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's invariants field and the grammar layer's account of them. schema/proportion-pack.schema.json, invariants description: \"Relations the pack asserts about itself, checked by the validator.\"; docs/proportion.md: \"A pack states what it claims about itself as an evaluable expression, and the validator proves the data satisfies it.\"; docs/proportion.md: \"Vignola's whole achievement reduces to two: the entablature is a quarter of the column, the pedestal a third.\"; docs/proportion.md: \"Except that the second is false in his own Corinthian and Composite\"; docs/proportion.md: \"The data encodes what he drew, not what he said\"; docs/proportion.md: \"the invariant records the exception rather than letting the number lie\"; proportions/systems/trim-classical.json invariants[1].statement: \"The wall divides in nineteen because Vignola's pedestal is one third of the column and his entablature one quarter of it: 4 + 12 + 3 = 19.\".",
+  "confusable_with": [
+    "derived-rule"
+  ],
+  "see": [
+    "pack:trim-classical"
+  ]
+}

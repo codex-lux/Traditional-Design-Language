@@ -1,0 +1,11 @@
+{
+  "id": "exemplar",
+  "term": "exemplar",
+  "family": "model",
+  "definition": "A built example a style's record names, with where it stands. Most also say what it is to the style: the building a fluent reader names first, a type specimen, a regional instance, or a plain one surveyed to be measured.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, the exemplar standing: icon is \"the building a fluent reader names first, the one the style is known by\"; canonical \"a type specimen, well documented, that the node's own figures can be held against\"; regional \"the local expression, right for the region and not the style's whole reach\"; documentary \"plain, surveyed, useful to measure and not to admire\".",
+  "see": [
+    "style:tidewater-georgian"
+  ]
+}

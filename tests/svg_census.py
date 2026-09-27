@@ -56,6 +56,14 @@ REGISTRY = [
     {"id": "proportions-plate", "file": "workbench/app/src/surfaces/Proportions.jsx", "role": "producer",
      "surface": "the workbench Proportions plate (half section of each order pack)",
      "served": "workbench surface; paths from corpus.proportions_with_members"},
+    {"id": "assembly-plate", "file": "workbench/app/src/components/AssemblyPlate.jsx", "role": "producer",
+     "surface": "the workbench Proportions plate of a pack drawn as assemblies (`drawing: "
+                "\"assemblies\"`): each assembly's served faces at the wall datum, one frame each. "
+                "The other Phase 14's WP-14.9, registered at the merge (27 Sep 2026). NO CENSUS CHECK "
+                "READS IT, so every figure it draws is unjudged here; its faces are Python's "
+                "(`profiles.pack_geometry(datum=\"wall\")`) and its layout is held by that line's "
+                "own `plate/assembly*.test.mjs`",
+     "served": "workbench surface; faces from corpus.proportions_with_members"},
     {"id": "elevation", "file": "build/render_elevation.py", "role": "producer",
      "surface": "elevation sheets, each with an eave-cornice profile inset",
      "served": "POST /api/drawings/elevation, the Drawing Set, the Round"},
@@ -1100,7 +1108,14 @@ def _plate_run():
     served = {}
     for pid in sorted(PE.PACKS):
         if (PE.PACKS[pid].get("kind") or "") == "order-system":
-            served[pid] = corpus.proportions_with_members(pid, column_diameter=12)
+            data = corpus.proportions_with_members(pid, column_diameter=12)
+            # ONLY WHAT THE PAGE DRAWS WITH `OrderPlate`: `page.js::plateKind` sends a pack whose
+            # served `drawing` is "stack" there and every other pack to `AssemblyPlate`. At the
+            # merge of the two Phase 14s the server began serving `moorish-arch`, the one order
+            # pack with no column stack, as assemblies, and plate.js -- asked about a plate the
+            # page never draws for it -- came back with two disagreements nobody could see.
+            if data.get("drawing") == "stack":
+                served[pid] = data
     r = subprocess.run(["node", os.path.join(HERE, "js", "proportions_plate.mjs")],
                        input=json.dumps(served), capture_output=True, text=True, timeout=300)
     if r.returncode:

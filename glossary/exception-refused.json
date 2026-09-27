@@ -1,0 +1,18 @@
+{
+  "id": "exception-refused",
+  "term": "refused",
+  "family": "fault",
+  "definition": "The verdict that this house does not earn an exception's licence: the style is built in none of the constructions it names, or the house is dated outside it. The general rule then stands, and the fault is judged as for any house.",
+  "kind": "editorial",
+  "basis": "mcp_server/core.py, grant_exception returns refused with \"the style is built in none of\" the constructions named, or \"the house is dated %s, outside this licence's\" range; check_measurements reads it as \"the general rule stands. This is where a licence stops\" excusing a house that never earned it.",
+  "sense": "an exception whose condition this style does not meet",
+  "order": 3,
+  "confusable_with": [
+    "judgment-refused"
+  ],
+  "see": [
+    "term:exception",
+    "term:exception-granted",
+    "term:judgment-unjudged"
+  ]
+}

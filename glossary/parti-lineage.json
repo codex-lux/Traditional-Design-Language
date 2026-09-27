@@ -1,0 +1,13 @@
+{
+  "id": "parti-lineage",
+  "term": "lineage parti",
+  "family": "house",
+  "definition": "A plan diagram drawn not for this style but for one it answers to: an ancestor it inherits its kit from, or a family it is filed under. Its own line built it, so it is among the style's plan types.",
+  "kind": "editorial",
+  "basis": "Our wording of the composer's nativity relation. build/compose.py, nativity: \"Lineage means the diagram was drawn for a style this one answers to, an ancestor it inherits its kit from or a container it is a member of, and not for this style itself.\"; mcp_server/core.py, list_partis: \"Native and lineage partis are listed; a borrowed one only with `include_borrowed`, because a style's plan types are the diagrams its own line was drawn with.\"",
+  "see": [
+    "term:parti",
+    "term:parti-native",
+    "term:parti-borrowed"
+  ]
+}

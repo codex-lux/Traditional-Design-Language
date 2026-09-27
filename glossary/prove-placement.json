@@ -1,0 +1,12 @@
+{
+  "id": "prove-placement",
+  "term": "prove placement",
+  "family": "house",
+  "definition": "Ask the solver to prove a placement, holding the record's declared facts as hard constraints. It returns a placement, or names the smallest set of facts that cannot all hold. It takes seconds, so a wall drag stays on the fast search.",
+  "kind": "editorial",
+  "basis": "Our wording of the proof on demand. docs/geometry.md: \"Solving is two-phase: a hard-only pass finds or refutes a placement fast\", and on infeasibility \"The footprint grows a bay before any requirement is blamed.\"",
+  "see": [
+    "term:conflict-set",
+    "term:re-solve"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "rank-style",
+  "term": "style",
+  "family": "rank",
+  "order": 2,
+  "definition": "The nameable style a client would select, such as Georgian Colonial. A style carries a buildable kit, and it may be refined by variants that give its regional or period expressions.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, on the rank: \"style = the nameable style a client would select; variant = regional/period expression at which a kit of parts is actually buildable.\" docs/model.md: \"The nameable thing a client selects | Georgian Colonial (American)\". README.md counts styles among the buildable ranks: \"All 132 buildable style/variant nodes carry a\".",
+  "binds": [
+    {
+      "field": "style.rank",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/rank",
+      "value": "style"
+    }
+  ],
+  "confusable_with": [
+    "rank"
+  ],
+  "see": [
+    "style:georgian-colonial-american"
+  ]
+}

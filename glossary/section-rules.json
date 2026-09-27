@@ -1,0 +1,21 @@
+{
+  "id": "section-rules",
+  "term": "Constraints",
+  "family": "section",
+  "order": 6,
+  "definition": "The assembly rules this style sets between its parts, relations between slots rather than values of one, each shown in its state: tested by the checker on a plan, left to your judgment, or not yet given a test.",
+  "kind": "editorial",
+  "basis": "Editorial. docs/inheritance.md: \"Constraints live on the style node, not in the kit, because they are relations between slots rather than values of one.\" and \"Hard constraints are what stop a generator from producing incoherent houses.\" docs/constraints.md: a judgment constraint \"is listed for hand review rather than silently passed or given an invented threshold.\"",
+  "surface": {
+    "what": "The assembly rules this style sets between its parts.",
+    "read": [
+      "Each rule keeps its statement in words and shows its severity: hard, soft or advisory.",
+      "An executable rule carries a test the checker runs on a plan.",
+      "A rule its sources state only in words is left to your judgment, never passed in silence."
+    ],
+    "try": "constraint:charleston-georgian.c01"
+  },
+  "confusable_with": [
+    "derived-rule"
+  ]
+}

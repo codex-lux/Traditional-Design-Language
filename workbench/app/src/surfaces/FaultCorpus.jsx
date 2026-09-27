@@ -12,15 +12,20 @@ import { StylePicker } from '../components/StylePicker.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
 import { PullPane } from '../components/PullPane.jsx';
+import { Term } from '../components/Term.jsx';
+import { NoRecordChosen } from '../components/NoRecordChosen.jsx';
+import { faultGroups, groupRows, styleFaultIds } from '../faults/groups.js';
 
-const DEFAULT_FAULT = 'porch-too-shallow-to-inhabit';
+/* The limit the style's fault list and the dossier's partition are both taken at
+   (`corpus.dossier_faults` asks `core.find_faults` for 300), so the two answer the same question. */
+const STYLE_LIST_LIMIT = 300;
 
 const SEV_C = { fatal: 'var(--sev-fatal)', serious: 'var(--sev-serious)', minor: 'var(--sev-minor)' };
 const SPEC = { sev: {}, driver: {}, q: { type: 'text' }, style: {} };
 
 export function FaultCorpus({ onCite, selection, setSelection }) {
   const [all, setAll] = React.useState([]);
-  const [id, setId] = React.useState(selection?.fault || DEFAULT_FAULT);
+  const [id, setId] = React.useState(selection?.fault || null);
   const [fault, setFault] = React.useState(null);
   const [assets, setAssets] = React.useState([]);
 
@@ -33,18 +38,47 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
   }, []);
 
   React.useEffect(() => {
-/* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
-   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
-   #/faults left the panel displaying the record you had just left — the address bar and the
-   screen disagreeing, which is the one thing the router exists to prevent. Found by an
-   adversarial audit. */
-    setId(selection?.fault || DEFAULT_FAULT);
+/* The URL owns this, so an ABSENT selection must reset rather than leave the last one showing.
+   Guarding the sync with `if (selection?.x)` meant pressing Back to a bare #/faults left the
+   panel displaying the record you had just left — the address bar and the screen disagreeing,
+   which is the one thing the router exists to prevent. Found by an adversarial audit.
+   AND ABSENT MEANS NONE (WP-14.27). It reset to a typed `porch-too-shallow-to-inhabit`, so a bare
+   #/faults read one fault's card under an address naming no fault. A bare address lists the
+   corpus and says no record is chosen, in its glossary record's words. */
+    setId(selection?.fault || null);
   }, [selection?.fault]);
 
+  /* THE STYLE'S FAULTS IN THE DOSSIER'S THREE GROUPS (WP-14.27, PRD §C.12). The partition is
+     `corpus.dossier_faults`, served on the dossier route; the list it partitions is the style's
+     own `find_faults`. Both at one limit, and `faults/groups.js` holds the one to the other. */
+  const [grouping, setGrouping] = React.useState(null);
   React.useEffect(() => {
-    if (!id) return;
+    if (!styleInView) { setGrouping(null); return undefined; }
+    let current = true;
+    setGrouping(null);
+    Promise.all([api.styleDossier(styleInView), api.faults({ style: styleInView, limit: STYLE_LIST_LIMIT })])
+      .then(([d, r]) => {
+        if (current) setGrouping(faultGroups(d && d.faults, (r.faults || []).map((f) => f.id)));
+      })
+      .catch(() => { if (current) setGrouping({ state: 'unjudged', reason: 'the style could not be read' }); });
+    return () => { current = false; };
+  }, [styleInView]);
+
+  /* ONLY THE ANSWER TO THE LATEST QUESTION IS SHOWN (WP-14.11). A move to a new address changes
+     the fault and the style in one navigation, and this effect runs once for the style (with the
+     OLD fault still in `id`) and again for the fault -- two requests in flight, and whichever
+     resolved LAST was drawn. Forced by delaying the stale one, the card read "The Newel That
+     Cannot Be Leaned On" under an address naming `surround-that-lies-about-the-wall`, on this
+     tree and on a `git archive` of the base commit alike; unforced it won 2 runs in 5 here (the
+     walk's among them) and 0 in 3 on the base. A card of another fault under this address would also carry
+     another fault's licence verdict, which is the thing the card may not get wrong. A superseded
+     request is discarded, its assets with it. */
+  React.useEffect(() => {
+    // No fault named: nothing is fetched, and the card of the fault the reader just left goes.
+    if (!id) { setFault(null); setAssets([]); return undefined; }
+    let current = true;
     api.fault(id, styleInView || undefined)
-      .then((f) => setFault({
+      .then((f) => current && setFault({
         ...f,
         fix: f.fixes,   // the card reads `fix`; the record says `fixes`
         // the card reads exception.statement + a printable bounds; the record says
@@ -59,7 +93,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
         })),
         // the card typesets `test` as prose beside the statement; the record's is a
         // structured rule — render it as the sentence it encodes, note included
-        /* `between` carries BOTH edges — 40 of the 209 faults use it — and only
+        /* `between` carries BOTH edges — 40 of 210 faults, measured 25 Sep 2026 — and only
            `threshold` was printed, so a two-sided band rendered as "between 7.0 ratio"
            and a reader could not tell whether 12.0 passed. */
         test: f.test
@@ -70,8 +104,11 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
             (f.test.note ? ` — ${f.test.note}` : '')
           : null,
       }))
-      .catch(() => setFault(null));
-    api.assets({ fault: id, limit: 4 }).then((r) => setAssets(r.assets || [])).catch(() => setAssets([]));
+      .catch(() => { if (current) setFault(null); });
+    api.assets({ fault: id, limit: 4 })
+      .then((r) => { if (current) setAssets(r.assets || []); })
+      .catch(() => { if (current) setAssets([]); });
+    return () => { current = false; };
   }, [id, styleInView]);
 
   const sevCounts = all.reduce((a, f) => { a[f.severity] = (a[f.severity] || 0) + 1; return a; }, {});
@@ -79,13 +116,39 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
     if (f.driver) a[f.driver] = (a[f.driver] || 0) + 1;
     return a;
   }, {});
+  // With a style in view the list is that style's faults, which is what `style` narrows to.
+  const inStyle = styleFaultIds(grouping);
   const list = all.filter((f) =>
-    (!sev || f.severity === sev)
+    (!inStyle || inStyle.has(f.id))
+    && (!sev || f.severity === sev)
     && (!driver || f.driver === driver)
     && matches(f, q, ['name', 'id', 'severity', 'driver', 'frequency', 'aka',
                       (r) => (r.slots || []).join(' ')]));
 
   const drivers = Object.entries(driverCounts).sort((a, b) => b[1] - a[1]);
+  const grouped = groupRows(list, grouping);
+
+  const row = (f) => {
+    const on = f.id === id;
+    return (
+      /* Selecting writes the URL, so a fault you are reading is a link you can
+         send — and the citation the rail would use for it is the same string. */
+      <button key={f.id} type="button" data-fault-row={f.id} aria-current={on ? 'true' : undefined}
+        onClick={() => { setId(f.id); setSelection && setSelection({ fault: f.id }); }}
+        style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 12px 11px',
+          borderBottom: '1px solid var(--rule-soft)',
+          borderLeft: '2px solid ' + (on ? 'var(--gilt-deep)' : 'transparent'),
+          background: on ? 'var(--paper-deep)' : 'transparent', transition: 'var(--t-hover)' }}>
+        <div style={{ font: 'var(--fw-reg) 15px/1.25 var(--display)', fontVariationSettings: '"opsz" 24',
+          color: on ? 'var(--ink)' : 'var(--ink-2)' }}>{f.name}</div>
+        <div style={{ display: 'flex', gap: 10, marginTop: 5 }}>
+          <span style={{ font: 'var(--type-data-s)', color: SEV_C[f.severity] }}>{f.severity}</span>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{f.frequency}</span>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{f.slots && f.slots[0]}</span>
+        </div>
+      </button>
+    );
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
@@ -97,9 +160,12 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
             noneLabel="no style" />
         </span>
       }>
+        {/* The corpus's own count, from the list the API answered — it said "209" against a
+            corpus of 210 (WP-14.13). While the list is still loading it names no figure. */}
         <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={list.length}
-          label="Filter the 209 faults by name, slot, severity or driver"
-          placeholder="filter 209 faults" width={180} />
+          label={all.length ? `Filter the ${all.length} faults by name, slot, severity or driver`
+            : 'Filter the faults by name, slot, severity or driver'}
+          placeholder={all.length ? `filter ${all.length} faults` : 'filter the faults'} width={180} />
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
         <ChipGroup label="severity">
           <Eyebrow as="span">severity</Eyebrow>
@@ -128,7 +194,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
               {all.length} solecisms · {list.length} shown here
               {list.length !== all.length && filters.activeCount > 0 ? ' · filtered' : ''}
             </Eyebrow>
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '7px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '7px 0 0' }}>
               {/* `all` is the FAULT list, and it is capped at the query's own limit — the
                    denominator was labelled "cause drivers" and would silently truncate. */}
               Of the {all.length} solecisms listed, exactly {driverCounts.ignorance || 0} name{driverCounts.ignorance === 1 ? 's' : ''}{' '}
@@ -137,37 +203,34 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
             </p>
           </div>
           {list.length === 0 && all.length > 0 && (
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)',
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
               margin: 0, padding: '14px 12px' }}>
               No fault matches. The corpus holds {all.length}; the filters above are hiding
               all of them.
             </p>
           )}
-          {list.map((f) => {
-            const on = f.id === id;
-            return (
-              /* Selecting writes the URL, so a fault you are reading is a link you can
-                 send — and the citation the rail would use for it is the same string. */
-              <button key={f.id} type="button"
-                onClick={() => { setId(f.id); setSelection && setSelection({ fault: f.id }); }}
-                style={{ display: 'block', width: '100%', textAlign: 'left', padding: '9px 12px 11px',
-                  borderBottom: '1px solid var(--rule-soft)',
-                  borderLeft: '2px solid ' + (on ? 'var(--gilt-deep)' : 'transparent'),
-                  background: on ? 'var(--paper-deep)' : 'transparent', transition: 'var(--t-hover)' }}>
-                <div style={{ font: 'var(--fw-reg) 15px/1.25 var(--display)', fontVariationSettings: '"opsz" 24',
-                  color: on ? 'var(--ink)' : 'var(--ink-2)' }}>{f.name}</div>
-                <div style={{ display: 'flex', gap: 10, marginTop: 5 }}>
-                  <span style={{ font: 'var(--type-data-s)', color: SEV_C[f.severity] }}>{f.severity}</span>
-                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{f.frequency}</span>
-                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{f.slots && f.slots[0]}</span>
+          {grouping && grouping.state === 'unjudged' && (
+            <p data-fault-groups-unjudged="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
+              margin: 0, padding: '10px 12px', borderBottom: '1px solid var(--rule-soft)' }}>
+              {grouping.reason}
+            </p>
+          )}
+          {grouped
+            ? grouped.map((g) => (
+                <div key={g.id} data-fault-group={g.id} data-fault-group-count={g.rows.length}>
+                  <div style={{ padding: '10px 12px 6px', borderBottom: '1px solid var(--rule-soft)',
+                    background: 'var(--paper-deep)' }}>
+                    <Eyebrow><Term id={g.term} /> · {g.rows.length}</Eyebrow>
+                  </div>
+                  {g.rows.map(row)}
                 </div>
-              </button>
-            );
-          })}
+              ))
+            : list.map(row)}
         </PullPane>
 
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 22px 34px' }}>
-          {fault && (
+          {!id && <NoRecordChosen surface="faults" />}
+          {id && fault && (
             <div style={{ display: 'flex', gap: 22, alignItems: 'flex-start', flexWrap: 'wrap' }}>
               <div style={{ flex: '1 1 520px', minWidth: 460, maxWidth: 760 }}>
                 <FaultCard fault={fault} styleInView={styleInView || undefined}
@@ -185,7 +248,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
                   {assets.some((a) => a.file) ? 'evidence' : 'evidence · specified, not yet sourced'}
                 </Eyebrow>
                 {assets.length === 0 && (
-                  <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-4)', margin: 0 }}>
+                  <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
                     No image records are filed against this fault yet — the record is the
                     object until one is.
                   </p>

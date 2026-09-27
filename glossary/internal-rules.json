@@ -1,0 +1,11 @@
+{
+  "id": "internal-rules",
+  "term": "internal rules",
+  "family": "house",
+  "definition": "The rules a grouping keeps among its own rooms, each with how strictly it holds and, where it can be measured, the test that measures it.",
+  "kind": "editorial",
+  "basis": "schema/grouping.schema.json: \"A grouping is a reusable assembly of rooms with its own adjacency rules, its own servicing strategy, and its own rules for how it attaches to a massing.\" docs/rooms.md: \"Each grouping carries internal rules with `hard` / `strong` / `preferred` severities and a measurable `test` where one exists\"",
+  "see": [
+    "term:grouping"
+  ]
+}

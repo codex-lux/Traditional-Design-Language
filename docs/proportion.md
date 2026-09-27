@@ -126,8 +126,11 @@ from the member's own height and projection, never a curve fitted to look right:
   second fraction, which is how `0.62` — one of the hand-tuned numbers this module replaced — got
   back in.
 - **volute, acanthus** — **not constructed.** A volute's spiral construction is on a plate this
-  corpus cannot reach (the OQ 7-11 class); these draw as a swelling and report themselves
-  unconstructed so a caller can say so on the sheet.
+  corpus cannot reach (the OQ 7-11 class); these draw as their envelope, the dashed box their
+  published height and projection bound, and report themselves unconstructed so a caller can say so
+  on the sheet. (This line said "draw as a swelling" for a phase after WP-14.2 made them envelopes;
+  the paragraph on envelopes below said so, and this one was found stale at the merge of the two
+  Phase 14s, 27 Sep 2026, through the other line's glossary, which quoted it.)
 
 **`width_parts`** gives the face width of one repeating unit — a dentil, modillion, mutule,
 triglyph or metope. `spacing_parts` is the pitch; this is how much of that pitch is solid, and

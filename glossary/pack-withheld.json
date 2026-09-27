@@ -1,0 +1,16 @@
+{
+  "id": "pack-withheld",
+  "term": "withheld",
+  "family": "pack-relation",
+  "order": 3,
+  "definition": "A pack an ancestor binds that reaches a style only on request, which this style has not made. Its rules are worked out and marked withheld, never used, so what it would have dimensioned reads as held back, not as never dimensioned.",
+  "kind": "editorial",
+  "basis": "Our wording of the resolver's withheld packs and the inheritance layer's opt-in delivery. build/resolve_kit.py: \"A DECLINE is the node refusing a pack; a WITHHOLD is the pack requiring an admission the node has not written.\"; build/resolve_kit.py: \"and their rules are built and marked `withheld_by_opt_in` with a reason\"; build/resolve_kit.py: \"a slot whose pack was withheld would otherwise read UNDIMENSIONED, indistinguishable from a slot no pack ever wanted.\"; build/resolve_kit.py: \"A marked row is never chosen\"; docs/inheritance.md: \"a pack may declare `delivery: opt-in`, and then it arrives only at a node whose own record names it in `inherits_packs`.\".",
+  "confusable_with": [
+    "pack-declined"
+  ],
+  "see": [
+    "style:tidewater-georgian",
+    "pack:facade-gable"
+  ]
+}

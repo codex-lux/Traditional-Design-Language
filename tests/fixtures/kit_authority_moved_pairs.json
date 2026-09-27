@@ -1,0 +1,1394 @@
+{
+ "about": "The (style, slot) pairs whose tdl_resolve_kit and /api/kit answer moved when WP-14.26 rebased core.resolve_kit on build/resolve_kit.resolve_slots. Measured on 25 Sep 2026 by comparing every slot of every style, resolve_kit(style, slot=slot, only_specified=False), on a git archive of 5aa8041 (hand_merge) against this tree (resolved). `pairs` differ on the binding, the canonical set or the forbidden set; `rule_moves` are rows both readings bind whose rule text differs. The before column is a record of what was served and is never re-derived by a test: the hand-merge that produced it is deleted.",
+ "causes": {
+  "open-stops": "the hand-merge stopped at an `open` record carrying a status and served it (the node that wrote `open` as the source); resolve_slots treats `open` as transparent and walks on to the ancestor that settles the slot (OQ 87's mechanism)",
+  "scope": "the style reaches an ancestor through a scoped edge (OQ 58, `_cascade_scope`) that does not carry this slot; the hand-merge ignored the scope",
+  "extends-restates-rule": "an `extends` delta restates the slot's `rule`; the hand-merge merged parameters, variants and five named fields and never `rule`, so it served the ancestor's sentence under the child's provenance",
+  "replace-on-a-duplicate-id": "the base slot lists one variant id twice (a permitted record and a conditional canonical one); an `op: replace` delta matched the FIRST copy in the hand-merge and the LAST in apply_variant_ops, so the hand-merge served the variant as canonical and forbidden at once",
+  "rule-append-join": "`rule_append` joined with \". \" by the hand-merge and with \" \" by merge_extends; the words are the same"
+ },
+ "total_pairs_compared": 15908,
+ "pairs": [
+  {
+   "style": "adam-style",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "renaissance-classical + english-palladian (extends)"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment",
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "antique-classical + english-palladian (extends)"
+   }
+  },
+  {
+   "style": "andalusian-spanish-revival",
+   "slot": "setback_rule",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "georgian-colonial-american"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "mexican-colonial"
+   }
+  },
+  {
+   "style": "beaux-arts-french",
+   "slot": "composition_parti",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "continental-baroque-neoclassical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "near-symmetrical-with-heraldic-irregularity"
+    ],
+    "forbidden": [
+     "strict-bilateral-symmetry"
+    ],
+    "source": "french-renaissance-chateau"
+   }
+  },
+  {
+   "style": "california-mission-colonial",
+   "slot": "landscape_idiom",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "iberian-islamic"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "moorish-andalusian"
+   }
+  },
+  {
+   "style": "california-mission-colonial",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "churrigueresque",
+   "slot": "landscape_idiom",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "iberian-islamic"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "moorish-andalusian"
+   }
+  },
+  {
+   "style": "churrigueresque",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "english-baroque",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "english-georgian",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "renaissance-classical + english-palladian (extends)"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment",
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "antique-classical + english-palladian (extends)"
+   }
+  },
+  {
+   "style": "english-georgian-country-house",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "renaissance-classical + english-palladian (extends)"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment",
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "antique-classical + english-palladian (extends)"
+   }
+  },
+  {
+   "style": "english-georgian-townhouse",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "renaissance-classical + english-palladian (extends)"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment",
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "antique-classical + english-palladian (extends)"
+   }
+  },
+  {
+   "style": "english-palladian",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "renaissance-classical + english-palladian (extends)"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment",
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "antique-classical + english-palladian (extends)"
+   }
+  },
+  {
+   "style": "french-baroque",
+   "slot": "composition_parti",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "continental-baroque-neoclassical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "near-symmetrical-with-heraldic-irregularity"
+    ],
+    "forbidden": [
+     "strict-bilateral-symmetry"
+    ],
+    "source": "french-renaissance-chateau"
+   }
+  },
+  {
+   "style": "french-neoclassical",
+   "slot": "composition_parti",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "continental-baroque-neoclassical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "near-symmetrical-with-heraldic-irregularity"
+    ],
+    "forbidden": [
+     "strict-bilateral-symmetry"
+    ],
+    "source": "french-renaissance-chateau"
+   }
+  },
+  {
+   "style": "italian-renaissance",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "mediterranean-vernacular",
+   "slot": "composition_parti",
+   "differs_on": [
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [
+     "picturesque-asymmetrical"
+    ],
+    "source": "mediterranean-vernacular"
+   },
+   "resolved": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": null
+   }
+  },
+  {
+   "style": "mexican-colonial",
+   "slot": "landscape_idiom",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "iberian-islamic"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "moorish-andalusian"
+   }
+  },
+  {
+   "style": "mexican-colonial",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "mexican-hacienda",
+   "slot": "landscape_idiom",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "iberian-islamic"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "moorish-andalusian"
+   }
+  },
+  {
+   "style": "mexican-hacienda",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "monterey-colonial",
+   "slot": "hearth_position",
+   "differs_on": [
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "scope",
+   "hand_merge": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [
+     "central-stack",
+     "gable-end-paired",
+     "exterior-end",
+     "corner",
+     "distributed"
+    ],
+    "source": "new-england-colonial + monterey-colonial (extends)"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "open-hearth-in-open-hall",
+     "inserted-masonry-stack-in-former-screens-passage"
+    ],
+    "forbidden": [
+     "central-stack"
+    ],
+    "source": "english-medieval-timber-frame + monterey-colonial (extends)"
+   }
+  },
+  {
+   "style": "monterey-colonial",
+   "slot": "landscape_idiom",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "iberian-islamic"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "moorish-andalusian"
+   }
+  },
+  {
+   "style": "monterey-colonial",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "monterey-colonial",
+   "slot": "window_surround_wood",
+   "differs_on": [
+    "binding",
+    "forbidden"
+   ],
+   "cause": "scope",
+   "hand_merge": {
+    "binding": "specified",
+    "canonical": [
+     "flat-casing"
+    ],
+    "forbidden": [
+     "backband-architrave",
+     "pilaster-and-entablature",
+     "crossette-architrave"
+    ],
+    "source": "new-england-colonial + monterey-colonial (extends)"
+   },
+   "resolved": {
+    "binding": "extends",
+    "canonical": [
+     "flat-casing"
+    ],
+    "forbidden": [],
+    "source": "monterey-colonial"
+   }
+  },
+  {
+   "style": "monterey-revival",
+   "slot": "setback_rule",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "georgian-colonial-american"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "mexican-colonial"
+   }
+  },
+  {
+   "style": "mudejar",
+   "slot": "landscape_idiom",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "iberian-islamic"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "moorish-andalusian"
+   }
+  },
+  {
+   "style": "new-classical",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "new-england-georgian",
+   "slot": "window_surround_wood",
+   "differs_on": [
+    "canonical"
+   ],
+   "cause": "replace-on-a-duplicate-id",
+   "hand_merge": {
+    "binding": "specified",
+    "canonical": [
+     "flat-architrave-with-crown",
+     "none-masonry-reveal"
+    ],
+    "forbidden": [
+     "none-masonry-reveal"
+    ],
+    "source": "georgian-colonial-american + new-england-georgian (extends)"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "flat-architrave-with-crown"
+    ],
+    "forbidden": [
+     "none-masonry-reveal"
+    ],
+    "source": "georgian-colonial-american + new-england-georgian (extends)"
+   }
+  },
+  {
+   "style": "new-mexico-adobe",
+   "slot": "landscape_idiom",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "iberian-islamic"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "moorish-andalusian"
+   }
+  },
+  {
+   "style": "new-mexico-adobe",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "octagon-house",
+   "slot": "primary_cladding",
+   "differs_on": [
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "scope",
+   "hand_merge": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [
+     "board-and-batten-vertical"
+    ],
+    "source": "italianate-american + octagon-house (extends)"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "board-and-batten-vertical"
+    ],
+    "forbidden": [],
+    "source": "gothic-revival-american + octagon-house (extends)"
+   }
+  },
+  {
+   "style": "octagon-house",
+   "slot": "roof_form",
+   "differs_on": [
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "scope",
+   "hand_merge": {
+    "binding": "specified",
+    "canonical": [
+     "low-hip-suppressed"
+    ],
+    "forbidden": [
+     "steep-gable",
+     "mansard"
+    ],
+    "source": "italianate-american"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "multi-gable-unequal-width"
+    ],
+    "forbidden": [
+     "low-hip"
+    ],
+    "source": "gothic-revival-american"
+   }
+  },
+  {
+   "style": "palladian",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "regency",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "renaissance-classical + english-palladian (extends)"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment",
+     "broken-scroll-pediment",
+     "swan-neck-pediment"
+    ],
+    "source": "antique-classical + english-palladian (extends)"
+   }
+  },
+  {
+   "style": "spanish-colonial-american",
+   "slot": "landscape_idiom",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "iberian-islamic"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "moorish-andalusian"
+   }
+  },
+  {
+   "style": "spanish-colonial-american",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  },
+  {
+   "style": "spanish-plateresque",
+   "slot": "landscape_idiom",
+   "differs_on": [
+    "binding"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "iberian-islamic"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [],
+    "forbidden": [],
+    "source": "moorish-andalusian"
+   }
+  },
+  {
+   "style": "spanish-plateresque",
+   "slot": "pediment",
+   "differs_on": [
+    "binding",
+    "canonical",
+    "forbidden"
+   ],
+   "cause": "open-stops",
+   "hand_merge": {
+    "binding": "open",
+    "canonical": [],
+    "forbidden": [],
+    "source": "renaissance-classical"
+   },
+   "resolved": {
+    "binding": "specified",
+    "canonical": [
+     "whole-triangular-pediment"
+    ],
+    "forbidden": [
+     "broken-or-scrolled-pediment"
+    ],
+    "source": "antique-classical"
+   }
+  }
+ ],
+ "rule_moves": [
+  {
+   "style": "adam-style",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "appalachian-log-house",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "charleston-georgian",
+   "slot": "door_surround",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "charleston-georgian",
+   "slot": "roof_pitch",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "charleston-single-house",
+   "slot": "door_surround",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "charleston-single-house",
+   "slot": "roof_pitch",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "colonial-revival",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "cotswold-cottage-revival",
+   "slot": "material_change_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "british-arts-and-crafts + tudor-revival (extends)",
+   "source_after": "british-arts-and-crafts + tudor-revival (extends)"
+  },
+  {
+   "style": "dogtrot-vernacular",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "dogtrot-vernacular",
+   "slot": "roof_form",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "log-vernacular-american + dogtrot-vernacular (extends)",
+   "source_after": "log-vernacular-american + dogtrot-vernacular (extends)"
+  },
+  {
+   "style": "dutch-colonial-revival",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "english-georgian",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "english-georgian-country-house",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "english-georgian-townhouse",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "english-palladian",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "french-eclectic",
+   "slot": "material_change_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "british-arts-and-crafts + tudor-revival (extends)",
+   "source_after": "british-arts-and-crafts + tudor-revival (extends)"
+  },
+  {
+   "style": "garrison-revival",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "georgian-colonial-american",
+   "slot": "door_surround",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "georgian-colonial-american",
+   "slot": "roof_pitch",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "georgian-revival",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "german-pennsylvania-colonial",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "italian-renaissance-revival",
+   "slot": "height_proportion",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "beaux-arts-french + italian-renaissance-revival (extends)",
+   "source_after": "beaux-arts-french + italian-renaissance-revival (extends)"
+  },
+  {
+   "style": "jacobethan-revival",
+   "slot": "material_change_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "british-arts-and-crafts + tudor-revival (extends)",
+   "source_after": "british-arts-and-crafts + tudor-revival (extends)"
+  },
+  {
+   "style": "jeffersonian-classicism",
+   "slot": "door_surround",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "jeffersonian-classicism",
+   "slot": "reveal_frame",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "georgian-colonial-american + tidewater-georgian (extends)",
+   "source_after": "georgian-colonial-american + tidewater-georgian (extends)"
+  },
+  {
+   "style": "jeffersonian-classicism",
+   "slot": "window_sill",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "georgian-colonial-american + tidewater-georgian (extends)",
+   "source_after": "georgian-colonial-american + tidewater-georgian (extends)"
+  },
+  {
+   "style": "log-vernacular-american",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "mediterranean-revival",
+   "slot": "height_proportion",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "beaux-arts-french + italian-renaissance-revival (extends)",
+   "source_after": "beaux-arts-french + italian-renaissance-revival (extends)"
+  },
+  {
+   "style": "mid-atlantic-georgian",
+   "slot": "door_surround",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "mid-atlantic-georgian",
+   "slot": "roof_pitch",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "minimal-traditional",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "modern-farmhouse-traditional",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "monterey-colonial",
+   "slot": "chimney",
+   "cause": "scope",
+   "also_a_moved_pair": false,
+   "source_before": "british-vernacular + new-england-colonial (extends)",
+   "source_after": "british-vernacular"
+  },
+  {
+   "style": "monterey-colonial",
+   "slot": "hearth_position",
+   "cause": "scope",
+   "also_a_moved_pair": true,
+   "source_before": "new-england-colonial + monterey-colonial (extends)",
+   "source_after": "english-medieval-timber-frame + monterey-colonial (extends)"
+  },
+  {
+   "style": "neo-eclectic",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "neoclassical-revival",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "new-classical",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "new-england-georgian",
+   "slot": "door_surround",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends) + new-england-georgian (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends) + new-england-georgian (extends)"
+  },
+  {
+   "style": "new-mexico-adobe",
+   "slot": "garage_strategy",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "spanish-colonial-american + new-mexico-adobe (extends)",
+   "source_after": "spanish-colonial-american + new-mexico-adobe (extends)"
+  },
+  {
+   "style": "new-mexico-adobe",
+   "slot": "porch_support",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "spanish-colonial-american + new-mexico-adobe (extends)",
+   "source_after": "spanish-colonial-american + new-mexico-adobe (extends)"
+  },
+  {
+   "style": "octagon-house",
+   "slot": "height_proportion",
+   "cause": "scope",
+   "also_a_moved_pair": false,
+   "source_before": "italianate-american",
+   "source_after": "english-georgian"
+  },
+  {
+   "style": "octagon-house",
+   "slot": "primary_cladding",
+   "cause": "scope",
+   "also_a_moved_pair": true,
+   "source_before": "italianate-american + octagon-house (extends)",
+   "source_after": "gothic-revival-american + octagon-house (extends)"
+  },
+  {
+   "style": "octagon-house",
+   "slot": "roof_form",
+   "cause": "scope",
+   "also_a_moved_pair": true,
+   "source_before": "italianate-american",
+   "source_after": "gothic-revival-american"
+  },
+  {
+   "style": "octagon-house",
+   "slot": "roof_pitch",
+   "cause": "scope",
+   "also_a_moved_pair": false,
+   "source_before": "italianate-american",
+   "source_after": "gothic-revival-american"
+  },
+  {
+   "style": "pennsylvania-bank-house",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "queen-anne-british",
+   "slot": "primary_cladding",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-british + queen-anne-british (extends)",
+   "source_after": "gothic-revival-british + queen-anne-british (extends)"
+  },
+  {
+   "style": "ranch-style",
+   "slot": "cornice_return",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "gothic-revival-american + colonial-revival (extends)",
+   "source_after": "gothic-revival-american + colonial-revival (extends)"
+  },
+  {
+   "style": "regency",
+   "slot": "ceiling_height_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "renaissance-classical + english-palladian (extends)",
+   "source_after": "renaissance-classical + english-palladian (extends)"
+  },
+  {
+   "style": "tidewater-georgian",
+   "slot": "door_surround",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "english-georgian + georgian-colonial-american (extends)",
+   "source_after": "english-georgian + georgian-colonial-american (extends)"
+  },
+  {
+   "style": "tidewater-georgian",
+   "slot": "reveal_frame",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "georgian-colonial-american + tidewater-georgian (extends)",
+   "source_after": "georgian-colonial-american + tidewater-georgian (extends)"
+  },
+  {
+   "style": "tidewater-georgian",
+   "slot": "window_sill",
+   "cause": "extends-restates-rule",
+   "also_a_moved_pair": false,
+   "source_before": "georgian-colonial-american + tidewater-georgian (extends)",
+   "source_after": "georgian-colonial-american + tidewater-georgian (extends)"
+  },
+  {
+   "style": "tudor-revival",
+   "slot": "material_change_rule",
+   "cause": "rule-append-join",
+   "also_a_moved_pair": false,
+   "source_before": "british-arts-and-crafts + tudor-revival (extends)",
+   "source_after": "british-arts-and-crafts + tudor-revival (extends)"
+  }
+ ]
+}

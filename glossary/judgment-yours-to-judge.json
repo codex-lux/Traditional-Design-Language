@@ -1,0 +1,15 @@
+{
+  "id": "judgment-yours-to-judge",
+  "term": "yours to judge",
+  "family": "judgment",
+  "mark": "--mark-yours-to-judge",
+  "definition": "A rule or choice the sources do not settle in figures, so the corpus hands it to you instead of inventing a threshold. It is listed for you to review by eye and is never counted as passed or failed.",
+  "kind": "editorial",
+  "basis": "schema/constraint.schema.json, the scope field: judgment \"means the sources do not determine this numerically\", and such a constraint \"is listed for hand review, never silently passed or invented a threshold for\". schema/kit.schema.json says the same of a slot marked judgment: \"The sources do not determine this and a designer must decide.\" VISION.md states the commitment: \"A rule the sources do not determine is deferred to the human, never invented.\"",
+  "order": 4,
+  "more": "Not the same as unjudged. An unjudged check is one the machine would run and could not, for want of a figure; a rule yours to judge has no machine test at all, by design, because the sources give it none.",
+  "see": [
+    "term:judgment-unjudged",
+    "term:constraint"
+  ]
+}

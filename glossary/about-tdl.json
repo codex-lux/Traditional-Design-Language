@@ -1,0 +1,30 @@
+{
+  "id": "about-tdl",
+  "term": "Traditional Design Language",
+  "family": "product",
+  "order": 0,
+  "definition": "A pattern book for traditional houses, written so that a machine can read it and a person can still argue with it: each style's parts, the proportions that size them, and the named errors a fluent eye would catch.",
+  "kind": "editorial",
+  "basis": "VISION.md, the project's own account of what it is and who it is for. Section I: \"The next pattern book, written so that a machine can read it and a human can still argue with it.\" Section III: \"A traditional house is a sentence in a language, and the language can be written down.\" and \"Proportioning systems are the grammar.\" Section II: \"The corpus catalogues named, testable errors\" and \"the things that make a house read as wrong to someone fluent.\" The readers are section IX's, quoted for each: \"the consequences become visible before the drawings are released, in the builder's own units\", \"they can ask for four plans and get four plans with an honest account of what each gives up\", \"it is built so that their judgment is available in rooms they are not in\". Section IX's fourth reader, the people who live there, is left out on purpose: they are the point and will never see this. What it is not is section X's, quoted for each: \"The system is built to refuse, to defer, and to present options it will not choose between.\", \"The corpus records what a style *does*, with its exceptions\", \"The aim is houses that belong, built now, with today's code, today's materials and today's budgets.\", \"The code layer is advisory model text and is labelled as such.\", \"Several of the world's building traditions are absent\".",
+  "readers": [
+    {
+      "who": "The production builder",
+      "line": "The consequences of each cost decision become visible before the drawings are released, in the builder's own units: dollars saved, dollars cost, and which fix is the cheap one."
+    },
+    {
+      "who": "The plan-development lead",
+      "line": "Ask for four plans and get four plans, each with an honest account of what it gives up, then move a wall and watch what it breaks."
+    },
+    {
+      "who": "The architect and the classicist",
+      "line": "Their judgment is available in rooms they are not in, and becomes auditable and arguable rather than authoritative: every claim reaches its source, and disagreeing with the corpus is a normal, supported act."
+    }
+  ],
+  "is_not": [
+    "Not the automation of the architect: it refuses, defers, and presents options it will not choose between, and each of those is a place where a person is required.",
+    "Not style policing: it records what a style does, with its exceptions, and sets honest and dishonest substitutions side by side.",
+    "Not historical reconstruction: the aim is houses that belong, built now, with today's code, materials and budgets.",
+    "Not a compliance engine: its code notes are advisory and labelled as such.",
+    "Not complete, and not pretending to be: several of the world's building traditions are absent, and the corpus says so in its own documentation."
+  ]
+}

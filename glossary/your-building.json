@@ -1,0 +1,14 @@
+{
+  "id": "your-building",
+  "term": "at your building",
+  "family": "proportion",
+  "order": 9,
+  "definition": "A pack's rules worked out for the measures you set — your ceiling height, your opening's width — not the pack's default. A rule used outside the rooms it was calibrated for still gives its figure, marked out of calibration rather than judged.",
+  "more": "The classical chair rail is the honest case: at a nine-foot ceiling the derivation puts it below the back of a chair, so the pack marks the rule a judgment and says to set the rail from the window sill instead.",
+  "kind": "editorial",
+  "basis": "Our wording of how a pack's rules are evaluated at a building's own measures, from the pack schema and the grammar layer. schema/proportion-pack.schema.json, derived_rules expression description: \"Formula in named variables the engine binds: module, part, ceiling_height, opening_width, storey_height, column_height.\"; schema/proportion-pack.schema.json, module.default_size_in description: \"A sensible default in inches, so the engine can run without being told.\"; schema/proportion-pack.schema.json, derived_rules calibrated_for description: \"Outside it the rule still evaluates and should not be trusted\"; docs/proportion.md: \"Outside them `in_range` is withheld and `out_of_calibration` published in its place.\"; docs/proportion.md: \"The chair rail is the honest case. The classical derivation puts it at the pedestal cap, and at a 9-foot ceiling that lands at 23 inches, below the back of a chair.\"; proportions/systems/trim-classical.json notes: \"the chair rail rule is marked judgment, the resolution is that the window sill wins\".",
+  "see": [
+    "pack:trim-classical",
+    "term:derived-rule"
+  ]
+}

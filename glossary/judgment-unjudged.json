@@ -1,0 +1,11 @@
+{
+  "id": "judgment-unjudged",
+  "term": "unjudged",
+  "family": "judgment",
+  "mark": "--mark-unjudged",
+  "order": 2,
+  "aka": ["could not evaluate"],
+  "definition": "The rule could not be tested on this house: a measurement it needs is missing, or the tool that would take it is absent. Unjudged is not passed, and it is never counted as a pass.",
+  "kind": "editorial",
+  "basis": "VISION.md section VII names it the rule the project would least survive breaking: \"Every check distinguishes evaluated-and-failed, evaluated-and-passed\", \"This is the single rule the project would least survive breaking.\" mcp_server/core.py check_measurements reports the faults \"which it could not judge because a number is missing\". build/check_all.py, for a check whose optional tool is not installed: \"It is reported distinctly and does not fail the\" build, \"but it is never printed as OK — unjudged is not passed.\""
+}

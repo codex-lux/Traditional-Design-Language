@@ -1,0 +1,16 @@
+{
+  "id": "pack-declined",
+  "term": "declined",
+  "family": "pack-relation",
+  "order": 4,
+  "definition": "A pack that reaches this style by descent and that the style's own record refuses, saying why — as a one-storey house refuses a rule for graduating storeys. A decline stops a wrong pack; it does not supply a right one.",
+  "kind": "editorial",
+  "basis": "Our wording of the style record's declined packs field and the inheritance layer's limit on it. schema/style-node.schema.json, declined_packs description: \"Packs that reach this node BY DESCENT and do not belong on it.\"; schema/style-node.schema.json, declined_packs reason description: \"Why this pack does not belong on this node, in a sentence.\"; schema/style-node.schema.json, declined_packs reason description: \"refuses `storey-graduation` because it has one storey and a rule for graduating a stack has no stack to graduate.\"; docs/inheritance.md: \"It stops a wrong pack; it does not supply a right one\".",
+  "confusable_with": [
+    "pack-withheld"
+  ],
+  "see": [
+    "style:ranch-style",
+    "pack:storey-graduation"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "surface-glossary",
+  "term": "Glossary",
+  "family": "surface",
+  "order": 12,
+  "definition": "Every word this workbench uses, defined in plain terms in one place. Each definition either cites a published work the corpus already names or is marked editorial and quotes the corpus file it rests on.",
+  "kind": "editorial",
+  "basis": "Editorial. The glossary is the workbench's own record set, ruled for Phase 14, and no corpus file describes it. It keeps VISION.md's rule for every figure: \"Every number carries a source or is explicitly labelled as an editorial judgment.\"",
+  "surface": {
+    "what": "Every word this workbench uses, defined in plain terms, with what each definition rests on.",
+    "read": [
+      "Each definition either cites a published work or is marked editorial and names the corpus file it read.",
+      "A word with two meanings has two entries, and each names the other.",
+      "Words are grouped by family; narrow the list by family or by typing."
+    ],
+    "try": "term:plan-record",
+    "ask": [
+      "What is the difference between a slot and a variant?",
+      "What does unjudged mean, and why is it not a pass?"
+    ]
+  }
+}

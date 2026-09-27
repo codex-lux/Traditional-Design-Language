@@ -1,0 +1,20 @@
+{
+  "id": "param-kind-code",
+  "term": "code",
+  "family": "param-kind",
+  "order": 4,
+  "definition": "Imposed from outside the tradition, as a building-code minimum is, rather than learned from historic buildings. The fall of grade away from a Georgian house is one; there the code's figure happens to agree with period practice.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on a figure's kind: \"invented: no precedent exists. code: imposed from outside.\" kits/georgian-colonial-american.kit.json rainwater.grade_fall_min.note: \"which is also the IRC's own figure and agrees with the period practice of falling grade away from a water table.\"",
+  "binds": [
+    {
+      "field": "kit.parameter_kind",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/$defs/parameter/properties/kind",
+      "value": "code"
+    }
+  ],
+  "see": [
+    "kit:georgian-colonial-american#rainwater"
+  ]
+}

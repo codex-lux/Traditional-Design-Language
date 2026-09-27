@@ -63,7 +63,7 @@ export function sweepFlag(hinge, tip, far) {
    the tip and the sweep inline, so six mutations of the bench's door and window geometry -- either
    wall's jambs swapped, the vertical swing turned the other way, the sweep flag inverted, the
    glazing moved to the wall's face, a W or E sill moved into the room -- left all 279 app tests
-   green. The tip, the far jamb and the sweep are computed here now, and `marks.test.mjs` holds
+   green. The tip, the far jamb and the sweep are computed here now, and `sheet-marks.test.mjs` holds
    them to the points the Python ink test holds the printed plate's leaves to. */
 export function swingOf(hinge, nrm, len, far) {
   const tip = add(hinge, nrm, len);

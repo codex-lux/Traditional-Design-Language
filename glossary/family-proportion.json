@@ -1,0 +1,17 @@
+{
+  "id": "family-proportion",
+  "term": "Proportioning",
+  "family": "family",
+  "order": 15,
+  "definition": "The group of words of the proportioning grammar: packs, modules, parts, assemblies, members, and the rules that derive a dimension from them.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`proportion` holds the words of the proportioning grammar: packs, assemblies, members and modules\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "proportion"
+    }
+  ]
+}

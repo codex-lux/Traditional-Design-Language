@@ -1,0 +1,14 @@
+{
+  "id": "plan-record",
+  "term": "plan",
+  "family": "house",
+  "sense": "the record of one house",
+  "definition": "The record of one house: its rooms, their sizes, their outside walls, windows and doors, enough to check the design and not enough to build it. Once placed, it also records where each room and opening stands.",
+  "analogy": "Closer to a room schedule than to a drawing: the plan sheet is drawn from it, never the other way round.",
+  "kind": "editorial",
+  "basis": "Editorial. schema/plan.schema.json: \"A plan as a topology plus approximate dimensions — enough to check, not enough to build.\", and it \"admits the PLACED plan as a record rather than as something carried beside one.\" docs/plans.md: \"Rooms with a type, a width and length, a window head, doors, fixtures.\" docs/workbench.md: \"the validator reads the record's declared fields\" and not the solver's output. VISION.md: \"The drawing is a render of the data.\"",
+  "confusable_with": [
+    "surface-workbench",
+    "section-plans"
+  ]
+}

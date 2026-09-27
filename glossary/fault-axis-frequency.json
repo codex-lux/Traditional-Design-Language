@@ -1,0 +1,9 @@
+{
+  "id": "fault-axis-frequency",
+  "term": "how often",
+  "family": "fault",
+  "order": 16,
+  "definition": "How often the fault actually occurs in building today, from endemic to rare. The endemic faults are where the leverage is.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `frequency` field: \"How often it actually occurs in contemporary production building. Endemic faults are where the leverage is.\""
+}

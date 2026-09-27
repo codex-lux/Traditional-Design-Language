@@ -1,0 +1,12 @@
+{
+  "id": "revise-on-the-search",
+  "term": "revise (search)",
+  "family": "house",
+  "definition": "Run the corrective rounds on the fast search: each round moves what the critic found, and is kept only if the house strictly improves with no new fatal error. The result loads as one undoable step; a refusal here is often the search's noise.",
+  "kind": "editorial",
+  "basis": "Our wording of the loop on the search. docs/revise.md: \"Accept only if the key strictly decreases and no new fatal appears.\"; the bench loads \"the revised record as ONE undo step\"; and \"on the search engine a declared move is judged against re-placement noise and refused\".",
+  "see": [
+    "term:revise-with-the-proof",
+    "term:critique"
+  ]
+}

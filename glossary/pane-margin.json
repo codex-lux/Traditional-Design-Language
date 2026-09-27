@@ -1,0 +1,11 @@
+{
+  "id": "pane-margin",
+  "term": "margin",
+  "family": "product",
+  "definition": "The line between two panes, which you can pull to make a pane wider or narrower. In focus, the arrow keys nudge it and shift strides it; Home or a double click restores its width, and Enter folds a pane that folds.",
+  "kind": "editorial",
+  "basis": "Our wording of the pane margin, which docs/workbench.md describes: it is a real separator, whose keys are \"arrows nudge, shift-arrows stride\", and a \"double-click restores the shipped width\". Only a pane that is chrome folds, because \"a Fault Corpus with the fault list folded away is not a decluttered Fault Corpus\".",
+  "see": [
+    "term:full-screen"
+  ]
+}

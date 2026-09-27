@@ -1,0 +1,14 @@
+{
+  "id": "fault-group-here",
+  "term": "read for this style",
+  "family": "fault",
+  "order": 21,
+  "definition": "The named errors the corpus reads for one style by name: the style holds an exception to each, earned or not, inverts it, or has a severity of its own for it.",
+  "kind": "editorial",
+  "basis": "Our wording of the first of three groups a style's faults fall into. schema/fault.schema.json names the three things a fault record may say about one style: its exceptions, \"Where this is NOT a fault. Some styles play with an element far more than others\"; its inversions, \"Where the OPPOSITE is the fault. A crisp arris is correct almost everywhere\"; and its severities, \"Severity is not uniform. A missing chimney is fatal on Tudor Revival and Prairie and unremarkable on a ranch\". mcp_server/core.py, find_faults: \"Faults are element-first: most are universal, and style is a facet.\"",
+  "see": [
+    "term:exception",
+    "term:fault-group-lineage",
+    "term:fault-group-universal"
+  ]
+}

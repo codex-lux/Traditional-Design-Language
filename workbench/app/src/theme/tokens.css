@@ -86,8 +86,11 @@
   --wash-sepia-1:rgba(179,148,106,.16);  --wash-sepia-2:rgba(179,148,106,.30);
   --wash-graphite-1:rgba(63,58,49,.07);  --wash-graphite-2:rgba(63,58,49,.14);
 
-  /* Five traditions, reseated from the quiet colors. Stable mapping. */
-  --t0:#B3946A; --t1:#8FA07F; --t2:#8CA4AA; --t3:#AF6B50; --t4:#837D91;
+  /* Five traditions, reseated from the quiet colors. Stable mapping.
+     --t3 was #AF6B50, byte for byte the brick of the UI's fatal, so every style of the Iberian
+     tradition was drawn in the colour of failure. It takes an existing ink distinct from brick
+     now, which was ruled on 25 Sep 2026; src/marks.test.mjs holds it to both halves. */
+  --t0:#B3946A; --t1:#8FA07F; --t2:#8CA4AA; --t3:var(--salmon); --t4:#837D91;
 }
 
 /* ── TDL typography — THE LETTER ────────────────────────────────────────────
@@ -196,7 +199,13 @@
   --tracing-paper:linear-gradient(180deg,rgba(247,242,228,.9),rgba(232,222,199,.82)); /* @kind other */
   --paper-vignette:inset 0 0 0 1px var(--rule-soft); /* @kind shadow */
 
-  /* ── Hatches. Drawn, not textured — the same weighted lines as the drawing. ── */
+  /* ── Hatches. Drawn, not textured — the same weighted lines as the drawing. ──
+     A hatch is a FORM, and a form means nothing until a duty is given to it: no component
+     reads a hatch below by name. The five that mark a state on screen are each read through
+     exactly one --mark-* token in the duty block further down, and the four materials --
+     masonry, crosshatch, water and the lawn's stipple -- are drawing materials with one meaning
+     each, keyed on the sheet that draws them. --hatch-cross carries no duty and is drawn by
+     nothing. */
   --hatch-45:repeating-linear-gradient(45deg,currentColor 0 1px,transparent 1px 6px); /* @kind other */
   --hatch-135:repeating-linear-gradient(-45deg,currentColor 0 1px,transparent 1px 6px); /* @kind other */
   --hatch-cross:repeating-linear-gradient(45deg,currentColor 0 1px,transparent 1px 5px),repeating-linear-gradient(-45deg,currentColor 0 1px,transparent 1px 5px); /* @kind other */
@@ -340,11 +349,16 @@
   --border-paper:var(--rule);
   --border-focus:var(--gilt-deep);
 
-  /* Links — gilt struck into the page; hairline underline, never blue. */
-  --link:var(--gilt-deep);
-  --link-hover:var(--gilt);
-  --link-on-paper:var(--gilt-deep);
+  /* Links — set in the working ink, marked by a gilt hairline underline, never blue. The text was
+     --gilt-deep until 26 Sep 2026 and read 4.09 : 1 on --paper and 3.64 on --paper-deep, under
+     the 4.5 a line of small type needs; --ink reads 9.48 : 1 (ruled, oq/the-link-ink-reads-below-aa).
+     The gilt stays the link's mark: the underline, and on hover a full gilt rule -- reached through
+     the `a` rule and `.tdl-link` below, never through an inline border, which no hover rule can beat. */
+  --link:var(--ink);
+  --link-hover:var(--ink);
+  --link-on-paper:var(--ink);
   --link-underline:rgba(175,141,73,.45);
+  --link-underline-hover:var(--gilt-deep);
 
   /* ── Finding severity: fatal · serious · minor · advisory · info ──────────
      brick → salmon-deep → gilt-deep, then two graphites for the non-verdicts. */
@@ -359,12 +373,52 @@
   --sev-minor-field:rgba(175,141,73,.11);
   --sev-cleared-field:rgba(107,124,92,.12);
 
-  /* ── Judgment, three states. Unjudged is a FORM — an open square hatched in
-     neutral graphite, the same size and weight as the verdicts. Never a colour. */
+  /* ── Judgment. Unjudged is a FORM — an open square hatched in neutral graphite, the
+     same size and weight as the verdicts. Never a colour. The inks a judgment is drawn in;
+     the squares themselves are drawn through the duty tokens below, and the fill alias this
+     block used to carry is retired, because a second name for one hatch is a second place a
+     second meaning can be given to it. */
   --judge-pass:var(--green-deep);
   --judge-fail:var(--brick);
   --judge-unjudged:var(--ink-3);
-  --judge-unjudged-fill:var(--hatch-unjudged); /* @kind other */
+
+  /* ── Marks, one duty each (WP-14.29, ruled 25 Sep 2026) ─────────────────────────
+     A key can only say what a mark means if the mark means one thing. Until this block the
+     unjudged hatch carried five meanings and the falling hatch six, so no key could be
+     written for either. Each duty token below means one thing wherever it is drawn, and each
+     is named by exactly one glossary record whose mark is that token. A component draws a
+     state with a duty token and never with a raw hatch; src/marks.test.mjs holds that, the
+     one-to-one with the records, and --t3 above. The value is the paint of the mark's form;
+     the form is src/marks.js's, and the product key (components/MarkKey.jsx) draws each one
+     beside its record's word.
+
+     What a rule can return on a house, each state in its own form, and the three that are
+     not a verdict never drawn as one another: */
+  /* Could not evaluate: the hatched square, for a rule that would run on this house and could not. */
+  --mark-unjudged:var(--hatch-unjudged); /* @kind other */
+  /* Yours to judge: an open square outlined in gilt and never hatched, a decision the sources leave to the reader. */
+  --mark-yours-to-judge:var(--gilt-deep);
+  /* Not applicable: an em rule and no square, because the question does not arise for this house. */
+  --mark-not-applicable:var(--ink-2);
+  /* Passed and failed: a filled square with its word always beside it, so a verdict is never told by colour alone. */
+  --mark-passed:var(--green-deep);
+  --mark-failed:var(--brick);
+  /* Refused: a heavy open square in brick, for a placement the corpus will not draw at all. */
+  --mark-refused:var(--brick);
+
+  /* The marks that are not a verdict, and so never borrow a verdict's form: */
+  /* Loading: no square at all, only the word in this ink, and aria-busy on whatever is still arriving. */
+  --mark-loading:var(--ink-2);
+  /* Low confidence: a dashed outline, for a date or a placement the record holds only loosely. */
+  --mark-low-confidence:var(--ink-3);
+  /* Not built: upright ruled lines, for structure that is designed and that the corpus does not yet hold. */
+  --mark-not-built:var(--hatch-forthcoming); /* @kind other */
+  /* Wanted: lines falling to the right, for something the corpus asks for and does not hold. */
+  --mark-wanted:var(--hatch-45); /* @kind other */
+  /* Set aside: lines rising to the right, for something considered and deliberately left out, with its reason beside it. */
+  --mark-set-aside:var(--hatch-135); /* @kind other */
+  /* Forbidden: close rising lines over the variant a style's kit rules out, its name struck through. */
+  --mark-forbidden:var(--hatch-forbidden); /* @kind other */
 
   /* ── Kit slot binding: specified · extends · forbidden · open ────────────── */
   --bind-specified:var(--ink);
@@ -407,7 +461,10 @@
   /* States that are not verdicts */
   --forthcoming:var(--ink-4);
   --unsourced:var(--ink-3);
-  --refusal:var(--violet);
+  /* A refusal is the drawing's fatal, so it takes the fatal's brick -- the same ink as
+     --mark-refused, on the card and on the mark alike (ruled 26 Sep 2026,
+     oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue). Violet is --t4 and nothing else. */
+  --refusal:var(--brick);
   --receipt:var(--ink-2);
 
   /* Retired names (the dark-instrument system), kept as compat aliases so older markup
@@ -438,8 +495,14 @@ p:last-child{margin-bottom:0}
 em,i{font-style:italic}
 strong{font-weight:var(--fw-semi)}
 a{color:var(--link);text-decoration:none;border-bottom:1px solid var(--link-underline);transition:var(--t-hover)}
-a:hover{color:var(--link-hover);border-bottom-color:var(--link-hover)}
-a:focus-visible{outline:1px solid var(--border-focus);outline-offset:2px}
+a:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
+/* A BUTTON THAT NAVIGATES OR ACTS AS A LINK takes the link's two states from this class (WP-14.33's
+   audit). No `a` rule reaches a button, and an inline `borderBottom` beats `a:hover`, so ten of the
+   thirteen controls the R3 ruling set in ink showed no change on hover at all. An element carrying
+   the class sets neither its colour nor its underline inline; `inks.test.mjs` holds that. */
+.tdl-link{color:var(--link);border-bottom:1px solid var(--link-underline);transition:var(--t-hover)}
+.tdl-link:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
+:focus-visible{outline:2px solid var(--border-focus);outline-offset:2px}
 code,kbd,samp,pre{font-family:var(--mono);font-size:var(--fs-mono-s)}
 pre{margin:0;white-space:pre}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -452,7 +515,24 @@ hr{border:0;border-top:var(--rule-hair);margin:var(--sp-6) 0}
 ::-webkit-scrollbar-thumb{background:var(--rule);border:2px solid var(--paper-mat)}
 ::-webkit-scrollbar-thumb:hover{background:var(--ink-3)}
 
-html,body{height:100%}body{overflow:auto}#root{height:100%;min-width:1380px}input[type=range]{height:14px}
+html,body{height:100%}body{overflow:auto}#root{height:100%}input[type=range]{height:14px}
+
+/* The width floor lives on `<main>`, and only for the surfaces that draw (WP-14.30, tranche 2 PRD
+   §E). `#root` carried `min-width:1380px` until then, so the WHOLE shell was held at 1380: on a
+   1280 px laptop every page scrolled sideways by 100 px and the masthead's Keys button stood off
+   the edge. `#root` has no minimum now. `App.jsx` marks the page `data-reflow` or `data-floor`
+   from `state/layout.js`'s table, and sets `--main-floor` from the same file. A floored page's
+   `<main>` lays its surface in ONE grid track that is never narrower than the floor, and scrolls
+   sideways inside itself when the window leaves it less, so the masthead, the crumbs and both
+   rails are always the window's width. Nothing here names a width: the number is the table's.
+
+   THE FLOOR IS ON THE TRACK AND NOT ON THE SURFACE'S BOX, and that was measured. The first
+   version set `min-width` on `main>*`, and a `min-width` beats the surface's own `max-width`: the
+   three floored pages' empty states are 720 px prose columns and came out 800 wide. In a track,
+   the surface stretches to the track and keeps its own `max-width`. The row is `minmax(0,1fr)`
+   so the surface still takes `<main>`'s height, which the flex column gave it. `!important`
+   answers one thing: `<main>` carries `display:flex` inline, and an inline style beats a sheet. */
+#root[data-floor] main{display:grid!important;grid-template-columns:minmax(var(--main-floor),1fr);grid-template-rows:minmax(0,1fr);overflow-x:auto}
 
 /* A rendered sheet, fitted to its column.
 
@@ -466,3 +546,123 @@ html,body{height:100%}body{overflow:auto}#root{height:100%;min-width:1380px}inpu
    cascade. A rule on the parent reaches the child and cannot collide with anything the
    renderer wrote. Found by an adversarial audit of WP-5.7. */
 .plate-fit > svg { max-width: 100%; height: auto; }
+
+/* ── DEFINITIONS ON SCREEN (WP-14.8) ─────────────────────────────────────────
+   This package alone edits this file (PRD §J.3), and every rule below uses a token the
+   standard already names: no colour, no ink and no weight is added here.
+
+   THE FOCUS RING IS GLOBAL NOW. It was `a:focus-visible` alone, one pixel, so a keyboard
+   reader tabbing to a button, a chip, a Term, a pane handle or a text field saw nothing move;
+   and the three text inputs (`FilterInput`, `StylePicker`, the palette's field) each set an
+   inline `outline: none`, which beats any stylesheet rule, so they had no ring at all. Their
+   inline `outline` is removed and the rule above is their replacement: a 2 px `--border-focus`
+   ring (the gilt the standard keeps for a struck highlight), on `:focus-visible` only, so a
+   pointer click draws nothing a pointer reader did not ask for. `src/definitions.test.mjs`
+   fails if an inline `outline: 'none'` comes back in any `.jsx`.
+
+   `#root[data-reflow]` released the shell's 1380 px floor for a surface that could reflow
+   (PRD §I.12). That floor is gone (WP-14.30, rule above): the shell sets `data-reflow` or
+   `data-floor` for every surface from `state/layout.js`'s table, and neither the Glossary nor
+   any other page sets it on itself. */
+
+/* A word the glossary defines, where it stands: a real button that looks like the text it sits
+   in, marked by a dotted underline in `--ink-2`. The global `button` rule sets the serif and
+   no colour, so the Term takes its font, size, case and colour from the prose around it. */
+.tdl-term{font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit;
+  background:none;border:0;padding:0;margin:0;cursor:help;text-align:inherit;
+  text-decoration:underline dotted var(--ink-2);text-decoration-thickness:1px;
+  text-underline-offset:.2em}
+.tdl-term:hover,.tdl-term[aria-expanded="true"]{text-decoration-color:var(--ink)}
+/* A record the glossary does not hold, and a glossary that could not be read: said visibly,
+   in the data face, never underlined as though it could be opened. */
+.tdl-term[data-missing],.tdl-term[data-failed]{font:var(--type-data-s);color:var(--ink-2);
+  text-decoration:none;cursor:default}
+.tdl-term[data-loading]{text-decoration:none;cursor:default}
+
+/* The popover: non-modal, fixed, placed by `help/placePopover.js`. Every child is a span so a
+   Term can stand inside a paragraph (a <p> may hold phrasing content only). Above the map's
+   legend (30) and the style picker (40), below the palette and the shortcut card (60), which
+   close it when they open. */
+.tdl-term-pop{position:fixed;z-index:50;display:block;box-sizing:border-box;width:max-content;
+  max-width:min(24rem,calc(100vw - 16px));overflow:auto;padding:12px 14px;
+  background:var(--paper);border:1px solid var(--rule);box-shadow:var(--shadow-plate);
+  font:var(--type-body);color:var(--ink);text-align:left;text-transform:none;
+  letter-spacing:normal;white-space:normal}
+.tdl-term-pop-head,.tdl-term-pop-def,.tdl-term-pop-analogy,.tdl-term-pop-prov,
+.tdl-term-pop-conf,.tdl-term-pop-more{display:block}
+.tdl-term-pop-head{margin:0 0 6px}
+.tdl-term-pop-word{font:var(--type-name);color:var(--ink)}
+.tdl-term-pop-sense{font:var(--type-data-s);color:var(--ink-2);margin-left:.6em}
+.tdl-term-pop-analogy{font:var(--type-aside);color:var(--ink-2);margin-top:6px}
+.tdl-term-pop-prov{font:var(--type-data-s);color:var(--ink-2);margin-top:8px;overflow-wrap:anywhere}
+.tdl-term-pop-conf{font:var(--fw-reg) var(--fs-body-s)/var(--lh-snug) var(--serif);
+  color:var(--ink-2);margin-top:6px}
+.tdl-term-pop-more{width:fit-content;margin-top:8px;font:var(--type-data-s)}
+
+/* A description a control carries for a reader who cannot see its title (useTermDescription). */
+.tdl-sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* A link to a record: its name in the serif, its id as a Courier margin note in `--ink-2`. */
+.tdl-record-name{font-family:var(--serif)}
+.tdl-record-link[data-unresolved] .tdl-record-name{color:var(--ink-2)}
+.tdl-record-note{font:var(--type-data-s);color:var(--ink-2);margin-left:.5em;white-space:nowrap}
+
+/* Where you are and how to read it (PageHead). */
+.tdl-page-head{padding:18px 22px 14px;border-bottom:1px solid var(--rule)}
+.tdl-page-head-what{font:var(--type-prose);color:var(--ink);margin:6px 0 0;max-width:72ch}
+.tdl-page-head-toggle{font:var(--type-data-s);color:var(--link);margin-top:8px;
+  border-bottom:1px solid var(--link-underline)}
+.tdl-page-head-toggle:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
+.tdl-page-head-read{margin-top:8px;max-width:72ch}
+.tdl-page-head-read ul{margin:0;padding-left:1.2em;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}
+.tdl-page-head-try{margin-top:6px;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}
+
+/* The Glossary: an index grouped by family, and one page per word. */
+.tdl-glossary-scroll{flex:1;min-height:0;overflow:auto}
+.tdl-glossary{max-width:76rem;padding-bottom:48px}
+.tdl-glossary-status{padding:18px 22px;color:var(--ink-2)}
+.tdl-glossary-filters{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:14px 22px}
+.tdl-glossary-families{display:inline-flex;flex-wrap:wrap;gap:6px}
+.tdl-glossary-family{padding:14px 22px 6px}
+.tdl-glossary-family-name{font:var(--type-eyebrow);letter-spacing:var(--tr-eyebrow);
+  text-transform:uppercase;color:var(--ink-2);margin:0 0 8px}
+.tdl-glossary-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(18rem,1fr));
+  gap:12px 28px;margin:0}
+.tdl-glossary-entry dt{font:var(--type-name)}
+.tdl-glossary-entry dd{margin:4px 0 0;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}
+.tdl-glossary-sense{font:var(--type-data-s);color:var(--ink-2);margin-left:.6em}
+.tdl-glossary-page{padding:18px 22px;max-width:72ch}
+.tdl-glossary-back{font:var(--type-data-s);margin:0 0 10px}
+.tdl-glossary-kicker{font:var(--type-data-s);color:var(--ink-2);margin:0 0 4px}
+.tdl-glossary-kicker code{margin-left:.8em;overflow-wrap:anywhere}
+.tdl-glossary-sense-lede{display:block;margin:4px 0 0}
+.tdl-glossary-def{font:var(--type-prose);margin:12px 0 0}
+.tdl-glossary-analogy{font:var(--type-aside);color:var(--ink-2);margin:8px 0 0}
+.tdl-glossary-more{margin:10px 0 0}
+.tdl-glossary-field{margin-top:18px}
+.tdl-glossary-field ul{margin:6px 0 0;padding-left:1.2em}
+.tdl-glossary-field ul.tdl-glossary-links{list-style:none;padding-left:0}
+.tdl-glossary-links li{margin:3px 0}
+.tdl-glossary-readers{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:6px 0 0}
+.tdl-glossary-readers dt{font:var(--type-data-s);color:var(--ink-2)}
+.tdl-glossary-readers dd{margin:0}
+.tdl-glossary-reads code,.tdl-glossary-field code{overflow-wrap:anywhere}
+.tdl-glossary-basis{color:var(--ink-2);margin-top:6px}
+@media (max-width:1379px){
+  .tdl-glossary-list{grid-template-columns:1fr}
+  .tdl-glossary-filters{flex-direction:column;align-items:flex-start}
+  .tdl-glossary-readers{grid-template-columns:1fr}
+}
+
+/* The key to the marks (WP-14.29, `components/MarkKey.jsx`): each mark's specimen in a fixed
+   column, its word, and the record's definition. No colour is set here -- each specimen paints
+   itself from its own duty token -- and no word is set in an ink below --ink-2. */
+.tdl-mark-key{padding:14px 22px 6px;border-bottom:1px solid var(--rule-soft)}
+.tdl-mark-key-group{margin:0 0 10px}
+.tdl-mark-key-family{font:var(--type-data-s);color:var(--ink-2);margin:10px 0 6px}
+.tdl-mark-key-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(20rem,1fr));gap:10px 28px;margin:0}
+.tdl-mark-key-row dt{display:flex;align-items:center;gap:10px;font:var(--type-name)}
+.tdl-mark-key-specimen{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:3.2rem;min-height:18px}
+.tdl-mark-key-row dd{margin:4px 0 0;font:var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)}
+@media (max-width:1379px){.tdl-mark-key-list{grid-template-columns:1fr}}

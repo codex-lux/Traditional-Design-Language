@@ -1,7 +1,11 @@
-"""The 26 rail tools — mcp_server/server.py's own wrappers, loaded without the mcp
+"""The AI assistant's tools — mcp_server/server.py's own wrappers, loaded without the mcp
 package. A stub FastMCP collects the decorated functions, so the names, docstrings
 (the product's actual tool prose, encoding the operating rules) and argument
 signatures cannot drift from the MCP server: they ARE the MCP server's.
+
+How many there are is `len(tool_definitions())` and is written nowhere else. This line typed
+the count as 26 against a registry of 27 until WP-14.22: a count typed into prose is true on the
+day it is typed, and the assistant's prompt, which used to type the same figure, counts them now.
 """
 import importlib.util
 import inspect
@@ -65,7 +69,7 @@ def _load_server_tools_locked():
 
 
 def _load_via_stub():
-    """Fallback for an environment without the SDK — the rail still works there.
+    """Fallback for an environment without the SDK — the assistant still works there.
 
     Two concurrent first rail turns would otherwise both mutate sys.modules and race
     each other's finally-restore, so the caller holds a lock and this runs once.

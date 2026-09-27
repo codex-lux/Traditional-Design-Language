@@ -27,8 +27,19 @@ So this check has three verdicts and its exit code carries all three: 0 only whe
 pass AND the bundle was judged, 1 when either really failed, and 3 when the bundle could not
 be judged at all — one check, one verdict, and the verdict of a check half of which could not
 be evaluated is not a pass.
+
+THE GLOSSARY IS FETCHED, NEVER BUNDLED (WP-14.8, PRD §J.4). Every definition the workbench shows
+is a record in `glossary/`, served by `GET /api/glossary` and read once by `api/useGlossary.js`.
+A record imported into the bundle instead would be a second copy of the corpus frozen at build
+time -- a definition corrected in `glossary/` and still wrong on screen until somebody rebuilt --
+and Vite would do it without a warning. So a judged bundle is also probed for the glossary's own
+words: `bundled_glossary_text` takes the longest plain run of each record's definition and
+looks for it in every JS chunk. A hit is a FAIL naming the record and the chunk; a glossary with
+nothing long enough to probe for is COULD NOT EVALUATE, never a pass.
 """
+import json
 import os
+import re
 import subprocess
 import sys
 
@@ -37,6 +48,46 @@ E2E = os.path.join(ROOT, "workbench", "app", "e2e")
 COULD_NOT_EVALUATE = 3
 
 SUITES = ["router-unit.mjs", "search-unit.mjs"]
+
+# A probe is a run of plain letters, spaces and commas, at least this long, lifted from a
+# definition. Plain because a bundler may re-escape quotes, dashes and non-ASCII inside a string
+# literal, and an escaped probe would miss a bundled record -- the pass direction. Long because
+# a short run ("the style") could occur in any chunk and convict an innocent one.
+PROBE_MIN = 30
+_PROBE_RUN = re.compile(r"[A-Za-z][A-Za-z ,]{%d,}[A-Za-z]" % (PROBE_MIN - 2))
+
+
+def glossary_probes(glossary_dir):
+    """{record id: the longest plain run of its definition}, for every record that has one."""
+    out = {}
+    if not os.path.isdir(glossary_dir):
+        return out
+    for name in sorted(os.listdir(glossary_dir)):
+        if not name.endswith(".json"):
+            continue
+        try:
+            with open(os.path.join(glossary_dir, name), encoding="utf-8") as f:
+                rec = json.load(f)
+        except (OSError, ValueError):
+            continue                     # check_glossary.py owns a malformed record
+        text = rec.get("definition") if isinstance(rec, dict) else None
+        runs = _PROBE_RUN.findall(text) if isinstance(text, str) else []
+        if runs:
+            out[str(rec.get("id") or name[:-5])] = max(runs, key=len)
+    return out
+
+
+def bundled_glossary_text(assets_dir, glossary_dir):
+    """([(record id, chunk)] for every definition found in a built JS chunk, number probed)."""
+    probes = glossary_probes(glossary_dir)
+    hits = []
+    for name in sorted(os.listdir(assets_dir)):
+        if not name.endswith(".js"):
+            continue
+        with open(os.path.join(assets_dir, name), encoding="utf-8", errors="replace") as f:
+            text = f.read()
+        hits.extend((rid, name) for rid, run in probes.items() if run in text)
+    return hits, len(probes)
 
 
 def bundle_unjudged_reason(root=None):
@@ -215,6 +266,21 @@ def main(root=None):
                 msize = os.path.getsize(os.path.join(dist, model[0]))
                 print(f"  entry {size/1024:.0f} KB, {len(tiers)} tier chunks kept out of it, "
                       f"three {msize/1024:.0f} KB in its own chunk")
+        # The glossary's words, probed in every chunk whatever the chain above decided: a
+        # bundled record is its own failure and must not hide behind a tier failure.
+        gl_hits, probed = bundled_glossary_text(dist, os.path.join(base, "glossary"))
+        if not probed:
+            tier_unjudged = ("no glossary definition long enough to probe the bundle for, so "
+                             "whether the glossary was bundled cannot be judged")
+            print(f"  glossary: COULD NOT EVALUATE ({tier_unjudged})")
+        elif gl_hits:
+            rid, chunk = gl_hits[0]
+            print(f"FAIL: {len(gl_hits)} glossary definition(s) are in the bundle (first: "
+                  f"`{rid}` in {chunk}) — a record has been imported where it must be fetched "
+                  "from GET /api/glossary", file=sys.stderr)
+            tier_bad += 1
+        else:
+            print(f"  glossary fetched, not bundled: {probed} definitions probed, none in any chunk")
 
     for suite in SUITES:
         path = os.path.join(E2E, suite)

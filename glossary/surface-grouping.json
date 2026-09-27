@@ -1,0 +1,26 @@
+{
+  "id": "surface-grouping",
+  "term": "Grouping",
+  "family": "surface",
+  "order": 15,
+  "sense": "the page for one grouping",
+  "definition": "The page for one grouping of rooms: the rooms in it, its own adjacency and servicing rules, how it lands on a massing and grows, and the plan types that carry it.",
+  "kind": "editorial",
+  "basis": "The page is the workbench's own; what it shows is the grouping record. schema/grouping.schema.json: \"Nobody composes a house room by room; they compose it from clusters that have their own internal logic\" and \"How the grouping lands in a skeleton.\" and \"How the grouping grows without breaking\"",
+  "confusable_with": [
+    "grouping"
+  ],
+  "surface": {
+    "what": "One grouping of rooms: the rooms it holds, its own adjacency rules, how it attaches to a massing and grows, and the plan types that carry it.",
+    "read": [
+      "Nobody composes a house room by room; a grouping is one of the clusters they compose it from.",
+      "Its internal rules are its own, stated beside the rules of each room in it.",
+      "The plan types listed are those that carry this grouping."
+    ],
+    "try": "grouping:centre-passage-core",
+    "ask": [
+      "Which plan diagrams carry this grouping?",
+      "How does this grouping attach to a massing?"
+    ]
+  }
+}

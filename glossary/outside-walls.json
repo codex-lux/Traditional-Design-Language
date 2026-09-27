@@ -1,0 +1,12 @@
+{
+  "id": "outside-walls",
+  "term": "outside walls",
+  "family": "house",
+  "definition": "Which of a room's walls face the outside, by compass side. They are what the room can take light and air through, and are held against the light its room type asks for.",
+  "kind": "editorial",
+  "basis": "schema/plan.schema.json, a room's exterior walls: \"Which walls are on the outside. Counted against the room type's sides_lit requirement.\" schema/parti.schema.json, the walls that carry glass: \"Which of those walls actually carry glass.\"",
+  "see": [
+    "term:parti",
+    "term:room"
+  ]
+}

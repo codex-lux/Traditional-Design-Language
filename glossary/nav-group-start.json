@@ -1,0 +1,9 @@
+{
+  "id": "nav-group-start",
+  "term": "Start",
+  "family": "nav-group",
+  "order": 0,
+  "definition": "The group holding the front door: the page that says what this workbench is, who it serves, and where to begin.",
+  "kind": "editorial",
+  "basis": "Editorial. The groups are the workbench's own navigation, ruled for Phase 14, and no corpus file names them; the front door introduces what VISION.md sets out under \"Who this is for, and what changes for them\"."
+}

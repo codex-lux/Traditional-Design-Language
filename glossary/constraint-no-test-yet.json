@@ -1,0 +1,14 @@
+{
+  "id": "constraint-no-test-yet",
+  "term": "no test yet",
+  "family": "constraint-state",
+  "definition": "A constraint that is not left to your judgment and still carries no machine test, so nothing checks a house against it. Only a soft or advisory rule may stand so; a hard one must be tested or handed to you.",
+  "kind": "editorial",
+  "basis": "build/check_constraints.py requires that \"every hard constraint is either tested or explicitly scope: judgment\", and fails any other with \"either add one, or set scope: judgment with a reason\"; the severity enum in schema/constraint.schema.json is hard, soft and advisory, so an untested rule outside judgment can only be soft or advisory. The same schema: a test is \"Absent (not empty) otherwise -- absence is not a formalisation failure to hide, it is the honest state.\"",
+  "order": 1,
+  "see": [
+    "term:constraint",
+    "term:constraint-executable",
+    "term:judgment-yours-to-judge"
+  ]
+}

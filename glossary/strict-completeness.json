@@ -1,0 +1,11 @@
+{
+  "id": "strict-completeness",
+  "term": "strict",
+  "family": "house",
+  "definition": "Judge the plan's completeness strictly: where a room's rules want a room type the plan does not model, the absence is reported at that rule's own severity rather than as a minor gap in the record.",
+  "kind": "editorial",
+  "basis": "Our wording of the strict check. build/plan_check.py: \"treat an absent room type as a failure, not a gap in the record\", because \"Absence is a different claim from non-adjacency.\"",
+  "see": [
+    "term:plan-record"
+  ]
+}

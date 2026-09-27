@@ -8,7 +8,7 @@ Run:  python3 mcp_server/server.py            (stdio)
 Register with Claude Code:
       claude mcp add tdl -- python3 /abs/path/to/mcp_server/server.py
 
-The same 27 tools are also served over HTTP when the workbench mounts this module at
+The same tools are also served over HTTP when the workbench mounts this module at
 /mcp — see docs/deployment.md. Nothing here knows which transport it is answering on.
 """
 import json, os, sys
@@ -115,17 +115,31 @@ def tdl_resolve_kit(style_id: str, group: str = "", slot: str = "",
 
 @mcp.tool()
 def tdl_get_proportions(pack_id: str, column_diameter: float = 0, module: float = 0,
-                        ceiling_height: float = 108.0, opening_width: float = 36.0,
-                        assembly: str = "", include_rules: bool = True) -> str:
+                        ceiling_height: float = 0, opening_width: float = 0,
+                        assembly: str = "", include_rules: bool = True,
+                        storey_height: float = 0, room_width: float = 0) -> str:
     """Dimension a proportion pack at a real size. Order packs are <authority>-<order>, e.g.
     gibbs-ionic, vignola-doric, benjamin-corinthian. System packs include trim-classical,
     trim-craftsman, opening-proportion, facade-classical, room-harmonic, brick-course, sash-light.
-    Give column_diameter for an order (never a module — authorities do not share one) and
-    ceiling_height for a trim or opening system. assembly='cornice' returns member-by-member
-    dimensions with mouldings. derived_rules are how the order governs trim, casing and openings;
-    anything flagged judgment is NOT determined by the sources and should be put to the human."""
-    return J(core.get_proportions(pack_id, column_diameter or None, module or None,
-                                  ceiling_height, opening_width, include_rules, assembly or None))
+    Every size is in inches and 0 means not given. Give column_diameter for an order (never a
+    module — authorities do not share one). Where a pack's module IS a dimension of the building
+    the payload says so in module_bound_to (trim-classical's is its ceiling_height): give that
+    dimension and the members and the rules are both worked at it; give none and they are at the
+    pack's own default module, and module_from says which. Otherwise ceiling_height and
+    opening_width are variables the rules read (108 and 36 if not given), as are storey_height
+    and room_width where a rule uses them. A pack with no column stack lists its own assemblies
+    and the hint names them; pass assembly='<id>' (assembly='cornice' on an order) for
+    member-by-member dimensions with mouldings. An assembly may state axis (across-from-the-jamb:
+    its member heights are widths, measured out from the jamb) and zones (the divisions its pack
+    names, each ending at a running total in parts). derived_rules are how the pack governs trim,
+    casing and openings; anything flagged judgment is NOT determined by the sources and should be
+    put to the human."""
+    return J(core.get_proportions(pack_id, column_diameter=column_diameter or None,
+                                  module=module or None, ceiling_height=ceiling_height or None,
+                                  opening_width=opening_width or None,
+                                  include_rules=include_rules, assembly=assembly or None,
+                                  storey_height=storey_height or None,
+                                  room_width=room_width or None))
 
 @mcp.tool()
 def tdl_compare_authorities(order: str, column_diameter: float = 12.0) -> str:
@@ -138,7 +152,7 @@ def tdl_compare_authorities(order: str, column_diameter: float = 12.0) -> str:
 def tdl_find_faults(style: str = "", slot: str = "", group: str = "", severity: str = "",
                     frequency: str = "", measurable_from: str = "", query: str = "",
                     limit: int = 25) -> str:
-    """Search 209 named errors. Faults are ELEMENT-FIRST: most are universal and style is a facet.
+    """Search the corpus's named errors. Faults are ELEMENT-FIRST: most are universal and style is a facet.
     Filter by slot, group, severity (fatal|serious|minor), frequency (endemic|common|occasional),
     or measurable_from (photograph|elevation|plan|section|site-visit). Passing style also surfaces
     INVERTED_FOR_THIS_STYLE and ONE of three exception keys — check those before repeating a rule
@@ -201,7 +215,7 @@ def tdl_check_style_constraints(style: str, measurements: dict) -> str:
 
 @mcp.tool()
 def tdl_get_massing(massing_id: str = "", style: str = "") -> str:
-    """The volumetric skeleton catalogue — 40 types with their structural logic and, importantly,
+    """The volumetric skeleton catalogue — every type with its structural logic and, importantly,
     their expansion logic: how each grows without breaking. Massing is NOT style; a Foursquare
     wears Craftsman or Colonial Revival with no change of volume. Pass style to get its affinities."""
     return J(core.get_massing(massing_id or None, style or None))
@@ -258,7 +272,7 @@ def tdl_check_plan(plan: dict, strict: bool = False) -> str:
     against window head. ADJACENCY: typed directional rules with their style exceptions, honouring
     two-hop connection through a hall because that is how houses actually work. PRIVACY: the
     public-to-private gradient, with circulation treated as rank-transparent. GROUPING: declared
-    groupings' required rooms and massing fit. FAULT: the 209-fault corpus against whatever
+    groupings' required rooms and massing fit. FAULT: the whole fault corpus against whatever
     measurements the plan supplies. CODE: IRC model text, ADVISORY and jurisdictional — never a
     permit review. STYLE: forbidden variants the plan declares, and the style's own migrated
     constraints evaluated present/clear/unjudged (WP-1.2) — a constraint without a test yet is
@@ -275,19 +289,24 @@ def tdl_check_plan(plan: dict, strict: bool = False) -> str:
 @mcp.tool()
 def tdl_brief_schema() -> str:
     """The brief format for tdl_compose, plus the example briefs in the repository. Only style and
-    target area are required; everything else the composer decides and reports as an assumption."""
+    target area are required; everything else the composer decides and reports as an assumption.
+    A brief may name a `parti` (tdl_list_partis gives the ids): the composer then guarantees that
+    diagram a candidate among the contrasting set, borrowed and saying so where it is not the
+    style's own, and refuses it by name if it cannot be built on the brief's own `massing`."""
     return J(core.brief_schema())
 
 @mcp.tool()
-def tdl_list_partis(style: str = "", massing: str = "") -> str:
-    """The 21 canonical plan diagrams the composer seeds from — centre-passage double and single pile,
+def tdl_list_partis(style: str = "", massing: str = "", include_borrowed: bool = False) -> str:
+    """The canonical plan diagrams the composer seeds from — centre-passage double and single pile,
     hall-and-parlor, side-hall town house, Cape with central chimney, Foursquare, Charleston single with
-    piazza, Creole gallery, bungalow, tripartite ranch, five-part Palladian, gable-front-and-wing, and
-    the nine WP-4.5 added (courtyard-and-portal, dogtrot, shotgun, octagon, tower villa, connected
-    farmstead, great-hall H-plan, living-hall picturesque, single-cell hall). Each carries what it
-    trades away and how it grows, which is the useful part. (This docstring said 12 from WP-4.5 until
-    WP-11.1, a hand-typed count in a place no checker reads.)"""
-    return J(core.list_partis(style or None, massing or None))
+    piazza, Creole gallery, bungalow, tripartite ranch, five-part Palladian, gable-front-and-wing,
+    courtyard-and-portal, dogtrot, shotgun, octagon, tower villa, connected farmstead, great-hall
+    H-plan, living-hall picturesque and single-cell hall. Each carries what it trades away and how it
+    grows, which is the useful part. Given a `style`, each also carries its `nativity`: native (drawn
+    for that style), lineage (drawn for a style it answers to), or borrowed (neither, listed only with
+    `include_borrowed`). A brief may name any of them in `parti`. (This docstring carried a hand-typed
+    count of the catalogue until WP-14.19, in a place no checker reads, and it had been wrong once.)"""
+    return J(core.list_partis(style or None, massing or None, include_borrowed=bool(include_borrowed)))
 
 @mcp.tool()
 def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
@@ -297,6 +316,13 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
     Seeds from the canonical partis native to the style, sizes every room from the room catalogue,
     repairs against the validator until it stops improving, reclaims the area the repair spent, and
     returns candidates fatal-free first and then by score.
+
+    A brief that names a `parti` is guaranteed a candidate built on it: scored by the same arithmetic
+    as the rest, and, if the composer's own ranking does not return it, appended after the set as one
+    more candidate, displacing none. `named_parti` on the result says whether it was returned, at
+    which rank, and whether it was appended -- or, where the lot drops it, why not. Every candidate
+    carries `named_by_brief` and its `nativity` (native, lineage or borrowed); a borrowed one says so
+    in `why_this_diagram` too.
 
     `score` is out of 100 and HIGHER IS BETTER. It is a weighted composite of eight axes, not a total
     of what is wrong: each axis is the share of its own denominator that came back clean, so a bigger

@@ -1,0 +1,13 @@
+{
+  "id": "carries-nothing",
+  "term": "carries nothing",
+  "family": "carry",
+  "order": 2,
+  "definition": "The edge records a relation of meaning (a claimed ancestor, a reaction, a revival, or a co-parent whose kit does not blend) and hands down no binding. It says something true about the style, and supplies none of its parts.",
+  "more": "The gap between what a style claims and where it comes from is not a defect in the taxonomy. It is the most important fact about the eclectic revival period, and a model that cannot express it quietly produces wrong buildings.",
+  "kind": "editorial",
+  "basis": "VISION.md: \"Claimed ancestry is not transmitted practice, and only the second one inherits.\" docs/model.md marks references, reacts_against and revives as not carrying the kit cascade, a co-parent as carrying it only \"Where the kit genuinely blends\", and says \"The gap between what a style claims and where it comes from is not a defect in the taxonomy.\" and \"a data model that cannot express it will quietly produce wrong buildings.\" schema/style-node.schema.json: \"If true, this edge participates in the kit-of-parts cascade.\"",
+  "see": [
+    "style:colonial-revival"
+  ]
+}

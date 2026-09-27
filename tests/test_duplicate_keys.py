@@ -132,8 +132,23 @@ class TestTheWiringAndThePremise:
         it end to end means writing a bad record into the repository."""
         src = open(VALIDATE, encoding="utf-8").read()
         assert "_dup_bad = 1 if _dups else 0" in src
-        assert "if _scene_bad or _dup_bad:" in src, \
-            "the duplicate sweep's verdict must reach sys.exit"
+        # THE EXIT CONDITION IS READ, NOT MATCHED (WP-14.33). This pinned the literal line
+        # `if _scene_bad or _dup_bad:` and went red when the description sweep added its own
+        # flag to that line -- a change that kept this sweep's verdict reaching the exit exactly
+        # as before. The re-cut then read only that the final `if` NAMED the flag, and WP-14.33's
+        # audit showed `or` -> `and` and `sys.exit(1)` -> `sys.exit(0)` both passing it. The
+        # property is an `or` of bare flags naming this one and ending in a non-zero exit -- one
+        # reader, shared with the description sweep's test so the two cannot drift.
+        tree = ast.parse(src)
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))) \
+            if os.path.dirname(os.path.abspath(__file__)) not in sys.path else None
+        from test_description_history import exit_condition, _assigns
+        flags, if_line = exit_condition(tree)
+        assert "_dup_bad" in flags, "the duplicate sweep's verdict must reach sys.exit"
+        # And nothing resets it on the way: the flag's LAST assignment before the exit is the one
+        # that reads the sweep's findings.
+        last = [n for line, name, n in _assigns(tree) if name == "_dup_bad" and line < if_line][-1]
+        assert ast.unparse(last.value) == "1 if _dups else 0", ast.unparse(last.value)
 
     def test_the_sweep_really_opened_the_corpus_and_found_none(self):
         """UNJUDGED IS NOT PASSED, applied to the instrument. A sweep that enumerated nothing

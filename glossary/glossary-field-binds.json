@@ -1,0 +1,9 @@
+{
+  "id": "glossary-field-binds",
+  "term": "Names the value",
+  "family": "glossary-field",
+  "order": 6,
+  "definition": "The value in the corpus's own records that this word names, so a screen showing the value can show what it means. Each value is named by exactly one entry.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of the `binds` field, which this word labels on an entry's own page: \"Ties this word to a real value of a schema enum, so a screen that shows the value can show its definition.\""
+}

@@ -1,0 +1,9 @@
+{
+  "id": "fix-tier-right",
+  "term": "right",
+  "family": "fault",
+  "order": 12,
+  "definition": "The fix that answers the fault properly, whatever it costs: the first of the tiers, and the answer a corpus offering nothing else would see ignored.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `fixes` field: \"Three tiers, because budget is real and a corpus that only offers the expensive answer gets ignored.\" VISION.md: \"Every error carries three tiers of fix\"."
+}

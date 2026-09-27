@@ -1,0 +1,12 @@
+{
+  "id": "shared-ancestry",
+  "term": "shared ancestry",
+  "family": "model",
+  "definition": "The ancestors two styles both reach up their cascades, families among them. Where both inherit a slot from one of these, the two agree on it without either having bound it.",
+  "kind": "editorial",
+  "basis": "docs/inheritance.md: \"A child style inherits its parent's bindings and overrides selectively.\" mcp_server/core.py compares two styles by the ancestors their cascades hold in common: \"shared = set(_cascade(a)) & set(_cascade(b))\".",
+  "see": [
+    "term:cascade",
+    "term:compare-with"
+  ]
+}

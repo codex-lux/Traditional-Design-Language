@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/parti.schema.json",
   "title": "Parti",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A canonical plan diagram, used as a seed. A parti specifies TOPOLOGY and ROLES — which rooms, which walls are outside, what connects to what — and nothing else. Dimensions come from the room catalogue and are scaled to the brief, so the library never duplicates room data and never drifts from it. Every parti here is descended from something that was actually built, which is the argument for seeding a search rather than starting it from noise.",
   "type": "object",
   "required": [
@@ -30,7 +30,11 @@
     },
     "description": {
       "type": "string",
-      "description": "What the diagram IS, and what it is good and bad at. The trade-off is the useful part."
+      "description": "What the diagram IS, and what it is good and bad at, written for a reader: the record page shows it. The trade-off is the useful part. It carries no build history -- no work-package number, no open-question number and no code span (ruled 26 Sep 2026, WP-14.33); that goes in `note`."
+    },
+    "note": {
+      "type": "string",
+      "description": "Build history and reconciliation, for maintainers: which package changed the record and why, and what a corrected figure used to be. The record page does not show it (added at 0.2.0, WP-14.33)."
     },
     "massing": {
       "type": "string"

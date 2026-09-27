@@ -29,6 +29,16 @@ Checks, in order:
      with equality relaxed to the invariant's tolerance
  18. every derived_rules[].expression evaluates to a finite number over a sweep of
      sample bindings, and lands inside its declared range (warning if outside)
+ 19. MODULE BOUND TO A BUILDING INPUT (WP-14.4; widened by WP-14.18 from the ceiling alone to
+     the storey, the room's breadth and the opening): a pack declaring `module.equals = V` --
+     "my module IS the room's ceiling height" -- is LIE-CHECKED rather than trusted, because
+     the workbench AND the MCP tool dimension such a pack AT the building on the strength of it
+     (`mcp_server/core.py::module_binding`, the one spelling both read):
+     (a) V is a variable the engine binds (RULE_VARS); (b) at least one derived rule reads
+     V; (c) no rule reads V together with `module` or `part`, which would count the one
+     input twice; (d) module.default_size_in is a number, because the default ceiling comes
+     from it. `module_equals_errors` is the one spelling, and tests/test_module_equals.py runs
+     it over EVERY pack in proportions/, so a declaration outside systems/ cannot escape.
 
 Run:  python3 build/check_systems.py [--dir proportions/systems] [--verbose]
 Exit: 0 clean, 1 on any error. Warnings do not fail the build.
@@ -234,6 +244,61 @@ def rule_expr_vars(expr):
     return {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)}
 
 
+def module_equals_errors(pack):
+    """Check 19: a `module.equals` declaration held to the pack's own rules. -> list of errors.
+
+    The declaration is what lets the workbench dimension the pack at the reader's ceiling and
+    draw its assemblies and state its rules as ONE wall, so a declaration the rules do not bear
+    out would put two different walls on one page under one caption. Four conditions, each the
+    shape of a way to be wrong:
+      (a) V is a variable the engine binds -- otherwise nothing could ever supply it;
+      (b) some derived rule READS V -- a pack whose rules never mention the ceiling has no
+          business claiming its module is the ceiling (trim-prairie's are all module-relative);
+      (c) no rule reads V together with `module` or `part` -- once the module IS V, a rule
+          reading both counts the one building input twice and scales with its square;
+      (d) module.default_size_in is a number -- the ceiling a reader sees before they give one.
+    An absent declaration returns nothing: most packs' modules are sizes of their own.
+
+    WP-14.18 ran this over the ruling's three class-A packs before authoring anything and it
+    passed on one: `room-harmonic` declares `room_width`. `storey-graduation` is refused by (c)
+    on its belt course and `opening-pointed` by (c) on its light count, and neither was declared
+    -- editing either rule to let the declaration through would be the check answering itself.
+    Declared, the belt course's six inches over the storey would become five per cent of it and
+    the light count would be two at every opening, so (c) is right on both.
+    `oq/two-class-a-modules-are-refused-for-a-rule-that-reads-the-input-and-its-part` records the
+    measurement, and asks whether either rule should be restated on a fixed length the pack does
+    not yet state."""
+    mod = pack.get("module") or {}
+    if "equals" not in mod:
+        return []
+    v = mod["equals"]
+    errs = []
+    if v not in RULE_VARS:
+        errs.append(f"module.equals '{v}' is not a variable the engine binds "
+                    f"({', '.join(sorted(RULE_VARS))})")
+    readers, both = [], []
+    for i, r in enumerate(pack.get("derived_rules") or []):
+        try:
+            names = rule_expr_vars((r.get("expression") or "").strip() or "0")
+        except SyntaxError:
+            continue                       # reported by check 8; not a reader either way
+        if v in names:
+            readers.append(i)
+            if names & {"module", "part"}:
+                both.append(i)
+    if not readers:
+        errs.append(f"module.equals '{v}' but no derived rule reads '{v}' -- the pack's own "
+                    f"rules do not bear out that its module IS this building input")
+    for i in both:
+        errs.append(f"derived_rules[{i}] reads '{v}' together with module/part while "
+                    f"module.equals says the module IS '{v}' -- the input is counted twice")
+    d = mod.get("default_size_in")
+    if isinstance(d, bool) or not isinstance(d, (int, float)):
+        errs.append(f"module.equals '{v}' needs a numeric module.default_size_in, "
+                    f"the default the reader sees before giving one")
+    return errs
+
+
 # ------------------------------------------------------------------ loaders
 
 def load_slot_ids(path):
@@ -315,6 +380,8 @@ def main():
             E("module.default_size_in must be a real number so the engine runs untold")
         if mod["parts"] <= 0:
             E("module.parts must be positive")
+        for m in module_equals_errors(pack):          # check 19
+            E(m)
 
         # ---- derived rules
         rules = pack.get("derived_rules", [])

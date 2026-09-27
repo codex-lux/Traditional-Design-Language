@@ -1,0 +1,9 @@
+{
+  "id": "fault-section-detection",
+  "term": "how to spot it",
+  "family": "fault",
+  "order": 5,
+  "definition": "How to see the fault fast, from the street or in a photograph, written so that both a person and a model looking at an image can use it.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `detection` field: \"How to spot it fast, from the street or from a photograph. Written for both a person and a model looking at an image.\""
+}

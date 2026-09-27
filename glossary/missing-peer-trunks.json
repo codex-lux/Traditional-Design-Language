@@ -1,0 +1,14 @@
+{
+  "id": "missing-peer-trunks",
+  "term": "missing peer trunks",
+  "family": "product",
+  "definition": "The traditions the family tree does not hold. Japanese, Islamic, South Asian and African building would each be a peer trunk beside the traditions it does hold, and the schema extends to them without modification.",
+  "more": "One absence is already visible inside the tree: Cape Dutch carries an acknowledged gap, because its Cape and Indonesian strand has no node to point at.",
+  "kind": "editorial",
+  "basis": "The corpus's own account of what it leaves out, reworded. README.md, under what remains: \"Japanese, Islamic, South Asian, and African traditions would each be a peer trunk, and the schema extends to them without modification.\" and \"Cape Dutch already carries an acknowledged gap: its Cape and Indonesian strand has no node to point at.\" Which traditions the tree does hold is not written here: the page derives it from the tree it has in hand, the nodes whose rank is a tradition.",
+  "see": [
+    "term:rank-tradition",
+    "style:cape-dutch",
+    "term:surface-phylogeny"
+  ]
+}

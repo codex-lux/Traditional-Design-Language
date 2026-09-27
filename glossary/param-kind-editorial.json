@@ -1,0 +1,23 @@
+{
+  "id": "param-kind-editorial",
+  "term": "editorial",
+  "family": "param-kind",
+  "order": 2,
+  "definition": "The corpus's own considered convention: an honest judgment, labelled as one, where no source settles the figure. The ridge of a Georgian hipped roof at a quarter to a half of the building's length is one.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on a figure's kind: \"editorial: our considered convention.\" VISION.md: \"Every number carries a source or is explicitly labelled as an editorial judgment.\" kits/georgian-colonial-american.kit.json roof_form.hip_ridge_length_ratio.note: \"Ridge length as a fraction of the building length on a hipped roof. Below a quarter the roof reads pyramidal; above a half the hips read as clipped gables.\"",
+  "binds": [
+    {
+      "field": "kit.parameter_kind",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/$defs/parameter/properties/kind",
+      "value": "editorial"
+    }
+  ],
+  "confusable_with": [
+    "param-kind-invented"
+  ],
+  "see": [
+    "kit:georgian-colonial-american#roof_form"
+  ]
+}

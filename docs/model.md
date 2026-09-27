@@ -13,7 +13,7 @@ The variant level is where the operational value lives. "Georgian" is an abstrac
 
 ## The two hierarchies
 
-**`member_of`** is a strict single-parent tree. Traditions have `null`. It exists for browsing, for the left-hand grouping in the chart, and for nothing else. It does not carry inheritance.
+**`member_of`** is a strict single-parent tree. Traditions have `null`. It exists for browsing and for the left-hand grouping in the chart, and it is not lineage. It carries one thing, and only through a family: since WP-4.2 the family a style is filed under is spliced into that style's kit cascade, so the family's own kit reaches the styles filed under it (`docs/inheritance.md`). Nothing else passes along it. (Until 25 Sep 2026 this paragraph said filing "does not carry inheritance", which the splice had made false a month before; WP-14.11 found it.)
 
 **`lineage`** is the real structure: a directed acyclic graph with typed, weighted edges. Multiple parents are normal.
 

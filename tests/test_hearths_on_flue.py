@@ -642,16 +642,18 @@ class TestThePlansStacksAreTheRoofsStacks:
         def boom(plan, C):
             raise ValueError("a hearth wall nobody wrote down")
         monkeypatch.setattr(HE, "stack_axes", boom)
-        p = json.load(open(TIDEWATER, encoding="utf-8"))
-        # A PRIVATE CACHE, DISCARDED AT TEARDOWN (WP-14.6, the whole build). This cleared the
-        # cache BEFORE the solve and left the result behind: the declared Tidewater record,
-        # solved with `stack_axes` raising, under the DEFAULT key -- the key `build_section`
-        # re-solves a declared record with. Every later test in the process that built an
-        # elevation or a roof of that record was handed centre-line stacks and an unreadable
-        # hearth record, and `tests/test_export.py`'s blind-bay test went red behind this one
-        # and green alone. `tests/test_solver.py` records the same poisoning and clears in a
-        # `finally`; a private dict also keeps every other test's entries.
+        # A PRIVATE CACHE, RESTORED UNTOUCHED ON TEARDOWN (WP-14.33). This solve is of the
+        # SHIPPED record at the heuristic key, and `_SOLVE_CACHE` outlives the patch: clearing it
+        # BEFORE the solve left the result computed with `stack_axes` raising -- no breasts, no
+        # stack runs reserved -- for the next test file that asks for this plan.
+        # `test_openings.py`'s fixture pin read it as the hall bath's tub fitting, and went red
+        # only in a shard order that put this file first. The other Phase 14 found the same
+        # poisoning from another test and made the same fix (its WP-14.6's whole build,
+        # `docs/reports/wp-14.6-the-adversarial-audit-of-phase-14.md` §IX): there,
+        # `tests/test_export.py`'s blind-bay test went red behind this one and green alone.
+        # The two fixes were one line apart and the merge keeps this one.
         monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})
+        p = json.load(open(TIDEWATER, encoding="utf-8"))
         GEO.solve(p, None, 250, engine="heuristic")
         h = p["hearths"]
         assert h["hearths_unreadable"] and "a hearth wall nobody wrote down" in h["hearths_unreadable"]

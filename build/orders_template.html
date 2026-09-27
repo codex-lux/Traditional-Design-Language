@@ -466,7 +466,7 @@ function drawingWords(pk, dim){
   const cl = [];
   if(by.axis.length) cl.push(`from the axis for the ${andList(by.axis)}`);
   if(by.naked.length) cl.push(`from each member’s own naked for the ${andList(by.naked)}`);
-  if(cl.length) out.push(`Projections are measured ${cl.join("; and ")} — the corpus uses both, and each assembly is read on its own figures (OQ 65, OQ 78)${pk.projection_datum ? "" : "; this pack declares no datum at all"}.`);
+  if(cl.length) out.push(`Projections are measured ${cl.join("; and ")} — each assembly is read on its own figures${pk.projection_datum ? "" : "; this pack declares no datum at all"}.`);
   if(by.unjudged.length) out.push(`No datum can be read for the ${andList(by.unjudged)}: no member there publishes a projection.`);
   if(dim.assemblies.some(a=>a.id==="pedestal"||a.id==="subplinth"))
     out.push(G.die_naked==="derived"

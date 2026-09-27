@@ -1,0 +1,13 @@
+{
+  "id": "fault-group-universal",
+  "term": "universal",
+  "family": "fault",
+  "order": 23,
+  "definition": "The named errors written for every house, wherever the element they hang off occurs, which a style's own record says nothing further about.",
+  "kind": "editorial",
+  "basis": "Our wording of the third of three groups a style's faults fall into. schema/fault.schema.json, applies_to: \"or the single token 'universal' where the fault applies wherever the element occurs.\" mcp_server/core.py, find_faults: \"Faults are element-first: most are universal, and style is a facet.\"",
+  "see": [
+    "term:fault-group-here",
+    "term:fault-group-lineage"
+  ]
+}

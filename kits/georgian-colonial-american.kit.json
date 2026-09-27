@@ -341,10 +341,6 @@
           "status": "permitted"
         },
         {
-          "id": "composition-shingle",
-          "status": "permitted"
-        },
-        {
           "id": "slate",
           "status": "permitted",
           "applies_when": {
@@ -1049,10 +1045,6 @@
         },
         {
           "id": "telescoping",
-          "status": "permitted"
-        },
-        {
-          "id": "none",
           "status": "permitted"
         },
         {
@@ -4024,16 +4016,6 @@
           "op": "add"
         },
         {
-          "id": "broken-scroll-pediment",
-          "status": "permitted",
-          "op": "replace"
-        },
-        {
-          "id": "swan-neck-pediment",
-          "status": "permitted",
-          "op": "add"
-        },
-        {
           "id": "gibbs-surround-rusticated",
           "status": "canonical",
           "op": "add"
@@ -4477,10 +4459,6 @@
         },
         {
           "id": "tuscan",
-          "status": "permitted"
-        },
-        {
-          "id": "corinthian",
           "status": "permitted"
         },
         {

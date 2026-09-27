@@ -1,0 +1,17 @@
+{
+  "id": "family-constraint-state",
+  "term": "Constraint states",
+  "family": "family",
+  "order": 14,
+  "definition": "The group of words for whether a style's constraint carries a machine test yet, or is still a sentence only a person can check.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`constraint-state` holds whether a style's constraint carries a machine test\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "constraint-state"
+    }
+  ]
+}

@@ -2,11 +2,12 @@
 """Build the Traditional Design Language artifacts.
 
 Outputs
-  kits/<id>.kit.json     one per style/variant: the 82-slot directory, ready to populate
+  kits/<id>.kit.json     one per style/variant: the slot directory, one entry per ontology slot
   dist/taxonomy.json     the whole graph in one file, for platform/agent ingestion
   dist/taxonomy.agent.md a compact context-window digest, one block per node
   dist/taxonomy.html     the interactive phylogeny
-  dist/orders.html       the order-drawing tool (build/render_orders.py)
+  dist/orders.html       the order-drawing tool (render_orders.py, run from here since WP-14.15,
+                         and found unregenerated independently by the other Phase 14's WP-14.1)
 """
 import json, os, glob, html, re, subprocess, sys
 
@@ -213,11 +214,25 @@ if _html.returncode != 0:
     sys.exit(1)
 
 # ---------- 6. orders.html ----------
-# THE SAME GAP, ONE PAGE OVER, FOUND BY WP-14.1. `build/render_orders.py` computed the order tool at
-# import time and nothing ran it, so the committed page carried three system packs that had since
-# moved (`balcony-gallery`, `facade-gable`, `storey-graduation`) and no check could say so. It is
-# regenerated here for the reason taxonomy.html is, and `tests/svg_census.py` holds the committed
-# page to `render_orders.build_page()` so a page committed without a build is a named disagreement.
+# THE SAME DEFECT A FOURTH TIME, FOUND 25 SEP 2026 (WP-14.15). The paragraph above fixed the
+# third generated artifact and did not look for a fourth: `render_orders.py` writes
+# `dist/orders.html`, the order-drawing tool, and was in no check and in this script nowhere. It
+# was last regenerated on 1 Sep, so for twenty-three days it served `storey-graduation`'s
+# riser rule as `ceil(module / 7.25)` with the note "Seventeen on the default ten-foot storey"
+# -- the divisor Lucas moved to 7.5 on 2 Sep (`d184cf3`) and every other reader of that pack
+# has taken since -- together with two packs' `applies_to` lists from before the opt-in flips
+# and none of WP-14.4's `module.equals`. The data was right and the plate a reader opens was
+# not, which is the whole of this section's first paragraph one file over. It is 0.2 s and
+# deterministic (two runs hash identically), so it is rendered here for the same reason and at
+# the same cost, and TOTAL_CHECKS does not move.
+#
+# AND THE OTHER PHASE 14 FOUND THE SAME GAP INDEPENDENTLY (its WP-14.1,
+# `docs/reports/wp-14.1-the-ink-read-back.md`; the two lines met 27 Sep 2026).
+# `build/render_orders.py` computed the order tool at import time and nothing ran it, so the
+# committed page carried three system packs that had since moved (`balcony-gallery`,
+# `facade-gable`, `storey-graduation`) and no check could say so. `tests/svg_census.py` holds the
+# committed page to `render_orders.build_page()`, so a page committed without a build is a named
+# disagreement rather than a silent drift.
 _orders = subprocess.run([sys.executable, os.path.join(ROOT, "build", "render_orders.py")],
                          capture_output=True, text=True, cwd=ROOT)
 if _orders.returncode != 0:

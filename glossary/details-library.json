@@ -1,0 +1,12 @@
+{
+  "id": "details-library",
+  "term": "The details library",
+  "family": "product",
+  "definition": "Every measured detail drawn by the engine, beside each recorded conflict between a proportion pack and building today and what an architect does about it. Ranked sets of honest and dishonest substitutions belong to it too.",
+  "kind": "editorial",
+  "basis": "Our wording of designed work, drawn from what the corpus says of it. VISION.md: \"Drawings, models, and a details library\", \"generated from the data rather than written, so they cannot drift from it\"; docs/proportion.md: \"Every pack records where it collides with building today, with a severity and a resolution\".",
+  "see": [
+    "term:pack-conflict",
+    "term:mark-not-built"
+  ]
+}

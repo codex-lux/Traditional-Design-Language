@@ -1,0 +1,16 @@
+{
+  "id": "pack-delivered",
+  "term": "delivered",
+  "family": "pack-relation",
+  "order": 2,
+  "definition": "A pack that reaches this style because an ancestor binds it: descent carries it down the lineage without this style asking, whether or not anyone judged it right for this style.",
+  "more": "Descent delivers more than anyone chose: a single-pen log cabin can receive classical orders, a Gothic pointed-arch pack and an Iberian arcade from its ancestors. A style that finds a delivered pack wrong for it may decline it.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's cascade delivery and the inheritance layer's account of it. schema/proportion-pack.schema.json, delivery description: \"means the lineage cascade delivers it to every descendant of any node that binds it, whether or not anyone judged that right\"; docs/inheritance.md: \"five classical orders, a Gothic pointed-arch pack, a Mudejar corbel course and an Iberian arcade, all arriving at a single-pen log cabin\"; schema/style-node.schema.json, declined_packs description: \"Packs that reach this node BY DESCENT and do not belong on it.\".",
+  "confusable_with": [
+    "pack-opted-in"
+  ],
+  "see": [
+    "style:tidewater-georgian"
+  ]
+}

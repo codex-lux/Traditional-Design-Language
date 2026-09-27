@@ -1,0 +1,12 @@
+{
+  "id": "kit-same-answer",
+  "term": "same answer, another source",
+  "family": "model",
+  "definition": "A slot two styles bind alike, with the same canonical and forbidden variants, settled for each by a different style up its cascade. They agree for different reasons, and a change to either source can part them.",
+  "kind": "editorial",
+  "basis": "build/resolve_kit.py \"prints the result with the ancestor each binding came from\": \"The SOURCE column is the point.\" docs/inheritance.md: \"A child style inherits its parent's bindings and overrides selectively.\"",
+  "see": [
+    "term:cascade-source",
+    "term:binding"
+  ]
+}

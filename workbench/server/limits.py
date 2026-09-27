@@ -128,11 +128,16 @@ def check_heavy(identity):
 
 
 def check_shape(body):
-    """Refuse an oversized turn before it costs anything. Returns a reason, or None."""
+    """Refuse an oversized turn before it costs anything. Returns a reason, or None.
+
+    Every reason below is shown to the reader, and it calls the pane what the pane calls
+    itself -- the AI assistant (`glossary/assistant.json`, WP-14.13) -- where it said "the
+    rail", a name the reader was never given (WP-14.22). The function names keep the old
+    word: they are code, and renaming them would move every caller for no reader."""
     messages = body.get("messages") or []
     max_messages = rail_max_messages()
     if max_messages > 0 and len(messages) > max_messages:
-        return (f"this conversation is {len(messages)} messages and the rail accepts "
+        return (f"this conversation is {len(messages)} messages and the assistant accepts "
                 f"{max_messages} — start a new one; the corpus does not remember turns, "
                 f"so nothing is lost by doing so")
     max_chars = rail_max_chars()
@@ -145,9 +150,9 @@ def check_shape(body):
             # through this cap.
             size = len(json.dumps(messages)) + len(json.dumps(body.get("context") or {}))
         except (TypeError, ValueError):
-            return "this conversation could not be measured, so the rail will not send it"
+            return "this conversation could not be measured, so the assistant will not send it"
         if size > max_chars:
-            return (f"this conversation is {size:,} characters and the rail accepts "
+            return (f"this conversation is {size:,} characters and the assistant accepts "
                     f"{max_chars:,} — start a new one")
     return None
 
@@ -156,11 +161,11 @@ def check_rail(identity):
     """Rate-check one rail turn. Returns a reason, or None. Consumes on success."""
     ok, retry = take(f"rail:{identity}", rail_turns_per_hour(), 3600)
     if not ok:
-        return (f"the rail's limit of {rail_turns_per_hour()} turns an hour is reached "
+        return (f"the assistant's limit of {rail_turns_per_hour()} turns an hour is reached "
                 f"for this session — about {retry // 60 + 1} minutes until it resets")
     ok, retry = take("rail:__all__", rail_turns_per_day(), 86_400)
     if not ok:
-        return (f"the rail's daily ceiling of {rail_turns_per_day()} turns across all "
+        return (f"the assistant's daily ceiling of {rail_turns_per_day()} turns across all "
                 f"users is reached — it resets in about {retry // 3600 + 1} hours")
     return None
 

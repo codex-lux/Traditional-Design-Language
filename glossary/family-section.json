@@ -1,0 +1,17 @@
+{
+  "id": "family-section",
+  "term": "Dossier sections",
+  "family": "family",
+  "order": 2,
+  "definition": "The group of words that name the parts of a style's dossier, from how to identify the style to the evidence behind it. Each one heads its own part.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`section` holds the parts of a style's dossier, each record heading its own part\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "section"
+    }
+  ]
+}

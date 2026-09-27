@@ -1,0 +1,9 @@
+{
+  "id": "fault-section-fix",
+  "term": "fix",
+  "family": "fault",
+  "order": 10,
+  "definition": "The remedy, offered in tiers because budget is real: the right fix, the cheap one that actually gets built, and the dishonest one that looks like a fix and is not.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `fixes` field: \"because budget is real and a corpus that only offers the expensive answer gets ignored. The cheap tier is the one that actually gets built.\" VISION.md: \"The cheap fix is what actually gets built, so refusing to name it\""
+}

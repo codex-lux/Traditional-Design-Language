@@ -1,0 +1,12 @@
+{
+  "id": "furniture",
+  "term": "furniture",
+  "family": "house",
+  "definition": "What a room type must hold, piece by piece, each with the floor it takes and the gap it needs around it. A room that dimensions correctly and cannot take its own furniture has failed.",
+  "kind": "editorial",
+  "basis": "schema/room.schema.json, the furniture field: \"What has to fit, with clearances. This is the real constraint on a room and it is almost never written down, which is why so many plans have rooms that dimension correctly and cannot be furnished.\"",
+  "see": [
+    "room:dining-room",
+    "term:clearance"
+  ]
+}

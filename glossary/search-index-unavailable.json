@@ -1,0 +1,11 @@
+{
+  "id": "search-index-unavailable",
+  "term": "search index unavailable",
+  "family": "product",
+  "definition": "The search could not read the corpus's index, so it is finding the workbench's pages only. Nothing is missing from the corpus itself; the search cannot see it until the index can be read again.",
+  "kind": "editorial",
+  "basis": "Our wording of the search's one failure. docs/workbench.md: the index \"serves every nameable thing once\" \"and the palette matches it in the browser\", so without it the palette holds only the pages it carries itself, the site map's, which \"palette's surface entries and the browser walk all read\".",
+  "see": [
+    "term:search-the-corpus"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "family-house",
+  "term": "Composing a house",
+  "family": "family",
+  "order": 19,
+  "definition": "The group of words for the records one house is composed, placed and drawn from: its rooms, groupings, massing, plan type and plan.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`house` holds the records one house is composed, placed and drawn from\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "house"
+    }
+  ]
+}

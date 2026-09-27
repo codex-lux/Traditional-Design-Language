@@ -724,7 +724,7 @@ export function plateNote({ wall, footprint, placement, levelIndex, rooms, serve
      so rather than presenting a convention as a reading. */
   say('walls', wall.stated
     ? `Walls ${wall.type.replace(/-/g, ' ')}: envelope ${(wall.exterior_ft * 12).toFixed(1)} in outside the placed rooms, partitions ${(wall.partition_ft * 12).toFixed(1)} in centred on them; room figures are the record's clear extents. `
-    : 'The record states no wall assembly, so the walls are drawn at this sheet\'s conventional 9 in and 5 in — a convention, not a reading. ');
+    : `The record states no wall assembly, so the walls are drawn at this sheet's conventional ${Math.round(wall.exterior_ft * 12)} in and ${Math.round(wall.partition_ft * 12)} in — a convention, not a reading. `);
   say('wall-note', wall.note ? wall.note + ' ' : '');
   // WP-14.4: a record with no bay module gets no grid, and this plate says so; and WHOSE module a
   // drawn grid is, where no parti states one, is the server's line

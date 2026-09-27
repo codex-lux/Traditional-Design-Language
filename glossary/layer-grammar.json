@@ -1,0 +1,9 @@
+{
+  "id": "layer-grammar",
+  "term": "The grammar",
+  "family": "layer",
+  "order": 1,
+  "definition": "The proportioning systems, written as functions rather than tables: given a module and a context, each sets out an assembly member by member. Classical orders are one kind; brick, timber and sash systems proportion from a material unit instead.",
+  "kind": "editorial",
+  "basis": "Editorial, from VISION.md's second layer: \"Proportional systems as functions, with one authority as the spine and the others as overlays carrying only their deltas.\", and its thesis: \"give one a module and a context and it emits a fully dimensioned assembly, member by member.\" \"because most traditional buildings were proportioned from a material unit rather than from a column.\""
+}

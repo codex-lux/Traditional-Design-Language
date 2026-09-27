@@ -1,0 +1,13 @@
+{
+  "id": "parti-native",
+  "term": "native parti",
+  "family": "house",
+  "definition": "A plan diagram drawn for this very style: the style is one the diagram itself names as its own. The composer counts that in the diagram's favour, and it is among the style's plan types.",
+  "kind": "editorial",
+  "basis": "Our wording of the composer's nativity relation. build/compose.py, nativity: \"Native means the style itself is one the diagram was drawn for: the style's id is in the parti's own list of styles.\" and \"One spelling of that relation (WP-14.19, ruled 25 Sep 2026), read by `pick_partis` below and by `core.list_partis`\"; mcp_server/core.py, list_partis: \"Native and lineage partis are listed; a borrowed one only with `include_borrowed`, because a style's plan types are the diagrams its own line was drawn with.\"",
+  "see": [
+    "term:parti",
+    "term:parti-lineage",
+    "term:parti-borrowed"
+  ]
+}

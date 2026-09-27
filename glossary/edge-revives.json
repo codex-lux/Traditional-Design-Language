@@ -1,0 +1,21 @@
+{
+  "id": "edge-revives",
+  "term": "revives",
+  "family": "edge",
+  "order": 5,
+  "definition": "Deliberate resurrection after a gap: the style brings back one that had fallen out of use, as Colonial Revival brought back Georgian after some sixty years. A revival is a claim, not a transmission, and passes on no part of the kit.",
+  "more": "Colonial Revival knew its ancestor at first only through anecdote, ruin and bad engraving. Its actual line of practice runs through the Shingle Style offices and through Beaux-Arts training, which it descends from; the Georgian house is the ancestor it claims.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json: \"revives = deliberate resurrection after a gap.\" docs/model.md marks it as not carrying the kit: \"Deliberate resurrection after a gap | **No**\". styles/colonial-revival.json lineage[revives].note: \"Deliberately resurrected after a sixty-year gap, and known at first only through anecdote, ruin, and bad engraving.\" styles/colonial-revival.json lineage[descends_from].note: \"The actual line of practice. The same Newport and Boston offices\". docs/model.md: \"Colonial Revival descends from Beaux-Arts professional practice\".",
+  "binds": [
+    {
+      "field": "lineage.type",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/lineage/items/properties/type",
+      "value": "revives"
+    }
+  ],
+  "see": [
+    "style:colonial-revival"
+  ]
+}

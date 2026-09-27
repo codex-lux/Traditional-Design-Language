@@ -1,0 +1,9 @@
+{
+  "id": "fault-section-cause",
+  "term": "cause",
+  "family": "fault",
+  "order": 7,
+  "definition": "Why the fault happens. It is almost never ignorance: nearly always a stock size, a trade sequence, a code or a line item, and naming that is what makes the fault fixable.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `cause` field: \"nearly always a stock size, a trade sequence, a code, or a line item.\" and \"Naming the driver is what makes the fault fixable rather than merely deplorable.\""
+}

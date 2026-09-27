@@ -1,0 +1,26 @@
+{
+  "id": "edge-descends-from",
+  "term": "descends from",
+  "family": "edge",
+  "order": 0,
+  "definition": "Real transmission of building practice from an ancestor: the builders, pattern books, settlement and trade knowledge that actually passed down. Descent carries the kit; a merely claimed ancestor does not.",
+  "analogy": "As French descends from Latin: handed from speaker to speaker, not learned from books that quote it.",
+  "more": "The corpus's canonical case is Greek Revival, which descends from Federal carpentry: the same carpenters, the same shops, the same author publishing a Federal manual and then a Grecian one. A style commonly both descends from and reacts against the same predecessor, and both edges are recorded.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json: \"descends_from = actual transmission of building practice (builders, pattern books, trade knowledge).\" docs/model.md widens the list, \"builders, pattern books, settlement, trade knowledge\", marks the edge as carrying the kit cascade and says \"A style commonly both descends from and reacts against the same predecessor.\" VISION.md: \"Claimed ancestry is not transmitted practice, and only the second one inherits.\" README.md: \"Greek Revival is the canonical case.\" VISION.md, of Greek Revival and Federal practice, \"the same carpenters, the same shops, the same author publishing a Federal manual and then a Grecian one.\"",
+  "binds": [
+    {
+      "field": "lineage.type",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/lineage/items/properties/type",
+      "value": "descends_from"
+    }
+  ],
+  "confusable_with": [
+    "edge-references",
+    "member-of"
+  ],
+  "see": [
+    "style:greek-revival-american"
+  ]
+}

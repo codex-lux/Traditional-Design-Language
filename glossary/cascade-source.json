@@ -1,0 +1,16 @@
+{
+  "id": "cascade-source",
+  "term": "source",
+  "family": "model",
+  "definition": "In a resolved kit, the style a slot's value was taken from: the style itself, or the ancestor up its cascade that settled the slot. It shows which decisions are the style's own and which it inherits.",
+  "kind": "editorial",
+  "basis": "VISION.md, the bindings: a kit resolves \"with a source column showing which ancestor each value came from\". build/resolve_kit.py \"prints the result with the ancestor each binding came from\", and with it \"Tidewater Georgian is twenty-one local decisions on top of sixty-odd inherited ones\".",
+  "sense": "the ancestor a kit value came from",
+  "confusable_with": [
+    "bibliographic-source"
+  ],
+  "see": [
+    "term:cascade",
+    "kit:tidewater-georgian"
+  ]
+}

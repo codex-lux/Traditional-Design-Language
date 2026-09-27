@@ -20,6 +20,15 @@ drawings of figures published in treatises between 1562 and 1830, they are what 
 on the page, and none of them carries provenance, review notes or building names. The record
 data behind them is behind /api/. When the first of anything else lands under assets/, this
 paragraph is the thing to re-read before widening the mount.
+
+And ONE route of the API itself, by ruling (24 Sep 2026, the Gate says one sentence): exactly
+`GET /api/glossary/about-tdl` is in `auth.OPEN_PATHS`, so the password screen can say what this
+is before anybody signs in. The gate compares whole paths, so `/api/glossary`, every other term,
+a trailing-slash form and any longer path stay behind it -- `test_zz_auth_leak_guard.py` asks all
+of them signed out. What that one body can carry is bounded by the record rather than by code:
+`build/check_glossary.py` forbids `about-tdl` a `see`, a `confusable_with`, a `binds` and a
+`surface`, so it resolves no other record, and what leaves is VISION.md's own words (the
+definition, and the basis quoting them), the file it read, and the glossary set's version string.
 """
 import os
 import subprocess
@@ -275,6 +284,15 @@ def health(request: Request, response: Response):
             "sha": BUILD_SHA, "sha_source": BUILD_SHA_SOURCE,
             "rail": bool(rail.key()),
             "auth": auth.state(), "limits": limits.state(),
+            # WP-14.20: whether THIS request would pass the gate -- `auth.authorised`'s own answer,
+            # the one the gate middleware asks, and not a second reading of the cookie. A signed-out
+            # browser learns here that it has no session and asks for NOTHING gated: the boot used
+            # to find out by probing `/api/overview` and taking the 401, which put one gated request
+            # on every signed-out visit. It reveals only the caller's own state (a bool about the
+            # request it answers), so the route stays ungated and `auth.OPEN_PATHS` is unchanged.
+            # On a server with no gate every request passes, so it reads true, and `auth.required`
+            # beside it says why.
+            "session": auth.authorised(request),
             # /api/health is deliberately ungated (the platform healthcheck has no
             # credentials), so it must not enumerate hostnames. allowed_hosts can carry
             # internal service names, so the list is shown only to an authorised caller;
@@ -300,6 +318,20 @@ def search_index():
     return corpus.search_index()
 
 
+# ----------------------------------------------------------------- glossary (WP-14.3)
+# What each word the workbench shows means (PRD phase 14, §C). Both routes are gated like every
+# /api/ route but one: `/api/glossary/about-tdl` is in auth.OPEN_PATHS, and the module docstring
+# says what that path can carry.
+@app.get("/api/glossary")
+def glossary_index():
+    return _ok(corpus.glossary_payload())
+
+
+@app.get("/api/glossary/{term_id}")
+def glossary_term(term_id: str):
+    return _ok(corpus.glossary_term(term_id))
+
+
 # ----------------------------------------------------------------- styles
 @app.get("/api/styles")
 def styles(query: str = "", rank: str = None, region: str = None,
@@ -313,10 +345,34 @@ def styles_compare(a: str, b: str):
     return _ok(core.compare_styles(a, b))
 
 
+@app.get("/api/compare/{a}/{b}")
+def compare(a: str, b: str):
+    """WP-14.26 (PRD §C.7): two styles side by side -- identify, kit, proportions, plans -- the
+    kit rows being the difference of the two `/api/kit` payloads. An unknown style is a 404 whose
+    detail names it."""
+    return _ok(corpus.compare_kits(a, b))
+
+
 @app.get("/api/styles/{style_id}")
 def style(style_id: str, sections: str = None):
     secs = sections.split(",") if sections else None
-    return _ok(core.get_style(style_id, sections=secs))
+    # corpus.style, not core.get_style: the workbench's copy adds each descendant's served
+    # `inherits_kit` and `slots` (WP-14.12), and the MCP tool's payload is left byte-stable.
+    return _ok(corpus.style(style_id, sections=secs))
+
+
+@app.get("/api/styles/{style_id}/packs")
+def style_packs(style_id: str):
+    """WP-14.4 (PRD §H.3): the style's packs by provenance -- own, opted in, delivered by an
+    ancestor, withheld by the opt-in gate, declined -- read off `resolve_kit`, no second cascade."""
+    return _ok(corpus.style_packs(style_id))
+
+
+@app.get("/api/styles/{style_id}/dossier")
+def style_dossier(style_id: str):
+    """WP-14.4 (PRD §H.4): the dossier's head, chain, members and section COUNTS, each count
+    the figure its own endpoint gives; a zero-count section is omitted, never listed empty."""
+    return _ok(corpus.style_dossier(style_id))
 
 
 @app.get("/api/phylogeny")
@@ -325,9 +381,20 @@ def phylogeny():
 
 
 # ----------------------------------------------------------------- slots & kits
+@app.get("/api/slots")
+def slots():
+    """WP-14.23 (tranche 2 §C.6): every slot row as `core.get_slot` serves it, plus `specified_by`,
+    the count of styles whose RESOLVED kit specifies it -- the Elements index. Declared before
+    `/api/slots/{slot_id}` so the index is not read as a slot named ''."""
+    return corpus.slots_index()
+
+
 @app.get("/api/slots/{slot_id}")
 def slot(slot_id: str):
-    return _ok(core.get_slot(slot_id))
+    # corpus.slot, not core.get_slot: the workbench's copy adds `bindings` read off the resolved
+    # kits (WP-14.23). `tdl_get_slot`'s own `specified_by_styles` reads the same resolved kits
+    # since WP-14.26, so the two agree by construction.
+    return _ok(corpus.slot(slot_id))
 
 
 @app.get("/api/kit/{style_id}/cascade")
@@ -356,15 +423,27 @@ def proportions_list():
 
 @app.get("/api/proportions/{pack_id}")
 def proportions(pack_id: str, column_diameter: float = None, module: float = None,
-                ceiling_height: float = 108.0, opening_width: float = 36.0,
+                ceiling_height: float = None, opening_width: float = None,
+                storey_height: float = None, room_width: float = None,
                 assembly: str = None, members: bool = False):
+    # Every building input is None HERE so both paths can tell "not given" from "given as 108"
+    # (WP-14.4 for the members path; WP-14.18 for the other, which forced 108 and 36 and so
+    # dimensioned `trim-classical` at 114 in while reading its rules at 108). What a missing input
+    # means is `core.module_binding`'s to say, once: 108 and 36 for a pack whose module is a size
+    # of its own -- exactly what this route always passed -- and the pack's own module for one
+    # whose module IS that dimension. storey_height and room_width are the two WP-14.18 made
+    # bindable, for the packs whose module is a storey or a room's breadth.
+    kw = dict(column_diameter=column_diameter, module=module, ceiling_height=ceiling_height,
+              opening_width=opening_width, storey_height=storey_height, room_width=room_width)
     if members:
-        return _ok(corpus.proportions_with_members(
-            pack_id, column_diameter=column_diameter, module=module,
-            ceiling_height=ceiling_height, opening_width=opening_width))
-    return _ok(core.get_proportions(pack_id, column_diameter=column_diameter,
-                                    module=module, ceiling_height=ceiling_height,
-                                    opening_width=opening_width, assembly=assembly))
+        got = corpus.proportions_with_members(pack_id, **kw)
+    else:
+        got = core.get_proportions(pack_id, assembly=assembly, **kw)
+    if isinstance(got, dict) and got.get("refused"):
+        # A contradictory request -- two sizes for one quantity -- is the caller's to correct,
+        # not a missing pack: 422, naming the refused arguments, never _ok's 404.
+        raise HTTPException(status_code=422, detail=got)
+    return _ok(got)
 
 
 @app.get("/api/authorities/{order}")
@@ -437,7 +516,9 @@ def groupings(massing: str = None, style: str = None, scale: str = None,
 
 @app.get("/api/groupings/{grouping_id}")
 def grouping(grouping_id: str, style: str = None):
-    return _ok(core.get_grouping(grouping_id=grouping_id, style=style))
+    # corpus.grouping, not core.get_grouping: the workbench's copy adds `carried_by`, the partis
+    # that carry it (WP-14.23, §C.6), and `tdl_get_grouping`'s payload is left byte-stable.
+    return _ok(corpus.grouping(grouping_id, style=style))
 
 
 @app.get("/api/assets")
@@ -448,8 +529,16 @@ def assets(slot: str = None, style: str = None, fault: str = None,
 
 
 @app.get("/api/partis")
-def partis(style: str = None, massing: str = None):
-    return core.list_partis(style=style, massing=massing)
+def partis(style: str = None, massing: str = None, include_borrowed: bool = False):
+    return core.list_partis(style=style, massing=massing, include_borrowed=include_borrowed)
+
+
+@app.get("/api/partis/{parti_id}")
+def parti_record(parti_id: str):
+    """WP-14.19: one parti and the styles it is native or lineage to. Through `core.get_parti`,
+    which reads the file through `core.load_parti` -- the one confined id-to-path join -- so this
+    route adds no path of its own; an unknown id is a 404 naming it."""
+    return _ok(core.get_parti(parti_id))
 
 
 # ----------------------------------------------------------------- schemas
@@ -477,6 +566,25 @@ def example_plan(name: str):
     except Exception as e:  # a malformed shipped example is a clean 422, not a 500
         raise HTTPException(status_code=422,
                             detail={"error": f"example plan '{safe}' is not readable JSON",
+                                    "detail": str(e)[:200]})
+
+
+@app.get("/api/briefs/examples/{name}")
+def example_brief(name: str):
+    """WP-14.4 (PRD §H.5): the shipped example briefs, loadable into Brief Intake -- the same
+    rule as `example_plan` above, name only and never a path. `/api/schema/brief` lists them
+    with their `.json`, so both `family-georgian` and `family-georgian.json` load."""
+    import json
+    safe = os.path.basename(name)
+    path = os.path.join(corpus.ROOT, "briefs", safe if safe.endswith(".json") else safe + ".json")
+    if not os.path.exists(path):
+        raise HTTPException(status_code=404, detail={"error": f"no example brief '{safe}'"})
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except Exception as e:  # a malformed shipped example is a clean 422, not a 500
+        raise HTTPException(status_code=422,
+                            detail={"error": f"example brief '{safe}' is not readable JSON",
                                     "detail": str(e)[:200]})
 
 

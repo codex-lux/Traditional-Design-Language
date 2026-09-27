@@ -1,0 +1,11 @@
+{
+  "id": "massing-bays",
+  "term": "bays",
+  "family": "house",
+  "definition": "How many openings wide a massing's front is, or the range it is built at: the count of divisions a reader reads across the facade.",
+  "kind": "editorial",
+  "basis": "schema/massing.schema.json, the bays field: \"Facade bay count, or range.\"",
+  "see": [
+    "term:massing"
+  ]
+}

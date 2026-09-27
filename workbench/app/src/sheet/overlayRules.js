@@ -73,8 +73,8 @@ export function privacyRefusal(rank) {
   }
   if (rank < PRIVACY_RAMP_MIN || rank > PRIVACY_RAMP_MAX) {
     return `privacy_rank ${rank} is outside the ramp this sheet draws `
-      + `(${PRIVACY_RAMP_MIN} to ${PRIVACY_RAMP_MAX}); no room in the corpus carries it and `
-      + 'where it belongs on the ramp is unruled';
+      + `(${PRIVACY_RAMP_MIN} to ${PRIVACY_RAMP_MAX}), and where it belongs on the ramp is `
+      + 'unruled';
   }
   return null;
 }

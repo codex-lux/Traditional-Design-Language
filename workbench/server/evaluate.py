@@ -94,7 +94,17 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
     t_revise = time.perf_counter()
     check = core.check_plan(solved if solved is not None else plan, strict=strict)
     t1 = time.perf_counter()
-    out = {"check": check, "timing_ms": {"check": round((t1 - t_revise) * 1000)}}
+    # THE EVALUATION NAMES ITS PLAN, AT THE TOP AND BEFORE THE EARLY RETURN BELOW (WP-14.20).
+    # `plan_check` writes the id only on a COMPLETED check; `core.check_plan`'s two error payloads
+    # carry none, and the early return that keeps `placement_refused` alive on a schema error is
+    # exactly where the journey then could not tell which house the refusal was of -- so it read
+    # "not yet evaluated" and offered the drawings and the export as ready links over a refused
+    # house (`oq/an-evaluation-whose-check-errored-names-no-plan`, answer 1). The id is the
+    # CALLER's document's: the revision loop re-places the record and keeps its id, and this route
+    # answers for the document it was sent. `core.check_plan`'s own payload, which the MCP tool
+    # serves, is untouched -- this is the workbench route, not the tool.
+    out = {"plan": plan.get("id"),
+           "check": check, "timing_ms": {"check": round((t1 - t_revise) * 1000)}}
     if place:
         out["timing_ms"]["place"] = round((t_place - t0) * 1000)
     if revision is not None:

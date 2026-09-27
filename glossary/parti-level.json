@@ -1,0 +1,11 @@
+{
+  "id": "parti-level",
+  "term": "level",
+  "family": "house",
+  "definition": "Which floor a room of a plan diagram is on: the ground, a floor above it, or a cellar below.",
+  "kind": "editorial",
+  "basis": "schema/parti.schema.json, a room's level: \"0 ground, 1 above, -1 cellar\" and schema/plan.schema.json, a level's index: \"0 ground, 1 first above, -1 cellar. Used for stacking checks.\"",
+  "see": [
+    "term:parti"
+  ]
+}

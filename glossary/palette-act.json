@@ -1,0 +1,12 @@
+{
+  "id": "palette-act",
+  "term": "act",
+  "family": "product",
+  "definition": "Something the search does rather than a place it takes you to, such as opening the card of keys and of how a thing is addressed. Choosing an act does it at once.",
+  "kind": "editorial",
+  "basis": "Our wording of the one kind of search result that is not a place. docs/workbench.md names the card it opens, \"the card that teaches both the keys and the citation grammar\".",
+  "see": [
+    "term:search-the-corpus",
+    "term:page"
+  ]
+}

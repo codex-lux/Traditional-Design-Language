@@ -1,0 +1,10 @@
+{
+  "id": "layer-phrase",
+  "term": "The phrase layer",
+  "family": "layer",
+  "order": 5,
+  "definition": "Groupings of rooms, the scale people actually design at, and the canonical plan diagrams that give the composer somewhere to start. A diagram fixes which rooms there are and how they connect; every dimension comes from the room catalogue.",
+  "analogy": "A room is a word, a grouping is a phrase, a parti is a sentence pattern, and a plan is a sentence.",
+  "kind": "editorial",
+  "basis": "Editorial, from VISION.md's sixth layer: \"Groupings, and the canonical plan diagrams that give a composer somewhere to start. Diagrams specify topology and roles only; dimensions are always pulled from the room catalogue, so nothing can drift.\", and its thesis that groupings \"are the scale people actually design at\"."
+}

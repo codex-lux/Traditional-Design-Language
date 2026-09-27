@@ -1,0 +1,12 @@
+{
+  "id": "finding-class",
+  "term": "class",
+  "family": "house",
+  "definition": "What a finding means to the generator, from the last critique: a move answers it, the placement engine could, the critic itself is suspect, or it is the architect's. It is dropped the moment a later evaluation lands.",
+  "kind": "editorial",
+  "basis": "Our wording of the analyst's classes. docs/revise.md: the analyst \"sorts every non-info finding into exactly one class, first match wins\", and the bench tags each row \"it, the engine's, the critic's own, the architect's\".",
+  "see": [
+    "term:critique",
+    "term:finding-engine"
+  ]
+}

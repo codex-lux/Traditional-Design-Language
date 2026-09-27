@@ -1,0 +1,9 @@
+{
+  "id": "nav-group-library",
+  "term": "Library",
+  "family": "nav-group",
+  "order": 3,
+  "definition": "The group for the reference collections every style and house draws on: the proportion packs, the named faults, and the glossary of the words this workbench uses.",
+  "kind": "editorial",
+  "basis": "Editorial. The groups are the workbench's own navigation, ruled for Phase 14, and no corpus file names them; what it holds is VISION.md's grammar and solecisms: \"Proportioning systems are the grammar.\" and \"Encoding a language without encoding its solecisms produces a system that can generate houses\"."
+}

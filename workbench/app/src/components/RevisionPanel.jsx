@@ -27,11 +27,11 @@ const CLASS_WORD = {
 };
 
 const body = { font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: 0 };
-const quiet = { font: 'var(--type-data-s)', color: 'var(--ink-3)' };
-const receipt = { font: 'var(--fw-reg) 12px/1.5 var(--receipt, var(--mono))', color: 'var(--ink-3)' };
+const quiet = { font: 'var(--type-data-s)', color: 'var(--ink-2)' };
+const receipt = { font: 'var(--fw-reg) 12px/1.5 var(--receipt, var(--mono))', color: 'var(--ink-2)' };
 
 function Move({ m, findingText, onCite }) {
-  const tone = m.refused || m.refusedByMeasurement ? 'var(--brick)' : m.cleared ? 'var(--gilt-deep)' : 'var(--ink-3)';
+  const tone = m.refused || m.refusedByMeasurement ? 'var(--brick)' : m.cleared ? 'var(--gilt-deep)' : 'var(--ink-2)';
   const verdict = m.refused ? `refused: ${m.refused}`
     // WP-13.9: two causes, two sentences. A round rolled back because its re-placement broke a
     // hard fact of the type did not necessarily make the key worse -- it usually makes it
@@ -114,7 +114,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
             </p>
           )}
           {r.reclaimed && (
-            <p style={{ ...quiet, marginTop: 6, color: r.reclaimed.rolledBack ? 'var(--brick)' : 'var(--ink-3)' }}>
+            <p style={{ ...quiet, marginTop: 6, color: r.reclaimed.rolledBack ? 'var(--brick)' : 'var(--ink-2)' }}>
               {r.reclaimed.rolledBack
                 ? `reclaim rolled back — ${r.reclaimed.why || 'it opened a fatal'} (${r.reclaimed.delta})`
                 : `reclaim after the loop: ${r.reclaimed.log.length} line${r.reclaimed.log.length === 1 ? '' : 's'}, key ${r.reclaimed.delta}`}
@@ -133,7 +133,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
 
       {r && r.rounds.length > 0 && (
         <div style={{ marginTop: 10 }}>
-          <Eyebrow tone="quiet">rounds</Eyebrow>
+          <Eyebrow>rounds</Eyebrow>
           {r.rounds.map((rd) => (
             <div key={rd.n} style={{ margin: '6px 0 0', paddingLeft: 10,
               borderLeft: `2px solid ${rd.accepted ? 'var(--gilt-deep)' : 'var(--brick)'}` }}>
@@ -167,21 +167,21 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
 
       {r && (
         <div style={{ marginTop: 12 }}>
-          <Eyebrow tone="quiet">what remains, by class</Eyebrow>
+          <Eyebrow>what remains, by class</Eyebrow>
           <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 4 }}>
             {CLASSES.map((c) => (
-              <span key={c} style={{ ...quiet, color: r.remaining[c].length ? 'var(--ink-2)' : 'var(--ink-4)' }}>
+              <span key={c} style={{ ...quiet, color: 'var(--ink-2)' }}>
                 {CLASS_WORD[c]} {r.remaining[c].length}
               </span>
             ))}
           </div>
           {r.handed.length > 0 && (
             <div style={{ marginTop: 8 }}>
-              <Eyebrow tone="quiet">handed to the architect</Eyebrow>
+              <Eyebrow>handed to the architect</Eyebrow>
               <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18 }}>
                 {r.handed.slice(0, 8).map((h) => (
                   <li key={h.id} style={{ marginBottom: 4 }}>
-                    <span style={{ ...quiet, color: 'var(--sev-' + h.severity + ', var(--ink-3))' }}>{h.severity}</span>{' '}
+                    <span style={{ ...quiet, color: 'var(--sev-' + h.severity + ', var(--ink-2))' }}>{h.severity}</span>{' '}
                     {h.statement}
                     {(h.fix_right || h.fix_cheap || h.rule_why) && (
                       <div style={quiet}>
@@ -196,8 +196,8 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
           )}
           {r.suspects.length > 0 && (
             <div style={{ marginTop: 8 }}>
-              <Eyebrow tone="quiet">the critic's own — neither clear nor failed</Eyebrow>
-              <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18, color: 'var(--ink-3)' }}>
+              <Eyebrow>the critic's own — neither clear nor failed</Eyebrow>
+              <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18, color: 'var(--ink-2)' }}>
                 {r.suspects.slice(0, 6).map((s) => (
                   <li key={s.id} style={{ marginBottom: 3 }}>
                     {s.statement}
@@ -211,7 +211,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
           {r.refusedList.length > 0 && (
             <details style={{ marginTop: 8 }}>
               <summary style={{ ...quiet, cursor: 'pointer' }}>{r.refusedList.length} refusal{r.refusedList.length === 1 ? '' : 's'}</summary>
-              <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18, color: 'var(--ink-3)' }}>
+              <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18, color: 'var(--ink-2)' }}>
                 {r.refusedList.map((m, i) => (
                   <li key={i}>{m.move}{m.finding ? ` on ${findingText(m.finding)}` : ''}: {m.refused || 'made the plan worse on this engine'}</li>
                 ))}

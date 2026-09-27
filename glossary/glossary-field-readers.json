@@ -1,0 +1,9 @@
+{
+  "id": "glossary-field-readers",
+  "term": "Who it is for",
+  "family": "glossary-field",
+  "order": 2,
+  "definition": "The practitioners the corpus is written for, each with what changes for them, in the project's own account of itself.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of the `readers` field, which this word labels on an entry's own page: \"Only on `about-tdl`: who the corpus is for\"."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "map-positions",
+  "term": "what this drawing does not know",
+  "family": "product",
+  "definition": "The corpus records where a style arose in words and holds no coordinates, so each point on the map comes from a gazetteer in the interface.",
+  "more": "The gazetteer is keyed on the region and hearth names the records use: a point is accurate to the size of the thing named and no better, and none of the points is a source.",
+  "kind": "editorial",
+  "basis": "The limit of the map reading, as the workbench's own documentation states it. docs/workbench.md, on where the points come from: the gazetteer is \"interface furniture, not corpus data\", and the corpus \"holds no coordinates, and per the sourcing rules none of these numbers may migrate into\" the style records; a style is placed \"taking the finest thing either names\" of its regions and its hearth.",
+  "see": [
+    "term:reading-map",
+    "term:surface-phylogeny"
+  ]
+}

@@ -1,4 +1,6 @@
 import React from "react";
+import { useGlossary } from '../api/useGlossary.js';
+import { describeTerm } from '../glossary/termView.js';
 
 /* The workhorse. 142 findings must fit on one screen collapsed, and any one of them must
    open to full prose: statement / why / fix, always in that order. Note that a fix often
@@ -9,7 +11,8 @@ const SEV = {
   serious: 'var(--sev-serious)',
   minor: 'var(--sev-minor)',
   advisory: 'var(--sev-advisory)',
-  info: 'var(--sev-info)'
+  // info is set in --ink-2, not --sev-info (--ink-3): the word is read, and --ink-3 reads 3.15 : 1
+  info: 'var(--ink-2)'
 };
 const FIELD = {
   fatal: 'var(--sev-fatal-field)',
@@ -20,8 +23,18 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-3)'
+  color: 'var(--ink-2)'
 };
+/* The rule a finding cites: a link that takes `.tdl-link` whole where it navigates, the working
+   grey where it cannot (WP-14.33's audit). */
+const RULE_LINK = {
+  font: 'var(--type-data-s)'
+};
+const RULE_TEXT = {
+  font: 'var(--type-data-s)',
+  color: 'var(--ink-2)'
+};
+
 function FindingRow({
   finding,
   expanded,
@@ -39,10 +52,13 @@ function FindingRow({
   classTag
 }) {
   const [hover, setHover] = React.useState(false);
+  /* What the engine tag and the class tag MEAN is each a glossary record's (WP-14.31); the two
+     tooltips were written here, one of them carrying the work package that added the tag. */
+  const glossary = useGlossary();
   const [openInner, setOpenInner] = React.useState(false);
   const open = expanded != null ? expanded : openInner;
   const sev = finding.severity;
-  const colour = SEV[sev] || 'var(--ink-3)';
+  const colour = SEV[sev] || 'var(--ink-2)';
   const toggle = function () {
     onToggle ? onToggle(finding) : setOpenInner(!open);
   };
@@ -84,21 +100,21 @@ function FindingRow({
   }, sev), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-3)',
+      color: 'var(--ink-2)',
       width: 76,
       flex: 'none'
     }
   }, finding.layer), engineTag && /*#__PURE__*/React.createElement("span", {
     "data-engine-tag": "",
-    title: "which engine placed the house this finding was read from (WP-9.1: every drawn finding carries it)",
+    title: describeTerm(glossary, 'finding-engine').title,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-4)',
+      color: 'var(--ink-2)',
       flex: 'none'
     }
   }, engineTag), classTag && /*#__PURE__*/React.createElement("span", {
     "data-class-tag": "",
-    title: "what this finding means to a generator, from the last critique",
+    title: describeTerm(glossary, 'finding-class').title,
     style: {
       font: 'var(--type-data-s)',
       color: 'var(--gilt-deep)',
@@ -114,7 +130,7 @@ function FindingRow({
   }, finding.statement), finding.at && /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-4)',
+      color: 'var(--ink-2)',
       flex: 'none'
     }
   }, finding.at)), open && /*#__PURE__*/React.createElement("div", {
@@ -155,11 +171,8 @@ function FindingRow({
   }, finding.rule_ref && /*#__PURE__*/React.createElement(onCite ? "button" : "span", {
     type: onCite ? "button" : undefined,
     onClick: onCite ? function () { onCite(finding.rule_ref); } : undefined,
-    style: {
-      font: 'var(--type-data-s)',
-      color: onCite ? 'var(--gilt-deep)' : 'var(--ink-4)',
-      borderBottom: onCite ? '1px solid var(--link-underline)' : 'none'
-    }
+    className: onCite ? "tdl-link" : undefined,
+    style: onCite ? RULE_LINK : RULE_TEXT
   }, finding.rule_ref), onLocate && /*#__PURE__*/React.createElement("button", {
     type: "button",
     onClick: function () {

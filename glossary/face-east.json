@@ -1,0 +1,15 @@
+{
+  "id": "face-east",
+  "term": "east",
+  "family": "house",
+  "order": 2,
+  "definition": "The face of the house that looks east, drawn along the right-hand side of the plan. Plan east is true east unless the plan record states a bearing that turns the house.",
+  "kind": "editorial",
+  "basis": "Our wording. build/compass.py: \"plan-N IS true-N unless a bearing says otherwise\" and \"Nominal bearings of the eight points, clockwise from north.\"; build/axis.py: \"convention every renderer in this tree already draws to (x east, y north, origin at the\"",
+  "see": [
+    "term:elevation-face",
+    "term:face-south",
+    "term:face-north",
+    "term:face-west"
+  ]
+}

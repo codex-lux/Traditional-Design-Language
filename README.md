@@ -21,7 +21,7 @@ One JSON file per taxon. Four ranks — tradition → family → style → varia
 
 Nodes relate to each other in two independent ways, and the separation is the point:
 
-- `member_of` — a strict single-parent hierarchy. This is the drawer a node lives in. It exists for browsing and nothing else.
+- `member_of` — a strict single-parent hierarchy. This is the drawer a node lives in. It exists for browsing, and it is not lineage; it carries one thing, and only through a family: the family a style is filed under joins that style's kit cascade, so the family's own kit reaches it.
 - `lineage` — a directed acyclic graph with typed edges. This is actual descent, and nodes routinely have several parents.
 
 **2. The element ontology** (`elements/slots.json`) and **massing catalog** (`massings/catalog.json`)
@@ -43,12 +43,12 @@ One file per style, variant, *and* family (159 total — 132 style/variant plus 
 60 style-independent room types with the furniture that has to fit and its clearances, typed directional adjacency, a privacy gradient, and daylight depth. Then 17 groupings — the middle scale people actually design at: a hall-and-parlor pair, a centre-passage core, an entry sequence, a service core, a primary suite. Each grouping's `attaches_to` says how it lands in a massing, which is the join that makes rooms and skeletons composable.
 
 **6. The fault corpus** (`faults/`) — see `docs/faults.md`
-209 named errors, **element-first**: they hang off slots, not styles, because the half-width shutter is wrong on every house that has shutters. 93 of 95 slots covered — the two newest (`wall_thickness_masonry`/`wall_thickness_frame`, added in WP-1.3) have no fault authored against them yet. 846 style exceptions, 496 with numeric bounds — because a Georgian five-foot portico is a fatal fault by Craftsman rules and correct by its own. Every fault carries a `test`, so the corpus is executable: give it measurements from a photograph and it tells you which faults are present, which are clear, and which it could not judge.
+210 named errors, **element-first**: they hang off slots, not styles, because the half-width shutter is wrong on every house that has shutters. Not every slot has a fault yet, and the checker says which: `python3 build/check_faults.py` prints the slots no fault covers (the two wall-thickness slots added in WP-1.3 are among them). 846 style exceptions, 496 with numeric bounds — because a Georgian five-foot portico is a fatal fault by Craftsman rules and correct by its own. Every fault carries a `test`, so the corpus is executable: give it measurements from a photograph and it tells you which faults are present, which are clear, and which it could not judge.
 
-Exactly one of 209 faults has `driver: ignorance`. The rest are stock sizes, trade sequences, catalog defaults and code minima — and 32 of them cost money to get wrong.
+Exactly one of 210 faults has `driver: ignorance`. The rest are stock sizes, trade sequences, catalog defaults and code minima — and 32 of them cost money to get wrong.
 
 **7. The plan validator** (`schema/plan.schema.json`, `build/plan_check.py`, `plans/`) — see `docs/plans.md`
-The critic, built before the composer, because a composer needs a fitness function and this is it. Reads a hand-authorable plan record and checks it across five layers — rooms, adjacency and privacy, groupings, faults, code and style. Two worked examples ship with it: a deliberately ordinary production Colonial (4 fatal) and the same corpus applied carefully (0 fatal). The style layer's 660 constraints (`schema/constraint.schema.json`, `docs/constraints.md`) are now fully migrated — every constraint on every node that carries one has an id, a scope, and either a `test` (365, 55%) or an honest `scope: judgment` (295) — so a hard constraint's presence, clearance, or unjudged status is reported the same way a fault's is, never silently passed.
+The critic, built before the composer, because a composer needs a fitness function and this is it. Reads a hand-authorable plan record and checks it across five layers — rooms, adjacency and privacy, groupings, faults, code and style. Two worked examples ship with it: a deliberately ordinary production Colonial and the same corpus applied carefully. **The careful one is not clean, and this sentence called it 0 fatal for a phase after that stopped being true**: measured 25 Sep 2026 the careful Tidewater record carries 3 fatal findings against the Colonial's 5, and both are refused at placement on both engines, so neither can yet be drawn (`oq/the-worked-house-has-no-plan-that-places`). The style layer's 660 constraints (`schema/constraint.schema.json`, `docs/constraints.md`) are now fully migrated — every constraint on every node that carries one has an id, a scope, and either a `test` (365, 55%) or an honest `scope: judgment` (295) — so a hard constraint's presence, clearance, or unjudged status is reported the same way a fault's is, never silently passed.
 
 **8. The composer** (`schema/brief.schema.json`, `partis/`, `build/compose.py`, `briefs/`) — see `docs/compose.md`
 Seeds from 21 canonical partis native to the style — as of WP-4.5 every buildable style with a canonical massing has at least one, where 39 of 132 did before — sizes every room from the room catalogue, repairs against the validator until it stops improving, and returns four contrasting candidates ranked by fatal findings then style fidelity — each with what it trades away and a log of every assumption it made.
@@ -134,6 +134,7 @@ python3 build/build.py               # kits/, dist/taxonomy.json, dist/taxonomy.
 python3 build/gen_assets.py          # assets/manifest.json
 python3 build/render_html.py         # dist/taxonomy.html
 python3 build/check_faults.py        # faults: schema, slot/style refs, test coverage
+python3 build/check_glossary.py      # glossary: every definition sourced or quoting the file it read
 python3 build/check_rooms.py         # rooms and groupings: adjacency, privacy gradient, massing refs
 python3 build/plan_check.py plans/spec-builder-colonial.json
 python3 build/compose.py briefs/family-georgian.json

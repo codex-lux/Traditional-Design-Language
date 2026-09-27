@@ -220,13 +220,16 @@ export function stackWords(notes) {
 
 /* The caption's datum sentence, per assembly as Python read it (WP-14.2). One function, so the
    plate and the census read the same words: tests/svg_census.py (R3) holds each assembly the plate
-   draws to the datum this sentence names for it. */
+   draws to the datum this sentence names for it. It said "the corpus uses both" and cited two
+   questions by number until the two Phase 14s met (27 Sep 2026): the other line had ruled that
+   reader-facing copy states no corpus fact and cites no question a reader cannot look up
+   (`readerCopy.test.mjs`), and had taken the same words out of this plate's caption. */
 export function datumWords(datum, undeclared) {
   const cl = [];
   if (datum.axis.length) cl.push(`from the axis for the ${andList(datum.axis)}`);
   if (datum.naked.length) cl.push(`from each member’s own naked for the ${andList(datum.naked)}`);
   let out = cl.length
-    ? `Projections are measured ${cl.join('; and ')} — the corpus uses both, and each assembly is read on its own figures (OQ 65, OQ 78)${undeclared ? '; this pack declares no datum at all' : ''}.`
+    ? `Projections are measured ${cl.join('; and ')} — each assembly is read on its own figures${undeclared ? '; this pack declares no datum at all' : ''}.`
     : '';
   if (datum.unjudged.length) {
     out += `${out ? ' ' : ''}No datum can be read for the ${andList(datum.unjudged)}: no member there publishes a projection.`;

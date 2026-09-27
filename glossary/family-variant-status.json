@@ -1,0 +1,17 @@
+{
+  "id": "family-variant-status",
+  "term": "Variant statuses",
+  "family": "family",
+  "order": 9,
+  "definition": "The group of words for the standing a style gives each variant a slot may take: canonical, permitted, atypical or forbidden.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`variant-status` holds the standing a style gives each variant a slot may take\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "variant-status"
+    }
+  ]
+}

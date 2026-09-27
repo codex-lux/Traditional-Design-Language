@@ -1,0 +1,17 @@
+{
+  "id": "family-binding",
+  "term": "Bindings",
+  "family": "family",
+  "order": 8,
+  "definition": "The group of words for what a style may say about one slot of its kit: it specifies the slot, extends it, leaves it open, or forbids it.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`binding` holds what a style may say about one slot of its kit\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "binding"
+    }
+  ]
+}

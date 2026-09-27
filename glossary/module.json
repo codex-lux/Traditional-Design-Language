@@ -1,0 +1,19 @@
+{
+  "id": "module",
+  "term": "module",
+  "family": "proportion",
+  "order": 1,
+  "definition": "The one measure a pack divides every other dimension from: for an order, the column's semidiameter or diameter; for other packs, a brick course, a structural bay, a room's breadth or a door's width; for the classical trim family, the finished ceiling height.",
+  "analogy": "Like the scale bar on a drawing: set it, and every other length follows.",
+  "more": "Authorities do not share a module: Vignola and Chambers measure in the column's semidiameter and Palladio in its whole diameter, so orders are compared at a common column diameter, never at a common module.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's module field, the modules the packs themselves name, and the grammar layer's module trap. schema/proportion-pack.schema.json, module.name description: \"What one module IS: 'semidiameter of the column at its base', 'one brick course including joint', 'one structural bay'.\"; schema/proportion-pack.schema.json, module.diameters description: \"0.5 for Vignola's and Chambers's semidiameter, 1.0 for Palladio's whole diameter.\"; proportions/systems/room-harmonic.json module.name: \"The short dimension of the room in plan - its breadth - from which the length and then the height are both generated\"; proportions/systems/opening-proportion.json module.name: \"The width of the principal door leaf - the single most fixed dimension in a building\"; proportions/systems/trim-classical.json module.name: \"The finished ceiling height of the room, finished floor to finished ceiling - the wall the whole trim family is a division of\"; docs/proportion.md: \"choose Tuscan and a module, and roughly two hundred subordinate dimensions follow deterministically\"; docs/proportion.md: \"Authorities do not share a module, and getting this wrong silently doubles or halves every dimension an overlay inherits.\"; docs/proportion.md: \"Comparisons are made at a common **column diameter**, never a common module.\".",
+  "confusable_with": [
+    "part",
+    "pack-kind-module-system"
+  ],
+  "see": [
+    "pack:trim-classical",
+    "pack:brick-course"
+  ]
+}

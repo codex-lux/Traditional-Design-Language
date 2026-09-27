@@ -1,0 +1,11 @@
+{
+  "id": "clearance",
+  "term": "clearance",
+  "family": "house",
+  "definition": "The gap a piece of furniture needs beyond its own footprint, in inches, for a person to use it. A stated zero is a real answer: the item is itself clear floor, or has no bulk on the floor.",
+  "kind": "editorial",
+  "basis": "schema/room.schema.json, a furniture item's clearance: \"The gap this item needs beyond its own footprint, in inches. It must be STATED: a zero is a real answer and says the item needs no gap\"",
+  "see": [
+    "term:furniture"
+  ]
+}

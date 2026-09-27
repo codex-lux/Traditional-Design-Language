@@ -27,7 +27,7 @@ function ToolTrace({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--ink-4)',
+      color: 'var(--ink-2)',
       marginBottom: 6
     }
   }, "consulted", running && /*#__PURE__*/React.createElement("span", {
@@ -62,7 +62,7 @@ function ToolTrace({
     }, c.tool), /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-4)',
+        color: 'var(--ink-2)',
         flex: 1,
         minWidth: 0,
         overflow: 'hidden',
@@ -74,9 +74,9 @@ function ToolTrace({
       onClick: function () {
         onCite(c.cite);
       },
+      className: "tdl-link",
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--gilt-deep)',
         flex: 'none'
       }
     }, "open"));

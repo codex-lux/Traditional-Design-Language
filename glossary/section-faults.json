@@ -1,0 +1,23 @@
+{
+  "id": "section-faults",
+  "term": "Faults",
+  "family": "section",
+  "order": 7,
+  "sense": "the named errors filed for this style",
+  "definition": "The named errors as they bear on this style: first those where it has an exception or a severity of its own, then those written for it, its ancestors or its family, then a count of those that apply to every house.",
+  "kind": "editorial",
+  "basis": "Editorial. mcp_server/core.py: \"Faults are element-first: most are universal, and style is a facet.\" A fault reaches \"A style and everything it inherits from, as a set.\", and a style's own exception is read before it is published, as in \"EXCEPTION_FOR_THIS_STYLE (the licence is EARNED)\" and its two siblings. VISION.md: \"Style enters as an exception, and the exceptions matter as much as the rules.\"",
+  "confusable_with": [
+    "surface-faults"
+  ],
+  "surface": {
+    "what": "The named errors as they bear on this style.",
+    "read": [
+      "First come the errors where this style has an exception, earned or not, or a severity of its own.",
+      "Then come the errors written for this style, its ancestors or its family.",
+      "The errors that apply to every house are counted, with a link to the library narrowed to this style.",
+      "A tradition or a family is not built, so errors about a whole house are not counted for one."
+    ],
+    "try": "fault:porch-too-shallow-to-inhabit"
+  }
+}

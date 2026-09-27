@@ -1,0 +1,12 @@
+{
+  "id": "shift-click-to-compare",
+  "term": "shift-click to compare",
+  "family": "product",
+  "definition": "With one style chosen, hold shift and click a second, in the tree or on the map, to open the two side by side at an address of their own: how to tell them apart, and where their kits, packs and plan types differ.",
+  "kind": "editorial",
+  "basis": "The gesture is the workbench's own, ruled for Phase 14. What it opens compares each style's record: schema/style-node.schema.json, \"Explicit disambiguation against commonly-confused neighbours.\", and mcp_server/core.py, where there is none, \"none recorded — fall back on the tells below\".",
+  "see": [
+    "term:compare-with",
+    "term:surface-compare"
+  ]
+}

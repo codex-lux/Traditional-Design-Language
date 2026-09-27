@@ -1,0 +1,17 @@
+{
+  "id": "family-fault",
+  "term": "Named errors and their parts",
+  "family": "family",
+  "order": 18,
+  "definition": "The group of words about named errors: the fault itself, a style's licence to commit it, and the parts of a fault card, from the right way to the machine test.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`fault` holds the named errors, their exceptions and the parts of a fault card\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "fault"
+    }
+  ]
+}

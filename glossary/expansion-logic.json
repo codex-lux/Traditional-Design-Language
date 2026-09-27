@@ -1,0 +1,13 @@
+{
+  "id": "expansion-logic",
+  "term": "how it grows",
+  "family": "house",
+  "definition": "How a massing, a grouping or a plan diagram gets bigger without breaking what makes it that type: the part it adds, and the rule the addition has to keep.",
+  "kind": "editorial",
+  "basis": "schema/massing.schema.json, the expansion_logic field: \"How the type grows without breaking. The single most under-modelled property in production housing.\" schema/grouping.schema.json: \"How the grouping grows without breaking\" schema/parti.schema.json, scaling: \"Most partis grow by widening rooms; some grow only by adding a link\"",
+  "see": [
+    "term:massing",
+    "term:grouping",
+    "term:parti"
+  ]
+}

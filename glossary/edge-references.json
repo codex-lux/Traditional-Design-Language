@@ -1,0 +1,25 @@
+{
+  "id": "edge-references",
+  "term": "references",
+  "family": "edge",
+  "order": 1,
+  "definition": "Claimed or quoted ancestry: the style imitates an ancestor it does not descend from, as Greek Revival quotes Periclean Athens. The claim is recorded, and it passes on no part of the kit, so the style is not built the ancestor's way.",
+  "analogy": "Like a learned loanword: taken from a prestigious source for its authority, not handed down from it.",
+  "more": "If a claimed ancestor passed on its kit, a Colonial Revival house would inherit eighteenth-century construction: hand-planed muntins, true divided lites, plaster on riven lath. A Greek Revival house detailed with genuinely Greek construction is not a Greek Revival house; it is an archaeological reconstruction.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json: \"references = claimed/quoted ancestry the style imitates without descending from it.\" VISION.md: \"Greek Revival *references* Periclean Athens\" and \"a Greek Revival house detailed with genuinely Greek construction is not a Greek Revival house, it is an archaeological reconstruction.\" docs/model.md marks the edge as not carrying the kit and says why: if it did, \"a Colonial Revival house inherits eighteenth-century construction\", namely \"hand-planed muntins, true divided lites, plaster on riven lath\".",
+  "binds": [
+    {
+      "field": "lineage.type",
+      "schema": "schema/style-node.schema.json",
+      "pointer": "/properties/lineage/items/properties/type",
+      "value": "references"
+    }
+  ],
+  "confusable_with": [
+    "edge-descends-from"
+  ],
+  "see": [
+    "style:greek-revival-american"
+  ]
+}

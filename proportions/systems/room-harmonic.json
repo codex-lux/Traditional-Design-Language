@@ -21,6 +21,7 @@
     "name": "The short dimension of the room in plan - its breadth - from which the length and then the height are both generated",
     "parts": 16,
     "default_size_in": 192.0,
+    "equals": "room_width",
     "note": "Sixteen feet, and the part is the foot. The breadth is the right module because it is the dimension the STRUCTURE fixes: it is the joist span or the vault springing, and it is therefore the number the builder has least freedom over. Palladio's whole system runs from it - the length is the breadth times one of seven ratios, and the height is a mean between the two. Sixteen parts because the default is sixteen feet and because the useful subdivisions of a room dimension are whole feet and half feet; the Renaissance worked in the piede vicentino of about 13 3/4 English inches, and every ratio here is dimensionless, so the choice of foot does not matter. THE RANGE: 12-14 ft for a chamber or a closet, 16-20 ft for a principal room, 20-30 ft for a hall or a salone. Above about 24 ft the flat-ceiling rule (height equal to breadth) produces a room no domestic storey can carry, and the system must be vaulted or abandoned - see the conflicts."
   },
   "invariants": [

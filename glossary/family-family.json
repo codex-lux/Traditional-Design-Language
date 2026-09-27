@@ -1,0 +1,17 @@
+{
+  "id": "family-family",
+  "term": "Glossary families",
+  "family": "family",
+  "order": 23,
+  "definition": "The group of words that name these groups themselves, one for each family the glossary files its words under. Each heads its group on the Glossary page.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`family` holds the families themselves, which head the Glossary page's groups\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "family"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "exception-granted",
+  "term": "granted",
+  "family": "fault",
+  "definition": "The verdict that this house earns an exception's licence: it sets no condition, or its condition is met, and any part nothing here can read is named. Where the licence states its own test, that test takes the place of the fault's main one.",
+  "kind": "editorial",
+  "basis": "mcp_server/core.py, grant_exception: \"Decide whether an exception's licence is earned.\" It grants where the licence states no precondition or where the condition it states holds, and where part of the condition goes unread it says \"this licence states a precondition\" that nothing here reads. In check_measurements a granted licence's own test \"REPLACES the fault's primary test\", and \"Only a licence actually EARNED is reported as applied.\" schema/fault.schema.json: that test exists \"so an exception can be checked rather than merely read\".",
+  "order": 2,
+  "see": [
+    "term:exception",
+    "term:exception-refused",
+    "term:judgment-unjudged"
+  ]
+}

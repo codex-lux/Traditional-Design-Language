@@ -1,0 +1,9 @@
+{
+  "id": "fault-section-cost-saved",
+  "term": "cost saved",
+  "family": "fault",
+  "order": 8,
+  "definition": "Roughly what the shortcut saves, because the argument for doing it right has to survive contact with a budget.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the cause's `cost_saved` field: \"Roughly what the shortcut saves, because the argument for doing it right has to survive contact with a budget.\""
+}

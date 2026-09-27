@@ -1,0 +1,13 @@
+{
+  "id": "taxon",
+  "term": "taxon",
+  "family": "model",
+  "definition": "Any node of the style taxonomy, at any rank from a tradition down to a buildable variant. Each but a tradition is filed under a single parent for browsing, and may descend from several ancestors at once.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json: \"A single taxon in the Traditional Design Language style graph.\" Nodes form a directed acyclic graph of lineage and \"a separate strict single-parent containment hierarchy via member_of\", where \"a family's is its tradition. Null only for traditions\". docs/model.md: \"Multiple parents are normal.\"",
+  "analogy": "Borrowed from biology, where a species and a genus are both taxa, at different ranks.",
+  "see": [
+    "style:tidewater-georgian",
+    "term:rank"
+  ]
+}

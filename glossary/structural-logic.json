@@ -1,0 +1,11 @@
+{
+  "id": "structural-logic",
+  "term": "why this shape",
+  "family": "house",
+  "definition": "Why the volume is the shape it is: the span a joist can make, how it is framed and heated, how air moves through it, how the land it stands on was divided.",
+  "kind": "editorial",
+  "basis": "schema/massing.schema.json, the structural_logic field: \"Why the volume is this shape: span limits, framing, heating, ventilation, land division.\"",
+  "see": [
+    "term:massing"
+  ]
+}

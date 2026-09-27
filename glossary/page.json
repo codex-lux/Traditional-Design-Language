@@ -1,0 +1,12 @@
+{
+  "id": "page",
+  "term": "page",
+  "family": "product",
+  "definition": "One place in the workbench, reached by its own address: the front door, a style's dossier, the plan on the bench, the glossary and the rest. Each is named by one record, so the site map, the trail and the search agree.",
+  "kind": "editorial",
+  "basis": "Our wording of a place in the workbench. docs/workbench.md: the site map \"holds the rail's groups and items as ids and the\" glossary record each is called by, and the crumbs, the front door's map, the \"palette's surface entries and the browser walk all read it\".",
+  "see": [
+    "term:family-surface",
+    "term:search-the-corpus"
+  ]
+}

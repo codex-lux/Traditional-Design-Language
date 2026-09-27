@@ -1,0 +1,9 @@
+{
+  "id": "fault-axis-how-it-reads",
+  "term": "how it reads",
+  "family": "fault",
+  "order": 15,
+  "definition": "A fault's severity against the style reading, which is how badly it reads to someone fluent: fatal, serious or minor.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `severity` field: \"fatal: destroys the style reading, and no amount of quality elsewhere recovers it.\" and, on the second axis, \"Severity is defined against the STYLE READING, which is the wrong scale for the plan and services layer.\""
+}

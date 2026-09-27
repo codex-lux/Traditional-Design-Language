@@ -719,7 +719,10 @@ def _seg_cmds_model(segments, ghosts="draw"):
     return " ".join(out)
 
 
-def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
+DATUMS = ("order", "wall")
+
+
+def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14, datum="order"):
     """Every assembly of a dimensioned pack as profile geometry, in inches at ITS module.
 
     This exists so that no drawing surface has to construct a moulding for itself. The corpus
@@ -744,20 +747,45 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
       base / capital    the column's radius (constant: both sit outside the shaft's taper)
       shaft             the radius AT THAT HEIGHT -- the one assembly whose datum is a function
       everything else   the naked of the frieze, which is the column's top radius
+
+    `datum="wall"` (WP-14.4) is the OTHER reading, for the 27 packs that carry assemblies and no
+    column stack -- a trim family's wall section, a casing, a water table, an arch's impost. None
+    of those stands on a column, so every figure above is meaningless for them: there is no radius,
+    no die, no shaft and no axis. Handed such a pack under the default, the radius comes out of
+    `totals.lower_diameter_in`, which `dimension()` computes for EVERY pack as module over
+    diameters-per-module -- so `trim-classical`'s 9'-6" ceiling module was read as the RADIUS of a
+    column 19 ft across (228 in, measured) and every wall section was drawn standing 114 in off its
+    own wall, the ceiling height turned sideways. Under the wall datum
+    R, r_top and the die are 0, no group's axis reading is consulted, no assembly takes the shaft's
+    taper branch, and every face is measured from the wall plane: each face path runs
+    `M 0,y0 L x_from,y0 ... L 0,y1 Z`, the walk starts at x = 0, and `naked_in` is 0. The output
+    gains `"datum": "wall"`. UNDER THE DEFAULT NOTHING CHANGES AND NO KEY IS ADDED -- four
+    consumers (render_profile, render_orders, elevation, check_orders) and the workbench order
+    plate read this function, and tests/test_profiles.py holds the default to that.
     """
+    if datum not in DATUMS:
+        raise ValueError("datum must be one of %s, got %r" % (", ".join(DATUMS), datum))
+    wall = datum == "wall"
     column = column or {}
-    from_axis = projection_datum == "axis"
+    from_axis = (not wall) and projection_datum == "axis"
     totals = dim.get("totals", {})
-    R = (totals.get("lower_diameter_in") or 0.0) / 2.0
+    R = 0.0 if wall else (totals.get("lower_diameter_in") or 0.0) / 2.0
     dimin = column.get("diminution") or 1.0
     r_top = R * dimin
     asms = {a["id"]: a for a in dim.get("assemblies", [])}
     # A ghost bracket's ticks, in inches: a tenth of the column's radius, so the mark scales with
     # the order exactly as everything else here does (the geometry is linear in the module, and
-    # tests/test_profiles.py proves it) and never reaches past a real moulding's face.
-    tick = R * 0.1 if R else float("inf")
+    # tests/test_profiles.py proves it) and never reaches past a real moulding's face. Under the
+    # wall datum there is no radius (the two Phase 14s met here, 27 Sep 2026), so it is a tenth of
+    # the greatest published relief, which is `silhouette`'s own default and as linear.
+    if R:
+        tick = R * 0.1
+    else:
+        _pub = [m["projection_in"] for a in dim.get("assemblies", []) for m in a.get("members", [])
+                if m.get("projection_in") is not None and m["projection_in"] > 0]
+        tick = max(_pub) * 0.1 if _pub else float("inf")
 
-    shaft = asms.get("shaft")
+    shaft = None if wall else asms.get("shaft")
     sy0 = shaft["y_bottom_in"] if shaft else 0.0
     sy1 = shaft["y_top_in"] if shaft else 1.0
     ent_at = column.get("entasis_begins_at")
@@ -770,6 +798,13 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
     die = {"x": R}
 
     def datum_for(aid, y):
+        if wall:
+            # The wall plane, for every assembly. EQUIVALENT TODAY and said so: under the wall
+            # R, r_top and die_naked are already 0, so every branch below returns 0 too -- a
+            # mutation deleting this line was measured byte-identical over all 150
+            # (assembly, module) cases of the stackless packs (WP-14.4 report). It states the
+            # rule instead of relying on three derivations happening to land on zero.
+            return 0.0
         if aid in ("pedestal", "subplinth"):
             return die["x"]
         if aid == "base":
@@ -866,7 +901,13 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
     base = asms.get("base")
     base_pub = [m["projection_in"] for m in (base or {}).get("members", [])
                 if m.get("projection_in") is not None]
-    if base_pub:
+    if wall:
+        # main's WP-14.4: under the wall datum there is no column and so no die; every assembly
+        # stands on the wall plane, which is 0 (ported at the merge of the two Phase 14s)
+        die["x"] = 0.0
+        die_status = "wall"
+        die_reason = "the wall plane: a pack drawn at the wall datum has no column and no die"
+    elif base_pub:
         die["x"] = outer_face(R, max(base_pub), group_datum.get("base") == "axis")
         die_status = "derived"
         die_reason = ("the face of the base's plinth, read on the base's own datum: the "
@@ -883,17 +924,19 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
 
     out = {"module_in": dim.get("module_in"), "projection_datum": projection_datum,
            "lower_radius_in": round(R, 5), "upper_radius_in": round(r_top, 5),
-           "die_naked_in": round(die["x"], 5) if die_status == "derived" else None,
+           "die_naked_in": round(die["x"], 5) if die_status in ("derived", "wall") else None,
            "die_naked": die_status, "die_naked_reason": die_reason,
            "shaft": ({"y0": sy0, "y1": sy1, "entasis_begins_at": ent_at,
                       "diminution": dimin} if shaft else None),
            "assemblies": [], "unconstructed": [], "published": [], "unpublished": [],
            "drawn_straight": [], "assembly_datum": {}}
+    if wall:
+        out["datum"] = "wall"                 # added ONLY here: the default output is unchanged
 
     for a in dim.get("assemblies", []):
         aid = a["id"]
         segs, uncon, faces = [], [], []
-        datum_here = group_datum[_group(aid)]
+        datum_here = "wall" if wall else group_datum[_group(aid)]
         axis_here = datum_here == "axis"
         out["assembly_datum"][aid] = datum_here
         x_cur = datum_for(aid, a["y_bottom_in"])
@@ -915,7 +958,7 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
                 seen_side = True
                 side_from = x_cur
             y0, y1 = m["y_bottom_in"], m["y_top_in"]
-            is_shaft_body = aid == "shaft" and (y1 - y0) > (sy1 - sy0) * 0.6
+            is_shaft_body = (not wall) and aid == "shaft" and (y1 - y0) > (sy1 - sy0) * 0.6
             if is_shaft_body:
                 # The taper, sampled. NOT a classical entasis construction -- see
                 # column_radius_at()'s own docstring, and the open question it names. Its face is

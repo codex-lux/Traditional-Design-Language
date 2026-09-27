@@ -1,0 +1,17 @@
+{
+  "id": "family-nav-group",
+  "term": "Site-map groups",
+  "family": "family",
+  "order": 3,
+  "definition": "The group of words that name the groups the site map files its places under, so the rail and the front door's map read alike.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`nav-group` holds the groups the site map files its places under\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "nav-group"
+    }
+  ]
+}

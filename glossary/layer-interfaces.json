@@ -1,0 +1,9 @@
+{
+  "id": "layer-interfaces",
+  "term": "The interfaces",
+  "family": "layer",
+  "order": 8,
+  "definition": "How people and agents reach the corpus: a server an agent consults in the middle of a conversation, interactive tools a person drives, and this workbench, made for those who develop plans for a living.",
+  "kind": "editorial",
+  "basis": "Editorial, from VISION.md's ninth layer: \"A server an agent consults mid-conversation; interactive tools a human drives; a workbench for the people who develop plans for a living.\""
+}

@@ -1,0 +1,20 @@
+{
+  "id": "fault",
+  "term": "fault",
+  "family": "fault",
+  "definition": "A named error: something anyone fluent sees at once as wrong, though it may break no written rule — the half-width shutter, the four-foot porch. It hangs off the element it concerns, is graded, and says how to spot and fix it.",
+  "kind": "editorial",
+  "basis": "VISION.md, why the solecisms are the centre: \"A solecism is an error that breaks no written rule.\" and \"Anyone fluent sees it instantly.\", naming \"The Four-Foot Porch. The Half-Width Shutter.\"; \"Errors hang off elements, not styles.\"; and every error carries \"three tiers of fix — the right one, the cheap one, and the dishonest one\". schema/fault.schema.json: \"Faults are ELEMENT-FIRST — they hang off slots, not styles\"; its detection field is \"How to spot it fast, from the street or from a photograph.\"; its severity field grades it.",
+  "aka": [
+    "solecism",
+    "named error"
+  ],
+  "order": 0,
+  "analogy": "Like a solecism in speech: nothing a grammar book forbids, and instantly wrong to a native ear.",
+  "more": "Each fault names three fixes — the right one, the cheap one, and the dishonest one — because the cheap one is what usually gets built. Where a style legitimately does the thing, the fault carries an exception for it.",
+  "see": [
+    "fault:shutter-half-width-leaf",
+    "fault:porch-too-shallow-to-inhabit",
+    "term:exception"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "fault-group-lineage",
+  "term": "written for its lineage",
+  "family": "fault",
+  "order": 22,
+  "definition": "The named errors written for this style, for an ancestor it inherits from, or for a family it is filed under, rather than for every house, where the style's own record says nothing further about them.",
+  "kind": "editorial",
+  "basis": "Our wording of the second of three groups a style's faults fall into. schema/fault.schema.json, applies_to: \"Style node ids, or the single token 'universal' where the fault applies wherever the element occurs.\" mcp_server/core.py, the chain a fault is matched against: \"A style and everything it inherits from, as a set.\"",
+  "see": [
+    "term:fault-group-here",
+    "term:fault-group-universal"
+  ]
+}

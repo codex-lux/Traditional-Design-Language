@@ -50,3 +50,43 @@ fire alone holds (OPTIMAL in 10.9 to 15.6 s). So the prover now says in a core w
 row says in feet, and the plan's hearths are still not edited: option 1, 2 or 3 above is the
 ruling this needs, and the hearth row of the gate stays red on the reference plan until it is
 taken. Report: `docs/reports/wp-13.3-the-prover-learns-the-type.md`.
+
+## Amendment (WP-14.21, 25 September 2026): option 3 costs nothing, and the refusal is upstream of the flue
+
+WP-14.21 tried to author a Tidewater plan that places. Report:
+`docs/reports/wp-14.21-the-worked-house-and-the-dining-fire.md`. It measured two things about this
+question.
+
+**Splitting the flue ids needs no code, and it does not move the refusal.** The test was run on the
+one variant whose prover placement held all three fires (V3, `engine="cp"`). The record's
+`west-stack` was split into `west-stack-front` and `west-stack-rear` in memory; no record was
+edited.
+
+| | one west flue | two |
+|---|---|---|
+| west-gable stacks | one, at 26.25 ft, between the breasts | two, at 19.5 and 33.0 ft, each at its own breast's centre |
+| roof chimneys | 2 | 3 |
+| refused | bearing, tiling | the same |
+| hearth | held | held |
+
+So option 3 already draws what option 1 describes. `plan.hearths` places a stack per flue id and
+`roof.py` stands one over each. `typefacts.hearth` does not read the flue id, so the refusal is the
+same either way.
+
+**The question upstream of this one is whether the second west fire can stand on the gable at all.**
+Under the parti's own arrangement it cannot, with every room inside its own record's bands:
+
+- With its fire on the gable, the dining room must span the west range to reach the passage.
+- The butler's pantry must door the dining room, and it then needs a side at least as long as the
+  drawing room's sixteen-foot floor, against its own fourteen-foot length ceiling.
+
+The proof is in the report's §III. A solver model agrees, INFEASIBLE with both fires and OPTIMAL
+with one.
+
+The prover's INFEASIBLE core naming both hearths (WP-13.3, above) is that conflict, met in a core
+before anyone read it as geometry. It is not the flue.
+
+So this question's options only become live once
+`oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it` item 4 puts the dining
+room's fire on the gable. If that ruling puts it on the interior wall its own record names, this
+question dissolves: the west gable then carries one fire.

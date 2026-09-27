@@ -1,0 +1,10 @@
+{
+  "id": "judgment-passed",
+  "term": "passed",
+  "family": "judgment",
+  "mark": "--mark-passed",
+  "order": 0,
+  "definition": "The rule was tested against this house and the house meets it. A pass is always a measurement: a rule that could not be tested is never shown as passed.",
+  "kind": "editorial",
+  "basis": "VISION.md section VII, the commitment every verdict on the workbench keeps: \"Every check distinguishes evaluated-and-failed, evaluated-and-passed\" and \"A system that reports silence as approval is not conservative; it is lying by omission\". mcp_server/core.py check_measurements sorts every fault into the four states, telling a reader \"which faults are present, which are clear, which it could not judge because a number is missing\"; a clear fault is a passed test."
+}

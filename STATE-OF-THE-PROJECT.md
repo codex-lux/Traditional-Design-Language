@@ -55,7 +55,7 @@ The system is a stack of nine layers. Reading it bottom-up, each layer is a prec
 
 **4. The bindings.** One kit file per family, style and variant (`kits/`, 159 files), materializing all 95 slots so that selecting a style resolves to a directory of specified, inherited, open or forbidden elements with a source column showing which ancestor each value came from. This is where a style becomes buildable rather than describable. The cascade walks `descends_from` and `regional_of` edges nearest-ancestor-first and — since WP-4.2 — splices each style-rank ancestor's own *family* into the chain alongside them; the `extends` operator lets a child add to a parent's binding rather than restate it.
 
-**5. The solecisms.** The fault corpus (`faults/`) — 209 named errors, hung *element-first* off slots rather than styles, because the half-width shutter is wrong on every house that has shutters. Style enters through 846 exceptions (496 with numeric bounds): a Georgian five-foot portico is fatal by Craftsman rules and correct by its own. Every fault carries a cause with a named driver (exactly one of 209 is ignorance; the rest are stock sizes, trade sequences, catalog defaults and code minima), three tiers of fix (`right`, `cheap`, `dishonest`), two severity axes (how it reads, how it lives), and an executable `test`. The corpus returns *unjudged* for what it cannot evaluate, never *passed*.
+**5. The solecisms.** The fault corpus (`faults/`) — 210 named errors, hung *element-first* off slots rather than styles, because the half-width shutter is wrong on every house that has shutters. Style enters through 846 exceptions (496 with numeric bounds): a Georgian five-foot portico is fatal by Craftsman rules and correct by its own. Every fault carries a cause with a named driver (exactly one of 210 is ignorance; the rest are stock sizes, trade sequences, catalog defaults and code minima), three tiers of fix (`right`, `cheap`, `dishonest`), two severity axes (how it reads, how it lives), and an executable `test`. The corpus returns *unjudged* for what it cannot evaluate, never *passed*.
 
 **6. The phrase layer.** 17 groupings (`groupings/`, was 16 before WP-4.3 added `garage-and-hyphen`) — the hall-and-parlor pair, the centre-passage core, the entry sequence, the service core, the primary suite — with internal rules carrying severities and tests, and the join field `attaches_to`, which says how the grouping lands in a massing and at what fit. This is the scale people actually design at, and it is the hinge that makes rooms and skeletons composable. Twelve partis (`partis/`) then give canonical sentence patterns: topology and roles only, with dimensions always pulled from the room catalog so nothing can drift.
 
@@ -95,7 +95,7 @@ The following layers run clean, are schema-checked, and do what their documentat
 
 **Executable style constraints — 660 of 660 migrated, 61.5% of hard constraints tested.** At the last review these were prose that nothing read. WP-1.1 gave them the fault corpus's own `expression`/`threshold`/`direction` pattern plus `scope` and a `one-of` direction, and `build/constraint_vocabulary.py` (87 named variables) is the shared namespace. 365 carry a test; 295 are honestly `scope: judgment` — the sources do not determine them, and the corpus says so rather than inventing a number. WP-1.2 wired the validator to read them.
 
-**The fault corpus.** `check_faults.py` passes: 209 faults, every slot covered, every fault carrying a test.
+**The fault corpus.** `check_faults.py` passes: 210 faults, every fault carrying a test. Not every slot is covered, and the checker prints the ones that are not rather than this line asserting that all are (it said *every slot covered* while four were not).
 
 **Rooms, groupings and partis.** `check_rooms.py` passes. All 60 rooms carry furniture with clearances, daylight, adjacency, privacy rank, and — better than the last review recorded — a `style_variation` block on every one. All 17 groupings carry `attaches_to`. The 21 partis name 129 of 132 styles as native, 0 uncovered (WP-4.5).
 
@@ -258,7 +258,7 @@ The formulation the plan of action named had to be replaced on evidence, which i
 
 ## Part IV — What has yet to be started
 
-**Standard details, design guidelines, modelling best practices.** All three are named deliverables in the brief and none exists as a document. The raw material is unusually rich — 262 recorded pack conflicts (resolution prose, not yet the planned ranked substitution structure), 209 faults with three-tier fixes, and now 2,100+ kit bindings — and much of a details library could be *generated* from the data rather than written, which would keep it from drifting.
+**Standard details, design guidelines, modelling best practices.** All three are named deliverables in the brief and none exists as a document. The raw material is unusually rich — 262 recorded pack conflicts (resolution prose, not yet the planned ranked substitution structure), 210 faults with three-tier fixes, and now 2,100+ kit bindings — and much of a details library could be *generated* from the data rather than written, which would keep it from drifting.
 
 ~~**Export to the tools builders use.** Outputs are JSON and SVG. No DXF, no IFC, no Revit families, no PDF plan set. Until the IR can leave the system in a format a drafter opens, the platform promise is unfulfilled.~~ *(Done 25 Aug 2026 — WP-5.1: layered DXF per sheet and an IFC4 model, the record riding as XDATA/Psets, with a proven round-trip. Revit families and a PDF plan set remain unbuilt and unclaimed.)*
 
@@ -319,7 +319,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Vocabulary | constraints | 660 migrated, 61.5% of hard ones tested | Clears the ≥60% bar |
 | Bindings | `kits/` | 159 files, 159 populated, **1,556 parameters** | Complete; **0 editorial parameters are silent** (OQ 18 note half) |
 | Bindings | inheritance | **283 role gaps (38 endorsed, 25 declined, 245 not), 3,341 packs by descent** | **OQ 51 — RULED 25 Aug; first adjudication pass 2 Sep, and the backlog REFILLS as it is worked** |
-| Solecisms | `faults/` | 209, all tested | Complete |
+| Solecisms | `faults/` | 210, all tested | Complete |
 | Phrases | `groupings/`, `partis/` | 17 / 21 (129 of 132 native, 0 uncovered) | Complete — WP-4.5 |
 | Critic | `plan_check.py` | 7 layers incl. constraints + elevation | Functional; code advisory only |
 | Critic | `plans/reference/` | 14 transcribed (7 good, 7 bad) | Complete |

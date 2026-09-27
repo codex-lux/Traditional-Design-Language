@@ -1,0 +1,23 @@
+{
+  "id": "param-kind-invented",
+  "term": "invented",
+  "family": "param-kind",
+  "order": 3,
+  "definition": "No precedent exists, so the figure is authored new: how far a garage sits behind the front of the house is a question no traditional style ever had to answer. It is labelled conspicuously, and a reviewer is entitled to disagree.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on a figure's kind: \"invented: no precedent exists. code: imposed from outside.\" VISION.md: \"Where no precedent exists at all, the value is labelled *invented* and the label is conspicuous.\" docs/inheritance.md, on the garage: \"No traditional style has a historical answer, because none had to.\" kits/georgian-colonial-american.kit.json garage_strategy.min_setback_behind_front_plane.note: \"Pure assertion. No source, and a reviewer is entitled to disagree.\"",
+  "binds": [
+    {
+      "field": "kit.parameter_kind",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/$defs/parameter/properties/kind",
+      "value": "invented"
+    }
+  ],
+  "confusable_with": [
+    "param-kind-editorial"
+  ],
+  "see": [
+    "kit:georgian-colonial-american#garage_strategy"
+  ]
+}

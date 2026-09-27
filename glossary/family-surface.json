@@ -1,0 +1,17 @@
+{
+  "id": "family-surface",
+  "term": "Pages",
+  "family": "family",
+  "order": 1,
+  "definition": "The group of words that name the workbench's pages. Each one heads its own page and says what the page shows and how to read it.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`surface` holds the pages of the workbench, each record heading its own page\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "surface"
+    }
+  ]
+}

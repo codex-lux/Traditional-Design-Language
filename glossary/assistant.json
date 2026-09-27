@@ -1,0 +1,12 @@
+{
+  "id": "assistant",
+  "term": "Ask the corpus · AI assistant",
+  "family": "product",
+  "order": 2,
+  "aka": [
+    "the rail"
+  ],
+  "definition": "An AI assistant in a pane beside the pages, which answers questions by consulting the corpus's own records. It cites the records it used as links, says in every answer what it could not judge, and puts judgment calls back to you.",
+  "kind": "editorial",
+  "basis": "Editorial. The name is the workbench's own, ruled for Phase 14; what the assistant does is in docs/workbench.md, where \"the corpus overview rides in the system prompt so orientation costs no rounds\", its citations are checked before they are shown so that \"an invented ref is downgraded to plain text and reported in a\" separate event, an unjudged block is \"(required every turn, sourced from the tools' own\" results, and a question is \"(a judgment put back to the human)\". README.md calls it \"an AI rail that cites its records\"."
+}

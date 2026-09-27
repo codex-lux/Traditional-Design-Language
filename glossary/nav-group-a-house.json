@@ -1,0 +1,9 @@
+{
+  "id": "nav-group-a-house",
+  "term": "A house",
+  "family": "nav-group",
+  "order": 2,
+  "definition": "The group for taking one house through its steps in order: brief, candidates, plan, drawings and export, with tracing an existing drawing as another way onto the bench.",
+  "kind": "editorial",
+  "basis": "Editorial. The groups are the workbench's own navigation, ruled for Phase 14, and no corpus file names them; what it holds is VISION.md's path, \"A brief goes in one end. A house that belongs comes out the other.\", and docs/ingestion.md's other entrance, \"A drawing goes in; a record comes out.\""
+}

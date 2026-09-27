@@ -1,0 +1,12 @@
+{
+  "id": "compare-with",
+  "term": "compare with",
+  "family": "product",
+  "definition": "Set this style beside another and read the two together: how the corpus tells them apart, the kit slots where they differ, the proportion packs each carries and the plan types each is drawn with.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json names each style's \"Explicit disambiguation against commonly-confused neighbours.\" build/resolve_kit.py resolves a kit and \"prints the result with the ancestor each binding came from\", so two resolved kits can be read side by side, slot by slot.",
+  "see": [
+    "term:surface-compare",
+    "term:cascade-source"
+  ]
+}

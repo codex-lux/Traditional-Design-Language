@@ -1,0 +1,17 @@
+{
+  "id": "family-figure",
+  "term": "How a figure is drawn",
+  "family": "family",
+  "order": 20,
+  "definition": "The group of words for how a figure on a drawn plate relates to the record it came from.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`figure` holds how a figure on a drawn plate relates to the record it came from\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "figure"
+    }
+  ]
+}

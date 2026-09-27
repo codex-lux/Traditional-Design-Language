@@ -1,0 +1,13 @@
+{
+  "id": "assembly",
+  "term": "assembly",
+  "family": "proportion",
+  "order": 3,
+  "definition": "A set of members a pack dimensions together, stacked bottom to top — an order's entablature, a wall from baseboard to cornice, a door casing. It is the level at which a pack becomes something that can be drawn and checked.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's assemblies field, with the classical trim family's wall and casing assemblies as the examples. schema/proportion-pack.schema.json, assemblies description: \"Each assembly is a stack of members, bottom to top, dimensioned in PARTS of the module. This is the level at which the pack becomes drawable and checkable.\"; docs/proportion.md: \"At a common 12-inch column, the Ionic entablature is:\"; proportions/systems/trim-classical.json notes: \"The base board is the plinth, the dado is the die of the pedestal, the chair rail is the pedestal cap, the wall is the column, and the cornice is the entablature.\"; proportions/systems/trim-classical.json assemblies.casing_georgian.members[geo_cas_reveal].note: \"This assembly is measured ACROSS the casing from the jamb outward rather than vertically\".",
+  "see": [
+    "pack:trim-classical",
+    "term:member"
+  ]
+}

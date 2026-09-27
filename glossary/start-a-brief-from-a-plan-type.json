@@ -1,0 +1,13 @@
+{
+  "id": "start-a-brief-from-a-plan-type",
+  "term": "start a brief from this plan type",
+  "family": "house",
+  "definition": "Opens Brief Intake with the style and this plan diagram already named in the brief. The composer then guarantees the diagram a place among the candidates it returns; everything else the brief needs is still yours to state.",
+  "kind": "editorial",
+  "basis": "Our wording of the link from a style's plan types to the brief. schema/brief.schema.json, the description of `parti`: \"A plan diagram the composer must offer\", and \"The named parti is GUARANTEED A PLACE among the contrasting candidates\"; and \"Leave unset and the composer chooses every diagram itself.\" The two fields the brief still requires are its own: schema/brief.schema.json, \"What a client asks for. Deliberately short\".",
+  "see": [
+    "term:parti",
+    "term:named-by-the-brief",
+    "term:surface-brief"
+  ]
+}

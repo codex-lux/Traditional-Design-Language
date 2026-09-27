@@ -1,0 +1,20 @@
+{
+  "id": "variant-status-atypical",
+  "term": "atypical",
+  "family": "variant-status",
+  "order": 2,
+  "definition": "Defensible in this style only with a reason: an option a designer must justify when choosing it. Structural insulated panels are atypical for a Georgian house, defensible only if the reveal and the cornice bearing are solved explicitly.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on a variant's status: \"atypical: defensible only with a reason.\" kits/georgian-colonial-american.kit.json construction_type.variants[structural-insulated-panel].note: \"Defensible only if the reveal and the cornice bearing are solved explicitly; the panel gives neither for free.\"",
+  "binds": [
+    {
+      "field": "kit.variant_status",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/properties/slots/additionalProperties/properties/variants/items/properties/status",
+      "value": "atypical"
+    }
+  ],
+  "see": [
+    "kit:georgian-colonial-american#construction_type"
+  ]
+}

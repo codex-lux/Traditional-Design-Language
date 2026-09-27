@@ -582,6 +582,12 @@ class TestTheSessionAuditOfTheLoop:
         comp_got = {}
 
         class FakeComposer:
+            # The real composer's interface, as `core.compose` calls it: WP-14.19 made it ask
+            # the composer to check the brief's named records before anything else. This brief
+            # names none, so the real check returns None too; the subject here is the bounds.
+            def check_brief_refs(self, brief):
+                return None
+
             def compose(self, brief, candidates, **kw):
                 comp_got.update(kw, candidates=candidates)
                 return {"candidates": []}

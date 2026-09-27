@@ -1,0 +1,17 @@
+{
+  "id": "family-pack-relation",
+  "term": "How a pack arrives",
+  "family": "family",
+  "order": 16,
+  "definition": "The group of words for how a proportion pack reaches a style, or is kept from it: bound by the style itself, opted into, delivered down the lineage, withheld or declined.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`pack-relation` holds how a proportion pack reaches a style, or is kept from it\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "pack-relation"
+    }
+  ]
+}

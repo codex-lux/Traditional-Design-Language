@@ -1,0 +1,12 @@
+{
+  "id": "furniture-footprint",
+  "term": "footprint",
+  "family": "house",
+  "sense": "the floor one piece of furniture takes",
+  "definition": "The floor one piece of furniture takes, in inches: for a piece against a wall, first how much of the wall it uses and then how far it stands into the room.",
+  "kind": "editorial",
+  "basis": "schema/room.schema.json, a furniture item's footprint: \"[ALONG THE WALL, INTO THE ROOM], in inches, for an item seated against a wall, built in, or in a corner: the first figure is what the item takes of the wall's run, the second how far it stands off it.\"",
+  "see": [
+    "term:furniture"
+  ]
+}

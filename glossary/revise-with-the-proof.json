@@ -1,0 +1,12 @@
+{
+  "id": "revise-with-the-proof",
+  "term": "revise (proof)",
+  "family": "house",
+  "definition": "Run the corrective rounds with the proof: before any declared move the solver is asked to prove the placement, so each round is judged against a proved house. It takes minutes rather than seconds, and shows each round as it lands.",
+  "kind": "editorial",
+  "basis": "Our wording of the loop with the proof. docs/revise.md: \"Accept only if the key strictly decreases and no new fatal appears.\" and \"proof is to be had it is asked for before any declared move\".",
+  "see": [
+    "term:revise-on-the-search",
+    "term:prove-placement"
+  ]
+}

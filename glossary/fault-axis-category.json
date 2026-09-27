@@ -1,0 +1,9 @@
+{
+  "id": "fault-axis-category",
+  "term": "category",
+  "family": "fault",
+  "order": 18,
+  "definition": "The family of error a fault belongs to, such as proportion, assembly, omission, or profile depth, where the shape is right and the relief is too shallow to cast a shadow.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `category` field: \"covers the whole family of errors where the shape is right and the relief is too shallow to cast a shadow\"."
+}

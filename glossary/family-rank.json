@@ -1,0 +1,17 @@
+{
+  "id": "family-rank",
+  "term": "Ranks",
+  "family": "family",
+  "order": 5,
+  "definition": "The group of words for the ranks of the style taxonomy, from a tradition down to a buildable variant.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`rank` holds the ranks of the style taxonomy, from a tradition down to a buildable variant\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "rank"
+    }
+  ]
+}

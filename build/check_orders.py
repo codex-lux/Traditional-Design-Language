@@ -6,7 +6,10 @@ For every pack in proportions/**/*.json this script:
   2. validates it against schema/proportion-pack.schema.json;
   3. asserts that each assembly's member heights sum to height_modules * module.parts
      (unless the assembly sets sums_check: false, which must then be explained in a
-     member note -- an unexplained false is itself an error);
+     member note -- an unexplained false is itself an error), and holds any declared
+     `zones` to those members (WP-14.18, `assembly_declaration_errors`): strictly
+     increasing, each ending on a member boundary, the last at the whole height, and
+     none on an assembly whose members stand side by side;
   4. evaluates every `invariant` expression against the pack;
   5. checks referential integrity of derived_rules.target_slot against elements/slots.json
      and of applies_to against styles/*.json;
@@ -216,6 +219,69 @@ def rule_expr_vars(expr):
     return {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)}
 
 
+def assembly_declaration_errors(pack):
+    """WP-14.18 (PRD tranche 2 §C.3): an assembly's declared `zones` held to its own members.
+    -> a list of errors, each naming the pack, the assembly and the zone.
+
+    A zone is a DIVISION the pack's own words give -- `trim-classical`'s "Pedestal 4, wall field
+    12, entablature 3" -- written as a running total so a plate can dimension it. The failure it
+    exists to prevent was measured before the field did, in
+    `oq/casings-are-measured-across-and-drawn-upright` §2: the 4 + 12 + 3 string is true of the
+    Georgian wall and false of the Federal
+    one, whose pedestal ends at 3.75 parts, so a division copied from the pack's prose onto every
+    wall section would dimension two plates wrongly. Four rules, each the shape of a way to be
+    wrong:
+      (a) the zones strictly increase -- a zone ending at or below the one before it is empty;
+      (b) every `to_parts` is a running total of member heights at a member boundary -- a zone
+          cannot end inside a member, which is exactly the Federal 4 against its 3.75;
+      (c) the last zone ends at the assembly's whole height in parts, so the zones account for
+          the assembly and not for part of it;
+      (d) an assembly whose members stand side by side (`sums_check: false`) declares none,
+          because its members have no running total for a zone to end on.
+    Boundaries are compared at the sum check's own tolerance, since member heights are decimal
+    fractions and 1.15 + 0.27 + ... is not exactly 4.0 in floating point. An assembly with no
+    `zones` returns nothing: a zone is declared only where the pack's words give one."""
+    pid = pack.get("id", "?")
+    parts = (pack.get("module") or {}).get("parts")
+    errs = []
+    for aid, asm in (pack.get("assemblies") or {}).items():
+        zones = asm.get("zones")
+        if not zones:
+            continue
+        names = ", ".join(repr(z.get("name")) for z in zones)
+        if asm.get("sums_check", True) is False:
+            errs.append(f"{pid}: assembly '{aid}' declares zones ({names}) but sets sums_check "
+                        f"false -- its members stand side by side, so there is no running total "
+                        f"for a zone to end on")
+            continue
+        run, bounds = 0.0, []
+        for m in asm.get("members") or []:
+            run += m.get("height_parts", 0)
+            bounds.append(run)
+        shown = ", ".join(f"{b:g}" for b in (round(x, 4) for x in bounds))
+        prev = 0.0
+        for z in zones:
+            name, to = z.get("name"), z.get("to_parts")
+            if isinstance(to, bool) or not isinstance(to, (int, float)):
+                errs.append(f"{pid}: assembly '{aid}' zone {name!r} has no numeric to_parts")
+                continue
+            if to <= prev + FLOAT_TOL:
+                errs.append(f"{pid}: assembly '{aid}' zone {name!r} ends at {to:g} parts, not above "
+                            f"the zone before it at {prev:g} -- zones strictly increase")
+            if not any(math.isclose(to, b, rel_tol=0, abs_tol=FLOAT_TOL) for b in bounds):
+                errs.append(f"{pid}: assembly '{aid}' zone {name!r} ends at {to:g} parts, which is "
+                            f"no member boundary -- the running totals are {shown}")
+            prev = to
+        last = zones[-1]
+        whole = asm.get("height_modules", 0) * parts if parts else None
+        lt = last.get("to_parts")
+        if whole is not None and isinstance(lt, (int, float)) and not isinstance(lt, bool) \
+                and not math.isclose(lt, whole, rel_tol=0, abs_tol=FLOAT_TOL):
+            errs.append(f"{pid}: assembly '{aid}' zone {last.get('name')!r} is the last and ends at "
+                        f"{lt:g} parts, not at the assembly's whole height of {whole:g} parts")
+    return errs
+
+
 # ---------------------------------------------------------------- main checks
 
 def check_pack(path, pack_validator, slot_ids, style_ids, verbose=False):
@@ -289,6 +355,10 @@ def check_pack(path, pack_validator, slot_ids, style_ids, verbose=False):
             elif w >= sp:
                 err(pid, f"member '{m['id']}': width_parts {w} is not under its own pitch of "
                          f"{sp} — teeth this wide leave no gap between them")
+
+    # 2b. WP-14.18: declared zones held to the members they divide. The messages name the pack
+    # themselves, so they are appended whole rather than through err().
+    errors.extend(assembly_declaration_errors(pack))
 
     # 3. invariants
     for inv in pack.get("invariants", []):

@@ -49,7 +49,7 @@ function DimRun({ from, to, at, vertical, stops }) {
 }
 
 /* One leaf and its arc, drawn from `marks.js::swingOf`'s numbers and nothing else: the hinge, the
-   open tip, the far jamb and the sweep are computed there, where `marks.test.mjs` can hold them
+   open tip, the far jamb and the sweep are computed there, where `sheet-marks.test.mjs` can hold them
    to the points the Python plate's leaves are held to (WP-14.6's second audit). */
 function Leaf({ s }) {
   return (
@@ -461,9 +461,10 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
       boxShadow: 'var(--shadow-plate)', padding: '18px 22px 14px' }}>
       {sketch && (
         <div data-working-sketch="" data-sketch-refused={sketch.refused ? sketch.refused.kind : ''}
-          style={{ border: '1px solid var(--refusal)', padding: '6px 10px', margin: '0 0 10px',
+          style={{ border: `1px solid ${sketch.refused ? 'var(--refusal)' : 'var(--ink-2)'}`,
+            padding: '6px 10px', margin: '0 0 10px',
             font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-            textTransform: 'uppercase', color: 'var(--refusal)' }}>
+            textTransform: 'uppercase', color: sketch.refused ? 'var(--refusal)' : 'var(--ink)' }}>
           working sketch — not a drawing
           <span style={{ font: 'italic var(--fw-reg) 12px/1.45 var(--serif)', letterSpacing: 0,
             textTransform: 'none', color: 'var(--ink-2)', marginLeft: 10 }}>
@@ -748,7 +749,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         {stair && (stair.level ?? 0) === levelIndex && stair.unplaced && stair.well && (
           <text data-stair="refused" x={stair.well.x_ft + stair.well.width_ft / 2}
             y={-stair.well.y_ft - stair.well.depth_ft / 2 + 1.6}
-            fontSize=".85" fontFamily="var(--serif)" fill="var(--gilt-deep)"
+            fontSize=".85" fontFamily="var(--serif)" fill="var(--refusal)"
             textAnchor="middle" dominantBaseline="middle">
             <title>{stair.unplaced.reason}</title>
             stair not drawn — see record

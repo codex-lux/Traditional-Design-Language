@@ -1,0 +1,20 @@
+{
+  "id": "variant-status-permitted",
+  "term": "permitted",
+  "family": "variant-status",
+  "order": 1,
+  "definition": "Correct for this style, though not its first choice. Unlike an atypical option, it needs no special reason: a three-bay centred front is permitted in Georgian, for smaller houses and urban lots.",
+  "kind": "editorial",
+  "basis": "schema/kit.schema.json, on a variant's status: \"permitted: correct but not first choice. atypical: defensible only with a reason.\" kits/georgian-colonial-american.kit.json composition_parti.variants[three-bay-centred].note: \"Smaller houses and urban lots.\"",
+  "binds": [
+    {
+      "field": "kit.variant_status",
+      "schema": "schema/kit.schema.json",
+      "pointer": "/properties/slots/additionalProperties/properties/variants/items/properties/status",
+      "value": "permitted"
+    }
+  ],
+  "see": [
+    "kit:georgian-colonial-american#composition_parti"
+  ]
+}

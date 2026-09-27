@@ -141,6 +141,44 @@ export const api = {
   compose: (brief, candidates = 4) => postJSON('/api/compose', { brief, candidates }),
   job: (id) => getJSON(`/api/jobs/${seg(id)}`, { fresh: true }),
   candidatePlan: (jobId, n) => getJSON(`/api/jobs/${seg(jobId)}/candidates/${seg(n)}/plan`, { fresh: true }),
+
+  /* WP-14.4 (PRD §H.3-§H.5). A style's packs by provenance, and the dossier's head and section
+     counts -- corpus reads, cached like every other one, because the corpus does not change
+     under a server. The example brief is fetched fresh, as `examplePlan` is: it is a document
+     the reader loads to edit, and a stale copy would be a different starting point. */
+  stylePacks: (id) => getJSON(`/api/styles/${seg(id)}/packs`),
+  styleDossier: (id) => getJSON(`/api/styles/${seg(id)}/dossier`),
+  exampleBrief: (name) => getJSON(`/api/briefs/examples/${seg(name)}`, { fresh: true }),
+
+  /* The glossary (PRD §C.1-§C.2): every word the workbench shows, read from `glossary/*.json`
+     by the server. The whole set is one GET, cached for the page's life by the map above and
+     shared through `api/useGlossary.js`; `glossaryTerm` is the one record with its confusables
+     and its `see` citations named, and `/api/glossary/about-tdl` is the one path the Gate may
+     read signed out. Fetched, never imported: glossary JSON in the bundle would be a second
+     copy of the definitions that no checker reads (`build/check_frontend.py` looks). */
+  glossary: () => getJSON('/api/glossary'),
+  glossaryTerm: (id) => getJSON(`/api/glossary/${seg(id)}`),
+
+  /* WP-14.20: the last two surfaces calling `fetch` by hand, and the reason is the one WP-12.0
+     and WP-13.4 each gave for theirs. A raw fetch is outside `noteUnauthorized`, so a session that
+     expired while the reader was on the Kit or Proportions threw instead of showing the Gate; and
+     the Kit's slot read interpolated the style and the slot RAW into its path, which is the
+     unencoded-id defect `seg` exists for. `src/no_raw_fetch.test.mjs` holds the rest of the app
+     to this file. */
+  kitSlot: (styleId, slot) => getJSON(`/api/kit/${seg(styleId)}/slot/${seg(slot)}`),
+  proportionPacks: () => getJSON('/api/proportions'),
+
+  /* WP-14.23 (tranche 2 §C.6): the record pages' reads, appended and no existing function edited.
+     `slots()` is the Elements index; the other three are one record each, and each carries its
+     relation from the other side (`used_by`, `carried_by`, `nativity_by_style`). */
+  slots: () => getJSON('/api/slots'),
+  massing: (id) => getJSON(`/api/massings/${seg(id)}`),
+  grouping: (id) => getJSON(`/api/groupings/${seg(id)}`),
+  parti: (id) => getJSON(`/api/partis/${seg(id)}`),
+
+  /* WP-14.26 (tranche 2 §C.7): two styles side by side, appended and no existing function edited.
+     Its kit rows are the difference of the two `/api/kit` payloads. */
+  compare: (a, b) => getJSON(`/api/compare/${seg(a)}/${seg(b)}`),
 };
 
 /* Subscribe to a job's SSE stream. Returns an unsubscribe function. */

@@ -1,0 +1,17 @@
+{
+  "id": "family-layer",
+  "term": "Layers of the architecture",
+  "family": "family",
+  "order": 4,
+  "definition": "The group of words that name the layers the system is built in, each a precondition for the one above it, from the alphabet of elements up to the interfaces a person uses.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`layer` holds the layers of the architecture, each a precondition for the one above it\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "layer"
+    }
+  ]
+}

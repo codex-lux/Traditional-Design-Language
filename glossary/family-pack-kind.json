@@ -1,0 +1,17 @@
+{
+  "id": "family-pack-kind",
+  "term": "Kinds of pack",
+  "family": "family",
+  "order": 11,
+  "definition": "The group of words for the kinds of proportion pack, told apart by what each one proportions: an order, a material module, a facade, a room, a trim family or an opening.",
+  "kind": "editorial",
+  "basis": "schema/glossary-term.schema.json, the description of `family`, which lists the families in the order the Glossary page shows them: \"`pack-kind` holds the kinds of proportion pack, by what each one proportions\", and \"Each value is bound by exactly one `family-<value>` record, whose term heads the group on the page.\"",
+  "binds": [
+    {
+      "field": "glossary.family",
+      "schema": "schema/glossary-term.schema.json",
+      "pointer": "/properties/family",
+      "value": "pack-kind"
+    }
+  ]
+}

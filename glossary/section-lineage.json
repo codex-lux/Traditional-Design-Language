@@ -1,0 +1,18 @@
+{
+  "id": "section-lineage",
+  "term": "Lineage",
+  "family": "section",
+  "order": 2,
+  "definition": "Where this style comes from and what came of it: its typed relations to other styles, both ways, and the ancestors whose kits it inherits, nearest first. Only transmitted practice passes construction down; an ancestry a style merely claims passes nothing.",
+  "kind": "editorial",
+  "basis": "Editorial. docs/model.md: lineage \"is the real structure: a directed acyclic graph with typed, weighted edges. Multiple parents are normal.\" VISION.md: \"Claimed ancestry is not transmitted practice, and only the second one inherits.\" docs/inheritance.md: the cascade is walked \"highest-weight-first, deduplicated, nearest ancestor first\".",
+  "surface": {
+    "what": "Where this style comes from, and what came of it.",
+    "read": [
+      "A style may have several parents, and each relation is typed.",
+      "Descent and regional variation pass a kit down; a reference, a reaction or a revival does not.",
+      "The ladder lists the ancestors whose kits this style inherits, nearest first."
+    ],
+    "try": "style:shingle-style"
+  }
+}

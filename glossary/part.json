@@ -1,0 +1,16 @@
+{
+  "id": "part",
+  "term": "part",
+  "family": "proportion",
+  "order": 2,
+  "definition": "One equal division of the module. Every member's height and projection is stated in parts, so when the module changes the whole assembly grows or shrinks with it and its proportions hold.",
+  "more": "The classical trim family divides the ceiling height into nineteen parts — four for the pedestal, twelve for the wall field and three for the entablature — so on a ceiling of nine feet six inches one part is exactly six inches.",
+  "kind": "editorial",
+  "basis": "Our wording of the pack schema's parts field and the classical trim family's own invariants. schema/proportion-pack.schema.json, module.parts description: \"Subdivisions of the module. Vignola uses 12 for Tuscan and Doric, 18 for Ionic, Corinthian and Composite.\"; schema/proportion-pack.schema.json, assemblies description: \"Each assembly is a stack of members, bottom to top, dimensioned in PARTS of the module.\"; docs/proportion.md: \"Geometry is linear in the module\"; proportions/systems/trim-classical.json invariants[0].statement: \"One part is exactly six inches: a 9 ft 6 in ceiling divides into nineteen parts of six inches.\"; proportions/systems/trim-classical.json invariants[1].statement: \"The wall divides in nineteen because Vignola's pedestal is one third of the column and his entablature one quarter of it: 4 + 12 + 3 = 19.\".",
+  "confusable_with": [
+    "module"
+  ],
+  "see": [
+    "pack:trim-classical"
+  ]
+}

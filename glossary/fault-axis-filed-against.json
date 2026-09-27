@@ -1,0 +1,9 @@
+{
+  "id": "fault-axis-filed-against",
+  "term": "filed against",
+  "family": "fault",
+  "order": 20,
+  "definition": "The element slots a fault hangs off. A fault is filed against an element and not a style, because most builder-grade errors are universal.",
+  "kind": "editorial",
+  "basis": "schema/fault.schema.json, the `slots` field: \"Element slot ids this fault attaches to. The primary index.\" and the schema's own account: \"they hang off slots, not styles, because most builder-grade errors are universal\"."
+}

@@ -8,7 +8,7 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-3)'
+  color: 'var(--ink-2)'
 };
 function ProvenanceTrace({
   cascade,
@@ -33,7 +33,7 @@ function ProvenanceTrace({
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-4)'
+        color: 'var(--ink-2)'
       }
     }, "\u2191", hit.distance), /*#__PURE__*/React.createElement("span", {
       style: {
@@ -57,7 +57,7 @@ function ProvenanceTrace({
   }, "cascade\xA0\xA0(nearest first)"), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-4)'
+      color: 'var(--ink-2)'
     }
   }, cascade.length, " levels")), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -87,7 +87,7 @@ function ProvenanceTrace({
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-4)',
+        color: 'var(--ink-2)',
         width: 22,
         flex: 'none',
         textAlign: 'right'
@@ -105,13 +105,13 @@ function ProvenanceTrace({
     }, l.id), /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-3)',
+        color: 'var(--ink-2)',
         flex: 'none'
       }
     }, l.bindings), l.detail && /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-4)',
+        color: 'var(--ink-2)',
         flex: 'none',
         maxWidth: 176,
         overflow: 'hidden',
