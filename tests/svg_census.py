@@ -73,6 +73,11 @@ REGISTRY = [
     {"id": "transcription", "file": "workbench/app/src/surfaces/Transcription.jsx", "role": "producer",
      "surface": "the Transcription draft canvas (a person's own tracing)",
      "served": "workbench surface"},
+    {"id": "sheet-style", "file": "build/sheet_style.py", "role": "helper",
+     "surface": "the sheets' palette, pens and type, the `data-frame` attribute and the one escape "
+                "for a double-quoted attribute's value",
+     "served": "used by all four sheet renderers; registered once its docstring named the carriers "
+               "an unescaped attribute reaches (audit, 27 Sep 2026)"},
     {"id": "profiles-geometry", "file": "build/profiles.py", "role": "helper",
      "surface": "the moulding constructions and their SVG path serialiser",
      "served": "used by the profile plates, the orders tool, the Proportions plate, the elevation inset"},

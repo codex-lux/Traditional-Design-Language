@@ -95,6 +95,7 @@ join the app without either a census row or a stated reason it is not an archite
 | plan | producer | `build/render_plan.py` | the plan sheet (presentation and working registers) |
 | bench-sheet | producer | `workbench/app/src/sheet/Sheet.jsx` | the Plan Workbench's live sheet, drawn in JavaScript |
 | transcription | producer | `workbench/app/src/surfaces/Transcription.jsx` | the Transcription draft canvas (a person's own tracing) |
+| sheet-style | helper | `build/sheet_style.py` | the sheets' palette, pens and type, the `data-frame` attribute and the one escape for a double-quoted attribute's value |
 | profiles-geometry | helper | `build/profiles.py` | the moulding constructions and their SVG path serialiser |
 | drawing-set | carrier | `workbench/app/src/surfaces/DrawingSet.jsx` | injects the server's plan/elevation/section/roof SVG; offers it for download |
 | export-details | carrier | `workbench/app/src/surfaces/ExportDetails.jsx` | downloads the server's presentation-register SVG |

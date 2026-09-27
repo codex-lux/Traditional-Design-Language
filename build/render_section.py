@@ -35,6 +35,7 @@ SS = _mod("sheet_style", f"{ROOT}/build/sheet_style.py")
 PAL = SS.DARK
 
 def _esc(t): return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+_attr = SS.attr   # a double-quoted attribute's value; a text node keeps `_esc`
 
 def _fmt(x):
     if x is None: return "?"
@@ -146,7 +147,7 @@ def render_section(section, path, scale=7.0):
         # nothing under the eave. Found by rendering the sections and looking (WP-14.6).
         fd = st.get("floor_structure_depth_in")
         if fd:
-            s.append(f'<rect class="fs" data-storey="{_esc(str(st.get("index")))}" x="{ox + tw:.2f}" '
+            s.append(f'<rect class="fs" data-storey="{_attr(str(st.get("index")))}" x="{ox + tw:.2f}" '
                      f'y="{Y(floor + st["storey_height_ft"]):.2f}" '
                      f'width="{pw - 2 * tw:.2f}" height="{fd / 12.0 * scale:.2f}"/>')
         s.append(f'<line class="fl" x1="{ox:.1f}" y1="{Y(floor):.1f}" x2="{ox+pw:.1f}" y2="{Y(floor):.1f}"/>')

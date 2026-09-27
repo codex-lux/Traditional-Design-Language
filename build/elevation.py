@@ -2306,7 +2306,7 @@ def _clearances(rects, face_width_in=None):
     leaves = {id(o): ((o["x0_in"] - o["shutter_leaf_width_in"], o["x0_in"]),
                       (o["x1_in"], o["x1_in"] + o["shutter_leaf_width_in"]))
               for o in rects if o["kind"] == "window" and o.get("shutter_leaf_width_in")}
-    refuse = {}
+    refuse, kinds = {}, {}
     for o in rects:
         if id(o) not in leaves:
             continue
@@ -2319,18 +2319,27 @@ def _clearances(rects, face_width_in=None):
                     refuse.setdefault(id(o), []).append(
                         f"a {o['shutter_leaf_width_in']:.1f} in leaf would lie {_ho(a0, a1, b0, b1):.1f} in "
                         f"over {_who(p)}")
+                    kinds.setdefault(id(o), set()).add("opening")
                 for c0, c1 in leaves.get(id(p), ()):
                     if _ho(a0, a1, c0, c1) > 0.01:
                         pier = p["x0_in"] - o["x1_in"] if p["x0_in"] >= o["x1_in"] else o["x0_in"] - p["x1_in"]
                         refuse.setdefault(id(o), []).append(
                             f"its leaves and {_who(p)}'s would lie over one another in a {pier:.1f} in pier")
+                        kinds.setdefault(id(o), set()).add("leaf")
             if face_width_in and (a0 < -0.01 or a1 > face_width_in + 0.01):
                 refuse.setdefault(id(o), []).append("a leaf would hang past the corner of the face")
+                kinds.setdefault(id(o), set()).add("corner")
     for o in rects:
         if id(o) in refuse:
             o["shutter_leaf_width_refused_in"] = o["shutter_leaf_width_in"]
             o["shutter_leaf_width_in"] = None
             o["shutters_refused"] = "; ".join(dict.fromkeys(refuse[id(o)]))
+            # WHICH OF THE THREE REASONS, as a field and not only as prose (audit, 27 Sep 2026):
+            # the sheet printed one sentence, "A LEAF WOULD LIE OVER ITS NEIGHBOUR", for all
+            # three, so a leaf refused at the corner of the face was said to lie over a
+            # neighbour it does not have. A surface that must say which reason reads this,
+            # never the sentence above.
+            o["shutters_refused_by"] = sorted(kinds[id(o)])
 
 
 SASH_PACK_ID = "sash-light"

@@ -32,6 +32,7 @@ PAL = SS.DARK
 LINE_CLASS = {"eave": "ev", "ridge": "rg", "hip": "hp", "gambrel-break": "gb", "cross-ridge": "cr"}
 
 def _esc(t): return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+_attr = SS.attr   # a double-quoted attribute's value; a text node keeps `_esc`
 
 def _style_block():
     return (f'<style>'

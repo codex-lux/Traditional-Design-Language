@@ -1372,7 +1372,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # began -- a third of the upper floor outside the viewBox and not drawn. The guard for
         # that measured the paper-ground rect, which this package removed (the room is the
         # paper now), so the plate states its own origin instead of being inferred from a fill.
-        s.append(f'<text class="lb" data-plate="{_esc(lv.get("id") or str(i))}" '
+        s.append(f'<text class="lb" data-plate="{_attr(lv.get("id") or str(i))}" '
                  f'data-plate-top="{oy:.1f}" x="{ox:.1f}" y="{oy-10:.1f}">'
                  f'{_esc((lv.get("name") or lv["id"]).upper())}</text>')
         if has_lot:
@@ -1423,7 +1423,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         for m in (0.0, float(W)):
             s.append(f'<line class="gd" x1="{X(m):.1f}" y1="{Y(0.0):.1f}" '
                      f'x2="{X(m):.1f}" y2="{band_bot:.1f}"/>')
-        lvid = _esc(lv.get("id") or str(i))
+        lvid = _attr(lv.get("id") or str(i))
         s.append(f'<g data-run="bays" data-level="{lvid}">')
         s.extend(dim_run(X, band_top + DIM_RUN_OFF_PX[0], stops))
         s.append('</g>')
@@ -1452,7 +1452,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # the walls, as bodies
         for bd in level_bands[i]:
             cls = "pm" if bd["kind"] == "masonry" else "pp"
-            blk = f' data-block="{bd["block"]}"' if bd.get("block") is not None else ""
+            blk = f' data-block="{_attr(bd["block"])}"' if bd.get("block") is not None else ""
             # `data-t` IS THE THICKNESS, IN INCHES, AND THE RECTANGLE DOES NOT CARRY IT.
             # `wall_bands` says why twenty lines into its own body: a pier between two windows
             # is a run SHORTER than the wall is thick, so the short side of the rectangle is its
@@ -1461,7 +1461,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             # was longer than it was thick and convicted the drawing the moment the merge's
             # placement produced a 0.365 ft masonry stub, reporting a bearing wall drawn thinner
             # than a partition. The band knew the answer and the plate had nowhere to put it.
-            s.append(f'<rect class="{cls}" data-wall="{bd["wall"]}" '
+            s.append(f'<rect class="{cls}" data-wall="{_attr(bd["wall"])}" '
                      f'data-t="{bd["t_ft"] * 12.0:.1f}"{blk} x="{X(bd["x_ft"]):.1f}" '
                      f'y="{Y(bd["y_ft"] + bd["depth_ft"]):.1f}" width="{bd["width_ft"]*scale:.1f}" '
                      f'height="{bd["depth_ft"]*scale:.1f}"><title>{_esc(bd["why"])}</title></rect>')
@@ -1472,7 +1472,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # only on the ground, because it is at grade. Both in the wall's own body: they are
         # brick, and this drawing says so with the poché it already has for brick.
         for sk in ((plan.get("hearths") or {}).get("stacks") or []):
-            s.append(f'<rect class="st" data-stack="{sk["wall"]}" x="{X(sk["x_ft"]):.1f}" '
+            s.append(f'<rect class="st" data-stack="{_attr(sk["wall"])}" x="{X(sk["x_ft"]):.1f}" '
                      f'y="{Y(sk["y_ft"] + sk["depth_ft"]):.1f}" '
                      f'width="{sk["width_ft"]*scale:.1f}" height="{sk["depth_ft"]*scale:.1f}">'
                      f'<title>{_esc("chimney stack, %s in square%s, %s to the %s gable end" % (sk["stack_plan_in"], " (a judgment, not a measurement)" if sk.get("stack_plan_judgment") else "", sk["side"], sk["wall"]))}</title></rect>')
@@ -1485,8 +1485,8 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         for ap in [a for a in ((plan.get("appendages") or {}).get("placed") or [])
                    if a.get("level", 0) == lv.get("index", i)]:
             r_ = ap["rect"]
-            s.append(f'<g data-appendage="{_esc(ap["room"])}" '
-                     f'data-appendage-wall="{_esc(ap["wall"])}">')
+            s.append(f'<g data-appendage="{_attr(ap["room"])}" '
+                     f'data-appendage-wall="{_attr(ap["wall"])}">')
             why = ("at grade, unroofed, appended to %s on its %s face"
                    % (", ".join(ap["serves"]), ap["wall"]))
             s.append(f'<rect class="ap" x="{X(r_["x_ft"]):.1f}" '
@@ -1505,7 +1505,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                 # `data-threshold` names the ROOM, as it does in the browser sheet, so a
                 # selector written for one renderer finds the same thing in the other; the
                 # part is on the rect inside it.
-                s.append(f'<g data-threshold="{_esc(st["room"])}">')
+                s.append(f'<g data-threshold="{_attr(st["room"])}">')
                 for key, why in (("platform", "stoop platform"),
                                  ("flight", "%s risers at %s in, treads %s in"
                                   % (st["riser_count"], st["riser_height_in"], st["tread_depth_in"]))):
@@ -1608,7 +1608,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                 _v = _verdict.get((lv.get("index", i), r["id"], _hn))
                 if _v is not None and not _v.get("drawn"):
                     if working and _v.get("x_ft") is not None:
-                        s.append(f'<rect data-hearth-refused="{_esc(r["id"])}" '
+                        s.append(f'<rect data-hearth-refused="{_attr(r["id"])}" '
                                  f'x="{X(_v["x_ft"]):.1f}" y="{Y(_v["y_ft"] + _v["depth_ft"]):.1f}" '
                                  f'width="{_v["width_ft"] * scale:.1f}" '
                                  f'height="{_v["depth_ft"] * scale:.1f}" fill="none" '
@@ -1877,7 +1877,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             g = r["geometry"]
             ox_, oy_ = X(g["x_ft"]), Y(g["y_ft"] + g["depth_ft"])    # the room's NW corner
             for n, (nx, ny, anchor, nsize, _box) in kr["numerals"]:
-                s.append(f'<text class="dm" data-key-numeral="{n}" data-key-room="{_esc(r["id"])}" '
+                s.append(f'<text class="dm" data-key-numeral="{n}" data-key-room="{_attr(r["id"])}" '
                          f'x="{ox_ + nx:.1f}" y="{oy_ + ny:.1f}" text-anchor="{anchor}" '
                          f'style="font-size:{nsize:.2f}px">{n}</text>')
             fit = kr["fit"]
@@ -1887,19 +1887,19 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             for k, (line, (n, f, _kind)) in enumerate(zip(kr["lines"], kr["entries"])):
                 # the record's own `of` where a counted piece states one, else the name's word
                 count = f.get("of") or key_count(f["item"])
-                cnt = f' data-count="{count}"' if count else ""
+                cnt = f' data-count="{_attr(count)}"' if count else ""
                 if fit["turned"]:
                     # read from the foot of the sheet: the block stands on its bottom edge and
                     # each line is a column, glyph tops to the left, the first line leftmost
                     tx = ox_ + fit["x0"] + k * size * KEY_LEAD + 0.8 * size
                     ty = oy_ + fit["y1"]
-                    s.append(f'<text class="dm" data-key="{_esc(r["id"])}" data-key-item="{n}"{cnt} '
+                    s.append(f'<text class="dm" data-key="{_attr(r["id"])}" data-key-item="{n}"{cnt} '
                              f'x="{tx:.1f}" y="{ty:.1f}" transform="rotate(-90 {tx:.1f} {ty:.1f})" '
                              f'style="font-size:{size:.2f}px">{_esc(line)}</text>')
                 else:
                     tx = ox_ + fit["x0"]
                     ty = oy_ + fit["y0"] + k * size * KEY_LEAD + 0.8 * size
-                    s.append(f'<text class="dm" data-key="{_esc(r["id"])}" data-key-item="{n}"{cnt} '
+                    s.append(f'<text class="dm" data-key="{_attr(r["id"])}" data-key-item="{n}"{cnt} '
                              f'x="{tx:.1f}" y="{ty:.1f}" style="font-size:{size:.2f}px">{_esc(line)}</text>')
 
 
@@ -2501,3 +2501,4 @@ def relaxation_marks(marks, level_index, W, H):
 
 
 def _esc(t): return (t or "").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
+_attr = SS.attr   # a double-quoted attribute's value; a text node keeps `_esc`

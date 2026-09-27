@@ -67,6 +67,7 @@ def _wrap(text, cols):
 
 
 def _esc(t): return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+_attr = SS.attr   # a double-quoted attribute's value; a text node keeps `_esc`
 
 
 def _segment(x0, x1, y_spring, rise):
@@ -1154,7 +1155,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
         notes.append(f'WINDOW HEAD UNJUDGED — {ht["kind_note"].upper()}')
     elif ht.get("rise_band_in"):
         notes.append(f'HEAD RISE IS A BAND OF {ht["rise_band_in"][0]}–{ht["rise_band_in"][1]}″ '
-                     f'({_esc(str(ht.get("rise_source") or ""))}); DRAWN AT ITS MIDPOINT')
+                     f'({str(ht.get("rise_source") or "")}); DRAWN AT ITS MIDPOINT')
     if cornice_band_note:
         notes.append(cornice_band_note)
     # THE ROOF STANDS ON THIS SHEET'S OWN FRIEZE AND CORNICE, AND NO OTHER SURFACE HAS ONE
@@ -1181,7 +1182,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
                      f'MEASUREMENT: THE COURSING PUTS IT BETWEEN SIZES AND A MASON WILL BUILD 18″ OR 27″')
     if front.get("blind_bay_centres_ft"):
         notes.append('BAY BLIND WHERE A STACK STANDS ON IT — ' +
-                     _esc((front.get("blind_bay_reason") or "").upper()))
+                     (front.get("blind_bay_reason") or "").upper())
     # WP-13.3: the openings drawn are the plan's placed openings on this face, and every placed
     # or declared opening the elevation could not draw is named on the plate rather than left
     # as a blank wall a reader would take for a windowless one. The count is read from the same
@@ -1204,7 +1205,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
         _units = sum(int(x.get("units") or 1) for x in _named)
         _rooms = sorted({str(x.get("room")).upper() for x in _named})
         notes.append(f'{_units} OPENING(S) ON THIS FACE NOT DRAWN — ' +
-                     _esc(", ".join(_rooms[:6]) + (" …" if len(_rooms) > 6 else "")) +
+                     ", ".join(_rooms[:6]) + (" …" if len(_rooms) > 6 else "") +
                      ' — THE PLACER OR A STACK REFUSED THEM; THE ELEVATION RECORD NAMES EACH')
     # THE KEYSTONE AND THE STACK THAT ARE NOT DRAWN (WP-14.3), where each once fell back to a
     # figure no record states.
@@ -1246,19 +1247,44 @@ def render_elevation(elev, path, face=None, scale=24.0):
                          f'ENORMOUS\u201d); ITS {_tr["lights"]} LIGHTS ARE SASH-LIGHT\u2019S COUNT, '
                          'DIVIDING IT EVENLY, AS NO RECORD STATES A TRANSOM\u2019S OWN FRAME')
         elif _tr.get("why"):
-            notes.append('TRANSOM NOT DRAWN \u2014 ' + _esc(_tr["why"].upper()))
+            notes.append('TRANSOM NOT DRAWN \u2014 ' + _tr["why"].upper())
     # WHAT A NEIGHBOUR LEFT NO ROOM FOR (WP-14.6): a sidelight pair or a shutter pair the plan's
     # placed openings would put over another opening, refused in `opening_rects` and said here.
     for r in _doors:
         if r.get("sidelights_refused"):
-            notes.append('SIDELIGHTS NOT DRAWN \u2014 ' + _esc(r["sidelights_refused"].upper()))
+            notes.append('SIDELIGHTS NOT DRAWN \u2014 ' + r["sidelights_refused"].upper())
+    # ONE LINE PER REASON (audit, 27 Sep 2026). `_clearances` refuses a pair of leaves for three
+    # reasons and this sheet printed one sentence for all of them -- "A LEAF WOULD LIE OVER ITS
+    # NEIGHBOUR: THE PIER IS NARROWER THAN SASH-LIGHT'S LEAF" -- which was false on most sheets
+    # that printed it: on 13 of the 14 shipped elevations carrying the line, the commonest reason
+    # was two windows' leaves meeting in a pier wider than either leaf, and on one a leaf refused
+    # at the corner of the face was said to lie over a neighbour it does not have. The class is
+    # the rect's own field, never read back out of the prose. A window refused for two reasons is
+    # counted once in the total and under each of its reasons, and the total says so.
     _no_leaves = [r for r in EL.opening_rects(elev, face)["rects"] if r.get("shutters_refused")]
-    if _no_leaves:
-        _rooms = sorted({str(r.get("room")).upper() for r in _no_leaves})
-        notes.append(f'SHUTTERS NOT DRAWN ON {len(_no_leaves)} WINDOW(S) \u2014 ' +
-                     _esc(", ".join(_rooms[:6]) + (" \u2026" if len(_rooms) > 6 else "")) +
-                     ' \u2014 A LEAF WOULD LIE OVER ITS NEIGHBOUR: THE PIER IS NARROWER THAN '
-                     'SASH-LIGHT\u2019S LEAF, AND A LEAF THAT CANNOT SWING ONTO WALL CANNOT BE HUNG')
+    _REASONS = (
+        ("opening", "A LEAF WOULD LIE OVER THE NEXT OPENING: THE PIER IS NARROWER THAN "
+                    "SASH-LIGHT\u2019S LEAF"),
+        ("leaf", "ITS LEAVES AND THE NEXT WINDOW\u2019S WOULD LIE OVER ONE ANOTHER: THE PIER IS "
+                 "NARROWER THAN THE TWO LEAVES THAT WOULD SHARE IT"),
+        ("corner", "A LEAF WOULD HANG PAST THE CORNER OF THE FACE"))
+
+    def _names(rs):
+        _rooms = sorted({str(r.get("room")).upper() for r in rs})
+        return ", ".join(_rooms[:6]) + (" \u2026" if len(_rooms) > 6 else "")
+    _by = [(k, why, [r for r in _no_leaves if k in (r.get("shutters_refused_by") or ())])
+           for k, why in _REASONS]
+    _by = [(k, why, rs) for k, why, rs in _by if rs]
+    if len(_by) == 1:
+        notes.append(f'SHUTTERS NOT DRAWN ON {len(_no_leaves)} WINDOW(S) \u2014 {_names(_no_leaves)} '
+                     f'\u2014 {_by[0][1]}, AND A LEAF THAT CANNOT SWING ONTO WALL CANNOT BE HUNG')
+    elif _by:
+        _twice = sum(len(rs) for _k, _w, rs in _by) > len(_no_leaves)
+        notes.append(f'SHUTTERS NOT DRAWN ON {len(_no_leaves)} WINDOW(S) \u2014 {_names(_no_leaves)} '
+                     '\u2014 A LEAF THAT CANNOT SWING ONTO WALL CANNOT BE HUNG'
+                     + (' (A WINDOW REFUSED FOR TWO REASONS IS COUNTED UNDER BOTH):' if _twice else ':'))
+        for _k, _why, rs in _by:
+            notes.append(f'\u00b7 {len(rs)} ({_names(rs)}): {_why}')
     if any("garage" in str(r.get("type") or "").lower() for r in _doors):
         notes.append('GARAGE DOOR DRAWN AS ITS OPENING \u2014 NO RECORD STATES ITS FACE')
         # AND WHERE THE GARAGE DOOR IS THE ONE THE COMPOSITION DRESSES, THE DOORCASE IS NOT
@@ -1276,11 +1302,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # house has is not a fact the record holds; the reveal is its own slot and is drawn.
     _ws = elev.get("window_surround") or {}
     if _ws.get("why") and any(r["kind"] == "window" for r in EL.opening_rects(elev, face)["rects"]):
-        notes.append("WINDOW SURROUND NOT DRAWN \u2014 " + _esc(_ws["why"].upper()))
+        notes.append("WINDOW SURROUND NOT DRAWN \u2014 " + _ws["why"].upper())
     _d = elev.get("dormers") or {}
     if _d.get("count") and not _d.get("refused"):
         if _d.get("placeable") is False:
-            notes.append('DORMERS DECLARED BUT NOT DRAWN — ' + _esc((_d.get("not_drawn_reason") or "").upper()))
+            notes.append('DORMERS DECLARED BUT NOT DRAWN — ' + (_d.get("not_drawn_reason") or "").upper())
         if _d.get("variant_undeclared_choices"):
             notes.append('DORMER VARIANT UNDECLARED — THIS STYLE MAKES '
                          f'{len(_d["variant_undeclared_choices"])} CANONICAL AND THE RECORD NAMES '
@@ -1404,7 +1430,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # Confidence, marked as the workbench and the profile plates mark it (WP-14.2).
     weak = [sp for sp in sil["spans"] if PROF.is_weak(sp.get("confidence")) and sp["y1"] > sp["y0"]]
     for sp in weak:
-        s.append(f'<path class="confidence" data-member="{_esc(sp["id"])}" '
+        s.append(f'<path class="confidence" data-member="{_attr(sp["id"])}" '
                  f'd="{PROF.band_path(sp, isx, isy)}" fill="none" stroke="{PAL["ink3"]}" '
                  f'stroke-width="0.8" stroke-dasharray="2 2"/>')
     envs = " ".join(e for e in (PROF.envelope_box(u["x0"], u["y0"], u["x1"], u["y1"], isx, isy)
