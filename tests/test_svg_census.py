@@ -263,8 +263,138 @@ class TestTheChecksCanDisagree:
 
 
 class TestTheJavaScriptSurfaces:
-    """O1-O3 have no live disagreement once the page is regenerated, so each is driven; and every
-    row that needs `node` must say COULD NOT EVALUATE without it, never agree."""
+    """Since WP-14.2 no O or R check has a live disagreement, so each is driven with the defect it
+    exists for, and the unplanted control beside it must still agree; and every row that needs
+    `node` must say COULD NOT EVALUATE without it, never agree."""
+
+    @staticmethod
+    def _orders_planted(monkeypatch, key, svg=None, info=None, reach=None):
+        import copy
+        run = C._orders_run()
+        assert not isinstance(run, str), run
+        planted = copy.deepcopy(run)
+        if svg:
+            planted["out"][key]["svg"] = svg(planted["out"][key]["svg"])
+            assert planted["out"][key]["svg"] != run["out"][key]["svg"], "the plant did not land"
+        if info:
+            planted["out"][key]["info"] = info(planted["out"][key]["info"])
+            assert planted["out"][key]["info"] != run["out"][key]["info"], "the plant did not land"
+        if reach:
+            planted["out"]["__reachable"] = reach(planted["out"]["__reachable"])
+        monkeypatch.setattr(C, "_ORDERS", planted)
+
+    @staticmethod
+    def _got(cid):
+        return {r["subject"]: r["verdict"] for r in C.CHECKS[cid]["fn"]()}
+
+    def test_the_orders_page_carries_no_engine_of_its_own(self):
+        """WP-14.2 deleted the page's port of stack_for, _synth_shaft and dimension(), its taper and
+        its flute arithmetic. O2 and O3 cannot see a port come back while it agrees with Python --
+        which the old one did, 156 of 156 -- so the absence is held here, by name."""
+        import re
+        tpl = open(os.path.join(C.ROOT, "build", "orders_template.html"), encoding="utf-8").read()
+        for name in ("dimension", "synthShaft", "stackFor", "colRadiusFromGeometry", "geomMaxX"):
+            assert not re.search(r"function\s+%s\s*\(" % name, tpl), name
+        assert "height_parts" not in re.sub(r"s\.height_parts", "", tpl), \
+            "the page multiplies a member's parts again"
+        assert "fl/2.4" not in tpl.replace(" ", "")
+
+    def test_o4_sees_an_unjudged_invariant_printed_fail(self, monkeypatch):
+        import re
+        key = "vignola-ionic@12-unjudged-invariant"
+        self._orders_planted(monkeypatch, key, info=lambda s: re.sub(
+            r'(<div class="inv"><span class="m )un">N/EV', r'\1no">FAIL', s, count=1))
+        assert [r["verdict"] for r in C.CHECKS["O4"]["fn"]()] == ["disagrees"]
+
+    def test_o5_sees_a_pack_no_button_reaches(self, monkeypatch):
+        self._orders_planted(monkeypatch, "vignola-ionic@12",
+                             reach=lambda r: [p for p in r if p != "greek-doric"])
+        got = self._got("O5")
+        assert got["greek-doric"] == "disagrees" and got["moorish-arch"] == "agrees"
+
+    def test_o6_sees_a_flute_line_dropped(self, monkeypatch):
+        import re
+        self._orders_planted(monkeypatch, "vignola-ionic@12", svg=lambda s: re.sub(
+            r'<g transform="[^"]*"><path class="flute"[^>]*/></g>', "", s, count=1))
+        got = self._got("O6")
+        assert got["vignola-ionic"] == "disagrees" and got["vignola-corinthian"] == "agrees"
+
+    def test_o7_sees_an_unpublished_member_unbracketed_or_uncounted(self, monkeypatch):
+        import re
+        self._orders_planted(monkeypatch, "palladio-ionic@12", svg=lambda s: re.sub(
+            r'<g transform="[^"]*"><path class="unpub"[^>]*/></g>', "", s, count=1))
+        got = self._got("O7")
+        assert got["palladio-ionic"] == "disagrees" and got["gibbs-doric"] == "agrees"
+        self._orders_planted(monkeypatch, "palladio-ionic@12",
+                             info=lambda s: s.replace("14 member(s) drawn as a dashed bracket",
+                                                      "13 member(s) drawn as a dashed bracket"))
+        assert self._got("O7")["palladio-ionic"] == "disagrees"
+
+    def test_o7_sees_a_complete_stack_that_stops_saying_so(self, monkeypatch):
+        import re
+        self._orders_planted(monkeypatch, "vignola-ionic@12", info=lambda s: re.sub(
+            r"All \d+ member\(s\) publish a projection\.", "", s))
+        got = self._got("O7")
+        assert got["vignola-ionic"] == "disagrees" and got["vignola-corinthian"] == "agrees"
+
+    def test_o8_sees_an_unconstructed_member_drawn_without_its_envelope(self, monkeypatch):
+        import re
+        run = C._orders_run()
+        pid = next(c["pid"] for c in run["cases"] if c["key"] == c["pid"] + "@12"
+                   and 'class="envelope"' in run["out"][c["key"]]["svg"])
+        self._orders_planted(monkeypatch, pid + "@12", svg=lambda s: re.sub(
+            r'<g transform="[^"]*"><path class="envelope"[^>]*/></g>', "", s, count=1))
+        assert self._got("O8")[pid] == "disagrees"
+
+    def test_o9_sees_a_straight_curve_left_unsaid(self, monkeypatch):
+        self._orders_planted(monkeypatch, "vignola-ionic@12", info=lambda s: s.replace(
+            "CURVED MEMBER(S) DRAWN STRAIGHT", "CURVED MEMBER(S)"))
+        assert self._got("O9")["vignola-ionic"] == "disagrees"
+
+    def test_o10_sees_an_assembly_named_under_the_wrong_datum(self, monkeypatch):
+        self._orders_planted(monkeypatch, "vignola-ionic@12", info=lambda s: s.replace(
+            "from the axis for the pedestal, base, shaft and capital",
+            "from the axis for the pedestal, base and shaft").replace(
+            "own naked for the architrave", "own naked for the capital, architrave"))
+        got = self._got("O10")
+        assert got["vignola-ionic"] == "disagrees" and got["vignola-corinthian"] == "agrees"
+
+    @staticmethod
+    def _plate_planted(monkeypatch, pid, **change):
+        import copy
+        run = C._plate_run()
+        assert not isinstance(run, str), run
+        planted = copy.deepcopy(run)
+        for k, fn in change.items():
+            planted["plate"][pid][k] = fn(planted["plate"][pid][k])
+            assert planted["plate"][pid][k] != run["plate"][pid][k], "the plant did not land"
+        monkeypatch.setattr(C, "_PLATEJS", planted)
+
+    def test_r1_sees_a_frame_narrower_than_its_ink(self, monkeypatch):
+        self._plate_planted(monkeypatch, "vignola-ionic", maxX=lambda x: x * 0.8)
+        got = self._got("R1")
+        assert got["vignola-ionic"] == "disagrees" and got["gibbs-doric"] == "agrees"
+
+    def test_r2_sees_an_unpublished_member_left_unsaid_and_a_published_one_called_absent(self, monkeypatch):
+        self._plate_planted(monkeypatch, "palladio-ionic", unrecorded=lambda u: u[1:])
+        assert self._got("R2")["palladio-ionic"] == "disagrees"
+        self._plate_planted(monkeypatch, "gibbs-doric", unrecorded=lambda u: u + ["frieze.metope"])
+        got = self._got("R2")
+        assert got["gibbs-doric"] == "disagrees" and got["vignola-ionic"] == "agrees"
+
+    def test_r2_does_not_count_the_column_its_own_body(self):
+        """palladio-doric and -tuscan leave the shaft body's projection null; the body IS the
+        column, so neither the plate nor R2 counts it -- and R2 finds it from the record's own
+        heights, not from the geometry's rule."""
+        got = self._got("R2")
+        assert got["palladio-doric"] == "agrees" and got["palladio-tuscan"] == "agrees"
+
+    def test_r3_sees_an_assembly_named_under_the_wrong_datum(self, monkeypatch):
+        self._plate_planted(monkeypatch, "vignola-ionic", datumWords=lambda w: w.replace(
+            "and from each member’s own naked for the architrave",
+            "and from each member’s own naked for the capital, architrave"))
+        got = self._got("R3")
+        assert got["vignola-ionic"] == "disagrees" and got["gibbs-doric"] == "agrees"
 
     def test_o1_sees_a_page_committed_without_a_build(self, monkeypatch, tmp_path):
         stale = tmp_path / "orders.html"
@@ -293,7 +423,7 @@ class TestTheJavaScriptSurfaces:
         monkeypatch.setattr(C.shutil, "which", lambda name: None)
         monkeypatch.setattr(C, "_ORDERS", None)
         monkeypatch.setattr(C, "_PLATEJS", None)
-        for cid in ("O2", "O3", "O4", "O5", "O6", "R1", "R2", "R3"):
+        for cid in ("O2", "O3", "O4", "O5", "O6", "O7", "O8", "O9", "O10", "R1", "R2", "R3"):
             got = C.CHECKS[cid]["fn"]()
             assert got and all(r["verdict"] == "cne" for r in got), (cid, got)
             assert "node" in got[0]["detail"], got[0]

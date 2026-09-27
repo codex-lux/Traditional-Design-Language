@@ -476,6 +476,19 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
                                         "authority": pe.assembly_authority(pk["id"], a["id"])[0]}))
                           for a in d["assemblies"]],
            "invariants": pe.check_invariants(pk)}
+    # WP-14.2: what the DRAWINGS say about this pack, served so an agent reading these numbers is
+    # told what a reader of the plate is told -- which datum each assembly's projections were read
+    # on, which members publish no projection at all (drawn as a ghost at the naked, never as a
+    # face measured flush), and how far the ink reaches. Read on the FULL stack whatever `assembly`
+    # asks for: the datum is judged per assembly GROUP (OQ 78), and the cornice judged alone could
+    # read differently from the entablature it belongs to.
+    prof = _mod("profiles", os.path.join(ROOT, "build", "profiles.py"))
+    g = prof.pack_geometry(d if not assembly else pe.dimension(pk, d["module_in"], None),
+                           pk.get("column"), pk.get("projection_datum"))
+    out["projection_datum"] = pk.get("projection_datum")
+    out["assembly_datum"] = g["assembly_datum"]
+    out["unpublished"] = [{"assembly": u["assembly"], "id": u["id"]} for u in g["unpublished"]]
+    out["bbox_in"] = g["bbox_in"]
     if include_rules:
         ev = pe.evaluate(pk, mod, {"ceiling_height": ceiling_height, "opening_width": opening_width})
         # `quantity` (OQ 48) names what the rule MEASURES, which is what makes (slot, dimension)

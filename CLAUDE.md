@@ -90,7 +90,7 @@ INSTRUMENT.** Lucas asked whether every drawn trim, casing, column and entablatu
 other drawn figure, reflects the plates and dimensions researched to source it, on every surface that
 draws SVG. **Read `docs/fidelity.md` before touching any renderer**: it is the standard (five links,
 three verdicts, four defect classes) and the live census. `tests/inkread.py` reads the SVG a reader is
-served; `tests/svg_census.py` holds forty checks over the 73 profile plates, the order stack, the orders
+served; `tests/svg_census.py` holds forty-five checks over the 73 profile plates, the order stack, the orders
 page (its own scripts run in `node:vm`), the Proportions plate (its arithmetic lifted into
 `workbench/app/src/proportions/plate.js`), the elevation and its inset, the section, the roof, the plan
 and the DXF. **`tests/fixtures/ink_known_disagreements.json` pins every disagreement BY ID AND BY

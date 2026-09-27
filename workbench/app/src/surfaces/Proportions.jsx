@@ -39,8 +39,9 @@ function inches(v) {
 function OrderPlate({ data }) {
   const P = plateGeometry(data);
   if (!P) return null;
-  const { rows, H, nominal, r0, fromAxis, undeclared, unrecorded, bands, maxX, U, CAP, RIGHT,
-    sy, dimX, bandPath } = P;
+  const { rows, H, nominal, r0, datumWords, unrecorded, noGeometry, dieNaked, dieReason, bands,
+    maxX, U, CAP, RIGHT, sy, dimX, bandPath } = P;
+  const hasPedestal = rows.some((r) => r.id === 'pedestal' || r.id === 'subplinth');
 
   return (
     <div style={{ background: 'var(--paper)', border: '1px solid var(--ink-2)',
@@ -54,12 +55,17 @@ function OrderPlate({ data }) {
           const bp = bandPath(b);
           return (
           <g key={b.key} transform={bp.transform || undefined}>
-            <path data-asm={b.asm} data-member={b.id}
+            {/* A member whose projection nobody published is drawn at its naked, DASHED: its
+                band is real and stands at least that far out, and a solid outline there would
+                say it had been measured flush (WP-14.2). */}
+            <path data-asm={b.asm} data-member={b.id} data-unpublished={b.unpublished ? '' : undefined}
               d={bp.d}
               fill={b.side ? 'var(--sepia-pale)' : 'var(--paper-lit)'}
-              stroke="var(--ink)" strokeWidth={b.h > U * 1.2 ? 1.1 : 0.7}
+              stroke={b.unpublished ? 'var(--judge-unjudged)' : 'var(--ink)'}
+              strokeDasharray={b.unpublished ? '3 2' : undefined}
+              strokeWidth={b.h > U * 1.2 ? 1.1 : 0.7}
               vectorEffect="non-scaling-stroke">
-              <title>{`${b.id} · ${b.name || ''} · ${inches(b.h)} high, ${unrecorded.has(b.key) ? 'no projection recorded — drawn at the naked' : `${inches(b.proj)} projection`}${b.side ? ' · stands beside its neighbour, not on it' : ''}${b.note ? '\n' + b.note : ''}`}</title>
+              <title>{`${b.id} · ${b.name || ''} · ${inches(b.h)} high, ${b.unpublished ? 'no projection published — drawn dashed at the naked' : `${inches(b.proj)} projection`}${b.side ? ' · stands beside its neighbour, not on it' : ''}${b.note ? '\n' + b.note : ''}`}</title>
             </path>
             {b.conf && b.conf !== 'high' && (
               <path data-mark="confidence"
@@ -91,8 +97,9 @@ function OrderPlate({ data }) {
           </g>
         ))}
         {/* overall stack dimension on the right */}
-        <line x1={dimX} y1={sy(0)} x2={dimX} y2={sy(H)} stroke="var(--draw-dim)" strokeWidth=".7"
-          vectorEffect="non-scaling-stroke" />
+        {/* named, so the walk can hold the ink to the near side of the gutter it opens */}
+        <line data-mark="stack-dimension" x1={dimX} y1={sy(0)} x2={dimX} y2={sy(H)}
+          stroke="var(--draw-dim)" strokeWidth=".7" vectorEffect="non-scaling-stroke" />
         {[0, H].map((yy, i) => (
           <line key={i} x1={dimX - U} y1={sy(yy) + U} x2={dimX + U} y2={sy(yy) - U}
             stroke="var(--draw-dim)" strokeWidth=".9" vectorEffect="non-scaling-stroke" />
@@ -119,13 +126,14 @@ function OrderPlate({ data }) {
         <span style={{ font: 'italic var(--fw-reg) 12.5px/1.45 var(--serif)', color: 'var(--ink-2)',
           textAlign: 'right', maxWidth: '46ch' }}>
           Half the order in section: every band is a member the engine emitted, run from the
-          axis to the outer face this pack states — none traced. This pack measures its
-          projections{fromAxis ? ' from the axis' : ' from each member’s own naked'}, and
-          says so{undeclared ? ' nowhere — that reading is assumed (OQ 65)' : ' (OQ 65: the corpus uses both)'}.
+          axis to the outer face the engine constructed for it — none traced.
+          {' '}{datumWords}
           {nominal ? ' This pack publishes no column diameter; the naked is drawn nominal.' : ''}
+          {noGeometry ? ' No constructed geometry was served: every member is drawn at the column’s radius as a straight edge.' : ''}
           {unrecorded.size
-            ? ` ${unrecorded.size} member${unrecorded.size === 1 ? '' : 's'} state no projection at all and are drawn at the naked — that is an absent figure, not a flush face.`
-            : ''}
+            ? ` ${unrecorded.size} member(s) publish no projection and are drawn dashed at the naked — an absent figure, not a flush face.`
+            : ` All ${bands.length} member(s) publish a projection.`}
+          {hasPedestal && dieNaked == null && dieReason ? ` The pedestal’s die is not derived: ${dieReason}.` : ''}
           {' '}Hover a band for its record.
         </span>
       </div>
@@ -295,7 +303,7 @@ export function Proportions({ onCite, selection }) {
                       background: on ? 'var(--paper-deep)' : 'transparent',
                       font: 'var(--type-data-s)', color: on ? 'var(--ink)' : 'var(--ink-2)' }}>
                     {p.id}
-                    {p.overlay_on && <span style={{ color: 'var(--ink-4)' }}> · overlay</span>}
+                    {p.overlay_of && <span style={{ color: 'var(--ink-4)' }}> · overlay</span>}
                   </button>
                 );
               })}

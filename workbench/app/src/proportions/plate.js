@@ -68,73 +68,46 @@ export function plateGeometry(data) {
   const R = (data.totals?.lower_diameter_in || 0) / 2;
   const nominal = !R;                       // no published diameter: say so, do not imply one
   const r0 = R || H / 25;
-  const r1 = (data.totals?.upper_diameter_in || 0) / 2 || r0;
-  const col = data.column || {};
-  const shaft = rows.find((x) => x.id === 'shaft');
-  const entStart = col.entasis_begins_at ?? 1 / 3;
-  const radiusAt = (y) => {
-    if (!shaft || shaft.y1 <= shaft.y0) return r0;
-    if (y <= shaft.y0) return r0;
-    if (y >= shaft.y1) return r1;
-    const t = (y - shaft.y0) / (shaft.y1 - shaft.y0);
-    if (t <= entStart) return r0;
-    const u = (t - entStart) / (1 - entStart);
-    return r0 - (r0 - r1) * (u * u * (3 - 2 * u));   // cylindrical below, then smooth
-  };
-  /* WHICH WAY IS A PROJECTION MEASURED? The corpus answers two different ways — thirteen
-     packs record a member's `projection_parts` as an offset FROM ITS OWN NAKED (Gibbs's
-     Doric shaft body: 0) and twelve as an absolute radius FROM THE AXIS (Vignola's Ionic
-     shaft body: exactly the semidiameter) — and until 26 Aug 2026 no pack said which, so
-     a consumer had to guess. Adding a naked to a figure that is already a radius draws
-     the shaft's own apophyge and astragal a whole semidiameter clear of the shaft they
-     sit on. OQ 65 was ruled: the pack DECLARES it, `check_orders.py` verifies the
-     declaration against the pack's own shaft, and this plate reads it rather than
-     deriving it. A pack that reaches here without one is drawn the way the older half of
-     the corpus is written, and says so on the sheet. */
-  const fromAxis = data.projection_datum === 'axis';
-  const undeclared = !data.projection_datum;
 
-  const baseRow = rows.find((x) => x.id === 'base');
-  const basePlinth = baseRow && baseRow.ms.length
-    ? Math.max(0, ...baseRow.ms.map((m) => m.projection_in || 0)) : 0;
-  // the pedestal die is naked to the base plinth that lands on it, read the pack's own way
-  const dieNaked = basePlinth
-    ? Math.max(r0, fromAxis ? basePlinth : r0 + basePlinth)
-    : r0 * 1.2;
-  const naked = (id, y) => {
-    if (id === 'pedestal' || id === 'subplinth') return dieNaked;
-    if (id === 'base' || id === 'shaft' || id === 'capital') return radiusAt(y);
-    return r1;                                        // entablature: from the frieze naked
-  };
+  /* EVERYTHING BELOW IS PYTHON'S (WP-14.2). This plate used to carry its own copy of the datum
+     rule, the column's taper, the die and the outer face -- a second implementation of
+     build/profiles.py's arithmetic, in a second language -- and it disagreed with the ink it drew
+     beside: on twelve of the fourteen packs that declare the axis its frame was narrower than the
+     mouldings (vignola-ionic 11.67 in against 15.33), on thirteen it said members "state no
+     projection" that Python had drawn flush, on nine packs that publish none for a member it said
+     nothing, and on all thirteen of those its caption named one datum for assemblies Python had
+     read on the other. The pedestal's die was `r0 * 1.2` where the base publishes nothing --
+     a figure nobody states. Now the served geometry says where every member's face is, which
+     members publish no projection, which datum each assembly was read on and how far the ink
+     reaches, and this function only scales.
 
-  /* Under the radius reading a recorded 0 is not "at the axis" — it is NO PROJECTION
-     RECORDED, and drawing the band to the centreline would collapse it. Those members
-     take their naked instead and are counted, so the plate can say how many of its own
-     edges the pack does not give rather than drawing a cornice that recedes behind the
-     column. Under the offset reading 0 means flush with the naked, which is a statement
-     the pack is making, and it is drawn as one. */
-  const unrecorded = new Set();
-  const outer = (id, key, y, proj) => {
-    const nk = naked(id, y);
-    if (!fromAxis) return nk + proj;
-    if (!(proj > 0)) { unrecorded.add(key); return nk; }
-    return Math.max(proj, nk);
-  };
-
-  /* WP-5.11: the member's own moulded edge, constructed by build/profiles.py and served with the
-     pack. This plate does not know what a cyma is and must not learn: every copy of that
-     knowledge this corpus has kept in two languages has eventually disagreed with itself. All
-     that happens here is scale, flip, and emit. `f` is the ratio of the module the plate is
-     drawing to the module the geometry was constructed at — pack geometry is linear in the
-     module, which tests/test_profiles.py proves. */
-  const geom = data.geometry;
+     `f` is the ratio of the module the plate is drawing to the module the geometry was constructed
+     at -- pack geometry is linear in the module, which tests/test_profiles.py proves. */
+  const geom = data.geometry || null;
   const f = geom && geom.module_in ? (data.module_in || geom.module_in) / geom.module_in : 1;
   const segsFor = {};
   if (geom) {
-    for (const a of geom.assemblies) {
+    for (const a of geom.assemblies || []) {
       for (const fc of a.faces || []) segsFor[`${a.id}.${fc.id}`] = fc;
     }
   }
+  /* WHICH WAY IS A PROJECTION MEASURED? The pack DECLARES one datum (OQ 65) and it is not true
+     of every assembly: gibbs-ionic declares the axis, true of its shaft, while its frieze records
+     a projection of 0, and a frieze cannot stand on the column's centre line. Python reads each
+     assembly group on its own figures (OQ 78) and serves the reading; the caption states it per
+     assembly, and says separately what the pack declares. */
+  const fromAxis = data.projection_datum === 'axis';
+  const undeclared = !data.projection_datum;
+  const datum = { axis: [], naked: [], unjudged: [] };
+  for (const r of rows) {
+    const d = (geom?.assembly_datum || {})[r.id];
+    if (datum[d]) datum[d].push(r.id);
+  }
+  // exactly the members Python drew no face for: a ghost at the naked, never a flush face
+  const unrecorded = new Set((geom?.unpublished || []).map((u) => `${u.assembly}.${u.id}`));
+  const dieNaked = geom && geom.die_naked === 'derived' ? geom.die_naked_in * f : null;
+  const dieReason = geom ? geom.die_naked_reason || null : null;
+
   /* THE PATHS COME FROM PYTHON, in MODEL inches (x out from the axis, y up), and this plate
      applies an SVG transform instead of walking the segments (OQ 83, ruled 27 Aug 2026).
 
@@ -145,8 +118,8 @@ export function plateGeometry(data) {
      mirrors the arcs correctly, which is its job and not this file's.
 
      One member as a closed band: out along its own foot, up its constructed profile, back to the
-     axis. Falls back to the straight edge when a pack reaches here without geometry, so a plate
-     is still drawn rather than blanked. */
+     axis. A pack reaching here without geometry is drawn at the column's radius, every band a
+     straight edge, and the caption says there is no constructed geometry rather than implying one. */
   const bandPath = (b) => {
     const g = segsFor[b.key];
     if (!g || !g.path) {
@@ -159,7 +132,6 @@ export function plateGeometry(data) {
 
   const bands = [];
   for (const row of rows) {
-    const span = row.y1 - row.y0;
     // The engine flags side_by_side off an assembly's sums_check, and a DERIVED shaft
     // (an authority that publishes a column height and no shaft) carries sums_check:false
     // with a single member. One member cannot stand beside anything, and filling it as
@@ -170,24 +142,29 @@ export function plateGeometry(data) {
     // a side-by-side pair stands at the same height; draw the deeper one first so the
     // shallower reads as a step in front of it rather than a rectangle on top of it
     const ordered = group.length
-      ? [...row.ms].sort((a, b) => (b.projection_in || 0) - (a.projection_in || 0))
+      ? [...row.ms].sort((a, b) => ((segsFor[`${row.id}.${b.id}`] || {}).x || 0)
+                                   - ((segsFor[`${row.id}.${a.id}`] || {}).x || 0))
       : row.ms;
     for (const m of ordered) {
       const y0 = m.y_bottom_in ?? row.y0, y1 = m.y_top_in ?? y0;
-      const isShaftBody = row.id === 'shaft' && (y1 - y0) > span * 0.6;
-      const proj = m.projection_in || 0;
+      const key = `${row.id}.${m.id}`;
+      const fc = segsFor[key];
       bands.push({
-        key: `${row.id}.${m.id}`, asm: row.id, id: m.id, name: m.name, note: m.note,
+        key, asm: row.id, id: m.id, name: m.name, note: m.note,
         conf: m.confidence, side: m.side_by_side && row.ms.length > 1, y0, y1,
-        // the shaft body is the column: it takes the naked at each height, which is what
-        // makes it taper, and never a projection on top of the radius it already is
-        x0: isShaftBody ? naked(row.id, y0) : outer(row.id, `${row.id}.${m.id}`, y0, proj),
-        x1: isShaftBody ? naked(row.id, y1) : outer(row.id, `${row.id}.${m.id}`, y1, proj),
-        h: y1 - y0, proj,
+        // the member's face as Python constructed it: a tapered shaft body runs from its foot's
+        // radius to its head's, every other member stands at its own face
+        x0: fc ? (fc.tapered ? fc.x_from : fc.x) * f : r0,
+        x1: fc ? fc.x * f : r0,
+        h: y1 - y0, proj: m.projection_in, unpublished: unrecorded.has(key),
       });
     }
   }
-  const maxX = Math.max(dieNaked, ...bands.map((b) => Math.max(b.x0, b.x1)));
+  // THE FRAME IS THE INK'S OWN EXTENT, as Python measured it, ghosts' brackets included
+  const maxX = geom && geom.bbox_in
+    ? geom.bbox_in.x1 * f
+    : Math.max(r0, ...bands.map((b) => Math.max(b.x0, b.x1)));
+  const noGeometry = !geom || !Object.keys(segsFor).length;
 
   const U = H / 100;                    // one annotation unit: a hundredth of the stack
   const CAP = 30 * U, RIGHT = 16 * U;   // caption gutter, dimension gutter
@@ -199,14 +176,14 @@ export function plateGeometry(data) {
     R,
     nominal,
     r0,
-    r1,
-    radiusAt,
     fromAxis,
     undeclared,
+    datum,
+    datumWords: datumWords(datum, undeclared),
     dieNaked,
-    naked,
+    dieReason,
     unrecorded,
-    outer,
+    noGeometry,
     f,
     segsFor,
     bandPath,
@@ -218,4 +195,24 @@ export function plateGeometry(data) {
     sy,
     dimX,
   };
+}
+
+function andList(xs) {
+  return xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`;
+}
+
+/* The caption's datum sentence, per assembly as Python read it (WP-14.2). One function, so the
+   plate and the census read the same words: tests/svg_census.py (R3) holds each assembly the plate
+   draws to the datum this sentence names for it. */
+export function datumWords(datum, undeclared) {
+  const cl = [];
+  if (datum.axis.length) cl.push(`from the axis for the ${andList(datum.axis)}`);
+  if (datum.naked.length) cl.push(`from each member’s own naked for the ${andList(datum.naked)}`);
+  let out = cl.length
+    ? `Projections are measured ${cl.join('; and ')} — the corpus uses both, and each assembly is read on its own figures (OQ 65, OQ 78)${undeclared ? '; this pack declares no datum at all' : ''}.`
+    : '';
+  if (datum.unjudged.length) {
+    out += `${out ? ' ' : ''}No datum can be read for the ${andList(datum.unjudged)}: no member there publishes a projection.`;
+  }
+  return out;
 }

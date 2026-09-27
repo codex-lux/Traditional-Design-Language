@@ -21,8 +21,9 @@ const els = new Map();
 function el(id) {
   if (!els.has(id)) {
     els.set(id, {
-      id, innerHTML: '', textContent: '', value: '', style: {}, dataset: {}, scrollTop: 0,
-      addEventListener() {}, querySelectorAll() { return []; },
+      // listeners are KEPT (WP-14.2), so reachability can click the buttons the page rendered
+      id, innerHTML: '', textContent: '', value: '', style: {}, dataset: {}, scrollTop: 0, _l: {},
+      addEventListener(type, fn) { this._l[type] = fn; }, querySelectorAll() { return []; },
       getBoundingClientRect() { return { top: 0, left: 0, width: 0, height: 0 }; },
     });
   }
@@ -36,6 +37,8 @@ const document = {
 const ctx = vm.createContext({ document, addEventListener() {}, innerWidth: 1600, innerHeight: 1000,
   console, Math, JSON, Set, Map });
 for (const s of scripts) vm.runInContext(s, ctx);
+const snapshot = () => vm.runInContext('JSON.stringify({order:S.order, auth:S.auth, pid:S.pid})', ctx);
+const LOADED = snapshot();          // the state a reader arrives in, before any case moves it
 
 let raw = '';
 process.stdin.setEncoding('utf8');
@@ -49,11 +52,47 @@ for (const c of [...all.filter((x) => !x.patch), ...all.filter((x) => x.patch)])
   ctx.__c = c;
   if (c.patch) vm.runInContext(c.patch, ctx);
   vm.runInContext(`S.auth = __c.auth; S.order = __c.order; S.diameter = __c.diameter;
-                   S.ped = __c.ped; S.ghost = null; S.selAsm = null; draw();`, ctx);
+                   S.ped = __c.ped; S.pid = null; S.ghost = null; S.selAsm = null; draw();`, ctx);
   out[c.key] = { svg: el('canvas').innerHTML, info: el('info').innerHTML, meta: el('meta').innerHTML };
 }
-// the controls a reader can reach, as built at load: which packs any button pair can select
-vm.runInContext('buildControls();', ctx);
-out.__reachable = vm.runInContext(
-  'DATA.authorities.flatMap(a => DATA.orders.filter(o => has(a.id, o)).map(o => packId(a.id, o)))', ctx);
+/* WHICH PACKS A READER CAN REACH, found by CLICKING (WP-14.2). This used to read the grid's own
+   has() over DATA.authorities x DATA.orders -- the page's opinion of its controls, which is exactly
+   what could not see two packs that no pair of buttons names. Now: from the state the page loads
+   in, click every button each control actually RENDERED, through the listener the page itself
+   attached, disabled ones included (the page's own guard refuses those), and record which pack
+   draw() then drew -- read off the drawing's `data-pack`, not off the state. Breadth first over the
+   states the clicks reach, until no click reaches a new one. */
+function rendered(html) {
+  return [...html.matchAll(/<button\b([^>]*)>/g)].map((m) => {
+    const dataset = {};
+    for (const a of m[1].matchAll(/\bdata-([a-z]+)="([^"]*)"/g)) dataset[a[1]] = a[2];
+    return { dataset, disabled: /\sdisabled\b/.test(m[1]) };
+  });
+}
+function restore(st) {
+  ctx.__st = st;
+  vm.runInContext('Object.assign(S, JSON.parse(__st)); S.ghost = null; buildControls(); draw();', ctx);
+}
+const drawnPack = () => (/data-pack="([^"]*)"/.exec(el('canvas').innerHTML) || [])[1] || null;
+const reached = new Set(), seen = new Set([LOADED]), queue = [LOADED];
+while (queue.length) {
+  const st = queue.shift();
+  restore(st);
+  reached.add(drawnPack());
+  for (const seg of ['orderseg', 'authseg', 'otherseg']) {
+    restore(st);
+    const buttons = rendered(el(seg).innerHTML);
+    for (const b of buttons) {
+      restore(st);
+      const click = el(seg)._l.click;
+      if (!click) break;
+      click({ target: { closest: () => b } });
+      reached.add(drawnPack());
+      const next = snapshot();
+      if (!seen.has(next)) { seen.add(next); queue.push(next); }
+    }
+  }
+}
+out.__reachable = [...reached].filter(Boolean).sort();
+out.__states = seen.size;
 process.stdout.write(JSON.stringify(out));

@@ -28,20 +28,57 @@ TEMPLATE = os.path.join(ROOT, "build", "orders_template.html")
 GEOM_MODULE_IN = 36.0        # the reference size; every consumer scales from it
 
 
-def geometry_variants(r):
-    """The pack's profile geometry, constructed ONCE here so the browser never constructs a
-    moulding for itself (see build/profiles.py::pack_geometry for why that matters). Two
-    variants because dropping the pedestal moves every y above it -- a stack without its
+# What a member IS, once per pack: the page's tooltip and info panel print these, and they do not
+# move with the pedestal. Where a member STANDS moves, so that is served per variant below.
+PAGE_MEMBER_KEYS = ("name", "profile", "height_parts", "projection_parts", "count", "enrichment",
+                    "confidence", "note")
+
+
+def stack_variants(r):
+    """Per pedestal variant, what the page DRAWS and what it PRINTS, both from Python, at
+    GEOM_MODULE_IN: the dimensions proportion_engine.dimension() gives and the paths
+    build/profiles.py::pack_geometry() constructs. The page scales both by one ratio and computes
+    neither (WP-14.2).
+
+    Until WP-14.2 the page carried its own port of `stack_for`, `_synth_shaft` and `dimension()` --
+    the dimensioning arithmetic a second time, in a second language. It agreed with Python on every
+    case measured (26 packs x 3 diameters x pedestal on and off, 156 of 156), which is exactly why
+    it had to go rather than be pinned: a copy that agrees today is the one nobody checks when the
+    engine moves, and the engine is about to move (an overlay's own column height, WP-14.2 step 7).
+
+    Two variants because dropping the pedestal moves every y above it -- a stack without its
     pedestal is a different stack, not a crop. Everything is linear in the module, so the page
-    scales these rather than rebuilding them."""
+    scales these rather than rebuilding them. Returns (variants, members), `members` keyed
+    `assembly/member` and shared by both variants."""
     full = pe.stack_for(r)
-    out = {}
+    members, out = {}, {}
     for key, asms in (("with_pedestal", full),
                       ("no_pedestal", [a for a in full if a not in ("pedestal", "subplinth")])):
         d = pe.dimension(r, GEOM_MODULE_IN, include=asms)
-        out[key] = prof.pack_geometry(d, r.get("column"), r.get("projection_datum"))
-        out[key]["stack_height_in"] = d["totals"]["stack_height_in"]
-    return out
+        g = prof.pack_geometry(d, r.get("column"), r.get("projection_datum"))
+        for a in d["assemblies"]:
+            for m in a["members"]:
+                members.setdefault(a["id"] + "/" + m["id"], {k: m.get(k) for k in PAGE_MEMBER_KEYS})
+        out[key] = {
+            "module_in": d["module_in"], "parts": d["parts"], "totals": d["totals"],
+            "assemblies": [{"id": a["id"], "height_modules": a["height_modules"],
+                            "height_in": a["height_in_stated"], "summed_in": a["height_in_summed"],
+                            "y0": a["y_bottom_in"], "y1": a["y_top_in"],
+                            "members": [{"id": m["id"], "y0": m["y_bottom_in"], "y1": m["y_top_in"],
+                                         "height_in": m["height_in"],
+                                         "projection_in": m.get("projection_in"),
+                                         "side_by_side": bool(m.get("side_by_side"))}
+                                        for m in a["members"]]}
+                           for a in d["assemblies"]],
+            # each member's FACE, as constructed -- the page ends a member's division line and
+            # sets its label there, and knows nothing else about where a moulding reaches
+            "face_x": {a["id"] + "/" + fc["id"]: fc["x"] for a in g["assemblies"] for fc in a["faces"]},
+            **{k: g.get(k) for k in ("path", "outline_path", "ghost_path", "envelope_path", "bbox_in",
+                                     "flutes", "assembly_datum", "die_naked", "die_naked_in",
+                                     "die_naked_reason", "unpublished", "unconstructed",
+                                     "drawn_straight", "lower_radius_in")},
+        }
+    return out, members
 
 
 ORDERS = ["tuscan", "doric", "ionic", "corinthian", "composite"]
@@ -73,13 +110,17 @@ def page_data():
         o = next((x for x in ORDERS if pid.endswith("-" + x)), pe.PACKS[pid].get("order") or "other")
         auth = pid.rsplit("-", 1)[0] if any(pid.endswith("-" + x) for x in ORDERS) else pid
         r = pe.resolve(pid)
+        stack, members = stack_variants(r)
         packs[pid] = {
             "id": r["id"], "name": r["name"], "order": o, "authority": auth,
             "module": r["module"], "column": r.get("column", {}),
+            # a pack with no `column` block (moorish-arch: "no order and no absolute module") has
+            # no diameter for the page's scale to set, and is drawn at its own module instead
+            "has_column": bool(r.get("column")),
             # OQ 65: which datum this pack's projections were measured from, stated
             # by the pack and inherited through the overlay chain by resolve()
             "projection_datum": r.get("projection_datum"),
-            "assemblies": r.get("assemblies", {}),
+            "members": members,
             "invariants": pe.check_invariants(r),
             "derived_rules": r.get("derived_rules", []),
             "conflicts": r.get("conflicts", []),
@@ -91,8 +132,7 @@ def page_data():
             "applies_to": r.get("applies_to", []),
             "confidence": r.get("confidence", "medium"),
             "diameters": pe.diameters_per_module(r),
-            "geometry": geometry_variants(r),
-            "geometry_module_in": GEOM_MODULE_IN,
+            "stack": stack,
         }
 
     systems = {}

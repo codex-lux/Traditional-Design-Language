@@ -784,6 +784,106 @@ def o6():
     return out
 
 
+def _orders_said(info):
+    """The orders page's own disclosures (WP-14.2), as one line of text."""
+    return " ".join(re.sub(r"<[^>]+>", "", t)
+                    for t in re.findall(r'<p class="note disclose">(.*?)</p>', info, flags=re.S))
+
+
+def _orders_marks(svg, cls):
+    """How many separate marks of one class the drawing inks: one subpath each."""
+    return sum(1 for it in IR.Ink(svg).items if cls in it.classes
+               for c in (it.cmds or []) if c[0] == "M")
+
+
+def _orders_disclosures(cid, want_of, cls, said_re):
+    """One row per order pack with a stack, at 12 in with the pedestal: the marks the page inks for
+    what Python lists, and the count its panel says, against Python's own list."""
+    run = _orders_run()
+    if isinstance(run, str):
+        return [row(cid, "dist/orders.html", "cne", run)]
+    out = []
+    for c in run["cases"]:
+        if c.get("patch") or c["diameter"] != 12 or not c["ped"]:
+            continue
+        dim, geo, _p = _python_stack(c["pid"], c["diameter"], c["ped"])
+        if not dim["assemblies"]:
+            continue
+        got = run["out"][c["key"]]
+        want = want_of(dim, geo)
+        said_text = _orders_said(got["info"])
+        m = re.search(said_re, said_text)
+        # silence is a count of 0 only where there is nothing to count; O7 holds the page to
+        # saying so where that nothing is every member publishing a projection
+        said = int(m.group(1)) if m else (0 if not want else None)
+        inked = _orders_marks(got["svg"], cls) if cls else want
+        if said == want and inked == want:
+            out.append(row(cid, c["pid"], "agrees", "%d" % want))
+        else:
+            out.append(row(cid, c["pid"], "disagrees",
+                           "Python lists %d; the page inks %d and says %s" % (want, inked, said)))
+    return out
+
+
+@check("O7", "orders-tool", "a member the record publishes no projection for is bracketed at its "
+       "naked on the orders page and counted in its panel -- and a stack where every member "
+       "publishes one says that", "every order pack with a stack, at 12 in with the pedestal")
+def o7():
+    def want(dim, geo):
+        return len(geo.get("unpublished") or [])
+
+    rows = _orders_disclosures("O7", want, "unpub",
+                               r"(\d+) member\(s\) drawn as a dashed bracket at the naked")
+    # The all-published half: the page must SAY it, not merely be silent (decision 2).
+    run = _orders_run()
+    if isinstance(run, str):
+        return rows
+    for r_ in rows:
+        if r_["verdict"] != "agrees" or r_["detail"] != "0":
+            continue
+        key = "%s@12" % r_["subject"]
+        dim, _g, _p = _python_stack(r_["subject"], 12, True)
+        n = sum(len(a["members"]) for a in dim["assemblies"])
+        m = re.search(r"All (\d+) member\(s\) publish a projection", _orders_said(run["out"][key]["info"]))
+        if not m or int(m.group(1)) != n:
+            r_["verdict"] = "disagrees"
+            r_["detail"] = "every member publishes a projection and the page %s" % (
+                "says %s" % m.group(1) if m else "does not say so")
+    return rows
+
+
+@check("O8", "orders-tool", "a member the orders page calls NOT CONSTRUCTED is drawn as its dashed "
+       "envelope and counted", "every order pack with a stack, at 12 in with the pedestal")
+def o8():
+    return _orders_disclosures("O8", lambda dim, geo: len(geo.get("unconstructed") or []),
+                               "envelope", r"(\d+) member\(s\) NOT CONSTRUCTED")
+
+
+@check("O9", "orders-tool", "a curved member the orders page draws as a straight line is counted "
+       "as one", "every order pack with a stack, at 12 in with the pedestal")
+def o9():
+    return _orders_disclosures("O9", lambda dim, geo: len(geo.get("drawn_straight") or []),
+                               None, r"(\d+) CURVED MEMBER\(S\) DRAWN STRAIGHT")
+
+
+@check("O10", "orders-tool", "the datum the orders page states for each assembly is the datum "
+       "that assembly was drawn on", "every order pack with a stack, at 12 in with the pedestal")
+def o10():
+    run = _orders_run()
+    if isinstance(run, str):
+        return [row("O10", "dist/orders.html", "cne", run)]
+    out = []
+    for c in run["cases"]:
+        if c.get("patch") or c["diameter"] != 12 or not c["ped"]:
+            continue
+        dim, geo, _p = _python_stack(c["pid"], c["diameter"], c["ped"])
+        if not dim["assemblies"]:
+            continue
+        drawn = {a["id"]: (geo.get("assembly_datum") or {}).get(a["id"]) for a in dim["assemblies"]}
+        out.append(_datum_rows("O10", c["pid"], drawn, _orders_said(run["out"][c["key"]]["info"])))
+    return out
+
+
 # ------------------------------------------------------------------ the Proportions plate (JavaScript)
 # The workbench plate draws Python's face paths inside a frame and beside words that
 # workbench/app/src/proportions/plate.js computes. That module is run by tests/js/
@@ -845,8 +945,9 @@ def r1():
     return out
 
 
-@check("R2", "proportions-plate", "the members the plate says 'state no projection at all' are "
-       "exactly the members whose record states none", "order packs the plate draws, at 12 in")
+@check("R2", "proportions-plate", "the members the plate says publish no projection are exactly "
+       "the members whose record states none (the shaft's own body, which is the column, excepted)",
+       "order packs the plate draws, at 12 in")
 def r2():
     run, bad = _plate_rows("R2")
     if bad:
@@ -859,8 +960,14 @@ def r2():
         pack = PE.resolve(pid)
         record = set()
         for aid, a in (pack.get("assemblies") or {}).items():
-            for m in a.get("members", []):
-                if m.get("projection_parts") is None:        # absent, or written null
+            ms = a.get("members", [])
+            # The shaft's tallest member IS the column: its face is the radius the pack publishes
+            # as its diameter, so whether it carries a projection figure of its own does not arise
+            # (palladio-doric and -tuscan leave it null). Read off the record's own heights here,
+            # not off whichever rule the geometry uses to find it.
+            body = max(ms, key=lambda m: m.get("height_parts") or 0)["id"] if aid == "shaft" and ms else None
+            for m in ms:
+                if m.get("projection_parts") is None and m["id"] != body:   # absent, or null
                     record.add("%s.%s" % (aid, m["id"]))
         drawn = {b["key"] for b in P["bands"]}
         record &= drawn                     # only what this plate draws can be counted on it
@@ -875,8 +982,36 @@ def r2():
     return out
 
 
-@check("R3", "proportions-plate", "the datum the plate's caption states is the datum every "
-       "assembly was drawn on", "order packs the plate draws, at 12 in")
+_DATUM_PHRASES = (("axis", "from the axis for the "),
+                  ("naked", "from each member\u2019s own naked for the "),
+                  ("unjudged", "No datum can be read for the "))
+
+
+def _datum_named(text):
+    """{assembly: {datum, ...}} as a sentence NAMES them -- read off the words a reader reads,
+    with each datum's own phrase, and a list running to the clause's end. A plate that names one
+    assembly under two datums, or none, is caught by the caller."""
+    named = {}
+    for datum, phrase in _DATUM_PHRASES:
+        for m in re.finditer(re.escape(phrase) + r"([a-z, ]+?)(?:[;:.\u2014]| \u2014)", text or ""):
+            for a in re.split(r", | and ", m.group(1).strip()):
+                if a.strip():
+                    named.setdefault(a.strip(), set()).add(datum)
+    return named
+
+
+def _datum_rows(cid, subject, drawn, sentence):
+    """One row: every assembly drawn is named under exactly the datum it was drawn on."""
+    named = _datum_named(sentence)
+    off = sorted("%s (drawn %s, said %s)" % (a, d, "/".join(sorted(named.get(a) or ())) or "nothing")
+                 for a, d in drawn.items() if named.get(a) != {d})
+    if off:
+        return row(cid, subject, "disagrees", "; ".join(off[:4]))
+    return row(cid, subject, "agrees", "%d assemblies" % len(drawn))
+
+
+@check("R3", "proportions-plate", "the datum the plate's caption states for each assembly is the "
+       "datum that assembly was drawn on", "order packs the plate draws, at 12 in")
 def r3():
     run, bad = _plate_rows("R3")
     if bad:
@@ -885,16 +1020,11 @@ def r3():
     for pid, P in sorted(run["plate"].items()):
         if P is None:
             continue
-        said = "axis" if P["fromAxis"] else "naked"
-        drawn = (run["served"][pid].get("geometry") or {}).get("assembly_datum") or {}
-        # An "unjudged" group publishes no projection (WP-14.2): nothing in it is drawn by either
-        # datum, so it cannot contradict the caption and is not counted against it.
-        off = sorted(a for a, d in drawn.items() if d in ("axis", "naked") and d != said)
-        if off:
-            out.append(row("R3", pid, "disagrees", "says '%s'; %s drawn from the other datum"
-                           % (said, ", ".join(off))))
-        else:
-            out.append(row("R3", pid, "agrees"))
+        served = run["served"][pid]
+        datum = (served.get("geometry") or {}).get("assembly_datum") or {}
+        drawn = {a["id"]: datum.get(a["id"]) for a in served.get("assemblies", [])
+                 if a.get("members")}
+        out.append(_datum_rows("R3", pid, drawn, P.get("datumWords")))
     return out
 
 

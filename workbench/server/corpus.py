@@ -305,7 +305,9 @@ def pack_list():
     for pid, p in packs.items():
         out.append({"id": pid, "name": p.get("name", pid), "kind": p.get("kind"),
                     "authority": p.get("authority"),
-                    "overlay_on": p.get("overlay_on")})
+                    # `overlay_of` is the pack schema's key. This read `overlay_on`, which no pack
+                    # carries, so the Proportions nav's "· overlay" badge never drew (WP-14.2).
+                    "overlay_of": p.get("overlay_of")})
     kind_rank = {"module-system": 0, "trim-system": 1, "opening-system": 2,
                  "room-system": 3, "facade-system": 4, "order-system": 5}
     out.sort(key=lambda r: (kind_rank.get(r["kind"], 9), r["id"]))

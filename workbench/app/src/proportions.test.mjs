@@ -75,4 +75,88 @@ for (const [name, data] of fixtures) {
     assert.equal(P.fromAxis, data.projection_datum === 'axis');
     assert.equal(P.undeclared, !data.projection_datum);
   });
+
+  // WP-14.2: everything below is read off the served geometry and scaled, never computed here.
+  test(`${name}: the frame is the ink's own extent, as Python measured it`, () => {
+    const P = plateGeometry(data);
+    const f = data.module_in / data.geometry.module_in;
+    assert.ok(data.geometry.bbox_in, 'premise: the fixture serves an extent');
+    assert.equal(P.maxX, data.geometry.bbox_in.x1 * f);
+  });
+
+  test(`${name}: every band stands at the face Python constructed for it`, () => {
+    const P = plateGeometry(data);
+    const f = data.module_in / data.geometry.module_in;
+    const faces = {};
+    for (const a of data.geometry.assemblies) for (const fc of a.faces) faces[`${a.id}.${fc.id}`] = fc;
+    let n = 0;
+    for (const b of P.bands) {
+      const fc = faces[b.key];
+      assert.ok(fc, `${b.key}: no served face`);
+      assert.equal(b.x1, fc.x * f, b.key);
+      assert.equal(b.x0, (fc.tapered ? fc.x_from : fc.x) * f, b.key);
+      n += 1;
+    }
+    assert.ok(n > 20, `only ${n} bands`);
+  });
+
+  test(`${name}: the members it calls unpublished are exactly the ones Python drew no face for`, () => {
+    const P = plateGeometry(data);
+    const served = data.geometry.unpublished.map((u) => `${u.assembly}.${u.id}`).sort();
+    assert.deepEqual([...P.unrecorded].sort(), served);
+    for (const b of P.bands) assert.equal(b.unpublished, served.includes(b.key), b.key);
+  });
+
+  test(`${name}: the caption names each assembly under the datum it was drawn on`, () => {
+    const P = plateGeometry(data);
+    const PHRASE = { axis: 'from the axis for the ', naked: 'from each member’s own naked for the ',
+                     unjudged: 'No datum can be read for the ' };
+    for (const [asm, d] of Object.entries(data.geometry.assembly_datum)) {
+      const at = P.datumWords.indexOf(PHRASE[d]);
+      assert.ok(at >= 0, `${asm}: no clause for ${d} in "${P.datumWords}"`);
+      const clause = P.datumWords.slice(at + PHRASE[d].length).split(/[;:.]| —/)[0];
+      assert.ok(new RegExp(`\\b${asm}\\b`).test(clause), `${asm} is not in the ${d} clause "${clause}"`);
+    }
+  });
 }
+
+test('the fixtures reach a pack whose base publishes nothing, so its die is not derived', () => {
+  const [, data] = fixtures.find(([n]) => n.startsWith('palladio-ionic'));
+  const P = plateGeometry(data);
+  assert.equal(data.geometry.die_naked, 'unjudged', 'premise');
+  assert.equal(P.dieNaked, null);
+  assert.ok(P.dieReason && P.dieReason.includes('base'), P.dieReason);
+  assert.ok(P.unrecorded.size > 0, 'premise: palladio-ionic publishes no projection for some members');
+});
+
+test('the fixtures reach a derived die, and it is the served figure scaled', () => {
+  const [, data] = fixtures.find(([n]) => n.startsWith('gibbs-doric'));
+  const P = plateGeometry(data);
+  assert.equal(data.geometry.die_naked, 'derived', 'premise');
+  assert.equal(P.dieNaked, data.geometry.die_naked_in * (data.module_in / data.geometry.module_in));
+});
+
+test('every figure read off the geometry scales with the module the plate draws at', () => {
+  /* The server builds the geometry at the module it is asked for, so on every fixture f is 1 and a
+     plate that forgot to scale would pass every test above. Here the plate is asked for twice the
+     module the geometry was built at: the frame, every band and the die must all double. */
+  const [, data] = fixtures.find(([n]) => n.startsWith('gibbs-doric'));
+  const one = plateGeometry(data);
+  const two = plateGeometry({ ...data, module_in: data.geometry.module_in * 2 });
+  assert.equal(one.f, 1, 'premise: the fixture is served at the module it draws');
+  assert.equal(two.f, 2);
+  assert.equal(two.maxX, data.geometry.bbox_in.x1 * 2);
+  assert.equal(two.dieNaked, data.geometry.die_naked_in * 2);
+  for (const [a, b] of one.bands.map((b, i) => [b, two.bands[i]])) {
+    assert.equal(b.x1, a.x1 * 2, a.key);
+    assert.equal(b.x0, a.x0 * 2, a.key);
+  }
+});
+
+test('a pack served without geometry is drawn at the radius and says it has none', () => {
+  const [, data] = fixtures[0];
+  const P = plateGeometry({ ...data, geometry: null });
+  assert.equal(P.noGeometry, true);
+  for (const b of P.bands) assert.equal(b.x1, P.r0, b.key);
+  assert.equal(P.unrecorded.size, 0);
+});

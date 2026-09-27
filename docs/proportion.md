@@ -48,7 +48,7 @@ Authorities do not share a module, and getting this wrong silently doubles or ha
 
 Except that the second is false in his own Corinthian and Composite, where he draws 7 modules against a column of 20 — 0.35, not a third — and confirms it arithmetically by dividing his arcade plate into 32 parts. Esquié calls it out as an explicit exception. **The data encodes what he drew, not what he said**, and the invariant records the exception rather than letting the number lie.
 
-**Cross-engine agreement.** The interactive drawing runs a JavaScript port of the same engine. All 24 order packs are checked to agree to within 0.02 inches between the Python engine and the browser. A drawing generated from the data cannot silently disagree with the dimensions taken from it — if a figure is wrong, the picture is wrong in the same way.
+**One engine, served.** This paragraph used to say the interactive drawing ran "a JavaScript port of the same engine" and that "all 24 order packs are checked to agree to within 0.02 inches". There are 26 order packs, and no such check existed (WP-14.1). Since WP-14.2 there is no port to check: `build/render_orders.py` serves `dist/orders.html` the dimensions `proportion_engine.dimension()` gives and the paths `build/profiles.py` constructs, per pedestal variant, and the page only scales them, so it computes no stack, no shaft and no flute of its own. The real guard reads the ink back. `tests/svg_census.py` runs the committed page's own scripts under `node` (`tests/js/orders_ink.mjs`). For every order pack at 12, 24 and 36 in, pedestal on and off, it holds the drawn section to the engine's height (O2) and to the geometry's extent (O3), each within 0.02 in. It also holds the flutes to where the stated count projects (O6), and the page's disclosures and per-assembly datum to Python's own lists (O7–O10). A figure wrong in the data is still wrong in the picture in the same way; what can no longer happen is a picture wrong on its own.
 
 ## Judgment slots
 
@@ -138,7 +138,7 @@ Vignola's *"1/9 D wide (4 parts)"*, Gibbs's *"two of those parts will be the Den
 authored editorially. `check_orders.py` refuses a tooth as wide as its own pitch.
 
 **Entasis is not constructed.** `column_radius_at()` is a smoothstep, the same shape
-`orders_template.html` has always drawn, and its docstring says so. Vignola describes striking the
+`orders_template.html` drew for itself until WP-14.2 (it now draws Python's), and its docstring says so. Vignola describes striking the
 swell from a divided semicircle and Chambers gives another construction; no pack in this corpus
 records either, and the facsimiles that would settle it are network-blocked.
 

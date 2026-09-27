@@ -17,7 +17,8 @@ for (const [key, data] of Object.entries(cases)) {
   if (!P) { out[key] = null; continue; }
   out[key] = {
     H: P.H, maxX: P.maxX, dimX: P.dimX, fromAxis: P.fromAxis, undeclared: P.undeclared,
-    nominal: P.nominal, r0: P.r0, dieNaked: P.dieNaked, f: P.f,
+    nominal: P.nominal, r0: P.r0, dieNaked: P.dieNaked, f: P.f, datumWords: P.datumWords,
+    noGeometry: P.noGeometry,
     viewBox: [-P.CAP, -3 * P.U, P.CAP + P.maxX + P.RIGHT, P.H + 6 * P.U],
     unrecorded: [...P.unrecorded].sort(),
     bands: P.bands.map((b) => ({ key: b.key, asm: b.asm, x0: b.x0, x1: b.x1, y0: b.y0, y1: b.y1,

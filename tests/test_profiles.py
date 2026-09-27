@@ -376,6 +376,42 @@ class TestACurveWithNoRunIsSaid:
         assert live == self.STRAIGHT, (sorted(live - self.STRAIGHT), sorted(self.STRAIGHT - live))
 
 
+class TestAMemberBesideAnother:
+    """The Doric frieze's triglyph and metope stand side by side, each the frieze's full height, and
+    only the first owns the section. Since WP-14.2 the other still has a face, for the workbench
+    plate that draws band by band -- and the only such member in the corpus is a metope projecting
+    0, whose face is exactly where it starts, so a face taken from the wrong place would pass on
+    the corpus. Driven here with the pair SWAPPED, so the member standing beside projects."""
+
+    def _frieze(self, swap):
+        r = PE.resolve("vignola-doric")
+        d = PE.dimension(r, 36.0)
+        fr = next(a for a in d["assemblies"] if a["id"] == "frieze")
+        assert [m["id"] for m in fr["members"]] == ["triglyph", "metope"], "premise"
+        if swap:
+            fr["members"].reverse()
+        g = PROF.pack_geometry(d, r.get("column"), r.get("projection_datum"))
+        return fr, next(a for a in g["assemblies"] if a["id"] == "frieze")
+
+    def test_the_member_beside_has_its_own_face_and_adds_nothing_to_the_section(self):
+        fr, ga = self._frieze(swap=True)
+        faces = {f["id"]: f for f in ga["faces"]}
+        tri = next(m for m in fr["members"] if m["id"] == "triglyph")
+        assert tri["projection_in"] > 0, "premise: the member now standing beside projects"
+        assert faces["triglyph"].get("beside") is True and not faces["metope"].get("beside")
+        assert faces["triglyph"]["x"] == pytest.approx(ga["naked_in"] + tri["projection_in"])
+        assert faces["triglyph"]["x_from"] == pytest.approx(faces["metope"]["x_from"])
+        # the section is the metope's: nothing in the assembly's own outline reaches the triglyph
+        reach = max(s["to"][0] for s in ga["segments"] if s.get("to"))
+        assert reach == pytest.approx(faces["metope"]["x"]) and reach < faces["triglyph"]["x"]
+
+    def test_unswapped_the_metope_beside_is_flush_with_its_naked(self):
+        _fr, ga = self._frieze(swap=False)
+        faces = {f["id"]: f for f in ga["faces"]}
+        assert faces["metope"].get("beside") is True
+        assert faces["metope"]["x"] == pytest.approx(ga["naked_in"])
+
+
 class TestSerialisers:
     def test_svg_arcs_flip_their_sweep_when_the_transform_flips_y(self):
         """Every plate here draws model inches up and screen pixels down. A sweep flag computed in

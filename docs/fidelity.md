@@ -127,12 +127,16 @@ join the app without either a census row or a stated reason it is not an archite
 | O1 | orders-tool | the committed page is what build/render_orders.py builds now | the one page | 1 | 1 | 0 | 0 |
 | O2 | orders-tool | the section the page draws is the height the engine dimensions, at every diameter it offers, pedestal on and off | every order pack with a stack x 12/24/36 in x pedestal | 150 | 150 | 0 | 0 |
 | O3 | orders-tool | the section reaches as far out as the geometry Python constructed for it, scaled to the diameter drawn | every order pack with a stack x 12/24/36 in x pedestal | 150 | 150 | 0 | 0 |
-| O4 | orders-tool | an invariant the engine could not judge is not printed FAIL | driven: one invariant set unjudged (every one of 169 holds today) | 1 | 0 | 1 | 0 |
-| O5 | orders-tool | every order pack the page carries can be reached from its controls | every order pack in the page | 26 | 24 | 2 | 0 |
-| O6 | orders-tool | the flute lines on the elevation fall where the stated number of flutes projects | fluted order packs, at 12 in, pedestal on | 20 | 0 | 20 | 0 |
-| R1 | proportions-plate | the plate's frame holds its own ink (the dimension gutter begins where the widest moulding ends) | order packs the plate draws, at 12 in | 25 | 13 | 12 | 0 |
-| R2 | proportions-plate | the members the plate says 'state no projection at all' are exactly the members whose record states none | order packs the plate draws, at 12 in | 25 | 3 | 22 | 0 |
-| R3 | proportions-plate | the datum the plate's caption states is the datum every assembly was drawn on | order packs the plate draws, at 12 in | 25 | 12 | 13 | 0 |
+| O4 | orders-tool | an invariant the engine could not judge is not printed FAIL | driven: one invariant set unjudged (every one of 169 holds today) | 1 | 1 | 0 | 0 |
+| O5 | orders-tool | every order pack the page carries can be reached from its controls | every order pack in the page | 26 | 26 | 0 | 0 |
+| O6 | orders-tool | the flute lines on the elevation fall where the stated number of flutes projects | fluted order packs, at 12 in, pedestal on | 20 | 20 | 0 | 0 |
+| O7 | orders-tool | a member the record publishes no projection for is bracketed at its naked on the orders page and counted in its panel -- and a stack where every member publishes one says that | every order pack with a stack, at 12 in with the pedestal | 25 | 25 | 0 | 0 |
+| O8 | orders-tool | a member the orders page calls NOT CONSTRUCTED is drawn as its dashed envelope and counted | every order pack with a stack, at 12 in with the pedestal | 25 | 25 | 0 | 0 |
+| O9 | orders-tool | a curved member the orders page draws as a straight line is counted as one | every order pack with a stack, at 12 in with the pedestal | 25 | 25 | 0 | 0 |
+| O10 | orders-tool | the datum the orders page states for each assembly is the datum that assembly was drawn on | every order pack with a stack, at 12 in with the pedestal | 25 | 25 | 0 | 0 |
+| R1 | proportions-plate | the plate's frame holds its own ink (the dimension gutter begins where the widest moulding ends) | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
+| R2 | proportions-plate | the members the plate says publish no projection are exactly the members whose record states none (the shaft's own body, which is the column, excepted) | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
+| R3 | proportions-plate | the datum the plate's caption states for each assembly is the datum that assembly was drawn on | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
 | V1 | elevation | every mark carrying a line-weight rung is drawn at that rung's width | every elevation sheet (plans x faces) | 44 | 0 | 44 | 0 |
 | V2 | elevation | nothing the style's resolved kit forbids is drawn, slot or variant (the row names where each prohibition comes from) | every node with a kit, on the Tidewater placement | 159 | 80 | 79 | 0 |
 | V3 | elevation | every transom or sidelight variant the style's kit makes canonical is drawn | every node with a kit, on the Tidewater placement | 26 | 0 | 26 | 0 |

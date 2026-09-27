@@ -1015,9 +1015,11 @@ check('proportions: conflicts with building today', /conflicts with building tod
 // than the bands, which is what made the first version of this check a tautology.
 async function readPlate(pack) {
   if (pack) {
-    const b = page.getByRole('button', { name: pack, exact: true });
+    // an overlay's nav button reads "<id> · overlay" since the badge reads `overlay_of` (WP-14.2)
+    const esc = pack.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const b = page.getByRole('button', { name: new RegExp(`^${esc}( · overlay)?$`) });
     if (!(await b.count())) return { missing: 'no nav for ' + pack };
-    await b.click();
+    await b.first().click();
     await page.waitForTimeout(1600);
   }
   return page.evaluate(() => {
@@ -1025,44 +1027,75 @@ async function readPlate(pack) {
     if (!svg) return { missing: 'no plate' };
     const bands = [...svg.querySelectorAll('path[data-asm]')];
     if (!bands.length) return { missing: 'no bands' };
+    /* IN THE PLATE'S OWN COORDINATES (WP-14.2). A band drawn from served geometry sits inside a
+       <g transform> that flips y and scales the module, and getBBox() is in the path's LOCAL
+       space -- model inches, y up. It read right only because the corpus serves the geometry at
+       the module the plate draws (f = 1) and the flip is symmetric about the frame. Each corner
+       is taken through getCTM(), which maps the local space into the viewBox's. */
+    const pt = svg.createSVGPoint();
+    const box = (el) => {
+      const b = el.getBBox(), m = el.getCTM();
+      const xs = [], ys = [];
+      for (const [x, y] of [[b.x, b.y], [b.x + b.width, b.y], [b.x, b.y + b.height],
+                            [b.x + b.width, b.y + b.height]]) {
+        pt.x = x; pt.y = y;
+        const q = pt.matrixTransform(m);
+        xs.push(q.x); ys.push(q.y);
+      }
+      return { x0: Math.min(...xs), x1: Math.max(...xs), y0: Math.min(...ys), y1: Math.max(...ys) };
+    };
     const spans = [], out = { bands: bands.length, gap: 0, shaftMax: 0, capMax: 0, maxX: 0 };
     for (const p of bands) {
-      const b = p.getBBox();
-      out.maxX = Math.max(out.maxX, b.x + b.width);
-      if (p.dataset.asm === 'shaft') out.shaftMax = Math.max(out.shaftMax, b.x + b.width);
-      if (p.dataset.asm === 'capital') out.capMax = Math.max(out.capMax, b.x + b.width);
-      if (b.height < 0.001) continue;
-      spans.push([b.y, b.y + b.height]);
+      const b = box(p);
+      out.maxX = Math.max(out.maxX, b.x1);
+      if (p.dataset.asm === 'shaft') out.shaftMax = Math.max(out.shaftMax, b.x1);
+      if (p.dataset.asm === 'capital') out.capMax = Math.max(out.capMax, b.x1);
+      if (b.y1 - b.y0 < 0.001) continue;
+      spans.push([b.y0, b.y1]);
     }
     spans.sort((a, b) => a[0] - b[0]);
     let end = spans.length ? spans[0][1] : 0;
     for (const [t, b] of spans) { out.gap = Math.max(out.gap, t - end); end = Math.max(end, b); }
     const vb = svg.getAttribute('viewBox').split(/\s+/).map(Number);
     out.frameTop = vb[1]; out.frameBottom = vb[1] + vb[3]; out.frameRight = vb[0] + vb[2];
+    // the gutter is not frame: ink may reach the dimension line, never into the gutter it opens
+    const dim = svg.querySelector('[data-mark="stack-dimension"]');
+    out.dimX = dim ? Number(dim.getAttribute('x1')) : null;
     out.drawnTop = Math.min(...spans.map((s) => s[0]));
     out.drawnBottom = Math.max(...spans.map((s) => s[1]));
     return out;
   });
 }
-// One pack of each reading (OQ 65): gibbs-doric records projections from the naked,
-// vignola-ionic as radii from the axis. Checking only the default pack is how a datum
-// wrong on twelve packs shipped green.
-for (const [pack, dia] of [[null, 12], ['vignola-ionic', 12], ['palladio-corinthian', 12]]) {
-  const plate = await readPlate(pack);
-  const id = pack || 'gibbs-doric';
-  if (plate.missing) { check(`⑩ ${id}: a plate is drawn (${plate.missing})`, false); continue; }
+/* EVERY ORDER PACK, not three (WP-14.2). One pack of each reading (OQ 65) was the old sample --
+   gibbs-doric, vignola-ionic and palladio-corinthian -- and checking only the default pack is how
+   a datum wrong on twelve packs shipped green; checking three is how a frame narrower than its own
+   ink shipped green on twelve. The list is the API's, so a new pack is walked without an edit. */
+const orderPacks = ((await (await fetch(`${BASE}/api/proportions`)).json()).packs || [])
+  .filter((p) => p.kind === 'order-system').map((p) => p.id);
+check(`⑩ the walk reaches every order pack the API lists (${orderPacks.length})`, orderPacks.length >= 26);
+for (const id of orderPacks) {
+  const dia = 12;
   const api = await (await fetch(`${BASE}/api/proportions/${id}?members=true&column_diameter=${dia}`)).json();
+  const members = api.assemblies.reduce((a, x) => a + (x.members || []).length, 0);
+  const plate = await readPlate(id);
+  if (!members) {
+    // moorish-arch: an arch system with no column stack draws no plate rather than a frame
+    check(`⑩ ${id}: a pack with no stack draws no plate (${plate.missing || 'a plate was drawn'})`,
+      !!plate.missing);
+    continue;
+  }
+  if (plate.missing) { check(`⑩ ${id}: a plate is drawn (${plate.missing})`, false); continue; }
   const r0 = (api.totals?.lower_diameter_in || 0) / 2;
   const stack = api.totals?.stack_height_in || 0;
   check(`⑩ ${id}: the plate draws every member the engine emitted (${plate.bands})`,
-    plate.bands >= api.assemblies.reduce((a, x) => a + (x.members || []).length, 0));
+    plate.bands >= members);
   check(`⑩ ${id}: the order stands as one stack — no gap (worst ${plate.gap.toFixed(2)}″)`,
     plate.gap < 0.25);
   check(`⑩ ${id}: the stack is drawn to its stated height (${(plate.drawnBottom - plate.drawnTop).toFixed(1)}″ of ${stack}″)`,
     Math.abs((plate.drawnBottom - plate.drawnTop) - stack) < 0.25);
-  check(`⑩ ${id}: nothing is drawn outside the frame`,
+  check(`⑩ ${id}: nothing is drawn outside the frame, and no ink reaches the dimension gutter (${plate.maxX.toFixed(2)}″ against the line at ${plate.dimX == null ? '—' : plate.dimX.toFixed(2)}″)`,
     plate.drawnTop >= plate.frameTop - 0.01 && plate.drawnBottom <= plate.frameBottom + 0.01
-      && plate.maxX <= plate.frameRight + 0.01);
+      && plate.dimX != null && plate.maxX <= plate.dimX + 0.01);
   // the datum. A shaft moulding never stands a whole radius clear of the shaft; adding a
   // naked to a figure that was already a radius drew exactly that, on twelve packs.
   check(`⑩ ${id}: the shaft is a column and not a stick (${plate.shaftMax.toFixed(2)}″ against r ${r0}″)`,

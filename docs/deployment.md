@@ -401,11 +401,12 @@ password, and prints a note saying the server is open when none is set.
 
 ## Deliberately not done
 
-**Regenerating `dist/*.html` in CI.** `check_all.py` runs `build.py` (which rebuilds
-`dist/taxonomy.json`) but not `render_html.py` or `render_orders.py`, so the committed
-`taxonomy.html` and `orders.html` can still drift from the corpus with nothing to catch it.
-Harmless while they are read locally; visible to other people once anything is published.
-Named here rather than fixed.
+**Regenerating `dist/*.html` in CI** -- no longer deliberately not done, and this entry is kept
+because it said so for a while. `check_all.py` runs `build.py`, which rebuilds `dist/taxonomy.json`,
+has rendered `dist/taxonomy.html` through `render_html.py` since the WP-11.7 audit, and has rendered
+`dist/orders.html` through `render_orders.py` since WP-14.1. `tests/svg_census.py`'s O1 holds the
+committed orders page to `render_orders.build_page()`, so a page committed without a build is a
+named disagreement rather than a quiet drift.
 
 **A root `requirements.txt`.** The corpus's own dependencies (`jsonschema`, `pytest`) are
 still install-by-README; CI installs them explicitly. Worth adding separately.

@@ -600,8 +600,8 @@ def column_radius_at(y, shaft_y0, shaft_y1, r_lower, diminution=None, entasis_be
     divided into equal parts and Chambers gives another; no pack in this corpus RECORDS either --
     `column.fluting.profile` and the entasis notes are prose an expression cannot execute, and the
     facsimiles that would settle it are the network-blocked OQ 7-11 class. So this is the smooth
-    diminution `orders_template.html` has always drawn, stated as such, and an open question
-    carries the real construction."""
+    diminution `orders_template.html` drew for itself until WP-14.2 -- it draws this one now --
+    stated as such, and an open question carries the real construction."""
     if not diminution or diminution >= 1.0:
         return r_lower
     span = shaft_y1 - shaft_y0
@@ -616,8 +616,56 @@ def column_radius_at(y, shaft_y0, shaft_y1, r_lower, diminution=None, entasis_be
     return r_lower * (1.0 - s * (1.0 - diminution))
 
 
+def flute_arrises(count):
+    """Where the arrises of `count` evenly spaced flutes stand in a HALF elevation, as the sine of
+    each one's angle from the line of sight -- so an arris at angle a projects to r(y) * sin(a).
+
+    WP-14.2. The orders page drew `round(count / 2.4)` lines, capped at nine, at EVENLY SPACED
+    fractions of the radius -- 8 lines at 0.11, 0.22, 0.33 ... for twenty-four flutes that project
+    to 6 at 0.13, 0.38, 0.61, 0.79, 0.92, 0.99. A circle seen side-on crowds its arrises toward the
+    limb; that crowding is what reads as a round shaft in elevation, and even spacing reads as a
+    flat one.
+
+    THE SETTING-OUT IS A DRAWING CONVENTION, and it is said so here and on the record this returns
+    into: no pack states whether a flute or an arris stands on the axis. A FLUTE is centred on it,
+    so the arrises fall at (k + 1/2) of the flute's own angle. That is the arrangement
+    `vignola-doric`'s shaft note implies for its twenty (Ware: "ten arrises show in elevation" --
+    ten across the whole front is five in each half, which only the flute-on-axis setting gives;
+    an arris on the axis shows nine, or eleven with the two at the limb). The same setting is drawn
+    for twenty-four, where no note speaks to it at all. The COUNT is the record's; the setting is
+    not."""
+    if not count or count < 2:
+        return []
+    step = 2.0 * math.pi / count
+    out = []
+    k = 0
+    while (k + 0.5) * step < math.pi / 2.0 - _EPS:
+        out.append(math.sin((k + 0.5) * step))
+        k += 1
+    return out
+
+
 # ---------------------------------------------------------------- a whole pack, ready to scale
 COLUMN_ASM = ("pedestal", "subplinth", "base", "shaft", "capital")
+
+
+def _beside_face(m, x_from, naked, axis_here):
+    """The face of a member that stands BESIDE the one owning the section -- the Doric metope
+    beside the triglyph, each the full height of the frieze. Built by the same rule as any other
+    member, from the same starting point as the member it stands beside, and marked `beside` so no
+    reader mistakes it for part of the outline (WP-14.2)."""
+    y0, y1 = m["y_bottom_in"], m["y_top_in"]
+    p = m.get("projection_in")
+    if p is None or (axis_here and not p > 0):
+        segs = _ghost(naked, x_from, y0, y1, m.get("id"))
+        return {"id": m.get("id"), "x": round(naked, 5), "tapered": False, "beside": True,
+                "x_from": round(x_from, 5), "y0": y0, "y1": y1, "segments": segs,
+                "projection": "unpublished"}
+    face = outer_face(naked, p, axis_here)
+    segs, _x = member_path(m.get("profile"), x_from, y0, face, y1, note=m.get("note"))
+    return {"id": m.get("id"), "x": round(face, 5), "tapered": False, "beside": True,
+            "x_from": round(x_from, 5), "y0": y0, "y1": y1, "segments": segs,
+            "projection": "published"}
 
 
 def silhouette_path_model(geo, stroke=False):
@@ -851,13 +899,21 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
         x_cur = datum_for(aid, a["y_bottom_in"])
         start = (x_cur, a["y_bottom_in"])
         seen_side = False
+        side_from = None
         for m in a["members"]:
             # A side-by-side assembly (the Doric frieze) is not a stack: triglyph and metope are
             # each the full height of the frieze. Only the first can own the section.
             if m.get("side_by_side"):
                 if seen_side:
+                    # ...and the rest still have a face, for a plate that draws the stack band by
+                    # band (WP-14.2): the workbench's has no other way to know where the metope
+                    # stands. Stated here and flagged `beside`; it adds nothing to the section.
+                    faces.append(_beside_face(m, side_from, datum_for(aid, (m["y_bottom_in"] +
+                                                                              m["y_top_in"]) / 2.0),
+                                              axis_here))
                     continue
                 seen_side = True
+                side_from = x_cur
             y0, y1 = m["y_bottom_in"], m["y_top_in"]
             is_shaft_body = aid == "shaft" and (y1 - y0) > (sy1 - sy0) * 0.6
             if is_shaft_body:
@@ -927,6 +983,24 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
                                              for u in out["unpublished"]) if g)
     out["envelope_path"] = " ".join(e for e in (envelope_box(u["x0"], u["y0"], u["x1"], u["y1"])
                                                 for u in out["unconstructed"]) if e)
+    # THE FLUTES (WP-14.2): one arris line per path, over the shaft body only, following the same
+    # taper the section draws -- so the orders page places lines rather than computing where a
+    # flute falls. ONE PATH PER ARRIS, because a reader counts lines. See flute_arrises() for why
+    # the setting-out is a convention and the count is not.
+    n_fl = (column.get("fluting") or {}).get("count")
+    body = next((fc for a in out["assemblies"] if a["id"] == "shaft"
+                 for fc in a["faces"] if fc.get("tapered")), None)
+    out["flutes"] = None
+    if isinstance(n_fl, (int, float)) and not isinstance(n_fl, bool) and n_fl >= 2 and body:
+        fy = [body["y0"] + (body["y1"] - body["y0"]) * (i / taper_steps) for i in range(taper_steps + 1)]
+        arrises = flute_arrises(int(n_fl))
+        out["flutes"] = {
+            "count": int(n_fl), "setting": "flute-on-axis",
+            "setting_is": ("a drawing convention: no pack states whether a flute or an arris stands "
+                           "on the axis; the count is the record's"),
+            "arrises": [round(s, 6) for s in arrises],
+            "lines": ["M " + " L ".join(f"{radius_at(y) * s:.4f},{y:.4f}" for y in fy)
+                      for s in arrises]}
     for a in out["assemblies"]:
         for f in a.get("faces", []):
             segs = f.get("segments") or []

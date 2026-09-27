@@ -425,6 +425,30 @@ class TestTheDieCarriesThePlinth:
 
 # ------------------------------------------------------------------ the surfaces
 class TestTheSurfacesSayIt:
+    def test_the_agents_tool_is_told_what_the_plate_is_told(self):
+        """`tdl_get_proportions` served every member's null projection and nothing else: an agent
+        could not tell which datum an assembly was read on, or that a null is a ghost at the naked
+        rather than a face. Served since WP-14.2, and judged on the FULL stack even when one
+        assembly is asked for -- the datum is a property of the assembly's group, and the cornice
+        read alone could come out differently from the entablature it belongs to."""
+        import sys as _s
+        _s.path.insert(0, os.path.join(ROOT, "mcp_server"))
+        import core
+        for pid, asm in (("palladio-ionic", None), ("vignola-ionic", "cornice"),
+                         ("chambers-corinthian", "pedestal")):
+            got = core.get_proportions(pid, column_diameter=12, include_rules=False, assembly=asm)
+            r = PE.resolve(pid)
+            full = PE.dimension(r, got["module_in"])
+            g = PROF.pack_geometry(full, r.get("column"), r.get("projection_datum"))
+            assert got["projection_datum"] == r.get("projection_datum"), pid
+            assert got["assembly_datum"] == g["assembly_datum"], pid
+            assert got["unpublished"] == [{"assembly": u["assembly"], "id": u["id"]}
+                                          for u in g["unpublished"]], pid
+            assert got["bbox_in"] == g["bbox_in"], pid
+        # the premise: one of the three really carries unpublished members and an unjudged group
+        got = core.get_proportions("palladio-ionic", column_diameter=12, include_rules=False)
+        assert len(got["unpublished"]) == 14 and "unjudged" in got["assembly_datum"].values()
+
     def test_a_plate_of_ghosts_says_how_many_and_draws_them_dashed(self):
         RP = modcache.load("render_profile", os.path.join(ROOT, "build", "render_profile.py"))
         svg, rep = RP.render("palladio-ionic", "base", 12.0)

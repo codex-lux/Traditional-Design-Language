@@ -32,9 +32,16 @@ def trimmed(pid):
                           "members": [{k: m.get(k) for k in MEMBER_KEYS} for m in a["members"]]}
                          for a in d["assemblies"]]
     g = d["geometry"]
+    # WP-14.2: plate.js reads every face's extent, the frame, the unpublished list and the die off
+    # the served geometry rather than computing them, so the fixture carries exactly those
     out["geometry"] = {"module_in": g["module_in"], "assembly_datum": g["assembly_datum"],
+                       "bbox_in": g["bbox_in"], "die_naked": g["die_naked"],
+                       "die_naked_in": g["die_naked_in"], "die_naked_reason": g["die_naked_reason"],
+                       "unpublished": [{"assembly": u["assembly"], "id": u["id"]}
+                                       for u in g["unpublished"]],
                        "assemblies": [{"id": a["id"],
-                                       "faces": [{"id": f["id"], "path": f.get("path")}
+                                       "faces": [{k: f.get(k) for k in ("id", "path", "x", "x_from",
+                                                                        "tapered", "beside")}
                                                  for f in a.get("faces", [])]}
                                       for a in g["assemblies"]]}
     return out
