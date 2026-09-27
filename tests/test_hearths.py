@@ -465,7 +465,7 @@ class TestTheStackStandsOverAFire:
         monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})
         placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
         assert "a hearth wall nobody wrote down" in (placed["hearths"].get("hearths_unreadable") or "")
-        sec = ST.build_section(placed)
+        sec = ST.build_section(placed, geometry_result=placed)
         ch = RF.build_roof(placed, section=sec)["chimneys"]
         assert ch.get("hearths_unreadable"), "the failure must be recorded, not swallowed"
         assert "COULD NOT BE READ" in ch["note"]

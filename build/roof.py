@@ -943,18 +943,29 @@ def build_roof(plan, parti=None, section=None):
     # PLACED record; the product did not. The section's `geometry` is the placement it was built
     # on (`structure.build_section` writes it on every path), so the hearths are read from there.
     #
-    # BUT ONLY FOR A RECORD THAT CARRIES NONE OF ITS OWN (WP-14.6, the whole build). The first
-    # version read the section's placement unconditionally, so a PLACED record handed in beside a
-    # section re-solved from it lost its own hearth record in silence -- and two guards in
-    # `tests/test_hearths_on_flue.py` exist for exactly that (edit the placed record's flue and
-    # the roof must follow it); both went red in the package's own whole build. A record that
-    # carries the placement layer's hearth record is read as it stands, which is WP-13.3's rule
-    # in `elevation.build_elevation` ("a record that carries its placement ... never re-solved"),
-    # and the test is the one `chimney_positions` makes below. Every product caller hands the
-    # DECLARED record, which carries none, so the Drawing Set's stacks still stand over the
-    # section's flues.
-    own = isinstance(plan.get("hearths"), dict)
-    placed = None if own else (section.get("geometry") if isinstance(section.get("geometry"), dict) else None)
+    # AND NOTHING THE HANDED RECORD CARRIES DECIDES IT (audit, 27 Sep 2026). `43f93e8` read the
+    # record's own `hearths` wherever it carried a dict, to turn two guards green that edit a
+    # placed record's flue and hand in a section re-solved from it. The adversarial audit showed
+    # that condition trusts any `hearths` field, whatever placement it came from: an EMPTY one
+    # drew the stacks on the gable centre line under a note that the record states no hearth, and
+    # a STALE one -- a record placed once and posted again beside a section solved afresh, the
+    # bench's pasted record, an MCP merged record -- drew them where a DIFFERENT placement put the
+    # fires. Two buildings in one roof, which is the defect this block exists to remove. The
+    # section's `geometry` IS the placement it was drawn on, so it is the only hearth record read
+    # here; the two guards hand the section the edited record as its placement now
+    # (`build_section(p, geometry_result=p)`, WP-13.3's own idiom, which is what they meant), and
+    # two more drive the empty and the stale field.
+    #
+    # TWO SENTENCES ABOVE ARE NOT TRUE AS WRITTEN (same audit). "The client posts the DECLARED
+    # record" is true of the client, and `geometry.solve` then writes the placement INTO the record
+    # it is handed on a cache miss and returns a copy on a hit -- so a product caller hands this
+    # function the placed record on a record's first request and the declared one after, which is
+    # the reason the rule may not depend on the record at all. And the Drawing Set never drew the
+    # Tidewater stacks 12.3 ft from their fires: that record is refused a drawing on both engines
+    # (WP-13.4). The 12.3 ft was real on the CLI surfaces and in `plan_check`'s declared-record
+    # elevation layer, which do reach it, and on any drawable record that states a hearth -- of
+    # which the shipped corpus has none.
+    placed = section.get("geometry") if isinstance(section.get("geometry"), dict) else None
     chimneys = chimney_positions(placed or plan, style, section, main)
     checks = {
         "wing_step_down": wing,

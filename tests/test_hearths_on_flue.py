@@ -420,11 +420,47 @@ class TestThePlansStacksAreTheRoofsStacks:
         p = copy.deepcopy(placed)
         fl = next(f for f in p["hearths"]["flues"] if f["flue"] == "east-stack")
         fl["position_ft"] = 3.0
-        sec = ST.build_section(p)
+        # the edited record IS the section's placement (WP-13.3's idiom): the roof reads the
+        # section's `geometry` and nothing else, so a section re-solved from `p` would have put the
+        # flue back where the placer seats it and tested nothing (audit, 27 Sep 2026)
+        sec = ST.build_section(p, geometry_result=p)
         t = sec["wall"]["exterior_in"] / 12.0
         ch = RF.build_roof(p, section=sec)["chimneys"]
         assert any(abs(c["y_ft"] - (3.0 + t)) < 0.01 for c in ch["positions"]), \
             [c["y_ft"] for c in ch["positions"]]
+
+    @staticmethod
+    def _xy(ch):
+        return [(round(c["x_ft"], 3), round(c["y_ft"], 3)) for c in ch["positions"]]
+
+    def test_an_EMPTY_hearth_record_on_the_record_handed_does_not_move_the_roof(self, placed):
+        """AUDIT, 27 SEP 2026. `43f93e8` read the handed record's own `hearths` wherever it carried
+        a dict, so a record carrying `{}` -- a caller-supplied record may -- stood the stacks on the
+        gable centre line under a note that it states no hearth, beside a section whose own
+        placement stands them over the flues: two buildings in one roof. The section's placement
+        is the one read, whatever the record in hand carries."""
+        sec = ST.build_section(placed, geometry_result=placed)
+        want = RF.build_roof(placed, section=sec)["chimneys"]
+        assert want.get("from_stated_hearths") is True, want.get("note")
+        p = copy.deepcopy(placed)
+        p["hearths"] = {}
+        ch = RF.build_roof(p, section=sec)["chimneys"]
+        assert self._xy(ch) == self._xy(want), (self._xy(ch), self._xy(want), ch.get("note"))
+        assert ch.get("from_stated_hearths") is True, ch.get("note")
+
+    def test_a_STALE_hearth_record_on_the_record_handed_does_not_move_the_roof(self, placed):
+        """The other half: the record in hand remembers a DIFFERENT placement -- the east flue
+        moved to 3 ft -- and the section beside it was drawn on the true one. The roof follows the
+        section. The premise is asserted first: handed to a section AS its placement, the same
+        stale record does move the stack, so the field is live and the equality below is a
+        refusal to read it rather than a field nobody reads."""
+        sec = ST.build_section(placed, geometry_result=placed)
+        want = self._xy(RF.build_roof(placed, section=sec)["chimneys"])
+        p = copy.deepcopy(placed)
+        next(f for f in p["hearths"]["flues"] if f["flue"] == "east-stack")["position_ft"] = 3.0
+        live = self._xy(RF.build_roof(p, section=ST.build_section(p, geometry_result=p))["chimneys"])
+        assert live != want, "the premise: this stale flue, made the section's placement, moves a stack"
+        assert self._xy(RF.build_roof(p, section=sec)["chimneys"]) == want
 
     def test_the_gather_is_disclosed_where_one_stack_serves_two_fires_apart(self, placed, C):
         """THE FIGURE THIS PACKAGE CANNOT CLOSE, STATED AS ONE -- and DRIVEN, because no
@@ -489,7 +525,7 @@ class TestThePlansStacksAreTheRoofsStacks:
         ref = [u for u in h["unplaced"] if u.get("flue") == "west-stack"]
         assert len(ref) == 1 and "no fire for its stack" in ref[0]["reason"]
         assert ref[0]["rule"] == "hearths.flues"
-        ch = RF.build_roof(p, section=ST.build_section(p))["chimneys"]
+        ch = RF.build_roof(p, section=ST.build_section(p, geometry_result=p))["chimneys"]
         assert len(ch["positions"]) == 1
         assert "flue 'west-stack' NOT placed" in ch["note"]
 
@@ -591,7 +627,7 @@ class TestThePlansStacksAreTheRoofsStacks:
         h = p["hearths"]
         assert h["hearths_unreadable"] and "a hearth wall nobody wrote down" in h["hearths_unreadable"]
         assert h["placed_from"] == "centre-line" and h["breasts"] == []
-        ch = RF.build_roof(p, section=ST.build_section(p))["chimneys"]
+        ch = RF.build_roof(p, section=ST.build_section(p, geometry_result=p))["chimneys"]
         assert ch.get("hearths_unreadable")
         assert "COULD NOT BE READ" in ch["note"]
         assert "a hearth wall nobody wrote down" in ch["note"]
