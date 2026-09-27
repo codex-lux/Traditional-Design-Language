@@ -555,6 +555,10 @@ def chimney_positions(plan, style, section, main):
         # carry no size (the cascade states none and `threshold.py` refused them) nothing is
         # carried, and the roof plan draws the position and says so; where they carried two
         # different sizes, which nothing writes, the record is not one figure and none is carried.
+        # (That is the SIZE. Each stack's SQUARE is its own and is paired with its flue below,
+        # one to one, off the placement's own `stacks` record -- a lookup, not a grouping of the
+        # fires: the grouping is `hearths.flues`', and `tests/test_hearths_on_flue.py` holds this
+        # file to building none.)
         _keys = ("stack_plan_in", "stack_plan_judgment", "stack_plan_basis")
         _sizes = {tuple(sk.get(k) for k in _keys) for sk in (hr.get("stacks") or [])}
         stack_size = dict(zip(_keys, next(iter(_sizes)))) if len(_sizes) == 1 else {}
@@ -938,7 +942,19 @@ def build_roof(plan, parti=None, section=None):
     # building -- met at the chimney. The census never saw it because it hands this function the
     # PLACED record; the product did not. The section's `geometry` is the placement it was built
     # on (`structure.build_section` writes it on every path), so the hearths are read from there.
-    placed = section.get("geometry") if isinstance(section.get("geometry"), dict) else None
+    #
+    # BUT ONLY FOR A RECORD THAT CARRIES NONE OF ITS OWN (WP-14.6, the whole build). The first
+    # version read the section's placement unconditionally, so a PLACED record handed in beside a
+    # section re-solved from it lost its own hearth record in silence -- and two guards in
+    # `tests/test_hearths_on_flue.py` exist for exactly that (edit the placed record's flue and
+    # the roof must follow it); both went red in the package's own whole build. A record that
+    # carries the placement layer's hearth record is read as it stands, which is WP-13.3's rule
+    # in `elevation.build_elevation` ("a record that carries its placement ... never re-solved"),
+    # and the test is the one `chimney_positions` makes below. Every product caller hands the
+    # DECLARED record, which carries none, so the Drawing Set's stacks still stand over the
+    # section's flues.
+    own = isinstance(plan.get("hearths"), dict)
+    placed = None if own else (section.get("geometry") if isinstance(section.get("geometry"), dict) else None)
     chimneys = chimney_positions(placed or plan, style, section, main)
     checks = {
         "wing_step_down": wing,

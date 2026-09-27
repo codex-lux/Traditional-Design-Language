@@ -460,7 +460,9 @@ class TestTheStackStandsOverAFire:
             raise ValueError("a hearth wall nobody wrote down")
 
         monkeypatch.setattr(HE, "stack_axes", boom)
-        GEO._SOLVE_CACHE.clear()
+        # a private cache, discarded at teardown: a solve made with `stack_axes` raising must not
+        # be served to a later test (`tests/test_hearths_on_flue.py` says what that cost)
+        monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})
         placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
         assert "a hearth wall nobody wrote down" in (placed["hearths"].get("hearths_unreadable") or "")
         sec = ST.build_section(placed)
@@ -643,11 +645,36 @@ class TestTheCriticAndThePlate:
                     if f.get("kind") == "hearth-off-the-stack-wall"]
 
     def test_the_plate_draws_the_breast(self, tmp_path):
+        """THE PLATE DRAWS THE BREASTS THE PLACEMENT JUDGED, AND THIS COUNTED AN UNJUDGED THIRD
+        (WP-14.6, the whole build). It asserted three -- *"three stated hearths, three breasts on
+        the plate"* -- and has been green only in company: it solves the record under the key
+        `test_A_RECONCILIATION_THAT_CANNOT_BE_READ_IS_A_FOURTH_STATE` above solved it under with
+        `stack_axes` raising, and that result stayed in the solve cache. On it the placement
+        wrote NO verdict, and a hearth with no verdict row is drawn as authored, so all three
+        were inked -- the dining room's too, whose W wall this placement puts 7.0 ft inboard of
+        any flue. Alone, on this tree and on `117e839` both, the plate draws two and says why the
+        third is not drawn. The count is read off the verdicts now, and the premise that the
+        verdicts exist is asserted, so a poisoned placement fails here by name."""
         RP = modcache.load("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
         placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
+        h = placed["hearths"]
+        assert not h.get("hearths_unreadable") and h.get("breasts"), (
+            "this placement carries no hearth verdicts -- a solve made with the hearth reading "
+            "broken was served from the cache; the count below would be of unjudged breasts")
+        drawn = [b for b in h["breasts"] if b.get("drawn")]
+        refused = [b for b in h["breasts"] if not b.get("drawn")]
+        assert len(drawn) + len(refused) == 3, "the record states three fires"
+        assert drawn, "the plate must draw a breast at all"
         out = str(tmp_path / "sheet.svg")
         RP.render(placed, out)
         svg = open(out, encoding="utf-8").read()
-        assert svg.count("fireplace,") == 3, "three stated hearths, three breasts on the plate"
+        assert svg.count("fireplace,") == len(drawn), (
+            f"{svg.count('fireplace,')} breasts on the plate against {len(drawn)} the placement allowed")
+        for b in refused:
+            assert f'data-hearth-refused="{b["room"]}"' in svg, (
+                f"the refused {b['room']} fire is neither drawn nor ghosted on the working plate")
+        if refused:
+            assert f"{len(refused)} OF {len(drawn) + len(refused)} STATED FIRE(S) NOT DRAWN" in svg, (
+                "a fire the record states and the plate does not draw is not said on the plate")
         assert "Morris 1734, judgment" in svg, (
             "the plate must say the projection is a judgment, not a measurement")

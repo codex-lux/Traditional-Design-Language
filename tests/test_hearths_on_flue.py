@@ -522,11 +522,52 @@ class TestThePlansStacksAreTheRoofsStacks:
         assert abs((D_out - D) - 2 * t) < 0.01, (D_out, D, t)
         assert sorted(round(c["y_ft"], 2) for c in ch["positions"]) == [round(D_out / 2, 2)] * 2
 
+    @staticmethod
+    def _grouping_shapes(path):
+        """What the rule LOOKS LIKE, read off the AST: every one-to-many grouping (a
+        `.setdefault(k, [])` / `.setdefault(k, list())` or a `defaultdict(list)`) and every
+        `sum(...)` over a `position_ft` -- the two halves of "group the fires by flue and stand
+        the stack at their mean", which is `hearths.flues` and nobody else."""
+        import ast
+        tree = ast.parse(open(path, encoding="utf-8").read())
+        groups, means = [], []
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call):
+                continue
+            f = node.func
+            if isinstance(f, ast.Attribute) and f.attr == "setdefault" and len(node.args) == 2:
+                d = node.args[1]
+                if isinstance(d, (ast.List, ast.ListComp)) or (
+                        isinstance(d, ast.Call) and isinstance(d.func, ast.Name) and d.func.id == "list"):
+                    groups.append(node.lineno)
+            elif isinstance(f, ast.Name) and f.id == "defaultdict" and node.args \
+                    and isinstance(node.args[0], ast.Name) and node.args[0].id == "list":
+                groups.append(node.lineno)
+            elif isinstance(f, ast.Name) and f.id == "sum" and any(
+                    isinstance(c, ast.Constant) and c.value == "position_ft" for c in ast.walk(node)):
+                means.append(node.lineno)
+        return groups, means
+
     def test_the_rule_is_spelled_once_and_roof_py_no_longer_groups_by_flue(self):
-        src = open(os.path.join(ROOT, "build", "roof.py"), encoding="utf-8").read()
-        assert "by_flue" not in src, "roof.py carries its own grouping of hearths by flue again"
-        assert "sum(a[\"position_ft\"]" not in src, "roof.py averages hearth axes itself again"
+        """RE-CUT AT WP-14.6 AGAINST THE SHAPE OF THE RULE, NOT THE NAME OF A VARIABLE. This read
+        `"by_flue" not in src`, and WP-14.6 put a `by_flue` into roof.py that is a one-to-one
+        LOOKUP of the placement's own stacks by their flue (each chimney takes its own square)
+        -- so the guard convicted a pairing it was never about, and renaming the dict to get
+        past it would have left the guard as blind to a real regrouping under any other name as
+        it was loud about this one. What WP-13.2 removed is a GROUPING of the fires and a MEAN
+        of their axes, so that is what is read; and the same reader must find both in
+        `hearths.flues`, where the rule lives, or it is reading nothing."""
+        roof_path = os.path.join(ROOT, "build", "roof.py")
+        groups, means = self._grouping_shapes(roof_path)
+        assert not groups, f"roof.py groups something one-to-many again (lines {groups})"
+        assert not means, f"roof.py averages positions itself again (lines {means})"
+        src = open(roof_path, encoding="utf-8").read()
         assert 'hr.get("flues")' in src or "hr.get('flues')" in src
+        # the premise: the detector sees the rule where the rule is spelled
+        g2, m2 = self._grouping_shapes(os.path.join(ROOT, "build", "hearths.py"))
+        assert len(g2) == 1 and len(m2) == 1, (
+            f"hearths.py's grouping and mean read as {g2} and {m2} -- the detector is blind, or "
+            "the rule has moved and this guard must follow it")
 
     def test_an_unreadable_hearth_is_recorded_by_the_placer_and_republished_by_the_roof(self, monkeypatch):
         """WP-11.4's fourth state, moved with the reading: the placement layer is the one
@@ -537,7 +578,15 @@ class TestThePlansStacksAreTheRoofsStacks:
             raise ValueError("a hearth wall nobody wrote down")
         monkeypatch.setattr(HE, "stack_axes", boom)
         p = json.load(open(TIDEWATER, encoding="utf-8"))
-        GEO._SOLVE_CACHE.clear()
+        # A PRIVATE CACHE, DISCARDED AT TEARDOWN (WP-14.6, the whole build). This cleared the
+        # cache BEFORE the solve and left the result behind: the declared Tidewater record,
+        # solved with `stack_axes` raising, under the DEFAULT key -- the key `build_section`
+        # re-solves a declared record with. Every later test in the process that built an
+        # elevation or a roof of that record was handed centre-line stacks and an unreadable
+        # hearth record, and `tests/test_export.py`'s blind-bay test went red behind this one
+        # and green alone. `tests/test_solver.py` records the same poisoning and clears in a
+        # `finally`; a private dict also keeps every other test's entries.
+        monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})
         GEO.solve(p, None, 250, engine="heuristic")
         h = p["hearths"]
         assert h["hearths_unreadable"] and "a hearth wall nobody wrote down" in h["hearths_unreadable"]
@@ -712,3 +761,26 @@ class TestNoSashInTheBreast:
 def test_the_placed_record_still_validates(placed):
     jsonschema = pytest.importorskip("jsonschema", reason="COULD NOT EVALUATE: no jsonschema")
     jsonschema.validate(placed, json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))))
+
+
+# ------------------------------------------------------------------ nothing poisoned is left behind
+def test_no_cached_solve_carries_a_hearth_record_nobody_could_read():
+    """LAST IN THIS FILE ON PURPOSE, SO IT RUNS AFTER THIS FILE'S TEST THAT SOLVES WITH
+    `stack_axes` RAISING. That test cleared the solve cache before its solve and left the result
+    in it, under the default key a later caller's `build_section` re-solve hits -- so a later
+    test drawing the Tidewater record was handed centre-line stacks and a hearth record that
+    says it could not be read, and passed or failed by its place in the run (WP-14.6, the whole
+    build: `tests/test_export.py`'s blind-bay test went red behind this file and green alone).
+    It gives the solve a private cache now, and this holds the shared one to carrying no such
+    result. Reading it alone, it has nothing to find, which is what the order is for.
+
+    IT DOES NOT SEE `tests/test_hearths.py`'s TWIN, AND THAT WAS MEASURED: restoring that
+    file's clear-and-leave leaves this green, because tests between the two clear the cache
+    before their own solves and wipe the entry first. That one poisoned the key
+    `test_the_plate_draws_the_breast` reads, and the premise that test asserts -- a placement
+    carrying verdicts -- is what goes red on it."""
+    bad = [k for k, v in GEO._SOLVE_CACHE.items()
+           if isinstance(v, dict) and ((v.get("hearths") or {}).get("hearths_unreadable"))]
+    assert not bad, (
+        f"{len(bad)} cached solve(s) carry a hearth record nobody could read -- a test solved "
+        "under a patched `stack_axes` and left its result in the shared cache")

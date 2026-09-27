@@ -337,9 +337,10 @@ another:
 70 mutations, all red in the end. 7 were blind on their first run, and each got a guard before it
 was re-run.
 
-**The test figure in the counts paragraph below was re-collected at WP-14.6's close: 2,976, and the
-app suite 279, each reconciled BY NAME against a `git archive` of the parent -- 45 tests and 4 app
-tests added, none removed.** At WP-14.5's close it read 2,931 and 275, at WP-14.4's 2,892 and 275, at WP-14.3's 2,863 and 255, at WP-14.2's
+**The test figure in the counts paragraph below is 2,977: re-collected at WP-14.6's close at 2,976,
+and the app suite 279, each reconciled BY NAME against a `git archive` of the parent -- 45 tests and
+4 app tests added, none removed -- and one more when the package's own whole build found six of its
+guards moved (a solve-cache hygiene guard, reconciled by name against `9503e61`).** At WP-14.5's close it read 2,931 and 275, at WP-14.4's 2,892 and 275, at WP-14.3's 2,863 and 255, at WP-14.2's
 2,806 and 255, and before Phase 14 2,643 and 210. **That last pair was not right when it was written**: on `d565dea`, the
 phase's parent, `pytest --collect-only` returns 2,675 and the app suite runs 221. (This sentence
 said NEITHER of the older pairs was right until WP-14.6's audit re-collected the WP-14.2 one and
@@ -1014,7 +1015,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,976 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,977 tests**
 (plus the workbench app suite, **279** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this

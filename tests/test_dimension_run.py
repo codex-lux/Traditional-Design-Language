@@ -57,7 +57,15 @@ def sheets(tmp_path_factory):
 _RUN = re.compile(r'<g data-run="(\w+)" data-level="([^"]*)">(.*?)</g>', re.S)
 _TICK = re.compile(r'<line class="fn" x1="([-\d.]+)" y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"/>')
 _FIG = re.compile(r'<text class="dm" x="([-\d.]+)" y="([-\d.]+)" text-anchor="middle"(?: style="([^"]*)")?>([^<]*)</text>')
-_GD = re.compile(r'<line class="gd" x1="([-\d.]+)" y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"/>')
+# `[^>]*?` BETWEEN THE CLASS AND THE COORDINATES, because WP-14.6 put `data-bay` there and this
+# selector, which named every attribute in order, dropped every bay line out of its population:
+# the interior-tick check below then found no line under any tick and went red on a sheet that
+# drew them all (WP-14.4 records the same selector fault in `walk.mjs`). A bay line is told from
+# the other construction lines by what it IS -- `_BAYLINE`, read by the tick check -- and not by
+# which attributes happen to sit between its class and its ends.
+_GD = re.compile(r'<line class="gd"[^>]*? x1="([-\d.]+)" y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"/>')
+_BAYLINE = re.compile(r'<line class="gd"[^>]*? data-bay="(\d+)"[^>]*? x1="([-\d.]+)" y1="([-\d.]+)" '
+                      r'x2="([-\d.]+)" y2="([-\d.]+)"/>')
 _BAR = re.compile(r'<rect x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="5"')
 _CANVAS = re.compile(r'<svg[^>]*width="([\d.]+)" height="([\d.]+)"')
 _RULE = re.compile(r'<line x1="[\d.]+" y1="([\d.]+)" x2="[\d.]+" y2="[\d.]+" stroke="[^"]*" stroke-width="1"/>')
@@ -153,12 +161,22 @@ def test_the_extension_lines_stand_on_the_clear_face(sheets, register):
             assert bot > low, f"{level}: the extension line at x={v} stops at {bot:.1f}, above the run at {low:.1f}"
             seen += 1
         # and every INTERIOR tick of the bay run stands on a bay line that reaches past it --
-        # "the tick on the run stands on the very line the figure above it names"
+        # "the tick on the run stands on the very line the figure above it names". A BAY line,
+        # read by its `data-bay` (WP-14.6, G5), and numbered in order along the run: a line at
+        # the tick that is some other construction line, or the n-th bay line standing on the
+        # m-th tick, is not the line the figure names.
         ticks, _f, bay_y = runs[("bays", level)]
         assert len(ticks) > 2, f"COULD NOT EVALUATE: {level} has no interior bay tick"
-        for t in ticks[1:-1]:
-            here = [l for l in vlines if abs(l[0] - t) < 0.2 and min(l[1], l[3]) < Y(0.0) and max(l[1], l[3]) > low]
+        bays = sorted((float(x1), int(n), float(y1), float(y2))
+                      for n, x1, y1, x2, y2 in _BAYLINE.findall(svg)
+                      if abs(float(x1) - float(x2)) < 0.05 and X(0.0) - 0.2 <= float(x1) <= X(W) + 0.2
+                      and min(float(y1), float(y2)) < Y(0.0) and max(float(y1), float(y2)) > low)
+        assert len(bays) == len(ticks) - 2, (
+            f"{level}: {len(bays)} bay lines reach past the runs for {len(ticks) - 2} interior ticks")
+        for i, t in enumerate(ticks[1:-1], 1):
+            here = [b for b in bays if abs(b[0] - t) < 0.2]
             assert here, f"{level}: the tick at {t:.1f} px stands on no bay line reaching past the runs"
+            assert here[0][1] == i, f"{level}: the tick at {t:.1f} px stands on bay line {here[0][1]}, not {i}"
     assert seen == 2 * len(frames)
 
 
