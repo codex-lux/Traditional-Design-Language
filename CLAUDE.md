@@ -90,7 +90,7 @@ INSTRUMENT.** Lucas asked whether every drawn trim, casing, column and entablatu
 other drawn figure, reflects the plates and dimensions researched to source it, on every surface that
 draws SVG. **Read `docs/fidelity.md` before touching any renderer**: it is the standard (five links,
 three verdicts, four defect classes) and the live census. `tests/inkread.py` reads the SVG a reader is
-served; `tests/svg_census.py` holds forty-seven checks over the 73 profile plates, the order stack, the orders
+served; `tests/svg_census.py` holds forty-nine checks over the 73 profile plates, the order stack, the orders
 page (its own scripts run in `node:vm`), the Proportions plate (its arithmetic lifted into
 `workbench/app/src/proportions/plate.js`), the elevation and its inset, the section, the roof, the plan
 and the DXF. **`tests/fixtures/ink_known_disagreements.json` pins every disagreement BY ID AND BY
@@ -160,9 +160,45 @@ against the first R4, and is red against the engine's own stack. Two more from t
   COULD NOT EVALUATE in the walk, not narrow. The closing build is `3 of 53` with every red on the
   control's list by id, and the walk 347 green, 0 failed, 6 unjudged.
 
-**The test figure in the counts paragraph below was re-collected at WP-14.2's close: 2,806, and the
-app suite 255.** It had read 2,643 and 210, and neither was right before Phase 14 began either:
-on `d565dea`, the phase's parent, `pytest --collect-only` returns 2,675 and the app suite runs 221.
+**WP-14.3 HELD THE OPENINGS, THE ENTRANCE, THE SECTION AND THE ROOF TO WHAT THEY STATE: KNOWN
+DISAGREEMENTS 203 -> 36 (27 Sep 2026).** The 36 left are V2 (21), which waits on Lucas's ruling on
+decision 4, and PL1 (15), WP-14.4's. Read
+`docs/reports/wp-14.3-the-openings-held-to-what-they-state.md` before touching `elevation.py`'s
+openings, `render_elevation`, `render_section`, `render_roof`, `export_dxf`'s elevation or the
+scene's openings.
+- **A window is one set of numbers**: `sash_at` is sash-light's arithmetic at one width,
+  `opening_rects` calls it at each opening's own drawn width, and the SVG, the DXF and the scene
+  read the rect.
+- **A sash is its members**: `sash_layout` lays out the jambs, stiles, rails, meeting rails and
+  7/8 in muntins at the widths sash-light states, once, for all three surfaces.
+- **A head is its circle, at its own width's rise.**
+- **A judged figure is drawn and never published**: the transom's height and the pilaster's
+  projection are `NOT_MODELLED` (the transom's width and head rise go with its height, because a
+  partial family convicts), and the transom is drawn and labelled a judgment.
+- **Abutting rectangles are written from their rounded edges**
+  (`render_elevation._rect_edges`). Rounding each origin and width separately opened a hairline of
+  glass through the frame on 15 sheets, and the new check V14 saw it the first time it ran.
+- **The roof reads the stack's plan size ONCE**, because it is one figure for the house; carrying
+  it per flue put back the grouping of hearths by flue that WP-13.2 removed, and only the whole
+  suite saw it.
+
+**THE TRAP WORTH CARRYING IS THE GARAGE DOOR'S: A FEATURE CAN BE DRESSED AS THE ENTRANCE BECAUSE IT
+IS THE WIDEST THING ON THE FRONT.** On bad-02, bad-03 and bad-07 the widest door on the entrance
+front is the garage's, so the SVG, the DXF and the scene each composed a Gibbs doorcase, two
+sidelights and a transom around a 192 in garage door. The rect did not carry the door's `type`,
+so the renderer's garage branch, written for exactly this, could never fire. The measurement layer
+still describes that doorcase, because it reads the composition and not the rect; that is named
+and not done. **And a check can lose its population to the fix it guards**: V9 counted sheets that
+drew the keystone's and the stack's fallbacks, this package draws neither, and V9 went empty
+exactly where the new behaviour lives. It judges the record now. When a fix removes what a check
+counts, re-cut the check to the record or it goes quiet at the moment it matters. The closing build
+is `3 of 53`, with every red the parent's by id, and the walk is 347 green, 0 failed and 6 unjudged,
+the same six as at WP-14.2's close.
+
+**The test figure in the counts paragraph below was re-collected at WP-14.3's close: 2,863, and the
+app suite 255.** At WP-14.2's close it read 2,806 and 255, and before Phase 14 it read 2,643 and
+210. Neither of those older pairs was right when it was written: on `d565dea`, the phase's parent,
+`pytest --collect-only` returns 2,675 and the app suite runs 221.
 
 **AND READ `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` BEFORE TOUCHING THE PLACER, THE
 SHEET OR THE PARTI (4 Sep 2026).** Lucas put the bench's own Tidewater sheet in front of a session
@@ -833,7 +869,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,806 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,863 tests**
 (plus the workbench app suite, **255** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
