@@ -41,7 +41,17 @@ const check = (name, cond) => { if (!cond) failures.push(name); console.log(cond
    a spent quota. The limiter already says so honestly in its response body; nothing was
    listening. Restarting the server resets the window. */
 let limited = null;
+// THE PLACEMENT THE PAGE WAS SERVED, which is not the one the walk's own evaluate places (WP-14.4).
+// An explicit solve on the bench runs the corrective rounds before it surfaces the sheet (WP-13.9),
+// and the walk's probe posts a bare evaluate, which runs none -- so the two are different
+// placements of one record, and a count read off one and held against the other measures the
+// difference between them. The first version of the wall check did exactly that: 34 bodies drawn
+// against 28 "served", every one of the 34 drawn from what the page was served.
+let pageEvaluate = null;
 page.on('response', (r) => {
+  if (r.url().includes('/api/plan/evaluate') && r.status() === 200) {
+    r.json().then((j) => { if (j && j.placement) pageEvaluate = j; }).catch(() => {});
+  }
   if (r.status() === 429 && !limited) {
     limited = r.url();
     console.log('\nRATE LIMITED by the workbench server at ' + limited);
@@ -784,12 +794,16 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
       arrow: svg.querySelectorAll('[data-stair-arrow]').length,
     } : null;
   });
-  const served = ((apiPlacement?.walls) || []).find((w) => (w.level ?? 0) === 0);
+  // Held against the walls THE PAGE was served for the level on screen, never the probe's.
+  const served = ((pageEvaluate?.placement?.walls) || []).find((w) => (w.level ?? 0) === 0);
+  const probe = ((apiPlacement?.walls) || []).find((w) => (w.level ?? 0) === 0);
   if (!served) {
-    check('the sheet draws the wall bodies the server serves — the evaluate served none', false);
+    check('the sheet draws the wall bodies the server serves — the page was served none', false);
   } else {
     check(`the sheet draws the plate's own walls (${sheetWalls?.bodies} bodies drawn of `
-          + `${served.bands.length} served, the derived ring ${sheetWalls?.derived ? 'DRAWN' : 'not drawn'})`,
+          + `${served.bands.length} served to the page, the derived ring `
+          + `${sheetWalls?.derived ? 'DRAWN' : 'not drawn'}; the walk's own evaluate, without the `
+          + `corrective rounds, serves ${probe ? probe.bands.length : 'none'})`,
       sheetWalls && sheetWalls.bodies === served.bands.length && !sheetWalls.derived);
   }
   check(`the scale bar's zero stands on the clear face x = 0 (${sheetWalls?.bar})`,

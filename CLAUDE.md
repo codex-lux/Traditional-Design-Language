@@ -195,10 +195,55 @@ counts, re-cut the check to the record or it goes quiet at the moment it matters
 is `3 of 53`, with every red the parent's by id, and the walk is 347 green, 0 failed and 6 unjudged,
 the same six as at WP-14.2's close.
 
-**The test figure in the counts paragraph below was re-collected at WP-14.3's close: 2,863, and the
-app suite 255.** At WP-14.2's close it read 2,806 and 255, and before Phase 14 it read 2,643 and
-210. Neither of those older pairs was right when it was written: on `d565dea`, the phase's parent,
-`pytest --collect-only` returns 2,675 and the app suite runs 221.
+**WP-14.4 HELD THE PLAN SHEET AND THE BENCH TO WHAT THEY STATE, AND EACH TO THE OTHER: KNOWN
+DISAGREEMENTS 36 -> 21 (27 Sep 2026).** The 21 left are V2, which waits on Lucas's ruling on
+decision 4. Read `docs/reports/wp-14.4-the-plan-sheet-and-the-bench.md` before touching
+`render_plan.wall_bands`, `opening_gaps`, `Sheet.jsx`, `sheet/marks.js` or `derive.js`.
+- **The join between two massing elements is drawn ONCE**, centred on the line both share, at the
+  envelope's thickness -- the court wall's convention, a few lines below in the same function.
+  Each element's envelope was drawn outward from its own rooms, so at a hyphen the main block's
+  wall stood on the hyphen's floor, the hyphen's on the main block's, and `wall_lines` drew a
+  third between them: 21 pairs of wall bodies over one another on the tagged Tidewater plan, and
+  none on the fifteen one-rectangle plans, which the JOIN CHANGE leaves byte-identical (the package
+  as a whole moves them: the bay-module line is new on all fifteen). `render_plan.element_joins`.
+- **A hole is cut at the opening's own element face** (`edge_ft`), which WP-11.14 gave the frames
+  and not the holes: 7 of 110 exterior openings had their break in the wrong wall, all on that
+  plan.
+- **The bay module says whose it is.** `geometry_report.bay_module` carries `stated_by`, and
+  `disclosures.bay_module` says *"BAY GRID AT THE PLACER'S DEFAULT 10 FT"* on the fifteen plans that
+  name no parti; a record with no module at all draws no grid on either sheet. **As committed the
+  bench said it TWICE** -- the served line, and a second spelling in `Sheet.jsx`'s own note (found
+  by WP-14.6's audit, and fixed there).
+- **`render_plan.wall_bodies` is the one spelling of a sheet's walls** and the bench draws what
+  `placement.walls` serves -- it drew one footprint ring before, so the tagged Tidewater's wing and
+  hyphen had no walls on the bench at all. **B2, the row that held this, compared the bands' walls
+  and dimensions and not their `kind`**, which is what chooses the bench's ink: a server dropping it
+  drew all 88 bands as partitions and B2 agreed (found by WP-14.6's audit, and fixed there).
+- **`sheet/marks.js` holds the bench's mark geometry**, lifted byte-identically (22 SSR plates),
+  then corrected: windows on W and S stood on the footprint's face, every opening was 0.75 ft deep
+  against a 15.5 in wall, an exterior door ignored its hinge, and the stair had no arrow.
+- **The sheet contract holds POSITIONS**, where it held counts: two renderers agreeing on how many
+  doors and between which rooms could hang them from different jambs, and did.
+
+**THE TRAP WORTH CARRYING: A FIXTURE THAT NEVER REACHES A BRANCH CANNOT GUARD IT, AND THE FROZEN
+FIXTURES REACH ONE JAMB.** `openings.place` writes `hinge: low` on every door it seats, so a
+mutation hanging every leaf from the low jamb was GREEN against the Python half of the contract
+until a copy of each fixture re-hung from the high jamb was added -- and the JS half stayed blind
+the same way until WP-14.6 re-hung its fixtures too. **And the package's own build found three
+guards pinned to literals it changed**: two read the text `_disclose(plan)` and one a 3,000-character
+window of `placement_summary`, and giving `_disclose` a second argument broke all three with every
+property they guard intact. Re-cut against the property -- the AST, the definition's name, the whole
+function. A guard pinned to a spelling fails on a change that keeps the property and passes one
+that keeps the words. And three of the new census checks lost their
+first draft to the instrument rather than the sheet: PL2 convicted a correct terrace door and then
+a correct join broken by its own doors, and B2 rounded twice and failed every plan.
+
+**The test figure in the counts paragraph below was re-collected at WP-14.4's close: 2,892, and the
+app suite 275.** At WP-14.3's close it read 2,863 and 255, at WP-14.2's 2,806 and 255, and before
+Phase 14 2,643 and 210. **That last pair was not right when it was written**: on `d565dea`, the
+phase's parent, `pytest --collect-only` returns 2,675 and the app suite runs 221. (This sentence
+said NEITHER of the older pairs was right until WP-14.6's audit re-collected the WP-14.2 one and
+found it right.)
 
 **AND READ `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` BEFORE TOUCHING THE PLACER, THE
 SHEET OR THE PARTI (4 Sep 2026).** Lucas put the bench's own Tidewater sheet in front of a session
@@ -869,8 +914,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,863 tests**
-(plus the workbench app suite, **255** under `node --test`). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,892 tests**
+(plus the workbench app suite, **275** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring

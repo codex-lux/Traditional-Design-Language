@@ -1965,7 +1965,16 @@ class TestTheDisclosureIsOnBOTHEngines:
         calls = [ln for ln in src.splitlines()
                  if "multi_element_disclosure(plan)" in ln and not ln.lstrip().startswith("def ")]
         assert len(calls) == 1, (calls, "there is one _disclose(); do not re-add a second writer")
-        assert src.count("_disclose(plan)") >= 2, (
+        # THE CALLS, BY THE AST AND NOT BY THEIR TEXT (WP-14.6). This counted the literal
+        # `_disclose(plan)`, and WP-14.4 gave the function a second argument -- the footprint, so
+        # the bay module can say whose it is -- which took the count to 0 with both writers still
+        # routing through it. A guard pinned to a spelling fails on a change that keeps the
+        # property and passes one that breaks it by keeping the words.
+        import ast
+        calls = [n for n in ast.walk(ast.parse(src)) if isinstance(n, ast.Call)
+                 and isinstance(n.func, ast.Name) and n.func.id == "_disclose"
+                 and n.args and isinstance(n.args[0], ast.Name) and n.args[0].id == "plan"]
+        assert len(calls) >= 2, (
             "both record writers must route through _disclose(); a guarantee that holds on one "
             "engine is not one")
 

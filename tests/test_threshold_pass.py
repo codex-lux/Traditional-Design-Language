@@ -600,8 +600,12 @@ class TestTheModuleGraph(unittest.TestCase):
 class TestTheDrawing(unittest.TestCase):
     def test_both_renderers_are_told_about_the_stoop_and_the_stack(self):
         core = open(os.path.join(ROOT, "mcp_server", "core.py"), encoding="utf-8").read()
+        # THE WHOLE FUNCTION, to the next definition -- not a 3,000-character window, which
+        # WP-14.4 overran by adding the walls to the same return: the lines this guards were
+        # still there and the window stopped short of them (WP-14.6)
         i = core.index("def placement_summary")
-        body = core[i:i + 3000]
+        body = core[i:]
+        body = body[:body.index("\ndef ", 1)]
         self.assertIn('"threshold": out.get("threshold")', body,
                       "omitted here, the browser sheet draws neither while the Python sheet "
                       "draws both -- the defect WP-11.3 found in this same return")
