@@ -229,3 +229,29 @@ six shards on the push.
 - **Nothing was renumbered**, and WP-14.1 through 14.6 still name two packages each.
 - **Decision 4 still waits on Lucas, and so does the leaf-order question.** The merge changed
   neither.
+
+## VII. After the merge commit (27 Sep 2026)
+
+**The walk found the census's population defect a second time, in the walk's own every-pack loop.**
+The ink line's WP-14.2 loop walks every order pack the API lists and holds each to the stack an
+`OrderPlate` draws. Main draws `moorish-arch` with `AssemblyPlate`. So, run on the merge commit, the
+loop read the wall-datum plate's first frame as a stack and failed four checks about a drawing no
+reader is shown:
+
+- "the plate draws every member the engine emitted";
+- the stack's height;
+- the frame and the gutter;
+- "the shaft is a column".
+
+The loop now branches on the served `drawing`, as the page does:
+
+- a stack gets the stack checks;
+- anything else is held to the plate the page draws for it: the wall-datum plate for
+  `"assemblies"`, the refusal for none.
+
+The run that failed is the evidence that the new check is needed. **Re-run: 701 green, none failed,
+6 could not evaluate (exit 3).** The six are the audit's six, line for line.
+
+**Main's own CI walk on `08959a2` is red on four checks this walk passes here.** Three are
+`trim-classical` label overlaps and one is the atlas's ring count at the home view. They depend on
+the runner's environment, and they come to this branch with main.

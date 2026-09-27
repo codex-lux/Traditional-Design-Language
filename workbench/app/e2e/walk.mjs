@@ -1802,10 +1802,23 @@ for (const id of orderPacks) {
   const api = await (await fetch(`${BASE}/api/proportions/${id}?members=true&column_diameter=${dia}`)).json();
   const members = api.assemblies.reduce((a, x) => a + (x.members || []).length, 0);
   const plate = await readPlate(id);
-  if (!members) {
-    // moorish-arch: an arch system with no column stack draws no plate rather than a frame
-    check(`⑩ ${id}: a pack with no stack draws no plate (${plate.missing || 'a plate was drawn'})`,
-      !!plate.missing);
+  if (api.drawing !== 'stack') {
+    /* NOT A STACK, SO NOT THIS LOOP'S PLATE (the merge of the two Phase 14s, 27 Sep 2026). The page
+       draws a pack by its served `drawing` (`page.js::plateKind`): a stack with `OrderPlate`, anything
+       else with the wall-datum plate or a refusal. After the merge the server serves `moorish-arch`,
+       the one order pack with no column stack, as assemblies, and this loop read the wall-datum
+       plate's first frame as a stack -- four reds about a drawing no reader is shown. ⑩b walks the
+       wall-datum plate; this holds only that the page drew the plate the payload asks for. */
+    const drawnAs = await page.evaluate((pid) => {
+      const sec = document.querySelector(`main [data-pack-page="${pid}"] [data-section="plate"]`);
+      if (!sec) return 'no plate section';
+      if (sec.querySelector('[data-plate-at]')) return 'assemblies';
+      if (sec.querySelector('[data-refused="no-assemblies"]')) return 'none';
+      return 'something else';
+    }, id);
+    const want = api.drawing === 'assemblies' ? 'assemblies' : 'none';
+    check(`⑩ ${id}: served as ${api.drawing}, the page draws ${drawnAs} (${members} members)`,
+      drawnAs === want && (want === 'none' || members > 0));
     continue;
   }
   if (plate.missing) { check(`⑩ ${id}: a plate is drawn (${plate.missing})`, false); continue; }
