@@ -417,12 +417,22 @@ _READ_NOT_SERVED = {
 }
 
 
+# A KEY READ, AND NOT A METHOD CALL. The served placement is JSON and carries no function, so a
+# name followed by `(` is a call on some OTHER value that happens to be called `placed`. The merge
+# of the two Phase 14s (27 Sep 2026) brought two: main's `plate/assemblyPlan.js` keeps its label
+# positions in a local array named `placed` (`.some`, `.flatMap`, `.map`) and `styles/styleTree.js`
+# a Set of the same name (`.has`, `.add`), and this scan -- which neither parent ran against the
+# other's files -- read all five as placement keys the server does not serve. The `\b` before the
+# lookahead is load-bearing: without it `some(` backtracks to the key `som`.
+_READ_RE = r"\bplace(?:ment|d)\??\.([A-Za-z_]\w*)\b(?!\s*\()"
+
+
 def _app_reads():
     """{key: files} for every key read off a placement in the app's live source (comments stripped).
     A SELECTOR, and its reach is stated: a read off a variable named `placement`, or `placed` --
     the two names the app gives one (`sheet/refusal.js` takes it as `placed`, and reads `sketch`
-    only that way, which is why the first version of this scan could not see `sketch` read at all).
-    A read through any other name is outside it."""
+    only that way, which is why the first version of this scan could not see `sketch` read at all)
+    -- that is not called (`_READ_RE`). A read through any other name is outside it."""
     import re
     import subprocess
     files = subprocess.run(["git", "ls-files", "-co", "--exclude-standard", "workbench/app/src"],
@@ -434,9 +444,20 @@ def _app_reads():
         src = (ROOT / rel).read_text(encoding="utf-8")
         live = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
         live = re.sub(r"(^|[^:])//[^\n]*", r"\1", live)
-        for m in re.finditer(r"\bplace(?:ment|d)\??\.([A-Za-z_]\w*)", live):
+        for m in re.finditer(_READ_RE, live):
             reads.setdefault(m.group(1), set()).add(rel)
     return reads
+
+
+def test_the_scan_reads_a_key_and_not_a_call_on_another_value_of_the_same_name():
+    """The narrowing is driven both ways: a read the sheet makes is still a read, however it is
+    spelled, and a call on a local `placed` is not one."""
+    import re
+    reads = lambda src: [m.group(1) for m in re.finditer(_READ_RE, src)]
+    assert reads("const f = placement?.footprint; placed.sketch && x;") == ["footprint", "sketch"]
+    assert reads("(placement.walls || []).map(w => w)") == ["walls"]
+    assert reads("placement?.hearths?.map((h) => h)") == ["hearths"]
+    assert reads("if (placed.some((p) => p.overflow)) p.placed.map(f); placed.has(id); placed.add (id)") == []
 
 
 def test_every_placement_key_the_app_reads_is_served():

@@ -96,6 +96,10 @@ the two Phase 11s and the two Phase 9s already are. Read
 `docs/reports/the-merge-of-the-two-phase-14s-2026-09-27.md` before trusting a figure either line
 published: where both lines built the same thing, main's spelling survives and the ink line's
 behaviour is ported into it, and several figures are a third value belonging to neither.
+**The whole build on the merge commit is `2 of 54 checks failed`, and 22 of the suite's 23 reds are
+red on both parents by id.** The 23rd was the merge's own. The ink line's audit scans the app for
+the placement keys it reads, and it read main's local `placed` array and Set as keys the server
+does not serve. That is fixed: a call is not a key read (that report's §VIII).
 
 **PHASE 14 — THE INK HELD TO ITS PLATES — IS COMPLETE THROUGH WP-14.6, ITS AUDIT, BUT FOR DECISION 4,
 WHICH WAITS ON LUCAS (27 Sep 2026); WP-14.1 IS THE INSTRUMENT.** Lucas asked whether every drawn trim, casing, column and entablature profile, and every
@@ -414,11 +418,11 @@ deferred. §XII covers the guards.
   - The 24th was the audit's own. A1's fix left a gate row handing the roof no section, so the roof
     built its own on the search engine's re-solve. It is fixed in the audit's last commit.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
-    the next piece of work.
+    the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 3,239 and the app suite 754, a third value at
-the merge of the two Phase 14s (27 Sep 2026), reconciled BY NAME against both parents in that
-paragraph.** Before the merge it was 3,090 and 316 (27 Sep 2026, the audit of Phase 14), each
+**The test figure in the counts paragraph below is 3,240 and the app suite 754.** It was 3,239 at
+the merge of the two Phase 14s (27 Sep 2026), a third value reconciled BY NAME against both
+parents in that paragraph, and the merge's whole build added one test, the scan's driven test. Before the merge it was 3,090 and 316 (27 Sep 2026, the audit of Phase 14), each
 reconciled BY NAME against `c003fd6`: 116 tests added and 3 renamed away (two hinge-parameter ids
 the bench work re-cut and one surround test A6 re-cut), 37 app tests added and none removed.
 Before the audit it was 2,977: re-collected at WP-14.6's close at 2,976,
@@ -1156,7 +1160,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,239 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,240 tests**
 (plus the workbench app suite, **754** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this

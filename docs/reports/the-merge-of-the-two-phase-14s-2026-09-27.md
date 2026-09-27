@@ -255,3 +255,62 @@ The run that failed is the evidence that the new check is needed. **Re-run: 701 
 **Main's own CI walk on `08959a2` is red on four checks this walk passes here.** Three are
 `trim-classical` label overlaps and one is the atlas's ring count at the home view. They depend on
 the runner's environment, and they come to this branch with main.
+
+
+## VIII. The whole build on the merge commit (27 Sep 2026)
+
+**`2 of 54 checks failed`, in 85 min 38 s, on `087800e` in a clean worktree.** The two failing
+checks are `check_partis.py` and `pytest tests/`.
+
+- `check_partis.py` convicts the composed `side-hall-townhouse` by `even-bay-front`, as it has
+  since WP-13.3. `test_parti_composability` is the same finding through a second reader.
+- `pytest tests/` is 23 failed / 3,191 passed / 25 skipped.
+- The server suite is green, 414 passed and 15 skipped, and the app suite is 754 of 754.
+- Three checks could not evaluate: `check_frontend.py`, because a worktree has no `dist/`, and
+  both CAD selftests, which refuse both shipped plans by name.
+
+**Twenty-two of the 23 are both parents', by id.** Each is red on the ink parent's own whole build
+(`843b1a3`, less the one the audit fixed in `72c9458`). All 22 ids were also run on a checkout of
+main's `08959a2`, where they came back 22 failed in 4 min 28 s. They are:
+
+- the WP-13.1 gate's rows;
+- three composer rows;
+- `test_score`'s product row;
+- `test_parti_composability`;
+- `test_solver`'s half bound.
+
+**The 23rd is the merge's, and neither parent could have shown it.**
+
+- The ink line's audit (E1, `26a01bc`) added `test_every_placement_key_the_app_reads_is_served`. It
+  scans the app for `placement.X` and `placed.X`, and holds each key to what the server serves.
+- Main's WP-14.24 added `plate/assemblyPlan.js`, which keeps its label positions in a local array
+  named `placed`. It also added `styles/styleTree.js`, whose Set of the same name is read with
+  `.has` and `.add`.
+- On the merged tree the scan read `some`, `flatMap`, `map`, `has` and `add` as five placement keys
+  the server does not serve. The ink parent has no such files, and main has no such test.
+
+The fix:
+
+- The served placement is JSON and carries no function, so a name followed by `(` is a call on
+  another value. The scan now reads key reads only.
+- A driven test holds both halves. The sheet's own reads are still found, however they are
+  spelled, and a call on a local `placed` is not.
+- Measured over the whole app, the narrowing removes exactly those five and nothing else.
+- Two mutations, both red: the old pattern, and the pattern without the word boundary that stops
+  `some(` backtracking to a key `som`.
+
+**PR #40's CI agrees shard for shard.** Corpus shards 1 to 5 are red and 6 is green. Mapped
+through the runner's own unit assignment, the local reds fall on exactly shards 1 to 5:
+
+| shard | red |
+|---|---|
+| 1 | `test_score` |
+| 2 | the scan |
+| 3 | the gate and `test_parti_composability` |
+| 4 | the composer and `check_partis` |
+| 5 | `test_solver` |
+
+Shard 2's log names the scan as its only failure. The workbench job fails the four walk checks
+main's own CI fails, word for word (§VII).
+
+**The test count is 3,240 after the scan's fix**: 3,239 at the merge, plus the driven test.
