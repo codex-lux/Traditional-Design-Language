@@ -14,6 +14,7 @@ check must report it. Nothing here writes inside the repository.
 import json
 import os
 import subprocess
+import sys
 
 import pytest
 
@@ -181,3 +182,46 @@ class TestTheChecksCanDisagree:
         stripped = _planted(self.PLATE, lambda s: re.sub(r" data-frame='[^']*'", "", s, count=1))
         for cid in ("P2", "P3", "P5", "P6"):
             assert _verdicts(monkeypatch, cid, stripped) == ["cne"], cid
+
+
+class TestTheJavaScriptSurfaces:
+    """O1-O3 have no live disagreement once the page is regenerated, so each is driven; and every
+    row that needs `node` must say COULD NOT EVALUATE without it, never agree."""
+
+    def test_o1_sees_a_page_committed_without_a_build(self, monkeypatch, tmp_path):
+        stale = tmp_path / "orders.html"
+        stale.write_text(open(C.ORDERS_PAGE, encoding="utf-8").read() + "<!-- -->", encoding="utf-8")
+        monkeypatch.setattr(C, "ORDERS_PAGE", str(stale))
+        assert [r["verdict"] for r in C.CHECKS["O1"]["fn"]()] == ["disagrees"]
+
+    def test_o2_and_o3_see_a_section_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
+        import copy
+        import re
+        run = C._orders_run()
+        assert not isinstance(run, str), run
+        planted = copy.deepcopy(run)
+        key = "vignola-ionic@12"
+        planted["out"][key]["svg"] = re.sub(
+            r'"px_per_in":([\d.]+)', lambda m: '"px_per_in":%r' % (float(m.group(1)) * 1.1),
+            planted["out"][key]["svg"], count=1)
+        assert planted["out"][key]["svg"] != run["out"][key]["svg"], "the plant did not land"
+        monkeypatch.setattr(C, "_ORDERS", planted)
+        for cid in ("O2", "O3"):
+            got = {r["subject"]: r["verdict"] for r in C.CHECKS[cid]["fn"]()}
+            assert got[key] == "disagrees", cid
+            assert got["vignola-ionic@24"] == "agrees", cid          # the control, unplanted
+
+    def test_without_node_every_javascript_row_is_unjudged(self, monkeypatch):
+        monkeypatch.setattr(C.shutil, "which", lambda name: None)
+        monkeypatch.setattr(C, "_ORDERS", None)
+        monkeypatch.setattr(C, "_PLATEJS", None)
+        for cid in ("O2", "O3", "O4", "O5", "O6", "R1", "R2", "R3"):
+            got = C.CHECKS[cid]["fn"]()
+            assert got and all(r["verdict"] == "cne" for r in got), (cid, got)
+            assert "node" in got[0]["detail"], got[0]
+
+    def test_the_plate_fixtures_are_what_the_server_serves(self):
+        r = subprocess.run([sys.executable, os.path.join(C.ROOT, "tests", "fixtures", "proportions_plate",
+                                                         "generate.py"), "--check"],
+                           capture_output=True, text=True)
+        assert r.returncode == 0, r.stdout + r.stderr

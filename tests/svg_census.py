@@ -23,8 +23,10 @@ build because a suite already red for one cause cannot report a second.
 """
 import argparse
 import json
+import math
 import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -34,6 +36,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(ROOT, "build"))
 
 import ink_surfaces as SURF  # noqa: E402
+import inkread as IR  # noqa: E402
 
 DOC = os.path.join(ROOT, "docs", "fidelity.md")
 KNOWN = os.path.join(HERE, "fixtures", "ink_known_disagreements.json")
@@ -497,6 +500,337 @@ def e3():
                            % (H["pedestal"], H["subplinth"])))
         else:
             out.append(row("E3", pid, "agrees"))
+    return out
+
+
+@check("E4", "order-stack", "the pedestal die is drawn at a naked the record gives, never the "
+       "1.2 x R stand-in profiles.pack_geometry takes when the base publishes no plinth",
+       "order packs drawing a pedestal")
+def e4():
+    out = []
+    for pid, pack, dim, H in _order_packs():
+        asms = {a["id"]: a for a in dim["assemblies"]}
+        if "pedestal" not in asms and "subplinth" not in asms:
+            continue
+        base = asms.get("base")
+        plinth = max([m.get("projection_in") or 0.0 for m in base["members"]], default=0.0) if base else 0.0
+        if plinth:
+            out.append(row("E4", pid, "agrees"))
+        else:
+            out.append(row("E4", pid, "disagrees",
+                           "the base publishes no projection, so the die is drawn at 1.2 x R, a "
+                           "figure no record states"))
+    return out
+
+
+# ------------------------------------------------------------------ the orders page (JavaScript)
+# dist/orders.html draws with code that exists nowhere else, so its ink is read by running the
+# COMMITTED page's own scripts in node:vm (tests/js/orders_ink.mjs) and handing what they draw to
+# inkread. Where there is no `node` every row is COULD NOT EVALUATE, never a pass.
+ORDERS_PAGE = os.path.join(ROOT, "dist", "orders.html")
+ORDER_DIAMETERS = (12, 24, 36)
+_ORDERS = None
+
+
+def _auth_order(pid):
+    a, o = pid.rsplit("-", 1)
+    return a, o
+
+
+def _orders_run():
+    """{key: {svg, info, meta}} for every order pack at every diameter, pedestal on and off, plus
+    the driven cases; or a string saying why it could not run."""
+    global _ORDERS
+    if _ORDERS is not None:
+        return _ORDERS
+    if not shutil.which("node"):
+        _ORDERS = "node is not installed, so the page's own scripts cannot be run"
+        return _ORDERS
+    RO = SURF._mod("render_orders")
+    cases = []
+    for pid in RO.order_pack_ids():
+        a, o = _auth_order(pid)
+        for d in ORDER_DIAMETERS:
+            for ped in (True, False):
+                cases.append({"key": "%s@%d%s" % (pid, d, "" if ped else "-noped"), "pid": pid,
+                              "auth": a, "order": o, "diameter": d, "ped": ped})
+    # the branch no pack reaches today: an invariant the engine could not judge
+    cases.append({"key": "vignola-ionic@12-unjudged-invariant", "pid": "vignola-ionic",
+                  "auth": "vignola", "order": "ionic", "diameter": 12, "ped": True,
+                  "patch": "P['vignola-ionic'].invariants[0].holds = null;"})
+    r = subprocess.run(["node", os.path.join(HERE, "js", "orders_ink.mjs"), ORDERS_PAGE],
+                       input=json.dumps(cases), capture_output=True, text=True, timeout=600)
+    if r.returncode:
+        _ORDERS = "the page's scripts failed under node: " + (r.stderr.strip().splitlines() or ["?"])[-1]
+        return _ORDERS
+    out = json.loads(r.stdout)
+    _ORDERS = {"cases": cases, "out": out}
+    return _ORDERS
+
+
+def _silh_model(svg):
+    """The section silhouette of an orders-page drawing in its own frame's inches."""
+    ink = IR.Ink(svg)
+    plate = ink.frame(proj="order")
+    sil = [it for it in ink.items if "silh" in it.classes and "ghost" not in it.classes]
+    if plate is None or len(sil) != 1:
+        return None, None
+    return [IR.to_model(plate, x, y) for x, y in sil[0].points(n=24, lines=True)], ink
+
+
+def _python_stack(pid, diameter, ped):
+    PE = SURF._mod("proportion_engine")
+    PROF = SURF._mod("profiles")
+    pack = PE.resolve(pid)
+    inc = [a for a in PE.stack_for(pack) if ped or a not in ("pedestal", "subplinth")]
+    dim = PE.dimension(pack, module_in=diameter * PE.diameters_per_module(pack), include=inc)
+    geo = PROF.pack_geometry(dim, pack.get("column"), pack.get("projection_datum"))
+    pts = [p for sub in IR.sample_commands(IR.parse_path(geo["path"]), n=24, lines=True) for p in sub] \
+        if geo.get("path") else []
+    return dim, geo, pts
+
+
+@check("O1", "orders-tool", "the committed page is what build/render_orders.py builds now",
+       "the one page")
+def o1():
+    RO = SURF._mod("render_orders")
+    have = open(ORDERS_PAGE, encoding="utf-8").read()
+    ok = have == RO.build_page()
+    return [row("O1", "dist/orders.html", "agrees" if ok else "disagrees",
+                "" if ok else "stale: run python3 build/render_orders.py (build.py does)")]
+
+
+@check("O2", "orders-tool", "the section the page draws is the height the engine dimensions, "
+       "at every diameter it offers, pedestal on and off",
+       "every order pack with a stack x 12/24/36 in x pedestal")
+def o2():
+    run = _orders_run()
+    if isinstance(run, str):
+        return [row("O2", "dist/orders.html", "cne", run)]
+    out = []
+    for c in run["cases"]:
+        if c.get("patch"):
+            continue
+        dim, geo, _p = _python_stack(c["pid"], c["diameter"], c["ped"])
+        if not dim["assemblies"]:
+            continue            # `moorish-arch` states no stack: there is no section to draw
+        pts, _ink = _silh_model(run["out"][c["key"]]["svg"])
+        if not pts:
+            out.append(row("O2", c["key"], "cne", "no single framed section silhouette"))
+            continue
+        drawn = max(v for u, v in pts) - min(v for u, v in pts)
+        want = dim["totals"]["stack_height_in"]
+        if abs(drawn - want) > 0.02:
+            out.append(row("O2", c["key"], "disagrees", "draws %.2f in, the engine %.2f in" % (drawn, want)))
+        else:
+            out.append(row("O2", c["key"], "agrees"))
+    return out
+
+
+@check("O3", "orders-tool", "the section reaches as far out as the geometry Python constructed "
+       "for it, scaled to the diameter drawn", "every order pack with a stack x 12/24/36 in x pedestal")
+def o3():
+    run = _orders_run()
+    if isinstance(run, str):
+        return [row("O3", "dist/orders.html", "cne", run)]
+    out = []
+    for c in run["cases"]:
+        if c.get("patch"):
+            continue
+        dim, geo, ppts = _python_stack(c["pid"], c["diameter"], c["ped"])
+        if not dim["assemblies"]:
+            continue
+        pts, _ink = _silh_model(run["out"][c["key"]]["svg"])
+        if not pts or not ppts:
+            out.append(row("O3", c["key"], "cne", "no section drawn or no geometry constructed"))
+            continue
+        drawn, want = max(u for u, v in pts), max(u for u, v in ppts)
+        if abs(drawn - want) > 0.02:
+            out.append(row("O3", c["key"], "disagrees", "reaches %.2f in, the geometry %.2f in" % (drawn, want)))
+        else:
+            out.append(row("O3", c["key"], "agrees"))
+    return out
+
+
+@check("O4", "orders-tool", "an invariant the engine could not judge is not printed FAIL",
+       "driven: one invariant set unjudged (every one of 169 holds today)")
+def o4():
+    run = _orders_run()
+    if isinstance(run, str):
+        return [row("O4", "dist/orders.html", "cne", run)]
+    info = run["out"]["vignola-ionic@12-unjudged-invariant"]["info"]
+    first = re.search(r'<div class="inv"><span class="m ([a-z]+)">([^<]*)</span>', info)
+    if not first:
+        return [row("O4", "unjudged-invariant", "cne", "the page printed no invariant")]
+    shown = first.group(2)
+    if shown.upper() == "FAIL":
+        return [row("O4", "unjudged-invariant", "disagrees",
+                    "an invariant whose verdict is null is printed FAIL, a failure nobody measured")]
+    return [row("O4", "unjudged-invariant", "agrees", "printed %r" % shown)]
+
+
+@check("O5", "orders-tool", "every order pack the page carries can be reached from its controls",
+       "every order pack in the page")
+def o5():
+    run = _orders_run()
+    if isinstance(run, str):
+        return [row("O5", "dist/orders.html", "cne", run)]
+    reach = set(run["out"]["__reachable"])
+    RO = SURF._mod("render_orders")
+    return [row("O5", pid, "agrees" if pid in reach else "disagrees",
+                "" if pid in reach else "carried in the page's data and selectable by no button")
+            for pid in RO.order_pack_ids()]
+
+
+def _flute_fracs(n):
+    """Where the arrises of n evenly spaced flutes fall across a half elevation, as a fraction of
+    the radius, for both ways of setting them out: a flute on the axis, or an arris on it."""
+    step = 2 * math.pi / n
+    a = sorted(round(math.sin((k + 0.5) * step), 4) for k in range(n) if (k + 0.5) * step < math.pi / 2)
+    b = sorted(round(math.sin(k * step), 4) for k in range(1, n) if k * step < math.pi / 2)
+    return a, b
+
+
+@check("O6", "orders-tool", "the flute lines on the elevation fall where the stated number of "
+       "flutes projects", "fluted order packs, at 12 in, pedestal on")
+def o6():
+    run = _orders_run()
+    if isinstance(run, str):
+        return [row("O6", "dist/orders.html", "cne", run)]
+    PE = SURF._mod("proportion_engine")
+    out = []
+    for c in run["cases"]:
+        if c.get("patch") or c["diameter"] != 12 or not c["ped"]:
+            continue
+        pack = PE.resolve(c["pid"])
+        n = ((pack.get("column") or {}).get("fluting") or {}).get("count")
+        if not n:
+            continue
+        ink = IR.Ink(run["out"][c["key"]]["svg"])
+        plate = ink.frame(proj="order")
+        lines = [it for it in ink.select("path") if (it.style.get("stroke") or "").startswith("rgba(216,178,106,.16")]
+        R = c["diameter"] / 2.0
+        feet = sorted(round(abs(IR.to_model(plate, *it.points(n=1, lines=False)[0])[0]) / R, 4) for it in lines)
+        a, b = _flute_fracs(n)
+        ok = any(len(feet) == len(want) and all(abs(x - y) < 0.02 for x, y in zip(feet, want)) for want in (a, b))
+        if ok:
+            out.append(row("O6", c["pid"], "agrees", "%d flutes" % n))
+        else:
+            out.append(row("O6", c["pid"], "disagrees",
+                           "%d flutes stated; %d lines drawn at %s of the radius, where they project "
+                           "to %s" % (n, len(feet), feet[:4] + (["..."] if len(feet) > 4 else []), a)))
+    return out
+
+
+# ------------------------------------------------------------------ the Proportions plate (JavaScript)
+# The workbench plate draws Python's face paths inside a frame and beside words that
+# workbench/app/src/proportions/plate.js computes. That module is run by tests/js/
+# proportions_plate.mjs on exactly the data corpus.proportions_with_members serves.
+_PLATEJS = None
+
+
+def _plate_run():
+    global _PLATEJS
+    if _PLATEJS is not None:
+        return _PLATEJS
+    if not shutil.which("node"):
+        _PLATEJS = "node is not installed, so plate.js cannot be run"
+        return _PLATEJS
+    sys.path.insert(0, os.path.join(ROOT, "workbench", "server"))
+    import corpus  # noqa: E402  (workbench/server/corpus.py; needs no web framework)
+    PE = SURF._mod("proportion_engine")
+    served = {}
+    for pid in sorted(PE.PACKS):
+        if (PE.PACKS[pid].get("kind") or "") == "order-system":
+            served[pid] = corpus.proportions_with_members(pid, column_diameter=12)
+    r = subprocess.run(["node", os.path.join(HERE, "js", "proportions_plate.mjs")],
+                       input=json.dumps(served), capture_output=True, text=True, timeout=300)
+    if r.returncode:
+        _PLATEJS = "plate.js failed under node: " + (r.stderr.strip().splitlines() or ["?"])[-1]
+        return _PLATEJS
+    _PLATEJS = {"served": served, "plate": json.loads(r.stdout)}
+    return _PLATEJS
+
+
+def _plate_rows(cid):
+    run = _plate_run()
+    if isinstance(run, str):
+        return None, [row(cid, "proportions-plate", "cne", run)]
+    return run, None
+
+
+@check("R1", "proportions-plate", "the plate's frame holds its own ink (the dimension gutter "
+       "begins where the widest moulding ends)", "order packs the plate draws, at 12 in")
+def r1():
+    run, bad = _plate_rows("R1")
+    if bad:
+        return bad
+    out = []
+    for pid, P in sorted(run["plate"].items()):
+        if P is None:
+            continue
+        g = run["served"][pid].get("geometry") or {}
+        if not g.get("path"):
+            out.append(row("R1", pid, "cne", "no geometry served"))
+            continue
+        f = P["f"]
+        ink = max(x for sub in IR.sample_commands(IR.parse_path(g["path"]), n=24, lines=True)
+                  for x, y in sub) * f
+        if ink > P["maxX"] + 0.01:
+            out.append(row("R1", pid, "disagrees", "frame %.2f in, the ink reaches %.2f in" % (P["maxX"], ink)))
+        else:
+            out.append(row("R1", pid, "agrees"))
+    return out
+
+
+@check("R2", "proportions-plate", "the members the plate says 'state no projection at all' are "
+       "exactly the members whose record states none", "order packs the plate draws, at 12 in")
+def r2():
+    run, bad = _plate_rows("R2")
+    if bad:
+        return bad
+    PE = SURF._mod("proportion_engine")
+    out = []
+    for pid, P in sorted(run["plate"].items()):
+        if P is None:
+            continue
+        pack = PE.resolve(pid)
+        record = set()
+        for aid, a in (pack.get("assemblies") or {}).items():
+            for m in a.get("members", []):
+                if "projection_parts" not in m:
+                    record.add("%s.%s" % (aid, m["id"]))
+        drawn = {b["key"] for b in P["bands"]}
+        record &= drawn                     # only what this plate draws can be counted on it
+        said = set(P["unrecorded"])
+        if said == record:
+            out.append(row("R2", pid, "agrees", "%d" % len(said)))
+        else:
+            out.append(row("R2", pid, "disagrees",
+                           "says %d; the record gives no figure for %d; said and published: %s; "
+                           "unpublished and unsaid: %s" % (len(said), len(record),
+                                                           sorted(said - record)[:3], sorted(record - said)[:3])))
+    return out
+
+
+@check("R3", "proportions-plate", "the datum the plate's caption states is the datum every "
+       "assembly was drawn on", "order packs the plate draws, at 12 in")
+def r3():
+    run, bad = _plate_rows("R3")
+    if bad:
+        return bad
+    out = []
+    for pid, P in sorted(run["plate"].items()):
+        if P is None:
+            continue
+        said = "axis" if P["fromAxis"] else "naked"
+        drawn = (run["served"][pid].get("geometry") or {}).get("assembly_datum") or {}
+        off = sorted(a for a, d in drawn.items() if d != said)
+        if off:
+            out.append(row("R3", pid, "disagrees", "says '%s'; %s drawn from the other datum"
+                           % (said, ", ".join(off))))
+        else:
+            out.append(row("R3", pid, "agrees"))
     return out
 
 

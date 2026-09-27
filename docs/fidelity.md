@@ -115,6 +115,16 @@ join the app without either a census row or a stated reason it is not an archite
 | E1 | order-stack | the column drawn (base + shaft + capital) is the column height the pack states | order packs stating a column height | 25 | 18 | 5 | 2 |
 | E2 | order-stack | the entablature drawn is the one the pack itself states | order packs that state a whole entablature | 25 | 21 | 4 | 0 |
 | E3 | order-stack | an assembly offered as an ALTERNATIVE to another is never stacked on it (Benjamin's subplinth stands a column instead of a pedestal) | order packs stating a subplinth | 3 | 0 | 3 | 0 |
+| E4 | order-stack | the pedestal die is drawn at a naked the record gives, never the 1.2 x R stand-in profiles.pack_geometry takes when the base publishes no plinth | order packs drawing a pedestal | 23 | 22 | 1 | 0 |
+| O1 | orders-tool | the committed page is what build/render_orders.py builds now | the one page | 1 | 1 | 0 | 0 |
+| O2 | orders-tool | the section the page draws is the height the engine dimensions, at every diameter it offers, pedestal on and off | every order pack with a stack x 12/24/36 in x pedestal | 150 | 150 | 0 | 0 |
+| O3 | orders-tool | the section reaches as far out as the geometry Python constructed for it, scaled to the diameter drawn | every order pack with a stack x 12/24/36 in x pedestal | 150 | 150 | 0 | 0 |
+| O4 | orders-tool | an invariant the engine could not judge is not printed FAIL | driven: one invariant set unjudged (every one of 169 holds today) | 1 | 0 | 1 | 0 |
+| O5 | orders-tool | every order pack the page carries can be reached from its controls | every order pack in the page | 26 | 24 | 2 | 0 |
+| O6 | orders-tool | the flute lines on the elevation fall where the stated number of flutes projects | fluted order packs, at 12 in, pedestal on | 20 | 0 | 20 | 0 |
+| R1 | proportions-plate | the plate's frame holds its own ink (the dimension gutter begins where the widest moulding ends) | order packs the plate draws, at 12 in | 25 | 13 | 12 | 0 |
+| R2 | proportions-plate | the members the plate says 'state no projection at all' are exactly the members whose record states none | order packs the plate draws, at 12 in | 25 | 8 | 17 | 0 |
+| R3 | proportions-plate | the datum the plate's caption states is the datum every assembly was drawn on | order packs the plate draws, at 12 in | 25 | 11 | 14 | 0 |
 <!-- census:checks:end -->
 
 ## What each plate states about itself

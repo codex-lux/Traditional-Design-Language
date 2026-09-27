@@ -6,6 +6,7 @@ Outputs
   dist/taxonomy.json     the whole graph in one file, for platform/agent ingestion
   dist/taxonomy.agent.md a compact context-window digest, one block per node
   dist/taxonomy.html     the interactive phylogeny
+  dist/orders.html       the order-drawing tool (build/render_orders.py)
 """
 import json, os, glob, html, re, subprocess, sys
 
@@ -211,7 +212,20 @@ if _html.returncode != 0:
     print("render_html.py FAILED:\n" + _html.stdout + _html.stderr)
     sys.exit(1)
 
+# ---------- 6. orders.html ----------
+# THE SAME GAP, ONE PAGE OVER, FOUND BY WP-14.1. `build/render_orders.py` computed the order tool at
+# import time and nothing ran it, so the committed page carried three system packs that had since
+# moved (`balcony-gallery`, `facade-gable`, `storey-graduation`) and no check could say so. It is
+# regenerated here for the reason taxonomy.html is, and `tests/svg_census.py` holds the committed
+# page to `render_orders.build_page()` so a page committed without a build is a named disagreement.
+_orders = subprocess.run([sys.executable, os.path.join(ROOT, "build", "render_orders.py")],
+                         capture_output=True, text=True, cwd=ROOT)
+if _orders.returncode != 0:
+    print("render_orders.py FAILED:\n" + _orders.stdout + _orders.stderr)
+    sys.exit(1)
+
 print(f"kits written: {made}  (ontology {slots_doc['version']}, kit schema {KIT_VERSION}, {len(SLOTS)} slots)")
 print(f"dist/taxonomy.json  {os.path.getsize('dist/taxonomy.json')/1e6:.2f} MB")
 print(f"dist/taxonomy.agent.md {os.path.getsize('dist/taxonomy.agent.md')/1e3:.0f} KB")
 print(f"dist/taxonomy.html  {os.path.getsize('dist/taxonomy.html')/1e6:.2f} MB")
+print(f"dist/orders.html    {os.path.getsize('dist/orders.html')/1e6:.2f} MB")

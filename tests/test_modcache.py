@@ -184,7 +184,7 @@ def test_no_new_by_path_loader_outside_modcache():
         "workbench/server/tools.py",         # loads mcp_server/server.py under an `mcp` stub; cannot go through the cache
         "workbench/server/corpus.py",        # a dead fallback behind hasattr(core, "_mod"); left, named
         "build/render_elevation.py",         # a local loader inside main(), CLI only; pre-existing
-        "build/check_counts.py", "build/check_division_guards.py", "build/render_orders.py", "build/gen_assets.py",
+        "build/check_counts.py", "build/check_division_guards.py", "build/gen_assets.py",
         "build/check_orders.py",
     }
     hits = {}

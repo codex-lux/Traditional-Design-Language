@@ -108,6 +108,10 @@ _ARC_MATH = ("sweep", "a1 > a0", "a1>a0")
 _JS_SURFACES = [
     ("build/orders_template.html", "the order tool"),
     ("workbench/app/src/surfaces/Proportions.jsx", "the workbench Proportions plate"),
+    # WP-14.1 lifted the plate's arithmetic -- including bandPath, the one place it touches a
+    # served path -- out of Proportions.jsx into this leaf. A guard that kept reading only the
+    # component would go on passing over the file the code now lives in.
+    ("workbench/app/src/proportions/plate.js", "the Proportions plate's arithmetic"),
 ]
 
 

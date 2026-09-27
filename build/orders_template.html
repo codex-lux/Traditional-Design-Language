@@ -439,7 +439,13 @@ function draw(){
         <line class="dimline" x1="${W-35}" y1="${sy(total)}" x2="${W-25}" y2="${sy(total)}"/>
         <text class="lbl dim" transform="translate(${W-16},${(sy(0)+sy(total))/2}) rotate(-90)" text-anchor="middle">${inches(total)} overall</text>`;
 
-  canvas.innerHTML = `<svg width="${W}" height="${H}" id="ordersvg">${g}</svg>`;
+  /* WP-14.1: WHAT THIS DRAWING'S PIXELS MEAN IN INCHES, stated on the SVG in
+     build/sheet_style.py::frame_attr's one affine -- u is inches out from the column's axis
+     (the mirrored elevation half is negative u), v is inches up from the foot of the stack -- so
+     tests/svg_census.py can read the ink back without re-deriving k from this function. */
+  const frame = JSON.stringify({ plates: [{ id: "section", proj: "order", unit: "in",
+    px_per_in: k, origin_px: [OX, OY], at_origin_in: [0, 0] }] }).replace(/'/g, "&apos;");
+  canvas.innerHTML = `<svg width="${W}" height="${H}" id="ordersvg" data-frame='${frame}'>${g}</svg>`;
   wireStage(geo, dim, sx, sy);
   renderInfo(pk, dim);
   document.getElementById("meta").innerHTML =
