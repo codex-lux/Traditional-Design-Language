@@ -18,6 +18,7 @@ import { PEN, POCHE, DASH, inked } from './pen.js';
 import { furnitureKeyPlan, keyCount, KEY } from './furnitureKey.js';
 import { engineClaim, statusHead } from './engineClaim.js';
 import { sketchOf } from './refusal.js';
+import { add, bayLabel, doorFrame, mid, stairArrow, sweepFlag, windowMark } from './marks.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
@@ -43,42 +44,6 @@ function DimRun({ from, to, at, vertical, stops }) {
       })}
     </g>
   );
-}
-
-/* The opening resolved into a wall-local frame: the two jambs A and B and the direction the
-   leaf swings. Both wall orientations reduce to this, so a door TYPE is drawn once rather
-   than twice — which is why every type below is a few lines.
-
-   WP-13.2: A is the LOW jamb in MODEL terms — west on a horizontal wall, SOUTH on a vertical
-   one (the larger screen y) — because that is what the record's `hinge: "low"` names, and
-   `render_plan.py::_door` and the DXF read the same word. Until Phase 13 this frame put A at
-   the top-left jamb on screen, so a vertical-wall single leaf hung from the NORTH jamb here
-   and from the south in the DXF. The sweep flag is no longer carried: `Leaf` derives it. */
-function doorFrame(d) {
-  const w = d.w;
-  const vert = d.horiz === false || d.wall === 'W' || d.wall === 'E';
-  if (vert) {
-    const x = d.x, y0 = -d.y - w / 2;                       // screen y of the NORTH jamb
-    const s = d.swingRight === false ? -1 : 1;
-    return { w, vert, A: [x, y0 + w], B: [x, y0], nrm: [s, 0],
-             rect: { x: x - 0.35, y: y0, width: 0.7, height: w } };
-  }
-  const x0 = d.x - w / 2, y = -d.y;
-  const t = d.swingUp !== false ? -1 : 1;
-  return { w, vert, A: [x0, y], B: [x0 + w, y], nrm: [0, t],
-           rect: { x: x0, y: y - 0.35, width: w, height: 0.7 } };
-}
-
-const add = (p, v, k) => [p[0] + v[0] * k, p[1] + v[1] * k];
-const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
-
-/* The SVG sweep flag for a leaf drawn from its open tip to the far jamb about the hinge, in
-   screen space: 1 when the quarter-turn runs clockwise as a reader sees it, which is the sign
-   of the cross product. `render_plan.py::sweep_flag` is the same rule; a table with one wrong
-   row drew every horizontal-wall leaf in the Python sheet as its own mirror for seven phases. */
-export function sweepFlag(hinge, tip, far) {
-  const c = (tip[0] - hinge[0]) * (far[1] - hinge[1]) - (tip[1] - hinge[1]) * (far[0] - hinge[0]);
-  return c > 0 ? 1 : 0;
 }
 
 function Leaf({ hinge, nrm, len, to }) {
@@ -170,29 +135,17 @@ function DoorMark({ d }) {
   );
 }
 
-/* A window: vellum break, glazing bar at fine weight, sill projecting past the jambs. */
-function WindowMark({ w }) {
-  const t = 0.75;
-  const vert = w.wall === 'W' || w.wall === 'E';
-  const r = vert
-    ? { x: w.wall === 'W' ? -t : w.x, y: -w.y - w.w / 2, width: t, height: w.w }
-    : { x: w.x - w.w / 2, y: w.wall === 'S' ? 0 : -w.y - t, width: w.w, height: t };
-  const sill = vert
-    ? <line x1={r.x + (w.wall === 'W' ? -0.35 : t + 0.35)} y1={r.y - 0.5}
-        x2={r.x + (w.wall === 'W' ? -0.35 : t + 0.35)} y2={r.y + r.height + 0.5}
-        style={PEN.medium} vectorEffect="non-scaling-stroke" />
-    : <line x1={r.x - 0.5} y1={r.y + (w.wall === 'S' ? t + 0.35 : -0.35)}
-        x2={r.x + r.width + 0.5} y2={r.y + (w.wall === 'S' ? t + 0.35 : -0.35)}
-        style={PEN.medium} vectorEffect="non-scaling-stroke" />;
+/* A window: vellum break, glazing bar at fine weight, sill projecting past the jambs. The
+   numbers are `marks.js::windowMark`'s. */
+function WindowMark({ w, t }) {
+  const { rect: r, sill, glazing } = windowMark(w, t);
   return (
     <g>
       <rect {...r} style={{ ...PEN.medium, fill: "var(--paper-lit)" }} vectorEffect="non-scaling-stroke" />
-      {vert
-        ? <line x1={r.x + t / 2} y1={r.y} x2={r.x + t / 2} y2={r.y + r.height}
-            style={PEN.fine} vectorEffect="non-scaling-stroke" />
-        : <line x1={r.x} y1={r.y + t / 2} x2={r.x + r.width} y2={r.y + t / 2}
-            style={PEN.fine} vectorEffect="non-scaling-stroke" />}
-      {sill}
+      <line x1={glazing[0]} y1={glazing[1]} x2={glazing[2]} y2={glazing[3]}
+        style={PEN.fine} vectorEffect="non-scaling-stroke" />
+      <line x1={sill[0]} y1={sill[1]} x2={sill[2]} y2={sill[3]}
+        style={PEN.medium} vectorEffect="non-scaling-stroke" />
     </g>
   );
 }
@@ -364,6 +317,17 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   const wall = wallOf(fp);
   const rooms = levelRooms(plan, placement, levelIndex);
   const parts = partitions(rooms, W, H, 0.6, wall.partition_ft);
+  /* THE PLATE'S OWN WALLS (WP-14.4). `render_plan.wall_bodies` is the one spelling of the walls,
+     served on the placement: each element's envelope, the joins between elements drawn once,
+     the bearing lines, the partitions, and a hole for every opening. This sheet drew one ring
+     round the FOOTPRINT from its own derivation -- a house with a wing was drawn with a wing and
+     a hyphen that had no walls at all -- and it keeps that drawing only for a placement served
+     without the plate's walls, which the note below says. */
+  const served = Array.isArray(placement?.walls)
+    ? (placement.walls.find((b) => (b.level ?? 0) === levelIndex) || null) : null;
+  const blocks = (fp.blocks && fp.blocks.length)
+    ? fp.blocks.map((b) => ({ x: b.x_ft, y: b.y_ft, w: b.width_ft, h: b.depth_ft }))
+    : [{ x: 0, y: 0, w: W, h: H }];
   // doors first, then windows into what the doors have left: an opening may not be drawn
   // over another opening, and on this sheet the door is the one that keeps its place
   // WP-11.10 — the at-grade appendages on THIS level, as bare rectangles for the door
@@ -421,6 +385,12 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
        the sheet with no error anywhere. `build/render_plan.py::appendage_rects` is the same
        reckoning in the same list. */
     ...appendages.map((a) => a.rect),
+    /* WP-14.4. Every massing element and its wall: the plate was framed on the main block, so a
+       house with a west wing was drawn with the wing off the left edge of the sheet. The Python
+       plate frames every placed room (`_pts` in `render_plan.render`); a block is the same
+       reckoning one level up, and its envelope stands a wall's thickness outside it. */
+    ...blocks.map((b) => ({ x_ft: b.x - wall.exterior_ft, y_ft: b.y - wall.exterior_ft,
+      width_ft: b.w + 2 * wall.exterior_ft, depth_ft: b.h + 2 * wall.exterior_ft })),
   ];
   const outL = Math.max(0, ...thRects.map((r) => -r.x_ft));
   const outR = Math.max(0, ...thRects.map((r) => r.x_ft + r.width_ft - W));
@@ -550,7 +520,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           <g key={'b' + x}>
             <line x1={x} y1={-H - 3} x2={x} y2={4} style={PEN.construction} vectorEffect="non-scaling-stroke" />
             <text x={x} y={-H - 3.8} fontSize=".8" fontFamily="var(--serif)" fill="var(--hair)"
-              textAnchor="middle">{Math.round(x)}′</text>
+              textAnchor="middle">{bayLabel(x)}′</text>
           </g>
         ))}
 
@@ -564,8 +534,11 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           </g>
         )}
 
-        {/* interior floor: reserved vellum */}
-        <rect x={0} y={-H} width={W} height={H} fill="var(--paper-lit)" />
+        {/* interior floor: reserved vellum, one field per massing element (WP-14.4: the main
+            block's alone left a wing's floor the colour of the paper round it) */}
+        {blocks.map((b, i) => (
+          <rect key={'fl' + i} x={b.x} y={-b.y - b.h} width={b.w} height={b.h} fill="var(--paper-lit)" />
+        ))}
 
         {/* analytic overlays, glazed on the sheet */}
         {/* privacy_rank runs 1-5 across rooms/, not 1-6, so dividing by 6 meant the most
@@ -665,24 +638,33 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           );
         })}
 
-        {/* partitions — pale sepia flesh, ink skin */}
-        {parts.map((p, i) => (
-          <rect key={'pt' + i} x={p.x} y={-p.y - p.h} width={p.w} height={p.h} style={POCHE.partition} vectorEffect="non-scaling-stroke" />
-        ))}
-
-        {/* poché — salmon flesh, coal skin. The cut line bounds all poche. */}
-        <path d={`M${-wall.exterior_ft} ${wall.exterior_ft} L${W + wall.exterior_ft} ${wall.exterior_ft} `
-                 + `L${W + wall.exterior_ft} ${-H - wall.exterior_ft} L${-wall.exterior_ft} ${-H - wall.exterior_ft} Z `
-                 + `M0 0 L0 ${-H} L${W} ${-H} L${W} 0 Z`}
-          fillRule="evenodd" style={POCHE.masonry} vectorEffect="non-scaling-stroke" />
+        {/* the walls, as the plate draws them: masonry in salmon flesh, partitions in sepia,
+            coal skin on both. The cut line bounds all poche. */}
+        {served ? served.bands.map((b, i) => (
+          <rect key={'wb' + i} data-wall={b.wall} data-t={Math.round(b.t_ft * 120) / 10}
+            data-block={b.block ?? undefined}
+            x={b.x_ft} y={-b.y_ft - b.depth_ft} width={b.width_ft} height={b.depth_ft}
+            style={b.kind === 'masonry' ? POCHE.masonry : POCHE.partition} vectorEffect="non-scaling-stroke" />
+        )) : (
+          <g data-walls="derived">
+            {parts.map((p, i) => (
+              <rect key={'pt' + i} x={p.x} y={-p.y - p.h} width={p.w} height={p.h} style={POCHE.partition} vectorEffect="non-scaling-stroke" />
+            ))}
+            <path d={`M${-wall.exterior_ft} ${wall.exterior_ft} L${W + wall.exterior_ft} ${wall.exterior_ft} `
+                     + `L${W + wall.exterior_ft} ${-H - wall.exterior_ft} L${-wall.exterior_ft} ${-H - wall.exterior_ft} Z `
+                     + `M0 0 L0 ${-H} L${W} ${-H} L${W} 0 Z`}
+              fillRule="evenodd" style={POCHE.masonry} vectorEffect="non-scaling-stroke" />
+          </g>
+        )}
 
         {/* openings. Windows are laid into the run the doors left, so a door is never
             painted over by a window again — but the doors are still drawn AFTER, because
             a break in the poché belongs on top of the wall it breaks. */}
-        {wins.map((w, i) => <WindowMark key={'w' + i} w={w} />)}
+        {wins.map((w, i) => <WindowMark key={'w' + i} w={w} t={wall.exterior_ft} />)}
         {drs.exterior.map((d, i) => (
           <DoorMark key={'ed' + i} d={{ x: d.x, y: d.y, w: d.w, type: d.type,
-            horiz: !(d.wall === 'W' || d.wall === 'E'),
+            horiz: !(d.wall === 'W' || d.wall === 'E'), hinge: d.hinge,
+            exterior: true, t: wall.exterior_ft,
             wall: d.wall, swingUp: d.wall === 'S', swingRight: d.wall === 'W' }} />
         ))}
         {drs.interior.map((d, i) => <DoorMark key={'d' + i} d={d} />)}
@@ -717,6 +699,17 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
                 </g>
               );
             })}
+            {(() => {
+              const ar = stairArrow(stair.flights[0]);
+              return ar && (
+                <g data-stair-arrow={stair.flights[0].direction}>
+                  <line x1={ar.shaft[0]} y1={ar.shaft[1]} x2={ar.shaft[2]} y2={ar.shaft[3]}
+                    style={PEN.medium} vectorEffect="non-scaling-stroke" />
+                  <path d={`M ${ar.head[0]} ${ar.head[1]} L ${ar.head[2]} ${ar.head[3]} L ${ar.head[4]} ${ar.head[5]}`}
+                    fill="none" style={PEN.medium} vectorEffect="non-scaling-stroke" />
+                </g>
+              );
+            })()}
             <text x={stair.flights[0].x_ft + stair.flights[0].width_ft / 2}
               y={-stair.flights[0].y_ft - stair.flights[0].depth_ft / 2}
               fontSize="1" fontFamily="var(--serif)" letterSpacing=".18"
@@ -941,8 +934,11 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           );
         })}
 
-        {/* scale bar — drawn, alternating, never merely stated */}
-        <g transform={`translate(${-mL + 2},${mB - 2.6})`}>
+        {/* scale bar — drawn, alternating, never merely stated. ITS ZERO STANDS ON THE CLEAR FACE,
+            x = 0 (WP-14.4), as `render_plan.py`'s has since WP-13.2: it stood on the sheet's left
+            margin, which is nothing drawn, so a reader stepping it from its 0 to a bay line read
+            the margin's width into every figure. */}
+        <g data-scale-bar="" transform={`translate(0,${mB - 2.6})`}>
           {[0, 1, 2, 3].map((i) => (
             <rect key={i} x={i * 8} y="0" width="8" height=".8" fill={i % 2 ? 'none' : 'var(--ink)'}
               style={PEN.fine} vectorEffect="non-scaling-stroke" />
@@ -960,7 +956,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             to read it BY — reported as arrows that "seem to point to anything and
             everything". A symbol a drawing uses is a symbol the drawing has to define. */}
         {relax?.count ? (
-          <g data-legend="relaxation" transform={`translate(${W - 16},${mB - 2.2})`}>
+          <g data-legend="relaxation" transform={`translate(0,${mB + 2.4})`}>
             <path d="M 0 -1.15 L 1.0 0.75 L -1.0 0.75 Z" fill="var(--paper)"
               style={PEN.fine} vectorEffect="non-scaling-stroke" />
             <text x="2.1" y="0.7" fontSize=".95" fontFamily="var(--serif)" letterSpacing=".1"
@@ -1016,6 +1012,16 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             ? `Walls ${wall.type.replace(/-/g, ' ')}: envelope ${(wall.exterior_ft * 12).toFixed(1)} in outside the placed rooms, partitions ${(wall.partition_ft * 12).toFixed(1)} in centred on them; room figures are the record's clear extents. `
             : 'The record states no wall assembly, so the walls are drawn at this sheet\'s conventional 9 in and 5 in — a convention, not a reading. '}
           {wall.note ? wall.note + ' ' : ''}
+          {/* WP-14.4: whose bay module the grid is, and whose walls these are */}
+          {!(fp.bay_module_ft > 0)
+            ? 'The record states no bay module, so no bay grid is drawn. '
+            : (placement?.geometry_report?.bay_module && !placement.geometry_report.bay_module.stated_by
+              ? `The bay grid is the placer’s own ${placement.geometry_report.bay_module.ft} ft default — no parti states a module, and the bearing walls are read off it. `
+              : '')}
+          {served ? (served.unmatched_openings
+            ? `${served.unmatched_openings} opening(s) on no wall line of their own level — drawn, but no wall body is opened for them. `
+            : '')
+            : 'The server sent no wall bodies with this placement, so the walls are drawn as one ring round the footprint — a wing or a join is not drawn. '}
           {/* "each marked \u25B3 where it falls" was a claim about every mark, and a mark the
               solver located nowhere is now not drawn at all rather than dropped at the
               middle of the plan. So the sentence counts what it actually marked. */}
@@ -1071,4 +1077,4 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   );
 }
 
-export { ft };
+export { ft, sweepFlag };

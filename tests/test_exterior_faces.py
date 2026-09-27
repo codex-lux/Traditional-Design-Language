@@ -311,8 +311,25 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # and openings digests report in `tests/test_elements.py`. The STRIPPED hash moves with the raw
 # one here because the movement is in the drawing and not in the `data-frame` attribute; the
 # `framed == 16` premise is unmoved.
-CORPUS_SHEET_SHA = "cc07560ab9eade5a"
-CORPUS_SHEET_SHA_NO_FRAME = "119e5b40ff69239e"
+# WP-14.4, TWO MOVEMENTS WITH DISJOINT CAUSES, HARNESS PROVED FIRST. The same harness reproduces
+# cc07560ab9eade5a / 119e5b40ff69239e to the character on the parent tree before the new pair was
+# read. Then, per plan:
+#
+#   tidewater-georgian-careful  the one shipped plan with more than one massing element: its joins
+#                               are drawn once (`render_plan.element_joins` -- 21 pairs of wall
+#                               bodies had been drawn over one another at the two hyphen joins) and
+#                               its dependency's openings are cut from the dependency's own walls
+#                               (`opening_gaps` read the footprint's face). 91 wall bodies become
+#                               90, and five furniture keys refit by half a join's thickness,
+#                               because the key fitter keeps clear of the walls.
+#   the other fifteen           name no parti, so their bay grid is the placer's own 10 ft and the
+#                               margin schedule now SAYS so (`disclosures.bay_module`): one line,
+#                               one or two rows, the canvas and every row below it moving down.
+#
+# The fifteen are PROVED to be that line and nothing else: rendered with `bay_module` returning
+# nothing, all fifteen are byte-identical to the parent's, and the sixteenth is the joins.
+CORPUS_SHEET_SHA = "5d8412d472bf6bef"
+CORPUS_SHEET_SHA_NO_FRAME = "f7c27150a503acc6"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

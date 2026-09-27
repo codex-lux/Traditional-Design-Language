@@ -424,6 +424,23 @@ def residual_void(plan):
                      f"NO ROOM"}]
 
 
+def bay_module(plan):
+    """The bay grid, and the bearing walls read off it, on a module no parti states (WP-14.4).
+
+    The working sheet draws a bay grid and labels it; both registers draw the walls on the grid as
+    bearing bodies and the rest as partitions. Where no parti states a module the grid is the
+    placer's own default -- fifteen of the sixteen shipped plans name no parti -- and a grid
+    labelled like a reading is a convention drawn as though it were one. Absent where the record
+    carries no `bay_module` report at all: a line about a module nobody reported would be
+    inventing the report."""
+    bm = (plan.get("geometry_report") or {}).get("bay_module")
+    if not bm or bm.get("stated_by") or bm.get("ft") is None:
+        return None
+    return {"id": "bay-module", "tone": COPPER,
+            "text": f"BAY GRID AT THE PLACER'S DEFAULT {bm['ft']:g} FT — NO PARTI STATES A MODULE, "
+                    f"AND THE BEARING WALLS ARE READ OFF IT"}
+
+
 def transfers(plan):
     """Upper wall lines landing on no wall below. Each is a transfer beam, and the count lives
     only inside an English sentence in `geometry_report.vertical`."""
@@ -544,6 +561,10 @@ def banner(plan, undrawable=None, diverged=None, unlocated=None, styles=None, pa
         lines.append({"id": "relaxations", "tone": COPPER if n else VERD,
                       "text": f"{n} CUT(S) OFF THE BAY LINE"
                               + (f", WORST {rl.get('max_off_grid_ft')} FT" if n else "")})
+
+    line = bay_module(plan)
+    if line:
+        lines.append(line)
 
     inf = gr.get("infeasible")
     if inf:

@@ -594,6 +594,10 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
                 rs.render_section(section, out_path)
             else:
                 rs.render_bearing_diagram(section, out_path)
+            # WP-14.4: the section and the bearing plate are cut from this same placement and
+            # were the two plates in the set that did not say which one -- the Drawing Set prints
+            # "placed by" off `solver`, and these two came back without it
+            meta = {"solver": (placed.get("geometry_report") or {}).get("solver")}
         elif kind == "roof":
             # WP-12.0, the same defect as the elevation branch above: `build_roof` was called
             # with no section, so it built its own on the heuristic while the plan sheet in

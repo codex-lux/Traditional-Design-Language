@@ -466,3 +466,35 @@ export function plateTransform(view, scene, pose, viewport, frame) {
     dy: pa[1] - frame.origin_px[1] * scale,
   };
 }
+
+
+/* The plate's own frame, as build/sheet_style.py::frame_attr wrote it. Read rather than
+   re-derived: the renderer states what its pixels mean and this believes it, which is the
+   whole reason the attribute exists.
+
+   WP-14.4: CHOSEN BY WHAT A PLATE IS, NOT BY WHERE IT IS LISTED. An elevation states TWO plates
+   since WP-14.1 -- the face, and the eave inset drawn at inches to the inch -- and this fell back
+   to `plates[0]`, which is the face only because `render_elevation` happens to list it first. A
+   profile plate registered as a face would lay an inset drawn at a different scale over the
+   model. Moved here from RoundPlate.jsx so it can be tested without a browser. */
+export function frameOf(svgText, view) {
+  const m = /data-frame='([^']*)'/.exec(svgText || '');
+  if (!m) return null;
+  let parsed;
+  try {
+    parsed = JSON.parse(m[1].replace(/&apos;/g, "'"));
+  } catch (e) {
+    return null;
+  }
+  const plates = (parsed && parsed.plates) || [];
+  if (!plates.length) return null;
+  const drawings = plates.filter((p) => p.proj !== 'profile');
+  const first = drawings[0] || null;
+  const lvl = /^plan-l(\d+)$/.exec(view || '');
+  if (lvl) return drawings.find((p) => String(p.level) === lvl[1]) || first;
+  if (/^[snew]$/.test(view || '')) {
+    return drawings.find((p) => p.id === view.toUpperCase() && p.proj === 'elevation')
+      || drawings.find((p) => p.proj === 'elevation') || first;
+  }
+  return first;
+}

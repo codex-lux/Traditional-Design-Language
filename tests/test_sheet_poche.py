@@ -81,6 +81,9 @@ def test_every_thickness_drawn_is_a_thickness_the_record_states(sheet):
     want = {"exterior": round(wall["exterior_in"] / 12.0 * RP.PX_PER_FT, 1),
             "bearing": round(wall["bearing_interior_in"] / 12.0 * RP.PX_PER_FT, 1),
             "court": round(wall["exterior_in"] / 12.0 * RP.PX_PER_FT, 1),
+            # WP-14.4: where two massing elements abut, the wall between them is drawn once, at
+            # the envelope's thickness -- the court wall's own convention
+            "join": round(wall["exterior_in"] / 12.0 * RP.PX_PER_FT, 1),
             "partition": round(wall["partition_in"] / 12.0 * RP.PX_PER_FT, 1)}
     assert len({want["exterior"], want["bearing"], want["partition"]}) == 3, \
         f"this plan's assembly does not distinguish three walls: {wall}"

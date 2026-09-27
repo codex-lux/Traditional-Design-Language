@@ -769,6 +769,40 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
   }
 }
 
+// WP-14.4 -- THE SHEET DRAWS THE PLATE'S OWN WALLS, and says where its scale starts. The bench
+// drew one ring round the footprint from its own derivation; it draws `placement.walls` now,
+// the bands `render_plan.wall_bodies` gives the printed plate. Counted against the API's own
+// list for the level on screen, so a sheet quietly drawing its old ring fails here.
+{
+  const sheetWalls = await page.evaluate(() => {
+    const svg = document.querySelector('svg[role="img"]');
+    return svg ? {
+      bodies: svg.querySelectorAll('rect[data-wall]').length,
+      derived: !!svg.querySelector('[data-walls="derived"]'),
+      bar: (svg.querySelector('[data-scale-bar]') || { getAttribute: () => null }).getAttribute('transform'),
+      flights: svg.querySelectorAll('[data-stair] > g > rect').length,
+      arrow: svg.querySelectorAll('[data-stair-arrow]').length,
+    } : null;
+  });
+  const served = ((apiPlacement?.walls) || []).find((w) => (w.level ?? 0) === 0);
+  if (!served) {
+    check('the sheet draws the wall bodies the server serves — the evaluate served none', false);
+  } else {
+    check(`the sheet draws the plate's own walls (${sheetWalls?.bodies} bodies drawn of `
+          + `${served.bands.length} served, the derived ring ${sheetWalls?.derived ? 'DRAWN' : 'not drawn'})`,
+      sheetWalls && sheetWalls.bodies === served.bands.length && !sheetWalls.derived);
+  }
+  check(`the scale bar's zero stands on the clear face x = 0 (${sheetWalls?.bar})`,
+    !!sheetWalls && /^translate\(0,/.test(sheetWalls.bar || ''));
+  if (!sheetWalls || !sheetWalls.flights) {
+    unjudged.push(`the stair's arrow says which way is up — ${DRAWABLE} draws no flight on this `
+                  + 'level, so there is no stair to point');
+  } else {
+    check(`the stair's arrow says which way is up (${sheetWalls.arrow} arrow(s) over `
+          + `${sheetWalls.flights} flight(s))`, sheetWalls.arrow === 1);
+  }
+}
+
 // the loupe's scroller, and one room's drawn dimensions, read the same way twice
 const scrollPos = () => page.evaluate(() => {
   const d = [...document.querySelectorAll('div')]

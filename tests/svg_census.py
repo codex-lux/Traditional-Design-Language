@@ -2007,6 +2007,312 @@ def pl1():
     return out
 
 
+def _plan_plates(ink):
+    """The plan's level plates, left to right, each with the x range of the sheet it occupies.
+
+    A plan sheet draws one plate per level side by side in one SVG and states one frame per
+    plate (`sheet_style.frame_attr`), so a mark belongs to the plate whose origin it stands
+    right of. The frames state no extent; the next plate's origin is where this one ends."""
+    plates = sorted((p for p in ink.frames() if p.get("proj") == "plan"), key=lambda p: p["origin_px"][0])
+    for k, p in enumerate(plates):
+        p = dict(p)
+        p["_x_lo"] = p["origin_px"][0] - 1e6 if k == 0 else p["origin_px"][0]
+        p["_x_hi"] = plates[k + 1]["origin_px"][0] if k + 1 < len(plates) else 1e9
+        plates[k] = p
+    return plates
+
+
+def _exterior_bands(ink, plate):
+    """The exterior wall bodies drawn on one plate: (bbox, thickness_px, block)."""
+    k = plate["px_per_ft"]
+    out = []
+    for it in ink.items:
+        if "pm" not in it.classes or it.attrs.get("data-wall") != "exterior":
+            continue
+        b = it.bbox()
+        if not (plate["_x_lo"] <= (b[0] + b[2]) / 2.0 < plate["_x_hi"]):
+            continue
+        out.append((b, float(it.attrs["data-t"]) / 12.0 * k, it.attrs.get("data-block")))
+    return out
+
+
+@check("PL2", "plan", "every exterior opening is cut out of the wall body of its OWN element's face, "
+       "and no exterior wall body is broken where the record places no opening",
+       "every exterior door and window on every placed level of every plan sheet, and every break in "
+       "an exterior wall body, working register")
+def pl2():
+    RP = SURF._mod("render_plan")
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        placed = rec["placed"]
+        ink = IR.Ink(rec["plan_svg_working"])
+        plates = _plan_plates(ink)
+        levels = [lv for lv in placed.get("levels", []) if any(r.get("geometry") for r in lv["rooms"])]
+        through, phantom, n_open, n_holes = [], [], 0, 0
+        for i, lv in enumerate(levels):
+            plate = next((p for p in plates if p.get("level") == lv.get("index", i)), None)
+            if plate is None:
+                continue
+            k = plate["px_per_ft"]
+            bands = _exterior_bands(ink, plate)
+            if not bands:
+                continue
+            op = RP.openings_of_level(placed, lv, i)
+            # (orientation, the room face's line in px, lo px, hi px) for every opening the record
+            # places on this level, exterior ones and the doors onto an appendage alike -- a door onto
+            # a terrace is an INTERIOR entry that stands on an exterior wall
+            spans = []
+            for d in op["exterior"] + op["windows"]:
+                w, at, edge, wl = d["width_ft"], d["at_ft"], d.get("edge_ft"), d["wall"]
+                if edge is None:
+                    continue
+                n_open += 1
+                t_ft = bands[0][1] / k
+                # a point in the MIDDLE of the wall's thickness at the opening's centre: the body is
+                # drawn outward from the room's face, so the wall's middle is half a thickness out
+                u, v = {"S": (at, edge - t_ft / 2), "N": (at, edge + t_ft / 2),
+                        "W": (edge - t_ft / 2, at), "E": (edge + t_ft / 2, at)}[wl]
+                px, py = IR.from_model(plate, u, v)
+                for b, _t, _blk in bands:
+                    if b[0] + 0.5 < px < b[2] - 0.5 and b[1] + 0.5 < py < b[3] - 0.5:
+                        through.append("L%s %s %s %.1f ft opening at %.2f ft" % (lv.get("index", i), d.get("room"), wl, w, at))
+                        break
+                if wl in "SN":
+                    (x0, yl), (x1, _y) = IR.from_model(plate, at - w / 2, edge), IR.from_model(plate, at + w / 2, edge)
+                    spans.append(("h", yl, min(x0, x1), max(x0, x1)))
+                else:
+                    (xl, y0), (_x, y1) = IR.from_model(plate, edge, at - w / 2), IR.from_model(plate, edge, at + w / 2)
+                    spans.append(("v", xl, min(y0, y1), max(y0, y1)))
+            for d in op["interior"]:
+                w, across, along = d["width_ft"], d["at_ft"], d["pos_ft"]
+                if d["horiz"]:
+                    (x0, yl), (x1, _y) = IR.from_model(plate, along - w / 2, across), IR.from_model(plate, along + w / 2, across)
+                    spans.append(("h", yl, min(x0, x1), max(x0, x1)))
+                else:
+                    (xl, y0), (_x, y1) = IR.from_model(plate, across, along - w / 2), IR.from_model(plate, across, along + w / 2)
+                    spans.append(("v", xl, min(y0, y1), max(y0, y1)))
+            # a JOIN is the wall two elements share, drawn once and centred on their common face
+            # (`render_plan.element_joins`), so an element's outward ring stops where one begins and
+            # the wall runs on in the join: a break a join spans is not a break in the wall
+            joins = [it.bbox() for it in ink.items if "pm" in it.classes and it.attrs.get("data-wall") == "join"
+                     and plate["_x_lo"] <= (it.bbox()[0] + it.bbox()[2]) / 2.0 < plate["_x_hi"]]
+            for jb in joins:
+                if jb[3] - jb[1] > jb[2] - jb[0]:
+                    spans.append(("v", (jb[0] + jb[2]) / 2.0, jb[1], jb[3]))
+                else:
+                    spans.append(("h", (jb[1] + jb[3]) / 2.0, jb[0], jb[2]))
+            # the breaks in each exterior wall line, from the ink
+            lines = {}
+            for b, t_px, blk in bands:
+                bw, bh = b[2] - b[0], b[3] - b[1]
+                if abs(bh - t_px) < 0.6:          # runs along x
+                    lines.setdefault((blk, "h", round((b[1] + b[3]) / 2.0, 1), t_px), []).append((b[0], b[2]))
+                if abs(bw - t_px) < 0.6:          # runs along y
+                    lines.setdefault((blk, "v", round((b[0] + b[2]) / 2.0, 1), t_px), []).append((b[1], b[3]))
+            for (blk, orient, centre, t_px), runs in lines.items():
+                runs.sort()
+                for (a0, a1), (b0, b1) in zip(runs, runs[1:]):
+                    if b0 - a1 < 0.6:
+                        continue
+                    n_holes += 1
+                    # covered by what stands on this wall line -- the openings the record places on
+                    # it (a room face within the wall's own thickness of the body's centre line) and
+                    # the joins the wall runs on in -- taken together, since a join is itself broken
+                    # by the doors through it
+                    fill = sorted((lo, hi) for o, line, lo, hi in spans
+                                  if o == orient and abs(line - centre) <= t_px / 2.0 + 1.0)
+                    reach = a1
+                    for lo, hi in fill:
+                        if lo <= reach + 0.6:
+                            reach = max(reach, hi)
+                    if reach < b0 - 0.6:
+                        phantom.append("L%s a %.1f ft break in element %s's wall at %s=%.0f px, "
+                                       "where the record places no opening"
+                                       % (lv.get("index", i), (b0 - a1) / k, blk, "y" if orient == "h" else "x", centre))
+        if not n_open:
+            out.append(row("PL2", pid, "cne", "no exterior opening is placed on this record"))
+        elif through or phantom:
+            out.append(row("PL2", pid, "disagrees", "; ".join(
+                ([("%d of %d openings drawn through a solid wall: " % (len(through), n_open)) + ", ".join(through[:4])
+                  + (" (+%d more)" % (len(through) - 4) if len(through) > 4 else "")] if through else [])
+                + ([("%d of %d breaks cut where no opening is placed: " % (len(phantom), n_holes)) + ", ".join(phantom[:3])]
+                   if phantom else []))))
+        else:
+            out.append(row("PL2", pid, "agrees", "%d openings, %d breaks" % (n_open, n_holes)))
+    return out
+
+
+@check("PL3", "plan", "no wall body is drawn over another -- a wall two elements share is one wall",
+       "every pair of wall bodies on every plate of every plan sheet, working register")
+def pl3():
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        ink = IR.Ink(rec["plan_svg_working"])
+        walls = [(it.bbox(), it.attrs.get("data-wall")) for it in ink.items
+                 if ("pm" in it.classes or "pp" in it.classes) and it.attrs.get("data-wall")]
+        bad = []
+        for i in range(len(walls)):
+            for j in range(i + 1, len(walls)):
+                a, b = walls[i][0], walls[j][0]
+                # more than a pixel of overlap in BOTH directions: two bodies meeting at a face touch
+                # along it and share no area
+                if min(a[2], b[2]) - max(a[0], b[0]) > 1.0 and min(a[3], b[3]) - max(a[1], b[1]) > 1.0:
+                    bad.append("%s over %s" % (walls[i][1], walls[j][1]))
+        if not walls:
+            out.append(row("PL3", pid, "cne", "the sheet draws no wall body"))
+        elif bad:
+            out.append(row("PL3", pid, "disagrees", "%d pairs of %d wall bodies drawn over one another (%s)"
+                           % (len(bad), len(walls), ", ".join(sorted(set(bad))))))
+        else:
+            out.append(row("PL3", pid, "agrees", "%d wall bodies" % len(walls)))
+    return out
+
+
+# ------------------------------------------------------------------ the bench sheet (WP-14.4)
+# `workbench/app/src/sheet/Sheet.jsx` draws its openings from `sheet/marks.js` and `sheet/derive.js`,
+# lifted out of the JSX so they can be run without a browser. tests/js/bench_marks.mjs runs them on
+# exactly the placement `core.placement_summary` serves; the JSX only copies the numbers into
+# elements, and that copy was proved byte-identical when the marks were lifted.
+_BENCH = None
+
+
+def _bench_run():
+    global _BENCH
+    if _BENCH is not None:
+        return _BENCH
+    if not shutil.which("node"):
+        _BENCH = "node is not installed, so the bench's marks cannot be run"
+        return _BENCH
+    import modcache  # noqa: E402  (the project's one loader; `core` loads the build modules)
+    core = modcache.load("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
+    cases, served = {}, {}
+    for pid, rec in sorted(_sheets().items()):
+        pl = core.placement_summary(rec["placed"])
+        pl.pop("svg", None)
+        served[pid] = pl
+        for lv in rec["placed"].get("levels", []):
+            if any(r.get("geometry") for r in lv["rooms"]):
+                cases["%s@%s" % (pid, lv.get("index", 0))] = {"plan": rec["plan"], "placement": pl,
+                                                             "level": lv.get("index", 0)}
+    r = subprocess.run(["node", os.path.join(HERE, "js", "bench_marks.mjs")],
+                       input=json.dumps(cases), capture_output=True, text=True, timeout=300)
+    if r.returncode:
+        _BENCH = "the bench's marks failed under node: " + (r.stderr.strip().splitlines() or ["?"])[-1]
+        return _BENCH
+    _BENCH = {"marks": json.loads(r.stdout), "served": served}
+    return _BENCH
+
+
+@check("B1", "bench-sheet", "every window and exterior door the bench draws is cut in its OWN wall: "
+       "outside its room's own face, as deep as the wall the record states",
+       "every exterior opening on every placed level of every plan, as the bench computes it")
+def b1():
+    run = _bench_run()
+    if isinstance(run, str):
+        return [row("B1", "bench-sheet", "cne", run)]
+    RP, AS = SURF._mod("render_plan"), SURF._mod("assemblies")
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        placed = rec["placed"]
+        t = AS.wall_thickness(placed)["exterior_in"] / 12.0
+        bad, n = [], 0
+        for i, lv in enumerate(lv for lv in placed.get("levels", []) if any(r.get("geometry") for r in lv["rooms"])):
+            got = run["marks"].get("%s@%s" % (pid, lv.get("index", i)))
+            if got is None:
+                continue
+            op = RP.openings_of_level(placed, lv, i)
+            want = [("win", d) for d in op["windows"]] + [("door", d) for d in op["exterior"]]
+            marks = [("win", m) for m in got["windows"]] + [("door", m) for m in got["exterior"]]
+            for kind, d in want:
+                n += 1
+                e = d["edge_ft"]
+                lo, hi = (e - t, e) if d["wall"] in "SW" else (e, e + t)
+                m = next((m for k, m in marks if k == kind and m["room"] == d.get("room") and m["wall"] == d["wall"]
+                          and abs(m["along"] - d["at_ft"]) < 1e-3), None)
+                if m is None:
+                    bad.append("L%s %s %s %s at %.2f is not drawn" % (lv.get("index", i), kind, d.get("room"), d["wall"], d["at_ft"]))
+                elif abs(m["across"][0] - lo) > 1e-3 or abs(m["across"][1] - hi) > 1e-3:
+                    bad.append("L%s %s %s %s drawn across %.2f..%.2f where its wall is %.2f..%.2f"
+                               % (lv.get("index", i), kind, d.get("room"), d["wall"], m["across"][0], m["across"][1], lo, hi))
+        if not n:
+            out.append(row("B1", pid, "cne", "no exterior opening is placed on this record"))
+        elif bad:
+            out.append(row("B1", pid, "disagrees", "%d of %d: %s" % (len(bad), n, "; ".join(bad[:3]))))
+        else:
+            out.append(row("B1", pid, "agrees", "%d openings" % n))
+    return out
+
+
+@check("B2", "bench-sheet", "the bench is served the plate's own wall bodies for every placed level -- "
+       "the envelope of every element, the joins, the bearing lines, the partitions and their holes",
+       "every placed level of every plan")
+def b2():
+    run = _bench_run()
+    if isinstance(run, str):
+        return [row("B2", "bench-sheet", "cne", run)]
+    RP = SURF._mod("render_plan")
+    out = []
+    for pid, rec in sorted(_sheets().items()):
+        served = run["served"][pid].get("walls")
+        plate = RP.wall_bodies(rec["placed"])
+        if not served:
+            out.append(row("B2", pid, "disagrees", "the placement serves no wall bodies, so the bench "
+                           "draws its own ring round the footprint"))
+            continue
+        # the served bands are rounded to 1e-4 ft for the wire; hold them to the plate's within that
+        key = lambda b: (b["wall"], round(b["x_ft"], 2), round(b["y_ft"], 2))  # noqa: E731
+        dims = ("x_ft", "y_ft", "width_ft", "depth_ft")
+        diff = []
+        for s_, p_ in zip(served, plate):
+            a, b = sorted(s_["bands"], key=key), sorted(p_["bands"], key=key)
+            same = len(a) == len(b) and s_["level"] == p_["level"] and all(
+                x["wall"] == y["wall"] and all(abs(x[k] - y[k]) <= 1e-4 for k in dims) for x, y in zip(a, b))
+            if not same:
+                diff.append("level %s: %d served against %d on the plate" % (p_["level"], len(a), len(b)))
+        if len(served) != len(plate):
+            diff.append("%d levels served against %d on the plate" % (len(served), len(plate)))
+        out.append(row("B2", pid, "disagrees" if diff else "agrees",
+                       "; ".join(diff) if diff else "%d bodies" % sum(len(p_["bands"]) for p_ in plate)))
+    return out
+
+
+@check("TR1", "transcription", "the tracing canvas draws each traced room at the draft's own feet "
+       "(y flipped into the screen) and the backdrop at the width stated and its own aspect",
+       "every placed room of every plan, traced as a draft, on a backdrop of the plan's own aspect")
+def tr1():
+    if not shutil.which("node"):
+        return [row("TR1", "transcription", "cne", "node is not installed, so the canvas cannot be run")]
+    cases = {}
+    for pid, rec in sorted(_sheets().items()):
+        rooms = [{"key": "%s/%s" % (lv.get("index", 0), r["id"]), "x": r["geometry"]["x_ft"],
+                  "y": r["geometry"]["y_ft"], "w": r["geometry"]["width_ft"], "h": r["geometry"]["depth_ft"]}
+                 for lv in rec["placed"].get("levels", []) for r in lv["rooms"] if r.get("geometry")]
+        fp = rec["placed"].get("footprint") or {}
+        ratio = (fp.get("depth_ft") or 1.0) / (fp.get("width_ft") or 1.0)
+        cases[pid] = {"rooms": rooms, "backdrop": {"wFt": 60.0, "hFt": 60.0 * ratio, "ratio": ratio}}
+    r = subprocess.run(["node", os.path.join(HERE, "js", "trace_canvas.mjs")],
+                       input=json.dumps(cases), capture_output=True, text=True, timeout=300)
+    if r.returncode:
+        return [row("TR1", "transcription", "cne", "the canvas failed under node: "
+                    + (r.stderr.strip().splitlines() or ["?"])[-1])]
+    got = json.loads(r.stdout)
+    out = []
+    for pid, c in sorted(cases.items()):
+        bad = []
+        drawn = {g["key"]: g["rect"] for g in got[pid]["rooms"]}
+        for rm in c["rooms"]:
+            d = drawn.get(rm["key"])
+            want = (rm["x"], -rm["y"] - rm["h"], rm["w"], rm["h"])
+            if d is None or any(abs(a - b) > 1e-9 for a, b in zip((d["x"], d["y"], d["width"], d["height"]), want)):
+                bad.append("%s drawn %s against %s" % (rm["key"], d, want))
+        b = got[pid]["backdrop"]
+        if abs(b["height"] / b["width"] - c["backdrop"]["ratio"]) > 1e-9:
+            bad.append("the backdrop drawn at %.4f against its own aspect %.4f" % (b["height"] / b["width"], c["backdrop"]["ratio"]))
+        out.append(row("TR1", pid, "disagrees" if bad else "agrees",
+                       "; ".join(bad[:3]) if bad else "%d rooms" % len(c["rooms"])))
+    return out
+
+
 # ------------------------------------------------------------------ running it
 def run(only=None):
     rows = []

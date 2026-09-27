@@ -185,3 +185,90 @@ def test_the_cp_counter_gives_every_relaxation_a_wall_to_sit_on():
     assert not unlocated and len(drawn) == len(marks)
     assert all(a >= 25.0 for _m, runs, _at in drawn for a, _b in runs
                if _m["axis"] == "x"), "and not across the room below it"
+
+
+def _plate_from(fx):
+    """The frozen rooms drawn on the Python plate, read back as ink."""
+    import os
+    import tempfile
+    sys.path.insert(0, str(ROOT / "tests"))
+    import inkread as IR
+    plan = {"id": fx["plan"], "name": fx["plan"], "footprint": dict(fx["footprint"]),
+            "levels": [{"id": lv["id"], "index": lv["index"], "rooms": lv["rooms"]} for lv in fx["levels"]]}
+    d = tempfile.mkdtemp()
+    out = os.path.join(d, "plate.svg")
+    render_plan.render(plan, out)
+    return IR, IR.Ink(open(out).read())
+
+
+def _rehung_high(fx):
+    """DRIVEN: every door in the record hung from its HIGH jamb, and the contract re-derived from
+    the rooms by the one function that states it. `openings.place` writes `hinge: "low"` on every
+    door it seats, so no frozen fixture reaches the other jamb -- and a mutation hanging a high
+    leaf from the low jamb left the ink check green until this existed."""
+    import copy
+    fx = copy.deepcopy(fx)
+    W, H = fx["footprint"]["width_ft"], fx["footprint"]["depth_ft"]
+    for lv in fx["levels"]:
+        for r in lv["rooms"]:
+            for d in r.get("doors") or []:
+                d["hinge"] = "high"
+        lv["expected"] = render_plan.derive_openings(lv["rooms"], W, H)
+    assert any(d["hinge"] == "high" for lv in fx["levels"] for d in lv["expected"]["interior"]), (
+        "the premise: the re-derived contract hangs its doors from the high jamb")
+    return fx
+
+
+@pytest.mark.parametrize("hinge", ["as-frozen", "high"])
+@pytest.mark.parametrize("path", _fixtures(), ids=lambda p: p.stem)
+def test_the_python_ink_stands_every_leaf_and_window_where_the_contract_does(path, hinge):
+    """WP-14.4: THE CONTRACT WAS A CONTRACT ABOUT A MODEL. `derive_openings` was held to the
+    fixture and nothing held the INK to either -- the plate could hang a leaf from the other jamb,
+    swing it into the other room or stand a window on another face while `expected` stayed green,
+    which is the class WP-5.11 names (a green suite proved the model and said nothing about the
+    drawing). Every single leaf's hinge and swing, and every window's glazing, is read off the
+    rendered plate through the plate's own stated frame and put where the contract says."""
+    fx = json.loads(path.read_text())
+    if hinge == "high":
+        fx = _rehung_high(fx)
+    IR, ink = _plate_from(fx)
+    plates = {p["level"]: p for p in ink.frames() if p.get("proj") == "plan"}
+    wall = render_plan.ASSEMBLIES.wall_thickness({"footprint": fx["footprint"]})
+    t = wall["exterior_in"] / 12.0
+    leaves, glazing = [], []
+    for it in ink.items:
+        if it.tag != "line":
+            continue
+        a = [float(it.attrs[k]) for k in ("x1", "y1", "x2", "y2")]
+        (leaves if "dr" in it.classes else glazing if "win" in it.classes else []).append(a)
+    checked = 0
+    for lv in fx["levels"]:
+        pl = plates[lv["index"]]
+        ft = lambda x, y: IR.to_model(pl, x, y)  # noqa: E731
+        segs = lambda lines: [(ft(a[0], a[1]), ft(a[2], a[3])) for a in lines]  # noqa: E731
+        drawn_leaves, drawn_glass = segs(leaves), segs(glazing)
+        near = lambda p, q: abs(p[0] - q[0]) < 0.1 and abs(p[1] - q[1]) < 0.1  # noqa: E731
+        exp = lv["expected"]
+        doors_ = [(d["horiz"], d["pos_ft"], d["at_ft"], d["width_ft"], d["swing_positive"], d["hinge"], d["type"])
+                  for d in exp["interior"]]
+        doors_ += [(d["wall"] in "SN", d["at_ft"], d["edge_ft"], d["width_ft"], d["wall"] in "SW", d["hinge"], d["type"])
+                   for d in exp["exterior"]]
+        for horiz, along, across, w, pos, hinge, dtype in doors_:
+            if dtype not in ("swing", None):
+                continue
+            h_along = along - w / 2 if hinge != "high" else along + w / 2
+            H = (h_along, across) if horiz else (across, h_along)
+            E = (H[0], H[1] + (w if pos else -w)) if horiz else (H[0] + (w if pos else -w), H[1])
+            assert any((near(a, H) and near(b, E)) or (near(a, E) and near(b, H)) for a, b in drawn_leaves), (
+                f"{path.stem} {lv['id']}: a {w} ft leaf hung {hinge} at {H} swinging to {E} is not on the plate")
+            checked += 1
+        for win in exp["windows"]:
+            wl, along, edge, w = win["wall"], win["at_ft"], win["edge_ft"], win["width_ft"]
+            mid_across = edge - t / 2 if wl in "SW" else edge + t / 2
+            M = (along, mid_across) if wl in "SN" else (mid_across, along)
+            assert any(near(((a[0] + b[0]) / 2, (a[1] + b[1]) / 2), M)
+                       and abs(((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5 - w) < 0.1
+                       for a, b in drawn_glass), (
+                f"{path.stem} {lv['id']}: the {w} ft {wl} window of {win['room']} is not glazed at {M}")
+            checked += 1
+    assert checked > 20, f"only {checked} openings read -- the check would pass on a plate with none"

@@ -57,3 +57,27 @@ test('and this guard is reading the file it thinks it is', () => {
   assert.equal([...probe.matchAll(/strokeWidth\s*=\s*[{"']\s*\.?\d/g)].length, 1,
     'the literal detector matches nothing, so its empty result above means nothing');
 });
+
+/* WP-14.4: THE TWO PLAN SHEETS POCHE ONE RECORD'S WALLS IN ONE INK. `build/sheet_style.py::POCHE`
+   is the printed plate's; this reads it and holds the bench's to it, token for token, because the
+   bench drew partitions in `--sepia-pale` for eleven packages after the plate had measured that
+   ink as a hollow tube at plan scale and moved to `--sepia`. */
+test("the bench's poche is the printed plate's, token for token", async () => {
+  const { readFileSync } = await import('node:fs');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname, join } = await import('node:path');
+  const { POCHE } = await import('./sheet/pen.js');
+  const here = dirname(fileURLToPath(import.meta.url));
+  const py = readFileSync(join(here, '..', '..', '..', 'build', 'sheet_style.py'), 'utf8');
+  const block = /POCHE = \{([\s\S]*?)\n\}/.exec(py);
+  assert.ok(block, 'the premise: sheet_style.py states a POCHE table');
+  const tokenOf = (kind) => {
+    const m = new RegExp(`"${kind}":\\s*LIGHT\\["([a-z_]+)"\\]`).exec(block[1]);
+    assert.ok(m, `the premise: sheet_style.POCHE states a ${kind} ink`);
+    return `var(--${m[1].replace(/_/g, '-')})`;
+  };
+  assert.equal(POCHE.partition.fill, tokenOf('partition'));
+  // the masonry token is spelled through its duty name on the bench and its colour on the plate
+  assert.equal(POCHE.masonry.fill, 'var(--poche-masonry)');
+  assert.equal(tokenOf('masonry'), 'var(--salmon)');
+});

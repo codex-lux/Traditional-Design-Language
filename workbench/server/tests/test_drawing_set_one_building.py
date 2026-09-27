@@ -94,7 +94,9 @@ def test_every_plate_in_a_set_names_the_input_it_was_drawn_from(client):
     from . import drawable
     plan = drawable.drawable_plan()
     digests = {}
-    for kind in ("plan", "elevation", "roof"):
+    # WP-14.4: and the section and the bearing plate, which are cut from the same placement and
+    # came back without `solver`, so the Drawing Set printed no "placed by" line under either
+    for kind in ("plan", "elevation", "roof", "section", "bearing"):
         r = client.post(f"/api/drawings/{kind}", json={"plan": plan})
         assert r.status_code == 200, (kind, r.text[:200])
         d = _digest(r.json())

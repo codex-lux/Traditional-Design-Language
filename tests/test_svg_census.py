@@ -588,3 +588,132 @@ class TestTheBuildingSheetsCanDisagree:
         one["faces"] = {face: planted}
         monkeypatch.setattr(C, "_SHEETS", {"tidewater-georgian-careful": one})
         assert [r["verdict"] for r in C.CHECKS["V13"]["fn"]()] == ["disagrees"]
+
+
+class TestThePlanSheetsCanDisagree:
+    """PL2 and PL3 agree on every sheet once WP-14.4 draws each join once and cuts each opening in
+    its own element's wall, so each is driven by putting its defect back into the RENDERER, which is
+    stronger than planting ink: the plant is the defect itself, not a picture of it."""
+
+    PID = "tidewater-georgian-careful"
+
+    def _replanted(self, monkeypatch, name, fn):
+        """Re-render the one multi-element sheet with one renderer function replaced, and hand the
+        census a sheet table holding only it. The CLEAN table is built first, before anything is
+        replaced: `_sheets()` caches what it builds, so a test run on its own would otherwise fill
+        the cache for the whole session with sheets drawn by the planted renderer."""
+        import copy
+        RP = C.SURF._mod("render_plan")
+        rec = dict(C._sheets()[self.PID])
+        monkeypatch.setattr(RP, name, fn)
+        rec["plan_svg_working"] = C._render(RP.render, copy.deepcopy(rec["placed"]), register="working")
+        monkeypatch.setattr(C, "_SHEETS", {self.PID: rec})
+        return rec
+
+    def test_the_premise_both_agree_on_the_one_sheet_with_a_join(self):
+        got = {cid: {r["subject"]: r["verdict"] for r in C.CHECKS[cid]["fn"]()}[self.PID] for cid in ("PL2", "PL3")}
+        assert got == {"PL2": "agrees", "PL3": "agrees"}, got
+
+    def test_pl2_sees_an_opening_cut_at_the_footprints_face(self, monkeypatch):
+        RP = C.SURF._mod("render_plan")
+
+        def old_gaps(op, W, H):
+            # the defect WP-14.4 removed: every exterior hole at the FOOTPRINT's face
+            gaps = []
+            for d in op["interior"]:
+                half = d["width_ft"] / 2.0
+                gaps.append(("y" if d["horiz"] else "x", d["at_ft"], d["pos_ft"] - half, d["pos_ft"] + half))
+            for d in op["exterior"] + op["windows"]:
+                axis, pos = RP._wall_axis(d["wall"], W, H)
+                half = d["width_ft"] / 2.0
+                gaps.append((axis, pos, d["at_ft"] - half, d["at_ft"] + half))
+            return gaps
+        self._replanted(monkeypatch, "opening_gaps", old_gaps)
+        got = C.CHECKS["PL2"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "drawn through a solid wall" in got[0]["detail"] and "kitchen S" in got[0]["detail"], got
+
+    def test_pl2_sees_a_break_where_the_record_places_no_opening(self, monkeypatch):
+        RP = C.SURF._mod("render_plan")
+        real = RP.opening_gaps
+
+        def with_a_hole(op, W, H):
+            # a 3 ft hole in the main block's south wall at 22 ft, where the record places nothing
+            return real(op, W, H) + [("y", 0.0, 21.0, 24.0)]
+        self._replanted(monkeypatch, "opening_gaps", with_a_hole)
+        got = C.CHECKS["PL2"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "breaks cut where no opening is placed" in got[0]["detail"], got
+        assert "3.0 ft break" in got[0]["detail"], got
+
+    def test_pl3_sees_a_join_drawn_by_both_elements(self, monkeypatch):
+        RP = C.SURF._mod("render_plan")
+        self._replanted(monkeypatch, "element_joins", lambda blocks, tol=RP.JOIN_TOL_FT: [])
+        got = C.CHECKS["PL3"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "drawn over one another" in got[0]["detail"], got
+
+
+class TestTheBenchCanDisagree:
+    """B1 and B2 agree on every plan once WP-14.4 lands, so each is driven with its defect planted
+    in what the bench computes -- the read-back, as the Proportions plate's rows are driven."""
+
+    PID = "tidewater-georgian-careful"
+
+    def test_b1_sees_a_window_on_the_footprints_face(self, monkeypatch):
+        import copy
+        run = C._bench_run()
+        if isinstance(run, str):
+            pytest.skip("COULD NOT EVALUATE: " + run)
+        planted = copy.deepcopy(run)
+        wins = planted["marks"][self.PID + "@0"]["windows"]
+        w = next(w for w in wins if w["wall"] == "S" and w["edge_ft"] != 0)
+        t = planted["marks"][self.PID + "@0"]["t"]
+        w["across"] = [-t, 0.0]            # the defect: an S window drawn on the footprint's face
+        monkeypatch.setattr(C, "_BENCH", planted)
+        got = {r["subject"]: r for r in C.CHECKS["B1"]["fn"]()}
+        assert got[self.PID]["verdict"] == "disagrees" and "drawn across" in got[self.PID]["detail"]
+        assert got["spec-builder-colonial"]["verdict"] == "agrees"
+
+    def test_b1_sees_a_window_at_a_fixed_depth(self, monkeypatch):
+        import copy
+        run = C._bench_run()
+        if isinstance(run, str):
+            pytest.skip("COULD NOT EVALUATE: " + run)
+        planted = copy.deepcopy(run)
+        for w in planted["marks"]["spec-builder-colonial@0"]["windows"]:
+            lo, hi = w["across"]
+            w["across"] = [hi - 0.75, hi] if w["wall"] in "SW" else [lo, lo + 0.75]
+        monkeypatch.setattr(C, "_BENCH", planted)
+        got = {r["subject"]: r["verdict"] for r in C.CHECKS["B1"]["fn"]()}
+        assert got["spec-builder-colonial"] == "disagrees"
+
+    def test_b2_sees_a_placement_served_without_its_walls(self, monkeypatch):
+        import copy
+        run = C._bench_run()
+        if isinstance(run, str):
+            pytest.skip("COULD NOT EVALUATE: " + run)
+        planted = copy.deepcopy(run)
+        planted["served"][self.PID].pop("walls")
+        monkeypatch.setattr(C, "_BENCH", planted)
+        got = {r["subject"]: r["verdict"] for r in C.CHECKS["B2"]["fn"]()}
+        assert got[self.PID] == "disagrees" and got["spec-builder-colonial"] == "agrees"
+
+    def test_tr1_sees_a_traced_room_drawn_unflipped(self, monkeypatch):
+        import json as _json
+        import subprocess as _sp
+        real = _sp.run
+
+        def doctored(cmd, *a, **kw):
+            r = real(cmd, *a, **kw)
+            if any(str(c).endswith("trace_canvas.mjs") for c in cmd) and r.returncode == 0:
+                got = _json.loads(r.stdout)
+                room = got[self.PID]["rooms"][0]["rect"]
+                room["y"] = -room["y"] - room["height"]          # the defect: y not flipped
+                r = _sp.CompletedProcess(r.args, 0, _json.dumps(got), r.stderr)
+            return r
+        if not C.shutil.which("node"):
+            pytest.skip("COULD NOT EVALUATE: node is not installed")
+        monkeypatch.setattr(C.subprocess, "run", doctored)
+        got = {r["subject"]: r["verdict"] for r in C.CHECKS["TR1"]["fn"]()}
+        assert got[self.PID] == "disagrees" and got["spec-builder-colonial"] == "agrees", got

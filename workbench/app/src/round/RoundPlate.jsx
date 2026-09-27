@@ -12,7 +12,9 @@ import { ft, interpunctTitle } from '../sheet/derive.js';
 import {
   caption, chipLabel, modifierLine, notModelledLine, overlaysFor, plateKeyFor,
 } from './annotate.js';
-import { namedViews, plateTransform, poseFor } from './frame.js';
+import { frameOf, namedViews, plateTransform, poseFor } from './frame.js';
+
+export { frameOf };
 import {
   FREE_VIEW_OVERLAYS, bayGrid, cutPlane, datumLines, daylightVolumes,
   explodeOffsets, privacyWashes, relaxationMarks, wetPrisms,
@@ -23,26 +25,6 @@ import {
 import { Round, readTokens } from './Round.jsx';
 import { extent } from './solids.js';
 import { ConflictSet } from '../components/ConflictSet.jsx';
-
-/* The plate's own frame, as build/sheet_style.py::frame_attr wrote it. Read rather than
-   re-derived: the renderer states what its pixels mean and this believes it, which is the
-   whole reason the attribute exists. */
-export function frameOf(svgText, view) {
-  const m = /data-frame='([^']*)'/.exec(svgText || '');
-  if (!m) return null;
-  let parsed;
-  try {
-    parsed = JSON.parse(m[1].replace(/&apos;/g, "'"));
-  } catch (e) {
-    return null;
-  }
-  const plates = (parsed && parsed.plates) || [];
-  if (!plates.length) return null;
-  const lvl = /^plan-l(\d+)$/.exec(view || '');
-  if (lvl) return plates.find((p) => String(p.level) === lvl[1]) || plates[0];
-  if (/^[snew]$/.test(view || '')) return plates.find((p) => p.id === view.toUpperCase()) || plates[0];
-  return plates[0];
-}
 
 function TitleBlock({ title, styleName, subtitle }) {
   return (

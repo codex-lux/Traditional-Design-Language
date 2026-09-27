@@ -855,3 +855,29 @@ test('the field of view is declared editorial, and the eye height is not', () =>
   assert.match(src, /EDITORIAL and says so/);
   assert.equal(typeof APPROACH_FOV_DEG, 'number');
 });
+
+/* ------------------------------------------------------------------ WP-14.4: frameOf */
+import { frameOf } from './round/frame.js';
+
+const svgWith = (plates) => `<svg data-frame='${JSON.stringify({ plates })}'></svg>`;
+const FACE = { id: 'S', proj: 'elevation', px_per_ft: 13, origin_px: [40, 400], at_origin_ft: [-2, 30] };
+const INSET = { id: 'inset', proj: 'profile', unit: 'in', px_per_in: 4, origin_px: [900, 100], at_origin_in: [0, 0] };
+
+test('an elevation frame is the FACE plate whichever order the plates are listed in', () => {
+  for (const plates of [[FACE, INSET], [INSET, FACE]]) {
+    assert.equal(frameOf(svgWith(plates), 's').id, 'S');
+    // a view the plate does not name still never lands on the inset
+    assert.equal(frameOf(svgWith(plates), 'w').proj, 'elevation');
+    assert.equal(frameOf(svgWith(plates), 'axon').proj, 'elevation');
+  }
+});
+
+test('a frame holding only a profile plate registers nothing', () => {
+  assert.equal(frameOf(svgWith([INSET]), 's'), null);
+});
+
+test('a plan frame is the level the view names', () => {
+  const plates = [{ id: 'ground', proj: 'plan', level: 0 }, { id: 'upper', proj: 'plan', level: 1 }];
+  assert.equal(frameOf(svgWith(plates), 'plan-l1').id, 'upper');
+  assert.equal(frameOf(svgWith(plates), 'plan-l0').id, 'ground');
+});

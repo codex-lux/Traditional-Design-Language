@@ -71,6 +71,30 @@ def _disclosures():
     return _mod("disclosures", os.path.join(ROOT, "build", "disclosures.py"))
 
 
+WALL_BODY_KEYS = ("x_ft", "y_ft", "width_ft", "depth_ft", "kind", "wall", "t_ft", "block")
+
+
+def wall_bodies(out):
+    """The plate's own wall bodies, per placed level, for the bench to draw (WP-14.4).
+
+    `render_plan.wall_bodies` is the one spelling -- the printed plate draws these bands -- and
+    the bench drew one ring round the footprint in their place: on a house with a wing, a wing
+    and a hyphen with no walls. Trimmed to what a drawing needs (the `why` of each band stays on
+    the plate's tooltips), with the count of openings the band pass found no wall for, which the
+    bench says as the plate does. None where the record cannot be drawn at all."""
+    try:
+        RP = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
+        bodies = RP.wall_bodies(out)
+    except (KeyError, TypeError, ValueError, SystemExit):
+        return None
+    return [{"level": b["level"],
+             # a ten-thousandth of a foot is a hundredth of a pixel at the bench's scale, and the
+             # payload is re-sent on every wall drag (the infrastructure audit's bound)
+             "bands": [{k: (round(bd[k], 4) if isinstance(bd.get(k), float) else bd.get(k))
+                        for k in WALL_BODY_KEYS} for bd in b["bands"]],
+             "unmatched_openings": len(b["stray"])} for b in bodies]
+
+
 def _partis():
     """The parti records by id. `_data()` does not carry them — it is the STYLE-side corpus —
     and `load_parti` reads one by id from a caller-supplied string, which is deliberately the
@@ -1703,6 +1727,9 @@ def placement_summary(out):
                        "furniture_layout": r.get("furniture_layout")}
                       for lv in out["levels"] for r in lv["rooms"] if r.get("geometry")],
             "stair": out.get("stair"),
+            # WP-14.4: the WALLS, as the plate draws them. The bench drew a ring round the
+            # footprint from its own derivation, which has no idea a house can have a wing.
+            "walls": wall_bodies(out),
             # WP-11.4: the stoop and the gable-end stacks, plan-level placement facts on the
             # same argument as the stair. Omitted, the browser sheet would have drawn neither
             # while the Python sheet drew both -- the exact defect WP-11.3 found here for the

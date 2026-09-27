@@ -303,6 +303,10 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
         const edge = edgeOf(r, seat.wall, (bounds || {})[r.id]);
         exterior.push({
           wall: seat.wall, w: width, type, room: r.id, inferredWall: false,
+          // WP-14.4: the record's jamb, as the interior branch below has carried since WP-13.2
+          // and `render_plan.py` reads for an exterior door; this branch dropped it, so every
+          // exterior leaf hung from the low jamb whatever the record said
+          hinge: d.hinge || 'low',
           inferredWidth: declaredW == null, edge_ft: edge3(edge),
           span: [seat.pos - width / 2, seat.pos + width / 2],
           x: seat.wall === 'W' || seat.wall === 'E' ? edge : seat.pos,
@@ -554,10 +558,16 @@ export function relaxationMarks(marks, levelIndex, W, H) {
   return { drawn, unlocated };
 }
 
-/* Vertical bay lines from the footprint's own module. */
+/* Vertical bay lines from the footprint's own module.
+
+   WP-14.4: A RECORD STATING NO MODULE GETS NO LINES. This read `|| 10`, so a record ingested from
+   a drawing, or placed before the field existed, was drawn and dimensioned on a 10 ft grid nobody
+   stated; `render_plan.py` did the same, and the Round's `bayGrid` already refused. The sheet
+   says why the grid is absent. */
 export function bayLines(footprint) {
   const W = footprint?.width_ft || 0;
-  const bm = footprint?.bay_module_ft || 10;
+  const bm = footprint?.bay_module_ft;
+  if (!(bm > 0)) return [];
   const xs = [];
   for (let b = bm; b < W - 0.01; b += bm) xs.push(Math.round(b * 100) / 100);
   return xs;

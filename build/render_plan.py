@@ -657,12 +657,23 @@ def opening_gaps(op, W, H):
     for d in op["interior"]:
         half = d["width_ft"] / 2.0
         gaps.append(("y" if d["horiz"] else "x", d["at_ft"], d["pos_ft"] - half, d["pos_ft"] + half))
+    # AN EXTERIOR OPENING IS CUT OUT OF ITS OWN ELEMENT'S WALL (WP-14.4). This read
+    # `_wall_axis(wall, W, H)` -- the FOOTPRINT's face -- for every exterior door and window, so on
+    # the one shipped plan with a dependency the frames were drawn at the room's own face (WP-11.14
+    # gave `_frame` the `edge_ft` the record carries) and the HOLE was cut at the main block's: the
+    # dependency's kitchen windows stood on an uncut wall, and a hyphen door opened a 2.8 ft break
+    # in the main block's west wall where the record places nothing. `edge_ft` is the room's own
+    # element face, and on a one-rectangle house it is the footprint's face exactly -- so the
+    # fifteen one-rectangle plans are unmoved by construction. WP-11.14's defect, surviving in the
+    # one derivation it did not reach.
     for d in op["exterior"]:
         axis, pos = _wall_axis(d["wall"], W, H)
+        pos = d["edge_ft"] if d.get("edge_ft") is not None else pos
         half = d["width_ft"] / 2.0
         gaps.append((axis, pos, d["at_ft"] - half, d["at_ft"] + half))
     for win in op["windows"]:
         axis, pos = _wall_axis(win["wall"], W, H)
+        pos = win["edge_ft"] if win.get("edge_ft") is not None else pos
         half = win["width_ft"] / 2.0
         gaps.append((axis, pos, win["at_ft"] - half, win["at_ft"] + half))
     return gaps
@@ -687,6 +698,33 @@ def _runs(lo, hi, cuts, tol=0.02):
 # away belongs to no wall and is counted, not guessed at -- the same discipline
 # `relaxation_marks` applies to a mark it cannot place.
 GAP_TOL_FT = 0.35
+
+
+JOIN_TOL_FT = 0.05
+JOIN_WHY = ("the join between two massing elements: one wall, centred on the line both share, at "
+            "the envelope's thickness")
+
+
+def element_joins(blocks, tol=JOIN_TOL_FT):
+    """Where two massing elements on one level share a face: [(axis, position_ft, lo_ft, hi_ft,
+    i, j)], `axis` "x" for a line of constant x. `blocks` is the level's (x, y, w, h) list, as
+    `wall_bands` takes it. Two elements join where one's face lies on the other's opposite face
+    and the two overlap along it; `blocks_for` lays each element against the last one's edge, so
+    a hyphen joins both elements it links and a detached dependency joins nothing."""
+    out = []
+    for i in range(len(blocks)):
+        xi, yi, wi, hi_ = blocks[i]
+        for j in range(i + 1, len(blocks)):
+            xj, yj, wj, hj = blocks[j]
+            for pi, pj in ((xi + wi, xj), (xi, xj + wj)):
+                lo, hi = max(yi, yj), min(yi + hi_, yj + hj)
+                if abs(pi - pj) <= tol and hi - lo > tol:
+                    out.append(("x", pi, lo, hi, i, j))
+            for pi, pj in ((yi + hi_, yj), (yi, yj + hj)):
+                lo, hi = max(xi, xj), min(xi + wi, xj + wj)
+                if abs(pi - pj) <= tol and hi - lo > tol:
+                    out.append(("y", pi, lo, hi, i, j))
+    return out
 
 
 def wall_bands(level_rooms, blocks, W, H, bay_module_ft, wall, gaps):
@@ -721,6 +759,7 @@ def wall_bands(level_rooms, blocks, W, H, bay_module_ft, wall, gaps):
             # the rectangle is its length and not its thickness. Found by the guard that was
             # written to check the thicknesses, on the first run.
             w_name = "exterior" if why == "exterior envelope" else (
+                "join" if why == JOIN_WHY else
                 "court" if kind == "masonry" and bearing and why.startswith("faces") else
                 ("bearing" if bearing else "partition"))
             if axis == "x":
@@ -732,16 +771,69 @@ def wall_bands(level_rooms, blocks, W, H, bay_module_ft, wall, gaps):
                               "x_ft": a, "y_ft": centre - t / 2, "width_ft": b - a,
                               "depth_ft": t, "bearing": bearing, "why": why, "block": block})
 
+    # WHERE TWO ELEMENTS ABUT, THE WALL BETWEEN THEM IS DRAWN ONCE (WP-14.4). Each element's ring
+    # was drawn outward from its own rooms, so at a hyphen -- which the corpus rules is an element
+    # that ABUTS the two it joins (WP-11.9, ruling 3) -- the main block's west wall was drawn into
+    # the hyphen's back hall, the hyphen's east wall into the main block's rooms, and `wall_lines`
+    # drew a third body centred between them: three walls where the record has one join, each
+    # 15.5 in, over room the record says is floor. Measured on `tidewater-georgian-careful`: 21
+    # pairs of wall bodies drawn over one another, and none on the fifteen one-rectangle plans.
+    # The join is drawn ONE body, centred on the line both elements share, at the ENVELOPE's
+    # thickness -- the court wall's own convention a few lines below ("an interior LINE of the
+    # block ... drawn centred, at the envelope's own thickness, which is what being on the
+    # envelope means"), and the schedule's standing statement that a wall on a line two rooms
+    # share takes half its thickness from each. The free spans keep the outward ring, and an
+    # S or N run stops at the wall it meets instead of running through it.
+    joins = element_joins(blocks)
+
+    def _on_join(axis, pos, bi=None):
+        return [(a, b) for ax, p, a, b, i, j in joins
+                if ax == axis and abs(p - pos) <= JOIN_TOL_FT and (bi is None or bi in (i, j))]
+
+    def _corner(bi, axis, pos, at, low_end):
+        """How element `bi`'s corner on its face (`axis`, `pos`) at coordinate `at` meets the
+        neighbours: free (a convex corner -- run past it by the wall's thickness), continues (a
+        neighbour's face runs on past the corner, so its own wall is there -- stop short of it by
+        the thickness), or flush (a neighbour's face ends at the corner too -- stop at it)."""
+        for ax, p, a, b, i, j in joins:
+            if ax != axis or abs(p - pos) > JOIN_TOL_FT or bi not in (i, j):
+                continue
+            if (low_end and a <= at + JOIN_TOL_FT) or (not low_end and b >= at - JOIN_TOL_FT):
+                k = j if i == bi else i
+                kx, ky, kw, kh = blocks[k]
+                klo, khi = (ky, ky + kh) if axis == "x" else (kx, kx + kw)
+                past = klo < at - JOIN_TOL_FT if low_end else khi > at + JOIN_TOL_FT
+                return "continues" if past else "flush"
+        return "free"
+
     for bi, (bx, by, bw, bh) in enumerate(blocks):
         # S and N run the full OUTER width so the four bands meet at the corners; W and E run
         # only the block's own depth, or each corner would be drawn twice and the cut line
         # struck through its own return. Each carries its element's index, so a reader -- and
         # the guard that this is one envelope PER ELEMENT and not one rectangle across the
         # hyphen gap -- can tell which envelope a band belongs to without deriving a scale.
-        band("y", by, by - ext / 2, bx - ext, bx + bw + ext, ext, "masonry", "exterior envelope", True, bi)
-        band("y", by + bh, by + bh + ext / 2, bx - ext, bx + bw + ext, ext, "masonry", "exterior envelope", True, bi)
-        band("x", bx, bx - ext / 2, by, by + bh, ext, "masonry", "exterior envelope", True, bi)
-        band("x", bx + bw, bx + bw + ext / 2, by, by + bh, ext, "masonry", "exterior envelope", True, bi)
+        # On a one-rectangle house there are no joins, every span is the whole face and every
+        # corner is free, which is the four bands exactly as they were.
+        for face_y, centre in ((by, by - ext / 2), (by + bh, by + bh + ext / 2)):
+            low = face_y == by
+            for a, b in _runs(bx, bx + bw, _on_join("y", face_y, bi)):
+                if abs(a - bx) <= JOIN_TOL_FT:
+                    st = _corner(bi, "x", bx, by if low else by + bh, low)
+                    a = a - ext if st == "free" else (a + ext if st == "continues" else a)
+                else:
+                    a = a + ext                       # a neighbour's wall starts here
+                if abs(b - (bx + bw)) <= JOIN_TOL_FT:
+                    st = _corner(bi, "x", bx + bw, by if low else by + bh, low)
+                    b = b + ext if st == "free" else (b - ext if st == "continues" else b)
+                else:
+                    b = b - ext
+                if b - a > 0.01:
+                    band("y", face_y, centre, a, b, ext, "masonry", "exterior envelope", True, bi)
+        for face_x, centre in ((bx, bx - ext / 2), (bx + bw, bx + bw + ext / 2)):
+            for a, b in _runs(by, by + bh, _on_join("x", face_x, bi)):
+                band("x", face_x, centre, a, b, ext, "masonry", "exterior envelope", True, bi)
+    for ax, p, a, b, _i, _j in joins:
+        band(ax, p, p, a, b, ext, "masonry", JOIN_WHY, True)
 
     for w in ST.bearing_lines(ST.wall_lines(level_rooms, W, H), bay_module_ft or 10.0):
         if w["role"] == "exterior":
@@ -755,8 +847,11 @@ def wall_bands(level_rooms, blocks, W, H, bay_module_ft, wall, gaps):
                  "masonry", w.get("why") or "faces a court", True)
             continue
         t = bear if w.get("bearing") else part
-        band(w["axis"], w["position_ft"], w["position_ft"], w["lo_ft"], w["hi_ft"], t,
-             "masonry" if w.get("bearing") else "partition", w.get("why") or "", bool(w.get("bearing")))
+        # a segment on a join is the join, drawn once above -- only what runs past it is its own
+        for a, b in _runs(w["lo_ft"], w["hi_ft"], _on_join(w["axis"], w["position_ft"])):
+            band(w["axis"], w["position_ft"], w["position_ft"], a, b, t,
+                 "masonry" if w.get("bearing") else "partition", w.get("why") or "",
+                 bool(w.get("bearing")))
 
     _trim_junctions(bands)
     return bands, [g for i, g in enumerate(gaps) if i not in matched]
@@ -1049,39 +1144,11 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     level_marks = [relaxation_marks(_rx_all, i, W, H) for i in range(len(levels))]
     all_unlocated = [m for _d, un in level_marks for m in un]
 
-    blocks = [(b["x_ft"], b["y_ft"], b["width_ft"], b["depth_ft"]) for b in (fp.get("blocks") or [])] \
-        or [(0.0, 0.0, W, H)]
-    # AN ELEMENT WITH NO ROOMS ON THIS LEVEL GETS NO ENVELOPE ON THIS LEVEL (WP-11.9). The
-    # renderer drew every element's ring on every plate, so a house with a ground-floor
-    # dependency had a 30 ft poche rectangle enclosing nothing on its UPPER plate -- an envelope
-    # around no rooms, which says the house has a storey it does not have. Found by rendering a
-    # tagged record and LOOKING at it, after the same defect had been fixed in
-    # `structure.build_section` and `export_ifc` the same afternoon; the renderer is the third
-    # place it lived and the only one no count would have caught. On a one-rectangle house every
-    # room is in element zero and this is the single ring, as before.
-    # WP-11.15: this was a FIFTH spelling of the rule -- a hand-rolled containment test with
-    # its own 0.5 literal, written here because `blocks` is a list of tuples rather than
-    # element dicts. An audit found it live while the guard added that same day asserted no
-    # such copy existed, which is what a source-text selector is worth. It reads the one
-    # spelling now; `elements.TOL` is the tolerance, in one place, so this cannot drift from
-    # `element_of` again.
-    #
-    # `or blocks` is KEPT deliberately and is not the `or None` defect one file over: there,
-    # an empty list became the MAIN BLOCK and hid a span; here it becomes EVERY element, which
-    # draws a ring that may enclose nothing rather than silently dropping one that encloses
-    # rooms. Same choice, same direction, for the same reason.
-    def _blocks_here(rooms):
-        if len(blocks) < 2:
-            return blocks
-        here = [_EL.bounds_of(e) for e in _EL.elements_on_level(plan, rooms)]
-        return here or blocks
-    level_bands, all_stray = [], []
-    for i, lv in enumerate(levels):
-        gaps = opening_gaps(level_openings[i], W, H)
-        bands, stray = wall_bands(lv["rooms"], _blocks_here(lv["rooms"]), W, H,
-                                  fp.get("bay_module_ft"), wall, gaps)
-        level_bands.append(bands)
-        all_stray.extend(stray)
+    # The wall bodies of every placed level: `wall_bodies` below, ONE spelling for this plate and
+    # for the bench, which draws the same bands through `core.placement_summary` (WP-14.4).
+    _bodies = wall_bodies(plan, level_openings=level_openings)
+    level_bands = [b_["bands"] for b_ in _bodies]
+    all_stray = [g_ for b_ in _bodies for g_ in b_["stray"]]
 
     # ------------------------------------------------------------- the schedule
     # THE DIAGNOSTICS LEAVE THE DRAWING FIELD AND NOT THE SHEET. Until this package six lines
@@ -1121,6 +1188,14 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     if _st.get("unplaced"):
         schedule.append((L["salmon_deep"], "STAIR NOT DRAWN — " +
                          (str((_st.get("unplaced") or {}).get("reason") or "SEE RECORD")).upper()))
+    if not fp.get("bay_module_ft"):
+        # A RECORD CARRYING NO BAY MODULE GETS NO BAY GRID (WP-14.4). This drew a 10 ft grid and
+        # labelled it, from `or 10`, on any record that did not state one -- a record ingested from
+        # a drawing, or placed before the field existed -- and read the bearing walls off it. The
+        # grid is not drawn; the walls still need a module to be told bearing from partition, so
+        # they take the placer's own default and this line says so.
+        schedule.append((L["salmon_deep"], "NO BAY MODULE ON THE RECORD — NO BAY GRID DRAWN; THE "
+                         "BEARING WALLS ARE READ OFF THE PLACER'S DEFAULT 10 FT"))
     if all_stray:
         # An opening whose wall the band pass could not find. It is still DRAWN as a leaf or a
         # sill by the passes below -- this says only that no wall body was opened for it, which
@@ -1323,9 +1398,9 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # (tests/test_sheet_coherence.py, `_FIG`), and a gate row may not be loosened to
         # pass. The unit is stated by the run under the plate instead, whose figures are
         # feet-and-inches. If the gate's reader is ever widened, the prime goes here.
-        bm = fp.get("bay_module_ft") or 10
+        bm = fp.get("bay_module_ft")
         stops, b = [0.0], bm
-        while b < W - 0.01:
+        while bm and b < W - 0.01:          # no module stated: no bay lines (the schedule says so)
             stops.append(b); b += bm
         stops.append(float(W))
         band_top = Y(draw_y0) + extra_bottom
@@ -2069,6 +2144,58 @@ def sweep_flag(hinge, tip, far):
     wrong for seven phases (`_door`'s own comment)."""
     (hx, hy), (tx, ty), (fx, fy) = hinge, tip, far
     return 1 if (tx - hx) * (fy - hy) - (ty - hy) * (fx - hx) > 0 else 0
+
+
+def wall_bodies(plan, level_openings=None):
+    """Every wall on every placed level as a body, the way the plate draws it (WP-14.4).
+
+    [{"level": index, "bands": [...], "stray": [...]}], one entry per level that carries geometry,
+    in the record's order. `bands` is `wall_bands`' own list -- rectangles in model feet, each with
+    its kind, its wall name, its stated thickness and its element -- and `stray` the openings the
+    band pass found no wall for. The plate draws these, and `core.placement_summary` serves them
+    to the bench, which drew one ring round the footprint instead: on the one shipped plan with a
+    dependency that is a house whose wing and hyphen have no walls at all. One spelling, so the
+    bench cannot draw a second opinion of the plate's walls."""
+    fp = plan.get("footprint", {})
+    W, H = fp.get("width_ft", 40), fp.get("depth_ft", 30)
+    wall = ASSEMBLIES.wall_thickness(plan)
+    levels = [lv for lv in plan["levels"] if any("geometry" in r for r in lv["rooms"])]
+    if level_openings is None:
+        level_openings = [openings_of_level(plan, lv, i) for i, lv in enumerate(levels)]
+    _EL = _mod("elements", f"{ROOT}/build/elements.py")
+    blocks = [(b["x_ft"], b["y_ft"], b["width_ft"], b["depth_ft"]) for b in (fp.get("blocks") or [])] \
+        or [(0.0, 0.0, W, H)]
+    # AN ELEMENT WITH NO ROOMS ON THIS LEVEL GETS NO ENVELOPE ON THIS LEVEL (WP-11.9). The
+    # renderer drew every element's ring on every plate, so a house with a ground-floor
+    # dependency had a 30 ft poche rectangle enclosing nothing on its UPPER plate -- an envelope
+    # around no rooms, which says the house has a storey it does not have. Found by rendering a
+    # tagged record and LOOKING at it, after the same defect had been fixed in
+    # `structure.build_section` and `export_ifc` the same afternoon; the renderer is the third
+    # place it lived and the only one no count would have caught. On a one-rectangle house every
+    # room is in element zero and this is the single ring, as before.
+    # WP-11.15: this was a FIFTH spelling of the rule -- a hand-rolled containment test with
+    # its own 0.5 literal, written here because `blocks` is a list of tuples rather than
+    # element dicts. An audit found it live while the guard added that same day asserted no
+    # such copy existed, which is what a source-text selector is worth. It reads the one
+    # spelling now; `elements.TOL` is the tolerance, in one place, so this cannot drift from
+    # `element_of` again.
+    #
+    # `or blocks` is KEPT deliberately and is not the `or None` defect one file over: there,
+    # an empty list became the MAIN BLOCK and hid a span; here it becomes EVERY element, which
+    # draws a ring that may enclose nothing rather than silently dropping one that encloses
+    # rooms. Same choice, same direction, for the same reason.
+    def _blocks_here(rooms):
+        if len(blocks) < 2:
+            return blocks
+        here = [_EL.bounds_of(e) for e in _EL.elements_on_level(plan, rooms)]
+        return here or blocks
+    out = []
+    for i, lv in enumerate(levels):
+        gaps = opening_gaps(level_openings[i], W, H)
+        bands, stray = wall_bands(lv["rooms"], _blocks_here(lv["rooms"]), W, H,
+                                  fp.get("bay_module_ft"), wall, gaps)
+        out.append({"level": lv.get("index", i), "bands": bands, "stray": stray})
+    return out
 
 
 def openings_of_level(plan, lv, index=None):

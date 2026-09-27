@@ -114,6 +114,56 @@ for (const fx of fixtures) {
     }
   });
 
+  /* WP-14.4: THE CONTRACT HELD COUNTS, PAIRS, WIDTHS AND TYPES AND NOT ONE POSITION. Two
+     renderers could agree how many doors they drew, and between which rooms, while hanging them
+     from different jambs, swinging them into different rooms or standing them on different faces
+     -- and the exterior hinge was exactly that: the bench dropped the record's. The Python half
+     of the contract has carried every one of these figures in `expected` all along. */
+  test(`${fx.plan}: every door stands where the Python renderer stands it, hung and swung alike`, () => {
+    let seen = 0;
+    for (const lv of fx.levels) {
+      const got = doors(toRects(lv.rooms), W, H);
+      const exp = lv.expected;
+      for (const d of got.interior) {
+        const key = d.pair.slice().sort().join('|');
+        const e = exp.interior.find((x) => x.pair.slice().sort().join('|') === key);
+        const [along, across] = d.horiz ? [d.x, d.y] : [d.y, d.x];
+        assert.ok(Math.abs(along - e.pos_ft) < 1e-3 && Math.abs(across - e.at_ft) < 1e-3,
+          `${lv.id}: ${key} drawn at ${along}/${across}, the contract at ${e.pos_ft}/${e.at_ft}`);
+        assert.equal(d.horiz, e.horiz, `${lv.id}: ${key} orientation`);
+        assert.equal(d.hinge, e.hinge, `${lv.id}: ${key} hinge`);
+        assert.equal(d.horiz ? d.swingUp : d.swingRight, e.swing_positive, `${lv.id}: ${key} swing`);
+        seen += 1;
+      }
+      for (const d of got.exterior) {
+        const e = exp.exterior.find((x) => x.room === d.room && x.wall === d.wall);
+        const along = (d.span[0] + d.span[1]) / 2;
+        assert.ok(Math.abs(along - e.at_ft) < 1e-3, `${lv.id}: ${d.room}/${d.wall} along ${along} against ${e.at_ft}`);
+        assert.ok(Math.abs(d.edge_ft - e.edge_ft) < 1e-3, `${lv.id}: ${d.room}/${d.wall} face ${d.edge_ft} against ${e.edge_ft}`);
+        assert.equal(d.hinge, e.hinge, `${lv.id}: ${d.room}/${d.wall} hinge`);
+        seen += 1;
+      }
+    }
+    assert.ok(seen > 10, `only ${seen} doors compared -- the contract would pass on a sheet with none`);
+  });
+
+  test(`${fx.plan}: every window stands on the face the Python renderer stands it on`, () => {
+    let seen = 0;
+    for (const lv of fx.levels) {
+      const rects = toRects(lv.rooms);
+      const got = windows(rects, W, H, 0.6, doors(rects, W, H).exterior);
+      for (const w of got) {
+        const along = (w.wall === 'S' || w.wall === 'N') ? w.x : w.y;
+        const e = lv.expected.windows.find((x) => x.room === w.room && x.wall === w.wall
+          && Math.abs(x.at_ft - along) < 1e-3);
+        assert.ok(e, `${lv.id}: ${w.room}/${w.wall} window at ${along} not in the contract`);
+        assert.ok(Math.abs(w.edge_ft - e.edge_ft) < 1e-3, `${lv.id}: ${w.room}/${w.wall} face ${w.edge_ft} against ${e.edge_ft}`);
+        seen += 1;
+      }
+    }
+    assert.ok(seen > 5, `only ${seen} windows compared`);
+  });
+
   test(`${fx.plan}: the same windows are placed as the Python renderer places`, () => {
     for (const lv of fx.levels) {
       const rects = toRects(lv.rooms);
