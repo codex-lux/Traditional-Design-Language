@@ -569,7 +569,11 @@ class TestTheDormersAndThePlate:
         p = tmp_path / "front.svg"
         RE.render_elevation(elev, str(p), face=face)
         svg = p.read_text()
-        line = [t for t in re.findall(r'<text class="dm"[^>]*>([^<]*)</text>', svg) if "NOT DRAWN" in t]
+        # THE OPENINGS' LINE, NAMED, and not any line saying NOT DRAWN. RE-CUT AT WP-14.3: the
+        # plate says two things are not drawn now -- these openings, and the window surround the
+        # kit's slot leaves undecided -- and a selector reading the two words alone counted both.
+        said = "OPENING(S) ON THIS FACE NOT DRAWN"
+        line = [t for t in re.findall(r'<text class="dm"[^>]*>([^<]*)</text>', svg) if said in t]
         assert len(line) == 1, line
         units = sum(int(x.get("units") or 1) for x in refused)
         assert line[0].startswith(f"{units} OPENING(S) ON THIS FACE NOT DRAWN")
@@ -579,4 +583,4 @@ class TestTheDormersAndThePlate:
         clean = next((f for f in "SNEW" if not [x for x in EL.opening_rects(elev, f)["refused"] if x.get("room")]), None)
         if clean is not None:
             RE.render_elevation(elev, str(p), face=clean)
-            assert "NOT DRAWN" not in p.read_text()
+            assert said not in p.read_text()

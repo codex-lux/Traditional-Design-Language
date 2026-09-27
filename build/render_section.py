@@ -52,6 +52,11 @@ def _style_block():
             f'.gr{{stroke:{PAL["brass"]};stroke-width:1.6;fill:none}}'
             f'.fl{{stroke:{PAL["ink3"]};stroke-width:0.8;stroke-dasharray:2 3;fill:none}}'
             f'.bad{{stroke:{PAL["iron"]};stroke-width:2.4;fill:none}}'
+            # THE CUT WALL IS A BODY (WP-14.3), solid as a section's cut always is, and the floor
+            # structure a lighter band at its stated depth -- where the envelope was two lines of
+            # no thickness against a record stating 15.5 in.
+            f'.wb{{fill:{PAL["ink"]};fill-opacity:0.85;stroke:{PAL["ink"]};stroke-width:0.6}}'
+            f'.fs{{fill:{PAL["ink3"]};fill-opacity:0.35;stroke:none}}'
             f'</style>')
 
 # ---------------------------------------------------------------------- vertical section
@@ -69,6 +74,21 @@ def render_section(section, path, scale=7.0):
 
     pad, left_gutter, right_gutter, top_pad, bottom_pad = 42, 92, 130, 60, 46
     pw = span_ft * scale
+    # WRAPPED, NOT CUT (WP-14.3). An unjudged ridge's note says why, and it was cut at seventy
+    # characters -- mid-word, and before the reason on most records. It is wrapped to the span
+    # and stands above the eave, so the top margin grows by the lines it takes.
+    ridge_lines = []
+    if roof.get("grade_to_ridge_ft") is None:
+        line, cols = "", max(40, int(pw / 4.55))
+        for w in ("RIDGE UNJUDGED — " + (roof.get("note") or "")).split():
+            if line and len(line) + 1 + len(w) > cols:
+                ridge_lines.append(line)
+                line = w
+            else:
+                line = f"{line} {w}" if line else w
+        if line:
+            ridge_lines.append(line)
+        top_pad += 10 * max(0, len(ridge_lines) - 1)
     ph = top_ft * scale
     total_w = pad * 2 + left_gutter + pw + right_gutter
     total_h = top_pad + ph + bottom_pad
@@ -93,14 +113,37 @@ def render_section(section, path, scale=7.0):
 
     # storey envelope walls (left and right exterior wall lines) and floor lines
     grade_first = storeys[0]["grade_to_floor_ft"] if storeys and storeys[0].get("grade_to_floor_ft") is not None else 2.0
-    s.append(f'<line class="wl" x1="{ox:.1f}" y1="{Y(0):.1f}" x2="{ox:.1f}" y2="{Y(roof["grade_to_eave_ft"]):.1f}"/>')
-    s.append(f'<line class="wl" x1="{ox+pw:.1f}" y1="{Y(0):.1f}" x2="{ox+pw:.1f}" y2="{Y(roof["grade_to_eave_ft"]):.1f}"/>')
+    # THE EXTERIOR WALLS AS BODIES (WP-14.3, census S1). The span drawn is the footprint's
+    # OUTSIDE dimension, so each wall stands inward from its own face at the thickness the
+    # section states -- `structure.wall_thickness`, the one reader of the construction type.
+    # They were two lines of no thickness on all sixteen sections. A section whose record states
+    # no thickness keeps the line and says so, rather than drawing a wall of a width nobody gave.
+    t_in = (section.get("wall") or {}).get("exterior_in")
+    eave_y = Y(roof["grade_to_eave_ft"])
+    if t_in:
+        tw = t_in / 12.0 * scale
+        for wx in (ox, ox + pw - tw):
+            s.append(f'<rect class="wb" x="{wx:.2f}" y="{eave_y:.2f}" width="{tw:.2f}" '
+                     f'height="{Y(0) - eave_y:.2f}"/>')
+    else:
+        s.append(f'<line class="wl" x1="{ox:.1f}" y1="{Y(0):.1f}" x2="{ox:.1f}" y2="{eave_y:.1f}"/>')
+        s.append(f'<line class="wl" x1="{ox+pw:.1f}" y1="{Y(0):.1f}" x2="{ox+pw:.1f}" y2="{eave_y:.1f}"/>')
+        s.append(f'<text class="dm" x="{ox+4:.1f}" y="{Y(0)-6:.1f}">WALLS DRAWN AS LINES — THE '
+                 f'RECORD STATES NO EXTERIOR WALL THICKNESS</text>')
+        tw = 0.0
     s.append(f'<line class="wl" x1="{ox:.1f}" y1="{Y(0):.1f}" x2="{ox+pw:.1f}" y2="{Y(0):.1f}"/>')
 
     for st in storeys:
         floor = st.get("grade_to_floor_ft")
         if floor is None: continue
         ceil_line = floor + st["storey_height_ft"]
+        # THE FLOOR STRUCTURE AT ITS STATED DEPTH, under the floor line, between the walls: the
+        # record has stated `floor_structure_depth_in` for every storey and printed it as a
+        # label beside a floor drawn as a dashed line.
+        fd = st.get("floor_structure_depth_in")
+        if fd:
+            s.append(f'<rect class="fs" x="{ox + tw:.2f}" y="{Y(floor):.2f}" '
+                     f'width="{pw - 2 * tw:.2f}" height="{fd / 12.0 * scale:.2f}"/>')
         s.append(f'<line class="fl" x1="{ox:.1f}" y1="{Y(floor):.1f}" x2="{ox+pw:.1f}" y2="{Y(floor):.1f}"/>')
         cy = Y((floor + ceil_line) / 2)
         st_label = st["id"] or f'level {st.get("index")}'
@@ -122,7 +165,9 @@ def render_section(section, path, scale=7.0):
                   f'RIDGE {_fmt(ridge)} · {roof["roof_pitch_rise_per_12"]}:12 ({roof["pitch_source"]})</text>')
     else:
         s.append(f'<line class="fl" x1="{ox:.1f}" y1="{Y(eave):.1f}" x2="{ox+pw:.1f}" y2="{Y(eave):.1f}"/>')
-        s.append(f'<text class="dm" x="{ox:.1f}" y="{Y(eave)-8:.1f}">RIDGE UNJUDGED — {_esc((roof.get("note") or "")[:70])}</text>')
+        for i, ln in enumerate(ridge_lines):
+            s.append(f'<text class="dm" x="{ox:.1f}" y="{Y(eave) - 8 - 10 * (len(ridge_lines) - 1 - i):.1f}">'
+                     f'{_esc(ln)}</text>')
 
     # scale bar
     # likewise: `.fl` sets a dashed grey stroke, so the scale bar was drawn as a floor line

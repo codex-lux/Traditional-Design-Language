@@ -518,6 +518,7 @@ def chimney_positions(plan, style, section, main):
     # kept for a DECLARED record (no placement, so no `hearths` record and no positions), where
     # it says, as it always has, that the record states hearths it cannot yet position.
     hearth_note = None
+    stack_size = {}
     axes_error = None
     unpositioned = 0
     refused_flues = []
@@ -542,6 +543,18 @@ def chimney_positions(plan, style, section, main):
         t_ext = (section.get("wall") or {}).get("exterior_in")
         t_ext = (t_ext / 12.0) if t_ext is not None else \
             (section["footprint"].get("exterior_wall_thickness_in") or 0.0) / 12.0
+        # THE STACK'S PLAN SIZE, READ ONCE (WP-14.3). The roof plan drew every stack as a 3.2 px
+        # dot whatever the record said (census F1: 11 in across against a stated 22). The size is
+        # ONE figure for the house -- `threshold.py` reads `chimney.stack_plan_in` from the
+        # style's cascade, with its judgment flag and basis, and writes that same figure on every
+        # stack it draws -- so it is read once here and never matched flue by flue: a second
+        # grouping of the hearths by flue is what WP-13.2 took out of this file. Where the stacks
+        # carry no size (the cascade states none and `threshold.py` refused them) nothing is
+        # carried, and the roof plan draws the position and says so; where they carried two
+        # different sizes, which nothing writes, the record is not one figure and none is carried.
+        _keys = ("stack_plan_in", "stack_plan_judgment", "stack_plan_basis")
+        _sizes = {tuple(sk.get(k) for k in _keys) for sk in (hr.get("stacks") or [])}
+        stack_size = dict(zip(_keys, next(iter(_sizes)))) if len(_sizes) == 1 else {}
         for fl in (hr.get("flues") or []):
             wall, pos = fl.get("wall"), fl.get("position_ft")
             if pos is None or wall not in ("E", "W", "N", "S"):
@@ -613,6 +626,9 @@ def chimney_positions(plan, style, section, main):
     chimneys = [{"x_ft": round(x, 2), "y_ft": round(y, 2), "grade_to_ridge_ft": ridge_ft,
                  "height_above_ridge_ft": height_above_ridge_ft, "total_height_grade_ft": round(ridge_ft + height_above_ridge_ft, 2)}
                 for x, y in positions]
+    if hearth_note:
+        for c in chimneys:
+            c.update({k: v for k, v in stack_size.items() if v is not None})
     out = {"applicable": True, "positions": chimneys, "source": source, "style_check": check}
     # The reconciliation, said out loud whichever way it went. A plan that states no hearth keeps
     # the centre-line rule and is TOLD so, because "no note" would read as "the two agree".

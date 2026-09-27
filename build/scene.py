@@ -505,16 +505,19 @@ _BAR_IS_SQUARE = True
 def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=None):
     """Sash bars, shutters and the sill, on every drawn opening (WP-12.6).
 
-    EVERY NUMBER IS THE RECORD'S OWN. `lights_across`, `lights_high_per_sash`, `muntin_width_in`,
-    `shutter_leaf_width_in` and `shutter_panel_count` are `elevation._storey_window`'s fields,
-    read off the rect's own `record`, so a window drawn here cannot disagree with the elevation
-    plate beside it about how many lights it has.
+    EVERY NUMBER IS THE RECORD'S OWN. `lights_across`, `lights_high_per_sash`,
+    `shutter_leaf_width_in` and `shutter_panel_count` are the OPENING's, read off the rect
+    `elevation.opening_rects` hands every surface -- `sash_at` at the width the window is drawn
+    (WP-14.3; until then they were the storey record's, taken at another width) -- so a window
+    drawn here cannot disagree with the elevation plate beside it about how many lights it has.
+    `muntin_width_in` and `shutters_carried` are the storey's, read off the rect's `record`.
 
-    THE LIGHT COUNT IS `lights_across x lights_high_per_sash x 2` and the bars are laid to give
-    exactly that: `across - 1` verticals running the full opening — the two sashes of a
-    double-hung align, so a bar is one member and not two — and `2 x high - 1` horizontals, of
-    which the middle one is the MEETING RAIL and is a real member rather than a glazing bar. It
-    carries its own class so a reader can tell them apart.
+    THE SASH IS `elevation.sash_layout`'S (WP-14.3), the one layout the elevation plate and the
+    DXF draw: two stiles, a top rail, a bottom rail and each sash's meeting rail as `sash`, and in
+    each sash `lights_across - 1` vertical and `lights_high - 1` horizontal muntins dividing the
+    glass the frame leaves, as `muntin`. It replaced bars laid across the whole opening -- a
+    division of the opening, with the meeting rail standing in as one of the horizontals -- which
+    is not the sash the record states.
 
     THE SILL IS REFUSED, AND THAT IS THE FINDING. `window_sill.projection_in` resolves to a BAND
     on `tidewater-georgian` — `[0, 1]` in, because a child `extends` replaced the ancestor's
@@ -531,16 +534,22 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=Non
                 continue
             u0, u1 = r["x0_in"] / 12.0, r["x1_in"] / 12.0
             z0, z1 = r["sill_in"] / 12.0, r["head_in"] / 12.0
-            across, high = rec.get("lights_across"), rec.get("lights_high_per_sash")
+            # THE OPENING'S OWN LIGHTS (WP-14.3): `opening_rects` computes them at the width the
+            # rectangle is drawn, which is the plan's placed width, and the elevation plate reads
+            # the same two fields off the same rect. The storey record's were taken at the width
+            # the storey was sized at, so reading them here divided a window into another
+            # window's lights. The muntin's WIDTH is a property of the sash and stays the storey's.
+            across, high = r.get("lights_across"), r.get("lights_high_per_sash")
             bar = rec.get("muntin_width_in")
             src = {"record": f"elevation.storey_windows[{r['storey']}].muntin_width_in",
-                   "also": [f"elevation.storey_windows[{r['storey']}].lights_across",
-                            f"elevation.storey_windows[{r['storey']}].lights_high_per_sash"]}
+                   "also": [f"elevation.opening_rects({face}).{r['id']}.lights_across",
+                            f"elevation.opening_rects({face}).{r['id']}.lights_high_per_sash"]}
             if not across or not high or not bar:
                 states.cannot(f"the sash bars in {r['id']}",
-                              "the storey window states no light count or no muntin width, so "
-                              "the number of lights is not a fact this record holds",
-                              f"elevation.storey_windows[{r['storey']}]", cls="opening")
+                              r.get("sash_unjudged") or
+                              "the opening states no light count or its storey no muntin width, "
+                              "so the number of lights is not a fact this record holds",
+                              f"elevation.opening_rects({face}).{r['id']}", cls="opening")
                 continue
             bw = bar / 12.0
             plane, at, _ = _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext)
@@ -556,21 +565,44 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=Non
                                "outline": [[round(x, 3), round(y, 3)] for x, y in ol]},
                               "fine", "paper-lit", src, "measured", face=face, level=lvl)
 
-            for i in range(1, across):
-                cu = u0 + (u1 - u0) * i / across
-                out.append(_bar(f"{r['id']}-bar-v{i}", cu - bw / 2, cu + bw / 2, z0, z1, "muntin"))
-            rows = 2 * high
-            for j in range(1, rows):
-                cz = z0 + (z1 - z0) * j / rows
-                # THE SCHEMA ALREADY NAMED THIS VOCABULARY and the first draft invented its own.
-                # `scene.schema.json`'s class enum has carried `muntin` and `sash` since WP-12.1;
-                # `sash-bar` and `meeting-rail` are words I made up, and the schema check caught
-                # all 350 of them at once. A glazing bar is a MUNTIN. The middle horizontal is
-                # the MEETING RAIL, which is the bottom rail of the upper sash meeting the top
-                # rail of the lower one -- a member of the SASH and not a glazing bar, which is
-                # the distinction the schema's own two words already draw.
-                out.append(_bar(f"{r['id']}-bar-h{j}", u0, u1, cz - bw / 2, cz + bw / 2,
-                                "sash" if j == high else "muntin"))
+            # THE SASH, AS THE MEMBERS THAT MAKE IT (WP-14.3): `elevation.sash_layout`, the one
+            # layout the elevation plate and the DXF draw. Until then this laid `across - 1`
+            # verticals across the WHOLE opening and `2 x high - 1` horizontals, the middle one
+            # standing for the meeting rail -- a division of the opening, where the record states
+            # a sash: 2 in stiles, a 2 in top rail, a 3 in bottom rail, each sash's 1 1/4 in
+            # meeting rail, and 7/8 in muntins dividing the GLASS those members leave. Stiles and
+            # rails are the `sash`, muntins are `muntin`, which is the schema's own vocabulary.
+            # THE JAMB IS NOT MODELLED, and said once below: sash-light gives it as "about 1 1/2
+            # in" across both, it stands inside the opening frame this layer already draws, and
+            # an approximate member is not a solid this layer states.
+            # A SASH THAT CANNOT BE LAID OUT IS SAID, AND DOES NOT TAKE THE SHUTTERS WITH IT: a
+            # refused layout, or a rect carrying none, files its reason and the leaves beside the
+            # opening are still the record's own. `opening_rects` lays out every window it hands
+            # over, so a rect without one did not come from it -- that is said too, never drawn
+            # as a window with no sash in it.
+            lay = r.get("sash")
+            names = {("stile", "L"): "stile-l", ("stile", "R"): "stile-r",
+                     ("top-rail", None): "rail-top", ("bottom-rail", None): "rail-bottom",
+                     ("meeting-rail", None): None}
+            if not lay or lay.get("refused"):
+                states.cannot(f"the sash in {r['id']}",
+                              (lay or {}).get("refused") or
+                              "the opening carries no sash layout, and elevation.opening_rects "
+                              "lays one out for every window it hands to a surface",
+                              f"elevation.opening_rects({face}).{r['id']}.sash", cls="opening")
+                lay = {}
+            for part in lay.get("members") or []:
+                if part["kind"] == "jamb":
+                    continue
+                name = names.get((part["kind"], part.get("side")))
+                if part["kind"] == "meeting-rail":
+                    name = f"meeting-{part['sash']}"
+                out.append(_bar(f"{r['id']}-{name}", part["x0"] / 12.0, part["x1"] / 12.0,
+                                part["y0"] / 12.0, part["y1"] / 12.0, "sash"))
+            for part in lay.get("muntins") or []:
+                out.append(_bar(f"{r['id']}-muntin-{part['sash']}-{part['dir']}{part['n']}",
+                                part["x0"] / 12.0, part["x1"] / 12.0,
+                                part["y0"] / 12.0, part["y1"] / 12.0, "muntin"))
 
             # THE SHUTTERS, where the style carries them. A leaf is drawn OPEN and flat against
             # the wall beside its own jamb, which is the only position the record determines: a
@@ -582,10 +614,10 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=Non
             # — so no shutter would ever have been drawn, on any plan, silently. It was found by
             # printing the class census before and after, and by nothing else: the sash bars
             # appeared, the picture looked dressed, and a whole class was absent from it.
-            lw_in = rec.get("shutter_leaf_width_in")
+            lw_in = r.get("shutter_leaf_width_in")
             if rec.get("shutters_carried") and lw_in:
                 lw = lw_in / 12.0
-                lh = (rec.get("shutter_leaf_height_in") or (r["head_in"] - r["sill_in"])) / 12.0
+                lh = (r.get("shutter_leaf_height_in") or (r["head_in"] - r["sill_in"])) / 12.0
                 for side, (a, b) in (("l", (u0 - lw, u0)), ("r", (u1, u1 + lw))):
                     _, _, ol = _face_extrude(face, a, b, z0, z0 + lh, ox, oy, W, D, t_ext)
                     out.append(_solid(
@@ -598,8 +630,8 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=Non
                         # `sepia` for this tone. `scene.schema.json` already names the whole
                         # vocabulary — read the enum before naming anything.
                         "seen", "sepia-pale",
-                        {"record": f"elevation.storey_windows[{r['storey']}].shutter_leaf_width_in",
-                         "also": ["elevation.shutters_carried"]},
+                        {"record": f"elevation.opening_rects({face}).{r['id']}.shutter_leaf_width_in",
+                         "also": [f"elevation.storey_windows[{r['storey']}].shutters_carried"]},
                         # `editorial` AND NOT `measured`, BECAUSE ONE OF ITS THREE DIMENSIONS
                         # IS NOT THE RECORD'S (WP-12.8). The leaf's width and height are
                         # stated; its THICKNESS is nowhere in the corpus, and the first version
@@ -610,9 +642,13 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=Non
                         # has to have one to be a solid at all; what changes is that the record
                         # now says so.
                         "editorial", face=face, level=lvl,
-                        note=f"drawn open; {rec.get('shutter_panel_count')} panels a leaf. Its "
+                        note=f"drawn open; {r.get('shutter_panel_count')} panels a leaf. Its "
                              "width and height are the record's; its THICKNESS is not stated "
                              "anywhere in this corpus and is drawn at the sash bar's"))
+    # THE WINDOW SURROUND, refused where the plate refuses it and for the same reason (WP-14.3).
+    ws = (elev or {}).get("window_surround") or {}
+    if ws.get("why") and any(r.get("kind") == "window" for rs in rects_by_face.values() for r in rs):
+        states.cannot("the window surrounds", ws["why"], "elevation.window_surround", cls="opening")
     # GATED ON THE WINDOWS AND NOT ON THE DICT (WP-12.8). `rects_by_face` is built for all four
     # faces unconditionally, so `if rects_by_face:` is `if {"S": [], "N": [], "E": [], "W": []}`
     # — always true — and would file "the sills under every window" against a house with no
@@ -621,6 +657,14 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=Non
     # not exist is the fake-unjudged collapse wearing its other face. Latent rather than live —
     # the five shipped plans that draw no opening refuse their elevation before reaching here —
     # so `tests/test_scene_dressed.py` drives it.
+    if any(r.get("kind") == "window" and (r.get("sash") or {}).get("members")
+           for rs in rects_by_face.values() for r in rs):
+        states.cannot("the jambs of every window",
+                      "sash-light gives the jamb, pulley stile and parting bead as 'about 1 1/2 "
+                      "in' across both sides; the elevation plate and the DXF draw it at half that "
+                      "a side and say so, and this layer does not model an approximate member as "
+                      "a solid -- it stands inside the opening frame already drawn",
+                      "elevation.SASH_JAMB_IN", cls="opening")
     if any(r.get("kind") == "window" for rs in rects_by_face.values() for r in rs):
         states.cannot("the sills under every window",
                       "`window_sill.projection_in` resolves to a BAND rather than a figure on "
@@ -675,12 +719,21 @@ def _entrance(elev, section, states):
     t_ext = ((section.get("wall") or {}).get("exterior_in") or 0) / 12.0
     ox = oy = -t_ext
     EL = _mod("elevation")
+    # THE DOOR CARRYING `entrance`, the one condition the SVG and the DXF test (WP-14.3). This
+    # took the FIRST door on the face, which is the entrance on every shipped plan by the order
+    # `opening_rects` happens to emit and would dress a back door the day it is not.
     door = next((r for r in EL.opening_rects(elev, face)["rects"]
-                 if r.get("kind") == "door"), None)
+                 if r.get("kind") == "door" and r.get("entrance")), None)
     if door is None:
         states.cannot("the doorcase", "the elevation states no door on the entrance front, so "
                       "there is no opening for a surround to dress",
                       f"elevation.faces.{face}", cls="entrance")
+        return out
+    if "garage" in str(door.get("type") or "").lower():
+        states.cannot("the doorcase", "the entrance front's only door is a garage door, and no "
+                      "doorcase, sidelight or transom frames one; the plate draws it as its "
+                      "opening and says so",
+                      f"elevation.opening_rects({face}).{door['id']}.type", cls="entrance")
         return out
 
     # The doorcase stands on the storey its door does -- see `_openings` on why this join has
@@ -693,6 +746,11 @@ def _entrance(elev, section, states):
     z0, z1 = door["sill_in"] / 12.0, door["head_in"] / 12.0
     band = (ent.get("entablature_height_in")
             or ent.get("surround_height_above_opening_in") or 0) / 12.0
+    # THE DOORCASE STANDS ON THE TRANSOM WHERE ONE IS DRAWN (WP-14.3), as it does on the plate:
+    # the casing runs up past it and the entablature sits on top. `zt` is the head of the whole
+    # opening, door and transom; the sidelights stand to the door's own head, `z1`.
+    tr = ent.get("transom") or {}
+    zt = z1 + ((tr.get("height_in") or 0.0) / 12.0 if tr.get("drawn") else 0.0)
 
     def _plane(sid, cls, u0, u1, za, zb, note, src):
         pl, at, outline = _face_extrude(face, u0, u1, za, zb, ox, oy, W, D, t_ext)
@@ -714,7 +772,7 @@ def _entrance(elev, section, states):
 
     if cw > 0:
         out.append(_plane(
-            f"{door['id']}-surround", "surround", x0 - cw, x1 + cw, z0, z1 + band,
+            f"{door['id']}-surround", "surround", x0 - cw, x1 + cw, z0, zt + band,
             "the casing and the band above it, drawn as the face area the composition occupies. "
             "Its RELIEF is not modelled: `elev.entrance` states the width and no projection",
             "elevation.entrance.casing_width_in"))
@@ -734,25 +792,44 @@ def _entrance(elev, section, states):
                 "frame: it is not one of `opening_rects`' rectangles",
                 "elevation.entrance.sidelight_width_in"))
 
-    # THE TRANSOM IS STATED AND IS NOT DRAWN, AND THAT IS A DISAGREEMENT WORTH NAMING.
-    # `elevation.py` dimensions the whole transom family together -- height, width (the door
-    # leaf's) and a head rise of 0, a rectangular transom and not a fanlight -- and feeds it to
-    # `fanlight-before-its-date` and `transom-bar-at-the-wrong-height`. `render_elevation`
-    # draws the door, the casing and the sidelights and NO transom. Drawing one here would put
-    # a member in the model that the plate beside it does not have, which is the one thing
-    # WP-12.0 forbids; so it is refused, and the disagreement is the finding.
-    if ent.get("transom_height_in"):
-        states.cannot("the transom over the entrance door",
-                      "the record dimensions a rectangular transom (height "
-                      f"{ent['transom_height_in']} in, width the door leaf's, head rise 0) and "
-                      "two faults are judged on it, but `render_elevation._entrance` draws none "
-                      "-- so drawing one here would make the model and the plate two different "
-                      "doorcases",
-                      "elevation.entrance.transom_height_in", cls="entrance")
+    # THE TRANSOM (WP-14.3). The plate draws the rectangular transom the style's kit makes
+    # canonical, at opening-proportion's height -- which that rule marks JUDGMENT -- and says so
+    # in its legend. This layer follows the chimney's precedent for a judged figure: it draws the
+    # transom's OUTLINE in construction ink and no glass, because a solid at a judged height is
+    # the one place a reader could not tell a decision from a measurement. Where the kit's
+    # canonical form is a fanlight, the plate refuses it and so does this, for the same reason.
+    # (Until WP-14.3 the plate drew no transom and this refused it for THAT reason:
+    # `oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`.)
+    if tr.get("drawn"):
+        pl, at, outline = _face_extrude(face, x0, x1, z1, zt, ox, oy, W, D, t_ext)
+        at_out = _on_the_outside_face(face, at, t_ext)
+        verts = []
+        for a, b in list(outline) + [outline[0]]:
+            v = [0.0, 0.0, 0.0]
+            v[0 if pl == "xz" else 1] = round(a, 3)
+            v[2] = round(b, 3)
+            v[1 if pl == "xz" else 0] = round(at_out, 3)
+            verts.append(v)
+        out.append(_solid(f"{door['id']}-transom", "surround", {"type": "plane", "vertices": verts},
+                          "construction", "paper-mat",
+                          {"record": "elevation.entrance.transom",
+                           "also": ["opening-proportion transom_sidelight/height"]},
+                          "judgment", face=face, level=door_level,
+                          note=f"the transom's outline: {tr['height_in']} in high, a judgment, "
+                               f"{tr['lights']} lights. Its glass is not modelled"))
+        states.judged("the transom over the entrance door",
+                      f"opening-proportion states its height as module x 0.44 and marks it "
+                      f"judgment -- 'the measured spread is enormous'. The elevation plate draws "
+                      f"it at {tr['height_in']} in and says so; this draws its outline and no "
+                      f"glass",
+                      "elevation.entrance.transom")
+    elif tr.get("why"):
+        states.cannot("the transom over the entrance door", tr["why"],
+                      "elevation.entrance.transom", cls="entrance")
 
     for m in ent.get("entablature_members") or []:
-        h0 = z1 + (m.get("y_bottom_in") or 0) / 12.0
-        h1 = z1 + (m.get("y_top_in") or 0) / 12.0
+        h0 = zt + (m.get("y_bottom_in") or 0) / 12.0
+        h1 = zt + (m.get("y_top_in") or 0) / 12.0
         unpublished = m.get("projection_in") is None
         pr = (m.get("projection_in") or 0) / 12.0
         cx = (x0 + x1) / 2.0

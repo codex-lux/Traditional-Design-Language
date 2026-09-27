@@ -113,8 +113,16 @@ RATCHET = {
     # does read had been invisible to the walk. The corpus did not get worse by 32 parameters;
     # the meter started reading a file. A ceiling raised in the same commit as the widening, in
     # public, on WP-9.4's precedent for its literal detector (35 -> 44).
-    "measured_unsourced_read": 299,
-    "editorial_read": 78,            # 69 before the same widening; 68 on the merged corpus
+    # AND AGAIN AT WP-14.3 (27 Sep 2026), 299 -> 304 and 78 -> 80, for the same reason: the
+    # elevation began reading `window_surround_masonry` and `window_surround_wood` to draw the
+    # surround a wall's slot states (or refuse the choice it leaves open), so the walk now counts
+    # them. The seven are exactly the parameters on those two slots -- five measured with no
+    # source, on american-farmhouse-vernacular, german-pennsylvania-colonial, mission-revival,
+    # monterey-colonial and nordic-alpine-vernacular, and georgian-colonial-american's two
+    # editorial architrave widths -- counted by name before the ceilings moved.
+    "measured_unsourced_read": 304,
+    "editorial_read": 80,            # 69 before the threshold.py widening; 68 on the merged
+                                     # corpus; 78 then; 80 after WP-14.3's two surround slots
     "shared_only_nodes": 24,
     "sourceless_nodes": 0,          # a CEILING at its floor -- 32 at WP-11.1, 0 after WP-11.7.
     "untested_nodes": 3,

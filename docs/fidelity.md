@@ -139,20 +139,22 @@ join the app without either a census row or a stated reason it is not an archite
 | R2 | proportions-plate | the members the plate says publish no projection are exactly the members whose record states none (the shaft's own body, which is the column, excepted) | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
 | R3 | proportions-plate | the datum the plate's caption states for each assembly is the datum that assembly was drawn on | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
 | R4 | proportions-plate | what the stack leaves out -- an assembly offered instead of another, an inherited entablature that contradicts the pack's own -- is said on the plate | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
-| V1 | elevation | every mark carrying a line-weight rung is drawn at that rung's width | every elevation sheet (plans x faces) | 44 | 0 | 44 | 0 |
+| V1 | elevation | every mark carrying a line-weight rung is drawn at that rung's width | every elevation sheet (plans x faces) | 44 | 44 | 0 | 0 |
 | V2 | elevation | nothing the style's resolved kit forbids is drawn, slot or variant (the row names where each prohibition comes from) | every node with a kit, on the Tidewater placement | 159 | 20 | 21 | 118 |
-| V3 | elevation | every transom or sidelight variant the style's kit makes canonical is drawn | every node with a kit, on the Tidewater placement | 19 | 0 | 19 | 0 |
-| V4 | elevation | each shutter leaf is (opening - 1 in) / 2, sash-light's own rule, 'so that the pair actually covers the window when closed' | elevation sheets drawing shutters | 24 | 0 | 24 | 0 |
-| V5 | elevation | the lights drawn in a sash are sash-light's own count for the width the window is drawn at | elevation sheets drawing a glazed sash | 27 | 0 | 27 | 0 |
-| V6 | elevation | a door the plan calls a garage door is not drawn as a six-panel leaf | plans placing a garage door on an elevation face | 4 | 0 | 4 | 0 |
-| V7 | elevation | an arched head is drawn as the circular segment it is set out as, not a parabola | elevation sheets drawing an arched head: shipped plans, and every style's front | 32 | 19 | 13 | 0 |
-| V8 | elevation | a figure its own rule marks judgment is not published as a measurement | plans whose elevation draws | 11 | 0 | 11 | 0 |
-| V9 | elevation | a size drawn with no figure behind it is said: the keystone's depth x 0.6 and the chimney's 22 in fallback | sheets drawing a keystone or a chimney: shipped plans, and every style's front | 19 | 19 | 0 | 0 |
-| V11 | elevation | an opening or a belt that misses the brick courses the sheet draws is said to | masonry elevation sheets | 3 | 0 | 3 | 0 |
+| V3 | elevation | every transom or sidelight variant the style's kit makes canonical is drawn, or the sheet says why it is not | every node with a kit, on the Tidewater placement | 19 | 19 | 0 | 0 |
+| V4 | elevation | each shutter leaf is (opening - 1 in) / 2, sash-light's own rule, 'so that the pair actually covers the window when closed' | elevation sheets drawing shutters | 24 | 24 | 0 | 0 |
+| V5 | elevation | the lights drawn in a sash are sash-light's own count for the width the window is drawn at | elevation sheets drawing a glazed sash | 27 | 27 | 0 | 0 |
+| V14 | elevation | a sash is drawn as the members sash-light states -- its jambs, 2 in stiles and top, bottom and meeting rails -- with its glass divided into the lights its rule gives, each at the rule's light width | elevation sheets drawing a glazed sash | 27 | 27 | 0 | 0 |
+| V16 | elevation | a window surround the style's kit makes canonical is drawn, or the sheet says why it is not | every node with a kit whose elevation is drawn, on the Tidewater placement | 22 | 22 | 0 | 0 |
+| V6 | elevation | a door the plan calls a garage door is not drawn as a six-panel leaf | plans placing a garage door on an elevation face | 4 | 4 | 0 | 0 |
+| V7 | elevation | an arched head is drawn as the circular segment it is set out as, not a parabola | elevation sheets drawing an arched head: shipped plans, and every style's front | 32 | 32 | 0 | 0 |
+| V8 | elevation | a figure its own rule marks judgment is not published as a measurement | plans whose elevation draws | 11 | 11 | 0 | 0 |
+| V9 | elevation | a size no record gives is neither drawn nor left unsaid: the keystone the kit makes canonical with no width, and a stack the roof places with no plan size | sheets whose record carries a keystone or a stack: shipped plans, and every style's front | 19 | 19 | 0 | 0 |
+| V11 | elevation | an opening or a belt that misses the brick courses the sheet draws is said to | masonry elevation sheets | 3 | 3 | 0 | 0 |
 | V13 | elevation | the eave inset draws every cornice member at the height and face its record states | elevation sheets drawing the eave inset | 11 | 11 | 0 | 0 |
-| S1 | section | exterior walls are drawn as bodies of the thickness the record states | plans whose section draws | 16 | 0 | 16 | 0 |
-| F1 | roof | a chimney stack is drawn at the plan size the record states, and a judged size is said to be one | plans whose roof plan draws a stack | 1 | 0 | 1 | 0 |
-| X1 | elevation | the DXF elevation draws the sidelights the SVG draws beside the doorcase | plans whose entrance SVG draws sidelights | 5 | 0 | 5 | 0 |
+| S1 | section | exterior walls are drawn as bodies of the thickness the record states | plans whose section draws | 16 | 16 | 0 | 0 |
+| F1 | roof | a chimney stack is drawn at the plan size the record states, and a judged size is said to be one | plans whose roof plan draws a stack | 1 | 1 | 0 | 0 |
+| X1 | elevation | the DXF elevation draws the sidelights the SVG draws beside the doorcase | plans whose entrance SVG draws sidelights | 2 | 2 | 0 | 0 |
 | PL1 | plan | a bay grid is drawn on a module the record states, or the sheet says the module is a default | every plan sheet, working register | 16 | 1 | 15 | 0 |
 <!-- census:checks:end -->
 

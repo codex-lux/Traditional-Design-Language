@@ -295,9 +295,28 @@ def test_the_dxf_draws_one_doorcase_per_face_with_an_entrance(tmp_path):
         path = str(tmp_path / f"{face}.dxf")
         EX.export_elevation_dxf(elev, path, face)
         doc = ezdxf.readfile(path)
-        # a casing is the ONE closed polyline on the sash layer that is wider than every leaf
-        widths = [max(p[0] for p in e.get_points()) - min(p[0] for p in e.get_points())
-                  for e in doc.modelspace().query("LWPOLYLINE") if e.dxf.layer.upper().endswith("SASH")]
-        leaf_w = max(r["x1_in"] - r["x0_in"] for r in doors)
-        casings = [w for w in widths if w > leaf_w + 1.0]
-        assert len(casings) == want, (face, want, casings)
+        # A CASING IS THE CLOSED POLYLINE ON THE SASH LAYER THAT FRAMES A DOOR: its extent holds
+        # the leaf's, jamb to jamb and sill to head. RE-CUT (WP-14.3). The discriminator was
+        # "wider than every leaf", and it stopped being one the moment the sash was drawn as its
+        # members: a window's rails and cross muntins are closed polylines on the same layer,
+        # 42.5 in across on the one-element N face against the back hall's leaf, and 28 of them
+        # read as casings on a face that draws none. A member of a window never frames a door.
+        polys = [[(p[0], p[1]) for p in e.get_points()] for e in doc.modelspace().query("LWPOLYLINE")
+                 if e.dxf.layer.upper().endswith("SASH")]
+
+        def frames(poly, d):
+            xs, ys = [p[0] for p in poly], [p[1] for p in poly]
+            return (min(xs) < d["x0_in"] - 0.5 and max(xs) > d["x1_in"] + 0.5
+                    and min(ys) <= d["sill_in"] + 0.5 and max(ys) >= d["head_in"] - 0.5)
+        casings = [poly for poly in polys if any(frames(poly, d) for d in doors)]
+        assert len(casings) == want, (face, want, len(casings))
+        # and the premise the re-cut rests on, on the face that draws no casing: its sash layer
+        # carries window members wider than its leaf, so the width reading this replaces would
+        # have counted them. (On the entrance face the leaf is the widest thing on the layer, and
+        # the width reading happened to hold there.)
+        if want == 0:
+            leaf_w = max(r["x1_in"] - r["x0_in"] for r in doors)
+            assert any(max(p[0] for p in poly) - min(p[0] for p in poly) > leaf_w + 1.0
+                       for poly in polys), (
+                f"premise: face {face} draws no sash member wider than its leaf, so the width "
+                f"reading this re-cut replaces would have been right here too")

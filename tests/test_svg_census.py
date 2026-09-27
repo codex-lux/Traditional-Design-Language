@@ -499,9 +499,13 @@ class TestTheBuildingSheetsCanDisagree:
     def test_v7_sees_a_head_that_is_not_a_circle(self, monkeypatch):
         import re
         rec, face, svg = self._one("tidewater-georgian-careful")
-        # raise one head's Bezier control point by 60 px: a parabola that tall is far from any circle
-        planted = re.sub(r'(<path class="arch w-med" d="M [\d.]+,[\d.]+ Q [\d.]+,)([\d.]+)',
-                         lambda m: m.group(1) + "%.1f" % (float(m.group(2)) - 60.0), svg, count=1)
+        # the heads are circular arcs since WP-14.3; plant a parabola 60 px tall in place of one,
+        # which is far from any circle
+        planted = re.sub(
+            r'(<path class="arch w-med" d="M ([\d.]+),([\d.]+)) A [\d.]+,[\d.]+ 0 0 1 ([\d.]+),([\d.]+)',
+            lambda m: "%s Q %.2f,%.2f %s,%s" % (m.group(1), (float(m.group(2)) + float(m.group(4))) / 2.0,
+                                                float(m.group(3)) - 60.0, m.group(4), m.group(5)),
+            svg, count=1)
         assert planted != svg, "the plant did not land"
         monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", rec["elev"], planted)]))
         assert [r["verdict"] for r in C.CHECKS["V7"]["fn"]()] == ["disagrees"]
@@ -536,6 +540,18 @@ class TestTheBuildingSheetsCanDisagree:
         assert count(head - 80.0) == n, "a panel over the door was counted as the door's"
         assert count(head + 10.0) == n + 1, "a panel in the leaf was not counted"
 
+    def test_v16_sees_a_surround_neither_drawn_nor_said(self, monkeypatch):
+        """No surface draws a window surround, so V16 agrees only on the sheet's words. Take the
+        words away from one style and V16 convicts that style and no other."""
+        sweep = C._style_sweep()
+        sid = "tidewater-georgian"
+        el, svg = sweep[sid]
+        planted = svg.replace("WINDOW SURROUND NOT DRAWN", "WINDOW NOTE")
+        assert planted != svg, "the premise: this sheet says its surround is not drawn"
+        monkeypatch.setitem(sweep, sid, (el, planted))
+        got = {r["subject"]: r["verdict"] for r in C.CHECKS["V16"]["fn"]()}
+        assert got[sid] == "disagrees" and got["colonial-revival"] == "agrees", got
+
     def test_v9_sees_the_renderers_own_fallbacks_when_the_record_gives_no_figure(self, monkeypatch):
         import copy
         RE = C.SURF._mod("render_elevation")
@@ -544,10 +560,21 @@ class TestTheBuildingSheetsCanDisagree:
         assert el.get("chimney_stack_plan_in"), "the premise: this record states a stack size"
         el["chimney_stack_plan_in"] = None                   # the renderer falls back to 22 in
         planted = C._render(RE.render_elevation, el, face="E")
+        # WP-14.3 refuses the stack and says so: the honest sheet agrees
         monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", el, planted)]))
         got = C.CHECKS["V9"]["fn"]()
-        assert [r["verdict"] for r in got] == ["disagrees"], got
-        assert "22 in" in got[0]["detail"]
+        assert [r["verdict"] for r in got] == ["agrees"], got
+        # the refusal left unsaid, and the old fallback put back: both disagree
+        silent = planted.replace("STACKS NOT DRAWN", "STACKS")
+        assert silent != planted, "the premise: the sheet says the stacks are not drawn"
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", el, silent)]))
+        got = C.CHECKS["V9"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "neither drawn nor said" in got[0]["detail"], got
+        drawn = C._render(RE.render_elevation, copy.deepcopy(rec["elev"]), face="E")
+        assert '"ch' in drawn or "class='ch" in drawn or 'class="ch' in drawn, "the premise: a sized stack is drawn"
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("planted", el, drawn)]))
+        got = C.CHECKS["V9"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "no record states" in got[0]["detail"], got
 
     def test_v13_sees_an_inset_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
         import copy

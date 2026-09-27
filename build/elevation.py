@@ -125,6 +125,134 @@ def _val(pack, target_slot, env, note_substr=None, dimension=None, clip=True, mo
 TARGET_SILL_IN = 30.0   # storey-graduation.json's own documented convention, quoted in opening-proportion.json's
                           # window_sill note: "the ordinary sill sits at 28-32 in" -- midpoint
 
+def sash_at(sash_pack, width_in, glass_module_in, height_in=None):
+    """sash-light's own arithmetic at ONE width: the light pattern, the light size and the shutter
+    leaf. THE ONE SPELLING (WP-14.3), called by `_storey_window` at the storey's pack width and by
+    `opening_rects` at each opening's own drawn width.
+
+    Until WP-14.3 this was worked out once per STOREY, at the width `_storey_window` sizes from
+    the head and sill, and every window on that storey was dressed with it -- while the rectangle
+    it was drawn in had been the PLAN's placed width since WP-13.3. So a 42 in opening was
+    divided into the lights of a 38.6 in one and flanked by shutters cut for it: census V4 and V5
+    measured 24 and 27 elevation sheets, leaves covering 78 to 117 per cent of the window they
+    close over. A number describes the window it is computed at, so it is computed at the one
+    drawn.
+
+    `height_in` is the drawn opening's height, and is used only for the light HEIGHT (the pack's
+    count rules take the width alone, and are applied as the pack states them)."""
+    env = {"opening_width": width_in, "module": glass_module_in}
+    across, _ = _val(sash_pack, "window_lite_pattern", env, note_substr="lights across",
+                     dimension="count")
+    high, _ = _val(sash_pack, "window_lite_pattern", env, note_substr="lights high per sash",
+                   dimension="count")
+    across, high = int(round(across)), int(round(high))
+    leaf_w, _ = _val(sash_pack, "shutter", {"opening_width": width_in}, dimension="width")
+    return {
+        "lights_across": across, "lights_high_per_sash": high,
+        "sash_pattern": f"{across * high}/{across * high}",
+        "individual_light_width_in": (round((width_in - 5.5 + 0.875) / across - 0.875, 3)
+                                      if across else None),
+        "individual_light_height_in": (round((height_in / 2 - 5.0 + 0.875) / high - 0.875, 3)
+                                       if high and height_in is not None else None),
+        "shutter_leaf_width_in": round(leaf_w, 3),
+        # PANELS PER LEAF, from sash-light.json's own rule on `shutter/count` -- see
+        # `_storey_window` for the boundary and the Colonial Williamsburg graduation it gives.
+        "shutter_panel_count": (3 if (high or 0) * (across or 0) >= 15 else 2),
+    }
+
+
+# The transom forms this generator can draw from what the record states. A rectangular transom is
+# the door leaf's width and opening-proportion's (judged) height, and its lights are sash-light's
+# own rule; a fanlight's head is an ellipse or an arc whose RISE no record in this corpus states.
+TRANSOM_DRAWN_FORMS = ("rectangular-multi-light-transom",)
+
+
+def entrance_transom(ent, slot, sash_pack, glass_module_in):
+    """The transom over the entrance door, as the style's own kit makes it canonical (WP-14.3).
+
+    `entrance_composition` dimensions a rectangular transom for every style whose kit does not
+    forbid the slot, and until WP-14.3 no surface drew one -- census V3 counted 26 styles whose
+    kit makes a transom or a fanlight canonical and whose elevation drew neither, and
+    `oq/the-record-dimensions-a-transom-and-no-drawing-draws-one` asked whether the sheet owed
+    one. Phase 14's scope ruling is that a figure the record states and no surface draws is
+    drawn. So:
+
+      * a canonical RECTANGULAR transom is drawn, the door leaf's width by opening-proportion's
+        height -- which that rule marks JUDGMENT, so the drawing is labelled one (the chimney's
+        precedent) -- divided into sash-light's own count of transom lights;
+      * a canonical FANLIGHT is refused by name: its head is an ellipse or an arc, and no record
+        states its rise;
+      * where the kit makes more than one transom form canonical the record names none, and the
+        choice is refused rather than made;
+      * where it makes none, nothing is drawn and nothing is said: the ordinary answer on a
+        modest house is a solid door head.
+    """
+    canon = [v["id"] for v in (slot.get("variants") or [])
+             if v.get("status") == "canonical" and ("transom" in v["id"] or "fanlight" in v["id"])]
+    canon = sorted(set(canon))
+    if not canon:
+        return {"variant": None, "drawn": False, "why": None}
+    if ent.get("sidelights_forbidden_by_kit"):
+        return {"variant": None, "drawn": False, "why": None}
+    if len(canon) > 1:
+        return {"variant": None, "drawn": False, "canonical": canon,
+                "why": f"the kit makes {len(canon)} transom forms canonical "
+                       f"({', '.join(c.replace('-', ' ') for c in canon)}) and the record "
+                       f"names none"}
+    variant = canon[0]
+    if variant not in TRANSOM_DRAWN_FORMS:
+        words = variant.replace("-", " ")
+        return {"variant": variant, "drawn": False,
+                "why": f"{'an' if words[0] in 'aeiou' else 'a'} {words} is canonical for this "
+                       f"style, and no record in this corpus states its rise"}
+    h, w = ent.get("transom_height_in"), ent.get("door_leaf_width_in")
+    if h is None or w is None or glass_module_in is None:
+        return {"variant": variant, "drawn": False,
+                "why": "the composition states no transom height, no leaf width or no glass module"}
+    lights, _ = _val(sash_pack, "transom_sidelight", {"opening_width": w, "module": glass_module_in},
+                     dimension="count")
+    return {"variant": variant, "drawn": True, "height_in": h, "width_in": w,
+            "lights": int(round(lights)), "judgment": True,
+            "height_source": "opening-proportion transom_sidelight/height (module x 0.44), marked "
+                             "judgment: the measured spread is enormous"}
+
+
+def window_surround(slot, name="window_surround"):
+    """The surround a window's own kit makes canonical, as the elevation can honour it (WP-14.3).
+
+    No surface draws an exterior window surround, and Phase 14's scope says a figure the record
+    states is drawn. Measured over the 41 styles the elevation draws, the record states none it
+    can draw: 22 make a surround AND a bare opening both canonical (`flat-architrave-with-crown`
+    beside `none-masonry-reveal`, most of them from `georgian-colonial-american`) and so do not
+    say which this house has, and 19 make no surround canonical. The first is refused with its
+    reason, the transom's precedent for a record that names two forms; the second is the
+    ordinary answer and is not said. A surround the kit makes canonical ALONE is not drawn by any
+    surface either, and is said, because no style reaches it and a construction nobody can see
+    drawn is not one this package writes. The reveal is a different slot (`reveal_masonry`,
+    `reveal_frame`) and is drawn where it is stated."""
+    canon = sorted({v["id"] for v in (slot.get("variants") or []) if v.get("status") == "canonical"})
+    real = [c for c in canon if not c.startswith("none")]
+    words = lambda c: c.replace("-", " ")
+    if slot.get("binding") == "forbidden" or not real:
+        return {"canonical": canon, "drawn": False, "why": None}
+    # THE SLOT does not say which; a record's prose may, and on `georgian-colonial-american`,
+    # where most of these come from, it does -- "on a masonry wall it has no surround at all" --
+    # beside a note that the 0.3.0 migration carried one record into both slots and it "NEEDS
+    # SPLITTING BY HAND". The elevation reads the slot and never the sentence, so what it says
+    # is what the slot says: `oq/the-window-surround-slots-were-never-split`.
+    slot_words = name.replace("_", " ")
+    if len(canon) > 1:
+        return {"canonical": canon, "drawn": False,
+                "why": f"the kit's {slot_words} slot makes {' and '.join(words(c) for c in canon)} "
+                       f"all canonical, and does not say which this house has"
+                if len(canon) > 2 else
+                f"the kit's {slot_words} slot makes {words(canon[0])} and {words(canon[1])} both "
+                f"canonical, and does not say which this house has"}
+    return {"canonical": canon, "drawn": False,
+            "why": f"{'an' if words(real[0])[0] in 'aeiou' else 'a'} {words(real[0])} is "
+                   f"canonical, and no surface in this corpus draws a window surround yet"}
+
+
 def _storey_window(op_pack, sash_pack, storey, bay_module_in, glass_module_in):
     """One head datum, one window size, per storey -- opening-proportion.json's own hardest
     rule ('DISTINCT HEAD DATUMS PERMITTED ON ONE STOREY: ONE') applied literally: this function
@@ -150,14 +278,11 @@ def _storey_window(op_pack, sash_pack, storey, bay_module_in, glass_module_in):
     # proxy this module's docstring already discloses -- kept only as a secondary diagnostic
     # comparison, not as what actually sizes the window (see the docstring above).
     room_width_diagnostic_in, _ = _val(op_pack, "window_proportion", {"room_width": bay_module_in}, dimension="width")
-    lights_across, _ = _val(sash_pack, "window_lite_pattern", {"opening_width": width_in, "module": glass_module_in},
-                             note_substr="lights across", dimension="count")
-    lights_high, _ = _val(sash_pack, "window_lite_pattern", {"opening_width": width_in, "module": glass_module_in},
-                           note_substr="lights high per sash", dimension="count")
-    lights_across, lights_high = int(round(lights_across)), int(round(lights_high))
-    light_width_in = round((width_in - 5.5 + 0.875) / lights_across - 0.875, 3) if lights_across else None
-    light_height_in = round((height_in / 2 - 5.0 + 0.875) / lights_high - 0.875, 3) if lights_high else None
-    shutter_leaf_w, _ = _val(sash_pack, "shutter", {"opening_width": width_in}, dimension="width")
+    sash = sash_at(sash_pack, width_in, glass_module_in, height_in=height_in)
+    lights_across, lights_high = sash["lights_across"], sash["lights_high_per_sash"]
+    light_width_in = sash["individual_light_width_in"]
+    light_height_in = sash["individual_light_height_in"]
+    shutter_leaf_w = sash["shutter_leaf_width_in"]
     return {
         "storey": storey["id"], "head_height_above_floor_in": round(head_in, 3),
         "head_datum_count": 1,
@@ -183,7 +308,7 @@ def _storey_window(op_pack, sash_pack, storey, bay_module_in, glass_module_in):
         # lower of its two, which is what puts three on the taller ground sash and two on the
         # shorter upper one -- the graduation Colonial Williamsburg records at the Prentis and
         # John Blair houses.
-        "shutter_panel_count": (3 if (lights_high or 0) * (lights_across or 0) >= 15 else 2),
+        "shutter_panel_count": sash["shutter_panel_count"],
         "window_proportion_ratio": round(height_in / width_in, 3),
         "sash_light_ratio_source": ratio_r["rule"]["authority_note"] if ratio_r else None,
     }
@@ -926,6 +1051,79 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
 # that needs them, the way GLASS_MODULE_BANDS transcribes that pack's period table.
 SASH_FRAME = {"stile_in": 2.0, "top_rail_in": 2.0, "bottom_rail_in": 3.0, "meeting_rail_in": 1.25}
 
+# THE JAMB, from the same pack's own authority note on its lights-across rule: "clear glazed width
+# = opening width less two 2 in stiles and about 1 1/2 in of jamb, pulley stile and parting-bead
+# clearance". So the 5.5 in in every light rule sash-light states is two stiles and the jambs, and
+# each jamb takes half the 1 1/2 in. "About" is the pack's word, and every surface that draws the
+# jamb at this figure says so -- drawing the stile hard against the opening instead would make
+# every light 1.5 / n in wider than the width the same pack's light rule gives.
+SASH_JAMB_IN = 0.75
+
+
+def sash_layout(x0_in, x1_in, sill_in, head_in, lights_across, lights_high, muntin_in):
+    """A double-hung sash as the members that make it, in the face's own inches (WP-14.3).
+
+    Until WP-14.3 no surface drew a sash. The SVG divided the WHOLE opening into equal
+    rectangles with lines of no stated width and drew the meeting rail as a line; the DXF drew the
+    same lines; the scene drew bars across the full opening. The record states every member: the
+    jambs (about 3/4 in a side), the 2 in stiles, the 2 in top rail, the 3 in bottom rail, the
+    1 1/4 in meeting rail of each sash, and the 7/8 in muntin that divides the glass. This lays
+    them out once, for all three surfaces:
+
+      * the two sashes are equal, meeting at the opening's mid-height -- the upper sash's
+        meeting rail above that line and the lower sash's below it;
+      * the GLASS of each sash is what the frame leaves, and it is divided by `lights_across`
+        columns and `lights_high` rows of lights with 7/8 in muntins between them, so a light's
+        width is exactly sash-light's own RESULTING LIGHT WIDTH, `(W - 5.5 - (n - 1) x 0.875)/n`;
+      * the two sashes carry the same pattern (the record states one, `sash_pattern` N/N).
+
+    Returns {"members": [...], "muntins": [...], "panes": [...], "light_width_in": ...,
+    "light_height_in": {"upper": ..., "lower": ...}} -- every entry `{kind, x0, x1, y0, y1}` in
+    inches, x along the face and y above grade -- or {"refused": reason} where the frame leaves no
+    glass, or the record gives no light count or no muntin width to divide it by."""
+    if not lights_across or not lights_high or not muntin_in:
+        return {"refused": "the opening states no light count or no muntin width, so its glass "
+                           "cannot be divided"}
+    st, tr = SASH_FRAME["stile_in"], SASH_FRAME["top_rail_in"]
+    br, mr = SASH_FRAME["bottom_rail_in"], SASH_FRAME["meeting_rail_in"]
+    jb, m, n, h = SASH_JAMB_IN, muntin_in, int(lights_across), int(lights_high)
+    gx0, gx1 = x0_in + jb + st, x1_in - jb - st
+    mid = (sill_in + head_in) / 2.0
+    glass = {"upper": (mid + mr, head_in - tr), "lower": (sill_in + br, mid - mr)}
+    lw = (gx1 - gx0 - (n - 1) * m) / n
+    lh = {k: (b - a - (h - 1) * m) / h for k, (a, b) in glass.items()}
+    if lw <= 0 or min(lh.values()) <= 0:
+        return {"refused": f"a {x1_in - x0_in:.1f} x {head_in - sill_in:.1f} in opening leaves no "
+                           f"glass for {n} x {h} lights a sash inside the frame the record states"}
+
+    def box(kind, a, b, c, d, **kw):
+        return {"kind": kind, "x0": a, "x1": b, "y0": c, "y1": d, **kw}
+
+    members = [
+        box("jamb", x0_in, x0_in + jb, sill_in, head_in, side="L", approximate=True),
+        box("jamb", x1_in - jb, x1_in, sill_in, head_in, side="R", approximate=True),
+        box("stile", x0_in + jb, gx0, sill_in, head_in, side="L"),
+        box("stile", gx1, x1_in - jb, sill_in, head_in, side="R"),
+        box("top-rail", gx0, gx1, head_in - tr, head_in),
+        box("meeting-rail", gx0, gx1, mid, mid + mr, sash="upper"),
+        box("meeting-rail", gx0, gx1, mid - mr, mid, sash="lower"),
+        box("bottom-rail", gx0, gx1, sill_in, sill_in + br),
+    ]
+    muntins, panes = [], []
+    for sash, (ya, yb) in glass.items():
+        for i in range(1, n):
+            cx = gx0 + i * lw + (i - 0.5) * m
+            muntins.append(box("muntin", cx - m / 2.0, cx + m / 2.0, ya, yb, sash=sash, dir="v", n=i))
+        for j in range(1, h):
+            cy = ya + j * lh[sash] + (j - 0.5) * m
+            muntins.append(box("muntin", gx0, gx1, cy - m / 2.0, cy + m / 2.0, sash=sash, dir="h", n=j))
+        for i in range(n):
+            for j in range(h):
+                px, py = gx0 + i * (lw + m), ya + j * (lh[sash] + m)
+                panes.append(box("pane", px, px + lw, py, py + lh[sash], sash=sash, col=i, row=j))
+    return {"members": members, "muntins": muntins, "panes": panes, "light_width_in": lw,
+            "light_height_in": lh, "meeting_in": mid}
+
 # Where a dormer face stands up the slope, measured along it. Editorial: the fault corpus
 # prefers 18-36 in and requires at least 12; nothing reachable states a figure.
 DORMER_SETBACK_ON_SLOPE_IN = 24.0
@@ -1323,6 +1521,21 @@ NOT_MODELLED = {
     # a size the sources declined to fix. The elevation record carries it for the DRAWING only,
     # as `chimney_stack_plan_in`, labelled a judgment on the sheet.
     "chimney_width_in": "brick-course states a stack width but flags it judgment: 18 or 27 in is a decision, not a measurement",
+    # WP-14.3, the chimney's rule applied to two more judgment slots (census V8). The transom's
+    # height is opening-proportion's `transom_sidelight/height`, marked judgment because "the
+    # measured spread is enormous and is governed by things outside this system"; the WHOLE
+    # FAMILY goes, as this file's own measurement block says it must -- a partially supplied
+    # transom convicted a house on the half that remained. The sheet DRAWS the transom at its
+    # judged height and labels it; the fault corpus no longer judges a house on it.
+    "transom_height_in": "opening-proportion states the transom's height as module x 0.44 and "
+                         "marks it judgment: the measured spread is enormous",
+    "transom_width_in": "as transom_height_in -- the transom family goes absent together",
+    "transom_head_rise_in": "as transom_height_in -- the transom family goes absent together",
+    # And the doorcase pilaster's projection: gibbs-ionic's `pilaster/projection` is a
+    # "JUDGMENT SLOT. The projection of an engaged pilaster is a wall-thickness and cladding
+    # decision before it is a proportional one; the order fixes only the width."
+    "pilaster_projection_in": "gibbs-ionic marks the pilaster's projection a judgment slot: a "
+                              "wall-thickness and cladding decision; the order fixes only the width",
     "chimney_depth_in": "no pack states a stack depth distinct from its width; claiming one would invent an aspect ratio",
     "chimney_least_plan_dimension_in": "as chimney_width_in -- the only figure available is a judgment",
     "chimney_visible_face_width_in": "as chimney_width_in -- the only figure available is a judgment",
@@ -1916,6 +2129,11 @@ def opening_rects(elev, face):
                     "sill_in": floor_in, "head_in": floor_in + h,
                     "width_in": w, "height_in": h,
                     "record": None, "entrance": ent if p.get("entrance") else None,
+                    # WHAT KIND OF DOOR THE PLAN PLACED (WP-14.3). The renderer draws a garage
+                    # door as its opening and not as a panelled leaf, and it can only do that if
+                    # the rect says which door it is; without this the branch never fired and a
+                    # 192 in garage door went on being drawn as six panels.
+                    "type": p.get("type"), "hinge": p.get("hinge"),
                     "u_ft": p["u_ft"], "along_ft": p["along_ft"],
                     "leaf_height_source": "elevation.entrance.door_leaf_height_in"}
             if p.get("entrance") and ent.get("door_leaf_width_in") is not None:
@@ -1949,14 +2167,71 @@ def opening_rects(elev, face):
                                             f"{stack_half_ft * 2:.2f} ft wide, so nothing is drawn"),
                             "source": f"elevation.faces.{face}.stack_axes_ft"})
             continue
-        rects.append({"id": f"{face}-{p['n']}-{storey}-{p['room']}-window", **base,
-                      "cx_in": cx_in, "x0_in": cx_in - w / 2.0, "x1_in": cx_in + w / 2.0,
-                      "sill_in": floor_in + sill, "head_in": floor_in + head,
-                      "width_in": w, "height_in": head - sill,
-                      "record": rec, "entrance": None,
-                      "u_ft": p["u_ft"], "along_ft": p["along_ft"],
-                      "sill_head_source": f"elevation.storey_windows[{si}]"})
+        rect = {"id": f"{face}-{p['n']}-{storey}-{p['room']}-window", **base,
+                "cx_in": cx_in, "x0_in": cx_in - w / 2.0, "x1_in": cx_in + w / 2.0,
+                "sill_in": floor_in + sill, "head_in": floor_in + head,
+                "width_in": w, "height_in": head - sill,
+                "record": rec, "entrance": None,
+                "u_ft": p["u_ft"], "along_ft": p["along_ft"],
+                "sill_head_source": f"elevation.storey_windows[{si}]"}
+        rect.update(_sash_of(elev, rec, w, head - sill))
+        rect.update(_head_of(rec, w))
+        rect["sash"] = sash_layout(rect["x0_in"], rect["x1_in"], rect["sill_in"], rect["head_in"],
+                                   rect["lights_across"], rect["lights_high_per_sash"],
+                                   rec.get("muntin_width_in"))
+        rects.append(rect)
     return {"rects": rects, "refused": refused}
+
+
+SASH_PACK_ID = "sash-light"
+
+
+def _sash_of(elev, rec, width_in, height_in):
+    """ONE SET OF NUMBERS PER OPENING (WP-14.3): the lights and the shutter leaf of the window
+    this rectangle IS, from `sash_at` at its own drawn width. The storey's record still says
+    whether the storey carries shutters at all (`shutter_leaf_width_in` is None where the kit says
+    it carries none) and how tall a leaf is (the storey's own opening height); the WIDTH of a leaf
+    and the division of the glass are the opening's. The storey's pack width travels beside them,
+    so a surface can say when the window drawn is not the window the storey was sized at.
+
+    Without a glass module no light can be counted at any width: the numbers are None and the
+    reason is on the rect, never the storey's figures standing in for the opening's."""
+    gm = elev.get("glass_module_in")
+    out = {"sash_width_in": width_in, "storey_pack_width_in": rec.get("opening_width_in")}
+    if gm is None:
+        return {**out, "lights_across": None, "lights_high_per_sash": None, "sash_pattern": None,
+                "individual_light_width_in": None, "individual_light_height_in": None,
+                "shutter_leaf_width_in": None, "shutter_leaf_height_in": None,
+                "shutter_panel_count": None,
+                "sash_unjudged": "the elevation states no glass module, so no light can be "
+                                 "counted at this width"}
+    sash = sash_at(PE.resolve(SASH_PACK_ID), width_in, gm, height_in=height_in)
+    carried = rec.get("shutter_leaf_width_in") is not None
+    return {**out, **sash,
+            "shutter_leaf_width_in": sash["shutter_leaf_width_in"] if carried else None,
+            "shutter_leaf_height_in": rec.get("shutter_leaf_height_in") if carried else None,
+            "shutter_panel_count": sash["shutter_panel_count"] if carried else None}
+
+
+BRICK_PACK_ID = "brick-course"
+
+
+def _head_of(rec, width_in):
+    """THE HEAD'S RISE AT THE OPENING'S OWN WIDTH (WP-14.3), where brick-course's rule sets it:
+    a segmental arch rises `opening_width / 8` and a gauged flat arch is cambered
+    `opening_width / 96`. The storey's head treatment evaluates the rule once, at the storey's
+    pack width, and every window on the storey was drawn with that rise whatever its own width --
+    the same two-widths defect as the lights. A rise the style's own kit states is a figure and
+    not a rule of the span, so it travels as stated, and a band travels as a band."""
+    ht = (rec or {}).get("head_treatment") or {}
+    kind, src = ht.get("kind"), ht.get("rise_source") or ""
+    if not kind or not src.startswith("brick-course"):
+        return {"head_rise_in": ht.get("rise_in"), "head_rise_source": src or None}
+    dim = "segmental_arch_rise" if "segmental" in kind else "flat_arch_camber"
+    rise, _ = _val(PE.resolve(BRICK_PACK_ID), "window_head_masonry", {"opening_width": width_in},
+                   dimension=dim)
+    return {"head_rise_in": round(rise, 3),
+            "head_rise_source": f"brick-course {dim}, at this opening's own width"}
 
 
 # ---------------------------------------------------------------- orchestration
@@ -1991,7 +2266,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
 
     style = plan.get("style")
     op_pack = PE.resolve("opening-proportion")
-    sash_pack = PE.resolve("sash-light")
+    sash_pack = PE.resolve(SASH_PACK_ID)
     facade_pack = PE.resolve("facade-classical")
     brick_pack = PE.resolve("brick-course")
     gibbs_pack = PE.resolve(GIBBS_ORDER_PACK_ID)
@@ -2125,6 +2400,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         dormer_slot = _slots.get("dormer") or {}
         porch_slot = _slots.get("porch_type") or {}
         pilaster_slot = _slots.get("pilaster") or {}
+        transom_slot = _slots.get("transom_sidelight") or {}
         # THE SAME CASCADE FOR THE SHUTTER AND THE HEAD (WP-8.4). The comment above named
         # `shutter` as binding empty "exactly as" `dormer` does, and then read it off the RAW
         # kit two lines below -- a fix that names the thing it does not reach, which is
@@ -2138,6 +2414,8 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # head specification at all on two thirds of the corpus.
         shutter_slot = _slots.get("shutter") or {}
         head_slot = _slots.get("window_head_masonry") or {}
+        surround_slot = _slots.get("window_surround_masonry" if is_masonry else
+                                   "window_surround_wood") or {}
         # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): every slot this node's RESOLVED kit forbids. The generator reads slot
         # dimensions straight out of pack files and has never consulted the kit's strongest word.
         forbids = {sid for sid, rec in _slots.items() if rec.get("binding") == "forbidden"}
@@ -2147,8 +2425,11 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         dormer_slot = _ks.get("dormer") or {}
         porch_slot = _ks.get("porch_type") or {}
         pilaster_slot = _ks.get("pilaster") or {}
+        transom_slot = _ks.get("transom_sidelight") or {}
         shutter_slot = _ks.get("shutter") or {}
         head_slot = _ks.get("window_head_masonry") or {}
+        surround_slot = _ks.get("window_surround_masonry" if is_masonry else
+                                "window_surround_wood") or {}
         forbids = set()   # no cascade: cannot judge, so refuse nothing and say so below
         _reveal_source = _ks
 
@@ -2317,6 +2598,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                                forbids=forbids) if gibbs_applies else \
           entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0,
                                forbids=forbids)
+    ent["transom"] = entrance_transom(ent, transom_slot, sash_pack, glass_module_in)
     # `oq/forbidden-stops-the-pack-cascade`'S DISCLOSURE. Two of these are refused above; the rest are READ ANYWAY and this is
     # where a reader finds out. Naming them beats a silent figure: `unjudged is not passed`
     # applies to a drawing exactly as it applies to a measurement, and until WP-8.3 nothing
@@ -2454,6 +2736,8 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "ground_grade_to_floor_in": round(ground["grade_to_floor_ft"] * 12, 2),
         "applicable": True,
         "entrance": ent, "eave_cornice": cornice, "water_table_belt": wtb,
+        "window_surround": window_surround(surround_slot, "window_surround_masonry" if is_masonry
+                                           else "window_surround_wood"),
         # NOT a measurement, and deliberately absent from `measurements` below: brick-course
         # flags this rule `judgment: true`. It is here so the DRAWING can show a stack at the
         # corpus's own figure instead of the 36 in constant it used to assert, and so the sheet

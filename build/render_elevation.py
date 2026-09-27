@@ -68,6 +68,35 @@ def _wrap(text, cols):
 
 def _esc(t): return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
+
+def _segment(x0, x1, y_spring, rise):
+    """The circle a segmental soffit is set out on, in px with y down: (cx, cy, R). It passes
+    through both springings, (x0, y_spring) and (x1, y_spring), and through the crown, `rise`
+    above their midpoint. R = (span^2 / 4 + rise^2) / (2 x rise), the chord-and-sagitta rule."""
+    half = (x1 - x0) / 2.0
+    R = (half * half + rise * rise) / (2.0 * rise)
+    return (x0 + x1) / 2.0, y_spring - rise + R, R
+
+
+def _on_circle(cx, cy, R, px, py, R2):
+    """The point at radius R2 on the ray from the centre through (px, py), a point at radius R:
+    where a radial skewback meets the extrados."""
+    return cx + (px - cx) * R2 / R, cy + (py - cy) * R2 / R
+
+
+def _rect_edges(cls, x0, y0, x1, y1, nd=2):
+    """A rectangle written from its EDGES, rounded once (WP-14.3).
+
+    The sash's members abut: a stile's inside face IS the rail's end and the glass's edge. Written
+    as `x="{x0:.2f}" width="{x1 - x0:.2f}"` each rectangle rounded its origin and its width
+    separately, so two members computed to meet exactly were written up to 0.01 px apart -- a
+    hairline of glass through the frame on 15 faces, which census V14 read as a light 0.00 to
+    0.02 in wide. Rounding the edges and deriving the width from them makes abutting edges one
+    printed number."""
+    a, b, c, d = (round(v, nd) for v in (x0, y0, x1, y1))
+    return (f'<rect class="{cls}" x="{a:.{nd}f}" y="{b:.{nd}f}" '
+            f'width="{c - a:.{nd}f}" height="{d - b:.{nd}f}"/>')
+
 def _style_block():
     # THE WEIGHT LADDER (WP-5.11). Five rungs, and the rung carries the meaning a drawing conveys
     # before anyone reads a dimension: what is cut, what stands proud, what is behind. It matters
@@ -92,8 +121,8 @@ def _style_block():
             # apart so a reader tells them apart at a glance (ISO 128's own series). The five
             # names below predate WP-5.13 and are kept; `w-ground` is the sixth rung, which this
             # sheet did not have and which HABS makes the heaviest thing on it.
-            f'.w-hair{{stroke-width:0.4}}.w-fine{{stroke-width:0.8}}.w-med{{stroke-width:1.2}}'
-            f'.w-prof{{stroke-width:1.6}}.w-cut{{stroke-width:2.0}}.w-ground{{stroke-width:2.4}}'
+            # THE RUNG RULES THEMSELVES ARE WRITTEN LAST, at the foot of this block, and where they
+            # stand is the whole of what they mean (WP-14.3): see the comment there.
             f'.course{{stroke:{PAL["ink3"]};stroke-width:0.3;stroke-opacity:0.42;fill:none}}'
             # A GAUGED ARCH IS DRAWN BRICK BY BRICK -- HABS 4.6.2 names round, jack and flat
             # arches as the one place individual bricks are always drawn even where the rest of
@@ -137,7 +166,11 @@ def _style_block():
             # The muntin is a solid bar in FRONT of the pane, so it is drawn light against the
             # coal -- `paper` here, which is the sheet's own colour once themed. At 1/4 in = 1 ft
             # a 7/8 in bar is 1.75 px, which is a real line rather than a suggestion.
-            f'.mt{{stroke:{PAL["paper"]};stroke-width:1.0}}'
+            f'.mt{{fill:{PAL["paper"]};stroke:none}}'
+            # THE SASH'S OWN MEMBERS (WP-14.3), light against the glass as the muntins are, and
+            # drawn at their stated widths rather than as lines: a stile is 2 in, the bottom rail 3.
+            f'.sf{{fill:{PAL["paper"]};stroke:none}}'
+            f'.mj{{stroke:{PAL["ink"]};fill:none}}'
             f'.sh{{fill:{PAL["shutter"]};stroke:{PAL["ink"]};stroke-width:0.6}}'
             f'.dr{{fill:{PAL["copper"]};stroke:{PAL["ink"]};stroke-width:0.8}}'
             f'.cs{{fill:none;stroke:{PAL["brass"]};stroke-width:1.0}}'
@@ -152,26 +185,23 @@ def _style_block():
             f'.wt{{fill:{PAL["rule"]};stroke:{PAL["ink3"]};stroke-width:0.6}}'
             f'.ch{{fill:{PAL["iron"]};stroke:{PAL["ink"]};stroke-width:0.6}}'
             f'.pf{{fill:{PAL["paper"]};stroke:{PAL["ink2"]};stroke-width:0.7}}'
+            # THE RUNGS COME LAST, BECAUSE A RUNG IS A DECISION ABOUT ONE MARK (WP-14.3). A class
+            # rule above (`.sh`, `.mt`, `.rf`, `.wt`, `.dr`, `.ch`) sets the width its marks take
+            # when nothing more is said; a rung written on the element says more, and must win.
+            # Both are one class, so the cascade decides by SOURCE ORDER alone, and with the rungs
+            # written first every class rule below them silently beat them: the meeting rail --
+            # 'the thickest bar in the window' -- drew at the muntin's 1.0 under its own `w-med`,
+            # the roof edge at 1.4 under `w-prof`, the water table at 0.6 under both. Census V1
+            # measured it on all 44 elevation sheets, reading the COMPUTED width, which is the only
+            # reading that can see an ordering defect: the attribute says what was asked for.
+            f'.w-hair{{stroke-width:0.4}}.w-fine{{stroke-width:0.8}}.w-med{{stroke-width:1.2}}'
+            f'.w-prof{{stroke-width:1.6}}.w-cut{{stroke-width:2.0}}.w-ground{{stroke-width:2.4}}'
 
             f'</style>')
 
 # ---------------------------------------------------------------- window / door drawing
-def _sash_grid(s, x0, y0, x1, y1, lights_across, lights_high):
-    """One sash's own muntin grid -- lights_across columns by lights_high rows of glass, drawn as
-    interior grid lines only (the sash's own outer rail is the opening rectangle already drawn by
-    the caller)."""
-    out = []
-    w, h = x1 - x0, y1 - y0
-    for i in range(1, max(1, lights_across)):
-        x = x0 + w * i / lights_across
-        out.append(f'<line class="mt" x1="{x:.1f}" y1="{y0:.1f}" x2="{x:.1f}" y2="{y1:.1f}"/>')
-    for j in range(1, max(1, lights_high)):
-        y = y0 + h * j / lights_high
-        out.append(f'<line class="mt" x1="{x0:.1f}" y1="{y:.1f}" x2="{x1:.1f}" y2="{y:.1f}"/>')
-    return "".join(out)
-
 def _window(s, rect, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, scale,
-            head=None, sill_in=None, panel_count=None, reveal_in=None):
+            head=None, sill_in=None, panel_count=None, reveal_in=None, muntin_in=None):
     """WP-12.2: THE RECTANGLE IS HANDED TO THIS FUNCTION AND NEVER COMPUTED IN IT.
 
     `(x0, x1, sill, head)` used to be worked out here, again in `_entrance` below, and a third
@@ -200,16 +230,35 @@ def _window(s, rect, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, s
     # a definite one, and the sheet says so in the legend.
     if head and head.get("kind"):
         hd = head["depth_in"] / 12.0 * scale
-        rise_in = head.get("rise_in")
+        # THE OPENING'S OWN RISE (WP-14.3): `opening_rects` evaluates brick-course's rule at the
+        # width this window is drawn; the storey's figure was taken at another width. A dormer's
+        # window carries none and takes the storey's.
+        rise_in = rect.get("head_rise_in") if "head_rise_in" in rect else head.get("rise_in")
         if rise_in is None and head.get("rise_band_in"):
             rise_in = sum(head["rise_band_in"]) / 2.0     # a band's midpoint, named in the legend
         rise = (rise_in or 0.0) / 12.0 * scale
         ax0, ax1 = x0, x1                                  # flush with the jambs
-        if "segmental" in head["kind"]:
-            out.append(f'<path class="arch w-med" d="M {ax0:.1f},{yt:.1f} '
-                       f'Q {(ax0+ax1)/2:.1f},{yt-2*rise:.1f} {ax1:.1f},{yt:.1f} '
-                       f'L {ax1:.1f},{yt-hd:.1f} Q {(ax0+ax1)/2:.1f},{yt-hd-2*rise:.1f} '
-                       f'{ax0:.1f},{yt-hd:.1f} Z"/>')
+        # THE SOFFIT IS A CIRCULAR SEGMENT, drawn as one (WP-14.3, census V7). A head with a rise
+        # is set out on the circle through its two springings and its crown; it was drawn as a
+        # quadratic Bezier, which is a parabola. On a gauged flat arch's 0.4 in camber the two
+        # cannot be told apart at this scale, and that is all WP-14.1's census could see, because
+        # its style sweep drew the Tidewater house every time. Drawn as themselves, 13 styles set
+        # a head rising 4.2 to 5 in -- 12 keyed segmental arches and one keystoned flat arch at its
+        # kit's stated rise -- and every one departed from its circle.
+        seg = _segment(ax0, ax1, yt, rise) if rise > 1e-6 else None
+        soffit = (f'M {ax0:.2f},{yt:.2f} A {seg[2]:.3f},{seg[2]:.3f} 0 0 1 {ax1:.2f},{yt:.2f}'
+                  if seg else f'M {ax0:.2f},{yt:.2f} L {ax1:.2f},{yt:.2f}')
+        if "segmental" in head["kind"] and seg:
+            # A SEGMENTAL ARCH IS CONCENTRIC. Its extrados is the soffit's circle grown by the
+            # arch's own depth, and its skewbacks are RADIAL, so the extrados springs outside
+            # the jambs. It was the soffit moved up by the depth with vertical ends, which is a
+            # band of brick of constant height and not an arch.
+            cx, cy, R = seg
+            R2 = R + hd
+            (e1x, e1y), (e0x, e0y) = (_on_circle(cx, cy, R, ax1, yt, R2),
+                                      _on_circle(cx, cy, R, ax0, yt, R2))
+            out.append(f'<path class="arch w-med" d="{soffit} L {e1x:.2f},{e1y:.2f} '
+                       f'A {R2:.3f},{R2:.3f} 0 0 0 {e0x:.2f},{e0y:.2f} Z"/>')
         else:
             # A GAUGED FLAT ARCH IS A TRAPEZOID, not a rectangle. Its skewbacks are cut at 60
             # degrees from the horizontal -- the mason's standard for gauged work -- so over the
@@ -217,9 +266,8 @@ def _window(s, rect, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, s
             # end. Drawing it square hides the skewback, which is the joint that makes a flat
             # arch stand up, and left the outermost voussoir joints running off into the wall.
             skew = hd / math.tan(math.radians(60.0))
-            out.append(f'<path class="arch w-med" d="M {ax0:.1f},{yt:.1f} '
-                       f'Q {(ax0+ax1)/2:.1f},{yt-2*rise:.1f} {ax1:.1f},{yt:.1f} '
-                       f'L {ax1+skew:.1f},{yt-hd:.1f} L {ax0-skew:.1f},{yt-hd:.1f} Z"/>')
+            out.append(f'<path class="arch w-med" d="{soffit} '
+                       f'L {ax1+skew:.2f},{yt-hd:.2f} L {ax0-skew:.2f},{yt-hd:.2f} Z"/>')
         # THE VOUSSOIRS. An ODD number, so a single brick sits on the centre line rather than a
         # joint splitting it, and they radiate to a strike point below the soffit -- for a gauged
         # flat arch the skewback is taken at 60 degrees from the horizontal, which puts the strike
@@ -237,27 +285,45 @@ def _window(s, rect, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, s
         # ARCH DEPTH instead gave five, which is a voussoir eight inches wide at the soffit: not
         # a brick.
         v_w = (sill_in or 2.75) / 12.0 * scale
-        n_v = max(5, int(round(span_px / max(v_w, 1e-6))))
-        n_v += (1 - n_v % 2)                        # odd: a brick on the centre line, not a joint
-        strike_y = yt + (span_px / 2.0) * math.tan(math.radians(60.0))
-        for i in range(1, n_v):
-            fx = ax0 + span_px * (i / n_v)
-            dx, dy = fx - (ax0 + ax1) / 2.0, yt - strike_y
-            if abs(dy) < 1e-6:
-                continue
-            tx = fx + dx * (hd / abs(dy)) if dy else fx
-            out.append(f'<line class="vsr w-hair" x1="{fx:.1f}" y1="{yt:.1f}" '
-                       f'x2="{tx:.1f}" y2="{yt-hd:.1f}"/>')
+        if "segmental" in head["kind"] and seg:
+            # A SEGMENTAL ARCH'S JOINTS RADIATE FROM ITS OWN CENTRE, from the soffit to the
+            # extrados, at one brick height along the SOFFIT'S ARC. They radiated to the gauged
+            # flat arch's 60-degree strike point and began on the chord, below the soffit, so
+            # every joint of a segmental head crossed the band of wall under the arch.
+            cx, cy, R = seg
+            a0 = math.atan2(yt - cy, ax0 - cx)
+            a1 = math.atan2(yt - cy, ax1 - cx)
+            n_v = max(5, int(round(R * (a1 - a0) / max(v_w, 1e-6))))
+            n_v += (1 - n_v % 2)                    # odd: a brick on the centre line, not a joint
+            for i in range(1, n_v):
+                a = a0 + (a1 - a0) * i / n_v
+                ca, sa = math.cos(a), math.sin(a)
+                out.append(f'<line class="vsr w-hair" x1="{cx + R * ca:.2f}" y1="{cy + R * sa:.2f}" '
+                           f'x2="{cx + (R + hd) * ca:.2f}" y2="{cy + (R + hd) * sa:.2f}"/>')
+        else:
+            n_v = max(5, int(round(span_px / max(v_w, 1e-6))))
+            n_v += (1 - n_v % 2)                    # odd: a brick on the centre line, not a joint
+            strike_y = yt + (span_px / 2.0) * math.tan(math.radians(60.0))
+            for i in range(1, n_v):
+                fx = ax0 + span_px * (i / n_v)
+                dx, dy = fx - (ax0 + ax1) / 2.0, yt - strike_y
+                if abs(dy) < 1e-6:
+                    continue
+                tx = fx + dx * (hd / abs(dy)) if dy else fx
+                out.append(f'<line class="vsr w-hair" x1="{fx:.1f}" y1="{yt:.1f}" '
+                           f'x2="{tx:.1f}" y2="{yt-hd:.1f}"/>')
 
         if head.get("keystone"):
-            # The kit makes a keystone canonical. Its WIDTH may be a band or unstated; a band is
-            # drawn at its midpoint and an unstated one at the arch's own depth, which is the
-            # only figure available -- both said in the legend rather than implied by the ink.
+            # The kit makes a keystone canonical. Its WIDTH may be a band, drawn at its midpoint
+            # and said in the legend. An UNSTATED width is not drawn at all (WP-14.3): it fell back
+            # to 0.6 x the arch's depth, a figure no record states, under a comment promising a
+            # legend line that did not exist. The legend says the keystone is not drawn.
             kw = head.get("keystone_width_in")
-            kw = (sum(kw) / 2.0 if isinstance(kw, list) else kw) or head["depth_in"] * 0.6
-            kwp = kw / 12.0 * scale
-            out.append(f'<rect class="arch w-med" x="{(x0+x1)/2 - kwp/2:.1f}" y="{yt-hd:.1f}" '
-                       f'width="{kwp:.1f}" height="{hd:.1f}"/>')
+            kw = (sum(kw) / 2.0 if isinstance(kw, list) else kw)
+            if kw:
+                kwp = kw / 12.0 * scale
+                out.append(f'<rect class="arch w-med" x="{(x0+x1)/2 - kwp/2:.1f}" y="{yt-hd:.1f}" '
+                           f'width="{kwp:.1f}" height="{hd:.1f}"/>')
 
     # THE SILL. One course of purpose-moulded brick, which is what the kit states; its
     # projection is recorded as a BAND of 0 to 1 in and a band is not a figure, so it is drawn
@@ -266,7 +332,10 @@ def _window(s, rect, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, s
         sh = sill_in / 12.0 * scale
         out.append(f'<rect class="sill" x="{x0:.1f}" y="{yb:.1f}" width="{x1-x0:.1f}" height="{sh:.1f}"/>')
 
-    out.append(f'<rect class="op" x="{x0:.1f}" y="{yt:.1f}" width="{x1-x0:.1f}" height="{yb-yt:.1f}"/>')
+    # THE OPENING AT THE SASH'S OWN PRECISION: its edges are the jambs' outer faces, and written
+    # to a tenth of a pixel beside members written to a hundredth they missed each other by up to
+    # 0.05 px -- the same hairline of glass `_rect_edges` exists to close, one member out.
+    out.append(_rect_edges("op", x0, yt, x1, yb))
     # THE MEETING RAIL is the thickest bar in the window -- 1 1/4 in against a 7/8 in muntin --
     # and it is the line that tells a reader the sash is double-hung rather than a fixed grid.
     # THE REVEAL. In solid masonry of this tradition the frame sits BACK from the wall face -- the
@@ -281,10 +350,31 @@ def _window(s, rect, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, s
     if reveal_in:
         out.append(_shade(x0, yt, x1, yb, sides=("top", "left")))
 
-    meeting_y = (yb + yt) / 2.0
-    out.append(f'<line class="mt w-med" x1="{x0:.1f}" y1="{meeting_y:.1f}" x2="{x1:.1f}" y2="{meeting_y:.1f}"/>')
-    out.append(_sash_grid(s, x0, meeting_y, x1, yb, lights_across, lights_high))   # lower sash
-    out.append(_sash_grid(s, x0, yt, x1, meeting_y, lights_across, lights_high))   # upper sash
+    # THE SASH, AS THE MEMBERS THAT MAKE IT (WP-14.3). `elevation.sash_layout` lays out the jambs,
+    # the stiles, the top and bottom rails, each sash's meeting rail and the muntins at the widths
+    # sash-light states, and the SVG, the DXF and the scene all draw that one layout. Until then
+    # this drew the WHOLE opening divided into equal rectangles by lines of no stated width, and
+    # the meeting rail as a line: the glass a reader saw was not the glass the record states, and
+    # the 3 in bottom rail that makes a sash read as a sash was not drawn at all. The members are
+    # drawn light against the glass, which is what a painted sash is; the glass left between
+    # them is each light at the record's own light width.
+    layout = rect.get("sash")
+    if layout is None:
+        # A dormer's window is not a face opening and carries no layout; it takes the same one
+        # function at its own rectangle, so a dormer sash cannot drift from a face sash.
+        layout = EL.sash_layout(rect["x0_in"], rect["x1_in"], rect["sill_in"], rect["head_in"],
+                                lights_across, lights_high, muntin_in)
+    if "refused" not in layout:
+        for part in layout["members"] + layout["muntins"]:
+            px0, px1 = X(part["x0"] / 12.0), X(part["x1"] / 12.0)
+            py1, py0 = Ypx(part["y0"] / 12.0), Ypx(part["y1"] / 12.0)
+            out.append(_rect_edges("mt" if part["kind"] == "muntin" else "sf", px0, py0, px1, py1))
+        # WHERE THE TWO SASHES MEET: a real edge between two members, and the line that tells a
+        # reader the window is double-hung rather than a fixed grid.
+        my = Ypx(layout["meeting_in"] / 12.0)
+        rail = next(p for p in layout["members"] if p["kind"] == "meeting-rail")
+        out.append(f'<line class="mj w-hair" x1="{X(rail["x0"] / 12.0):.2f}" y1="{my:.2f}" '
+                   f'x2="{X(rail["x1"] / 12.0):.2f}" y2="{my:.2f}"/>')
     # SHUTTERS, where the style carries them. A leaf of None is a style whose kit says it has none
     # -- the solid-brick Chesapeake house is the case, and drawing a pair anyway is drawing a
     # detail four records say was never there. Absent, not zero-width.
@@ -461,13 +551,15 @@ def _dormers(elev, roof, profile_ft, X, Ypx, scale, face):
                                  "x1_in": (cx + ww_in / 24.0) * 12.0,
                                  "sill_in": sill_ft * 12.0, "head_in": head_ft * 12.0},
                            la or 1, lh or 1, None, None, X, Ypx, scale,
-                           head=None, sill_in=None, panel_count=None, reveal_in=None))
+                           head=None, sill_in=None, panel_count=None, reveal_in=None,
+                           muntin_in=((elev.get("storey_windows") or [{}])[0]
+                                      .get("muntin_width_in"))))
         # and the face's own shade line: it stands proud of the roof plane it sits in
         out.append(_shade(x0, yft, x1, ys, sides=("bottom", "right")))
     return "".join(out)
 
 
-def _entrance(elev, rect, X, Ypx, scale):
+def _entrance(elev, rect, X, Ypx, scale, muntin_in=None):
     """WP-12.2: the door's rectangle is `opening_rects`' too — it was the THIRD transcription of
     the same arithmetic, and the one the PRD did not know about."""
     ent = elev["entrance"]
@@ -493,6 +585,13 @@ def _entrance(elev, rect, X, Ypx, scale):
     # asserted: what this states is the ARRANGEMENT, which is documented, and not a dimension,
     # which is not.
     dw, dh = dx1 - dx0, dyb - dyt
+    # A GARAGE DOOR IS NOT A SIX-PANEL LEAF (WP-14.3, census V6). The arrangement below is the
+    # panelled entrance door the kit names, and it was drawn on every door this function was
+    # handed -- a 192 in garage door came out as six raised panels. The plan says what kind of
+    # door it placed (`type`), no record states a garage door's face, and so it is drawn as the
+    # opening it is and the sheet says so.
+    if "garage" in str(rect.get("type") or "").lower():
+        return "".join(out)
     stile = min(dw * 0.115, dh * 0.035)                  # about one seventh of the leaf, halved
     bands = (0.20, 0.46, 0.20)                           # short / long / short, top to bottom
     gap = stile * 0.62
@@ -514,11 +613,31 @@ def _entrance(elev, rect, X, Ypx, scale):
     casing_w = ent["casing_width_in"] / 12.0 * scale
     cs_x0, cs_x1 = dx0 - casing_w, dx1 + casing_w
     ent_h = (ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]) / 12.0 * scale
+    # THE TRANSOM, where the style's kit makes a rectangular one canonical (WP-14.3). The record
+    # has dimensioned it since WP-5.x and fed it to two faults, and no surface drew it
+    # (`oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`). Its height is a JUDGMENT
+    # and the legend says so; its lights are sash-light's own count, dividing the glass evenly
+    # because no record states a transom's own frame. The doorcase stands above it: the casing
+    # runs up past the transom and the entablature sits on top, which is what a doorcase with a
+    # transom is.
+    tr = ent.get("transom") or {}
+    door_top = dyt                  # the leaf's own head: the sidelights stand to it, not above
+    if tr.get("drawn"):
+        th = tr["height_in"] / 12.0 * scale
+        out.append(f'<rect class="op" x="{dx0:.1f}" y="{dyt - th:.1f}" width="{dx1 - dx0:.1f}" '
+                   f'height="{th:.1f}"/>')
+        mw = (muntin_in or 0.0) / 12.0 * scale
+        n = tr["lights"]
+        for i in range(1, n):
+            mx = dx0 + (dx1 - dx0) * i / n
+            out.append(_rect_edges("mt", mx - mw / 2, dyt - th, mx + mw / 2, dyt))
+        dyt = dyt - th
     out.append(f'<rect class="cs" x="{cs_x0:.1f}" y="{dyt-ent_h:.1f}" width="{cs_x1-cs_x0:.1f}" height="{(dyb-dyt)+ent_h:.1f}"/>')
     if ent["sidelights_present"]:
         slw = ent["sidelight_width_in"] / 12.0 * scale
         for side, sx0 in ((-1, cs_x0 - slw), (1, cs_x1)):
-            out.append(f'<rect class="op" x="{sx0:.1f}" y="{dyt:.1f}" width="{slw:.1f}" height="{dyb-dyt:.1f}"/>')
+            out.append(f'<rect class="op" x="{sx0:.1f}" y="{door_top:.1f}" width="{slw:.1f}" '
+                       f'height="{dyb-door_top:.1f}"/>')
     return "".join(out)
 
 # ---------------------------------------------------------------- main
@@ -768,7 +887,12 @@ def render_elevation(elev, path, face=None, scale=24.0):
             span_ft * 12.0,
             spacing_in=band.get("spacing_in"),
             width_in=band.get("width_in"),
-            centre_on=[(c - X(0) / scale) * 12.0 for c in front["centres_ft"]] or None)
+            # THE BAY CENTRES ARE FACE FEET FROM THE FACE'S OWN LEFT EDGE, and so are the teeth
+            # `repeat_positions` returns (drawn at `X(t["x0"] / 12)`). The anchors used to subtract
+            # `X(0) / scale` -- the plate's PIXEL origin divided by the scale, 46 / 24 = 1.92 ft --
+            # which put every modillion 23 in off its bay (WP-14.3). Latent for as long as every
+            # band was drawn solid; driven in tests/test_elevation_small_fixes.py.
+            centre_on=[c * 12.0 for c in front["centres_ft"]] or None)
         by0 = true_eave_ft - (cornice["cornice_height_in"] - band["y_bottom_in"]) / 12.0
         bh = (band["y_top_in"] - band["y_bottom_in"]) / 12.0 * scale
         bp = proj_px(band.get("projection_in"))
@@ -797,14 +921,20 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # for as long as it took someone to notice the CAD file drawing a window through a chimney.
     for r in EL.opening_rects(elev, face)["rects"]:
         if r["kind"] == "door":
-            s.append(_entrance(elev, r, X, Ypx, scale))
+            s.append(_entrance(elev, r, X, Ypx, scale,
+                               muntin_in=((elev.get("storey_windows") or [{}])[0]
+                                          .get("muntin_width_in"))))
             continue
         rec = r["record"]
-        s.append(_window(s, r, rec["lights_across"], rec["lights_high_per_sash"],
-                         rec["shutter_leaf_width_in"], rec["shutter_leaf_height_in"], X, Ypx, scale,
+        # THE LIGHTS AND THE LEAVES ARE THE OPENING'S OWN (WP-14.3), computed by `sash_at` at the
+        # width this rectangle is drawn -- not the storey record's, which were taken at the width
+        # the storey was sized at and divided a 42 in opening into a 38.6 in window's lights.
+        s.append(_window(s, r, r["lights_across"], r["lights_high_per_sash"],
+                         r["shutter_leaf_width_in"], r["shutter_leaf_height_in"], X, Ypx, scale,
                          head=rec.get("head_treatment"), sill_in=wtb.get("course_height_in"),
-                         panel_count=rec.get("shutter_panel_count"),
-                         reveal_in=rec.get("reveal_band_in")))
+                         panel_count=r["shutter_panel_count"],
+                         reveal_in=rec.get("reveal_band_in"),
+                         muntin_in=rec.get("muntin_width_in")))
 
     # THE ROOF, drawn as the closed plane it is rather than as a line along its bottom edge.
     #
@@ -867,10 +997,14 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # roof's own height at its plan position, which _profile_top_at answers for either form.
     chimneys_drawn = 0
     ch = roof.get("chimneys") or {}
-    if ch.get("applicable") and ch.get("positions"):
+    stacks_unsized = bool(ch.get("applicable") and ch.get("positions")
+                          and not elev.get("chimney_stack_plan_in"))
+    # NO STACK AT A SIZE NOBODY GAVE (WP-14.3). With no stated plan size this fell back to 22 in
+    # and drew it; the stack is refused now and the legend says why.
+    if ch.get("applicable") and ch.get("positions") and not stacks_unsized:
         depth_ft = fp["depth_ft"]
         exterior = "exterior" in (ch.get("source") or "").lower()
-        cw_ft = (elev.get("chimney_stack_plan_in") or 22.0) / 12.0
+        cw_ft = elev["chimney_stack_plan_in"] / 12.0
         drawn = 0
         for c in ch["positions"]:
             at_end = abs(c["x_ft"]) < 0.5 or abs(c["x_ft"] - fp["width_ft"]) < 0.5
@@ -954,6 +1088,18 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # as a blank wall a reader would take for a windowless one. The count is read from the same
     # `refused` list every caller of `opening_rects` reports.
     _refused = EL.opening_rects(elev, face)["refused"]
+    # THE WINDOW DRAWN IS NOT ALWAYS THE WINDOW THE STOREY WAS SIZED AT (WP-14.3). The line above
+    # states each storey's window at the width `_storey_window` sizes from its head and sill; the
+    # rectangles are the plan's placed widths. Where they differ the sheet says so, and says that
+    # each window's lights and leaves are the rule's at the width drawn.
+    _off = sorted({round(r["width_in"], 1) for r in EL.opening_rects(elev, face)["rects"]
+                   if r["kind"] == "window" and r.get("storey_pack_width_in") is not None
+                   and abs(r["width_in"] - r["storey_pack_width_in"]) > 0.05})
+    if _off:
+        notes.append('WINDOWS DRAWN AT THE PLAN\u2019S PLACED WIDTHS (' +
+                     ", ".join(f"{v:g}" for v in _off[:5]) + (" …" if len(_off) > 5 else "") +
+                     ' IN), NOT THE STOREY\u2019S; EACH ONE\u2019S LIGHTS AND SHUTTER LEAVES ARE '
+                     'SASH-LIGHT\u2019S RULE AT THE WIDTH IT IS DRAWN')
     _named = [x for x in _refused if x.get("room")]
     if _named:
         _units = sum(int(x.get("units") or 1) for x in _named)
@@ -961,6 +1107,65 @@ def render_elevation(elev, path, face=None, scale=24.0):
         notes.append(f'{_units} OPENING(S) ON THIS FACE NOT DRAWN — ' +
                      _esc(", ".join(_rooms[:6]) + (" …" if len(_rooms) > 6 else "")) +
                      ' — THE PLACER OR A STACK REFUSED THEM; THE ELEVATION RECORD NAMES EACH')
+    # THE KEYSTONE AND THE STACK THAT ARE NOT DRAWN (WP-14.3), where each once fell back to a
+    # figure no record states.
+    if ht.get("keystone") and not ht.get("keystone_width_in"):
+        notes.append("KEYSTONE NOT DRAWN \u2014 THE KIT MAKES ONE CANONICAL AND NO RECORD STATES "
+                     "ITS WIDTH")
+    if stacks_unsized:
+        notes.append("STACKS NOT DRAWN \u2014 THE ROOF PLACES THEM AND NO RECORD STATES THEIR "
+                     "PLAN SIZE")
+    # THE COURSES THE OPENINGS MISS, MEASURED AND SAID (WP-14.3, census V11). brick-course's own
+    # note: "in a brick building there are no free horizontal dimensions above the water table.
+    # Storey height, sill height, head height, belt course and plate are all whole numbers of
+    # courses off a single datum". This sheet draws the courses and draws each window at its
+    # storey's own head and sill, which nothing snaps to a course; the misses are the drawing
+    # telling the truth about two records that do not meet. Whether the openings should move to
+    # the brickwork, or the brickwork is not modelled that closely, is
+    # `oq/the-openings-are-not-set-to-the-brick-courses`.
+    if wtb.get("course_height_in") and wtb.get("applicable"):
+        c_in = wtb["course_height_in"]
+        base_in = wtb["water_table_height_above_finished_grade_in"]
+        edges = [v for r in EL.opening_rects(elev, face)["rects"] if r["kind"] == "window"
+                 for v in (r["sill_in"], r["head_in"])
+                 if base_in + c_in <= v <= top_of_wall_ft * 12.0]
+        off = [abs(v - (base_in + max(1, round((v - base_in) / c_in)) * c_in)) for v in edges]
+        missed = [m for m in off if m > 0.05]
+        if missed:
+            notes.append(f"{len(missed)} OF {len(edges)} SILLS AND HEADS MISS THE {c_in:g}\u2033 "
+                         f"COURSES BY UP TO {max(missed):.2f}\u2033 \u2014 BRICK-COURSE SETS SILL "
+                         "AND HEAD HEIGHT IN WHOLE COURSES; THE OPENINGS KEEP THEIR STOREY\u2019S "
+                         "OWN HEAD AND SILL, AND SNAPPING THEM IS AN OPEN QUESTION")
+    # THE ENTRANCE (WP-14.3): the transom drawn at a judged height, or the reason a canonical one
+    # is not; a garage door drawn as its opening; and the panels said to be an arrangement.
+    _doors = [r for r in EL.opening_rects(elev, face)["rects"] if r["kind"] == "door"]
+    _tr = (elev.get("entrance") or {}).get("transom") or {}
+    if any(r.get("entrance") for r in _doors):
+        if _tr.get("drawn"):
+            notes.append(f'TRANSOM DRAWN {_tr["height_in"]:.1f}\u2033 HIGH \u2014 A JUDGMENT: '
+                         'OPENING-PROPORTION MARKS ITS HEIGHT ONE (\u201cTHE MEASURED SPREAD IS '
+                         f'ENORMOUS\u201d); ITS {_tr["lights"]} LIGHTS ARE SASH-LIGHT\u2019S COUNT, '
+                         'DIVIDING IT EVENLY, AS NO RECORD STATES A TRANSOM\u2019S OWN FRAME')
+        elif _tr.get("why"):
+            notes.append('TRANSOM NOT DRAWN \u2014 ' + _esc(_tr["why"].upper()))
+    if any("garage" in str(r.get("type") or "").lower() for r in _doors):
+        notes.append('GARAGE DOOR DRAWN AS ITS OPENING \u2014 NO RECORD STATES ITS FACE')
+        # AND WHERE THE GARAGE DOOR IS THE ONE THE COMPOSITION DRESSES, THE DOORCASE IS NOT
+        # DRAWN AROUND IT: the entrance is the widest door on the entrance front, and on a plan
+        # whose only door there is the garage's that is a garage door, which no doorcase frames.
+        if any(r.get("entrance") and "garage" in str(r.get("type") or "").lower() for r in _doors):
+            notes.append('THE ENTRANCE FRONT\u2019S ONLY DOOR IS A GARAGE DOOR \u2014 NO DOORCASE, '
+                         'SIDELIGHT OR TRANSOM IS DRAWN AROUND IT')
+    if any("garage" not in str(r.get("type") or "").lower() for r in _doors) or \
+            any(r.get("shutter_leaf_width_in") for r in EL.opening_rects(elev, face)["rects"]):
+        notes.append('DOOR AND SHUTTER PANELS ARE DRAWN AS THEIR ARRANGEMENT, NOT THEIR SIZE: NO '
+                     'RECORD STATES A STILE OR A RAIL OF EITHER')
+    # THE WINDOW SURROUND THE KIT NAMES AND THE RECORD CANNOT DECIDE (WP-14.3). Twenty-two of the
+    # styles this sheet draws make an architrave and a bare opening both canonical, so which this
+    # house has is not a fact the record holds; the reveal is its own slot and is drawn.
+    _ws = elev.get("window_surround") or {}
+    if _ws.get("why") and any(r["kind"] == "window" for r in EL.opening_rects(elev, face)["rects"]):
+        notes.append("WINDOW SURROUND NOT DRAWN \u2014 " + _esc(_ws["why"].upper()))
     _d = elev.get("dormers") or {}
     if _d.get("count") and not _d.get("refused"):
         if _d.get("placeable") is False:
@@ -982,6 +1187,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
                      'THE 22″ FIGURE IS THE STACK\u2019S')
     for i, n in enumerate(notes):
         s.append(f'<text class="dm" x="{pad}" y="{legend_y+26+i*10:.1f}">{_esc(n)}</text>')
+    # THE SHEET GROWS WITH ITS NOTES (WP-14.3). The legend was a fixed 90 px, which holds six
+    # notes; a sheet saying more ran its last lines off the canvas, where nothing is read -- a
+    # disclosure the sheet does not make. The root element is rewritten after the inset, below,
+    # so the height taken here is the one it carries.
+    total_h = max(total_h, legend_y + 26 + len(notes) * 10 + 12)
 
     # ---------------- cornice detail inset: the actual moulded profile, constructed by
     # build/profiles.py from proportion_engine.dimension() members.

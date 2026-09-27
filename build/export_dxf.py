@@ -630,19 +630,26 @@ def export_elevation_dxf(elev, path, face=None):
         longer worked out a second time. This file and `render_elevation.py` had the same four
         numbers and the same loop written out separately, which is how the CAD file went on
         drawing a window through a chimney after the SVG had learned not to (OQ 85)."""
-        wrec = r["record"]
         sill, head = r["sill_in"], r["head_in"]
         x0, x1 = r["x0_in"], r["x1_in"]
-        ww = r["width_in"]
         msp.add_lwpolyline([(x0, sill), (x1, sill), (x1, head), (x0, head)],
                            close=True, dxfattribs={"layer": opening})
-        for i in range(1, wrec["lights_across"]):
-            gx = x0 + ww * i / wrec["lights_across"]
-            msp.add_line((gx, sill), (gx, head), dxfattribs={"layer": sash})
-        lights_high = wrec["lights_high_per_sash"] * 2
-        for j in range(1, lights_high):
-            gy = sill + (head - sill) * j / lights_high
-            msp.add_line((x0, gy), (x1, gy), dxfattribs={"layer": sash})
+        # THE SASH, AS THE MEMBERS THAT MAKE IT (WP-14.3): `elevation.sash_layout`, the one
+        # layout the SVG and the scene draw too. Each jamb, stile, rail and muntin is a closed
+        # rectangle at the width sash-light states, where this used to draw lines dividing the
+        # whole opening. The jamb is the pack's own "about 1 1/2 in" halved, and its XDATA says
+        # the figure is approximate rather than letting a CAD file hold it with a measured one's
+        # authority.
+        lay = r.get("sash") or {}
+        for part in (lay.get("members") or []) + (lay.get("muntins") or []):
+            poly = msp.add_lwpolyline([(part["x0"], part["y0"]), (part["x1"], part["y0"]),
+                                       (part["x1"], part["y1"]), (part["x0"], part["y1"])],
+                                      close=True, dxfattribs={"layer": sash})
+            if part.get("approximate"):
+                _xdata(poly, "TDL::sash-member", {"kind": part["kind"], "approximate": True,
+                                                  "source": "sash-light: 'about 1 1/2 in of jamb, "
+                                                            "pulley stile and parting-bead "
+                                                            "clearance'"})
 
     ent = elev["entrance"]
     # WP-12.2: ONE LOOP, in `elevation.opening_rects` — the blind-bay skip, the
@@ -672,11 +679,41 @@ def export_elevation_dxf(elev, path, face=None):
             # drew a back door as a doorcase. One condition, the same one the SVG tests.
             if not r.get("entrance"):
                 continue
+            # A GARAGE DOOR IS NOT DRESSED (WP-14.3): on three plans the widest door on the
+            # entrance front is the garage's, and the SVG draws it as its opening and says so.
+            # The CAD file draws what the sheet draws.
+            if "garage" in str(r.get("type") or "").lower():
+                continue
             cw = ent["casing_width_in"]
             eh = ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]
+            # WHAT THE SVG DRAWS, THE DXF DRAWS (WP-14.3, census X1). The sheet has drawn the
+            # sidelights beside the doorcase since WP-3.2 and this file never did, so five plans'
+            # CAD elevations were a different doorcase from their plates. And the transom the
+            # plate now draws, at its judged height, is here too, carrying the judgment in XDATA
+            # rather than the authority of a measured line.
+            tr = ent.get("transom") or {}
+            top = head
+            if tr.get("drawn"):
+                top = head + tr["height_in"]
+                poly = msp.add_lwpolyline([(x0, head), (x1, head), (x1, top), (x0, top)],
+                                          close=True, dxfattribs={"layer": opening})
+                _xdata(poly, "TDL::transom", {"height_in": tr["height_in"], "judgment": True,
+                                              "lights": tr["lights"],
+                                              "source": tr.get("height_source")})
+                n = tr["lights"]
+                mw = ((elev.get("storey_windows") or [{}])[0].get("muntin_width_in") or 0.0) / 2.0
+                for i in range(1, n):
+                    gx = x0 + (x1 - x0) * i / n
+                    msp.add_lwpolyline([(gx - mw, head), (gx + mw, head), (gx + mw, top), (gx - mw, top)],
+                                       close=True, dxfattribs={"layer": sash})
             msp.add_lwpolyline([(x0 - cw, sill), (x1 + cw, sill),
-                                (x1 + cw, head + eh), (x0 - cw, head + eh)],
+                                (x1 + cw, top + eh), (x0 - cw, top + eh)],
                                close=True, dxfattribs={"layer": sash})
+            if ent.get("sidelights_present") and ent.get("sidelight_width_in"):
+                slw = ent["sidelight_width_in"]
+                for a in (x0 - cw - slw, x1 + cw):
+                    msp.add_lwpolyline([(a, sill), (a + slw, sill), (a + slw, head), (a, head)],
+                                       close=True, dxfattribs={"layer": opening})
             continue
         _win(r)
 

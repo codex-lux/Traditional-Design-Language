@@ -39,7 +39,14 @@ PC = _load("plan_check", f"{ROOT}/build/plan_check.py")
 # ratchet is for. Re-measure before moving one.
 FAULTS = 210
 IDENTIFIERS_READ = 825
-REFUSALS = 36
+# 36 -> 40 AT WP-14.3 (27 Sep 2026), BY NAME: `transom_height_in`, `transom_width_in`,
+# `transom_head_rise_in` and `pilaster_projection_in` joined `elevation.NOT_MODELLED`, because
+# opening-proportion marks the transom's height a judgment and gibbs-ionic the pilaster's
+# projection, and a judged figure is drawn and labelled on the sheet but never published as a
+# measurement. The transom's width and head rise go with its height under that file's own rule
+# that a partially supplied transom convicts a house on the half that remains. Diffed against the
+# parent: four added, none removed, and all four are read by a fault test.
+REFUSALS = 40
 
 # The two live contradictions, BY NAME. A count alone would let one be fixed and another
 # arrive on the same commit -- WP-11.7's "a removed serious and an added duplicate cancelled
@@ -155,7 +162,7 @@ class TestTheRefusalsAreLive:
         """A refusal that cannot fire reads exactly like a decision taken.
 
         This is the corpus's most-repeated defect wearing the other face: a guard that cannot
-        fire is invisible, and so is a refusal nothing can reach. All 36 are live today.
+        fire is invisible, and so is a refusal nothing can reach. All 40 are live today.
         """
         refs = DET.refusals()
         read = set()
@@ -409,7 +416,16 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
     # A row LEAVING this list has two readings -- the fault measures honestly now, or
     # `critic_suspects` stopped listing the name -- and they are opposite, so the test below
     # asserts the first from the findings rather than letting the count speak for it.
-    SUSPECT_CLEAR = {"tidewater-georgian-careful": 24, "spec-builder-colonial": 25}
+    SUSPECT_CLEAR = {"tidewater-georgian-careful": 23, "spec-builder-colonial": 25}
+    # 24 -> 23 ON THE TIDEWATER PLAN AT WP-14.3, AND THE ROW THAT LEFT TOOK A THIRD ROAD OUT.
+    # `fanlight-before-its-date` cleared on `transom_head_rise_in = 0`, a figure the generator
+    # wrote as its own constant. WP-14.3 withholds the whole transom family (its height is a
+    # judgment, and a partial family convicts), so the fault is now UNJUDGED and says which of
+    # its reads were refused and why -- neither of the two readings the note below names, and
+    # the honest one: a tautological pass became a stated could-not-evaluate. The spec Colonial
+    # is unmoved; its kit forbids the slot and never supplied the family. Asserted from the
+    # unjudged bucket rather than left to the count.
+    WITHHELD = {"tidewater-georgian-careful": {"fanlight-before-its-date": "transom_head_rise_in"}}
     # AND `one-bay-symmetry-break` LEAVES THIS SET WITH IT. It was the sharpest of main's four
     # -- cleared at zero on a generator that drew a symmetric facade BY CONSTRUCTION, so the
     # fault could not fire and never could. It fires now. Keeping it here would assert that a
@@ -438,6 +454,12 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
         assert not (self.RETIRED_TAUTOLOGIES & ids), (
             sorted(self.RETIRED_TAUTOLOGIES & ids),
             "a fault the merge measured as firing is back on the tautology list")
+        unjudged = {u["fault"]: {x["name"] for x in (u.get("refused") or [])}
+                    for u in (res.get("fault_unjudged") or [])}
+        for fid, name in sorted(self.WITHHELD.get(pid, {}).items()):
+            assert fid not in ids and name in unjudged.get(fid, set()), (
+                pid, fid, "left the tautology list without being unjudged for the refusal of "
+                f"{name}, which is the only reading WP-14.3 accounted for")
         blob = json.dumps(res["findings"])
         for fid in sorted(self.RETIRED_TAUTOLOGIES):
             assert fid in blob, (

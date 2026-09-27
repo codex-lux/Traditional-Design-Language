@@ -73,6 +73,10 @@ READ_SLOTS = {
     "window_head_wood",
     "window_lite_pattern",
     "window_proportion",
+    # WP-14.3: `elevation.window_surround` reads the surround slot the wall's material names, to
+    # draw the surround the record states or refuse the choice it does not make
+    "window_surround_masonry",
+    "window_surround_wood",
     "window_type",
 }
 

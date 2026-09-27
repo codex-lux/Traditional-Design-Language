@@ -392,8 +392,11 @@ class TestTheGaugedArchIsDrawnAsBrickwork:
         into the wall with nothing to stop them."""
         import re
         svg, elev = self._svg(tmp_path)
-        m = re.search(r'class="arch[^"]*" d="M ([\d.]+),([\d.]+) Q [\d.]+,[\d.]+ ([\d.]+),[\d.]+ '
-                      r'L ([\d.]+),([\d.]+) L ([\d.]+),', svg)
+        # RE-CUT (WP-14.3): the soffit is the circular segment the arch is set out on, drawn as
+        # an SVG arc, where it was a quadratic Bezier -- a parabola through the same three points.
+        # Only the arc form is accepted, so a return to the parabola fails here as well as in V7.
+        m = re.search(r'class="arch[^"]*" d="M ([\d.]+),([\d.]+) A [\d.]+,[\d.]+ [\d.]+ [01] [01] '
+                      r'([\d.]+),[\d.]+ L ([\d.]+),([\d.]+) L ([\d.]+),', svg)
         assert m, "no flat-arch path found in the expected form"
         x_soffit_l, x_soffit_r = float(m.group(1)), float(m.group(3))
         x_ext_r, x_ext_l = float(m.group(4)), float(m.group(6))
@@ -900,9 +903,27 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
         assert bars(three_svg) == bars(none_svg) + 3 * want, (
             f"{bars(three_svg)} glazing bars with three dormers against "
             f"{bars(none_svg)} without — expected {bars(none_svg) + 3 * want}")
-        # and the meeting rail is still there, which is a DIFFERENT claim about the same sash
-        assert len(re.findall(r'class="mt w-med"', three_svg)) == \
-            len(re.findall(r'class="mt w-med"', none_svg)) + 3
+        # and the meeting rail is still there, which is a DIFFERENT claim about the same sash.
+        # RE-CUT (WP-14.3). The rail was one line of no width, `class="mt w-med"`, and it is the
+        # two members that make it now -- the upper sash's and the lower's, 1 1/4 in each at the
+        # width sash-light states -- meeting on the one line that says the window is double-hung
+        # (`mj`). A count of that line alone would pass with both members gone, so each line is
+        # held to the pair of members it separates, read off the ink.
+        from inkread import Ink
+
+        def rails(svg):
+            ink = Ink(svg)
+            members = [it.bbox() for it in ink.items if "sf" in it.classes]
+            held = 0
+            for it in ink.items:
+                if "mj" not in it.classes:
+                    continue
+                x0, y, x1, _y = it.bbox()
+                spans = [b for b in members if abs(b[0] - x0) < 0.02 and abs(b[2] - x1) < 0.02]
+                held += any(abs(b[3] - y) < 0.02 for b in spans) and \
+                    any(abs(b[1] - y) < 0.02 for b in spans)
+            return held
+        assert rails(three_svg) == rails(none_svg) + 3, (rails(three_svg), rails(none_svg))
 
     def test_a_variant_the_record_did_not_choose_is_not_chosen_for_it(self):
         """Picking the first canonical variant is dict order dressed as a decision. Tidewater makes

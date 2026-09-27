@@ -82,39 +82,35 @@ def _classes(scene):
 
 
 def test_the_bar_count_is_the_light_count_the_record_states(tidewater):
-    """`across - 1` verticals — the two sashes of a double-hung align, so a bar is ONE member —
-    and `2 x high - 1` horizontals, of which the middle is the meeting rail."""
+    """Six sash members a window and each sash's own muntins (WP-14.3 step 3: until then
+    `across - 1` verticals ran the whole opening and `2 x high - 1` horizontals stood in for
+    the meeting rail, a division of the opening where the record states a sash).
+
+    RE-CUT AT WP-14.3: THE LIGHT COUNT IS EACH WINDOW'S OWN. It was the storey's, and this test
+    summed it per storey; `opening_rects` now carries the light count `sash_at` gives at the width
+    each window is drawn, which on a placed plan is not the storey's width. The storey-level sum
+    is the defect this test would have ratified. `tests/test_opening_sash.py` holds the per-window
+    count to the pack's own expression and asserts the premise that the two differ."""
     scene, ev = tidewater
-    windows = [w for w in ev["storey_windows"]]
-    assert windows, "the elevation states no storey window and this test is about nothing"
+    EL = _mod("elevation")
+    rects = [r for f in "SNEW" for r in EL.opening_rects(ev, f)["rects"] if r["kind"] == "window"]
+    assert rects, "the elevation draws no window and this test is about nothing"
     c = _classes(scene)
     # one meeting rail per drawn window
     frames = [s for s in scene["solids"] if s["class"] == "opening-frame"]
     win_frames = [s for s in frames if not s["id"].endswith("-door")]
-    # THE SCHEMA'S OWN WORDS. A glazing bar is a `muntin`; the middle horizontal is the
-    # MEETING RAIL and is a member of the `sash`. The first draft of this package invented
-    # `sash-bar` and `meeting-rail` and the schema check refused all 350 at once.
-    assert c["sash"] == len(win_frames), (
-        f"{c['sash']} meeting rails against {len(win_frames)} windows — a double-hung "
-        "has exactly one")
-    # and the bars reconcile with the two storeys' own light counts
-    per = {}
-    for w in windows:
-        a, h = w["lights_across"], w["lights_high_per_sash"]
-        per[w["storey"]] = (a - 1) + (2 * h - 1) - 1      # less the meeting rail
-    counts = {}
-    for s in scene["solids"]:
-        if s["class"] in ("muntin", "sash"):
-            counts[s["id"].rsplit("-bar-", 1)[0]] = 1
-    n_ground = sum(1 for s in win_frames if _storey_of(s["id"]) == "ground")
-    assert n_ground and n_ground < len(win_frames), (
-        f"{n_ground} of {len(win_frames)} window frames read as ground — the storey selector "
-        "is matching all or nothing, so the two-storey arithmetic below asserts nothing")
-    n_upper = len(win_frames) - n_ground
-    want = n_ground * per["ground"] + n_upper * per.get("upper", per["ground"])
-    assert c["muntin"] == want, (
-        f"{c['muntin']} muntins against {want} implied by {n_ground} ground windows at "
-        f"{per['ground']} and {n_upper} upper at {per.get('upper')}")
+    assert len(win_frames) == len(rects), (len(win_frames), len(rects))
+    # THE SCHEMA'S OWN WORDS. A glazing bar is a `muntin`; the stiles and rails are the `sash`.
+    # The first draft of WP-12.6 invented `sash-bar` and `meeting-rail` and the schema check
+    # refused all 350 at once.
+    # WP-14.3 step 3: a sash is its members -- two stiles, a top rail, a bottom rail and each
+    # sash's meeting rail, SIX `sash` solids a window -- and each sash's glass is divided by its
+    # own muntins, `across - 1` vertical and `high - 1` horizontal in EACH of the two sashes.
+    assert c["sash"] == 6 * len(win_frames), (
+        f"{c['sash']} sash members against {len(win_frames)} windows — a double-hung sash "
+        "is two stiles, a top rail, a bottom rail and two meeting rails")
+    want = sum(2 * (r["lights_across"] - 1) + 2 * (r["lights_high_per_sash"] - 1) for r in rects)
+    assert c["muntin"] == want, f"{c['muntin']} muntins against {want} implied by {len(rects)} windows"
 
 
 def test_a_window_with_no_light_count_is_refused_and_not_drawn_bare():
@@ -169,10 +165,14 @@ def test_it_is_shutters_carried_that_decides_and_not_the_leaf_width(spec):
     cascade whether or not the style carries the member.
     """
     states = SC._States()
-    rec = {"lights_across": 3, "lights_high_per_sash": 3, "muntin_width_in": 0.875,
-           "shutters_carried": False, "shutter_leaf_width_in": 14.0,
-           "shutter_panel_count": 2}
+    # WP-14.3: the light count and the leaf are the OPENING's and ride on the rect;
+    # `shutters_carried` and the muntin's width are the storey's and ride on its record.
+    rec = {"muntin_width_in": 0.875, "shutters_carried": False}
+    # and the sash is `opening_rects`' own layout of it, which is what the scene draws from
     rect = {"id": "S-0-ground", "kind": "window", "storey": "ground", "record": rec,
+            "lights_across": 3, "lights_high_per_sash": 3, "shutter_leaf_width_in": 14.0,
+            "shutter_panel_count": 2,
+            "sash": _mod("elevation").sash_layout(24.0, 60.0, 36.0, 96.0, 3, 3, 0.875),
             "x0_in": 24.0, "x1_in": 60.0, "sill_in": 36.0, "head_in": 96.0}
     out = SC._dress_openings({}, states, {"S": [rect]}, -1.0, -1.0, 40.0, 30.0, 1.0)
     assert not [o for o in out if o["class"] == "shutter"], (
@@ -190,18 +190,46 @@ def test_it_is_shutters_carried_that_decides_and_not_the_leaf_width(spec):
         "function that never draws one")
 
 
+def test_a_sash_that_cannot_be_laid_out_is_said_and_keeps_its_shutters():
+    """DRIVEN (WP-14.3): no shipped window is too small for its frame, so the refused branch is
+    unreachable from the corpus. A refused layout, and a rect carrying none, each file a reason
+    naming the sash -- and neither takes the leaves with it, because a shutter's width is the
+    record's whether or not the glass between them could be divided."""
+    EL = _mod("elevation")
+    rec = {"muntin_width_in": 0.875, "shutters_carried": True}
+    base = {"id": "S-0-ground", "kind": "window", "storey": "ground", "record": rec,
+            "lights_across": 3, "lights_high_per_sash": 3, "shutter_leaf_width_in": 3.0,
+            "shutter_panel_count": 2, "x0_in": 24.0, "x1_in": 30.0, "sill_in": 36.0,
+            "head_in": 96.0}
+    refused = EL.sash_layout(24.0, 30.0, 36.0, 96.0, 3, 3, 0.875)
+    assert refused.get("refused"), "the premise: a 6 in opening leaves no glass for 3 lights"
+    for rect in (dict(base, sash=refused), dict(base)):
+        states = SC._States()
+        out = SC._dress_openings({}, states, {"S": [rect]}, -1.0, -1.0, 40.0, 30.0, 1.0)
+        assert not [o for o in out if o["class"] in ("sash", "muntin")]
+        assert [c for c in states.not_modelled if c["what"] == "the sash in S-0-ground"], (
+            "a sash nobody could lay out was left undrawn and unsaid")
+        assert len([o for o in out if o["class"] == "shutter"]) == 2, (
+            "the shutters went with the sash, which is a second silence")
+
+
 def test_a_leaf_is_the_width_the_record_states(spec):
+    """RE-CUT AT WP-14.3: the leaf is its OWN window's -- sash-light's `(opening - 1) / 2` at the
+    width that window is drawn, which `opening_rects` carries -- and no longer the storey's, which
+    was taken at another width and left leaves covering 78 to 117 per cent of their window."""
     s_scene, s_ev = spec
-    want = {w["storey"]: w["shutter_leaf_width_in"] / 12.0 for w in s_ev["storey_windows"]}
+    EL = _mod("elevation")
+    want = {r["id"]: r["shutter_leaf_width_in"] / 12.0
+            for f in "SNEW" for r in EL.opening_rects(s_ev, f)["rects"] if r["kind"] == "window"}
     seen = 0
     for s in s_scene["solids"]:
         if s["class"] != "shutter":
             continue
-        storey = _storey_of(s["id"])
+        rid = s["id"].rsplit("-shutter-", 1)[0]
         xs = [p[0] for p in s["geometry"]["outline"]]
-        assert abs((max(xs) - min(xs)) - want[storey]) < 0.01, (
+        assert abs((max(xs) - min(xs)) - want[rid]) < 0.01, (
             f"{s['id']} is {max(xs) - min(xs):.3f} ft wide against a stated "
-            f"{want[storey]:.3f}")
+            f"{want[rid]:.3f}")
         seen += 1
     assert seen > 0, "no shutter was measured, so this asserts nothing"
 
@@ -234,9 +262,16 @@ def test_a_judged_stack_is_an_axis_and_a_named_judgment_and_never_a_solid(tidewa
     assert not [s for s in scene["solids"] if s["class"] == "chimney"
                 and s["geometry"]["type"] == "box"], (
         "a solid stack was drawn at a plan size the corpus declines to settle")
-    assert len(scene["judgment"]) == len(axes)
+    # ONE JUDGMENT PER AXIS, COUNTED AMONG THE STACKS' OWN (WP-14.3). The transom over the
+    # Tidewater door is a second judgment on the same scene -- its height is `judgment: true` --
+    # so the census is of the chimney entries, named, and the transom is asserted to be there
+    # too, so a filter that matched nothing cannot pass for one that matched the stacks.
+    stacks = [j for j in scene["judgment"] if j["what"].startswith("chimney stack")]
+    assert len(stacks) == len(axes)
+    assert [j for j in scene["judgment"] if j["what"] == "the transom over the entrance door"]
+    assert len(scene["judgment"]) == len(axes) + 1
     assert all(s["kind"] == "judgment" for s in axes)
-    assert any("mason will build 18 or 27" in j["why"] for j in scene["judgment"])
+    assert any("mason will build 18 or 27" in j["why"] for j in stacks)
 
 
 def test_a_stack_whose_plan_size_is_stated_is_a_solid():

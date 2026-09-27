@@ -1283,6 +1283,8 @@ def _drawn_features(svg):
         got.add("doorcase")
     if _sidelights(ink):
         got.add("sidelights")
+    if _transoms(ink):
+        got.add("transom")
     if _rects(ink, "sh"):
         got.add("shutters")
     for r in _rects(ink, "arch"):
@@ -1367,7 +1369,7 @@ def v2():
 
 
 @check("V3", "elevation", "every transom or sidelight variant the style's kit makes canonical is "
-       "drawn", "every node with a kit, on the Tidewater placement")
+       "drawn, or the sheet says why it is not", "every node with a kit, on the Tidewater placement")
 def v3():
     out = []
     for sid, got in sorted(_style_sweep().items()):
@@ -1381,17 +1383,39 @@ def v3():
         if not canon:
             continue
         drawn = _drawn_features(svg)
-        missing = [v for v in canon if not ("sidelight" in v and "sidelights" in drawn)]
+        # A CANONICAL FORM IS DRAWN, OR ITS REFUSAL IS SAID (WP-14.3). The rectangular transom
+        # is drawn now; a fanlight's head needs a rise no record states, so it is refused, and a
+        # refusal the sheet SAYS is not a silence. Read off the sheet's own words, never off the
+        # elevation record, which is the subject.
+        said = " ".join(t for t, _a, _it in IR.Ink(svg).texts()).upper()
+        missing = [v for v in canon
+                   if not (("sidelight" in v and "sidelights" in drawn)
+                           or ("transom" in v and "transom" in drawn)
+                           or ("TRANSOM NOT DRAWN" in said and v.replace("-", " ").upper() in said))]
         out.append(row("V3", sid, "disagrees" if missing else "agrees",
-                       ("canonical and not drawn: " + ", ".join(missing)) if missing else ""))
+                       ("canonical and neither drawn nor said: " + ", ".join(missing)) if missing else ""))
+    return out
+
+
+def _transoms(ink):
+    """Glass standing on a door leaf's head, the leaf's own width: a transom (WP-14.3)."""
+    out = []
+    for d in _rects(ink, "dr"):
+        dx0, dy0, dx1, _dy1 = _box(d)
+        for r in _rects(ink, "op"):
+            x0, y0, x1, y1 = _box(r)
+            if abs(x0 - dx0) < 0.3 and abs(x1 - dx1) < 0.3 and abs(y1 - dy0) < 0.3:
+                out.append(r)
     return out
 
 
 def _window_boxes(ink):
     """(glass box, [shutter boxes], [vertical muntins], [horizontal muntins]) per window, in px."""
     sh = [_box(r) for r in _rects(ink, "sh")]
-    mt = [it for it in ink.select("line", cls="mt") if "w-med" not in it.classes]
-    side = {tuple(round(v, 1) for v in _box(r)) for r in _sidelights(ink)}
+    # WP-14.3: a muntin is a RECT at its own 7/8 in, not a line of no stated width; the meeting
+    # rail is a member of the sash (`sf`) and not a muntin, so it is not read here.
+    mt = _rects(ink, "mt")
+    side = {tuple(round(v, 1) for v in _box(r)) for r in _sidelights(ink) + _transoms(ink)}
     out = []
     for r in _rects(ink, "op"):
         b = _box(r)
@@ -1401,9 +1425,9 @@ def _window_boxes(ink):
         leaves = [s for s in sh if (abs(s[2] - x0) < 0.3 or abs(s[0] - x1) < 0.3) and abs(s[1] - y0) < 0.3]
         vert, hor = [], []
         for it in mt:
-            (ax, ay), (bx, by) = it.points(n=1)[0], it.points(n=1)[-1]
-            if x0 - 0.2 <= ax <= x1 + 0.2 and y0 - 0.2 <= min(ay, by) and max(ay, by) <= y1 + 0.2:
-                (vert if abs(ax - bx) < 0.05 else hor).append(it)
+            mx0, my0, mx1, my1 = _box(it)
+            if x0 - 0.2 <= mx0 and mx1 <= x1 + 0.2 and y0 - 0.2 <= my0 and my1 <= y1 + 0.2:
+                (vert if (my1 - my0) > (mx1 - mx0) else hor).append(it)
         out.append((b, leaves, vert, hor))
     return out
 
@@ -1461,12 +1485,149 @@ def v5():
         for (x0, y0, x1, y1), _l, vert, hor in wins:
             w_in = (x1 - x0) / k
             want_a = _sash_rule(None, w_in, gm, "lights across")
-            got_a = len({round(it.points(n=1)[0][0], 1) for it in vert}) + 1
+            got_a = len({round((_box(it)[0] + _box(it)[2]) / 2.0, 1) for it in vert}) + 1
             if want_a is not None and got_a != want_a:
                 bad.append("%.1f in wide: %d across drawn, the rule gives %d" % (w_in, got_a, want_a))
         subject = "%s/%s" % (pid, face)
         out.append(row("V5", subject, "disagrees" if bad else "agrees",
                        "; ".join(sorted(set(bad))[:3]) if bad else "%d windows" % len(wins)))
+    return out
+
+
+def _inches(txt):
+    """'1 1/4' -> 1.25, '3' -> 3.0: a figure as the pack's own prose writes it."""
+    parts = txt.split()
+    whole = float(parts[0])
+    if len(parts) > 1:
+        a, b = parts[1].split("/")
+        whole += float(a) / float(b)
+    return whole
+
+
+def _sash_figures():
+    """The sash in sash-light's OWN WORDS, read from the pack every run: the stile from its
+    `window_type/width` rule, the three rails from that rule's own note, the jamb from the
+    lights-across rule's note ("about 1 1/2 in of jamb, pulley stile and parting-bead clearance",
+    halved a side), the muntin from its own rule. Never from `elevation.SASH_FRAME`, which is the
+    subject's transcription of the same sentence: a census that read it would hold the drawing
+    to its own copy."""
+    PE = SURF._mod("proportion_engine")
+    pack = PE.resolve("sash-light")
+    stile = rails = jamb = muntin = None
+    for r in pack.get("derived_rules") or []:
+        note = " ".join(x for x in (r.get("note"), r.get("authority_note")) if x)
+        if r.get("target_slot") == "window_type" and r.get("dimension") == "width":
+            stile = float(r["expression"])
+            m = re.search(r"(\d+(?: \d/\d)?) in top rail, (\d+(?: \d/\d)?) in bottom rail and "
+                          r"(\d+(?: \d/\d)?) in meeting rail", note)
+            if m:
+                rails = tuple(_inches(g) for g in m.groups())
+        m = re.search(r"about (\d+(?: \d/\d)?) in of jamb", note)
+        if m:
+            jamb = _inches(m.group(1)) / 2.0
+        if (r.get("target_slot") == "window_lite_pattern" and r.get("dimension") == "width"
+                and "muntin width" in note.lower()):
+            muntin = float(r["expression"])
+    return stile, rails, jamb, muntin
+
+
+def _light_width(width_in, glass_module_in):
+    """sash-light's own RESULTING LIGHT WIDTH at a width, through the engine."""
+    EL = SURF._mod("elevation")
+    PE = SURF._mod("proportion_engine")
+    v, _r = EL._val(PE.resolve("sash-light"), "window_lite_pattern",
+                    {"opening_width": width_in, "module": glass_module_in},
+                    note_substr="RESULTING LIGHT WIDTH", dimension="width")
+    return v
+
+
+def _gaps(lo, hi, covers):
+    """The intervals of [lo, hi] no cover reaches: the glass between the members."""
+    out, at = [], lo
+    for a, b in sorted(covers):
+        if a > at + 1e-6:
+            out.append((at, a))
+        at = max(at, b)
+    if hi > at + 1e-6:
+        out.append((at, hi))
+    return out
+
+
+@check("V14", "elevation", "a sash is drawn as the members sash-light states -- its jambs, 2 in "
+       "stiles and top, bottom and meeting rails -- with its glass divided into the lights its "
+       "rule gives, each at the rule's light width", "elevation sheets drawing a glazed sash")
+def v14():
+    stile, rails, jamb, muntin = _sash_figures()
+    if None in (stile, rails, jamb, muntin):
+        return [row("V14", "sash-light", "cne", "the pack's own text no longer states the stile, "
+                    "the rails, the jamb and the muntin in the words this check reads")]
+    tol = 0.02                                   # inches; the plate prints to 0.005 in here
+    out = []
+    for pid, face, rec, svg in _elev_sheets():
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        k = pl["px_per_ft"] / 12.0
+        gm = rec["elev"].get("glass_module_in")
+        wins = _window_boxes(ink)
+        if not wins or not gm:
+            continue
+        sf = [_box(r) for r in _rects(ink, "sf")]
+        bad = []
+        for (x0, y0, x1, y1), _l, vert, hor in wins:
+            w_in = (x1 - x0) / k
+            inside = [b for b in sf if x0 - 0.2 <= b[0] and b[2] <= x1 + 0.2
+                      and y0 - 0.2 <= b[1] and b[3] <= y1 + 0.2]
+            tall = [b for b in inside if (b[3] - b[1]) > 0.5 * (y1 - y0)]
+            flat = [b for b in inside if (b[3] - b[1]) <= 0.5 * (y1 - y0)]
+            got_v = sorted((b[2] - b[0]) / k for b in tall)
+            got_h = sorted((b[3] - b[1]) / k for b in flat)
+            want_v = sorted([jamb, jamb, stile, stile])
+            want_h = sorted([rails[0], rails[1], rails[2], rails[2]])
+            if len(got_v) != 4 or any(abs(g - w) > tol for g, w in zip(got_v, want_v)):
+                bad.append("%.1f in: jambs and stiles %s in against %s" % (
+                    w_in, [round(g, 2) for g in got_v], want_v))
+            if len(got_h) != 4 or any(abs(g - w) > tol for g, w in zip(got_h, want_h)):
+                bad.append("%.1f in: rails %s in against %s" % (w_in, [round(g, 2) for g in got_h], want_h))
+            if any(abs((_box(v)[2] - _box(v)[0]) / k - muntin) > tol for v in vert):
+                bad.append("%.1f in: a muntin not %.3f in wide" % (w_in, muntin))
+            # the glass across the upper sash: what the jambs, stiles and vertical muntins leave
+            probe = y0 + 0.25 * (y1 - y0)       # a height inside the upper sash's glass
+            covers = [(b[0], b[2]) for b in tall] + [(_box(v)[0], _box(v)[2]) for v in vert
+                                                      if _box(v)[1] <= probe <= _box(v)[3]]
+            cols = _gaps(x0, x1, covers)
+            want_n = _sash_rule(None, w_in, gm, "lights across")
+            want_w = _light_width(w_in, gm)
+            if len(cols) != want_n or any(abs((b - a) / k - want_w) > tol for a, b in cols):
+                bad.append("%.1f in: %d lights %s in across, the rule gives %d at %.2f" % (
+                    w_in, len(cols), [round((b - a) / k, 2) for a, b in cols], want_n, want_w))
+        subject = "%s/%s" % (pid, face)
+        out.append(row("V14", subject, "disagrees" if bad else "agrees",
+                       "; ".join(sorted(set(bad))[:3]) if bad else "%d windows" % len(wins)))
+    return out
+
+
+@check("V16", "elevation", "a window surround the style's kit makes canonical is drawn, or the "
+       "sheet says why it is not", "every node with a kit whose elevation is drawn, on the Tidewater placement")
+def v16():
+    out = []
+    for sid, got in sorted(_style_sweep().items()):
+        if got is None:
+            continue
+        el, svg = got
+        # which of the two surround slots answers is a fact of the WALL, and the section states
+        # it; the rest is the style's own resolved kit, never the elevation's account of it
+        masonry = bool((el.get("water_table_belt") or {}).get("is_masonry"))
+        sl = _kit(sid).get("window_surround_masonry" if masonry else "window_surround_wood") or {}
+        canon = sorted({v["id"] for v in sl.get("variants") or [] if v.get("status") == "canonical"})
+        real = [c for c in canon if not c.startswith("none")]
+        if sl.get("binding") == "forbidden" or not real:
+            continue
+        ink = IR.Ink(svg)
+        said = " ".join(t for t, _a, _it in ink.texts()).upper()
+        ok = bool(_rects(ink, "wsur")) or ("WINDOW SURROUND NOT DRAWN" in said and all(
+            c.replace("-", " ").upper() in said for c in real))
+        out.append(row("V16", sid, "agrees" if ok else "disagrees",
+                       "" if ok else "canonical and neither drawn nor said: " + ", ".join(real)))
     return out
 
 
@@ -1582,21 +1743,38 @@ def v8():
     return out
 
 
-@check("V9", "elevation", "a size drawn with no figure behind it is said: the keystone's depth x 0.6 "
-       "and the chimney's 22 in fallback", "sheets drawing a keystone or a chimney: shipped plans, and every style's front")
+@check("V9", "elevation", "a size no record gives is neither drawn nor left unsaid: the keystone the "
+       "kit makes canonical with no width, and a stack the roof places with no plan size",
+       "sheets whose record carries a keystone or a stack: shipped plans, and every style's front")
 def v9():
+    """RE-CUT AT WP-14.3, WHICH MOVED ITS SUBJECT. This asked whether the keystone's `depth x 0.6`
+    and the stack's `or 22.0` fallbacks were SAID, and counted only a sheet that drew one. WP-14.3
+    refuses both -- nothing is drawn at a size no record gives, and the legend says so -- so the
+    old population went empty exactly where the new behaviour lives, and the test that planted
+    an unsized stack found no row at all. The record is the population now: a sheet whose kit or
+    roof carries the thing is judged whether it drew it or not, and it agrees only if it did not
+    draw it at an invented size AND said it did not."""
     out = []
     for subject, el, svg in _elev_and_sweep():
         ink = IR.Ink(svg)
         said = " ".join(t for t, _a, _it in ink.texts()).upper()
         bad = []
         heads = [sw.get("head_treatment") or {} for sw in el.get("storey_windows") or []]
-        if _rects(ink, "arch") and any(h.get("keystone") and not h.get("keystone_width_in") for h in heads):
-            if "KEYSTONE" not in said:
-                bad.append("a keystone drawn at 0.6 x the arch depth, which no record states, and not said")
-        if _rects(ink, "ch") and not el.get("chimney_stack_plan_in"):
-            bad.append("a stack drawn at 22 in square with no figure behind it, and not said")
-        if not (_rects(ink, "arch") or _rects(ink, "ch")):
+        key_unsized = any(h.get("keystone") and not h.get("keystone_width_in") for h in heads)
+        ch = (el.get("roof_record") or {}).get("chimneys") or {}
+        stacks = bool(ch.get("applicable") and ch.get("positions"))
+        stack_unsized = stacks and not el.get("chimney_stack_plan_in")
+        if key_unsized:
+            if _rects(ink, "arch"):
+                bad.append("a keystone drawn at a width no record states")
+            elif "KEYSTONE NOT DRAWN" not in said:
+                bad.append("a canonical keystone with no width, neither drawn nor said")
+        if stack_unsized:
+            if _rects(ink, "ch"):
+                bad.append("a stack drawn at a plan size no record states")
+            elif "STACKS NOT DRAWN" not in said:
+                bad.append("a stack with no plan size, neither drawn nor said")
+        if not (key_unsized or stack_unsized or _rects(ink, "arch") or _rects(ink, "ch")):
             continue
         out.append(row("V9", subject, "disagrees" if bad else "agrees", "; ".join(bad)))
     return out
@@ -1630,7 +1808,10 @@ def v11():
                     miss += 1
         if not judged:
             continue
-        said = "COURSE" in " ".join(t for t, _a, _it in ink.texts()).upper()
+        # SAID MEANS THE MISS IS NAMED, not that the word COURSE appears somewhere on the sheet
+        # (WP-14.3): a legend line about the water table's courses would have satisfied it.
+        text = " ".join(t for t, _a, _it in ink.texts()).upper()
+        said = "MISS" in text and "COURSE" in text
         subject = "%s/%s" % (pid, face)
         if miss and not said:
             out.append(row("V11", subject, "disagrees", "%d of %d sill and head lines miss the %.2f in courses "
@@ -1739,12 +1920,19 @@ def f1():
         if not stacks:
             continue
         size = (rec.get("elev") or {}).get("chimney_stack_plan_in")
+        judged = (rec.get("elev") or {}).get("chimney_stack_plan_judgment")
         drawn = [(b[2] - b[0]) / pl["px_per_ft"] * 12.0 for b in (it.bbox() for it in stacks)]
+        # THE STATEMENT PROMISED BOTH HALVES AND THE CODE CHECKED ONE (WP-14.3): a judged size
+        # drawn without saying so is the chimney's own defect, which WP-12.9 found on the plan.
+        said = " ".join(t for t, _a, _it in ink.texts()).upper()
         if not size:
             out.append(row("F1", pid, "cne", "%d stacks drawn and the record states no plan size" % len(stacks)))
         elif any(abs(d - size) > 0.5 for d in drawn):
             out.append(row("F1", pid, "disagrees", "%d stacks drawn %.1f in across; the record states %.0f in"
                            % (len(stacks), drawn[0], size)))
+        elif judged and "JUDGMENT" not in said:
+            out.append(row("F1", pid, "disagrees", "%d stacks drawn at %.0f in, a judgment the sheet "
+                           "does not say is one" % (len(stacks), size)))
         else:
             out.append(row("F1", pid, "agrees"))
     return out
