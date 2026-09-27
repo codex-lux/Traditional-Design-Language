@@ -1625,10 +1625,15 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                     continue
                 bx, by = X(b["x_ft"]), Y(b["y_ft"] + b["depth_ft"])
                 bw, bh = b["width_ft"] * scale, b["depth_ft"] * scale
+                # AN UNSTATED OPENING IS SAID AS ONE (audit, 27 Sep 2026; auditor D, F11): the
+                # tooltip printed "? in opening" over a line drawn at a literal 36 in
+                _open = (f'{h["width_in"]} in opening' if h.get("width_in") else
+                         f'opening not stated, drawn at {HEARTH.DEFAULT_OPENING_IN:g} in '
+                         f'(hearths.DEFAULT_OPENING_IN, Morris Rule II at a 12 ft cube)')
                 s.append(f'<rect class="pm" x="{bx:.1f}" y="{by:.1f}" '
                          f'width="{bw:.1f}" height="{bh:.1f}">'
                          f'<title>{_esc(r.get("name") or r["id"])}: fireplace, '
-                         f'{h.get("width_in", "?")} in opening, breast '
+                         f'{_open}, breast '
                          # THE ATTRIBUTION IS PART OF THE FIGURE, and the first port of this
                          # block dropped it -- `— judgment` where main wrote
                          # `— Morris 1734, judgment`. A judgment with no basis named is exactly
@@ -1638,7 +1643,9 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                          # and the tooltip a reader hovers is where they meet it.
                          f'{b["projection_in"]} in — Morris 1734, judgment</title></rect>')
                 # the opening itself, as a gap in the face of the breast
-                _ow = (h.get("width_in") or 36) / 12.0
+                # hearths.py's own named default for DRAWING a breast whose opening no record
+                # states -- one spelling of it, and the tooltip above says it was taken
+                _ow = (h.get("width_in") or HEARTH.DEFAULT_OPENING_IN) / 12.0
                 if b["wall"] in ("E", "W"):
                     oy0 = Y(b["y_ft"] + b["depth_ft"] - (b["depth_ft"] - _ow) / 2.0)
                     ox = X(b["x_ft"] + (b["width_ft"] if b["wall"] == "W" else 0))

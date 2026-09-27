@@ -952,7 +952,10 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # frieze + cornice band, front-on, at its own stated projection (its full moulded profile is
     # drawn to scale in the detail inset -- a 24 in run of mouldings cannot be traced in a band
     # five pixels deep, and pretending otherwise is how the inset earned its place).
-    co = proj_px(cornice.get("envelope_projection_in") or cornice.get("cornice_projection_in"))
+    # `elevation.cornice_band_projection_in` is the one reading (audit, 27 Sep 2026): a stated 0.0
+    # is kept, and an absent figure is drawn flush and SAID, not drawn flush in silence
+    _cbp, _cbp_why = EL.cornice_band_projection_in(cornice)
+    co = proj_px(_cbp)
     s.append(f'<rect class="bd w-prof" x="{X(0)-co:.1f}" y="{Ypx(true_eave_ft):.1f}" '
              f'width="{pw+2*co:.1f}" height="{(cornice_band_ft*scale):.1f}"/>')
     # The cornice throws the deepest shadow on the building -- its projection is the greatest of
@@ -1163,6 +1166,8 @@ def render_elevation(elev, path, face=None, scale=24.0):
                      f'({str(ht.get("rise_source") or "")}); DRAWN AT ITS MIDPOINT')
     if cornice_band_note:
         notes.append(cornice_band_note)
+    if _cbp_why:
+        notes.append('CORNICE BAND DRAWN FLUSH WITH THE WALL \u2014 ' + _cbp_why.upper())
     # THE ROOF STANDS ON THIS SHEET'S OWN FRIEZE AND CORNICE, AND NO OTHER SURFACE HAS ONE
     # (WP-14.6). `elevation.grade_to_true_eave_in` adds the frieze and the cornice ABOVE roof.py's
     # eave, and this sheet lifts the whole roof silhouette -- and every stack on it -- by that
@@ -1292,6 +1297,13 @@ def render_elevation(elev, path, face=None, scale=24.0):
                      + (' (A WINDOW REFUSED FOR TWO REASONS IS COUNTED UNDER BOTH):' if _twice else ':'))
         for _k, _why, rs in _by:
             notes.append(f'\u00b7 {len(rs)} ({_names(rs)}): {_why}')
+    # A CORNER NOBODY MEASURED IS SAID (audit, 27 Sep 2026): `_clearances` records it where the
+    # face states no width, and a sheet silent about it would read as a corner found clear
+    _uncornered = [r for r in EL.opening_rects(elev, face)["rects"]
+                   if r.get("sidelights_corner_unjudged") or r.get("shutters_corner_unjudged")]
+    if _uncornered:
+        notes.append(f'CORNER CLEARANCE NOT JUDGED ON {len(_uncornered)} OPENING(S) \u2014 THE FACE '
+                     f'STATES NO WIDTH')
     if any("garage" in str(r.get("type") or "").lower() for r in _doors):
         notes.append('GARAGE DOOR DRAWN AS ITS OPENING \u2014 NO RECORD STATES ITS FACE')
         # AND WHERE THE GARAGE DOOR IS THE ONE THE COMPOSITION DRESSES, THE DOORCASE IS NOT

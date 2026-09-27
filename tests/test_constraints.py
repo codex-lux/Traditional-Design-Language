@@ -42,7 +42,7 @@ def test_migrated_constraint_conforms_to_schema():
     assert proc.returncode == 0 and "OK" in proc.stdout, proc.stdout + proc.stderr
 
 
-def test_full_corpus_migration_counts(check_constraints_module, capsys):
+def test_full_corpus_migration_counts(check_constraints_module, capsys, monkeypatch):
     """UPDATED 23 Aug 2026 when the remaining 25 families were migrated in one
     batched pass: the corpus-wide total is now 660 migrated constraints across
     132 nodes (every style/variant that carries a `constraints` array at all),
@@ -58,7 +58,9 @@ def test_full_corpus_migration_counts(check_constraints_module, capsys):
     means a node's constraint count changed, or the corpus fell out of sync
     with what check_constraints.py reports -- either is worth noticing, not
     silently passing."""
-    sys.argv = ["check_constraints.py"]
+    # restored when the test ends, as its siblings restore it (audit, 27 Sep 2026; auditor D,
+    # F15): this assigned `sys.argv` for the rest of the session
+    monkeypatch.setattr(sys, "argv", ["check_constraints.py"])
     check_constraints_module.main()
     out = capsys.readouterr().out
     assert "660 migrated constraint(s) across 132 node(s)" in out

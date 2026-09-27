@@ -19,7 +19,7 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**223 questions, of which 127 are open.** A question is OPEN while
+**224 questions, of which 127 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
@@ -72,6 +72,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-findings-ordinal-is-not-an-identity** | OPEN | [a finding's id moves when an unrelated sibling clears](open-questions/oq-a-findings-ordinal-is-not-an-identity.md) |
 | **oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group** | OPEN | [38 items name a count and nothing says what the rectangle means](open-questions/oq-a-furniture-footprint-is-sometimes-one-and-sometimes-the-group.md) |
 | **oq/a-kit-binding-propagates-to-descendants-nobody-read** | OPEN | [binding a slot on one node states it for every node under it, and nothing compares the result against those nodes' own records](open-questions/oq-a-kit-binding-propagates-to-descendants-nobody-read.md) |
+| **oq/a-leaf-refused-for-a-neighbour-that-is-itself-refused** | OPEN | [232 of 255 leaved windows lose their shutters, and 82 of them only to leaves that are not drawn](open-questions/oq-a-leaf-refused-for-a-neighbour-that-is-itself-refused.md) |
 | **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
 | **oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants** | OPEN | [a Georgian portico's exception never reaches a Tidewater Georgian house](open-questions/oq-a-licence-matches-the-style-id-exactly-and-never-its-descendants.md) |
 | **oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count** | OPEN | [does a physical fact outrank a diagram's floor?](open-questions/oq-a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count.md) |
@@ -122,7 +123,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-composers-footprint-is-not-the-placed-one** | OPEN | [two derivations of one house's width, and the card publishes the one nobody builds](open-questions/oq-the-composers-footprint-is-not-the-placed-one.md) |
 | **oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced** | OPEN | [the floor is derived, and enforcing it would propagate a broken licence](open-questions/oq-the-depth-a-roof-needs-is-known-and-cannot-be-enforced.md) |
 | **oq/the-divergence-mark-is-in-neither-face-the-sheet-names** | OPEN | [one character, and the sheet cannot supply it](open-questions/oq-the-divergence-mark-is-in-neither-face-the-sheet-names.md) |
-| **oq/the-dxf-draws-its-own-windows** | OPEN | [a downloaded DXF is a different drawing of the same house, today](open-questions/oq-the-dxf-draws-its-own-windows.md) |
 | **oq/the-elevation-draws-the-front-door-where-the-composition-wants-it** | OPEN | [and the placement puts it somewhere else](open-questions/oq-the-elevation-draws-the-front-door-where-the-composition-wants-it.md) |
 | **oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings** | OPEN | [the wing has no front](open-questions/oq-the-elevation-draws-the-main-blocks-face-and-not-the-buildings.md) |
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |
@@ -160,7 +160,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-end-of-a-moulding-its-projection-names** | OPEN | [25 curves the record gives no run, for two different reasons](open-questions/oq-which-end-of-a-moulding-its-projection-names.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 96
+## Settled — 97
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -251,6 +251,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/register-is-not-style** | RULED 1 Sep 2026 | [folk and polite are not two styles, and the corpus has nowhere to say so](open-questions/oq-register-is-not-style.md) |
 | **oq/the-candidate-score-cannot-see-a-massing-element** | RULED 5 Sep 2026 | [the composer ranks the better house lower](open-questions/oq-the-candidate-score-cannot-see-a-massing-element.md) |
 | **oq/the-coverage-floor-is-an-exact-cover-per-element** | CLOSED — answered by measurement in WP-11.13, and not by choosing a number (7 September 2026) | [0.97 of each box, and the boxes have no slack](open-questions/oq-the-coverage-floor-is-an-exact-cover-per-element.md) |
+| **oq/the-dxf-draws-its-own-windows** | CLOSED 27 Sep 2026 | [a downloaded DXF is a different drawing of the same house, today](open-questions/oq-the-dxf-draws-its-own-windows.md) |
 | **oq/the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so** | CLOSED 17 Sep 2026 | [the search charges 100 points and the critic is silent](open-questions/oq-the-entrance-porch-can-be-drawn-on-the-back-and-no-layer-says-so.md) |
 | **oq/the-facade-is-a-result-not-an-input** | RULED 4 Sep 2026 | [the bay rhythm follows the plan's organising move, and one hard test is inverted by saying so](open-questions/oq-the-facade-is-a-result-not-an-input.md) |
 | **oq/the-frozen-fixture-is-regenerated-by-solving** | CLOSED 5 September 2026 (WP-11.8) — keep `auto`, correct the README | [the contract fixture's own README says why that cannot work, and its generator does it anyway](open-questions/oq-the-frozen-fixture-is-regenerated-by-solving.md) |

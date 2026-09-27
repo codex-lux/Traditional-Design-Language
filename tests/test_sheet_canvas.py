@@ -335,7 +335,6 @@ def test_no_two_lines_of_the_margin_are_printed_through_one_another(tmp_path):
     checked = 0
     for name in _plans():
         svg = _sheet(name, tmp_path)
-        lines = sorted(float(y) for y in re.findall(r'<text class="lb" x="[\d.]+" y="([\d.]+)"(?: style="[^"]*")?>', svg))
         head = re.search(r'y="([\d.]+)"[^>]*>WHAT THE RECORD ASKED FOR', svg)
         legend = re.search(r'y="([\d.]+)">A CUT OFF THE BAY LINE', svg)
         if head and legend:
@@ -343,7 +342,29 @@ def test_no_two_lines_of_the_margin_are_printed_through_one_another(tmp_path):
             gap = float(head.group(1)) - float(legend.group(1))
             assert gap >= 12.0, "%s: the record table's heading stands %.1f px under the △'s definition" % (name, gap)
         top = float(re.search(r'data-plate-top="([-\d.]+)"', svg).group(1))
-        margin = [y for y in lines if y > top]
-        for a, b in zip(margin, margin[1:]):
-            assert b - a >= 12.0 or b == a, "%s: two margin lines %.1f px apart at y %.1f" % (name, b - a, a)
+        # EVERY LINE UNDER THE PLATES, THE RIGHT-ALIGNED ONES TOO, AND BY X AS WELL AS Y (audit,
+        # 27 Sep 2026; auditor D, F13a). The selector above required `(?: style=...)?>` straight
+        # after y, so a line carrying `text-anchor="end"` -- NORTH IS UP, on every sheet -- was
+        # never in the population; and the check was y alone with `or b == a`, which could not
+        # tell two lines printed through one another from a left and a right line sharing a
+        # baseline. Two lines conflict when they are closer than 12 px AND their extents, at the
+        # renderer's own advance, overlap.
+        adv = RP.LB_ADVANCE_PX
+        margin = []
+        for m in re.finditer(r'<text class="lb"([^>]*)>([^<]*)</text>', svg):
+            at = dict(re.findall(r'([a-z-]+)="([^"]*)"', m.group(1)))
+            y = float(at["y"])
+            if y <= top:
+                continue
+            x, w = float(at["x"]), len(m.group(2)) * adv
+            anchor = at.get("text-anchor", "start")
+            x0 = x - w if anchor == "end" else x - w / 2 if anchor == "middle" else x
+            margin.append((y, x0, x0 + w, m.group(2)))
+        assert any(t == "NORTH IS UP" for _y, _a, _b, t in margin), (
+            "%s: the premise: the right-aligned margin line is in the population" % name)
+        for i, (ya, a0, a1, ta) in enumerate(margin):
+            for yb, b0, b1, tb in margin[i + 1:]:
+                if abs(yb - ya) < 12.0:
+                    assert a1 <= b0 or b1 <= a0, "%s: %r and %r print through one another (%.1f px apart)" % (
+                        name, ta[:40], tb[:40], abs(yb - ya))
     assert checked, "premise: some shipped sheet draws both the △'s definition and the table"

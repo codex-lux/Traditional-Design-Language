@@ -31,7 +31,11 @@ from __future__ import annotations
 STOREY_CEILING_FRACTION = 1.0 - 1.25 / 12.0
 
 
-_RISER_DIVISOR = None
+# KEYED ON THE TREE IT WAS READ FROM (audit, 27 Sep 2026; auditor D, F14). This was one value,
+# read on the first call and returned to every later one whatever `root` it was handed, so a
+# caller naming a second tree got the first tree's divisor. Its one caller that passes `root`
+# was safe only because it loads a private copy of this module.
+_RISER_DIVISOR = {}
 
 
 def riser_divisor_in(root=None):
@@ -44,10 +48,9 @@ def riser_divisor_in(root=None):
     REFUSES on any shape it does not recognise, because a divisor silently defaulting to a
     stale number is the failure this replaces.
     """
-    global _RISER_DIVISOR
-    if _RISER_DIVISOR is None:
-        import json, os, re
-        here = root or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    import json, os, re
+    here = os.path.realpath(root or os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    if here not in _RISER_DIVISOR:
         pack = json.load(open(os.path.join(here, "proportions", "modules",
                                            "storey-graduation.json"), encoding="utf-8"))
         rule = next((r for r in pack.get("derived_rules", [])
@@ -61,8 +64,8 @@ def riser_divisor_in(root=None):
                              "this reader does not recognise; it expects "
                              "'ceil(module / <number>)'. Update build/storeys.py in the same "
                              "commit as the pack." % rule.get("expression"))
-        _RISER_DIVISOR = float(m.group(1))
-    return _RISER_DIVISOR
+        _RISER_DIVISOR[here] = float(m.group(1))
+    return _RISER_DIVISOR[here]
 
 
 def storey_heights(plan):

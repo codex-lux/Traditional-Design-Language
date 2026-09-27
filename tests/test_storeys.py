@@ -172,3 +172,22 @@ def test_structure_still_exposes_the_derivation_under_its_old_name():
     plan = json.loads((ROOT / "plans" / "tidewater-georgian-careful.json").read_text())
     assert STRUCT.storey_heights(plan) == ST.storey_heights(plan)
     assert STRUCT.STOREY_CEILING_FRACTION == ST.STOREY_CEILING_FRACTION
+
+
+def test_the_riser_divisor_is_read_from_the_tree_it_is_asked_about(tmp_path):
+    """AUDIT, 27 SEP 2026 (auditor D, F14). The divisor was cached as one value on the first call
+    and returned to every later one whatever `root` it was handed. A second tree, whose pack states
+    a different divisor, must get its own -- and the corpus's own must come back after it.
+    Written under `tmp_path`: nothing here writes inside the repository."""
+    src = ROOT / "proportions" / "modules" / "storey-graduation.json"
+    pack = json.loads(src.read_text(encoding="utf-8"))
+    rule = next(r for r in pack["derived_rules"] if r.get("target_slot") == "stair_type")
+    rule["expression"] = "ceil(module / 7.0)"
+    dst = tmp_path / "proportions" / "modules"
+    dst.mkdir(parents=True)
+    (dst / "storey-graduation.json").write_text(json.dumps(pack), encoding="utf-8")
+    own = ST.riser_divisor_in()
+    assert own != 7.0, "the premise: the corpus's own divisor is not the planted one"
+    assert ST.riser_divisor_in(root=str(tmp_path)) == 7.0
+    assert ST.riser_divisor_in() == own
+    assert ST.riser_divisor_in(root=str(tmp_path)) == 7.0

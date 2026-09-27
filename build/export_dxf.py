@@ -310,16 +310,21 @@ def export_plan_dxf(plan, path, parti=None, candidates=250, solved=None):
     # walls.
     bm = (fp.get("bay_module_ft") or 0) * IN
     grid_layer = _layer(doc, "TDL-GRID", color=8, linetype="DASHED")
+    # THE NOTES UNDER THE PLAN, SET ONE BELOW ANOTHER (audit, 27 Sep 2026). Each was written at
+    # its own fixed multiple of TITLE_H -- 2.5, 3 and 3.5 -- which is 7 in apart for 8 in text,
+    # so any two printed through one another.
+    below = []
     if bm:
         b = bm
         while b < W - 0.1:
             msp.add_line((b, 0), (b, H), dxfattribs={"layer": grid_layer})
             b += bm
     else:
-        _text(msp, title_layer, DISC.no_bay_module(DISC.NO_BAY_GRID), 0, -2.5 * TITLE_H, h=TEXT_H)
+        below.append(DISC.no_bay_module(DISC.NO_BAY_GRID))
 
     levels = [lv for lv in solved["levels"] if any("geometry" in r for r in lv["rooms"])]
     doors_not_drawn = []
+    windows_not_drawn = []
     for lv in levels:
         n = lv.get("index", 0)
         wall_layer = _layer(doc, f"TDL-L{n}-WALL", color=7)
@@ -330,6 +335,7 @@ def export_plan_dxf(plan, path, parti=None, candidates=250, solved=None):
 
         msp.add_lwpolyline([(0, 0), (W, 0), (W, H), (0, H)], close=True,
                            dxfattribs={"layer": wall_layer})
+        rooms_by_id_all = {r["id"]: r for r in lv["rooms"]}
 
         for seq, r in enumerate(lv["rooms"]):
             g = r.get("geometry")
@@ -349,34 +355,6 @@ def export_plan_dxf(plan, path, parti=None, candidates=250, solved=None):
             _text(msp, anno_layer, f"{g['width_ft']} x {g['depth_ft']} FT - {g['area_sf']} SF",
                   x + w / 2 - 40, y + h / 2 - TEXT_H - 4, h=TEXT_H * 0.75)
 
-            # windows: true opening width (the SVG shrinks to 0.9x for legibility;
-            # a measured drawing does not), evenly spaced by the render convention
-            Wft, Hft = W / IN, H / IN
-            for wi, win in enumerate(r.get("windows") or []):
-                wall = win.get("wall")
-                cnt = win.get("count") or 1
-                ww = (win.get("width_ft") or 3) * IN
-                for k in range(cnt):
-                    t = (k + 1) / (cnt + 1)
-                    line = None
-                    if wall == "S" and g["y_ft"] <= 0.6:
-                        cx = x + w * t
-                        line = msp.add_line((cx - ww / 2, 0), (cx + ww / 2, 0),
-                                            dxfattribs={"layer": win_layer})
-                    elif wall == "N" and g["y_ft"] + g["depth_ft"] >= Hft - 0.6:
-                        cx = x + w * t
-                        line = msp.add_line((cx - ww / 2, H), (cx + ww / 2, H),
-                                            dxfattribs={"layer": win_layer})
-                    elif wall == "W" and g["x_ft"] <= 0.6:
-                        cy = y + h * t
-                        line = msp.add_line((0, cy - ww / 2), (0, cy + ww / 2),
-                                            dxfattribs={"layer": win_layer})
-                    elif wall == "E" and g["x_ft"] + g["width_ft"] >= Wft - 0.6:
-                        cy = y + h * t
-                        line = msp.add_line((W, cy - ww / 2), (W, cy + ww / 2),
-                                            dxfattribs={"layer": win_layer})
-                    if line is not None:
-                        _xdata(line, f"TDL::window::L{n}::{r['id']}::{wi}::{k+1}/{cnt}")
 
         # Interior doors -- ONE derivation, WP-13.2. Until Phase 13 this loop re-derived each
         # door from `RP._shared` and drew ONE quarter-circle per pair, `add_arc((px - dw, py),
@@ -395,6 +373,54 @@ def export_plan_dxf(plan, path, parti=None, candidates=250, solved=None):
         # the leaf and its jambs) is `required_wall_ft` inside the derivation.
         RP = _mod("render_plan", f"{ROOT}/build/render_plan.py")
         op = RP.openings_of_level(solved, lv, n)     # the sheet's own derivation, one spelling
+
+        # WINDOWS: THE SHEET'S OWN, WHERE THE PLACEMENT SEATS THEM (audit, 27 Sep 2026; auditor
+        # D, F8; `oq/the-dxf-draws-its-own-windows`, closed). This loop spaced every declared unit
+        # evenly along its room's edge (`t = (k+1)/(cnt+1)`) on the FOOTPRINT's face and never
+        # read the placement, so the download drew windows the sheet refuses and moved the ones it
+        # draws: 5 of the 12 drawable reference plans differed in count alone. It draws exactly
+        # the windows `derive_openings` gives the sheet, at the sheet's `at_ft` along the wall and
+        # on the room's own face (`edge_ft`), and looks up nothing but each unit's IDENTITY in the
+        # record -- which window of the room, which unit of its count -- because the XDATA carries
+        # that and `import_dxf` holds the drawing to it. A unit the sheet does not draw is said,
+        # with the record's own reason, never drawn somewhere plausible.
+        drawn_units = set()
+        for wd in op["windows"]:
+            rm = rooms_by_id_all[wd["room"]]
+            wins = rm.get("windows") or []
+            hit = None
+            for wi, win in enumerate(wins):
+                if win.get("wall") != wd["wall"]:
+                    continue
+                pos = win.get("positions_ft") or []
+                for k in range(win.get("count") or 1):
+                    if (rm["id"], wi, k) in drawn_units:
+                        continue
+                    if (k < len(pos) and abs(float(pos[k]) - wd["at_ft"]) < 1e-3) or not pos:
+                        hit = (wi, k)
+                        break
+                if hit:
+                    break
+            if hit is None:     # the sheet draws only from records, so this cannot happen
+                raise RuntimeError(f"derive_openings drew a {wd['wall']} window in {wd['room']} at "
+                                   f"{wd['at_ft']} ft that no declared unit accounts for")
+            wi, k = hit
+            drawn_units.add((rm["id"], wi, k))
+            c, e, ww = wd["at_ft"] * IN, wd["edge_ft"] * IN, wd["width_ft"] * IN
+            ends = ((c - ww / 2, e), (c + ww / 2, e)) if wd["wall"] in ("S", "N") \
+                else ((e, c - ww / 2), (e, c + ww / 2))
+            line = msp.add_line(*ends, dxfattribs={"layer": win_layer})
+            _xdata(line, f"TDL::window::L{n}::{rm['id']}::{wi}::{k+1}/{wins[wi].get('count') or 1}")
+        for rm in lv["rooms"]:
+            if not rm.get("geometry"):
+                continue
+            for wi, win in enumerate(rm.get("windows") or []):
+                cnt = win.get("count") or 1
+                for k in range(cnt):
+                    if (rm["id"], wi, k) not in drawn_units:
+                        why = ((win.get("unplaced") or {}).get("reason")
+                               or "the placement puts this room on no such boundary wall")
+                        windows_not_drawn.append(f"L{n} {rm['id']} window {wi} unit {k+1}/{cnt}: {why}")
         for u in op["undrawable"]:
             if u["to"] == "exterior":
                 # This exporter has never drawn an exterior door, drawable or not (`to ==
@@ -451,15 +477,21 @@ def export_plan_dxf(plan, path, parti=None, candidates=250, solved=None):
                 msp.add_line((hx, hy), tip, dxfattribs={"layer": door_layer})
 
     if doors_not_drawn:
-        _text(msp, _layer(doc, "TDL-TITLE", color=7),
-              f"{len(doors_not_drawn)} DECLARED DOOR(S) WITHOUT A DRAWABLE SHARED WALL — "
-              f"IN THE RECORD, NOT THE LINEWORK", 0, -3 * TITLE_H, h=TEXT_H)
+        below.append(f"{len(doors_not_drawn)} DECLARED DOOR(S) WITHOUT A DRAWABLE SHARED WALL — "
+                     f"IN THE RECORD, NOT THE LINEWORK")
+    if windows_not_drawn:
+        below.append(f"{len(windows_not_drawn)} DECLARED WINDOW UNIT(S) THE PLACEMENT DID NOT SEAT — "
+                     f"IN THE RECORD, NOT THE LINEWORK")
+    for i, note in enumerate(below):
+        _text(msp, title_layer, note, 0, -2.5 * TITLE_H - i * 1.5 * TEXT_H, h=TEXT_H)
     doc.saveas(path)
     fpr = solved.get("footprint", {})
     out = {"path": path, "sheets": "plan", "levels": len(levels),
            "footprint_ft": [fpr.get("width_ft"), fpr.get("depth_ft")]}
     if doors_not_drawn:
         out["doors_not_drawn"] = doors_not_drawn
+    if windows_not_drawn:
+        out["windows_not_drawn"] = windows_not_drawn
     return out
 
 
@@ -598,7 +630,11 @@ def export_elevation_dxf(elev, path, face=None):
     # frieze + cornice band, at the projection the record actually states rather than a
     # hardcoded six inches either side
     cornice = elev["eave_cornice"]
-    band_proj = cornice.get("envelope_projection_in") or cornice.get("cornice_projection_in") or 6.0
+    # ONE READING (audit, 27 Sep 2026): this took `or 6.0`, so a stated 0.0 became six inches
+    # and an absent figure an invented one; the SVG took 0 in silence. The band is drawn flush
+    # where no record states it, and the file says so.
+    band_proj, band_why = EL.cornice_band_projection_in(cornice)
+    band_proj = band_proj or 0.0
     msp.add_lwpolyline([(-band_proj, top_of_wall), (span + band_proj, top_of_wall),
                         (span + band_proj, true_eave), (-band_proj, true_eave)],
                        close=True, dxfattribs={"layer": cor})
@@ -754,6 +790,8 @@ def export_elevation_dxf(elev, path, face=None):
                      f"{front['count']} BAYS - {m.get('form','')} {pitch} - "
                      f"CORNICE {cornice['cornice_height_in']} IN ({cornice['member_count']} MEMBERS)",
           0, -4 * TEXT_H)
+    if band_why:
+        _text(msp, anno, "CORNICE BAND DRAWN FLUSH WITH THE WALL - " + band_why.upper(), 0, -5.5 * TEXT_H)
     doc.saveas(path)
     return {"path": path, "sheets": f"elevation-{face}"}
 

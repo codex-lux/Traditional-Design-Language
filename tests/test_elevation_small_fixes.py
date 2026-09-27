@@ -186,3 +186,53 @@ def test_the_datums_words_follow_the_table_when_it_mirrors_a_face(monkeypatch):
     monkeypatch.setattr(EL, "FACE_MIRRORED", {f: True for f in EL.FACES})
     assert EL.face_u_words() == ("u = clear span + t - along on S and N and E and W "
                                  "(`elevation.face_u_ft`)"), EL.face_u_words()
+
+
+def test_the_cornice_projection_has_one_reading_that_keeps_a_zero_and_refuses_an_absence():
+    """AUDIT, 27 SEP 2026 (auditor D, F10). The SVG read `envelope or cornice` and drew an absent
+    figure as 0 in silence; the DXF read the same pair `or 6.0`, so a STATED 0.0 became six inches
+    in the CAD file. One reading now, and it is the function both surfaces call."""
+    EL = _m("elevation")
+    assert EL.cornice_band_projection_in({"envelope_projection_in": 10.525}) == (10.525, None)
+    assert EL.cornice_band_projection_in({"envelope_projection_in": 0.0,
+                                          "cornice_projection_in": 9.0}) == (0.0, None)
+    assert EL.cornice_band_projection_in({"cornice_projection_in": 9.0}) == (9.0, None)
+    got, why = EL.cornice_band_projection_in({})
+    assert got is None and "no record states" in why
+
+
+def test_both_surfaces_draw_the_band_where_the_one_reading_puts_it(placed, tmp_path):
+    """DRIVEN: every style the elevation draws states the projection (10.525 in on all 41), so the
+    absent and the zero cases are made by hand, beside the stated one as the control. The SVG
+    band's width and the DXF band's west edge are read back from the ink and the linework."""
+    import re
+    ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+    EX, RE = _m("export_dxf"), _m("render_elevation")
+    base = _elev(placed)
+    stated = base["eave_cornice"].get("envelope_projection_in") or base["eave_cornice"].get(
+        "cornice_projection_in")
+    assert stated and stated > 0, "the premise: the shipped record states the projection"
+    got = {}
+    for tag, patch in (("stated", {}), ("zero", {"envelope_projection_in": 0.0}),
+                       ("absent", {"envelope_projection_in": None, "cornice_projection_in": None})):
+        el = copy.deepcopy(base)
+        el["eave_cornice"].update(patch)
+        svg_path = str(tmp_path / f"{tag}.svg")
+        RE.render_elevation(el, svg_path, face="S")
+        svg = open(svg_path, encoding="utf-8").read()
+        band_w = float(re.search(r'<rect class="bd w-prof" x="[-\d.]+" y="[-\d.]+" width="([\d.]+)"', svg).group(1))
+        dxf_path = str(tmp_path / f"{tag}.dxf")
+        res = EX.export_elevation_dxf(el, dxf_path, face="S")
+        assert "error" not in res, res
+        msp = ezdxf.readfile(dxf_path).modelspace()
+        band = [e for e in msp if e.dxftype() == "LWPOLYLINE" and e.dxf.layer == "TDL-ELEV-CORNICE"]
+        assert len(band) == 1, ("the premise: one cornice band in the DXF", len(band))
+        west = min(p[0] for p in band[0].get_points())
+        texts = " ".join(e.dxf.text for e in msp if e.dxftype() == "TEXT")
+        got[tag] = (band_w, west, "CORNICE BAND DRAWN FLUSH" in svg, "CORNICE BAND DRAWN FLUSH" in texts)
+    scale = 24.0
+    assert abs(got["stated"][0] - got["zero"][0] - 2 * stated / 12.0 * scale) < 0.2, got
+    assert abs(got["stated"][1] + stated) < 1e-6 and got["zero"][1] == 0.0, got
+    assert got["absent"][:2] == got["zero"][:2], ("an absent figure is drawn flush, as a zero is", got)
+    assert got["stated"][2:] == (False, False) and got["zero"][2:] == (False, False), got
+    assert got["absent"][2:] == (True, True), ("an absent figure is SAID on both surfaces", got)

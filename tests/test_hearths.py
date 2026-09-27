@@ -678,3 +678,41 @@ class TestTheCriticAndThePlate:
                 "a fire the record states and the plate does not draw is not said on the plate")
         assert "Morris 1734, judgment" in svg, (
             "the plate must say the projection is a judgment, not a measurement")
+
+
+def test_an_opening_no_record_states_is_drawn_at_the_named_default_and_said(tmp_path):
+    """AUDIT, 27 SEP 2026 (auditor D, F11). The plate drew the opening at a literal `or 36` beside
+    a tooltip printing "? in opening". It reads `hearths.DEFAULT_OPENING_IN` now, and the tooltip
+    says the figure was not stated and whose default was drawn. DRIVEN, because every shipped
+    hearth states its width; the stated figure on the same fire is the control."""
+    import copy
+    import re
+    RP = modcache.load("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
+    saved = GEO._SOLVE_CACHE
+    GEO._SOLVE_CACHE = {}
+    try:
+        placed = GEO.solve(json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))),
+                           engine="heuristic")
+    finally:
+        GEO._SOLVE_CACHE = saved
+    scale = 13.0
+
+    def drawn(rec):
+        out = str(tmp_path / "p.svg")
+        RP.render(rec, out)
+        m = re.search(r'<title>Dining Room: fireplace([^<]*)</title></rect>\s*'
+                      r'<line x1="([-\d.]+)" y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"',
+                      open(out, encoding="utf-8").read())
+        assert m, "the premise: the dining room's breast and its opening are drawn"
+        x1, y1, x2, y2 = (float(v) for v in m.groups()[1:])
+        return m.group(1), ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+
+    dining = next(r for lv in placed["levels"] for r in lv["rooms"] if r["id"] == "dining")
+    stated = dining["hearth"][0]["width_in"]
+    said, length = drawn(placed)
+    assert f"{stated} in opening" in said and abs(length - stated / 12 * scale) < 0.2, (said, length)
+    unstated = copy.deepcopy(placed)
+    next(r for lv in unstated["levels"] for r in lv["rooms"] if r["id"] == "dining")["hearth"][0].pop("width_in")
+    said, length = drawn(unstated)
+    assert "opening not stated, drawn at 36 in (hearths.DEFAULT_OPENING_IN" in said, said
+    assert abs(length - HE.DEFAULT_OPENING_IN / 12 * scale) < 0.2, length

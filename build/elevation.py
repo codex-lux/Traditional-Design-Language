@@ -2105,6 +2105,21 @@ def _derive_measurements(elev):
 
 # ---------------------------------------------------------------- the opening rectangle
 
+
+def cornice_band_projection_in(cornice):
+    """THE ONE READING OF THE CORNICE BAND'S PROJECTION PAST THE WALL (audit, 27 Sep 2026; auditor
+    D, F10). The SVG read `envelope_projection_in or cornice_projection_in` and turned an absent
+    figure into 0 in silence; the DXF read the same pair `or 6.0`, so a STATED 0.0 -- a flush band
+    -- became six inches in the CAD file. Two readers, two defaults, and neither said which it had
+    taken. Returns `(inches, None)` with a stated zero kept, or `(None, reason)` where no record
+    states one; a surface then draws the band flush and SAYS so. Every style the elevation draws
+    states it today (10.525 in on all 41), so the refusal fires on nothing shipped."""
+    for key in ("envelope_projection_in", "cornice_projection_in"):
+        v = (cornice or {}).get(key)
+        if v is not None:
+            return float(v), None
+    return None, "no record states the cornice band's projection past the wall"
+
 def opening_rects(elev, face):
     """Every opening on one face, as a rectangle. THE ONE SPELLING of (x0, x1, sill, head).
 
@@ -2275,6 +2290,9 @@ def opening_rects(elev, face):
     return {"rects": rects, "refused": refused}
 
 
+CORNER_UNJUDGED = ("the face states no width, so whether this stands past its corner is not judged "
+                   "-- not a pass")
+
 def _clearances(rects, face_width_in=None):
     """WHAT ITS NEIGHBOURS LEAVE AN OPENING ROOM TO CARRY (WP-14.6), decided once, here, for the
     SVG, the DXF and the scene alike.
@@ -2330,6 +2348,11 @@ def _clearances(rects, face_width_in=None):
                                 f"sidelight need {cw + sw:.1f} in")
             if face_width_in and (a0 < -0.01 or a1 > face_width_in + 0.01):
                 hits.append(f"the {side} sidelight would stand past the corner of the face")
+            elif not face_width_in:
+                # UNJUDGED, NOT PASSED (audit, 27 Sep 2026; the second auditor's latent find):
+                # with no face width the corner test was skipped in silence and the pair read as
+                # clear of a corner nobody measured
+                r["sidelights_corner_unjudged"] = CORNER_UNJUDGED
         r["sidelights_drawn"] = not hits
         if hits:
             r["sidelights_refused"] = "; ".join(hits)
@@ -2369,6 +2392,8 @@ def _clearances(rects, face_width_in=None):
             if face_width_in and (a0 < -0.01 or a1 > face_width_in + 0.01):
                 refuse.setdefault(id(o), []).append("a leaf would hang past the corner of the face")
                 kinds.setdefault(id(o), set()).add("corner")
+            elif not face_width_in:
+                o["shutters_corner_unjudged"] = CORNER_UNJUDGED
     for o in rects:
         if id(o) in refuse:
             o["shutter_leaf_width_refused_in"] = o["shutter_leaf_width_in"]

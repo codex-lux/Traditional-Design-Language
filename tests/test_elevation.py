@@ -512,6 +512,13 @@ class TestTheHeadOfAnOpeningIsReadNotAsserted:
                                                                   render_elevation_module, tmp_path):
         elev = self._with(elevation_module, date=None)
         svg = open(render_elevation_module.render_elevation(elev, str(tmp_path / "u.svg"))).read()
+        # THE POSITIVE CONTROL, ON THE SAME SHEET CLASS AND IN THIS TEST (audit, 27 Sep 2026;
+        # auditor D, F13b): the same house with its date draws its judged heads as arches, so a
+        # renamed arch class turns this test red rather than making the negative half a pass.
+        # Its only control used to live in another file, and run alone this test stayed green.
+        dated = open(render_elevation_module.render_elevation(
+            self._with(elevation_module), str(tmp_path / "d.svg"))).read()
+        assert dated.count('class="arch') > 0, "the premise: the dated house draws its arches"
         assert 'class="arch' not in svg, "an unjudged head was drawn as a definite one"
         assert "WINDOW HEAD UNJUDGED" in svg
 

@@ -248,3 +248,48 @@ def test_a_sidelight_past_the_corner_is_refused_through_opening_rects(elevations
     got = [r for r in EL.opening_rects(_alone(el, face, p, 10.0), face)["rects"] if r["kind"] == "door"]
     assert got and got[0]["sidelights_drawn"] is False, got
     assert _corner_only(got[0]["sidelights_refused"], "left"), got[0]["sidelights_refused"]
+
+
+def test_a_corner_nobody_measured_is_unjudged_and_not_a_pass():
+    """AUDIT, 27 SEP 2026 (the second auditor's latent find). With no face width the corner test
+    was skipped in silence, so a leaf or a sidelight past the corner read as clear of it. The
+    same openings with a width are the control: there the corner refuses them."""
+    leaf, door = _win(5.0, "parlor"), _door(10.0)          # each past the left corner of any face
+    EL._clearances([leaf], 200.0)
+    EL._clearances([door], 400.0)
+    assert "corner" in leaf["shutters_refused_by"] and door["sidelights_drawn"] is False, (
+        "the premise: with a width, the corner refuses both")
+    assert "shutters_corner_unjudged" not in leaf and "sidelights_corner_unjudged" not in door
+    leaf, door = _win(5.0, "parlor"), _door(10.0)
+    EL._clearances([leaf], None)
+    EL._clearances([door], None)
+    assert leaf["shutters_corner_unjudged"] == EL.CORNER_UNJUDGED
+    assert door["sidelights_corner_unjudged"] == EL.CORNER_UNJUDGED
+    assert "not a pass" in EL.CORNER_UNJUDGED
+
+
+def test_the_sheet_says_a_corner_nobody_measured(tmp_path):
+    """The record's flag reaches the plate. DRIVEN: every shipped face states its width, so the
+    width is withdrawn by hand from one real elevation; the same face with its width is the
+    control and says nothing."""
+    import copy
+    import json
+    G, ST, RF = (modcache.load(n, os.path.join(ROOT, "build", n + ".py")) for n in ("geometry", "structure", "roof"))
+    RE = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
+    saved = G._SOLVE_CACHE
+    G._SOLVE_CACHE = {}
+    try:
+        p = G.solve(json.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json"))), engine="heuristic")
+    finally:
+        G._SOLVE_CACHE = saved
+    sec = ST.build_section(p, None, geometry_result=p)
+    el = EL.build_elevation(p, None, section=sec, roof=RF.build_roof(p, None, section=sec))
+    face = el["entrance_face"]
+    said = {}
+    for tag, width in (("measured", el["faces"][face]["outside_width_in"]), ("unmeasured", None)):
+        e = copy.deepcopy(el)
+        e["faces"][face]["outside_width_in"] = width
+        out = str(tmp_path / f"{tag}.svg")
+        RE.render_elevation(e, out, face=face)
+        said[tag] = "CORNER CLEARANCE NOT JUDGED ON" in open(out, encoding="utf-8").read()
+    assert said == {"measured": False, "unmeasured": True}, said
