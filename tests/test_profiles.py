@@ -284,6 +284,42 @@ class TestUnconstructedShapes:
         assert res["unconstructed"] == []
 
 
+class TestEveryMemberStaysInsideItsOwnHeight:
+    """A member's ink occupies the height its record states and no more. The scotia's circular
+    arcs did not: wherever its two fillets projected differently, the larger arc swept past its
+    quarter and dug into the fillet below -- 0.07 in at a 12 in column, in every base in the
+    corpus (WP-14.2). Found when the confidence marks were held to each member's own height,
+    not by any test of the construction, all of which asserted the curve's SHAPE."""
+
+    def test_no_members_curve_leaves_its_own_band(self):
+        out, n = [], 0
+        for pid in sorted(PE.PACKS):
+            if PE.PACKS[pid].get("kind") != "order-system":
+                continue
+            r = PE.resolve(pid)
+            g = PROF.pack_geometry(PE.dimension(r, 36.0), r.get("column"), r.get("projection_datum"))
+            for a in g["assemblies"]:
+                for f in a["faces"]:
+                    if f.get("tapered") or not f["segments"] or f["y1"] <= f["y0"]:
+                        continue
+                    n += 1
+                    _x0, lo, _x1, hi = PROF._extent((f["x_from"], f["y0"]), f["segments"])
+                    if lo < f["y0"] - 1e-6 or hi > f["y1"] + 1e-6:
+                        out.append(f"{pid}/{a['id']}.{f['id']}: {lo:.4f}..{hi:.4f} against "
+                                   f"{f['y0']:.4f}..{f['y1']:.4f}")
+        assert n > 500, n
+        assert not out, "\n  ".join(out[:8])
+
+    def test_the_smaller_side_of_a_scotia_is_still_the_quarter_circle_it_was(self):
+        """The fix changed the side that overshot and nothing else: where a fillet stands exactly
+        half the height outboard of the throat, the quarter-ellipse IS that quarter-circle."""
+        segs, _ = PROF.member_path("scotia", 4.0, 0.0, 3.0, 2.0)   # lower fillet projects more
+        upper = segs[1]
+        assert upper["rx"] == pytest.approx(upper["ry"]) == pytest.approx(1.0)
+        lower = segs[0]
+        assert lower["rx"] == pytest.approx(2.0) and lower["ry"] == pytest.approx(1.0)
+
+
 class TestACurveWithNoRunIsSaid:
     """A quarter or a cyma is a curve between two faces. Given one face twice it is a vertical
     line, and until WP-14.2 nothing said so: a cyma drawn that way looks exactly like a fascia.

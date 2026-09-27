@@ -452,7 +452,7 @@ class TestTheSurfacesSayIt:
         inks = [it for it in pl.ink.select("path")
                 if (it.style.get("fill") or "none") in ("none", "transparent")
                 and (it.style.get("stroke") or "none") != "none"
-                and "ghost" not in it.classes]
+                and not ({"ghost", "confidence", "envelope"} & set(it.classes))]
         assert inks, "no stroked outline found"
         crossing = []
         for it in inks:

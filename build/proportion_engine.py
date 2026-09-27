@@ -333,7 +333,11 @@ def dimension(pack, module_in=None, include=None):
                 # pitch is solid. Null stays null all the way to the renderer, which then draws
                 # the band solid and says the width was never published.
                 "width_in": (m["width_parts"] * part_in) if m.get("width_parts") else None,
-                "enrichment": m.get("enrichment"), "confidence": m.get("confidence", "high"),
+                # An UNSTATED confidence is not a high one (WP-14.2): it travels as None, the way
+                # an unpublished projection does, and every surface marks it. 0 of 733 members
+                # leave it unstated today, so this moves nothing -- it removes the flattering
+                # default before a record can reach it.
+                "enrichment": m.get("enrichment"), "confidence": m.get("confidence"),
                 "note": m.get("note"),
             })
             if not side: y += h
@@ -712,7 +716,7 @@ def main():
             flag = "" if abs(asm["height_in_stated"] - asm["height_in_summed"]) < 0.01 or not asm["sums_check"] else "  ** SUM MISMATCH"
             print(f"  {asm['id'].upper():<14} {asm['height_modules']:>7} M   {_fmt_in(asm['height_in_stated']):>10}{flag}")
             for m in asm["members"]:
-                cf = "" if m["confidence"] == "high" else f"  ({m['confidence']})"
+                cf = "" if m["confidence"] == "high" else f"  ({m['confidence'] or 'unstated'})"
                 rep = f"  x{m['count']}" if m.get("count") else ""
                 print(f"      {m['name'][:40]:<42}{m['height_parts']:>6}p {_fmt_in(m['height_in']):>9}  proj {_fmt_in(m['projection_in']):>8}  {m['profile']}{rep}{cf}")
         print(f"\n  TOTALS")

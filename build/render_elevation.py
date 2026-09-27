@@ -1045,6 +1045,12 @@ def render_elevation(elev, path, face=None, scale=24.0):
     if ghosts:
         s.append(f'<path class="ghost" d="{ghosts}" fill="none" stroke="{PAL["ink"]}" '
                  f'stroke-width="0.7" stroke-dasharray="3 2"/>')
+    # Confidence, marked as the workbench and the profile plates mark it (WP-14.2).
+    weak = [sp for sp in sil["spans"] if PROF.is_weak(sp.get("confidence")) and sp["y1"] > sp["y0"]]
+    for sp in weak:
+        s.append(f'<path class="confidence" data-member="{_esc(sp["id"])}" '
+                 f'd="{PROF.band_path(sp, isx, isy)}" fill="none" stroke="{PAL["ink3"]}" '
+                 f'stroke-width="0.8" stroke-dasharray="2 2"/>')
     envs = " ".join(e for e in (PROF.envelope_box(u["x0"], u["y0"], u["x1"], u["y1"], isx, isy)
                                 for u in sil["unconstructed"]) if e)
     if envs:
@@ -1107,6 +1113,8 @@ def render_elevation(elev, path, face=None, scale=24.0):
         # Never draw a shape this corpus has no construction for without saying which.
         cap.append(", ".join(sorted({u["profile"].upper() for u in sil["unconstructed"]}))
                    + " NOT CONSTRUCTED — DRAWN AS THE DASHED BOX THEIR HEIGHT AND PROJECTION BOUND")
+    if weak:
+        cap.append(f'{len(weak)} MEMBER(S) OUTLINED DASHED — CONFIDENCE MEDIUM, LOW OR UNSTATED')
     if sil["drawn_straight"]:
         # A cyma drawn as a vertical stroke looks exactly like a fascia (WP-14.2).
         cap.append(f'{len(sil["drawn_straight"])} CURVED MEMBER(S) DRAWN STRAIGHT — '

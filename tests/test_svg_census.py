@@ -168,6 +168,7 @@ class TestTheChecksCanDisagree:
         assert live[("P13", "vignola-ionic-capital-profile")] == "agrees"
         assert live[("P8", "vignola-corinthian-capital-profile")] == "agrees"
         assert live[("P11", "vignola-doric-capital-profile")] == "agrees"
+        assert live[("P10", "palladio-corinthian-cornice-profile")] == "agrees"
 
     def test_p5_sees_a_plate_drawn_at_a_scale_it_does_not_state(self, monkeypatch):
         got = _verdicts(monkeypatch, "P5", _planted(self.PLATE, self._scaled(1.1)))
@@ -229,6 +230,15 @@ class TestTheChecksCanDisagree:
             return svg.replace(fill.group(1), new_d, 1)
         got = _verdicts(monkeypatch, "P8", _planted(plate, change))
         assert got == ["disagrees"], got
+
+    def test_p10_sees_a_weak_member_left_unmarked_in_words_or_in_ink(self, monkeypatch):
+        """WP-14.2 marked all 65 plates, so P10 has no live disagreement; both halves are put back."""
+        import re
+        plate = "palladio-corinthian-cornice-profile"
+        no_words = _planted(plate, lambda s: re.sub(r", (?:low|medium) confidence", "", s))
+        assert _verdicts(monkeypatch, "P10", no_words) == ["disagrees"]
+        no_ink = _planted(plate, lambda s: re.sub(r'<path class="confidence"[^>]*/>', "", s))
+        assert _verdicts(monkeypatch, "P10", no_ink) == ["disagrees"]
 
     def test_p11_sees_a_curve_drawn_straight_and_not_said(self, monkeypatch):
         """WP-14.2 made the three Doric capitals say their cymatium is drawn straight, so P11 has

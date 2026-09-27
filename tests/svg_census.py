@@ -384,7 +384,8 @@ def p9():
 
 
 @check("P10", "profile-plates", "a member whose record confidence is not high is marked as such "
-       "on the plate", "plates holding a medium- or low-confidence member")
+       "on the plate -- in its own label, and by a dashed outline over its own height",
+       "plates holding a medium- or low-confidence member")
 def p10():
     out = []
     for a, g, pl, rec in _profile_assets():
@@ -393,14 +394,31 @@ def p10():
                 if (rec["raw"].get(m["id"], {}).get("confidence") or "unstated") != "high"]
         if not weak:
             continue
-        marked = len(re.findall(r"\b(?:LOW|MEDIUM) CONFIDENCE\b", pl.flat_text.upper()))
+        # an unstated confidence is marked as one (WP-14.2), so its word counts as a mark. The
+        # mark is the LABEL's ", <level> confidence" -- counting the bare phrase let the plate's
+        # own footer sentence, which explains the dashes, satisfy this check by itself.
+        marked = len(re.findall(r", (?:LOW|MEDIUM|UNSTATED) CONFIDENCE\b", pl.flat_text.upper()))
+        # THE INK AS WELL AS THE WORDS (WP-14.2): one dashed outline per weak member with height,
+        # read back through the frame and held to that member's own span up the stack.
+        outlined = set()
+        if pl.plate is not None:
+            for it in pl.ink.select("path"):
+                if "confidence" not in it.classes:
+                    continue
+                vs = [pl.model(p)[1] for p in it.points(n=4, lines=True)]
+                for m in weak:
+                    if abs(min(vs) - m["y_bottom_in"]) < 0.01 and abs(max(vs) - m["y_top_in"]) < 0.01:
+                        outlined.add(m["id"])
+        tall = [m for m in weak if m["y_top_in"] - m["y_bottom_in"] > 1e-6]
+        unmarked = sorted(m["id"] for m in tall if m["id"] not in outlined)
         # every weak member carries its mark in its own label, so the count must match
-        if marked >= len(weak):
+        if marked >= len(weak) and not unmarked:
             out.append(row("P10", a["id"], "agrees", "%d marked" % len(weak)))
         else:
             out.append(row("P10", a["id"], "disagrees",
-                           "%d of %d member(s) are medium or low confidence; %d marked"
-                           % (len(weak), len(rec["members"]), marked)))
+                           "%d of %d member(s) are medium or low confidence; %d marked in words; "
+                           "no dashed outline over %s" % (len(weak), len(rec["members"]), marked,
+                                                           unmarked[:4] or "none missing")))
     return out
 
 

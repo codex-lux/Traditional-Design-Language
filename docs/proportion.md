@@ -184,6 +184,21 @@ channel and fillet and no volute, and every surface had presented that section a
 test reads member names, never notes: the shaft's upper astragal note mentions the volute's eye, and
 a shaft owes no volute.
 
+**Confidence is marked on every drawing, as the workbench marks it** (WP-14.2). A member whose record
+is not a stated `high` gets a dashed outline over its own region, built from its own segments by
+`profiles.band_path`, never re-constructed. It is drawn in the bench's `--judge-unjudged`, and the
+member's label says its level. An unstated confidence travels as `None`, not the `"high"` that
+`dimension()` defaulted to, and it is marked too. The profile plates, the elevation's cornice inset
+and the DXF (as XDATA on the cornice profile) now carry it. Before, the orders page and the
+Proportions plate were the only surfaces that did.
+
+**A scotia stays inside its own height** (WP-14.2). Each half of the hollow is a quarter-ellipse
+centred level with the throat over its own fillet. It had been a circle through the throat and the
+fillet's edge. Wherever the two fillets projected differently, as in every base here, that circle
+swept past its quarter and dug into the fillet below: 0.07 in at a 12 in column. The fault was found
+by holding the new confidence marks to each member's height, not by any test of the construction.
+`tests/test_profiles.py` now holds every member's ink to its own band.
+
 **The paths are serialised in Python, in model space, and no consumer re-derives a curve** (OQ 83).
 `pack_geometry` emits `path` per pack and per face in MODEL inches (x out from the axis, y up); the
 order tool and the workbench plate apply an SVG `<g transform="… scale(k,-k)">`. A model-space path

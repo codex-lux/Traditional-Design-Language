@@ -170,7 +170,10 @@ def test_the_size_survives_when_a_label_has_to_be_cut():
     elided = [t for t in labels if "\u2026" in t]
     assert elided, "no label was long enough to be cut; this test proves nothing"
     for t in elided:
-        assert t.rstrip().endswith("\u2033"), \
+        # the dimension survives in the TAIL, which is never cut; since WP-14.2 a weak member's
+        # confidence follows it there, so the figure is asserted present rather than last
+        tail = t.split("\u2014", 1)[-1]
+        assert re.search(r"\d\.\d\d\u2033", tail), \
             "a cut label lost its dimension, which is the half that had to survive: %r" % t
         assert "\u2026" in t.split("\u2014")[0], \
             "the ellipsis is not in the name; something other than the name was cut: %r" % t

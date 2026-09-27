@@ -37,14 +37,15 @@ WHERE THE SHAPES COME FROM, and what is construction rather than measurement:
   * torus / astragal / bead          a half round standing PROUD: its height is its diameter and
                                      its recorded projection is the crown, so it springs from
                                      half its height inboard of that crown and returns there.
-  * scotia                           a hollow half the member's own height deep, in two arcs whose
-                                     centres sit LEVEL WITH THE THROAT, so the curve stands
-                                     vertical as it turns through its deepest point rather than
-                                     meeting itself in a beak. THIS ONE CARRIES A CONVENTION: no pack
-                                     states a scotia's depth, so the depth is taken as half the
-                                     height, which is what a half-round hollow means. It is a
-                                     drawing construction, not a measurement, and is said so here
-                                     rather than buried in a magic number.
+  * scotia                           a hollow half the member's own height deep, in two quarter-
+                                     ellipses whose centres sit LEVEL WITH THE THROAT, so the curve
+                                     stands vertical as it turns through its deepest point rather
+                                     than meeting itself in a beak, and each lies inside the
+                                     member's own height (WP-14.2). THIS ONE CARRIES A
+                                     CONVENTION: no pack states a scotia's depth, so the depth is
+                                     taken as half the height, which is what a half-round hollow
+                                     means. It is a drawing construction, not a measurement, and
+                                     is said so here rather than buried in a magic number.
   * fillet, listel, fascia, plinth,  a square step. A corona takes a drip ONLY where the member's
     corona, abacus, metope, flat,    own note asks for one (Gibbs: 'divide the projecting part in
     dentil, modillion, mutule,       two for the Drip') -- the note is read, never assumed.
@@ -210,6 +211,25 @@ def ghost_bracket(x, y0, y1, tick, sx=None, sy=None):
     pts = ((x + t, y0), (x, y0), (x, y1), (x + t, y1))
     return " ".join(("M" if i == 0 else "L") + " %.4f,%.4f" % (sx(u), sy(v))
                     for i, (u, v) in enumerate(pts))
+
+
+def band_path(span, sx=None, sy=None):
+    """One member's own region -- from its naked out to its drawn edge and back -- as a closed
+    path, for a mark laid over that member alone (a confidence mark, WP-14.2). Built from the
+    member's OWN segments in `silhouette()["spans"]`, never re-constructed, so the mark and the
+    ink cannot disagree about where the member is."""
+    sx = sx or (lambda v: v)
+    sy = sy or (lambda v: v)
+    nk, y0, y1 = span["naked"], span["y0"], span["y1"]
+    body = svg_path(span["segments"], sx, sy, start=(span["x_from"], y0))
+    return (f"M {sx(nk):.3f},{sy(y0):.3f} L" + body[1:] +
+            f" L {sx(nk):.3f},{sy(y1):.3f} Z")
+
+
+def is_weak(confidence):
+    """A confidence the drawing must mark: anything but a STATED high. An unstated one is not a
+    high one (WP-14.2), which is the projection's rule one field over."""
+    return confidence != "high"
 
 
 def envelope_box(x0, y0, x1, y1, sx=None, sy=None):
@@ -392,16 +412,21 @@ def member_path(profile, x_from, y0, x_face, y1, note=None):
         # and it was in all seventeen scotias in the corpus.
         # The depth is the convention named in the module docstring: half the member's own
         # height, because no pack states one.
+        #
+        # EACH HALF IS A QUARTER-ELLIPSE, CENTRED LEVEL WITH THE THROAT OVER ITS OWN FILLET
+        # (WP-14.2): vertical at the throat, flat where it meets the fillet, and inside its own
+        # height. It was a CIRCLE through the throat and the fillet's edge, which is a quarter only
+        # where the fillet stands exactly half the height outboard of the throat -- true of the
+        # smaller side and false of the other. Wherever the two fillets project differently (the
+        # lower one, in every base in the corpus) that circle swept past its own quarter and dug
+        # (2a - h)^2 / 8a below the scotia into the fillet it stands on: 0.07 in at a 12 in
+        # column, found when the confidence marks were read back against each member's own
+        # height. The quarter-ellipse is this module's own answer for unequal runs -- it is what
+        # every ovolo and cavetto here already is -- and on the smaller side it IS the circle.
         y_t = y0 + h / 2.0
         x_t = min(x_from, x_face) - h / 2.0
-        for (xa, ya) in ((x_from, y0), (x_face, y1)):
-            den = 2.0 * (x_t - xa)
-            cx = ((x_t * x_t - xa * xa - (ya - y_t) ** 2) / den) if abs(den) > _EPS else x_t + h
-            r = abs(cx - x_t)
-            if ya < y_t:
-                segs.append(_ell_arc(cx, y_t, r, r, (xa, ya), (x_t, y_t)))
-            else:
-                segs.append(_ell_arc(cx, y_t, r, r, (x_t, y_t), (xa, ya)))
+        segs.append(_ell_arc(x_from, y_t, x_from - x_t, h / 2.0, (x_from, y0), (x_t, y_t)))
+        segs.append(_ell_arc(x_face, y_t, x_face - x_t, h / 2.0, (x_t, y_t), (x_face, y1)))
         return segs, x_face
 
     if p == "bevel":
@@ -457,14 +482,14 @@ def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
     if not members:
         return {"start": (0.0, 0.0), "segments": [], "unconstructed": [], "unpublished": [],
                 "ghost_path": "", "ghost_tick": 0.0, "envelope_path": "",
-                "drawn_straight": [], "named_not_recorded": [], "notes": []}
+                "drawn_straight": [], "spans": [], "named_not_recorded": [], "notes": []}
     if naked_at is None:
         naked_at = 0.0
     nk = naked_at if callable(naked_at) else (lambda _y, _v=float(naked_at): _v)
 
     y_start = members[0]["y_bottom_in"]
     x_cur = nk(y_start)
-    out, unconstructed, unpublished, straight = [], [], [], []
+    out, unconstructed, unpublished, straight, spans = [], [], [], [], []
     relief = 0.0
     for m in members:
         y0, y1 = m["y_bottom_in"], m["y_top_in"]
@@ -473,12 +498,18 @@ def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
         if p is None or (from_axis and not p > 0):
             unpublished.append({"id": m.get("id"), "profile": m.get("profile"),
                                 "x": round(naked, 6), "y0": y0, "y1": y1})
-            out.extend(_ghost(naked, x_cur, y0, y1, m.get("id")))
+            gs = _ghost(naked, x_cur, y0, y1, m.get("id"))
+            spans.append({"id": m.get("id"), "naked": naked, "x_from": x_cur, "y0": y0, "y1": y1,
+                          "segments": gs, "confidence": m.get("confidence")})
+            out.extend(gs)
             x_cur = naked
             continue
         face = outer_face(naked, p, from_axis)
         relief = max(relief, face - naked)
+        x_from = x_cur
         segs, x_cur = member_path(m.get("profile"), x_cur, y0, face, y1, note=m.get("note"))
+        spans.append({"id": m.get("id"), "naked": naked, "x_from": x_from, "y0": y0, "y1": y1,
+                      "segments": segs, "confidence": m.get("confidence")})
         if any(s.get("unconstructed") for s in segs):
             unconstructed.append({"id": m.get("id"), "profile": (m.get("profile") or "").lower(),
                                   "x0": round(naked, 6), "x1": round(face, 6),
@@ -500,7 +531,7 @@ def silhouette(members, naked_at=None, from_axis=False, close=True, tick=None):
     return {"start": (round(x_cur if not out else nk(y_start), 6), round(y_start, 6)),
             "segments": out, "unconstructed": unconstructed, "unpublished": unpublished,
             "ghost_path": ghosts, "ghost_tick": tick, "envelope_path": envelopes,
-            "drawn_straight": straight,
+            "drawn_straight": straight, "spans": spans,
             "named_not_recorded": named_not_recorded(members), "notes": []}
 
 

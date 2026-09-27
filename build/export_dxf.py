@@ -599,8 +599,19 @@ def export_elevation_dxf(elev, path, face=None):
         sil = PROF.silhouette(members, naked_at=naked, from_axis=from_axis)
         ox, oy = span + 48.0, top_of_wall      # the detail stands clear of the elevation
         pts = PROF.dxf_points(sil["segments"], sil["start"])
-        msp.add_lwpolyline([(ox + (x - naked), oy + y, 0.0, 0.0, b) for x, y, b in pts],
-                           format="xyseb", close=True, dxfattribs={"layer": prof_layer})
+        poly = msp.add_lwpolyline([(ox + (x - naked), oy + y, 0.0, 0.0, b) for x, y, b in pts],
+                                  format="xyseb", close=True, dxfattribs={"layer": prof_layer})
+        # WHAT THE SHEET SAYS ABOUT EACH MEMBER, CARRIED WITH THE POLYLINE (WP-14.2): its
+        # confidence, whether its projection was published, and whether it was constructed or
+        # drawn straight. A CAD file holds the curve; without this it would hold the curve with
+        # the authority of a measured one, which is exactly what the sheet's dashes refuse.
+        straight = {u["id"] for u in sil["drawn_straight"]}
+        uncon = {u["id"] for u in sil["unconstructed"]}
+        _xdata(poly, "TDL::cornice-profile", {"members": [
+            {"id": m.get("id"), "profile": m.get("profile"), "height_in": m.get("height_in"),
+             "projection_in": m.get("projection_in"), "confidence": m.get("confidence"),
+             "unconstructed": m.get("id") in uncon, "drawn_straight": m.get("id") in straight}
+            for m in members]})
         _text(msp, anno, f"EAVE CORNICE PROFILE - {len(members)} MEMBERS, FULL SIZE",
               ox, oy - 14)
         _text(msp, anno,

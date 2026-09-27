@@ -49,6 +49,9 @@ OUTDIR = os.path.join(ROOT, "assets", "generated")
 
 # The elevation sheet's palette, so a detail plate and the sheet it details look like one set.
 PAL = {"ink": "#1b1a17", "ink3": "#6f6a60", "brass": "#b08d57", "paper": "#faf8f3",
+       # the workbench's own `--judge-unjudged`, which is `--ink-3`: one colour for "a person
+       # has not settled this", on the plate and on the bench alike (WP-14.2)
+       "judge": "#6f6a60",
        "rule": "#c9c2b4"}
 
 # THE PLATE TAKES THE DRAWING'S SHAPE, IT IS NOT A FIXED BOX THE DRAWING SITS INSIDE. A cornice
@@ -131,6 +134,16 @@ def _unconstructed_words(unconstructed):
             "BOUND, WITH NO SHAPE INSIDE IT: " + ", ".join(_named(unconstructed)))
 
 
+def _confidence_words(weak):
+    """What the dashed outline means, said once on the plate (WP-14.2). Each such member also
+    carries its confidence in its own label, which is what a reader holding one label reads."""
+    # Worded so that it cannot pass for a member's own mark: "<level> confidence" is what each
+    # label says, and census P10 counts labels -- this sentence once satisfied it alone.
+    return ("%d member(s) outlined dashed: their confidence is medium, low or unstated, the "
+            "authority's total being stated and the division among them apportioned or read from "
+            "a plate at low confidence." % weak)
+
+
 def _straight_words(straight):
     """A curve drawn as a line, said (WP-14.2): the record gives it the same face as the member
     below it, so it has no run to curve through. A cyma drawn as a vertical stroke looks exactly
@@ -151,7 +164,7 @@ def _not_recorded_words(n):
 
 
 def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, relief, unconstructed,
-                  published=True, n_unpublished=0, not_recorded=(), straight=()):
+                  published=True, n_unpublished=0, not_recorded=(), straight=(), n_weak=0):
     """What the plate says about itself. One function, because the height calculation and the
     drawing both read it and a second copy would let them disagree about how tall it is.
 
@@ -166,7 +179,8 @@ def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, reli
              "%s, assembly %s, at a %s\u2033 column. %d member(s), %.2f\u2033 high, %s." % (
                  pack.get("name") or pack_id, assembly_id, _inches(diameter_in), len(members),
                  height, _relief_words(relief, published)),
-             _count_words(len(members), n_unpublished)]
+             _count_words(len(members), n_unpublished)] + \
+        ([_confidence_words(n_weak)] if n_weak else [])
     owner = states_assembly(pack_id, assembly_id)
     if owner and owner != pack_id:
         src = PE.PACKS.get(owner) or {}
@@ -257,7 +271,8 @@ def render(pack_id, assembly_id, module_in=6.0):
     # and drawn with another.
     footer = _footer_lines(pack, pack_id, assembly_id, diameter_in, members, y1 - y0, relief,
                            unconstructed, published, len(ghost_ids),
-                           sil.get("named_not_recorded") or (), sil.get("drawn_straight") or ())
+                           sil.get("named_not_recorded") or (), sil.get("drawn_straight") or (),
+                           sum(1 for m in members if PROF.is_weak(m.get("confidence"))))
     for _ln in footer:
         _foot_rows += max(1, -(-len(_ln) // _foot_budget))
     H = int(pad * 2 + box_h + 34 + _foot_rows * 11)
@@ -310,6 +325,15 @@ def render(pack_id, assembly_id, module_in=6.0):
     if ghosts:
         s.append(f'<path class="ghost" d="{ghosts}" fill="none" stroke="{PAL["ink"]}" '
                  f'stroke-width=".7" stroke-dasharray="3 2"/>')
+    # CONFIDENCE, MARKED AS THE WORKBENCH MARKS IT (WP-14.2): a dashed outline over each member
+    # whose record is not a stated high, in the bench's own unjudged colour. It was shown on the
+    # orders page and the Proportions plate and on no committed plate, so a Palladio cornice
+    # apportioned member by member read with the authority of a measured one.
+    for sp in sil["spans"]:
+        if PROF.is_weak(sp.get("confidence")) and sp["y1"] > sp["y0"]:
+            s.append(f'<path class="confidence" data-member="{_esc(sp["id"])}" '
+                     f'd="{PROF.band_path(sp, sx, sy)}" fill="none" stroke="{PAL["judge"]}" '
+                     f'stroke-width=".8" stroke-dasharray="2 2"/>')
     envs = " ".join(e for e in (PROF.envelope_box(u["x0"], u["y0"], u["x1"], u["y1"], sx, sy)
                                 for u in unconstructed) if e)
     if envs:
@@ -345,7 +369,10 @@ def render(pack_id, assembly_id, module_in=6.0):
         # The size is the point of a detail plate, so it is never what gets cut: the NAME is
         # elided to fit and the figure always survives. A label that runs off the plate is a
         # dimension the millworker does not have. A ghost says so in its own label (WP-14.2).
-        tail = " — %s, %.2f\u2033%s" % (pf, m["height_in"], ", no projection" if ghost else "")
+        conf = m.get("confidence")
+        tail = " — %s, %.2f\u2033%s%s" % (
+            pf, m["height_in"], ", no projection" if ghost else "",
+            (", %s confidence" % (conf or "unstated")) if PROF.is_weak(conf) else "")
         budget = int((W - 8 - lx) / CH_W)
         room = budget - len(tail)
         if len(nm) > room:

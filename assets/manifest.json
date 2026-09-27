@@ -76924,9 +76924,9 @@
         "path": "assets/generated/benjamin-corinthian-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3602,
-        "sha256": "75e99685faafc89c265523e66fd1028f174633b3d56fb3c42001465499af7431"
+        "height": 841,
+        "bytes": 5446,
+        "sha256": "ee9963a1cec05aab1662fcc480c7701f55e89987f0e203c1f52e61a349623da4"
       },
       "status": "sourced",
       "priority": "high",
@@ -76967,9 +76967,9 @@
         "path": "assets/generated/benjamin-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 841,
-        "bytes": 4016,
-        "sha256": "d1f99c214811ddf32da07b41cfaadc94e90c4dcf0b3c5ec0cec0532414a07c60"
+        "height": 863,
+        "bytes": 5001,
+        "sha256": "b74320557687616bdbd324ca86e5a1a0d2cf83c143f6fdc8d4865e022d13a898"
       },
       "status": "sourced",
       "priority": "high",
@@ -77010,9 +77010,9 @@
         "path": "assets/generated/benjamin-corinthian-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 502,
-        "bytes": 5231,
-        "sha256": "88b69c236e933e37a11f8ca313b0e87951ffb0030fb79dc67ee38f51d6ed74d2"
+        "height": 524,
+        "bytes": 7737,
+        "sha256": "d59e2ac1f5f7ac9a95ce4e935f0affc575388e9cf90b2a3908f05dccddc24dfc"
       },
       "status": "sourced",
       "priority": "high",
@@ -77053,9 +77053,9 @@
         "path": "assets/generated/benjamin-doric-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 2871,
-        "sha256": "460fef86cf547741070820aba0352618617d9abce5077fff520ce8c331741c49"
+        "height": 841,
+        "bytes": 3822,
+        "sha256": "037acd06f946eecc5143aeef3a371c9d91e87e9b2c93199fe66f4017990318e9"
       },
       "status": "sourced",
       "priority": "high",
@@ -77096,9 +77096,9 @@
         "path": "assets/generated/benjamin-doric-entablature-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 2705,
-        "sha256": "255f78482eb1215e6a412f3997230b5d46df001adcb483d7eea18d84157983b8"
+        "height": 841,
+        "bytes": 3430,
+        "sha256": "97de82d5ebf92fee02cb53ce6eb4d670688ad6f942712e9f950cbe5964f9d617"
       },
       "status": "sourced",
       "priority": "high",
@@ -77139,9 +77139,9 @@
         "path": "assets/generated/benjamin-ionic-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3517,
-        "sha256": "a62b210b1a731ae447f69f4d095f75ac7907ec27c3bef4b11a3b72eb3dc95ff1"
+        "height": 841,
+        "bytes": 5100,
+        "sha256": "6fdd7d8b11a235049518a1e87bcab09bd0b62b00de53ed20a65300bd0a4302d9"
       },
       "status": "sourced",
       "priority": "high",
@@ -77225,9 +77225,9 @@
         "path": "assets/generated/benjamin-ionic-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 524,
-        "bytes": 4435,
-        "sha256": "bb3b770089c03da356b3b3e52e64069f83f80b81be2928f96bc07a04a9cf903f"
+        "height": 546,
+        "bytes": 6688,
+        "sha256": "c8a1871e673f0cc99d71a4c7b0ca8a8526065066419e1ccc1e84782cbc329433"
       },
       "status": "sourced",
       "priority": "high",
@@ -77311,9 +77311,9 @@
         "path": "assets/generated/benjamin-tuscan-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3043,
-        "sha256": "3d9224c48590c703acb2a241e1894067e3d4d4570135037da830148031a664e2"
+        "height": 841,
+        "bytes": 4233,
+        "sha256": "5ae0fc0273e9a502936b365e764721c50b8bf60a537d8e48b1714c3fd0265870"
       },
       "status": "sourced",
       "priority": "high",
@@ -77354,9 +77354,9 @@
         "path": "assets/generated/benjamin-tuscan-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 519,
-        "bytes": 3563,
-        "sha256": "0504a238fbe0e380f030aa067627f2800eeaaa413c67a0daf46397d564bddfff"
+        "height": 541,
+        "bytes": 5101,
+        "sha256": "4e18576599527aa7fb3f73f14564f499e682ac9350b065be01e2b6f7f81ee18b"
       },
       "status": "sourced",
       "priority": "high",
@@ -77397,9 +77397,9 @@
         "path": "assets/generated/chambers-composite-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3523,
-        "sha256": "47a0bb2f160ccbdc07071ee75d278bc74b6cfcd5f2df5fce094ef4936d0394bf"
+        "height": 841,
+        "bytes": 5106,
+        "sha256": "3807f37b358be840d6984126666364925dc5b776b7ca10157572f7f849642677"
       },
       "status": "sourced",
       "priority": "high",
@@ -77440,9 +77440,9 @@
         "path": "assets/generated/chambers-composite-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 841,
-        "bytes": 4599,
-        "sha256": "081880c021395fcd8b132161e221a031fb9d06c952a9fcd838c4a57afac54584"
+        "height": 863,
+        "bytes": 6347,
+        "sha256": "18901c5c986825e798267aac03dbbdee4556a0a08ea0de0e07cc1f35884cec55"
       },
       "status": "sourced",
       "priority": "high",
@@ -77483,9 +77483,9 @@
         "path": "assets/generated/chambers-composite-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 519,
-        "bytes": 4405,
-        "sha256": "a6c1f67ec1019cd6166d5ebac6f0f1bdf353028d0717c7c865d3207575ed4fee"
+        "height": 541,
+        "bytes": 6859,
+        "sha256": "61d2448d5d5355c18b79678b7300805ab5df3cf10e58ea8395a72fce56254ca5"
       },
       "status": "sourced",
       "priority": "high",
@@ -77526,9 +77526,9 @@
         "path": "assets/generated/chambers-corinthian-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 668,
-        "bytes": 3678,
-        "sha256": "c5a59f5bc74389af783deec6f6291237058daea07507afad0975691edb86f43a"
+        "height": 690,
+        "bytes": 5133,
+        "sha256": "9319d23241eaf24a2f0e0eba46c8cc86480c856f3a614c2c90e37e5ddd37eb8c"
       },
       "status": "sourced",
       "priority": "high",
@@ -77569,9 +77569,9 @@
         "path": "assets/generated/chambers-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 841,
-        "bytes": 4004,
-        "sha256": "a6f3745c975951a144d9afd34350386f9a5b656f2940a21139e2ecd0f33b8633"
+        "height": 863,
+        "bytes": 4989,
+        "sha256": "8e1f5a7deba457c8c96bc229ab677638c9aaf53b42e14de14b5de2e3bf4c9ccc"
       },
       "status": "sourced",
       "priority": "high",
@@ -77612,9 +77612,9 @@
         "path": "assets/generated/chambers-corinthian-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 502,
-        "bytes": 5219,
-        "sha256": "38c9a1ff362c9b2d7b1931b0a7f49788160c2538a74a8098112ec83ac74ba983"
+        "height": 524,
+        "bytes": 7725,
+        "sha256": "4fc0d4a3618a2722337428c69321d641fdcc31fa6668b59adb35309c34da11d9"
       },
       "status": "sourced",
       "priority": "high",
@@ -77655,9 +77655,9 @@
         "path": "assets/generated/chambers-doric-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 667,
-        "bytes": 3663,
-        "sha256": "45b61c2bd7850517962cf547deca41c0f99cfda2e231bf3a1ea53d07ed92b372"
+        "height": 689,
+        "bytes": 5118,
+        "sha256": "cb397d0b926d03a906004ac623cc6256b6bac26f4643a6c5253fc741e5ce6510"
       },
       "status": "sourced",
       "priority": "high",
@@ -77698,9 +77698,9 @@
         "path": "assets/generated/chambers-doric-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 841,
-        "bytes": 3856,
-        "sha256": "b463e50ef2a92d6323e31b5c10b757fb9813cc8ce8452d6ec86c3fd5990393e8"
+        "height": 863,
+        "bytes": 5515,
+        "sha256": "f5bbe2990bc3cb7fcfa83d3c9c88b377b18ee255700cd55bacc8289ab7ef1a3e"
       },
       "status": "sourced",
       "priority": "high",
@@ -77741,9 +77741,9 @@
         "path": "assets/generated/chambers-doric-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 439,
-        "bytes": 4658,
-        "sha256": "9071d5a55b95824355e9aba4a835ff2b5dccf722305ecf80bb4b933e03c9c262"
+        "height": 461,
+        "bytes": 6129,
+        "sha256": "f4e556a44285e2484585d6cf6c30ad31c5d3f89e60ab0efbe71621935d952820"
       },
       "status": "sourced",
       "priority": "high",
@@ -77784,9 +77784,9 @@
         "path": "assets/generated/chambers-ionic-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 668,
-        "bytes": 3663,
-        "sha256": "aa000dc4df45e1ea92133c94e2887e924267c200e02428e4ae6406d39758a062"
+        "height": 690,
+        "bytes": 5118,
+        "sha256": "b58ae75a2a784f47348964af40f68e15ad11381dc8592ce7559f2fdf227e68bd"
       },
       "status": "sourced",
       "priority": "high",
@@ -77870,9 +77870,9 @@
         "path": "assets/generated/chambers-ionic-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 524,
-        "bytes": 4423,
-        "sha256": "508c5cf65ad8cf81c2692528c79b3329888eda19b4b460a6911e6a19e6c836bb"
+        "height": 546,
+        "bytes": 6676,
+        "sha256": "cbdcf32acc23c3462f9288e65705fec3ba6f602643600446b1a15208786d2900"
       },
       "status": "sourced",
       "priority": "high",
@@ -77913,9 +77913,9 @@
         "path": "assets/generated/chambers-tuscan-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 2683,
-        "sha256": "fcae59a884005e075b8bb7b8a5271bfe74568246cf253bd92eaea65efda7feef"
+        "height": 841,
+        "bytes": 3478,
+        "sha256": "b6fac25b57e3b5540b0b32d66466fa6689f190ccee7e269e69eb57f6a45a98ef"
       },
       "status": "sourced",
       "priority": "high",
@@ -77956,9 +77956,9 @@
         "path": "assets/generated/chambers-tuscan-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3031,
-        "sha256": "133d63c71d380fad717cf59088542347dd28b431407f5b6f7e77a627dd5ec648"
+        "height": 841,
+        "bytes": 4221,
+        "sha256": "d96fe386bb8e498c6150ba182e1175cda26f2d333402750550df18c457f0176d"
       },
       "status": "sourced",
       "priority": "high",
@@ -77999,9 +77999,9 @@
         "path": "assets/generated/chambers-tuscan-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 518,
-        "bytes": 3551,
-        "sha256": "77af5d61115519137c90b669fd0218115fcae3cc9eccfee1766328b6e549fb52"
+        "height": 540,
+        "bytes": 5089,
+        "sha256": "421accec3174b54cb143288502c7c00a3904df38d2df4a867cd917e6fc74716f"
       },
       "status": "sourced",
       "priority": "high",
@@ -78042,9 +78042,9 @@
         "path": "assets/generated/gibbs-composite-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3514,
-        "sha256": "f02d362fb419469f3c7b49d9a4f22b902b840bec69ec92d79a646259f9e8877d"
+        "height": 841,
+        "bytes": 5097,
+        "sha256": "3dbd953ec202f74eda7d9cc4e54199d6b15c8c0d3e41c351fe3f8069574a341e"
       },
       "status": "sourced",
       "priority": "high",
@@ -78085,9 +78085,9 @@
         "path": "assets/generated/gibbs-composite-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 841,
-        "bytes": 4590,
-        "sha256": "aab6e6d57b5760c2cc7f6efd2ebe583d2ec03eabbf70a7dd15e757573497f636"
+        "height": 863,
+        "bytes": 6338,
+        "sha256": "2ad4576f7ae45929d9a5c29c67c40d7869d7a8da4decf20af171952b90ced550"
       },
       "status": "sourced",
       "priority": "high",
@@ -78128,9 +78128,9 @@
         "path": "assets/generated/gibbs-composite-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 507,
-        "bytes": 3691,
-        "sha256": "a8f53247c7aeb37cdf16d63764ab4a4e3471f278cf2c4981312879edf9fac2c5"
+        "height": 529,
+        "bytes": 5731,
+        "sha256": "66a23a565dadee8cf5d1871c99ccb317f3837e8fd8602c23ee82669984f4e843"
       },
       "status": "sourced",
       "priority": "high",
@@ -78171,9 +78171,9 @@
         "path": "assets/generated/gibbs-corinthian-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3513,
-        "sha256": "f8ba8eca22661592e881ee548438a31ae036ee932d4cd9c9d7c4ab8c1b28a042"
+        "height": 841,
+        "bytes": 5096,
+        "sha256": "aaf59387e8cc788cbd28307dede6e06259acc640e398728427cd395055aa5296"
       },
       "status": "sourced",
       "priority": "high",
@@ -78214,9 +78214,9 @@
         "path": "assets/generated/gibbs-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 841,
-        "bytes": 3995,
-        "sha256": "42b476dd236ae88a2e4158dce3fe858546630cee8caf72a730aa1f9c9735f77c"
+        "height": 863,
+        "bytes": 4980,
+        "sha256": "64370f770678ef23334f423ebb6ba62cde3b669c25711d01f0e14c90ddc358b9"
       },
       "status": "sourced",
       "priority": "high",
@@ -78300,9 +78300,9 @@
         "path": "assets/generated/gibbs-doric-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 797,
-        "bytes": 3646,
-        "sha256": "8b9c2882f6bf9263592ffa4b1fe8d76b8d35d4df51b0c00716d21a0e174fe15e"
+        "height": 819,
+        "bytes": 5730,
+        "sha256": "96b0a7afb91be6a62a4bd51d3b4e8087163b7837889c7cc275478337541ba80a"
       },
       "status": "sourced",
       "priority": "high",
@@ -78343,9 +78343,9 @@
         "path": "assets/generated/gibbs-doric-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 841,
-        "bytes": 3847,
-        "sha256": "69e0e7f33ef2b327e7128a2bbece98b4c7fd92756a7ba34d0da8907578342af7"
+        "height": 863,
+        "bytes": 5506,
+        "sha256": "c529d24d420ee255dd21c0d6934cac0e564b59ef0022d69c57c9e6bf41e91af7"
       },
       "status": "sourced",
       "priority": "high",
@@ -78429,9 +78429,9 @@
         "path": "assets/generated/gibbs-ionic-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 808,
-        "bytes": 3455,
-        "sha256": "1865864c17e9a01e2a0a2cfccd66e89025cdd447559fa0740d31c9954723e6c4"
+        "height": 830,
+        "bytes": 5038,
+        "sha256": "58ac0494ab316b8b9fe13b37ab18c636ce541beaa3dbae87d60297891d622437"
       },
       "status": "sourced",
       "priority": "high",
@@ -78472,9 +78472,9 @@
         "path": "assets/generated/gibbs-ionic-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 733,
-        "bytes": 3419,
-        "sha256": "8eb6c7646733ebb23ac23d747366a3a9f2cc55cafbbc9861a6815baa7c9e1a29"
+        "height": 755,
+        "bytes": 4890,
+        "sha256": "bc85be40312030f0a816d63cfd9ab072a19b436afeacb03640bb5d86b9ed264a"
       },
       "status": "sourced",
       "priority": "high",
@@ -78515,9 +78515,9 @@
         "path": "assets/generated/gibbs-ionic-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 507,
-        "bytes": 3956,
-        "sha256": "83237030aa11d909feac1dbe3411e0fa2f57ea9f42b40550249aa405a02ef5bd"
+        "height": 529,
+        "bytes": 6254,
+        "sha256": "7ed7706a200e82a94b1a7f726003ecdd098e71c2681f10b9d4ffa42003826597"
       },
       "status": "sourced",
       "priority": "high",
@@ -78558,9 +78558,9 @@
         "path": "assets/generated/gibbs-tuscan-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 808,
-        "bytes": 2634,
-        "sha256": "90b5bfc26f85ab33a8ad8328ecf6e565e2a5d9e81eadef444c2ee6241e522ca7"
+        "height": 830,
+        "bytes": 3429,
+        "sha256": "04b7f9975925633534dada1b0796f8226b1090505f98ebd4cc83fe25599e2522"
       },
       "status": "sourced",
       "priority": "high",
@@ -78601,9 +78601,9 @@
         "path": "assets/generated/gibbs-tuscan-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3023,
-        "sha256": "38b715b8a3204524fd7e08eb449792ebe9b7e9131990a0047ddaa9254657bed6"
+        "height": 841,
+        "bytes": 4213,
+        "sha256": "d856668dc707b2737e33adec539e3e8e7c0ce2a678e619f4466de7705f554f61"
       },
       "status": "sourced",
       "priority": "high",
@@ -78644,9 +78644,9 @@
         "path": "assets/generated/gibbs-tuscan-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 519,
-        "bytes": 3924,
-        "sha256": "b78db4e604a0eee114b0f2e3e099134c85a26901680f16d344230fb5159e61ed"
+        "height": 541,
+        "bytes": 4934,
+        "sha256": "e75f2580f58407e367ffaf5c02a13300d76364af5308154cc137597459f6e339"
       },
       "status": "sourced",
       "priority": "high",
@@ -78730,9 +78730,9 @@
         "path": "assets/generated/greek-doric-entablature-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 808,
-        "bytes": 2505,
-        "sha256": "922e2da0d0499106f64ae2a5c5aea0cd18930ffe0aefe45f7b9354664d1b2f75"
+        "height": 830,
+        "bytes": 2986,
+        "sha256": "afec355901856b3141c45d2bfd57d43531a0a6da830121d1ced777f61b8e92a9"
       },
       "status": "sourced",
       "priority": "high",
@@ -78773,9 +78773,9 @@
         "path": "assets/generated/palladio-composite-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 819,
-        "bytes": 3523,
-        "sha256": "5c4eccf7acb0afb18bb9f34174a5cea72e4299574823b57ef1385c0ad632845a"
+        "height": 841,
+        "bytes": 5106,
+        "sha256": "82f8389c438af3d27ea02c88a6d5dac6b74b9821479b5263591101037071ad2f"
       },
       "status": "sourced",
       "priority": "high",
@@ -78816,9 +78816,9 @@
         "path": "assets/generated/palladio-composite-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 841,
-        "bytes": 4603,
-        "sha256": "c5bf8c42932474201c6de5f362db0a5424bad5855cd17f9488e06d7227a3c73a"
+        "height": 863,
+        "bytes": 6351,
+        "sha256": "ff908226167444faa663f3a8afa400ba23f4bf60e602a8a0538760c5c9e5baec"
       },
       "status": "sourced",
       "priority": "high",
@@ -78859,9 +78859,9 @@
         "path": "assets/generated/palladio-composite-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 519,
-        "bytes": 4409,
-        "sha256": "2dddfe3c7a08cc8023ad8b2a272d9074d49cdbf23ccc1424de4127c04dd58c4b"
+        "height": 541,
+        "bytes": 6863,
+        "sha256": "1c800bd297d433d6e206f649e70d020f7a8331ba7c83e076e518727ac5099bc4"
       },
       "status": "sourced",
       "priority": "high",
@@ -78902,9 +78902,9 @@
         "path": "assets/generated/palladio-corinthian-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 797,
-        "bytes": 3485,
-        "sha256": "d375b44bb31d681b3f356df3f49a392b0479ee333180611b7f691f777810b1a1"
+        "height": 819,
+        "bytes": 4875,
+        "sha256": "cf8e3c1932f69a4a48477c1b3f7e8fe2e0eddea719aa841b18bbc7c9aa2ae89f"
       },
       "status": "sourced",
       "priority": "high",
@@ -78945,9 +78945,9 @@
         "path": "assets/generated/palladio-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 841,
-        "bytes": 4008,
-        "sha256": "cfbc5c34ff28d893e86057a27a88ce7fcffa6decfc67e1ecadba70e4f64939fc"
+        "height": 863,
+        "bytes": 4993,
+        "sha256": "cfc2dee42fbe0d9e19f3fde793072bcccbb68b67880666e49170975edd998a12"
       },
       "status": "sourced",
       "priority": "high",
@@ -78988,9 +78988,9 @@
         "path": "assets/generated/palladio-corinthian-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 796,
-        "bytes": 3285,
-        "sha256": "d467ddfae336acf622816e8e1ebd516fb3549e12bb000015388d99d97592b53d"
+        "height": 818,
+        "bytes": 3770,
+        "sha256": "3547fc62a4980b17ce30b85526ddf1303c29808b68f5ba9b1842f96152110b1d"
       },
       "status": "sourced",
       "priority": "high",
@@ -79031,9 +79031,9 @@
         "path": "assets/generated/palladio-doric-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 657,
-        "bytes": 3667,
-        "sha256": "727169b8080b24b35bec3917ebabbd218912f51f807eb2ab51f82e0b698d9cda"
+        "height": 679,
+        "bytes": 4580,
+        "sha256": "645f76beb5bd19ec8c8abdc920f0c2405954b73ed75ba4f6a26269122f485477"
       },
       "status": "sourced",
       "priority": "high",
@@ -79074,9 +79074,9 @@
         "path": "assets/generated/palladio-doric-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 797,
-        "bytes": 3270,
-        "sha256": "89542217a76328ab7c0d0bfef2b3367bd0ed60b32a5cac7abe7932256a69d393"
+        "height": 819,
+        "bytes": 4388,
+        "sha256": "f7d2938967a91e6a38023d10e26413f1ea298c5ec520aa80e68a706929d6f46e"
       },
       "status": "sourced",
       "priority": "high",
@@ -79117,9 +79117,9 @@
         "path": "assets/generated/palladio-doric-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 439,
-        "bytes": 4662,
-        "sha256": "b4ef5ddf1fa9d90d53d340e4ae91a86f499eb736d3c7b7eabbe34fa234795c48"
+        "height": 461,
+        "bytes": 6133,
+        "sha256": "56c27ec676e0cd49a0c2b23f2da24eeeaad973b971836653d7518c23f2d9b8f3"
       },
       "status": "sourced",
       "priority": "high",
@@ -79160,9 +79160,9 @@
         "path": "assets/generated/palladio-ionic-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 797,
-        "bytes": 3517,
-        "sha256": "d1711702aeb469cbb08c55a7b8a964cb52449be843dbc3854239a867ae905664"
+        "height": 819,
+        "bytes": 4889,
+        "sha256": "f26e0bd24fe29786dc4d36cc5a3b1e5f1fd7b4eb41106d4d0b529de93e1494c2"
       },
       "status": "sourced",
       "priority": "high",
@@ -79246,9 +79246,9 @@
         "path": "assets/generated/palladio-ionic-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 797,
-        "bytes": 2706,
-        "sha256": "6cf1a93de875d78c38bf30101ddaf0c66d6a6491c101bb549017969b80d85341"
+        "height": 819,
+        "bytes": 3183,
+        "sha256": "58c74290a2a7d1d6e74af3e56a5247dc6582388e6642a9923a12a5cef850893f"
       },
       "status": "sourced",
       "priority": "high",
@@ -79289,9 +79289,9 @@
         "path": "assets/generated/palladio-tuscan-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 797,
-        "bytes": 2701,
-        "sha256": "675854d54bbfed88200625c15a52b18368fb7600bb1139c653e003773b8715ae"
+        "height": 819,
+        "bytes": 3185,
+        "sha256": "c9cea6fdea47c5f16787831083926fb46d3b50272012edc3dc817997bc81f711"
       },
       "status": "sourced",
       "priority": "high",
@@ -79332,9 +79332,9 @@
         "path": "assets/generated/palladio-tuscan-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 797,
-        "bytes": 2947,
-        "sha256": "f9c68ab56ef8dce98f34b32e689323c4b682bfdf69c45f978ae1601820735e96"
+        "height": 819,
+        "bytes": 3428,
+        "sha256": "36274a2c2cde0f5475c4daba40d9a66d8f3458fac5d1fa714f3f9243771dcbe1"
       },
       "status": "sourced",
       "priority": "high",
@@ -79375,9 +79375,9 @@
         "path": "assets/generated/palladio-tuscan-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 519,
-        "bytes": 3551,
-        "sha256": "f0a52242c57f15907a5dcab86c01f17cfab64bd325a5805bf8abb5110eb2e29a"
+        "height": 541,
+        "bytes": 5089,
+        "sha256": "81bd992526c616f23f6aef1b3cf765e40719b8714dd653811e560b71a7e5ad25"
       },
       "status": "sourced",
       "priority": "high",
@@ -79418,9 +79418,9 @@
         "path": "assets/generated/vignola-composite-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 786,
-        "bytes": 3200,
-        "sha256": "3539374f163fae27c344d878a0dc139fd785098cdfdd519bf8333f306e155f4e"
+        "height": 808,
+        "bytes": 4783,
+        "sha256": "a851419c80264d54806b4fed208721d16f582b19d090efbf55ed6de1e7b97a6f"
       },
       "status": "sourced",
       "priority": "high",
@@ -79461,9 +79461,9 @@
         "path": "assets/generated/vignola-composite-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 808,
-        "bytes": 4273,
-        "sha256": "ed6ee208cddf950761b9b0b36a0b9581cbe05dcf5a0d7e30c3956daed9d25a61"
+        "height": 830,
+        "bytes": 6021,
+        "sha256": "c81b5038956924a4b1a5b08b88ee71187196f72f4b01af6e70837f4fc0f1a014"
       },
       "status": "sourced",
       "priority": "high",
@@ -79504,9 +79504,9 @@
         "path": "assets/generated/vignola-composite-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 486,
-        "bytes": 4079,
-        "sha256": "bace38b55fb6f6fdf395a2903d16b57ed163f7604d09e486f98ce5342c04428a"
+        "height": 508,
+        "bytes": 6533,
+        "sha256": "5b9713bfea2e31617eab96be5fff7c1ee537ee39aa994357d7e222382fbf7b81"
       },
       "status": "sourced",
       "priority": "high",
@@ -79547,9 +79547,9 @@
         "path": "assets/generated/vignola-corinthian-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 786,
-        "bytes": 3197,
-        "sha256": "9a66245453d2ac27a5c05ea3e0e013f75450b8497ab9c28a413cd9273edb0f78"
+        "height": 808,
+        "bytes": 4780,
+        "sha256": "3a6abcdba5f7f73b887e1abc1965ca6f81cd9989641622538ccbb5cbabcc1ca2"
       },
       "status": "sourced",
       "priority": "high",
@@ -79590,9 +79590,9 @@
         "path": "assets/generated/vignola-corinthian-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 808,
-        "bytes": 3676,
-        "sha256": "656222e80eadb3f90e74a5c106394e9ae7846917989f33e10aa5668e64b13f35"
+        "height": 830,
+        "bytes": 4661,
+        "sha256": "7df7175ec1b2d1123f262ff360c7097e4b9eb2eec159a38e23c2c40031dc0c87"
       },
       "status": "sourced",
       "priority": "high",
@@ -79633,9 +79633,9 @@
         "path": "assets/generated/vignola-corinthian-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 469,
-        "bytes": 4891,
-        "sha256": "dba71a331e7891ead33246bf1264ac607624a1767b5086dbe2cd7336e4e01aee"
+        "height": 491,
+        "bytes": 7397,
+        "sha256": "5b1e6b811b0dbbc9777019d48af434bb901598e36d576a486b7fb1b671f44f69"
       },
       "status": "sourced",
       "priority": "high",
@@ -79676,9 +79676,9 @@
         "path": "assets/generated/vignola-doric-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 786,
-        "bytes": 2785,
-        "sha256": "f10a901cb994aade18fcc181373714bab744b850b2f0d82a519d2159491925bc"
+        "height": 808,
+        "bytes": 4100,
+        "sha256": "b184c33b8fba8dc22bef7ba5f392f0ce65f9cb02ea316d886b58459f8a02bbe7"
       },
       "status": "sourced",
       "priority": "high",
@@ -79719,9 +79719,9 @@
         "path": "assets/generated/vignola-doric-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 808,
-        "bytes": 3558,
-        "sha256": "89b8a87036f3c77cc293066754849c35da8b546439f0fe5b51f11afeb8d3fca6"
+        "height": 830,
+        "bytes": 5217,
+        "sha256": "89474c825cecb74c8b5acd2cecc25404e23b32306c291620571cb0949551189f"
       },
       "status": "sourced",
       "priority": "high",
@@ -79762,9 +79762,9 @@
         "path": "assets/generated/vignola-doric-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 406,
-        "bytes": 4360,
-        "sha256": "b77b5b1d2893fed2a126363f4a6dfd91208c8395eb2b89a2941068d344d535c5"
+        "height": 428,
+        "bytes": 5831,
+        "sha256": "1aa358fa202f0acb00d927ca34290316de9d39b4dd6dce1a145546c3daed9965"
       },
       "status": "sourced",
       "priority": "high",
@@ -79805,9 +79805,9 @@
         "path": "assets/generated/vignola-ionic-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 786,
-        "bytes": 3190,
-        "sha256": "d2554203f8ded2f4c652308df0f568209f6e5751cd6e7cd4276c8092704b8e8a"
+        "height": 808,
+        "bytes": 4773,
+        "sha256": "49bee42c180dcf06aadedf95a5195ba23097f0b03bebf22dd9be74f92c2a430e"
       },
       "status": "sourced",
       "priority": "high",
@@ -79891,9 +79891,9 @@
         "path": "assets/generated/vignola-ionic-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 491,
-        "bytes": 4105,
-        "sha256": "df8b5ea939f19c6d11b33695f30cb64ab6a73f56dc4c07b543ad143e57b43978"
+        "height": 513,
+        "bytes": 6358,
+        "sha256": "a0ec691c09d2da5029ea9a0a0a304bf06a6730f0f2a1ffcc50a0343ef6e14865"
       },
       "status": "sourced",
       "priority": "high",
@@ -79934,9 +79934,9 @@
         "path": "assets/generated/vignola-tuscan-base-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 786,
-        "bytes": 2366,
-        "sha256": "6523ca1200b90ade1800d402398880a0f87117f8edc377331eb7e17117007c4c"
+        "height": 808,
+        "bytes": 3161,
+        "sha256": "06da9d05819d979823d62ca3f7ef5b6f1f8528699ae6e94c0b763eddfe6c6c70"
       },
       "status": "sourced",
       "priority": "high",
@@ -79977,9 +79977,9 @@
         "path": "assets/generated/vignola-tuscan-capital-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 786,
-        "bytes": 2711,
-        "sha256": "e6000078918668fb966a341ec1b2177e68ff8acae8860161721cc6730f78b68f"
+        "height": 808,
+        "bytes": 3901,
+        "sha256": "bc554f2e0365c56bb4baf91c421153dc96369a4a78d7212d0285525dd4297636"
       },
       "status": "sourced",
       "priority": "high",
@@ -80020,9 +80020,9 @@
         "path": "assets/generated/vignola-tuscan-cornice-profile.svg",
         "format": "svg",
         "width": 738,
-        "height": 486,
-        "bytes": 3231,
-        "sha256": "aea93e333411c52f27f88ba1670d72f8626b3fdba0ce4d69256e01ed8a0a0deb"
+        "height": 508,
+        "bytes": 4769,
+        "sha256": "6add74022dc496264f180d6e8cfb1abc34ae188aecd5c3838cee59c2df4b5484"
       },
       "status": "sourced",
       "priority": "high",

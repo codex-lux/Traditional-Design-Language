@@ -1,21 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 797" width="738" height="797" data-frame='{"plates":[{"id":"base","proj":"profile","unit":"in","px_per_in":103.333333,"origin_px":[70,74],"at_origin_in":[6.0,18.0],"datum":"naked"}]}'>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 819" width="738" height="819" data-frame='{"plates":[{"id":"base","proj":"profile","unit":"in","px_per_in":103.333333,"origin_px":[70,74],"at_origin_in":[6.0,18.0],"datum":"naked"}]}'>
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
-<rect width="738" height="797" fill="#faf8f3"/>
+<rect width="738" height="819" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Palladio's Tuscan Order (overlay on Vignola) — base</text>
 <rect class="pf" x="36" y="38" width="666" height="662"/>
 <line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
 <path d="M 70.000,694.000 L 276.667,694.000 L 276.667,384.000 L 160.417,384.000 A 116.250 116.250 0 0 0 276.667,267.750 A 116.250 116.250 0 0 0 160.417,151.500 L 70.000,151.500 L 70.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="none"/>
 <path d="M 70.000,694.000 L 276.667,694.000 L 276.667,384.000 L 160.417,384.000 A 116.250 116.250 0 0 0 276.667,267.750 A 116.250 116.250 0 0 0 160.417,151.500 M 70.000,151.500 M 70.000,74.000 L 70.000,74.000" fill="none" stroke="#1b1a17" stroke-width=".9"/>
 <path class="ghost" d="M 90.6667,151.5000 L 70.0000,151.5000 L 70.0000,74.0000 L 90.6667,74.0000" fill="none" stroke="#1b1a17" stroke-width=".7" stroke-dasharray="3 2"/>
+<path class="confidence" data-member="base_cimbia" d="M 70.000,151.500 L 160.417,151.500 L 70.000,151.500 L 70.000,74.000 L 70.000,74.000 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
 <line x1="277.7" y1="539.0" x2="404.0" y2="539.0" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="541.6">Plinth or zocco — plinth, 3.00″</text>
 <line x1="277.7" y1="267.8" x2="404.0" y2="267.8" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="270.4">Torus or bastone — torus, 2.25″</text>
 <line x1="71.0" y1="112.8" x2="404.0" y2="112.8" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="115.3">Cimbia (fillet or cincture at the… — fillet, 0.75″, no projection</text>
+<text class="dm" x="408.0" y="115.3">Cimbia (fillet… — fillet, 0.75″, no projection, medium confidence</text>
 <text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
 <text class="dm" x="44" y="726.0">Palladio's Tuscan Order (overlay on Vignola), assembly base, at a 12″ column. 3 member(s), 6.00″ high, 2.00″ of relief from the</text>
 <text class="dm" x="44" y="737.0">naked.</text>
 <text class="dm" x="44" y="748.0">1 member(s) drawn as a dashed bracket at the naked: no projection published, so no face is drawn for them.</text>
-<text class="dm" x="44" y="759.0">AFTER: Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII-XIV and XIX</text>
+<text class="dm" x="44" y="759.0">1 member(s) outlined dashed: their confidence is medium, low or unstated, the authority's total being stated and the division</text>
+<text class="dm" x="44" y="770.0">among them apportioned or read from a plate at low confidence.</text>
+<text class="dm" x="44" y="781.0">AFTER: Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII-XIV and XIX</text>
 </svg>

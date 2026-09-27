@@ -1,27 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 657" width="738" height="657" data-frame='{"plates":[{"id":"base","proj":"profile","unit":"in","px_per_in":80.0,"origin_px":[70,74],"at_origin_in":[6.0,38.0],"datum":"naked"}]}'>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 679" width="738" height="679" data-frame='{"plates":[{"id":"base","proj":"profile","unit":"in","px_per_in":80.0,"origin_px":[70,74],"at_origin_in":[6.0,38.0],"datum":"naked"}]}'>
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
-<rect width="738" height="657" fill="#faf8f3"/>
+<rect width="738" height="679" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Palladio's Doric Order (overlay on Vignola) — base</text>
 <rect class="pf" x="36" y="38" width="666" height="522"/>
 <line x1="70.0" y1="554.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
 <path d="M 70.000,554.000 L 390.000,554.000 L 390.000,394.000 L 330.000,394.000 A 60.000 60.000 0 0 0 390.000,334.000 A 60.000 60.000 0 0 0 330.000,274.000 L 70.000,274.000 L 70.000,254.000 L 70.000,174.000 L 70.000,154.000 L 286.000,154.000 A 40.000 40.000 0 0 0 326.000,114.000 A 40.000 40.000 0 0 0 286.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="none"/>
 <path d="M 70.000,554.000 L 390.000,554.000 L 390.000,394.000 L 330.000,394.000 A 60.000 60.000 0 0 0 390.000,334.000 A 60.000 60.000 0 0 0 330.000,274.000 M 70.000,274.000 M 70.000,254.000 M 70.000,174.000 M 70.000,154.000 L 286.000,154.000 A 40.000 40.000 0 0 0 326.000,114.000 A 40.000 40.000 0 0 0 286.000,74.000 L 70.000,74.000" fill="none" stroke="#1b1a17" stroke-width=".9"/>
 <path class="ghost" d="M 80.0000,274.0000 L 70.0000,274.0000 L 70.0000,254.0000 L 80.0000,254.0000 M 102.0000,254.0000 L 70.0000,254.0000 L 70.0000,174.0000 L 102.0000,174.0000 M 80.0000,174.0000 L 70.0000,174.0000 L 70.0000,154.0000 L 80.0000,154.0000" fill="none" stroke="#1b1a17" stroke-width=".7" stroke-dasharray="3 2"/>
+<path class="confidence" data-member="base_lower_listel" d="M 70.000,274.000 L 330.000,274.000 L 70.000,274.000 L 70.000,254.000 L 70.000,254.000 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="base_cavetto" d="M 70.000,254.000 L 70.000,254.000 L 70.000,174.000 L 70.000,174.000 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="base_upper_listel" d="M 70.000,174.000 L 70.000,174.000 L 70.000,154.000 L 70.000,154.000 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
 <line x1="391.0" y1="474.0" x2="404.0" y2="474.0" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="476.6">Plinth or zocco — plinth, 2.00″</text>
 <line x1="391.0" y1="334.0" x2="404.0" y2="334.0" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="336.6">Lower torus (bastone) — torus, 1.50″</text>
 <line x1="71.0" y1="264.0" x2="404.0" y2="264.0" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="266.6">Lower listel (fillet under the ca… — fillet, 0.25″, no projection</text>
+<text class="dm" x="408.0" y="266.6">Lower listel (… — fillet, 0.25″, no projection, medium confidence</text>
 <line x1="71.0" y1="214.0" x2="404.0" y2="214.0" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="216.6">Cavetto (scotia) — scotia, 1.00″, no projection</text>
+<text class="dm" x="408.0" y="216.6">Cavetto (scoti… — scotia, 1.00″, no projection, medium confidence</text>
 <line x1="71.0" y1="164.0" x2="404.0" y2="164.0" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="166.6">Upper listel (fillet over the cav… — fillet, 0.25″, no projection</text>
+<text class="dm" x="408.0" y="166.6">Upper listel (… — fillet, 0.25″, no projection, medium confidence</text>
 <line x1="327.0" y1="114.0" x2="404.0" y2="114.0" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="116.6">Upper torus (bastone) — torus, 1.00″</text>
 <text class="dm" x="44" y="575.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
 <text class="dm" x="44" y="586.0">Palladio's Doric Order (overlay on Vignola), assembly base, at a 12″ column. 6 member(s), 6.00″ high, 4.00″ of relief from the</text>
 <text class="dm" x="44" y="597.0">naked.</text>
 <text class="dm" x="44" y="608.0">3 member(s) drawn as a dashed bracket at the naked: no projection published, so no face is drawn for them.</text>
-<text class="dm" x="44" y="619.0">AFTER: Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XV and XIX</text>
+<text class="dm" x="44" y="619.0">3 member(s) outlined dashed: their confidence is medium, low or unstated, the authority's total being stated and the division</text>
+<text class="dm" x="44" y="630.0">among them apportioned or read from a plate at low confidence.</text>
+<text class="dm" x="44" y="641.0">AFTER: Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XV and XIX</text>
 </svg>
