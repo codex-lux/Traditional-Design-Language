@@ -2518,6 +2518,22 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                 chimney_plan_judgment = rule.get("note")
         except Exception:
             chimney_plan_in = None
+    # THE SIZE OF THE STACKS THIS SHEET DRAWS IS THE SIZE OF THE SQUARES THE PLACEMENT SEATS
+    # (audit, 27 Sep 2026). The roof carries each seated square with its own size, judgment and
+    # basis, read off `plan.hearths.stacks`, which is what the plan sheet and the roof plan draw.
+    # The figure above was a second reading of the same rule -- brick-course's `chimney/width`,
+    # and on a MASONRY wall only -- so a frame house whose placement seated two 22 in squares had
+    # them drawn on the plan and refused here under "NO RECORD STATES THEIR PLAN SIZE", and the
+    # scene wrote "the plan size is stated as None in". Where the roof's squares carry one size it
+    # is this record's; where they carry none, the reading above stands, and where they carry two
+    # (which nothing writes) the stacks are not one figure and none is taken from them.
+    _sq = {(c.get("stack_plan_in"), bool(c.get("stack_plan_judgment")), c.get("stack_plan_basis"))
+           for c in (((roof or {}).get("chimneys") or {}).get("positions") or [])
+           if c.get("plan_rect_ft") and c.get("stack_plan_in")}
+    if len(_sq) == 1:
+        _in, _judged, _basis = next(iter(_sq))
+        chimney_plan_in = _in
+        chimney_plan_judgment = (_basis or "a judgment the record carries without its basis") if _judged else None
 
     # WP-5.11: HOW THE HEAD OF AN OPENING IS CARRIED, which on a brick house is the most
     # diagnostic thing on the wall after the bay rhythm.

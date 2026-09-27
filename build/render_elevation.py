@@ -1177,7 +1177,9 @@ def render_elevation(elev, path, face=None, scale=24.0):
                      '), WHICH DRAW NO SUCH BAND: EAVE ' + _f(true_eave_ft) +
                      (f', RIDGE {_f(_ridge + cornice_band_ft)}' if _ridge else '') +
                      ' HERE — NOT RECONCILED')
-    if elev.get("chimney_stack_plan_judgment") and elev.get("chimney_stack_plan_in"):
+    # said only where a stack IS drawn (audit, 27 Sep 2026): the record's size is now the seated
+    # squares', and a sheet drawing no stack must not say it drew one at a judged size
+    if chimneys_drawn and elev.get("chimney_stack_plan_judgment") and elev.get("chimney_stack_plan_in"):
         notes.append(f'STACK DRAWN {elev["chimney_stack_plan_in"]}″ SQUARE — A JUDGMENT, NOT A '
                      f'MEASUREMENT: THE COURSING PUTS IT BETWEEN SIZES AND A MASON WILL BUILD 18″ OR 27″')
     if front.get("blind_bay_centres_ft"):

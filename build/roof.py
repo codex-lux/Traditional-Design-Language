@@ -662,6 +662,15 @@ def chimney_positions(plan, style, section, main):
                              round(sq["x_ft"] + sq["width_ft"] + t_ext, 3) + 0.0,
                              round(sq["y_ft"] + sq["depth_ft"] + t_ext, 3) + 0.0]
         c["side"] = sq.get("side")
+        # AND THE SQUARE'S OWN SIZE WITH IT, ON BOTH PATHS (audit, 27 Sep 2026). The size was
+        # copied only where the plan states its hearths, so a centre-line stack carried its seated
+        # square and no size: the roof plan drew it as a position under "THE RECORD STATES NO
+        # PLAN SIZE", beside a plan sheet drawing that very square at 22 in from the same stack
+        # record, and the elevation refused it on a frame house for the same false reason. The
+        # square is the stack's, so its size, judgment and basis travel with it.
+        for k in ("stack_plan_in", "stack_plan_judgment", "stack_plan_basis"):
+            if sq.get(k) is not None:
+                c[k] = sq[k]
     if hearth_note:
         for c in chimneys:
             c.update({k: v for k, v in stack_size.items() if v is not None})
