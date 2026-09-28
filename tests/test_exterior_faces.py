@@ -342,8 +342,15 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 #
 # PROVED to be those two and nothing else: with the reserve reverted and ` data-bay="n"` stripped,
 # all sixteen sheets are byte-identical to `117e839`'s and the pair is its pair exactly.
-CORPUS_SHEET_SHA = "0e884588994f0442"
-CORPUS_SHEET_SHA_NO_FRAME = "406f55e6b4aaca8c"
+# PHASE 15, WP-15.6, ONE SHEET, ONE WINDOW, HARNESS PROVED FIRST. The harness reproduces
+# 0e884588994f0442 / 406f55e6b4aaca8c to the character on a `git worktree` of `e8668e6` before the
+# new pair was read. Per plan, fifteen of sixteen sheets are byte-identical; the sixteenth is
+# `tidewater-georgian-careful`, whose centre passage's south window the placer now seats clear of
+# the entrance doorcase and half the ordinary pier beside it (13.5 -> 9.995 ft). Diffed line by
+# line in both registers: the window's three marks move 45.5 px, the two wall bands either side of
+# its hole take up the difference, and nothing else on the sheet moves.
+CORPUS_SHEET_SHA = "3c44eaaa0f36b9b9"
+CORPUS_SHEET_SHA_NO_FRAME = "ee64b3350793a464"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

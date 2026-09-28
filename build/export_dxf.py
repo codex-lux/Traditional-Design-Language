@@ -823,7 +823,9 @@ def export_elevation_dxf(elev, path, face=None):
     # alone exactly as the sheet is, and says so where the placement sets a wing beside it
     _mb = EL.main_block_note(elev)
     said = (([_mb] if _mb else []) + ([EL.STACKS_UNSIZED_NOTE] if stacks["unsized"] else [])
-            + EL.stack_notes(elev, stacks))
+            + EL.stack_notes(elev, stacks)
+            # the wall beside the doorcase (WP-15.6), in the sheet's own words
+            + EL.doorcase_pier_notes(elev, face))
     for i, line in enumerate(said):
         _text(msp, anno, line, 0, -(7.0 + 1.5 * i) * TEXT_H)
     doc.saveas(path)

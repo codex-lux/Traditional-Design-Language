@@ -971,11 +971,32 @@ class TestTheRefusalsAreSaid:
     reworded tail cannot turn these red; each plant says what it changed, and lands or fails."""
 
     SHUTTERED = "spec-builder-colonial/S"        # windows refused their leaves, over two rooms
-    SIDELIT = "tidewater-georgian-careful/S"     # the doorcase refused its sidelights
+    SIDELIT = "tidewater-georgian-careful/S"     # the front the sidelight refusal is DRIVEN on
 
     @staticmethod
     def _all():
         return {s: (el, svg) for s, el, svg in C._elev_and_sweep()}
+
+    @classmethod
+    def _sidelit(cls):
+        """The Tidewater front with its passage window driven back to where the placer seated it
+        before Phase 15's WP-15.6, 12 in from the leaf, so the doorcase refuses its sidelight pair;
+        and that record rendered, so the pair is the record and the ink of one drawing. WP-15.6
+        reserves the wall beside the doorcase, so no shipped sheet refuses a sidelight pair any
+        more: this premise ran out exactly as the control below was written to notice, and the
+        refusal is driven now. Every field the rect is read from is shifted together."""
+        el, _svg = cls._all()[cls.SIDELIT]
+        el = copy.deepcopy(el)
+        EL = C.SURF._mod("elevation")
+        ctl = next(r for r in EL.opening_rects(el, "S")["rects"] if r.get("entrance"))
+        win = max((p for p in el["faces"]["S"]["placed"] if p["kind"] == "window"
+                   and p["storey"] == ctl["storey"] and p["cx_in"] < ctl["cx_in"]),
+                  key=lambda p: p["cx_in"])
+        d_in = (ctl["x0_in"] - 12.0 - win["width_in"] / 2.0) - win["cx_in"]
+        win["cx_in"] += d_in
+        win["u_ft"] = round(win["u_ft"] + d_in / 12.0, 4)
+        win["along_ft"] += d_in / 12.0
+        return el, C._render(C.SURF._mod("render_elevation").render_elevation, el, face="S")
 
     @staticmethod
     def _v22(monkeypatch, planted):
@@ -995,13 +1016,16 @@ class TestTheRefusalsAreSaid:
             "the premise: this face refuses leaves over more than one room")
         assert not self._refused(el, "S", "sidelights_refused"), "the premise: and no sidelights"
         el, _svg = a[self.SIDELIT]
-        assert self._refused(el, "S", "sidelights_refused"), "the premise: this face refuses sidelights"
-        got = self._v22(monkeypatch, [(s, *a[s]) for s in (self.SHUTTERED, self.SIDELIT)])
+        assert not self._refused(el, "S", "sidelights_refused"), (
+            "the premise: the placed Tidewater front draws its pair (WP-15.6); the refusal is driven")
+        el, svg = self._sidelit()
+        assert self._refused(el, "S", "sidelights_refused"), "the drive landed: this face refuses sidelights"
+        got = self._v22(monkeypatch, [(self.SHUTTERED, *a[self.SHUTTERED]), (self.SIDELIT, el, svg)])
         assert got[self.SHUTTERED]["verdict"] == "agrees", got[self.SHUTTERED]
         assert got[self.SIDELIT]["verdict"] == "agrees", got[self.SIDELIT]
 
     def _planted(self, monkeypatch, subject, change):
-        el, svg = self._all()[subject]
+        el, svg = self._sidelit() if subject == self.SIDELIT else self._all()[subject]
         planted = change(svg)
         assert planted != svg, "the plant did not land"
         return self._v22(monkeypatch, [(subject, el, planted)])[subject]

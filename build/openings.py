@@ -44,6 +44,10 @@ MIN_SOLID_FT = 1.0
 _STOREYS = None
 
 
+def _dc():
+    return _mod("doorcase", os.path.join(ROOT, "build", "doorcase.py"))
+
+
 def _storeys():
     """build/storeys.py, loaded lazily and cached. NOT `structure.py`, which is where this
     derivation used to live: structure loads geometry, and geometry calls stair_pass, so
@@ -589,7 +593,131 @@ def _reserve_masonry(level_rooms, occupied, W, H, envs, hearths, level_index):
     return took
 
 
-def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None, level_index=0):
+# THE ENTRANCE DOORCASE IS RESERVED BEFORE A WINDOW IS SEATED (Phase 15, WP-15.6). Lucas, of the
+# drawn Tidewater front (27 Sep 2026): "there's still no concept of how close windows can be to
+# doors". This pass reserved the entrance door's LEAF and `MIN_SOLID_FT` either side, and the
+# elevation then drew the doorcase around that leaf -- the casing each side, and the sidelights
+# where they fit -- so the centre passage's own sash stood 12 in from the leaf and 4.98 in from the
+# casing. facade-classical states the rule the placement never read: the composition "is not
+# allowed to touch the flanking windows", and "The residual wall each side of the entrance
+# composition should not fall below about half the ordinary pier". Both are applied here, with the
+# composition's width from `doorcase.composition` -- the arithmetic the elevation draws.
+#
+# WHAT IS NOT RULED IS NOT APPLIED. The pier between two WINDOWS is left at `MIN_SOLID_FT`: the
+# corpus states that ratio three ways (a style's own 0.6 to 1.0 times the window, the packs' 1.2 to
+# 2.0 and a 1.4 target, the fault's floor of 1.0) and which governs the placement is
+# `oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways`.
+def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
+    """The entrance composition's run on the entrance face, and the rooms whose windows must keep
+    clear of it, or None where no doorcase is drawn; the verdict either way is written to
+    `report["doorcase"]` (`reserved` and the reason, or the door, the figures and their sources).
+
+    The doorcase exists where the elevation draws one: the ground storey, a style inside the
+    elevation's own gate (`doorcase.applies`), the entrance face the record names (the elevation's
+    own `context.entrance_faces`, default S), and the entrance door the elevation dresses
+    (`doorcase.entrance_index`: the widest exterior door on the main block's face, ties to the lower
+    coordinate). Its run is the door as PLACED -- the width the elevation draws the leaf at -- plus
+    the casing each side and the sidelights each side where `doorcase.composition` fits them."""
+    if level_index != 0:
+        return None
+    DC = _dc()
+    rec = {"reserved": False}
+    report["doorcase"] = rec
+    style = plan.get("style")
+    op, fac = DC.PE.resolve("opening-proportion"), DC.PE.resolve("facade-classical")
+    if not DC.applies(style, op, fac):
+        rec["why"] = (f"no doorcase is drawn for '{style}': it is outside opening-proportion's and "
+                      f"facade-classical's own applies_to, so the elevation draws none")
+        return None
+    face = (plan.get("context") or {}).get("entrance_faces") or "S"
+    if face not in ("N", "S", "E", "W"):
+        rec["why"] = f"the record's entrance face {face!r} is not one face of the main block"
+        return None
+    main_edge = {"S": 0.0, "N": H, "W": 0.0, "E": W}[face]
+
+    def _on_main(r):
+        # THE ELEVATION'S OWN TEST (`elevation.placed_openings`), not element membership: an
+        # opening is on the main block's face where its element's face lies on the main block's,
+        # within 0.01 ft, and a room in no element stands in the main block. Asking "which
+        # element" instead would part from the drawing on a wing built flush with the front.
+        env = (envs or {}).get(r["id"])
+        if env is None:
+            return True
+        return abs({"S": env[1], "N": env[3], "W": env[0], "E": env[2]}[face] - main_edge) <= 0.01
+
+    cands = []
+    for r in level_rooms:
+        rect = _rect(r)
+        if not rect or not _on_main(r) or face not in _boundary_walls(rect, W, H):
+            continue
+        for d in (r.get("doors") or []):
+            if d.get("to") == "exterior" and d.get("wall") == face and d.get("position_ft") is not None:
+                cands.append((r, d))
+    i = DC.entrance_index([(d.get("width_ft") or 3.5, d["position_ft"]) for _r, d in cands])
+    if i is None:
+        rec["why"] = f"no exterior door is placed on the main block's {face} face"
+        return None
+    room, door = cands[i]
+    if "garage" in str(door.get("type") or "").lower():
+        # the elevation's own rule (`elevation._clearances`, `render_elevation`): the widest door on
+        # the entrance front is a garage door here, and no doorcase frames a garage door
+        rec["why"] = ("the widest door on the entrance front is a garage door, and the elevation "
+                      "draws no doorcase around a garage door; it keeps only its leaf's run")
+        return None
+    ground = next((st for st in _storeys().storey_heights(plan) if st.get("index") == 0), None)
+    if not ground or not ground.get("storey_height_ft"):
+        rec["why"] = ("the ground storey states no height, so the doorcase the elevation composes "
+                      "from it has no width; the door keeps only its leaf's run")
+        return None
+    slots = _thresh().resolved_slots(style)
+    forbids = DC.forbidden_of(slots) if slots is not None else set()
+    comp = DC.composition(op, fac, ground["storey_height_ft"] * 12.0, forbids=forbids)
+    leaf = door.get("width_ft") or 3.5
+    side_in = comp["casing_w_in"] + (comp["sidelight_w_in"] if comp["use_sidelights"] else 0.0)
+    half = leaf / 2.0 + side_in / 12.0
+    pos = door["position_ft"]
+    bay, unstated = DC.stated_bay_ft(plan)
+    rooms = set()
+    for r in level_rooms:
+        rect = _rect(r)
+        if not rect or not _on_main(r):
+            continue
+        run = _boundary_walls(rect, W, H).get(face)
+        if run and run[0] < pos + half and run[1] > pos - half:
+            rooms.add(r["id"])
+    rec.update({
+        "reserved": True, "wall": face, "room": room["id"], "position_ft": round(pos, 3),
+        "leaf_ft": leaf, "casing_in": round(comp["casing_w_in"], 3),
+        "sidelights_in": round(comp["sidelight_w_in"], 3) if comp["use_sidelights"] else None,
+        "run_ft": [round(pos - half, 3), round(pos + half, 3)],
+        "rooms_touched": sorted(rooms),
+        "residual": ("half the ordinary pier each side, facade-classical's door_surround rule, at "
+                     f"the {bay:g} ft bay the parti states" if bay else
+                     f"NOT JUDGED: {unstated}; the run keeps the placer's "
+                     f"{MIN_SOLID_FT:g} ft solid each side"),
+        "source": ("doorcase.composition (opening-proportion's leaf and casing, facade-classical's "
+                   "width cap and sidelights) and doorcase.residual_pier_ft"),
+    })
+    return {"wall": face, "lo": pos - half, "hi": pos + half, "rooms": rooms,
+            "bay_ft": bay, "facade_pack": fac}
+
+
+def _doorcase_keepout(doorcase, room_id, wall, width_ft):
+    """The span a window `width_ft` wide may not enter on `wall` of `room_id`, or None: the doorcase
+    run plus the residual pier its own width asks for, and never less than the solid every opening
+    keeps (`MIN_SOLID_FT`)."""
+    if not doorcase or wall != doorcase["wall"] or room_id not in doorcase["rooms"]:
+        return None
+    res = MIN_SOLID_FT
+    if doorcase["bay_ft"]:
+        half = _dc().residual_pier_ft(doorcase["facade_pack"], doorcase["bay_ft"], width_ft)
+        if half is not None:
+            res = max(res, half)
+    return (doorcase["lo"] - res - _RECORD_QUANTUM_FT, doorcase["hi"] + res + _RECORD_QUANTUM_FT)
+
+
+def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None, level_index=0,
+                   doorcase=None):
     """Windows into the run the doors left, centred on the bay grid where a bay line falls
     inside the free space. build/geometry.py's own header says the bay module is what
     "joists span, windows centre on, the facade composes from" — and no renderer or pass
@@ -619,10 +747,12 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
                 report["windows_unplaced"] += n
                 continue
             lo, hi = bw[wall]
-            beside = " and ".join(["its doors"] + sorted(set(took.get((r["id"], wall), []))))
+            keep = _doorcase_keepout(doorcase, r["id"], wall, width)
+            beside = " and ".join(["its doors"] + sorted(set(took.get((r["id"], wall), [])))
+                                  + (["the entrance doorcase"] if keep else []))
             placed = []
             for k in range(n):
-                free = _free(lo, hi, occupied.get((r["id"], wall), []))
+                free = _free(lo, hi, occupied.get((r["id"], wall), []) + ([keep] if keep else []))
                 prefer = lo + (hi - lo) * ((k + 1) / (n + 1))
                 pos = _seat(free, width, prefer)
                 if pos is None:
@@ -1035,8 +1165,9 @@ def place(plan, C=None):
         _place_interior(rooms, occupied, report,
                         appendages=apx.get(lv.get("index", _li)) or {})
         _place_exterior(rooms, occupied, W, H, C, report, envs)
+        dc = _reserve_doorcase(plan, rooms, W, H, envs, report, lv.get("index", _li))
         _place_windows(rooms, occupied, W, H, report, envs,
-                       hearths=he, level_index=lv.get("index", _li))
+                       hearths=he, level_index=lv.get("index", _li), doorcase=dc)
         fixture_pass(rooms, C, report, occupied)
         holds.append((rooms, occupied))
     stair = stair_pass(plan, C, report)

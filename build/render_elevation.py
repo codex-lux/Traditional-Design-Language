@@ -1223,6 +1223,10 @@ def render_elevation(elev, path, face=None, scale=24.0):
     for r in _doors:
         if r.get("sidelights_refused"):
             notes.append('SIDELIGHTS NOT DRAWN \u2014 ' + r["sidelights_refused"].upper())
+    # THE WALL BESIDE THE DOORCASE (Phase 15, WP-15.6): what touches it or falls short of
+    # facade-classical's floor, and that the floor is not judged where no parti states the bay.
+    # `elevation.doorcase_pier_notes` is the one spelling; the DXF writes the same lines.
+    notes.extend(EL.doorcase_pier_notes(elev, face))
     # ONE LINE PER REASON (audit, 27 Sep 2026). `_clearances` refuses a pair of leaves for three
     # reasons and this sheet printed one sentence for all of them -- "A LEAF WOULD LIE OVER ITS
     # NEIGHBOUR: THE PIER IS NARROWER THAN SASH-LIGHT'S LEAF" -- which was false on most sheets

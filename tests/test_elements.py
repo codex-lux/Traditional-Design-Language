@@ -448,7 +448,14 @@ CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # are exactly the plans that name an entrance face. Re-derived per plan on a `git worktree` of
 # `a0ae8b7`: six of sixteen differ, the same six, and the ten the entrance selector does not
 # reach are byte-identical on BOTH digests -- which is the pair agreeing rather than a bump.
-CORPUS_OPENINGS_SHA = "f63f6493a4bc83dd"
+# AND AT PHASE 15, WP-15.6, FOR ONE WINDOW ON ONE PLAN, AND THIS TIME THE PLACEMENT HOLDS.
+# `f63f6493a4bc83dd` -> `5103ee9d4db5a6c3`: the placer reserves the entrance doorcase's whole
+# composition, and half the ordinary pier beside it, before it seats a window, so the Tidewater
+# centre passage's south window moves from 13.5 to 9.995 ft. Re-derived per plan with this test's
+# own arithmetic on a `git worktree` of `e8668e6`, whose run reproduced BOTH old pins first: the
+# placement digest is unchanged on all sixteen, and the openings digest differs on exactly one,
+# `tidewater-georgian-careful` -- a door reserves wall and moves no room.
+CORPUS_OPENINGS_SHA = "5103ee9d4db5a6c3"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

@@ -6,10 +6,15 @@ DXF both honoured `sidelights_drawn` and said nothing, so the model and the CAD 
 a doorcase that never had sidelights -- the silent absence a refusal must never look like, one
 surface over from the one that said it. Each republishes the record's own reason now.
 
-The Tidewater front is the house that refuses its pair (its left sidelight would stand 9 in over
-the passage window the plan seats 12 in from the leaf). The premise is asserted, so the day the
-placement moves that window the file says so rather than passing over nothing.
+The Tidewater front WAS the house that refused its pair: its left sidelight would have stood 9 in
+over the passage window the placer seated 12 in from the leaf. The premise was asserted, so the day
+the placement moved that window the file would say so rather than pass over nothing -- and Phase 15,
+WP-15.6 is that day: the placer reserves the doorcase's whole composition and half the ordinary pier
+beside it, the window stands 33 in clear of the sidelights, and the pair is drawn. So the refusal is
+DRIVEN now, by moving that window back to where the placer used to seat it, and the placed front is
+the control: drawn, and said by no surface.
 """
+import copy
 import json
 import os
 import sys
@@ -41,16 +46,29 @@ def front():
         GEO._SOLVE_CACHE = saved
     sec = ST.build_section(placed, None, geometry_result=placed)
     roof = RF.build_roof(placed, section=sec)
-    elev = EL.build_elevation(placed, None, section=sec, roof=roof)
-    face = elev["entrance_face"]
+    placed_elev = EL.build_elevation(placed, None, section=sec, roof=roof)
+    face = placed_elev["entrance_face"]
+    ctl = next(r for r in EL.opening_rects(placed_elev, face)["rects"] if r.get("entrance"))
+    assert ctl.get("sidelights_drawn") and not ctl.get("sidelights_refused"), \
+        "the premise: the placed front draws its pair (WP-15.6 keeps the window clear of it)"
+    elev = copy.deepcopy(placed_elev)
+    # DRIVE the passage window back to where the placer seated it before WP-15.6: its right jamb
+    # MIN_SOLID_FT (12 in) from the leaf, every field the rect is read from shifted together
+    win = max((p for p in elev["faces"][face]["placed"] if p["kind"] == "window"
+               and p["storey"] == ctl["storey"] and p["cx_in"] < ctl["cx_in"]),
+              key=lambda p: p["cx_in"])
+    d_in = (ctl["x0_in"] - 12.0 - win["width_in"] / 2.0) - win["cx_in"]
+    win["cx_in"] += d_in
+    win["u_ft"] = round(win["u_ft"] + d_in / 12.0, 4)
+    win["along_ft"] += d_in / 12.0
     door = next(r for r in EL.opening_rects(elev, face)["rects"] if r.get("entrance"))
     assert door.get("sidelights_refused") and door.get("sidelights_drawn") is False, \
-        "the premise: this front refuses its sidelight pair"
-    return placed, sec, roof, elev, face, door
+        "the drive landed: the moved window refuses the sidelight pair"
+    return placed, sec, roof, elev, face, door, placed_elev
 
 
 def test_the_scene_says_the_refused_pair_in_the_records_own_words(front):
-    placed, sec, roof, elev, _face, door = front
+    placed, sec, roof, elev, _face, door, _ctl = front
     scene = SC.build_scene(placed, sec, roof, elev)
     said = [n for n in scene["not_modelled"] if n["what"] == "the sidelights"]
     assert len(said) == 1 and said[0]["why"] == door["sidelights_refused"], said
@@ -60,7 +78,7 @@ def test_the_scene_says_the_refused_pair_in_the_records_own_words(front):
 def test_the_dxf_carries_the_refusal_on_the_doorcase(front, tmp_path):
     pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
     import ezdxf
-    _placed, _sec, _roof, elev, face, door = front
+    _placed, _sec, _roof, elev, face, door, _ctl = front
     path = str(tmp_path / "front.dxf")
     res = EX.export_elevation_dxf(elev, path, face)
     assert "error" not in res, res
@@ -71,3 +89,20 @@ def test_the_dxf_carries_the_refusal_on_the_doorcase(front, tmp_path):
             if tags and tags[0] == "TDL::sidelights-refused":
                 found.append(json.loads("".join(tags[1:]))["reason"])
     assert found == [door["sidelights_refused"]], found
+
+
+def test_the_placed_front_draws_its_pair_and_no_surface_says_it_was_refused(front, tmp_path):
+    """The control. The pair the placement leaves room for is modelled and drawn, and neither the
+    scene nor the DXF carries a refusal for it -- so the two tests above bite on the refusal and not
+    on something every front carries."""
+    placed, sec, roof, _elev, face, _door, placed_elev = front
+    scene = SC.build_scene(placed, sec, roof, placed_elev)
+    assert not [n for n in scene["not_modelled"] if n["what"] == "the sidelights"]
+    assert [s for s in scene["solids"] if "-sidelight-" in s["id"]], "the drawn pair is modelled"
+    pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+    import ezdxf
+    path = str(tmp_path / "placed.dxf")
+    assert "error" not in EX.export_elevation_dxf(placed_elev, path, face)
+    tags = [e.get_xdata(EX.APPID)[0][1] for e in ezdxf.readfile(path).modelspace()
+            if e.has_xdata(EX.APPID) and e.get_xdata(EX.APPID)]
+    assert "TDL::sidelights-refused" not in tags

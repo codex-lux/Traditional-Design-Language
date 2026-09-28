@@ -81,45 +81,13 @@ def glass_module_for_date(date):
     return GLASS_MODULE_AFTER_1900, f"date {date} is after 1900, where sash-light.json's own module.note reads 'effectively unlimited' -- used {GLASS_MODULE_AFTER_1900} in as a practical cap."
 
 # ---------------------------------------------------------------- pack rule lookup
-def _rule(pack, target_slot, note_substr=None, dimension=None):
-    """Finds ONE derived_rules entry by target_slot (+ dimension, + a note substring where a
-    pack states more than one rule for the same slot -- opening-proportion.json alone has three
-    for entry_door). Picking rules this way, rather than hand-copying the expression strings a
-    second time, is the same discipline WP-3.1's graduation_check() and WP-3.3's wing_step_down()
-    both adopted after finding a hand-transcribed number had drifted from the pack's own text."""
-    for r in pack.get("derived_rules", []):
-        if r["target_slot"] != target_slot: continue
-        if dimension and r.get("dimension") != dimension: continue
-        if note_substr and note_substr.lower() not in (r.get("note") or "").lower(): continue
-        return r
-    return None
-
-def _pack_env(pack, module_in=None):
-    """Same env construction proportion_engine.evaluate() itself uses (module/part/column_height
-    auto-filled from the pack's own module block), so a rule that names 'module' or 'part' and
-    is not given an explicit override still resolves -- exactly what evaluate() would do, just
-    callable one rule at a time instead of for the whole pack."""
-    mod = module_in if module_in is not None else (pack["module"].get("default_size_in") or 6.0)
-    env = dict(PE.DEFAULT_BINDINGS)
-    env["module"] = mod
-    env["part"] = mod / pack["module"]["parts"]
-    col = pack.get("column", {})
-    if col.get("height_modules"):
-        env["column_height"] = col["height_modules"] * mod
-    return env
-
-def _val(pack, target_slot, env, note_substr=None, dimension=None, clip=True, module_in=None):
-    r = _rule(pack, target_slot, note_substr=note_substr, dimension=dimension)
-    if not r:
-        return None, None
-    full_env = {**_pack_env(pack, module_in), **env}
-    v = PE.evaluate_expr(r["expression"], full_env)
-    v = float(v)
-    in_range = None
-    if clip and r.get("range"):
-        lo, hi = r["range"]
-        in_range = lo <= v <= hi
-    return v, {"rule": r, "value": v, "in_range": in_range}
+# `_rule`, `_pack_env` and `_val` are `doorcase.rule`, `pack_env` and `val` (Phase 15, WP-15.6):
+# the placer needs the entrance composition's width before a window is seated and cannot import
+# this file, so the readers moved to a leaf both can load, and these names stay for the readers here.
+DC = _mod("doorcase", f"{ROOT}/build/doorcase.py")
+_rule = DC.rule
+_pack_env = DC.pack_env
+_val = DC.val
 
 # ---------------------------------------------------------------- window sizing per storey
 TARGET_SILL_IN = 30.0   # storey-graduation.json's own documented convention, quoted in opening-proportion.json's
@@ -764,7 +732,7 @@ def placed_openings(placed, section, entrance_face, faces=None):
                 p["bay"] = None
         doors = [p for p in out[f]["placed"] if p["kind"] == "door" and p["storey"] == "ground"]
         if f == entrance_face and doors:
-            ent = max(doors, key=lambda p: (p["width_ft"], -p["u_ft"]))
+            ent = doors[DC.entrance_index([(p["width_ft"], p["u_ft"]) for p in doors])]
             ent["entrance"] = True
     return {"faces": out, "unplaced_doors": unplaced_doors,
             "datum": {"x": X_DATUM, "wall_thickness_ft": round(t_ft, 4),
@@ -824,10 +792,13 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
     classical-apparatus group is forbidden at the family" and this function read a pilaster
     projection for it.
     """
-    door_w, door_w_r = _val(op_pack, "entry_door", {"storey_height": ground_storey_height_in}, note_substr="door from the storey", dimension="width")
+    # THE WIDTH FIGURES ARE `doorcase.composition`'s (WP-15.6): the placer reserves this width on
+    # the entrance wall before it seats a window, so the two must be one arithmetic.
+    dc = DC.composition(op_pack, facade_pack, ground_storey_height_in, forbids=forbids)
+    door_w, door_w_r = dc["door_w_in"], dc["door_w_rule"]
     door_h, door_h_r = _val(op_pack, "entry_door", {"storey_height": ground_storey_height_in}, note_substr="door height from the storey", dimension="height")
     canonical_h = door_w * 2.0   # opening-proportion's OWN canonical 2:1 check, module=door leaf -- a second, independently-sourced figure to compare against
-    casing_w, _ = _val(op_pack, "door_surround", {"module": door_w}, dimension="width")
+    casing_w = dc["casing_w_in"]
     gibbs_casing_w, _ = _val(gibbs_pack, "casing", {"opening_width": door_w}, dimension="width")
     # A FORBIDDEN SIDELIGHT HAS NO WIDTH. The composition already carried the branch -- it chose
     # between with and without on a width cap -- so the kit's refusal simply decides it instead,
@@ -836,22 +807,11 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
     # `colonial-revival` was bound (WP-8.3 found it inheriting a Gothic prohibition on
     # its own front door) and the numbers here went stale in the same commit that moved
     # them. Re-derived 28 Aug 2026 by the WP-8.4 adversarial audit.
-    sidelights_forbidden = "transom_sidelight" in forbids
-    if sidelights_forbidden:
-        sidelight_w = transom_h = None
-    else:
-        sidelight_w, _ = _val(op_pack, "transom_sidelight", {"module": door_w}, dimension="width")
-        transom_h, _ = _val(op_pack, "transom_sidelight", {"module": door_w}, dimension="height")
-
-    with_sidelights_in = None if sidelights_forbidden else door_w + 2 * sidelight_w + 2 * casing_w
-    without_sidelights_in = door_w + 2 * casing_w
-    # OQ 48: `door_surround`/`width` held two quantities -- an architrave's own face width and the
-    # MAXIMUM WIDTH OF THE WHOLE ENTRANCE COMPOSITION, which is what this cap has always meant.
-    comp_cap_in, _ = _val(facade_pack, "door_surround",
-                          {"module": facade_pack["module"]["default_size_in"]},
-                          dimension="entrance_composition_total_width")
-    use_sidelights = (not sidelights_forbidden) and with_sidelights_in <= comp_cap_in
-    composition_w = with_sidelights_in if use_sidelights else without_sidelights_in
+    sidelights_forbidden = dc["sidelights_forbidden"]
+    sidelight_w, transom_h = dc["sidelight_w_in"], dc["transom_h_in"]
+    comp_cap_in = dc["cap_in"]
+    use_sidelights = dc["use_sidelights"]
+    composition_w = dc["composition_w_in"]
 
     # Gibbs Ionic entablature, dimensioned at whatever module makes an 18-module column equal the
     # DOOR's own height -- this doorcase carries no free column (tidewater-georgian's own kit
@@ -2601,6 +2561,20 @@ def opening_rects(elev, face):
 CORNER_UNJUDGED = ("the face states no width, so whether this stands past its corner is not judged "
                    "-- not a pass")
 
+def drawn_extent_in(o):
+    """The run of a face an opening rect is DRAWN over, `(x0_in, x1_in)` in the face's inches:
+    the entrance door with its casing each side and its sidelights where they are drawn (a garage
+    door has no doorcase), and any other opening its own rect. ONE spelling: `_clearances` hangs a
+    shutter leaf against it and `doorcase_piers` measures the wall beside the doorcase from it, so
+    the leaf that is refused and the pier that is measured cannot be read off two outlines."""
+    e = o.get("entrance") or {}
+    if o["kind"] == "door" and e and "garage" not in str(o.get("type") or "").lower():
+        cw = e.get("casing_width_in") or 0.0
+        sw = (e.get("sidelight_width_in") or 0.0) if o.get("sidelights_drawn") else 0.0
+        return o["x0_in"] - cw - sw, o["x1_in"] + cw + sw
+    return o["x0_in"], o["x1_in"]
+
+
 def _clearances(rects, face_width_in=None):
     """WHAT ITS NEIGHBOURS LEAVE AN OPENING ROOM TO CARRY (WP-14.6), decided once, here, for the
     SVG, the DXF and the scene alike.
@@ -2666,13 +2640,7 @@ def _clearances(rects, face_width_in=None):
             r["sidelights_refused"] = "; ".join(hits)
 
     # 2. The shutter pairs, against every opening as it is now composed and every other leaf.
-    def _extent(o):
-        e = o.get("entrance") or {}
-        if o["kind"] == "door" and e and "garage" not in str(o.get("type") or "").lower():
-            cw = e.get("casing_width_in") or 0.0
-            sw = (e.get("sidelight_width_in") or 0.0) if o.get("sidelights_drawn") else 0.0
-            return o["x0_in"] - cw - sw, o["x1_in"] + cw + sw
-        return o["x0_in"], o["x1_in"]
+    _extent = drawn_extent_in
 
     leaves = {id(o): ((o["x0_in"] - o["shutter_leaf_width_in"], o["x0_in"]),
                       (o["x1_in"], o["x1_in"] + o["shutter_leaf_width_in"]))
@@ -2713,6 +2681,106 @@ def _clearances(rects, face_width_in=None):
             # neighbour it does not have. A surface that must say which reason reads this,
             # never the sentence above.
             o["shutters_refused_by"] = sorted(kinds[id(o)])
+
+
+# ---------------------------------------------------------------- the wall beside the doorcase
+# A tolerance on formatting and not a licence: the placer seats a window a thousandth of a foot
+# past the floor it reserves (`openings._RECORD_QUANTUM_FT`), and the rects are exact to 1e-9.
+PIER_TOL_IN = 0.01
+PIER_SOURCE = ("facade-classical's door_surround rule for the entrance composition's width: \"It is "
+               "not allowed to touch the flanking windows\", and \"The residual wall each side of "
+               "the entrance composition should not fall below about half the ordinary pier\"")
+
+
+def doorcase_piers(elev, face):
+    """THE WALL EACH SIDE OF THE ENTRANCE DOORCASE AS IT IS DRAWN (Phase 15, WP-15.6), measured on
+    `face` and judged by the two sentences facade-classical states about it, each where it can be.
+
+      * "It is not allowed to touch the flanking windows" needs no module, so a doorcase touching or
+        standing over a flanking window is `touches` on any plan;
+      * "The residual wall each side of the entrance composition should not fall below about half
+        the ordinary pier" needs the bay the ordinary pier is one of, so it is judged only where a
+        parti STATES that bay (`doorcase.stated_bay_ft`), at the flanking window's own drawn width
+        (`doorcase.residual_pier_ft`, the arithmetic the placer reserved the run with): `agrees` or
+        `short`, and `unjudged`, with the reason, where no parti states the bay.
+
+    A side whose nearest opening is not a window, or that has none before the corner, is
+    `not_applicable` -- both sentences are about the flanking WINDOWS -- and is measured all the
+    same. The doorcase is `drawn_extent_in`, the outline `_clearances` hangs the shutter leaves
+    against. None where this face draws no doorcase (no entrance door, or a garage door)."""
+    rects = opening_rects(elev, face)["rects"]
+    ent = next((r for r in rects if r["kind"] == "door" and r.get("entrance")
+                and "garage" not in str(r.get("type") or "").lower()), None)
+    if ent is None:
+        return None
+    x0, x1 = drawn_extent_in(ent)
+    placed = (elev.get("section") or {}).get("geometry")
+    bay, bay_why = DC.stated_bay_ft(placed)
+    fac = PE.resolve("facade-classical")
+    width = ((elev.get("faces") or {}).get(face) or {}).get("outside_width_in")
+    others = [r for r in rects if r is not ent and r.get("storey") == ent.get("storey")]
+    mid = (x0 + x1) / 2.0
+    sides = []
+    for side in ("left", "right"):
+        cand = [r for r in others if ((sum(drawn_extent_in(r)) / 2.0) < mid) == (side == "left")]
+        if side == "left":
+            near = max(cand, key=lambda r: drawn_extent_in(r)[1]) if cand else None
+            clear = (x0 - drawn_extent_in(near)[1]) if near else (x0 if width else None)
+        else:
+            near = min(cand, key=lambda r: drawn_extent_in(r)[0]) if cand else None
+            clear = (drawn_extent_in(near)[0] - x1) if near else ((width - x1) if width else None)
+        s = {"side": side, "clear_in": None if clear is None else round(clear, 3),
+             "neighbour": None if near is None else {
+                 "kind": near["kind"], "room": near.get("room"), "width_in": near["width_in"]},
+             "floor_in": None}
+        if near is None:
+            s.update(verdict="not_applicable",
+                     why="no opening stands between the doorcase and the corner on this side")
+        elif near["kind"] != "window":
+            s.update(verdict="not_applicable",
+                     why=f"the nearest opening on this side is a {near['kind']}, and the rule is "
+                         f"stated for the flanking windows")
+        elif clear <= PIER_TOL_IN:
+            s.update(verdict="touches",
+                     why="the doorcase touches or stands over the flanking window, which the rule "
+                         "does not allow at any bay")
+        elif bay is None:
+            s.update(verdict="unjudged", why=bay_why)
+        else:
+            floor = DC.residual_pier_ft(fac, bay, near["width_in"] / 12.0)
+            if floor is None:
+                s.update(verdict="unjudged", why="facade-classical states no ordinary pier")
+            else:
+                s["floor_in"] = round(floor * 12.0, 3)
+                s["verdict"] = "agrees" if clear >= floor * 12.0 - PIER_TOL_IN else "short"
+        sides.append(s)
+    return {"face": face, "storey": ent.get("storey"), "room": ent.get("room"),
+            "doorcase_in": [round(x0, 3), round(x1, 3)], "bay_ft": bay,
+            "bay_why": bay_why, "sides": sides, "source": PIER_SOURCE}
+
+
+def doorcase_pier_notes(elev, face):
+    """What the sheet and the DXF say about the wall beside the doorcase: every side that touches
+    or falls short, and, once, that the floor is not judged where no parti states the bay. A side
+    that agrees or that the rule does not reach says nothing -- a plate certifies nothing it did
+    not prove. ONE spelling, for both surfaces."""
+    got = doorcase_piers(elev, face)
+    if not got:
+        return []
+    out = []
+    for s in got["sides"]:
+        who = f"THE {str((s['neighbour'] or {}).get('room')).upper()} WINDOW"
+        if s["verdict"] == "touches":
+            out.append(f"THE DOORCASE TOUCHES {who} ON THE {s['side'].upper()} — FACADE-CLASSICAL: "
+                       f"IT “IS NOT ALLOWED TO TOUCH THE FLANKING WINDOWS”")
+        elif s["verdict"] == "short":
+            out.append(f"THE WALL BESIDE THE DOORCASE IS {s['clear_in']:.1f}″ ON THE "
+                       f"{s['side'].upper()}, TO {who}, AGAINST {s['floor_in']:.1f}″ — HALF "
+                       f"THE ORDINARY PIER AT THE {got['bay_ft']:g} FT BAY (FACADE-CLASSICAL)")
+    if any(s["verdict"] == "unjudged" for s in got["sides"]):
+        why = next(s["why"] for s in got["sides"] if s["verdict"] == "unjudged")
+        out.append("THE WALL BESIDE THE DOORCASE IS NOT JUDGED — " + why.upper())
+    return out
 
 
 SASH_PACK_ID = "sash-light"
@@ -2828,10 +2896,9 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     # lineage eventually reaches english-georgian and georgian-colonial-american through a long
     # regional_of/hybridizes_with chain (real architectural history), and the cascade would have
     # called this generator "applicable" to a bungalow on that basis alone -- which is exactly
-    # the bug this gate exists to close, not a second copy of it.
-    def _applies_directly(pack, style_id):
-        return "universal" in pack.get("applies_to", []) or style_id in pack.get("applies_to", [])
-    applicable = _applies_directly(op_pack, style) and _applies_directly(facade_pack, style)
+    # the bug this gate exists to close, not a second copy of it. The test is `doorcase.applies`
+    # (WP-15.6), so the placer asks the same question before it reserves a doorcase.
+    applicable = DC.applies(style, op_pack, facade_pack)
     if not applicable:
         return {
             "plan_id": plan.get("id"), "style": style, "applicable": False,
@@ -2977,7 +3044,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                                    "window_surround_wood") or {}
         # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): every slot this node's RESOLVED kit forbids. The generator reads slot
         # dimensions straight out of pack files and has never consulted the kit's strongest word.
-        forbids = {sid for sid, rec in _slots.items() if rec.get("binding") == "forbidden"}
+        forbids = DC.forbidden_of(_slots)
         _reveal_source = _slots
     except Exception:
         _ks = ((C["kits"].get(style) or {}).get("slots", {}) or {})

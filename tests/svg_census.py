@@ -2400,6 +2400,124 @@ def v23():
     return out
 
 
+# facade-classical's floor on the wall beside the entrance composition is PROSE -- "about half the
+# ordinary pier" -- so it is transcribed, and it is transcribed HERE as well as in `doorcase.py`, on
+# purpose: this reads the rule for itself (R4's trap, WP-14.2: a guard whose reference is what the
+# subject serves agrees with it by construction). The sentence is held to the pack on every run.
+_PIER_SENTENCE = "should not fall below about half the ordinary pier"
+_PIER_FRACTION = 0.5
+_PIER_SHORT = "THE WALL BESIDE THE DOORCASE IS "
+_PIER_UNJUDGED = "THE WALL BESIDE THE DOORCASE IS NOT JUDGED"
+_PIER_TOUCHES = "THE DOORCASE TOUCHES "
+
+
+@check("V24", "elevation", "the wall each side of the entrance doorcase, as drawn, touches no flanking "
+       "window and is at least half the ordinary pier where a parti states the bay; and the legend says "
+       "each side that touches or falls short, and that the floor is not judged where no parti states "
+       "the bay", "elevation sheets that draw a doorcase with a window beside it: shipped plans, every "
+       "face, and every style's front")
+def v24():
+    """Phase 15, WP-15.6. Lucas, of the drawn Tidewater front (27 Sep 2026): "there's still no
+    concept of how close windows can be to doors". The placer reserved the entrance door's LEAF and
+    a foot each side, and the elevation then drew the doorcase round that leaf, so the passage
+    window stood 4.98 in from the casing -- against facade-classical's own sentences about the
+    entrance composition: "It is not allowed to touch the flanking windows", and "The residual wall
+    each side of the entrance composition should not fall below about half the ordinary pier".
+
+    This reads the INK. The doorcase is the casing rect with the glass standing hard against it (the
+    sidelights); a flanking window is the nearest glass on each side, at the doorcase's height, that
+    is neither a sidelight nor a transom; and a door leaf nearer than any window ends the side,
+    because both sentences are about the flanking WINDOWS. The floor is the pier rule
+    (`window_grouping_rule`, `pier_width = module - opening_width`) read out of the pack here, at
+    the window's INK width and the bay the placed record says a parti states -- never
+    `doorcase.residual_pier_ft`, which is what the subject calls. The tolerance is the print: an
+    edge is written to a tenth of a pixel, so two edges are good to a fifth of a pixel."""
+    PE = SURF._mod("proportion_engine")
+    fac = PE.resolve("facade-classical")
+    comp = next(r for r in fac["derived_rules"] if r["target_slot"] == "door_surround"
+                and r.get("dimension") == "entrance_composition_total_width")
+    words = " ".join(str(comp.get(k) or "") for k in ("authority_note", "note"))
+    assert _PIER_SENTENCE in words, ("facade-classical no longer states the floor this check "
+                                     "transcribes; re-read the pack before re-reading the drawing")
+    pier = next(r for r in fac["derived_rules"] if r["target_slot"] == "window_grouping_rule"
+                and r.get("dimension") == "pier_width")
+    out = []
+    for subject, el, svg in _elev_and_sweep():
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        cs = [_box(r) for r in _rects(ink, "cs")]
+        if not pl or not cs:
+            continue
+        k_in = pl["px_per_ft"] / 12.0
+        tol = 0.2 / k_in + 0.01
+        side_glass = [_box(r) for r in _sidelights(ink)]
+        dc0 = min(b[0] for b in cs + side_glass)
+        dc1 = max(b[2] for b in cs + side_glass)
+        cy0, cy1 = min(b[1] for b in cs), max(b[3] for b in cs)
+        glaze = {tuple(round(v, 1) for v in b) for b in side_glass} | \
+                {tuple(round(v, 1) for v in _box(r)) for r in _transoms(ink)}
+        near_y = lambda b: min(b[3], cy1) - max(b[1], cy0) > 0.05
+        wins = [("window", b) for b in (_box(r) for r in _rects(ink, "op"))
+                if tuple(round(v, 1) for v in b) not in glaze and near_y(b)]
+        doors = [("door", b) for b in (_box(r) for r in _rects(ink, "dr"))
+                 if near_y(b) and not (b[0] >= dc0 - 0.05 and b[2] <= dc1 + 0.05)]
+        mid = (dc0 + dc1) / 2.0
+        placed = el.get("section", {}).get("geometry") or {}
+        bay = (placed.get("footprint") or {}).get("bay_module_ft")
+        stated = (((placed.get("geometry_report") or {}).get("bay_module") or {})
+                  .get("stated_by") is not None) and bool(bay)
+        sides = []
+        for side in ("left", "right"):
+            cand = [(kd, b) for kd, b in wins + doors if ((b[0] + b[2]) / 2.0 < mid) == (side == "left")]
+            if not cand:
+                continue
+            kd, b = (max(cand, key=lambda c: c[1][2]) if side == "left"
+                     else min(cand, key=lambda c: c[1][0]))
+            if kd != "window":
+                continue
+            clear = ((dc0 - b[2]) if side == "left" else (b[0] - dc1)) / k_in
+            w_in = (b[2] - b[0]) / k_in
+            if clear <= tol:
+                sides.append((side, "touches", clear, None))
+            elif not stated:
+                sides.append((side, "unjudged", clear, None))
+            else:
+                env = dict(PE.DEFAULT_BINDINGS, module=bay * 12.0, opening_width=w_in)
+                floor = _PIER_FRACTION * float(PE.evaluate_expr(pier["expression"], env))
+                sides.append((side, "agrees" if clear >= floor - tol else "short", clear, floor))
+        if not sides:
+            continue
+        said = [" ".join(t.split()).upper() for t, _a, _it in ink.texts() if t and t.strip()]
+        bad = ["the %s wall is %.2f in against %.2f in" % (s, c, f)
+               for s, v, c, f in sides if v == "short"]
+        bad += ["the doorcase touches the %s window (%.2f in)" % (s, c) for s, v, c, _f in sides
+                if v == "touches"]
+        for s, v, _c, _f in sides:
+            if v == "short" and not any(t.startswith(_PIER_SHORT) and ("ON THE %s" % s.upper()) in t
+                                        for t in said):
+                bad.append("the %s side falls short and the legend does not say so" % s)
+            if v == "touches" and not any(t.startswith(_PIER_TOUCHES) and t.find(s.upper()) > 0
+                                          for t in said):
+                bad.append("the doorcase touches the %s window and the legend does not say so" % s)
+        unj = any(v == "unjudged" for _s, v, _c, _f in sides)
+        if unj != any(t.startswith(_PIER_UNJUDGED) for t in said):
+            bad.append("the floor is %s and the legend %s" % (
+                ("not judged", "does not say so") if unj else ("judged", "says it is not")))
+        if not any(v in ("short", "touches") for _s, v, _c, _f in sides) and \
+                any(t.startswith(_PIER_SHORT) and not t.startswith(_PIER_UNJUDGED) for t in said):
+            bad.append("the legend says a side falls short and none does")
+        figs = "; ".join("%s %.2f in%s" % (s, c, "" if f is None else " against %.2f" % f)
+                         for s, _v, c, f in sides)
+        if bad:
+            out.append(row("V24", subject, "disagrees", "; ".join(sorted(set(bad))) + " (" + figs + ")"))
+        elif unj:
+            out.append(row("V24", subject, "cne", "no parti states the bay the ordinary pier is one of, "
+                                                  "and the legend says so (" + figs + ")"))
+        else:
+            out.append(row("V24", subject, "agrees", figs))
+    return out
+
+
 @check("V7", "elevation", "an arched head is drawn as the circular segment it is set out as, not a "
        "parabola", "elevation sheets drawing an arched head: shipped plans, and every style's front")
 def v7():
