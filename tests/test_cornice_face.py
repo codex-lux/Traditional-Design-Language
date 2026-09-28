@@ -114,16 +114,25 @@ def test_a_record_with_no_cornice_is_said_in_the_dxf_too(elev, tmp_path):
     EX = _m("export_dxf")
     el = copy.deepcopy(elev)
     el["eave_cornice"]["members"] = []
-    for tag, rec, drawn in (("control", elev, True), ("none", el, False)):
+    # AND A RECORD WITH ITS MEMBERS AND NO HEIGHT (WP-15.8's audit pass, auditor ab601): the sheet
+    # leaves the cornice and its inset out, and the DXF drew the full-size profile anyway and
+    # titled the face "CORNICE None IN (8 MEMBERS)"
+    nh = copy.deepcopy(elev)
+    nh["eave_cornice"]["cornice_height_in"] = None
+    assert nh["eave_cornice"]["members"], "the premise: the height-less record keeps its members"
+    for tag, rec, drawn in (("control", elev, True), ("none", el, False), ("no-height", nh, False)):
         path = str(tmp_path / f"{tag}.dxf")
         assert "error" not in EX.export_elevation_dxf(rec, path, face="S")
         msp = ezdxf.readfile(path).modelspace()
         layers = {e.dxf.layer for e in msp}
-        eave = {"TDL-ELEV-FRIEZE", "TDL-ELEV-CORNICE", "TDL-ELEV-CORNICE-MEMBER"} & layers
+        eave = {"TDL-ELEV-FRIEZE", "TDL-ELEV-CORNICE", "TDL-ELEV-CORNICE-MEMBER",
+                "TDL-ELEV-CORNICE-PROFILE"} & layers
         assert bool(eave) == drawn, (tag, sorted(eave))
         said = " ".join(e.dxf.text if e.dxftype() == "TEXT" else e.plain_text().replace("\n", " ")
                         for e in msp.query("TEXT MTEXT"))
         assert ("CORNICE NOT DRAWN" in said and "NO EAVE CORNICE" in said) == (not drawn), tag
+        assert ("MEMBERS)" in said) == drawn, ("the title counts the members of a cornice", tag)
+        assert ("NO CORNICE DRAWN" in said) == (not drawn), tag
 
 
 # ------------------------------------------------------------------ the frieze, driven

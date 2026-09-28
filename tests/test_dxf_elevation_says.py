@@ -154,9 +154,15 @@ def test_no_note_runs_past_the_drawing_or_prints_through_the_next(corpus):
             h = e.dxf.char_height
             for ln in e.plain_text().split("\n"):
                 assert len(ln) * 0.6 * h <= width + 1e-6, (face, len(ln), width, ln[:60])
+        # THE PITCH IS THE FORMAT'S, READ OFF THE ENTITY, NEVER THE EXPORTER'S CONSTANT (WP-15.8's
+        # audit, auditor ab601): this read `DX.MTEXT_PITCH`, so an exporter that set the pitch to
+        # 1.0 -- and printed every note through the next -- moved the test's ruler with it and
+        # stayed green. MTEXT sets a line 5/3 of its character height apart at a spacing factor of
+        # 1.0, which is the DXF format's own figure, times the factor the entity itself carries.
         for a, b in zip(notes, notes[1:]):
             n = len(a.plain_text().split("\n"))
-            bottom = a.dxf.insert[1] - n * DX.MTEXT_PITCH * a.dxf.char_height
+            factor = a.dxf.get("line_spacing_factor", 1.0)
+            bottom = a.dxf.insert[1] - n * (5.0 / 3.0) * factor * a.dxf.char_height
             assert b.dxf.insert[1] <= bottom + 1e-6, ("two notes print through one another", face,
                                                       a.plain_text()[:40], b.plain_text()[:40])
 
@@ -177,6 +183,28 @@ def test_a_note_reads_back_as_what_it_was_given_whatever_it_holds():
             ezdxf.readfile(os.path.join(td, "n.dxf")).modelspace().query("MTEXT"),
             key=lambda e: -e.dxf.insert[1])]
     assert back == hostile, [(a, b) for a, b in zip(back, hostile) if a != b]
+
+
+def test_a_control_character_in_a_record_string_is_written_as_the_replacement_character():
+    """WP-15.8's audit, auditor E: a room id is a free string, and a NUL or a BEL in one reached
+    the elevation DXF as the raw byte -- ezdxf writes it as it is, and many readers take a NUL for
+    the end of the value. Both TEXT and MTEXT write U+FFFD in its place, and everything around it
+    reads back as it was given."""
+    given = "ROOM\x00ID AND\x07BELL\x1fEND\x7f"
+    want = "ROOM\ufffdID AND\ufffdBELL\ufffdEND\ufffd"
+    with tempfile.TemporaryDirectory() as td:
+        doc = ezdxf.new()
+        msp = doc.modelspace()
+        DX._note(msp, "0", given, 0, 0, 500.0)
+        DX._text(msp, "0", given, 0, -100.0)
+        path = os.path.join(td, "c.dxf")
+        doc.saveas(path)
+        raw = open(path, "rb").read()
+        back = ezdxf.readfile(path).modelspace()
+        mt = [e.plain_text() for e in back.query("MTEXT")]
+        tx = [e.dxf.text for e in back.query("TEXT")]
+    assert b"\x00" not in raw and b"\x07" not in raw, "a control byte reached the file"
+    assert mt == [want] and tx == [want], (mt, tx)
 
 
 def test_the_generic_ingest_still_reads_an_elevation_dxf(corpus):

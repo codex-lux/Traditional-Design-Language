@@ -705,16 +705,12 @@ def _profile_span_at(profile_ft, y):
 
 # THE STACK'S GEOMETRY IS THE ELEVATION RECORD'S (Phase 15, WP-15.5), as the opening rectangle
 # has been since WP-12.2: `elevation.stack_marks` decides what each face draws of each stack, and
-# this sheet and the DXF elevation both read it -- the DXF had drawn no stack at all. The three
-# helpers keep their old names here for the readers that reach them through this module.
-# WHAT THE SHEET SAYS FOR EACH CAUSE OF A REFUSED OPENING (WP-15.5), keyed by
-# `elevation.REFUSAL_CAUSES` and in its order; a test holds the two to the same set, so a cause
-# added there without words here fails rather than printing nothing.
-_REFUSED_WORDS = EL.REFUSAL_WORDS
-_UNWORDED = EL.REFUSAL_UNWORDED
-
+# this sheet and the DXF elevation both read it -- the DXF had drawn no stack at all. Two helpers
+# keep their old names here for the readers that reach them through this module. (What the sheet
+# says for each cause of a refused opening is `elevation.REFUSAL_WORDS`, read there by both
+# surfaces; the aliases this block kept for it, and `_near_end_last`, had no reader left and went
+# in WP-15.8's audit pass.)
 _profile_top_at = EL.profile_top_at
-_near_end_last = EL.near_end_last
 _stack_outline = EL.stack_outline
 
 

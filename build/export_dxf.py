@@ -118,8 +118,16 @@ def _xdata(entity, header, payload=None, chunk=200):
     entity.set_xdata(APPID, tags)
 
 
+# A CONTROL CHARACTER IN A RECORD'S STRING IS WRITTEN AS THE REPLACEMENT CHARACTER (WP-15.8's audit,
+# auditor E). A room id is a free string (`plan.schema.json` states no pattern) and reaches TEXT and
+# MTEXT through the notes and the plan's room names; ezdxf writes a NUL or a BEL into the file as it
+# is, which many readers take for the end of the value or of the file. U+FFFD says a character was
+# there and is not drawn, which is what the sheet can honestly say of one.
+_CONTROL = {c: "\ufffd" for c in list(range(0x00, 0x20)) + [0x7f]}
+
+
 def _text(msp, layer, text, x, y, h=TEXT_H, align_end=False):
-    t = msp.add_text(text, dxfattribs={"layer": layer, "height": h})
+    t = msp.add_text(str(text).translate(_CONTROL), dxfattribs={"layer": layer, "height": h})
     t.set_placement((x, y))
     return t
 
@@ -134,6 +142,7 @@ def _mtext_literal(s):
     signs a special one (`%%d` is a degree sign, `%%c` a diameter), and a note carries room names,
     which are the record's strings and not this file's. A caret is written `^ `, which reads back
     as the caret alone, and an empty group is set between two percent signs."""
+    s = s.translate(_CONTROL)
     s = s.replace("\\", "\\\\").replace("{", "\\{").replace("}", "\\}").replace("^", "^ ")
     return re.sub(r"%(?=%)", "%{}", s)
 
@@ -568,7 +577,14 @@ def export_section_dxf(section, path):
               span / 2 - 60, ridge_ft * IN + TEXT_H)
     else:
         msp.add_line((0, eave), (span, eave), dxfattribs={"layer": rf})
-        _text(msp, anno, f"RIDGE UNJUDGED - {(roof.get('note') or '')[:80]}", 0, eave + 2 * TEXT_H)
+        # THE WHOLE SENTENCE, BROKEN TO THE DRAWING'S WIDTH (WP-15.8's audit pass, auditor F):
+        # this cut the roof's note at 80 characters, so on ten drawable plans the CAD file said
+        # the ridge was unjudged and lost the reason why, which the SVG section wraps whole
+        # (WP-14.3). `_note` is the elevation's MTEXT, and reads back as it was given.
+        # Beneath the title, as the elevation sets its notes, so its lines run down clear of the
+        # drawing whatever their number.
+        _note(msp, anno, f"RIDGE UNJUDGED - {roof.get('note') or ''}", 0, -6 * TEXT_H,
+              max(span, 400.0))
     _text(msp, anno, f"{section.get('plan_id','')} - SECTION - {section.get('style','')} - "
                      f"{section['wall']['construction_type']}", 0, -4 * TEXT_H)
     doc.saveas(path)
@@ -764,7 +780,11 @@ def export_elevation_dxf(elev, path, face=None):
     # IS an arc, so the cornice in the CAD file is the same curve as the cornice on the sheet
     # and not a polygon approximating it. Elliptical quarters flatten at a stated tolerance.
     # The detail is drawn at full size beside the elevation, the way it would be on a sheet.
-    members = cornice.get("members") or []
+    # ONLY WHERE THE SHEET DRAWS ITS INSET (WP-15.8's audit, auditor ab601): the sheet leaves the
+    # profile out where the record dimensions no cornice (`cm["applicable"]`), and this drew it
+    # whenever the members were listed, so a record with members and no height carried a profile
+    # in the CAD file that its own sheet refuses.
+    members = (cornice.get("members") or []) if cm["applicable"] else []
     if members:
         PROF = _mod("profiles", f"{ROOT}/build/profiles.py")
         prof_layer = _layer(doc, "TDL-ELEV-CORNICE-PROFILE", color=7)
@@ -917,7 +937,11 @@ def export_elevation_dxf(elev, path, face=None):
     pitch = f"{m['pitch_rise_per_12']}:12" if m.get("pitch_rise_per_12") else "PITCH UNJUDGED"
     _text(msp, anno, f"{elev.get('plan_id','')} - {face} ELEVATION - {elev.get('style','')} - "
                      f"{front['count']} BAYS - {m.get('form','')} {pitch} - "
-                     f"CORNICE {cornice['cornice_height_in']} IN ({cornice['member_count']} MEMBERS)",
+                     # the sheet's own two readings (render_elevation's legend): the cornice only
+                     # where it is drawn, and never "CORNICE None IN (8 MEMBERS)" over a record
+                     # that dimensions none (WP-15.8's audit, auditor ab601)
+                     + (f"CORNICE {cornice['cornice_height_in']} IN ({cornice['member_count']} MEMBERS)"
+                        if cm["applicable"] else "NO CORNICE DRAWN"),
           0, -4 * TEXT_H)
     # EVERYTHING THE SHEET SAYS BENEATH THE DRAWING, IN ITS OWN WORDS AND ORDER (`elevation.
     # face_notes`, WP-15.8). This wrote the five lines it had been handed one at a time -- the main

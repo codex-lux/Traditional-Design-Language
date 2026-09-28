@@ -556,6 +556,27 @@ class TestRenderSection:
         assert got and lines[start + 1].split()[0] == want[len(lines[start].split())], (
             "premise: the note runs onto a second line")
 
+    def test_the_section_dxf_says_the_whole_unjudged_ridge_note(self, structure_module, tmp_path):
+        """WP-15.8's audit pass, auditor F: the DXF cut the note at 80 characters, so on ten
+        drawable plans the CAD file said the ridge was unjudged and lost the reason, which the
+        SVG above says whole. The DXF's words, joined, are the record's note word for word."""
+        import pytest
+        import sys
+        ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        sys.path.insert(0, os.path.join(ROOT, "build"))
+        import modcache
+        EX = modcache.load("export_dxf", os.path.join(ROOT, "build", "export_dxf.py"))
+        plan = load_plan("spec-builder-colonial")
+        section = structure_module.build_section(plan)
+        assert section["roof"]["grade_to_ridge_ft"] is None
+        path = str(tmp_path / "section.dxf")
+        assert "error" not in EX.export_section_dxf(section, path)
+        said = " ".join(e.plain_text().replace("\n", " ") if e.dxftype() == "MTEXT" else e.dxf.text
+                        for e in ezdxf.readfile(path).modelspace().query("TEXT MTEXT"))
+        want = " ".join(("RIDGE UNJUDGED - " + section["roof"]["note"]).split())
+        assert want in " ".join(said.split()), "the DXF's ridge note is not the record's, whole"
+        assert len(want) > 80, "premise: the note is longer than the old cut"
+
     def test_render_bearing_diagram_writes_a_valid_svg_and_flags_over_capacity_spans(self, structure_module, render_section_module, tmp_path):
         # `tidewater-georgian-careful`, not `spec-builder-colonial`: WP-11.8's ranking left the
         # spec Colonial with no over-capacity span at all, and this test is about the DIAGRAM
