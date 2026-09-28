@@ -223,9 +223,11 @@ before touching the eave, the inset or `profiles.repeat_positions`.
 RAN (28 Sep 2026).** Read `docs/reports/wp-15.8-the-audit-of-phase-15.md` before trusting a figure
 Phase 15 published, or a fault verdict of clear. Five auditors worked `07178dc..3b083d9`, every
 finding was reproduced before it was touched, and seven commits fixed what was worth fixing, each
-measured against its parent. The walk on the final head is 701 green, 0 failed and the same 6
-unjudged; the whole build was running when this was committed, and its verdict replaces this
-sentence.
+measured against its parent. **The verdict is deployment-ready for what the session changed**
+(report §I). The whole build on the final code, `0e077f6`, is `2 of 54 checks failed`: 22 failed /
+3,325 passed / 25 skipped, and the 22 ids are exactly the `3a1bb85` build's 22, all on WP-15.6's
+list. The same suite with CI's missing libraries hidden returns the same 22 ids. The walk is 702
+green, 0 failed and the same 6 unjudged.
 - **What was fixed, all of it latent on the shipped plans or older than the phase:**
   - the doorcase keep-out reached only the rooms its run touched (a flanking sash could be seated
     11.95 in from it against a 33 in floor);

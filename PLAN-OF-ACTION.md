@@ -4671,8 +4671,11 @@ the itemized list: every finding, its severity and origin, and what was done abo
   - `8395f5b` and `8588acf`: the DXF says what the sheet says, and the census's undriven clauses
     are driven.
   52 mutations over those commits, all red; 128 of 128 sheets unmoved; tests 3,350 → 3,372 by name.
-- The walk on the final head is 701 green, 0 failed, 6 could not evaluate. The whole build was
-  running when this was committed, and its verdict replaces this line.
+- **Deployment-ready for what the session changed** (report §I). The whole build on `0e077f6` is
+  `2 of 54 checks failed`: 22 failed / 3,325 passed / 25 skipped, the 22 ids exactly the `3a1bb85`
+  build's. With CI's missing libraries hidden, the same 22. The walk is 702 green, 0 failed, 6
+  could not evaluate. CI run 136, read by id: shard 2 is green for the first time since 16 Sep
+  (X18), and every other red is a known id or main's walk four.
 
 ## 6. Parallelisation map
 
