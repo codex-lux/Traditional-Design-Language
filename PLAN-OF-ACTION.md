@@ -29,6 +29,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **12 — The sheet in the round** | **WP-12.0 through 12.9** | **COMPLETE — WP-12.0 through 12.9 (8-9 Sep 2026), 12.8 being the adversarial audit of the other eight and 12.9 the five items it deferred** — raised by Lucas against Dilum Sanjaya's post on 2D schematics transitioning into 3D, with the question whether SVG remained the medium. **The brief is the PRD**, `docs/prd/phase-12-the-sheet-in-the-round.md` (cite the filename; it is the first document in a new `docs/prd/`). The answer is WP-5.11's, one dimension up: the format was never the constraint, and the missing thing is a constructed-3D layer between the record and the camera — `build/scene.py` — with three.js drawing what Python models and the SVG plates staying authoritative and held to it. **All nine rulings taken the day they were put, and an APPROACH perspective view added to v1.** The review that adopted the PRD found the defect that made WP-12.0: **the drawing set is not one building** — the elevation and roof plates are built with no section, so they take `structure.build_section`'s heuristic default while the plan beside them is a CP proof, under a banner WP-6.4 wrote saying one drawing set is one building or it is nothing. It also found that `render_elevation` has taken a `face` since WP-3.2 and no client has ever sent one, so three of the four elevations this system can draw have never been seen |
 | **14 — The ink held to its plates** | **WP-14.1, WP-14.2, WP-14.4, WP-14.5 and WP-14.6 complete; WP-14.3 complete but for step 5, decision 4, which waits on Lucas (27 Sep 2026)** | **Complete but for decision 4** — raised by Lucas: do the drawn trim, casings, column and entablature profiles reflect the plates and dimensions researched to source them, on EVERY surface that draws SVG? WP-14.1 built the instrument that reads the ink back (`tests/inkread.py`) and the census that holds it to the record (`tests/svg_census.py`, `docs/fidelity.md`): forty checks over the 73 profile plates, the order stack, the orders page, the Proportions plate, the elevation, section, roof, plan and DXF, with **452 disagreements pinned by identity and figure**. **WP-14.2 took the orders and mouldings to zero**: 452 -> **255**, every order and moulding check agreeing on its whole population, and the census at 47 checks; the 255 left are the elevation, section, roof, DXF and plan (report: `docs/reports/wp-14.2-the-orders-held-to-what-they-state.md`). **WP-14.3 took the elevation, section, roof and DXF to 36**: a window is one set of numbers, a sash its members, a head its circle, a judged figure drawn and labelled and never published, a garage door drawn as its opening; the 36 are V2 and PL1 (report: `docs/reports/wp-14.3-the-openings-held-to-what-they-state.md`). **Decision 4 is put back to Lucas**: of the 41 styles the elevation draws, 21 draw something their resolved kit forbids and 15 of those only by an ancestor's ban (`oq/an-inherited-ban-decides-what-the-elevation-may-draw`). **Those figures were first published as "51 of the 79"**: the census's style sweep drew the Tidewater elevation for every style, and correcting it took the census 255 -> 203 (WP-14.1's report §VII). **WP-14.4 held the plan sheet and the bench to what they state, and each to the other: 36 -> 21**, the census at 54 checks (report: `docs/reports/wp-14.4-the-plan-sheet-and-the-bench.md`). **WP-14.5 held the record to its own notes, since no cited host answers, and listed the plates a person must fetch: 21 -> 41**, every new disagreement a note against its own record, the census at 60 checks (report: `docs/reports/wp-14.5-the-record-held-to-its-own-notes.md`). **WP-14.6 audited the phase and found the fifth link unheld: one object drawn on several surfaces was several objects -- a chimney in four places, a roof at two heights, a sidelight over a window. 41 -> 46, the census at 68 checks**: V2 15 (decision 4; six of the 21 left by the placement, not the ban), N1 14 and N3 6, and V19 11, the elevation's roof, said on every sheet and put to a ruling (report: `docs/reports/wp-14.6-the-adversarial-audit-of-phase-14.md`). **The phase's audit (27 Sep) found two defects that blocked deployment, both older than the phase -- a stored XSS on the plan sheet, and every IFC written at 3.2808 times its coordinates -- and fixed them with everything worth fixing; the census is at 69 checks and 46, the disagreements unmoved (that report's §XI)**. Report: `docs/reports/wp-14.1-the-ink-read-back.md` |
 | **14 — The dossier and the journey** | **WP-14.0 through 14.15** — sixteen packages in five waves, WP-14.0 through 14.15 COMPLETE, tranche 1 built · **tranche 2 (WP-14.16 through 14.32) COMPLETE 26 Sep 2026** (14.28 not built: no Tidewater plan places) · **WP-14.33, the eight rulings of 26 Sep, COMPLETE** · T3 planned, not built | **Tranche 1 COMPLETE 25 Sep 2026** (planned 24 Sep); **tranche 2 COMPLETE 26 Sep** on seven rulings, contracts `docs/prd/phase-14-tranche-2.md`, integration `docs/reports/wp-14.32-tranche-two-built.md` — raised by Lucas reading the Proportions surface on `trim-classical`: *"It's all just a bunch of text, and I'm not sure how it all relates to each other."* A read-only audit of all twelve surfaces (eleven inventories, five lenses, fourteen themes each re-checked against the source, three competing redesigns, two judges) found the workbench organised the way the corpus is STORED — by record type, in the order it was built — while a practitioner works with one style or one house at a time, so every rail click drops the thing being studied and each surface falls back to its own hard-coded record. **Eight rulings taken the same day** (practitioners first; definitions as glossary records; the navigation rebuilt now around a Style Dossier and a House Journey; report and plan then tranche 1; the dossier's section names; the AI pane named now and told nothing new until later; the pane folded on narrow screens; one ungated sentence on the Gate). The brief is the PRD, `docs/prd/phase-14-the-dossier-and-the-journey.md`, and the analysis is `docs/reports/ux-first-principles-2026-09-24.md`; seven questions filed as slugs, none numbered |
+| **15 — The plates drawn** | **WP-15.5 COMPLETE (27–28 Sep 2026)** · **WP-15.1 through 15.4 BLOCKED ON THE NETWORK** · WP-15.6 through 15.8 not started | **Open** — Lucas's review of the drawn Tidewater front found four defects: no pier between a window and the doorcase; exterior stacks stopping at the roof line; a cornice drawn as a flat band; a Gibbs Ionic capital with its volute at the bottom, which is the record's own member order. The plates are behind hosts that answer 403 to CONNECT, re-probed 28 Sep, so the three plate-free packages go first. WP-15.5 stands each exterior stack on the ground on every elevation surface and in the DXF, which had drawn none; V23 and X3 hold it. `docs/reports/wp-15.5-the-stack-stands-on-the-ground.md` |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -4443,6 +4444,150 @@ The census is at 69 checks and 46 known disagreements, unmoved. **Deferred, each
 audit's code is `3 of 53 checks failed`, and each of its 24 failing tests is attributed by id: 23
 are red on the parent's code too, and the 24th was the audit's own, fixed in its last commit. The
 branch is not yet mergeable, because main carries a parallel Phase 14. Report: the WP-14.6 report's §XI and §XII.
+*(27 Sep 2026: joined the same day. The branch now merges without conflict; GitHub reads
+`unstable`, which is the CI reds the merge report attributes. See
+`docs/reports/the-merge-of-the-two-phase-14s-2026-09-27.md`.)*
+
+## Phase 15 — The plates drawn
+
+*Raised by Lucas on 27 September 2026, reviewing the drawn Tidewater front in Phase 14's gallery:
+**"Just by the screenshot, clearly there's still no concept of how close windows can be to doors, the
+chimney continuing all the way down to the ground rather than just stopping, the cornice not being
+represented on this export, etc. Also, just looking at the Gibbs ionic order capital, it bears
+absolutely no resemblance to the actual Gibbs ionic. If you actually look at the plates and compare
+them side by side, I need you to compare the plates side by side with the SVGs so that you get actual,
+accurate representations. If you can do some sort of overlay or something, that would probably be
+helpful for you, but these capital profiles are still not remotely accurate."***
+
+**Lucas ruled on two questions the same day.** The audit of Phase 14 and the merge with main come
+first; both are done (the WP-14.6 report's §XI, and
+`docs/reports/the-merge-of-the-two-phase-14s-2026-09-27.md`). He would also widen the environment's
+network access for the hosts that hold the plates. **Re-probed on 27 and 28 September, every one
+still refuses:** archive.org, commons.wikimedia.org, upload.wikimedia.org, www.loc.gov,
+babel.hathitrust.org, books.google.com, digitalcollections.nypl.org and www.metmuseum.org all answer
+`CONNECT tunnel failed, response 403`. So the four packages that need a plate wait, and the three
+that need none go first.
+
+**All four defects were confirmed from the screenshots and measured before any code changed:**
+
+1. **No pier between openings.** The placer seats the centre passage's south window 12 in from the
+   door leaf, because it reserves the leaf plus a foot either side and nothing else. The doorcase's
+   7.017 in casing then leaves 4.98 in of brick. The corpus states the rule twice and nothing reads it:
+   - facade-classical: *"The residual wall each side of the entrance composition should not fall
+     below about half the ordinary pier"*;
+   - sash-light: the minimum solid between openings is 1.4 times the opening width.
+2. **The exterior end stacks stopped at the roof line**, drawn as bars hanging from the eaves.
+3. **The cornice is drawn as one flat band.** Its eight members, the modillion band among them, are
+   drawn only in the inset.
+4. **The Gibbs Ionic capital.** The record's own member order puts the volute at the bottom (the
+   schema reads an assembly bottom to top, and the capital lists volute, echinus, bead, abacus ovolo,
+   abacus list). The drawing reproduces it faithfully. Correcting it needs the plate.
+
+**The numbering.** The first plan lettered 15.5 (a), (b) and (c) as one elevation package. They are
+three, because each moves different sheets and is guarded by different checks.
+
+### WP-15.1 — The plates fetched
+
+The public-domain plates each order pack cites, in `Plan Examples/Plates/WANTED.md`'s order, Gibbs
+1732 first. They go in `Plan Examples/Plates/<authority>/`, each retrieval recorded with its URL, date
+and route, and never with a `license`. A plate not found is named, not replaced by a modern redrawing.
+
+**Status: BLOCKED ON THE NETWORK (27–28 Sep 2026).** The refusal is quoted above. Either the
+environment's network access is widened, or a person puts the scans in `Plan Examples/Plates/`.
+
+### WP-15.2 — The overlay instrument
+
+Each profile plate's SVG is registered to its scan by stated control points: the column axis, and two
+member boundaries the plate figures. Both are rendered side by side and overlaid, the scan at partial
+opacity. The census's SOURCE link becomes judgeable at last; it has read COULD NOT EVALUATE on every
+plate.
+
+**Status: BLOCKED on WP-15.1.**
+
+### WP-15.3 — The Ionic capital, Gibbs first
+
+The record corrected from the plate:
+- member order, heights and projections;
+- a figure the plate prints is transcribed;
+- a figure read off the scan is `measured`, with its scale and plate cited.
+
+The volute is drawn by the author's own construction in an elevation of the capital, beside the
+section. Then the other Ionic packs.
+
+**Status: BLOCKED on WP-15.1 and 15.2.**
+
+### WP-15.4 — The other capitals
+
+Doric and Tuscan are profile accuracy. Corinthian and Composite need the bell, the acanthus rows, the
+caulicoli, the helices and the concave abacus, as the plate outlines them. Nothing is drawn plausible
+where the plate is not read.
+
+**Status: BLOCKED on WP-15.1 and 15.2.**
+
+### WP-15.5 — The stack stands on the ground
+
+Every elevation surface draws an exterior end stack from grade to cap, at its own square, wherever it
+stands in front of the face. A stack the house hides stops at its roof line. The breast is stated by
+no record, so it is not drawn, and the sheet says so.
+
+**Status: COMPLETE (27–28 Sep 2026).** `docs/reports/wp-15.5-the-stack-stands-on-the-ground.md`.
+It was built as two commits:
+- **the stack** (`d70343c`), one spelling in `elevation.stack_marks` for the sheet and the DXF,
+  which had drawn no stack at all;
+- **the words** (`5049b95`): each undrawn opening's own cause, where the sheet had said "the placer
+  or a stack" of five windows that stand on the wing, and a sentence saying the elevation is of the
+  main block.
+
+The census gains V23 (a stack's foot) and X3 (the DXF's stacks against the sheet's). On the
+parent's code V23 disagrees on 19 of 19 rows and X3 on 4 of 4; on this tree both agree
+everywhere. The known disagreements are unmoved at 46.
+
+All 23 mutations are red, each on the check written for it. Of the 128 sheets, 4 moved by the
+stack and 23 by the words, each attributed in model space.
+
+### WP-15.6 — The pier between openings
+
+The rule the corpus already states, read and applied:
+- the residual wall each side of the entrance composition at least half the ordinary pier
+  (facade-classical);
+- the solid between two openings at least `minimum_solid_between_openings` (sash-light).
+
+Measure first, on every face of every drawable plan, with the doorcase at its full composition width.
+Then:
+- **the placer** reserves the composition's run plus the pier, so a window is seated clear of it, or
+  is refused by name;
+- **the elevation** measures every drawn pier and says what still breaks the rule, on the sheet and
+  in the DXF;
+- **`pier-narrower-than-the-opening`** reads the drawn piers. Today it reads the ideal bay rhythm, and
+  `adjacent_opening_width_in` is produced nowhere.
+
+The census holds the drawn piers by identity. A placement it moves is re-pinned per plan, with its
+attribution.
+
+**Status: NOT STARTED.**
+
+### WP-15.7 — The cornice drawn with its members
+
+The face draws each cornice member as a band at its stated height, from `elevation.eave_cornice()`,
+which the inset already draws. The modillions are drawn at the pack's spacing where a tooth width is
+stated, and the modillion band is said where none is. The cornice returns against an exterior stack.
+One spelling serves the SVG and the DXF. Where the resolved kit forbids the eave members, nothing
+changes.
+
+**Two things to know first:**
+- `profiles.repeat_positions` fills both ways from every anchor and stops only near another
+  ANCHOR, so between two anchors that are not a whole number of pitches apart it lays two
+  interleaved rows of teeth. This was found by reading; it is to be measured before it is fixed;
+- `gibbs-ionic`'s modillion states a spacing and no width.
+
+**Status: NOT STARTED.**
+
+### WP-15.8 — The audit
+
+Read-only auditors and one mutating agent, each in its own tree. The whole build, with every red
+attributed. The walk. The gallery republished with before-and-after views.
+
+**Status: NOT STARTED.**
 
 ## 6. Parallelisation map
 
