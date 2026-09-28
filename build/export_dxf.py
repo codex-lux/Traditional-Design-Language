@@ -631,17 +631,41 @@ def export_elevation_dxf(elev, path, face=None):
     msp.add_line((min([0] + g_us) - 24, 0), (max([span] + g_us) + 24, 0), dxfattribs={"layer": grade})
     msp.add_lwpolyline([(0, 0), (span, 0), (span, top_of_wall), (0, top_of_wall)],
                        close=True, dxfattribs={"layer": wall})
-    # frieze + cornice band, at the projection the record actually states rather than a
-    # hardcoded six inches either side
+    # THE FRIEZE AND THE CORNICE, EACH AT ITS OWN PROJECTION, AND THE CORNICE WITH ITS MEMBERS
+    # (Phase 15, WP-15.7). This drew ONE box from the wall head to the true eave at the cornice's
+    # projection, as the sheet did, so the frieze stood proud of a wall its record says it is
+    # flush with and not one member was drawn on the face. It draws `elevation.cornice_marks` now,
+    # the marks the sheet draws: the frieze on its own layer at its own projection, the cornice's
+    # box at the one reading of the band's projection (ONE READING, audit 27 Sep 2026: this took
+    # `or 6.0`, so a stated 0.0 became six inches), a line at every member division the record
+    # states carrying the member's id, and the toothed band's teeth where they can be laid.
     cornice = elev["eave_cornice"]
-    # ONE READING (audit, 27 Sep 2026): this took `or 6.0`, so a stated 0.0 became six inches
-    # and an absent figure an invented one; the SVG took 0 in silence. The band is drawn flush
-    # where no record states it, and the file says so.
     band_proj, band_why = EL.cornice_band_projection_in(cornice)
     band_proj = band_proj or 0.0
-    msp.add_lwpolyline([(-band_proj, top_of_wall), (span + band_proj, top_of_wall),
-                        (span + band_proj, true_eave), (-band_proj, true_eave)],
-                       close=True, dxfattribs={"layer": cor})
+    cm = EL.cornice_marks(elev, face)
+    if cm["applicable"]:
+        _fz, _co = cm["frieze"], cm["cornice"]
+        fz = msp.add_lwpolyline([(_fz["u0"] * IN, _fz["h0"] * IN), (_fz["u1"] * IN, _fz["h0"] * IN),
+                                 (_fz["u1"] * IN, _fz["h1"] * IN), (_fz["u0"] * IN, _fz["h1"] * IN)],
+                                close=True, dxfattribs={"layer": _layer(doc, "TDL-ELEV-FRIEZE", color=3)})
+        _xdata(fz, "TDL::frieze", {"projection_in": _fz["projection_in"], "why": _fz["why"]})
+        box = msp.add_lwpolyline([(_co["u0"] * IN, _co["h0"] * IN), (_co["u1"] * IN, _co["h0"] * IN),
+                                  (_co["u1"] * IN, _co["h1"] * IN), (_co["u0"] * IN, _co["h1"] * IN)],
+                                 close=True, dxfattribs={"layer": cor})
+        _xdata(box, "TDL::cornice", {"projection_in": _co["projection_in"], "why": _co["why"],
+                                     "order_pack": _co["order_pack"]})
+        mem = _layer(doc, "TDL-ELEV-CORNICE-MEMBER", color=3)
+        for mm in cm["members"][1:]:
+            ln = msp.add_line((_co["u0"] * IN, mm["h0"] * IN), (_co["u1"] * IN, mm["h0"] * IN),
+                              dxfattribs={"layer": mem})
+            _xdata(ln, "TDL::cornice-member", {"member": mm["id"], "profile": mm["profile"]})
+        _t = cm["teeth"]
+        if _t and not _t["solid"]:
+            tth = _layer(doc, "TDL-ELEV-CORNICE-TOOTH", color=3)
+            for t in _t["teeth"]:
+                msp.add_lwpolyline([(t["u0"] * IN, _t["h0"] * IN), (t["u1"] * IN, _t["h0"] * IN),
+                                    (t["u1"] * IN, _t["h1"] * IN), (t["u0"] * IN, _t["h1"] * IN)],
+                                   close=True, dxfattribs={"layer": tth})
 
     # WP-5.11: THE CORNICE PROFILE ITSELF, AND THE ANSWER TO "DO WE NEED CAD FOR THIS".
     #
@@ -816,8 +840,6 @@ def export_elevation_dxf(elev, path, face=None):
                      f"{front['count']} BAYS - {m.get('form','')} {pitch} - "
                      f"CORNICE {cornice['cornice_height_in']} IN ({cornice['member_count']} MEMBERS)",
           0, -4 * TEXT_H)
-    if band_why:
-        _text(msp, anno, "CORNICE BAND DRAWN FLUSH WITH THE WALL - " + band_why.upper(), 0, -5.5 * TEXT_H)
     # what the sheet says of the main block and of the stacks, in its own words
     # (`elevation.main_block_note` and `stack_notes`, WP-15.5): this drawing is of the main block
     # alone exactly as the sheet is, and says so where the placement sets a wing beside it
@@ -825,7 +847,11 @@ def export_elevation_dxf(elev, path, face=None):
     said = (([_mb] if _mb else []) + ([EL.STACKS_UNSIZED_NOTE] if stacks["unsized"] else [])
             + EL.stack_notes(elev, stacks)
             # the wall beside the doorcase (WP-15.6), in the sheet's own words
-            + EL.doorcase_pier_notes(elev, face))
+            + EL.doorcase_pier_notes(elev, face)
+            # the cornice (WP-15.7): a band drawn solid, and a band or frieze drawn flush because
+            # no record states its projection -- the sheet's sentences, which this file wrote one
+            # of on its own line before
+            + cm["notes"])
     for i, line in enumerate(said):
         _text(msp, anno, line, 0, -(7.0 + 1.5 * i) * TEXT_H)
     doc.saveas(path)

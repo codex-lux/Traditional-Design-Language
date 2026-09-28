@@ -144,6 +144,18 @@ the cornice on the sheet rather than a polygon approximating it. Elliptical quar
 stated tolerance. The band on `TDL-ELEV-CORNICE` is now drawn at the projection the record states
 instead of a hardcoded six inches.
 
+**Phase 15, WP-15.7: the band is the eave's two bands, and the members are drawn.** The file draws
+`elevation.cornice_marks`, the marks the sheet draws.
+- `TDL-ELEV-FRIEZE` carries the frieze at its own projection, which is flush, carrying the reason
+  where no record states it. It had been inside the cornice's box, 10.5 in proud of the wall.
+- `TDL-ELEV-CORNICE` keeps the cornice's box, one polyline, carrying its projection and its order
+  pack.
+- `TDL-ELEV-CORNICE-MEMBER` carries a line at every member division, each naming its member in
+  XDATA.
+- `TDL-ELEV-CORNICE-TOOTH` carries the teeth where a band's can be laid; today none can.
+
+Census X4 holds all of it to the sheet's ink.
+
 **IFC is future work, named rather than hidden.** `build/export_ifc.py` still exports no order
 geometry at all. The obvious next step is an `IfcShapeRepresentation` swept from the same profile
 polyline this exporter already builds; the geometry exists now, so it is a serialisation job and

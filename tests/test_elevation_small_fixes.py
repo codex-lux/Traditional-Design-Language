@@ -60,21 +60,55 @@ def _face_ft(pl, x_px):
 
 
 def test_the_modillions_centre_on_the_bays_they_stand_over(placed, tmp_path):
+    """RE-CUT AT WP-15.7, because the first version certified the defect beside the one it was
+    written for. It drove a 6 in tooth at the record's own 25.6 in pitch over bays 108 in apart --
+    4.22 pitches -- and asserted more than five teeth and a tooth over every bay. Both held, over
+    TWO INTERLEAVED ROWS: `repeat_positions` filled both ways from every bay centre and stopped only
+    near another centre, so 33 teeth stood where one row holds 22, in pairs 5.7 in apart. It now
+    drives a pitch the bays ARE a whole number of (a quarter of the bay), and holds the row to it:
+    every gap the pitch, and a tooth over every bay. The other half, a pitch they are not, is
+    refused with its figure, below."""
     el = copy.deepcopy(_elev(placed))
     band = next(m for m in el["eave_cornice"]["members"] if m.get("profile") == "modillion")
     assert band.get("width_in") is None and band.get("spacing_in"), (
         "the premise: the corpus states no modillion width, so the band is drawn solid and the "
         "anchors are unreachable")
-    band["width_in"] = 6.0
+    bays = el["faces"]["S"]["centres_ft"]
+    pitch_ft = (bays[1] - bays[0]) / 4.0
+    assert all(abs((b - a) - 4 * pitch_ft) < 1e-9 for a, b in zip(bays, bays[1:])), (
+        "the premise: the front's bays are evenly spaced, so a quarter of one is a whole pitch of all")
+    band["width_in"], band["spacing_in"] = 6.0, pitch_ft * 12.0
     ink, pl, _said = _sheet(el, "S", tmp_path)
     tooth_px = 6.0 / 12.0 * pl["px_per_ft"]
     teeth = [it.bbox() for it in ink.select("rect") if "bd" in it.classes and "w-fine" in it.classes
              and abs((it.bbox()[2] - it.bbox()[0]) - tooth_px) < 0.2]
     assert len(teeth) > 5, "the premise: a band with a stated width is drawn as teeth"
-    centres = [_face_ft(pl, (b[0] + b[2]) / 2.0) for b in teeth]
-    for bay in el["faces"]["S"]["centres_ft"]:
-        # a tooth over every bay centre, to the print's 0.1 px
-        assert min(abs(c - bay) for c in centres) < 0.1 / pl["px_per_ft"] + 1e-6, (bay, centres)
+    centres = sorted(_face_ft(pl, (b[0] + b[2]) / 2.0) for b in teeth)
+    tol = 0.02 / pl["px_per_ft"]
+    for bay in bays:
+        # a tooth over every bay centre, to the print's 0.01 px
+        assert min(abs(c - bay) for c in centres) < tol + 1e-6, (bay, centres)
+    gaps = [b - a for a, b in zip(centres, centres[1:])]
+    assert all(abs(g - pitch_ft) < tol + 1e-6 for g in gaps), (
+        "ONE ROW AT THE PITCH: a gap other than the pitch is a second row laid between the first",
+        sorted(set(round(g * 12, 2) for g in gaps)))
+
+
+def test_a_band_whose_bays_are_not_a_whole_number_of_pitches_is_refused_and_said(placed, tmp_path):
+    """The record's own pitch over the Tidewater front's bays: 108 in apart, 4.22 pitches of
+    25.6 in. No tooth can centre on every bay at the stated pitch, and meeting the rule there means
+    changing the pitch the record states. So the band is drawn solid and the sheet gives the figure
+    -- where it used to lay two rows."""
+    el = copy.deepcopy(_elev(placed))
+    band = next(m for m in el["eave_cornice"]["members"] if m.get("profile") == "modillion")
+    bays = el["faces"]["S"]["centres_ft"]
+    k = (bays[1] - bays[0]) * 12.0 / band["spacing_in"]
+    assert abs(k - round(k)) > 0.1, ("the premise: the record's pitch does not divide the bay", k)
+    band["width_in"] = 6.0
+    ink, _pl, said = _sheet(el, "S", tmp_path)
+    assert not [it for it in ink.select("rect") if "bd" in it.classes and "w-fine" in it.classes], (
+        "teeth were laid at a pitch that cannot centre one on every bay")
+    assert "MODILLION BAND DRAWN SOLID" in said and ("%.2f PITCHES" % k) in said, said[-600:]
 
 
 def test_a_keystone_with_no_stated_width_is_not_drawn_and_is_said(placed, tmp_path):

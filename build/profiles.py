@@ -87,6 +87,10 @@ import math, sys
 
 TAU = math.pi * 2.0
 _EPS = 1e-9
+# How far two anchors may stand from a whole number of a band's pitches and still both carry a
+# tooth: a hundredth of an inch over the whole gap. Gibbs's rule says EXACTLY, so this is float
+# noise and not a licence to stretch the pitch (`repeat_positions`).
+_PITCH_TOL_IN = 0.01
 
 # Profiles this module constructs from a rule. Anything outside it is a square step, which is
 # the honest default: a fillet IS a square step.
@@ -555,24 +559,40 @@ def repeat_positions(run_in, count=None, spacing_in=None, width_in=None, centre_
         return {"solid": True, "reason": "stated tooth width fills its own spacing", "teeth": []}
 
     teeth = []
-    if centre_on:
-        anchors = [c for c in centre_on if -width_in <= c <= run_in + width_in]
-        # FILL BOTH WAYS from every anchor. Filling forward only left the whole run before the
-        # first anchor bare -- on a five-bay front with the first column at 30 ft, thirty feet of
-        # cornice carried no modillions at all. Gibbs's rule is that a modillion centres over each
-        # column; it does not say the band starts there.
-        for a in anchors:
-            teeth.append(a)
-            for direction in (1, -1):
-                k = 1
-                while True:
-                    nxt = a + direction * k * spacing_in
-                    if not (-width_in <= nxt <= run_in + width_in):
-                        break
-                    if any(abs(nxt - b) < spacing_in * 0.5 for b in anchors):
-                        break               # another anchor owns this tooth
-                    teeth.append(nxt)
-                    k += 1
+    anchors = sorted(c for c in (centre_on or []) if -width_in <= c <= run_in + width_in)
+    if anchors:
+        # GIBBS'S RULE, AND WHERE IT CANNOT HOLD (Phase 15, WP-15.7). "Always the centre of a
+        # Modillion exactly over the centre of each column": between two anchors the teeth are at
+        # the band's own pitch, which is possible only where the anchors stand a whole number of
+        # pitches apart. This used to fill both ways from EVERY anchor and stop only near another
+        # ANCHOR, so between two anchors 4.22 pitches apart it laid two interleaved rows -- 33
+        # teeth where one row holds 22, in pairs 5.7 in apart, on the Tidewater front at its
+        # 25.6 in pitch. Latent, because no pack states a tooth width and every band is refused
+        # above; measured on all 44 faces the elevation draws, not one has its bay centres a whole
+        # number of pitches apart. A gap that is not is REFUSED with its figure, because meeting
+        # the rule there means changing the pitch the record states, and that is a judgment.
+        for a, b in zip(anchors, anchors[1:]):
+            k = (b - a) / spacing_in
+            if round(k) < 1 or abs(k - round(k)) * spacing_in > _PITCH_TOL_IN:
+                return {"solid": True, "teeth": [],
+                        "reason": (f"its anchors {b - a:.2f} in apart are {k:.2f} pitches of "
+                                   f"{spacing_in:.2f} in, so no tooth can centre on each at the "
+                                   f"stated pitch")}
+        # FILL BOTH WAYS past the outer anchors. Filling forward only left the whole run before
+        # the first anchor bare -- on a five-bay front with the first column at 30 ft, thirty
+        # feet of cornice carried no modillions at all. Gibbs's rule is that a modillion centres
+        # over each column; it does not say the band starts there.
+        k = 0
+        while anchors[0] - k * spacing_in >= -width_in:
+            teeth.append(anchors[0] - k * spacing_in)
+            k += 1
+        for a, b in zip(anchors, anchors[1:]):
+            n = int(round((b - a) / spacing_in))
+            teeth += [a + i * (b - a) / n for i in range(1, n + 1)]
+        k = 1
+        while anchors[-1] + k * spacing_in <= run_in + width_in:
+            teeth.append(anchors[-1] + k * spacing_in)
+            k += 1
     else:
         n = int(count) if count else max(1, int(round(run_in / spacing_in)))
         span = (n - 1) * spacing_in

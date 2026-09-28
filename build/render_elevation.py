@@ -176,6 +176,10 @@ def _style_block():
             f'.dr{{fill:{PAL["copper"]};stroke:{PAL["ink"]};stroke-width:0.8}}'
             f'.cs{{fill:none;stroke:{PAL["brass"]};stroke-width:1.0}}'
             f'.bd{{fill:{PAL["wall"]};stroke:{PAL["ink2"]};stroke-opacity:0.9}}'
+            # A CORNICE MEMBER'S ARRIS (WP-15.7): the line between two members, in the band's own
+            # ink. A line with no stroke rule is a line nobody sees, which is how the first draft of
+            # the members went onto the sheet -- present in the file and absent from the drawing.
+            f'.cm{{stroke:{PAL["ink2"]};stroke-opacity:0.9;fill:none}}'
             f'.rf{{fill:{PAL["iron"]};fill-opacity:0.28;stroke:{PAL["ink"]};stroke-width:1.4;stroke-linejoin:round}}'
             # A shingle course is a JOINT LINE -- HABS's lightest rung, 0.1 mm, the same weight it
             # gives brick coursing. It is the covering indicated, not the covering drawn.
@@ -915,61 +919,44 @@ def render_elevation(elev, path, face=None, scale=24.0):
             y += c_ft; n += 1
             s.append(f'<line class="course" x1="{X(0):.1f}" y1="{Ypx(y):.1f}" x2="{X(span_ft):.1f}" y2="{Ypx(y):.1f}"/>')
 
-    # frieze + cornice band, front-on, at its own stated projection (its full moulded profile is
-    # drawn to scale in the detail inset -- a 24 in run of mouldings cannot be traced in a band
-    # five pixels deep, and pretending otherwise is how the inset earned its place).
-    # `elevation.cornice_band_projection_in` is the one reading (audit, 27 Sep 2026): a stated 0.0
-    # is kept, and an absent figure is drawn flush and SAID, not drawn flush in silence
-    _cbp, _cbp_why = EL.cornice_band_projection_in(cornice)
-    co = proj_px(_cbp)
-    s.append(f'<rect class="bd w-prof" x="{X(0)-co:.1f}" y="{Ypx(true_eave_ft):.1f}" '
-             f'width="{pw+2*co:.1f}" height="{(cornice_band_ft*scale):.1f}"/>')
-    # The cornice throws the deepest shadow on the building -- its projection is the greatest of
-    # any member, and on a Georgian front that band of dark under the eaves is the first thing the
-    # eye reads. Drawn as the heaviest shade line on the sheet after the ground.
-    s.append(_shade(X(0)-co, Ypx(true_eave_ft), X(span_ft)+co, Ypx(top_of_wall_ft)))
-    # THE TEETH. A modillion band drawn as a solid band is a band of no modillions, and until
-    # 27 Aug 2026 that is what every cornice in this corpus was: the layout function existed, the
-    # widths were authored from the authorities' own notes, and nothing called it. Gibbs's rule
-    # is that a modillion centres over each column; this facade has no columns, so the bay centres
-    # are the anchors -- which is what the rule means on a wall.
-    band = None
-    for mm in cornice.get("members", []):
-        if (mm.get("profile") or "") in ("modillion", "dentil", "mutule", "triglyph"):
-            band = mm
-            break
-    if band:
-        rp = PROF.repeat_positions(
-            span_ft * 12.0,
-            spacing_in=band.get("spacing_in"),
-            width_in=band.get("width_in"),
-            # THE BAY CENTRES ARE FACE FEET FROM THE FACE'S OWN LEFT EDGE, and so are the teeth
-            # `repeat_positions` returns (drawn at `X(t["x0"] / 12)`). The anchors used to subtract
-            # `X(0) / scale` -- the plate's PIXEL origin divided by the scale, 46 / 24 = 1.92 ft --
-            # which put every modillion 23 in off its bay (WP-14.3). Latent for as long as every
-            # band was drawn solid; driven in tests/test_elevation_small_fixes.py.
-            centre_on=[c * 12.0 for c in front["centres_ft"]] or None)
-        by0 = true_eave_ft - (cornice["cornice_height_in"] - band["y_bottom_in"]) / 12.0
-        bh = (band["y_top_in"] - band["y_bottom_in"]) / 12.0 * scale
-        bp = proj_px(band.get("projection_in"))
-        if rp["solid"]:
-            # Drawn solid AND SAID SO -- the behaviour three documents describe and no surface
-            # performed. The reason travels to the legend rather than being swallowed here.
-            cornice_band_note = f'{band["profile"].upper()} BAND DRAWN SOLID — {rp["reason"].upper()}'
-        else:
-            cornice_band_note = None
-            for t in rp["teeth"]:
-                s.append(f'<rect class="bd w-fine" x="{X(t["x0"]/12.0):.1f}" '
-                         f'y="{Ypx(by0 + (band["y_top_in"]-band["y_bottom_in"])/12.0):.1f}" '
-                         f'width="{(t["x1"]-t["x0"])/12.0*scale:.1f}" height="{bh:.1f}"/>')
-    else:
-        cornice_band_note = None
-
-    # the frieze band's own bed, which is where the cornice assembly actually starts
-    fz = cornice.get("frieze_height_in")
-    if fz:
-        s.append(f'<line class="wtm" x1="{X(0):.1f}" y1="{Ypx(true_eave_ft - (cornice["cornice_height_in"]/12.0)):.1f}" '
-                 f'x2="{X(span_ft):.1f}" y2="{Ypx(true_eave_ft - (cornice["cornice_height_in"]/12.0)):.1f}"/>')
+    # THE FRIEZE AND THE CORNICE, EACH AT ITS OWN PROJECTION, AND THE CORNICE WITH ITS MEMBERS
+    # (Phase 15, WP-15.7). This drew ONE rectangle from the wall head to the true eave at the
+    # cornice's projection -- so the frieze stood 10.5 in proud of a wall its own record says it is
+    # flush with -- and one line inside it; the eight members were drawn on the inset and nowhere
+    # on the face, which is what Lucas read as "the cornice not being represented". What the face
+    # draws is `elevation.cornice_marks`, the spelling the DXF draws too: the frieze band at its
+    # own projection, the cornice's box at the one reading of the band's projection (the envelope
+    # figure, OQ 79; the inset draws the order's), each member's own band inside it at the height
+    # its record states, and the toothed band laid out or drawn solid with the reason said.
+    cm = EL.cornice_marks(elev, face)
+    if cm["applicable"]:
+        _fz, _co = cm["frieze"], cm["cornice"]
+        # Written from their rounded EDGES (`_rect_edges`, WP-14.3): the frieze's top IS the
+        # cornice's soffit, and two rectangles rounded origin-and-size apart meet a hairline off.
+        s.append(_rect_edges("bd fz w-med", X(_fz["u0"]), Ypx(_fz["h1"]), X(_fz["u1"]), Ypx(_fz["h0"])))
+        s.append(_rect_edges("bd w-prof", X(_co["u0"]), Ypx(_co["h1"]), X(_co["u1"]), Ypx(_co["h0"])))
+        # EACH MEMBER'S OWN BAND: a line at every division the record states, the member above it
+        # named, across the box it divides. In elevation a moulding reads as the band between its
+        # two arrises; the curve it describes is drawn on the inset, at a scale that can hold it.
+        for mm in cm["members"][1:]:
+            s.append(f'<line class="cm w-fine" data-member="{_attr(mm["id"])}" x1="{X(_co["u0"]):.2f}" '
+                     f'y1="{Ypx(mm["h0"]):.2f}" x2="{X(_co["u1"]):.2f}" y2="{Ypx(mm["h0"]):.2f}"/>')
+        # The cornice throws the deepest shadow on the building -- its projection is the greatest
+        # of any member, and on a Georgian front that band of dark under the eaves is the first
+        # thing the eye reads. Drawn as the heaviest shade line on the sheet after the ground, at
+        # the cornice's own soffit now, where its shadow falls on the frieze below it.
+        s.append(_shade(X(_co["u0"]), Ypx(_co["h1"]), X(_co["u1"]), Ypx(_co["h0"])))
+        # THE TEETH. A modillion band drawn as a solid band is a band of no modillions. Gibbs's
+        # rule is that a modillion centres over each column; this facade has no columns, so the bay
+        # centres are the anchors -- which is what the rule means on a wall -- and
+        # `repeat_positions` refuses a band whose anchors are not a whole number of pitches apart.
+        _t = cm["teeth"]
+        if _t and not _t["solid"]:
+            for t in _t["teeth"]:
+                s.append(_rect_edges("bd w-fine", X(t["u0"]), Ypx(_t["h1"]), X(t["u1"]), Ypx(_t["h0"])))
+        # the frieze band's own top, which is where the cornice assembly springs
+        s.append(f'<line class="wtm" x1="{X(0):.2f}" y1="{Ypx(_co["h0"]):.2f}" '
+                 f'x2="{X(span_ft):.2f}" y2="{Ypx(_co["h0"]):.2f}"/>')
 
     # WP-12.2: ONE LOOP, in `elevation.opening_rects`. The blind-bay skip (OQ 85), the
     # door-at-the-entrance-face branch and the two storeys all live there now, so this file and
@@ -1097,10 +1084,8 @@ def render_elevation(elev, path, face=None, scale=24.0):
     elif ht.get("rise_band_in"):
         notes.append(f'HEAD RISE IS A BAND OF {ht["rise_band_in"][0]}–{ht["rise_band_in"][1]}″ '
                      f'({str(ht.get("rise_source") or "")}); DRAWN AT ITS MIDPOINT')
-    if cornice_band_note:
-        notes.append(cornice_band_note)
-    if _cbp_why:
-        notes.append('CORNICE BAND DRAWN FLUSH WITH THE WALL \u2014 ' + _cbp_why.upper())
+    # the cornice's own sentences (`elevation.cornice_marks`), which the DXF writes too
+    notes.extend(cm["notes"])
     # THE ROOF STANDS ON THIS SHEET'S OWN FRIEZE AND CORNICE, AND NO OTHER SURFACE HAS ONE
     # (WP-14.6). `elevation.grade_to_true_eave_in` adds the frieze and the cornice ABOVE roof.py's
     # eave, and this sheet lifts the whole roof silhouette -- and every stack on it -- by that
@@ -1450,7 +1435,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
     if env and abs(env - relief) > 0.5:
         # Two sourced rules, one address, different answers. The sheet names both rather than
         # letting the reader believe the drawing settled it.
-        cap.append(f"ORDER PROJECTS {relief:.1f}″; THE DOMESTIC ENVELOPE RULE SAYS {env:.1f}″ — BOTH SOURCED")
+        # WHICH SURFACE DRAWS WHICH (WP-15.7): the face's cornice box stands at the envelope's
+        # figure and this profile at the order's, and a reader holding the two side by side is
+        # owed the reason they differ (`elevation.cornice_marks`, OQ 79).
+        cap.append(f"ORDER PROJECTS {relief:.1f}″; THE DOMESTIC ENVELOPE RULE SAYS {env:.1f}″ — BOTH SOURCED; "
+                   f"THE FACE DRAWS THE ENVELOPE'S, THIS PROFILE THE ORDER'S (OQ 79)")
     if sil["unconstructed"]:
         # Never draw a shape this corpus has no construction for without saying which.
         cap.append(", ".join(sorted({u["profile"].upper() for u in sil["unconstructed"]}))

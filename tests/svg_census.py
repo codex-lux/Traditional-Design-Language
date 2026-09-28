@@ -2518,6 +2518,140 @@ def v24():
     return out
 
 
+def _frieze_projection_parts():
+    """facade-classical's own frieze member, READ OFF THE PACK FILE: `(projection_parts,
+    height_parts)`. Not `eave_cornice`'s `frieze_projection_in`, which this package added and the
+    face draws from -- a guard whose reference is what the subject serves agrees with it whatever
+    it serves (R4's trap, WP-14.2)."""
+    pk = json.load(open(os.path.join(ROOT, "proportions", "systems", "facade-classical.json"), encoding="utf-8"))
+    m = next((m for m in ((pk.get("assemblies") or {}).get("elevation") or {}).get("members", [])
+              if m.get("id") == "frieze"), None)
+    return (None, None) if not m else (m.get("projection_parts"), m.get("height_parts"))
+
+
+def _square_extent(c, face, W, D, mirrored):
+    """A seated stack's square along a face, in the face's own feet (V23's reading)."""
+    x0, y0, x1, y1 = c["plan_rect_ft"]
+    lo, hi, span = (x0, x1, W) if face in ("S", "N") else (y0, y1, D)
+    return (span - hi, span - lo) if mirrored else (lo, hi)
+
+
+def _outboard(c, face, W, D):
+    """A stack standing wholly outside the wall a face is a view of stands in FRONT of that face."""
+    x0, y0, x1, y1 = c["plan_rect_ft"]
+    return {"E": x0 >= W - 1e-6, "W": x1 <= 1e-6, "N": y0 >= D - 1e-6, "S": y1 <= 1e-6}[face]
+
+
+@check("V25", "elevation", "the eave is drawn as its record states it: the frieze at its own projection, "
+       "the cornice's box at the one reading of the band's projection, a line at every member division "
+       "the record states and no other, the legend saying each band it drew flush for want of a figure, "
+       "and a stack that overlaps the cornice painted over it where it stands in front of the face and "
+       "under it where it stands behind", "every elevation sheet (plans x faces), and every style's front")
+def v25():
+    """Phase 15, WP-15.7. Lucas, of the drawn Tidewater front (27 Sep 2026): "the cornice not being
+    represented on this export". The face drew ONE rectangle from the wall head to the true eave at
+    the cornice's projection, with one line in it: the frieze stood 10.5 in proud of a wall its own
+    record says it is flush with, and the eight members `eave_cornice` dimensions were drawn on the
+    inset and nowhere on the face. V13 held the inset to the members and nothing held the face to
+    them, so the census read the flat band as it read the inset's profile -- a figure nobody drew
+    and a figure drawn, alike. This reads each band back to the face's own feet: the frieze's box
+    and the cornice's, every division line and the member it names. The reference is the record
+    (the order pack's members as `eave_cornice` dimensions them, and facade-classical's own frieze
+    member off the file), never `elevation.cornice_marks`, which is what the sheet draws from."""
+    fz_parts, fz_h_parts = _frieze_projection_parts()
+    out = []
+    for subject, el, svg in _elev_and_sweep():
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        cor = el.get("eave_cornice") or {}
+        members = cor.get("members") or []
+        if not pl or not members or not cor.get("cornice_height_in"):
+            out.append(row("V25", subject, "cne", "the sheet states no face plate" if not pl
+                           else "the record dimensions no eave cornice"))
+            continue
+        face = pl.get("face")
+        W, D = el["footprint"]["width_ft"], el["footprint"]["depth_ft"]
+        span = W if face in ("S", "N") else D
+        tol = 0.02 / pl["px_per_ft"]
+        wall_top = el["roof_record"]["main"]["grade_to_eave_ft"]
+        true_eave = el["grade_to_true_eave_in"] / 12.0
+        spring = true_eave - cor["cornice_height_in"] / 12.0
+        band = next((cor[k] for k in ("envelope_projection_in", "cornice_projection_in")
+                     if cor.get(k) is not None), None)
+        fz = (None if fz_parts is None or not fz_h_parts
+              else fz_parts * (cor.get("frieze_height_in") or 0.0) / fz_h_parts)
+        said = " ".join(" ".join(t.split()).upper() for t, _a, _it in ink.texts() if t)
+        bad = []
+
+        def box(it):
+            (u0, v0), (u1, v1) = [IR.to_model(pl, *xy) for xy in ((it.bbox()[0], it.bbox()[3]),
+                                                                   (it.bbox()[2], it.bbox()[1]))]
+            return min(u0, u1), min(v0, v1), max(u0, u1), max(v0, v1)
+
+        def held(name, got, want):
+            if max(abs(a - b) for a, b in zip(got, want)) > tol:
+                bad.append("%s drawn at u %.3f..%.3f, h %.3f..%.3f ft; the record %.3f..%.3f, %.3f..%.3f"
+                           % ((name,) + tuple(got[i] for i in (0, 2, 1, 3)) + tuple(want[i] for i in (0, 2, 1, 3))))
+
+        fzs = _rects(ink, "bd", "fz")
+        boxes = _rects(ink, "bd", "w-prof")
+        if len(fzs) != 1 or len(boxes) != 1:
+            bad.append("%d frieze band(s) and %d cornice box(es) drawn, where the record states one of each"
+                       % (len(fzs), len(boxes)))
+        else:
+            f = fz or 0.0
+            held("the frieze", box(fzs[0]), (-f / 12.0, wall_top, span + f / 12.0, spring))
+            b = band or 0.0
+            held("the cornice's box", box(boxes[0]), (-b / 12.0, spring, span + b / 12.0, true_eave))
+        lines = {}
+        for it in _marks(ink, "cm"):
+            (x0, y0), (x1, y1) = it.points(n=1)[0], it.points(n=1)[-1]
+            lines.setdefault(it.attrs.get("data-member"), []).append(
+                (IR.to_model(pl, x0, y0)[1], IR.to_model(pl, x1, y1)[1]))
+        want = {m.get("id"): spring + m["y_bottom_in"] / 12.0 for m in members[1:]}
+        for mid, h in want.items():
+            got = lines.pop(mid, [])
+            if len(got) != 1 or max(abs(v - h) for v in got[0]) > tol:
+                bad.append("the division under %s is drawn %s; the record puts it at %.3f ft"
+                           % (mid, "nowhere" if not got else "at " + ", ".join("%.3f" % g[0] for g in got), h))
+        if lines:
+            bad.append("%d division line(s) the record does not state (%s)"
+                       % (sum(len(v) for v in lines.values()), ", ".join(sorted(str(k) for k in lines))))
+        for what, fig in (("CORNICE BAND DRAWN FLUSH", band), ("FRIEZE DRAWN FLUSH", fz)):
+            if (fig is None) != (what in said):
+                bad.append("the %s is %s and the legend %s" % (
+                    what.split(" DRAWN")[0].lower(), "stated" if fig is not None else "stated by no record",
+                    "says it is drawn flush for want of one" if fig is not None else "does not say so"))
+        # THE NEARER OF TWO OVERLAPPING MARKS IS PAINTED LAST. A stack standing in front of the
+        # face -- an exterior end stack seen on its own gable -- stands in front of the cornice,
+        # which returns against it; one behind the face -- the same stack seen from the front --
+        # is behind the cornice's return at the corner. Read in paint order, which is document order.
+        if len(boxes) == 1:
+            bi, (c0, c1, c2, c3) = boxes[0].index, box(boxes[0])
+            mirrored = ((el.get("datum") or {}).get("mirrored") or {}).get(face)
+            ch = [c for c in ((el.get("roof_record") or {}).get("chimneys") or {}).get("positions") or []
+                  if c.get("plan_rect_ft")]
+            for it in _marks(ink, "ch"):
+                if it.tag not in ("polygon", "rect", "path"):
+                    continue
+                s0, s1, s2, s3 = box(it)
+                if min(s2, c2) - max(s0, c0) <= tol or min(s3, c3) - max(s1, c1) <= tol:
+                    continue
+                hits = [c for c in ch if all(abs(p - q) <= 0.02 for p, q in
+                                             zip((s0, s2), _square_extent(c, face, W, D, mirrored)))]
+                if not hits:
+                    bad.append("a stack over the cornice at %.2f..%.2f ft stands on no seated square" % (s0, s2))
+                    continue
+                front = any(_outboard(c, face, W, D) for c in hits)
+                if front != (it.index > bi):
+                    bad.append("a stack standing %s the face at %.2f..%.2f ft is painted %s its cornice"
+                               % ("in front of" if front else "behind", s0, s2, "under" if front else "over"))
+        n = len(want)
+        out.append(row("V25", subject, "disagrees" if bad else "agrees",
+                       "; ".join(bad[:4]) if bad else "%d division(s)" % n))
+    return out
+
+
 @check("V7", "elevation", "an arched head is drawn as the circular segment it is set out as, not a "
        "parabola", "elevation sheets drawing an arched head: shipped plans, and every style's front")
 def v7():
@@ -3090,6 +3224,84 @@ def x3():
                 bad.append("a DXF stack whose XDATA does not carry its square and its judgment")
         out.append(row("X3", "%s/%s" % (pid, face), "disagrees" if bad else "agrees",
                        "; ".join(sorted(set(bad))[:3]) if bad else "%d stack(s)" % len(want)))
+    return out
+
+
+@check("X4", "elevation", "the DXF elevation draws the eave the SVG draws: the frieze band and the cornice's "
+       "box on the same outlines in the face's own inches, and a line at every member division the SVG "
+       "draws, each carrying the member it names", "every face of every plan whose elevation draws")
+def x4():
+    """Phase 15, WP-15.7. The DXF drew the same single rectangle the sheet did, frieze and cornice in
+    one box at the cornice's projection; both read `elevation.cornice_marks` now. This holds the two
+    drawings to each other, the SVG's ink read back to the face's own inches through its plate's
+    frame -- V25 holds the SVG to the record, so between them the CAD file is held to it too."""
+    try:
+        import ezdxf  # noqa: F401
+    except ImportError:
+        return [row("X4", "export_dxf", "cne", "ezdxf is not installed, so the DXF cannot be drawn")]
+    DX = SURF._mod("export_dxf")
+    out = []
+    for pid, face, rec, svg in _elev_sheets():
+        el = rec["elev"]
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        if not pl:
+            continue
+
+        def inches(it):
+            b = it.bbox()
+            (u0, v0), (u1, v1) = IR.to_model(pl, b[0], b[3]), IR.to_model(pl, b[2], b[1])
+            return tuple(round(v * 12.0, 1) for v in (min(u0, u1), min(v0, v1), max(u0, u1), max(v0, v1)))
+
+        want = {"frieze": [inches(it) for it in _rects(ink, "bd", "fz")],
+                "cornice": [inches(it) for it in _rects(ink, "bd", "w-prof")]}
+        want_lines = sorted((it.attrs.get("data-member"), round(IR.to_model(pl, *it.points(n=1)[0])[1] * 12.0, 1))
+                            for it in _marks(ink, "cm"))
+        # PARITY OF TWO DRAWINGS THAT BOTH DRAW NOTHING IS NOT AGREEMENT. On the parent of this
+        # package both surfaces drew one box and no division, so every row here read "agrees" --
+        # two wrong drawings, alike. Where the record states divisions the sheet does not draw,
+        # there is nothing to hold the DXF to, and V25 is the row that says why.
+        n_rec = max(0, len((el.get("eave_cornice") or {}).get("members") or []) - 1)
+        if n_rec and not want_lines:
+            out.append(row("X4", "%s/%s" % (pid, face), "cne", "the record states %d division(s) and the "
+                           "SVG draws none, so there is no eave to hold the DXF to (V25)" % n_rec))
+            continue
+        d = _tempfile.mkdtemp(prefix="svg_census_")
+        try:
+            path = os.path.join(d, "e.dxf")
+            DX.export_elevation_dxf(el, path, face=face)
+            msp = ezdxf.readfile(path).modelspace()
+            got = {"frieze": [], "cornice": []}
+            for e in msp.query("LWPOLYLINE"):
+                k = {"TDL-ELEV-FRIEZE": "frieze", "TDL-ELEV-CORNICE": "cornice"}.get(e.dxf.layer)
+                if k:
+                    xs, ys = [p[0] for p in e.get_points()], [p[1] for p in e.get_points()]
+                    got[k].append((min(xs), min(ys), max(xs), max(ys)))
+            got_lines = []
+            for e in msp.query("LINE"):
+                if e.dxf.layer != "TDL-ELEV-CORNICE-MEMBER":
+                    continue
+                try:
+                    x = "".join(str(v) for _c, v in e.get_xdata("TDL"))
+                except Exception:       # noqa: BLE001 -- a line with no XDATA names no member
+                    x = ""
+                m = re.search(r'"member":\s*"([^"]+)"', x)
+                got_lines.append((m.group(1) if m else None, round(e.dxf.start[1], 1)))
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        bad = []
+        for k in ("frieze", "cornice"):
+            if len(want[k]) != len(got[k]) or any(max(abs(a - b) for a, b in zip(w, g)) > 0.15
+                                                  for w, g in zip(sorted(want[k]), sorted(got[k]))):
+                bad.append("the %s: the SVG draws %s, the DXF %s" % (
+                    k, want[k], [tuple(round(v, 1) for v in g) for g in got[k]]))
+        got_lines.sort()
+        if [m for m, _h in want_lines] != [m for m, _h in got_lines] or any(
+                abs(a[1] - b[1]) > 0.15 for a, b in zip(want_lines, got_lines)):
+            bad.append("member divisions: the SVG draws %d, the DXF %d, or at other heights or names"
+                       % (len(want_lines), len(got_lines)))
+        out.append(row("X4", "%s/%s" % (pid, face), "disagrees" if bad else "agrees",
+                       "; ".join(bad[:3]) if bad else "%d division(s)" % len(want_lines)))
     return out
 
 

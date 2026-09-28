@@ -916,6 +916,16 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     # BAND between the top-storey window heads and the cornice bed, which is a different quantity.
     frieze_h, _ = _val(facade_pack, "frieze", {"part": part_in},
                        dimension="elevation_frieze_band_height")
+    # THE FRIEZE'S OWN PROJECTION (Phase 15, WP-15.7). facade-classical's `elevation` assembly
+    # states the frieze band FLUSH -- `projection_parts` 0.0, the wall's own plane, as it states
+    # both storeys -- and the face drew it at the CORNICE's projection, 10.5 in proud of the wall
+    # on the Tidewater front, because one rectangle carried the frieze and the cornice together.
+    # Dimensioned by the engine at this function's own module, so the conversion is the one the
+    # members below are dimensioned by; None where the pack states no projection, and a surface
+    # then draws the band flush and says so (`cornice_marks`).
+    _fz = next((m for a in PE.dimension(facade_pack, module_in, include=["elevation"])["assemblies"]
+                for m in a["members"] if m.get("id") == "frieze"), None)
+    frieze_proj = None if not _fz or _fz.get("projection_in") is None else float(_fz["projection_in"])
     cornice_h_stated = 2.0 * part_in   # facade-classical's own elevation.cornice member: height_parts 2.0
     cornice_proj, _ = _val(facade_pack, "cornice", {"module": module_in}, dimension="projection")
 
@@ -967,6 +977,7 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
         "order_pack": gibbs_pack.get("id"),
         "cornice_owner": PE.assembly_owner(gibbs_pack.get("id"), "cornice"),
         "frieze_height_in": round(frieze_h, 3), "cornice_height_in": round(cor_asm["height_in_summed"], 3),
+        "frieze_projection_in": None if frieze_proj is None else round(frieze_proj, 3),
         "cornice_projection_in": round(cornice_proj, 3),
         "reduced_gibbs_module_in": round(reduced_module_in, 3),
         "projection_datum": datum,
@@ -2081,6 +2092,83 @@ def cornice_band_projection_in(cornice):
         if v is not None:
             return float(v), None
     return None, "no record states the cornice band's projection past the wall"
+
+
+# The band a cornice carries its teeth on, by profile: what `repeat_positions` lays out.
+TOOTHED_PROFILES = ("modillion", "dentil", "mutule", "triglyph")
+CORNICE_SOURCE = ("elevation.eave_cornice: the frieze band and the cornice's members, each at the "
+                  "height and projection its record states (facade-classical's elevation assembly "
+                  "for the frieze, the order pack's cornice for the members)")
+
+
+def cornice_marks(elev, face):
+    """THE EAVE CORNICE AS A FACE DRAWS IT, IN ONE SPELLING (Phase 15, WP-15.7).
+
+    Lucas, of the drawn Tidewater front (27 Sep 2026): *"the cornice not being represented on
+    this export"*. The sheet drew the frieze and the cornice as ONE rectangle, 36.8 in deep and
+    10.5 in proud of the wall at every height, with one line between them, and the DXF drew the
+    same rectangle. So the FRIEZE stood 10.5 in out from a wall its own record says it is flush
+    with (`frieze_projection_in`, facade-classical's `elevation` assembly), and the eight members
+    `eave_cornice` dimensions were drawn on the inset beside the face and nowhere on the face.
+
+    Returned in the face's own feet (`u` from the face's left edge, `h` above grade), the frame
+    `stack_marks` uses, so the SVG and the DXF draw the same marks:
+    - `frieze`: the band from the wall head to the cornice's springing, at its own projection;
+    - `cornice`: the box from the springing to the true eave, at `cornice_band_projection_in`,
+      the ENVELOPE's figure. That is the figure the face has always drawn, and the one the style's
+      resolved kit binds as `cornice.projection_in`. The ORDER's own relief is what the inset
+      draws, and which of the two governs a domestic front is OQ 79. Nothing here chooses
+      between them, and the inset's caption says which surface draws which;
+    - `members`: each member's own band inside the box, at the height its record states;
+    - `teeth`: the toothed band's layout (`profiles.repeat_positions`), solid with the reason
+      where it cannot be laid;
+    - `notes`: what the face draws otherwise than stated, in the sheet's own words.
+
+    `applicable` is False with a reason where the record carries no cornice to draw."""
+    cornice = elev.get("eave_cornice") or {}
+    members = cornice.get("members") or []
+    cor_h = cornice.get("cornice_height_in")
+    if not members or not cor_h:
+        return {"face": face, "applicable": False, "source": CORNICE_SOURCE,
+                "why": "the record dimensions no eave cornice", "notes": []}
+    fp = elev["footprint"]
+    span_ft = fp["width_ft"] if face in ("S", "N") else fp["depth_ft"]
+    wall_top_ft = elev["roof_record"]["main"]["grade_to_eave_ft"]
+    true_eave_ft = elev["grade_to_true_eave_in"] / 12.0
+    spring_ft = true_eave_ft - cor_h / 12.0
+    band_in, band_why = cornice_band_projection_in(cornice)
+    fz_in = cornice.get("frieze_projection_in")
+    fz_why = None if fz_in is not None else "no record states the frieze band's projection"
+    b, f = (band_in or 0.0) / 12.0, (fz_in or 0.0) / 12.0
+    out_members = [{"id": m.get("id"), "profile": m.get("profile"),
+                    "h0": spring_ft + m["y_bottom_in"] / 12.0, "h1": spring_ft + m["y_top_in"] / 12.0,
+                    "height_in": m.get("height_in"), "confidence": m.get("confidence")}
+                   for m in members]
+    notes = []
+    teeth = None
+    band = next((m for m in members if (m.get("profile") or "") in TOOTHED_PROFILES), None)
+    if band:
+        centres = [c * 12.0 for c in ((elev.get("faces") or {}).get(face) or {}).get("centres_ft") or []]
+        rp = PROF.repeat_positions(span_ft * 12.0, spacing_in=band.get("spacing_in"),
+                                   width_in=band.get("width_in"), centre_on=centres or None)
+        teeth = {"member": band.get("id"), "profile": band.get("profile"),
+                 "h0": spring_ft + band["y_bottom_in"] / 12.0, "h1": spring_ft + band["y_top_in"] / 12.0,
+                 "solid": rp["solid"], "reason": rp.get("reason"),
+                 "teeth": [{"u0": t["x0"] / 12.0, "u1": t["x1"] / 12.0} for t in rp["teeth"]]}
+        if rp["solid"]:
+            # the sheet's sentence since 27 Aug 2026, kept byte for byte
+            notes.append(f'{band["profile"].upper()} BAND DRAWN SOLID — {rp["reason"].upper()}')
+    if band_why:
+        notes.append('CORNICE BAND DRAWN FLUSH WITH THE WALL — ' + band_why.upper())
+    if fz_why:
+        notes.append('FRIEZE DRAWN FLUSH WITH THE WALL — ' + fz_why.upper())
+    return {"face": face, "applicable": True, "source": CORNICE_SOURCE, "span_ft": span_ft,
+            "frieze": {"u0": -f, "u1": span_ft + f, "h0": wall_top_ft, "h1": spring_ft,
+                       "projection_in": fz_in, "why": fz_why},
+            "cornice": {"u0": -b, "u1": span_ft + b, "h0": spring_ft, "h1": true_eave_ft,
+                        "projection_in": band_in, "why": band_why,
+                        "order_pack": cornice.get("order_pack")},
+            "members": out_members, "teeth": teeth, "notes": notes}
 
 # ---------------------------------------------------------------- the gable-end stacks
 # Moved here from `render_elevation.py` at WP-15.5 so the DXF elevation reads the one
