@@ -12,7 +12,7 @@ import { ft, interpunctTitle } from '../sheet/derive.js';
 import {
   caption, chipLabel, modifierLine, notModelledLine, overlaysFor, plateKeyFor,
 } from './annotate.js';
-import { frameOf, namedViews, plateTransform, poseFor } from './frame.js';
+import { frameOf, namedViews, plateRegistration, poseFor } from './frame.js';
 
 export { frameOf };
 import {
@@ -118,7 +118,11 @@ export function RoundPlate({
   const svg = key && plates && plates[key] ? plates[key].svg : null;
   const refusedWhy = key && platesRefused ? platesRefused[key] : null;
 
-  const overlay = React.useMemo(() => {
+  /* THE PLATE CARRIES WHICH WAY IT READS (WP-15.8's audit), and the registration reads that
+     rather than assuming it, so an N or W elevation drawn with the plan's own axis is REFUSED and
+     the refusal said, instead of being laid over the model back to front. */
+  const mirrored = key && plates && plates[key] ? plates[key].mirrored : undefined;
+  const registration = React.useMemo(() => {
     if (!plateOn || !svg || !scene || !box.width) return null;
     const tokens = typeof document === 'undefined' ? {} : readTokens(document.documentElement);
     const pose = poseFor(view, scene, null, {
@@ -127,8 +131,10 @@ export function RoundPlate({
     });
     const fr = frameOf(svg, view);
     if (!pose || !fr) return null;
-    return plateTransform(view, scene, pose, box, fr);
-  }, [plateOn, svg, scene, view, box.width, box.height]);
+    return plateRegistration(view, scene, pose, box, fr, mirrored);
+  }, [plateOn, svg, scene, view, box.width, box.height, mirrored]);
+  const overlay = registration ? registration.transform || null : null;
+  const laidRefused = registration ? registration.refused || null : null;
 
   /* WHICH OVERLAYS THIS VIEW MAY CARRY. Four of the six are read off a plan and mean nothing
      on a model turned in the hand (§7.5); a free view keeps the three that are true from any
@@ -285,6 +291,8 @@ export function RoundPlate({
         }}>
           {plateOn && !svg && refusedWhy
             ? `the flat plate for this view was refused: ${refusedWhy}`
+            : plateOn && laidRefused
+            ? `the flat plate is not laid over the model: ${laidRefused}`
             : [
               nm,
               unlocated ? `${unlocated} relaxation mark${unlocated === 1 ? '' : 's'} the placement could not locate — named, not placed` : null,

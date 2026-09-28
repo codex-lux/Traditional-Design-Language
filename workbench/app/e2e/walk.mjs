@@ -2666,6 +2666,27 @@ await visit('#/drawings');
       !!(ov && ov.frame && /"px_per_ft"/.test(ov.frame)));
     check(`and it is placed by a real transform (${ov && ov.t && ov.t.slice(0, 24)})`,
       !!(ov && ov.t && ov.t !== 'none'));
+
+    // AND THE NORTH PLATE IS NOT LAID OVER THE MODEL BACKWARDS (WP-15.8's audit). The record
+    // draws every face with the plan's own axis, which from the north runs right to left, and the
+    // affine carries no mirror -- so the plate is refused and the note says which way it reads.
+    // Laid anyway, every opening on it stood over the wrong end of the house and nothing said so.
+    await bar.getByRole('radio', { name: 'N', exact: true }).click();
+    await page.waitForTimeout(400);
+    const north = await page.evaluate(() => ({
+      overlay: !!document.querySelector('[data-round-overlay]'),
+      note: (document.querySelector('[data-plate-note]') || {}).innerText || '',
+    }));
+    if (/the flat plate for this view was refused/i.test(north.note)) {
+      // the server drew no N face for this record, so the direction has no plate to be about
+      unjudged.push(`the N plate reads the record's direction -- COULD NOT EVALUATE: ${north.note.slice(0, 90)}`);
+      console.log('N/EV', unjudged[unjudged.length - 1]);
+    } else {
+      check(`the N plate is not laid reversed over the model (${north.note.slice(0, 70)})`,
+        !north.overlay && /not laid over the model: drawn west to east/i.test(north.note));
+    }
+    await bar.getByRole('radio', { name: 'S', exact: true }).click();
+    await page.waitForTimeout(300);
     await page.getByRole('button', { name: 'plate', exact: true }).click();
     await shot('round-axon-sw');
 

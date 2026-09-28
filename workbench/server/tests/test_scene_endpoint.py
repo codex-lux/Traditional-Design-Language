@@ -86,6 +86,54 @@ def test_the_scene_comes_back_with_its_plan_and_its_plates(scene_res):
                 f"AND the things the drawing does not say for itself")
 
 
+def test_every_elevation_plate_says_which_way_it_reads(scene_res):
+    """WP-15.8's audit: the Round laid an N or W elevation over the model on the assumption that
+    its `u` runs along the camera's right, and the record says since WP-13.3 that it runs with the
+    plan's axis, which from the north and the west is right to left -- every opening at the wrong
+    end, and nothing said so. The Round reads the plate's own `mirrored` now and refuses a plate
+    the affine would lay reversed, so each elevation plate must carry the face it draws and the
+    record's statement for it. A plate that draws a face carries the record's value; a plate that
+    is a refusal (the generator declined this record) carries None, never a default of False."""
+    from workbench.server import corpus
+    EL = corpus.core._mod("elevation", os.path.join(ROOT, "build", "elevation.py"))
+    faces = {k.split(":")[1] for k in scene_res["plates"] if k.startswith("elevation:")}
+    assert faces, "the drawable record draws no elevation plate, so this proves nothing"
+    for f in faces:
+        got = scene_res["plates"][f"elevation:{f}"]
+        assert "face" in got and "mirrored" in got, (
+            f"elevation:{f} does not say which way it reads; the Round would have to assume it")
+        assert got["face"] == f, (f, got["face"])
+        draws_a_face = "\"proj\":\"elevation\"" in got["svg"]
+        want = EL.FACE_MIRRORED[f] if draws_a_face else None
+        assert got["mirrored"] is want, (
+            f"elevation:{f} carries mirrored={got['mirrored']!r}; the plate "
+            f"{'draws the face' if draws_a_face else 'is a refusal'}, so the record says {want!r}")
+
+
+def test_the_plate_direction_is_the_records_on_every_face_it_draws():
+    """The scene's drawable record may be one the elevation declines, so the value half is driven
+    here on a record it draws: the Tidewater plan placed on the heuristic, all four faces."""
+    import copy
+    from workbench.server import corpus
+    B = os.path.join(ROOT, "build")
+    GEO = corpus.core._mod("geometry", os.path.join(B, "geometry.py"))
+    ST = corpus.core._mod("structure", os.path.join(B, "structure.py"))
+    RF = corpus.core._mod("roof", os.path.join(B, "roof.py"))
+    EL = corpus.core._mod("elevation", os.path.join(B, "elevation.py"))
+    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    placed = GEO.solve(copy.deepcopy(plan), engine="heuristic")
+    sec = ST.build_section(placed, None, geometry_result=placed)
+    elev = EL.build_elevation(placed, None, section=sec,
+                              roof=RF.build_roof(placed, None, section=sec))
+    assert elev.get("datum"), "the elevation drew no face here, so this proves nothing"
+    for f in ("S", "E", "N", "W"):
+        assert corpus.plate_direction(elev, f) == {"face": f, "mirrored": EL.FACE_MIRRORED[f]}
+    # with no face named the plate is the entrance front's, and says so
+    assert corpus.plate_direction(elev)["face"] == elev["entrance_face"]
+    # a declined elevation states no direction, and None is not False
+    assert corpus.plate_direction({"applicable": False}, "N") == {"face": "N", "mirrored": None}
+
+
 def test_the_scene_carries_the_catalogue_the_overlays_read(scene_res):
     """WP-12.5. `POST /api/scene` is the only call the Round makes, so the overlays' catalogue
     facts have to travel with it.

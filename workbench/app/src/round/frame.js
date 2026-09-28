@@ -403,16 +403,23 @@ export function namedViews(scene) {
    house at the same view. `u` and `v` are the plate's own two axes in feet, as the renderer's
    `data-frame` states them (build/sheet_style.py::frame_attr).
 
-   THE ELEVATION CASE RESTS ON AN ASSUMPTION THE RECORD DOES NOT STATE, and it is written here
-   rather than buried: `elevation.py::_face_bays` computes its bay centres as (i + 0.5) * bay
-   across the span and NEVER CONSULTS THE FACE, so nothing in the record says which model end
-   `u = 0` is. We take it as the face's left edge AS THE CAMERA SEES IT, which is what makes a
-   drawing a drawing. On this corpus the assumption cannot be caught out: every face is
-   symmetric -- the Tidewater south front's centres mirror onto themselves (65.58 - 60.896 =
-   4.684) -- so a plate registered either way lands in the same place. The day a facade is
-   asymmetric it will matter, and then this is the line to read:
-   oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from */
-export function modelAt(view, scene, u, v) {
+   WHICH END OF A FACE `u = 0` IS, THE RECORD STATES NOW, AND THIS READS IT (WP-15.8's audit).
+   This comment used to say the elevation never consults the face, so nothing said which model
+   end `u = 0` was, and took it to be the face's left edge AS THE CAMERA SEES IT -- harmless
+   while every face was symmetric. WP-13.3 made both untrue: the elevation draws the plan's
+   PLACED openings, so a face is as asymmetric as its plan, and `elevation.datum.mirrored` states
+   that no face is mirrored -- `u` runs with the plan's own axis, west to east on S and N and
+   south to north on E and W. From the north and the west that axis runs RIGHT TO LEFT, so the
+   assumption laid the N and W plates over the model reversed, every opening at the wrong end,
+   with the camera-left test beside it certifying the assumption. The server sends the plate's
+   own `mirrored` (corpus.drawing), and `mirrored` here is that value:
+     false  u runs with the plan's axis, from the envelope's low face;
+     true   u runs against it, from the high face;
+     null   the record states nothing, and a face plate is REFUSED rather than assumed.
+   Whether an N or W plate reads the way the camera does is then the affine's question, which
+   `plateRegistration` asks. oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from
+   is what is left: whether the N and W faces should be DRAWN as seen, which is a ruling. */
+export function modelAt(view, scene, u, v, mirrored) {
   if (isPlanView(view) || view === 'roof') {
     // A plan's plate axes ARE the model's east and north. Nothing is assumed here.
     return [u, v, 0];
@@ -429,42 +436,68 @@ export function modelAt(view, scene, u, v) {
      exactly the records that cannot say otherwise. */
   const env = scene && scene.bounds && scene.bounds.envelope;
   if (!env || !Array.isArray(env.min) || !Array.isArray(env.max)) return null;
+  // The direction the record states, never one this file assumes (see the note above).
+  if (mirrored !== true && mirrored !== false) return null;
   const { min, max } = env;
   const f = view.toUpperCase();
-  // The camera's own right vector, so `u` runs the way the reader reads.
-  const b = basis(FACE_AZIMUTH[f], 0);
-  const originX = b.right[0] > 0 ? min[0] : max[0];
-  const originY = b.right[1] > 0 ? min[1] : max[1];
-  if (f === 'S' || f === 'N') return [originX + b.right[0] * u, f === 'S' ? min[1] : max[1], v];
-  return [f === 'W' ? min[0] : max[0], originY + b.right[1] * u, v];
+  const along = (lo, hi) => (mirrored ? hi - u : lo + u);
+  if (f === 'S' || f === 'N') return [along(min[0], max[0]), f === 'S' ? min[1] : max[1], v];
+  return [f === 'W' ? min[0] : max[0], along(min[1], max[1]), v];
 }
 
 /* The affine that lays a rendered plate's PIXELS onto this canvas's pixels at this pose: both
-   are axis-aligned and uniformly scaled, so two points settle it. Returns null where the view
-   has no plate — an axon is not a drawing this project makes flat. */
-export function plateTransform(view, scene, pose, viewport, frame) {
-  if (!frame || !pose) return null;
+   are axis-aligned and uniformly scaled, so two points settle it. `plateRegistration` returns
+   `{ transform }` where one exists and `{ refused }`, a reason, where it does not;
+   `plateTransform` is its transform or null, for a caller that only draws.
+
+   THE AFFINE CARRIES NO MIRROR, SO A PLATE WHOSE AXES RUN AGAINST THE SCREEN'S IS REFUSED
+   (WP-15.8's audit). This fitted the scale off the DISTANCE between two projected points and
+   never asked which way the second lay from the first, so a plate whose `u` runs right to left
+   at this view got a positive scale and was laid over the model reversed. The plate's +u must
+   run the way the screen's +x does and its +v the way the screen's -y does, or no uniform scale
+   and translation registers it: drawing it mirrored would put the text backwards, and drawing
+   it unmirrored puts every opening at the wrong end. */
+export function plateRegistration(view, scene, pose, viewport, frame, mirrored) {
+  if (!frame || !pose) return { refused: null };
   /* NO PLATE LIES OVER A PERSPECTIVE. The overlay's whole argument is that both the plate and
      the model are axis-aligned and UNIFORMLY scaled, so two points settle an affine; a
      perspective has a different number of feet to the pixel at every depth and no affine
      exists. Registering one on two points would put the plate on the model at one distance
      and off it everywhere else -- a drawing that looks registered and is not. */
-  if (pose.kind === PERSPECTIVE) return null;
-  const a = modelAt(view, scene, frame.at_origin_ft[0], frame.at_origin_ft[1]);
-  if (!a) return null;
-  const bft = [frame.at_origin_ft[0] + 10, frame.at_origin_ft[1]];
-  const b = modelAt(view, scene, bft[0], bft[1]);
+  if (pose.kind === PERSPECTIVE) return { refused: 'a perspective has no one scale to lay it at' };
+  const [u0, v0] = frame.at_origin_ft;
+  const a = modelAt(view, scene, u0, v0, mirrored);
+  if (!a) {
+    return { refused: isFaceView(view) && mirrored !== true && mirrored !== false
+      ? 'the record does not say which way this elevation reads' : null };
+  }
+  const b = modelAt(view, scene, u0 + 10, v0, mirrored);
+  const c = modelAt(view, scene, u0, v0 + 10, mirrored);
   const pa = project(pose, viewport, a);
   const pb = project(pose, viewport, b);
+  const pc = project(pose, viewport, c);
   const spanPx = Math.hypot(pb[0] - pa[0], pb[1] - pa[1]);
-  if (spanPx < 1e-9) return null;
+  if (spanPx < 1e-9) return { refused: null };
+  if (pb[0] <= pa[0] || pc[1] >= pa[1]) {
+    const f = view.toUpperCase();
+    const [lo, hi] = f === 'S' || f === 'N' ? ['west', 'east'] : ['south', 'north'];
+    const [from, to] = mirrored ? [hi, lo] : [lo, hi];
+    const side = { N: 'north', S: 'south', E: 'east', W: 'west' }[f];
+    return { refused: side
+      ? `drawn ${from} to ${to}; seen from the ${side}, ${to} is on the left`
+      : 'its axes run against the screen at this view' };
+  }
   const scale = spanPx / (10 * frame.px_per_ft);
-  return {
+  return { transform: {
     scale,
     // the plate's own origin pixel, moved to where the model puts that point
     dx: pa[0] - frame.origin_px[0] * scale,
     dy: pa[1] - frame.origin_px[1] * scale,
-  };
+  } };
+}
+
+export function plateTransform(view, scene, pose, viewport, frame, mirrored) {
+  return plateRegistration(view, scene, pose, viewport, frame, mirrored).transform || null;
 }
 
 
