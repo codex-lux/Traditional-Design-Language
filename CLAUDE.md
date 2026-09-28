@@ -99,7 +99,8 @@ He asked for the plates and the SVGs compared side by side, with an overlay. **T
 unreachable**: archive.org, both Wikimedia hosts, loc.gov, HathiTrust, Google Books, the NYPL and
 the Met all answer `CONNECT tunnel failed, response 403`, re-probed on 28 Sep. So:
 - WP-15.1 through 15.4 (fetch, overlay, Gibbs Ionic, the other capitals) are BLOCKED;
-- WP-15.5 through 15.7 (the stack, the pier, the cornice) need no plate and go first.
+- WP-15.5 through 15.7 (the stack, the pier, the cornice) need no plate and went first;
+- WP-15.8 audited all three (28 Sep), and the phase's plate-free half is complete.
 
 `PLAN-OF-ACTION.md`'s Phase 15 section carries the refusal verbatim. **The capital's defect is in
 the RECORD, not the drawing**: the schema reads an assembly bottom to top, and Gibbs's capital lists
@@ -217,6 +218,47 @@ before touching the eave, the inset or `profiles.repeat_positions`.
 - **64 of 128 sheets moved, all elevations**: 44 drawn faces in their eave and their words alone,
   and 20 refusal sheets by the stylesheet's new rule alone. The known disagreements stay at 52.
 - **The test count is 3,278, against 3,264, reconciled by name**: fourteen added, none removed.
+
+**WP-15.8 AUDITED PHASE 15, AND ITS LARGEST FINDING IS THAT A FAULT READS CLEAR ON WHATEVER TEST
+RAN (28 Sep 2026).** Read `docs/reports/wp-15.8-the-audit-of-phase-15.md` before trusting a figure
+Phase 15 published, or a fault verdict of clear. Five auditors worked `07178dc..3b083d9`, every
+finding was reproduced before it was touched, and seven commits fixed what was worth fixing, each
+measured against its parent. The walk on the final head is 701 green, 0 failed and the same 6
+unjudged; the whole build was running when this was committed, and its verdict replaces this
+sentence.
+- **What was fixed, all of it latent on the shipped plans or older than the phase:**
+  - the doorcase keep-out reached only the rooms its run touched (a flanking sash could be seated
+    11.95 in from it against a 33 in floor);
+  - a refusal named doors that were not there, on 7 of 9;
+  - the plate's windows line counted a part-refused window whole (*"19 OF 35"* over 16 + 2 + 2);
+  - the critic called a room windowless when one unit of its window was refused (four false
+    serious findings);
+  - which side of the house a stack stands on was read off the face's NAME, so a rear stack was
+    drawn through the front;
+  - the DXF said none of the sheet's refusals and never its judgment line, and had no paint order;
+  - X3 compared keys and not values;
+  - 28 of auditor M's 47 mutations got past the suite. 79 mutations over the audit's own commits
+    are all red.
+- **THE FIX THE AUDIT REFUSED IS THE FINDING.** `plan_check`'s drawn layer refuses to judge symmetry
+  and alignment on an incomplete front, and the elevation measures both there and hands them to two
+  fatal faults. The one-reader fix was measured against a gate written BEFORE it, and it
+  **acquitted**. With the alignment figures withheld, `storeys-out-of-vertical-alignment` has one
+  test left, `bay_count >= 3`, which passes, so it goes PRESENT to CLEAR. It also reached four plans
+  the drawn layer never judges, and returned the native diagram to the composer's set by two fatals
+  it stopped counting. Not applied; `oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge`.
+- **AND UNDER IT: `core._judge` CALLS A FAULT CLEAR WHEN EVERY TEST THAT RAN PASSED.** On the sixteen
+  plans, 142 of 550 clear verdicts never ran their governing test (48 on fatal faults, 19 faults),
+  and 70 of those cleared on a generator constant. OQ 84 met one instance in August and closed it by
+  supplying the measurement; the rule was never raised.
+  `oq/a-fault-reads-clear-when-its-governing-test-could-not-run`; re-derive with
+  `tests/fault_clears.py`, never quote. **Withholding a measurement does not unjudge a fault.**
+- **A mutation proves a guard only against the tests it was run against.** M12 went green against
+  the one test it was aimed at and red against the three files that hold the property. That is
+  auditor M's 28 in miniature.
+- **Decision 4 re-derived:** 21 of the 41 drawn styles draw something their kit forbids (2 own,
+  14 inherited, 5 both), four of them an exterior stack V2 now reads.
+- **The test count is 3,350, against 3,280, reconciled by name**: 74 added and 4 re-cut away
+  (split into sheet and DXF halves, or parametrized over the four faces), none removed.
 
 **THERE ARE TWO PHASE 14s, AND SIX WP NUMBERS NAME TWO PACKAGES EACH (merged 27 Sep 2026).**
 *The ink held to its plates* (WP-14.1 through 14.6) and *the dossier and the journey* (WP-14.0
@@ -550,7 +592,10 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 3,280 and the app suite 754.** It was 3,278
+**The test figure in the counts paragraph below is 3,350 and the app suite 754.** It was 3,280
+before WP-15.8, the audit of Phase 15 (28 Sep 2026), reconciled BY NAME against `3b083d9`: 74
+tests added and 4 re-cut away, all four in `tests/test_cornice_face.py`, each split into its sheet
+and DXF halves or parametrized over the four faces; none removed outright. It was 3,278
 before the census doc's currency fix (28 Sep 2026, the commit after WP-15.7), which added two tests
 and removed none: the skip that names a check the environment cannot run, and its driven twin in
 `tests/test_svg_census.py`. It was 3,264
@@ -1302,7 +1347,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,280 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,350 tests**
 (plus the workbench app suite, **754** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this

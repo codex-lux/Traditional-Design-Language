@@ -109,3 +109,14 @@ this corpus: at 1.4 times the window, 25 of 35 drawn piers would have to move or
 **Until it is ruled, nothing is picked.** The placer keeps its foot, and the elevation measures
 every pier and judges only the doorcase's. The fault's wiring is not moved either. Pointing it at
 the drawn piers would apply one of the three statements, and choosing one is the ruling.
+
+**Amended 28 Sep 2026 (WP-15.8, the audit of Phase 15; auditor D's D4, re-derived).** The placer
+seats each storey on its own, so a window the doorcase moves no longer stands where the window
+above it was placed. On `tidewater-georgian-careful`, placed on the heuristic, WP-15.6's reservation
+moved the passage window from 177.50 in to 135.44 in along the south face. Its nearest upper
+window, the primary bedroom's at 159.50 in, was **18.00 in** off it before the move
+(`e8668e6`) and is **24.06 in** off it now (`2467585`). Neither pair stands within the 2.0 in
+`storeys-out-of-vertical-alignment` allows, and that fault fires on this front either way, so no
+verdict changes. But a rule that moves one storey's window and not the other's makes the
+misalignment larger. That is one more thing the ruling above has to say: whether a window
+the pier or the doorcase moves takes the window above it along, and which storey gives way.
