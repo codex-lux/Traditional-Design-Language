@@ -26,6 +26,12 @@ With V22 the census holds 69 checks, 65 carry no live disagreement, and 42 of th
 here. The 23 that are not: E1, E2, E3, F1, P3, P4, P7, PL1, S3, V1, V3, V4, V5, V6, V8, V11, V14,
 V17, V18, V20, V21, X1, X2. A count in a docstring is read by no checker: re-derive it, do not
 quote it.
+
+AND IT WENT STALE AGAIN, AS IT SAID IT WOULD (WP-15.8's audit, auditor B). Phase 15 added V23,
+V24, V25, X3 and X4 with no test that could drive one, and this read 69 and 23 against 74 and 28.
+The count is DERIVED now -- `_driven`, at the foot of this file, reads which checks the tests here
+require "disagrees" of, following each test into the helpers it hands its check to -- and held
+equal to `UNDRIVEN`, which is the list. The five are driven since, so it is the same 23.
 """
 import ast
 import copy
@@ -259,6 +265,17 @@ class TestTheDocIsTheCensus:
             "| X9 | e | s | p | 2 | 2 | 0 | 0 |\n| V98 | e | s | p | 1 | 0 | 0 | 1 |")
         assert C.keep_unevaluable_lines(gen, "", {"X9": "ezdxf"}) == gen, (
             "a check the doc does not carry keeps the generated line, so the doc still reads stale")
+        # K01 (WP-15.8's audit, auditor M): a check whose every row could not evaluate, one for want
+        # of a tool and one for a reason in the record, did not run nowhere -- it ran and judged
+        # nothing -- so its line is held; `any` for `all` passed with nothing red
+        both = [C.row("X9", "a", "cne", "ezdxf is not installed, so the DXF cannot be drawn"),
+                C.row("X9", "b", "cne", "the record states no eave")]
+        assert C.unevaluable_here(both) == {}, "a row that ran and judged nothing is not a missing tool"
+        # B11 (auditor B): only the COUNTS are the doc's; the statement is the check's own words and
+        # is held everywhere, so an X statement edited without regenerating the doc reads stale
+        edited = "| X9 | e | s2 | p | 1 | 0 | 0 | 1 |"
+        kept = C.keep_unevaluable_lines(edited, doc, {"X9": "ezdxf"})
+        assert kept == "| X9 | e | s2 | p | 2 | 2 | 0 | 0 |" and kept not in doc, kept
 
 
 # ------------------------------------------------------------------ no check is vacuous
@@ -1402,3 +1419,350 @@ class TestTheSectionCanDisagree:
         self._planted(monkeypatch, change)
         got = C.CHECKS["S1"]["fn"]()
         assert [r["verdict"] for r in got] == ["disagrees"], got
+
+
+# ------------------------------------------------------------------ Phase 15's five, driven
+class TestPhaseFifteenChecksCanDisagree:
+    """V23, V24, V25, X3 and X4 agree on every row the corpus reaches, so a weakened check agreed
+    too and its doc line did not move (WP-15.8's audit, auditors B and M). Each defect is planted
+    here: in a real sheet's ink, in the record a sheet is drawn from, or in the DXF writer's
+    output, as the check reads each; and several reach branches no shipped plan reaches at all --
+    a stack the house hides on a gable, a window on the doorcase's RIGHT, a DXF division line whose
+    run is wrong, a sheet drawing no division the record states."""
+
+    PID = "tidewater-georgian-careful"
+
+    @classmethod
+    def _rec(cls):
+        return C._sheets()[cls.PID]
+
+    @staticmethod
+    def _one(monkeypatch, cid, el, svg, subject="planted"):
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([(subject, el, svg)]))
+        got = C.CHECKS[cid]["fn"]()
+        assert len(got) == 1, got
+        return got[0]
+
+    @staticmethod
+    def _render(el, face):
+        return C._render(C.SURF._mod("render_elevation").render_elevation, el, face=face)
+
+    # ---- V23
+    def test_v23_agrees_unplanted_on_the_faces_planted_below(self, monkeypatch):
+        rec = self._rec()
+        for face in ("S", "E"):
+            r = self._one(monkeypatch, "V23", rec["elev"], rec["faces"][face])
+            assert r["verdict"] == "agrees", (face, r)
+
+    def test_v23_sees_a_ground_line_that_stops_short_of_a_stack(self, monkeypatch):
+        """K04: the "runs a foot past it" clause turned round passed. A line ending half a foot
+        past the stack's outer edge -- inside the foot V23 asks for, outside K04's inverted one."""
+        rec = self._rec()
+        svg = rec["faces"]["S"]
+        pl = C._face_plate(C.IR.Ink(svg))
+        u0 = min(u for mk in C.SURF._mod("elevation").stack_marks(rec["elev"], "S")["marks"]
+                 for u, _h in mk["outline"])
+        x_px = C.IR.from_model(pl, u0 - 0.5, 0.0)[0]
+        planted = re.sub(r'(<line class="gl[^"]*" x1=")[^"]*"', lambda m: '%s%.1f"' % (m.group(1), x_px),
+                         svg, count=1)
+        assert planted != svg, "the plant did not land"
+        r = self._one(monkeypatch, "V23", rec["elev"], planted)
+        assert r["verdict"] == "disagrees" and "stops short of the stack" in r["detail"], r
+
+    def test_v23_sees_a_stack_drawn_over_an_opening(self, monkeypatch):
+        """No opening stands within 2 ft of a stack on any row, so the clause never ran."""
+        rec = self._rec()
+        svg = rec["faces"]["E"]
+        pl = C._face_plate(C.IR.Ink(svg))
+        (mk,) = C.SURF._mod("elevation").stack_marks(rec["elev"], "E")["marks"]
+        u0, u1 = min(u for u, _h in mk["outline"]), max(u for u, _h in mk["outline"])
+        (x0, y0), (x1, y1) = C.IR.from_model(pl, u0 + 0.2, 8.0), C.IR.from_model(pl, u1 - 0.2, 3.0)
+        planted = svg.replace('<polygon class="ch', '<rect class="op" x="%.1f" y="%.1f" width="%.1f" '
+                              'height="%.1f"/><polygon class="ch' % (x0, y0, x1 - x0, y1 - y0), 1)
+        assert planted != svg, "the plant did not land"
+        r = self._one(monkeypatch, "V23", rec["elev"], planted)
+        assert r["verdict"] == "disagrees" and "is drawn over an opening" in r["detail"], r
+
+    def test_v23_sees_a_stack_the_house_hides_standing_off_its_rake(self, monkeypatch):
+        """Every row reads 0 stacks above the roof, so the branch holding a hidden stack to the rake
+        it rises from has no population. Driven: the west stack alone, seen from the east gable
+        (and moved off the east stack's line so the house hides only its foot)."""
+        el = copy.deepcopy(self._rec()["elev"])
+        pos = el["roof_record"]["chimneys"]["positions"]
+        (west,) = [c for c in pos if c["plan_rect_ft"][2] <= 1e-6]
+        x0, y0, x1, y1 = west["plan_rect_ft"]
+        west["plan_rect_ft"] = [x0, y0 - 8.0, x1, y1 - 8.0]
+        el["roof_record"]["chimneys"]["positions"] = [west]
+        svg = self._render(el, "E")
+        r = self._one(monkeypatch, "V23", el, svg)
+        assert r["verdict"] == "agrees" and "1 above the roof" in r["detail"], ("the premise", r)
+        poly = re.search(r'<polygon class="ch[^"]*" points="([^"]+)"', svg).group(1)
+        pts = [tuple(map(float, p.split(","))) for p in poly.split()]
+        top = min(y for _x, y in pts)
+        floated = " ".join("%.1f,%.1f" % (x, y if abs(y - top) < 1e-6 else y - 48.0) for x, y in pts)
+        r = self._one(monkeypatch, "V23", el, svg.replace(poly, floated))
+        assert r["verdict"] == "disagrees" and "the drawn rake there is" in r["detail"], r
+
+    # ---- V24
+    @staticmethod
+    def _front(el, clear_in, right=False):
+        """The Tidewater front with its flanking window driven `clear_in` from the casing, on the
+        left or round to the right, and the sheet drawn from that record."""
+        EL = C.SURF._mod("elevation")
+        el = copy.deepcopy(el)
+        face = "S"
+        (ent,) = [r for r in EL.opening_rects(el, face)["rects"] if r.get("entrance")]
+        cas = ent["entrance"]["casing_width_in"]
+        p = max((q for q in el["faces"][face]["placed"] if q["kind"] == "window"
+                 and q["storey"] == ent["storey"] and q["cx_in"] < ent["cx_in"]), key=lambda q: q["cx_in"])
+        target = ((ent["x1_in"] + cas + clear_in + p["width_in"] / 2.0) if right
+                  else (ent["x0_in"] - cas - clear_in - p["width_in"] / 2.0))
+        d = target - p["cx_in"]
+        p["cx_in"] += d
+        p["u_ft"] = round(p["u_ft"] + d / 12.0, 4)
+        p["along_ft"] += d / 12.0
+        return el, C._render(C.SURF._mod("render_elevation").render_elevation, el, face=face)
+
+    def test_v24_agrees_unplanted(self, monkeypatch):
+        rec = self._rec()
+        assert self._one(monkeypatch, "V24", rec["elev"], rec["faces"]["S"])["verdict"] == "agrees"
+
+    @staticmethod
+    def _wall(detail, side):
+        m = re.search(r"the %s wall is ([\d.]+) in against ([\d.]+) in" % side, detail)
+        return (float(m.group(1)), float(m.group(2))) if m else None
+
+    def test_v24_judges_the_right_side(self, monkeypatch):
+        """Every judged doorcase has its window on the left and a door on its right."""
+        el, svg = self._front(self._rec()["elev"], 5.0, right=True)
+        r = self._one(monkeypatch, "V24", el, svg)
+        got = self._wall(r["detail"], "right")
+        assert r["verdict"] == "disagrees" and got and abs(got[0] - 5.0) < 0.1 and got[1] == 33.0, r
+        assert "legend" not in r["detail"], ("the sheet says the short side it draws, and no other", r)
+
+    def test_v24_takes_the_floor_at_half_the_pier(self, monkeypatch):
+        """K03: "about half" transcribed as 0.3 passed. The window driven so the wall beside the
+        doorcase, as drawn (the sidelight is drawn at this distance), is short of half the 66 in
+        ordinary pier and clear of three tenths of it."""
+        el, svg = self._front(self._rec()["elev"], 40.0)
+        (left,) = [s for s in C.SURF._mod("elevation").doorcase_piers(el, "S")["sides"]
+                   if s["side"] == "left"]
+        assert 0.3 * 66.0 + 1.0 < left["clear_in"] < 0.5 * 66.0 - 1.0, ("the premise", left)
+        r = self._one(monkeypatch, "V24", el, svg)
+        got = self._wall(r["detail"], "left")
+        assert r["verdict"] == "disagrees" and got and abs(got[0] - left["clear_in"]) < 0.1 \
+            and got[1] == 33.0, r
+        assert "legend" not in r["detail"], ("the sheet says the short side it draws, and no other", r)
+
+    def test_v24_sees_a_window_standing_over_the_casing(self, monkeypatch):
+        """A window driven 2 in over the casing. (One EXACTLY meeting the casing with no sidelight
+        drawn is read as a sidelight -- glass hard against the casing is what the ink offers V24 to
+        tell them by -- and returns no row: auditor B's B7, deferred, because the sheet marks a
+        sidelight with the window's own class and telling them apart moves every doorcase sheet.)"""
+        el, svg = self._front(self._rec()["elev"], -2.0)
+        r = self._one(monkeypatch, "V24", el, svg)
+        assert r["verdict"] == "disagrees" and "the doorcase touches the left window" in r["detail"], r
+
+    @pytest.mark.parametrize("sentence,want", [
+        ("THE DOORCASE TOUCHES THE PASSAGE WINDOW ON THE LEFT — PLANTED",
+         "the left side does not touch its window and the legend says it does"),
+        ("THE WALL BESIDE THE DOORCASE IS 5.0″ ON THE RIGHT, TO THE PORCH WINDOW — PLANTED",
+         "the right side does not fall short and the legend says it does")])
+    def test_v24_holds_the_legend_the_other_way(self, monkeypatch, sentence, want):
+        """B8/D14: a false TOUCHES line printed on all 42 fronts agreed; a SHORT line was held only
+        where no side fell short. Both are held side by side now."""
+        rec = self._rec()
+        svg = rec["faces"]["S"]
+        planted = svg.replace("</svg>", '<text class="dm" x="0" y="0">%s</text></svg>' % sentence)
+        r = self._one(monkeypatch, "V24", rec["elev"], planted)
+        assert r["verdict"] == "disagrees" and want in r["detail"], r
+
+    # ---- V25
+    def test_v25_agrees_unplanted(self, monkeypatch):
+        rec = self._rec()
+        assert self._one(monkeypatch, "V25", rec["elev"], rec["faces"]["S"])["verdict"] == "agrees"
+
+    def test_v25_sees_every_division_a_twentieth_of_an_inch_off_its_record(self, monkeypatch):
+        """C13, K05 and K07 (G6): every division 0.05 in off, planted where both surfaces draw from
+        (`cornice_marks`), passed every guard with V25 re-pointed at that function or its tolerance
+        a hundred times looser. V25 reads the record, at the print's tolerance."""
+        EL = C.SURF._mod("elevation")
+        real = EL.cornice_marks
+
+        def shifted(elev, face):
+            got = real(elev, face)
+            for m in got.get("members") or []:
+                m["h0"] += 0.05 / 12.0
+            return got
+        monkeypatch.setattr(EL, "cornice_marks", shifted)
+        el = self._rec()["elev"]
+        r = self._one(monkeypatch, "V25", el, self._render(el, "S"))
+        assert r["verdict"] == "disagrees" and "the record puts it at" in r["detail"], r
+
+    def test_v25_sees_a_division_that_does_not_run_across_the_box(self, monkeypatch):
+        """C01: division lines spanning the wall and not the cornice passed."""
+        rec = self._rec()
+        svg = rec["faces"]["S"]
+        pl = C._face_plate(C.IR.Ink(svg))
+        x0, x1 = C.IR.from_model(pl, 0.0, 0.0)[0], C.IR.from_model(pl, rec["elev"]["footprint"]["width_ft"], 0.0)[0]
+        planted = re.sub(r'(<line class="cm[^"]*" data-member="[^"]*" x1=")[^"]*("[^>]* x2=")[^"]*"',
+                         lambda m: '%s%.2f%s%.2f"' % (m.group(1), x0, m.group(2), x1), svg)
+        assert planted != svg, "the plant did not land"
+        r = self._one(monkeypatch, "V25", rec["elev"], planted)
+        assert r["verdict"] == "disagrees" and "runs" in r["detail"] and "the cornice's box" in r["detail"], r
+
+    def test_v25_sees_a_frieze_said_and_unsaid_the_wrong_way(self, monkeypatch):
+        """The pack states the frieze flush (0), so the "drawn flush for want of a figure" clause
+        had no population in either direction."""
+        rec = self._rec()
+        el = copy.deepcopy(rec["elev"])
+        el["eave_cornice"]["frieze_projection_in"] = None          # the sheet says it is unstated
+        r = self._one(monkeypatch, "V25", el, self._render(el, "S"))
+        assert r["verdict"] == "disagrees" and "frieze is stated" in r["detail"], r
+        monkeypatch.setattr(C, "_frieze_projection_parts", lambda: (None, None))
+        r = self._one(monkeypatch, "V25", rec["elev"], rec["faces"]["S"])
+        assert r["verdict"] == "disagrees" and "stated by no record" in r["detail"], r
+
+    # ---- X3 and X4: the DXF against the sheet
+    @staticmethod
+    def _only(monkeypatch, faces=("S", "E")):
+        """The census's sheets narrowed to the Tidewater plan's `faces`."""
+        rec = dict(C._sheets()["tidewater-georgian-careful"])
+        rec["faces"] = {f: rec["faces"][f] for f in faces}
+        monkeypatch.setattr(C, "_SHEETS", {"tidewater-georgian-careful": rec})
+        return rec
+
+    @staticmethod
+    def _rewrite_xdata(monkeypatch, header, change):
+        DX = C.SURF._mod("export_dxf")
+        real = DX._xdata
+
+        def planted(entity, head, payload=None, chunk=200):
+            if head == header and payload is not None:
+                payload = change(dict(payload))
+            return real(entity, head, payload, chunk)
+        monkeypatch.setattr(DX, "_xdata", planted)
+
+    def test_x3_and_x4_agree_unplanted(self, monkeypatch):
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        self._only(monkeypatch)
+        for cid in ("X3", "X4"):
+            got = C.CHECKS[cid]["fn"]()
+            assert got and all(r["verdict"] == "agrees" for r in got), (cid, got)
+
+    @pytest.mark.parametrize("key,value,want", [
+        ("plan_judgment", False, "the DXF says plan_judgment False"),
+        ("from_grade", False, "says from_grade False in the DXF"),
+        ("plan_rect_ft", [0, 0, 1, 1], "is none the roof record seats")])
+    def test_x3_reads_what_the_stacks_xdata_says(self, monkeypatch, key, value, want):
+        """B5/K06: X3 read that the keys were there, so a DXF calling the judged 22 in square a
+        measurement agreed with a sheet saying the opposite."""
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        self._only(monkeypatch)
+        self._rewrite_xdata(monkeypatch, "TDL::stack", lambda p: dict(p, **{key: value}))
+        got = C.CHECKS["X3"]["fn"]()
+        assert got and all(r["verdict"] == "disagrees" and want in r["detail"] for r in got), got
+
+    def test_x3_hears_the_sentences_the_sheet_says_of_its_stacks(self, monkeypatch):
+        """M1: the DXF wrote the from-grade sentence and never the judgment line it leaves the size
+        to, and nothing read the DXF's words."""
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        self._only(monkeypatch)
+        EL = C.SURF._mod("elevation")
+        real = EL.face_notes
+        monkeypatch.setattr(EL, "face_notes", lambda *a, **k: [
+            n for n in real(*a, **k) if "A JUDGMENT, NOT A MEASUREMENT" not in n])
+        got = C.CHECKS["X3"]["fn"]()
+        assert got and all(r["verdict"] == "disagrees" and "and the DXF does not" in r["detail"]
+                           for r in got), got
+
+    def test_x4_reads_each_divisions_profile(self, monkeypatch):
+        """C11: a division carrying the profile of the member below it passed."""
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        self._only(monkeypatch)
+        self._rewrite_xdata(monkeypatch, "TDL::cornice-member", lambda p: dict(p, profile="fillet"))
+        got = C.CHECKS["X4"]["fn"]()
+        assert got and all(r["verdict"] == "disagrees" and "another member's profile" in r["detail"]
+                           for r in got), got
+
+    def test_x4_reads_each_divisions_run(self, monkeypatch):
+        """C02 and C03: a slanted line and a half-length one passed on the first point's height.
+        Planted in the sheet here, which X4 holds the DXF to."""
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        rec = self._only(monkeypatch, faces=("S",))
+        svg = rec["faces"]["S"]
+        planted = re.sub(r'(<line class="cm[^"]*" data-member="[^"]*" x1="[^"]*" y1="[^"]*" x2=")([^"]*)"',
+                         lambda m: '%s%.2f"' % (m.group(1), float(m.group(2)) / 2.0), svg)
+        assert planted != svg, "the plant did not land"
+        rec["faces"] = {"S": planted}
+        got = C.CHECKS["X4"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "runs" in got[0]["detail"], got
+
+    def test_x4_cannot_hold_the_dxf_to_a_sheet_that_draws_no_division(self, monkeypatch):
+        """Parity of two drawings that draw nothing is not agreement: where the record states
+        divisions and the sheet draws none, X4 could not evaluate, and says why."""
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        rec = self._only(monkeypatch, faces=("S",))
+        planted = re.sub(r'<line class="cm[^"]*"[^>]*/>', "", rec["faces"]["S"])
+        assert planted != rec["faces"]["S"], "the plant did not land"
+        rec["faces"] = {"S": planted}
+        got = C.CHECKS["X4"]["fn"]()
+        assert [r["verdict"] for r in got] == ["cne"] and "draws none" in got[0]["detail"], got
+
+
+# ------------------------------------------------------------------ which checks nothing drives
+def _driven():
+    """The checks some test in this file names and requires "disagrees" of: read off each test's
+    own body and, through `self.`/`cls.` and module-level calls, the helpers it hands the check
+    to (`_o1_at`, `_v22`, `_verdicts`), as a string constant equal to a check's id."""
+    tree = ast.parse(open(__file__, encoding="utf-8").read())
+    module = {n.name: n for n in tree.body if isinstance(n, ast.FunctionDef)}
+
+    def consts(node, scope, seen):
+        out = {n.value for n in ast.walk(node) if isinstance(n, ast.Constant) and isinstance(n.value, str)}
+        for call in (n for n in ast.walk(node) if isinstance(n, ast.Call)):
+            f = call.func
+            if isinstance(f, ast.Attribute) and isinstance(f.value, ast.Name) and f.value.id in ("self", "cls"):
+                target = scope.get(f.attr)
+            else:
+                target = module.get(f.id) if isinstance(f, ast.Name) else None
+            if target is not None and target.name not in seen:
+                out |= consts(target, scope, seen | {target.name})
+        return out
+
+    ids, driven = set(C.CHECKS), set()
+    scopes = [({}, [n for n in tree.body if isinstance(n, ast.FunctionDef)])]
+    scopes += [({m.name: m for m in c.body if isinstance(m, ast.FunctionDef)},
+                [m for m in c.body if isinstance(m, ast.FunctionDef)])
+               for c in tree.body if isinstance(c, ast.ClassDef)]
+    for scope, fns in scopes:
+        for fn in fns:
+            if fn.name.startswith("test_"):
+                got = consts(fn, scope, {fn.name})
+                if "disagrees" in got:
+                    driven |= got & ids
+    return driven
+
+
+# EVERY CHECK WITH NO LIVE DISAGREEMENT THAT NO TEST HERE DRIVES, BY NAME (WP-15.8's audit, auditor
+# B). This file's docstring counted them by hand -- "69 checks ... 23 undriven" -- and read 74 and
+# 28 after Phase 15 with nothing red: V23, V24, V25, X3 and X4 had joined with no test that could
+# make one of them say "disagrees". Derived now and held equal to this list, so a new check fails
+# here until it is driven or named, and a check driven since must leave it.
+UNDRIVEN = ("E1", "E2", "E3", "F1", "P3", "P4", "P7", "PL1", "S3", "V1", "V11", "V14", "V17", "V18",
+            "V20", "V21", "V3", "V4", "V5", "V6", "V8", "X1", "X2")
+
+
+class TestTheUndrivenAreNamed:
+    def test_the_undriven_checks_are_exactly_the_named_ones(self):
+        live = {k.split(":")[0] for k in json.load(open(C.KNOWN))["disagreements"]}
+        undriven = sorted(set(C.CHECKS) - live - _driven())
+        assert undriven == sorted(UNDRIVEN), (
+            "the checks nothing here drives moved: newly undriven %s (drive each with its defect, or "
+            "name it in UNDRIVEN and say why), newly driven %s (take it off the list)" % (
+                sorted(set(undriven) - set(UNDRIVEN)), sorted(set(UNDRIVEN) - set(undriven))))
+
+    def test_the_reader_follows_a_test_into_the_helper_that_names_its_check(self):
+        """The control on the reader: O1 and V22 are driven only through a helper (`_o1_at`,
+        `_v22`), and a reader of test bodies alone calls both undriven."""
+        assert {"O1", "V22", "V23", "V24", "V25", "X3", "X4"} <= _driven()

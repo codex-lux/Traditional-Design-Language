@@ -209,3 +209,53 @@ def test_the_dxf_draws_each_relation_in_the_sheets_order(rear):
                 later = [e for e in msp if e.dxf.layer not in ("TDL-ELEV-STACK", "TDL-ELEV-MASK",
                                                                "TDL-ELEV-ANNO")]
                 assert max(at[id(e)] for e in later) < at[id(own[0])] < at[id(poly)], face
+
+
+# ------------------------------------------------------------------ what the stack lines say, driven
+def test_the_from_grade_line_leaves_a_judged_size_to_the_judgment_line(shipped):
+    """S06 (WP-15.8's audit, auditor M): the from-grade sentence saying "AT THE 22 IN SQUARE THE
+    RECORD STATES" of a size the record calls a judgment passed, because nothing read that clause.
+    On the shipped record the size is a judgment and the sentence says nothing of it; driven with
+    the judgment withdrawn, it states the size as the record's."""
+    assert shipped.get("chimney_stack_plan_judgment") and shipped.get("chimney_stack_plan_in"), \
+        "the premise: the shipped stack's size is a judgment"
+    for el, judged in ((shipped, True), (dict(shipped, chimney_stack_plan_judgment=False), False)):
+        (line,) = [n for n in EL.stack_notes(el, EL.stack_marks(el, "S"))
+                   if n.startswith("EXTERIOR STACKS DRAWN FROM GRADE")]
+        assert ("THE RECORD STATES" in line) is (not judged), (judged, line)
+
+
+def test_a_stack_inside_the_gable_wall_is_said_to_rise_inside_it(shipped):
+    """S07 (auditor M): no shipped stack is interior, so the interior sentence swapped for the
+    far-end one passed. Driven: the west stack's square moved just inside its gable wall."""
+    import copy as _copy
+    el = _copy.deepcopy(shipped)
+    fp = el["footprint"]
+    pos = el["roof_record"]["chimneys"]["positions"]
+    west = [c for c in pos if EL.stack_side(c, fp) == "W"]
+    assert len(west) == 1, "the premise: one stack at the west gable"
+    x0, y0, x1, y1 = west[0]["plan_rect_ft"]
+    west[0]["plan_rect_ft"] = [0.5, y0, 0.5 + (x1 - x0), y1]
+    el["roof_record"]["chimneys"]["positions"] = west
+    assert EL.stack_side(west[0], fp) == "interior", "the drive landed: the stack is interior"
+    sm = EL.stack_marks(el, "S")
+    assert sm["marks"] and not any(m["from_grade"] for m in sm["marks"]), sm["marks"]
+    (line,) = [n for n in EL.stack_notes(el, sm) if n.startswith("STACKS DRAWN ABOVE THE ROOF")]
+    assert "RISE INSIDE THE GABLE WALL" in line and "FAR END" not in line, line
+
+
+def test_each_face_draws_the_rear_stack_where_its_square_stands(rear):
+    """S01 (WP-15.8's audit, auditor M): the only plan that draws stacks draws a mirror-symmetric
+    pair, one at each gable, so a face reading every stack end for end drew the same picture and
+    V17, V23 and X3 all agreed. The rear stack stands off the house's centre line: every face that
+    draws it draws it at its own square, along the face as the face runs (no face is drawn
+    mirrored, `elevation.FACE_MIRRORED`)."""
+    el, stack = rear
+    x0, y0, x1, y1 = stack["plan_rect_ft"]
+    W = el["footprint"]["width_ft"]
+    assert abs((x0 + x1) / 2.0 - W / 2.0) > 2.0, ("the premise: the stack is off the centre line", x0, x1, W)
+    assert not any(EL.FACE_MIRRORED.get(f) for f in "SNEW"), EL.FACE_MIRRORED
+    for face, (lo, hi) in (("S", (x0, x1)), ("N", (x0, x1)), ("E", (y0, y1)), ("W", (y0, y1))):
+        mk = _mark(el, face, stack)
+        us = [u for u, _h in mk["outline"]]
+        assert abs(min(us) - lo) < 0.01 and abs(max(us) - hi) < 0.01, (face, min(us), max(us), lo, hi)

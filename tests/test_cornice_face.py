@@ -127,41 +127,58 @@ def test_a_record_with_no_cornice_is_said_in_the_dxf_too(elev, tmp_path):
 
 
 # ------------------------------------------------------------------ the frieze, driven
-def test_a_frieze_stated_proud_is_drawn_proud_on_both_surfaces(elev, tmp_path):
+# EACH SURFACE IN A TEST OF ITS OWN (WP-15.8's audit, auditor B): these two tests called
+# `importorskip("ezdxf")` at their top, so where ezdxf is absent -- every CI corpus shard -- their
+# SHEET halves were skipped with the DXF's, and V25 cannot reach either case, because the pack
+# states the frieze flush. A frieze drawn flush whatever the record stated passed 10 of 10 with the
+# ezdxf import shadowed. The sheet halves need no ezdxf and run everywhere now.
+def _frieze_driven(elev, tmp_path, proj):
+    el = copy.deepcopy(elev)
+    el["eave_cornice"]["frieze_projection_in"] = proj
+    ink, pl, said = _svg(el, "S", tmp_path, "fz-%s" % proj)
+    (fz,) = [it for it in ink.select("rect") if {"bd", "fz"} <= set(it.classes)]
+    return el, _box_ft(pl, fz), said
+
+
+def test_a_frieze_stated_proud_is_drawn_proud_on_the_sheet(elev, tmp_path):
     """No record states a frieze proud of the wall, so the figure is driven, with the flush one as
     the control: a surface that ignored the figure would draw the two alike."""
+    span = elev["footprint"]["width_ft"]
+    tol = 0.02 / 24.0
+    _el, flush, said_flush = _frieze_driven(elev, tmp_path, 0.0)
+    _el, proud, said_proud = _frieze_driven(elev, tmp_path, 3.0)
+    assert abs(flush[0]) < tol and abs(flush[2] - span) < tol, flush
+    assert abs(proud[0] + 3.0 / 12.0) < tol and abs(proud[2] - span - 3.0 / 12.0) < tol, proud
+    assert "FRIEZE DRAWN FLUSH" not in said_flush and "FRIEZE DRAWN FLUSH" not in said_proud, (
+        "a stated frieze was said to be unstated")
+
+
+def test_a_frieze_stated_proud_is_drawn_proud_in_the_dxf(elev, tmp_path):
     ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
     EX = _m("export_dxf")
-    got = {}
-    for tag, proj in (("flush", 0.0), ("proud", 3.0)):
+    west = {}
+    for proj in (0.0, 3.0):
         el = copy.deepcopy(elev)
         el["eave_cornice"]["frieze_projection_in"] = proj
-        ink, pl, said = _svg(el, "S", tmp_path, tag)
-        (fz,) = [it for it in ink.select("rect") if {"bd", "fz"} <= set(it.classes)]
-        u0, _v0, u1, _v1 = _box_ft(pl, fz)
-        path = str(tmp_path / f"{tag}.dxf")
+        path = str(tmp_path / f"fz-{proj}.dxf")
         assert "error" not in EX.export_elevation_dxf(el, path, face="S")
         (poly,) = [e for e in ezdxf.readfile(path).modelspace().query("LWPOLYLINE")
                    if e.dxf.layer == "TDL-ELEV-FRIEZE"]
-        west = min(p[0] for p in poly.get_points())
-        got[tag] = (u0, u1, west, "FRIEZE DRAWN FLUSH" in said)
-    span = elev["footprint"]["width_ft"]
-    tol = 0.02 / 24.0
-    assert abs(got["flush"][0]) < tol and abs(got["flush"][1] - span) < tol and got["flush"][2] == 0.0
-    assert abs(got["proud"][0] + 3.0 / 12.0) < tol and abs(got["proud"][1] - span - 3.0 / 12.0) < tol
-    assert abs(got["proud"][2] + 3.0) < 1e-6, got
-    assert not got["flush"][3] and not got["proud"][3], "a stated frieze was said to be unstated"
+        west[proj] = min(p[0] for p in poly.get_points())
+    assert west[0.0] == 0.0 and abs(west[3.0] + 3.0) < 1e-6, west
 
 
-def test_a_frieze_no_record_states_is_drawn_flush_and_said_on_both_surfaces(elev, tmp_path):
+def test_a_frieze_no_record_states_is_drawn_flush_and_said_on_the_sheet(elev, tmp_path):
+    _el, box, said = _frieze_driven(elev, tmp_path, None)
+    assert abs(box[0]) < 0.02 / 24.0, "an unstated frieze drawn anywhere but flush"
+    assert "FRIEZE DRAWN FLUSH WITH THE WALL — NO RECORD STATES" in said
+
+
+def test_a_frieze_no_record_states_is_said_in_the_dxf(elev, tmp_path):
     ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
     EX = _m("export_dxf")
     el = copy.deepcopy(elev)
     el["eave_cornice"]["frieze_projection_in"] = None
-    ink, pl, said = _svg(el, "S", tmp_path, "absent")
-    (fz,) = [it for it in ink.select("rect") if {"bd", "fz"} <= set(it.classes)]
-    assert abs(_box_ft(pl, fz)[0]) < 0.02 / 24.0, "an unstated frieze drawn anywhere but flush"
-    assert "FRIEZE DRAWN FLUSH WITH THE WALL — NO RECORD STATES" in said
     path = str(tmp_path / "absent.dxf")
     assert "error" not in EX.export_elevation_dxf(el, path, face="S")
     # the notes are MTEXT since WP-15.8, broken to the drawing's width: a break reads as a space
@@ -187,14 +204,27 @@ def test_the_frieze_projection_is_read_off_the_pack_and_not_written_in(monkeypat
 
 
 # ------------------------------------------------------------------ the sheet
-def test_the_sheet_draws_a_line_at_every_division_and_no_other(elev, tmp_path):
-    ink, pl, _said = _svg(elev, "S", tmp_path)
-    cm = _m("elevation").cornice_marks(elev, "S")
-    lines = {it.attrs.get("data-member"): IR.to_model(pl, *it.points(n=1)[0])[1]
-             for it in ink.items if "cm" in it.classes}
+@pytest.mark.parametrize("face", ["S", "N", "E", "W"])
+def test_the_sheet_draws_a_line_across_the_box_at_every_division_and_no_other(elev, face, tmp_path):
+    """Each line is held by both of its ends and its run, not by its first point (WP-15.8's audit,
+    auditors B and M): lines collapsed to nothing, stubs off the box and lines spanning the wall and
+    not the cornice all passed when only the first point's height was read."""
+    ink, pl, _said = _svg(elev, face, tmp_path)
+    cm = _m("elevation").cornice_marks(elev, face)
+    tol = 0.02 / pl["px_per_ft"]
+    lines = {}
+    for it in ink.items:
+        if "cm" in it.classes:
+            (x0, y0), (x1, y1) = it.points(n=1)[0], it.points(n=1)[-1]
+            (u0, v0), (u1, v1) = IR.to_model(pl, x0, y0), IR.to_model(pl, x1, y1)
+            lines[it.attrs.get("data-member")] = (v0, v1, min(u0, u1), max(u0, u1))
     want = {m["id"]: m["h0"] for m in cm["members"][1:]}
-    assert set(lines) == set(want) and len(want) == 7
-    assert all(abs(lines[k] - want[k]) < 0.02 / pl["px_per_ft"] for k in want), (lines, want)
+    assert set(lines) == set(want) and len(want) == 7, (face, sorted(lines))
+    box = cm["cornice"]
+    for k, h in want.items():
+        v0, v1, u0, u1 = lines[k]
+        assert abs(v0 - h) < tol and abs(v1 - h) < tol, (face, k, v0, v1, h)
+        assert abs(u0 - box["u0"]) < tol and abs(u1 - box["u1"]) < tol, (face, k, u0, u1, box)
     # and they are INK: a class with no stroke rule draws nothing, which is how the first draft of
     # these lines went onto the sheet -- present in the file and absent from the drawing
     for it in ink.items:
@@ -227,27 +257,115 @@ def test_a_stack_in_front_of_the_face_is_painted_over_the_cornice_and_one_behind
 
 
 # ------------------------------------------------------------------ the DXF
-def test_the_dxf_draws_each_member_division_carrying_its_member(elev, tmp_path):
+@pytest.mark.parametrize("face", ["S", "N", "E", "W"])
+def test_the_dxf_draws_each_member_division_level_across_the_box_carrying_its_member(elev, face, tmp_path):
+    """On every face, where this read the south face alone (WP-15.8's audit, C16: every E and W
+    division 0.1 in high passed X4's print tolerance and this test, which looked only at S), and
+    each line by both ends, its run and the member's own PROFILE as well as its id (C02 slanted,
+    C03 half the span and C11 the member below's profile all passed)."""
     ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
     EX = _m("export_dxf")
-    path = str(tmp_path / "e.dxf")
-    assert "error" not in EX.export_elevation_dxf(elev, path, face="S")
+    path = str(tmp_path / f"e-{face}.dxf")
+    assert "error" not in EX.export_elevation_dxf(elev, path, face=face)
     msp = ezdxf.readfile(path).modelspace()
-    cm = _m("elevation").cornice_marks(elev, "S")
+    cm = _m("elevation").cornice_marks(elev, face)
+    box = cm["cornice"]
     got = {}
     for e in msp.query("LINE"):
         if e.dxf.layer == "TDL-ELEV-CORNICE-MEMBER":
             x = "".join(str(v) for _c, v in e.get_xdata("TDL"))
-            got[json.loads(x[x.index("{"):])["member"]] = e.dxf.start[1]
-    want = {m["id"]: m["h0"] * 12.0 for m in cm["members"][1:]}
-    assert set(got) == set(want)
-    assert all(abs(got[k] - want[k]) < 1e-6 for k in want), (got, want)
-    (box,) = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-CORNICE"]
-    assert min(p[1] for p in box.get_points()) == pytest.approx(cm["cornice"]["h0"] * 12.0), (
+            said = json.loads(x[x.index("{"):])
+            got[said["member"]] = (e.dxf.start, e.dxf.end, said.get("profile"))
+    want = {m["id"]: m for m in cm["members"][1:]}
+    assert set(got) == set(want), (face, sorted(got))
+    for k, m in want.items():
+        (a0, h0, _z0), (a1, h1, _z1), profile = got[k][0], got[k][1], got[k][2]
+        assert abs(h0 - m["h0"] * 12.0) < 1e-6 and abs(h1 - m["h0"] * 12.0) < 1e-6, (face, k, h0, h1)
+        assert abs(min(a0, a1) - box["u0"] * 12.0) < 1e-6 and abs(max(a0, a1) - box["u1"] * 12.0) < 1e-6, \
+            (face, k, a0, a1)
+        assert profile == m["profile"], (face, k, profile, m["profile"])
+    (poly,) = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-CORNICE"]
+    assert min(p[1] for p in poly.get_points()) == pytest.approx(box["h0"] * 12.0), (
         "the cornice's box stands on the frieze, not on the wall head")
 
 
 # ------------------------------------------------------------------ the teeth, driven
+def _toothed(elev, spacing_in=27.0, width_in=4.0):
+    """The Tidewater record with a tooth width and a pitch planted on its modillion band: no pack
+    states a tooth width, and no face's bays are a whole number of the record's 25.58 in pitch
+    apart, so no shipped face lays a tooth (WP-15.7). 27 in is a quarter of the front's 108 in
+    bay, so the front's anchors are four pitches apart and the band is laid."""
+    el = copy.deepcopy(elev)
+    band = next(m for m in el["eave_cornice"]["members"] if m["id"] == "corn_modillion")
+    band["spacing_in"], band["width_in"] = spacing_in, width_in
+    cor = el["eave_cornice"]
+    spring = el["grade_to_true_eave_in"] / 12.0 - cor["cornice_height_in"] / 12.0
+    # the band's height READ OFF THE RECORD here, never off `cornice_marks`' teeth, which is what
+    # both surfaces draw from (a band whose foot is its top drew teeth of no height, C05)
+    return el, (spring + band["y_bottom_in"] / 12.0, spring + band["y_top_in"] / 12.0)
+
+
+def test_a_toothed_band_laid_is_drawn_at_the_bands_own_height_on_the_sheet(elev, tmp_path):
+    """WP-15.8's audit (auditor M, C04 and C05): the teeth were held only along the band, so teeth
+    drawn at the frieze's height, or at no height, passed. Driven, with the premise asserted."""
+    el, (h0, h1) = _toothed(elev)
+    t = _m("elevation").cornice_marks(el, "S")["teeth"]
+    assert t and not t["solid"] and len(t["teeth"]) >= 10, ("the premise: the band is laid", t)
+    ink, pl, said = _svg(el, "S", tmp_path, "teeth")
+    tol = 0.02 / pl["px_per_ft"]
+    teeth = [_box_ft(pl, it) for it in ink.select("rect") if {"bd", "w-fine"} <= set(it.classes)]
+    assert len(teeth) == len(t["teeth"]), (len(teeth), len(t["teeth"]))
+    for (u0, v0, u1, v1), want in zip(sorted(teeth), t["teeth"]):
+        assert abs(v0 - h0) < tol and abs(v1 - h1) < tol, ((v0, v1), (h0, h1))
+        assert abs(u0 - want["u0"]) < tol and abs(u1 - want["u1"]) < tol, ((u0, u1), want)
+    assert "MODILLION BAND DRAWN SOLID" not in said, "a band laid is not said to be drawn solid"
+
+
+def test_a_toothed_band_laid_is_drawn_in_inches_at_its_height_in_the_dxf(elev, tmp_path):
+    """C06: the teeth written in FEET where the drawing is in inches passed, because no test read
+    the DXF's tooth layer at all."""
+    ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+    el, (h0, h1) = _toothed(elev)
+    t = _m("elevation").cornice_marks(el, "S")["teeth"]
+    path = str(tmp_path / "teeth.dxf")
+    assert "error" not in _m("export_dxf").export_elevation_dxf(el, path, face="S")
+    got = sorted((min(p[0] for p in e.get_points()), min(p[1] for p in e.get_points()),
+                  max(p[0] for p in e.get_points()), max(p[1] for p in e.get_points()))
+                 for e in ezdxf.readfile(path).modelspace().query("LWPOLYLINE")
+                 if e.dxf.layer == "TDL-ELEV-CORNICE-TOOTH")
+    assert len(got) == len(t["teeth"]) >= 10, (len(got), len(t["teeth"]))
+    for (x0, y0, x1, y1), want in zip(got, t["teeth"]):
+        assert abs(x0 - want["u0"] * 12.0) < 1e-6 and abs(x1 - want["u1"] * 12.0) < 1e-6, ((x0, x1), want)
+        assert abs(y0 - h0 * 12.0) < 1e-6 and abs(y1 - h1 * 12.0) < 1e-6, ((y0, y1), (h0, h1))
+
+
+def test_the_pitch_tolerance_is_in_inches_and_not_in_pitches():
+    """C07: `repeat_positions` compared the drift in PITCHES against a tolerance stated in inches,
+    27 times looser at a 27 in pitch. Anchors 108 in apart at a 26.9875 in pitch are 4.0019
+    pitches apart: 0.05 in of drift, five times the tolerance, and a hundredth of it in pitches."""
+    PROF = _m("profiles")
+    cs = [69.5, 177.5, 285.5, 393.5, 501.5]
+    drift = PROF.repeat_positions(571.0, spacing_in=26.9875, width_in=4.0, centre_on=cs)
+    near = PROF.repeat_positions(571.0, spacing_in=26.999, width_in=4.0, centre_on=cs)
+    assert drift["solid"] and not drift["teeth"], "0.05 in of drift laid as a whole number of pitches"
+    assert not near["solid"] and near["teeth"], "0.004 in of drift, inside the tolerance, refused"
+
+
+def test_the_cornice_shade_falls_at_its_soffit(elev, tmp_path):
+    """C08: the report says the cornice's shade line moved to its own soffit, where its shadow falls
+    on the frieze below; nothing held it there, and putting it back at the frieze's foot passed.
+    The line spanning the cornice's box, read off the ink, stands on the box's lower edge."""
+    ink, _pl, _said = _svg(elev, "S", tmp_path)
+    (box,) = [it for it in ink.select("rect") if {"bd", "w-prof"} <= set(it.classes)]
+    (fz,) = [it for it in ink.select("rect") if {"bd", "fz"} <= set(it.classes)]
+    bx = box.bbox()
+    under = [it for it in ink.items if "shade" in it.classes and it.tag == "line"
+             and abs(it.bbox()[0] - bx[0]) < 0.05 and abs(it.bbox()[2] - bx[2]) < 0.05]
+    assert len(under) == 1, ("the premise: one shade line across the cornice's box", len(under))
+    assert abs(under[0].bbox()[1] - bx[3]) < 0.05 and abs(fz.bbox()[3] - bx[3]) > 1.0, (
+        under[0].bbox(), bx, fz.bbox())
+
+
 def test_teeth_laid_between_anchors_a_whole_number_of_pitches_apart_are_one_row():
     PROF = _m("profiles")
     cs = [69.5, 177.5, 285.5, 393.5, 501.5]

@@ -1424,6 +1424,14 @@ FEATURES = (
     ("sidelights", "transom_sidelight", ("sidelight",)),
     ("shutters", "shutter", None),
     ("keystone", "window_head_masonry", ("keyed", "keystone")),
+    # AN EXTERIOR STACK, drawn from grade on the square the placement seats (WP-15.8's audit,
+    # auditor D). The list had no chimney, so a swept front drawing two exterior end stacks for a
+    # style whose own kit forbids `exterior-end` -- new-england-colonial's central stack is
+    # canonical -- read agrees on every check. The sweep draws the Tidewater placement's stacks
+    # under every style, which is why three styles reach it; on a record composed for its own
+    # style the placer seats the stack its kit makes canonical.
+    ("exterior stack", "hearth_position", ("exterior-end",)),
+    ("exterior stack", "chimney", ("exterior",)),
 )
 
 
@@ -1454,6 +1462,14 @@ def _drawn_features(svg):
         got.add("shutters")
     for r in _rects(ink, "arch"):
         got.add("keystone")
+    # a stack whose foot stands on the ground line: the ink, not the elevation's own flag
+    gl = _marks(ink, "gl")
+    if pl and gl:
+        g = IR.to_model(pl, *gl[0].points(n=1)[0])[1]
+        for it in _marks(ink, "ch"):
+            if it.tag in ("polygon", "rect", "path") and \
+                    min(IR.to_model(pl, x, y)[1] for x, y in it.points()) <= g + 0.01:
+                got.add("exterior stack")
     return got
 
 
@@ -2427,8 +2443,8 @@ _PIER_TOUCHES = "THE DOORCASE TOUCHES "
 
 @check("V24", "elevation", "the wall each side of the entrance doorcase, as drawn, touches no flanking "
        "window and is at least half the ordinary pier where a parti states the bay; and the legend says "
-       "each side that touches or falls short, and that the floor is not judged where no parti states "
-       "the bay", "elevation sheets that draw a doorcase with a window beside it: shipped plans, every "
+       "each side that touches or falls short and no other, and that the floor is not judged where no "
+       "parti states the bay", "elevation sheets that draw a doorcase with a window beside it: shipped plans, every "
        "face, and every style's front")
 def v24():
     """Phase 15, WP-15.6. Lucas, of the drawn Tidewater front (27 Sep 2026): "there's still no
@@ -2506,20 +2522,28 @@ def v24():
                for s, v, c, f in sides if v == "short"]
         bad += ["the doorcase touches the %s window (%.2f in)" % (s, c) for s, v, c, _f in sides
                 if v == "touches"]
-        for s, v, _c, _f in sides:
-            if v == "short" and not any(t.startswith(_PIER_SHORT) and ("ON THE %s" % s.upper()) in t
-                                        for t in said):
-                bad.append("the %s side falls short and the legend does not say so" % s)
-            if v == "touches" and not any(t.startswith(_PIER_TOUCHES) and t.find(s.upper()) > 0
-                                          for t in said):
-                bad.append("the doorcase touches the %s window and the legend does not say so" % s)
+        # THE LEGEND HELD BOTH WAYS, SIDE BY SIDE (WP-15.8's audit, auditors B and M). This read the
+        # ink into the legend and not back: a side that touches had to be said, and a sentence
+        # saying a side touches where nothing does agreed -- printed on all 42 fronts, V24 read 42
+        # agreements. A side the rule does not reach (a door beside the doorcase, or nothing) must
+        # be said of neither.
+        verdict = {s: v for s, v, _c, _f in sides}
+
+        def _says(prefix, side):
+            return any(t.startswith(prefix) and not t.startswith(_PIER_UNJUDGED)
+                       and ("ON THE %s" % side.upper()) in t for t in said)
+        for s in ("left", "right"):
+            v = verdict.get(s)
+            for prefix, want, what in ((_PIER_SHORT, "short", "falls short"),
+                                       (_PIER_TOUCHES, "touches", "touches its window")):
+                if _says(prefix, s) != (v == want):
+                    bad.append("the %s side %s and the legend %s" % (
+                        s, what if v == want else "does not " + what.replace("touches", "touch")
+                        .replace("falls", "fall"), "does not say so" if v == want else "says it does"))
         unj = any(v == "unjudged" for _s, v, _c, _f in sides)
         if unj != any(t.startswith(_PIER_UNJUDGED) for t in said):
             bad.append("the floor is %s and the legend %s" % (
                 ("not judged", "does not say so") if unj else ("judged", "says it is not")))
-        if not any(v in ("short", "touches") for _s, v, _c, _f in sides) and \
-                any(t.startswith(_PIER_SHORT) and not t.startswith(_PIER_UNJUDGED) for t in said):
-            bad.append("the legend says a side falls short and none does")
         figs = "; ".join("%s %.2f in%s" % (s, c, "" if f is None else " against %.2f" % f)
                          for s, _v, c, f in sides)
         if bad:
@@ -2557,8 +2581,8 @@ def _outboard(c, face, W, D):
 
 
 @check("V25", "elevation", "the eave is drawn as its record states it: the frieze at its own projection, "
-       "the cornice's box at the one reading of the band's projection, a line at every member division "
-       "the record states and no other, the legend saying each band it drew flush for want of a figure, "
+       "the cornice's box at the one reading of the band's projection, a line across the box at every "
+       "member division the record states and no other, the legend saying each band it drew flush for want of a figure, "
        "and a stack that overlaps the cornice painted over it where it stands in front of the face and "
        "under it where it stands behind", "every elevation sheet (plans x faces), and every style's front")
 def v25():
@@ -2620,14 +2644,22 @@ def v25():
         lines = {}
         for it in _marks(ink, "cm"):
             (x0, y0), (x1, y1) = it.points(n=1)[0], it.points(n=1)[-1]
-            lines.setdefault(it.attrs.get("data-member"), []).append(
-                (IR.to_model(pl, x0, y0)[1], IR.to_model(pl, x1, y1)[1]))
+            (u0, v0), (u1, v1) = IR.to_model(pl, x0, y0), IR.to_model(pl, x1, y1)
+            lines.setdefault(it.attrs.get("data-member"), []).append((v0, v1, min(u0, u1), max(u0, u1)))
         want = {m.get("id"): spring + m["y_bottom_in"] / 12.0 for m in members[1:]}
+        b = band or 0.0
         for mid, h in want.items():
             got = lines.pop(mid, [])
-            if len(got) != 1 or max(abs(v - h) for v in got[0]) > tol:
+            if len(got) != 1 or max(abs(v - h) for v in got[0][:2]) > tol:
                 bad.append("the division under %s is drawn %s; the record puts it at %.3f ft"
                            % (mid, "nowhere" if not got else "at " + ", ".join("%.3f" % g[0] for g in got), h))
+            # AND ACROSS THE BOX (WP-15.8's audit, auditors B and M): this read each line's two
+            # heights and never its run, so lines collapsed to nothing, stubs off the box and lines
+            # spanning the wall and not the cornice all agreed. A division is the joint between two
+            # members, and both run the cornice's whole length.
+            elif abs(got[0][2] + b / 12.0) > tol or abs(got[0][3] - (span + b / 12.0)) > tol:
+                bad.append("the division under %s runs %.3f..%.3f ft; the cornice's box %.3f..%.3f"
+                           % (mid, got[0][2], got[0][3], -b / 12.0, span + b / 12.0))
         if lines:
             bad.append("%d division line(s) the record does not state (%s)"
                        % (sum(len(v) for v in lines.values()), ", ".join(sorted(str(k) for k in lines))))
@@ -3304,7 +3336,8 @@ def x3():
 
 @check("X4", "elevation", "the DXF elevation draws the eave the SVG draws: the frieze band and the cornice's "
        "box on the same outlines in the face's own inches, and a line at every member division the SVG "
-       "draws, each carrying the member it names", "every face of every plan whose elevation draws")
+       "draws, level and across the same run, each carrying the member it names and that member's "
+       "profile", "every face of every plan whose elevation draws")
 def x4():
     """Phase 15, WP-15.7. The DXF drew the same single rectangle the sheet did, frieze and cornice in
     one box at the cornice's projection; both read `elevation.cornice_marks` now. This holds the two
@@ -3330,8 +3363,15 @@ def x4():
 
         want = {"frieze": [inches(it) for it in _rects(ink, "bd", "fz")],
                 "cornice": [inches(it) for it in _rects(ink, "bd", "w-prof")]}
-        want_lines = sorted((it.attrs.get("data-member"), round(IR.to_model(pl, *it.points(n=1)[0])[1] * 12.0, 1))
-                            for it in _marks(ink, "cm"))
+        def run(it):
+            (u0, v0), (u1, v1) = (IR.to_model(pl, *it.points(n=1)[0]), IR.to_model(pl, *it.points(n=1)[-1]))
+            return tuple(round(x * 12.0, 1) for x in (v0, v1, min(u0, u1), max(u0, u1)))
+
+        # EACH LINE'S RUN, NOT ITS FIRST POINT (WP-15.8's audit, auditors B and M): this compared
+        # each line's first height, so a DXF line slanted to the member's top, or drawn half the
+        # span, agreed; and 308 lines collapsed to their start point agreed on 44 of 44 faces.
+        want_lines = sorted((it.attrs.get("data-member"),) + run(it) for it in _marks(ink, "cm"))
+        profile_of = {m.get("id"): m.get("profile") for m in (el.get("eave_cornice") or {}).get("members") or []}
         # PARITY OF TWO DRAWINGS THAT BOTH DRAW NOTHING IS NOT AGREEMENT. On the parent of this
         # package both surfaces drew one box and no division, so every row here read "agrees" --
         # two wrong drawings, alike. Where the record states divisions the sheet does not draw,
@@ -3352,7 +3392,7 @@ def x4():
                 if k:
                     xs, ys = [p[0] for p in e.get_points()], [p[1] for p in e.get_points()]
                     got[k].append((min(xs), min(ys), max(xs), max(ys)))
-            got_lines = []
+            got_lines, got_profiles = [], []
             for e in msp.query("LINE"):
                 if e.dxf.layer != "TDL-ELEV-CORNICE-MEMBER":
                     continue
@@ -3361,7 +3401,11 @@ def x4():
                 except Exception:       # noqa: BLE001 -- a line with no XDATA names no member
                     x = ""
                 m = re.search(r'"member":\s*"([^"]+)"', x)
-                got_lines.append((m.group(1) if m else None, round(e.dxf.start[1], 1)))
+                pm = re.search(r'"profile":\s*"([^"]+)"', x)
+                (a0, h0), (a1, h1) = (e.dxf.start[0], e.dxf.start[1]), (e.dxf.end[0], e.dxf.end[1])
+                got_lines.append((m.group(1) if m else None,) + tuple(
+                    round(v, 1) for v in (h0, h1, min(a0, a1), max(a0, a1))))
+                got_profiles.append((m.group(1) if m else None, pm.group(1) if pm else None))
         finally:
             shutil.rmtree(d, ignore_errors=True)
         bad = []
@@ -3371,10 +3415,14 @@ def x4():
                 bad.append("the %s: the SVG draws %s, the DXF %s" % (
                     k, want[k], [tuple(round(v, 1) for v in g) for g in got[k]]))
         got_lines.sort()
-        if [m for m, _h in want_lines] != [m for m, _h in got_lines] or any(
-                abs(a[1] - b[1]) > 0.15 for a, b in zip(want_lines, got_lines)):
-            bad.append("member divisions: the SVG draws %d, the DXF %d, or at other heights or names"
+        if [w[0] for w in want_lines] != [g[0] for g in got_lines] or any(
+                max(abs(a - b) for a, b in zip(w[1:], g[1:])) > 0.15 for w, g in zip(want_lines, got_lines)):
+            bad.append("member divisions: the SVG draws %d, the DXF %d, or at other heights, runs or names"
                        % (len(want_lines), len(got_lines)))
+        # and each carries its member's own profile, read off the record by the member's id
+        wrong = sorted({mid for mid, pr in got_profiles if mid in profile_of and pr != profile_of[mid]})
+        if wrong:
+            bad.append("the DXF's division under %s carries another member's profile" % ", ".join(wrong))
         out.append(row("X4", "%s/%s" % (pid, face), "disagrees" if bad else "agrees",
                        "; ".join(bad[:3]) if bad else "%d division(s)" % len(want_lines)))
     return out
@@ -3963,9 +4011,15 @@ def unevaluable_here(rows):
 
 
 def keep_unevaluable_lines(table, doc_text, missing):
-    """`table` with each unevaluable check's line replaced by the doc's own line for it, where
-    the doc has one. A check the doc does not carry at all keeps the generated line, so a check
-    committed without regenerating the doc still reads stale."""
+    """`table` with each unevaluable check's COUNTS taken from the doc's own line for it, where the
+    doc has one. A check the doc does not carry at all keeps the generated line, so a check
+    committed without regenerating the doc still reads stale.
+
+    THE COUNTS ONLY (WP-15.8's audit, auditor B): this kept the doc's whole line, statement and
+    population with the counts, so an X check's statement edited without regenerating the doc
+    passed the currency test wherever ezdxf is absent. What this environment cannot compute is the
+    last four cells, the ones the rows decide; the id, the surface, the statement and the
+    population are the check's own words and are held to the generated line everywhere."""
     have = {}
     for ln in doc_text.splitlines():
         m = re.match(r"\| ([A-Z]+\d+) \|", ln)
@@ -3974,7 +4028,9 @@ def keep_unevaluable_lines(table, doc_text, missing):
     out = []
     for ln in table.splitlines():
         m = re.match(r"\| ([A-Z]+\d+) \|", ln)
-        out.append(have.get(m.group(1), ln) if m and m.group(1) in missing else ln)
+        if m and m.group(1) in missing and m.group(1) in have:
+            ln = ln.rsplit("|", 5)[0] + "|" + "|".join(have[m.group(1)].rsplit("|", 5)[1:])
+        out.append(ln)
     return "\n".join(out)
 
 

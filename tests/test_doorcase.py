@@ -264,14 +264,17 @@ def test_a_window_with_no_run_left_beside_the_doorcase_is_refused_by_name():
     assert report2["windows_placed"] == 1, room2
 
 
-def _flanked(parlor_w, third=None):
+def _flanked(parlor_w, third=None, win_w=3.5, rear=False):
     """An 8 ft hall whose entrance door stands at 4 ft, a parlor `parlor_w` wide beside it on the
-    same face, and optionally a third room further along (auditor M's probe, WP-15.8)."""
+    same face with a window `win_w` wide, optionally a third room further along (auditor M's probe,
+    WP-15.8), and optionally a window in the hall's own rear (N) wall."""
     hall = {"id": "hall", "geometry": {"x_ft": 0.0, "y_ft": 0.0, "width_ft": 8.0, "depth_ft": 16.0},
             "doors": [{"to": "exterior", "wall": "S", "position_ft": 4.0, "width_ft": 3.5}]}
+    if rear:
+        hall["windows"] = [{"wall": "N", "count": 1, "width_ft": 3.0}]
     parlor = {"id": "parlor",
               "geometry": {"x_ft": 8.0, "y_ft": 0.0, "width_ft": parlor_w, "depth_ft": 16.0},
-              "windows": [{"wall": "S", "count": 1, "width_ft": 3.5}]}
+              "windows": [{"wall": "S", "count": 1, "width_ft": win_w}]}
     rooms, W = [hall, parlor], 8.0 + parlor_w
     if third:
         rooms.append({"id": "closet",
@@ -315,6 +318,31 @@ def test_a_room_the_band_does_not_reach_is_not_told_the_doorcase_took_its_wall()
     w = rooms["closet"]["windows"][0]
     assert w.get("unplaced") and "doorcase" not in w["unplaced"]["reason"], w
     assert w["unplaced"]["reason"] == "the wall is shorter than the window", w
+
+
+def test_the_floor_is_taken_at_the_windows_own_width_and_not_the_door_leafs():
+    """D03 (WP-15.8's audit, auditor M): the residual floor taken at the DOOR LEAF's width passed,
+    because every judged doorcase in the corpus has a 42 in leaf beside a 42 in window. Driven with a
+    30 in window: half the ordinary pier is 39 in at its own width and 33 in at the leaf's, and the
+    placer seats the window against the band, so a floor taken at the wrong width seats it 6 in
+    nearer than the rule allows."""
+    own = 0.5 * _ordinary_pier_in(9.0, 30.0)
+    leafs = 0.5 * _ordinary_pier_in(9.0, 42.0)
+    assert own - leafs > 5.0, ("the premise: the two widths ask for different floors", own, leafs)
+    report, rooms = _flanked(6.0, win_w=2.5)
+    (c,) = rooms["parlor"]["windows"][0]["positions_ft"]
+    clear_in = ((c - 1.25) - report["doorcase"]["run_ft"][1]) * 12.0
+    assert clear_in >= own - 1e-3, (clear_in, own, leafs)
+
+
+def test_the_keep_out_is_on_the_entrance_wall_and_no_other():
+    """D01 (auditor M): the band applied on every wall of a room the doorcase touches passed. The
+    hall's own rear window stands on the N wall, well inside the band's run along the face, and is
+    seated; the band is a statement about the entrance wall only."""
+    report, rooms = _flanked(9.0, rear=True)
+    assert "hall" in report["doorcase"]["rooms_touched"], report["doorcase"]
+    w = rooms["hall"]["windows"][0]
+    assert w.get("positions_ft") and not w.get("unplaced"), w
 
 
 def test_a_door_on_another_elements_face_is_not_the_entrance():
@@ -398,6 +426,69 @@ def test_a_doorcase_over_a_window_is_said_to_touch_it(corpus):
     notes = EL.doorcase_pier_notes(el, face)
     assert any(n.startswith("THE DOORCASE TOUCHES THE") and "ON THE LEFT" in n for n in notes), notes
     assert any(n.startswith("THE DOORCASE TOUCHES") for n in _said(_svg(el, face)))
+
+
+def _move_window_right(el, face, to_clear_in):
+    """The flanking window driven round to the doorcase's RIGHT, `to_clear_in` clear of its casing."""
+    rects = EL.opening_rects(el, face)["rects"]
+    (ent,) = [r for r in rects if r.get("entrance")]
+    cas = ent["entrance"]["casing_width_in"]
+    p = max((q for q in el["faces"][face]["placed"] if q["kind"] == "window"
+             and q["storey"] == ent["storey"] and q["cx_in"] < ent["cx_in"]), key=lambda q: q["cx_in"])
+    d_in = (ent["x1_in"] + cas + to_clear_in + p["width_in"] / 2.0) - p["cx_in"]
+    p["cx_in"] += d_in
+    p["u_ft"] = round(p["u_ft"] + d_in / 12.0, 4)
+    p["along_ft"] += d_in / 12.0
+    return p
+
+
+def test_a_short_side_on_the_right_is_measured_the_right_way_round(corpus):
+    """D11 (auditor M): every judged doorcase in the corpus has its window on the LEFT and a door on
+    its right, so a right-hand clearance with its sign flipped -- which calls a window 5 in clear
+    one standing 5 in over the casing, and prints a false TOUCHES -- passed. Driven."""
+    _placed, el0 = corpus["tidewater-georgian-careful"]
+    el = copy.deepcopy(el0)
+    face = el["entrance_face"]
+    p = _move_window_right(el, face, 5.0)
+    (right,) = [s for s in EL.doorcase_piers(el, face)["sides"] if s["side"] == "right"]
+    assert right["neighbour"]["room"] == p["room"], ("the premise: the window is nearest", right)
+    assert right["verdict"] == "short" and right["clear_in"] == pytest.approx(5.0, abs=0.01), right
+    notes = EL.doorcase_pier_notes(el, face)
+    assert any("ON THE RIGHT" in n and n.startswith("THE WALL BESIDE THE DOORCASE IS 5.0") for n in notes)
+    assert not any(n.startswith("THE DOORCASE TOUCHES") for n in notes), notes
+
+
+def test_a_window_that_meets_the_doorcase_exactly_touches_it(corpus):
+    """D08 (auditor M): the boundary moved below zero passed, because the only touching case driven
+    stood the window 2 in OVER the casing. A window meeting the casing with no wall between them
+    touches it: "not allowed to touch" has no floor to fall short of."""
+    _placed, el0 = corpus["tidewater-georgian-careful"]
+    el = copy.deepcopy(el0)
+    face = el["entrance_face"]
+    _move_window(el, face, 0.0)
+    (left,) = [s for s in EL.doorcase_piers(el, face)["sides"] if s["side"] == "left"]
+    assert left["clear_in"] == pytest.approx(0.0, abs=0.01) and left["verdict"] == "touches", left
+
+
+def test_the_wall_is_measured_to_the_nearest_window_and_not_the_farthest(corpus):
+    """D07 (auditor M): measuring to the FARTHEST window on the left passed, because the Tidewater
+    front draws one window to the left of its doorcase (the drawing room's and the library's are
+    refused). A second window is set further along, and the side is still the nearer one's."""
+    _placed, el0 = corpus["tidewater-georgian-careful"]
+    el = copy.deepcopy(el0)
+    face = el["entrance_face"]
+    near = _move_window(el, face, 5.0)
+    far = copy.deepcopy(near)
+    far["cx_in"] -= 60.0
+    far["u_ft"] = round(far["u_ft"] - 5.0, 4)
+    far["along_ft"] -= 5.0
+    far["room"] = "far-" + str(near["room"])
+    el["faces"][face]["placed"].append(far)
+    rooms = [r.get("room") for r in EL.opening_rects(el, face)["rects"] if r["kind"] == "window"]
+    assert far["room"] in rooms and near["room"] in rooms, ("the premise: both are drawn", rooms)
+    (left,) = [s for s in EL.doorcase_piers(el, face)["sides"] if s["side"] == "left"]
+    assert left["neighbour"]["room"] == near["room"], left
+    assert left["verdict"] == "short" and left["clear_in"] == pytest.approx(5.0, abs=0.01), left
 
 
 def test_the_floor_is_not_judged_where_no_parti_states_the_bay_and_the_sheet_says_so(corpus):

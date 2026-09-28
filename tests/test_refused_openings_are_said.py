@@ -38,6 +38,18 @@ def _L(n):
 GEO, ST, RF, EL, RE, ELM = (_L(n) for n in ("geometry", "structure", "roof", "elevation",
                                            "render_elevation", "elements"))
 HEAD = "OPENING(S) ON THIS FACE NOT DRAWN"
+# WHAT EACH CAUSE'S LINE MUST SAY, STATED HERE (WP-15.8's audit, auditor B). These tests read the
+# words a line should end with out of the renderer's own table, so swapping the placer's words and
+# the element's -- which prints "· 5 (BACKHALL, BREAKFAST, KITCHEN): THE PLACER REFUSED THEM", the
+# false sentence WP-15.5 was written to remove -- changed nothing they could see: a guard whose
+# reference is what the subject serves agrees with it whatever it serves (R4's trap). A cause's
+# line carries its own keyword and no other cause's.
+KEYWORDS = {"placer": "PLACER", "element": "MASSING ELEMENT", "storey": "STOREY",
+            "stack": "CHIMNEY STACK", "record": "ELEVATION RECORD STATES NO"}
+
+
+def _says_only(line, cause):
+    return KEYWORDS[cause] in line and not any(k in line for c, k in KEYWORDS.items() if c != cause)
 
 
 def _build(path):
@@ -101,8 +113,11 @@ def test_every_refusal_carries_a_cause_from_the_closed_set(corpus):
 
 
 def test_the_sheet_has_words_for_every_cause_and_in_the_same_order():
-    assert tuple(c for c, _w in RE._REFUSED_WORDS) == tuple(EL.REFUSAL_CAUSES)
-    assert all(w and w == w.upper() for _c, w in RE._REFUSED_WORDS)
+    assert tuple(c for c, _w in EL.REFUSAL_WORDS) == tuple(EL.REFUSAL_CAUSES)
+    assert set(KEYWORDS) == set(EL.REFUSAL_CAUSES), "a cause with no keyword stated here"
+    for c, w in EL.REFUSAL_WORDS:
+        assert w and w == w.upper(), c
+        assert _says_only(w, c), (c, w)
 
 
 def _face_with(corpus, want_many):
@@ -126,12 +141,11 @@ def test_each_cause_is_said_for_the_openings_it_is_true_of(corpus):
     units = sum(int(x.get("units") or 1) for x in named)
     assert head[0].startswith(f"{units} {HEAD}"), head[0]
     assert head[0].endswith("THE ELEVATION RECORD NAMES EACH:"), head[0]
-    words = dict(RE._REFUSED_WORDS)
     lines = [t for t in said if t.startswith("· ")]
     for cause in sorted({x["cause"] for x in named}):
         xs = [x for x in named if x["cause"] == cause]
         n = sum(int(x.get("units") or 1) for x in xs)
-        line = [t for t in lines if t.endswith(words[cause])]
+        line = [t for t in lines if _says_only(t.split("): ", 1)[-1], cause)]
         assert len(line) == 1, (pid, face, cause, lines)
         assert line[0].startswith(f"· {n} ("), (line[0], n)
         for room in _rooms(xs):
@@ -147,8 +161,9 @@ def test_a_single_cause_is_said_on_the_one_line(corpus):
     head = [t for t in said if HEAD in t]
     assert len(head) == 1, head
     cause = named[0]["cause"]
-    assert f"— {dict(RE._REFUSED_WORDS)[cause]}; THE ELEVATION RECORD NAMES EACH" in head[0], head[0]
-    assert not [t for t in said if t.startswith("· ") and any(t.endswith(w) for _c, w in RE._REFUSED_WORDS)]
+    tail = head[0].split(" — ")[-1]
+    assert _says_only(tail, cause) and tail.endswith("; THE ELEVATION RECORD NAMES EACH"), head[0]
+    assert not [t for t in said if t.startswith("· ") and any(k in t for k in KEYWORDS.values())]
 
 
 def test_a_window_a_stack_stands_on_is_said_as_the_stack_refusing_it(corpus):
@@ -161,7 +176,45 @@ def test_a_window_a_stack_stands_on_is_said_as_the_stack_refusing_it(corpus):
     el["faces"][face]["stack_half_width_ft"] = 0.9167
     stacked = [x for x in EL.opening_rects(el, face)["refused"] if x.get("cause") == "stack"]
     assert stacked, "the drive landed: a stack stands on a placed window"
-    assert any(dict(RE._REFUSED_WORDS)["stack"] in t for t in _said(_svg(el, face)))
+    assert any(_says_only(t.split(" — ")[-1].split("): ", 1)[-1], "stack")
+               for t in _said(_svg(el, face)) if HEAD in t or t.startswith("· ")), "the stack's cause"
+
+
+def _level_two(el, face):
+    """A placed window moved to a level the building does not have (this house has two)."""
+    win = next(p for p in el["faces"][face]["placed"] if p["kind"] == "window")
+    win["level_index"] = 2
+    return win
+
+
+def test_an_opening_on_a_storey_the_building_lacks_is_said_as_the_storey(corpus):
+    """S08 (WP-15.8's audit, auditor M): the storey and record causes were swapped with nothing
+    red, because no shipped plan refuses an opening for either. Driven: a window on a third storey
+    of a two-storey house is the BUILDING's absence, said as the storey."""
+    el = copy.deepcopy(corpus["tidewater-georgian-careful"])
+    face = el["entrance_face"]
+    win = _level_two(el, face)
+    got = [x for x in EL.opening_rects(el, face)["refused"] if x.get("room") == win["room"]
+           and x.get("storey") == win["storey"] and "storey 2" in x["why"]]
+    assert len(got) == 1 and got[0]["cause"] == "storey", got
+    lines = [t for t in _said(_svg(el, face)) if HEAD in t or t.startswith("· ")]
+    assert any(_says_only(t.split(" — ")[-1].split("): ", 1)[-1], "storey")
+               and str(win["room"]).upper() in t for t in lines), lines
+
+
+def test_an_opening_on_a_storey_that_states_no_floor_is_said_as_the_record(corpus):
+    """And a storey the section states without its floor datum is the RECORD's absence. The sheet
+    itself cannot be drawn from such a record -- its belt course stands on the upper floor datum and
+    raises -- and no product path writes one (the section states every storey's floor), so the
+    words are read off `face_notes`, the list both surfaces write."""
+    el = copy.deepcopy(corpus["tidewater-georgian-careful"])
+    face = el["entrance_face"]
+    upper = next(s for s in el["section"]["storeys"] if s.get("index") == 1)
+    upper["grade_to_floor_ft"] = None
+    got = [x for x in EL.opening_rects(el, face)["refused"] if "no floor datum" in x["why"]]
+    assert got and all(x["cause"] == "record" for x in got), got
+    notes = [t for t in EL.face_notes(el, face) if HEAD in t or t.startswith("· ")]
+    assert any(_says_only(t.split(" — ")[-1].split("): ", 1)[-1], "record") for t in notes), notes
 
 
 def test_a_sheet_of_the_main_block_says_so_where_a_wing_stands_beside_it(corpus):
