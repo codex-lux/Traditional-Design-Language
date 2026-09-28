@@ -7,7 +7,8 @@ side-gable house that means a horizontal cornice the whole width of the gable, s
 line under the rake, on all 41 styles the elevation draws. WP-15.7 gave that band its members and
 left its extent as it was, because the extent is not the elevation's to decide. Each style's
 resolved kit says what the cornice does at the gable, in the `cornice_return` slot, and nothing
-reads that slot.
+reads that slot. *(Corrected 28 Sep 2026, WP-15.8's audit: 27 of the 41 say something there, and
+14 say nothing at all. See the corrected table.)*
 
 **Measured on the 41 styles the elevation draws** (the census's style sweep):
 
@@ -16,7 +17,17 @@ reads that slot.
 | forbidden: the cornice does not return | 11 |
 | `none` canonical | 3 |
 | `full-return-carrying-complete-profile` canonical, with `return_depth_in` 12 to 24 in | 12 |
-| specified, with no canonical variant | 15 |
+| ~~specified, with no canonical variant~~ | ~~15~~ |
+| specified, with no variant and a `return_depth` of 6 to 12 in, measured (`cape-cod-colonial`) | 1 |
+| bound `open` and resolving `empty`: no kit in the chain states anything about the return | 14 |
+
+*The last two rows replace one row that read "specified, with no canonical variant: 15" (corrected
+28 Sep 2026, WP-15.8's audit, re-derived with `threshold.resolved_slots`). The 14 are adam-style,
+beaux-arts-american, beaux-arts-french, dutch-colonial-american, english-baroque,
+english-classical, english-georgian, english-georgian-country-house, english-georgian-townhouse,
+english-palladian, french-neoclassical, italian-renaissance, palladian and regency. For them the
+gable band is drawn where the record is SILENT, which is a different question from the 11 and the
+3, where it is drawn against what the record says.*
 
 - **The 11 are decision 4's class.** The elevation draws something the resolved kit forbids.
   Two forbid it in their own kit (`cape-cod-revival`, `colonial-revival`). Nine inherit the ban:
@@ -59,7 +70,10 @@ face.
 
 **What is wanted.**
 
-- Whether decision 4 covers the return, for the 14 styles whose kit says there is none.
+- Whether decision 4 covers the return, for the 14 styles whose kit says there is none (the 11
+  that forbid it and the 3 that make `none` canonical).
+- What the gable end draws for the 14 styles whose kit says nothing about the return at all
+  *(added 28 Sep 2026 with the corrected table)*.
 - Which reading of the 12 to 24 in return governs a house its own kit's note says may return the
   cornice all the way round.
 - Whether the gable end draws the rake at all, before any pack dimensions a raking cornice.

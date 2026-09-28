@@ -4585,6 +4585,13 @@ is put to a ruling. `docs/reports/wp-15.6-the-wall-beside-the-doorcase.md`.
 - **Found beside it.** `sash-light` and `timber-bay` wrote two quantities to one address under one
   `quantity` label, on 15 nodes, and `check_addresses.py` could not see it. timber-bay's rule moves
   to its own dimension.
+- **The whole build (28 Sep 2026, a clean worktree of `5fefc1b`): `2 of 54 checks failed`**, 24
+  failed / 3,215 passed / 25 skipped. 22 are the merge control's by id, and two are CP-band gate
+  rows, green twice on this tree and red twice on WP-15.5's head. None is this package's.
+- **Corrected 28 Sep 2026 by WP-15.8's audit** (the report's §V): 4 sheets moved, not 3; "one
+  window on one plan" holds for the shipped plans and not for the composer's candidates, where 5
+  windows are newly refused and the family-georgian returned set changes; the 33.01 in is the
+  heuristic engine's; and the two rules met on 19 resolved kits, not 15.
 
 ### WP-15.7 — The cornice drawn with its members
 
@@ -4611,7 +4618,9 @@ changes.
   on the inset and nowhere on the face.
 - **`repeat_positions`** refuses, with the figure, a band whose anchors are not a whole number of
   pitches apart, where it laid two interleaved rows. It is measured unreachable: no face has its
-  bays a whole number of modillion pitches apart, and no pack states a tooth width. WP-14.3's
+  bays a whole number of modillion pitches apart, and no pack states a tooth width (*corrected 28
+  Sep 2026: over the 25 order packs with a column, 26 of the 39 toothed members state one;
+  gibbs-ionic's `corn_modillion`, which every drawn elevation reads, does not*). WP-14.3's
   modillion test had certified the interleaving and is re-cut.
 - **Census V25** holds the face to the record: 85 of 85 disagree on the parent, and all agree
   here. It also holds the paint order that makes a stack in front of the face stand over the

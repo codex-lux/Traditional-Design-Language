@@ -118,8 +118,9 @@ A MONTH.** Read `docs/reports/wp-15.5-the-stack-stands-on-the-ground.md` before 
 - **The census could not see the change: 0 rows moved**, because V17 held a stack's square and top
   and never its foot. **V23 reads the foot and X3 holds the DXF to the sheet.** The census is 71
   checks now.
-- Of the 128 sheets `render_digest.py` hashes, the stack moved 4, the Tidewater elevations. The
-  words below moved 23, and every one of those moved in its legend words alone. That is why a
+- Of the 128 sheets `render_digest.py` hashes (`tests/render_digest.py` since WP-15.8), the
+  stack moved 4, the Tidewater elevations. The words below moved 23, and every one of those
+  moved in its legend words alone. That is why a
   grounded stack's left margin is taken in whole pixels and the frame origin stays an integer.
 - **And it made the sheet stop saying one reason for three.** The elevation used to name every
   opening it could not draw "THE PLACER OR A STACK REFUSED THEM". On the tagged Tidewater front, five
@@ -149,7 +150,13 @@ placer's windows, the entrance composition or a pier.
   NOT JUDGED rather than measuring it against a default.
 - **One window moved, on one plan, and 3 of 128 sheets.** Room geometry, fixtures, furniture and the
   stair are byte-identical on all sixteen, and the openings and sheet digests were re-pinned per plan
-  on harnesses proved against the parent.
+  on harnesses proved against the parent. **CORRECTED 28 SEP 2026 (WP-15.8's audit, report §V):
+  4 sheets moved** -- the fourth, `spec-builder-colonial/elev-N`, gained its NOT JUDGED line and was
+  never looked at, because the model-space diffs were taken on the Tidewater sheets. **And "one
+  window on one plan" is true of the SHIPPED plans only**: `plan_check`'s elevation layer places every
+  composed candidate, so the reservation newly refuses 5 windows over the 13 family-georgian
+  candidates and the composer's returned set changes, the native diagram leaving it. On CP the
+  passage window is refused outright, so the 33.01 in is the heuristic's.
 - **Census V24 reads the ink and holds the legend both ways** (72 checks). It disagrees on 43 of 43
   rows on the parent's code.
 - **DECISION 4 CAME BACK WITH THE SIDELIGHTS.** The six V2 rows WP-14.6 said had left *"for the wrong
@@ -161,11 +168,16 @@ placer's windows, the entrance composition or a pier.
   stand below the fault's own floor, while the fault clears on a tautology:
   `oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways`.
 - **`check_addresses.py` judges a collision by its LABEL.** sash-light and timber-bay wrote two
-  quantities to one address under one `quantity` label, on 15 nodes, and passed. timber-bay's rule
+  quantities to one address under one `quantity` label, on 15 nodes (15 bind both; through the
+  cascade the two met on 19 resolved kits -- corrected 28 Sep 2026), and passed. timber-bay's rule
   moved to `solid_from_post_face_to_window_jamb`, which staled `dist/orders.html`. **`--pin` then
   pinned the stale page as a known disagreement**, because it pins whatever is red: read the NEW
   list before pinning.
 - **The test count is 3,264, against 3,250, reconciled by name**: fourteen added, none removed.
+- **Its whole build (28 Sep 2026, a clean worktree of `5fefc1b`) is `2 of 54 checks failed`**, 24
+  failed / 3,215 passed / 25 skipped. 22 are the merge control's by id; the other two are CP-band
+  gate rows, green twice on this package's tree and red twice on WP-15.5's head. None is this
+  package's.
 
 **WP-15.7 DREW THE EAVE AS ITS RECORD STATES IT, AND THE FRIEZE HAD BEEN DRAWN PROUD OF A WALL ITS
 RECORD SAYS IT IS FLUSH WITH (28 Sep 2026).** Read `docs/reports/wp-15.7-the-cornice-drawn-with-its-members.md`
@@ -183,7 +195,9 @@ before touching the eave, the inset or `profiles.repeat_positions`.
 - **`repeat_positions` laid TWO INTERLEAVED ROWS between anchors that are not a whole number of
   pitches apart, and WP-14.3's modillion test certified it.** It refuses now, with the figure. It
   is measured unreachable: no face's bays are a whole number of modillion pitches apart (3.886 to
-  6.989), and no pack states a tooth width. **Under the parent's code the whole-pitch test stays
+  6.989), and no pack states a tooth width (*corrected 28 Sep 2026: over the 25 order packs with a
+  column, 26 of the 39 toothed members state one; gibbs-ionic's `corn_modillion`, which every
+  drawn elevation reads, does not*). **Under the parent's code the whole-pitch test stays
   green**; only the refusal tests catch the old layout.
 - **Census V25 holds the face to the record** (85 of 85 disagree on the parent), including the
   paint order that stands a stack in front of the face over the cornice. **X4 holds the DXF to the

@@ -5,8 +5,11 @@
 **Every elevation surface now draws an exterior end stack from the ground to its cap (WP-15.5), and
 draws it the whole way down at the stack's own square.** On the Tidewater plan that square is
 22 in, which `brick-course` states as a judgment: "the mason will build 18 or 27". The corpus has
-said since WP-5.11 what is missing below it: "a chimney BREAST at the base of an exterior end
-stack is several feet across and no rule here gives a figure for it". The shoulders, the sloped
+said since WP-5.13 what is missing below it. The WP-5.13 report: "A chimney breast at the base of an
+exterior end stack is several feet across." And `elevation.stack_outline`, since WP-15.5: the breast
+"at an exterior stack's foot, several feet across in any built example, has no figure anywhere".
+*(Corrected 28 Sep 2026, WP-15.8's audit: this sentence first gave one quotation spliced from those
+two sources, and dated it to WP-5.11.)* The shoulders, the sloped
 weatherings that step a breast in to its stack, are not stated either. The sheet's legend says
 both on every face that draws such a stack. The DXF carries the same sentence and puts the breast
 in each stack's XDATA as unstated.
