@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**255 questions, of which 143 are open.** A question is OPEN while
+**257 questions, of which 145 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 143
+## Open — 145
 
 Awaiting a ruling. This is the list to read first.
 
@@ -70,6 +70,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-declared-measurement-and-a-window-record-state-one-width-twice** | OPEN | [the plan says how wide its windows are in two places that nothing holds together](open-questions/oq-a-declared-measurement-and-a-window-record-state-one-width-twice.md) |
 | **oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity** | OPEN | [the duplicate guard is dropping 51 identities, and some of the drops are right](open-questions/oq-a-district-number-on-a-contributing-property-is-not-that-buildings-identity.md) |
 | **oq/a-fault-gauge-has-no-extent-the-record-states** | OPEN | [a gauge needs both ends of its scale, and a finding carries one number and a threshold](open-questions/oq-a-fault-gauge-has-no-extent-the-record-states.md) |
+| **oq/a-fault-reads-clear-when-its-governing-test-could-not-run** | OPEN | [clear on whatever ran](open-questions/oq-a-fault-reads-clear-when-its-governing-test-could-not-run.md) |
 | **oq/a-finding-citation-cannot-name-a-finding** | OPEN | [1,608 of 1,620 finding ids are unciteable by the grammar that has a `finding` kind for them](open-questions/oq-a-finding-citation-cannot-name-a-finding.md) |
 | **oq/a-findings-ordinal-is-not-an-identity** | OPEN | [a finding's id moves when an unrelated sibling clears](open-questions/oq-a-findings-ordinal-is-not-an-identity.md) |
 | **oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group** | OPEN | [38 items name a count and nothing says what the rectangle means](open-questions/oq-a-furniture-footprint-is-sometimes-one-and-sometimes-the-group.md) |
@@ -135,6 +136,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-divergence-mark-is-in-neither-face-the-sheet-names** | OPEN | [one character, and the sheet cannot supply it](open-questions/oq-the-divergence-mark-is-in-neither-face-the-sheet-names.md) |
 | **oq/the-elevation-draws-the-front-door-where-the-composition-wants-it** | OPEN | [and the placement puts it somewhere else](open-questions/oq-the-elevation-draws-the-front-door-where-the-composition-wants-it.md) |
 | **oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings** | OPEN | [the wing has no front](open-questions/oq-the-elevation-draws-the-main-blocks-face-and-not-the-buildings.md) |
+| **oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge** | OPEN | [one front, two answers](open-questions/oq-the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge.md) |
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |
 | **oq/the-elevation-stands-its-roof-on-a-cornice-band-no-other-surface-draws** | OPEN | [one ridge, two heights](open-questions/oq-the-elevation-stands-its-roof-on-a-cornice-band-no-other-surface-draws.md) |
 | **oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front** | OPEN | [an eighth layer reads the main block as the whole house](open-questions/oq-the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front.md) |
