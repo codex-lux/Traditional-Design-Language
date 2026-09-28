@@ -195,7 +195,11 @@ before touching the eave, the inset or `profiles.repeat_positions`.
 - **CI HAS BEEN RED ON THE FIDELITY DOC SINCE AT LEAST THE MERGE AND NO ATTRIBUTION SAW IT.** The
   doc is generated where `ezdxf` is installed, and CI's corpus shards do not have it, so the X rows
   differ there. Every shard that carried the red was already red for another test, and PR #40's CI
-  was attributed by shard colour. **Attribute CI by test id, never by shard.**
+  was attributed by shard colour. **Attribute CI by test id, never by shard.** Fixed in its own
+  commit: a check the environment cannot run keeps the doc's own line, and a skip names it. **And
+  run such a control in a `git worktree`**: the first control was a tar extract with no `.git`,
+  where census O1 cannot read the committed page, so the test failed there for a reason unrelated
+  to the fix, and the reproduction proved nothing.
 - **64 of 128 sheets moved, all elevations**: 44 drawn faces in their eave and their words alone,
   and 20 refusal sheets by the stylesheet's new rule alone. The known disagreements stay at 52.
 - **The test count is 3,278, against 3,264, reconciled by name**: fourteen added, none removed.
@@ -532,7 +536,10 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 3,278 and the app suite 754.** It was 3,264
+**The test figure in the counts paragraph below is 3,280 and the app suite 754.** It was 3,278
+before the census doc's currency fix (28 Sep 2026, the commit after WP-15.7), which added two tests
+and removed none: the skip that names a check the environment cannot run, and its driven twin in
+`tests/test_svg_census.py`. It was 3,264
 before Phase 15's WP-15.7 (28 Sep 2026), which added fourteen tests and removed none: the thirteen
 ids of `tests/test_cornice_face.py` and the refusal twin of the re-cut modillion test in
 `tests/test_elevation_small_fixes.py`, reconciled BY NAME against `5fefc1b`. It was 3,250
@@ -1281,7 +1288,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,278 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,280 tests**
 (plus the workbench app suite, **754** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this

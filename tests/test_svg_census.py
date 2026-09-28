@@ -225,10 +225,40 @@ class TestTheKnownDisagreements:
 # ------------------------------------------------------------------ the doc is the census
 class TestTheDocIsTheCensus:
     def test_the_tables_in_docs_fidelity_are_current(self):
-        reg, table = C.render_doc_tables(_rows())
+        """Every line of the checks table this environment can compute is held to the doc. A check
+        this environment cannot run at all keeps the doc's own line (`unevaluable_here`), and the
+        test below names it as could-not-evaluate: CI's corpus shards have no `ezdxf`, and this
+        test was red there on every run since the merge while green wherever the doc was written."""
+        rows = _rows()
+        reg, table = C.render_doc_tables(rows)
         text = open(C.DOC).read()
+        table = C.keep_unevaluable_lines(table, text, C.unevaluable_here(rows))
         assert C.splice(C.splice(text, "registry", reg), "checks", table) == text, (
             "docs/fidelity.md is stale: run `python3 tests/svg_census.py --write-doc`")
+
+    def test_the_lines_this_environment_cannot_compute_are_named_and_not_passed(self):
+        missing = C.unevaluable_here(_rows())
+        if missing:
+            pytest.skip("COULD NOT EVALUATE the doc's lines for %s: each check wants a tool this "
+                        "environment lacks (%s), so its line was not held" % (
+                            ", ".join(sorted(missing)), "; ".join("%s: %s" % kv for kv in sorted(missing.items()))))
+
+    def test_a_check_that_cannot_run_is_told_from_one_that_ran_and_found_nothing(self):
+        """DRIVEN: the shape the X rows take where `ezdxf` is absent, beside a check that ran and
+        judged nothing (could-not-evaluate for a reason in the record) and one that ran and agreed.
+        Only the first is unevaluable here, and only its line is kept from the doc."""
+        rows = [C.row("X9", "export_dxf", "cne", "ezdxf is not installed, so the DXF cannot be drawn"),
+                C.row("V98", "a", "cne", "the record states no eave"),
+                C.row("V99", "b", "agrees", "")]
+        assert C.unevaluable_here(rows) == {"X9": "ezdxf"}
+        mixed = rows + [C.row("X9", "p/S", "agrees", "")]
+        assert C.unevaluable_here(mixed) == {}, "a check that ran somewhere is not unevaluable"
+        doc = "| X9 | e | s | p | 2 | 2 | 0 | 0 |\n| V98 | e | s | p | 3 | 0 | 0 | 3 |"
+        gen = "| X9 | e | s | p | 1 | 0 | 0 | 1 |\n| V98 | e | s | p | 1 | 0 | 0 | 1 |"
+        assert C.keep_unevaluable_lines(gen, doc, {"X9": "ezdxf"}) == (
+            "| X9 | e | s | p | 2 | 2 | 0 | 0 |\n| V98 | e | s | p | 1 | 0 | 0 | 1 |")
+        assert C.keep_unevaluable_lines(gen, "", {"X9": "ezdxf"}) == gen, (
+            "a check the doc does not carry keeps the generated line, so the doc still reads stale")
 
 
 # ------------------------------------------------------------------ no check is vacuous

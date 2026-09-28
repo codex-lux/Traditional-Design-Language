@@ -3862,6 +3862,47 @@ def render_doc_tables(rows):
     return "\n".join(reg), "\n".join(lines)
 
 
+_MISSING_TOOL = re.compile(r"\b([\w.-]+) is not installed\b")
+
+
+def unevaluable_here(rows):
+    """{check id: the tool it wants}, for every check this environment could not run at all:
+    each of its rows COULD NOT EVALUATE for want of an optional tool (`ezdxf is not installed`).
+
+    THE DOC IS GENERATED WHERE THE TOOLS ARE, AND CI'S CORPUS SHARDS DO NOT HAVE `ezdxf` (found at
+    Phase 15, WP-15.7). There X1 to X4 read one could-not-evaluate row each, so the doc-currency
+    test was red in CI on every run since the merge at least -- and green in every local build,
+    where the tools are. Every shard that carried it was already red for another test, and CI was
+    attributed by shard, so nothing saw it. A check that cannot run here has no line to compare,
+    which is not a line that agrees: the currency test keeps the doc's own line for it and a
+    second test says which, as a skip and never a pass."""
+    by = {}
+    for r in rows:
+        by.setdefault(r["check"], []).append(r)
+    out = {}
+    for cid, rs in by.items():
+        hits = [_MISSING_TOOL.search(r.get("detail") or "") for r in rs]
+        if all(r["verdict"] == "cne" for r in rs) and all(hits):
+            out[cid] = ", ".join(sorted({m.group(1) for m in hits}))
+    return out
+
+
+def keep_unevaluable_lines(table, doc_text, missing):
+    """`table` with each unevaluable check's line replaced by the doc's own line for it, where
+    the doc has one. A check the doc does not carry at all keeps the generated line, so a check
+    committed without regenerating the doc still reads stale."""
+    have = {}
+    for ln in doc_text.splitlines():
+        m = re.match(r"\| ([A-Z]+\d+) \|", ln)
+        if m:
+            have[m.group(1)] = ln
+    out = []
+    for ln in table.splitlines():
+        m = re.match(r"\| ([A-Z]+\d+) \|", ln)
+        out.append(have.get(m.group(1), ln) if m and m.group(1) in missing else ln)
+    return "\n".join(out)
+
+
 _MARK = ("<!-- census:%s:begin -->", "<!-- census:%s:end -->")
 
 
