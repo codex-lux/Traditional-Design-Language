@@ -295,3 +295,47 @@ def test_a_hearth_fact_held_on_part_of_its_fires_is_unjudged():
     assert TF.hearth(plan(["W"]))["status"] == TF.HELD
     assert TF.hearth(plan(["W", "N"]))["status"] == TF.UNJUDGED
     assert TF.hearth(plan(["N"]))["status"] == TF.UNJUDGED
+
+
+# ------------------------------------------------------------------ the plan DXF says what the sheet says
+
+@pytest.mark.parametrize("pid", ["bad-03-narrow-lot-townhome", "spec-builder-colonial"])
+def test_the_plan_dxf_prints_the_sheets_own_lines_and_what_it_leaves_out(pid, tmp_path):
+    """The plan DXF wrote its own window line over the levels it draws -- 1 unit on `bad-03`
+    where the sheet says 2 of 6 -- and none of the sheet's lines about the default bay grid, the
+    spans, the furniture, the transfers or the engine; nor that it draws no exterior door, stair,
+    fixture or furniture. It prints the sheet's own `disclosures.banner` lines now, and the grid
+    line without the bearing clause, because the DXF tells no wall bearing."""
+    ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+    EX, DISC, RP = _m("export_dxf"), _m("disclosures"), _m("render_plan")
+    placed = _placed(pid)
+    path = str(tmp_path / "p.dxf")
+    res = EX.export_plan_dxf(copy.deepcopy(load_or_placed(pid)), path, solved=placed)
+    assert "error" not in res, res
+    said = {e.dxf.text for e in ezdxf.readfile(path).modelspace() if e.dxftype() == "TEXT"}
+    want = [ln["text"] for ln in DISC.banner(placed, styles=RP.C.get("styles"),
+                                            partis=RP._partis(), marked=False)
+            if ln["id"] not in ("relaxations", "infeasible", "bay-module")]
+    assert want, "the premise: the sheet says something of this placement"
+    missing = [t for t in want if t not in said]
+    assert not missing, missing
+    assert EX.DXF_PLAN_OMITS in said
+    grid = [t for t in said if t.startswith("BAY GRID AT THE PLACER'S DEFAULT")]
+    assert all("BEARING" not in t for t in grid), grid
+    # and the SHEETS keep the clause, because they do read their bearing walls off that grid: the
+    # fact is shared and the consequence is not (a mutation dropping it from the sheets was blind
+    # to every test but the corpus sheet digest)
+    sheet = DISC.bay_module(placed)
+    if sheet:
+        assert grid, "the DXF draws the default grid and does not say so"
+        assert sheet["text"].endswith(", AND THE BEARING WALLS ARE READ OFF IT"), sheet
+    if pid.startswith("bad-03"):
+        w = DISC.windows_not_drawn(placed)
+        assert w and w["text"].startswith("2 OF 6") and w["text"] in said, (w, sorted(said))
+
+
+def load_or_placed(pid):
+    path = next(p for p in (os.path.join(ROOT, "plans", f"{pid}.json"),
+                            os.path.join(ROOT, "plans", "reference", f"{pid}.json"))
+                if os.path.exists(p))
+    return json.load(open(path))

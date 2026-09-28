@@ -269,6 +269,12 @@ def _plan_meta(plan):
     return meta
 
 
+# What the plan DXF leaves to the sheet (WP-15.8's audit pass, auditor F): it has drawn no exterior
+# door since WP-5.1, and no stair, fixture or piece of furniture, and it said none of that.
+DXF_PLAN_OMITS = ("NOT IN THIS DXF — THE EXTERIOR DOORS, THE STAIR, THE FIXTURES AND THE FURNITURE: "
+                  "THE PLAN SHEET DRAWS THEM")
+
+
 def export_plan_dxf(plan, path, parti=None, candidates=250, solved=None):
     """`solved` is the set's one placement where a caller already holds it (`export_all`), so the
     plan sheet is drawn from the placement the other three sheets are; `plan` is then the record
@@ -518,9 +524,23 @@ def export_plan_dxf(plan, path, parti=None, candidates=250, solved=None):
     if doors_not_drawn:
         below.append(f"{len(doors_not_drawn)} DECLARED DOOR(S) WITHOUT A DRAWABLE SHARED WALL — "
                      f"IN THE RECORD, NOT THE LINEWORK")
-    if windows_not_drawn:
-        below.append(f"{len(windows_not_drawn)} DECLARED WINDOW UNIT(S) THE PLACEMENT DID NOT SEAT — "
-                     f"IN THE RECORD, NOT THE LINEWORK")
+    # WHAT THE SHEET SAYS OF THE PLACEMENT, IN THE SHEET'S OWN WORDS (WP-15.8's audit pass, auditor
+    # F). This wrote its own window line, over the levels it draws, so on `bad-03` it said 1 unit
+    # where the sheet says 2 of 6 (the second is on the storey the placer does not place), and it
+    # said nothing of the default bay grid it draws, the spans, the furniture, the transfers, the
+    # engine or the style. `disclosures.banner` is the one spelling both plan surfaces print. The
+    # title above already carries the relaxations and the infeasibility, and the DXF draws no ∗,
+    # locates no relaxation mark and lists its own undrawable doors, so those four are its own.
+    RP = _mod("render_plan", f"{ROOT}/build/render_plan.py")
+    for ln in DISC.banner(solved, styles=RP.C.get("styles"), partis=RP._partis(), marked=False):
+        if ln["id"] in ("relaxations", "infeasible", "bay-module"):
+            continue
+        below.append(ln["text"])
+    bm_line = DISC.bay_module(solved, consequence=None)
+    if bm_line:
+        below.append(bm_line["text"])
+    # AND WHAT THIS FILE DOES NOT DRAW, which it had never said: the sheet beside it draws these.
+    below.append(DXF_PLAN_OMITS)
     for i, note in enumerate(below):
         _text(msp, title_layer, note, 0, -2.5 * TITLE_H - i * 1.5 * TEXT_H, h=TEXT_H)
     doc.saveas(path)
@@ -926,10 +946,16 @@ def export_elevation_dxf(elev, path, face=None):
     # beneath. The stacks beside the face were drawn first (WP-15.8); the rest are drawn here,
     # after the openings and the roof as the sheet draws them, a stack in front of its own wall
     # over a mask of its own outline.
+    #
+    # AN INTERIOR STACK IS MASKED TOO (WP-15.8's audit pass, auditor ab601). It comes up through the
+    # roof slope in front of the ridge, and the sheet paints it over the roof, so the ridge behind
+    # it is hidden there; here the ridge ran straight through the stack, because only a "front"
+    # stack had a mask. A stack behind the far wall stands ON the ridge with nothing of the drawing
+    # inside its outline, and keeps none.
     for mk in stacks["marks"]:
         if mk.get("relation") == "end":
             continue
-        if mk.get("relation") == "front":
+        if mk.get("relation") in ("front", "interior"):
             _mask(_stack_pts(mk))
         _draw_stack(mk)
 

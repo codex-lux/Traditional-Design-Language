@@ -244,6 +244,36 @@ def test_a_stack_inside_the_gable_wall_is_said_to_rise_inside_it(shipped):
     assert "RISE INSIDE THE GABLE WALL" in line and "FAR END" not in line, line
 
 
+def test_an_interior_stack_is_masked_over_the_roof_in_the_dxf(shipped):
+    """WP-15.8's audit pass (auditor ab601): the sheet paints an interior stack over the roof, so
+    the ridge behind it is hidden; the DXF drew the ridge straight through it, because only a stack
+    in front of its own wall had a mask. Driven with the same interior square as the test above:
+    the stack's own outline is masked, after the roof and before the stack."""
+    import copy as _copy
+    ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+    DX = _L("export_dxf")
+    el = _copy.deepcopy(shipped)
+    fp = el["footprint"]
+    pos = el["roof_record"]["chimneys"]["positions"]
+    west = [c for c in pos if EL.stack_side(c, fp) == "W"]
+    x0, y0, x1, y1 = west[0]["plan_rect_ft"]
+    west[0]["plan_rect_ft"] = [0.5, y0, 0.5 + (x1 - x0), y1]
+    el["roof_record"]["chimneys"]["positions"] = west
+    assert EL.stack_marks(el, "S")["marks"][0]["relation"] == "interior", "the drive landed"
+    with tempfile.TemporaryDirectory() as td:
+        path = os.path.join(td, "e.dxf")
+        assert "error" not in DX.export_elevation_dxf(el, path, face="S")
+        msp = ezdxf.readfile(path).modelspace()
+        at = {id(e): i for i, e in enumerate(msp)}
+        (poly,) = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-STACK"]
+        box = lambda pts: [round(f(p[i] for p in pts), 3) for i in (0, 1) for f in (min, max)]  # noqa: E731
+        own = [m for m in msp.query("WIPEOUT")
+               if box([(v[0], v[1]) for v in m.boundary_path_wcs()]) == box(poly.get_points())]
+        roof = [at[id(e)] for e in msp if e.dxf.layer == "TDL-ELEV-ROOF"]
+        assert own and roof, ("the interior stack carries no mask of its own outline", len(own))
+        assert max(roof) < at[id(own[0])] < at[id(poly)], "the mask is not between the roof and the stack"
+
+
 def test_each_face_draws_the_rear_stack_where_its_square_stands(rear):
     """S01 (WP-15.8's audit, auditor M): the only plan that draws stacks draws a mirror-symmetric
     pair, one at each gable, so a face reading every stack end for end drew the same picture and

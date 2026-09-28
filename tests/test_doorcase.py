@@ -198,7 +198,13 @@ def test_no_window_is_seated_inside_the_run_or_its_floor(corpus):
     It read only the rooms the RUN touches until WP-15.8, and so could not see the defect it was
     written against one room over: the floor reaches past the run into the next room's wall, and
     the placer had recorded only the rooms the run touched (`test_the_floor_reaches_the_window_in_
-    the_next_room`)."""
+    the_next_room`).
+
+    AND IT STILL CANNOT SEE THAT DEFECT ON THE SHIPPED CORPUS, which the sentence above implied it
+    could (the audit of WP-15.8's own diff, auditor G): with the placer's fix reverted this sweep
+    stays green, because no shipped window on a flanking room stands within the floor's reach.
+    It is a property check over what ships; the driven test named above is the one that holds the
+    fix."""
     fac = PE.resolve("facade-classical")
     checked = 0
     for pid, (placed, _el) in corpus.items():

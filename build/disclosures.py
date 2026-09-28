@@ -448,7 +448,7 @@ def residual_void(plan):
                      f"NO ROOM"}]
 
 
-def bay_module(plan):
+def bay_module(plan, consequence="AND THE BEARING WALLS ARE READ OFF IT"):
     """The bay grid, and the bearing walls read off it, on a module no parti states (WP-14.4).
 
     The working sheet draws a bay grid and labels it; both registers draw the walls on the grid as
@@ -456,13 +456,17 @@ def bay_module(plan):
     placer's own default -- fifteen of the sixteen shipped plans name no parti -- and a grid
     labelled like a reading is a convention drawn as though it were one. Absent where the record
     carries no `bay_module` report at all: a line about a module nobody reported would be
-    inventing the report."""
+    inventing the report.
+
+    THE FACT IS SHARED AND THE CONSEQUENCE IS NOT, as for `no_bay_module` below: the sheets read
+    their bearing walls off the grid, and the plan DXF tells no wall bearing, so it passes None and
+    says the fact alone (WP-15.8's audit pass)."""
     bm = (plan.get("geometry_report") or {}).get("bay_module")
     if not bm or bm.get("stated_by") or bm.get("ft") is None:
         return None
     return {"id": "bay-module", "tone": COPPER,
-            "text": f"BAY GRID AT THE PLACER'S DEFAULT {bm['ft']:g} FT — NO PARTI STATES A MODULE, "
-                    f"AND THE BEARING WALLS ARE READ OFF IT"}
+            "text": f"BAY GRID AT THE PLACER'S DEFAULT {bm['ft']:g} FT — NO PARTI STATES A MODULE"
+                    + (f", {consequence}" if consequence else "")}
 
 
 NO_BAY_GRID = "NO BAY GRID DRAWN"

@@ -206,7 +206,14 @@ def test_the_fix_follows_the_cause(corpus):
             else:
                 assert f["fix"] == "Move the windows to the wall the placement actually gave the room."
                 off += 1
-            for reason in f.get("refused") or []:
+            # THE EVIDENCE IS THE RECORD'S, AND IT IS THERE (the audit of WP-15.8's own diff,
+            # auditor G): this looped `for reason in f.get("refused") or []`, which is vacuous
+            # once the field is gone, and nothing else reads it -- the field could be deleted with
+            # the suite green. It must be the room's own refusal reasons, every one said.
+            want = sorted({(w.get("unplaced") or {}).get("reason") or "unstated"
+                           for w in rooms[f["room"]].get("windows") or [] if w.get("unplaced")})
+            assert f.get("refused") and f["refused"] == want, (pid, f["room"], f.get("refused"), want)
+            for reason in f["refused"]:
                 assert reason in f["statement"], (pid, f["room"], reason)
     assert crowded >= 1 and off >= 1, (crowded, off)
 

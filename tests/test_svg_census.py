@@ -1695,6 +1695,22 @@ class TestPhaseFifteenChecksCanDisagree:
         r = self._one(monkeypatch, "V25", rec["elev"], rec["faces"]["S"])
         assert r["verdict"] == "disagrees" and "stated by no record" in r["detail"], r
 
+    def test_v25_sees_a_stack_in_front_of_the_face_painted_under_its_cornice(self, monkeypatch):
+        """The paint-order clause had no drive (the audit of WP-15.8's own diff, auditor G): it
+        could be switched off with the suite green. On the E face the Tidewater stack stands in
+        front of the face and is painted over the cornice's return; moved before the cornice's box
+        in document order, it is painted under it."""
+        import re
+        rec = self._rec()
+        svg = rec["faces"]["E"]
+        assert self._one(monkeypatch, "V25", rec["elev"], svg)["verdict"] == "agrees"
+        stack = re.search(r'<polygon class="ch w-prof"[^>]*/>', svg)
+        box = re.search(r'<rect class="bd w-prof"', svg)
+        assert stack and box and stack.start() > box.start(), "the premise: the stack is painted last"
+        planted = svg[:box.start()] + stack.group(0) + svg[box.start():stack.start()] + svg[stack.end():]
+        r = self._one(monkeypatch, "V25", rec["elev"], planted)
+        assert r["verdict"] == "disagrees" and "is painted under its cornice" in r["detail"], r
+
     # ---- X3 and X4: the DXF against the sheet
     @staticmethod
     def _only(monkeypatch, faces=("S", "E")):
@@ -1714,6 +1730,74 @@ class TestPhaseFifteenChecksCanDisagree:
                 payload = change(dict(payload))
             return real(entity, head, payload, chunk)
         monkeypatch.setattr(DX, "_xdata", planted)
+
+    @staticmethod
+    def _rewrite_dxf(monkeypatch, change):
+        """Plant a defect in the DXF the census reads: the real export, then `change(msp)` on the
+        file it wrote, saved over it."""
+        import ezdxf
+        DX = C.SURF._mod("export_dxf")
+        real = DX.export_elevation_dxf
+
+        def planted(elev, path, *a, **k):
+            out = real(elev, path, *a, **k)
+            doc = ezdxf.readfile(path)
+            change(doc.modelspace())
+            doc.saveas(path)
+            return out
+        monkeypatch.setattr(DX, "export_elevation_dxf", planted)
+
+    # THREE OF X3's CLAUSES WERE DRIVEN BY NOTHING (the audit of WP-15.8's own diff, auditor G):
+    # `_driven()` counts a CHECK as driven if any one test plants a defect it sees, and X3's XDATA
+    # drives made it count while its grade-line, mask and order clauses could each be switched off
+    # with the whole suite green -- and a DXF whose grade line stopped at the wall then passed
+    # every file but the known-disagreements pin. Each clause is planted here, with the unplanted
+    # control above.
+    def test_x3_sees_a_grade_line_that_stops_short_of_a_grounded_stack(self, monkeypatch):
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        self._only(monkeypatch, faces=("S",))
+
+        def at_the_wall(msp):
+            wall = [e for e in msp if e.dxftype() == "LWPOLYLINE" and e.dxf.layer == "TDL-ELEV-WALL"]
+            xs = [p[0] for e in wall for p in e.get_points()]
+            lines = [e for e in msp if e.dxftype() == "LINE" and e.dxf.layer == "TDL-ELEV-GRADE"]
+            assert xs and lines, "the plant has nothing to act on"
+            for ln in lines:
+                ln.dxf.start = (min(xs), ln.dxf.start[1])
+                ln.dxf.end = (max(xs), ln.dxf.end[1])
+        self._rewrite_dxf(monkeypatch, at_the_wall)
+        got = C.CHECKS["X3"]["fn"]()
+        assert got and all(r["verdict"] == "disagrees" and "no grade line running a foot past it"
+                           in r["detail"] for r in got), got
+
+    def test_x3_sees_a_stack_in_front_of_its_wall_with_no_mask(self, monkeypatch):
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        self._only(monkeypatch, faces=("E",))
+
+        def unmasked(msp):
+            wipes = [e for e in msp if e.dxftype() == "WIPEOUT"]
+            assert wipes, "the plant has nothing to act on"
+            for e in wipes:
+                msp.delete_entity(e)
+        self._rewrite_dxf(monkeypatch, unmasked)
+        got = C.CHECKS["X3"]["fn"]()
+        assert got and all(r["verdict"] == "disagrees" and "no mask of its outline" in r["detail"]
+                           for r in got), got
+
+    def test_x3_sees_a_stack_drawn_after_the_wall_the_sheet_paints_it_before(self, monkeypatch):
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        self._only(monkeypatch, faces=("S",))
+
+        def last(msp):
+            stacks = [e for e in msp if e.dxftype() == "LWPOLYLINE" and e.dxf.layer == "TDL-ELEV-STACK"]
+            assert stacks, "the plant has nothing to act on"
+            for e in stacks:
+                msp.add_entity(e.copy())
+                msp.delete_entity(e)
+        self._rewrite_dxf(monkeypatch, last)
+        got = C.CHECKS["X3"]["fn"]()
+        assert got and all(r["verdict"] == "disagrees" and "is drawn after the DXF's" in r["detail"]
+                           for r in got), got
 
     def test_x3_and_x4_agree_unplanted(self, monkeypatch):
         pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
