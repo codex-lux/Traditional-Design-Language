@@ -368,11 +368,17 @@ def test_the_dxf_selftest_tells_a_refusal_from_a_failure(monkeypatch, capsys):
             return {"sheets": {"plan": {"error": "the writer raised"}}}
         return go
 
+    # Ask for the library, never for the selftest's wording. This skip read `"ezdxf is not
+    # installed" in printed` against a selftest that prints "the ezdxf PACKAGE is not installed",
+    # so where ezdxf is absent -- every CI corpus shard -- it never fired and the test failed on
+    # the missing library instead of skipping: red in CI since 16 Sep, found by the audit of
+    # WP-15.8 (28 Sep 2026) reading run 132 by test id.
+    if EX._ezdxf() is None:
+        pytest.skip("COULD NOT EVALUATE: ezdxf is not installed, so the selftest never runs its "
+                    "round trip")
     monkeypatch.setattr(EX, "export_all", _fake("refused"))
     rc = EX.selftest()
     printed = capsys.readouterr().out
-    if rc == 3 and "ezdxf is not installed" in printed:
-        pytest.skip("COULD NOT EVALUATE: ezdxf is not installed, so the selftest never ran")
     assert rc == 3, f"a refused placement was reported as {rc}, not COULD NOT EVALUATE"
     assert "COULD NOT EVALUATE" in printed and "tiling" in printed, (
         "the refusal reached the reader without its reason")
