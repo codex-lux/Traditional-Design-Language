@@ -20,6 +20,7 @@ import { draftDoc, emptyDraft, completeness, toRecord, exteriorWalls, neighbours
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
 import { PullPane } from '../components/PullPane.jsx';
+import { backdropBox, canvasSize, gridSteps, roomRect } from '../traceCanvas.js';
 
 const SNAP = 0.5;
 const snap = (v) => Math.round(v / SNAP) * SNAP;
@@ -49,8 +50,7 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
   const [, force] = React.useReducer((x) => x + 1, 0);
 
   const rooms = draft.rooms.filter((r) => r.level === level);
-  const W = Math.max(44, ...rooms.map((r) => r.x + r.w + 4), backdrop?.wFt + 2 || 0);
-  const H = Math.max(32, ...rooms.map((r) => r.y + r.h + 4), backdrop?.hFt + 2 || 0);
+  const { W, H } = canvasSize(rooms, backdrop);     // traceCanvas.js: the numbers, testable
 
   const toModel = (e) => {
     const pt = svgRef.current.createSVGPoint();
@@ -125,13 +125,14 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
   }
 
   const gridLines = [];
-  for (let g = 0; g <= W; g += 5) gridLines.push(
+  const steps = gridSteps(W, H);
+  for (const { at: g, heavy } of steps.v) gridLines.push(
     <line key={'v' + g} x1={g} y1={-H} x2={g} y2={0}
-      stroke={g % 10 ? 'var(--rule)' : 'var(--ink-4)'} strokeWidth={g % 10 ? 0.4 : 0.7}
+      stroke={heavy ? 'var(--ink-4)' : 'var(--rule)'} strokeWidth={heavy ? 0.7 : 0.4}
       vectorEffect="non-scaling-stroke" opacity={0.5} />);
-  for (let g = 0; g <= H; g += 5) gridLines.push(
+  for (const { at: g, heavy } of steps.h) gridLines.push(
     <line key={'h' + g} x1={0} y1={-g} x2={W} y2={-g}
-      stroke={g % 10 ? 'var(--rule)' : 'var(--ink-4)'} strokeWidth={g % 10 ? 0.4 : 0.7}
+      stroke={heavy ? 'var(--ink-4)' : 'var(--rule)'} strokeWidth={heavy ? 0.7 : 0.4}
       vectorEffect="non-scaling-stroke" opacity={0.5} />);
 
   return (
@@ -140,8 +141,7 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
         cursor: mode === 'draw' ? 'crosshair' : 'default', touchAction: 'none' }}
       onPointerDown={down} onPointerMove={move} onPointerUp={up}>
       {backdrop?.url && (
-        <image href={backdrop.url} x={0} y={-backdrop.hFt} width={backdrop.wFt}
-          height={backdrop.hFt} opacity={backdrop.opacity}
+        <image href={backdrop.url} {...backdropBox(backdrop)} opacity={backdrop.opacity}
           preserveAspectRatio="none" style={{ pointerEvents: 'none' }} />
       )}
       {gridLines}
@@ -149,7 +149,7 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
         const on = r.key === sel;
         return (
           <g key={r.key}>
-            <rect data-room={r.key} x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
+            <rect data-room={r.key} {...roomRect(r)}
               fill={on ? 'var(--paper-lit)' : 'var(--paper)'} fillOpacity={0.55}
               stroke={on ? 'var(--gilt-deep)' : r.type ? 'var(--ink)' : 'var(--judge-unjudged)'}
               strokeWidth={on ? 1.6 : 1.1} vectorEffect="non-scaling-stroke"

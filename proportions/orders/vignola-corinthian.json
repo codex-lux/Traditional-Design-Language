@@ -282,7 +282,7 @@
           "name": "Ovolo of the abacus",
           "height_parts": 2,
           "projection_parts": 36,
-          "profile": "abacus",
+          "profile": "ovolo",
           "note": "Quarter-round 2 parts high (Vignola 1889, plate XXI). Half-width 36 parts is the horn of the abacus: Vignola gives the plan as a hollow-sided square with diagonals 4 modules long. Ware instead gives the abacus 9/6 D = 54 parts across the flats, which a 4-module diagonal will not quite produce; the disagreement is about a part and a half at the horn.",
           "confidence": "medium"
         }

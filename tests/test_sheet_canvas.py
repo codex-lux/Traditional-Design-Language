@@ -317,3 +317,54 @@ class TestADependencyIsDrawnInsideItsOwnPanel:
             f"{W} ft block). Its west dependency is what makes this record the exception the "
             f"line above names -- if it has stopped being drawn outside, the exception is stale "
             f"and the fifteen above should be sixteen.")
+
+
+def test_no_two_lines_of_the_margin_are_printed_through_one_another(tmp_path):
+    """WP-14.6, audit F10. The working register draws the relaxation mark's definition one row
+    below the schedule, and the band the schedule reserved had no row for it, so the record table's
+    heading was printed 4.7 px above it: two lines through one another on every working sheet
+    with a relaxation and a room drawn off its declared size. Every text line under the plates is
+    held at least 12 px from the next -- read off the sheet `render()` draws by default, which is
+    the working one.
+
+    12 AND NOT THE SCHEDULE'S NOMINAL 14 (audit, 27 Sep 2026). This docstring said "held to the
+    14 px the schedule keeps between rows" over an assertion of 12. Measured, the heading gap runs
+    13.5 to 14.5 px across the shipped sheets (13.9 on spec-builder-colonial), because each row is
+    laid from its own baseline and rounded to a tenth. So 14 cannot be asserted, and 12 keeps an
+    8.5 px line clear of the one above it, which is the property."""
+    checked = 0
+    for name in _plans():
+        svg = _sheet(name, tmp_path)
+        head = re.search(r'y="([\d.]+)"[^>]*>WHAT THE RECORD ASKED FOR', svg)
+        legend = re.search(r'y="([\d.]+)">A CUT OFF THE BAY LINE', svg)
+        if head and legend:
+            checked += 1
+            gap = float(head.group(1)) - float(legend.group(1))
+            assert gap >= 12.0, "%s: the record table's heading stands %.1f px under the △'s definition" % (name, gap)
+        top = float(re.search(r'data-plate-top="([-\d.]+)"', svg).group(1))
+        # EVERY LINE UNDER THE PLATES, THE RIGHT-ALIGNED ONES TOO, AND BY X AS WELL AS Y (audit,
+        # 27 Sep 2026; auditor D, F13a). The selector above required `(?: style=...)?>` straight
+        # after y, so a line carrying `text-anchor="end"` -- NORTH IS UP, on every sheet -- was
+        # never in the population; and the check was y alone with `or b == a`, which could not
+        # tell two lines printed through one another from a left and a right line sharing a
+        # baseline. Two lines conflict when they are closer than 12 px AND their extents, at the
+        # renderer's own advance, overlap.
+        adv = RP.LB_ADVANCE_PX
+        margin = []
+        for m in re.finditer(r'<text class="lb"([^>]*)>([^<]*)</text>', svg):
+            at = dict(re.findall(r'([a-z-]+)="([^"]*)"', m.group(1)))
+            y = float(at["y"])
+            if y <= top:
+                continue
+            x, w = float(at["x"]), len(m.group(2)) * adv
+            anchor = at.get("text-anchor", "start")
+            x0 = x - w if anchor == "end" else x - w / 2 if anchor == "middle" else x
+            margin.append((y, x0, x0 + w, m.group(2)))
+        assert any(t == "NORTH IS UP" for _y, _a, _b, t in margin), (
+            "%s: the premise: the right-aligned margin line is in the population" % name)
+        for i, (ya, a0, a1, ta) in enumerate(margin):
+            for yb, b0, b1, tb in margin[i + 1:]:
+                if abs(yb - ya) < 12.0:
+                    assert a1 <= b0 or b1 <= a0, "%s: %r and %r print through one another (%.1f px apart)" % (
+                        name, ta[:40], tb[:40], abs(yb - ya))
+    assert checked, "premise: some shipped sheet draws both the △'s definition and the table"

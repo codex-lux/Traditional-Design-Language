@@ -124,20 +124,43 @@ def test_the_surrounds_relief_is_refused_and_names_why(both):
         assert "second reader" in r[0]["why"]
 
 
-def test_the_transom_is_stated_and_refused_and_the_premise_is_asserted(both):
-    """The record dimensions a rectangular transom and `render_elevation` draws none. Drawing one
-    here would make the model and the plate two different doorcases."""
+def test_the_transom_is_one_decision_on_the_plate_and_in_the_model(both, tmp_path):
+    """WP-14.3 ANSWERED `oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`: the plate
+    draws the rectangular transom the style's kit makes canonical, at a height its own rule marks
+    judgment, and says so; a canonical fanlight is refused on both surfaces for want of a rise.
+    This replaced WP-12.7's guard, which read the renderer's source so the scene's refusal could
+    not outlive the plate's omission -- the omission is gone, so what is held now is that the two
+    surfaces make the same decision, one way on each shipped plan.
+
+    Tidewater's kit makes `rectangular-multi-light-transom` canonical; the spec Colonial's makes
+    `elliptical-fanlight` canonical. The pair is what makes this an assertion rather than a
+    sample: a change that drew or refused everywhere fails on one of the two."""
+    RE = _mod("render_elevation")
+    seen = {}
     for pid, (scene, _sol, _sec, ev) in both.items():
-        assert ev["entrance"].get("transom_height_in"), (
-            f"{pid}: the record no longer states a transom, so this refusal is about nothing")
-        r = [n for n in scene["not_modelled"]
-             if n["source"] == "elevation.entrance.transom_height_in"]
-        assert len(r) == 1, f"{pid}: {len(r)} transom refusals"
-    src = open(os.path.join(ROOT, "build", "render_elevation.py")).read()
-    lo = src.index("def _entrance(")
-    assert "transom" not in src[lo:src.index("\ndef ", lo + 1)], (
-        "render_elevation._entrance draws a transom now, so the scene's refusal has become the "
-        "disagreement it was written to avoid -- draw it here too")
+        tr = ev["entrance"]["transom"]
+        out = tmp_path / f"{pid}.svg"
+        RE.render_elevation(ev, str(out), face=ev["entrance_face"])
+        said = open(out).read().upper()
+        model = [s for s in scene["solids"] if s["id"].endswith("-transom")]
+        judged = [n for n in scene.get("judgment", []) if "transom" in n["what"]]
+        refused = [n for n in scene["not_modelled"] if n["source"] == "elevation.entrance.transom"]
+        if tr["drawn"]:
+            # ON THE TRANSOM'S OWN LINE (WP-14.6, G7). "A JUDGMENT" anywhere on the sheet was also
+            # the STACK's note -- "STACK DRAWN 22\u2033 SQUARE \u2014 A JUDGMENT" -- so the transom's
+            # clause could be dropped with this green.
+            import re as _re
+            assert _re.search(r"TRANSOM DRAWN [\d.]+\u2033 HIGH \u2014 A JUDGMENT", said), pid
+            assert len(model) == 1 and model[0]["kind"] == "judgment", (pid, model)
+            assert model[0]["ink"] == "construction"
+            assert judged and not refused, pid
+        else:
+            assert "TRANSOM NOT DRAWN" in said and tr["why"].upper() in said, pid
+            assert not model and len(refused) == 1 and refused[0]["why"] == tr["why"], pid
+        seen[pid] = tr["drawn"]
+    assert seen == {"tidewater-georgian-careful": True, "spec-builder-colonial": False}, (
+        f"{seen}: the pair no longer splits one drawn and one refused, so this test can no "
+        "longer tell drawing from refusing")
 
 
 def test_the_entablature_members_sum_to_their_own_band_and_a_flush_member_is_a_plane(both):

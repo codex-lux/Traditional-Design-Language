@@ -35,7 +35,20 @@ NEW_KEYS = ("drawing", "at", "module_name", "module_bound_to", "kind", "used_by"
 # ones valid on BOTH trees (the base took ceiling_height=108.0 as a default, so it is always
 # passed explicitly or not at all). A movement here is a changed MCP payload for an order, which
 # no ruling in tranche 2 permits.
-STACKED_DIGEST = "7ac8e89730301b1d"
+#
+# MOVED AT THE MERGE OF THE TWO PHASE 14s (27 Sep 2026), 7ac8e89730301b1d -> a8059ed1a2278764, and
+# not by anything on this line: the new value is what the OTHER Phase 14 (the ink held to its
+# plates) serves for every order, byte for byte, at its head and at its audit's parent. Proved,
+# not reasoned, with this harness:
+#   - it reproduces 7ac8e89730301b1d on main's tree AND on `d565dea`, the two lines' common base:
+#     this line's freeze held, and main changed no stacked payload at all;
+#   - on all 175 payloads the merged one equals the base's plus the ink line's own changes,
+#     with none left over: its WP-14.2 stack (an overlay's own column, the owning pack's
+#     entablature, Benjamin's subplinth as an alternative), a projection nobody published served
+#     as null rather than 0, the three-state invariants, and five keys that say what the plate
+#     draws (`stack_notes`, `projection_datum`, `assembly_datum`, `unpublished`, `bbox_in`);
+#   - it reproduces a8059ed1a2278764 on the ink line's own tree before the merge.
+STACKED_DIGEST = "a8059ed1a2278764"
 STACKED_KWS = ({}, {"column_diameter": 12.0}, {"module": 9.0},
                {"ceiling_height": 96.0, "opening_width": 42.0}, {"assembly": "cornice"},
                {"assembly": "capital", "column_diameter": 18.0}, {"include_rules": False})
@@ -283,9 +296,16 @@ def test_every_stackless_pack_with_assemblies_is_served_whole_on_the_wall_datum(
             assert g["id"] == a["id"] and g["naked_in"] == 0.0, (pid, a["id"])
             assert g["faces"] and g["faces"][0]["x_from"] == 0.0, \
                 f"{pid}/{a['id']}: the first face does not start at the wall plane"
-            # one face per member, except side-by-side members, which draw only the first
+            # one SECTION face per member, except side-by-side members, which draw only the first.
+            # RE-CUT AT THE MERGE OF THE TWO PHASE 14s (27 Sep 2026): the ink line's WP-14.2 gives
+            # each later side-by-side member a face too, flagged `beside`, for a plate that draws
+            # band by band (it adds nothing to the section), so this counted `moorish-arch`'s arch
+            # at 2 against 1. The section count is the property; the `beside` faces are counted
+            # apart, one for each side-by-side member after the first.
             side = sum(1 for m in a["members"] if m.get("side_by_side"))
-            assert len(g["faces"]) == len(a["members"]) - max(0, side - 1), (pid, a["id"])
+            section = [f for f in g["faces"] if not f.get("beside")]
+            assert len(section) == len(a["members"]) - max(0, side - 1), (pid, a["id"])
+            assert len(g["faces"]) - len(section) == max(0, side - 1), (pid, a["id"])
             assert all(u["assembly"] == a["id"] for u in a["unconstructed"]), (pid, a["id"])
             faces += len(g["faces"])
             members += len(a["members"])

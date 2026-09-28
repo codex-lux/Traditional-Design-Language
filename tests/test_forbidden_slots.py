@@ -190,8 +190,17 @@ def _elev_for(style):
     return el.build_elevation(plan)
 
 
-REFUSED_MEASUREMENTS = ("sidelight_width_in", "transom_width_in", "transom_head_rise_in",
-                        "pilaster_projection_in", "pilaster_width_in", "pilaster_width")
+# EACH MEASUREMENT A FORBIDDEN SLOT MUST NOT PUBLISH, and the slot it belongs to.
+# RE-CUT AT WP-14.3 (27 Sep 2026). Three of the six this held -- the transom's width and head
+# rise and the pilaster's projection -- are withheld for EVERY style now, because the rules they
+# come from are marked judgment (`elevation.NOT_MODELLED`, with the reason). A control that
+# publishes none of them cannot make the differential mean anything for those three, and the
+# assertion below said exactly that. They move to their own list, held absent on both styles and
+# refused by name; and each forbidden slot keeps a measurement the control really publishes, so
+# the kit's gate is still under test for both.
+REFUSED_MEASUREMENTS = {"sidelight_width_in": "transom_sidelight",
+                        "pilaster_width_in": "pilaster", "pilaster_width": "pilaster"}
+WITHHELD_EVERYWHERE = ("transom_width_in", "transom_head_rise_in", "pilaster_projection_in")
 
 
 def test_a_style_whose_kit_forbids_the_slot_publishes_no_measurement_of_it(rk, graph):
@@ -221,6 +230,13 @@ def test_a_style_whose_kit_forbids_the_slot_publishes_no_measurement_of_it(rk, g
     assert missing == [], (
         f"the control style publishes none of {missing} either, so the assertion above "
         f"passes on a generator that produces nothing -- the test is vacuous")
+    assert set(REFUSED_MEASUREMENTS.values()) == {"transom_sidelight", "pilaster"}, (
+        "one of the two forbidden slots has no measurement left in the differential")
+    el = _mod("el_withheld", "build/elevation.py")
+    for k in WITHHELD_EVERYWHERE:
+        assert k not in banned and k not in allowed and el.NOT_MODELLED.get(k), (
+            f"{k} is published, or withheld with no reason: it is a judged figure the sheet "
+            f"labels and the measurements never carry")
 
 
 def test_the_disclosure_names_the_refusal_on_a_style_it_bites_on(rk, graph):

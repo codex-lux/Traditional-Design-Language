@@ -86,6 +86,16 @@ entrance composition, water table and belt bands, and the roofline reused from `
 profile (bed mould, modillion band, corona, cymatium) from `proportion_engine.dimension()`'s own
 member data, not traced.
 
+**The face draws the eave as its record states it (Phase 15, WP-15.7).** `elevation.cornice_marks`
+is the one spelling the sheet and the DXF draw:
+- the frieze at its own projection, which facade-classical states flush;
+- the cornice's box at the one reading of the band's projection;
+- a line at every member division, at the height the order's record states.
+
+The members' projections are drawn on the inset and not on the face, because two sourced rules
+disagree about them (OQ 79). The inset's caption says which surface draws which. Census V25 reads
+the face back to the record.
+
 That inset used to be drawn by `seg_to()`, a case-for-case Python port of
 `orders_template.html`'s `segTo()`, pinned against the JS original by `TestSegTo`. **WP-5.11
 replaced both with `build/profiles.py`, which CONSTRUCTS each moulding** — a quarter of an ellipse

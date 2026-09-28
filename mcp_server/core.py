@@ -79,6 +79,30 @@ def _disclosures():
     return _mod("disclosures", os.path.join(ROOT, "build", "disclosures.py"))
 
 
+WALL_BODY_KEYS = ("x_ft", "y_ft", "width_ft", "depth_ft", "kind", "wall", "t_ft", "block")
+
+
+def wall_bodies(out):
+    """The plate's own wall bodies, per placed level, for the bench to draw (WP-14.4).
+
+    `render_plan.wall_bodies` is the one spelling -- the printed plate draws these bands -- and
+    the bench drew one ring round the footprint in their place: on a house with a wing, a wing
+    and a hyphen with no walls. Trimmed to what a drawing needs (the `why` of each band stays on
+    the plate's tooltips), with the count of openings the band pass found no wall for, which the
+    bench says as the plate does. None where the record cannot be drawn at all."""
+    try:
+        RP = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
+        bodies = RP.wall_bodies(out)
+    except (KeyError, TypeError, ValueError, SystemExit):
+        return None
+    return [{"level": b["level"],
+             # a ten-thousandth of a foot is a hundredth of a pixel at the bench's scale, and the
+             # payload is re-sent on every wall drag (the infrastructure audit's bound)
+             "bands": [{k: (round(bd[k], 4) if isinstance(bd.get(k), float) else bd.get(k))
+                        for k in WALL_BODY_KEYS} for bd in b["bands"]],
+             "unmatched_openings": len(b["stray"])} for b in bodies]
+
+
 def _partis():
     """The parti records by id. `_data()` does not carry them — it is the STYLE-side corpus —
     and `load_parti` reads one by id from a caller-supplied string, which is deliberately the
@@ -660,6 +684,39 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=N
            # itself.
            "assemblies": [_assembly_row(pe, pk, a, bool(assembly)) for a in dims],
            "invariants": pe.check_invariants(pk)}
+    # WP-14.2: what the DRAWINGS say about this pack, served so an agent reading these numbers is
+    # told what a reader of the plate is told -- which datum each assembly's projections were read
+    # on, which members publish no projection at all (drawn as a ghost at the naked, never as a
+    # face measured flush), and how far the ink reaches. Read on the FULL stack whatever `assembly`
+    # asks for: the datum is judged per assembly GROUP (OQ 78), and the cornice judged alone could
+    # read differently from the entablature it belongs to.
+    prof = _mod("profiles", os.path.join(ROOT, "build", "profiles.py"))
+    # The keys are written in the order the ink line wrote them, so a stacked pack's payload is
+    # byte for byte what that line served (the pin in workbench/server/tests/test_pack_plates.py
+    # hashes the serialised payload, and key order is in the bytes).
+    if stack:
+        full = d if not assembly else pe.dimension(pk, d["module_in"], None)
+        g = prof.pack_geometry(full, pk.get("column"), pk.get("projection_datum"))
+        # what the stack left out and why: an alternative (Benjamin's subplinth) not drawn, or an
+        # entablature drawn whole because the triplet it inherited contradicts it
+        out["stack_notes"] = full.get("stack_notes") or []
+        out["projection_datum"] = pk.get("projection_datum")
+        out["assembly_datum"] = g["assembly_datum"]
+        out["unpublished"] = [{"assembly": u["assembly"], "id": u["id"]} for u in g["unpublished"]]
+        out["bbox_in"] = g["bbox_in"]
+    else:
+        # A PACK WITH NO COLUMN STACK IS DRAWN AT THE WALL DATUM, one assembly at a time (the
+        # other Phase 14's WP-14.4 and WP-14.18; the two met here 27 Sep 2026). Its assemblies
+        # share no stack, so nothing was left out of one and there is no one frame to size:
+        # `bbox_in` is null, as it was for these packs before the merge.
+        geos = [prof.pack_geometry(x, datum="wall") for x in
+                (pe.dimension(pk, mod, [aid]) for aid in (pk.get("assemblies") or {}))]
+        out["stack_notes"] = []
+        out["projection_datum"] = pk.get("projection_datum")
+        out["assembly_datum"] = {k: v for g in geos for k, v in g["assembly_datum"].items()}
+        out["unpublished"] = [{"assembly": u["assembly"], "id": u["id"]}
+                              for g in geos for u in g["unpublished"]]
+        out["bbox_in"] = None
     if b["bound_to"]:
         # Only on a pack that declares `module.equals` -- no stacked pack does -- so the key is new
         # where it is true and absent everywhere else.
@@ -1931,12 +1988,23 @@ def placement_summary(out):
                        "furniture_layout": r.get("furniture_layout")}
                       for lv in out["levels"] for r in lv["rooms"] if r.get("geometry")],
             "stair": out.get("stair"),
+            # WP-14.4: the WALLS, as the plate draws them. The bench drew a ring round the
+            # footprint from its own derivation, which has no idea a house can have a wing.
+            "walls": wall_bodies(out),
             # WP-11.4: the stoop and the gable-end stacks, plan-level placement facts on the
             # same argument as the stair. Omitted, the browser sheet would have drawn neither
             # while the Python sheet drew both -- the exact defect WP-11.3 found here for the
             # furniture, one package earlier, in this same return.
             "threshold": out.get("threshold"),
             "hearths": out.get("hearths"),
+            # WP-14.6's second audit: the at-grade appendages, on the argument every entry above
+            # makes -- a placement fact a surface reads and nothing else can supply. `Sheet.jsx` has
+            # read `placement.appendages.placed` since WP-11.10 and nothing served it, so on good-02
+            # and good-04 the bench named the terrace door undrawable ("the other room is not placed
+            # on this level") over a served wall band carrying the empty hole the plate cut for it
+            # (6 ft on good-02, 4 ft on good-04). `tests/test_sheet_symbols.py` holds every key the
+            # app reads to this return.
+            "appendages": out.get("appendages"),
             "opening_report": out.get("opening_report"),
             "svg": out.get("svg"),
             "note": ("Coordinates are in feet with the origin at the south-west corner, x east and y north. "

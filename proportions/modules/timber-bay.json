@@ -124,7 +124,7 @@
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "minimum_solid_between_openings",
+      "dimension": "solid_from_post_face_to_window_jamb",
       "expression": "part * 1.25",
       "units": "in",
       "range": [
@@ -133,7 +133,7 @@
       ],
       "authority_note": "Post sizes in surviving first-period frames run 8-11 in on the face, with the jowl or gunstock head wider still.",
       "note": "The minimum clear wall between the face of a post and the jamb of a window: about 15 in. It is not an aesthetic margin — it is the post itself, plus the stud and the nailing for the window frame, plus the brace that runs up from the post foot and crosses that zone. Windows cannot be moved off a bay centre by less than this without hitting structure, which is exactly why period fronts have their characteristic slightly-off rhythm. Reproducing that rhythm without the frame that caused it is the difference between a house that looks framed and one that looks drawn.",
-      "quantity": "minimum_solid_between_openings"
+      "quantity": "solid_from_post_face_to_window_jamb"
     },
     {
       "target_slot": "ceiling_height_rule",

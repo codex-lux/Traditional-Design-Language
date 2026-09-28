@@ -247,7 +247,15 @@ function current(minTitle = TITLE_WORDS, minProse = PROSE_WORDS) {
    parti, and since WP-14.19 lists lineage partis all three have plan types, so the sentence, its
    typed count and its three hand-named styles went together. WP-14.31 took out the last fourteen
    titles and six counts, and the eight rows the widened scanners found on the way (two `title:`
-   properties and six counts, every one of them removed rather than baselined). */
+   properties and six counts, every one of them removed rather than baselined).
+   THE MERGE OF THE TWO PHASE 14s (27 Sep 2026) moved nine STRING rows from `sheet/Sheet.jsx` to
+   `sheet/derive.js`, with the plate note that holds them (the ink line lifted it into
+   `derive.js::plateNote` so `node --test` could read it), and kept their class. It re-read three
+   rows that line had edited -- the order plate's caption paragraph and its unpublished-member
+   sentence, and the Drawing Set's plan caption -- and classed eight that line added, each a
+   statement about the payload in hand and so `disclosure`: four plate-note lines (no bay module,
+   no room placed, an opening on no wall line, the one-ring walls), three order-plate stack and
+   datum lines, and the plate's no-geometry line. None states a corpus fact. */
 // BASELINE-BEGIN
 const BASELINE = {
   titles: [],
@@ -323,7 +331,7 @@ const BASELINE = {
     ["surfaces/PlanWorkbench.jsx", "voice",
       "{…} {…} {…} {…} A wall drag deliberately re-scores on the fast search — a hill-climb, not an optimiser — because a gesture cannot wait for a proof; every other edit takes the proof where it can be had. Either engine trades a room's size away when it must, and says so under the drawing rather than silently. A plan with no fatal findings is still not therefore good."],
     ["surfaces/Proportions.jsx", "disclosure",
-      "{…} Half the order in section: every band is a member the engine emitted, run from the axis to the outer face this pack states — none traced. This pack measures its projections {…} , and says so {…} . {…} {…} {…} Hover a band for its record."],
+      "{…} Half the order in section: every band is a member the engine emitted, run from the axis to the outer face the engine constructed for it — none traced. {…} {…} {…} {…} {…} {…} {…} {…} Hover a band for its record."],
     ["surfaces/Proportions.jsx", "disclosure",
       "Drawn at the pack’s own , {…} : the pack does not bind its module to a measure of your building, so no slider moves this drawing."],
     ["surfaces/Proportions.jsx", "disclosure",
@@ -411,6 +419,12 @@ const BASELINE = {
       "elements element slots slot alphabet ontology parts of a building catalogue records rooms room types massings groupings partis plan types plan diagrams"],
     ["search/staticEntries.js", "not-prose",
       "help shortcuts keys keyboard hotkeys commands citation grammar how do i what can i type question mark"],
+    ["proportions/plate.js", "disclosure",
+      "The {…} is not drawn: it is offered instead of the {…} , never on it."],
+    ["proportions/plate.js", "disclosure",
+      "The entablature is drawn whole, as {…} states it: the architrave, frieze and cornice it inherits from {…} add up to a different height, so they are not drawn here."],
+    ["proportions/plate.js", "disclosure",
+      "{…} No datum can be read for the {…} : no member there publishes a projection."],
     ["sheet/Sheet.jsx", "disclosure",
       "The compositional objective did not run, so no term for the front, the axis or the stack was evaluated on it."],
     ["sheet/Sheet.jsx", "disclosure",
@@ -421,26 +435,34 @@ const BASELINE = {
       "{…} ft off the bay line — this cut is a joist run that does not land on a bearing wall"],
     ["sheet/Sheet.jsx", "disclosure",
       "A WORKING SKETCH, not a drawing — placed by the fast search behind a wall drag {…} ; it may not be exported."],
-    ["sheet/Sheet.jsx", "disclosure",
-      "Walls {…} : envelope {…} in outside the placed rooms, partitions {…} in centred on them; room figures are the record's clear extents."],
-    ["sheet/Sheet.jsx", "disclosure",
-      "The record states no wall assembly, so the walls are drawn at this sheet's conventional {…} in and {…} in — a convention, not a reading."],
-    ["sheet/Sheet.jsx", "disclosure",
-      "{…} cut(s) the solver located on no wall of this level — counted, not drawn."],
-    ["sheet/Sheet.jsx", "disclosure",
-      "Clear span not evaluated — the construction catalogue could not be read; no span is claimed clear."],
-    ["sheet/Sheet.jsx", "disclosure",
-      "{…} clear span(s) over the framing capacity, worst {…} ft — at least that many: a bearing line is credited across the whole plate however short the wall runs."],
-    ["sheet/Sheet.jsx", "disclosure",
-      "0 clear span(s) over the framing capacity — at least none found: a bearing line is credited across the whole plate however short the wall runs."],
-    ["sheet/Sheet.jsx", "disclosure",
-      "{…} declared window(s) had no clear run left on their wall beside its doors — declared, not drawn."],
-    ["sheet/Sheet.jsx", "disclosure",
-      "{…} room(s) are drawn at a size the record does not declare — worst {…} {…} {…} % by area, marked ∗."],
-    ["sheet/Sheet.jsx", "disclosure",
-      "{…} exterior door(s) carry no placement in the record and are drawn at conventional mid-wall position, on a wall inferred from the room’s declared exterior walls."],
     ["sheet/derive.js", "disclosure",
       "no declared exterior wall of this room is on its own massing element's boundary here"],
+    ["sheet/derive.js", "disclosure",
+      "Walls {…} : envelope {…} in outside the placed rooms, partitions {…} in centred on them; room figures are the record's clear extents."],
+    ["sheet/derive.js", "disclosure",
+      "The record states no wall assembly, so the walls are drawn at this sheet's conventional {…} in and {…} in — a convention, not a reading."],
+    ["sheet/derive.js", "disclosure",
+      "The record states no bay module, so no bay grid is drawn."],
+    ["sheet/derive.js", "disclosure",
+      "No room of this level is placed, so no wall, floor or opening is drawn on it."],
+    ["sheet/derive.js", "disclosure",
+      "{…} opening(s) on no wall line of their own level — drawn, but no wall body is opened for them."],
+    ["sheet/derive.js", "disclosure",
+      ", so the walls are drawn as one ring round the footprint — a wing or a join is not drawn."],
+    ["sheet/derive.js", "disclosure",
+      "{…} cut(s) the solver located on no wall of this level — counted, not drawn."],
+    ["sheet/derive.js", "disclosure",
+      "Clear span not evaluated — the construction catalogue could not be read; no span is claimed clear."],
+    ["sheet/derive.js", "disclosure",
+      "{…} clear span(s) over the framing capacity, worst {…} ft — at least that many: a bearing line is credited across the whole plate however short the wall runs."],
+    ["sheet/derive.js", "disclosure",
+      "0 clear span(s) over the framing capacity — at least none found: a bearing line is credited across the whole plate however short the wall runs."],
+    ["sheet/derive.js", "disclosure",
+      "{…} declared window(s) had no clear run left on their wall — declared, not drawn."],
+    ["sheet/derive.js", "disclosure",
+      "{…} room(s) are drawn at a size the record does not declare — worst {…} {…} {…} % by area, marked ∗."],
+    ["sheet/derive.js", "disclosure",
+      "{…} exterior door(s) carry no placement in the record and are drawn at conventional mid-wall position, on a wall inferred from the room’s declared exterior walls."],
     ["sheet/overlayRules.js", "disclosure",
       "privacy_rank {…} is outside the ramp this sheet draws ( {…} to {…} ), and where it belongs on the ramp is unruled"],
     ["surfaces/BriefIntake.jsx", "voice",
@@ -456,7 +478,7 @@ const BASELINE = {
     ["surfaces/DrawingSet.jsx", "voice",
       "Wing ridges step down; the pitch sits inside the style band; chimneys satisfy the style constraint or say so."],
     ["surfaces/DrawingSet.jsx", "voice",
-      "The geometry solver’s own render — the workbench sheet redrawn by build/render_plan.py from the same coordinates, for the set. Relaxations are counted in the header."],
+      "The geometry solver’s own render by build/render_plan.py — the record placed afresh for the set, the one placement every plate in it is drawn on; not necessarily the placement the bench sheet shows. Relaxations are counted in the header."],
     ["surfaces/ExportDetails.jsx", "disclosure",
       "the bench is showing a working sketch from a wall drag — a sketch is never a file"],
     ["surfaces/PlanWorkbench.jsx", "disclosure",
@@ -478,7 +500,9 @@ const BASELINE = {
     ["surfaces/PlanWorkbench.jsx", "disclosure",
       "The sketch above is the wall drag’s, and is labelled as one."],
     ["surfaces/Proportions.jsx", "disclosure",
-      "{…} member {…} state no projection at all and are drawn at the naked — that is an absent figure, not a flush face."],
+      "No constructed geometry was served: every member is drawn at the column’s radius as a straight edge."],
+    ["surfaces/Proportions.jsx", "disclosure",
+      "{…} member(s) publish no projection and are drawn dashed at the naked — an absent figure, not a flush face."],
   ],
 };
 // BASELINE-END

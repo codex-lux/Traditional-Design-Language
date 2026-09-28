@@ -309,25 +309,43 @@ def _entrance_doors(plan, face, C):
     walls, and a service door on the entrance front all the same. The second is returned
     separately so the sheet can name it rather than dress it as an entrance."""
     entrance, service = [], []
-    for lv in plan.get("levels", [])[:1]:          # the ground floor and only it
-        for r in lv.get("rooms", []):
-            for d in (r.get("doors") or []):
-                if d.get("to") != "exterior" or d.get("unplaced"):
-                    continue
-                if d.get("wall") != face or d.get("position_ft") is None:
-                    continue
-                (service if _fclass(r, C) in SERVICE_CLASSES else entrance).append((r, d))
+    for r, d in _ground_exterior_doors(plan):
+        if not _on_the_entrance_front(plan, r, d, face):
+            continue
+        (service if _fclass(r, C) in SERVICE_CLASSES else entrance).append((r, d))
     return entrance, service
 
 
-def _other_exterior_doors(plan, face):
-    out = []
-    for lv in plan.get("levels", [])[:1]:
+def _ground_exterior_doors(plan):
+    for lv in plan.get("levels", [])[:1]:          # the ground floor and only it
         for r in lv.get("rooms", []):
             for d in (r.get("doors") or []):
-                if d.get("to") == "exterior" and not d.get("unplaced") and d.get("wall") != face:
-                    out.append((r, d))
-    return out
+                if d.get("to") == "exterior" and not d.get("unplaced"):
+                    yield r, d
+
+
+def _on_the_entrance_front(plan, r, d, face):
+    """Whether this placed exterior door stands on the MAIN BLOCK's entrance face.
+
+    THE WALL LETTER IS NOT THE FRONT (WP-15.8's audit, auditor F). This read `wall == face` and
+    nothing else, so on the shipped Tidewater record the kitchen's door on the west dependency's
+    own south face, 5.28 ft behind the front, was refused as "a service door on the entrance
+    front". A face of another massing element is not the entrance front; its door goes with the
+    other exterior doors. The test is `openings.on_main_face`, the one the doorcase reservation
+    and the elevation use."""
+    if d.get("wall") != face or d.get("position_ft") is None:
+        return False
+    OP = _mod("openings", os.path.join(ROOT, "build", "openings.py"))
+    fp = plan.get("footprint") or {}
+    W, D = fp.get("width_ft"), fp.get("depth_ft")
+    if not W or not D:
+        return True
+    return OP.on_main_face(OP.envelopes(plan).get(r["id"]), face, W, D)
+
+
+def _other_exterior_doors(plan, face):
+    return [(r, d) for r, d in _ground_exterior_doors(plan)
+            if not _on_the_entrance_front(plan, r, d, face)]
 
 
 def entrance_pass(plan, C, report):
@@ -389,9 +407,11 @@ def entrance_pass(plan, C, report):
     for r, d in _other_exterior_doors(plan, face):
         out["unplaced"].append({
             "what": f"steps at the {d['wall']} door of {r['id']}",
+            # "a service door" was said of every door off the front, a circulation room's back
+            # door among them (WP-15.8's audit); the rule is about the ENTRANCE, so say that
             "reason": "steps_and_stoop describes the ENTRANCE composition -- its platform is "
                       "'the entrance composition plus about 18 in of platform each side' -- and no "
-                      "record in this corpus states a service door's steps",
+                      "record in this corpus states the steps at any other exterior door",
             **_graded("th-only-the-entrance-door")})
 
     sup = _supports(slots, style)

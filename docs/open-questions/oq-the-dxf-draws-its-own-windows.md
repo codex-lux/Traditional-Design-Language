@@ -1,6 +1,6 @@
 # oq/the-dxf-draws-its-own-windows — a downloaded DXF is a different drawing of the same house, today
 
-*Status: OPEN · Raised in: WP-11.15's adversarial audit (8 September 2026)*
+*Status: CLOSED 27 Sep 2026 · Raised in: WP-11.15's adversarial audit (8 September 2026)*
 
 **On the shipped, untagged `tidewater-georgian-careful`, the DXF draws 16 windows on the ground
 floor and the sheet draws 15.** This is not gated on a `block` tag and not a consequence of any
@@ -66,3 +66,36 @@ a package that does two things can only be reasoned about as one.
 
 **Do not fix it by making the sheet match the DXF.** The sheet reads the record; the DXF invents.
 The record is the authority, and the direction of the fix is not symmetric.
+
+## Closed, 27 Sep 2026: the DXF draws the sheet's windows (the adversarial audit of Phase 14)
+
+Auditor D re-measured this question on the audit's own tree and found its figures stale. The
+Tidewater record it cites is refused now, so it cannot be exported. On the twelve drawable
+reference plans five differed in COUNT alone: bad-07 4 against 2, good-01 9 against 8, good-02 12
+against 9, good-04 5 against 2, good-05 12 against 11. Held line by line at a tolerance of one
+foot, across all sixteen records exported from their placement, the unfixed exporter disagreed
+with the sheet on **8 of 16 plans**. It drew **19** units the sheet refuses or places elsewhere,
+and missed **12** units the sheet draws.
+
+**The fix reads the sheet's own derivation and invents nothing.** `export_plan_dxf` draws exactly
+the windows `render_plan.derive_openings` gives the sheet (through `openings_of_level`). Each
+stands at the sheet's `at_ft` along the wall, on the room's own face (`edge_ft`, which is question
+3 above). It looks up only each unit's identity in the record, meaning which window of the room
+and which unit of its count, because the XDATA carries that and `import_dxf` holds the drawing to
+the record by it. A unit the sheet does not draw is not drawn (question 2). It is listed as
+`windows_not_drawn` with the record's own reason, and a note under the plan counts it. After the
+fix the comparison is 0 and 0 on all sixteen, and the round trip reads every drawn line back.
+`tests/test_dxf_windows_are_the_sheets.py` is the guard. It fails on the unfixed exporter, both on
+the lines and on the unsaid units.
+
+**Question 1 was not ruled; it was answered by a ruling that already stood.** The question asked
+whether even spacing might be a deliberate CAD convention. Nothing in the corpus says so, and
+WP-6.4's ruled rule, *"one drawing set is one building or it is nothing"*, says the opposite. The
+same audit applied it to the IFC export's windows and doors (D-F7), which had the identical
+defect. No new ruling was taken here. If a CAD convention that departs from the record is ever
+wanted, it is a new question, and this entry is its precedent.
+
+The same change found a second defect in the file, and it too is fixed. The notes under the DXF
+plan were set at fixed multiples of the title height, 7 in apart for 8 in text. The no-module
+note the audit's D-F9 added and the undrawn-doors note therefore printed through one another. They
+are now set one below another.

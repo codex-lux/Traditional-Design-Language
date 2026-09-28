@@ -94,7 +94,15 @@ def test_the_ceiling_is_read_from_one_spelling():
     transcription here is how a placer and a critic come to mean different things by a shape."""
     src = (ROOT / "build" / "geometry_cp.py").read_text()
     assert src.count("GEO.shape_band(") >= 1
-    assert "2.6" not in src.split("_RANK")[0][-3000:] or True   # the universal constant is gone
+    # THE UNIVERSAL CONSTANT IS GONE, read off the syntax tree (audit, 27 Sep 2026; auditor D,
+    # F12). This line ended `or True` and could not fail: a 2.6 anywhere in the prover left it
+    # green. `geometry.ASPECT_FALLBACK` is the one spelling, and the prover reaches it only
+    # through `GEO.shape_band`, which the line above holds.
+    import ast
+    lits = [n.lineno for n in ast.walk(ast.parse(src))
+            if isinstance(n, ast.Constant) and isinstance(n.value, (int, float))
+            and not isinstance(n.value, bool) and abs(n.value - G.ASPECT_FALLBACK) < 1e-9]
+    assert not lits, f"geometry_cp.py transcribes the aspect fallback at line(s) {lits}"
     band, src_name = G.shape_band("bedroom")
     assert band and band < 2.0, (
         f"a bedroom's ceiling reads {band}; the band is the room record's own and a bedroom's "

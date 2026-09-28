@@ -48,7 +48,7 @@ Authorities do not share a module, and getting this wrong silently doubles or ha
 
 Except that the second is false in his own Corinthian and Composite, where he draws 7 modules against a column of 20 — 0.35, not a third — and confirms it arithmetically by dividing his arcade plate into 32 parts. Esquié calls it out as an explicit exception. **The data encodes what he drew, not what he said**, and the invariant records the exception rather than letting the number lie.
 
-**Cross-engine agreement.** The interactive drawing runs a JavaScript port of the same engine. All 24 order packs are checked to agree to within 0.02 inches between the Python engine and the browser. A drawing generated from the data cannot silently disagree with the dimensions taken from it — if a figure is wrong, the picture is wrong in the same way.
+**One engine, served.** This paragraph used to say the interactive drawing ran "a JavaScript port of the same engine" and that "all 24 order packs are checked to agree to within 0.02 inches". There are 26 order packs, and no such check existed (WP-14.1). Since WP-14.2 there is no port to check: `build/render_orders.py` serves `dist/orders.html` the dimensions `proportion_engine.dimension()` gives and the paths `build/profiles.py` constructs, per pedestal variant, and the page only scales them, so it computes no stack, no shaft and no flute of its own. The real guard reads the ink back. `tests/svg_census.py` runs the committed page's own scripts under `node` (`tests/js/orders_ink.mjs`). For every order pack at 12, 24 and 36 in, pedestal on and off, it holds the drawn section to the engine's height (O2) and to the geometry's extent (O3), each within 0.02 in. It also holds the flutes to where the stated count projects (O6), and the page's disclosures and per-assembly datum to Python's own lists (O7–O10). A figure wrong in the data is still wrong in the picture in the same way; what can no longer happen is a picture wrong on its own.
 
 ## Judgment slots
 
@@ -126,8 +126,11 @@ from the member's own height and projection, never a curve fitted to look right:
   second fraction, which is how `0.62` — one of the hand-tuned numbers this module replaced — got
   back in.
 - **volute, acanthus** — **not constructed.** A volute's spiral construction is on a plate this
-  corpus cannot reach (the OQ 7-11 class); these draw as a swelling and report themselves
-  unconstructed so a caller can say so on the sheet.
+  corpus cannot reach (the OQ 7-11 class); these draw as their envelope, the dashed box their
+  published height and projection bound, and report themselves unconstructed so a caller can say so
+  on the sheet. (This line said "draw as a swelling" for a phase after WP-14.2 made them envelopes;
+  the paragraph on envelopes below said so, and this one was found stale at the merge of the two
+  Phase 14s, 27 Sep 2026, through the other line's glossary, which quoted it.)
 
 **`width_parts`** gives the face width of one repeating unit — a dentil, modillion, mutule,
 triglyph or metope. `spacing_parts` is the pitch; this is how much of that pitch is solid, and
@@ -138,7 +141,7 @@ Vignola's *"1/9 D wide (4 parts)"*, Gibbs's *"two of those parts will be the Den
 authored editorially. `check_orders.py` refuses a tooth as wide as its own pitch.
 
 **Entasis is not constructed.** `column_radius_at()` is a smoothstep, the same shape
-`orders_template.html` has always drawn, and its docstring says so. Vignola describes striking the
+`orders_template.html` drew for itself until WP-14.2 (it now draws Python's), and its docstring says so. Vignola describes striking the
 swell from a divided semicircle and Chambers gives another construction; no pack in this corpus
 records either, and the facsimiles that would settle it are network-blocked.
 
@@ -152,6 +155,52 @@ would sit inside the shaft — what a capital gives). It only ever downgrades `a
 entablature is one group because architrave, frieze and cornice share a naked; the pedestal likewise;
 the column's three assemblies each have their own and are judged separately. `check_orders.py` prints
 a NOTE for every axis pack naming which of its assemblies contradict the declaration — 14 packs do.
+
+**A projection nobody published is `null`, not `0`** (WP-14.2, Phase 14 decision 2). `dimension()`
+used to read a missing `projection_parts` as 0, so 94 resolved members whose authority gives no
+projection reached every surface as faces *measured* flush with their naked, and a torus built from a
+crown of 0 was drawn bitten into the shaft it stands on. An absent or null figure now travels as
+`None` — `width_parts`' rule, one field over — and three things follow. **The member is a ghost:**
+`profiles.py` does not construct it (a construction needs the face, which is the missing figure); it
+stands at its naked as straight edges marked `ghost`, which the fill closes over and the ink
+(`outline_path`, or `svg_path(..., ghosts="move")`) does not stroke, and `ghost_path` draws a dashed
+bracket there. Every profile plate counts them, including the plates where the count is zero. **The
+datum can be unjudged:** `axis_holds_for()` reads published figures only, so a group with none —
+nine assemblies — is `"unjudged"` rather than read "naked" on the strength of its own silence; a pack
+declaring `naked` is still taken at its word. **The die is read off the base:** a pedestal's die
+carries the base's plinth, so its face is the plinth's face *on the base's own datum* — it had been
+read on the pack's, which put Benjamin's Corinthian die 2.8 in inside the plinth standing on it — and
+where the base publishes nothing the die is `"unjudged"` and the pedestal stands on the column's own
+radius, never on the `R × 1.2` it used to invent. The 46 written zeros that remain are each a real
+zero, and `tests/test_unpublished_projections.py` pins why: a datum plane, the origin of a relief
+sequence, or a note that says so.
+
+**A shape the corpus cannot construct is drawn as its envelope, and a part it does not record is
+named** (WP-14.2). A volute, an acanthus row and the caulicoli have a published height and face and
+no construction here (the OQ 7–11 class). They used to be drawn as a quarter-ellipse swelling under
+plate words promising that nothing plausible had been drawn. That swelling *was* something plausible.
+Each is now the box its two figures bound. The edges are marked `envelope`, the ink does not stroke
+them, and `envelope_path` draws the box dashed, so no capital inks a curve for a member it says is
+not constructed. And where an assembly's own members are *named* for such a part and no member
+records it, `named_not_recorded()` says so. Four of the five Ionic capitals record the volute's
+channel and fillet and no volute, and every surface had presented that section as the capital. The
+test reads member names, never notes: the shaft's upper astragal note mentions the volute's eye, and
+a shaft owes no volute.
+
+**Confidence is marked on every drawing, as the workbench marks it** (WP-14.2). A member whose record
+is not a stated `high` gets a dashed outline over its own region, built from its own segments by
+`profiles.band_path`, never re-constructed. It is drawn in the bench's `--judge-unjudged`, and the
+member's label says its level. An unstated confidence travels as `None`, not the `"high"` that
+`dimension()` defaulted to, and it is marked too. The profile plates, the elevation's cornice inset
+and the DXF (as XDATA on the cornice profile) now carry it. Before, the orders page and the
+Proportions plate were the only surfaces that did.
+
+**A scotia stays inside its own height** (WP-14.2). Each half of the hollow is a quarter-ellipse
+centred level with the throat over its own fillet. It had been a circle through the throat and the
+fillet's edge. Wherever the two fillets projected differently, as in every base here, that circle
+swept past its quarter and dug into the fillet below: 0.07 in at a 12 in column. The fault was found
+by holding the new confidence marks to each member's height, not by any test of the construction.
+`tests/test_profiles.py` now holds every member's ink to its own band.
 
 **The paths are serialised in Python, in model space, and no consumer re-derives a curve** (OQ 83).
 `pack_geometry` emits `path` per pack and per face in MODEL inches (x out from the axis, y up); the

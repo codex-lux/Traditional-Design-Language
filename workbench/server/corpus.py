@@ -564,7 +564,10 @@ def pack_list():
         drawing = pack_drawing(pk, pe)
         out.append({"id": pid, "name": p.get("name", pid), "kind": p.get("kind"),
                     "authority": p.get("authority"),
-                    "overlay_on": p.get("overlay_on"),
+                    # `overlay_of` is the pack schema's key. This read `overlay_on`, which no pack
+                    # carries, so the Proportions nav's "· overlay" badge never drew (the ink
+                    # line's WP-14.2; corrected on main's row at the merge, 27 Sep 2026).
+                    "overlay_of": p.get("overlay_of"),
                     "drawing": drawing,
                     "module_bound_to": (pk.get("module") or {}).get("equals"),
                     "thumb": _pack_thumb(pk, pe) if drawing == "assemblies" else None,
@@ -1254,7 +1257,14 @@ def _placed(plan, parti=None, candidates=250):
     # to identify what was HANDED to the solver.
     digest = hashlib.sha256(json.dumps(plan, sort_keys=True,
                                        default=str).encode()).hexdigest()[:12]
-    out = geo.solve(plan, parti, candidates, engine="auto")
+    # A COPY, SO THE RECORD HANDED IS THE RECORD AFTER (audit, 27 Sep 2026). `geometry.solve`
+    # writes the placement INTO its argument on a cache miss and returns a copy on a hit, so every
+    # branch below handed its builders the PLACED record on a record's first request and the
+    # DECLARED one after -- and four readers took something off that record (the roof's stacks
+    # and its voids, the section's massing elements, the IFC's slabs), so one request drew the
+    # house and the next drew another. Those readers take the placement now; this removes the
+    # asymmetry itself, so no reader added later can answer by cache state.
+    out = geo.solve(core.copy_json(plan), parti, candidates, engine="auto")
     if "error" in out:
         return out
     sv = (out.get("geometry_report") or {}).setdefault("solver", {})
@@ -1282,6 +1292,20 @@ def _placed(plan, parti=None, candidates=250):
     if ref:
         return refused_response(ref)
     return out
+
+
+def plate_direction(elev, face=None):
+    """The face an elevation plate draws and which way its `u` runs, AS THE RECORD STATES IT.
+
+    `mirrored` is `elevation.datum.mirrored[face]`: False where the plate runs with the plan's own
+    axis (every face, since WP-13.3), True where it runs against it, and **None where the record
+    states nothing** -- an elevation the generator declined, whose plate is a refusal and not a
+    face -- never a default of False, because a plate whose direction nobody stated is not a plate
+    known to run with the plan. The Round refuses a face plate carrying None rather than assume a
+    direction (frame.js::plateRegistration)."""
+    f = face or (elev or {}).get("entrance_face")
+    m = ((elev or {}).get("datum") or {}).get("mirrored")
+    return {"face": f, "mirrored": m.get(f) if isinstance(m, dict) and f in m else None}
 
 
 def drawing(kind, plan, parti=None, face=None, candidates=250, register="presentation"):
@@ -1368,6 +1392,13 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
             re_ = core._mod("render_elevation", f"{B}/render_elevation.py")
             re_.render_elevation(elev, out_path, face=face)
             meta = {"entrance_face": elev.get("entrance_face"),
+                    # WHICH WAY THIS PLATE'S `u` RUNS, AS THE RECORD STATES IT (WP-15.8's audit).
+                    # `elevation.datum.mirrored` has said since WP-13.3 that no face is drawn
+                    # mirrored -- u runs with the plan's own axis on all four -- and the Round laid
+                    # a plate over the model on an ASSUMPTION that u runs along the camera's right,
+                    # which is false on N and W. The Round reads this now and refuses a plate that
+                    # would lie over the model reversed, rather than assume it.
+                    **plate_direction(elev, face),
                     "date_of_representation": elev.get("date_of_representation"),
                     "glass_module_in": elev.get("glass_module_in"),
                     # the engine and the input digest, as the plan sheet has carried since
@@ -1391,6 +1422,10 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
                 rs.render_section(section, out_path)
             else:
                 rs.render_bearing_diagram(section, out_path)
+            # WP-14.4: the section and the bearing plate are cut from this same placement and
+            # were the two plates in the set that did not say which one -- the Drawing Set prints
+            # "placed by" off `solver`, and these two came back without it
+            meta = {"solver": (placed.get("geometry_report") or {}).get("solver")}
         elif kind == "roof":
             # WP-12.0, the same defect as the elevation branch above: `build_roof` was called
             # with no section, so it built its own on the heuristic while the plan sheet in

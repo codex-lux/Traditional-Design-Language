@@ -57,3 +57,12 @@ CENTRED ON THEM; ROOM FIGURES ARE THE RECORD'S CLEAR EXTENTS`.
 **Do not answer it by adjusting the room labels.** A room's figure is what the record declares, and
 a label quietly restated as a clear-between-walls dimension would be the drawing correcting the
 record on the reader's behalf — the direction this corpus does not go.
+
+*(Amended 27 Sep 2026, WP-14.6.)* **What it costs the drawing, measured.** Over the sixteen shipped
+plans, placed on `engine="heuristic"` and drawn in the presentation register, **293 of the 650
+furniture pieces drawn reach into a wall body**: an interior wall is centred on the shared line and
+eats half its thickness from each room, and the furniture pass seats a piece against the room's
+rectangle, which is that line. The plate therefore draws a hall table or a bed a few inches inside
+the partition beside it. The adversarial audit that raised this published 356 of 773 and that did
+not reproduce; 650 is the furniture census's own placed count. Answering this question moves every
+one of them, which is one more reason it is a ruling and not a fix.

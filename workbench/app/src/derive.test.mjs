@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { doors, windows, divergence, requiredWallFt, sharedEdge, interpunctTitle,
-         relaxationMarks } from './sheet/derive.js';
+         relaxationMarks, elementBounds, EL_TOL } from './sheet/derive.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FIX = join(HERE, '..', '..', '..', 'tests', 'fixtures', 'sheet_symbols');
@@ -112,6 +112,122 @@ for (const fx of fixtures) {
         assert.equal(d.w, e.width_ft, `${lv.id}: ${d.room} exterior width`);
       }
     }
+  });
+
+  /* WP-14.4: THE CONTRACT HELD COUNTS, PAIRS, WIDTHS AND TYPES AND NOT ONE POSITION. Two
+     renderers could agree how many doors they drew, and between which rooms, while hanging them
+     from different jambs, swinging them into different rooms or standing them on different faces
+     -- and the exterior hinge was exactly that: the bench dropped the record's. The Python half
+     of the contract has carried every one of these figures in `expected` all along. */
+  test(`${fx.plan}: every door stands where the Python renderer stands it, hung and swung alike`, () => {
+    let seen = 0;
+    for (const lv of fx.levels) {
+      const got = doors(toRects(lv.rooms), W, H);
+      const exp = lv.expected;
+      for (const d of got.interior) {
+        const key = d.pair.slice().sort().join('|');
+        const e = exp.interior.find((x) => x.pair.slice().sort().join('|') === key);
+        const [along, across] = d.horiz ? [d.x, d.y] : [d.y, d.x];
+        assert.ok(Math.abs(along - e.pos_ft) < 1e-3 && Math.abs(across - e.at_ft) < 1e-3,
+          `${lv.id}: ${key} drawn at ${along}/${across}, the contract at ${e.pos_ft}/${e.at_ft}`);
+        assert.equal(d.horiz, e.horiz, `${lv.id}: ${key} orientation`);
+        assert.equal(d.hinge, e.hinge, `${lv.id}: ${key} hinge`);
+        assert.equal(d.horiz ? d.swingUp : d.swingRight, e.swing_positive, `${lv.id}: ${key} swing`);
+        seen += 1;
+      }
+      for (const d of got.exterior) {
+        const e = exp.exterior.find((x) => x.room === d.room && x.wall === d.wall);
+        const along = (d.span[0] + d.span[1]) / 2;
+        assert.ok(Math.abs(along - e.at_ft) < 1e-3, `${lv.id}: ${d.room}/${d.wall} along ${along} against ${e.at_ft}`);
+        assert.ok(Math.abs(d.edge_ft - e.edge_ft) < 1e-3, `${lv.id}: ${d.room}/${d.wall} face ${d.edge_ft} against ${e.edge_ft}`);
+        assert.equal(d.hinge, e.hinge, `${lv.id}: ${d.room}/${d.wall} hinge`);
+        seen += 1;
+      }
+    }
+    assert.ok(seen > 10, `only ${seen} doors compared -- the contract would pass on a sheet with none`);
+  });
+
+  /* WP-14.6: EVERY FROZEN DOOR IS HUNG FROM ITS LOW JAMB -- `openings.place` writes `hinge: low`
+     on every door it seats -- so the test above could not tell a derive that carries the record's
+     hinge from one that always answers 'low'. The Python half re-derives a high-jamb copy of each
+     fixture; this half cannot call Python, so it asserts the property itself: the record hangs
+     every door from its high jamb, and every door the bench draws hangs from it. */
+  test(`${fx.plan}: a door the record hangs from its high jamb is drawn from its high jamb`, () => {
+    let seen = 0;
+    for (const lv of fx.levels) {
+      const rooms = JSON.parse(JSON.stringify(lv.rooms));
+      for (const r of rooms) for (const d of (r.doors || [])) d.hinge = 'high';
+      const got = doors(toRects(rooms), W, H);
+      for (const d of [...got.interior, ...got.exterior]) {
+        assert.equal(d.hinge, 'high', `${lv.id}: ${d.pair ? d.pair.join('|') : d.room} drawn from the ${d.hinge} jamb`);
+        seen += 1;
+      }
+    }
+    assert.ok(seen > 10, `only ${seen} doors re-hung -- the check would pass on a sheet with none`);
+  });
+
+  /* WP-14.6: AND ON THE PATHS NO FROZEN DOOR REACHES. Every door in these fixtures is seated, so
+     the two branches that draw a door the record does not seat -- an interior door on the rooms'
+     shared run, an exterior door on the first declared wall the placement put outside -- were
+     reached by nothing above, and a mutation hanging either from the low jamb whatever the record
+     said left this suite green. The inferred exterior branch was in fact dropping the record's
+     hinge, as the seated one had until WP-14.4. Unseat every door and each must still hang from
+     the jamb the record names, on both paths, with each path shown to draw something. */
+  /* WP-14.6's second audit: AND HUNG MIXED, because every door here was hung HIGH, so a derive that
+     answered 'high' on these paths whatever the record said -- the defect's mirror image -- passed
+     exactly as the right one did. Alternate doors (in the sorted order of their keys, so both sides
+     of an interior door agree) hang from the high jamb and the rest from the low, and every door
+     drawn is held to the jamb its OWN record names, which no constant satisfies on both. */
+  test(`${fx.plan}: a door the record does not seat still hangs from the jamb it names`, () => {
+    let interior = 0, exterior = 0;
+    const key = (rid, d) => (d.to === 'exterior' ? `ext|${rid}` : `int|${[rid, d.to].sort().join('|')}`);
+    const keys = [...new Set(fx.levels.flatMap((lv) => lv.rooms.flatMap((r) => (r.doors || []).map((d) => key(r.id, d)))))].sort();
+    const hingeOf = (k) => (keys.indexOf(k) % 2 ? 'high' : 'low');
+    const seen = { interior: new Set(), exterior: new Set() };
+    for (const lv of fx.levels) {
+      const rooms = JSON.parse(JSON.stringify(lv.rooms));
+      for (const r of rooms) for (const d of (r.doors || [])) {
+        delete d.wall; delete d.position_ft; delete d.unplaced; d.hinge = hingeOf(key(r.id, d));
+      }
+      const got = doors(toRects(rooms), W, H);
+      assert.equal(got.inferredPositions > 0, true, `${lv.id}: the premise -- the unseated paths ran`);
+      for (const d of got.interior) {
+        const want = hingeOf(`int|${d.pair.slice().sort().join('|')}`);
+        assert.equal(d.hinge, want, `${lv.id}: ${d.pair.join('|')} (shared run) drawn from the ${d.hinge} jamb, its record says ${want}`);
+        seen.interior.add(d.hinge);
+        interior += 1;
+      }
+      for (const d of got.exterior) {
+        assert.equal(d.inferredWall, true, `${lv.id}: ${d.room} was seated after its seat was removed`);
+        const want = hingeOf(`ext|${d.room}`);
+        assert.equal(d.hinge, want, `${lv.id}: ${d.room}/${d.wall} (inferred wall) drawn from the ${d.hinge} jamb, its record says ${want}`);
+        seen.exterior.add(d.hinge);
+        exterior += 1;
+      }
+    }
+    assert.ok(interior > 3 && exterior > 0,
+      `only ${interior} interior and ${exterior} exterior doors drawn unseated -- a path the check does not reach`);
+    assert.deepEqual([...seen.interior].sort(), ['high', 'low'],
+      'the premise: the shared-run path draws doors hung both ways, or a constant jamb passes');
+    assert.deepEqual([...seen.exterior].sort(), ['high', 'low'],
+      'the premise: the inferred-wall path draws doors hung both ways, or a constant jamb passes');
+  });
+
+  test(`${fx.plan}: every window stands on the face the Python renderer stands it on`, () => {
+    let seen = 0;
+    for (const lv of fx.levels) {
+      const rects = toRects(lv.rooms);
+      const got = windows(rects, W, H, 0.6, doors(rects, W, H).exterior);
+      for (const w of got) {
+        const along = (w.wall === 'S' || w.wall === 'N') ? w.x : w.y;
+        const e = lv.expected.windows.find((x) => x.room === w.room && x.wall === w.wall
+          && Math.abs(x.at_ft - along) < 1e-3);
+        assert.ok(e, `${lv.id}: ${w.room}/${w.wall} window at ${along} not in the contract`);
+        assert.ok(Math.abs(w.edge_ft - e.edge_ft) < 1e-3, `${lv.id}: ${w.room}/${w.wall} face ${w.edge_ft} against ${e.edge_ft}`);
+        seen += 1;
+      }
+    }
+    assert.ok(seen > 5, `only ${seen} windows compared`);
   });
 
   test(`${fx.plan}: the same windows are placed as the Python renderer places`, () => {
@@ -319,6 +435,25 @@ test('the element-box branch decides the face, and it is not the room\'s own', (
   assert.equal(aw.length, 1, 'with its element known the window is placed on the element face');
   assert.equal(aw[0].edge_ft, 33);
   assert.equal(bw.length, 0, 'without it the window is refused -- the defect WP-11.14 removed');
+});
+
+/* WP-14.6's second audit: EL_TOL SAID IT WAS `elements.TOL` AND NOTHING HELD IT THERE. Its own
+   comment records the defect it replaced -- 0.01 against 0.5, the two renderers answering "which
+   element is this room in" differently -- and the value was a literal a second time, in this file,
+   with no test reading both. It reads the Python constant now, and the join it governs is driven at
+   the band's edge so a copy that matched the number and not the rule would fail too. */
+test('EL_TOL is build/elements.py::TOL, read from the Python and not remembered', () => {
+  const py = readFileSync(join(HERE, '..', '..', '..', 'build', 'elements.py'), 'utf8');
+  const m = /^TOL\s*=\s*([0-9.]+)/m.exec(py);
+  assert.ok(m, 'the premise: build/elements.py states TOL at module level');
+  assert.equal(EL_TOL, Number(m[1]), `derive.js EL_TOL ${EL_TOL} against elements.TOL ${m[1]}`);
+  // and it is the tolerance the join actually applies, on both sides of its edge
+  const fp = { blocks: [{ x_ft: 0, y_ft: 0, width_ft: 20, depth_ft: 20 }] };
+  const inside = { id: 'a', x: -(EL_TOL - 0.01), y: 0, w: 10, h: 10 };
+  const outside = { id: 'b', x: -(EL_TOL + 0.01), y: 0, w: 10, h: 10 };
+  const got = elementBounds([inside, outside], fp);
+  assert.deepEqual(got.a, [0, 0, 20, 20], 'a room within TOL of its element is in it');
+  assert.equal(got.b, undefined, 'a room past TOL is in no element, never element zero');
 });
 
 test('a room in no element takes its own face and never element zero\'s', () => {

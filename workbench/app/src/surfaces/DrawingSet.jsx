@@ -89,8 +89,14 @@ const DISCLOSURE = {
     'beam — a number a builder prices. Over-spans are flagged by the generator itself.',
   roof: 'Wing ridges step down; the pitch sits inside the style band; chimneys satisfy ' +
     'the style constraint or say so.',
-  plan: 'The geometry solver’s own render — the workbench sheet redrawn by build/render_plan.py ' +
-    'from the same coordinates, for the set. Relaxations are counted in the header.',
+  // WP-14.4: this said "the workbench sheet redrawn ... from the same coordinates", and it is
+  // not: the set posts the RECORD, and the drawing route places it afresh at the batch budget
+  // with no corrective rounds, where the bench solved it at the interactive budget and ran its
+  // rounds -- two placements of one record can differ, and the line below each plate names the
+  // one it was drawn on.
+  plan: 'The geometry solver’s own render by build/render_plan.py — the record placed afresh for ' +
+    'the set, the one placement every plate in it is drawn on; not necessarily the placement the ' +
+    'bench sheet shows. Relaxations are counted in the header.',
 };
 
 export function DrawingSet({ go }) {

@@ -343,7 +343,12 @@ def _forced(placed):
     windows are all unplaced. Teaching `openings` at layer 1 seated the dependency's windows, so
     the count of "reaches no exterior wall" findings fell 2 -> 0 **while the `touches` arithmetic
     four lines below still read `fp_w`/`fp_h` and was still wrong**. A meter watching the finding
-    would have crossed this layer off four commits early."""
+    would have crossed this layer off four commits early.
+
+    AND THE POSITIONS GO WITH IT (WP-15.8). The first version set `unplaced` and left each
+    window's `positions_ft`, which is the state the placer writes for a PARTIAL refusal: units
+    drawn and some refused. The drawn layer reads that as a room with a window now, because on
+    four shipped plans it had been calling a room with drawn sashes "drawn with no window"."""
     deps = dep_rooms(placed)
     forced = json.loads(json.dumps(placed))
     for lv in forced["levels"]:
@@ -351,6 +356,7 @@ def _forced(placed):
             if r["id"] in deps:
                 for w in (r.get("windows") or []):
                     w["unplaced"] = {"reason": "forced to reach the touches test"}
+                    w.pop("positions_ft", None)
     return forced
 
 
@@ -637,7 +643,21 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # **1 row out and 1 in**, the same room, the same kind, the sentence alone.
                 # Counts unmoved at 203 and 239 and both watched layers at 13/18 and 11/17.
                 # Old digests: cf857d78072bf00c (unmoved) / 37018ccbc24734ff.
-                ("tidewater-georgian-careful", "cf857d78072bf00c", 203,
+                # RE-DERIVED AT WP-15.8's AUDIT PASS (28 Sep 2026), THE TIDEWATER ROW ALONE, row
+                # count UNMOVED at 203 and the histogram unmoved. Diffed row by row against a
+                # worktree of `c310cc4`: 2 out, 2 in, every one the partly seated window read by
+                # its units instead of skipped whole (`axis.front_openings`, `axis.through_axis`):
+                #   -/+ `drawn-facade-symmetry-unjudged`: 6 declared units undrawn -> 4, because
+                #       two of the six were seated sashes of partly refused windows;
+                #   -   `front-bay-with-no-opening` bay 6: a seated sash of one of them fills it;
+                #   +   `drawn-passage-off-centre` backhall, 14.67 ft: on this UNTAGGED fixture the
+                #       back hall is in the one block, and with its partly seated S window counted
+                #       it reaches S and N and is the only through-axis room. Before, the reader
+                #       skipped the window and called the axis unjudged. On the SHIPPED (tagged)
+                #       record the back hall is the hyphen and is not a candidate (`spine` reads
+                #       the main block only), and that record's findings are unmoved.
+                # Old digest: cf857d78072bf00c.
+                ("tidewater-georgian-careful", "efd26d7240106183", 203,
                  {"daylight": 13, "grouping": 18}),
                 ("spec-builder-colonial", "554b84e823b1c057", 239,
                  {"daylight": 11, "grouping": 17})):
@@ -1965,7 +1985,16 @@ class TestTheDisclosureIsOnBOTHEngines:
         calls = [ln for ln in src.splitlines()
                  if "multi_element_disclosure(plan)" in ln and not ln.lstrip().startswith("def ")]
         assert len(calls) == 1, (calls, "there is one _disclose(); do not re-add a second writer")
-        assert src.count("_disclose(plan)") >= 2, (
+        # THE CALLS, BY THE AST AND NOT BY THEIR TEXT (WP-14.6). This counted the literal
+        # `_disclose(plan)`, and WP-14.4 gave the function a second argument -- the footprint, so
+        # the bay module can say whose it is -- which took the count to 0 with both writers still
+        # routing through it. A guard pinned to a spelling fails on a change that keeps the
+        # property and passes one that breaks it by keeping the words.
+        import ast
+        calls = [n for n in ast.walk(ast.parse(src)) if isinstance(n, ast.Call)
+                 and isinstance(n.func, ast.Name) and n.func.id == "_disclose"
+                 and n.args and isinstance(n.args[0], ast.Name) and n.args[0].id == "plan"]
+        assert len(calls) >= 2, (
             "both record writers must route through _disclose(); a guarantee that holds on one "
             "engine is not one")
 

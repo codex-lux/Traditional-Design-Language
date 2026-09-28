@@ -241,8 +241,10 @@ class TestRepetition:
 
 
 class TestUnconstructedShapes:
-    """A volute is a spiral whose construction sits on a plate this corpus cannot reach. Drawing a
-    swelling in its place is acceptable; drawing it without saying so is not."""
+    """A volute is a spiral whose construction sits on a plate this corpus cannot reach. It is
+    drawn as its ENVELOPE -- the box its published height and projection bound -- and never as a
+    swelling (WP-14.2): a quarter-ellipse is something plausible, and the plates said that nothing
+    plausible had been drawn while drawing one."""
 
     @pytest.mark.parametrize("profile", ("volute", "acanthus"))
     def test_they_report_themselves(self, profile):
@@ -251,10 +253,163 @@ class TestUnconstructedShapes:
         assert res["unconstructed"]
         assert res["unconstructed"][0]["profile"] == profile
 
+    @pytest.mark.parametrize("profile", ("volute", "acanthus"))
+    def test_the_envelope_is_square_marked_and_the_ink_leaves_it_to_the_dashed_box(self, profile):
+        res = PROF.silhouette([{"id": "m", "profile": profile, "y_bottom_in": 1.0,
+                                "y_top_in": 5.0, "projection_in": 3.0}], 0.0)
+        body = [s for s in res["segments"] if s.get("unconstructed")]
+        assert body and all(s["kind"] == "line" and s.get("envelope") for s in body), body
+        assert not any(s["kind"] == "arc" for s in res["segments"])
+        u = res["unconstructed"][0]
+        assert (u["x0"], u["x1"], u["y0"], u["y1"]) == (0.0, 3.0, 1.0, 5.0)
+        assert res["envelope_path"] == PROF.envelope_box(0.0, 1.0, 3.0, 5.0)
+        ink = PROF.svg_path(res["segments"], start=res["start"], ghosts="move")
+        fill = PROF.svg_path(res["segments"], start=res["start"])
+        assert "L 3.000,5.000" in fill and "L 3.000,5.000" not in ink
+
+    def test_a_part_named_and_not_recorded_is_found_by_the_names_and_never_by_a_note(self):
+        channel = [{"id": "volute_gorge", "name": "Gorge", "profile": "cavetto"},
+                   {"id": "abacus", "name": "Abacus", "profile": "abacus"}]
+        got = PROF.named_not_recorded(channel)
+        assert got == [{"part": "volute", "profile": "volute", "named_by": ["volute_gorge"]}]
+        assert PROF.named_not_recorded(channel + [{"id": "v", "name": "Scroll",
+                                                   "profile": "volute"}]) == []
+        noted = [{"id": "astragal", "name": "Astragal", "profile": "astragal",
+                  "note": "level with the eye of the volute"}]
+        assert PROF.named_not_recorded(noted) == []
+
     def test_a_constructed_stack_reports_nothing(self):
         res = PROF.silhouette([{"id": "m", "profile": "ovolo", "y_bottom_in": 0.0,
                                 "y_top_in": 4.0, "projection_in": 3.0}], 0.0)
         assert res["unconstructed"] == []
+
+
+class TestEveryMemberStaysInsideItsOwnHeight:
+    """A member's ink occupies the height its record states and no more. The scotia's circular
+    arcs did not: wherever its two fillets projected differently, the larger arc swept past its
+    quarter and dug into the fillet below -- 0.07 in at a 12 in column, in every base in the
+    corpus (WP-14.2). Found when the confidence marks were held to each member's own height,
+    not by any test of the construction, all of which asserted the curve's SHAPE."""
+
+    def test_no_members_curve_leaves_its_own_band(self):
+        out, n = [], 0
+        for pid in sorted(PE.PACKS):
+            if PE.PACKS[pid].get("kind") != "order-system":
+                continue
+            r = PE.resolve(pid)
+            g = PROF.pack_geometry(PE.dimension(r, 36.0), r.get("column"), r.get("projection_datum"))
+            for a in g["assemblies"]:
+                for f in a["faces"]:
+                    if f.get("tapered") or not f["segments"] or f["y1"] <= f["y0"]:
+                        continue
+                    n += 1
+                    _x0, lo, _x1, hi = PROF._extent((f["x_from"], f["y0"]), f["segments"])
+                    if lo < f["y0"] - 1e-6 or hi > f["y1"] + 1e-6:
+                        out.append(f"{pid}/{a['id']}.{f['id']}: {lo:.4f}..{hi:.4f} against "
+                                   f"{f['y0']:.4f}..{f['y1']:.4f}")
+        assert n > 500, n
+        assert not out, "\n  ".join(out[:8])
+
+    def test_the_smaller_side_of_a_scotia_is_still_the_quarter_circle_it_was(self):
+        """The fix changed the side that overshot and nothing else: where a fillet stands exactly
+        half the height outboard of the throat, the quarter-ellipse IS that quarter-circle."""
+        segs, _ = PROF.member_path("scotia", 4.0, 0.0, 3.0, 2.0)   # lower fillet projects more
+        upper = segs[1]
+        assert upper["rx"] == pytest.approx(upper["ry"]) == pytest.approx(1.0)
+        lower = segs[0]
+        assert lower["rx"] == pytest.approx(2.0) and lower["ry"] == pytest.approx(1.0)
+
+
+class TestACurveWithNoRunIsSaid:
+    """A quarter or a cyma is a curve between two faces. Given one face twice it is a vertical
+    line, and until WP-14.2 nothing said so: a cyma drawn that way looks exactly like a fascia.
+    Why these 25 have no run is `oq/which-end-of-a-moulding-its-projection-names`; that they are
+    SAID is this class."""
+
+    STRAIGHT = {
+        ("vignola-doric", "capital", "cap_cyma"), ("gibbs-doric", "capital", "cap_cyma"),
+        ("chambers-doric", "capital", "cap_cyma"),
+        ("vignola-ionic", "pedestal", "ped_base_cyma"),
+        ("vignola-corinthian", "pedestal", "ped_base_cyma"),
+        ("vignola-composite", "pedestal", "ped_base_cyma"),
+        ("palladio-ionic", "pedestal", "ped_base_cyma"),
+        ("gibbs-doric", "pedestal", "ped_base_ogee"), ("gibbs-ionic", "pedestal", "ped_base_ogee"),
+        ("gibbs-corinthian", "pedestal", "ped_base_ogee"),
+        ("gibbs-composite", "pedestal", "ped_base_ogee"),
+    } | {(p, "shaft", "apophyge_lower") for p in (
+        "vignola-ionic", "vignola-corinthian", "vignola-composite", "palladio-ionic",
+        "palladio-corinthian", "palladio-composite", "gibbs-ionic", "gibbs-corinthian",
+        "gibbs-composite", "chambers-ionic", "chambers-corinthian", "chambers-composite",
+        "benjamin-ionic", "benjamin-corinthian")}
+
+    def test_a_curve_given_one_face_twice_is_marked_and_reported(self):
+        res = PROF.silhouette([
+            {"id": "a", "profile": "fascia", "y_bottom_in": 0.0, "y_top_in": 1.0, "projection_in": 2.0},
+            {"id": "b", "profile": "cyma-reversa", "y_bottom_in": 1.0, "y_top_in": 2.0, "projection_in": 2.0}], 0.0)
+        assert [u["id"] for u in res["drawn_straight"]] == ["b"]
+        assert [s for s in res["segments"] if s.get("straight")] and \
+            not any(s["kind"] == "arc" for s in res["segments"])
+
+    def test_a_square_step_with_no_run_is_not_a_curve_drawn_straight(self):
+        res = PROF.silhouette([
+            {"id": "a", "profile": "fascia", "y_bottom_in": 0.0, "y_top_in": 1.0, "projection_in": 2.0},
+            {"id": "b", "profile": "fillet", "y_bottom_in": 1.0, "y_top_in": 2.0, "projection_in": 2.0}], 0.0)
+        assert res["drawn_straight"] == []
+
+    def test_an_unconstructed_member_with_no_run_is_still_reported_unconstructed(self):
+        """The no-run shortcut used to come FIRST, so a volute whose face equalled the one below
+        it was drawn as a plain line and reported as nothing at all."""
+        res = PROF.silhouette([
+            {"id": "a", "profile": "fascia", "y_bottom_in": 0.0, "y_top_in": 1.0, "projection_in": 2.0},
+            {"id": "v", "profile": "volute", "y_bottom_in": 1.0, "y_top_in": 3.0, "projection_in": 2.0}], 0.0)
+        assert [u["id"] for u in res["unconstructed"]] == ["v"]
+        assert res["drawn_straight"] == []
+
+    def test_the_twenty_five_are_exactly_these(self):
+        live = set()
+        for pid in sorted(PE.PACKS):
+            if PE.PACKS[pid].get("kind") != "order-system":
+                continue
+            r = PE.resolve(pid)
+            g = PROF.pack_geometry(PE.dimension(r, 36.0), r.get("column"), r.get("projection_datum"))
+            live |= {(pid, u["assembly"], u["id"]) for u in g["drawn_straight"]}
+        assert live == self.STRAIGHT, (sorted(live - self.STRAIGHT), sorted(self.STRAIGHT - live))
+
+
+class TestAMemberBesideAnother:
+    """The Doric frieze's triglyph and metope stand side by side, each the frieze's full height, and
+    only the first owns the section. Since WP-14.2 the other still has a face, for the workbench
+    plate that draws band by band -- and the only such member in the corpus is a metope projecting
+    0, whose face is exactly where it starts, so a face taken from the wrong place would pass on
+    the corpus. Driven here with the pair SWAPPED, so the member standing beside projects."""
+
+    def _frieze(self, swap):
+        r = PE.resolve("vignola-doric")
+        d = PE.dimension(r, 36.0)
+        fr = next(a for a in d["assemblies"] if a["id"] == "frieze")
+        assert [m["id"] for m in fr["members"]] == ["triglyph", "metope"], "premise"
+        if swap:
+            fr["members"].reverse()
+        g = PROF.pack_geometry(d, r.get("column"), r.get("projection_datum"))
+        return fr, next(a for a in g["assemblies"] if a["id"] == "frieze")
+
+    def test_the_member_beside_has_its_own_face_and_adds_nothing_to_the_section(self):
+        fr, ga = self._frieze(swap=True)
+        faces = {f["id"]: f for f in ga["faces"]}
+        tri = next(m for m in fr["members"] if m["id"] == "triglyph")
+        assert tri["projection_in"] > 0, "premise: the member now standing beside projects"
+        assert faces["triglyph"].get("beside") is True and not faces["metope"].get("beside")
+        assert faces["triglyph"]["x"] == pytest.approx(ga["naked_in"] + tri["projection_in"])
+        assert faces["triglyph"]["x_from"] == pytest.approx(faces["metope"]["x_from"])
+        # the section is the metope's: nothing in the assembly's own outline reaches the triglyph
+        reach = max(s["to"][0] for s in ga["segments"] if s.get("to"))
+        assert reach == pytest.approx(faces["metope"]["x"]) and reach < faces["triglyph"]["x"]
+
+    def test_unswapped_the_metope_beside_is_flush_with_its_naked(self):
+        _fr, ga = self._frieze(swap=False)
+        faces = {f["id"]: f for f in ga["faces"]}
+        assert faces["metope"].get("beside") is True
+        assert faces["metope"]["x"] == pytest.approx(ga["naked_in"])
 
 
 class TestSerialisers:
@@ -440,9 +595,15 @@ class TestTheDatumDetectionsOwnBlindSpot:
     the other.
 
     So the rule is right on every group the corpus actually contains, and this test watches the
-    edge it does not: a COLUMN OR PEDESTAL group carrying both a real radius and an unrecorded
-    zero. If one is ever authored, this fails and says what to do, rather than the drawing quietly
-    doubling."""
+    edge it does not: a COLUMN OR PEDESTAL group carrying both a real radius and a WRITTEN zero.
+    If one is ever authored, this fails and says what to do, rather than the drawing quietly
+    doubling.
+
+    SINCE WP-14.2 A MISSING FIGURE IS NOT A ZERO, HERE OR IN THE RULE. `dimension()` carries an
+    unpublished projection as None and `axis_holds_for()` reads published figures only, so a
+    member nobody transcribed is no evidence for either reading. This test read `or 0.0` until
+    then -- the conflation WP-14.2 removed -- and survived only because the one pedestal whose
+    die is unjudged (`palladio-ionic`) holds no zero for the comparison to reach."""
 
     def test_no_column_group_mixes_a_real_radius_with_an_unrecorded_zero(self):
         offenders = []
@@ -455,7 +616,9 @@ class TestTheDatumDetectionsOwnBlindSpot:
             if d.get("projection_datum") != "axis":
                 continue
             geo = PROF.pack_geometry(d, r.get("column"), d.get("projection_datum"))
-            nakeds = {"pedestal": geo["die_naked_in"], "subplinth": geo["die_naked_in"],
+            # The die as DRAWN: where it is unjudged the pedestal stands on the column's radius.
+            die = geo["die_naked_in"] if geo["die_naked_in"] is not None else geo["lower_radius_in"]
+            nakeds = {"pedestal": die, "subplinth": die,
                       "base": geo["lower_radius_in"], "shaft": geo["lower_radius_in"],
                       "capital": geo["upper_radius_in"]}
             groups = {}
@@ -469,14 +632,15 @@ class TestTheDatumDetectionsOwnBlindSpot:
                     continue                      # entablatures are the known, correct case
                 groups.setdefault(g, []).append(a)
             for gname, gasms in groups.items():
-                projs = [m.get("projection_in") or 0.0 for a in gasms for m in a["members"]]
+                projs = [m["projection_in"] for a in gasms for m in a["members"]
+                         if m.get("projection_in") is not None]
                 if not projs:
                     continue
                 naked = nakeds.get(gname, geo["upper_radius_in"])
                 if min(projs) <= 0.01 and max(projs) >= naked - 0.01:
                     offenders.append(
                         f"{pid}/{gname}: holds a figure of {max(projs):.2f} that reaches its naked "
-                        f"({naked:.2f}) AND an unrecorded 0 — axis_holds_for() will downgrade the "
+                        f"({naked:.2f}) AND a written 0 — axis_holds_for() will downgrade the "
                         f"whole group on the zero and draw that radius roughly twice too wide")
         assert not offenders, (
             "the datum detection's blind spot now has data in it; the zero-signal must be "
@@ -556,7 +720,13 @@ class TestTheWallDatum:
             g = PROF.pack_geometry(d, datum="wall")
             assert g["datum"] == "wall"
             assert g["lower_radius_in"] == g["upper_radius_in"] == g["die_naked_in"] == 0.0
-            assert g["shaft"] is None and g["unrecorded"] == []
+            # RE-CUT AT THE MERGE OF THE TWO PHASE 14s (27 Sep 2026). This read `unrecorded == []`:
+            # no recorded figure read as a missing radius, because the wall datum consults no
+            # axis reading. The ink line replaced that key with `unpublished`, which lists only a
+            # member whose record publishes NO projection, so the property is asserted directly:
+            # nothing the record states -- a 0 included -- is drawn as a ghost here.
+            stated = {m["id"]: m.get("projection_in") for m in d["assemblies"][0]["members"]}
+            assert g["shaft"] is None and all(stated[u["id"]] is None for u in g["unpublished"])
             a = g["assemblies"][0]
             assert a["naked_in"] == 0.0 and g["assembly_datum"][aid] == "wall"
             assert a["faces"], f"{pid}/{aid}: nothing drawn"

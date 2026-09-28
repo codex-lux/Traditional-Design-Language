@@ -72,14 +72,41 @@ def test_every_plate_says_it_is_not_a_building():
 
 def test_an_unconstructed_member_is_named_and_not_invented():
     """`vignola-corinthian`'s capital has two acanthus rows and a caulicoli this corpus records
-    no construction for. They draw as the plain bell they are and the plate says so. A drawing
-    that quietly substitutes a plausible swelling for a construction it does not have is the
-    laundering this corpus forbids, in ink instead of in JSON."""
+    no construction for. They draw as their dashed ENVELOPE (WP-14.2) and the plate says so, in
+    words that describe that ink. A drawing that quietly substitutes a plausible swelling for a
+    construction it does not have is the laundering this corpus forbids, in ink instead of in
+    JSON -- and until WP-14.2 the plates did exactly that under a line saying they had not."""
     svg, rep = RP.render("vignola-corinthian", "capital", module_in=6.0)
     assert len(rep["unconstructed"]) == 3, rep["unconstructed"]
-    assert "NOT CONSTRUCTED" in svg
+    assert "NOT CONSTRUCTED: DRAWN AS THEIR DASHED ENVELOPE" in svg
+    assert "NOT DRAWN AS SOMETHING PLAUSIBLE" not in svg
+    env = re.search(r'<path class="envelope" d="([^"]+)"[^>]*stroke-dasharray', svg)
+    assert env and env.group(1).count("Z") == 3, "one dashed box per unconstructed member"
+    # read as a reader reads it: the disclosure wraps, and a name split across two lines is
+    # still on the plate
+    text = re.sub(r"\s+", " ", " ".join(re.findall(r">([^<]*)</text>", svg)))
     for name in ("acanthus row 1", "caulicoli"):
-        assert name in svg, name
+        assert name in text, name
+
+
+def test_a_curve_drawn_straight_is_counted_on_the_plate():
+    """WP-14.2: Vignola's Doric cymatium has the abacus's face as its own, so it is drawn as a
+    line -- and the plate says so, naming it, rather than letting it pass for a fascia."""
+    svg, rep = RP.render("vignola-doric", "capital", module_in=6.0)
+    text = re.sub(r"\s+", " ", " ".join(re.findall(r">([^<]*)</text>", svg)))
+    assert "1 CURVED MEMBER(S) DRAWN STRAIGHT" in text and "cap cyma (cyma-reversa)" in text
+    svg, rep = RP.render("vignola-doric", "cornice", module_in=6.0)
+    assert "DRAWN STRAIGHT" not in svg
+
+
+def test_a_section_that_names_a_volute_it_does_not_record_says_so():
+    """Vignola's Ionic capital records `volute_gorge` and `volute_fillet` and no volute: the
+    section through the channel, which every surface presented as the capital (WP-14.2)."""
+    svg, rep = RP.render("vignola-ionic", "capital", module_in=6.0)
+    text = re.sub(r"\s+", " ", " ".join(re.findall(r">([^<]*)</text>", svg)))
+    assert "NOT RECORDED: THE VOLUTE. volute gorge, volute fillet are named for it" in text
+    svg, rep = RP.render("gibbs-ionic", "capital", module_in=6.0)
+    assert "NOT RECORDED" not in svg      # Gibbs records his volute: nothing to say
 
 
 def test_a_fully_constructed_plate_makes_no_such_claim():
@@ -105,6 +132,57 @@ def test_no_text_escapes_the_plate():
     assert not bad, "\n".join(bad)
 
 
+def test_no_ink_crosses_the_plates_own_border():
+    """The border was drawn ten pixels short of the ink it frames, so the foot of every full
+    plate ran through the bottom rule (WP-14.2). Read back through tests/inkread.py: every drawn
+    mark but the words and the border itself lies inside the border."""
+    sys.path.insert(0, os.path.join(ROOT, "tests"))
+    import inkread as IR
+    bad = []
+    for a, svg, _ in _plates():
+        ink = IR.Ink(svg)
+        frame = [it for it in ink.items if it.tag == "rect" and "pf" in it.classes]
+        assert len(frame) == 1, a["id"]
+        x0, y0, x1, y1 = frame[0].bbox()
+        for it in ink.items:
+            if it.tag == "text" or it is frame[0] or not it.cmds:
+                continue
+            if it.tag == "rect" and not it.classes:        # the paper
+                continue
+            for x, y in it.points(n=16):
+                if not (x0 - 0.5 <= x <= x1 + 0.5 and y0 - 0.5 <= y <= y1 + 0.5):
+                    bad.append("%s: a %s at (%.1f, %.1f) outside [%.1f..%.1f, %.1f..%.1f]"
+                               % (a["id"], it.tag, x, y, x0, x1, y0, y1))
+                    break
+    assert not bad, "\n".join(bad[:10])
+
+
+def test_no_label_crosses_the_plates_own_border():
+    """THE WORDS THE TEST ABOVE SKIPS (WP-14.6, audit F11). Every member's label stood inside a
+    budget that ran to the canvas edge while the border's right rule stood 36 px in, so 150
+    labels on 58 of the 73 plates were drawn through the border -- and the containment test
+    above exempts every `text` element, so nothing could see it. A label's extent is estimated
+    here at 0.6 em a character, the advance of the 8 px monospace face the plate names, and
+    not with the renderer's own `CH_W`: a reader that shares the writer's constant agrees with
+    it by construction."""
+    import re
+    sys.path.insert(0, os.path.join(ROOT, "tests"))
+    import inkread as IR
+    bad, seen = [], 0
+    for a, svg, _ in _plates():
+        ink = IR.Ink(svg)
+        x0, y0, x1, y1 = [it for it in ink.items if it.tag == "rect" and "pf" in it.classes][0].bbox()
+        for x, y, txt in re.findall(r'<text class="dm" x="([\d.]+)" y="([\d.]+)">([^<]*)</text>', svg):
+            if not (y0 <= float(y) <= y1):
+                continue                    # the footer lines stand below the border by design
+            seen += 1
+            n = len(txt.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">"))
+            if float(x) + n * 0.6 * 8 > x1 + 0.5:
+                bad.append("%s: %r runs %.1f px past the border" % (a["id"], txt[:40], float(x) + n * 4.8 - x1))
+    assert seen >= 467, "premise: every member's label was read -- 467 over the 73 plates (%d)" % seen
+    assert not bad, "\n".join(bad[:10])
+
+
 def test_the_size_survives_when_a_label_has_to_be_cut():
     """Two clamps keep a label on the paper, and they cut different halves. The first elides the
     NAME and keeps the dimension; the second is a blind truncation that would take the figure
@@ -118,7 +196,10 @@ def test_the_size_survives_when_a_label_has_to_be_cut():
     elided = [t for t in labels if "\u2026" in t]
     assert elided, "no label was long enough to be cut; this test proves nothing"
     for t in elided:
-        assert t.rstrip().endswith("\u2033"), \
+        # the dimension survives in the TAIL, which is never cut; since WP-14.2 a weak member's
+        # confidence follows it there, so the figure is asserted present rather than last
+        tail = t.split("\u2014", 1)[-1]
+        assert re.search(r"\d\.\d\d\u2033", tail), \
             "a cut label lost its dimension, which is the half that had to survive: %r" % t
         assert "\u2026" in t.split("\u2014")[0], \
             "the ellipsis is not in the name; something other than the name was cut: %r" % t

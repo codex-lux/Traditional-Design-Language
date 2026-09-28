@@ -17,6 +17,20 @@ def test_pack_list_leads_with_material_modules(client):
     assert kinds.index("order-system") > kinds.index("module-system")
 
 
+def test_an_overlay_is_badged_by_the_key_the_pack_carries(client):
+    """The nav's "· overlay" badge read `overlay_on`, which no pack carries, so it drew for none of
+    the eighteen overlays (WP-14.2). The list serves the schema's own `overlay_of`, pack for pack."""
+    packs = {p["id"]: p for p in client.get("/api/proportions").json()["packs"]}
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache
+    pe = modcache.load("pe", os.path.join(ROOT, "build", "proportion_engine.py"))
+    for pid, raw in pe.PACKS.items():
+        assert packs[pid]["overlay_of"] == raw.get("overlay_of"), pid
+    assert packs["palladio-ionic"]["overlay_of"] == "vignola-ionic"
+    assert sum(1 for p in packs.values() if p.get("overlay_of")) == 18, "premise: the overlays exist"
+    assert all("overlay_on" not in p for p in packs.values())
+
+
 def test_members_match_engine(client):
     r = client.get("/api/proportions/gibbs-doric",
                    params={"column_diameter": 12, "members": True}).json()

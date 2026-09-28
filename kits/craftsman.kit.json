@@ -591,16 +591,18 @@
       "binding": "specified",
       "parameters": {
         "leg_in": {
-          "value": 4,
+          "value": 3.5,
           "unit": "in",
           "kind": "measured",
-          "note": "1x4 leg casing per trim-craftsman."
+          "note": "1x4 leg casing per trim-craftsman.",
+          "source": "proportions/systems/trim-craftsman.json -- the stock series the note cites: '1x4 (3 1/2), 1x6 (5 1/2)', and 'HEAD CASING HEIGHT. Five and a half inches.'"
         },
         "head_in": {
-          "value": 6,
+          "value": 5.5,
           "unit": "in",
           "kind": "measured",
-          "note": "1x6 head casing."
+          "note": "1x6 head casing. A dressed 1x6 is 5 1/2 in, as the trim-craftsman pack states; this carried the nominal 6 until WP-14.5, and the leg the nominal 4.",
+          "source": "proportions/systems/trim-craftsman.json -- the stock series the note cites: '1x4 (3 1/2), 1x6 (5 1/2)', and 'HEAD CASING HEIGHT. Five and a half inches.'"
         }
       },
       "rule": "Casing is a three-board family: a 1x4 leg, a 1x6 head, and a 1x8 base, per the node's own bound trim-craftsman pack.",

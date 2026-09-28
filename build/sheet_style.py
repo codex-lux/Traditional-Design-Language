@@ -298,9 +298,34 @@ def frame_attr(frames):
     the first plate and mis-register every other.
     """
     import json as _json
-    # A single-quoted attribute, so the JSON's own double quotes pass through untouched; the
-    # only character that could close it early is an apostrophe, and a level id is a slug.
-    return _json.dumps(frames, separators=(",", ":")).replace("'", "&apos;")
+    # A single-quoted attribute, so the JSON's own double quotes pass through untouched and the
+    # only character that could close it early is an apostrophe. THIS COMMENT SAID "and a level
+    # id is a slug", and it is not: `plan.schema.json` states no pattern on a level id (the
+    # plan's own id has one), and a plate's id is its level's. So `&` and `<` are escaped too --
+    # neither can close the attribute, but either makes a downloaded sheet malformed XML
+    # (audit, 27 Sep 2026). No shipped frame carries one, so no shipped byte moves.
+    return (_json.dumps(frames, separators=(",", ":"))
+            .replace("&", "&amp;").replace("<", "&lt;").replace("'", "&apos;"))
+
+
+def attr(t):
+    """ONE SPELLING OF A DOUBLE-QUOTED ATTRIBUTE'S VALUE, for all four renderers (audit,
+    27 Sep 2026).
+
+    Each renderer's `_esc` escapes `& < >`, which is all a TEXT node needs, and it was also used
+    inside `data-key-room="..."` and seven more attributes, where the character that closes the
+    value is the one it does not escape; `data-block` took the record's string with no escape at
+    all. A room id, a level id and a massing tag are free strings in `plan.schema.json`, `POST
+    /api/drawings/{kind}` draws a record from anyone who can reach it, and the Drawing Set and
+    the Round inject the returned SVG with `dangerouslySetInnerHTML`: a room id of
+    `bed3" onmouseover="..."` put a live handler on six elements, in both registers.
+
+    A TEXT node keeps `_esc`, deliberately: the sheet's own inch marks (`11'-11"`) are text, and
+    escaping them too moved all 32 shipped plan sheets and every elevation for no change in what
+    is drawn -- measured, and taken back. An attribute takes this.
+    """
+    return ("" if t is None else str(t)).replace("&", "&amp;").replace("<", "&lt;") \
+        .replace(">", "&gt;").replace('"', "&quot;")
 
 
 if __name__ == "__main__":

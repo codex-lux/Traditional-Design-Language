@@ -458,6 +458,13 @@ def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
     clear_fp = geometry_result["footprint"]
     outside_fp = outside_to_outside_footprint(clear_fp, wall)
     bay_module_ft = clear_fp.get("bay_module_ft") or 10.0
+    # A RECORD STATING NO BAY MODULE IS SAID AND NOT DEFAULTED IN SILENCE (audit, 27 Sep 2026).
+    # The bearing walls below are read off a module, and where the record states none they are
+    # read off the placer's own 10 ft -- which the plan sheet has said since WP-14.4 ("NO BAY
+    # MODULE ON THE RECORD ... THE BEARING WALLS ARE READ OFF THE PLACER'S DEFAULT 10 FT") while
+    # the bearing plate, the sheet whose subject is those walls, said nothing. Carried here so
+    # every reader of the section says it from one record.
+    bay_module = {"ft": bay_module_ft, "on_record": bool(clear_fp.get("bay_module_ft"))}
 
     # span_check() decides hand-timber-vs-light-frame from the plan's STYLE against timber-
     # bay.json's own applies_to list (see that function's docstring for why). That is a real,
@@ -504,7 +511,16 @@ def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
     # A SPAN IS NOT COMPUTED ACROSS THE GAP, because each element's span_check sees only its own
     # bearing lines. That is the entry's "manufactures a clear span across the gap between the
     # house and the dependency", and it goes away by construction here rather than by a filter.
-    _els = [b for b in ((plan.get("footprint") or {}).get("blocks") or [])]
+    #
+    # THE ELEMENTS ARE THE PLACEMENT'S, LIKE EVERY OTHER NUMBER IN THIS FUNCTION (audit, 27 Sep
+    # 2026). This read `plan["footprint"]["blocks"]` while the width, the depth and the rooms came
+    # from `geometry_result` -- and `geometry.solve` writes a placement INTO the record it is handed
+    # on a cache miss and returns a copy on a hit, so the same product call built a per-element
+    # section on a record's first request and a one-element section after it. Measured on the
+    # tagged Tidewater: handed the placed record, the dependency has its envelope walls at x -34
+    # and -7 and three over-capacity spans; handed the declared record beside the SAME placement,
+    # it had no dependency walls and one invented span across the whole house.
+    _els = [b for b in (clear_fp.get("blocks") or [])]
     levels_out = []
     for lv in geometry_result["levels"]:
         W, H = clear_fp["width_ft"], clear_fp["depth_ft"]
@@ -547,7 +563,7 @@ def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
         "plan_id": plan.get("id"), "style": plan.get("style"), "wall": wall,
         "footprint": outside_fp, "levels": levels_out, "storeys": storeys,
         "storey_graduation": grad, "roof": roof, "stair": stair,
-        "framing_basis": framing_basis,
+        "framing_basis": framing_basis, "bay_module": bay_module,
         "geometry": geometry_result,
     }
 

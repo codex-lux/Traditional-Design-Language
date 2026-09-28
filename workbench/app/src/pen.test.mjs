@@ -57,3 +57,38 @@ test('and this guard is reading the file it thinks it is', () => {
   assert.equal([...probe.matchAll(/strokeWidth\s*=\s*[{"']\s*\.?\d/g)].length, 1,
     'the literal detector matches nothing, so its empty result above means nothing');
 });
+
+/* WP-14.4: THE TWO PLAN SHEETS POCHE ONE RECORD'S WALLS IN ONE INK. `build/sheet_style.py::POCHE`
+   is the printed plate's; this reads it and holds the bench's to it, token for token, because the
+   bench drew partitions in `--sepia-pale` for eleven packages after the plate had measured that
+   ink as a hollow tube at plan scale and moved to `--sepia`. */
+test("the bench's poche is the printed plate's, token for token", async () => {
+  const { readFileSync } = await import('node:fs');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname, join } = await import('node:path');
+  const { POCHE } = await import('./sheet/pen.js');
+  const here = dirname(fileURLToPath(import.meta.url));
+  const py = readFileSync(join(here, '..', '..', '..', 'build', 'sheet_style.py'), 'utf8');
+  const block = /POCHE = \{([\s\S]*?)\n\}/.exec(py);
+  assert.ok(block, 'the premise: sheet_style.py states a POCHE table');
+  const tokenOf = (kind) => {
+    const m = new RegExp(`"${kind}":\\s*LIGHT\\["([a-z_]+)"\\]`).exec(block[1]);
+    assert.ok(m, `the premise: sheet_style.POCHE states a ${kind} ink`);
+    return `var(--${m[1].replace(/_/g, '-')})`;
+  };
+  assert.equal(POCHE.partition.fill, tokenOf('partition'));
+  // The masonry token is spelled through its DUTY name on the bench and its COLOUR on the plate,
+  // so the duty name is resolved through the standard's own declaration before the two are
+  // compared. The first version asserted each side against its own literal -- `var(--poche-masonry)`
+  // and `var(--salmon)` -- and related them by nothing, so re-pointing `--poche-masonry` at another
+  // ink in tokens.css left it green while the two sheets drew two colours (WP-14.6).
+  const css = readFileSync(join(here, 'theme', 'tokens.css'), 'utf8');
+  const decls = [...css.matchAll(/--poche-masonry\s*:\s*([^;]+);/g)].map(m => m[1].trim());
+  assert.equal(decls.length, 1, `the premise: tokens.css declares --poche-masonry once (${decls.length})`);
+  const resolve = (fill) => {
+    const name = /^var\((--[a-z-]+)\)$/.exec(fill);
+    assert.ok(name, `the bench's masonry fill is not a token: ${fill}`);
+    return name[1] === '--poche-masonry' ? decls[0] : fill;
+  };
+  assert.equal(resolve(POCHE.masonry.fill), tokenOf('masonry'));
+});

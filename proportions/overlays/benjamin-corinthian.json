@@ -91,6 +91,8 @@
     "subplinth": {
       "height_modules": 2,
       "sums_check": true,
+      "alternative_to": "pedestal",
+      "alternative_note": "'If, on a subplinth, divide the whole height into twenty eight parts; give two of them to the diameter of the column, and make the subplinth one diameter of the column in height.' 28/2 = 14 diameters = column 11 + entablature 2 + subplinth 1, with no pedestal in it; the pedestal is set out in a different whole ('if a pedestal is to be added, divide the whole height into thirty four equal parts'). The subplinth stands the column INSTEAD of the pedestal, never on it (WP-14.2).",
       "members": [
         {
           "id": "subplinth_block",

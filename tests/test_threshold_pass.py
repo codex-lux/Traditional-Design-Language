@@ -542,7 +542,24 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          # build/threshold.py` is empty). So the roof did not change and its
                          # INPUT did, which is the one thing this pin exists to tell apart and
                          # the reason WP-11.4 pruned it to `footprint` and five siblings.
-                         "4a06aa83cd6d4b88ba9168a750ffa95494f50e9374e1c7c494b4d56ce3be0844",
+                         # RE-DERIVED AT WP-14.6, PER ENTRY, ON A HARNESS FIRST PROVED TO
+                         # REPRODUCE `4a06aa83...` TO THE CHARACTER ON A `git worktree` OF
+                         # `6144ce0`. `build_roof` read the fires off the record it was handed;
+                         # every caller hands it the declared record beside a section built on
+                         # the placement, so a declared record's stacks fell back to the gable's
+                         # centre line under a note saying the plan "carries no placement". It
+                         # reads the section's placement now. 49 of 180 entries moved and ALL 49
+                         # IN `chimneys` ALONE -- main, checks, outline, profiles and footprint
+                         # are byte-identical in every entry: the Tidewater plan and 48 sweep
+                         # styles built on it, each now over the plan's two stated flues at
+                         # y = 32.22 ft (12.3 ft off the centre line) with the placed-hearths
+                         # note. 2 carry the placement's seated square (`plan_rect_ft`); the
+                         # other 47 carry none, because for 43 of them no canonical hearth
+                         # position says which face of the end wall the stack stands on and the
+                         # placement refuses to seat one -- which the elevation now says. The
+                         # 131 unmoved are the fourteen reference plans, the spec Colonial and
+                         # 116 sweep styles, none of which places a stack at all.
+                         "22fa18ed207786b49346cb59977956af1c87ae056fc39548a34ded16d0dc1270",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "
@@ -600,8 +617,12 @@ class TestTheModuleGraph(unittest.TestCase):
 class TestTheDrawing(unittest.TestCase):
     def test_both_renderers_are_told_about_the_stoop_and_the_stack(self):
         core = open(os.path.join(ROOT, "mcp_server", "core.py"), encoding="utf-8").read()
+        # THE WHOLE FUNCTION, to the next definition -- not a 3,000-character window, which
+        # WP-14.4 overran by adding the walls to the same return: the lines this guards were
+        # still there and the window stopped short of them (WP-14.6)
         i = core.index("def placement_summary")
-        body = core[i:i + 3000]
+        body = core[i:]
+        body = body[:body.index("\ndef ", 1)]
         self.assertIn('"threshold": out.get("threshold")', body,
                       "omitted here, the browser sheet draws neither while the Python sheet "
                       "draws both -- the defect WP-11.3 found in this same return")

@@ -41,6 +41,8 @@ manifest_io = modcache.load(
 
 PE = modcache.load("proportion_engine", os.path.join(ROOT, "build", "proportion_engine.py"))
 PROF = modcache.load("profiles", os.path.join(ROOT, "build", "profiles.py"))
+SS = modcache.load("sheet_style", os.path.join(ROOT, "build", "sheet_style.py"))
+PR = modcache.load("plate_review", os.path.join(ROOT, "build", "plate_review.py"))
 
 ASSETS = os.path.join(ROOT, "assets", "manifest.json")
 _ID_RE = re.compile(r"[a-z0-9]+(-[a-z0-9]+)*")   # schema/asset.schema.json's own pattern
@@ -48,6 +50,9 @@ OUTDIR = os.path.join(ROOT, "assets", "generated")
 
 # The elevation sheet's palette, so a detail plate and the sheet it details look like one set.
 PAL = {"ink": "#1b1a17", "ink3": "#6f6a60", "brass": "#b08d57", "paper": "#faf8f3",
+       # the workbench's own `--judge-unjudged`, which is `--ink-3`: one colour for "a person
+       # has not settled this", on the plate and on the bench alike (WP-14.2)
+       "judge": "#6f6a60",
        "rule": "#c9c2b4"}
 
 # THE PLATE TAKES THE DRAWING'S SHAPE, IT IS NOT A FIXED BOX THE DRAWING SITS INSIDE. A cornice
@@ -95,14 +100,88 @@ def states_assembly(pack_id, assembly_id):
     return PE.assembly_owner(pack_id, assembly_id)
 
 
-def _footer_lines(pack, pack_id, assembly_id, module_in, members, height, relief, unconstructed):
+def _inches(x):
+    """A figure in inches as a person writes it: 12, 12.5, 0.75 -- never 12.00 or 1e1."""
+    return ("%.2f" % x).rstrip("0").rstrip(".")
+
+
+def _relief_words(relief, published):
+    """THE RELIEF A PLATE PRINTS IS THE RELIEF ITS INK DRAWS (WP-14.2). This line used to print
+    the layout's own floor -- `relief or 1.0` -- so five plates that draw no relief at all said
+    "1.00 in of relief", a figure no record states and no ink shows. A zero is said as what it is:
+    either no member publishes a projection, or every published face is flush."""
+    if relief > 1e-9:
+        return "%.2f\u2033 of relief from the naked" % relief
+    if not published:
+        return "no relief drawn: no member publishes a projection"
+    return "no relief: every published face is flush with the naked"
+
+
+def _count_words(n_members, n_unpublished):
+    """THE COUNT GOES ON EVERY PLATE (WP-14.2, decision 2): how many of the members drawn here
+    publish a projection, and what the rest are drawn as. A plate that says nothing when every
+    figure is present reads exactly like a plate that says nothing because nobody looked."""
+    if not n_unpublished:
+        return "All %d member(s) publish a projection." % n_members
+    return ("%d member(s) drawn as a dashed bracket at the naked: no projection published, so "
+            "no face is drawn for them." % n_unpublished)
+
+
+def _unconstructed_words(unconstructed):
+    """What the plate says about a member it holds no construction for, and it says what the INK
+    does (WP-14.2). This read "NOT CONSTRUCTED, AND NOT DRAWN AS SOMETHING PLAUSIBLE" over a
+    quarter-ellipse swelling -- which is something plausible, drawn."""
+    return ("NOT CONSTRUCTED: DRAWN AS THEIR DASHED ENVELOPE, THE BOX THEIR HEIGHT AND PROJECTION "
+            "BOUND, WITH NO SHAPE INSIDE IT: " + ", ".join(_named(unconstructed)))
+
+
+def _confidence_words(weak):
+    """What the dashed outline means, said once on the plate (WP-14.2). Each such member also
+    carries its confidence in its own label, which is what a reader holding one label reads."""
+    # Worded so that it cannot pass for a member's own mark: "<level> confidence" is what each
+    # label says, and census P10 counts labels -- this sentence once satisfied it alone.
+    return ("%d member(s) outlined dashed: their confidence is medium, low or unstated, the "
+            "authority's total being stated and the division among them apportioned or read from "
+            "a plate at low confidence." % weak)
+
+
+def _straight_words(straight):
+    """A curve drawn as a line, said (WP-14.2): the record gives it the same face as the member
+    below it, so it has no run to curve through. A cyma drawn as a vertical stroke looks exactly
+    like a fascia, and none of the 25 in the order stacks was said."""
+    return ("%d CURVED MEMBER(S) DRAWN STRAIGHT: the record gives each the same face as the "
+            "member below it, so it has no run to curve through: %s."
+            % (len(straight), ", ".join(_named(straight))))
+
+
+def _not_recorded_words(n):
+    """A part the assembly's own members are named for and no member records (WP-14.2): four of
+    the five Ionic capitals record the volute's channel and fillet and no volute, and said
+    nothing, so the capital's section passed for the capital."""
+    return ("NOT RECORDED: THE %s. %s %s named for it and no member records it, so this plate is "
+            "the assembly's section and draws no %s."
+            % (n["part"].upper(), ", ".join(str(x).replace("_", " ") for x in n["named_by"]),
+               "is" if len(n["named_by"]) == 1 else "are", n["part"]))
+
+
+def _footer_lines(pack, pack_id, assembly_id, diameter_in, members, height, relief, unconstructed,
+                  published=True, n_unpublished=0, not_recorded=(), straight=(), n_weak=0):
     """What the plate says about itself. One function, because the height calculation and the
-    drawing both read it and a second copy would let them disagree about how tall it is."""
+    drawing both read it and a second copy would let them disagree about how tall it is.
+
+    THE COLUMN IS THE ONE THE PLATE IS DRAWN AT, read off `dimension()`'s own
+    `totals.lower_diameter_in` (WP-14.2). This used to print `module_in * 2`, which is a column
+    only where the module is the SEMIdiameter: Palladio's module is the WHOLE diameter
+    (`proportion_engine.diameters_per_module`), so twelve Palladio plates drawn at a 12 in column
+    said "at a 24 in column" -- the arithmetic `dimension()` exists to get right, done again
+    wrong one function away."""
     lines = ["GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL "
              "BUILDING.",
-             "%s, assembly %s, at a %.0f\u2033 column. %d member(s), %.2f\u2033 high, %.2f\u2033 "
-             "of relief from the naked." % (pack.get("name") or pack_id, assembly_id,
-                                            module_in * 2, len(members), height, relief)]
+             "%s, assembly %s, at a %s\u2033 column. %d member(s), %.2f\u2033 high, %s." % (
+                 pack.get("name") or pack_id, assembly_id, _inches(diameter_in), len(members),
+                 height, _relief_words(relief, published)),
+             _count_words(len(members), n_unpublished)] + \
+        ([_confidence_words(n_weak)] if n_weak else [])
     owner = states_assembly(pack_id, assembly_id)
     if owner and owner != pack_id:
         src = PE.PACKS.get(owner) or {}
@@ -112,14 +191,17 @@ def _footer_lines(pack, pack_id, assembly_id, module_in, members, height, relief
         auth = (src.get("authority") or {}).get("source")
         if auth:
             lines.append("AFTER: " + auth)
-        return lines + ([] if not unconstructed else [
-            "NOT CONSTRUCTED, AND NOT DRAWN AS SOMETHING PLAUSIBLE: " + ", ".join(_named(unconstructed))])
+        return lines + ([] if not unconstructed else [_unconstructed_words(unconstructed)]) + \
+            ([] if not straight else [_straight_words(straight)]) + \
+            [_not_recorded_words(n) for n in not_recorded]
     auth = (pack.get("authority") or {}).get("source")
     if auth:
         lines.append("AFTER: " + auth)
     if unconstructed:
-        lines.append("NOT CONSTRUCTED, AND NOT DRAWN AS SOMETHING PLAUSIBLE: "
-                     + ", ".join(_named(unconstructed)))
+        lines.append(_unconstructed_words(unconstructed))
+    if straight:
+        lines.append(_straight_words(straight))
+    lines += [_not_recorded_words(n) for n in not_recorded]
     return lines
 
 
@@ -139,7 +221,15 @@ def render(pack_id, assembly_id, module_in=6.0):
     # That is the raw-record read this corpus has been caught by on kits, on slots and on the
     # cascade -- the answer lives in the inheritance, not in the file.
     pack = PE.resolve(pack_id)
-    dim = PE.dimension(pack, module_in=module_in)
+    # THE STACK THAT HOLDS THIS ASSEMBLY (WP-14.2). An overlay whose own whole entablature the
+    # inherited triplet contradicts is stacked with the whole now, so its default stack has no
+    # cornice -- and its cornice plate, which draws the inherited cornice and says whose it is, is
+    # drawn from the stack that has one. Asking for the default and finding nothing would delete the
+    # plate; asking for the triplet everywhere would move every other plate's datum evidence.
+    include = PE.stack_for(pack)
+    if assembly_id not in include and assembly_id in PE.stack_for(pack, entablature="triplet"):
+        include = PE.stack_for(pack, entablature="triplet")
+    dim = PE.dimension(pack, module_in=module_in, include=include)
     geo = PROF.pack_geometry(dim, column=(pack.get("column") or {}),
                              projection_datum=pack.get("projection_datum"))
     members = assembly_members(dim, assembly_id)
@@ -155,8 +245,17 @@ def render(pack_id, assembly_id, module_in=6.0):
     y0 = min(m["y_bottom_in"] for m in members)
     y1 = max(m["y_top_in"] for m in members)
     drawn_h = (y1 - y0) or 1.0
-    relief = max((PROF.outer_face(naked, m.get("projection_in") or 0.0, from_axis) - naked)
-                 for m in members) or 1.0
+    # The silhouette FIRST: it is what knows which members publish no projection (WP-14.2), and the
+    # relief, the count and the legend all read that one answer rather than re-deriving it.
+    sil = PROF.silhouette(members, naked_at=naked, from_axis=from_axis)
+    unconstructed = sil.get("unconstructed") or []
+    ghost_ids = {u["id"] for u in sil["unpublished"]}
+    # The relief the INK draws, and nothing else: the layout's own floor is applied to the scale
+    # below and is never a figure on the plate, and a ghost stands at the naked (WP-14.2).
+    relief = max([PROF.outer_face(naked, m["projection_in"], from_axis) - naked
+                  for m in members if m["id"] not in ghost_ids] or [0.0])
+    published = len(ghost_ids) < len(members)
+    diameter_in = dim["totals"]["lower_diameter_in"]
 
     pad = PAD
     # Scale to the relief, then let the height follow. Capped so a tall capital cannot run to a
@@ -170,20 +269,36 @@ def render(pack_id, assembly_id, module_in=6.0):
     sx = lambda x: px0 + (x - naked) * k
     sy = lambda y: py0 + (y1 - y) * k
 
-    sil = PROF.silhouette(members, naked_at=naked, from_axis=from_axis)
-    unconstructed = sil.get("unconstructed") or []
-
     # Wrap the footer BEFORE the plate height is committed: a disclosure that needs three lines
     # on a plate sized for two prints outside the viewBox and is invisible, which is worse than
     # a plate that is slightly tall.
     _foot_budget = int((W - pad * 2) / CH_W)
     _foot_rows = 0
-    for _ln in _footer_lines(pack, pack_id, assembly_id, module_in, members, y1 - y0, relief,
-                             unconstructed):
+    # ONE list, built once and read twice -- by the height calculation here and by the drawing
+    # below. They were two calls with their own arguments, and WP-14.2's change to one of them
+    # left the other still passing `module_in`: the plate would have been sized for one footer
+    # and drawn with another.
+    footer = _footer_lines(pack, pack_id, assembly_id, diameter_in, members, y1 - y0, relief,
+                           unconstructed, published, len(ghost_ids),
+                           sil.get("named_not_recorded") or (), sil.get("drawn_straight") or (),
+                           sum(1 for m in members if PROF.is_weak(m.get("confidence"))))
+    for _ln in footer:
         _foot_rows += max(1, -(-len(_ln) // _foot_budget))
     H = int(pad * 2 + box_h + 34 + _foot_rows * 11)
 
-    s = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">',
+    # WP-14.1: WHAT THIS PLATE'S PIXELS MEAN IN INCHES, stated rather than left for a reader to
+    # re-derive from this function's own arithmetic. `sheet_style.frame_attr`'s one affine, in the
+    # plate's own unit: u is inches out from the axis (the naked sits at u = `naked`), v is inches
+    # up the stack. A reader that recomputed `k` from the geometry would be checking this file
+    # against itself; the frame is what lets `tests/inkread.py` read the ink back independently.
+    # `datum` is the one this assembly was DRAWN on (profiles.axis_holds_for's per-group answer),
+    # so a reader holding the ink to the record measures each face from the plane the ink used.
+    _frames = {"plates": [{"id": assembly_id, "proj": "profile", "unit": "in",
+                           "px_per_in": round(k, 6), "origin_px": [px0, py0],
+                           "at_origin_in": [round(naked, 6), round(y1, 6)],
+                           "datum": "axis" if from_axis else "naked"}]}
+    s = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" '
+         f"data-frame='{SS.frame_attr(_frames)}'>",
          '<style>'
          f'.lb{{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:{PAL["ink"]};letter-spacing:.08em}}'
          f'.dm{{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:{PAL["ink3"]}}}'
@@ -194,16 +309,48 @@ def render(pack_id, assembly_id, module_in=6.0):
 
     title = "%s — %s" % (pack.get("name") or pack_id, assembly_id)
     s.append(f'<text class="ti" x="{pad}" y="{pad-14}">{_esc(title)}</text>')
-    s.append(f'<rect class="pf" x="{pad-8}" y="{pad-6}" width="{W-pad*2+16}" height="{box_h+26:.0f}"/>')
+    # THE BORDER HOLDS THE INK. It was `box_h + 26` tall from `pad - 6`, while the profile starts
+    # at `pad + 30` and runs `box_h` down, so every plate whose ink filled its box had its foot
+    # drawn ten pixels through the bottom rule -- visible on every plate and found only by looking
+    # at one (WP-14.2). `box_h + 42` puts the rule six pixels clear of the ink and still eight
+    # above the first footer line.
+    # AND IT HOLDS THE LEGEND (WP-14.6, audit F11): its right rule stood 36 px in from the canvas
+    # edge, inside the column the labels are laid out in, so they crossed it. It is 8 px in on
+    # both sides now.
+    s.append(f'<rect class="pf" x="8" y="{pad-6}" width="{W-16}" height="{box_h+42:.0f}"/>')
 
     # The naked: the plane every projection in this assembly is measured from.
     s.append(f'<line x1="{sx(naked):.1f}" y1="{sy(y0):.1f}" x2="{sx(naked):.1f}" y2="{sy(y1):.1f}" '
              f'stroke="{PAL["ink3"]}" stroke-width=".5" stroke-dasharray="2 2"/>')
 
+    # THE FILL AND THE INK ARE TWO PATHS (WP-14.2). The body is one closed shape through every
+    # member, a ghost included, because an unpublished member is real and stands at least as far
+    # out as its naked. The outline is NOT drawn across a face nobody published -- a stroke there
+    # is a measurement nobody made -- and the dashed bracket says what is missing instead.
     d = PROF.svg_path(sil["segments"], sx, sy, start=sil["start"])
     if d:
-        s.append(f'<path d="{d}" fill="{PAL["brass"]}" fill-opacity=".5" '
-                 f'stroke="{PAL["ink"]}" stroke-width=".9"/>')
+        s.append(f'<path d="{d}" fill="{PAL["brass"]}" fill-opacity=".5" stroke="none"/>')
+        ink = PROF.svg_path(sil["segments"], sx, sy, start=sil["start"], ghosts="move")
+        s.append(f'<path d="{ink}" fill="none" stroke="{PAL["ink"]}" stroke-width=".9"/>')
+    ghosts = " ".join(g for g in (PROF.ghost_bracket(u["x"], u["y0"], u["y1"], sil["ghost_tick"],
+                                                     sx, sy) for u in sil["unpublished"]) if g)
+    if ghosts:
+        s.append(f'<path class="ghost" d="{ghosts}" fill="none" stroke="{PAL["ink"]}" '
+                 f'stroke-width=".7" stroke-dasharray="3 2"/>')
+    # CONFIDENCE, MARKED AS THE WORKBENCH MARKS IT (WP-14.2): a dashed outline over each member
+    # whose record is not a stated high, in the bench's own unjudged colour. It was shown on the
+    # orders page and the Proportions plate and on no committed plate, so a Palladio cornice
+    # apportioned member by member read with the authority of a measured one.
+    for sp in sil["spans"]:
+        if PROF.is_weak(sp.get("confidence")) and sp["y1"] > sp["y0"]:
+            s.append(f'<path class="confidence" data-member="{_esc(sp["id"])}" '
+                     f'd="{PROF.band_path(sp, sx, sy)}" fill="none" stroke="{PAL["judge"]}" '
+                     f'stroke-width=".8" stroke-dasharray="2 2"/>')
+    envs = " ".join(e for e in (PROF.envelope_box(u["x0"], u["y0"], u["x1"], u["y1"], sx, sy)
+                                for u in unconstructed) if e)
+    if envs:
+        s.append(f'<path class="envelope" d="{envs}" fill="none" stroke="{PAL["ink"]}" '
+                 f'stroke-width=".7" stroke-dasharray="1.5 2"/>')
 
     # Member leaders, decluttered upward. Members arrive bottom-to-top, so screen y decreases as
     # the list advances and each label must clear the one BELOW it; nudging the other way walks
@@ -225,16 +372,25 @@ def render(pack_id, assembly_id, module_in=6.0):
         ys = [band_bot - (ys[0] - y) * ((band_bot - band_top) / span) for y in ys]
 
     for m, anchor, my in zip(members, anchors, ys):
-        face = sx(PROF.outer_face(naked, m.get("projection_in") or 0.0, from_axis))
+        ghost = m["id"] in ghost_ids
+        face = sx(naked if ghost else PROF.outer_face(naked, m["projection_in"], from_axis))
         s.append(f'<line x1="{face+1:.1f}" y1="{anchor:.1f}" x2="{lx-4:.1f}" y2="{my:.1f}" '
                  f'stroke="{PAL["ink3"]}" stroke-width=".35"/>')
         nm = (m.get("name") or m.get("id") or "").replace("-", " ")
         pf = (m.get("profile") or "flat").replace("-", " ")
         # The size is the point of a detail plate, so it is never what gets cut: the NAME is
         # elided to fit and the figure always survives. A label that runs off the plate is a
-        # dimension the millworker does not have.
-        tail = " — %s, %.2f\u2033" % (pf, m["height_in"])
-        budget = int((W - 8 - lx) / CH_W)
+        # dimension the millworker does not have. A ghost says so in its own label (WP-14.2).
+        conf = m.get("confidence")
+        tail = " — %s, %.2f\u2033%s%s" % (
+            pf, m["height_in"], ", no projection" if ghost else "",
+            (", %s confidence" % (conf or "unstated")) if PROF.is_weak(conf) else "")
+        # INSIDE THE FRAME'S RULE (WP-14.6, audit F11). The budget ran to `W - 8` and the rule
+        # stood at `W - pad + 8`, so 150 labels on 58 of the 73 plates were drawn through the
+        # border by up to 27.8 px. The legend column is `LEGEND_W` wide for exactly these labels,
+        # so the FRAME moved out to hold it (above) rather than every name being cut 7 characters
+        # shorter -- which, measured, also pushed one label past this clamp's last resort.
+        budget = int((W - 8 - 4 - lx) / CH_W)
         room = budget - len(tail)
         if len(nm) > room:
             nm = nm[:max(room - 1, 3)].rstrip() + "\u2026"
@@ -251,8 +407,7 @@ def render(pack_id, assembly_id, module_in=6.0):
 
     # The plate says what it is and what it is not.
     foot = H - pad + 6
-    lines = _footer_lines(pack, pack_id, assembly_id, module_in, members, y1 - y0, relief,
-                          unconstructed)
+    lines = footer
     # The footer is prose and prose is not width-aware. Wrap it rather than let a pack with a
     # long name push its own disclosure off the paper -- the disclosure is the one line on this
     # plate that must never be the thing that gets cut.
@@ -269,8 +424,21 @@ def render(pack_id, assembly_id, module_in=6.0):
     s.append("</svg>")
 
     return "\n".join(s), {"members": len(members), "unconstructed": _named(unconstructed),
+                          "unpublished": sorted(ghost_ids),
                           "height_in": round(y1 - y0, 3), "relief_in": round(relief, 3),
+                          "diameter_in": diameter_in,
                           "plate_w": W, "plate_h": H}
+
+
+def review_note(asset, rep):
+    """The review note a plate's record carries (WP-14.5): what the record can be held to without
+    the plate, the plate not seen, and nobody's approval. ONE spelling, which `--write` files and
+    census P14 holds the manifest to -- so a note that says `agrees` is the verdict the record
+    earns now, not the one it earned when the plate was last written."""
+    g = asset["generated_from"]
+    return PR.review_note(g["pack"], (g.get("parameters") or {}).get("assembly"),
+                          "%s in" % _inches(rep["diameter_in"]),
+                          (asset.get("provenance") or {}).get("source"), rep["unconstructed"])
 
 
 def main():
@@ -316,7 +484,14 @@ def main():
                 continue
             rel = os.path.join("assets", "generated", asset["id"] + ".svg")
             path = os.path.join(ROOT, rel)
-            open(path, "w").write(svg + "\n")
+            # ATOMIC, on build/build.py's own idiom and for its reason: an in-place `open(path,
+            # "w")` truncates before it writes, so a process killed mid-write leaves a COMMITTED
+            # plate truncated on disk and every reader of it (the manifest's digest, the
+            # server's /corpus/assets route, the census) reading half a drawing. WP-14.1.
+            tmp = path + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as fh:
+                fh.write(svg + "\n")
+            os.replace(tmp, path)
             data = open(path, "rb").read()
             asset["file"] = {"path": rel, "format": "svg",
                              "width": rep["plate_w"], "height": rep["plate_h"],
@@ -325,15 +500,11 @@ def main():
             # `sourced` means "file present, unreviewed" -- which is now true, and was not when
             # the harvester set it on records whose `file` stayed null.
             asset["status"] = "sourced"
-            asset["review_note"] = (
-                "Drawn by build/render_profile.py from %s at a %.0f in column. Every dimension "
-                "comes from proportion_engine.dimension() and every curve from profiles.py, so "
-                "the drawing and the data cannot silently disagree. NOT reviewed: nobody has "
-                "looked at this plate and confirmed it shows what the record says it shows.%s"
-                % (g["pack"], (g.get("module_in") or 6.0) * 2,
-                   ("" if not rep["unconstructed"] else
-                    " PARTIAL: %s are named on the plate and not drawn, because this corpus "
-                    "records no construction for them." % ", ".join(rep["unconstructed"]))))
+            # WHAT WAS CHECKED AND WHAT WAS NOT (WP-14.5). The note said "NOT reviewed: nobody has
+            # looked at this plate" and nothing else, which was true and said nothing a reader
+            # could act on. It carries the internal verdict now, and the source as COULD NOT
+            # EVALUATE with the plate named. `sourced` stays: approving a plate is a person's act.
+            asset["review_note"] = review_note(asset, rep)
 
     print("\ndrawn %d, failed %d" % (drawn, failed))
     if a.write and drawn:

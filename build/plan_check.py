@@ -1109,7 +1109,11 @@ def drawn_layer(plan, rooms, level_of, C, F):
         # what each wall has left once this room's placed openings have taken their runs
         spans = {w: [] for w in ("N", "S", "E", "W")}
         for o in list(r.get("doors") or []) + list(r.get("windows") or []):
-            if o.get("unplaced") or not o.get("wall"):
+            # A PARTLY SEATED WINDOW TAKES WALL WITH EVERY SASH IT SEATED (WP-15.8's audit,
+            # auditor F). This skipped any opening carrying `unplaced`, so on `good-02`'s living
+            # room the S wall read a 12.9 ft free run against a true 2.68. A door or a window
+            # refused whole carries no seat and is still skipped.
+            if not o.get("wall") or (o.get("unplaced") and not o.get("positions_ft")):
                 continue
             wd = o.get("width_ft") or 3.0
             for pos in (o.get("positions_ft") or ([o["position_ft"]] if o.get("position_ft") is not None else [])):
@@ -1142,7 +1146,8 @@ def drawn_layer(plan, rooms, level_of, C, F):
                       fix="Move a window off that wall, or accept the piece elsewhere.",
                       kind="wall-run", item=it["item"], need_ft=need, have_ft=round(best, 2),
                       walls_with_windows=sorted({o["wall"] for o in (r.get("windows") or [])
-                                                 if o.get("wall") and not o.get("unplaced")}))
+                                                 if o.get("wall") and (not o.get("unplaced")
+                                                                       or o.get("positions_ft"))}))
 
     # --- THE SHAPE THE PLACEMENT GAVE THE ROOM (WP-9.1)
     #
@@ -1255,7 +1260,14 @@ def drawn_layer(plan, rooms, level_of, C, F):
         wins = list(r.get("windows") or [])
         if not wins:
             continue                                   # the declared daylight layer owns this one
-        seated = [w for w in wins if not w.get("unplaced")]
+        # A WINDOW IS SEATED IF ANY OF ITS UNITS IS DRAWN (WP-15.8). `unplaced` is also written on
+        # a PARTIAL refusal -- "1 of 3 unit(s) had no clear run left" -- beside the units the
+        # placer did seat, and reading it alone told a reader four shipped rooms were "drawn with
+        # no window" while their sheets drew one or two sashes in them (good-02's living room
+        # two). A serious finding the drawing contradicts, and the composer's score read it. A
+        # window nothing refused and nothing placed (a record `openings.place` never saw) is
+        # still seated, as it always was.
+        seated = [w for w in wins if w.get("positions_ft") or not w.get("unplaced")]
         if seated:
             continue
         name = r.get("name") or rid
@@ -1287,7 +1299,11 @@ def drawn_layer(plan, rooms, level_of, C, F):
                   fix="Place the room on the perimeter, or accept it as an interior room and "
                       "take the windows out of the record.")
         else:
-            why = next((w["unplaced"].get("reason") for w in wins if w.get("unplaced")), "unplaced")
+            # every distinct refusal, in the record's order (WP-15.8): the first alone told the
+            # Tidewater library its S window was on no wall and said nothing of the E one the
+            # chimney took, which is the one its fix sentence now points at
+            why = "; ".join(dict.fromkeys(w["unplaced"].get("reason") or "unplaced"
+                                          for w in wins if w.get("unplaced"))) or "unplaced"
             # RULING 4'S SECOND HALF, AND IT IS A SENTENCE RATHER THAN A SEVERITY. A wall facing
             # the gap is a real exterior wall -- it takes the weather and it can hold a window --
             # and it is also the wall that stares at the side of the house. Saying only "exterior"
@@ -1297,6 +1313,21 @@ def drawn_layer(plan, rooms, level_of, C, F):
                     f" Its {'/'.join(gap)} wall(s) are exterior to the weather and interior to "
                     f"the view: they look across the gap at the "
                     f"{'/'.join(sorted({across[d] for d in gap}))} element.")
+            # THE FIX FOLLOWS THE CAUSE (WP-15.8). "Move the windows to the wall the placement
+            # gave the room" is the fix for a window declared on a wall the room does not reach.
+            # It is the wrong fix for a window declared on a wall the room DOES stand on and
+            # refused for want of run there -- the window is already on that wall -- which is
+            # what the doorcase's keep-out (WP-15.6) made commoner on the composer's candidates.
+            off = sorted({w.get("wall") or "?" for w in wins if w.get("wall") not in touches})
+            crowded = sorted({w["wall"] for w in wins if w.get("wall") in touches})
+            fix = " ".join(s for s in (
+                (f"Move the window(s) declared on {'/'.join(off)} to the wall the placement "
+                 f"actually gave the room." if crowded else
+                 "Move the windows to the wall the placement actually gave the room.") if off else "",
+                (f"The room does stand on its {'/'.join(crowded)} wall(s), so the window is "
+                 f"already where it belongs; the run there is taken by what the refusal names. "
+                 f"Free that run, or narrow the window.") if crowded else "",
+            ) if s)
             _add("serious", "drawn",
                   f"{name} is drawn with no window: it stands on the "
                   f"{'/'.join(touches)} wall(s){where} and the record declares its {units} "
@@ -1306,7 +1337,9 @@ def drawn_layer(plan, rooms, level_of, C, F):
                   room=rid, kind="drawn-window-off-the-placed-wall",
                   lit_walls=sorted(touches), need=dl["sides_lit"],
                   element=el, walls_across_a_gap=sorted(gap),
-                  fix="Move the windows to the wall the placement actually gave the room.")
+                  refused=sorted({w["unplaced"].get("reason") or "unstated"
+                                  for w in wins if w.get("unplaced")}),
+                  fix=fix)
 
     # --- THE DOOR YOU COME IN BY, AND THE AXIS IT IS SUPPOSED TO BE ON (WP-9.1)
     #

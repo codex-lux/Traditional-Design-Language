@@ -1,6 +1,29 @@
 # oq/the-record-dimensions-a-transom-and-no-drawing-draws-one — and two faults judge it
 
-*Status: OPEN · Raised in: WP-12.7, the entrance and the porch (9 September 2026)*
+*Status: CLOSED 27 Sep 2026 (WP-14.3) — the rectangular transom is drawn at its judged height · Raised in: WP-12.7, the entrance and the porch (9 September 2026)*
+
+**CLOSED BY WP-14.3, UNDER PHASE 14'S FIRST DECISION** (27 Sep 2026: audit, fix, and draw what the
+record states). The first answer below is taken, for the one form the corpus dimensions:
+
+- Where a style's kit makes the rectangular multi-light transom canonical, the elevation plate
+  draws it. Its height is opening-proportion's `module x 0.44`, which that rule marks `judgment`
+  ("the measured spread is enormous"), so the plate labels the height a judgment (the chimney's
+  precedent). The transom is the door leaf's width, divided into sash-light's own count of
+  transom lights. The DXF draws it with the judgment in XDATA. The scene draws its outline in
+  construction ink, draws no glass, and files the judgment.
+- **The whole transom family left the measurements**, with `pilaster_projection_in` beside it: a
+  judged figure may be drawn and never published as a measurement. So `fanlight-before-its-date`
+  and `transom-bar-at-the-wrong-height` are now unjudged on every plan, rather than judged on a
+  member no surface drew.
+- **A canonical FANLIGHT is refused by name**, because its head is an ellipse or an arc and no
+  record states its rise. A kit that makes more than one transom form canonical is refused the
+  same way.
+
+Measured over the 41 styles the elevation draws, on the Tidewater placement: **9 draw the
+rectangular transom and 10 refuse a canonical fanlight with the reason on the sheet** (8
+elliptical, 2 radiating). The other 22 make no transom canonical. Census check V3 holds the sheet
+to it, 19 of 19. The scene's refusal of the transom, which this question existed to explain, is
+replaced by the drawing.
 
 **`build/elevation.py` dimensions a rectangular transom over the entrance door, feeds it to two
 faults, and no surface in this project draws one.**

@@ -1,6 +1,6 @@
 {
- "_comment": "WP-11.4, Ruling C part 2 (5 Sep 2026). THE UNSOURCED `measured` PARAMETERS AS THEY STOOD WHEN THE GATE WENT IN. `build/check_kits.py` refuses any `measured` parameter with no `source` on itself and no `sources[]` on its slot UNLESS its (node, slot, parameter) triple is in this list. Adding a new one is then refused BY IDENTITY, which the old net ratchet could not do -- sourcing one figure while adding another kept the total at 542 and the build green. REMOVING a triple from this list is a ONE-WAY DOOR: it means the parameter now carries a source, and it may never be added back. Part 1 of the ruling is NOT given: nothing here is re-kinded, and this is a record of a debt, not a licence. 5 Sep 2026: 542 -> 536. Six triples walked through the one-way door when WP-11.4 Ruling A gave them a `precedents/<id>#measurements[<n>]` source that check_precedents.py compares with the figure. The door only opens outward: a triple removed here may never be added back.",
- "count": 536,
+ "_comment": "WP-11.4, Ruling C part 2 (5 Sep 2026). THE UNSOURCED `measured` PARAMETERS AS THEY STOOD WHEN THE GATE WENT IN. `build/check_kits.py` refuses any `measured` parameter with no `source` on itself and no `sources[]` on its slot UNLESS its (node, slot, parameter) triple is in this list. Adding a new one is then refused BY IDENTITY, which the old net ratchet could not do -- sourcing one figure while adding another kept the total at 542 and the build green. REMOVING a triple from this list is a ONE-WAY DOOR: it means the parameter now carries a source, and it may never be added back. Part 1 of the ruling is NOT given: nothing here is re-kinded, and this is a record of a debt, not a licence. 5 Sep 2026: 542 -> 536. Six triples walked through the one-way door when WP-11.4 Ruling A gave them a `precedents/<id>#measurements[<n>]` source that check_precedents.py compares with the figure. The door only opens outward: a triple removed here may never be added back. 27 Sep 2026: 536 -> 534. craftsman's casing leg and head walked through the door when WP-14.5 found them stored at the nominal 4 and 6 in against the dressed 3 1/2 and 5 1/2 the trim-craftsman pack their own notes cite states, and sourced them to it.",
+ "count": 534,
  "measured_on": "2026-09-05",
  "entries": [
   [
@@ -382,16 +382,6 @@
    "cotswold-cottage-revival",
    "window_grouping_rule",
    "group_size"
-  ],
-  [
-   "craftsman",
-   "casing",
-   "head_in"
-  ],
-  [
-   "craftsman",
-   "casing",
-   "leg_in"
   ],
   [
    "craftsman",

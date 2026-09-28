@@ -311,8 +311,60 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # and openings digests report in `tests/test_elements.py`. The STRIPPED hash moves with the raw
 # one here because the movement is in the drawing and not in the `data-frame` attribute; the
 # `framed == 16` premise is unmoved.
-CORPUS_SHEET_SHA = "cc07560ab9eade5a"
-CORPUS_SHEET_SHA_NO_FRAME = "119e5b40ff69239e"
+# WP-14.4, TWO MOVEMENTS WITH DISJOINT CAUSES, HARNESS PROVED FIRST. The same harness reproduces
+# cc07560ab9eade5a / 119e5b40ff69239e to the character on the parent tree before the new pair was
+# read. Then, per plan:
+#
+#   tidewater-georgian-careful  the one shipped plan with more than one massing element: its joins
+#                               are drawn once (`render_plan.element_joins` -- 21 pairs of wall
+#                               bodies had been drawn over one another at the two hyphen joins) and
+#                               its dependency's openings are cut from the dependency's own walls
+#                               (`opening_gaps` read the footprint's face). 91 wall bodies become
+#                               90, and five furniture keys refit by half a join's thickness,
+#                               because the key fitter keeps clear of the walls.
+#   the other fifteen           name no parti, so their bay grid is the placer's own 10 ft and the
+#                               margin schedule now SAYS so (`disclosures.bay_module`): one line,
+#                               one or two rows, the canvas and every row below it moving down.
+#
+# The fifteen are PROVED to be that line and nothing else: rendered with `bay_module` returning
+# nothing, all fifteen are byte-identical to the parent's, and the sixteenth is the joins.
+# WP-14.6, TWO CHANGES, ALL SIXTEEN SHEETS, HARNESS PROVED FIRST. The harness reproduces
+# 5d8412d472bf6bef / f7c27150a503acc6 to the character on a `git archive` of `117e839` before the
+# new pair was read. Both changes reach every sheet:
+#
+#   the relaxation legend's row  the △'s definition is drawn one row below the margin schedule in
+#                                the working register, and the band reserved no row for it, so the
+#                                record table's heading was printed 4.7 px above it: the two lines
+#                                overprinted on every working sheet with a relaxation and a
+#                                diverged room (audit F10). The band reserves the row now, +19 px,
+#                                and all sixteen of these sheets carry a relaxation.
+#   `data-bay` on each bay line  so "no module, no bay line" is asserted as none (G5).
+#
+# PROVED to be those two and nothing else: with the reserve reverted and ` data-bay="n"` stripped,
+# all sixteen sheets are byte-identical to `117e839`'s and the pair is its pair exactly.
+# PHASE 15, WP-15.6, ONE SHEET, ONE WINDOW, HARNESS PROVED FIRST. The harness reproduces
+# 0e884588994f0442 / 406f55e6b4aaca8c to the character on a `git worktree` of `e8668e6` before the
+# new pair was read. Per plan, fifteen of sixteen sheets are byte-identical; the sixteenth is
+# `tidewater-georgian-careful`, whose centre passage's south window the placer now seats clear of
+# the entrance doorcase and half the ordinary pier beside it (13.5 -> 9.995 ft). Diffed line by
+# line in both registers: the window's three marks move 45.5 px, the two wall bands either side of
+# its hole take up the difference, and nothing else on the sheet moves.
+# PHASE 15, WP-15.8, SIX SHEETS, ONE LINE EACH, HARNESS PROVED FIRST. The test's own arithmetic
+# reproduces 3c44eaaa0f36b9b9 / ee64b3350793a464 to the character on a `git worktree` of `8855c91`
+# before the new pair was read. Ten of sixteen sheets are byte-identical, and on each of the six
+# that move only the "DECLARED WINDOW UNIT(S) NOT DRAWN" line's words move:
+#
+#   five plans with a PARTLY refused window  the buckets counted such a window at its whole count,
+#                                            so they summed past the headline (Tidewater 16 + 2 + 2
+#                                            under "19 OF 35"); and the reasons name what took the
+#                                            run, not "its doors" on walls that carry none
+#   bad-03                                   a window in the third storey the placer never places
+#                                            was marked unplaced and never counted: "1 OF 6" over
+#                                            two reasons, "2 OF 6" now
+#
+# Row wrapping is unchanged on all six, so no mark below the line moves.
+CORPUS_SHEET_SHA = "e344935c86f8a383"
+CORPUS_SHEET_SHA_NO_FRAME = "bc1312df730ca781"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

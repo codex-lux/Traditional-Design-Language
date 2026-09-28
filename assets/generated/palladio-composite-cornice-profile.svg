@@ -1,34 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 508" width="738" height="508">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 541" width="738" height="541" data-frame='{"plates":[{"id":"cornice","proj":"profile","unit":"in","px_per_in":26.666667,"origin_px":[70,74],"at_origin_in":[5.07692,190.0],"datum":"naked"}]}'>
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
-<rect width="738" height="508" fill="#faf8f3"/>
+<rect width="738" height="541" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Palladio's Composite Order (overlay on Vignola) — cornice</text>
-<rect class="pf" x="36" y="38" width="666" height="346"/>
+<rect class="pf" x="8" y="38" width="722" height="362"/>
 <line x1="70.0" y1="394.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
-<path d="M 70.000,394.000 A 14.444 14.444 0 0 1 78.889,380.667 A 14.444 14.444 0 0 0 87.779,367.333 L 92.221,367.333 L 92.221,362.888 L 127.779,362.888 L 127.779,298.888 L 136.667,298.888 L 136.667,287.333 A 31.112 35.555 0 0 0 167.779,251.779 L 172.221,251.779 L 172.221,247.333 L 301.112,247.333 L 301.112,171.779 L 310.000,171.779 L 310.000,165.112 A 33.730 33.730 0 0 0 343.333,126.223 A 33.730 33.730 0 0 1 376.667,87.333 L 390.000,87.333 L 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<path d="M 70.000,394.000 A 14.444 14.444 0 0 1 78.889,380.667 A 14.444 14.444 0 0 0 87.779,367.333 L 92.221,367.333 L 92.221,362.888 L 127.779,362.888 L 127.779,298.888 L 136.667,298.888 L 136.667,287.333 A 31.112 35.555 0 0 0 167.779,251.779 L 172.221,251.779 L 172.221,247.333 L 301.112,247.333 L 301.112,171.779 L 310.000,171.779 L 310.000,165.112 A 33.730 33.730 0 0 0 343.333,126.223 A 33.730 33.730 0 0 1 376.667,87.333 L 390.000,87.333 L 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="none"/>
+<path d="M 70.000,394.000 A 14.444 14.444 0 0 1 78.889,380.667 A 14.444 14.444 0 0 0 87.779,367.333 L 92.221,367.333 L 92.221,362.888 L 127.779,362.888 L 127.779,298.888 L 136.667,298.888 L 136.667,287.333 A 31.112 35.555 0 0 0 167.779,251.779 L 172.221,251.779 L 172.221,247.333 L 301.112,247.333 L 301.112,171.779 L 310.000,171.779 L 310.000,165.112 A 33.730 33.730 0 0 0 343.333,126.223 A 33.730 33.730 0 0 1 376.667,87.333 L 390.000,87.333 L 390.000,74.000 L 70.000,74.000" fill="none" stroke="#1b1a17" stroke-width=".9"/>
+<path class="confidence" data-member="bed_cyma_reversa" d="M 70.000,394.000 L 70.000,394.000 A 14.444 14.444 0 0 1 78.889,380.667 A 14.444 14.444 0 0 0 87.779,367.333 L 70.000,367.333 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="bed_fillet" d="M 70.000,367.333 L 87.779,367.333 L 92.221,367.333 L 92.221,362.888 L 70.000,362.888 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="dentil_fillet" d="M 70.000,298.888 L 127.779,298.888 L 136.667,298.888 L 136.667,287.333 L 70.000,287.333 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="bed_ovolo" d="M 70.000,287.333 L 136.667,287.333 A 31.112 35.555 0 0 0 167.779,251.779 L 70.000,251.779 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="bed_ovolo_fillet" d="M 70.000,251.779 L 167.779,251.779 L 172.221,251.779 L 172.221,247.333 L 70.000,247.333 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="corona" d="M 70.000,247.333 L 172.221,247.333 L 301.112,247.333 L 301.112,171.779 L 70.000,171.779 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="corona_listel" d="M 70.000,171.779 L 301.112,171.779 L 310.000,171.779 L 310.000,165.112 L 70.000,165.112 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="cyma_recta" d="M 70.000,165.112 L 310.000,165.112 A 33.730 33.730 0 0 0 343.333,126.223 A 33.730 33.730 0 0 1 376.667,87.333 L 70.000,87.333 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
+<path class="confidence" data-member="cyma_fillet" d="M 70.000,87.333 L 376.667,87.333 L 390.000,87.333 L 390.000,74.000 L 70.000,74.000 Z" fill="none" stroke="#6f6a60" stroke-width=".8" stroke-dasharray="2 2"/>
 <line x1="88.8" y1="380.7" x2="404.0" y2="368.0" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="370.6">Cyma reversa of the bed mould — cyma reversa, 1.00″</text>
+<text class="dm" x="408.0" y="370.6">Cyma reversa of the be… — cyma reversa, 1.00″, medium confidence</text>
 <line x1="93.2" y1="365.1" x2="404.0" y2="352.4" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="355.0">Fillet — fillet, 0.17″</text>
+<text class="dm" x="408.0" y="355.0">Fillet — fillet, 0.17″, medium confidence</text>
 <line x1="128.8" y1="330.9" x2="404.0" y2="318.2" stroke="#6f6a60" stroke-width=".35"/>
 <text class="dm" x="408.0" y="320.8">Dentil band — dentil, 2.40″</text>
 <line x1="137.7" y1="293.1" x2="404.0" y2="280.4" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="283.0">Fillet over the dentils — fillet, 0.43″</text>
+<text class="dm" x="408.0" y="283.0">Fillet over the dentils — fillet, 0.43″, medium confidence</text>
 <line x1="168.8" y1="269.6" x2="404.0" y2="256.9" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="259.5">Ovolo of the bed mould — ovolo, 1.33″</text>
+<text class="dm" x="408.0" y="259.5">Ovolo of the bed mould — ovolo, 1.33″, medium confidence</text>
 <line x1="173.2" y1="249.6" x2="404.0" y2="236.9" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="239.5">Fillet — fillet, 0.17″</text>
+<text class="dm" x="408.0" y="239.5">Fillet — fillet, 0.17″, medium confidence</text>
 <line x1="302.1" y1="209.6" x2="404.0" y2="196.9" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="199.5">Corona — corona, 2.83″</text>
+<text class="dm" x="408.0" y="199.5">Corona — corona, 2.83″, low confidence</text>
 <line x1="311.0" y1="168.4" x2="404.0" y2="155.8" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="158.4">Listel over the corona — listel, 0.25″</text>
+<text class="dm" x="408.0" y="158.4">Listel over the corona — listel, 0.25″, low confidence</text>
 <line x1="377.7" y1="126.2" x2="404.0" y2="113.6" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="116.2">Cymatium: cyma recta — cyma recta, 2.92″</text>
+<text class="dm" x="408.0" y="116.2">Cymatium: cyma recta — cyma recta, 2.92″, low confidence</text>
 <line x1="391.0" y1="80.7" x2="404.0" y2="68.0" stroke="#6f6a60" stroke-width=".35"/>
-<text class="dm" x="408.0" y="70.6">Crowning fillet — fillet, 0.50″</text>
+<text class="dm" x="408.0" y="70.6">Crowning fillet — fillet, 0.50″, low confidence</text>
 <text class="dm" x="44" y="415.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
-<text class="dm" x="44" y="426.0">Palladio's Composite Order (overlay on Vignola), assembly cornice, at a 24″ column. 10 member(s), 12.00″ high, 12.00″ of relief</text>
+<text class="dm" x="44" y="426.0">Palladio's Composite Order (overlay on Vignola), assembly cornice, at a 12″ column. 10 member(s), 12.00″ high, 12.00″ of relief</text>
 <text class="dm" x="44" y="437.0">from the naked.</text>
-<text class="dm" x="44" y="448.0">INHERITED: palladio-composite STATES NO CORNICE OF ITS OWN. These members are vignola-composite's, delivered by the overlay, and</text>
-<text class="dm" x="44" y="459.0">the citation below is THEIRS.</text>
-<text class="dm" x="44" y="470.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII</text>
+<text class="dm" x="44" y="448.0">All 10 member(s) publish a projection.</text>
+<text class="dm" x="44" y="459.0">9 member(s) outlined dashed: their confidence is medium, low or unstated, the authority's total being stated and the division</text>
+<text class="dm" x="44" y="470.0">among them apportioned or read from a plate at low confidence.</text>
+<text class="dm" x="44" y="481.0">INHERITED: palladio-composite STATES NO CORNICE OF ITS OWN. These members are vignola-composite's, delivered by the overlay, and</text>
+<text class="dm" x="44" y="492.0">the citation below is THEIRS.</text>
+<text class="dm" x="44" y="503.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII</text>
 </svg>

@@ -201,8 +201,15 @@ def windows_not_drawn(plan):
                 units = int(w.get("count") or 1)
                 total += units
                 if w.get("unplaced"):
-                    reasons[_group(w["unplaced"].get("reason"))] = \
-                        reasons.get(_group(w["unplaced"].get("reason")), 0) + units
+                    # THE UNITS NOT DRAWN, not the window's whole count (WP-15.8). A partial
+                    # refusal seats some of its units, and counting the whole window put the
+                    # buckets past the headline on five of the sixteen shipped sheets: the
+                    # Tidewater plate read "19 OF 35 ... NOT DRAWN" over reasons summing to 20.
+                    drawn = (len(w.get("positions_ft") or [])
+                             or int((w["unplaced"].get("have") or {}).get("units_placed") or 0))
+                    missing = max(units - drawn, 0)
+                    key = _group(w["unplaced"].get("reason"))
+                    reasons[key] = reasons.get(key, 0) + missing
     why = ", ".join(f"{v} {k}" for k, v in sorted(reasons.items(), key=lambda kv: -kv[1]))
     return {"id": "windows", "tone": IRON, "detail": reasons,
             "text": f"{n} OF {total} DECLARED WINDOW UNIT(S) NOT DRAWN — {why.upper()}"}
@@ -220,19 +227,36 @@ def _group(reason):
     wall"* -- so a straight count-by-sentence produced the line "2 1 OF 2 UNIT(S) HAD NO CLEAR
     RUN…", which reads as a typo and is really two counts in a row. The leading clause is
     stripped before grouping, so every partial-placement reason lands in one bucket and the
-    count in front of it is the disclosure's own."""
+    count in front of it is the disclosure's own (the units not drawn, `windows_not_drawn`).
+
+    A REFUSAL FOR WANT OF RUN IS ONE BUCKET PER THING THAT TOOK THE RUN (WP-15.8). The placer
+    names what stands on the wall -- its doors, the windows already seated there, the chimney
+    breast, the chimney stack, the entrance doorcase -- and the table below knew only the bare
+    "beside its doors". WP-13.2 appended "beside ..." to the partial reason, so the table's
+    partial key had matched nothing since, and every other set printed as its whole sentence.
+    A partial and a whole refusal beside the same things are one bucket: the count in front is
+    units, whichever way they were refused."""
     r = (reason or "unstated").strip()
     m = re.match(r"^\d+ of \d+ unit\(s\) (had .*)$", r)
     if m:
         r = "some units " + m.group(1)
+    m = re.match(r"^(?:the wall has no clear run left|some units had no clear run left on this "
+                 r"wall) beside (.+)$", r)
+    if m:
+        return "no clear run beside " + " and ".join(
+            _BESIDE.get(part, part) for part in m.group(1).split(" and "))
     return SHORT_REASON.get(r, r)
 
 
+_BESIDE = {"its doors": "the doors", "the windows already seated on it": "the windows already seated"}
+
 SHORT_REASON = {
+    # a record written before WP-13.2 says nothing of what took the run
     "some units had no clear run left on this wall": "no clear run left on the wall",
     "the placement puts this room on no such boundary wall": "on no such wall",
-    "the wall has no clear run left beside its doors": "no clear run beside the doors",
+    "the wall is shorter than the window": "a wall shorter than the window",
     "one of the two rooms is not placed on this level": "a room not placed on this level",
+    "the room is not placed on this level": "a room not placed on this level",
 }
 
 
@@ -424,6 +448,58 @@ def residual_void(plan):
                      f"NO ROOM"}]
 
 
+def bay_module(plan, consequence="AND THE BEARING WALLS ARE READ OFF IT"):
+    """The bay grid, and the bearing walls read off it, on a module no parti states (WP-14.4).
+
+    The working sheet draws a bay grid and labels it; both registers draw the walls on the grid as
+    bearing bodies and the rest as partitions. Where no parti states a module the grid is the
+    placer's own default -- fifteen of the sixteen shipped plans name no parti -- and a grid
+    labelled like a reading is a convention drawn as though it were one. Absent where the record
+    carries no `bay_module` report at all: a line about a module nobody reported would be
+    inventing the report.
+
+    THE FACT IS SHARED AND THE CONSEQUENCE IS NOT, as for `no_bay_module` below: the sheets read
+    their bearing walls off the grid, and the plan DXF tells no wall bearing, so it passes None and
+    says the fact alone (WP-15.8's audit pass)."""
+    bm = (plan.get("geometry_report") or {}).get("bay_module")
+    if not bm or bm.get("stated_by") or bm.get("ft") is None:
+        return None
+    return {"id": "bay-module", "tone": COPPER,
+            "text": f"BAY GRID AT THE PLACER'S DEFAULT {bm['ft']:g} FT — NO PARTI STATES A MODULE"
+                    + (f", {consequence}" if consequence else "")}
+
+
+NO_BAY_GRID = "NO BAY GRID DRAWN"
+
+
+def bearing_off_default(ft):
+    """What a module-less record costs the bearing walls: they are told from partitions on a grid
+    nobody stated. `ft` is the default the READER used, handed in, never a figure this module
+    owns."""
+    return f"THE BEARING WALLS ARE READ OFF THE PLACER'S DEFAULT {ft:g} FT"
+
+
+def no_bay_module(*consequences):
+    """THE ONE SPELLING OF A RECORD THAT STATES NO BAY MODULE AT ALL (audit, 27 Sep 2026).
+
+    Not `bay_module` above, which is a module the placer DID state, from its own default, with no
+    parti behind it. This is the other case: a record carrying no `bay_module_ft` whatever -- one
+    ingested from a drawing, or placed before the field existed. It fires on nothing shipped,
+    because every placed record states a module; it is the case WP-14.4 wrote for the plan sheet
+    (*"a record with no module at all draws no grid on either sheet"*) and auditor D found three
+    drawings of the same plan still defaulting in silence: the DXF drew a 10 ft grid under a title
+    printing "BAYS OF ? FT", and the bearing plate -- the sheet whose subject is the walls read off
+    that module -- said nothing at all.
+
+    THE FACT IS SHARED AND THE CONSEQUENCE IS NOT, so each surface hands in what the missing module
+    decided on IT: the plan sheet draws no grid and reads its bearing walls off the default, the
+    DXF draws no grid, the bearing plate reads its walls off it. A surface on which the module
+    decides nothing drawn -- the elevation, whose storey windows are sized off a head and a sill
+    and consult the module only for a cross-check the record carries -- prints nothing, because a
+    sentence claiming the default shaped that drawing would be false."""
+    return "NO BAY MODULE ON THE RECORD — " + "; ".join(consequences)
+
+
 def transfers(plan):
     """Upper wall lines landing on no wall below. Each is a transfer beam, and the count lives
     only inside an English sentence in `geometry_report.vertical`."""
@@ -544,6 +620,10 @@ def banner(plan, undrawable=None, diverged=None, unlocated=None, styles=None, pa
         lines.append({"id": "relaxations", "tone": COPPER if n else VERD,
                       "text": f"{n} CUT(S) OFF THE BAY LINE"
                               + (f", WORST {rl.get('max_off_grid_ft')} FT" if n else "")})
+
+    line = bay_module(plan)
+    if line:
+        lines.append(line)
 
     inf = gr.get("infeasible")
     if inf:

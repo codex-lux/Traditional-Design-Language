@@ -259,6 +259,24 @@ function placedAt(d) {
   return { wall: d.wall, pos: Number(d.position_ft) };
 }
 
+/* The at-grade appendages placed on ONE level, as the record writes them (`plan.appendages.placed`,
+   build/appendages.py), and the same rectangles in the form `doors()` looks a room up by.
+
+   WP-14.6's second audit: `Sheet.jsx` has read `placement.appendages.placed` since WP-11.10 and
+   `mcp_server/core.py::placement_summary` never served it, so on good-02 and good-04 the bench
+   called the terrace door "the other room is not placed on this level" -- while the plate beside
+   it drew the door and the served wall band carried the hole cut for it, empty. And the census's
+   reader of the bench (tests/js/bench_marks.mjs) passed `null` here, so it could not see the gap
+   either. Both read these two functions now. */
+export function levelAppendages(placement, levelIndex) {
+  return ((placement?.appendages?.placed) || []).filter((a) => (a.level ?? 0) === levelIndex);
+}
+
+export function appendageRects(appendages) {
+  return (appendages || []).map((a) => ({
+    id: a.room, x: a.rect.x_ft, y: a.rect.y_ft, w: a.rect.width_ft, h: a.rect.depth_ft }));
+}
+
 /* WP-11.10. `appendages` is `[{id, x, y, w, h}]` for the at-grade appendages placed OUTSIDE
    the block on this level -- a terrace, today. Their rooms carry no geometry (that is the whole
    mechanism of the ruling; see build/appendages.py), so the lookup below found nothing and
@@ -267,7 +285,11 @@ function placedAt(d) {
    `build/render_plan.py::derive_openings` takes the same argument in the same place. */
 export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) {
   const idx = new Map(rooms.map((r) => [r.id, r]));
-  for (const a of appendages || []) if (!idx.has(a.id)) idx.set(a.id, a);
+  // WP-14.6's second audit: which of the lookup's rooms are appendages, because a door onto one
+  // stands in the house's EXTERIOR wall -- the appendage is placed outside the block, against the
+  // room's own face -- and `marks.interiorDoorMark` cuts its break through that wall
+  const onAppendage = new Set();
+  for (const a of appendages || []) if (!idx.has(a.id)) { idx.set(a.id, a); onAppendage.add(a.id); }
   const handled = new Set();
   const interior = [];
   const exterior = [];
@@ -303,6 +325,10 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
         const edge = edgeOf(r, seat.wall, (bounds || {})[r.id]);
         exterior.push({
           wall: seat.wall, w: width, type, room: r.id, inferredWall: false,
+          // WP-14.4: the record's jamb, as the interior branch below has carried since WP-13.2
+          // and `render_plan.py` reads for an exterior door; this branch dropped it, so every
+          // exterior leaf hung from the low jamb whatever the record said
+          hinge: d.hinge || 'low',
           inferredWidth: declaredW == null, edge_ft: edge3(edge),
           span: [seat.pos - width / 2, seat.pos + width / 2],
           x: seat.wall === 'W' || seat.wall === 'E' ? edge : seat.pos,
@@ -326,14 +352,15 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
             : seat.wall === 'E' ? r.x + r.w : r.x;
         // WP-13.2: `hinge` is the record's word for the jamb the leaf hangs from ("low" is
         // the lower coordinate along the wall); `Sheet.jsx::DoorMark` reads it.
+        const onExt = onAppendage.has(d.to) ? { exteriorWall: seat.wall } : {};
         if (horiz) {
           interior.push({ x: seat.pos, y: at, w: width, type, horiz: true,
             swingUp: (to.y + to.h / 2) > (r.y + r.h / 2), pair: [r.id, d.to],
-            hinge: d.hinge || 'low' });
+            hinge: d.hinge || 'low', ...onExt });
         } else {
           interior.push({ x: at, y: seat.pos, w: width, type, horiz: false,
             swingRight: (to.x + to.w / 2) > (r.x + r.w / 2), pair: [r.id, d.to],
-            hinge: d.hinge || 'low' });
+            hinge: d.hinge || 'low', ...onExt });
         }
         continue;
       }
@@ -360,6 +387,10 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
         const mid = (seat.lo + seat.hi) / 2;
         exterior.push({
           wall: seat.wall, w: width, type, room: r.id, inferredWall: true,
+          // WP-14.6: the record's jamb here too, as `render_plan.derive_openings` has carried it
+          // on this path all along. WP-14.4 restored it to the SEATED exterior branch above and
+          // left this one dropping it, where no frozen fixture reaches: every door there is seated.
+          hinge: d.hinge || 'low',
           inferredWidth: declaredW == null, edge_ft: edge3(seat.at),
           span: [mid - width / 2, mid + width / 2],
           x: seat.wall === 'W' || seat.wall === 'E' ? seat.at : mid,
@@ -389,14 +420,18 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
         continue;
       }
       const mid = (seg.lo + seg.hi) / 2;
+      // the room's own face the shared run lies on, where the other room is an appendage
+      const face = seg.horiz ? (Math.abs(seg.at - r.y) <= tol ? 'S' : 'N')
+        : (Math.abs(seg.at - r.x) <= tol ? 'W' : 'E');
+      const onExt = onAppendage.has(d.to) ? { exteriorWall: face } : {};
       if (seg.horiz) {
         interior.push({ x: mid, y: seg.at, w: width, type, horiz: true,
           swingUp: (to.y + to.h / 2) > (r.y + r.h / 2), pair: [r.id, d.to],
-          hinge: d.hinge || 'low' });
+          hinge: d.hinge || 'low', ...onExt });
       } else {
         interior.push({ x: seg.at, y: mid, w: width, type, horiz: false,
           swingRight: (to.x + to.w / 2) > (r.x + r.w / 2), pair: [r.id, d.to],
-          hinge: d.hinge || 'low' });
+          hinge: d.hinge || 'low', ...onExt });
       }
     }
   }
@@ -409,7 +444,7 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
 export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
   const out = [];
   let offFootprint = 0;      // the solver put this room on no such boundary wall
-  let crowded = 0;           // the wall has no clear run left beside its doors
+  let crowded = 0;           // the wall has no clear run left (the record names what took it)
   let refused = 0;           // the PLACER declined the window, and the sheet does not re-infer it
   const blockedBy = new Map();
   for (const d of extDoors) {
@@ -485,6 +520,101 @@ export function elementBounds(rooms, footprint) {
   return out;
 }
 
+/* Every massing element of the record, in model feet, in the record's order: the footprint's
+   `blocks`, or the footprint itself where the record states none (every one-rectangle house).
+   The PLATE is framed on all of them on every level, so a level's plate and its ghost of the
+   other level register -- which is why this is not the list a level's floor is drawn from. */
+export function massingBlocks(footprint, W, H) {
+  const blocks = footprint?.blocks;
+  return (blocks && blocks.length)
+    ? blocks.map((b) => ({ x: b.x_ft, y: b.y_ft, w: b.width_ft, h: b.depth_ft }))
+    : [{ x: 0, y: 0, w: W, h: H }];
+}
+
+/* The elements ONE level's floor is drawn for (WP-14.6's second audit).
+
+   `Sheet.jsx` drew a `--paper-lit` floor field for every element on every level, so the tagged
+   Tidewater's UPPER plate drew floor for the west dependency (x -34 to -7) and the hyphen, which
+   have no rooms on that level: a storey the house does not have, which is WP-11.9's finding about
+   the envelope, met in the floor. `render_plan.wall_bodies::_blocks_here` is the rule, and this is
+   it: one element is drawn whatever its rooms; of several, the ones holding one of this level's
+   rooms (`elementBounds`' join, `elements.element_of`'s), each once; and where the level has rooms
+   and NONE resolves to an element, every element -- a floor that may hold nothing rather than none
+   under rooms that are there, the direction `_blocks_here` keeps its `or blocks` for.
+
+   A LEVEL WITH NO ROOMS AT ALL HAS NO FLOOR. The Python plate never draws such a level, because it
+   draws only the levels that carry geometry; the bench offers every level the record declares
+   (bad-03's third storey, which neither engine places), and a floor there is a storey drawn that
+   nobody placed. */
+export function levelBlocks(blocks, rooms, bounds) {
+  if (!rooms || !rooms.length) return [];
+  if (blocks.length < 2) return blocks;
+  const held = new Set(Object.values(bounds || {}).map((b) => b.join(',')));
+  const here = blocks.filter((b) => held.has([b.x, b.y, b.w, b.h].join(',')));
+  return here.length ? here : blocks;
+}
+
+/* The chimney breasts the placement lets this level's plate draw (WP-14.6's second audit).
+
+   `threshold.hearth_pass` judges every stated fire against the room's own element and writes the
+   verdict to `hearths.breasts`, which `placement_summary` serves; `render_plan.py` draws the rows it
+   allows as masonry poche. The bench drew no breast at all -- "breast" appeared nowhere in
+   `Sheet.jsx` -- while its strip printed "1 OF 3 STATED FIRE(S) NOT DRAWN", so of three fires the
+   bench said one was not drawn and drew none. A row is drawn where the verdict says `drawn: true`,
+   and nowhere else: a fire with no verdict is unjudged, and drawing it would be the plate's own
+   unjudged branch (WP-14.6 §VIII) copied onto a second surface. */
+export function drawnBreasts(placement, levelIndex) {
+  return ((placement?.hearths?.breasts) || []).filter((b) => b.drawn === true
+    && (b.level ?? 0) === levelIndex && b.x_ft != null && b.width_ft > 0 && b.depth_ft > 0);
+}
+
+/* The breasts this level's plate does NOT draw, from the same verdicts: the plate says so. */
+export function refusedBreasts(placement, levelIndex) {
+  return ((placement?.hearths?.breasts) || []).filter((b) => b.drawn === false
+    && (b.level ?? 0) === levelIndex);
+}
+
+/* What the furniture key must keep clear of, gathered once for the plate (WP-13.2, and WP-14.6's
+   second audit). `furnitureKey.js::furnitureKeyPlan` takes rectangles in model feet; this is
+   `build/render_plan.py::furniture_key_plan`'s gathering in the same order:
+
+   - `partitions` -- the wall bodies AS THE PLATE DRAWS THEM. This read `derive.partitions`, the
+     4.5 in lines centred on each shared edge, while the plate drew the SERVED bands: 15.5 in joins
+     and envelopes and 11 in bearing lines on the Tidewater plan. Of the 146 keys fitted over the
+     sixteen plans, 11 stood on a drawn wall body, every one of them on that plan. The Python key
+     clears `level_bands[i]`, which is what the bench is served, so the bench clears the same bands
+     wherever it is served them.
+   - `swings` -- every door leaf's swing square AS DRAWN.
+   - `stairRects` -- the stair, and THE CHIMNEY BREASTS. `furnitureKey.js` reads this option as
+     rectangles the key may not cover and nothing else, which is how the Python key treats both the
+     stair and the breast (`obstacles.append` for each), and the option keeps its old name because
+     that module is not this one's to rename. */
+export function keyObstacles({ drs, served, parts, stair, levelIndex, breasts }) {
+  const swings = [];
+  for (const d of drs.interior) {
+    if (d.horiz) swings.push({ x: d.x - d.w / 2, y: d.swingUp ? d.y : d.y - d.w, w: d.w, h: d.w });
+    else swings.push({ x: d.swingRight ? d.x : d.x - d.w, y: d.y - d.w / 2, w: d.w, h: d.w });
+  }
+  for (const d of drs.exterior) {
+    if (d.wall === 'W' || d.wall === 'E') {
+      swings.push({ x: d.wall === 'W' ? d.x : d.x - d.w, y: d.y - d.w / 2, w: d.w, h: d.w });
+    } else {
+      swings.push({ x: d.x - d.w / 2, y: d.wall === 'S' ? d.y : d.y - d.w, w: d.w, h: d.w });
+    }
+  }
+  const stairRects = (stair && (stair.level ?? 0) === levelIndex)
+    ? (stair.well ? [stair.well] : (stair.flights || [])) : [];
+  const walls = served
+    ? served.bands.map((b) => ({ x: b.x_ft, y: b.y_ft, w: b.width_ft, h: b.depth_ft }))
+    : parts;
+  return {
+    partitions: walls,
+    swings,
+    stairRects: [...stairRects, ...(breasts || [])]
+      .map((s) => ({ x: s.x_ft, y: s.y_ft, w: s.width_ft, h: s.depth_ft })),
+  };
+}
+
 /* Which of a room's declared window-walls the placement actually put on the footprint
    boundary — the daylight overlay must agree with the DRAWN windows, not the declared
    list, or the overlay and the drawing contradict each other on the same sheet. */
@@ -554,10 +684,138 @@ export function relaxationMarks(marks, levelIndex, W, H) {
   return { drawn, unlocated };
 }
 
-/* Vertical bay lines from the footprint's own module. */
+/* A line the SERVER spells, by its id in `placement.disclosures` (`build/disclosures.py::banner`),
+   or null. The strip beside the sheet prints the same list; a line the plate needs is read here
+   by id and never composed a second time. */
+export function servedLine(placement, id) {
+  const d = ((placement?.disclosures) || []).find((x) => x && x.id === id);
+  return d && d.text ? d.text : null;
+}
+
+/* THE PLATE'S OWN NOTE, sentence by sentence (WP-14.6's second audit).
+
+   The note under the bench's plate is the plate's voice: a printed, screenshotted or exported
+   plate leaves the page prose behind, so what the plate cannot draw it has to say here (WP-6.4).
+   It was composed inline in `Sheet.jsx`'s JSX, where nothing under `node --test` could read it,
+   and it said four things that were not so or left out one that was:
+
+   - WP-14.6 deleted its sentence about WHOSE bay module the grid is (a second spelling of
+     `disclosures.bay_module`) and printed nothing in its place, so on 15 of the 16 shipped plans
+     the plate drew a 10 ft grid with nothing on it saying the module is the placer's own. It
+     prints the served line now, which is the one spelling.
+   - "The grid remains -- evidence the plan was composed" followed "no bay grid is drawn".
+   - On a level the record declares and no engine places (bad-03's third storey) it said "the
+     server sent no wall bodies with this placement" about a placement that sent them for every
+     level it placed.
+   - `windows().refused` -- a window the placer declined to seat -- was counted and never printed.
+
+   Returns [{id, text}] in the order the plate prints them; a furniture key refused to the margin
+   carries `room` as well, which the plate publishes as `data-furniture-key-margin`. The sketch and
+   engine lines come first and stay in `Sheet.jsx`, whose phrases `engineClaim.test.mjs` holds
+   there. */
+export function plateNote({ wall, footprint, placement, levelIndex, rooms, served, relax, rxMarks,
+                            spanCap, drs, wins, diverged, keyMargin, bays }) {
+  const fp = footprint || {};
+  const out = [];
+  const say = (id, text, extra) => { if (text) out.push({ id, text, ...(extra || {}) }); };
+  /* THE WALL IS A READING OR IT IS A CONVENTION, AND THE PLATE HAS TO SAY WHICH. Before plan
+     schema 0.5.1 this sheet drew a 9 in envelope and a 5 in partition from two literals, on every
+     house whatever it was built of. A record that carries no assembly takes the fallback and says
+     so rather than presenting a convention as a reading. */
+  say('walls', wall.stated
+    ? `Walls ${wall.type.replace(/-/g, ' ')}: envelope ${(wall.exterior_ft * 12).toFixed(1)} in outside the placed rooms, partitions ${(wall.partition_ft * 12).toFixed(1)} in centred on them; room figures are the record's clear extents. `
+    : `The record states no wall assembly, so the walls are drawn at this sheet's conventional ${Math.round(wall.exterior_ft * 12)} in and ${Math.round(wall.partition_ft * 12)} in — a convention, not a reading. `);
+  say('wall-note', wall.note ? wall.note + ' ' : '');
+  // WP-14.4: a record with no bay module gets no grid, and this plate says so; and WHOSE module a
+  // drawn grid is, where no parti states one, is the server's line
+  say('no-bay-module', !(fp.bay_module_ft > 0) ? 'The record states no bay module, so no bay grid is drawn. ' : '');
+  const bayModule = servedLine(placement, 'bay-module');
+  say('bay-module', bayModule ? `${bayModule}. ` : '');
+  if (!rooms || !rooms.length) {
+    // a level the record declares and nothing placed: no wall, floor or opening is drawn on it,
+    // and the served disclosure says why where the record carries one
+    const ml = placement?.geometry_report?.multi_level;
+    const listed = ml && (ml.levels_not_placed || []).includes(levelIndex) && ml.note;
+    say('level-not-placed', listed ? `${ml.note} `
+      : 'No room of this level is placed, so no wall, floor or opening is drawn on it. ');
+  } else if (served) {
+    say('walls-served', served.unmatched_openings
+      ? `${served.unmatched_openings} opening(s) on no wall line of their own level — drawn, but no wall body is opened for them. `
+      : '');
+  } else {
+    say('walls-derived', (Array.isArray(placement?.walls)
+      ? 'The server sent no wall bodies for this level'
+      : 'The server sent no wall bodies with this placement')
+      + ', so the walls are drawn as one ring round the footprint — a wing or a join is not drawn. ');
+  }
+  // "each marked △ where it falls" was a claim about every mark, and a mark the solver
+  // located nowhere is not drawn at all, so the sentence counts what it actually marked
+  say('relaxations', relax
+    ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft, ${rxMarks.drawn.length} marked △ on this level where it falls` : ''}. `
+    : '');
+  say('relaxations-unlocated', rxMarks.unlocated.length
+    ? `${rxMarks.unlocated.length} cut(s) the solver located on no wall of this level — counted, not drawn. `
+    : '');
+  // WP-11.12 (OQ 98's reporting half): the count is a FLOOR and the sentence says so
+  say('span', spanCap && spanCap.over_capacity == null
+    ? 'Clear span not evaluated — the construction catalogue could not be read; no span is claimed clear. '
+    : spanCap && spanCap.over_capacity
+      ? `${spanCap.over_capacity} clear span(s) over the framing capacity, worst ${spanCap.worst_span_ft} ft — at least that many: a bearing line is credited across the whole plate however short the wall runs. `
+      : spanCap && spanCap.over_capacity === 0
+        ? '0 clear span(s) over the framing capacity — at least none found: a bearing line is credited across the whole plate however short the wall runs. '
+        : '');
+  say('doors-undrawable', drs.undrawable.length
+    ? `${drs.undrawable.length} declared door(s) without a drawable opening — in the record, not the linework: `
+      + drs.undrawable.map((u) => `${u.from}–${u.to}`).join(', ') + '. '
+    : '');
+  say('windows-off-footprint', wins.offFootprint
+    ? `${wins.offFootprint} declared window(s) not situated on this footprint — declared, not drawn. `
+    : '');
+  say('windows-crowded', wins.crowded
+    ? `${wins.crowded} declared window(s) had no clear run left on their wall — declared, not drawn. `
+    : '');
+  say('windows-refused', wins.refused
+    ? `${wins.refused} declared window(s) the placement refused to seat — declared, not drawn. `
+    : '');
+  // a stated fire the placement refused, on the plate of the level it stands on; the server spells
+  // the line, and a server that does not is not a reason to fall silent
+  const refusedFires = refusedBreasts(placement, levelIndex).length;
+  const fires = refusedFires ? servedLine(placement, 'fires') : null;
+  say('fires', !refusedFires ? ''
+    : fires ? `${fires}. `
+      : `${refusedFires} stated fire(s) on this level refused by the placement — stated, not drawn. `);
+  say('diverged', diverged.length
+    ? `${diverged.length} room(s) are drawn at a size the record does not declare — worst `
+      + `${diverged[0].name} ${diverged[0].pct > 0 ? '+' : ''}${diverged[0].pct.toFixed(0)}% by area, marked ∗. `
+    : '');
+  say('door-widths-inferred', drs.inferredWidths
+    ? `${drs.inferredWidths} door(s) declare no width; drawn at the conventional leaf. `
+    : '');
+  // WP-13.2: a furniture key no corner of its room could hold is set here, never dropped
+  for (const m of keyMargin || []) {
+    say('key-margin', `Furniture key, ${m.name} — no corner of the room holds it: ${m.lines.join('; ')}. `,
+      { room: m.id });
+  }
+  say('door-positions-inferred', drs.inferredPositions
+    ? `${drs.inferredPositions} exterior door(s) carry no placement in the record and are `
+      + 'drawn at conventional mid-wall position, on a wall inferred from the room’s '
+      + 'declared exterior walls. '
+    : '');
+  // only where a grid IS drawn: beside "no bay grid is drawn" this was a sentence about nothing
+  say('grid', bays && bays.length ? 'The grid remains — evidence the plan was composed, not arranged.' : '');
+  return out;
+}
+
+/* Vertical bay lines from the footprint's own module.
+
+   WP-14.4: A RECORD STATING NO MODULE GETS NO LINES. This read `|| 10`, so a record ingested from
+   a drawing, or placed before the field existed, was drawn and dimensioned on a 10 ft grid nobody
+   stated; `render_plan.py` did the same, and the Round's `bayGrid` already refused. The sheet
+   says why the grid is absent. */
 export function bayLines(footprint) {
   const W = footprint?.width_ft || 0;
-  const bm = footprint?.bay_module_ft || 10;
+  const bm = footprint?.bay_module_ft;
+  if (!(bm > 0)) return [];
   const xs = [];
   for (let b = bm; b < W - 0.01; b += bm) xs.push(Math.round(b * 100) / 100);
   return xs;

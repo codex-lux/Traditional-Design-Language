@@ -55,7 +55,12 @@ export function inked(pen, token) {
    `--lw-cut`'s own note in the standard means by "bounds all poche". */
 export const POCHE = {
   masonry: { ...PEN.cut, fill: 'var(--poche-masonry)' },
-  partition: { ...PEN.cut, fill: 'var(--poche-partition)' },
+  /* `--sepia` and NOT `--poche-partition` (WP-14.4), as build/sheet_style.py::POCHE has drawn
+     it since WP-11.1: `--poche-partition` is `--sepia-pale`, a field meant for a large-scale
+     DETAIL, and at plan scale it leaves under two pixels of fill a few values off the vellum --
+     measured there, a partition read as a hollow tube beside a solid exterior wall. The two
+     sheets drew one record's partitions in two different inks. */
+  partition: { ...PEN.cut, fill: 'var(--sepia)' },
 };
 
 export const DASH = {

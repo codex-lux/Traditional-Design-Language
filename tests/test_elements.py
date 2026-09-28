@@ -448,7 +448,28 @@ CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # are exactly the plans that name an entrance face. Re-derived per plan on a `git worktree` of
 # `a0ae8b7`: six of sixteen differ, the same six, and the ten the entrance selector does not
 # reach are byte-identical on BOTH digests -- which is the pair agreeing rather than a bump.
-CORPUS_OPENINGS_SHA = "f63f6493a4bc83dd"
+# AND AT PHASE 15, WP-15.6, FOR ONE WINDOW ON ONE PLAN, AND THIS TIME THE PLACEMENT HOLDS.
+# `f63f6493a4bc83dd` -> `5103ee9d4db5a6c3`: the placer reserves the entrance doorcase's whole
+# composition, and half the ordinary pier beside it, before it seats a window, so the Tidewater
+# centre passage's south window moves from 13.5 to 9.995 ft. Re-derived per plan with this test's
+# own arithmetic on a `git worktree` of `e8668e6`, whose run reproduced BOTH old pins first: the
+# placement digest is unchanged on all sixteen, and the openings digest differs on exactly one,
+# `tidewater-georgian-careful` -- a door reserves wall and moves no room.
+# AND AT PHASE 15, WP-15.8, IN THE REFUSAL'S WORDS ALONE. `5103ee9d4db5a6c3` -> `a0c8777ea63260a9`:
+# a window refused for want of run names what is on the wall now (its doors only where a door's
+# span lies there, the windows already seated, the chimney breast and stack, the doorcase), where it
+# said "beside its doors" on 7 of 9 refusals whose wall carries no door. Re-derived per plan with
+# this test's own arithmetic on a `git worktree` of `8855c91`, which reproduced the old pin first:
+# the placement digest is unchanged on all sixteen, and the openings digest differs on exactly the
+# five plans carrying such a refusal -- bad-07, good-01, good-02, good-05 and the Tidewater plan --
+# with every position, width and count unmoved.
+# WP-15.8's audit pass (28 Sep 2026): a0c8777ea63260a9 -> 209843a4b8d14191, ONE plan of sixteen,
+# `bad-05-two-story-spec-colonial`, one door, words only. Its garage declares no exterior wall and
+# its one boundary wall is 23.63 ft against a 24 ft door; the refusal said "no declared exterior
+# wall of this room has a free run" with a `declared_wall` of S, and says the wall is shorter than
+# the door now, with the walls that were too short. Measured per plan against a worktree of
+# `c310cc4`: fifteen byte-identical, no position, wall or seat moved anywhere.
+CORPUS_OPENINGS_SHA = "209843a4b8d14191"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

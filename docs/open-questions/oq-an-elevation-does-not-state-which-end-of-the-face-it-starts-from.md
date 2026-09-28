@@ -50,3 +50,37 @@ and it is not laundered into the record.
 
 **Do not close this by making the four faces agree.** They already agree; that is the problem.
 The question is what they agree *about*, and today the answer is nothing.
+
+## Amended 28 September 2026 (WP-15.8's audit): the record states it now, and the assumption put two plates on backwards
+
+**The measurement above is no longer true, and the harm it called absent arrived.** Two things
+changed after this was raised, and nothing brought them back here:
+
+- **WP-13.3 made the faces asymmetric.** The elevation draws the plan's PLACED openings, so a
+  face is as asymmetric as its plan. The "every face is symmetric" premise went with it.
+- **The record answers question 3.** `elevation.datum.mirrored` is `FACE_MIRRORED`, and it has
+  said since WP-13.3 that no face is mirrored: `u` runs with the plan's own axis on all four
+  faces, west to east on S and N and south to north on E and W (`elevation.face_u_ft`).
+
+`frame.js::modelAt` kept the assumption this entry records, `u = 0` at the face's left as the
+CAMERA sees it. From the north and the west the plan's axis runs right to left, so the Round laid
+the N and W plates over the model **reversed**, every opening at the wrong end. Nothing said so,
+and `round.test.mjs` asserted *"the W plate reads u the other way"*, which certified the
+assumption. Auditor F found it in the audit of WP-15.8's own diff. It is older than Phase 15:
+WP-12.4's assumption met WP-13.3's statement.
+
+**What was done.**
+- The server sends each elevation plate's own `mirrored` (`corpus.plate_direction`), and `None`
+  where the generator declined the record.
+- `modelAt` reads that value and never assumes one.
+- `plateRegistration` refuses a plate whose axes run against the screen's, because the affine
+  carries no mirror. It says which way the plate reads: *"drawn west to east; seen from the north,
+  east is on the left"*.
+- A face plate whose direction the record does not state is refused by name.
+- So the S and E plates still lie over the model, and the N and W plates are refused and say why.
+
+**What is left, and it is question 1:** whether the N and W faces should be DRAWN as seen from
+outside (the draughtsman's convention), which would let those two plates register too.
+`FACE_MIRRORED` is the one switch, and `build/elevation.py` records why flipping it is a ruling:
+the scene, the stack reader, the DXF and the sheet all read it together. Question 2 is answered
+in the record's favour: it says so, and the Round reads it.

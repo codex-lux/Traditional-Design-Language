@@ -302,8 +302,12 @@ def test_both_plates_print_the_span_and_say_the_count_is_a_floor():
     assert "HOWEVER SHORT THE WALL RUNS" in svg, "the plate does not say the count is a floor"
     js = (ROOT / "workbench" / "app" / "src" / "sheet" / "Sheet.jsx").read_text()
     assert "placement?.geometry_report?.span_capacity" in js
-    assert "however short the wall runs" in js
-    assert "Clear span not evaluated" in js, "the JS plate has no COULD-NOT-EVALUATE state"
+    # WP-14.6's second audit moved the bench plate's note out of Sheet.jsx's JSX into
+    # `sheet/derive.js::plateNote`, so the sentences are that function's now, and
+    # `workbench/app/src/benchSheet.test.mjs` runs it on all three span states
+    note = (ROOT / "workbench" / "app" / "src" / "sheet" / "derive.js").read_text()
+    assert "however short the wall runs" in note
+    assert "Clear span not evaluated" in note, "the JS plate has no COULD-NOT-EVALUATE state"
 
 
 def test_the_understatement_is_named_on_the_record_the_finding_and_the_plate():

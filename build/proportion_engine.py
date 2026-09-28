@@ -141,6 +141,9 @@ def resolve(pack_id, _seen=None):
     base_id = pack.get("overlay_of")
     if not base_id:
         pack["_resolved_from"] = [pack_id]
+        # WHO STATES EACH ASSEMBLY, carried through the chain (WP-14.2) so stack_for() can tell
+        # an overlay's own statement from one it inherited without a second walk of PACKS.
+        pack["_owner"] = {a: pack_id for a in (pack.get("assemblies") or {})}
         return pack
 
     base = resolve(base_id, _seen)
@@ -172,7 +175,9 @@ def resolve(pack_id, _seen=None):
     if "column" in pack:
         out.setdefault("column", {}).update(pack["column"])
 
+    out["_owner"] = dict(base.get("_owner") or {})
     for aname, a in (pack.get("assemblies") or {}).items():
+        out["_owner"][aname] = pack_id
         if aname not in out.get("assemblies", {}) or _members_sum_to_whole(a, parts):
             out.setdefault("assemblies", {})[aname] = copy.deepcopy(a)
             out["_overlay_notes"].append(f"{aname}: replaced outright by {pack_id}")
@@ -184,6 +189,8 @@ def resolve(pack_id, _seen=None):
                 if m["id"] in byid: tgt["members"][byid[m["id"]]] = copy.deepcopy(m)
                 else: tgt.setdefault("members", []).append(copy.deepcopy(m))
             out["_overlay_notes"].append(f"{aname}: patched by {pack_id}")
+
+    _shaft_from_own_column(pack, out, parts)
 
     # Invariants are claims about ONE authority's system. An overlay that states any of
     # its own replaces the base's outright — Palladio does not owe Vignola his 1/4 rule.
@@ -251,30 +258,158 @@ def assembly_authority(pack_id, assembly_id):
     return ((PACKS.get(owner) or {}).get("authority") or {}).get("source"), owner
 
 
-def stack_for(pack):
+ENT_TRIPLET = ("architrave", "frieze", "cornice")
+
+
+def _entablature_contradicts_triplet(pack):
+    """True where the pack's WHOLE `entablature` is stated nearer the pack in its overlay chain
+    than some part of the architrave-frieze-cornice triplet AND the triplet does not add up to it
+    -- the overlay stated its own entablature, inherited at least one of the three, and what it
+    inherited contradicts what it states.
+
+    Where the triplet sums to the overlay's own total it is a division OF that total and is
+    kept: gibbs-doric states a 4-module entablature, and the architrave and frieze it inherits from
+    Vignola with its own cornice make 4, so the triglyphs and mutules stay drawn. The first version of this rule drew every nearer whole
+    in preference to a finer triplet and threw that detail away on packs it was not wrong about --
+    gibbs-doric and benjamin-tuscan among them. A pack that is not an overlay owns everything it
+    states and answers False."""
+    A = pack.get("assemblies") or {}
+    owner = pack.get("_owner") or {}
+    chain = pack.get("_resolved_from") or [pack.get("id")]
+    if "entablature" not in A or not all(x in A for x in ENT_TRIPLET) or not owner:
+        return False
+    rank = {pid: i for i, pid in enumerate(chain)}
+    nearer = rank.get(owner.get("entablature"), -1) > min(rank.get(owner.get(x), -1)
+                                                           for x in ENT_TRIPLET)
+    total = sum(A[x].get("height_modules", 0) for x in ENT_TRIPLET)
+    return nearer and abs(total - A["entablature"].get("height_modules", 0)) > 1e-6
+
+
+def stack_for(pack, entablature=None):
     """Which assemblies actually make the vertical stack for this pack.
 
     Authorities publish unevenly. Benjamin's Greek Doric has no base at all and gives the
     entablature whole rather than in three; several overlays state only the members they
-    changed. Rather than draw a broken order, derive what is missing and say so."""
+    changed. Rather than draw a broken order, derive what is missing and say so.
+
+    TWO RULES SINCE WP-14.2, each found by census E2/E3 drawing a stack the pack does not state:
+
+    * An assembly offered as an ALTERNATIVE to another (`alternative_to`: Benjamin's subplinth,
+      which stands a column instead of a pedestal) is left out while the one it is an
+      alternative to is drawn. It used to be stacked on it -- a pedestal AND a subplinth under one
+      column, 36 + 12 in at a 6 in module, in a composition whose own arithmetic has no pedestal.
+    * An entablature an overlay STATES is not replaced by one it INHERITED that contradicts it.
+      benjamin-corinthian states its whole entablature (4 modules, "architrave, thirty one...
+      frieze, forty one... cornice, forty eight") and inherited Vignola's architrave, frieze and
+      cornice (5 modules), and the stack preferred the triplet because it is finer -- so the order
+      was drawn with an entablature 30 in tall against the 24 its authority states. Four overlays
+      did that. Their own whole is drawn now, at the grain the record states it; the inherited
+      triplet's plates still exist and still say whose they are. Where the inherited triplet sums
+      to the overlay's own total it is kept (see _entablature_contradicts_triplet).
+      `entablature="triplet"` asks for the triplet regardless, which is how a plate of an inherited
+      cornice is still drawn, and `"whole"` for the whole."""
     A = pack.get("assemblies") or {}
     out = []
     for a in ("pedestal", "subplinth", "base", "shaft", "capital"):
-        if a in A: out.append(a)
-    if all(x in A for x in ("architrave", "frieze", "cornice")):
-        out += ["architrave", "frieze", "cornice"]
+        if a not in A:
+            continue
+        if A[a].get("alternative_to") in A:
+            continue                    # offered instead of another assembly the stack draws
+        out.append(a)
+    whole = entablature == "whole" or (entablature is None and _entablature_contradicts_triplet(pack))
+    if all(x in A for x in ENT_TRIPLET) and not (whole and "entablature" in A):
+        out += list(ENT_TRIPLET)
     elif "entablature" in A:
         out.append("entablature")
     return out
+
+
+def stack_notes(pack, order):
+    """What a stack of `order` left out of this pack, and why, for every surface to say: each
+    alternative not drawn (with the authority's own words), and an entablature drawn whole over a
+    finer triplet some other pack in the chain states. Empty where nothing was left out."""
+    A = pack.get("assemblies") or {}
+    owner = pack.get("_owner") or {}
+    notes = []
+    for a, asm in A.items():
+        alt = asm.get("alternative_to")
+        if alt and a not in order:
+            notes.append({"kind": "alternative", "assembly": a, "instead_of": alt,
+                          "drawn": alt if alt in order else None,
+                          "note": asm.get("alternative_note")})
+    if "entablature" in order and all(x in A for x in ENT_TRIPLET):
+        notes.append({"kind": "entablature-whole", "assembly": "entablature",
+                      "owner": owner.get("entablature"),
+                      "triplet_owners": {x: owner.get(x) for x in ENT_TRIPLET}})
+    return notes
+
+def _column_less_base_and_capital(pack):
+    """The shaft a stated column height leaves: the column less whatever base and capital the
+    pack draws. ONE rule, read by _synth_shaft() (a pack stating no shaft at all) and by
+    _shaft_from_own_column() (an overlay whose own column contradicts the shaft it inherits)."""
+    A = pack.get("assemblies") or {}
+    col = (pack.get("column") or {}).get("height_modules")
+    if not isinstance(col, (int, float)):
+        return None
+    return col - sum(A[a].get("height_modules", 0) for a in ("base", "capital") if a in A)
+
+
+def _shaft_from_own_column(overlay, out, parts):
+    """AN OVERLAY'S OWN COLUMN SETS ITS SHAFT (WP-14.2).
+
+    An overlay that states its column height and inherits its shaft drew the BASE authority's
+    shaft under its own column: benjamin-corinthian states 22 modules (Benjamin adds a diameter
+    to Vignola's column) and was drawn at Vignola's 20, 120 in against a stated 132 at a 6 in
+    module; gibbs-ionic states 18 and drew 18 1/3, because Gibbs's own taller capital sat on
+    Vignola's shaft. Five overlays drew a column other than the one they state. Where the overlay
+    also states the shaft, the two agree exactly -- benjamin-corinthian 18 2/3, benjamin-tuscan 14,
+    gibbs-ionic 16 -- which is the evidence that this is the rule the authors wrote in.
+
+    The inherited shaft keeps its members and their profiles, which are the base authority's;
+    only its BODY takes the difference, and the assembly and the overlay notes say so. An overlay
+    stating a shaft height of its own that disagrees is left alone and noted: the engine does not
+    choose between two of a pack's own statements, and census E1 then says where the column is
+    drawn wrong."""
+    A = out.get("assemblies") or {}
+    own_col = (overlay.get("column") or {}).get("height_modules")
+    if not isinstance(own_col, (int, float)) or "shaft" not in A \
+            or "shaft" in (overlay.get("assemblies") or {}):
+        return
+    want = _column_less_base_and_capital(out)
+    have = A["shaft"].get("height_modules", 0)
+    if want is None or want <= 0 or abs(want - have) < 1e-9:
+        return
+    stated = (overlay.get("column") or {}).get("shaft_height_modules")
+    if isinstance(stated, (int, float)) and abs(stated - want) > 0.01:
+        out["_overlay_notes"].append(
+            f"shaft: {overlay['id']} states a column of {own_col} M and a shaft of {stated} M, "
+            f"which with the base and capital it draws leave {round(want, 4)} M -- two of the "
+            f"pack's own statements disagree, and neither is chosen")
+        return
+    sh = A["shaft"]
+    ms = sh.get("members") or []
+    body = max(ms, key=lambda m: m.get("height_parts", 0)) if ms else None
+    if body is None:
+        return
+    body["height_parts"] = body.get("height_parts", 0) + (want - have) * parts
+    sh["height_modules"] = want
+    sh["_height_from_column"] = {"column_modules": own_col, "was_modules": round(have, 6),
+                                 "body": body["id"], "by": overlay["id"]}
+    out.setdefault("column", {})["shaft_height_modules"] = want
+    out["_overlay_notes"].append(
+        f"shaft: its height is {overlay['id']}'s own column of {own_col} M less the base and "
+        f"capital drawn ({round(want, 4)} M, against the {round(have, 4)} M inherited); the "
+        f"members and their profiles are {out['_owner'].get('shaft')}'s, and the body "
+        f"({body['id']}) takes the difference")
+
 
 def _synth_shaft(pack, order):
     """A pack may state a column height and no shaft. The shaft is what is left over."""
     A = pack.get("assemblies") or {}
     col = (pack.get("column") or {}).get("height_modules")
     if not col or "shaft" in A: return None
-    used = sum(A[a].get("height_modules", 0) for a in ("base", "capital") if a in A)
-    h = col - used
-    if h <= 0: return None
+    h = _column_less_base_and_capital(pack)
+    if h is None or h <= 0: return None
     return {"height_modules": h, "sums_check": False, "_derived": True,
             "members": [{"id": "shaft_derived", "name": "Shaft (derived: column less base and capital)",
                          "height_parts": h * pack["module"]["parts"], "projection_parts": 0,
@@ -296,6 +431,9 @@ def dimension(pack, module_in=None, include=None):
     y = 0.0
     out = {"pack": pack["id"], "name": pack["name"], "engine_version": ENGINE_VERSION,
            "module_in": mod, "parts": parts, "part_in": part_in,
+           # WP-14.2: what this stack left out and why -- an alternative not drawn, an entablature
+           # drawn whole over a finer inherited one -- so no surface has to work it out again
+           "stack_notes": stack_notes(pack, order),
            "diameters_per_module": diameters_per_module(pack),
            # OQ 65, ruled 26 Aug 2026: a consumer must never have to derive which datum a
            # projection was measured from. It travels with the dimensions.
@@ -314,18 +452,30 @@ def dimension(pack, module_in=None, include=None):
         for m in a.get("members", []):
             h = m.get("height_parts", 0) * part_in
             my0 = ay if side else y
+            # AN UNPUBLISHED PROJECTION IS None, NEVER 0 (WP-14.2). This read `.get(..., 0)`, so
+            # 94 members whose authority gives no projection -- every torus, scotia and plinth
+            # among them -- arrived at every surface as a face MEASURED flush with its naked, and
+            # a torus drawn from a crown of 0 bit into the shaft it stands on. A 0 is a statement
+            # about a face and a missing figure is a statement about a plate nobody transcribed;
+            # the drawing may put both at the naked, but only one of them is a measurement.
+            # `width_parts` has carried its null this way since WP-5.11; this is the same rule.
+            pp = m.get("projection_parts")
             members.append({
                 "id": m["id"], "name": m["name"], "profile": m.get("profile", "flat"),
                 "height_parts": m.get("height_parts", 0), "height_in": round(h, 4),
-                "projection_parts": m.get("projection_parts", 0),
-                "projection_in": round(m.get("projection_parts", 0) * part_in, 4),
+                "projection_parts": pp,
+                "projection_in": None if pp is None else round(pp * part_in, 4),
                 "y_bottom_in": round(my0, 4), "y_top_in": round(my0 + h, 4), "side_by_side": side,
                 "count": m.get("count"), "spacing_in": (m["spacing_parts"] * part_in) if m.get("spacing_parts") else None,
                 # WP-5.11: the pitch says where the teeth fall, the width says how much of that
                 # pitch is solid. Null stays null all the way to the renderer, which then draws
                 # the band solid and says the width was never published.
                 "width_in": (m["width_parts"] * part_in) if m.get("width_parts") else None,
-                "enrichment": m.get("enrichment"), "confidence": m.get("confidence", "high"),
+                # An UNSTATED confidence is not a high one (WP-14.2): it travels as None, the way
+                # an unpublished projection does, and every surface marks it. 0 of 733 members
+                # leave it unstated today, so this moves nothing -- it removes the flattering
+                # default before a record can reach it.
+                "enrichment": m.get("enrichment"), "confidence": m.get("confidence"),
                 "note": m.get("note"),
             })
             if not side: y += h
@@ -373,14 +523,16 @@ def observed_projection_datum(dimensioned):
         body = next((m for m in shaft["members"]
                      if m["id"] != "shaft_derived"
                      and (m["y_top_in"] - m["y_bottom_in"]) > span * 0.6), None)
-        if body is not None:
-            p = body.get("projection_in") or 0.0
+        # An UNPUBLISHED shaft body is no evidence either way (WP-14.2): it used to read as a 0
+        # and therefore as "naked", which is the reading a missing figure happens to resemble.
+        if body is not None and body.get("projection_in") is not None:
+            p = body["projection_in"]
             if abs(p) < 0.01: return "naked"
             if abs(p - r0) < 0.51: return "axis"
             return None                        # neither reading fits: say so, do not pick
-    near = [m.get("projection_in") or 0.0
+    near = [m["projection_in"]
             for k in ("base", "capital") if k in asms
-            for m in asms[k].get("members", [])]
+            for m in asms[k].get("members", []) if m.get("projection_in") is not None]
     if not near: return None
     return "axis" if max(near) >= r0 - 0.01 else "naked"
 
@@ -709,7 +861,7 @@ def main():
             flag = "" if abs(asm["height_in_stated"] - asm["height_in_summed"]) < 0.01 or not asm["sums_check"] else "  ** SUM MISMATCH"
             print(f"  {asm['id'].upper():<14} {asm['height_modules']:>7} M   {_fmt_in(asm['height_in_stated']):>10}{flag}")
             for m in asm["members"]:
-                cf = "" if m["confidence"] == "high" else f"  ({m['confidence']})"
+                cf = "" if m["confidence"] == "high" else f"  ({m['confidence'] or 'unstated'})"
                 rep = f"  x{m['count']}" if m.get("count") else ""
                 print(f"      {m['name'][:40]:<42}{m['height_parts']:>6}p {_fmt_in(m['height_in']):>9}  proj {_fmt_in(m['projection_in']):>8}  {m['profile']}{rep}{cf}")
         print(f"\n  TOTALS")

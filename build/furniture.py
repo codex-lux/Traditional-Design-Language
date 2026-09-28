@@ -690,7 +690,10 @@ def _piers(room):
     """{wall: [(lo, hi), ...]} -- every placed sash's run on each wall, from the record."""
     by_wall = {}
     for win in (room.get("windows") or []):
-        if win.get("unplaced") or not win.get("wall"):
+        # A PARTLY SEATED WINDOW STILL TAKES THE WALL ITS SEATED SASHES STAND ON (WP-15.8's audit,
+        # auditor F): `unplaced` beside `positions_ft` is a partial refusal, and skipping it
+        # left seated sashes out of the piers. A window refused whole carries no positions.
+        if not win.get("wall") or (win.get("unplaced") and not win.get("positions_ft")):
             continue
         pos = win.get("positions_ft") or ([win["position_ft"]] if win.get("position_ft") is not None else [])
         half = float(win.get("width_ft") or 3.0) / 2.0

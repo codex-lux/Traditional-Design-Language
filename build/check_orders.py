@@ -499,6 +499,13 @@ def check_projection_datum(by_id):
                     note(pid, "declares axis, but its own figures read as relief from the naked "
                               f"in: {', '.join(naked_groups)} — drawn that way by evidence "
                               f"(OQ 78), not by the declaration")
+                # And where a group publishes no projection at all there is no evidence for
+                # EITHER reading (WP-14.2): its members are ghosts at the naked and the datum is
+                # unjudged. Said, so an unjudged group cannot pass for one read "naked".
+                unjudged = sorted({a for a, v in geo["assembly_datum"].items() if v == "unjudged"})
+                if unjudged:
+                    note(pid, f"publishes no projection in: {', '.join(unjudged)} — no datum can "
+                              f"be judged there, and every member is drawn as a ghost at the naked")
 
 def check_overlays(by_id):
     """Resolve every overlay_of against the loaded corpus.

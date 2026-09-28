@@ -114,7 +114,17 @@ async function shot(name, widths = [SHOT_WIDTH]) {
    a spent quota. The limiter already says so honestly in its response body; nothing was
    listening. Restarting the server resets the window. */
 let limited = null;
+// THE PLACEMENT THE PAGE WAS SERVED, which is not the one the walk's own evaluate places (WP-14.4).
+// An explicit solve on the bench runs the corrective rounds before it surfaces the sheet (WP-13.9),
+// and the walk's probe posts a bare evaluate, which runs none -- so the two are different
+// placements of one record, and a count read off one and held against the other measures the
+// difference between them. The first version of the wall check did exactly that: 34 bodies drawn
+// against 28 "served", every one of the 34 drawn from what the page was served.
+let pageEvaluate = null;
 page.on('response', (r) => {
+  if (r.url().includes('/api/plan/evaluate') && r.status() === 200) {
+    r.json().then((j) => { if (j && j.placement) pageEvaluate = j; }).catch(() => {});
+  }
   if (r.status() === 429 && !limited) {
     limited = r.url();
     console.log('\nRATE LIMITED by the workbench server at ' + limited);
@@ -1146,6 +1156,77 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
   }
 }
 
+// WP-14.4 -- THE SHEET DRAWS THE PLATE'S OWN WALLS, and says where its scale starts. The bench
+// drew one ring round the footprint from its own derivation; it draws `placement.walls` now,
+// the bands `render_plan.wall_bodies` gives the printed plate. Counted against the API's own
+// list for the level on screen, so a sheet quietly drawing its old ring fails here.
+{
+  const sheetWalls = await page.evaluate(() => {
+    const svg = document.querySelector('svg[role="img"]');
+    return svg ? {
+      bodies: svg.querySelectorAll('rect[data-wall]').length,
+      derived: !!svg.querySelector('[data-walls="derived"]'),
+      bar: (svg.querySelector('[data-scale-bar]') || { getAttribute: () => null }).getAttribute('transform'),
+      // Where the bar's ticks and figures LAND in the sheet's own units (feet from the clear face),
+      // composed through every transform above them -- not the attribute on the group, which a
+      // tick offset inside the group would leave true (WP-14.6).
+      ticks: (() => {
+        const g = svg.querySelector('[data-scale-bar]');
+        if (!g) return null;
+        // The element's matrix FIRST, then the root's undone: S^-1 . E, as the plate reader below
+        // composes `toSvg.multiply(el.getScreenCTM())`. It read E . S^-1 until WP-14.6's second
+        // audit, which is the same map only while the group's x translation is 0 (or the root's
+        // scale is 1), so it agreed with the bar as drawn and would misplace a tick the day the bar
+        // moved -- the reading this check exists to make exactly.
+        const at = (el, x, y) => {
+          const p = svg.createSVGPoint(); p.x = x; p.y = y;
+          return p.matrixTransform(svg.getCTM().inverse().multiply(el.getCTM())).x;
+        };
+        return {
+          lines: [...g.querySelectorAll('line')].map((l) => at(l, +l.getAttribute('x1'), 0)),
+          figures: [...g.querySelectorAll('text')].map((t) => [t.textContent, at(t, +t.getAttribute('x'), 0)]),
+        };
+      })(),
+      flights: svg.querySelectorAll('[data-stair] > g > rect').length,
+      arrow: svg.querySelectorAll('[data-stair-arrow]').length,
+    } : null;
+  });
+  // Held against the walls THE PAGE was served for the level on screen, never the probe's.
+  const served = ((pageEvaluate?.placement?.walls) || []).find((w) => (w.level ?? 0) === 0);
+  const probe = ((apiPlacement?.walls) || []).find((w) => (w.level ?? 0) === 0);
+  if (!served) {
+    check('the sheet draws the wall bodies the server serves — the page was served none', false);
+  } else {
+    check(`the sheet draws the plate's own walls (${sheetWalls?.bodies} bodies drawn of `
+          + `${served.bands.length} served to the page, the derived ring `
+          + `${sheetWalls?.derived ? 'DRAWN' : 'not drawn'}; the walk's own evaluate, without the `
+          + `corrective rounds, serves ${probe ? probe.bands.length : 'none'})`,
+      sheetWalls && sheetWalls.bodies === served.bands.length && !sheetWalls.derived);
+  }
+  check(`the scale bar's zero stands on the clear face x = 0 (${sheetWalls?.bar})`,
+    !!sheetWalls && /^translate\(0,/.test(sheetWalls.bar || ''));
+  {
+    // and its marks say what its figures say: every figure stands on a tick, at the distance it
+    // names from the tick that says 0, and that tick is on x = 0
+    const t = sheetWalls?.ticks;
+    const fig = (t?.figures || []).map(([s, x]) => [parseFloat(s), x]).filter(([n]) => Number.isFinite(n));
+    const zero = fig.find(([n]) => n === 0);
+    const onTick = (x) => (t?.lines || []).some((lx) => Math.abs(lx - x) < 1e-3);
+    check(`the scale bar's figures stand on its ticks at the feet they name, from a zero on x = 0 `
+          + `(figures ${JSON.stringify(fig.map(([n, x]) => [n, +x.toFixed(3)]))}, `
+          + `ticks ${JSON.stringify((t?.lines || []).map((x) => +x.toFixed(3)))})`,
+      !!zero && fig.length >= 3 && Math.abs(zero[1]) < 1e-3
+      && fig.every(([n, x]) => onTick(x) && Math.abs((x - zero[1]) - n) < 1e-3));
+  }
+  if (!sheetWalls || !sheetWalls.flights) {
+    unjudged.push(`the stair's arrow says which way is up — ${DRAWABLE} draws no flight on this `
+                  + 'level, so there is no stair to point');
+  } else {
+    check(`the stair's arrow says which way is up (${sheetWalls.arrow} arrow(s) over `
+          + `${sheetWalls.flights} flight(s))`, sheetWalls.arrow === 1);
+  }
+}
+
 // the loupe's scroller, and one room's drawn dimensions, read the same way twice
 const scrollPos = () => page.evaluate(() => {
   const d = [...document.querySelectorAll('div')]
@@ -1664,49 +1745,110 @@ async function readPlate(pack) {
     if (!svg) return { missing: 'no plate' };
     const bands = [...svg.querySelectorAll('path[data-asm]')];
     if (!bands.length) return { missing: 'no bands' };
+    /* IN THE PLATE'S OWN COORDINATES (WP-14.2). A band drawn from served geometry sits inside a
+       <g transform> that flips y and scales the module, and getBBox() is in the path's LOCAL
+       space -- model inches, y up. It read right only because the corpus serves the geometry at
+       the module the plate draws (f = 1) and the flip is symmetric about the frame. Each corner
+       is taken into the SVG's OWN user space, which is the viewBox's inches: the band's screen
+       matrix, undone by the root's. `getCTM()` alone was the first version and it is not that --
+       it ends in the root's VIEWPORT, which is CSS pixels, so every pack read about 600" tall
+       (the height of the pane the plate is fitted to) against a stated 108 to 192. That version
+       shipped unrun in WP-14.2 step 6, and its first run was red on 77 checks: three on each
+       of the 25 packs with a stack, and two capitals. */
+    const pt = svg.createSVGPoint();
+    const toSvg = svg.getScreenCTM().inverse();
+    const box = (el) => {
+      const b = el.getBBox(), m = toSvg.multiply(el.getScreenCTM());
+      const xs = [], ys = [];
+      for (const [x, y] of [[b.x, b.y], [b.x + b.width, b.y], [b.x, b.y + b.height],
+                            [b.x + b.width, b.y + b.height]]) {
+        pt.x = x; pt.y = y;
+        const q = pt.matrixTransform(m);
+        xs.push(q.x); ys.push(q.y);
+      }
+      return { x0: Math.min(...xs), x1: Math.max(...xs), y0: Math.min(...ys), y1: Math.max(...ys) };
+    };
     const spans = [], out = { bands: bands.length, gap: 0, shaftMax: 0, capMax: 0, maxX: 0 };
     for (const p of bands) {
-      const b = p.getBBox();
-      out.maxX = Math.max(out.maxX, b.x + b.width);
-      if (p.dataset.asm === 'shaft') out.shaftMax = Math.max(out.shaftMax, b.x + b.width);
-      if (p.dataset.asm === 'capital') out.capMax = Math.max(out.capMax, b.x + b.width);
-      if (b.height < 0.001) continue;
-      spans.push([b.y, b.y + b.height]);
+      const b = box(p);
+      out.maxX = Math.max(out.maxX, b.x1);
+      if (p.dataset.asm === 'shaft') out.shaftMax = Math.max(out.shaftMax, b.x1);
+      if (p.dataset.asm === 'capital') out.capMax = Math.max(out.capMax, b.x1);
+      if (b.y1 - b.y0 < 0.001) continue;
+      spans.push([b.y0, b.y1]);
     }
     spans.sort((a, b) => a[0] - b[0]);
     let end = spans.length ? spans[0][1] : 0;
     for (const [t, b] of spans) { out.gap = Math.max(out.gap, t - end); end = Math.max(end, b); }
     const vb = svg.getAttribute('viewBox').split(/\s+/).map(Number);
     out.frameTop = vb[1]; out.frameBottom = vb[1] + vb[3]; out.frameRight = vb[0] + vb[2];
+    // the gutter is not frame: ink may reach the dimension line, never into the gutter it opens
+    const dim = svg.querySelector('[data-mark="stack-dimension"]');
+    out.dimX = dim ? Number(dim.getAttribute('x1')) : null;
     out.drawnTop = Math.min(...spans.map((s) => s[0]));
     out.drawnBottom = Math.max(...spans.map((s) => s[1]));
     return out;
   }, id);
 }
-// One pack of each reading (OQ 65): gibbs-doric records projections from the naked,
-// vignola-ionic as radii from the axis. Checking only the default pack is how a datum
-// wrong on twelve packs shipped green.
-for (const [pack, dia] of [[null, 12], ['vignola-ionic', 12], ['palladio-corinthian', 12]]) {
-  const plate = await readPlate(pack);
-  const id = pack || 'gibbs-doric';
-  if (plate.missing) { check(`⑩ ${id}: a plate is drawn (${plate.missing})`, false); continue; }
+/* EVERY ORDER PACK, not three (WP-14.2). One pack of each reading (OQ 65) was the old sample --
+   gibbs-doric, vignola-ionic and palladio-corinthian -- and checking only the default pack is how
+   a datum wrong on twelve packs shipped green; checking three is how a frame narrower than its own
+   ink shipped green on twelve. The list is the API's, so a new pack is walked without an edit. */
+const orderPacks = ((await (await fetch(`${BASE}/api/proportions`)).json()).packs || [])
+  .filter((p) => p.kind === 'order-system').map((p) => p.id);
+check(`⑩ the walk reaches every order pack the API lists (${orderPacks.length})`, orderPacks.length >= 26);
+for (const id of orderPacks) {
+  const dia = 12;
   const api = await (await fetch(`${BASE}/api/proportions/${id}?members=true&column_diameter=${dia}`)).json();
+  const members = api.assemblies.reduce((a, x) => a + (x.members || []).length, 0);
+  const plate = await readPlate(id);
+  if (api.drawing !== 'stack') {
+    /* NOT A STACK, SO NOT THIS LOOP'S PLATE (the merge of the two Phase 14s, 27 Sep 2026). The page
+       draws a pack by its served `drawing` (`page.js::plateKind`): a stack with `OrderPlate`, anything
+       else with the wall-datum plate or a refusal. After the merge the server serves `moorish-arch`,
+       the one order pack with no column stack, as assemblies, and this loop read the wall-datum
+       plate's first frame as a stack -- four reds about a drawing no reader is shown. ⑩b walks the
+       wall-datum plate; this holds only that the page drew the plate the payload asks for. */
+    const drawnAs = await page.evaluate((pid) => {
+      const sec = document.querySelector(`main [data-pack-page="${pid}"] [data-section="plate"]`);
+      if (!sec) return 'no plate section';
+      if (sec.querySelector('[data-plate-at]')) return 'assemblies';
+      if (sec.querySelector('[data-refused="no-assemblies"]')) return 'none';
+      return 'something else';
+    }, id);
+    const want = api.drawing === 'assemblies' ? 'assemblies' : 'none';
+    check(`⑩ ${id}: served as ${api.drawing}, the page draws ${drawnAs} (${members} members)`,
+      drawnAs === want && (want === 'none' || members > 0));
+    continue;
+  }
+  if (plate.missing) { check(`⑩ ${id}: a plate is drawn (${plate.missing})`, false); continue; }
   const r0 = (api.totals?.lower_diameter_in || 0) / 2;
   const stack = api.totals?.stack_height_in || 0;
   check(`⑩ ${id}: the plate draws every member the engine emitted (${plate.bands})`,
-    plate.bands >= api.assemblies.reduce((a, x) => a + (x.members || []).length, 0));
+    plate.bands >= members);
   check(`⑩ ${id}: the order stands as one stack — no gap (worst ${plate.gap.toFixed(2)}″)`,
     plate.gap < 0.25);
   check(`⑩ ${id}: the stack is drawn to its stated height (${(plate.drawnBottom - plate.drawnTop).toFixed(1)}″ of ${stack}″)`,
     Math.abs((plate.drawnBottom - plate.drawnTop) - stack) < 0.25);
-  check(`⑩ ${id}: nothing is drawn outside the frame`,
+  check(`⑩ ${id}: nothing is drawn outside the frame, and no ink reaches the dimension gutter (${plate.maxX.toFixed(2)}″ against the line at ${plate.dimX == null ? '—' : plate.dimX.toFixed(2)}″)`,
     plate.drawnTop >= plate.frameTop - 0.01 && plate.drawnBottom <= plate.frameBottom + 0.01
-      && plate.maxX <= plate.frameRight + 0.01);
+      && plate.dimX != null && plate.maxX <= plate.dimX + 0.01);
   // the datum. A shaft moulding never stands a whole radius clear of the shaft; adding a
   // naked to a figure that was already a radius drew exactly that, on twelve packs.
   check(`⑩ ${id}: the shaft is a column and not a stick (${plate.shaftMax.toFixed(2)}″ against r ${r0}″)`,
     plate.shaftMax > r0 * 0.8 && plate.shaftMax < r0 * 1.35);
-  check(`⑩ ${id}: the capital stands clear of the shaft`, plate.capMax >= plate.shaftMax - 0.01);
+  /* A CAPITAL WHOSE RECORD PUBLISHES NO PROJECTION IS UNJUDGED, NOT NARROW (WP-14.2). Palladio's
+     Doric and Tuscan capitals state no projection for any member, so since step 2 the plate
+     draws each at its naked, dashed, and says so. How far that capital stands out is not a fact
+     the record holds, and reading its ghosts as the capital's width convicted both. */
+  const capMembers = (api.assemblies.find((a) => a.id === 'capital') || {}).members || [];
+  if (capMembers.length && capMembers.every((m) => m.projection_parts == null)) {
+    unjudged.push(`⑩ ${id}: the capital stands clear of the shaft — its record publishes no `
+      + `projection for any of its ${capMembers.length} members, which the plate draws at the `
+      + 'naked, dashed');
+  } else {
+    check(`⑩ ${id}: the capital stands clear of the shaft`, plate.capMax >= plate.shaftMax - 0.01);
+  }
 }
 await shot('proportions-order');
 
@@ -2524,6 +2666,27 @@ await visit('#/drawings');
       !!(ov && ov.frame && /"px_per_ft"/.test(ov.frame)));
     check(`and it is placed by a real transform (${ov && ov.t && ov.t.slice(0, 24)})`,
       !!(ov && ov.t && ov.t !== 'none'));
+
+    // AND THE NORTH PLATE IS NOT LAID OVER THE MODEL BACKWARDS (WP-15.8's audit). The record
+    // draws every face with the plan's own axis, which from the north runs right to left, and the
+    // affine carries no mirror -- so the plate is refused and the note says which way it reads.
+    // Laid anyway, every opening on it stood over the wrong end of the house and nothing said so.
+    await bar.getByRole('radio', { name: 'N', exact: true }).click();
+    await page.waitForTimeout(400);
+    const north = await page.evaluate(() => ({
+      overlay: !!document.querySelector('[data-round-overlay]'),
+      note: (document.querySelector('[data-plate-note]') || {}).innerText || '',
+    }));
+    if (/the flat plate for this view was refused/i.test(north.note)) {
+      // the server drew no N face for this record, so the direction has no plate to be about
+      unjudged.push(`the N plate reads the record's direction -- COULD NOT EVALUATE: ${north.note.slice(0, 90)}`);
+      console.log('N/EV', unjudged[unjudged.length - 1]);
+    } else {
+      check(`the N plate is not laid reversed over the model (${north.note.slice(0, 70)})`,
+        !north.overlay && /not laid over the model: drawn west to east/i.test(north.note));
+    }
+    await bar.getByRole('radio', { name: 'S', exact: true }).click();
+    await page.waitForTimeout(300);
     await page.getByRole('button', { name: 'plate', exact: true }).click();
     await shot('round-axon-sw');
 
@@ -2830,10 +2993,19 @@ check('export: DXF/IFC live (WP-5.1)', /plan dxf/.test(ex) && /ifc model/.test(e
   const rows = packs && Array.isArray(packs.packs) ? packs.packs : [];
   const want = rows.length && rows.every((r) => Number.isInteger(r.conflicts))
     ? rows.reduce((n, r) => n + r.conflicts, 0) : null;
-  const drawn = await page.locator('main [data-pack-conflicts]').first().getAttribute('data-pack-conflicts').catch(() => null);
+  /* THE RACE (WP-15.8, found on CI run 124): `ex` is read the moment the unbuilt cards appear,
+     and this span renders only once `api.proportionPacks()` answers -- so on a slow route the
+     figure was not yet in `ex`, and the check printed "262 against 262" and failed. The figure
+     a reader sees is read off the span's OWN text now, after waiting for the span, which is
+     also the stronger claim: the number must be in the span that states it, not anywhere on
+     the page. */
+  const conflictsEl = page.locator('main [data-pack-conflicts]').first();
+  await conflictsEl.waitFor({ state: 'visible', timeout: 30000 }).catch(() => {});
+  const drawn = await conflictsEl.getAttribute('data-pack-conflicts', { timeout: 5000 }).catch(() => null);
+  const shown = flat(await conflictsEl.innerText({ timeout: 5000 }).catch(() => ''));
   if (want == null) unjudged.push('export: the conflict count -- GET /api/proportions states no per-pack conflicts');
-  else check(`export: the conflict count is the pack index's own rows summed (${drawn} against ${want})`,
-    drawn !== null && Number(drawn) === want && ex.includes(String(want)));
+  else check(`export: the conflict count is the pack index's own rows summed (${drawn} against ${want}, the span reads "${shown}")`,
+    drawn !== null && Number(drawn) === want && shown.includes(String(want)));
 }
 await shot('export');
 

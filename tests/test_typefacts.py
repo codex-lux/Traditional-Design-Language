@@ -10,6 +10,7 @@ have landed before its colour was believed.
 import copy
 import importlib.util
 import json
+import re
 import os
 import sys
 
@@ -189,7 +190,11 @@ class TestItIsOnTheRecordForBothEngines:
             "comes to carry a measurement with no verdict")
         assert src.count("TF.judge(plan)") == 2, (
             "TF.judge is called from `_disclose` and from `_refuse` and nowhere else")
-        body = src[src.index("def _disclose(plan):"):]
+        # the DEFINITION by name, whatever its arguments: WP-14.4 gave it a second one, and a
+        # guard reading the literal signature failed on a change that kept everything it guards
+        m = re.search(r"^def _disclose\(plan\b[^)]*\):", src, re.M)
+        assert m, "the premise: geometry.py defines _disclose(plan, ...)"
+        body = src[m.start():]
         body = body[:body.index("\ndef ")]
         assert "TF.judge(plan)" in body
 

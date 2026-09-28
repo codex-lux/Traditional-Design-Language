@@ -195,6 +195,18 @@ def test_the_tie_the_other_two_tests_rest_on_is_still_there(compose_mod):
 #
 # WHAT IT STILL CANNOT SEE, stated: a solve reached through a helper the function calls, and a
 # patch made in a fixture the test requests. The behavioural test below it is the other half.
+#
+# AND IT CONVICTED THE ISOLATION ITSELF, SPELLED AS AN ASSIGNMENT (the merge of the two Phase 14s,
+# 27 Sep 2026). The other Phase 14 isolates by hand: `saved = GEO._SOLVE_CACHE`, then
+# `GEO._SOLVE_CACHE = {}`, the solve inside a `try`, and `GEO._SOLVE_CACHE = saved` in its
+# `finally`. Eleven of its functions do that and nothing else. This scanner read each assignment to
+# the cache as a PATCH -- `mod.attr = ...` on a name -- found no `setattr` call and no `.clear()`,
+# and convicted all eleven of the defect they exist to prevent. An assignment of an EMPTY dict to
+# `_SOLVE_CACHE`, or of a name back to it, is the isolation or its undo and is not a patch, exactly
+# as the `setattr` spelling is excluded above. It is isolation only when both halves are there:
+# the empty dict before the first solve AND the name put back in the `finally` of a `try` whose
+# body solves. Without the restore the private dict stays the module's cache, holding whatever was
+# solved under the patch, so that shape is still convicted. Driven below, both ways.
 
 SOLVE_NAMES = ("solve", "solve_heuristic")
 PATCH_METHODS = ("setattr", "setitem", "delattr", "delitem", "setenv", "delenv")
@@ -205,6 +217,25 @@ def _is_private_cache(call):
             and call.func.attr == "setattr" and len(call.args) >= 3
             and isinstance(call.args[1], ast.Constant) and call.args[1].value == "_SOLVE_CACHE"
             and isinstance(call.args[2], ast.Dict) and not call.args[2].keys)
+
+
+def _is_cache_assignment(node):
+    """`<module>._SOLVE_CACHE = {}` or `<module>._SOLVE_CACHE = <name>`: the cache isolated by
+    hand, or put back. Neither is a patch of something a solve reads."""
+    if not (isinstance(node, ast.Assign) and len(node.targets) == 1):
+        return False
+    t = node.targets[0]
+    return (isinstance(t, ast.Attribute) and t.attr == "_SOLVE_CACHE"
+            and (isinstance(node.value, ast.Name)
+                 or (isinstance(node.value, ast.Dict) and not node.value.keys)))
+
+
+def _is_private_assignment(node):
+    return _is_cache_assignment(node) and isinstance(node.value, ast.Dict)
+
+
+def _is_cache_restore(node):
+    return _is_cache_assignment(node) and isinstance(node.value, ast.Name)
 
 
 def _is_cache_clear(call):
@@ -237,6 +268,8 @@ def _patch_sites(fn):
             elif "patch" in f.split("."):
                 out.append((n.lineno, f))
         elif isinstance(n, (ast.Assign, ast.AugAssign)):
+            if _is_cache_assignment(n):
+                continue            # the isolation spelled as an assignment, or its undo
             for t in (n.targets if isinstance(n, ast.Assign) else [n.target]):
                 # `mod.attr = ...` on a name: a module patched by hand. `self.x` is the test's own
                 # state, and `fn._v` on the enclosing function is a memo, not a patch.
@@ -265,10 +298,16 @@ def solve_cache_verdicts(path, src):
         if any(_is_private_cache(n) and n.lineno < solves[0] for n in ast.walk(fn)):
             verdict = "private"
         else:
+            private_first = any(_is_private_assignment(n) and n.lineno < solves[0]
+                                for n in ast.walk(fn))
             for t in ast.walk(fn):
-                if (isinstance(t, ast.Try) and any(True for b in t.body for _ in _calls_solve(b))
-                        and any(_is_cache_clear(c) for b in t.finalbody for c in ast.walk(b))):
+                if not (isinstance(t, ast.Try) and any(True for b in t.body for _ in _calls_solve(b))):
+                    continue
+                fin = [c for b in t.finalbody for c in ast.walk(b)]
+                if any(_is_cache_clear(c) for c in fin):
                     verdict = "cleared-in-finally"
+                elif private_first and any(_is_cache_restore(c) for c in fin):
+                    verdict = "private-restored"
         out.append((path, fn.name, verdict))
     return out
 
@@ -320,13 +359,35 @@ def test_the_scanner_sees_the_shapes_the_first_one_could_not():
                                "cleared-in-finally"),
         "cleared before": ("def test_x():\n    GEO.f = spy\n    GEO._SOLVE_CACHE.clear()\n"
                            "    GEO.solve(p)\n", None),
+        # the other Phase 14's spelling: a private dict assigned, the saved one put back
+        "assigned and restored": ("def test_x():\n    saved = GEO._SOLVE_CACHE\n"
+                                  "    GEO._SOLVE_CACHE = {}\n    HE.f = g\n    try:\n"
+                                  "        GEO.solve(p)\n    finally:\n"
+                                  "        GEO._SOLVE_CACHE = saved\n", "private-restored"),
+        "assigned and never restored": ("def test_x():\n    GEO._SOLVE_CACHE = {}\n"
+                                        "    HE.f = g\n    GEO.solve(p)\n", None),
+        "restored with no private dict": ("def test_x():\n    saved = GEO._SOLVE_CACHE\n"
+                                          "    HE.f = g\n    try:\n        GEO.solve(p)\n"
+                                          "    finally:\n        GEO._SOLVE_CACHE = saved\n", None),
+        "private dict after the solve": ("def test_x():\n    saved = GEO._SOLVE_CACHE\n"
+                                         "    HE.f = g\n    try:\n        GEO.solve(p)\n"
+                                         "    finally:\n        GEO._SOLVE_CACHE = saved\n"
+                                         "    GEO._SOLVE_CACHE = {}\n", None),
     }
     for name, (src, want) in cases.items():
         got = solve_cache_verdicts("x.py", src)
         assert len(got) == 1 and got[0][2] == want, (name, got)
-    # and the two shapes that are NOT a patch of a module
+    # and the three shapes that are NOT a patch of a module
     assert solve_cache_verdicts("x.py", "def f():\n    f._v = GEO.solve(p)\n") == []
     assert solve_cache_verdicts("x.py", "def f(self):\n    self.v = 1\n    GEO.solve(p)\n") == []
+    # the isolation alone, patching nothing: not a patch-and-solve function at all
+    assert solve_cache_verdicts("x.py", "def f():\n    saved = GEO._SOLVE_CACHE\n"
+                                "    GEO._SOLVE_CACHE = {}\n    try:\n        GEO.solve(p)\n"
+                                "    finally:\n        GEO._SOLVE_CACHE = saved\n") == []
+    # but a cache POISONED by assignment is a patch
+    got = solve_cache_verdicts("x.py", "def f():\n    GEO._SOLVE_CACHE = {'k': 1}\n"
+                               "    GEO.solve(p)\n")
+    assert len(got) == 1 and got[0][2] is None, got
 
 
 def test_the_private_cache_idiom_really_isolates(monkeypatch):

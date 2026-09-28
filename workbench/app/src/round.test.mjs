@@ -34,6 +34,7 @@ import {
   namedViews,
   planLevel,
   plateTransform,
+  plateRegistration,
   poseFor,
   project,
   shortestTurn,
@@ -580,23 +581,90 @@ test('an elevation plate registers on the envelope and not on the frame', () => 
   assert.ok(SCENE.bounds.min[1] < env.min[1] - 0.1,
     `the fixture's frame and envelope coincide in y (${SCENE.bounds.min[1]} vs ${env.min[1]})`);
   // u = 0 on the E face is the south end of the east wall: the ENVELOPE's y, not the stoop's
-  const e = modelAt('e', SCENE, 0, 10);
+  const e = modelAt('e', SCENE, 0, 10, false);
   assert.equal(e[1], env.min[1],
     `the E plate starts at y=${e[1]}; the envelope's south face is ${env.min[1]} and the `
     + `frame reaches ${SCENE.bounds.min[1]} because a stoop stands there`);
-  const w = modelAt('w', SCENE, 0, 10);
-  assert.equal(w[1], env.max[1], 'the W plate reads u the other way, off the envelope');
+  /* THIS LINE CERTIFIED THE DEFECT UNTIL WP-15.8's AUDIT. It read "the W plate reads u the other
+     way", i.e. from the camera's left, which is the envelope's NORTH end on the west face -- and
+     the record has said since WP-13.3 that no face is mirrored, so the W plate's u = 0 is its
+     SOUTH end. The assertion held the camera's assumption against itself. */
+  const w = modelAt('w', SCENE, 0, 10, false);
+  assert.equal(w[1], env.min[1], 'an unmirrored W plate starts at the envelope\'s south face');
+  assert.equal(modelAt('w', SCENE, 0, 10, true)[1], env.max[1],
+    'a mirrored W plate starts at the north face');
   // and the face's own depth coordinate is the envelope's too
-  assert.equal(modelAt('s', SCENE, 5, 3)[1], env.min[1]);
-  assert.equal(modelAt('n', SCENE, 5, 3)[1], env.max[1]);
+  assert.equal(modelAt('s', SCENE, 5, 3, false)[1], env.min[1]);
+  assert.equal(modelAt('n', SCENE, 5, 3, false)[1], env.max[1]);
+});
+
+/* ------------------------------------ which way a face plate reads is the record's (WP-15.8)
+
+   `modelAt` took u = 0 to be the face's left edge as the CAMERA sees it, and `plateTransform`
+   fitted a scale off a distance and never asked which way the second point lay. The record
+   states the other convention (`elevation.datum.mirrored`, false on every face): on N and W the
+   plan's axis runs right to left from outside, so both plates were laid over the model reversed,
+   every opening at the wrong end, and nothing said so. A plate whose axes run against the
+   screen's is refused now, with the reason, and a face plate whose direction the record does not
+   state is refused rather than assumed. */
+
+test('a face plate lies at the end of the face its record states', () => {
+  const env = SCENE.bounds.envelope;
+  // u = 0 on the N face is the WEST end when the plate runs with the plan, the east when mirrored
+  assert.equal(modelAt('n', SCENE, 0, 10, false)[0], env.min[0]);
+  assert.equal(modelAt('n', SCENE, 0, 10, true)[0], env.max[0]);
+  assert.equal(modelAt('s', SCENE, 3, 10, false)[0], env.min[0] + 3);
+  assert.equal(modelAt('s', SCENE, 3, 10, true)[0], env.max[0] - 3);
+  // no direction stated: no point, rather than a guess
+  assert.equal(modelAt('n', SCENE, 0, 10), null);
+  assert.equal(modelAt('s', SCENE, 0, 10, null), null);
+});
+
+test('a plate the affine would lay reversed is refused and says which way it reads', () => {
+  const frame = { px_per_ft: 13, origin_px: [44, 100], at_origin_ft: [0, 0] };
+  const reg = (v, m) => plateRegistration(v, SCENE, poseFor(v, SCENE), VIEWPORT, frame, m);
+  // unmirrored, the record's own convention: S and E register, N and W cannot
+  for (const v of ['s', 'e']) {
+    assert.ok(reg(v, false).transform, `${v} with the plan's axis should register`);
+    assert.equal(reg(v, false).refused, undefined);
+  }
+  assert.equal(reg('n', false).transform, undefined);
+  assert.equal(reg('n', false).refused, 'drawn west to east; seen from the north, east is on the left');
+  assert.equal(reg('w', false).refused, 'drawn south to north; seen from the west, north is on the left');
+  assert.equal(plateTransform('w', SCENE, poseFor('w', SCENE), VIEWPORT, frame, false), null);
+  // mirrored, the draughtsman's convention: the pair swaps, which is what makes it a test of the
+  // DIRECTION and not of the face's name
+  for (const v of ['n', 'w']) assert.ok(reg(v, true).transform, `${v} mirrored should register`);
+  assert.equal(reg('s', true).refused, 'drawn east to west; seen from the south, west is on the left');
+  assert.ok(reg('e', true).refused);
+  // a plan needs no direction: its axes ARE the model's
+  assert.ok(reg('plan-l0', undefined).transform);
+  // a face plate whose record states no direction is refused BY NAME, never assumed
+  assert.equal(reg('n', undefined).refused, 'the record does not say which way this elevation reads');
+  assert.equal(reg('s', null).transform, undefined);
+});
+
+test('and a registered plate lands each of its points on the model point the record names', () => {
+  // the transform must carry u = 10 to where the MODEL is at u = 10, not merely at some point
+  // 10 ft from the origin -- the old fit took the distance and would have passed a reversed pair
+  const frame = { px_per_ft: 13, origin_px: [44, 100], at_origin_ft: [0, 0] };
+  for (const [v, m] of [['s', false], ['e', false], ['n', true], ['w', true]]) {
+    const pose = poseFor(v, SCENE);
+    const t = plateTransform(v, SCENE, pose, VIEWPORT, frame, m);
+    const want = project(pose, VIEWPORT, modelAt(v, SCENE, 10, 0, m));
+    const got = [(frame.origin_px[0] + 10 * frame.px_per_ft) * t.scale + t.dx,
+                 frame.origin_px[1] * t.scale + t.dy];
+    assert.ok(Math.abs(got[0] - want[0]) < 1e-6 && Math.abs(got[1] - want[1]) < 1e-6,
+      `${v}: u = 10 lands at ${got} and the model has it at ${want}`);
+  }
 });
 
 test('and a scene that states no envelope is refused rather than registered on the frame', () => {
   // A silent fallback would put the misregistration back on exactly the records that cannot
   // say otherwise, which is the shape this whole guard exists to remove.
   const bare = { ...SCENE, bounds: { min: SCENE.bounds.min, max: SCENE.bounds.max } };
-  assert.equal(modelAt('e', bare, 0, 10), null);
-  assert.equal(modelAt('s', bare, 0, 10), null);
+  assert.equal(modelAt('e', bare, 0, 10, false), null);
+  assert.equal(modelAt('s', bare, 0, 10, false), null);
   // a plan view needs no envelope: its plate axes ARE the model's east and north
   assert.deepEqual(modelAt('plan-l0', bare, 4, 5), [4, 5, 0]);
 });
@@ -797,12 +865,12 @@ test('no flat plate is laid over a perspective', () => {
      two points settle an affine, and the plate would register at one depth and float off the
      model everywhere else. */
   const persp = { ...poseFor('approach', SCENE), view: 's' };
-  assert.equal(plateTransform('s', SCENE, persp, VIEWPORT, frame), null,
+  assert.equal(plateTransform('s', SCENE, persp, VIEWPORT, frame, false), null,
     'a face view with a perspective pose returned an affine');
 
   // the control -- the same face view with its own orthographic pose still gets one, so the
   // refusal is about the projection and not about the view or a missing argument
-  assert.ok(plateTransform('s', SCENE, poseFor('s', SCENE), VIEWPORT, frame));
+  assert.ok(plateTransform('s', SCENE, poseFor('s', SCENE), VIEWPORT, frame, false));
 });
 
 test('a move between the two projections is a cut and never a tween', () => {
@@ -854,4 +922,30 @@ test('the field of view is declared editorial, and the eye height is not', () =>
   assert.match(src, /APPROACH_FOV_IS_EDITORIAL = true/);
   assert.match(src, /EDITORIAL and says so/);
   assert.equal(typeof APPROACH_FOV_DEG, 'number');
+});
+
+/* ------------------------------------------------------------------ WP-14.4: frameOf */
+import { frameOf } from './round/frame.js';
+
+const svgWith = (plates) => `<svg data-frame='${JSON.stringify({ plates })}'></svg>`;
+const FACE = { id: 'S', proj: 'elevation', px_per_ft: 13, origin_px: [40, 400], at_origin_ft: [-2, 30] };
+const INSET = { id: 'inset', proj: 'profile', unit: 'in', px_per_in: 4, origin_px: [900, 100], at_origin_in: [0, 0] };
+
+test('an elevation frame is the FACE plate whichever order the plates are listed in', () => {
+  for (const plates of [[FACE, INSET], [INSET, FACE]]) {
+    assert.equal(frameOf(svgWith(plates), 's').id, 'S');
+    // a view the plate does not name still never lands on the inset
+    assert.equal(frameOf(svgWith(plates), 'w').proj, 'elevation');
+    assert.equal(frameOf(svgWith(plates), 'axon').proj, 'elevation');
+  }
+});
+
+test('a frame holding only a profile plate registers nothing', () => {
+  assert.equal(frameOf(svgWith([INSET]), 's'), null);
+});
+
+test('a plan frame is the level the view names', () => {
+  const plates = [{ id: 'ground', proj: 'plan', level: 0 }, { id: 'upper', proj: 'plan', level: 1 }];
+  assert.equal(frameOf(svgWith(plates), 'plan-l1').id, 'upper');
+  assert.equal(frameOf(svgWith(plates), 'plan-l0').id, 'ground');
 });

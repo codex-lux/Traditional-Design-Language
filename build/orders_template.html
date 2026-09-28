@@ -52,9 +52,14 @@ input[type=range]{width:100%;accent-color:var(--brass)}
 .note{font-size:11px;color:var(--ink-3);line-height:1.5;margin:8px 0 0}
 svg{display:block}
 .axis{stroke:var(--rule);stroke-width:.7;stroke-dasharray:7 3 1 3}
-.silh{fill:rgba(216,178,106,.10);stroke:var(--brass);stroke-width:1.35;stroke-linejoin:round}
-.silh.ghost{fill:rgba(127,179,163,.05);stroke:var(--verdigris);stroke-width:1.5;stroke-dasharray:5 3;opacity:.95}
-.elev{fill:rgba(216,178,106,.055);stroke:rgba(216,178,106,.42);stroke-width:.9}
+.silh{fill:rgba(216,178,106,.10);stroke:none}
+.outline{fill:none;stroke:var(--brass);stroke-width:1.35;stroke-linejoin:round}
+.unpub{fill:none;stroke:var(--ink-2);stroke-width:1;stroke-dasharray:3 2}
+.envelope{fill:none;stroke:var(--copper);stroke-width:1;stroke-dasharray:1.5 2}
+.cmp{fill:rgba(127,179,163,.05);stroke:none}
+.cmp-ink{fill:none;stroke:var(--verdigris);stroke-width:1.5;stroke-dasharray:5 3;opacity:.95}
+.elev{fill:rgba(216,178,106,.055);stroke:none}
+.elev-ink{fill:none;stroke:rgba(216,178,106,.42);stroke-width:.9}
 .asmline{stroke:var(--rule-soft);stroke-width:.7}
 .asmband{cursor:pointer}
 .asmband:hover rect.hit{fill:rgba(216,178,106,.07)}
@@ -65,6 +70,7 @@ svg{display:block}
 .lbl.big{font-family:var(--display);font-size:13px;fill:var(--ink);letter-spacing:.02em}
 .lbl.dim{fill:var(--brass);font-size:9px}
 .lbl.mem{font-size:8px;fill:var(--ink-2)}
+.lbl.un{font-size:8px;fill:var(--copper)}
 .dimline{stroke:var(--brass);stroke-width:.6;opacity:.55}
 #tip{position:fixed;pointer-events:none;z-index:60;background:#08131E;border:1px solid var(--rule);padding:7px 10px;max-width:300px;border-radius:2px;opacity:0;transition:opacity .1s;box-shadow:0 8px 26px rgba(0,0,0,.6)}
 #tip .n{font-family:var(--display);font-size:14px}
@@ -83,7 +89,7 @@ table.dims tr.mem td:first-child{padding-left:10px;font-size:11px}
 .lowc{color:var(--copper);font-size:9px;font-family:var(--mono)}
 .inv{display:flex;gap:8px;font-size:11.5px;color:var(--ink-2);margin-bottom:8px;line-height:1.45}
 .inv .m{font-family:var(--mono);font-size:9px;letter-spacing:.06em;flex:0 0 26px;padding-top:2px}
-.inv .m.ok{color:var(--verdigris)} .inv .m.no{color:var(--iron)}
+.inv .m.ok{color:var(--verdigris)} .inv .m.no{color:var(--iron)} .inv .m.un{color:var(--copper)}
 .rule{border-left:2px solid var(--rule);padding:2px 0 2px 10px;margin-bottom:9px}
 .rule.judg{border-left-color:var(--copper)}
 .rule .k{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);display:flex;justify-content:space-between;gap:8px}
@@ -114,6 +120,8 @@ table.dims tr.mem td:first-child{padding-left:10px;font-size:11px}
     <h2 class="rh">Authority</h2>
     <div class="seg" id="authseg"></div>
     <p class="note" id="authnote"></p>
+    <h2 class="rh">Other order packs</h2>
+    <div class="seg" id="otherseg"></div>
     <h2 class="rh">Compare against</h2>
     <div class="seg" id="ghostseg"></div>
     <h2 class="rh">Scale</h2>
@@ -129,7 +137,7 @@ table.dims tr.mem td:first-child{padding-left:10px;font-size:11px}
     <label class="chk"><input type="checkbox" id="showlabels" checked><span>Member names</span></label>
     <label class="chk"><input type="checkbox" id="showped" checked><span>Pedestal</span></label>
     <p class="note">The drawing is generated from the same data the dimensions come from. Nothing here is traced — if a figure is wrong, the picture is wrong in the same way, which is the point.</p>
-    <p class="note" style="color:var(--copper)">Members drawn in a warmer line carry <b>low or medium confidence</b>: the assembly total is Vignola's, the division among mouldings is apportioned. Hover any member.</p>
+    <p class="note" style="color:var(--copper)">Members drawn in a warmer line carry <b>medium, low or unstated confidence</b>: the authority states the assembly's total, and the division among its mouldings is apportioned or read at low confidence. Hover any member.</p>
   </aside>
 
   <section class="stage"><div id="canvas"></div></section>
@@ -143,72 +151,55 @@ const DATA = /*__DATA__*/null;
 const P = DATA.packs, SYS = DATA.systems;
 
 /* ---------- state ---------- */
-const S = { order:"corinthian", auth:"vignola", ghost:null, diameter:12, ceiling:108, opening:36,
+// `pid` names a pack the order x authority grid cannot reach (greek-doric, moorish-arch belong to
+// no <authority>-<order> pair); null means the grid decides which pack is drawn.
+const S = { order:"corinthian", auth:"vignola", pid:null, ghost:null, diameter:12, ceiling:108, opening:36,
             elev:true, mem:true, labels:true, ped:true, selAsm:null, zoom:1 };
 
-/* ---------- engine port ---------- */
-const STACK = ["pedestal","base","shaft","capital","architrave","frieze","cornice"];
-function stackFor(pk){
-  const A = pk.assemblies||{}, out=[];
-  for(const a of ["pedestal","subplinth","base","shaft","capital"]) if(A[a]) out.push(a);
-  if(A.architrave && A.frieze && A.cornice) out.push("architrave","frieze","cornice");
-  else if(A.entablature) out.push("entablature");
-  return out;
-}
-function synthShaft(pk){
-  const A = pk.assemblies||{}, col=(pk.column||{}).height_modules;
-  if(!col || A.shaft) return null;
-  const used = ["base","capital"].reduce((t,a)=>t+(A[a]?(A[a].height_modules||0):0),0);
-  const h = col-used; if(h<=0) return null;
-  return { height_modules:h, sums_check:false, members:[{ id:"shaft_derived",
-    name:"Shaft (derived: column less base and capital)", height_parts:h*pk.module.parts,
-    projection_parts:0, profile:"flat", confidence:"medium",
-    note:"This authority does not publish the shaft as its own assembly. Height derived from the stated column height." }] };
-}
+/* ---------- the stack, as Python dimensions it ----------
+   THERE IS NO DIMENSIONING ARITHMETIC IN THIS FILE ANY MORE (WP-14.2). It carried its own port of
+   the engine's stack_for, _synth_shaft and dimension(), and the port agreed with Python on every
+   case anyone measured -- 156 of 156 -- which is the reason it went rather than the reason to keep
+   it: a second copy that agrees today is the one nobody re-checks when the engine moves.
+   build/render_orders.py now serves, per pedestal variant, the dimensions proportion_engine
+   .dimension() gives and the paths build/profiles.py constructs, at one reference module. Both are
+   linear in the module (tests/test_profiles.py proves it), so all this page does is multiply. */
 function packId(a,o){ return `${a}-${o}`; }
 function has(a,o){ return !!P[packId(a,o)]; }
-function moduleFor(pk, diameterIn){ return diameterIn * (pk.diameters || 0.5); }
-
-function dimension(pk, diameterIn, include){
-  const mod = moduleFor(pk, diameterIn), parts = pk.module.parts, partIn = mod/parts;
-  pk = {...pk, assemblies:{...(pk.assemblies||{})}};
-  const syn = synthShaft(pk);               // derive first, so the stack sees it
-  if(syn) pk.assemblies.shaft = syn;
-  let order = (include||stackFor(pk)).filter(a => pk.assemblies[a]);
-  if(syn && order.indexOf("shaft")<0){
-    const i = order.indexOf("capital"); order.splice(i<0?order.length:i, 0, "shaft");
+function currentPack(){ return S.pid ? P[S.pid] : P[packId(S.auth,S.order)]; }
+// A pack with no column (moorish-arch: its module is the side of a generating square, "no order
+// and no absolute module") has no diameter for the scale control to set: it is drawn at the
+// module it states, and the page says so rather than inventing a diameter for it.
+function moduleFor(pk, diameterIn){
+  return pk.has_column ? diameterIn * pk.diameters : (pk.module.default_size_in || 0);
+}
+function stackAt(pk, diameterIn, withPedestal){
+  const G = pk.stack && pk.stack[withPedestal ? "with_pedestal" : "no_pedestal"];
+  if(!G) return null;
+  const moduleIn = moduleFor(pk, diameterIn), f = moduleIn / G.module_in;
+  const sc = v => (v==null ? null : v*f);
+  const T = G.totals || {};
+  const out = { G, f, moduleIn, parts:G.parts, partIn:moduleIn/G.parts, assemblies:[],
+    totals:{ stackIn:sc(T.stack_height_in)||0,
+      // a column's figures only where the pack states a column
+      diameterIn: pk.has_column ? sc(T.lower_diameter_in) : null,
+      upperDiameterIn: pk.has_column ? sc(T.upper_diameter_in) : null,
+      columnIn:sc(T.column_height_in), columnD:(T.column_height_diameters==null ? null : T.column_height_diameters),
+      entablatureIn:sc(T.entablature_height_in) } };
+  for(const a of G.assemblies){
+    out.assemblies.push({ id:a.id, heightModules:a.height_modules, heightIn:sc(a.height_in),
+      summedIn:sc(a.summed_in), y0:sc(a.y0), y1:sc(a.y1),
+      members:a.members.map(m => {
+        const s = pk.members[a.id+"/"+m.id] || {}, fx = G.face_x[a.id+"/"+m.id];
+        return { id:m.id, name:s.name||m.id, profile:s.profile||"flat", heightParts:s.height_parts,
+          heightIn:sc(m.height_in), projIn:sc(m.projection_in), y0:sc(m.y0), y1:sc(m.y1),
+          sideBySide:!!m.side_by_side, count:s.count==null ? null : s.count,
+          enrichment:s.enrichment||null, note:s.note||null,
+          // an UNSTATED confidence is not a high one: it stays null and is marked
+          confidence:s.confidence==null ? null : s.confidence,
+          faceX:(fx==null ? null : fx*f) };
+      }) });
   }
-  let y = 0; const out = { moduleIn:mod, partIn, parts, assemblies:[], totals:{} };
-  for(const an of order){
-    const a = pk.assemblies[an], ay = y, members = [];
-    // sums_check:false means the members stand SIDE BY SIDE, not stacked — the Doric
-    // triglyph and metope are both the full height of the frieze. Stacking them would
-    // make the order nine inches too tall and draw the frieze twice.
-    const sideBySide = a.sums_check === false;
-    for(const m of (a.members||[])){
-      const h = (m.height_parts||0)*partIn;
-      const y0 = sideBySide ? ay : y;
-      members.push({ id:m.id, name:m.name, profile:m.profile||"flat",
-        heightParts:m.height_parts||0, heightIn:h,
-        projParts:m.projection_parts||0, projIn:(m.projection_parts||0)*partIn,
-        y0, y1:y0+h, count:m.count||null, sideBySide,
-        spacingIn:m.spacing_parts? m.spacing_parts*partIn : null,
-        enrichment:m.enrichment||null, confidence:m.confidence||"high", note:m.note||null });
-      if(!sideBySide) y += h;
-    }
-    if(sideBySide) y = ay + (a.height_modules||0)*mod;
-    out.assemblies.push({ id:an, heightModules:a.height_modules, heightIn:(a.height_modules||0)*mod,
-      summedIn:y-ay, y0:ay, y1:y, members });
-  }
-  out.totals.stackIn = y;
-  const c = pk.column||{};
-  out.totals.diameterIn = diameterIn;
-  if(c.height_modules){
-    out.totals.columnIn = c.height_modules*mod;
-    out.totals.columnD = c.height_modules*(pk.diameters||0.5);
-    if(c.diminution) out.totals.upperDiameterIn = diameterIn*c.diminution;
-  }
-  if(pk.assemblies && pk.assemblies.entablature) out.totals.entablatureIn = pk.assemblies.entablature.height_modules*mod;
   return out;
 }
 
@@ -263,11 +254,6 @@ function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>
    tests/test_profiles.py, not assumed — so all that is left to do here is scale and stack. A
    line is a line and an arc is an arc; this file no longer knows what a cyma is. */
 
-function geomFor(pk, withPedestal){
-  const g = pk.geometry && pk.geometry[withPedestal ? "with_pedestal" : "no_pedestal"];
-  return g || null;
-}
-
 /* Segments -> SVG path commands, at whatever module the caller is drawing. `f` is the ratio of
    the drawn module to the module the geometry was constructed at. The sweep flag is recomputed
    for the screen because sy() flips y, and a flip reverses the way an arc turns. Emits NO
@@ -292,59 +278,40 @@ function placed(pathD, tx, ty, sx, sy, cls, extra){
        + `<path class="${cls}" d="${pathD}" vector-effect="non-scaling-stroke"${extra||""}/></g>`;
 }
 
-function geomMaxX(geo, f){
-  let mx = 0;
-  for(const a of geo.assemblies){
-    mx = Math.max(mx, a.start[0]*f);
-    for(const s of a.segments){ if(s.to) mx = Math.max(mx, s.to[0]*f); }
-  }
-  return mx;
-}
-
-function colRadiusFromGeometry(geo, f, y){
-  /* The shaft's radius at a height, read off the geometry's own stated shaft rather than
-     recomputed. Used only for the fluting hint. */
-  const sh = geo.shaft;
-  if(!sh) return geo.lower_radius_in*f;
-  const y0 = sh.y0*f, y1 = sh.y1*f;
-  const R = geo.lower_radius_in*f, Rt = geo.upper_radius_in*f;
-  if(y <= y0) return R;
-  if(y >= y1) return Rt;
-  const t = (y-y0)/(y1-y0), e = sh.entasis_begins_at || 0;
-  if(t <= e) return R;
-  const u = (t-e)/(1-e);
-  return R - (R-Rt)*(u*u*(3-2*u));
-}
-
 /* ---------- draw ---------- */
 function draw(){
-  const pk = P[packId(S.auth,S.order)];
+  const pk = currentPack();
   const canvas = document.getElementById("canvas");
-  if(!pk){ canvas.innerHTML = `<div style="padding:60px;color:var(--ink-3);font-family:var(--mono);font-size:12px">This authority does not publish this order.</div>`; return; }
-  const inc = p2 => stackFor(p2).filter(a=> S.ped || (a!=="pedestal" && a!=="subplinth"));
-  const dim = dimension(pk, S.diameter, inc(pk));
+  if(!pk){ canvas.innerHTML = `<div data-pack="" style="padding:60px;color:var(--ink-3);font-family:var(--mono);font-size:12px">This authority does not publish this order.</div>`; return; }
+  const dim = stackAt(pk, S.diameter, S.ped);
+  const meta = document.getElementById("meta");
+  if(!dim || !dim.assemblies.length){
+    // moorish-arch: an arch system, not a column stack. Its rules and record are real; a section
+    // of a stack it does not have would not be.
+    canvas.innerHTML = `<div data-pack="${esc(pk.id)}" style="padding:60px;color:var(--ink-3);font-family:var(--mono);font-size:12px;max-width:70ch;line-height:1.6">${esc(pk.name)} states no column stack, so there is no section to draw.${pk.has_column ? "" : ` It has no column at all: its module is ${esc(pk.module.name||"")}, taken at the ${inches(pk.module.default_size_in)} it states, and the column-diameter control does not reach it.`} Its rules and its record are at the right.</div>`;
+    renderInfo(pk, dim);
+    meta.innerHTML = pk.has_column ? "" : `no column &nbsp;·&nbsp; module <b>${inches(pk.module.default_size_in)}</b> in ${pk.module.parts} parts, as stated`;
+    return;
+  }
+  const G = dim.G, f = dim.f;
   const total = dim.totals.stackIn || 1;
 
   const stage = document.querySelector("section.stage");
   const avail = Math.max(420, stage.clientHeight - 26);
   const H = Math.round(avail * S.zoom);
   const k = (H-84)/total;
-  const geo0 = geomFor(pk, S.ped);
-  const f = geo0 ? (dim.moduleIn / geo0.module_in) : 1;   // geometry is linear in the module
-  /* Member faces, read off the constructed geometry rather than re-derived here. This is the
-     whole of what this file knows about where a moulding reaches. */
-  const faceOf = {};
-  if(geo0) for(const a of geo0.assemblies) for(const fc of a.faces) faceOf[a.id+"/"+fc.id] = fc.x*f;
+  /* Member faces, read off the constructed geometry (face_x) rather than re-derived here. This is
+     the whole of what this file knows about where a moulding reaches. */
   const pts = [];
   for(const a of dim.assemblies){
     const seen = new Set();
     for(const m of a.members){
       if(m.sideBySide){ if(seen.has("x")) continue; seen.add("x"); }
-      const x = faceOf[a.id+"/"+m.id];
-      pts.push({ asm:a.id, m, x0: x===undefined? 0 : x, x1: x===undefined? 0 : x });
+      pts.push({ asm:a.id, m, x: m.faceX==null ? 0 : m.faceX });
     }
   }
-  const maxX = Math.max(geo0 ? geomMaxX(geo0, f) : 0, dim.totals.diameterIn);
+  // THE FRAME IS THE INK'S OWN EXTENT, as Python measured it (bbox_in), ghosts included.
+  const maxX = G.bbox_in ? G.bbox_in.x1*f : (dim.totals.diameterIn||0)/2;
   const CAP = 132;                                   // left gutter for assembly captions
   const leftW = S.elev ? maxX*k : 0;
   const OX = CAP + leftW + 26, OY = H-40;
@@ -367,50 +334,45 @@ function draw(){
   }
   g += `<line class="asmline" x1="${CAP-14}" y1="${sy(total)}" x2="${W-46}" y2="${sy(total)}"/>`;
 
-  // elevation half (mirrored, quiet)
+  // elevation half (mirrored, quiet): the body filled, its ink stroked -- never the fill's own
+  // edge, which runs across every member whose face nobody published
   if(S.elev){
-    const dsx = x => OX - x*k;
-    g += placed(geo0 && geo0.path, OX, sy(0), -k*f, -k*f, "elev");
-    // flutes hint on the shaft
-    const sh = dim.assemblies.find(a=>a.id==="shaft");
-    const fl = pk.column && pk.column.fluting && pk.column.fluting.count;
-    if(sh && fl){
-      const n = Math.min(9, Math.round(fl/2.4));
-      for(let i=1;i<n;i++){
-        const frac = i/n;
-        let dd = "";
-        for(let t=0;t<=10;t++){
-          const yy = sh.y0 + (sh.y1-sh.y0)*(t/10);
-          const r = colRadiusFromGeometry(geo0, f, yy)*frac;
-          dd += (t?" L ":"M ") + dsx(r).toFixed(1) + "," + sy(yy).toFixed(1);
-        }
-        g += `<path d="${dd}" fill="none" stroke="rgba(216,178,106,.16)" stroke-width=".7"/>`;
-      }
-    }
+    g += placed(G.path, OX, sy(0), -k*f, -k*f, "elev");
+    g += placed(G.outline_path, OX, sy(0), -k*f, -k*f, "elev-ink");
+    /* THE FLUTES, as Python lays them out (profiles.flute_arrises): one line per arris at
+       r(y)·sin((k+½)·2π/n) up the shaft body. The count is the record's; which of a flute or an
+       arris stands on the axis is a convention no pack states, and the panel says so. This used to
+       be round(n/2.4) lines, at most nine, at evenly spaced fractions of the radius. */
+    if(G.flutes) for(const line of G.flutes.lines)
+      g += placed(line, OX, sy(0), -k*f, -k*f, "flute", ' fill="none" stroke="rgba(216,178,106,.16)" stroke-width=".7"');
   }
 
-  // the section itself
-  g += placed(geo0 && geo0.path, OX, sy(0), k*f, -k*f, "silh");
+  // the section itself: the body, its ink, and what the record does not give
+  g += placed(G.path, OX, sy(0), k*f, -k*f, "silh");
+  g += placed(G.outline_path, OX, sy(0), k*f, -k*f, "outline");
+  g += placed(G.ghost_path, OX, sy(0), k*f, -k*f, "unpub");
+  g += placed(G.envelope_path, OX, sy(0), k*f, -k*f, "envelope");
 
-  // ghost comparison
-  if(S.ghost && P[packId(S.ghost,S.order)]){
-    const gp = P[packId(S.ghost,S.order)];
-    const gd = dimension(gp, S.diameter, inc(gp));
-    const gg = geomFor(gp, S.ped);
-    const gf = gg ? (gd.moduleIn / gg.module_in) : 1;
-    const foot = d2 => { const a = d2.assemblies.find(x=>x.id==="base") || d2.assemblies.find(x=>x.id==="shaft"); return a? a.y0 : 0; };
-    const dy = foot(dim) - foot(gd);                 // align at the foot of the column
-    const gsy = y => sy(y + dy);
-    g += placed(gg && gg.path, OX, gsy(0), k*gf, -k*gf, "silh ghost");
-    g += `<line class="dimline" style="stroke:var(--verdigris)" x1="${sx(0)}" y1="${gsy(gd.totals.stackIn)}" x2="${W-46}" y2="${gsy(gd.totals.stackIn)}" stroke-dasharray="4 3"/>`;
-    g += `<text class="lbl" style="fill:var(--verdigris)" x="${W-50}" y="${gsy(gd.totals.stackIn)-5}" text-anchor="end">${esc(gp.name)} — ${inches(gd.totals.stackIn)} overall${gd.totals.columnD?` · ${gd.totals.columnD} D column`:""}</text>`;
+  // comparison
+  const cmp = S.ghost ? P[packId(S.ghost, pk.order)] : null;
+  if(cmp && cmp !== pk){
+    const gd = stackAt(cmp, S.diameter, S.ped);
+    if(gd && gd.assemblies.length){
+      const foot = d2 => { const a = d2.assemblies.find(x=>x.id==="base") || d2.assemblies.find(x=>x.id==="shaft"); return a? a.y0 : 0; };
+      const dy = foot(dim) - foot(gd);                 // align at the foot of the column
+      const gsy = y => sy(y + dy);
+      g += placed(gd.G.path, OX, gsy(0), k*gd.f, -k*gd.f, "cmp");
+      g += placed(gd.G.outline_path, OX, gsy(0), k*gd.f, -k*gd.f, "cmp-ink");
+      g += `<line class="dimline" style="stroke:var(--verdigris)" x1="${sx(0)}" y1="${gsy(gd.totals.stackIn)}" x2="${W-46}" y2="${gsy(gd.totals.stackIn)}" stroke-dasharray="4 3"/>`;
+      g += `<text class="lbl" style="fill:var(--verdigris)" x="${W-50}" y="${gsy(gd.totals.stackIn)-5}" text-anchor="end">${esc(cmp.name)} — ${inches(gd.totals.stackIn)} overall${gd.totals.columnD?` · ${gd.totals.columnD} D column`:""}</text>`;
+    }
   }
 
   // member divisions and labels
   if(S.mem){
     for(const p of geo.pts){
       const low = p.m.confidence!=="high";
-      g += `<line class="memline${low?" hi":""}" x1="${sx(0)}" y1="${sy(p.m.y1)}" x2="${sx(Math.max(p.x0,p.x1))+6}" y2="${sy(p.m.y1)}"/>`;
+      g += `<line class="memline${low?" hi":""}" x1="${sx(0)}" y1="${sy(p.m.y1)}" x2="${sx(p.x)+6}" y2="${sy(p.m.y1)}"/>`;
     }
   }
   if(S.labels){
@@ -420,9 +382,9 @@ function draw(){
       const yy = sy((p.m.y0+p.m.y1)/2);
       if(yy - lastY < 10) continue;
       lastY = yy;
-      const x = sx(Math.max(p.x0,p.x1))+10;
+      const x = sx(p.x)+10;
       const nm = p.m.name.length>34 ? p.m.name.slice(0,33)+"…" : p.m.name;
-      g += `<text class="lbl mem" x="${x}" y="${yy+3}">${esc(nm)}<tspan class="lbl dim">   ${inches(p.m.heightIn)}</tspan></text>`;
+      g += `<text class="lbl mem" x="${x}" y="${yy+3}">${esc(nm)}<tspan class="lbl dim">   ${inches(p.m.heightIn)}</tspan>${p.m.projIn==null?`<tspan class="lbl un">  no projection</tspan>`:""}</text>`;
     }
   }
 
@@ -439,11 +401,18 @@ function draw(){
         <line class="dimline" x1="${W-35}" y1="${sy(total)}" x2="${W-25}" y2="${sy(total)}"/>
         <text class="lbl dim" transform="translate(${W-16},${(sy(0)+sy(total))/2}) rotate(-90)" text-anchor="middle">${inches(total)} overall</text>`;
 
-  canvas.innerHTML = `<svg width="${W}" height="${H}" id="ordersvg">${g}</svg>`;
+  /* WP-14.1: WHAT THIS DRAWING'S PIXELS MEAN IN INCHES, stated on the SVG in
+     build/sheet_style.py::frame_attr's one affine -- u is inches out from the column's axis
+     (the mirrored elevation half is negative u), v is inches up from the foot of the stack -- so
+     tests/svg_census.py can read the ink back without re-deriving k from this function. */
+  const frame = JSON.stringify({ plates: [{ id: "section", proj: "order", unit: "in",
+    px_per_in: k, origin_px: [OX, OY], at_origin_in: [0, 0] }] }).replace(/'/g, "&apos;");
+  canvas.innerHTML = `<svg width="${W}" height="${H}" id="ordersvg" data-pack="${esc(pk.id)}" data-frame='${frame}'>${g}</svg>`;
   wireStage(geo, dim, sx, sy);
   renderInfo(pk, dim);
-  document.getElementById("meta").innerHTML =
-    `<b>${dim.totals.columnD||"—"}</b> diameter column &nbsp;·&nbsp; module <b>${inches(dim.moduleIn)}</b> in ${dim.parts} parts &nbsp;·&nbsp; one part <b>${inches(dim.partIn)}</b> &nbsp;·&nbsp; overall <b>${inches(total)}</b>`;
+  meta.innerHTML = pk.has_column
+    ? `<b>${dim.totals.columnD||"—"}</b> diameter column &nbsp;·&nbsp; module <b>${inches(dim.moduleIn)}</b> in ${dim.parts} parts &nbsp;·&nbsp; one part <b>${inches(dim.partIn)}</b> &nbsp;·&nbsp; overall <b>${inches(total)}</b>`
+    : `no column &nbsp;·&nbsp; module <b>${inches(dim.moduleIn)}</b> in ${dim.parts} parts, as stated &nbsp;·&nbsp; overall <b>${inches(total)}</b>`;
 }
 
 function wireStage(geo, dim, sx, sy){
@@ -455,9 +424,9 @@ function wireStage(geo, dim, sx, sy){
     for(const p of geo.pts){ if(my >= sy(p.m.y1) && my <= sy(p.m.y0)) { hit = p; break; } }
     if(!hit){ tip.style.opacity=0; return; }
     const m = hit.m;
-    const cf = m.confidence==="high" ? "" : `<div class="s" style="color:var(--copper);margin-top:4px">${m.confidence} confidence — ${esc(m.note||"apportioned within a stated assembly total")}</div>`;
+    const cf = m.confidence==="high" ? "" : `<div class="s" style="color:var(--copper);margin-top:4px">${m.confidence||"unstated"} confidence — ${esc(m.note||"apportioned within a stated assembly total")}</div>`;
     tip.innerHTML = `<div class="n">${esc(m.name)}</div>
-      <div class="d">${m.heightParts}p = ${inches(m.heightIn)} &nbsp;·&nbsp; projection ${inches(m.projIn)}</div>
+      <div class="d">${m.heightParts}p = ${inches(m.heightIn)} &nbsp;·&nbsp; ${m.projIn==null ? "no projection published" : "projection "+inches(m.projIn)}</div>
       <div class="s">${esc(m.profile)}${m.enrichment?` — ${esc(m.enrichment)}`:""}${m.count?` &nbsp;×${m.count}`:""}</div>${cf}`;
     tip.style.opacity = 1;
     const tr = tip.getBoundingClientRect();
@@ -474,6 +443,46 @@ function wireStage(geo, dim, sx, sy){
 </script>
 <script>
 /* ---------- info panel ---------- */
+/* WHAT THE DRAWING DOES NOT STATE (WP-14.2), in the words the committed profile plates use, so a
+   reader of either surface is told the same thing. Every figure is Python's: the unpublished
+   members, the unconstructed ones, the curves the record gives no run, the datum each assembly was
+   read on, the die, and the flutes' setting-out. Nothing is counted here that was not served. */
+function named(list){ return list.map(u => (u.id||"").replace(/_/g," ")).join(", "); }
+function andList(xs){ return xs.length < 2 ? xs.join("") : xs.slice(0,-1).join(", ") + " and " + xs[xs.length-1]; }
+function drawingWords(pk, dim){
+  const G = dim.G, out = [];
+  const n = dim.assemblies.reduce((t,a)=>t+a.members.length, 0);
+  const un = G.unpublished || [], uc = G.unconstructed || [], st = G.drawn_straight || [];
+  out.push(un.length
+    ? `${un.length} member(s) drawn as a dashed bracket at the naked: no projection published, so no face is drawn for them: ${esc(named(un))}.`
+    : `All ${n} member(s) publish a projection.`);
+  if(uc.length) out.push(`${uc.length} member(s) NOT CONSTRUCTED: drawn as their dashed envelope, the box their height and projection bound, with no shape inside it: ${esc(named(uc))}.`);
+  if(st.length) out.push(`${st.length} CURVED MEMBER(S) DRAWN STRAIGHT: the record gives each the same face as the member below it, so it has no run to curve through: ${esc(named(st))}.`);
+  const weak = dim.assemblies.reduce((t,a)=>t+a.members.filter(m=>m.confidence!=="high").length, 0);
+  if(weak) out.push(`${weak} member(s) carry medium, low or unstated confidence: their division lines are drawn warm, the authority's total being stated and the division among them apportioned or read at low confidence.`);
+  // the datum, per assembly as Python read it (OQ 65, OQ 78)
+  const by = {axis:[], naked:[], unjudged:[]};
+  for(const a of dim.assemblies){ const d = (G.assembly_datum||{})[a.id]; if(by[d]) by[d].push(a.id); }
+  const cl = [];
+  if(by.axis.length) cl.push(`from the axis for the ${andList(by.axis)}`);
+  if(by.naked.length) cl.push(`from each member’s own naked for the ${andList(by.naked)}`);
+  if(cl.length) out.push(`Projections are measured ${cl.join("; and ")} — each assembly is read on its own figures${pk.projection_datum ? "" : "; this pack declares no datum at all"}.`);
+  if(by.unjudged.length) out.push(`No datum can be read for the ${andList(by.unjudged)}: no member there publishes a projection.`);
+  if(dim.assemblies.some(a=>a.id==="pedestal"||a.id==="subplinth"))
+    out.push(G.die_naked==="derived"
+      ? "The pedestal’s die is drawn on the face of the base’s plinth, read on the base’s own datum."
+      : `The pedestal’s die is not derived: ${esc(G.die_naked_reason||"")}.`);
+  // what the stack left out, and why (proportion_engine.stack_notes)
+  for(const n of (G.stack_notes||[])){
+    if(n.kind==="alternative")
+      out.push(`The ${esc(n.assembly)} is not drawn: it is offered instead of the ${esc(n.instead_of)}, never on it${n.note?` — ${esc(n.note)}`:""}.`);
+    else if(n.kind==="entablature-whole")
+      out.push(`The entablature is drawn whole, as ${esc(n.owner)} states it: the architrave, frieze and cornice it inherits from ${esc(andList([...new Set(Object.values(n.triplet_owners||{}))]))} add up to a different height, so they are not drawn here, and their own plates say whose they are.`);
+  }
+  if(G.flutes && S.elev) out.push(`${G.flutes.count} flutes: the lines on the elevation are where ${G.flutes.count} flutes project, set out with a flute on the axis — ${esc(G.flutes.setting_is)}.`);
+  return `<h3 class="sec">What the drawing does not state</h3>` + out.map(t=>`<p class="note disclose">${t}</p>`).join("");
+}
+
 function renderInfo(pk, dim){
   const el = document.getElementById("info");
   const rules = evaluateRules(pk, S.diameter);
@@ -486,27 +495,38 @@ function renderInfo(pk, dim){
     h += `<div class="p-src" style="color:var(--verdigris);margin-top:6px">Resolved as an overlay: ${pk.resolved_from.join(" → ")}. Everything this authority does not restate, it inherits.</div>`;
 
   h += `<h3 class="sec">Dimensions</h3><table class="dims">`;
-  const T = dim.totals;
-  h += `<tr class="asm"><td>Overall</td><td class="v">${inches(T.stackIn)}</td></tr>`;
-  h += `<tr><td>Column</td><td class="v">${inches(T.columnIn)} &nbsp;(${T.columnD} D)</td></tr>`;
-  h += `<tr><td>Lower diameter</td><td class="v">${inches(T.diameterIn)}</td></tr>`;
-  h += `<tr><td>Upper diameter</td><td class="v">${inches(T.upperDiameterIn)}</td></tr>`;
+  const T = dim ? dim.totals : {};
+  const asms = dim ? dim.assemblies : [];
+  h += `<tr class="asm"><td>Overall</td><td class="v">${asms.length ? inches(T.stackIn) : "no stack"}</td></tr>`;
+  if(pk.has_column){
+    h += `<tr><td>Column</td><td class="v">${inches(T.columnIn)} &nbsp;(${T.columnD==null?"—":T.columnD} D)</td></tr>`;
+    h += `<tr><td>Lower diameter</td><td class="v">${inches(T.diameterIn)}</td></tr>`;
+    h += `<tr><td>Upper diameter</td><td class="v">${inches(T.upperDiameterIn)}</td></tr>`;
+  } else {
+    h += `<tr><td>Column</td><td class="v">none stated</td></tr>`;
+  }
   if(T.entablatureIn) h += `<tr><td>Entablature</td><td class="v">${inches(T.entablatureIn)}</td></tr>`;
-  for(const a of dim.assemblies){
+  for(const a of asms){
     const open = S.selAsm===a.id;
     const mism = a.summedIn && Math.abs(a.heightIn-a.summedIn)>0.02;
     h += `<tr class="asm"><td>${a.id}${mism?' <span class="lowc">side by side</span>':''}</td><td class="v">${Math.round(a.heightModules*1000)/1000} M · ${inches(a.heightIn)}</td></tr>`;
     if(open) for(const m of a.members){
-      h += `<tr class="mem"><td>${esc(m.name)}${m.confidence!=="high"?` <span class="lowc">${m.confidence}</span>`:""}</td><td class="v">${m.heightParts}p · ${inches(m.heightIn)}</td></tr>`;
+      h += `<tr class="mem"><td>${esc(m.name)}${m.confidence!=="high"?` <span class="lowc">${m.confidence||"unstated"}</span>`:""}${m.projIn==null?` <span class="lowc">no projection</span>`:""}</td><td class="v">${m.heightParts}p · ${inches(m.heightIn)}</td></tr>`;
     }
   }
   h += `</table>`;
-  if(!S.selAsm) h += `<p class="note">Click a band on the drawing to open its members.</p>`;
+  if(!S.selAsm && asms.length) h += `<p class="note">Click a band on the drawing to open its members.</p>`;
+  if(asms.length) h += drawingWords(pk, dim);
 
   if(pk.invariants && pk.invariants.length){
     h += `<h3 class="sec">What the pack proves about itself</h3>`;
     for(const i of pk.invariants){
-      h += `<div class="inv"><span class="m ${i.holds?"ok":"no"}">${i.holds?"holds":"FAIL"}</span><span>${esc(i.statement)}</span></div>`;
+      /* THREE STATES (WP-14.2). check_invariants() returns holds: null where the expression could
+         not be evaluated, and this printed FAIL for it -- a failure nobody measured, on the pack's
+         own proof of itself. Every one of the 169 holds today, so the branch is driven by
+         tests/svg_census.py (O4) rather than trusted by absence. */
+      const st = i.holds===true ? ["ok","holds"] : i.holds===false ? ["no","FAIL"] : ["un","N/EV"];
+      h += `<div class="inv"><span class="m ${st[0]}">${st[1]}</span><span>${esc(i.statement)}${i.holds==null?` <span class="lowc">could not be evaluated${i.error?": "+esc(i.error):""}</span>`:""}</span></div>`;
     }
   }
 
@@ -560,19 +580,29 @@ function renderInfo(pk, dim){
 }
 
 /* ---------- controls ---------- */
-const ORD = document.getElementById("orderseg"), AUT = document.getElementById("authseg"), GH = document.getElementById("ghostseg");
+const ORD = document.getElementById("orderseg"), AUT = document.getElementById("authseg"),
+      OTH = document.getElementById("otherseg"), GH = document.getElementById("ghostseg");
+/* THE PACKS THE GRID CANNOT NAME (WP-14.2). The order x authority grid reaches 24 of the 26 order
+   packs; greek-doric and moorish-arch belong to no <authority>-<order> pair, so the page carried
+   both and no button selected either. They are listed by their own names. */
+const OTHER = Object.keys(P).filter(id => !DATA.authorities.some(a => DATA.orders.some(o => packId(a.id,o)===id)));
 function buildControls(){
+  const inGrid = !S.pid;
   ORD.innerHTML = DATA.orders.map(o=>
-    `<button data-o="${o}" class="${S.order===o?"on":""}" ${has(S.auth,o)?"":"disabled"}>${o.slice(0,4)}</button>`).join("");
+    `<button data-o="${o}" class="${inGrid&&S.order===o?"on":""}" ${has(S.auth,o)?"":"disabled"}>${o.slice(0,4)}</button>`).join("");
   AUT.innerHTML = DATA.authorities.map(a=>
-    `<button data-a="${a.id}" class="${S.auth===a.id?"on":""}" ${has(a.id,S.order)?"":"disabled"} title="${esc(a.work)}">${esc(a.name)}<span class="yr">${a.year}</span></button>`).join("");
-  GH.innerHTML = `<button data-g="" class="${S.ghost?"":"on"}">none</button>` + DATA.authorities.filter(a=>a.id!==S.auth).map(a=>
-    `<button data-g="${a.id}" class="${S.ghost===a.id?"on":""}" ${has(a.id,S.order)?"":"disabled"}>${esc(a.name)}</button>`).join("");
-  const am = (P[packId(S.auth,S.order)]||{}).authority_meta||{};
+    `<button data-a="${a.id}" class="${inGrid&&S.auth===a.id?"on":""}" ${has(a.id,S.order)?"":"disabled"} title="${esc(a.work)}">${esc(a.name)}<span class="yr">${a.year}</span></button>`).join("");
+  OTH.innerHTML = OTHER.map(id=>
+    `<button data-p="${id}" class="${S.pid===id?"on":""}">${esc(P[id].name)}</button>`).join("");
+  const pk = currentPack() || {};
+  GH.innerHTML = `<button data-g="" class="${S.ghost?"":"on"}">none</button>` + DATA.authorities.filter(a=>packId(a.id,pk.order)!==pk.id).map(a=>
+    `<button data-g="${a.id}" class="${S.ghost===a.id?"on":""}" ${has(a.id,pk.order)?"":"disabled"}>${esc(a.name)}</button>`).join("");
+  const am = pk.authority_meta||{};
   document.getElementById("authnote").textContent = am.note ? am.note.slice(0,240) : "";
 }
-ORD.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b||b.disabled)return; S.order=b.dataset.o; S.selAsm=null; buildControls(); draw(); });
-AUT.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b||b.disabled)return; S.auth=b.dataset.a; if(S.ghost===S.auth) S.ghost=null; buildControls(); draw(); });
+ORD.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b||b.disabled)return; S.order=b.dataset.o; S.pid=null; S.selAsm=null; buildControls(); draw(); });
+AUT.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b||b.disabled)return; S.auth=b.dataset.a; S.pid=null; if(S.ghost===S.auth) S.ghost=null; buildControls(); draw(); });
+OTH.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b||b.disabled)return; S.pid=b.dataset.p; S.ghost=null; S.selAsm=null; buildControls(); draw(); });
 GH.addEventListener("click", e=>{ const b=e.target.closest("button"); if(!b||b.disabled)return; S.ghost=b.dataset.g||null; buildControls(); draw(); });
 function bindNum(id, key, mirror){
   const el = document.getElementById(id);

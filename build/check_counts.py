@@ -402,6 +402,14 @@ CLAIMS = [
     # exactly -- "name the surface the checker does not read" -- and the remedy is the same: read it.
     ("STATE-OF-THE-PROJECT.md", "measured_unsourced",      r"\*\*(\d+) `measured` kit parameters cite no source\*\*"),
     ("CLAUDE.md",              "read_slots",              r"of them on one of the (\d+) generator-read slots"),
+    # WP-14.6. THE SAME FIGURE IN FOUR MORE PLACES, NONE OF THEM READ: WP-14.5 took it 536 -> 534
+    # and the build stayed green with 536 standing in CLAUDE.md, PLAN, docs/precedents.md and the
+    # question it bounds. Each is read now, on the line that carries it.
+    ("CLAUDE.md",              "measured_unsourced",      r"^holds (\d+) `\(node, slot, parameter\)` triples"),
+    ("docs/precedents.md",     "measured_unsourced",      r"\*\*C part 1 is NOT ruled\*\*: the (\d+)$"),
+    ("PLAN-OF-ACTION.md",      "measured_unsourced",      r"kit figures with no source \((\d+) today"),
+    ("docs/open-questions/oq-a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure.md",
+                               "measured_unsourced",      r"^\| nothing at all \(the grandfathered set\) \| (\d+) \|$"),
     # WP-11.7 corrected the WORD from "a sibling" to "ANOTHER NODE" (the counter is corpus-wide).
     # THIS REGEX IS WHY THAT SWEEP MATTERED: a CLAIM pattern carries the prose it polices, so
     # rewording the sentence without it turns a live guard into "0 patterns not found" -- which

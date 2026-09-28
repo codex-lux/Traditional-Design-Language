@@ -185,3 +185,304 @@ def test_the_cp_counter_gives_every_relaxation_a_wall_to_sit_on():
     assert not unlocated and len(drawn) == len(marks)
     assert all(a >= 25.0 for _m, runs, _at in drawn for a, _b in runs
                if _m["axis"] == "x"), "and not across the room below it"
+
+
+def _plate_from(fx):
+    """The frozen rooms drawn on the Python plate, read back as ink."""
+    import os
+    import tempfile
+    sys.path.insert(0, str(ROOT / "tests"))
+    import inkread as IR
+    plan = {"id": fx["plan"], "name": fx["plan"], "footprint": dict(fx["footprint"]),
+            "levels": [{"id": lv["id"], "index": lv["index"], "rooms": lv["rooms"]} for lv in fx["levels"]]}
+    d = tempfile.mkdtemp()
+    out = os.path.join(d, "plate.svg")
+    render_plan.render(plan, out)
+    return IR, IR.Ink(open(out).read())
+
+
+def _door_key(room_id, d):
+    return ("ext", room_id) if d["to"] == "exterior" else ("int",) + tuple(sorted((room_id, d["to"])))
+
+
+def _rehung(fx, mode="high", unseat=False):
+    """DRIVEN: every door in the record re-hung, and the contract re-derived from the rooms by the
+    one function that states it. `openings.place` writes `hinge: "low"` on every door it seats, so
+    no frozen fixture reaches the other jamb -- and a mutation hanging a high leaf from the low jamb
+    left the ink check green until this existed. `mode` is "high" (every door) or "mixed"
+    (alternate doors, in the sorted order of their keys, so both sides of an interior door agree).
+
+    `unseat` (WP-14.6) also strips each door's seat, so every door is drawn on the paths the
+    frozen fixtures never reach: an interior door on the two rooms' shared run, an exterior door
+    on the first declared wall the placement put outside. The bench was dropping the record's
+    hinge on the second, and nothing on either side read those paths.
+
+    WP-14.6's second audit: THE UNSEATED VARIANT HUNG EVERY DOOR HIGH, so a derivation answering
+    "high" on those paths whatever the record said -- the defect's mirror image -- was as green as
+    the right one: the contract below is re-derived by the function under test, and the ink agrees
+    with whatever it says. It hangs the doors MIXED now, and every derived door is held to the jamb
+    its own record names, which a constant cannot satisfy on both."""
+    import copy
+    fx = copy.deepcopy(fx)
+    W, H = fx["footprint"]["width_ft"], fx["footprint"]["depth_ft"]
+    keys = sorted({_door_key(r["id"], d) for lv in fx["levels"] for r in lv["rooms"] for d in r.get("doors") or []})
+    hinge_of = {k: ("high" if mode == "high" or i % 2 else "low") for i, k in enumerate(keys)}
+    for lv in fx["levels"]:
+        for r in lv["rooms"]:
+            for d in r.get("doors") or []:
+                d["hinge"] = hinge_of[_door_key(r["id"], d)]
+                if unseat:
+                    for k in ("wall", "position_ft", "unplaced"):
+                        d.pop(k, None)
+        lv["expected"] = render_plan.derive_openings(lv["rooms"], W, H)
+        for d in lv["expected"]["interior"]:
+            want = hinge_of[("int",) + tuple(sorted(d["pair"]))]
+            assert d["hinge"] == want, "%s: %s derived hung %s, its record says %s" % (lv["id"], d["pair"], d["hinge"], want)
+        for d in lv["expected"]["exterior"]:
+            want = hinge_of[("ext", d["room"])]
+            assert d["hinge"] == want, "%s: the %s/%s door derived hung %s, its record says %s" % (
+                lv["id"], d["room"], d["wall"], d["hinge"], want)
+    assert any(d["hinge"] == "high" for lv in fx["levels"] for d in lv["expected"]["interior"]), (
+        "the premise: the re-derived contract hangs its doors from the high jamb")
+    if mode == "mixed":
+        hung = {d["hinge"] for lv in fx["levels"] for d in lv["expected"]["interior"] + lv["expected"]["exterior"]}
+        assert hung == {"low", "high"}, "the premise: a mixed hanging reaches both jambs, not %s" % sorted(hung)
+    if unseat:
+        assert any(d["inferred_wall"] for lv in fx["levels"] for d in lv["expected"]["exterior"]), (
+            "the premise: an unseated exterior door is drawn on an inferred wall")
+        assert {d["hinge"] for lv in fx["levels"] for d in lv["expected"]["exterior"] if d["inferred_wall"]} \
+            == ({"low", "high"} if mode == "mixed" else {"high"}), (
+            "the premise: the inferred-wall doors are hung both ways, or the path is not guarded")
+    return fx
+
+
+@pytest.mark.parametrize("hinge", ["as-frozen", "high", "unseated-mixed"])
+@pytest.mark.parametrize("path", _fixtures(), ids=lambda p: p.stem)
+def test_the_python_ink_stands_every_leaf_and_window_where_the_contract_does(path, hinge):
+    """WP-14.4: THE CONTRACT WAS A CONTRACT ABOUT A MODEL. `derive_openings` was held to the
+    fixture and nothing held the INK to either -- the plate could hang a leaf from the other jamb,
+    swing it into the other room or stand a window on another face while `expected` stayed green,
+    which is the class WP-5.11 names (a green suite proved the model and said nothing about the
+    drawing). Every single leaf's hinge and swing, and every window's glazing, is read off the
+    rendered plate through the plate's own stated frame and put where the contract says."""
+    fx = json.loads(path.read_text())
+    if hinge == "high":
+        fx = _rehung(fx, "high")
+    elif hinge == "unseated-mixed":
+        fx = _rehung(fx, "mixed", unseat=True)
+    IR, ink = _plate_from(fx)
+    plates = {p["level"]: p for p in ink.frames() if p.get("proj") == "plan"}
+    wall = render_plan.ASSEMBLIES.wall_thickness({"footprint": fx["footprint"]})
+    t = wall["exterior_in"] / 12.0
+    leaves, glazing = [], []
+    for it in ink.items:
+        if it.tag != "line":
+            continue
+        a = [float(it.attrs[k]) for k in ("x1", "y1", "x2", "y2")]
+        (leaves if "dr" in it.classes else glazing if "win" in it.classes else []).append(a)
+    checked = 0
+    for lv in fx["levels"]:
+        pl = plates[lv["index"]]
+        ft = lambda x, y: IR.to_model(pl, x, y)  # noqa: E731
+        segs = lambda lines: [(ft(a[0], a[1]), ft(a[2], a[3])) for a in lines]  # noqa: E731
+        drawn_leaves, drawn_glass = segs(leaves), segs(glazing)
+        near = lambda p, q: abs(p[0] - q[0]) < 0.1 and abs(p[1] - q[1]) < 0.1  # noqa: E731
+        exp = lv["expected"]
+        doors_ = [(d["horiz"], d["pos_ft"], d["at_ft"], d["width_ft"], d["swing_positive"], d["hinge"], d["type"])
+                  for d in exp["interior"]]
+        doors_ += [(d["wall"] in "SN", d["at_ft"], d["edge_ft"], d["width_ft"], d["wall"] in "SW", d["hinge"], d["type"])
+                   for d in exp["exterior"]]
+        for horiz, along, across, w, pos, hinge, dtype in doors_:
+            if dtype not in ("swing", None):
+                continue
+            h_along = along - w / 2 if hinge != "high" else along + w / 2
+            H = (h_along, across) if horiz else (across, h_along)
+            E = (H[0], H[1] + (w if pos else -w)) if horiz else (H[0] + (w if pos else -w), H[1])
+            assert any((near(a, H) and near(b, E)) or (near(a, E) and near(b, H)) for a, b in drawn_leaves), (
+                f"{path.stem} {lv['id']}: a {w} ft leaf hung {hinge} at {H} swinging to {E} is not on the plate")
+            checked += 1
+        for win in exp["windows"]:
+            wl, along, edge, w = win["wall"], win["at_ft"], win["edge_ft"], win["width_ft"]
+            mid_across = edge - t / 2 if wl in "SW" else edge + t / 2
+            M = (along, mid_across) if wl in "SN" else (mid_across, along)
+            assert any(near(((a[0] + b[0]) / 2, (a[1] + b[1]) / 2), M)
+                       and abs(((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5 - w) < 0.1
+                       for a, b in drawn_glass), (
+                f"{path.stem} {lv['id']}: the {w} ft {wl} window of {win['room']} is not glazed at {M}")
+            checked += 1
+    assert checked > 20, f"only {checked} openings read -- the check would pass on a plate with none"
+
+
+# ------------------------------------------------------------------ the bench's leaf, held to this file's
+# WP-14.6's second audit. `workbench/app/src/sheet/marks.js::leafOf` is the bench's single leaf and
+# `pairOf` its pair; `render_plan.sweep_flag` is the plate's sweep rule. Six mutations of the bench's
+# door and window geometry left every app test green, and the JS half of this contract could not call
+# Python. This runs the bench's own module under node and holds every case a leaf can be -- either
+# wall, either jamb, either side, and the pair -- to the plate's points and the plate's flag.
+
+def _node_json(script, payload):
+    import shutil
+    import subprocess
+    if not shutil.which("node"):
+        pytest.skip("COULD NOT EVALUATE: node is not installed, so the bench's module cannot be run")
+    r = subprocess.run(["node", "--input-type=module", "-e", script], input=json.dumps(payload),
+                       capture_output=True, text=True, timeout=120)
+    assert r.returncode == 0, r.stderr[-2000:]
+    return json.loads(r.stdout)
+
+
+def _plate_leaves(horiz, px, py, w, positive, hinge, dtype):
+    """The leaves `render_plan._door` draws for one door, in the plate's own screen frame at unit
+    scale (x right, y DOWN): its jambs A (low) and B (high), and `leaf()`'s tip and far jamb. The
+    flag is `render_plan.sweep_flag`'s, the function itself."""
+    half = w / 2.0
+    if horiz:
+        A, B = (px - half, -py), (px + half, -py)
+    else:
+        A, B = (px, -py + half), (px, -py - half)
+
+    def leaf(h, radius, to):
+        tip = (h[0], h[1] + (-radius if positive else radius)) if horiz else \
+              (h[0] + (radius if positive else -radius), h[1])
+        return {"hinge": h, "tip": tip, "far": to, "sweep": render_plan.sweep_flag(h, tip, to)}
+    if dtype == "double":
+        M = ((A[0] + B[0]) / 2.0, (A[1] + B[1]) / 2.0)
+        return [leaf(A, half, M), leaf(B, half, M)]
+    return [leaf(B, w, A) if hinge == "high" else leaf(A, w, B)]
+
+
+def test_the_bench_leaf_is_the_plates_leaf_and_turns_by_the_plates_sweep_rule():
+    cases = []
+    for horiz in (True, False):
+        for positive in (True, False):
+            for hinge in ("low", "high"):
+                cases.append((horiz, positive, hinge, "swing", 3.0))
+            cases.append((horiz, positive, "low", "double", 6.0))
+    marks = (ROOT / "workbench" / "app" / "src" / "sheet" / "marks.js").as_uri()
+    script = (
+        "import { leafOf, pairOf } from '%s';\n"
+        "let raw = ''; for await (const c of process.stdin) raw += c;\n"
+        "const out = JSON.parse(raw).map((d) => (d.type === 'double' ? pairOf(d) : [leafOf(d)])\n"
+        "  .map((l) => ({ hinge: l.hinge, tip: l.tip, far: l.far, sweep: l.sweep })));\n"
+        "process.stdout.write(JSON.stringify(out));\n") % marks
+    descs = []
+    for horiz, positive, hinge, dtype, w in cases:
+        d = {"x": 10.0, "y": 5.0, "w": w, "horiz": horiz, "hinge": hinge, "type": dtype}
+        d["swingUp" if horiz else "swingRight"] = positive
+        descs.append(d)
+    got = _node_json(script, descs)
+    near = lambda p, q: abs(p[0] - q[0]) < 1e-9 and abs(p[1] - q[1]) < 1e-9  # noqa: E731
+    flags = set()
+    for (horiz, positive, hinge, dtype, w), js in zip(cases, got):
+        py = _plate_leaves(horiz, 10.0, 5.0, w, positive, hinge, dtype)
+        what = "%s %s wall, hung %s, opening %s" % (dtype, "horizontal" if horiz else "vertical", hinge,
+                                                    "+" if positive else "-")
+        assert len(js) == len(py), what
+        for a, b in zip(js, py):
+            for k in ("hinge", "tip", "far"):
+                assert near(a[k], b[k]), "%s: the bench's %s is %s, the plate's %s" % (what, k, a[k], b[k])
+            assert a["sweep"] == b["sweep"], "%s: the bench turns %s, render_plan.sweep_flag %s" % (
+                what, a["sweep"], b["sweep"])
+            flags.add(a["sweep"])
+    assert flags == {0, 1}, "the premise: the table reaches both flags, or it cannot tell a flag from its inverse"
+
+
+# ------------------------------------------------------------------ what the bench is served
+# WP-14.6's second audit. `mcp_server/core.py::placement_summary` is the placement the bench draws,
+# and `Sheet.jsx` read `placement.appendages.placed` from a return that never carried it, so on
+# good-02 and good-04 the bench called the terrace door undrawable over the hole the plate cut for it.
+# Nothing held what the app READS to what the server SERVES. This does, for every key read off a
+# placement anywhere in the app's source.
+
+_SERVED = {}
+
+
+def _served(pid):
+    if pid not in _SERVED:
+        import copy
+        geo = modcache.load("geometry", str(ROOT / "build" / "geometry.py"))
+        core = modcache.load("tdlcore", str(ROOT / "mcp_server" / "core.py"))
+        plan = json.loads((ROOT / "plans" / "reference" / (pid + ".json")).read_text())
+        placed = geo.solve(copy.deepcopy(plan), engine="heuristic")
+        _SERVED[pid] = (placed, core.placement_summary(placed))
+    return _SERVED[pid]
+
+
+# A key the app reads that `placement_summary` does not serve, and why it is still right. Each reason
+# is checked below, and an exception that has stopped being needed fails as loudly as a missing key.
+_READ_NOT_SERVED = {
+    "sketch": "workbench/server/evaluate.py writes it onto the placement it returns behind a wall drag",
+    "levels": "derive.js::levelRooms also reads a placed PLAN record, whose rooms are under `levels`; "
+              "the Round hands it one (round/overlays.js), and the served placement carries `rooms`",
+}
+
+
+# A KEY READ, AND NOT A METHOD CALL. The served placement is JSON and carries no function, so a
+# name followed by `(` is a call on some OTHER value that happens to be called `placed`. The merge
+# of the two Phase 14s (27 Sep 2026) brought two: main's `plate/assemblyPlan.js` keeps its label
+# positions in a local array named `placed` (`.some`, `.flatMap`, `.map`) and `styles/styleTree.js`
+# a Set of the same name (`.has`, `.add`), and this scan -- which neither parent ran against the
+# other's files -- read all five as placement keys the server does not serve. The `\b` before the
+# lookahead is load-bearing: without it `some(` backtracks to the key `som`.
+_READ_RE = r"\bplace(?:ment|d)\??\.([A-Za-z_]\w*)\b(?!\s*\()"
+
+
+def _app_reads():
+    """{key: files} for every key read off a placement in the app's live source (comments stripped).
+    A SELECTOR, and its reach is stated: a read off a variable named `placement`, or `placed` --
+    the two names the app gives one (`sheet/refusal.js` takes it as `placed`, and reads `sketch`
+    only that way, which is why the first version of this scan could not see `sketch` read at all)
+    -- that is not called (`_READ_RE`). A read through any other name is outside it."""
+    import re
+    import subprocess
+    files = subprocess.run(["git", "ls-files", "-co", "--exclude-standard", "workbench/app/src"],
+                           cwd=ROOT, capture_output=True, text=True, check=True).stdout.split()
+    reads = {}
+    for rel in sorted(files):
+        if not rel.endswith((".js", ".jsx", ".mjs")) or ".test." in rel:
+            continue
+        src = (ROOT / rel).read_text(encoding="utf-8")
+        live = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
+        live = re.sub(r"(^|[^:])//[^\n]*", r"\1", live)
+        for m in re.finditer(_READ_RE, live):
+            reads.setdefault(m.group(1), set()).add(rel)
+    return reads
+
+
+def test_the_scan_reads_a_key_and_not_a_call_on_another_value_of_the_same_name():
+    """The narrowing is driven both ways: a read the sheet makes is still a read, however it is
+    spelled, and a call on a local `placed` is not one."""
+    import re
+    reads = lambda src: [m.group(1) for m in re.finditer(_READ_RE, src)]
+    assert reads("const f = placement?.footprint; placed.sketch && x;") == ["footprint", "sketch"]
+    assert reads("(placement.walls || []).map(w => w)") == ["walls"]
+    assert reads("placement?.hearths?.map((h) => h)") == ["hearths"]
+    assert reads("if (placed.some((p) => p.overflow)) p.placed.map(f); placed.has(id); placed.add (id)") == []
+
+
+def test_every_placement_key_the_app_reads_is_served():
+    placed, served = _served("good-02-portico-library-house")
+    reads = _app_reads()
+    assert {"footprint", "walls", "hearths", "appendages", "sketch"} <= set(reads), (
+        "the premise: the scan finds the keys the sheet is known to read, or it is reading nothing: %s"
+        % sorted(reads))
+    assert "workbench/app/src/sheet/refusal.js" in reads["sketch"], (
+        "the premise: `sketch` is read as `placed.sketch` in sheet/refusal.js, the case a scan of "
+        "`placement.` alone could not see")
+    missing = {k: sorted(v) for k, v in reads.items() if k not in served and k not in _READ_NOT_SERVED}
+    assert not missing, ("the app reads a placement key the server does not serve -- a surface drawing "
+                         "from a field that is always absent: %s" % missing)
+    for k, why in _READ_NOT_SERVED.items():
+        assert k in reads, "%s is no longer read by the app; remove its exception (%s)" % (k, why)
+        assert k not in served, "%s is served now; remove its exception (%s)" % (k, why)
+    evaluate = (ROOT / "workbench" / "server" / "evaluate.py").read_text(encoding="utf-8")
+    assert '["placement"]["sketch"]' in evaluate, "the sketch exception's reason no longer holds"
+    assert "rooms" in served and "levels" not in served, "the levels exception's reason no longer holds"
+
+
+def test_the_placement_serves_the_appendages_the_record_places():
+    placed, served = _served("good-02-portico-library-house")
+    ap = (placed.get("appendages") or {}).get("placed") or []
+    assert any(a["room"] == "terrace" for a in ap), "the premise: good-02 places its terrace"
+    assert served.get("appendages") == placed.get("appendages"), (
+        "the bench draws the terrace and its door from what is served, and it is served nothing")

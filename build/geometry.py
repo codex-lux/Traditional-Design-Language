@@ -2205,6 +2205,11 @@ def derive_footprint(plan, parti=None, prep=None):
     even the minimum two bays."""
     parti = parti_for(plan, parti)
     bay = ((parti or {}).get("scaling") or {}).get("bay_module_ft") or 10.0
+    # WHO STATED THE MODULE, carried to the record (WP-14.4). The sheet draws a bay grid and
+    # reads its bearing walls off it; where no parti states a module that grid is this function's
+    # own 10 ft, and fifteen of the sixteen shipped sheets drew it labelled like a reading.
+    bay_stated_by = (((parti or {}).get("id") or "the parti")
+                     if ((parti or {}).get("scaling") or {}).get("bay_module_ft") else None)
     catalog_maxbay = ((parti or {}).get("scaling") or {}).get("max_bay_count") or 7
     maxbay = catalog_maxbay
     # WP-2.4: compose.py's own footprint() estimate already caps candidate selection by lot
@@ -2382,7 +2387,7 @@ def derive_footprint(plan, parti=None, prep=None):
     # A diagram that wanted a centre bay and did not get one is a REFUSAL, named -- not a
     # silent six. Today the only way here is a lot too narrow to hold the odd count.
     forced_even = bool(odd_wanted and bays % 2 == 0)
-    return {"bay": bay, "tol": tol, "bays": bays, "W": W, "H": H,
+    return {"bay": bay, "bay_stated_by": bay_stated_by, "tol": tol, "bays": bays, "W": W, "H": H,
             "wants_centre_bay": odd_wanted, "centre_bay_why": odd_why,
             "bay_count_forced_even": forced_even,
             "massing_bays": mb["stated"], "massing_bays_readable": mb["readable"],
@@ -2918,7 +2923,7 @@ def write_record(plan, levels, ground, upper, fp, report):
     if fp.get("lot_usable") is not None:
         plan["footprint"]["lot_usable_width_ft"] = round(fp["lot_usable"], 1)
     plan["geometry_report"] = report
-    _disclose(plan)      # multi_element (OQ 40), multi_level and the stacking tally, in ONE place
+    _disclose(plan, fp)  # multi_element (OQ 40), multi_level and the stacking tally, in ONE place
     return plan
 
 
@@ -3467,7 +3472,7 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
         "note": ("Rooms placed below the floor of their own catalogue band (OQ 54)." if ub
                  else "Every room was placed at or above the floor of its own catalogue band.")}
     plan["geometry_report"]["voids"] = voids_report(_rects, _prep, ring=None)
-    _disclose(plan)
+    _disclose(plan, fpd)
     if solver:
         plan["geometry_report"]["solver"] = solver
     if infeasible:
@@ -3475,7 +3480,7 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
     return plan
 
 
-def _disclose(plan):
+def _disclose(plan, fpd=None):
     """Attach every "what this placement does not judge" block, for BOTH record writers.
 
     One call site per writer, one function, because the alternative is measured: OQ 40's
@@ -3484,6 +3489,16 @@ def _disclose(plan):
     until WP-11.6 found it while adding the second one beside it.
     """
     rep = plan.setdefault("geometry_report", {})
+    # THE BAY MODULE AND WHO STATED IT (WP-14.4). The grid the sheet draws and the bearing walls
+    # it reads off that grid are this module; where no parti states one it is `derive_footprint`'s
+    # own 10 ft, and the plate has to say so rather than draw a convention as though it were a
+    # reading -- `disclosures.bay_module` is the one line both surfaces print.
+    if fpd is not None and fpd.get("bay") is not None:
+        rep["bay_module"] = {
+            "ft": fpd["bay"], "stated_by": fpd.get("bay_stated_by"),
+            "note": ("The bay module the footprint, the bay grid and the bearing walls are laid on. "
+                     "`stated_by` names the parti that states it; null means no parti states a "
+                     "module and this is the placer's own default.")}
     # TWO WRITERS OF ONE KEY, MERGED RATHER THAN ONE OVERWRITING THE OTHER (the merge of the two
     # Phase 11s, 8 Sep 2026). `solve_heuristic` writes main's WP-11.5 block here -- `rule`
     # ("hard" or "charge"), `claimed`, `cost_points`, `broken` -- which says whether declared

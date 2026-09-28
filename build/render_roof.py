@@ -20,6 +20,7 @@ def _mod(n, p):
     import modcache as _mc
     return _mc.load(n, p)
 SS = _mod("sheet_style", f"{ROOT}/build/sheet_style.py")
+DISC = _mod("disclosures", f"{ROOT}/build/disclosures.py")
 
 # The palette is build/sheet_style.py's now -- ONE spelling, not four. It carried a verbatim
 # copy of the same ten-key dict, under a comment saying the duplication was the price of every
@@ -31,6 +32,7 @@ PAL = SS.DARK
 LINE_CLASS = {"eave": "ev", "ridge": "rg", "hip": "hp", "gambrel-break": "gb", "cross-ridge": "cr"}
 
 def _esc(t): return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+_attr = SS.attr   # a double-quoted attribute's value; a text node keeps `_esc`
 
 def _style_block():
     return (f'<style>'
@@ -55,7 +57,7 @@ def render_roof(roof, path, scale=7.0):
     # string ~445px wide at .dm — so on anything under about 56 ft the key was clipped by
     # the viewBox and the reader was never told what the red dot means
     LEGEND = ("EAVE (SOLID) · RIDGE (BRASS) · HIP (DASHED GREY) · "
-              "GAMBREL BREAK (DASHED GREEN) · CHIMNEY (RED DOT)")
+              "GAMBREL BREAK (DASHED GREEN) · CHIMNEY (RED, AT ITS STATED SIZE)")
     total_w = max(pad * 2 + pw, pad * 2 + len(LEGEND) * 4.55)
     total_h = top + ph + 60
 
@@ -64,9 +66,12 @@ def render_roof(roof, path, scale=7.0):
     ox, oy = pad, top
     _frames = {"plates": [{"id": "roof", "proj": "roof", "px_per_ft": scale,
                            "origin_px": [ox, oy], "at_origin_ft": [0.0, round(H, 3)]}]}
-    s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
-         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
-         f'style="background:{PAL["ground"]}">']
+    # A FUNCTION, because the sheet's height is only known once its notes are (WP-14.3): the
+    # root element is rewritten at the foot, as the elevation's is.
+    _head = lambda: (f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
+                     f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
+                     f'style="background:{PAL["ground"]}">')
+    s = [_head()]
     s.append(_style_block())
     s.append(f'<text class="hd" x="{pad}" y="26">{_esc(roof.get("plan_id",""))} — ROOF PLAN</text>')
     m = roof["main"]
@@ -82,9 +87,37 @@ def render_roof(roof, path, scale=7.0):
         cls = LINE_CLASS.get(ln["kind"], "ev")
         s.append(f'<line class="{cls}" x1="{X(ln["x1"]):.1f}" y1="{Y(ln["y1"]):.1f}" x2="{X(ln["x2"]):.1f}" y2="{Y(ln["y2"]):.1f}"/>')
 
-    for c in roof.get("chimneys", {}).get("positions", []):
-        r = 3.2
-        s.append(f'<circle class="chm" cx="{X(c["x_ft"]):.1f}" cy="{Y(c["y_ft"]):.1f}" r="{r:.1f}"/>')
+    # THE STACK AT THE PLAN SIZE ITS RECORD STATES (WP-14.3, census F1). Every stack was a
+    # 3.2 px dot, which on this sheet is 11 in across against a stated 22 -- a size nobody gave.
+    # The size comes with the stack from `threshold.py` through the roof record, and where it is
+    # a judgment the sheet says so in the one spelling the plan sheet uses too. A stack whose
+    # record states no size is drawn as its position -- a cross, which has no size to misstate --
+    # and the sheet says that as well.
+    #
+    # AND WHERE THE PLACEMENT SEATS IT (WP-14.6, audit F4). The square was centred on the record's
+    # position, which is the gable wall's OUTSIDE FACE, so half of an exterior stack was drawn
+    # inside the wall it stands against -- while the plan sheet, the elevation and the scene each
+    # put the same stack somewhere else. `plan_rect_ft` is the placement's own square, carried in
+    # this record's frame by roof.py, and it is the one every surface now draws.
+    positions = roof.get("chimneys", {}).get("positions", [])
+    unsized = 0
+    for c in positions:
+        cx, cy = X(c["x_ft"]), Y(c["y_ft"])
+        r = c.get("plan_rect_ft")
+        if c.get("stack_plan_in") and r:
+            s.append(f'<rect class="chm" x="{X(r[0]):.2f}" y="{Y(r[3]):.2f}" '
+                     f'width="{(r[2] - r[0]) * scale:.2f}" height="{(r[3] - r[1]) * scale:.2f}"/>')
+        else:
+            unsized += 1
+            s.append(f'<path class="chm" d="M {cx-3:.1f} {cy-3:.1f} L {cx+3:.1f} {cy+3:.1f} '
+                     f'M {cx-3:.1f} {cy+3:.1f} L {cx+3:.1f} {cy-3:.1f}"/>')
+    stack_notes = []
+    judged = DISC.stack_plan_judgment({"hearths": {"stacks": positions}})
+    if judged:
+        stack_notes.append(judged["text"])
+    if unsized:
+        stack_notes.append(f"{unsized} STACK(S) DRAWN AS A POSITION ONLY \u2014 THE RECORD STATES "
+                           "NO PLAN SIZE OR NO SEATED SQUARE FOR THEM")
 
     legend_y = oy + ph + 18
     s.append(f'<text class="dm" x="{ox:.1f}" y="{legend_y:.1f}">{LEGEND}</text>')
@@ -113,6 +146,24 @@ def render_roof(roof, path, scale=7.0):
         line2.append(f"GAMBREL PITCH DIFF {pitch} · BREAK {brk}")
     if line2:
         s.append(f'<text class="dm" x="{ox:.1f}" y="{legend_y+14:.1f}">{" · ".join(line2)}</text>')
+    # WRAPPED, NEVER CUT, and the sheet grows to hold them: a note run off the canvas is a
+    # disclosure the sheet does not make.
+    cols = max(40, int((total_w - 2 * pad) / 4.55))
+    lines = []
+    for n in stack_notes:
+        line = ""
+        for w in n.split():
+            if line and len(line) + 1 + len(w) > cols:
+                lines.append(line)
+                line = w
+            else:
+                line = f"{line} {w}" if line else w
+        if line:
+            lines.append(line)
+    for i, n in enumerate(lines):
+        s.append(f'<text class="dm" x="{ox:.1f}" y="{legend_y + 28 + 11 * i:.1f}">{_esc(n)}</text>')
+    total_h = max(total_h, legend_y + 28 + 11 * len(lines) + 10)
+    s[0] = _head()
 
     s.append('</svg>')
     open(path, "w").write("\n".join(s))
