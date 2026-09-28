@@ -684,7 +684,7 @@ def placed_openings(placed, section, entrance_face, faces=None):
                 if wl in out and n > 0:
                     out[wl]["refused"].append({
                         "kind": "window", "room": r["id"], "level_index": idx,
-                        "storey": storey_name, "units": n,
+                        "storey": storey_name, "units": n, "cause": "placer",
                         "why": "the placer refused it: " + str((w["unplaced"] or {}).get("reason")
                                                              or "no reason recorded"),
                         "source": f"plan.levels[{i}].rooms[{r['id']}].windows[{k}].unplaced"})
@@ -692,7 +692,7 @@ def placed_openings(placed, section, entrance_face, faces=None):
                 if d.get("to") == "exterior" and d.get("unplaced"):
                     unplaced_doors.append({
                         "kind": "door", "room": r["id"], "level_index": idx,
-                        "storey": storey_name,
+                        "storey": storey_name, "cause": "placer",
                         "why": "the placer refused it: " + str((d["unplaced"] or {}).get("reason")
                                                              or "no reason recorded"),
                         "source": f"plan.levels[{i}].rooms[{r['id']}].doors[{k}].unplaced"})
@@ -733,16 +733,18 @@ def placed_openings(placed, section, entrance_face, faces=None):
             edge = o.get("edge_ft")
             if edge is not None and abs(float(edge) - block_edge[face]) > 0.01:
                 out[face]["refused"].append({
-                    **base, "why": (f"it stands on the {face} face of another massing element "
-                                    f"(across-the-wall coordinate {edge} ft, the main block's "
-                                    f"{face} face is at {block_edge[face]} ft), and this "
-                                    f"elevation is of the main block")})
+                    **base, "cause": "element",
+                    "why": (f"it stands on the {face} face of another massing element "
+                            f"(across-the-wall coordinate {edge} ft, the main block's "
+                            f"{face} face is at {block_edge[face]} ft), and this "
+                            f"elevation is of the main block")})
                 continue
             if storey is None:
                 out[face]["refused"].append({
-                    **base, "why": (f"it stands on level {idx} and this elevation states storeys "
-                                    f"for levels {', '.join(str(k) for k in range(len(STOREY_NAMES)))} "
-                                    f"only (the section states {len(stated_storeys)})")})
+                    **base, "cause": "storey",
+                    "why": (f"it stands on level {idx} and this elevation states storeys "
+                            f"for levels {', '.join(str(k) for k in range(len(STOREY_NAMES)))} "
+                            f"only (the section states {len(stated_storeys)})")})
                 continue
             out[face]["placed"].append(base)
     for f in FACES:
@@ -2314,6 +2316,37 @@ STACKS_UNSIZED_NOTE = ("STACKS NOT DRAWN \u2014 THE ROOF PLACES THEM AND NO RECO
                        "PLAN SIZE")
 
 
+def main_block_note(elev):
+    """THE ELEVATION IS OF THE MAIN BLOCK, AND WHERE THE PLACEMENT SETS ANOTHER MASSING ELEMENT
+    BESIDE IT THE SHEET SAYS SO (Phase 15, WP-15.5) -- the ONE spelling the SVG legend and the DXF
+    annotation both write. Returns the sentence, or None on a one-rectangle house.
+
+    What an elevation of a house of several masses should draw is
+    `oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings`, and it is not ruled; every
+    face draws the main block alone. A reader was told nothing of it, and it began to matter the
+    moment WP-15.5 stood the exterior stacks on the ground: on the tagged Tidewater plan the west
+    stack stands behind the hyphen from the south and behind the dependency from the west, and the
+    sheet drew it to the ground in open air with no word that the wing in front of it was left
+    out. What the elements hide is not computed here, because the record states no roof over any
+    of them; the sentence says what is left out, and that what it would stand in front of is drawn
+    as if it were not there."""
+    placed = (elev.get("section") or {}).get("geometry") or {}
+    ELM = _mod("elements", f"{ROOT}/build/elements.py")
+    others = [e for e in ELM.elements(placed) if e.get("role") != "main"]
+    if not others:
+        return None
+    n = {}
+    for e in others:
+        role = str(e.get("role") or "element")
+        n[role] = n.get(role, 0) + 1
+    order = [r for r in ELM.ROLES if r in n] + sorted(r for r in n if r not in ELM.ROLES)
+    who = " AND ".join(f"THE {r.upper()}" if n[r] == 1 else f"THE {n[r]} {r.upper()}S" for r in order)
+    many = len(others) > 1
+    return (f"THIS ELEVATION IS OF THE MAIN BLOCK \u2014 {who} THE PLACEMENT SETS BESIDE IT "
+            f"{'ARE' if many else 'IS'} NOT DRAWN, AND WHAT {'THEY STAND' if many else 'IT STANDS'} "
+            f"IN FRONT OF IS DRAWN AS IF {'THEY WERE' if many else 'IT WERE'} NOT THERE")
+
+
 def stack_notes(elev, sm):
     """What a face says about the stacks `stack_marks` drew and refused, in the words the sheet
     prints -- the ONE spelling the SVG legend and the DXF annotation both write (WP-15.5).
@@ -2369,6 +2402,22 @@ def stack_notes(elev, sm):
     return out
 
 
+# WHY AN OPENING IS NOT DRAWN, AS A WORD AS WELL AS A SENTENCE (Phase 15, WP-15.5). Every entry in
+# `opening_rects(...)["refused"]` carries a `cause` from this closed set beside its `why`, so a
+# surface that groups refusals reads the cause and never the prose. The sheet used to print one
+# reason for all of them -- "THE PLACER OR A STACK REFUSED THEM" -- and on the tagged Tidewater
+# front five of the eleven windows it named were refused for neither: they stand on the WING's
+# face, and this elevation is of the main block. WP-11.4's rule, one layer out: a refusal with
+# one message for three causes has stopped being a refusal.
+#   placer   the placer refused it, in its own words
+#   element  it stands on the face of another massing element, and this elevation is of the
+#            main block (`oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings`)
+#   storey   it stands on a level this building or this elevation states no storey for
+#   stack    a chimney stack stands on it (OQ 85)
+#   record   the elevation record states no window, sill, head, leaf height or floor datum
+REFUSAL_CAUSES = ("placer", "element", "storey", "stack", "record")
+
+
 def opening_rects(elev, face):
     """Every opening on one face, as a rectangle. THE ONE SPELLING of (x0, x1, sill, head).
 
@@ -2414,7 +2463,8 @@ def opening_rects(elev, face):
     stack` so a human decides. An opening whose storey states no window record yields no
     rectangle either, and says which.
 
-    Returns `{"rects": [...], "refused": [...]}`.
+    Returns `{"rects": [...], "refused": [...]}`. Every refused entry carries a `cause` from
+    `REFUSAL_CAUSES` beside its `why` (WP-15.5), so a surface that groups them never reads prose.
     """
     front = (elev.get("faces") or {}).get(face) or {}
     placed = front.get("placed")
@@ -2429,14 +2479,15 @@ def opening_rects(elev, face):
         # A face record with no `placed` list is one this function cannot draw from -- a record
         # built before WP-13.3 or a hand-built fixture. Refused by name rather than falling back
         # to the rhythm, because falling back is the defect this function was rewritten to remove.
-        refused.append({"bay": None, "why": f"the face record for {face} carries no `placed` "
-                                            f"openings, so there is nothing to draw from",
+        refused.append({"bay": None, "cause": "record",
+                        "why": f"the face record for {face} carries no `placed` "
+                               f"openings, so there is nothing to draw from",
                         "source": f"elevation.faces.{face}.placed"})
         return {"rects": rects, "refused": refused}
     for x in front.get("placed_refused") or []:
         refused.append({"bay": x.get("bay"), "storey": x.get("storey"), "room": x.get("room"),
-                        "kind": x.get("kind"), "units": x.get("units"), "why": x["why"],
-                        "source": x["source"]})
+                        "kind": x.get("kind"), "units": x.get("units"), "cause": x.get("cause"),
+                        "why": x["why"], "source": x["source"]})
 
     def _floor_in(index):
         """The storey's floor datum in inches above grade, or a REASON it has none.
@@ -2463,7 +2514,11 @@ def opening_rects(elev, face):
                 "source": p["source"]}
         floor_in, why_no_floor = _floor_in(si)
         if floor_in is None:
-            refused.append({**base, "why": why_no_floor, "source": f"section.storeys[{si}]"})
+            # the two causes `_floor_in` separates: a storey the building does not have, and a
+            # storey the record states without a floor datum
+            _stated = any(s.get("index") == si for s in storeys)
+            refused.append({**base, "cause": "record" if _stated else "storey",
+                            "why": why_no_floor, "source": f"section.storeys[{si}]"})
             continue
         rec = sw[si] if si < len(sw) else None
         # THE DOOR: every placed exterior door, on whichever face the plan seated it. The leaf
@@ -2475,8 +2530,9 @@ def opening_rects(elev, face):
         if p["kind"] == "door":
             h = ent.get("door_leaf_height_in")
             if h is None:
-                refused.append({**base, "why": "the entrance states no door leaf height, and the "
-                                               "plan states none",
+                refused.append({**base, "cause": "record",
+                                "why": "the entrance states no door leaf height, and the "
+                                       "plan states none",
                                 "source": "elevation.entrance"})
                 continue
             rect = {"id": f"{face}-{p['n']}-{storey}-{p['room']}-door", **base,
@@ -2504,22 +2560,25 @@ def opening_rects(elev, face):
             rects.append(rect)
             continue
         if rec is None:
-            refused.append({**base, "why": "the elevation states no window for this storey",
+            refused.append({**base, "cause": "record",
+                            "why": "the elevation states no window for this storey",
                             "source": f"elevation.storey_windows[{si}]"})
             continue
         sill = rec.get("sill_height_above_floor_in")
         head = rec.get("head_height_above_floor_in")
         if sill is None or head is None:
-            refused.append({**base, "why": "the storey's window states no sill or head",
+            refused.append({**base, "cause": "record",
+                            "why": "the storey's window states no sill or head",
                             "source": f"elevation.storey_windows[{si}]"})
             continue
         if opening_on_a_stack(p["u_ft"], p["width_ft"], axes, stack_half_ft):
             near = min(axes, key=lambda ax: abs(ax - p["u_ft"]))
-            refused.append({**base, "why": (f"a chimney stack stands on it (OQ 85): {who} spans "
-                                            f"{p['u_ft'] - p['width_ft'] / 2:.2f}–"
-                                            f"{p['u_ft'] + p['width_ft'] / 2:.2f} ft along the "
-                                            f"face and the stack at {near:.2f} ft is "
-                                            f"{stack_half_ft * 2:.2f} ft wide, so nothing is drawn"),
+            refused.append({**base, "cause": "stack",
+                            "why": (f"a chimney stack stands on it (OQ 85): {who} spans "
+                                    f"{p['u_ft'] - p['width_ft'] / 2:.2f}–"
+                                    f"{p['u_ft'] + p['width_ft'] / 2:.2f} ft along the "
+                                    f"face and the stack at {near:.2f} ft is "
+                                    f"{stack_half_ft * 2:.2f} ft wide, so nothing is drawn"),
                             "source": f"elevation.faces.{face}.stack_axes_ft"})
             continue
         rect = {"id": f"{face}-{p['n']}-{storey}-{p['room']}-window", **base,

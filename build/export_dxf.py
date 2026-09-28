@@ -818,8 +818,11 @@ def export_elevation_dxf(elev, path, face=None):
           0, -4 * TEXT_H)
     if band_why:
         _text(msp, anno, "CORNICE BAND DRAWN FLUSH WITH THE WALL - " + band_why.upper(), 0, -5.5 * TEXT_H)
-    # what the sheet says of the stacks, in its own words (`elevation.stack_notes`, WP-15.5)
-    said = (([EL.STACKS_UNSIZED_NOTE] if stacks["unsized"] else [])
+    # what the sheet says of the main block and of the stacks, in its own words
+    # (`elevation.main_block_note` and `stack_notes`, WP-15.5): this drawing is of the main block
+    # alone exactly as the sheet is, and says so where the placement sets a wing beside it
+    _mb = EL.main_block_note(elev)
+    said = (([_mb] if _mb else []) + ([EL.STACKS_UNSIZED_NOTE] if stacks["unsized"] else [])
             + EL.stack_notes(elev, stacks))
     for i, line in enumerate(said):
         _text(msp, anno, line, 0, -(7.0 + 1.5 * i) * TEXT_H)

@@ -703,6 +703,19 @@ def _profile_span_at(profile_ft, y):
 # has been since WP-12.2: `elevation.stack_marks` decides what each face draws of each stack, and
 # this sheet and the DXF elevation both read it -- the DXF had drawn no stack at all. The three
 # helpers keep their old names here for the readers that reach them through this module.
+# WHAT THE SHEET SAYS FOR EACH CAUSE OF A REFUSED OPENING (WP-15.5), keyed by
+# `elevation.REFUSAL_CAUSES` and in its order; a test holds the two to the same set, so a cause
+# added there without words here fails rather than printing nothing.
+_REFUSED_WORDS = (
+    ("placer", "THE PLACER REFUSED THEM"),
+    ("element", "THEY STAND ON THE FACE OF ANOTHER MASSING ELEMENT, AND THIS ELEVATION IS OF THE "
+                "MAIN BLOCK"),
+    ("storey", "THEY STAND ON A LEVEL THIS BUILDING OR THIS ELEVATION STATES NO STOREY FOR"),
+    ("stack", "A CHIMNEY STACK STANDS ON THEM"),
+    ("record", "THE ELEVATION RECORD STATES NO WINDOW, SILL, HEAD, LEAF HEIGHT OR FLOOR FOR THEM"),
+)
+_UNWORDED = "FOR A REASON THE ELEVATION RECORD GIVES AND THIS SHEET HAS NO WORD FOR"
+
 _profile_top_at = EL.profile_top_at
 _near_end_last = EL.near_end_last
 _stack_outline = EL.stack_outline
@@ -1132,13 +1145,39 @@ def render_elevation(elev, path, face=None, scale=24.0):
                      ", ".join(f"{v:g}" for v in _off[:5]) + (" …" if len(_off) > 5 else "") +
                      ' IN), NOT THE STOREY\u2019S; EACH ONE\u2019S LIGHTS AND SHUTTER LEAVES ARE '
                      'SASH-LIGHT\u2019S RULE AT THE WIDTH IT IS DRAWN')
+    # THE MAIN BLOCK, SAID (Phase 15, WP-15.5), and before the openings, because it is one of
+    # their causes: every face of a house of several masses draws the main block alone, and the
+    # sheet had never said so. `elevation.main_block_note` is the one spelling; the DXF writes it.
+    _mb = EL.main_block_note(elev)
+    if _mb:
+        notes.append(_mb)
     _named = [x for x in _refused if x.get("room")]
     if _named:
         _units = sum(int(x.get("units") or 1) for x in _named)
-        _rooms = sorted({str(x.get("room")).upper() for x in _named})
-        notes.append(f'{_units} OPENING(S) ON THIS FACE NOT DRAWN — ' +
-                     ", ".join(_rooms[:6]) + (" …" if len(_rooms) > 6 else "") +
-                     ' — THE PLACER OR A STACK REFUSED THEM; THE ELEVATION RECORD NAMES EACH')
+
+        def _rooms_of(xs):
+            rs = sorted({str(x.get("room")).upper() for x in xs})
+            return ", ".join(rs[:6]) + (" …" if len(rs) > 6 else "")
+
+        # EACH CAUSE SAID FOR THE OPENINGS IT IS TRUE OF (WP-15.5). This line read "THE PLACER OR
+        # A STACK REFUSED THEM" for every opening it named, and on the tagged Tidewater front five
+        # of the eleven stand on the wing's face, which neither the placer nor a stack refused. The
+        # cause is read off the refusal's `cause` and never off its prose; the shutter legend's
+        # shape, a few lines down.
+        _groups = [(c, [x for x in _named if x.get("cause") == c]) for c, _w in _REFUSED_WORDS]
+        _groups = [(c, xs) for c, xs in _groups if xs]
+        _other = [x for x in _named if x.get("cause") not in dict(_REFUSED_WORDS)]
+        if _other:
+            _groups.append((None, _other))
+        _refused_head = f'{_units} OPENING(S) ON THIS FACE NOT DRAWN — {_rooms_of(_named)}'
+        if len(_groups) == 1:
+            notes.append(f'{_refused_head} — {dict(_REFUSED_WORDS).get(_groups[0][0], _UNWORDED)}; '
+                         'THE ELEVATION RECORD NAMES EACH')
+        else:
+            notes.append(f'{_refused_head} — THE ELEVATION RECORD NAMES EACH:')
+            for c, xs in _groups:
+                notes.append(f'\u00b7 {sum(int(x.get("units") or 1) for x in xs)} ({_rooms_of(xs)}): '
+                             f'{dict(_REFUSED_WORDS).get(c, _UNWORDED)}')
     # THE KEYSTONE AND THE STACK THAT ARE NOT DRAWN (WP-14.3), where each once fell back to a
     # figure no record states.
     if ht.get("keystone") and not ht.get("keystone_width_in"):
