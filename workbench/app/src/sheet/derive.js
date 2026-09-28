@@ -444,7 +444,7 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
 export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
   const out = [];
   let offFootprint = 0;      // the solver put this room on no such boundary wall
-  let crowded = 0;           // the wall has no clear run left beside its doors
+  let crowded = 0;           // the wall has no clear run left (the record names what took it)
   let refused = 0;           // the PLACER declined the window, and the sheet does not re-infer it
   const blockedBy = new Map();
   for (const d of extDoors) {
@@ -772,7 +772,7 @@ export function plateNote({ wall, footprint, placement, levelIndex, rooms, serve
     ? `${wins.offFootprint} declared window(s) not situated on this footprint — declared, not drawn. `
     : '');
   say('windows-crowded', wins.crowded
-    ? `${wins.crowded} declared window(s) had no clear run left on their wall beside its doors — declared, not drawn. `
+    ? `${wins.crowded} declared window(s) had no clear run left on their wall — declared, not drawn. `
     : '');
   say('windows-refused', wins.refused
     ? `${wins.refused} declared window(s) the placement refused to seat — declared, not drawn. `

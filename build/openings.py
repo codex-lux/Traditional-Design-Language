@@ -677,20 +677,32 @@ def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
     half = leaf / 2.0 + side_in / 12.0
     pos = door["position_ft"]
     bay, unstated = DC.stated_bay_ft(plan)
-    rooms = set()
+    # EVERY ROOM ON THE MAIN BLOCK'S ENTRANCE FACE, not only the ones the RUN touches (WP-15.8).
+    # The keep-out is the run PLUS the residual pier each side, so it reaches past the run into
+    # the next room's wall. Recording only the rooms the run touched left a flanking room's window
+    # to be seated inside that pier: an 8 ft hall whose door stands at 4 ft, beside a 4.5 ft
+    # parlor, seated the parlor's sash 11.95 in from the doorcase against a floor of 33 in, and
+    # the refusal sentence and the census never looked at the parlor. Which rooms the band
+    # actually reaches is decided per wall, against the run the window is seated in
+    # (`_doorcase_keepout`), so a room far down the face is never charged for a doorcase that took
+    # none of its wall.
+    rooms, touched = {}, set()
     for r in level_rooms:
         rect = _rect(r)
         if not rect or not _on_main(r):
             continue
         run = _boundary_walls(rect, W, H).get(face)
-        if run and run[0] < pos + half and run[1] > pos - half:
-            rooms.add(r["id"])
+        if not run:
+            continue
+        rooms[r["id"]] = run
+        if run[0] < pos + half and run[1] > pos - half:
+            touched.add(r["id"])
     rec.update({
         "reserved": True, "wall": face, "room": room["id"], "position_ft": round(pos, 3),
         "leaf_ft": leaf, "casing_in": round(comp["casing_w_in"], 3),
         "sidelights_in": round(comp["sidelight_w_in"], 3) if comp["use_sidelights"] else None,
         "run_ft": [round(pos - half, 3), round(pos + half, 3)],
-        "rooms_touched": sorted(rooms),
+        "rooms_touched": sorted(touched),
         "residual": ("half the ordinary pier each side, facade-classical's door_surround rule, at "
                      f"the {bay:g} ft bay the parti states" if bay else
                      f"NOT JUDGED: {unstated}; the run keeps the placer's "
@@ -702,10 +714,15 @@ def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
             "bay_ft": bay, "facade_pack": fac}
 
 
-def _doorcase_keepout(doorcase, room_id, wall, width_ft):
+def _doorcase_keepout(doorcase, room_id, wall, width_ft, run):
     """The span a window `width_ft` wide may not enter on `wall` of `room_id`, or None: the doorcase
     run plus the residual pier its own width asks for, and never less than the solid every opening
-    keeps (`MIN_SOLID_FT`)."""
+    keeps (`MIN_SOLID_FT`).
+
+    None ALSO where that span does not reach `run`, the wall run the window is seated in: a room on
+    the entrance face whose wall the band stops short of has nothing taken from it, and its refusal
+    (if any) must not name the doorcase. That is what makes it safe to record every room on the
+    face (WP-15.8) rather than only the ones the doorcase's own run touched."""
     if not doorcase or wall != doorcase["wall"] or room_id not in doorcase["rooms"]:
         return None
     res = MIN_SOLID_FT
@@ -713,7 +730,23 @@ def _doorcase_keepout(doorcase, room_id, wall, width_ft):
         half = _dc().residual_pier_ft(doorcase["facade_pack"], doorcase["bay_ft"], width_ft)
         if half is not None:
             res = max(res, half)
-    return (doorcase["lo"] - res - _RECORD_QUANTUM_FT, doorcase["hi"] + res + _RECORD_QUANTUM_FT)
+    band = (doorcase["lo"] - res - _RECORD_QUANTUM_FT, doorcase["hi"] + res + _RECORD_QUANTUM_FT)
+    if not (run[0] < band[1] and run[1] > band[0]):
+        return None
+    return band
+
+
+def _beside(key, run, door_spans, glazed, took, keep):
+    """What took a window's run on its wall, in the words a refusal prints, or None where nothing
+    did: the doors whose spans lie on `run`, the windows already seated there (`glazed`, which for
+    a partial refusal is the window's own first units), the masonry, and the doorcase band where
+    `_doorcase_keepout` returned one (WP-15.8)."""
+    lo, hi = run
+    names = ["its doors"] if any(s < hi and e > lo for s, e in door_spans.get(key, [])) else []
+    names += ["the windows already seated on it"] if key in glazed else []
+    names += sorted(set(took.get(key, [])))
+    names += ["the entrance doorcase"] if keep else []
+    return " and ".join(names) or None
 
 
 def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None, level_index=0,
@@ -727,13 +760,30 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
     wrote before this pass ran; its drawn breasts and its stacks are reserved on their walls
     first, so a sash is seated beside a chimney breast exactly as it is seated beside a door
     rather than dead centre in it. A window that no longer fits is UNPLACED with a reason
-    naming what took the wall, and the declared count is never overwritten (WP-6.2)."""
+    naming what took the wall, and the declared count is never overwritten (WP-6.2).
+
+    THE REASON NAMES WHAT IS ON THE WALL, AND NOTHING ELSE (WP-15.8). It read "beside its doors"
+    whatever took the run, and measured over the sixteen shipped plans 7 of the 9 refusals for
+    want of run stand on a wall carrying no door: the Tidewater dining and library walls were
+    taken by the chimney breast and its stack, and the five partial refusals by the window's own
+    first units. A reason naming a cause that is not there is the one-reason-for-several-causes
+    shape. `_beside` names the doors only where a door's span lies on this run, the windows
+    already seated there, the masonry `_reserve_masonry` took it for, and the doorcase where its
+    band reaches the run; a wall carrying none of them is shorter than the window."""
+    # the doors' spans, snapshotted BEFORE the masonry is reserved into the same lists, so a
+    # refusal can tell a wall a door took from one the chimney took
+    door_spans = {k: list(v) for k, v in occupied.items() if v}
     took = _reserve_masonry(level_rooms, occupied, W, H, envs, hearths, level_index)
+    glazed = set()
     for r in level_rooms:
         rect = _rect(r)
         if not rect:
             for win in (r.get("windows") or []):
                 win["unplaced"] = {"reason": "the room is not placed on this level"}
+                # COUNTED, like every other unit the pass does not place (WP-15.8): the plate's
+                # line read "1 OF 6 ... NOT DRAWN" over two refused windows on bad-03, whose third
+                # storey the placer never places
+                report["windows_unplaced"] += win.get("count") or 1
             continue
         bw = _boundary_walls(rect, W, H, env=(envs or {}).get(r["id"]))
         for win in (r.get("windows") or []):
@@ -747,9 +797,7 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
                 report["windows_unplaced"] += n
                 continue
             lo, hi = bw[wall]
-            keep = _doorcase_keepout(doorcase, r["id"], wall, width)
-            beside = " and ".join(["its doors"] + sorted(set(took.get((r["id"], wall), [])))
-                                  + (["the entrance doorcase"] if keep else []))
+            keep = _doorcase_keepout(doorcase, r["id"], wall, width, (lo, hi))
             placed = []
             for k in range(n):
                 free = _free(lo, hi, occupied.get((r["id"], wall), []) + ([keep] if keep else []))
@@ -760,8 +808,13 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
                 placed.append(pos)
                 occupied.setdefault((r["id"], wall), []).append(
                     (pos - width / 2 - MIN_SOLID_FT, pos + width / 2 + MIN_SOLID_FT))
+            if placed:
+                # before `_beside` is asked, so a partial refusal names the units it did seat
+                glazed.add((r["id"], wall))
+            beside = _beside((r["id"], wall), (lo, hi), door_spans, glazed, took, keep)
             if not placed:
-                win["unplaced"] = {"reason": f"the wall has no clear run left beside {beside}",
+                win["unplaced"] = {"reason": (f"the wall has no clear run left beside {beside}"
+                                              if beside else "the wall is shorter than the window"),
                                    "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),
                                              "units": n},
                                    "have": {"units_placed": 0}}

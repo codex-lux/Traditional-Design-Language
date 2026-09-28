@@ -181,6 +181,18 @@ def test_a_sheet_of_the_main_block_says_so_where_a_wing_stands_beside_it(corpus)
         assert not any(t.startswith("THIS ELEVATION IS OF THE MAIN BLOCK") for t in _said(_svg(one, f))), f
 
 
+def test_two_masses_of_one_role_are_counted_in_the_plural_of_that_role(corpus, monkeypatch):
+    """DRIVEN (WP-15.8's audit): no shipped plan sets two masses of one role beside its main block,
+    and the sentence's first version appended an S -- "THE 2 DEPENDENCYS"."""
+    fake = [{"id": "main", "role": "main"}, {"id": "a", "role": "dependency"},
+            {"id": "b", "role": "dependency"}, {"id": "h1", "role": "hyphen"},
+            {"id": "h2", "role": "hyphen"}]
+    monkeypatch.setattr(ELM, "elements", lambda _placed: fake)
+    note = EL.main_block_note(corpus["tidewater-georgian-careful"])
+    assert "THE 2 DEPENDENCIES AND THE 2 HYPHENS" in note, note
+    assert "DEPENDENCYS" not in note, note
+
+
 def test_the_dxf_elevation_writes_the_same_sentence(corpus):
     ezdxf = pytest.importorskip("ezdxf")
     DX = _L("export_dxf")

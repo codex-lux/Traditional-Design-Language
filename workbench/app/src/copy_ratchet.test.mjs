@@ -458,7 +458,7 @@ const BASELINE = {
     ["sheet/derive.js", "disclosure",
       "0 clear span(s) over the framing capacity — at least none found: a bearing line is credited across the whole plate however short the wall runs."],
     ["sheet/derive.js", "disclosure",
-      "{…} declared window(s) had no clear run left on their wall beside its doors — declared, not drawn."],
+      "{…} declared window(s) had no clear run left on their wall — declared, not drawn."],
     ["sheet/derive.js", "disclosure",
       "{…} room(s) are drawn at a size the record does not declare — worst {…} {…} {…} % by area, marked ∗."],
     ["sheet/derive.js", "disclosure",

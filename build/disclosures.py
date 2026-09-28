@@ -201,8 +201,15 @@ def windows_not_drawn(plan):
                 units = int(w.get("count") or 1)
                 total += units
                 if w.get("unplaced"):
-                    reasons[_group(w["unplaced"].get("reason"))] = \
-                        reasons.get(_group(w["unplaced"].get("reason")), 0) + units
+                    # THE UNITS NOT DRAWN, not the window's whole count (WP-15.8). A partial
+                    # refusal seats some of its units, and counting the whole window put the
+                    # buckets past the headline on five of the sixteen shipped sheets: the
+                    # Tidewater plate read "19 OF 35 ... NOT DRAWN" over reasons summing to 20.
+                    drawn = (len(w.get("positions_ft") or [])
+                             or int((w["unplaced"].get("have") or {}).get("units_placed") or 0))
+                    missing = max(units - drawn, 0)
+                    key = _group(w["unplaced"].get("reason"))
+                    reasons[key] = reasons.get(key, 0) + missing
     why = ", ".join(f"{v} {k}" for k, v in sorted(reasons.items(), key=lambda kv: -kv[1]))
     return {"id": "windows", "tone": IRON, "detail": reasons,
             "text": f"{n} OF {total} DECLARED WINDOW UNIT(S) NOT DRAWN — {why.upper()}"}
@@ -220,19 +227,36 @@ def _group(reason):
     wall"* -- so a straight count-by-sentence produced the line "2 1 OF 2 UNIT(S) HAD NO CLEAR
     RUN…", which reads as a typo and is really two counts in a row. The leading clause is
     stripped before grouping, so every partial-placement reason lands in one bucket and the
-    count in front of it is the disclosure's own."""
+    count in front of it is the disclosure's own (the units not drawn, `windows_not_drawn`).
+
+    A REFUSAL FOR WANT OF RUN IS ONE BUCKET PER THING THAT TOOK THE RUN (WP-15.8). The placer
+    names what stands on the wall -- its doors, the windows already seated there, the chimney
+    breast, the chimney stack, the entrance doorcase -- and the table below knew only the bare
+    "beside its doors". WP-13.2 appended "beside ..." to the partial reason, so the table's
+    partial key had matched nothing since, and every other set printed as its whole sentence.
+    A partial and a whole refusal beside the same things are one bucket: the count in front is
+    units, whichever way they were refused."""
     r = (reason or "unstated").strip()
     m = re.match(r"^\d+ of \d+ unit\(s\) (had .*)$", r)
     if m:
         r = "some units " + m.group(1)
+    m = re.match(r"^(?:the wall has no clear run left|some units had no clear run left on this "
+                 r"wall) beside (.+)$", r)
+    if m:
+        return "no clear run beside " + " and ".join(
+            _BESIDE.get(part, part) for part in m.group(1).split(" and "))
     return SHORT_REASON.get(r, r)
 
 
+_BESIDE = {"its doors": "the doors", "the windows already seated on it": "the windows already seated"}
+
 SHORT_REASON = {
+    # a record written before WP-13.2 says nothing of what took the run
     "some units had no clear run left on this wall": "no clear run left on the wall",
     "the placement puts this room on no such boundary wall": "on no such wall",
-    "the wall has no clear run left beside its doors": "no clear run beside the doors",
+    "the wall is shorter than the window": "a wall shorter than the window",
     "one of the two rooms is not placed on this level": "a room not placed on this level",
+    "the room is not placed on this level": "a room not placed on this level",
 }
 
 

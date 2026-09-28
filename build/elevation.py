@@ -2364,6 +2364,12 @@ STACKS_UNSIZED_NOTE = ("STACKS NOT DRAWN \u2014 THE ROOF PLACES THEM AND NO RECO
                        "PLAN SIZE")
 
 
+def _role_plural(role):
+    """A massing role's plural: "THE 2 DEPENDENCIES", which the first version wrote "DEPENDENCYS"
+    by appending an S (WP-15.8's audit, driven with two dependencies; no shipped plan has two)."""
+    return role[:-1] + "ies" if role.endswith("y") and role[-2:-1] not in "aeiou" else role + "s"
+
+
 def main_block_note(elev):
     """THE ELEVATION IS OF THE MAIN BLOCK, AND WHERE THE PLACEMENT SETS ANOTHER MASSING ELEMENT
     BESIDE IT THE SHEET SAYS SO (Phase 15, WP-15.5) -- the ONE spelling the SVG legend and the DXF
@@ -2388,7 +2394,8 @@ def main_block_note(elev):
         role = str(e.get("role") or "element")
         n[role] = n.get(role, 0) + 1
     order = [r for r in ELM.ROLES if r in n] + sorted(r for r in n if r not in ELM.ROLES)
-    who = " AND ".join(f"THE {r.upper()}" if n[r] == 1 else f"THE {n[r]} {r.upper()}S" for r in order)
+    who = " AND ".join(f"THE {r.upper()}" if n[r] == 1 else f"THE {n[r]} {_role_plural(r).upper()}"
+                       for r in order)
     many = len(others) > 1
     return (f"THIS ELEVATION IS OF THE MAIN BLOCK \u2014 {who} THE PLACEMENT SETS BESIDE IT "
             f"{'ARE' if many else 'IS'} NOT DRAWN, AND WHAT {'THEY STAND' if many else 'IT STANDS'} "

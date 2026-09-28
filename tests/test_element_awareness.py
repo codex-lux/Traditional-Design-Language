@@ -343,7 +343,12 @@ def _forced(placed):
     windows are all unplaced. Teaching `openings` at layer 1 seated the dependency's windows, so
     the count of "reaches no exterior wall" findings fell 2 -> 0 **while the `touches` arithmetic
     four lines below still read `fp_w`/`fp_h` and was still wrong**. A meter watching the finding
-    would have crossed this layer off four commits early."""
+    would have crossed this layer off four commits early.
+
+    AND THE POSITIONS GO WITH IT (WP-15.8). The first version set `unplaced` and left each
+    window's `positions_ft`, which is the state the placer writes for a PARTIAL refusal: units
+    drawn and some refused. The drawn layer reads that as a room with a window now, because on
+    four shipped plans it had been calling a room with drawn sashes "drawn with no window"."""
     deps = dep_rooms(placed)
     forced = json.loads(json.dumps(placed))
     for lv in forced["levels"]:
@@ -351,6 +356,7 @@ def _forced(placed):
             if r["id"] in deps:
                 for w in (r.get("windows") or []):
                     w["unplaced"] = {"reason": "forced to reach the touches test"}
+                    w.pop("positions_ft", None)
     return forced
 
 

@@ -455,7 +455,15 @@ CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # own arithmetic on a `git worktree` of `e8668e6`, whose run reproduced BOTH old pins first: the
 # placement digest is unchanged on all sixteen, and the openings digest differs on exactly one,
 # `tidewater-georgian-careful` -- a door reserves wall and moves no room.
-CORPUS_OPENINGS_SHA = "5103ee9d4db5a6c3"
+# AND AT PHASE 15, WP-15.8, IN THE REFUSAL'S WORDS ALONE. `5103ee9d4db5a6c3` -> `a0c8777ea63260a9`:
+# a window refused for want of run names what is on the wall now (its doors only where a door's
+# span lies there, the windows already seated, the chimney breast and stack, the doorcase), where it
+# said "beside its doors" on 7 of 9 refusals whose wall carries no door. Re-derived per plan with
+# this test's own arithmetic on a `git worktree` of `8855c91`, which reproduced the old pin first:
+# the placement digest is unchanged on all sixteen, and the openings digest differs on exactly the
+# five plans carrying such a refusal -- bad-07, good-01, good-02, good-05 and the Tidewater plan --
+# with every position, width and count unmoved.
+CORPUS_OPENINGS_SHA = "a0c8777ea63260a9"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

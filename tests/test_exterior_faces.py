@@ -349,8 +349,22 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # the entrance doorcase and half the ordinary pier beside it (13.5 -> 9.995 ft). Diffed line by
 # line in both registers: the window's three marks move 45.5 px, the two wall bands either side of
 # its hole take up the difference, and nothing else on the sheet moves.
-CORPUS_SHEET_SHA = "3c44eaaa0f36b9b9"
-CORPUS_SHEET_SHA_NO_FRAME = "ee64b3350793a464"
+# PHASE 15, WP-15.8, SIX SHEETS, ONE LINE EACH, HARNESS PROVED FIRST. The test's own arithmetic
+# reproduces 3c44eaaa0f36b9b9 / ee64b3350793a464 to the character on a `git worktree` of `8855c91`
+# before the new pair was read. Ten of sixteen sheets are byte-identical, and on each of the six
+# that move only the "DECLARED WINDOW UNIT(S) NOT DRAWN" line's words move:
+#
+#   five plans with a PARTLY refused window  the buckets counted such a window at its whole count,
+#                                            so they summed past the headline (Tidewater 16 + 2 + 2
+#                                            under "19 OF 35"); and the reasons name what took the
+#                                            run, not "its doors" on walls that carry none
+#   bad-03                                   a window in the third storey the placer never places
+#                                            was marked unplaced and never counted: "1 OF 6" over
+#                                            two reasons, "2 OF 6" now
+#
+# Row wrapping is unchanged on all six, so no mark below the line moves.
+CORPUS_SHEET_SHA = "e344935c86f8a383"
+CORPUS_SHEET_SHA_NO_FRAME = "bc1312df730ca781"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

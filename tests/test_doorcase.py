@@ -192,8 +192,13 @@ def test_the_reserved_run_is_the_doorcase_the_elevation_draws(corpus):
 
 
 def test_no_window_is_seated_inside_the_run_or_its_floor(corpus):
-    """Every placed window on the entrance wall of a room the run touches stands clear of the run by
-    the floor where the bay is stated, and by the placer's own solid where it is not."""
+    """Every placed window on the entrance wall stands clear of the run by the floor where the bay
+    is stated, and by the placer's own solid where it is not -- in EVERY room on that wall.
+
+    It read only the rooms the RUN touches until WP-15.8, and so could not see the defect it was
+    written against one room over: the floor reaches past the run into the next room's wall, and
+    the placer had recorded only the rooms the run touched (`test_the_floor_reaches_the_window_in_
+    the_next_room`)."""
     fac = PE.resolve("facade-classical")
     checked = 0
     for pid, (placed, _el) in corpus.items():
@@ -206,8 +211,6 @@ def test_no_window_is_seated_inside_the_run_or_its_floor(corpus):
             if lv.get("index", 0) != 0:
                 continue
             for r in lv["rooms"]:
-                if r["id"] not in rec["rooms_touched"]:
-                    continue
                 for w in r.get("windows") or []:
                     if w.get("wall") != rec["wall"]:
                         continue
@@ -259,6 +262,59 @@ def test_a_window_with_no_run_left_beside_the_doorcase_is_refused_by_name():
     report2 = {"windows_placed": 0, "windows_unplaced": 0}
     OP._place_windows([room2], {}, 30.0, 30.0, report2)
     assert report2["windows_placed"] == 1, room2
+
+
+def _flanked(parlor_w, third=None):
+    """An 8 ft hall whose entrance door stands at 4 ft, a parlor `parlor_w` wide beside it on the
+    same face, and optionally a third room further along (auditor M's probe, WP-15.8)."""
+    hall = {"id": "hall", "geometry": {"x_ft": 0.0, "y_ft": 0.0, "width_ft": 8.0, "depth_ft": 16.0},
+            "doors": [{"to": "exterior", "wall": "S", "position_ft": 4.0, "width_ft": 3.5}]}
+    parlor = {"id": "parlor",
+              "geometry": {"x_ft": 8.0, "y_ft": 0.0, "width_ft": parlor_w, "depth_ft": 16.0},
+              "windows": [{"wall": "S", "count": 1, "width_ft": 3.5}]}
+    rooms, W = [hall, parlor], 8.0 + parlor_w
+    if third:
+        rooms.append({"id": "closet",
+                      "geometry": {"x_ft": W, "y_ft": 0.0, "width_ft": third, "depth_ft": 16.0},
+                      "windows": [{"wall": "S", "count": 1, "width_ft": 3.5}]})
+        W += third
+    plan = {"style": "tidewater-georgian", "context": {"entrance_faces": "S"},
+            "levels": [{"index": 0, "floor_to_ceiling_ft": 11.0, "rooms": rooms}],
+            "footprint": {"bay_module_ft": 9.0},
+            "geometry_report": {"bay_module": {"ft": 9.0, "stated_by": "a-parti"}}}
+    envs = {r["id"]: (0.0, 0.0, W, 16.0) for r in rooms}
+    report = {"windows_placed": 0, "windows_unplaced": 0}
+    dc = OP._reserve_doorcase(plan, rooms, W, 16.0, envs, report, 0)
+    OP._place_windows(rooms, {}, W, 16.0, report, envs, doorcase=dc)
+    return report, {r["id"]: r for r in rooms}
+
+
+def test_the_floor_reaches_the_window_in_the_next_room():
+    """DRIVEN (WP-15.8): the keep-out is the doorcase run PLUS half the ordinary pier, so it reaches
+    past the run into the next room's wall. The placer recorded only the rooms the RUN touched and
+    seated this parlor's sash 11.95 in from the doorcase against a floor of 33 in. A parlor too
+    narrow to hold its window clear of the floor refuses it by name; a wide one seats it clear."""
+    floor_ft = 0.5 * _ordinary_pier_in(9.0, 42.0) / 12.0
+    report, rooms = _flanked(4.5)
+    rec = report["doorcase"]
+    assert rec["rooms_touched"] == ["hall"] and rec["run_ft"][1] < 8.0, \
+        ("the premise: the run itself stops short of the parlor", rec)
+    w = rooms["parlor"]["windows"][0]
+    assert w.get("unplaced") and not w.get("positions_ft"), w
+    assert "the entrance doorcase" in w["unplaced"]["reason"], w
+    report, rooms = _flanked(9.0)
+    (c,) = rooms["parlor"]["windows"][0]["positions_ft"]
+    clear = (c - 1.75) - report["doorcase"]["run_ft"][1]
+    assert clear >= floor_ft - 1e-6, (clear * 12.0, floor_ft * 12.0)
+
+
+def test_a_room_the_band_does_not_reach_is_not_told_the_doorcase_took_its_wall():
+    """The control for the widening: a room further down the face, whose wall is too short for its
+    window, is refused for that and not for a doorcase whose band ends in the parlor."""
+    _report, rooms = _flanked(9.0, third=2.5)
+    w = rooms["closet"]["windows"][0]
+    assert w.get("unplaced") and "doorcase" not in w["unplaced"]["reason"], w
+    assert w["unplaced"]["reason"] == "the wall is shorter than the window", w
 
 
 def test_a_door_on_another_elements_face_is_not_the_entrance():
