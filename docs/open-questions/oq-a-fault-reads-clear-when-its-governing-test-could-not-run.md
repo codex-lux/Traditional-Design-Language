@@ -77,3 +77,14 @@ governing test did. Its blast radius is not small. It moves the fault summary on
 plans, it moves the critique's and the revision loop's reading of what is clear, and it would move
 every pinned count downstream. Which of the two readings in item 2 to build is a ruling. A package
 that did both at once could only be reasoned about as one.
+
+## Corrected 28 September 2026 (the audit of WP-15.8's own diff)
+
+**"Its seven clears are on one-storey houses" is wrong for one of the seven.** Re-derived with
+`tests/fault_clears.py` on the tree before this correction, six of the seven are on one-level
+houses: `bad-01`, `bad-02`, `bad-07`, `good-02`, `good-03` and `good-07`. The seventh,
+`good-05-lobby-gallery-mansion`, has two storeys. Its record declares four windows on its S front
+at the ground floor and none on the upper floor, so the alignment question does arise there, and
+the honest verdict is unjudged rather than not applicable. The fault reads clear on the bay-count
+floor in both cases. Auditor ab601 found it; the other figures in this entry re-derive exactly.
+The sentence above is left as written.

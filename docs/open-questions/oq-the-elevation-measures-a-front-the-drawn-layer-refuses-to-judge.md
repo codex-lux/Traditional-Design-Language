@@ -87,3 +87,18 @@ three reasons.**
 The measurement is reproducible from the three probes in WP-15.8's report. The contradiction
 stands on the shipped plans until this is ruled, and each of its two answers is stated where it
 is made.
+
+## Corrected 28 September 2026 (the audit of WP-15.8's own diff)
+
+Two sentences above are wrong, and both are left as written:
+
+- **"The spec Colonial is the same with 2 units undrawn."** It carries the same contradiction, but
+  not with the same severity. Its drawn layer says symmetry could not be judged, with 2 declared
+  units undrawn. Beside that, *"Windows That Do Not Stand On Each Other: 178.8 against at-most
+  2.0"* is fatal, and *"The Bay That Broke the Symmetry: 2 against at-most 0"* is **serious**, not
+  fatal. Re-read off `plan_check.check` on the heuristic placement.
+- **"The measurement is reproducible from the three probes in WP-15.8's report."** The report
+  names no such probes. The measurement was taken with scratch scripts, and they are not in the
+  tree. Only the fault-clear half can be re-derived from anything committed, with
+  `tests/fault_clears.py`. The plan table and the composer's set must be measured again by
+  applying the planned fix in a `git worktree`.

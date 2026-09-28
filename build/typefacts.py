@@ -305,10 +305,19 @@ def stacks(plan):
                   f"room they name: " + "; ".join(
                       f"{r['room']} over {r['over']} at "
                       f"{(r['fraction'] or 0) * 100:.0f}% of the smaller room" for r in broken))
-    elif kept:
+    elif kept and not unjudged:
         status = HELD
-        detail = (f"every judged declared stack lands ({len(kept)} of {len(kept)}); "
-                  f"{len(unjudged)} could not be judged")
+        detail = f"every declared stack lands ({len(kept)} of {len(kept)})"
+    elif kept:
+        # HELD ON PART OF ITS CLAIMS IS NOT HELD (WP-15.8's audit pass, auditor F). This returned
+        # HELD whenever the judged claims landed, whatever could not be judged -- `core._judge`'s
+        # rule, which `oq/a-fault-reads-clear-when-its-governing-test-could-not-run` puts to a
+        # ruling -- against this module's own note, "unjudged is never held". Nothing refuses on
+        # UNJUDGED (WP-13.4), so no drawing moves; what moves is the certificate.
+        status = UNJUDGED
+        detail = (f"{len(kept)} judged declared stack(s) land and {len(unjudged)} could not be "
+                  f"judged, so the fact is not held: "
+                  + "; ".join(f"{u['room']} over {u['over']}: {u['reason']}" for u in unjudged))
     elif unjudged:
         status = UNJUDGED
         detail = (f"{len(unjudged)} declared stack(s) and none could be judged: "
@@ -548,10 +557,16 @@ def hearth(plan):
         status = DOWNGRADED
         detail = (f"{len(bad)} of {len(judged)} judged fire(s) stand off their flue wall: "
                   + "; ".join(f"{r['room']} {r['wall']} {r['inboard_ft']:g} ft inboard" for r in bad))
-    elif judged:
+    elif judged and len(judged) == len(rows):
         status = HELD
-        detail = (f"every judged fire ({len(judged)}) stands on its flue wall; "
-                  f"{len(rows) - len(judged)} unjudged")
+        detail = f"every fire ({len(judged)}) stands on its flue wall"
+    elif judged:
+        # held on part of its fires is not held (see `stacks`, WP-15.8's audit pass)
+        status = UNJUDGED
+        detail = (f"{len(judged)} judged fire(s) stand on their flue wall and "
+                  f"{len(rows) - len(judged)} could not be judged, so the fact is not held: "
+                  + "; ".join(f"{r['room']} {r['wall'] or '?'}: {r.get('why')}"
+                              for r in rows if r["verdict"] == UNJUDGED))
     elif rows:
         status = UNJUDGED
         detail = ("this record states fires and none could be judged: "
@@ -570,9 +585,15 @@ def tiling_status(t):
     are already named on the measurement; otherwise HELD."""
     if t is None:
         return UNJUDGED
-    worst = max((lv.get("uncovered_sf") or 0.0) for lv in t.get("levels") or []) \
-        if t.get("levels") else 0.0
-    return DOWNGRADED if worst > TILING_TOL_SF else HELD
+    levels = t.get("levels") or []
+    worst = max((lv.get("uncovered_sf") or 0.0) for lv in levels) if levels else 0.0
+    if worst > TILING_TOL_SF:
+        return DOWNGRADED
+    # a level whose residual could not be measured (`uncovered_sf` null) was read as 0.0 and
+    # counted toward HELD; held on part of its levels is not held (WP-15.8's audit pass)
+    if not levels or any(lv.get("uncovered_sf") is None for lv in levels):
+        return UNJUDGED
+    return HELD
 
 
 def report(plan):

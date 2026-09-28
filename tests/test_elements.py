@@ -463,7 +463,13 @@ CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # the placement digest is unchanged on all sixteen, and the openings digest differs on exactly the
 # five plans carrying such a refusal -- bad-07, good-01, good-02, good-05 and the Tidewater plan --
 # with every position, width and count unmoved.
-CORPUS_OPENINGS_SHA = "a0c8777ea63260a9"
+# WP-15.8's audit pass (28 Sep 2026): a0c8777ea63260a9 -> 209843a4b8d14191, ONE plan of sixteen,
+# `bad-05-two-story-spec-colonial`, one door, words only. Its garage declares no exterior wall and
+# its one boundary wall is 23.63 ft against a 24 ft door; the refusal said "no declared exterior
+# wall of this room has a free run" with a `declared_wall` of S, and says the wall is shorter than
+# the door now, with the walls that were too short. Measured per plan against a worktree of
+# `c310cc4`: fifteen byte-identical, no position, wall or seat moved anywhere.
+CORPUS_OPENINGS_SHA = "209843a4b8d14191"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

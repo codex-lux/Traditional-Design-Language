@@ -115,6 +115,23 @@ def element_of(plan, room, els=None):
     return None
 
 
+def main_element(els):
+    """The main block among `els`: the element whose role is `main`, else the first, else None."""
+    return next((e for e in els if (e.get("role") or "") == "main"), els[0] if els else None)
+
+
+def in_main_block(plan, room, els=None):
+    """Whether this room stands in the MAIN block. False for a room in another element and for a
+    room in none (unjudged, never defaulted into the main block -- WP-11.9's rule); True for every
+    room of a record with no element model at all, where the question does not arise. The one
+    spelling of the test `axis.front_openings` and `axis.spine` both ask (WP-15.8's audit pass)."""
+    els = elements(plan) if els is None else els
+    main = main_element(els)
+    if main is None:
+        return True
+    return element_of(plan, room, els) is main
+
+
 def integer_box(x, y, W, H, grid=1.0):
     """An element's box rounded INWARD to a grid: `(x, y, W, H)` in grid units.
 

@@ -177,6 +177,24 @@ def _shared(a, b, tol=0.4):
 _OPPOSITE = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
 
+def on_main_face(env, face, W, H):
+    """Whether a room whose own element occupies `env` -- `(x0, y0, x1, y1)`, from `envelopes`,
+    or None for a room in no element -- stands on the main block's `face`.
+
+    THE ELEVATION'S OWN TEST (`elevation.placed_openings`), not element membership: an opening is
+    on the main block's face where its element's face lies on the main block's, within 0.01 ft,
+    and a room in no element stands in the main block. Asking "which element" instead would part
+    from the drawing on a wing built flush with the front. ONE SPELLING for the doorcase
+    reservation and the stoop (WP-15.8's audit, auditor F): `threshold._entrance_doors` took
+    every door on the entrance-face LETTER to be on the entrance front, and called the Tidewater
+    kitchen's door, on the dependency's own south face 5.28 ft back, "a service door on the
+    entrance front"."""
+    if env is None:
+        return True
+    main_edge = {"S": 0.0, "N": H, "W": 0.0, "E": W}[face]
+    return abs({"S": env[1], "N": env[3], "W": env[0], "E": env[2]}[face] - main_edge) <= 0.01
+
+
 def envelopes(plan):
     """`{room_id: (x0, y0, x1, y1)}` -- the rectangle each room's OWN massing element occupies
     (WP-11.6, ruling 1: an element has its own envelope, not the union).
@@ -439,7 +457,8 @@ def _place_interior(level_rooms, occupied, report, appendages=None):
         report["placed"] += 1
 
 
-def _place_exterior(level_rooms, occupied, W, H, C, report, envs=None):
+def _place_exterior(level_rooms, occupied, W, H, C, report, envs=None, hearths=None,
+                    level_index=0):
     """Exterior doors, and the one rule that fixes the reported symptom.
 
     op-passage-axis. styles/tidewater-georgian.json c03 is HARD — "Centre passage 10-14 ft
@@ -450,6 +469,9 @@ def _place_exterior(level_rooms, occupied, W, H, C, report, envs=None):
     running front to back had its rear door drawn on its front, under the front door, and
     its actual rear elevation showed a window where the door should be."""
     idx = {r["id"]: r for r in level_rooms}
+    masonry = {}
+    for key, span, what in _masonry_spans(level_rooms, W, H, envs, hearths, level_index):
+        masonry.setdefault(key, []).append((span, what))
     for r in level_rooms:
         rect = _rect(r)
         ext_doors = [d for d in (r.get("doors") or []) if d["to"] == "exterior"]
@@ -461,7 +483,8 @@ def _place_exterior(level_rooms, occupied, W, H, C, report, envs=None):
                 report["unplaced"].append({"pair": [r["id"], "exterior"], **d["unplaced"]})
             continue
         bw = _boundary_walls(rect, W, H, env=(envs or {}).get(r["id"]))
-        declared = [w for w in (r.get("exterior_walls") or []) if w in bw] or list(bw)
+        stated = [w for w in (r.get("exterior_walls") or []) if w in bw]
+        declared = stated or list(bw)
         fc = (C["rooms"].get(r["type"], {}) or {}).get("function_class")
 
         # Which ends already reach the outside some other way — a door to a porch, a
@@ -497,23 +520,46 @@ def _place_exterior(level_rooms, occupied, W, H, C, report, envs=None):
         for d in ext_doors:
             width = d.get("width_ft") or 3.5
             seat = None
+            need = width + 2 * MIN_SOLID_FT
+            short, took_by = [], set()
             for wall in order:
                 if wall in used:
+                    took_by.add("its other doors")
                     continue
                 lo, hi = bw[wall]
-                free = _free(lo, hi, occupied.get((r["id"], wall), []))
+                mas = masonry.get((r["id"], wall), [])
+                free = _free(lo, hi, occupied.get((r["id"], wall), []) + [sp for sp, _w in mas])
                 # the passage axis wants the door on the room's own centreline
                 prefer = (lo + hi) / 2
                 pos = _seat(free, width, prefer)
                 if pos is not None:
                     seat = (wall, pos)
                     break
+                if hi - lo + 1e-9 < need:
+                    short.append(wall)
+                    continue
+                if occupied.get((r["id"], wall)):
+                    took_by.add("its other doors")
+                took_by.update(w for sp, w in mas if sp[1] > lo and sp[0] < hi)
             if seat is None:
-                d["unplaced"] = {"reason": "no declared exterior wall of this room has a "
-                                           "free run on the footprint boundary",
-                                 **({"declared_wall": declared[0]} if declared else {}),
-                                 "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2)},
-                                 "have": {"walls_tried": list(order)}}
+                # THE REASON IS WHAT FAILED (WP-15.8's audit, auditor F). This said "no declared
+                # exterior wall of this room has a free run" and named a `declared_wall` for every
+                # refusal -- on `bad-05` of a garage that declares no exterior wall at all, whose
+                # one boundary wall is 23.63 ft against a 24 ft door: shorter, not taken.
+                which = "declared exterior wall" if stated else "exterior wall"
+                if short and not took_by:
+                    reason = (f"every {which} of this room is shorter than the door and its "
+                              f"jambs ({need:.2f} ft)")
+                elif took_by:
+                    reason = (f"no {which} of this room has a free run left beside "
+                              + " and ".join(sorted(took_by)))
+                else:
+                    reason = f"no {which} of this room is on the footprint boundary"
+                d["unplaced"] = {"reason": reason,
+                                 **({"declared_wall": stated[0]} if stated else {}),
+                                 "needs": {"free_run_ft": round(need, 2)},
+                                 "have": {"walls_tried": list(order),
+                                          "walls_too_short": short}}
                 report["unplaced"].append({"pair": [r["id"], "exterior"], **d["unplaced"]})
                 continue
             wall, pos = seat
@@ -556,8 +602,21 @@ def _reserve_masonry(level_rooms, occupied, W, H, envs, hearths, level_index):
     because nothing is drawn there. Returns `{(room, wall): [what was reserved]}` so a window
     refused for want of a run can say what took the wall."""
     took = {}
+    for key, span, what in _masonry_spans(level_rooms, W, H, envs, hearths, level_index):
+        occupied.setdefault(key, []).append(span)
+        took.setdefault(key, []).append(what)
+    return took
+
+
+def _masonry_spans(level_rooms, W, H, envs, hearths, level_index):
+    """`[((room, wall), (lo, hi), what)]`: every run a drawn breast or a stack takes on this
+    level, with the pier either side -- the spans `_reserve_masonry` occupies before a window is
+    seated and `_place_exterior` keeps a door out of (WP-15.8's audit, auditor F: an exterior
+    door was seated before the masonry was reserved, and a library door driven onto its E wall
+    stood on the stack and inside the drawn breast)."""
+    out = []
     if not hearths:
-        return took
+        return out
     pad = MASONRY_PIER_FT + _RECORD_QUANTUM_FT
     by_id = {r["id"]: r for r in level_rooms}
     for row in (hearths.get("breasts") or []):
@@ -568,10 +627,18 @@ def _reserve_masonry(level_rooms, occupied, W, H, envs, hearths, level_index):
             continue
         run = ((row["y_ft"], row["y_ft"] + row["depth_ft"]) if row["wall"] in ("E", "W")
                else (row["x_ft"], row["x_ft"] + row["width_ft"]))
-        occupied.setdefault((r["id"], row["wall"]), []).append((run[0] - pad, run[1] + pad))
-        took.setdefault((r["id"], row["wall"]), []).append("the chimney breast")
+        out.append(((r["id"], row["wall"]), (run[0] - pad, run[1] + pad), "the chimney breast"))
     # A stack passes through every storey, so its run is reserved on every level's rooms that
     # stand on that wall where it stands.
+    #
+    # ON THE WALL LINE IT STANDS ON, NOT ON EVERY WALL OF THAT LETTER (WP-15.8's audit, auditor F).
+    # This matched a room by the wall's LETTER and the run's overlap along it, so on the shipped
+    # Tidewater record the main block's W stack reserved the west wall of the dependency's pantry,
+    # 31 ft away, and the E stack the powder room's east wall; a window there would have been
+    # refused "beside the chimney stack". `hearth_pass` seats every stack on the MAIN block's face
+    # (`_stack_rect` takes the footprint's W and D), so a room's wall is the stack's only where
+    # its own element's face is the main block's -- `on_main_face`, the doorcase's and the
+    # elevation's test.
     for sk in (hearths.get("stacks") or []):
         wall = sk.get("wall")
         if wall not in ("N", "E", "S", "W"):
@@ -582,15 +649,15 @@ def _reserve_masonry(level_rooms, occupied, W, H, envs, hearths, level_index):
             rect = _rect(r)
             if not rect:
                 continue
-            bw = _boundary_walls(rect, W, H, env=(envs or {}).get(r["id"]))
-            if wall not in bw:
+            env = (envs or {}).get(r["id"])
+            bw = _boundary_walls(rect, W, H, env=env)
+            if wall not in bw or not on_main_face(env, wall, W, H):
                 continue
             lo, hi = bw[wall]
             if run[1] + pad <= lo or run[0] - pad >= hi:
                 continue
-            occupied.setdefault((r["id"], wall), []).append((run[0] - pad, run[1] + pad))
-            took.setdefault((r["id"], wall), []).append("the chimney stack")
-    return took
+            out.append(((r["id"], wall), (run[0] - pad, run[1] + pad), "the chimney stack"))
+    return out
 
 
 # THE ENTRANCE DOORCASE IS RESERVED BEFORE A WINDOW IS SEATED (Phase 15, WP-15.6). Lucas, of the
@@ -633,17 +700,8 @@ def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
     if face not in ("N", "S", "E", "W"):
         rec["why"] = f"the record's entrance face {face!r} is not one face of the main block"
         return None
-    main_edge = {"S": 0.0, "N": H, "W": 0.0, "E": W}[face]
-
     def _on_main(r):
-        # THE ELEVATION'S OWN TEST (`elevation.placed_openings`), not element membership: an
-        # opening is on the main block's face where its element's face lies on the main block's,
-        # within 0.01 ft, and a room in no element stands in the main block. Asking "which
-        # element" instead would part from the drawing on a wing built flush with the front.
-        env = (envs or {}).get(r["id"])
-        if env is None:
-            return True
-        return abs({"S": env[1], "N": env[3], "W": env[0], "E": env[2]}[face] - main_edge) <= 0.01
+        return on_main_face((envs or {}).get(r["id"]), face, W, H)
 
     cands = []
     for r in level_rooms:
@@ -1228,7 +1286,8 @@ def place(plan, C=None):
         occupied = {}
         _place_interior(rooms, occupied, report,
                         appendages=apx.get(lv.get("index", _li)) or {})
-        _place_exterior(rooms, occupied, W, H, C, report, envs)
+        _place_exterior(rooms, occupied, W, H, C, report, envs,
+                        hearths=he, level_index=lv.get("index", _li))
         dc = _reserve_doorcase(plan, rooms, W, H, envs, report, lv.get("index", _li))
         _place_windows(rooms, occupied, W, H, report, envs,
                        hearths=he, level_index=lv.get("index", _li), doorcase=dc)

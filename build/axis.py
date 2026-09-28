@@ -112,7 +112,8 @@ def through_axis(room):
         if d.get("to") == "exterior" and not d.get("unplaced") and d.get("wall"):
             walls.add(d["wall"])
     for w in (room.get("windows") or []):
-        if not w.get("unplaced") and w.get("wall"):
+        # a partly seated window reaches its wall with the units it seated (WP-15.8's audit)
+        if w.get("wall") and (not w.get("unplaced") or w.get("positions_ft")):
             walls.add(w["wall"])
     for a, b in (("N", "S"), ("E", "W")):
         if a in walls and b in walls:
@@ -133,6 +134,13 @@ def spine(plan, level=0, C=None):
         return {"verdict": "could-not-evaluate",
                 "why": "the placement states no footprint with a bay module"}
     runs_x = axis_runs_x(front_of(plan))
+    # THE SPINE IS THE MAIN BLOCK'S, AS ITS CENTRE LINE IS (WP-15.8's audit pass). Every room on
+    # the level was a candidate, so once a partly seated window counted as reaching its wall, the
+    # Tidewater back hall -- the HYPHEN, a massing element of its own, spanning its own 18 ft
+    # depth -- became the house's through-axis and was convicted of standing 26 ft off the main
+    # block's centre line. `front_openings`' filter, for `front_openings`' reason (WP-13.8): a
+    # room in another element, or in none, is not on the main block's axis.
+    els = EL.elements(plan)
     best = None
     for lv in plan.get("levels", []):
         if (lv.get("index") or 0) != level:
@@ -140,6 +148,8 @@ def spine(plan, level=0, C=None):
         for r in lv.get("rooms", []):
             g = r.get("geometry")
             if not g:
+                continue
+            if not EL.in_main_block(plan, r, els):
                 continue
             if C is not None:
                 fc = ((C.get("rooms") or {}).get(r.get("type")) or {}).get("function_class")
@@ -211,7 +221,7 @@ def front_openings(plan, level=0):
     the kind this function is being fixed for."""
     front = front_of(plan)
     els = EL.elements(plan)
-    main = next((e for e in els if (e.get("role") or "") == "main"), els[0] if els else None)
+    main = EL.main_element(els)
     placed, off, unresolved, unplaced, unplaced_off = [], [], [], 0, 0
 
     def _of(room):
@@ -231,10 +241,18 @@ def front_openings(plan, level=0):
             for w in (r.get("windows") or []):
                 if (w.get("wall") or "").upper() != front:
                     continue
+                # A PARTLY SEATED WINDOW IS ITS SEATED UNITS PLUS ITS REFUSED ONES (WP-15.8's audit,
+                # auditor F). This read `unplaced` as "none seated": it counted the whole `count` as
+                # undrawn and dropped the seated sashes from the front, so `good-02` reported 3
+                # units undrawn where it is 1 and the mirror behind the fatal
+                # `one-bay-symmetry-break` read 2 of 2 unmatched where the drawn front gives 3 of 4.
+                # `unplaced` beside `positions_ft` is a PARTIAL refusal, and the placer drops the
+                # positions of a window it refuses whole, so the shortfall is legible as
+                # count - len(positions_ft) -- the placer's own comment says so.
+                seated = w.get("positions_ft") or []
                 if w.get("unplaced"):
-                    here_unplaced += int(w.get("count") or 1)
-                    continue
-                for x in (w.get("positions_ft") or []):
+                    here_unplaced += max(0, int(w.get("count") or 1) - len(seated))
+                for x in seated:
                     here.append({"room": r["id"], "kind": "window", "pos_ft": round(x, 3),
                                  "width_ft": w.get("width_ft")})
             for d in (r.get("doors") or []):

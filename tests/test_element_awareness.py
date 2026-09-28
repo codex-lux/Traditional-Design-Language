@@ -643,7 +643,21 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # **1 row out and 1 in**, the same room, the same kind, the sentence alone.
                 # Counts unmoved at 203 and 239 and both watched layers at 13/18 and 11/17.
                 # Old digests: cf857d78072bf00c (unmoved) / 37018ccbc24734ff.
-                ("tidewater-georgian-careful", "cf857d78072bf00c", 203,
+                # RE-DERIVED AT WP-15.8's AUDIT PASS (28 Sep 2026), THE TIDEWATER ROW ALONE, row
+                # count UNMOVED at 203 and the histogram unmoved. Diffed row by row against a
+                # worktree of `c310cc4`: 2 out, 2 in, every one the partly seated window read by
+                # its units instead of skipped whole (`axis.front_openings`, `axis.through_axis`):
+                #   -/+ `drawn-facade-symmetry-unjudged`: 6 declared units undrawn -> 4, because
+                #       two of the six were seated sashes of partly refused windows;
+                #   -   `front-bay-with-no-opening` bay 6: a seated sash of one of them fills it;
+                #   +   `drawn-passage-off-centre` backhall, 14.67 ft: on this UNTAGGED fixture the
+                #       back hall is in the one block, and with its partly seated S window counted
+                #       it reaches S and N and is the only through-axis room. Before, the reader
+                #       skipped the window and called the axis unjudged. On the SHIPPED (tagged)
+                #       record the back hall is the hyphen and is not a candidate (`spine` reads
+                #       the main block only), and that record's findings are unmoved.
+                # Old digest: cf857d78072bf00c.
+                ("tidewater-georgian-careful", "efd26d7240106183", 203,
                  {"daylight": 13, "grouping": 18}),
                 ("spec-builder-colonial", "554b84e823b1c057", 239,
                  {"daylight": 11, "grouping": 17})):

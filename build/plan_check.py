@@ -1109,7 +1109,11 @@ def drawn_layer(plan, rooms, level_of, C, F):
         # what each wall has left once this room's placed openings have taken their runs
         spans = {w: [] for w in ("N", "S", "E", "W")}
         for o in list(r.get("doors") or []) + list(r.get("windows") or []):
-            if o.get("unplaced") or not o.get("wall"):
+            # A PARTLY SEATED WINDOW TAKES WALL WITH EVERY SASH IT SEATED (WP-15.8's audit,
+            # auditor F). This skipped any opening carrying `unplaced`, so on `good-02`'s living
+            # room the S wall read a 12.9 ft free run against a true 2.68. A door or a window
+            # refused whole carries no seat and is still skipped.
+            if not o.get("wall") or (o.get("unplaced") and not o.get("positions_ft")):
                 continue
             wd = o.get("width_ft") or 3.0
             for pos in (o.get("positions_ft") or ([o["position_ft"]] if o.get("position_ft") is not None else [])):
@@ -1142,7 +1146,8 @@ def drawn_layer(plan, rooms, level_of, C, F):
                       fix="Move a window off that wall, or accept the piece elsewhere.",
                       kind="wall-run", item=it["item"], need_ft=need, have_ft=round(best, 2),
                       walls_with_windows=sorted({o["wall"] for o in (r.get("windows") or [])
-                                                 if o.get("wall") and not o.get("unplaced")}))
+                                                 if o.get("wall") and (not o.get("unplaced")
+                                                                       or o.get("positions_ft"))}))
 
     # --- THE SHAPE THE PLACEMENT GAVE THE ROOM (WP-9.1)
     #
