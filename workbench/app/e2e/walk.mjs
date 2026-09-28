@@ -2972,10 +2972,19 @@ check('export: DXF/IFC live (WP-5.1)', /plan dxf/.test(ex) && /ifc model/.test(e
   const rows = packs && Array.isArray(packs.packs) ? packs.packs : [];
   const want = rows.length && rows.every((r) => Number.isInteger(r.conflicts))
     ? rows.reduce((n, r) => n + r.conflicts, 0) : null;
-  const drawn = await page.locator('main [data-pack-conflicts]').first().getAttribute('data-pack-conflicts').catch(() => null);
+  /* THE RACE (WP-15.8, found on CI run 124): `ex` is read the moment the unbuilt cards appear,
+     and this span renders only once `api.proportionPacks()` answers -- so on a slow route the
+     figure was not yet in `ex`, and the check printed "262 against 262" and failed. The figure
+     a reader sees is read off the span's OWN text now, after waiting for the span, which is
+     also the stronger claim: the number must be in the span that states it, not anywhere on
+     the page. */
+  const conflictsEl = page.locator('main [data-pack-conflicts]').first();
+  await conflictsEl.waitFor({ state: 'visible', timeout: 30000 }).catch(() => {});
+  const drawn = await conflictsEl.getAttribute('data-pack-conflicts', { timeout: 5000 }).catch(() => null);
+  const shown = flat(await conflictsEl.innerText({ timeout: 5000 }).catch(() => ''));
   if (want == null) unjudged.push('export: the conflict count -- GET /api/proportions states no per-pack conflicts');
-  else check(`export: the conflict count is the pack index's own rows summed (${drawn} against ${want})`,
-    drawn !== null && Number(drawn) === want && ex.includes(String(want)));
+  else check(`export: the conflict count is the pack index's own rows summed (${drawn} against ${want}, the span reads "${shown}")`,
+    drawn !== null && Number(drawn) === want && shown.includes(String(want)));
 }
 await shot('export');
 
