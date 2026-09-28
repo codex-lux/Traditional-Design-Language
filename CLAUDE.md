@@ -259,6 +259,30 @@ sentence.
   14 inherited, 5 both), four of them an exterior stack V2 now reads.
 - **The test count is 3,350, against 3,280, reconciled by name**: 74 added and 4 re-cut away
   (split into sheet and DXF halves, or parametrized over the four faces), none removed.
+- **AND FOUR MORE AUDITORS TOOK THE AUDIT'S OWN DIFF (`3b083d9..9aefcf4`), AND THE ONE BLOCKING
+  DEFECT THEY FOUND IS OLDER THAN PHASE 15** (report §X). **The Round laid the N and W elevation
+  plates over the model reversed**: `frame.js::modelAt` took `u = 0` at the face's left as the
+  camera sees it, the record has said since WP-13.3 that no face is mirrored, and `round.test.mjs`
+  asserted the reversed reading. The server sends each plate's own `mirrored` now
+  (`corpus.plate_direction`), `modelAt` reads it, and `plateRegistration` refuses a plate whose
+  axes run against the screen's, saying which way it reads. **So the N and W plates are refused in
+  the Round until `FACE_MIRRORED` is ruled**
+  (`oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from`, amended). Sixteen worth
+  fixing, among them:
+  - a window refused whole kept stale `positions_ft`, so a re-solved record hid the windowless
+    finding;
+  - a stack reserved every wall of its LETTER, 31 ft away in the dependency (`openings.on_main_face`
+    is the one spelling now);
+  - an exterior door was seated before the masonry was reserved;
+  - `axis.front_openings` counted a partly seated window undrawn whole, and counting its sashes
+    made the HYPHEN a through-axis room the element-blind spine then convicted;
+  - `typefacts` read HELD over unjudged claims;
+  - the plan DXF wrote its own window line and none of the sheet's disclosures;
+  - six census clauses could be switched off inside checks that counted as driven.
+  **Driven per check is not driven per clause.** 52 mutations over the pass's own guards, all red,
+  four blind on their first run. 128 of 128 sheets unmoved.
+- **The test count is 3,372, against 3,350, reconciled by name**: 22 added, none removed. The app
+  suite is 757 (three added) and the server suite gained two.
 
 **THERE ARE TWO PHASE 14s, AND SIX WP NUMBERS NAME TWO PACKAGES EACH (merged 27 Sep 2026).**
 *The ink held to its plates* (WP-14.1 through 14.6) and *the dossier and the journey* (WP-14.0
@@ -592,7 +616,11 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 3,350 and the app suite 754.** It was 3,280
+**The test figure in the counts paragraph below is 3,372 and the app suite 757.** It was 3,350
+and 754 before the audit of WP-15.8's own diff (28 Sep 2026), reconciled BY NAME against `3a1bb85`:
+22 tests added (12 in `tests/test_second_occurrences.py`, 6 census drivers in
+`tests/test_svg_census.py`, and one each in four other files) and none removed; three app tests
+added for the Round's plate direction. It was 3,280
 before WP-15.8, the audit of Phase 15 (28 Sep 2026), reconciled BY NAME against `3b083d9`: 74
 tests added and 4 re-cut away, all four in `tests/test_cornice_face.py`, each split into its sheet
 and DXF halves or parametrized over the four faces; none removed outright. It was 3,278
@@ -1347,8 +1375,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,350 tests**
-(plus the workbench app suite, **754** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,372 tests**
+(plus the workbench app suite, **757** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring

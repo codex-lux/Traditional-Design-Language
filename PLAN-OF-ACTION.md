@@ -4660,6 +4660,17 @@ the itemized list: every finding, its severity and origin, and what was done abo
   Both are open questions, not rulings:
   - `oq/a-fault-reads-clear-when-its-governing-test-could-not-run`;
   - `oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge`.
+- **Four more auditors then took the audit's own diff (`3b083d9..9aefcf4`)**, and four commits
+  fixed what they found (report §X):
+  - `3d6f5bb`: stale positions on a whole refusal, the stack-side tolerance, V23 read
+    independently;
+  - `c310cc4`: the Round laid the N and W plates reversed, the one blocking finding, older than
+    the phase;
+  - `ac315e9`: the second occurrences (a stack's own wall line, doors off the masonry, a partly
+    seated window counted by its units, the spine read from the main block, `typefacts`);
+  - `8395f5b` and `8588acf`: the DXF says what the sheet says, and the census's undriven clauses
+    are driven.
+  52 mutations over those commits, all red; 128 of 128 sheets unmoved; tests 3,350 → 3,372 by name.
 - The walk on the final head is 701 green, 0 failed, 6 could not evaluate. The whole build was
   running when this was committed, and its verdict replaces this line.
 
