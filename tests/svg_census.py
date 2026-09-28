@@ -3169,14 +3169,28 @@ def x2():
 
 
 @check("X3", "elevation", "the DXF elevation draws every stack the SVG draws, on the same outline in "
-       "the face's own inches, stands a stack drawn from grade on its grade line, and carries each "
-       "stack's square and its judgment", "every face of every plan whose elevation draws a stack")
+       "the face's own inches and in the SVG's paint order, stands a stack drawn from grade on its grade "
+       "line, carries each stack's square, whether it stands on grade and its judgment as the SVG does, "
+       "and says every sentence the SVG says of the stacks", "every face of every plan whose elevation "
+       "draws a stack")
 def x3():
     """Phase 15, WP-15.5. The DXF elevation drew NO chimney on any face from the day it was
     written, while the sheet has drawn the stacks since WP-5.13 -- a CAD file of the Tidewater
     front with no chimneys, and X1 and X2 asked about the doorcase and the sash and nothing else.
     Both read `elevation.stack_marks` now; this holds the two drawings to each other, the SVG's
-    ink read back to the face's own inches through its plate's frame."""
+    ink read back to the face's own inches through its plate's frame.
+
+    WP-15.8 (the audit, auditors B and M): this row asked the XDATA for its KEYS -- that a
+    `plan_rect_ft` and a `plan_judgment` were there -- so a DXF saying `false` of a stack the sheet
+    calls a judgment, or `true` of a stack standing on the roof, agreed. It reads the values now,
+    each against something the DXF did not write: the square against the roof record's own
+    squares, whether it stands on grade against the SVG's ink, the judgment against the SVG's own
+    judgment line. And it reads the ORDER: the DXF drew every stack last and masked nothing, so
+    the eave ran through a stack the sheet paints over it, and a stack's edge through the eave the
+    sheet paints over the stack. A stack the SVG paints before its wall is drawn before the DXF's
+    wall; one it paints after the wall and stands on grade is drawn after the DXF's, over a
+    WIPEOUT of its own outline. And the DXF says every sentence the SVG says of the stacks --
+    it wrote the stack lines and not the judgment line they leave the size to."""
     try:
         import ezdxf  # noqa: F401
     except ImportError:
@@ -3190,52 +3204,99 @@ def x3():
         stacks = [it for it in _marks(ink, "ch") if it.tag in ("polygon", "rect", "path")]
         if not pl or not stacks:
             continue
+        walls = [it.index for it in _marks(ink, "wf")]
+        wall_at = min(walls) if walls else None
         want = []
         for it in stacks:
             pts = [IR.to_model(pl, x, y) for x, y in it.points()]
-            want.append(tuple(round(v * 12.0, 1) for v in (min(u for u, _v in pts), min(v for _u, v in pts),
-                                                              max(u for u, _v in pts), max(v for _u, v in pts))))
+            box = tuple(round(v * 12.0, 1) for v in (min(u for u, _v in pts), min(v for _u, v in pts),
+                                                      max(u for u, _v in pts), max(v for _u, v in pts)))
+            want.append({"box": box, "grade": box[1] <= 0.15,
+                         "before_wall": wall_at is not None and it.index < wall_at})
+        said = [" ".join(t.split()).upper() for t, _a, _it in ink.texts() if t and t.strip()]
+        judged = any("A JUDGMENT, NOT A MEASUREMENT" in t for t in said if "STACK" in t)
+        squares = [c.get("plan_rect_ft") for c in
+                   (((el.get("roof_record") or {}).get("chimneys") or {}).get("positions") or [])]
         d = _tempfile.mkdtemp(prefix="svg_census_")
         try:
             path = os.path.join(d, "e.dxf")
             DX.export_elevation_dxf(el, path, face=face)
             doc = ezdxf.readfile(path)
-            got, xd = [], []
-            for e in doc.modelspace().query("LWPOLYLINE"):
-                if e.dxf.layer != "TDL-ELEV-STACK":
+            ents = list(doc.modelspace())
+            at = {id(e): i for i, e in enumerate(ents)}
+            got = []
+            for e in ents:
+                if e.dxftype() != "LWPOLYLINE" or e.dxf.layer != "TDL-ELEV-STACK":
                     continue
                 xs = [p[0] for p in e.get_points()]
                 ys = [p[1] for p in e.get_points()]
-                got.append((min(xs), min(ys), max(xs), max(ys)))
                 try:
-                    xd.append("".join(str(v) for _c, v in e.get_xdata("TDL")))
+                    tags = [str(v) for _c, v in e.get_xdata("TDL")]
+                    xd = json.loads("".join(tags[1:]))
                 except Exception:       # noqa: BLE001 -- a stack with no XDATA says nothing
-                    xd.append("")
-            grade = [e for e in doc.modelspace().query("LINE") if e.dxf.layer == "TDL-ELEV-GRADE"]
+                    xd = None
+                got.append({"box": (min(xs), min(ys), max(xs), max(ys)), "at": at[id(e)], "xd": xd})
+            wall = [at[id(e)] for e in ents if e.dxftype() == "LWPOLYLINE"
+                    and e.dxf.layer == "TDL-ELEV-WALL"]
+            masks = []
+            for e in ents:
+                if e.dxftype() == "WIPEOUT":
+                    wp = [(v[0], v[1]) for v in e.boundary_path_wcs()]
+                    masks.append({"box": (min(p[0] for p in wp), min(p[1] for p in wp),
+                                          max(p[0] for p in wp), max(p[1] for p in wp)),
+                                  "at": at[id(e)], "layer": e.dxf.layer})
+            dxf_said = [" ".join((e.dxf.text if e.dxftype() == "TEXT" else e.plain_text()).split()).upper()
+                        for e in ents if e.dxftype() in ("TEXT", "MTEXT")]
+            grade = [e for e in ents if e.dxftype() == "LINE" and e.dxf.layer == "TDL-ELEV-GRADE"]
         finally:
             shutil.rmtree(d, ignore_errors=True)
         bad = []
         left = list(got)
+        pairs = []
         for w in want:
-            hit = next((g for g in left if all(abs(a - b) <= 0.15 for a, b in zip(w, g))), None)
+            hit = next((g for g in left if all(abs(a - b) <= 0.15 for a, b in zip(w["box"], g["box"]))), None)
             if hit is None:
                 bad.append("the SVG draws a stack at %.1f..%.1f in, %.1f..%.1f in up; the DXF does not"
-                           % (w[0], w[2], w[1], w[3]))
+                           % (w["box"][0], w["box"][2], w["box"][1], w["box"][3]))
             else:
                 left.remove(hit)
+                pairs.append((w, hit))
         if left:
             bad.append("the DXF draws %d stack(s) the SVG does not" % len(left))
         # THE GRADE LINE RUNS A FOOT PAST A STACK STANDING ON IT, as V23 asks of the sheet's. "Past
         # it" alone was blind: this file's line has always run 24 in past the WALL, which covers a
         # 22 in stack by 2 in, so a mutation stopping the line at the wall again left the row green.
         for g in got:
-            if g[1] <= 0.15 and not any(ln.dxf.start[0] <= g[0] - 12 and ln.dxf.end[0] >= g[2] + 12
+            b = g["box"]
+            if b[1] <= 0.15 and not any(ln.dxf.start[0] <= b[0] - 12 and ln.dxf.end[0] >= b[2] + 12
                                         for ln in grade):
                 bad.append("a DXF stack standing on grade at %.1f..%.1f in and no grade line running "
-                           "a foot past it" % (g[0], g[2]))
-        for x in xd:
-            if '"plan_rect_ft":[' not in x or '"plan_judgment":' not in x:
-                bad.append("a DXF stack whose XDATA does not carry its square and its judgment")
+                           "a foot past it" % (b[0], b[2]))
+        for w, g in pairs:
+            xd = g["xd"]
+            if not isinstance(xd, dict):
+                bad.append("a DXF stack carrying no XDATA")
+                continue
+            if xd.get("plan_rect_ft") not in squares:
+                bad.append("a DXF stack's square %s is none the roof record seats" % (xd.get("plan_rect_ft"),))
+            if xd.get("from_grade") is not w["grade"]:
+                bad.append("a stack the SVG %s the ground says from_grade %s in the DXF"
+                           % ("stands on" if w["grade"] else "does not bring to", xd.get("from_grade")))
+            if xd.get("plan_judgment") is not judged:
+                bad.append("the SVG %s the stack's square a judgment and the DXF says plan_judgment %s"
+                           % ("calls" if judged else "does not call", xd.get("plan_judgment")))
+            if wall and (g["at"] < wall[0]) != w["before_wall"]:
+                bad.append("a stack the SVG paints %s its wall is drawn %s the DXF's"
+                           % (("before", "after") if w["before_wall"] else ("after", "before")))
+            if wall and w["grade"] and not w["before_wall"]:
+                own = [m for m in masks if all(abs(a - b) <= 0.15 for a, b in zip(m["box"], g["box"]))]
+                if not own:
+                    bad.append("a stack standing in front of its wall and no mask of its outline under it")
+                elif not all(m["layer"] == "TDL-ELEV-MASK" and wall[0] < m["at"] < g["at"] for m in own):
+                    bad.append("a stack's mask is not between the wall and the stack, on TDL-ELEV-MASK")
+        for t in said:
+            if "STACK" in t and t not in dxf_said:
+                bad.append("the SVG says %r and the DXF does not" % t[:60])
         out.append(row("X3", "%s/%s" % (pid, face), "disagrees" if bad else "agrees",
                        "; ".join(sorted(set(bad))[:3]) if bad else "%d stack(s)" % len(want)))
     return out

@@ -382,7 +382,9 @@ def test_a_short_side_is_measured_and_said_on_the_sheet_and_in_the_dxf(corpus):
     with tempfile.TemporaryDirectory() as td:
         path = os.path.join(td, "e.dxf")
         DX.export_elevation_dxf(el, path, face=face)
-        texts = [e.dxf.text for e in ezdxf.readfile(path).modelspace().query("TEXT")]
+        # the notes are MTEXT since WP-15.8, broken to the drawing's width: a break reads as a space
+        texts = [e.dxf.text if e.dxftype() == "TEXT" else e.plain_text().replace("\n", " ")
+                 for e in ezdxf.readfile(path).modelspace().query("TEXT MTEXT")]
     assert notes[0] in texts
 
 
@@ -417,7 +419,9 @@ def test_the_floor_is_not_judged_where_no_parti_states_the_bay_and_the_sheet_say
     with tempfile.TemporaryDirectory() as td:
         path = os.path.join(td, "e.dxf")
         DX.export_elevation_dxf(el, path, face=face)
-        texts = [e.dxf.text for e in ezdxf.readfile(path).modelspace().query("TEXT")]
+        # the notes are MTEXT since WP-15.8, broken to the drawing's width: a break reads as a space
+        texts = [e.dxf.text if e.dxftype() == "TEXT" else e.plain_text().replace("\n", " ")
+                 for e in ezdxf.readfile(path).modelspace().query("TEXT MTEXT")]
     assert line in texts
 
 

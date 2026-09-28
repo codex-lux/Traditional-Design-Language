@@ -262,7 +262,9 @@ def test_both_surfaces_draw_the_band_where_the_one_reading_puts_it(placed, tmp_p
         band = [e for e in msp if e.dxftype() == "LWPOLYLINE" and e.dxf.layer == "TDL-ELEV-CORNICE"]
         assert len(band) == 1, ("the premise: one cornice band in the DXF", len(band))
         west = min(p[0] for p in band[0].get_points())
-        texts = " ".join(e.dxf.text for e in msp if e.dxftype() == "TEXT")
+        # the notes are MTEXT since WP-15.8, broken to the drawing's width: a break reads as a space
+        texts = " ".join(e.dxf.text if e.dxftype() == "TEXT" else e.plain_text().replace("\n", " ")
+                         for e in msp.query("TEXT MTEXT"))
         got[tag] = (band_w, west, "CORNICE BAND DRAWN FLUSH" in svg, "CORNICE BAND DRAWN FLUSH" in texts)
     scale = 24.0
     assert abs(got["stated"][0] - got["zero"][0] - 2 * stated / 12.0 * scale) < 0.2, got

@@ -13,7 +13,6 @@ seats wherever a fire is stated. Auditor D moved the Tidewater dining fire to th
 how each face sees it. No shipped plan seats a stack on a long wall, so the case is DRIVEN, with the
 premise asserted: the drive must seat a stack outboard of the rear wall.
 """
-import copy
 import json
 import os
 import re
@@ -171,3 +170,42 @@ def test_no_front_window_is_refused_for_a_stack_forty_feet_behind_it(rear):
     assert el["faces"]["S"]["stack_axes_ft"] == [], el["faces"]["S"]["stack_axes_ft"]
     assert not [x for x in EL.opening_rects(el, "S")["refused"] if x.get("cause") == "stack"]
     assert el["faces"]["N"]["stack_axes_ft"], "its own wall carries its axis"
+
+
+# ------------------------------------------------------------------ the DXF, in the sheet's order
+def test_the_dxf_draws_each_relation_in_the_sheets_order(rear):
+    """The same four views in the CAD file (WP-15.8, commit 4). A stack beyond the corner is drawn
+    before the wall, as the sheet paints it; one in front of its own wall after everything, over a
+    mask of its own outline; one the house hides up to its ridge over nothing, with no mask. The
+    shipped corpus seats no stack on a long wall, so the rear stack is the only place the long
+    faces' two relations and the gables' "end" of a long-wall stack are drawn at all."""
+    ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+    DX = _L("export_dxf")
+    el, stack = rear
+
+    def _said(e):
+        tags = [v for _c, v in e.get_xdata("TDL")]
+        return json.loads("".join(tags[1:]))
+
+    def _box(pts):
+        return [round(f(p[i] for p in pts), 3) for i in (0, 1) for f in (min, max)]
+
+    for face, rel in (("S", "behind"), ("N", "front"), ("E", "end"), ("W", "end")):
+        with tempfile.TemporaryDirectory() as td:
+            path = os.path.join(td, "e.dxf")
+            assert "error" not in DX.export_elevation_dxf(el, path, face=face)
+            msp = ezdxf.readfile(path).modelspace()
+            at = {id(e): i for i, e in enumerate(msp)}
+            (poly,) = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-STACK"
+                       and _said(e).get("plan_rect_ft") == stack.get("plan_rect_ft")]
+            said = _said(poly)
+            assert said["relation"] == rel and said["from_grade"] == (rel != "behind"), (face, said)
+            (wall,) = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-WALL"]
+            assert (at[id(poly)] < at[id(wall)]) == (rel == "end"), (face, rel)
+            own = [m for m in msp.query("WIPEOUT")
+                   if _box([(v[0], v[1]) for v in m.boundary_path_wcs()]) == _box(poly.get_points())]
+            assert len(own) == (1 if rel == "front" else 0), (face, rel, len(own))
+            if own:
+                later = [e for e in msp if e.dxf.layer not in ("TDL-ELEV-STACK", "TDL-ELEV-MASK",
+                                                               "TDL-ELEV-ANNO")]
+                assert max(at[id(e)] for e in later) < at[id(own[0])] < at[id(poly)], face

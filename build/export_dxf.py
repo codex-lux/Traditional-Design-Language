@@ -48,6 +48,7 @@ import copy
 import json
 import math
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -121,6 +122,35 @@ def _text(msp, layer, text, x, y, h=TEXT_H, align_end=False):
     t = msp.add_text(text, dxfattribs={"layer": layer, "height": h})
     t.set_placement((x, y))
     return t
+
+
+# MTEXT's own line pitch is 5/3 of its character height at the default spacing factor.
+MTEXT_PITCH = 5.0 / 3.0
+
+
+def _mtext_literal(s):
+    """A line of MTEXT that reads back as `s`, whatever `s` holds. MTEXT gives meaning to more than
+    its backslash and braces: a caret starts a control character (`^I` is a tab) and two percent
+    signs a special one (`%%d` is a degree sign, `%%c` a diameter), and a note carries room names,
+    which are the record's strings and not this file's. A caret is written `^ `, which reads back
+    as the caret alone, and an empty group is set between two percent signs."""
+    s = s.replace("\\", "\\\\").replace("{", "\\{").replace("}", "\\}").replace("^", "^ ")
+    return re.sub(r"%(?=%)", "%{}", s)
+
+
+def _note(msp, layer, text, x, y, width, h=TEXT_H):
+    """One sentence beneath a drawing, broken to the drawing's width, as ONE MTEXT entity; returns
+    the number of lines it takes (WP-15.8's audit). A note was one TEXT line however long it ran, and
+    the Tidewater elevation's longest ran 223 characters, far past the drawing it describes. The
+    breaks are made here (`\\P`) rather than left to a viewer's wrap width, so the next note's place
+    is known; `plain_text()` gives the sentence back whole, whatever it holds (`_mtext_literal`)."""
+    import textwrap
+    per = max(40, int(width / (0.6 * h)))
+    lines = textwrap.wrap(text, width=per, break_long_words=False, break_on_hyphens=False) or [""]
+    mt = msp.add_mtext("\\P".join(_mtext_literal(ln) for ln in lines),
+                       dxfattribs={"layer": layer, "char_height": h, "attachment_point": 1})
+    mt.set_location((x, y))
+    return len(lines)
 
 
 # ------------------------------------------------------------------ plan sheet
@@ -628,6 +658,45 @@ def export_elevation_dxf(elev, path, face=None):
     # line can run past an exterior stack standing on it, as the sheet's ground line does.
     stacks = EL.stack_marks(elev, face)
     g_us = [u * IN for mk in stacks["marks"] if mk["from_grade"] for u, _h in mk["outline"]]
+    # THE SHEET'S PAINT ORDER, WITH MASKS WHERE ITS FILLS HIDE WHAT IS BEHIND THEM (WP-15.8's audit,
+    # auditor D). This file drew every stack after the roof and masked nothing, so on a gable face
+    # the cornice members, the box, the frieze, the rake and the wall head ran through the stack
+    # standing in front of them, and on a long face the stack's edge ran through the cornice's
+    # return at the corner it stands behind. A CAD file is linework and draws no fill, so where the
+    # sheet paints one thing over another this file puts a WIPEOUT between them: a stack beyond the
+    # face's corner ("end") is drawn FIRST, as the sheet draws it, and masked where the face's
+    # projections pass in front of it; a stack standing in front of its own wall ("front") is drawn
+    # LAST, over a mask of its own outline.
+    stk = _layer(doc, "TDL-ELEV-STACK", color=1)
+    mask = _layer(doc, "TDL-ELEV-MASK", color=8)
+    doc.set_wipeout_variables(frame=0)
+
+    def _mask(pts):
+        # the layer is set AFTER the masking area: ezdxf 1.4's `add_wipeout` builds the entity from
+        # `dxfattribs` and then drops the layer when it sets the area, so a wipeout made with
+        # `dxfattribs={"layer": ...}` lands on layer 0
+        w = msp.add_wipeout(pts)
+        w.dxf.layer = mask
+        return w
+
+    def _stack_pts(mk):
+        return [(u * IN, h * IN + (cornice_band if h * IN >= top_of_wall - 1e-6 else 0.0))
+                for u, h in mk["outline"]]
+
+    def _draw_stack(mk):
+        poly = msp.add_lwpolyline(_stack_pts(mk), close=True, dxfattribs={"layer": stk})
+        _xdata(poly, "TDL::stack", {
+            "from_grade": mk["from_grade"], "side": mk["stack"].get("side"),
+            "relation": mk.get("relation"),
+            "plan_rect_ft": mk["stack"].get("plan_rect_ft"),
+            "plan_in": elev.get("chimney_stack_plan_in"),
+            "plan_judgment": bool(elev.get("chimney_stack_plan_judgment")),
+            "breast": "no record states it; drawn at the stack's own square" if mk["from_grade"]
+                      else None})
+
+    beside = [mk for mk in stacks["marks"] if mk.get("relation") == "end"]
+    for mk in beside:
+        _draw_stack(mk)
     msp.add_line((min([0] + g_us) - 24, 0), (max([span] + g_us) + 24, 0), dxfattribs={"layer": grade})
     msp.add_lwpolyline([(0, 0), (span, 0), (span, top_of_wall), (0, top_of_wall)],
                        close=True, dxfattribs={"layer": wall})
@@ -645,6 +714,21 @@ def export_elevation_dxf(elev, path, face=None):
     cm = EL.cornice_marks(elev, face)
     if cm["applicable"]:
         _fz, _co = cm["frieze"], cm["cornice"]
+        # where the frieze and the cornice pass in front of a stack beside the face, the stack's
+        # lines are masked before the bands are drawn over them
+        # A MASK REACHES HALF AN INCH PAST THE STACK, clipped to the band: the stack's inner edge
+        # lies ON the corner, which is the mask's own boundary if the mask is only the overlap,
+        # and a line on a wipeout's boundary is not hidden -- measured by rendering the Tidewater
+        # south face, where that edge still ran through the cornice's return
+        for mk in beside:
+            pts = _stack_pts(mk)
+            su0, su1 = min(p[0] for p in pts) - 0.5, max(p[0] for p in pts) + 0.5
+            sh0, sh1 = min(p[1] for p in pts), max(p[1] for p in pts)
+            for b in (_fz, _co):
+                u0, u1 = max(su0, b["u0"] * IN), min(su1, b["u1"] * IN)
+                h0, h1 = max(sh0, b["h0"] * IN), min(sh1, b["h1"] * IN)
+                if u1 - u0 > 0.5 + 1e-6 and h1 - h0 > 1e-6:
+                    _mask([(u0, h0), (u1, h0), (u1, h1), (u0, h1)])
         fz = msp.add_lwpolyline([(_fz["u0"] * IN, _fz["h0"] * IN), (_fz["u1"] * IN, _fz["h0"] * IN),
                                  (_fz["u1"] * IN, _fz["h1"] * IN), (_fz["u0"] * IN, _fz["h1"] * IN)],
                                 close=True, dxfattribs={"layer": _layer(doc, "TDL-ELEV-FRIEZE", color=3)})
@@ -714,29 +798,6 @@ def export_elevation_dxf(elev, path, face=None):
     # roof silhouette from roof.py's own elevation profile, shifted by the band
     profile = [(x * IN, h * IN + cornice_band) for x, h in roof["elevation_profiles"][face]]
     msp.add_lwpolyline(profile, dxfattribs={"layer": rf})
-
-    # THE STACKS (Phase 15, WP-15.5). This file drew no chimney at all, on any face, while the
-    # sheet has drawn the stacks since WP-5.13 -- so the CAD elevation of the Tidewater front was
-    # a house with no chimneys, which the kit calls "visible from a mile away and conclusive
-    # against New England". Each outline is `stack_marks`', the one the sheet draws: an exterior
-    # stack in front of the face from grade to cap, a stack the house hides above its roof line.
-    # What stands above the wall is lifted by the cornice band the roof is, and nothing on the
-    # ground is (the sheet's rule); the square's size, its judgment and the breast no record
-    # states travel on each polyline, and the sheet's own sentences are written beneath.
-    if stacks["marks"]:
-        stk = _layer(doc, "TDL-ELEV-STACK", color=1)
-        for mk in stacks["marks"]:
-            pts = [(u * IN, h * IN + (cornice_band if h * IN >= top_of_wall - 1e-6 else 0.0))
-                   for u, h in mk["outline"]]
-            poly = msp.add_lwpolyline(pts, close=True, dxfattribs={"layer": stk})
-            _xdata(poly, "TDL::stack", {
-                "from_grade": mk["from_grade"], "side": mk["stack"].get("side"),
-                "plan_rect_ft": mk["stack"].get("plan_rect_ft"),
-                "plan_in": elev.get("chimney_stack_plan_in"),
-                "plan_judgment": bool(elev.get("chimney_stack_plan_judgment")),
-                "breast": "no record states it; drawn at the stack's own square" if mk["from_grade"]
-                          else None})
-
 
     def _win(r):
         """WP-12.2: the rectangle is HANDED here, from `elevation.opening_rects`, and is no
@@ -834,26 +895,41 @@ def export_elevation_dxf(elev, path, face=None):
             continue
         _win(r)
 
+    # THE STACKS (Phase 15, WP-15.5). This file drew no chimney at all, on any face, while the
+    # sheet has drawn the stacks since WP-5.13 -- so the CAD elevation of the Tidewater front was
+    # a house with no chimneys, which the kit calls "visible from a mile away and conclusive
+    # against New England". Each outline is `stack_marks`', the one the sheet draws: an exterior
+    # stack from grade to cap where no part of the house stands in front of it, a stack the house
+    # hides above its roof line. What stands above the wall is lifted by the cornice band the roof
+    # is, and nothing on the ground is (the sheet's rule); the square's size, its judgment and the
+    # breast no record states travel on each polyline, and the sheet's own sentences are written
+    # beneath. The stacks beside the face were drawn first (WP-15.8); the rest are drawn here,
+    # after the openings and the roof as the sheet draws them, a stack in front of its own wall
+    # over a mask of its own outline.
+    for mk in stacks["marks"]:
+        if mk.get("relation") == "end":
+            continue
+        if mk.get("relation") == "front":
+            _mask(_stack_pts(mk))
+        _draw_stack(mk)
+
     m = roof["main"]
     pitch = f"{m['pitch_rise_per_12']}:12" if m.get("pitch_rise_per_12") else "PITCH UNJUDGED"
     _text(msp, anno, f"{elev.get('plan_id','')} - {face} ELEVATION - {elev.get('style','')} - "
                      f"{front['count']} BAYS - {m.get('form','')} {pitch} - "
                      f"CORNICE {cornice['cornice_height_in']} IN ({cornice['member_count']} MEMBERS)",
           0, -4 * TEXT_H)
-    # what the sheet says of the main block and of the stacks, in its own words
-    # (`elevation.main_block_note` and `stack_notes`, WP-15.5): this drawing is of the main block
-    # alone exactly as the sheet is, and says so where the placement sets a wing beside it
-    _mb = EL.main_block_note(elev)
-    said = (([_mb] if _mb else []) + ([EL.STACKS_UNSIZED_NOTE] if stacks["unsized"] else [])
-            + EL.stack_notes(elev, stacks)
-            # the wall beside the doorcase (WP-15.6), in the sheet's own words
-            + EL.doorcase_pier_notes(elev, face)
-            # the cornice (WP-15.7): a band drawn solid, and a band or frieze drawn flush because
-            # no record states its projection -- the sheet's sentences, which this file wrote one
-            # of on its own line before
-            + cm["notes"])
-    for i, line in enumerate(said):
-        _text(msp, anno, line, 0, -(7.0 + 1.5 * i) * TEXT_H)
+    # EVERYTHING THE SHEET SAYS BENEATH THE DRAWING, IN ITS OWN WORDS AND ORDER (`elevation.
+    # face_notes`, WP-15.8). This wrote the five lines it had been handed one at a time -- the main
+    # block, the stacks, the wall beside the doorcase, the cornice -- and so never said that the
+    # Tidewater stack's 22 in is a judgment, although its stack sentence leaves the size out
+    # because the judgment line states it, nor which openings the face does not draw and why.
+    said = EL.face_notes(elev, face, sm=stacks, cm=cm)
+    width = max(span, max([span] + g_us) - min([0] + g_us))
+    y = -6.0 * TEXT_H
+    for line in said:
+        n = _note(msp, anno, line, 0, y, width)
+        y -= (n * MTEXT_PITCH + 0.5) * TEXT_H
     doc.saveas(path)
     return {"path": path, "sheets": f"elevation-{face}"}
 

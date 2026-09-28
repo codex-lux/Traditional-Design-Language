@@ -85,12 +85,45 @@ def test_the_marks_are_the_records_frieze_box_and_members(elev):
     assert any(n.startswith("MODILLION BAND DRAWN SOLID") for n in cm["notes"])
 
 
-def test_a_record_with_no_cornice_draws_none_and_says_why(elev):
+def test_a_record_with_no_cornice_draws_none_and_says_why(elev, tmp_path):
+    """A record dimensioning no eave cornice: nothing drawn, and the reason SAID on the sheet.
+
+    The reason rode on `cornice_marks` and no surface printed it (WP-15.8's audit, auditor D), and
+    the sheet could not draw such a record at all -- its profile inset read `members[0]` and
+    raised. No shipped record reaches this (`build_elevation` sums a cornice's height into the true
+    eave, so every record it builds has one), so it is DRIVEN, with the shipped record as the
+    control. The words are the test's own, not read back out of the function."""
     EL = _m("elevation")
     el = copy.deepcopy(elev)
     el["eave_cornice"]["members"] = []
     cm = EL.cornice_marks(el, "S")
     assert not cm["applicable"] and "no eave cornice" in cm["why"]
+    for tag, rec, drawn in (("control", elev, True), ("none", el, False)):
+        ink, _pl, said = _svg(rec, "S", tmp_path, tag)
+        boxes = [it for it in ink.select("rect") if {"bd", "fz"} <= set(it.classes)
+                 or {"bd", "w-prof"} <= set(it.classes)]
+        lines = [it for it in ink.items if "cm" in it.classes]
+        inset = [f for f in ink.frames() if f.get("id") == "inset"]
+        assert bool(boxes) == bool(lines) == bool(inset) == drawn, (tag, len(boxes), len(lines), inset)
+        assert ("CORNICE NOT DRAWN" in said and "NO EAVE CORNICE" in said) == (not drawn), tag
+        assert ("SEE INSET FOR PROFILE" in said) == drawn, ("the legend points at an inset", tag)
+
+
+def test_a_record_with_no_cornice_is_said_in_the_dxf_too(elev, tmp_path):
+    ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+    EX = _m("export_dxf")
+    el = copy.deepcopy(elev)
+    el["eave_cornice"]["members"] = []
+    for tag, rec, drawn in (("control", elev, True), ("none", el, False)):
+        path = str(tmp_path / f"{tag}.dxf")
+        assert "error" not in EX.export_elevation_dxf(rec, path, face="S")
+        msp = ezdxf.readfile(path).modelspace()
+        layers = {e.dxf.layer for e in msp}
+        eave = {"TDL-ELEV-FRIEZE", "TDL-ELEV-CORNICE", "TDL-ELEV-CORNICE-MEMBER"} & layers
+        assert bool(eave) == drawn, (tag, sorted(eave))
+        said = " ".join(e.dxf.text if e.dxftype() == "TEXT" else e.plain_text().replace("\n", " ")
+                        for e in msp.query("TEXT MTEXT"))
+        assert ("CORNICE NOT DRAWN" in said and "NO EAVE CORNICE" in said) == (not drawn), tag
 
 
 # ------------------------------------------------------------------ the frieze, driven
@@ -131,7 +164,9 @@ def test_a_frieze_no_record_states_is_drawn_flush_and_said_on_both_surfaces(elev
     assert "FRIEZE DRAWN FLUSH WITH THE WALL — NO RECORD STATES" in said
     path = str(tmp_path / "absent.dxf")
     assert "error" not in EX.export_elevation_dxf(el, path, face="S")
-    texts = " ".join(e.dxf.text for e in ezdxf.readfile(path).modelspace().query("TEXT"))
+    # the notes are MTEXT since WP-15.8, broken to the drawing's width: a break reads as a space
+    texts = " ".join(e.dxf.text if e.dxftype() == "TEXT" else e.plain_text().replace("\n", " ")
+                     for e in ezdxf.readfile(path).modelspace().query("TEXT MTEXT"))
     assert "FRIEZE DRAWN FLUSH WITH THE WALL" in texts, "the DXF did not say what the sheet says"
 
 

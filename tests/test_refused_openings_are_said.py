@@ -202,7 +202,10 @@ def test_the_dxf_elevation_writes_the_same_sentence(corpus):
             path = os.path.join(td, "e.dxf")
             DX.export_elevation_dxf(el, path, face="S")
             doc = ezdxf.readfile(path)
-            return [e.dxf.text for e in doc.modelspace().query("TEXT")]
+            # the notes are MTEXT since WP-15.8, broken to the drawing's width: a break reads as
+            # a space
+            return [e.dxf.text if e.dxftype() == "TEXT" else e.plain_text().replace("\n", " ")
+                    for e in doc.modelspace().query("TEXT MTEXT")]
 
     tagged = corpus["tidewater-georgian-careful"]
     assert EL.main_block_note(tagged) in texts(tagged)

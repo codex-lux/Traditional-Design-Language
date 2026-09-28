@@ -117,7 +117,9 @@ traces back to the record.
 - **The elevation DXF inherits WP-3.2's scope gate.** A style outside the
   classical-front family gets the generator's own stated refusal, rendered as
   a refusal — never a guessed facade.
-- Chimneys, stairs, trim, materials — out of scope, see the WP report.
+- Chimneys, stairs, trim, materials — out of scope, see the WP report. (Of the IFC, and of the
+  DXF when this was written: the elevation DXF has drawn the stacks since WP-15.5 and the
+  cornice's members since WP-15.7. Corrected 28 Sep 2026, WP-15.8.)
 
 ## Dependencies, honestly optional
 
@@ -155,6 +157,31 @@ instead of a hardcoded six inches.
 - `TDL-ELEV-CORNICE-TOOTH` carries the teeth where a band's can be laid; today none can.
 
 Census X4 holds all of it to the sheet's ink.
+
+**Phase 15, WP-15.8: the file draws in the sheet's order, and says what the sheet says.** A CAD file
+is linework and draws no fill, so where the sheet paints one thing over another the elevation DXF
+now sets a WIPEOUT between them (`$WIPEOUTFRAME` off). Before this, every stack was drawn last and
+nothing was masked: the cornice members, the box, the frieze, the rake and the wall head ran
+through the stack standing in front of them on a gable face, and a stack's edge ran through the
+cornice's return at the corner on a long face.
+- `TDL-ELEV-STACK` (WP-15.5) is drawn in the sheet's order. A stack beyond the face's corner is
+  drawn before the wall. A stack in front of its own wall is drawn after everything else. Each
+  stack's XDATA says which (`relation`).
+- `TDL-ELEV-MASK` carries the wipeouts:
+  - one over a front stack's own outline, set just before it;
+  - one over each part of a stack beyond the corner that the frieze or the cornice passes in front
+    of, set before those bands. It reaches half an inch past the stack, because the stack's edge
+    lies on the corner and a line on a wipeout's own boundary is not hidden.
+
+  A viewer that does not draw WIPEOUT shows the linework through, as the file did before.
+- `TDL-ELEV-ANNO` carries every sentence the sheet sets beneath the drawing, in its order
+  (`elevation.face_notes`, the one list both surfaces write). Each is one MTEXT broken to the
+  drawing's width, and `plain_text()` gives it back whole. The file used to write five of those
+  sentences, each as one TEXT line up to 223 characters long. It never said that the Tidewater
+  stack's 22 in is a judgment, nor which openings the face does not draw and why.
+
+Census X3 holds the stacks' order, masks and values to the sheet, and
+`tests/test_dxf_elevation_says.py` holds the sentences to it.
 
 **IFC is future work, named rather than hidden.** `build/export_ifc.py` still exports no order
 geometry at all. The obvious next step is an `IfcShapeRepresentation` swept from the same profile
