@@ -106,7 +106,7 @@ WHICH WAITS ON LUCAS (27 Sep 2026); WP-14.1 IS THE INSTRUMENT.** Lucas asked whe
 other drawn figure, reflects the plates and dimensions researched to source it, on every surface that
 draws SVG. **Read `docs/fidelity.md` before touching any renderer**: it is the standard (five links,
 three verdicts, four defect classes) and the live census. `tests/inkread.py` reads the SVG a reader is
-served; `tests/svg_census.py` holds sixty-nine checks (sixty-eight until the audit's V22, 27 Sep 2026) over the 73 profile plates, the order stack, the orders
+served; `tests/svg_census.py` holds seventy-one checks (sixty-nine until Phase 15's V23 and X3, sixty-eight until the audit's V22, 27 Sep 2026) over the 73 profile plates, the order stack, the orders
 page (its own scripts run in `node:vm`), the Proportions plate (its arithmetic lifted into
 `workbench/app/src/proportions/plate.js`), the elevation and its inset, the section, the roof, the plan,
 the DXF, the bench sheet (its marks lifted into `sheet/marks.js`), the tracing canvas, and the record

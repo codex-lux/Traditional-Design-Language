@@ -9,6 +9,7 @@ for bugs actually found and fixed during this WP (each one names the bug it pins
 test_roof.py's TestWingStepDown/TestCapeEaveCheck do for WP-3.3's own fixes).
 """
 import json
+import re
 import os
 import pytest
 import math
@@ -563,27 +564,72 @@ class TestRenderElevation:
         # And WHERE, because "a stack is on the sheet" was true of the version that drew it as a
         # bar floating in the sky at the top-left corner, 3 ft from the gable's front corner and
         # touching no roof (see WP-5.13's report, and OQ 80).
-        # A POLYGON SINCE WP-14.6: the stack's foot follows the rake across its width, which a
-        # rectangle cannot (audit F13).
         polys = _stack_polys(text)
-        assert len(polys) == 1, "one stack per gable end"
+        assert len(polys) == 1, "one stack per gable end: the far one stands behind the near one"
         us = [x for x, _y in polys[0]]
         centre_ft = ((min(us) + max(us)) / 2.0 - 46.0) / 24.0
         y_ft = elev["roof_record"]["chimneys"]["positions"][0]["y_ft"]
         assert abs(centre_ft - y_ft) < 0.2, (
             f"stack drawn at {centre_ft:.2f} ft along the gable end; the record says {y_ft}")
-        # AND ITS FOOT FOLLOWS THE RAKE, VERTEX BY VERTEX (WP-14.6). The centre above is all this
-        # asserted, so a foot cut level at the stack's centre -- the first version's shape, which
-        # floats the stack clear of the rake on its low side and sinks it into the gable on the
-        # high -- stayed green under mutation. Each foot vertex's depth below the stack's top is
-        # held to the record's height less the rake at that depth, the rake computed HERE from the
-        # roof's own pitch and ridge line and not from the profile reader the renderer uses. Read
-        # as a depth below the top, so the cornice band the elevation adds under its whole roof
-        # (`grade_to_true_eave_in`) cancels and is not asserted either way here.
+        # FROM GRADE TO CAP (Phase 15, WP-15.5). This held the stack's foot to the RAKE, vertex by
+        # vertex, from WP-14.6 until Lucas read the drawn Tidewater sheets: "the chimney continuing
+        # all the way down to the ground rather than just stopping". The near stack stands outboard
+        # of this gable wall, in FRONT of it, so nothing hides it and its foot is the ground the
+        # sheet draws; the rake-foot vertices moved to the DRIVEN far-stack test below, which is
+        # the one stack a gable face still draws above the roof line. Its top is held to the drawn
+        # RIDGE -- the record's height above its own ridge -- so the cornice band the elevation
+        # lifts the roof by (V19) cancels, and the foot to the drawn GROUND LINE, which the band
+        # does not lift.
         roof = elev["roof_record"]
         ridge = roof["main"]["ridge"]
-        slope = roof["main"]["pitch_rise_per_12"] / 12.0
         c = min(roof["chimneys"]["positions"], key=lambda c: abs(c["y_ft"] - centre_ft))
+        gy = float(re.search(r'<line class="gl[^"]*" x1="[^"]+" y1="([\d.]+)"', text).group(1))
+        ridge_px = min(y for pts in re.findall(r'<polygon class="rf[^"]*" points="([^"]+)"', text)
+                       for y in (float(pt.split(",")[1]) for pt in pts.split()))
+        top_px = min(y for _x, y in polys[0])
+        foot = [(x, y) for x, y in polys[0] if y > top_px + 1e-6]
+        assert len(foot) >= 2 and all(abs(y - gy) < 0.1 for _x, y in foot), (
+            f"the near stack's foot stands at {sorted({round(y, 1) for _x, y in foot})} px; the "
+            f"ground line is at {gy}")
+        assert abs((ridge_px - top_px) / 24.0 - (c["total_height_grade_ft"] - ridge["grade_to_ridge_ft"])) < 0.05
+        # IN FRONT OF THE GABLE: drawn after the roof, so the wall and its rake do not paint over it
+        assert text.index('<polygon class="ch') > text.index('<polygon class="rf'), (
+            "the near stack is drawn before the gable it stands in front of")
+        # and the sheet says what it drew and what it could not
+        assert "EXTERIOR STACKS DRAWN FROM GRADE TO CAP" in text
+        assert "NO RULE IN THIS CORPUS STATES THE BREAST" in text
+        assert "ABOVE THE ROOF LINE ONLY" not in text, "a from-grade stack said to stop at the roof"
+        # WP-5.13: and the roof is a closed plane now, not a line along its bottom edge.
+        assert "<polygon" in text, "the roof is drawn as a polyline again"
+
+    def test_the_stack_the_house_hides_stands_on_the_rake_it_rises_behind(
+            self, elevation_module, render_elevation_module, tmp_path):
+        """DRIVEN (WP-15.5). Once the near stack is drawn from grade it covers the far one, which
+        stands on the same flue line at the other gable, so no shipped sheet draws a stack above
+        the roof line any more -- and the rake-foot rule that WP-14.6 wrote (audit F13) would be
+        guarded by nothing. Taking the near stack off the record leaves the far one visible from
+        this face above the house, and its foot must follow the rake vertex by vertex: the check
+        WP-14.6 held the near stack to, moved to the stack it is now true of. The rake is computed
+        HERE from the roof's own pitch and ridge line, not from the profile reader the renderer
+        uses. Read as a depth below the top, so the cornice band the elevation adds under its
+        whole roof (`grade_to_true_eave_in`) cancels and is not asserted either way here."""
+        import copy as _copy
+        _plan, elev = _tidewater_elevation(elevation_module)
+        elev = _copy.deepcopy(elev)
+        roof = elev["roof_record"]
+        W = elev["footprint"]["width_ft"]
+        near = [c for c in roof["chimneys"]["positions"] if c["plan_rect_ft"][0] >= W - 1e-6]
+        far = [c for c in roof["chimneys"]["positions"] if c["plan_rect_ft"][2] <= 1e-6]
+        assert len(near) == 1 and len(far) == 1, "the premise: one stack outboard of each gable wall"
+        roof["chimneys"]["positions"] = far
+        out = tmp_path / "tidewater-E-far.svg"
+        render_elevation_module.render_elevation(elev, str(out), face="E")
+        text = out.read_text()
+        polys = _stack_polys(text)
+        assert len(polys) == 1, "the far stack, seen above the house"
+        ridge = roof["main"]["ridge"]
+        slope = roof["main"]["pitch_rise_per_12"] / 12.0
+        c = far[0]
         top_px = min(y for _x, y in polys[0])
         foot = [(x, y) for x, y in polys[0] if y > top_px + 1e-6]
         assert len(foot) >= 2, "a foot of at least two vertices, one at each face of the stack"
@@ -598,8 +644,10 @@ class TestRenderElevation:
         # two faces of this stack meet the rake at different heights
         us = sorted((x - 46.0) / 24.0 for x, _y in foot)
         assert abs(abs(us[0] - ridge["position_ft"]) - abs(us[-1] - ridge["position_ft"])) > 1.0
-        # WP-5.13: and the roof is a closed plane now, not a line along its bottom edge.
-        assert "<polygon" in text, "the roof is drawn as a polyline again"
+        # and the sheet says why this one stops at the roof, and claims no stack from grade
+        assert "STACKS DRAWN ABOVE THE ROOF LINE ONLY" in text
+        assert "THE HOUSE HIDES THE REST" in text
+        assert "FROM GRADE" not in text
 
     def test_long_face_of_a_side_gable_DOES_show_its_stacks(self, elevation_module, render_elevation_module, tmp_path):
         """REVERSED AND REWRITTEN 28 Aug 2026, and the reversal is a ruling rather than a slip.
@@ -618,7 +666,10 @@ class TestRenderElevation:
         NEGATIVE assertion whose selector breaks inverts into a tautology, and this one then sat
         in the same suite as `test_the_front_elevation_shows_both_end_stacks`, which asserts the
         opposite. Only the broken selector kept them from colliding. The audit that found it also
-        found the identical stale pin fixed one test earlier in the same diff and not here."""
+        found the identical stale pin fixed one test earlier in the same diff and not here.
+
+        RE-CUT 27 Sep 2026 (Phase 15, WP-15.5): the stacks stand on the GROUND now. See below."""
+        import json as _json
         plan, elev = _tidewater_elevation(elevation_module)
         out = tmp_path / "tidewater-S.svg"
         render_elevation_module.render_elevation(elev, str(out), face="S")
@@ -628,32 +679,60 @@ class TestRenderElevation:
         boxes = sorted((min(x for x, _y in p), min(y for _x, y in p), max(x for x, _y in p),
                         max(y for _x, y in p)) for p in polys)
         assert boxes[1][0] - boxes[0][0] > 1000, "they are at opposite ends of the front, not stacked together"
-        # ONLY THE PART ABOVE THE ROOF LINE, and at the width the record states -- neither was
-        # asserted anywhere until this audit, and CLAUDE.md names a hardcoded 36 in stack width as
-        # a bug of exactly this class in exactly this file.
-        #
-        # THE ROOF LINE IS THE RAKE AT THE STACK'S OWN DEPTH (WP-14.6, audit F3), and this used to
-        # assert the RIDGE: the front drew each stack from the ridge up while the gable end drew
-        # the same stack from the rake, two chimneys for one. These stacks are exterior, so
-        # nothing of the roof stands in front of them on this face and the foot is the lowest
-        # point of the rake across the stack's depth. The rake is computed HERE from the roof's
-        # own pitch and ridge line, and not from the profile reader the renderer uses, so the two
-        # cannot agree by sharing a mistake.
+        # FROM GRADE TO CAP, at the width the record states (Phase 15, WP-15.5). From WP-5.11 this
+        # asserted ONLY THE PART ABOVE THE ROOF LINE -- first above the ridge, then (WP-14.6,
+        # audit F3) above the rake at the stack's own depth -- on the evidence argument that no
+        # record states the BREAST at an exterior stack's foot. Lucas read the drawn front: "the
+        # chimney continuing all the way down to the ground rather than just stopping". An exterior
+        # end stack stands wholly outboard of its gable wall, so nothing of the house hides it from
+        # this face; the evidence argument decides its WIDTH (the stack's own square, the least the
+        # mass can be) and not its height. Each foot is held to the ground line the sheet DRAWS and
+        # each top to the drawn RIDGE, by the record's own height above its own ridge -- read off
+        # the ink, so the cornice band the elevation lifts the roof by (V19) cancels.
         roof = elev["roof_record"]
         ridge = roof["main"]["ridge"]
-        slope = roof["main"]["pitch_rise_per_12"] / 12.0
+        gl = re.search(r'<line class="gl[^"]*" x1="([\d.-]+)" y1="([\d.]+)" x2="([\d.-]+)"', text)
+        gx1, gy, gx2 = float(gl.group(1)), float(gl.group(2)), float(gl.group(3))
+        roof_pts = [tuple(float(v) for v in pt.split(","))
+                    for pts in re.findall(r'<polygon class="rf[^"]*" points="([^"]+)"', text)
+                    for pt in pts.split()]
+        ridge_px = min(y for _x, y in roof_pts)
+        frame = _json.loads(re.search(r"data-frame='([^']+)'", text).group(1))["plates"][0]
+        ox = frame["origin_px"][0]
+        W = elev["footprint"]["width_ft"]
         for c, (x0, y0, x1, y1) in zip(sorted(roof["chimneys"]["positions"], key=lambda c: c["x_ft"]), boxes):
             assert c.get("side") == "exterior", "the premise: these stacks stand outboard"
             sq = c["plan_rect_ft"]
-            foot_ft = min(ridge["grade_to_ridge_ft"] - abs(t - ridge["position_ft"]) * slope
-                          for t in (sq[1], sq[3]))
-            drawn_ft = (y1 - y0) / 24.0
-            assert abs(drawn_ft - (c["total_height_grade_ft"] - foot_ft)) < 0.05, (
-                f"{drawn_ft:.2f} ft of stack drawn; {c['total_height_grade_ft'] - foot_ft:.2f} ft "
-                f"stands above the rake at its own depth")
+            assert abs(y1 - gy) < 0.1, f"a stack's foot at {y1} px; the ground line is at {gy} px"
+            assert abs((ridge_px - y0) / 24.0 - (c["total_height_grade_ft"] - ridge["grade_to_ridge_ft"])) < 0.05
             assert abs((x1 - x0) / 24.0 * 12.0 - elev["chimney_stack_plan_in"]) < 0.1, (
                 f"stack drawn {(x1 - x0) / 24 * 12:.2f} in wide; the record says "
                 f"{elev['chimney_stack_plan_in']} in")
+            # WHERE along the face, read back through the frame the sheet states: outboard of the
+            # wall, on the square the placement seats
+            assert abs((x0 - ox) / 24.0 - sq[0]) < 0.01 and abs((x1 - ox) / 24.0 - sq[2]) < 0.01, (
+                ((x0 - ox) / 24.0, (x1 - ox) / 24.0), sq)
+            # the ground line runs past it: a stack standing at the end of a line that stops short
+            # of it stands on nothing
+            assert gx1 < x0 - 24.0 and gx2 > x1 + 24.0, (gx1, gx2, x0, x1)
+        # ON THE CANVAS: the face shifts right by the stack's overhang, so nothing -- the stack or
+        # the ground line past it -- is drawn off the sheet's left edge
+        vb = [float(v) for v in re.search(r'viewBox="([^"]+)"', text).group(1).split()]
+        assert gx1 >= vb[0] and boxes[0][0] >= vb[0] and boxes[1][2] <= vb[0] + vb[2]
+        # BEHIND THE FRONT: an exterior stack stands at the stack's own depth, 31 ft back here, and
+        # the front's wall, its bands and its cornice are nearer the eye, so they are drawn after it
+        first_stack = text.index('<polygon class="ch')
+        for mark in ('<rect class="wf"', '<rect class="wt', '<polygon class="rf'):
+            assert first_stack < text.index(mark), f"a stack drawn over the front's {mark}"
+        # THE PREMISE THAT ORDER RESTS ON: the roof as recorded models no rake overhang, so its
+        # drawn plane stops at the wall's ends and overlaps no outboard stack. Were one ever
+        # modelled, a stack IN FRONT OF the ridge would stand in front of the roof behind it and
+        # the order above would be wrong for it -- which is what this line exists to announce.
+        assert min(x for x, _y in roof_pts) >= ox - 0.1 and max(x for x, _y in roof_pts) <= ox + W * 24.0 + 0.1, (
+            "the long-face roof now reaches past the gable wall: decide the stack's order by its "
+            "depth against the ridge before trusting the draw order above")
+        assert text.count("EXTERIOR STACKS DRAWN FROM GRADE TO CAP") == 1
+        assert "ABOVE THE ROOF LINE ONLY" not in text
 
     def test_an_interior_stack_is_hidden_up_to_the_highest_roof_in_front_of_it(
             self, elevation_module, render_elevation_module):

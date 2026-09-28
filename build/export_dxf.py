@@ -624,7 +624,11 @@ def export_elevation_dxf(elev, path, face=None):
     true_eave = elev["grade_to_true_eave_in"]
     cornice_band = true_eave - top_of_wall
 
-    msp.add_line((-24, 0), (span + 24, 0), dxfattribs={"layer": grade})
+    # THE STACKS THE SHEET DRAWS, decided once (`elevation.stack_marks`, WP-15.5), so the grade
+    # line can run past an exterior stack standing on it, as the sheet's ground line does.
+    stacks = EL.stack_marks(elev, face)
+    g_us = [u * IN for mk in stacks["marks"] if mk["from_grade"] for u, _h in mk["outline"]]
+    msp.add_line((min([0] + g_us) - 24, 0), (max([span] + g_us) + 24, 0), dxfattribs={"layer": grade})
     msp.add_lwpolyline([(0, 0), (span, 0), (span, top_of_wall), (0, top_of_wall)],
                        close=True, dxfattribs={"layer": wall})
     # frieze + cornice band, at the projection the record actually states rather than a
@@ -686,6 +690,28 @@ def export_elevation_dxf(elev, path, face=None):
     # roof silhouette from roof.py's own elevation profile, shifted by the band
     profile = [(x * IN, h * IN + cornice_band) for x, h in roof["elevation_profiles"][face]]
     msp.add_lwpolyline(profile, dxfattribs={"layer": rf})
+
+    # THE STACKS (Phase 15, WP-15.5). This file drew no chimney at all, on any face, while the
+    # sheet has drawn the stacks since WP-5.13 -- so the CAD elevation of the Tidewater front was
+    # a house with no chimneys, which the kit calls "visible from a mile away and conclusive
+    # against New England". Each outline is `stack_marks`', the one the sheet draws: an exterior
+    # stack in front of the face from grade to cap, a stack the house hides above its roof line.
+    # What stands above the wall is lifted by the cornice band the roof is, and nothing on the
+    # ground is (the sheet's rule); the square's size, its judgment and the breast no record
+    # states travel on each polyline, and the sheet's own sentences are written beneath.
+    if stacks["marks"]:
+        stk = _layer(doc, "TDL-ELEV-STACK", color=1)
+        for mk in stacks["marks"]:
+            pts = [(u * IN, h * IN + (cornice_band if h * IN >= top_of_wall - 1e-6 else 0.0))
+                   for u, h in mk["outline"]]
+            poly = msp.add_lwpolyline(pts, close=True, dxfattribs={"layer": stk})
+            _xdata(poly, "TDL::stack", {
+                "from_grade": mk["from_grade"], "side": mk["stack"].get("side"),
+                "plan_rect_ft": mk["stack"].get("plan_rect_ft"),
+                "plan_in": elev.get("chimney_stack_plan_in"),
+                "plan_judgment": bool(elev.get("chimney_stack_plan_judgment")),
+                "breast": "no record states it; drawn at the stack's own square" if mk["from_grade"]
+                          else None})
 
 
     def _win(r):
@@ -792,6 +818,11 @@ def export_elevation_dxf(elev, path, face=None):
           0, -4 * TEXT_H)
     if band_why:
         _text(msp, anno, "CORNICE BAND DRAWN FLUSH WITH THE WALL - " + band_why.upper(), 0, -5.5 * TEXT_H)
+    # what the sheet says of the stacks, in its own words (`elevation.stack_notes`, WP-15.5)
+    said = (([EL.STACKS_UNSIZED_NOTE] if stacks["unsized"] else [])
+            + EL.stack_notes(elev, stacks))
+    for i, line in enumerate(said):
+        _text(msp, anno, line, 0, -(7.0 + 1.5 * i) * TEXT_H)
     doc.saveas(path)
     return {"path": path, "sheets": f"elevation-{face}"}
 

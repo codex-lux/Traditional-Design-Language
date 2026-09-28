@@ -2251,6 +2251,155 @@ def v22():
     return out
 
 
+_FROM_GRADE = "EXTERIOR STACKS DRAWN FROM GRADE TO CAP"
+_ABOVE_ROOF = "STACKS DRAWN ABOVE THE ROOF LINE ONLY"
+
+
+def _top_at(ink, pl, cls, u):
+    """The highest ink of every `cls` polygon at `u`, in the plate's own feet: where the drawn
+    roof stands at that point along the face, read off the roof's ink and not off the profile
+    the renderer drew it from."""
+    best = None
+    for it in _marks(ink, cls):
+        if it.tag not in ("polygon", "polyline", "path"):
+            continue
+        pts = [IR.to_model(pl, x, y) for x, y in it.points()]
+        for (u1, v1), (u2, v2) in zip(pts, pts[1:] + pts[:1]):
+            if abs(u2 - u1) > 1e-9 and min(u1, u2) - 1e-6 <= u <= max(u1, u2) + 1e-6:
+                v = v1 + (v2 - v1) * (u - u1) / (u2 - u1)
+                best = v if best is None else max(best, v)
+    return best
+
+
+@check("V23", "elevation", "a stack stands on what it stands on: an exterior stack in front of the "
+       "face stands its foot on the ground line the sheet draws, the ground line runs past it, and it "
+       "is drawn over no opening; a stack the house hides stands its foot on the roof the sheet draws; "
+       "and the legend says each of the two it drew and neither it did not",
+       "elevation sheets that draw a stack: shipped plans, every face, and every style's front")
+def v23():
+    """Phase 15, WP-15.5. Lucas, of the drawn Tidewater front (27 Sep 2026): "the chimney continuing
+    all the way down to the ground rather than just stopping". From WP-5.11 the sheet drew only the
+    part of an exterior end stack above the roof line -- on the evidence argument that no record
+    states the breast at its foot -- and V17 held each stack's SQUARE and TOP across the faces and
+    never its FOOT, so the census read the stopped stack and the grounded one alike: the change
+    moved 4 sheets and this census by 0 rows.
+
+    This reads the foot. A stack standing wholly outboard of its gable wall, seen on a long face
+    or on its own gable face, stands on the ground; seen from its far gable, and wherever it comes
+    up through the roof, it stands on the roof in front of it -- exactly on the drawn rake on a
+    gable face, and on a long face between the drawn eave and the drawn ridge, which is as far as
+    a silhouette can say (how much of the roof is in front of an interior stack depends on its
+    depth, and the drivers in `tests/test_elevation.py` hold that half to the record). A stack
+    drawn over a window hides a collision the record should state: the first from-grade version
+    of this block, in August, ran a stack "straight down through the centre window of both
+    storeys", and that belongs in a finding, not in ink over a sash."""
+    out = []
+    for subject, el, svg in _elev_and_sweep():
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        stacks = [it for it in _marks(ink, "ch") if it.tag in ("polygon", "rect", "path")]
+        if not pl or not stacks:
+            continue
+        face = pl.get("face")
+        ch = [c for c in ((el.get("roof_record") or {}).get("chimneys") or {}).get("positions") or []
+              if c.get("plan_rect_ft")]
+        W, D = el["footprint"]["width_ft"], el["footprint"]["depth_ft"]
+        mirrored = ((el.get("datum") or {}).get("mirrored") or {}).get(face)
+        said = [" ".join(t.split()).upper() for t, _a, _it in ink.texts() if t and t.strip()]
+        gl = _marks(ink, "gl")
+        g = None
+        if gl:
+            b = gl[0].bbox()
+            (g0, gv), (g1, _gv) = IR.to_model(pl, b[0], b[1]), IR.to_model(pl, b[2], b[3])
+            g = (min(g0, g1), max(g0, g1), gv)
+        openings = [(_k, it) for _k in ("op", "dr", "sh", "cs") for it in _rects(ink, _k)]
+        bad, on_ground, above = [], 0, 0
+        for it in stacks:
+            pts = [IR.to_model(pl, x, y) for x, y in it.points()]
+            us = [u for u, _v in pts]
+            u0, u1, top = min(us), max(us), max(v for _u, v in pts)
+            foot = [(u, v) for u, v in pts if v < top - 1e-6]
+
+            def want(c):
+                x0, y0, x1, y1 = c["plan_rect_ft"]
+                lo, hi, span = (x0, x1, W) if face in ("S", "N") else (y0, y1, D)
+                return (span - hi, span - lo) if mirrored else (lo, hi)
+
+            hits = [c for c in ch if all(abs(p - q) <= 0.02 for p, q in zip((u0, u1), want(c)))]
+            # ON A GABLE FACE TWO STACKS CAN SHARE ONE EXTENT -- paired end stacks on one flue line,
+            # as on the Tidewater plan -- and the one DRAWN is the nearer: the far one stands behind
+            # the house and the near one in front of it. The first version of this check took the
+            # first match, read the Tidewater E face's near stack as the far one, and convicted a
+            # correct drawing of standing on the ground.
+            c = (max(hits, key=lambda c: c["plan_rect_ft"][0]) if face == "E" else
+                 min(hits, key=lambda c: c["plan_rect_ft"][2]) if face == "W" else
+                 hits[0]) if hits else None
+            if c is None:
+                bad.append("a stack at %.2f..%.2f ft stands on no square the placement seats" % (u0, u1))
+                continue
+            x0, _y0, x1, _y1 = c["plan_rect_ft"]
+            exterior = c.get("side") == "exterior" or x1 <= 1e-6 or x0 >= W - 1e-6
+            near = (face in ("S", "N") or (face == "E" and x0 >= W - 1e-6)
+                    or (face == "W" and x1 <= 1e-6))
+            if not foot:
+                bad.append("a stack at %.2f..%.2f ft has no foot" % (u0, u1))
+                continue
+            grounded = g is not None and max(abs(v - g[2]) for _u, v in foot) <= 0.01
+            on_ground += grounded
+            above += not grounded
+            if exterior and near:
+                if g is None:
+                    bad.append("a stack drawn from grade on a sheet that draws no ground line")
+                    continue
+                off = max(abs(v - g[2]) for _u, v in foot)
+                if off > 0.01:
+                    bad.append("an exterior stack at %.2f..%.2f ft stands %.2f ft off the ground line"
+                               % (u0, u1, off))
+                if not (g[0] < u0 - 1.0 and g[1] > u1 + 1.0):
+                    bad.append("the ground line (%.2f..%.2f ft) stops short of the stack at %.2f..%.2f"
+                               % (g[0], g[1], u0, u1))
+                for k, op in openings:
+                    ob = op.bbox()
+                    (a0, a1), (b0, b1) = IR.to_model(pl, ob[0], ob[1]), IR.to_model(pl, ob[2], ob[3])
+                    ou0, ou1 = min(a0, b0), max(a0, b0)
+                    if min(u1, ou1) - max(u0, ou0) > 0.05:
+                        bad.append("the stack at %.2f..%.2f ft is drawn over %s at %.2f..%.2f" % (
+                            u0, u1, {"op": "an opening", "dr": "a door leaf", "sh": "a shutter leaf",
+                                     "cs": "the doorcase"}[k], ou0, ou1))
+            else:
+                if grounded:
+                    bad.append("a stack the house stands in front of, at %.2f..%.2f ft, is drawn down "
+                               "to the ground" % (u0, u1))
+                    continue
+                if face in ("E", "W"):
+                    for u, v in foot:
+                        rt = _top_at(ink, pl, "rf", u)
+                        if rt is None or abs(rt - v) > 0.02:
+                            bad.append("a stack's foot at %.2f ft stands at %.2f ft; the drawn rake "
+                                       "there is %s" % (u, v, "absent" if rt is None else "%.2f" % rt))
+                else:
+                    eave = min(v for it2 in _marks(ink, "rf") for _x, v in
+                               (IR.to_model(pl, x, y) for x, y in it2.points()))
+                    ridge = max(filter(None, (_top_at(ink, pl, "rf", u) for u in (u0, u1))), default=None)
+                    for u, v in foot:
+                        if ridge is None or not (eave - 0.02 <= v <= ridge + 0.02):
+                            bad.append("a stack's foot at %.2f ft stands at %.2f ft, outside the drawn "
+                                       "roof (%.2f..%s)" % (u, v, eave, "?" if ridge is None
+                                                           else "%.2f" % ridge))
+        says_grade = any(t.startswith(_FROM_GRADE) for t in said)
+        says_roof = any(t.startswith(_ABOVE_ROOF) for t in said)
+        if bool(on_ground) != says_grade:
+            bad.append("%d stack(s) drawn standing on the ground and the legend %s" % (
+                on_ground, "says so of none" if on_ground else "says one is"))
+        if bool(above) != says_roof:
+            bad.append("%d stack(s) drawn above the roof only and the legend %s" % (
+                above, "says so of none" if above else "says one is"))
+        out.append(row("V23", subject, "disagrees" if bad else "agrees",
+                       "; ".join(sorted(set(bad))) if bad else
+                       "%d from grade, %d above the roof, each on what it stands on" % (on_ground, above)))
+    return out
+
+
 @check("V7", "elevation", "an arched head is drawn as the circular segment it is set out as, not a "
        "parabola", "elevation sheets drawing an arched head: shipped plans, and every style's front")
 def v7():
@@ -2750,6 +2899,79 @@ def x2():
         out.append(row("X2", "%s/%s" % (pid, face), "disagrees" if bad else "agrees",
                        "; ".join(bad[:3]) if bad else "%d windows%s" % (
                            len(wins), (", %d transom" % len(trs)) if trs else "")))
+    return out
+
+
+@check("X3", "elevation", "the DXF elevation draws every stack the SVG draws, on the same outline in "
+       "the face's own inches, stands a stack drawn from grade on its grade line, and carries each "
+       "stack's square and its judgment", "every face of every plan whose elevation draws a stack")
+def x3():
+    """Phase 15, WP-15.5. The DXF elevation drew NO chimney on any face from the day it was
+    written, while the sheet has drawn the stacks since WP-5.13 -- a CAD file of the Tidewater
+    front with no chimneys, and X1 and X2 asked about the doorcase and the sash and nothing else.
+    Both read `elevation.stack_marks` now; this holds the two drawings to each other, the SVG's
+    ink read back to the face's own inches through its plate's frame."""
+    try:
+        import ezdxf  # noqa: F401
+    except ImportError:
+        return [row("X3", "export_dxf", "cne", "ezdxf is not installed, so the DXF cannot be drawn")]
+    DX = SURF._mod("export_dxf")
+    out = []
+    for pid, face, rec, svg in _elev_sheets():
+        el = rec["elev"]
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        stacks = [it for it in _marks(ink, "ch") if it.tag in ("polygon", "rect", "path")]
+        if not pl or not stacks:
+            continue
+        want = []
+        for it in stacks:
+            pts = [IR.to_model(pl, x, y) for x, y in it.points()]
+            want.append(tuple(round(v * 12.0, 1) for v in (min(u for u, _v in pts), min(v for _u, v in pts),
+                                                              max(u for u, _v in pts), max(v for _u, v in pts))))
+        d = _tempfile.mkdtemp(prefix="svg_census_")
+        try:
+            path = os.path.join(d, "e.dxf")
+            DX.export_elevation_dxf(el, path, face=face)
+            doc = ezdxf.readfile(path)
+            got, xd = [], []
+            for e in doc.modelspace().query("LWPOLYLINE"):
+                if e.dxf.layer != "TDL-ELEV-STACK":
+                    continue
+                xs = [p[0] for p in e.get_points()]
+                ys = [p[1] for p in e.get_points()]
+                got.append((min(xs), min(ys), max(xs), max(ys)))
+                try:
+                    xd.append("".join(str(v) for _c, v in e.get_xdata("TDL")))
+                except Exception:       # noqa: BLE001 -- a stack with no XDATA says nothing
+                    xd.append("")
+            grade = [e for e in doc.modelspace().query("LINE") if e.dxf.layer == "TDL-ELEV-GRADE"]
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        bad = []
+        left = list(got)
+        for w in want:
+            hit = next((g for g in left if all(abs(a - b) <= 0.15 for a, b in zip(w, g))), None)
+            if hit is None:
+                bad.append("the SVG draws a stack at %.1f..%.1f in, %.1f..%.1f in up; the DXF does not"
+                           % (w[0], w[2], w[1], w[3]))
+            else:
+                left.remove(hit)
+        if left:
+            bad.append("the DXF draws %d stack(s) the SVG does not" % len(left))
+        # THE GRADE LINE RUNS A FOOT PAST A STACK STANDING ON IT, as V23 asks of the sheet's. "Past
+        # it" alone was blind: this file's line has always run 24 in past the WALL, which covers a
+        # 22 in stack by 2 in, so a mutation stopping the line at the wall again left the row green.
+        for g in got:
+            if g[1] <= 0.15 and not any(ln.dxf.start[0] <= g[0] - 12 and ln.dxf.end[0] >= g[2] + 12
+                                        for ln in grade):
+                bad.append("a DXF stack standing on grade at %.1f..%.1f in and no grade line running "
+                           "a foot past it" % (g[0], g[2]))
+        for x in xd:
+            if '"plan_rect_ft":[' not in x or '"plan_judgment":' not in x:
+                bad.append("a DXF stack whose XDATA does not carry its square and its judgment")
+        out.append(row("X3", "%s/%s" % (pid, face), "disagrees" if bad else "agrees",
+                       "; ".join(sorted(set(bad))[:3]) if bad else "%d stack(s)" % len(want)))
     return out
 
 

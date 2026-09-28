@@ -91,9 +91,36 @@ def test_a_stack_refused_for_another_reason_is_not_dropped_in_silence(elev):
     """THE THIRD REFUSAL, FOUND WRITING THE TWO ABOVE. `_stack_outline` also refuses a stack whose
     roof carries no end profile to foot it on (`no-profile`), and the loop dropped that one with a
     bare `continue` -- counted nowhere, said nowhere. Reachable only through a malformed roof
-    record, so it is driven: the sheet must say the stacks were not drawn."""
+    record, so it is driven: the sheet must say the stacks were not drawn.
+
+    RE-DRIVEN 27 Sep 2026 (Phase 15, WP-15.5). This drove the FRONT, where both stacks then stood
+    on the roof line; they stand on the ground now, and a stack standing on the ground needs no
+    roof profile, so the front no longer reaches the refusal (the test below holds that half).
+    The stack a profile still foots is the one the house hides: the far stack seen from the other
+    gable, driven here by taking the near one off the record. It is drawn from the W face, whose
+    own roof reads the W profile, because the E face draws its roof from the very profile this
+    empties and has no sheet at all without it -- a crash, not a refusal."""
+    el = copy.deepcopy(elev)
+    el["roof_record"].setdefault("elevation_profiles", {})["E"] = []
+    W = el["footprint"]["width_ft"]
+    pos = el["roof_record"]["chimneys"]["positions"]
+    el["roof_record"]["chimneys"]["positions"] = [c for c in pos if c["plan_rect_ft"][0] >= W - 1e-6]
+    assert len(el["roof_record"]["chimneys"]["positions"]) == 1 and len(pos) == 2, (
+        "the premise: one stack outboard of each gable, and the near one taken off")
+    assert all(c["plan_rect_ft"][2] <= 1e-6 for c in pos if c["plan_rect_ft"][0] < W - 1e-6)
+    svg, marks = _draw(el, "W")
+    assert marks == 0
+    assert "1 STACK(S) NOT DRAWN — THE ROOF RECORD GIVES NO END PROFILE TO FOOT THEM ON" in svg
+
+
+def test_a_stack_standing_on_the_ground_is_not_refused_for_a_roof_it_does_not_stand_on(elev):
+    """WP-15.5. A stack drawn from grade is decided before the roof is read, so a roof record
+    with no end profile refuses only the stacks that profile would foot. Refusing the front's two
+    grounded stacks for want of it would be a refusal about something the drawing does not use --
+    the fake-unjudged shape this corpus names beside the fake pass."""
     el = copy.deepcopy(elev)
     el["roof_record"].setdefault("elevation_profiles", {})["E"] = []
     svg, marks = _draw(el, "S")
-    assert marks == 0
-    assert "STACK(S) NOT DRAWN" in svg
+    assert marks == 2, "both exterior stacks, drawn from grade"
+    assert "NOT DRAWN — THE ROOF RECORD GIVES NO END PROFILE" not in svg
+    assert "EXTERIOR STACKS DRAWN FROM GRADE TO CAP" in svg

@@ -664,15 +664,27 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
                 ys.append(y1 + (y2 - y1) * (x - x1) / (x2 - x1))
         return min(ys) if ys else None
 
-    def _draw(self, tmp_path, face):
+    def _draw(self, tmp_path, face, drive=None):
+        """`drive(rec)` edits a COPY of the elevation record before it is drawn -- the far-stack
+        test below takes the near stack off it."""
+        import copy as _copy
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
         r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
         plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
         rec = e.build_elevation(plan)
+        if drive is not None:
+            rec = _copy.deepcopy(rec)
+            drive(rec)
         out = str(tmp_path / f"{face}.svg")
         r.render_elevation(rec, out, face=face)
         return rec, open(out).read()
+
+    def _ground_px(self, svg):
+        """The ground line the sheet draws: its height in px, and where it starts and stops."""
+        import re
+        m = re.search(r'<line class="gl[^"]*" x1="([\d.-]+)" y1="([\d.-]+)" x2="([\d.-]+)"', svg)
+        return float(m.group(2)), float(m.group(1)), float(m.group(3))
 
     def test_the_front_elevation_shows_both_end_stacks(self, tmp_path):
         """The kit calls the paired stacks "visible from a mile away and conclusive against New
@@ -713,14 +725,49 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
             "the premise of the re-cut: on this placement the flue is off the centre line, so a "
             "stack on the centre line is the old defect and not a coincidence")
 
+    def test_an_exterior_stack_stands_on_the_ground_the_sheet_draws(self, tmp_path):
+        """Phase 15, WP-15.5. Lucas, reading the drawn Tidewater front (27 Sep 2026): "the chimney
+        continuing all the way down to the ground rather than just stopping". Both of this plan's
+        stacks stand outboard of their gable walls, so on the front, on the back and on each
+        stack's own gable face nothing of the house is in front of it: its foot is the ground line
+        the sheet DRAWS, read off that line's ink and not off the grade figure the renderer used.
+        The width stays the stack's own square -- the breast at its foot is stated nowhere, and the
+        legend says so rather than drawing one."""
+        for face, n in (("S", 2), ("N", 2), ("E", 1), ("W", 1)):
+            _rec, svg = self._draw(tmp_path, face)
+            stacks = self._stacks(svg)
+            assert len(stacks) == n, (face, len(stacks))
+            gy, gx1, gx2 = self._ground_px(svg)
+            for st in stacks:
+                assert abs(st["y"] + st["height"] - gy) < 0.1, (
+                    f"{face}: a stack's foot at {st['y'] + st['height']:.1f} px, the ground line at {gy}")
+                assert gx1 < st["x"] and gx2 > st["x"] + st["width"], (face, gx1, gx2, st)
+            assert "EXTERIOR STACKS DRAWN FROM GRADE TO CAP" in svg, face
+            assert "NO RULE IN THIS CORPUS STATES THE BREAST" in svg, face
+
     def test_no_stack_is_drawn_below_the_roof_it_comes_through(self, tmp_path):
-        """Only the part above the roof is drawn, and that is a claim about EVIDENCE rather than
-        about visibility: these stacks are exterior, so nothing hides the breast — but the only
-        width this corpus states is the STACK's, and a chimney breast is several feet across. 47
-        ft of 22 in brick asserts a chimney nobody measured. The sheet says so in its legend."""
-        rec, svg = self._draw(tmp_path, "E")
+        """Only the part above the roof is drawn of a stack the HOUSE hides.
+
+        RE-CUT 27 Sep 2026 (Phase 15, WP-15.5). This read the Tidewater gable face's own stack and
+        held it to the rake, with a docstring making it "a claim about EVIDENCE rather than about
+        visibility: these stacks are exterior, so nothing hides the breast" -- which was the
+        argument for drawing an exterior stack only above its roof line, and Lucas's reading of
+        the sheet ended it (the test beside this one holds that stack to the ground now). What is
+        left of the claim is VISIBILITY: a stack standing BEHIND the house shows only above it.
+        On this plan the far stack stands on the same flue line as the near one and is hidden
+        behind it, so the case is DRIVEN -- the near stack taken off the record, the far one read
+        above the gable it rises behind."""
+        def far_only(rec):
+            W = rec["footprint"]["width_ft"]
+            pos = rec["roof_record"]["chimneys"]["positions"]
+            keep = [c for c in pos if c["plan_rect_ft"][2] <= 1e-6]
+            assert len(keep) == 1 and len(pos) == 2, "the premise: a stack outboard of each gable"
+            assert all(c["plan_rect_ft"][0] >= W - 1e-6 for c in pos if c not in keep)
+            rec["roof_record"]["chimneys"]["positions"] = keep
+
+        rec, svg = self._draw(tmp_path, "E", drive=far_only)
         stacks = self._stacks(svg)
-        assert len(stacks) == 1, "the premise: the gable end draws its stack"
+        assert len(stacks) == 1, "the premise: the gable end draws the stack behind it"
         st = stacks[0]
         # THE FOOT FOLLOWS THE RAKE (WP-14.6, audit F13). This asserted the stack's height as
         # the part above the RIDGE, which was true of a stack straddling the ridge line and cut
@@ -739,10 +786,12 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
         ys = [y for _x, y in feet]
         assert max(ys) - min(ys) > 1.0, "a foot cut level across a sloping rake"
         # the top is the record's own height
-        c = rec["roof_record"]["chimneys"]["positions"][0]
         tops = [y for _x, y in st["points"][:2]]
         assert abs(tops[0] - tops[1]) < 1e-6
-        assert "BREAST BELOW" in svg.upper(), "the sheet must say what it is not drawing"
+        # and it stands above the ground line, not on it: the far stack is behind the house
+        gy, _a, _b = self._ground_px(svg)
+        assert max(ys) < gy - 24.0
+        assert "THE HOUSE HIDES THE REST" in svg.upper(), "the sheet must say what it is not drawing"
 
 
 class TestDormersHaveThreeStatesAndTheThirdIsThePoint:

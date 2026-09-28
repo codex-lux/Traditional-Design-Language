@@ -2120,6 +2120,255 @@ def cornice_band_projection_in(cornice):
             return float(v), None
     return None, "no record states the cornice band's projection past the wall"
 
+# ---------------------------------------------------------------- the gable-end stacks
+# Moved here from `render_elevation.py` at WP-15.5 so the DXF elevation reads the one
+# spelling the sheet draws from; `render_elevation` keeps the old names as aliases.
+
+def profile_top_at(profile_ft, x):
+    """The highest point of the roof silhouette at horizontal position x, or None off the end.
+
+    The inverse of `render_elevation._profile_span_at`, and it is what decides how much of a chimney a roof hides.
+    On the long face of a side-gable house the silhouette is a RECTANGLE from eave to ridge (a
+    parallel projection of one sloping plane fills the band), so the answer is the ridge at every
+    x; on a gable end it is the triangle's own height at x. One rule, both forms, no special
+    casing -- and it only became askable at all on 27 Aug 2026, when elevation_profile stopped
+    returning a flat eave line for a long face."""
+    ys = []
+    n = len(profile_ft)
+    for i in range(n):
+        (x1, y1), (x2, y2) = profile_ft[i], profile_ft[(i + 1) % n]
+        if x1 == x2:
+            continue
+        if min(x1, x2) - 1e-9 <= x <= max(x1, x2) + 1e-9:
+            ys.append(y1 + (y2 - y1) * (x - x1) / (x2 - x1))
+    return max(ys) if ys else None
+
+
+def near_end_last(c, face, fp):
+    """Draw order on a gable face: the far end's stack first, so a near one in front of it is
+    drawn over it. Plan x runs from the W wall to the E, so the E face's near end is x = W."""
+    if face not in ("E", "W"):
+        return 0
+    at_e = abs((c.get("x_ft") or 0.0) - fp["width_ft"]) < 0.5
+    return 1 if (at_e == (face == "E")) else 0
+
+
+def stack_outline(face, c, roof, fp):
+    """The part of one gable-end stack a face draws: `{"outline": [(u_ft, h_ft), ...]}` in the
+    face's own frame and the record's own grade heights -- top left, top right, then the foot
+    from right to left -- with `"from_grade": True` where the foot is the ground, or
+    `{"refused": why}`.
+
+    AN EXTERIOR STACK IS DRAWN FROM GRADE TO CAP ON EVERY FACE IT STANDS IN FRONT OF (Phase 15,
+    WP-15.5; Lucas's review of the drawn Tidewater front, 27 Sep 2026: "the chimney continuing all
+    the way down to the ground rather than just stopping"). An exterior end stack stands wholly
+    outboard of its gable wall. On a LONG face nothing of the house stands between it and the eye
+    but the front's own wall bands and cornice, which project a few inches past the corner and
+    which the caller draws over it; the roof as `roof.py` records it models no rake overhang, so
+    its drawn plane stops at the wall's end and never reaches the stack. On the stack's OWN gable
+    face it stands in front of the wall. From WP-5.11 until WP-15.5 only the part above the roof
+    line was drawn, as a claim about EVIDENCE (OQ 80): the only width this corpus states is the
+    STACK's -- brick-course's 22 in, itself a judgment -- and the BREAST at an exterior stack's
+    foot, several feet across in any built example, has no figure anywhere. That argument decides
+    the WIDTH and not the height: the stack is drawn to the ground at its own stated square, which
+    is the least the mass can be, and the legend says the breast and its shoulders are not stated.
+    Drawing a breast wider than the stack would be a figure no record gives. A stack drawn from
+    grade is decided before the roof is read, so a roof record with no end profile refuses only
+    the stacks that profile would foot.
+
+    A STACK THE HOUSE HIDES IS DRAWN ABOVE THE ROOF LINE ONLY, and that half is visibility: the
+    FAR exterior stack on a gable face stands behind the whole house, and an INTERIOR stack comes
+    up through the roof. THE ROOF LINE IS THE GABLE'S RAKE AT THE STACK'S OWN DEPTH. A gable-end
+    stack meets the roof along the rake of the end it stands at, and on a side gable the roof's
+    height at plan depth `t` is the end profile's height there whatever `x` is -- so the rake
+    over the stack's own depth, `[y0, y1]`, is the roof line it stands above:
+
+      the gable face   projects along the ridge, so the foot FOLLOWS the rake across the stack's
+                       width -- a level cut at the centre (the first version) floats the stack
+                       clear of the rake on its low side and sinks it into the gable on the high.
+      the long face    projects across the ridge, and an INTERIOR stack is hidden by the plane
+                       between the eave and the stack up to that plane's highest point in front
+                       of it: the ridge if the stack is beyond the ridge, else the rake at its
+                       near face. (The exterior stack's foot here was the lowest point of its
+                       rake until WP-15.5; it is the ground.)
+
+    A roof whose ridge runs front to back puts its gable ends on the front and the back, and this
+    function draws a stack against a SIDE gable's rake only: that case is refused by name rather
+    than drawn from a rule written for the other. It was silent before -- the old test for a
+    gable-end stack read `x` alone, found none, and drew nothing without a word."""
+    ridge = (roof.get("main") or {}).get("ridge") or {}
+    if ridge.get("axis") != "x":
+        return {"refused": "not-side-gable"}
+    rect = c.get("plan_rect_ft")
+    if not rect:
+        return {"refused": "unplaced"}
+    x0, y0, x1, y1 = rect
+    W, D = fp["width_ft"], fp["depth_ft"]
+    top = c["total_height_grade_ft"]
+    exterior = c.get("side") == "exterior" or x1 <= 0.0 + 1e-6 or x0 >= W - 1e-6
+    near = (face in ("S", "N") or (face == "E" and x0 >= W - 1e-6)
+            or (face == "W" and x1 <= 0.0 + 1e-6))
+    if exterior and near:
+        # FROM GRADE, AND DECIDED BEFORE THE ROOF IS READ (WP-15.5): a stack standing on the
+        # ground needs no roof profile to foot it, so a roof record lacking one refuses only the
+        # stacks the roof hides -- refusing this one for want of it would be a refusal about
+        # something the drawing does not use.
+        if top <= 0.0:
+            return {"refused": "hidden"}
+        u0, u1 = (x0, x1) if face in ("S", "N") else (y0, y1)
+        return {"outline": [(u0, top), (u1, top), (u1, 0.0), (u0, 0.0)], "from_grade": True}
+    end = (roof.get("elevation_profiles") or {}).get("E") or []
+    if not end:
+        return {"refused": "no-profile"}
+
+    def rake(t):
+        return profile_top_at(end, min(max(t, 0.0), D))
+
+    def inner(lo, hi):                       # the end profile's own vertices strictly inside
+        return sorted({px for px, _h in end if lo < px < hi})
+
+    if face in ("E", "W"):
+        us = [y0] + inner(y0, y1) + [y1]
+        foot = [(u, min(rake(u), top)) for u in us]
+        if all(h >= top - 1e-6 for _u, h in foot):
+            return {"refused": "hidden"}
+        return {"outline": [(y0, top), (y1, top)] + list(reversed(foot))}
+    # a long face, and an INTERIOR stack: the exterior one returned from grade above
+    own = min(rake(y0), rake(y1))            # the rake is highest at the ridge: its least is an end
+    front = (0.0, y0) if face == "S" else (y1, D)
+    ts = [front[0], front[1]] + inner(front[0], front[1])
+    hider = max(rake(t) for t in ts) if front[1] > front[0] else own
+    foot_h = min(max(own, hider), top)
+    if foot_h >= top - 1e-6:
+        return {"refused": "hidden"}
+    return {"outline": [(x0, top), (x1, top), (x1, foot_h), (x0, foot_h)]}
+
+
+def stack_marks(elev, face):
+    """Every gable-end stack `face` draws, and every one it does not with the reason -- the ONE
+    spelling the SVG sheet and the DXF elevation both read (Phase 15, WP-15.5), as
+    `opening_rects` is for the openings. Returns
+
+        {"marks": [{"stack": c, "outline": [(u_ft, h_ft), ...], "from_grade": bool}, ...],
+         "unsized": bool, "unplaced": n, "hidden": n, "not_side_gable": bool,
+         "refused_else": {reason: n}}
+
+    in the face's own frame and the RECORD's grade heights (a drawing lifts what stands above
+    the wall by its own cornice band, V19), each mark in drawing order: the far end's stack first.
+
+    A STACK WHOLLY BEHIND ONE THAT STANDS ON THE GROUND IN FRONT OF IT IS HIDDEN. On a gable face
+    the far end's stack used to draw the same outline as the near one and was dropped as a
+    duplicate; the near one reaches the ground now and the far one keeps its rake foot, so the two
+    differ, and the far one is the one the near one hides. NO STACK AT A SIZE NOBODY GAVE
+    (WP-14.3): with no stated plan size every stack is refused and `unsized` says why."""
+    roof = elev.get("roof_record") or {}
+    fp = elev["footprint"]
+    ch = roof.get("chimneys") or {}
+    out = {"marks": [], "unsized": False, "unplaced": 0, "hidden": 0, "not_side_gable": False,
+           "refused_else": {}}
+    if not (ch.get("applicable") and ch.get("positions")):
+        return out
+    if not elev.get("chimney_stack_plan_in"):
+        out["unsized"] = True
+        return out
+    plan = [(c, stack_outline(face, c, roof, fp))
+            for c in sorted(ch["positions"], key=lambda c: near_end_last(c, face, fp))]
+    grade_boxes = [(min(u for u, _h in g["outline"]), max(u for u, _h in g["outline"]),
+                    max(h for _u, h in g["outline"]))
+                   for _c, g in plan if g.get("from_grade")]
+    keys = set()
+    for c, got in plan:
+        why = got.get("refused")
+        if why == "unplaced":
+            out["unplaced"] += 1
+            continue
+        if why == "not-side-gable":
+            out["not_side_gable"] = True
+            continue
+        if why == "hidden":
+            out["hidden"] += 1
+            continue
+        if why:
+            # NOT IN SILENCE (audit, 27 Sep 2026): `no-profile` -- a roof record with no end
+            # profile to foot a stack on -- was dropped with no word while its two siblings above
+            # were counted and said on the sheet
+            out["refused_else"][why] = out["refused_else"].get(why, 0) + 1
+            continue
+        pts = got["outline"]
+        key = tuple((round(u, 3), round(h, 3)) for u, h in pts)
+        if key in keys:
+            continue                   # the far stack stands exactly behind the near one
+        if not got.get("from_grade"):
+            lo, hi = min(u for u, _h in pts), max(u for u, _h in pts)
+            tp = max(h for _u, h in pts)
+            if any(glo - 1e-6 <= lo and hi <= ghi + 1e-6 and tp <= gtop + 1e-6
+                   for glo, ghi, gtop in grade_boxes):
+                out["hidden"] += 1
+                continue
+        keys.add(key)
+        out["marks"].append({"stack": c, "outline": pts, "from_grade": bool(got.get("from_grade"))})
+    return out
+
+
+STACKS_UNSIZED_NOTE = ("STACKS NOT DRAWN \u2014 THE ROOF PLACES THEM AND NO RECORD STATES THEIR "
+                       "PLAN SIZE")
+
+
+def stack_notes(elev, sm):
+    """What a face says about the stacks `stack_marks` drew and refused, in the words the sheet
+    prints -- the ONE spelling the SVG legend and the DXF annotation both write (WP-15.5).
+
+    FROM GRADE AND ABOVE THE ROOF ARE TWO CLAIMS, AND EACH IS SAID FOR THE STACKS IT IS TRUE OF.
+    A stack drawn to the ground asserts the stack's own square all the way down, which is the
+    least the mass can be; the breast at its foot is wider in every built example and no record
+    here gives it, so the line says so rather than a drawing inventing one. The unsized refusal
+    is `STACKS_UNSIZED_NOTE`, which the sheet prints at its own place with the keystone's."""
+    out = []
+    marks = sm["marks"]
+    grade = [mk for mk in marks if mk["from_grade"]]
+    above = [mk for mk in marks if not mk["from_grade"]]
+    if marks:
+        _sz = elev.get("chimney_stack_plan_in")
+        _sz_txt = (f'{_sz:g}\u2033' if isinstance(_sz, (int, float)) else 'STATED')
+        # the figure is said ONCE: where it is a judgment the judgment line states it
+        _at = ('' if (elev.get("chimney_stack_plan_judgment") and _sz)
+               else f', AT THE {_sz_txt} SQUARE THE RECORD STATES')
+        if grade:
+            out.append(f'EXTERIOR STACKS DRAWN FROM GRADE TO CAP ON THE SQUARE THE PLACEMENT SEATS'
+                       f'{_at} \u2014 NO RULE IN THIS CORPUS STATES THE BREAST OR ITS SHOULDERS AT THE '
+                       f'FOOT OF AN EXTERIOR STACK, SO EACH IS DRAWN TO THE GROUND AT THE '
+                       f'STACK\u2019S OWN WIDTH')
+        if above:
+            sides = {mk["stack"].get("side") for mk in above}
+            if sides == {"interior"}:
+                _why = 'THEY RISE INSIDE THE GABLE WALL, SO THE ROOF HIDES THE REST'
+            elif sides == {"exterior"}:
+                _why = 'THEY STAND AT THE FAR END, SO THE HOUSE HIDES THE REST'
+            else:
+                _why = 'THE ROOF OR THE HOUSE HIDES THE REST'
+            out.append(f'STACKS DRAWN ABOVE THE ROOF LINE ONLY, ON THE SQUARE THE PLACEMENT SEATS'
+                       f'{"" if grade else _at} \u2014 {_why}')
+    if sm["unplaced"]:
+        # THE PLACEMENT'S OWN REASON, republished rather than composed a second time (`_porch`'s
+        # rule for `plan.threshold.unplaced`, one record over): on 43 of the 47 styles the roof
+        # sweep reaches this way it is that no canonical hearth position says which face of the
+        # end wall the mass stands on, and a stack drawn anyway would be seated by this sheet.
+        _hr = (((elev.get("section") or {}).get("geometry") or {}).get("hearths") or {})
+        _why = next((u.get("reason") for u in (_hr.get("unplaced") or [])
+                     if u.get("what") == "the stacks" and u.get("reason")), None)
+        out.append(f'{sm["unplaced"]} STACK(S) NOT DRAWN \u2014 THE PLACEMENT SEATS NO SQUARE FOR THEM'
+                   + (': ' + _why.upper() if _why else
+                      ', AND WHICH SIDE OF THE GABLE WALL A STACK STANDS ON IS THE PLAN\u2019S FACT'))
+    if sm["not_side_gable"]:
+        out.append('STACKS NOT DRAWN \u2014 THIS ROOF\u2019S RIDGE RUNS FRONT TO BACK, AND THIS SHEET '
+                   'DRAWS A STACK AGAINST A SIDE GABLE\u2019S RAKE ONLY')
+    for _why, _n in sorted(sm["refused_else"].items()):
+        out.append(f'{_n} STACK(S) NOT DRAWN \u2014 ' + (
+            'THE ROOF RECORD GIVES NO END PROFILE TO FOOT THEM ON' if _why == 'no-profile'
+            else f'REFUSED AS {str(_why).upper()}'))
+    return out
+
+
 def opening_rects(elev, face):
     """Every opening on one face, as a rectangle. THE ONE SPELLING of (x0, x1, sill, head).
 
