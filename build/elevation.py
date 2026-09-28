@@ -532,19 +532,23 @@ def stack_axes_for_face(face, chimneys, fp):
     stacks themselves. A stack counts as being in a wall's plane when it stands at that wall: at a
     ridge END for a gable face, at the near or far wall for a long face. Both of this house's
     stacks are at mid-depth, so they are in the gable walls and in neither long wall, which is why
-    the front elevation loses no bay and the ends lose their centre one."""
+    the front elevation loses no bay and the ends lose their centre one.
+
+    THIS FACE'S OWN WALL, NOT ITS OPPOSITE (WP-15.8's audit, auditor D). "At the near or far
+    wall" put a stack at the rear wall in the plane of the front, so it blinded a front window it
+    stands forty feet behind, and each gable face counted the other gable's stack too (the
+    Tidewater E and W faces both carried `[32.22, 32.22]`). A stack's position is on the outside
+    face of the wall it stands at, so the wall is read from it here, where a stack with no seated
+    square still has a position."""
     W, D = fp["width_ft"], fp["depth_ft"]
     out = []
     for c in (chimneys or {}).get("positions") or []:
         x, y = c.get("x_ft"), c.get("y_ft")
         if x is None or y is None:
             continue
-        if face in ("E", "W"):
-            if abs(x) < 0.5 or abs(x - W) < 0.5:
-                out.append(y)
-        else:
-            if abs(y) < 0.5 or abs(y - D) < 0.5:
-                out.append(x)
+        at = {"W": abs(x) < 0.5, "E": abs(x - W) < 0.5, "S": abs(y) < 0.5, "N": abs(y - D) < 0.5}
+        if at.get(face):
+            out.append(y if face in ("E", "W") else x)
     return out
 
 
@@ -2194,6 +2198,51 @@ def profile_top_at(profile_ft, x):
     return max(ys) if ys else None
 
 
+_OPPOSITE_FACE = {"N": "S", "S": "N", "E": "W", "W": "E"}
+
+
+def stack_side(c, fp):
+    """The wall of the house an exterior stack stands outboard of -- "W", "E", "S" or "N" -- read
+    off the square the placement seats (`plan_rect_ft`, in the elevation's outside-to-outside
+    frame), "interior" where that square lies within the footprint, or None where no square is
+    seated.
+
+    ONE READER, BECAUSE THREE READ IT FROM THE FACE INSTEAD (WP-15.8's audit, auditor D).
+    `stack_outline` took every exterior stack to stand in front of both long faces, and
+    `stack_axes_for_face` took a stack at either long wall to be in the plane of both, because
+    every stack this corpus had drawn stood at a gable end. The placer seats an exterior stack on
+    whatever wall its fire is stated (`hearths.flue_walls`): moved to the rear wall, the Tidewater
+    dining fire's stack was drawn from grade on the FRONT, through the house, and floated at the
+    eave past the corner on both gable faces under "THEY STAND AT THE FAR END, SO THE HOUSE HIDES
+    THE REST", which nothing hides."""
+    rect = c.get("plan_rect_ft")
+    if not rect:
+        return None
+    x0, y0, x1, y1 = rect
+    W, D = fp["width_ft"], fp["depth_ft"]
+    if x1 <= 1e-6:
+        return "W"
+    if x0 >= W - 1e-6:
+        return "E"
+    if y1 <= 1e-6:
+        return "S"
+    if y0 >= D - 1e-6:
+        return "N"
+    return "interior"
+
+
+def stack_relation(face, side):
+    """How `face` sees a stack standing at `side`: "front" from the stack's own wall, "behind" from
+    the wall opposite it, "end" from either wall perpendicular to it -- where it stands beyond the
+    house's corner with nothing of the house in front of it -- and "interior" for a stack that
+    comes up through the roof."""
+    if side in (None, "interior"):
+        return "interior"
+    if face == side:
+        return "front"
+    return "behind" if face == _OPPOSITE_FACE[side] else "end"
+
+
 def near_end_last(c, face, fp):
     """Draw order on a gable face: the far end's stack first, so a near one in front of it is
     drawn over it. Plan x runs from the W wall to the E, so the E face's near end is x = W."""
@@ -2253,12 +2302,13 @@ def stack_outline(face, c, roof, fp):
     if not rect:
         return {"refused": "unplaced"}
     x0, y0, x1, y1 = rect
-    W, D = fp["width_ft"], fp["depth_ft"]
+    D = fp["depth_ft"]
     top = c["total_height_grade_ft"]
-    exterior = c.get("side") == "exterior" or x1 <= 0.0 + 1e-6 or x0 >= W - 1e-6
-    near = (face in ("S", "N") or (face == "E" and x0 >= W - 1e-6)
-            or (face == "W" and x1 <= 0.0 + 1e-6))
-    if exterior and near:
+    # WHICH SIDE OF THE HOUSE, READ OFF THE SQUARE (WP-15.8): an exterior stack stands in front
+    # of its own wall and beside the house from either wall perpendicular to it, and both see it
+    # to the ground; the wall opposite sees it over the house. `stack_relation` is that reading.
+    rel = stack_relation(face, stack_side(c, fp))
+    if rel in ("front", "end"):
         # FROM GRADE, AND DECIDED BEFORE THE ROOF IS READ (WP-15.5): a stack standing on the
         # ground needs no roof profile to foot it, so a roof record lacking one refuses only the
         # stacks the roof hides -- refusing this one for want of it would be a refusal about
@@ -2266,7 +2316,8 @@ def stack_outline(face, c, roof, fp):
         if top <= 0.0:
             return {"refused": "hidden"}
         u0, u1 = (x0, x1) if face in ("S", "N") else (y0, y1)
-        return {"outline": [(u0, top), (u1, top), (u1, 0.0), (u0, 0.0)], "from_grade": True}
+        return {"outline": [(u0, top), (u1, top), (u1, 0.0), (u0, 0.0)], "from_grade": True,
+                "relation": rel}
     end = (roof.get("elevation_profiles") or {}).get("E") or []
     if not end:
         return {"refused": "no-profile"}
@@ -2278,12 +2329,22 @@ def stack_outline(face, c, roof, fp):
         return sorted({px for px, _h in end if lo < px < hi})
 
     if face in ("E", "W"):
+        # the far gable's stack ("behind") and an interior one stand behind or inside the gable's
+        # own rake at their depth
         us = [y0] + inner(y0, y1) + [y1]
         foot = [(u, min(rake(u), top)) for u in us]
         if all(h >= top - 1e-6 for _u, h in foot):
             return {"refused": "hidden"}
-        return {"outline": [(y0, top), (y1, top)] + list(reversed(foot))}
-    # a long face, and an INTERIOR stack: the exterior one returned from grade above
+        return {"outline": [(y0, top), (y1, top)] + list(reversed(foot)), "relation": rel}
+    if rel == "behind":
+        # a long face, and a stack outboard of the OPPOSITE long wall (WP-15.8): the whole house
+        # stands in front of it, so it shows above the highest point of the roof between, the
+        # ridge. Drawn from grade before, through the house.
+        foot_h = min(max(h for _t, h in end), top)
+        if foot_h >= top - 1e-6:
+            return {"refused": "hidden"}
+        return {"outline": [(x0, top), (x1, top), (x1, foot_h), (x0, foot_h)], "relation": rel}
+    # a long face, and an INTERIOR stack: the exterior ones returned above
     own = min(rake(y0), rake(y1))            # the rake is highest at the ridge: its least is an end
     front = (0.0, y0) if face == "S" else (y1, D)
     ts = [front[0], front[1]] + inner(front[0], front[1])
@@ -2291,7 +2352,7 @@ def stack_outline(face, c, roof, fp):
     foot_h = min(max(own, hider), top)
     if foot_h >= top - 1e-6:
         return {"refused": "hidden"}
-    return {"outline": [(x0, top), (x1, top), (x1, foot_h), (x0, foot_h)]}
+    return {"outline": [(x0, top), (x1, top), (x1, foot_h), (x0, foot_h)], "relation": rel}
 
 
 def stack_marks(elev, face):
@@ -2299,7 +2360,8 @@ def stack_marks(elev, face):
     spelling the SVG sheet and the DXF elevation both read (Phase 15, WP-15.5), as
     `opening_rects` is for the openings. Returns
 
-        {"marks": [{"stack": c, "outline": [(u_ft, h_ft), ...], "from_grade": bool}, ...],
+        {"marks": [{"stack": c, "outline": [(u_ft, h_ft), ...], "from_grade": bool,
+                    "relation": "front" | "end" | "behind" | "interior"}, ...],
          "unsized": bool, "unplaced": n, "hidden": n, "not_side_gable": bool,
          "refused_else": {reason: n}}
 
@@ -2356,7 +2418,8 @@ def stack_marks(elev, face):
                 out["hidden"] += 1
                 continue
         keys.add(key)
-        out["marks"].append({"stack": c, "outline": pts, "from_grade": bool(got.get("from_grade"))})
+        out["marks"].append({"stack": c, "outline": pts, "from_grade": bool(got.get("from_grade")),
+                             "relation": got.get("relation")})
     return out
 
 
@@ -2427,11 +2490,20 @@ def stack_notes(elev, sm):
                        f'FOOT OF AN EXTERIOR STACK, SO EACH IS DRAWN TO THE GROUND AT THE '
                        f'STACK\u2019S OWN WIDTH')
         if above:
-            sides = {mk["stack"].get("side") for mk in above}
-            if sides == {"interior"}:
+            # which wall each stands at, from its square (`stack_side`, WP-15.8): a stack behind
+            # the far LONG wall is hidden by the house up to the ridge, which "AT THE FAR END" is
+            # not true of
+            kinds = set()
+            for mk in above:
+                sd = stack_side(mk["stack"], elev["footprint"])
+                kinds.add("interior" if sd in (None, "interior") else
+                          "far-end" if sd in ("E", "W") else "far-wall")
+            if kinds == {"interior"}:
                 _why = 'THEY RISE INSIDE THE GABLE WALL, SO THE ROOF HIDES THE REST'
-            elif sides == {"exterior"}:
+            elif kinds == {"far-end"}:
                 _why = 'THEY STAND AT THE FAR END, SO THE HOUSE HIDES THE REST'
+            elif kinds == {"far-wall"}:
+                _why = 'THEY STAND BEHIND THE FAR WALL, SO THE HOUSE HIDES THEM UP TO THE RIDGE'
             else:
                 _why = 'THE ROOF OR THE HOUSE HIDES THE REST'
             out.append(f'STACKS DRAWN ABOVE THE ROOF LINE ONLY, ON THE SQUARE THE PLACEMENT SEATS'

@@ -2337,10 +2337,19 @@ def v23():
             if c is None:
                 bad.append("a stack at %.2f..%.2f ft stands on no square the placement seats" % (u0, u1))
                 continue
-            x0, _y0, x1, _y1 = c["plan_rect_ft"]
-            exterior = c.get("side") == "exterior" or x1 <= 1e-6 or x0 >= W - 1e-6
-            near = (face in ("S", "N") or (face == "E" and x0 >= W - 1e-6)
-                    or (face == "W" and x1 <= 1e-6))
+            # WHICH WALL THE STACK STANDS AT, READ HERE FROM ITS SQUARE AND THE FOOTPRINT, never by
+            # calling the elevation's own reader (R4's trap) and never from the face's NAME: this
+            # check took `face in ("S", "N")` for "in front of it" until WP-15.8, the same reading
+            # the elevation had, so a stack at the rear wall drawn from grade on the front, through
+            # the house, agreed here (auditor D's rear-stack drive).
+            x0, y0, x1, y1 = c["plan_rect_ft"]
+            wall = ("W" if x1 <= 1e-6 else "E" if x0 >= W - 1e-6 else
+                    "S" if y1 <= 1e-6 else "N" if y0 >= D - 1e-6 else None)
+            exterior = wall is not None
+            # its own wall sees it in front, a wall perpendicular to it sees it beyond the corner;
+            # only the wall opposite sees the house in front of it
+            near = exterior and face != {"S": "N", "N": "S", "E": "W", "W": "E"}[wall]
+            behind_long = exterior and not near and face in ("S", "N")
             if not foot:
                 bad.append("a stack at %.2f..%.2f ft has no foot" % (u0, u1))
                 continue
@@ -2386,6 +2395,11 @@ def v23():
                             bad.append("a stack's foot at %.2f ft stands at %.2f ft, outside the drawn "
                                        "roof (%.2f..%s)" % (u, v, eave, "?" if ridge is None
                                                            else "%.2f" % ridge))
+                        elif behind_long and abs(v - ridge) > 0.02:
+                            # the whole house stands in front of a stack at the far long wall, so
+                            # it shows from the ridge and not from anywhere lower on the roof
+                            bad.append("a stack behind the far wall has its foot at %.2f ft, below "
+                                       "the drawn ridge at %.2f" % (v, ridge))
         says_grade = any(t.startswith(_FROM_GRADE) for t in said)
         says_roof = any(t.startswith(_ABOVE_ROOF) for t in said)
         if bool(on_ground) != says_grade:

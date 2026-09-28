@@ -859,8 +859,12 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # overlaps no outboard stack (a test asserts that premise: were an overhang ever modelled,
     # the stack's depth against the ridge would decide which of the two is in front). On its own
     # gable face a stack stands in FRONT of the wall, and is drawn with the rest, after the roof.
+    # WHICH STACKS STAND BEHIND THE FACE IS THE STACK'S RELATION TO IT (WP-15.8), not the face's
+    # name: "end" is a stack beyond the face's corner at the wall perpendicular to it -- a gable
+    # stack on a long face, and a long wall's stack on a gable face -- and a stack standing in
+    # front of its own wall is drawn with the rest, after the roof.
     for mk in sm["marks"]:
-        if mk["from_grade"] and face in ("S", "N"):
+        if mk.get("relation") == "end":
             _draw_stack(mk["outline"])
     s.append(f'<rect class="wf" x="{X(0):.1f}" y="{Ypx(top_of_wall_ft):.1f}" width="{pw:.1f}" height="{(top_of_wall_ft*scale):.1f}"/>')
     # THE GROUND LINE. HABS makes this the single heaviest line on an elevation -- 0.6 mm against
@@ -1057,7 +1061,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # square (`plan_rect_ft`, with its `side`). Every face draws what `_stack_outline` says
     # that square shows -- so the front and the gable end are two views of one prism.
     for mk in sm["marks"]:
-        if mk["from_grade"] and face in ("S", "N"):
+        if mk.get("relation") == "end":
             continue                   # drawn behind the front, before the wall
         _draw_stack(mk["outline"])
 
