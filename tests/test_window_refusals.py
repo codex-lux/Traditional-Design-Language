@@ -209,3 +209,67 @@ def test_the_fix_follows_the_cause(corpus):
             for reason in f.get("refused") or []:
                 assert reason in f["statement"], (pid, f["room"], reason)
     assert crowded >= 1 and off >= 1, (crowded, off)
+
+
+# ------------------------------------------- 4. a window refused whole keeps no old positions
+def _wholesale(reason):
+    """Which of the placer's three WHOLE refusals a reason is, or None for a partial one."""
+    if reason == "the room is not placed on this level":
+        return "level"
+    if reason.startswith("the placement puts this room on no such boundary wall"):
+        return "wall"
+    if reason.startswith(("the wall has no clear run left", "the wall is shorter than")):
+        return "run"
+    return None
+
+
+def test_a_window_refused_whole_keeps_no_positions_it_came_in_with(corpus):
+    """WP-15.8's audit (second-order pass). Three readers take `unplaced` beside a non-empty
+    `positions_ft` as a PARTIAL refusal -- the critic's "drawn with no window", the plate's windows
+    line and the elevation's refused list -- and the placer's three whole-refusal paths left any
+    positions a record came in with. The bench's evaluate and MCP `place_plan` place whatever they
+    are handed, so a placed record re-solved after an edit carried a refused window's old seat and
+    every "drawn with no window" finding vanished, on all sixteen plans, over a sheet that drew no
+    such window. Each path is driven from a plan that reaches it, with stale positions put on every
+    window, and the findings must be the clean solve's."""
+    paths = {os.path.basename(p)[:-5]: p for p in _plans()}
+    kinds = {}
+    for pid, placed in corpus.items():
+        for _lv, _r, w in _windows(placed):
+            if w.get("unplaced") and not w.get("positions_ft"):
+                k = _wholesale(w["unplaced"]["reason"])
+                if k:
+                    kinds.setdefault(k, pid)
+    assert set(kinds) == {"level", "wall", "run"}, ("the premise: each whole refusal is reached", kinds)
+
+    def findings(placed):
+        return sorted((f["room"], f["statement"]) for f in PC.check(placed)["findings"]
+                      if f.get("kind") == "drawn-window-off-the-placed-wall")
+
+    for kind, pid in sorted(kinds.items()):
+        with open(paths[pid], encoding="utf-8") as fh:
+            declared = json.load(fh)
+        stale = 0
+        for lv in declared["levels"]:
+            for r in lv["rooms"]:
+                for w in r.get("windows") or []:
+                    w["positions_ft"] = [1.0]
+                    stale += 1
+        saved = GEO._SOLVE_CACHE
+        GEO._SOLVE_CACHE = {}
+        try:
+            placed = GEO.solve(declared, None, 250, engine="heuristic")
+        finally:
+            GEO._SOLVE_CACHE = saved
+        hit = 0
+        for _lv, r, w in _windows(placed):
+            k = _wholesale(((w.get("unplaced") or {}).get("reason")) or "")
+            if k:
+                assert not w.get("positions_ft"), (kind, pid, r["id"], w)
+                hit += k == kind
+        assert stale and hit, (kind, pid, stale, hit)
+        assert findings(placed) == findings(corpus[pid]), (kind, pid)
+        line = DISC.windows_not_drawn(placed)
+        assert line, (kind, pid)
+        n, parts = _line_counts(line["text"])
+        assert n == placed["opening_report"]["windows_unplaced"] == sum(parts), (kind, pid, line["text"])

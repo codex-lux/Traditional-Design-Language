@@ -2211,7 +2211,10 @@ def stack_side(c, fp):
     frame), "interior" where that square lies within the footprint, or None where no square is
     seated.
 
-    ONE READER, BECAUSE THREE READ IT FROM THE FACE INSTEAD (WP-15.8's audit, auditor D).
+    ONE READER OF WHICH WALL A STACK IS OUTBOARD OF, BECAUSE THREE READ IT FROM THE FACE INSTEAD
+    (WP-15.8's audit, auditor D). `stack_axes_for_face` answers a different question -- which
+    wall's PLANE a stack stands in, off its position, which an interior end stack shares with its
+    gable wall -- and it reads the position because a stack with no seated square still has one.
     `stack_outline` took every exterior stack to stand in front of both long faces, and
     `stack_axes_for_face` took a stack at either long wall to be in the plane of both, because
     every stack this corpus had drawn stood at a gable end. The placer seats an exterior stack on
@@ -2222,17 +2225,33 @@ def stack_side(c, fp):
     rect = c.get("plan_rect_ft")
     if not rect:
         return None
+    # THE RECORD SAYS WHICH SIDE OF ITS WALL THE STACK STANDS, AND THE SQUARE SAYS WHICH WALL (the
+    # audit of WP-15.8's own diff). `threshold._stack_rect` writes `side`, and an interior stack is
+    # interior whatever its square reads. The square and the footprint are ROUNDED TWICE -- the
+    # roof writes the square to three places, this record its footprint to two -- so a square
+    # standing flush on a wall face can read a few thousandths of a foot inside it. Tested at 1e-6
+    # that was measured live: an 8.25 in structural-insulated-panel wall put the Tidewater E
+    # stack's square at 46.376 against a footprint of 46.38, it read "interior", and the S face
+    # hid an exterior stack below the roof. 0.01 ft covers both roundings (0.005 + 0.0005) and is
+    # an eighth of an inch, far inside any stack's own depth.
+    if c.get("side") == "interior":
+        return "interior"
     x0, y0, x1, y1 = rect
     W, D = fp["width_ft"], fp["depth_ft"]
-    if x1 <= 1e-6:
+    tol = STACK_SIDE_TOL_FT
+    if x1 <= tol:
         return "W"
-    if x0 >= W - 1e-6:
+    if x0 >= W - tol:
         return "E"
-    if y1 <= 1e-6:
+    if y1 <= tol:
         return "S"
-    if y0 >= D - 1e-6:
+    if y0 >= D - tol:
         return "N"
     return "interior"
+
+
+# the two roundings a stack's square and the footprint it is read against carry (see stack_side)
+STACK_SIDE_TOL_FT = 0.01
 
 
 def stack_relation(face, side):

@@ -774,11 +774,20 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
     # refusal can tell a wall a door took from one the chimney took
     door_spans = {k: list(v) for k, v in occupied.items() if v}
     took = _reserve_masonry(level_rooms, occupied, W, H, envs, hearths, level_index)
+    # A WINDOW REFUSED WHOLE CARRIES NO POSITIONS, WHATEVER IT CAME IN WITH (WP-15.8's audit).
+    # `unplaced` beside a non-empty `positions_ft` means a PARTIAL refusal, and three readers take
+    # it that way: `plan_check`'s "drawn with no window", the plate's windows line and the
+    # elevation's refused list. A record re-solved with its old placement still on it (the bench's
+    # evaluate and MCP `place_plan` place whatever they are handed) kept the old positions on a
+    # window this pass refused outright, so the serious finding vanished on every shipped plan
+    # given stale positions while the sheet drew no such window. Seated windows are overwritten
+    # below; the three wholesale refusals drop them here.
     glazed = set()
     for r in level_rooms:
         rect = _rect(r)
         if not rect:
             for win in (r.get("windows") or []):
+                win.pop("positions_ft", None)          # refused whole: see the note above
                 win["unplaced"] = {"reason": "the room is not placed on this level"}
                 # COUNTED, like every other unit the pass does not place (WP-15.8): the plate's
                 # line read "1 OF 6 ... NOT DRAWN" over two refused windows on bad-03, whose third
@@ -791,6 +800,7 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
             n = win.get("count") or 1
             width = win.get("width_ft") or 3.0
             if wall not in bw:
+                win.pop("positions_ft", None)          # refused whole: see the note above
                 win["unplaced"] = {"reason": "the placement puts this room on no such "
                                              "boundary wall",
                                    **({"declared_wall": wall} if wall in ("N", "E", "S", "W") else {})}
@@ -813,6 +823,7 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
                 glazed.add((r["id"], wall))
             beside = _beside((r["id"], wall), (lo, hi), door_spans, glazed, took, keep)
             if not placed:
+                win.pop("positions_ft", None)          # refused whole: see the note above
                 win["unplaced"] = {"reason": (f"the wall has no clear run left beside {beside}"
                                               if beside else "the wall is shorter than the window"),
                                    "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),

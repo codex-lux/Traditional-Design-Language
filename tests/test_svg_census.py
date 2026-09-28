@@ -1503,6 +1503,78 @@ class TestPhaseFifteenChecksCanDisagree:
         r = self._one(monkeypatch, "V23", el, svg.replace(poly, floated))
         assert r["verdict"] == "disagrees" and "the drawn rake there is" in r["detail"], r
 
+    @staticmethod
+    def _rear_stack():
+        """Auditor D's drive: the Tidewater dining fire moved to its N wall on a flue of its own,
+        so the placer seats a stack outboard of the REAR wall -- the case no shipped plan reaches.
+        Only that stack is kept on the record, so every V23 row is about it. The premise is read
+        off the square here, not through the elevation's own reader."""
+        GEO, ST, RF, EL = (C.SURF._mod(n) for n in ("geometry", "structure", "roof", "elevation"))
+        with open(os.path.join(C.ROOT, "plans", "tidewater-georgian-careful.json"), encoding="utf-8") as fh:
+            plan = json.load(fh)
+        moved = 0
+        for lv in plan["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] == "dining":
+                    r["hearth"][0]["wall"], r["hearth"][0]["flue"] = "N", "north-stack"
+                    moved += 1
+        assert moved == 1, "the premise: the shipped record states the dining room's fire"
+        saved = GEO._SOLVE_CACHE
+        GEO._SOLVE_CACHE = {}
+        try:
+            placed = GEO.solve(plan, None, 250, engine="heuristic")
+        finally:
+            GEO._SOLVE_CACHE = saved
+        sec = ST.build_section(placed, None, geometry_result=placed)
+        rf = RF.build_roof(placed, None, section=sec)
+        el = EL.build_elevation(placed, None, section=sec, roof=rf)
+        D = el["footprint"]["depth_ft"]
+        pos = el["roof_record"]["chimneys"]["positions"]
+        north = [c for c in pos if c.get("plan_rect_ft")
+                 and (c["plan_rect_ft"][1] + c["plan_rect_ft"][3]) / 2.0 > D]
+        assert len(north) == 1, ("the premise: one stack stands outboard of the rear wall",
+                                 [c.get("plan_rect_ft") for c in pos])
+        el["roof_record"]["chimneys"]["positions"] = north
+        return el
+
+    def test_v23_holds_a_rear_stack_to_the_ridge_from_the_front(self, monkeypatch):
+        """V23 reads which wall a stack stands at off its square, and holds a stack behind the far
+        long wall to the ridge. No shipped plan seats one there, so remapping the wall reading or
+        deleting the behind-the-far-wall clause left the whole census suite green (the audit of
+        WP-15.8's own diff). The front drawn right agrees; its foot dropped below the ridge does
+        not."""
+        el = self._rear_stack()
+        svg = self._render(el, "S")
+        r = self._one(monkeypatch, "V23", el, svg)
+        assert r["verdict"] == "agrees" and "0 from grade, 1 above the roof" in r["detail"], (
+            "the premise: the front draws the rear stack above the ridge", r)
+        pl = C._face_plate(C.IR.Ink(svg))
+        drop = C.IR.from_model(pl, 0.0, 0.0)[1] - C.IR.from_model(pl, 0.0, 2.0)[1]
+        poly = re.search(r'<polygon class="ch[^"]*" points="([^"]+)"', svg).group(1)
+        pts = [tuple(map(float, p.split(","))) for p in poly.split()]
+        top = min(y for _x, y in pts)
+        sunk = " ".join("%.1f,%.1f" % (x, y if abs(y - top) < 1e-6 else y + drop) for x, y in pts)
+        r = self._one(monkeypatch, "V23", el, svg.replace(poly, sunk))
+        assert r["verdict"] == "disagrees" and "behind the far wall" in r["detail"], r
+
+    def test_v23_holds_a_rear_stack_to_the_ground_from_its_own_wall(self, monkeypatch):
+        """From the rear wall the stack stands in front of the house, so it is drawn from grade;
+        the same stack floated up to the ridge is a stack the house does not hide drawn as if it
+        did."""
+        el = self._rear_stack()
+        svg = self._render(el, "N")
+        r = self._one(monkeypatch, "V23", el, svg)
+        assert r["verdict"] == "agrees" and "1 from grade, 0 above the roof" in r["detail"], (
+            "the premise: the rear face draws its own stack from grade", r)
+        pl = C._face_plate(C.IR.Ink(svg))
+        lift = C.IR.from_model(pl, 0.0, 0.0)[1] - C.IR.from_model(pl, 0.0, 20.0)[1]
+        poly = re.search(r'<polygon class="ch[^"]*" points="([^"]+)"', svg).group(1)
+        pts = [tuple(map(float, p.split(","))) for p in poly.split()]
+        top = min(y for _x, y in pts)
+        floated = " ".join("%.1f,%.1f" % (x, y if abs(y - top) < 1e-6 else y - lift) for x, y in pts)
+        r = self._one(monkeypatch, "V23", el, svg.replace(poly, floated))
+        assert r["verdict"] == "disagrees" and "off the ground line" in r["detail"], r
+
     # ---- V24
     @staticmethod
     def _front(el, clear_in, right=False):
@@ -1738,7 +1810,11 @@ def _driven():
     for scope, fns in scopes:
         for fn in fns:
             if fn.name.startswith("test_"):
-                got = consts(fn, scope, {fn.name})
+                # never INTO this reader: its own body holds "disagrees", so a test that merely
+                # calls it -- the control below does -- would count as driving every id it names,
+                # and the guard would certify itself (WP-15.8's audit of its own diff: renaming all
+                # nineteen Phase 15 drivers away left both tests here green)
+                got = consts(fn, scope, {fn.name, "_driven"})
                 if "disagrees" in got:
                     driven |= got & ids
     return driven

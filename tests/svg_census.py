@@ -2358,9 +2358,17 @@ def v23():
             # check took `face in ("S", "N")` for "in front of it" until WP-15.8, the same reading
             # the elevation had, so a stack at the rear wall drawn from grade on the front, through
             # the house, agreed here (auditor D's rear-stack drive).
+            # Read off the square's CENTRE, not its edges: an exterior stack's centre stands half
+            # its depth beyond the wall face, so no rounding of the square or the footprint can
+            # move it across, and the reading is a different formulation from the elevation's, so
+            # the two cannot agree on a wrong answer by sharing one predicate. Until the audit of
+            # WP-15.8's own diff both read the edges at 1e-6 and a flush square rounded a few
+            # thousandths inside the wall read "interior" in both, and this row agreed with it.
             x0, y0, x1, y1 = c["plan_rect_ft"]
-            wall = ("W" if x1 <= 1e-6 else "E" if x0 >= W - 1e-6 else
-                    "S" if y1 <= 1e-6 else "N" if y0 >= D - 1e-6 else None)
+            cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
+            wall = ("W" if cx < 0 else "E" if cx > W else "S" if cy < 0 else "N" if cy > D else None)
+            if c.get("side") == "interior":
+                wall = None
             exterior = wall is not None
             # its own wall sees it in front, a wall perpendicular to it sees it beyond the corner;
             # only the wall opposite sees the house in front of it
