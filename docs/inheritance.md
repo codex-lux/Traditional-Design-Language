@@ -423,3 +423,34 @@ The three neighbours, because a keyword search will not find these boundaries ei
 `corner_board` is a board at a corner, and is what this slot was standing in for. Five styles bind
 `expressed_frame` as `forbidden`/`none` — a rule *about* the member stating that there is none, which
 is the same argument that got `arch` built one version earlier.
+
+## Who wrote a ban (WP-16.2, 29 Sep 2026)
+
+A resolved slot's `_source` is the **nearest** node to touch the slot: the nearest `extends` delta
+where one was merged. It is the record to open, and it is not the node that wrote a ban. Where a
+style extends a slot that an ancestor banned something in, `_source` names the style itself. So
+every reader of "where does this ban come from" credited the ban to the style. Census V2 did, and
+so did the elevation's dormer line and the Dossier's slot page. colonial-revival's doorcase is the
+case: gothic-revival-british wrote `pilasters-and-entablature` forbidden, and colonial-revival
+extends the slot with its own figures.
+
+`resolve_slots` now records two more things:
+
+| field | where | what it names |
+|---|---|---|
+| `_bound_by` | every resolved slot | the node whose record set the binding: the base the deltas merge onto, because a delta cannot change a binding; `null` for an open slot |
+| `_written_by` | every variant row | the node whose record or delta wrote that row; a `replace` credits the replacer |
+
+`resolve_kit.forbidden_by(rec, words)` is the one reader of who forbids a feature. It returns the
+writers, sorted, or `None`. The census reads it, and the elevation's refusal will (WP-16.4).
+
+**The mechanism under several wrong bans.** An `extends` delta is merged onto whatever
+`specified` or `forbidden` record is nearest in the node's linearized chain. That need not be the
+record the delta's author wrote against. colonial-revival's `door_surround` note says *"The
+inherited pilasters-and-entablature binding (english-georgian) is the right assembly"*, and the
+delta resolves onto gothic-revival-british's record, which forbids that assembly.
+colonial-revival's `cornice_return` delta permits a return *"only where the eave carries a full
+classical cornice"*, and it resolves onto gothic-revival-american's `forbidden` binding. Whether
+`extends` should take its base from the node the delta was written against is question 3 of
+`oq/an-inherited-ban-decides-what-the-elevation-may-draw`, and it is not ruled. The ruling that is
+in force corrects each wrong ban in the style's own kit, case by case.

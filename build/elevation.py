@@ -1399,7 +1399,15 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
     # than the proportion layer, and it reaches the drawing as a confident thatch dormer on a
     # production colonial. Adjudicating it is a corpus decision, not a renderer's; saying where
     # the variant came from costs one field and puts the question on the sheet.
-    variant_source = kit_slot.get("_source")
+    # AND IT IS THE NODE THAT WROTE THE ROW (WP-16.2, R3). This read the slot's `_source`, the
+    # nearest node to touch the slot, so a style that extends its dormer slot and inherits the
+    # variant row was said to have written it, and the line below stayed silent.
+    # `greek-revival-american` extends the slot with no rows of its own. Where the plan declares
+    # a variant the kit does not list, nobody wrote it and nothing is said.
+    _vrows = [v for v in (kit_slot.get("variants") or [])
+              if isinstance(v, dict) and variant and v.get("id") == variant]
+    variant_source = _vrows[0].get("_written_by") if _vrows else None
+    slot_extended_here = plan.get("style") in (kit_slot.get("_source_chain") or [])
 
     params = kit_slot.get("parameters") or {}
     cheek_band = (params.get("cheek_width") or {}).get("range")
@@ -1523,7 +1531,7 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
     return {
         "applicable": True, "stated": True, "count": count, "face": face, "variant": variant,
         "variant_undeclared_choices": variant_undeclared,
-        "variant_source_node": variant_source,
+        "variant_source_node": variant_source, "slot_extended_here": slot_extended_here,
         "positions_ft": positions, "window_width_in": win_w, "window_height_in": win_h,
         # WP-13.3: the candidates are the PLACED upper windows on this face, so a dormer count
         # the front cannot carry is short by name rather than filled from the rhythm.
@@ -2848,7 +2856,10 @@ def face_notes(elev, face, sm=None, cm=None):
         _src = _d.get("variant_source_node")
         if _d.get("variant") and _src and _src != elev.get("style"):
             notes.append(f'DORMER VARIANT “{_d["variant"].replace("-", " ").upper()}” IS INHERITED FROM '
-                         f'{_src.replace("-", " ").upper()} — THIS STYLE BINDS THE SLOT NOTHING (OQ 51)')
+                         f'{_src.replace("-", " ").upper()} — '
+                         + ('THIS STYLE EXTENDS THE SLOT AND DOES NOT RESTATE IT'
+                            if _d.get("slot_extended_here") else
+                            'THIS STYLE BINDS THE SLOT NOTHING (OQ 51)'))
         if not _d.get("lights_across"):
             notes.append('DORMER SASH PATTERN UNDECLARED — THIS STYLE\u2019S KIT STATES NONE, SO THE '
                          'SASH IS DRAWN AS GLASS WITH NO GLAZING BARS RATHER THAN AT A GUESSED 6/6')

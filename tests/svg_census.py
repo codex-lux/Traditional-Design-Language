@@ -1474,19 +1474,21 @@ def _drawn_features(svg):
 
 
 def _forbidden(slots, slot, words):
-    """None if the kit does not forbid it; else the node the prohibition comes from."""
-    r = slots.get(slot)
-    if not r:
-        return None
-    src = r.get("_source") or "?"
-    if r.get("binding") == "forbidden":
-        return src
-    if not words:
-        return None
-    match = [v for v in (r.get("variants") or []) if any(w in (v.get("id") or "") for w in words)]
-    if match and all(v.get("status") == "forbidden" for v in match):
-        return src
-    return None
+    """None if the kit does not forbid it; else the nodes that WROTE the prohibition.
+
+    `resolve_kit.forbidden_by` is the one spelling (WP-16.2, R3). Until it this read the slot's
+    `_source`, which is the nearest node to touch the slot: where the style itself `extends` a
+    slot an ancestor banned something in, the ban read as the style's OWN. colonial-revival's
+    doorcase ban is gothic-revival-british's, and V2 said "own"."""
+    return SURF._mod("resolve_kit").forbidden_by(slots.get(slot), words)
+
+
+def _ban_label(sid, writers):
+    """own, inherited from X, or own and inherited from X: the census's words for who wrote it."""
+    others = [w for w in writers if w != sid]
+    if sid in writers:
+        return "own" + (" and inherited from " + ", ".join(others) if others else "")
+    return "inherited from " + ", ".join(others)
 
 
 _SWEEP = None
@@ -1542,9 +1544,9 @@ def v2():
         bad = []
         for name, slot, words in FEATURES:
             if name in drawn:
-                src = _forbidden(slots, slot, words)
-                if src:
-                    bad.append("%s (%s: %s)" % (name, slot, "own" if src == sid else "inherited from " + src))
+                writers = _forbidden(slots, slot, words)
+                if writers:
+                    bad.append("%s (%s: %s)" % (name, slot, _ban_label(sid, writers)))
         out.append(row("V2", sid, "disagrees" if bad else "agrees", "; ".join(bad)))
     return out
 

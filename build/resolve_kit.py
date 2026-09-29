@@ -90,8 +90,12 @@ MERGE_REPLACE = ("rule", "packs", "code_conflict", "determined_by",
                  "judgment", "invented", "confidence", "sources", "status")
 
 
-def apply_variant_ops(base, deltas):
+def apply_variant_ops(base, deltas, writer=None):
     """Apply add / remove / replace records onto an inherited variant list.
+
+    `writer` is the node whose delta this is. Every row the delta writes carries it as
+    `_written_by`, and every inherited row keeps its own (WP-16.2, R3: a ban is named by the
+    node that WROTE it, which `resolve_slots` below explains).
 
     AN OP ACTS ON EVERY INHERITED ROW CARRYING ITS ID (WP-14.33's audit). A base may state one
     variant twice -- a plain row and a conditional one, which R8 of 26 Sep 2026 ruled
@@ -113,6 +117,8 @@ def apply_variant_ops(base, deltas):
         op = d.get("op", "add")
         vid = d["id"]
         rec = {k: v for k, v in d.items() if k != "op"}
+        if writer is not None:
+            rec["_written_by"] = writer
         if op == "remove":
             hits = [i for i, v in enumerate(out) if v is not None and v["id"] == vid]
             for i in hits:
@@ -151,7 +157,8 @@ def merge_extends(base, delta, base_src, delta_src):
     inherited_param_keys = [k for k in bp if k not in dp]
 
     if delta.get("variants"):
-        out["variants"], prov["ops"] = apply_variant_ops(out.get("variants") or [], delta["variants"])
+        out["variants"], prov["ops"] = apply_variant_ops(out.get("variants") or [], delta["variants"],
+                                                         writer=delta_src)
 
     for k in MERGE_REPLACE:
         if k in delta:
@@ -235,6 +242,22 @@ def resolve_slots(graph, chain, scope=None):
                 rec = {"binding": "open", "status": "empty"}
                 src = None
 
+        # WHO WROTE THE BINDING, AND WHO WROTE EACH ROW (WP-16.2, R3, ruled 29 Sep 2026).
+        # `_source` is the LAST node to touch the slot -- the nearest `extends` delta, where one
+        # was merged -- and every reader of "where does this ban come from" read it, so a ban an
+        # ancestor wrote, in a slot the style itself extends, read as the style's OWN.
+        # colonial-revival's doorcase is the case: gothic-revival-british wrote
+        # `pilasters-and-entablature` forbidden, colonial-revival extends the slot to add its
+        # own rows, and the census said "own". `_bound_by` is the node whose record set the
+        # binding: the base the deltas merge onto, because a delta cannot change a binding.
+        # `_written_by` on a row is the node whose record or delta wrote that row. `_source` is
+        # unchanged, because it answers a different question -- which record to open -- and
+        # the callers that read it read it for that.
+        rec["_bound_by"] = src
+        for v in rec.get("variants") or []:
+            if isinstance(v, dict):
+                v["_written_by"] = src
+
         chain_src = [src] if src else []
         for dsrc, d in reversed(deltas):          # farthest ancestor first
             rec, prov = merge_extends(rec, d, chain_src[-1] if chain_src else "—", dsrc)
@@ -249,6 +272,33 @@ def resolve_slots(graph, chain, scope=None):
         rec["_name"] = name
         out[sid] = rec
     return out, savings
+
+
+def forbidden_by(rec, words=None):
+    """Who forbids this: None where the resolved slot record does not forbid it, else the nodes
+    that WROTE the prohibition, sorted (WP-16.2, R3). The one spelling of the question: the
+    census reads it, and the elevation's refusal will (WP-16.4).
+
+    A slot bound `forbidden` is forbidden by the node whose record set that binding
+    (`_bound_by`). A FEATURE named by `words` -- substrings of a variant id -- is forbidden only
+    where the slot is bound forbidden or EVERY variant the words match is forbidden, and then by
+    every node that wrote one of those rows: a kit that forbids one keyed arch and makes another
+    canonical has not forbidden the keystone. With no `words` the question is the slot's alone.
+
+    A record `resolve_slots` did not produce carries no writer, and the answer names none (`?`)
+    rather than guessing one; `_source` would be a guess, and the wrong one, which is why this
+    function exists."""
+    if not rec:
+        return None
+    if rec.get("binding") == "forbidden":
+        return [rec.get("_bound_by") or "?"]
+    if not words:
+        return None
+    match = [v for v in (rec.get("variants") or [])
+             if isinstance(v, dict) and any(w in (v.get("id") or "") for w in words)]
+    if match and all(v.get("status") == "forbidden" for v in match):
+        return sorted({v.get("_written_by") or "?" for v in match})
+    return None
 
 
 def resolve_packs(graph, chain):
