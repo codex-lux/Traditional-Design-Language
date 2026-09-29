@@ -1610,8 +1610,10 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
                     "secondary that did not run. Anything under could_not_judge is unknown, not "
                     "passed; where some of its tests did run they ride on the row as `ran`, as "
                     "evidence and never as a verdict. Anything under not_applicable had its "
-                    "governing test declined by an `applies_when` precondition: the question "
-                    "does not arise, which is neither a pass nor an unjudged."}
+                    "governing test declined by an `applies_when` precondition: "
+                    # One literal, not two: glossary/judgment-not-applicable.json quotes this
+                    # sentence, and build/check_glossary.py reads it off the source text.
+                    "the question does not arise, which is neither a pass nor an unjudged."}
 
 def measurement_vocabulary(slot=None, style=None, include_constraints=True):
     """Every variable name the corpus tests on, so a caller knows what to measure.
