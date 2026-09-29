@@ -150,6 +150,20 @@ def _judged_key(new, old):
     return key
 
 
+def raises_fatal_or_serious(new, old):
+    """Whether `new` is WORSE than `old` on the loop's first two keys, [fatal, serious], with a
+    verdict lost to could-not-evaluate counted where it stood (`_judged_key`).
+
+    THE ONE SPELLING OF THE RULE A STEP THAT RUNS AFTER THE LOOP IS HELD TO (WP-16.1). The area
+    reclaim runs once after the rounds, and the rounds' own acceptance rule does not reach it:
+    this file's reclaim below was held to it at WP-9.2, and `compose.compose` ran its own
+    reclaim after the DECLARED loop with no rule at all -- measured at `a4abb85`, it raised
+    fatals on 4 of the 13 candidates the Georgian brief composes, the native diagram among them.
+    Both callers read this. `new` and `old` are dicts carrying `check` (a `plan_check` result)
+    and `key` (`critique.key_of` of it); only the minor axis may pay for the brief's area."""
+    return _judged_key(new, old)[:2] > old["key"][:2]
+
+
 def _improves(new, old):
     """Strictly better key, no fatal that was not there before, no NEW refusal -- and JUDGED.
     A critique whose placement could not be evaluated reports the DECLARED key, which carries
@@ -493,7 +507,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             # and a verdict the reclaim made UNJUDGED is counted where it stood (WP-16.1), as
             # `_improves` counts it: a fatal that nobody can judge any more is not a fatal gone
             worse = (unjudged or _newly_refused(crit, kept_crit)
-                     or _judged_key(crit, kept_crit)[:2] > kept_crit["key"][:2])
+                     or raises_fatal_or_serious(crit, kept_crit))
             if worse:
                 reclaimed["rolled_back"] = True
                 reclaimed["why"] = ((f"the placement after reclaim could not be evaluated ({unjudged}); "

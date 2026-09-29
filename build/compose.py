@@ -1736,8 +1736,41 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     for pick in picks:
         plan, log, parti = instantiate(pick["parti"], brief)
         res, rlog = repair(plan)
-        res, clog = reclaim(plan, brief["target_area_sf"], brief.get("area_tolerance", 0.12), res)
-        rlog += clog
+        # THE AREA DISCIPLINE IS HELD TO THE LOOP'S RULE HERE TOO (WP-16.1). `repair` is the
+        # declared revision loop, and every round of it is accepted only on a strict improvement;
+        # the reclaim after it shortened rooms "that were not complaining" and kept the result
+        # whatever it was. A shorter room makes a shallower pile, and a shallower pile a
+        # shallower roof: measured at `a4abb85` the reclaim raised fatals on 4 of the 13
+        # candidates the Georgian brief composes, and after R4 and R12 the native diagram's ONE
+        # judged fatal ("The Truss Default: 0.4066 against at-least 0.45") was the reclaim's.
+        # The placed loop has rolled such a reclaim back since WP-9.2 (`revise.py`, "the area
+        # discipline does not outrank the rule the rounds were held to"); the declared path had
+        # no rule. One spelling, `revise.raises_fatal_or_serious`, and the rollback is SAID --
+        # on the card as `reclaimed` and in the decision log -- because a candidate left over
+        # its area is a trade a reader must see.
+        kept_plan = copy.deepcopy(plan)
+        res_after, clog = reclaim(plan, brief["target_area_sf"], brief.get("area_tolerance", 0.12), res)
+        reclaimed = None
+        if clog:
+            _RV = _mod("revise", f"{ROOT}/build/revise.py")
+            _CR = _mod("critique", f"{ROOT}/build/critique.py")
+            before = {"check": res, "key": _CR.key_of(res)}
+            after = {"check": res_after, "key": _CR.key_of(res_after)}
+            reclaimed = {"log": clog, "key_before": before["key"], "key_after": after["key"],
+                         "rolled_back": False}
+            if _RV.raises_fatal_or_serious(after, before):
+                plan.clear()
+                plan.update(kept_plan)
+                reclaimed.update(rolled_back=True, why=(
+                    f"reclaim raised fatal or serious ({before['key']} -> {after['key']}); the "
+                    f"area discipline does not outrank the rule every repair round was held to"))
+                rlog += [f"Kept the repaired sizes and gave back no area: shortening the rooms "
+                         f"that were not complaining raised fatal or serious "
+                         f"({before['key'][:2]} -> {after['key'][:2]}), and the area discipline "
+                         f"does not outrank the rule every repair round was held to."]
+            else:
+                res = res_after
+                rlog += clog
         area = sum(r.get("width_ft", 0) * r.get("length_ft", 0)
                    for lv in plan["levels"] for r in lv["rooms"]
                    if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
@@ -1782,6 +1815,8 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             "parti": pick["parti"], "parti_name": parti["name"],
             "demerits": demerits, "style_fit": pick["fit"], **card,
             "counts": counts, "unjudged_fatal": unjudged_fatals(res),
+            # the area reclaim and whether it was kept (WP-16.1); None where it did not run
+            "reclaimed": reclaimed,
             "area_sf": round(area), "area_miss_pct": round(miss * 100, 1),
             "footprint": fp,
             "trades_away": parti["trades_away"],

@@ -460,3 +460,82 @@ class TestTheWithheldReasonReachesTheRow:
                                          withheld={"fig_two": "the front is not whole"})
         assert out[0]["withheld"][0]["why"] == "the front is not whole"
         assert "refused" not in out[0]
+
+
+# ------------------------------------------------------------------ the reclaim after the loop
+
+class TestTheReclaimIsHeldToTheLoopsRule:
+    """`compose.compose` runs the declared loop and then `reclaim`, which gives area back by
+    shortening rooms. Until WP-16.1 it kept whatever the reclaim produced; measured at `a4abb85`
+    that raised fatals on 4 of the 13 candidates the Georgian brief composes. The placed loop has
+    rolled such a reclaim back since WP-9.2, and both now read `revise.raises_fatal_or_serious`."""
+
+    def test_a_reclaim_that_raises_fatal_or_serious_is_worse(self):
+        old = _critique([0, 20, 70, 20])
+        assert RV.raises_fatal_or_serious(_critique([1, 19, 70, 21]), old), "a fatal raised"
+        assert RV.raises_fatal_or_serious(_critique([0, 21, 60, 20]), old), "a serious raised"
+        assert not RV.raises_fatal_or_serious(_critique([0, 20, 90, 20]), old), (
+            "only the minor axis may pay for the brief's area")
+        assert not RV.raises_fatal_or_serious(_critique([0, 19, 70, 19]), old)
+
+    def test_a_fatal_the_reclaim_made_unjudged_is_counted_where_it_stood(self):
+        old = _critique([1, 20, 70, 21], present=["one-bay-symmetry-break"])
+        new = _critique([0, 20, 70, 20], unjudged=["one-bay-symmetry-break"])
+        assert RV.raises_fatal_or_serious(new, old) is False and RV._judged_key(new, old)[:2] == [1, 20]
+        # and one lost verdict beside one new serious is worse, not a trade
+        worse = _critique([0, 21, 70, 21], unjudged=["one-bay-symmetry-break"])
+        assert RV.raises_fatal_or_serious(worse, old)
+
+    @staticmethod
+    def _compose_with(monkeypatch, bump):
+        """Compose the Georgian brief with `reclaim` replaced by one that shortens nothing and
+        reports `bump` added to the repaired counts -- the rule is about what the reclaim did to
+        the verdict, so the verdict is what is driven."""
+        import json as _json
+        brief = _json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
+        real = CO.reclaim
+        seen = {"n": 0, "lengths": {}}
+
+        def lengths(plan):
+            return [(r["id"], r.get("length_ft")) for lv in plan["levels"] for r in lv["rooms"]]
+
+        def fake(plan, target, tol, res):
+            out = copy.deepcopy(res)
+            for k, v in bump.items():
+                out["counts"][k] = out["counts"].get(k, 0) + v
+            seen["n"] += 1
+            seen["lengths"][id(plan)] = lengths(plan)
+            for lv in plan["levels"]:
+                for r in lv["rooms"]:
+                    if r.get("length_ft"):
+                        r["length_ft"] = round(r["length_ft"] * 0.9, 1)
+            return out, ["Shortened 3 rooms that were not complaining, to give back 99 sf the "
+                         "repair pass had taken."]
+        monkeypatch.setattr(CO, "reclaim", fake)
+        res = CO.compose(brief, candidates=2, revise=False)
+        monkeypatch.setattr(CO, "reclaim", real)
+        assert seen["n"], "the premise: the reclaim ran"
+        for c in res["candidates"]:
+            c["_repaired_lengths"] = seen["lengths"].get(id(c["plan"]))
+            c["_lengths"] = lengths(c["plan"])
+        return res["candidates"]
+
+    def test_a_reclaim_that_raised_a_fatal_is_rolled_back_and_said(self, monkeypatch):
+        for c in self._compose_with(monkeypatch, {"fatal": 1}):
+            rc = c["reclaimed"]
+            assert rc and rc["rolled_back"] is True, rc
+            assert rc["key_after"][0] == rc["key_before"][0] + 1
+            assert c["counts"].get("fatal", 0) == rc["key_before"][0], (
+                "the card must carry the repaired verdict, not the reclaim's")
+            assert any("gave back no area" in d for d in c["decisions"]), c["decisions"]
+            assert not any("Shortened 3 rooms" in d for d in c["decisions"]), (
+                "a reclaim that was rolled back must not be reported as done")
+            assert c["_repaired_lengths"] and c["_lengths"] == c["_repaired_lengths"], (
+                "the record returned must carry the repaired sizes, not the shortened ones")
+
+    def test_a_reclaim_that_raised_only_minor_is_kept(self, monkeypatch):
+        for c in self._compose_with(monkeypatch, {"minor": 3}):
+            rc = c["reclaimed"]
+            assert rc and rc["rolled_back"] is False, rc
+            assert any("Shortened 3 rooms" in d for d in c["decisions"])
+            assert c["_lengths"] != c["_repaired_lengths"], "a kept reclaim keeps its lengths"
