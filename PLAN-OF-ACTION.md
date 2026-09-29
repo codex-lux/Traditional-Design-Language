@@ -4759,6 +4759,12 @@ the native centre-passage double pile first.
 
 **New:** `oq/a-fault-marked-not-applicable-to-a-style-still-convicts-it`.
 
+**Its whole build** is `3 of 54 checks failed`, with every red attributed by id (report §V):
+- one red was its own, a glossary quotation split across two string literals, fixed in `de9a2de`;
+- five candidate gate rows belong to the house the composer now offers first, proved on `a4abb85`
+  with the same declared record;
+- the known list for the rest of the phase is 22 ids again, and a different set.
+
 ### WP-16.2 — Who wrote each ban, and the adjudication
 
 - The resolver records the node that WROTE a ban; `_extends` records only the last merge.

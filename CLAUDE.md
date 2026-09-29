@@ -154,6 +154,15 @@ AREA RECLAIM HAD NO ACCEPTANCE RULE (29 Sep 2026).** Read
   good-03's Greek Revival roof on the Georgian pitch band, reached through the lineage:
   `oq/a-fault-marked-not-applicable-to-a-style-still-convicts-it`.
 - **The `plan_check` result grew by about 9 KB a plan**, the evidence rows R4 asks for.
+- **Its whole build is `3 of 54 checks failed`, and one red was its own.** `check_glossary` and
+  eight glossary tests went red because a glossary record quotes `check_measurements`' note, and
+  the package wrapped that sentence across two string literals. It is fixed in `de9a2de`. The
+  pre-commit run took the targeted suites and not the 54 checks.
+  - **The gate's candidate is a different house now**: `centre-passage-double-pile`, not
+    `side-hall-townhouse`. So five candidate rows are new reds and five known ids went green.
+    Seeded with the same declared record, `a4abb85` fails the same rows, message for message.
+  - **The known list for the rest of Phase 16 is 22 ids again, and a different set**: 20 gate
+    rows, `test_parti_composability` and `test_solver`'s half bound. Report §V names them.
 
 **PHASE 15 — THE PLATES DRAWN — IS OPEN, AND FOUR OF ITS EIGHT PACKAGES WAIT ON THE NETWORK
 (27–28 Sep 2026).** Lucas reviewed the drawn Tidewater front and found four defects:
