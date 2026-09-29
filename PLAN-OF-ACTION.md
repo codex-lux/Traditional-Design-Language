@@ -4775,7 +4775,9 @@ the native centre-passage double pile first.
   independent adversarial check.
 - Groups the records do not decide go to Lucas as direct questions.
 
-**Status: NOT STARTED.**
+**Status: IN PROGRESS.** Stage 1 is in: the writer of every ban, `a2aacc7`. Stage 2's proposed kit
+edits are under an independent adversarial check. *(This line read NOT STARTED after stage 1 landed.
+Corrected 29 Sep 2026.)*
 
 ### WP-16.3 — The north and west faces drawn as seen
 
@@ -4784,7 +4786,16 @@ the native centre-passage double pile first.
 - A driven asymmetric face holds one opening to one model point on the sheet, the DXF, the scene
   and the Round.
 
-**Status: NOT STARTED.**
+**Status: COMPLETE (29 Sep 2026).** `docs/reports/wp-16.3-the-faces-drawn-as-seen.md`.
+- Every reader that assumed the plan's direction moved with the switch, and the Round lays all
+  four plates.
+- The mirror's axis is each face's drawn width, the footprint's stated outside figure. A first
+  draft took the exact span, and every mirrored opening stood 0.0033 ft off its wall.
+- 39 of 208 sheets moved: 14 N and W elevations, their DXFs, and 11 scenes. No S or E sheet moved,
+  and the census shows 0 verdict moves.
+- `tests/test_faces_as_seen.py` holds one opening at one model point on five surfaces. 21
+  mutations, all red.
+- `oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from` is CLOSED.
 
 ### WP-16.4 — The refusal
 

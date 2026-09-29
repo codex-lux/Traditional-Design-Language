@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**258 questions, of which 144 are open.** A question is OPEN while
+**258 questions, of which 143 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 144
+## Open — 143
 
 Awaiting a ruling. This is the list to read first.
 
@@ -107,7 +107,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied** | OPEN | [a kit states where a status holds, and every reader reads it as holding everywhere](open-questions/oq-a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied.md) |
 | **oq/a-withdrawn-claim-still-steers-the-placer** | OPEN | [a claim withdrawn because it cannot be judged costs three rooms their reachability](open-questions/oq-a-withdrawn-claim-still-steers-the-placer.md) |
 | **oq/an-at-grade-appendage-is-drawn-and-not-judged** | OPEN | [the terrace is on the sheet and held against no band](open-questions/oq-an-at-grade-appendage-is-drawn-and-not-judged.md) |
-| **oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from** | IN PROGRESS (ruled 29 September 2026; executed by Phase 16) | [and every face in the corpus is symmetric, so nothing can catch it](open-questions/oq-an-elevation-does-not-state-which-end-of-the-face-it-starts-from.md) |
 | **oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms** | HALF CLOSED — doors and windows built in WP-11.14 (8 September 2026); the sweep of the other exterior marks is open | [the seventh layer that reads one rectangle](open-questions/oq-an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms.md) |
 | **oq/an-exterior-stacks-breast-and-shoulders-are-stated-nowhere** | OPEN | [the stack stands on the ground at its own width](open-questions/oq-an-exterior-stacks-breast-and-shoulders-are-stated-nowhere.md) |
 | **oq/an-inherited-ban-decides-what-the-elevation-may-draw** | IN PROGRESS (ruled 29 September 2026; executed by Phase 16) | [most of what the elevation is forbidden to draw, a style never forbade](open-questions/oq-an-inherited-ban-decides-what-the-elevation-may-draw.md) |
@@ -177,7 +176,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 114
+## Settled — 115
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -265,6 +264,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/a-share-alike-photograph-has-no-home-in-the-asset-schema** | RULED 31 Aug 2026, and the ruling is a refusal | [the English records can have a licence or an image, not both](open-questions/oq-a-share-alike-photograph-has-no-home-in-the-asset-schema.md) |
 | **oq/a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five** | CLOSED 5 September 2026 (WP-11.8) — the budget is split, batch from interactive | [the proof is there and the clock is not](open-questions/oq-a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five.md) |
 | **oq/a-surveyors-prose-may-source-an-envelope-figure** | RULED 5 Sep 2026 | [may a HABS written-data quote source a `measured` kit parameter?](open-questions/oq-a-surveyors-prose-may-source-an-envelope-figure.md) |
+| **oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from** | CLOSED 29 September 2026 (ruled that day; executed by WP-16.3) | [and every face in the corpus is symmetric, so nothing can catch it](open-questions/oq-an-elevation-does-not-state-which-end-of-the-face-it-starts-from.md) |
 | **oq/an-evaluation-whose-check-errored-names-no-plan** | CLOSED 25 September 2026 (WP-14.20) — on answer 1: the route names the plan, the journey reads it through one `evalPlanOf` | [the journey cannot tell which house an errored evaluation was of, so a refusal the route preserved reaches no step](open-questions/oq-an-evaluation-whose-check-errored-names-no-plan.md) |
 | **oq/an-exemplar-that-is-not-one-whole-building** | RULED 5 Sep 2026, the same day it was raised | [an archive, a body of work and a phase, and none of the three can carry a precedent](open-questions/oq-an-exemplar-that-is-not-one-whole-building.md) |
 | **oq/casings-are-measured-across-and-drawn-upright** | CLOSED 25 Sep 2026 — answer 1, executed by WP-14.18 (data and checker) and WP-14.24 (the plate) | [an assembly's axis and its zones are stated only in prose, so a plate can draw neither](open-questions/oq-casings-are-measured-across-and-drawn-upright.md) |

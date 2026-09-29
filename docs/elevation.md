@@ -129,6 +129,11 @@ entrance door.
 learned to skip it and the DXF did not, so the CAD file went on drawing a window through a chimney;
 the export selftest could not see it, because it round-trips FINDINGS and not geometry.
 
+- **The face's own left edge is its left AS SEEN FROM OUTSIDE (R2, WP-16.3).** On S and E that is
+  the plan's low end; on N and W it is the far end, and a mirrored face is the plan-direction face
+  reflected about its own drawn width (`elevation.face_span_outside_ft`), so the two readings of
+  one face are each other's reverse and nothing else. `elevation.face_u_ft` is the one conversion
+  and `datum.mirrored` says which way each face runs.
 - **Units are inches, x along the face from its own left edge, y above GRADE**, and the figures
   are **not rounded**. The DXF draws in inches and the SVG in feet, so one of them must divide;
   inches is the unit the record states every opening in, and it is the choice with the smaller

@@ -1,6 +1,6 @@
 # oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from — and every face in the corpus is symmetric, so nothing can catch it
 
-*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: WP-12.4, the Round (9 September 2026)*
+*Status: CLOSED 29 September 2026 (ruled that day; executed by WP-16.3) · Raised in: WP-12.4, the Round (9 September 2026)*
 
 **`build/elevation.py::_face_bays` computes its bay centres as `(i + 0.5) * bay_w` across the
 span and never consults the face.** So an elevation record's `centres_ft` are measured from *an*
@@ -99,3 +99,32 @@ outside sees it. `FACE_MIRRORED` becomes True on N and W. The readers that assum
 move with it in one package, WP-16.3 (`PLAN-OF-ACTION.md`, Phase 16). The planning pass counted
 seven of them; WP-16.3 re-derives that list rather than quoting it. This entry stays IN PROGRESS
 until that package lands.
+
+## Executed 29 September 2026 (WP-16.3)
+
+`elevation.FACE_MIRRORED` is True on N and W, and every reader that assumed the plan's direction
+moved with it in one package: the bays, the placed openings and their entrance tie, the dormers'
+tie, the stack axes and outlines, the roof profile on the sheet and in the DXF, the scene's face
+extrusion and its entrance check. The Round's code did not change: it reads `mirrored`, which is
+now true on N and W, so all four plates register.
+
+**The axis is the face's DRAWN width**, the outside figure the footprint states, which the wall
+band spans and the roof is laid over. An N or W face is therefore the plan-direction face reversed
+end for end and nothing else. A first draft reflected about the exact clear span plus two walls,
+and every mirrored opening stood 0.0033 ft off its reflected wall on the Tidewater plan. The
+footprint rounds that figure to two places.
+
+**Measured against a worktree of `2ff37e0`:**
+- 39 of 208 sheets moved: 14 N and W elevations, their 14 DXFs, and 11 scenes. No S or E sheet,
+  plan, section or roof moved.
+- The census reports 0 verdict moves.
+- The scene is unmoved in model space, to the third decimal's ties.
+
+`tests/test_faces_as_seen.py` holds one asymmetric opening to one model point on the record, the
+sheet, the DXF, the scene and the Round, and holds each mirrored face to its plan-direction twin.
+
+**Question 3's `bays.from` token was not needed.** `elevation.datum.mirrored` and the scene's
+`faces[f].bays.mirrored` say which way each face runs, and the plate carries it
+(`corpus.plate_direction`).
+
+Report: `docs/reports/wp-16.3-the-faces-drawn-as-seen.md`.
