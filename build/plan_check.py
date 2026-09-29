@@ -495,7 +495,18 @@ def _clear_on_a_constant(fr):
 #
 # Additive and never destructive: a row that has no refused name is returned unchanged, so a
 # caller reading `needs` and `measurable_from` sees exactly what it saw before.
-def _with_dispositions(rows):
+#
+# AND A SECOND KIND OF REASON, KEPT APART FROM THE FIRST (WP-16.1, 29 Sep 2026). A refusal is a
+# STANDING decision about a quantity -- no house this corpus draws will be given it. A figure
+# the elevation WITHHELD is a decision about THIS house: `elevation.front.withheld` names the
+# symmetry and alignment figures it will not measure on a front whose declared windows were
+# not all drawn (R12, ruled 29 Sep 2026), and the same front drawn whole supplies them. Before
+# this the fault row said "needs max_abs_offset_between_upper_and_lower_opening_centrelines_in"
+# and nothing else, so a reader was handed a work item for a figure the elevation had declined
+# to state, for a reason written one layer down and read by nobody. The two are separate
+# fields because they are separate claims: `refused_all` says a fault can never be judged, and
+# a withheld figure says it cannot be judged HERE. The elevation's own words, verbatim.
+def _with_dispositions(rows, withheld=None):
     try:
         DET = _load("detection", f"{ROOT}/build/detection.py")
         refs = DET.refusals()
@@ -503,21 +514,30 @@ def _with_dispositions(rows):
         # Never silent in the flattering direction, and never fatal: the fault verdicts are
         # correct with or without this annotation, so a failure here degrades to the rows as
         # they were rather than taking the validator down. It cannot make an unjudged look
-        # judged -- it adds a field and removes none.
-        return rows
+        # judged -- it adds a field and removes none. The withheld reasons below are the
+        # elevation's own and do not depend on this reader, so they are still attached.
+        DET, refs = None, None
+    held = {k: v for k, v in (withheld or {}).items()
+            if isinstance(k, str) and isinstance(v, str) and v.strip()}
     out = []
     for row in rows:
         if not isinstance(row, dict):
             out.append(row)
             continue
         names = [n for n in (row.get("needs") or []) if isinstance(n, str)]
-        refused = [dict(DET.disposition(n, refs)) for n in names if n in refs]
-        if not refused:
+        refused = ([dict(DET.disposition(n, refs)) for n in names if n in refs]
+                   if refs is not None else [])
+        wh = [{"name": n, "by": "elevation.front.withheld", "why": held[n]}
+              for n in names if n in held]
+        if not refused and not wh:
             out.append(row)
             continue
         r = dict(row)
-        r["refused"] = refused
-        r["refused_all"] = len(refused) == len(names)
+        if refused:
+            r["refused"] = refused
+            r["refused_all"] = len(refused) == len(names)
+        if wh:
+            r["withheld"] = wh
         out.append(r)
     return out
 
@@ -1629,9 +1649,16 @@ def drawn_layer(plan, rooms, level_of, C, F):
         # twice for one cause -- the undrawn windows are already a disclosure of their own
         # (WP-11.1). The census says how many plans went unjudged and why, so a check that
         # cannot fire cannot read as a check that passed (WP-8.6).
+        #
+        # `axis.front_complete` IS THE ONE READER, and the elevation reads it too (R12, ruled
+        # 29 Sep 2026: an incomplete front goes unjudged EVERYWHERE). This read the mirror's
+        # own ground-storey count, so a front missing only an upper window was judged for
+        # alignment here while the elevation, on the same front, measured it -- and the two
+        # layers now answer from one function about one facade, every storey of it.
         mi = AX.mirror(plan, 0)
         al = AX.alignment(plan)
-        incomplete = (mi.get("declared_but_unplaced") or 0)
+        fc = AX.front_complete(plan)
+        incomplete = fc["total_undrawn"]
         if mi["verdict"] == "could-not-evaluate" or incomplete:
             ax_census["mirror"] = "could-not-evaluate"
             _add("info", "drawn",
@@ -2614,6 +2641,9 @@ def check(plan, C=None, strict=False):
     # not evaluate, never a pass -- and `elevation_summary` says which.
     placed_any = any(r.get("geometry") for r in rooms.values())
     elevation_summary = {"evaluated": False, "basis": None, "engine": None, "reason": None}
+    # What the elevation declined to measure on THIS house, with its reasons; read by the
+    # unjudged rows below (`_with_dispositions`). Empty where no elevation was derived.
+    elev_withheld = {}
     try:
         EL = _load("elevation", f"{ROOT}/build/elevation.py")
         if placed_any:
@@ -2636,6 +2666,7 @@ def check(plan, C=None, strict=False):
                   rule="elevation-not-applicable", kind="elevation-not-applicable")
         else:
             elevation_summary["evaluated"] = True
+            elev_withheld = dict((elev.get("front") or {}).get("withheld") or {})
             for k, v in elev.get("measurements", {}).items():
                 # A None is the elevation layer saying it could not judge that quantity, and it
                 # must not enter the measurements dict at all: a key present with a None value
@@ -2789,7 +2820,8 @@ def check(plan, C=None, strict=False):
             # The could-not-judge detail, not just its count. fault_summary already counts
             # unjudged; without the list itself a caller cannot say WHICH faults were
             # beyond evaluation, and unjudged-is-not-passed needs the which. Additive.
-            "fault_unjudged": _with_dispositions(fr.get("could_not_judge", [])),
+            "fault_unjudged": _with_dispositions(fr.get("could_not_judge", []),
+                                                 withheld=elev_withheld),
             # NOT APPLICABLE is a fourth state and not a fifth kind of pass. Every test of the
             # fault is preconditioned on a measurement this house does not meet -- a house that
             # states it carries no dormers has no dormer rhythm to be off -- so no test ran.

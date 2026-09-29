@@ -142,6 +142,33 @@ test('within the disqualified group, fewer fatals still ranks higher', () => {
     ['clean', 'one', 'two']);
 });
 
+test('R13: between equal fatal counts, fewer UNJUDGED fatals ranks higher, before the score', () => {
+  /* Ruled 29 Sep 2026: rank by judged fatals, then unjudged fatals, then the score -- the
+     composer's own key. The fixture separates the three keys: the high scorer carries more
+     unjudged fatals than the low scorer, so a comparator that skipped the new key would order
+     them by score and fail, and one that read it before the judged count would put the
+     one-fatal plan above the clean one. */
+  const U = (parti, score, fatal_n, unjudged_fatal_n) => ({ parti, score, fatal_n, unjudged_fatal_n });
+  const list = [U('clean-many-unjudged-high', 90, 0, 3), U('clean-few-unjudged-low', 20, 0, 1),
+                U('one-fatal-none-unjudged', 99, 1, 0)];
+  assert.deepEqual(list.slice().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
+    ['clean-few-unjudged-low', 'clean-many-unjudged-high', 'one-fatal-none-unjudged']);
+  assert.deepEqual(list.slice().reverse().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
+    ['clean-few-unjudged-low', 'clean-many-unjudged-high', 'one-fatal-none-unjudged']);
+  assert.match(ORDERS.fatal.says, /could judge/i, 'the sentence must say what breaks the tie');
+});
+
+test('an unjudged fatal never disqualifies: the demotion reads judged fatals alone', () => {
+  // `order()` is the one rule over every ordering, and it must not read the tie-break key --
+  // an unjudged fatal is "never a fatal, and never a pass either".
+  const U = (parti, score, fatal_n, unjudged_fatal_n) => ({ parti, score, fatal_n, unjudged_fatal_n });
+  for (const [name, o] of Object.entries(ORDERS)) {
+    const list = [U('unjudged-only', 80, 0, 5), U('judged', 95, 1, 0)];
+    assert.deepEqual(list.slice().sort(order(o.cmp)).map((c) => c.parti), ['unjudged-only', 'judged'],
+      `${name}: a plan with only unjudged fatals was demoted as though disqualified`);
+  }
+});
+
 test('the native ordering puts native diagrams first, then falls through to score', () => {
   const list = [C('borrowed-high', 90), C('native-low', 10, 0, true), C('native-high', 20, 0, true)];
   assert.deepEqual(list.slice().sort(order(ORDERS.native.cmp)).map((c) => c.parti),

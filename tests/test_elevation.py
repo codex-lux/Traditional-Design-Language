@@ -284,23 +284,43 @@ class TestFaultCorpusIntegration:
         # sheet (the bays are not coordinated between floors), on the heuristic placement of
         # the declared record. Those fatals are the placement's and are named; what this test
         # still refuses is a fatal from a measurement this generator makes up.
+        #
+        # RE-CUT AT WP-16.1 (29 Sep 2026): ONE OF THE THREE IS A VERDICT AND TWO ARE UNJUDGED.
+        # This front declares window units the placement did not draw, and R12 (ruled 29 Sep
+        # 2026) makes an incomplete front unjudged for symmetry and alignment everywhere. The
+        # elevation still MEASURES the mirror and the alignment (they stay on the record, and
+        # are asserted below); it withholds their figures from the faults, and under R4 a fault
+        # whose governing test could not run is could-not-evaluate. So `even-bay-front` is the
+        # one fatal, and the other two are in the unjudged bucket for the withheld figures --
+        # neither cleared, which is the direction WP-15.8 measured the old `_judge` taking.
         import core
         plan = load_plan("tidewater-georgian-careful")
         elev = elevation_module.build_elevation(plan)
         res = core.check_measurements(elev["measurements"], style=plan["style"], limit=1000)
         fatal = {f["fault"]: f for f in res["faults_present"] if f["severity"] == "fatal"}
-        assert set(fatal) == set(self.PLACEMENT_FATALS), (
-            f"fatal faults {sorted(fatal)} against the three the placement earns "
-            f"{sorted(self.PLACEMENT_FATALS)}: a new one is a measurement to read, not a "
+        judged = {"even-bay-front"}
+        assert set(fatal) == judged, (
+            f"fatal faults {sorted(fatal)} against the one the placement earns on an "
+            f"incomplete front {sorted(judged)}: a new one is a measurement to read, not a "
             f"number to pin")
         for fid, f in fatal.items():
             names = {r.get("expression") for r in f.get("results") or []}
             # every expression that convicted reads a placed-opening measurement by name
             assert all(any(n in e for n in self.PLACEMENT_FATALS[fid]) for e in names), (fid, names)
+        assert elev["front"]["complete"]["complete"] is False, "the premise: an incomplete front"
+        unj = {u["fault"]: u for u in res["could_not_judge"]}
+        held = elev["front"]["withheld"]
+        for fid in sorted(set(self.PLACEMENT_FATALS) - judged):
+            assert fid in unj, (fid, "neither convicted nor unjudged: it has left every list")
+            assert fid not in {c["fault"] for c in res["faults_clear"]}, fid
+            assert set(unj[fid]["needs"]) & set(held), (fid, unj[fid]["needs"])
         m = elev["measurements"]
         assert m["upper_floor_opening_count"] % 2 == 0, "the even upper count is what convicts"
-        assert m["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] > 2.0
-        assert m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] > 0
+        # still measured, still on the record: the gate withholds and does not stop measuring
+        assert elev["front"]["alignment"]["max_abs_offset_in"] > 2.0
+        assert elev["front"]["mirror"]["unmatched"]
+        assert "max_abs_offset_between_upper_and_lower_opening_centrelines_in" not in m
+        assert "count_of_openings_without_a_mirror_twin_about_the_facade_centreline" not in m
 
     def test_the_three_fatals_are_the_placements_and_not_constants(self, elevation_module):
         """The control: hand the front a placement whose upper windows DO stand over the lower
@@ -326,6 +346,9 @@ class TestFaultCorpusIntegration:
         assert len(up) == len(lo) > 0
         elev["front"]["alignment"] = elevation_module.storey_alignment(
             lo, up, elevation_module.ALIGNMENT_TOL_IN)
+        # the driven front is whole -- an upper window over every ground opening -- so the
+        # R12 gate (WP-16.1) is driven open with it; the control is about the measurement
+        elev["front"]["complete"] = {"complete": True, "why": None}
         m = elevation_module._derive_measurements(elev)
         assert m["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] == 0.0
         assert m["upper_storey_opening_centres_matching_lower"] == len(up)

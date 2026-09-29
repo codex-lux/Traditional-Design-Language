@@ -416,7 +416,31 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
     # A row LEAVING this list has two readings -- the fault measures honestly now, or
     # `critic_suspects` stopped listing the name -- and they are opposite, so the test below
     # asserts the first from the findings rather than letting the count speak for it.
-    SUSPECT_CLEAR = {"tidewater-georgian-careful": 23, "spec-builder-colonial": 25}
+    # 23 -> 18 AND 25 -> 19 AT WP-16.1 (29 Sep 2026), AND EVERY ROW THAT LEFT IS R4 BY NAME.
+    # Lucas ruled that a fault is clear only where its GOVERNING test ran (the primary, or the
+    # earned exception's bounds test). Each of these cleared on a secondary reading one of the
+    # generator's own figures while its governing test wanted a measurement nobody supplies:
+    #     fixed-sash-pretending-to-be-double-hung   governing needs meeting_rail_width_in
+    #     garage-head-above-the-window-head          governing needs garage_door_head_height_in
+    #     pier-narrower-than-the-opening             governing needs adjacent_opening_width_in
+    #     sunken-dormer                              governing needs roof_run_in_front_of_...
+    #     veneer-reveal-collapse (FATAL)             governing needs brick_stretcher_length_in
+    #     truss-flattened-pitch (spec Colonial only) governing needs roof_height_eave_to_ridge
+    # So they are UNJUDGED now, carrying the test that ran as evidence, and they leave this
+    # list because they are no longer clear at all -- a tautology turned into a stated
+    # could-not-evaluate, the third road WP-14.3 found, taken by six faults at once. Attributed
+    # against a worktree of a4abb85 (the rows) and asserted below from the unjudged bucket,
+    # not left to the count.
+    SUSPECT_CLEAR = {"tidewater-georgian-careful": 18, "spec-builder-colonial": 19}
+    GOVERNING_UNRUN = {
+        "tidewater-georgian-careful": {
+            "fixed-sash-pretending-to-be-double-hung", "garage-head-above-the-window-head",
+            "pier-narrower-than-the-opening", "sunken-dormer", "veneer-reveal-collapse"},
+        "spec-builder-colonial": {
+            "fixed-sash-pretending-to-be-double-hung", "garage-head-above-the-window-head",
+            "pier-narrower-than-the-opening", "sunken-dormer", "veneer-reveal-collapse",
+            "truss-flattened-pitch"},
+    }
     # 24 -> 23 ON THE TIDEWATER PLAN AT WP-14.3, AND THE ROW THAT LEFT TOOK A THIRD ROAD OUT.
     # `fanlight-before-its-date` cleared on `transom_head_rise_in = 0`, a figure the generator
     # wrote as its own constant. WP-14.3 withholds the whole transom family (its height is a
@@ -460,12 +484,35 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
             assert fid not in ids and name in unjudged.get(fid, set()), (
                 pid, fid, "left the tautology list without being unjudged for the refusal of "
                 f"{name}, which is the only reading WP-14.3 accounted for")
+        # R4, BY NAME: each fault that left at WP-16.1 is unjudged, its governing test is the
+        # one that did not run, and the test that DID run -- the one that used to clear it --
+        # is carried as evidence rather than dropped.
+        rows_u = {u["fault"]: u for u in (res.get("fault_unjudged") or [])}
+        for fid in sorted(self.GOVERNING_UNRUN[pid]):
+            u = rows_u.get(fid)
+            assert fid not in ids and u is not None, (
+                pid, fid, "left the tautology list without becoming unjudged, which is the "
+                "only reading WP-16.1 accounted for")
+            assert (u.get("governing_not_run") or {}).get("missing"), (pid, fid, u)
+            assert u.get("ran"), (pid, fid, "the secondary that ran is the evidence; a row "
+                                  "that drops it reads as though nothing was measured")
+        # THE DISCRIMINATOR FOR THE TWO THE 17 SEP MERGE RETIRED. A fault absent from this list
+        # either measures honestly now or has stopped being watched, and the count cannot tell
+        # them apart. RE-CUT AT WP-16.1: each retired one is either PRESENT with a figure, or
+        # UNJUDGED because the elevation WITHHELD its figures on this house and says why (R12,
+        # ruled 29 Sep 2026: an incomplete front is unjudged for symmetry and alignment
+        # everywhere). Both shipped fronts are incomplete -- five undrawn units on the
+        # Tidewater S front, three on the spec Colonial's N -- so both take the second road.
         blob = json.dumps(res["findings"])
         for fid in sorted(self.RETIRED_TAUTOLOGIES):
-            assert fid in blob, (
-                pid, fid, "left `fault_clear_on_a_generator_constant` and emits no finding "
-                "either -- it has gone unwatched rather than become honest, which is the "
-                "reading this count cannot distinguish on its own")
+            u = rows_u.get(fid) or {}
+            held = [w for w in (u.get("withheld") or []) if w.get("by") == "elevation.front.withheld"]
+            assert fid in blob or held, (
+                pid, fid, "left `fault_clear_on_a_generator_constant` and is neither a finding "
+                "nor unjudged for a stated withholding -- it has gone unwatched rather than "
+                "become honest, which is the reading this count cannot distinguish on its own")
+            if held:
+                assert all("not drawn" in w["why"] for w in held), held
 
     def test_it_is_a_list_and_not_a_count(self):
         """A count cannot be argued with. Every row names the fault AND the measurements that

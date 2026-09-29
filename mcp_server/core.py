@@ -1312,9 +1312,12 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
 
     This is the corpus made executable: give it what you can measure from a photograph or a
     drawing and it tells you which faults are present, which are clear, which it could not judge
-    because a number is missing, and which are NOT APPLICABLE -- every test preconditioned on a
-    measurement this house does not meet, so none ran. Four states, not three; the docstring said
-    three for a day after the fourth shipped."""
+    because a number is missing, and which are NOT APPLICABLE -- the governing test
+    preconditioned on a measurement this house does not meet. Four states, not three; the
+    docstring said three for a day after the fourth shipped.
+
+    CLEAR MEANS THE GOVERNING TEST RAN (ruled 29 Sep 2026). A fault whose governing test could
+    not run is could-not-evaluate however many of its secondaries passed; see `_judge`."""
     D = _data()
     present, clear, needed, not_applicable = [], [], [], []
 
@@ -1323,62 +1326,166 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
 
         Factored out of the loop by WP-8.4 so a fault whose exception precondition
         cannot be resolved can be judged BOTH WAYS and the two answers compared.
-        Returns (state, row)."""
+        Returns (state, row).
+
+        `tests[0]` IS THE GOVERNING TEST and the rest are secondaries. The governing test is
+        the fault's own primary, or the `bounds_test` of an exception this style has earned,
+        which replaces the primary (the caller builds the list that way).
+
+        A FAULT IS CLEAR ONLY WHERE ITS GOVERNING TEST RAN (ruled 29 Sep 2026, R4,
+        `oq/a-fault-reads-clear-when-its-governing-test-could-not-run`). Until Phase 16 this
+        returned `clear` whenever the tests that were EVALUATED contained no failure, whatever
+        did not run. So a fault whose governing test wanted a measurement nobody supplied read
+        clear on a secondary that could run. Measured at `a4abb85` over the sixteen shipped
+        plans with `tests/fault_clears.py`: 142 of the 550 clear verdicts, 48 of them on fatal
+        faults, and 70 of the 142 resting on a figure the elevation states as its own constant.
+        Four rules now, in this order:
+
+          - any test that ran and FAILED makes the fault PRESENT, governing or not. The
+            ruling is about clear, and a failed test is still the fault;
+          - a governing test that ran and passed makes it CLEAR, and the row names every
+            applicable secondary that did not run (`secondaries_not_run`), because the ruling
+            asks a clear to say so;
+          - a governing test that could not run -- a measurement nobody supplied, an error, or
+            no verdict -- makes it COULD NOT EVALUATE, and the tests that did run ride on the
+            row as evidence (`ran`), with the governing test and what it wanted;
+          - a governing test that DECLINED (its `applies_when` is not met), or is written for
+            another style, makes it NOT APPLICABLE: the question the fault asks does not arise
+            on this house. The row carries whatever ran and whatever did not.
+
+        The fourth is the code's reading of the ruling for a case the ruling did not name:
+        the governing test decides, and it decided the question does not arise. It is
+        unreachable from the corpus as it stands -- no fault gates or scopes its primary
+        without gating its secondaries the same way -- and `tests/test_fault_governing.py`
+        drives it, so it is guarded rather than dead.
+
+        THE OLD `silent` STATE IS GONE. A fault every one of whose tests was scoped away came
+        back as no state at all and was appended to nothing, the one collapse this function's
+        own comments name as the worst. It was unreachable (no primary is scoped), and a
+        scoped-away governing test is now the fourth rule above."""
+        gov_t = tests[0] if tests else None
         # OQ 63: a test scoped to another style is not run at all. Not run is not the same as
-        # passed -- a test that is not for this house says nothing about this house, and the
-        # fault's judgement rests on the tests that ARE for it.
-        tests = [t for t in tests if t and _test_applies(t, style, D)]
-        results = [r for r in (_eval_test(t, measurements) for t in tests) if r]
+        # passed -- a test that is not for this house says nothing about this house.
+        gov_scoped = bool(gov_t) and not _test_applies(gov_t, style, D)
+        gov_r, secs = None, []
+        for i, t in enumerate(tests):
+            if not t or not _test_applies(t, style, D):
+                continue
+            r = _eval_test(t, measurements)
+            if i == 0:
+                gov_r = r
+            elif r:
+                secs.append((t, r))
+        results = ([gov_r] if gov_r else []) + [r for _t, r in secs]
         ev = [r for r in results if r["status"] == "evaluated"]
-        if not ev:
-            miss = sorted({m for r in results if r["status"] == "need_measurements"
-                           for m in r["missing"]})
-            errs = sorted({r["detail"] for r in results if r["status"] == "error"})
-            # THE FOURTH STATE, and it exists for the same reason as the `errs` branch below it.
-            # A test may now decline on a MEASUREMENT (`applies_when`), not only on a style: zero
-            # dormers means the whole of `dormer-off-the-bay` has nothing to say. With every test
-            # declined there is no `ev`, no `miss` and no `errs`, so the fault was appended to
+        failing = [r for r in ev if r["passes"] is False]
+        sev = next((s["severity"] for s in f.get("severity_by_style", [])
+                    if s["style"] == style), f["severity"])
+        if failing:
+            # The tests that actually failed, kept apart from the ones that merely ran. A fault
+            # with secondary tests can have its PRIMARY pass and a secondary fail -- which is
+            # the fault being present -- and a caller reporting results[0] then quotes the
+            # passing number as the evidence. build/plan_check.py did exactly that: a Cape with
+            # two chimneys was reported as "The House With No Fire: 2 against at-least 1", a
+            # sentence in which every number is right and the claim is nonsense.
+            return "present", {
+                "fault": f["id"], "name": f["name"], "severity": sev,
+                "slots": f["slots"], "results": ev, "failing": failing,
+                "symptom": f["symptom"],
+                "fix_cheap": (f.get("fixes") or {}).get("cheap"),
+                "fix_right": (f.get("fixes") or {}).get("right")}
+
+        def _not_run(pairs):
+            # The secondaries that COULD have been judged and were not: a measurement nobody
+            # supplied, an error, no verdict. A secondary that DECLINED on its own
+            # `applies_when` is not among them -- its question does not arise, which is not an
+            # uncertainty a clear has to own up to.
+            out = []
+            for t, r in pairs:
+                if r["status"] == "not_applicable":
+                    continue
+                if r["status"] == "evaluated" and r["passes"] is not None:
+                    continue
+                row = {"expression": t.get("expression")}
+                if r["status"] == "need_measurements":
+                    row["missing"] = r["missing"]
+                elif r["status"] == "error":
+                    row["error"] = r["detail"]
+                else:
+                    row["error"] = "the test ran and returned no verdict"
+                out.append(row)
+            return out
+
+        unrun = _not_run(secs)
+        if gov_r and gov_r["status"] == "evaluated" and gov_r["passes"] is True:
+            row = {"fault": f["id"], "name": f["name"], "results": ev}
+            if unrun:
+                row["secondaries_not_run"] = unrun
+            return "clear", row
+
+        declined = [r for r in results if r["status"] == "not_applicable"]
+        if gov_scoped or (gov_r and gov_r["status"] == "not_applicable"):
+            # THE FOURTH STATE. A test may decline on a MEASUREMENT (`applies_when`), not only
+            # on a style: zero dormers means the whole of `dormer-off-the-bay` has nothing to
+            # say. Before core.check_measurements grew this list such a fault was appended to
             # nothing -- not present, not clear, not unjudged, absent from the counts, and
             # indistinguishable to a caller from clear. Not applicable is a real answer and gets
             # its own list; it is not a pass, and it is not an unjudged either.
-            declined = [r for r in results if r["status"] == "not_applicable"]
-            if declined and not miss and not errs:
-                return "not_applicable", {
-                    "fault": f["id"], "name": f["name"],
-                    "because": sorted({r["because"] for r in declined}),
-                    "required": sorted({r["required"] for r in declined}),
-                    "note": "Every test of this fault is preconditioned on a measurement this "
+            others = unrun
+            row = {"fault": f["id"], "name": f["name"],
+                   "because": sorted({r["because"] for r in declined})
+                              or [f"the governing test is written for "
+                                  f"{', '.join(gov_t.get('applies_to_styles') or [])}"],
+                   "required": sorted({r["required"] for r in declined}),
+                   # The note is the one this state has carried since WP-5.13 wherever it is
+                   # true -- every test declined, nothing else ran -- so those rows are
+                   # unchanged; the second is for the case only the governing test decides.
+                   "note": ("Every test of this fault is preconditioned on a measurement this "
                             "house does not meet, so none was run. Not a pass -- the question "
-                            "does not arise."}
-            # `errs` is why this branch exists in this shape. A fault whose every test
-            # ERRORED produced no `ev` and no `miss`, so it was appended to nothing: not
-            # present, not clear, not unjudged, and absent from the summary counts -- a
-            # fault that silently vanished, which reads to a caller exactly like clear.
-            # That is the one collapse this corpus forbids above all others.
-            if miss or errs:
-                row = {"fault": f["id"], "name": f["name"], "needs": miss,
-                       "measurable_from": f.get("test", {}).get("measurable_from")}
-                if errs:
-                    row["errors"] = errs
-                return "needed", row
-            return "silent", None
-        failing = [r for r in ev if r["passes"] is False]
-        if not failing:
-            return "clear", {"fault": f["id"], "name": f["name"], "results": ev}
-        # The tests that actually failed, kept apart from the ones that merely ran. A fault
-        # with secondary tests can have its PRIMARY pass and a secondary fail -- which is
-        # the fault being present -- and a caller reporting results[0] then quotes the
-        # passing number as the evidence. build/plan_check.py did exactly that: a Cape with
-        # two chimneys was reported as "The House With No Fire: 2 against at-least 1", a
-        # sentence in which every number is right and the claim is nonsense.
-        return "present", {
-            "fault": f["id"], "name": f["name"],
-            "severity": next((s["severity"] for s in f.get("severity_by_style", [])
-                              if s["style"] == style), f["severity"]),
-            "slots": f["slots"], "results": ev, "failing": failing,
-            "symptom": f["symptom"],
-            "fix_cheap": (f.get("fixes") or {}).get("cheap"),
-            "fix_right": (f.get("fixes") or {}).get("right")}
+                            "does not arise.")
+                           if not ev and not others and not gov_scoped else
+                           ("The governing test of this fault is preconditioned on a "
+                            "measurement this house does not meet, or written for another "
+                            "style, so the question it asks does not arise. What else ran is "
+                            "carried as evidence. Not a pass, and not an unjudged either.")}
+            if ev:
+                row["ran"] = ev
+            if others:
+                row["secondaries_not_run"] = others
+            return "not_applicable", row
+
+        # COULD NOT EVALUATE: the governing test did not run. `needs` is every measurement an
+        # applicable test wanted, as it always was; `governing_not_run` says which of them
+        # decides, and `ran` carries whatever did run, as EVIDENCE and never as a verdict.
+        miss = sorted({m for r in results if r["status"] == "need_measurements"
+                       for m in r["missing"]})
+        # `errs` is why this branch exists in this shape. A fault whose every test ERRORED
+        # produced no `ev` and no `miss`, so it was appended to nothing: not present, not
+        # clear, not unjudged, and absent from the summary counts -- a fault that silently
+        # vanished, which reads to a caller exactly like clear.
+        errs = sorted({r["detail"] for r in results if r["status"] == "error"})
+        row = {"fault": f["id"], "name": f["name"], "needs": miss,
+               "measurable_from": f.get("test", {}).get("measurable_from"), "severity": sev}
+        if errs:
+            row["errors"] = errs
+        if ev or not gov_t or not gov_r:
+            g = {"expression": (gov_t or {}).get("expression")}
+            if not gov_t:
+                g["why"] = "this fault states no governing test"
+            elif not gov_r:
+                g["why"] = "the governing test states no expression"
+            elif gov_r["status"] == "need_measurements":
+                g["missing"] = gov_r["missing"]
+            elif gov_r["status"] == "error":
+                g["error"] = gov_r["detail"]
+            else:
+                g["why"] = "the governing test ran and returned no verdict"
+            row["governing_not_run"] = g
+            if ev:
+                row["ran"] = ev
+            if unrun:
+                row["secondaries_not_run"] = unrun
+        return "needed", row
 
     for f in D["faults"].values():
         if slot and slot not in f["slots"]: continue
@@ -1409,21 +1516,52 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
                 sb, rb = _judge(f, tests)
                 if sa != sb:
                     if include_needed:
+                        # TWO DIFFERENT SITUATIONS, AND THIS SAID THE SAME THING ABOUT BOTH
+                        # (WP-16.1). Where both rules reach a verdict and the verdicts differ,
+                        # they disagree, and only the house's construction can say which one
+                        # governs. Where one of them could not be judged at all, they do not
+                        # disagree -- one is silent -- and the row said "the two rules disagree"
+                        # with `needs: []`, so a reader was told no measurement would help when
+                        # the unjudged side names the ones that would. R4 makes that case
+                        # common: a rule whose governing test cannot run is now unjudged rather
+                        # than clear on a secondary.
+                        unjudged_sides = [(w, r) for w, st, r in
+                                          (("the exception", sa, ra),
+                                           ("the general rule", sb, rb)) if st == "needed"]
+                        need = sorted({m for _w, r in unjudged_sides
+                                       for m in (r or {}).get("needs") or []})
+                        if unjudged_sides:
+                            other = sb if unjudged_sides[0][0] == "the exception" else sa
+                            note = (f"This style carries an exception whose own bounds_test "
+                                    f"REPLACES the fault's primary test, and whose precondition "
+                                    f"could not be resolved from the style alone. "
+                                    + (f"Neither rule could be judged on this house."
+                                       if len(unjudged_sides) == 2 else
+                                       f"Under {unjudged_sides[0][0]} the fault could not be "
+                                       f"judged, and under the other it reads {other}.")
+                                    + " So the verdict turns on a rule nobody could run as well "
+                                      "as on which rule governs. Supply the measurements named "
+                                      "in `needs`, and the house's own construction, to settle "
+                                      "it.")
+                        else:
+                            note = ("This style carries an exception whose own bounds_test "
+                                    "REPLACES the fault's primary test, and whose precondition "
+                                    "could not be resolved from the style alone. The two rules "
+                                    "disagree about this house, so which one governs decides "
+                                    "the verdict and nobody can say which one governs. Supply "
+                                    "the house's own construction to settle it.")
                         needed.append({
-                            "fault": f["id"], "name": f["name"], "needs": [],
+                            "fault": f["id"], "name": f["name"], "needs": need,
                             "measurable_from": f.get("test", {}).get("measurable_from"),
+                            "severity": next((s["severity"] for s in
+                                              f.get("severity_by_style", [])
+                                              if s["style"] == style), f["severity"]),
                             "exception_unjudged": {
                                 "style": exc["style"], "because": grant["why"],
                                 "condition": exc.get("granted_when"),
                                 "not_evaluated": grant["unevaluated"],
                                 "under_the_exception": sa, "under_the_general_rule": sb,
-                                "note": "This style carries an exception whose own bounds_test "
-                                        "REPLACES the fault's primary test, and whose "
-                                        "precondition could not be resolved from the style "
-                                        "alone. The two rules disagree about this house, so "
-                                        "which one governs decides the verdict and nobody can "
-                                        "say which one governs. Supply the house's own "
-                                        "construction to settle it."}})
+                                "note": note}})
                     continue
                 immaterial = {"style": exc["style"], "verdict": grant["verdict"],
                               "because": grant["why"],
@@ -1466,10 +1604,14 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
             "not_applicable": not_applicable,
             "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed),
                         "not_applicable": len(not_applicable)},
-            "note": "A fault only counts as present when a test actually failed. Anything under "
-                    "could_not_judge is unknown, not passed. Anything under not_applicable had "
-                    "every one of its tests declined by an `applies_when` precondition, so none "
-                    "ran: the question does not arise, which is neither a pass nor an unjudged."}
+            "note": "A fault only counts as present when a test actually failed. It counts as "
+                    "clear only where its GOVERNING test ran and passed -- the primary, or the "
+                    "bounds_test of an exception this style earned -- and a clear names any "
+                    "secondary that did not run. Anything under could_not_judge is unknown, not "
+                    "passed; where some of its tests did run they ride on the row as `ran`, as "
+                    "evidence and never as a verdict. Anything under not_applicable had its "
+                    "governing test declined by an `applies_when` precondition: the question "
+                    "does not arise, which is neither a pass nor an unjudged."}
 
 def measurement_vocabulary(slot=None, style=None, include_constraints=True):
     """Every variable name the corpus tests on, so a caller knows what to measure.

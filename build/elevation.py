@@ -745,6 +745,16 @@ def placed_openings(placed, section, entrance_face, faces=None):
             "source": "section.geometry, read through render_plan.openings_of_level"}
 
 
+# THE FIVE FIGURES AN INCOMPLETE FRONT WITHHOLDS (R12, ruled 29 Sep 2026): the mirror pair
+# `one-bay-symmetry-break` tests, and the storey-over-storey trio `storeys-out-of-vertical-
+# alignment` tests (and `closet-on-the-exterior-wall` reads). `axis.front_complete` decides.
+_MIRROR_FIGURES = ("count_of_openings_without_a_mirror_twin_about_the_facade_centreline",
+                   "width_of_the_largest_asymmetric_element_in")
+_ALIGNMENT_FIGURES = ("upper_storey_opening_centres_matching_lower",
+                      "max_abs_offset_between_upper_and_lower_opening_centrelines_in",
+                      "upper_storey_windows_missing_or_off_alignment_over_a_lower_bay")
+
+
 def storey_alignment(lower_in, upper_in, tol_in):
     """How the upper storey's drawn openings stand over the lower's, measured and never
     assumed. `lower_in`/`upper_in` are drawn centres in inches along one face.
@@ -1672,6 +1682,9 @@ def _derive_measurements(elev):
     front = elev["front"]
     ground_w = next(w for w in elev["storey_windows"] if w["storey"] == elev["ground_storey_id"])
     upper_w = next((w for w in elev["storey_windows"] if w["storey"] == elev["upper_storey_id"]), ground_w)
+    # Whether the section states an upper storey at all. Where it does not, `upper_w` above is
+    # the ground storey's window under another name (WP-16.1).
+    _has_upper = any(s.get("index") == 1 for s in (elev.get("section") or {}).get("storeys") or [])
     ent = elev["entrance"]
     cornice = elev["eave_cornice"]
     wtb = elev["water_table_belt"]
@@ -1706,8 +1719,11 @@ def _derive_measurements(elev):
         "first_floor_window_head_height_in": ground_w["head_height_above_floor_in"],
         "first_floor_window_height_in": ground_w["opening_height_in"],
         "window_head_height_above_floor": ground_w["head_height_above_floor_in"],   # same quantity as window_head_height_above_floor_in -- alias for the faults that name it without the unit suffix
-        "second_floor_sash_height_in": upper_w["opening_height_in"], "first_floor_sash_height_in": ground_w["opening_height_in"],
-        "second_floor_sill_height_in": upper_w["sill_height_above_floor_in"],
+        # None on a one-storey section, where `upper_w` IS the ground storey's window (see
+        # `build_elevation`'s withheld list): a storey compared with itself is not a measurement.
+        "second_floor_sash_height_in": upper_w["opening_height_in"] if _has_upper else None,
+        "first_floor_sash_height_in": ground_w["opening_height_in"],
+        "second_floor_sill_height_in": upper_w["sill_height_above_floor_in"] if _has_upper else None,
         "sash_opening_height_in": ground_w["opening_height_in"],
         "shutter_leaf_width_in": ground_w["shutter_leaf_width_in"], "shutter_leaf_height_in": ground_w["shutter_leaf_height_in"],
         "shutter_panel_count_per_leaf": ground_w.get("shutter_panel_count"),
@@ -1912,6 +1928,13 @@ def _derive_measurements(elev):
     # wearing a measurement's name; and the count read `bays["count"]`, the very read the
     # comment above it recorded fixing in three siblings). `storey_alignment` is the reader.
     _al = elev["front"].get("alignment") or {}
+    # R12: the trio and the mirror pair below are withheld on an incomplete front --
+    # `axis.front_complete`, recorded on `front.complete`. A record carrying no reading is
+    # treated as not known to be complete, the direction that cannot convict (and
+    # `build_elevation` always writes one).
+    _fc = elev["front"].get("complete") or {}
+    _front_whole = _fc.get("complete") is True
+    _aligned_judgeable = _two_storeys and _front_whole
     m.update({
         "facade_width_in": elev["front"]["outside_width_in"],
         "elevation_width_in": elev["front"]["outside_width_in"], "elevation_length": elev["front"]["outside_width_in"],
@@ -1921,28 +1944,40 @@ def _derive_measurements(elev):
         "openings_on_the_front_elevation": len(_front),
         "bay_count": bays["count"], "bay_count_on_the_principal_front": bays["count"], "bay_width_in": bays["actual_bay_width_in"],
         "window_bay_pitch_in": bays["actual_bay_width_in"],
-        "upper_storey_opening_centres_matching_lower": _al.get("matching") if _two_storeys else None,
+        "upper_storey_opening_centres_matching_lower": _al.get("matching") if _aligned_judgeable else None,
         "max_abs_offset_between_upper_and_lower_opening_centrelines_in":
-            _al.get("max_abs_offset_in") if _two_storeys else None,
+            _al.get("max_abs_offset_in") if _aligned_judgeable else None,
         "upper_storey_windows_missing_or_off_alignment_over_a_lower_bay":
-            _al.get("missing_or_off") if _two_storeys else None,
+            _al.get("missing_or_off") if _aligned_judgeable else None,
     })
     # THE MIRROR, read by `axis.mirror` -- the corpus's one reader of the front's symmetry
     # (WP-11.3), over the plan's placed front openings at the ground storey. These two were
     # constants of 0 and 0.0, the same class as the alignment trio. `axis.mirror` refuses on a
     # gable-end front and on a front with nothing placed, and its refusal is this file's None.
     _mi = elev["front"].get("mirror") or {}
-    if _mi.get("verdict") in ("mirrored", "not-mirrored"):
+    if _mi.get("verdict") in ("mirrored", "not-mirrored") and _front_whole:
         _un = _mi.get("unmatched") or []
         m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] = len(_un)
         m["width_of_the_largest_asymmetric_element_in"] = round(
             max((float(o.get("width_ft") or 0.0) for o in _un), default=0.0) * 12.0, 3)
 
+    # `storey_count` IS THE STOREYS THE SECTION STATES (WP-16.1). It read
+    # `len(elev["storey_windows"])`, and that list always holds TWO entries -- the upper one falls
+    # back to the ground storey on a one-storey house (see `build_elevation`) -- so every house
+    # this elevation draws measured 2: the six one-storey reference plans, and the three-storey
+    # townhouse too. A constant wearing a measurement's name, OQ 52's class, and invisible to
+    # `critic_suspects` because `len()` of a list is not a literal. It surfaced when
+    # `storeys-out-of-vertical-alignment` was gated on it (ruled 29 Sep 2026), a gate that
+    # would never have declined. The one fault that already read it,
+    # `house-without-a-base`'s ranch-style licence (`storey_count at-most 1`), failed every
+    # one-storey house the elevation could have drawn under it.
+    _n_storeys = len(elev["section"].get("storeys") or []) or None
     m.update({
         "storey_height_in": elev["ground_storey_height_in"], "ceiling_height_in": elev["ground_ceiling_in"],
         "principal_storey_height_in": elev["ground_storey_height_in"], "ground_storey_height_in": elev["ground_storey_height_in"],
-        "first_storey_floor_to_floor_in": elev["ground_storey_height_in"], "second_storey_floor_to_floor_in": elev["upper_storey_height_in"],
-        "storey_count": len(elev["storey_windows"]),
+        "first_storey_floor_to_floor_in": elev["ground_storey_height_in"],
+        "second_storey_floor_to_floor_in": elev["upper_storey_height_in"] if _has_upper else None,
+        "storey_count": _n_storeys,
         "finished_grade_to_first_floor_in": elev["ground_grade_to_floor_in"],
     })
 
@@ -3889,6 +3924,16 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     except Exception as e:                      # noqa: BLE001 -- reported, never swallowed
         elev["front"]["mirror"] = {"verdict": "could-not-evaluate",
                                    "why": f"axis.mirror could not read the placement ({e})"}
+    # WHETHER THE DRAWN FRONT IS THE ONE THE RECORD DECLARES (R12, ruled 29 Sep 2026), read by
+    # `axis.front_complete`, the one reader the drawn layer uses too. The mirror and the
+    # alignment above are still MEASURED and stay on the record; what an incomplete front
+    # changes is whether their figures are handed to the faults (`_derive_measurements`).
+    try:
+        _AX = _mod("axis", f"{ROOT}/build/axis.py")
+        elev["front"]["complete"] = _AX.front_complete(_placed_rec)
+    except Exception as e:                      # noqa: BLE001 -- reported, never swallowed
+        elev["front"]["complete"] = {"complete": None,
+                                     "why": f"axis.front_complete could not read the placement ({e})"}
     _al = elev["front"]["alignment"]
     withheld = {}
     if not _two:
@@ -3902,6 +3947,26 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     if ALIGNMENT_TOL_IN is None:
         withheld["upper_storey_opening_centres_matching_lower"] = ALIGNMENT_TOL_SOURCE
         withheld["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] = ALIGNMENT_TOL_SOURCE
+    # A ONE-STOREY HOUSE HAS NO SECOND FLOOR TO MEASURE (WP-16.1). `upper_w` falls back to the
+    # ground storey's window where the section states no upper storey, so these three figures
+    # were the GROUND storey's under a second storey's name, and `top-heavy-second-storey` and
+    # `ungraduated-storeys` convicted all six one-storey reference plans at a ratio of exactly
+    # 1.0 -- a storey compared with itself. Found by the sweep that followed `storey_count`.
+    if not _two:
+        for _k in ("second_floor_sash_height_in", "second_floor_sill_height_in",
+                   "second_storey_floor_to_floor_in"):
+            withheld[_k] = "the section states one storey"
+        # And the alignment trio, which `_derive_measurements` has always left out of a
+        # one-storey record without this dict saying so (found while wiring these reasons into
+        # the fault rows, WP-16.1). The storey count is the more fundamental reason, so it is
+        # written first and the incomplete-front reason below only fills what is left.
+        for _k in _ALIGNMENT_FIGURES:
+            withheld[_k] = "the section states one storey"
+    # AN INCOMPLETE FRONT IS NOT JUDGED FOR SYMMETRY OR ALIGNMENT (R12), with the reason.
+    _fc = elev["front"].get("complete") or {}
+    if _fc.get("complete") is not True:
+        for _k in _MIRROR_FIGURES + _ALIGNMENT_FIGURES:
+            withheld.setdefault(_k, _fc.get("why") or "the front's completeness could not be read")
     elev["front"]["withheld"] = withheld
     elev["measurements"] = _derive_measurements(elev)
     # Folded in AFTER the NOT_MODELLED filter has run, because these are no longer refused names

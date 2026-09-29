@@ -118,6 +118,38 @@ def _ids(crit, severity=None):
             if f["severity"] not in ("info", "advisory") and (severity is None or f["severity"] == severity)}
 
 
+_KEY_SLOT = {"fatal": 0, "serious": 1, "minor": 2}
+
+
+def _verdicts_lost(new, old):
+    """The faults PRESENT on the old critique and UNJUDGED on the new one: {fault id: severity
+    as filed}. Such a fault did not go away -- nobody could judge it any more."""
+    was = {f.get("fault"): f.get("severity") for f in old["check"].get("findings") or []
+           if f.get("kind") == "fault-present" and f.get("fault")}
+    now = {r.get("fault") for r in new["check"].get("fault_unjudged") or []}
+    return {fid: sev for fid, sev in was.items() if fid in now}
+
+
+def _judged_key(new, old):
+    """`new`'s key with every verdict that became UNJUDGED counted back as it stood.
+
+    A VERDICT LOST IS NOT A FAULT FIXED (WP-16.1). Since R4 and R12 (ruled 29 Sep 2026) a fault
+    whose governing test cannot run is could-not-evaluate, and an incomplete front withholds its
+    symmetry and alignment figures -- so a move that leaves a window undrawn turns
+    `one-bay-symmetry-break` and `storeys-out-of-vertical-alignment` from present to unjudged,
+    the key falls by two fatals, and this loop would have accepted the round as an improvement.
+    That is WP-9.4's "unjudged is not better either" one level down, at a fault instead of a
+    placement, and it is against R13's own words: an unjudged fatal is never a fatal, and never
+    a pass either. So the comparison counts the lost verdict where it was."""
+    key = list(new["key"])
+    for sev in _verdicts_lost(new, old).values():
+        i = _KEY_SLOT.get(sev)
+        if i is not None:
+            key[i] += 1
+        key[3] += 1
+    return key
+
+
 def _improves(new, old):
     """Strictly better key, no fatal that was not there before, no NEW refusal -- and JUDGED.
     A critique whose placement could not be evaluated reports the DECLARED key, which carries
@@ -133,12 +165,16 @@ def _improves(new, old):
     way a fatal is, and in the same direction: a placement ALREADY refused when the loop
     started may still be improved (refused -> refused on a lower key is accepted, which is
     the Tidewater plan's own case), because refusing to work on a refused house would leave
-    the reader with the first pass and nothing else. What is refused is making one."""
+    the reader with the first pass and nothing else. What is refused is making one.
+
+    AND A VERDICT MADE UNJUDGED IS NOT AN IMPROVEMENT (WP-16.1): the key is compared with every
+    fault that went from present to could-not-evaluate counted back where it was
+    (`_judged_key`)."""
     if (new.get("placement") or {}).get("could_not_evaluate"):
         return False
     if _newly_refused(new, old):
         return False
-    if not (new["key"] < old["key"]):
+    if not (_judged_key(new, old) < old["key"]):
         return False
     return not (_ids(new, "fatal") - _ids(old, "fatal"))
 
@@ -454,8 +490,10 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             # here, so the report's `placement_refused` could publish `null -> refused` under a
             # comment saying `_improves` makes that impossible. Reachable from the composer,
             # which is the only caller that passes a `brief`.
+            # and a verdict the reclaim made UNJUDGED is counted where it stood (WP-16.1), as
+            # `_improves` counts it: a fatal that nobody can judge any more is not a fatal gone
             worse = (unjudged or _newly_refused(crit, kept_crit)
-                     or crit["key"][:2] > kept_crit["key"][:2])
+                     or _judged_key(crit, kept_crit)[:2] > kept_crit["key"][:2])
             if worse:
                 reclaimed["rolled_back"] = True
                 reclaimed["why"] = ((f"the placement after reclaim could not be evaluated ({unjudged}); "

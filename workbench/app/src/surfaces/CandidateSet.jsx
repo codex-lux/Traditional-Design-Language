@@ -52,6 +52,10 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
     demerits: c.demerits,
     counts: c.counts,
     fatal_n: (c.counts && c.counts.fatal) || 0,
+    // R13 (29 Sep 2026): the fatal faults the corpus could not judge on this candidate. They
+    // break ties AGAINST it and are never a fatal: `disqualified` does not read them.
+    unjudged_fatal: c.unjudged_fatal || [],
+    unjudged_fatal_n: (c.unjudged_fatal || []).length,
     native,
     nativity: nativityOf(c, nativePartis),
     named_by_brief: !!c.named_by_brief,

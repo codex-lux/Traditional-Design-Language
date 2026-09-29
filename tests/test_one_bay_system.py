@@ -443,10 +443,28 @@ class TestTheMeasurementsStoppedBeingConstants:
             "48.396 before the 17 Sep merge; re-derive, do not re-pin")
         assert al["matching"] == sum(1 for u in up if min(abs(u - l) for l in lo) <= 2.0) == 1
         assert al["missing_or_off"] == sum(1 for l in lo if not any(abs(u - l) <= 2.0 for u in up)) == 7
+        # THE ALIGNMENT IS STILL MEASURED AND STILL ON THE RECORD; WHAT MOVED AT WP-16.1 IS
+        # WHETHER IT IS HANDED TO THE FAULTS. On this file's one-element fixture the front
+        # declares four window units the placement did not draw, all on the ground storey (the
+        # SHIPPED, tagged record draws five, one of them upper -- a different placement), and
+        # R12 (ruled 29 Sep 2026) makes an incomplete front unjudged for symmetry and alignment
+        # everywhere -- so the three figures are WITHHELD, each with the elevation's reason, and
+        # the fault reads could-not-evaluate rather than a verdict about a front the record does
+        # not describe.
         m = elev["measurements"]
-        assert m["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] == al["max_abs_offset_in"]
-        assert m["upper_storey_opening_centres_matching_lower"] == 1
-        assert m["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] == 7
+        assert elev["front"]["complete"]["complete"] is False
+        assert elev["front"]["complete"]["undrawn"] == {0: 4, 1: 0}
+        for k in EL._ALIGNMENT_FIGURES:
+            assert k not in m, k
+            assert "not drawn" in elev["front"]["withheld"][k], elev["front"]["withheld"][k]
+        # AND THE SAME FRONT, DRIVEN COMPLETE, HANDS THE FAULTS EXACTLY THE FIGURES MEASURED
+        # ABOVE: the gate withholds and does nothing else.
+        res2, elev2 = _fresh(built, "tidewater-georgian-careful")
+        elev2["front"]["complete"] = {"complete": True, "why": None}
+        m2 = EL._derive_measurements(elev2)
+        assert m2["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] == al["max_abs_offset_in"]
+        assert m2["upper_storey_opening_centres_matching_lower"] == 1
+        assert m2["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] == 7
         assert m["upper_floor_opening_count"] == m["total_upper_storey_openings"] == 5
         assert m["openings_on_the_front_elevation"] == 13
 
@@ -485,17 +503,34 @@ class TestTheMeasurementsStoppedBeingConstants:
         al = EL.storey_alignment(sorted(r["cx_in"] for r in rects), [], EL.ALIGNMENT_TOL_IN)
         assert al["max_abs_offset_in"] is None and al["matching"] == 0 and al["missing_or_off"] == len(rects)
         elev["front"]["alignment"] = al
+        # This test's subject is the PARITY count, so the front is driven complete: on the
+        # shipped front R12 withholds the alignment trio for a different reason (WP-16.1), and
+        # leaving that gate closed would test it instead of this.
+        elev["front"]["complete"] = {"complete": True, "why": None}
         m = EL._derive_measurements(elev)
         assert "upper_floor_opening_count" not in m and "total_upper_storey_openings" not in m
         assert m["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] == len(rects)
         assert "max_abs_offset_between_upper_and_lower_opening_centrelines_in" not in m
 
     def test_the_withheld_names_are_stated_on_the_record(self, built):
-        """The two shipped plans withhold nothing (both are two-storey with upper front
-        openings), and the record says so with an empty dict rather than silence; a driven
-        one-storey record names the two counts it withholds and why."""
+        """What each record withholds, and why, is on the record rather than left to an
+        absence; a driven one-storey record names the counts it withholds and why.
+
+        RE-CUT AT WP-16.1 (29 Sep 2026). This asserted that both shipped plans withhold
+        NOTHING, which was true of the storey counts it was written for. Both fronts are
+        incomplete -- on this file's one-element fixture four undrawn window units on the
+        Tidewater S front and three on the spec Colonial's N -- and R12 (ruled 29 Sep 2026)
+        withholds the five symmetry and alignment
+        figures on every incomplete front, so each record now names exactly those five, each
+        with the reason `axis.front_complete` gives. The storey counts are still withheld on
+        neither plan, which is the half of the old assertion that still holds."""
+        five = set(EL._MIRROR_FIGURES) | set(EL._ALIGNMENT_FIGURES)
         for pid, (res, section, roof, elev) in built.items():
-            assert elev["front"]["withheld"] == {}, pid
+            fc = elev["front"]["complete"]
+            assert fc["complete"] is False and fc["total_undrawn"] > 0, (pid, fc)
+            assert set(elev["front"]["withheld"]) == five, (pid, elev["front"]["withheld"])
+            assert all(v == fc["why"] for v in elev["front"]["withheld"].values()), pid
+            assert f"{fc['total_undrawn']} declared window unit(s)" in fc["why"], fc["why"]
         one = copy.deepcopy(built["tidewater-georgian-careful"][0])
         one["levels"] = one["levels"][:1]
         section = ST.build_section(one, None, geometry_result=one)
@@ -504,11 +539,25 @@ class TestTheMeasurementsStoppedBeingConstants:
         assert set(elev["front"]["withheld"]) >= {"upper_floor_opening_count", "total_upper_storey_openings"}
         assert "one storey" in elev["front"]["withheld"]["upper_floor_opening_count"]
         assert "upper_floor_opening_count" not in elev["measurements"]
+        # A one-storey record names its alignment trio and its three second-floor figures for
+        # the storey count, which is the more fundamental reason; before WP-16.1 the trio was
+        # left out of the measurements with nothing on the record saying why.
+        for k in tuple(EL._ALIGNMENT_FIGURES) + ("second_floor_sash_height_in",
+                                                 "second_floor_sill_height_in",
+                                                 "second_storey_floor_to_floor_in"):
+            assert elev["front"]["withheld"].get(k) == "the section states one storey", k
+            assert k not in elev["measurements"], k
 
     def test_the_mirror_is_axis_mirrors(self, built):
+        """The mirror pair is `axis.mirror`'s reading and nothing else -- asserted on each
+        front DRIVEN COMPLETE, because the shipped fronts are incomplete and R12 (WP-16.1)
+        withholds the pair there. The gate's own half is asserted in the test above."""
         for pid, (res, section, roof, elev) in built.items():
             mi = AX.mirror(res)
-            m = elev["measurements"]
+            assert "count_of_openings_without_a_mirror_twin_about_the_facade_centreline" not in elev["measurements"]
+            _r, e2 = _fresh(built, pid)
+            e2["front"]["complete"] = {"complete": True, "why": None}
+            m = EL._derive_measurements(e2)
             if mi["verdict"] in ("mirrored", "not-mirrored"):
                 assert m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] == len(mi["unmatched"])
                 widest = max((o.get("width_ft") or 0) for o in mi["unmatched"]) * 12.0 if mi["unmatched"] else 0.0
@@ -516,7 +565,9 @@ class TestTheMeasurementsStoppedBeingConstants:
             else:
                 assert "count_of_openings_without_a_mirror_twin_about_the_facade_centreline" not in m
         # and the Tidewater front is not mirrored: five of seven ground openings have no twin
-        m = built["tidewater-georgian-careful"][3]["measurements"]
+        _r, e2 = _fresh(built, "tidewater-georgian-careful")
+        e2["front"]["complete"] = {"complete": True, "why": None}
+        m = EL._derive_measurements(e2)
         assert m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] == 5
 
     def test_a_window_a_stack_stands_on_is_not_counted_as_glass_and_a_door_is_counted(self, built):

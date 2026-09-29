@@ -653,16 +653,31 @@ class TestTheOrderIsWhatItSays:
             "the fatal count must stay the primary sort key, ahead of the score")
 
     def test_returned_fatal_free_first_then_highest_score(self, compose_module):
-        """Two independent properties rather than a re-derivation of the implementation's own
-        key, which would confirm itself whatever that key said."""
+        """Independent properties rather than a re-derivation of the implementation's own key,
+        which would confirm itself whatever that key said.
+
+        RE-CUT AT WP-16.1 (29 Sep 2026). R13 (ruled that day) puts a key BETWEEN the two this
+        test held: judged fatals first, then the fatals nobody could judge, then the score. So
+        within one judged-fatal group the order is by unjudged fatals, and the score orders
+        only candidates equal on both. The first measurement after R13 is the one this caught:
+        at one judged fatal on the Georgian brief, 52.1 stood above 52.3, because the 52.3 has
+        one more fatal nobody could judge. Each property is read off the returned cards, never
+        off `rank_key`."""
         for name in ("family-georgian", "bungalow-small"):
             cands = compose_module.compose(_brief(name), 13, revise=False)["candidates"]
             fatals = [c["counts"].get("fatal", 0) for c in cands]
             assert fatals == sorted(fatals), f"{name}: a fatal-bearing plan came back above a cleaner one"
             for group in set(fatals):
-                scores = [c["score"] for c in cands if c["counts"].get("fatal", 0) == group]
-                assert scores == sorted(scores, reverse=True), (
-                    f"{name}: candidates with {group} fatal(s) are not in descending score order")
+                same = [c for c in cands if c["counts"].get("fatal", 0) == group]
+                unj = [len(c["unjudged_fatal"]) for c in same]
+                assert unj == sorted(unj), (
+                    f"{name}: at {group} judged fatal(s), a candidate with more fatals nobody "
+                    f"could judge came back above one with fewer")
+                for k in set(unj):
+                    scores = [c["score"] for c in same if len(c["unjudged_fatal"]) == k]
+                    assert scores == sorted(scores, reverse=True), (
+                        f"{name}: candidates with {group} judged and {k} unjudged fatal(s) are "
+                        f"not in descending score order")
 
     def test_the_returned_set_is_native_dominated_not_merely_tidy(self, compose_module):
         """The behavioural guard on FIDELITY's weight specifically — not on the weighting.

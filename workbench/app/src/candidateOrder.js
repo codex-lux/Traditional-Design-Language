@@ -93,8 +93,13 @@ export const ORDERS = {
   fatal: {
     chip: 'fatal first',
     says: 'Fatal findings decide the order before the score does — a plan carrying two '
-        + 'sorts below a plan carrying one, and both below a plan carrying none.',
-    cmp: (a, b) => ((a.fatal_n || 0) - (b.fatal_n || 0)) || byScore(a, b),
+        + 'sorts below a plan carrying one, and both below a plan carrying none. Between '
+        + 'equal counts, the plan with fewer fatal faults nobody could judge comes first.',
+    /* R13 (29 Sep 2026): judged fatals, then UNJUDGED fatals, then the score -- the composer's
+       own key (`compose._sort_key`), so this reading order agrees with the order the set was
+       returned in. An unjudged fatal is not a fatal: `order()` below does not read it. */
+    cmp: (a, b) => ((a.fatal_n || 0) - (b.fatal_n || 0))
+      || ((a.unjudged_fatal_n || 0) - (b.unjudged_fatal_n || 0)) || byScore(a, b),
   },
 };
 

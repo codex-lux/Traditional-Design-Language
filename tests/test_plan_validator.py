@@ -33,7 +33,15 @@ class TestShippedPlans:
         # 0.0 -- "Windows That Do Not Stand On Each Other: 174.0 against at-most 2.0". The
         # four named fatals below are unmoved; this is the fifth. Attributed row by row
         # against a `git archive a9f7f77` checkout, not reasoned.
-        assert result["counts"]["fatal"] == 5
+        # 5 -> 4 AT WP-16.1 (29 Sep 2026), AND IT IS THAT FIFTH LEAVING FOR A RULING, NOT A FIX.
+        # This record's N front declares three window units the placement did not draw (two
+        # ground, one upper), and R12 (ruled 29 Sep 2026) makes an incomplete front unjudged for
+        # symmetry and alignment everywhere: the elevation WITHHOLDS the offset, and under R4 a
+        # fault whose governing test could not run is could-not-evaluate. So the 174.0 in is no
+        # longer a verdict about this house -- it was measured against a front that is not the
+        # one the record describes. `storeys-out-of-vertical-alignment` is in `fault_unjudged`
+        # with the elevation's own reason; the other four fatals are unmoved.
+        assert result["counts"]["fatal"] == 4
         # 70 -> 66 on 26 Aug 2026 (OQ 52): four serious findings were being adjudicated from
         # measurements build/elevation.py stated as constants and never took -- a dormer count
         # over roof.py's explicit refusal, a chimney's plan dimensions, a raking-cornice member
@@ -125,7 +133,13 @@ class TestShippedPlans:
         # against between 3 and 7, which is WP-13.3's placed openings reaching the fault corpus.
         # `fatal` at 5 and `minor` at 80 are UNMOVED, which is what says the declared layers did
         # not churn underneath this.
-        assert result["counts"]["serious"] == 60
+        # 60 -> 58 AT WP-16.1 (29 Sep 2026), both R12 by name against a worktree of a4abb85:
+        # `one-bay-symmetry-break` (serious at colonial-revival; "The Bay That Broke the
+        # Symmetry: 2 against at-most 0") and `closet-on-the-exterior-wall`, whose governing
+        # test reads `upper_storey_windows_missing_or_off_alignment_over_a_lower_bay` -- one of
+        # the alignment figures the elevation withholds on this incomplete front. Both are
+        # unjudged with the elevation's reason attached; nothing was cleared.
+        assert result["counts"]["serious"] == 58
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -186,8 +200,14 @@ class TestShippedPlans:
         fatals = [f["statement"] for f in result["findings"] if f["severity"] == "fatal"]
         # 4 -> 5 at WP-13.3: the fifth is the storey alignment the elevation now MEASURES off
         # the placed front windows (174.0 in on this plan) where it used to state 0.0
-        assert len(fatals) == 5
-        assert any("Do Not Stand On Each Other" in s for s in fatals)
+        # 5 -> 4 at WP-16.1: that fifth is UNJUDGED now, because this front is incomplete (R12)
+        # and the offset is withheld rather than measured on a front the record does not
+        # describe. Asserted from the unjudged bucket, with the reason, not left to the count.
+        assert len(fatals) == 4
+        assert not any("Do Not Stand On Each Other" in s for s in fatals)
+        unj = {u["fault"]: u for u in result["fault_unjudged"]}
+        held = unj["storeys-out-of-vertical-alignment"].get("withheld") or []
+        assert held and all("not drawn" in w["why"] for w in held), held
         assert any("Dining Room" in s and "Powder Room" in s for s in fatals)
         assert any("Garage" in s and "Primary Bedroom" in s for s in fatals)
         assert any("Half-Width Shutter" in s or "half-width" in s.lower() for s in fatals)
@@ -205,7 +225,19 @@ class TestShippedPlans:
         # by row against a `git archive a9f7f77` checkout: +3 fatal, +2 serious, nothing
         # removed, minor and info unmoved. The fatals are the PLACEMENT's, which is the other
         # slice of WP-13.3; a fatal from any other measurement is still a defect here.
-        assert result["counts"].get("fatal", 0) == 3
+        # 3 -> 1 AT WP-16.1 (29 Sep 2026). `even-bay-front` stands; `one-bay-symmetry-break`
+        # and `storeys-out-of-vertical-alignment` are UNJUDGED. This front declares five window
+        # units the placement did not draw (four ground, one upper), and R12 (ruled 29 Sep
+        # 2026) makes an incomplete front unjudged for symmetry and alignment everywhere: WP-15.8
+        # measured exactly this fix and refused it, because under the old `_judge` withholding
+        # the figures ACQUITTED the alignment fault on `bay_count >= 3`. R4 (the governing test
+        # decides) is what makes the withholding an unjudged instead of a clear. Neither fault
+        # is cleared; both carry the elevation's reason in `fault_unjudged`.
+        assert result["counts"].get("fatal", 0) == 1
+        unj = {u["fault"]: u for u in result["fault_unjudged"]}
+        for fid in ("one-bay-symmetry-break", "storeys-out-of-vertical-alignment"):
+            held = (unj.get(fid) or {}).get("withheld") or []
+            assert held and all("not drawn" in w["why"] for w in held), (fid, held)
         # 39 -> 38 on 24 Aug 2026 (OQ 63): a secondary test written for another style is no
         # longer run against this one. A test that is not for this house says nothing about it.
         # 38 -> 40 (OQ 43): two findings that were held at minor while substitution was
@@ -254,7 +286,12 @@ class TestShippedPlans:
         # one rule. Appeared: `The Porch That Darkens The House`, 0.9716 against at-most 0.9.
         # Two more are the same rows re-measured -- `The Blank Wall On The Public Side`
         # 0.122 -> 0.0955 and `The Closet That Blinds A Bay` 5 -> 3. `minor` is UNMOVED at 76.
-        assert result["counts"]["serious"] == 30
+        # 30 -> 29 AT WP-16.1 (29 Sep 2026): `The Closet That Blinds A Bay` itself, whose
+        # governing test reads `upper_storey_windows_missing_or_off_alignment_over_a_lower_bay`
+        # -- an alignment figure the elevation withholds on this incomplete front (R12). It is
+        # unjudged with the elevation's reason, not cleared. Attributed by name against a
+        # worktree of a4abb85.
+        assert result["counts"]["serious"] == 29
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the
@@ -310,10 +347,12 @@ class TestShippedPlans:
         # AND THE SECOND COPY OF THIS COUNT, 28 -> 30 at the 17 Sep merge. It is the same number
         # asserted twice in one test; the accounting is at the head of the test and both move
         # together. `fatal` is still 0 here, which is the half this paragraph is about.
-        assert result["counts"].get("serious", 0) == 30, (
+        # 30 -> 29 at WP-16.1, with its twin at the head of this test and for the same reason.
+        assert result["counts"].get("serious", 0) == 29, (
             "serious moved on this plan; the 17 Sep merge measured it at 30 (main 28, this "
-            "branch 31), and the note above records that nothing pinned it before, which is "
-            "how the prose drifted last time")
+            "branch 31) and WP-16.1 at 29 (the closet fault unjudged on an incomplete front), "
+            "and the note above records that nothing pinned it before, which is how the prose "
+            "drifted last time")
         assert result["counts"]["minor"] == 76
 
 

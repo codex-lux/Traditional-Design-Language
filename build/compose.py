@@ -290,6 +290,33 @@ def _axis_canon(res, plan):
             "denominator": "declared slots, groupings, evaluated constraints and the massing"}
 
 
+def unjudged_fatals(res):
+    """The FATAL faults the corpus could not judge on this candidate, by id and name.
+
+    R13, ruled 29 Sep 2026 (`oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge`):
+    rank by judged fatals first, then by unjudged fatals. An unjudged fatal never counts as a
+    fatal -- `counts.fatal`, `disqualified` and `score` do not read this -- and never as a pass
+    either, which is what it was until now: a fault that could not be judged was not a finding,
+    so it cost a candidate nothing, and a house that moved a fatal fault from present to unjudged
+    rose in the set exactly as a house that cleared it did.
+
+    Read off `fault_unjudged`, whose rows carry the fault's severity for this style
+    (`core.check_measurements`, WP-16.1). A row carrying none is not counted as fatal: this is a
+    tie-break, and a guess in either direction would decide ties the corpus did not."""
+    return [{"fault": r.get("fault"), "name": r.get("name")}
+            for r in sorted(res.get("fault_unjudged") or [], key=lambda r: r.get("fault") or "")
+            if r.get("severity") == "fatal"]
+
+
+def rank_key(c):
+    """The composer's ranking key, at module level so it can be driven without a compose: judged
+    fatals, then UNJUDGED fatals (R13), then the score, then the demerits and the parti id. The
+    argument for each key is in `compose()`, where the set is sorted."""
+    return (c["counts"].get("fatal", 0), len(c.get("unjudged_fatal") or []),
+            -(c["score"] if c["score"] is not None else -1e9),
+            c["demerits"], c.get("parti") or "")
+
+
 def score_candidate(res, plan, brief, fit, fp, miss, tol):
     """The composite, itemised. Returns the score out of 100, every axis with its own share
     and denominator, the weight that could not be evaluated at all, and whether a fatal
@@ -1754,7 +1781,8 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         out.append({
             "parti": pick["parti"], "parti_name": parti["name"],
             "demerits": demerits, "style_fit": pick["fit"], **card,
-            "counts": counts, "area_sf": round(area), "area_miss_pct": round(miss * 100, 1),
+            "counts": counts, "unjudged_fatal": unjudged_fatals(res),
+            "area_sf": round(area), "area_miss_pct": round(miss * 100, 1),
             "footprint": fp,
             "trades_away": parti["trades_away"],
             "why_this_diagram": pick["why"],
@@ -1789,9 +1817,14 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # diagrams from the same fit tie group, which share a fidelity axis. A stable sort would
     # then fall back to insertion order, and the slice below would be deciding again.
     # Determinism here must not be borrowed from the previous stage.
-    _sort_key = lambda c: (c["counts"].get("fatal", 0),
-                           -(c["score"] if c["score"] is not None else -1e9),
-                           c["demerits"], c.get("parti") or "")
+    #
+    # THE SECOND KEY IS THE FATALS NOBODY COULD JUDGE (R13, ruled 29 Sep 2026). Judged fatals
+    # first, then unjudged fatals, then the score: an unjudged fatal never counts as a fatal
+    # (it is not in `counts.fatal` and does not disqualify) and never as a pass either -- it
+    # breaks a tie AGAINST the candidate. Until this key an unjudged fatal cost nothing, so a
+    # candidate whose fatal fault could not be judged ranked exactly as one that had cleared it,
+    # and WP-15.8's audit measured the native diagram re-entering a returned set that way.
+    _sort_key = rank_key
     out.sort(key=_sort_key)
     # THE PLACED REVISION LOOP (WP-9.2), on the RETURNED candidates only, after ranking. Ruled
     # on by default (1 Sep 2026): the product is the revised set. Each returned candidate is
@@ -1849,7 +1882,8 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                  if m.get("accepted") and m.get("log")]
         c.update({
             "score_before": c["score"], "counts_before": c["counts"], "rank_before": rank,
-            **card2, "counts": res2["counts"], "area_sf": round(area2),
+            **card2, "counts": res2["counts"], "unjudged_fatal_before": c.get("unjudged_fatal"),
+            "unjudged_fatal": unjudged_fatals(res2), "area_sf": round(area2),
             "area_miss_pct": round(miss2 * 100, 1), "footprint": fp2,
             "demerits": round(score(res2) + (60 if miss2 > tol else 0) - c["style_fit"] * NATIVITY_W, 1),
             "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
@@ -1956,6 +1990,7 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
               "An axis nothing could be evaluated on has its WEIGHT DROPPED and the total renormalised over the rest, never scored as a pass and never as a zero. score_weight_unevaluated says how much of the hundred that was, so a score computed over 94 points of evidence cannot be read as one computed over 100.",
               "A fatal finding DISQUALIFIES a candidate, and that is carried beside the score rather than inside it: `disqualified` is true and `disqualified_because` says so in words. A disqualified candidate never outranks a clean one whatever it scores -- that is enforced by the ordering, not by the number -- and its score is not a case for building it. It is still scored because whole sets come back disqualified on styles the fault corpus cannot clear, and four plans that all carry a fatal still differ.",
               "Candidates are RETURNED fatal-free first and then by score, so a plan carrying a fatal never displaces a clean one from the set even where its fidelity would outscore it. How the ones that came back are then ORDERED for reading is a separate choice -- by score, by nativity, or fatal-first -- and the reading order is named above them.",
+              "Between two candidates with the same number of fatal findings, the one with FEWER FATAL FAULTS THE CORPUS COULD NOT JUDGE is returned first, and only then does the score decide. unjudged_fatal names them. An unjudged fatal is not a fatal -- it does not disqualify and is not in counts -- and it is not a pass either: nobody could say whether the fault is there.",
               "demerits is the old lower-is-better total -- 100 a fatal, 8 a serious, 1 a minor, less 20 a point of fidelity. It is kept because it is a real quantity and because earlier reports quote it. It ranks nothing now.",
               "trades_away is the honest part. Every diagram gives something up, and the one that scores best is not always the one you want.",
               "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",

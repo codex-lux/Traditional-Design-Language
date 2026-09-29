@@ -1,6 +1,7 @@
 import React from "react";
 import { nativityLine } from "../candidateOrder.js";
 import { Term } from "./Term.jsx";
+import { JudgmentMark } from "./JudgmentMark.jsx";
 
 /* P4 — rank them, never crown one. Three rules this component exists to enforce:
    1. trades_away sits adjacent to the score at all times, never behind a disclosure.
@@ -186,6 +187,20 @@ function CandidateColumn({
         color: n === 0 ? 'var(--ink-2)' : SEV[s]
       }
     }, s, " ", n);
+  })), c.unjudged_fatal_n > 0 && /*#__PURE__*/React.createElement("div", {
+    /* R13 (29 Sep 2026): the fatal faults the corpus could not judge on this candidate, in the
+       unjudged mark and its glossary word, never in the fatal ink -- they break a tie against
+       the candidate and do not disqualify it. The names are the payload's. */
+    "data-unjudged-fatal": c.unjudged_fatal_n,
+    style: {
+      marginTop: 6
+    }
+  }, /*#__PURE__*/React.createElement(JudgmentMark, {
+    state: "unjudged",
+    label: "fatal " + c.unjudged_fatal_n,
+    reason: (c.unjudged_fatal || []).map(function (x) {
+      return x.name || x.fault;
+    }).join('; ')
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 13,

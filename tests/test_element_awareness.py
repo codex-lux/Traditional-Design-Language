@@ -657,9 +657,27 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 #       record the back hall is the hyphen and is not a candidate (`spine` reads
                 #       the main block only), and that record's findings are unmoved.
                 # Old digest: cf857d78072bf00c.
-                ("tidewater-georgian-careful", "efd26d7240106183", 203,
+                # RE-DERIVED AT WP-16.1 (29 Sep 2026), BOTH PLANS, AND EVERY ROW IS R12 OR ITS
+                # ONE READER. Diffed row by row against a worktree of `a4abb85` through this
+                # test's own fixture path. Tidewater 203 -> 200, **3 out and none in**; the spec
+                # Colonial 239 -> 236, **4 out and 1 in**:
+                #   -  `fault-present` The Bay That Broke the Symmetry (5 / 2 against at-most 0),
+                #      The Closet That Blinds A Bay (7 / 2 against equals 0.0) and Windows That
+                #      Do Not Stand On Each Other (32.316 / 178.8 against at-most 2.0), on both.
+                #      Each front declares window units the placement did not draw, and R12
+                #      (ruled 29 Sep 2026) makes an incomplete front unjudged for symmetry and
+                #      alignment everywhere: the elevation withholds the figures and R4 makes the
+                #      three faults could-not-evaluate. None was cleared.
+                #   -/+ `drawn-facade-symmetry-unjudged` on the spec Colonial alone, 2 -> 3
+                #      undrawn units: the drawn layer now reads the WHOLE front through
+                #      `axis.front_complete` (every storey), where it read the ground storey
+                #      alone and missed the one undrawn upper unit. The Tidewater fixture's upper
+                #      front has none undrawn, so its sentence is unmoved.
+                # Both watched layers UNMOVED at 13/18 and 11/17. Old digests: efd26d7240106183
+                # / 554b84e823b1c057.
+                ("tidewater-georgian-careful", "548b466adeee1469", 200,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "554b84e823b1c057", 239,
+                ("spec-builder-colonial", "5a443279b0b94b4e", 236,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
