@@ -1,6 +1,6 @@
 # oq/a-leaf-refused-for-a-neighbour-that-is-itself-refused — 232 of 255 leaved windows lose their shutters, and 82 of them only to leaves that are not drawn
 
-*Status: OPEN · Raised in: WP-14.6's second audit (27 Sep 2026), re-derived by the audit of Phase 14 (27 Sep 2026)*
+*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: WP-14.6's second audit (27 Sep 2026), re-derived by the audit of Phase 14 (27 Sep 2026)*
 
 ## The rule as it stands
 
@@ -74,3 +74,21 @@ what the refusal MEANS, so `build/elevation.py` is not edited.
    planned but not yet written into `PLAN-OF-ACTION.md`. It addresses the cause and will move both
    counts. Rule this question with that in view: it decides how the symptom is REPORTED meanwhile,
    not whether the house is right.
+
+## Ruled 29 September 2026 (Lucas, asked directly): withdraw, and prefer symmetry
+
+Asked: *when a window's shutter pair is refused because it would overlap its neighbour's, should
+that refused pair still block the next window?* Lucas chose **Withdraw, prefer symmetry**:
+
+> A refused pair no longer blocks its neighbour. Among equally good sets, prefer one symmetric
+> about the front's centre line, then work outward from the entrance, so a symmetric front never
+> keeps shutters on one side only.
+
+Questions 1 and 2 are answered.
+
+- **Read, not ruled:** on a face with no seated entrance, the centre of composition is the face's
+  own centre, the same reading the pier ruling uses.
+- **Symmetry tolerance:** `axis.mirror`'s, so that there is one spelling.
+
+Executed by WP-16.7, after the pier ruling re-seats the windows. The 232 and 150 above are
+re-derived there on the new placement.

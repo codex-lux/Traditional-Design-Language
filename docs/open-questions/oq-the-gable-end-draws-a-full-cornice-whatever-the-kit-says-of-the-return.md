@@ -1,6 +1,6 @@
 # oq/the-gable-end-draws-a-full-cornice-whatever-the-kit-says-of-the-return — what a gable end shows at the eave
 
-*Status: OPEN · Raised in: Phase 15, WP-15.7, the cornice drawn with its members (28 September 2026)*
+*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: Phase 15, WP-15.7, the cornice drawn with its members (28 September 2026)*
 
 **The elevation draws the eave cornice across every face it draws, gable ends included.** On a
 side-gable house that means a horizontal cornice the whole width of the gable, standing on the eave
@@ -80,3 +80,27 @@ face.
 
 **Until it is ruled, nothing moves.** The gable band is drawn as it has been, with its members,
 and this question is the record of what it does not read.
+
+## Ruled 29 September 2026 (Lucas, asked directly): draw what the kit says, and a return as long as the cornice is tall
+
+- **What the gable end draws.** *Draw what the kit says*:
+  - where the kit forbids a return or makes `none` canonical, no band crosses the gable;
+  - a stated return runs out and stops;
+  - where the kit is silent, the band stays and the sheet says the return is unstated;
+  - Tidewater takes its canonical return.
+- **How long a stated return is.** *As far as the cornice is tall*: the pork-chop fault's own rule
+  for a correct return, 24.6 in on Tidewater, labelled a judgment. The kit's 12–24 in band is noted
+  as written for a smaller cornice. This was asked because the kit's band was written for a cornice
+  of about 11.7 in (the stunted-return fault's own note). Against this elevation's 24.56 in cornice,
+  every length in the band fails the pork-chop ratio.
+
+**Read, not ruled:** cape-cod-colonial's plain 6–12 in return is licensed by the stunted-return
+fault's own exception, so it keeps its own band, drawn at the band's midpoint and labelled a
+judgment.
+
+**Left open:** the rake half of this entry is not ruled.
+
+**Order of work:** decision 4's adjudication (WP-16.2) runs before this package. The planning pass
+traced the bans on eight of the nine shipped plans that would lose their band to
+`gothic-revival-american`'s bargeboard rule, reaching them through an `extends` base, so no band is
+removed on a ban that is itself wrong. Executed by WP-16.5.

@@ -1,6 +1,6 @@
 # oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways — which ratio governs the wall between two windows
 
-*Status: OPEN · Raised in: Phase 15, WP-15.6, the pier between openings (28 September 2026)*
+*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: Phase 15, WP-15.6, the pier between openings (28 September 2026)*
 
 **The wall beside the entrance doorcase is ruled now; the wall between two windows is not.**
 Lucas, of the drawn Tidewater front (27 Sep 2026): *"there's still no concept of how close windows
@@ -120,3 +120,30 @@ window, the primary bedroom's at 159.50 in, was **18.00 in** off it before the m
 verdict changes. But a rule that moves one storey's window and not the other's makes the
 misalignment larger. That is one more thing the ruling above has to say: whether a window
 the pier or the doorcase moves takes the window above it along, and which storey gives way.
+
+## Ruled 29 September 2026 (Lucas, asked directly): a floor, an aim, and the upper window follows the ground
+
+Five answers, each put as its own question:
+
+- **The governing figure.** *Floor 1.0×, aim 1.4×*:
+  - the placer never seats two windows closer than the fault's 1.0 × the wider window;
+  - where it can't, it refuses the window by name, as the doorcase rule does;
+  - it aims for sash-light's 1.4 × where the wall allows;
+  - the Georgian kit's unsourced band is brought into line.
+- **Which window yields.** *The centre holds*:
+  - windows nearer the entrance keep their places, and on other faces those nearer the face's
+    centre do;
+  - the outer window moves along its own wall, or is refused by name if it can't.
+- **Ganged windows.** *Spare the licensed styles*. The five styles the fault licenses to gang
+  windows are spared: craftsman, prairie-school, tudor-revival, richardsonian-romanesque and
+  shingle-style. The placer reads the licence's style list, not its checks.
+- **Alignment (the amendment above).** *Upper follows the ground*: the ground floor carries the
+  doorcase and the entrance, so it sets each bay. The window above moves onto it, or is refused by
+  name where its own room cannot take it there.
+- **Nothing below.** *Keep it; the fault judges*. An upper window with no ground opening under its
+  room's stretch of wall stays where the placer put it, and the alignment fault reports the front.
+
+**Read together, not ruled separately:** an upper window that, once aligned, would break the upper
+pier floor cannot be taken there, so it is refused by name.
+
+The corner pier at a doorcase is not ruled and stays open here. Executed by WP-16.6.

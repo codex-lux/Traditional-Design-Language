@@ -88,6 +88,32 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 
 ## Where the work stands (4 Sep 2026)
 
+**PHASE 16 — THE RULINGS OF 29 SEPTEMBER — IS OPEN (29 Sep 2026).** Read `PLAN-OF-ACTION.md`'s
+Phase 16 section before touching:
+
+- the elevation's faces, the gable end or the eave cornice;
+- the placer's windows;
+- a fault's verdict;
+- the composer's ranking.
+
+**What Lucas ruled.** Lucas answered, as direct questions, the eleven questions Phase 15 and its
+audit left open, and seven follow-ups the code raised. Each answer is recorded in its question's own
+file, and that file stays `IN PROGRESS` until its package lands. `check_ids.py` counts `RULED` as
+settled.
+
+**What changed around the branch.**
+
+- **PR #40 was merged into main on 28 Sep** (`73ea26d`). The branch restarted from main; its tree is
+  `13efe99`'s, so the build baseline, the 22 known reds by id, carries over.
+- **CI's corpus shards now install `ezdxf==1.4.4`.** That is the version `docs/fidelity.md` was
+  generated with, so the DXF halves are judged on every push.
+  - The DXF selftest stays could-not-evaluate: both shipped plans are refused a drawing. It is
+    allowed only for that reason.
+  - An N/EV saying ezdxf is not installed fails the job.
+
+**The plates still wait on the network.** Lucas widens its access, and the plates are fetched when
+the eight hosts answer.
+
 **PHASE 15 — THE PLATES DRAWN — IS OPEN, AND FOUR OF ITS EIGHT PACKAGES WAIT ON THE NETWORK
 (27–28 Sep 2026).** Lucas reviewed the drawn Tidewater front and found four defects:
 - no concept of how close a window may stand to a door;

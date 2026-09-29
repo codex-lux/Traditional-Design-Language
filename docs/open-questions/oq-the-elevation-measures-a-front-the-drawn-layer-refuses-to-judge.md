@@ -1,6 +1,6 @@
 # oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge — one front, two answers
 
-*Status: OPEN · Raised in: WP-15.8, the audit of Phase 15 (28 September 2026)*
+*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: WP-15.8, the audit of Phase 15 (28 September 2026)*
 
 **OPEN — `plan_check`'s drawn layer refuses to judge symmetry and alignment on a front the record
 does not describe, and the elevation measures both on that same front and hands the figures to two
@@ -102,3 +102,18 @@ Two sentences above are wrong, and both are left as written:
   tree. Only the fault-clear half can be re-derived from anything committed, with
   `tests/fault_clears.py`. The plan table and the composer's set must be measured again by
   applying the planned fix in a `git worktree`.
+
+## Ruled 29 September 2026 (Lucas, asked directly)
+
+- **Where an incomplete front goes unjudged.** *Everywhere*. The refusal's reason, one cause
+  charged twice, has nothing to do with the diagram.
+- **What the fault corpus says on it.** Answered by
+  `oq/a-fault-reads-clear-when-its-governing-test-could-not-run`'s ruling the same day: a fault
+  whose governing test could not run is could-not-evaluate, never clear.
+- **What an unjudged fatal costs a candidate.** *Break ties against it*:
+  - rank by judged fatals first, then by unjudged fatals;
+  - an unjudged fatal never counts as a fatal, and never as a pass either.
+
+**The consequence this entry measured.** With both answers in place, the withholding WP-15.8
+measured and refused unjudges rather than acquits. It is applied in WP-16.1, with the plans and the
+composer's returned set measured again against a `git worktree` of the parent.

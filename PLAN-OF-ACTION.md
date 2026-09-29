@@ -30,6 +30,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **14 — The ink held to its plates** | **WP-14.1, WP-14.2, WP-14.4, WP-14.5 and WP-14.6 complete; WP-14.3 complete but for step 5, decision 4, which waits on Lucas (27 Sep 2026)** | **Complete but for decision 4** — raised by Lucas: do the drawn trim, casings, column and entablature profiles reflect the plates and dimensions researched to source them, on EVERY surface that draws SVG? WP-14.1 built the instrument that reads the ink back (`tests/inkread.py`) and the census that holds it to the record (`tests/svg_census.py`, `docs/fidelity.md`): forty checks over the 73 profile plates, the order stack, the orders page, the Proportions plate, the elevation, section, roof, plan and DXF, with **452 disagreements pinned by identity and figure**. **WP-14.2 took the orders and mouldings to zero**: 452 -> **255**, every order and moulding check agreeing on its whole population, and the census at 47 checks; the 255 left are the elevation, section, roof, DXF and plan (report: `docs/reports/wp-14.2-the-orders-held-to-what-they-state.md`). **WP-14.3 took the elevation, section, roof and DXF to 36**: a window is one set of numbers, a sash its members, a head its circle, a judged figure drawn and labelled and never published, a garage door drawn as its opening; the 36 are V2 and PL1 (report: `docs/reports/wp-14.3-the-openings-held-to-what-they-state.md`). **Decision 4 is put back to Lucas**: of the 41 styles the elevation draws, 21 draw something their resolved kit forbids and 15 of those only by an ancestor's ban (`oq/an-inherited-ban-decides-what-the-elevation-may-draw`). **Those figures were first published as "51 of the 79"**: the census's style sweep drew the Tidewater elevation for every style, and correcting it took the census 255 -> 203 (WP-14.1's report §VII). **WP-14.4 held the plan sheet and the bench to what they state, and each to the other: 36 -> 21**, the census at 54 checks (report: `docs/reports/wp-14.4-the-plan-sheet-and-the-bench.md`). **WP-14.5 held the record to its own notes, since no cited host answers, and listed the plates a person must fetch: 21 -> 41**, every new disagreement a note against its own record, the census at 60 checks (report: `docs/reports/wp-14.5-the-record-held-to-its-own-notes.md`). **WP-14.6 audited the phase and found the fifth link unheld: one object drawn on several surfaces was several objects -- a chimney in four places, a roof at two heights, a sidelight over a window. 41 -> 46, the census at 68 checks**: V2 15 (decision 4; six of the 21 left by the placement, not the ban), N1 14 and N3 6, and V19 11, the elevation's roof, said on every sheet and put to a ruling (report: `docs/reports/wp-14.6-the-adversarial-audit-of-phase-14.md`). **The phase's audit (27 Sep) found two defects that blocked deployment, both older than the phase -- a stored XSS on the plan sheet, and every IFC written at 3.2808 times its coordinates -- and fixed them with everything worth fixing; the census is at 69 checks and 46, the disagreements unmoved (that report's §XI)**. Report: `docs/reports/wp-14.1-the-ink-read-back.md` |
 | **14 — The dossier and the journey** | **WP-14.0 through 14.15** — sixteen packages in five waves, WP-14.0 through 14.15 COMPLETE, tranche 1 built · **tranche 2 (WP-14.16 through 14.32) COMPLETE 26 Sep 2026** (14.28 not built: no Tidewater plan places) · **WP-14.33, the eight rulings of 26 Sep, COMPLETE** · T3 planned, not built | **Tranche 1 COMPLETE 25 Sep 2026** (planned 24 Sep); **tranche 2 COMPLETE 26 Sep** on seven rulings, contracts `docs/prd/phase-14-tranche-2.md`, integration `docs/reports/wp-14.32-tranche-two-built.md` — raised by Lucas reading the Proportions surface on `trim-classical`: *"It's all just a bunch of text, and I'm not sure how it all relates to each other."* A read-only audit of all twelve surfaces (eleven inventories, five lenses, fourteen themes each re-checked against the source, three competing redesigns, two judges) found the workbench organised the way the corpus is STORED — by record type, in the order it was built — while a practitioner works with one style or one house at a time, so every rail click drops the thing being studied and each surface falls back to its own hard-coded record. **Eight rulings taken the same day** (practitioners first; definitions as glossary records; the navigation rebuilt now around a Style Dossier and a House Journey; report and plan then tranche 1; the dossier's section names; the AI pane named now and told nothing new until later; the pane folded on narrow screens; one ungated sentence on the Gate). The brief is the PRD, `docs/prd/phase-14-the-dossier-and-the-journey.md`, and the analysis is `docs/reports/ux-first-principles-2026-09-24.md`; seven questions filed as slugs, none numbered |
 | **15 — The plates drawn** | **WP-15.5, WP-15.6 and WP-15.7 COMPLETE (27–28 Sep 2026)** · **WP-15.1 through 15.4 BLOCKED ON THE NETWORK** · **WP-15.8 COMPLETE (28 Sep 2026)**, the audit: `docs/reports/wp-15.8-the-audit-of-phase-15.md` | **Open** — Lucas's review of the drawn Tidewater front found four defects: no pier between a window and the doorcase; exterior stacks stopping at the roof line; a cornice drawn as a flat band; a Gibbs Ionic capital with its volute at the bottom, which is the record's own member order. The plates are behind hosts that answer 403 to CONNECT, re-probed 28 Sep, so the three plate-free packages go first. WP-15.5 stands each exterior stack on the ground on every elevation surface and in the DXF, which had drawn none; V23 and X3 hold it. `docs/reports/wp-15.5-the-stack-stands-on-the-ground.md` · WP-15.6 reserves the entrance doorcase's run and half the ordinary pier beside it before the placer seats a window, and the elevation measures the wall it draws; V24 holds it, and the pier between two windows goes to a ruling. `docs/reports/wp-15.6-the-wall-beside-the-doorcase.md` · WP-15.7 draws the eave as its record states it, on the sheet and in the DXF: the frieze flush, the cornice's box, and a line at every member division; V25 and X4 hold it, and the gable end's return goes to a ruling. `docs/reports/wp-15.7-the-cornice-drawn-with-its-members.md` |
+| **16 — The rulings of 29 September** | **WP-16.0 through 16.8 planned (29 Sep 2026)**; **WP-16.0 COMPLETE** (the base and the record) | **Open** — Lucas answered, as direct questions, the eleven questions Phase 15 and its audit left open, and seven follow-ups the code raised: the N and W faces drawn as seen, decision 4 (fix the wrong bans, then refuse), a clear resting on the governing test, the pier and the upper window following the ground, the shutters, the gable end, OQ 79's cornice, ezdxf in CI, and PR #40's description. PR #40 was merged into main on 28 Sep; the branch restarted from `73ea26d`, whose tree is `13efe99`'s. The plates wait on the network. |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -4495,6 +4496,11 @@ and route, and never with a `license`. A plate not found is named, not replaced 
 **Status: BLOCKED ON THE NETWORK (27–28 Sep 2026).** The refusal is quoted above. Either the
 environment's network access is widened, or a person puts the scans in `Plan Examples/Plates/`.
 
+**Ruled 29 Sep 2026 (Lucas, asked directly): Lucas widens the environment's Network access.**
+Re-probed that morning (13:53 UTC), all eight hosts still answered `CONNECT tunnel failed,
+response 403`. The plates are fetched the day the hosts answer. WP-15.2 through 15.4 wait for
+Lucas's word before they run ahead of Phase 16.
+
 ### WP-15.2 — The overlay instrument
 
 Each profile plate's SVG is registered to its scan by stated control points: the column axis, and two
@@ -4676,6 +4682,136 @@ the itemized list: every finding, its severity and origin, and what was done abo
   build's. With CI's missing libraries hidden, the same 22. The walk is 702 green, 0 failed, 6
   could not evaluate. CI run 136, read by id: shard 2 is green for the first time since 16 Sep
   (X18), and every other red is a known id or main's walk four.
+
+## Phase 16 — The rulings of 29 September
+
+*Planned 29 Sep 2026. Lucas answered, as direct questions, the eleven questions Phase 15 and its
+audit left open. Then Lucas answered seven follow-ups that the code raised once the rulings were
+mapped onto it. Every package below carries one or more of those answers out. PR #40 was merged into main on 28 Sep
+(`73ea26d`, whose tree is `13efe99`'s), so the branch restarted from main and the work goes to a
+new PR only if Lucas asks for one.*
+
+**The rulings.** Each is written into its open question's own file. That file stays
+`IN PROGRESS` until the package that executes it lands.
+
+| # | Ruling |
+|---|---|
+| R1 | **The plates.** Lucas widens Network access. The plates are fetched when the hosts answer, and WP-15.2–15.4 wait for Lucas's word before running ahead of this phase. |
+| R2 | **N and W faces.** They are drawn as seen from outside. The sheet, the DXF, the scene and the stack reader flip together, and the Round lays all four plates. |
+| R3 | **Decision 4.** Fix each wrong inherited ban in the style's own kit, case by case. Then refuse what the resolved kit forbids, naming the node that wrote the ban. |
+| R4 | **A clear needs the governing test.** The governing test is the primary, or the earned exception's bounds test. If it could not run, the verdict is could-not-evaluate, carrying the tests that ran. A clear names every unrun secondary. |
+| R5 | **The pier between two windows.** The floor is 1.0 × the wider window and the aim is 1.4 × where the wall allows. A window that cannot be seated is refused by name. The Georgian kit's 0.6–1.0 band is brought into line. |
+| R5a | **Which window yields.** The centre holds: the entrance where a door is seated, otherwise the face's centre. The outer window moves or is refused. |
+| R5b | **Ganged windows.** The floor spares the five styles the pier fault licenses to gang windows. The placer reads the licence's style list, not its checks. |
+| R6 | **Alignment.** The upper window moves onto the axis of the ground opening below it. Where its own room cannot take it there, it is refused by name. |
+| R6a | **Nothing below.** With no ground opening under the room's run, the upper window stays where it is placed, and the alignment fault judges it. |
+| R7 | **Shutters.** A refused pair no longer blocks its neighbour; the largest set that can all be hung is kept. Ties go to the set symmetric about the face's centre line, then outward from the entrance. |
+| R8 | **The gable end.** It draws what the resolved kit says of `cornice_return`. Forbidden or `none`: no band. A stated return: that far, then it stops. Silent: the band stays, and the sheet says so. |
+| R8a | **The return's length.** As far as the cornice is tall, the pork-chop fault's own rule, labelled a judgment. |
+| R9 | **OQ 79.** The envelope's depth (module/14) with Gibbs's shape: heights kept, projections scaled. The face and the inset draw one cornice. |
+| R9a | **The bed mould.** Held at 2½ in, the bed-mould fault's own figure (after Benjamin), labelled a judgment. The members above share the rest of the depth. |
+| R10 | **CI.** ezdxf is installed in the corpus shards. |
+| R11 | **PR #40.** Its title and body are rewritten to describe what it merged. |
+| R12 | **An incomplete front** goes unjudged for symmetry and alignment everywhere. |
+| R13 | **Ranking.** The composer ranks candidates by judged fatals, then by unjudged fatals. An unjudged fatal is never a fatal and never a pass. |
+
+**Read together, not ruled separately:** an upper window that, once aligned, would break the upper
+pier floor cannot be taken there, so it is refused by name (R5 with R6).
+
+### WP-16.0 — The base and the record
+
+**Scope:**
+- restart the branch from main;
+- write the rulings into their questions;
+- this section, and a CLAUDE.md entry;
+- ezdxf 1.4.4 in the corpus shards, with the DXF selftest's could-not-evaluate allowed only for its
+  "plans refused" reason;
+- PR #40's title and body rewritten (R11);
+- re-probe the plate hosts.
+
+Nothing drawn moves.
+
+**Status: COMPLETE (29 Sep 2026).** `docs/reports/wp-16.0-the-base-and-the-record.md`.
+
+### WP-16.1 — The governing test, the incomplete front, and the tie-break
+
+- **R4 in `mcp_server/core.py`'s `_judge`,** with `applies_when` gates where not-applicable is the
+  honest verdict:
+  - `storey_count` on `storeys-out-of-vertical-alignment`;
+  - `dormer_count` on all eight of `overscaled-dormer`'s tests.
+- **R12:** one reader of a front's completeness. The elevation withholds its symmetry and alignment
+  figures on every incomplete front, with the reason.
+- **R13:** in `compose._sort_key`.
+- **Measurement:** the returned sets measured with a committed `tests/compose_sets.py`.
+
+**Status: NOT STARTED.**
+
+### WP-16.2 — Who wrote each ban, and the adjudication
+
+- The resolver records the node that WROTE a ban; `_extends` records only the last merge.
+- Census V2, the sheet and the dormer line read it.
+- A table of every (writer, feature) group is set against the ban's own note and each receiving
+  style's own record, `cornice_return` included.
+- Where the style's record contradicts the ban, it is fixed in the style's own kit, after an
+  independent adversarial check.
+- Groups the records do not decide go to Lucas as direct questions.
+
+**Status: NOT STARTED.**
+
+### WP-16.3 — The north and west faces drawn as seen
+
+- `FACE_MIRRORED` becomes True on N and W.
+- Every reader that assumed the plan's axis moves with it.
+- A driven asymmetric face holds one opening to one model point on the sheet, the DXF, the scene
+  and the Round.
+
+**Status: NOT STARTED.**
+
+### WP-16.4 — The refusal
+
+After Lucas answers WP-16.2's questions. The placer comes first:
+- variant-level doorcase and sidelight bans;
+- a forbidden stack refused in `hearth_pass`.
+
+Then the elevation, the DXF and the scene refuse what the corrected kit forbids. Each names the
+writer and withholds the refused feature's measurements.
+
+**Status: NOT STARTED.**
+
+### WP-16.5 — One cornice, and the gable end
+
+- **The cornice (R9, R9a):** the eave cornice at the envelope's depth in Gibbs's shape, with the
+  bed mould held at 2½ in, withheld as a judgment.
+- **The gable end (R8, R8a):** drawn from the roof record's form and the resolved kit. A stated
+  return runs as far as the cornice is tall; a withheld judgment.
+- **The return faults:** gated on a drawn-return count.
+
+**Status: NOT STARTED.**
+
+### WP-16.6 — The pier and the alignment, one seating pass
+
+- **The pier (R5, R5a, R5b):** a face-line index beside `occupied`; the ground seated from the
+  centre outward against the pier floor and aim.
+- **The alignment (R6, R6a):** then the upper storey following the ground axes.
+- **Measurement:** a window-pier reader and measurement; the pier fault re-pointed to it; census
+  V26.
+
+**Status: NOT STARTED.**
+
+### WP-16.7 — The shutters
+
+R7 in `elevation._clearances`: the maximum sets found exhaustively per band, symmetry first.
+
+**Status: NOT STARTED.**
+
+### WP-16.8 — The audit
+
+- An adversarial audit of the phase's diff.
+- The whole build in a fresh worktree, every red attributed by id.
+- CI read by test id; the walk; the gallery.
+- The verdict.
+
+**Status: NOT STARTED.**
 
 ## 6. Parallelisation map
 

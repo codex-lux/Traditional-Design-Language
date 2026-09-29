@@ -1,6 +1,6 @@
 # oq/a-fault-reads-clear-when-its-governing-test-could-not-run — clear on whatever ran
 
-*Status: OPEN · Raised in: WP-15.8, the audit of Phase 15 (28 September 2026)*
+*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: WP-15.8, the audit of Phase 15 (28 September 2026)*
 
 **OPEN — `core.check_measurements` calls a fault clear when at least one of its tests ran and
 none of those failed, whatever did not run.** `_judge` in `mcp_server/core.py` evaluates the
@@ -88,3 +88,26 @@ at the ground floor and none on the upper floor, so the alignment question does 
 the honest verdict is unjudged rather than not applicable. The fault reads clear on the bay-count
 floor in both cases. Auditor ab601 found it; the other figures in this entry re-derive exactly.
 The sentence above is left as written.
+
+## Ruled 29 September 2026 (Lucas, asked directly): the governing test decides
+
+Asked: *when a fault's governing test can't run because its measurement isn't modelled, what
+should the fault read?* Lucas chose **Governing test decides**:
+
+> A clear needs the governing test to have run: the primary, or the exception's bounds test the
+> style has earned. 142 verdicts become 'could not evaluate', with the tests that did run kept as
+> evidence, and a clear names any secondary that did not run.
+
+**What the ruling answers.**
+
+- **Item 2:** the governing test, not every applicable test.
+- **Item 1** follows from it: a secondary does not stand in for the primary.
+- **Item 3** was ruled the same day in
+  `oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge`: an unjudged fatal breaks
+  ties against a candidate.
+- **A failed test still makes a fault present.** The ruling is about clear.
+
+**A correction to the option as it was put.** It said *"no ranking moves by itself"*. The planning
+pass found that `compose.py`'s solecism share, clear / (clear + present) at weight 20, can reorder
+candidates with equal fatal counts. WP-16.1 measures that and reports it, rather than leaving the
+sentence standing. Executed by WP-16.1.

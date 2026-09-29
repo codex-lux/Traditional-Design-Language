@@ -1,6 +1,6 @@
 # OQ 79 — two sourced rules give the eave cornice two different projections, and nothing is entitled to choose
 
-*Status: OPEN · Raised in: From the geometry layer (WP-5.11, 26 Aug 2026)*
+*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: From the geometry layer (WP-5.11, 26 Aug 2026)*
 
 **OPEN — two sourced rules give the eave cornice two different projections, and nothing is entitled to choose.** `eave_cornice()` sizes Gibbs's Ionic cornice so its HEIGHT fills `facade-classical`'s domestic envelope (2 parts of the bay module, 24.56 in here). Gibbs's own rule then fixes its projection: *"The projection of the Cornice equal to its height"*, which he holds for every order but the Doric — so the order projects **24.56 in**. `facade-classical`'s own `cornice/projection` rule says `module / 14`, which at this storey height is **10.53 in**. Both are sourced, both are about the same cornice on the same wall, and they differ by a factor of 2.3. This is the OQ 48 class — two packs meaning different quantities at one address — but at the CASCADE scope OQ 48 explicitly did not close, and it is not a naming collision that a `quantity` field can separate: they genuinely disagree about how far the thing sticks out. The record now carries both (`order_relief_beyond_frieze_in`, `envelope_projection_in`) with a `projection_disagreement_note`, the detail inset draws the order's own profile and the elevation band draws the envelope's figure, and the sheet prints both and says both are sourced. That is disclosure, not resolution. A ruling would say which governs a domestic front — most likely the envelope, with the order read as the profile's SHAPE and not its depth, but that is a judgment about what "reducing an order" means and it belongs to Lucas. Nothing should silently pick one before then.
 
@@ -22,3 +22,17 @@ them; none of the English Georgian nodes does. That is evidence for the reading 
 most likely, and not a ruling. The inset's caption now says which surface draws which: *"THE FACE DRAWS THE
 ENVELOPE'S, THIS PROFILE THE ORDER'S (OQ 79)"*. Drawing the order's profile at the face's corners
 means choosing, and waits on the ruling this entry asks for.
+
+## Ruled 29 September 2026 (Lucas, asked directly): the envelope's depth, the order's shape, and a 2½ in bed mould
+
+- **The projection.** *Envelope depth, order shape*: the envelope (module/14) governs how far a
+  domestic cornice projects. Gibbs's profile is scaled into that depth, so the face and the inset
+  draw one cornice with the order's proportions. Member heights are kept and projections scaled.
+  This is the reading the entry above called most likely.
+- **The bed mould.** *Hold it at 2½ in*: the bed mould keeps the 2½ in that the fault's own note
+  gives for a real bed mould (after Benjamin). The members above share the rest of the envelope's
+  depth in Gibbs's proportions. The figure is labelled a judgment on the inset and in the record.
+  This was asked because a uniform scale makes the bed mould 1.2 in on Tidewater and 1.0 in on the
+  spec Colonial, under `bed-mould-omitted`'s 1.5 in floor.
+
+Executed by WP-16.5. This entry closes when that package lands.

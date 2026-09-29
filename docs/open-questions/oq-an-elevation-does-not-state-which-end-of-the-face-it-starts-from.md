@@ -1,6 +1,6 @@
 # oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from — and every face in the corpus is symmetric, so nothing can catch it
 
-*Status: OPEN · Raised in: WP-12.4, the Round (9 September 2026)*
+*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: WP-12.4, the Round (9 September 2026)*
 
 **`build/elevation.py::_face_bays` computes its bay centres as `(i + 0.5) * bay_w` across the
 span and never consults the face.** So an elevation record's `centres_ft` are measured from *an*
@@ -84,3 +84,18 @@ outside (the draughtsman's convention), which would let those two plates registe
 `FACE_MIRRORED` is the one switch, and `build/elevation.py` records why flipping it is a ruling:
 the scene, the stack reader, the DXF and the sheet all read it together. Question 2 is answered
 in the record's favour: it says so, and the Round reads it.
+
+## Ruled 29 September 2026 (Lucas, asked directly): the N and W faces are drawn as seen
+
+Asked: *should the north and west elevations be drawn as seen by someone standing in front of them?*
+Lucas chose **Draw them as seen**:
+
+> The draughtsman's convention. One switch mirrors N and W for the sheet, the DXF, the 3D scene
+> and the stack reader together. Every N and W sheet redraws with the same content reversed, the
+> Round lays all four plates, and the pins are re-derived with attribution.
+
+That answers question 1. An elevation's `u` runs from the face's own left, as a person standing
+outside sees it. `FACE_MIRRORED` becomes True on N and W. The readers that assume the plan's axis
+move with it in one package, WP-16.3 (`PLAN-OF-ACTION.md`, Phase 16). The planning pass counted
+seven of them; WP-16.3 re-derives that list rather than quoting it. This entry stays IN PROGRESS
+until that package lands.

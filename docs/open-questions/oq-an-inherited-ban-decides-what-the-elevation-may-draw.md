@@ -1,6 +1,6 @@
 # oq/an-inherited-ban-decides-what-the-elevation-may-draw — most of what the elevation is forbidden to draw, a style never forbade
 
-*Status: OPEN · Raised in: WP-14.1, the ink read back (27 September 2026)*
+*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: WP-14.1, the ink read back (27 September 2026)*
 
 **The figures below were corrected on 27 September 2026, the day they were first published.** The
 first version of this entry was measured by a census sweep that set a field nothing reads, so it
@@ -122,3 +122,33 @@ beside the door, the Tidewater sidelights would be drawn again, over a ban meant
 dated 1765. Decision 4 is what refuses them on the ban's own terms. What this amendment changes is
 the census's count, and it does not answer the question: the six were fixed by where a window
 stands, not by what the kit forbids.
+
+## Ruled 29 September 2026 (Lucas, asked directly): fix the wrong bans, then refuse
+
+Asked: *decision 4 — should the elevation refuse whatever a style's resolved kit forbids?*
+Lucas chose **Fix wrong bans, then refuse**:
+
+> Decision 4 stands. First, each inherited ban that strips a style wrongly is corrected in that
+> style's own kit, case by case (for example, colonial-revival binds its own water table, belt,
+> frieze and doorcase). Then the elevation refuses what remains and names the node each ban
+> comes from.
+
+That answers questions 1 and 2. Question 3 is not ruled and stays open here: whether `extends`
+should take its base from the node the delta was written against.
+
+**Two findings from the planning pass qualify the figures above. WP-16.2 re-derives both before
+anything is pinned:**
+
+- **The census names the wrong node.** It names the nearest `extends` delta as a ban's source,
+  not the node that wrote the ban (`resolve_kit.py` records `_source` that way). A read-only
+  trace of the writers moves the own / inherited / both split. The sheet must name the writer,
+  as the ruling says.
+- **The gable-return bans are not colonial-revival's.** On eight of the nine shipped plans that
+  would lose their gable band, the ban is `gothic-revival-american`'s bargeboard rule, reaching
+  them through an `extends` base. On the ninth (bad-03) it is `american-farmhouse-vernacular`'s.
+
+**How it is executed.**
+
+- **WP-16.2** fixes the writer attribution and adjudicates, grouped by (writer, feature).
+- Groups the records do not decide go to Lucas as direct questions.
+- **WP-16.4** carries out the refusal.
