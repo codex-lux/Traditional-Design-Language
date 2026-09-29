@@ -756,7 +756,10 @@ def render_elevation(elev, path, face=None, scale=24.0):
     is_gable_end = face in ("E", "W")
     # roof.py's own build_roof() already computes elevation_profiles for all four faces (WP-3.3,
     # "expose the outline for the elevation generator") -- read that record rather than re-derive it
-    profile_ft = roof["elevation_profiles"][face]   # [(x_ft, height_ft_above_grade), ...], roof.py's own numbers
+    # IN THE FACE'S OWN u (WP-16.3): roof.py states every profile in the plan's direction, and the
+    # north and west faces are drawn as seen from outside. `elevation.face_profile` is the one
+    # spelling; reading the record's list as u would draw an asymmetric roof back to front.
+    profile_ft = EL.face_profile(roof, face, elev["footprint"])  # [(u_ft, height_ft_above_grade), ...]
     ridge_delta_ft = true_eave_ft - top_of_wall_ft                   # shift the whole silhouette up by the cornice band this file adds on top
     profile_ft = [(x, h + ridge_delta_ft) for x, h in profile_ft]
     top_height_ft = max(h for _, h in profile_ft)

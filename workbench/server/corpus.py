@@ -1301,11 +1301,16 @@ def plate_direction(elev, face=None):
     """The face an elevation plate draws and which way its `u` runs, AS THE RECORD STATES IT.
 
     `mirrored` is `elevation.datum.mirrored[face]`: False where the plate runs with the plan's own
-    axis (every face, since WP-13.3), True where it runs against it, and **None where the record
-    states nothing** -- an elevation the generator declined, whose plate is a refusal and not a
-    face -- never a default of False, because a plate whose direction nobody stated is not a plate
-    known to run with the plan. The Round refuses a face plate carrying None rather than assume a
-    direction (frame.js::plateRegistration)."""
+    axis, True where it runs against it, and **None where the record states nothing** -- an
+    elevation the generator declined, whose plate is a refusal and not a face -- never a default
+    of False, because a plate whose direction nobody stated is not a plate known to run with the
+    plan. The Round refuses a face plate carrying None rather than assume a direction
+    (frame.js::plateRegistration).
+
+    SINCE WP-16.3 IT IS TRUE ON N AND W (R2, ruled 29 Sep 2026): every face is drawn as seen from
+    outside, which on S and E is the plan's own axis and on N and W is against it. From WP-13.3
+    until then it was False on all four, and the Round refused the N and W plates because a plate
+    reading with the plan's axis runs right to left as a camera on those sides sees it."""
     f = face or (elev or {}).get("entrance_face")
     m = ((elev or {}).get("datum") or {}).get("mirrored")
     return {"face": f, "mirrored": m.get(f) if isinstance(m, dict) and f in m else None}
@@ -1396,11 +1401,10 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
             re_.render_elevation(elev, out_path, face=face)
             meta = {"entrance_face": elev.get("entrance_face"),
                     # WHICH WAY THIS PLATE'S `u` RUNS, AS THE RECORD STATES IT (WP-15.8's audit).
-                    # `elevation.datum.mirrored` has said since WP-13.3 that no face is drawn
-                    # mirrored -- u runs with the plan's own axis on all four -- and the Round laid
-                    # a plate over the model on an ASSUMPTION that u runs along the camera's right,
-                    # which is false on N and W. The Round reads this now and refuses a plate that
-                    # would lie over the model reversed, rather than assume it.
+                    # The Round laid a plate over the model on an ASSUMPTION that u runs along the
+                    # camera's right, which was false on N and W from WP-13.3 until WP-16.3 drew
+                    # those faces as seen from outside (R2). It reads this now and refuses a plate
+                    # that would lie over the model reversed, rather than assume either way.
                     **plate_direction(elev, face),
                     "date_of_representation": elev.get("date_of_representation"),
                     "glass_module_in": elev.get("glass_module_in"),

@@ -141,9 +141,13 @@ def test_its_own_wall_and_both_gables_see_it_from_the_ground(rear):
         mk = _mark(el, face, stack)
         assert mk and mk["from_grade"] and mk["relation"] == rel, (face, mk)
         assert min(h for _u, h in mk["outline"]) == 0.0, (face, mk["outline"])
-        if face in "EW":
-            # it stands beyond the corner, past the gable's own depth
+        if face == "E":
+            # it stands beyond the corner, past the gable's own depth: E runs south to north
             assert min(u for u, _h in mk["outline"]) >= D - 1e-6, (face, mk["outline"])
+        elif face == "W":
+            # and the W face is drawn as seen from outside, north on its LEFT (R2, WP-16.3), so a
+            # stack north of the house stands before the face's left edge
+            assert max(u for u, _h in mk["outline"]) <= 1e-6, (face, mk["outline"])
     said = " ".join(_svg(el, "E").split())
     assert "THEY STAND AT THE FAR END" not in said, "nothing of the house stands in front of it"
 
@@ -278,14 +282,20 @@ def test_each_face_draws_the_rear_stack_where_its_square_stands(rear):
     """S01 (WP-15.8's audit, auditor M): the only plan that draws stacks draws a mirror-symmetric
     pair, one at each gable, so a face reading every stack end for end drew the same picture and
     V17, V23 and X3 all agreed. The rear stack stands off the house's centre line: every face that
-    draws it draws it at its own square, along the face as the face runs (no face is drawn
-    mirrored, `elevation.FACE_MIRRORED`)."""
+    draws it draws it at its own square, along the face as the face runs.
+
+    SINCE WP-16.3 THE N AND W FACES RUN FROM THEIR FAR END (R2: drawn as seen from outside), so
+    the square's span on those faces is its distance from the east end and from the north end.
+    The expected spans are written out here with the footprint's own numbers and not through
+    `elevation.face_u_outside`, which is the conversion under test."""
     el, stack = rear
     x0, y0, x1, y1 = stack["plan_rect_ft"]
     W = el["footprint"]["width_ft"]
+    D = el["footprint"]["depth_ft"]
     assert abs((x0 + x1) / 2.0 - W / 2.0) > 2.0, ("the premise: the stack is off the centre line", x0, x1, W)
-    assert not any(EL.FACE_MIRRORED.get(f) for f in "SNEW"), EL.FACE_MIRRORED
-    for face, (lo, hi) in (("S", (x0, x1)), ("N", (x0, x1)), ("E", (y0, y1)), ("W", (y0, y1))):
+    assert EL.FACE_MIRRORED == {"S": False, "E": False, "N": True, "W": True}, EL.FACE_MIRRORED
+    for face, (lo, hi) in (("S", (x0, x1)), ("N", (W - x1, W - x0)),
+                           ("E", (y0, y1)), ("W", (D - y1, D - y0))):
         mk = _mark(el, face, stack)
         us = [u for u, _h in mk["outline"]]
         assert abs(min(us) - lo) < 0.01 and abs(max(us) - hi) < 0.01, (face, min(us), max(us), lo, hi)

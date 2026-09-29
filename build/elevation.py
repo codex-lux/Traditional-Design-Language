@@ -354,21 +354,22 @@ def _bay_count(facade_pack, span_ft):
 # `_face_bays` at 4.684.. (outside width / count, a 9.369 ft pitch against the plan's 9.0) -- up
 # to 13.3 in apart, and nothing said which frame any of them was in.
 #
-# AND THE N AND W FACES ARE NOT MIRRORED, WHICH IS A STATEMENT AND NOT AN OVERSIGHT. A drafter
-# draws a north elevation as seen from the north, with east on the left; this record does not,
-# and until WP-13.3 nothing could tell, because every face carried a symmetric rhythm. The first
-# version of this slice mirrored N and W to the drafter's convention (which is also what the
-# gate row's own conversion assumes for those faces) and the tree said no in three places at
-# once: `scene._face_extrude` lays a face's u out along +x or +y on every face, so the Round
-# put the spec Colonial's placed front door 44.0 ft from where the plan has it;
-# `stack_axes_for_face` returns the roof's own x or y, so the W face's stack refusal compared a
-# mirrored window against an unmirrored stack; and the DXF draws the same way. One convention
-# across four readers is what this record has; reversing it is a change to all four and a
-# ruling, and `FACE_MIRRORED` is the one switch that ruling would flip. Until then an N or W
-# plate reads as the plan reads, and `elevation.datum.mirrored` says so on the record. (The
-# gate row mirrors N and W in its own conversion; no gate sheet has an N or W entrance front,
-# so the row cannot see the difference -- noted rather than loosened.)
-FACE_MIRRORED = {"S": False, "E": False, "N": False, "W": False}
+# THE N AND W FACES ARE DRAWN AS SEEN FROM OUTSIDE (R2, ruled 29 Sep 2026; WP-16.3). A drafter
+# draws a north elevation as seen from the north, with east on the LEFT, and a west elevation
+# with north on the left; this record did not, from WP-13.3 until WP-16.3, and said so here and
+# in `elevation.datum.mirrored`. Lucas ruled the drafter's convention, so on N and W `u` runs from
+# the face's own left edge AS SEEN -- east to west on N, north to south on W -- and on S and E it
+# still runs with the plan's axis, which on those faces is the same thing.
+#
+# THE FLIP IS ONE SWITCH AND EVERY READER MOVES WITH IT, which is what WP-13.3 found it could not
+# be before: `scene._face_extrude` laid u along +x or +y on every face, `stack_axes_for_face`
+# returned the roof's own x or y, the stack outlines and the roof's per-face profiles were read
+# in the plan's direction, and the Round laid its plates by `u` alone. Each reads the direction
+# now, through the conversions below: `face_u_ft` for a CLEAR plan coordinate, `face_u_outside`
+# for an OUTSIDE one (the roof's and a stack square's frame), `face_along_ft` for the inverse, and
+# `face_profile` for a roof profile. A reader that computes a face coordinate any other way is
+# the half-mirrored drawing this switch exists to prevent.
+FACE_MIRRORED = {"S": False, "E": False, "N": True, "W": True}
 X_DATUM = "outside face"
 
 
@@ -382,18 +383,82 @@ def face_u_words():
     plain = [f for f in FACES if not FACE_MIRRORED[f]]
     mirrored = [f for f in FACES if FACE_MIRRORED[f]]
     parts = ([f"u = along + t on {_and(plain)}"] if plain else []) + \
-            ([f"u = clear span + t - along on {_and(mirrored)}"] if mirrored else [])
+            ([f"u = outside width - (along + t) on {_and(mirrored)}"] if mirrored else [])
     return "; ".join(parts) + " (`elevation.face_u_ft`)"
 
 
-def face_u_ft(face, along_ft, clear_w_ft, clear_d_ft, t_ft):
+def face_u_ft(face, along_ft, clear_w_ft, clear_d_ft, t_ft, outside_ft=None):
     """A plan coordinate ALONG one wall, in that face's own datum (feet from the face's left
-    edge on the outside of the wall, running with the plan's axis; see `FACE_MIRRORED`). The one
-    spelling of the conversion; every reader here takes it or is held against it."""
+    edge as seen from outside, on the outside of the wall; see `FACE_MIRRORED`). The one
+    spelling of the conversion; every reader here takes it or is held against it.
+
+    ON A MIRRORED FACE THE AXIS IS THE FACE'S OWN DRAWN WIDTH, `outside_ft` (WP-16.3): the
+    footprint's stated outside figure (`face_span_outside_ft`), which the wall band, the roof's
+    silhouette and the scene are all drawn to, so the drawing seen from outside is the drawing in
+    the plan's direction reversed end for end and nothing else. `section.footprint` states that
+    figure ROUNDED to two places, and the first version of the flip reflected the openings about
+    the exact clear span plus two walls instead: every mirrored opening stood 0.0033 ft (on the
+    Tidewater N face) off its reflected wall, the scene then had to be taught the exact figure to
+    land them, and the wall beside the spec Colonial's doorcase read 435.81 in where the same wall
+    read 435.86 in the plan's direction. The exact figure is only the fallback for a caller that
+    states no outside width, which equals the stated one to the footprint's own rounding."""
     if face not in FACE_MIRRORED:
         raise ValueError(f"no such face {face!r}")
-    span = clear_w_ft if face in ("S", "N") else clear_d_ft
-    return (span + t_ft - along_ft) if FACE_MIRRORED[face] else (along_ft + t_ft)
+    if not FACE_MIRRORED[face]:
+        return along_ft + t_ft
+    span_out = outside_ft if outside_ft is not None else \
+        (clear_w_ft if face in ("S", "N") else clear_d_ft) + 2.0 * t_ft
+    return span_out - (along_ft + t_ft)
+
+
+def face_along_ft(face, u_ft, clear_w_ft, clear_d_ft, t_ft, outside_ft=None):
+    """The inverse of `face_u_ft`: a face's `u` back to the CLEAR plan coordinate along its wall
+    (WP-16.3), about the same axis. The scene's entrance check reads it, so a drawn door is held
+    against the placed one through the same datum it was drawn in and never by a hand-written
+    shift."""
+    if face not in FACE_MIRRORED:
+        raise ValueError(f"no such face {face!r}")
+    if not FACE_MIRRORED[face]:
+        return u_ft - t_ft
+    span_out = outside_ft if outside_ft is not None else \
+        (clear_w_ft if face in ("S", "N") else clear_d_ft) + 2.0 * t_ft
+    return span_out - u_ft - t_ft
+
+
+def face_span_outside_ft(face, fp):
+    """The face's drawn width: the OUTSIDE figure the footprint states for it (WP-16.3), the one
+    `_face_bays` spans the face with, the wall band is drawn to and roof.py lays its roof over --
+    and so the one axis every mirrored reader reflects about (`face_u_ft`, `face_u_outside`, the
+    scene's `_face_extrude`). `fp` is the OUTSIDE footprint (`section.footprint`)."""
+    if face not in FACE_MIRRORED:
+        raise ValueError(f"no such face {face!r}")
+    return float(fp["width_ft"] if face in ("S", "N") else fp["depth_ft"])
+
+
+def face_u_outside(face, coord_ft, fp):
+    """A coordinate in the OUTSIDE frame -- 0 at the outside south-west corner, the frame the roof,
+    its profiles and a stack's square are stated in -- to this face's `u` (WP-16.3). On S and E it
+    is the coordinate itself; on a mirrored face it is the distance from the far end, which is
+    `face_u_ft`'s own mirror, with along + t the outside coordinate. `fp` is the OUTSIDE
+    footprint, and the far end is `face_span_outside_ft`'s, the axis `face_u_ft` reflects about."""
+    if face not in FACE_MIRRORED:
+        raise ValueError(f"no such face {face!r}")
+    return (face_span_outside_ft(face, fp) - coord_ft) if FACE_MIRRORED[face] else coord_ft
+
+
+def face_profile(roof, face, fp):
+    """The roof's profile on one face, as that face draws it: `roof.elevation_profiles[face]` in
+    the face's own `u` (WP-16.3). roof.py states every profile in the OUTSIDE frame and the plan's
+    direction, which is a face's `u` on S and E; on a mirrored face each point is moved to its
+    distance from the far end and the list is reversed, so it still runs left to right. The one
+    spelling render_elevation and export_dxf read. roof.py is left in the plan frame on purpose:
+    the scene lays its roof planes and gables in model space from the same profiles, and the
+    roof's pinned digest (tests/test_threshold_pass.py) is a statement about the roof, not about
+    which way a drawing of it reads."""
+    pts = ((roof or {}).get("elevation_profiles") or {}).get(face) or []
+    if not FACE_MIRRORED.get(face):
+        return [(float(x), float(h)) for x, h in pts]
+    return [(face_u_outside(face, float(x), fp), float(h)) for x, h in reversed(pts)]
 
 
 def _face_bays(facade_pack, span_ft, has_entrance, plan_bays=None, rhythm=None, t_ft=0.0,
@@ -413,7 +478,7 @@ def _face_bays(facade_pack, span_ft, has_entrance, plan_bays=None, rhythm=None, 
     **`plan_bays` IS THE PLAN'S OWN COUNT AND IT WINS (WP-11.7)**, and **WHERE `facade.rhythm()`
     DERIVED THE RHYTHM ITS CENTRES ARE TAKEN VERBATIM (WP-13.3)** -- one spelling -- and shifted
     from the clear frame the plan states them in to this face's outside datum by the exterior wall
-    thickness (`face_u_ft`; the N face reads with the plan's axis, see `FACE_MIRRORED`). Until
+    thickness (`face_u_ft`; the N face is drawn as seen from outside, see `FACE_MIRRORED`). Until
     WP-13.3 the count came from the plan and the SPACING did
     not: the count was divided evenly into the face's OUTSIDE width, so the rhythm here was 9.369
     ft to the plan's 9.0 and bay 1's centre sat at 4.684 ft outside against the plan's 4.5 ft
@@ -438,10 +503,15 @@ def _face_bays(facade_pack, span_ft, has_entrance, plan_bays=None, rhythm=None, 
         # recomputed: `facade.rhythm` spaces `bays` evenly over the block's own clear width, which
         # is what the plan states, and this face's outside width is that plus two walls.
         clear = [o["centre_ft"] for o in rhythm["bays_out"]]
-        centres_ft = sorted(round(face_u_ft(face, c, clear_w_ft, clear_d_ft or 0.0, t_ft), 3)
-                            for c in clear)
+        # PAIRED, THEN SORTED BY `u` (WP-16.3): on a face drawn as seen from outside the clear
+        # centres run the other way, and a list sorted by u beside one left in plan order would
+        # put bay i's u beside bay (n-1-i)'s clear centre.
+        pairs = sorted((round(face_u_ft(face, c, clear_w_ft, clear_d_ft or 0.0, t_ft,
+                                         outside_ft=span_ft), 3),
+                        round(c, 3)) for c in clear)
+        centres_ft = [u for u, _c in pairs]
         bay_w_in = float(rhythm["realised_bay_width_ft"]) * 12.0
-        clear_centres = [round(c, 3) for c in clear]
+        clear_centres = [c for _u, c in pairs]
         spacing_source = "facade.rhythm()"
     else:
         bay_w_in = span_in / count
@@ -463,7 +533,8 @@ def _face_bays(facade_pack, span_ft, has_entrance, plan_bays=None, rhythm=None, 
                       f"(oq/the-facade-is-a-result-not-an-input); the centres are facade.rhythm()'s "
                       f"own, stated in the clear frame at a {round(bay_w_in/12,3)} ft pitch and "
                       f"shifted here by the {round(t_ft,4)} ft exterior wall to this face's outside "
-                      f"datum" + (", mirrored (FACE_MIRRORED)." if mirrored else
+                      f"datum" + (", drawn as seen from outside, so running against the "
+                                  f"plan's axis (FACE_MIRRORED)." if mirrored else
                                   ", running with the plan's own axis (FACE_MIRRORED).")
                       ) if clear_centres is not None else
                      (f"Bay count from the PLAN's own footprint.bays ({count}), which is the "
@@ -528,8 +599,9 @@ def stack_axes_for_face(face, chimneys, fp):
     """Where the stacks in THIS wall's plane fall on this face's own horizontal axis.
 
     The roof's plan frame has x along the ridge and y across it. A gable end's own horizontal axis
-    IS that plan y, and a long face's is x -- the same mapping `render_elevation` uses for the
-    stacks themselves. A stack counts as being in a wall's plane when it stands at that wall: at a
+    runs along that plan y, and a long face's along x, in the face's own direction
+    (`face_u_outside`: on N and W, drawn as seen from outside, it runs against the plan's axis,
+    WP-16.3). A stack counts as being in a wall's plane when it stands at that wall: at a
     ridge END for a gable face, at the near or far wall for a long face. Both of this house's
     stacks are at mid-depth, so they are in the gable walls and in neither long wall, which is why
     the front elevation loses no bay and the ends lose their centre one.
@@ -548,7 +620,11 @@ def stack_axes_for_face(face, chimneys, fp):
             continue
         at = {"W": abs(x) < 0.5, "E": abs(x - W) < 0.5, "S": abs(y) < 0.5, "N": abs(y - D) < 0.5}
         if at.get(face):
-            out.append(y if face in ("E", "W") else x)
+            # THE FACE'S OWN `u`, NOT THE ROOF'S x OR y (WP-16.3). The roof states a stack in
+            # the outside frame and the plan's direction; on a face drawn as seen from outside
+            # that is the distance from the far end, and every reader of these axes compares
+            # them with a face's u.
+            out.append(face_u_outside(face, y if face in ("E", "W") else x, fp))
     return out
 
 
@@ -680,7 +756,7 @@ def placed_openings(placed, section, entrance_face, faces=None):
                 continue
             width_ft = float(o.get("width_ft") or 0.0)
             along = float(o["at_ft"])
-            u = face_u_ft(face, along, Wc, Dc, t_ft)
+            u = face_u_ft(face, along, Wc, Dc, t_ft, outside_ft=face_span_outside_ft(face, fp))
             src = f"plan.levels[{i}].rooms[{o['room']}].{'doors' if kind == 'door' else 'windows'} (wall {face})"
             # WHOSE WIDTH. `derive_openings` draws an opening the record left unwidthed at its
             # own default (3.5 ft for an exterior door, 3 ft for a window) and flags only the
@@ -696,6 +772,10 @@ def placed_openings(placed, section, entrance_face, faces=None):
                             and any(abs(float(p) - along) < 1e-9
                                     for p in (w.get("positions_ft") or []))), None)
                 declared = bool(win and win.get("width_ft"))
+            # `hinge` IS THE PLAN'S, NOT THE FACE'S (WP-16.3): "low" and "high" name the jamb at
+            # the plan's low and high coordinate along the wall, as `openings.place` wrote them.
+            # On a face drawn as seen from outside (N and W) the low jamb is on the RIGHT. No
+            # elevation surface draws a leaf's swing; a reader that ever does must convert.
             base = {"kind": kind, "room": o["room"], "level_index": idx, "storey": storey,
                     "along_ft": along, "edge_ft": o.get("edge_ft"), "width_ft": width_ft,
                     "width_declared": declared,
@@ -736,7 +816,9 @@ def placed_openings(placed, section, entrance_face, faces=None):
                 p["bay"] = None
         doors = [p for p in out[f]["placed"] if p["kind"] == "door" and p["storey"] == "ground"]
         if f == entrance_face and doors:
-            ent = doors[DC.entrance_index([(p["width_ft"], p["u_ft"]) for p in doors])]
+            # THE PLAN COORDINATE BREAKS A TIE, not the face's `u` (WP-16.3): on a face drawn as
+            # seen from outside u runs against the plan, and the placer ties on the plan.
+            ent = doors[DC.entrance_index([(p["width_ft"], p["along_ft"]) for p in doors])]
             ent["entrance"] = True
     return {"faces": out, "unplaced_doors": unplaced_doors,
             "datum": {"x": X_DATUM, "wall_thickness_ft": round(t_ft, 4),
@@ -1469,18 +1551,24 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
         no_candidates_why = (f"the {face} face record carries no placed openings, so there is "
                              f"no window below to centre a dormer on")
     else:
-        centres = sorted(p["u_ft"] for p in face_rec["placed"]
-                         if p["kind"] == "window" and p["storey"] == "upper"
-                         and not opening_on_a_stack(p["u_ft"], p["width_ft"],
-                                                    face_rec.get("stack_axes_ft") or [],
-                                                    face_rec.get("stack_half_width_ft") or 0.0))
+        _cands = sorted((p["u_ft"], p["along_ft"]) for p in face_rec["placed"]
+                        if p["kind"] == "window" and p["storey"] == "upper"
+                        and not opening_on_a_stack(p["u_ft"], p["width_ft"],
+                                                   face_rec.get("stack_axes_ft") or [],
+                                                   face_rec.get("stack_half_width_ft") or 0.0))
+        centres = [u for u, _a in _cands]
+        _along = [a for _u, a in _cands]
         no_candidates_why = (f"the plan places no upper-storey window on the {face} face, so "
                              f"there is no window below to centre a dormer on") if not centres \
             else None
     if count and len(centres) >= count:
         # Centred on windows below, taken from the middle outward so an odd count sits on the
         # centre bay -- which is what the kit's parity rule is FOR on a five-bay front.
-        order = sorted(range(len(centres)), key=lambda i: abs(i - (len(centres) - 1) / 2.0))
+        # Two candidates equally far from the middle tie to the one at the lower PLAN coordinate
+        # (WP-16.3): the face's own u runs against the plan on N and W, and which physical window
+        # takes a dormer must not depend on which way the drawing reads.
+        order = sorted(range(len(centres)),
+                       key=lambda i: (abs(i - (len(centres) - 1) / 2.0), _along[i]))
         chosen = sorted(order[:count])
         positions = [centres[i] for i in chosen]
     else:
@@ -2370,6 +2458,13 @@ def stack_outline(face, c, roof, fp):
     x0, y0, x1, y1 = rect
     D = fp["depth_ft"]
     top = c["total_height_grade_ft"]
+
+    def _us(a, b):
+        # THE FACE'S OWN `u` FOR TWO OUTSIDE-FRAME COORDINATES, left then right as the face is
+        # drawn (WP-16.3). Every outline below is stated "top left, top right, then the foot from
+        # right to left", and `render_elevation._draw_stack` shades the edge it finds at the
+        # second and third vertices, so a mirrored face has to reorder and not merely reflect.
+        return tuple(sorted((face_u_outside(face, a, fp), face_u_outside(face, b, fp))))
     # WHICH SIDE OF THE HOUSE, READ OFF THE SQUARE (WP-15.8): an exterior stack stands in front
     # of its own wall and beside the house from either wall perpendicular to it, and both see it
     # to the ground; the wall opposite sees it over the house. `stack_relation` is that reading.
@@ -2381,7 +2476,7 @@ def stack_outline(face, c, roof, fp):
         # something the drawing does not use.
         if top <= 0.0:
             return {"refused": "hidden"}
-        u0, u1 = (x0, x1) if face in ("S", "N") else (y0, y1)
+        u0, u1 = _us(*((x0, x1) if face in ("S", "N") else (y0, y1)))
         return {"outline": [(u0, top), (u1, top), (u1, 0.0), (u0, 0.0)], "from_grade": True,
                 "relation": rel}
     end = (roof.get("elevation_profiles") or {}).get("E") or []
@@ -2397,11 +2492,15 @@ def stack_outline(face, c, roof, fp):
     if face in ("E", "W"):
         # the far gable's stack ("behind") and an interior one stand behind or inside the gable's
         # own rake at their depth
-        us = [y0] + inner(y0, y1) + [y1]
-        foot = [(u, min(rake(u), top)) for u in us]
-        if all(h >= top - 1e-6 for _u, h in foot):
+        ts = [y0] + inner(y0, y1) + [y1]
+        foot = [(t, min(rake(t), top)) for t in ts]       # plan depth t, and the height there
+        if all(h >= top - 1e-6 for _t, h in foot):
             return {"refused": "hidden"}
-        return {"outline": [(y0, top), (y1, top)] + list(reversed(foot)), "relation": rel}
+        # The rake is read at the plan depth; the outline is stated in the face's own u, left to
+        # right, and the foot runs right to left (WP-16.3).
+        pts = sorted((face_u_outside(face, t, fp), h) for t, h in foot)
+        return {"outline": [(pts[0][0], top), (pts[-1][0], top)] + list(reversed(pts)),
+                "relation": rel}
     if rel == "behind":
         # a long face, and a stack outboard of the OPPOSITE long wall (WP-15.8): the whole house
         # stands in front of it, so it shows above the highest point of the roof between, the
@@ -2409,7 +2508,8 @@ def stack_outline(face, c, roof, fp):
         foot_h = min(max(h for _t, h in end), top)
         if foot_h >= top - 1e-6:
             return {"refused": "hidden"}
-        return {"outline": [(x0, top), (x1, top), (x1, foot_h), (x0, foot_h)], "relation": rel}
+        u0, u1 = _us(x0, x1)
+        return {"outline": [(u0, top), (u1, top), (u1, foot_h), (u0, foot_h)], "relation": rel}
     # a long face, and an INTERIOR stack: the exterior ones returned above
     own = min(rake(y0), rake(y1))            # the rake is highest at the ridge: its least is an end
     front = (0.0, y0) if face == "S" else (y1, D)
@@ -2418,7 +2518,8 @@ def stack_outline(face, c, roof, fp):
     foot_h = min(max(own, hider), top)
     if foot_h >= top - 1e-6:
         return {"refused": "hidden"}
-    return {"outline": [(x0, top), (x1, top), (x1, foot_h), (x0, foot_h)], "relation": rel}
+    u0, u1 = _us(x0, x1)
+    return {"outline": [(u0, top), (u1, top), (u1, foot_h), (u0, foot_h)], "relation": rel}
 
 
 def stack_marks(elev, face):

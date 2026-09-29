@@ -12,6 +12,15 @@ so a digest is a statement about the code and not about the clock), it renders:
   the section                         `<plan>/section`
   the roof                            `<plan>/roof`
   the elevation, all four faces       `<plan>/elev-<face>`
+  the elevation DXF, all four faces   `<plan>/dxf-elev-<face>`   (where ezdxf is installed)
+  the scene record                    `<plan>/scene`
+
+A DXF is hashed by its ENTITIES, not its bytes: ezdxf stamps every file with its creation time
+and fresh GUIDs, so two exports of one drawing never share a byte digest. Each modelspace entity
+contributes its type, its layer, its geometry rounded to a thousandth and its text. The scene is
+hashed as its JSON with the keys sorted. Both were added by WP-16.3 (29 Sep 2026), whose faces
+move on all three surfaces at once; a digest of the sheet alone could not have said that the DXF
+and the model moved with it.
 
 and records the first 16 hex digits of each sheet's sha256. A sheet whose renderer raised is
 recorded as `ERR <exception type>`, never dropped: a sheet missing from one side of a diff would
@@ -59,6 +68,52 @@ def digest(root):
             with open(path, "rb") as fh:
                 return hashlib.sha256(fh.read()).hexdigest()[:16]
 
+        SC = mod("scene")
+        try:
+            import ezdxf  # noqa: F401  -- optional; the DXF sheets are left out, and said so
+            DX = mod("export_dxf")
+        except ImportError:
+            DX = None
+            print("ezdxf is not installed: the DXF sheets are not hashed", file=sys.stderr)
+
+        def _r(v):
+            return round(float(v), 3)
+
+        def dxf(key, elev, face):
+            """An elevation DXF's entities, in drawing order: type, layer, rounded geometry and
+            text. Byte-hashing a DXF hashes its creation time."""
+            import ezdxf
+            path = os.path.join(tmp, "sheet.dxf")
+            if os.path.exists(path):
+                os.remove(path)        # a refusal writes nothing, so never hash the last face's file
+            try:
+                res = DX.export_elevation_dxf(elev, path, face=face)
+                if isinstance(res, dict) and (res.get("error") or res.get("refusal")):
+                    out[key] = "REFUSED"
+                    return
+                doc = ezdxf.readfile(path)
+                rows = []
+                for e in doc.modelspace():
+                    d = e.dxf
+                    row = [e.dxftype(), d.get("layer", "")]
+                    for attr in ("start", "end", "insert", "center"):
+                        if d.hasattr(attr):
+                            row.append([_r(c) for c in d.get(attr)])
+                    for attr in ("radius", "height", "start_angle", "end_angle", "width"):
+                        if d.hasattr(attr):
+                            row.append(_r(d.get(attr)))
+                    if e.dxftype() == "LWPOLYLINE":
+                        row.append([[_r(c) for c in p] for p in e.get_points()])
+                    elif e.dxftype() == "HATCH":
+                        row.append([[[_r(c) for c in v] for v in path.vertices]
+                                    for path in e.paths if hasattr(path, "vertices")])
+                    elif e.dxftype() in ("TEXT", "MTEXT"):
+                        row.append(e.dxf.text if e.dxftype() == "TEXT" else e.text)
+                    rows.append(row)
+                out[key] = hashlib.sha256(json.dumps(rows).encode()).hexdigest()[:16]
+            except Exception as e:  # recorded, never dropped
+                out[key] = "ERR " + type(e).__name__
+
         def draw(key, fn, *args, **kw):
             path = os.path.join(tmp, "sheet.svg")
             try:
@@ -85,6 +140,16 @@ def digest(root):
             if "error" not in elev:
                 for face in "SNEW":
                     draw(f"{pid}/elev-{face}", RE.render_elevation, elev, face=face)
+                if DX is not None:
+                    for face in "SNEW":
+                        dxf(f"{pid}/dxf-elev-{face}", elev, face)
+            if "error" not in roof:
+                try:
+                    sc = SC.build_scene(placed, sec, roof, elev if "error" not in elev else None)
+                    out[f"{pid}/scene"] = hashlib.sha256(json.dumps(
+                        sc, sort_keys=True, default=str).encode()).hexdigest()[:16]
+                except Exception as e:  # recorded, never dropped
+                    out[f"{pid}/scene"] = "ERR " + type(e).__name__
         return out
     finally:
         os.chdir(here)

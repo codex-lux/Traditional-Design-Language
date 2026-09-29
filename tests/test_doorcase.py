@@ -184,7 +184,15 @@ def test_the_reserved_run_is_the_doorcase_the_elevation_draws(corpus):
         got = EL.doorcase_piers(el, rec["wall"])
         assert got, (pid, "a reserved doorcase is a drawn one")
         t_in = el["section"]["wall"]["exterior_in"]
-        lo, hi = (v * 12.0 + t_in for v in rec["run_ft"])
+        # the run is stated along the wall in the plan's clear frame; the face measures from its
+        # own left edge on the outside of the wall, which on N and W -- drawn as seen from outside
+        # since WP-16.3 -- is the FAR end (the spec Colonial's entrance front is N). Written out
+        # here rather than through `elevation.face_u_ft`, which is guarded on its own.
+        span_in = el["footprint"]["width_ft" if rec["wall"] in ("S", "N") else "depth_ft"] * 12.0
+        ends = [v * 12.0 + t_in for v in rec["run_ft"]]
+        if rec["wall"] in ("N", "W"):
+            ends = [span_in - e for e in ends]
+        lo, hi = sorted(ends)
         assert got["doorcase_in"][0] == pytest.approx(lo, abs=0.05), (pid, got["doorcase_in"], lo)
         assert got["doorcase_in"][1] == pytest.approx(hi, abs=0.05), (pid, got["doorcase_in"], hi)
         seen += 1

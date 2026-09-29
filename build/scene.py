@@ -373,18 +373,34 @@ def _extent(g):
     raise UnknownPrimitive(f"no extent rule for primitive {t!r}")
 
 
-def _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext):
+def _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext, fp=None):
     """(plane, at, outline) for a rectangle on one face, in the scene's own frame (WP-12.6).
 
     THE ONE SPELLING, lifted out of `_openings` because WP-12.6 needed the identical mapping
     for every sash bar, shutter leaf and cornice run — forty more copies of it on the Tidewater
-    plan alone. `u` runs along the face from its own left edge and `z` above grade, both in FEET.
+    plan alone. `u` runs along the face from its own left edge AS SEEN FROM OUTSIDE (WP-16.3) and
+    `z` above grade, both in FEET.
 
     `at` IS THE LOW FACE AND THE EXTRUSION ALWAYS RUNS +AXIS. That is WP-12.2's contract, and its
     first version put `at` on the OUTSIDE face with an always-positive thickness — so south and
     west openings went INTO their walls and north and east ones stood PROUD of them, which no
     number in the record disagreed with and one picture showed at once.
     """
+    # THE FACE'S `u` RUNS FROM ITS OWN LEFT EDGE AS SEEN FROM OUTSIDE (R2, WP-16.3): with the
+    # plan's axis on S and E, against it on N and W, so on those two a rectangle's u is its
+    # distance from the far end of the envelope. `elevation.FACE_MIRRORED` says which, and the
+    # outline is written low coordinate first on every face, whichever way the face reads.
+    # The far end is the axis the elevation reflected about -- the face's drawn width,
+    # `elevation.face_span_outside_ft`, one spelling for every mirrored reader -- so a rectangle
+    # the elevation reflected lands back exactly where the plan seats it. A mirrored face without
+    # the footprint is refused, not guessed.
+    EL = _mod("elevation")
+    if EL.FACE_MIRRORED.get(face):
+        if fp is None:
+            raise ValueError(f"the {face} face is drawn as seen from outside and its span was "
+                             "not handed over: pass the section's footprint")
+        span = EL.face_span_outside_ft(face, fp)
+        u0, u1 = span - u1, span - u0
     if face in ("S", "N"):
         return ("xz", (oy if face == "S" else oy + D - t_ext),
                 [[ox + u0, z0], [ox + u1, z0], [ox + u1, z1], [ox + u0, z1]])
@@ -473,7 +489,7 @@ def _openings(elev, section, states):
             # ones stood proud of it — and it rendered as a house with blocks stuck to two of
             # its faces. Caught by looking at the picture, which is the second time in this
             # phase that a geometry defect was invisible to every number.
-            plane, at, outline = _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext)
+            plane, at, outline = _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext, fp=fp)
             # THE OPENING'S ID IS THE RECT'S OWN AND IS NOT REBUILT HERE. `opening_rects` has
             # named every rectangle since WP-12.2 (`S-0-ground`, `S-3-door`); WP-12.1 rebuilt
             # that name out of four fields, and when WP-12.6 came to dress the opening it keyed
@@ -492,7 +508,7 @@ def _openings(elev, section, states):
                 note="the opening's extent, drawn in the face plane at the reveal. It is a "
                      "FRAME and not a hole: this layer does no boolean subtraction, so the "
                      "wall behind it is the box the section describes"))
-    out.extend(_dress_openings(elev, states, kept, ox, oy, W, D, t_ext, _lvl))
+    out.extend(_dress_openings(elev, states, kept, ox, oy, W, D, t_ext, _lvl, fp=fp))
     return out
 
 
@@ -502,7 +518,7 @@ def _openings(elev, section, states):
 _BAR_IS_SQUARE = True
 
 
-def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=None):
+def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=None, fp=None):
     """Sash bars, shutters and the sill, on every drawn opening (WP-12.6).
 
     EVERY NUMBER IS THE RECORD'S OWN. `lights_across`, `lights_high_per_sash`,
@@ -552,13 +568,13 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=Non
                               f"elevation.opening_rects({face}).{r['id']}", cls="opening")
                 continue
             bw = bar / 12.0
-            plane, at, _ = _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext)
+            plane, at, _ = _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext, fp=fp)
 
             at_out = _on_the_outside_face(face, at, t_ext, bw)
             lvl = (levels or {}).get(r.get("storey"))
 
             def _bar(sid, a, b, c, d, cls):
-                _, _, ol = _face_extrude(face, a, b, c, d, ox, oy, W, D, t_ext)
+                _, _, ol = _face_extrude(face, a, b, c, d, ox, oy, W, D, t_ext, fp=fp)
                 return _solid(sid, cls,
                               {"type": "extrude", "plane": plane, "at": round(at_out, 3),
                                "thickness": round(bw, 4),
@@ -619,7 +635,7 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=Non
                 lw = lw_in / 12.0
                 lh = (r.get("shutter_leaf_height_in") or (r["head_in"] - r["sill_in"])) / 12.0
                 for side, (a, b) in (("l", (u0 - lw, u0)), ("r", (u1, u1 + lw))):
-                    _, _, ol = _face_extrude(face, a, b, z0, z0 + lh, ox, oy, W, D, t_ext)
+                    _, _, ol = _face_extrude(face, a, b, z0, z0 + lh, ox, oy, W, D, t_ext, fp=fp)
                     out.append(_solid(
                         f"{r['id']}-shutter-{side}", "shutter",
                         {"type": "extrude", "plane": plane, "at": round(at_out, 3),
@@ -762,7 +778,7 @@ def _entrance(elev, section, states):
     zt = z1 + ((tr.get("height_in") or 0.0) / 12.0 if tr.get("drawn") else 0.0)
 
     def _plane(sid, cls, u0, u1, za, zb, note, src):
-        pl, at, outline = _face_extrude(face, u0, u1, za, zb, ox, oy, W, D, t_ext)
+        pl, at, outline = _face_extrude(face, u0, u1, za, zb, ox, oy, W, D, t_ext, fp=fp)
         # ON THE OUTSIDE FACE, WHICH `at` IS ONLY ON S AND W (WP-12.8). A flush member has no
         # thickness to set back, so it takes the outside face itself. `spec-builder-colonial`
         # is approached from the N, and its surround, both sidelights and its flush frieze were
@@ -819,7 +835,7 @@ def _entrance(elev, section, states):
     # (Until WP-14.3 the plate drew no transom and this refused it for THAT reason:
     # `oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`.)
     if tr.get("drawn"):
-        pl, at, outline = _face_extrude(face, x0, x1, z1, zt, ox, oy, W, D, t_ext)
+        pl, at, outline = _face_extrude(face, x0, x1, z1, zt, ox, oy, W, D, t_ext, fp=fp)
         at_out = _on_the_outside_face(face, at, t_ext)
         verts = []
         for a, b in list(outline) + [outline[0]]:
@@ -865,7 +881,7 @@ def _entrance(elev, section, states):
                                "projection of 0 states"),
                               f"elevation.entrance.entablature_members[{m.get('id')}]"))
             continue
-        pl, at, outline = _face_extrude(face, u0, u1, h0, h1, ox, oy, W, D, t_ext)
+        pl, at, outline = _face_extrude(face, u0, u1, h0, h1, ox, oy, W, D, t_ext, fp=fp)
         # the member stands PROUD, so it starts at the wall's outer face and runs outward
         lo = at - pr if face in ("S", "W") else at + t_ext
         out.append(_solid(
@@ -914,8 +930,12 @@ def _entrance_agreement(plan, elev, section, states):
     if not elev or elev.get("error") or not ent_face:
         return
     EL, AX = _mod("elevation"), _mod("axis")
-    door = next((r for r in EL.opening_rects(elev, ent_face)["rects"]
-                 if r.get("kind") == "door"), None)
+    # THE ENTRANCE BY ITS OWN FLAG, not the first door along the face (WP-16.3): the first door in
+    # u order is a different door once a face is drawn as seen from outside, and `_entrance`
+    # already picks the entrance this way.
+    rects = EL.opening_rects(elev, ent_face)["rects"]
+    door = next((r for r in rects if r.get("kind") == "door" and r.get("entrance")), None) \
+        or next((r for r in rects if r.get("kind") == "door"), None)
     if door is None:
         return
     # The centre in feet. Written as two steps because 24 is a HALVING and a CONVERSION
@@ -932,7 +952,15 @@ def _entrance_agreement(plan, elev, section, states):
     # this same shift at `ox = oy = -t_ext` on every rectangle it draws; this comparison did
     # not. A disclosure that convicts a record that agrees is worse than no disclosure.
     t_ext = (((section or {}).get("wall") or {}).get("exterior_in") or 0) / 12.0
-    drawn = ((door["x0_in"] + door["x1_in"]) / 2) / 12 - t_ext
+    # BACK TO THE PLAN THROUGH THE ELEVATION'S OWN INVERSE (WP-16.3). This was `u - t_ext`, the
+    # inverse of the unmirrored datum written out by hand, which on a face drawn as seen from
+    # outside is the door's distance from the wrong end.
+    _fp = (section or {}).get("footprint") or {}
+    _Wc = _fp.get("clear_width_ft", (_fp.get("width_ft") or 0.0) - 2 * t_ext)
+    _Dc = _fp.get("clear_depth_ft", (_fp.get("depth_ft") or 0.0) - 2 * t_ext)
+    drawn = EL.face_along_ft(ent_face, ((door["x0_in"] + door["x1_in"]) / 2) / 12,
+                             _Wc, _Dc, t_ext,
+                             outside_ft=EL.face_span_outside_ft(ent_face, _fp) if _fp else None)
     try:
         bay = AX.door_bay(plan) or {}
     except Exception as err:                       # noqa: BLE001 - reported, never swallowed
@@ -968,8 +996,8 @@ def _entrance_agreement(plan, elev, section, states):
         "the doorcase and the stoop in one place",
         f"the elevation draws the front door centred at {drawn:.2f} ft along the {ent_face} "
         f"face and the placement seats it at {placed:.2f} ft in '{bay.get('room')}' — both in "
-        f"the scene's own frame, the elevation's own u shifted by the {t_ext:.3f} ft exterior "
-        f"wall — "
+        f"the scene's own frame, the elevation's own u taken back through its datum "
+        f"(`elevation.face_along_ft`, the {t_ext:.3f} ft exterior wall) — "
         f"{gap:.2f} ft apart. `_face_bays` puts the entrance in the middle bay of the front "
         "whatever the placement did, so the doorcase is drawn where the composition wants it "
         "and the stoop under where the house has it. Both are drawn; their agreement is not "
@@ -1695,8 +1723,11 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
                 row["role"] = "THE ENTRANCE FRONT"
             fb = (elev.get("faces") or {}).get(f) or {}
             if fb:
+                # `mirrored` says which way the centres run (WP-16.3): they are the face's own u,
+                # from its left edge as seen from outside, and on N and W that is against the
+                # plan's axis -- a reader laying them out in the model needs to know.
                 row["bays"] = {"centres_ft": fb.get("centres_ft"), "kinds": fb.get("kinds"),
-                               "note": fb.get("note")}
+                               "mirrored": fb.get("mirrored"), "note": fb.get("note")}
                 row["outside_width_ft"] = (fb.get("outside_width_in") or 0) / 12.0 or None
         faces[f] = row
     if not elev or elev.get("error") or not elev.get("faces"):

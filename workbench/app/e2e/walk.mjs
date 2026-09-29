@@ -2667,23 +2667,30 @@ await visit('#/drawings');
     check(`and it is placed by a real transform (${ov && ov.t && ov.t.slice(0, 24)})`,
       !!(ov && ov.t && ov.t !== 'none'));
 
-    // AND THE NORTH PLATE IS NOT LAID OVER THE MODEL BACKWARDS (WP-15.8's audit). The record
-    // draws every face with the plan's own axis, which from the north runs right to left, and the
-    // affine carries no mirror -- so the plate is refused and the note says which way it reads.
-    // Laid anyway, every opening on it stood over the wrong end of the house and nothing said so.
+    // AND THE NORTH PLATE IS LAID OVER THE MODEL THE RIGHT WAY ROUND (WP-16.3). From WP-15.8's
+    // audit until WP-16.3 the record drew every face with the plan's own axis, which from the north
+    // runs right to left, and the affine carries no mirror -- so this check asserted the plate was
+    // REFUSED. R2 (ruled 29 Sep 2026) draws N and W as seen from outside, east on the north
+    // plate's left, so the plate reads with the camera and is laid; a refusal here now means the
+    // record and the Round disagree about which way the face runs.
     await bar.getByRole('radio', { name: 'N', exact: true }).click();
     await page.waitForTimeout(400);
-    const north = await page.evaluate(() => ({
-      overlay: !!document.querySelector('[data-round-overlay]'),
-      note: (document.querySelector('[data-plate-note]') || {}).innerText || '',
-    }));
+    const north = await page.evaluate(() => {
+      const el = document.querySelector('[data-round-overlay]');
+      const svg = el ? el.querySelector('svg') : null;
+      return { overlay: !!el, frame: svg ? svg.getAttribute('data-frame') : null,
+               t: el ? getComputedStyle(el).transform : null,
+               note: (document.querySelector('[data-plate-note]') || {}).innerText || '' };
+    });
     if (/the flat plate for this view was refused/i.test(north.note)) {
       // the server drew no N face for this record, so the direction has no plate to be about
       unjudged.push(`the N plate reads the record's direction -- COULD NOT EVALUATE: ${north.note.slice(0, 90)}`);
       console.log('N/EV', unjudged[unjudged.length - 1]);
     } else {
-      check(`the N plate is not laid reversed over the model (${north.note.slice(0, 70)})`,
-        !north.overlay && /not laid over the model: drawn west to east/i.test(north.note));
+      check(`the N plate is laid over the model, reading as the camera does (${north.note.slice(0, 70)})`,
+        north.overlay && !/not laid over the model/i.test(north.note)
+          && !!(north.frame && /"px_per_ft"/.test(north.frame))
+          && !!(north.t && north.t !== 'none'));
     }
     await bar.getByRole('radio', { name: 'S', exact: true }).click();
     await page.waitForTimeout(300);

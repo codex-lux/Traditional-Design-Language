@@ -20,7 +20,7 @@ proportion engine, which is a leaf itself, and it holds the arithmetic both call
     facade-classical's `applies_to`): a doorcase exists only where the elevation draws one.
   * `composition` -- the width figures of `elevation.entrance_composition`: the leaf, the casing,
     the sidelights, the width cap and whether the sidelights fit under it.
-  * `entrance_index` -- which door is the entrance: the widest, ties to the lower coordinate.
+  * `entrance_index` -- which door is the entrance: the widest, ties to the lower plan coordinate.
   * `stated_bay_ft` -- the bay a parti states, which the ordinary pier is measured on, or why none.
   * `residual_pier_ft` -- facade-classical's floor on the wall each side of the composition.
 """
@@ -141,12 +141,16 @@ def composition(op_pack, facade_pack, ground_storey_height_in, forbids=()):
 
 # ---------------------------------------------------------------- which door is the entrance
 def entrance_index(doors):
-    """The index of the entrance among `doors`, each `(width_ft, u_ft)` on the entrance face at the
-    ground storey: THE WIDEST, and where two are equally wide the one at the lower coordinate
-    (`axis.door_bay`'s rule, which the elevation restates because that function returns no door on
-    an even bay count). None where there is no door. The elevation hands it the face's own `u`; the
-    placer hands it the plan coordinate along the wall, which runs the same way while no face is
-    mirrored (`elevation.FACE_MIRRORED`), and a test holds the two to one door on every plan."""
+    """The index of the entrance among `doors`, each `(width_ft, along_ft)` on the entrance face at
+    the ground storey: THE WIDEST, and where two are equally wide the one at the lower PLAN
+    coordinate along the wall (`axis.door_bay`'s rule, which the elevation restates because that
+    function returns no door on an even bay count). None where there is no door.
+
+    EVERY CALLER HANDS IT THE PLAN COORDINATE (WP-16.3). The elevation handed it the face's own
+    `u` until the north and west faces were drawn as seen from outside, and on those faces u runs
+    against the plan: two equally wide doors would have made the placer and the elevation choose
+    different entrances. The placer hands it `position_ft` and the elevation `along_ft`, the same
+    number, and a test holds the two to one door on every plan."""
     if not doors:
         return None
     return max(range(len(doors)), key=lambda i: (doors[i][0], -doors[i][1]))

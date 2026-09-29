@@ -288,12 +288,13 @@ def test_the_two_records_of_the_front_door_agree_and_the_scene_files_nothing(bot
         drawn = (min(xs) + max(xs)) / 2
         placed = AX.door_bay(sol)["position_ft"]
         # THE FRAME CHECK READS THE ELEVATION'S OWN DATUM (`elevation.face_u_ft`) rather than
-        # restating `drawn_u - drawn == t`. On every face today that IS one wall thickness --
-        # `FACE_MIRRORED` states the N and W faces read with the plan's axis, as the scene's
-        # `_face_extrude` lays them out -- and the day the mirror is ruled the check follows the
-        # switch instead of convicting the scene by one width of the front.
+        # restating `drawn_u - drawn == t`. That was one wall thickness on every face until
+        # WP-16.3 drew N and W as seen from outside (R2); on those faces u is now measured from
+        # the far end, `scene._face_extrude` reads the same switch, and this check follows it
+        # instead of convicting the scene by one width of the front.
         fp = _sec["footprint"]
-        expect_u = EL.face_u_ft(f, drawn, fp["clear_width_ft"], fp["clear_depth_ft"], _t_ext(_sec))
+        expect_u = EL.face_u_ft(f, drawn, fp["clear_width_ft"], fp["clear_depth_ft"], _t_ext(_sec),
+                                outside_ft=EL.face_span_outside_ft(f, fp))
         assert abs(drawn_u - expect_u) < 0.01, (
             f"{pid}: the elevation's u {drawn_u:.3f} is not the model x {drawn:.3f} in the "
             f"{f} face's own datum ({expect_u:.3f})")

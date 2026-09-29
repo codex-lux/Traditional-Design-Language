@@ -692,9 +692,12 @@ def test_the_elevations_openings_are_the_plans_placed_openings(sheets, kind, eng
            [w["at_ft"] for w in op["windows"] if w["wall"] == face]
     if not plan:
         pytest.skip(f"COULD NOT EVALUATE: the plan places no opening on the {face} front")
-    # the face's own left edge is the OUTSIDE of the wall; the plan measures from the clear face
-    plan_in = sorted((p + ext) * 12.0 for p in plan) if face in ("S", "E") else \
-        sorted((W - p + ext) * 12.0 for p in plan)
+    # the face's own left edge is the OUTSIDE of the wall, as seen from outside; the plan measures
+    # from the clear face. `elevation.face_u_ft` is the one conversion (WP-16.3): this row wrote
+    # its own, mirrored N and W while the record did not, and used the WIDTH on the W face.
+    plan_in = sorted(EL.face_u_ft(face, p, W, H, ext,
+                                  outside_ft=EL.face_span_outside_ft(face, elev["footprint"])) * 12.0
+                     for p in plan)
     elev_in = sorted(r["cx_in"] for r in ground_rects)
     bad = []
     for p in plan_in:

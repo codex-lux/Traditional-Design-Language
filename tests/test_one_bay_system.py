@@ -92,36 +92,43 @@ class TestOneDatum:
             d = elev["datum"]
             assert d["x"] == EL.X_DATUM == "outside face"
             assert d["wall_thickness_ft"] == round(section["wall"]["exterior_in"] / 12.0, 4)
-            assert d["mirrored"] == EL.FACE_MIRRORED == {"S": False, "E": False, "N": False, "W": False}
+            assert d["mirrored"] == EL.FACE_MIRRORED == {"S": False, "E": False, "N": True, "W": True}
             for f in "SNEW":
                 assert elev["faces"][f]["datum"] == "outside face", (pid, f)
                 assert elev["faces"][f]["mirrored"] is EL.FACE_MIRRORED[f]
 
     def test_the_conversion_is_one_wall_thickness_on_every_face_and_the_mirror_is_a_stated_switch(self):
-        """A plan coordinate along a wall reaches the face by adding the exterior wall, on every
-        face, and the N and W faces read WITH the plan's axis -- which is what the scene, the
-        roof's stack axes and the DXF have always assumed and what `FACE_MIRRORED` states.
+        """A plan coordinate along a wall reaches the face by adding the exterior wall, and on the
+        north and west faces -- drawn AS SEEN FROM OUTSIDE since WP-16.3 (R2, ruled 29 Sep 2026) --
+        it is then measured from the far end: a north elevation seen from the north has east on
+        the left, a west one seen from the west has north on the left.
 
-        THE FIRST VERSION OF THIS SLICE MIRRORED N AND W to the drafter's convention (a north
-        elevation seen from the north has east on the left), and the Round then put the spec
-        Colonial's placed front door 44.0 ft from where the plan seats it, because
-        `scene._face_extrude` lays every face out unmirrored. One convention across four readers
-        is what the record has; the mirror is a ruling and one switch, and this test asserts the
-        switch's stated value so that flipping it is a visible decision and not a drift."""
+        FROM WP-13.3 UNTIL WP-16.3 THIS TEST ASSERTED THE OPPOSITE, and said why: the first version
+        of that slice mirrored N and W and the Round put the spec Colonial's placed front door
+        44.0 ft from where the plan seats it, because `scene._face_extrude` laid every face out
+        unmirrored. The ruling flipped the switch AND every reader with it (the scene, the stack
+        axes and outlines, the roof's per-face profiles, the DXF, the entrance tie-break), and
+        this asserts the switch's ruled value so that flipping it back is a visible decision and
+        not a drift."""
         W, D, t = 63.0, 38.17, 1.2917
-        assert EL.FACE_MIRRORED == {"S": False, "E": False, "N": False, "W": False}
+        assert EL.FACE_MIRRORED == {"S": False, "E": False, "N": True, "W": True}
         assert EL.face_u_ft("S", 9.0, W, D, t) == pytest.approx(9.0 + t)
         assert EL.face_u_ft("E", 6.689, W, D, t) == pytest.approx(6.689 + t)
-        assert EL.face_u_ft("N", 9.5, W, D, t) == pytest.approx(9.5 + t)
-        assert EL.face_u_ft("W", 2.264, W, D, t) == pytest.approx(2.264 + t)
+        # the outside width is W + 2t and the point stands at 9.5 + t from the west end of it, so
+        # from the east end, which is the north face's left as seen, it is W + t - 9.5
+        assert EL.face_u_ft("N", 9.5, W, D, t) == pytest.approx(W + t - 9.5)
+        assert EL.face_u_ft("W", 2.264, W, D, t) == pytest.approx(D + t - 2.264)
         with pytest.raises(ValueError):
             EL.face_u_ft("X", 0.0, W, D, t)
-        # and the switch is live: flipped by hand, the same function mirrors from the far end,
-        # so the day it is ruled the conversion is already written
+        # the inverse is the one `scene._entrance_agreement` reads, and it is an inverse
+        for f, a in (("S", 9.0), ("E", 6.689), ("N", 9.5), ("W", 2.264)):
+            assert EL.face_along_ft(f, EL.face_u_ft(f, a, W, D, t), W, D, t) == pytest.approx(a)
+        # and the switch is live: flipped back by hand, the same function measures from the near
+        # end, so the conversion is the switch's and not a second spelling of the direction
         saved = dict(EL.FACE_MIRRORED)
         try:
-            EL.FACE_MIRRORED["N"] = True
-            assert EL.face_u_ft("N", 9.5, W, D, t) == pytest.approx(W + t - 9.5)
+            EL.FACE_MIRRORED["N"] = False
+            assert EL.face_u_ft("N", 9.5, W, D, t) == pytest.approx(9.5 + t)
         finally:
             EL.FACE_MIRRORED.clear()
             EL.FACE_MIRRORED.update(saved)
@@ -148,10 +155,23 @@ class TestOneDatum:
             assert c_clear == pytest.approx((i + 0.5) * module, abs=1e-3), "the rhythm's bay is the grid's bay"
             assert c_out == pytest.approx(c_clear + t, abs=1e-3), "the face's centre is the rhythm's plus one wall"
         assert face["actual_bay_width_in"] == pytest.approx(module * 12.0)
-        # and the N face is the same set: it reads with the plan's axis (`FACE_MIRRORED`), and a
-        # symmetric rhythm would be the same numbers in the same order mirrored or not
-        assert elev["faces"]["N"]["mirrored"] is EL.FACE_MIRRORED["N"]
-        assert elev["faces"]["N"]["centres_ft"] == face["centres_ft"]
+        # and the N face is the same system seen from the other side (R2, WP-16.3): each centre is
+        # the S face's reflected about the face's DRAWN width, so its CLEAR centres run east to west
+        # -- the pairing of a face `u` with its plan coordinate is what the mirror must not break.
+        # A rhythm symmetric about the house's centre line gives the S face's numbers again, less
+        # the footprint's own rounding: the drawn width is the stated 47.58 ft and the exact span
+        # 47.5833, so the N face, which is measured from the drawn EAST end, reads every centre
+        # 0.0033 ft less -- the same end-of-the-house rounding the S face carries at its right.
+        n = elev["faces"]["N"]
+        assert n["mirrored"] is EL.FACE_MIRRORED["N"] is True
+        assert n["clear_centres_ft"] == sorted(face["clear_centres_ft"], reverse=True)
+        Wc = section["footprint"]["clear_width_ft"]
+        Dc = section["footprint"]["clear_depth_ft"]
+        wide = section["footprint"]["width_ft"]     # the face's drawn width, the mirror's axis
+        for u, c in zip(n["centres_ft"], n["clear_centres_ft"]):
+            assert u == pytest.approx(EL.face_u_ft("N", c, Wc, Dc, t, outside_ft=wide), abs=1e-3), (u, c)
+        eps = wide - (Wc + 2.0 * t)
+        assert n["centres_ft"] == pytest.approx([c + eps for c in face["centres_ft"]], abs=1e-3)
 
     def test_a_gable_end_and_a_plan_with_no_rhythm_keep_the_formula_and_say_so(self, built):
         res, section, roof, elev = built["tidewater-georgian-careful"]

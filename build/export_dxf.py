@@ -836,7 +836,8 @@ def export_elevation_dxf(elev, path, face=None):
               ox, oy - 26)
 
     # roof silhouette from roof.py's own elevation profile, shifted by the band
-    profile = [(x * IN, h * IN + cornice_band) for x, h in roof["elevation_profiles"][face]]
+    # in the face's own u, as the sheet reads it (WP-16.3: `elevation.face_profile`)
+    profile = [(x * IN, h * IN + cornice_band) for x, h in EL.face_profile(roof, face, fp)]
     msp.add_lwpolyline(profile, dxfattribs={"layer": rf})
 
     def _win(r):

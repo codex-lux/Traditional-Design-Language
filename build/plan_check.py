@@ -1623,9 +1623,16 @@ def drawn_layer(plan, rooms, level_of, C, F):
         dr = AX.door_bay(plan)
         ax_census["door"] = dr["verdict"]
         if dr["verdict"] == "off-the-centre-bay":
+            # WHICH END THE COUNT STARTS FROM IS SAID (WP-16.3). `axis.bay_of` counts from the
+            # plan's low end, west on a south or north front and south on an east or west one,
+            # and since R2 the north and west elevations are drawn as seen from outside, with
+            # that end on the RIGHT: a bare "bay 2 of 7" would name a different bay on the plate
+            # a reader turns to than on the plan.
+            _from = "west" if AX.axis_runs_x(AX.front_of(plan)) else "south"
             _add("serious", "drawn",
-                 f'The front door stands in bay {dr["bay"] + 1} of {dr["bays"]}, not the '
-                 f'middle bay ({dr["centre_bay"] + 1}). {_why}, and a centre-door front is '
+                 f'The front door stands in bay {dr["bay"] + 1} of {dr["bays"]} counting from '
+                 f'the {_from} end, not the middle bay ({dr["centre_bay"] + 1}). {_why}, and a '
+                 f'centre-door front is '
                  f'the one move this type cannot do without: two windows either side of the '
                  f'door is what makes the elevation read.',
                  room=dr.get("room"), kind="drawn-door-off-the-centre-bay",

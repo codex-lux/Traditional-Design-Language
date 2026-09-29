@@ -812,13 +812,15 @@ def test_the_datums_sentence_is_the_conversion_the_code_makes(elevation_module):
     "u = clear span + t - along on N and W" and went on saying so after WP-13.3 unmirrored every
     face, so a reader converting by the record's own words put each N and W opening at the wrong
     end of its face. The sentence is read off `FACE_MIRRORED` now; here each face's words are held
-    to what `face_u_ft` actually returns, whichever way the table is set."""
+    to what `face_u_ft` actually returns, whichever way the table is set. (Since WP-16.3 the
+    mirrored clause names the face's OUTSIDE WIDTH, the axis the flip reflects about; on these
+    round figures it is the clear span plus two walls exactly.)"""
     import re as _re
     EL = elevation_module
     words = EL.face_u_words()
     for face in EL.FACES:
         rule = next(r for r in words.split(";") if _re.search(r"\b%s\b" % face, r))
-        mirrored = "clear span" in rule
+        mirrored = "outside width" in rule
         assert mirrored == EL.FACE_MIRRORED[face], (face, words)
         got = EL.face_u_ft(face, 10.0, 40.0, 30.0, 1.0)
         span = 40.0 if face in ("S", "N") else 30.0
