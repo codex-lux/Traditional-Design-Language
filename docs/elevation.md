@@ -388,3 +388,25 @@ name.
    scoping get its own, stricter applicability helper in `build/proportion_engine.py` so the next
    generator that reads a scoped pack doesn't have to rediscover this the same way? Not decided
    here — flagged for whoever owns `proportion_engine.py` next.
+
+## WP-16.1 (29 Sep 2026): the storeys it states, and the front it will not judge
+
+- **`storey_count` is the storeys the section states.** It read `len(elev["storey_windows"])`, and
+  that list always holds two entries, so every house was two storeys to the fault corpus. On a
+  one-storey house `second_floor_sash_height_in`, `second_floor_sill_height_in` and
+  `second_storey_floor_to_floor_in` were the ground storey's own figures under a second storey's
+  name. `top-heavy-second-storey` and `ungraduated-storeys` convicted all six one-storey reference
+  plans at a ratio of exactly 1.0: a storey compared with itself. The three figures are withheld
+  where the section states no upper storey, and `front.withheld` says so.
+- **An incomplete front is not judged for symmetry or alignment (R12).** `front.complete` is
+  `axis.front_complete`'s reading, every storey of the entrance front: the declared window units
+  not drawn, and a sentence saying why that matters. The drawn layer in `plan_check` reads the same
+  function. Where the front is not whole, the mirror and the storey alignment are still measured
+  and kept on `front.mirror` and `front.alignment`. Their five figures are withheld from the
+  measurements, each named in `front.withheld` with that sentence. `plan_check` carries the reason
+  onto every could-not-evaluate fault row that needed one, as `withheld`.
+- **A one-storey record names its alignment trio.** It had always left the three figures out with
+  nothing in `front.withheld` saying why. The storey count is the reason now, and it is written
+  before the incomplete-front reason, because it is the more fundamental one.
+
+Report: `docs/reports/wp-16.1-the-governing-test-decides.md`.

@@ -45,9 +45,16 @@ A test may be scoped to the styles it was written for (`applies_to_styles`, OQ 6
 | state | meaning |
 |---|---|
 | present | a test that was for this house ran and failed |
-| clear | tests ran and none failed |
-| unjudged | a number the tests need was not supplied |
-| **not applicable** | every test declined its own precondition — the question does not arise |
+| clear | the **governing test** ran and passed and no test failed; a secondary that could not run is named (`secondaries_not_run`) |
+| unjudged | the governing test could not run (a number it needs was not supplied, or it errored) and no test failed; the tests that did run ride on the row as `ran`, evidence and never a verdict |
+| **not applicable** | the governing test declined its own precondition, or is written for another style, and no test failed — the question does not arise |
+
+**The governing test decides (R4, ruled 29 Sep 2026, WP-16.1).** The governing test is the
+primary, or the bounds test of an exception the style earns. Until WP-16.1 this table read *"clear
+— tests ran and none failed"*, and that was the defect: a fault whose governing test wanted a
+measurement nobody supplied read clear on whatever secondary did. That was 142 of the 550 clear
+verdicts on the sixteen shipped plans, 48 of them on fatal faults. A failed test of any kind still
+makes a fault present. See `docs/reports/wp-16.1-the-governing-test-decides.md`.
 
 The fourth exists because such a fault previously appeared in **no list at all**: not present, not clear, not unjudged, absent from the counts — which reads to a caller exactly like clear, and that is the one collapse this corpus forbids.
 

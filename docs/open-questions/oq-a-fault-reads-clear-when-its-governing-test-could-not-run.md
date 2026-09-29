@@ -1,6 +1,6 @@
 # oq/a-fault-reads-clear-when-its-governing-test-could-not-run — clear on whatever ran
 
-*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: WP-15.8, the audit of Phase 15 (28 September 2026)*
+*Status: CLOSED 29 September 2026 (ruled that day; executed by WP-16.1) · Raised in: WP-15.8, the audit of Phase 15 (28 September 2026)*
 
 **OPEN — `core.check_measurements` calls a fault clear when at least one of its tests ran and
 none of those failed, whatever did not run.** `_judge` in `mcp_server/core.py` evaluates the
@@ -111,3 +111,40 @@ should the fault read?* Lucas chose **Governing test decides**:
 pass found that `compose.py`'s solecism share, clear / (clear + present) at weight 20, can reorder
 candidates with equal fatal counts. WP-16.1 measures that and reports it, rather than leaving the
 sentence standing. Executed by WP-16.1.
+
+## Executed 29 September 2026 (WP-16.1)
+
+`core._judge` takes the governing test first: the primary, or the bounds test of an exception the
+style earns. A fault is clear only where that test ran and passed. Where it could not run and
+another test did, the fault is could-not-evaluate and carries the tests that ran as `ran`, with
+`governing_not_run` naming what it wanted. A clear lists every applicable secondary that did not run
+as `secondaries_not_run`. A failed test of any kind still makes the fault present, as ruled.
+
+**Measured over the sixteen shipped plans placed on `engine="heuristic"`, against a worktree of
+`a4abb85`.** Every one of the 3,273 (plan, fault) verdicts is accounted for:
+
+| Movement | Rows | Cause |
+|---|---:|---|
+| clear -> could-not-evaluate | 134 | this ruling: the governing test did not run |
+| clear -> not applicable | 8 | two data gates the ruling made necessary (below) |
+| present -> not applicable | 12 | the same gates: convictions on a phantom second storey |
+| present -> could-not-evaluate | 15 | R12, `oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge` |
+
+**The option said 142 verdicts would become could-not-evaluate; 134 did.** The other 8 were clear on
+a precondition nobody had written: `overscaled-dormer` on the two houses that state no dormers (a
+dormer's scale is not a question about a house without one), and `storeys-out-of-vertical-alignment`
+on six one-storey plans. Both faults now carry `applies_when` on the premise, on
+`dormer-off-the-bay`'s precedent, so those rows are not applicable rather than unjudged.
+`tests/fault_clears.py` re-derives the figures and is the instrument to run, not this table. On a
+tree with this ruling it reports 0 clears whose governing test did not run, 138 could-not-evaluate
+rows carrying evidence, and 142 clears naming an unrun secondary. **That last 142 is not the 142
+above:** on `a4abb85`, 284 clears had some applicable test unrun, 142 of them the governing test and
+142 only secondaries. The first 142 left the clear list, and the second 142 stay clear and now say
+what did not run.
+
+**The solecism share.** The correction above said `compose.py`'s solecism share can reorder
+candidates with equal fatal counts. It moved on every candidate, because clears left the
+denominator. See WP-16.1's report §III for what it did to the returned sets.
+
+Report: `docs/reports/wp-16.1-the-governing-test-decides.md`.
+
