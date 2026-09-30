@@ -1,6 +1,6 @@
 # oq/an-inherited-ban-decides-what-the-elevation-may-draw — most of what the elevation is forbidden to draw, a style never forbade
 
-*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: WP-14.1, the ink read back (27 September 2026)*
+*Status: CLOSED 30 September 2026 (ruled 29 September 2026; executed by WP-16.2 and WP-16.4; question 3 is `oq/an-extends-delta-is-applied-to-a-base-it-was-not-written-against`) · Raised in: WP-14.1, the ink read back (27 September 2026)*
 
 **The figures below were corrected on 27 September 2026, the day they were first published.** The
 first version of this entry was measured by a census sweep that set a field nothing reads, so it
@@ -319,3 +319,39 @@ Answers 6 and 9 change no record. Answer 3 is WP-16.4's.
 Questions 1 and 2 above stay answered. Question 3, whether `extends` should take its base from the
 node the delta was written against, is still not ruled. The refusal itself is WP-16.4, and this
 question stays IN PROGRESS until it lands.
+
+## Executed 30 September 2026 (WP-16.4): what the kit forbids is refused, and the writer is named
+
+WP-16.4 carries out the refusal, and with it answer A3 (30 September 2026): a forbidden row's own
+`applies_when.date_range` is read against the house's date. The report is
+`docs/reports/wp-16.4-the-refusal-names-who-forbade-it.md`.
+
+- **One reading of a ban.** `resolve_kit.ban(rec, words, date)` answers whether a slot or a feature
+  is forbidden at the house's date, and names the nodes that wrote the ban. The placer, the
+  elevation, the DXF, the scene and the stack pass all read it, and all print its words.
+- **What is refused.** The sidelights (a row ban, or the whole `transom_sidelight` slot with the
+  transom), the pilaster doorcase (the door keeps the doorcase's own casing), the water table, the
+  belt course, the frieze, the cornice and the order's modillions, and an exterior stack. A refused
+  feature's measurements are withheld, not zeroed.
+- **The dated ban.** georgian-colonial-american forbids the sidelights for houses of 1700–1780. On
+  the Tidewater record, dated 1765, they are refused and the placer reserves no run for them; the
+  same house dated 1790 draws them. An undated house keeps the ban, and the sheet says the date is
+  unstated.
+- **Census V2 went from 17 known disagreements to 0.** Of its 159 rows, 38 agree and 121 could not
+  be evaluated: 118 styles the elevation does not draw, and three whose only open item is an
+  exterior stack the census sweep does not place (cape-cod-colonial, new-england-colonial,
+  new-england-georgian). The placer refuses such a stack, and `tests/test_kit_refusal.py` drives
+  that refusal.
+- **What WP-16.2 handed over is done.** The sidelights cape-cod-colonial, saltbox-colonial and
+  renaissance-revival-american forbid are refused. good-05's `sidelights-as-storefront-glass` is not
+  applicable, where it cleared on a published 0.0. new-urbanist-traditional's modillions are refused
+  on bad-03.
+
+**Questions 1 and 2 are answered and executed, so this question is closed.** Question 3, whether
+`extends` should take its base from the node the delta was written against, is not ruled. It is
+`oq/an-extends-delta-is-applied-to-a-base-it-was-not-written-against` now, so it is not lost with
+this entry.
+
+**Left open, and named in the report.** minimal-traditional forbids `door_surround` whole, and its
+door keeps the doorcase's own casing, whose width is that slot's pack rule; the record lists the
+slot as READ ANYWAY. renaissance-revival-american's `window_head_wood` is read anyway as before.

@@ -415,3 +415,33 @@ name.
   before the incomplete-front reason, because it is the more fundamental one.
 
 Report: `docs/reports/wp-16.1-the-governing-test-decides.md`.
+
+## WP-16.4 (30 Sep 2026): what the kit forbids is refused, and the sheet names who forbade it
+
+- **One reading of a ban, at the house's date.** `resolve_kit.ban(rec, words, date)` says whether
+  a slot or a feature is forbidden and names the nodes that WROTE the ban. A forbidden row's own
+  `applies_when.date_range` is read against the plan's `context.date_of_representation` (A3). An
+  undated house keeps a dated ban, and the sheet says the date is unstated.
+- **The entrance** (`doorcase.refusals`, which the placer reads too):
+  - the sidelights go under a ban on their row or on the whole `transom_sidelight` slot;
+  - the transom goes only with the whole slot;
+  - a refused pilaster doorcase leaves the door the doorcase's own casing (`.csp` on the sheet),
+    and every figure of its order is withheld.
+- **The envelope** (`ENVELOPE_BANS`): the water table, the belt course, the frieze, the cornice
+  and the order's modillions, each refused on its own. The roof stands on the bands drawn. A
+  refused modillion band leaves Gibbs's other members read to the same envelope height, so the
+  roof does not move.
+- **Said on every surface.** The sheet prints one line per refusal ("… NOT DRAWN — FORBIDDEN BY
+  <WRITER>'S KIT …"), and the DXF writes the same lines and carries `TDL::kit-refused` on the door
+  leaf. The scene names each refusal in `not_modelled`, and the record carries
+  `refused_by_the_kit`.
+- **The sidelight count** (`count_of_sidelights_drawn_at_the_entrance`) has three states:
+  - 0 where no pair is composed;
+  - the entrance rect's drawn spans;
+  - unmeasured where a pair is composed and no face draws it, a garage door marked the entrance
+    included.
+
+  `sidelights-as-storefront-glass` is gated on the count, and `sidelight_width_in` is published
+  only for a drawn pair.
+
+Report: `docs/reports/wp-16.4-the-refusal-names-who-forbade-it.md`.

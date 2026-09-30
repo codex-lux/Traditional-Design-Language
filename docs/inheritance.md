@@ -443,7 +443,8 @@ colonial-revival's own kit.
 | `_written_by` | every variant row | the node whose record or delta wrote that row; a `replace` credits the replacer |
 
 `resolve_kit.forbidden_by(rec, words)` is the one reader of who forbids a feature. It returns the
-writers, sorted, or `None`. The census reads it, and the elevation's refusal will (WP-16.4).
+writers, sorted, or `None`. The census reads it, and the elevation's refusal does too since
+WP-16.4, through `resolve_kit.ban`, which reads the ban at the house's date (30 Sep 2026).
 
 **The mechanism under several wrong bans.** An `extends` delta is merged onto whatever
 `specified` or `forbidden` record is nearest in the node's linearized chain. That need not be the
@@ -511,4 +512,7 @@ in `oq/an-inherited-ban-decides-what-the-elevation-may-draw`. Three of them chan
 **What the edits cannot reach yet.** Three styles now forbid sidelights in their own words:
 cape-cod-colonial, saltbox-colonial and renaissance-revival-american. The entrance composition
 reads only a whole-slot ban (`doorcase.forbidden_of`), so each still draws sidelights until
-WP-16.4 reads the rows. Census V2 carries all three, attributed "own".
+WP-16.4 reads the rows. Census V2 carries all three, attributed "own". *(WP-16.4 read them on
+30 Sep 2026: `doorcase.refusals` refuses a row ban, and all three draw none. V2 reads saltbox-colonial
+and renaissance-revival-american as agreeing; cape-cod-colonial's row is could-not-evaluate for
+an exterior stack the census sweep does not place, and its sidelights are refused.)*
