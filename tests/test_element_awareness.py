@@ -675,9 +675,22 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 #      front has none undrawn, so its sentence is unmoved.
                 # Both watched layers UNMOVED at 13/18 and 11/17. Old digests: efd26d7240106183
                 # / 554b84e823b1c057.
-                ("tidewater-georgian-careful", "548b466adeee1469", 200,
+                # RE-DERIVED AFTER WP-16.3 (30 Sep 2026), BOTH PLANS, ONE ROW EACH, AND BOTH
+                # ROWS ARE ONE SENTENCE. `drawn-door-off-the-centre-bay` now says which end its
+                # bay count starts from: "bay 1 of 7 counting from the west end" on the Tidewater
+                # kitchen, "bay 5 of 5 counting from the west end" on the spec Colonial porch.
+                # Since R2 the north and west elevations are drawn as seen from outside, and a
+                # bare "bay 5 of 5" names a different bay on the plate than on the plan
+                # (`plan_check.py`, WP-16.3). Re-derived through this test's own fixture path on
+                # copies of `2ff37e0`, which reproduces both old digests to the character, and
+                # `2ab9651`. On each plan 1 row out and 1 in: the same room, the same kind, the
+                # sentence alone. Counts and both watched layers UNMOVED. WP-16.3's targeted
+                # suite did not include this file; CI run 143 found it. The spec Colonial's pin
+                # sat behind the failing Tidewater assertion there, and was reached for the first
+                # time here. Old digests: 548b466adeee1469 / 5a443279b0b94b4e.
+                ("tidewater-georgian-careful", "dec1b5a8a4ccd7aa", 200,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "5a443279b0b94b4e", 236,
+                ("spec-builder-colonial", "5691ad729cb51433", 236,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \

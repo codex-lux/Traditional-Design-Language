@@ -154,6 +154,15 @@ AREA RECLAIM HAD NO ACCEPTANCE RULE (29 Sep 2026).** Read
   good-03's Greek Revival roof on the Georgian pitch band, reached through the lineage:
   `oq/a-fault-marked-not-applicable-to-a-style-still-convicts-it`.
 - **The `plan_check` result grew by about 9 KB a plan**, the evidence rows R4 asks for.
+- **Its whole build is `3 of 54 checks failed`, and one red was its own.** `check_glossary` and
+  eight glossary tests went red because a glossary record quotes `check_measurements`' note, and
+  the package wrapped that sentence across two string literals. It is fixed in `de9a2de`. The
+  pre-commit run took the targeted suites and not the 54 checks.
+  - **The gate's candidate is a different house now**: `centre-passage-double-pile`, not
+    `side-hall-townhouse`. So five candidate rows are new reds and five known ids went green.
+    Seeded with the same declared record, `a4abb85` fails the same rows, message for message.
+  - **The known list for the rest of Phase 16 is 22 ids again, and a different set**: 20 gate
+    rows, `test_parti_composability` and `test_solver`'s half bound. Report §V names them.
 
 **WP-16.3 DREW THE NORTH AND WEST ELEVATIONS AS SEEN FROM OUTSIDE, AND ITS FINDING IS WHICH AXIS A
 MIRROR TAKES (29 Sep 2026).** Read `docs/reports/wp-16.3-the-faces-drawn-as-seen.md` before
@@ -187,15 +196,13 @@ touching a face's `u`, a stack on a face, the scene's face extrusion or the Roun
   the far gable's outline, and the first door on a face. Every shipped stack stands where a mirror
   leaves it, and every shipped entrance is the first door in its face's order. Each is driven now,
   and all 21 mutations are red.
-- **Its whole build is `3 of 54 checks failed`, and one red was its own.** `check_glossary` and
-  eight glossary tests went red because a glossary record quotes `check_measurements`' note, and
-  the package wrapped that sentence across two string literals. It is fixed in `de9a2de`. The
-  pre-commit run took the targeted suites and not the 54 checks.
-  - **The gate's candidate is a different house now**: `centre-passage-double-pile`, not
-    `side-hall-townhouse`. So five candidate rows are new reds and five known ids went green.
-    Seeded with the same declared record, `a4abb85` fails the same rows, message for message.
-  - **The known list for the rest of Phase 16 is 22 ids again, and a different set**: 20 gate
-    rows, `test_parti_composability` and `test_solver`'s half bound. Report §V names them.
+- **Its pre-commit run took a targeted suite, and CI run 143 found the one red it missed (30 Sep
+  2026).** The package made `drawn-door-off-the-centre-bay` say which end its bay count starts
+  from ("bay 5 of 5 counting from the west end"). That moved
+  `test_element_awareness`'s finding digest by one reworded row on each shipped plan, with counts
+  and layers unmoved. Re-pinned with the rows attributed. The spec Colonial's pin had sat behind
+  the failing Tidewater assertion. (The `3 of 54` build paragraph that stood here is WP-16.1's,
+  moved back under its own entry.)
 
 **PHASE 15 — THE PLATES DRAWN — IS OPEN, AND FOUR OF ITS EIGHT PACKAGES WAIT ON THE NETWORK
 (27–28 Sep 2026).** Lucas reviewed the drawn Tidewater front and found four defects:
