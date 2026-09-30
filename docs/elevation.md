@@ -96,6 +96,21 @@ The members' projections are drawn on the inset and not on the face, because two
 disagree about them (OQ 79). The inset's caption says which surface draws which. Census V25 reads
 the face back to the record.
 
+**Since OQ 79 was ruled (WP-16.5, 30 Sep 2026), the face and the inset draw one cornice.** The
+envelope governs the depth and the order the shape. `elevation.scale_into_envelope` keeps the
+member heights, holds the bed mould's outer face at 2½ in (a judgment, withheld from the faults)
+and maps the members above onto the rest of the envelope's depth. The inset's caption says what was
+scaled.
+
+**And a gable end draws what the resolved kit says of `cornice_return`** (R8, R8a):
+- a stated return at each corner, as far as the cornice is tall;
+- the cornice's end profile where the kit forbids one or makes `none` canonical, with the wall
+  running up to the rake;
+- the band where the kit settles nothing, and the sheet says so.
+
+`resolve_kit.return_at` is the one reading, and `elevation.gable_faces` reads which faces are gable
+ends off the roof record.
+
 That inset used to be drawn by `seg_to()`, a case-for-case Python port of
 `orders_template.html`'s `segTo()`, pinned against the JS original by `TestSegTo`. **WP-5.11
 replaced both with `build/profiles.py`, which CONSTRUCTS each moulding** — a quarter of an ellipse
@@ -312,6 +327,9 @@ name.
   the face projection introduced a new fatal (`pork-chop-return`) on a value that was not actually
   measuring what the fault asked for. Removed rather than kept as a wrong number — this file does
   not model the corner return at all, and says so in a code comment rather than guessing.
+  *(Superseded 30 Sep 2026, WP-16.5: the return is drawn where the kit states one, at R8a's
+  judged length, and that length is withheld from the faults for this bullet's own reason: a
+  figure drawn to a fault's rule cannot be the measurement the fault is judged on.)*
 - **No free column or portico.** tidewater-georgian's own kit marks `entry-portico` atypical; the
   doorcase is read as a reduced order at door scale, never as a free-standing column with entasis
   or diminution — which is also why `upper_shaft_diameter_in == lower_shaft_diameter_in` here (no
