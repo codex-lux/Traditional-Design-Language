@@ -1564,6 +1564,22 @@ def _style_sweep():
     return out
 
 
+_GABLE = {}
+
+
+def _gable_sheet(sid, el):
+    """The style's gable end, drawn from the elevation the sweep drew (WP-16.5): the sweep keeps the
+    front, and a cornice return stands on no front. None where the roof record gives the house no
+    gable end, or does not model its form. Cached by the elevation object, so a driver that plants
+    another elevation under a style's name is not handed the real one's gable."""
+    key = (sid, id(el))
+    if key not in _GABLE:
+        gf = _gable_faces_of(el.get("roof_record") or {})
+        _GABLE[key] = (_render(SURF._mod("render_elevation").render_elevation, el, face=gf[0])
+                       if gf else None)
+    return _GABLE[key]
+
+
 # WHAT THE SHEET CALLS EACH FEATURE WHEN IT SAYS THE KIT FORBIDS IT (WP-16.4, R3): "<WORD> NOT DRAWN
 # — FORBIDDEN BY <writer>'S KIT ...". The sidelights under a whole-slot ban go with the transom.
 # Features this package does not refuse on the face carry no word: the shutters are the elevation's
@@ -1597,7 +1613,8 @@ def _sweep_date():
 
 
 @check("V2", "elevation", "nothing the style's resolved kit forbids is drawn, slot or variant, at the "
-       "plan's date (the row names where each prohibition comes from)",
+       "plan's date (the row names where each prohibition comes from), on the front and, for the "
+       "cornice's return, on the gable end",
        "every node with a kit, on the Tidewater placement")
 def v2():
     out = []
@@ -1639,6 +1656,25 @@ def v2():
                     name, slot, _ban_label(sid, writers), ", ".join(writers)))
             if lines and not writers:
                 bad.append("the sheet says the %s is forbidden and the kit does not forbid it" % name)
+        # AND THE GABLE END'S RETURN (WP-16.5, R8), read on the style's gable face, which the front
+        # does not show: a return the kit forbids is drawn on no gable end and the sheet says who
+        # forbade it, and a sheet saying the return is forbidden where the kit forbids none
+        # disagrees too. Where the cornice itself is refused there is nothing to return.
+        gsvg = None if cornice_banned else _gable_sheet(sid, el)
+        if gsvg is not None:
+            gink = IR.Ink(gsvg)
+            gsaid = [" ".join(t.split()).upper() for t, _a, _it in gink.texts() if t and t.strip()]
+            rlines = [ln for ln in gsaid if "NO CORNICE RETURN" in ln and _KIT_REFUSAL in ln]
+            rw = _forbidden(slots, "cornice_return", None, date)
+            if rw:
+                if _rects(gink, "bd", "w-prof"):
+                    bad.append("a cornice drawn across or returned on the gable end (cornice_return: %s)"
+                               % _ban_label(sid, rw))
+                if not any(all(w.upper() in ln for w in rw) for ln in rlines):
+                    bad.append("the return forbidden (cornice_return: %s) and not said naming %s"
+                               % (_ban_label(sid, rw), ", ".join(rw)))
+            elif rlines:
+                bad.append("the sheet says the return is forbidden and the kit does not forbid it")
         if bad:
             out.append(row("V2", sid, "disagrees", "; ".join(bad)))
         elif placed:
@@ -2099,6 +2135,20 @@ def v6():
                            ("%d door panels drawn on a garage door %d in wide" % (panels, garage[0]["x1_in"] - garage[0]["x0_in"]))
                            if panels else ""))
     return out
+
+
+def _gable_faces_of(roof):
+    """The faces a gable end stands on, read here off the roof record's own form and ridge, never
+    off `elevation.gable_faces`, which is part of the subject (WP-16.5): a gable form's ends are the
+    two walls square to its ridge; a hip, and a gable-on-hip, carry the eave round every face and
+    have none; a form the record does not model is None, unjudged."""
+    main = (roof or {}).get("main") or {}
+    form, axis = main.get("form"), (main.get("ridge") or {}).get("axis")
+    if form in ("hip", "gable-on-hip"):
+        return ()
+    if form in ("gable", "side-gable", "front-gable", "gambrel", "cross-gable") and axis in ("x", "y"):
+        return ("W", "E") if axis == "x" else ("S", "N")
+    return None
 
 
 def _style_and_date(subject):
@@ -2727,7 +2777,10 @@ def _outboard(c, face, W, D):
        "the cornice's box at the one reading of the band's projection, a line across the box at every "
        "member division the record states and no other, the legend saying each band it drew flush for want of a figure, "
        "and a stack that overlaps the cornice painted over it where it stands in front of the face and "
-       "under it where it stands behind", "every elevation sheet (plans x faces), and every style's front")
+       "under it where it stands behind; and on a gable end what the style's kit says of the return at "
+       "the plan's date -- the band where it settles none, a return at each corner where it states one, "
+       "the cornice's end profile where it forbids one or makes none canonical -- with the legend saying "
+       "which", "every elevation sheet (plans x faces), and every style's front")
 def v25():
     """Phase 15, WP-15.7. Lucas, of the drawn Tidewater front (27 Sep 2026): "the cornice not being
     represented on this export". The face drew ONE rectangle from the wall head to the true eave at
@@ -2787,40 +2840,91 @@ def v25():
                 bad.append("%s drawn at u %.3f..%.3f, h %.3f..%.3f ft; the record %.3f..%.3f, %.3f..%.3f"
                            % ((name,) + tuple(got[i] for i in (0, 2, 1, 3)) + tuple(want[i] for i in (0, 2, 1, 3))))
 
-        fzs = _rects(ink, "bd", "fz")
-        boxes = _rects(ink, "bd", "w-prof")
-        if len(fzs) != (0 if fz_banned else 1) or len(boxes) != 1:
-            bad.append("%d frieze band(s) and %d cornice box(es) drawn, where the record states %s"
-                       % (len(fzs), len(boxes), "a cornice and the kit forbids the frieze" if fz_banned
-                          else "one of each"))
+        # WHAT THIS FACE IS TO THE CORNICE (WP-16.5, R8), read off the roof record's form and the
+        # style's KIT at the plan's date -- through `resolve_kit.return_at`, the one reading of it,
+        # as `_forbidden` reads a ban -- and never off `cornice_return` or `cornice_marks`, which
+        # are the subject. An eave face carries the cornice along it; a gable end carries a band
+        # where the kit settles nothing, a return at each corner where it states one, and none
+        # where it forbids one or makes `none` canonical, the eave faces then stopping at the
+        # corners because nothing turns them.
+        rr = SURF._mod("resolve_kit").return_at(_kit(style).get("cornice_return"), date)
+        gf = _gable_faces_of(el.get("roof_record") or {})
+        kind = ("band" if gf is None or rr["state"] in ("unsettled", "silent") else
+                "end" if rr["state"] in ("forbidden", "none") else
+                "return" if rr["state"] == "stated" else "plain")
+        on_gable = gf is not None and face in gf
+        turns = not (gf and kind == "end")
+        b, f = (band or 0.0) / 12.0, (fz or 0.0) / 12.0
+        want_boxes, want_fz, want_runs, want_ends = [], [], [], 0
+        if not on_gable or kind == "band":
+            lo_b, hi_b = (-b, span + b) if turns else (0.0, span)
+            lo_f, hi_f = (-f, span + f) if turns else (0.0, span)
+            want_boxes, want_fz, want_runs = [(lo_b, spring, hi_b, true_eave)], [(lo_f, wall_top, hi_f, spring)], [(lo_b, hi_b)]
+        elif kind == "end":
+            want_ends = 2
         else:
-            if fzs:
-                f = fz or 0.0
-                held("the frieze", box(fzs[0]), (-f / 12.0, wall_top, span + f / 12.0, spring))
-            b = band or 0.0
-            held("the cornice's box", box(boxes[0]), (-b / 12.0, spring, span + b / 12.0, true_eave))
+            L = (cor["cornice_height_in"] if kind == "return" else sum(rr["band_in"]) / 2.0) / 12.0
+            want_boxes = [(-b, spring, L, true_eave), (span - L, spring, span + b, true_eave)]
+            want_fz = [(-f, wall_top, L, spring), (span - L, wall_top, span + f, spring)]
+            want_runs = [(-b, L), (span - L, span + b)] if kind == "return" else []
+        if fz_banned:
+            want_fz = []
+        fzs = sorted(_rects(ink, "bd", "fz"), key=lambda it: box(it)[0])
+        boxes = sorted(_rects(ink, "bd", "w-prof"), key=lambda it: box(it)[0])
+        if len(fzs) != len(want_fz) or len(boxes) != len(want_boxes):
+            bad.append("%d frieze band(s) and %d cornice box(es) drawn, where the record and the kit "
+                       "state %d and %d (%s face, the gable end %s)"
+                       % (len(fzs), len(boxes), len(want_fz), len(want_boxes),
+                          "a gable" if on_gable else "an eave", kind))
+        else:
+            for it, w in zip(fzs, want_fz):
+                held("the frieze", box(it), w)
+            for it, w in zip(boxes, want_boxes):
+                held("the cornice's box", box(it), w)
+        ends = [it for it in _marks(ink, "bd") if it.tag == "path" and it.attrs.get("data-end-profile")]
+        if len(ends) != want_ends:
+            bad.append("%d end profile(s) drawn where the kit asks %d" % (len(ends), want_ends))
+        for it in ends:
+            e0, e1, e2, e3 = box(it)
+            left = it.attrs.get("data-end-profile") == "left"
+            lo, hi = ((-b, 0.0) if left else (span, span + b))
+            if e0 < lo - tol or e2 > hi + tol or abs(e1 - spring) > tol or abs(e3 - true_eave) > tol:
+                bad.append("the %s end profile stands at u %.3f..%.3f, h %.3f..%.3f ft; the cornice's "
+                           "section there is %.3f..%.3f, %.3f..%.3f" % (it.attrs.get("data-end-profile"),
+                                                                       e0, e2, e1, e3, lo, hi, spring, true_eave))
         lines = {}
         for it in _marks(ink, "cm"):
             (x0, y0), (x1, y1) = it.points(n=1)[0], it.points(n=1)[-1]
             (u0, v0), (u1, v1) = IR.to_model(pl, x0, y0), IR.to_model(pl, x1, y1)
             lines.setdefault(it.attrs.get("data-member"), []).append((v0, v1, min(u0, u1), max(u0, u1)))
-        want = {m.get("id"): spring + m["y_bottom_in"] / 12.0 for m in members[1:]}
-        b = band or 0.0
+        want = {m.get("id"): spring + m["y_bottom_in"] / 12.0 for m in members[1:]} if want_runs else {}
         for mid, h in want.items():
-            got = lines.pop(mid, [])
-            if len(got) != 1 or max(abs(v - h) for v in got[0][:2]) > tol:
-                bad.append("the division under %s is drawn %s; the record puts it at %.3f ft"
-                           % (mid, "nowhere" if not got else "at " + ", ".join("%.3f" % g[0] for g in got), h))
+            got = sorted(lines.pop(mid, []), key=lambda g: g[2])
+            if len(got) != len(want_runs) or max(abs(v - h) for g in got for v in g[:2]) > tol:
+                bad.append("the division under %s is drawn %s; the record puts it at %.3f ft, %d time(s)"
+                           % (mid, "nowhere" if not got else "at " + ", ".join("%.3f" % g[0] for g in got),
+                              h, len(want_runs)))
             # AND ACROSS THE BOX (WP-15.8's audit, auditors B and M): this read each line's two
             # heights and never its run, so lines collapsed to nothing, stubs off the box and lines
             # spanning the wall and not the cornice all agreed. A division is the joint between two
-            # members, and both run the cornice's whole length.
-            elif abs(got[0][2] + b / 12.0) > tol or abs(got[0][3] - (span + b / 12.0)) > tol:
-                bad.append("the division under %s runs %.3f..%.3f ft; the cornice's box %.3f..%.3f"
-                           % (mid, got[0][2], got[0][3], -b / 12.0, span + b / 12.0))
+            # members, and both run the whole length of the box they divide -- the eave's, or a
+            # return's (WP-16.5).
+            else:
+                for g, (lo, hi) in zip(got, want_runs):
+                    if abs(g[2] - lo) > tol or abs(g[3] - hi) > tol:
+                        bad.append("the division under %s runs %.3f..%.3f ft; the box it divides %.3f..%.3f"
+                                   % (mid, g[2], g[3], lo, hi))
         if lines:
             bad.append("%d division line(s) the record does not state (%s)"
                        % (sum(len(v) for v in lines.values()), ", ".join(sorted(str(k) for k in lines))))
+        # AND THE LEGEND SAYS WHAT THE GABLE END DOES WITH THE RETURN, AND WHY (WP-16.5, R8)
+        if on_gable:
+            says = {"band": "RETURN UNSTATED", "end": "NO CORNICE RETURN", "return": "CORNICE RETURNED",
+                    "plain": "PLAIN RETURN"}[kind]
+            if says not in said or (kind in ("return", "plain") and "A JUDGMENT" not in said):
+                bad.append("the gable end %s and the legend does not say %s" % (
+                    {"band": "keeps the band", "end": "draws no return", "return": "draws a return",
+                     "plain": "draws a plain return"}[kind], says))
         for what, fig in (("CORNICE BAND DRAWN FLUSH", band), ("FRIEZE DRAWN FLUSH", fz)):
             if what.startswith("FRIEZE") and fz_banned:
                 continue          # a frieze the kit forbids is not drawn, flush or otherwise
@@ -2832,11 +2936,12 @@ def v25():
         # face -- an exterior end stack seen on its own gable -- stands in front of the cornice,
         # which returns against it; one behind the face -- the same stack seen from the front --
         # is behind the cornice's return at the corner. Read in paint order, which is document order.
-        if len(boxes) == 1:
-            bi, (c0, c1, c2, c3) = boxes[0].index, box(boxes[0])
-            mirrored = ((el.get("datum") or {}).get("mirrored") or {}).get(face)
-            ch = [c for c in ((el.get("roof_record") or {}).get("chimneys") or {}).get("positions") or []
-                  if c.get("plan_rect_ft")]
+        # Every box the face draws, the eave's or a return's (WP-16.5).
+        mirrored = ((el.get("datum") or {}).get("mirrored") or {}).get(face)
+        ch = [c for c in ((el.get("roof_record") or {}).get("chimneys") or {}).get("positions") or []
+              if c.get("plan_rect_ft")]
+        for bx in (boxes if len(boxes) == len(want_boxes) else []):
+            bi, (c0, c1, c2, c3) = bx.index, box(bx)
             for it in _marks(ink, "ch"):
                 if it.tag not in ("polygon", "rect", "path"):
                     continue
@@ -2898,9 +3003,21 @@ JUDGED_MEASUREMENTS = (
     ("transom_height_in", "opening-proportion", "transom_sidelight", "height"),
     ("pilaster_projection_in", "gibbs-ionic", "pilaster", "projection"),
 )
+# FIGURES A RULING MADE A JUDGMENT, WHICH NO PACK RULE MARKS (WP-16.5): the record carries the
+# ruling's own flag beside the figure it drew, and that flag is what V8 reads for these. The bed
+# mould held at 2 1/2 in (R9a) and a return drawn as far as the cornice is tall (R8a).
+RULED_JUDGMENTS = (
+    ("bed_mould_projection_in", "R9a", lambda el: (el.get("eave_cornice") or {})
+     .get("bed_mould_projection_judgment")),
+    ("return_projection_from_wall_in", "R8a", lambda el: (el.get("cornice_return") or {})
+     .get("length_judgment")),
+    ("return_length_along_gable_wall_in", "R8a", lambda el: (el.get("cornice_return") or {})
+     .get("length_judgment")),
+)
 
 
-@check("V8", "elevation", "a figure its own rule marks judgment is not published as a measurement",
+@check("V8", "elevation", "a figure its own rule, or a ruling, marks judgment is not published as a "
+       "measurement",
        "plans whose elevation draws")
 def v8():
     PE = SURF._mod("proportion_engine")
@@ -2916,6 +3033,9 @@ def v8():
                          if r.get("target_slot") == slot and r.get("dimension") == dim), None)
             if rule and rule.get("judgment") and m.get(name) is not None:
                 bad.append("%s = %s (%s %s/%s is judgment)" % (name, m[name], pack, slot, dim))
+        for name, ruling, flag in RULED_JUDGMENTS:
+            if flag(el) and m.get(name) is not None:
+                bad.append("%s = %s (the record marks it a judgment, %s)" % (name, m[name], ruling))
         out.append(row("V8", pid, "disagrees" if bad else "agrees", "; ".join(bad)))
     return out
 
@@ -3497,7 +3617,8 @@ def x3():
 @check("X4", "elevation", "the DXF elevation draws the eave the SVG draws: the frieze band and the cornice's "
        "box on the same outlines in the face's own inches, and a line at every member division the SVG "
        "draws, level and across the same run, each carrying the member it names and that member's "
-       "profile", "every face of every plan whose elevation draws")
+       "profile; and on a gable end the returns, the cornice's end profiles and the wall run up to the "
+       "rake", "every face of every plan whose elevation draws")
 def x4():
     """Phase 15, WP-15.7. The DXF drew the same single rectangle the sheet did, frieze and cornice in
     one box at the cornice's projection; both read `elevation.cornice_marks` now. This holds the two
@@ -3521,8 +3642,15 @@ def x4():
             (u0, v0), (u1, v1) = IR.to_model(pl, b[0], b[3]), IR.to_model(pl, b[2], b[1])
             return tuple(round(v * 12.0, 1) for v in (min(u0, u1), min(v0, v1), max(u0, u1), max(v0, v1)))
 
+        # AND THE GABLE END'S END PROFILES (WP-16.5, R8), each held by its extent in the face's inches:
+        # the SVG's `data-end-profile` paths against the DXF's own layer for them
+        # AND THE GABLE WALL RUN UP TO THE RAKE (WP-16.5): one outline from the ground to the roof's
+        # edge, on each surface, where the face carries no band across it
         want = {"frieze": [inches(it) for it in _rects(ink, "bd", "fz")],
-                "cornice": [inches(it) for it in _rects(ink, "bd", "w-prof")]}
+                "cornice": [inches(it) for it in _rects(ink, "bd", "w-prof")],
+                "end": [inches(it) for it in _marks(ink, "bd")
+                        if it.tag == "path" and it.attrs.get("data-end-profile")],
+                "wall": [inches(it) for it in _marks(ink, "wf") if it.attrs.get("data-wall-to-rake")]}
         def run(it):
             (u0, v0), (u1, v1) = (IR.to_model(pl, *it.points(n=1)[0]), IR.to_model(pl, *it.points(n=1)[-1]))
             return tuple(round(x * 12.0, 1) for x in (v0, v1, min(u0, u1), max(u0, u1)))
@@ -3536,8 +3664,11 @@ def x4():
         # package both surfaces drew one box and no division, so every row here read "agrees" --
         # two wrong drawings, alike. Where the record states divisions the sheet does not draw,
         # there is nothing to hold the DXF to, and V25 is the row that says why.
+        # A GABLE END THAT SHOWS THE CORNICE'S END PROFILE AT EACH CORNER (WP-16.5, R8) draws no
+        # division across the face by the rule and draws the cornice all the same, so it is held by
+        # its profiles and its wall; only a face that draws neither has nothing to hold the DXF to.
         n_rec = max(0, len((el.get("eave_cornice") or {}).get("members") or []) - 1)
-        if n_rec and not want_lines:
+        if n_rec and not want_lines and not want["end"]:
             out.append(row("X4", "%s/%s" % (pid, face), "cne", "the record states %d division(s) and the "
                            "SVG draws none, so there is no eave to hold the DXF to (V25)" % n_rec))
             continue
@@ -3546,9 +3677,16 @@ def x4():
             path = os.path.join(d, "e.dxf")
             DX.export_elevation_dxf(el, path, face=face)
             msp = ezdxf.readfile(path).modelspace()
-            got = {"frieze": [], "cornice": []}
+            got = {"frieze": [], "cornice": [], "end": [], "wall": []}
             for e in msp.query("LWPOLYLINE"):
-                k = {"TDL-ELEV-FRIEZE": "frieze", "TDL-ELEV-CORNICE": "cornice"}.get(e.dxf.layer)
+                k = {"TDL-ELEV-FRIEZE": "frieze", "TDL-ELEV-CORNICE": "cornice",
+                     "TDL-ELEV-CORNICE-END": "end"}.get(e.dxf.layer)
+                if e.dxf.layer == "TDL-ELEV-WALL":
+                    try:
+                        _wx = "".join(str(v) for _c, v in e.get_xdata("TDL"))
+                    except Exception:   # noqa: BLE001 -- a wall with no XDATA is the wall to the eave
+                        _wx = ""
+                    k = "wall" if re.search(r'"to_the_rake":\s*true', _wx) else None
                 if k:
                     xs, ys = [p[0] for p in e.get_points()], [p[1] for p in e.get_points()]
                     got[k].append((min(xs), min(ys), max(xs), max(ys)))
@@ -3569,7 +3707,7 @@ def x4():
         finally:
             shutil.rmtree(d, ignore_errors=True)
         bad = []
-        for k in ("frieze", "cornice"):
+        for k in ("frieze", "cornice", "end", "wall"):
             if len(want[k]) != len(got[k]) or any(max(abs(a - b) for a, b in zip(w, g)) > 0.15
                                                   for w, g in zip(sorted(want[k]), sorted(got[k]))):
                 bad.append("the %s: the SVG draws %s, the DXF %s" % (
@@ -3583,8 +3721,11 @@ def x4():
         wrong = sorted({mid for mid, pr in got_profiles if mid in profile_of and pr != profile_of[mid]})
         if wrong:
             bad.append("the DXF's division under %s carries another member's profile" % ", ".join(wrong))
+        held = "%d division(s)" % len(want_lines) + (
+            ", %d end profile(s)" % len(want["end"]) if want["end"] else "") + (
+            ", the wall to the rake" if want["wall"] else "")
         out.append(row("X4", "%s/%s" % (pid, face), "disagrees" if bad else "agrees",
-                       "; ".join(bad[:3]) if bad else "%d division(s)" % len(want_lines)))
+                       "; ".join(bad[:3]) if bad else held))
     return out
 
 

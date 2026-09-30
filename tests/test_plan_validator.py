@@ -139,7 +139,11 @@ class TestShippedPlans:
         # test reads `upper_storey_windows_missing_or_off_alignment_over_a_lower_bay` -- one of
         # the alignment figures the elevation withholds on this incomplete front. Both are
         # unjudged with the elevation's reason attached; nothing was cleared.
-        assert result["counts"]["serious"] == 58
+        # 58 -> 57 AT WP-16.5 (30 Sep 2026): `The Cardboard Gable` (flush-rake), "8.612 against
+        # between 4 and 8" -- the cornice's own projection published as `rake_overhang_in`, on a roof
+        # record that models no rake overhang. Withheld now, so the fault could-not-evaluate. The
+        # one row out of 168, diffed finding by finding against a worktree of 9dd0fbf.
+        assert result["counts"]["serious"] == 57
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -291,7 +295,12 @@ class TestShippedPlans:
         # -- an alignment figure the elevation withholds on this incomplete front (R12). It is
         # unjudged with the elevation's reason, not cleared. Attributed by name against a
         # worktree of a4abb85.
-        assert result["counts"]["serious"] == 29
+        # 29 -> 28 AT WP-16.5 (30 Sep 2026): `The Cardboard Gable` (flush-rake), "10.525 against
+        # between 4 and 8". That 10.525 in was the CORNICE's projection, the envelope's figure,
+        # published as `rake_overhang_in`, and the roof record models no rake overhang at all. It is
+        # withheld now (`NOT_MODELLED`), so the fault could-not-evaluate. The one row out of 135,
+        # diffed finding by finding against a worktree of 9dd0fbf; nothing else moved.
+        assert result["counts"]["serious"] == 28
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the
@@ -348,9 +357,12 @@ class TestShippedPlans:
         # asserted twice in one test; the accounting is at the head of the test and both move
         # together. `fatal` is still 0 here, which is the half this paragraph is about.
         # 30 -> 29 at WP-16.1, with its twin at the head of this test and for the same reason.
-        assert result["counts"].get("serious", 0) == 29, (
+        # 29 -> 28 at WP-16.5, with its twin: `The Cardboard Gable`, on a rake overhang that was
+        # the cornice's projection under another name, withheld now.
+        assert result["counts"].get("serious", 0) == 28, (
             "serious moved on this plan; the 17 Sep merge measured it at 30 (main 28, this "
-            "branch 31) and WP-16.1 at 29 (the closet fault unjudged on an incomplete front), "
+            "branch 31), WP-16.1 at 29 (the closet fault unjudged on an incomplete front) and "
+            "WP-16.5 at 28 (flush-rake unjudged: the roof models no rake overhang), "
             "and the note above records that nothing pinned it before, which is how the prose "
             "drifted last time")
         assert result["counts"]["minor"] == 76

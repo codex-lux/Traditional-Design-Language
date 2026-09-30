@@ -46,6 +46,10 @@ READ_SLOTS = {
     "composition_parti",
     "construction_type",
     "cornice",
+    # WP-16.5 (R8): the gable end draws what the resolved kit says of the return, so the
+    # elevation reads it. Its three parameters that were not already counted are named beside
+    # `check_research.RATCHET`, which moved with this line.
+    "cornice_return",
     "door_surround",
     "dormer",
     "entablature",

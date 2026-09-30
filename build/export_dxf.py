@@ -734,8 +734,21 @@ def export_elevation_dxf(elev, path, face=None):
     for mk in beside:
         _draw_stack(mk)
     msp.add_line((min([0] + g_us) - 24, 0), (max([span] + g_us) + 24, 0), dxfattribs={"layer": grade})
-    msp.add_lwpolyline([(0, 0), (span, 0), (span, top_of_wall), (0, top_of_wall)],
-                       close=True, dxfattribs={"layer": wall})
+    # WHAT THIS FACE IS TO THE CORNICE, as the sheet decides it (WP-16.5, R8): a gable end that
+    # carries no band across it is a wall that runs up to the rake, one outline from the ground to
+    # the roof's edge, where a wall stopped at the roof record's eave drew a line across the gable
+    cm = EL.cornice_marks(elev, face)
+    profile = [(x * IN, h * IN + cornice_band) for x, h in EL.face_profile(roof, face, fp)]
+    _gable = face in (EL.gable_faces(roof) or ())
+    _band_across = bool(cm.get("applicable") and cm.get("role") == "gable"
+                        and (cm.get("cornice") or cm.get("frieze")))
+    if _gable and not _band_across:
+        wl = msp.add_lwpolyline([(0, 0), (span, 0)] + list(reversed(profile)), close=True,
+                                dxfattribs={"layer": wall})
+        _xdata(wl, "TDL::wall", {"to_the_rake": True})
+    else:
+        msp.add_lwpolyline([(0, 0), (span, 0), (span, top_of_wall), (0, top_of_wall)],
+                           close=True, dxfattribs={"layer": wall})
     # THE FRIEZE AND THE CORNICE, EACH AT ITS OWN PROJECTION, AND THE CORNICE WITH ITS MEMBERS
     # (Phase 15, WP-15.7). This drew ONE box from the wall head to the true eave at the cornice's
     # projection, as the sheet did, so the frieze stood proud of a wall its record says it is
@@ -747,7 +760,6 @@ def export_elevation_dxf(elev, path, face=None):
     cornice = elev["eave_cornice"]
     band_proj, band_why = EL.cornice_band_projection_in(cornice)
     band_proj = band_proj or 0.0
-    cm = EL.cornice_marks(elev, face)
     if cm["applicable"]:
         # EACH BAND ONLY WHERE THE KIT DOES NOT FORBID IT (WP-16.4), as the sheet draws it:
         # `cornice_marks` hands back None for a refused band, and the notes both surfaces write
@@ -763,7 +775,8 @@ def export_elevation_dxf(elev, path, face=None):
             pts = _stack_pts(mk)
             su0, su1 = min(p[0] for p in pts) - 0.5, max(p[0] for p in pts) + 0.5
             sh0, sh1 = min(p[1] for p in pts), max(p[1] for p in pts)
-            for b in (x for x in (_fz, _co) if x):
+            _ret_boxes = [r[k] for r in cm.get("returns") or [] for k in ("frieze", "cornice") if r[k]]
+            for b in (x for x in [_fz, _co] + _ret_boxes if x):
                 u0, u1 = max(su0, b["u0"] * IN), min(su1, b["u1"] * IN)
                 h0, h1 = max(sh0, b["h0"] * IN), min(sh1, b["h1"] * IN)
                 if u1 - u0 > 0.5 + 1e-6 and h1 - h0 > 1e-6:
@@ -792,6 +805,62 @@ def export_elevation_dxf(elev, path, face=None):
                 msp.add_lwpolyline([(t["u0"] * IN, _t["h0"] * IN), (t["u1"] * IN, _t["h0"] * IN),
                                     (t["u1"] * IN, _t["h1"] * IN), (t["u0"] * IN, _t["h1"] * IN)],
                                    close=True, dxfattribs={"layer": tth})
+
+    # THE GABLE END'S RETURNS AND END PROFILES (WP-16.5, R8 and R8a), the marks the sheet draws
+    # from `cornice_marks`. The length of a return is a judgment (R8a), and its XDATA says so and
+    # names the rule it was read from, so a CAD file does not hold it with a measured figure's
+    # authority. An end profile is the section `profiles.silhouette` constructs, walked as the
+    # detail below is; at the left corner it is mirrored, and a mirror reverses every arc, so each
+    # bulge changes sign there.
+    if cm["applicable"]:
+        _ret = elev.get("cornice_return") or {}
+        fzl = _layer(doc, "TDL-ELEV-FRIEZE", color=3)
+        mem = _layer(doc, "TDL-ELEV-CORNICE-MEMBER", color=3)
+        for rt in cm.get("returns") or []:
+            for key, lay in (("frieze", fzl), ("cornice", cor)):
+                b = rt[key]
+                if not b:
+                    continue
+                pl = msp.add_lwpolyline([(b["u0"] * IN, b["h0"] * IN), (b["u1"] * IN, b["h0"] * IN),
+                                         (b["u1"] * IN, b["h1"] * IN), (b["u0"] * IN, b["h1"] * IN)],
+                                        close=True, dxfattribs={"layer": lay})
+                _xdata(pl, "TDL::return", {"side": rt["side"], "member": key, "plain": rt["plain"],
+                                           "length_in": _ret.get("length_in"), "judgment": True,
+                                           "basis": _ret.get("length_basis")})
+            _rc = rt["cornice"]
+            if _rc and not rt["plain"]:
+                for mm in cm["members"][1:]:
+                    ln = msp.add_line((_rc["u0"] * IN, mm["h0"] * IN), (_rc["u1"] * IN, mm["h0"] * IN),
+                                      dxfattribs={"layer": mem})
+                    _xdata(ln, "TDL::cornice-member", {"member": mm["id"], "profile": mm["profile"],
+                                                       "return": rt["side"]})
+            _rt = rt.get("teeth")
+            if _rc and _rt and not _rt["solid"]:
+                tth = _layer(doc, "TDL-ELEV-CORNICE-TOOTH", color=3)
+                for t in _rt["teeth"]:
+                    msp.add_lwpolyline([(t["u0"] * IN, _rt["h0"] * IN), (t["u1"] * IN, _rt["h0"] * IN),
+                                        (t["u1"] * IN, _rt["h1"] * IN), (t["u0"] * IN, _rt["h1"] * IN)],
+                                       close=True, dxfattribs={"layer": tth})
+        if cm.get("end_profiles"):
+            _P = _mod("profiles", f"{ROOT}/build/profiles.py")
+            _naked = cornice.get("frieze_naked_in") or 0.0
+            _axis = cornice.get("entablature_projection_datum", cornice.get("projection_datum")) == "axis"
+            _sil = _P.silhouette(cornice["members"], naked_at=_naked, from_axis=_axis)
+            _pts = _P.dxf_points(_sil["segments"], _sil["start"])
+            # its own layer: an end profile is the cornice's SECTION, not a box on the face, and a
+            # reader of the cornice layer who took it for one would read a third box on the gable
+            endl = _layer(doc, "TDL-ELEV-CORNICE-END", color=3)
+            for ep in cm["end_profiles"]:
+                au, out, h0 = ep["at_u"] * IN, ep["outward"], ep["h0"] * IN
+                pl = msp.add_lwpolyline([(au + out * (x - _naked), h0 + y, 0.0, 0.0, bl * out)
+                                         for x, y, bl in _pts],
+                                        format="xyseb", close=True, dxfattribs={"layer": endl})
+                _xdata(pl, "TDL::end-profile", {"side": ep["side"], "relief_in": ep.get("relief_in")})
+                if ep.get("frieze_projection_in"):
+                    fu = au + out * ep["frieze_projection_in"]
+                    msp.add_lwpolyline([(min(au, fu), ep["wall_top_ft"] * IN), (max(au, fu), ep["wall_top_ft"] * IN),
+                                        (max(au, fu), h0), (min(au, fu), h0)],
+                                       close=True, dxfattribs={"layer": fzl})
 
     # WP-5.11: THE CORNICE PROFILE ITSELF, AND THE ANSWER TO "DO WE NEED CAD FOR THIS".
     #
@@ -830,20 +899,27 @@ def export_elevation_dxf(elev, path, face=None):
         uncon = {u["id"] for u in sil["unconstructed"]}
         _xdata(poly, "TDL::cornice-profile", {"members": [
             {"id": m.get("id"), "profile": m.get("profile"), "height_in": m.get("height_in"),
-             "projection_in": m.get("projection_in"), "confidence": m.get("confidence"),
+             "projection_in": m.get("projection_in"),
+             "order_projection_in": m.get("order_projection_in"), "confidence": m.get("confidence"),
              "unconstructed": m.get("id") in uncon, "drawn_straight": m.get("id") in straight}
             for m in members]})
         _text(msp, anno, f"EAVE CORNICE PROFILE - {len(members)} MEMBERS, FULL SIZE",
               ox, oy - 14)
+        # ONE CORNICE (OQ 79, ruled 29 Sep 2026): the relief is the envelope's, in the order's shape,
+        # and the bed mould's held figure is a judgment. The sheet's caption says the same.
+        scaling = cornice.get("projection_scaling") or {}
         _text(msp, anno,
               f"RELIEF {round(cornice.get('order_relief_beyond_frieze_in') or 0, 2)} IN"
-              + (f"; ENVELOPE RULE SAYS {round(band_proj, 2)} IN - BOTH SOURCED, SEE OQ"
-                 if abs((cornice.get('order_relief_beyond_frieze_in') or 0) - band_proj) > 0.5 else ""),
+              + (f", THE ENVELOPE'S DEPTH IN THE ORDER'S SHAPE (ORDER'S OWN "
+                 f"{round(scaling.get('order_relief_in') or 0, 2)} IN; OQ 79, RULED)"
+                 if scaling.get("mode") in ("bed-mould-held", "uniform") else "")
+              + (f"; BED MOULD HELD AT {cornice.get('bed_mould_projection_in'):g} IN - A JUDGMENT"
+                 if cornice.get("bed_mould_projection_judgment") else ""),
               ox, oy - 26)
 
     # roof silhouette from roof.py's own elevation profile, shifted by the band
-    # in the face's own u, as the sheet reads it (WP-16.3: `elevation.face_profile`)
-    profile = [(x * IN, h * IN + cornice_band) for x, h in EL.face_profile(roof, face, fp)]
+    # in the face's own u, as the sheet reads it (WP-16.3: `elevation.face_profile`); on a gable
+    # end it is the rake, the roof's edge seen end on (WP-16.5)
     msp.add_lwpolyline(profile, dxfattribs={"layer": rf})
 
     def _win(r):
@@ -992,7 +1068,7 @@ def export_elevation_dxf(elev, path, face=None):
                      # where it is drawn, and never "CORNICE None IN (8 MEMBERS)" over a record
                      # that dimensions none (WP-15.8's audit, auditor ab601)
                      + (f"CORNICE {cornice['cornice_height_in']} IN ({cornice['member_count']} MEMBERS)"
-                        if cm["applicable"] and cm["cornice"] else "NO CORNICE DRAWN"),
+                        if EL.cornice_drawn(cm) else "NO CORNICE DRAWN"),
           0, -4 * TEXT_H)
     # EVERYTHING THE SHEET SAYS BENEATH THE DRAWING, IN ITS OWN WORDS AND ORDER (`elevation.
     # face_notes`, WP-15.8). This wrote the five lines it had been handed one at a time -- the main

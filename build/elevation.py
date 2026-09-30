@@ -1085,6 +1085,69 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
     }
 
 # ---------------------------------------------------------------- eave cornice ("the style's entablature reduction")
+# THE BED MOULD'S OUTER FACE, HELD (OQ 79, ruled 29 Sep 2026, R9a). `bed-mould-omitted`'s own
+# note gives a real bed mould's projection: "Vinyl J-channel gives a 3/4 in reveal where a bed mould
+# gives 2 1/2" -- after Benjamin, in the ruling's words. Held at that figure the bed mould keeps the
+# fault's own 1.5 in floor, which a uniform scale into the envelope would not keep everywhere: it
+# would put the bed group's outer face, the fillet, at 1.62 in on the Tidewater front and 1.33 on the
+# spec Colonial's, and its cyma at 1.22 and 1.00. (The question put to Lucas quoted the cyma's two
+# figures as the bed mould's, because this file published the first bed member as the bed mould's
+# projection; the fault's 2 1/2 in is the group's outer face.) A JUDGMENT: it is drawn and labelled
+# as one, and never published as a measurement (`NOT_MODELLED`), because a figure chosen to keep a
+# fault's floor is not a measurement the fault may then be judged on. Written once; a test holds it
+# to the words.
+BED_MOULD_PROJECTION_IN = 2.5
+BED_MOULD_BASIS = ("faults/bed-mould-omitted.json", "bed_mould_projection_in",
+                   "where a bed mould gives 2 1/2")
+
+
+def scale_into_envelope(members, envelope_in, naked_in=0.0, bed_in=BED_MOULD_PROJECTION_IN):
+    """OQ 79's ruling applied to a cornice's members (R9, R9a): the envelope's DEPTH with the
+    order's SHAPE. Heights are kept. Each member's relief past the frieze naked is mapped piecewise
+    and linearly: the bed mould's members (their ids name `bed`) onto [0, `bed_in`], so the bed
+    group's outer face stands at `bed_in`; every member above onto [`bed_in`, `envelope_in`], so
+    the order's own greatest relief lands on the envelope. So the members above share the rest of
+    the depth in the order's proportions, and the whole cornice projects as far as the envelope.
+
+    Returns `(members, how)`. Each member keeps the order's own figure as `order_projection_in`,
+    and a member whose projection nobody published stays `None`. `how` is "bed-mould-held", or
+    "uniform" with a reason where the envelope is no deeper than the bed mould or the order
+    states no bed group -- then every relief is scaled by one factor and nothing is held."""
+    pub = [m for m in members if m.get("projection_in") is not None]
+    if not pub or envelope_in is None:
+        return [dict(m) for m in members], {"mode": "not-scaled",
+                                            "why": "no member's projection is published" if not pub
+                                            else "no record states the envelope's projection"}
+    rel = lambda m: m["projection_in"] - naked_in
+    top = max(rel(m) for m in pub)
+    bed = [m for m in pub if "bed" in (m.get("id") or "")]
+    r_bed = max((rel(m) for m in bed), default=None)
+    held = bool(bed) and r_bed is not None and 0 < r_bed < top and envelope_in > bed_in
+    out = []
+    for m in members:
+        m2 = dict(m)
+        m2["order_projection_in"] = m.get("projection_in")
+        if m.get("projection_in") is not None:
+            r = rel(m)
+            if not held:
+                r2 = r * envelope_in / top if top > 0 else 0.0
+            elif m in bed:
+                r2 = r * bed_in / r_bed
+            else:
+                r2 = bed_in + (r - r_bed) * (envelope_in - bed_in) / (top - r_bed)
+            m2["projection_in"] = round(naked_in + r2, 4)
+        out.append(m2)
+    if held:
+        how = {"mode": "bed-mould-held", "bed_in": bed_in, "order_relief_in": round(top, 3),
+               "order_bed_relief_in": round(r_bed, 3)}
+    else:
+        how = {"mode": "uniform", "order_relief_in": round(top, 3),
+               "why": ("the envelope is no deeper than the bed mould's held figure"
+                       if bed and envelope_in <= bed_in else
+                       "the order states no bed mould beneath its other members")}
+    return out, how
+
+
 def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
     """facade-classical.json's own domestic envelope (frieze 1 part, cornice 2 parts, at the
     pack's own default module) fixes the TOTAL height the eave assembly gets on an ordinary
@@ -1157,7 +1220,6 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
         {**gibbs_pack, "assemblies": {**gibbs_pack["assemblies"], "cornice": gibbs_cornice}}
     dim = PE.dimension(_pack, reduced_module_in, include=["cornice"])
     cor_asm = next(a for a in dim["assemblies"] if a["id"] == "cornice")
-    bed_member = next((m for m in cor_asm["members"] if "bed" in m["id"]), None)
 
     # WHICH PLANE THESE PROJECTIONS ARE MEASURED FROM, decided on the pack's own evidence.
     #
@@ -1184,8 +1246,32 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
     frieze_naked_in = col_naked_in if entab_from_axis else 0.0
     # Over PUBLISHED figures only (WP-14.2): a member whose projection nobody transcribed is None
     # and has no face to be the greatest.
-    relief = max((m["projection_in"] for m in cor_asm["members"]
+    order_relief = max((m["projection_in"] for m in cor_asm["members"]
+                        if m.get("projection_in") is not None), default=0.0) - frieze_naked_in
+    # OQ 79, RULED 29 SEP 2026 (R9, R9a): THE ENVELOPE'S DEPTH, THE ORDER'S SHAPE. Gibbs's rule
+    # ("the projection of the Cornice equal to its height") makes this cornice project as far as
+    # it stands tall, and facade-classical's `cornice/projection` says module/14 for a domestic
+    # front. Lucas ruled the envelope governs how far it projects, and the order its profile: the
+    # member heights are kept and their projections scaled into the envelope, with the bed mould's
+    # outer face held at 2½ in, a judgment. So the face and the inset draw ONE cornice.
+    scaled, scaled_how = scale_into_envelope(cor_asm["members"], cornice_proj, frieze_naked_in)
+    relief = max((m["projection_in"] for m in scaled
                   if m.get("projection_in") is not None), default=0.0) - frieze_naked_in
+    bed_face = max((m["projection_in"] - frieze_naked_in for m in scaled
+                    if "bed" in m["id"] and m.get("projection_in") is not None), default=None)
+    # GIBBS'S "PROJECTION EQUAL TO ITS HEIGHT" IS SAID ONLY WHERE IT HOLDS (WP-16.5). Where the kit
+    # refuses the modillions (WP-16.4), the members left are read to the envelope's height and their
+    # projections grow with them: bad-03's cornice stands 20.09 in tall and its order projects 26.79,
+    # and this sentence said the two were equal.
+    _h_in = cor_asm["height_in_summed"]
+    if abs(order_relief - _h_in) <= 0.01:
+        _gibbs_equal = " at this height (Gibbs: projection equals height)"
+    elif refused_members:
+        _gibbs_equal = (f", against a height of {round(_h_in, 2)} in: the members left when the kit "
+                        f"refused {', '.join(refused_members)} were read to the envelope's height, "
+                        f"and their projections grew with them")
+    else:
+        _gibbs_equal = f", against a height of {round(_h_in, 2)} in"
     rec = {
         # WHICH PACK'S CORNICE THIS IS, for the inset's caption to name rather than assume
         # (WP-14.2): the caption hard-coded "GIBBS IONIC" whatever pack was passed in, and the
@@ -1200,22 +1286,30 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
         "entablature_projection_datum": "axis" if entab_from_axis else "naked",
         "frieze_naked_in": round(frieze_naked_in, 3),
         "order_relief_beyond_frieze_in": round(relief, 3),
-        # TWO PACKS, ONE ADDRESS, DIFFERENT ANSWERS -- stated rather than silently resolved.
-        # Gibbs's own rule ("the projection of the Cornice equal to its height", which he holds
-        # for every order but the Doric) makes this cornice project as far as it stands tall.
-        # facade-classical's `cornice/projection` rule says module/14 for a domestic front. Both
-        # are sourced, they are not the same number, and nothing here is entitled to pick: the
-        # order's figure draws the profile plate, the envelope's figure draws the band on the
-        # wall, and the sheet says both. This is the OQ 48 class at cascade scope.
+        # TWO PACKS, ONE ADDRESS, AND THE RULING BETWEEN THEM (OQ 79, 29 Sep 2026). Until the
+        # ruling the record carried both figures and chose neither: the order's drew the inset's
+        # profile and the envelope's drew the band on the wall, 2.3 times apart. The envelope
+        # governs the depth now and the order the shape; the order's own figure is kept here so
+        # a reader can see what was scaled.
         "envelope_projection_in": round(cornice_proj, 3),
-        "projection_disagreement_note": (
-            f"The order's own cornice projects {round(relief,2)} in (Gibbs: projection equals height); "
-            f"facade-classical's domestic envelope rule gives {round(cornice_proj,2)} in. Both are sourced "
-            f"and they disagree; neither is chosen here."),
-        "members": cor_asm["members"],
-        "bed_mould_projection_in": (round(bed_member["projection_in"], 3)
-                                    if bed_member and bed_member.get("projection_in") is not None
-                                    else None),
+        "order_own_relief_in": round(order_relief, 3),
+        "projection_scaling": scaled_how,
+        "projection_ruling": (
+            f"OQ 79, ruled 29 Sep 2026: the envelope's depth ({round(cornice_proj, 2)} in, "
+            f"facade-classical's module/14) with the order's shape. The order's own cornice projects "
+            f"{round(order_relief, 2)} in{_gibbs_equal}; its member "
+            f"heights are kept and its projections scaled into the envelope"
+            + (f", the bed mould's outer face held at {BED_MOULD_PROJECTION_IN} in, a judgment "
+               f"(bed-mould-omitted's own note), and the members above sharing the rest of the "
+               f"depth in the order's proportions."
+               if scaled_how.get("mode") == "bed-mould-held" else
+               f", by one factor: {scaled_how.get('why')}.")),
+        "members": scaled,
+        # THE BED MOULD'S OUTER FACE AS DRAWN, and a JUDGMENT (R9a): the record carries it for the
+        # inset and the DXF to label, and the measurements never publish it (`NOT_MODELLED`).
+        "bed_mould_projection_in": None if bed_face is None else round(bed_face, 3),
+        "bed_mould_projection_judgment": scaled_how.get("mode") == "bed-mould-held",
+        "bed_mould_basis": list(BED_MOULD_BASIS) if scaled_how.get("mode") == "bed-mould-held" else None,
         "member_count": len(cor_asm["members"]),
         "note": (f"Gibbs Ionic's cornice assembly ({gibbs_cornice_modules} modules of its own column-scale module) is "
                  f"regenerated at a {round(reduced_module_in,2)} in module so its {len(cor_asm['members'])} members sum to "
@@ -1234,8 +1328,10 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
     if refused.get("cornice"):
         rec.update({"cornice_height_in": None, "cornice_projection_in": None,
                     "envelope_projection_in": None, "order_relief_beyond_frieze_in": None,
-                    "projection_disagreement_note": None, "members": [], "member_count": None,
-                    "bed_mould_projection_in": None,
+                    "order_own_relief_in": None, "projection_scaling": None,
+                    "projection_ruling": None, "members": [], "member_count": None,
+                    "bed_mould_projection_in": None, "bed_mould_projection_judgment": False,
+                    "bed_mould_basis": None,
                     "note": "The style's resolved kit forbids the cornice: " +
                             ban_words(refused["cornice"]) + ". None is dimensioned or drawn."})
     elif refused_members:
@@ -1859,6 +1955,27 @@ NOT_MODELLED = {
     # decision before it is a proportional one; the order fixes only the width."
     "pilaster_projection_in": "gibbs-ionic marks the pilaster's projection a judgment slot: a "
                               "wall-thickness and cladding decision; the order fixes only the width",
+    # And the bed mould's projection since OQ 79's ruling (R9a, 29 Sep 2026): held at 2½ in,
+    # `bed-mould-omitted`'s own figure for a real bed mould, and labelled a judgment on the inset
+    # and in the DXF. A figure chosen to keep that fault's floor cannot be the measurement the
+    # fault is judged on, so its secondary reads nothing here and says so (R4).
+    "bed_mould_projection_in": "held at 2.5 in by the ruling on OQ 79 (bed-mould-omitted's own "
+                               "figure for a real bed mould) and marked a judgment",
+    # THE RETURN'S LENGTH AND ITS RUN (R8a, ruled 29 Sep 2026). A stated return is DRAWN as far as
+    # the cornice is tall, the pork-chop fault's own rule, and labelled a judgment; a plain return
+    # at the middle of its record's own band, a judgment too. Published, either figure would be the
+    # fault's rule handed back to the fault, a pass by construction, so the return faults read
+    # neither and say so.
+    "return_projection_from_wall_in": "a return is drawn as far as the cornice is tall, the "
+                                      "pork-chop fault's own rule, and the length is a judgment (R8a)",
+    "return_length_along_gable_wall_in": "as return_projection_from_wall_in -- a return's length is "
+                                         "drawn to R8a's rule and is a judgment",
+    # AND THE RAKE (WP-16.5). This published the EAVE cornice's projection as a rake overhang, on
+    # every plan, while the roof record models no rake overhang and every surface draws the roof
+    # stopping at the gable wall. It put the flush-rake fault's 4-8 in band against a 10.5 in figure
+    # nobody measured.
+    "rake_overhang_in": "the roof record models no rake overhang; the roof stops at the gable wall "
+                        "on every surface",
     "chimney_depth_in": "no pack states a stack depth distinct from its width; claiming one would invent an aspect ratio",
     "chimney_least_plan_dimension_in": "as chimney_width_in -- the only figure available is a judgment",
     "chimney_visible_face_width_in": "as chimney_width_in -- the only figure available is a judgment",
@@ -2154,8 +2271,6 @@ def _derive_measurements(elev):
         "frieze_plus_cornice_height_in": _entab,
         "distinct_entablature_members_visible": cornice["member_count"],
         "count_of_moulded_members_in_the_eave_assembly": cornice["member_count"],
-        "count_of_moulding_profiles_carried_around_onto_the_return": cornice["member_count"],
-        "bed_mould_projection_in": cornice["bed_mould_projection_in"],
         # raking_cornice_member_count is NOT supplied (OQ 52). eave_cornice() dimensions the
         # HORIZONTAL entablature run and nothing else; whether those members are carried up the
         # rake to close a pediment is a decision this file never makes and the record never holds.
@@ -2168,7 +2283,6 @@ def _derive_measurements(elev):
         # gutter_outlets and overflow_scuppers are NOT supplied (OQ 52). Nothing in this corpus
         # models a gutter -- no slot, no kit parameter, no line in any renderer -- so "2 outlets
         # and no scuppers" was a sentence with no author. It convicted both reference plans.
-        "rake_overhang_in": cornice["cornice_projection_in"],
         "count_of_perforations_visible_in_the_cornice_soffit_frieze_or_fascia": 0 if _cor else None,
         "count_of_plane_changes_between_wall_face_and_roof_surface": cornice["member_count"],
         "window_head_casings_colliding_with_the_cornice_bed_mould": False if _cor else None,
@@ -2186,6 +2300,38 @@ def _derive_measurements(elev):
         # only where the record actually stated something.
         "wall_thickness_in": elev["section"]["wall"]["exterior_in"],
     })
+
+    # WHAT THE GABLE ENDS CARRY OF THE CORNICE (WP-16.5, R8), COUNTED OFF THE MARKS THE SHEET AND
+    # THE DXF DRAW (`cornice_marks`), so a fault cannot read a return the drawing does not have and a
+    # zero is the drawing's own count and not a constant. Three states, never a default:
+    # - each return drawn at a gable corner is counted, and so are the distinct members a FULL
+    #   return carries, which the kit states where it makes the full return canonical;
+    # - a gable end that draws no return -- the kit forbids one, or makes `none` canonical, or no
+    #   cornice is drawn -- counts none, and that is measured, not assumed;
+    # - a band kept across a gable end because the kit settles nothing is DRAWN BY DEFAULT and is
+    #   not a return anyone stated, so it is unmeasured, and so is a roof form the record does not
+    #   model. A hip has no gable end: it draws no return, and a count of members returning onto a
+    #   gable wall it does not have is unmeasured rather than none. A plain return's profile is
+    #   stated by nothing, so its members are unmeasured too.
+    # The return count gates the two faults about a return's SHAPE (the pork chop, the stunted
+    # return), which ask nothing of a house with none. `count_of_moulding_profiles_carried_around_
+    # onto_the_return` was the cornice's member count on EVERY house until this, returned or not.
+    _ret = elev.get("cornice_return") or {}
+    _gf = _ret.get("gable_faces")
+    _n_ret = _members_ret = _carried = None
+    if _gf is not None and _ret.get("draws") != "band":
+        _gmarks = [cornice_marks(elev, f) for f in _gf]
+        _drawn = [r for cmf in _gmarks for r in cmf.get("returns") or [] if r.get("cornice")]
+        _full = {mm["id"] for cmf in _gmarks for r in cmf.get("returns") or []
+                 if r.get("cornice") and not r.get("plain") for mm in cmf.get("members") or []}
+        _n_ret = len(_drawn)
+        if _gf and not any(r.get("plain") for r in _drawn):
+            _members_ret = len(_full)
+        if _full:
+            _carried = len(_full)
+    m["count_of_cornice_returns_drawn_at_the_gable_ends"] = _n_ret
+    m["count_of_moulding_profiles_carried_around_onto_the_return"] = _carried
+    m["count_of_horizontal_moulding_members_returning_onto_the_gable_wall"] = _members_ret
 
     # EACH BAND'S FIGURES ONLY WHERE IT IS DRAWN (WP-16.4): the water table and the belt are refused
     # separately now, and a refused band's figures are absent in the record already
@@ -2443,6 +2589,159 @@ CORNICE_SOURCE = ("elevation.eave_cornice: the frieze band and the cornice's mem
                   "for the frieze, the order pack's cornice for the members)")
 
 
+# ---------------------------------------------------------------- the gable end's return (R8)
+# The cornice height the Georgian kit's 12-24 in return band was written for, in the words of the
+# fault that reads it (faults/return-shallower-than-tall.json, its primary test's note: "Preferred
+# band is 1.25-2.0, which at the Gibbs Ionic cornice height of 11.7 in on a 10 ft storey gives the
+# documented 12-24 in"). R8a notes it beside the band, because a return drawn to R8a's rule on a
+# taller cornice runs past the band for the reason the band was never written for it.
+RETURN_BAND_WRITTEN_FOR_CORNICE_IN = 11.7
+# ...and the band it was written for, the one R8a's note is about. Another style's own band is not:
+# greek-revival-upland-vernacular restates the return at 10-18 in from its own `typical_ratios`, and
+# a note calling THAT band one written for an 11.7 in cornice would be a claim nobody made.
+RETURN_BAND_DOCUMENTED_IN = (12.0, 24.0)
+RETURN_BAND_BASIS = ("faults/return-shallower-than-tall.json", "test.note",
+                     "at the Gibbs Ionic cornice height of 11.7 in on a 10 ft storey gives the "
+                     "documented 12-24 in")
+# The rule R8a reads the return's length from: the pork-chop fault's own, "A correct return projects
+# at least as far as the cornice is tall". The length is the cornice's height, and a judgment.
+RETURN_LENGTH_BASIS = ("faults/pork-chop-return.json", "test.note",
+                       "A correct return projects at least as far as the cornice is tall")
+
+
+def gable_faces(roof):
+    """The faces a gable end stands on, read off the roof record's own form and ridge (WP-16.5,
+    R8): a tuple, or None where the record's form is one this generator does not model, which is
+    UNJUDGED and never "no gable". A hip, and a gable-on-hip, run the eave round every face, so they
+    have none. The axis-to-walls mapping is `threshold.gable_end_walls`', the one spelling of it."""
+    main = (roof or {}).get("main") or {}
+    form, axis = main.get("form"), (main.get("ridge") or {}).get("axis")
+    if form in ("hip", "gable-on-hip"):
+        return ()
+    if form in ("gable", "side-gable", "front-gable", "gambrel", "cross-gable") and axis in ("x", "y"):
+        return tuple(RF._threshold().gable_end_walls(axis))
+    return None
+
+
+def cornice_return(reading, cornice, roof):
+    """WHAT EACH GABLE END DRAWS OF THE EAVE CORNICE (WP-16.5, R8 and R8a, ruled 29 Sep 2026).
+
+    `reading` is `resolve_kit.return_at`'s answer for the style's resolved kit at the house's date.
+    What a gable end draws follows from its state:
+    - `forbidden`, `none`: no band across the gable end. The cornice's end profile shows at each
+      corner and the wall runs up to the rake (`draws: "end-profile"`), and the eave faces' cornice
+      stops at the corners, because nothing turns them;
+    - `stated`: a return at each corner, as far as the cornice is tall (R8a, the pork-chop fault's
+      own rule), labelled a judgment, and the record's own band noted beside it where it states one;
+    - `plain`: a plain return at the middle of the record's own band, labelled a judgment;
+    - `unsettled`, `silent`, `unjudged`: the band is kept across the gable end and the sheet says
+      the return is unstated (`draws: "band"`). Where the record conditions its permission on the
+      cornice's projection (`condition`), the sheet says the condition and the drawn figure, and
+      the drawing is not changed by it.
+
+    The length is DRAWN and never published as a measurement (`NOT_MODELLED`): a figure the ruling
+    chose to satisfy a fault's rule, handed to that fault, is a pass by construction."""
+    r = dict(reading or {})
+    state = r.get("state") or "silent"
+    faces = gable_faces(roof)
+    cor_h = (cornice or {}).get("cornice_height_in")
+    out = {**r, "state": state, "gable_faces": list(faces) if faces is not None else None,
+           "length_in": None, "length_judgment": False, "length_basis": None, "words": None}
+    has_cornice = bool(cor_h) and not (cornice or {}).get("cornice_refused_by")
+    if not has_cornice:
+        out.update(draws="nothing", words=None)
+        return out
+    who = ", ".join(r.get("writers") or ["?"])
+    # THE RECORD'S OWN CONDITION ON A RETURN, where it states one (WP-16.5). colonial-revival's c04
+    # permits a return "only where the eave carries a full classical cornice of at least 10 in.
+    # projection", and the cornice this elevation draws projects the envelope's 8.61 in on the spec
+    # Colonial. SAID beside the drawing and never deciding it: whether a return a kit permits over a
+    # deeper cornice is refused over a shallower one is not ruled, and A3's reading of a dated ban is
+    # not extended to it by analogy
+    # (`oq/a-return-permitted-only-over-a-deeper-cornice-is-drawn-over-a-shallower-one`).
+    cond = r.get("min_cornice_in")
+    proj = cornice_band_projection_in(cornice or {})[0] if cond is not None else None
+    out["condition"] = (None if cond is None else
+                        {"min_cornice_projection_in": cond, "by": r.get("min_cornice_by"),
+                         "cornice_projection_in": None if proj is None else round(proj, 3),
+                         "met": None if proj is None else proj >= cond - 1e-9})
+    if faces is None:
+        out.update(draws="band", words="GABLE ENDS UNJUDGED — THE ROOF RECORD DOES NOT MODEL ITS "
+                                      "FORM; THE CORNICE IS DRAWN ACROSS EVERY FACE")
+        return out
+    if state == "forbidden":
+        out.update(draws="end-profile",
+                   words="NO CORNICE RETURN — " + ban_words({"writers": r.get("writers")}).upper() +
+                         "; THE CORNICE'S END PROFILE SHOWS AT EACH CORNER AND THE WALL RUNS UP TO "
+                         "THE RAKE")
+    elif state == "none":
+        when = ""
+        if r.get("dated"):
+            when = " FOR HOUSES OF " + ", ".join(f"{lo}–{hi}" for lo, hi in r["dated"])
+            when += ("; THIS RECORD STATES NO DATE, SO NONE IS DRAWN" if r.get("date_unstated")
+                     else f", AND THIS HOUSE IS DATED {r['date']}" if r.get("date") is not None else "")
+        out.update(draws="end-profile",
+                   words=f"NO CORNICE RETURN — {who.upper()}'S KIT MAKES NONE CANONICAL{when}; THE "
+                         "CORNICE'S END PROFILE SHOWS AT EACH CORNER AND THE WALL RUNS UP TO THE RAKE")
+    elif state == "stated":
+        L = float(cor_h)
+        band = r.get("band_in")
+        # the band is named by ITS writer, which a descendant's `extends` delta may be, and it is
+        # called one written for an 11.7 in cornice only where it is the band that was (R8a)
+        note = ""
+        if band:
+            note = f"; {(r.get('band_by') or who).upper()}'S KIT STATES {band[0]:g}–{band[1]:g} IN"
+            if tuple(band) == RETURN_BAND_DOCUMENTED_IN:
+                note += f", A BAND WRITTEN FOR AN {RETURN_BAND_WRITTEN_FOR_CORNICE_IN:g} IN CORNICE"
+        out.update(draws="return", length_in=L, length_judgment=True, length_basis=RETURN_LENGTH_BASIS,
+                   words=f"CORNICE RETURNED {L:.1f} IN AT EACH CORNER, AS FAR AS THE CORNICE IS "
+                         f"TALL (THE PORK-CHOP FAULT'S RULE) — A JUDGMENT{note}")
+    elif state == "plain":
+        lo, hi = r["band_in"]
+        L = (lo + hi) / 2.0
+        by = r.get("band_by") or who
+        out.update(draws="plain-return", length_in=L, length_judgment=True,
+                   length_basis=(f"{by}'s own cornice_return band, {lo:g}–{hi:g} in, at its middle"),
+                   words=f"PLAIN RETURN {L:g} IN AT EACH CORNER, THE MIDDLE OF {by.upper()}'S OWN "
+                         f"{lo:g}–{hi:g} IN — A JUDGMENT")
+    elif state == "unsettled":
+        c = out["condition"]
+        permits = f"{who.upper()}'S KIT PERMITS ONE"
+        if c is not None:
+            # the condition is named by ITS writer where that is not the kit that permits the return
+            cby = c.get("by") or who
+            lead = permits if cby == who else f"{permits}, AND {cby.upper()}'S"
+            floor = f"A CORNICE OF AT LEAST {c['min_cornice_projection_in']:g} IN"
+            if c["met"] is None:
+                permits = f"{lead} ONLY OVER {floor}, AND NO RECORD STATES THIS ONE'S PROJECTION"
+            elif c["met"]:
+                permits = (f"{lead} OVER {floor}, AS THIS ONE IS ({c['cornice_projection_in']:.1f} IN), "
+                           f"AND SETTLES NONE")
+            else:
+                permits = f"{lead} ONLY OVER {floor}, AND THIS ONE PROJECTS {c['cornice_projection_in']:.1f} IN"
+        else:
+            permits += " AND SETTLES NONE"
+        out.update(draws="band", words=f"RETURN UNSTATED — {permits}; THE CORNICE IS DRAWN ACROSS "
+                                       "THE GABLE END")
+    elif state == "unjudged":
+        out.update(draws="band", words="RETURN UNJUDGED — THE STYLE'S KIT COULD NOT BE RESOLVED; "
+                                       "THE CORNICE IS DRAWN ACROSS THE GABLE END")
+    else:
+        out.update(draws="band", words="RETURN UNSTATED — THE KIT SAYS NOTHING OF IT; THE CORNICE "
+                                       "IS DRAWN ACROSS THE GABLE END")
+    return out
+
+
+def cornice_drawn(cm):
+    """Whether a face draws any of the eave cornice: its band, a return at a corner, or its end
+    profile beside a gable wall (WP-16.5). One spelling for the sheet's legend and inset and the
+    DXF's legend, which read the band alone until a gable end could carry a cornice without one,
+    and then said "NO CORNICE DRAWN" under two returns."""
+    return bool(cm.get("applicable") and (cm.get("cornice")
+                                          or any(r.get("cornice") for r in cm.get("returns") or [])
+                                          or cm.get("end_profiles")))
+
+
 def cornice_marks(elev, face):
     """THE EAVE CORNICE AS A FACE DRAWS IT, IN ONE SPELLING (Phase 15, WP-15.7).
 
@@ -2457,14 +2756,21 @@ def cornice_marks(elev, face):
     `stack_marks` uses, so the SVG and the DXF draw the same marks:
     - `frieze`: the band from the wall head to the cornice's springing, at its own projection;
     - `cornice`: the box from the springing to the true eave, at `cornice_band_projection_in`,
-      the ENVELOPE's figure. That is the figure the face has always drawn, and the one the style's
-      resolved kit binds as `cornice.projection_in`. The ORDER's own relief is what the inset
-      draws, and which of the two governs a domestic front is OQ 79. Nothing here chooses
-      between them, and the inset's caption says which surface draws which;
+      the ENVELOPE's figure, the one the style's resolved kit binds as `cornice.projection_in`.
+      Until OQ 79 was ruled (29 Sep 2026, R9) the inset drew the ORDER's own relief beside it and
+      this docstring said nothing here chose between them; the envelope governs the depth now and
+      the order the shape (`eave_cornice`'s `projection_scaling`), so the face's box and the
+      inset's profile stand at one figure;
     - `members`: each member's own band inside the box, at the height its record states;
     - `teeth`: the toothed band's layout (`profiles.repeat_positions`), solid with the reason
       where it cannot be laid;
-    - `notes`: what the face draws otherwise than stated, in the sheet's own words.
+    - `notes`: what the face draws otherwise than stated, in the sheet's own words;
+    - `role`, `gable_draws`, `returns`, `end_profiles`, `wall_to_rake` (WP-16.5, R8): whether the
+      face is an eave face or a gable end, and on a gable end what the resolved kit's
+      `cornice_return` says it draws (`cornice_return`). Where it draws a return, `frieze` and
+      `cornice` are None and each return carries its own boxes; where it draws none, the end
+      profiles stand at the corners. `wall_to_rake` is the run between them where the gable wall
+      goes up to the rake.
 
     `applicable` is False with a reason where the record carries no cornice to draw."""
     cornice = elev.get("eave_cornice") or {}
@@ -2508,32 +2814,95 @@ def cornice_marks(elev, face):
                     "height_in": m.get("height_in"), "confidence": m.get("confidence")}
                    for m in members]
     notes = list(refusal_notes)
-    teeth = None
+    # WHAT THIS FACE IS TO THE CORNICE (WP-16.5, R8, ruled 29 Sep 2026). An eave face carries the
+    # cornice along its length; a gable end carries what the resolved kit says of the return,
+    # which `cornice_return` read once. The eave's cornice turns the corner wherever the gable end
+    # carries something round it -- a return, a plain return, or the band -- and stops at the
+    # corner where the gable end draws none: the band's extension past each corner on an eave face
+    # IS the return seen end on, and a face drawn with it beside a gable drawn without it is one
+    # cornice drawn as two.
+    ret = elev.get("cornice_return") or {}
+    gf = ret.get("gable_faces")
+    draws = ret.get("draws") or "band"
+    on_gable = bool(gf) and face in gf
+    turns = not (gf and draws == "end-profile")
+    gable_draws = draws if on_gable else None
     band = next((m for m in members if (m.get("profile") or "") in TOOTHED_PROFILES), None)
-    if band:
-        centres = [c * 12.0 for c in ((elev.get("faces") or {}).get(face) or {}).get("centres_ft") or []]
-        rp = PROF.repeat_positions(span_ft * 12.0, spacing_in=band.get("spacing_in"),
-                                   width_in=band.get("width_in"), centre_on=centres or None)
-        teeth = {"member": band.get("id"), "profile": band.get("profile"),
-                 "h0": spring_ft + band["y_bottom_in"] / 12.0, "h1": spring_ft + band["y_top_in"] / 12.0,
-                 "solid": rp["solid"], "reason": rp.get("reason"),
-                 "teeth": [{"u0": t["x0"] / 12.0, "u1": t["x1"] / 12.0} for t in rp["teeth"]]}
-        if rp["solid"]:
-            # the sheet's sentence since 27 Aug 2026, kept byte for byte
-            notes.append(f'{band["profile"].upper()} BAND DRAWN SOLID — {rp["reason"].upper()}')
+
+    def _teeth(run_in, u0_ft, centres_in=None):
+        # the toothed band laid along one run, in the face's own feet from `u0_ft`
+        rp = PROF.repeat_positions(run_in, spacing_in=band.get("spacing_in"),
+                                   width_in=band.get("width_in"), centre_on=centres_in or None)
+        return {"member": band.get("id"), "profile": band.get("profile"),
+                "h0": spring_ft + band["y_bottom_in"] / 12.0, "h1": spring_ft + band["y_top_in"] / 12.0,
+                "solid": rp["solid"], "reason": rp.get("reason"),
+                "teeth": [{"u0": u0_ft + t["x0"] / 12.0, "u1": u0_ft + t["x1"] / 12.0}
+                          for t in rp["teeth"]]}
+
+    teeth, frieze_box, cornice_box = None, None, None
+    returns, end_profiles, wall_to_rake = [], [], []
+    if gable_draws in (None, "band", "nothing"):
+        lo_b, hi_b = (-b, span_ft + b) if turns else (0.0, span_ft)
+        lo_f, hi_f = (-f, span_ft + f) if turns else (0.0, span_ft)
+        frieze_box = (None if fz_ban else
+                      {"u0": lo_f, "u1": hi_f, "h0": wall_top_ft, "h1": spring_ft,
+                       "projection_in": fz_in, "why": fz_why})
+        cornice_box = (None if cor_ban else
+                       {"u0": lo_b, "u1": hi_b, "h0": spring_ft, "h1": true_eave_ft,
+                        "projection_in": band_in, "why": band_why,
+                        "order_pack": cornice.get("order_pack")})
+        if band:
+            centres = [c * 12.0 for c in ((elev.get("faces") or {}).get(face) or {}).get("centres_ft") or []]
+            teeth = _teeth(span_ft * 12.0, 0.0, centres)
+    elif gable_draws == "end-profile":
+        # NO BAND CROSSES THE GABLE END. The eave cornice's own section shows beyond each corner,
+        # in the profile `profiles.silhouette` constructs from the members -- the shape the inset
+        # draws -- mirrored at the left corner, and the wall runs up to the rake between them.
+        for side, at_u, outward in (("left", 0.0, -1), ("right", span_ft, 1)):
+            end_profiles.append({"side": side, "at_u": at_u, "outward": outward,
+                                 "h0": spring_ft, "h1": true_eave_ft, "wall_top_ft": wall_top_ft,
+                                 "frieze_projection_in": None if fz_ban else fz_in,
+                                 "relief_in": band_in})
+        wall_to_rake.append({"u0": 0.0, "u1": span_ft, "h0": wall_top_ft, "h1": true_eave_ft})
+    else:
+        # A RETURN AT EACH CORNER (R8a): the cornice and the frieze under it run out from the
+        # corner as far as the return's length and stop, carrying the members; between the two the
+        # wall runs up to the rake. A plain return is its box alone.
+        L = (ret.get("length_in") or 0.0) / 12.0
+        plain = gable_draws == "plain-return"
+        for side, (cu0, cu1, fu0, fu1) in (("left", (-b, L, -f, L)),
+                                           ("right", (span_ft - L, span_ft + b, span_ft - L, span_ft + f))):
+            rt = {"side": side, "plain": plain, "length_ft": L,
+                  "frieze": (None if fz_ban else
+                             {"u0": fu0, "u1": fu1, "h0": wall_top_ft, "h1": spring_ft,
+                              "projection_in": fz_in, "why": fz_why}),
+                  "cornice": (None if cor_ban else
+                              {"u0": cu0, "u1": cu1, "h0": spring_ft, "h1": true_eave_ft,
+                               "projection_in": band_in, "why": band_why,
+                               "order_pack": cornice.get("order_pack")}),
+                  # the teeth along the return's own face, whole teeth only: a return ends in a
+                  # whole number of whatever repeats in the cornice or it is the stunted-return
+                  # fault's own error
+                  "teeth": (_teeth((cu1 - cu0) * 12.0, cu0) if (band and not plain) else None)}
+            returns.append(rt)
+        wall_to_rake.append({"u0": L, "u1": span_ft - L, "h0": wall_top_ft, "h1": true_eave_ft})
+        solid = next((r["teeth"] for r in returns if r["teeth"] and r["teeth"]["solid"]), None)
+        if solid:
+            teeth = solid
+    if on_gable and ret.get("words"):
+        notes.append(ret["words"])
+    if teeth and teeth["solid"]:
+        # the sheet's sentence since 27 Aug 2026, kept byte for byte
+        notes.append(f'{teeth["profile"].upper()} BAND DRAWN SOLID — {teeth["reason"].upper()}')
     if band_why and not cor_ban:
         notes.append('CORNICE BAND DRAWN FLUSH WITH THE WALL — ' + band_why.upper())
     if fz_why:
         notes.append('FRIEZE DRAWN FLUSH WITH THE WALL — ' + fz_why.upper())
     return {"face": face, "applicable": True, "source": CORNICE_SOURCE, "span_ft": span_ft,
-            "frieze": (None if fz_ban else
-                       {"u0": -f, "u1": span_ft + f, "h0": wall_top_ft, "h1": spring_ft,
-                        "projection_in": fz_in, "why": fz_why}),
-            "cornice": (None if cor_ban else
-                        {"u0": -b, "u1": span_ft + b, "h0": spring_ft, "h1": true_eave_ft,
-                         "projection_in": band_in, "why": band_why,
-                         "order_pack": cornice.get("order_pack")}),
-            "members": out_members, "teeth": teeth, "notes": notes}
+            "role": "gable" if on_gable else "eave", "gable_draws": gable_draws,
+            "frieze": frieze_box, "cornice": cornice_box,
+            "members": out_members, "teeth": teeth if not returns else None, "notes": notes,
+            "returns": returns, "end_profiles": end_profiles, "wall_to_rake": wall_to_rake}
 
 # ---------------------------------------------------------------- the gable-end stacks
 # Moved here from `render_elevation.py` at WP-15.5 so the DXF elevation reads the one
@@ -3890,6 +4259,9 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         head_slot = _slots.get("window_head_masonry") or {}
         surround_slot = _slots.get("window_surround_masonry" if is_masonry else
                                    "window_surround_wood") or {}
+        # WHAT THE GABLE END DRAWS OF THE CORNICE RETURN, AT THIS HOUSE'S DATE (WP-16.5, R8): one
+        # reading, `resolve_kit.return_at`, which the sheet, the DXF and the measurements read
+        return_reading = RK.return_at(_slots.get("cornice_return"), date)
         # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): every slot this node's RESOLVED kit forbids. The generator reads slot
         # dimensions straight out of pack files and has never consulted the kit's strongest word.
         forbids = DC.forbidden_of(_slots)
@@ -3909,6 +4281,9 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                                 "window_surround_wood") or {}
         forbids = set()   # no cascade: cannot judge, so refuse nothing and say so below
         refused = {}
+        # no cascade, no reading of the return either: UNJUDGED, which keeps the band and says why
+        return_reading = {"state": "unjudged", "writers": [], "variant": None, "band_in": None,
+                          "dated": [], "date": date, "date_unstated": False}
         _reveal_source = _ks
 
     # THE REVEAL, read from whichever of the two slots this construction uses, and READ FROM
@@ -4246,6 +4621,9 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "ground_grade_to_floor_in": round(ground["grade_to_floor_ft"] * 12, 2),
         "applicable": True,
         "entrance": ent, "eave_cornice": cornice, "water_table_belt": wtb,
+        # WHAT EACH GABLE END DRAWS OF THE EAVE CORNICE (WP-16.5, R8): read once, here, and drawn
+        # by `cornice_marks` on the sheet and in the DXF, and counted by the measurements
+        "cornice_return": cornice_return(return_reading, cornice, roof),
         "window_surround": window_surround(surround_slot, "window_surround_masonry" if is_masonry
                                            else "window_surround_wood", date=date,
                                            construction=(plan.get("declared") or {}).get("construction_type")),

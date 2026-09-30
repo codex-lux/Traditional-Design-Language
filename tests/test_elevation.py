@@ -468,25 +468,34 @@ class TestCorniceProfileGeometry:
         assert cor["order_relief_beyond_frieze_in"] == pytest.approx(
             max(m["projection_in"] for m in cor["members"]), abs=0.01)
 
-    def test_two_sourced_rules_disagree_and_the_record_says_so(self, elevation_module):
+    def test_the_ruling_between_two_sourced_rules_is_on_the_record(self, elevation_module):
         """Gibbs's own rule makes the cornice project as far as it stands tall; facade-classical's
-        domestic envelope rule gives module/14. Both are sourced, they are not the same number,
-        and the record is required to name the disagreement rather than quietly pick a winner."""
+        domestic envelope rule gives module/14. Both are sourced and they are not the same number.
+        Until OQ 79 was ruled this test required the record to name the disagreement and choose
+        neither (WP-5.11), and it was re-cut when the ruling landed (WP-16.5, 30 Sep 2026): the
+        envelope governs the depth and the order the shape (R9). The record still carries the
+        order's own figure, so a reader can see what was scaled, and says which ruling scaled it."""
         plan, elev = _tidewater_elevation(elevation_module)
         cor = elev["eave_cornice"]
         assert cor["envelope_projection_in"] > 0
-        assert abs(cor["order_relief_beyond_frieze_in"] - cor["envelope_projection_in"]) > 0.5
-        note = cor["projection_disagreement_note"].lower()
-        assert "disagree" in note and "neither is chosen" in note
+        assert abs(cor["order_own_relief_in"] - cor["envelope_projection_in"]) > 0.5
+        assert cor["order_relief_beyond_frieze_in"] == cor["envelope_projection_in"]
+        assert "projection_disagreement_note" not in cor
+        ruling = cor["projection_ruling"]
+        assert ruling.startswith("OQ 79, ruled 29 Sep 2026: the envelope's depth")
+        assert "with the order's shape" in ruling and "a judgment" in ruling
 
-    def test_the_drawn_sheet_discloses_the_datum_and_the_disagreement(self, elevation_module,
-                                                                     render_elevation_module, tmp_path):
+    def test_the_drawn_sheet_discloses_the_datum_and_the_ruling(self, elevation_module,
+                                                               render_elevation_module, tmp_path):
         plan, elev = _tidewater_elevation(elevation_module)
         out = render_elevation_module.render_elevation(elev, str(tmp_path / "e.svg"))
         svg = open(out).read()
         assert "EAVE CORNICE PROFILE" in svg
         assert "RELIEF FROM THE FRIEZE NAKED" in svg
-        assert "BOTH SOURCED" in svg
+        # the caption wraps to the inset's width, so it is read as the sentences it sets
+        said = " ".join(re.sub(r"<[^>]+>", "", t).strip()
+                        for t in re.findall(r"<text[^>]*>(.*?)</text>", svg, flags=re.S))
+        assert "(OQ 79, RULED)" in said and "BOTH SOURCED" not in said
 
 
 class TestTheHeadOfAnOpeningIsReadNotAsserted:

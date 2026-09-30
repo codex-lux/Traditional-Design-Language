@@ -155,6 +155,13 @@ def merge_extends(base, delta, base_src, delta_src):
     if bp:
         out["parameters"] = bp
     inherited_param_keys = [k for k in bp if k not in dp]
+    # WHO WROTE EACH PARAMETER (WP-16.5), as `_written_by` says it of each row: a figure a delta
+    # restates is the delta's, and one it leaves is whoever wrote it before. `_extends` records
+    # only the LAST merge step, so it cannot say which of several deltas stated a figure.
+    if dp:
+        pw = dict(out.get("_param_writers") or {k: base_src for k in (base.get("parameters") or {})})
+        pw.update({k: delta_src for k in dp})
+        out["_param_writers"] = pw
 
     if delta.get("variants"):
         out["variants"], prov["ops"] = apply_variant_ops(out.get("variants") or [], delta["variants"],
@@ -259,6 +266,12 @@ def resolve_slots(graph, chain, scope=None):
         for v in rec.get("variants") or []:
             if isinstance(v, dict):
                 v["_written_by"] = src
+        # AND WHO WROTE EACH PARAMETER (WP-16.5): the base's figures are the base's, and
+        # `merge_extends` hands each one a delta restates to that delta. A sheet naming a band's
+        # writer read the slot's binder, so greek-revival-upland-vernacular's own measured 10-18 in
+        # cornice return read as georgian-colonial-american's 12-24 in.
+        if rec.get("parameters"):
+            rec["_param_writers"] = {k: src for k in rec["parameters"]}
 
         chain_src = [src] if src else []
         for dsrc, d in reversed(deltas):          # farthest ancestor first
@@ -349,6 +362,94 @@ def ban_words(b):
             out += "; this record states no date, so the ban is kept"
         elif b.get("date") is not None:
             out += f", and this house is dated {b['date']}"
+    return out
+
+
+# The parameters a `cornice_return` record states its OWN return depth in, as a band in inches.
+# cape-cod-colonial's `return_depth` [6, 12] (measured) is the one that states a return with no
+# variant; the Georgian records' `return_depth_in` [12, 24] (editorial) rides beside a canonical
+# full return and is NOTED, never drawn (R8a).
+RETURN_DEPTH_PARAMS = ("return_depth", "return_depth_in")
+
+# The parameter a `cornice_return` record states a CONDITION on its permission in: colonial-revival's
+# c04, "A cornice return is permitted only where the eave carries a full classical cornice of at
+# least 10 in. projection continuing around the corner", reaching six nodes through the cascade.
+# It is REPORTED and never decides the state: whether a return a kit permits over a deeper cornice
+# is refused over a shallower one is not ruled, and A3's reading of a dated ban is not extended to
+# it by analogy (`oq/a-return-permitted-only-over-a-deeper-cornice-is-drawn-over-a-shallower-one`).
+RETURN_CONDITION_PARAMS = ("min_cornice_projection_for_return",)
+
+
+def return_at(rec, date=None):
+    """WHAT A STYLE'S RESOLVED `cornice_return` SAYS THE GABLE END DRAWS, AT THE HOUSE'S DATE
+    (WP-16.5, R8, ruled 29 Sep 2026). One reader, so the sheet, the DXF and the measurements the
+    faults read cannot come to disagree about whether a return is there.
+
+    A dict whose `state` is one of:
+    - `forbidden`: the slot is bound `forbidden` whole. No band crosses the gable end.
+    - `none`: a `none` row is canonical at the house's date. No band crosses the gable end. An
+      UNDATED house keeps a dated `none`, as it keeps a dated ban (A3), and `date_unstated` says so.
+    - `stated`: a return row is canonical at the house's date. The return runs out and stops; how
+      far is R8a's judgment, not this record's, and the drawing says so.
+    - `plain`: no row is canonical and the record states its own return depth as a band in inches
+      (`RETURN_DEPTH_PARAMS`), cape-cod-colonial's plain 6-12 in return. Drawn at the band's middle.
+    - `unsettled`: the slot is specified and nothing is canonical at the date: a return permitted
+      and not settled (A2, A8). The band is kept and the sheet says the return is unstated.
+    - `silent`: nothing binds the slot. The band is kept and the sheet says so.
+
+    `writers` names the nodes whose records say it: the binder for `forbidden` and `unsettled`,
+    the band's writer for `plain`, the rows' writers for `none` and `stated`. `variant` is the
+    canonical row's id, `band_in` the record's own depth band where it states one and `band_by`
+    the node that wrote that band (`_param_writers`: a descendant's `extends` delta may restate it),
+    `dated` the date ranges the deciding rows carry, `date` the date read at. `min_cornice_in` is
+    the record's own condition on a return, the least cornice projection it permits one over
+    (`RETURN_CONDITION_PARAMS`), and `min_cornice_by` the node that wrote it; reported, never read
+    into the state."""
+    out = {"state": "silent", "writers": [], "variant": None, "band_in": None, "band_by": None,
+           "dated": [], "date": date, "date_unstated": False, "min_cornice_in": None,
+           "min_cornice_by": None}
+    if not rec or (rec.get("binding") in (None, "open") and not rec.get("variants")
+                   and not rec.get("parameters")):
+        return out
+    band, band_by = None, None
+    for p in RETURN_DEPTH_PARAMS:
+        v = (rec.get("parameters") or {}).get(p)
+        rng = v.get("range") if isinstance(v, dict) else None
+        if (isinstance(rng, (list, tuple)) and len(rng) == 2
+                and all(isinstance(x, (int, float)) for x in rng) and (v.get("unit") == "in")):
+            band = [float(rng[0]), float(rng[1])]
+            band_by = (rec.get("_param_writers") or {}).get(p) or rec.get("_bound_by") or "?"
+            break
+    out["band_in"], out["band_by"] = band, band_by
+    for p in RETURN_CONDITION_PARAMS:
+        v = (rec.get("parameters") or {}).get(p)
+        if (isinstance(v, dict) and isinstance(v.get("value"), (int, float))
+                and not isinstance(v.get("value"), bool) and v.get("unit") == "in"):
+            out["min_cornice_in"] = float(v["value"])
+            out["min_cornice_by"] = (rec.get("_param_writers") or {}).get(p) or rec.get("_bound_by") or "?"
+            break
+    if rec.get("binding") == "forbidden":
+        out.update(state="forbidden", writers=[rec.get("_bound_by") or "?"])
+        return out
+    rows = [v for v in (rec.get("variants") or []) if isinstance(v, dict) and in_period(v, date)]
+    canon = [v for v in rows if v.get("status") == "canonical"]
+    if canon:
+        # `none` canonical beside a canonical return would be a record contradicting itself; the
+        # refusal wins, as a ban does, because drawing what the record may rule out is the worse
+        # error of the two (A3's reading of an undated house, one slot over)
+        pick = [v for v in canon if v.get("id") == "none"] or canon
+        dated = sorted({tuple((v.get("applies_when") or {}).get("date_range"))
+                        for v in pick if (v.get("applies_when") or {}).get("date_range")})
+        out.update(state="none" if pick[0].get("id") == "none" else "stated",
+                   writers=sorted({v.get("_written_by") or "?" for v in pick}),
+                   variant=pick[0].get("id"), dated=[list(d) for d in dated],
+                   date_unstated=bool(dated) and date is None)
+        return out
+    if band is not None:
+        out.update(state="plain", writers=[band_by])
+        return out
+    if rec.get("binding") in ("specified", "extends"):
+        out.update(state="unsettled", writers=[rec.get("_bound_by") or "?"])
     return out
 
 

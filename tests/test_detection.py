@@ -42,7 +42,11 @@ FAULTS = 210
 # every test of `sidelights-as-storefront-glass` now reads as its `applies_when`. A front that
 # draws no sidelights has none to judge, so the fault is not applicable there rather than clear
 # on a 0.0 in width. Diffed against a worktree of `3071f71`: one name added, none removed.
-IDENTIFIERS_READ = 826
+# 826 -> 827 AT WP-16.5 (30 Sep 2026), BY NAME: `count_of_cornice_returns_drawn_at_the_gable_ends`,
+# which every test of `pork-chop-return` and `return-shallower-than-tall` now reads as its
+# `applies_when`, on WP-16.4's precedent: a gable end that draws no return has none to proportion.
+# Diffed against a worktree of `9dd0fbf`: one name added, none removed.
+IDENTIFIERS_READ = 827
 # 36 -> 40 AT WP-14.3 (27 Sep 2026), BY NAME: `transom_height_in`, `transom_width_in`,
 # `transom_head_rise_in` and `pilaster_projection_in` joined `elevation.NOT_MODELLED`, because
 # opening-proportion marks the transom's height a judgment and gibbs-ionic the pilaster's
@@ -50,7 +54,14 @@ IDENTIFIERS_READ = 826
 # measurement. The transom's width and head rise go with its height under that file's own rule
 # that a partially supplied transom convicts a house on the half that remains. Diffed against the
 # parent: four added, none removed, and all four are read by a fault test.
-REFUSALS = 40
+# 40 -> 44 AT WP-16.5 (30 Sep 2026), BY NAME, all four read by a fault test:
+# `bed_mould_projection_in` (R9a holds it at 2 1/2 in, a judgment chosen to keep bed-mould-omitted's
+# own floor, so publishing it would pass that fault by construction), `return_projection_from_
+# wall_in` and `return_length_along_gable_wall_in` (R8a draws a return as far as the cornice is
+# tall, the pork-chop fault's own rule: the same construction), and `rake_overhang_in`, which was
+# the CORNICE's projection published under the rake's name on a roof record that models no rake
+# overhang, and convicted eleven shipped plans of flush-rake. Diffed against a worktree of `9dd0fbf`.
+REFUSALS = 44
 
 # The two live contradictions, BY NAME. A count alone would let one be fixed and another
 # arrive on the same commit -- WP-11.7's "a removed serious and an added duplicate cancelled

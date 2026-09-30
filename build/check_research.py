@@ -122,9 +122,16 @@ RATCHET = {
     # monterey-colonial and nordic-alpine-vernacular, and georgian-colonial-american's two
     # editorial architrave widths -- counted by name before the ceilings moved.
     # 304 -> 302 at WP-14.5, by the same two: `casing` is a read slot.
-    "measured_unsourced_read": 302,
-    "editorial_read": 80,            # 69 before the threshold.py widening; 68 on the merged
-                                     # corpus; 78 then; 80 after WP-14.3's two surround slots
+    # AND 302 -> 303 AND 80 -> 82 AT WP-16.5 (30 Sep 2026), for the same reason again: the gable
+    # end draws what the resolved kit says of `cornice_return` (R8), so the walk counts that slot.
+    # The three are exactly its parameters that were not already counted, named before the
+    # ceilings moved: cape-cod-colonial's `return_depth` 6-12 in, measured with no source -- and
+    # DRAWN now, as the plain return's length at its middle -- and georgian-colonial-american's
+    # editorial `return_depth_in` and `return_carries`.
+    "measured_unsourced_read": 303,
+    "editorial_read": 82,            # 69 before the threshold.py widening; 68 on the merged
+                                     # corpus; 78 then; 80 after WP-14.3's two surround slots;
+                                     # 82 after WP-16.5's `cornice_return`
     "shared_only_nodes": 24,
     "sourceless_nodes": 0,          # a CEILING at its floor -- 32 at WP-11.1, 0 after WP-11.7.
     "untested_nodes": 3,

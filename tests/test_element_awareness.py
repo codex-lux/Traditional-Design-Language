@@ -688,9 +688,18 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # suite did not include this file; CI run 143 found it. The spec Colonial's pin
                 # sat behind the failing Tidewater assertion there, and was reached for the first
                 # time here. Old digests: 548b466adeee1469 / 5a443279b0b94b4e.
-                ("tidewater-georgian-careful", "dec1b5a8a4ccd7aa", 200,
+                # RE-DERIVED AT WP-16.5 (30 Sep 2026), BOTH PLANS, ONE ROW EACH, AND IT IS ONE
+                # FAULT. Diffed row by row through this test's own fixture path against a worktree
+                # of `9dd0fbf`, which reproduces both old digests to the character: on each plan 1
+                # row out and none in, `fault-present` The Cardboard Gable (flush-rake), "10.525
+                # against between 4 and 8" on the Tidewater fixture and "8.612 ..." on the spec
+                # Colonial. Both figures were the CORNICE's projection, the envelope's, published as
+                # `rake_overhang_in` on a roof record that models no rake overhang; withheld now,
+                # so the fault could-not-evaluate. Both watched layers UNMOVED at 13/18 and 11/17.
+                # Old digests: dec1b5a8a4ccd7aa / 5691ad729cb51433.
+                ("tidewater-georgian-careful", "aadf4ca8c4390d56", 199,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "5691ad729cb51433", 236,
+                ("spec-builder-colonial", "676a56c7cc1e8cb7", 235,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \

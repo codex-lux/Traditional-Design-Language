@@ -1981,7 +1981,7 @@ ONLY** -- 156 written over the 32 families and traditions, which cited nothing a
 nodes' 4-5 is untouched, and constraints and distinctions are unmoved everywhere. What does separate
 thorough from skeletal was tracked nowhere and `build/check_research.py` now measures it on every
 run:
-**534 `measured` kit parameters cite no source** on the parameter or its slot, 302 of them on one of the 40 generator-read slots
+**534 `measured` kit parameters cite no source** on the parameter or its slot, 303 of them on one of the 41 generator-read slots
 (an UPPER BOUND, from the generators' own string constants -- `height_proportion`, `chimney`,
 `ceiling_height_rule`, `window_proportion` lead), while the census in `check_kits.py` had counted
 editorial-bare (0) for a year and never this;
