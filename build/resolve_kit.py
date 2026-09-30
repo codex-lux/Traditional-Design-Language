@@ -276,31 +276,80 @@ def resolve_slots(graph, chain, scope=None):
     return out, savings
 
 
-def forbidden_by(rec, words=None):
-    """Who forbids this: None where the resolved slot record does not forbid it, else the nodes
-    that WROTE the prohibition, sorted (WP-16.2, R3). The one spelling of the question: the
-    census reads it, and the elevation's refusal will (WP-16.4).
+def ban(rec, words=None, date=None):
+    """THE ONE READING OF A PROHIBITION, AT A HOUSE'S DATE (WP-16.2's writer, WP-16.4's date).
 
-    A slot bound `forbidden` is forbidden by the node whose record set that binding
-    (`_bound_by`). A FEATURE named by `words` -- substrings of a variant id -- is forbidden only
-    where the slot is bound forbidden or EVERY variant the words match is forbidden, and then by
-    every node that wrote one of those rows: a kit that forbids one keyed arch and makes another
-    canonical has not forbidden the keystone. With no `words` the question is the slot's alone.
+    None where the resolved slot record does not forbid the thing at this date. Otherwise a dict:
+    `writers` (the nodes that WROTE the prohibition, sorted), `whole_slot`, `rows` (the forbidden
+    variant ids the words matched), `dated` (the date ranges those rows carry), `date` (the date
+    it was read at) and `date_unstated`.
+
+    A slot bound `forbidden` is forbidden whole, at every date, by the node whose record set that
+    binding (`_bound_by`). A FEATURE named by `words` -- substrings of a variant id -- is forbidden
+    only where EVERY variant the words match, among those that apply at this date, is forbidden,
+    and then by every node that wrote one of those rows: a kit that forbids one keyed arch and
+    makes another canonical has not forbidden the keystone. With no `words` the question is the
+    slot's alone.
+
+    A ROW'S OWN `applies_when.date_range` IS READ AGAINST THE HOUSE'S DATE (ruled 30 Sep 2026,
+    A3), by `in_period`, the reader the window surrounds already use. A row dated outside the
+    house's date does not apply at all, so a dated house outside a ban's range draws the feature.
+    An UNDATED house cannot be placed inside or outside a range, so a dated ban is KEPT, and
+    `date_unstated` says so: the sheet then says the date is unstated rather than drawing what the
+    record may forbid, or refusing it as though the record had placed the house inside the range.
 
     A record `resolve_slots` did not produce carries no writer, and the answer names none (`?`)
-    rather than guessing one; `_source` would be a guess, and the wrong one, which is why this
-    function exists."""
+    rather than guessing one; `_source` would be a guess, and the wrong one."""
     if not rec:
         return None
     if rec.get("binding") == "forbidden":
-        return [rec.get("_bound_by") or "?"]
+        return {"writers": [rec.get("_bound_by") or "?"], "whole_slot": True, "rows": [],
+                "dated": [], "date": date, "date_unstated": False}
     if not words:
         return None
     match = [v for v in (rec.get("variants") or [])
-             if isinstance(v, dict) and any(w in (v.get("id") or "") for w in words)]
-    if match and all(v.get("status") == "forbidden" for v in match):
-        return sorted({v.get("_written_by") or "?" for v in match})
-    return None
+             if isinstance(v, dict) and any(w in (v.get("id") or "") for w in words)
+             and in_period(v, date)]
+    if not match or not all(v.get("status") == "forbidden" for v in match):
+        return None
+    dated = sorted({tuple((v.get("applies_when") or {}).get("date_range"))
+                    for v in match if (v.get("applies_when") or {}).get("date_range")})
+    return {"writers": sorted({v.get("_written_by") or "?" for v in match}),
+            "whole_slot": False, "rows": sorted({v.get("id") for v in match}),
+            "dated": [list(d) for d in dated], "date": date,
+            "date_unstated": bool(dated) and date is None}
+
+
+def forbidden_by(rec, words=None, date=None):
+    """Who forbids this: None where the resolved slot record does not forbid it at this date,
+    else the nodes that WROTE the prohibition, sorted (WP-16.2, R3). `ban` is the reading and
+    this is its answer to "who"; the census reads it, and the elevation's refusal and the
+    placer's read `ban` itself (WP-16.4). With no date, a dated ban is kept (A3)."""
+    b = ban(rec, words, date)
+    return b["writers"] if b else None
+
+
+def ban_words(b):
+    """A ban as every surface says it (WP-16.4, R3): the nodes that WROTE it, the dates its rows
+    carry, and the house's date read against them. `b` is `resolve_kit.ban`'s answer.
+
+    "forbidden by georgian-colonial-american's kit for houses of 1700–1780, and this house is dated
+    1765". An UNDATED house keeps a dated ban (ruled 30 Sep 2026, A3) and the words say so: "…; this
+    record states no date, so the ban is kept". The writer is named because the ruling says a
+    refusal names the node that wrote the ban, not the style that inherited it. The sheet, the DXF,
+    the scene and the placer's stack refusal all print these words (WP-16.4)."""
+    writers = list(b.get("writers") or ["?"])
+    who = (writers[0] + "'s kit" if len(writers) == 1
+           else ", ".join(writers[:-1]) + " and " + writers[-1] + "'s kits")
+    out = "forbidden by " + who
+    dated = b.get("dated") or []
+    if dated:
+        out += " for houses of " + ", ".join(f"{lo}–{hi}" for lo, hi in dated)
+        if b.get("date_unstated"):
+            out += "; this record states no date, so the ban is kept"
+        elif b.get("date") is not None:
+            out += f", and this house is dated {b['date']}"
+    return out
 
 
 def resolve_packs(graph, chain):

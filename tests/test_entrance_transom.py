@@ -24,7 +24,8 @@ def _slot(*canonical, binding="specified"):
 
 
 def _ent(**kw):
-    e = {"transom_height_in": 18.0, "door_leaf_width_in": 42.0, "sidelights_forbidden_by_kit": False}
+    e = {"transom_height_in": 18.0, "door_leaf_width_in": 42.0, "sidelights_forbidden_by_kit": False,
+         "transom_forbidden_by_kit": False}
     e.update(kw)
     return e
 
@@ -45,8 +46,18 @@ def test_a_slot_the_kit_forbids_draws_no_transom_whatever_its_variants_say():
     """The branch the audit found unguarded. `transom_sidelight` holds the sidelights AND the
     transom, and a kit binding it forbidden has no transom -- even where a canonical form is still
     listed under the forbidden binding, which is the case that tells this branch from the next."""
-    t = EL.entrance_transom(_ent(sidelights_forbidden_by_kit=True), _slot(RECT), SASH, 10.5)
+    t = EL.entrance_transom(_ent(sidelights_forbidden_by_kit=True, transom_forbidden_by_kit=True),
+                            _slot(RECT), SASH, 10.5)
     assert t == {"variant": None, "drawn": False, "why": None}, t
+
+
+def test_a_kit_forbidding_the_sidelights_row_keeps_its_canonical_transom():
+    """WP-16.4. The sidelights and the transom share a slot, and the transom went with any ban on
+    the sidelights. A ROW ban -- the Georgian family's 1700-1780 ban on `sidelights`, the Cape's
+    and the saltbox's own -- says nothing about the transom, and the Tidewater doorcase keeps its
+    canonical rectangular one beside the refused pair. The branch keys on the WHOLE slot."""
+    t = EL.entrance_transom(_ent(sidelights_forbidden_by_kit=True), _slot(RECT), SASH, 10.5)
+    assert t["drawn"] and t["variant"] == RECT, t
 
 
 def test_a_kit_naming_no_transom_draws_none_and_says_nothing():

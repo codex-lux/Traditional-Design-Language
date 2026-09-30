@@ -729,7 +729,14 @@ def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
         return None
     slots = _thresh().resolved_slots(style)
     forbids = DC.forbidden_of(slots) if slots is not None else set()
-    comp = DC.composition(op, fac, ground["storey_height_ft"] * 12.0, forbids=forbids)
+    # THE SIDELIGHTS THE KIT FORBIDS, AT THE HOUSE'S DATE (WP-16.4). `forbids` holds whole-slot
+    # bans only, so a style forbidding the sidelights ROW -- the Georgian family's 1700-1780 ban,
+    # the Cape's and the saltbox's own -- had its run reserved for sidelights the elevation must
+    # not draw. `doorcase.refusals` is the one reading, the elevation's too.
+    date = (plan.get("context") or {}).get("date_of_representation")
+    refused = DC.refusals(slots, date) if slots is not None else {}
+    comp = DC.composition(op, fac, ground["storey_height_ft"] * 12.0, forbids=forbids,
+                          refused=refused)
     leaf = door.get("width_ft") or 3.5
     side_in = comp["casing_w_in"] + (comp["sidelight_w_in"] if comp["use_sidelights"] else 0.0)
     half = leaf / 2.0 + side_in / 12.0
@@ -759,6 +766,12 @@ def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
         "reserved": True, "wall": face, "room": room["id"], "position_ft": round(pos, 3),
         "leaf_ft": leaf, "casing_in": round(comp["casing_w_in"], 3),
         "sidelights_in": round(comp["sidelight_w_in"], 3) if comp["use_sidelights"] else None,
+        # WHO REFUSED THEM, where the kit did: the run is the narrower one and the record says why
+        "sidelights_refused": ((refused.get("transom_sidelight") or refused.get("sidelights"))
+                               if comp["sidelights_forbidden"] else None),
+        # WHOSE DOORCASE THIS RUN WAS RESERVED FOR: the style and the date it was composed under,
+        # which a drawing of this placement under another style cannot assume (WP-16.4)
+        "composed_for": {"style": style, "date": date},
         "run_ft": [round(pos - half, 3), round(pos + half, 3)],
         "rooms_touched": sorted(touched),
         "residual": ("half the ordinary pier each side, facade-classical's door_surround rule, at "

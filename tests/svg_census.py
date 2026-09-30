@@ -1379,8 +1379,9 @@ def _box(it):
 
 
 def _sidelights(ink):
-    """Glass rectangles standing hard against either side of the entrance casing."""
-    cs = _rects(ink, "cs")
+    """Glass rectangles standing hard against either side of the entrance casing -- the doorcase's,
+    or the plain casing a refused doorcase leaves the door (`csp`, WP-16.4)."""
+    cs = _rects(ink, "cs") or _rects(ink, "csp")
     if not cs:
         return []
     cx0, cy0, cx1, cy1 = _box(cs[0])
@@ -1473,14 +1474,19 @@ def _drawn_features(svg):
     return got
 
 
-def _forbidden(slots, slot, words):
-    """None if the kit does not forbid it; else the nodes that WROTE the prohibition.
+def _forbidden(slots, slot, words, date=None):
+    """None if the kit does not forbid it at the house's date; else the nodes that WROTE the
+    prohibition.
 
     `resolve_kit.forbidden_by` is the one spelling (WP-16.2, R3). Until it this read the slot's
     `_source`, which is the nearest node to touch the slot: where the style itself `extends` a
     slot an ancestor banned something in, the ban read as the style's OWN. colonial-revival's
-    doorcase ban is gothic-revival-british's, and V2 said "own"."""
-    return SURF._mod("resolve_kit").forbidden_by(slots.get(slot), words)
+    doorcase ban is gothic-revival-british's, and V2 said "own".
+
+    AT THE HOUSE'S DATE (WP-16.4, ruled 30 Sep 2026, A3): a row's own date range is read against
+    the date the PLAN states, read here off the plan file and never off the elevation record,
+    which is the subject. An undated house keeps a dated ban."""
+    return SURF._mod("resolve_kit").forbidden_by(slots.get(slot), words, date)
 
 
 def _ban_label(sid, writers):
@@ -1495,8 +1501,10 @@ _SWEEP = None
 
 
 def _style_sweep():
-    """{style: front-face svg}: every node with a kit, drawn on the Tidewater plan's placement with
-    the style swapped -- the roof sweep's precedent. Ten seconds for 159 elevations."""
+    """{style: (elevation, front-face svg)}: every node with a kit, drawn on the Tidewater plan's
+    placement with the style swapped -- the roof sweep's precedent -- and, where the style's own
+    composition keeps its sidelights, on the same house placed with the pair's run reserved
+    (WP-16.4, below)."""
     global _SWEEP
     if _SWEEP is not None:
         return _SWEEP
@@ -1504,10 +1512,31 @@ def _style_sweep():
     RE = SURF._mod("render_elevation")
     base = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     placed = G.solve(base, engine="heuristic")
+    # TWO PLACEMENTS OF ONE HOUSE, BECAUSE THE PLACER NOW READS WHAT THE KIT FORBIDS (WP-16.4). The
+    # placer reserves the doorcase's run before it seats a window, and at the record's own 1765 the
+    # Tidewater kit forbids the sidelights, so the run it reserves has none. A swept style whose
+    # composition keeps its pair would then be drawn with sidelights over wall the placement never
+    # reserved for them -- 29 of V24's 43 rows went COULD NOT EVALUATE on exactly that, a check
+    # losing its population to the fix it guards. So the same house is placed a second time dated
+    # after the ban, where the run holds the pair, and the date is stamped back: every style is
+    # drawn on the placement whose reservation its OWN composition asks for, at the record's date.
+    date = (base.get("context") or {}).get("date_of_representation")
+    late = _copy.deepcopy(base)
+    late.setdefault("context", {})["date_of_representation"] = 1790
+    placed_pair = G.solve(late, engine="heuristic")
+    placed_pair.setdefault("context", {})["date_of_representation"] = date
+    # THE PREMISE, asserted rather than trusted: the two placements are one house and differ only
+    # in what the openings pass seats, so drawing a style on the second is drawing the same rooms.
+    _rooms = lambda q: [(r["id"], r.get("geometry")) for lv in q["levels"] for r in lv["rooms"]]
+    if _rooms(placed) != _rooms(placed_pair) or placed.get("footprint", {}).get("width_ft") != \
+            placed_pair.get("footprint", {}).get("width_ft"):
+        raise AssertionError("the Tidewater house placed at 1790 is not the house placed at its own "
+                             "date: the sweep's two placements must differ in their openings alone")
     g = _graph()
     out = {}
-    for sid in sorted(n for n in g["nodes"] if RK.load_kit(n)):
-        p = _copy.deepcopy(placed)
+
+    def _draw(q, sid):
+        p = _copy.deepcopy(q)
         # THE PLAN'S OWN `style`, which is the field every layer reads (`build_elevation`,
         # `build_section`, `build_roof`). Until the WP-14.3 correction this wrote
         # `declared.style`, which nothing reads, so every row of this sweep was the Tidewater
@@ -1515,10 +1544,15 @@ def _style_sweep():
         p["style"] = sid
         sec = ST.build_section(p, None, geometry_result=p)
         rf = RF.build_roof(p, None, section=sec) if "error" not in sec else {"error": "section"}
-        el = EL.build_elevation(p, None, section=sec, roof=rf) if "error" not in rf else rf
+        return EL.build_elevation(p, None, section=sec, roof=rf) if "error" not in rf else rf
+
+    for sid in sorted(n for n in g["nodes"] if RK.load_kit(n)):
+        el = _draw(placed, sid)
         if "error" in el or not el.get("applicable", True):
             out[sid] = None
             continue
+        if (el.get("entrance") or {}).get("sidelights_present"):
+            el = _draw(placed_pair, sid)
         # THE SWEEP'S OWN PREMISE, asserted rather than trusted: the elevation must be of the
         # style it was asked for. The first version swapped a field nothing reads, drew Tidewater
         # every time, and no row of any check it fed could tell.
@@ -1530,10 +1564,44 @@ def _style_sweep():
     return out
 
 
-@check("V2", "elevation", "nothing the style's resolved kit forbids is drawn, slot or variant (the "
-       "row names where each prohibition comes from)", "every node with a kit, on the Tidewater placement")
+# WHAT THE SHEET CALLS EACH FEATURE WHEN IT SAYS THE KIT FORBIDS IT (WP-16.4, R3): "<WORD> NOT DRAWN
+# — FORBIDDEN BY <writer>'S KIT ...". The sidelights under a whole-slot ban go with the transom.
+# Features this package does not refuse on the face carry no word: the shutters are the elevation's
+# own `shutters_carried` (OQ 89), the keystone has not been drawn under a ban since WP-14.3, and the
+# stack is the placement's (below).
+_KIT_REFUSAL = "FORBIDDEN BY"
+_REFUSAL_WORD = {"water table": r"WATER TABLE", "belt course": r"BELT COURSE", "frieze": r"FRIEZE",
+                 "cornice": r"CORNICE", "modillions": r"MODILLIONS", "doorcase": r"DOORCASE",
+                 "sidelights": r"SIDELIGHTS(?: AND TRANSOM)?"}
+
+
+def _refusal_lines(said, word):
+    return [t for t in said if re.match(r"^%s NOT DRAWN — %s " % (word, _KIT_REFUSAL), t)]
+
+
+# A STACK IS THE PLACEMENT'S, AND THE SWEEP DOES NOT RE-PLACE (WP-16.4). The sweep draws every style
+# on the Tidewater placement, whose stacks were seated under tidewater-georgian's own kit, the one
+# kit in the corpus that makes `exterior-end` canonical. So an exterior stack on a swept front is a
+# stack another style's kit placed, and whether THIS style's ban is honoured is a question about a
+# placement made under this style, which the sweep never makes: `threshold.hearth_pass` refuses
+# the stack there, and `tests/test_kit_refusal.py` drives it. V2 reports such a row COULD NOT
+# EVALUATE, naming the stack, rather than convicting the elevation of a stack it did not place or
+# acquitting it of one it did not refuse.
+_PLACED_FEATURES = ("exterior stack",)
+
+
+def _sweep_date():
+    """The date the swept plan STATES, off the plan file (the sweep's own base)."""
+    base = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    return (base.get("context") or {}).get("date_of_representation")
+
+
+@check("V2", "elevation", "nothing the style's resolved kit forbids is drawn, slot or variant, at the "
+       "plan's date (the row names where each prohibition comes from)",
+       "every node with a kit, on the Tidewater placement")
 def v2():
     out = []
+    date = _sweep_date()
     for sid, got in sorted(_style_sweep().items()):
         if got is None:
             out.append(row("V2", sid, "cne", "no elevation drawn for this style"))
@@ -1541,13 +1609,45 @@ def v2():
         el, svg = got
         slots = _kit(sid)
         drawn = _drawn_features(svg)
-        bad = []
+        bad, placed = [], []
         for name, slot, words in FEATURES:
             if name in drawn:
-                writers = _forbidden(slots, slot, words)
+                writers = _forbidden(slots, slot, words, date)
                 if writers:
-                    bad.append("%s (%s: %s)" % (name, slot, _ban_label(sid, writers)))
-        out.append(row("V2", sid, "disagrees" if bad else "agrees", "; ".join(bad)))
+                    (placed if name in _PLACED_FEATURES else bad).append(
+                        "%s (%s: %s)" % (name, slot, _ban_label(sid, writers)))
+        # AND EVERY REFUSAL IS SAID, NAMING WHO WROTE THE BAN -- AND NO OTHER (WP-16.4, R3). Held
+        # both ways, as V24 holds its legend: a feature the kit forbids at the plan's date must be
+        # said "NOT DRAWN — FORBIDDEN BY" with every writer the kit names, and a line saying a
+        # feature is forbidden where the kit does not forbid it is a disagreement too. The writers
+        # are the kit's, read here through `resolve_kit`, never off the elevation record. The
+        # entrance's two are expected only where a door leaf is drawn, and the modillions only
+        # where the cornice itself is not refused.
+        said = [" ".join(t.split()).upper() for t, _a, _it in IR.Ink(svg).texts() if t and t.strip()]
+        has_door = bool(_rects(IR.Ink(svg), "dr"))
+        cornice_banned = _forbidden(slots, "cornice", None, date)
+        for name, slot, words in FEATURES:
+            word = _REFUSAL_WORD.get(name)
+            if not word:
+                continue
+            lines = _refusal_lines(said, word)
+            writers = _forbidden(slots, slot, words, date)
+            expected = bool(writers) and not (name in ("doorcase", "sidelights") and not has_door) \
+                and not (name == "modillions" and cornice_banned)
+            if expected and not any(all(w.upper() in ln for w in writers) for ln in lines):
+                bad.append("%s forbidden (%s: %s) and not said naming %s" % (
+                    name, slot, _ban_label(sid, writers), ", ".join(writers)))
+            if lines and not writers:
+                bad.append("the sheet says the %s is forbidden and the kit does not forbid it" % name)
+        if bad:
+            out.append(row("V2", sid, "disagrees", "; ".join(bad)))
+        elif placed:
+            out.append(row("V2", sid, "cne", "; ".join(sorted(set(placed))) + " -- drawn from the "
+                           "Tidewater placement's stacks, seated under tidewater-georgian's kit; "
+                           "this sweep does not re-place, and the placer refuses such a stack "
+                           "under a kit that forbids it"))
+        else:
+            out.append(row("V2", sid, "agrees", ""))
     return out
 
 
@@ -2001,6 +2101,16 @@ def v6():
     return out
 
 
+def _style_and_date(subject):
+    """The style a subject of `_elev_and_sweep` is drawn under and the date its PLAN states, read
+    off the plan file and never off the elevation record, which is the subject (WP-16.4): what the
+    kit forbids depends on both, and a dated ban on the house's date (ruled 30 Sep 2026, A3)."""
+    if subject.startswith("style:"):
+        return subject[len("style:"):], _sweep_date()
+    plan = _sheets()[subject.split("/")[0]]["plan"]
+    return plan.get("style"), (plan.get("context") or {}).get("date_of_representation")
+
+
 def _elev_and_sweep():
     """The shipped plans' sheets, then every style's front on the Tidewater placement: a head's
     kind and a keystone vary by STYLE, so two plans' sheets reach almost none of them."""
@@ -2140,7 +2250,8 @@ def v20():
             for j in range(i + 1, len(things)):
                 if ov(things[i][1], things[j][1]):
                     bad.append("a %s over a %s" % (things[i][0], things[j][0]))
-        for c in (_box(r) for r in _rects(ink, "cs")):
+        # the doorcase, or the plain casing a refused doorcase leaves the door (WP-16.4)
+        for c in (_box(r) for r in _rects(ink, "cs") + _rects(ink, "csp")):
             bad += ["the doorcase over a %s" % k for k, b in things if k in ("window", "shutter leaf") and ov(c, b)]
         if not things:
             continue
@@ -2189,7 +2300,10 @@ def v22():
         ink = IR.Ink(svg)
         said = [" ".join(t.split()).upper() for t, _a, _it in ink.texts() if t and t.strip()]
         shut = [s for s in said if s.startswith(_SHUTTERS_REFUSED)]
-        side = [s for s in said if s.startswith(_SIDELIGHTS_REFUSED)]
+        # THE PLACER'S REFUSALS ONLY: a pair the KIT forbids is said in the same words and then
+        # "FORBIDDEN BY", and V2 holds that line to the kit (WP-16.4); the two cannot meet on one
+        # front, because a pair the kit forbids is never composed for the placer to refuse
+        side = [s for s in said if s.startswith(_SIDELIGHTS_REFUSED) and _KIT_REFUSAL not in s]
         face = (_face_plate(ink) or {}).get("face")
         if not face:
             if shut or side:
@@ -2485,12 +2599,31 @@ def v24():
     for subject, el, svg in _elev_and_sweep():
         ink = IR.Ink(svg)
         pl = _face_plate(ink)
-        cs = [_box(r) for r in _rects(ink, "cs")]
+        # the doorcase, or the plain casing a refused doorcase leaves the door (WP-16.4): the
+        # rule is about the ENTRANCE COMPOSITION, and a door in its casing is still one, which the
+        # placer reserves the same run for
+        cs = [_box(r) for r in (_rects(ink, "cs") or _rects(ink, "csp"))]
         if not pl or not cs:
             continue
         k_in = pl["px_per_ft"] / 12.0
         tol = 0.2 / k_in + 0.01
         side_glass = [_box(r) for r in _sidelights(ink)]
+        # A DOORCASE THE PLACEMENT DID NOT RESERVE FOR (WP-16.4). A pair drawn on a run the placer
+        # reserved without one is a drawing the product never makes -- the placer and the
+        # elevation read one refusal (`doorcase.refusals`) on a house placed under its own style --
+        # so such a row is COULD NOT EVALUATE, and says for whom the run was reserved. The style
+        # sweep draws a style whose composition keeps its pair on the house placed with the pair's
+        # run reserved (`_style_sweep`), so it does not reach this branch; it stands for any other
+        # record handed a doorcase it was not placed for, and 29 of this check's 43 rows went
+        # through it before the sweep was re-cut.
+        _dc = ((el.get("section", {}).get("geometry") or {}).get("opening_report") or {}).get("doorcase") or {}
+        if side_glass and _dc.get("reserved") and _dc.get("sidelights_in") is None:
+            _for = (_dc.get("composed_for") or {}).get("style") or "another style"
+            out.append(row("V24", subject, "cne",
+                           "this face draws sidelights the placement reserved no room for: its run "
+                           "was reserved for %s's doorcase, which has none, and a swept style is "
+                           "drawn on that placement without re-placing" % _for))
+            continue
         dc0 = min(b[0] for b in cs + side_glass)
         dc1 = max(b[2] for b in cs + side_glass)
         cy0, cy1 = min(b[1] for b in cs), max(b[3] for b in cs)
@@ -2613,6 +2746,19 @@ def v25():
         pl = _face_plate(ink)
         cor = el.get("eave_cornice") or {}
         members = cor.get("members") or []
+        # WHAT THE KIT FORBIDS OF THE EAVE (WP-16.4), read off the kit at the plan's date and not
+        # off the record: a frieze or a cornice the kit forbids is drawn by no face
+        style, date = _style_and_date(subject)
+        fz_banned = bool(_forbidden(_kit(style), "frieze", None, date))
+        cor_banned = bool(_forbidden(_kit(style), "cornice", None, date))
+        if pl and cor_banned:
+            n_fz, n_box = len(_rects(ink, "bd", "fz")), len(_rects(ink, "bd", "w-prof"))
+            n_div = len(_marks(ink, "cm"))
+            ok = n_box == 0 and n_div == 0 and n_fz == (0 if fz_banned else 1)
+            out.append(row("V25", subject, "agrees" if ok else "disagrees",
+                           "the kit forbids the cornice: %d box(es), %d division line(s) and %d frieze "
+                           "band(s) drawn" % (n_box, n_div, n_fz)))
+            continue
         if not pl or not members or not cor.get("cornice_height_in"):
             out.append(row("V25", subject, "cne", "the sheet states no face plate" if not pl
                            else "the record dimensions no eave cornice"))
@@ -2643,12 +2789,14 @@ def v25():
 
         fzs = _rects(ink, "bd", "fz")
         boxes = _rects(ink, "bd", "w-prof")
-        if len(fzs) != 1 or len(boxes) != 1:
-            bad.append("%d frieze band(s) and %d cornice box(es) drawn, where the record states one of each"
-                       % (len(fzs), len(boxes)))
+        if len(fzs) != (0 if fz_banned else 1) or len(boxes) != 1:
+            bad.append("%d frieze band(s) and %d cornice box(es) drawn, where the record states %s"
+                       % (len(fzs), len(boxes), "a cornice and the kit forbids the frieze" if fz_banned
+                          else "one of each"))
         else:
-            f = fz or 0.0
-            held("the frieze", box(fzs[0]), (-f / 12.0, wall_top, span + f / 12.0, spring))
+            if fzs:
+                f = fz or 0.0
+                held("the frieze", box(fzs[0]), (-f / 12.0, wall_top, span + f / 12.0, spring))
             b = band or 0.0
             held("the cornice's box", box(boxes[0]), (-b / 12.0, spring, span + b / 12.0, true_eave))
         lines = {}
@@ -2674,6 +2822,8 @@ def v25():
             bad.append("%d division line(s) the record does not state (%s)"
                        % (sum(len(v) for v in lines.values()), ", ".join(sorted(str(k) for k in lines))))
         for what, fig in (("CORNICE BAND DRAWN FLUSH", band), ("FRIEZE DRAWN FLUSH", fz)):
+            if what.startswith("FRIEZE") and fz_banned:
+                continue          # a frieze the kit forbids is not drawn, flush or otherwise
             if (fig is None) != (what in said):
                 bad.append("the %s is %s and the legend %s" % (
                     what.split(" DRAWN")[0].lower(), "stated" if fig is not None else "stated by no record",

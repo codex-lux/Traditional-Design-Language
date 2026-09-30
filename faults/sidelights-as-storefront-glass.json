@@ -61,6 +61,13 @@
         "threshold": 24,
         "direction": "at-least",
         "units": "in",
+        "applies_when": {
+          "expression": "count_of_sidelights_drawn_at_the_entrance",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary: a front that draws no sidelights has none to judge."
+        },
         "measurable_from": "photograph",
         "note": "Sidelights are still divided and still sit on a panelled base; the licence is on width and prominence, not on undivided glass. Elliptical fanlights remain forbidden."
       }
@@ -74,6 +81,13 @@
         "threshold": 3,
         "direction": "at-least",
         "units": "count",
+        "applies_when": {
+          "expression": "count_of_sidelights_drawn_at_the_entrance",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary: a front that draws no sidelights has none to judge."
+        },
         "measurable_from": "photograph",
         "note": "Delicately divided, often with leaded tracery matching the fanlight, set flush in the wall rather than in a projecting frontispiece."
       },
@@ -94,6 +108,13 @@
         "threshold": 0,
         "direction": "equals",
         "units": "count",
+        "applies_when": {
+          "expression": "count_of_sidelights_drawn_at_the_entrance",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary: a front that draws no sidelights has none to judge."
+        },
         "measurable_from": "photograph",
         "note": "Art glass with a designed rectilinear geometry, no curves."
       }
@@ -126,6 +147,13 @@
     "threshold": 0.4,
     "direction": "at-most",
     "units": "ratio",
+    "applies_when": {
+      "expression": "count_of_sidelights_drawn_at_the_entrance",
+      "direction": "at-least",
+      "threshold": 1,
+      "units": "count",
+      "note": "Only evaluated where the elevation DRAWS sidelights (WP-16.4). A front whose kit forbids them, whose width cap omits them or whose plan leaves them no wall has none, and the question does not arise: not applicable, never a clear. Until WP-16.4 the elevation published a sidelight 0.0 in wide where the cap omitted the pair, and this test cleared good-05 on it -- a verdict about a thing that is not there. The count is the entrance rect's own list of drawn sidelight spans."
+    },
     "measurable_from": "photograph",
     "note": "The pack gives sidelight width = module/3, which on a 36 in module is 12 in, or 0.33 of the leaf. 0.40 is the tolerance ceiling. Above it the entrance reads as a glazed shopfront with a door in the middle."
   },
@@ -135,6 +163,13 @@
       "threshold": 0.8,
       "direction": "at-most",
       "units": "ratio",
+      "applies_when": {
+        "expression": "count_of_sidelights_drawn_at_the_entrance",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Same precondition as the primary: a front that draws no sidelights has none to judge."
+      },
       "measurable_from": "photograph",
       "note": "The arithmetic that keeps sidelights narrow: at a 9 ft bay the whole composition is capped at 7 ft 2 in, and a 36 in door with two 6 in pilasters leaves 12 in a side. Door plus two wide sidelights plus pilasters exceeds the cap immediately."
     },
@@ -143,6 +178,13 @@
       "threshold": 24,
       "direction": "at-least",
       "units": "in",
+      "applies_when": {
+        "expression": "count_of_sidelights_drawn_at_the_entrance",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Same precondition as the primary: a front that draws no sidelights has none to judge."
+      },
       "measurable_from": "photograph",
       "note": "The sidelight has a raised or flat panel below it to 24 to 30 in. It also removes the IRC R308.4.3 large-pane trigger, so the correct detail and the code-cheap detail coincide here — which is rare and worth using in the argument."
     },
@@ -151,6 +193,13 @@
       "threshold": 3,
       "direction": "at-least",
       "units": "count",
+      "applies_when": {
+        "expression": "count_of_sidelights_drawn_at_the_entrance",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Same precondition as the primary: a front that draws no sidelights has none to judge."
+      },
       "measurable_from": "photograph",
       "note": "The sidelight is divided on the same light module as the windows of the house, because they came out of the same box of glass. A house with 9 in lights has a sidelight three lights tall in a single column, not one sheet."
     }

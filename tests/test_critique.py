@@ -458,6 +458,7 @@ def _derive_measurements(elev):
     m["fallback"] = elev.get("y") or 3
     m["floor"] = max(1, elev["z"])
     m["nested"] = 4 * elev["w"] * elev["k"]
+    m["cond_ratio"] = None if elev.get("r") else elev["s"] * 0.3
     m["real"] = elev["q"]
     return m
 '''
@@ -469,6 +470,8 @@ def _derive_measurements(elev):
         assert lits["floor"]["value"] == 1 and lits["floor"]["shape"] == "Call"
         assert "real" not in lits
         assert CS.literal_ratios(src)["nested"]["factor"] == 4, "a literal one level down a BinOp"
+        # WP-16.4: a ratio inside a withholding condition is still a ratio wherever it is drawn
+        assert CS.literal_ratios(src)["cond_ratio"]["factor"] == 0.3, "a ratio in a conditional's branch"
 
     def test_the_real_file_names_are_a_subset_of_the_frozen_list_and_the_audits_six_are_still_literals(self):
         lits = CS.source_literals()

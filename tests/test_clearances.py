@@ -237,7 +237,11 @@ def test_a_leaf_past_the_corner_is_refused_through_opening_rects(elevations):
 
 
 def test_a_sidelight_past_the_corner_is_refused_through_opening_rects(elevations):
-    el = elevations["tidewater-georgian-careful"]
+    # THE SPEC COLONIAL SINCE WP-16.4 (30 Sep 2026). The Tidewater entrance composed its pair until
+    # the kit's own ban was read at the house's 1765 (georgian-colonial-american forbids the
+    # sidelights for 1700-1780), so it composes none now and this premise went false; the spec
+    # Colonial composes and draws its pair, and the corner is the same question on either front.
+    el = elevations["spec-builder-colonial"]
     face = el["entrance_face"]
     ent = el.get("entrance") or {}
     assert ent.get("sidelights_present") and ent.get("sidelight_width_in"), (

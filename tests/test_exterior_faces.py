@@ -363,8 +363,17 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 #                                            two reasons, "2 OF 6" now
 #
 # Row wrapping is unchanged on all six, so no mark below the line moves.
-CORPUS_SHEET_SHA = "e344935c86f8a383"
-CORPUS_SHEET_SHA_NO_FRAME = "bc1312df730ca781"
+# PHASE 16, WP-16.4, ONE SHEET, ONE WINDOW, HARNESS PROVED FIRST. The test's own arithmetic
+# reproduces e344935c86f8a383 / bc1312df730ca781 to the character on a `git worktree` of `3071f71`
+# before the new pair was read. Fifteen of sixteen sheets are byte-identical; the sixteenth is
+# `tidewater-georgian-careful`. The record is dated 1765 and georgian-colonial-american forbids
+# the sidelights for 1700-1780, so the placer reserves a doorcase one sidelight narrower each
+# side and the centre passage's south window moves 9.995 -> 11.164 ft, one sidelight's 14.03 in.
+# Diffed line by line: the window's three marks move 15.2 px, the two wall bands either side of
+# its hole take up the difference, and nothing else on the sheet moves -- the placement digest
+# is unmoved on all sixteen (`tests/test_elements.py`).
+CORPUS_SHEET_SHA = "fdb1f896b3c42930"
+CORPUS_SHEET_SHA_NO_FRAME = "bf43aae6e3336252"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

@@ -175,6 +175,9 @@ def _style_block():
             f'.sh{{fill:{PAL["shutter"]};stroke:{PAL["ink"]};stroke-width:0.6}}'
             f'.dr{{fill:{PAL["copper"]};stroke:{PAL["ink"]};stroke-width:0.8}}'
             f'.cs{{fill:none;stroke:{PAL["brass"]};stroke-width:1.0}}'
+            # THE PLAIN CASING a refused doorcase leaves the door (WP-16.4): a frame in the wall's
+            # own ink, not the doorcase's brass, because it is not the doorcase
+            f'.csp{{fill:none;stroke:{PAL["ink"]};stroke-width:0.8}}'
             f'.bd{{fill:{PAL["wall"]};stroke:{PAL["ink2"]};stroke-opacity:0.9}}'
             # A CORNICE MEMBER'S ARRIS (WP-15.7): the line between two members, in the band's own
             # ink. A line with no stroke rule is a line nobody sees, which is how the first draft of
@@ -615,9 +618,15 @@ def _entrance(elev, rect, X, Ypx, scale, muntin_in=None):
     # only the one carrying `entrance` is the composition's subject. A back door is a leaf.
     if not rect.get("entrance"):
         return "".join(out)
-    casing_w = ent["casing_width_in"] / 12.0 * scale
+    # A DOORCASE THE KIT FORBIDS IS NOT DRAWN (WP-16.4, R3): the leaf keeps its PLAIN casing, the
+    # doorcase's own casing carried round the head at its own width, in its own class, and the
+    # face's notes say who forbade the doorcase. No entablature stands over it.
+    plain = bool(ent.get("doorcase_refused_by"))
+    casing_w = ((ent.get("plain_casing_width_in") if plain else ent["casing_width_in"])
+                / 12.0 * scale)
     cs_x0, cs_x1 = dx0 - casing_w, dx1 + casing_w
-    ent_h = (ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]) / 12.0 * scale
+    ent_h = casing_w if plain else \
+        (ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]) / 12.0 * scale
     # THE TRANSOM, where the style's kit makes a rectangular one canonical (WP-14.3). The record
     # has dimensioned it since WP-5.x and fed it to two faults, and no surface drew it
     # (`oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`). Its height is a JUDGMENT
@@ -637,7 +646,8 @@ def _entrance(elev, rect, X, Ypx, scale, muntin_in=None):
         for bx0, bx1 in EL.even_bars(dx0, dx1, tr["lights"], mw)[1]:
             out.append(_rect_edges("mt", bx0, dyt - th, bx1, dyt))
         dyt = dyt - th
-    out.append(f'<rect class="cs" x="{cs_x0:.1f}" y="{dyt-ent_h:.1f}" width="{cs_x1-cs_x0:.1f}" height="{(dyb-dyt)+ent_h:.1f}"/>')
+    out.append(f'<rect class="{"csp" if plain else "cs"}" x="{cs_x0:.1f}" y="{dyt-ent_h:.1f}" '
+               f'width="{cs_x1-cs_x0:.1f}" height="{(dyb-dyt)+ent_h:.1f}"/>')
     # A SIDELIGHT PAIR THE PLAN LEAVES NO ROOM FOR IS NOT DRAWN (WP-14.6): `opening_rects`
     # refuses it where it would stand over a neighbouring opening, and the notes say why.
     if ent["sidelights_present"] and rect.get("sidelights_drawn", True):
@@ -873,7 +883,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # tells them apart now is the weight ladder, which is what tells them apart on paper.
     proj_px = lambda inches_: (inches_ or 0.0) / 12.0 * scale
 
-    if wtb["applicable"]:
+    # THE WATER TABLE AND THE BELT, EACH WHERE THE KIT DOES NOT FORBID IT (WP-16.4, R3). The belt
+    # was drawn INSIDE the water table's block, so no refusal could reach one without the other;
+    # they are two slots and two blocks now, and a refused band's figures are absent in the record
+    # (`elevation.water_table_and_belt`), which is what each block reads. The face says why.
+    if wtb["applicable"] and wtb.get("water_table_height_above_finished_grade_in") is not None:
         wt_top_ft = wtb["water_table_height_above_finished_grade_in"] / 12.0
         wt_o = proj_px(wtb.get("water_table_projection_in"))
         s.append(f'<rect class="wt w-prof" x="{X(0)-wt_o:.1f}" y="{Ypx(wt_top_ft):.1f}" '
@@ -889,15 +903,16 @@ def render_elevation(elev, path, face=None, scale=24.0):
             yy = Ypx(mm["y_top_in"] / 12.0)
             mo = proj_px(mm.get("projection_in"))
             s.append(f'<line class="wtm" x1="{X(0)-mo:.1f}" y1="{yy:.1f}" x2="{X(span_ft)+mo:.1f}" y2="{yy:.1f}"/>')
-        if wtb.get("belt_height_above_first_floor_in") is not None:
-            belt_ft = floor2_ft
-            belt_h_ft = wtb["belt_height_in"] / 12.0
-            # A brick belt has no projection rule of its own in the pack (it reads as a course,
-            # not a board), so it is drawn flush and says so by being flush -- not nudged out.
-            bo = proj_px(wtb.get("belt_course_projection_in"))
-            s.append(f'<rect class="wt w-med" x="{X(0)-bo:.1f}" y="{Ypx(belt_ft+belt_h_ft):.1f}" '
-                     f'width="{pw+2*bo:.1f}" height="{(belt_h_ft*scale):.1f}"/>')
-            s.append(_shade(X(0)-bo, Ypx(belt_ft+belt_h_ft), X(span_ft)+bo, Ypx(belt_ft)))
+    if (wtb["applicable"] and wtb.get("belt_height_above_first_floor_in") is not None
+            and wtb.get("belt_height_in") is not None):
+        belt_ft = floor2_ft
+        belt_h_ft = wtb["belt_height_in"] / 12.0
+        # A brick belt has no projection rule of its own in the pack (it reads as a course,
+        # not a board), so it is drawn flush and says so by being flush -- not nudged out.
+        bo = proj_px(wtb.get("belt_course_projection_in"))
+        s.append(f'<rect class="wt w-med" x="{X(0)-bo:.1f}" y="{Ypx(belt_ft+belt_h_ft):.1f}" '
+                 f'width="{pw+2*bo:.1f}" height="{(belt_h_ft*scale):.1f}"/>')
+        s.append(_shade(X(0)-bo, Ypx(belt_ft+belt_h_ft), X(span_ft)+bo, Ypx(belt_ft)))
 
     # BRICK COURSING. brick-course.json fixes one course at module/parts and its own note says
     # why it matters: "in a brick building there are no free horizontal dimensions above the
@@ -905,7 +920,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # and until now the drawing could not show that at all.
     if wtb.get("course_height_in"):
         c_ft = wtb["course_height_in"] / 12.0
-        y = (wtb["water_table_height_above_finished_grade_in"] / 12.0) if wtb["applicable"] else 0.0
+        y = (wtb.get("water_table_height_above_finished_grade_in") or 0.0) / 12.0
         n = 0
         while y < top_of_wall_ft - c_ft * 0.5 and n < 400:
             y += c_ft; n += 1
@@ -925,7 +940,12 @@ def render_elevation(elev, path, face=None, scale=24.0):
         _fz, _co = cm["frieze"], cm["cornice"]
         # Written from their rounded EDGES (`_rect_edges`, WP-14.3): the frieze's top IS the
         # cornice's soffit, and two rectangles rounded origin-and-size apart meet a hairline off.
-        s.append(_rect_edges("bd fz w-med", X(_fz["u0"]), Ypx(_fz["h1"]), X(_fz["u1"]), Ypx(_fz["h0"])))
+        # EACH ONLY WHERE THE KIT DOES NOT FORBID IT (WP-16.4): `cornice_marks` hands back None
+        # for a refused band, and the face's notes say who forbade it.
+        if _fz:
+            s.append(_rect_edges("bd fz w-med", X(_fz["u0"]), Ypx(_fz["h1"]), X(_fz["u1"]), Ypx(_fz["h0"])))
+    if cm["applicable"] and cm["cornice"]:
+        _co = cm["cornice"]
         s.append(_rect_edges("bd w-prof", X(_co["u0"]), Ypx(_co["h1"]), X(_co["u1"]), Ypx(_co["h0"])))
         # EACH MEMBER'S OWN BAND: a line at every division the record states, the member above it
         # named, across the box it divides. In elevation a moulding reads as the band between its
@@ -946,9 +966,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
         if _t and not _t["solid"]:
             for t in _t["teeth"]:
                 s.append(_rect_edges("bd w-fine", X(t["u0"]), Ypx(_t["h1"]), X(t["u1"]), Ypx(_t["h0"])))
-        # the frieze band's own top, which is where the cornice assembly springs
-        s.append(f'<line class="wtm" x1="{X(0):.2f}" y1="{Ypx(_co["h0"]):.2f}" '
-                 f'x2="{X(span_ft):.2f}" y2="{Ypx(_co["h0"]):.2f}"/>')
+        # the frieze band's own top, which is where the cornice assembly springs -- and only where
+        # there IS a frieze: a cornice the kit sets on the wall head has no frieze to spring from
+        if cm["frieze"]:
+            s.append(f'<line class="wtm" x1="{X(0):.2f}" y1="{Ypx(_co["h0"]):.2f}" '
+                     f'x2="{X(span_ft):.2f}" y2="{Ypx(_co["h0"]):.2f}"/>')
 
     # WP-12.2: ONE LOOP, in `elevation.opening_rects`. The blind-bay skip (OQ 85), the
     # door-at-the-entrance-face branch and the two storeys all live there now, so this file and
@@ -1063,7 +1085,8 @@ def render_elevation(elev, path, face=None, scale=24.0):
               # the inset is left out where the record dimensions no cornice (WP-15.8), so the
               # legend points at it only where it is drawn
               + (f'· CORNICE {cornice["cornice_height_in"]} in ({cornice["member_count"]} members) '
-                 '· SEE INSET FOR PROFILE' if cm["applicable"] else '· NO CORNICE DRAWN') + '</text>')
+                 '· SEE INSET FOR PROFILE' if cm["applicable"] and cm["cornice"]
+                 else '· NO CORNICE DRAWN') + '</text>')
 
     # every sentence this face says beneath the drawing, in the words the DXF elevation writes
     # too (`elevation.face_notes`, WP-15.8)
@@ -1093,8 +1116,8 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # outboard of its gable wall -- 1.83 ft, 44 px, on the Tidewater plan -- and the inset stood
     # 30 px past the face, so its box was drawn 14 px over the right-hand stack on both long faces.
     # The inset moves out by whatever the stacks overhang, and the sheet grows to hold it.
-    if not cm["applicable"]:
-        # NO CORNICE, NO PROFILE (WP-15.8's audit). A record that dimensions no eave cornice has
+    if not cm["applicable"] or not cm["cornice"]:
+        # NO CORNICE, NO PROFILE (WP-15.8's audit; and a cornice the kit forbids, WP-16.4). A record that dimensions no eave cornice has
         # no profile for this inset to draw, and the inset read `members[0]` and raised -- so the
         # one face whose notes say why no cornice is drawn could not be drawn at all, while the
         # DXF of it could. The notes say it (`elevation.cornice_marks`'s "CORNICE NOT DRAWN"); the

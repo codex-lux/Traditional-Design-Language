@@ -1008,6 +1008,26 @@ class TestTheBuildingSheetsCanDisagree:
         assert [r["verdict"] for r in C.CHECKS["V13"]["fn"]()] == ["disagrees"]
 
 
+_TW_AT = {}
+
+
+def _tidewater_at(date):
+    """The Tidewater house placed and drawn as the census draws a shipped plan, its record dated
+    `date` (WP-16.4). The kit's dated bans are read at the house's date (ruled 30 Sep 2026, A3), so
+    a specimen that needs the sidelights the kit forbids at the record's own 1765 is the same house
+    dated outside the ban. Placed afresh, so the placer reserves the run the date's own
+    composition asks for."""
+    if date not in _TW_AT:
+        G, ST, RF, EL = (SURF._mod(n) for n in ("geometry", "structure", "roof", "elevation"))
+        plan = json.load(open(os.path.join(C.ROOT, "plans", "tidewater-georgian-careful.json")))
+        plan.setdefault("context", {})["date_of_representation"] = date
+        placed = G.solve(copy.deepcopy(plan), engine="heuristic")
+        sec = ST.build_section(placed, None, geometry_result=placed)
+        rf = RF.build_roof(placed, None, section=sec)
+        _TW_AT[date] = EL.build_elevation(placed, None, section=sec, roof=rf)
+    return _TW_AT[date]
+
+
 class TestTheRefusalsAreSaid:
     """V22 (WP-14.6's second audit, W3). `_clearances` refuses a sidelight pair or a shutter pair
     that would stand over a neighbour and the legend says so; V20 reads the INK, which an honoured
@@ -1032,9 +1052,14 @@ class TestTheRefusalsAreSaid:
         reserves the wall beside the doorcase, so no shipped sheet refuses a sidelight pair any
         more: this premise ran out exactly as the control below was written to notice, and the
         refusal is driven now. Every field the rect is read from is shifted together."""
-        el, _svg = cls._all()[cls.SIDELIT]
-        el = copy.deepcopy(el)
+        # RE-CUT 30 SEP 2026 (WP-16.4): the shipped record is dated 1765, and
+        # georgian-colonial-american forbids the sidelights for 1700-1780, so at its own date the
+        # doorcase composes no pair for the placer to refuse. The specimen is the same house dated
+        # 1790, outside the ban, where the pair is composed and the drive can refuse it for want of
+        # wall; V22 reads the record the sheet is drawn from, so the date travels with it.
+        el = copy.deepcopy(_tidewater_at(1790))
         EL = C.SURF._mod("elevation")
+        assert el["entrance"]["sidelights_present"], "the premise: at 1790 the pair is composed"
         ctl = next(r for r in EL.opening_rects(el, "S")["rects"] if r.get("entrance"))
         win = max((p for p in el["faces"]["S"]["placed"] if p["kind"] == "window"
                    and p["storey"] == ctl["storey"] and p["cx_in"] < ctl["cx_in"]),
@@ -1064,7 +1089,9 @@ class TestTheRefusalsAreSaid:
         assert not self._refused(el, "S", "sidelights_refused"), "the premise: and no sidelights"
         el, _svg = a[self.SIDELIT]
         assert not self._refused(el, "S", "sidelights_refused"), (
-            "the premise: the placed Tidewater front draws its pair (WP-15.6); the refusal is driven")
+            "the premise: the shipped Tidewater front refuses no pair for want of wall -- since "
+            "WP-16.4 its kit forbids the pair at 1765, and before that WP-15.6 reserved its run -- "
+            "so the refusal is driven")
         el, svg = self._sidelit()
         assert self._refused(el, "S", "sidelights_refused"), "the drive landed: this face refuses sidelights"
         got = self._v22(monkeypatch, [(self.SHUTTERED, *a[self.SHUTTERED]), (self.SIDELIT, el, svg)])
@@ -1150,6 +1177,63 @@ class TestTheRefusalsAreSaid:
         assert r["verdict"] == "agrees", r
         r = self._v22(monkeypatch, [(self.SHUTTERED, el, grouped(""))])[self.SHUTTERED]
         assert r["verdict"] == "disagrees" and "counted under both" in r["detail"], r
+
+
+class TestTheKitRefusalIsHeldBothWays:
+    """V2 (WP-16.4, R3). Every one of V2's pinned rows left when the refusal landed: the sheets draw
+    nothing their kits forbid now, and say each refusal. So no live row could say "disagrees", and
+    a V2 that stopped reading the kit would agree everywhere. Each defect is planted in a real
+    swept sheet, both ways round, as V24 holds its legend: a refusal left unsaid, a refusal said
+    where the kit forbids nothing, and a feature the kit forbids drawn."""
+
+    # its kit forbids the sidelights for 1700-1780 (georgian-colonial-american's row), and the
+    # sweep draws every style at the Tidewater record's own 1765
+    FORBIDS = "tidewater-georgian"
+
+    @staticmethod
+    def _v2(monkeypatch, sweep):
+        monkeypatch.setattr(C, "_style_sweep", lambda: sweep)
+        return {r["subject"]: r for r in C.CHECKS["V2"]["fn"]()}
+
+    @staticmethod
+    def _said(svg):
+        return [" ".join(t.split()).upper() for t, _a, _it in C.IR.Ink(svg).texts() if t and t.strip()]
+
+    def test_the_premise_the_forbidding_style_refuses_says_so_and_agrees(self, monkeypatch):
+        el, svg = C._style_sweep()[self.FORBIDS]
+        assert C._sweep_date() == 1765 and el["entrance"]["sidelights_present"] is False
+        assert any(t.startswith("SIDELIGHTS NOT DRAWN — FORBIDDEN BY GEORGIAN-COLONIAL-AMERICAN")
+                   for t in self._said(svg)), "the premise: the sheet says the refusal"
+        got = self._v2(monkeypatch, {self.FORBIDS: (el, svg)})
+        assert got[self.FORBIDS]["verdict"] == "agrees", got[self.FORBIDS]
+
+    def test_v2_sees_a_refusal_left_unsaid(self, monkeypatch):
+        el, svg = C._style_sweep()[self.FORBIDS]
+        planted = re.sub(r"<text[^>]*>SIDELIGHTS NOT DRAWN — FORBIDDEN BY[^<]*</text>", "", svg)
+        assert planted != svg, "the plant did not land"
+        r = self._v2(monkeypatch, {self.FORBIDS: (el, planted)})[self.FORBIDS]
+        assert r["verdict"] == "disagrees" and \
+            "not said naming georgian-colonial-american" in r["detail"], r
+
+    def test_v2_sees_a_refusal_said_that_the_kit_does_not_make(self, monkeypatch):
+        el, svg = C._style_sweep()[self.FORBIDS]
+        planted = svg.replace("</svg>", '<text class="dm" x="0" y="0">FRIEZE NOT DRAWN — FORBIDDEN '
+                              "BY PLANTED'S KIT</text></svg>")
+        assert planted != svg, "the plant did not land"
+        r = self._v2(monkeypatch, {self.FORBIDS: (el, planted)})[self.FORBIDS]
+        assert r["verdict"] == "disagrees" and \
+            "the sheet says the frieze is forbidden and the kit does not forbid it" in r["detail"], r
+
+    def test_v2_sees_a_forbidden_feature_drawn(self, monkeypatch):
+        """The sheet of a style whose kit permits its pair, held against the kit that forbids it:
+        what the Tidewater front drew at 1765 until this package."""
+        sweep = C._style_sweep()
+        sid = next(s for s, got in sorted(sweep.items()) if got and s != self.FORBIDS
+                   and "sidelights" in C._drawn_features(got[1]))
+        el, svg = sweep[sid]
+        r = self._v2(monkeypatch, {self.FORBIDS: (el, svg)})[self.FORBIDS]
+        assert r["verdict"] == "disagrees" and \
+            "sidelights (transom_sidelight: inherited from georgian-colonial-american)" in r["detail"], (sid, r)
 
 
 class TestThePlanSheetsCanDisagree:
@@ -1436,8 +1520,12 @@ class TestPhaseFifteenChecksCanDisagree:
     def _rec(cls):
         return C._sheets()[cls.PID]
 
-    @staticmethod
-    def _one(monkeypatch, cid, el, svg, subject="planted"):
+    @classmethod
+    def _one(cls, monkeypatch, cid, el, svg, subject=None):
+        # THE SUBJECT NAMES THE PLAN THE PLANTED SHEET STANDS IN FOR (WP-16.4). V25 reads the style
+        # and the date off the subject's plan file, never off the record under test, because what
+        # the kit forbids depends on both; a bare "planted" names no plan and read as a KeyError.
+        subject = subject or "%s/planted" % cls.PID
         monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([(subject, el, svg)]))
         got = C.CHECKS[cid]["fn"]()
         assert len(got) == 1, got
@@ -1614,9 +1702,11 @@ class TestPhaseFifteenChecksCanDisagree:
 
     def test_v24_takes_the_floor_at_half_the_pier(self, monkeypatch):
         """K03: "about half" transcribed as 0.3 passed. The window driven so the wall beside the
-        doorcase, as drawn (the sidelight is drawn at this distance), is short of half the 66 in
-        ordinary pier and clear of three tenths of it."""
-        el, svg = self._front(self._rec()["elev"], 40.0)
+        doorcase, as drawn, is short of half the 66 in ordinary pier and clear of three tenths of
+        it. RE-CUT 30 SEP 2026 (WP-16.4): the drive was 40 in with a 14 in sidelight standing in
+        it; at the record's 1765 the kit forbids the pair, so the wall as drawn is the drive
+        itself, and 26 in is inside the same band."""
+        el, svg = self._front(self._rec()["elev"], 26.0)
         (left,) = [s for s in C.SURF._mod("elevation").doorcase_piers(el, "S")["sides"]
                    if s["side"] == "left"]
         assert 0.3 * 66.0 + 1.0 < left["clear_in"] < 0.5 * 66.0 - 1.0, ("the premise", left)

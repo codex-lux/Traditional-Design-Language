@@ -160,7 +160,10 @@ def entrance_transom(ent, slot, sash_pack, glass_module_in):
     canon = sorted(set(canon))
     if not canon:
         return {"variant": None, "drawn": False, "why": None}
-    if ent.get("sidelights_forbidden_by_kit"):
+    # THE WHOLE SLOT FORBIDDEN, and nothing else: a style that forbids the sidelights ROW keeps its
+    # transom (WP-16.4), and the Tidewater doorcase keeps its canonical one beside a refused pair.
+    # A whole-slot ban is said with the sidelights, so this draws nothing and says nothing more.
+    if ent.get("transom_forbidden_by_kit"):
         return {"variant": None, "drawn": False, "why": None}
     if len(canon) > 1:
         return {"variant": None, "drawn": False, "canonical": canon,
@@ -872,8 +875,59 @@ def storey_alignment(lower_in, upper_in, tol_in):
     return out
 
 
+# ---------------------------------------------------------------- what the kit forbids, in words
+# `resolve_kit.ban_words` is the one spelling of a ban in words, beside `ban`, so the placer's
+# stack refusal (`threshold.hearth_pass`) says it in the same words without loading this file.
+ban_words = RK.ban_words
+
+
+# THE ENVELOPE'S REFUSALS, IN THE KIT'S OWN VOCABULARY (WP-16.4, R3). Until this package every
+# one of these was READ ANYWAY: the elevation reads its bands out of facade-classical,
+# brick-course and gibbs-ionic whatever the style binds, and it disclosed a whole-slot ban on
+# them (`forbidden_slots_read_from_packs.read_anyway`) and drew the band. Lucas ruled (29 Sep 2026,
+# R3) that a feature the resolved kit forbids is refused, naming the node that wrote the ban. A
+# name, the slot, and the words matching a variant id, exactly as `doorcase.ENTRANCE_BANS`.
+ENVELOPE_BANS = (
+    ("water table", "water_table", None),
+    ("belt course", "belt_course", None),
+    ("frieze", "frieze", None),
+    ("cornice", "cornice", None),
+    # the ORDER's modillion band inside the cornice: `italianate-american`'s modillion-dentil
+    # cornice, `minimal-traditional`'s and `new-urbanist-traditional`'s modillion cornice (A7)
+    ("modillions", "cornice", ("modillion",)),
+)
+
+
+def envelope_refusals(slots, date=None):
+    """`{name: ban or None}` for every entry of `ENVELOPE_BANS`, off a RESOLVED kit at the house's
+    date (`resolve_kit.ban`)."""
+    return {name: RK.ban((slots or {}).get(slot), words, date)
+            for name, slot, words in ENVELOPE_BANS}
+
+
+# `oq/forbidden-stops-the-pack-cascade`'S TWO LISTS (WP-8.3), at module level since WP-16.4 so a
+# test partitions the corpus against the generator's OWN lists and not a copy of them -- the copy
+# `tests/test_forbidden_slots.py` carried was, in its own words, a claim about the generator and
+# not a reading of it. The slots this generator reads figures for out of pack files, whatever the
+# style binds:
+READ_FROM_PACKS = ("belt_course", "casing", "chimney", "cornice", "door_surround",
+                   "entry_door", "frieze", "pilaster", "shutter", "transom_sidelight",
+                   "water_table", "window_grouping_rule", "window_head_masonry",
+                   "window_head_wood", "window_lite_pattern", "window_proportion")
+# ...and the ones whose WHOLE-SLOT ban it refuses rather than reads anyway: the transom with its
+# sidelights and the pilaster since WP-8.3, the water table, the belt course, the frieze and the
+# cornice since WP-16.4 (R3). NOT `door_surround`. Where a kit forbids that slot whole
+# (minimal-traditional) the pilaster doorcase is refused and the door keeps the doorcase's own
+# casing, and that casing's width IS the slot's pack rule -- so the slot is still read, and
+# `read_anyway` says so rather than the list claiming a refusal the drawing does not make. A ban
+# on a ROW, or one dated to the house, is not a slot binding: `refused_by_the_kit` names those.
+REFUSED_HERE = ("transom_sidelight", "pilaster", "water_table", "belt_course", "frieze",
+                "cornice")
+
+
 # ---------------------------------------------------------------- entrance composition
-def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_in, forbids=()):
+def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_in, forbids=(),
+                         refused=None):
     """`oq/forbidden-stops-the-pack-cascade` (WP-8.3) reaches this file too, and it had to be brought here separately.
 
     `elevation.py` never calls `resolve_packs` or `eval_packs` -- it calls `PE.resolve(<pack>)`
@@ -890,7 +944,9 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
     """
     # THE WIDTH FIGURES ARE `doorcase.composition`'s (WP-15.6): the placer reserves this width on
     # the entrance wall before it seats a window, so the two must be one arithmetic.
-    dc = DC.composition(op_pack, facade_pack, ground_storey_height_in, forbids=forbids)
+    refused = refused or {}
+    dc = DC.composition(op_pack, facade_pack, ground_storey_height_in, forbids=forbids,
+                        refused=refused)
     door_w, door_w_r = dc["door_w_in"], dc["door_w_rule"]
     door_h, door_h_r = _val(op_pack, "entry_door", {"storey_height": ground_storey_height_in}, note_substr="door height from the storey", dimension="height")
     canonical_h = door_w * 2.0   # opening-proportion's OWN canonical 2:1 check, module=door leaf -- a second, independently-sourced figure to compare against
@@ -920,10 +976,33 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
     ent_asm = next((a for a in ent["assemblies"] if a["id"] == "entablature"), None)
     entablature_h_in = ent_asm["height_in_summed"] if ent_asm else None
     op_surround_h, _ = _val(op_pack, "door_surround", {"module": door_w}, dimension="height")
+    # THE DOORCASE THE KIT FORBIDS IS NOT DRAWN, AND ITS ORDER HAS NO FIGURES (WP-16.4, R3). What
+    # this function composes is a casing carried up under an entablature at the door's own reduced
+    # order: the `pilasters-and-entablature` doorcase, in the kit's word. Where the style's resolved
+    # kit forbids it -- the four Italianate styles' own words, ruled 30 Sep 2026 (A4), or
+    # minimal-traditional's whole `door_surround` slot -- the leaf keeps its PLAIN casing: the
+    # doorcase's OWN casing, this composition's `door_surround` width at the door's module, with
+    # the pilasters and the entablature taken off it. Every figure of the doorcase's order is
+    # ABSENT: no pilaster, no entablature, no column read at door scale. A partially supplied
+    # doorcase is worse than none, because it reads as evidence (the transom family's lesson,
+    # below).
+    #
+    # NOT THE KIT'S `casing` SLOT, and that was measured rather than assumed (30 Sep 2026). On all
+    # four Italianate styles it resolves to georgian-colonial-american's `width_in` of 4.5 in,
+    # trim-classical's `casing_federal` -- an INTERIOR Federal architrave, whose sibling parameter
+    # names the interior door -- and minimal-traditional's states no width at all. Round the
+    # 45.9 in leaf good-05's storey asks for, 4.5 in is 0.098 of the leaf against the 0.14 floor of
+    # "The Door That Outgrew Its Frame", so it would convict the house on a casing written for
+    # another room and another period. A4 says the door gets "the plain casing", and the plain
+    # casing is the doorcase without its order.
+    doorcase_ban = refused.get("doorcase")
+    if doorcase_ban:
+        ent_asm, entablature_h_in = None, None
     # gibbs-ionic.json's own pilaster projection rule (column_height/18) -- the same expression
     # faults/pilaster-that-is-a-flat-board.json's own note works through as its worked example.
     # As the sidelights: a slot the kit forbids yields no figure, not a zero.
-    pilaster_proj = None if "pilaster" in forbids else \
+    no_pilaster = "pilaster" in forbids or bool(doorcase_ban)
+    pilaster_proj = None if no_pilaster else \
         _val(gibbs_pack, "pilaster", {"column_height": door_h}, dimension="projection")[0]
 
     return {
@@ -944,25 +1023,42 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
         "sidelight_width_in": None if sidelight_w is None else round(sidelight_w, 3),
         "transom_height_in": None if transom_h is None else round(transom_h, 3),
         "sidelights_forbidden_by_kit": sidelights_forbidden,
+        # THE TRANSOM GOES ONLY WITH THE WHOLE SLOT (WP-16.4): a style that forbids the sidelights
+        # row keeps its transom, and the Tidewater doorcase keeps its canonical one
+        "transom_forbidden_by_kit": dc["transom_forbidden"],
+        # WHO FORBIDS THEM, AND AT WHAT DATE: `resolve_kit.ban`'s answer, which the sheet, the DXF
+        # and the scene each say in their own words
+        "sidelights_refused_by": ((refused.get("transom_sidelight") or refused.get("sidelights"))
+                                  if sidelights_forbidden else None),
         "sidelights_present": use_sidelights,
         "entrance_composition_width_in": round(composition_w, 3),
         "entrance_composition_cap_in": round(comp_cap_in, 3),
         "entrance_composition_note": (
-            ("This style's resolved kit binds `transom_sidelight` FORBIDDEN, so the composition "
+            ("This style's resolved kit FORBIDS the sidelights (" + ban_words(
+                refused.get("transom_sidelight") or refused.get("sidelights") or
+                {"writers": ["?"], "whole_slot": True, "dated": [], "date": None,
+                 "date_unstated": False}) + "), so the composition "
              "is the door and its casing and no width cap was consulted.") if sidelights_forbidden
             else (f"{'Sidelights fit' if use_sidelights else 'Sidelights would exceed'} facade-classical's own "
                   f"80%-of-bay composition cap ({round(comp_cap_in,1)} in) -- "
                   f"{'included' if use_sidelights else 'omitted, door and casing only'}.")),
-        "gibbs_module_in": round(gibbs_module_in, 3),
+        "doorcase_refused_by": doorcase_ban,
+        # the casing a refused doorcase leaves the leaf: the composition's OWN casing, so the one
+        # figure `casing_width_in` publishes is the one drawn, and the two cannot part
+        "plain_casing_width_in": round(casing_w, 3) if doorcase_ban else None,
+        "gibbs_module_in": None if doorcase_ban else round(gibbs_module_in, 3),
         "entablature_height_in": round(entablature_h_in, 3) if entablature_h_in else None,
         "entablature_members": ent_asm["members"] if ent_asm else [],
-        "surround_height_above_opening_in": round(entablature_h_in, 3) if entablature_h_in else round(op_surround_h, 3),
-        "opening_proportion_surround_height_in": round(op_surround_h, 3),
+        "surround_height_above_opening_in": (None if doorcase_ban else
+                                             round(entablature_h_in, 3) if entablature_h_in
+                                             else round(op_surround_h, 3)),
+        "opening_proportion_surround_height_in": None if doorcase_ban else round(op_surround_h, 3),
         "surround_height_cross_check": ("Gibbs Ionic's own entablature height and opening-proportion's independent 'full surround' "
                                          "figure (module/6*3) are two differently-sourced heights for the same band -- both recorded; "
                                          "the Gibbs figure is the one actually built, since it is what the generated members sum to."),
-        "lower_shaft_diameter_in": round(gibbs_module_in * 2, 3),  # gibbs-ionic module IS the semidiameter (diameters:0.5)
-        "column_height_in": round(door_h, 3),
+        "lower_shaft_diameter_in": (None if doorcase_ban
+                                    else round(gibbs_module_in * 2, 3)),  # gibbs-ionic module IS the semidiameter (diameters:0.5)
+        "column_height_in": None if doorcase_ban else round(door_h, 3),
         # gibbs-ionic.json's own authority_note on the pilaster projection rule says the order
         # "fixes only the width" of an engaged pilaster -- i.e. a pilaster answering a column
         # takes the column's own diameter as its width. There is no free column here (see the
@@ -978,18 +1074,18 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
         # being beside a correctly withheld sibling, which reads as deliberate. Found by
         # the WP-8.4 adversarial audit, by running the generator against one of the nine
         # gate styles that forbid the slot rather than against the two plans that ship.
-        "pilaster_width_in": (None if "pilaster" in forbids
+        "pilaster_width_in": (None if no_pilaster
                               else round(gibbs_module_in * 2, 3)),
         "pilaster_projection_in": None if pilaster_proj is None else round(pilaster_proj, 3),
         # This generator draws a flat doorcase pilaster shaft (no entasis rule exists anywhere in
         # this pack, or in this codebase) -- upper and lower diameter are genuinely identical, a
         # real "parallel shaft" fact, not a fabricated one. Disclosed in the WP-3.2 report as a
         # deliberate scope limit rather than hidden by omitting the key.
-        "upper_shaft_diameter_in": round(gibbs_module_in * 2, 3),
+        "upper_shaft_diameter_in": None if doorcase_ban else round(gibbs_module_in * 2, 3),
     }
 
 # ---------------------------------------------------------------- eave cornice ("the style's entablature reduction")
-def eave_cornice(facade_pack, gibbs_pack, module_in=None):
+def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
     """facade-classical.json's own domestic envelope (frieze 1 part, cornice 2 parts, at the
     pack's own default module) fixes the TOTAL height the eave assembly gets on an ordinary
     house front -- nowhere near a free-standing portico's full entablature. Gibbs Ionic's own
@@ -1033,9 +1129,33 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     # `palladio-tuscan`, any `chambers-*`, any `benjamin-*`, `greek-doric` or `moorish-arch` and
     # it is a KeyError, not a wrong number.
     gibbs_cornice = gibbs_pack["assemblies"]["cornice"]
+    # A MEMBER THE KIT FORBIDS IS NOT IN THIS CORNICE (WP-16.4, R3). Where the style forbids the
+    # modillion cornice -- `resolve_kit.ban` on the `cornice` slot, the words `ENVELOPE_BANS` gives
+    # -- the order's members whose ids carry the same word leave the assembly: gibbs-ionic's
+    # modillion band and the cap that runs over it. The members that remain keep Gibbs's
+    # proportions among themselves and are read small to the SAME envelope, which is this
+    # function's own rule stated for the whole order: facade-classical fixes the cornice's height
+    # on a domestic front, and the order supplies its shape. So the refusal changes the cornice's
+    # shape and not its height, and the roof above it does not move. The record names what left.
+    refused = refused or {}
+    member_words = dict((n, w) for n, _s, w in ENVELOPE_BANS)["modillions"]
+    refused_members = []
+    if refused.get("modillions") and not refused.get("cornice"):
+        kept = [m for m in gibbs_cornice.get("members") or []
+                if not any(w in (m.get("id") or "") for w in member_words)]
+        refused_members = [m.get("id") for m in gibbs_cornice.get("members") or []
+                           if any(w in (m.get("id") or "") for w in member_words)]
+        if refused_members:
+            parts_per_module = (sum(m.get("height_parts", 0) for m in gibbs_cornice["members"])
+                                / gibbs_cornice["height_modules"])
+            gibbs_cornice = {**gibbs_cornice, "members": kept,
+                             "height_modules": sum(m.get("height_parts", 0) for m in kept)
+                             / parts_per_module}
     gibbs_cornice_modules = gibbs_cornice["height_modules"]
     reduced_module_in = cornice_h_stated / gibbs_cornice_modules
-    dim = PE.dimension(gibbs_pack, reduced_module_in, include=["cornice"])
+    _pack = gibbs_pack if not refused_members else \
+        {**gibbs_pack, "assemblies": {**gibbs_pack["assemblies"], "cornice": gibbs_cornice}}
+    dim = PE.dimension(_pack, reduced_module_in, include=["cornice"])
     cor_asm = next(a for a in dim["assemblies"] if a["id"] == "cornice")
     bed_member = next((m for m in cor_asm["members"] if "bed" in m["id"]), None)
 
@@ -1066,7 +1186,7 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     # and has no face to be the greatest.
     relief = max((m["projection_in"] for m in cor_asm["members"]
                   if m.get("projection_in") is not None), default=0.0) - frieze_naked_in
-    return {
+    rec = {
         # WHICH PACK'S CORNICE THIS IS, for the inset's caption to name rather than assume
         # (WP-14.2): the caption hard-coded "GIBBS IONIC" whatever pack was passed in, and the
         # cornice may be one its pack inherits.
@@ -1101,10 +1221,31 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
                  f"regenerated at a {round(reduced_module_in,2)} in module so its {len(cor_asm['members'])} members sum to "
                  f"facade-classical's own {round(cornice_h_stated,1)} in domestic cornice envelope exactly -- the reduction "
                  f"the hand-off brief calls for, not a free-standing Ionic entablature at house scale."),
+        "refused_members": refused_members,
+        "modillions_refused_by": refused.get("modillions") if refused_members else None,
+        "frieze_refused_by": refused.get("frieze"),
+        "cornice_refused_by": refused.get("cornice"),
     }
+    # A REFUSED BAND HAS NO FIGURES (WP-16.4): ABSENT, not zero, exactly as a forbidden sidelight
+    # has no width. A zero frieze would be a measured claim that the frieze is nothing tall, and
+    # every fault that presupposes the band would then be judged on it.
+    if refused.get("frieze"):
+        rec.update({"frieze_height_in": None, "frieze_projection_in": None})
+    if refused.get("cornice"):
+        rec.update({"cornice_height_in": None, "cornice_projection_in": None,
+                    "envelope_projection_in": None, "order_relief_beyond_frieze_in": None,
+                    "projection_disagreement_note": None, "members": [], "member_count": None,
+                    "bed_mould_projection_in": None,
+                    "note": "The style's resolved kit forbids the cornice: " +
+                            ban_words(refused["cornice"]) + ". None is dimensioned or drawn."})
+    elif refused_members:
+        rec["note"] += (f" The kit forbids the modillion cornice ({ban_words(refused['modillions'])}), "
+                        f"so the order's {', '.join(refused_members)} are not in it and its other "
+                        f"members are read to the same envelope.")
+    return rec
 
 # ---------------------------------------------------------------- water table / belt course
-def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
+def water_table_and_belt(section, brick_pack, facade_pack, is_masonry, refused=None):
     facade_module_in = facade_pack["module"]["default_size_in"]
     facade_part_in = facade_module_in / facade_pack["module"]["parts"]
     upper = next((s for s in section["storeys"] if s.get("index") == 1), None)
@@ -1153,7 +1294,7 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
             wt_dim = PE.dimension({**brick_pack, "assemblies": {"water_table": wt_asm}},
                                   brick_module_in, include=["water_table"])
             moulded = wt_dim["assemblies"][0]["members"]
-    return {
+    rec = {
         "applicable": True, "source": source, "is_masonry": is_masonry,
         "water_table_height_above_finished_grade_in": round(wt_h, 3),
         "water_table_projection_in": round(wt_proj, 3),
@@ -1164,6 +1305,20 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
         "belt_datum_grade_to_floor_ft": belt_datum_ft,
         "belt_height_above_first_floor_in": round((belt_datum_ft * 12), 2) if belt_datum_ft is not None else None,
     }
+    # A REFUSED BAND HAS NO FIGURES (WP-16.4, R3), and the two are refused SEPARATELY. The belt was
+    # drawn inside the water table's block on the sheet, so no refusal could reach one without the
+    # other; it is its own question now, as it is its own slot. The brick coursing is the wall's and
+    # stays: where there is no water table it starts at grade.
+    refused = refused or {}
+    rec["water_table_refused_by"] = refused.get("water table")
+    rec["belt_refused_by"] = refused.get("belt course")
+    if refused.get("water table"):
+        rec.update({"water_table_height_above_finished_grade_in": None,
+                    "water_table_projection_in": None, "water_table_members": None})
+    if refused.get("belt course"):
+        rec.update({"belt_height_in": None, "belt_course_projection_in": None,
+                    "belt_height_above_first_floor_in": None})
+    return rec
 
 # ---------------------------------------------------------------- measurements dict for the fault corpus
 # What this generator does NOT model, declared as data so it can be TESTED rather than
@@ -1886,6 +2041,31 @@ def _derive_measurements(elev):
         m.update({"total_shutter_leaves": 0.0,
                   "shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall": 0.0})
 
+    # THE ENTRANCE RECT THE FACE DRAWS, and the sidelight spans it carries (WP-16.4): the count
+    # below is that list's length, the face's own record and not a constant beside a flag. THREE
+    # states, because there are three situations and a two-state count loses one:
+    #   * the composition has NO sidelights -- the kit forbids them, or the width cap omits the
+    #     pair -- and the entrance has none whether or not a face draws its door: a measured 0;
+    #   * a face draws the entrance door: the spans it carries, 0 where the placement left the
+    #     pair no wall and the sheet says so;
+    #   * the composition has a pair and NO face draws the entrance door (good-03 on the search
+    #     engine seats no front door on its entrance face): unmeasured, None. A 0 there would say
+    #     the house has no sidelights when the record composes two and the drawing is what is
+    #     missing -- not applicable is a verdict about the house, and this is a gap in the drawing.
+    #     A GARAGE door is not the entrance composition either, though it is the widest door on
+    #     the front of bad-02, bad-03 and bad-07 and so the one marked `entrance`: `_clearances`
+    #     and every renderer give it no doorcase and no sidelights (WP-14.3), so it draws nothing
+    #     of the composition and the count is unmeasured there too.
+    _efc = elev.get("entrance_face")
+    _erect = next((r for r in (opening_rects(elev, _efc)["rects"] if _efc else [])
+                   if r["kind"] == "door" and r.get("entrance")
+                   and "garage" not in str(r.get("type") or "").lower()), None)
+    if not ent.get("sidelights_present"):
+        _sidelights_drawn = 0
+    elif _erect is None:
+        _sidelights_drawn = None
+    else:
+        _sidelights_drawn = len(_erect.get("sidelights_in") or [])
     m.update({
         "door_leaf_width_in": ent["door_leaf_width_in"], "door_leaf_height_in": ent["door_leaf_height_in"],
         "front_door_leaf_width_in": ent["door_leaf_width_in"], "principal_door_height_in": ent["door_leaf_height_in"],
@@ -1895,10 +2075,15 @@ def _derive_measurements(elev):
         "entrance_composition_width_in": ent["entrance_composition_width_in"],
         "largest_other_opening_width_in": ground_w["opening_width_in"],
         "entrance_opening_head_height_in": ent["door_leaf_height_in"], "doorhead_top_in": ent["door_leaf_height_in"],
-        # A zero here means "the cap excluded them"; ABSENT means "this style's kit forbids the
-        # slot and no figure exists". Collapsing the second into the first is OQ 52's class.
-        "sidelight_width_in": (None if ent.get("sidelights_forbidden_by_kit")
-                               else (ent["sidelight_width_in"] if ent["sidelights_present"] else 0.0)),
+        # A SIDELIGHT THAT IS NOT DRAWN HAS NO WIDTH (WP-16.4). This published 0.0 where the width
+        # cap omitted the pair, and `sidelights-as-storefront-glass` then CLEARED good-05 on a
+        # sidelight measured at nothing wide -- a verdict about a thing that is not there, and a
+        # generator constant (`critic_suspects` listed it). And where the plan left the pair no
+        # wall (`sidelights_refused`) it published the rule's width for sidelights nobody draws.
+        # The width is the drawn pair's, or absent; the COUNT says how many are drawn, read off
+        # the entrance rect's own spans, and the fault is gated on it (not applicable at zero).
+        "sidelight_width_in": ent["sidelight_width_in"] if _sidelights_drawn else None,
+        "count_of_sidelights_drawn_at_the_entrance": _sidelights_drawn,
         # THE WHOLE TRANSOM FAMILY GOES ABSENT TOGETHER, or none of it does. Nulling
         # `transom_height_in` alone left `transom_width_in` and `transom_head_rise_in` supplied,
         # and `fanlight-before-its-date` and `transom-bar-at-the-wrong-height` immediately
@@ -1908,12 +2093,18 @@ def _derive_measurements(elev):
         # measurement of that thing must be absent, and a partially-supplied set is worse than
         # either a complete one or none at all, because it reads as evidence.
         "transom_height_in": ent["transom_height_in"],
-        "transom_width_in": (None if ent.get("sidelights_forbidden_by_kit")
+        "transom_width_in": (None if ent.get("transom_forbidden_by_kit")
                              else ent["door_leaf_width_in"]),
         # a rectangular transom, not an elliptical fanlight -- see entrance_composition()'s note
-        "transom_head_rise_in": None if ent.get("sidelights_forbidden_by_kit") else 0.0,
-        "distinct_mouldings_within_4ft_of_the_entrance": ent["entablature_members"] and len(ent["entablature_members"]) or 3,
-        "max_distinct_mouldings_elsewhere_on_the_elevation": max(1, (ent["entablature_members"] and len(ent["entablature_members"]) or 3) - 1),
+        "transom_head_rise_in": None if ent.get("transom_forbidden_by_kit") else 0.0,
+        # A REFUSED DOORCASE HAS NO MOULDINGS TO COUNT (WP-16.4): the `or 3` below is a fallback
+        # for a doorcase whose entablature states no members, not a count of a plain casing's
+        "distinct_mouldings_within_4ft_of_the_entrance": (
+            None if ent.get("doorcase_refused_by") else
+            ent["entablature_members"] and len(ent["entablature_members"]) or 3),
+        "max_distinct_mouldings_elsewhere_on_the_elevation": (
+            None if ent.get("doorcase_refused_by") else
+            max(1, (ent["entablature_members"] and len(ent["entablature_members"]) or 3) - 1)),
         "largest_opening_on_the_street_elevation_is_the_entrance": ent["door_leaf_width_in"] >= ground_w["opening_width_in"],
         "column_height": ent["column_height_in"], "column_height_in": ent["column_height_in"],
         "lower_shaft_diameter": ent["lower_shaft_diameter_in"], "lower_shaft_diameter_in": ent["lower_shaft_diameter_in"],
@@ -1926,12 +2117,20 @@ def _derive_measurements(elev):
         "column_lower_diameter": ent["lower_shaft_diameter_in"], "pilaster_width": ent["pilaster_width_in"],
         "pilaster_width_in": ent["pilaster_width_in"], "pilaster_projection_in": ent["pilaster_projection_in"],
         "upper_shaft_diameter": ent["upper_shaft_diameter_in"], "upper_shaft_diameter_in": ent["upper_shaft_diameter_in"],
-        "entablature_bed_height_in": ent["surround_height_above_opening_in"] * 0.3,
+        "entablature_bed_height_in": (None if ent.get("surround_height_above_opening_in") is None
+                                      else ent["surround_height_above_opening_in"] * 0.3),
         "escutcheon_width_in": 2.0, "door_stile_width_in": ent["door_leaf_width_in"] * 0.14,
         "visible_hardware_items_per_window": 6, "visible_surface_hinges_per_leaf": 3,
         "front_door_plane_setback_behind_garage_door_plane_ft": 0.0,
     })
 
+    # A REFUSED FRIEZE OR CORNICE HAS NO FIGURES (WP-16.4), and neither has the entablature they
+    # sum to: a partial sum would be a measurement of an assembly the kit forbids half of. And
+    # every figure below that PRESUPPOSES a cornice is withheld with it, so a fault about a
+    # cornice is not judged on a house whose kit forbids one.
+    _fz_h, _co_h = cornice.get("frieze_height_in"), cornice.get("cornice_height_in")
+    _entab = None if (_fz_h is None or _co_h is None) else round(_fz_h + _co_h, 3)
+    _cor = not cornice.get("cornice_refused_by")
     m.update({
         # cornice_projection_in IS emitted now, and that is OQ 84 closing. It was withheld from
         # WP-3.2 until 27 Aug 2026 because faults/cornice-that-is-a-fascia.json carries two RIVAL
@@ -1951,9 +2150,8 @@ def _derive_measurements(elev):
         "frieze_height": cornice["frieze_height_in"], "cornice_height": cornice["cornice_height_in"],
         # The MAIN ELEVATION's own entablature (frieze + cornice together) -- distinct from the
         # doorcase's own smaller surround_height_above_opening_in, which is not conflated with it.
-        "entablature_height": round(cornice["frieze_height_in"] + cornice["cornice_height_in"], 3),
-        "entablature_height_in": round(cornice["frieze_height_in"] + cornice["cornice_height_in"], 3),
-        "frieze_plus_cornice_height_in": round(cornice["frieze_height_in"] + cornice["cornice_height_in"], 3),
+        "entablature_height": _entab, "entablature_height_in": _entab,
+        "frieze_plus_cornice_height_in": _entab,
         "distinct_entablature_members_visible": cornice["member_count"],
         "count_of_moulded_members_in_the_eave_assembly": cornice["member_count"],
         "count_of_moulding_profiles_carried_around_onto_the_return": cornice["member_count"],
@@ -1964,15 +2162,16 @@ def _derive_measurements(elev):
         # Supplying 0 asserted that they are not -- which convicted every gable-roofed plan of an
         # incomplete-pediment fault on a number nobody measured.
         "horizontal_cornice_member_count": cornice["member_count"],
-        "cyma_profiles_at_the_eave": sum(1 for mm in cornice["members"] if "cyma" in (mm.get("profile") or "")),
+        "cyma_profiles_at_the_eave": (sum(1 for mm in cornice["members"] if "cyma" in (mm.get("profile") or ""))
+                                      if _cor else None),
         "eave_overhang_in": cornice["cornice_projection_in"], "eave_projection_in": cornice["cornice_projection_in"],
         # gutter_outlets and overflow_scuppers are NOT supplied (OQ 52). Nothing in this corpus
         # models a gutter -- no slot, no kit parameter, no line in any renderer -- so "2 outlets
         # and no scuppers" was a sentence with no author. It convicted both reference plans.
         "rake_overhang_in": cornice["cornice_projection_in"],
-        "count_of_perforations_visible_in_the_cornice_soffit_frieze_or_fascia": 0,
+        "count_of_perforations_visible_in_the_cornice_soffit_frieze_or_fascia": 0 if _cor else None,
         "count_of_plane_changes_between_wall_face_and_roof_surface": cornice["member_count"],
-        "window_head_casings_colliding_with_the_cornice_bed_mould": False,
+        "window_head_casings_colliding_with_the_cornice_bed_mould": False if _cor else None,
         "count_of_interruptions_in_the_eave_line": 0,
         # NOTE: this file does not model the cornice's own corner RETURN (how far it wraps the
         # gable wall before dying in) -- unlike the projection and member-count numbers above,
@@ -1988,13 +2187,21 @@ def _derive_measurements(elev):
         "wall_thickness_in": elev["section"]["wall"]["exterior_in"],
     })
 
-    if wtb["applicable"]:
+    # EACH BAND'S FIGURES ONLY WHERE IT IS DRAWN (WP-16.4): the water table and the belt are refused
+    # separately now, and a refused band's figures are absent in the record already
+    # (`water_table_and_belt`); the wall's height from the water table to the cornice needs both.
+    if wtb["applicable"] and wtb.get("water_table_height_above_finished_grade_in") is not None:
         m.update({
             "water_table_projection_in": wtb["water_table_projection_in"],
             "water_table_height_above_finished_grade_in": wtb["water_table_height_above_finished_grade_in"],
+        })
+        if _cor:
+            m["wall_height_water_table_to_cornice_in"] = round(
+                elev["grade_to_true_eave_in"] - wtb["water_table_height_above_finished_grade_in"], 2)
+    if wtb["applicable"] and wtb.get("belt_height_in") is not None:
+        m.update({
             "belt_height_in": wtb["belt_height_in"], "belt_course_projection_in": wtb["belt_course_projection_in"] or 1.0,
             "belt_height_above_first_floor_in": wtb["belt_height_above_first_floor_in"],
-            "wall_height_water_table_to_cornice_in": round(elev["grade_to_true_eave_in"] - wtb["water_table_height_above_finished_grade_in"], 2),
         })
 
     # THE FRONT'S OPENING COUNTS READ WHAT IS DRAWN, WHICH IS WHAT THE PLAN PLACED (WP-13.3).
@@ -2263,27 +2470,44 @@ def cornice_marks(elev, face):
     cornice = elev.get("eave_cornice") or {}
     members = cornice.get("members") or []
     cor_h = cornice.get("cornice_height_in")
-    if not members or not cor_h:
+    # WHAT THE KIT FORBIDS IS NOT DRAWN, AND THE FACE SAYS WHO FORBADE IT (WP-16.4, R3). The frieze
+    # and the cornice are refused SEPARATELY, because they are two slots: a refused frieze leaves
+    # the cornice springing from the wall head, and a refused cornice leaves the frieze to carry
+    # the roof. A refused modillion band has already left the members `eave_cornice` returns.
+    cor_ban, fz_ban = cornice.get("cornice_refused_by"), cornice.get("frieze_refused_by")
+    mod_ban = cornice.get("modillions_refused_by")
+    refusal_notes = []
+    if fz_ban:
+        refusal_notes.append("FRIEZE NOT DRAWN — " + ban_words(fz_ban).upper())
+    if cor_ban:
+        refusal_notes.append("CORNICE NOT DRAWN — " + ban_words(cor_ban).upper())
+    elif mod_ban:
+        refusal_notes.append("MODILLIONS NOT DRAWN — " + ban_words(mod_ban).upper() +
+                             "; THE CORNICE IS THE ORDER'S OTHER MEMBERS, READ TO THE SAME HEIGHT")
+    fz_h = cornice.get("frieze_height_in")
+    if (cor_ban and (fz_ban or not fz_h)) or (not cor_ban and (not members or not cor_h)):
         # SAID, and in the notes both surfaces write (WP-15.8's audit, auditor D): the reason rode
         # on the record and neither the sheet nor the DXF printed it, so a face drawn with no
         # cornice read as a face whose cornice was forgotten
-        why = "the record dimensions no eave cornice"
+        why = ("the style's resolved kit forbids it" if cor_ban
+               else "the record dimensions no eave cornice")
         return {"face": face, "applicable": False, "source": CORNICE_SOURCE, "why": why,
-                "notes": ["CORNICE NOT DRAWN — " + why.upper()]}
+                "frieze": None, "cornice": None, "members": [], "teeth": None,
+                "notes": refusal_notes or ["CORNICE NOT DRAWN — " + why.upper()]}
     fp = elev["footprint"]
     span_ft = fp["width_ft"] if face in ("S", "N") else fp["depth_ft"]
     wall_top_ft = elev["roof_record"]["main"]["grade_to_eave_ft"]
     true_eave_ft = elev["grade_to_true_eave_in"] / 12.0
-    spring_ft = true_eave_ft - cor_h / 12.0
+    spring_ft = true_eave_ft - (0.0 if cor_ban else cor_h / 12.0)
     band_in, band_why = cornice_band_projection_in(cornice)
     fz_in = cornice.get("frieze_projection_in")
-    fz_why = None if fz_in is not None else "no record states the frieze band's projection"
+    fz_why = None if (fz_in is not None or fz_ban) else "no record states the frieze band's projection"
     b, f = (band_in or 0.0) / 12.0, (fz_in or 0.0) / 12.0
     out_members = [{"id": m.get("id"), "profile": m.get("profile"),
                     "h0": spring_ft + m["y_bottom_in"] / 12.0, "h1": spring_ft + m["y_top_in"] / 12.0,
                     "height_in": m.get("height_in"), "confidence": m.get("confidence")}
                    for m in members]
-    notes = []
+    notes = list(refusal_notes)
     teeth = None
     band = next((m for m in members if (m.get("profile") or "") in TOOTHED_PROFILES), None)
     if band:
@@ -2297,16 +2521,18 @@ def cornice_marks(elev, face):
         if rp["solid"]:
             # the sheet's sentence since 27 Aug 2026, kept byte for byte
             notes.append(f'{band["profile"].upper()} BAND DRAWN SOLID — {rp["reason"].upper()}')
-    if band_why:
+    if band_why and not cor_ban:
         notes.append('CORNICE BAND DRAWN FLUSH WITH THE WALL — ' + band_why.upper())
     if fz_why:
         notes.append('FRIEZE DRAWN FLUSH WITH THE WALL — ' + fz_why.upper())
     return {"face": face, "applicable": True, "source": CORNICE_SOURCE, "span_ft": span_ft,
-            "frieze": {"u0": -f, "u1": span_ft + f, "h0": wall_top_ft, "h1": spring_ft,
-                       "projection_in": fz_in, "why": fz_why},
-            "cornice": {"u0": -b, "u1": span_ft + b, "h0": spring_ft, "h1": true_eave_ft,
-                        "projection_in": band_in, "why": band_why,
-                        "order_pack": cornice.get("order_pack")},
+            "frieze": (None if fz_ban else
+                       {"u0": -f, "u1": span_ft + f, "h0": wall_top_ft, "h1": spring_ft,
+                        "projection_in": fz_in, "why": fz_why}),
+            "cornice": (None if cor_ban else
+                        {"u0": -b, "u1": span_ft + b, "h0": spring_ft, "h1": true_eave_ft,
+                         "projection_in": band_in, "why": band_why,
+                         "order_pack": cornice.get("order_pack")}),
             "members": out_members, "teeth": teeth, "notes": notes}
 
 # ---------------------------------------------------------------- the gable-end stacks
@@ -2761,8 +2987,15 @@ def face_notes(elev, face, sm=None, cm=None):
     elif ht.get("rise_band_in"):
         notes.append(f'HEAD RISE IS A BAND OF {ht["rise_band_in"][0]}–{ht["rise_band_in"][1]}″ '
                      f'({str(ht.get("rise_source") or "")}); DRAWN AT ITS MIDPOINT')
-    # the cornice's own sentences (`elevation.cornice_marks`), which the DXF writes too
+    # the cornice's own sentences (`elevation.cornice_marks`), which the DXF writes too -- among
+    # them what the kit forbids of the frieze, the cornice and the modillions (WP-16.4)
     notes.extend(cm["notes"])
+    # THE BANDS THE KIT FORBIDS, AND WHO WROTE EACH BAN (WP-16.4, R3). Until this package both were
+    # READ ANYWAY and drawn, and `forbidden_slots_read_from_packs` was the only place that knew.
+    for _key, _what in (("water_table_refused_by", "WATER TABLE"),
+                        ("belt_refused_by", "BELT COURSE")):
+        if wtb.get(_key):
+            notes.append(f"{_what} NOT DRAWN — " + ban_words(wtb[_key]).upper())
     # THE ROOF STANDS ON THIS SHEET'S OWN FRIEZE AND CORNICE, AND NO OTHER SURFACE HAS ONE
     # (WP-14.6). `elevation.grade_to_true_eave_in` adds the frieze and the cornice ABOVE roof.py's
     # eave, and this sheet lifts the whole roof silhouette -- and every stack on it -- by that
@@ -2857,7 +3090,9 @@ def face_notes(elev, face, sm=None, cm=None):
     # `oq/the-openings-are-not-set-to-the-brick-courses`.
     if wtb.get("course_height_in") and wtb.get("applicable"):
         c_in = wtb["course_height_in"]
-        base_in = wtb["water_table_height_above_finished_grade_in"]
+        # from the water table's top, or from grade where the kit forbids the water table: the
+        # coursing is the wall's and starts where the sheet starts it (WP-16.4)
+        base_in = wtb.get("water_table_height_above_finished_grade_in") or 0.0
         edges = [v for r in opening_rects(elev, face)["rects"] if r["kind"] == "window"
                  for v in (r["sill_in"], r["head_in"])
                  if base_in + c_in <= v <= top_of_wall_ft * 12.0]
@@ -2871,7 +3106,20 @@ def face_notes(elev, face, sm=None, cm=None):
     # THE ENTRANCE (WP-14.3): the transom drawn at a judged height, or the reason a canonical one
     # is not; a garage door drawn as its opening; and the panels said to be an arrangement.
     _doors = [r for r in opening_rects(elev, face)["rects"] if r["kind"] == "door"]
-    _tr = (elev.get("entrance") or {}).get("transom") or {}
+    _ent = elev.get("entrance") or {}
+    _tr = _ent.get("transom") or {}
+    # WHAT THE KIT FORBIDS AT THE ENTRANCE (WP-16.4, R3), on the face that draws it and not a garage
+    # door, which carries no doorcase whatever the kit says: the doorcase, which leaves the door its
+    # plain casing, and the sidelights, with the transom where the whole slot is forbidden.
+    if any(r.get("entrance") and "garage" not in str(r.get("type") or "").lower() for r in _doors):
+        if _ent.get("doorcase_refused_by"):
+            notes.append("DOORCASE NOT DRAWN — " + ban_words(_ent["doorcase_refused_by"]).upper() +
+                         "; THE DOOR KEEPS THE DOORCASE’S OWN CASING, WITHOUT ITS PILASTERS OR "
+                         "ITS ENTABLATURE")
+        if _ent.get("sidelights_refused_by"):
+            notes.append(("SIDELIGHTS AND TRANSOM" if _ent.get("transom_forbidden_by_kit")
+                          else "SIDELIGHTS") + " NOT DRAWN — " +
+                         ban_words(_ent["sidelights_refused_by"]).upper())
     if any(r.get("entrance") for r in _doors):
         if _tr.get("drawn"):
             notes.append(f'TRANSOM DRAWN {_tr["height_in"]:.1f}\u2033 HIGH \u2014 A JUDGMENT: '
@@ -3233,6 +3481,9 @@ def _clearances(rects, face_width_in=None):
                 # clear of a corner nobody measured
                 r["sidelights_corner_unjudged"] = CORNER_UNJUDGED
         r["sidelights_drawn"] = not hits
+        # THE SPANS DRAWN, in the face's inches: what a count of the sidelights reads (WP-16.4), so
+        # the measurement is the record's own list and not a constant beside a flag
+        r["sidelights_in"] = [] if hits else [[round(a0, 3), round(a1, 3)] for _s, a0, a1 in sides]
         if hits:
             r["sidelights_refused"] = "; ".join(hits)
 
@@ -3642,6 +3893,9 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): every slot this node's RESOLVED kit forbids. The generator reads slot
         # dimensions straight out of pack files and has never consulted the kit's strongest word.
         forbids = DC.forbidden_of(_slots)
+        # AND EVERY FEATURE IT FORBIDS, ROW OR SLOT, AT THIS HOUSE'S DATE (WP-16.4, R3): the
+        # entrance's in `doorcase.refusals`, which the placer reads too, and the envelope's here
+        refused = {**DC.refusals(_slots, date), **envelope_refusals(_slots, date)}
         _reveal_source = _slots
     except Exception:
         _ks = ((C["kits"].get(style) or {}).get("slots", {}) or {})
@@ -3654,6 +3908,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         surround_slot = _ks.get("window_surround_masonry" if is_masonry else
                                 "window_surround_wood") or {}
         forbids = set()   # no cascade: cannot judge, so refuse nothing and say so below
+        refused = {}
         _reveal_source = _ks
 
     # THE REVEAL, read from whichever of the two slots this construction uses, and READ FROM
@@ -3844,28 +4099,24 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         faces[f]["placed_refused"] = _po["faces"][f]["refused"]
 
     ent = entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0,
-                               forbids=forbids) if gibbs_applies else \
-          entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0,
-                               forbids=forbids)
+                               forbids=forbids, refused=refused)
     ent["transom"] = entrance_transom(ent, transom_slot, sash_pack, glass_module_in)
-    # `oq/forbidden-stops-the-pack-cascade`'S DISCLOSURE. Two of these are refused above; the rest are READ ANYWAY and this is
-    # where a reader finds out. Naming them beats a silent figure: `unjudged is not passed`
-    # applies to a drawing exactly as it applies to a measurement, and until WP-8.3 nothing
-    # anywhere recorded that this generator had overruled a kit's strongest word.
-    _READ_FROM_PACKS = ("belt_course", "casing", "chimney", "cornice", "door_surround",
-                        "entry_door", "frieze", "pilaster", "shutter", "transom_sidelight",
-                        "water_table", "window_grouping_rule", "window_head_masonry",
-                        "window_head_wood", "window_lite_pattern", "window_proportion")
-    _REFUSED_HERE = ("transom_sidelight", "pilaster")
-    forbidden_read = sorted(forbids & set(_READ_FROM_PACKS))
+    # `oq/forbidden-stops-the-pack-cascade`'S DISCLOSURE: `READ_FROM_PACKS` and `REFUSED_HERE`
+    # (module level, above) split every whole-slot ban this generator meets into the refused and
+    # the READ ANYWAY, and this is where a reader finds out. Naming them beats a silent figure:
+    # `unjudged is not passed` applies to a drawing exactly as it applies to a measurement, and
+    # until WP-8.3 nothing anywhere recorded that this generator had overruled a kit's strongest
+    # word.
+    forbidden_read = sorted(forbids & set(READ_FROM_PACKS))
 
     if not gibbs_applies:
         ent["note_order_not_named_for_style"] = (f"gibbs-ionic.json's own applies_to list does not include '{style}' -- used anyway as the "
                                                    f"family's documented pattern-book default (see module docstring); a style outside the "
                                                    f"Georgian/Federal/Colonial-Revival family this pack covers should be given its own order pack.")
 
-    cornice = eave_cornice(facade_pack, gibbs_pack, module_in=ground["storey_height_ft"] * 12.0)
-    wtb = water_table_and_belt(section, brick_pack, facade_pack, is_masonry)
+    cornice = eave_cornice(facade_pack, gibbs_pack, module_in=ground["storey_height_ft"] * 12.0,
+                           refused=refused)
+    wtb = water_table_and_belt(section, brick_pack, facade_pack, is_masonry, refused=refused)
 
     # Reconciliation with structure.py/roof.py's own grade_to_eave_ft: those files do not model
     # a frieze/cornice band at all (WP-3.1's roof_heights() stacks raw storey heights only), so
@@ -3873,10 +4124,18 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     # Stated explicitly, not silently substituted -- the same discipline WP-3.3's _gambrel() used
     # against structure.py's own single-pitch ridge estimate.
     grade_to_eave_ft = roof["main"]["grade_to_eave_ft"]
-    grade_to_true_eave_in = grade_to_eave_ft * 12.0 + cornice["frieze_height_in"] + cornice["cornice_height_in"]
+    # A REFUSED BAND ADDS NOTHING (WP-16.4): the roof stands on what is drawn, and a frieze the kit
+    # forbids is neither drawn nor stood on. The sum is taken LEFT TO RIGHT from the eave, as it
+    # always was: adding the two bands first and the eave second is the same number to within the
+    # last bit, and on good-03 that bit carried three of the DXF's cornice lines across a rounding
+    # tie at the thousandth -- a drawing moved by the order of an addition, on a house nothing
+    # was refused on.
+    _band_in = (cornice["frieze_height_in"] or 0.0) + (cornice["cornice_height_in"] or 0.0)
+    grade_to_true_eave_in = (grade_to_eave_ft * 12.0 + (cornice["frieze_height_in"] or 0.0)
+                             + (cornice["cornice_height_in"] or 0.0))
     eave_reconciliation_note = (f"structure.py/roof.py's own grade_to_eave_ft ({grade_to_eave_ft} ft) does not allow for a frieze or "
                                  f"cornice band -- this file's own true top-of-cornice is {round(grade_to_true_eave_in/12,2)} ft, "
-                                 f"{round(cornice['frieze_height_in']+cornice['cornice_height_in'],1)} in higher. Not fed back into "
+                                 f"{round(_band_in,1)} in higher. Not fed back into "
                                  f"those files' own records; recorded here as this file's own number.")
 
     ridge_ft = roof["main"].get("ridge", {}).get("grade_to_ridge_ft")
@@ -3913,8 +4172,10 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     dorm = dormers(plan, dormer_slot, faces, storey_windows[1], roof,
                    entrance_face, ground["storey_height_ft"] * 12.0,
                    cornice=cornice, casing_in=round(ent["casing_width_in"] * 0.6, 3),
+                   # the wall from the water table's top, or from grade where the kit forbids
+                   # the water table (WP-16.4; found by driving that refusal)
                    house_wall_in=round(grade_to_true_eave_in
-                                       - wtb["water_table_height_above_finished_grade_in"], 2))
+                                       - (wtb["water_table_height_above_finished_grade_in"] or 0.0), 2))
     if dorm.get("count") and not dorm.get("refused"):
         # The strip of roof in front of the face, measured ON THE SLOPE -- `sunken-dormer` wants
         # at least 12 in of it and prefers 18-36, because that strip is what makes a dormer a
@@ -3997,20 +4258,34 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "grade_to_true_eave_in": grade_to_true_eave_in, "eave_reconciliation_note": eave_reconciliation_note,
         "roof": roof_meas, "roof_record": roof,
         # `oq/forbidden-stops-the-pack-cascade` (WP-8.3). Every slot this generator reads out of a pack file that THIS node's
-        # resolved kit binds `forbidden`, and what was done about each. Two are refused outright
-        # (the sidelights and the doorcase pilaster, both of which the composition already had a
-        # branch for); the rest are READ ANYWAY and are named here rather than left silent.
-        # Fixing those needs a semantic answer per slot -- a forbidden `frieze` on a style whose
-        # kit still passes this generator's classical scope gate is a contradiction between two
-        # records, not a number to zero -- and that is `oq/forbidden-stops-the-pack-cascade`'s remaining half, stated rather
-        # than quietly carried.
+        # resolved kit binds `forbidden`, and what was done about each (`REFUSED_HERE`). Two were
+        # refused outright at WP-8.3 (the sidelights and the doorcase pilaster, both of which the
+        # composition already had a branch for) and four more at WP-16.4 (R3: the water table, the
+        # belt, the frieze and the cornice); the rest are READ ANYWAY and are named here rather than
+        # left silent -- `door_surround` among them where it is forbidden whole, because the
+        # refused doorcase's own casing is that slot's width rule. A ban on a VARIANT, or one
+        # dated to the house, is not a slot binding and is not listed here: `refused_by_the_kit`
+        # below names every feature this face does not draw because the kit forbids it, whoever
+        # wrote the ban.
         "forbidden_slots_read_from_packs": {
-            "refused": [x for x in forbidden_read if x in _REFUSED_HERE],
-            "read_anyway": [x for x in forbidden_read if x not in _REFUSED_HERE],
+            "refused": [x for x in forbidden_read if x in REFUSED_HERE],
+            "read_anyway": [x for x in forbidden_read if x not in REFUSED_HERE],
             "note": ("This generator reaches packs by PE.resolve and never through resolve_packs, "
                      "so WP-8.3's resolver-side gate does not reach a single figure drawn here. "
                      "`read_anyway` is a measured disclosure, not a pass."),
         },
+        # EVERY FEATURE THIS FACE DOES NOT DRAW BECAUSE THE KIT FORBIDS IT (WP-16.4, R3), slot or
+        # row, at the house's date: `resolve_kit.ban`'s answer per feature, naming the nodes that
+        # WROTE the ban, and saying so where the ban is dated and the record states no date. What
+        # the face actually refused, not merely what the kit forbids: a sidelight the width cap had
+        # already omitted is still refused here, because the kit's reason is the one that governs.
+        "refused_by_the_kit": {k: v for k, v in refused.items()
+                               if v and k in ("water table", "belt course", "frieze", "cornice",
+                                              "modillions", "doorcase", "transom_sidelight",
+                                              "sidelights")
+                               and not (k == "sidelights" and refused.get("transom_sidelight"))
+                               and not (k == "modillions" and (refused.get("cornice") or
+                                                               not cornice.get("refused_members")))},
         "footprint": fp, "section": section,
         # WP-13.3: the one datum every `u` here is stated in, the placed openings' provenance,
         # and the exterior doors the placer could not seat (which belong to no face).

@@ -253,10 +253,14 @@ def test_the_tidewater_passage_window_keeps_half_the_ordinary_pier(corpus):
         assert s["verdict"] == "agrees", s
         assert s["floor_in"] == pytest.approx(floor, abs=1e-3), (s, floor)
         assert s["clear_in"] >= floor - EL.PIER_TOL_IN, (s, floor)
-    # and the sidelights the window used to stand on are drawn again
+    # and nothing of the placement's is refused beside the door. The sidelights the window used to
+    # stand on are the KIT's to refuse since WP-16.4 (30 Sep 2026): at the record's own 1765
+    # georgian-colonial-american forbids them for houses of 1700-1780, so the entrance draws none
+    # and names who forbade them, and the pier is judged beside the doorcase alone
     rects = EL.opening_rects(el, el["entrance_face"])["rects"]
     (ent,) = [r for r in rects if r.get("entrance")]
-    assert ent.get("sidelights_drawn") and not ent.get("sidelights_refused"), ent
+    assert not ent.get("sidelights_refused") and not ent.get("sidelights_in"), ent
+    assert el["entrance"]["sidelights_refused_by"]["writers"] == ["georgian-colonial-american"]
 
 
 def test_a_window_with_no_run_left_beside_the_doorcase_is_refused_by_name():

@@ -702,6 +702,28 @@ def hearth_pass(plan, C, report):
         out["unplaced"].append({"what": "the stacks", "reason": why,
                                 **_graded("th-which-side-of-the-end-wall")})
         return out
+    # AN EXTERIOR STACK THE RESOLVED KIT FORBIDS IS NOT PLACED (WP-16.4, R3). The side comes from
+    # the node's OWN canonical rows, and a ban can arrive through the lineage -- new-england-colonial
+    # writes `exterior-end` forbidden for the Cape, the saltbox and the garrison. No shipped kit
+    # makes `exterior-end` canonical where its cascade forbids it (a style cannot hold one id at
+    # two statuses), so this is reached by no placement today and is driven by a test; census V2
+    # met the case only by drawing the Tidewater placement's stacks under other styles. Refused
+    # HERE, where the stack is placed, so the plan, the roof, the section, the elevation and the
+    # scene all read one refusal and none of them draws a stack another does not. The words and
+    # the writer are `resolve_kit.ban`'s, at the house's date.
+    if side == "exterior":
+        _slots = resolved_slots(style) or {}
+        _date = (plan.get("context") or {}).get("date_of_representation")
+        _rk = _mod("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+        _ban = (_rk.ban(_slots.get("hearth_position"), ("exterior-end",), _date)
+                or _rk.ban(_slots.get("chimney"), ("exterior",), _date))
+        if _ban:
+            out["unplaced"].append({"what": "the stacks", "reason":
+                                    f"{out['source']} puts the stacks outside the end walls, and "
+                                    f"the style's resolved kit forbids an exterior stack: "
+                                    f"{_rk.ban_words(_ban)}", "ban": _ban,
+                                    **_graded("th-which-side-of-the-end-wall")})
+            return out
 
     size = (_param(resolved_slots(style), "chimney", "stack_plan_in") or {})
     s_in = size.get("computed_at", {}).get("value") if "computed_at" in size else size.get("value")

@@ -469,7 +469,14 @@ CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # wall of this room has a free run" with a `declared_wall` of S, and says the wall is shorter than
 # the door now, with the walls that were too short. Measured per plan against a worktree of
 # `c310cc4`: fifteen byte-identical, no position, wall or seat moved anywhere.
-CORPUS_OPENINGS_SHA = "209843a4b8d14191"
+# PHASE 16, WP-16.4 (30 Sep 2026): 209843a4b8d14191 -> 73d4d79110d09b42, ONE WINDOW ON ONE PLAN.
+# `tidewater-georgian-careful` is dated 1765, inside georgian-colonial-american's 1700-1780 ban on
+# the sidelights, so the doorcase the placer reserves is one sidelight narrower each side and the
+# centre passage's south window moves 9.995 -> 11.164 ft, exactly one sidelight's 14.03 in.
+# Re-derived per plan with this test's own arithmetic on a `git worktree` of `3071f71`, which
+# reproduced both old pins first: the placement digest is unchanged on all sixteen, and the
+# openings digest differs on exactly that plan, in that one window's `positions_ft`.
+CORPUS_OPENINGS_SHA = "73d4d79110d09b42"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

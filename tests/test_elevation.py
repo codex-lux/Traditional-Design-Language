@@ -169,8 +169,24 @@ class TestEntranceComposition:
         assert math.isclose(ent["casing_width_in"], ent["gibbs_casing_width_in"], abs_tol=0.01)
 
     def test_sidelights_fit_within_the_composition_cap_on_the_tidewater_plan(self, elevation_module):
-        plan, elev = _tidewater_elevation(elevation_module)
-        assert elev["entrance"]["sidelights_present"] is True
+        """RE-CUT 30 SEP 2026 (WP-16.4): the shipped record is dated 1765, and
+        georgian-colonial-american forbids the sidelights for 1700-1780, so at its own date the
+        pair is refused by the KIT and this test could no longer see the cap at all. The cap is
+        a property of the bay and not of the date, so it is read at 1790, outside the ban, where
+        the only thing that could still refuse the pair is the cap. The shipped date is held too,
+        so a refusal that stopped naming its writer fails here as well."""
+        plan = load_plan("tidewater-georgian-careful")
+        assert (plan.get("context") or {}).get("date_of_representation") == 1765, (
+            "the premise: the shipped Tidewater record is dated inside the kit's 1700-1780 ban")
+        shipped = elevation_module.build_elevation(plan)["entrance"]
+        assert shipped["sidelights_present"] is False
+        assert shipped["sidelights_refused_by"]["writers"] == ["georgian-colonial-american"]
+        assert shipped["sidelights_refused_by"]["date"] == 1765
+        plan = load_plan("tidewater-georgian-careful")
+        plan.setdefault("context", {})["date_of_representation"] = 1790
+        released = elevation_module.build_elevation(plan)["entrance"]
+        assert released["sidelights_present"] is True
+        assert not released.get("sidelights_refused_by")
 
     def test_pilaster_width_equals_the_column_diameter_it_answers(self, elevation_module):
         """column-without-answering-pilaster.json: a pilaster that genuinely answers a column

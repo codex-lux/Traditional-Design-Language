@@ -766,11 +766,16 @@ def _entrance(elev, section, states):
     # an integer.
     door_level = {st.get("id"): st.get("index")
                   for st in (section.get("storeys") or [])}.get(door.get("storey"))
-    cw = (ent.get("casing_width_in") or 0) / 12.0
+    # A DOORCASE THE KIT FORBIDS IS THE DOOR'S PLAIN CASING (WP-16.4, R3), on the plate, in the
+    # CAD file and here: the doorcase's own casing carried round the head at its own width, and
+    # no entablature over it (`elev.entrance.entablature_members` is empty). Said below, naming
+    # the node that wrote the ban.
+    plain = bool(ent.get("doorcase_refused_by"))
+    cw = ((ent.get("plain_casing_width_in") if plain else ent.get("casing_width_in")) or 0) / 12.0
     x0, x1 = door["x0_in"] / 12.0, door["x1_in"] / 12.0
     z0, z1 = door["sill_in"] / 12.0, door["head_in"] / 12.0
-    band = (ent.get("entablature_height_in")
-            or ent.get("surround_height_above_opening_in") or 0) / 12.0
+    band = cw if plain else (ent.get("entablature_height_in")
+                             or ent.get("surround_height_above_opening_in") or 0) / 12.0
     # THE DOORCASE STANDS ON THE TRANSOM WHERE ONE IS DRAWN (WP-14.3), as it does on the plate:
     # the casing runs up past it and the entablature sits on top. `zt` is the head of the whole
     # opening, door and transom; the sidelights stand to the door's own head, `z1`.
@@ -795,11 +800,26 @@ def _entrance(elev, section, states):
         return _solid(sid, cls, {"type": "plane", "vertices": verts}, "profile", "paper-lit",
                       {"record": src}, "derived", face=face, level=door_level, note=note)
 
+    if plain:
+        states.cannot("the doorcase", "the style's resolved kit forbids it: " +
+                      EL.ban_words(ent["doorcase_refused_by"]) + ". The door keeps the "
+                      "doorcase's own casing, without its pilasters or its entablature",
+                      "elevation.entrance.doorcase_refused_by", cls="entrance")
+    if ent.get("sidelights_refused_by"):
+        states.cannot("the sidelights and the transom" if ent.get("transom_forbidden_by_kit")
+                      else "the sidelights",
+                      "the style's resolved kit forbids them: " +
+                      EL.ban_words(ent["sidelights_refused_by"]),
+                      "elevation.entrance.sidelights_refused_by", cls="entrance")
     if cw > 0:
         out.append(_plane(
             f"{door['id']}-surround", "surround", x0 - cw, x1 + cw, z0, zt + band,
-            "the casing and the band above it, drawn as the face area the composition occupies. "
-            "Its RELIEF is not modelled: `elev.entrance` states the width and no projection",
+            ("the door's plain casing, carried round the head at its own width: the doorcase is "
+             "refused, and this is the face area the casing occupies. Its RELIEF is not modelled"
+             if plain else
+             "the casing and the band above it, drawn as the face area the composition occupies. "
+             "Its RELIEF is not modelled: `elev.entrance` states the width and no projection"),
+            "elevation.entrance.plain_casing_width_in" if plain else
             "elevation.entrance.casing_width_in"))
         states.cannot("the surround's relief",
                       "`elev.entrance` publishes `casing_width_in` and no projection. The cascade "

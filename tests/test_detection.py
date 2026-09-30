@@ -38,7 +38,11 @@ PC = _load("plan_check", f"{ROOT}/build/plan_check.py")
 # literals are here so that a fall is accounted for rather than accepted, which is what a
 # ratchet is for. Re-measure before moving one.
 FAULTS = 210
-IDENTIFIERS_READ = 825
+# 825 -> 826 AT WP-16.4 (30 Sep 2026), BY NAME: `count_of_sidelights_drawn_at_the_entrance`, which
+# every test of `sidelights-as-storefront-glass` now reads as its `applies_when`. A front that
+# draws no sidelights has none to judge, so the fault is not applicable there rather than clear
+# on a 0.0 in width. Diffed against a worktree of `3071f71`: one name added, none removed.
+IDENTIFIERS_READ = 826
 # 36 -> 40 AT WP-14.3 (27 Sep 2026), BY NAME: `transom_height_in`, `transom_width_in`,
 # `transom_head_rise_in` and `pilaster_projection_in` joined `elevation.NOT_MODELLED`, because
 # opening-proportion marks the transom's height a judgment and gibbs-ionic the pilaster's
@@ -431,7 +435,18 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
     # could-not-evaluate, the third road WP-14.3 found, taken by six faults at once. Attributed
     # against a worktree of a4abb85 (the rows) and asserted below from the unjudged bucket,
     # not left to the count.
-    SUSPECT_CLEAR = {"tidewater-georgian-careful": 18, "spec-builder-colonial": 19}
+    # 18 -> 17 AND 19 -> 18 AT WP-16.4 (30 Sep 2026), AND THE ROW THAT LEFT IS THE SAME ON BOTH
+    # PLANS, `sidelights-as-storefront-glass`, BY TWO DIFFERENT ROADS. It cleared on
+    # `sidelight_width_in`, which `critic_suspects` listed as a literal because the elevation
+    # published 0.0 where the width cap omitted the pair. That literal is gone: the width is the
+    # drawn pair's, or withheld where no sidelight is drawn. On the Tidewater plan (dated 1765,
+    # inside georgian-colonial-american's 1700-1780 ban) no sidelight is drawn, so the fault is
+    # NOT APPLICABLE; on the spec Colonial it clears on the drawn pair's own width, 11.482 in, a
+    # measurement of the house. Attributed against a worktree of `3071f71` and asserted below
+    # from the buckets, not left to the count.
+    SUSPECT_CLEAR = {"tidewater-georgian-careful": 17, "spec-builder-colonial": 18}
+    LEFT_AT_WP_16_4 = {"tidewater-georgian-careful": "not-applicable",
+                       "spec-builder-colonial": "measured"}
     GOVERNING_UNRUN = {
         "tidewater-georgian-careful": {
             "fixed-sash-pretending-to-be-double-hung", "garage-head-above-the-window-head",
@@ -496,6 +511,27 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
             assert (u.get("governing_not_run") or {}).get("missing"), (pid, fid, u)
             assert u.get("ran"), (pid, fid, "the secondary that ran is the evidence; a row "
                                   "that drops it reads as though nothing was measured")
+        # WP-16.4, BY NAME: the sidelight fault left this list because its width stopped being a
+        # literal. On the plan that draws no sidelight it must be NOT APPLICABLE on the drawn
+        # count; on the plan that draws a pair it must be in no other bucket, and the width the
+        # fault READS (the measurement, not the composition's figure the spans are laid from)
+        # must be the drawn span's -- so a literal back in `_derive_measurements` that the
+        # instrument failed to list would fail here rather than leave the list unnoticed.
+        fid = "sidelights-as-storefront-glass"
+        assert fid not in ids, (pid, fid, "back on the tautology list")
+        na = {u["fault"]: u for u in (res.get("fault_not_applicable") or [])}
+        if self.LEFT_AT_WP_16_4[pid] == "not-applicable":
+            assert na.get(fid, {}).get("because") == ["count_of_sidelights_drawn_at_the_entrance"], (
+                pid, na.get(fid))
+        else:
+            assert fid not in na and fid not in rows_u, (pid, fid, "left the list for another bucket")
+            ev = PC._load("elevation", f"{ROOT}/build/elevation.py")
+            el = ev.build_elevation(json.load(open(f"{ROOT}/plans/{pid}.json")))
+            door = next(r for r in ev.opening_rects(el, el["entrance_face"])["rects"]
+                        if r["kind"] == "door" and r.get("entrance"))
+            drawn = [round(b - a, 3) for a, b in door["sidelights_in"]]
+            read = el["measurements"]["sidelight_width_in"]
+            assert drawn and all(abs(w - read) < 0.01 for w in drawn), (pid, drawn, read)
         # THE DISCRIMINATOR FOR THE TWO THE 17 SEP MERGE RETIRED. A fault absent from this list
         # either measures honestly now or has stopped being watched, and the count cannot tell
         # them apart. RE-CUT AT WP-16.1: each retired one is either PRESENT with a figure, or

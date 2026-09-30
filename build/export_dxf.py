@@ -749,6 +749,9 @@ def export_elevation_dxf(elev, path, face=None):
     band_proj = band_proj or 0.0
     cm = EL.cornice_marks(elev, face)
     if cm["applicable"]:
+        # EACH BAND ONLY WHERE THE KIT DOES NOT FORBID IT (WP-16.4), as the sheet draws it:
+        # `cornice_marks` hands back None for a refused band, and the notes both surfaces write
+        # say who forbade it
         _fz, _co = cm["frieze"], cm["cornice"]
         # where the frieze and the cornice pass in front of a stack beside the face, the stack's
         # lines are masked before the bands are drawn over them
@@ -760,15 +763,18 @@ def export_elevation_dxf(elev, path, face=None):
             pts = _stack_pts(mk)
             su0, su1 = min(p[0] for p in pts) - 0.5, max(p[0] for p in pts) + 0.5
             sh0, sh1 = min(p[1] for p in pts), max(p[1] for p in pts)
-            for b in (_fz, _co):
+            for b in (x for x in (_fz, _co) if x):
                 u0, u1 = max(su0, b["u0"] * IN), min(su1, b["u1"] * IN)
                 h0, h1 = max(sh0, b["h0"] * IN), min(sh1, b["h1"] * IN)
                 if u1 - u0 > 0.5 + 1e-6 and h1 - h0 > 1e-6:
                     _mask([(u0, h0), (u1, h0), (u1, h1), (u0, h1)])
-        fz = msp.add_lwpolyline([(_fz["u0"] * IN, _fz["h0"] * IN), (_fz["u1"] * IN, _fz["h0"] * IN),
-                                 (_fz["u1"] * IN, _fz["h1"] * IN), (_fz["u0"] * IN, _fz["h1"] * IN)],
-                                close=True, dxfattribs={"layer": _layer(doc, "TDL-ELEV-FRIEZE", color=3)})
-        _xdata(fz, "TDL::frieze", {"projection_in": _fz["projection_in"], "why": _fz["why"]})
+        if _fz:
+            fz = msp.add_lwpolyline([(_fz["u0"] * IN, _fz["h0"] * IN), (_fz["u1"] * IN, _fz["h0"] * IN),
+                                     (_fz["u1"] * IN, _fz["h1"] * IN), (_fz["u0"] * IN, _fz["h1"] * IN)],
+                                    close=True, dxfattribs={"layer": _layer(doc, "TDL-ELEV-FRIEZE", color=3)})
+            _xdata(fz, "TDL::frieze", {"projection_in": _fz["projection_in"], "why": _fz["why"]})
+    if cm["applicable"] and cm["cornice"]:
+        _co = cm["cornice"]
         box = msp.add_lwpolyline([(_co["u0"] * IN, _co["h0"] * IN), (_co["u1"] * IN, _co["h0"] * IN),
                                   (_co["u1"] * IN, _co["h1"] * IN), (_co["u0"] * IN, _co["h1"] * IN)],
                                  close=True, dxfattribs={"layer": cor})
@@ -883,8 +889,8 @@ def export_elevation_dxf(elev, path, face=None):
             # derivation and reading it twice is how the two stop being the same number.
             sill, head = r["sill_in"], r["head_in"]
             x0, x1 = r["x0_in"], r["x1_in"]
-            msp.add_lwpolyline([(x0, sill), (x1, sill), (x1, head), (x0, head)],
-                               close=True, dxfattribs={"layer": opening})
+            leaf = msp.add_lwpolyline([(x0, sill), (x1, sill), (x1, head), (x0, head)],
+                                      close=True, dxfattribs={"layer": opening})
             # THE DOORCASE DRESSES THE ENTRANCE AND NOTHING ELSE (WP-13.3, the lead's pass). A
             # door rect is any placed exterior door on this face since the elevation began
             # drawing the plan's placed openings -- the Tidewater plan seats three on its N wall
@@ -899,8 +905,11 @@ def export_elevation_dxf(elev, path, face=None):
             # The CAD file draws what the sheet draws.
             if "garage" in str(r.get("type") or "").lower():
                 continue
-            cw = ent["casing_width_in"]
-            eh = ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]
+            # A DOORCASE THE KIT FORBIDS IS THE DOOR'S PLAIN CASING (WP-16.4), as the sheet draws
+            # it: the doorcase's own casing carried round the head at its own width, no entablature
+            plain = bool(ent.get("doorcase_refused_by"))
+            cw = ent["plain_casing_width_in"] if plain else ent["casing_width_in"]
+            eh = cw if plain else (ent.get("entablature_height_in") or ent["surround_height_above_opening_in"])
             # WHAT THE SVG DRAWS, THE DXF DRAWS (WP-14.3, census X1). The sheet has drawn the
             # sidelights beside the doorcase since WP-3.2 and this file never did, so five plans'
             # CAD elevations were a different doorcase from their plates. And the transom the
@@ -923,6 +932,21 @@ def export_elevation_dxf(elev, path, face=None):
             case = msp.add_lwpolyline([(x0 - cw, sill), (x1 + cw, sill),
                                        (x1 + cw, top + eh), (x0 - cw, top + eh)],
                                       close=True, dxfattribs={"layer": sash})
+            # WHAT THE KIT FORBIDS AT THE ENTRANCE, SAID ON THE LEAF (WP-16.4): the doorcase refused
+            # to a plain casing, and the sidelights (with the transom where the whole slot is
+            # forbidden), each with the nodes that wrote the ban and the dates it carries. On the
+            # LEAF and in ONE record, because an entity holds one XDATA record per application and
+            # a second `_xdata` on the casing would overwrite the placer's refusal written there.
+            kit = {}
+            if plain:
+                kit["doorcase"] = {"ban": ent["doorcase_refused_by"],
+                                   "words": EL.ban_words(ent["doorcase_refused_by"])}
+            if ent.get("sidelights_refused_by"):
+                kit["sidelights"] = {"ban": ent["sidelights_refused_by"],
+                                     "words": EL.ban_words(ent["sidelights_refused_by"]),
+                                     "transom_too": bool(ent.get("transom_forbidden_by_kit"))}
+            if kit:
+                _xdata(leaf, "TDL::kit-refused", kit)
             # A REFUSED PAIR IS SAID IN THE FILE, as the plate says it (audit, 27 Sep 2026): this
             # loop honoured `sidelights_drawn` and wrote nothing, so a CAD reader had a doorcase
             # with no sidelights and no word of why. The record's own reason, on the doorcase.
@@ -968,7 +992,7 @@ def export_elevation_dxf(elev, path, face=None):
                      # where it is drawn, and never "CORNICE None IN (8 MEMBERS)" over a record
                      # that dimensions none (WP-15.8's audit, auditor ab601)
                      + (f"CORNICE {cornice['cornice_height_in']} IN ({cornice['member_count']} MEMBERS)"
-                        if cm["applicable"] else "NO CORNICE DRAWN"),
+                        if cm["applicable"] and cm["cornice"] else "NO CORNICE DRAWN"),
           0, -4 * TEXT_H)
     # EVERYTHING THE SHEET SAYS BENEATH THE DRAWING, IN ITS OWN WORDS AND ORDER (`elevation.
     # face_notes`, WP-15.8). This wrote the five lines it had been handed one at a time -- the main
