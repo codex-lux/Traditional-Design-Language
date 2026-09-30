@@ -85,7 +85,7 @@
       "parameters": {},
       "status": "drafted",
       "rule": "No cornice return of any kind.",
-      "note": "c05: cornice returns are explicitly forbidden. Overrides the inherited colonial-revival extends binding, which requires a full running cornice of 10 in projection before permitting a return -- moot here since no such cornice exists on this variant at all.",
+      "note": "c05: cornice returns are explicitly forbidden. Overrides the inherited colonial-revival binding (an `extends` delta until 30 Sep 2026, when WP-16.2 bound the slot `specified` in colonial-revival's own kit), which requires a full running cornice of 10 in projection before permitting a return -- moot here since no such cornice exists on this variant at all.",
       "confidence": "high",
       "judgment": false
     },
@@ -268,17 +268,25 @@
     },
     "water_table": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "rule": "The water table is the datum the wall is set out from -- the clapboards are graduated from about 2 3/4 in exposure at the water table to 4 1/4 in near the eave, Wills's office standard -- and the record states no profile, height or projection for the member itself.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), and it was FORBIDDEN here until then -- inherited, on 'No water table may interrupt the shingle field.', from SHINGLE-STYLE, whose c01 reads 'No corner board, water table, belt course, frieze board, or storey band may interrupt it.' This node's own record measures its wall from the water table: description.long gives Wills's office standard as 'clapboards graduated from about 2 3/4 in. exposure at the water table to 4 1/4 in. near the eave, so that the wall appears to rise.', typical_ratios repeats it as 'graduated clapboard exposure from 2 3/4 in. at the water table to 4 1/4 in. near the eave', and proportion_packs[0] says the style 'works mostly off the water table and the head datum.' The same c01 sentence forbids the corner board, and this kit already binds that: 'Plain corner boards, 4-6 in, and nothing more -- c05.' A style does not graduate its clapboards from a member it forbids. What the record does NOT settle is the member's form: description.long also says 'There is no shadow line to speak of, no cornice, no projection', so no moulded or projecting variant is stated and none is canonical. Against it, and the reason no form is stated: the record caps exterior ornament -- c05 reads 'Ornament is limited to the door surround, a simple 4-6 in. eave moulding, and 4-6 in. corner boards.' -- and this node's own trim-classical binding reads that cap as keeping the classical water table off the wall: 'this pack's exterior wall-section family (water table, belt, entablature) is not invoked; only the interior assemblies are.' c05's own list of what is forbidden, 'Cornice returns, modillions, friezes, pediments over windows, and full-width porches are forbidden.', names the frieze and not the water table, which is why the frieze stays forbidden here and this member is bound."
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "No belt course: c05 limits ornament to the door surround, the eave moulding and the corner boards.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), the companion of colonial-revival's own `belt_course` binding of the same date, which permits a belt course and would otherwise reach this node by descent. Until then this slot was `open` and resolved shingle-style's `forbidden` binding through colonial-revival: the right outcome, on 'No belt or storey band may interrupt the shingle field.', a reason that is not this node's. Its own words: c05 reads 'Ornament is limited to the door surround, a simple 4-6 in. eave moulding, and 4-6 in. corner boards.', and its trim-classical binding note reads 'this pack's exterior wall-section family (water table, belt, entablature) is not invoked; only the interior assemblies are.' The water table is bound separately because this record measures its clapboards from it; the record gives the belt no such work. Marked judgment: c05 names no belt, and the ban is read from its cap on ornament."
     },
     "corner_quoin": {
       "group": "envelope",
@@ -348,10 +356,14 @@
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "No frieze board -- c05, which forbids friezes, and diagnostic_tells[3].",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), the companion of colonial-revival's own `frieze` binding of the same date, which permits a frieze and would otherwise reach this node by descent. Until then this slot was `open` and resolved shingle-style's `forbidden` binding through colonial-revival: the right outcome, on 'No frieze board may interrupt the shingle field.', a reason that is not this node's. Its own words: c05 reads 'Cornice returns, modillions, friezes, pediments over windows, and full-width porches are forbidden.', and diagnostic_tells[3] reads 'No cornice, no returns, no frieze board.' This keeps true two sentences already in the record: this kit's `water_table` note ('which is why the frieze stays forbidden here') and declined_packs[0].reason ('the resolved kit binds frieze and cornice_return forbidden')."
     },
     "parapet": {
       "group": "envelope",

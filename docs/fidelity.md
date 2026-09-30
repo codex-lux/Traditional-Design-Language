@@ -146,7 +146,7 @@ join the app without either a census row or a stated reason it is not an archite
 | R3 | proportions-plate | the datum the plate's caption states for each assembly is the datum that assembly was drawn on | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
 | R4 | proportions-plate | what the stack leaves out -- an assembly offered instead of another, an inherited entablature that contradicts the pack's own -- is said on the plate | order packs the plate draws, at 12 in | 25 | 25 | 0 | 0 |
 | V1 | elevation | every mark carrying a line-weight rung is drawn at that rung's width | every elevation sheet (plans x faces) | 44 | 44 | 0 | 0 |
-| V2 | elevation | nothing the style's resolved kit forbids is drawn, slot or variant (the row names where each prohibition comes from) | every node with a kit, on the Tidewater placement | 159 | 20 | 21 | 118 |
+| V2 | elevation | nothing the style's resolved kit forbids is drawn, slot or variant (the row names where each prohibition comes from) | every node with a kit, on the Tidewater placement | 159 | 24 | 17 | 118 |
 | V3 | elevation | every transom or sidelight variant the style's kit makes canonical is drawn, or the sheet says why it is not | every node with a kit, on the Tidewater placement | 19 | 19 | 0 | 0 |
 | V18 | elevation | a drawn transom is divided into sash-light's own count of lights at the width it is drawn, evenly, as the sheet says | every node with a kit whose elevation draws a transom, on the Tidewater placement | 9 | 9 | 0 | 0 |
 | V19 | elevation | the elevation draws its roof at the eave and ridge the roof record states -- where the section prints them and the model builds them | every plan whose elevation draws a roof | 11 | 0 | 11 | 0 |

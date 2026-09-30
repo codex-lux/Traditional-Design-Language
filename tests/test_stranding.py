@@ -81,9 +81,13 @@ def test_the_corpus_wide_figures_are_the_ones_the_ruling_was_not_taken_on(corpus
     # shrank, 7830 -> 7820, and `stranded` fell with it. `after` does not move at all -- the end
     # state was always going to be this corpus, whichever order the packs flip in. A ceiling
     # would have read three of these four as improvement.
-    assert corpus["before"] == 7516, corpus
-    assert corpus["after"] == 4931, corpus
-    assert corpus["before"] - corpus["after"] == corpus["stranded"] == 2585, corpus
+    # 30 Sep 2026, WP-16.2's adjudication: slots a style inherited `forbidden` for another
+    # style's reason are bound in the style's own kit, so the pack cascade reaches them again
+    # (WP-8.3's mechanism). The END STATE moves for the first time -- no flip ever moved it.
+    # before 7516 -> 7549, after 4931 -> 4958, stranded 2585 -> 2591.
+    assert corpus["before"] == 7549, corpus
+    assert corpus["after"] == 4958, corpus
+    assert corpus["before"] - corpus["after"] == corpus["stranded"] == 2591, corpus
     assert corpus["nodes"] == 124 and corpus["buildable"] == 132, corpus
 
 
@@ -92,8 +96,9 @@ def test_the_buckets_are_pinned_because_the_headline_cannot_see_them(corpus):
     `stranded`. Every assertion in the test above still passes on that mutation except the
     stranded one, and it passes only because `before - after` is checked against it — which is an
     accident of arithmetic, not a guard. These three are the guard."""
-    assert corpus["stranded"] == 2585, corpus
-    assert corpus["rehoused"] == 1895, corpus     # 1980 for three packages; the five moved it at last
+    assert corpus["stranded"] == 2591, corpus     # 2585 until WP-16.2 freed the wrongly banned slots
+    assert corpus["rehoused"] == 1909, corpus     # 1980 for three packages; the five moved it to
+                                                  # 1895, and WP-16.2's freed slots to 1909
     assert corpus["unreached"] == 47, corpus      # the five took 49 more out of the counterfactual
 
 
@@ -138,9 +143,10 @@ def test_a_single_pack_can_be_measured_because_that_is_how_the_flip_is_staged():
     `timber-panel` is the case now: outside the programme, and the largest counterfactual the
     corpus still offers at 129 slots over 91 nodes."""
     g = _nums(_run("timber-panel"))
-    assert g["before"] == 7516, g          # the denominator stays the corpus
+    assert g["before"] == 7549, g          # the denominator stays the corpus (7516 before WP-16.2)
     assert g["stranded"] == 131, g         # 129 before the five flipped and stopped competing
-    assert g["rehoused"] == 39, g
+    assert g["rehoused"] == 47, g          # 39 before WP-16.2: the water tables it freed and
+                                           # timber-panel dimensions fall to another pack without it
     assert g["unreached"] == 0, g
     assert g["nodes"] == 91, g
 
@@ -186,7 +192,9 @@ def test_the_meter_reports_loss_on_a_node_known_to_lose(corpus):
     # 64 -> 63 -> 62 across the two flips: each one already stranded a slot this counterfactual
     # can no longer take.
     assert worst.get("egyptian-revival") == 57, worst
-    assert worst.get("ranch-style") == 41, worst   # 44 -> 42 -> 41 across the four flips
+    assert worst.get("ranch-style") == 43, worst   # 44 -> 42 -> 41 across the four flips, and
+    # 41 -> 43 at WP-16.2: its frieze and water table are freed and dimensioned by packs it never
+    # bound (`palladio-tuscan`, `timber-panel`), which the counterfactual then takes away again
 
 
 def test_a_pack_that_reaches_nobody_unvouched_reports_zero_rather_than_erroring():
@@ -194,7 +202,7 @@ def test_a_pack_that_reaches_nobody_unvouched_reports_zero_rather_than_erroring(
     is ambiguous between "nothing to report" and "the sweep broke"."""
     g = _nums(_run("no-such-pack-id"))
     assert g["stranded"] == 0 and g["rehoused"] == 0 and g["unreached"] == 0, g
-    assert g["before"] == g["after"] == 7516, g
+    assert g["before"] == g["after"] == 7549, g   # 7516 before WP-16.2
 
 
 def test_the_sweep_refuses_rather_than_printing_a_satisfying_zero():
@@ -239,8 +247,9 @@ def test_the_pinned_counts_are_equalities_and_say_why(corpus):
     measuring less, and every one of these numbers falls as the flip lands — which is the flip
     working, not the corpus improving. Held to the shipped dict so the two cannot drift."""
     ci = _ci()
-    assert ci.STRANDING == {"stranded": 2585, "rehoused": 1895, "nodes_touched": 124,
-                            "dimensioned_before": 7516, "dimensioned_after": 4931,
+    # re-pinned 30 Sep 2026 (WP-16.2): see the STRANDING comment in check_inheritance.py
+    assert ci.STRANDING == {"stranded": 2591, "rehoused": 1909, "nodes_touched": 124,
+                            "dimensioned_before": 7549, "dimensioned_after": 4958,
                             # joined in WP-8.14 -- see the test above for why
                             "unreached": 47}, ci.STRANDING
     for k in ("stranded", "rehoused"):

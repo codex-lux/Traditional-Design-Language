@@ -246,9 +246,11 @@ def resolve_slots(graph, chain, scope=None):
         # `_source` is the LAST node to touch the slot -- the nearest `extends` delta, where one
         # was merged -- and every reader of "where does this ban come from" read it, so a ban an
         # ancestor wrote, in a slot the style itself extends, read as the style's OWN.
-        # colonial-revival's doorcase is the case: gothic-revival-british wrote
-        # `pilasters-and-entablature` forbidden, colonial-revival extends the slot to add its
-        # own rows, and the census said "own". `_bound_by` is the node whose record set the
+        # colonial-revival's doorcase was the case: gothic-revival-british wrote
+        # `pilasters-and-entablature` forbidden, colonial-revival extended the slot to add its
+        # own rows, and the census said "own" -- until WP-16.2's adjudication bound the slot in
+        # colonial-revival's own kit (30 Sep 2026). The mechanism is unchanged and is driven in
+        # tests/test_ban_writers.py on synthetic kits. `_bound_by` is the node whose record set the
         # binding: the base the deltas merge onto, because a delta cannot change a binding.
         # `_written_by` on a row is the node whose record or delta wrote that row. `_source` is
         # unchanged, because it answers a different question -- which record to open -- and

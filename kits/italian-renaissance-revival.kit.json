@@ -105,10 +105,12 @@
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No cornice return: the roof is a low hip with no gable facing any principal elevation, so there is no gable end for a return to stand on.",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A4 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): each of the Italianate family binds its own cornice return forbidden, on its own roof. Until then it was forbidden by GOTHIC-REVIVAL-AMERICAN, on 'The rake is finished in bargeboard, not a boxed classical cornice with mitred returns; a cornice return signals Greek Revival millwork, not Gothic Revival (see distinguished_from).' -- a bargeboarded rake, which is not this style's. This style's own roof leaves a return nowhere to stand: constraints[2] reads 'Roof pitch 3:12 to 5:12, clay tile only, with no gable facing any principal elevation.', and the kit's `roof_form` rule 'Low-pitched hipped roof with no gable facing any principal elevation (c03).'"
     },
     "gable_treatment": {
       "group": "massing-and-roof",
@@ -401,17 +403,41 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pilasters-and-entablature",
+          "status": "forbidden",
+          "note": "The entrance is not a doorcase set on the wall: defining_characteristics[5] reads 'Recessed entrance under an arch, on the centre line, without a projecting portico', and the pilasters this style does use stand above it, 'framing aedicules at the upper storeys' (the `pilaster` rule). Its governing_logic, though, has 'A nominal order governs each storey', so the order is not confined to the upper storeys; the ban is read from the arched entrance."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "The entrance is a recessed arch on the centre line, cut into the plane of the wall, never a projecting portico. No pilaster-and-entablature doorcase is set against it.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A4 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): each of the Italianate family binds its own door surround, forbidding the pilaster-and-entablature doorcase in its own record's words. Until then it resolved GOTHIC-REVIVAL-BRITISH's whole record, whose rule reads 'A projecting, gabled and buttressed porch with a pointed arch and hood mould -- never a classical pilaster-and-entablature doorcase (hard constraint c05).' -- so a pointed-arch buttressed porch was canonical here and the pilaster doorcase was refused for c05's reason, not this style's. This style's own words give the entrance as an arch cut into the wall: defining_characteristics[5] and the kit's `porch_type` rule, quoted in this record. Its classical apparatus is the engaged pilaster: the `pilaster` rule sets it 'framing aedicules at the upper storeys', its governing_logic says 'A nominal order governs each storey', and its `entablature` rule says 'where pilasters occur they carry a correctly proportioned entablature band'. No sentence of the record puts a doorcase at the door or keeps one from it, so the ban is read from the arched entrance and the slot is marked judgment. The arched surround itself is not stated as a variant: the answer asks for the doorcase's ban, and the corpus's nearest id, `round-arched-masonry-surround` (canonical in french-eclectic's kit), is not settled for this record. Lucas's answer adds that where the doorcase is refused the elevation draws the plain casing; that refusal is WP-16.4's and is not built, so until it lands the elevation still draws the doorcase this record forbids (census V2 reads it as this node's own ban)."
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "sidelights",
+          "status": "permitted",
+          "note": "The record does not settle it: no field of styles/italian-renaissance-revival.json or of this kit names a sidelight, a transom or a fanlight, for or against. Permitted, not canonical. Lucas's answer A2 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): the silence is read as permitted, unsettled."
+        },
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "permitted",
+          "note": "The record does not settle it: no field of styles/italian-renaissance-revival.json or of this kit names a transom, a fanlight or a sidelight, for or against. Lucas's answer A2 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): a record's silence on the entrance's glazing is read as permitted, unsettled. Permitted, not canonical."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A2 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): sidelights and a transom permitted, nothing canonical. It was FORBIDDEN here until then -- inherited, on 'EDITORIAL: not directly documented either way; forbidden on the strength of c05's general prohibition rather than a direct quotation about fanlights specifically.', from GOTHIC-REVIVAL-BRITISH, whose c05 reads 'Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is forbidden throughout.' That prohibition is the opposite of this style's own system: its proportional_system.governing_logic reads 'The stacked classical order in the Renaissance manner.', its c05 reads 'No projecting portico or free-standing column in front of the wall plane. Where an order is used it must be engaged as a pilaster with a projection not exceeding 1/6 of its width.', and its kit's `pilaster` rule reads 'The pilaster, not the free-standing column, is this style's whole classical apparatus -- engaged in the wall plane, framing aedicules at the upper storeys.'. The record states no transom, fanlight or sidelight either way, so nothing here is canonical, the slot is marked judgment, and the fanlights are left out rather than guessed. EDITORIAL: permitted on the ruling, not on a sentence of this record. With the ban lifted the cascade dimensions the slot all the same: no `packs` block is stated, so precedence gives the address to `opening-mullioned`, bound on french-renaissance-chateau (`0.66`, a bare ratio placing a mullioned window's transom bar up its opening, not a figure of this entrance's transom or sidelights), over this node's own `opening-proportion` (the sidelight width, `module / 3`, and the transom height above the door, `module * 0.44`) -- OQ 51's delivery, counted and not endorsed, where the whole-slot ban had shielded it."
     },
     "secondary_door": {
       "group": "openings",

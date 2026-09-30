@@ -430,7 +430,10 @@ def test_the_committed_manifest_is_what_the_generator_emits(tmp_path):
         len(missing), sorted(missing)[:5])
     assert not extra, "%d committed record(s) the generator no longer emits: %s" % (
         len(extra), sorted(extra)[:5])
-    assert len(committed) == 1850, len(committed)
+    # 1850 -> 1884 on 30 Sep 2026 (WP-16.2): every variant a style's own kit now forbids in its
+    # own words adds a wanted incorrect/correct pair -- 17 pairs over 12 (node, slot) records.
+    # The id sets above still agree, which is the guard; this line is the count.
+    assert len(committed) == 1884, len(committed)
 
     # NOT JUST THE IDS. Comparing id sets alone let the generator mangle every caption, every
     # alt_text and every shot_spec with the test green -- the same shape as the divergence this
@@ -449,13 +452,16 @@ def test_the_committed_manifest_is_what_the_generator_emits(tmp_path):
 
 
 def test_the_manifest_covers_the_corpus_and_not_a_corner_of_it():
-    """142 style nodes, not three. Pinned because the three-node fact was true for months and
-    "no count anywhere said" it -- WP-4.4's own report."""
+    """145 style nodes, not three. Pinned because the three-node fact was true for months and
+    "no count anywhere said" it -- WP-4.4's own report.
+
+    142 until WP-16.2 (30 Sep 2026): garrison-revival, saltbox-colonial and second-empire forbid a
+    variant in their own kits now, and each forbidden variant is a wanted pair that depicts them."""
     nodes = set()
     for a in MANIFEST["assets"]:
         nodes.update((a.get("depicts") or {}).get("nodes") or [])
-    assert len(nodes) == 142, len(nodes)
-    assert len(MANIFEST["assets"]) == 1850, len(MANIFEST["assets"])
+    assert len(nodes) == 145, len(nodes)
+    assert len(MANIFEST["assets"]) == 1884, len(MANIFEST["assets"])
 
 
 # ------------------------------- an inherited assembly may not wear the overlay's citation

@@ -10,7 +10,7 @@ A `wanted` asset has no file. It has a caption, a `shot_spec`, and `alt_text` wr
 - the manifest **is** the shot list — hand it to a photographer or a renderer
 - an agent can **use the record now**, because the alt text is the machine-readable form of the picture
 
-`assets/manifest.json` currently holds **1850 records — 1777 wanted and 73 sourced, 858 good/bad pairs, 73 critical.** Every one was generated from the data rather than dreamed up:
+`assets/manifest.json` currently holds **1884 records — 1811 wanted and 73 sourced, 875 good/bad pairs, 73 critical.** Every one was generated from the data rather than dreamed up:
 
 | Source | Becomes |
 |---|---|

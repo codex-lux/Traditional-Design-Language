@@ -225,10 +225,20 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "permitted",
+          "note": "The record does not settle whether a belt course is carried: it names none. `none` is permitted and the member is not made required, the silence read as permitted and unsettled (answers A10 and A2 of 30 Sep 2026)."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "rule": "A belt course is permitted and not required, on Lucas's answer A10 of 30 Sep 2026; the record states no belt course, profile or figure of its own.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A10 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): neo-eclectic binds its own belt course, `none` permitted and nothing canonical, the record's silence read as permitted and unsettled as in answer A2 of the same day. It is the companion of minimal-traditional's own `belt_course` binding of the same date, which forbids a belt course on minimal-traditional's ornament cap and storey count -- its defining_characteristics[3] reads 'Ornament reduced to three items at most: a chimney, a pair of decorative shutters, and a simple door surround' -- and would otherwise reach this node by descent: this node descends from minimal-traditional directly (lineage[1]) and through ranch-style (lineage[0]), and neither ranch-style nor mid-century-traditional, the family the cascade walks first, binds anything at this slot. That reason is minimal-traditional's and not this node's: this node's own distinguished_from[2] reads 'The ranch is single-storey, horizontal, and unornamented; neo-eclectic is two-storey, vertical in its entry, and heavily ornamented.' Until then this slot was `open` and resolved shingle-style's `forbidden` binding through minimal-traditional and colonial-revival, on 'No belt or storey band may interrupt the shingle field.' -- the Shingle Style's definition of its own wall, not a rule about this one. The record names no belt course and states no figure, so `none` is permitted, no variant is canonical, and the slot is marked judgment. EDITORIAL: the belt course is permitted on the ruling, not on a sentence of this record, and no figure is stated here. With the slot bound the cascade dimensions it all the same: no `packs` block is stated, so precedence gives the address to `stone-course`, bound on italian-villa-vernacular (`module * 0.8`), over this node's own `facade-picturesque` (the principal datum's height above the floor, `storey_height * 0.72`) -- OQ 51's delivery, counted and not endorsed, as on colonial-revival's own record of the same date."
     },
     "corner_quoin": {
       "group": "envelope",
@@ -265,10 +275,20 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "dentil-cornice",
+          "status": "permitted",
+          "note": "lineage[2] names the dentil among the motifs this node quotes: 'Colonial motifs are quoted — pediment, keystone, fanlight, dentil, shutter, Palladian window — with no transmission of the proportional system that generated them.' Permitted and not canonical: it is one item on a menu, and defining_characteristics[1] makes the quoting, not any one motif, the style."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "Where a cornice is quoted it is quoted from the menu, in 'Trim of minimal profile depth in extruded polymer, vinyl, or aluminum, compensating with size and colour contrast for the absence of shadow' (defining_characteristics[5]).",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "note": "BOUND 30 Sep 2026 (WP-16.2) as the companion of minimal-traditional's own `cornice` binding of the same date, which forbids `dentil-cornice` and `modillion-cornice` on minimal-traditional's ornament budget and would otherwise reach this node by descent through ranch-style. Until then this slot was `open` and resolved gothic-revival-british's record through colonial-revival: a corbelled brick cornice canonical and `modillion-cornice` forbidden on c05, neither this node's. Its own words name the dentil as a quoted motif (lineage[2]) and call the style 'heavily ornamented' (distinguished_from[2]). The modillion is not named: distinguished_from[0] says 'Neo-eclectic quotes the same motifs without the system', and which motifs those are is colonial-revival's record and not this one's, so no modillion row is stated here."
     },
     "frieze": {
       "group": "envelope",

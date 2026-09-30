@@ -215,13 +215,27 @@
     },
     "water_table": {
       "group": "envelope",
-      "binding": "extends",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "forbidden",
+          "note": "c01, hard: 'Running-bond veneer with no water table is not this variant.' diagnostic_tells[0]: 'running bond with no water table indicates general Colonial Revival.'"
+        }
+      ],
       "parameters": {},
+      "packs": [
+        {
+          "pack": "brick-course",
+          "precedence": 1,
+          "note": "The node's own binding says so: brick-course is 'effectively governing rather than truly optional here: the node's own hard constraint c01 requires Flemish or English bond with a moulded water table and belt course, which is this module pack's whole subject.' (proportion_packs[brick-course].note). Named at the slot because, with the ban lifted, precedence alone gives the address to `timber-panel`, bound on tudor at precedence 3, over this node's own brick-course at 8 -- a timber-frame module on a wall the record makes 'Masonry primary wall, most often brick in Flemish bond' (defining_characteristics[0])."
+        }
+      ],
       "status": "drafted",
       "confidence": "high",
       "judgment": false,
-      "rule_append": "A moulded water table at grade -- c01, required, not optional, on this variant specifically."
+      "rule": "A moulded water table at grade -- c01, required, not optional, on this variant specifically.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), and it was FORBIDDEN here until then -- inherited, on 'No water table may interrupt the shingle field.', from SHINGLE-STYLE. This slot was an `extends` delta, and `resolve_slots` merges a delta onto the nearest `specified` or `forbidden` record in the chain, which was shingle-style's prohibition: the resolved rule read 'No water table may interrupt the shingle field. A moulded water table at grade -- c01, required, not optional, on this variant specifically.' -- a prohibition and a requirement in one sentence, under the prohibition's binding. A delta cannot change a binding, so the delta's own clause is restated here, verbatim, as a `specified` rule. The record is unequivocal: defining_characteristics[0] reads 'Masonry primary wall, most often brick in Flemish bond, with a moulded water table and a belt course at the second-floor line', and c01 requires 'a moulded water table at grade and a belt course at the second-floor line' and says 'Running-bond veneer with no water table is not this variant.' The profile is not settled beyond 'moulded', so no profile variant is canonical. typical_ratios[3] gives 'Belt course 4-8 in. deep, water table 4-6 in. projection, cornice 14-20 in. total depth'; that projection is not carried as a parameter, because brick-course, which this record's `packs` block names to govern this address, derives about 2 in there and a measured 4-6 in `projection_in` would be a kit-against-pack disagreement -- recorded here rather than created."
     },
     "belt_course": {
       "group": "envelope",

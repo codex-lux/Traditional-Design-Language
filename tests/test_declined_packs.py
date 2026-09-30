@@ -247,15 +247,18 @@ def test_ancestors_reports_direct_edges_because_that_is_what_refused_the_edge_me
 
 
 def test_the_forbidden_slot_meter_is_ratcheted_separately_from_the_backlog():
-    """776 (node, slot) pairs where the resolved kit binds a slot `forbidden` and a pack
-    dimensions it anyway. NOT the OQ 51 backlog: it counts a kit binding overruled by a pack,
+    """The (node, slot) pairs where the resolved kit binds a slot `forbidden` and a pack
+    dimensions it anyway (776 when this test was written; the ratchet below carries the current
+    figure). NOT the OQ 51 backlog: it counts a kit binding overruled by a pack,
     not a role nobody bound, and declining packs will not close it — the slot is handed to the
     next pack, which the kit forbids just as much."""
     ci = _mod("ci_f", "build/check_inheritance.py")
     # 776 -> 761 -> 723 (WP-8.10, WP-8.11): fifteen pairs left with `trim-classical` and
     # thirty-eight with `facade-gable`, because a pack rule cannot land on a forbidden slot it no
     # longer reaches. Smaller corpus, not better corpus.
-    assert ci.FORBIDDEN_RATCHET == 712
+    # 712 -> 679 (WP-16.2, 30 Sep 2026): the first fall that is not a flip. Wrong inherited bans
+    # were bound in the styles' own kits, so fewer slots are forbidden for a pack to land on.
+    assert ci.FORBIDDEN_RATCHET == 679
     assert ci.FORBIDDEN_RATCHET not in (ci.RATCHET["role_gaps"], ci.RATCHET["unendorsed"],
                                         ci.RATCHET["inherited_packs"]), (
         "the forbidden-slot figure has collided with a backlog figure; they measure different "
@@ -276,7 +279,11 @@ def test_a_decline_beats_an_inherited_slot_level_packs_ruling_and_says_so():
     out = subprocess.run([sys.executable, "build/check_inheritance.py", "--slots", "ranch-style"],
                          cwd=ROOT, capture_output=True, text=True)
     assert out.returncode == 0, out.stderr
-    assert "65 slot(s) dimensioned, 58 by a pack it never bound" in out.stdout
+    # 65/58 -> 67/60 on 30 Sep 2026 (WP-16.2): the adjudication freed ranch-style's frieze and
+    # water table (it inherits minimal-traditional's and colonial-revival's records), and two
+    # packs it never bound deliver there: `palladio-tuscan` (italian-renaissance) and
+    # `timber-panel` (tudor). OQ 51's delivery through a freed slot, not a flip undone.
+    assert "67 slot(s) dimensioned, 60 by a pack it never bound" in out.stdout
     assert "DECLINED by this node" in out.stdout, (
         "the contradiction between a decline and an inherited slot-level ruling is no longer "
         "surfaced — it used to be a KeyError, and silence would be worse")

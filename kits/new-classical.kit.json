@@ -203,10 +203,20 @@
     },
     "water_table": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "atypical",
+          "note": "diagnostic_tells[3] makes the member one of the style's own tells: 'A brick wall with a genuine water table, belt course, and moulded cap, all returning around every corner'. A wall without one lacks it; the record does not go so far as to forbid that."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A genuine water table, returning around every corner -- the node's own diagnostic tell for a brick wall.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), and it was FORBIDDEN here until then -- inherited, on 'No water table may interrupt the shingle field.', from SHINGLE-STYLE, reached through colonial-revival after a run of ancestors none of which binds the slot. This kit's own primary_cladding already forbids the continuous shingle field and says why -- 'Fixes a cascade bug: shingle-style's continuous-shingle-field rule (via the family splice) is structurally opposed to this node's own masonry-and-stone discipline.' -- and diagnostic_tells[3] names this member outright: 'A brick wall with a genuine water table, belt course, and moulded cap, all returning around every corner'. The profile, height and projection are not stated, so no profile variant is canonical."
     },
     "belt_course": {
       "group": "envelope",

@@ -3,9 +3,11 @@
 Lucas ruled that the elevation refuses what a style's resolved kit forbids, AND NAMES THE NODE
 EACH BAN COMES FROM. Every reader of "where does this ban come from" read the resolved slot's
 `_source`, and `_source` is the NEAREST node to touch the slot: where the style itself `extends`
-a slot an ancestor wrote a ban in, the ban read as the style's own. colonial-revival's doorcase is
+a slot an ancestor wrote a ban in, the ban read as the style's own. colonial-revival's doorcase was
 the case. gothic-revival-british wrote `pilasters-and-entablature` forbidden, colonial-revival
-extends the slot to add rows of its own, and census V2 said "doorcase (door_surround: own)".
+extended the slot to add rows of its own, and census V2 said "doorcase (door_surround: own)".
+(Stage 2 bound that slot in colonial-revival's own kit on 30 Sep 2026, so the corpus no longer
+carries this case; the synthetic kits below still do.)
 
 `resolve_slots` now records `_bound_by` on every slot, the node whose record set the binding, and
 `_written_by` on every variant row, the node whose record or delta wrote it. `forbidden_by` is
@@ -103,9 +105,10 @@ class TestTheResolverRecordsTheWriter:
         assert RK.forbidden_by(rec, ("pilasters-and-entablature",)) == ["child"]
 
     def test_a_forbidden_binding_extended_by_a_child_is_the_bases(self, monkeypatch):
-        """colonial-revival's `cornice_return` is this shape: gothic-revival-american binds the
-        slot forbidden and colonial-revival extends it with a rule that PERMITS a return, which a
-        delta cannot do -- a delta cannot change a binding."""
+        """colonial-revival's `cornice_return` was this shape until stage 2 bound the slot in its
+        own kit (30 Sep 2026): gothic-revival-american binds the slot forbidden and colonial-revival
+        extended it with a rule that PERMITS a return, which a delta cannot do -- a delta cannot
+        change a binding."""
         kits = {"root": {SLOT: {"binding": "forbidden", "note": "bargeboards"}},
                 "child": {SLOT: {"binding": "extends", "rule_append": "a return is permitted"}}}
         rec = _resolve(monkeypatch, kits, ["child", "root"])
@@ -213,6 +216,144 @@ class TestTheCorpus:
                   for v in rec.get("variants") or []
                   if v.get("status") == "forbidden" and v.get("_written_by") != nid]
         assert differ, "no ban is misattributed by `_source` any more"
+
+
+class TestTheAdjudicationOf30September:
+    """WP-16.2 stage 2: each wrong inherited ban corrected in the style's own kit (R3), on the
+    records' own words and Lucas's answers of 30 Sep 2026 (A1-A10, recorded in
+    `oq/an-inherited-ban-decides-what-the-elevation-may-draw`).
+
+    Pinned as OUTCOMES -- who, if anyone, forbids each ruled feature now -- read through
+    `forbidden_by`, the one reader the census and the refusal share. These are rulings, not
+    measurements, so a later edit that moves one fails here and must read the ruling first. The
+    mechanism itself stays driven on synthetic kits above; this class holds the corpus to what was
+    decided."""
+
+    # (style, slot, words, the writers forbidden_by must name, or None where nothing forbids it)
+    CASES = [
+        # the nine adjudicated edits, and the four companions the independent check wrote
+        ("colonial-revival", "door_surround", ("pilasters-and-entablature",), None),
+        ("colonial-revival", "cornice_return", None, None),
+        ("colonial-revival", "cornice", ("modillion",), None),
+        ("minimal-traditional", "cornice", ("modillion",), ["minimal-traditional"]),
+        ("minimal-traditional", "cornice_return", None, ["minimal-traditional"]),
+        ("cape-cod-revival", "water_table", None, None),
+        ("new-classical", "water_table", None, None),
+        ("georgian-revival", "water_table", None, None),
+        ("garrison-revival", "cornice", ("modillion",), ["garrison-revival"]),
+        ("garrison-revival", "door_surround", ("engaged-columns",), ["garrison-revival"]),
+        ("neo-eclectic", "cornice", ("dentil",), None),
+        ("minimal-traditional", "frieze", None, None),
+        ("modern-farmhouse-traditional", "cornice_return", None, None),
+        # A1: colonial-revival's own trim, and the descendants the ruling says inherit it
+        ("colonial-revival", "water_table", None, None),
+        ("colonial-revival", "belt_course", None, None),
+        ("colonial-revival", "frieze", None, None),
+        ("georgian-revival", "frieze", None, None),
+        ("neoclassical-revival", "water_table", None, None),
+        # A2: the silence, permitted and unsettled
+        ("second-empire", "transom_sidelight", ("sidelight",), None),
+        ("italian-renaissance-revival", "transom_sidelight", ("sidelight",), None),
+        ("italianate-townhouse", "transom_sidelight", ("sidelight",), None),
+        # A4: the Italianate family's own bans
+        ("italian-renaissance-revival", "door_surround", ("pilasters-and-entablature",),
+         ["italian-renaissance-revival"]),
+        ("italianate-townhouse", "door_surround", ("pilasters-and-entablature",),
+         ["italianate-townhouse"]),
+        ("second-empire", "door_surround", ("pilasters-and-entablature",), ["second-empire"]),
+        ("renaissance-revival-american", "door_surround", ("pilasters-and-entablature",),
+         ["renaissance-revival-american"]),
+        ("italian-renaissance-revival", "cornice_return", None, ["italian-renaissance-revival"]),
+        ("italianate-townhouse", "cornice_return", None, ["italianate-townhouse"]),
+        ("second-empire", "cornice_return", None, ["second-empire"]),
+        ("renaissance-revival-american", "cornice_return", None, ["renaissance-revival-american"]),
+        ("renaissance-revival-american", "transom_sidelight", ("sidelight",),
+         ["renaissance-revival-american"]),
+        ("renaissance-revival-american", "transom_sidelight", ("fanlight",),
+         ["renaissance-revival-american"]),
+        # A5: the Cape and the saltbox keep a transom and refuse sidelights, in their own words
+        ("cape-cod-colonial", "transom_sidelight", ("sidelight",), ["cape-cod-colonial"]),
+        ("cape-cod-colonial", "transom_sidelight", ("transom",), None),
+        ("saltbox-colonial", "transom_sidelight", ("sidelight",), ["saltbox-colonial"]),
+        ("saltbox-colonial", "transom_sidelight", ("transom",), None),
+        # A6: the Jeffersonian keystone keeps tidewater-georgian's ban, named as its writer
+        ("jeffersonian-classicism", "window_head_masonry", ("keyed", "keystone"),
+         ["tidewater-georgian"]),
+        # A7 and A8: new-urbanist-traditional's cornice, frieze and return
+        ("new-urbanist-traditional", "cornice", None, None),
+        ("new-urbanist-traditional", "cornice", ("modillion",), ["new-urbanist-traditional"]),
+        ("new-urbanist-traditional", "frieze", None, None),
+        ("new-urbanist-traditional", "cornice_return", None, None),
+        # A9: minimal-traditional's water table inherits A1's permitted record; nothing forbids it
+        ("minimal-traditional", "water_table", None, None),
+        # the four companions the second check wrote, where a descendant's own words contradict
+        # what the twenty would hand it
+        ("cape-cod-revival", "frieze", None, ["cape-cod-revival"]),
+        ("cape-cod-revival", "belt_course", None, ["cape-cod-revival"]),
+        ("mediterranean-revival", "door_surround", ("pilasters-and-entablature",), None),
+        ("minimal-traditional", "belt_course", None, ["minimal-traditional"]),
+        # ...and where minimal-traditional's belt ban reaches, the two descendants whose own words
+        # the check found support it, weakly
+        ("ranch-style", "belt_course", None, ["minimal-traditional"]),
+        ("modern-farmhouse-traditional", "belt_course", None, ["minimal-traditional"]),
+        # A10: neo-eclectic binds its own belt course, so that ban does not reach it
+        ("neo-eclectic", "belt_course", None, None),
+    ]
+
+    @pytest.mark.parametrize("style,slot,words,writers", CASES,
+                             ids=["%s:%s:%s" % (c[0], c[1], "+".join(c[2] or ("slot",)))
+                                  for c in CASES])
+    def test_the_ruled_outcome_holds(self, resolved, style, slot, words, writers):
+        rec = resolved[style][1][slot]
+        assert RK.forbidden_by(rec, words) == writers, (
+            f"{style}.{slot} {words or ''}: forbidden_by reads {RK.forbidden_by(rec, words)}, the "
+            f"ruling says {writers}. The binding is {rec.get('binding')} (bound by "
+            f"{rec.get('_bound_by')}); read the ruling before moving either.")
+
+    # Every slot the adjudication bound at the style itself: the nine edits, the three the check
+    # amended among them, the four companions, the twenty records of Lucas's answers, the four
+    # companions the second check wrote, and neo-eclectic's belt course (A10).
+    # garrison-revival's `door_surround` is the one delta, held by its row in CASES.
+    SELF_BOUND = [
+        ("cape-cod-revival", "water_table"), ("colonial-revival", "cornice"),
+        ("colonial-revival", "cornice_return"), ("colonial-revival", "door_surround"),
+        ("garrison-revival", "cornice"), ("georgian-revival", "water_table"),
+        ("minimal-traditional", "cornice"), ("minimal-traditional", "cornice_return"),
+        ("minimal-traditional", "frieze"), ("modern-farmhouse-traditional", "cornice_return"),
+        ("neo-eclectic", "cornice"), ("new-classical", "water_table"),
+        ("cape-cod-colonial", "transom_sidelight"), ("colonial-revival", "belt_course"),
+        ("colonial-revival", "frieze"), ("colonial-revival", "water_table"),
+        ("italian-renaissance-revival", "cornice_return"),
+        ("italian-renaissance-revival", "door_surround"),
+        ("italian-renaissance-revival", "transom_sidelight"),
+        ("italianate-townhouse", "cornice_return"), ("italianate-townhouse", "door_surround"),
+        ("italianate-townhouse", "transom_sidelight"),
+        ("new-urbanist-traditional", "cornice"), ("new-urbanist-traditional", "cornice_return"),
+        ("new-urbanist-traditional", "frieze"),
+        ("renaissance-revival-american", "cornice_return"),
+        ("renaissance-revival-american", "door_surround"),
+        ("renaissance-revival-american", "transom_sidelight"),
+        ("saltbox-colonial", "transom_sidelight"), ("second-empire", "cornice_return"),
+        ("second-empire", "door_surround"), ("second-empire", "transom_sidelight"),
+        # the second check's four companions, and neo-eclectic's belt course (A10)
+        ("cape-cod-revival", "belt_course"), ("cape-cod-revival", "frieze"),
+        ("mediterranean-revival", "door_surround"), ("minimal-traditional", "belt_course"),
+        ("neo-eclectic", "belt_course"),
+    ]
+
+    def test_no_ruled_slot_is_left_to_a_writer_the_ruling_replaced(self, resolved):
+        """Binding a slot at the style replaces the whole inherited record, not only the row the
+        ruling was about. The four Italianate-family door surrounds resolved gothic-revival-british's
+        WHOLE record, a pointed-arch buttressed porch canonical; neo-eclectic's cornice would have
+        inherited colonial-revival's modillions canonical, which `forbidden_by` cannot see because
+        a canonical row forbids nothing. So every slot is held to its own style: the binding, and
+        every row, written there and nowhere else."""
+        assert len(self.SELF_BOUND) == 37
+        for sid, slot in self.SELF_BOUND:
+            rec = resolved[sid][1][slot]
+            assert rec["_bound_by"] == sid, (sid, slot, rec["_bound_by"])
+            rows = {v["_written_by"] for v in rec.get("variants") or []}
+            assert rows <= {sid}, (sid, slot, rec["variants"])
 
 
 def _elevation(plan_path, dormer):

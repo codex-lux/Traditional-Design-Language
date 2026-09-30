@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**258 questions, of which 143 are open.** A question is OPEN while
+**259 questions, of which 144 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 143
+## Open — 144
 
 Awaiting a ruling. This is the list to read first.
 
@@ -66,6 +66,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-brief-can-name-a-massing-no-parti-is-built-on** | OPEN | [the composer returns no candidates and says nothing about why](open-questions/oq-a-brief-can-name-a-massing-no-parti-is-built-on.md) |
 | **oq/a-child-band-replaces-an-ancestor-derivation** | OPEN | [224 figures where a band stands over an expression](open-questions/oq-a-child-band-replaces-an-ancestor-derivation.md) |
 | **oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition** | OPEN | [one field, two opposite meanings](open-questions/oq-a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition.md) |
+| **oq/a-course-depth-is-labelled-a-height-above-the-floor** | OPEN | [two packs state a belt course's own depth under the name of its height above the floor](open-questions/oq-a-course-depth-is-labelled-a-height-above-the-floor.md) |
 | **oq/a-daily-route-is-an-editorial-model** | OPEN | [four fault tests ask who walks where, and a door graph cannot answer](open-questions/oq-a-daily-route-is-an-editorial-model.md) |
 | **oq/a-declared-measurement-and-a-window-record-state-one-width-twice** | OPEN | [the plan says how wide its windows are in two places that nothing holds together](open-questions/oq-a-declared-measurement-and-a-window-record-state-one-width-twice.md) |
 | **oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity** | OPEN | [the duplicate guard is dropping 51 identities, and some of the drops are right](open-questions/oq-a-district-number-on-a-contributing-property-is-not-that-buildings-identity.md) |

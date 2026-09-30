@@ -2,16 +2,16 @@
   "schema": "schema/asset.schema.json",
   "version": "0.1.0",
   "counts": {
-    "total": 1850,
-    "pairs": 858,
+    "total": 1884,
+    "pairs": 875,
     "by_priority": {
       "critical": 73,
-      "high": 1337,
+      "high": 1371,
       "normal": 440,
       "low": 0
     },
     "by_status": {
-      "wanted": 1777,
+      "wanted": 1811,
       "sourced": 73
     }
   },
@@ -5196,6 +5196,92 @@
         "exemplar",
         "massing-and-roof",
         "dormer"
+      ]
+    },
+    {
+      "id": "cape-cod-colonial-transom-sidelight-sidelights-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "cape-cod-colonial-transom-sidelight-sidelights-right",
+      "depicts": {
+        "nodes": [
+          "cape-cod-colonial"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Cape Cod Colonial, transom & sidelights: sidelights — wrong, and why.",
+      "alt_text": "A Cape Cod Colonial house showing transom & sidelights executed as sidelights. This is the error condition. This style's own distinguished_from names sidelights as the revival's tell, not the Cape's: the revival 'gives the house a centred door with sidelights and a symmetrical five-bay front regardless of the plan behind it'. The frame must be close enough that the transom & sidelights reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Cape Cod Colonial house, executed wrongly as sidelights",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the transom & sidelights in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
+      "id": "cape-cod-colonial-transom-sidelight-sidelights-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "cape-cod-colonial-transom-sidelight-sidelights-wrong",
+      "depicts": {
+        "nodes": [
+          "cape-cod-colonial"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Cape Cod Colonial, transom & sidelights: the same element done correctly.",
+      "alt_text": "A Cape Cod Colonial house showing transom & sidelights executed correctly. Shot to pair with cape-cod-colonial-transom-sidelight-sidelights-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. A plain door, with or without a rectangular transom light over it; never sidelights, which are the revival's centred door.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Cape Cod Colonial house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the transom & sidelights in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Atwood-Higgins House",
+        "location": "Bound Brook Island, Wellfleet, Massachusetts"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "transom_sidelight"
       ]
     },
     {
@@ -23801,6 +23887,264 @@
       ]
     },
     {
+      "id": "garrison-revival-cornice-modillion-cornice-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "garrison-revival-cornice-modillion-cornice-right",
+      "depicts": {
+        "nodes": [
+          "garrison-revival"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "Garrison Revival, main cornice: modillion-cornice — wrong, and why.",
+      "alt_text": "A Garrison Revival house showing main cornice executed as modillion-cornice. This is the error condition. defining_characteristics[5] gives the house 'Clapboard or shingle wall, minimal cornice, and an end chimney', and the long description says it 'reads immediately as Colonial without requiring a portico, a cornice, or any masonry'. The record names no modillion; reading a modillioned cornice as not minimal is this binding's judgment. The frame must be close enough that the main cornice reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Main cornice on a Garrison Revival house, executed wrongly as modillion-cornice",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the main cornice in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "envelope",
+        "cornice"
+      ]
+    },
+    {
+      "id": "garrison-revival-cornice-modillion-cornice-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "garrison-revival-cornice-modillion-cornice-wrong",
+      "depicts": {
+        "nodes": [
+          "garrison-revival"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "Garrison Revival, main cornice: the same element done correctly.",
+      "alt_text": "A Garrison Revival house showing main cornice executed correctly. Shot to pair with garrison-revival-cornice-modillion-cornice-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. A minimal cornice -- 'Clapboard or shingle wall, minimal cornice, and an end chimney' (defining_characteristics[5]) -- and no modillioned or dentilled one.",
+      "shot_spec": {
+        "subject": "Main cornice on a Garrison Revival house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the main cornice in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Royal Barry Wills Associates garrison designs",
+        "location": "Boston, Massachusetts (office)"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "envelope",
+        "cornice"
+      ]
+    },
+    {
+      "id": "garrison-revival-cornice-dentil-cornice-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "garrison-revival-cornice-dentil-cornice-right",
+      "depicts": {
+        "nodes": [
+          "garrison-revival"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "Garrison Revival, main cornice: dentil-cornice — wrong, and why.",
+      "alt_text": "A Garrison Revival house showing main cornice executed as dentil-cornice. This is the error condition. The same two phrases, 'minimal cornice' and 'without requiring a portico, a cornice, or any masonry'; the record names no dentil either. The frame must be close enough that the main cornice reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Main cornice on a Garrison Revival house, executed wrongly as dentil-cornice",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the main cornice in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "envelope",
+        "cornice"
+      ]
+    },
+    {
+      "id": "garrison-revival-cornice-dentil-cornice-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "garrison-revival-cornice-dentil-cornice-wrong",
+      "depicts": {
+        "nodes": [
+          "garrison-revival"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "Garrison Revival, main cornice: the same element done correctly.",
+      "alt_text": "A Garrison Revival house showing main cornice executed correctly. Shot to pair with garrison-revival-cornice-dentil-cornice-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. A minimal cornice -- 'Clapboard or shingle wall, minimal cornice, and an end chimney' (defining_characteristics[5]) -- and no modillioned or dentilled one.",
+      "shot_spec": {
+        "subject": "Main cornice on a Garrison Revival house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the main cornice in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Webber House",
+        "location": "Brookline, Massachusetts"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "envelope",
+        "cornice"
+      ]
+    },
+    {
+      "id": "garrison-revival-door-surround-engaged-columns-and-pediment-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "garrison-revival-door-surround-engaged-columns-and-pediment-right",
+      "depicts": {
+        "nodes": [
+          "garrison-revival"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Garrison Revival, door surround: engaged-columns-and-pediment — wrong, and why.",
+      "alt_text": "A Garrison Revival house showing door surround executed as engaged-columns-and-pediment. This is the error condition. c05: 'Entry treatment limited to a pilastered surround or a small pedimented hood not exceeding 6'0\" in width.' Engaged columns are neither. colonial-revival's own binding permits them on its defining_characteristics[1]; this node narrows it, and defining_characteristics[3] asks for 'a modest pedimented hood or pilastered surround'. The frame must be close enough that the door surround reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Door surround on a Garrison Revival house, executed wrongly as engaged-columns-and-pediment",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the door surround in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "door_surround"
+      ]
+    },
+    {
+      "id": "garrison-revival-door-surround-engaged-columns-and-pediment-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "garrison-revival-door-surround-engaged-columns-and-pediment-wrong",
+      "depicts": {
+        "nodes": [
+          "garrison-revival"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Garrison Revival, door surround: the same element done correctly.",
+      "alt_text": "A Garrison Revival house showing door surround executed correctly. Shot to pair with garrison-revival-door-surround-engaged-columns-and-pediment-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. In most traditional styles the entry is the single most elaborated element. The surround is where the style declares itself.",
+      "shot_spec": {
+        "subject": "Door surround on a Garrison Revival house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the door surround in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Stanley-Whitman House",
+        "location": "Farmington, Connecticut"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "door_surround"
+      ]
+    },
+    {
       "id": "georgian-colonial-american-composition-parti-even-bay-front-wrong",
       "kind": "photograph",
       "role": "incorrect",
@@ -35029,6 +35373,92 @@
       ]
     },
     {
+      "id": "georgian-revival-water-table-none-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "georgian-revival-water-table-none-right",
+      "depicts": {
+        "nodes": [
+          "georgian-revival"
+        ],
+        "slots": [
+          "water_table"
+        ]
+      },
+      "caption": "Georgian Revival, water table: none — wrong, and why.",
+      "alt_text": "A Georgian Revival house showing water table executed as none. This is the error condition. c01, hard: 'Running-bond veneer with no water table is not this variant.' diagnostic_tells[0]: 'running bond with no water table indicates general Colonial Revival.' The frame must be close enough that the water table reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Water table on a Georgian Revival house, executed wrongly as none",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the water table in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "envelope",
+        "water_table"
+      ]
+    },
+    {
+      "id": "georgian-revival-water-table-none-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "georgian-revival-water-table-none-wrong",
+      "depicts": {
+        "nodes": [
+          "georgian-revival"
+        ],
+        "slots": [
+          "water_table"
+        ]
+      },
+      "caption": "Georgian Revival, water table: the same element done correctly.",
+      "alt_text": "A Georgian Revival house showing water table executed correctly. Shot to pair with georgian-revival-water-table-none-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. A moulded water table at grade -- c01, required, not optional, on this variant specifically.",
+      "shot_spec": {
+        "subject": "Water table on a Georgian Revival house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the water table in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Whitemarsh Hall",
+        "location": "Wyndmoor, Springfield Township, Pennsylvania"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "envelope",
+        "water_table"
+      ]
+    },
+    {
       "id": "georgian-revival-window-lite-pattern-1-1-wrong",
       "kind": "photograph",
       "role": "incorrect",
@@ -41417,6 +41847,92 @@
       ]
     },
     {
+      "id": "italian-renaissance-revival-door-surround-pilasters-and-entablature-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "italian-renaissance-revival-door-surround-pilasters-and-entablature-right",
+      "depicts": {
+        "nodes": [
+          "italian-renaissance-revival"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Italian Renaissance Revival, door surround: pilasters-and-entablature — wrong, and why.",
+      "alt_text": "A Italian Renaissance Revival house showing door surround executed as pilasters-and-entablature. This is the error condition. The entrance is not a doorcase set on the wall: defining_characteristics[5] reads 'Recessed entrance under an arch, on the centre line, without a projecting portico', and the pilasters this style does use stand above it, 'framing aedicules at the upper storeys' (the `pilaster` rule). Its governing_logic, though, has 'A nominal order governs each storey', so the order is not confined to the upper storeys; the ban is read from the arched entrance. The frame must be close enough that the door surround reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Door surround on a Italian Renaissance Revival house, executed wrongly as pilasters-and-entablature",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the door surround in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "door_surround"
+      ]
+    },
+    {
+      "id": "italian-renaissance-revival-door-surround-pilasters-and-entablature-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "italian-renaissance-revival-door-surround-pilasters-and-entablature-wrong",
+      "depicts": {
+        "nodes": [
+          "italian-renaissance-revival"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Italian Renaissance Revival, door surround: the same element done correctly.",
+      "alt_text": "A Italian Renaissance Revival house showing door surround executed correctly. Shot to pair with italian-renaissance-revival-door-surround-pilasters-and-entablature-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. The entrance is a recessed arch on the centre line, cut into the plane of the wall, never a projecting portico. No pilaster-and-entablature doorcase is set against it.",
+      "shot_spec": {
+        "subject": "Door surround on a Italian Renaissance Revival house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the door surround in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Villard Houses",
+        "location": "451 Madison Avenue, New York, New York"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "door_surround"
+      ]
+    },
+    {
       "id": "italian-renaissance-revival-garage-strategy-attached-flush-facing-street-wrong",
       "kind": "photograph",
       "role": "incorrect",
@@ -43044,6 +43560,92 @@
         "exemplar",
         "openings",
         "arch"
+      ]
+    },
+    {
+      "id": "italianate-townhouse-door-surround-pilasters-and-entablature-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "italianate-townhouse-door-surround-pilasters-and-entablature-right",
+      "depicts": {
+        "nodes": [
+          "italianate-townhouse"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Italianate Townhouse, door surround: pilasters-and-entablature — wrong, and why.",
+      "alt_text": "A Italianate Townhouse house showing door surround executed as pilasters-and-entablature. This is the error condition. lineage[1] makes the facade astylar: 'The astylar palazzo facade rules, the diminishing storey heights, and the brownstone technique come directly from the Notman and Trench and Snook generation.' An astylar front carries no order, and its parent italianate-american's own kit says of the pilaster: 'No pilaster order.' The frame must be close enough that the door surround reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Door surround on a Italianate Townhouse house, executed wrongly as pilasters-and-entablature",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the door surround in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "door_surround"
+      ]
+    },
+    {
+      "id": "italianate-townhouse-door-surround-pilasters-and-entablature-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "italianate-townhouse-door-surround-pilasters-and-entablature-wrong",
+      "depicts": {
+        "nodes": [
+          "italianate-townhouse"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Italianate Townhouse, door surround: the same element done correctly.",
+      "alt_text": "A Italianate Townhouse house showing door surround executed correctly. Shot to pair with italianate-townhouse-door-surround-pilasters-and-entablature-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. No pilaster-and-entablature doorcase: the front is astylar (lineage[1]).",
+      "shot_spec": {
+        "subject": "Door surround on a Italianate Townhouse house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the door surround in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Irad Hawley House (Salmagundi Club), 47 Fifth Avenue",
+        "location": "New York, New York"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "door_surround"
       ]
     },
     {
@@ -47440,6 +48042,178 @@
         "exemplar",
         "massing-and-roof",
         "roof_form"
+      ]
+    },
+    {
+      "id": "minimal-traditional-cornice-modillion-cornice-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "minimal-traditional-cornice-modillion-cornice-right",
+      "depicts": {
+        "nodes": [
+          "minimal-traditional"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "Minimal Traditional, main cornice: modillion-cornice — wrong, and why.",
+      "alt_text": "A Minimal Traditional house showing main cornice executed as modillion-cornice. This is the error condition. defining_characteristics[3] budgets the ornament: 'Ornament reduced to three items at most: a chimney, a pair of decorative shutters, and a simple door surround'. A modillion course is not one of the three, and lineage[0] names what did not survive the descent from colonial-revival: 'the proportional system, the trim profiles, and the applied orders do not'. The frame must be close enough that the main cornice reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Main cornice on a Minimal Traditional house, executed wrongly as modillion-cornice",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the main cornice in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "envelope",
+        "cornice"
+      ]
+    },
+    {
+      "id": "minimal-traditional-cornice-modillion-cornice-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "minimal-traditional-cornice-modillion-cornice-wrong",
+      "depicts": {
+        "nodes": [
+          "minimal-traditional"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "Minimal Traditional, main cornice: the same element done correctly.",
+      "alt_text": "A Minimal Traditional house showing main cornice executed correctly. Shot to pair with minimal-traditional-cornice-modillion-cornice-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. No modillioned or dentilled cornice: the trim is of minimal profile depth and the ornament is budgeted at three named items (defining_characteristics[3] and [4]).",
+      "shot_spec": {
+        "subject": "Main cornice on a Minimal Traditional house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the main cornice in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Levittown",
+        "location": "Nassau County, New York"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "envelope",
+        "cornice"
+      ]
+    },
+    {
+      "id": "minimal-traditional-cornice-dentil-cornice-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "minimal-traditional-cornice-dentil-cornice-right",
+      "depicts": {
+        "nodes": [
+          "minimal-traditional"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "Minimal Traditional, main cornice: dentil-cornice — wrong, and why.",
+      "alt_text": "A Minimal Traditional house showing main cornice executed as dentil-cornice. This is the error condition. The same count: 'Ornament reduced to three items at most: a chimney, a pair of decorative shutters, and a simple door surround'. The frame must be close enough that the main cornice reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Main cornice on a Minimal Traditional house, executed wrongly as dentil-cornice",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the main cornice in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "envelope",
+        "cornice"
+      ]
+    },
+    {
+      "id": "minimal-traditional-cornice-dentil-cornice-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "minimal-traditional-cornice-dentil-cornice-wrong",
+      "depicts": {
+        "nodes": [
+          "minimal-traditional"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "Minimal Traditional, main cornice: the same element done correctly.",
+      "alt_text": "A Minimal Traditional house showing main cornice executed correctly. Shot to pair with minimal-traditional-cornice-dentil-cornice-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. No modillioned or dentilled cornice: the trim is of minimal profile depth and the ornament is budgeted at three named items (defining_characteristics[3] and [4]).",
+      "shot_spec": {
+        "subject": "Main cornice on a Minimal Traditional house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the main cornice in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Linda Vista Defense Housing Project",
+        "location": "San Diego, California"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "envelope",
+        "cornice"
       ]
     },
     {
@@ -57948,6 +58722,92 @@
       ]
     },
     {
+      "id": "new-urbanist-traditional-cornice-modillion-cornice-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "new-urbanist-traditional-cornice-modillion-cornice-right",
+      "depicts": {
+        "nodes": [
+          "new-urbanist-traditional"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "New Urbanist Traditional, main cornice: modillion-cornice — wrong, and why.",
+      "alt_text": "A New Urbanist Traditional house showing main cornice executed as modillion-cornice. This is the error condition. This record declined vignola-ionic, whose subject its own reason gives as an entablature with a 'modillioned cornice', and says why: 'The node's record has already answered that question for itself and answered it against a richer order'. It binds Tuscan, and its fabric buildings carry no order at all. It names Colonial Revival as one dialect, whose record carries modillions; that is another node's record, and the ruling reads this one. The frame must be close enough that the main cornice reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Main cornice on a New Urbanist Traditional house, executed wrongly as modillion-cornice",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the main cornice in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "envelope",
+        "cornice"
+      ]
+    },
+    {
+      "id": "new-urbanist-traditional-cornice-modillion-cornice-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "new-urbanist-traditional-cornice-modillion-cornice-wrong",
+      "depicts": {
+        "nodes": [
+          "new-urbanist-traditional"
+        ],
+        "slots": [
+          "cornice"
+        ]
+      },
+      "caption": "New Urbanist Traditional, main cornice: the same element done correctly.",
+      "alt_text": "A New Urbanist Traditional house showing main cornice executed correctly. Shot to pair with new-urbanist-traditional-cornice-modillion-cornice-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. A cornice is one of the three places ornament may appear -- porch, cornice and gable -- in the one regional tradition the code specifies for the building; the style fixes no profile of its own.",
+      "shot_spec": {
+        "subject": "Main cornice on a New Urbanist Traditional house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the main cornice in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Seaside",
+        "location": "Walton County, Florida"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "envelope",
+        "cornice"
+      ]
+    },
+    {
       "id": "new-urbanist-traditional-entry-door-six-panel-raised-and-fielded-wrong",
       "kind": "photograph",
       "role": "incorrect",
@@ -65653,6 +66513,436 @@
       ]
     },
     {
+      "id": "renaissance-revival-american-door-surround-pilasters-and-entablature-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "renaissance-revival-american-door-surround-pilasters-and-entablature-right",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Renaissance Revival (American), door surround: pilasters-and-entablature — wrong, and why.",
+      "alt_text": "A Renaissance Revival (American) house showing door surround executed as pilasters-and-entablature. This is the error condition. This style's own kit: 'Astylar: no engaged pilaster order either; enrichment is confined to window surrounds and the cornice', and defining_characteristics[1]: 'Astylar composition: no columns, no portico, no pediment on the facade as a whole'. The frame must be close enough that the door surround reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Door surround on a Renaissance Revival (American) house, executed wrongly as pilasters-and-entablature",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the door surround in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "door_surround"
+      ]
+    },
+    {
+      "id": "renaissance-revival-american-door-surround-pilasters-and-entablature-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "renaissance-revival-american-door-surround-pilasters-and-entablature-wrong",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Renaissance Revival (American), door surround: the same element done correctly.",
+      "alt_text": "A Renaissance Revival (American) house showing door surround executed correctly. Shot to pair with renaissance-revival-american-door-surround-pilasters-and-entablature-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. No pilaster-and-entablature doorcase: the composition is astylar, and enrichment is confined to the window surrounds and the cornice.",
+      "shot_spec": {
+        "subject": "Door surround on a Renaissance Revival (American) house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the door surround in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Athenaeum of Philadelphia",
+        "location": "Philadelphia, Pennsylvania"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "door_surround"
+      ]
+    },
+    {
+      "id": "renaissance-revival-american-transom-sidelight-sidelights-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "renaissance-revival-american-transom-sidelight-sidelights-right",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Renaissance Revival (American), transom & sidelights: sidelights — wrong, and why.",
+      "alt_text": "A Renaissance Revival (American) house showing transom & sidelights executed as sidelights. This is the error condition. This style's own kit confines its enrichment elsewhere: 'enrichment is confined to window surrounds and the cornice'. The frame must be close enough that the transom & sidelights reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Renaissance Revival (American) house, executed wrongly as sidelights",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the transom & sidelights in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
+      "id": "renaissance-revival-american-transom-sidelight-sidelights-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "renaissance-revival-american-transom-sidelight-sidelights-wrong",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Renaissance Revival (American), transom & sidelights: the same element done correctly.",
+      "alt_text": "A Renaissance Revival (American) house showing transom & sidelights executed correctly. Shot to pair with renaissance-revival-american-transom-sidelight-sidelights-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. No fanlight and no sidelights: enrichment is confined to the window surrounds and the cornice.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Renaissance Revival (American) house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the transom & sidelights in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "E. V. Haughwout Building, 488-492 Broadway",
+        "location": "New York, New York"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
+      "id": "renaissance-revival-american-transom-sidelight-elliptical-fanlight-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "renaissance-revival-american-transom-sidelight-elliptical-fanlight-right",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Renaissance Revival (American), transom & sidelights: elliptical-fanlight — wrong, and why.",
+      "alt_text": "A Renaissance Revival (American) house showing transom & sidelights executed as elliptical-fanlight. This is the error condition. This style's own kit confines its enrichment elsewhere: 'enrichment is confined to window surrounds and the cornice'. The frame must be close enough that the transom & sidelights reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Renaissance Revival (American) house, executed wrongly as elliptical-fanlight",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the transom & sidelights in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
+      "id": "renaissance-revival-american-transom-sidelight-elliptical-fanlight-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "renaissance-revival-american-transom-sidelight-elliptical-fanlight-wrong",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Renaissance Revival (American), transom & sidelights: the same element done correctly.",
+      "alt_text": "A Renaissance Revival (American) house showing transom & sidelights executed correctly. Shot to pair with renaissance-revival-american-transom-sidelight-elliptical-fanlight-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. No fanlight and no sidelights: enrichment is confined to the window surrounds and the cornice.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Renaissance Revival (American) house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the transom & sidelights in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "A. T. Stewart Store (Marble Palace, later the Sun Building), 280 Broadway",
+        "location": "New York, New York"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
+      "id": "renaissance-revival-american-transom-sidelight-semicircular-fanlight-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "renaissance-revival-american-transom-sidelight-semicircular-fanlight-right",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Renaissance Revival (American), transom & sidelights: semicircular-fanlight — wrong, and why.",
+      "alt_text": "A Renaissance Revival (American) house showing transom & sidelights executed as semicircular-fanlight. This is the error condition. This style's own kit confines its enrichment elsewhere: 'enrichment is confined to window surrounds and the cornice'. The frame must be close enough that the transom & sidelights reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Renaissance Revival (American) house, executed wrongly as semicircular-fanlight",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the transom & sidelights in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
+      "id": "renaissance-revival-american-transom-sidelight-semicircular-fanlight-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "renaissance-revival-american-transom-sidelight-semicircular-fanlight-wrong",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Renaissance Revival (American), transom & sidelights: the same element done correctly.",
+      "alt_text": "A Renaissance Revival (American) house showing transom & sidelights executed correctly. Shot to pair with renaissance-revival-american-transom-sidelight-semicircular-fanlight-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. No fanlight and no sidelights: enrichment is confined to the window surrounds and the cornice.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Renaissance Revival (American) house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the transom & sidelights in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Academy of Music, 240 South Broad Street",
+        "location": "Philadelphia, Pennsylvania"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
+      "id": "renaissance-revival-american-transom-sidelight-radiating-fanlight-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "renaissance-revival-american-transom-sidelight-radiating-fanlight-right",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Renaissance Revival (American), transom & sidelights: radiating-fanlight — wrong, and why.",
+      "alt_text": "A Renaissance Revival (American) house showing transom & sidelights executed as radiating-fanlight. This is the error condition. This style's own kit confines its enrichment elsewhere: 'enrichment is confined to window surrounds and the cornice'. The frame must be close enough that the transom & sidelights reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Renaissance Revival (American) house, executed wrongly as radiating-fanlight",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the transom & sidelights in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
+      "id": "renaissance-revival-american-transom-sidelight-radiating-fanlight-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "renaissance-revival-american-transom-sidelight-radiating-fanlight-wrong",
+      "depicts": {
+        "nodes": [
+          "renaissance-revival-american"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Renaissance Revival (American), transom & sidelights: the same element done correctly.",
+      "alt_text": "A Renaissance Revival (American) house showing transom & sidelights executed correctly. Shot to pair with renaissance-revival-american-transom-sidelight-radiating-fanlight-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. No fanlight and no sidelights: enrichment is confined to the window surrounds and the cornice.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Renaissance Revival (American) house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the transom & sidelights in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Boston Athenaeum, 10 1/2 Beacon Street",
+        "location": "Boston, Massachusetts"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
       "id": "renaissance-revival-american-order-freestanding-colonnade-wrong",
       "kind": "photograph",
       "role": "incorrect",
@@ -67287,6 +68577,92 @@
       ]
     },
     {
+      "id": "saltbox-colonial-transom-sidelight-sidelights-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "saltbox-colonial-transom-sidelight-sidelights-right",
+      "depicts": {
+        "nodes": [
+          "saltbox-colonial"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Saltbox Colonial, transom & sidelights: sidelights — wrong, and why.",
+      "alt_text": "A Saltbox Colonial house showing transom & sidelights executed as sidelights. This is the error condition. The ban's reason holds here in this style's own words: 'The front is the same face as any First Period house', and its exemplar's door is 'simply framed'. The frame must be close enough that the transom & sidelights reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Saltbox Colonial house, executed wrongly as sidelights",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the transom & sidelights in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
+      "id": "saltbox-colonial-transom-sidelight-sidelights-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "saltbox-colonial-transom-sidelight-sidelights-wrong",
+      "depicts": {
+        "nodes": [
+          "saltbox-colonial"
+        ],
+        "slots": [
+          "transom_sidelight"
+        ]
+      },
+      "caption": "Saltbox Colonial, transom & sidelights: the same element done correctly.",
+      "alt_text": "A Saltbox Colonial house showing transom & sidelights executed correctly. Shot to pair with saltbox-colonial-transom-sidelight-sidelights-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. A simply framed door, with or without a rectangular transom light; no sidelights on a First Period face.",
+      "shot_spec": {
+        "subject": "Transom & sidelights on a Saltbox Colonial house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the transom & sidelights in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Hoxie House",
+        "location": "Sandwich, Massachusetts"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "transom_sidelight"
+      ]
+    },
+    {
       "id": "scandinavian-log-vernacular-garage-strategy-attached-garage-bay-wrong",
       "kind": "photograph",
       "role": "incorrect",
@@ -68226,6 +69602,92 @@
         "exemplar",
         "plan-logic",
         "circulation_parti"
+      ]
+    },
+    {
+      "id": "second-empire-door-surround-pilasters-and-entablature-wrong",
+      "kind": "photograph",
+      "role": "incorrect",
+      "pair_with": "second-empire-door-surround-pilasters-and-entablature-right",
+      "depicts": {
+        "nodes": [
+          "second-empire"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Second Empire, door surround: pilasters-and-entablature — wrong, and why.",
+      "alt_text": "A Second Empire house showing door surround executed as pilasters-and-entablature. This is the error condition. This style's own lineage makes it the Italianate body under a mansard -- 'In America Second Empire is Italianate with a mansard: same plan, same bracketed cornice, same arched windows, same builders, same catalogues.' -- and its distinguished_from[2] says it 'frequently takes a Renaissance Revival body wholesale.' Both bodies refuse the pilaster in their own kits: italianate-american's 'No pilaster order.' and renaissance-revival-american's 'Astylar: no engaged pilaster order either'. The frame must be close enough that the door surround reads at full detail and wide enough to show what it sits against, so the viewer can see the mistake in context rather than as an abstraction.",
+      "shot_spec": {
+        "subject": "Door surround on a Second Empire house, executed wrongly as pilasters-and-entablature",
+        "vantage": "square-on to the element, no perspective convergence on the horizontal lines",
+        "must_show": [
+          "the door surround in full",
+          "enough adjacent wall or trim to judge scale",
+          "the junction where the error is legible"
+        ],
+        "must_avoid": [
+          "foliage or cars across the element",
+          "heavy shadow across the profile",
+          "wide-angle distortion"
+        ],
+        "lighting": "raking light so profile depth reads; overcast is acceptable for masonry, not for mouldings",
+        "scale_cue": "an adjacent door, sash, or brick course"
+      },
+      "provenance": {
+        "license": "unknown"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "fault",
+        "openings",
+        "door_surround"
+      ]
+    },
+    {
+      "id": "second-empire-door-surround-pilasters-and-entablature-right",
+      "kind": "photograph",
+      "role": "correct",
+      "pair_with": "second-empire-door-surround-pilasters-and-entablature-wrong",
+      "depicts": {
+        "nodes": [
+          "second-empire"
+        ],
+        "slots": [
+          "door_surround"
+        ]
+      },
+      "caption": "Second Empire, door surround: the same element done correctly.",
+      "alt_text": "A Second Empire house showing door surround executed correctly. Shot to pair with second-empire-door-surround-pilasters-and-entablature-wrong: same vantage, same distance, same framing, so the two images differ only in the thing being taught. No pilaster-and-entablature doorcase: below the mansard the style is the Italianate or Renaissance Revival body, and both are astylar.",
+      "shot_spec": {
+        "subject": "Door surround on a Second Empire house, correctly executed",
+        "vantage": "identical to the paired incorrect image — the pair is worthless if the framing differs",
+        "must_show": [
+          "the door surround in full",
+          "the same adjacent context as the pair"
+        ],
+        "must_avoid": [
+          "a different scale of building from the pair",
+          "restoration work of doubtful accuracy"
+        ],
+        "lighting": "match the pair",
+        "scale_cue": "match the pair"
+      },
+      "provenance": {
+        "license": "unknown",
+        "building": "Terrace Hill",
+        "location": "Des Moines, Iowa"
+      },
+      "file": null,
+      "status": "wanted",
+      "priority": "high",
+      "tags": [
+        "exemplar",
+        "openings",
+        "door_surround"
       ]
     },
     {

@@ -415,10 +415,25 @@
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "permitted",
+          "note": "The HABS surveys of this style's own exemplars record one: the Atwood-Higgins House (exemplars[0]), '6 panel wood doors with 5 light transoms at the north and so uth entrances' (as printed), and the Elisha Cobb House (exemplars[3]), 'The south front of the house has a center five panel door with a four light transom.' Each is the door as surveyed, not dated: both houses were enlarged, and the surveys do not say when the transom went in. Permitted, not canonical."
+        },
+        {
+          "id": "sidelights",
+          "status": "forbidden",
+          "note": "This style's own distinguished_from names sidelights as the revival's tell, not the Cape's: the revival 'gives the house a centred door with sidelights and a symmetrical five-bay front regardless of the plan behind it'."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "A plain door, with or without a rectangular transom light over it; never sidelights, which are the revival's centred door.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A5 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): cape-cod-colonial binds its own transom and sidelights: the rectangular transom permitted on the evidence below, sidelights forbidden in its own words. Until then it was FORBIDDEN whole, inherited on 'No transom or sidelight. These belong to the classical frontispiece Georgian influence introduces after about 1720 (distinguished_from: georgian-colonial-american) and have no place on an unadorned First Period door.' from NEW-ENGLAND-COLONIAL. Whole, the ban refused the transom its own evidence records. The transom's evidence is the exemplars' surveys and the sidelights' is this record's own distinction from cape-cod-revival, each quoted in its row. Fanlights are left unstated rather than guessed."
     },
     "secondary_door": {
       "group": "openings",

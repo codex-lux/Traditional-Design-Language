@@ -76,8 +76,14 @@
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "extends",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "full-return-carrying-complete-profile",
+          "status": "permitted",
+          "note": "c04 permits a return on exactly this condition: 'A cornice return is permitted only where the eave carries a full classical cornice of at least 10 in. projection continuing around the corner.' Permitted and not canonical, because the record does not settle which return is the style's default: defining_characteristics[3] makes the cornice 'returned at the rake', while diagnostic_tells[2] reports that revival returns are 'short decorative stubs applied to the gable end'."
+        }
+      ],
       "parameters": {
         "min_cornice_projection_for_return": {
           "value": 10,
@@ -86,11 +92,11 @@
           "source": "colonial-revival.c04"
         }
       },
+      "rule": "A return is permitted only where the eave carries a full classical cornice of at least 10 in projection continuing around the corner -- c04. A return applied to a bare fascia is forbidden.",
       "status": "drafted",
-      "note": "diagnostic_tells names the failure mode directly: 'Cornice returns are short decorative stubs applied to the gable end rather than the full eaves carried around a framed roof.'",
       "confidence": "high",
       "judgment": false,
-      "rule_append": "A return is permitted only where the eave carries a full classical cornice of at least 10 in projection continuing around the corner -- c04. A return applied to a bare fascia is forbidden."
+      "note": "BOUND 30 Sep 2026 (WP-16.2), and it was FORBIDDEN here until then -- inherited, on 'The rake is finished in bargeboard, not a boxed classical cornice with mitred returns; a cornice return signals Greek Revival millwork, not Gothic Revival (see distinguished_from).', from GOTHIC-REVIVAL-AMERICAN. The ban is a whole-slot `forbidden` binding and this slot's `extends` delta could not lift it, because a delta cannot change a binding: its 10 in parameter and its rule_append were merged into a forbidden record and read by nothing. The style's own words contradict the ban: c04 reads 'A cornice return is permitted only where the eave carries a full classical cornice of at least 10 in. projection continuing around the corner. A return applied to a bare fascia is forbidden.', and defining_characteristics[3] reads 'Side-gable or hipped roof carrying a continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake'. The slot's former note is kept: 'diagnostic_tells names the failure mode directly: 'Cornice returns are short decorative stubs applied to the gable end rather than the full eaves carried around a framed roof.''. The rule is its former `rule_append`, carried verbatim; the parameter is carried unchanged."
     },
     "gable_treatment": {
       "group": "massing-and-roof",
@@ -261,17 +267,37 @@
     },
     "water_table": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "permitted",
+          "note": "The record does not settle whether a water table is carried: it names none. georgian-revival, this node's own descendant, reads a running-bond wall with no water table as the plain style -- its diagnostic_tells[0]: 'running bond with no water table indicates general Colonial Revival.' -- so the member is not made required here."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A water table is permitted and not required, on Lucas's answer A1 of 30 Sep 2026; the record states no water table, profile or figure of its own.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A1 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): colonial-revival binds its own water table, the feature permitted and nothing canonical, citing the ruling because the record itself names none. It was FORBIDDEN here until then -- inherited, on 'No water table may interrupt the shingle field.', from SHINGLE-STYLE, whose c01 ends 'This single rule is what separates the style from Queen Anne and it admits no exceptions.' -- the Shingle Style's definition of itself, not a rule about this wall. This node's wall is not that field: description.long reads 'The wall is broad and quiet, painted white or clapboarded in a single tone', defining_characteristics[4] reads 'Machine-milled classical trim of catalog origin rather than site-shaped profiles, applied to a balloon- or platform-framed wall', and proportion_packs[2] says facade-classical 'Governs the composed elevation: the odd-bay rule the style keeps even where it invents freely, the ranking of horizontals, and the double-square check.' -- a ranking facade-classical's own notes spell out as 'the ranking of the horizontals - water table, belt, cornice - in increasing weight going up'. The record names no water table and states no figure, so no profile variant is stated, none is canonical, and the slot is marked judgment. EDITORIAL: the water table is permitted on the ruling, not on a sentence of this record, and no figure is stated here. With the ban lifted the cascade dimensions the slot all the same: no `packs` block is stated, so precedence gives the address to `timber-panel`, bound on tudor (`part * 6`), over this node's own `facade-classical` (`part * 3`) and `brick-course` -- OQ 51's delivery, counted and not endorsed, and the descendants that inherit this record take the slot the same way."
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "permitted",
+          "note": "The record does not settle whether a belt course is carried: it names none. georgian-revival, this node's own descendant, reads the plain style as carrying none -- its belt_course rule calls its own belt 'this variant's own required masonry-horizontal, which plain colonial-revival does not carry.' -- so the member is not made required here."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A belt course is permitted and not required, on Lucas's answer A1 of 30 Sep 2026; the record states no belt course, profile or figure of its own.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A1 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): colonial-revival binds its own belt course, the feature permitted and nothing canonical, citing the ruling because the record itself names none. It was FORBIDDEN here until then -- inherited, on 'No belt or storey band may interrupt the shingle field.', from SHINGLE-STYLE, whose c01 ends 'This single rule is what separates the style from Queen Anne and it admits no exceptions.' -- the Shingle Style's definition of itself, not a rule about this wall. This node's wall is not that field: description.long reads 'The wall is broad and quiet, painted white or clapboarded in a single tone', defining_characteristics[4] reads 'Machine-milled classical trim of catalog origin rather than site-shaped profiles, applied to a balloon- or platform-framed wall', and proportion_packs[2] says facade-classical 'Governs the composed elevation: the odd-bay rule the style keeps even where it invents freely, the ranking of horizontals, and the double-square check.' -- a ranking facade-classical's own notes spell out as 'the ranking of the horizontals - water table, belt, cornice - in increasing weight going up'. The record names no belt course and states no figure, so `none` is permitted, no variant is canonical, and the slot is marked judgment. EDITORIAL: the belt course is permitted on the ruling, not on a sentence of this record, and no figure is stated here. With the ban lifted the cascade dimensions the slot all the same: no `packs` block is stated, so precedence gives the address to `stone-course`, bound on italian-villa-vernacular (`module * 0.8`), over this node's own `facade-classical` (its belt band's own depth, `part * 1.0`) -- OQ 51's delivery, counted and not endorsed, and the descendants that inherit this record take the slot the same way."
     },
     "corner_quoin": {
       "group": "envelope",
@@ -308,8 +334,19 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "extends",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion-cornice",
+          "status": "canonical",
+          "note": "defining_characteristics[3] names it first: 'Side-gable or hipped roof carrying a continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake'. The long description lists it among the three parts the style is assembled from: 'take a Georgian door surround, a modillioned cornice, and a Palladian window'. And this kit's own `modillion_dentil` rule states what this slot was bound to say: '(modillion-cornice canonical)'."
+        },
+        {
+          "id": "dentil-cornice",
+          "status": "permitted",
+          "note": "defining_characteristics[3] names dentils beside modillions: 'with modillions, dentils, or a plain bed moulding'."
+        }
+      ],
       "parameters": {
         "total_depth": {
           "range": [
@@ -321,17 +358,22 @@
           "note": "Near 1/20 of the wall height, against 8-12 in on genuine colonial work."
         }
       },
+      "rule": "A continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake (defining_characteristics[3]). Total cornice depth 12-18 in, near 1/20 of the wall height -- deeper than the 8-12 in of the genuine colonial work being quoted.",
       "status": "drafted",
       "confidence": "high",
       "judgment": false,
-      "rule_append": "Total cornice depth 12-18 in, near 1/20 of the wall height -- deeper than the 8-12 in of the genuine colonial work being quoted."
+      "note": "BOUND 30 Sep 2026 (WP-16.2), and `modillion-cornice` was FORBIDDEN here until then -- inherited, on 'A modillion cornice IS an entablature member.', from GOTHIC-REVIVAL-BRITISH, whose c05 forbids classical apparatus throughout. This slot was `extends` (the 12-18 in depth below); the delta was written against english-georgian's record, where `modillion-cornice` is canonical, and `resolve_slots` merged it onto gothic-revival-british's instead, the nearest `specified` record in the linearized chain, whose canonical is a corbelled or moulded brick cornice and whose rule reads 'No classical entablature-derived cornice (hard constraint c05). Where the eave needs a finishing course, it is corbelled brick or a plain moulded stone course, in the same banded material logic as the wall.'. That whole record is the Gothic node's, so the slot is rebound here rather than patched by a `replace`, which would have left the brick canonical and the c05 rule standing. The style's own words contradict the ban: defining_characteristics[3] reads 'Side-gable or hipped roof carrying a continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake', and this kit's own `modillion_dentil` rule reads 'A continuous classical cornice carries modillions, dentils, or a plain bed moulding, returned at the rake -- corrects an inherited british-picturesque forbidding that contradicts this style's own already-bound cornice slot (modillion-cornice canonical).'. The third option the record names, 'a plain bed moulding', has no variant id in the corpus that plainly matches it and is left to the rule rather than guessed. The rule's second sentence is this slot's former `rule_append`, carried verbatim; the parameter is carried unchanged."
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A frieze below the continuous classical cornice is permitted and not required; the record states the cornice and names no frieze, profile or figure.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A1 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): colonial-revival binds its own frieze, the feature permitted and nothing canonical, citing the ruling because the record itself names none. It was FORBIDDEN here until then -- inherited, on 'No frieze board may interrupt the shingle field.', from SHINGLE-STYLE, whose c01 ends 'This single rule is what separates the style from Queen Anne and it admits no exceptions.' -- the Shingle Style's definition of itself. This node's wall is not that field: description.long reads 'The wall is broad and quiet, painted white or clapboarded in a single tone' and defining_characteristics[4] reads 'Machine-milled classical trim of catalog origin rather than site-shaped profiles, applied to a balloon- or platform-framed wall'. Its eave carries, in defining_characteristics[3], 'a continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake', and the ontology puts the frieze there: 'Sits directly below `cornice` in the same entablature run'. The record names no frieze, so no variant is stated, none is canonical, and the slot is marked judgment. This kit's entablature rule reads 'Present at the entry surround (door_surround: pilasters-and-entablature) and, where a full entry portico occurs, at the portico -- never a continuous giant-order entablature across the whole facade.' It places the entablature at the entrance and the portico, names no eave frieze either way, and forbids only a giant order across the facade, so it is not read as forbidding a frieze below the eave cornice. EDITORIAL: the frieze is permitted on the ruling, not on a sentence of this record; no figure is stated and none is carried."
     },
     "parapet": {
       "group": "envelope",
@@ -466,8 +508,29 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "extends",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pilasters-and-entablature",
+          "status": "canonical",
+          "note": "defining_characteristics[1]: 'An entry assembly of pilasters or engaged columns with an entablature, pediment, or portico, plus fanlight and/or sidelights - larger and more elaborate than any colonial precedent'. c01 dimensions its pilasters: 'Flanking pilasters not wider than 8 in.' This kit's own `pilaster` slot: 'Flanks the entry surround, not wider than 8 in -- c01, a hard constraint.' and its `entablature` slot: 'Present at the entry surround (door_surround: pilasters-and-entablature)'."
+        },
+        {
+          "id": "engaged-columns-and-pediment",
+          "status": "permitted",
+          "note": "defining_characteristics[1] names the alternative: 'pilasters or engaged columns with an entablature, pediment, or portico'."
+        },
+        {
+          "id": "swan-neck-pediment",
+          "status": "permitted",
+          "note": "c01 dimensions it, and a style does not set a width limit on a thing it forbids: 'a broken or swan's-neck pediment not wider than 6'0\" overall'."
+        },
+        {
+          "id": "broken-scroll-pediment",
+          "status": "permitted",
+          "note": "The same clause of c01: 'a broken or swan's-neck pediment not wider than 6'0\" overall'. `broken-scroll-pediment` is the corpus's id for the broken pediment beside the swan's neck; the record does not say whether its broken pediment is scrolled."
+        }
+      ],
       "parameters": {
         "door_leaf_width": {
           "value": 3,
@@ -503,11 +566,11 @@
           "source": "colonial-revival.c01"
         }
       },
+      "rule": "Dimensioned per c01: a 3'0\" wide by 6'8\"-7'0\" tall leaf, pilasters not wider than 8 in, a pediment not wider than 6'0\" overall, sidelights not wider than 12 in each. A surround set out for an 8'0\" leaf reads as commercial and voids the style.",
       "status": "drafted",
-      "note": "The inherited pilasters-and-entablature binding (english-georgian) is the right assembly; this delta supplies the style's own, larger, catalog-derived numbers in place of the Georgian original's.",
       "confidence": "high",
       "judgment": false,
-      "rule_append": "Dimensioned per c01: a 3'0\" wide by 6'8\"-7'0\" tall leaf, pilasters not wider than 8 in, a pediment not wider than 6'0\" overall, sidelights not wider than 12 in each. A surround set out for an 8'0\" leaf reads as commercial and voids the style."
+      "note": "BOUND 30 Sep 2026 (WP-16.2), and `pilasters-and-entablature` was FORBIDDEN here until then -- inherited, on 'a fully classical Georgian device, the exact vocabulary c05 forbids throughout this style', from GOTHIC-REVIVAL-BRITISH, whose own canonical is a pointed-arch, hood-moulded, buttressed porch. This slot was `extends`, and its note read 'The inherited pilasters-and-entablature binding (english-georgian) is the right assembly; this delta supplies the style's own, larger, catalog-derived numbers in place of the Georgian original's.' -- but english-georgian stands behind gothic-revival-british in the linearized chain, so the delta merged onto the Gothic record and not the Georgian one. That whole record is the Gothic node's, so the slot is rebound here rather than patched by a `replace`, which would have left the pointed-arch porch canonical and the rule 'never a classical pilaster-and-entablature doorcase (hard constraint c05)' standing. The style's own words contradict the ban: defining_characteristics[1] reads 'An entry assembly of pilasters or engaged columns with an entablature, pediment, or portico, plus fanlight and/or sidelights - larger and more elaborate than any colonial precedent', and the long description says the door 'is doing all the work: pilasters, an entablature, a pediment, and glass around three sides of the leaf'. The rule is this slot's former `rule_append`, carried verbatim; the five parameters are carried unchanged. Fanlights and sidelights stay in this node's own `transom_sidelight` slot (bound 28 Aug 2026)."
     },
     "transom_sidelight": {
       "group": "openings",

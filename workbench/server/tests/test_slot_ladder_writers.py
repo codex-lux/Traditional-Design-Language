@@ -47,7 +47,10 @@ def test_the_ladder_is_the_resolved_one_with_its_writers(client):
 
 def test_a_forbidden_slot_names_the_node_that_bound_it(client):
     """A slot bound forbidden by an ancestor and extended by the style reads `bound_by` as the
-    ancestor. Found in the corpus: colonial-revival's `cornice_return` is this shape today."""
+    ancestor. Found in the corpus while a case exists: colonial-revival's `cornice_return` and
+    georgian-revival's `water_table` were the only two, and WP-16.2's adjudication bound both in
+    the styles' own kits (30 Sep 2026). So this sweep skips on today's corpus, and the driven
+    twin below carries the property."""
     D = core._data()
     for sid in sorted(D["styles"]):
         rk = core._resolved_kit(sid) or {}
@@ -59,3 +62,30 @@ def test_a_forbidden_slot_names_the_node_that_bound_it(client):
                 assert got["binding"] == "forbidden"
                 return
     pytest.skip("no style extends a slot an ancestor forbids; the premise has moved")
+
+
+def test_a_forbidden_slot_extended_by_the_style_names_the_base_DRIVEN(client, monkeypatch):
+    """The property the sweep above guards, DRIVEN, because the corpus no longer holds a case.
+
+    The record is built by the REAL resolver over synthetic kits: a base binding the slot
+    forbidden, and the style extending it with a delta, which cannot change a binding. It is
+    served as the style's resolved slot, and the route must name the BASE as `bound_by`, never
+    the style whose delta is the nearest record (`_source`). A guard that goes quiet when its
+    corpus case is fixed is no guard; this one cannot."""
+    rk, _g = core._kit_graph()
+    sid, slot, base = "colonial-revival", "cornice_return", "gothic-revival-american"
+    kits = {base: {slot: {"binding": "forbidden", "note": "bargeboards"}},
+            sid: {slot: {"binding": "extends", "rule_append": "a return is permitted"}}}
+    graph = {"nodes": {sid: {}, base: {}},
+             "slots": [{"id": slot, "group": "massing-and-roof", "name": "Cornice return"}]}
+    with monkeypatch.context() as m:
+        m.setattr(rk, "load_kit", lambda nid: kits.get(nid, {}))
+        rec = rk.resolve_slots(graph, [sid, base])[0][slot]
+    # the premise: the resolver itself credits the base, and the nearest record is the style's
+    assert (rec["binding"], rec["_source"], rec["_bound_by"]) == ("forbidden", sid, base), rec
+    real = core._resolved_kit
+    monkeypatch.setattr(core, "_resolved_kit",
+                        lambda s: {**(real(s) or {}), slot: rec} if s == sid else real(s))
+    got = client.get(f"/api/kit/{sid}/slot/{slot}").json()
+    assert got["bound_by"] == base, got
+    assert got["binding"] == "forbidden", got

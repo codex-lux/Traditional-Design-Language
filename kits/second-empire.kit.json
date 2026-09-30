@@ -86,10 +86,12 @@
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No cornice return: the mansard is continuous on every elevation of the mass it crowns, so there is no gable end for a return to stand on.",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A4 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): each of the Italianate family binds its own cornice return forbidden, on its own roof. Until then it was forbidden by GOTHIC-REVIVAL-AMERICAN, on 'The rake is finished in bargeboard, not a boxed classical cornice with mitred returns; a cornice return signals Greek Revival millwork, not Gothic Revival (see distinguished_from).' -- a bargeboarded rake, which is not this style's. This style's own roof leaves a return nowhere to stand: c01 reads 'The mansard shall be continuous on all elevations of the mass it crowns, including rear and side elevations.'"
     },
     "gable_treatment": {
       "group": "massing-and-roof",
@@ -451,17 +453,41 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pilasters-and-entablature",
+          "status": "forbidden",
+          "note": "This style's own lineage makes it the Italianate body under a mansard -- 'In America Second Empire is Italianate with a mansard: same plan, same bracketed cornice, same arched windows, same builders, same catalogues.' -- and its distinguished_from[2] says it 'frequently takes a Renaissance Revival body wholesale.' Both bodies refuse the pilaster in their own kits: italianate-american's 'No pilaster order.' and renaissance-revival-american's 'Astylar: no engaged pilaster order either'."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "No pilaster-and-entablature doorcase: below the mansard the style is the Italianate or Renaissance Revival body, and both are astylar.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A4 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): each of the Italianate family binds its own door surround, forbidding the pilaster-and-entablature doorcase in its own record's words. Until then it resolved GOTHIC-REVIVAL-BRITISH's whole record, whose rule reads 'A projecting, gabled and buttressed porch with a pointed arch and hood mould -- never a classical pilaster-and-entablature doorcase (hard constraint c05).' -- so a pointed-arch buttressed porch was canonical here and the pilaster doorcase was refused for c05's reason, not this style's. This record never names its door surround, and its words for its body are lineage[0]'s and distinguished_from[2]'s, quoted in this record; the ban follows from them rather than from a sentence about the door, so the slot is marked judgment. Lucas's answer adds that where the doorcase is refused the elevation draws the plain casing; that refusal is WP-16.4's and is not built, so until it lands the elevation still draws the doorcase this record forbids (census V2 reads it as this node's own ban)."
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "sidelights",
+          "status": "permitted",
+          "note": "The record does not settle it: no field of styles/second-empire.json or of this kit names a sidelight, a transom or a fanlight, for or against. Permitted, not canonical. Lucas's answer A2 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): the silence is read as permitted, unsettled."
+        },
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "permitted",
+          "note": "The record does not settle it: no field of styles/second-empire.json or of this kit names a transom, a fanlight or a sidelight, for or against. Lucas's answer A2 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): a record's silence on the entrance's glazing is read as permitted, unsettled. Permitted, not canonical."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A2 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): sidelights and a transom permitted, nothing canonical. It was FORBIDDEN here until then -- inherited, on 'EDITORIAL: not directly documented either way; forbidden on the strength of c05's general prohibition rather than a direct quotation about fanlights specifically.', from GOTHIC-REVIVAL-BRITISH, whose c05 reads 'Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is forbidden throughout.' That prohibition is not this style's: its own defining_characteristics[3] reads 'Italianate substrate: arched or segmental window heads, tall narrow paired windows, quoins, string courses', its long description has 'cresting, finials, and dormer pediments all working at the roofline', and defining_characteristics[6] reads 'Symmetrical or near-symmetrical principal facade, in contrast to the picturesque styles it descends from' -- quoins and pediments, two of the things c05 names, and a symmetrical front, which c05 does not name (its word is 'symmetrical porticoes'). The record states no transom, fanlight or sidelight either way, so nothing here is canonical, the slot is marked judgment, and the fanlights are left out rather than guessed. EDITORIAL: permitted on the ruling, not on a sentence of this record."
     },
     "secondary_door": {
       "group": "openings",
