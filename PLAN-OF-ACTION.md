@@ -30,7 +30,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **14 — The ink held to its plates** | **WP-14.1, WP-14.2, WP-14.4, WP-14.5 and WP-14.6 complete; WP-14.3 complete but for step 5, decision 4, which waits on Lucas (27 Sep 2026)** | **Complete but for decision 4** — raised by Lucas: do the drawn trim, casings, column and entablature profiles reflect the plates and dimensions researched to source them, on EVERY surface that draws SVG? WP-14.1 built the instrument that reads the ink back (`tests/inkread.py`) and the census that holds it to the record (`tests/svg_census.py`, `docs/fidelity.md`): forty checks over the 73 profile plates, the order stack, the orders page, the Proportions plate, the elevation, section, roof, plan and DXF, with **452 disagreements pinned by identity and figure**. **WP-14.2 took the orders and mouldings to zero**: 452 -> **255**, every order and moulding check agreeing on its whole population, and the census at 47 checks; the 255 left are the elevation, section, roof, DXF and plan (report: `docs/reports/wp-14.2-the-orders-held-to-what-they-state.md`). **WP-14.3 took the elevation, section, roof and DXF to 36**: a window is one set of numbers, a sash its members, a head its circle, a judged figure drawn and labelled and never published, a garage door drawn as its opening; the 36 are V2 and PL1 (report: `docs/reports/wp-14.3-the-openings-held-to-what-they-state.md`). **Decision 4 is put back to Lucas**: of the 41 styles the elevation draws, 21 draw something their resolved kit forbids and 15 of those only by an ancestor's ban (`oq/an-inherited-ban-decides-what-the-elevation-may-draw`). **Those figures were first published as "51 of the 79"**: the census's style sweep drew the Tidewater elevation for every style, and correcting it took the census 255 -> 203 (WP-14.1's report §VII). **WP-14.4 held the plan sheet and the bench to what they state, and each to the other: 36 -> 21**, the census at 54 checks (report: `docs/reports/wp-14.4-the-plan-sheet-and-the-bench.md`). **WP-14.5 held the record to its own notes, since no cited host answers, and listed the plates a person must fetch: 21 -> 41**, every new disagreement a note against its own record, the census at 60 checks (report: `docs/reports/wp-14.5-the-record-held-to-its-own-notes.md`). **WP-14.6 audited the phase and found the fifth link unheld: one object drawn on several surfaces was several objects -- a chimney in four places, a roof at two heights, a sidelight over a window. 41 -> 46, the census at 68 checks**: V2 15 (decision 4; six of the 21 left by the placement, not the ban), N1 14 and N3 6, and V19 11, the elevation's roof, said on every sheet and put to a ruling (report: `docs/reports/wp-14.6-the-adversarial-audit-of-phase-14.md`). **The phase's audit (27 Sep) found two defects that blocked deployment, both older than the phase -- a stored XSS on the plan sheet, and every IFC written at 3.2808 times its coordinates -- and fixed them with everything worth fixing; the census is at 69 checks and 46, the disagreements unmoved (that report's §XI)**. Report: `docs/reports/wp-14.1-the-ink-read-back.md` |
 | **14 — The dossier and the journey** | **WP-14.0 through 14.15** — sixteen packages in five waves, WP-14.0 through 14.15 COMPLETE, tranche 1 built · **tranche 2 (WP-14.16 through 14.32) COMPLETE 26 Sep 2026** (14.28 not built: no Tidewater plan places) · **WP-14.33, the eight rulings of 26 Sep, COMPLETE** · T3 planned, not built | **Tranche 1 COMPLETE 25 Sep 2026** (planned 24 Sep); **tranche 2 COMPLETE 26 Sep** on seven rulings, contracts `docs/prd/phase-14-tranche-2.md`, integration `docs/reports/wp-14.32-tranche-two-built.md` — raised by Lucas reading the Proportions surface on `trim-classical`: *"It's all just a bunch of text, and I'm not sure how it all relates to each other."* A read-only audit of all twelve surfaces (eleven inventories, five lenses, fourteen themes each re-checked against the source, three competing redesigns, two judges) found the workbench organised the way the corpus is STORED — by record type, in the order it was built — while a practitioner works with one style or one house at a time, so every rail click drops the thing being studied and each surface falls back to its own hard-coded record. **Eight rulings taken the same day** (practitioners first; definitions as glossary records; the navigation rebuilt now around a Style Dossier and a House Journey; report and plan then tranche 1; the dossier's section names; the AI pane named now and told nothing new until later; the pane folded on narrow screens; one ungated sentence on the Gate). The brief is the PRD, `docs/prd/phase-14-the-dossier-and-the-journey.md`, and the analysis is `docs/reports/ux-first-principles-2026-09-24.md`; seven questions filed as slugs, none numbered |
 | **15 — The plates drawn** | **WP-15.5, WP-15.6 and WP-15.7 COMPLETE (27–28 Sep 2026)** · **WP-15.1 through 15.4 BLOCKED ON THE NETWORK** · **WP-15.8 COMPLETE (28 Sep 2026)**, the audit: `docs/reports/wp-15.8-the-audit-of-phase-15.md` | **Open** — Lucas's review of the drawn Tidewater front found four defects: no pier between a window and the doorcase; exterior stacks stopping at the roof line; a cornice drawn as a flat band; a Gibbs Ionic capital with its volute at the bottom, which is the record's own member order. The plates are behind hosts that answer 403 to CONNECT, re-probed 28 Sep, so the three plate-free packages go first. WP-15.5 stands each exterior stack on the ground on every elevation surface and in the DXF, which had drawn none; V23 and X3 hold it. `docs/reports/wp-15.5-the-stack-stands-on-the-ground.md` · WP-15.6 reserves the entrance doorcase's run and half the ordinary pier beside it before the placer seats a window, and the elevation measures the wall it draws; V24 holds it, and the pier between two windows goes to a ruling. `docs/reports/wp-15.6-the-wall-beside-the-doorcase.md` · WP-15.7 draws the eave as its record states it, on the sheet and in the DXF: the frieze flush, the cornice's box, and a line at every member division; V25 and X4 hold it, and the gable end's return goes to a ruling. `docs/reports/wp-15.7-the-cornice-drawn-with-its-members.md` |
-| **16 — The rulings of 29 September** | **WP-16.0 through 16.8 planned (29 Sep 2026)**; **WP-16.0 COMPLETE** (the base and the record); **WP-16.1 COMPLETE** (the governing test, the incomplete front, the tie-break, and the composer's reclaim held to the loop's rule) | **Open** — Lucas answered, as direct questions, the eleven questions Phase 15 and its audit left open, and seven follow-ups the code raised: the N and W faces drawn as seen, decision 4 (fix the wrong bans, then refuse), a clear resting on the governing test, the pier and the upper window following the ground, the shutters, the gable end, OQ 79's cornice, ezdxf in CI, and PR #40's description. PR #40 was merged into main on 28 Sep; the branch restarted from `73ea26d`, whose tree is `13efe99`'s. The plates wait on the network. |
+| **16 — The rulings of 29 September** | **WP-16.0 through 16.8 planned (29 Sep 2026)**; **WP-16.0 COMPLETE** (the base and the record); **WP-16.1 COMPLETE** (the governing test, the incomplete front, the tie-break, and the composer's reclaim held to the loop's rule); **WP-16.2 COMPLETE** (who wrote each ban, and 38 slot records corrected in the styles' own kits, on the records and on Lucas's ten answers of 30 Sep); **WP-16.3 COMPLETE** (the north and west faces drawn as seen) *(missing from this cell from its landing on 29 Sep until 30 Sep 2026, when WP-16.2's record found it)* | **Open** — Lucas answered, as direct questions, the eleven questions Phase 15 and its audit left open, and seven follow-ups the code raised: the N and W faces drawn as seen, decision 4 (fix the wrong bans, then refuse), a clear resting on the governing test, the pier and the upper window following the ground, the shutters, the gable end, OQ 79's cornice, ezdxf in CI, and PR #40's description. PR #40 was merged into main on 28 Sep; the branch restarted from `73ea26d`, whose tree is `13efe99`'s. The plates wait on the network. |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -4775,9 +4775,30 @@ the native centre-passage double pile first.
   independent adversarial check.
 - Groups the records do not decide go to Lucas as direct questions.
 
-**Status: IN PROGRESS.** Stage 1 is in: the writer of every ban, `a2aacc7`. Stage 2's proposed kit
-edits are under an independent adversarial check. *(This line read NOT STARTED after stage 1 landed.
-Corrected 29 Sep 2026.)*
+**Status: COMPLETE (30 Sep 2026).** `docs/reports/wp-16.2-who-wrote-each-ban.md`.
+- **Stage 1 (`a2aacc7`):** `resolve_slots` records the node that bound each slot (`_bound_by`) and
+  the node that wrote each row (`_written_by`); `forbidden_by` is the one reader. V2's split went
+  2/14/5 -> 2/17/2.
+- **Stage 2: 38 slot records in the styles' own kits.**
+  - Nine were decided by the records, and 20 by Lucas's answers of 30 Sep (A1, A2, A4, A5, A7
+    and A8). Eight are companions an independent check wrote, and one is A10's own.
+  - A6 and A9 change no record, and A3 is WP-16.4's code.
+  - Three independent checks amended 17 of the 30 records they were given.
+- **What moved:**
+  - 41 slots are freed over 20 styles, and 20 of them are now delivered a pack bound on an
+    unrelated ancestor;
+  - `--forbidden` 712 -> 679;
+  - V2 21 -> 17 styles, 8 own / 5 inherited / 4 both;
+  - 0 of 208 sheets;
+  - one fault verdict, good-05's vacuous clear.
+- **Handed to WP-16.4:**
+  - three styles drawing sidelights their own kits forbid;
+  - good-05's clear;
+  - new-urbanist-traditional's modillions;
+  - the dated bans of A3.
+- **New:** `oq/a-course-depth-is-labelled-a-height-above-the-floor`.
+
+*(Stage 2's status read "under an independent adversarial check" until it landed.)*
 
 ### WP-16.3 — The north and west faces drawn as seen
 
@@ -4805,6 +4826,16 @@ After Lucas answers WP-16.2's questions. The placer comes first:
 
 Then the elevation, the DXF and the scene refuse what the corrected kit forbids. Each names the
 writer and withholds the refused feature's measurements.
+
+*(Answered 30 Sep 2026, A1 to A10 in `oq/an-inherited-ban-decides-what-the-elevation-may-draw`.
+What WP-16.2 hands this package:*
+- *cape-cod-colonial, saltbox-colonial and renaissance-revival-american forbid the sidelights ROW
+  and draw sidelights until the variant-level refusal lands;*
+- *good-05's `sidelights-as-storefront-glass` clears at a published 0.0 on a front with no
+  sidelights. It should read not applicable there;*
+- *new-urbanist-traditional's forbidden `modillion-cornice` row (A7);*
+- *A3: a forbidden row's own `applies_when.date_range` is read against the house's date, and an
+  undated house keeps the refusal and says the date is unstated.)*
 
 **Status: NOT STARTED.**
 

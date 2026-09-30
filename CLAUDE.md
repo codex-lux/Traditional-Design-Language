@@ -164,6 +164,59 @@ AREA RECLAIM HAD NO ACCEPTANCE RULE (29 Sep 2026).** Read
   - **The known list for the rest of Phase 16 is 22 ids again, and a different set**: 20 gate
     rows, `test_parti_composability` and `test_solver`'s half bound. Report §V names them.
 
+**WP-16.2 CREDITS EVERY BAN TO THE NODE THAT WROTE IT AND CORRECTED 38 SLOT RECORDS IN THE STYLES'
+OWN KITS, AND ITS LARGEST FINDING IS THAT THE BANS WERE SHIELDS OVER OQ 51 DELIVERIES (29-30 Sep
+2026).** Read `docs/reports/wp-16.2-who-wrote-each-ban.md` before touching `resolve_kit.forbidden_by`,
+a slot's `_bound_by` or a row's `_written_by`, or before binding a slot to lift an inherited ban.
+- **Stage 1 (`a2aacc7`): `_source` names the NEAREST node to touch a slot, not the node that wrote
+  its ban.** Where a style extended a slot an ancestor had forbidden a row in, the ban read as the
+  style's own. `resolve_slots` records `_bound_by` per slot and `_written_by` per row now, and
+  `forbidden_by(rec, words)` is the one reader of who forbids a feature. V2's split went 2/14/5 ->
+  2/17/2. The gable-return ban on nine shipped plans is gothic-revival-american's bargeboard rule,
+  and on bad-03, good-04 and good-06 american-farmhouse-vernacular's, never colonial-revival's.
+- **Stage 2 corrects each wrong inherited ban in the receiving style's own kit**, on WP-8.3's
+  template: the style binds the slot, every row quotes its own record or cites the answer as a
+  judgment, and a dated note names the ban it replaces and the node that wrote it.
+  - Where the records did not decide, Lucas answered ten direct questions, A1 to A10, on 30 Sep.
+  - The questions and the answers are recorded as two acts in
+    `oq/an-inherited-ban-decides-what-the-elevation-may-draw`, which stays IN PROGRESS until
+    WP-16.4.
+- **Three independent checks, and not one passed the records as written.** The nine: three
+  amended, plus four companions. The twenty: thirteen amended, plus four companions. A10's record:
+  amended.
+  - **A companion refills the way a decline does.** minimal-traditional's belt-course companion
+    reached neo-eclectic for minimal-traditional's reason. That is WP-8.7's refill met at slot level,
+    and A10 is the round it forced.
+  - **Two companion notes named the FAMILY as the path.** The cascade walks a node's family first
+    (`_cascade[0]`), and the family bound nothing at the slot; each node descends from the writer
+    directly. Reading the cascade's order as the lineage is an easy error; both were corrected,
+    with asserts, before the records landed.
+- **The bans were shields over OQ 51 deliveries.** 41 slots are freed over 20 styles, and 33 gain a
+  governing pack, **20 of them a pack bound on an unrelated ancestor** (`timber-panel` through
+  tudor, `stone-course` through italian-villa-vernacular, `palladio-tuscan` through
+  italian-renaissance, among others).
+  - `check_inheritance --strict` reads the same before and after, because its role meter counts no
+    slot-level delivery.
+  - `--forbidden` 712 -> 679, and `FORBIDDEN_RATCHET` with it. `STRANDING`'s `dimensioned_after`
+    moved (4,931 -> 4,958) for the first time since the flips.
+- **0 of 208 sheets move, and one fault verdict of 3,273 does**: good-05's
+  `sidelights-as-storefront-glass` clears vacuously, at a published 0.0 on a front with no
+  sidelights.
+  - **Three styles draw sidelights their own kits now forbid, until WP-16.4**: cape-cod-colonial,
+    saltbox-colonial and renaissance-revival-american. `doorcase.forbidden_of` reads whole-slot bans
+    only, and these three forbid the sidelights ROW. No shipped plan uses them.
+  - V2: 21 -> 17 styles, split **8 own / 5 inherited / 4 both**, so the refusal WP-16.4 lands will
+    mostly name the style itself. Known disagreements 52 -> 48.
+- **Raised, not fixed: `oq/a-course-depth-is-labelled-a-height-above-the-floor`.** `stone-course`'s
+  and `vignola-composite`'s course depths carry the label of a height above the floor, on 77 nodes.
+  `check_addresses.py` judges by label and cannot see it.
+- **A control is a statement about the tree it was taken on.** A saved sheet-digest "control" read
+  39 of 208 moved. It predated WP-16.3, and 39 is exactly WP-16.3's own movement. Re-derived on
+  the control as it stands: 0.
+- **A figure the fourth flip moved was never recorded.** ranch-style read 58 of 65 after WP-8.13
+  while this file said 59 of 66: the tests were re-pinned and the prose was not, which is WP-8.14's
+  shape. The dated correction is in the OQ 51 paragraph below, to this package's 60 of 67.
+
 **WP-16.3 DREW THE NORTH AND WEST ELEVATIONS AS SEEN FROM OUTSIDE, AND ITS FINDING IS WHICH AXIS A
 MIRROR TAKES (29 Sep 2026).** Read `docs/reports/wp-16.3-the-faces-drawn-as-seen.md` before
 touching a face's `u`, a stack on a face, the scene's face extrusion or the Round's plates.
@@ -734,7 +787,12 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 3,463 and the app suite 764.** WP-16.3 (29 Sep
+**The test figure in the counts paragraph below is 3,512 and the app suite 764.** WP-16.2's second
+stage (30 Sep 2026) added 49 tests, all in `tests/test_ban_writers.py` (48 ruled outcomes and the
+census of the 37 self-bound slots), and removed none. The server suite went 432 -> 433: one driven
+test in `workbench/server/tests/test_slot_ladder_writers.py`. Both are reconciled BY NAME against a
+worktree of `2ab9651`, whose test ids are `e594866`'s: the one test file between them moved two
+digests and no name. It was 3,463 at WP-16.3's close. WP-16.3 (29 Sep
 2026) added 34 tests, all in `tests/test_faces_as_seen.py`, and removed none, reconciled BY NAME
 against its parent `2ff37e0`. That parent collected 3,429, not the 3,414 below: WP-16.2's first
 stage (`a2aacc7`) added fifteen, and its own report reconciles them. It was 3,414 and 764 at
@@ -1500,7 +1558,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1884 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1811 still wanted, and 875 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,463 tests**
+proportion packs; 1811 still wanted, and 875 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,512 tests**
 (plus the workbench app suite, **764** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
