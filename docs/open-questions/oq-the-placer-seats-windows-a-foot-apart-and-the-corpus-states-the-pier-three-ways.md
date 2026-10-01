@@ -1,6 +1,6 @@
 # oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways — which ratio governs the wall between two windows
 
-*Status: IN PROGRESS (ruled 29 September 2026; executed by Phase 16) · Raised in: Phase 15, WP-15.6, the pier between openings (28 September 2026)*
+*Status: CLOSED 1 October 2026 (ruled 29 September 2026; U1–U4 taken as recommended under a standing instruction; executed by WP-16.6; the corner pier is `oq/the-wall-at-the-corner-is-ruled-by-nothing`) · Raised in: Phase 15, WP-15.6, the pier between openings (28 September 2026)*
 
 **The wall beside the entrance doorcase is ruled now; the wall between two windows is not.**
 Lucas, of the drawn Tidewater front (27 Sep 2026): *"there's still no concept of how close windows
@@ -147,3 +147,75 @@ Five answers, each put as its own question:
 pier floor cannot be taken there, so it is refused by name.
 
 The corner pier at a doorcase is not ruled and stays open here. Executed by WP-16.6.
+
+## Executed 1 October 2026 (WP-16.6): the floor, the aim, and the upper window on the axis below
+
+- **One reader, `build/window_pier.py`.** It reads three things:
+  - the floor, from this fault's primary test (1.0 x the wider window);
+  - the aim, sash-light's `opening_width * 1.4`, where that pack is delivered to the style
+    (53 of 164 nodes);
+  - the spared styles, this fault's `exceptions[].style`, by exact id.
+
+  The placer, the composer's window cap and census V26 read it, and none carries a 1.0 or a 1.4
+  of its own.
+- **The placer seats each face line from its centre out.** The centre is the entrance door's axis
+  on the entrance front, and the face's centre elsewhere.
+  - Every unit stands at least the floor from the next window on the line, whichever room it
+    lights.
+  - A unit takes the aim where that costs no later window.
+  - A unit that cannot keep the floor is refused by name, `rule: pier`.
+  - The five licensed styles keep the old foot inside one room, and their sheets say so where a
+    wall falls under the floor.
+- **The upper storey follows the ground.**
+  - An upper window whose room has an opening below its run stands exactly on that opening's axis,
+    or is refused by name, `rule: alignment`. That covers a room that cannot take the axis, and
+    (R5 with R6) a wall to the next window that would fall below the floor.
+  - A window with no opening below its room's run stays where the pier rule puts it, and the
+    alignment fault judges it.
+- **The Georgian kit's band** is brought into line: `pier_measured_ratio` [1.0, 2.0], still
+  editorial.
+- **This fault reads the drawn pier.** Its primary test had read `adjacent_opening_width_in`,
+  which nothing supplies, so it never ran. It reads `narrowest_pier_over_wider_adjacent_window`
+  now, glass edge to glass edge as its note asks, and is not applicable on a front with no two
+  windows side by side.
+
+**Taken as recommended under Lucas's standing instruction of 1 Oct 2026, never put.** The code met
+four choices the ruling's words did not settle, and the recommended option was taken for each:
+
+- **U1.** An upper unit left over when its room's openings below are all taken goes to R6a: it
+  stays where the pier rule puts it, and the alignment fault judges it.
+- **U2.** The pairing of upper units with the axes below takes the axes the room can take before
+  one it cannot. A unit left with an axis its room cannot take is refused by name.
+- **U3.** The aim is taken pier by pier, wherever it costs no later window, and never face by face.
+- **U4.** Where the widest door on the entrance front is a garage door, the face's centre holds. No
+  doorcase frames a garage door, and a garage door is no entrance.
+
+Two more readings are stated rather than chosen:
+
+- R6 applies to every style, because R5b spares the pier floor and nothing else.
+- The composer's cap reads the floor for every style, because the composer composes no band.
+
+**Measured on the sixteen shipped plans against `bb3c6de`, on the deterministic engine:**
+
+| | before | after |
+|---|---|---|
+| window piers drawn | 35 | 24 |
+| narrower than 1.0 x the wider window | 24 | 0 |
+| narrower than the 1.4 aim | 25 | 8 |
+| exactly the old foot | 12 | 0 |
+| window units placed | 98 | 85 |
+
+Of the 13 units newly refused, 11 are refused for the floor and 2 for the axis below. Five more,
+which the old foot already refused, are now said in the floor's words. The pier fault leaves
+could-not-evaluate on 11 plans: clear on four (1.26 to 7.99 x the wider) and not applicable on
+seven, whose fronts have no two windows side by side.
+
+**What the execution raised:**
+
+- `oq/the-centre-holds-and-refuses-a-window-the-floor-would-seat`: 7 of the 16 units refused for
+  the floor would stand at it if the inner window moved;
+- `oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front`;
+- `oq/the-wall-at-the-corner-is-ruled-by-nothing`, which carries this entry's corner pier.
+
+**Every ruled half is executed, so this question is closed.** Report:
+`docs/reports/wp-16.6-the-pier-and-the-axis-below.md`.

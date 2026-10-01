@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**275 questions, of which 154 are open.** A question is OPEN while
+**275 questions, of which 153 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 154
+## Open — 153
 
 Awaiting a ruling. This is the list to read first.
 
@@ -156,7 +156,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it** | OPEN | [the tradition cuts a long passage across its length, and the only move we have is to widen it](open-questions/oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md) |
 | **oq/the-placement-carries-no-wall-bands** | OPEN | [the rooms tile the footprint exactly, so the walls are drawn where no room allows for them](open-questions/oq-the-placement-carries-no-wall-bands.md) |
 | **oq/the-placer-places-two-levels-and-says-nothing-about-the-third** | OPEN | [a declared storey came back with no geometry, no finding and no note](open-questions/oq-the-placer-places-two-levels-and-says-nothing-about-the-third.md) |
-| **oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways** | IN PROGRESS (ruled 29 September 2026; executed by Phase 16) | [which ratio governs the wall between two windows](open-questions/oq-the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways.md) |
 | **oq/the-plan-draws-no-sidelights-the-elevation-draws** | OPEN | [one entrance, two widths](open-questions/oq-the-plan-draws-no-sidelights-the-elevation-draws.md) |
 | **oq/the-plate-does-not-read-the-disclosure-module-it-imports** | OPEN | [one spelling, two surfaces, and only one of them reads it](open-questions/oq-the-plate-does-not-read-the-disclosure-module-it-imports.md) |
 | **oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits** | OPEN | [and a falsy guard covers exactly one bad case by accident](open-questions/oq-the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits.md) |
@@ -187,7 +186,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 121
+## Settled — 122
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -302,6 +301,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/the-gable-end-draws-a-full-cornice-whatever-the-kit-says-of-the-return** | CLOSED 30 September 2026 (ruled 29 September 2026; executed by WP-16.5; the rake is `oq/the-rake-is-drawn-as-an-edge-and-carries-no-member`) | [what a gable end shows at the eave](open-questions/oq-the-gable-end-draws-a-full-cornice-whatever-the-kit-says-of-the-return.md) |
 | **oq/the-link-ink-reads-below-aa** | CLOSED 26 September 2026 (WP-14.33) — answer 2, links are set in ink with the gilt underline | [every link in the workbench is set in an ink that falls short of the common legibility floor](open-questions/oq-the-link-ink-reads-below-aa.md) |
 | **oq/the-parti-dissolved-its-own-dependencies** | RULED 2 Sep 2026 | [a Georgian main block asked to hold a service program the type put in outbuildings](open-questions/oq-the-parti-dissolved-its-own-dependencies.md) |
+| **oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways** | CLOSED 1 October 2026 (ruled 29 September 2026; U1–U4 taken as recommended under a standing instruction; executed by WP-16.6; the corner pier is `oq/the-wall-at-the-corner-is-ruled-by-nothing`) | [which ratio governs the wall between two windows](open-questions/oq-the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways.md) |
 | **oq/the-proportion-band-forbids-the-square** | RULED 3 Sep 2026 | [29 room types may not be square, and the square is what the tradition was aiming at](open-questions/oq-the-proportion-band-forbids-the-square.md) |
 | **oq/the-proving-engine-cannot-place-a-second-massing-element** | CLOSED 7 September 2026 (WP-11.11) | [the tag that costs a plan its proof](open-questions/oq-the-proving-engine-cannot-place-a-second-massing-element.md) |
 | **oq/the-rake-is-drawn-as-an-edge-and-carries-no-member** | CLOSED 1 October 2026 (ruled 30 September 2026, B3, corrected by B5 and B6, with B10 and B25-B30 by 1 October; T1, T2, T6, T7, T8 and T11 taken as recommended under a standing instruction; executed by WP-16.9) | [the half of the gable end nobody ruled](open-questions/oq-the-rake-is-drawn-as-an-edge-and-carries-no-member.md) |
