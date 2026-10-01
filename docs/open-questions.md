@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**275 questions, of which 153 are open.** A question is OPEN while
+**275 questions, of which 152 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 153
+## Open — 152
 
 Awaiting a ruling. This is the list to read first.
 
@@ -76,7 +76,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-findings-ordinal-is-not-an-identity** | OPEN | [a finding's id moves when an unrelated sibling clears](open-questions/oq-a-findings-ordinal-is-not-an-identity.md) |
 | **oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group** | OPEN | [38 items name a count and nothing says what the rectangle means](open-questions/oq-a-furniture-footprint-is-sometimes-one-and-sometimes-the-group.md) |
 | **oq/a-kit-binding-propagates-to-descendants-nobody-read** | OPEN | [binding a slot on one node states it for every node under it, and nothing compares the result against those nodes' own records](open-questions/oq-a-kit-binding-propagates-to-descendants-nobody-read.md) |
-| **oq/a-leaf-refused-for-a-neighbour-that-is-itself-refused** | IN PROGRESS (ruled 29 September 2026; executed by Phase 16) | [232 of 255 leaved windows lose their shutters, and 82 of them only to leaves that are not drawn](open-questions/oq-a-leaf-refused-for-a-neighbour-that-is-itself-refused.md) |
 | **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
 | **oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants** | OPEN | [a Georgian portico's exception never reaches a Tidewater Georgian house](open-questions/oq-a-licence-matches-the-style-id-exactly-and-never-its-descendants.md) |
 | **oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count** | OPEN | [does a physical fact outrank a diagram's floor?](open-questions/oq-a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count.md) |
@@ -186,7 +185,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 122
+## Settled — 123
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -269,6 +268,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/a-glossary-family-has-no-name-of-its-own** | CLOSED 25 Sep 2026 — executed by WP-14.17 | [the Glossary groups every word by family, and no record says what a family is called](open-questions/oq-a-glossary-family-has-no-name-of-its-own.md) |
 | **oq/a-grouping-rule-and-a-room-record-can-disagree** | CLOSED 2 Sep 2026 | [six instances, one of them on fourteen partis, and nothing checks the class](open-questions/oq-a-grouping-rule-and-a-room-record-can-disagree.md) |
 | **oq/a-held-shape-pin-is-not-held-on-the-hard-only-path** | CLOSED 15 SEP 2026 | [the prover stated the band at one decimal place](open-questions/oq-a-held-shape-pin-is-not-held-on-the-hard-only-path.md) |
+| **oq/a-leaf-refused-for-a-neighbour-that-is-itself-refused** | CLOSED 1 October 2026 (ruled 29 September 2026; U5–U7 taken as recommended under a standing instruction; executed by WP-16.7; the one refusal left is a corner's, `oq/the-wall-at-the-corner-is-ruled-by-nothing`) | [232 of 255 leaved windows lose their shutters, and 82 of them only to leaves that are not drawn](open-questions/oq-a-leaf-refused-for-a-neighbour-that-is-itself-refused.md) |
 | **oq/a-pack-can-be-the-only-writer-a-node-has** | CLOSED | [flipping a pack can remove the only account of a slot a node can reach](open-questions/oq-a-pack-can-be-the-only-writer-a-node-has.md) |
 | **oq/a-proof-of-feasibility-is-not-a-proof-of-composition** | RULED 4 Sep 2026 | [the bench draws the proof, and on this plan the proof carries no composition at all](open-questions/oq-a-proof-of-feasibility-is-not-a-proof-of-composition.md) |
 | **oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue** | CLOSED 26 September 2026 (WP-14.33) — answer 1, a refusal is brick everywhere | [the refused mark is brick, every refusal card is violet, and violet is North America's hue](open-questions/oq-a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue.md) |

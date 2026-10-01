@@ -78,3 +78,23 @@ only where drawn makes the ratio vacuous). Nothing moves here either.
 nothing, now republish the refusal's own reason (`states.cannot`, and `TDL::sidelights-refused`
 XDATA on the doorcase), so no surface shows a doorcase with no sidelights and no word of why --
 `tests/test_refused_sidelights_are_said.py`.
+
+## Re-derived 1 Oct 2026 (WP-16.7): the table above is the placement before WP-16.6
+
+The table is a statement about the placement it was measured on. It re-derives exactly, plan by
+plan, on `bb3c6de`, the tree before WP-16.6: 60 windows carrying a pair, 37 pairs refused.
+
+After WP-16.6's pier floor and WP-16.7's R7, the same ten plans draw 50 windows, every one carrying
+a pair, and refuse **1** pair. That is good-05's upper east face, whose leaf would hang past the
+corner.
+
+- The ten windows that went are windows WP-16.6 no longer seats on those faces.
+- The refusals fell from 37 to 1 with them, and for the pier floor: a wall of 1.0 x the wider
+  window holds both neighbours' half-width leaves exactly. This amendment does not match windows
+  across the two placements, so it does not say how many of the 37 were among the ten.
+- R7 decides which pairs are refused where they contend, and none contend on these plans.
+
+**The fault still reads clear on every plan that carries shutters**, on the rhythm's figures, and
+neither package moved it. So this question stands as asked. What changed is how much the sheet has
+to say against the verdict: one refused pair, where it was 37. R7 decided which pairs a sheet
+refuses, not what a refused pair counts as, which is this question's ruling 2.
