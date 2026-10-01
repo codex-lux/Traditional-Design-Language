@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**272 questions, of which 151 are open.** A question is OPEN while
+**275 questions, of which 154 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 151
+## Open — 154
 
 Awaiting a ruling. This is the list to read first.
 
@@ -131,6 +131,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either** | OPEN | [two ruled packages, and their composition is worse than either alone](open-questions/oq-the-bay-parity-and-the-band-ranking-compose-worse-than-either.md) |
 | **oq/the-canon-axis-counts-two-grains-as-one** | OPEN | ["23 could not be evaluated" out of a denominator of 10](open-questions/oq-the-canon-axis-counts-two-grains-as-one.md) |
 | **oq/the-ceiling-and-opening-sliders-show-on-packs-that-read-neither** | OPEN | [the Proportions page offers a ceiling and an opening slider on every non-order pack, and 22 of the 32 name neither in any rule](open-questions/oq-the-ceiling-and-opening-sliders-show-on-packs-that-read-neither.md) |
+| **oq/the-centre-holds-and-refuses-a-window-the-floor-would-seat** | OPEN | [the window nearer the centre keeps a place nobody composed](open-questions/oq-the-centre-holds-and-refuses-a-window-the-floor-would-seat.md) |
 | **oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw** | OPEN | [the job route strips its record and the bench re-solves it, so the panel's key and the plate are two houses](open-questions/oq-the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw.md) |
 | **oq/the-composer-ranks-first-a-house-that-may-not-be-drawn** | OPEN | [`_sort_key` never reads the refusal written onto the dict it sorts](open-questions/oq-the-composer-ranks-first-a-house-that-may-not-be-drawn.md) |
 | **oq/the-composer-ranks-on-an-assumed-bearing** | OPEN | [an aspect verdict entered the fitness function without being ruled into it](open-questions/oq-the-composer-ranks-on-an-assumed-bearing.md) |
@@ -142,6 +143,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings** | OPEN | [the wing has no front](open-questions/oq-the-elevation-draws-the-main-blocks-face-and-not-the-buildings.md) |
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |
 | **oq/the-elevation-stands-its-roof-on-a-cornice-band-no-other-surface-draws** | OPEN | [one ridge, two heights](open-questions/oq-the-elevation-stands-its-roof-on-a-cornice-band-no-other-surface-draws.md) |
+| **oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front** | OPEN | [the parity of what was drawn, on a front the record says is not the one drawn](open-questions/oq-the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front.md) |
 | **oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front** | OPEN | [an eighth layer reads the main block as the whole house](open-questions/oq-the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front.md) |
 | **oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state** | OPEN | [the widest-door rule is applied to a field a door record may omit, and a stated 3 ft then beats an unstated 3.5](open-questions/oq-the-front-door-is-chosen-by-a-width-the-record-need-not-state.md) |
 | **oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it** | OPEN | [two vocabularies for one fact](open-questions/oq-the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it.md) |
@@ -175,6 +177,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-title-block-states-the-main-block-as-the-house** | OPEN | [1,665 sf of a 2,511 sf house](open-questions/oq-the-title-block-states-the-main-block-as-the-house.md) |
 | **oq/the-transfer-count-lives-only-inside-an-english-sentence** | OPEN | [and a third reader now wants it](open-questions/oq-the-transfer-count-lives-only-inside-an-english-sentence.md) |
 | **oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container** | OPEN | [WP-13.3 moved two plans and named one](open-questions/oq-the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container.md) |
+| **oq/the-wall-at-the-corner-is-ruled-by-nothing** | OPEN | [the pier at the end of a run, and the doorcase at the corner](open-questions/oq-the-wall-at-the-corner-is-ruled-by-nothing.md) |
 | **oq/the-window-surround-slots-were-never-split** | OPEN | [the record says which surround a wall takes, in a sentence its slots do not carry](open-questions/oq-the-window-surround-slots-were-never-split.md) |
 | **oq/thirty-five-measurements-the-elevation-states-as-literals** | OPEN | [the critic convicts every classical plan of the same faults, and the numbers are the generator's](open-questions/oq-thirty-five-measurements-the-elevation-states-as-literals.md) |
 | **oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies** | OPEN | [the real shape of "120 faults unjudged"](open-questions/oq-two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies.md) |

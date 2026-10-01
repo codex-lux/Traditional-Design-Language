@@ -3632,12 +3632,12 @@
         },
         "pier_measured_ratio": {
           "range": [
-            0.6,
-            1.0
+            1.0,
+            2.0
           ],
           "unit": "ratio",
           "kind": "editorial",
-          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Windows appear as singles, evenly spaced, in an odd number of bays with the entrance in the centre bay; upper windows align exactly over lower ones…\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
+          "note": "BROUGHT INTO LINE 1 Oct 2026 (WP-16.6): Lucas ruled on 29 Sep 2026 (R5) that the wall between two windows is at least 1.0 x the wider window, aiming at 1.4 x where the wall allows, and that this band (it read 0.6 to 1.0) is brought into line. It reads 1.0 to 2.0: the ruled floor to the top of sash-light's own 1.2 to 2.0 ('Pier width between openings on Anglo-American fronts runs 1.2 to 2.0 times the opening width'). Still editorial, because no record this style cites states its own figure. EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Windows appear as singles, evenly spaced, in an odd number of bays with the entrance in the centre bay; upper windows align exactly over lower ones…\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "pier_alt_in": {
           "expr": "opening_width * 1.4",

@@ -309,20 +309,33 @@ class TestFaultCorpusIntegration:
         # whose governing test could not run is could-not-evaluate. So `even-bay-front` is the
         # one fatal, and the other two are in the unjudged bucket for the withheld figures --
         # neither cleared, which is the direction WP-15.8 measured the old `_judge` taking.
+        #
+        # RE-CUT AT WP-16.6 (1 Oct 2026): THE ONE VERDICT IS A CLEAR NOW, AND IT IS THE DRAWN
+        # PARITY THAT MOVED, NOT THE FRONT. R6 (ruled 29 Sep 2026) seats an upper window on the
+        # axis of the opening below it or refuses it by name; the primary chamber's second sash
+        # matched the passage door's axis at 18.0 ft, which is the chamber's own east wall, so it
+        # is refused (`rule: alignment`) and the drawn upper storey counts THREE openings where it
+        # counted four. The record still declares five on this front -- the upper passage's sash
+        # is the placer's, refused before this package -- and the front stays incomplete (six
+        # units undrawn, five before), so the even upper count that convicted was a parity of
+        # what happened to be drawn, and so is the odd one that clears. That is raised, not
+        # decided here: `oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front`.
         import core
         plan = load_plan("tidewater-georgian-careful")
         elev = elevation_module.build_elevation(plan)
         res = core.check_measurements(elev["measurements"], style=plan["style"], limit=1000)
         fatal = {f["fault"]: f for f in res["faults_present"] if f["severity"] == "fatal"}
+        assert not fatal, (
+            f"fatal faults {sorted(fatal)} on a front that earns none since WP-16.6: a new one is "
+            f"a measurement to read, not a number to pin")
         judged = {"even-bay-front"}
-        assert set(fatal) == judged, (
-            f"fatal faults {sorted(fatal)} against the one the placement earns on an "
-            f"incomplete front {sorted(judged)}: a new one is a measurement to read, not a "
-            f"number to pin")
-        for fid, f in fatal.items():
-            names = {r.get("expression") for r in f.get("results") or []}
-            # every expression that convicted reads a placed-opening measurement by name
-            assert all(any(n in e for n in self.PLACEMENT_FATALS[fid]) for e in names), (fid, names)
+        clear = {c["fault"]: c for c in res["faults_clear"]}
+        for fid in judged:
+            assert fid in clear, (fid, "the parity is judged on the drawn front, so it is a verdict")
+            names = {r.get("expression") for r in clear[fid].get("results") or []}
+            # every expression that judged reads a placed-opening measurement by name
+            assert names and all(any(n in e for n in self.PLACEMENT_FATALS[fid]) for e in names), (
+                fid, names)
         assert elev["front"]["complete"]["complete"] is False, "the premise: an incomplete front"
         unj = {u["fault"]: u for u in res["could_not_judge"]}
         held = elev["front"]["withheld"]
@@ -331,7 +344,10 @@ class TestFaultCorpusIntegration:
             assert fid not in {c["fault"] for c in res["faults_clear"]}, fid
             assert set(unj[fid]["needs"]) & set(held), (fid, unj[fid]["needs"])
         m = elev["measurements"]
-        assert m["upper_floor_opening_count"] % 2 == 0, "the even upper count is what convicts"
+        rects = elevation_module.opening_rects(elev, elev["entrance_face"])["rects"]
+        assert m["upper_floor_opening_count"] == sum(1 for r in rects if r["storey"] == "upper") == 3, (
+            "four before WP-16.6, even, which convicted; the odd count that clears is the drawn one")
+        assert elev["front"]["complete"]["undrawn"] == {0: 4, 1: 2}
         # still measured, still on the record: the gate withholds and does not stop measuring
         assert elev["front"]["alignment"]["max_abs_offset_in"] > 2.0
         assert elev["front"]["mirror"]["unmatched"]

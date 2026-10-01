@@ -208,7 +208,18 @@ def windows_not_drawn(plan):
                     drawn = (len(w.get("positions_ft") or [])
                              or int((w["unplaced"].get("have") or {}).get("units_placed") or 0))
                     missing = max(units - drawn, 0)
-                    key = _group(w["unplaced"].get("reason"))
+                    # ONE WINDOW REFUSED FOR SEVERAL CAUSES (WP-16.6) counts each part under its
+                    # own reason, so the buckets still sum to the headline. A RULED refusal is
+                    # grouped by its `rule` and the floor the record states, never by its words.
+                    u = w["unplaced"]
+                    fl = (u.get("needs") or {}).get("pier_over_the_wider_window")
+                    parts = u.get("parts")
+                    if parts:
+                        for part in parts:
+                            key = _group(part.get("reason"), part.get("rule"), fl)
+                            reasons[key] = reasons.get(key, 0) + int(part.get("units") or 0)
+                        continue
+                    key = _group(u.get("reason"), u.get("rule"), fl)
                     reasons[key] = reasons.get(key, 0) + missing
     why = ", ".join(f"{v} {k}" for k, v in sorted(reasons.items(), key=lambda kv: -kv[1]))
     return {"id": "windows", "tone": IRON, "detail": reasons,
@@ -220,7 +231,7 @@ def windows_not_drawn(plan):
 # the first sheet it was drawn on -- a disclosure the sheet does not show, which is the failure
 # this whole package is about, introduced by the package. The renderer wraps a long line now and
 # a test holds every line inside the plate; these short forms keep the common ones to one row.
-def _group(reason):
+def _group(reason, rule=None, floor=None):
     """One bucket per KIND of reason, not per sentence.
 
     `openings.py` parameterises one of them -- *"1 of 2 unit(s) had no clear run left on this
@@ -236,6 +247,15 @@ def _group(reason):
     partial key had matched nothing since, and every other set printed as its whole sentence.
     A partial and a whole refusal beside the same things are one bucket: the count in front is
     units, whichever way they were refused."""
+    # THE TWO RULED REFUSALS (WP-16.6) ARE GROUPED BY THE RECORD'S `rule`, NEVER BY THEIR WORDS
+    # (plan schema 0.13.0): R5's floor between two windows, whole or partial, is one bucket, with
+    # the floor the record states it used; R6's axis of the opening below is another, whatever
+    # stood on the axis.
+    if rule == "pier":
+        return (f"too near the next window for a wall of {floor:g} \u00d7 the wider"
+                if floor is not None else "too near the next window for the pier floor")
+    if rule == "alignment":
+        return "unable to stand on the axis of the opening below"
     r = (reason or "unstated").strip()
     m = re.match(r"^\d+ of \d+ unit\(s\) (had .*)$", r)
     if m:

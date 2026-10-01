@@ -1256,6 +1256,10 @@ def derive_openings(plan, style, log, rooms=None, doors=True, windows=True, pair
     _, wrule = _pack_rule("opening-proportion", "window_width_from_room")
     _, prule = _pack_rule("opening-proportion", "opening_height_over_width")
     PE = _mod("proportion_engine", f"{ROOT}/build/proportion_engine.py")
+    # the floor between two windows, read once (WP-16.6): see the window cap below
+    _pier_floor, _pier_floor_src = _mod("window_pier", f"{ROOT}/build/window_pier.py").floor()
+    if _pier_floor is None:
+        log.append(f"the window count is bounded by the wall alone: {_pier_floor_src}")
     for lv in plan["levels"]:
         ch = lv.get("floor_to_ceiling_ft") or 9.0
         for r in lv["rooms"]:
@@ -1302,9 +1306,16 @@ def derive_openings(plan, style, log, rooms=None, doors=True, windows=True, pair
                     derived += 1
                 else:
                     n = win.get("count") or 1
-                # minimum_solid_between_openings (sash-light: opening_width * 1.4) bounds
-                # how many units a wall can actually carry, whatever the daylight asks for
-                cap_n = max(1, int((run + unit_w * 1.4) // (unit_w * 2.4)))
+                # THE FLOOR BETWEEN TWO WINDOWS BOUNDS HOW MANY UNITS A WALL CAN CARRY (WP-16.6),
+                # whatever the daylight asks for, read where the placer reads it (`window_pier`).
+                # This read sash-light's `opening_width * 1.4` as a transcribed literal -- the AIM
+                # the placer takes where the wall allows, not the floor below which it refuses a
+                # window (R5) -- so it bounded the count by a pier the placer does not require. It
+                # reads the floor for every style, the five the floor spares included: R5b lets the
+                # placer keep its foot for a licensed style's band, and the composer composes no
+                # band. A floor nobody states bounds the count by the wall alone, and the log says so.
+                cap_n = (max(1, int((run + unit_w * _pier_floor) // (unit_w * (1.0 + _pier_floor))))
+                         if _pier_floor is not None else max(1, int(run // unit_w)))
                 if n > cap_n:
                     n = cap_n
                     capped += 1
@@ -1361,7 +1372,8 @@ def derive_openings(plan, style, log, rooms=None, doors=True, windows=True, pair
     if derived:
         log.append(f"Window counts on {derived} wall(s) derived from each room's own "
                    f"daylight.glazing_fraction band against that wall's area, and bounded by "
-                   f"sash-light's minimum_solid_between_openings"
+                   + (f"the wall between two windows, at least {_pier_floor:g} x the wider "
+                      f"({_pier_floor_src})" if _pier_floor is not None else "the wall's length alone")
                    + (f" ({capped} wall(s) bounded by the solid rather than by daylight)" if capped else "")
                    + ". Before WP-6.2 every window in every composed plan was 3.2 ft wide, "
                      "two to a wall, in every room and every style.")

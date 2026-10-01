@@ -372,8 +372,24 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # Diffed line by line: the window's three marks move 15.2 px, the two wall bands either side of
 # its hole take up the difference, and nothing else on the sheet moves -- the placement digest
 # is unmoved on all sixteen (`tests/test_elements.py`).
-CORPUS_SHEET_SHA = "fdb1f896b3c42930"
-CORPUS_SHEET_SHA_NO_FRAME = "bf43aae6e3336252"
+# PHASE 16, WP-16.6 (1 Oct 2026), FOURTEEN SHEETS, THEIR WINDOWS AND THE WORDS FOR THEM, HARNESS
+# PROVED FIRST. The test's own arithmetic reproduces fdb1f896b3c42930 / bf43aae6e3336252 to the
+# character on a `git worktree` of `bb3c6de` before the new pair was read. Two sheets are
+# byte-identical -- good-01, the one shingle-style plan, which keeps the old foot (R5b), and
+# good-04 -- and on the fourteen that move, diffed mark by mark, what moves is:
+#
+#   every one of the fourteen  the window marks the placer moved or refused (R5's pier floor and
+#                              aim, R6's axis below), and the two wall bands either side of each
+#                              hole, which take up the difference: 13 units newly refused and 15
+#                              windows moved along their walls, the placement unmoved
+#   ten of them                the "DECLARED WINDOW UNIT(S) NOT DRAWN" line's words, which name
+#                              the two ruled refusals by the record's `rule`; on bad-04 the line is
+#                              new and runs two rows, and on bad-06 it wraps onto a second, so the
+#                              canvas grows by those rows and every row below moves down with it
+#   three of them              spec-builder-colonial, good-02 and good-05: the dining room's corner
+#                              cupboard, and its key, take another corner because a window moved
+CORPUS_SHEET_SHA = "5ff56a1c52b0bd1a"
+CORPUS_SHEET_SHA_NO_FRAME = "b326fdc082112f5f"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

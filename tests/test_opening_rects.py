@@ -261,12 +261,24 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
     # face 4 -> 3 -- so the per-plan pin main introduced would have passed over a house whose
     # front gained an opening and whose back lost one. Per face is the form that bites, and it
     # was chosen because that substitution was measured here rather than imagined.
-    assert seen == {("tidewater-georgian-careful", "S"): 7,
+    #
+    # WP-16.6 (1 Oct 2026), PER FACE, AND EVERY UNIT THAT LEFT IS A RULED REFUSAL NAMED ON THE
+    # RECORD. Re-derived against a worktree of `bb3c6de`; no room moved on either plan:
+    #     Tidewater S 7 -> 6   the primary chamber's second upper sash, refused under R6: the
+    #                          axis it matched below is the passage door's at 18.0 ft, the
+    #                          chamber's own east wall
+    #     spec Colonial S 7 -> 5   one of the family room's three ground sashes and one of the
+    #                              primary bedroom's two upper ones, each refused by the pier floor
+    #                              (R5): seated, the wall to the next window would be under 1 x
+    #                              the wider
+    #     spec Colonial W 2 -> 1   the dining room's second sash, refused by the pier floor
+    # N is unmoved on both, though the Tidewater dining room's sash moves along its wall.
+    assert seen == {("tidewater-georgian-careful", "S"): 6,
                     ("tidewater-georgian-careful", "N"): 5,
                     ("tidewater-georgian-careful", "W"): 1,
-                    ("spec-builder-colonial", "S"): 7,
+                    ("spec-builder-colonial", "S"): 5,
                     ("spec-builder-colonial", "N"): 3,
-                    ("spec-builder-colonial", "W"): 2}, (
+                    ("spec-builder-colonial", "W"): 1}, (
         f"the opening census over the two shipped plans moved: {seen}. Derive WHICH plan and "
         f"WHICH FACE -- the bay count, the storey count and the placement -- before re-pinning "
         f"it. A face at zero is absent from this dict, which is how E reads on both plans.")

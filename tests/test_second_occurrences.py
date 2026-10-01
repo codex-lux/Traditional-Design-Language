@@ -182,7 +182,11 @@ def test_a_partly_seated_front_window_counts_its_seated_units_and_only_its_refus
     want = sum(max(0, int(w.get("count") or 1) - len(w.get("positions_ft") or []))
                for lv in pl["levels"][:1] for r in lv["rooms"] for w in (r.get("windows") or [])
                if (w.get("wall") or "").upper() == front and w.get("unplaced"))
-    assert fo["declared_but_unplaced"] == want == 1, (fo["declared_but_unplaced"], want)
+    # 1 -> 2 AT WP-16.6 (1 Oct 2026): the living room's three sashes seat one where they seated
+    # two, the other two refused by the pier floor (R5) -- a foot apart they fitted, a window's
+    # width apart they do not. The window is still PARTLY seated, which is this test's subject,
+    # and the count is still the refused units and not the window's whole count.
+    assert fo["declared_but_unplaced"] == want == 2, (fo["declared_but_unplaced"], want)
 
 
 def test_three_more_readers_take_a_partly_seated_window_by_its_seated_sashes():

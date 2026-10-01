@@ -476,7 +476,20 @@ CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # Re-derived per plan with this test's own arithmetic on a `git worktree` of `3071f71`, which
 # reproduced both old pins first: the placement digest is unchanged on all sixteen, and the
 # openings digest differs on exactly that plan, in that one window's `positions_ft`.
-CORPUS_OPENINGS_SHA = "73d4d79110d09b42"
+# PHASE 16, WP-16.6 (1 Oct 2026): 73d4d79110d09b42 -> c02edee34e30aeab, FOURTEEN PLANS, AND THE
+# PLACEMENT HOLDS. The placer seats windows to R5 (a wall between two at least 1.0 x the wider,
+# aiming at sash-light's 1.4 x where it reaches the style, the centre holding) and the upper storey
+# on the axes of the openings below (R6). Re-derived per plan with this test's own arithmetic on a
+# `git worktree` of `bb3c6de`, which reproduced BOTH old pins first: the placement digest is
+# unchanged on all sixteen, and the openings digest differs on fourteen -- in `windows` on all
+# fourteen, where 13 units are newly refused (11 by the pier floor, 2 by alignment), 15 windows
+# move along their walls at the same count, and bad-07's one refusal is re-worded from "no clear
+# run beside the windows already seated" to the floor it is refused by; and in `furniture_layout`
+# on three (spec-builder-colonial, good-02, good-05), where the dining room's corner cupboard takes
+# another corner because a window moved. The two unmoved are good-01, the one shingle-style plan,
+# whose ground storey keeps the old foot (R5b), and good-04, whose two seated windows stand alone
+# on their walls and whose refused ones have no run at all.
+CORPUS_OPENINGS_SHA = "c02edee34e30aeab"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

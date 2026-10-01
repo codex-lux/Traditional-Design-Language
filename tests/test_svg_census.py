@@ -1037,12 +1037,57 @@ class TestTheRefusalsAreSaid:
     are read by their PREFIXES, counts and room ids and never by the explanation after them, so a
     reworded tail cannot turn these red; each plant says what it changed, and lands or fails."""
 
-    SHUTTERED = "spec-builder-colonial/S"        # windows refused their leaves, over two rooms
-    SIDELIT = "tidewater-georgian-careful/S"     # the front the sidelight refusal is DRIVEN on
+    SHUTTERED = "good-05-lobby-gallery-mansion/W"    # the face the leaf refusal is DRIVEN on
+    SIDELIT = "tidewater-georgian-careful/S"         # the front the sidelight refusal is DRIVEN on
+    FOOT_IN = 12.0     # the wall the placer kept between two windows before WP-16.6 (MIN_SOLID_FT)
 
     @staticmethod
     def _all():
         return {s: (el, svg) for s, el, svg in C._elev_and_sweep()}
+
+    @classmethod
+    def _face(cls):
+        return cls.SHUTTERED.split("/")[1]
+
+    @classmethod
+    def _shuttered(cls):
+        """good-05's west face with each room's two sashes driven back a foot apart, where the
+        placer seated them before WP-16.6, so in each pier the two windows' leaves lie over one
+        another and both rooms' windows are refused their leaves; and that record rendered, so the
+        refusal is the record and the ink of one drawing. Each pair moves about its own midpoint,
+        and every field the rect is read from moves together: `cx_in` and `u_ft` with the face,
+        and `along_ft` against it where the face is drawn as seen (R2, WP-16.3).
+
+        RE-CUT 1 OCT 2026 (WP-16.6). R5 seats two windows at least 1.0 x the wider apart, and a
+        wall that wide holds both neighbours' half-width leaves. So over the census's 85
+        elevation sheets the windows refused their leaves went 193 -> 1: one window, on good-05's
+        east face, over one room. The premise this class was written on, `spec-builder-colonial/S`
+        refusing leaves over two rooms, ran out exactly as the control below was written to
+        notice, and the refusal is driven now, as the sidelight's was at WP-15.6. Before WP-16.6
+        this same face refused five windows over these two rooms."""
+        el = copy.deepcopy(cls._all()[cls.SHUTTERED][0])
+        front = el["faces"][cls._face()]
+        sgn = -1.0 if front.get("mirrored") else 1.0
+        rooms = {}
+        for p in front["placed"]:
+            if p["kind"] == "window":
+                rooms.setdefault((p["room"], p["storey"]), []).append(p)
+        driven = 0
+        for ws in rooms.values():
+            if len(ws) != 2:
+                continue
+            assert ws[0]["width_in"] == ws[1]["width_in"], "the drive assumes a pair of one width"
+            ws.sort(key=lambda p: p["cx_in"])
+            mid = (ws[0]["cx_in"] + ws[1]["cx_in"]) / 2.0
+            half = (ws[0]["width_in"] + cls.FOOT_IN) / 2.0
+            for p, want in zip(ws, (mid - half, mid + half)):
+                d_in = want - p["cx_in"]
+                p["cx_in"] = want
+                p["u_ft"] = round(p["u_ft"] + d_in / 12.0, 4)
+                p["along_ft"] += sgn * d_in / 12.0
+            driven += 1
+        assert driven == 2, "the premise: two rooms on this face carry two sashes each"
+        return el, C._render(C.SURF._mod("render_elevation").render_elevation, el, face=cls._face())
 
     @classmethod
     def _sidelit(cls):
@@ -1083,10 +1128,15 @@ class TestTheRefusalsAreSaid:
         """The control. Without it a 'disagrees' below could be the plate and not the plant."""
         a = self._all()
         el, _svg = a[self.SHUTTERED]
-        wins = self._refused(el, "S", "shutters_refused")
+        assert not self._refused(el, self._face(), "shutters_refused"), (
+            "the premise: the shipped good-05 west face refuses no leaves -- since WP-16.6 the "
+            "pier between its windows holds them -- so the refusal is driven")
+        shut_el, shut_svg = self._shuttered()
+        wins = self._refused(shut_el, self._face(), "shutters_refused")
         assert len(wins) >= 2 and len({r["room"] for r in wins}) >= 2, (
-            "the premise: this face refuses leaves over more than one room")
-        assert not self._refused(el, "S", "sidelights_refused"), "the premise: and no sidelights"
+            "the drive landed: this face refuses leaves over more than one room")
+        assert not self._refused(shut_el, self._face(), "sidelights_refused"), (
+            "the premise: and no sidelights")
         el, _svg = a[self.SIDELIT]
         assert not self._refused(el, "S", "sidelights_refused"), (
             "the premise: the shipped Tidewater front refuses no pair for want of wall -- since "
@@ -1094,12 +1144,13 @@ class TestTheRefusalsAreSaid:
             "so the refusal is driven")
         el, svg = self._sidelit()
         assert self._refused(el, "S", "sidelights_refused"), "the drive landed: this face refuses sidelights"
-        got = self._v22(monkeypatch, [(self.SHUTTERED, *a[self.SHUTTERED]), (self.SIDELIT, el, svg)])
+        got = self._v22(monkeypatch, [(self.SHUTTERED, shut_el, shut_svg), (self.SIDELIT, el, svg)])
         assert got[self.SHUTTERED]["verdict"] == "agrees", got[self.SHUTTERED]
         assert got[self.SIDELIT]["verdict"] == "agrees", got[self.SIDELIT]
 
     def _planted(self, monkeypatch, subject, change):
-        el, svg = self._sidelit() if subject == self.SIDELIT else self._all()[subject]
+        el, svg = self._sidelit() if subject == self.SIDELIT else self._shuttered()
+        assert subject in (self.SIDELIT, self.SHUTTERED), subject
         planted = change(svg)
         assert planted != svg, "the plant did not land"
         return self._v22(monkeypatch, [(subject, el, planted)])[subject]
@@ -1115,8 +1166,8 @@ class TestTheRefusalsAreSaid:
         assert r["verdict"] == "disagrees" and "the sheet counts" in r["detail"], r
 
     def test_v22_sees_a_room_left_unnamed(self, monkeypatch):
-        el, _svg = self._all()[self.SHUTTERED]
-        room = sorted({r["room"] for r in self._refused(el, "S", "shutters_refused")})[0].upper()
+        el, _svg = self._shuttered()
+        room = sorted({r["room"] for r in self._refused(el, self._face(), "shutters_refused")})[0].upper()
 
         def change(svg):
             def drop(m):
@@ -1146,8 +1197,7 @@ class TestTheRefusalsAreSaid:
         clause disagrees. Written against the RECORD, so it reads the classes whenever the record
         carries them. (This test was first written against one full line per class, before the
         grouped legend existed.)"""
-        a = self._all()
-        el, svg = a[self.SHUTTERED]
+        el, svg = self._shuttered()
         EL = C.SURF._mod("elevation")
         real = EL.opening_rects
 
@@ -1158,7 +1208,7 @@ class TestTheRefusalsAreSaid:
                     r["shutters_refused_by"] = ["corner", "opening"]
             return got
 
-        wins = self._refused(el, "S", "shutters_refused")
+        wins = self._refused(el, self._face(), "shutters_refused")
         monkeypatch.setattr(EL, "opening_rects", classed)
         bare = re.sub(r"<text[^>]*>· [^<]*</text>", "", svg)
         r = self._v22(monkeypatch, [(self.SHUTTERED, el, bare)])[self.SHUTTERED]
@@ -2516,3 +2566,153 @@ class TestTheRakeLegendCanDisagree:
         eave = next(f for f in ("S", "N", "E", "W") if f not in EL.gable_faces(el["roof_record"]))
         r = self._one(monkeypatch, self.SPEC, el, self._render(el, eave))
         assert r["verdict"] == "disagrees" and "the roof judges no ridge for them" in r["detail"], r
+
+
+# ------------------------------------------------------------------ V26, the wall between two windows
+class TestTheWindowPierCanDisagree:
+    """WP-16.6. V26 agrees on every row the corpus reaches -- the placer seats to the floor now, so
+    no shipped sheet draws a pier under it -- and an agreeing check that nothing drives is the
+    shape WP-15.8's audit found nineteen of. Each defect is planted in the record a sheet is drawn
+    from and the sheet re-drawn, or in the sheet's own words, as V26 reads each: a pier under the
+    floor; a licensed style's narrow pier said and unsaid; the floor's words missing where the
+    placed record refused a window for it, and present where it refused none; a door between two
+    windows, which breaks the pair; and a fault stating no floor at all."""
+
+    PID = "tidewater-georgian-careful"
+
+    @classmethod
+    def _rec(cls):
+        return C._sheets()[cls.PID]
+
+    @classmethod
+    def _one(cls, monkeypatch, el, svg, face):
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("%s/%s" % (cls.PID, face), el, svg)]))
+        got = C.CHECKS["V26"]["fn"]()
+        assert len(got) == 1, got
+        return got[0]
+
+    @staticmethod
+    def _render(el, face):
+        return C._render(C.SURF._mod("render_elevation").render_elevation, el, face=face)
+
+    @staticmethod
+    def _narrow(el, gap_over_width):
+        """The Tidewater front with the third chamber's right-hand sash driven along the face until
+        the wall between its two sashes is `gap_over_width` of the wider. They stand 1.4 apart as
+        placed (the aim), so the drive is the only thing that can put one under the floor."""
+        el = copy.deepcopy(el)
+        a, b = sorted((p for p in el["faces"]["S"]["placed"]
+                       if p["storey"] == "upper" and p["room"] == "chamber3" and p["kind"] == "window"),
+                      key=lambda p: p["cx_in"])
+        w = max(a["width_in"], b["width_in"])
+        d = (a["cx_in"] + (a["width_in"] + b["width_in"]) / 2.0 + gap_over_width * w) - b["cx_in"]
+        b["cx_in"] += d
+        b["u_ft"] = round(b["u_ft"] + d / 12.0, 4)
+        b["along_ft"] += d / 12.0
+        return el
+
+    def test_v26_agrees_unplanted_on_the_faces_planted_below(self, monkeypatch):
+        rec = self._rec()
+        for face in ("S", "N"):
+            r = self._one(monkeypatch, rec["elev"], rec["faces"][face], face)
+            assert r["verdict"] == "agrees", (face, r)
+        assert "narrowest 1.400" in self._one(monkeypatch, rec["elev"], rec["faces"]["S"], "S")["detail"]
+
+    def test_v26_sees_a_pier_under_the_floor(self, monkeypatch):
+        el = self._narrow(self._rec()["elev"], 0.5)
+        r = self._one(monkeypatch, el, self._render(el, "S"), "S")
+        assert r["verdict"] == "disagrees" and "(0.500 against 1)" in r["detail"], r
+
+    def test_v26_holds_a_pier_just_over_the_floor(self, monkeypatch):
+        """The tolerance is the print and no wider: a wall 1.05 of the wider is over the floor."""
+        el = self._narrow(self._rec()["elev"], 1.05)
+        r = self._one(monkeypatch, el, self._render(el, "S"), "S")
+        assert r["verdict"] == "agrees" and "narrowest 1.050" in r["detail"], r
+
+    @staticmethod
+    def _spared(el, style="craftsman"):
+        el = copy.deepcopy(el)
+        WP = C.SURF._mod("window_pier")
+        assert style in WP.spared(), ("the premise: the pier fault licenses %s" % style)
+        el["style"] = style
+        el["pier_rule"] = dict(el["pier_rule"], style=style, spared=True,
+                               spared_source=WP.spared()[style])
+        return el
+
+    def test_v26_lets_a_licensed_style_stand_under_the_floor_only_where_the_sheet_says_so(self, monkeypatch):
+        el = self._spared(self._narrow(self._rec()["elev"], 0.5))
+        svg = self._render(el, "S")
+        assert C._PIER_SPARED_SAID in svg, "the premise: the sheet says the pier is not held to it"
+        r = self._one(monkeypatch, el, svg, "S")
+        assert r["verdict"] == "agrees" and r["detail"].startswith("spared, and said"), r
+        unsaid = re.sub(r"<text[^>]*>[^<]*%s[^<]*</text>" % C._PIER_SPARED_SAID, "", svg)
+        assert unsaid != svg, "the plant did not land"
+        r = self._one(monkeypatch, el, unsaid, "S")
+        assert r["verdict"] == "disagrees" and "does not say it is not held to the floor" in r["detail"], r
+
+    def test_v26_refuses_the_licence_to_a_style_the_fault_does_not_name(self, monkeypatch):
+        el = self._narrow(self._rec()["elev"], 0.5)
+        svg = self._render(el, "S").replace(
+            "</svg>", '<text class="dm" x="0" y="0">1 WALL BETWEEN TWO WINDOWS %s — PLANTED</text></svg>'
+            % C._PIER_SPARED_SAID)
+        r = self._one(monkeypatch, el, svg, "S")
+        assert r["verdict"] == "disagrees" and "on a style the fault does not license" in r["detail"], r
+
+    def test_v26_holds_the_legend_to_the_record_both_ways(self, monkeypatch):
+        """The S face's record refuses a window for the floor (the back hall's second sash) and its
+        legend says so; the N face's refuses none and says nothing. Each is planted the other way."""
+        rec = self._rec()
+        s = rec["faces"]["S"]
+        assert C._PIER_FLOOR_SAID in s, "the premise: the S legend names the floor"
+        cut = s.replace(C._PIER_FLOOR_SAID, "WALL")
+        r = self._one(monkeypatch, rec["elev"], cut, "S")
+        assert r["verdict"] == "disagrees" and "refused 1 window unit(s)" in r["detail"] \
+            and "does not say so" in r["detail"], r
+        n = rec["faces"]["N"]
+        assert C._PIER_FLOOR_SAID not in n, "the premise: the N face refuses nothing for the floor"
+        planted = n.replace("</svg>", '<text class="dm" x="0" y="0">THE PIER FLOOR — PLANTED</text></svg>')
+        r = self._one(monkeypatch, rec["elev"], planted, "N")
+        assert r["verdict"] == "disagrees" and "says it did" in r["detail"], r
+
+    def test_v26_does_not_pair_two_windows_a_door_stands_between(self, monkeypatch):
+        """A second passage sash driven onto the ground storey just east of the passage door: the
+        door stands between it and the first, so the ground storey has no window pier and the face
+        counts the upper storey's two. Pairing across the door would count three."""
+        el = copy.deepcopy(self._rec()["elev"])
+        pl = el["faces"]["S"]["placed"]
+        win = next(p for p in pl if p["storey"] == "ground" and p["kind"] == "window")
+        door = next(p for p in pl if p["storey"] == "ground" and p["kind"] == "door" and p["room"] == "passage")
+        twin = copy.deepcopy(win)
+        d = (door["cx_in"] + door["width_in"] / 2.0 + 6.0 + twin["width_in"] / 2.0) - twin["cx_in"]
+        twin["cx_in"] += d
+        twin["u_ft"] = round(twin["u_ft"] + d / 12.0, 4)
+        twin["along_ft"] += d / 12.0
+        pl.append(twin)
+        svg = self._render(el, "S")
+        assert svg.count('class="op') > self._rec()["faces"]["S"].count('class="op'), "the drive did not land"
+        r = self._one(monkeypatch, el, svg, "S")
+        assert r["verdict"] == "agrees" and r["detail"].startswith("2 pier(s)"), r
+
+    def test_v26_reads_its_floor_and_its_licences_off_the_fault_file(self, tmp_path):
+        """The census reads the floor and the licensed styles off the fault file itself, never
+        through `window_pier` and never as a figure written here. Added by WP-16.6's mutation
+        pass: a census that wrote 1.0 for the floor went green against every test in this class,
+        because the cannot-evaluate test below replaces the reader whole."""
+        with open(os.path.join(C.ROOT, "faults", "pier-narrower-than-the-opening.json"),
+                  encoding="utf-8") as fh:
+            rec = json.load(fh)
+        assert C._pier_fault() == (rec["test"]["threshold"],
+                                   {e["style"] for e in rec["exceptions"] if e.get("style")})
+        rec["test"]["threshold"] = 2.0
+        rec["exceptions"] = rec["exceptions"][:1]
+        p = tmp_path / "pier.json"
+        p.write_text(json.dumps(rec))
+        assert C._pier_fault(str(p)) == (2.0, {rec["exceptions"][0]["style"]})
+        rec["test"]["direction"] = "at-most"
+        p.write_text(json.dumps(rec))
+        assert C._pier_fault(str(p))[0] is None
+
+    def test_v26_says_it_cannot_evaluate_where_the_fault_states_no_floor(self, monkeypatch):
+        monkeypatch.setattr(C, "_pier_fault", lambda: (None, set()))
+        got = C.CHECKS["V26"]["fn"]()
+        assert [r["verdict"] for r in got] == ["cne"], got

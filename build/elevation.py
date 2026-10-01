@@ -733,12 +733,21 @@ def placed_openings(placed, section, entrance_face, faces=None):
                 wl = (w.get("wall") or "").upper()
                 n = int(w.get("count") or 1) - len(w.get("positions_ft") or [])
                 if wl in out and n > 0:
-                    out[wl]["refused"].append({
-                        "kind": "window", "room": r["id"], "level_index": idx,
-                        "storey": storey_name, "units": n, "cause": "placer",
-                        "why": "the placer refused it: " + str((w["unplaced"] or {}).get("reason")
-                                                             or "no reason recorded"),
-                        "source": f"plan.levels[{i}].rooms[{r['id']}].windows[{k}].unplaced"})
+                    # THE RULE THAT REFUSED IT, where one did (WP-16.6): the placer writes `rule`
+                    # (`pier`, R5; `alignment`, R6) or, for one window refused for several causes,
+                    # `parts`; a refusal carrying neither is the placer's want of a clear run.
+                    u = w["unplaced"] or {}
+                    parts = u.get("parts") or [{"rule": u.get("rule"), "units": n,
+                                                "reason": u.get("reason")}]
+                    for part in parts:
+                        out[wl]["refused"].append({
+                            "kind": "window", "room": r["id"], "level_index": idx,
+                            "storey": storey_name, "units": int(part.get("units") or n),
+                            "cause": part.get("rule") if part.get("rule") in ("pier", "alignment")
+                            else "placer",
+                            "why": "the placer refused it: " + str(part.get("reason")
+                                                                 or "no reason recorded"),
+                            "source": f"plan.levels[{i}].rooms[{r['id']}].windows[{k}].unplaced"})
             for k, d in enumerate(r.get("doors") or []):
                 if d.get("to") == "exterior" and d.get("unplaced"):
                     unplaced_doors.append({
@@ -872,6 +881,56 @@ def storey_alignment(lower_in, upper_in, tol_in):
         out["matching"] = sum(1 for o in offsets if o <= tol_in)
         out["missing_or_off"] = sum(1 for l in lower_in
                                     if not any(abs(l - u) <= tol_in for u in upper_in))
+    return out
+
+
+def _glass_edges(rect):
+    """`(left glass edge, right glass edge)` in the face's inches, read off `sash_layout`'s own
+    stiles, or None where the sash is refused and no glass is drawn."""
+    sash = rect.get("sash") or {}
+    if not sash or sash.get("refused"):
+        return None
+    st = {m.get("side"): m for m in sash.get("members") or [] if m.get("kind") == "stile"}
+    if "L" not in st or "R" not in st:
+        return None
+    return st["L"]["x1"], st["R"]["x0"]
+
+
+def window_piers(rects):
+    """Every wall between two WINDOWS that stand side by side on one storey of a face, as drawn
+    (WP-16.6): two window rects with no other drawn opening between them along the face. A window
+    beside a door, or beside the entrance doorcase, is not a window pier and is not counted.
+
+    Each pier is measured TWO ways, because the corpus measures it two ways:
+      glass    glass edge to glass edge, over the wider window's glass -- the pier fault's own
+               note, "Measure glass edge to glass edge"; the figure the fault judges;
+      opening  opening edge to opening edge, over the wider opening -- the unit R5 seats to
+               (`window_pier.floor` x the wider window) and the census holds the ink to.
+    A window whose sash is refused draws no glass, so its piers are COULD NOT EVALUATE on the
+    glass reading, never a number. `tests/window_piers.py` is the corpus-wide instrument; this is
+    the record the faults read."""
+    out = []
+    rows = {}
+    for r in rects:
+        rows.setdefault(r["storey"], []).append(r)
+    for storey in sorted(rows, key=str):
+        rs = sorted(rows[storey], key=lambda r: r["x0_in"])
+        for a, b in zip(rs, rs[1:]):
+            if a["kind"] != "window" or b["kind"] != "window":
+                continue
+            p = {"storey": storey, "left": a["id"], "right": b["id"],
+                 "opening_pier_in": round(b["x0_in"] - a["x1_in"], 3),
+                 "wider_opening_in": round(max(a["width_in"], b["width_in"]), 3)}
+            ga, gb = _glass_edges(a), _glass_edges(b)
+            gw = max(ga[1] - ga[0], gb[1] - gb[0]) if ga and gb else None
+            if gw and gw > 0:
+                p["glass_pier_in"] = round(gb[0] - ga[1], 3)
+                p["wider_glass_in"] = round(gw, 3)
+                p["ratio"] = round((gb[0] - ga[1]) / gw, 4)
+            else:
+                p["ratio"] = None
+                p["unjudged"] = "a window of the pair draws no glass: its sash is refused"
+            out.append(p)
     return out
 
 
@@ -2148,8 +2207,22 @@ def _derive_measurements(elev):
         "window_stool_top_in": ground_w["sill_height_above_floor_in"],   # the interior stool caps the sill at the same height
         "sash_width_in": ground_w["opening_width_in"],
         "pier_width_in": round(bays["actual_bay_width_in"] - ground_w["opening_width_in"], 2),
+        # THE PIERS AS DRAWN (WP-16.6). `pier_width_in` above is the RHYTHM's bay less the pack's
+        # window, which no drawn front is laid on since WP-13.3, and constraints read that name
+        # for a masonry arcade pier too, so it is left for them; the pier fault reads these.
         "total_opening_width_in": round(ent["door_leaf_width_in"] + 4 * ground_w["opening_width_in"], 2),
     })
+
+    # THE PIERS AS DRAWN ON THE ENTRANCE FRONT (WP-16.6): how many, and the narrowest glass
+    # edge to glass edge over the wider window's glass -- the pier fault's own reading, which its
+    # primary test tests now. The narrowest is withheld where any pair draws no glass
+    # (`front.withheld` says so); the count is a measured zero on a front with no pair, which the
+    # fault's `applies_when` reads.
+    _pi = elev["front"].get("piers")
+    if _pi is not None:
+        m["count_of_window_piers_on_the_front"] = len(_pi)
+        if _pi and all(p.get("ratio") is not None for p in _pi):
+            m["narrowest_pier_over_wider_adjacent_window"] = min(p["ratio"] for p in _pi)
 
     # THE WINDOW HEAD'S RADIUS (OQ 89). Absent means the record could not judge the head, which
     # is not the same as a straight one; see _head_radius_in.
@@ -3598,7 +3671,12 @@ def stack_notes(elev, sm):
 #   storey   it stands on a level this building or this elevation states no storey for
 #   stack    a chimney stack stands on it (OQ 85)
 #   record   the elevation record states no window, sill, head, leaf height or floor datum
-REFUSAL_CAUSES = ("placer", "element", "storey", "stack", "record")
+#   pier     the placer refused it under R5 (WP-16.6): seated beside the next window, the wall
+#            between would fall below the floor `window_pier` reads from the pier fault
+#   alignment  the placer refused it under R6 (WP-16.6): it could not stand on the axis of the
+#            opening below it
+REFUSAL_CAUSES = ("placer", "element", "storey", "stack", "record", "pier", "alignment")
+_PIER_FLOOR = _mod("window_pier", f"{ROOT}/build/window_pier.py").floor()[0]
 
 
 # WHAT A SURFACE SAYS FOR EACH CAUSE OF A REFUSED OPENING (WP-15.5; moved here from
@@ -3612,6 +3690,11 @@ REFUSAL_WORDS = (
     ("storey", "THEY STAND ON A LEVEL THIS BUILDING OR THIS ELEVATION STATES NO STOREY FOR"),
     ("stack", "A CHIMNEY STACK STANDS ON THEM"),
     ("record", "THE ELEVATION RECORD STATES NO WINDOW, SILL, HEAD, LEAF HEIGHT OR FLOOR FOR THEM"),
+    # the floor is READ (`window_pier.floor`, the pier fault's own threshold) and never transcribed
+    ("pier", "SEATED BESIDE THE NEXT WINDOW, THE WALL BETWEEN THEM WOULD FALL BELOW "
+             + (f"{_PIER_FLOOR:g} \u00d7 THE WIDER WINDOW, " if _PIER_FLOOR is not None else "")
+             + "THE PIER FLOOR"),
+    ("alignment", "THEY COULD NOT STAND ON THE AXIS OF THE OPENING BELOW THEM"),
 )
 REFUSAL_UNWORDED = "FOR A REASON THE ELEVATION RECORD GIVES AND THIS SHEET HAS NO WORD FOR"
 
@@ -3752,6 +3835,18 @@ def face_notes(elev, face, sm=None, cm=None):
             for c, xs in _groups:
                 notes.append(f'\u00b7 {sum(int(x.get("units") or 1) for x in xs)} ({_rooms_of(xs)}): '
                              f'{dict(REFUSAL_WORDS).get(c, REFUSAL_UNWORDED)}')
+    # A LICENSED STYLE'S PIER BELOW THE FLOOR, SAID (WP-16.6, R5b). The placer keeps its old foot
+    # between two windows for the five styles the pier fault licenses, so a wall narrower than the
+    # floor can be drawn on them; where one is, the sheet says it is not held to the floor and why.
+    _pr = elev.get("pier_rule") or {}
+    if _pr.get("spared") and _pr.get("floor") is not None:
+        _under = [p for p in window_piers(opening_rects(elev, face)["rects"])
+                  if p["opening_pier_in"] < _pr["floor"] * p["wider_opening_in"] - 1e-6]
+        if _under:
+            notes.append(f"{len(_under)} WALL(S) BETWEEN TWO WINDOWS NARROWER THAN "
+                         f"{_pr['floor']:g} \u00d7 THE WIDER WINDOW \u2014 NOT HELD TO THE PIER "
+                         f"FLOOR: {str(_pr.get('style') or '').upper()} IS ONE OF THE STYLES THE "
+                         f"PIER FAULT LICENSES TO GROUP ITS WINDOWS")
     # THE KEYSTONE AND THE STACK THAT ARE NOT DRAWN (WP-14.3), where each once fell back to a
     # figure no record states.
     if ht.get("keystone") and not ht.get("keystone_width_in"):
@@ -5014,15 +5109,31 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     except Exception as e:                      # noqa: BLE001 -- reported, never swallowed
         elev["front"]["complete"] = {"complete": None,
                                      "why": f"axis.front_complete could not read the placement ({e})"}
+    # THE WALL BETWEEN TWO WINDOWS ON THE FRONT (WP-16.6), as drawn, and the rule the placer
+    # seated it to -- the one reading of the floor, the aim and the spared styles
+    # (`window_pier.rule`), carried so a face note can say where a licensed style's pier falls
+    # under the floor
+    elev["front"]["piers"] = window_piers(_fr)
+    elev["pier_rule"] = _mod("window_pier", f"{ROOT}/build/window_pier.py").rule(style) \
+        if style else None
     _al = elev["front"]["alignment"]
     withheld = {}
+    _pu = [p for p in elev["front"]["piers"] if p.get("ratio") is None]
+    if _pu:
+        withheld["narrowest_pier_over_wider_adjacent_window"] = (
+            f"{len(_pu)} of the front's {len(elev['front']['piers'])} window pier(s) draw no glass "
+            f"(a sash refused), and the pier fault measures glass edge to glass edge")
     if not _two:
         withheld["upper_floor_opening_count"] = "the section states one storey"
     elif not _al.get("upper"):
         withheld["upper_floor_opening_count"] = (
             "the upper storey draws no opening on the entrance front; a count of zero is not "
             "handed to a parity rule or a division that carries no `applies_when`")
-    if withheld:
+    # KEYED ON THE COUNT AND NOT ON THE DICT (WP-16.6's own mutation pass): the pier line above can
+    # make `withheld` non-empty on a front whose upper storey draws openings, and `if withheld:`
+    # then read a key only the two upper-storey branches write -- a KeyError on any two-storey
+    # front with a pier that draws no glass, which no shipped plan has (24 of 24 piers glazed)
+    if "upper_floor_opening_count" in withheld:
         withheld["total_upper_storey_openings"] = withheld["upper_floor_opening_count"]
     if ALIGNMENT_TOL_IN is None:
         withheld["upper_storey_opening_centres_matching_lower"] = ALIGNMENT_TOL_SOURCE

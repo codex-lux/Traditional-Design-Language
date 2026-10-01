@@ -3013,6 +3013,130 @@ def v24():
     return out
 
 
+# THE PIER FLOOR AND WHO IT SPARES, READ OFF THE FAULT FILE HERE (WP-16.6) and never through
+# `window_pier`, which is what the placer calls: a guard whose reference is what the subject serves
+# agrees with it whatever it serves (R4's trap, WP-14.2). The two keywords are the sheet's words
+# for a pier refusal and for a licensed style's narrow pier, transcribed once, as V24's are.
+_PIER_FLOOR_SAID = "PIER FLOOR"
+_PIER_SPARED_SAID = "NOT HELD TO THE PIER FLOOR"
+
+
+def _pier_fault(path=None):
+    with open(path or os.path.join(ROOT, "faults", "pier-narrower-than-the-opening.json"),
+              encoding="utf-8") as fh:
+        f = json.load(fh)
+    t = f.get("test") or {}
+    floor = (float(t["threshold"]) if t.get("direction") == "at-least" and t.get("units") == "ratio"
+             else None)
+    return floor, {e["style"] for e in (f.get("exceptions") or []) if e.get("style")}
+
+
+def _rows_of(boxes):
+    """Openings grouped into storey rows by their vertical extent: two openings are on one row
+    where they overlap by more than half the shorter one's height."""
+    rows = []
+    for b in sorted(boxes, key=lambda b: (b[1], b[0])):
+        for r in rows:
+            o = min(b[3], r["y1"]) - max(b[1], r["y0"])
+            if o > 0.5 * min(b[3] - b[1], r["y1"] - r["y0"]):
+                r["boxes"].append(b)
+                r["y0"], r["y1"] = min(r["y0"], b[1]), max(r["y1"], b[3])
+                break
+        else:
+            rows.append({"y0": b[1], "y1": b[3], "boxes": [b]})
+    return rows
+
+
+@check("V26", "elevation", "every wall between two windows standing side by side on one storey is at "
+       "least the pier floor times the wider window, unless the style is one the pier fault licenses "
+       "and the sheet says so; and the legend says a window refused for the floor where the placed "
+       "record refused one on that face, and only there", "elevation sheets that draw two windows side "
+       "by side, or that the placed record refused one on: shipped plans, every face, and every "
+       "style's front")
+def v26():
+    """WP-16.6. Lucas ruled (29 Sep 2026, R5) that the wall between two windows is at least 1.0 x the
+    wider window, aiming at 1.4 x where the wall allows, and that a window which cannot be seated is
+    refused by name; R5b spares the five styles the pier fault licenses. The placer kept ONE FOOT
+    between two windows inside one room until this package: 24 of the 35 drawn window piers on the
+    shipped plans were narrower than the wider window beside them, 12 of them exactly the foot.
+
+    This reads the INK. A window is an opening rect that is not the entrance's glass (a sidelight or
+    a transom); a door, the doorcase and the entrance's glass stand between two windows and break
+    the pair, because a window beside a door is not a window pier. Two windows are on one storey
+    where their rects overlap by more than half the shorter's height. The ratio is taken in pixels,
+    so it needs no scale, and the tolerance is the print: each edge is written to a tenth of a
+    pixel. The refusal half reads the PLACED record the elevation was built on, by wall, because
+    that is how the elevation lists a refused window (`placed_openings`), and holds the legend to it
+    both ways."""
+    floor, spared = _pier_fault()
+    out = []
+    if floor is None:
+        return [row("V26", "the pier fault", "cne", "faults/pier-narrower-than-the-opening.json states "
+                                                    "no at-least ratio on its primary test")]
+    for subject, el, svg in _elev_and_sweep():
+        ink = IR.Ink(svg)
+        pl = _face_plate(ink)
+        if not pl:
+            continue
+        face = subject.split("/")[-1] if "/" in subject else el.get("entrance_face")
+        style = el.get("style") or (subject.split(":", 1)[1] if subject.startswith("style:") else None)
+        glaze = [_box(r) for r in _sidelights(ink)] + [_box(r) for r in _transoms(ink)]
+        gkeys = {tuple(round(v, 1) for v in b) for b in glaze}
+        wins = [b for b in (_box(r) for r in _rects(ink, "op")) if tuple(round(v, 1) for v in b) not in gkeys]
+        breakers = ([_box(r) for r in _rects(ink, "dr")] + [_box(r) for r in _rects(ink, "cs")]
+                    + [_box(r) for r in _rects(ink, "csp")] + glaze)
+        piers = []
+        for rw in _rows_of(wins):
+            ys = (rw["y0"], rw["y1"])
+            line = [("w", b) for b in rw["boxes"]] + [
+                ("x", b) for b in breakers if min(b[3], ys[1]) - max(b[1], ys[0]) > 0.05]
+            line.sort(key=lambda kb: kb[1][0])
+            for (ka, a), (kb, b) in zip(line, line[1:]):
+                if ka == "w" and kb == "w":
+                    piers.append((b[0] - a[2], max(a[2] - a[0], b[2] - b[0])))
+        placed = (el.get("section") or {}).get("geometry") or {}
+        refused = 0
+        for lv in placed.get("levels") or []:
+            for r in lv.get("rooms") or []:
+                for w in r.get("windows") or []:
+                    u = w.get("unplaced") or {}
+                    if (w.get("wall") or "").upper() != face or not u:
+                        continue
+                    # a window refused for one cause states no `parts`, and its refused units are
+                    # its count less the units it seated
+                    whole = int(w.get("count") or 1) - len(w.get("positions_ft") or [])
+                    parts = u.get("parts") or [{"rule": u.get("rule"), "units": whole}]
+                    refused += sum(int(p.get("units") or 0) for p in parts if p.get("rule") == "pier")
+        if not piers and not refused:
+            continue
+        said = " | ".join(" ".join(t.split()).upper() for t, _a, _it in ink.texts() if t and t.strip())
+        under = [(p, w) for p, w in piers if p < floor * w - 0.2]
+        bad = []
+        if under and style in spared:
+            if _PIER_SPARED_SAID not in said:
+                bad.append("%d pier(s) below the floor on a style the fault licenses, and the sheet "
+                           "does not say it is not held to the floor" % len(under))
+        elif under:
+            bad += ["a pier of %.1f px beside a %.1f px window (%.3f against %g)" % (p, w, p / w, floor)
+                    for p, w in under]
+        if under and style not in spared and _PIER_SPARED_SAID in said:
+            bad.append("the sheet says a pier is not held to the floor on a style the fault does not license")
+        if (refused > 0) != (_PIER_FLOOR_SAID in said.replace(_PIER_SPARED_SAID, "")):
+            bad.append("the placed record refused %d window unit(s) on this face for the floor and the "
+                       "legend %s" % (refused, "does not say so" if refused else "says it did"))
+        narrow = min((p / w for p, w in piers), default=None)
+        figs = ("%d pier(s), narrowest %.3f x the wider" % (len(piers), narrow) if piers
+                else "no two windows side by side") + ("; %d unit(s) refused for the floor" % refused
+                                                       if refused else "")
+        if bad:
+            out.append(row("V26", subject, "disagrees", "; ".join(bad) + " (" + figs + ")"))
+        elif under:
+            out.append(row("V26", subject, "agrees", "spared, and said: " + figs))
+        else:
+            out.append(row("V26", subject, "agrees", figs))
+    return out
+
+
 def _frieze_projection_parts():
     """facade-classical's own frieze member, READ OFF THE PACK FILE: `(projection_parts,
     height_parts)`. Not `eave_cornice`'s `frieze_projection_in`, which this package added and the

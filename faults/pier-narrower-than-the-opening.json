@@ -157,12 +157,19 @@
     "ganging"
   ],
   "test": {
-    "expression": "pier_width_in / adjacent_opening_width_in",
+    "expression": "narrowest_pier_over_wider_adjacent_window",
     "threshold": 1.0,
     "direction": "at-least",
     "units": "ratio",
     "measurable_from": "photograph",
-    "note": "The measured lower bound across surviving Anglo-American fronts. The classical target at a 9 ft bay with a 36 in window is 2.0 and the sash-light pack's alternative is 1.4. Below 1.0 the facade has changed character; below 0.5 it is a curtain wall with punched infill; a shared mullion of a few inches is the extreme case. Measure glass edge to glass edge."
+    "note": "The measured lower bound across surviving Anglo-American fronts. The classical target at a 9 ft bay with a 36 in window is 2.0 and the sash-light pack's alternative is 1.4. Below 1.0 the facade has changed character; below 0.5 it is a curtain wall with punched infill; a shared mullion of a few inches is the extreme case. Measure glass edge to glass edge. RE-POINTED 1 Oct 2026 (WP-16.6), and the figure is not moved: this test read `pier_width_in / adjacent_opening_width_in`, and nothing in this tree supplied `adjacent_opening_width_in`, so it never ran; until WP-16.1 the fault cleared on its secondary, and since then it read could-not-evaluate on every drawn house. It reads `narrowest_pier_over_wider_adjacent_window` now: the narrowest wall between two windows side by side on one storey of the entrance front, glass edge to glass edge over the wider window's glass, as this note asks (build/elevation.py `window_piers`). The threshold is the floor Lucas ruled for the placer on 29 Sep 2026 (R5), which `build/window_pier.py` reads from here.",
+    "applies_when": {
+      "expression": "count_of_window_piers_on_the_front",
+      "direction": "at-least",
+      "threshold": 1,
+      "units": "count",
+      "note": "A front with no two windows side by side on one storey has no pier for this test to read: the question does not arise, which is not a pass (WP-16.6, 1 Oct 2026). The count is the elevation's own, of the drawn entrance front."
+    }
   },
   "secondary_tests": [
     {

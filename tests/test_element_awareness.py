@@ -697,7 +697,25 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # `rake_overhang_in` on a roof record that models no rake overhang; withheld now,
                 # so the fault could-not-evaluate. Both watched layers UNMOVED at 13/18 and 11/17.
                 # Old digests: dec1b5a8a4ccd7aa / 5691ad729cb51433.
-                ("tidewater-georgian-careful", "aadf4ca8c4390d56", 199,
+                # RE-DERIVED AT WP-16.6 (1 Oct 2026), THE TIDEWATER FIXTURE ALONE, AND EVERY ROW IS
+                # ONE REFUSAL. Diffed row by row through this test's own fixture path against a
+                # worktree of `bb3c6de`, which reproduces both old digests to the character. The
+                # spec Colonial is UNMOVED (676a56c7cc1e8cb7, 235 rows), though three of its window
+                # units are refused by the pier floor now; the Tidewater fixture goes 199 -> 201,
+                # 1 out and 3 in. R6 (ruled 29 Sep 2026) refuses the third chamber's second upper
+                # sash, whose axis below -- the drawing room's window at 51.401 ft -- is 0.111 ft
+                # inside the chamber's own west wall:
+                #   -/+ `drawn-facade-symmetry-unjudged`: 4 declared units undrawn -> 5;
+                #   +   `fault-present` The Front With No Centre (even-bay-front, FATAL), "0 against
+                #       equals 1": four upper openings drawn on this fixture where there were five.
+                #       On the SHIPPED, tagged record the same package takes the drawn count the
+                #       other way, 4 -> 3, and clears it (`tests/test_elevation.py`): a parity of
+                #       what is drawn on an incomplete front, both ways, which is
+                #       `oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front`;
+                #   +   `fault-present` The Blank Wall On The Public Side (serious), 0.1375 against
+                #       at-least 0.15: one sash less glass on the front.
+                # Both watched layers UNMOVED at 13/18 and 11/17. Old digest: aadf4ca8c4390d56.
+                ("tidewater-georgian-careful", "c6bca85abf6c88ab", 201,
                  {"daylight": 13, "grouping": 18}),
                 ("spec-builder-colonial", "676a56c7cc1e8cb7", 235,
                  {"daylight": 11, "grouping": 17})):

@@ -50,7 +50,14 @@ FAULTS = 210
 # `return-that-never-returns` (B2) and of `flush-rake` (B6) now reads as its `applies_when`: a house
 # whose roof draws no gable end has no return and no rake to judge. Diffed against a worktree of
 # `54f7e33`: one name added, none removed.
-IDENTIFIERS_READ = 828
+# 828 -> 829 AT WP-16.6 (1 Oct 2026), BY NAME: two added and one removed. The pier fault's primary
+# test read `pier_width_in / adjacent_opening_width_in` and nothing supplied the second, so it never
+# ran; it reads `narrowest_pier_over_wider_adjacent_window` now, the drawn front's own narrowest wall
+# between two windows (R5), preconditioned on `count_of_window_piers_on_the_front`. No fault test
+# reads `pier_width_in` any more -- the rhythm's bay less the pack's window, which no drawn front is
+# laid on -- and the elevation still publishes it for the arcade-pier constraints that read it.
+# Diffed against a worktree of `bb3c6de`.
+IDENTIFIERS_READ = 829
 # 36 -> 40 AT WP-14.3 (27 Sep 2026), BY NAME: `transom_height_in`, `transom_width_in`,
 # `transom_head_rise_in` and `pilaster_projection_in` joined `elevation.NOT_MODELLED`, because
 # opening-proportion marks the transom's height a judgment and gibbs-ionic the pilaster's
@@ -465,17 +472,28 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
     # NOT APPLICABLE; on the spec Colonial it clears on the drawn pair's own width, 11.482 in, a
     # measurement of the house. Attributed against a worktree of `3071f71` and asserted below
     # from the buckets, not left to the count.
-    SUSPECT_CLEAR = {"tidewater-georgian-careful": 17, "spec-builder-colonial": 18}
+    # 17 -> 18 ON THE TIDEWATER PLAN AT WP-16.6 (1 Oct 2026), AND THE ROW THAT JOINED IS AN HONEST
+    # VERDICT WITH A SUSPECT SECONDARY BESIDE IT. `pier-narrower-than-the-opening` left
+    # GOVERNING_UNRUN below: its primary test reads the drawn front's narrowest window pier now
+    # (R5's measurement, 1.762 of the wider window's glass, the third chamber's pair), so it runs
+    # and passes. Its secondary, the solid-to-void ratio, reads `total_opening_width_in`, which is
+    # the entrance door plus FOUR ground windows by construction -- one of
+    # `oq/thirty-five-measurements-the-elevation-states-as-literals` -- and this list names every
+    # clear any of whose tests read such a name. The spec Colonial's count is unmoved: its fault
+    # is not applicable, because its entrance front draws no two windows side by side.
+    SUSPECT_CLEAR = {"tidewater-georgian-careful": 18, "spec-builder-colonial": 18}
+    LEFT_AT_WP_16_6 = {"tidewater-georgian-careful": "clear", "spec-builder-colonial": "not-applicable"}
     LEFT_AT_WP_16_4 = {"tidewater-georgian-careful": "not-applicable",
                        "spec-builder-colonial": "measured"}
+    # `pier-narrower-than-the-opening` LEFT THIS SET AT WP-16.6, on both plans and by two roads
+    # (LEFT_AT_WP_16_6): its governing test reads a measurement the elevation supplies now.
     GOVERNING_UNRUN = {
         "tidewater-georgian-careful": {
             "fixed-sash-pretending-to-be-double-hung", "garage-head-above-the-window-head",
-            "pier-narrower-than-the-opening", "sunken-dormer", "veneer-reveal-collapse"},
+            "sunken-dormer", "veneer-reveal-collapse"},
         "spec-builder-colonial": {
             "fixed-sash-pretending-to-be-double-hung", "garage-head-above-the-window-head",
-            "pier-narrower-than-the-opening", "sunken-dormer", "veneer-reveal-collapse",
-            "truss-flattened-pitch"},
+            "sunken-dormer", "veneer-reveal-collapse", "truss-flattened-pitch"},
     }
     # 24 -> 23 ON THE TIDEWATER PLAN AT WP-14.3, AND THE ROW THAT LEFT TOOK A THIRD ROAD OUT.
     # `fanlight-before-its-date` cleared on `transom_head_rise_in = 0`, a figure the generator
@@ -532,6 +550,25 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
             assert (u.get("governing_not_run") or {}).get("missing"), (pid, fid, u)
             assert u.get("ran"), (pid, fid, "the secondary that ran is the evidence; a row "
                                   "that drops it reads as though nothing was measured")
+        # WP-16.6, BY NAME: the pier fault left GOVERNING_UNRUN because its governing test reads the
+        # drawn front's narrowest window pier. Where the front draws two windows side by side it
+        # RUNS -- a clear on the governing test, its figure the drawn pier's -- and where it draws
+        # none the fault is NOT APPLICABLE on the drawn count, never clear.
+        fid = "pier-narrower-than-the-opening"
+        na6 = {u["fault"]: u for u in (res.get("fault_not_applicable") or [])}
+        assert fid not in rows_u, (pid, fid, "unjudged again: its governing test did not run")
+        if self.LEFT_AT_WP_16_6[pid] == "clear":
+            ev = PC._load("elevation", f"{ROOT}/build/elevation.py")
+            el = ev.build_elevation(json.load(open(f"{ROOT}/plans/{pid}.json")))
+            piers = el["front"]["piers"]
+            assert piers and all(p.get("ratio") is not None for p in piers), (pid, piers)
+            got = el["measurements"]["narrowest_pier_over_wider_adjacent_window"]
+            assert got == min(p["ratio"] for p in piers) >= 1.0, (pid, got)
+            assert fid in ids and fid not in na6, (pid, fid)
+        else:
+            assert na6.get(fid, {}).get("because") == ["count_of_window_piers_on_the_front"], (
+                pid, na6.get(fid))
+            assert fid not in ids, (pid, fid)
         # WP-16.4, BY NAME: the sidelight fault left this list because its width stopped being a
         # literal. On the plan that draws no sidelight it must be NOT APPLICABLE on the drawn
         # count; on the plan that draws a pair it must be in no other bucket, and the width the

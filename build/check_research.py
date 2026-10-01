@@ -74,7 +74,11 @@ COULD_NOT_EVALUATE = 3
 # recorded as such rather than netted off.
 GENERATOR_FILES = ("elevation.py", "roof.py", "structure.py", "storeys.py", "compose.py", "geometry.py",
                    "geometry_cp.py", "openings.py", "arrangement.py", "plan_check.py", "critique.py",
-                   "moves.py", "revise.py", "threshold.py")
+                   "moves.py", "revise.py", "threshold.py", "doorcase.py", "window_pier.py")
+# `doorcase.py` (WP-15.6) and `window_pier.py` (WP-16.6) joined 1 Oct 2026. Both read a slot by
+# name for the placer and the elevation, and the first had been outside this walk since it was
+# written. Measured before the line moved: neither adds a slot -- every slot either reads is
+# already read by `elevation.py` or `openings.py` (43 before, 43 after) -- so no count moves.
 
 # Measured 4 Sep 2026 and thereafter may only improve. Read the entries before moving one.
 #

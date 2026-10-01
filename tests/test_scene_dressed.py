@@ -160,6 +160,40 @@ def test_shutters_are_drawn_iff_the_storey_window_carries_them(spec, tidewater):
         "independent records")
 
 
+def test_a_window_refused_its_leaves_is_said_in_the_model():
+    """DRIVEN, BECAUSE THE CORPUS STOPPED REACHING IT (WP-16.6). The test above holds the
+    refused windows to `not_modelled` one for one, and on the shipped spec Colonial that equality
+    is now `[] == []`. R5 seats two windows at least 1.0 x the wider apart, and a wall that wide
+    holds both neighbours' half-width leaves, so the spec Colonial refuses no leaves on any face
+    (it refused them on seven windows before). The family room's two south sashes are driven back
+    a foot apart, where the placer seated them before WP-16.6, so their leaves lie over one another
+    in the pier; the model must draw neither window's leaves and say both, in the record's words."""
+    import copy
+    sol, sec, rf, ev = _build("spec-builder-colonial")
+    EL = _mod("elevation")
+    assert not any(r.get("shutters_refused") for f in "SNEW"
+                   for r in EL.opening_rects(ev, f)["rects"]), (
+        "the premise: the shipped spec Colonial refuses no leaves, so the refusal is driven")
+    ev = copy.deepcopy(ev)
+    front = ev["faces"]["S"]
+    sgn = -1.0 if front.get("mirrored") else 1.0
+    pair = sorted((p for p in front["placed"] if p["kind"] == "window" and p["room"] == "family"
+                   and p["storey"] == "ground"), key=lambda p: p["cx_in"])
+    assert len(pair) == 2 and pair[0]["width_in"] == pair[1]["width_in"], pair
+    mid, half = (pair[0]["cx_in"] + pair[1]["cx_in"]) / 2.0, (pair[0]["width_in"] + 12.0) / 2.0
+    for p, want in zip(pair, (mid - half, mid + half)):
+        d_in = want - p["cx_in"]
+        p["cx_in"], p["u_ft"] = want, round(p["u_ft"] + d_in / 12.0, 4)
+        p["along_ft"] += sgn * d_in / 12.0
+    refused = [r for r in EL.opening_rects(ev, "S")["rects"] if r.get("shutters_refused")]
+    assert sorted(r["room"] for r in refused) == ["family", "family"], "the drive landed"
+    scene = SC.build_scene(sol, sec, rf, ev)
+    said = sorted(n["what"] for n in scene["not_modelled"] if n.get("class") == "shutter")
+    assert said == sorted(f"the shutters of {r['id']}" for r in refused), said
+    drawn = {s["id"].rsplit("-shutter-", 1)[0] for s in scene["solids"] if s["class"] == "shutter"}
+    assert not drawn & {r["id"] for r in refused}, "a refused window's leaves were drawn"
+
+
 def test_it_is_shutters_carried_that_decides_and_not_the_leaf_width(spec):
     """DRIVEN, BECAUSE THE CORPUS CANNOT TELL THE TWO APART (WP-12.8).
 

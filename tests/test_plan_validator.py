@@ -237,7 +237,16 @@ class TestShippedPlans:
         # the figures ACQUITTED the alignment fault on `bay_count >= 3`. R4 (the governing test
         # decides) is what makes the withholding an unjudged instead of a clear. Neither fault
         # is cleared; both carry the elevation's reason in `fault_unjudged`.
-        assert result["counts"].get("fatal", 0) == 1
+        # 1 -> 0 AT WP-16.6 (1 Oct 2026), AND IT IS THE DRAWN PARITY THAT MOVED. R6 (ruled 29 Sep
+        # 2026) refuses the primary chamber's second upper sash -- the axis it matched below is
+        # the passage door's, on the chamber's own east wall -- so the drawn upper storey counts
+        # three openings where it counted four, and `even-bay-front` clears on an odd count of a
+        # front that still declares five and still draws six units short. Both the conviction
+        # and the clear are parities of what was drawn on an incomplete front:
+        # `oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front`. `The Blank Wall
+        # On The Public Side` is the same row re-measured, 0.0955 -> 0.077, one sash less glass.
+        # Diffed finding by finding against a worktree of `bb3c6de`; serious 28 is unmoved.
+        assert result["counts"].get("fatal", 0) == 0
         unj = {u["fault"]: u for u in result["fault_unjudged"]}
         for fid in ("one-bay-symmetry-break", "storeys-out-of-vertical-alignment"):
             held = (unj.get(fid) or {}).get("withheld") or []
