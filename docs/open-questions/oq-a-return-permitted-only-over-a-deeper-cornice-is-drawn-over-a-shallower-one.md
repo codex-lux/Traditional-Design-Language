@@ -1,6 +1,6 @@
 # oq/a-return-permitted-only-over-a-deeper-cornice-is-drawn-over-a-shallower-one — a conditional permission, and a house that fails the condition
 
-*Status: IN PROGRESS (ruled 30 September 2026, B4; executed by WP-16.9) · Raised in: WP-16.5, one cornice and the gable end (30 September 2026)*
+*Status: CLOSED 1 October 2026 (ruled 30 September 2026, B4; executed by WP-16.9) · Raised in: WP-16.5, one cornice and the gable end (30 September 2026)*
 
 **colonial-revival permits a cornice return on a condition, and the cornice this elevation draws
 fails it on six of the seven shipped plans that inherit the record.** The record binds the full
@@ -86,3 +86,26 @@ conditions. How should that permission be read?"* Four readings were offered:
   condition stay for a record whose cornice cannot be deepened.
 - **Measured on the six plans:** the cornice and the inset move in projection only. The roof, the
   eave height and every other figure are unmoved.
+
+## Executed 1 October 2026 (WP-16.9): the cornice is drawn as deep as the kit's minimum
+
+- **The cornice's depth.** `eave_cornice` scales into the larger of the envelope's module/14 and the
+  minimum the kit states for the cornice under its return. That minimum is
+  `elevation.cornice_minimum`, read off `return_at`'s condition and handed on only where the kit
+  permits the return it conditions. The bed mould stays at 2½ in (R9a), the members above take the
+  rest, and every member's height is kept.
+- **The six plans.**
+  - spec-builder-colonial, bad-01, bad-02 and bad-07 go from 8.61 to 10.0 in.
+  - bad-05 and good-02 go from 9.57 to 10.0 in.
+  - good-07 (new-classical) reads the same record and already projects 11.48 in, so it is not
+    deepened.
+- **The words agree with the drawing.** The condition is met, and the band stays under R8. The sheet
+  says *"COLONIAL-REVIVAL'S KIT PERMITS ONE OVER A CORNICE OF AT LEAST 10 IN, AND THIS ONE IS DRAWN
+  THAT DEEP (10.0 IN, DEEPENED FROM THE ENVELOPE'S 8.6 IN), AND SETTLES NONE"*. The inset and the DXF
+  name both figures and who wrote the minimum (`cornice_depth_words`). The envelope's own figure
+  stays on the record (`facade_envelope_projection_in`).
+- **Measured.** The cornice and the inset move in projection only. Every height, the roof and the
+  eave height are unmoved, and no fault verdict moves on these six plans.
+
+**B4 is executed, so this question is closed.** Report:
+`docs/reports/wp-16.9-the-roof-the-rake-and-the-deeper-cornice.md`.

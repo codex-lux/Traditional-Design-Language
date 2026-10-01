@@ -1,6 +1,6 @@
 # oq/the-rake-is-drawn-as-an-edge-and-carries-no-member — the half of the gable end nobody ruled
 
-*Status: IN PROGRESS (ruled 30 September 2026, B3, corrected by B5 and B6, with B10 and B25-B30 by 1 October; T1, T2, T6, T7, T8 and T11 taken as recommended under a standing instruction; executed by WP-16.9) · Raised in: WP-16.5, one cornice and the gable end (30 September 2026)*
+*Status: CLOSED 1 October 2026 (ruled 30 September 2026, B3, corrected by B5 and B6, with B10 and B25-B30 by 1 October; T1, T2, T6, T7, T8 and T11 taken as recommended under a standing instruction; executed by WP-16.9) · Raised in: WP-16.5, one cornice and the gable end (30 September 2026)*
 
 **The gable end's roof edge is a line, and no record the elevation reads dimensions anything
 there.** This is the half of `oq/the-gable-end-draws-a-full-cornice-whatever-the-kit-says-of-the-return`
@@ -413,3 +413,60 @@ in the check, in its own words, then the option taken.
   - *Read with it, not taken by analogy:* a record that forbids the fault's own rake and settles
     nothing else had read as a silence, and a silence draws the very variant it forbids. It is
     refused by its writer now (R3). No record reaches it.
+
+## Executed 1 October 2026 (WP-16.9): the rake the kit states
+
+- **One reader of the rake.** `resolve_kit.rake_at(rec, date)` reads the style's resolved
+  `rake_condition` at the house's date in eight states, each naming who said it:
+  - `forbidden`: the slot, or a forbidden fault row on a record settling nothing else (R3);
+  - `fault`, `plain`, `undrawn`, `unjudged` and `unread`;
+  - `overhang` (T11);
+  - `silent`.
+- **One spelling of what is drawn.** `elevation.rake_for` turns the reading into a drawing:
+  - The Cardboard Gable's rake at the middles of its figures, a judgment: a 7 in board, the eave's
+    crown and bed mould at 0.6, 1¼ in proud of the wall and 6 in beyond it;
+  - the kit's own plain trim, labelled measured where it is one measured figure (B29), and a
+    judgment where it is a band's middle or a maximum;
+  - or the roof's edge, with the reason.
+
+  `elevation.rake_marks` is what the sheet and the DXF draw: each member is a band along each
+  slope, dying into the eave cornice.
+- **Where it is not drawn, each surface says so.**
+  - An eave face says the rake's overhang past its corners is not drawn there, nor on the roof plan
+    or the model.
+  - The roof plan says that at each gable end the roof is drawn to the wall, because the roof
+    record states no rake past it (`disclosures.roof_stops_at_the_gable_wall`). It claims no rake,
+    because a kit may keep the edge flush.
+  - The model names the rake as not modelled, wherever the elevation draws one.
+- **The styles the fault excepts** keep the edge where their kit states the fault's rake or nothing.
+  Where their kit states another rake, they draw their own (B10; minimal-traditional's 5½ in board,
+  B29).
+- **Withheld.** `rake_overhang_in`, the member's projection and the raking cornice count stay
+  withheld from the faults. `raking-cornice-that-does-not-match` stays could-not-evaluate (T2).
+- **The gate (B6).** `flush-rake` is not applicable where no gable end is drawn, on every test,
+  bounds tests included.
+- **The adjudication (B5).** Nine rake records:
+  - cape-cod-revival (B25);
+  - colonial-revival, its parapet record corrected in its own words;
+  - minimal-traditional (B29);
+  - jeffersonian-classicism, forbidden (B30);
+  - dutch-colonial-american (B28);
+  - ranch-style and modern-farmhouse-traditional (T1);
+  - neo-eclectic (T7);
+  - the farmhouse's 6–8 in, transcribed into a parameter.
+- **What the shipped plans draw.**
+  - The rake is drawn on tidewater-georgian and good-03, the two drawn plans whose styles have a
+    migrated pitch.
+  - On the other eight drawn plans with a gable end, the roof judges no ridge. So the gable end has
+    no slope to carry the rake, and each gable face says why:
+    `oq/the-rake-the-kit-asks-for-is-drawn-only-where-a-pitch-is-migrated`.
+  - good-05 is hipped and has no gable end. `flush-rake` there goes from could-not-evaluate to not
+    applicable (B6).
+
+**Raised by executing it, and not ruled:**
+- `oq/the-rake-the-kit-asks-for-is-drawn-only-where-a-pitch-is-migrated`;
+- `oq/a-rake-record-left-uncorrected-on-an-undrawn-style` (T8);
+- `oq/no-rake-id-states-a-parapeted-or-tumbled-gable` (T6).
+
+**B3, B5 and B6 are executed, and so are the answers that carried them out, so this question is
+closed.** Report: `docs/reports/wp-16.9-the-roof-the-rake-and-the-deeper-cornice.md`.

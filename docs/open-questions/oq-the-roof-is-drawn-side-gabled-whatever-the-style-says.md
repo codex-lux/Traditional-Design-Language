@@ -1,6 +1,6 @@
 # oq/the-roof-is-drawn-side-gabled-whatever-the-style-says — which roof a house gets when its record names none
 
-*Status: IN PROGRESS (ruled 30 September 2026, B1 and B2, with B7-B9 and B11-B24 by 1 October; T3-T5, T9 and T10 taken as recommended under a standing instruction; executed by WP-16.9) · Raised in: WP-16.5, one cornice and the gable end (30 September 2026)*
+*Status: CLOSED 1 October 2026 (ruled 30 September 2026, B1 and B2, with B7-B9 and B11-B24 by 1 October; T3-T5, T9 and T10 taken as recommended under a standing instruction; executed by WP-16.9) · Raised in: WP-16.5, one cornice and the gable end (30 September 2026)*
 
 **Where a plan declares no roof form, the roof is drawn side-gabled, and the style's own kit is
 never asked.** `threshold.roof_form_for` takes the plan's `declared.roof_form`. Failing that, it
@@ -503,3 +503,62 @@ given as it stood in the check, then the option taken.
 - **T10: the Georgian permission, said.** Each of the four records keeps
   georgian-colonial-american's gambrel rows. Its note names federal-style's ban and its reason, and
   says why it is not carried. No drawing moves: the gambrel is canonical on none of them.
+
+## Executed 1 October 2026 (WP-16.9): the roof the style's kit names
+
+- **A closed table.** `build/roof_vocabulary.py` maps every `roof_form` id the corpus uses, in every
+  status, onto one of the seven forms `build/roof.py` draws, or records it undrawable with a reason.
+  Each entry quotes the record it reads. 51 ids are in use: 26 mapped and 25 undrawable. An
+  independent check upheld 50 and amended one: a bare `gable` row names no orientation, so it maps
+  to no form (`oq/a-bare-gable-row-names-no-orientation`). `check_threshold` holds every quote to its
+  file and the table total over the corpus.
+- **One reading of the style's roof.** `threshold.kit_roof(style, date)` reads the resolved
+  `roof_form` through the table in five states. Over the 164 nodes: `kit` 73, `silent` 58,
+  `undrawable` 25, `several` 8, `unresolved` 0. It carries what the kit forbids, as the roof layer's
+  forms (B8), and whether the writer marks the record a judgment (T3).
+- **The order B1 gives.** `threshold.roof_form_reading` takes the plan's declaration, then
+  `kit_roof`, then the massing's first default, then the roof layer's own. Several canonical forms
+  with none of them side-gable draw the fallback, said (B7). A fallback the kit forbids draws no
+  roof, said (B8). The note no longer names a massing the plan does not name.
+- **The ridge is read relative to the entrance (B9).** good-03 is entered on the west. Its side
+  gable's ridge now runs north-south, parallel to the entrance wall, and its gable ends are N and S.
+  The gambrel's and the cross-gable's ridges read the same rule.
+- **The adjudication.** 33 records over 32 kits: the 24 roof records answered here, and the rake's
+  nine (`oq/the-rake-is-drawn-as-an-edge-and-carries-no-member`). Each is in the receiving style's
+  own kit on WP-8.3's template, stamped "BOUND 1 Oct 2026 (WP-16.9)" with its answer. Each was
+  checked independently before it was applied: the first check upheld 22 and amended 10, and the
+  second found nothing blocking.
+- **What the shipped plans draw.** Thirteen of the sixteen declare no roof.
+  - good-01 (shingle-style) is drawn as a gambrel, and good-05 (italian-renaissance-revival) is
+    hipped, each by its own kit.
+  - good-03 keeps the side gable by B7, and it turns (B9).
+  - The colonial-revival plans and good-02 keep the side gable by their own records.
+  - bad-03, good-04 and good-06 keep the side gable their kits make canonical beside another form.
+  - bad-06 and good-07 fall to the roof layer's default, said.
+
+  On the code alone, without the records, five of them would have been drawn gambrel-roofed:
+  colonial-revival's four reference plans and good-02 read shingle-style's gambrel through the
+  cascade.
+- **Said on every surface that draws the roof.** The stacks a hip refuses are said on the
+  elevation, the DXF and the roof plan (B14, `disclosures.stacks_the_roof_refuses`). A roof drawn
+  from a record its writer marks a judgment says so (T3, `disclosures.roof_form_judgment`).
+- **The composer, re-measured on both briefs.**
+  - The Tidewater Georgian brief's candidates are hipped by tidewater-georgian's kit, and their end
+    stacks are refused.
+  - Its fourth returned candidate is centre-passage-single-pile, where it was five-part-palladian.
+    On a hip, pork-chop-return is not applicable, so the two tie on unjudged fatals and the score
+    decides (R13).
+  - The bungalow brief is unmoved.
+- **B2.** `return-that-never-returns` is not applicable where no gable end is drawn. On good-05, now
+  hipped, it goes from present to not applicable.
+
+**Raised by executing it, and not ruled:**
+- `oq/the-massings-first-roof-default-is-read-raw`;
+- `oq/a-bare-gable-row-names-no-orientation`;
+- `oq/end-stacks-rise-past-a-hip` (B14);
+- `oq/a-roof-form-is-ranked-in-roof-pitch`;
+- `oq/the-roof-layer-draws-no-complex-or-polygonal-roof` (B15);
+- `oq/the-model-draws-only-a-gable-roof`.
+
+**B1 and B2 are executed, and so are the answers that carried them out, so this question is
+closed.** Report: `docs/reports/wp-16.9-the-roof-the-rake-and-the-deeper-cornice.md`.
