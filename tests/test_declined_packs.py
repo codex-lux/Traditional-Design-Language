@@ -258,7 +258,9 @@ def test_the_forbidden_slot_meter_is_ratcheted_separately_from_the_backlog():
     # longer reaches. Smaller corpus, not better corpus.
     # 712 -> 679 (WP-16.2, 30 Sep 2026): the first fall that is not a flip. Wrong inherited bans
     # were bound in the styles' own kits, so fewer slots are forbidden for a pack to land on.
-    assert ci.FORBIDDEN_RATCHET == 679
+    # 679 -> 680 (WP-16.9, 1 Oct 2026, B30): jeffersonian-classicism forbids its own rake, and
+    # `opening-pointed`, delivered by the cascade, dimensions the slot anyway. One pair, by name.
+    assert ci.FORBIDDEN_RATCHET == 680
     assert ci.FORBIDDEN_RATCHET not in (ci.RATCHET["role_gaps"], ci.RATCHET["unendorsed"],
                                         ci.RATCHET["inherited_packs"]), (
         "the forbidden-slot figure has collided with a backlog figure; they measure different "

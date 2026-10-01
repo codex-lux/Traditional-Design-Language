@@ -92,10 +92,25 @@
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "rake_overhang_in": {
+          "range": [
+            6,
+            12
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "neo-eclectic.defining_characteristics",
+          "note": "defining_characteristics[7] reads 'Shallow eave and rake overhang, typically 6 to 12 in', and proportional_system.typical_ratios[0] 'Eave and rake overhang 6 to 12 in'. This kit's `eave_condition` carries the same figure for the eave (`overhang_range_in`, measured); it is transcribed here for the rake."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "'Shallow eave and rake overhang, typically 6 to 12 in' (defining_characteristics[7]): 'overhangs of six to twelve inches, leaving no shadow line' (description.long). The record names no rake member.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), T7, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was never put to him, so this is not an answer he chose; recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member, on A10's precedent and T1's shape. neo-eclectic binds its own rake_condition. Until then the slot was open and resolved ELIZABETHAN's parapet record; ranch-style's record of the same date (T1), 'eave and rake overhang between 18 and 36 in' (ranch-style's c03), would otherwise reach it by descent, ranch-style standing before minimal-traditional in its cascade, against this record's own 6 to 12 in. It states the overhang and names no member, as ranch-style's does, so the reader keeps the roof's edge and says the band (T11). Its one descendant, modern-farmhouse-traditional, binds its own record of the same date (T1) and reaches minimal-traditional's first. neo-eclectic is not drawn."
     },
     "cornice_return": {
       "group": "massing-and-roof",

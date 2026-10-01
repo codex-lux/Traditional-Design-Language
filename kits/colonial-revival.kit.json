@@ -41,10 +41,45 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "defining_characteristics[3] names it first: 'Side-gable or hipped roof carrying a continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake'. massing_affinities[0], the canonical four-over-four, makes it the default: 'The default. Two rooms deep, centre passage, five bays, side-gable roof.'"
+        },
+        {
+          "id": "hip",
+          "status": "permitted",
+          "note": "defining_characteristics[3] names it beside the side gable, massing_affinities[2] rates the foursquare common ('Characteristic of the free early phase, 1890-1915, when a hipped cube carried colonial trim.'), and distinguished_from[1] reads 'Colonial Revival disciplines the massing itself into a symmetrical box or a hipped block.' Permitted rather than canonical because massing_affinities[0] calls the side-gable roof the default: a judgment on the record's two sentences."
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "permitted",
+          "note": "exemplars[0].why quotes Hitchcock on the house the record calls the canonical first: 'the typical early Newport gable-above-hip roof'."
+        },
+        {
+          "id": "gambrel",
+          "status": "permitted",
+          "note": "Demoted from canonical, where shingle-style put it ('The Colonial inheritance.'). massing_affinities[3] rates the gambrel-block common and sends it on: 'Overlaps heavily with dutch-colonial-revival; see that node.'"
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "shingle-style permits it; this record refuses the massing it belongs to. distinguished_from[1], against queen-anne-free-classic: 'Free Classic keeps irregular Victorian massing, corner towers, and varied wall textures and merely swaps spindlework for classical columns. Colonial Revival disciplines the massing itself into a symmetrical box or a hipped block.' Judgment: the record names the massing, not this roof."
+        },
+        {
+          "id": "catslide",
+          "status": "permitted",
+          "note": "Kept as shingle-style had it ('The long rear catslide, taken from seventeenth-century New England to bring the roof to the ground.'): the record is silent on a rear catslide, and a rear slope leaves the symmetrical front of defining_characteristics[0] as it is. Judgment."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": true,
+      "rule": "A side-gable roof by default, hipped where the body is a hipped cube, carrying a continuous classical cornice returned at the rake (defining_characteristics[3]) over a symmetrical box, never an irregular Victorian ridge (distinguished_from[1]).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: colonial-revival binds its own roof_form. Until then it wrote none and resolved SHINGLE-STYLE's whole record, whose canonical row is `gambrel`, noted 'The Colonial inheritance.' -- so a gambrel was this style's default, and the roof layer would have drawn one on bad-01, bad-02, bad-05 and bad-07. It arrives through lineage[3], shingle-style `descends_from`; the ancestor this style revives, georgian-colonial-american, is a `revives` edge and delivers nothing. This record's own words give a different default: defining_characteristics[3] reads 'Side-gable or hipped roof carrying a continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake', and massing_affinities[0], its canonical massing, reads 'The default. Two rooms deep, centre passage, five bays, side-gable roof.' The gambrel stays, permitted, where massing_affinities[3] puts it. new-classical already overrides the same inherited row in its own kit ('Overrides the cascade's inherited value (shingle-style, via colonial-revival's family).'). Marked judgment: the hip's rank below the side gable, the cross-gable ban and the catslide's survival are readings of the record, each said in its row. The side gable is the form the roof layer drew on these plans under the fallback, so no shipped roof moves."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -69,10 +104,20 @@
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "boxed-rake-with-return",
+          "status": "permitted",
+          "note": "The record returns its cornice at the rake: defining_characteristics[3] reads 'Side-gable or hipped roof carrying a continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake'. The return the rake dies into is conditional -- c04 reads 'A cornice return is permitted only where the eave carries a full classical cornice of at least 10 in. projection continuing around the corner. A return applied to a bare fascia is forbidden.' -- and this kit's own `cornice_return` binds its return permitted and not canonical, because diagnostic_tells[2] reports that revival returns are 'short decorative stubs applied to the gable end'. So this row is permitted and not canonical too."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The roof ends at a gable rake, not at a parapet: a side-gable or hipped roof carrying a continuous classical cornice, returned at the rake (defining_characteristics[3]). The record states no raking member, profile or overhang.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B5 of 30 Sep 2026, recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member: colonial-revival binds its own rake. It resolved ELIZABETHAN's record until then, 'No exposed gable verge in the ordinary sense; the roofline terminates at the parapet, not at a projecting gable rake.', reached at position 23 of this node's cascade (the linearized chain `resolve_slots` walks, not its lineage); none of the 22 nodes before it binds the slot. That record's note gives its premise, a roof 'correctly concealed behind a parapet' -- elizabethan's own, whose c04 reads 'Roof pitch is low or concealed behind a balustraded or strapwork parapet'. This node's words give it a gable and name no parapet: defining_characteristics[3] reads 'Side-gable or hipped roof carrying a continuous classical cornice with modillions, dentils, or a plain bed moulding, returned at the rake', massing_affinities[0] 'The default. Two rooms deep, centre passage, five bays, side-gable roof.', and diagnostic_tells[2] 'Cornice returns are short decorative stubs applied to the gable end rather than the full eaves carried around a framed roof.' georgian-colonial-american, the ancestor its lineage[0] names ('The claimed ancestor.'), stands at position 44 of the cascade, behind elizabethan, so that node's rake never reached this one. The record states no raking member, profile or overhang, so none is stated here and the slot is marked judgment; under B5 a gable end drawn for this node takes The Cardboard Gable's rake, the record saying nothing of the member. The address stays governed by `opening-pointed`, bound on gothic-revival-british (`part * 3.5`, 'THE BARGEBOARD, 10 1/2 in deep on the default') -- OQ 51's delivery, not endorsed, and unchanged by this binding."
     },
     "cornice_return": {
       "group": "massing-and-roof",

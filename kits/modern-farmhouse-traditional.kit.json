@@ -128,10 +128,20 @@
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "boxed-rake-with-return",
+          "status": "canonical",
+          "note": "c02 (hard): 'Rake overhang not less than 8 in and eave overhang not less than 12 in, with a returned or moulded termination at every gable corner. Zero-overhang boxed rakes are forbidden.' distinguished_from[0] gives the source its rake: 'a real eave and rake overhang with a cornice return, small openings in proportion to solid wall, a full-width porch of habitable depth, and an accreted plan of ells built over decades. The modern version has one mass, a flat eave, a high plate, and a shed porch. Almost every difference is measurable.'. The returned termination is this row; judgment that the row is canonical over a merely moulded one."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "'Rake overhang not less than 8 in and eave overhang not less than 12 in, with a returned or moulded termination at every gable corner. Zero-overhang boxed rakes are forbidden.' (c02). The 8 in rake overhang is this kit's `eave_condition`'s, not restated here.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), T1, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was put to him at 00:34 UTC and was unanswered when that instruction arrived, so this is not an answer he chose; recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member. modern-farmhouse-traditional binds its own rake_condition. Until then the slot was open and resolved ELIZABETHAN's parapet record; minimal-traditional's record of the same date, a plain 5 1/2 in board with no return, would otherwise reach it by descent, against this record's own hard c02. Marked judgment for the canonical row. modern-farmhouse-traditional is not drawn."
     },
     "cornice_return": {
       "group": "massing-and-roof",

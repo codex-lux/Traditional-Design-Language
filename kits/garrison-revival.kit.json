@@ -11,10 +11,35 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "defining_characteristics[1]: 'Two full storeys, rectangular plan, two rooms deep, under a side-gable roof'. massing_affinities[0], the canonical garrison-block: 'The variant is this massing: a two-storey side-gable box with a front jetty.' c04: 'Roof pitch 7:12 to 9:12 side gable.'"
+        },
+        {
+          "id": "catslide",
+          "status": "permitted",
+          "note": "massing_affinities[3] rates the saltbox possible: 'Where a rear lean-to is added, producing the garrison-saltbox hybrid common in 1950s New England builder catalogs.'"
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Demoted from canonical, where shingle-style put it ('The Colonial inheritance.'). This record names no gambrel, and its defining roof is 'under a side-gable roof' (defining_characteristics[1]). Forbidden as a judgment on that defining characteristic."
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "shingle-style permits it. description.short makes the house 'a rectangular two-storey box', and defining_characteristics[1] gives it a 'rectangular plan'. Judgment: the record names no cross-gable."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": true,
+      "rule": "A side-gable roof, 7:12 to 9:12 (c04), over a rectangular two-storey box with a front jetty; a rear lean-to under a catslide makes the garrison-saltbox hybrid.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: garrison-revival binds its own roof_form. Until then it resolved SHINGLE-STYLE's record through colonial-revival: `gambrel` canonical, noted 'The Colonial inheritance.' This record's own words: defining_characteristics[1] reads 'Two full storeys, rectangular plan, two rooms deep, under a side-gable roof', massing_affinities[0] 'The variant is this massing: a two-storey side-gable box with a front jetty.', and c04 'Roof pitch 7:12 to 9:12 side gable.' Bound here rather than left to colonial-revival's record of the same date, which permits a hip and a gambrel this record's defining characteristic excludes. Against it stands lineage[0], 'Kit, openings and entry are the parent style's; only the jettied second storey and the seventeenth-century reference differ.', which the specific defining_characteristics[1] governs, as the specific 'minimal cornice' of defining_characteristics[5] governed the same sentence for this node's cornice in WP-16.2. Marked judgment for the gambrel and cross-gable bans, which the record implies and does not state."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

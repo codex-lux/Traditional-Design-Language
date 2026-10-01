@@ -26,10 +26,40 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "The ridge runs between the party walls, on Lucas's answer B12 of 30 Sep 2026. massing_affinities[0], canonical: 'The brownstone row is the style's native residential form.' c03: 'The crowning cornice shall project between 1/12 and 1/16 of the total facade height and shall run unbroken across the full width of the facade, including across party walls in a row.'."
+        },
+        {
+          "id": "low-hip-suppressed",
+          "status": "permitted",
+          "note": "For the end of a row, on B12. Demoted from canonical, where italianate-american put it for a free-standing house; this house stands between party walls."
+        },
+        {
+          "id": "shallow-gable",
+          "status": "permitted",
+          "note": "Kept as italianate-american has it."
+        },
+        {
+          "id": "steep-gable",
+          "status": "forbidden",
+          "note": "Kept from italianate-american's record: 'Contradicts the defining low-pitched, suppressed roof; that is Gothic Revival's territory (distinguished_from).'"
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "Kept from italianate-american's record (''Add a mansard over the same brackets and it is Second Empire' — the single most common misidentification (diagnostic tells).'), and in this record's own words: distinguished_from[1]: 'Second Empire takes the same palazzo body and puts a mansard roof on it, which converts a terminated wall into a crowned mass. If the roof is a visible storey, it is Second Empire.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A low side-gable roof whose ridge runs between the party walls, concealed behind the continuous crowning cornice of the row; a hip only at the end of a row.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B12 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: renaissance-revival-american binds its own roof_form. Until then the slot was open and resolved ITALIANATE-AMERICAN's record, `low-hip-suppressed` canonical, a free-standing house's roof, so the roof layer drew this party-wall row house hipped. Its canonical massings are the townhouse row and the side-hall double pile. Marked judgment: the record names its party walls and its continuous cornice, not a roof id."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

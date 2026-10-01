@@ -47,10 +47,12 @@
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No exposed rake: the low roof is concealed behind a balustrade, Chinese railing or parapet at least 3 ft high wherever it would otherwise be visible (c03). A gable a temple front shows is a pediment and keeps the pediment's own rule.",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B5 of 30 Sep 2026, recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member: jeffersonian-classicism binds its own rake forbidden, on its own roof. It resolved GEORGIAN-COLONIAL-AMERICAN's record until then, 'The rake is tight — 4 to 8 in of overhang — and carries a reduced version of the eave profile; it must die into the cornice return rather than meeting it in a mitre.', with `boxed-rake-with-return` canonical, reached at position 3 of this node's cascade through early-republic and tidewater-georgian, neither of which binds the slot. That rake is a roof edge shown against the sky, and this node's roof is not shown: c03 reads 'Roof pitch must not exceed 4:12 and must be concealed behind a balustrade, Chinese railing or parapet at least 3 feet high.', defining_characteristics[4] 'Low roof pitch concealed behind balustrade, railing or parapet so the building reads as a single classical volume', and this kit's `parapet` rule 'here the roof is not shown. A parapet, Chinese railing or balustrade at least 3 ft high is required wherever the low roof would otherwise be visible (hard constraint c03)'. description.long is softer, 'a low pitched roof usually concealed behind a balustrade or a Chinese railing'; the hard c03 governs. The one gable the record shows is a temple front's -- massing_affinities[3], temple-front-with-wings, 'Bremo and the pavilions at the University' -- and Lucas's answer B3 keeps a pediment's own rule. Binding the slot forbidden also stops the pack cascade at it: `opening-pointed`, which reaches this node through english-gothic (`part * 3.5`, 'THE BARGEBOARD, 10 1/2 in deep on the default'), is refused by the kit there and governs nothing -- OQ 51's delivery, whose writer's own binding note says 'What does not apply is the domestic-revival half of the pack: the bargeboard'. A refused rule is still a forbidden-slot override, which check_inheritance.py --forbidden counts. Beside it, and not this slot's: the resolved `cornice_return` is georgian-colonial-american's full return, canonical at 12 to 24 in, which presupposes a gable end c03 conceals. Bound forbidden on Lucas's answer B30 of 1 Oct 2026, in the shape of A4's Italianate cornice returns, rather than as a record stating the concealment in words alone."
     },
     "cornice_return": {
       "group": "massing-and-roof",

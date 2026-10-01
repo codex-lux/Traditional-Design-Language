@@ -1096,6 +1096,13 @@ def render_elevation(elev, path, face=None, scale=24.0):
         # shingles drew a covering where the wall is. The silhouette keeps its mark for the
         # readers that measure the roof off the ink, filled as wall, and the rake is drawn over it.
         s.append(f'<polygon class="rf gw w-prof" points="{roof_poly}"/>')
+        # THE RAKE (WP-16.9; Lucas's answers B3 and B5, 30 Sep 2026): each member of the raking
+        # cornice a band along each slope, as `elevation.rake_marks` lays it out for this sheet and
+        # the DXF alike, beneath the roof's edge, which is stroked last so the edge stays one line.
+        for _rb in EL.rake_marks(elev, face)["bands"]:
+            s.append(f'<polygon class="bd w-med" data-rake="{_attr(_rb["member"])}" '
+                     f'data-rake-kind="{_rb["kind"]}" points="'
+                     + " ".join(f"{X(u):.2f},{Ypx(h):.2f}" for u, h in _rb["poly"]) + '"/>')
         s.append(f'<polyline class="rk w-prof" points="{roof_poly}"/>')
     else:
         s.append(f'<polygon class="rf w-prof" points="{roof_poly}"/>')
@@ -1339,7 +1346,12 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # The envelope governs the depth now and the order the shape, so the profile and the face's box
     # stand at one figure, and the caption says what was scaled and what is a judgment.
     scaling = cornice.get("projection_scaling") or {}
-    if env and scaling.get("mode") in ("bed-mould-held", "uniform"):
+    _deep = EL.cornice_depth_words(cornice, "″")
+    if env and _deep and scaling.get("mode") in ("bed-mould-held", "uniform"):
+        # B4: a kit's own minimum decided the depth, and the caption says whose, beside the envelope's
+        cap.append(f"PROJECTIONS SCALED INTO {_deep}, IN THE ORDER'S SHAPE; THE ORDER'S OWN IS "
+                   f"{scaling['order_relief_in']:.1f}″ (RULED)")
+    elif env and scaling.get("mode") in ("bed-mould-held", "uniform"):
         cap.append(f"PROJECTIONS SCALED INTO THE ENVELOPE'S {env:.1f}″ IN THE ORDER'S SHAPE; THE ORDER'S "
                    f"OWN IS {scaling['order_relief_in']:.1f}″ (OQ 79, RULED)")
     if cornice.get("bed_mould_projection_judgment"):

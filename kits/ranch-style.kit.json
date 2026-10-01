@@ -103,10 +103,25 @@
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "parameters": {
+        "rake_overhang_in": {
+          "range": [
+            18,
+            36
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "ranch-style.c03",
+          "note": "c03 reads 'Roof pitch 3:12 to 5:12 with eave and rake overhang between 18 and 36 in. Overhang under 12 in disqualifies the node; a pitch over 6:12 makes the horizontal reading impossible.' Its test reads the pitch and leaves this figure prose ('Eave and rake overhang (18-36in) is the statement's other numeric claim and stays prose'); it is transcribed here for the rake, as this kit's `eave_condition` already carries it for the eave."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "'Roof pitch 3:12 to 5:12 with eave and rake overhang between 18 and 36 in. Overhang under 12 in disqualifies the node; a pitch over 6:12 makes the horizontal reading impossible.' (c03). The record names no rake member.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), T1, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was put to him at 00:34 UTC and was unanswered when that instruction arrived, so this is not an answer he chose; recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member. ranch-style binds its own rake_condition. Until then the slot was open and resolved ELIZABETHAN's parapet record; minimal-traditional's record of the same date, a plain 5 1/2 in board under an overhang 'not exceeding 12 in', would otherwise reach it by descent, and this record's own c03 makes an overhang under 12 in disqualifying. It states the overhang and names no member, so the reader keeps the roof's edge and says the band (T11, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was never put to him, so this is not an answer he chose). It would be the first record neo-eclectic's cascade reaches for this slot (ranch-style stands before minimal-traditional in it), and neo-eclectic's own words state a shallower rake, defining_characteristics[7] 'Shallow eave and rake overhang, typically 6 to 12 in', so neo-eclectic binds its own record of the same date (T7). ranch-style is not drawn, nor is neo-eclectic."
     },
     "cornice_return": {
       "group": "massing-and-roof",

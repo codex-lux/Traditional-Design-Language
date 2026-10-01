@@ -1678,8 +1678,8 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-1884 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1811 still wanted, and 875 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,625 tests**
+2044 image records, **73 sourced** (the first ever — drawn by the corpus from its own
+proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,625 tests**
 (plus the workbench app suite, **764** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -2042,7 +2042,7 @@ ONLY** -- 156 written over the 32 families and traditions, which cited nothing a
 nodes' 4-5 is untouched, and constraints and distinctions are unmoved everywhere. What does separate
 thorough from skeletal was tracked nowhere and `build/check_research.py` now measures it on every
 run:
-**534 `measured` kit parameters cite no source** on the parameter or its slot, 303 of them on one of the 41 generator-read slots
+**534 `measured` kit parameters cite no source** on the parameter or its slot, 306 of them on one of the 43 generator-read slots
 (an UPPER BOUND, from the generators' own string constants -- `height_proportion`, `chimney`,
 `ceiling_height_rule`, `window_proportion` lead), while the census in `check_kits.py` had counted
 editorial-bare (0) for a year and never this;
@@ -3426,8 +3426,8 @@ is a rule instead of a house.
    the network opens; its own status block in `PLAN-OF-ACTION.md` carries the verbatim denial. The
    network-free next step it named — giving the asset records their `provenance.building` names,
    without which every harvest query degrades to a style-name search — **is done**:
-   `build/name_asset_buildings.py` deals each node's records round its own `exemplars` and 875 of
-   1884 name a building, across 318 queries of which 188 are inside HABS's charter. A dry run now
+   `build/name_asset_buildings.py` deals each node's records round its own `exemplars` and 955 of
+   2044 name a building, across 348 queries of which 212 are inside HABS's charter. A dry run now
    assigns zero. **The 72 records on 18 exemplar-less higher-rank nodes are named too**, as of
    WP-11.6: Ruling B gave the families type specimens, so those nodes have exemplars to deal from,
    and nothing is left for this step offline. **The 322 in this sentence was stale for two

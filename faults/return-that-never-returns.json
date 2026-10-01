@@ -79,7 +79,14 @@
     "direction": "at-least",
     "units": "count",
     "measurable_from": "photograph",
-    "note": "Viewed 30-45 degrees off axis. The correct condition shows a short horizontal piece of moulding standing out from the gable wall with its own shadow; the fault shows the rake and eave meeting in a thin line with no horizontal element at all."
+    "note": "Viewed 30-45 degrees off axis. The correct condition shows a short horizontal piece of moulding standing out from the gable wall with its own shadow; the fault shows the rake and eave meeting in a thin line with no horizontal element at all.",
+    "applies_when": {
+      "expression": "count_of_gable_end_walls",
+      "direction": "at-least",
+      "threshold": 1,
+      "units": "count",
+      "note": "Only asked of a house the elevation draws with a gable end (WP-16.9; Lucas's answer B2, 30 Sep 2026). A hipped roof runs its eave round every face, so it has no gable end and no return to answer for: not applicable, never a clear. No exception is added for a style whose kit forbids the return: a house drawn with a gable end is judged, whatever its kit says of the return. A roof form the generator does not model leaves the count unmeasured, and the fault could-not-evaluate."
+    }
   },
   "secondary_tests": [
     {
@@ -88,7 +95,14 @@
       "direction": "at-least",
       "units": "in",
       "measurable_from": "photograph",
-      "note": "The minimum honest answer is the plain 6-12 in mitred return a Cape carries in place of a modillion cornice. There is no house so plain that this does not apply, because the alternative is an unfinished edge."
+      "note": "The minimum honest answer is the plain 6-12 in mitred return a Cape carries in place of a modillion cornice. There is no house so plain that this does not apply, because the alternative is an unfinished edge.",
+      "applies_when": {
+        "expression": "count_of_gable_end_walls",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Same precondition as the primary (WP-16.9, B2): a house drawn with no gable end has no return to answer for."
+      }
     },
     {
       "expression": "eave_shadow_continuation_past_building_corner_in",
@@ -96,7 +110,14 @@
       "direction": "at-least",
       "units": "in",
       "measurable_from": "photograph",
-      "note": "Follow the eave's shadow along the wall in a photograph. If it stops dead at the corner of the building, nothing returned."
+      "note": "Follow the eave's shadow along the wall in a photograph. If it stops dead at the corner of the building, nothing returned.",
+      "applies_when": {
+        "expression": "count_of_gable_end_walls",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Same precondition as the primary (WP-16.9, B2): a house drawn with no gable end has no return to answer for."
+      }
     }
   ],
   "detection": "View the gable from 30 to 45 degrees off axis. The correct condition shows a short horizontal piece of moulding standing out from the gable wall with its own shadow under it. The fault shows the rake and the eave meeting in a thin line with no horizontal element between them. In a photograph, follow the eave's shadow along the wall: if the shadow stops dead at the corner of the building, nothing returned.",
@@ -114,7 +135,14 @@
         "direction": "at-most",
         "units": "count",
         "measurable_from": "photograph",
-        "note": "The shingle field must run over every corner and storey line."
+        "note": "The shingle field must run over every corner and storey line.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B2): a house drawn with no gable end has no return to answer for."
+        }
       }
     },
     {
@@ -127,7 +155,14 @@
         "direction": "at-least",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "The junction must be resolved structurally - a purlin end, a bracket, a barge - not left as two boards meeting."
+        "note": "The junction must be resolved structurally - a purlin end, a bracket, a barge - not left as two boards meeting.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B2): a house drawn with no gable end has no return to answer for."
+        }
       }
     },
     {
@@ -140,7 +175,14 @@
         "direction": "at-most",
         "units": "count",
         "measurable_from": "photograph",
-        "note": "It must actually be continuous; a fascia that stops at a corner is still the fault."
+        "note": "It must actually be continuous; a fascia that stops at a corner is still the fault.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B2): a house drawn with no gable end has no return to answer for."
+        }
       }
     },
     {
@@ -153,7 +195,14 @@
         "direction": "at-most",
         "units": "count",
         "measurable_from": "photograph",
-        "note": "Consistently across the building, with no cornice elsewhere."
+        "note": "Consistently across the building, with no cornice elsewhere.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B2): a house drawn with no gable end has no return to answer for."
+        }
       }
     },
     {
@@ -166,7 +215,14 @@
         "direction": "at-least",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "A plastered or parapeted edge, or an exposed-tail eave; either way, no members to return."
+        "note": "A plastered or parapeted edge, or an exposed-tail eave; either way, no members to return.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B2): a house drawn with no gable end has no return to answer for."
+        }
       }
     }
   ],

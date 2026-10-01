@@ -81,7 +81,14 @@
     "direction": "at-least",
     "units": "in",
     "measurable_from": "photograph",
-    "note": "THICKNESS, not overhang - this is the fault whose correct answer is not 'more overhang'. A raking member standing 1 1/4 in proud of the siding throws a continuous shadow down the whole rake; a flush rake with a drip edge throws none however far it projects past the roof."
+    "note": "THICKNESS, not overhang - this is the fault whose correct answer is not 'more overhang'. A raking member standing 1 1/4 in proud of the siding throws a continuous shadow down the whole rake; a flush rake with a drip edge throws none however far it projects past the roof.",
+    "applies_when": {
+      "expression": "count_of_gable_end_walls",
+      "direction": "at-least",
+      "threshold": 1,
+      "units": "count",
+      "note": "Only asked of a house the elevation draws with a gable end (WP-16.9; Lucas's answer B6, 30 Sep 2026). A hipped roof has no rake, so the question does not arise: not applicable, never a clear. A roof form the generator does not model leaves the count unmeasured, and the fault could-not-evaluate."
+    }
   },
   "secondary_tests": [
     {
@@ -91,7 +98,14 @@
       "units": "in",
       "measurable_from": "photograph",
       "upper": 8,
-      "note": "The tight-verge family. Colonial and Georgian work runs 4-8 in; the deep-overhang styles are governed by their own exceptions, and the rake should almost never exceed the eave outside them."
+      "note": "The tight-verge family. Colonial and Georgian work runs 4-8 in; the deep-overhang styles are governed by their own exceptions, and the rake should almost never exceed the eave outside them.",
+      "applies_when": {
+        "expression": "count_of_gable_end_walls",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Same precondition as the primary (WP-16.9, B6): a house drawn with no gable end has no rake to judge."
+      }
     },
     {
       "expression": "rake_shadow_continuity_along_verge_percent",
@@ -99,7 +113,14 @@
       "direction": "at-least",
       "units": "percent",
       "measurable_from": "photograph",
-      "note": "Photographed in raking afternoon light. A correct rake casts a shadow onto the wall along its entire length; a flush rake casts one nowhere."
+      "note": "Photographed in raking afternoon light. A correct rake casts a shadow onto the wall along its entire length; a flush rake casts one nowhere.",
+      "applies_when": {
+        "expression": "count_of_gable_end_walls",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Same precondition as the primary (WP-16.9, B6): a house drawn with no gable end has no rake to judge."
+      }
     }
   ],
   "detection": "Photograph the gable end in raking afternoon light. A correct rake casts a continuous shadow onto the wall below it along its whole length; a flush rake casts none. Then measure the rake overhang against the eave overhang in the same image: outside the deep-overhang styles the rake should be equal to or tighter than the eave, and it should never be zero while the eave is 12 in. Third check: at the ridge, look for whether the rake member has a visible end - a thick raking cornice shows its section at the peak, a flush rake shows nothing.",
@@ -118,7 +139,14 @@
         "units": "in",
         "measurable_from": "photograph",
         "upper": 36,
-        "note": "Equal to the eave on all four sides, with purlins running through and knee braces under. A 30 in overhang finished in a plain fascia is a Craftsman roof with the argument removed."
+        "note": "Equal to the eave on all four sides, with purlins running through and knee braces under. A 30 in overhang finished in a plain fascia is a Craftsman roof with the argument removed.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B6): a house drawn with no gable end has no rake to judge."
+        }
       }
     },
     {
@@ -132,7 +160,14 @@
         "upper": 79,
         "units": "in",
         "measurable_from": "photograph",
-        "note": "1.2-2.0 m, against an eave of 0.8-1.5 m, carried on three to five stepped purlin ends. An unsupported 2 m rake is not chalet construction."
+        "note": "1.2-2.0 m, against an eave of 0.8-1.5 m, carried on three to five stepped purlin ends. An unsupported 2 m rake is not chalet construction.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B6): a house drawn with no gable end has no rake to judge."
+        }
       }
     },
     {
@@ -145,7 +180,14 @@
         "direction": "at-most",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "The verge must be bedded - tile or slate over a tilting fillet, pointed in mortar - or carry a shaped bargeboard hung clear of the wall."
+        "note": "The verge must be bedded - tile or slate over a tilting fillet, pointed in mortar - or carry a shaped bargeboard hung clear of the wall.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B6): a house drawn with no gable end has no rake to judge."
+        }
       },
       "granted_when": {
         "construction": [
@@ -166,7 +208,14 @@
         "direction": "at-most",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "Mortared tight to a coping with a visible bedding joint and a kneeler."
+        "note": "Mortared tight to a coping with a visible bedding joint and a kneeler.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B6): a house drawn with no gable end has no rake to judge."
+        }
       }
     },
     {
@@ -179,7 +228,14 @@
         "direction": "at-most",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "The edge must be plaster or tile, never a board."
+        "note": "The edge must be plaster or tile, never a board.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B6): a house drawn with no gable end has no rake to judge."
+        }
       }
     },
     {
@@ -192,7 +248,14 @@
         "direction": "at-most",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "The whole trim vocabulary must keep faith: 2 1/4 in casing, no surround, no cornice."
+        "note": "The whole trim vocabulary must keep faith: 2 1/4 in casing, no surround, no cornice.",
+        "applies_when": {
+          "expression": "count_of_gable_end_walls",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (WP-16.9, B6): a house drawn with no gable end has no rake to judge."
+        }
       }
     }
   ],

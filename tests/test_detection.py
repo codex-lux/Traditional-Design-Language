@@ -46,7 +46,11 @@ FAULTS = 210
 # which every test of `pork-chop-return` and `return-shallower-than-tall` now reads as its
 # `applies_when`, on WP-16.4's precedent: a gable end that draws no return has none to proportion.
 # Diffed against a worktree of `9dd0fbf`: one name added, none removed.
-IDENTIFIERS_READ = 827
+# 827 -> 828 AT WP-16.9 (1 Oct 2026), BY NAME: `count_of_gable_end_walls`, which every test of
+# `return-that-never-returns` (B2) and of `flush-rake` (B6) now reads as its `applies_when`: a house
+# whose roof draws no gable end has no return and no rake to judge. Diffed against a worktree of
+# `54f7e33`: one name added, none removed.
+IDENTIFIERS_READ = 828
 # 36 -> 40 AT WP-14.3 (27 Sep 2026), BY NAME: `transom_height_in`, `transom_width_in`,
 # `transom_head_rise_in` and `pilaster_projection_in` joined `elevation.NOT_MODELLED`, because
 # opening-proportion marks the transom's height a judgment and gibbs-ionic the pilaster's
@@ -61,7 +65,13 @@ IDENTIFIERS_READ = 827
 # tall, the pork-chop fault's own rule: the same construction), and `rake_overhang_in`, which was
 # the CORNICE's projection published under the rake's name on a roof record that models no rake
 # overhang, and convicted eleven shipped plans of flush-rake. Diffed against a worktree of `9dd0fbf`.
-REFUSALS = 44
+# 44 -> 45 AT WP-16.9 (1 Oct 2026), BY NAME, read by a fault test: `rake_member_projection_from_
+# siding_face_in`, flush-rake's governing test. B3 draws the rake board 1 1/4 in proud of the wall,
+# which IS that test's threshold, so publishing it would pass the fault by construction (R8a's
+# precedent). Diffed against a worktree of `54f7e33`: one name added, none removed. It was found
+# only after the identifier pin above it was re-pinned: the first assert in the test that reads both
+# had failed first and hidden it, from the second independent check as from this package.
+REFUSALS = 45
 
 # The two live contradictions, BY NAME. A count alone would let one be fixed and another
 # arrive on the same commit -- WP-11.7's "a removed serious and an added duplicate cancelled

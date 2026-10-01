@@ -36,10 +36,30 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "gambrel",
+          "status": "canonical",
+          "note": "defining_characteristics[0]: 'Gambrel roof with a steep lower slope (60–72 degrees) and a shallow upper slope (18–30 degrees), the break at 55–70% of the half-span'. Kept from dutch-colonial-american, whose row reads 'The eighteenth-century arrival (c. 1720+) that gets a full upper storey out of a low wall (own long description); see roof_pitch for gambrel geometry.'"
+        },
+        {
+          "id": "side-gable",
+          "status": "permitted",
+          "note": "Demoted from canonical, where dutch-colonial-american put it ('The rural farmhouse -- hall-and-parlor and gambrel-block -- presents its long eave, not its gable, to the approach; door centred on five-bay work after c. 1730 (own bay_rhythm).'). The gambrel presents its long eave too (defining_characteristics[5]: 'Three- or five-bay eave-front elevation with a Dutch door, transom-lit after c. 1760'). The straight gable is the roof before the gambrel, which this record's own exemplar dates: exemplars[0] 'enlarged c. 1765 when the fashionable gambrel roof was added'."
+        },
+        {
+          "id": "front-gable",
+          "status": "permitted",
+          "note": "Kept as dutch-colonial-american had it, with its note naming the urban case ('The urban expression only -- Nieuw Amsterdam, Kingston, Albany -- where the parapeted gable turns to the street exactly as in the Netherlandish original (own lineage note); the inherited germanic-vernacular/low-countries-vernacular default, but not the rural family norm.'): this rural record is silent on it."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A gambrel roof, lower slope 60–72 degrees and upper 18–30, broken at 55–70% of the half-span, springing past the wall on a concave eave (c01, c02), over an eave-front elevation.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: new-jersey-dutch-gambrel binds its own roof_form. Until then it wrote none and resolved DUTCH-COLONIAL-AMERICAN's record, in which `side-gable` and `gambrel` are both canonical. Under the ruling the roof layer keeps side-gable wherever it is canonical, so the variant named for its gambrel would have been drawn with a straight gable: the Hudson house its distinguished_from[1] contrasts it with ('Steep straight gable versus gambrel'). Its own words: defining_characteristics[0] 'Gambrel roof with a steep lower slope (60–72 degrees) and a shallow upper slope (18–30 degrees), the break at 55–70% of the half-span', and description.long 'This is a house made of one geological accident and one roof idea.' The side gable stays permitted, as the roof this record's own exemplar had before 1765."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

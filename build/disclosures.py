@@ -545,6 +545,59 @@ def stack_plan_judgment(plan):
                     + (f': {basis.upper()}' + (" …" if elided else "") if basis else '')}
 
 
+def roof_form_judgment(roof):
+    """A roof drawn from a kit record its writer flags `judgment: true` says so (T3, taken as
+    recommended under Lucas's standing instruction of 1 Oct 2026, on WP-12.9's precedent for the
+    stack's plan size). Only where the KIT decided the drawn form: a declared form is the record's
+    own, and a fallback already says it is one. Read off the roof record's `form_reading`, which
+    carries `threshold.kit_roof`'s reading, and never re-derived."""
+    fr = (roof or {}).get("form_reading") or {}
+    kr = fr.get("kit") or {}
+    if fr.get("by") != "kit" or not kr.get("judgment"):
+        return None
+    ids = ", ".join(kr.get("canonical") or []) or "?"
+    return (f"ROOF FORM IS A JUDGMENT — {str(kr.get('judgment_by') or '?').upper()}'S KIT MAKES "
+            f"{ids.upper()} CANONICAL AND MARKS THE CALL A JUDGMENT")
+
+
+def roof_stops_at_the_gable_wall(gable_faces):
+    """WHERE A ROOF WITH GABLE ENDS IS DRAWN TO THE WALL, THE PLAN SAYS SO (WP-16.9, B3 and B5).
+
+    The elevation's gable faces draw the rake the style's kit states, as far beyond the wall as
+    its figures put it (6 in on Tidewater). The roof plan draws the roof record, and that record
+    stops at the gable wall: it dimensions no rake. So the two surfaces disagree about where the
+    roof ends at a gable, and a reader of the roof plan alone was told nothing (V19's class: one
+    roof, two extents, said on one of them).
+
+    It states what the plan DRAWS, and never that a rake exists: a kit may keep the edge flush, or
+    forbid the member, and a sentence refusing a rake that is not there would be a refusal about
+    nothing. `gable_faces` is `elevation.gable_faces`' answer, the one reader of which faces are
+    gable ends: None (a form the generator does not model) and () (a hip, a gable-on-hip, a
+    refused roof) take no line."""
+    if not gable_faces:
+        return None
+    return ("AT EACH GABLE END THE ROOF IS DRAWN TO THE WALL — THE ROOF RECORD STATES NO RAKE PAST "
+            "IT, SO NONE IS DRAWN ON THIS PLAN")
+
+
+def stacks_the_roof_refuses(roof):
+    """The stacks a style calls for and the roof places none of, said (WP-16.9).
+
+    `roof.chimney_positions` answers `applicable: True` where the style's kit or the massing
+    places chimneys, and leaves `positions` empty with a note where it cannot stand one: a hipped
+    roof has no full gable-end wall to run one through, and a roof with no judged ridge has no
+    height to measure one against. NO SURFACE PRINTED THAT NOTE. The spec Colonial's kit calls for
+    gable-end chimneys and its sheets drew none, in silence; and B1 (Lucas, 30 Sep 2026) hips every
+    house whose style makes the hip canonical -- the composer's Georgian candidates among them,
+    whose own kit calls the hipped roof "with tall paired end chimneys" the type specimen -- so
+    the same silence reached every such house. It is read and not re-derived: the roof record's
+    own note, printed. None where the style calls for no chimney, or where one is placed."""
+    ch = (roof or {}).get("chimneys") or {}
+    if not ch.get("applicable") or ch.get("positions") or not ch.get("note"):
+        return None
+    return "STACKS NOT DRAWN — " + " ".join(str(ch["note"]).split()).upper()
+
+
 def style_disagreement(plan, styles=None, partis=None):
     """The plate is judged against `plan.style` and nothing else, and the reader has no way to
     see when that disagrees with the plan's own title or with the parti it names.

@@ -76,7 +76,19 @@
       "confidence": "high",
       "status": "drafted",
       "note": "Grounded in own diagnostic_tells: 'Exactly one piece of ornament on an otherwise plain building: a jigsawn gable bracket, a pointed window, a run of turned posts.'",
-      "group": "massing-and-roof"
+      "group": "massing-and-roof",
+      "parameters": {
+        "rake_trim_width_in": {
+          "range": [
+            6,
+            8
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "american-farmhouse-vernacular.c02",
+          "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B5 of 30 Sep 2026, recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member, under which a kit that states another rake draws its own, the farmhouse's plain trim among them, once the adjudication transcribes the figure into the kit. Transcribed from this kit's own rule, 'Plain rake trim 6-8 in'. c02 states the figure for the fascia ('fascia 6-8 inches') and its own test reads it on `rake_trim_width_in`, the vocabulary's 'Width of the rake (gable) or eave trim board'; the rule carries it to the rake. Through this slot the figure also reaches new-urbanist-traditional (drawn; named in the finding B5 answered) and folk-victorian (not drawn), which binds no rake_condition and whose own kit permits a `pierced-bargeboard` gable_treatment ('The oldest millwork layer, inherited from Gothic Revival'), against this slot's rule 'never a full profiled rake or bargeboard'. It is named and not corrected: a folk-victorian record of its own would be the record new-urbanist-traditional reads ahead of this one (drawn; bad-03), so the correction is left to oq/the-rake-is-drawn-as-an-edge-and-carries-no-member, which carries it: T8, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was never put to him, so this is not an answer he chose."
+        }
+      }
     },
     "cornice_return": {
       "binding": "forbidden",

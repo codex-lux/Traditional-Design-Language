@@ -1398,6 +1398,19 @@ def _roof(plan, section, roof, states, elev=None):
                          for u, v in prof]},
             "cut", "salmon",
             {"record": f"roof.elevation_profiles.{f}"}, "derived", face=f))
+    # THE RAKE THE ELEVATION DRAWS IS NOT MODELLED, AND THIS LAYER SAYS SO (WP-16.9). The gable
+    # faces draw the rake the style's kit states past the wall (`elevation.rake_for`); the roof
+    # record these planes are built from stops at the gable wall and dimensions no rake. Named
+    # only where the elevation really draws a member: a kit keeping the edge flush, or forbidding
+    # the rake, leaves nothing unmodelled, and a refusal about nothing is the fake-unjudged shape
+    _rk = (elev or {}).get("rake") or {}
+    if _rk.get("draws") in ("rake", "plain") and _rk.get("members"):
+        states.cannot("the rake at each gable end",
+                      "the elevation's gable faces draw it from the style's kit ("
+                      + " ".join(str(_rk.get("words") or "").split()).lower()
+                      + "); the roof record stops at the gable wall and dimensions no rake, so this "
+                        "layer has nothing to build it from",
+                      "elevation.rake", cls="roof")
     return out
 
 

@@ -34,10 +34,76 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "Forbidden on B18. distinguished_from[0]: 'Egyptian Revival batters its walls, squats its columns, and terminates in a cavetto with no pediment ever.' greek-revival-american's record of the same date makes the pedimented gable-front canonical, and this record would otherwise inherit it."
+        },
+        {
+          "id": "side-gable",
+          "status": "atypical",
+          "note": "Atypical on B18. A low gable reads as a pediment, which is how greek-revival-american uses it ('Low roof pitch (4:12 to 6:12) so that a gable reads as a pediment, with the cornice returning or running level across the gable base'), and this record refuses the pediment: 'Egyptian Revival batters its walls, squats its columns, and terminates in a cavetto with no pediment ever.' Judgment."
+        },
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "Canonical alone, on Lucas's answer B18 of 30 Sep 2026. c02: 'Every terminating horizontal edge shall be composed as torus roll below cavetto cornice, in that order and without intervening classical mouldings. Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.' A hip's edges are all horizontal, so the torus and cavetto can crown every one. Judgment: the record names no roof."
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "permitted",
+          "note": "Kept as greek-revival-american's record of the same date has it: Kept as georgian-colonial-american had it (permitted): this record is silent on it."
+        },
+        {
+          "id": "gambrel",
+          "status": "permitted",
+          "note": "Kept as greek-revival-american's record of the same date has it: Kept as georgian-colonial-american had it (permitted, and atypical in New England and the Hudson Valley): this record is silent on the gambrel."
+        },
+        {
+          "id": "gambrel",
+          "status": "atypical",
+          "note": "Kept as greek-revival-american's record of the same date has it: Kept as georgian-colonial-american had it: 'Regionally restricted. Effectively absent in the Chesapeake and the Low Country.'",
+          "applies_when": {
+            "regions": [
+              "New England",
+              "Hudson Valley"
+            ]
+          }
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "Kept as greek-revival-american's record of the same date has it: Kept forbidden, with georgian-colonial-american's note: 'Breaks the single unaccented cornice line the whole composition depends on. Victorian.' This record is silent on it."
+        },
+        {
+          "id": "catslide-saltbox",
+          "status": "forbidden",
+          "note": "Kept as greek-revival-american's record of the same date has it: Kept forbidden, with georgian-colonial-american's note: 'First Period. An asymmetrical section under a symmetrical front is a contradiction.' This record is silent on it."
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "Kept as greek-revival-american's record of the same date has it: Kept forbidden, with georgian-colonial-american's note: 'Second Empire, and 120 years late.' This record is silent on it."
+        },
+        {
+          "id": "shed",
+          "status": "forbidden",
+          "note": "Kept as greek-revival-american's record of the same date has it: Kept forbidden, with georgian-colonial-american's note: 'No period existence on a main block.' This record is silent on it."
+        },
+        {
+          "id": "picturesque-roof-intersection",
+          "status": "forbidden",
+          "note": "Kept as greek-revival-american's record of the same date has it: Kept forbidden, with georgian-colonial-american's note: 'Two roofs of unequal ridge height meeting on the main block. This is the roof-scale form of the asymmetrical parti now forbidden at composition_parti.' This record is silent on it."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A low roof whose every terminating horizontal edge is a torus roll below a cavetto cornice (c02), and never a pediment: a hip.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B18 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: egyptian-revival binds its own roof_form. Until then it wrote none and resolved georgian-colonial-american's record, side-gable and hip both canonical, through greek-revival-american; that node's record of the same date makes the pedimented front gable canonical, which this record refuses. Only the hip, the side gable and the front gable are this record's; every other row is greek-revival-american's, unchanged. The record names no roof. Marked judgment: the hip is read from the cavetto's edge rule and the refused pediment. A specified record stops georgian-colonial-american's parameters here (T5): hip_ridge_length_ratio (editorial) and the two gambrel pitches, which no code reads. federal-style's record of the same date, which stands between this node and georgian-colonial-american in its cascade, forbids the gambrel for its own reason (federal-style's distinguished_from[2]: 'combine Federal doorways with massing (gambrel, wide dormered roofs) no Federal builder used'). The gambrel rows here keep georgian-colonial-american's permission and not that ban, whose reason is the Federal builder's, this record being silent on the gambrel: T10, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was never put to him, so this is not an answer he chose; recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

@@ -306,7 +306,9 @@ def test_the_forbidden_meter_is_still_ratcheted_apart_from_the_backlog():
     # 712 -> 679 on 30 Sep 2026 (WP-16.2's adjudication): forbidden slots bound permitted or
     # specified in the styles' own kits leave the count, and the companions bring a few back as
     # the styles' own bans. Measured, and lowered on WP-8.3's precedent.
-    assert ci.FORBIDDEN_RATCHET == 679
+    # 679 -> 680 on 1 Oct 2026 (WP-16.9, B30): jeffersonian-classicism's own rake ban, landed on by
+    # `opening-pointed` through the cascade. Raised by one, named, as B30's answer said it would be.
+    assert ci.FORBIDDEN_RATCHET == 680
     assert ci.FORBIDDEN_RATCHET not in ci.RATCHET.values()
 
 

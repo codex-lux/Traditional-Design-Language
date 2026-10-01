@@ -11,18 +11,65 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "extends",
+      "binding": "specified",
       "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "Kept as georgian-colonial-american has it, with no note of its own; this record does not contradict it."
+        },
         {
           "id": "hip",
           "status": "canonical",
-          "op": "replace",
-          "note": "The variant's own signature -- low hip 'frequently screened by a balustrade or captain's walk', a silhouette diagnostic_tells names directly against the steep-gabled colonial houses this variant's own carpenters had been building the season before."
+          "note": "The variant's own signature -- low hip 'frequently screened by a balustrade or captain's walk', a silhouette diagnostic_tells names directly against the steep-gabled colonial houses this variant's own carpenters had been building the season before. (Carried unchanged from this node's own extends delta. The words in quotation marks are not in this node's style record; the nearest are diagnostic_tells[3], 'Balustrade or captain's walk on a low hip roof, in a region whose colonial houses had steep gables and a huge central chimney'.)"
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "permitted",
+          "note": "Kept as georgian-colonial-american has it, with no note of its own; this record does not contradict it."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Forbidden in this record's own words (T4): distinguished_from[2] says revival work 'combines Federal doorways with gambrel roofs, sunrooms and attached garages. Genuine New England Federal doorways are smaller than photographs suggest and sit on a house whose upper windows are visibly shorter than its lower ones.'. Both of georgian-colonial-american's gambrel rows are replaced by this one."
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "Kept as georgian-colonial-american has it: 'Breaks the single unaccented cornice line the whole composition depends on. Victorian.'"
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "Kept as georgian-colonial-american has it: 'Turns the gable into the principal elevation, which inverts the style's parti.'"
+        },
+        {
+          "id": "catslide-saltbox",
+          "status": "forbidden",
+          "note": "Kept as georgian-colonial-american has it: 'First Period. An asymmetrical section under a symmetrical front is a contradiction.'"
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "Kept as georgian-colonial-american has it: 'Second Empire, and 120 years late.'"
+        },
+        {
+          "id": "shed",
+          "status": "forbidden",
+          "note": "Kept as georgian-colonial-american has it: 'No period existence on a main block.'"
+        },
+        {
+          "id": "picturesque-roof-intersection",
+          "status": "forbidden",
+          "note": "Kept as georgian-colonial-american has it: 'Two roofs of unequal ridge height meeting on the main block. This is the roof-scale form of the asymmetrical parti now forbidden at composition_parti.'"
         }
       ],
-      "rule_append": "Where hipped, the low roof is very often screened by a balustrade or captain's walk (see balustrade) -- a device this variant's diagnostic_tells calls out as unmistakable 'in a region whose colonial houses had steep gables and a huge central chimney'.",
+      "parameters": {},
       "status": "drafted",
-      "confidence": "medium"
+      "confidence": "medium",
+      "judgment": false,
+      "rule": "'Roof pitch 6:12 to 8:12 (hip or low side gable) - low enough to read Federal, steep enough to shed New England snow. Below 5:12 the assembly fails in zone 5A-6A snow loads and above 9:12 it reads colonial.' (c04). Where hipped, the low roof is very often screened by a balustrade or captain's walk (see balustrade) -- a device this variant's diagnostic_tells calls out as unmistakable 'in a region whose colonial houses had steep gables and a huge central chimney'.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), T4, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was put to him at 00:34 UTC and was unanswered when that instruction arrived, so this is not an answer he chose; recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says. new-england-federal binds its own roof_form, folding in its own `extends` delta (the hip canonical, its note kept) and its rule_append. Its rule is its own c04, with that rule_append after it, in place of georgian-colonial-american's slot rule, which stops here. Until then it resolved GEORGIAN-COLONIAL-AMERICAN's record with that delta applied, which permits the gambrel; this record names gambrel roofs on Federal doorways as revival work. Every other row is unchanged, so nothing drawn moves. A specified record stops georgian-colonial-american's parameters here (T5): hip_ridge_length_ratio (editorial) and the two gambrel pitches, which no code reads."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

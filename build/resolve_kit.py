@@ -453,6 +453,136 @@ def return_at(rec, date=None):
     return out
 
 
+# THE RAKE A KIT STATES (WP-16.9; Lucas's answers B3 and B5, 30 Sep 2026). `rake_condition` rows the
+# reader knows, by what the elevation does with them: the one row that IS The Cardboard Gable's own
+# rake (georgian-colonial-american's record: "The rake is tight -- 4 to 8 in of overhang -- and
+# carries a reduced version of the eave profile"), and the rows naming a rake this generator does
+# not draw, which keep the edge and are named. A row in neither is UNJUDGED and said, never guessed
+# into one of the two; `tests/test_rake.py` holds the tables total over the ids the corpus uses.
+RAKE_FAULT_VARIANTS = ("boxed-rake-with-return",)
+RAKE_UNDRAWN_VARIANTS = ("bargeboard-full-rake-pierced", "kneelers-and-raised-coping",
+                         "timber-barge-board", "close-verge-with-rake-mould")
+# The parameters a record states a PLAIN rake trim's width in: cape-cod-colonial's `rake_width_max`
+# (6 in, measured, "Rake trim not more than 6 in wide (c04, soft)"), a maximum, drawn at that
+# figure; and `rake_trim_width_in`, a band, drawn at its middle. A figure a record states only in
+# its prose is not read here: it is drawn once it is transcribed into one of these, quoted.
+RAKE_TRIM_PARAMS = ("rake_trim_width_in", "rake_width_max")
+
+
+def rake_at(rec, date=None):
+    """WHAT A STYLE'S RESOLVED `rake_condition` SAYS THE GABLE END'S RAKE IS, AT THE HOUSE'S DATE
+    (WP-16.9, B3 and B5). One reader, for the sheet, the DXF and the measurements.
+
+    A dict whose `state` is one of:
+    - `forbidden`: the slot is bound `forbidden`, or the record forbids The Cardboard Gable's own
+      rake (`RAKE_FAULT_VARIANTS`) and settles nothing else (no canonical row, no trim), so the rake
+      the silence would draw is the one it forbids. The rake member is refused (R3) and the roof's
+      edge is drawn; `writers` names who forbade it and `variant` the row, where a row did.
+    - `fault`: a canonical row is The Cardboard Gable's own rake (`RAKE_FAULT_VARIANTS`); `variant`
+      names it and `bands` carries the record's own figures beside it.
+    - `plain`: the record states a plain trim's width (`RAKE_TRIM_PARAMS`): `trim_in` is the figure
+      drawn (a band's middle, or a maximum as stated), `trim_basis` how it was read, `trim_by` who
+      wrote it. `trim_measured` is True only where the record states ONE measured figure that is not
+      a maximum: that figure is drawn as it stands, a measurement (B29, 1 Oct 2026: minimal-
+      traditional's 5 1/2 in "is a measurement rather than a judgment"); a band's middle and a
+      maximum drawn at its figure are a judgment about where in what the record allows to draw.
+    - `undrawn`: a canonical row names a rake this generator does not draw
+      (`RAKE_UNDRAWN_VARIANTS`: a bargeboard, a coped parapet, a close verge); the edge is kept.
+    - `unjudged`: a canonical row the reader does not know; the edge is kept and the id is said.
+    - `unread`: the slot is bound and states its rake only in words (`rule`), which are quoted and
+      never parsed; the edge is kept. A record that SAYS a rake in prose has not said nothing.
+    - `overhang`: the record states the rake's own overhang (`rake_overhang_in` in `bands`) and no
+      canonical row and no trim: it has said how far the rake stands out and settled no member
+      (ranch-style's c03, 18 to 36 in; neo-eclectic's defining_characteristics[7], 6 to 12 in). It is
+      not silent, so the fault's rake is not drawn over it; the edge is kept and the band is said
+      (T11, 1 Oct 2026, taken as recommended under Lucas's standing instruction, never put). A record
+      that PERMITS The Cardboard Gable's own rake beside its band has permitted that member, so it
+      reads as a silence does and the fault's rake is drawn (the second independent check, 1 Oct
+      2026: as first written, a permitted fault row and the fault's own band kept the flush edge
+      the fault names).
+    - `silent`: nothing binds the slot, or it is bound and states nothing: the fault's rake (B5,
+      "or says nothing"). A record that permits rows and makes none canonical settles nothing, and
+      `permitted` names the rows it permits, as A2 reads a silence.
+
+    `writers` names the nodes whose records say it, `rule` the record's own rule where it states
+    one, `date` the date read at."""
+    out = {"state": "silent", "writers": [], "variant": None, "bands": {}, "trim_in": None,
+           "trim_basis": None, "trim_by": None, "trim_measured": False, "rule": None, "permitted": [],
+           "date": date}
+    if not rec or (rec.get("binding") in (None, "open") and not rec.get("variants")
+                   and not rec.get("parameters")):
+        return out
+    bound_by = rec.get("_bound_by") or "?"
+    out["rule"] = rec.get("rule")
+    if rec.get("binding") == "forbidden":
+        out.update(state="forbidden", writers=[bound_by])
+        return out
+    params = rec.get("parameters") or {}
+    writers_of = rec.get("_param_writers") or {}
+    for k in ("rake_overhang_in", "rake_to_cornice_ratio"):
+        v = params.get(k)
+        rng = v.get("range") if isinstance(v, dict) else None
+        if isinstance(rng, (list, tuple)) and len(rng) == 2 and all(isinstance(x, (int, float)) for x in rng):
+            out["bands"][k] = {"range": [float(rng[0]), float(rng[1])], "unit": v.get("unit"),
+                               "kind": v.get("kind"), "by": writers_of.get(k) or bound_by}
+    rows = [v for v in (rec.get("variants") or []) if isinstance(v, dict) and in_period(v, date)]
+    canon = [v for v in rows if v.get("status") == "canonical"]
+    if canon:
+        ids = [v.get("id") for v in canon]
+        pick = next((v for v in canon if v.get("id") in RAKE_FAULT_VARIANTS), None)
+        if pick is not None:
+            out.update(state="fault", variant=pick.get("id"),
+                       writers=[pick.get("_written_by") or bound_by])
+            return out
+        pick = next((v for v in canon if v.get("id") in RAKE_UNDRAWN_VARIANTS), None)
+        if pick is not None:
+            out.update(state="undrawn", variant=pick.get("id"),
+                       writers=[pick.get("_written_by") or bound_by])
+            return out
+        out.update(state="unjudged", variant=ids[0],
+                   writers=sorted({v.get("_written_by") or bound_by for v in canon}))
+        return out
+    for k in RAKE_TRIM_PARAMS:
+        v = params.get(k)
+        if not isinstance(v, dict) or v.get("unit") != "in":
+            continue
+        rng, val = v.get("range"), v.get("value")
+        if (isinstance(rng, (list, tuple)) and len(rng) == 2
+                and all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in rng)):
+            out.update(state="plain", trim_in=(float(rng[0]) + float(rng[1])) / 2.0,
+                       trim_basis=f"the middle of {k}, {rng[0]:g}-{rng[1]:g} in",
+                       trim_by=writers_of.get(k) or bound_by, writers=[writers_of.get(k) or bound_by])
+            return out
+        if isinstance(val, (int, float)) and not isinstance(val, bool):
+            out.update(state="plain", trim_in=float(val),
+                       trim_basis=(f"{k}, {val:g} in, a maximum drawn at its figure"
+                                   if k.endswith("_max") else f"{k}, {val:g} in"),
+                       trim_by=writers_of.get(k) or bound_by, writers=[writers_of.get(k) or bound_by],
+                       trim_measured=(v.get("kind") == "measured" and not k.endswith("_max")))
+            return out
+    # A RECORD THAT FORBIDS THE FAULT'S OWN RAKE AND SETTLES NOTHING ELSE refuses the rake a silence
+    # would draw (R3). Unreached by any record today (1 Oct 2026); without it, such a record read as
+    # silent and drew the very variant it forbids.
+    live_fault = any(v.get("id") in RAKE_FAULT_VARIANTS for v in rows if v.get("status") != "forbidden")
+    banned = next((v for v in rows if v.get("status") == "forbidden"
+                   and v.get("id") in RAKE_FAULT_VARIANTS), None)
+    if banned is not None and not live_fault:
+        out.update(state="forbidden", variant=banned.get("id"),
+                   writers=[banned.get("_written_by") or bound_by])
+        return out
+    if rec.get("binding") in ("specified", "extends") and (rec.get("rule") or rec.get("note")) \
+            and not rows and not out["bands"]:
+        out.update(state="unread", writers=[bound_by])
+        return out
+    if "rake_overhang_in" in out["bands"] and not live_fault:
+        out.update(state="overhang", writers=[out["bands"]["rake_overhang_in"]["by"]],
+                   permitted=[v.get("id") for v in rows if v.get("status") == "permitted"])
+        return out
+    out["writers"] = [bound_by] if rec.get("binding") in ("specified", "extends") else []
+    out["permitted"] = [v.get("id") for v in rows if v.get("status") == "permitted"]
+    return out
+
+
 def resolve_packs(graph, chain):
     """Every pack that governs this node, nearest binder wins per pack id.
 

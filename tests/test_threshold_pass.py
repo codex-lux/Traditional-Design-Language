@@ -559,7 +559,19 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          # placement refuses to seat one -- which the elevation now says. The
                          # 131 unmoved are the fourteen reference plans, the spec Colonial and
                          # 116 sweep styles, none of which places a stack at all.
-                         "22fa18ed207786b49346cb59977956af1c87ae056fc39548a34ded16d0dc1270",
+                         # RE-DERIVED AT WP-16.9 (1 Oct 2026), PER ENTRY, ON THE SAME HARNESS PROVED
+                         # TO REPRODUCE `22fa18ed...` TO THE CHARACTER ON A WORKTREE OF `54f7e33`.
+                         # This time the roof's own code moved (B1, B9), and the pin says what it
+                         # did. 14 of 180 entries moved, and they are the fourteen reference plans,
+                         # which declare no roof form; the two shipped plans and all 164 sweep
+                         # entries (built on the Tidewater record, which declares side-gable) are
+                         # byte-identical. 11 move in `main.form_note` alone: the note reads the
+                         # style's kit now and no longer names a massing 'None'. good-03 moves its
+                         # ridge (B9: entered on the west, so a side-gable ridge runs on y). good-05
+                         # is hipped by italian-renaissance-revival's own kit (B1), and good-01
+                         # takes shingle-style's gambrel, with its checks, at roof.py's family-wide
+                         # default slopes, the difference of which is unjudged now (16.9n).
+                         "9a33eb415d7122ff5a4cf093f19c9ddd7482d58d0ad54b2ee17b76d50dc77c5e",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "

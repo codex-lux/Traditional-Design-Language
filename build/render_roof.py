@@ -112,6 +112,23 @@ def render_roof(roof, path, scale=7.0):
             s.append(f'<path class="chm" d="M {cx-3:.1f} {cy-3:.1f} L {cx+3:.1f} {cy+3:.1f} '
                      f'M {cx-3:.1f} {cy+3:.1f} L {cx+3:.1f} {cy-3:.1f}"/>')
     stack_notes = []
+    # A ROOF FORM NOBODY STATED IS SAID (WP-16.9, B1): the record declares none and the style's kit
+    # decides nothing the roof layer draws, so the form is a fallback
+    if (roof.get("form_reading") or {}).get("words"):
+        stack_notes.append(roof["form_reading"]["words"])
+    # A FORM THE KIT DECIDED BY A RECORD ITS WRITER FLAGS AS A JUDGMENT (T3)
+    if DISC.roof_form_judgment(roof):
+        stack_notes.append(DISC.roof_form_judgment(roof))
+    # AND THE STACKS IT PLACES NONE OF, where the style calls for them (WP-16.9)
+    if DISC.stacks_the_roof_refuses(roof):
+        stack_notes.append(DISC.stacks_the_roof_refuses(roof))
+    # AND WHERE IT STOPS AT A GABLE END (WP-16.9): the elevation draws the rake the kit states past
+    # the wall, and this plan draws the roof record, which stops at it. Which faces are gable ends
+    # is `elevation.gable_faces`', read here and never re-spelled
+    _at_the_wall = DISC.roof_stops_at_the_gable_wall(
+        _mod("elevation", f"{ROOT}/build/elevation.py").gable_faces(roof))
+    if _at_the_wall:
+        stack_notes.append(_at_the_wall)
     judged = DISC.stack_plan_judgment({"hearths": {"stacks": positions}})
     if judged:
         stack_notes.append(judged["text"])
@@ -138,10 +155,11 @@ def render_roof(roof, path, scale=7.0):
     if gb.get("applicable"):
         # `break_ok` is None where the break fraction is the generator's own default tested
         # against the band it was taken from -- the same circularity the wing ridge carries, and
-        # the same rule: an unjudged verdict is not a FAIL. `diff_ok` is a real comparison of two
-        # stated pitches and stays boolean, so the two halves are reported separately rather than
-        # ANDed into one word that would have to mean three things.
-        pitch = "OK" if gb.get("diff_ok") else "FAIL"
+        # the same rule: an unjudged verdict is not a FAIL. `diff_ok` is a real comparison only
+        # where the style states both slopes, and None otherwise (WP-16.9: no node states both),
+        # so the two halves are reported separately rather than ANDed into one word that would
+        # have to mean three things, each in three states.
+        pitch = "UNJUDGED" if gb.get("diff_ok") is None else ("OK" if gb["diff_ok"] else "FAIL")
         brk = "UNJUDGED" if gb.get("break_ok") is None else ("OK" if gb["break_ok"] else "FAIL")
         line2.append(f"GAMBREL PITCH DIFF {pitch} · BREAK {brk}")
     if line2:

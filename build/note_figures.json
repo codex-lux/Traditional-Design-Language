@@ -6086,6 +6086,25 @@
    ]
   },
   {
+   "kit": "american-farmhouse-vernacular",
+   "slot": "rake_condition",
+   "parameter": "rake_trim_width_in",
+   "claims": [
+    {
+     "quote": "Plain rake trim 6-8 in",
+     "target": "lo",
+     "states": "6",
+     "reading": "The kit's own rule gives the plain rake trim 6 to 8 in; its smaller figure, 6 in, is the band's floor."
+    },
+    {
+     "quote": "Plain rake trim 6-8 in",
+     "target": "hi",
+     "states": "8",
+     "reading": "The same rule's larger figure, 8 in, is the band's ceiling."
+    }
+   ]
+  },
+  {
    "kit": "andalusian-spanish-revival",
    "slot": "reveal_masonry",
    "parameter": "reveal_to_wall_ratio_min",
@@ -6155,6 +6174,25 @@
    "parameter": "depth_ft",
    "claims": [],
    "why": "The note's only figure is the parent style's 7-9 ft band, quoted for comparison; it states no figure for this node's own 8-12 ft range."
+  },
+  {
+   "kit": "cape-cod-revival",
+   "slot": "rake_condition",
+   "parameter": "rake_trim_width_in",
+   "claims": [
+    {
+     "quote": "a simple 4-6 in. eave moulding",
+     "target": "lo",
+     "states": "4",
+     "reading": "c05's eave moulding, 4 to 6 in, carried to the rake; its smaller figure, 4 in, is the band's floor."
+    },
+    {
+     "quote": "a simple 4-6 in. eave moulding",
+     "target": "hi",
+     "states": "6",
+     "reading": "The same moulding's larger figure, 6 in, is the band's ceiling."
+    }
+   ]
   },
   {
    "kit": "chateauesque",
@@ -6954,6 +6992,19 @@
    ]
   },
   {
+   "kit": "minimal-traditional",
+   "slot": "rake_condition",
+   "parameter": "rake_trim_width_in",
+   "claims": [
+    {
+     "quote": "1x6 (5 1/2)",
+     "target": "value",
+     "states": "5 + 1 / 2",
+     "reading": "A dressed 1x6 is 5 1/2 in, trim-craftsman's stock figure, which the record carries as 5.5."
+    }
+   ]
+  },
+  {
    "kit": "mission-revival",
    "slot": "window_proportion",
    "parameter": "overall_width_to_height",
@@ -7030,6 +7081,25 @@
      "target": "value",
      "states": "1",
      "reading": "A leaf that covers the full opening on its own is a leaf-to-sash ratio of 1; the half it reverses is the family's convention."
+    }
+   ]
+  },
+  {
+   "kit": "neo-eclectic",
+   "slot": "rake_condition",
+   "parameter": "rake_overhang_in",
+   "claims": [
+    {
+     "quote": "Shallow eave and rake overhang, typically 6 to 12 in",
+     "target": "lo",
+     "states": "6",
+     "reading": "defining_characteristics[7] gives the rake overhang 6 to 12 in; 6 in is the band's floor."
+    },
+    {
+     "quote": "Shallow eave and rake overhang, typically 6 to 12 in",
+     "target": "hi",
+     "states": "12",
+     "reading": "The same sentence's 12 in is the band's ceiling."
     }
    ]
   },
@@ -7132,6 +7202,25 @@
      "target": "hi",
      "states": "0.833",
      "reading": "and 0.833 at the wide end."
+    }
+   ]
+  },
+  {
+   "kit": "ranch-style",
+   "slot": "rake_condition",
+   "parameter": "rake_overhang_in",
+   "claims": [
+    {
+     "quote": "eave and rake overhang between 18 and 36 in",
+     "target": "lo",
+     "states": "18",
+     "reading": "c03 gives the eave and rake overhang 18 to 36 in; 18 in is the band's floor. The note's other figures -- the pitch, the 12 in below which the node is disqualified, and the 6:12 -- are not this parameter's."
+    },
+    {
+     "quote": "eave and rake overhang between 18 and 36 in",
+     "target": "hi",
+     "states": "36",
+     "reading": "The same sentence's 36 in is the band's ceiling."
     }
    ]
   },

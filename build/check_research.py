@@ -128,10 +128,21 @@ RATCHET = {
     # ceilings moved: cape-cod-colonial's `return_depth` 6-12 in, measured with no source -- and
     # DRAWN now, as the plain return's length at its middle -- and georgian-colonial-american's
     # editorial `return_depth_in` and `return_carries`.
-    "measured_unsourced_read": 303,
-    "editorial_read": 82,            # 69 before the threshold.py widening; 68 on the merged
+    # AND 303 -> 306 AND 82 -> 84 AT WP-16.9 (1 Oct 2026), the same reason a fourth time: the rake
+    # is drawn from what the resolved kit says of `rake_condition` (B3, B5), so the walk reads 43
+    # slots where it read 41. The second is `crown`, and it is NOT a read: the rake's member list
+    # labels its top members `kind: "crown"`, and a string constant cannot be told from the slot
+    # of that name -- the upper bound this walk declares, met. It moves neither count. The five
+    # are named before the ceilings moved, and every one was already in the corpus: the 33 records
+    # WP-16.9 binds add none to either count. Measured with no source: cape-cod-colonial's
+    # `rake_width_max`, carpenter-gothic's `pattern_repeat_in` and gothic-revival-american's
+    # `verge_overhang_in`. Editorial: georgian-colonial-american's `rake_overhang_in` and
+    # `rake_to_cornice_ratio`.
+    "measured_unsourced_read": 306,
+    "editorial_read": 84,            # 69 before the threshold.py widening; 68 on the merged
                                      # corpus; 78 then; 80 after WP-14.3's two surround slots;
-                                     # 82 after WP-16.5's `cornice_return`
+                                     # 82 after WP-16.5's `cornice_return`; 84 after WP-16.9's
+                                     # `rake_condition`
     "shared_only_nodes": 24,
     "sourceless_nodes": 0,          # a CEILING at its floor -- 32 at WP-11.1, 0 after WP-11.7.
     "untested_nodes": 3,

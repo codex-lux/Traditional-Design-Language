@@ -1773,7 +1773,9 @@ def v18():
 
 
 @check("V19", "elevation", "the elevation draws its roof at the eave and ridge the roof record states "
-       "-- where the section prints them and the model builds them", "every plan whose elevation draws a roof")
+       "-- where the section prints them and the model builds them; and the roof is the form the plan "
+       "declares, or else its style's kit makes canonical, and a fallback is said on every sheet that "
+       "draws it", "every plan whose elevation draws a roof, and every plan with a roof for its form")
 def v19():
     """WP-14.6. `elevation.grade_to_true_eave_in` adds a frieze and a cornice ABOVE roof.py's eave
     and the sheet lifts the whole roof -- and every stack on it -- by that band, while the section
@@ -1811,6 +1813,72 @@ def v19():
         out.append(row("V19", pid, "disagrees" if bad else "agrees",
                        ("; ".join(bad) + ("; said on the sheet" if said else "; NOT said on the sheet"))
                        if bad else ""))
+    # AND THE ROOF IS THE FORM ITS RECORD OR ITS KIT STATES, AND A FALLBACK IS SAID (WP-16.9; Lucas's
+    # answer B1, 30 Sep 2026), each plan once. The form is read here off the plan's own declaration,
+    # then the style's resolved kit at the plan's date through the closed table `roof_vocabulary`
+    # (side-gable kept where it is one of several canonical forms), then the massing's own default
+    # off the catalogue -- never off `threshold.roof_form_reading`, which is the subject -- and
+    # where it is a fallback the roof plan and every face that draws say so.
+    RK, RV = SURF._mod("resolve_kit"), SURF._mod("roof_vocabulary")
+    with open(os.path.join(ROOT, "massings", "catalog.json"), encoding="utf-8") as fh:
+        massings = {m["id"]: m for m in json.load(fh)}
+    for pid, rec in sorted(_sheets().items()):
+        if "roof" not in rec:
+            continue
+        plan = rec["plan"]
+        declared = (plan.get("declared") or {}).get("roof_form")
+        date = (plan.get("context") or {}).get("date_of_representation")
+        want, fallback, refused = declared, False, False
+        kit_rec = _kit(plan.get("style")).get("roof_form") or {}
+        if not want:
+            kit_rows = [v for v in kit_rec.get("variants") or []
+                        if isinstance(v, dict) and RK.in_period(v, date)]
+            rows = [v for v in kit_rows if v.get("status") == "canonical"]
+            forms = {RV.TABLE[v["id"]][0] for v in rows if v.get("id") in RV.TABLE} - {None}
+            if "side-gable" in forms:
+                want = "side-gable"
+            elif len(forms) == 1:
+                want = forms.pop()
+            else:
+                # several forms and none side-gable (B7), none drawable, or none: the fallback --
+                # unless the kit forbids it, and then no roof is drawn (B8)
+                fb = ((massings.get(plan.get("massing")) or {}).get("roof_default") or ["side-gable"])[0]
+                banned = {(RV.TABLE[v["id"]][0] if v.get("id") in RV.TABLE else v.get("id"))
+                          for v in kit_rows if v.get("status") == "forbidden"}
+                want, fallback, refused = (None, False, fb) if fb in banned else (fb, True, False)
+        # a form the kit decided by a record flagged `judgment: true` says so, and no other does (T3)
+        judged = bool(not declared and not fallback and not refused and kit_rec.get("judgment"))
+        got = rec["roof"]["main"].get("form")
+        bad = [] if got == want else ["the roof is drawn %s where the %s states %s" % (
+            got, "record" if declared else "fallback" if fallback else "kit's refusal" if refused
+            else "kit", want)]
+        sheets = [("the roof plan", rec.get("roof_svg"))] + [("the %s face" % f, svg)
+                                                            for f, svg in sorted(rec["faces"].items())]
+        for name, svg in sheets:
+            if not svg:
+                continue
+            said = " ".join(" ".join(t.split()).upper() for t, _a, _it in IR.Ink(svg).texts() if t)
+            if refused:
+                if not ("NO ROOF DRAWN — THE PLAN DECLARES NO ROOF FORM" in said
+                        and "%s, THE FALLBACK, IS FORBIDDEN BY" % refused.upper() in said):
+                    bad.append("%s does not say no roof is drawn because %s is forbidden" % (name, refused))
+                if "ROOF DRAWN ON THIS SHEET" in said:
+                    bad.append("%s says a roof is drawn on its frieze where none is" % name)
+                continue
+            if judged and "ROOF FORM IS A JUDGMENT — %s'S KIT" % str(kit_rec.get("_bound_by")).upper() not in said:
+                bad.append("%s does not say the %s is a judgment of %s's kit" % (name, want, kit_rec.get("_bound_by")))
+            if not judged and "ROOF FORM IS A JUDGMENT" in said:
+                bad.append("%s calls a roof form a judgment that is not drawn from a judgment-flagged record" % name)
+            says = ("ROOF: %s," % want.upper()) in said and "THE PLAN DECLARES NO ROOF FORM" in said
+            if fallback and not says:
+                bad.append("%s does not say the %s is a fallback" % (name, want))
+            elif not fallback and "THE PLAN DECLARES NO ROOF FORM" in said:
+                bad.append("%s calls a stated form a fallback" % name)
+        out.append(row("V19", pid + ":form", "disagrees" if bad else "agrees",
+                       "; ".join(bad[:3]) if bad else "%s, %s" % (
+                           want, "declared" if declared else "a fallback, said" if fallback else
+                           "no roof, the fallback %s forbidden, said" % refused if refused else
+                           "the kit's, a judgment, said" if judged else "the kit's")))
     return out
 
 
@@ -2151,6 +2219,188 @@ def _gable_faces_of(roof):
     return None
 
 
+_RAKE_FAULT = []
+
+
+def _rake_fault():
+    """THE CARDBOARD GABLE, OFF ITS OWN FILE (WP-16.9): the styles it excepts, which B3 rules keep
+    the edge, and the two figures B3 draws at their middles, parsed from its own correct practice
+    ("a raking cornice board 6-8 in deep ... at roughly 0.5-0.7 of the eave cornice's members") and
+    never taken from `elevation`'s constants, which are the subject. A figure the words no longer
+    state reads None, and the rows that need it say so."""
+    if not _RAKE_FAULT:
+        with open(os.path.join(ROOT, "faults", "flush-rake.json"), encoding="utf-8") as fh:
+            f = json.load(fh)
+        cp = " ".join(str(f.get("correct_practice") or "").split())
+        b = re.search(r"board (\d+(?:\.\d+)?)-(\d+(?:\.\d+)?) in deep", cp)
+        k = re.search(r"at roughly (\d*\.\d+)-(\d*\.\d+) of the eave cornice's members", cp)
+        _RAKE_FAULT.append({
+            "excepted": {e["style"] for e in f.get("exceptions") or [] if e.get("style")},
+            "board_in": None if not b else (float(b.group(1)) + float(b.group(2))) / 2.0,
+            "scale": None if not k else (float(k.group(1)) + float(k.group(2))) / 2.0})
+    return _RAKE_FAULT[0]
+
+
+def _vertices(pl, it):
+    """A polygon's or a polyline's corners in the plate's own (u, h), in order, each once."""
+    pts = []
+    for x, y in it.points(n=1):
+        q = IR.to_model(pl, x, y)
+        if not pts or max(abs(a - b) for a, b in zip(q, pts[-1])) > 1e-9:
+            pts.append(q)
+    if len(pts) > 1 and max(abs(a - b) for a, b in zip(pts[0], pts[-1])) <= 1e-9:
+        pts.pop()
+    return pts
+
+
+def _rake_held(el, ink, pl, style, date):
+    """WHAT A FACE DRAWS OF THE RAKE, HELD TO THE KIT AND TO THE FAULT (WP-16.9; Lucas's answers
+    B3 and B5, 30 Sep 2026). The kit is read at the plan's date through `resolve_kit.rake_at`, the
+    one reading of `rake_condition` as `return_at` is of the return, and the fault off its own file
+    (`_rake_fault`); never `elevation.rake_for` or `rake_marks`, which are the subject.
+    - A gable end whose kit states The Cardboard Gable's rake or says nothing, of a style the fault
+      does not except, draws each member as a band along each slope: the eave's crown (the members
+      above its corona) at the middle of the fault's member scale, a board at the middle of its
+      depth, then the eave's bed mould (the members whose ids name `bed`), stacked inward from the
+      roof's drawn edge, each at its own depth square to the slope, dying into the cornice's top
+      and meeting the other slope at the apex on a plumb line. A band whose lower line would meet
+      the cornice's top at or past the apex is not drawn: it never clears the cornice.
+    - Where the kit states a plain trim, one band at the kit's figure, said as a measurement where
+      the kit states one measured figure that is not a maximum (B29) and as a judgment otherwise.
+    - Anywhere else, and on every face that is not a gable end, nothing: among them a kit that
+      states the rake's overhang and settles no member (`overhang`, T11), whose legend says the
+      band, and a roof that judges no ridge (no roof-pitch constraint is migrated for its style,
+      the one pitch roof.py reads), which gives the gable end no slope: the rake the kit asks for is
+      not drawn there, and the legend says why.
+    The legend says which, and an eave face beside gable ends that draw a rake says its overhang
+    is not drawn there. The grade a drawn rake is said in (MEASURED or A JUDGMENT) is held in the
+    rake's OWN note, never anywhere on the sheet: every shipped sheet says "A JUDGMENT" of
+    something else, so a sheet-wide test passed a fault's rake said MEASURED (the second
+    independent check, 1 Oct 2026). Returns `(bad, summary)`."""
+    face = pl.get("face")
+    fa = _rake_fault()
+    kr = SURF._mod("resolve_kit").rake_at(_kit(style).get("rake_condition"), date)
+    state = kr.get("state") or "silent"
+    gf = _gable_faces_of(el.get("roof_record") or {})
+    on_gable = bool(gf) and face in gf
+    kind = (None if state == "forbidden" else "plain" if state == "plain" else
+            None if style in fa["excepted"] else "rake" if state in ("fault", "silent") else None)
+    # A ROOF THAT JUDGES NO RIDGE (no roof-pitch constraint is migrated for its style) gives the
+    # gable end no slope, so the rake the kit asks for is not drawn there and the legend says why:
+    # read off the roof record, never off `elevation.face_profile`, which is the subject
+    ridge = ((el.get("roof_record") or {}).get("main") or {}).get("pitch_rise_per_12") is not None
+    unridged = bool(on_gable and kind and not ridge)
+    notes = [" ".join(t.split()).upper() for t, _a, _it in ink.texts() if t]
+    said = " ".join(notes)
+    bands = [it for it in ink.items if it.attrs.get("data-rake")]
+    bad, want = [], []
+    if unridged:
+        pass                                   # nothing to draw: `want` stays empty
+    elif on_gable and kind == "rake":
+        if fa["board_in"] is None or fa["scale"] is None:
+            return (["The Cardboard Gable's correct practice no longer states the rake board's depth or "
+                     "its members' scale in the words this reads"], "the fault's figures unread")
+        ms = [m for m in (el.get("eave_cornice") or {}).get("members") or [] if m.get("height_in")]
+        cor = [m for m in ms if m.get("profile") == "corona"]
+        board = ("rake_board", "board", fa["board_in"])
+        if not cor:
+            want = [board]
+        else:
+            top = max(m["y_top_in"] for m in cor)
+            crown = sorted((m for m in ms if m["y_bottom_in"] >= top - 1e-9), key=lambda m: -m["y_bottom_in"])
+            bed = sorted((m for m in ms if "bed" in (m.get("id") or "")), key=lambda m: -m["y_bottom_in"])
+            want = ([("rake_" + m["id"], "crown", m["height_in"] * fa["scale"]) for m in crown] + [board]
+                    + [("rake_" + m["id"], "bed", m["height_in"] * fa["scale"]) for m in bed])
+    elif on_gable and kind == "plain":
+        want = [("rake_trim", "trim", float(kr["trim_in"]))]
+    # THE ROOF'S EDGE IS WRITTEN TO A TENTH OF A PIXEL (`render_elevation`'s roof outline) and each
+    # band to a hundredth, so a band is held to its edge within the edge's own precision
+    tol = 0.06 / pl["px_per_ft"]
+    if not want:
+        if bands:
+            bad.append("%d rake band(s) drawn where the kit and the fault ask none (%s, the kit's rake %s)"
+                       % (len(bands), "a gable end" if on_gable else "not a gable end", state))
+    else:
+        edge = [it for it in _marks(ink, "rk") if it.tag == "polyline"]
+        ep = _vertices(pl, edge[0]) if len(edge) == 1 else []
+        if len(ep) != 3:
+            bad.append("the gable end draws %d roof edge(s) of %d corner(s), so its rake has no edge to "
+                       "stand under" % (len(edge), len(ep)))
+        else:
+            true_eave = el["grade_to_true_eave_in"] / 12.0
+            apex = ep[1]
+            if max(abs(ep[0][1] - true_eave), abs(ep[2][1] - true_eave)) > tol:
+                bad.append("the roof's edge ends at h %.3f and %.3f ft, not on the cornice's top at %.3f"
+                           % (ep[0][1], ep[2][1], true_eave))
+            got = {"left": [], "right": []}
+            for it in bands:
+                vs = _vertices(pl, it)
+                got["left" if sum(u for u, _h in vs) / max(1, len(vs)) < apex[0] else "right"].append((it, vs))
+            n_want = 0
+            for slope, eave in (("left", ep[0]), ("right", ep[2])):
+                du, dh = apex[0] - eave[0], apex[1] - eave[1]
+                if abs(du) < 1e-9 or dh <= 1e-9:
+                    bad.append("the %s slope of the roof's edge does not rise" % slope)
+                    continue
+                vert, run, sgn = math.hypot(du, dh) / abs(du), abs(du) / dh, (1.0 if du > 0 else -1.0)
+                exp, d = [], 0.0
+                for mid, mk, depth in want:
+                    d0, d1 = d, d + depth / 12.0
+                    d = d1
+                    v0, v1 = d0 * vert, d1 * vert
+                    if v1 >= dh - 1e-9:
+                        continue
+                    exp.append((mid, mk, [(eave[0] + sgn * v0 * run, eave[1]), (apex[0], apex[1] - v0),
+                                          (apex[0], apex[1] - v1), (eave[0] + sgn * v1 * run, eave[1])]))
+                n_want += len(exp)
+                have = sorted(got[slope], key=lambda g: -max(h for _u, h in g[1]))
+                if [e[0] for e in exp] != [g[0].attrs.get("data-rake") for g in have]:
+                    bad.append("the %s slope draws %s where the kit and the fault ask %s, from the edge "
+                               "inward" % (slope, [g[0].attrs.get("data-rake") for g in have], [e[0] for e in exp]))
+                    continue
+                for (mid, mk, pts), (it, vs) in zip(exp, have):
+                    if it.attrs.get("data-rake-kind") != mk:
+                        bad.append("the %s slope's %s is marked %s, not %s" % (slope, mid, it.attrs.get("data-rake-kind"), mk))
+                    if len(vs) != 4 or any(min(max(abs(a - b) for a, b in zip(p, q)) for q in vs) > tol for p in pts):
+                        bad.append("the %s slope's %s is drawn at %s; square to the edge at its depth it "
+                                   "stands at %s" % (slope, mid, [tuple(round(x, 3) for x in v) for v in vs],
+                                                     [tuple(round(x, 3) for x in p) for p in pts]))
+    # AND THE LEGEND SAYS WHAT THE GABLE END DOES WITH ITS RAKE, AND WHY
+    if on_gable:
+        says = ("RAKE: A PLAIN" if kind == "plain" else "RAKE: A " if kind == "rake" else
+                "RAKE NOT DRAWN" if state == "forbidden" else
+                "RAKE UNJUDGED" if state == "unjudged" else
+                "RAKE DRAWN AS THE ROOF'S EDGE")
+        # A PLAIN TRIM THE KIT STATES AS ONE MEASURED FIGURE IS A MEASUREMENT (B29), and is held to
+        # say so; every other drawn rake is a judgment. The kit's own overhang band is said beside an
+        # edge it does not settle (T11).
+        grade = (None if not kind else
+                 "MEASURED" if (kind == "plain" and kr.get("trim_measured")) else "A JUDGMENT")
+        band = (kr.get("bands") or {}).get("rake_overhang_in") or {}
+        if state == "overhang" and band.get("range"):
+            lo, hi = band["range"][:2]
+            says = "STATES A RAKE OVERHANG OF %s–%s IN AND SETTLES NO MEMBER IN A ROW" % ("%g" % lo, "%g" % hi)
+        # THE RAKE'S OWN NOTE: the sentence on the sheet that says its rake (each note is one text)
+        own = [n for n in notes if says in n]
+        if not own or (grade and not any(grade in n for n in own)):
+            bad.append("the gable end's rake is %s and its note does not say %s%s"
+                       % (kind or "its edge", says, (" and " + grade) if grade else ""))
+        cause = ("NOT DRAWN — THE ROOF JUDGES NO RIDGE (NO ROOF-PITCH CONSTRAINT IS MIGRATED FOR %s)"
+                 % str(style).upper())
+        if unridged and not any(cause in n for n in own):
+            bad.append("the roof judges no ridge, so the gable end's %s cannot be drawn, and its note "
+                       "does not say %s" % (kind, cause))
+    elif gf and kind in ("rake", "plain") and ridge and "ITS OVERHANG PAST EACH CORNER IS NOT DRAWN" not in said:
+        bad.append("the gable ends draw a rake and this face does not say its overhang is not drawn here")
+    elif gf and kind in ("rake", "plain") and not ridge and "THE RAKE IS DRAWN ON THE GABLE ENDS" in said:
+        bad.append("this face says the gable ends draw a rake, and the roof judges no ridge for them to "
+                   "draw it under")
+    n = len(bands)
+    return bad, ("%d rake band(s)" % n if n else
+                 "the %s, not drawn: the roof judges no ridge" % kind if unridged else
+                 "the rake %s" % ("its edge" if on_gable else "not on this face"))
+
+
 def _style_and_date(subject):
     """The style a subject of `_elev_and_sweep` is drawn under and the date its PLAN states, read
     off the plan file and never off the elevation record, which is the subject (WP-16.4): what the
@@ -2480,6 +2730,20 @@ def v23():
         ink = IR.Ink(svg)
         pl = _face_plate(ink)
         stacks = [it for it in _marks(ink, "ch") if it.tag in ("polygon", "rect", "path")]
+        # AND A STACK THE ROOF PLACES NONE OF IS SAID (WP-16.9): where the style calls for chimneys
+        # and the roof record places none -- a hip with no gable-end wall, a roof with no judged
+        # ridge -- the face draws no stack and says the record's own reason, which no sheet printed.
+        # The expectation is built here from the roof record, never from the sentence's writer.
+        _chr = (el.get("roof_record") or {}).get("chimneys") or {}
+        if pl and _chr.get("applicable") and not _chr.get("positions") and _chr.get("note"):
+            _said = " ".join(" ".join(t.split()) for t, _a, _it in ink.texts() if t).upper()
+            _want = "STACKS NOT DRAWN — " + " ".join(str(_chr["note"]).split()).upper()
+            _bad = [] if _want in _said else ["the style calls for stacks, the roof record places "
+                                              "none, and the face does not say why"]
+            if stacks:
+                _bad.append("a stack drawn where the roof record places none")
+            out.append(row("V23", subject + ":refused", "disagrees" if _bad else "agrees", "; ".join(_bad)))
+            continue
         if not pl or not stacks:
             continue
         face = pl.get("face")
@@ -2780,7 +3044,10 @@ def _outboard(c, face, W, D):
        "under it where it stands behind; and on a gable end what the style's kit says of the return at "
        "the plan's date -- the band where it settles none, a return at each corner where it states one, "
        "the cornice's end profile where it forbids one or makes none canonical -- with the legend saying "
-       "which", "every elevation sheet (plans x faces), and every style's front")
+       "which; and the rake the kit states, or The Cardboard Gable's where it states none, each member "
+       "a band along each slope under the roof's edge at its own depth, and nothing where the kit "
+       "forbids a rake, the fault excepts the style or the face is not a gable end",
+       "every elevation sheet (plans x faces), and every style's front")
 def v25():
     """Phase 15, WP-15.7. Lucas, of the drawn Tidewater front (27 Sep 2026): "the cornice not being
     represented on this export". The face drew ONE rectangle from the wall head to the true eave at
@@ -2808,9 +3075,11 @@ def v25():
             n_fz, n_box = len(_rects(ink, "bd", "fz")), len(_rects(ink, "bd", "w-prof"))
             n_div = len(_marks(ink, "cm"))
             ok = n_box == 0 and n_div == 0 and n_fz == (0 if fz_banned else 1)
-            out.append(row("V25", subject, "agrees" if ok else "disagrees",
+            # AND THE RAKE, which the kit's ban on the cornice does not reach (WP-16.9)
+            rk_bad, rk_said = _rake_held(el, ink, pl, style, date)
+            out.append(row("V25", subject, "agrees" if ok and not rk_bad else "disagrees",
                            "the kit forbids the cornice: %d box(es), %d division line(s) and %d frieze "
-                           "band(s) drawn" % (n_box, n_div, n_fz)))
+                           "band(s) drawn; %s" % (n_box, n_div, n_fz, "; ".join(rk_bad[:2]) or rk_said)))
             continue
         if not pl or not members or not cor.get("cornice_height_in"):
             out.append(row("V25", subject, "cne", "the sheet states no face plate" if not pl
@@ -2925,6 +3194,9 @@ def v25():
                 bad.append("the gable end %s and the legend does not say %s" % (
                     {"band": "keeps the band", "end": "draws no return", "return": "draws a return",
                      "plain": "draws a plain return"}[kind], says))
+        # AND THE RAKE (WP-16.9; B3 and B5), held by `_rake_held`, which reads the kit and the fault
+        rk_bad, rk_said = _rake_held(el, ink, pl, style, date)
+        bad.extend(rk_bad)
         for what, fig in (("CORNICE BAND DRAWN FLUSH", band), ("FRIEZE DRAWN FLUSH", fz)):
             if what.startswith("FRIEZE") and fz_banned:
                 continue          # a frieze the kit forbids is not drawn, flush or otherwise
@@ -2959,7 +3231,7 @@ def v25():
                                % ("in front of" if front else "behind", s0, s2, "under" if front else "over"))
         n = len(want)
         out.append(row("V25", subject, "disagrees" if bad else "agrees",
-                       "; ".join(bad[:4]) if bad else "%d division(s)" % n))
+                       "; ".join(bad[:4]) if bad else "%d division(s), %s" % (n, rk_said)))
     return out
 
 
@@ -3617,8 +3889,8 @@ def x3():
 @check("X4", "elevation", "the DXF elevation draws the eave the SVG draws: the frieze band and the cornice's "
        "box on the same outlines in the face's own inches, and a line at every member division the SVG "
        "draws, level and across the same run, each carrying the member it names and that member's "
-       "profile; and on a gable end the returns, the cornice's end profiles and the wall run up to the "
-       "rake", "every face of every plan whose elevation draws")
+       "profile; and on a gable end the returns, the cornice's end profiles, the wall run up to the "
+       "rake and the rake's bands, each naming its member", "every face of every plan whose elevation draws")
 def x4():
     """Phase 15, WP-15.7. The DXF drew the same single rectangle the sheet did, frieze and cornice in
     one box at the cornice's projection; both read `elevation.cornice_marks` now. This holds the two
@@ -3651,6 +3923,11 @@ def x4():
                 "end": [inches(it) for it in _marks(ink, "bd")
                         if it.tag == "path" and it.attrs.get("data-end-profile")],
                 "wall": [inches(it) for it in _marks(ink, "wf") if it.attrs.get("data-wall-to-rake")]}
+        # AND THE RAKE (WP-16.9): each band by its corners in the face's inches and the member it names
+        want_rake = sorted((it.attrs.get("data-rake"),) + tuple(sorted(
+            tuple(round(v * 12.0, 1) for v in IR.to_model(pl, x, y)) for x, y in {
+                (round(x, 3), round(y, 3)) for x, y in it.points(n=1)}))
+            for it in ink.items if it.attrs.get("data-rake"))
         def run(it):
             (u0, v0), (u1, v1) = (IR.to_model(pl, *it.points(n=1)[0]), IR.to_model(pl, *it.points(n=1)[-1]))
             return tuple(round(x * 12.0, 1) for x in (v0, v1, min(u0, u1), max(u0, u1)))
@@ -3668,7 +3945,7 @@ def x4():
         # division across the face by the rule and draws the cornice all the same, so it is held by
         # its profiles and its wall; only a face that draws neither has nothing to hold the DXF to.
         n_rec = max(0, len((el.get("eave_cornice") or {}).get("members") or []) - 1)
-        if n_rec and not want_lines and not want["end"]:
+        if n_rec and not want_lines and not want["end"] and not want_rake:
             out.append(row("X4", "%s/%s" % (pid, face), "cne", "the record states %d division(s) and the "
                            "SVG draws none, so there is no eave to hold the DXF to (V25)" % n_rec))
             continue
@@ -3690,6 +3967,19 @@ def x4():
                 if k:
                     xs, ys = [p[0] for p in e.get_points()], [p[1] for p in e.get_points()]
                     got[k].append((min(xs), min(ys), max(xs), max(ys)))
+            got_rake = []
+            for e in msp.query("LWPOLYLINE"):
+                if e.dxf.layer != "TDL-ELEV-ROOF":
+                    continue
+                try:
+                    _rx = "".join(str(v) for _c, v in e.get_xdata("TDL"))
+                except Exception:       # noqa: BLE001 -- the roof's own edge carries no member
+                    continue
+                if "TDL::rake-member" not in _rx:
+                    continue
+                _m = re.search(r'"member":\s*"([^"]+)"', _rx)
+                got_rake.append(((_m.group(1) if _m else None),) + tuple(sorted(
+                    {(round(p[0], 1), round(p[1], 1)) for p in e.get_points()})))
             got_lines, got_profiles = [], []
             for e in msp.query("LINE"):
                 if e.dxf.layer != "TDL-ELEV-CORNICE-MEMBER":
@@ -3712,6 +4002,12 @@ def x4():
                                                   for w, g in zip(sorted(want[k]), sorted(got[k]))):
                 bad.append("the %s: the SVG draws %s, the DXF %s" % (
                     k, want[k], [tuple(round(v, 1) for v in g) for g in got[k]]))
+        got_rake.sort()
+        if [w[0] for w in want_rake] != [g[0] for g in got_rake] or any(
+                len(w) != len(g) or max(abs(a - b) for p, q in zip(w[1:], g[1:]) for a, b in zip(p, q)) > 0.15
+                for w, g in zip(want_rake, got_rake)):
+            bad.append("the rake: the SVG draws %d band(s), the DXF %d, or on other corners or members"
+                       % (len(want_rake), len(got_rake)))
         got_lines.sort()
         if [w[0] for w in want_lines] != [g[0] for g in got_lines] or any(
                 max(abs(a - b) for a, b in zip(w[1:], g[1:])) > 0.15 for w, g in zip(want_lines, got_lines)):
@@ -3723,7 +4019,8 @@ def x4():
             bad.append("the DXF's division under %s carries another member's profile" % ", ".join(wrong))
         held = "%d division(s)" % len(want_lines) + (
             ", %d end profile(s)" % len(want["end"]) if want["end"] else "") + (
-            ", the wall to the rake" if want["wall"] else "")
+            ", the wall to the rake" if want["wall"] else "") + (
+            ", %d rake band(s)" % len(want_rake) if want_rake else "")
         out.append(row("X4", "%s/%s" % (pid, face), "disagrees" if bad else "agrees",
                        "; ".join(bad[:3]) if bad else held))
     return out

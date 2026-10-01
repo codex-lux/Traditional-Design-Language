@@ -17,6 +17,13 @@ Tidewater house returns its cornice (its kit's full return is canonical), good-0
 profile (italian-renaissance-revival forbids the return), and the spec Colonial keeps the band
 (colonial-revival permits a return and settles none). What it cannot reach is driven, each case
 asserting its own premise.
+
+RE-CUT 30 Sep 2026 (WP-16.9, Lucas's answer B1). good-05 names no roof form, and its own kit makes
+the hip canonical, so the shipped house is hipped now and has no gable end to show a return on --
+the case `oq/the-roof-is-drawn-side-gabled-whatever-the-style-says` was raised for. The forbidden
+return is read on good-05's record DECLARING a side-gable roof (`g05`), the declaration outranking
+the kit, and the shipped house is held to its hip (`g05_shipped`), which no return fault asks about
+(B2).
 """
 import copy
 import json
@@ -46,9 +53,12 @@ GOOD05 = "plans/reference/good-05-lobby-gallery-mansion.json"
 SPEC = "plans/spec-builder-colonial.json"
 
 
-def _build(rel):
+def _build(rel, roof_form=None):
     G, ST, RF = _m("geometry"), _m("structure"), _m("roof")
-    p = G.solve(json.load(open(os.path.join(ROOT, rel))), engine="heuristic")
+    rec = json.load(open(os.path.join(ROOT, rel)))
+    if roof_form:
+        rec.setdefault("declared", {})["roof_form"] = roof_form
+    p = G.solve(rec, engine="heuristic")
     sec = ST.build_section(p, None, geometry_result=p)
     rf = RF.build_roof(p, None, section=sec)
     return EL.build_elevation(p, None, section=sec, roof=rf)
@@ -61,6 +71,18 @@ def tide():
 
 @pytest.fixture(scope="module")
 def g05():
+    """good-05 DECLARING a side-gable roof: the forbidden return on a drawn gable end. Its premise,
+    asserted: the shipped record declares no roof form and its own kit hips it (B1)."""
+    rec = json.load(open(os.path.join(ROOT, GOOD05)))
+    assert not (rec.get("declared") or {}).get("roof_form")
+    assert _m("threshold").kit_roof(rec["style"], None)["form"] == "hip"
+    el = _build(GOOD05, roof_form="side-gable")
+    assert el["roof_record"]["form_reading"]["by"] == "declared"
+    return el
+
+
+@pytest.fixture(scope="module")
+def g05_shipped():
     return _build(GOOD05)
 
 
@@ -202,8 +224,20 @@ class TestTheGableFaces:
         assert EL.gable_faces({"main": {"form": form, "ridge": {"axis": axis}}}) == want
 
     def test_the_shipped_records_are_side_gabled(self, tide, g05, spec):
+        """The Tidewater house and the spec Colonial declare side-gable roofs, and so does the
+        driven good-05; the shipped good-05 is hipped by its own kit (B1) and has none."""
         for el in (tide, g05, spec):
             assert EL.gable_faces(el["roof_record"]) == ("W", "E")
+
+    def test_the_shipped_good05_is_hipped_by_its_own_kit_and_has_no_gable_end(self, g05_shipped):
+        rr = g05_shipped["roof_record"]
+        assert (rr["main"]["form"], rr["form_reading"]["by"]) == ("hip", "kit")
+        assert rr["form_reading"]["kit"]["writers"] == ["italian-renaissance-revival"]
+        assert EL.gable_faces(rr) == ()
+        assert g05_shipped["measurements"]["count_of_gable_end_walls"] == 0
+        for face in ("S", "N", "W", "E"):
+            cm = EL.cornice_marks(g05_shipped, face)
+            assert cm["role"] == "eave" and not cm["returns"] and not cm["end_profiles"], face
 
 
 # ------------------------------------------------------------------ what each state draws and says
@@ -246,12 +280,20 @@ class TestTheWords:
         assert "THE WALL RUNS UP TO THE RAKE" in cr["words"]
 
     def test_an_unsettled_return_keeps_the_band_and_says_so(self, spec):
+        """RE-CUT 30 Sep 2026 (WP-16.9, Lucas's answer B4): the cornice is drawn at least as deep
+        as colonial-revival's own minimum for its return, so the condition is met by the drawing
+        and the words say so, naming the envelope's figure it was deepened from. Until B4 they said
+        the cornice projected 8.6 in against the kit's 10."""
         cr = spec["cornice_return"]
         assert (cr["state"], cr["draws"], cr["length_in"]) == ("unsettled", "band", None)
-        proj = spec["eave_cornice"]["envelope_projection_in"]
-        assert cr["words"] == ("RETURN UNSTATED — COLONIAL-REVIVAL'S KIT PERMITS ONE ONLY OVER A "
-                               f"CORNICE OF AT LEAST 10 IN, AND THIS ONE PROJECTS {proj:.1f} IN; THE "
-                               "CORNICE IS DRAWN ACROSS THE GABLE END")
+        cor = spec["eave_cornice"]
+        assert (cor["envelope_projection_in"], cor["projection_minimum"]["deepened"]) == (10.0, True)
+        env = cor["facade_envelope_projection_in"]
+        assert env < 10.0
+        assert cr["words"] == ("RETURN UNSTATED — COLONIAL-REVIVAL'S KIT PERMITS ONE OVER A CORNICE "
+                               "OF AT LEAST 10 IN, AND THIS ONE IS DRAWN THAT DEEP (10.0 IN, DEEPENED "
+                               f"FROM THE ENVELOPE'S {env:.1f} IN), AND SETTLES NONE; THE CORNICE IS "
+                               "DRAWN ACROSS THE GABLE END")
 
     ROOF = {"main": {"form": "side-gable", "ridge": {"axis": "x"}}}
 
@@ -296,7 +338,11 @@ class TestTheRecordsOwnCondition:
     through the cascade. The cornice this elevation draws is the envelope's, 8.61 in on the spec
     Colonial. The words said the kit "PERMITS ONE" there, which its own condition does not; they say
     the condition and the drawn figure now. Whether a failed condition is a ban is not ruled, so the
-    drawing does not move on it."""
+    drawing does not move on it.
+
+    RULED 30 Sep 2026 (B4, WP-16.9): the cornice is drawn at least as deep as the minimum, so on the
+    shipped records the condition is met by the drawing. The words for a failed condition stay, for
+    a record whose cornice could not be deepened, and are driven here."""
     ROOF = {"main": {"form": "side-gable", "ridge": {"axis": "x"}}}
     READING = {"state": "unsettled", "writers": ["colonial-revival"], "min_cornice_in": 10.0,
                "min_cornice_by": "colonial-revival"}
@@ -318,7 +364,8 @@ class TestTheRecordsOwnCondition:
         below = EL.cornice_return(self.READING, {"cornice_height_in": 20.0,
                                                  "envelope_projection_in": 8.612}, self.ROOF)
         assert below["condition"] == {"min_cornice_projection_in": 10.0, "by": "colonial-revival",
-                                      "cornice_projection_in": 8.612, "met": False}
+                                      "cornice_projection_in": 8.612, "met": False,
+                                      "deepened_from_in": None}
         assert ("PERMITS ONE ONLY OVER A CORNICE OF AT LEAST 10 IN, AND THIS ONE PROJECTS 8.6 IN"
                 in below["words"])
         above = EL.cornice_return(self.READING, {"cornice_height_in": 20.0,
@@ -329,8 +376,16 @@ class TestTheRecordsOwnCondition:
         unknown = EL.cornice_return(self.READING, {"cornice_height_in": 20.0}, self.ROOF)
         assert unknown["condition"]["met"] is None
         assert "AND NO RECORD STATES THIS ONE'S PROJECTION" in unknown["words"]
-        # and the drawing is not changed by it, in any of the three
-        assert {c["draws"] for c in (below, above, unknown)} == {"band"}
+        # B4: a cornice deepened to the minimum meets it, and the words name the figure it left
+        deep = EL.cornice_return(self.READING, {"cornice_height_in": 20.0, "envelope_projection_in": 10.0,
+                                                "facade_envelope_projection_in": 8.612,
+                                                "projection_minimum": {"in": 10.0, "by": "colonial-revival",
+                                                                       "deepened": True}}, self.ROOF)
+        assert (deep["condition"]["met"], deep["condition"]["deepened_from_in"]) == (True, 8.612)
+        assert ("PERMITS ONE OVER A CORNICE OF AT LEAST 10 IN, AND THIS ONE IS DRAWN THAT DEEP "
+                "(10.0 IN, DEEPENED FROM THE ENVELOPE'S 8.6 IN), AND SETTLES NONE" in deep["words"])
+        # and the band is drawn in all four: the condition decides the cornice's depth, not the gable
+        assert {c["draws"] for c in (below, above, unknown, deep)} == {"band"}
 
     def test_a_condition_another_node_wrote_is_named_by_it(self):
         cr = EL.cornice_return(dict(self.READING, min_cornice_by="y-style"),
@@ -339,9 +394,15 @@ class TestTheRecordsOwnCondition:
                 "10 IN, AND THIS ONE PROJECTS 8.0 IN" in cr["words"])
 
     def test_one_shipped_record_fails_it_one_meets_it_and_one_states_none(self, spec):
-        assert spec["cornice_return"]["condition"]["met"] is False
+        """RE-CUT 30 Sep 2026 (WP-16.9, B4). The spec Colonial failed the condition at 8.6 in; it
+        meets it now because the cornice is DEEPENED to it, which the record says, while good-07
+        (new-classical, 11.5 in) meets it on the envelope's own figure and is not deepened. The name
+        is kept: a test id is not renamed for a ruling that changed what it measures."""
+        c = spec["cornice_return"]["condition"]
+        assert (c["met"], c["cornice_projection_in"]) == (True, 10.0) and c["deepened_from_in"] < 10.0
         g07 = _build("plans/reference/good-07-diamond-plan-house.json")["cornice_return"]
-        assert (g07["draws"], g07["condition"]["met"]) == ("band", True)
+        assert (g07["draws"], g07["condition"]["met"], g07["condition"]["deepened_from_in"]) == (
+            "band", True, None)
         b03 = _build("plans/reference/bad-03-narrow-lot-townhome.json")["cornice_return"]
         assert (b03["draws"], b03["condition"]) == ("band", None)
         assert b03["words"].endswith("PERMITS ONE AND SETTLES NONE; THE CORNICE IS DRAWN ACROSS THE "
@@ -478,8 +539,19 @@ class TestTheFaults:
 
     def test_the_fault_about_a_return_that_is_never_there_is_not_gated(self):
         """R8 leaves `return-that-never-returns` ungated (WP-16.2): a house with no return is its
-        subject, and gating it on a drawn return would make it unable to fire."""
-        assert not [t for t in self._tests("return-that-never-returns") if t.get("applies_when")]
+        subject, and gating it on a drawn return would make it unable to fire.
+
+        RE-CUT 30 Sep 2026 (WP-16.9, Lucas's answer B2): it is gated on a drawn GABLE END, at every
+        test, the exceptions' bounds tests included, and still on nothing about a drawn return. A
+        hipped house has no gable end to leave without a return, so the question does not arise
+        there; a house drawn with a gable end is judged whatever its kit says of the return."""
+        tests = self._tests("return-that-never-returns")
+        assert len(tests) >= 3
+        for t in tests:
+            aw = t.get("applies_when") or {}
+            assert {k: aw.get(k) for k in ("expression", "direction", "threshold")} == {
+                "expression": "count_of_gable_end_walls", "direction": "at-least", "threshold": 1}, t
+            assert "count_of_cornice_returns_drawn_at_the_gable_ends" not in json.dumps(aw)
 
     def _state(self, el, fid):
         r = CORE.check_measurements(el["measurements"], style=el["style"], limit=10**6)
@@ -503,9 +575,20 @@ class TestTheFaults:
         for fid in ("pork-chop-return", "return-shallower-than-tall", "return-that-never-returns"):
             assert self._state(spec, fid) == "needed", fid
 
+    def test_the_shipped_good05_is_hipped_and_no_return_fault_asks(self, g05_shipped):
+        """The case the roof question was raised for (B1, B2): its kit hips it, so it has no gable
+        end, and a fault about a gable end's return does not arise -- not applicable, never clear."""
+        for fid in ("pork-chop-return", "return-shallower-than-tall", "return-that-never-returns",
+                    "flush-rake"):
+            assert self._state(g05_shipped, fid) == "not_applicable", fid
+
     def test_a_rake_that_is_not_modelled_convicts_nobody(self, tide):
         """Until WP-16.5 the elevation published the CORNICE's projection as `rake_overhang_in`,
-        and flush-rake convicted eleven shipped plans on it. The roof record models no rake."""
+        and flush-rake convicted eleven shipped plans on it. The roof record models no rake.
+
+        30 Sep 2026 (WP-16.9, B3): the gable end draws The Cardboard Gable's own rake now, at the
+        fault's figures, as a judgment; its figures stay withheld, since published they would be
+        the fault's rule handed back to it (`tests/test_rake.py`)."""
         assert "rake_overhang_in" not in tide["measurements"]
         assert self._state(tide, "flush-rake") == "needed"
 

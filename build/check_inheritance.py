@@ -109,7 +109,13 @@ RATCHET_FLOOR = {"judged": 250}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 # new-urbanist cornice and frieze, and the rest -- so the pack rules landing on them stop
 # counting here. The companion records keep a few forbidden as the styles' OWN bans. Nobody chose
 # a pack; the corpus is smaller in forbidden slots because fewer of its bans were wrong.
-FORBIDDEN_RATCHET = 679
+# 679 -> 680 on 1 Oct 2026 (WP-16.9, B30). jeffersonian-classicism forbids its own rake on its own
+# roof, in A4's shape, and `opening-pointed` -- a Gothic arch pack the cascade delivers to it,
+# OQ 51's shape -- dimensions `rake_condition` there, so one pair is counted: the forbidden slot is
+# the style's own ban, and the pack rule landing on it is the delivery nobody bound. B30's answer
+# named this movement before the record landed. Diffed by (node, slot) against a worktree of
+# `54f7e33`: one pair added, none removed.
+FORBIDDEN_RATCHET = 680
 COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_guard.py
 
 # A FIFTH MEASUREMENT, AND IT IS A COUNT RATHER THAN A CEILING. OQ 51 was re-ruled on 3 Sep 2026
@@ -157,8 +163,14 @@ COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_gu
 # vouches for and survive the counterfactual. `rehoused` 1895 -> 1909 and `stranded` 2585 -> 2591
 # follow. `nodes_touched` and `unreached` do not move. Measured on the tree the records produce,
 # and on a scratch copy before they landed, with the same six figures.
-STRANDING = {"stranded": 2591, "rehoused": 1909, "nodes_touched": 124,
-             "dimensioned_before": 7549, "dimensioned_after": 4958,
+# WP-16.9 (1 Oct 2026, B30) MOVES TWO BY ONE, AND THE SLOT IS NAMED: jeffersonian-classicism
+# forbids its own rake on its own roof, so its `rake_condition` -- dimensioned until now by
+# `opening-pointed`, which the cascade delivers and nobody vouched for -- leaves the dimensioned
+# set: `dimensioned_before` 7549 -> 7548 and `stranded` 2591 -> 2590. Diffed by (node, slot)
+# against a worktree of `54f7e33`: that one slot left both sets, and nothing else moved. B30's
+# answer named the movement before the record landed.
+STRANDING = {"stranded": 2590, "rehoused": 1909, "nodes_touched": 124,
+             "dimensioned_before": 7548, "dimensioned_after": 4958,
              # `unreached` JOINED THIS DICT IN WP-8.14 AND THE REASON IS THE FINDING.
              # It is the one OQ 51 figure `check_counts.py` does not derive, and it is the one
              # that rotted: CLAUDE.md said 111 for three flips after it stopped being true --

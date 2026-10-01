@@ -1148,7 +1148,7 @@ def scale_into_envelope(members, envelope_in, naked_in=0.0, bed_in=BED_MOULD_PRO
     return out, how
 
 
-def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
+def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None, minimum=None):
     """facade-classical.json's own domestic envelope (frieze 1 part, cornice 2 parts, at the
     pack's own default module) fixes the TOTAL height the eave assembly gets on an ordinary
     house front -- nowhere near a free-standing portico's full entablature. Gibbs Ionic's own
@@ -1254,6 +1254,22 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
     # front. Lucas ruled the envelope governs how far it projects, and the order its profile: the
     # member heights are kept and their projections scaled into the envelope, with the bed mould's
     # outer face held at 2½ in, a judgment. So the face and the inset draw ONE cornice.
+    # A KIT'S OWN MINIMUM FOR A CORNICE UNDER ITS RETURN GOVERNS THE DEPTH WHERE IT IS DEEPER (B4,
+    # ruled 30 Sep 2026). colonial-revival's c04 permits a return "only where the eave carries a full
+    # classical cornice of at least 10 in. projection", and the envelope's module/14 is 8.61 or 9.57
+    # in on the six shipped plans whose styles carry the record. Lucas ruled the style's minimum
+    # governs there: the cornice is scaled into the larger of the two, in the order's shape, with the
+    # bed mould still held at 2½ in (R9a) and the members above taking the rest. It is an exception
+    # to R9 for the styles whose kit states the minimum, and not a second rule for the depth: the
+    # envelope's own figure stays on the record (`facade_envelope_projection_in`), and every surface
+    # names both figures and who wrote the minimum (`cornice_depth_words`). `minimum` is
+    # `{"in": ..., "by": ...}`, handed only where the kit permits the return it conditions
+    # (`build_elevation`); a refused cornice has no depth to deepen.
+    envelope_own = cornice_proj
+    deepened = (bool(minimum) and minimum.get("in") is not None and not refused.get("cornice")
+                and float(minimum["in"]) > envelope_own + 1e-9)
+    if deepened:
+        cornice_proj = float(minimum["in"])
     scaled, scaled_how = scale_into_envelope(cor_asm["members"], cornice_proj, frieze_naked_in)
     relief = max((m["projection_in"] for m in scaled
                   if m.get("projection_in") is not None), default=0.0) - frieze_naked_in
@@ -1294,11 +1310,23 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
         "envelope_projection_in": round(cornice_proj, 3),
         "order_own_relief_in": round(order_relief, 3),
         "projection_scaling": scaled_how,
+        # THE ENVELOPE'S OWN FIGURE, facade-classical's module/14, whether or not a kit's minimum
+        # deepened the cornice past it (B4); `envelope_projection_in` is the depth drawn.
+        "facade_envelope_projection_in": round(envelope_own, 3),
+        "projection_minimum": (None if not minimum or minimum.get("in") is None else
+                               {"in": float(minimum["in"]), "by": minimum.get("by"),
+                                "deepened": bool(deepened)}),
         "projection_ruling": (
-            f"OQ 79, ruled 29 Sep 2026: the envelope's depth ({round(cornice_proj, 2)} in, "
-            f"facade-classical's module/14) with the order's shape. The order's own cornice projects "
+            (f"B4, ruled 30 Sep 2026: {round(cornice_proj, 2)} in, {minimum.get('by')}'s own "
+             f"minimum for a cornice under its return, deeper than the envelope's "
+             f"{round(envelope_own, 2)} in (facade-classical's module/14, OQ 79), with the order's "
+             f"shape." if deepened else
+             f"OQ 79, ruled 29 Sep 2026: the envelope's depth ({round(cornice_proj, 2)} in, "
+             f"facade-classical's module/14) with the order's shape.")
+            + f" The order's own cornice projects "
             f"{round(order_relief, 2)} in{_gibbs_equal}; its member "
-            f"heights are kept and its projections scaled into the envelope"
+            f"heights are kept and its projections scaled into "
+            + ("that depth" if deepened else "the envelope")
             + (f", the bed mould's outer face held at {BED_MOULD_PROJECTION_IN} in, a judgment "
                f"(bed-mould-omitted's own note), and the members above sharing the rest of the "
                f"depth in the order's proportions."
@@ -1328,6 +1356,7 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None, refused=None):
     if refused.get("cornice"):
         rec.update({"cornice_height_in": None, "cornice_projection_in": None,
                     "envelope_projection_in": None, "order_relief_beyond_frieze_in": None,
+                    "facade_envelope_projection_in": None, "projection_minimum": None,
                     "order_own_relief_in": None, "projection_scaling": None,
                     "projection_ruling": None, "members": [], "member_count": None,
                     "bed_mould_projection_in": None, "bed_mould_projection_judgment": False,
@@ -1973,17 +2002,27 @@ NOT_MODELLED = {
     # AND THE RAKE (WP-16.5). This published the EAVE cornice's projection as a rake overhang, on
     # every plan, while the roof record models no rake overhang and every surface draws the roof
     # stopping at the gable wall. It put the flush-rake fault's 4-8 in band against a 10.5 in figure
-    # nobody measured.
-    "rake_overhang_in": "the roof record models no rake overhang; the roof stops at the gable wall "
-                        "on every surface",
+    # nobody measured. SINCE WP-16.9 (B3, 30 Sep 2026) the gable end draws the fault's own rake, and
+    # its figures are the fault's own thresholds at their middles: published, each would be the
+    # fault's rule handed back to the fault, a pass by construction, so neither is (R8a's precedent).
+    "rake_overhang_in": "the rake is drawn to The Cardboard Gable's own figures as a judgment (B3), "
+                        "and its overhang is drawn on no face: the roof record stops at the gable "
+                        "wall",
+    "rake_member_projection_from_siding_face_in": "the rake board's 1 1/4 in standing proud of the "
+                                                  "wall is The Cardboard Gable's own threshold, "
+                                                  "drawn as a judgment (B3)",
     "chimney_depth_in": "no pack states a stack depth distinct from its width; claiming one would invent an aspect ratio",
     "chimney_least_plan_dimension_in": "as chimney_width_in -- the only figure available is a judgment",
     "chimney_visible_face_width_in": "as chimney_width_in -- the only figure available is a judgment",
     "cap_projection_beyond_stack_face_in": "no stack cap is modelled",
     "count_of_sheet_metal_caps_or_louvred_shrouds_at_the_stack_head": "no stack head is modelled",
     "count_of_horizontal_shadow_lines_in_the_top_18in_of_the_stack": "no stack head is modelled",
-    # eave_cornice() dimensions the horizontal run only; the rake is never composed.
-    "raking_cornice_member_count": "eave_cornice() dimensions the horizontal entablature only",
+    # eave_cornice() dimensions the horizontal run only. The rake WP-16.9 draws (B3) is a plain
+    # gable's verge, whose members are a judgment, and `raking-cornice-that-does-not-match` asks
+    # about a PEDIMENT's raking cornice, which B3 rules is its own rule and this generator does not
+    # draw; so the count is not published for either.
+    "raking_cornice_member_count": "the rake drawn is a plain gable's verge, a judgment (B3), and "
+                                   "no pediment's raking cornice is drawn",
     # Nothing in this corpus models a gutter: no slot, no kit parameter, no line in a renderer.
     "gutter_outlets": "no gutter is modelled anywhere in the corpus",
     # WP-5.13. These four were SUPPLIED, from ratios of the leaf width and the muntin that exist
@@ -2330,6 +2369,13 @@ def _derive_measurements(elev):
         if _full:
             _carried = len(_full)
     m["count_of_cornice_returns_drawn_at_the_gable_ends"] = _n_ret
+    # HOW MANY GABLE ENDS THE ROOF DRAWS (WP-16.9, B2): the walls the roof record's own form and
+    # ridge make gable ends (`gable_faces`), so a hip reads 0, measured, and a form this generator
+    # does not model is unmeasured rather than none. It is the precondition B2 rules for
+    # `return-that-never-returns`: a house drawn with no gable end has no return to answer for.
+    # Not `gable_count`, which the constraint vocabulary spells for the gables VISIBLE on one
+    # elevation, the principal and subordinate ones a Jacobean front carries: another quantity.
+    m["count_of_gable_end_walls"] = None if _gf is None else len(_gf)
     m["count_of_moulding_profiles_carried_around_onto_the_return"] = _carried
     m["count_of_horizontal_moulding_members_returning_onto_the_gable_wall"] = _members_ret
 
@@ -2582,6 +2628,31 @@ def cornice_band_projection_in(cornice):
     return None, "no record states the cornice band's projection past the wall"
 
 
+def cornice_minimum(return_reading):
+    """THE KIT'S OWN MINIMUM FOR A CORNICE UNDER ITS RETURN, AS `eave_cornice` TAKES IT (B4, ruled
+    30 Sep 2026): `{"in", "by"}` where `resolve_kit.return_at` read a minimum and the kit PERMITS the
+    return it conditions (`unsettled`, `stated`, `plain`), else None. A kit that refuses the return
+    (`forbidden`, `none`) has no permission for a condition to govern, so its minimum deepens
+    nothing; no node does that today, the six that state one all reading `unsettled` (30 Sep 2026)."""
+    r = return_reading or {}
+    if r.get("min_cornice_in") is None or r.get("state") not in ("unsettled", "stated", "plain"):
+        return None
+    return {"in": r["min_cornice_in"], "by": r.get("min_cornice_by")}
+
+
+def cornice_depth_words(cornice, mark=" IN"):
+    """WHAT DECIDED THE CORNICE'S DEPTH, WHERE A KIT'S MINIMUM DID (B4, ruled 30 Sep 2026): one
+    spelling for the inset's caption and the DXF's text, which name the depth drawn, the envelope's
+    own figure it deepens, and who wrote the minimum. None where the envelope governs (OQ 79), so
+    those surfaces keep their words for it. `mark` is the unit as the surface writes it."""
+    pm = (cornice or {}).get("projection_minimum") or {}
+    if not pm.get("deepened") or (cornice or {}).get("envelope_projection_in") is None:
+        return None
+    return (f"{cornice['envelope_projection_in']:.1f}{mark}, {(pm.get('by') or '?').upper()}'S MINIMUM "
+            f"FOR A CORNICE UNDER ITS RETURN, DEEPER THAN THE ENVELOPE'S "
+            f"{cornice['facade_envelope_projection_in']:.1f}{mark}")
+
+
 # The band a cornice carries its teeth on, by profile: what `repeat_positions` lays out.
 TOOTHED_PROFILES = ("modillion", "dentil", "mutule", "triglyph")
 CORNICE_SOURCE = ("elevation.eave_cornice: the frieze band and the cornice's members, each at the "
@@ -2616,7 +2687,7 @@ def gable_faces(roof):
     have none. The axis-to-walls mapping is `threshold.gable_end_walls`', the one spelling of it."""
     main = (roof or {}).get("main") or {}
     form, axis = main.get("form"), (main.get("ridge") or {}).get("axis")
-    if form in ("hip", "gable-on-hip"):
+    if form in ("hip", "gable-on-hip") or main.get("refused"):
         return ()
     if form in ("gable", "side-gable", "front-gable", "gambrel", "cross-gable") and axis in ("x", "y"):
         return tuple(RF._threshold().gable_end_walls(axis))
@@ -2659,12 +2730,19 @@ def cornice_return(reading, cornice, roof):
     # deeper cornice is refused over a shallower one is not ruled, and A3's reading of a dated ban is
     # not extended to it by analogy
     # (`oq/a-return-permitted-only-over-a-deeper-cornice-is-drawn-over-a-shallower-one`).
+    # B4 (ruled 30 Sep 2026) then draws the cornice at least that deep, so on the six shipped plans
+    # the condition is met by the drawing, and `deepened_from_in` names the envelope's own figure it
+    # was deepened from. The words for a failed condition stay for a record whose cornice could not
+    # be deepened.
     cond = r.get("min_cornice_in")
     proj = cornice_band_projection_in(cornice or {})[0] if cond is not None else None
+    _pm = (cornice or {}).get("projection_minimum") or {}
     out["condition"] = (None if cond is None else
                         {"min_cornice_projection_in": cond, "by": r.get("min_cornice_by"),
                          "cornice_projection_in": None if proj is None else round(proj, 3),
-                         "met": None if proj is None else proj >= cond - 1e-9})
+                         "met": None if proj is None else proj >= cond - 1e-9,
+                         "deepened_from_in": ((cornice or {}).get("facade_envelope_projection_in")
+                                              if _pm.get("deepened") else None)})
     if faces is None:
         out.update(draws="band", words="GABLE ENDS UNJUDGED — THE ROOF RECORD DOES NOT MODEL ITS "
                                       "FORM; THE CORNICE IS DRAWN ACROSS EVERY FACE")
@@ -2714,6 +2792,10 @@ def cornice_return(reading, cornice, roof):
             floor = f"A CORNICE OF AT LEAST {c['min_cornice_projection_in']:g} IN"
             if c["met"] is None:
                 permits = f"{lead} ONLY OVER {floor}, AND NO RECORD STATES THIS ONE'S PROJECTION"
+            elif c["met"] and c.get("deepened_from_in") is not None:
+                permits = (f"{lead} OVER {floor}, AND THIS ONE IS DRAWN THAT DEEP "
+                           f"({c['cornice_projection_in']:.1f} IN, DEEPENED FROM THE ENVELOPE'S "
+                           f"{c['deepened_from_in']:.1f} IN), AND SETTLES NONE")
             elif c["met"]:
                 permits = (f"{lead} OVER {floor}, AS THIS ONE IS ({c['cornice_projection_in']:.1f} IN), "
                            f"AND SETTLES NONE")
@@ -2729,6 +2811,212 @@ def cornice_return(reading, cornice, roof):
     else:
         out.update(draws="band", words="RETURN UNSTATED — THE KIT SAYS NOTHING OF IT; THE CORNICE "
                                        "IS DRAWN ACROSS THE GABLE END")
+    return out
+
+
+# ---------------------------------------------------------------- the rake (WP-16.9: B3, B5, B6)
+# THE CARDBOARD GABLE'S OWN RAKE (Lucas's answer B3, 30 Sep 2026): "a raking cornice board 6-8 in
+# deep carrying a reduced version of the eave profile, bed mould and crown without the corona and
+# modillions, at roughly 0.5-0.7 of the eave cornice's members", standing at least 1 1/4 in proud of
+# the siding (its governing test) and 4-8 in beyond the wall (its secondary band). Drawn at the
+# middles, labelled a judgment and withheld from the fault (`NOT_MODELLED`), as R8a and R9a were.
+# Written once, and a test holds each figure to the fault's own words.
+RAKE_FAULT_ID = "flush-rake"
+RAKE_BOARD_IN = 7.0
+RAKE_PROUD_IN = 1.25
+RAKE_OVERHANG_IN = 6.0
+RAKE_MEMBER_SCALE = 0.6
+RAKE_BASIS = ("faults/flush-rake.json", "correct_practice",
+              "a raking cornice board 6-8 in deep carrying a reduced version of the eave profile, bed "
+              "mould and crown without the corona and modillions, at roughly 0.5-0.7 of the eave "
+              "cornice's members")
+
+
+def rake_excepted_styles():
+    """The styles The Cardboard Gable excepts, read off the fault itself and never copied: B3 rules
+    they keep the edge. Matched on the style id exactly, as the fault's own exceptions are."""
+    with open(os.path.join(ROOT, "faults", RAKE_FAULT_ID + ".json"), encoding="utf-8") as fh:
+        return [e["style"] for e in json.load(fh).get("exceptions") or [] if e.get("style")]
+
+
+def rake_members(cornice, scale=RAKE_MEMBER_SCALE, board_in=RAKE_BOARD_IN):
+    """The rake's members from the roof's edge inward: the eave's CROWN (the members above its
+    corona), then the board where the corona and the modillions stood, then the eave's BED MOULD
+    (the members whose ids name `bed`, `scale_into_envelope`'s own reading), each moulding at
+    `scale` of its eave height. That is the eave profile's own order read along the slope, with the
+    corona and the modillion band left out, as the fault states. Returns `(members, why)`: where
+    the eave cornice draws no members, or has no corona to divide its crown from the rest, the
+    rake is the board alone and `why` says so."""
+    ms = [m for m in (cornice or {}).get("members") or [] if m.get("height_in")]
+    board = {"id": "rake_board", "kind": "board", "depth_in": float(board_in), "of": None}
+    if not ms:
+        return [board], "the eave cornice draws no members, so the rake carries none"
+    cor = [m for m in ms if (m.get("profile") or "") == "corona"]
+    bed = [m for m in ms if "bed" in (m.get("id") or "")]
+    if not cor:
+        return [board], "the eave cornice has no corona to divide its crown from its bed mould"
+    top_of_corona = max(m["y_top_in"] for m in cor)
+    crown = [m for m in ms if m.get("y_bottom_in", 0.0) >= top_of_corona - 1e-9]
+    out = [{"id": "rake_" + m["id"], "kind": "crown", "depth_in": round(m["height_in"] * scale, 4),
+            "of": m["id"]} for m in sorted(crown, key=lambda m: -m["y_bottom_in"])]
+    out.append(board)
+    out += [{"id": "rake_" + m["id"], "kind": "bed", "depth_in": round(m["height_in"] * scale, 4),
+             "of": m["id"]} for m in sorted(bed, key=lambda m: -m["y_bottom_in"])]
+    return out, None
+
+
+def rake_for(style, reading, cornice):
+    """WHAT THE GABLE END'S RAKE IS ON THIS HOUSE (WP-16.9): `resolve_kit.rake_at`'s reading of the
+    style's resolved `rake_condition` at the house's date (B5: the kit first), with B3's figures
+    where the kit states The Cardboard Gable's rake or says nothing. `draws` is one of:
+    - `rake`: the fault's rake, `members` from the roof's edge inward, a judgment;
+    - `plain`: the kit's own plain trim at `trim_in`, no mouldings: a measurement where the kit
+      states one measured figure (B29), and a judgment where the figure drawn is a band's middle or
+      a maximum;
+    - `edge`: the roof's edge alone, because the kit forbids the rake (R3), the fault excepts the
+      style (B3), the kit states a rake this generator does not draw or does not read, or it states
+      the rake's overhang and no member (`overhang`, T11): the overhang stands square to a gable
+      face and is not drawn on it, and no member the kit does not state is drawn under it.
+    `words` is the sentence every surface prints about it."""
+    r = dict(reading or {})
+    state = r.get("state") or "silent"
+    who = ", ".join(r.get("writers") or []) or "?"
+    out = {**r, "state": state, "draws": "edge", "members": [], "members_why": None,
+           "board_in": None, "proud_in": None, "overhang_in": None, "scale": None,
+           "judgment": False, "basis": None, "words": None}
+    if state == "forbidden":
+        # a whole-slot ban names its writer; a forbidden row names the row too (`rake_at`)
+        out["words"] = ("RAKE NOT DRAWN — " + (f"{str(r['variant']).upper()} " if r.get("variant") else "")
+                        + ban_words({"writers": r.get("writers")}).upper() + "; THE ROOF'S EDGE IS DRAWN")
+        return out
+    # A STYLE THE FAULT EXCEPTS KEEPS THE EDGE (B3) -- where its kit states The Cardboard Gable's
+    # rake or says nothing. Where its own kit states another rake, it draws its own (B10, 30 Sep
+    # 2026: minimal-traditional's "1x6 board"), which is the `plain` branch below.
+    if style in rake_excepted_styles() and state in ("fault", "silent"):
+        out["words"] = (f"RAKE DRAWN AS THE ROOF'S EDGE — THE CARDBOARD GABLE EXCEPTS "
+                        f"{style.upper()}, WHOSE VERGE ITS OWN EXCEPTION GOVERNS")
+        return out
+    if state in ("fault", "silent"):
+        members, why = rake_members(cornice)
+        says = (f"{who.upper()}'S KIT STATES THIS RAKE" if state == "fault" else
+                f"{who.upper()}'S KIT PERMITS {', '.join(r['permitted']).upper()} AND SETTLES NONE"
+                if r.get("permitted") else "THE KIT STATES NO RAKE")
+        carries = ("CARRYING THE EAVE'S BED MOULD AND CROWN AT "
+                   f"{RAKE_MEMBER_SCALE:g}" if not why else f"ALONE: {why.upper()}")
+        out.update(draws="rake", members=members, members_why=why, board_in=RAKE_BOARD_IN,
+                   proud_in=RAKE_PROUD_IN, overhang_in=RAKE_OVERHANG_IN, scale=RAKE_MEMBER_SCALE,
+                   judgment=True, basis=list(RAKE_BASIS),
+                   words=(f"RAKE: A {RAKE_BOARD_IN:g} IN BOARD {carries}, "
+                          f"{RAKE_PROUD_IN:g} IN PROUD OF THE WALL AND {RAKE_OVERHANG_IN:g} IN BEYOND "
+                          f"IT — THE CARDBOARD GABLE'S OWN FIGURES AT THEIR MIDDLES, A JUDGMENT ({says})"))
+        return out
+    if state == "plain":
+        by = r.get("trim_by") or who
+        # ONE MEASURED FIGURE IS DRAWN AS A MEASUREMENT (B29, 1 Oct 2026: minimal-traditional's
+        # 5 1/2 in board "is a measurement rather than a judgment"); a band's middle, or a maximum
+        # drawn at its figure, is a choice of where in what the kit allows, and says so.
+        measured = bool(r.get("trim_measured"))
+        out.update(draws="plain", board_in=r.get("trim_in"), judgment=not measured,
+                   members=[{"id": "rake_trim", "kind": "trim", "depth_in": float(r["trim_in"]),
+                             "of": None}],
+                   basis=[f"kits/{by}.kit.json", "rake_condition", r.get("trim_basis")],
+                   words=(f"RAKE: A PLAIN {r['trim_in']:g} IN TRIM, NO MOULDINGS — {by.upper()}'S "
+                          f"OWN KIT ({str(r.get('trim_basis') or '').upper()}), "
+                          + ("MEASURED" if measured else "A JUDGMENT")))
+        return out
+    if state == "overhang":
+        # "SETTLES NO MEMBER IN A ROW" and not "NO MEMBER" (the second independent check, 1 Oct 2026):
+        # a record may name its member in words this reader does not parse, or permit one and
+        # settle none, and neither is a record stating no member
+        b = (r.get("bands") or {}).get("rake_overhang_in") or {}
+        lo, hi = (b.get("range") or [None, None])[:2]
+        perm = r.get("permitted") or []
+        out["words"] = (f"RAKE DRAWN AS THE ROOF'S EDGE — {who.upper()}'S KIT STATES A RAKE OVERHANG OF "
+                        f"{lo:g}–{hi:g} IN AND SETTLES NO MEMBER IN A ROW"
+                        + (f", PERMITTING {', '.join(perm).upper()}" if perm else "")
+                        + "; THE OVERHANG STANDS SQUARE TO THIS FACE, AND NO MEMBER THE KIT DOES NOT "
+                          "SETTLE IS DRAWN")
+        return out
+    if state == "undrawn":
+        out["words"] = (f"RAKE DRAWN AS THE ROOF'S EDGE — {who.upper()}'S KIT MAKES "
+                        f"{str(r.get('variant')).upper()} CANONICAL, WHICH THIS GENERATOR DOES NOT DRAW")
+    elif state == "unjudged":
+        out["words"] = (f"RAKE UNJUDGED — {who.upper()}'S KIT MAKES {str(r.get('variant')).upper()} "
+                        f"CANONICAL, A ROW THIS READER DOES NOT KNOW; THE ROOF'S EDGE IS DRAWN")
+    else:          # unread
+        rule = " ".join(str(r.get("rule") or "").split())
+        out["words"] = (f"RAKE DRAWN AS THE ROOF'S EDGE — {who.upper()}'S KIT STATES ITS RAKE ONLY IN "
+                        f"WORDS, WHICH ARE NOT READ: “{rule.upper()}”")
+    return out
+
+
+def rake_marks(elev, face):
+    """WHAT A FACE DRAWS OF THE RAKE, IN THE FACE'S OWN u (WP-16.9): the one spelling the sheet and
+    the DXF draw. On a gable end whose rake draws members (`rake_for`), each member is a band
+    along each slope of the roof's edge -- the edge as the sheet draws it, roof.py's profile lifted
+    onto the cornice (`face_profile`) -- at its own depth measured square to the slope, stacked
+    inward from the edge in `rake_for`'s order. Each band stops where it meets the top of the eave
+    cornice, as the Georgian kit's rule says a rake does ("it must die into the cornice return
+    rather than meeting it in a mitre"), and the two slopes meet at the apex on a plumb line.
+
+    Returns `{face, on_gable, draws, bands, words}`: `bands` is `[{member, kind, slope, poly}]`, each
+    `poly` a list of `(u_ft, h_ft)`; empty where the face is not a gable end or the rake is its
+    edge. A face that is not a gable end says, where the gable ends draw a rake, that the rake's
+    overhang past its corners is not drawn on it."""
+    rk = elev.get("rake") or {}
+    roof = elev["roof_record"]
+    gf = gable_faces(roof)
+    on_gable = bool(gf) and face in gf
+    out = {"face": face, "on_gable": on_gable, "draws": rk.get("draws") if on_gable else None,
+           "bands": [], "words": None}
+    if not on_gable:
+        # only where the gable ends really draw it: a roof that judges no ridge gives them no slope
+        if gf and rk.get("draws") in ("rake", "plain") and \
+                (roof.get("main") or {}).get("pitch_rise_per_12") is not None:
+            out["words"] = ("THE RAKE IS DRAWN ON THE GABLE ENDS; ITS OVERHANG PAST EACH CORNER IS NOT "
+                            "DRAWN ON THIS FACE, NOR ON THE ROOF PLAN OR THE MODEL: THE ROOF RECORD "
+                            "STOPS AT THE GABLE WALL")
+        return out
+    out["words"] = rk.get("words")
+    if rk.get("draws") not in ("rake", "plain") or not rk.get("members"):
+        return out
+    fp = elev["footprint"]
+    wall_top_ft = roof["main"]["grade_to_eave_ft"]
+    true_eave_ft = elev["grade_to_true_eave_in"] / 12.0
+    prof = [(u, h + true_eave_ft - wall_top_ft) for u, h in face_profile(roof, face, fp)]
+    if len(prof) != 3:
+        # A ROOF THAT JUDGES NO RIDGE GIVES THE GABLE END NO SLOPE (roof.py leaves the ridge height
+        # unjudged where no roof-pitch constraint is migrated for the style, rather than compute it
+        # off an invented pitch), so the rake the kit asks for has nothing to run along: it is not
+        # drawn, and the cause is said. roof.py reads the MIGRATED constraint and nothing else; a
+        # kit's own `roof_pitch` slot may state a pitch it does not read (the second independent
+        # check, 1 Oct 2026: all four styles reaching this state on the shipped plans do), so the
+        # sheet says what roof.py lacks and never that no pitch is stated
+        why = (f"THE ROOF JUDGES NO RIDGE (NO ROOF-PITCH CONSTRAINT IS MIGRATED FOR "
+               f"{str(roof.get('style') or 'THIS STYLE').upper()}), SO THE GABLE END HAS NO SLOPE TO CARRY IT"
+               if (roof.get("main") or {}).get("pitch_rise_per_12") is None else
+               "THE GABLE'S OUTLINE IS NOT A TRIANGLE")
+        out["words"] = (rk.get("words") or "") + "; NOT DRAWN — " + why
+        return out
+    apex = prof[1]
+    for slope, eave in (("left", prof[0]), ("right", prof[2])):
+        du, dh = apex[0] - eave[0], apex[1] - eave[1]
+        if abs(du) < 1e-9 or dh <= 1e-9:
+            continue
+        run_per_rise = abs(du) / dh                      # horizontal run per foot of rise
+        vert = math.hypot(du, dh) / abs(du)              # plumb depth per foot of depth square to it
+        sgn = 1.0 if du > 0 else -1.0
+        d = 0.0
+        for m in rk["members"]:
+            d0, d1 = d, d + m["depth_in"] / 12.0
+            d = d1
+            v0, v1 = d0 * vert, d1 * vert                # the band's two lines, plumb below the edge
+            u0t, u0b = eave[0] + sgn * v0 * run_per_rise, eave[0] + sgn * v1 * run_per_rise
+            if sgn * (u0b - apex[0]) >= 0:
+                continue                                 # the band never clears the cornice's top
+            poly = [(round(u0t, 4), round(eave[1], 4)), (round(apex[0], 4), round(apex[1] - v0, 4)),
+                    (round(apex[0], 4), round(apex[1] - v1, 4)), (round(u0b, 4), round(eave[1], 4))]
+            out["bands"].append({"member": m["id"], "kind": m["kind"], "slope": slope, "poly": poly})
     return out
 
 
@@ -3237,6 +3525,12 @@ def stack_notes(elev, sm):
     here gives it, so the line says so rather than a drawing inventing one. The unsized refusal
     is `STACKS_UNSIZED_NOTE`, which the sheet prints at its own place with the keystone's."""
     out = []
+    # THE STACKS THE ROOF PLACES NONE OF, where the style calls for them (WP-16.9): the roof
+    # record's own note, said on every face and in the DXF, where it had been said on none
+    _refused = _mod("disclosures", f"{ROOT}/build/disclosures.py").stacks_the_roof_refuses(
+        elev.get("roof_record"))
+    if _refused:
+        out.append(_refused)
     marks = sm["marks"]
     grade = [mk for mk in marks if mk["from_grade"]]
     above = [mk for mk in marks if not mk["from_grade"]]
@@ -3359,6 +3653,19 @@ def face_notes(elev, face, sm=None, cm=None):
     # the cornice's own sentences (`elevation.cornice_marks`), which the DXF writes too -- among
     # them what the kit forbids of the frieze, the cornice and the modillions (WP-16.4)
     notes.extend(cm["notes"])
+    # a roof form nobody stated: the record declares none and the style's kit decides nothing the
+    # roof layer draws, so the form is a fallback, and the sheet says so (WP-16.9, B1)
+    if (roof.get("form_reading") or {}).get("words"):
+        notes.append(roof["form_reading"]["words"])
+    # and a form the kit decided by a record its writer flags as a judgment (T3)
+    _rj = _mod("disclosures", f"{ROOT}/build/disclosures.py").roof_form_judgment(roof)
+    if _rj:
+        notes.append(_rj)
+    # the rake's sentence (`rake_marks`), on a gable end what it draws there, and on another face
+    # that its overhang is not drawn there (WP-16.9)
+    _rm = rake_marks(elev, face)
+    if _rm.get("words"):
+        notes.append(_rm["words"])
     # THE BANDS THE KIT FORBIDS, AND WHO WROTE EACH BAN (WP-16.4, R3). Until this package both were
     # READ ANYWAY and drawn, and `forbidden_slots_read_from_packs` was the only place that knew.
     for _key, _what in (("water_table_refused_by", "WATER TABLE"),
@@ -3375,7 +3682,10 @@ def face_notes(elev, face, sm=None, cm=None):
     # it; which height is right is a ruling, and `facade-classical`'s own frieze rule -- the band
     # "between the top-storey window heads and the bed of the cornice" -- is evidence for the
     # other one: `oq/the-elevation-stands-its-roof-on-a-cornice-band-no-other-surface-draws`.
-    if cornice_band_ft > 0.005:
+    # NOT WHERE NO ROOF IS DRAWN (WP-16.9, B8): a refused roof draws the wall line and nothing
+    # above it, and its sheet already says so; "ROOF DRAWN ON THIS SHEET'S FRIEZE" beside "NO ROOF
+    # DRAWN" was two sentences contradicting each other on one plate
+    if cornice_band_ft > 0.005 and not (roof.get("main") or {}).get("refused"):
         _f = _mod("render_section", f"{ROOT}/build/render_section.py")._fmt
         _ridge = ((roof.get("main") or {}).get("ridge") or {}).get("grade_to_ridge_ft")
         notes.append(f'ROOF DRAWN ON THIS SHEET’S FRIEZE AND CORNICE, {cornice_band_ft * 12.0:.1f}″ '
@@ -4262,6 +4572,8 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # WHAT THE GABLE END DRAWS OF THE CORNICE RETURN, AT THIS HOUSE'S DATE (WP-16.5, R8): one
         # reading, `resolve_kit.return_at`, which the sheet, the DXF and the measurements read
         return_reading = RK.return_at(_slots.get("cornice_return"), date)
+        # AND THE RAKE, FROM THE SAME RESOLVED KIT AT THE SAME DATE (WP-16.9, B5): the kit first
+        rake_reading = RK.rake_at(_slots.get("rake_condition"), date)
         # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): every slot this node's RESOLVED kit forbids. The generator reads slot
         # dimensions straight out of pack files and has never consulted the kit's strongest word.
         forbids = DC.forbidden_of(_slots)
@@ -4284,6 +4596,8 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # no cascade, no reading of the return either: UNJUDGED, which keeps the band and says why
         return_reading = {"state": "unjudged", "writers": [], "variant": None, "band_in": None,
                           "dated": [], "date": date, "date_unstated": False}
+        rake_reading = {"state": "unjudged", "writers": [], "variant": "the style's kit could not "
+                        "be resolved", "rule": None, "date": date}
         _reveal_source = _ks
 
     # THE REVEAL, read from whichever of the two slots this construction uses, and READ FROM
@@ -4490,7 +4804,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                                                    f"Georgian/Federal/Colonial-Revival family this pack covers should be given its own order pack.")
 
     cornice = eave_cornice(facade_pack, gibbs_pack, module_in=ground["storey_height_ft"] * 12.0,
-                           refused=refused)
+                           refused=refused, minimum=cornice_minimum(return_reading))
     wtb = water_table_and_belt(section, brick_pack, facade_pack, is_masonry, refused=refused)
 
     # Reconciliation with structure.py/roof.py's own grade_to_eave_ft: those files do not model
@@ -4624,6 +4938,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # WHAT EACH GABLE END DRAWS OF THE EAVE CORNICE (WP-16.5, R8): read once, here, and drawn
         # by `cornice_marks` on the sheet and in the DXF, and counted by the measurements
         "cornice_return": cornice_return(return_reading, cornice, roof),
+        "rake": rake_for(style, rake_reading, cornice),
         "window_surround": window_surround(surround_slot, "window_surround_masonry" if is_masonry
                                            else "window_surround_wood", date=date,
                                            construction=(plan.get("declared") or {}).get("construction_type")),

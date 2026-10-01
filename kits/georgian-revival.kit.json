@@ -11,10 +11,40 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "The record names the hip first each time it names the roof: description.long 'a hipped or gambrel roof with pedimented dormers'; defining_characteristics[4] 'Hipped, side-gable, or gambrel roof with pedimented or arched dormers and a modillioned or dentilled cornice of correct classical projection'; massing_affinities[0], its canonical four-over-four, 'The reference case: centre passage, two rooms deep, five bays, hipped or side-gable roof.'"
+        },
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "massing_affinities[0]: 'The reference case: centre passage, two rooms deep, five bays, hipped or side-gable roof.' defining_characteristics[4] names it second. c04 carries the cornice 'carried fully around the building including gable returns of not less than 18 in.', and c05 reads 'Chimneys must be built at the gable ends'."
+        },
+        {
+          "id": "gambrel",
+          "status": "permitted",
+          "note": "Demoted from canonical, where shingle-style put it ('The Colonial inheritance.'). defining_characteristics[4] names it third, and massing_affinities[3] rates the gambrel-block possible: 'The Mid-Atlantic and New England gambrel-roofed Georgian; overlaps dutch-colonial-revival.'"
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "shingle-style permits it. defining_characteristics[1]: 'Strictly symmetrical five- or seven-bay facade with a centred entrance and rigorous vertical alignment between storeys'. Judgment: the record names no cross-gable."
+        },
+        {
+          "id": "catslide",
+          "status": "atypical",
+          "note": "shingle-style permits it, and its own note calls it a seventeenth-century New England device ('taken from seventeenth-century New England'). This record refuses the garrison block for that reason, massing_affinities[4]: 'The overhang belongs to the seventeenth-century reference, not the Georgian one.' Atypical as a judgment: the record names no catslide."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A hipped or side-gable roof over the five- or seven-bay reference case, a gambrel where the gambrel-roofed Georgian of the Mid-Atlantic and New England is meant, with pedimented or arched dormers and a cornice of correct classical projection (defining_characteristics[4]).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: georgian-revival binds its own roof_form. Until then it wrote none and resolved SHINGLE-STYLE's record through colonial-revival: `gambrel` canonical, noted 'The Colonial inheritance.', so the roof layer would have drawn good-02 with a gambrel. This record names the gambrel third of three and rates its massing possible: defining_characteristics[4] reads 'Hipped, side-gable, or gambrel roof with pedimented or arched dormers and a modillioned or dentilled cornice of correct classical projection', and massing_affinities[0], its canonical massing, 'The reference case: centre passage, two rooms deep, five bays, hipped or side-gable roof.' Both forms the reference case names are canonical here, hip first as the record lists it. Under the ruling the roof layer keeps side-gable where it is canonical, so good-02 stays side-gabled; Lucas's answer B13 of 30 Sep 2026 keeps both canonical, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says. Marked judgment for the cross-gable ban and the catslide's rank."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

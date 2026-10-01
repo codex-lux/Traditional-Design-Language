@@ -73,10 +73,31 @@
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "boxed-rake-with-return",
+          "status": "forbidden",
+          "note": "c05 reads 'Cornice returns, modillions, friezes, pediments over windows, and full-width porches are forbidden.', diagnostic_tells[3] 'No cornice, no returns, no frieze board.', and this kit's own `cornice_return`, bound forbidden, 'No cornice return of any kind.' A rake that dies into a return has no return to die into here."
+        }
+      ],
+      "parameters": {
+        "rake_trim_width_in": {
+          "range": [
+            4,
+            6
+          ],
+          "unit": "in",
+          "kind": "measured",
+          "source": "cape-cod-revival.c05",
+          "note": "Transcribed on Lucas's answer B25 of 1 Oct 2026. c05 reads 'Ornament is limited to the door surround, a simple 4-6 in. eave moulding, and 4-6 in. corner boards. Cornice returns, modillions, friezes, pediments over windows, and full-width porches are forbidden.', and its test reads `rake_trim_width_in` between 4 and 6 -- the vocabulary's 'Width of the rake (gable) or eave trim board.' -- though the test's own note says it 'Tests the eave moulding width.' The figure is the eave moulding's, carried to the rake as american-farmhouse-vernacular's c02 figure for the fascia is carried to its rake; the carrying is the reading, and this slot is marked judgment for it."
+        }
+      },
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The roof ends at a gable rake, not at a parapet: a single steep side-gable roof whose gable ends carry the upper-floor windows. The rake is plain trim 4 to 6 in wide, c05's figure carried to the rake, with no return.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B5 of 30 Sep 2026, recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member: the companion of colonial-revival's own `rake_condition` binding of the same date, which permits a boxed rake with a return and would otherwise reach this node by descent (lineage[0], `regional_of`). Until then this slot was `open` and resolved ELIZABETHAN's record, 'No exposed gable verge in the ordinary sense; the roofline terminates at the parapet, not at a projecting gable rake.', reached at position 24 of this node's cascade; none of the 23 nodes before it, colonial-revival among them, binds the slot. This node's own words give it a gable and name no parapet for its roof: defining_characteristics[0] reads 'One-and-a-half storeys, rectangular in plan, with a steeply pitched side-gable roof', description.long 'a steep gable roof to shed snow', diagnostic_tells[0] 'Second-floor windows sit in dormers or in the gable ends, never in a full-height side wall.', and this kit's `roof_form` rule 'A single unbroken side-gable roof, optionally extended by a rear lean-to (saltbox); never a cross-gable or hip.' The record names no rake member. Its one figure for the trim is c05's test, `rake_trim_width_in` between 4 and 6, on the vocabulary's rake-or-eave variable. Its trim is capped -- c05 reads 'Ornament is limited to the door surround, a simple 4-6 in. eave moulding, and 4-6 in. corner boards.' -- and description.long says 'There is no shadow line to speak of, no cornice, no projection'. The rake it carries was put to Lucas, and his answer B25 of 1 Oct 2026 takes the record's own figure: c05's 4-6 in, transcribed as measured on `rake_trim_width_in` and drawn plain at its 5 in middle, with a note that it is the eave moulding carried to the rake. That carrying is a reading, not a sentence of this record about its rake, so the slot is marked judgment. The address stays governed by `opening-pointed`, bound on gothic-revival-british (`part * 3.5`) -- OQ 51's delivery, not endorsed, and unchanged by this binding."
     },
     "cornice_return": {
       "group": "massing-and-roof",

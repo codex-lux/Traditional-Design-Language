@@ -38,13 +38,29 @@ class TestRoofForm:
         assert form == "side-gable"
         assert note is None   # declared and matches the massing's own roof_default -- no note needed
 
-    def test_undeclared_falls_back_to_massing_default_with_a_note(self, roof_module):
+    def test_undeclared_takes_the_styles_canonical_form_and_says_whose(self, roof_module):
+        """RE-CUT 30 Sep 2026 (WP-16.9, Lucas's answer B1): a record naming no roof form takes its
+        style's canonical form before the massing's default. Undeclared, the Tidewater house is
+        hipped by georgian-colonial-american's record, which tidewater-georgian inherits with the
+        side gable demoted, in its own words."""
+        plan = load_plan("tidewater-georgian-careful")
+        plan["declared"] = {k: v for k, v in plan["declared"].items() if k != "roof_form"}
+        massing = roof_module._massing(plan["massing"])
+        form, note = roof_module.roof_form_for(plan, massing)
+        assert form == "hip" != massing["roof_default"][0]
+        assert note == ("No roof_form declared; georgian-colonial-american's kit makes hip canonical, "
+                        "drawn as hip (B1).")
+
+    def test_undeclared_falls_back_to_massing_default_with_a_note_where_the_kit_decides_nothing(
+            self, roof_module, monkeypatch):
+        TH = roof_module._threshold()
+        monkeypatch.setitem(TH._RESOLVED, "tidewater-georgian", {"roof_form": {"variants": []}})
         plan = load_plan("tidewater-georgian-careful")
         plan["declared"] = {k: v for k, v in plan["declared"].items() if k != "roof_form"}
         massing = roof_module._massing(plan["massing"])
         form, note = roof_module.roof_form_for(plan, massing)
         assert form == massing["roof_default"][0]
-        assert note is not None and "No roof_form declared" in note
+        assert note is not None and "No roof_form declared" in note and "makes no roof form canonical" in note
 
     def test_declared_form_outside_the_massing_default_list_is_noted_not_rejected(self, roof_module):
         plan = load_plan("tidewater-georgian-careful")
@@ -127,17 +143,50 @@ class TestMainRoofGambrel:
         assert geo["lower_source"].startswith("default")
         assert geo["lower_slope_deg"] == roof_module.GAMBREL_LOWER_SLOPE_DEFAULT_DEG
 
-    def test_gambrel_break_check_passes_on_this_files_own_computed_geometry(self, roof_module):
+    def test_gambrel_break_check_judges_nothing_on_this_files_own_default_geometry(self, roof_module):
+        """RE-CUT AT WP-16.9 (1 Oct 2026). This was `..._passes_on_this_files_own_computed_
+        geometry` and asserted `diff_ok is True`, over two slopes tidewater-georgian does not
+        state: both are the module's family-wide defaults, 66 and 24 degrees, so the difference
+        was 42 against the fault's 25 by construction, and the test certified the circular pass
+        `break_ok` had been unjudged for. No node states both slopes; B1 drew good-01's gambrel
+        from its kit and its roof plan printed the pass. The difference is reported and not
+        judged, and the reason says which slope was invented."""
         plan, section = _tidewater_section(roof_module, roof_form="gambrel")
         main = roof_module.main_roof(plan, section, plan["style"])
         gb = roof_module.gambrel_break_check(main)
         assert gb["applicable"] is True
-        assert gb["diff_ok"] is True
+        assert main["gambrel"]["lower_source"].startswith("default"), "premise: tidewater states no slope"
+        assert gb["slope_difference_deg"] == 42.0
+        assert gb["diff_ok"] is None and "both slopes" in gb["diff_unjudged_reason"]
         # `break_ok` was `True` here until 3 Sep 2026 and could not have been anything else: the
         # break fraction is a module constant with no reader that ever overrides it, tested
         # against the band it was chosen inside. It is unjudged now -- the second occurrence of
         # `wing_step_down`'s pattern, found by an adversarial audit of the fix to the first.
         assert gb["break_ok"] is None and gb["break_unjudged_reason"]
+
+    def test_the_pitch_difference_is_judged_only_where_the_style_states_both_slopes(self, roof_module):
+        """WP-16.9. Driven, because no node in the corpus states both slopes: five state one in
+        their own constraints, and the rest state neither. Where both are the style's own, the
+        difference is a real verdict both ways; where either is a default it is None and names
+        which one."""
+        def check(lower, upper, lsrc, usrc):
+            g = {"lower_slope_deg": lower, "upper_slope_deg": upper, "lower_source": lsrc,
+                 "upper_source": usrc, "break_fraction": 0.625}
+            return roof_module.gambrel_break_check({"form": "gambrel", "gambrel": g})
+        assert check(66.0, 24.0, "x.c01", "x.c02")["diff_ok"] is True
+        assert check(44.0, 24.0, "x.c01", "x.c02")["diff_ok"] is False
+        one = check(66.0, 24.0, "x.c01", "default (family-wide, see module docstring)")
+        assert one["diff_ok"] is None and one["diff_unjudged_reason"].startswith("the upper slope")
+        one = check(66.0, 24.0, "default (family-wide, see module docstring)", "x.c02")
+        assert one["diff_ok"] is None and one["diff_unjudged_reason"].startswith("the lower slope")
+
+    def test_no_node_states_both_gambrel_slopes_so_no_shipped_verdict_is_judged(self, roof_module):
+        """The premise the test above is driven for, asserted so the day a node states both the
+        corpus reaches the judged branch and this says so."""
+        both = [sid for sid in roof_module.C["styles"]
+                if not roof_module._style_gambrel_geometry(sid)["lower_source"].startswith("default")
+                and not roof_module._style_gambrel_geometry(sid)["upper_source"].startswith("default")]
+        assert both == [], both
 
     def test_gambrel_break_check_not_applicable_to_a_gable_roof(self, roof_module):
         plan, section = _tidewater_section(roof_module)
@@ -575,15 +624,25 @@ class TestThePlateDoesNotConvictAnUnjudgedRule:
             "'unjudged is not passed', and worse, because a reader believes a plate")
 
     def test_the_gambrel_legend_reports_its_two_halves_separately(self, roof_module,
-                                                                  render_roof_module, tmp_path):
+                                                                  render_roof_module, tmp_path,
+                                                                  monkeypatch):
         """The same defect one line down, and the one the first fix created.
 
         `gambrel_break_check` returns a REAL boolean for the pitch difference (two stated pitches
         compared) and an UNJUDGED break fraction (a module default tested against the band it was
         chosen inside). The legend ANDed them -- `'OK' if (diff_ok and break_ok) else 'FAIL'` --
         so the moment the break went unjudged the plate read FAIL for a gambrel whose one real
-        check had passed. One word cannot carry three states for two rules; there are two now."""
+        check had passed. One word cannot carry three states for two rules; there are two now.
+
+        RE-CUT AT WP-16.9: the pitch difference is real only where the style states both slopes,
+        and no node does, so the fixture's style is made to state both here (both its own
+        constraints, at the defaults' own figures) to keep the case that discriminates -- one real
+        verdict beside one unjudged one. The shipped case, both unjudged, follows it."""
         plan, section = _tidewater_section(roof_module, roof_form="gambrel")
+        real = roof_module._style_gambrel_geometry
+        monkeypatch.setattr(roof_module, "_style_gambrel_geometry",
+                            lambda st: {**real(st), "lower_source": f"{st}.c01",
+                                        "upper_source": f"{st}.c02"})
         rec = roof_module.build_roof(plan)
         gb = rec["checks"]["gambrel_break"]
         # Deliberately an assert and not a skip: a skip is a green tick on a guard that has gone
@@ -599,3 +658,17 @@ class TestThePlateDoesNotConvictAnUnjudgedRule:
         assert "UNJUDGED" in line, f"the unjudged break is not disclosed: {line.strip()[:160]}"
         assert "FAIL" not in line, (
             f"a gambrel whose only real check PASSED is convicted on the plate: {line.strip()[:160]}")
+
+    def test_a_gambrel_whose_slopes_are_both_defaults_says_so_on_the_plate(self, roof_module,
+                                                                          render_roof_module, tmp_path):
+        """WP-16.9: the case every gambrel in the corpus is in, good-01's among them. Neither half
+        is judged, and the plate says UNJUDGED twice, and never OK or FAIL."""
+        plan, section = _tidewater_section(roof_module, roof_form="gambrel")
+        rec = roof_module.build_roof(plan)
+        gb = rec["checks"]["gambrel_break"]
+        assert gb.get("applicable") and gb["diff_ok"] is None and gb["break_ok"] is None
+        out = tmp_path / "gambrel_defaults.svg"
+        render_roof_module.render_roof(rec, str(out))
+        line = next((l for l in out.read_text().splitlines() if "GAMBREL PITCH DIFF" in l), None)
+        assert line, "the plate no longer prints a gambrel legend -- this guard has gone blind"
+        assert "GAMBREL PITCH DIFF UNJUDGED · BREAK UNJUDGED" in line, line.strip()[:200]

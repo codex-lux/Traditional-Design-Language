@@ -908,10 +908,15 @@ def export_elevation_dxf(elev, path, face=None):
         # ONE CORNICE (OQ 79, ruled 29 Sep 2026): the relief is the envelope's, in the order's shape,
         # and the bed mould's held figure is a judgment. The sheet's caption says the same.
         scaling = cornice.get("projection_scaling") or {}
+        # B4: where a kit's own minimum decided the depth, the same words the sheet's caption reads
+        _deep = EL.cornice_depth_words(cornice, " IN")
         _text(msp, anno,
               f"RELIEF {round(cornice.get('order_relief_beyond_frieze_in') or 0, 2)} IN"
-              + (f", THE ENVELOPE'S DEPTH IN THE ORDER'S SHAPE (ORDER'S OWN "
-                 f"{round(scaling.get('order_relief_in') or 0, 2)} IN; OQ 79, RULED)"
+              + ((f", {_deep}, IN THE ORDER'S SHAPE (ORDER'S OWN "
+                  f"{round(scaling.get('order_relief_in') or 0, 2)} IN; RULED)")
+                 if _deep and scaling.get("mode") in ("bed-mould-held", "uniform") else
+                 (f", THE ENVELOPE'S DEPTH IN THE ORDER'S SHAPE (ORDER'S OWN "
+                  f"{round(scaling.get('order_relief_in') or 0, 2)} IN; OQ 79, RULED)")
                  if scaling.get("mode") in ("bed-mould-held", "uniform") else "")
               + (f"; BED MOULD HELD AT {cornice.get('bed_mould_projection_in'):g} IN - A JUDGMENT"
                  if cornice.get("bed_mould_projection_judgment") else ""),
@@ -921,6 +926,13 @@ def export_elevation_dxf(elev, path, face=None):
     # in the face's own u, as the sheet reads it (WP-16.3: `elevation.face_profile`); on a gable
     # end it is the rake, the roof's edge seen end on (WP-16.5)
     msp.add_lwpolyline(profile, dxfattribs={"layer": rf})
+    # THE RAKE (WP-16.9, B3 and B5): each member a band along each slope, the bands the sheet
+    # draws (`elevation.rake_marks`), in inches from the same datum as the profile above
+    for rb in EL.rake_marks(elev, face)["bands"]:
+        pl = msp.add_lwpolyline([(u * IN, h * IN) for u, h in rb["poly"]], close=True,
+                                dxfattribs={"layer": rf})
+        _xdata(pl, "TDL::rake-member", {"member": rb["member"], "kind": rb["kind"],
+                                        "slope": rb["slope"]})
 
     def _win(r):
         """WP-12.2: the rectangle is HANDED here, from `elevation.opening_rects`, and is no

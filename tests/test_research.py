@@ -50,6 +50,11 @@ READ_SLOTS = {
     # elevation reads it. Its three parameters that were not already counted are named beside
     # `check_research.RATCHET`, which moved with this line.
     "cornice_return",
+    # WP-16.9 (B3, B5): the rake is drawn from what the resolved kit says of `rake_condition`.
+    # `crown` arrives with it and is NOT a read of that slot: the rake's members are labelled
+    # `kind: "crown"`, which the walk cannot tell from the slot id. It moves no ratchet; the five
+    # parameters that did move are named beside `check_research.RATCHET`.
+    "crown",
     "door_surround",
     "dormer",
     "entablature",
@@ -62,6 +67,7 @@ READ_SLOTS = {
     "porch_depth",
     "porch_support",
     "porch_type",
+    "rake_condition",
     "reveal_frame",
     "reveal_masonry",
     "roof_form",
