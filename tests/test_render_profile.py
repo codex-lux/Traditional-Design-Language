@@ -296,7 +296,11 @@ def test_the_asset_fault_join_needs_both_halves():
         slot_only += sum(1 for f in FAULTS if slots & set(f.get("slots") or []))
     both = sum(len(LAF.links_for(a, FAULTS)) for a in MANIFEST["assets"])
     assert both < slot_only / 5, (both, slot_only)
-    assert both == 322, both
+    # 322 -> 364 on 1 Oct 2026 (WP-16.9): 42 links on 40 of the 160 records the roof and rake
+    # records add -- 40 to `picturesque-parti-on-a-formal-style` and 2 to
+    # `gambrel-slopes-converging`, both faults already reached. No older record's links moved, and
+    # the join still reaches 25 of the 210 faults.
+    assert both == 364, both
 
 
 def test_the_join_is_recorded_and_idempotent():
@@ -314,7 +318,11 @@ def test_every_linked_fault_exists():
         for fid in (a.get("depicts") or {}).get("faults") or []:
             checked += 1
             assert fid in ids, "%s names fault %r, which does not exist" % (a["id"], fid)
-    assert checked == 322, "no links to check; dropping every link passes this"
+    # 322 -> 364 on 1 Oct 2026 (WP-16.9), the recorded links the join wrote for that package's new
+    # records. WP-16.9's code commit regenerated the manifest and did not re-run the join, so
+    # this read 322 there and passed beside a recorded-equals-derived test that failed: a count
+    # of what is RECORDED cannot see a join nobody ran.
+    assert checked == 364, "no links to check; dropping every link passes this"
 
 
 def test_the_evidence_rail_returns_something():
@@ -387,7 +395,10 @@ def test_gen_assets_carries_forward_the_fields_it_does_not_own(tmp_path):
                 "%s lost the building name WP-4.4 gave it" % i
 
         linked = [i for i, a in before.items() if (a.get("depicts") or {}).get("faults")]
-        assert len(linked) == 189, len(linked)
+        # 189 -> 229 on 1 Oct 2026 (WP-16.9): the 40 records of that package's new pairs the join
+        # links. This read 189 on WP-16.9's code commit, which had not re-run the join, and passed:
+        # like the recorded-link count, it counts what is recorded, so it could not see the gap.
+        assert len(linked) == 229, len(linked)
         for i in linked:
             assert (after[i].get("depicts") or {}).get("faults"), "%s lost its fault links" % i
     finally:
@@ -433,7 +444,9 @@ def test_the_committed_manifest_is_what_the_generator_emits(tmp_path):
     # 1850 -> 1884 on 30 Sep 2026 (WP-16.2): every variant a style's own kit now forbids in its
     # own words adds a wanted incorrect/correct pair -- 17 pairs over 12 (node, slot) records.
     # The id sets above still agree, which is the guard; this line is the count.
-    assert len(committed) == 1884, len(committed)
+    # 1884 -> 2044 on 1 Oct 2026 (WP-16.9): 80 pairs over 23 nodes, one per forbidden row the
+    # roof and rake records add -- 78 over `roof_form` on 21 nodes and 2 over `rake_condition` on 2.
+    assert len(committed) == 2044, len(committed)
 
     # NOT JUST THE IDS. Comparing id sets alone let the generator mangle every caption, every
     # alt_text and every shot_spec with the test green -- the same shape as the divergence this
@@ -456,12 +469,16 @@ def test_the_manifest_covers_the_corpus_and_not_a_corner_of_it():
     "no count anywhere said" it -- WP-4.4's own report.
 
     142 until WP-16.2 (30 Sep 2026): garrison-revival, saltbox-colonial and second-empire forbid a
-    variant in their own kits now, and each forbidden variant is a wanted pair that depicts them."""
+    variant in their own kits now, and each forbidden variant is a wanted pair that depicts them.
+
+    145 until WP-16.9 (1 Oct 2026): greek-revival-northern binds its own `roof_form` now (B1) and
+    forbids five forms in it, so five pairs depict it. The record count beside it moved with the
+    rest of that package's pairs, 1884 -> 2044."""
     nodes = set()
     for a in MANIFEST["assets"]:
         nodes.update((a.get("depicts") or {}).get("nodes") or [])
-    assert len(nodes) == 145, len(nodes)
-    assert len(MANIFEST["assets"]) == 1884, len(MANIFEST["assets"])
+    assert len(nodes) == 146, len(nodes)
+    assert len(MANIFEST["assets"]) == 2044, len(MANIFEST["assets"])
 
 
 # ------------------------------- an inherited assembly may not wear the overlay's citation

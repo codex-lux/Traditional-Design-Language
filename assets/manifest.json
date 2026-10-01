@@ -10670,6 +10670,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Colonial Revival, roof form: cross-gable — wrong, and why.",
@@ -10713,6 +10717,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Colonial Revival, roof form: the same element done correctly.",
@@ -21739,6 +21747,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: gambrel — wrong, and why.",
@@ -21782,6 +21793,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: the same element done correctly.",
@@ -21825,6 +21839,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: cross-gable — wrong, and why.",
@@ -21868,6 +21885,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: the same element done correctly.",
@@ -21911,6 +21931,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: front-gable — wrong, and why.",
@@ -21954,6 +21977,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: the same element done correctly.",
@@ -21997,6 +22023,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: catslide-saltbox — wrong, and why.",
@@ -22040,6 +22069,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: the same element done correctly.",
@@ -22083,6 +22115,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: mansard — wrong, and why.",
@@ -22126,6 +22161,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: the same element done correctly.",
@@ -22169,6 +22207,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: shed — wrong, and why.",
@@ -22212,6 +22253,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: the same element done correctly.",
@@ -22255,6 +22299,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: picturesque-roof-intersection — wrong, and why.",
@@ -22298,6 +22345,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Federal, roof form: the same element done correctly.",
@@ -38117,6 +38167,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Revival, roof form: cross-gable — wrong, and why.",
@@ -38160,6 +38213,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Revival, roof form: the same element done correctly.",
@@ -41055,6 +41111,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: cross-gable — wrong, and why.",
@@ -41098,6 +41157,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: the same element done correctly.",
@@ -41141,6 +41203,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: catslide-saltbox — wrong, and why.",
@@ -41184,6 +41249,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: the same element done correctly.",
@@ -41227,6 +41295,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: mansard — wrong, and why.",
@@ -41270,6 +41341,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: the same element done correctly.",
@@ -41313,6 +41387,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: shed — wrong, and why.",
@@ -41356,6 +41433,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: the same element done correctly.",
@@ -41399,6 +41479,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: picturesque-roof-intersection — wrong, and why.",
@@ -41442,6 +41525,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Greek Revival, roof form: the same element done correctly.",
@@ -61677,6 +61763,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: cross-gable — wrong, and why.",
@@ -61720,6 +61809,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: the same element done correctly.",
@@ -61763,6 +61855,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: front-gable — wrong, and why.",
@@ -61806,6 +61901,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: the same element done correctly.",
@@ -61849,6 +61947,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: catslide-saltbox — wrong, and why.",
@@ -61892,6 +61993,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: the same element done correctly.",
@@ -61935,6 +62039,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: mansard — wrong, and why.",
@@ -61978,6 +62085,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: the same element done correctly.",
@@ -62021,6 +62131,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: shed — wrong, and why.",
@@ -62064,6 +62177,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: the same element done correctly.",
@@ -62107,6 +62223,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: picturesque-roof-intersection — wrong, and why.",
@@ -62150,6 +62269,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "New England Georgian, roof form: the same element done correctly.",
