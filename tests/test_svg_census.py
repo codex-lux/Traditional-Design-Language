@@ -1050,7 +1050,7 @@ class TestTheRefusalsAreSaid:
         return cls.SHUTTERED.split("/")[1]
 
     @classmethod
-    def _shuttered(cls):
+    def _shuttered(cls, pier_in=None, el=None):
         """good-05's west face with each room's two sashes driven back a foot apart, where the
         placer seated them before WP-16.6, so in each pier the two windows' leaves lie over one
         another and both rooms' windows are refused their leaves; and that record rendered, so the
@@ -1064,8 +1064,11 @@ class TestTheRefusalsAreSaid:
         east face, over one room. The premise this class was written on, `spec-builder-colonial/S`
         refusing leaves over two rooms, ran out exactly as the control below was written to
         notice, and the refusal is driven now, as the sidelight's was at WP-15.6. Before WP-16.6
-        this same face refused five windows over these two rooms."""
-        el = copy.deepcopy(cls._all()[cls.SHUTTERED][0])
+        this same face refused five windows over these two rooms.
+
+        `pier_in` sets a different pier (V27's specimen, WP-16.7), and `el` a different elevation
+        of the same face to drive; by default the foot the placer kept before WP-16.6."""
+        el = copy.deepcopy(el if el is not None else cls._all()[cls.SHUTTERED][0])
         front = el["faces"][cls._face()]
         sgn = -1.0 if front.get("mirrored") else 1.0
         rooms = {}
@@ -1079,7 +1082,7 @@ class TestTheRefusalsAreSaid:
             assert ws[0]["width_in"] == ws[1]["width_in"], "the drive assumes a pair of one width"
             ws.sort(key=lambda p: p["cx_in"])
             mid = (ws[0]["cx_in"] + ws[1]["cx_in"]) / 2.0
-            half = (ws[0]["width_in"] + cls.FOOT_IN) / 2.0
+            half = (ws[0]["width_in"] + (cls.FOOT_IN if pier_in is None else pier_in)) / 2.0
             for p, want in zip(ws, (mid - half, mid + half)):
                 d_in = want - p["cx_in"]
                 p["cx_in"] = want
@@ -1227,6 +1230,93 @@ class TestTheRefusalsAreSaid:
         assert r["verdict"] == "agrees", r
         r = self._v22(monkeypatch, [(self.SHUTTERED, el, grouped(""))])[self.SHUTTERED]
         assert r["verdict"] == "disagrees" and "counted under both" in r["detail"], r
+
+
+class TestARefusedPairNoLongerBlocks:
+    """V27 (WP-16.7, R7). A window refused its leaves for a neighbour's leaves must stand beside a
+    leaf the sheet DRAWS. No shipped sheet reaches it: WP-16.6 seats two windows at least the wider
+    window's width apart, and a wall that wide holds both half-width leaves. So the refusal is
+    driven, on the face V22's is, with each room's pair of sashes set a pier one and a half LEAVES
+    wide: wider than one leaf, so neither leaf reaches the other window's glass (which would refuse
+    both in any set), and narrower than two, so the pair cannot both be hung and the rule chooses.
+    Each defect is then planted in that one drawing, and lands or fails."""
+
+    SHUTTERED = TestTheRefusalsAreSaid.SHUTTERED
+
+    @classmethod
+    def _driven(cls):
+        el = copy.deepcopy(TestTheRefusalsAreSaid._all()[cls.SHUTTERED][0])
+        face = cls.SHUTTERED.split("/")[1]
+        EL = C.SURF._mod("elevation")
+        leaf = next(r["shutter_leaf_width_in"] for r in EL.opening_rects(el, face)["rects"]
+                    if r.get("shutter_leaf_width_in"))
+        return TestTheRefusalsAreSaid._shuttered(pier_in=1.5 * leaf, el=el)
+
+    @staticmethod
+    def _v27(monkeypatch, planted):
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter(planted))
+        return {r["subject"]: r for r in C.CHECKS["V27"]["fn"]()}
+
+    def _rects(self, el):
+        return C.SURF._mod("elevation").opening_rects(el, self.SHUTTERED.split("/")[1])["rects"]
+
+    def test_the_premise_one_window_of_each_pair_keeps_its_leaves_and_v27_agrees(self, monkeypatch):
+        el, svg = self._driven()
+        rects = self._rects(el)
+        refused = [r for r in rects if r.get("shutters_refused")]
+        hung = [r for r in rects if r["kind"] == "window" and r.get("shutter_leaf_width_in")]
+        assert len(refused) == 2 and {r["room"] for r in refused} <= {r["room"] for r in hung}, (
+            "the premise: one window of each driven pair is refused and its room keeps the other")
+        assert all(r["shutters_refused_by"] == ["leaf"] for r in refused), [
+            r["shutters_refused_by"] for r in refused]
+        got = self._v27(monkeypatch, [(self.SHUTTERED, el, svg)])
+        assert got[self.SHUTTERED]["verdict"] == "agrees", got[self.SHUTTERED]
+
+    @staticmethod
+    def _leafless(svg):
+        """The old rule's drawing: every drawn leaf gone from the ink, while the refusals stand."""
+        planted = re.sub(r'<rect[^>]*class="sh[ "][^>]*/>', "", svg)
+        assert planted != svg, "the plant did not land"
+        return planted
+
+    def test_v27_sees_a_refusal_beside_no_drawn_leaf(self, monkeypatch):
+        el, svg = self._driven()
+        r = self._v27(monkeypatch, [(self.SHUTTERED, el, self._leafless(svg))])[self.SHUTTERED]
+        assert r["verdict"] == "disagrees" and "over no leaf the sheet draws" in r["detail"], r
+
+    def test_v20_cannot_see_that_drawing(self, monkeypatch):
+        """Why V27 exists: an absent leaf overlaps nothing, so V20 AGREES with the same plant. This
+        is a test of V20's blind spot and drives nothing (V20 stays in `UNDRIVEN`); it is its own
+        test so that `_driven` does not read V20 into the body above, which requires a disagreement
+        of V27 alone."""
+        el, svg = self._driven()
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([(self.SHUTTERED, el, self._leafless(svg))]))
+        v20 = {x["subject"]: x for x in C.CHECKS["V20"]["fn"]()}
+        assert v20[self.SHUTTERED]["verdict"] == "agrees", v20[self.SHUTTERED]
+
+    def test_v27_sees_a_choice_by_order_said_where_the_record_made_none(self, monkeypatch):
+        el, svg = self._driven()
+        assert not [r for r in self._rects(el) if r.get("shutters_decided_by") == "face-order"], (
+            "the premise: the driven pairs are decided by the ruled keys")
+        planted = svg.replace("</svg>", '<text class="dm" x="0" y="0">SHUTTERS CHOSEN BY ORDER ALONG '
+                                        'THE FACE ON 1 WINDOW(S) — PLANTED</text></svg>')
+        r = self._v27(monkeypatch, [(self.SHUTTERED, el, planted)])[self.SHUTTERED]
+        assert r["verdict"] == "disagrees" and "prints 1 line(s)" in r["detail"], r
+
+    def test_v27_sees_a_choice_by_order_left_unsaid(self, monkeypatch):
+        el, svg = self._driven()
+        EL = C.SURF._mod("elevation")
+        real = EL.opening_rects
+
+        def ordered(elev, face):
+            got = real(elev, face)
+            for r in got["rects"]:
+                if r.get("shutters_refused"):
+                    r["shutters_decided_by"] = "face-order"
+            return got
+        monkeypatch.setattr(EL, "opening_rects", ordered)
+        r = self._v27(monkeypatch, [(self.SHUTTERED, el, svg)])[self.SHUTTERED]
+        assert r["verdict"] == "disagrees" and "chose 2 window(s) by the order" in r["detail"], r
 
 
 class TestTheKitRefusalIsHeldBothWays:

@@ -325,7 +325,14 @@ def door_bay(plan):
             "position_ft": door["pos_ft"]}
 
 
-def mirror(plan, level=0, tol_ft=1.0):
+# THE MIRROR'S TOLERANCE, ONE SPELLING (WP-16.7). R7 reads "symmetric about the front's centre line"
+# with this tolerance (the reading recorded beside the ruling, 29 Sep 2026), so the shutters an
+# elevation hangs and the mirror the drawn layer judges cannot disagree about which two windows are
+# each other's reflection.
+MIRROR_TOL_FT = 1.0
+
+
+def mirror(plan, level=0, tol_ft=MIRROR_TOL_FT):
     """How much of the entrance front is mirrored about the footprint's centre line.
 
     `massings/catalog.json`'s `four-over-four` says *"Facade symmetry is a hard constraint, not

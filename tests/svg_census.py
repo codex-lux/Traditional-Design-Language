@@ -3137,6 +3137,90 @@ def v26():
     return out
 
 
+_ORDER_SAID = "SHUTTERS CHOSEN BY ORDER ALONG THE FACE ON"
+_ORDER_COUNT = re.compile(r"^SHUTTERS CHOSEN BY ORDER ALONG THE FACE ON (\d+) WINDOW")
+
+
+@check("V27", "elevation", "every window whose record refuses its shutter leaves for a neighbour's leaves "
+       "stands beside a leaf the sheet DRAWS that its own would lie over, because a refused pair no "
+       "longer blocks its neighbour; and the legend says where the order along the face, which no "
+       "ruling states, chose which window keeps its leaves, and only there", "elevation sheets that "
+       "draw a shutter leaf, or whose record refuses one, or that say a choice by order: shipped "
+       "plans, every face, and every style's front")
+def v27():
+    """WP-16.7. Lucas ruled (29 Sep 2026, R7) that a refused pair of leaves no longer blocks its
+    neighbour: the largest set of windows whose leaves can all be hung is hung, the set symmetric
+    about the face's centre line preferred, then the one nearest the entrance or the face's centre.
+    Until this package `_clearances` decided every refusal against the leaves AS COMPOSED, so a
+    window could lose its leaves to a neighbour whose own leaves the same pass refused -- 82 of the
+    232 windows refused their leaves over the census's 63 leaved sheets, measured at the audit of
+    Phase 14, stood beside no leaf the sheet drew.
+
+    V20 reads the ink for overlaps and V22 holds the legend to the record, and neither can see that
+    old rule: an absent leaf overlaps nothing and the legend said the refusal. This reads the INK
+    for the one thing the ruling changes. For every window the record refuses its leaves for a
+    neighbour's leaves, its own leaves -- the rule's width, kept on the record beside the refusal,
+    each side of the window as the record places it -- must lie over a leaf the SHEET DRAWS, read
+    back into the face's inches through the frame the plate states. A window refused for a leaf
+    nobody draws is the old rule.
+
+    The second clause holds the legend to the record both ways: a window chosen by the order along
+    the face (U6, a key for determinism alone) is said, and only such a window, with the count."""
+    EL = SURF._mod("elevation")
+    out = []
+    for subject, el, svg in _elev_and_sweep():
+        ink = IR.Ink(svg)
+        said = [" ".join(t.split()).upper() for t, _a, _it in ink.texts() if t and t.strip()]
+        order_said = [s for s in said if s.startswith(_ORDER_SAID)]
+        pl = _face_plate(ink)
+        face = (pl or {}).get("face")
+        if not face:
+            if order_said:
+                out.append(row("V27", subject, "cne", "the sheet says a choice by order and its frame "
+                                                      "states no face, so the record cannot be read"))
+            continue
+        rects = EL.opening_rects(el, face)["rects"]
+        leafy = [r for r in rects if "leaf" in (r.get("shutters_refused_by") or ())]
+        ordered = [r for r in rects if r.get("shutters_decided_by") == "face-order"]
+        sh = _rects(ink, "sh")
+        # EVERY SHEET THAT DRAWS OR REFUSES A LEAF: where nothing is refused for a leaf the first
+        # clause has nothing to hold, and the second still does -- no sheet may say a choice by
+        # order it did not make (since WP-16.6 no shipped sheet refuses a window for a leaf)
+        if not (sh or leafy or ordered or order_said):
+            continue
+        drawn = []
+        for r in sh:
+            b = _box(r)
+            # the face plate states its frame in FEET; the record's openings are in inches
+            u0, v0 = (12.0 * c for c in IR.to_model(pl, b[0], b[3]))
+            u1, v1 = (12.0 * c for c in IR.to_model(pl, b[2], b[1]))
+            drawn.append((min(u0, u1), max(u0, u1), min(v0, v1), max(v0, v1)))
+        bad = []
+        for r in leafy:
+            lw = r.get("shutter_leaf_width_refused_in")
+            if not lw:
+                bad.append("%s's window is refused its leaves and the record keeps no leaf width beside "
+                           "the refusal" % r.get("room"))
+                continue
+            mine = ((r["x0_in"] - lw, r["x0_in"]), (r["x1_in"], r["x1_in"] + lw))
+            if not any(min(a1, d1) - max(a0, d0) > 0.05
+                       and min(r["head_in"], dv1) - max(r["sill_in"], dv0) > 0.05
+                       for a0, a1 in mine for d0, d1, dv0, dv1 in drawn):
+                bad.append("%s's window is refused its leaves for a neighbour's and its own would lie "
+                           "over no leaf the sheet draws" % r.get("room"))
+        if len(order_said) != (1 if ordered else 0):
+            bad.append("the record chose %d window(s) by the order along the face and the sheet prints "
+                       "%d line(s) saying so" % (len(ordered), len(order_said)))
+        for s in order_said[:1]:
+            m = _ORDER_COUNT.match(s)
+            if not m or int(m.group(1)) != len(ordered):
+                bad.append("the record chose %d window(s) by order and the sheet counts %s"
+                           % (len(ordered), m.group(1) if m else "none"))
+        out.append(row("V27", subject, "disagrees" if bad else "agrees",
+                       "; ".join(bad) if bad else "%d leaf(s) drawn, %d window(s) refused for a drawn leaf, "
+                       "%d chosen by order" % (len(sh), len(leafy), len(ordered))))
+    return out
+
 def _frieze_projection_parts():
     """facade-classical's own frieze member, READ OFF THE PACK FILE: `(projection_parts,
     height_parts)`. Not `eave_cornice`'s `frieze_projection_in`, which this package added and the

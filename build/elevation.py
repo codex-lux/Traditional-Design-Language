@@ -3919,13 +3919,23 @@ def face_notes(elev, face, sm=None, cm=None):
     # at the corner of the face was said to lie over a neighbour it does not have. The class is
     # the rect's own field, never read back out of the prose. A window refused for two reasons is
     # counted once in the total and under each of its reasons, and the total says so.
-    _no_leaves = [r for r in opening_rects(elev, face)["rects"] if r.get("shutters_refused")]
+    _rects = opening_rects(elev, face)["rects"]
+    _no_leaves = [r for r in _rects if r.get("shutters_refused")]
+    # WHICH LEAVES ARE HUNG WHERE NOT EVERY PAIR CAN BE (R7, WP-16.7): the rule is said once, in the
+    # line of the class it decides, and the centre it works outward from is this face's own
+    _centre_in, _centre_words = composition_centre(
+        _rects, ((elev.get("faces") or {}).get(face) or {}).get("outside_width_in"))
     _REASONS = (
         ("opening", "A LEAF WOULD LIE OVER THE NEXT OPENING: THE PIER IS NARROWER THAN "
                     "SASH-LIGHT\u2019S LEAF"),
-        ("leaf", "ITS LEAVES AND THE NEXT WINDOW\u2019S WOULD LIE OVER ONE ANOTHER: THE PIER IS "
-                 "NARROWER THAN THE TWO LEAVES THAT WOULD SHARE IT"),
-        ("corner", "A LEAF WOULD HANG PAST THE CORNER OF THE FACE"))
+        ("leaf", "ITS LEAVES AND A HUNG NEIGHBOUR\u2019S WOULD LIE OVER ONE ANOTHER: THE PIER IS "
+                 "NARROWER THAN THE TWO LEAVES THAT WOULD SHARE IT, AND WHERE NOT EVERY PAIR CAN "
+                 "BE HUNG THE MOST THAT CAN BE ARE, A SYMMETRIC SET FIRST"
+                 + (", THEN THOSE NEAREST " + _centre_words.upper().replace("'", "\u2019")
+                    if _centre_in is not None else "")),
+        ("corner", "A LEAF WOULD HANG PAST THE CORNER OF THE FACE"),
+        ("bound", f"MORE THAN {SHUTTER_GROUP_BOUND} WINDOWS\u2019 LEAVES CONTEND, SO THE LARGEST SET "
+                  f"THAT CAN ALL BE HUNG WAS NOT SEARCHED AND EACH PAIR IS REFUSED AS COMPOSED"))
 
     def _names(rs):
         _rooms = sorted({str(r.get("room")).upper() for r in rs})
@@ -3943,13 +3953,29 @@ def face_notes(elev, face, sm=None, cm=None):
                      + (' (A WINDOW REFUSED FOR TWO REASONS IS COUNTED UNDER BOTH):' if _twice else ':'))
         for _k, _why, rs in _by:
             notes.append(f'\u00b7 {len(rs)} ({_names(rs)}): {_why}')
+    # WHERE THE RULE DID NOT DECIDE, THE SHEET SAYS SO (WP-16.7). R7's keys are the count, the
+    # symmetry and the distance from the centre of composition; between windows equal by all three,
+    # the order along the face decides, which no ruling states (U6), and the sheet names them.
+    _by_order = [r for r in _rects if r.get("shutters_decided_by") == "face-order"]
+    if _by_order:
+        notes.append(f'SHUTTERS CHOSEN BY ORDER ALONG THE FACE ON {len(_by_order)} WINDOW(S) \u2014 '
+                     f'{_names(_by_order)} \u2014 THE RULE DOES NOT DECIDE WHICH OF THEM KEEPS ITS '
+                     f'LEAVES, AND THE ORDER FROM THE FACE\u2019S LEFT AS DRAWN DOES: A KEY FOR '
+                     f'DETERMINISM ALONE, WHICH NO RULING STATES')
     # A CORNER NOBODY MEASURED IS SAID (audit, 27 Sep 2026): `_clearances` records it where the
     # face states no width, and a sheet silent about it would read as a corner found clear
-    _uncornered = [r for r in opening_rects(elev, face)["rects"]
+    _uncornered = [r for r in _rects
                    if r.get("sidelights_corner_unjudged") or r.get("shutters_corner_unjudged")]
     if _uncornered:
         notes.append(f'CORNER CLEARANCE NOT JUDGED ON {len(_uncornered)} OPENING(S) \u2014 THE FACE '
                      f'STATES NO WIDTH')
+    # AND A SYMMETRY NOBODY COULD READ (WP-16.7): with no width the face has no centre line, so
+    # where several sets of leaves could have been hung, whether the one drawn is symmetric is
+    # not judged
+    _unsym = [r for r in _rects if r.get("shutters_symmetry_unjudged")]
+    if _unsym:
+        notes.append(f'SHUTTER SYMMETRY NOT JUDGED ON {len(_unsym)} WINDOW(S) \u2014 THE FACE STATES '
+                     f'NO WIDTH, SO IT HAS NO CENTRE LINE')
     if any("garage" in str(r.get("type") or "").lower() for r in _doors):
         notes.append('GARAGE DOOR DRAWN AS ITS OPENING \u2014 NO RECORD STATES ITS FACE')
         # AND WHERE THE GARAGE DOOR IS THE ONE THE COMPOSITION DRESSES, THE DOORCASE IS NOT
@@ -4216,6 +4242,16 @@ def _clearances(rects, face_width_in=None):
       * `shutters_refused` and `shutter_leaf_width_refused_in` on a window: why its leaves are
         not drawn, with the rule's width kept beside it; `shutter_leaf_width_in` goes to None,
         which is what every surface already draws on.
+
+    LEAF AGAINST LEAF IS A CHOICE SINCE WP-16.7 (R7, ruled 29 Sep 2026). Until then every refusal
+    was decided against the leaves AS COMPOSED, so a window lost its leaves to a neighbour whose
+    own the same pass refused: on the census's 63 leaved sheets, 82 of 232 windows refused stood
+    beside no drawn leaf (`oq/a-leaf-refused-for-a-neighbour-that-is-itself-refused`). Lucas
+    ruled that a refused pair no longer blocks its neighbour, so a leaf over an OPENING or past
+    the CORNER is still refused in any set, and among the windows left `_hang` hangs the largest
+    set whose leaves can all be hung -- the set symmetric about the face's centre line first, then
+    the one nearest the entrance or the face's centre. A refusal names only neighbours whose leaves
+    ARE hung, and every contended window carries `shutters_decided_by`, the key that decided it.
     """
     def _vo(a, b):
         return min(a["head_in"], b["head_in"]) - max(a["sill_in"], b["sill_in"]) > 0.01
@@ -4261,37 +4297,66 @@ def _clearances(rects, face_width_in=None):
         if hits:
             r["sidelights_refused"] = "; ".join(hits)
 
-    # 2. The shutter pairs, against every opening as it is now composed and every other leaf.
+    # 2. THE SHUTTER PAIRS (R7, ruled 29 Sep 2026; WP-16.7). What no choice can give is refused
+    # first, as before: a leaf over another opening as it is drawn, or past the corner of the face.
+    # Leaf against leaf is a CHOICE now, made once for the face by `_hang`.
     _extent = drawn_extent_in
-
+    leaved = [o for o in rects if o["kind"] == "window" and o.get("shutter_leaf_width_in")]
     leaves = {id(o): ((o["x0_in"] - o["shutter_leaf_width_in"], o["x0_in"]),
                       (o["x1_in"], o["x1_in"] + o["shutter_leaf_width_in"]))
-              for o in rects if o["kind"] == "window" and o.get("shutter_leaf_width_in")}
+              for o in leaved}
     refuse, kinds = {}, {}
-    for o in rects:
-        if id(o) not in leaves:
-            continue
+
+    def _no(o, why, kind):
+        refuse.setdefault(id(o), []).append(why)
+        kinds.setdefault(id(o), set()).add(kind)
+
+    for o in leaved:
         for a0, a1 in leaves[id(o)]:
             for p in rects:
                 if p is o or not _vo(o, p):
                     continue
                 b0, b1 = _extent(p)
                 if _ho(a0, a1, b0, b1) > 0.01:
-                    refuse.setdefault(id(o), []).append(
-                        f"a {o['shutter_leaf_width_in']:.1f} in leaf would lie {_ho(a0, a1, b0, b1):.1f} in "
-                        f"over {_who(p)}")
-                    kinds.setdefault(id(o), set()).add("opening")
-                for c0, c1 in leaves.get(id(p), ()):
-                    if _ho(a0, a1, c0, c1) > 0.01:
-                        pier = p["x0_in"] - o["x1_in"] if p["x0_in"] >= o["x1_in"] else o["x0_in"] - p["x1_in"]
-                        refuse.setdefault(id(o), []).append(
-                            f"its leaves and {_who(p)}'s would lie over one another in a {pier:.1f} in pier")
-                        kinds.setdefault(id(o), set()).add("leaf")
+                    _no(o, f"a {o['shutter_leaf_width_in']:.1f} in leaf would lie "
+                           f"{_ho(a0, a1, b0, b1):.1f} in over {_who(p)}", "opening")
             if face_width_in and (a0 < -0.01 or a1 > face_width_in + 0.01):
-                refuse.setdefault(id(o), []).append("a leaf would hang past the corner of the face")
-                kinds.setdefault(id(o), set()).add("corner")
+                _no(o, "a leaf would hang past the corner of the face", "corner")
             elif not face_width_in:
                 o["shutters_corner_unjudged"] = CORNER_UNJUDGED
+    clash = {}
+    for i, o in enumerate(leaved):
+        for p in leaved[i + 1:]:
+            if _vo(o, p) and any(_ho(a0, a1, c0, c1) > 0.01
+                                 for a0, a1 in leaves[id(o)] for c0, c1 in leaves[id(p)]):
+                clash.setdefault(id(o), {})[id(p)] = p
+                clash.setdefault(id(p), {})[id(o)] = o
+
+    def _pier(o, p):
+        return p["x0_in"] - o["x1_in"] if p["x0_in"] >= o["x1_in"] else o["x0_in"] - p["x1_in"]
+
+    choice = _hang(leaved, clash, set(refuse), rects, face_width_in)
+    for o in leaved:
+        if id(o) in choice["hung"]:
+            continue
+        # A REFUSED PAIR NO LONGER BLOCKS ITS NEIGHBOUR (R7), so a refusal names only the
+        # neighbours whose leaves ARE hung -- except past the bound, where nothing was chosen and
+        # the pair is refused as composed, against every neighbour, as before WP-16.7.
+        how = choice["decided"].get(id(o))
+        kind = "bound" if how == "bound" else "leaf"
+        for pid, p in sorted((clash.get(id(o)) or {}).items(), key=lambda kv: _mid(kv[1])):
+            if pid in choice["hung"] or how == "bound":
+                _no(o, f"its leaves and {_who(p)}'s would lie over one another in a "
+                       f"{_pier(o, p):.1f} in pier", kind)
+        if how:
+            _no(o, choice["why"][id(o)], kind)
+    for o in leaved:
+        if id(o) in choice["decided"]:
+            # WHICH KEY DECIDED, kept or refused (WP-16.7): the first key at which the set drawn
+            # beats the best set that would have done otherwise for this window
+            o["shutters_decided_by"] = choice["decided"][id(o)]
+        if id(o) in choice["symmetry_unjudged"]:
+            o["shutters_symmetry_unjudged"] = SYMMETRY_UNJUDGED
     for o in rects:
         if id(o) in refuse:
             o["shutter_leaf_width_refused_in"] = o["shutter_leaf_width_in"]
@@ -4303,6 +4368,192 @@ def _clearances(rects, face_width_in=None):
             # neighbour it does not have. A surface that must say which reason reads this,
             # never the sentence above.
             o["shutters_refused_by"] = sorted(kinds[id(o)])
+
+
+# THE BOUND ON THE SEARCH (WP-16.7). Every set of a group's windows that can all be hung is
+# enumerated, so a group is bounded: 16 windows whose leaves contend with one another, or are each
+# other's mirror, is a run of sixteen windows each too close to the next on one storey -- not a
+# house this corpus draws, and well inside a second of enumeration. Past it the group's pairs are
+# refused as composed, the rule before WP-16.7, and every surface says the choice was not made.
+SHUTTER_GROUP_BOUND = 16
+SYMMETRY_UNJUDGED = ("the face states no width, so whether the leaves hung are symmetric about its "
+                     "centre line is not judged -- not a pass")
+# "face-order", never "order": `check_research.generator_read_slots` reads this file's string
+# constants as the slots it reads, and `order` is a kit slot this file does not read (WP-16.7's
+# first draft named the key so and widened the census's kit-note population by three)
+_HANG_KEYS = ("count", "symmetry", "outward", "face-order")
+
+
+def _mid(o):
+    """An opening's centre along the face, from the two jambs the rect is drawn between (every
+    surface reads those; `cx_in` is the placer's figure, and a hand-built rect need not carry it)."""
+    return (o["x0_in"] + o["x1_in"]) / 2.0
+
+
+def composition_centre(rects, face_width_in):
+    """`(centre_in, words)`: the point a face's choices are made outward from (R5a and R7, ruled
+    29 Sep 2026: "the entrance where a door is seated, otherwise the face's centre"), in the face's
+    own inches, or `(None, why)` where neither can be read. The entrance is the door this face
+    dresses as the entrance (`opening_rects`' own `entrance`); where it is a garage door the face's
+    centre holds, as it does for the placer (U4: `openings.window_centres`)."""
+    ent = next((r for r in rects if r["kind"] == "door" and r.get("entrance")), None)
+    if ent is not None and "garage" not in str(ent.get("type") or "").lower():
+        return _mid(ent), "the entrance"
+    if face_width_in:
+        return face_width_in / 2.0, "the face's centre"
+    return None, "the face states no width and draws no entrance, so it has no centre to read"
+
+
+def _mirror_twins(wins, face_width_in, tol_in):
+    """`{id: id}`: the windows mirrored about the face's centre line, one to one, on one storey,
+    within `axis.mirror`'s tolerance (R7's reading: one spelling). A window on the centre line is its
+    own mirror and has no twin to break."""
+    if not face_width_in:
+        return {}
+    twin, used = {}, set()
+    for w in sorted(wins, key=lambda o: (_mid(o), o["sill_in"])):
+        if id(w) in used:
+            continue
+        want = face_width_in - _mid(w)
+        if abs(want - _mid(w)) <= tol_in:
+            used.add(id(w))
+            continue
+        cands = [o for o in wins if o is not w and id(o) not in used
+                 and o.get("storey") == w.get("storey") and abs(_mid(o) - want) <= tol_in]
+        if cands:
+            t = min(cands, key=lambda o: (abs(_mid(o) - want), _mid(o)))
+            twin[id(w)], twin[id(t)] = id(t), id(w)
+            used |= {id(w), id(t)}
+    return twin
+
+
+def _hang(leaved, clash, never, rects, face_width_in):
+    """WHICH WINDOWS HANG THEIR LEAVES (R7, ruled 29 Sep 2026; WP-16.7). Lucas, asked directly:
+    "A refused pair no longer blocks its neighbour. Among equally good sets, prefer one symmetric
+    about the front's centre line, then work outward from the entrance, so a symmetric front never
+    keeps shutters on one side only."
+
+    Over `leaved` (every window carrying leaves), less `never` (refused for an opening or the
+    corner, which no choice can give back), a set is HANGABLE where no two of its windows' leaves
+    lie over one another (`clash`). The set drawn is the best by four keys, in order:
+
+      1. COUNT -- the most windows. Ruled ("the largest set that can all be hung").
+      2. SYMMETRY -- the fewest mirror pairs broken about the face's centre line, a pair being two
+         windows on one storey within `axis.MIRROR_TOL_FT` of each other's reflection, broken where
+         one hangs and the other does not. Ruled where a symmetric set exists; where none does,
+         the fewest broken is U5, taken as recommended under Lucas's standing instruction of
+         1 Oct 2026, never put.
+      3. OUTWARD -- the most windows hung nearest the centre of composition (`composition_centre`),
+         class by class of equal distance (to 0.01 in), nearest first. Ruled.
+      4. ORDER -- the windows earlier along the face, from its left as drawn, first. NOT RULED:
+         a key for determinism alone (U6, taken as recommended, never put), and every window it
+         decides says so.
+
+    THE OPTIMUM DECOMPOSES BY GROUP, which is what makes an exhaustive search affordable. A free
+    window -- one whose leaves meet nobody's -- is in every best set. The rest fall into groups
+    joined by a clash or by a mirror pair; the count and the broken pairs are sums over groups, and
+    the last two keys compare coordinates each of which belongs to one group, so the best set of
+    the face is the best set of each group taken together. Each group is enumerated whole up to
+    `SHUTTER_GROUP_BOUND` windows; past it the group is refused as composed (U7, taken as
+    recommended, never put).
+
+    Returns `{"hung": ids, "decided": {id: key}, "why": {id: sentence}, "symmetry_unjudged": ids}`:
+    `decided` names, for every contended window, the first key at which the set drawn beats the
+    best set that would have done otherwise for that window."""
+    AX = _mod("axis", f"{ROOT}/build/axis.py")
+    tol_in = AX.MIRROR_TOL_FT * 12.0
+    centre_in, centre_words = composition_centre(rects, face_width_in)
+    open_ = [o for o in leaved if id(o) not in never]
+    ok = {id(o) for o in open_}
+    hit = {k: {p for p in v if p in ok} for k, v in clash.items() if k in ok}
+    free = {id(o) for o in open_ if not hit.get(id(o))}
+    twin = _mirror_twins(leaved, face_width_in, tol_in)
+    contested = sorted((o for o in open_ if hit.get(id(o))), key=lambda o: (_mid(o), o["sill_in"]))
+    byid = {id(o): o for o in contested}
+    parent = {id(o): id(o) for o in contested}
+
+    def root(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+    for o in contested:
+        for p in hit[id(o)]:
+            parent[root(id(o))] = root(p)
+        if twin.get(id(o)) in parent:
+            parent[root(id(o))] = root(twin[id(o)])
+    groups = {}
+    for o in contested:
+        groups.setdefault(root(id(o)), []).append(id(o))
+    hung, decided, why, unjudged = set(free), {}, {}, set()
+    for ids in groups.values():
+        if len(ids) > SHUTTER_GROUP_BOUND:
+            for x in ids:
+                decided[x] = "bound"
+                why[x] = (f"{len(ids)} windows' leaves contend here, past the {SHUTTER_GROUP_BOUND} the "
+                          f"search is bounded at, so the largest set that can all be hung was not "
+                          f"searched and its pair is refused as composed")
+            continue
+        sets = []
+
+        def walk(i, chosen):
+            if i == len(ids):
+                sets.append(chosen)
+                return
+            walk(i + 1, chosen)
+            if not (hit[ids[i]] & chosen):
+                walk(i + 1, chosen | {ids[i]})
+        walk(0, frozenset())
+        dist = ({x: round(abs(_mid(byid[x]) - centre_in), 2) for x in ids}
+                if centre_in is not None else {})
+        classes = sorted(set(dist.values()))
+
+        def broken(s):
+            n = 0
+            for x in ids:
+                t = twin.get(x)
+                if t is None:
+                    continue
+                if t in parent:
+                    n += (x < t) and ((x in s) != (t in s))
+                elif t in free:
+                    n += x not in s
+                else:
+                    n += x in s
+            return n
+
+        def key(s):
+            return (len(s), -broken(s), tuple(sum(1 for x in s if dist.get(x) == c) for c in classes),
+                    tuple(1 if x in s else 0 for x in ids))
+        best = max(sets, key=key)
+        hung |= best
+        kb = key(best)
+        top = [s for s in sets if len(s) == kb[0]]
+        sym = broken(best) == 0 and any(twin.get(x) is not None for x in ids)
+        for x in ids:
+            ka = key(max((s for s in sets if (x in s) != (x in best)), key=key))
+            k = next(_HANG_KEYS[i] for i in range(4) if kb[i] != ka[i])
+            decided[x] = k
+            if not face_width_in and len(top) > 1:
+                unjudged.add(x)
+            if x in best:
+                continue
+            if k == "count":
+                why[x] = "no largest set of this face's windows whose leaves can all be hung keeps it"
+            elif k == "symmetry":
+                why[x] = ("of the largest sets whose leaves can all be hung, the one "
+                          + ("symmetric" if broken(best) == 0 else "breaking the fewest mirror pairs")
+                          + " about the face's centre line leaves it out")
+            elif k == "outward":
+                why[x] = ("of the largest sets whose leaves can all be hung"
+                          + (", the symmetric ones" if sym else "")
+                          + f", the one hanging the windows nearest {centre_words} leaves it out")
+            else:
+                why[x] = ("the rule does not decide between this window and the one that keeps its "
+                          "leaves, and the order along the face, from its left as drawn, does (a "
+                          "key for determinism alone, which no ruling states)"
+                          + (f"; {centre_words}" if centre_in is None else ""))
+    return {"hung": hung, "decided": decided, "why": why, "symmetry_unjudged": unjudged}
 
 
 # ---------------------------------------------------------------- the wall beside the doorcase
