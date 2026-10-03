@@ -23,7 +23,7 @@ The Georgian kit alone produced 117 forbidden variants. That is where most of th
 and it is why the fault layer and the image layer are the same piece of work approached from two
 directions.
 
-**It covers 142 style nodes, and until 31 Aug 2026 it covered three.** The manifest was a frozen
+**It covers 146 style nodes, and until 31 Aug 2026 it covered three.** The manifest was a frozen
 snapshot from when the layer was authored — 322 records over `georgian-colonial-american`,
 `tidewater-georgian` and `english-georgian` — while `gen_assets.py`, tracking the corpus, would
 have emitted 1,788 over 142. Nothing compared them, so every count quoting "322 image records"

@@ -63,7 +63,7 @@ python3 build/geometry.py plans/tidewater-georgian-careful.json --engine cp --ti
 ```
 
 **10. The image layer** (`assets/manifest.json`) — see `docs/assets.md`
-Format-agnostic records authored **before** the images exist. 1850 records over 142 style nodes — **1971 wanted and 73 sourced** — 858 of them good/bad pairs, each generated from a `forbidden` variant, an `invented` slot, a code conflict, or a proportion-pack assembly. Every record carries a shot spec and alt text written to be reasoned from, so the gap is visible, the shot list exists, and an agent can use the record while the file is still missing.
+Format-agnostic records authored **before** the images exist. 2044 records over 146 style nodes — **1971 wanted and 73 sourced** — 955 of them good/bad pairs, each generated from a `forbidden` variant, an `invented` slot, a code conflict, or a proportion-pack assembly. Every record carries a shot spec and alt text written to be reasoned from, so the gap is visible, the shot list exists, and an agent can use the record while the file is still missing.
 
 Built outputs live in `dist/`:
 

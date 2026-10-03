@@ -355,3 +355,7 @@ this entry.
 **Left open, and named in the report.** minimal-traditional forbids `door_surround` whole, and its
 door keeps the doorcase's own casing, whose width is that slot's pack rule; the record lists the
 slot as READ ANYWAY. renaissance-revival-american's `window_head_wood` is read anyway as before.
+*(Added 3 Oct 2026, WP-16.8, the audit of Phase 16, auditor A: the sash's light pattern was not
+named here either. cape-cod-revival forbids 9/9 and 12/12, and the elevation draws 12/12 at the
+widths of the Tidewater record restyled; the face now says the ban and names its writer, and draws the pattern, because
+no other is stated for the width.)*

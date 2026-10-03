@@ -97,7 +97,10 @@ disagree about them (OQ 79). The inset's caption says which surface draws which.
 the face back to the record.
 
 **Since OQ 79 was ruled (WP-16.5, 30 Sep 2026), the face and the inset draw one cornice.** The
-envelope governs the depth and the order the shape. `elevation.scale_into_envelope` keeps the
+envelope governs the depth and the order the shape -- except where the style's kit states a minimum
+cornice for its return, which governs instead (B4, WP-16.9: 10.0 in on six shipped plans, where the
+envelope gives 8.61 or 9.57). *(Corrected 2 Oct 2026, WP-16.8: this said the envelope governs, which
+B4 made false.)* `elevation.scale_into_envelope` keeps the
 member heights, holds the bed mould's outer face at 2½ in (a judgment, withheld from the faults)
 and maps the members above onto the rest of the envelope's depth. The inset's caption says what was
 scaled.
@@ -463,3 +466,27 @@ Report: `docs/reports/wp-16.1-the-governing-test-decides.md`.
   only for a drawn pair.
 
 Report: `docs/reports/wp-16.4-the-refusal-names-who-forbade-it.md`.
+
+
+## WP-16.6, WP-16.7 and WP-16.9 (1 Oct 2026), and the audit (WP-16.8, 2 Oct 2026)
+
+What these packages added to this layer, each read in its own report before it is touched:
+
+- **The pier and the axis below** (WP-16.6, R5-R6a): the placer seats every window at least the
+  wider window's width from the next (`build/window_pier.py`, the one reader of the floor), the
+  centre holding; an upper window goes onto the axis of the opening below or is refused by name.
+  The elevation publishes `narrowest_pier_over_wider_adjacent_window` and the pier count, and
+  withholds both on an incomplete front (U8, WP-16.8), as R12 withholds the symmetry figures.
+  Since WP-16.8 the seating is one queue by distance from the centre (R5a); aligned upper windows
+  are not seated first (`docs/reports/wp-16.6-the-pier-and-the-axis-below.md`).
+- **The shutters** (WP-16.7, R7): `_hang` takes the largest set of leaves that can all be hung,
+  then the fewest mirror pairs broken, then the windows nearest the entrance or the face's centre,
+  then the order along the face (U5-U7). `elevation.shutter_leaves` is the one spelling of a leaf
+  and its panels, read by the sheet and, since WP-16.8, by the DXF.
+- **The rake** (WP-16.9, B3-B30): `resolve_kit.rake_at` reads the kit, `elevation.rake_for` and
+  `rake_marks` draw it. Where the roof judges no ridge the rake is not drawn, and since WP-16.8
+  `rake_withheld` says why on each house's fault rows.
+- **What the audit changed here** (WP-16.8): a refused roof has no judged gable faces
+  (`gable_faces` is None, U9); a hip measures no return; a count resting on a date the record does
+  not state is withheld (the sidelights, the returns); a light pattern the kit forbids is drawn and
+  said on the face; a stack is drawn against a ridge along either axis.

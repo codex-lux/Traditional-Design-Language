@@ -124,6 +124,12 @@ cascade's inherited value (shingle-style, via colonial-revival's family)."*
   > WP-16.1's storey and dormer gates, so a hipped house has nothing to answer. A house drawn with
   > a gable end is judged, whatever its kit says of the return.
 
+  *(Amended 2 Oct 2026, WP-16.8, auditor A.)* Where the kit settles nothing, the gable end keeps the
+  band (R8), and the fault's governing measurement -- the members returning onto the gable wall --
+  is not drawn, so the fault is asked and reads could-not-evaluate (R4). On eight plans that is the
+  verdict, and it was said only in a code comment until now. It is not "not applicable" and not
+  a pass: B2's "judged" means the fault is asked, and an unmeasured return is the answer.
+
 ### What executing it needs (WP-16.9)
 
 - **The adjudication comes first.** Every style whose canonical `roof_form` row another node wrote

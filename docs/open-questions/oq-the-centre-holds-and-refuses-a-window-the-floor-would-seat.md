@@ -41,3 +41,13 @@ placer's default places, as executed.
 *Taken as recommended under Lucas's standing instruction of 1 Oct 2026, never put: raised and left
 open, because the ruling's words are "keep their places" and reading them otherwise is a second
 ruling.*
+
+## Amended 2 Oct 2026 (WP-16.8, the audit of Phase 16, auditor A)
+
+The figures above were measured on a placer that seated aligned upper units before every other
+unit and called the order R6. No ruling states it, and it ran R5a backwards: an outer aligned
+window was seated first, and the window nearer the centre was refused (the spec Colonial's upper S
+face) or moved 0.9 ft (Tidewater's chamber3). The audit seats one queue by distance from the
+centre, each aligned unit at its axis, which is R5a and the ruled "read together" in their own
+words. Re-derive the counts above on the new placement before quoting them; this question --
+whether the centre should yield where the floor would seat both -- is unchanged by it.

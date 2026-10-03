@@ -192,8 +192,20 @@ four choices the ruling's words did not settle, and the recommended option was t
 
 Two more readings are stated rather than chosen:
 
-- R6 applies to every style, because R5b spares the pier floor and nothing else.
+- R6 applies to every style, because R5b spares the pier floor and nothing else. *(Corrected 2 Oct 2026, WP-16.8, auditor A: false of the code. A licensed style's line keeps the old foot in record order with no aim, so R5b spares R5a's centre-out order and the aim too (U10); and the aim reaches only the 53 nodes sash-light is delivered to, a reading of R5 (U11). Both taken as recommended under Lucas's standing instruction of 1 Oct 2026 and never put.)*
 - The composer's cap reads the floor for every style, because the composer composes no band.
+
+*(Added 3 Oct 2026, WP-16.8, the audit of Phase 16, auditor A.)* Two more readings decide a shipped
+refusal and were named nowhere. Both are taken as recommended under Lucas's standing instruction of
+1 Oct 2026, and neither was put:
+
+- **U12.** A face line that is not the entrance front's, a hyphen's among them, takes its own centre
+  and not the entrance axis. The Tidewater hyphen's S line holds about its own centre at -3.5 ft.
+- **U13.** Of two units equidistant from the centre, the lower coordinate is seated first. backhall's
+  units at -4.667 and -2.333 are equidistant from -3.5, so the unit at -2.333, nearer the entrance,
+  is the one refused for the pier. The same key orders the one queue the audit put in place (A1),
+  which seats aligned and unaligned units together, nearest the centre first: R5a with the ruled
+  "read together", where WP-16.6 seated every aligned unit first and called the order R6.
 
 **Measured on the sixteen shipped plans against `bb3c6de`, on the deterministic engine:**
 
@@ -208,7 +220,12 @@ Two more readings are stated rather than chosen:
 Of the 13 units newly refused, 11 are refused for the floor and 2 for the axis below. Five more,
 which the old foot already refused, are now said in the floor's words. The pier fault leaves
 could-not-evaluate on 11 plans: clear on four (1.26 to 7.99 x the wider) and not applicable on
-seven, whose fronts have no two windows side by side.
+seven, whose fronts have no two windows side by side. *(Corrected 3 Oct 2026, WP-16.8: four of those
+eleven fronts are incomplete. The placer refused the windows that would break the floor, and the
+fault cleared on what was left, or read no pier over rooms declaring two (auditor B). The pier figures
+are withheld on an incomplete front now (U8, taken as recommended, never put), and every test of the
+fault is gated alike (auditor A). On the sixteen plans the fault is clear on one, not applicable on
+three, and could-not-evaluate on twelve.)*
 
 **What the execution raised:**
 

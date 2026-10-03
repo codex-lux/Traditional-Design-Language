@@ -86,9 +86,9 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 `python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
 (`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
-## Where the work stands (4 Sep 2026)
+## Where the work stands (3 Oct 2026)
 
-**PHASE 16 — THE RULINGS OF 29 SEPTEMBER — IS OPEN (29 Sep 2026).** Read `PLAN-OF-ACTION.md`'s
+**PHASE 16 — THE RULINGS OF 29 SEPTEMBER — IS COMPLETE (29 Sep – 3 Oct 2026).** Read `PLAN-OF-ACTION.md`'s
 Phase 16 section before touching:
 
 - the elevation's faces, the gable end or the eave cornice;
@@ -139,6 +139,8 @@ AREA RECLAIM HAD NO ACCEPTANCE RULE (29 Sep 2026).** Read
   `refused`**, the standing refusals. They are two fields because they are two claims.
 - **`compose.rank_key` ranks judged fatals, then unjudged fatals, then the score.** On both shipped
   briefs it decides nothing yet, measured by re-sorting every scored candidate both ways.
+  *(Corrected 2 Oct 2026, WP-16.8: false from `54f7e33` to `bb3c6de`. WP-16.5 moved the Georgian
+  brief's fourth house to five-part-palladian on R13's second key; WP-16.9 moved it back.)*
 - **THE RECLAIM.** `compose.compose` ran the area reclaim after the declared loop and kept whatever
   it produced. Measured at `a4abb85`, it raised fatals on 4 of the 13 Georgian candidates. After
   R4 and R12, the native diagram's one judged fatal was the reclaim's: "The Truss Default: 0.4066
@@ -343,12 +345,15 @@ FAULT HAD CONVICTED EVERY DRAWN HOUSE ON AN INVENTED RAKE (30 Sep 2026).** Read
 - **good-05 is convicted for a gable end its style says it does not have.** Its return is forbidden
   on a hipped roof (A4), and the roof is drawn side-gabled by a fallback that never reads the
   style's kit: `oq/the-roof-is-drawn-side-gabled-whatever-the-style-says`. The rake half of the
-  gable-end question is `oq/the-rake-is-drawn-as-an-edge-and-carries-no-member`.
+  gable-end question is `oq/the-rake-is-drawn-as-an-edge-and-carries-no-member`. *(Corrected 2 Oct
+  2026, WP-16.8: true at `54f7e33` only. WP-16.9's B1 hips good-05 and B2 gates the fault on a drawn
+  gable end, so it reads not applicable from `bb3c6de` on.)*
 - **The sheet said colonial-revival's kit "PERMITS ONE" return on seven plans, and its own c04
   permits one only over a cornice of at least 10 in.** The drawn cornice is 8.6 or 9.6 in on six
   of them. `return_at` reports the condition with its writer, and the sheet says it beside the drawn
   figure. The drawing is unchanged, because a failed condition read as a ban is not ruled:
-  `oq/a-return-permitted-only-over-a-deeper-cornice-is-drawn-over-a-shallower-one`.
+  `oq/a-return-permitted-only-over-a-deeper-cornice-is-drawn-over-a-shallower-one`. *(Corrected
+  2 Oct 2026, WP-16.8: WP-16.9's B4 draws those six cornices 10.0 in deep, and the drawing moved.)*
 - **OQ 79 and `oq/the-gable-end-draws-a-full-cornice-whatever-the-kit-says-of-the-return` are
   CLOSED.** The question behind R9a quoted the cyma's figures, and OQ 79 carries the dated
   correction.
@@ -424,7 +429,7 @@ THE RAKE HAS NO SLOPE TO RUN ALONG ON EIGHT OF THE TEN DRAWN SHIPPED PLANS WITH 
   - 104 of 208 sheets;
   - 2 of 3,273 verdicts, both on good-05;
   - family-georgian's fourth candidate, five-part-palladian → centre-passage-single-pile, by R13's
-    tie-break;
+    tie-break -- undoing the move WP-16.5 made on the same key, which no record had said (WP-16.8);
   - the census +60 rows, all agreeing, with no known disagreement moved;
   - the asset manifest +160 records, 80 pairs over 23 nodes;
   - FORBIDDEN_RATCHET 679 → 680 (B30).
@@ -456,6 +461,8 @@ Read `docs/reports/wp-16.6-the-pier-and-the-axis-below.md` before touching `open
 - **The placer seats each face line from its centre out,** whichever rooms are behind it. The
   centre is the entrance door's axis on the entrance front, and the face's centre elsewhere.
   - Aligned upper units go first, exactly on the axis below or refused (`rule: alignment`).
+    *(Corrected 2 Oct 2026, WP-16.8: no ruling said so, and it ran R5a backwards. One queue by
+    distance from the centre now, each aligned unit at its axis.)*
   - The rest take the floor, and the aim where it costs no later window.
   - A unit that cannot keep the floor is refused by name (`rule: pier`).
   - The licensed styles keep the old foot, verbatim. Plan schema 0.13.0.
@@ -545,6 +552,63 @@ FLOOR HAD LEFT IT NOTHING TO CHOOSE: 0 OF 208 SHEETS MOVE (1 Oct 2026).** Read
   the known list by id and none new, and three could not be evaluated (no `dist/`; the DXF and IFC
   selftests, both shipped plans refused). The server suite is 418 passed / 16 skipped, and the app
   suite 764 of 764.
+
+**WP-16.8 AUDITED PHASE 16, AND ITS LARGEST FINDING IS THAT THE PLACER RAN R5a BACKWARDS IN AN ORDER
+NO RULING STATES (2–3 Oct 2026).** Read `docs/reports/wp-16.8-the-audit-of-phase-16.md` before
+trusting a figure Phase 16 published. Five auditors worked `e604955`: four read and one mutated, each
+in its own tree, and every finding was reproduced before it was touched.
+- **The one queue (A1).** WP-16.6 seated every aligned upper window before every other unit, which no
+  ruling states and which ran R5a ("the centre holds") backwards: on the spec Colonial's upper front
+  the unit nearer the centre was refused for the aligned outer one. One queue now, nearest the
+  centre first, each aligned unit at its axis. That executes R5a with the ruled "read together"; the
+  tie-break between equidistant units (U13) and the hyphen's own centre (U12) are readings, taken as
+  recommended under Lucas's standing instruction of 1 Oct 2026 and never put.
+- **What was fixed, among sixteen blocking rows:**
+  - R4's fourth state, documented as unreachable, decided the pier fault on 7 of 16 plans (A2 = B3);
+  - every rake reason said a rake is drawn, on the 8 of 10 gable-end plans that draw none (A3);
+  - R3 did not reach the sash's light pattern (A4);
+  - a dated row read on an undated house became a measured zero and decided verdicts on all 13
+    composed Georgian candidates (B1, U15);
+  - the pier fault was judged on the placer's own refusals (B2, U8);
+  - B9 turned good-03's ridge and not its height, so three surfaces drew 2.42:12 under a 5.0:12
+    label (C1);
+  - a side gable entered on the west or east refused its stacks (C2);
+  - the exterior-stack ban reached three surfaces and not the roof, the roof plan or the scene (C3);
+  - the bench called every partly refused window "crowded" (C4);
+  - seven roof records carried T5's choice under one of Lucas's answers (D1);
+  - five guards that could not fail (E1–E5).
+- **Found while attributing the audit's own movement (F1–F3), and by its whole build (F4).**
+  - C6's own fix named a belt course on six one-storey houses, found only by diffing each moved
+    scene against the control. `elevation.band_marks` is the one answer now.
+  - **The CAD elevation has drawn no water table and no belt course since WP-5.1 wrote it**, a row
+    WP-15.8's audit deferred. It draws both from `band_marks` now.
+  - The water table's top stands above the floor its doors open from on every drawn plan:
+    `oq/the-water-table-stands-above-the-floor-its-doors-open-from`, raised and not fixed.
+  - **The audit's own pier drive patched a reader before its solve, with no private cache.**
+    `test_determinism.py` reads every test file's source, so it convicted the drive in the whole
+    build; no targeted run had included it. It is WP-14.33's trap again, and the fix is the same
+    private cache.
+- **U8–U15 were taken as recommended under Lucas's standing instruction of 1 Oct 2026, never put.**
+  Report §III lists each with where it is executed.
+- **Deferred:** B7, the shutter fault's constants, is
+  `oq/the-shutter-fault-clears-on-the-rhythm-while-the-sheet-refuses-the-leaves`. B8, the census's
+  reach, is `oq/the-census-sweeps-every-style-over-one-dated-side-gabled-house`.
+- **What moved, against `e604955`:** 75 of 208 sheets (44 CAD elevations, 12 scenes, 9 sections,
+  6 sheet elevations, 4 plan sheets); 13 of 3,273 verdicts; both briefs' returned sets unchanged;
+  the census at 31 known disagreements, with one figure re-pinned (V19, good-03's ridge, C1).
+- **37 mutations of this package's guards, all red in the end.** One was blind on its first run:
+  B5's, because good-05, the corpus's only hipped house, has a kit that forbids its return.
+- **The test count is 3,886 against 3,843, reconciled by name**: 48 added and 5 re-cut away. The app
+  suite is 766.
+- **Its whole build is `2 of 54 checks failed`**: 22 failed / 3,836 passed / 28 skipped, with three
+  checks could-not-evaluate (no `dist/`; the DXF and IFC selftests, both shipped plans refused).
+  - All 20 known ids are red.
+  - The other two are this package's own, fixed (F4), and a prover-band row (`careful-cp`'s bearing
+    line), which passed six times of six alone, alternating the control and this tree.
+  - The server suite is 418 passed / 16 skipped, and the app suite 766 of 766.
+  - The walk is 702 green, none failed, and the same six could-not-evaluate as at WP-15.8's close,
+    word for word.
+- **The plates were re-probed at 00:35 UTC on 3 Oct, and all eight hosts still answer 403.**
 
 **PHASE 15 — THE PLATES DRAWN — IS OPEN, AND FOUR OF ITS EIGHT PACKAGES WAIT ON THE NETWORK
 (27–28 Sep 2026).** Lucas reviewed the drawn Tidewater front and found four defects:
@@ -1076,7 +1140,15 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 3,843 and the app suite 764.** WP-16.7 (1 Oct
+**The test figure in the counts paragraph below is 3,886 and the app suite 766.** WP-16.8 (2-3 Oct
+2026) added 48 tests and re-cut 5 away: 17 in the new `tests/test_audit_of_phase_16.py`, 10 in
+`tests/test_faces_as_seen.py`, 9 in `tests/test_fault_governing.py` (four of them the gate
+parametrizations E3 renamed), 5 in `tests/test_window_pier.py`, 2 each in `tests/test_kit_refusal.py`
+and `tests/test_stack_refusals_are_said.py`, and 1 each in `tests/test_revise.py`,
+`tests/test_roof_form.py` and `tests/test_svg_census.py`. The five re-cut away are the four renamed
+parametrizations and the ridge-front-to-back stack test C2 re-cut. It is reconciled BY NAME against
+a worktree of `e604955`, and the app suite gained C4's and E7's two. It was 3,843 at WP-16.7's
+close. WP-16.7 (1 Oct
 2026) added 18 tests and re-cut 2 away: 13 in `tests/test_clearances.py` (11 new, and the two
 its ruling re-cut, under new names) and the 5 V27 drivers in `tests/test_svg_census.py`. It is
 reconciled BY NAME against a worktree of `a6cf700`. It was 3,827 at WP-16.6's close. WP-16.6 (1 Oct
@@ -1871,8 +1943,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 2044 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,843 tests**
-(plus the workbench app suite, **764** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
+proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,886 tests**
+(plus the workbench app suite, **766** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
@@ -7613,8 +7685,8 @@ report by FILENAME, because the NUMBER names two packages.
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **275 entries, of which 152 are open**
-(7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-bare-gable-row-names-no-orientation, oq/a-brief-can-name-a-massing-no-parti-is-built-on, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition, oq/a-course-depth-is-labelled-a-height-above-the-floor, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-fault-gauge-has-no-extent-the-record-states, oq/a-fault-marked-not-applicable-to-a-style-still-convicts-it, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-members-note-states-a-figure-its-record-does-not-carry, oq/a-metric-source-figure-is-carried-rounded, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-parti-states-rooms-and-doors-and-no-positions, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-rake-record-left-uncorrected-on-an-undrawn-style, oq/a-roof-form-is-ranked-in-roof-pitch, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-name-is-drawn-over-its-furniture, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shared-flue-cannot-stand-behind-two-centred-breasts, oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-stated-position-on-an-item-too-thin-to-draw, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied, oq/a-withdrawn-claim-still-steers-the-placer, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-extends-delta-is-applied-to-a-base-it-was-not-written-against, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/an-exterior-stacks-breast-and-shoulders-are-stated-nowhere, oq/an-undecided-scout-releases-every-type-fact-at-once, oq/applies-when-means-two-things, oq/build-history-is-shown-in-page-fields-the-description-sweep-does-not-read, oq/clear-counts-a-pass-and-a-tautology-as-one-thing, oq/end-stacks-rise-past-a-hip, oq/fifteen-of-sixteen-plans-name-no-parti, oq/four-assemblies-state-projection-parts-as-a-run-a-face-or-a-width, oq/four-attic-bases-project-a-third-of-a-diameter, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/no-rake-id-states-a-parapeted-or-tumbled-gable, oq/no-tool-answers-which-styles-use-a-pack, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/six-order-assemblies-state-a-division-and-carry-no-zones, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-ceiling-and-opening-sliders-show-on-packs-that-read-neither, oq/the-centre-holds-and-refuses-a-window-the-floor-would-seat, oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw, oq/the-composer-ranks-first-a-house-that-may-not-be-drawn, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room, oq/the-composers-footprint-is-not-the-placed-one, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-elevation-stands-its-roof-on-a-cornice-band-no-other-surface-draws, oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front, oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front, oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-massings-first-roof-default-is-read-raw, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-model-draws-only-a-gable-roof, oq/the-net-clear-opening-is-half-of-every-sash, oq/the-openings-are-not-set-to-the-brick-courses, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-plan-draws-no-sidelights-the-elevation-draws, oq/the-plate-does-not-read-the-disclosure-module-it-imports, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-prover-draws-a-centre-passage-that-does-not-go-through, oq/the-rake-the-kit-asks-for-is-drawn-only-where-a-pitch-is-migrated, oq/the-raw-kit-read, oq/the-record-table-draws-an-untrusted-room-name, oq/the-refusal-contract-silenced-three-guards-about-other-properties, oq/the-roof-layer-draws-no-complex-or-polygonal-roof, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-search-is-refused-on-type-facts-nothing-tells-it, oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in, oq/the-servicing-layer-does-not-know-about-massing-elements, oq/the-shutter-fault-clears-on-the-rhythm-while-the-sheet-refuses-the-leaves, oq/the-span-count-and-the-span-marks-read-membership-two-ways, oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left, oq/the-tiling-fact-cannot-hold-on-a-rounded-or-derived-massing-element, oq/the-title-block-states-the-main-block-as-the-house, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container, oq/the-wall-at-the-corner-is-ruled-by-nothing, oq/the-window-surround-slots-were-never-split, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies, oq/two-id-namespaces, oq/two-inks-set-as-small-text-read-below-aa, oq/which-end-of-a-moulding-its-projection-names, oq/which-packs-module-is-a-building-input, oq/which-rooms-take-the-hearth).  The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
+  run `build/gen_open_questions.py`. It holds **277 entries, of which 154 are open**
+(7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-back-hall-cannot-be-a-hyphen-and-stay-inside-its-own-width-band, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-bare-gable-row-names-no-orientation, oq/a-brief-can-name-a-massing-no-parti-is-built-on, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition, oq/a-course-depth-is-labelled-a-height-above-the-floor, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-fault-gauge-has-no-extent-the-record-states, oq/a-fault-marked-not-applicable-to-a-style-still-convicts-it, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-members-note-states-a-figure-its-record-does-not-carry, oq/a-metric-source-figure-is-carried-rounded, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-parti-states-rooms-and-doors-and-no-positions, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-rake-record-left-uncorrected-on-an-undrawn-style, oq/a-roof-form-is-ranked-in-roof-pitch, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-name-is-drawn-over-its-furniture, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shared-flue-cannot-stand-behind-two-centred-breasts, oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-stated-position-on-an-item-too-thin-to-draw, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/a-variant-status-conditioned-on-a-region-or-a-construction-is-never-applied, oq/a-withdrawn-claim-still-steers-the-placer, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-extends-delta-is-applied-to-a-base-it-was-not-written-against, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/an-exterior-stacks-breast-and-shoulders-are-stated-nowhere, oq/an-undecided-scout-releases-every-type-fact-at-once, oq/applies-when-means-two-things, oq/build-history-is-shown-in-page-fields-the-description-sweep-does-not-read, oq/clear-counts-a-pass-and-a-tautology-as-one-thing, oq/end-stacks-rise-past-a-hip, oq/fifteen-of-sixteen-plans-name-no-parti, oq/four-assemblies-state-projection-parts-as-a-run-a-face-or-a-width, oq/four-attic-bases-project-a-third-of-a-diameter, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/no-rake-id-states-a-parapeted-or-tumbled-gable, oq/no-tool-answers-which-styles-use-a-pack, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/six-order-assemblies-state-a-division-and-carry-no-zones, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-ceiling-and-opening-sliders-show-on-packs-that-read-neither, oq/the-census-sweeps-every-style-over-one-dated-side-gabled-house, oq/the-centre-holds-and-refuses-a-window-the-floor-would-seat, oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw, oq/the-composer-ranks-first-a-house-that-may-not-be-drawn, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room, oq/the-composers-footprint-is-not-the-placed-one, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-draws-the-main-blocks-face-and-not-the-buildings, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-elevation-stands-its-roof-on-a-cornice-band-no-other-surface-draws, oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front, oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front, oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-massings-first-roof-default-is-read-raw, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-model-draws-only-a-gable-roof, oq/the-net-clear-opening-is-half-of-every-sash, oq/the-openings-are-not-set-to-the-brick-courses, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-plan-draws-no-sidelights-the-elevation-draws, oq/the-plate-does-not-read-the-disclosure-module-it-imports, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-prover-draws-a-centre-passage-that-does-not-go-through, oq/the-rake-the-kit-asks-for-is-drawn-only-where-a-pitch-is-migrated, oq/the-raw-kit-read, oq/the-record-table-draws-an-untrusted-room-name, oq/the-refusal-contract-silenced-three-guards-about-other-properties, oq/the-roof-layer-draws-no-complex-or-polygonal-roof, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-search-is-refused-on-type-facts-nothing-tells-it, oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in, oq/the-servicing-layer-does-not-know-about-massing-elements, oq/the-shutter-fault-clears-on-the-rhythm-while-the-sheet-refuses-the-leaves, oq/the-span-count-and-the-span-marks-read-membership-two-ways, oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left, oq/the-tiling-fact-cannot-hold-on-a-rounded-or-derived-massing-element, oq/the-title-block-states-the-main-block-as-the-house, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/the-type-facts-doubled-the-downgrades-on-a-plan-with-no-container, oq/the-wall-at-the-corner-is-ruled-by-nothing, oq/the-water-table-stands-above-the-floor-its-doors-open-from, oq/the-window-surround-slots-were-never-split, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies, oq/two-id-namespaces, oq/two-inks-set-as-small-text-read-below-aa, oq/which-end-of-a-moulding-its-projection-names, oq/which-packs-module-is-a-building-input, oq/which-rooms-take-the-hearth).  The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. **AND THE ENTRY COUNT HAS BEEN THE FILE COUNT, WHICH IS THE
   UNGUARDED-PROSE CLASS ARRIVING IN THIS PARAGRAPH** -- `docs/open-questions/README.md`
   is a file in that directory and not a question, so on the commit before WP-12.9 this

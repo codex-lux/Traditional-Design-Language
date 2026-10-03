@@ -140,7 +140,10 @@ tree with this ruling it reports 0 clears whose governing test did not run, 138 
 rows carrying evidence, and 142 clears naming an unrun secondary. **That last 142 is not the 142
 above:** on `a4abb85`, 284 clears had some applicable test unrun, 142 of them the governing test and
 142 only secondaries. The first 142 left the clear list, and the second 142 stay clear and now say
-what did not run.
+what did not run. *(Corrected 2 Oct 2026, WP-16.8, the audit of Phase 16: "a tree with this ruling"
+is `2ff37e0`, where 138 and 142 reproduce. Later packages moved both; at `e604955`
+`tests/fault_clears.py` reports 116 could-not-evaluate rows with evidence (31 fatal) and 153 clears
+naming an unrun secondary. Re-derive; do not quote.)*
 
 **The solecism share.** The correction above said `compose.py`'s solecism share can reorder
 candidates with equal fatal counts. It moved on every candidate, because clears left the
