@@ -153,25 +153,36 @@ class TestTheGoverningTestDeclined:
     def test_no_shipped_fault_gates_its_primary_and_leaves_a_sibling_ungated(self):
         """WP-16.8. A fault whose governing test asks a question only a premise makes meaningful --
         a pier, a dormer, a shutter -- is gated on that premise, and every sibling test asks the
-        same question, so it is gated the same way: the convention WP-16.1 followed for the
-        alignment and overscaled-dormer faults, and the one WP-16.6 broke for the pier fault. An
-        ungated sibling is listed here only with the reason it asks about something else."""
+        same question, so it is gated too: the convention WP-16.1 followed for the alignment and
+        overscaled-dormer faults, and the one WP-16.6 broke for the pier fault. An ungated sibling
+        is listed here only with the reason it asks about something else.
+
+        WHAT IT READS, CORRECTED 3 OCT 2026 (the audit of WP-16.8's own diff, auditor C): that a
+        sibling carries a gate, not which. This said "gated the same way", and
+        `shutter-on-an-unshutterable-opening` gates its primary on `total_shutter_leaves` and its
+        secondary and its italianate-american licence on `window_head_radius_in` -- each its own
+        premise, and it passes. And the population is asserted, so a glob that found nothing, or a
+        gate key renamed, cannot leave it green over no fault at all (14 gated primaries and 81
+        siblings when this was written)."""
         asks_otherwise = {
             ("shutter-on-an-unshutterable-opening", "exception:creole-cottage-vernacular"):
                 "its blind leaf hangs on a DOOR, which the window shutters' leaf count does not decide",
         }
-        found = []
+        found, gated, seen = [], 0, 0
         for path in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
             f = json.load(open(path, encoding="utf-8"))
             gate = (f.get("test") or {}).get("applies_when")
             if not gate:
                 continue
+            gated += 1
             sibs = [(f"secondary:{i}", t) for i, t in enumerate(f.get("secondary_tests") or [])]
             sibs += [(f"exception:{e.get('style')}", e["bounds_test"])
                      for e in f.get("exceptions") or [] if e.get("bounds_test")]
+            seen += len(sibs)
             for name, t in sibs:
                 if not t.get("applies_when") and (f["id"], name) not in asks_otherwise:
                     found.append((f["id"], name, t.get("expression")))
+        assert gated >= 10 and seen >= 50, ("the premise: the scan read the gated faults", gated, seen)
         assert not found, ("a gated primary beside an ungated sibling: on a house without the "
                            f"premise the sibling runs and the fault reads not applicable with it run "
                            f"(or present, if it fails): {found}")
@@ -524,6 +535,15 @@ class TestTheReclaimIsHeldToTheLoopsRule:
         assert not RV.raises_fatal_or_serious(_critique([0, 20, 90, 20]), old), (
             "only the minor axis may pay for the brief's area")
         assert not RV.raises_fatal_or_serious(_critique([0, 19, 70, 19]), old)
+
+    def test_a_step_that_lowers_the_fatal_count_may_raise_the_serious_count(self):
+        """The drive `raises_fatal_or_serious`' docstring cites and no test performed (the audit of
+        WP-16.8's own diff, auditor C): the comparison is LEXICOGRAPHIC, so [1, 10] -> [0, 30] is
+        kept. Every case above agrees with a componentwise reading too -- any key higher is worse --
+        and that mutation left the class green; this is the case that tells them apart."""
+        old = _critique([1, 10, 70, 21])
+        assert not RV.raises_fatal_or_serious(_critique([0, 30, 70, 20]), old)
+        assert RV.raises_fatal_or_serious(_critique([1, 11, 0, 21]), old), "the control: a serious raised at one fatal"
 
     def test_a_fatal_the_reclaim_made_unjudged_is_counted_where_it_stood(self):
         old = _critique([1, 20, 70, 21], present=["one-bay-symmetry-break"])

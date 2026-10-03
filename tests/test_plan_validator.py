@@ -143,7 +143,13 @@ class TestShippedPlans:
         # between 4 and 8" -- the cornice's own projection published as `rake_overhang_in`, on a roof
         # record that models no rake overhang. Withheld now, so the fault could-not-evaluate. The
         # one row out of 168, diffed finding by finding against a worktree of 9dd0fbf.
-        assert result["counts"]["serious"] == 57
+        # 57 -> 56 AT THE AUDIT OF WP-16.8's OWN DIFF (3 Oct 2026), U16: `lite-count-wrong-for-the-
+        # date`, "A Light Count The Glasshouse Could Not Have Supplied: 0.7871 against at-least
+        # 1.05". This record states no date, so the module's light figures are withheld and the
+        # fault could-not-evaluate. Diffed finding by finding against a worktree of 6873f91: two
+        # rows out (this and the minor below), none in. THE WHOLE BUILD FOUND THIS PIN: the
+        # package re-pinned this plan's finding digest and missed this neighbour.
+        assert result["counts"]["serious"] == 56
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -192,7 +198,10 @@ class TestShippedPlans:
         # anything. `info` also moves, 17 -> 25, and that is a SEPARATE change in the same
         # package: the grouping layer's no-test branch read `elif hard`, so 28 of the corpus's
         # 86 internal rules emitted nothing at all.
-        assert result["counts"]["minor"] == 80
+        # 80 -> 79 AT THE AUDIT OF WP-16.8's OWN DIFF (3 Oct 2026), U16, with the serious row above:
+        # `equal-lite-grid-where-the-period-graduated`, "The Uniform Grid: 0.7871 against between
+        # 1.15 and 1.4", unjudged on an undated house for the same reason.
+        assert result["counts"]["minor"] == 79
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the

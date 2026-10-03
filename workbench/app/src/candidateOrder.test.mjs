@@ -6,6 +6,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { whyText, isNative, nativityOf, NATIVITY_TERMS, byScore, ORDERS, order, unjudgedFatalsOf } from './candidateOrder.js';
+import { adaptCandidate } from './candidateCard.js';
 
 test('whyText joins the reasons list instead of concatenating it', () => {
   const why = ['native to tidewater-georgian',
@@ -161,19 +162,26 @@ test('R13: between equal fatal counts, fewer UNJUDGED fatals ranks higher, befor
 test('R13 reads the count off the card the composer serves, and the Candidate Set reads it there', () => {
   /* WP-16.8 (auditor E's E45). The test above hands the count in, so an adapter writing
      `unjudged_fatal_n: 0` left every app test green. The served card carries the LIST
-     (`compose.unjudged_fatals`); `unjudgedFatalsOf` is the one reader, and the surface reads it. */
+     (`compose.unjudged_fatals`); `unjudgedFatalsOf` is the one reader, and the surface reads it.
+     RE-CUT 3 OCT 2026 (the audit of WP-16.8's own diff, auditor C's M2): this held the surface to
+     a regex over `CandidateSet.jsx`, which went red on a change keeping the count and green on a
+     later `unjudged_fatal_n: 0` -- E45's own defect. The adapter is a leaf now
+     (`candidateCard.js`) and is DRIVEN: the card the surface renders, from the card the composer
+     serves, sorted by the order the surface sorts by. */
   const served = (parti, score, fatal, unjudged) => ({
     parti, score, counts: { fatal }, unjudged_fatal: unjudged.map((f) => ({ fault: f, severity: 'fatal' })) });
   const cards = [served('two-unjudged', 90, 0, ['a', 'b']), served('one-unjudged', 10, 0, ['a']),
                  served('none-served', 50, 0, []), { parti: 'no-field', score: 5, counts: { fatal: 0 } }]
-    .map((c) => ({ parti: c.parti, score: c.score, fatal_n: c.counts.fatal,
-                   unjudged_fatal_n: unjudgedFatalsOf(c).length }));
+    .map((c, i) => adaptCandidate(c, i, null, null));
   assert.deepEqual(cards.map((c) => c.unjudged_fatal_n), [2, 1, 0, 0]);
+  assert.deepEqual(cards.map((c) => c.unjudged_fatal.map((u) => u.fault)), [['a', 'b'], ['a'], [], []]);
+  assert.deepEqual(cards.map((c) => c.fatal_n), [0, 0, 0, 0]);
   assert.deepEqual(cards.slice().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
     ['none-served', 'no-field', 'one-unjudged', 'two-unjudged']);
+  // and the surface renders THIS adapter: it imports it, and defines none of its own
   const src = readFileSync(new URL('./surfaces/CandidateSet.jsx', import.meta.url), 'utf8');
-  assert.match(src, /unjudged_fatal: unjudgedFatalsOf\(c\),/);
-  assert.match(src, /unjudged_fatal_n: unjudgedFatalsOf\(c\)\.length,/);
+  assert.match(src, /import \{ adaptCandidate \} from '\.\.\/candidateCard\.js';/);
+  assert.doesNotMatch(src, /function\s+adaptCandidate\b|adaptCandidate\s*=/);
 });
 
 test('an unjudged fatal never disqualifies: the demotion reads judged fatals alone', () => {
@@ -238,8 +246,16 @@ test('the Candidate Set hands the served nativity to its reader and reads the na
   assert.match(src, /new Map\(\(r\.partis \|\| \[\]\)\.map\(\(p\) => \[p\.id, p\.nativity\]\)\)/,
     'the partis effect must build an id -> nativity Map from the served rows');
   assert.doesNotMatch(src, /new Set\(\(r\.partis/, 'a Set of ids reads a lineage parti as native');
-  assert.match(src, /nativity: nativityOf\(c, nativePartis\)/);
-  assert.match(src, /named_by_brief: !!c\.named_by_brief/);
+  // the adapter's two halves of it are DRIVEN since the adapter is a leaf (`candidateCard.js`,
+  // the audit of WP-16.8's own diff, auditor C's M2): the nativity off the served map, a lineage
+  // parti on the list read as lineage and not native, and the brief's flag as the server wrote it
+  const rows = new Map([['listed-lineage', 'lineage'], ['listed-native', 'native']]);
+  const card = (parti, named) => adaptCandidate({ parti, score: 1, counts: { fatal: 0 },
+                                                  ...(named ? { named_by_brief: true } : {}) },
+                                                0, rows, null);
+  assert.deepEqual([card('listed-lineage').nativity, card('listed-lineage').native], ['lineage', false]);
+  assert.deepEqual([card('listed-native').nativity, card('listed-native').native], ['native', true]);
+  assert.deepEqual([card('x', true).named_by_brief, card('x', false).named_by_brief], [true, false]);
   assert.match(src, /c\.named_by_brief && \(/);
   assert.match(src, /result\.named_parti\.returned === false/);
   assert.match(src, /\{result\.named_parti\.why\}/, "a named parti the set lacks says why, in the composer's words");

@@ -717,7 +717,19 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # Both watched layers UNMOVED at 13/18 and 11/17. Old digest: aadf4ca8c4390d56.
                 ("tidewater-georgian-careful", "c6bca85abf6c88ab", 201,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "676a56c7cc1e8cb7", 235,
+                # RE-DERIVED 3 OCT 2026 (the audit of WP-16.8's own diff), THE SPEC COLONIAL
+                # ALONE, AND BOTH ROWS ARE U16. Diffed row by row through this test's own fixture
+                # path against a worktree of `6873f91`, which reproduces both old digests to the
+                # character. The Tidewater fixture is UNMOVED (c6bca85abf6c88ab, 201 rows): it is
+                # dated 1765. The spec Colonial goes 235 -> 233, 2 out and none in, both
+                # `fault-present` and both read off the lights: The Uniform Grid
+                # (equal-lite-grid-where-the-period-graduated) and A Light Count The Glasshouse
+                # Could Not Have Supplied (lite-count-wrong-for-the-date), each "0.7871 against" its
+                # band. The record states no date, so its lights are the 1700-1760 default's and
+                # U16 withholds them (taken as recommended under Lucas's standing instruction of
+                # 1 Oct 2026, never put): both faults could-not-evaluate. Both watched layers
+                # UNMOVED at 13/18 and 11/17. Old digest: 676a56c7cc1e8cb7.
+                ("spec-builder-colonial", "9865f87b726e7187", 233,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \

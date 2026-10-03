@@ -33,6 +33,12 @@ RF = modcache.load("roof", os.path.join(ROOT, "build", "roof.py"))
 EL = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
 RE = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
 TH = modcache.load("threshold", os.path.join(ROOT, "build", "threshold.py"))
+WP = modcache.load("window_pier", os.path.join(ROOT, "build", "window_pier.py"))
+PC = modcache.load("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
+# EVERY PER-STYLE CACHE THAT IS FILLED THROUGH `resolve_slots` (the audit of WP-16.8's own diff,
+# auditor D): a drive that patches `resolve_slots` gives each of these a private dict, or the
+# placement inside the drive fills one under the patch and the record outlives `monkeypatch`.
+RESOLVED_CACHES = ((TH, "_RESOLVED"), (WP, "_CACHE"), (PC, "_RESOLVED_SLOTS"))
 
 TIDEWATER = os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")
 
@@ -66,7 +72,14 @@ def _forbid_through_the_resolved_kit(monkeypatch, slot):
     """No drawn style forbids its water table or its cornice whole, so the ban is driven -- and
     driven where the corpus would put it, in the RESOLVED kit the elevation reads, bound `forbidden`
     by a node called `somebody`. (WP-16.8, auditor E's E20: the first version patched the OUTPUT of
-    `envelope_refusals`, so deleting a row of `ENVELOPE_BANS` left both tests green.)"""
+    `envelope_refusals`, so deleting a row of `ENVELOPE_BANS` left both tests green.)
+
+    AND IN PRIVATE CACHES (the audit of WP-16.8's own diff, auditor D): the placement the drive
+    runs fills `threshold._RESOLVED` per style through the patched function, and undoing the patch
+    did not empty it -- a later test reading the Tidewater kit read `water_table` forbidden by
+    `somebody`, measured, wherever no earlier test had cached that style first."""
+    for mod, name in RESOLVED_CACHES:
+        monkeypatch.setattr(mod, name, {})
     real = EL.RK.resolve_slots
 
     def forbidding(graph, chain, scope=None):
@@ -279,6 +292,24 @@ class TestTheElevationRefusesAndSaysWho:
         eave = el["roof_record"]["main"]["grade_to_eave_ft"] * 12.0
         assert el["grade_to_true_eave_in"] == pytest.approx(
             eave + el["eave_cornice"]["cornice_height_in"], abs=1e-6)
+
+    def test_a_driven_ban_leaves_nothing_behind_in_any_resolved_cache(self, monkeypatch):
+        """D8's guard, behavioural: the real caches are copied (so this test changes nothing for
+        another), the Tidewater style is evicted from each (so the drive's placement must resolve it
+        afresh, through the patch), and after the drive is undone no cache holds an entry the drive
+        made. With the patch outliving itself, `threshold._RESOLVED` comes back holding the
+        Tidewater kit with its water table forbidden by `somebody`."""
+        for mod, name in RESOLVED_CACHES:
+            real = {k: v for k, v in getattr(mod, name).items() if "tidewater-georgian" not in str(k)}
+            monkeypatch.setattr(mod, name, real)
+        before = {name: set(getattr(mod, name)) for mod, name in RESOLVED_CACHES}
+        with pytest.MonkeyPatch.context() as mp:
+            _forbid_through_the_resolved_kit(mp, "water_table")
+            _placed, el = _elevation(_plan(), mp)
+            assert el["water_table_belt"].get("water_table_refused_by"), "the premise: the drive landed"
+        after = {name: set(getattr(mod, name)) for mod, name in RESOLVED_CACHES}
+        assert after == before, {n: sorted(map(str, after[n] - before[n])) for n in after}
+        assert (TH._RESOLVED.get("tidewater-georgian") or {}).get("water_table", {}).get("_bound_by") != "somebody"
 
     def test_a_refused_water_table_is_driven_because_no_drawn_style_forbids_one(self, monkeypatch, tmp_path):
         _forbid_through_the_resolved_kit(monkeypatch, "water_table")

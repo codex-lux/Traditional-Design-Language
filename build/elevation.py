@@ -71,6 +71,27 @@ GLASS_MODULE_BANDS = [
 ]
 GLASS_MODULE_AFTER_1900 = 48.0   # "effectively unlimited" in the pack's own words; a practical cap, not a real ceiling
 
+# THE FIGURES THE GLASS MODULE DECIDES, AND SO THE DATE (U16, the audit of WP-16.8's own diff,
+# 3 Oct 2026, auditor D; a reading taken as recommended under Lucas's standing instruction of 1 Oct
+# 2026, never put to him). An undated house is DRAWN at the 1700-1760 band's 9 in, a period-neutral
+# default, and these five measured off it went to the critic as the house's own: on good-03 and
+# bad-03 `muntin-wider-than-its-date` (serious) convicted the default at 0.1147 and 0.1206 against
+# 0.11, a fault whose subject is the date, and every one of the thirteen Georgian candidates the
+# composer returns undated. U15's rule -- a figure resting on a date the record does not state is
+# withheld, never read as the house's -- carried from the sidelight count to the lights. Measured as
+# the published figures that move with the date (None, 1730, 1790, 1850) on the shipped plans.
+DATED_LIGHT_FIGURES = ("individual_light_width_in", "individual_light_height_in",
+                       "individual_light_area_sqin", "window_sash_light_count_across",
+                       "shutter_panel_count_per_leaf")
+
+
+def undated_lights(elev):
+    """U16's reason, quoting the one sentence (`glass_module_for_date`'s) that says what the
+    lights of an undated house are drawn at, so the band it names cannot drift from the band
+    the drawing used."""
+    return (f"the glass module is read off the house's date: {elev.get('glass_module_source')} "
+            f"The figure measured off it is the default's and not the house's (U16)")
+
 def glass_module_for_date(date):
     if date is None:
         return 9.0, "no context.date_of_representation declared on this plan -- used sash-light.json's own " \
@@ -975,7 +996,12 @@ def lite_patterns_forbidden(slot, date=None):
     refusing it would leave a window with no lights the kit asks for either. The pattern is DRAWN
     and the face SAYS the ban, naming its writer (`face_notes`) -- left open, and named, beside
     WP-16.4's `door_surround` and `window_head_wood`. Exact ids and not `resolve_kit.ban`'s
-    substrings, because "2/2" is a substring of "12/12"."""
+    reading, which takes its words as SUBSTRINGS and asks that every row they match be forbidden:
+    "1/1" matches "11/11", so a kit forbidding 1/1 and permitting 11/11 would read as forbidding
+    neither. CORRECTED 3 OCT 2026 (the audit of WP-16.8's own diff, auditor E): this said "2/2" is
+    a substring of "12/12", which it is not. No kit in this corpus states two ids one inside the
+    other at this slot (the sixteen it states, measured), so the exact reading is driven by a test
+    and met by no shipped house."""
     if not slot:
         return {}
     if slot.get("binding") == "forbidden":
@@ -1549,7 +1575,10 @@ def band_marks(elev):
     runs the face's whole width past each end by its own projection.
 
         {"water_table": {"top_in", "projection_in", "members": [{"y_in", "projection_in"}]} or None,
-         "belt": {"bottom_in", "height_in", "projection_in"} or None}"""
+         "belt": {"bottom_in", "height_in", "projection_in"} or None}
+
+    each band also carrying `projection_stated`: where the record states no projection the band is
+    drawn flush at 0.0, and a reader of the data is told the 0.0 is the drawing's, not the record's."""
     wtb = elev.get("water_table_belt") or {}
     out = {"water_table": None, "belt": None}
     if not wtb.get("applicable"):
@@ -1557,7 +1586,11 @@ def band_marks(elev):
     if wtb.get("water_table_height_above_finished_grade_in") is not None:
         out["water_table"] = {
             "top_in": wtb["water_table_height_above_finished_grade_in"],
+            # DRAWN flush where the record states no projection, and SAID to be unstated (the audit
+            # of WP-16.8's own diff, auditor D): a drawing needs a number, a record does not, and
+            # the CAD file's data wrote the drawing's 0.0 as though the record had stated it
             "projection_in": wtb.get("water_table_projection_in") or 0.0,
+            "projection_stated": wtb.get("water_table_projection_in") is not None,
             # each moulded course but the top one reads as the line where it meets the one below,
             # as the sheet draws it
             "members": [{"y_in": mm["y_top_in"], "projection_in": mm.get("projection_in") or 0.0}
@@ -1566,7 +1599,8 @@ def band_marks(elev):
             and wtb.get("belt_height_in") is not None):
         out["belt"] = {"bottom_in": wtb["belt_datum_grade_to_floor_ft"] * 12.0,
                        "height_in": wtb["belt_height_in"],
-                       "projection_in": wtb.get("belt_course_projection_in") or 0.0}
+                       "projection_in": wtb.get("belt_course_projection_in") or 0.0,
+                       "projection_stated": wtb.get("belt_course_projection_in") is not None}
     return out
 
 # ---------------------------------------------------------------- measurements dict for the fault corpus
@@ -2142,10 +2176,17 @@ NOT_MODELLED = {
     # at the middle of its record's own band, a judgment too. Published, either figure would be the
     # fault's rule handed back to the fault, a pass by construction, so the return faults read
     # neither and say so.
-    "return_projection_from_wall_in": "a return is drawn as far as the cornice is tall, the "
-                                      "pork-chop fault's own rule, and the length is a judgment (R8a)",
-    "return_length_along_gable_wall_in": "as return_projection_from_wall_in -- a return's length is "
-                                         "drawn to R8a's rule and is a judgment",
+    # TRUE OF EVERY HOUSE, AND THE HOUSE'S OWN CAUSE BESIDE IT (the audit of WP-16.8's own diff,
+    # 3 Oct 2026, auditor D). These said a return IS drawn, and eight of the sixteen shipped plans
+    # draw the band and no return: on those the unjudged `return-that-never-returns` row (serious)
+    # carried a sentence about a drawing that does not exist as its only evidence. A3's correction
+    # of the rake's two entries below, not carried eleven lines up. `return_withheld` says what this
+    # house draws where it draws no return, in `front.withheld`.
+    "return_projection_from_wall_in": "where a gable end draws a stated return it runs as far as the "
+                                      "cornice is tall, the pork-chop fault's own rule, and a plain "
+                                      "return the middle of its record's band: each a judgment (R8a)",
+    "return_length_along_gable_wall_in": "as return_projection_from_wall_in -- where a return is "
+                                         "drawn, its length is R8a's rule and a judgment",
     # AND THE RAKE (WP-16.5). This published the EAVE cornice's projection as a rake overhang, on
     # every plan, while the roof record models no rake overhang and every surface draws the roof
     # stopping at the gable wall. It put the flush-rake fault's 4-8 in band against a 10.5 in figure
@@ -2540,10 +2581,14 @@ def _derive_measurements(elev):
     # NO DATE FOR (WP-16.8, auditor B): the drawing keeps the dated row's reading, and no verdict may
     # rest on it -- an undated new-england-colonial, garrison or saltbox house was convicted of
     # `return-that-never-returns` (serious) on its 1620-1700 `none`. `front.withheld` says why.
+    # THE DATE GATE IS A GABLE END'S, NOT A HIP'S (the audit of WP-16.8's own diff, 3 Oct 2026,
+    # auditor A): it was AND-ed onto the whole condition, so an undated HIPPED house of a style whose
+    # return row is dated withheld its zero -- no gable end, so no row decides anything -- and the
+    # two shape faults went back to could-not-evaluate on the roof B5 had made them not applicable on.
     _ret = elev.get("cornice_return") or {}
     _gf = _ret.get("gable_faces")
     _n_ret = _members_ret = _carried = None
-    if _gf is not None and (not _gf or _ret.get("draws") != "band") and not _ret.get("date_unstated"):
+    if _gf is not None and (not _gf or (_ret.get("draws") != "band" and not _ret.get("date_unstated"))):
         _gmarks = [cornice_marks(elev, f) for f in _gf]
         _drawn = [r for cmf in _gmarks for r in cmf.get("returns") or [] if r.get("cornice")]
         _full = {mm["id"] for cmf in _gmarks for r in cmf.get("returns") or []
@@ -2575,11 +2620,24 @@ def _derive_measurements(elev):
         if _cor:
             m["wall_height_water_table_to_cornice_in"] = round(
                 elev["grade_to_true_eave_in"] - wtb["water_table_height_above_finished_grade_in"], 2)
-    if wtb["applicable"] and wtb.get("belt_height_in") is not None:
+    # THE BELT'S FIGURES ONLY WHERE A BELT IS DRAWN, AND ONLY THE FIGURES STATED (the audit of
+    # WP-16.8's own diff, 3 Oct 2026, auditor A). Two defects in four lines. This read the record's
+    # belt height and published it on every one-storey house, where `band_marks` -- F1's one answer
+    # -- draws no belt on the sheet, the DXF or the scene: on six shipped plans a 9.0 in belt and a
+    # 2.25 in projection reached the fault corpus for a band nothing draws, and
+    # `water-table-as-trim-board` cleared on a belt ratio as an evaluated row. And since WP-3.2 the
+    # projection was `or 1.0`: a masonry house's belt states NO projection on purpose ("brick belts
+    # read as a course, not a projecting board", `water_table_and_belt`), so the Tidewater
+    # published an invented one-inch belt projection to the critic while its drawing draws the
+    # course flush. A stated projection is published; an unstated one is absent, and a test reading
+    # it does not run.
+    if wtb["applicable"] and band_marks(elev)["belt"]:
         m.update({
-            "belt_height_in": wtb["belt_height_in"], "belt_course_projection_in": wtb["belt_course_projection_in"] or 1.0,
+            "belt_height_in": wtb["belt_height_in"],
             "belt_height_above_first_floor_in": wtb["belt_height_above_first_floor_in"],
         })
+        if wtb.get("belt_course_projection_in") is not None:
+            m["belt_course_projection_in"] = wtb["belt_course_projection_in"]
 
     # THE FRONT'S OPENING COUNTS READ WHAT IS DRAWN, WHICH IS WHAT THE PLAN PLACED (WP-13.3).
     # Until this they were derived from the RHYTHM -- one opening per non-blind bay per storey,
@@ -2793,6 +2851,15 @@ def _derive_measurements(elev):
     # could-not-judge rather than comparing against a null. A NOT_MODELLED key is a thing this
     # generator does not model at all: it should never have been built, and the filter is here
     # so that a future edit reintroducing one cannot reach the critic (OQ 52).
+    # U16: the lights an undated house is drawn with are the default's, not the house's. The
+    # reason is written only for a figure this house would have published -- a house that
+    # carries no shutters has no panel count to withhold, and saying it drew one at a default
+    # would be the "every X" sentence on a house without X (WP-16.8's A3, met again).
+    if elev.get("date_of_representation") is None:
+        _held = elev["front"].setdefault("withheld", {})
+        for _k in DATED_LIGHT_FIGURES:
+            if m.pop(_k, None) is not None:
+                _held.setdefault(_k, undated_lights(elev))
     return {k: v for k, v in m.items() if v is not None and k not in NOT_MODELLED}
 
 # ---------------------------------------------------------------- the opening rectangle
@@ -3146,6 +3213,23 @@ def rake_for(style, reading, cornice):
     return out
 
 
+def rake_not_drawn_cause(roof):
+    """Why a rake the kit asks for has nothing on a gable end to run along -- the ONE reading the
+    sheet's words (`rake_marks`) and the fault rows (`rake_withheld`) take, decided by the roof
+    record's own ridge and form (the audit of WP-16.8's own diff, auditor A). Both read the PITCH,
+    and a gambrel states no single pitch while its ridge is judged: once its gable end was drawn as
+    the two-slope outline it is (A-F6), both would have said "the roof judges no ridge" of a roof
+    stating one."""
+    main = roof.get("main") or {}
+    if (main.get("ridge") or {}).get("grade_to_ridge_ft") is None:
+        return (f"the roof judges no ridge (no roof-pitch constraint is migrated for "
+                f"{roof.get('style') or 'this style'}), so the gable end has no slope to carry it")
+    if main.get("form") == "gambrel":
+        return ("the gable end is a gambrel's two-slope outline, and the rake is drawn along a "
+                "single slope a side")
+    return "the gable's outline is not a triangle"
+
+
 def rake_marks(elev, face):
     """WHAT A FACE DRAWS OF THE RAKE, IN THE FACE'S OWN u (WP-16.9): the one spelling the sheet and
     the DXF draw. On a gable end whose rake draws members (`rake_for`), each member is a band
@@ -3166,9 +3250,10 @@ def rake_marks(elev, face):
     out = {"face": face, "on_gable": on_gable, "draws": rk.get("draws") if on_gable else None,
            "bands": [], "words": None}
     if not on_gable:
-        # only where the gable ends really draw it: a roof that judges no ridge gives them no slope
-        if gf and rk.get("draws") in ("rake", "plain") and \
-                (roof.get("main") or {}).get("pitch_rise_per_12") is not None:
+        # only where the gable ends really draw it -- asked of their marks (`rake_drawn`), never of
+        # the pitch, which a gambrel does not state while it draws the rake (the audit of WP-16.8's
+        # own diff, auditor A)
+        if gf and rk.get("draws") in ("rake", "plain") and rake_drawn(elev):
             out["words"] = ("THE RAKE IS DRAWN ON THE GABLE ENDS; ITS OVERHANG PAST EACH CORNER IS NOT "
                             "DRAWN ON THIS FACE, NOR ON THE ROOF PLAN OR THE MODEL: THE ROOF RECORD "
                             "STOPS AT THE GABLE WALL")
@@ -3188,10 +3273,7 @@ def rake_marks(elev, face):
         # kit's own `roof_pitch` slot may state a pitch it does not read (the second independent
         # check, 1 Oct 2026: all four styles reaching this state on the shipped plans do), so the
         # sheet says what roof.py lacks and never that no pitch is stated
-        why = (f"THE ROOF JUDGES NO RIDGE (NO ROOF-PITCH CONSTRAINT IS MIGRATED FOR "
-               f"{str(roof.get('style') or 'THIS STYLE').upper()}), SO THE GABLE END HAS NO SLOPE TO CARRY IT"
-               if (roof.get("main") or {}).get("pitch_rise_per_12") is None else
-               "THE GABLE'S OUTLINE IS NOT A TRIANGLE")
+        why = rake_not_drawn_cause(roof).upper()
         out["words"] = (rk.get("words") or "") + "; NOT DRAWN — " + why
         return out
     apex = prof[1]
@@ -3220,6 +3302,45 @@ RAKE_NAMES = ("rake_overhang_in", "rake_member_projection_from_siding_face_in",
               "raking_cornice_member_count")
 
 
+RETURN_NAMES = ("return_projection_from_wall_in", "return_length_along_gable_wall_in")
+
+
+def return_withheld(elev):
+    """WHAT THIS HOUSE DRAWS AT ITS GABLE ENDS, WHERE IT DRAWS NO RETURN, for the fault rows (the
+    audit of WP-16.8's own diff, 3 Oct 2026, auditor D): `{name: reason}` over `RETURN_NAMES`,
+    empty where a gable end draws a return, whose standing reasons (`NOT_MODELLED`) are then the
+    whole account. Read off the drawing's own reading (`cornice_return`): no gable end, no cornice,
+    the band carried across because nothing settles the return, or the end profile because the kit
+    forbids one or makes none canonical -- the sheet's own words quoted where it says them."""
+    cr = elev.get("cornice_return") or {}
+    roof = elev.get("roof_record") or {}
+    main = roof.get("main") or {}
+    gf = cr.get("gable_faces")
+    draws = cr.get("draws")
+    if draws in ("return", "plain-return"):
+        return {}
+    if gf is None:
+        why = (("no roof is drawn on this house (B8)" if main.get("refused") else
+                f"this house's roof form ({main.get('form') or 'unstated'}) is one this generator "
+                f"does not draw") + ", so no gable end is drawn and no return with it")
+    elif not gf:
+        why = f"this house draws no gable end (its roof is {main.get('form')}), so it has no return"
+    elif draws == "nothing":
+        why = "no eave cornice is drawn on this house, so its gable ends have no return to draw"
+    else:
+        why = ("no return is drawn at the gable ends, as the sheet says: \u201c"
+               + str(cr.get("words") or "") + "\u201d")
+    return {n: why for n in RETURN_NAMES}
+
+
+def rake_drawn(elev):
+    """Whether any gable end of this house draws a band of the rake: the one answer, read off the
+    marks the sheet and the DXF draw (`rake_marks`), for every reader that says whether the rake is
+    drawn. A house with no gable end draws none."""
+    gf = gable_faces(elev.get("roof_record") or {})
+    return bool(gf) and any(rake_marks(elev, f)["bands"] for f in gf)
+
+
 def rake_withheld(elev):
     """WHAT THIS HOUSE DRAWS OF THE RAKE, WHERE IT DRAWS NONE, for the fault rows (WP-16.8, the audit
     of Phase 16, auditor A): `{name: reason}` over `RAKE_NAMES`, empty where a gable end draws The
@@ -3240,15 +3361,18 @@ def rake_withheld(elev):
                 f"does not draw") + ", so no gable end is drawn and no rake with it")
     elif not gf:
         why = f"this house draws no gable end (its roof is {main.get('form')}), so it has no rake"
-    elif rk.get("draws") in ("rake", "plain") and rk.get("members") \
-            and main.get("pitch_rise_per_12") is None:
+    elif rk.get("draws") in ("rake", "plain") and rk.get("members") and not rake_drawn(elev):
+        # DECIDED BY THE DRAWING, NOT BY THE PITCH (the audit of WP-16.8's own diff, 3 Oct 2026,
+        # auditor A): this read `pitch_rise_per_12 is None` while `rake_marks` draws by the gable's
+        # outline, and a gambrel states no single pitch and draws a full triangle at each gable --
+        # so the fault rows said "is not drawn: the roof judges no ridge" over twelve drawn bands
+        # and a roof record stating its ridge. `rake_drawn` asks the marks themselves.
         _who = ", ".join(rk.get("writers") or [])
         asked = (f"the plain trim {rk.get('trim_by') or _who or 'the'}'s kit states"
                  if rk.get("draws") == "plain" else
                  f"the rake {_who}'s kit states" if rk.get("state") == "fault" and _who else
                  "the rake B5 draws where the kit settles none")
-        why = (asked + f" is not drawn: the roof judges no ridge (no roof-pitch constraint is migrated for "
-                 f"{roof.get('style') or 'this style'}), so the gable end has no slope to carry it")
+        why = asked + " is not drawn: " + rake_not_drawn_cause(roof)
     elif rk.get("draws") not in ("rake", "plain"):
         why = ("the gable end draws the roof's edge and no rake member, as the sheet says: \u201c"
                + str(rk.get("words") or "") + "\u201d")
@@ -3891,6 +4015,26 @@ REFUSAL_WORDS = (
 REFUSAL_UNWORDED = "FOR A REASON THE ELEVATION RECORD GIVES AND THIS SHEET HAS NO WORD FOR"
 
 
+def forbidden_lights(elev, rects):
+    """`[(pattern, sentence)]`: each sash light pattern the windows in `rects` are drawn with that
+    the style's kit forbids, and the sentence that says so -- the ONE reading the sheet's and the
+    DXF's face notes (`face_notes`) and the scene's judgment take (WP-16.8, auditor A; the scene
+    added by the audit of WP-16.8's own diff, auditor D, where it drew 140 bars of a forbidden
+    12/12 on a restyled Tidewater and said nothing). A ban on the whole slot (`"*"`) reaches every
+    pattern drawn."""
+    lf = elev.get("lite_patterns_forbidden") or {}
+    out = []
+    if lf:
+        for pt in sorted({r["sash_pattern"] for r in rects
+                          if r.get("kind") == "window" and r.get("sash_pattern")}):
+            lb = lf.get(pt) or lf.get("*")
+            if lb:
+                out.append((pt, f"LIGHTS DRAWN {pt} — " + ban_words(lb).upper()
+                                + "; DRAWN AS SASH-LIGHT'S ARITHMETIC GIVES THEM AT THIS WIDTH, "
+                                  "AND NOT REFUSED"))
+    return out
+
+
 def face_notes(elev, face, sm=None, cm=None):
     """EVERY SENTENCE A FACE SAYS BENEATH ITS DRAWING, IN ONE SPELLING (WP-15.8's audit).
 
@@ -3944,19 +4088,19 @@ def face_notes(elev, face, sm=None, cm=None):
     # A SASH LIGHT PATTERN THE KIT FORBIDS, DRAWN AND SAID (WP-16.8, the audit of Phase 16, auditor
     # A): R3 does not reach the lights (`lite_patterns_forbidden`), so the face says the ban and its
     # writer for each pattern it draws that the kit forbids, rather than drawing it in silence
-    _lf = elev.get("lite_patterns_forbidden") or {}
-    if _lf:
-        for _pt in sorted({r["sash_pattern"] for r in opening_rects(elev, face)["rects"]
-                           if r.get("kind") == "window" and r.get("sash_pattern")}):
-            _lb = _lf.get(_pt) or _lf.get("*")
-            if _lb:
-                notes.append(f"LIGHTS DRAWN {_pt} — " + ban_words(_lb).upper()
-                             + "; DRAWN AS SASH-LIGHT'S ARITHMETIC GIVES THEM AT THIS WIDTH, "
-                               "AND NOT REFUSED")
+    for _pt, _words in forbidden_lights(elev, opening_rects(elev, face)["rects"]):
+        notes.append(_words)
     # THE BANDS THE KIT FORBIDS, AND WHO WROTE EACH BAN (WP-16.4, R3). Until this package both were
     # READ ANYWAY and drawn, and `forbidden_slots_read_from_packs` was the only place that knew.
+    # A BELT IS REFUSED ONLY WHERE ONE WOULD STAND (the audit of WP-16.8's own diff, 3 Oct 2026,
+    # auditor B): a belt stands on the upper floor, F1's rule in `band_marks`, so a one-storey house
+    # has no belt to refuse, and "BELT COURSE NOT DRAWN -- FORBIDDEN BY ..." there was a refusal
+    # about nothing. A refused belt keeps its datum, the upper floor's, which is None where no
+    # storey stands above the ground one.
     for _key, _what in (("water_table_refused_by", "WATER TABLE"),
                         ("belt_refused_by", "BELT COURSE")):
+        if _key == "belt_refused_by" and wtb.get("belt_datum_grade_to_floor_ft") is None:
+            continue
         if wtb.get(_key):
             notes.append(f"{_what} NOT DRAWN — " + ban_words(wtb[_key]).upper())
     # THE ROOF STANDS ON THIS SHEET'S OWN FRIEZE AND CORNICE, AND NO OTHER SURFACE HAS ONE
@@ -5636,7 +5780,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     if _sb.get("date_unstated") and not (elev.get("entrance") or {}).get("sidelights_present"):
         withheld["count_of_sidelights_drawn_at_the_entrance"] = _undated(_sb.get("dated"))
     _cr = elev.get("cornice_return") or {}
-    if _cr.get("date_unstated"):
+    if _cr.get("date_unstated") and _cr.get("gable_faces"):
         for _k in ("count_of_cornice_returns_drawn_at_the_gable_ends",
                    "count_of_moulding_profiles_carried_around_onto_the_return",
                    "count_of_horizontal_moulding_members_returning_onto_the_gable_wall"):
@@ -5644,6 +5788,11 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     # WHAT THIS HOUSE DRAWS OF THE RAKE, where it draws none (WP-16.8, auditor A): the standing
     # reasons say what a drawn rake is; these say why this one is not drawn
     for _k, _why in rake_withheld(elev).items():
+        withheld.setdefault(_k, _why)
+    # U16's reasons are written beside the figures they withhold, in `_derive_measurements`,
+    # because only there is it known which of the five this house would have published.
+    # AND OF THE RETURN, where it draws none (the audit of WP-16.8's own diff, auditor D)
+    for _k, _why in return_withheld(elev).items():
         withheld.setdefault(_k, _why)
     # AN INCOMPLETE FRONT IS NOT JUDGED FOR SYMMETRY OR ALIGNMENT (R12), with the reason.
     _fc = elev["front"].get("complete") or {}

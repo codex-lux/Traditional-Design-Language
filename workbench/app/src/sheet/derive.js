@@ -778,12 +778,16 @@ export function plateNote({ wall, footprint, placement, levelIndex, rooms, serve
   say('windows-crowded', wins.crowded
     ? `${wins.crowded} declared window(s) had no clear run left on their wall — declared, not drawn. `
     : '');
-  // the placer's refusals in the placer's words where the server spells them (the reasons are
-  // grouped by the record's `rule`, `disclosures.windows_not_drawn`), and the count where it does not
-  const winServed = wins.refused ? servedLine(placement, 'windows') : null;
-  say('windows-refused', !wins.refused ? ''
-    : winServed ? `${winServed}. `
-      : `${wins.refused} declared window(s) the placement refused to seat — declared, not drawn. `);
+  // THIS LEVEL'S REFUSALS, COUNTED ON THIS LEVEL (the audit of WP-16.8's own diff, 3 Oct 2026,
+  // auditor B). WP-16.8 printed the server's PLAN-WIDE sentence here (`disclosures.windows_not_drawn`)
+  // under every level that refused one, so a two-storey plate said the whole house's figure twice,
+  // and its "ON NO SUCH WALL" bucket counted again the units this plate already reports as off the
+  // footprint: bad-02's one plate read 3 + 4 units missing of 6 declared. The counts here are the
+  // level's own and disjoint -- off the footprint, crowded, refused -- and the placer's reasons are
+  // the served disclosure's, which the bench's disclosure strip prints once for the house.
+  say('windows-refused', wins.refused
+    ? `${wins.refused} declared window(s) the placement refused to seat — declared, not drawn. `
+    : '');
   // a stated fire the placement refused, on the plate of the level it stands on; the server spells
   // the line, and a server that does not is not a reason to fall silent
   const refusedFires = refusedBreasts(placement, levelIndex).length;

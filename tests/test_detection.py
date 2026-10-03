@@ -487,11 +487,20 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
     # (U8, taken as recommended under Lucas's standing instruction of 1 Oct 2026): a pier between
     # the windows the placer DID draw is decided by the ones it refused. So the fault is unjudged on
     # both plans, carrying the front's own reason, and leaves this list on the Tidewater plan.
-    SUSPECT_CLEAR = {"tidewater-georgian-careful": 17, "spec-builder-colonial": 18}
+    # 17 -> 16 AND 18 -> 17, the audit of WP-16.8's own diff (3 Oct 2026, auditor A's F4):
+    # `water-table-as-trim-board` leaves on both plans, by name. It stays CLEAR on its governing
+    # test (`water_table_projection_in`); the secondary it was listed for divided by
+    # `belt_course_projection_in`, which the elevation supplied as an invented `or 1.0` over a belt
+    # whose record states no projection. The figure is absent now, so that secondary does not run
+    # and the clear no longer rests on a generator constant. Nothing joined either list.
+    SUSPECT_CLEAR = {"tidewater-georgian-careful": 16, "spec-builder-colonial": 17}
     LEFT_AT_WP_16_4 = {"tidewater-georgian-careful": "not-applicable",
                        "spec-builder-colonial": "measured"}
-    # `pier-narrower-than-the-opening` LEFT THIS SET AT WP-16.6, on both plans and by two roads
-    # (LEFT_AT_WP_16_6): its governing test reads a measurement the elevation supplies now.
+    # `pier-narrower-than-the-opening` LEFT THIS SET AT WP-16.6, on both plans and by two roads:
+    # its governing test reads a measurement the elevation supplies now. (The constant that said
+    # which road, `LEFT_AT_WP_16_6`, went at WP-16.8, when U8 withheld the pier figures on both
+    # shipped fronts and the fault became unjudged for the front's own reason; corrected 3 Oct 2026,
+    # the audit of WP-16.8's own diff, where this comment still named it.)
     GOVERNING_UNRUN = {
         "tidewater-georgian-careful": {
             "fixed-sash-pretending-to-be-double-hung", "garage-head-above-the-window-head",

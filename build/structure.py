@@ -383,8 +383,20 @@ def roof_heights(plan, storeys, footprint_outside):
     # record stating one. The section still draws no gambrel, and says whose ridge it is.
     gambrel = (" A gambrel's ridge is not a single pitch's: build/roof.py raises it on the "
                "gambrel's own two slopes (the family's default slopes where the style states none) "
-               "and states it in the roof record, and this section does not draw it."
+               "and states it in the roof record, and the section does not draw it."
                if form == "gambrel" else "")
+    # AND NO SINGLE-PITCH RIDGE IS RAISED UNDER A GAMBREL (the audit of WP-16.8's own diff, auditors
+    # B and D). Where the style migrates a pitch this raised a gable ridge at it -- 38.72 ft on the
+    # Tidewater declared a gambrel, labelled 8.0:12, while the roof record, the roof plan and the
+    # elevation put the gambrel's ridge at 56.71 -- under the sentence above saying the section
+    # draws no gambrel. Neither number is the roof's, so the section states none and says whose it is.
+    if form == "gambrel":
+        return {"grade_to_eave_ft": round(grade_to_eave, 2), "grade_to_ridge_ft": None,
+                "roof_pitch_rise_per_12": None, "pitch_source": None,
+                "form": form, "ridge_axis": axis, "span_ft": round(span_ft, 2), "form_reading": fr,
+                "note": ((f"No migrated roof-pitch constraint for style '{plan['style']}' -- ridge height "
+                          f"left unjudged rather than computed off an invented pitch." if pitch is None else
+                          "The section raises no single-pitch ridge over a gambrel.") + gambrel)}
     if pitch is None:
         return {"grade_to_eave_ft": round(grade_to_eave, 2), "grade_to_ridge_ft": None,
                 "roof_pitch_rise_per_12": None, "pitch_source": None,

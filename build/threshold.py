@@ -284,7 +284,8 @@ def ridge_axis(form, W=None, D=None, front=None):
     front-gable, gable: ridge perpendicular to the entrance wall, so 'y' on S or N, 'x' on W or E.
     cross-gable: its MAIN ridge, which roof.py draws as a side-gable's.
     gambrel: along the longer dimension of the footprint (`W` and `D`), roof.py's own rule.
-    hip, gable-on-hip: 'x' and 'y', as they always were; B9 read side and front only.
+    hip, gable-on-hip: along the longer dimension, as the hips meet a ridge only there; called
+    without a footprint, 'x' and 'y', as they always were.
 
     RELATIVE TO THE ENTRANCE SINCE WP-16.9 (Lucas's answer B9, 30 Sep 2026). This docstring always
     defined front-gable as "ridge perpendicular to the entrance" while the code ran every side-gable
@@ -297,8 +298,20 @@ def ridge_axis(form, W=None, D=None, front=None):
     the stacks' reader, answered 'y' for both: on a gambrel wider than deep the roof's gable ends
     were W and E and the stacks stood on S and N. Unreachable while every shipped roof was
     side-gabled; reachable the moment a record names no roof form and its kit makes a gambrel
-    canonical (B1). Called without a footprint, a gambrel reads 'y', as it always did."""
+    canonical (B1). Called without a footprint, a gambrel reads 'y', as it always did.
+
+    A HIP'S RIDGE RUNS ALONG THE LONGER DIMENSION TOO (the audit of WP-16.8's own diff, auditors A,
+    B and D). A hip read 'x' whatever the footprint, so on a house deeper than wide its ridge had no
+    length left between the hips and build/roof.py collapsed it to a point, drawing a vertical edge
+    at one corner and the E and W faces at 0.311 under a 0.542 label -- on three of the 110 roofs the
+    composer builds for the Georgian brief, where B1 hips the candidates. And a gable-on-hip read
+    'y' whatever the footprint, so on the Tidewater declared one its ridge ran the full depth and its
+    S and N faces were drawn as gable triangles at 6.70:12 under an 8.0:12 label: the section
+    raises a hip's ridge over the SHORTER dimension (`ridge_span`), which is the span across a ridge
+    on the longer one and on no other."""
     if form == "gambrel" and W is not None and D is not None:
+        return "x" if W >= D else "y"
+    if form in ("hip", "gable-on-hip") and W is not None and D is not None:
         return "x" if W >= D else "y"
     across = (front or "S").upper() in ("E", "W")
     if form in ("side-gable", "cross-gable"):
@@ -314,10 +327,12 @@ def ridge_span(form, W, D, front=None):
     gable and a hip -- and by the section sheet and the section DXF for the span they draw.
 
     A gable's ridge (side, front, a bare gable, a cross-gable's main ridge) rises over the dimension
-    across its own axis: `D` on a ridge along x, `W` on a ridge along y. A hip's planes, and a
-    gable-on-hip's, meet at the height the SHORTER dimension sets whichever way the ridge runs, and a
-    gambrel's ridge runs along the longer dimension (`ridge_axis`), so all three rise over
-    min(W, D), as does a form the roof layer does not model.
+    across its own axis: `D` on a ridge along x, `W` on a ridge along y. A hip's ridge, a
+    gable-on-hip's and a gambrel's run along the longer dimension (`ridge_axis`), so all three rise
+    over min(W, D), as does a form the roof layer does not model. (CORRECTED 3 OCT 2026, the audit of
+    WP-16.8's own diff: this said a hip's planes and a gable-on-hip's meet at the shorter dimension's
+    height "whichever way the ridge runs", and `ridge_axis` ran a gable-on-hip's ridge along y on
+    every footprint, so its faces were drawn at another pitch than the one this span raised.)
 
     THE SPAN WAS min(W, D) FOR EVERY FORM UNTIL THE AUDIT OF PHASE 16 (WP-16.8, auditor C), which
     is right only where the ridge runs along the longer dimension. B9 (Lucas, 30 Sep 2026) reads a

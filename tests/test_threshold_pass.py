@@ -578,7 +578,16 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          # was still raised over min(W, D), the 34.57 ft depth, so its gable ends
                          # sloped at 2.42:12 under a 5:12 label. It rises over the span across the
                          # ridge now (`threshold.ridge_span`, 71.33 ft): ridge 21.48 -> 29.14 ft.
-                         "c2415c8cfb4a3d6f86ab712662abc7b2498e46ccd4a030c5fb8e7c77359aa4b3",
+                         # RE-DERIVED 3 OCT 2026 (the audit of WP-16.8's own diff), PER ENTRY, ON A
+                         # HARNESS PROVED TO REPRODUCE `c2415c8c...` TO THE CHARACTER ON A WORKTREE OF
+                         # `6873f91`. One entry of 180 moved, good-01, in `elevation_profiles` alone
+                         # (auditor A, F6): a gambrel's two shapes had been swapped since WP-3.3, its
+                         # gable end drawn as a single-pitch triangle and its long face as a trapezoid
+                         # to the break. The gable end is the two-slope outline through the break now,
+                         # and the long face the band from the eave to the ridge. The hip ridge read
+                         # along the longer dimension (B12, F5) moves no entry: no hip in the sweep is
+                         # deeper than it is wide.
+                         "a5972be845421c23ae96df049c2765e0d1a7003d0a8d21be03b813038f66e548",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "

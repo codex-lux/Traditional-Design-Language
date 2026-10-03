@@ -501,9 +501,12 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                          "rolled_back": False}
             unjudged = (crit.get("placement") or {}).get("could_not_evaluate")
             # the same rule the rounds were held to, one screen below _improves: an unjudged
-            # re-placement is not lower, and a rise in fatal OR serious is a worse house; only
-            # the minor axis may pay for the brief's area (the session's audit found this
-            # branch comparing fatals alone with no unjudged guard)
+            # re-placement is not lower, and a worse [fatal, serious] key, read lexicographically
+            # (`raises_fatal_or_serious`), is a worse house -- at an equal fatal count only the
+            # minor axis may pay for the brief's area (the session's audit found this branch
+            # comparing fatals alone with no unjudged guard; CORRECTED 3 OCT 2026, the audit of
+            # WP-16.8's own diff: this said "a rise in fatal OR serious", the reading WP-16.8's B6
+            # found false one screen up)
             # AND A RECLAIM MAY NOT MAKE THE HOUSE UNDRAWABLE EITHER (WP-13.9's audit). This
             # block is the one thing that runs AFTER the acceptance rule, and this file's own
             # comment three lines up says it is held to the same rule the rounds were -- it was

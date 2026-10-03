@@ -1340,13 +1340,36 @@ def drawn_layer(plan, rooms, level_of, C, F):
             # what the doorcase's keep-out (WP-15.6) made commoner on the composer's candidates.
             off = sorted({w.get("wall") or "?" for w in wins if w.get("wall") not in touches})
             crowded = sorted({w["wall"] for w in wins if w.get("wall") in touches})
+            # AND THE FIX FOR A WINDOW ALREADY ON ITS WALL FOLLOWS THE RULE THAT REFUSED IT (the
+            # audit of WP-16.8's own diff, auditor D). "Free that run, or narrow the window" is the
+            # fix for a run something else takes; for a unit refused for the pier between windows
+            # (R5) nothing takes the run, and for one refused for the axis below (R6) narrowing does
+            # not move an axis. Every windowless room on the shipped plans is a run refusal today.
+            _rules = []
+            for w in wins:
+                if w.get("unplaced") and w.get("wall") in touches:
+                    for _p in (w["unplaced"].get("parts") or [w["unplaced"]]):
+                        _r = _p.get("rule") or "run"
+                        if _r not in _rules:
+                            _rules.append(_r)
+            _by_rule = {
+                "run": "Where its run is taken by what the refusal names, free that run, or narrow "
+                       "the window.",
+                "pier": "Where a unit is refused for the pier the rules keep between windows (R5), "
+                        "narrow it, or free the wall beside it.",
+                "alignment": "Where a unit is refused for the axis of the opening below (R6), "
+                             "narrowing it would not move that axis: the opening below, or the room "
+                             "above it, would have to move."}
+            _on = (f"The room does stand on its {'/'.join(crowded)} wall(s), so the window is "
+                   f"already where it belongs")
             fix = " ".join(s for s in (
                 (f"Move the window(s) declared on {'/'.join(off)} to the wall the placement "
                  f"actually gave the room." if crowded else
                  "Move the windows to the wall the placement actually gave the room.") if off else "",
-                (f"The room does stand on its {'/'.join(crowded)} wall(s), so the window is "
-                 f"already where it belongs; the run there is taken by what the refusal names. "
-                 f"Free that run, or narrow the window.") if crowded else "",
+                ((_on + "; the run there is taken by what the refusal names. Free that run, or "
+                        "narrow the window.") if set(_rules) <= {"run"} else
+                 (_on + ". " + " ".join(_by_rule.get(_r, _by_rule["run"]) for _r in _rules)))
+                if crowded else "",
             ) if s)
             _add("serious", "drawn",
                   f"{name} is drawn with no window: it stands on the "

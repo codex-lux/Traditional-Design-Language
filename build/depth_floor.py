@@ -20,9 +20,11 @@ corpus already makes:
 
     roof_height_eave_to_ridge / wall_height_grade_to_eave  at-least  0.45
 
-with `roof_height = (min(W, D) / 2) * (pitch / 12)` (structure.py::roof_heights, a single ridge
-over the shorter OUTSIDE dimension) and `wall_height = grade_to_eave - grade_to_floor`. Solving
-for the span:
+with `roof_height = (span / 2) * (pitch / 12)` (structure.py::roof_heights, a single ridge over the
+OUTSIDE span across it, `threshold.ridge_span` -- the shorter dimension until the audit of Phase 16
+moved it onto the ridge's own axis; this leaf takes the span as an argument, and its caller reads
+it as `roof_heights` does) and `wall_height = grade_to_eave - grade_to_floor`. Solving for the
+span:
 
     min_outside_span >= threshold * wall_height_ft * 24 / pitch
 

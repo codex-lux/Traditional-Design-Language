@@ -563,13 +563,22 @@ class TestTheUnridgedGable:
 
     def test_the_cause_is_the_roofs_and_a_ridged_outline_that_is_no_triangle_says_the_other(
             self, raked, monkeypatch):
+        """RE-CUT 3 OCT 2026 (the audit of WP-16.8's own diff, auditor A): the cause is read off
+        the roof's own RIDGE now (`rake_not_drawn_cause`), not its pitch -- a gambrel states no
+        single pitch and its ridge is judged -- so the no-ridge drive takes the ridge's height away,
+        and a ridged roof whose outline is no triangle says the other cause."""
         el = copy.deepcopy(raked[0][1])
         face = EL.gable_faces(el["roof_record"])[0]
         el["roof_record"]["main"]["pitch_rise_per_12"] = None
+        el["roof_record"]["main"]["ridge"]["grade_to_ridge_ft"] = None
         monkeypatch.setattr(EL, "face_profile", lambda roof, f, fp: [(0.0, 0.0), (1.0, 0.0)])
         assert EL.rake_marks(el, face)["words"].endswith(self.NO_RIDGE(el["roof_record"]["style"]))
         eave = next(f for f in ("S", "N", "E", "W") if f not in EL.gable_faces(el["roof_record"]))
         assert EL.rake_marks(el, eave)["words"] is None
+        ridged = copy.deepcopy(raked[0][1])
+        ridged["roof_record"]["main"]["pitch_rise_per_12"] = None    # a ridge stated, no single pitch
+        assert ridged["roof_record"]["main"]["ridge"]["grade_to_ridge_ft"], "the premise: a ridged roof"
+        assert EL.rake_marks(ridged, face)["words"].endswith("; NOT DRAWN — THE GABLE'S OUTLINE IS NOT A TRIANGLE")
 
 
 class TestTheMarks:

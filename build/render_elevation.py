@@ -1194,13 +1194,31 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # every sentence this face says beneath the drawing, in the words the DXF elevation writes
     # too (`elevation.face_notes`, WP-15.8)
     notes = EL.face_notes(elev, face, sm=sm, cm=cm)
-    for i, n in enumerate(notes):
-        s.append(f'<text class="dm" x="{pad}" y="{legend_y+26+i*10:.1f}">{_esc(n)}</text>')
+    # EACH NOTE IS WRAPPED TO THE SHEET (the audit of WP-16.8's own diff, 3 Oct 2026, auditor B).
+    # A note was one line whatever its length, and the rake's -- a sentence describing the board
+    # and then "; NOT DRAWN -- " and why -- ran 310 to 688 px past the canvas on sixteen gable
+    # faces of eight plans: on four of them "NOT DRAWN" itself was off the sheet, so the plate
+    # described a 7 in rake board over a gable end that draws none. The DXF has wrapped the same
+    # sentences since WP-15.8. A note that fits keeps its one line, byte for byte; a longer one is
+    # one <text> with a <tspan> a line, every line but the last ending in its space, so the ink
+    # reads the sentence back whole (`tests/inkread.py`), which is how the sheet and the DXF are
+    # held to one list. 7.5 px monospace is 4.5 px a character; 4.6 leaves the rounding to spare.
+    _cols = max(40, int((total_w - 2 * pad) / 4.6))
+    _ny = legend_y + 26
+    for n in notes:
+        _ln = _wrap(n, _cols) or [""]
+        if len(_ln) == 1:
+            s.append(f'<text class="dm" x="{pad}" y="{_ny:.1f}">{_esc(n)}</text>')
+        else:
+            _sp = "".join(f'<tspan x="{pad}" y="{_ny + 10 * j:.1f}">{_esc(t)}{" " if j < len(_ln) - 1 else ""}'
+                          f'</tspan>' for j, t in enumerate(_ln))
+            s.append(f'<text class="dm" x="{pad}" y="{_ny:.1f}">{_sp}</text>')
+        _ny += 10 * len(_ln)
     # THE SHEET GROWS WITH ITS NOTES (WP-14.3). The legend was a fixed 90 px, which holds six
     # notes; a sheet saying more ran its last lines off the canvas, where nothing is read -- a
     # disclosure the sheet does not make. The root element is rewritten after the inset, below,
-    # so the height taken here is the one it carries.
-    total_h = max(total_h, legend_y + 26 + len(notes) * 10 + 12)
+    # so the height taken here is the one it carries. It grows by LINES now, not notes.
+    total_h = max(total_h, _ny + 12)
 
     # ---------------- cornice detail inset: the actual moulded profile, constructed by
     # build/profiles.py from proportion_engine.dimension() members.

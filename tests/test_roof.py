@@ -15,6 +15,8 @@ import json
 import math
 import os
 
+import pytest
+
 from conftest import ROOT, load_plan
 
 
@@ -127,11 +129,17 @@ class TestMainRoofHip:
 
 
 class TestMainRoofGambrel:
-    def test_recomputes_a_ridge_height_that_differs_from_the_single_pitch_estimate(self, roof_module):
+    def test_the_roof_states_the_gambrels_ridge_and_the_section_raises_none(self, roof_module):
+        """RE-CUT 3 OCT 2026 (the audit of WP-16.8's own diff, auditors B and D). This was
+        `test_recomputes_a_ridge_height_that_differs_from_the_single_pitch_estimate`: the section
+        raised a single-pitch ridge under a gambrel and this file reconciled its own against it in
+        a note. The section raises none there now and says the gambrel's ridge is this record's,
+        so there is one ridge and nothing to reconcile."""
         plan, section = _tidewater_section(roof_module, roof_form="gambrel")
         main = roof_module.main_roof(plan, section, plan["style"])
-        assert main["ridge"]["grade_to_ridge_ft"] != section["roof"]["grade_to_ridge_ft"]
-        assert main["note"] is not None and "Recomputed" in main["note"]
+        assert main["ridge"]["grade_to_ridge_ft"] is not None
+        assert section["roof"]["grade_to_ridge_ft"] is None and "roof record" in section["roof"]["note"]
+        assert main["note"] is None
 
     def test_prefers_a_styles_own_migrated_gambrel_constraint_over_the_family_default(self, roof_module):
         geo = roof_module._style_gambrel_geometry("dutch-colonial-american")
@@ -525,13 +533,33 @@ class TestRoofOutlineAndElevationProfiles:
         assert heights[0] == heights[-1] == main["grade_to_eave_ft"]
         assert heights[1] == heights[2] == main["ridge"]["grade_to_ridge_ft"]
 
-    def test_gambrel_long_face_shows_the_break(self, roof_module):
+    def test_gambrel_long_face_is_the_band_from_the_eave_to_the_ridge(self, roof_module):
+        """RE-CUT 3 OCT 2026 (the audit of WP-16.8's own diff, auditor A). This was
+        `test_gambrel_long_face_shows_the_break` and asserted the trapezoid that stopped at the
+        break -- the silhouette of a roof hipped at its ends, the defect itself. Both of a gambrel's
+        slopes run the whole length of its long face, so that face is a rectangle, as a side
+        gable's is; the break is drawn on the gable end (the test below)."""
         plan, section = _tidewater_section(roof_module, roof_form="gambrel")
         main = roof_module.main_roof(plan, section, plan["style"])
+        assert main["ridge"]["axis"] == "x", "the premise: S is a long face"
         profile = roof_module.elevation_profile(section, main, "S")
         heights = [p[1] for p in profile]
         assert len(profile) == 4
-        assert heights[1] == heights[2] == main["gambrel"]["break_grade_to_ft"]
+        assert heights[0] == heights[-1] == main["grade_to_eave_ft"]
+        assert heights[1] == heights[2] == main["ridge"]["grade_to_ridge_ft"]
+        assert profile[0][0] == profile[1][0] and profile[2][0] == profile[3][0], "not a trapezoid"
+
+    def test_gambrel_gable_end_is_its_two_slope_outline(self, roof_module):
+        plan, section = _tidewater_section(roof_module, roof_form="gambrel")
+        main = roof_module.main_roof(plan, section, plan["style"])
+        g = main["gambrel"]
+        profile = roof_module.elevation_profile(section, main, "E")
+        assert [round(h, 4) for _u, h in profile] == [round(x, 4) for x in (
+            main["grade_to_eave_ft"], g["break_grade_to_ft"], main["ridge"]["grade_to_ridge_ft"],
+            g["break_grade_to_ft"], main["grade_to_eave_ft"])]
+        assert profile[1][0] == pytest.approx(g["break_offset_ft"])
+        span = profile[-1][0]
+        assert profile[2][0] == pytest.approx(span / 2) and profile[3][0] == pytest.approx(span - g["break_offset_ft"])
 
     def test_unjudged_ridge_gives_a_flat_profile_on_every_face(self, roof_module):
         plan, section = _tidewater_section(roof_module, roof_form="catslide")

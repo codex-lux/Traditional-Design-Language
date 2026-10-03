@@ -567,16 +567,26 @@ class TestTheMeasurementsStoppedBeingConstants:
         with the reason `axis.front_complete` gives. The storey counts are still withheld on
         neither plan, which is the half of the old assertion that still holds."""
         five = set(EL._MIRROR_FIGURES) | set(EL._ALIGNMENT_FIGURES)
+        extras = {}
         for pid, (res, section, roof, elev) in built.items():
             fc = elev["front"]["complete"]
             assert fc["complete"] is False and fc["total_undrawn"] > 0, (pid, fc)
             # the five, and since WP-16.8 the two pier figures (U8), each with the front's reason;
-            # anything else withheld is the rake's own per-house reason (`rake_withheld`)
+            # anything else withheld is a per-house reason, each from its own one reader: the
+            # rake's (`rake_withheld`), and since the audit of WP-16.8's own diff (3 Oct 2026) the
+            # return's (`return_withheld`, D1) and an undated house's lights (`undated_lights`, U16)
             r12 = five | set(EL._PIER_FIGURES)
             w = elev["front"]["withheld"]
             assert {k for k, v in w.items() if v == fc["why"]} == r12, (pid, w)
-            assert set(w) - r12 <= set(EL.RAKE_NAMES), (pid, sorted(set(w) - r12))
+            own = {**EL.rake_withheld(elev), **EL.return_withheld(elev)}
+            if elev.get("date_of_representation") is None:
+                own.update({k: EL.undated_lights(elev) for k in EL.DATED_LIGHT_FIGURES})
+            extra = {k: v for k, v in w.items() if k not in r12}
+            assert all(own.get(k) == v for k, v in extra.items()), (
+                pid, sorted(k for k, v in extra.items() if own.get(k) != v))
+            extras[pid] = sorted(extra)
             assert f"{fc['total_undrawn']} declared window unit(s)" in fc["why"], fc["why"]
+        assert any(extras.values()), ("the premise: a plan withholds for a reason of its own", extras)
         one = copy.deepcopy(built["tidewater-georgian-careful"][0])
         one["levels"] = one["levels"][:1]
         section = ST.build_section(one, None, geometry_result=one)

@@ -284,6 +284,23 @@ class TestTheCentreHolds:
         assert w["unplaced"]["rule"] == "pier" and w["unplaced"]["have"]["units_placed"] == 1
 
 
+    @pytest.mark.parametrize("record_order", ["a-first", "b-first"])
+    def test_of_two_windows_equidistant_from_the_centre_the_lower_coordinate_is_seated(self, record_order):
+        """U13 (taken as recommended under Lucas's standing instruction of 1 Oct 2026, never put):
+        of two units equidistant from the centre, the lower coordinate goes first. Held until now
+        only by the two corpus digests (the audit of WP-16.8's own diff, auditor C's M7). Two 4 ft
+        rooms either side of a 20 ft face's centre, a 3 ft window each, 2 ft from it: the 3 ft
+        floor lets one stand. The one at the lower coordinate is seated and the other is refused
+        by name, whichever room the record lists first -- and seating the other first refuses the
+        first by the same rule, so the order alone decides it."""
+        a = _room("a", 6.0, 4.0, [{"wall": "S", "count": 1, "width_ft": 3.0}])
+        b = _room("b", 10.0, 4.0, [{"wall": "S", "count": 1, "width_ft": 3.0}])
+        _seat([a, b] if record_order == "a-first" else [b, a], 20.0, 15.0,
+              centres={("S", 0.0): (10.0, "test")})
+        assert a["windows"][0].get("positions_ft") == [pytest.approx(8.0)], a["windows"][0]
+        assert b["windows"][0]["unplaced"]["rule"] == "pier", b["windows"][0]
+
+
 class TestTheUpperFollowsTheGround:
     LINE = ("S", 0.0)
 
@@ -347,16 +364,90 @@ class TestTheUpperFollowsTheGround:
             "the wall to the window beside it would fall below 1 x the wider window")
         assert rep["window_seating"][0]["refused"] == {"alignment": 1}
 
+    def test_a_spared_style_keeps_its_old_order_and_seats_the_aligned_window_first(self):
+        """U10 (taken as recommended under Lucas's standing instruction of 1 Oct 2026, never put):
+        the five styles the pier fault licenses keep WP-16.6's order -- aligned units first, the rest
+        in record order -- where every other style takes the one queue. Held by nothing until the
+        audit of WP-16.8's own diff (auditor E's A1d: the spared styles taking the one queue left
+        every test green), because no shipped plan places a spared style on two storeys. It is the
+        case above, in a craftsman house: under the one queue the inner window holds and the aligned
+        one is refused; spared, the aligned window takes its axis and the other moves along its own
+        room to the old foot beside it."""
+        assert WP.rule("craftsman")["spared"] and not WP.rule("tidewater-georgian")["spared"]
+        up = _room("u", 0.0, 13.5, [{"wall": "S", "count": 2, "width_ft": 3.0}])
+        rep = _seat([up], 50.0, 15.0, style="craftsman", below={self.LINE: [(6.745, "window", "g")]},
+                    level=1)
+        w = up["windows"][0]
+        assert w["positions_ft"] == [pytest.approx(6.745), pytest.approx(6.745 + 3.0 + OP.MIN_SOLID_FT)]
+        assert "unplaced" not in w, w["unplaced"]
+        assert rep["window_seating"][0]["seated"] == {"aligned": 1, "foot": 1}
+
+    @pytest.mark.parametrize("first", [3.0, 4.0], ids=["3ft-first", "4ft-first"])
+    def test_a_spared_styles_unaligned_windows_keep_their_record_order(self, first):
+        """U10's other half: after its aligned units, a spared style seats the rest in RECORD order,
+        as its old pass did -- not nearest the centre first. Two window records on one wall of a
+        9 ft upper room, each one unit, both asking for the wall's middle: the record listed first
+        takes it and the other is refused for its run, whichever is the wider. Reversing the order
+        left the corpus digests green (no shipped plan places a spared style on two storeys), so
+        it is driven."""
+        wins = [{"wall": "S", "count": 1, "width_ft": first},
+                {"wall": "S", "count": 1, "width_ft": 7.0 - first}]
+        up = _room("u", 0.0, 9.0, wins)
+        _seat([up], 30.0, 15.0, style="craftsman", below={self.LINE: []}, level=1)
+        a, b = up["windows"]
+        assert a.get("positions_ft") == [pytest.approx(4.5)] and "unplaced" not in a, a
+        assert "positions_ft" not in b and b["unplaced"]["reason"].startswith(
+            "the wall has no clear run left beside the windows already seated"), b
+
+    def test_a_refusal_names_the_window_that_took_its_wall_whichever_record_lists_it(self):
+        """Found by the audit of WP-16.8's own diff (3 Oct 2026), pre-existing since WP-16.6: a
+        spared style seats its aligned window first whichever record it belongs to, and a record
+        listed before that one was refused saying "the wall is shorter than the window" -- of two
+        3 ft windows on a 9 ft wall -- because the walls carrying a window were gathered as the
+        records were written. Two records on one upper wall: two 3 ft units, then one aligned on
+        the axis below at the middle. The aligned one takes the middle and the first record's two
+        cannot stand beside it; the refusal names the window that is there."""
+        up = _room("u", 0.0, 9.0, [{"wall": "S", "count": 2, "width_ft": 3.0},
+                                   {"wall": "S", "count": 1, "width_ft": 3.0}])
+        _seat([up], 30.0, 15.0, style="craftsman", below={self.LINE: [(4.5, "window", "g")]}, level=1)
+        first, second = up["windows"]
+        assert second.get("positions_ft") == [pytest.approx(4.5)], second
+        assert first["unplaced"]["reason"] == (
+            "the wall has no clear run left beside the windows already seated on it"), first
+
     def test_an_inner_window_seated_first_still_leaves_an_outer_axis_it_can_share(self):
         """The other half of one queue: the inner window takes its place first, and the outer
         aligned window still stands on its axis wherever the floor allows beside it -- Tidewater's
         third chamber, measured, where the inner window holds 33.0 ft and the outer one stands on
-        the door axis at 40.5 ft, 4.0 ft of wall between them against a 3.5 ft floor."""
+        the door axis at 40.5 ft, 4.0 ft of wall between them against a 3.5 ft floor.
+
+        WHAT IT GUARDS, CORRECTED 3 OCT 2026 (the audit of WP-16.8's own diff, auditor C): the
+        queue's ORDER. The inner window here is the first unit seated and its floor and aim places
+        coincide, so the lookahead that keeps an aligned window's axis is never asked; the next
+        test is that lookahead's."""
         up = _room("c3", 27.0, 18.0, [{"wall": "S", "count": 2, "width_ft": 3.5}])
         _seat([up], 63.0, 15.0, centres={self.LINE: (18.0, "the entrance door's axis (passage)")},
               below={self.LINE: [(40.5, "door", "g")]}, level=1)
         assert up["windows"][0]["positions_ft"] == [pytest.approx(33.0), pytest.approx(40.5)]
         assert "unplaced" not in up["windows"][0]
+
+    @pytest.mark.parametrize("axis, second, aligned", [(19.0, 11.868, [19.0]), (17.0, 10.668, [17.0])])
+    def test_a_window_nearer_the_centre_gives_up_the_aim_where_it_would_cost_an_axis(self, axis, second,
+                                                                                     aligned):
+        """THE LOOKAHEAD (the audit of WP-16.8's own diff, auditor C): with one queue an aligned
+        window is seated AFTER the unaligned ones nearer the centre, so an unaligned window takes
+        the 1.4 x aim only where every unit still to come -- an aligned one at its axis -- can
+        still stand. Two 3 ft windows in a 14 ft room with no opening below, and beside it one
+        window over a ground opening: with the axis at 19.0 the second window takes the aim
+        (11.868, the control); at 17.0 the aim would leave 2.13 ft of wall to the aligned window
+        against a 3 ft floor, so it stands at the floor (10.668) and the aligned window keeps its
+        axis. Without the lookahead the aligned window is refused, rule `alignment`."""
+        r1 = _room("r1", 0.0, 14.0, [{"wall": "S", "count": 2, "width_ft": 3.0}])
+        r2 = _room("r2", 14.0, 16.0, [{"wall": "S", "count": 1, "width_ft": 3.0}])
+        _seat([r1, r2], 30.0, 15.0, centres={self.LINE: (14.0 / 3.0, "test")},
+              below={self.LINE: [(axis, "window", "g")]}, level=1)
+        assert r1["windows"][0]["positions_ft"] == [pytest.approx(14.0 / 3.0, abs=1e-3), pytest.approx(second, abs=1e-3)]
+        assert r2["windows"][0].get("positions_ft") == aligned and "unplaced" not in r2["windows"][0]
 
     def test_a_unit_takes_an_axis_its_room_can_take_before_one_it_cannot(self):
         """U2 (taken as recommended under Lucas's standing instruction of 1 Oct 2026, never put):

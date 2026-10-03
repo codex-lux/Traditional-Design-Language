@@ -168,6 +168,18 @@ def _placement(f, product, xyz, rot_z_deg=0.0):
         m[0][0], m[0][1] = math.cos(a), -math.sin(a)
         m[1][0], m[1][1] = math.sin(a), math.cos(a)
     m[0][3], m[1][3], m[2][3] = xyz
+    _place_matrix(f, product, m)
+
+
+def _place_matrix(f, product, m):
+    """THE ONE CALL OF `geometry.edit_object_placement`, AND IT IS ONE BECAUSE THE FIRST FIX
+    REACHED ONE OF THREE (the audit of WP-16.8's own diff, 3 Oct 2026, auditor B). The Phase 14
+    audit gave `_placement` `is_si=False` and left `_place_rotated_x` and `_place_rotated_y`
+    calling the API with its METRES default, so the two roof planes -- the only products placed
+    through them -- stood at 3.2808 times their coordinates: the Tidewater's at z 105.25 ft over an
+    eave of 25.44 and a ridge of 38.72, good-03's one plane 117 ft east of the other. Every matrix
+    this exporter writes is in the project's unit (feet), and every placement goes through here,
+    so a fourth helper cannot be written that forgets the flag; a source test holds the count."""
     _run("geometry.edit_object_placement", f, product=product, matrix=m, is_si=False)
 
 
@@ -569,9 +581,19 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
                 counts["slabs"] += 1
             roof_props["geometry"] = "two gable planes"
         else:
-            roof_props["geometry_note"] = (f"form '{m.get('form')}' is not modelled by WP-5.1 "
-                                           f"(gable planes only) — the roof's own record rides "
-                                           f"here as properties, the geometry is not guessed")
+            # THE CAUSE, ONE OF THREE (the audit of WP-16.8's own diff, auditor D). This said "form
+            # 'X' is not modelled" of every roof that drew no planes: of a roof B8 refuses ("form
+            # 'None'"), and of a side gable whose ridge is unjudged -- eight of the ten drawn shipped
+            # plans -- whose form IS modelled. Each says its own cause, from the roof's own record.
+            if m.get("refused"):
+                cause = f"no roof is drawn on this house: {m['refused'].get('why')}"
+            elif m.get("form") in GABLE_FORMS:
+                cause = (f"the {m.get('form')} roof's planes are not placed because its ridge is not "
+                         f"judged: {(m.get('note') or 'the record states no ridge height').strip()}")
+            else:
+                cause = f"form '{m.get('form')}' is not modelled by WP-5.1 (gable planes only)"
+            roof_props["geometry_note"] = (f"{cause} — the roof's own record rides here as properties, "
+                                           f"the geometry is not guessed")
     else:
         roof_props["geometry_note"] = f"roof record unavailable: {roof.get('error')}"
     _pset(f, ifc_roof, roof_props)
@@ -589,7 +611,7 @@ def _place_rotated_x(f, product, xyz, deg):
     m[1][1], m[1][2] = math.cos(a), -math.sin(a)
     m[2][1], m[2][2] = math.sin(a), math.cos(a)
     m[0][3], m[1][3], m[2][3] = xyz
-    _run("geometry.edit_object_placement", f, product=product, matrix=m)
+    _place_matrix(f, product, m)
 
 
 def _place_rotated_y(f, product, xyz, deg):
@@ -599,7 +621,7 @@ def _place_rotated_y(f, product, xyz, deg):
     m[0][0], m[0][2] = math.cos(a), math.sin(a)
     m[2][0], m[2][2] = -math.sin(a), math.cos(a)
     m[0][3], m[1][3], m[2][3] = xyz
-    _run("geometry.edit_object_placement", f, product=product, matrix=m)
+    _place_matrix(f, product, m)
 
 
 # -------------------------------------------------------------------- selftest

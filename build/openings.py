@@ -1017,9 +1017,12 @@ def _seat_line(ws, base, pier, centre, aligned, mode):
     the outer window moves along its own wall, or is refused by name" -- and the aligned-first
     order refused the INNER window: on spec-builder-colonial's upper south face the primary
     chamber's unit preferring 9.0 ft was refused for the pier so the unit aligned at 6.745 ft could
-    keep its axis. In "foot" mode the order is the one the spared styles always had: aligned units
-    first, the rest in record order (a reading, named at WP-16.8: R5b spares the floor, and the
-    spared styles keep their whole old pass, order and all, and take no aim).
+    keep its axis. In "foot" mode the spared styles keep WP-16.6's order: aligned units first, the
+    rest in record order (a reading, named at WP-16.8: R5b spares the floor, and the spared styles
+    keep their old pass and take no aim). CORRECTED 3 OCT 2026 (the audit of WP-16.8's own diff,
+    auditor D): this said "the order the spared styles always had", and before WP-16.6 there was no
+    alignment to order -- the record order of the unaligned units is the old pass's; the aligned
+    units going first is WP-16.6's, kept here. No shipped plan places a spared style on two storeys.
 
     THE AIM WHERE THE WALL ALLOWS. A unit is seated at the pack's aim (sash-light's
     `opening_width * 1.4`, where it reaches the style) where that costs no window: it takes the
@@ -1323,6 +1326,15 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
                                     if any(v.get("refused") == c for v in got.values())}})
 
     floor = (pier or {}).get("floor")
+    # EVERY WALL A WINDOW STANDS ON, BEFORE ANY REFUSAL IS WORDED (the audit of WP-16.8's own diff,
+    # 3 Oct 2026). Every unit on these lines is already seated or refused, so which walls carry a
+    # window is known here. Gathered in the loop below, a record listed BEFORE the record whose
+    # window took its wall found the wall unglazed: on a spared style's upper storey, where the
+    # aligned window is seated first whichever record it belongs to, a 9 ft wall refusing two
+    # 3 ft windows said "the wall is shorter than the window". Pre-existing since WP-16.6, and
+    # reached by no shipped plan (none places a spared style on two storeys).
+    glazed.update((w["room"]["id"], w["wall"]) for w in wins if id(w) not in written
+                  and any("pos" in verdicts[id(u)] for u in w["units"]))
     for w in wins:
         if id(w) in written:
             continue

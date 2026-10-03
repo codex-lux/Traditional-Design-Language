@@ -88,9 +88,17 @@ def render_section(section, path, scale=7.0):
     # audit of Phase 16, auditors C and D): the elevation and the roof plan said it and this sheet,
     # which draws the same roof's ridge, did not. A line beneath the title, the drawing lowered by it.
     form_judgment = DISC.roof_form_judgment(roof)
-    if form_judgment:
-        top_pad += 14
     pw = span_ft * scale
+    # AND WRAPPED TO THE SHEET (the audit of WP-16.8's own diff, 3 Oct 2026, auditor B): it was one
+    # line, 8.5 px monospace at .14em (6.3 px a character), and on all seven sections that print
+    # it the sentence ran 124 to 299 px past a 542-579 px canvas -- the clipped tail being "MARKS
+    # THE CALL A JUDGMENT", which is the clause the line exists to say. Wrapped as the bay-module
+    # line below is, the top margin growing by the lines it takes.
+    fj_lines = (textwrap.wrap(form_judgment, max(24, int((left_gutter + pw + right_gutter) / 6.3)),
+                              break_long_words=False, break_on_hyphens=False)
+                if form_judgment else [])
+    if fj_lines:
+        top_pad += 14 + 12 * (len(fj_lines) - 1)
     # WRAPPED, NOT CUT (WP-14.3). An unjudged ridge's note says why, and it was cut at seventy
     # characters -- mid-word, and before the reason on most records. It is wrapped to the span
     # and stands above the eave, so the top margin grows by the lines it takes.
@@ -124,8 +132,12 @@ def render_section(section, path, scale=7.0):
     s.append(f'<text class="hd" x="{pad}" y="26">{_esc(section.get("plan_id",""))} — SECTION</text>')
     s.append(f'<text class="lb" x="{pad}" y="42">{_esc(section.get("style",""))} · '
               f'{_esc(section["wall"]["construction_type"])} · SPAN {_fmt(span_ft)}</text>')
-    if form_judgment:
-        s.append(f'<text class="lb" x="{pad}" y="58">{_esc(form_judgment)}</text>')
+    if fj_lines:
+        # one <text> carrying a line per <tspan>, every line but the last ending in its space, so
+        # the sentence reads back whole off the ink (`tests/inkread.py` joins a text's spans)
+        _sp = "".join(f'<tspan x="{pad}" y="{58 + 12 * i}">{_esc(ln)}{" " if i < len(fj_lines) - 1 else ""}'
+                      f'</tspan>' for i, ln in enumerate(fj_lines))
+        s.append(f'<text class="lb" x="{pad}" y="58">{_sp}</text>')
 
     # grade
     s.append(f'<line class="gr" x1="{ox-24:.1f}" y1="{Y(0):.1f}" x2="{ox+pw+24:.1f}" y2="{Y(0):.1f}"/>')

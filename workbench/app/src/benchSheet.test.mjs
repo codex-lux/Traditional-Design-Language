@@ -266,8 +266,28 @@ test('a partly seated window refused for the pier floor is not called crowded, a
   const served = '3 OF 35 DECLARED WINDOW UNIT(S) NOT DRAWN — 3 TOO NEAR THE NEXT WINDOW FOR A WALL OF 1 × THE WIDER';
   const lines = note({ wins: got, placement: { disclosures: [{ id: 'windows', text: served }] } });
   const said = lines.find((l) => l.id === 'windows-refused');
-  assert.ok(said && said.text === `${served}. `, `the served reasons were not printed: ${text(lines)}`);
+  assert.ok(said && /^1 declared window\(s\) the placement refused/.test(said.text), `the refusal was not counted: ${text(lines)}`);
   assert.ok(!/no clear run left/.test(text(lines)), 'the pier refusal was called a full wall');
+});
+
+/* EACH PLATE COUNTS ITS OWN LEVEL, AND THE COUNTS ARE DISJOINT (the audit of WP-16.8's own diff, 3 Oct
+   2026, auditor B). WP-16.8 printed the server's plan-wide window sentence on every plate that refused a
+   unit, so a two-storey house said the whole figure twice and a plate counted its off-footprint units
+   twice: once in its own line and again in the served sentence's "ON NO SUCH WALL" bucket -- bad-02's one
+   plate read 3 + 4 missing of 6 declared. Driven: two plates, a plan-wide sentence served, and each plate
+   says its own counts, never the house's sentence, and the counts sum to the house's. */
+test('each plate counts its own level\'s refused windows and never prints the house\'s sentence', () => {
+  const served = '4 OF 9 DECLARED WINDOW UNIT(S) NOT DRAWN — 1 ON NO SUCH WALL, 3 TOO NEAR THE NEXT WINDOW';
+  const placement = { disclosures: [{ id: 'windows', text: served }] };
+  const ground = note({ wins: { offFootprint: 1, crowded: 0, refused: 2 }, placement });
+  const upper = note({ wins: { offFootprint: 0, crowded: 0, refused: 1 }, placement, levelIndex: 1 });
+  for (const [lines, off, ref] of [[ground, 1, 2], [upper, 0, 1]]) {
+    assert.ok(!text(lines).includes('NOT DRAWN —'), `a plate printed the house's sentence: ${text(lines)}`);
+    const r = lines.find((l) => l.id === 'windows-refused');
+    assert.ok(r && r.text.startsWith(`${ref} declared window(s) the placement refused`), text(lines));
+    const o = lines.find((l) => l.id === 'windows-off-footprint');
+    assert.equal(Boolean(o), off > 0, text(lines));
+  }
 });
 
 test('"the grid remains" is said only where a grid is drawn', () => {

@@ -250,6 +250,48 @@ class TestTheRefusedRoofDrawnEndToEnd:
         said = " ".join(" ".join(t.split()) for t, _a, _i in IR.Ink(open(out, encoding="utf-8").read()).texts() if t)
         assert words in said
 
+    def test_the_section_raises_no_ridge_over_it_and_its_sheet_says_no_roof_is_drawn(self, refused, tmp_path):
+        """The audit of WP-16.8's own diff, auditor C (W2): C1 made the section carry the refusal --
+        no ridge, the refusal's own words, NO ROOF DRAWN where it printed RIDGE UNJUDGED -- and this
+        fixture built that section and nothing read it, so raising a ridge over a refused roof, or
+        heading it RIDGE UNJUDGED, left the class green."""
+        _s, p, rf, _el = refused
+        sec = _m("structure").build_section(p, None, geometry_result=p)
+        r = sec["roof"]
+        assert r.get("grade_to_ridge_ft") is None and r["refused"]["why"] == rf["main"]["refused"]["why"]
+        out = str(tmp_path / "section.svg")
+        _m("render_section").render_section(sec, out)
+        said = " ".join(" ".join(t.split()) for t, _a, _i in IR.Ink(open(out, encoding="utf-8").read()).texts() if t)
+        assert "NO ROOF DRAWN" in said and "RIDGE UNJUDGED" not in said, said[:200]
+
+    def test_the_section_dxf_says_no_roof_is_drawn(self, refused, tmp_path):
+        """The same, in the CAD file: the section DXF heads the refusal NO ROOF DRAWN (auditor D,
+        D10). SPLIT 3 OCT 2026 from the IFC half below, which had skipped it: this half needs
+        ezdxf, which CI installs, and the IFC half ifcopenshell, which CI does not, so while the
+        two shared one body CI judged neither."""
+        ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        _s, p, rf, _el = refused
+        sec = _m("structure").build_section(p, None, geometry_result=p)
+        path = str(tmp_path / "section.dxf")
+        assert "error" not in _m("export_dxf").export_section_dxf(sec, path)
+        notes = [" ".join(e.plain_text().split()) for e in ezdxf.readfile(path).modelspace().query("MTEXT")]
+        assert any(n.startswith("NO ROOF DRAWN - ") for n in notes), notes
+        assert not any(n.startswith("RIDGE UNJUDGED") for n in notes), notes
+
+    def test_the_ifc_says_no_roof_is_drawn(self, refused, tmp_path):
+        """The IFC's roof says the refusal where it said "form 'None' is not modelled by WP-5.1"
+        (auditor D, D10). Judged only where ifcopenshell is installed, which CI's jobs are not."""
+        ios = pytest.importorskip("ifcopenshell", reason="COULD NOT EVALUATE: ifcopenshell is not installed")
+        import ifcopenshell.util.element as uel
+        _s, p, rf, _el = refused
+        ifc = str(tmp_path / "out.ifc")
+        res = _m("export_ifc").export_ifc(copy.deepcopy(p), ifc, geometry_result=copy.deepcopy(p))
+        assert "error" not in res, res
+        ps = uel.get_psets(ios.open(ifc).by_type("IfcRoof")[0]).get("TDL") or {}
+        assert ps["geometry_note"].startswith("no roof is drawn on this house: " + rf["main"]["refused"]["why"]), \
+            ps["geometry_note"][:120]
+        assert "form 'None'" not in ps["geometry_note"]
+
 
 class TestTheStacksSayWhoChoseTheHip:
     def test_a_hip_the_kit_chose_is_not_called_declared(self, monkeypatch):

@@ -26,6 +26,7 @@ DF = _load("depth_floor", f"{ROOT}/build/depth_floor.py")
 ST = _load("structure", f"{ROOT}/build/structure.py")
 GEO = _load("geometry", f"{ROOT}/build/geometry.py")
 PC = _load("plan_check", f"{ROOT}/build/plan_check.py")
+DS = _load("diagnose_sheet", f"{ROOT}/build/diagnose_sheet.py")
 FAULT = f"{ROOT}/faults/truss-flattened-pitch.json"
 
 
@@ -210,11 +211,10 @@ class TestTheInversionAgreesWithTheFault:
             q = json.loads(json.dumps(d))
             GEO._SOLVE_CACHE.clear()
             GEO.solve(q, engine="heuristic")
-            sec = ST.build_section(q)
-            t = (sec.get("wall") or {}).get("exterior_in") or 0.0
-            fp = q["footprint"]
-            v = DF.evaluate(q, exterior_wall_in=t,
-                            clear_span_ft=min(fp["width_ft"], fp["depth_ft"]))
+            # THE INSTRUMENT'S OWN READING, NEVER A SPAN RE-DERIVED HERE (the audit of WP-16.8's own
+            # diff, 3 Oct 2026, auditor A): this handed `depth_floor` min(W, D) itself, so it held
+            # the leaf to the rule C1 retired and could not see the instrument keep it
+            v = DS.roof_depth_floor(q)
             convicted = any("The Truss Default" in f.get("statement", "")
                             for f in PC.check(q)["findings"])
             if v["verdict"] == "unjudged":
@@ -235,6 +235,31 @@ class TestTheInversionAgreesWithTheFault:
         assert disagree == [], "\n".join(disagree)
         assert agree == 2
         assert unjudged == 14, "the judged/unjudged split moved; re-measure and say what changed"
+
+    def test_the_floor_inverts_the_span_the_ridge_rises_over_and_not_the_shorter_side(self):
+        """Auditor A: C1 moved `roof_heights` onto `threshold.ridge_span` -- since B9 the LONGER
+        dimension on a side gable entered on its narrow front -- and the instrument went on
+        inverting the fault on min(W, D), so the floor and the fault answered about two roofs:
+        the Tidewater entered on the west with 14 ft ceilings read "below" while the fault
+        cleared. Driven on that house; its premise is that the span moved off the shorter side."""
+        d = dict(_plans())["tidewater-georgian-careful"]
+        q = json.loads(json.dumps(d))
+        q.setdefault("context", {})["entrance_faces"] = "W"
+        for lv in q["levels"]:
+            lv["floor_to_ceiling_ft"] = 14.0
+            for r in lv.get("rooms", []):
+                if r.get("ceiling_ft"):
+                    r["ceiling_ft"] = 14.0
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(q, engine="heuristic")
+        sec = ST.build_section(q)
+        fp = q["footprint"]
+        assert sec["roof"]["span_ft"] > min(fp["width_ft"], fp["depth_ft"]) + 2.0, \
+            "the premise: the ridge rises over the longer dimension"
+        v = DS.roof_depth_floor(q)
+        convicted = any("The Truss Default" in f.get("statement", "") for f in PC.check(q)["findings"])
+        assert v["verdict"] != "unjudged", v
+        assert (v["verdict"] == "below") == convicted, (v["verdict"], convicted)
 
     def test_a_substituted_bounds_test_is_unjudged_and_not_ok(self):
         sub = DF.substituted_bounds_test("greek-revival-american")

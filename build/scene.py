@@ -513,6 +513,11 @@ def _openings(elev, section, states):
                      "FRAME and not a hole: this layer does no boolean subtraction, so the "
                      "wall behind it is the box the section describes"))
     out.extend(_dress_openings(elev, states, kept, ox, oy, W, D, t_ext, _lvl, fp=fp))
+    # A LIGHT PATTERN THE KIT FORBIDS IS DRAWN AND SAID, as the sheet and the DXF say it (the audit
+    # of WP-16.8's own diff, auditor D): the bars below are the lights `sash_at` gives at each
+    # width, and this layer drew them with no word where the kit forbids the pattern
+    for _pt, _words in EL.forbidden_lights(elev, [r for rs in kept.values() for r in rs]):
+        states.judged(f"the {_pt} sash lights", _words, "elevation.forbidden_lights")
     return out
 
 

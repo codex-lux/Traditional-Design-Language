@@ -659,6 +659,16 @@ def export_roof_dxf(roof, path):
     pitch = f"{m['pitch_rise_per_12']}:12" if m.get("pitch_rise_per_12") else "PITCH UNJUDGED"
     _text(msp, anno, f"{roof.get('plan_id','')} - ROOF PLAN - {roof.get('style','')} - "
                      f"{m.get('form','')} - {pitch}", 0, -4 * TEXT_H)
+    # WHAT THE ROOF PLAN SAYS BENEATH ITS DRAWING, IN ITS WORDS (the audit of WP-16.8's own diff,
+    # auditor B): this sheet wrote the title alone, so a refused stack, a roof form the kit decided
+    # by a judgment and a roof that stops at the gable wall were each said on the SVG and silently
+    # absent here. `render_roof.plan_notes` is the one list.
+    xs = [v * IN for ln in roof["outline"] for v in (ln["x1"], ln["x2"])] or [0.0]
+    width = max(xs) - min(xs) or 480.0
+    y = -6.0 * TEXT_H
+    for line in _mod("render_roof", os.path.join(ROOT, "build", "render_roof.py")).plan_notes(roof):
+        n = _note(msp, anno, line, 0, y, width)
+        y -= (n * MTEXT_PITCH + 0.5) * TEXT_H
     doc.saveas(path)
     return {"path": path, "sheets": "roof"}
 
@@ -764,30 +774,44 @@ def export_elevation_dxf(elev, path, face=None):
     # both since WP-3.2 at the projections their record states, and printed the refusal of each
     # (WP-16.4) on the CAD file through the face's own notes. `elevation.band_marks` is the one
     # reader of whether each is drawn and with what figures. Where a band passes in front of a
-    # stack beside the face its lines are masked first, as the cornice's are below.
+    # stack beside the face, the band's own mask hides the stack's lines, as the sheet's fill does.
     bands = EL.band_marks(elev)
     band_layer = _layer(doc, "TDL-ELEV-BAND", color=7)
     _band_boxes = []
     if bands["water_table"]:
         _w = bands["water_table"]
         _band_boxes.append(("water table", -_w["projection_in"], span + _w["projection_in"], 0.0,
-                            _w["top_in"], _w["projection_in"]))
+                            _w["top_in"], _w["projection_in"], _w["projection_stated"]))
     if bands["belt"]:
         _b = bands["belt"]
         _band_boxes.append(("belt course", -_b["projection_in"], span + _b["projection_in"],
-                            _b["bottom_in"], _b["bottom_in"] + _b["height_in"], _b["projection_in"]))
-    for _name, u0, u1, h0, h1, _proj in _band_boxes:
-        for mk in beside:
-            pts = _stack_pts(mk)
-            su0, su1 = min(p[0] for p in pts) - 0.5, max(p[0] for p in pts) + 0.5
-            sh0, sh1 = min(p[1] for p in pts), max(p[1] for p in pts)
-            mu0, mu1, mh0, mh1 = max(su0, u0), min(su1, u1), max(sh0, h0), min(sh1, h1)
-            if mu1 - mu0 > 0.5 + 1e-6 and mh1 - mh0 > 1e-6:
-                _mask([(mu0, mh0), (mu1, mh0), (mu1, mh1), (mu0, mh1)])
+                            _b["bottom_in"], _b["bottom_in"] + _b["height_in"], _b["projection_in"],
+                            _b["projection_stated"]))
+    for _name, u0, u1, h0, h1, _proj, _stated in _band_boxes:
+        # THE BAND IS OPAQUE, AS THE SHEET PAINTS IT (the audit of WP-16.8's own diff, 3 Oct 2026,
+        # auditor B): the sheet fills the band, so the wall's corner lines stop at it; here the wall
+        # outline, drawn first, ran through both boxes to grade. The whole box is masked before its
+        # outline is drawn -- which also hides a stack beside the face where the band passes in
+        # front of it, so the per-stack mask WP-16.8 drew here first, inside this box by its own
+        # clipping, is gone (auditor C's M4: deleting it left every test green, because it could
+        # no longer hide anything this mask does not).
+        _mask([(u0, h0), (u1, h0), (u1, h1), (u0, h1)])
         bx = msp.add_lwpolyline([(u0, h0), (u1, h0), (u1, h1), (u0, h1)], close=True,
                                 dxfattribs={"layer": band_layer})
-        _xdata(bx, "TDL::band", {"band": _name, "projection_in": _proj,
+        # an unstated projection is written as unstated, never as the 0.0 the band is drawn at (the
+        # audit of WP-16.8's own diff, auditor D: Tidewater's belt states none, and its data said 0.0)
+        _xdata(bx, "TDL::band", {"band": _name, "projection_in": _proj if _stated else None,
+                                 **({} if _stated else {"projection_note": "the record states no "
+                                                        "projection; the band is drawn flush"}),
                                  "source": (elev.get("water_table_belt") or {}).get("source")})
+    def _mask_over_bands(x0, x1, y0, y1):
+        """Mask a FILLED area the sheet paints over a band -- an opening, a sidelight, a transom --
+        before its lines are drawn, where it crosses one. The sheet's glass and its door leaf are
+        filled; its casing is not, so the casing is never masked."""
+        if any(min(x1, b[2]) - max(x0, b[1]) > 1e-6 and min(y1, b[4]) - max(y0, b[3]) > 1e-6
+               for b in _band_boxes):
+            _mask([(x0, y0), (x1, y0), (x1, y1), (x0, y1)])
+
     if bands["water_table"]:
         for mm in bands["water_table"]["members"]:
             msp.add_line((-mm["projection_in"], mm["y_in"]), (span + mm["projection_in"], mm["y_in"]),
@@ -1025,9 +1049,7 @@ def export_elevation_dxf(elev, path, face=None):
         # from, 3.5 in on the Tidewater plan and 9.8 in on the frame houses -- so the opening's
         # area is masked before its lines are drawn, as the stacks are.
         _ox0, _ox1, _osl, _ohd = r["x0_in"], r["x1_in"], r["sill_in"], r["head_in"]
-        if any(min(_ox1, b[2]) - max(_ox0, b[1]) > 1e-6 and min(_ohd, b[4]) - max(_osl, b[3]) > 1e-6
-               for b in _band_boxes):
-            _mask([(_ox0, _osl), (_ox1, _osl), (_ox1, _ohd), (_ox0, _ohd)])
+        _mask_over_bands(_ox0, _ox1, _osl, _ohd)
         # A BLIND BAY CARRIES NO OPENING AT EITHER STOREY (OQ 85). The bay holds its place in the
         # rhythm and a chimney stack stands on its axis, so there is nothing to draw. Missed when
         # the blind bay was introduced: this loop read `if door ... else window`, so `blind` fell
@@ -1070,6 +1092,7 @@ def export_elevation_dxf(elev, path, face=None):
             top = head
             if tr.get("drawn"):
                 top = head + tr["height_in"]
+                _mask_over_bands(x0, x1, head, top)
                 poly = msp.add_lwpolyline([(x0, head), (x1, head), (x1, top), (x0, top)],
                                           close=True, dxfattribs={"layer": opening})
                 _xdata(poly, "TDL::transom", {"height_in": tr["height_in"], "judgment": True,
@@ -1106,6 +1129,10 @@ def export_elevation_dxf(elev, path, face=None):
             if ent.get("sidelights_present") and ent.get("sidelight_width_in") and r.get("sidelights_drawn", True):
                 slw = ent["sidelight_width_in"]
                 for a in (x0 - cw - slw, x1 + cw):
+                    # THE SIDELIGHT IS GLASS, painted over the water table on the sheet (the audit
+                    # of WP-16.8's own diff, auditor B): only the leaf was masked, so the band ran
+                    # through both sidelights of the spec Colonial's front and stopped at the door
+                    _mask_over_bands(a, a + slw, sill, head)
                     msp.add_lwpolyline([(a, sill), (a + slw, sill), (a + slw, head), (a, head)],
                                        close=True, dxfattribs={"layer": opening})
             continue

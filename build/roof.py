@@ -202,13 +202,13 @@ def main_roof(plan, section, style):
         axis = _rect_face_axis(form, W, D, _threshold().entrance_front(plan))
         ridge_len_dim, span_dim = (W, D) if axis == "x" else (D, W)
         if form in ("hip", "gable-on-hip"):
-            ridge_from, ridge_to = (D / 2.0, W - D / 2.0) if axis == "x" and W >= D else (0.0, ridge_len_dim)
-            # A hip roof needs its own dimension to actually be longer than the one it hips in
-            # from, or there is no ridge at all (a square hip has a single apex, not a ridge
-            # line) -- flagged rather than producing a negative-length ridge silently.
-            if W < D:
-                ridge_from, ridge_to = 0.0, 0.0
-                result["note"] = f"Footprint {W:.1f}x{D:.1f} ft is deeper than it is wide; hip form here needs its own re-derivation (ridge runs the other axis) -- not modelled, ridge collapsed to a point."
+            # THE RIDGE RUNS ALONG THE LONGER DIMENSION (`ridge_axis`) AND STOPS HALF THE SPAN SHORT
+            # OF EACH END, where the hips meet it; a square hip has an apex and no ridge line. This
+            # collapsed a hip deeper than wide to a point, on a ridge read along x whatever the
+            # footprint (the audit of WP-16.8's own diff, auditors A, B and D).
+            half = span_dim / 2.0
+            ridge_from, ridge_to = ((half, ridge_len_dim - half) if ridge_len_dim > span_dim
+                                    else (ridge_len_dim / 2.0, ridge_len_dim / 2.0))
         else:
             ridge_from, ridge_to = 0.0, ridge_len_dim
         ridge_ft = section["roof"].get("grade_to_ridge_ft")
@@ -323,9 +323,9 @@ def _style_gambrel_geometry(style):
             "break_fraction": break_frac, "break_source": break_source}
 
 def _gambrel(plan, section, style, W, D, eave_ft, single_pitch):
-    """Two slopes per side, ridge along the same axis a side-gable roof would use. Genuinely
-    recomputes grade_to_ridge_ft rather than reusing structure.py's single-pitch estimate --
-    reconciled explicitly in the returned note, not silently swapped in."""
+    """Two slopes per side, ridge along the same axis a side-gable roof would use. The ridge is
+    raised on the gambrel's own two slopes; the section raises none under a gambrel and says whose
+    ridge it is (the audit of WP-16.8's own diff)."""
     geo = _style_gambrel_geometry(style)
     half_span_ft = min(W, D) / 2.0
     break_offset_ft = half_span_ft * geo["break_fraction"]
@@ -337,14 +337,11 @@ def _gambrel(plan, section, style, W, D, eave_ft, single_pitch):
     axis = _threshold().ridge_axis("gambrel", W, D)
     span_dim = D if axis == "x" else W
     ridge_len_dim = W if axis == "x" else D
-    single_pitch_ridge_ft = section["roof"].get("grade_to_ridge_ft")
+    # NO SECOND RIDGE TO RECONCILE (the audit of WP-16.8's own diff): this reconciled the ridge
+    # above against structure.py's single-pitch estimate, and the section raises no single-pitch
+    # ridge under a gambrel now -- it says the gambrel's ridge is this record's -- so this one is
+    # the only ridge the house states.
     note = None
-    if single_pitch_ridge_ft is not None:
-        note = (f"Recomputed for the gambrel's own two-slope geometry: {ridge_grade_ft:.2f} ft, "
-                f"vs structure.py's single-pitch estimate of {single_pitch_ridge_ft:.2f} ft (which assumes one "
-                f"straight slope at the style's roof_pitch_rise_per_12 constraint, not this form). This file's "
-                f"number is the one that reflects the actual gambrel form; structure.py's own section record is "
-                f"not edited by this file.")
     return {
         "ridge": {"axis": axis, "position_ft": span_dim / 2.0, "from_ft": 0.0, "to_ft": round(ridge_len_dim, 2),
                   "grade_to_ridge_ft": round(ridge_grade_ft, 2)},
@@ -473,6 +470,27 @@ def chimney_positions(plan, style, section, main):
 
     form = main.get("form")
     ridge = main.get("ridge")
+    # A STACK THE PLACEMENT REFUSED UNDER A BAN IS NOT PLACED HERE EITHER (WP-16.8, the audit of
+    # Phase 16, auditor C). `threshold.hearth_pass` refuses the exterior stacks wholesale where the
+    # style's resolved kit forbids one (WP-16.4, R3), and it writes the flues before it refuses, so
+    # this function read those flues and placed a chimney over each: the roof plan drew both as
+    # positions, the scene drew both as axes, and the elevation, the DXF and the plan drew none --
+    # under `hearth_pass`'s own comment that "none of them draws a stack another does not". The
+    # placement's words are the note, so every surface that prints this record's refusal says the
+    # ban and its writer, at the house's date.
+    #
+    # AND BEFORE EVERY OTHER REASON (the audit of WP-16.8's own diff, auditor D). This stood after
+    # the unjudged-ridge and hip returns, so on a hipped roof, or one whose ridge is unjudged, the
+    # plan sheet said the kit forbids the stacks while the roof plan, the scene and the elevation
+    # said the roof is a hip or judges no ridge -- two reasons for one refusal on two sets of
+    # surfaces. The ban is the placement's, decided before the roof is read, so it is said first.
+    hr0 = plan.get("hearths") if isinstance(plan.get("hearths"), dict) else None
+    banned = next((u for u in ((hr0 or {}).get("unplaced") or [])
+                   if u.get("what") == "the stacks" and u.get("ban")), None)
+    if banned:
+        return {"applicable": True, "positions": [], "source": source, "refused_by": banned["ban"],
+                "note": banned["reason"]}
+
     if not source:
         return {"applicable": False, "positions": [], "source": None,
                 "note": "No kit chimney slot and no massing hearth field to place chimneys from -- unjudged."}
@@ -490,21 +508,6 @@ def chimney_positions(plan, style, section, main):
                          f"'{form}', which has no full gable-end wall to run a stack through -- a real design "
                          f"would need an interior or off-ridge chimney solution this file does not model. "
                          f"Flagged rather than silently placed at a wall that is not actually a gable end.")}
-
-    # A STACK THE PLACEMENT REFUSED UNDER A BAN IS NOT PLACED HERE EITHER (WP-16.8, the audit of
-    # Phase 16, auditor C). `threshold.hearth_pass` refuses the exterior stacks wholesale where the
-    # style's resolved kit forbids one (WP-16.4, R3), and it writes the flues before it refuses, so
-    # this function read those flues and placed a chimney over each: the roof plan drew both as
-    # positions, the scene drew both as axes, and the elevation, the DXF and the plan drew none --
-    # under `hearth_pass`'s own comment that "none of them draws a stack another does not". The
-    # placement's words are the note, so every surface that prints this record's refusal says the
-    # ban and its writer, at the house's date.
-    hr0 = plan.get("hearths") if isinstance(plan.get("hearths"), dict) else None
-    banned = next((u for u in ((hr0 or {}).get("unplaced") or [])
-                   if u.get("what") == "the stacks" and u.get("ban")), None)
-    if banned:
-        return {"applicable": True, "positions": [], "source": source, "refused_by": banned["ban"],
-                "note": banned["reason"]}
 
     params = ((slots.get("chimney") or {}).get("parameters") or {})
     band = params.get("height_above_ridge_band", {}).get("range")
@@ -961,15 +964,23 @@ def elevation_profile(section, main, wall):
         return [(0.0, eave), (wall_len, eave)]   # unjudged ridge -- flat eave line only, nothing invented above it
     ridge_ft = ridge["grade_to_ridge_ft"]
     parallel = (wall in ("S", "N") and ridge["axis"] == "x") or (wall in ("E", "W") and ridge["axis"] == "y")
+    if form == "gambrel":
+        # A GAMBREL'S GABLE END IS ITS OWN TWO-SLOPE OUTLINE, AND ITS LONG FACE IS A RECTANGLE (the
+        # audit of WP-16.8's own diff, auditor A). Since WP-3.3 the two were swapped: the gable end was
+        # drawn as a single-pitch triangle to the gambrel's ridge, and the long face as a trapezoid
+        # stopping at the break -- the silhouette of a roof hipped at its ends, which a gambrel is not.
+        # Both slopes run the whole length of the long face, so in elevation that face is the band
+        # from the eave to the ridge, as a side gable's is; the break shows only at the gable ends.
+        g = main["gambrel"]
+        off, brk = g["break_offset_ft"], g["break_grade_to_ft"]
+        if not parallel:
+            return [(0.0, eave), (off, brk), (wall_len / 2.0, ridge_ft), (wall_len - off, brk), (wall_len, eave)]
+        return [(0.0, eave), (0.0, ridge_ft), (wall_len, ridge_ft), (wall_len, eave)]
     if not parallel:
         return [(0.0, eave), (wall_len / 2.0, ridge_ft), (wall_len, eave)]   # gable end: simple triangle
     if form in ("hip", "gable-on-hip"):
         a, b = ridge["from_ft"], ridge["to_ft"]
         return [(0.0, eave), (a, ridge_ft), (b, ridge_ft), (wall_len, eave)]   # trapezoid
-    if form == "gambrel":
-        g = main["gambrel"]
-        off = g["break_offset_ft"]
-        return [(0.0, eave), (off, g["break_grade_to_ft"]), (wall_len - off, g["break_grade_to_ft"]), (wall_len, eave)]
     # SIMPLE GABLE, LONG FACE. This returned a flat eave line until 27 Aug 2026, on the reasoning
     # that "the ridge is behind the near roof plane, not visible". That is a PERSPECTIVE argument
     # and this is an ORTHOGRAPHIC projection. The near plane slopes away from the viewer, and

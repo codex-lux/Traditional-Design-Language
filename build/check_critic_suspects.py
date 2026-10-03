@@ -66,7 +66,12 @@ COULD_NOT_EVALUATE = 3      # check_all.py's protocol -- 2 read as FAIL, which i
 # `entablature_bed_height_in`'s `* 0.3` in a withholding condition took it off the ratio list,
 # because `_ratio_literal` did not read a conditional's branches. The instrument was taught to,
 # and the count on the parent's file is unchanged by it (6 on both).
-LITERALS_CEILING = 40
+# 40 -> 39, the audit of WP-16.8's own diff (3 Oct 2026, auditor A's F4): `belt_course_projection_in`
+# was `wtb[...] or 1.0`, an invented projection published wherever the record stated none (the
+# Tidewater's belt, and six one-storey houses' that no sheet draws). It is published only where a
+# belt is drawn and only as stated now, and absent otherwise -- modelled, not hidden: the reader is
+# `if wtb.get(...) is not None: m[...] = wtb[...]`, with no literal in any shape this detector reads.
+LITERALS_CEILING = 39
 RATIOS_CEILING = 6
 UNJUDGED_CEILING = 0     # basis citations whose key path the walker could not follow
 MIN_SWEEP_PLANS = 8
