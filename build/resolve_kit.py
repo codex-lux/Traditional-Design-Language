@@ -388,7 +388,11 @@ def return_at(rec, date=None):
     A dict whose `state` is one of:
     - `forbidden`: the slot is bound `forbidden` whole. No band crosses the gable end.
     - `none`: a `none` row is canonical at the house's date. No band crosses the gable end. An
-      UNDATED house keeps a dated `none`, as it keeps a dated ban (A3), and `date_unstated` says so.
+      UNDATED house keeps a dated `none`, as it keeps a dated ban, and `date_unstated` says so.
+      THAT IS A READING, NOT A RULING (named at WP-16.8, the audit of Phase 16, auditor A): A3
+      names FORBIDDEN rows, and WP-16.5 carried it to a canonical `none` by analogy and wrote it
+      as A3's consequence. The drawing keeps the reading; the counts a fault would read off it are
+      withheld on an undated house (`elevation`'s `front.withheld`), so no verdict rests on it.
     - `stated`: a return row is canonical at the house's date. The return runs out and stops; how
       far is R8a's judgment, not this record's, and the drawing says so.
     - `plain`: no row is canonical and the record states its own return depth as a band in inches
@@ -436,7 +440,8 @@ def return_at(rec, date=None):
     if canon:
         # `none` canonical beside a canonical return would be a record contradicting itself; the
         # refusal wins, as a ban does, because drawing what the record may rule out is the worse
-        # error of the two (A3's reading of an undated house, one slot over)
+        # error of the two (A3's reading of an undated house carried one slot over -- a reading,
+        # named in the docstring above, and not what A3 ruled)
         pick = [v for v in canon if v.get("id") == "none"] or canon
         dated = sorted({tuple((v.get("applies_when") or {}).get("date_range"))
                         for v in pick if (v.get("applies_when") or {}).get("date_range")})

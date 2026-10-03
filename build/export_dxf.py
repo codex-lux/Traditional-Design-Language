@@ -563,8 +563,11 @@ def export_section_dxf(section, path):
     doc = _new_doc(ezdxf)
     msp = doc.modelspace()
     fp = section["footprint"]
-    span = min(fp["width_ft"], fp["depth_ft"]) * IN
     roof = section["roof"]
+    # THE SPAN THE RIDGE WAS RAISED OVER (WP-16.8): `structure.roof_heights` states it, read through
+    # `threshold.ridge_span`, and the SVG section draws the same; the shorter dimension is kept only
+    # for a record that states none
+    span = (roof.get("span_ft") or min(fp["width_ft"], fp["depth_ft"])) * IN
 
     grade = _layer(doc, "TDL-SECT-GRADE", color=7)
     wall = _layer(doc, "TDL-SECT-WALL", color=7)
@@ -603,10 +606,17 @@ def export_section_dxf(section, path):
         # (WP-14.3). `_note` is the elevation's MTEXT, and reads back as it was given.
         # Beneath the title, as the elevation sets its notes, so its lines run down clear of the
         # drawing whatever their number.
-        _note(msp, anno, f"RIDGE UNJUDGED - {roof.get('note') or ''}", 0, -6 * TEXT_H,
-              max(span, 400.0))
+    y = -6.0 * TEXT_H
+    if ridge_ft is None:
+        n = _note(msp, anno, ("NO ROOF DRAWN - " if roof.get("refused") else "RIDGE UNJUDGED - ")
+                  + (roof.get("note") or ""), 0, y, max(span, 400.0))
+        y -= (n * MTEXT_PITCH + 0.5) * TEXT_H
     _text(msp, anno, f"{section.get('plan_id','')} - SECTION - {section.get('style','')} - "
                      f"{section['wall']['construction_type']}", 0, -4 * TEXT_H)
+    # T3, as the section sheet says it (WP-16.8, the audit of Phase 16), beneath the notes
+    _rj = _mod("disclosures", os.path.join(ROOT, "build", "disclosures.py")).roof_form_judgment(roof)
+    if _rj:
+        _note(msp, anno, _rj, 0, y, max(span, 400.0))
     doc.saveas(path)
     return {"path": path, "sheets": "section"}
 
@@ -749,6 +759,39 @@ def export_elevation_dxf(elev, path, face=None):
     else:
         msp.add_lwpolyline([(0, 0), (span, 0), (span, top_of_wall), (0, top_of_wall)],
                            close=True, dxfattribs={"layer": wall})
+    # THE WATER TABLE AND THE BELT COURSE, as the sheet draws them (WP-16.8, the audit of Phase 16).
+    # This file drew neither, on any face, from the day WP-5.1 wrote it, while the sheet has drawn
+    # both since WP-3.2 at the projections their record states, and printed the refusal of each
+    # (WP-16.4) on the CAD file through the face's own notes. `elevation.band_marks` is the one
+    # reader of whether each is drawn and with what figures. Where a band passes in front of a
+    # stack beside the face its lines are masked first, as the cornice's are below.
+    bands = EL.band_marks(elev)
+    band_layer = _layer(doc, "TDL-ELEV-BAND", color=7)
+    _band_boxes = []
+    if bands["water_table"]:
+        _w = bands["water_table"]
+        _band_boxes.append(("water table", -_w["projection_in"], span + _w["projection_in"], 0.0,
+                            _w["top_in"], _w["projection_in"]))
+    if bands["belt"]:
+        _b = bands["belt"]
+        _band_boxes.append(("belt course", -_b["projection_in"], span + _b["projection_in"],
+                            _b["bottom_in"], _b["bottom_in"] + _b["height_in"], _b["projection_in"]))
+    for _name, u0, u1, h0, h1, _proj in _band_boxes:
+        for mk in beside:
+            pts = _stack_pts(mk)
+            su0, su1 = min(p[0] for p in pts) - 0.5, max(p[0] for p in pts) + 0.5
+            sh0, sh1 = min(p[1] for p in pts), max(p[1] for p in pts)
+            mu0, mu1, mh0, mh1 = max(su0, u0), min(su1, u1), max(sh0, h0), min(sh1, h1)
+            if mu1 - mu0 > 0.5 + 1e-6 and mh1 - mh0 > 1e-6:
+                _mask([(mu0, mh0), (mu1, mh0), (mu1, mh1), (mu0, mh1)])
+        bx = msp.add_lwpolyline([(u0, h0), (u1, h0), (u1, h1), (u0, h1)], close=True,
+                                dxfattribs={"layer": band_layer})
+        _xdata(bx, "TDL::band", {"band": _name, "projection_in": _proj,
+                                 "source": (elev.get("water_table_belt") or {}).get("source")})
+    if bands["water_table"]:
+        for mm in bands["water_table"]["members"]:
+            msp.add_line((-mm["projection_in"], mm["y_in"]), (span + mm["projection_in"], mm["y_in"]),
+                         dxfattribs={"layer": band_layer})
     # THE FRIEZE AND THE CORNICE, EACH AT ITS OWN PROJECTION, AND THE CORNICE WITH ITS MEMBERS
     # (Phase 15, WP-15.7). This drew ONE box from the wall head to the true eave at the cornice's
     # projection, as the sheet did, so the frieze stood proud of a wall its record says it is
@@ -959,12 +1002,32 @@ def export_elevation_dxf(elev, path, face=None):
                                                   "source": "sash-light: 'about 1 1/2 in of jamb, "
                                                             "pulley stile and parting-bead "
                                                             "clearance'"})
+        # THE SHUTTER LEAVES THE SHEET DRAWS, DRAWN (WP-16.8, the audit of Phase 16, auditor C).
+        # This file drew no leaf on any face while it printed the sheet's own sentences about them
+        # -- "EACH ONE'S LIGHTS AND SHUTTER LEAVES ARE SASH-LIGHT'S RULE", "DOOR AND SHUTTER PANELS
+        # ARE DRAWN AS THEIR ARRANGEMENT" -- so the CAD file of the spec Colonial's south front
+        # described eight leaves it did not have. `elevation.shutter_leaves`, the one spelling.
+        for lf in EL.shutter_leaves(x0, x1, head, r.get("shutter_leaf_width_in"),
+                                    r.get("shutter_leaf_height_in"), r.get("shutter_panel_count")):
+            for bx in [lf] + lf["panels"]:
+                msp.add_lwpolyline([(bx["x0"], bx["y0"]), (bx["x1"], bx["y0"]),
+                                    (bx["x1"], bx["y1"]), (bx["x0"], bx["y1"])],
+                                   close=True, dxfattribs={"layer": sash})
 
     ent = elev["entrance"]
     # WP-12.2: ONE LOOP, in `elevation.opening_rects` — the blind-bay skip, the
     # door-at-the-entrance-face branch and the two storeys. The comment below is kept because
     # the defect it records is the reason this loop is no longer written twice.
     for r in EL.opening_rects(elev, face)["rects"]:
+        # AN OPENING STANDS IN FRONT OF A BAND IT CROSSES (WP-16.8): the sheet fills every opening
+        # over the water table and the belt it drew first, so the band is not seen through a door.
+        # Every ground door crosses the water table -- its top is above the floor the door opens
+        # from, 3.5 in on the Tidewater plan and 9.8 in on the frame houses -- so the opening's
+        # area is masked before its lines are drawn, as the stacks are.
+        _ox0, _ox1, _osl, _ohd = r["x0_in"], r["x1_in"], r["sill_in"], r["head_in"]
+        if any(min(_ox1, b[2]) - max(_ox0, b[1]) > 1e-6 and min(_ohd, b[4]) - max(_osl, b[3]) > 1e-6
+               for b in _band_boxes):
+            _mask([(_ox0, _osl), (_ox1, _osl), (_ox1, _ohd), (_ox0, _ohd)])
         # A BLIND BAY CARRIES NO OPENING AT EITHER STOREY (OQ 85). The bay holds its place in the
         # rhythm and a chimney stack stands on its axis, so there is nothing to draw. Missed when
         # the blind bay was introduced: this loop read `if door ... else window`, so `blind` fell

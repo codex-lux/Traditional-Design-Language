@@ -5,7 +5,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { whyText, isNative, nativityOf, NATIVITY_TERMS, byScore, ORDERS, order } from './candidateOrder.js';
+import { whyText, isNative, nativityOf, NATIVITY_TERMS, byScore, ORDERS, order, unjudgedFatalsOf } from './candidateOrder.js';
 
 test('whyText joins the reasons list instead of concatenating it', () => {
   const why = ['native to tidewater-georgian',
@@ -156,6 +156,24 @@ test('R13: between equal fatal counts, fewer UNJUDGED fatals ranks higher, befor
   assert.deepEqual(list.slice().reverse().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
     ['clean-few-unjudged-low', 'clean-many-unjudged-high', 'one-fatal-none-unjudged']);
   assert.match(ORDERS.fatal.says, /could judge/i, 'the sentence must say what breaks the tie');
+});
+
+test('R13 reads the count off the card the composer serves, and the Candidate Set reads it there', () => {
+  /* WP-16.8 (auditor E's E45). The test above hands the count in, so an adapter writing
+     `unjudged_fatal_n: 0` left every app test green. The served card carries the LIST
+     (`compose.unjudged_fatals`); `unjudgedFatalsOf` is the one reader, and the surface reads it. */
+  const served = (parti, score, fatal, unjudged) => ({
+    parti, score, counts: { fatal }, unjudged_fatal: unjudged.map((f) => ({ fault: f, severity: 'fatal' })) });
+  const cards = [served('two-unjudged', 90, 0, ['a', 'b']), served('one-unjudged', 10, 0, ['a']),
+                 served('none-served', 50, 0, []), { parti: 'no-field', score: 5, counts: { fatal: 0 } }]
+    .map((c) => ({ parti: c.parti, score: c.score, fatal_n: c.counts.fatal,
+                   unjudged_fatal_n: unjudgedFatalsOf(c).length }));
+  assert.deepEqual(cards.map((c) => c.unjudged_fatal_n), [2, 1, 0, 0]);
+  assert.deepEqual(cards.slice().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
+    ['none-served', 'no-field', 'one-unjudged', 'two-unjudged']);
+  const src = readFileSync(new URL('./surfaces/CandidateSet.jsx', import.meta.url), 'utf8');
+  assert.match(src, /unjudged_fatal: unjudgedFatalsOf\(c\),/);
+  assert.match(src, /unjudged_fatal_n: unjudgedFatalsOf\(c\)\.length,/);
 });
 
 test('an unjudged fatal never disqualifies: the demotion reads judged fatals alone', () => {

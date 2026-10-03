@@ -2209,9 +2209,12 @@ def _gable_faces_of(roof):
     """The faces a gable end stands on, read here off the roof record's own form and ridge, never
     off `elevation.gable_faces`, which is part of the subject (WP-16.5): a gable form's ends are the
     two walls square to its ridge; a hip, and a gable-on-hip, carry the eave round every face and
-    have none; a form the record does not model is None, unjudged."""
+    have none; a form the record does not model is None, unjudged -- and so is a roof the record
+    REFUSED (B8), which the generator declined to draw (WP-16.8, U9)."""
     main = (roof or {}).get("main") or {}
     form, axis = main.get("form"), (main.get("ridge") or {}).get("axis")
+    if main.get("refused"):
+        return None
     if form in ("hip", "gable-on-hip"):
         return ()
     if form in ("gable", "side-gable", "front-gable", "gambrel", "cross-gable") and axis in ("x", "y"):
@@ -3673,7 +3676,12 @@ def s1():
         ink = IR.Ink(svg)
         pl = next((p for p in ink.frames() if p.get("proj") == "section"), None)
         eave = rec["section"]["roof"]["grade_to_eave_ft"]
-        span = min(rec["section"]["footprint"]["width_ft"], rec["section"]["footprint"]["depth_ft"])
+        # THE SPAN THE SECTION IS CUT ACROSS, as the record states it (WP-16.8): the section is cut
+        # across the ridge, and since B9 a ridge read relative to the entrance can run along the
+        # house's short side, so the span is good-03's 71.33 ft width and not the smaller of the two
+        # dimensions this read until then -- which put the right-hand wall 37 ft from where it stands
+        span = (rec["section"]["roof"].get("span_ft")
+                or min(rec["section"]["footprint"]["width_ft"], rec["section"]["footprint"]["depth_ft"]))
         # A WALL BODY is a CLOSED shape about as wide as the stated wall, standing from grade most of
         # the way to the eave, at either end of the span. The first version counted any `wl` path,
         # and the roof's own eave-to-ridge line is a `wl` path: three plans read as walls drawn.

@@ -161,7 +161,7 @@ class TestTheReading:
         r = RK.return_at(rec, 1750)
         assert (r["state"], r["variant"], r["writers"]) == ("stated", "full-return", ["b"])
         # undated: both rows apply, and the refusal wins, because drawing what the record may rule
-        # out is the worse of the two errors (A3, one slot over), and the sheet says the date is unstated
+        # out is the worse of the two errors (A3's reading carried one slot over -- a reading, not a ruling: A3 names forbidden rows; U14 in the WP-16.8 report), and the sheet says the date is unstated
         r = RK.return_at(rec, None)
         assert (r["state"], r["date_unstated"]) == ("none", True)
 

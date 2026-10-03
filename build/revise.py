@@ -160,7 +160,14 @@ def raises_fatal_or_serious(new, old):
     reclaim after the DECLARED loop with no rule at all -- measured at `a4abb85`, it raised
     fatals on 4 of the 13 candidates the Georgian brief composes, the native diagram among them.
     Both callers read this. `new` and `old` are dicts carrying `check` (a `plan_check` result)
-    and `key` (`critique.key_of` of it); only the minor axis may pay for the brief's area."""
+    and `key` (`critique.key_of` of it).
+
+    LEXICOGRAPHIC, AS THE LOOP'S OWN KEY IS (WP-16.8, the audit of Phase 16, auditor B): `new` is
+    worse where it carries more fatals, or as many fatals and more serious findings. So at an
+    equal fatal count only the minor axis may pay for the brief's area, and a step that lowers
+    the fatal count may raise the serious count (driven: [1, 10] -> [0, 30] is kept). This said
+    "only the minor axis may pay", which the comparison never did; no reclaim on either shipped
+    brief makes that trade (26 candidates, 5 rollbacks, each raising a fatal)."""
     return _judged_key(new, old)[:2] > old["key"][:2]
 
 

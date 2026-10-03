@@ -523,6 +523,11 @@ def export_ifc(plan, path, parti=None, geometry_result=None):
                            "pitch_source": m.get("pitch_source"),
                            "grade_to_eave_ft": m.get("grade_to_eave_ft"),
                            "grade_to_ridge_ft": (m.get("ridge") or {}).get("grade_to_ridge_ft")})
+        # T3 in the property set (WP-16.8, the audit of Phase 16, auditor D): the form is the kit's
+        # judgment where its writer flags it, said on the sheets and the roof plan and not here
+        _rj = _mod("disclosures", os.path.join(ROOT, "build", "disclosures.py")).roof_form_judgment(roof)
+        if _rj:
+            roof_props["form_judgment"] = _rj
         ridge = m.get("ridge") or {}
         if m.get("form") in GABLE_FORMS and ridge.get("grade_to_ridge_ft") and m.get("pitch_rise_per_12"):
             eave, ridge_h = m["grade_to_eave_ft"], ridge["grade_to_ridge_ft"]

@@ -570,8 +570,12 @@ class TestTheMeasurementsStoppedBeingConstants:
         for pid, (res, section, roof, elev) in built.items():
             fc = elev["front"]["complete"]
             assert fc["complete"] is False and fc["total_undrawn"] > 0, (pid, fc)
-            assert set(elev["front"]["withheld"]) == five, (pid, elev["front"]["withheld"])
-            assert all(v == fc["why"] for v in elev["front"]["withheld"].values()), pid
+            # the five, and since WP-16.8 the two pier figures (U8), each with the front's reason;
+            # anything else withheld is the rake's own per-house reason (`rake_withheld`)
+            r12 = five | set(EL._PIER_FIGURES)
+            w = elev["front"]["withheld"]
+            assert {k for k, v in w.items() if v == fc["why"]} == r12, (pid, w)
+            assert set(w) - r12 <= set(EL.RAKE_NAMES), (pid, sorted(set(w) - r12))
             assert f"{fc['total_undrawn']} declared window unit(s)" in fc["why"], fc["why"]
         one = copy.deepcopy(built["tidewater-georgian-careful"][0])
         one["levels"] = one["levels"][:1]

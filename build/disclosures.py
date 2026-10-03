@@ -405,11 +405,23 @@ def fires_not_drawn(plan):
     states no hearth or its massing cannot be read (`th-which-side-of-the-end-wall` and its
     siblings, on 15 of 16 shipped plans); that entry carries neither a `room` nor a `flue`, and
     a line saying FIRES NOT DRAWN over a house that states no fire would be a refusal about
-    nothing -- the fake-unjudged shape WP-12.6 met on dormers. Those take no line here."""
+    nothing -- the fake-unjudged shape WP-12.6 met on dormers. Those take no line here.
+
+    BUT ON A PLAN THAT STATES ITS FIRES, A STACK REFUSED WHOLESALE IS SAID (WP-16.8, the audit of
+    Phase 16, auditor C). The same wholesale entry carries the refusals Phase 16 made -- an
+    exterior stack the style's kit forbids (WP-16.4, R3), and the end stacks a hipped roof gives
+    nothing to rise through (B14; Lucas's answer R-4: "The stacks are refused and the reason
+    printed") -- and on a plan whose fires the placement judged (`placed_from` is
+    `stated-hearths`) the plan drew the fireplaces and no stack, and said nothing, while the
+    elevation, the DXF, the roof plan and the scene said why. Here it is the placement's own
+    reason, printed whole; on a plan that states no fire it still takes no line."""
     h = plan.get("hearths") or {}
     breasts = [u for u in (h.get("unplaced") or []) if u.get("room")]
     flues = [u for u in (h.get("unplaced") or []) if u.get("flue")]
-    if not breasts and not flues:
+    whole = ([u for u in (h.get("unplaced") or [])
+              if u.get("what") == "the stacks" and not u.get("room") and not u.get("flue")]
+             if h.get("placed_from") == "stated-hearths" else [])
+    if not breasts and not flues and not whole:
         return None
     stated = [b for b in (h.get("breasts") or []) if b.get("judged")]
     total = len(stated) if stated else len(breasts)
@@ -422,8 +434,10 @@ def fires_not_drawn(plan):
         parts.append("; ".join(
             f"STACK {f['flue'].upper()} NOT PLACED ({len(f.get('serves') or [])} FIRE(S), "
             f"NONE ON A BOUNDARY WALL)" for f in flues))
+    for u in whole:
+        parts.append("STACKS NOT DRAWN — " + " ".join(str(u.get("reason") or "").split()).upper())
     return {"id": "fires", "tone": IRON,
-            "detail": {"breasts": breasts, "flues": flues, "stated": total},
+            "detail": {"breasts": breasts, "flues": flues, "stacks": whole, "stated": total},
             "text": " — ".join(parts)}
 
 
@@ -592,8 +606,8 @@ def roof_stops_at_the_gable_wall(gable_faces):
     It states what the plan DRAWS, and never that a rake exists: a kit may keep the edge flush, or
     forbid the member, and a sentence refusing a rake that is not there would be a refusal about
     nothing. `gable_faces` is `elevation.gable_faces`' answer, the one reader of which faces are
-    gable ends: None (a form the generator does not model) and () (a hip, a gable-on-hip, a
-    refused roof) take no line."""
+    gable ends: None (a form the generator does not model, or a roof it refuses to draw) and () (a
+    hip, a gable-on-hip) take no line."""
     if not gable_faces:
         return None
     return ("AT EACH GABLE END THE ROOF IS DRAWN TO THE WALL — THE ROOF RECORD STATES NO RAKE PAST "

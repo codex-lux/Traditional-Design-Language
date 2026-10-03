@@ -393,25 +393,26 @@ def _window(s, rect, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, s
     # SHUTTERS, where the style carries them. A leaf of None is a style whose kit says it has none
     # -- the solid-brick Chesapeake house is the case, and drawing a pair anyway is drawing a
     # detail four records say was never there. Absent, not zero-width.
-    if shutter_w and shutter_h:
-        sw, sh = shutter_w / 12.0 * scale, shutter_h / 12.0 * scale
-        # THE FRAMING, at this scale. A 2 in stile is 4 px at 1/4 in = 1 ft, so the leaf reads as
-        # framing with fielded panels inside it rather than as a plain rectangle with one line.
-        # The panels are graduated three-below-two by the sash division (see elevation.py); the
-        # stile and rail WIDTHS are not published for any Chesapeake example, so the frame is
-        # drawn at the leaf's own proportion and the panels sit inside it -- what is drawn is the
-        # panel COUNT, which is sourced, not a stile width, which is not.
-        for side, sx0 in ((-1, x0 - sw), (1, x1)):
-            out.append(f'<rect class="sh w-med" x="{sx0:.1f}" y="{yt:.1f}" width="{sw:.1f}" height="{sh:.1f}"/>')
-            n = max(1, int(panel_count or 2))
-            inset = min(sw * 0.16, sh * 0.03)
-            for k in range(n):
-                py0 = yt + sh * (k / n) + inset
-                py1 = yt + sh * ((k + 1) / n) - inset
-                if py1 - py0 < 2.0:
-                    continue                      # below 2 px a panel is not a panel
-                out.append(f'<rect class="pnl w-fine" x="{sx0 + inset:.1f}" y="{py0:.1f}" '
-                           f'width="{sw - 2 * inset:.1f}" height="{py1 - py0:.1f}"/>')
+    # THE FRAMING, at this scale. A 2 in stile is 4 px at 1/4 in = 1 ft, so the leaf reads as
+    # framing with fielded panels inside it rather than as a plain rectangle with one line. The
+    # panels are graduated three-below-two by the sash division (see elevation.py); the stile and
+    # rail WIDTHS are not published for any Chesapeake example, so the frame is drawn at the leaf's
+    # own proportion and the panels sit inside it -- what is drawn is the panel COUNT, which is
+    # sourced, not a stile width, which is not. `elevation.shutter_leaves` is the one spelling,
+    # which the DXF draws too (WP-16.8).
+    for lf in EL.shutter_leaves(rect["x0_in"], rect["x1_in"], rect["head_in"], shutter_w, shutter_h,
+                                panel_count):
+        sx0, sx1 = X(lf["x0"] / 12.0), X(lf["x1"] / 12.0)
+        ly0, ly1 = Ypx(lf["y1"] / 12.0), Ypx(lf["y0"] / 12.0)
+        out.append(f'<rect class="sh w-med" x="{sx0:.1f}" y="{ly0:.1f}" width="{sx1 - sx0:.1f}" '
+                   f'height="{ly1 - ly0:.1f}"/>')
+        for pn in lf["panels"]:
+            py0, py1 = Ypx(pn["y1"] / 12.0), Ypx(pn["y0"] / 12.0)
+            if py1 - py0 < 2.0:
+                continue                      # below 2 px a panel is not a panel
+            px0, px1 = X(pn["x0"] / 12.0), X(pn["x1"] / 12.0)
+            out.append(f'<rect class="pnl w-fine" x="{px0:.1f}" y="{py0:.1f}" '
+                       f'width="{px1 - px0:.1f}" height="{py1 - py0:.1f}"/>')
     return "".join(out)
 
 def _dormers(elev, roof, profile_ft, X, Ypx, scale, face):
@@ -912,7 +913,10 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # was drawn INSIDE the water table's block, so no refusal could reach one without the other;
     # they are two slots and two blocks now, and a refused band's figures are absent in the record
     # (`elevation.water_table_and_belt`), which is what each block reads. The face says why.
-    if wtb["applicable"] and wtb.get("water_table_height_above_finished_grade_in") is not None:
+    # WHETHER EACH IS DRAWN is `elevation.band_marks`' (WP-16.8, the audit of Phase 16): the CAD
+    # elevation and the scene read the same answer, where the scene had a third spelling of it.
+    _bm = EL.band_marks(elev)
+    if _bm["water_table"]:
         wt_top_ft = wtb["water_table_height_above_finished_grade_in"] / 12.0
         wt_o = proj_px(wtb.get("water_table_projection_in"))
         s.append(f'<rect class="wt w-prof" x="{X(0)-wt_o:.1f}" y="{Ypx(wt_top_ft):.1f}" '
@@ -928,8 +932,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
             yy = Ypx(mm["y_top_in"] / 12.0)
             mo = proj_px(mm.get("projection_in"))
             s.append(f'<line class="wtm" x1="{X(0)-mo:.1f}" y1="{yy:.1f}" x2="{X(span_ft)+mo:.1f}" y2="{yy:.1f}"/>')
-    if (wtb["applicable"] and wtb.get("belt_height_above_first_floor_in") is not None
-            and wtb.get("belt_height_in") is not None):
+    if _bm["belt"]:
         belt_ft = floor2_ft
         belt_h_ft = wtb["belt_height_in"] / 12.0
         # A brick belt has no projection rule of its own in the pack (it reads as a course,

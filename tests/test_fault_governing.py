@@ -12,6 +12,8 @@ The synthetic faults are added to the corpus's own cached dict for one test and 
 so `check_measurements` walks them exactly as it walks a record from `faults/`.
 """
 import copy
+import glob
+import json
 import os
 import sys
 
@@ -134,15 +136,45 @@ class TestTheGoverningTestDeclined:
         assert "ran" not in row and "secondaries_not_run" not in row
 
     def test_a_declined_governing_test_beside_an_ungated_secondary_is_not_applicable(self, judge):
-        """Unreachable from the corpus (no fault gates its primary and not its secondaries) and
-        therefore driven: the governing test decided the question does not arise. What ran is
-        carried as evidence, and the note says the governing test decided, not every test."""
+        """Driven: the governing test decided the question does not arise. What ran is carried as
+        evidence, and the note says the governing test decided, not every test.
+
+        THIS DOCSTRING SAID THE STATE WAS "UNREACHABLE FROM THE CORPUS (no fault gates its primary
+        and not its secondaries)" AND WP-16.6 MADE IT REACHABLE: the pier fault's primary was gated
+        alone, and seven shipped plans read not applicable with a secondary run (WP-16.8, the audit
+        of Phase 16). The corpus half of the claim is held by the test below now, not asserted."""
         w = {"expression": "n", "direction": "at-least", "threshold": 1}
         state, row = judge(_fault("drv-gov-declined", _t("gov_a", applies_when=w), [SEC]),
                            {"n": 0, "sec_x": 1.0})
         assert state == "not_applicable"
         assert [x["expression"] for x in row["ran"]] == ["sec_x"]
         assert "governing test" in row["note"]
+
+    def test_no_shipped_fault_gates_its_primary_and_leaves_a_sibling_ungated(self):
+        """WP-16.8. A fault whose governing test asks a question only a premise makes meaningful --
+        a pier, a dormer, a shutter -- is gated on that premise, and every sibling test asks the
+        same question, so it is gated the same way: the convention WP-16.1 followed for the
+        alignment and overscaled-dormer faults, and the one WP-16.6 broke for the pier fault. An
+        ungated sibling is listed here only with the reason it asks about something else."""
+        asks_otherwise = {
+            ("shutter-on-an-unshutterable-opening", "exception:creole-cottage-vernacular"):
+                "its blind leaf hangs on a DOOR, which the window shutters' leaf count does not decide",
+        }
+        found = []
+        for path in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
+            f = json.load(open(path, encoding="utf-8"))
+            gate = (f.get("test") or {}).get("applies_when")
+            if not gate:
+                continue
+            sibs = [(f"secondary:{i}", t) for i, t in enumerate(f.get("secondary_tests") or [])]
+            sibs += [(f"exception:{e.get('style')}", e["bounds_test"])
+                     for e in f.get("exceptions") or [] if e.get("bounds_test")]
+            for name, t in sibs:
+                if not t.get("applies_when") and (f["id"], name) not in asks_otherwise:
+                    found.append((f["id"], name, t.get("expression")))
+        assert not found, ("a gated primary beside an ungated sibling: on a house without the "
+                           f"premise the sibling runs and the fault reads not applicable with it run "
+                           f"(or present, if it fails): {found}")
 
     def test_a_declined_governing_test_does_not_excuse_a_failing_secondary(self, judge):
         w = {"expression": "n", "direction": "at-least", "threshold": 1}
@@ -208,20 +240,31 @@ class TestTheCorpusGates:
     """Four faults ask a question that presupposes a thing the house may not have, and each is
     gated on it: not applicable where it is absent, unjudged where nobody says."""
 
-    @pytest.mark.parametrize("fid,premise", [
-        ("storeys-out-of-vertical-alignment", "storey_count"),
-        ("top-heavy-second-storey", "storey_count"),
-        ("ungraduated-storeys", "storey_count"),
-        ("overscaled-dormer", "dormer_count"),
+    @pytest.mark.parametrize("fid,premise,threshold,at_least", [
+        ("storeys-out-of-vertical-alignment", "storey_count", 2, 3),
+        ("top-heavy-second-storey", "storey_count", 2, 3),
+        ("ungraduated-storeys", "storey_count", 2, 3),
+        ("overscaled-dormer", "dormer_count", 1, 3),
+        # the three the audit of Phase 16 gated, or gated whole (WP-16.8)
+        ("closet-on-the-exterior-wall", "storey_count", 2, 1),
+        ("pier-narrower-than-the-opening", "count_of_window_piers_on_the_front", 1, 3),
+        ("dormer-off-the-bay", "dormer_count", 1, 3),
     ])
-    def test_every_test_and_every_licence_is_gated_on_the_premise(self, fid, premise):
+    def test_every_test_and_every_licence_is_gated_on_the_premise(self, fid, premise, threshold,
+                                                                   at_least):
+        """THE WHOLE GATE, THRESHOLD INCLUDED (WP-16.8, the audit of Phase 16, auditor E). This
+        compared the expression and the direction alone, so the alignment fault's gate could be
+        loosened to `storey_count at-least 1` -- a gate that never declines, so a one-storey front
+        of one or two bays is convicted of a fatal fault by its `bay_count` secondary -- with every
+        test green (mutation E03)."""
         f = CORE._data()["faults"][fid]
         tests = [f["test"]] + list(f.get("secondary_tests") or []) + \
             [e["bounds_test"] for e in f.get("exceptions") or [] if e.get("bounds_test")]
-        assert len(tests) >= 3
+        assert len(tests) >= at_least
         for t in tests:
             w = t.get("applies_when") or {}
-            assert w.get("expression") == premise and w.get("direction") == "at-least", t["expression"]
+            assert (w.get("expression"), w.get("direction"), w.get("threshold")) == \
+                (premise, "at-least", threshold), t["expression"]
 
     @pytest.mark.parametrize("path", [
         "plans/reference/good-02-portico-library-house.json",
@@ -382,7 +425,11 @@ class TestOneReaderOfAnIncompleteFront:
         part["front"]["complete"] = {"complete": False, "why": "driven"}
         m_part = EL._derive_measurements(part)
         assert [k for k in five if k in m_part] == []
-        assert set(m_whole) - set(m_part) == set(five)
+        # AND THE PIER FIGURES WITH THEM (WP-16.8, U8): a pier between the windows the placer drew
+        # is decided by the ones it refused, so the count and the narrowest go where the five go
+        piers = set(EL._PIER_FIGURES) & set(m_whole)
+        assert "count_of_window_piers_on_the_front" in piers, sorted(m_whole)
+        assert set(m_whole) - set(m_part) == set(five) | piers
         # and the record the elevation wrote for itself names every withheld figure. The premise
         # is asserted rather than branched on: this plan's front IS incomplete on the heuristic
         # (2 ground units and 1 upper unit undrawn, measured 29 Sep 2026), and a guard that ran
@@ -532,6 +579,38 @@ class TestTheReclaimIsHeldToTheLoopsRule:
                 "a reclaim that was rolled back must not be reported as done")
             assert c["_repaired_lengths"] and c["_lengths"] == c["_repaired_lengths"], (
                 "the record returned must carry the repaired sizes, not the shortened ones")
+
+    def test_a_reclaim_that_trades_a_verdict_for_a_serious_is_rolled_back(self, monkeypatch):
+        """WP-16.8 (auditor E's E07): the stub above raises a JUDGED count, so a reclaim reading
+        the raw key would roll it back too and the lost-verdict half was driven only on the rule
+        itself. Here the reclaim leaves one fault present before UNJUDGED -- its count falls by
+        one -- and adds one serious. On the raw key that is no worse (a fatal fewer, or a serious
+        traded for a serious); counted where it stood, it is one serious worse."""
+        import json as _json
+        brief = _json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
+        real = CO.reclaim
+        seen = {"lost": 0}
+
+        def fake(plan, target, tol, res):
+            out = copy.deepcopy(res)
+            f = next((x for x in out["findings"] if x.get("kind") == "fault-present"
+                      and x.get("severity") in ("fatal", "serious")), None)
+            if f is None:
+                return out, []
+            out["findings"].remove(f)
+            out.setdefault("fault_unjudged", []).append({"fault": f["fault"]})
+            out["counts"][f["severity"]] -= 1
+            out["counts"]["serious"] = out["counts"].get("serious", 0) + 1
+            seen["lost"] += 1
+            return out, ["Shortened 3 rooms, and one verdict went with them."]
+        monkeypatch.setattr(CO, "reclaim", fake)
+        res = CO.compose(brief, candidates=2, revise=False)
+        monkeypatch.setattr(CO, "reclaim", real)
+        assert seen["lost"], "the premise: some candidate carried a present fault to lose"
+        rolled = [c["reclaimed"] for c in res["candidates"] if c.get("reclaimed")]
+        assert rolled and all(rc["rolled_back"] is True for rc in rolled), rolled
+        assert not [rc for rc in rolled if rc["key_after"][:2] > rc["key_before"][:2]], (
+            "the raw key must not be worse, or this drives nothing the stub above does not")
 
     def test_a_reclaim_that_raised_only_minor_is_kept(self, monkeypatch):
         for c in self._compose_with(monkeypatch, {"minor": 3}):

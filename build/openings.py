@@ -1004,9 +1004,22 @@ def _seat_line(ws, base, pier, centre, aligned, mode):
 
     `mode` is "pier" (R5: the wall between two windows at least the floor x the wider, every window
     on the line -- whichever room it lights -- counted) or "foot" (the floor spared, R5b: the
-    placer's old foot inside one room). Aligned units go first, each at EXACTLY the axis of the
-    opening below or refused (R6, and R5 with R6); then the rest, the units nearest the centre of
-    the composition first, so the centre holds and the outer window moves (R5a).
+    placer's old foot inside one room). In "pier" mode every unit is seated in ONE queue, the units
+    nearest the centre of the composition first, so the centre holds and the outer window moves
+    (R5a): an aligned unit at EXACTLY the axis of the opening below or refused (R6, and R5 with R6
+    read together: "an upper window that, once aligned, would break the upper pier floor cannot be
+    taken there, so it is refused by name"), and the rest by the floor and the aim.
+
+    ONE QUEUE SINCE THE AUDIT OF PHASE 16 (WP-16.8, auditor A). WP-16.6 seated every aligned unit
+    before any other and attributed that order to R6, which states none. Where an outer aligned
+    window and an inner one contend for the floor, R5a's words decide which yields -- "windows
+    nearer the entrance keep their places, and on other faces those nearer the face's centre do;
+    the outer window moves along its own wall, or is refused by name" -- and the aligned-first
+    order refused the INNER window: on spec-builder-colonial's upper south face the primary
+    chamber's unit preferring 9.0 ft was refused for the pier so the unit aligned at 6.745 ft could
+    keep its axis. In "foot" mode the order is the one the spared styles always had: aligned units
+    first, the rest in record order (a reading, named at WP-16.8: R5b spares the floor, and the
+    spared styles keep their whole old pass, order and all, and take no aim).
 
     THE AIM WHERE THE WALL ALLOWS. A unit is seated at the pack's aim (sash-light's
     `opening_width * 1.4`, where it reaches the style) where that costs no window: it takes the
@@ -1038,9 +1051,23 @@ def _seat_line(ws, base, pier, centre, aligned, mode):
         w = u["w"]
         return _seat(_free(w["lo"], w["hi"], spans_for(u, fn, seated)), w["width"], u["prefer"])
 
+    def fits_axis(u, seated):
+        w = u["w"]
+        axis, wd = aligned[id(u)][0], w["width"]
+        ext = (axis - wd / 2, axis + wd / 2)
+        free = _free(w["lo"], w["hi"], spans_for(u, WP.floor_ft, seated))
+        return ext, any(s - 1e-9 <= ext[0] and ext[1] <= e + 1e-9 for s, e in free)
+
     def floor_count(units_, seated):
+        # every unit still to come, each as it will be seated: an aligned one at its axis or not at
+        # all, the rest at the floor
         seated, n = list(seated), 0
         for v in units_:
+            if id(v) in aligned:
+                if fits_axis(v, seated)[1]:
+                    seated.append((aligned[id(v)][0], v["w"]["width"], v["w"]["room"]["id"]))
+                    n += 1
+                continue
             p = seat(v, WP.floor_ft, seated)
             if p is not None:
                 seated.append((p, v["w"]["width"], v["w"]["room"]["id"]))
@@ -1058,20 +1085,42 @@ def _seat_line(ws, base, pier, centre, aligned, mode):
     # the distance from the centre is ROUNDED before it orders anything: two units a third of a
     # wall either side of it are equidistant, and which of them the last bit of a double puts
     # first is not a reason to seat one rather than the other
-    first = sorted((u for u in units if id(u) in aligned),
-                   key=lambda u: (round(abs(aligned[id(u)][0] - centre), 6), aligned[id(u)][0]))
     if mode == "foot":
-        rest = [u for u in units if id(u) not in aligned]        # record order, as it always was
+        queue = (sorted((u for u in units if id(u) in aligned),
+                        key=lambda u: (round(abs(aligned[id(u)][0] - centre), 6), aligned[id(u)][0]))
+                 + [u for u in units if id(u) not in aligned])    # record order, as it always was
     else:
-        rest = sorted((u for u in units if id(u) not in aligned),
-                      key=lambda u: (round(abs(u["prefer"] - centre), 6), u["prefer"]))
-    for u in first:
+        def _at(u):
+            return aligned[id(u)][0] if id(u) in aligned else u["prefer"]
+        # ONE QUEUE, aligned and unaligned units together, nearest the centre first (R5a with the
+        # ruled "read together"; WP-16.8, auditor A: this seated every aligned unit first and
+        # called the order R6). Of two units equidistant from the centre the lower coordinate goes
+        # first (U13, taken as recommended under Lucas's standing instruction of 1 Oct 2026, never
+        # put): on the Tidewater hyphen's line it decides which of backhall's two units is refused.
+        queue = sorted(units, key=lambda u: (round(abs(_at(u) - centre), 6), _at(u)))
+    for i, u in enumerate(queue):
         w = u["w"]
+        if id(u) not in aligned:
+            if mode == "foot":
+                pos, how = seat(u, None, seated), "foot"
+            else:
+                pos, how = seat(u, WP.floor_ft, seated), "floor"
+                if pos is not None and pier.get("aim"):
+                    pa = seat(u, WP.aim_ft, seated)
+                    if pa is not None and (abs(pa - pos) < 1e-9 or
+                                           floor_count(queue[i + 1:], seated + [(pa, w["width"], w["room"]["id"])])
+                                           >= floor_count(queue[i + 1:], seated + [(pos, w["width"], w["room"]["id"])])):
+                        pos, how = pa, "aim"
+            if pos is not None:
+                seated.append((pos, w["width"], w["room"]["id"]))
+                out[id(u)] = {"pos": pos, "how": how}
+                continue
+            out[id(u)] = {"refused": "run" if mode == "foot" or bare_seat(u) is None else "pier"}
+            continue
         axis, kind = aligned[id(u)]
         wd = w["width"]
-        ext = (axis - wd / 2, axis + wd / 2)
-        free = _free(w["lo"], w["hi"], spans_for(u, WP.floor_ft, seated))
-        if any(s - 1e-9 <= ext[0] and ext[1] <= e + 1e-9 for s, e in free):
+        ext, fits = fits_axis(u, seated)
+        if fits:
             seated.append((axis, wd, w["room"]["id"]))
             out[id(u)] = {"pos": axis, "how": "aligned", "axis": axis, "below": kind}
             continue
@@ -1088,23 +1137,6 @@ def _seat_line(ws, base, pier, centre, aligned, mode):
                 why = (f"the wall to the window beside it would fall below {pier['floor']:g} x the "
                        f"wider window")
         out[id(u)] = {"refused": "alignment", "axis": axis, "below": kind, "why": why}
-    for i, u in enumerate(rest):
-        w = u["w"]
-        if mode == "foot":
-            pos, how = seat(u, None, seated), "foot"
-        else:
-            pos, how = seat(u, WP.floor_ft, seated), "floor"
-            if pos is not None and pier.get("aim"):
-                pa = seat(u, WP.aim_ft, seated)
-                if pa is not None and (abs(pa - pos) < 1e-9 or
-                                       floor_count(rest[i + 1:], seated + [(pa, w["width"], w["room"]["id"])])
-                                       >= floor_count(rest[i + 1:], seated + [(pos, w["width"], w["room"]["id"])])):
-                    pos, how = pa, "aim"
-        if pos is not None:
-            seated.append((pos, w["width"], w["room"]["id"]))
-            out[id(u)] = {"pos": pos, "how": how}
-            continue
-        out[id(u)] = {"refused": "run" if mode == "foot" or bare_seat(u) is None else "pier"}
     return out
 
 
@@ -1256,6 +1288,9 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
     for line in sorted(by_line, key=lambda k: (k[0], k[1])):
         ws = by_line[line]
         given = (centres or {}).get(line)
+        # a line with no centre given -- any face line but the entrance front's, a hyphen's among
+        # them -- holds about its own run's centre and not the entrance axis (U12, WP-16.8: taken as
+        # recommended under Lucas's standing instruction of 1 Oct 2026, never put)
         centre = given[0] if given else (ws[0]["face_run"][0] + ws[0]["face_run"][1]) / 2.0
         aligned = _assign_axes(ws, (below or {}).get(line) or []) if below is not None else {}
         if spared and below is None:

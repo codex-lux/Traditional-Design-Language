@@ -1354,10 +1354,19 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
             on this house. The row carries whatever ran and whatever did not.
 
         The fourth is the code's reading of the ruling for a case the ruling did not name:
-        the governing test decides, and it decided the question does not arise. It is
-        unreachable from the corpus as it stands -- no fault gates or scopes its primary
-        without gating its secondaries the same way -- and `tests/test_fault_governing.py`
-        drives it, so it is guarded rather than dead.
+        the governing test decides, and it decided the question does not arise. It is reached
+        wherever a fault gates its governing test and leaves a sibling ungated, and
+        `tests/test_fault_governing.py` drives it and holds the corpus to gating them alike.
+
+        THIS DOCSTRING CALLED THE FOURTH STATE UNREACHABLE (WP-16.1) AND IT WAS REACHED (WP-16.8,
+        the audit of Phase 16). WP-16.6 gated `pier-narrower-than-the-opening`'s primary on a
+        pier being drawn and left its two secondaries and five bounds tests ungated, so on seven
+        of the sixteen shipped plans the fault read not applicable with a secondary carried as
+        run -- the solid-to-void ratio, on an opening total the elevation states as its own
+        constant, which by the first rule above could have convicted a front whose governing
+        test says the question does not arise. Every test of that fault is gated now, and so
+        are `dormer-off-the-bay`'s three ungated bounds tests, which asked a house with no
+        dormer for a dormer's offset. The claim was a property of the corpus nobody checked.
 
         THE OLD `silent` STATE IS GONE. A fault every one of whose tests was scoped away came
         back as no state at all and was appended to nothing, the one collapse this function's

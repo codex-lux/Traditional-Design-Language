@@ -571,7 +571,14 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          # is hipped by italian-renaissance-revival's own kit (B1), and good-01
                          # takes shingle-style's gambrel, with its checks, at roof.py's family-wide
                          # default slopes, the difference of which is unjudged now (16.9n).
-                         "9a33eb415d7122ff5a4cf093f19c9ddd7482d58d0ad54b2ee17b76d50dc77c5e",
+                         # RE-DERIVED AT WP-16.8 (2 Oct 2026), PER ENTRY, ON A HARNESS PROVED TO
+                         # REPRODUCE `9a33eb41...` TO THE CHARACTER ON A WORKTREE OF `e604955`. One
+                         # entry of 180 moved, good-03, in `main` and `elevation_profiles` alone
+                         # (auditor C, C1): B9 turned its side-gable ridge to run on y and the ridge
+                         # was still raised over min(W, D), the 34.57 ft depth, so its gable ends
+                         # sloped at 2.42:12 under a 5:12 label. It rises over the span across the
+                         # ridge now (`threshold.ridge_span`, 71.33 ft): ridge 21.48 -> 29.14 ft.
+                         "c2415c8cfb4a3d6f86ab712662abc7b2498e46ccd4a030c5fb8e7c77359aa4b3",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "

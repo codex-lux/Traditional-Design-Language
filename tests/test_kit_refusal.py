@@ -62,6 +62,20 @@ def _elevation(plan, monkeypatch=None):
     return placed, EL.build_elevation(placed, None, section=sec, roof=rf)
 
 
+def _forbid_through_the_resolved_kit(monkeypatch, slot):
+    """No drawn style forbids its water table or its cornice whole, so the ban is driven -- and
+    driven where the corpus would put it, in the RESOLVED kit the elevation reads, bound `forbidden`
+    by a node called `somebody`. (WP-16.8, auditor E's E20: the first version patched the OUTPUT of
+    `envelope_refusals`, so deleting a row of `ENVELOPE_BANS` left both tests green.)"""
+    real = EL.RK.resolve_slots
+
+    def forbidding(graph, chain, scope=None):
+        slots, rest = real(graph, chain, scope)
+        return {**slots, slot: {**(slots.get(slot) or {}), "binding": "forbidden",
+                                "_bound_by": "somebody", "variants": []}}, rest
+    monkeypatch.setattr(EL.RK, "resolve_slots", forbidding)
+
+
 def _swept(style, monkeypatch, date="as-stated"):
     """The census's own construction: the Tidewater placement, the style swapped afterwards."""
     monkeypatch.setattr(G, "_SOLVE_CACHE", {})
@@ -267,11 +281,7 @@ class TestTheElevationRefusesAndSaysWho:
             eave + el["eave_cornice"]["cornice_height_in"], abs=1e-6)
 
     def test_a_refused_water_table_is_driven_because_no_drawn_style_forbids_one(self, monkeypatch, tmp_path):
-        ban = {"writers": ["somebody"], "whole_slot": True, "rows": [], "dated": [], "date": None,
-               "date_unstated": False}
-        real = EL.envelope_refusals
-        monkeypatch.setattr(EL, "envelope_refusals",
-                            lambda slots, date=None: {**real(slots, date), "water table": ban})
+        _forbid_through_the_resolved_kit(monkeypatch, "water_table")
         _placed, el = _elevation(_plan(), monkeypatch)
         svg = _svg(el, tmp_path)
         assert 'class="wt w-prof"' not in svg and 'class="wt w-med"' in svg, \
@@ -283,11 +293,7 @@ class TestTheElevationRefusesAndSaysWho:
         assert "belt_height_in" in m
 
     def test_a_refused_cornice_is_driven_and_the_roof_stands_on_the_frieze(self, monkeypatch, tmp_path):
-        ban = {"writers": ["somebody"], "whole_slot": True, "rows": [], "dated": [], "date": None,
-               "date_unstated": False}
-        real = EL.envelope_refusals
-        monkeypatch.setattr(EL, "envelope_refusals",
-                            lambda slots, date=None: {**real(slots, date), "cornice": ban, "modillions": ban})
+        _forbid_through_the_resolved_kit(monkeypatch, "cornice")
         _placed, el = _elevation(_plan(), monkeypatch)
         svg = _svg(el, tmp_path)
         assert 'class="bd w-prof"' not in svg and 'class="bd fz w-med"' in svg
@@ -461,6 +467,39 @@ class TestAForbiddenExteriorStackIsRefusedByThePlacer:
         placed, _el = _elevation(_plan(), monkeypatch)
         assert placed["hearths"]["side"] == "exterior" and placed["hearths"]["stacks"]
 
+
+    def test_the_roof_the_roof_plan_the_scene_and_the_plan_sheet_refuse_the_same_stacks(self, monkeypatch, tmp_path):
+        """WP-16.8 (auditor C). `hearth_pass` writes the flues before it refuses the stacks, and
+        `roof.chimney_positions` read the flues: the roof plan drew both stacks and the scene drew
+        both axes while the elevation, the DXF and the plan drew none, under `hearth_pass`'s own
+        comment that none of them draws a stack another does not. Every surface refuses them now,
+        and says the ban and its writer."""
+        slots = copy.deepcopy(TH.resolved_slots("tidewater-georgian"))
+        hp = slots.setdefault("hearth_position", {"binding": "specified", "variants": []})
+        hp["variants"] = [v for v in hp.get("variants") or [] if v.get("id") != "exterior-end"] + [
+            {"id": "exterior-end", "status": "forbidden", "_written_by": "new-england-colonial"}]
+        monkeypatch.setattr(TH, "resolved_slots", lambda style: slots)
+        placed, sec, rf, el = _full(_plan(), monkeypatch)
+        assert placed["hearths"]["stacks"] == [], "the premise: the placer refused them"
+        ch = rf["chimneys"]
+        assert ch["positions"] == [] and ch.get("refused_by"), ch
+        assert "new-england-colonial's kit" in ch["note"], ch["note"]
+        out = str(tmp_path / "roof.svg")
+        modcache.load("render_roof", os.path.join(ROOT, "build", "render_roof.py")).render_roof(rf, out)
+        assert 'class="ch' not in open(out, encoding="utf-8").read(), "the roof plan drew a stack"
+        scene = SC.build_scene(placed, sec, rf, el)
+        assert not [x for x in scene["solids"] if x.get("class") == "chimney"]
+        said = [n for n in scene["not_modelled"] if n["what"] == "the chimney stacks"]
+        assert said and "new-england-colonial's kit" in said[0]["why"], scene["not_modelled"]
+        DI = modcache.load("disclosures", os.path.join(ROOT, "build", "disclosures.py"))
+        line = DI.fires_not_drawn(placed)
+        assert line and "FORBIDDEN BY NEW-ENGLAND-COLONIAL'S KIT" in line["text"], line
+
+    def test_control_on_the_shipped_kit_the_roof_and_the_scene_carry_both_stacks(self, monkeypatch):
+        placed, sec, rf, el = _full(_plan(), monkeypatch)
+        assert len(rf["chimneys"]["positions"]) == 2
+        scene = SC.build_scene(placed, sec, rf, el)
+        assert [x for x in scene["solids"] if x.get("class") == "chimney"]
 
 # ---------------------------------------------------------------- the sidelight fault is gated on the drawing
 class TestTheSidelightFaultAsksOnlyWhereSidelightsAreDrawn:

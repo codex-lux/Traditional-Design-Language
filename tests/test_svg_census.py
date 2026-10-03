@@ -1272,16 +1272,42 @@ class TestARefusedPairNoLongerBlocks:
         got = self._v27(monkeypatch, [(self.SHUTTERED, el, svg)])
         assert got[self.SHUTTERED]["verdict"] == "agrees", got[self.SHUTTERED]
 
-    @staticmethod
-    def _leafless(svg):
-        """The old rule's drawing: every drawn leaf gone from the ink, while the refusals stand."""
-        planted = re.sub(r'<rect[^>]*class="sh[ "][^>]*/>', "", svg)
-        assert planted != svg, "the plant did not land"
+    def _leafless(self, svg, el=None):
+        """The old rule's drawing, as narrow as it can be made: only the leaves the refused windows'
+        own leaves would lie over are taken from the ink, and every other drawn leaf stays.
+        (WP-16.8, E43: the first version took EVERY leaf, so V27's position clause and a bare "some
+        leaf is drawn" coincided, and replacing the overlap test by the latter stayed green.)"""
+        if el is None:
+            el = self._driven()[0]
+        IR = C.IR
+        ink = IR.Ink(svg)
+        pl = C._face_plate(ink)
+        refused = [r for r in self._rects(el) if "leaf" in (r.get("shutters_refused_by") or ())]
+        mine = [(a0, a1, r["sill_in"], r["head_in"]) for r in refused
+                for a0, a1 in ((r["x0_in"] - r["shutter_leaf_width_refused_in"], r["x0_in"]),
+                               (r["x1_in"], r["x1_in"] + r["shutter_leaf_width_refused_in"]))]
+        taken, kept = 0, 0
+
+        def strip(m):
+            nonlocal taken, kept
+            b = C._box(C._rects(IR.Ink("<svg>%s</svg>" % m.group(0)), "sh")[0])
+            u0, v0 = (12.0 * c for c in IR.to_model(pl, b[0], b[3]))
+            u1, v1 = (12.0 * c for c in IR.to_model(pl, b[2], b[1]))
+            d0, d1, e0, e1 = min(u0, u1), max(u0, u1), min(v0, v1), max(v0, v1)
+            if any(min(a1, d1) - max(a0, d0) > 0.05 and min(h, e1) - max(s, e0) > 0.05
+                   for a0, a1, s, h in mine):
+                taken += 1
+                return ""
+            kept += 1
+            return m.group(0)
+        planted = re.sub(r'<rect[^>]*class="sh[ "][^>]*/>', strip, svg)
+        assert taken and kept, ("the plant must take the hung neighbours' leaves and keep others",
+                                taken, kept)
         return planted
 
     def test_v27_sees_a_refusal_beside_no_drawn_leaf(self, monkeypatch):
         el, svg = self._driven()
-        r = self._v27(monkeypatch, [(self.SHUTTERED, el, self._leafless(svg))])[self.SHUTTERED]
+        r = self._v27(monkeypatch, [(self.SHUTTERED, el, self._leafless(svg, el))])[self.SHUTTERED]
         assert r["verdict"] == "disagrees" and "over no leaf the sheet draws" in r["detail"], r
 
     def test_v20_cannot_see_that_drawing(self, monkeypatch):
@@ -1290,7 +1316,7 @@ class TestARefusedPairNoLongerBlocks:
         test so that `_driven` does not read V20 into the body above, which requires a disagreement
         of V27 alone."""
         el, svg = self._driven()
-        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([(self.SHUTTERED, el, self._leafless(svg))]))
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([(self.SHUTTERED, el, self._leafless(svg, el))]))
         v20 = {x["subject"]: x for x in C.CHECKS["V20"]["fn"]()}
         assert v20[self.SHUTTERED]["verdict"] == "agrees", v20[self.SHUTTERED]
 
@@ -2688,8 +2714,9 @@ class TestTheWindowPierCanDisagree:
     @staticmethod
     def _narrow(el, gap_over_width):
         """The Tidewater front with the third chamber's right-hand sash driven along the face until
-        the wall between its two sashes is `gap_over_width` of the wider. They stand 1.4 apart as
-        placed (the aim), so the drive is the only thing that can put one under the floor."""
+        the wall between its two sashes is `gap_over_width` of the wider. They stand 1.143 apart as
+        placed (1.4, the aim, until WP-16.8's one queue held the inner sash), so the drive is the
+        only thing that can put one under the floor."""
         el = copy.deepcopy(el)
         a, b = sorted((p for p in el["faces"]["S"]["placed"]
                        if p["storey"] == "upper" and p["room"] == "chamber3" and p["kind"] == "window"),
@@ -2706,12 +2733,32 @@ class TestTheWindowPierCanDisagree:
         for face in ("S", "N"):
             r = self._one(monkeypatch, rec["elev"], rec["faces"][face], face)
             assert r["verdict"] == "agrees", (face, r)
-        assert "narrowest 1.400" in self._one(monkeypatch, rec["elev"], rec["faces"]["S"], "S")["detail"]
+        # 1.400 until WP-16.8 (the audit of Phase 16, auditor A): the third chamber's inner sash
+        # holds 33.0 ft under R5a's one queue, and the outer one stands on the door axis below at
+        # 40.5 ft, 4.0 ft of wall from it -- 1.143 x the 3.5 ft window, over the floor
+        assert "narrowest 1.143" in self._one(monkeypatch, rec["elev"], rec["faces"]["S"], "S")["detail"]
 
     def test_v26_sees_a_pier_under_the_floor(self, monkeypatch):
         el = self._narrow(self._rec()["elev"], 0.5)
         r = self._one(monkeypatch, el, self._render(el, "S"), "S")
         assert r["verdict"] == "disagrees" and "(0.500 against 1)" in r["detail"], r
+
+    def test_v26_holds_the_pier_to_the_wider_window(self, monkeypatch):
+        """R5's floor is 1.0 x the WIDER window, and every pair driven above is two equal sashes, so a
+        V26 holding the pier to the narrower window agreed with every driver here (WP-16.8, the audit
+        of Phase 16, auditor E: mutation E38, `max` -> `min`, 9 passed). One sash is drawn half as
+        wide again and the wall left at 1.2 x the narrower: 0.8 x the wider, under the floor."""
+        el = copy.deepcopy(self._rec()["elev"])
+        a, b = sorted((p for p in el["faces"]["S"]["placed"]
+                       if p["storey"] == "upper" and p["room"] == "chamber3" and p["kind"] == "window"),
+                      key=lambda p: p["cx_in"])
+        b["width_in"] = a["width_in"] * 1.5
+        d = (a["cx_in"] + a["width_in"] / 2.0 + 1.2 * a["width_in"] + b["width_in"] / 2.0) - b["cx_in"]
+        b["cx_in"] += d
+        b["u_ft"] = round(b["u_ft"] + d / 12.0, 4)
+        b["along_ft"] += d / 12.0
+        r = self._one(monkeypatch, el, self._render(el, "S"), "S")
+        assert r["verdict"] == "disagrees" and "(0.800 against 1)" in r["detail"], r
 
     def test_v26_holds_a_pier_just_over_the_floor(self, monkeypatch):
         """The tolerance is the print and no wider: a wall 1.05 of the wider is over the floor."""

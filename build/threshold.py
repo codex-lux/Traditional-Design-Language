@@ -308,6 +308,29 @@ def ridge_axis(form, W=None, D=None, front=None):
     return "x" if form == "hip" else "y"
 
 
+def ridge_span(form, W, D, front=None):
+    """The span a ridge rises over: the footprint's dimension ACROSS the ridge. ONE spelling, read
+    by `structure.roof_heights` for the section's ridge height -- which build/roof.py reuses for a
+    gable and a hip -- and by the section sheet and the section DXF for the span they draw.
+
+    A gable's ridge (side, front, a bare gable, a cross-gable's main ridge) rises over the dimension
+    across its own axis: `D` on a ridge along x, `W` on a ridge along y. A hip's planes, and a
+    gable-on-hip's, meet at the height the SHORTER dimension sets whichever way the ridge runs, and a
+    gambrel's ridge runs along the longer dimension (`ridge_axis`), so all three rise over
+    min(W, D), as does a form the roof layer does not model.
+
+    THE SPAN WAS min(W, D) FOR EVERY FORM UNTIL THE AUDIT OF PHASE 16 (WP-16.8, auditor C), which
+    is right only where the ridge runs along the longer dimension. B9 (Lucas, 30 Sep 2026) reads a
+    side gable's ridge relative to the entrance, so good-03, entered on its 34.57 ft west front,
+    runs its ridge along y and stands its gable ends on its 71.33 ft south and north walls, while
+    the ridge was still raised over the 34.57 ft: those two gable ends were drawn at 2.42:12 under
+    a label reading 5.0:12, on the sheet, in the DXF and in the scene, and the section drew the
+    roof across the house the other way."""
+    if form in ("gable", "side-gable", "front-gable", "cross-gable"):
+        return D if ridge_axis(form, W, D, front) == "x" else W
+    return min(W, D)
+
+
 def gable_end_points(W, D, axis):
     """The two gable ends' mid-wall points. ONE spelling, read by build/roof.py for the
     stack's HEIGHT and by hearth_pass below for its PLAN."""

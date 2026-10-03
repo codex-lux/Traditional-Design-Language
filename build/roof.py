@@ -171,12 +171,18 @@ def _rect_face_axis(form, W=None, D=None, front=None):
 
 def main_roof(plan, section, style):
     """The primary roof volume over the whole footprint. Reuses structure.py's own
-    grade_to_eave_ft/grade_to_ridge_ft for every form where its single-ridge-over-the-shorter-
-    dimension simplification is already the right answer (gable and hip alike -- a symmetric hip
-    and a symmetric gable roof of the same footprint and pitch share the same ridge HEIGHT; only
-    the plan-view outline differs, see roof_outline()/elevation_profile() below). Gambrel is the
-    one form whose ridge height genuinely differs from that simplification, computed
-    independently and reconciled explicitly rather than silently substituted."""
+    grade_to_eave_ft/grade_to_ridge_ft for every gable and hip form (a symmetric hip and a
+    symmetric gable roof of the same footprint and pitch share the same ridge HEIGHT; only the
+    plan-view outline differs, see roof_outline()/elevation_profile() below). Gambrel is the one
+    form whose ridge height genuinely differs from that simplification, computed independently
+    and reconciled explicitly rather than silently substituted.
+
+    THE SECTION RAISES ITS RIDGE OVER THE SPAN ACROSS THE RIDGE THIS FUNCTION DRAWS
+    (`threshold.ridge_span`, with the same form and `ridge_axis`; WP-16.8, the audit of Phase 16).
+    This docstring said "single-ridge-over-the-shorter-dimension" and the section rose over the
+    shorter dimension whatever the axis: once B9 ran good-03's side-gable ridge along its shorter
+    dimension, the ridge reused here was raised over the 34.57 ft span while the gable ends it
+    peaks stand on the 71.33 ft walls, and both were drawn at 2.42:12 under a 5.0:12 label."""
     fp = section["footprint"]
     W, D = fp["width_ft"], fp["depth_ft"]
     massing = _massing(plan.get("massing"))
@@ -484,6 +490,21 @@ def chimney_positions(plan, style, section, main):
                          f"'{form}', which has no full gable-end wall to run a stack through -- a real design "
                          f"would need an interior or off-ridge chimney solution this file does not model. "
                          f"Flagged rather than silently placed at a wall that is not actually a gable end.")}
+
+    # A STACK THE PLACEMENT REFUSED UNDER A BAN IS NOT PLACED HERE EITHER (WP-16.8, the audit of
+    # Phase 16, auditor C). `threshold.hearth_pass` refuses the exterior stacks wholesale where the
+    # style's resolved kit forbids one (WP-16.4, R3), and it writes the flues before it refuses, so
+    # this function read those flues and placed a chimney over each: the roof plan drew both as
+    # positions, the scene drew both as axes, and the elevation, the DXF and the plan drew none --
+    # under `hearth_pass`'s own comment that "none of them draws a stack another does not". The
+    # placement's words are the note, so every surface that prints this record's refusal says the
+    # ban and its writer, at the house's date.
+    hr0 = plan.get("hearths") if isinstance(plan.get("hearths"), dict) else None
+    banned = next((u for u in ((hr0 or {}).get("unplaced") or [])
+                   if u.get("what") == "the stacks" and u.get("ban")), None)
+    if banned:
+        return {"applicable": True, "positions": [], "source": source, "refused_by": banned["ban"],
+                "note": banned["reason"]}
 
     params = ((slots.get("chimney") or {}).get("parameters") or {})
     band = params.get("height_above_ridge_band", {}).get("range")

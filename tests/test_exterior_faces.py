@@ -388,8 +388,15 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 #                              canvas grows by those rows and every row below moves down with it
 #   three of them              spec-builder-colonial, good-02 and good-05: the dining room's corner
 #                              cupboard, and its key, take another corner because a window moved
-CORPUS_SHEET_SHA = "5ff56a1c52b0bd1a"
-CORPUS_SHEET_SHA_NO_FRAME = "b326fdc082112f5f"
+# WP-16.8 (2 Oct 2026, the audit of Phase 16), TWO SHEETS, ONE WINDOW EACH. The placer seats one
+# queue by distance from the centre (R5a, auditor A), and diffed mark by mark against a worktree of
+# `e604955` exactly two sheets move: the spec Colonial's upper `primary` window (its three marks and
+# the two wall bands beside the hole, 29.3 px) with the refusal line splitting "3 TOO NEAR THE NEXT
+# WINDOW" into 2 of those and 1 "UNABLE TO STAND ON THE AXIS OF THE OPENING BELOW" (auditor C's
+# C4 wording), and Tidewater's `chamber3` (the same five marks, 11.7 px). Fourteen are
+# byte-identical.
+CORPUS_SHEET_SHA = "29dc00e4556f5640"
+CORPUS_SHEET_SHA_NO_FRAME = "a9371d1ed1fe6a50"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

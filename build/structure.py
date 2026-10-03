@@ -341,23 +341,63 @@ def _style_roof_pitch(style):
 def roof_heights(plan, storeys, footprint_outside):
     """A rough grade-to-eave / grade-to-ridge for the SECTION record only -- not roof
     geometry (that is WP-3.3's own work package: hip/gable/gambrel form, ridge step-down,
-    dormers). Assumes a single ridge spanning the shorter of the outside footprint's two
-    dimensions, which is the common case for a simple gable or hip and is wrong for an
-    L-plan, a cross-gable, or a hyphen-and-dependency massing -- flagged in the returned
-    record's own note, not silently generalised."""
+    dormers). Assumes a single ridge over the whole outside footprint, which is wrong for an
+    L-plan, a cross-gable's wing, or a hyphen-and-dependency massing -- flagged in the returned
+    record's own note, not silently generalised.
+
+    THE RIDGE RISES OVER THE SPAN ACROSS IT, read through `threshold.ridge_span` with the form
+    and the ridge axis build/roof.py draws (WP-16.8, the audit of Phase 16). It rose over the
+    footprint's SHORTER dimension whatever the roof did, which is right only where the ridge
+    runs along the longer one; since B9 a side gable entered on its narrow front runs its ridge
+    the other way, and good-03's two gable ends were drawn at 2.42:12 under a 5.0:12 label. The
+    record states the form, the axis and the span it used, so the section sheet and its DXF draw
+    the span this number was raised over and no other.
+
+    A ROOF THE STYLE'S KIT REFUSES IS NOT RAISED (B8). `threshold.roof_form_reading` refuses the
+    fallback where the kit forbids it and build/roof.py draws no roof; the section printed a
+    ridge over it, at the style's pitch, under the other surfaces' "no roof is drawn"."""
     grade_to_eave = DEFAULT_GRADE_TO_FIRST_FLOOR_FT + sum(s["storey_height_ft"] for s in storeys if s.get("storey_height_ft"))
+    TH = _mod("threshold", f"{ROOT}/build/threshold.py")
+    W, D = footprint_outside["width_ft"], footprint_outside["depth_ft"]
+    reading = TH.roof_form_reading(plan, C["massings"].get(plan.get("massing"), {}))
+    form = reading["form"]
+    # THE READING THE ROOF IS DRAWN FROM, CARRIED (WP-16.8, the audit of Phase 16, auditors C and D):
+    # the same three fields build/roof.py's record carries, so the section and its DXF say T3's
+    # judgment (`disclosures.roof_form_judgment`) off the record they draw and never re-derive it
+    fr = {"by": reading.get("by"), "words": reading.get("words"), "kit": reading.get("kit")}
+    if reading.get("by") == "refused":
+        return {"grade_to_eave_ft": round(grade_to_eave, 2), "grade_to_ridge_ft": None,
+                "roof_pitch_rise_per_12": None, "pitch_source": None, "form": form,
+                "form_reading": fr,
+                # no ridge, so no axis; the walls are still cut, across the shorter dimension
+                "ridge_axis": None, "span_ft": round(min(W, D), 2),
+                "refused": {"why": reading["note"]}, "note": reading["note"]}
+    front = TH.entrance_front(plan)
+    axis, span_ft = TH.ridge_axis(form, W, D, front), TH.ridge_span(form, W, D, front)
     pitch, pitch_rule_id, pitch_statement = _style_roof_pitch(plan["style"])
+    # A GAMBREL'S RIDGE IS THE ROOF RECORD'S, NOT THIS SECTION'S (WP-16.8, the audit of Phase 16,
+    # auditor C). build/roof.py raises a gambrel on its own two slopes -- the family's figures where
+    # the style states none -- and states a ridge height (44.47 ft on good-01, gambrel by its kit
+    # since B1), while this section's single pitch either does not exist or is not that roof's; so
+    # the section said "RIDGE UNJUDGED ... rather than computed off an invented pitch" beside a roof
+    # record stating one. The section still draws no gambrel, and says whose ridge it is.
+    gambrel = (" A gambrel's ridge is not a single pitch's: build/roof.py raises it on the "
+               "gambrel's own two slopes (the family's default slopes where the style states none) "
+               "and states it in the roof record, and this section does not draw it."
+               if form == "gambrel" else "")
     if pitch is None:
         return {"grade_to_eave_ft": round(grade_to_eave, 2), "grade_to_ridge_ft": None,
                 "roof_pitch_rise_per_12": None, "pitch_source": None,
-                "note": f"No migrated roof-pitch constraint for style '{plan['style']}' -- ridge height left unjudged rather than computed off an invented pitch."}
-    half_span_ft = min(footprint_outside["width_ft"], footprint_outside["depth_ft"]) / 2.0
-    rise_ft = half_span_ft * (pitch / 12.0)
+                "form": form, "ridge_axis": axis, "span_ft": round(span_ft, 2), "form_reading": fr,
+                "note": f"No migrated roof-pitch constraint for style '{plan['style']}' -- ridge height left unjudged rather than computed off an invented pitch." + gambrel}
+    rise_ft = span_ft / 2.0 * (pitch / 12.0)
     return {
         "grade_to_eave_ft": round(grade_to_eave, 2), "grade_to_ridge_ft": round(grade_to_eave + rise_ft, 2),
         "roof_pitch_rise_per_12": pitch, "pitch_source": pitch_rule_id, "pitch_statement": pitch_statement,
-        "note": "Assumes a single ridge over the shorter footprint dimension (simple gable/hip case); a wing, ell, hyphen or "
-                "dependency needs its own ridge and is not modelled here -- see WP-3.3.",
+        "form": form, "ridge_axis": axis, "span_ft": round(span_ft, 2), "form_reading": fr,
+        "note": (f"A single ridge along {axis}, raised over the {span_ft:.2f} ft span across it "
+                 f"(threshold.ridge_span, the {form} roof build/roof.py draws); a wing, ell, hyphen or "
+                 f"dependency needs its own ridge and is not modelled here -- see WP-3.3." + gambrel),
     }
 
 # ---------------------------------------------------------------- stairs

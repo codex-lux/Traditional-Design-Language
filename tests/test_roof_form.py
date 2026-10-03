@@ -228,7 +228,8 @@ class TestTheRefusedRoofDrawnEndToEnd:
 
     def test_no_gable_end_no_rake_and_no_stack(self, refused):
         _s, p, rf, el = refused
-        assert EL.gable_faces(rf) == () and el["measurements"]["count_of_gable_end_walls"] == 0
+        # unjudged, never "no gable end" (WP-16.8, auditor B): the roof is refused, not a hip
+        assert EL.gable_faces(rf) is None and el["measurements"].get("count_of_gable_end_walls") is None
         for face in ("S", "N", "W", "E"):
             assert EL.rake_marks(el, face)["bands"] == [], face
         stacks = [u for u in (p.get("hearths") or {}).get("unplaced") or [] if u.get("what") == "the stacks"]
@@ -488,3 +489,22 @@ class TestARoofFromAJudgmentIsSaid:
         assert "ROOF FORM IS A JUDGMENT" not in plate
         for face, notes in faces.items():
             assert not any("ROOF FORM IS A JUDGMENT" in n for n in notes), face
+
+
+def test_every_nodes_kit_roof_outcome_is_pinned():
+    """WP-16.8 (auditor E's E29): `roof_vocabulary`'s mappings were held only to their own quotes
+    and to totality, so re-mapping `low-gable` to `hip` hipped ranch-style with the suite green --
+    V19 reads `RV.TABLE`, the subject's own table. This pins what every one of the 164 nodes
+    DRAWS: (style, state, form), as a digest and as counts. A move here is a roof a style is drawn
+    with, and is re-pinned only with each node named."""
+    import collections
+    import hashlib
+    ids = sorted(f[:-5] for f in os.listdir(os.path.join(ROOT, "styles")) if f.endswith(".json"))
+    rows = [(s, TH.kit_roof(s)["state"], TH.kit_roof(s).get("form")) for s in ids]
+    assert len(rows) == 164
+    assert collections.Counter(r[1] for r in rows) == {"kit": 73, "silent": 58, "undrawable": 25,
+                                                       "several": 8}
+    assert collections.Counter(r[2] for r in rows if r[1] == "kit") == {
+        "side-gable": 31, "hip": 26, "cross-gable": 12, "gambrel": 3, "front-gable": 1}
+    assert ("ranch-style", "kit", "side-gable") in rows
+    assert hashlib.sha256(json.dumps(rows).encode()).hexdigest()[:16] == "1db03aaebc9d81b6"

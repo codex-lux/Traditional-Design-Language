@@ -847,6 +847,14 @@ _MIRROR_FIGURES = ("count_of_openings_without_a_mirror_twin_about_the_facade_cen
 _ALIGNMENT_FIGURES = ("upper_storey_opening_centres_matching_lower",
                       "max_abs_offset_between_upper_and_lower_opening_centrelines_in",
                       "upper_storey_windows_missing_or_off_alignment_over_a_lower_bay")
+# AND THE TWO PIER FIGURES, ON R12'S SHAPE (WP-16.8, the audit of Phase 16, auditor B). The pier
+# fault read the DRAWN front, and on a front the placer cut down the drawn piers are the ones the
+# refusals left: good-02 cleared at 1.26 with two of its living room's three windows refused FOR
+# the floor this fault holds, and spec-builder-colonial read "no two windows side by side" on a
+# front whose study declares two. R12 names symmetry and alignment and not the pier: this is a
+# reading of it, taken as recommended under Lucas's standing instruction of 1 Oct 2026 and never
+# put (U8 in the WP-16.8 report).
+_PIER_FIGURES = ("count_of_window_piers_on_the_front", "narrowest_pier_over_wider_adjacent_window")
 
 
 def storey_alignment(lower_in, upper_in, tol_in):
@@ -955,6 +963,31 @@ ENVELOPE_BANS = (
     # cornice, `minimal-traditional`'s and `new-urbanist-traditional`'s modillion cornice (A7)
     ("modillions", "cornice", ("modillion",)),
 )
+
+
+def lite_patterns_forbidden(slot, date=None):
+    """`{pattern: ban}` for every sash light pattern the resolved `window_lite_pattern` record forbids
+    at the house's date, keyed by the variant id EXACTLY ("12/12"), or `{"*": ban}` where the slot
+    is forbidden whole (WP-16.8, the audit of Phase 16, auditor A).
+
+    R3 does not reach the lights: a window's pattern is sash-light's arithmetic at the drawn width
+    (`sash_at`), and a kit that forbids 12/12 has stated no other pattern that width could take, so
+    refusing it would leave a window with no lights the kit asks for either. The pattern is DRAWN
+    and the face SAYS the ban, naming its writer (`face_notes`) -- left open, and named, beside
+    WP-16.4's `door_surround` and `window_head_wood`. Exact ids and not `resolve_kit.ban`'s
+    substrings, because "2/2" is a substring of "12/12"."""
+    if not slot:
+        return {}
+    if slot.get("binding") == "forbidden":
+        return {"*": RK.ban(slot, None, date)}
+    out = {}
+    for vid in sorted({v.get("id") for v in slot.get("variants") or []
+                       if isinstance(v, dict) and v.get("id")}):
+        rows = [v for v in slot.get("variants") or [] if isinstance(v, dict) and v.get("id") == vid]
+        b = RK.ban({**slot, "variants": rows}, [vid], date)
+        if b:
+            out[vid] = b
+    return out
 
 
 def envelope_refusals(slots, date=None):
@@ -1504,6 +1537,38 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry, refused=N
                     "belt_height_above_first_floor_in": None})
     return rec
 
+
+def band_marks(elev):
+    """THE WATER TABLE AND THE BELT COURSE AS EVERY SURFACE DRAWS THEM, decided once (WP-16.8, the
+    audit of Phase 16). The sheet drew each band under its own condition; the CAD elevation drew
+    neither on any face from the day WP-5.1 wrote it; and the scene, made by this audit to name
+    what it does not build, named a belt course on every one-storey house, where the sheet draws
+    none. A belt stands on the upper floor, and a house of one storey has no upper floor to carry
+    it. A band is drawn where its figures are in the record (a refused band's are absent, WP-16.4)
+    and, for the belt, where a storey stands above the ground one. Inches above grade; the band
+    runs the face's whole width past each end by its own projection.
+
+        {"water_table": {"top_in", "projection_in", "members": [{"y_in", "projection_in"}]} or None,
+         "belt": {"bottom_in", "height_in", "projection_in"} or None}"""
+    wtb = elev.get("water_table_belt") or {}
+    out = {"water_table": None, "belt": None}
+    if not wtb.get("applicable"):
+        return out
+    if wtb.get("water_table_height_above_finished_grade_in") is not None:
+        out["water_table"] = {
+            "top_in": wtb["water_table_height_above_finished_grade_in"],
+            "projection_in": wtb.get("water_table_projection_in") or 0.0,
+            # each moulded course but the top one reads as the line where it meets the one below,
+            # as the sheet draws it
+            "members": [{"y_in": mm["y_top_in"], "projection_in": mm.get("projection_in") or 0.0}
+                        for mm in (wtb.get("water_table_members") or [])[:-1]]}
+    if (wtb.get("belt_height_above_first_floor_in") is not None
+            and wtb.get("belt_height_in") is not None):
+        out["belt"] = {"bottom_in": wtb["belt_datum_grade_to_floor_ft"] * 12.0,
+                       "height_in": wtb["belt_height_in"],
+                       "projection_in": wtb.get("belt_course_projection_in") or 0.0}
+    return out
+
 # ---------------------------------------------------------------- measurements dict for the fault corpus
 # What this generator does NOT model, declared as data so it can be TESTED rather than
 # remembered (OQ 52). Every name here was, until 26 Aug 2026, supplied as a constant, and the
@@ -1552,6 +1617,29 @@ def even_bars(a, b, n, m):
         return b - a, []
     lw = (b - a - (n - 1) * m) / n
     return lw, [(a + i * lw + (i - 1) * m, a + i * lw + i * m) for i in range(1, n)]
+
+
+def shutter_leaves(x0_in, x1_in, head_in, leaf_w_in, leaf_h_in, panel_count):
+    """THE TWO LEAVES BESIDE A WINDOW AND THE PANELS IN EACH, IN ONE SPELLING (WP-16.8, the audit of
+    Phase 16, auditor C). In inches above grade, each leaf hung from the head down its own height
+    beside its jamb, and the panel count's fielded panels inside it at an inset of the leaf's own
+    proportion. The sheet drew these and the DXF did not, while the DXF printed the sheet's
+    sentences about the leaves ("DOOR AND SHUTTER PANELS ARE DRAWN AS THEIR ARRANGEMENT"); both
+    draw this now. Empty where the window hangs no leaves -- a kit that carries none, or
+    `_clearances` refusing them. The inset is a drawing proportion and not a dimension: no record
+    states a stile or a rail."""
+    if not (leaf_w_in and leaf_h_in):
+        return []
+    n = max(1, int(panel_count or 2))
+    inset = min(leaf_w_in * 0.16, leaf_h_in * 0.03)
+    out = []
+    for side, a in (("left", x0_in - leaf_w_in), ("right", x1_in)):
+        out.append({"side": side, "x0": a, "x1": a + leaf_w_in,
+                    "y0": head_in - leaf_h_in, "y1": head_in,
+                    "panels": [{"x0": a + inset, "x1": a + leaf_w_in - inset,
+                                "y0": head_in - leaf_h_in * ((k + 1) / n) + inset,
+                                "y1": head_in - leaf_h_in * (k / n) - inset} for k in range(n)]})
+    return out
 
 
 def sash_layout(x0_in, x1_in, sill_in, head_in, lights_across, lights_high, muntin_in):
@@ -2064,12 +2152,21 @@ NOT_MODELLED = {
     # nobody measured. SINCE WP-16.9 (B3, 30 Sep 2026) the gable end draws the fault's own rake, and
     # its figures are the fault's own thresholds at their middles: published, each would be the
     # fault's rule handed back to the fault, a pass by construction, so neither is (R8a's precedent).
-    "rake_overhang_in": "the rake is drawn to The Cardboard Gable's own figures as a judgment (B3), "
-                        "and its overhang is drawn on no face: the roof record stops at the gable "
-                        "wall",
-    "rake_member_projection_from_siding_face_in": "the rake board's 1 1/4 in standing proud of the "
-                                                  "wall is The Cardboard Gable's own threshold, "
-                                                  "drawn as a judgment (B3)",
+    # TRUE OF EVERY HOUSE, AND THE HOUSE'S OWN CAUSE BESIDE IT (WP-16.8, the audit of Phase 16,
+    # auditor A). These two said a rake IS drawn, as a judgment, and eight of the ten shipped plans
+    # that draw a gable end draw none (their roofs judge no ridge), while good-05 has no gable end at
+    # all: the row's only evidence for its unjudged verdict described a drawing that does not exist.
+    # A standing reason is a decision about the quantity, so it is worded to hold wherever it is
+    # read; what THIS house draws of the rake, where it draws none, is `rake_withheld`'s, carried in
+    # `front.withheld` as R12's reasons are.
+    "rake_overhang_in": "no rake overhang is drawn on any face: the roof record stops at the gable "
+                        "wall, and where a gable end draws The Cardboard Gable's rake (B3) its "
+                        "figures are the fault's own at their middles, a judgment",
+    "rake_member_projection_from_siding_face_in": "where a gable end draws The Cardboard Gable's "
+                                                  "rake (B3), its board's 1 1/4 in standing proud of "
+                                                  "the wall is the fault's own threshold, a "
+                                                  "judgment; a kit's own plain trim states no "
+                                                  "projection",
     "chimney_depth_in": "no pack states a stack depth distinct from its width; claiming one would invent an aspect ratio",
     "chimney_least_plan_dimension_in": "as chimney_width_in -- the only figure available is a judgment",
     "chimney_visible_face_width_in": "as chimney_width_in -- the only figure available is a judgment",
@@ -2080,8 +2177,9 @@ NOT_MODELLED = {
     # gable's verge, whose members are a judgment, and `raking-cornice-that-does-not-match` asks
     # about a PEDIMENT's raking cornice, which B3 rules is its own rule and this generator does not
     # draw; so the count is not published for either.
-    "raking_cornice_member_count": "the rake drawn is a plain gable's verge, a judgment (B3), and "
-                                   "no pediment's raking cornice is drawn",
+    "raking_cornice_member_count": "no pediment's raking cornice is drawn on any house (B3 leaves a "
+                                   "pediment to its own rule), and where a gable end draws a rake "
+                                   "it is a plain gable's verge, a judgment",
     # Nothing in this corpus models a gutter: no slot, no kit parameter, no line in a renderer.
     "gutter_outlets": "no gutter is modelled anywhere in the corpus",
     # WP-5.13. These four were SUPPLIED, from ratios of the leaf width and the muntin that exist
@@ -2219,7 +2317,7 @@ def _derive_measurements(elev):
     # (`front.withheld` says so); the count is a measured zero on a front with no pair, which the
     # fault's `applies_when` reads.
     _pi = elev["front"].get("piers")
-    if _pi is not None:
+    if _pi is not None and (elev["front"].get("complete") or {}).get("complete") is True:
         m["count_of_window_piers_on_the_front"] = len(_pi)
         if _pi and all(p.get("ratio") is not None for p in _pi):
             m["narrowest_pier_over_wider_adjacent_window"] = min(p["ratio"] for p in _pi)
@@ -2290,7 +2388,12 @@ def _derive_measurements(elev):
                    if r["kind"] == "door" and r.get("entrance")
                    and "garage" not in str(r.get("type") or "").lower()), None)
     if not ent.get("sidelights_present"):
-        _sidelights_drawn = 0
+        # NOT A ZERO WHERE THE REFUSAL RESTS ON A DATE THE RECORD DOES NOT STATE (WP-16.8, the audit
+        # of Phase 16, auditor B). An undated house keeps a dated ban in its DRAWING (A3), and the
+        # count was then a measured zero that made `sidelights-as-storefront-glass` not applicable
+        # on every undated Tidewater house the composer returns: a verdict about the house resting
+        # on a date nobody stated. `front.withheld` says why.
+        _sidelights_drawn = None if (ent.get("sidelights_refused_by") or {}).get("date_unstated") else 0
     elif _erect is None:
         _sidelights_drawn = None
     else:
@@ -2428,10 +2531,19 @@ def _derive_measurements(elev):
     # The return count gates the two faults about a return's SHAPE (the pork chop, the stunted
     # return), which ask nothing of a house with none. `count_of_moulding_profiles_carried_around_
     # onto_the_return` was the cornice's member count on EVERY house until this, returned or not.
+    # A ROOF WITH NO GABLE END DRAWS NO RETURN, WHATEVER ITS KIT SAYS OF ONE (WP-16.8, the audit of
+    # Phase 16, auditor B). The band's default made the count unmeasured on a hip too, so on a hipped
+    # house whose kit is silent on returns the two shape faults read could-not-evaluate while the two
+    # gable faults beside them read not applicable on the same roof (six drawn styles' kit roofs). The
+    # gable count below is 0 there, measured, and so is this.
+    # AND NONE WHERE THE RETURN THE GABLE END DRAWS RESTS ON A ROW DATED TO A PERIOD THE RECORD STATES
+    # NO DATE FOR (WP-16.8, auditor B): the drawing keeps the dated row's reading, and no verdict may
+    # rest on it -- an undated new-england-colonial, garrison or saltbox house was convicted of
+    # `return-that-never-returns` (serious) on its 1620-1700 `none`. `front.withheld` says why.
     _ret = elev.get("cornice_return") or {}
     _gf = _ret.get("gable_faces")
     _n_ret = _members_ret = _carried = None
-    if _gf is not None and _ret.get("draws") != "band":
+    if _gf is not None and (not _gf or _ret.get("draws") != "band") and not _ret.get("date_unstated"):
         _gmarks = [cornice_marks(elev, f) for f in _gf]
         _drawn = [r for cmf in _gmarks for r in cmf.get("returns") or [] if r.get("cornice")]
         _full = {mm["id"] for cmf in _gmarks for r in cmf.get("returns") or []
@@ -2757,10 +2869,21 @@ def gable_faces(roof):
     """The faces a gable end stands on, read off the roof record's own form and ridge (WP-16.5,
     R8): a tuple, or None where the record's form is one this generator does not model, which is
     UNJUDGED and never "no gable". A hip, and a gable-on-hip, run the eave round every face, so they
-    have none. The axis-to-walls mapping is `threshold.gable_end_walls`', the one spelling of it."""
+    have none. The axis-to-walls mapping is `threshold.gable_end_walls`', the one spelling of it.
+
+    A REFUSED ROOF IS UNJUDGED, NOT "NO GABLE" (WP-16.8, the audit of Phase 16, auditor B). B8 draws
+    no roof where the fallback is one the kit forbids, and this answered `()` there, so the gable
+    count read a measured 0 and both gable faults read not applicable -- a verdict that the house has
+    no gable end, about a house whose roof the generator declined to draw. The faults' own note says
+    a form the generator does not model leaves the count unmeasured, and a refused form is one it
+    does not draw. B2 and B6 name a house drawn with no gable end and do not name a refused roof:
+    this is a reading of them, taken as recommended under Lucas's standing instruction of 1 Oct
+    2026 and never put (U9 in the WP-16.8 report)."""
     main = (roof or {}).get("main") or {}
     form, axis = main.get("form"), (main.get("ridge") or {}).get("axis")
-    if form in ("hip", "gable-on-hip") or main.get("refused"):
+    if main.get("refused"):
+        return None
+    if form in ("hip", "gable-on-hip"):
         return ()
     if form in ("gable", "side-gable", "front-gable", "gambrel", "cross-gable") and axis in ("x", "y"):
         return tuple(RF._threshold().gable_end_walls(axis))
@@ -3093,6 +3216,51 @@ def rake_marks(elev, face):
     return out
 
 
+RAKE_NAMES = ("rake_overhang_in", "rake_member_projection_from_siding_face_in",
+              "raking_cornice_member_count")
+
+
+def rake_withheld(elev):
+    """WHAT THIS HOUSE DRAWS OF THE RAKE, WHERE IT DRAWS NONE, for the fault rows (WP-16.8, the audit
+    of Phase 16, auditor A): `{name: reason}` over `RAKE_NAMES`, empty where a gable end draws The
+    Cardboard Gable's rake, whose standing reasons (`NOT_MODELLED`) are then the whole account. The
+    causes are the drawing's own, in the order the drawing meets them: no roof, or a form this
+    generator does not draw; no gable end; a rake the kit asks for under a roof that judges no ridge
+    (`rake_marks` draws no band there and says why); the roof's edge drawn for the kit's own reason
+    (`rake_for`'s sentence, quoted as the sheet prints it); and a kit's own plain trim, which states
+    no projection from the wall. None of these is a measurement and none is published: they are the
+    reasons a fault row carries beside the standing ones (`plan_check._with_dispositions`)."""
+    rk = elev.get("rake") or {}
+    roof = elev.get("roof_record") or {}
+    main = roof.get("main") or {}
+    gf = gable_faces(roof)
+    if gf is None:
+        why = (("no roof is drawn on this house (B8)" if main.get("refused") else
+                f"this house's roof form ({main.get('form') or 'unstated'}) is one this generator "
+                f"does not draw") + ", so no gable end is drawn and no rake with it")
+    elif not gf:
+        why = f"this house draws no gable end (its roof is {main.get('form')}), so it has no rake"
+    elif rk.get("draws") in ("rake", "plain") and rk.get("members") \
+            and main.get("pitch_rise_per_12") is None:
+        _who = ", ".join(rk.get("writers") or [])
+        asked = (f"the plain trim {rk.get('trim_by') or _who or 'the'}'s kit states"
+                 if rk.get("draws") == "plain" else
+                 f"the rake {_who}'s kit states" if rk.get("state") == "fault" and _who else
+                 "the rake B5 draws where the kit settles none")
+        why = (asked + f" is not drawn: the roof judges no ridge (no roof-pitch constraint is migrated for "
+                 f"{roof.get('style') or 'this style'}), so the gable end has no slope to carry it")
+    elif rk.get("draws") not in ("rake", "plain"):
+        why = ("the gable end draws the roof's edge and no rake member, as the sheet says: \u201c"
+               + str(rk.get("words") or "") + "\u201d")
+    elif rk.get("draws") == "plain":
+        return {"rake_member_projection_from_siding_face_in":
+                f"the rake drawn is {rk.get('trim_by') or ', '.join(rk.get('writers') or []) or 'the kit'}'s "
+                f"own plain trim, and its kit states no projection from the wall"}
+    else:
+        return {}
+    return {n: why for n in RAKE_NAMES}
+
+
 def cornice_drawn(cm):
     """Whether a face draws any of the eave cornice: its band, a return at a corner, or its end
     profile beside a gable wall (WP-16.5). One spelling for the sheet's legend and inset and the
@@ -3354,12 +3522,19 @@ def stack_relation(face, side):
 
 
 def near_end_last(c, face, fp):
-    """Draw order on a gable face: the far end's stack first, so a near one in front of it is
-    drawn over it. Plan x runs from the W wall to the E, so the E face's near end is x = W."""
-    if face not in ("E", "W"):
-        return 0
-    at_e = abs((c.get("x_ft") or 0.0) - fp["width_ft"]) < 0.5
-    return 1 if (at_e == (face == "E")) else 0
+    """Draw order on a face: a stack standing at this face's own wall last, so it is drawn over
+    one the house stands it in front of. Plan x runs from the W wall to the E and y from the S to
+    the N, so the E face's own wall is x = W and the N face's y = D.
+
+    ANY FACE, NOT THE E AND W ONLY (WP-16.8, the audit of Phase 16). This ordered the E and W faces
+    alone, because those were a side gable's ends; since B9 a side gable entered on the west or the
+    east has its gable ends on S and N, where the two end stacks project onto one `u` as they do on
+    E and W. A stack at no wall of this face's own is never drawn last, as an interior one was
+    already not on the E face."""
+    x, y = c.get("x_ft") or 0.0, c.get("y_ft") or 0.0
+    at = {"W": abs(x) < 0.5, "E": abs(x - fp["width_ft"]) < 0.5,
+          "S": abs(y) < 0.5, "N": abs(y - fp["depth_ft"]) < 0.5}
+    return 1 if at.get(face) else 0
 
 
 def stack_outline(face, c, roof, fp):
@@ -3401,19 +3576,32 @@ def stack_outline(face, c, roof, fp):
                        near face. (The exterior stack's foot here was the lowest point of its
                        rake until WP-15.5; it is the ground.)
 
-    A roof whose ridge runs front to back puts its gable ends on the front and the back, and this
-    function draws a stack against a SIDE gable's rake only: that case is refused by name rather
-    than drawn from a rule written for the other. It was silent before -- the old test for a
-    gable-end stack read `x` alone, found none, and drew nothing without a word."""
+    EITHER RIDGE AXIS (WP-16.8, the audit of Phase 16). This read a gable-end stack against a
+    ridge along x and refused any other as "THIS ROOF'S RIDGE RUNS FRONT TO BACK". Since B9 (Lucas,
+    30 Sep 2026) a side gable entered on the west or the east runs its ridge along y and stands
+    its gable ends on S and N, and every face refused its stacks with that sentence -- false of a
+    ridge parallel to the entrance -- while the roof plan, the plan sheet and the scene drew them.
+    The geometry is one rule on either axis, read through two names: `across`, the plan coordinate
+    across the ridge, over which the gable's own profile rises (y, 0 to D, under a ridge along x;
+    x, 0 to W, under one along y), and `along`, the coordinate along it. The gable faces are the
+    two that face along the ridge (`threshold.gable_end_walls`), and each long face looks across
+    it from its own wall. A record stating no ridge axis is refused by name."""
     ridge = (roof.get("main") or {}).get("ridge") or {}
-    if ridge.get("axis") != "x":
-        return {"refused": "not-side-gable"}
+    axis = ridge.get("axis")
+    if axis not in ("x", "y"):
+        return {"refused": "no-ridge-axis"}
     rect = c.get("plan_rect_ft")
     if not rect:
         return {"refused": "unplaced"}
     x0, y0, x1, y1 = rect
-    D = fp["depth_ft"]
+    W, D = fp["width_ft"], fp["depth_ft"]
     top = c["total_height_grade_ft"]
+    if axis == "x":
+        a0, a1, b0, b1, span = y0, y1, x0, x1, D
+        gables, end_face, low_face = ("E", "W"), "E", "S"
+    else:
+        a0, a1, b0, b1, span = x0, x1, y0, y1, W
+        gables, end_face, low_face = ("S", "N"), "S", "W"
 
     def _us(a, b):
         # THE FACE'S OWN `u` FOR TWO OUTSIDE-FRAME COORDINATES, left then right as the face is
@@ -3435,24 +3623,24 @@ def stack_outline(face, c, roof, fp):
         u0, u1 = _us(*((x0, x1) if face in ("S", "N") else (y0, y1)))
         return {"outline": [(u0, top), (u1, top), (u1, 0.0), (u0, 0.0)], "from_grade": True,
                 "relation": rel}
-    end = (roof.get("elevation_profiles") or {}).get("E") or []
+    end = (roof.get("elevation_profiles") or {}).get(end_face) or []
     if not end:
         return {"refused": "no-profile"}
 
     def rake(t):
-        return profile_top_at(end, min(max(t, 0.0), D))
+        return profile_top_at(end, min(max(t, 0.0), span))
 
     def inner(lo, hi):                       # the end profile's own vertices strictly inside
         return sorted({px for px, _h in end if lo < px < hi})
 
-    if face in ("E", "W"):
+    if face in gables:
         # the far gable's stack ("behind") and an interior one stand behind or inside the gable's
-        # own rake at their depth
-        ts = [y0] + inner(y0, y1) + [y1]
-        foot = [(t, min(rake(t), top)) for t in ts]       # plan depth t, and the height there
+        # own rake at their place across the ridge
+        ts = [a0] + inner(a0, a1) + [a1]
+        foot = [(t, min(rake(t), top)) for t in ts]       # across the ridge t, and the height there
         if all(h >= top - 1e-6 for _t, h in foot):
             return {"refused": "hidden"}
-        # The rake is read at the plan depth; the outline is stated in the face's own u, left to
+        # The rake is read across the ridge; the outline is stated in the face's own u, left to
         # right, and the foot runs right to left (WP-16.3).
         pts = sorted((face_u_outside(face, t, fp), h) for t, h in foot)
         return {"outline": [(pts[0][0], top), (pts[-1][0], top)] + list(reversed(pts)),
@@ -3464,17 +3652,18 @@ def stack_outline(face, c, roof, fp):
         foot_h = min(max(h for _t, h in end), top)
         if foot_h >= top - 1e-6:
             return {"refused": "hidden"}
-        u0, u1 = _us(x0, x1)
+        u0, u1 = _us(b0, b1)
         return {"outline": [(u0, top), (u1, top), (u1, foot_h), (u0, foot_h)], "relation": rel}
-    # a long face, and an INTERIOR stack: the exterior ones returned above
-    own = min(rake(y0), rake(y1))            # the rake is highest at the ridge: its least is an end
-    front = (0.0, y0) if face == "S" else (y1, D)
+    # a long face, and an INTERIOR stack: the exterior ones returned above. The roof that hides it
+    # is the slope between this face's own eave and the stack.
+    own = min(rake(a0), rake(a1))            # the rake is highest at the ridge: its least is an end
+    front = (0.0, a0) if face == low_face else (a1, span)
     ts = [front[0], front[1]] + inner(front[0], front[1])
     hider = max(rake(t) for t in ts) if front[1] > front[0] else own
     foot_h = min(max(own, hider), top)
     if foot_h >= top - 1e-6:
         return {"refused": "hidden"}
-    u0, u1 = _us(x0, x1)
+    u0, u1 = _us(b0, b1)
     return {"outline": [(u0, top), (u1, top), (u1, foot_h), (u0, foot_h)], "relation": rel}
 
 
@@ -3485,7 +3674,7 @@ def stack_marks(elev, face):
 
         {"marks": [{"stack": c, "outline": [(u_ft, h_ft), ...], "from_grade": bool,
                     "relation": "front" | "end" | "behind" | "interior"}, ...],
-         "unsized": bool, "unplaced": n, "hidden": n, "not_side_gable": bool,
+         "unsized": bool, "unplaced": n, "hidden": n, "no_ridge_axis": bool,
          "refused_else": {reason: n}}
 
     in the face's own frame and the RECORD's grade heights (a drawing lifts what stands above
@@ -3499,7 +3688,7 @@ def stack_marks(elev, face):
     roof = elev.get("roof_record") or {}
     fp = elev["footprint"]
     ch = roof.get("chimneys") or {}
-    out = {"marks": [], "unsized": False, "unplaced": 0, "hidden": 0, "not_side_gable": False,
+    out = {"marks": [], "unsized": False, "unplaced": 0, "hidden": 0, "no_ridge_axis": False,
            "refused_else": {}}
     if not (ch.get("applicable") and ch.get("positions")):
         return out
@@ -3517,8 +3706,8 @@ def stack_marks(elev, face):
         if why == "unplaced":
             out["unplaced"] += 1
             continue
-        if why == "not-side-gable":
-            out["not_side_gable"] = True
+        if why == "no-ridge-axis":
+            out["no_ridge_axis"] = True
             continue
         if why == "hidden":
             out["hidden"] += 1
@@ -3648,9 +3837,12 @@ def stack_notes(elev, sm):
         out.append(f'{sm["unplaced"]} STACK(S) NOT DRAWN \u2014 THE PLACEMENT SEATS NO SQUARE FOR THEM'
                    + (': ' + _why.upper() if _why else
                       ', AND WHICH SIDE OF THE GABLE WALL A STACK STANDS ON IS THE PLAN\u2019S FACT'))
-    if sm["not_side_gable"]:
-        out.append('STACKS NOT DRAWN \u2014 THIS ROOF\u2019S RIDGE RUNS FRONT TO BACK, AND THIS SHEET '
-                   'DRAWS A STACK AGAINST A SIDE GABLE\u2019S RAKE ONLY')
+    if sm["no_ridge_axis"]:
+        # a ridge along x or along y is drawn against either way (WP-16.8): this sentence said the
+        # ridge "RUNS FRONT TO BACK" for any ridge not along x, which since B9 is false of a side
+        # gable entered on the west or the east
+        out.append('STACKS NOT DRAWN \u2014 THE ROOF RECORD STATES NO RIDGE AXIS TO DRAW A STACK '
+                   'AGAINST')
     for _why, _n in sorted(sm["refused_else"].items()):
         out.append(f'{_n} STACK(S) NOT DRAWN \u2014 ' + (
             'THE ROOF RECORD GIVES NO END PROFILE TO FOOT THEM ON' if _why == 'no-profile'
@@ -3749,6 +3941,18 @@ def face_notes(elev, face, sm=None, cm=None):
     _rm = rake_marks(elev, face)
     if _rm.get("words"):
         notes.append(_rm["words"])
+    # A SASH LIGHT PATTERN THE KIT FORBIDS, DRAWN AND SAID (WP-16.8, the audit of Phase 16, auditor
+    # A): R3 does not reach the lights (`lite_patterns_forbidden`), so the face says the ban and its
+    # writer for each pattern it draws that the kit forbids, rather than drawing it in silence
+    _lf = elev.get("lite_patterns_forbidden") or {}
+    if _lf:
+        for _pt in sorted({r["sash_pattern"] for r in opening_rects(elev, face)["rects"]
+                           if r.get("kind") == "window" and r.get("sash_pattern")}):
+            _lb = _lf.get(_pt) or _lf.get("*")
+            if _lb:
+                notes.append(f"LIGHTS DRAWN {_pt} — " + ban_words(_lb).upper()
+                             + "; DRAWN AS SASH-LIGHT'S ARITHMETIC GIVES THEM AT THIS WIDTH, "
+                               "AND NOT REFUSED")
     # THE BANDS THE KIT FORBIDS, AND WHO WROTE EACH BAN (WP-16.4, R3). Until this package both were
     # READ ANYWAY and drawn, and `forbidden_slots_read_from_packs` was the only place that knew.
     for _key, _what in (("water_table_refused_by", "WATER TABLE"),
@@ -4437,7 +4641,10 @@ def _hang(leaved, clash, never, rects, face_width_in):
     corner, which no choice can give back), a set is HANGABLE where no two of its windows' leaves
     lie over one another (`clash`). The set drawn is the best by four keys, in order:
 
-      1. COUNT -- the most windows. Ruled ("the largest set that can all be hung").
+      1. COUNT -- the most windows. The QUESTION's own measure ("the largest set that can all be
+         hung", its item 2), read as what the ruling's "among equally good sets" ranks within; the
+         ruling's words do not state it. (This said "Ruled" until WP-16.8, the audit of Phase 16,
+         auditor A.)
       2. SYMMETRY -- the fewest mirror pairs broken about the face's centre line, a pair being two
          windows on one storey within `axis.MIRROR_TOL_FT` of each other's reflection, broken where
          one hangs and the other does not. Ruled where a symmetric set exists; where none does,
@@ -4448,6 +4655,14 @@ def _hang(leaved, clash, never, rects, face_width_in):
       4. ORDER -- the windows earlier along the face, from its left as drawn, first. NOT RULED:
          a key for determinism alone (U6, taken as recommended, never put), and every window it
          decides says so.
+
+    THE RULING'S PURPOSE IS NOT MET WHERE THE COUNT DECIDES AGAINST SYMMETRY (WP-16.8, auditor A).
+    Two windows mirrored about the centre line and too close to hang both give a set of one, which
+    is one-sided, against the symmetric empty set; the count comes first, so U6's case keeps
+    shutters on one side only -- the outcome "so a symmetric front never keeps shutters on one side
+    only" names (`tests/test_clearances.py` pins it). Symmetry is a tie-break in the ruling's own
+    words, so the order is kept and the residual is named. Latent: no shipped sheet refuses a leaf
+    for a leaf (WP-16.7 report §IV.3).
 
     THE OPTIMUM DECOMPOSES BY GROUP, which is what makes an exhaustive search affordable. A free
     window -- one whose leaves meet nobody's -- is in every best set. The rest fall into groups
@@ -4926,6 +5141,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # AND EVERY FEATURE IT FORBIDS, ROW OR SLOT, AT THIS HOUSE'S DATE (WP-16.4, R3): the
         # entrance's in `doorcase.refusals`, which the placer reads too, and the envelope's here
         refused = {**DC.refusals(_slots, date), **envelope_refusals(_slots, date)}
+        lites_forbidden = lite_patterns_forbidden(_slots.get("window_lite_pattern"), date)
         _reveal_source = _slots
     except Exception:
         _ks = ((C["kits"].get(style) or {}).get("slots", {}) or {})
@@ -4939,6 +5155,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                                 "window_surround_wood") or {}
         forbids = set()   # no cascade: cannot judge, so refuse nothing and say so below
         refused = {}
+        lites_forbidden = {}
         # no cascade, no reading of the return either: UNJUDGED, which keeps the band and says why
         return_reading = {"state": "unjudged", "writers": [], "variant": None, "band_in": None,
                           "dated": [], "date": date, "date_unstated": False}
@@ -5318,6 +5535,9 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # WROTE the ban, and saying so where the ban is dated and the record states no date. What
         # the face actually refused, not merely what the kit forbids: a sidelight the width cap had
         # already omitted is still refused here, because the kit's reason is the one that governs.
+        # A LITE PATTERN THE KIT FORBIDS IS DRAWN AND SAID, NOT REFUSED (WP-16.8, auditor A):
+        # `lite_patterns_forbidden`, read by `face_notes` against each face's drawn windows
+        "lite_patterns_forbidden": lites_forbidden,
         "refused_by_the_kit": {k: v for k, v in refused.items()
                                if v and k in ("water table", "belt course", "frieze", "cornice",
                                               "modillions", "doorcase", "transom_sidelight",
@@ -5404,10 +5624,31 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # written first and the incomplete-front reason below only fills what is left.
         for _k in _ALIGNMENT_FIGURES:
             withheld[_k] = "the section states one storey"
+    # A COUNT THAT RESTS ON A DATE THE RECORD DOES NOT STATE IS NOT HANDED TO A FAULT (WP-16.8, the
+    # audit of Phase 16, auditor B). A3 keeps a dated ban in an undated house's drawing, and WP-16.5
+    # read a dated canonical `none` the same way (a reading, not a ruling: A3 names forbidden rows);
+    # the drawing is unchanged, and the count it would publish is withheld with the date it lacks.
+    def _undated(dated):
+        spans = ", ".join(f"{a}-{b}" for a, b in (dated or []))
+        return (f"the row deciding it is dated {spans or 'to a period'} and this record states no "
+                f"date: the drawing keeps the row (A3), and the count is not the house's")
+    _sb = (elev.get("entrance") or {}).get("sidelights_refused_by") or {}
+    if _sb.get("date_unstated") and not (elev.get("entrance") or {}).get("sidelights_present"):
+        withheld["count_of_sidelights_drawn_at_the_entrance"] = _undated(_sb.get("dated"))
+    _cr = elev.get("cornice_return") or {}
+    if _cr.get("date_unstated"):
+        for _k in ("count_of_cornice_returns_drawn_at_the_gable_ends",
+                   "count_of_moulding_profiles_carried_around_onto_the_return",
+                   "count_of_horizontal_moulding_members_returning_onto_the_gable_wall"):
+            withheld[_k] = _undated(_cr.get("dated"))
+    # WHAT THIS HOUSE DRAWS OF THE RAKE, where it draws none (WP-16.8, auditor A): the standing
+    # reasons say what a drawn rake is; these say why this one is not drawn
+    for _k, _why in rake_withheld(elev).items():
+        withheld.setdefault(_k, _why)
     # AN INCOMPLETE FRONT IS NOT JUDGED FOR SYMMETRY OR ALIGNMENT (R12), with the reason.
     _fc = elev["front"].get("complete") or {}
     if _fc.get("complete") is not True:
-        for _k in _MIRROR_FIGURES + _ALIGNMENT_FIGURES:
+        for _k in _MIRROR_FIGURES + _ALIGNMENT_FIGURES + _PIER_FIGURES:
             withheld.setdefault(_k, _fc.get("why") or "the front's completeness could not be read")
     elev["front"]["withheld"] = withheld
     elev["measurements"] = _derive_measurements(elev)

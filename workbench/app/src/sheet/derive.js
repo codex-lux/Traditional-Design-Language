@@ -463,7 +463,11 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
       if (win.positions_ft && win.positions_ft.length) {
         // the record carries one centreline per unit; read them, do not re-space them
         pos = win.positions_ft.map(Number);
-        crowded += Math.max(0, n - pos.length);
+        // a partial refusal is the placer's, for whatever reason its record names (the pier floor,
+        // the axis below, the run): never "no clear run left" by this file's say-so (WP-16.8;
+        // render_plan.py's twin says why)
+        if (win.unplaced) refused += Math.max(0, n - pos.length);
+        else crowded += Math.max(0, n - pos.length);
       } else if (win.unplaced) {
         // WP-13.2: a window the placer REFUSED is not re-inferred at the mid-wall -- the
         // branch below is for a DECLARED record nobody has placed (render_plan.py's twin
@@ -774,9 +778,12 @@ export function plateNote({ wall, footprint, placement, levelIndex, rooms, serve
   say('windows-crowded', wins.crowded
     ? `${wins.crowded} declared window(s) had no clear run left on their wall — declared, not drawn. `
     : '');
-  say('windows-refused', wins.refused
-    ? `${wins.refused} declared window(s) the placement refused to seat — declared, not drawn. `
-    : '');
+  // the placer's refusals in the placer's words where the server spells them (the reasons are
+  // grouped by the record's `rule`, `disclosures.windows_not_drawn`), and the count where it does not
+  const winServed = wins.refused ? servedLine(placement, 'windows') : null;
+  say('windows-refused', !wins.refused ? ''
+    : winServed ? `${winServed}. `
+      : `${wins.refused} declared window(s) the placement refused to seat — declared, not drawn. `);
   // a stated fire the placement refused, on the plate of the level it stands on; the server spells
   // the line, and a server that does not is not a reason to fall silent
   const refusedFires = refusedBreasts(placement, levelIndex).length;

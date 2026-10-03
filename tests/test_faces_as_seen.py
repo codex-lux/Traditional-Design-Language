@@ -496,3 +496,66 @@ def test_the_scene_compares_the_entrance_and_not_the_first_door_on_its_face(buil
     assert not said(s2), (
         "the scene compared the first door on the face, not the entrance, with the placed front "
         f"door: {said(s2)[0]['why'][:200]}")
+
+
+# ------------------------------------------------------------------ a profile runs left to right
+def _crosses(pts):
+    """True where two non-adjacent edges of the closed polygon `pts` cross properly."""
+    def o(a, b, c):
+        v = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
+        return 0 if abs(v) < 1e-9 else (1 if v > 0 else -1)
+    n = len(pts)
+    edges = [(pts[i], pts[(i + 1) % n]) for i in range(n)]
+    return any(o(*edges[i], edges[j][0]) * o(*edges[i], edges[j][1]) < 0
+               and o(*edges[j], edges[i][0]) * o(*edges[j], edges[i][1]) < 0
+               for i in range(n) for j in range(i + 2, n) if not (i == 0 and j == n - 1))
+
+
+@pytest.mark.parametrize("pid", ["tidewater-georgian-careful", "good-03-parlor-drawing-room-house"])
+@pytest.mark.parametrize("face", FACES)
+def test_every_faces_roof_profile_runs_left_to_right_and_the_dxf_wall_does_not_cross_itself(pid, face):
+    """WP-16.8 (auditor E's E14): `face_profile` reverses a mirrored face's points so the profile
+    still runs left to right, and the DXF closes a wall that runs up to the rake as
+    `[(0,0),(span,0)] + reversed(profile)` -- which is a simple polygon only if it does. Without the
+    reversal the W wall's outline crossed itself on the Tidewater plan and no test saw it: the
+    point-set comparison above sorts, and the lopsided-roof tests read the apex alone."""
+    ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE the DXF half: ezdxf is not installed")
+    p, sec, rf, el, sc = _build(pid)
+    EL = _m("elevation")
+    prof = EL.face_profile(el["roof_record"], face, el["footprint"])
+    assert len(prof) >= 2, (pid, face, prof)
+    us = [u for u, _h in prof]
+    assert us == sorted(us), (pid, face, prof)
+    with tempfile.TemporaryDirectory() as td:
+        path = os.path.join(td, "w.dxf")
+        _m("export_dxf").export_elevation_dxf(el, path, face=face)
+        walls = [[(q[0], q[1]) for q in e.get_points()]
+                 for e in ezdxf.readfile(path).modelspace().query("LWPOLYLINE")
+                 if e.dxf.layer == "TDL-ELEV-WALL"]
+    assert walls, (pid, face)
+    assert not [w for w in walls if _crosses(w)], (pid, face, walls)
+
+
+@pytest.mark.parametrize("pid", ["tidewater-georgian-careful", "good-03-parlor-drawing-room-house"])
+def test_each_gable_face_rises_at_the_stated_pitch_and_the_section_spans_what_the_roof_does(pid):
+    """WP-16.8 (auditor C, C1). `structure.roof_heights` raised the ridge over min(W, D) whatever
+    way the ridge ran, so on good-03 -- a side gable B9 turns to run along y, its gable ends on S
+    and N across the 71.33 ft width -- the section and the elevation stood the ridge 7.7 ft below
+    the stated 5:12 over the span it really crosses, while the roof plan drew it over the right
+    span. The ridge rises over the span across it (`threshold.ridge_span`) on every surface now:
+    each gable face's apex stands at the stated pitch over its own half-run, and the section is cut
+    across that same span at the same ridge."""
+    p, sec, rf, el, sc = _build(pid)
+    EL = _m("elevation")
+    pitch = rf["main"]["pitch_rise_per_12"]
+    assert pitch, "the premise: the record states a pitch"
+    gables = EL.gable_faces(rf)
+    assert gables, (pid, gables)
+    for face in gables:
+        prof = EL.face_profile(rf, face, el["footprint"])
+        (u0, h0), (ua, ha), (u1, h1) = prof[0], max(prof, key=lambda q: q[1]), prof[-1]
+        assert h0 == pytest.approx(h1, abs=1e-6)
+        assert (ha - h0) / ((u1 - u0) / 2.0) == pytest.approx(pitch / 12.0, abs=0.005), (pid, face, prof)
+        assert sec["roof"]["span_ft"] == pytest.approx(u1 - u0, abs=0.02), (pid, face, sec["roof"]["span_ft"])
+    assert sec["roof"]["grade_to_ridge_ft"] == pytest.approx(rf["main"]["ridge"]["grade_to_ridge_ft"], abs=0.02)
+    assert sec["roof"]["roof_pitch_rise_per_12"] == pitch

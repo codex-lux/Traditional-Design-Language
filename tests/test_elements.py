@@ -489,7 +489,12 @@ CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # another corner because a window moved. The two unmoved are good-01, the one shingle-style plan,
 # whose ground storey keeps the old foot (R5b), and good-04, whose two seated windows stand alone
 # on their walls and whose refused ones have no run at all.
-CORPUS_OPENINGS_SHA = "c02edee34e30aeab"
+# c02edee34e30aeab -> ee74fd3885e61464 AT WP-16.8 (2 Oct 2026, the audit of Phase 16, auditor A):
+# the placer seats one queue by distance from the centre (R5a), and two rooms' windows moved, diffed
+# room by room against a worktree of `e604955`: the spec Colonial's upper `primary` (seated at 9.0;
+# the aligned unit at 6.745 refused for alignment) and Tidewater's `chamber3` ([32.099, 40.5] ->
+# [33.0, 40.5]). No door, fixture or furniture layout moved, and no other room's windows.
+CORPUS_OPENINGS_SHA = "ee74fd3885e61464"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

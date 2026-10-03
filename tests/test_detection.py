@@ -481,8 +481,13 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
     # `oq/thirty-five-measurements-the-elevation-states-as-literals` -- and this list names every
     # clear any of whose tests read such a name. The spec Colonial's count is unmoved: its fault
     # is not applicable, because its entrance front draws no two windows side by side.
-    SUSPECT_CLEAR = {"tidewater-georgian-careful": 18, "spec-builder-colonial": 18}
-    LEFT_AT_WP_16_6 = {"tidewater-georgian-careful": "clear", "spec-builder-colonial": "not-applicable"}
+    # 18 -> 17 ON THE TIDEWATER PLAN AT WP-16.8 (2 Oct 2026), AND THE ROW THAT LEFT IS THE ONE THAT
+    # JOINED AT WP-16.6. Both shipped fronts are INCOMPLETE (declared units not drawn), and the audit
+    # withholds the pier count and the narrowest pier there, as R12 withholds the symmetry figures
+    # (U8, taken as recommended under Lucas's standing instruction of 1 Oct 2026): a pier between
+    # the windows the placer DID draw is decided by the ones it refused. So the fault is unjudged on
+    # both plans, carrying the front's own reason, and leaves this list on the Tidewater plan.
+    SUSPECT_CLEAR = {"tidewater-georgian-careful": 17, "spec-builder-colonial": 18}
     LEFT_AT_WP_16_4 = {"tidewater-georgian-careful": "not-applicable",
                        "spec-builder-colonial": "measured"}
     # `pier-narrower-than-the-opening` LEFT THIS SET AT WP-16.6, on both plans and by two roads
@@ -556,19 +561,13 @@ class TestTheClearVerdictCarriesWhatTheCorpusKnows:
         # none the fault is NOT APPLICABLE on the drawn count, never clear.
         fid = "pier-narrower-than-the-opening"
         na6 = {u["fault"]: u for u in (res.get("fault_not_applicable") or [])}
-        assert fid not in rows_u, (pid, fid, "unjudged again: its governing test did not run")
-        if self.LEFT_AT_WP_16_6[pid] == "clear":
-            ev = PC._load("elevation", f"{ROOT}/build/elevation.py")
-            el = ev.build_elevation(json.load(open(f"{ROOT}/plans/{pid}.json")))
-            piers = el["front"]["piers"]
-            assert piers and all(p.get("ratio") is not None for p in piers), (pid, piers)
-            got = el["measurements"]["narrowest_pier_over_wider_adjacent_window"]
-            assert got == min(p["ratio"] for p in piers) >= 1.0, (pid, got)
-            assert fid in ids and fid not in na6, (pid, fid)
-        else:
-            assert na6.get(fid, {}).get("because") == ["count_of_window_piers_on_the_front"], (
-                pid, na6.get(fid))
-            assert fid not in ids, (pid, fid)
+        # WP-16.8 (U8): on an incomplete front the pier figures are withheld with the front's own
+        # reason, so the fault is UNJUDGED -- not clear, not not-applicable -- on both shipped plans
+        u = rows_u.get(fid)
+        assert u is not None and fid not in ids and fid not in na6, (pid, fid)
+        held = {w["name"]: w["why"] for w in (u.get("withheld") or [])}
+        assert "count_of_window_piers_on_the_front" in held, (pid, u)
+        assert "were not drawn" in held["count_of_window_piers_on_the_front"], held
         # WP-16.4, BY NAME: the sidelight fault left this list because its width stopped being a
         # literal. On the plan that draws no sidelight it must be NOT APPLICABLE on the drawn
         # count; on the plan that draws a pair it must be in no other bucket, and the width the

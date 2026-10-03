@@ -24,7 +24,7 @@ import { readRefusal, refusalHeadline, errorText } from '../sheet/refusal.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
-import { ORDERS, order, isNative, nativityOf, setSize } from '../candidateOrder.js';
+import { ORDERS, order, isNative, nativityOf, setSize, unjudgedFatalsOf } from '../candidateOrder.js';
 import { Term } from '../components/Term.jsx';
 import { revisedLine, revisedEventLine } from '../revision.js';
 
@@ -54,8 +54,8 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
     fatal_n: (c.counts && c.counts.fatal) || 0,
     // R13 (29 Sep 2026): the fatal faults the corpus could not judge on this candidate. They
     // break ties AGAINST it and are never a fatal: `disqualified` does not read them.
-    unjudged_fatal: c.unjudged_fatal || [],
-    unjudged_fatal_n: (c.unjudged_fatal || []).length,
+    unjudged_fatal: unjudgedFatalsOf(c),
+    unjudged_fatal_n: unjudgedFatalsOf(c).length,
     native,
     nativity: nativityOf(c, nativePartis),
     named_by_brief: !!c.named_by_brief,

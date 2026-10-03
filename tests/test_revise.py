@@ -444,13 +444,13 @@ class TestTheReclaimIsHeldToTheLoopsRule:
     guard, one screen below the line that fixed both for the rounds."""
 
     @staticmethod
-    def _script(monkeypatch, keys, cnes):
+    def _script(monkeypatch, keys, cnes, checks=None):
         calls = {"n": 0}
 
         def fake(p, **kw):
             i = min(calls["n"], len(keys) - 1); calls["n"] += 1
             return {"plan": p, "key": list(keys[i]), "engine": {"requested": "cp", "ran": None if cnes[i] else "cp-sat", "reason": None},
-                    "check": {"findings": []}, "placement": {"reused": False, "could_not_evaluate": cnes[i]},
+                    "check": copy.deepcopy(checks[i]) if checks else {"findings": []}, "placement": {"reused": False, "could_not_evaluate": cnes[i]},
                     "assessment": {"actionable": [], "placement": [], "critic_suspect": [], "architect": [], "advisory": []},
                     "counts_by_class": {}, "could_not_evaluate": {"findings": []}}
         monkeypatch.setattr(RV.CR, "critique", fake)
@@ -474,6 +474,21 @@ class TestTheReclaimIsHeldToTheLoopsRule:
         r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=0, engine="cp", candidates=120, place=True,
                       brief={"target_area_sf": 100})
         assert r["report"]["reclaimed"]["rolled_back"] is False and r["key_after"] == [1, 10, 40, 0]
+
+    def test_a_reclaim_that_trades_a_verdict_for_a_serious_is_rolled_back(self, monkeypatch):
+        """WP-16.8 (auditor E's E06): the scripted keys above each raise a JUDGED count, so a
+        reclaim reading the raw key rolled them back too. Here the reclaim leaves a fatal that was
+        present UNJUDGED and adds a serious: [1, 10] -> [0, 11] is better on the raw key and, with
+        the lost verdict counted where it stood, [1, 11] -- worse."""
+        before = {"findings": [{"kind": "fault-present", "fault": "x", "severity": "fatal"}]}
+        after = {"findings": [], "fault_unjudged": [{"fault": "x"}]}
+        self._script(monkeypatch, keys=[[1, 10, 10, 1], [0, 11, 10, 0]], cnes=[None, None],
+                     checks=[before, after])
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=0, engine="cp", candidates=120, place=True,
+                      brief={"target_area_sf": 100})
+        rec = r["report"]["reclaimed"]
+        assert rec["rolled_back"] is True and "raised fatal or serious" in rec["why"], rec
+        assert r["key_after"] == [1, 10, 10, 1]
 
 
 class TestTheSessionAuditOfTheLoop:

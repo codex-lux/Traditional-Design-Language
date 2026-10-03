@@ -37,7 +37,11 @@ WHAT IT MAY NOT DO (PRD §5.5, and every one of these is a rule this corpus alre
 
 WHAT IT IS NOT, YET. Openings are WP-12.2's — until then an exterior wall is a plain box and
 this file says so in `not_modelled` rather than letting a blank wall read as a finished one.
-Sashes, cornices, chimney solids, dormers, the entrance and the porch are WP-12.6 and 12.7.
+Sashes, chimney solids, dormers, the entrance and the porch are WP-12.6 and 12.7. THE EAVE
+CORNICE IS NOT ONE OF THEM, and this paragraph said "cornices" until WP-16.8 (the audit of
+Phase 16, auditor C): the doorcase's entablature is drawn, and the eave cornice, its frieze, the
+gable end's returns, the water table and the belt course are built by no function here.
+`_envelope_bands` names each one the elevation draws.
 
 CLI:
     python3 build/scene.py plans/tidewater-georgian-careful.json [--engine auto] [--out s.json]
@@ -1398,6 +1402,13 @@ def _roof(plan, section, roof, states, elev=None):
                          for u, v in prof]},
             "cut", "salmon",
             {"record": f"roof.elevation_profiles.{f}"}, "derived", face=f))
+    # A ROOF FORM THE KIT DECIDED BY A JUDGMENT IS A JUDGMENT HERE TOO (T3; WP-16.8, the audit of
+    # Phase 16, auditors C and D): the planes above are drawn in that form, and the elevation and
+    # the roof plan say whose call it is; this layer said nothing. `disclosures.roof_form_judgment`,
+    # the one spelling, off the roof record's own reading.
+    _rj = _mod("disclosures").roof_form_judgment(roof)
+    if _rj:
+        states.judged("the roof form", _rj, "roof.form_reading")
     # THE RAKE THE ELEVATION DRAWS IS NOT MODELLED, AND THIS LAYER SAYS SO (WP-16.9). The gable
     # faces draw the rake the style's kit states past the wall (`elevation.rake_for`); the roof
     # record these planes are built from stops at the gable wall and dimensions no rake. Named
@@ -1412,6 +1423,42 @@ def _roof(plan, section, roof, states, elev=None):
                         "layer has nothing to build it from",
                       "elevation.rake", cls="roof")
     return out
+
+
+def _envelope_bands(elev, states):
+    """THE BANDS THE ELEVATION DRAWS ON THE WALL AND THIS LAYER DOES NOT BUILD, NAMED (WP-16.8, the
+    audit of Phase 16, auditor C). The eave cornice and its frieze, the gable end's returns and end
+    profiles (WP-16.5), the water table and the belt course: the sheet and the DXF draw them from
+    `elevation.cornice_marks` and `elevation.band_marks`, and the model's walls ran plain
+    to the eave with nothing in `not_modelled`, which is the omission this file's first rule
+    forbids. Named only where the elevation draws the band, so a refused or undimensioned one takes
+    no line here (the elevation says why it is not drawn): a refusal about nothing is the
+    fake-unjudged shape."""
+    if not elev or elev.get("error") or not elev.get("faces"):
+        return
+    EL = _mod("elevation")
+    marks = [EL.cornice_marks(elev, f) for f in elev["faces"]]
+    why = ("the elevation draws it from the record; this layer builds no solid for it, so the "
+           "model's wall runs plain past it")
+    if any(cm.get("cornice") for cm in marks):
+        states.cannot("the eave cornice", why, "elevation.cornice_marks", cls="envelope")
+    if any(cm.get("frieze") for cm in marks):
+        states.cannot("the frieze under the eave cornice", why, "elevation.cornice_marks",
+                      cls="envelope")
+    if any(r.get("cornice") or r.get("frieze") for cm in marks for r in cm.get("returns") or []):
+        states.cannot("the cornice returns at the gable ends", why, "elevation.cornice_marks",
+                      cls="envelope")
+    if any(cm.get("end_profiles") for cm in marks):
+        states.cannot("the cornice's end profiles at the gable corners", why,
+                      "elevation.cornice_marks", cls="envelope")
+    # WHETHER THE ELEVATION DRAWS EACH BAND IS `elevation.band_marks`' answer, never this file's:
+    # its first version tested the belt's own depth alone and named a belt course on every
+    # one-storey house, where the sheet draws none -- a disclosure of a band nobody drew
+    bm = EL.band_marks(elev)
+    if bm["water_table"]:
+        states.cannot("the water table", why, "elevation.band_marks", cls="envelope")
+    if bm["belt"]:
+        states.cannot("the belt course", why, "elevation.band_marks", cls="envelope")
 
 
 def _chimneys(roof, elev, section, states):
@@ -1690,6 +1737,7 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
     solids += _walls(section, states)
     solids += _openings(elev, section, states)
     solids += _roof(plan, section, roof, states, elev)
+    _envelope_bands(elev, states)
     # A STACK IS NOT A ROOF PLANE AND IS NOT NESTED INSIDE ONE (WP-12.8). `_chimneys` was
     # called from `_roof`'s tail, and `_roof` returns early on a form it cannot dimension and on
     # a roof with no judged ridge -- so on `spec-builder-colonial`, whose massing is a

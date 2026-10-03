@@ -124,7 +124,14 @@
         "direction": "at-least",
         "units": "ratio",
         "measurable_from": "photograph",
-        "note": "Deliberately unrelated is licensed; nearly aligned is not. Clear the window below by at least half its width or land on it exactly."
+        "note": "Deliberately unrelated is licensed; nearly aligned is not. Clear the window below by at least half its width or land on it exactly.",
+        "applies_when": {
+          "expression": "dormer_count",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "A house with no dormer has no dormer to stand off the bay: the question does not arise, which is not a pass. Gated as the primary and the other exceptions are (WP-16.8, the audit of Phase 16, 1 Oct 2026); ungated, this test asked a dormer-less house for a dormer's offset, found no figure, and read could-not-evaluate on the style it licenses."
+        }
       }
     },
     {
@@ -137,7 +144,14 @@
         "direction": "at-least",
         "units": "ratio",
         "measurable_from": "photograph",
-        "note": "As above."
+        "note": "As above.",
+        "applies_when": {
+          "expression": "dormer_count",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "A house with no dormer has no dormer to stand off the bay: the question does not arise, which is not a pass. Gated as the primary and the other exceptions are (WP-16.8, the audit of Phase 16, 1 Oct 2026); ungated, this test asked a dormer-less house for a dormer's offset, found no figure, and read could-not-evaluate on the style it licenses."
+        }
       }
     },
     {
@@ -150,7 +164,14 @@
         "direction": "at-least",
         "units": "ratio",
         "measurable_from": "photograph",
-        "note": "As above."
+        "note": "As above.",
+        "applies_when": {
+          "expression": "dormer_count",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "A house with no dormer has no dormer to stand off the bay: the question does not arise, which is not a pass. Gated as the primary and the other exceptions are (WP-16.8, the audit of Phase 16, 1 Oct 2026); ungated, this test asked a dormer-less house for a dormer's offset, found no figure, and read could-not-evaluate on the style it licenses."
+        }
       }
     },
     {

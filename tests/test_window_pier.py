@@ -211,6 +211,28 @@ class TestThePier:
         assert len(r["windows"][0]["positions_ft"]) == 2
 
 
+class TestTheWiderWindowSetsThePier:
+    """R5: "a floor of 1.0 x the WIDER window". Every placer fixture above seats 3 ft windows, so a
+    pier held to the NARROWER of two windows passed this file whole (WP-16.8, the audit of Phase 16,
+    auditor E: mutation E35, `max` -> `min` in `_seat_line`, 103 passed)."""
+
+    def test_a_narrow_and_a_wide_window_keep_the_wider_ones_pier(self):
+        """A 3 ft window in an 8 ft room beside a 5 ft window in a 6 ft room on one face line. The
+        5 ft window needs 5 ft of wall to the 3 ft one, and its room cannot give it that: refused
+        by name. Held to the narrower window's 3 ft it would stand, at 11.0 ft."""
+        a = _room("a", 0.0, 8.0, [{"wall": "S", "count": 1, "width_ft": 3.0}])
+        b = _room("b", 8.0, 6.0, [{"wall": "S", "count": 1, "width_ft": 5.0}])
+        _seat([a, b], 14.0, 15.0)
+        assert a["windows"][0]["positions_ft"] == [pytest.approx(4.0)]
+        u = b["windows"][0]["unplaced"]
+        assert u["rule"] == "pier" and "positions_ft" not in b["windows"][0]
+        assert u["needs"]["pier_over_the_wider_window"] == 1.0
+        # the premise: the 6 ft room can hold the 5 ft window 3 ft (the narrower's floor) from the
+        # other and cannot hold it 5 ft (the wider's) from it
+        assert 8.0 + 2.5 <= 4.0 + 1.5 + 3.0 + 2.5 <= 14.0 - 2.5
+        assert 4.0 + 1.5 + 5.0 + 2.5 > 14.0 - 2.5
+
+
 class TestTheCentreHolds:
     @staticmethod
     def _pair(centre_ft):
@@ -303,6 +325,38 @@ class TestTheUpperFollowsTheGround:
         assert w["unplaced"]["rule"] == "alignment"
         assert w["unplaced"]["axes"][0]["why"] == (
             "the wall to the window beside it would fall below 1 x the wider window")
+
+    def test_the_inner_window_holds_against_an_outer_aligned_one(self):
+        """R5a and "R5 with R6, read together" (WP-16.8, the audit of Phase 16, auditor A). A 13.5 ft
+        upper room holds two 3 ft windows preferring 4.5 and 9.0 ft, and the face's centre is at
+        25.0 ft; the window below stands at 6.745 ft, so the unit preferring 4.5 is paired with
+        that axis. The two cannot both stand a window's width apart. R5a: "on other faces those
+        nearer the face's centre keep their places; the outer window moves along its own wall, or
+        is refused by name" -- so the unit at 9.0, nearer the centre, holds, and the aligned outer
+        one is refused for its alignment, which is the ruled refusal of R5 with R6.
+
+        This is spec-builder-colonial's primary chamber on its upper south face, measured. Until
+        WP-16.8 every aligned unit was seated before any other, an order no ruling states, so the
+        aligned outer window held and the INNER one was refused for the pier."""
+        up = _room("u", 0.0, 13.5, [{"wall": "S", "count": 2, "width_ft": 3.0}])
+        rep = _seat([up], 50.0, 15.0, below={self.LINE: [(6.745, "window", "g")]}, level=1)
+        w = up["windows"][0]
+        assert w["positions_ft"] == [pytest.approx(9.0)]
+        assert w["unplaced"]["rule"] == "alignment"
+        assert w["unplaced"]["axes"][0]["why"] == (
+            "the wall to the window beside it would fall below 1 x the wider window")
+        assert rep["window_seating"][0]["refused"] == {"alignment": 1}
+
+    def test_an_inner_window_seated_first_still_leaves_an_outer_axis_it_can_share(self):
+        """The other half of one queue: the inner window takes its place first, and the outer
+        aligned window still stands on its axis wherever the floor allows beside it -- Tidewater's
+        third chamber, measured, where the inner window holds 33.0 ft and the outer one stands on
+        the door axis at 40.5 ft, 4.0 ft of wall between them against a 3.5 ft floor."""
+        up = _room("c3", 27.0, 18.0, [{"wall": "S", "count": 2, "width_ft": 3.5}])
+        _seat([up], 63.0, 15.0, centres={self.LINE: (18.0, "the entrance door's axis (passage)")},
+              below={self.LINE: [(40.5, "door", "g")]}, level=1)
+        assert up["windows"][0]["positions_ft"] == [pytest.approx(33.0), pytest.approx(40.5)]
+        assert "unplaced" not in up["windows"][0]
 
     def test_a_unit_takes_an_axis_its_room_can_take_before_one_it_cannot(self):
         """U2 (taken as recommended under Lucas's standing instruction of 1 Oct 2026, never put):
@@ -406,15 +460,26 @@ class TestTheWordsAndTheMeasurement:
         draw no glass on the Tidewater house: the count is published, the narrowest is withheld
         with its reason, and the upper storey's count still reaches the faults. Before this test
         the same front raised a KeyError, because the withheld dict's upper-storey line read a key
-        only the two upper-storey branches write."""
+        only the two upper-storey branches write.
+
+        ON A FRONT DRAWN WHOLE SINCE WP-16.8 (the audit of Phase 16, auditor B): the Tidewater
+        front is incomplete, and the two pier figures are withheld there whole now (U8, the next
+        test), so the drive declares the front complete to reach the glass branch alone."""
         real = EL.window_piers
+        GEO, ST, RF = _b("geometry"), _b("structure"), _b("roof")
+        # The front is patched before the house is solved, so the solve keeps to a private cache
+        # and nothing computed under the patch outlives it (tests/test_determinism.py).
+        monkeypatch.setattr(GEO, "_SOLVE_CACHE", {})
+        AX = _b("axis")
+        monkeypatch.setattr(AX, "front_complete",
+                            lambda rec: {"front": "S", "undrawn": {}, "total_undrawn": 0,
+                                         "complete": True, "why": None})
 
         def one_unjudged(rects):
             got = real(rects)
             if got:
                 got[0] = dict(got[0], ratio=None, unjudged="driven: a window of the pair draws no glass")
             return got
-        GEO, ST, RF = _b("geometry"), _b("structure"), _b("roof")
         with open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"), encoding="utf-8") as fh:
             plan = json.load(fh)
         placed = GEO.solve(copy.deepcopy(plan), engine="heuristic")
@@ -428,6 +493,31 @@ class TestTheWordsAndTheMeasurement:
         assert "narrowest_pier_over_wider_adjacent_window" not in m
         assert "draw no glass" in ev["front"]["withheld"]["narrowest_pier_over_wider_adjacent_window"]
         assert m.get("upper_floor_opening_count") and "total_upper_storey_openings" not in ev["front"]["withheld"]
+
+    def test_an_incomplete_front_withholds_both_pier_figures_with_its_reason(self):
+        """U8 (WP-16.8, the audit of Phase 16, auditor B; taken as recommended under Lucas's
+        standing instruction of 1 Oct 2026, never put): R12's reading of an incomplete front,
+        carried to the pier fault. The drawn piers of a front the placer cut down are the ones its
+        refusals left -- good-02 cleared at 1.26 with two of its living room's three windows
+        refused FOR the floor this fault holds -- so neither the count nor the narrowest is
+        handed to the fault, and the row says the front's own reason."""
+        GEO, ST, RF = _b("geometry"), _b("structure"), _b("roof")
+        with open(os.path.join(ROOT, "plans", "reference", "good-02-portico-library-house.json"),
+                  encoding="utf-8") as fh:
+            plan = json.load(fh)
+        placed = GEO.solve(copy.deepcopy(plan), engine="heuristic")
+        sec = ST.build_section(placed, None, geometry_result=placed)
+        rf = RF.build_roof(placed, None, section=sec)
+        ev = EL.build_elevation(placed, None, section=sec, roof=rf)
+        fc = ev["front"]["complete"]
+        assert fc["complete"] is False and ev["front"]["piers"], "the premise: an incomplete front with piers"
+        m, wh = ev["measurements"], ev["front"]["withheld"]
+        for k in ("count_of_window_piers_on_the_front", "narrowest_pier_over_wider_adjacent_window"):
+            assert k not in m, k
+            assert wh[k] == fc["why"], k
+        r = _b("plan_check").check(placed)
+        row = next(x for x in r["fault_unjudged"] if x["fault"] == "pier-narrower-than-the-opening")
+        assert {w["name"] for w in row.get("withheld") or []} >= {"count_of_window_piers_on_the_front"}
 
 
 # ------------------------------------------------------------------ the composer's cap
@@ -461,6 +551,24 @@ class TestTheComposerCountsToTheFloor:
         assert n0 > n1, (n0, n1)
         assert any("bounded by the wall alone: driven: no floor" in l for l in log), log
         assert any("bounded by the wall's length alone" in l for l in log), log
+
+
+def test_the_cap_counts_n_windows_and_n_minus_one_piers():
+    """n windows of width w need n w + (n - 1) p of wall, not n (w + p): on the 12 x 14 room's
+    14 ft E wall, 2.67 ft windows at the 1.0 x floor fit three (8.0 + 2 x 2.67 = 13.3 ft), and
+    counting a pier per window would cap it at two. (WP-16.8, auditor E's E46: the tests above
+    compare orderings on the 12 ft wall, where both forms give two.)"""
+    CO = _b("compose")
+    plan = {"id": "t", "style": "tidewater-georgian", "levels": [{
+        "index": 0, "floor_to_ceiling_ft": 10,
+        "rooms": [{"id": "s", "type": "sunroom", "width_ft": 12, "length_ft": 14,
+                   "windows": [{"wall": "E", "count": 1}], "doors": []}]}]}
+    CO.derive_openings(plan, "tidewater-georgian", [], doors=False)
+    w = plan["levels"][0]["rooms"][0]["windows"][0]
+    f = WP.floor()[0]
+    n = w["count"]
+    assert n * w["width_ft"] + (n - 1) * f * w["width_ft"] <= 14 + 0.05, w
+    assert n == 3, w
 
 
 # ------------------------------------------------------------------ the Georgian band, in line
