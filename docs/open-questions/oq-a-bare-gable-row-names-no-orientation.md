@@ -27,3 +27,22 @@ state.
 **What is not ruled.** Whether a style whose own words state the orientation re-ids its row
 (shotgun-house: front), and what a record that states both orientations draws (craftsman-bungalow:
 B7's "several", or a declaration the plan must make).
+
+## Amended 3 October 2026 (the audit of WP-16.8's own diff): a declared row is not read through the table
+
+**The closed table reaches the KIT's row and not the PLAN's declaration.**
+`threshold.roof_form_for` hands a declared `roof_form` to roof.py as written, and the plan schema
+says a declared value is a bare variant id. So the two readers of one vocabulary disagree twice:
+- `gable`, declared, is drawn: roof.py's bare gable, ridge on y, a front gable in all but name. The
+  same id from a kit is undrawable (the table's entry, above).
+- `hipped`, declared, draws no roof, and the sheet says its form is "one this generator does not
+  draw". The same id from a kit is a hip.
+
+Found while driving a test of the rake's reasons, by declaring forms the table maps. No shipped plan
+reaches the second: the three shipped declarations are `gable` (bad-04) and `side-gable` (two).
+The first is how bad-04 is drawn today.
+
+**Not fixed, because the fix is this question's ruling.** Reading a declaration through the table
+would make bad-04's declared `gable` undrawable. Keeping roof.py's bare `gable` for a declaration
+keeps the orientation the table refuses to assign to a kit row. Either way, which way a bare gable
+runs has to be decided first.

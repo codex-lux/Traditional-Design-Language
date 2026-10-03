@@ -39,3 +39,23 @@ good-07 and bad-03.
 pitch reaching the rake. Whether roof.py reads the kit's `roof_pitch` as B1 reads its `roof_form`
 (and from which writer), whether those styles' pitches are migrated as sourced constraints, or
 whether the rake waits for either.
+
+## Amended 3 October 2026 (the audit of WP-16.8's own diff): a gambrel's rake is not drawn either, for another reason
+
+**A gambrel's gable end is its two-slope outline now, and the rake is not drawn on it.** Auditor A's
+F6 found `roof.elevation_profile` had swapped a gambrel's two shapes since WP-3.3:
+- the gable end was drawn as a single-pitch triangle to the gambrel's ridge;
+- the long face was drawn as a trapezoid to the break.
+
+The gable end is the five-point outline through the break now, and the long face the band from the
+eave to the ridge. `elevation.rake_marks` lays the rake's bands along one slope a side. On the
+gambrel's outline it draws none and says why. The sheet and the fault rows read one reader for that,
+`rake_not_drawn_cause`, which states the outline as the cause, never a ridge the roof does not
+judge.
+
+On the wrong triangle the rake had been drawn. Before the audit, the reason was decided by the
+missing single pitch, and it said "the roof judges no ridge" of a gambrel whose ridge is judged.
+
+**What is not ruled.** How a rake turns at a gambrel's break: a mitre, a die-off, or the upper slope
+alone. No record states it. No gambrel is among the shipped plans the elevation draws: good-01 is
+refused by its gate.
