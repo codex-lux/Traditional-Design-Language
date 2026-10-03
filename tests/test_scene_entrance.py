@@ -69,17 +69,33 @@ def _cls(scene, name):
 # ------------------------------------------------------------------ the composition
 
 def test_the_composition_is_the_door_two_casings_and_two_sidelights(both):
-    """AND A PILASTER IS NOT IN IT, WHICH IS THE HALF THAT DECIDES WHAT IS DRAWN."""
+    """AND A PILASTER IS NOT IN IT, WHICH IS THE HALF THAT DECIDES WHAT IS DRAWN.
+
+    RE-CUT 30 SEP 2026 (WP-16.4): the Tidewater house is dated 1765, and
+    georgian-colonial-american forbids the sidelights for 1700-1780, so its composition is the
+    door and two casings and its sidelight width is withheld (None), not zero. The spec
+    Colonial keeps its pair. So the two shipped plans are the two states, and the premise that
+    they are is asserted: a change that drew or refused sidelights everywhere fails here."""
+    states = set()
     for pid, (scene, _sol, _sec, ev) in both.items():
         e = ev["entrance"]
         d, c, s = e["door_leaf_width_in"], e["casing_width_in"], e["sidelight_width_in"]
         stated = e["entrance_composition_width_in"]
-        assert abs((d + 2 * c + 2 * s) - stated) < 0.01, (
-            f"{pid}: door {d} + 2x casing {c} + 2x sidelight {s} = {d + 2*c + 2*s} against a "
+        if e["sidelights_present"]:
+            states.add("pair")
+            pair = 2 * s
+        else:
+            states.add("refused")
+            assert s is None, f"{pid}: a refused sidelight is published at {s} in"
+            assert (e.get("sidelights_refused_by") or {}).get("writers"), (
+                f"{pid}: no sidelights and no writer named for their refusal")
+            pair = 0.0
+        assert abs((d + 2 * c + pair) - stated) < 0.01, (
+            f"{pid}: door {d} + 2x casing {c} + sidelights {pair} = {d + 2*c + pair} against a "
             f"stated composition width of {stated}")
         # the discriminator: the same sum with pilasters is a DIFFERENT number, so the
         # reconciliation above is evidence and not an identity that holds either way
-        with_pil = d + 2 * e["pilaster_width_in"] + 2 * s
+        with_pil = d + 2 * e["pilaster_width_in"] + pair
         assert abs(with_pil - stated) > 1.0, (
             f"{pid}: a pilaster and a casing are the same width here ({with_pil} vs {stated}), "
             "so this test can no longer tell which member the composition holds")
@@ -288,12 +304,13 @@ def test_the_two_records_of_the_front_door_agree_and_the_scene_files_nothing(bot
         drawn = (min(xs) + max(xs)) / 2
         placed = AX.door_bay(sol)["position_ft"]
         # THE FRAME CHECK READS THE ELEVATION'S OWN DATUM (`elevation.face_u_ft`) rather than
-        # restating `drawn_u - drawn == t`. On every face today that IS one wall thickness --
-        # `FACE_MIRRORED` states the N and W faces read with the plan's axis, as the scene's
-        # `_face_extrude` lays them out -- and the day the mirror is ruled the check follows the
-        # switch instead of convicting the scene by one width of the front.
+        # restating `drawn_u - drawn == t`. That was one wall thickness on every face until
+        # WP-16.3 drew N and W as seen from outside (R2); on those faces u is now measured from
+        # the far end, `scene._face_extrude` reads the same switch, and this check follows it
+        # instead of convicting the scene by one width of the front.
         fp = _sec["footprint"]
-        expect_u = EL.face_u_ft(f, drawn, fp["clear_width_ft"], fp["clear_depth_ft"], _t_ext(_sec))
+        expect_u = EL.face_u_ft(f, drawn, fp["clear_width_ft"], fp["clear_depth_ft"], _t_ext(_sec),
+                                outside_ft=EL.face_span_outside_ft(f, fp))
         assert abs(drawn_u - expect_u) < 0.01, (
             f"{pid}: the elevation's u {drawn_u:.3f} is not the model x {drawn:.3f} in the "
             f"{f} face's own datum ({expect_u:.3f})")

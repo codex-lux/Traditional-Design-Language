@@ -96,6 +96,24 @@ The members' projections are drawn on the inset and not on the face, because two
 disagree about them (OQ 79). The inset's caption says which surface draws which. Census V25 reads
 the face back to the record.
 
+**Since OQ 79 was ruled (WP-16.5, 30 Sep 2026), the face and the inset draw one cornice.** The
+envelope governs the depth and the order the shape -- except where the style's kit states a minimum
+cornice for its return, which governs instead (B4, WP-16.9: 10.0 in on six shipped plans, where the
+envelope gives 8.61 or 9.57). *(Corrected 2 Oct 2026, WP-16.8: this said the envelope governs, which
+B4 made false.)* `elevation.scale_into_envelope` keeps the
+member heights, holds the bed mould's outer face at 2½ in (a judgment, withheld from the faults)
+and maps the members above onto the rest of the envelope's depth. The inset's caption says what was
+scaled.
+
+**And a gable end draws what the resolved kit says of `cornice_return`** (R8, R8a):
+- a stated return at each corner, as far as the cornice is tall;
+- the cornice's end profile where the kit forbids one or makes `none` canonical, with the wall
+  running up to the rake;
+- the band where the kit settles nothing, and the sheet says so.
+
+`resolve_kit.return_at` is the one reading, and `elevation.gable_faces` reads which faces are gable
+ends off the roof record.
+
 That inset used to be drawn by `seg_to()`, a case-for-case Python port of
 `orders_template.html`'s `segTo()`, pinned against the JS original by `TestSegTo`. **WP-5.11
 replaced both with `build/profiles.py`, which CONSTRUCTS each moulding** — a quarter of an ellipse
@@ -129,6 +147,11 @@ entrance door.
 learned to skip it and the DXF did not, so the CAD file went on drawing a window through a chimney;
 the export selftest could not see it, because it round-trips FINDINGS and not geometry.
 
+- **The face's own left edge is its left AS SEEN FROM OUTSIDE (R2, WP-16.3).** On S and E that is
+  the plan's low end; on N and W it is the far end, and a mirrored face is the plan-direction face
+  reflected about its own drawn width (`elevation.face_span_outside_ft`), so the two readings of
+  one face are each other's reverse and nothing else. `elevation.face_u_ft` is the one conversion
+  and `datum.mirrored` says which way each face runs.
 - **Units are inches, x along the face from its own left edge, y above GRADE**, and the figures
   are **not rounded**. The DXF draws in inches and the SVG in feet, so one of them must divide;
   inches is the unit the record states every opening in, and it is the choice with the smaller
@@ -307,6 +330,9 @@ name.
   the face projection introduced a new fatal (`pork-chop-return`) on a value that was not actually
   measuring what the fault asked for. Removed rather than kept as a wrong number — this file does
   not model the corner return at all, and says so in a code comment rather than guessing.
+  *(Superseded 30 Sep 2026, WP-16.5: the return is drawn where the kit states one, at R8a's
+  judged length, and that length is withheld from the faults for this bullet's own reason: a
+  figure drawn to a fault's rule cannot be the measurement the fault is judged on.)*
 - **No free column or portico.** tidewater-georgian's own kit marks `entry-portico` atypical; the
   doorcase is read as a reduced order at door scale, never as a free-standing column with entasis
   or diminution — which is also why `upper_shaft_diameter_in == lower_shaft_diameter_in` here (no
@@ -388,3 +414,79 @@ name.
    scoping get its own, stricter applicability helper in `build/proportion_engine.py` so the next
    generator that reads a scoped pack doesn't have to rediscover this the same way? Not decided
    here — flagged for whoever owns `proportion_engine.py` next.
+
+## WP-16.1 (29 Sep 2026): the storeys it states, and the front it will not judge
+
+- **`storey_count` is the storeys the section states.** It read `len(elev["storey_windows"])`, and
+  that list always holds two entries, so every house was two storeys to the fault corpus. On a
+  one-storey house `second_floor_sash_height_in`, `second_floor_sill_height_in` and
+  `second_storey_floor_to_floor_in` were the ground storey's own figures under a second storey's
+  name. `top-heavy-second-storey` and `ungraduated-storeys` convicted all six one-storey reference
+  plans at a ratio of exactly 1.0: a storey compared with itself. The three figures are withheld
+  where the section states no upper storey, and `front.withheld` says so.
+- **An incomplete front is not judged for symmetry or alignment (R12).** `front.complete` is
+  `axis.front_complete`'s reading, every storey of the entrance front: the declared window units
+  not drawn, and a sentence saying why that matters. The drawn layer in `plan_check` reads the same
+  function. Where the front is not whole, the mirror and the storey alignment are still measured
+  and kept on `front.mirror` and `front.alignment`. Their five figures are withheld from the
+  measurements, each named in `front.withheld` with that sentence. `plan_check` carries the reason
+  onto every could-not-evaluate fault row that needed one, as `withheld`.
+- **A one-storey record names its alignment trio.** It had always left the three figures out with
+  nothing in `front.withheld` saying why. The storey count is the reason now, and it is written
+  before the incomplete-front reason, because it is the more fundamental one.
+
+Report: `docs/reports/wp-16.1-the-governing-test-decides.md`.
+
+## WP-16.4 (30 Sep 2026): what the kit forbids is refused, and the sheet names who forbade it
+
+- **One reading of a ban, at the house's date.** `resolve_kit.ban(rec, words, date)` says whether
+  a slot or a feature is forbidden and names the nodes that WROTE the ban. A forbidden row's own
+  `applies_when.date_range` is read against the plan's `context.date_of_representation` (A3). An
+  undated house keeps a dated ban, and the sheet says the date is unstated.
+- **The entrance** (`doorcase.refusals`, which the placer reads too):
+  - the sidelights go under a ban on their row or on the whole `transom_sidelight` slot;
+  - the transom goes only with the whole slot;
+  - a refused pilaster doorcase leaves the door the doorcase's own casing (`.csp` on the sheet),
+    and every figure of its order is withheld.
+- **The envelope** (`ENVELOPE_BANS`): the water table, the belt course, the frieze, the cornice
+  and the order's modillions, each refused on its own. The roof stands on the bands drawn. A
+  refused modillion band leaves Gibbs's other members read to the same envelope height, so the
+  roof does not move.
+- **Said on every surface.** The sheet prints one line per refusal ("… NOT DRAWN — FORBIDDEN BY
+  <WRITER>'S KIT …"), and the DXF writes the same lines and carries `TDL::kit-refused` on the door
+  leaf. The scene names each refusal in `not_modelled`, and the record carries
+  `refused_by_the_kit`.
+- **The sidelight count** (`count_of_sidelights_drawn_at_the_entrance`) has three states:
+  - 0 where no pair is composed;
+  - the entrance rect's drawn spans;
+  - unmeasured where a pair is composed and no face draws it, a garage door marked the entrance
+    included.
+
+  `sidelights-as-storefront-glass` is gated on the count, and `sidelight_width_in` is published
+  only for a drawn pair.
+
+Report: `docs/reports/wp-16.4-the-refusal-names-who-forbade-it.md`.
+
+
+## WP-16.6, WP-16.7 and WP-16.9 (1 Oct 2026), and the audit (WP-16.8, 2 Oct 2026)
+
+What these packages added to this layer, each read in its own report before it is touched:
+
+- **The pier and the axis below** (WP-16.6, R5-R6a): the placer seats every window at least the
+  wider window's width from the next (`build/window_pier.py`, the one reader of the floor), the
+  centre holding; an upper window goes onto the axis of the opening below or is refused by name.
+  The elevation publishes `narrowest_pier_over_wider_adjacent_window` and the pier count, and
+  withholds both on an incomplete front (U8, WP-16.8), as R12 withholds the symmetry figures.
+  Since WP-16.8 the seating is one queue by distance from the centre (R5a); aligned upper windows
+  are not seated first (`docs/reports/wp-16.6-the-pier-and-the-axis-below.md`).
+- **The shutters** (WP-16.7, R7): `_hang` takes the largest set of leaves that can all be hung,
+  then the fewest mirror pairs broken, then the windows nearest the entrance or the face's centre,
+  then the order along the face (U5-U7). `elevation.shutter_leaves` is the one spelling of a leaf
+  and its panels, read by the sheet and, since WP-16.8, by the DXF.
+- **The rake** (WP-16.9, B3-B30): `resolve_kit.rake_at` reads the kit, `elevation.rake_for` and
+  `rake_marks` draw it. Where the roof judges no ridge the rake is not drawn, and since WP-16.8
+  `rake_withheld` says why on each house's fault rows.
+- **What the audit changed here** (WP-16.8): a refused roof has no judged gable faces
+  (`gable_faces` is None, U9); a hip measures no return; a count resting on a date the record does
+  not state is withheld (the sidelights, the returns); a light pattern the kit forbids is drawn and
+  said on the face; a stack is drawn against a ridge along either axis.

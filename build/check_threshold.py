@@ -25,6 +25,11 @@ What this checks, and why each one is here:
      than quoted: how many nodes make a portico canonical, how many resolve a `portico_bays`,
      and how many state a column diameter in inches. The refusal rules quote those numbers in
      their notes; if the corpus moves, this check says so.
+  7. **`build/roof_vocabulary.py::TABLE` IS TOTAL OVER THE CORPUS** (WP-16.9, B1). Every
+     `roof_form` variant id any kit carries is mapped onto a form the roof layer draws or
+     recorded as unmappable WITH A REASON, every entry's quote is found verbatim at its field,
+     and an entry no kit uses is an error, because a closed table is only closed while both
+     directions hold. Checked here, beside the hearth table, so `TOTAL_CHECKS` does not move.
 
     python3 build/check_threshold.py
     python3 build/check_threshold.py --strict     # warnings become errors
@@ -181,6 +186,15 @@ def check(strict=False):
         rep.warn("threshold/grammar.json:th-a-column-needs-a-diameter",
                  f"{both} node(s) now carry all three facts a drawn column needs. The refusal "
                  f"this rule records is no longer total and the placement is not built.")
+
+    # 7: the roof vocabulary B1 reads, closed in both directions and every quote held to its file
+    rv = _mod("roof_vocabulary", os.path.join(ROOT, "build", "roof_vocabulary.py"))
+    for e in rv.check_table(ROOT):
+        rep.err("build/roof_vocabulary.py", e)
+    drawn = sorted({f for f, _w, _q in rv.TABLE.values() if f})
+    print(f"  roof_form ids in use: {len(rv.TABLE)}; mapped onto a form the roof layer draws: "
+          f"{sum(1 for f, _w, _q in rv.TABLE.values() if f)} ({', '.join(drawn)}); recorded as "
+          f"undrawable with a reason: {sum(1 for f, _w, _q in rv.TABLE.values() if not f)}")
 
     ex = len(g.get("executed") or [])
     sn = len(g.get("stated_not_executed") or [])

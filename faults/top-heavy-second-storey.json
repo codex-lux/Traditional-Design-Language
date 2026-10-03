@@ -70,7 +70,14 @@
     "direction": "at-most",
     "units": "ratio",
     "measurable_from": "photograph",
-    "note": "Above 0.95 is the fault; above 1.05 is severe. The eye judges the graduation from the glass, which is the largest and darkest element on the elevation, which is why the window ratio works even where the floor-to-floor heights are hidden."
+    "note": "Above 0.95 is the fault; above 1.05 is severe. The eye judges the graduation from the glass, which is the largest and darkest element on the elevation, which is why the window ratio works even where the floor-to-floor heights are hidden.",
+    "applies_when": {
+      "expression": "storey_count",
+      "direction": "at-least",
+      "threshold": 2,
+      "units": "count",
+      "note": "A second storey heavier than the first is a question about a house that has one. On a one-storey house `build/elevation.py` read the ground storey's window under the second floor's name, so this fault convicted all six one-storey reference plans at second/first = 1.0 -- a storey compared with itself. Those figures are withheld on a one-storey section now, and this gate makes the verdict there NOT APPLICABLE rather than unjudged, because the question does not arise (WP-16.1, 29 Sep 2026)."
+    }
   },
   "secondary_tests": [
     {
@@ -79,7 +86,14 @@
       "direction": "at-least",
       "units": "count",
       "measurable_from": "photograph",
-      "note": "The apparatus that licenses an inversion: rustication, an arcade, a water table, a belt course at the principal floor, a raised basement with an exterior stair. Absent all of it, the front is simply upside down."
+      "note": "The apparatus that licenses an inversion: rustication, an arcade, a water table, a belt course at the principal floor, a raised basement with an exterior stair. Absent all of it, the front is simply upside down.",
+      "applies_when": {
+        "expression": "storey_count",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "count",
+        "note": "Gated with the primary on the same premise (WP-16.1, 29 Sep 2026): the fault asks how one storey stands on another."
+      }
     },
     {
       "expression": "ground_storey_opening_area_sqft / principal_storey_opening_area_sqft",
@@ -87,7 +101,14 @@
       "direction": "at-most",
       "units": "ratio",
       "measurable_from": "photograph",
-      "note": "A real piano nobile has smaller and simpler openings below, not merely a lower ceiling. This is the test that separates a piano nobile from a squashed first storey."
+      "note": "A real piano nobile has smaller and simpler openings below, not merely a lower ceiling. This is the test that separates a piano nobile from a squashed first storey.",
+      "applies_when": {
+        "expression": "storey_count",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "count",
+        "note": "Gated with the primary on the same premise (WP-16.1, 29 Sep 2026): the fault asks how one storey stands on another."
+      }
     }
   ],
   "detection": "Measure the two sash heights in a straight-on photograph. Upper divided by lower above 0.95 is the fault; above 1.05 is severe. Then check whether the ground floor is expressed as a base - rustication, an arcade, a water table, a raised basement with an exterior stair - because that apparatus is what licenses an inversion. If it is absent, the fault stands.",
@@ -106,7 +127,14 @@
         "units": "ft",
         "measurable_from": "photograph",
         "upper": 11,
-        "note": "The ground storey reads as a base and the floor above the principal storey diminishes again."
+        "note": "The ground storey reads as a base and the floor above the principal storey diminishes again.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     },
     {
@@ -119,7 +147,14 @@
         "direction": "at-least",
         "units": "count",
         "measurable_from": "photograph",
-        "note": "The base must be piers or an arcade with smaller openings."
+        "note": "The base must be piers or an arcade with smaller openings.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     },
     {
@@ -132,7 +167,14 @@
         "direction": "at-most",
         "units": "ratio",
         "measurable_from": "photograph",
-        "note": "Rustication or heavy channelling on the ground storey with smaller square-headed openings, a belt course, and a third storey diminishing again."
+        "note": "Rustication or heavy channelling on the ground storey with smaller square-headed openings, a belt course, and a third storey diminishing again.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     },
     {
@@ -145,7 +187,14 @@
         "direction": "at-most",
         "units": "ratio",
         "measurable_from": "photograph",
-        "note": "As above."
+        "note": "As above.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     },
     {
@@ -158,7 +207,14 @@
         "direction": "at-least",
         "units": "count",
         "measurable_from": "photograph",
-        "note": "The exterior stair and the rusticated base are not optional; they are what makes the inversion legible."
+        "note": "The exterior stair and the rusticated base are not optional; they are what makes the inversion legible.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     },
     {
@@ -171,7 +227,14 @@
         "direction": "at-least",
         "units": "count",
         "measurable_from": "photograph",
-        "note": "As above, at larger scale."
+        "note": "As above, at larger scale.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     },
     {
@@ -184,7 +247,14 @@
         "direction": "at-most",
         "units": "in",
         "measurable_from": "site-visit",
-        "note": "The lower level must be genuinely below grade on the uphill side; a walkout on all four sides is not a bank house."
+        "note": "The lower level must be genuinely below grade on the uphill side; a walkout on all four sides is not a bank house.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     }
   ],

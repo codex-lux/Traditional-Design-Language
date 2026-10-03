@@ -48,6 +48,41 @@ def _style_block():
             f'.chm{{fill:{PAL["iron"]};stroke:{PAL["ink"]};stroke-width:0.6}}'
             f'</style>')
 
+def plan_notes(roof):
+    """EVERY SENTENCE THE ROOF PLAN SAYS BENEATH ITS DRAWING, IN ONE LIST, AND THE DXF WRITES IT TOO
+    (the audit of WP-16.8's own diff, 3 Oct 2026, auditor B). These were built inline in
+    `render_roof` and the roof plan's DXF wrote none of them -- its only text was the title line --
+    so a stack C3 refuses vanished from the one CAD roof plan with no word of why, and T3 said a
+    roof's form was a judgment on every surface but this one. `elevation.face_notes` is the same
+    shape for the faces, and the rule is its: one list, two writers.
+
+    In order: a fallback form said (WP-16.9, B1); a form the kit decided by a record its writer
+    flags a judgment (T3); the stacks the roof places none of (WP-16.9); where the roof stops at a
+    gable end (WP-16.9, which faces are gable ends being `elevation.gable_faces`', never
+    re-spelled); a stack plan size the record calls a judgment (WP-12.9); and the stacks drawn as a
+    position only, for want of a size or a seated square."""
+    notes = []
+    if (roof.get("form_reading") or {}).get("words"):
+        notes.append(roof["form_reading"]["words"])
+    if DISC.roof_form_judgment(roof):
+        notes.append(DISC.roof_form_judgment(roof))
+    if DISC.stacks_the_roof_refuses(roof):
+        notes.append(DISC.stacks_the_roof_refuses(roof))
+    _at_the_wall = DISC.roof_stops_at_the_gable_wall(
+        _mod("elevation", f"{ROOT}/build/elevation.py").gable_faces(roof))
+    if _at_the_wall:
+        notes.append(_at_the_wall)
+    positions = roof.get("chimneys", {}).get("positions", [])
+    judged = DISC.stack_plan_judgment({"hearths": {"stacks": positions}})
+    if judged:
+        notes.append(judged["text"])
+    unsized = sum(1 for c in positions if not (c.get("stack_plan_in") and c.get("plan_rect_ft")))
+    if unsized:
+        notes.append(f"{unsized} STACK(S) DRAWN AS A POSITION ONLY \u2014 THE RECORD STATES "
+                     "NO PLAN SIZE OR NO SEATED SQUARE FOR THEM")
+    return notes
+
+
 def render_roof(roof, path, scale=7.0):
     fp = roof["footprint"]
     W, H = fp["width_ft"], fp["depth_ft"]
@@ -111,13 +146,7 @@ def render_roof(roof, path, scale=7.0):
             unsized += 1
             s.append(f'<path class="chm" d="M {cx-3:.1f} {cy-3:.1f} L {cx+3:.1f} {cy+3:.1f} '
                      f'M {cx-3:.1f} {cy+3:.1f} L {cx+3:.1f} {cy-3:.1f}"/>')
-    stack_notes = []
-    judged = DISC.stack_plan_judgment({"hearths": {"stacks": positions}})
-    if judged:
-        stack_notes.append(judged["text"])
-    if unsized:
-        stack_notes.append(f"{unsized} STACK(S) DRAWN AS A POSITION ONLY \u2014 THE RECORD STATES "
-                           "NO PLAN SIZE OR NO SEATED SQUARE FOR THEM")
+    stack_notes = plan_notes(roof)
 
     legend_y = oy + ph + 18
     s.append(f'<text class="dm" x="{ox:.1f}" y="{legend_y:.1f}">{LEGEND}</text>')
@@ -138,10 +167,11 @@ def render_roof(roof, path, scale=7.0):
     if gb.get("applicable"):
         # `break_ok` is None where the break fraction is the generator's own default tested
         # against the band it was taken from -- the same circularity the wing ridge carries, and
-        # the same rule: an unjudged verdict is not a FAIL. `diff_ok` is a real comparison of two
-        # stated pitches and stays boolean, so the two halves are reported separately rather than
-        # ANDed into one word that would have to mean three things.
-        pitch = "OK" if gb.get("diff_ok") else "FAIL"
+        # the same rule: an unjudged verdict is not a FAIL. `diff_ok` is a real comparison only
+        # where the style states both slopes, and None otherwise (WP-16.9: no node states both),
+        # so the two halves are reported separately rather than ANDed into one word that would
+        # have to mean three things, each in three states.
+        pitch = "UNJUDGED" if gb.get("diff_ok") is None else ("OK" if gb["diff_ok"] else "FAIL")
         brk = "UNJUDGED" if gb.get("break_ok") is None else ("OK" if gb["break_ok"] else "FAIL")
         line2.append(f"GAMBREL PITCH DIFF {pitch} · BREAK {brk}")
     if line2:

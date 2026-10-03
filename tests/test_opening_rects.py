@@ -180,7 +180,9 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
     one: the primary bedroom's upper sash at y 10.547 (3.5 ft wide) overlaps the west stack
     at 11.77 clear, and `opening_rects` refuses it by name (OQ 85) --
     `test_no_shipped_plan_reaches_a_blind_bay` pins that one refusal. This count was 35 while
-    the N and W faces were mirrored, which put that sash 27.8 ft from the stack it stands on.
+    WP-13.3's first draft mirrored the N and W faces and left the stack reader in the plan's
+    direction, which put that sash 27.8 ft from the stack it stands on. WP-16.3 mirrors both
+    together (R2), so the sash and the stack are read in one frame.
     """
     el = _load("elevation")
     seen = {}
@@ -201,7 +203,8 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
                 assert r["x1_in"] == r["cx_in"] + r["width_in"] / 2.0, f"{pid} {r['id']} x1"
                 rec_op = _record_opening(elev, r)
                 assert r["cx_in"] == el.face_u_ft(face, r["along_ft"], fp["clear_width_ft"],
-                                                  fp["clear_depth_ft"], t_ft) * 12.0, \
+                                                  fp["clear_depth_ft"], t_ft,
+                                                  outside_ft=el.face_span_outside_ft(face, fp)) * 12.0, \
                     f"{pid} {r['id']}: the centre is not the plan's position in the face's datum"
                 placed = next(p for p in elev["faces"][face]["placed"]
                               if p["room"] == r["room"] and p["storey"] == r["storey"]
@@ -258,12 +261,24 @@ def test_the_rectangle_is_the_records_own_numbers(elevations):
     # face 4 -> 3 -- so the per-plan pin main introduced would have passed over a house whose
     # front gained an opening and whose back lost one. Per face is the form that bites, and it
     # was chosen because that substitution was measured here rather than imagined.
-    assert seen == {("tidewater-georgian-careful", "S"): 7,
+    #
+    # WP-16.6 (1 Oct 2026), PER FACE, AND EVERY UNIT THAT LEFT IS A RULED REFUSAL NAMED ON THE
+    # RECORD. Re-derived against a worktree of `bb3c6de`; no room moved on either plan:
+    #     Tidewater S 7 -> 6   the primary chamber's second upper sash, refused under R6: the
+    #                          axis it matched below is the passage door's at 18.0 ft, the
+    #                          chamber's own east wall
+    #     spec Colonial S 7 -> 5   one of the family room's three ground sashes and one of the
+    #                              primary bedroom's two upper ones, each refused by the pier floor
+    #                              (R5): seated, the wall to the next window would be under 1 x
+    #                              the wider
+    #     spec Colonial W 2 -> 1   the dining room's second sash, refused by the pier floor
+    # N is unmoved on both, though the Tidewater dining room's sash moves along its wall.
+    assert seen == {("tidewater-georgian-careful", "S"): 6,
                     ("tidewater-georgian-careful", "N"): 5,
                     ("tidewater-georgian-careful", "W"): 1,
-                    ("spec-builder-colonial", "S"): 7,
+                    ("spec-builder-colonial", "S"): 5,
                     ("spec-builder-colonial", "N"): 3,
-                    ("spec-builder-colonial", "W"): 2}, (
+                    ("spec-builder-colonial", "W"): 1}, (
         f"the opening census over the two shipped plans moved: {seen}. Derive WHICH plan and "
         f"WHICH FACE -- the bay count, the storey count and the placement -- before re-pinning "
         f"it. A face at zero is absent from this dict, which is how E reads on both plans.")
@@ -286,8 +301,9 @@ def test_every_rectangle_names_the_record_it_came_from(elevations):
 # The Tidewater primary bedroom's upper W sash is placed at y 10.547 ft, 3.5 ft wide, and the
 # west stack stands at 11.77 ft clear (13.06 in the roof's outside frame), 1.83 ft wide: they
 # overlap by about 1.45 ft, so the sash is refused (OQ 85) and the W face draws one window of
-# the two the plan places there. It was invisible while the N and W faces were mirrored, which
-# put that sash 27.8 ft from the stack it stands on. Pinned as a SET so that a change in either
+# the two the plan places there. It was invisible while WP-13.3's first draft mirrored the N and
+# W faces and not the stack reader, which put that sash 27.8 ft from the stack it stands on
+# (WP-16.3 mirrors both together). Pinned as a SET so that a change in either
 # direction shows: a second refusal is a placement to look at, and none is either a fix in
 # `openings.py` or the refusal going blind.
 # EMPTY AT THE 17 SEP MERGE, AND AN EMPTY SET HERE IS THE ONE THE DOCSTRING CALLS AMBIGUOUS --

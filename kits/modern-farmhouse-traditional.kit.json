@@ -128,17 +128,31 @@
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "boxed-rake-with-return",
+          "status": "canonical",
+          "note": "c02 (hard): 'Rake overhang not less than 8 in and eave overhang not less than 12 in, with a returned or moulded termination at every gable corner. Zero-overhang boxed rakes are forbidden.' distinguished_from[0] gives the source its rake: 'a real eave and rake overhang with a cornice return, small openings in proportion to solid wall, a full-width porch of habitable depth, and an accreted plan of ells built over decades. The modern version has one mass, a flat eave, a high plate, and a shed porch. Almost every difference is measurable.'. The returned termination is this row; judgment that the row is canonical over a merely moulded one."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "'Rake overhang not less than 8 in and eave overhang not less than 12 in, with a returned or moulded termination at every gable corner. Zero-overhang boxed rakes are forbidden.' (c02). The 8 in rake overhang is this kit's `eave_condition`'s, not restated here.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), T1, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was put to him at 00:34 UTC and was unanswered when that instruction arrived, so this is not an answer he chose; recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member. modern-farmhouse-traditional binds its own rake_condition. Until then the slot was open and resolved ELIZABETHAN's parapet record; minimal-traditional's record of the same date, a plain 5 1/2 in board with no return, would otherwise reach it by descent, against this record's own hard c02. Marked judgment for the canonical row. modern-farmhouse-traditional is not drawn."
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "rule": "A returned or moulded termination at every gable corner -- c02, a hard constraint -- and no zero-overhang boxed rake. The record does not say which return, or a return rather than a moulded termination.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), and it was FORBIDDEN here until then -- inherited, on 'The rake is finished in bargeboard, not a boxed classical cornice with mitred returns; a cornice return signals Greek Revival millwork, not Gothic Revival (see distinguished_from).', from GOTHIC-REVIVAL-AMERICAN, and from the same date through minimal-traditional's own companion, on 'No cornice return of any consequence; the rake is a plain board, not a moulded rake returned at the eave'. Neither reason is this node's. Its own hard constraint c02 reads 'Rake overhang not less than 8 in and eave overhang not less than 12 in, with a returned or moulded termination at every gable corner. Zero-overhang boxed rakes are forbidden.', and this kit's own eave_condition rule binds it. diagnostic_tells[3], 'Overhangs under 12 in, boxed, with no rake return at the gable corner', is the as-built failure c02 corrects: typical_ratios[1] sets 'Eave and rake overhang as built 0 to 8 in; vernacular source 12 to 18 in with a cornice return' side by side. No return variant is named, because c02 admits a moulded termination in its place and does not say which return."
     },
     "gable_treatment": {
       "group": "massing-and-roof",

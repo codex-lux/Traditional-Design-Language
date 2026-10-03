@@ -559,7 +559,35 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          # placement refuses to seat one -- which the elevation now says. The
                          # 131 unmoved are the fourteen reference plans, the spec Colonial and
                          # 116 sweep styles, none of which places a stack at all.
-                         "22fa18ed207786b49346cb59977956af1c87ae056fc39548a34ded16d0dc1270",
+                         # RE-DERIVED AT WP-16.9 (1 Oct 2026), PER ENTRY, ON THE SAME HARNESS PROVED
+                         # TO REPRODUCE `22fa18ed...` TO THE CHARACTER ON A WORKTREE OF `54f7e33`.
+                         # This time the roof's own code moved (B1, B9), and the pin says what it
+                         # did. 14 of 180 entries moved, and they are the fourteen reference plans,
+                         # which declare no roof form; the two shipped plans and all 164 sweep
+                         # entries (built on the Tidewater record, which declares side-gable) are
+                         # byte-identical. 11 move in `main.form_note` alone: the note reads the
+                         # style's kit now and no longer names a massing 'None'. good-03 moves its
+                         # ridge (B9: entered on the west, so a side-gable ridge runs on y). good-05
+                         # is hipped by italian-renaissance-revival's own kit (B1), and good-01
+                         # takes shingle-style's gambrel, with its checks, at roof.py's family-wide
+                         # default slopes, the difference of which is unjudged now (16.9n).
+                         # RE-DERIVED AT WP-16.8 (2 Oct 2026), PER ENTRY, ON A HARNESS PROVED TO
+                         # REPRODUCE `9a33eb41...` TO THE CHARACTER ON A WORKTREE OF `e604955`. One
+                         # entry of 180 moved, good-03, in `main` and `elevation_profiles` alone
+                         # (auditor C, C1): B9 turned its side-gable ridge to run on y and the ridge
+                         # was still raised over min(W, D), the 34.57 ft depth, so its gable ends
+                         # sloped at 2.42:12 under a 5:12 label. It rises over the span across the
+                         # ridge now (`threshold.ridge_span`, 71.33 ft): ridge 21.48 -> 29.14 ft.
+                         # RE-DERIVED 3 OCT 2026 (the audit of WP-16.8's own diff), PER ENTRY, ON A
+                         # HARNESS PROVED TO REPRODUCE `c2415c8c...` TO THE CHARACTER ON A WORKTREE OF
+                         # `6873f91`. One entry of 180 moved, good-01, in `elevation_profiles` alone
+                         # (auditor A, F6): a gambrel's two shapes had been swapped since WP-3.3, its
+                         # gable end drawn as a single-pitch triangle and its long face as a trapezoid
+                         # to the break. The gable end is the two-slope outline through the break now,
+                         # and the long face the band from the eave to the ridge. The hip ridge read
+                         # along the longer dimension (B12, F5) moves no entry: no hip in the sweep is
+                         # deeper than it is wide.
+                         "a5972be845421c23ae96df049c2765e0d1a7003d0a8d21be03b813038f66e548",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "

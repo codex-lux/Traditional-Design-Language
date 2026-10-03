@@ -172,6 +172,11 @@ def computed():
         v["image_wanted"] = by_status.get("wanted", 0)
         v["image_pairs"] = sum(1 for x in assets if x.get("role") == "correct")
         v["image_critical"] = sum(1 for x in assets if x.get("priority") == "critical")
+        # THE STYLE NODES THE MANIFEST DEPICTS, AND WHY IT IS A CLAIM (WP-16.8, the audit of Phase
+        # 16, auditor D): README carried "1850 records over 142 style nodes -- 1971 wanted and 73
+        # sourced -- 858 of them good/bad pairs" against a manifest of 2044 records over 146 nodes,
+        # because only the middle pair was claimed and `--fix` rewrote it alone.
+        v["image_style_nodes"] = len({d for x in assets for d in ((x.get("depicts") or {}).get("nodes") or [])})
 
         # WP-4.4's OTHER four numbers, and the reason they are here (2 Sep 2026): the naming
         # step finished on 31 Aug and its own figures went stale in eight files within two
@@ -320,6 +325,13 @@ CLAIMS = [
     ("docs/assets.md",         "image_sourced",  r"records — \d+ wanted and (\d+) sourced"),
     ("docs/assets.md",         "image_pairs",    r"sourced, (\d+) good/bad pairs"),
     ("docs/assets.md",         "image_critical", r"good/bad pairs, (\d+) critical"),
+    ("README.md",              "image_records",  r"(\d+) records over \d+ style nodes"),
+    ("README.md",              "image_style_nodes", r"\d+ records over (\d+) style nodes"),
+    ("README.md",              "image_pairs",    r"sourced\*\* — (\d+) of them good/bad pairs"),
+    ("STATE-OF-THE-PROJECT.md", "image_records", r"`assets/manifest\.json`, (\d+) records over \d+ style nodes"),
+    ("STATE-OF-THE-PROJECT.md", "image_style_nodes", r"`assets/manifest\.json`, \d+ records over (\d+) style nodes"),
+    ("STATE-OF-THE-PROJECT.md", "image_style_nodes", r"drawn from the packs, over (\d+) style nodes"),
+    ("docs/assets.md",         "image_style_nodes", r"It covers (\d+) style nodes"),
     # The four WP-4.4 numbers that went stale in eight files inside two days (2 Sep 2026).
     # PLAN-OF-ACTION.md joins the guarded set here: it carried three of the four and was not in
     # this list at all, which is why its Status block could say 845/330/188 against a live

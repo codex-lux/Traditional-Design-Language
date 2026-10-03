@@ -125,8 +125,39 @@ def test_every_window_carries_the_rules_own_numbers_at_the_width_it_is_drawn(bui
                 assert got == pytest.approx(leaf, abs=0.001), (pid, r["id"])
                 assert got == pytest.approx((r["width_in"] - 1.0) / 2.0, abs=0.001)
             n += 1
-    assert n >= 20, n
-    assert drawn and refused, ("the premise: some leaves drawn and some refused", drawn, refused)
+    # A FLOOR ON THE POPULATION, so the property is not asserted over nothing. 21 drawn windows
+    # over the two plans until WP-16.6 and 17 since (1 Oct 2026): the placer refuses four units by
+    # name now -- the Tidewater primary chamber's second upper sash for the axis below it (R6), and
+    # three of the spec Colonial's for the pier floor (R5) -- so the floor came down with them.
+    assert n >= 15, n
+    # NO SHIPPED LEAF IS REFUSED SINCE WP-16.6, so the refused half is DRIVEN below. The spec
+    # Colonial's family room stood its sashes a foot apart, and two 17.5 in leaves could not share
+    # that wall; the pier floor stands them 1.4 x the window apart now (sash-light's aim, 50.4 in)
+    # and every pair hangs. A refusal the corpus stopped reaching is a branch to drive, not a
+    # premise to delete.
+    assert drawn, ("the premise: some leaves are drawn", drawn, refused)
+
+
+def test_a_refused_pair_keeps_the_rules_leaf_where_the_refusal_put_it(built):
+    """DRIVEN (WP-16.6): the spec Colonial's second family-room sash moved to 20 in from the first,
+    where two 17.5 in leaves cannot share the wall. One pair is refused, draws nothing, and keeps
+    the rule's figure under `shutter_leaf_width_refused_in`."""
+    EL = _m("elevation")
+    ev = copy.deepcopy(built["spec-builder-colonial"][3])
+    a, b = sorted((p for p in ev["faces"]["S"]["placed"]
+                   if p["kind"] == "window" and p["room"] == "family" and p["storey"] == "ground"),
+                  key=lambda p: p["cx_in"])
+    d = (a["cx_in"] + (a["width_in"] + b["width_in"]) / 2.0 + 20.0) - b["cx_in"]
+    b["cx_in"] += d
+    b["u_ft"] = round(b["u_ft"] + d / 12.0, 4)
+    b["along_ft"] += d / 12.0
+    gm = ev["glass_module_in"]
+    refused = [r for r in EL.opening_rects(ev, "S")["rects"] if r["kind"] == "window" and r.get("shutters_refused")]
+    assert refused, "the drive did not land: no pair was refused"
+    for r in refused:
+        _a, _h, leaf = _by_the_rule(r["width_in"], gm)
+        assert r["shutter_leaf_width_in"] is None, r["id"]
+        assert r["shutter_leaf_width_refused_in"] == pytest.approx(leaf, abs=0.001), r["id"]
 
 
 def test_the_storey_window_is_the_same_function_at_the_storeys_width(built):

@@ -14,10 +14,65 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "defining_characteristics[3]: 'Low-pitched roof, 3:12 to 5:12, of half-round clay tile (teja) after c. 1790, with a 12–20 in eave and no gutter'. This node's own gable_treatment slot: 'The great majority of ranges and church gables are plain and unshaped, terminating the tile roof without ornament.' A range with gables is side-gabled. Judgment: the record names its ranges' gables, not the roof id. It replaces spanish-colonial-american's forbidden row ('Own diagnostic_tells: 'No gable roof anywhere in the compound.'')."
+        },
+        {
+          "id": "front-gable",
+          "status": "permitted",
+          "note": "The church gables of the same gable_treatment note. Replaces spanish-colonial-american's forbidden row. Judgment."
+        },
+        {
+          "id": "hip",
+          "status": "permitted",
+          "note": "Kept as spanish-colonial-american had it, with its note: 'The low tile roof of California and later Texas; own defining_characteristics.' This record is silent on a hip."
+        },
+        {
+          "id": "flat-parapet",
+          "status": "forbidden",
+          "note": "Demoted from canonical, where spanish-colonial-american put it ('New Mexico, Texas, Arizona: round beams behind a parapet.'). distinguished_from[1] gives it to New Mexico: 'New Mexico roofs flat on vigas behind a parapet with canales and uses no arch, no arcade and no tile; California pitches a tile roof at 3:12–5:12 and organizes everything around an arcaded court.'"
+        },
+        {
+          "id": "cross-gable",
+          "status": "atypical",
+          "note": "spanish-colonial-american forbade it on 'No gable roof anywhere in the compound (own diagnostic_tells).', which does not hold on a record with gabled ranges. This record names no cross-gable. Atypical as a judgment."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Kept, with spanish-colonial-american's note: 'An Anglo/Dutch device, absent from this tradition.'"
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "Kept forbidden, its inherited reason (no gable roof anywhere) replaced: c02 reads 'Pitches above 6:12 are foreign to the tradition.', and a mansard's lower slope is steeper than that. Judgment."
+        },
+        {
+          "id": "catslide",
+          "status": "forbidden",
+          "note": "Kept forbidden, its inherited reason (no gable roof anywhere) not holding here: the record names no catslide. Judgment."
+        },
+        {
+          "id": "saltbox",
+          "status": "forbidden",
+          "note": "Kept forbidden, its inherited reason (no gable roof anywhere) not holding here: the record names no saltbox. Judgment."
+        },
+        {
+          "id": "shed",
+          "status": "forbidden",
+          "note": "Kept, with spanish-colonial-american's note: 'The portal roof is a lean-to structure but the MAIN roof is never a shed; kept off the main massing's own list.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A low-pitched roof of half-round clay tile, 3:12 to 5:12 with a 12–20 in eave and no gutter (c02), over ranges whose gables are plain (gable_treatment).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: california-mission-colonial binds its own roof_form. Until then it wrote none and resolved SPANISH-COLONIAL-AMERICAN's record: `flat-parapet` canonical, noted 'New Mexico, Texas, Arizona: round beams behind a parapet.', and side-, front- and cross-gable FORBIDDEN on spanish-colonial-american's own tell, 'No gable roof anywhere in the compound.' This record contradicts both halves. distinguished_from[1] gives the flat parapeted roof to New Mexico and 'California pitches a tile roof at 3:12–5:12', and its own gable_treatment slot binds the gables flush: 'The great majority of ranges and church gables are plain and unshaped, terminating the tile roof without ornament.' The constant side gable was forbidden on this node (one of the nine the question lists); this record makes it canonical. Marked judgment: the record names its gables, not a roof id, and whether the canonical form is the gabled range or spanish-colonial-american's 'The low tile roof of California' (a hip) was put to Lucas with this record, and his answer B20 of 1 Oct 2026 keeps the gabled range ('Side-gable, as drafted')."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

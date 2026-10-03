@@ -11,10 +11,45 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "cross-gable",
+          "status": "canonical",
+          "note": "Canonical on Lucas's answer B21 of 1 Oct 2026. diagnostic_tells[1]: 'A central gable rising through the eave line of an otherwise symmetrical two-storey farmhouse is the commonest American Carpenter Gothic composition, and separates it from the irregular architect-designed villa'. massing_affinities[1], the canonical i-house: 'The two-storey single-pile farmhouse with a central Gothic gable is the most numerous American Carpenter Gothic form.' A central gable rising through the eave of a side-gabled symmetrical body is what the roof layer's cross-gable draws: one centred cross gable on a side-gabled body. massing_affinities[2] rates the cross-gable-victorian common."
+        },
+        {
+          "id": "side-gable",
+          "status": "permitted",
+          "note": "Permitted, behind the cross gable B21 makes canonical: the i-house body is side-gabled and the central gable rises through its eave (diagnostic_tells[1]); drawn alone, without its central gable, it lacks the composition diagnostic_tells[1] calls the commonest. Judgment."
+        },
+        {
+          "id": "gable-front-and-wing",
+          "status": "permitted",
+          "note": "massing_affinities[0] rates the gable-front-and-wing canonical, with no note; permitted here behind the form the record calls the most numerous. Judgment."
+        },
+        {
+          "id": "front-gable",
+          "status": "permitted",
+          "note": "massing_affinities[3] rates the gable-front common."
+        },
+        {
+          "id": "multi-gable-unequal-width",
+          "status": "atypical",
+          "note": "Demoted from canonical. distinguished_from[0] gives the irregular composition to the villa: 'The villa is architect-designed, genuinely irregular in plan, and composed for silhouette from several viewpoints; Carpenter Gothic is a builder's symmetrical box with sawn ornament applied to one or two elevations.' Atypical as a judgment."
+        },
+        {
+          "id": "low-hip",
+          "status": "forbidden",
+          "note": "Kept, with gothic-revival-american's note ('Suppresses the gable, which the style's own defining_characteristics make the governing compositional element.'), and this record's own massing_affinities[4]: 'A hipped roof gives the bargeboard nowhere to go.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A steep side-gabled symmetrical box, interrupted once by a central gable rising through the eave line (diagnostic_tells[1]) -- the cross-gable the roof layer draws; the bargeboard runs the full rake at 12:12 or steeper (c02).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: carpenter-gothic binds its own roof_form. Until then it wrote none and resolved GOTHIC-REVIVAL-AMERICAN's record: `multi-gable-unequal-width` canonical, with no note of its own under the rule 'Steeply pitched roof, 12:12 or greater, with the gable as the governing compositional element (c01). Below 12:12 the building reads as Carpenter Gothic ornament applied to a folk box.', and `low-hip` forbidden. The irregular multi-gable roof is the villa's, and this record says so: distinguished_from[0] 'The villa is architect-designed, genuinely irregular in plan, and composed for silhouette from several viewpoints; Carpenter Gothic is a builder's symmetrical box with sawn ornament applied to one or two elevations.', and diagnostic_tells[1] makes the central gable on a symmetrical farmhouse the commonest composition. Marked judgment: the record names its central gable and its symmetrical body, not a roof id, and it rates two massings canonical. The choice was put to Lucas with this record, and his answer B21 of 1 Oct 2026 makes cross-gable canonical -- the central gable on a symmetrical body, which is what the roof layer's cross-gable draws -- with the side gable and the gable-front-and-wing permitted. Under a specified binding (T5, taken as recommended under Lucas's standing instruction of 1 Oct 2026 and never put to him) gothic-revival-american's slot rule and its parameter principal_pitch_min (measured, 12) stop at this record; this record's c02 states the same floor ('Principal gable pitch shall be not less than 12:12'). It is not copied: a copied measured figure would be a new unsourced measured parameter in this kit, which check_kits.py refuses by identity."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

@@ -33,10 +33,40 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "defining_characteristics[4]: 'Low-pitched hipped roofs of Welsh slate with wide overhanging eaves on plain or scrolled brackets, or alternatively a very shallow parapet'. massing_affinities[1]: 'The Regency villa: a compact double-pile block with a hipped slate roof, wide eaves and a veranda, standing free in a small landscaped plot.'"
+        },
+        {
+          "id": "side-gable",
+          "status": "permitted",
+          "note": "This record does not name the side gable. Permitted, unsettled, as Lucas's answer A2 of 30 Sep 2026 reads a record's silence; english-georgian's record makes it canonical, and this companion keeps it from being drawn here."
+        },
+        {
+          "id": "mansard",
+          "status": "atypical",
+          "note": "Kept as english-georgian's record has it; this record is silent on it."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Kept from english-georgian's record: 'An American and Dutch answer, not an English one.'"
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "Kept from english-palladian's record: 'The composed centrepiece is a portico pediment, not a gable roof; overrides the generic front-gable content this slot would otherwise inherit from the corpus's deep vernacular ancestry.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Low-pitched hipped roofs of Welsh slate under wide bracketed eaves, or a very shallow parapet (defining_characteristics[4]).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B11 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: the companion of english-georgian's own roof_form binding of the same date, which makes the side gable and the hip both canonical and would otherwise reach this node by descent. regency names only the hip, so it binds the hip canonical itself and is drawn hipped, as it was under english-palladian's record before."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

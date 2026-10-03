@@ -88,9 +88,10 @@ def test_the_scene_comes_back_with_its_plan_and_its_plates(scene_res):
 
 def test_every_elevation_plate_says_which_way_it_reads(scene_res):
     """WP-15.8's audit: the Round laid an N or W elevation over the model on the assumption that
-    its `u` runs along the camera's right, and the record says since WP-13.3 that it runs with the
-    plan's axis, which from the north and the west is right to left -- every opening at the wrong
-    end, and nothing said so. The Round reads the plate's own `mirrored` now and refuses a plate
+    its `u` runs along the camera's right, and from WP-13.3 until WP-16.3 the record said it ran
+    with the plan's axis, which from the north and the west is right to left -- every opening at
+    the wrong end, and nothing said so. (Since WP-16.3, R2, those faces are drawn as seen and the
+    record says `mirrored: true` on them.) The Round reads the plate's own `mirrored` now and refuses a plate
     the affine would lay reversed, so each elevation plate must carry the face it draws and the
     record's statement for it. A plate that draws a face carries the record's value; a plate that
     is a refusal (the generator declined this record) carries None, never a default of False."""

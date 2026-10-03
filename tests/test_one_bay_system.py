@@ -92,36 +92,43 @@ class TestOneDatum:
             d = elev["datum"]
             assert d["x"] == EL.X_DATUM == "outside face"
             assert d["wall_thickness_ft"] == round(section["wall"]["exterior_in"] / 12.0, 4)
-            assert d["mirrored"] == EL.FACE_MIRRORED == {"S": False, "E": False, "N": False, "W": False}
+            assert d["mirrored"] == EL.FACE_MIRRORED == {"S": False, "E": False, "N": True, "W": True}
             for f in "SNEW":
                 assert elev["faces"][f]["datum"] == "outside face", (pid, f)
                 assert elev["faces"][f]["mirrored"] is EL.FACE_MIRRORED[f]
 
     def test_the_conversion_is_one_wall_thickness_on_every_face_and_the_mirror_is_a_stated_switch(self):
-        """A plan coordinate along a wall reaches the face by adding the exterior wall, on every
-        face, and the N and W faces read WITH the plan's axis -- which is what the scene, the
-        roof's stack axes and the DXF have always assumed and what `FACE_MIRRORED` states.
+        """A plan coordinate along a wall reaches the face by adding the exterior wall, and on the
+        north and west faces -- drawn AS SEEN FROM OUTSIDE since WP-16.3 (R2, ruled 29 Sep 2026) --
+        it is then measured from the far end: a north elevation seen from the north has east on
+        the left, a west one seen from the west has north on the left.
 
-        THE FIRST VERSION OF THIS SLICE MIRRORED N AND W to the drafter's convention (a north
-        elevation seen from the north has east on the left), and the Round then put the spec
-        Colonial's placed front door 44.0 ft from where the plan seats it, because
-        `scene._face_extrude` lays every face out unmirrored. One convention across four readers
-        is what the record has; the mirror is a ruling and one switch, and this test asserts the
-        switch's stated value so that flipping it is a visible decision and not a drift."""
+        FROM WP-13.3 UNTIL WP-16.3 THIS TEST ASSERTED THE OPPOSITE, and said why: the first version
+        of that slice mirrored N and W and the Round put the spec Colonial's placed front door
+        44.0 ft from where the plan seats it, because `scene._face_extrude` laid every face out
+        unmirrored. The ruling flipped the switch AND every reader with it (the scene, the stack
+        axes and outlines, the roof's per-face profiles, the DXF, the entrance tie-break), and
+        this asserts the switch's ruled value so that flipping it back is a visible decision and
+        not a drift."""
         W, D, t = 63.0, 38.17, 1.2917
-        assert EL.FACE_MIRRORED == {"S": False, "E": False, "N": False, "W": False}
+        assert EL.FACE_MIRRORED == {"S": False, "E": False, "N": True, "W": True}
         assert EL.face_u_ft("S", 9.0, W, D, t) == pytest.approx(9.0 + t)
         assert EL.face_u_ft("E", 6.689, W, D, t) == pytest.approx(6.689 + t)
-        assert EL.face_u_ft("N", 9.5, W, D, t) == pytest.approx(9.5 + t)
-        assert EL.face_u_ft("W", 2.264, W, D, t) == pytest.approx(2.264 + t)
+        # the outside width is W + 2t and the point stands at 9.5 + t from the west end of it, so
+        # from the east end, which is the north face's left as seen, it is W + t - 9.5
+        assert EL.face_u_ft("N", 9.5, W, D, t) == pytest.approx(W + t - 9.5)
+        assert EL.face_u_ft("W", 2.264, W, D, t) == pytest.approx(D + t - 2.264)
         with pytest.raises(ValueError):
             EL.face_u_ft("X", 0.0, W, D, t)
-        # and the switch is live: flipped by hand, the same function mirrors from the far end,
-        # so the day it is ruled the conversion is already written
+        # the inverse is the one `scene._entrance_agreement` reads, and it is an inverse
+        for f, a in (("S", 9.0), ("E", 6.689), ("N", 9.5), ("W", 2.264)):
+            assert EL.face_along_ft(f, EL.face_u_ft(f, a, W, D, t), W, D, t) == pytest.approx(a)
+        # and the switch is live: flipped back by hand, the same function measures from the near
+        # end, so the conversion is the switch's and not a second spelling of the direction
         saved = dict(EL.FACE_MIRRORED)
         try:
-            EL.FACE_MIRRORED["N"] = True
-            assert EL.face_u_ft("N", 9.5, W, D, t) == pytest.approx(W + t - 9.5)
+            EL.FACE_MIRRORED["N"] = False
+            assert EL.face_u_ft("N", 9.5, W, D, t) == pytest.approx(9.5 + t)
         finally:
             EL.FACE_MIRRORED.clear()
             EL.FACE_MIRRORED.update(saved)
@@ -148,10 +155,23 @@ class TestOneDatum:
             assert c_clear == pytest.approx((i + 0.5) * module, abs=1e-3), "the rhythm's bay is the grid's bay"
             assert c_out == pytest.approx(c_clear + t, abs=1e-3), "the face's centre is the rhythm's plus one wall"
         assert face["actual_bay_width_in"] == pytest.approx(module * 12.0)
-        # and the N face is the same set: it reads with the plan's axis (`FACE_MIRRORED`), and a
-        # symmetric rhythm would be the same numbers in the same order mirrored or not
-        assert elev["faces"]["N"]["mirrored"] is EL.FACE_MIRRORED["N"]
-        assert elev["faces"]["N"]["centres_ft"] == face["centres_ft"]
+        # and the N face is the same system seen from the other side (R2, WP-16.3): each centre is
+        # the S face's reflected about the face's DRAWN width, so its CLEAR centres run east to west
+        # -- the pairing of a face `u` with its plan coordinate is what the mirror must not break.
+        # A rhythm symmetric about the house's centre line gives the S face's numbers again, less
+        # the footprint's own rounding: the drawn width is the stated 47.58 ft and the exact span
+        # 47.5833, so the N face, which is measured from the drawn EAST end, reads every centre
+        # 0.0033 ft less -- the same end-of-the-house rounding the S face carries at its right.
+        n = elev["faces"]["N"]
+        assert n["mirrored"] is EL.FACE_MIRRORED["N"] is True
+        assert n["clear_centres_ft"] == sorted(face["clear_centres_ft"], reverse=True)
+        Wc = section["footprint"]["clear_width_ft"]
+        Dc = section["footprint"]["clear_depth_ft"]
+        wide = section["footprint"]["width_ft"]     # the face's drawn width, the mirror's axis
+        for u, c in zip(n["centres_ft"], n["clear_centres_ft"]):
+            assert u == pytest.approx(EL.face_u_ft("N", c, Wc, Dc, t, outside_ft=wide), abs=1e-3), (u, c)
+        eps = wide - (Wc + 2.0 * t)
+        assert n["centres_ft"] == pytest.approx([c + eps for c in face["centres_ft"]], abs=1e-3)
 
     def test_a_gable_end_and_a_plan_with_no_rhythm_keep_the_formula_and_say_so(self, built):
         res, section, roof, elev = built["tidewater-georgian-careful"]
@@ -189,9 +209,15 @@ class TestTheOpeningsAreThePlans:
         up = [r for r in EL.opening_rects(elev, "S")["rects"] if r["storey"] == "upper"]
         assert elev["faces"]["S"]["count"] == 7
         assert len(up) < elev["faces"]["S"]["count"], "the upper front is drawn from the rhythm"
-        assert len(up) == 5, (
-            "four before the 17 Sep merge; re-derive per plan and name the placement that "
-            "moved rather than re-pinning")
+        # FOUR AGAIN AT WP-16.6 (1 Oct 2026), BY A REFUSAL AND NOT A RE-PLACEMENT. R6 (ruled
+        # 29 Sep 2026) seats an upper window on the axis of the opening below it, or refuses it
+        # by name where its room cannot take it there. `chamber3` stands over the drawing room's
+        # second window and the library's: the first axis is at 51.401 ft, 0.111 ft inside the
+        # chamber's own west wall, where a 3.5 ft sash cannot stand, so that sash is refused
+        # (`rule: alignment`) and the other four stand exactly on openings below.
+        assert len(up) == 4, (
+            "four before the 17 Sep merge, five after it, four at WP-16.6; re-derive per plan "
+            "and name the placement that moved rather than re-pinning")
 
     def test_an_empty_bay_is_stated_empty_and_not_filled_from_the_rhythm(self, built):
         """The ruling's trap: *"the window that gets invented to complete a rhythm is this
@@ -430,25 +456,59 @@ class TestTheMeasurementsStoppedBeingConstants:
         # recomputed independently of `storey_alignment`
         want_max = max(min(abs(u - l) for l in lo) for u in up)
         assert al["max_abs_offset_in"] == pytest.approx(want_max, abs=1e-3)
-        # THE FIGURE LUCAS READ WAS 48.396 IN AND IT IS 32.316 AFTER THE 17 SEP MERGE. It is
-        # re-derived above from the drawn rects and only then held to a number, so the pin is a
-        # record of the tree rather than the measurement itself; main's WP-11.17 entrance front
-        # and WP-11.18 partition share re-place this front and one more upper sash is seated,
-        # which gives the worst upper window a nearer neighbour below. THE POINT OF THE
-        # ASSERTION IS THAT IT IS NOT 0.0 -- `elevation.py:1286` used to state the offset as a
-        # constant zero -- so the inequality is asserted first and the figure second.
-        assert al["max_abs_offset_in"] > EL.ALIGNMENT_TOL_IN, (
-            "the storeys are back in alignment; that is the constant returning, not a fix")
-        assert al["max_abs_offset_in"] == pytest.approx(32.316, abs=1e-3), (
-            "48.396 before the 17 Sep merge; re-derive, do not re-pin")
-        assert al["matching"] == sum(1 for u in up if min(abs(u - l) for l in lo) <= 2.0) == 1
-        assert al["missing_or_off"] == sum(1 for l in lo if not any(abs(u - l) <= 2.0 for u in up)) == 7
+        # THE FIGURE LUCAS READ WAS 48.396 IN, 32.316 AFTER THE 17 SEP MERGE, AND IT IS 0.0 SINCE
+        # WP-16.6 (1 Oct 2026) -- MEASURED, AND THAT IS THE DIFFERENCE FROM THE CONSTANT IT
+        # REPLACED. `elevation.py:1286` used to state the offset as a constant zero whatever the
+        # placement did. Now the placer seats every upper window it can on the axis of the
+        # opening below it (R6, ruled 29 Sep 2026) and refuses by name the one it cannot, so all
+        # four upper sashes on this front stand exactly over a ground opening: the primary
+        # chamber's over the kitchen door and the back hall's window, the upper passage's over
+        # the porch door, the third chamber's over the library's window. The figure is
+        # re-derived above from the drawn rects; the DRIVE below moves one placed sash and
+        # watches it move, which a constant could not do.
+        assert al["max_abs_offset_in"] == 0.0, (
+            "R6 seats every upper window on this front over an opening below; a non-zero "
+            "offset is a sash the placer left off its axis")
+        assert al["matching"] == sum(1 for u in up if min(abs(u - l) for l in lo) <= 2.0) == 4
+        assert al["missing_or_off"] == sum(1 for l in lo if not any(abs(u - l) <= 2.0 for u in up)) == 4
+        # THE DRIVE: the primary chamber's first upper sash moved one foot east in the PLACED
+        # record, and the elevation rebuilt from it. Its nearest opening below is still the
+        # kitchen door (the next is 4.0 ft away), so the worst offset is exactly the move.
+        res3 = copy.deepcopy(res)
+        moved = next(w for lv in res3["levels"] if lv.get("index") == 1 for r in lv["rooms"]
+                     if r["id"] == "primary" for w in (r.get("windows") or [])
+                     if w.get("wall") == elev["entrance_face"] and w.get("positions_ft"))
+        moved["positions_ft"][0] = round(moved["positions_ft"][0] + 1.0, 3)
+        e3 = EL.build_elevation(res3, None, section=ST.build_section(res3, None, geometry_result=res3))
+        assert e3["front"]["alignment"]["max_abs_offset_in"] == pytest.approx(12.0, abs=1e-3)
+        assert e3["front"]["alignment"]["matching"] == 3
+        # THE ALIGNMENT IS STILL MEASURED AND STILL ON THE RECORD; WHAT MOVED AT WP-16.1 IS
+        # WHETHER IT IS HANDED TO THE FAULTS. On this file's one-element fixture the front
+        # declares four window units the placement did not draw, all on the ground storey (the
+        # SHIPPED, tagged record draws five, one of them upper -- a different placement), and
+        # R12 (ruled 29 Sep 2026) makes an incomplete front unjudged for symmetry and alignment
+        # everywhere -- so the three figures are WITHHELD, each with the elevation's reason, and
+        # the fault reads could-not-evaluate rather than a verdict about a front the record does
+        # not describe.
         m = elev["measurements"]
-        assert m["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] == al["max_abs_offset_in"]
-        assert m["upper_storey_opening_centres_matching_lower"] == 1
-        assert m["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] == 7
-        assert m["upper_floor_opening_count"] == m["total_upper_storey_openings"] == 5
-        assert m["openings_on_the_front_elevation"] == 13
+        assert elev["front"]["complete"]["complete"] is False
+        # {0: 4, 1: 0} until WP-16.6: the third chamber's second sash is refused under R6 now,
+        # and the ground's four are the same four rooms (two of them refused by the pier floor
+        # where the placer refused them before, `rule: pier`).
+        assert elev["front"]["complete"]["undrawn"] == {0: 4, 1: 1}
+        for k in EL._ALIGNMENT_FIGURES:
+            assert k not in m, k
+            assert "not drawn" in elev["front"]["withheld"][k], elev["front"]["withheld"][k]
+        # AND THE SAME FRONT, DRIVEN COMPLETE, HANDS THE FAULTS EXACTLY THE FIGURES MEASURED
+        # ABOVE: the gate withholds and does nothing else.
+        res2, elev2 = _fresh(built, "tidewater-georgian-careful")
+        elev2["front"]["complete"] = {"complete": True, "why": None}
+        m2 = EL._derive_measurements(elev2)
+        assert m2["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] == al["max_abs_offset_in"]
+        assert m2["upper_storey_opening_centres_matching_lower"] == 4
+        assert m2["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] == 4
+        assert m["upper_floor_opening_count"] == m["total_upper_storey_openings"] == 4
+        assert m["openings_on_the_front_elevation"] == 12
 
     def test_the_front_counts_are_the_drawn_openings_not_the_bays(self, built):
         for pid, (res, section, roof, elev) in built.items():
@@ -485,17 +545,48 @@ class TestTheMeasurementsStoppedBeingConstants:
         al = EL.storey_alignment(sorted(r["cx_in"] for r in rects), [], EL.ALIGNMENT_TOL_IN)
         assert al["max_abs_offset_in"] is None and al["matching"] == 0 and al["missing_or_off"] == len(rects)
         elev["front"]["alignment"] = al
+        # This test's subject is the PARITY count, so the front is driven complete: on the
+        # shipped front R12 withholds the alignment trio for a different reason (WP-16.1), and
+        # leaving that gate closed would test it instead of this.
+        elev["front"]["complete"] = {"complete": True, "why": None}
         m = EL._derive_measurements(elev)
         assert "upper_floor_opening_count" not in m and "total_upper_storey_openings" not in m
         assert m["upper_storey_windows_missing_or_off_alignment_over_a_lower_bay"] == len(rects)
         assert "max_abs_offset_between_upper_and_lower_opening_centrelines_in" not in m
 
     def test_the_withheld_names_are_stated_on_the_record(self, built):
-        """The two shipped plans withhold nothing (both are two-storey with upper front
-        openings), and the record says so with an empty dict rather than silence; a driven
-        one-storey record names the two counts it withholds and why."""
+        """What each record withholds, and why, is on the record rather than left to an
+        absence; a driven one-storey record names the counts it withholds and why.
+
+        RE-CUT AT WP-16.1 (29 Sep 2026). This asserted that both shipped plans withhold
+        NOTHING, which was true of the storey counts it was written for. Both fronts are
+        incomplete -- on this file's one-element fixture four undrawn window units on the
+        Tidewater S front and three on the spec Colonial's N -- and R12 (ruled 29 Sep 2026)
+        withholds the five symmetry and alignment
+        figures on every incomplete front, so each record now names exactly those five, each
+        with the reason `axis.front_complete` gives. The storey counts are still withheld on
+        neither plan, which is the half of the old assertion that still holds."""
+        five = set(EL._MIRROR_FIGURES) | set(EL._ALIGNMENT_FIGURES)
+        extras = {}
         for pid, (res, section, roof, elev) in built.items():
-            assert elev["front"]["withheld"] == {}, pid
+            fc = elev["front"]["complete"]
+            assert fc["complete"] is False and fc["total_undrawn"] > 0, (pid, fc)
+            # the five, and since WP-16.8 the two pier figures (U8), each with the front's reason;
+            # anything else withheld is a per-house reason, each from its own one reader: the
+            # rake's (`rake_withheld`), and since the audit of WP-16.8's own diff (3 Oct 2026) the
+            # return's (`return_withheld`, D1) and an undated house's lights (`undated_lights`, U16)
+            r12 = five | set(EL._PIER_FIGURES)
+            w = elev["front"]["withheld"]
+            assert {k for k, v in w.items() if v == fc["why"]} == r12, (pid, w)
+            own = {**EL.rake_withheld(elev), **EL.return_withheld(elev)}
+            if elev.get("date_of_representation") is None:
+                own.update({k: EL.undated_lights(elev) for k in EL.DATED_LIGHT_FIGURES})
+            extra = {k: v for k, v in w.items() if k not in r12}
+            assert all(own.get(k) == v for k, v in extra.items()), (
+                pid, sorted(k for k, v in extra.items() if own.get(k) != v))
+            extras[pid] = sorted(extra)
+            assert f"{fc['total_undrawn']} declared window unit(s)" in fc["why"], fc["why"]
+        assert any(extras.values()), ("the premise: a plan withholds for a reason of its own", extras)
         one = copy.deepcopy(built["tidewater-georgian-careful"][0])
         one["levels"] = one["levels"][:1]
         section = ST.build_section(one, None, geometry_result=one)
@@ -504,20 +595,42 @@ class TestTheMeasurementsStoppedBeingConstants:
         assert set(elev["front"]["withheld"]) >= {"upper_floor_opening_count", "total_upper_storey_openings"}
         assert "one storey" in elev["front"]["withheld"]["upper_floor_opening_count"]
         assert "upper_floor_opening_count" not in elev["measurements"]
+        # A one-storey record names its alignment trio and its three second-floor figures for
+        # the storey count, which is the more fundamental reason; before WP-16.1 the trio was
+        # left out of the measurements with nothing on the record saying why.
+        for k in tuple(EL._ALIGNMENT_FIGURES) + ("second_floor_sash_height_in",
+                                                 "second_floor_sill_height_in",
+                                                 "second_storey_floor_to_floor_in"):
+            assert elev["front"]["withheld"].get(k) == "the section states one storey", k
+            assert k not in elev["measurements"], k
 
     def test_the_mirror_is_axis_mirrors(self, built):
+        """The mirror pair is `axis.mirror`'s reading and nothing else -- asserted on each
+        front DRIVEN COMPLETE, because the shipped fronts are incomplete and R12 (WP-16.1)
+        withholds the pair there. The gate's own half is asserted in the test above."""
         for pid, (res, section, roof, elev) in built.items():
             mi = AX.mirror(res)
-            m = elev["measurements"]
+            assert "count_of_openings_without_a_mirror_twin_about_the_facade_centreline" not in elev["measurements"]
+            _r, e2 = _fresh(built, pid)
+            e2["front"]["complete"] = {"complete": True, "why": None}
+            m = EL._derive_measurements(e2)
             if mi["verdict"] in ("mirrored", "not-mirrored"):
                 assert m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] == len(mi["unmatched"])
                 widest = max((o.get("width_ft") or 0) for o in mi["unmatched"]) * 12.0 if mi["unmatched"] else 0.0
                 assert m["width_of_the_largest_asymmetric_element_in"] == pytest.approx(widest)
             else:
                 assert "count_of_openings_without_a_mirror_twin_about_the_facade_centreline" not in m
-        # and the Tidewater front is not mirrored: five of seven ground openings have no twin
-        m = built["tidewater-georgian-careful"][3]["measurements"]
-        assert m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] == 5
+        # and the Tidewater front is not mirrored: three of its ground openings have no twin.
+        # FIVE UNTIL WP-16.6 (1 Oct 2026), and the fall is a measurement and not an achievement.
+        # R5 seats the windows from the centre out at the pier floor and its aim, which moves
+        # the drawing room's second sash 48.5 -> 51.401 ft and the library's 57.0 -> 59.802 (its
+        # second is refused by the floor); each now stands within `axis.mirror`'s 1.0 ft of a
+        # kitchen sash's reflection about the 31.5 ft centre line, while the kitchen door loses
+        # the twin the library's old sash gave it. Nothing in the placer reads the mirror.
+        _r, e2 = _fresh(built, "tidewater-georgian-careful")
+        e2["front"]["complete"] = {"complete": True, "why": None}
+        m = EL._derive_measurements(e2)
+        assert m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] == 3
 
     def test_a_window_a_stack_stands_on_is_not_counted_as_glass_and_a_door_is_counted(self, built):
         res, elev = _fresh(built, "tidewater-georgian-careful")
@@ -540,10 +653,12 @@ class TestTheDormersAndThePlate:
                      if p["kind"] == "window" and p["storey"] == "upper")
         # THE PREMISE IS THAT THERE ARE FEWER UPPER WINDOWS THAN THE RECORD'S LARGER DORMER
         # COUNT, so the shortfall branch below has something to be short of. Four before the
-        # 17 Sep merge and five after it; the figure is named and the RELATION is what the
-        # two drives depend on.
-        assert len(ups) == 5, (
-            "four before the 17 Sep merge; re-derive and name the placement that moved")
+        # 17 Sep merge, five after it, and four since WP-16.6 (R6 refuses the third chamber's
+        # second sash, whose axis below its room cannot take); the figure is named and the
+        # RELATION is what the two drives depend on.
+        assert len(ups) == 4, (
+            "four before the 17 Sep merge, five after it, four at WP-16.6; re-derive and name "
+            "the placement that moved")
         plan = copy.deepcopy(res)
         plan.setdefault("declared", {})["dormer"] = {"count": 2, "face": face}
         section = ST.build_section(plan, None, geometry_result=plan)

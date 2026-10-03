@@ -58,7 +58,20 @@ COULD_NOT_EVALUATE = 3      # check_all.py's protocol -- 2 read as FAIL, which i
 # is the OQ 52 family leaving this file. One ratio GONE and none added:
 # `openings_on_the_front_elevation`, which was the front's count scaled by a literal and is the
 # placed openings now. **Four measurements became real; nothing was renamed away.**
-LITERALS_CEILING = 41
+#
+# AND THE LITERALS FELL AGAIN AT WP-16.4 (30 Sep 2026), 41 -> 40, BY NAME: `sidelight_width_in`,
+# which published `0.0` where the width cap omitted the pair. It is the drawn pair's width now, or
+# absent where no sidelight is drawn, beside a COUNT read off the entrance rect's own spans. The
+# ratios did NOT fall, and that was measured rather than assumed: wrapping
+# `entablature_bed_height_in`'s `* 0.3` in a withholding condition took it off the ratio list,
+# because `_ratio_literal` did not read a conditional's branches. The instrument was taught to,
+# and the count on the parent's file is unchanged by it (6 on both).
+# 40 -> 39, the audit of WP-16.8's own diff (3 Oct 2026, auditor A's F4): `belt_course_projection_in`
+# was `wtb[...] or 1.0`, an invented projection published wherever the record stated none (the
+# Tidewater's belt, and six one-storey houses' that no sheet draws). It is published only where a
+# belt is drawn and only as stated now, and absent otherwise -- modelled, not hidden: the reader is
+# `if wtb.get(...) is not None: m[...] = wtb[...]`, with no literal in any shape this detector reads.
+LITERALS_CEILING = 39
 RATIOS_CEILING = 6
 UNJUDGED_CEILING = 0     # basis citations whose key path the walker could not follow
 MIN_SWEEP_PLANS = 8

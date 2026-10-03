@@ -35,9 +35,13 @@ def _mod(name, path):
     return _mc.load(name, path)
 
 
-# The jamb allowance and the solid between openings are ONE number each, shared with the
+# The jamb allowance and the solid beside an opening are ONE number each, shared with the
 # renderers (build/render_plan.py) and with the CP engine's door floor (WP-6.3), so the
 # drawing, the proof and this pass can never again disagree about what fits (OQ 41/63).
+# CORRECTED 1 OCT 2026 (WP-16.6): this said "the solid between openings", and since R5 the wall
+# between two WINDOWS is not this foot. It is the pier floor `window_pier` reads from the pier
+# fault, 1.0 x the wider window, except for the five styles that fault licenses, which keep this
+# foot inside one room (R5b). The foot still governs beside a door, the doorcase and the masonry.
 JAMB_FT = 0.35
 MIN_SOLID_FT = 1.0
 
@@ -82,6 +86,19 @@ def _furn():
     if _FURN is None:
         _FURN = _mod("furniture", os.path.join(ROOT, "build", "furniture.py"))
     return _FURN
+
+
+_WPIER = None
+
+
+def _wpier():
+    """build/window_pier.py -- the floor, the aim and the spared styles between two windows
+    (WP-16.6). A LEAF beside doorcase.py: it loads proportion_engine and resolve_kit, neither of
+    which reaches geometry, so loading it here closes no cycle."""
+    global _WPIER
+    if _WPIER is None:
+        _WPIER = _mod("window_pier", os.path.join(ROOT, "build", "window_pier.py"))
+    return _WPIER
 
 
 def required_wall_ft(width_ft):
@@ -660,6 +677,55 @@ def _masonry_spans(level_rooms, W, H, envs, hearths, level_index):
     return out
 
 
+def _entrance_door(plan, level_rooms, W, H, envs):
+    """`(room, door, face, None)` for the entrance door the elevation dresses, or
+    `(None, None, face, why)`: the widest exterior door placed on the main block's entrance face
+    (`doorcase.entrance_index`, ties to the lower coordinate), the face being the record's own
+    `context.entrance_faces`, default S. ONE reading, for the doorcase reservation and for the
+    centre the windows are seated out from (WP-16.6, R5a), lifted out of `_reserve_doorcase`
+    with its two refusals' words unchanged."""
+    DC = _dc()
+    face = (plan.get("context") or {}).get("entrance_faces") or "S"
+    if face not in ("N", "S", "E", "W"):
+        return None, None, face, f"the record's entrance face {face!r} is not one face of the main block"
+    cands = []
+    for r in level_rooms:
+        rect = _rect(r)
+        if not rect or not on_main_face((envs or {}).get(r["id"]), face, W, H) \
+                or face not in _boundary_walls(rect, W, H):
+            continue
+        for d in (r.get("doors") or []):
+            if d.get("to") == "exterior" and d.get("wall") == face and d.get("position_ft") is not None:
+                cands.append((r, d))
+    i = DC.entrance_index([(d.get("width_ft") or 3.5, d["position_ft"]) for _r, d in cands])
+    if i is None:
+        return None, None, face, f"no exterior door is placed on the main block's {face} face"
+    room, door = cands[i]
+    return room, door, face, None
+
+
+def window_centres(plan, level_rooms, W, H, envs):
+    """`({line: (along_ft, source)}, why)`: the centre the windows of a face line are seated out
+    from where it is not the face's own centre (R5a, ruled 29 Sep 2026: "the centre holds -- the
+    entrance where a door is seated, otherwise the face's centre").
+
+    The entrance is the door `_entrance_door` reads, the elevation's own. WHERE THAT DOOR IS A
+    GARAGE DOOR THE FACE'S CENTRE HOLDS: no doorcase frames a garage door (`_reserve_doorcase`,
+    `elevation._clearances`), and a garage door is no entrance. Taken as recommended under Lucas's
+    standing instruction of 1 Oct 2026, never put (U4 in
+    `oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways`): the
+    narrower pedestrian door beside it was the alternative, and choosing it would be a second
+    reading of "the entrance door" beside the elevation's."""
+    room, door, face, why = _entrance_door(plan, level_rooms, W, H, envs)
+    if door is None:
+        return {}, why
+    if "garage" in str(door.get("type") or "").lower():
+        return {}, ("the widest door on the entrance front is a garage door, and a garage door is "
+                    "no entrance: the face's centre holds")
+    line, _ = face_line((envs or {}).get(room["id"]), face, W, H)
+    return {line: (float(door["position_ft"]), f"the entrance door's axis ({room['id']})")}, None
+
+
 # THE ENTRANCE DOORCASE IS RESERVED BEFORE A WINDOW IS SEATED (Phase 15, WP-15.6). Lucas, of the
 # drawn Tidewater front (27 Sep 2026): "there's still no concept of how close windows can be to
 # doors". This pass reserved the entrance door's LEAF and `MIN_SOLID_FT` either side, and the
@@ -670,10 +736,13 @@ def _masonry_spans(level_rooms, W, H, envs, hearths, level_index):
 # composition should not fall below about half the ordinary pier". Both are applied here, with the
 # composition's width from `doorcase.composition` -- the arithmetic the elevation draws.
 #
-# WHAT IS NOT RULED IS NOT APPLIED. The pier between two WINDOWS is left at `MIN_SOLID_FT`: the
-# corpus states that ratio three ways (a style's own 0.6 to 1.0 times the window, the packs' 1.2 to
-# 2.0 and a 1.4 target, the fault's floor of 1.0) and which governs the placement is
-# `oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways`.
+# WHAT WAS NOT RULED WAS NOT APPLIED, AND IT IS RULED NOW. The pier between two WINDOWS was left at
+# `MIN_SOLID_FT` here (WP-15.6), because the corpus states that ratio three ways (a style's own 0.6
+# to 1.0 times the window, the packs' 1.2 to 2.0 and a 1.4 target, the fault's floor of 1.0):
+# `oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways`. Lucas ruled
+# it on 29 Sep 2026 (R5, R5a, R5b) and `_place_windows` seats to it since WP-16.6, reading
+# `build/window_pier.py`. The doorcase's residual pier below is facade-classical's rule and is
+# unchanged; the pier at the corner of a doorcase is still not ruled.
 def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
     """The entrance composition's run on the entrance face, and the rooms whose windows must keep
     clear of it, or None where no doorcase is drawn; the verdict either way is written to
@@ -696,26 +765,14 @@ def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
         rec["why"] = (f"no doorcase is drawn for '{style}': it is outside opening-proportion's and "
                       f"facade-classical's own applies_to, so the elevation draws none")
         return None
-    face = (plan.get("context") or {}).get("entrance_faces") or "S"
-    if face not in ("N", "S", "E", "W"):
-        rec["why"] = f"the record's entrance face {face!r} is not one face of the main block"
+    room, door, face, why = _entrance_door(plan, level_rooms, W, H, envs)
+    if door is None:
+        rec["why"] = why
         return None
+
     def _on_main(r):
         return on_main_face((envs or {}).get(r["id"]), face, W, H)
 
-    cands = []
-    for r in level_rooms:
-        rect = _rect(r)
-        if not rect or not _on_main(r) or face not in _boundary_walls(rect, W, H):
-            continue
-        for d in (r.get("doors") or []):
-            if d.get("to") == "exterior" and d.get("wall") == face and d.get("position_ft") is not None:
-                cands.append((r, d))
-    i = DC.entrance_index([(d.get("width_ft") or 3.5, d["position_ft"]) for _r, d in cands])
-    if i is None:
-        rec["why"] = f"no exterior door is placed on the main block's {face} face"
-        return None
-    room, door = cands[i]
     if "garage" in str(door.get("type") or "").lower():
         # the elevation's own rule (`elevation._clearances`, `render_elevation`): the widest door on
         # the entrance front is a garage door here, and no doorcase frames a garage door
@@ -729,7 +786,14 @@ def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
         return None
     slots = _thresh().resolved_slots(style)
     forbids = DC.forbidden_of(slots) if slots is not None else set()
-    comp = DC.composition(op, fac, ground["storey_height_ft"] * 12.0, forbids=forbids)
+    # THE SIDELIGHTS THE KIT FORBIDS, AT THE HOUSE'S DATE (WP-16.4). `forbids` holds whole-slot
+    # bans only, so a style forbidding the sidelights ROW -- the Georgian family's 1700-1780 ban,
+    # the Cape's and the saltbox's own -- had its run reserved for sidelights the elevation must
+    # not draw. `doorcase.refusals` is the one reading, the elevation's too.
+    date = (plan.get("context") or {}).get("date_of_representation")
+    refused = DC.refusals(slots, date) if slots is not None else {}
+    comp = DC.composition(op, fac, ground["storey_height_ft"] * 12.0, forbids=forbids,
+                          refused=refused)
     leaf = door.get("width_ft") or 3.5
     side_in = comp["casing_w_in"] + (comp["sidelight_w_in"] if comp["use_sidelights"] else 0.0)
     half = leaf / 2.0 + side_in / 12.0
@@ -759,6 +823,12 @@ def _reserve_doorcase(plan, level_rooms, W, H, envs, report, level_index):
         "reserved": True, "wall": face, "room": room["id"], "position_ft": round(pos, 3),
         "leaf_ft": leaf, "casing_in": round(comp["casing_w_in"], 3),
         "sidelights_in": round(comp["sidelight_w_in"], 3) if comp["use_sidelights"] else None,
+        # WHO REFUSED THEM, where the kit did: the run is the narrower one and the record says why
+        "sidelights_refused": ((refused.get("transom_sidelight") or refused.get("sidelights"))
+                               if comp["sidelights_forbidden"] else None),
+        # WHOSE DOORCASE THIS RUN WAS RESERVED FOR: the style and the date it was composed under,
+        # which a drawing of this placement under another style cannot assume (WP-16.4)
+        "composed_for": {"style": style, "date": date},
         "run_ft": [round(pos - half, 3), round(pos + half, 3)],
         "rooms_touched": sorted(touched),
         "residual": ("half the ordinary pier each side, facade-classical's door_surround rule, at "
@@ -807,12 +877,342 @@ def _beside(key, run, door_spans, glazed, took, keep):
     return " and ".join(names) or None
 
 
+def face_line(env, wall, W, H):
+    """`((wall, across), (lo, hi))` for a window on `wall` of a room in `env`: the face it stands
+    in -- the wall's letter and the coordinate ACROSS it, read off the room's own element or the
+    main block -- and the face's extent ALONG it.
+
+    TWO WINDOWS ARE NEIGHBOURS ONLY ON ONE LINE (WP-16.6). The placer kept its foot between two
+    windows inside one ROOM, so two windows either side of a partition could stand a few inches
+    apart: on the shipped plans 10 of the 35 window-to-window piers cross a partition. A face line
+    is the wall a reader sees, whichever room is behind it; a dependency's south face set back
+    from the main block's is another wall, and its windows are not paired across the gap."""
+    x0, y0, x1, y1 = env if env else (0.0, 0.0, W, H)
+    across = {"S": y0, "N": y1, "W": x0, "E": x1}[wall]
+    run = (x0, x1) if wall in ("N", "S") else (y0, y1)
+    return (wall, round(across, 3)), run
+
+
+def opening_axes(level_rooms, W, H, envs):
+    """`{line: [(along_ft, kind, room_id), ...]}`: every opening SEATED on one level, by face line,
+    sorted along it -- the windows' `positions_ft` and the exterior doors' `position_ft`, as
+    written. What the storey above aligns to (R6): the ground opening below a window is a window or
+    a door, because the alignment fault measures every drawn opening on the storey below
+    (`elevation.storey_alignment` reads both)."""
+    out = {}
+    for r in level_rooms:
+        if not _rect(r):
+            continue
+        env = (envs or {}).get(r["id"])
+        for win in (r.get("windows") or []):
+            if win.get("wall") in ("N", "E", "S", "W"):
+                line, _ = face_line(env, win["wall"], W, H)
+                for p in (win.get("positions_ft") or []):
+                    out.setdefault(line, []).append((float(p), "window", r["id"]))
+        for d in (r.get("doors") or []):
+            if d.get("to") == "exterior" and d.get("wall") in ("N", "E", "S", "W") \
+                    and d.get("position_ft") is not None:
+                line, _ = face_line(env, d["wall"], W, H)
+                out.setdefault(line, []).append((float(d["position_ft"]), "door", r["id"]))
+    return {k: sorted(v) for k, v in out.items()}
+
+
+def _order_assign(n, m, cost):
+    """The order-preserving pairing of `n` sorted units with `m` sorted axes that pairs min(n, m)
+    of them at the least summed `cost(i, j)`, as `[(i, j)]` index pairs, both increasing. Ties go
+    to the lower index, so the answer is a function of the inputs and not of a dictionary's order."""
+    if not n or not m:
+        return []
+    swap = n > m
+    p, q = (m, n) if swap else (n, m)              # every one of the p takes one of the q, in order
+    c = (lambda i, j: cost(j, i)) if swap else cost
+    INF = float("inf")
+    best = [[INF] * (q + 1) for _ in range(p + 1)]
+    take = [[False] * (q + 1) for _ in range(p + 1)]
+    for j in range(q + 1):
+        best[0][j] = 0.0
+    for i in range(1, p + 1):
+        for j in range(i, q + 1):
+            skip = best[i][j - 1]
+            use = best[i - 1][j - 1] + c(i - 1, j - 1)
+            # strictly less: on a tie the pairing already found with the earlier axis stands
+            if use < skip:
+                best[i][j], take[i][j] = use, True
+            else:
+                best[i][j] = skip
+    pairs, i, j = [], p, q
+    while i > 0:
+        if take[i][j]:
+            pairs.append((i - 1, j - 1))
+            i, j = i - 1, j - 1
+        else:
+            j -= 1
+    pairs.reverse()
+    return [(jj, ii) for ii, jj in pairs] if swap else pairs
+
+
+# A unit matched to an axis its own room cannot take costs more than any distance along a wall, so
+# the pairing seats every unit it can on an axis its room CAN take before it gives one an axis it
+# cannot (`_assign_axes`). A number of feet no wall in this corpus approaches.
+_UNTAKEABLE_FT = 1.0e6
+
+
+def _assign_axes(wins, axes):
+    """`{id(unit): (along_ft, kind)}`: the axis of the opening below that each upper unit takes
+    (R6), per room wall, among the openings whose axis falls inside that wall's run.
+
+    A unit whose room has NO opening below its run is not here, and is seated where the pier rule
+    puts it (R6a): the alignment fault judges it. Where a room has openings below its run, its
+    units take them in order, nearest where each would otherwise have been seated, and the
+    openings its room can take -- the window inside the room's own run at that axis -- before the
+    ones it cannot; a unit left with an opening its room cannot take is refused by name (R6), and
+    a unit left with none is R6a's. Taken as recommended under Lucas's standing instruction of
+    1 Oct 2026, never put (U1 and U2 in
+    `oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways`)."""
+    out = {}
+    groups = {}
+    for w in wins:
+        groups.setdefault((w["room"]["id"], w["wall"]), []).append(w)
+    for _key, ws in groups.items():
+        lo, hi = ws[0]["lo"], ws[0]["hi"]
+        cands = [(a, kind) for a, kind, _rid in axes if lo - 1e-9 <= a <= hi + 1e-9]
+        if not cands:
+            continue
+        units = sorted((u for w in ws for u in w["units"]), key=lambda u: (u["prefer"], u["k"]))
+
+        def cost(i, j, _u=units, _c=cands, _lo=lo, _hi=hi):
+            a, wd = _c[j][0], _u[i]["w"]["width"]
+            takeable = _lo - 1e-9 <= a - wd / 2 and a + wd / 2 <= _hi + 1e-9
+            return abs(_u[i]["prefer"] - a) + (0.0 if takeable else _UNTAKEABLE_FT)
+        for i, j in _order_assign(len(units), len(cands), cost):
+            out[id(units[i])] = cands[j]
+    return out
+
+
+def _named_on(span, key, door_spans, took_spans, keep):
+    """What stands on `span` of a room's wall, in the words a refusal prints."""
+    lo, hi = span
+    names = ["its doors"] if any(s < hi and e > lo for s, e in door_spans.get(key, [])) else []
+    names += sorted({what for (s, e), what in took_spans.get(key, []) if s < hi and e > lo})
+    if keep and keep[0] < hi and keep[1] > lo:
+        names.append("the entrance doorcase")
+    return " and ".join(names) or None
+
+
+def _seat_line(ws, base, pier, centre, aligned, mode):
+    """Seat every unit of one face line and return `{id(unit): verdict}` without writing anything.
+
+    `mode` is "pier" (R5: the wall between two windows at least the floor x the wider, every window
+    on the line -- whichever room it lights -- counted) or "foot" (the floor spared, R5b: the
+    placer's old foot inside one room). In "pier" mode every unit is seated in ONE queue, the units
+    nearest the centre of the composition first, so the centre holds and the outer window moves
+    (R5a): an aligned unit at EXACTLY the axis of the opening below or refused (R6, and R5 with R6
+    read together: "an upper window that, once aligned, would break the upper pier floor cannot be
+    taken there, so it is refused by name"), and the rest by the floor and the aim.
+
+    ONE QUEUE SINCE THE AUDIT OF PHASE 16 (WP-16.8, auditor A). WP-16.6 seated every aligned unit
+    before any other and attributed that order to R6, which states none. Where an outer aligned
+    window and an inner one contend for the floor, R5a's words decide which yields -- "windows
+    nearer the entrance keep their places, and on other faces those nearer the face's centre do;
+    the outer window moves along its own wall, or is refused by name" -- and the aligned-first
+    order refused the INNER window: on spec-builder-colonial's upper south face the primary
+    chamber's unit preferring 9.0 ft was refused for the pier so the unit aligned at 6.745 ft could
+    keep its axis. In "foot" mode the spared styles keep WP-16.6's order: aligned units first, the
+    rest in record order (a reading, named at WP-16.8: R5b spares the floor, and the spared styles
+    keep their old pass and take no aim). CORRECTED 3 OCT 2026 (the audit of WP-16.8's own diff,
+    auditor D): this said "the order the spared styles always had", and before WP-16.6 there was no
+    alignment to order -- the record order of the unaligned units is the old pass's; the aligned
+    units going first is WP-16.6's, kept here. No shipped plan places a spared style on two storeys.
+
+    THE AIM WHERE THE WALL ALLOWS. A unit is seated at the pack's aim (sash-light's
+    `opening_width * 1.4`, where it reaches the style) where that costs no window: it takes the
+    aim's pier only if the units still to be seated on its line fit as many beside it as they
+    would beside the floor's. Otherwise it takes the floor. Read pier by pier, not face by face: a
+    first version gave a whole face the floor wherever one unit on it would have been refused at
+    the aim, so a crowded living room took the floor away from the library beside it (good-02,
+    measured 1 Oct 2026). Taken as recommended under Lucas's standing instruction of 1 Oct 2026,
+    never put (U3 in
+    `oq/the-placer-seats-windows-a-foot-apart-and-the-corpus-states-the-pier-three-ways`)."""
+    WP = _wpier()
+    q = _RECORD_QUANTUM_FT
+    out = {}
+
+    def spans_for(u, fn, seated):
+        w = u["w"]
+        key = (w["room"]["id"], w["wall"])
+        sp = list(base.get(key, [])) + ([w["keep"]] if w["keep"] else [])
+        for pos, wd, rid in seated:
+            if mode == "foot":
+                if rid == w["room"]["id"]:
+                    sp.append((pos - wd / 2 - MIN_SOLID_FT, pos + wd / 2 + MIN_SOLID_FT))
+            else:
+                p = fn(pier, max(w["width"], wd)) + q
+                sp.append((pos - wd / 2 - p, pos + wd / 2 + p))
+        return sp
+
+    def seat(u, fn, seated):
+        w = u["w"]
+        return _seat(_free(w["lo"], w["hi"], spans_for(u, fn, seated)), w["width"], u["prefer"])
+
+    def fits_axis(u, seated):
+        w = u["w"]
+        axis, wd = aligned[id(u)][0], w["width"]
+        ext = (axis - wd / 2, axis + wd / 2)
+        free = _free(w["lo"], w["hi"], spans_for(u, WP.floor_ft, seated))
+        return ext, any(s - 1e-9 <= ext[0] and ext[1] <= e + 1e-9 for s, e in free)
+
+    def floor_count(units_, seated):
+        # every unit still to come, each as it will be seated: an aligned one at its axis or not at
+        # all, the rest at the floor
+        seated, n = list(seated), 0
+        for v in units_:
+            if id(v) in aligned:
+                if fits_axis(v, seated)[1]:
+                    seated.append((aligned[id(v)][0], v["w"]["width"], v["w"]["room"]["id"]))
+                    n += 1
+                continue
+            p = seat(v, WP.floor_ft, seated)
+            if p is not None:
+                seated.append((p, v["w"]["width"], v["w"]["room"]["id"]))
+                n += 1
+        return n
+
+    def bare_seat(u):
+        w = u["w"]
+        key = (w["room"]["id"], w["wall"])
+        sp = list(base.get(key, [])) + ([w["keep"]] if w["keep"] else [])
+        return _seat(_free(w["lo"], w["hi"], sp), w["width"], u["prefer"])
+
+    seated = []                                         # (pos, width, room_id) on this line
+    units = [u for w in ws for u in w["units"]]
+    # the distance from the centre is ROUNDED before it orders anything: two units a third of a
+    # wall either side of it are equidistant, and which of them the last bit of a double puts
+    # first is not a reason to seat one rather than the other
+    if mode == "foot":
+        queue = (sorted((u for u in units if id(u) in aligned),
+                        key=lambda u: (round(abs(aligned[id(u)][0] - centre), 6), aligned[id(u)][0]))
+                 + [u for u in units if id(u) not in aligned])    # record order, as it always was
+    else:
+        def _at(u):
+            return aligned[id(u)][0] if id(u) in aligned else u["prefer"]
+        # ONE QUEUE, aligned and unaligned units together, nearest the centre first (R5a with the
+        # ruled "read together"; WP-16.8, auditor A: this seated every aligned unit first and
+        # called the order R6). Of two units equidistant from the centre the lower coordinate goes
+        # first (U13, taken as recommended under Lucas's standing instruction of 1 Oct 2026, never
+        # put): on the Tidewater hyphen's line it decides which of backhall's two units is refused.
+        queue = sorted(units, key=lambda u: (round(abs(_at(u) - centre), 6), _at(u)))
+    for i, u in enumerate(queue):
+        w = u["w"]
+        if id(u) not in aligned:
+            if mode == "foot":
+                pos, how = seat(u, None, seated), "foot"
+            else:
+                pos, how = seat(u, WP.floor_ft, seated), "floor"
+                if pos is not None and pier.get("aim"):
+                    pa = seat(u, WP.aim_ft, seated)
+                    if pa is not None and (abs(pa - pos) < 1e-9 or
+                                           floor_count(queue[i + 1:], seated + [(pa, w["width"], w["room"]["id"])])
+                                           >= floor_count(queue[i + 1:], seated + [(pos, w["width"], w["room"]["id"])])):
+                        pos, how = pa, "aim"
+            if pos is not None:
+                seated.append((pos, w["width"], w["room"]["id"]))
+                out[id(u)] = {"pos": pos, "how": how}
+                continue
+            out[id(u)] = {"refused": "run" if mode == "foot" or bare_seat(u) is None else "pier"}
+            continue
+        axis, kind = aligned[id(u)]
+        wd = w["width"]
+        ext, fits = fits_axis(u, seated)
+        if fits:
+            seated.append((axis, wd, w["room"]["id"]))
+            out[id(u)] = {"pos": axis, "how": "aligned", "axis": axis, "below": kind}
+            continue
+        if ext[0] < w["lo"] - 1e-9 or ext[1] > w["hi"] + 1e-9:
+            why = "it would run past the end of its own room's wall"
+        else:
+            key = (w["room"]["id"], w["wall"])
+            bfree = _free(w["lo"], w["hi"], list(base.get(key, [])) + ([w["keep"]] if w["keep"] else []))
+            if not any(s - 1e-9 <= ext[0] and ext[1] <= e + 1e-9 for s, e in bfree):
+                why = f"{u['beside'](ext) or 'the wall'} stands there"
+            elif mode == "foot":
+                why = "the window already seated beside it in its room stands there"
+            else:
+                why = (f"the wall to the window beside it would fall below {pier['floor']:g} x the "
+                       f"wider window")
+        out[id(u)] = {"refused": "alignment", "axis": axis, "below": kind, "why": why}
+    return out
+
+
+def _seat_a_foot_apart(ws, occupied, glazed, door_spans, took, report):
+    """THE PASS BEFORE WP-16.6, VERBATIM: the spared styles' ground storey (R5b). Each window's
+    units in record order, each seated against what its room's own wall already carries, a foot
+    (`MIN_SOLID_FT`) from the next, and its record written at once, so a refusal names what was
+    on the wall when it was refused."""
+    for w in ws:
+        r, win, wall, n, width = w["room"], w["win"], w["wall"], w["n"], w["width"]
+        lo, hi, keep = w["lo"], w["hi"], w["keep"]
+        placed = []
+        for k in range(n):
+            free = _free(lo, hi, occupied.get((r["id"], wall), []) + ([keep] if keep else []))
+            prefer = lo + (hi - lo) * ((k + 1) / (n + 1))
+            pos = _seat(free, width, prefer)
+            if pos is None:
+                break
+            placed.append(pos)
+            occupied.setdefault((r["id"], wall), []).append(
+                (pos - width / 2 - MIN_SOLID_FT, pos + width / 2 + MIN_SOLID_FT))
+        if placed:
+            # before `_beside` is asked, so a partial refusal names the units it did seat
+            glazed.add((r["id"], wall))
+        beside = _beside((r["id"], wall), (lo, hi), door_spans, glazed, took, keep)
+        if not placed:
+            win.pop("positions_ft", None)          # refused whole: see `_place_windows`
+            win["unplaced"] = {"reason": (f"the wall has no clear run left beside {beside}"
+                                          if beside else "the wall is shorter than the window"),
+                               "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),
+                                         "units": n},
+                               "have": {"units_placed": 0}}
+            report["windows_unplaced"] += n
+            continue
+        if len(placed) < n:
+            # the DECLARED count is left alone (WP-6.2): see `_place_windows`
+            win["unplaced"] = {"reason": f"{n - len(placed)} of {n} unit(s) had no clear "
+                                         f"run left on this wall beside {beside}",
+                               "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),
+                                         "units": n},
+                               "have": {"units_placed": len(placed)}}
+            report["windows_unplaced"] += n - len(placed)
+        else:
+            win.pop("unplaced", None)
+        win["positions_ft"] = [round(p, 3) for p in placed]
+        report["windows_placed"] += len(placed)
+
 def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None, level_index=0,
-                   doorcase=None):
-    """Windows into the run the doors left, centred on the bay grid where a bay line falls
-    inside the free space. build/geometry.py's own header says the bay module is what
-    "joists span, windows centre on, the facade composes from" — and no renderer or pass
-    had ever centred a window on one.
+                   doorcase=None, pier=None, centres=None, below=None):
+    """Windows into the run the doors, the masonry and the entrance doorcase leave, and NEVER
+    nearer the next window than the pier rule allows (WP-16.6).
+
+    THIS DOCSTRING SAID, FROM WP-6.2 UNTIL WP-16.6, THAT WINDOWS WERE "centred on the bay grid
+    where a bay line falls inside the free space". No line of this function ever read a bay line:
+    each unit was seated at `(k+1)/(n+1)` of its room's wall and pushed to the nearest free run.
+    The claim is removed rather than built, because the bay grid is the facade's RESULT
+    (`oq/the-facade-is-a-result`, WP-11.7) and no ruling asks the placer to centre on it.
+
+    THE PIER (R5, R5a, R5b, ruled 29 Sep 2026). The wall between two windows on one face line --
+    whichever rooms are behind them -- is at least `window_pier.floor` x the wider of the two
+    (the pier fault's own 1.0), aiming at sash-light's `opening_width * 1.4` where that pack
+    reaches the style and the wall allows it, and a unit that cannot be seated is REFUSED BY NAME,
+    `rule: pier`. The units nearest the centre of the composition are seated first -- the
+    entrance door's axis on the entrance front, the face's centre elsewhere -- so the centre holds
+    and the outer window moves along its own wall. The aim is taken where it costs no window: a
+    line whose aim refuses a unit the floor would seat is seated at the floor. The five styles the
+    pier fault licenses (`window_pier.spared`) keep the old foot inside one room.
+
+    THE ALIGNMENT (R6, R6a). On a storey above another, a window whose room has an opening of the
+    storey below under its wall takes EXACTLY that opening's axis, or is refused by name,
+    `rule: alignment`: where its room's wall cannot take it there, or (R5 with R6) where the wall
+    to the next window would fall below the floor. A window with no opening below its room's run
+    is seated by the pier rule, and the alignment fault judges it.
 
     AND INTO THE RUN THE MASONRY LEAVES (WP-13.2). `hearths` is the record `hearth_pass`
     wrote before this pass ran; its drawn breasts and its stacks are reserved on their walls
@@ -820,18 +1220,21 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
     rather than dead centre in it. A window that no longer fits is UNPLACED with a reason
     naming what took the wall, and the declared count is never overwritten (WP-6.2).
 
-    THE REASON NAMES WHAT IS ON THE WALL, AND NOTHING ELSE (WP-15.8). It read "beside its doors"
-    whatever took the run, and measured over the sixteen shipped plans 7 of the 9 refusals for
-    want of run stand on a wall carrying no door: the Tidewater dining and library walls were
-    taken by the chimney breast and its stack, and the five partial refusals by the window's own
-    first units. A reason naming a cause that is not there is the one-reason-for-several-causes
-    shape. `_beside` names the doors only where a door's span lies on this run, the windows
-    already seated there, the masonry `_reserve_masonry` took it for, and the doorcase where its
-    band reaches the run; a wall carrying none of them is shorter than the window."""
+    THE REASON NAMES WHAT IS ON THE WALL, AND NOTHING ELSE (WP-15.8). `_beside` names the doors
+    only where a door's span lies on this run, the windows already seated there, the masonry
+    `_reserve_masonry` took it for, and the doorcase where its band reaches the run; a wall
+    carrying none of them is shorter than the window. Under R5 a unit that would fit on the wall
+    with no window on it is refused for the PIER and says so, so "beside the windows already
+    seated on it" is said only by the spared styles' foot, which is the one place it is true."""
     # the doors' spans, snapshotted BEFORE the masonry is reserved into the same lists, so a
     # refusal can tell a wall a door took from one the chimney took
     door_spans = {k: list(v) for k, v in occupied.items() if v}
     took = _reserve_masonry(level_rooms, occupied, W, H, envs, hearths, level_index)
+    took_spans = {}
+    for key, span, what in _masonry_spans(level_rooms, W, H, envs, hearths, level_index):
+        took_spans.setdefault(key, []).append((span, what))
+    # what a window meets on an EMPTY face: the doors and the masonry, before any window is seated
+    base = {k: list(v) for k, v in occupied.items() if v}
     # A WINDOW REFUSED WHOLE CARRIES NO POSITIONS, WHATEVER IT CAME IN WITH (WP-15.8's audit).
     # `unplaced` beside a non-empty `positions_ft` means a PARTIAL refusal, and three readers take
     # it that way: `plan_check`'s "drawn with no window", the plate's windows line and the
@@ -841,6 +1244,7 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
     # given stale positions while the sheet drew no such window. Seated windows are overwritten
     # below; the three wholesale refusals drop them here.
     glazed = set()
+    wins = []
     for r in level_rooms:
         rect = _rect(r)
         if not rect:
@@ -852,7 +1256,8 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
                 # storey the placer never places
                 report["windows_unplaced"] += win.get("count") or 1
             continue
-        bw = _boundary_walls(rect, W, H, env=(envs or {}).get(r["id"]))
+        env = (envs or {}).get(r["id"])
+        bw = _boundary_walls(rect, W, H, env=env)
         for win in (r.get("windows") or []):
             wall = win.get("wall")
             n = win.get("count") or 1
@@ -865,50 +1270,139 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None,
                 report["windows_unplaced"] += n
                 continue
             lo, hi = bw[wall]
-            keep = _doorcase_keepout(doorcase, r["id"], wall, width, (lo, hi))
-            placed = []
-            for k in range(n):
-                free = _free(lo, hi, occupied.get((r["id"], wall), []) + ([keep] if keep else []))
-                prefer = lo + (hi - lo) * ((k + 1) / (n + 1))
-                pos = _seat(free, width, prefer)
-                if pos is None:
-                    break
-                placed.append(pos)
-                occupied.setdefault((r["id"], wall), []).append(
-                    (pos - width / 2 - MIN_SOLID_FT, pos + width / 2 + MIN_SOLID_FT))
-            if placed:
-                # before `_beside` is asked, so a partial refusal names the units it did seat
-                glazed.add((r["id"], wall))
-            beside = _beside((r["id"], wall), (lo, hi), door_spans, glazed, took, keep)
-            if not placed:
-                win.pop("positions_ft", None)          # refused whole: see the note above
-                win["unplaced"] = {"reason": (f"the wall has no clear run left beside {beside}"
-                                              if beside else "the wall is shorter than the window"),
-                                   "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),
-                                             "units": n},
-                                   "have": {"units_placed": 0}}
-                report["windows_unplaced"] += n
-                continue
-            if len(placed) < n:
-                # the DECLARED count is left alone. Overwriting it with what was placed
-                # would make the record lose the author's intent to a placement outcome —
-                # the same silent overwrite this whole package exists to remove — and the
-                # shortfall is already legible as count - len(positions_ft). Caught by the
-                # DXF round trip, which asserts the rebuilt record equals the authored one.
-                win["unplaced"] = {"reason": f"{n - len(placed)} of {n} unit(s) had no clear "
-                                             f"run left on this wall beside {beside}",
-                                   "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),
-                                             "units": n},
-                                   "have": {"units_placed": len(placed)}}
-                report["windows_unplaced"] += n - len(placed)
-            else:
-                win.pop("unplaced", None)
-            # every UNIT gets its own centreline. Storing one figure for the group and
-            # letting each renderer re-derive the spacing is how the two renderers came out
-            # 0.7 in apart on the first plan this was tried on -- a group of `count` windows
-            # is `count` physical openings, each seated in whatever run the doors left.
+            line, face_run = face_line(env, wall, W, H)
+            w = {"room": r, "win": win, "wall": wall, "n": n, "width": width, "lo": lo, "hi": hi,
+                 "line": line, "face_run": face_run,
+                 "keep": _doorcase_keepout(doorcase, r["id"], wall, width, (lo, hi))}
+            key = (r["id"], wall)
+            w["units"] = [{"w": w, "k": k, "prefer": lo + (hi - lo) * ((k + 1) / (n + 1)),
+                           "beside": (lambda ext, _key=key, _keep=w["keep"]:
+                                      _named_on(ext, _key, door_spans, took_spans, _keep))}
+                          for k in range(n)]
+            wins.append(w)
+
+    spared = pier is None or pier.get("spared") or pier.get("floor") is None
+    mode = "foot" if spared else "pier"
+    by_line = {}
+    for w in wins:
+        by_line.setdefault(w["line"], []).append(w)
+    verdicts, written = {}, set()
+    seating = report.setdefault("window_seating", [])
+    for line in sorted(by_line, key=lambda k: (k[0], k[1])):
+        ws = by_line[line]
+        given = (centres or {}).get(line)
+        # a line with no centre given -- any face line but the entrance front's, a hyphen's among
+        # them -- holds about its own run's centre and not the entrance axis (U12, WP-16.8: taken as
+        # recommended under Lucas's standing instruction of 1 Oct 2026, never put)
+        centre = given[0] if given else (ws[0]["face_run"][0] + ws[0]["face_run"][1]) / 2.0
+        aligned = _assign_axes(ws, (below or {}).get(line) or []) if below is not None else {}
+        if spared and below is None:
+            # THE OLD FOOT, EXACTLY (R5b): the pass before WP-16.6, verbatim, because nothing on a
+            # ground storey moves for a spared style -- including WHEN each refusal's sentence is
+            # composed, which is why it writes its records here and not with the rest below.
+            _seat_a_foot_apart(ws, occupied, glazed, door_spans, took, report)
+            written.update(id(w) for w in ws)
+            seating.append({"level": level_index, "wall": line[0], "across_ft": line[1],
+                            "centre_ft": None, "centre": None, "mode": "foot",
+                            "seated": {}, "refused": {}})
+            continue
+        got = _seat_line(ws, base, pier, centre, aligned, mode)
+        verdicts.update(got)
+        for u in sorted((u for w in ws for u in w["units"]),
+                        key=lambda u: (got[id(u)].get("pos", 0.0))):
+            v = got[id(u)]
+            if "pos" in v:
+                w = u["w"]
+                occupied.setdefault((w["room"]["id"], w["wall"]), []).append(
+                    (v["pos"] - w["width"] / 2 - MIN_SOLID_FT, v["pos"] + w["width"] / 2 + MIN_SOLID_FT))
+        seating.append({"level": level_index, "wall": line[0], "across_ft": line[1],
+                        "centre_ft": round(centre, 3), "centre": given[1] if given else
+                        "the face's centre", "mode": mode,
+                        "seated": {h: sum(1 for v in got.values() if v.get("how") == h)
+                                   for h in ("aligned", "aim", "floor", "foot")
+                                   if any(v.get("how") == h for v in got.values())},
+                        "refused": {c: sum(1 for v in got.values() if v.get("refused") == c)
+                                    for c in ("run", "pier", "alignment")
+                                    if any(v.get("refused") == c for v in got.values())}})
+
+    floor = (pier or {}).get("floor")
+    # EVERY WALL A WINDOW STANDS ON, BEFORE ANY REFUSAL IS WORDED (the audit of WP-16.8's own diff,
+    # 3 Oct 2026). Every unit on these lines is already seated or refused, so which walls carry a
+    # window is known here. Gathered in the loop below, a record listed BEFORE the record whose
+    # window took its wall found the wall unglazed: on a spared style's upper storey, where the
+    # aligned window is seated first whichever record it belongs to, a 9 ft wall refusing two
+    # 3 ft windows said "the wall is shorter than the window". Pre-existing since WP-16.6, and
+    # reached by no shipped plan (none places a spared style on two storeys).
+    glazed.update((w["room"]["id"], w["wall"]) for w in wins if id(w) not in written
+                  and any("pos" in verdicts[id(u)] for u in w["units"]))
+    for w in wins:
+        if id(w) in written:
+            continue
+        r, win, wall, n, width = w["room"], w["win"], w["wall"], w["n"], w["width"]
+        placed = sorted(verdicts[id(u)]["pos"] for u in w["units"] if "pos" in verdicts[id(u)])
+        refused = [verdicts[id(u)] for u in w["units"] if "pos" not in verdicts[id(u)]]
+        if placed:
+            # before `_beside` is asked, so a partial refusal names the units it did seat
+            glazed.add((r["id"], wall))
+        if not refused:
+            win.pop("unplaced", None)
             win["positions_ft"] = [round(p, 3) for p in placed]
             report["windows_placed"] += len(placed)
+            continue
+        parts = []
+        for cause in ("run", "pier", "alignment"):
+            k = sum(1 for v in refused if v["refused"] == cause)
+            if not k:
+                continue
+            whole = not placed and k == n
+            if cause == "run":
+                beside = _beside((r["id"], wall), (w["lo"], w["hi"]), door_spans,
+                                 glazed if spared else set(), took, w["keep"])
+                if whole:
+                    txt = (f"the wall has no clear run left beside {beside}" if beside
+                           else "the wall is shorter than the window")
+                else:
+                    txt = (f"{k} of {n} unit(s) had no clear run left on this wall beside {beside}"
+                           if beside else f"{k} of {n} unit(s) had no clear run left on this wall")
+                parts.append({"units": k, "reason": txt})
+            elif cause == "pier":
+                txt = ((f"the wall between it and the window beside it would fall below "
+                        f"{floor:g} x the wider window") if whole else
+                       (f"{k} of {n} unit(s) would leave a wall below {floor:g} x the wider window "
+                        f"beside the window next to it"))
+                parts.append({"rule": "pier", "units": k, "reason": txt})
+            else:
+                first = next(v for v in refused if v["refused"] == "alignment")
+                txt = ((f"it could not stand on the axis of the {first['below']} below it: "
+                        f"{first['why']}") if whole else
+                       (f"{k} of {n} unit(s) could not stand on the axis of the opening below: "
+                        f"{first['why']}"))
+                parts.append({"rule": "alignment", "units": k, "reason": txt})
+        rec = {"reason": "; ".join(p["reason"] for p in parts),
+               "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2), "units": n},
+               "have": {"units_placed": len(placed)}}
+        if len(parts) == 1 and parts[0].get("rule"):
+            rec["rule"] = parts[0]["rule"]
+        elif len(parts) > 1:
+            rec["parts"] = parts
+        if any(p.get("rule") == "pier" for p in parts):
+            rec["needs"]["pier_over_the_wider_window"] = floor
+        al = [v for v in refused if v["refused"] == "alignment"]
+        if al:
+            rec["axes"] = [{"axis_ft": round(v["axis"], 3), "opening": v["below"], "why": v["why"]}
+                           for v in al]
+        win["unplaced"] = rec
+        report["windows_unplaced"] += len(refused)
+        if placed:
+            # the DECLARED count is left alone. Overwriting it with what was placed
+            # would make the record lose the author's intent to a placement outcome —
+            # the same silent overwrite this whole package exists to remove — and the
+            # shortfall is already legible as count - len(positions_ft). Caught by the
+            # DXF round trip, which asserts the rebuilt record equals the authored one.
+            win["positions_ft"] = [round(p, 3) for p in placed]
+            report["windows_placed"] += len(placed)
+        else:
+            win.pop("positions_ft", None)          # refused whole: see the note above
 
 
 # --------------------------------------------------------------------- the stair
@@ -1280,17 +1774,43 @@ def place(plan, C=None):
     # run before it seats a sash, exactly as it seats one beside a door. The STOOP still runs
     # last (below), because it reads the placed exterior doors.
     he = _thresh().hearth_pass(plan, C, report)
+    # WP-16.6. THE WALL BETWEEN TWO WINDOWS, AND THE STOREY ABOVE ON THE STOREY BELOW (R5, R5a,
+    # R5b, R6, R6a). One reading of the pier per house (`window_pier.rule`, the style's), the
+    # centre the entrance front is seated out from (the entrance door's axis, read off the ground
+    # storey's seated doors), and each storey's seated openings handed to the storey above, which
+    # is why the levels are walked in their record order with the storey below already done.
+    pier = _wpier().rule(plan["style"]) if plan.get("style") else None
+    report["window_pier"] = _wpier().words(pier)
+    centres, below_by_level = None, {}
     holds = []
     for _li, lv in enumerate(plan["levels"]):
+        idx = lv.get("index", _li)
         rooms = [r for r in lv["rooms"]]
         occupied = {}
         _place_interior(rooms, occupied, report,
-                        appendages=apx.get(lv.get("index", _li)) or {})
+                        appendages=apx.get(idx) or {})
         _place_exterior(rooms, occupied, W, H, C, report, envs,
-                        hearths=he, level_index=lv.get("index", _li))
-        dc = _reserve_doorcase(plan, rooms, W, H, envs, report, lv.get("index", _li))
+                        hearths=he, level_index=idx)
+        if centres is None and idx == 0:
+            centres, why = window_centres(plan, rooms, W, H, envs)
+            # where the entrance front is seated out from, or why it is its own face's centre
+            report["window_centre"] = [{"wall": k[0], "across_ft": k[1], "along_ft": round(v[0], 3),
+                                        "source": v[1]} for k, v in centres.items()] or why
+        dc = _reserve_doorcase(plan, rooms, W, H, envs, report, idx)
+        # THE STOREY BELOW, where it is placed: a storey whose level below was not walked before
+        # it is aligned to nothing, and says so, rather than reading as a storey with no
+        # opening below it (R6a is a fact about the house; this would be one about the loop).
+        below = None
+        if idx > 0:
+            below = below_by_level.get(idx - 1)
+            if below is None:
+                report.setdefault("window_alignment_unjudged", []).append(
+                    {"level": idx, "why": f"level {idx - 1} is not placed before level {idx}, so "
+                                          f"no window on it is aligned to the storey below"})
         _place_windows(rooms, occupied, W, H, report, envs,
-                       hearths=he, level_index=lv.get("index", _li), doorcase=dc)
+                       hearths=he, level_index=idx, doorcase=dc,
+                       pier=pier, centres=centres or {}, below=below)
+        below_by_level[idx] = opening_axes(rooms, W, H, envs)
         fixture_pass(rooms, C, report, occupied)
         holds.append((rooms, occupied))
     stair = stair_pass(plan, C, report)

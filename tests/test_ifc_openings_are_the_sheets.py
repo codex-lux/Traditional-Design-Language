@@ -218,3 +218,37 @@ def test_every_opening_stands_on_its_wall_s_centreline(models):
             assert abs(_at(op)[across] - _at(wall)[across]) < 1e-6, (pid, op.Name, ps.get("wall"))
             n += 1
     assert n > 0
+
+
+def test_every_roof_plane_stands_between_its_own_eave_and_ridge(models):
+    """THE ROOF PLANES WERE THE SECOND OCCURRENCE OF THE SCALE, AND NOTHING READ THEM (the audit of
+    WP-16.8's own diff, 3 Oct 2026, auditor B). The fix above reached `_placement` and not the two
+    rotated helpers the roof planes go through, so every roof this exporter wrote stood at 3.2808
+    times its coordinates -- the Tidewater's planes at z 105.25 ft over an eave of 25.44 and a
+    ridge of 38.72 -- while every test in this file read spaces, storeys and openings. Each plane
+    is a slab rotated about the ridge's axis and centred on its own slope, so its ABSOLUTE centre
+    is half way up the roof the IfcRoof's own property set states, and inside the house's plan.
+    The premise -- that the corpus exports a roof with planes at all -- is asserted, because a
+    sweep that met none would pass over the defect it was written for."""
+    n = 0
+    for pid, (placed, _sec, g) in sorted(models.items()):
+        planes = [s for s in g.by_type("IfcSlab") if s.PredefinedType == "ROOF"]
+        if not planes:
+            continue
+        roof = g.by_type("IfcRoof")[0]
+        ps = uel.get_psets(roof).get("TDL") or {}
+        eave, ridge = float(ps["grade_to_eave_ft"]), float(ps["grade_to_ridge_ft"])
+        fp = placed.get("footprint") or {}
+        W, D = float(fp["width_ft"]), float(fp["depth_ft"])
+        slack = 3.0                                  # the outside wall and the plane's own run
+        for s in planes:
+            x, y, z = _at(s)
+            assert abs(z - (eave + ridge) / 2) < TOL, (pid, s.Name, z, eave, ridge)
+            assert -slack <= x <= W + slack and -slack <= y <= D + slack, (pid, s.Name, x, y, W, D)
+            n += 1
+    assert n >= 2, "no exported model carries roof planes, so nothing here was tested"
+
+
+# `test_every_placement_goes_through_the_one_helper_that_states_the_unit` stood here and MOVED
+# 3 Oct 2026 to `tests/test_audit_of_wp_16_8.py`: it reads the source and needs no library, and
+# this file skips whole wherever ifcopenshell is absent, which is every CI job.

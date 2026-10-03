@@ -2407,7 +2407,19 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
             # the record carries one centreline per unit; read them, do not re-space them
             if win.get("positions_ft"):
                 pos = [float(p) for p in win["positions_ft"]]
-                crowded += max(0, n - len(pos))
+                # A PARTIAL REFUSAL IS THE PLACER'S, NOT A RUN THIS FUNCTION FOUND FULL (WP-16.8, the
+                # audit of Phase 16, auditor C). Since WP-16.6 the placer refuses a unit for the pier
+                # floor (R5) or the axis below (R6) as well as for want of run, and the record says
+                # which (`unplaced.rule`, `parts`); counted as `crowded`, the bench printed "had no
+                # clear run left on their wall" over 18 units on 10 of the 16 shipped plans, 17 of
+                # them refused for a ruled reason. `refused` claims no reason, and the served line
+                # (`disclosures.windows_not_drawn`) says each one's. `crowded` is this function's
+                # own inference on a declared record, below.
+                missing = max(0, n - len(pos))
+                if win.get("unplaced"):
+                    refused += missing
+                else:
+                    crowded += missing
             elif win.get("unplaced"):
                 # WP-13.2. A window the PLACER refused is not re-inferred. The branch below was
                 # written for a DECLARED record -- one nobody has placed, whose windows carry no

@@ -469,7 +469,32 @@ CORPUS_PLACEMENT_SHA = "0e454336df58c1fa"
 # wall of this room has a free run" with a `declared_wall` of S, and says the wall is shorter than
 # the door now, with the walls that were too short. Measured per plan against a worktree of
 # `c310cc4`: fifteen byte-identical, no position, wall or seat moved anywhere.
-CORPUS_OPENINGS_SHA = "209843a4b8d14191"
+# PHASE 16, WP-16.4 (30 Sep 2026): 209843a4b8d14191 -> 73d4d79110d09b42, ONE WINDOW ON ONE PLAN.
+# `tidewater-georgian-careful` is dated 1765, inside georgian-colonial-american's 1700-1780 ban on
+# the sidelights, so the doorcase the placer reserves is one sidelight narrower each side and the
+# centre passage's south window moves 9.995 -> 11.164 ft, exactly one sidelight's 14.03 in.
+# Re-derived per plan with this test's own arithmetic on a `git worktree` of `3071f71`, which
+# reproduced both old pins first: the placement digest is unchanged on all sixteen, and the
+# openings digest differs on exactly that plan, in that one window's `positions_ft`.
+# PHASE 16, WP-16.6 (1 Oct 2026): 73d4d79110d09b42 -> c02edee34e30aeab, FOURTEEN PLANS, AND THE
+# PLACEMENT HOLDS. The placer seats windows to R5 (a wall between two at least 1.0 x the wider,
+# aiming at sash-light's 1.4 x where it reaches the style, the centre holding) and the upper storey
+# on the axes of the openings below (R6). Re-derived per plan with this test's own arithmetic on a
+# `git worktree` of `bb3c6de`, which reproduced BOTH old pins first: the placement digest is
+# unchanged on all sixteen, and the openings digest differs on fourteen -- in `windows` on all
+# fourteen, where 13 units are newly refused (11 by the pier floor, 2 by alignment), 15 windows
+# move along their walls at the same count, and bad-07's one refusal is re-worded from "no clear
+# run beside the windows already seated" to the floor it is refused by; and in `furniture_layout`
+# on three (spec-builder-colonial, good-02, good-05), where the dining room's corner cupboard takes
+# another corner because a window moved. The two unmoved are good-01, the one shingle-style plan,
+# whose ground storey keeps the old foot (R5b), and good-04, whose two seated windows stand alone
+# on their walls and whose refused ones have no run at all.
+# c02edee34e30aeab -> ee74fd3885e61464 AT WP-16.8 (2 Oct 2026, the audit of Phase 16, auditor A):
+# the placer seats one queue by distance from the centre (R5a), and two rooms' windows moved, diffed
+# room by room against a worktree of `e604955`: the spec Colonial's upper `primary` (seated at 9.0;
+# the aligned unit at 6.745 refused for alignment) and Tidewater's `chamber3` ([32.099, 40.5] ->
+# [33.0, 40.5]). No door, fixture or furniture layout moved, and no other room's windows.
+CORPUS_OPENINGS_SHA = "ee74fd3885e61464"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

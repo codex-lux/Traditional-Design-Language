@@ -160,40 +160,55 @@ def roof_form_for(plan, massing):
     return _threshold().roof_form_for(plan, massing)
 
 
+def roof_form_reading(plan, massing):
+    return _threshold().roof_form_reading(plan, massing)
+
+
 # ---------------------------------------------------------------- main-volume geometry
-def _rect_face_axis(form):
-    return _threshold().ridge_axis(form)
+def _rect_face_axis(form, W=None, D=None, front=None):
+    return _threshold().ridge_axis(form, W, D, front)
 
 
 def main_roof(plan, section, style):
     """The primary roof volume over the whole footprint. Reuses structure.py's own
-    grade_to_eave_ft/grade_to_ridge_ft for every form where its single-ridge-over-the-shorter-
-    dimension simplification is already the right answer (gable and hip alike -- a symmetric hip
-    and a symmetric gable roof of the same footprint and pitch share the same ridge HEIGHT; only
-    the plan-view outline differs, see roof_outline()/elevation_profile() below). Gambrel is the
-    one form whose ridge height genuinely differs from that simplification, computed
-    independently and reconciled explicitly rather than silently substituted."""
+    grade_to_eave_ft/grade_to_ridge_ft for every gable and hip form (a symmetric hip and a
+    symmetric gable roof of the same footprint and pitch share the same ridge HEIGHT; only the
+    plan-view outline differs, see roof_outline()/elevation_profile() below). Gambrel is the one
+    form whose ridge height genuinely differs from that simplification, computed independently
+    and reconciled explicitly rather than silently substituted.
+
+    THE SECTION RAISES ITS RIDGE OVER THE SPAN ACROSS THE RIDGE THIS FUNCTION DRAWS
+    (`threshold.ridge_span`, with the same form and `ridge_axis`; WP-16.8, the audit of Phase 16).
+    This docstring said "single-ridge-over-the-shorter-dimension" and the section rose over the
+    shorter dimension whatever the axis: once B9 ran good-03's side-gable ridge along its shorter
+    dimension, the ridge reused here was raised over the 34.57 ft span while the gable ends it
+    peaks stand on the 71.33 ft walls, and both were drawn at 2.42:12 under a 5.0:12 label."""
     fp = section["footprint"]
     W, D = fp["width_ft"], fp["depth_ft"]
     massing = _massing(plan.get("massing"))
-    form, form_note = roof_form_for(plan, massing)
+    reading = roof_form_reading(plan, massing)
+    form, form_note = reading["form"], reading["note"]
     pitch, pitch_id, pitch_stmt = _style_roof_pitch(style)
     eave_ft = section["roof"]["grade_to_eave_ft"]
 
     result = {"form": form, "form_note": form_note, "pitch_rise_per_12": pitch,
               "pitch_source": pitch_id, "pitch_statement": pitch_stmt, "grade_to_eave_ft": eave_ft}
 
-    if form in ("gable", "side-gable", "front-gable", "hip", "gable-on-hip", "cross-gable"):
-        axis = _rect_face_axis(form if form != "cross-gable" else "side-gable")
+    if reading.get("by") == "refused":
+        # NO ROOF IS DRAWN (B8): the kit forbids the fallback; no ridge, so every face draws the eave
+        # line and nothing above it, and every surface says why
+        result.update(refused={"why": reading["note"]}, note=reading["note"])
+    elif form in ("gable", "side-gable", "front-gable", "hip", "gable-on-hip", "cross-gable"):
+        axis = _rect_face_axis(form, W, D, _threshold().entrance_front(plan))
         ridge_len_dim, span_dim = (W, D) if axis == "x" else (D, W)
         if form in ("hip", "gable-on-hip"):
-            ridge_from, ridge_to = (D / 2.0, W - D / 2.0) if axis == "x" and W >= D else (0.0, ridge_len_dim)
-            # A hip roof needs its own dimension to actually be longer than the one it hips in
-            # from, or there is no ridge at all (a square hip has a single apex, not a ridge
-            # line) -- flagged rather than producing a negative-length ridge silently.
-            if W < D:
-                ridge_from, ridge_to = 0.0, 0.0
-                result["note"] = f"Footprint {W:.1f}x{D:.1f} ft is deeper than it is wide; hip form here needs its own re-derivation (ridge runs the other axis) -- not modelled, ridge collapsed to a point."
+            # THE RIDGE RUNS ALONG THE LONGER DIMENSION (`ridge_axis`) AND STOPS HALF THE SPAN SHORT
+            # OF EACH END, where the hips meet it; a square hip has an apex and no ridge line. This
+            # collapsed a hip deeper than wide to a point, on a ridge read along x whatever the
+            # footprint (the audit of WP-16.8's own diff, auditors A, B and D).
+            half = span_dim / 2.0
+            ridge_from, ridge_to = ((half, ridge_len_dim - half) if ridge_len_dim > span_dim
+                                    else (ridge_len_dim / 2.0, ridge_len_dim / 2.0))
         else:
             ridge_from, ridge_to = 0.0, ridge_len_dim
         ridge_ft = section["roof"].get("grade_to_ridge_ft")
@@ -308,9 +323,9 @@ def _style_gambrel_geometry(style):
             "break_fraction": break_frac, "break_source": break_source}
 
 def _gambrel(plan, section, style, W, D, eave_ft, single_pitch):
-    """Two slopes per side, ridge along the same axis a side-gable roof would use. Genuinely
-    recomputes grade_to_ridge_ft rather than reusing structure.py's single-pitch estimate --
-    reconciled explicitly in the returned note, not silently swapped in."""
+    """Two slopes per side, ridge along the same axis a side-gable roof would use. The ridge is
+    raised on the gambrel's own two slopes; the section raises none under a gambrel and says whose
+    ridge it is (the audit of WP-16.8's own diff)."""
     geo = _style_gambrel_geometry(style)
     half_span_ft = min(W, D) / 2.0
     break_offset_ft = half_span_ft * geo["break_fraction"]
@@ -319,17 +334,14 @@ def _gambrel(plan, section, style, W, D, eave_ft, single_pitch):
     upper_rise_ft = upper_run_ft * math.tan(math.radians(geo["upper_slope_deg"]))
     break_grade_ft = eave_ft + lower_rise_ft
     ridge_grade_ft = break_grade_ft + upper_rise_ft
-    axis = "x" if W >= D else "y"
+    axis = _threshold().ridge_axis("gambrel", W, D)
     span_dim = D if axis == "x" else W
     ridge_len_dim = W if axis == "x" else D
-    single_pitch_ridge_ft = section["roof"].get("grade_to_ridge_ft")
+    # NO SECOND RIDGE TO RECONCILE (the audit of WP-16.8's own diff): this reconciled the ridge
+    # above against structure.py's single-pitch estimate, and the section raises no single-pitch
+    # ridge under a gambrel now -- it says the gambrel's ridge is this record's -- so this one is
+    # the only ridge the house states.
     note = None
-    if single_pitch_ridge_ft is not None:
-        note = (f"Recomputed for the gambrel's own two-slope geometry: {ridge_grade_ft:.2f} ft, "
-                f"vs structure.py's single-pitch estimate of {single_pitch_ridge_ft:.2f} ft (which assumes one "
-                f"straight slope at the style's roof_pitch_rise_per_12 constraint, not this form). This file's "
-                f"number is the one that reflects the actual gambrel form; structure.py's own section record is "
-                f"not edited by this file.")
     return {
         "ridge": {"axis": axis, "position_ft": span_dim / 2.0, "from_ft": 0.0, "to_ft": round(ridge_len_dim, 2),
                   "grade_to_ridge_ft": round(ridge_grade_ft, 2)},
@@ -458,6 +470,27 @@ def chimney_positions(plan, style, section, main):
 
     form = main.get("form")
     ridge = main.get("ridge")
+    # A STACK THE PLACEMENT REFUSED UNDER A BAN IS NOT PLACED HERE EITHER (WP-16.8, the audit of
+    # Phase 16, auditor C). `threshold.hearth_pass` refuses the exterior stacks wholesale where the
+    # style's resolved kit forbids one (WP-16.4, R3), and it writes the flues before it refuses, so
+    # this function read those flues and placed a chimney over each: the roof plan drew both as
+    # positions, the scene drew both as axes, and the elevation, the DXF and the plan drew none --
+    # under `hearth_pass`'s own comment that "none of them draws a stack another does not". The
+    # placement's words are the note, so every surface that prints this record's refusal says the
+    # ban and its writer, at the house's date.
+    #
+    # AND BEFORE EVERY OTHER REASON (the audit of WP-16.8's own diff, auditor D). This stood after
+    # the unjudged-ridge and hip returns, so on a hipped roof, or one whose ridge is unjudged, the
+    # plan sheet said the kit forbids the stacks while the roof plan, the scene and the elevation
+    # said the roof is a hip or judges no ridge -- two reasons for one refusal on two sets of
+    # surfaces. The ban is the placement's, decided before the roof is read, so it is said first.
+    hr0 = plan.get("hearths") if isinstance(plan.get("hearths"), dict) else None
+    banned = next((u for u in ((hr0 or {}).get("unplaced") or [])
+                   if u.get("what") == "the stacks" and u.get("ban")), None)
+    if banned:
+        return {"applicable": True, "positions": [], "source": source, "refused_by": banned["ban"],
+                "note": banned["reason"]}
+
     if not source:
         return {"applicable": False, "positions": [], "source": None,
                 "note": "No kit chimney slot and no massing hearth field to place chimneys from -- unjudged."}
@@ -750,7 +783,19 @@ def gambrel_break_check(main):
     fault = _fault("gambrel-slopes-converging")
     g = main["gambrel"]
     diff = g["lower_slope_deg"] - g["upper_slope_deg"]
-    diff_ok = diff >= fault["test"]["threshold"]
+    # THE PITCH DIFFERENCE IS JUDGED ONLY WHERE THE STYLE STATES BOTH SLOPES (WP-16.9, 1 Oct 2026).
+    # The paragraph below kept `diff_ok` a boolean on the reading that "the two slopes are read from
+    # independent style constraints". No node in this corpus states both. Five state one, in its
+    # own constraints (dutch-colonial-american, french-baroque and second-empire the lower;
+    # french-colonial-american and raised-creole-plantation the upper), and every other
+    # gambrel takes the family-wide defaults for both, 66 and 24 degrees, each the middle of a band
+    # transcribed from Dutch Colonial prose. So the difference was 42 degrees against the fault's 25
+    # on every gambrel this corpus could draw, true by construction, the circularity `break_ok`
+    # below was unjudged for. It was latent while every shipped roof was side-gabled; B1 drew
+    # good-01's gambrel from shingle-style's kit, and its roof plan printed GAMBREL PITCH DIFF OK
+    # over two defaults. A comparison with an invented slope on either side is not a judgment.
+    _defaulted = [k for k in ("lower", "upper") if str(g.get(k + "_source") or "").startswith("default")]
+    diff_ok = None if _defaulted else diff >= fault["test"]["threshold"]
     break_test = next((t for t in fault.get("secondary_tests", []) if t["expression"].startswith("break_height_above_eave_in")), None)
     fell_back = []
     break_band = ((break_test["threshold"], break_test["upper"]) if break_test
@@ -768,11 +813,19 @@ def gambrel_break_check(main):
     # beside a `True` in the record is not a disclosure: every reader takes the boolean.
     # It becomes judgeable the day a style states a break height and something reads it.
     #
-    # `diff_ok` above is NOT the same case and is left as a boolean: the two slopes are read from
+    # `diff_ok` above was left a boolean here, on the reading that the two slopes are read from
     # independent style constraints (`roof_slope_lower_deg`, `roof_slope_upper_deg`) and their
-    # difference is tested against a threshold neither of them came from.
+    # difference is tested against a threshold neither of them came from. That is true only where
+    # the style states both, which no node does today (WP-16.9); where either slope is a default
+    # the difference is unjudged too, and `diff_unjudged_reason` names which.
     break_ok = None
     return {"applicable": True, "slope_difference_deg": round(diff, 1), "diff_ok": diff_ok,
+            "diff_unjudged_reason": (None if diff_ok is not None else
+                                     ("both slopes are the module's family-wide defaults, and the "
+                                      "style states neither" if len(_defaulted) > 1 else
+                                      "the %s slope is the module's family-wide default, not a slope "
+                                      "the style states" % _defaulted[0])
+                                     + ", so testing the difference would compare an invented figure"),
             "bands_read_from_fallback": fell_back,
             "break_fraction": g["break_fraction"], "break_band": list(break_band),
             "break_ok": break_ok,
@@ -911,15 +964,23 @@ def elevation_profile(section, main, wall):
         return [(0.0, eave), (wall_len, eave)]   # unjudged ridge -- flat eave line only, nothing invented above it
     ridge_ft = ridge["grade_to_ridge_ft"]
     parallel = (wall in ("S", "N") and ridge["axis"] == "x") or (wall in ("E", "W") and ridge["axis"] == "y")
+    if form == "gambrel":
+        # A GAMBREL'S GABLE END IS ITS OWN TWO-SLOPE OUTLINE, AND ITS LONG FACE IS A RECTANGLE (the
+        # audit of WP-16.8's own diff, auditor A). Since WP-3.3 the two were swapped: the gable end was
+        # drawn as a single-pitch triangle to the gambrel's ridge, and the long face as a trapezoid
+        # stopping at the break -- the silhouette of a roof hipped at its ends, which a gambrel is not.
+        # Both slopes run the whole length of the long face, so in elevation that face is the band
+        # from the eave to the ridge, as a side gable's is; the break shows only at the gable ends.
+        g = main["gambrel"]
+        off, brk = g["break_offset_ft"], g["break_grade_to_ft"]
+        if not parallel:
+            return [(0.0, eave), (off, brk), (wall_len / 2.0, ridge_ft), (wall_len - off, brk), (wall_len, eave)]
+        return [(0.0, eave), (0.0, ridge_ft), (wall_len, ridge_ft), (wall_len, eave)]
     if not parallel:
         return [(0.0, eave), (wall_len / 2.0, ridge_ft), (wall_len, eave)]   # gable end: simple triangle
     if form in ("hip", "gable-on-hip"):
         a, b = ridge["from_ft"], ridge["to_ft"]
         return [(0.0, eave), (a, ridge_ft), (b, ridge_ft), (wall_len, eave)]   # trapezoid
-    if form == "gambrel":
-        g = main["gambrel"]
-        off = g["break_offset_ft"]
-        return [(0.0, eave), (off, g["break_grade_to_ft"]), (wall_len - off, g["break_grade_to_ft"]), (wall_len, eave)]
     # SIMPLE GABLE, LONG FACE. This returned a flat eave line until 27 Aug 2026, on the reasoning
     # that "the ridge is behind the near roof plane, not visible". That is a PERSPECTIVE argument
     # and this is an ORTHOGRAPHIC projection. The near plane slopes away from the viewer, and
@@ -941,6 +1002,11 @@ def build_roof(plan, parti=None, section=None):
         return {"error": section["error"]}
     style = plan.get("style")
     main = main_roof(plan, section, style)
+    # WHO DECIDED THE FORM (WP-16.9, B1): the record, the style's kit, or a fallback, and where it
+    # is a fallback the sentence the elevation and the roof plan print. A key beside `main` and not
+    # in it, so the roof's own pinned answer (`tests/test_threshold_pass.py`) moves only where the
+    # FORM moves, and a reader of the pin can tell a roof that changed from a roof newly explained.
+    reading = roof_form_reading(plan, _massing(plan.get("massing")))
     wing = wing_step_down(plan, section, main)
     # THE STACKS STAND WHERE THE SECTION'S OWN PLACEMENT PUTS THE FIRES (WP-14.6). Every
     # user-facing caller builds the section on the placed record and then hands THIS function the
@@ -990,6 +1056,8 @@ def build_roof(plan, parti=None, section=None):
         "plan_id": plan.get("id"), "style": style, "main": main, "chimneys": chimneys,
         "checks": checks, "outline": outline, "elevation_profiles": profiles,
         "footprint": section["footprint"], "section": section,
+        "form_reading": {"by": reading["by"], "words": reading["words"],
+                         "kit": reading["kit"]},
     }
 
 # ---------------------------------------------------------------- cli
@@ -1030,7 +1098,8 @@ def main():
     gb = roof["checks"]["gambrel_break"]
     if gb.get("applicable"):
         brk = 'UNJUDGED' if gb['break_ok'] is None else ('OK' if gb['break_ok'] else 'FAIL')
-        print(f"  gambrel slope difference {gb['slope_difference_deg']} deg -- {'OK' if gb['diff_ok'] else 'FAIL'}; break at {gb['break_fraction']*100:.0f}% -- {brk}")
+        dif = "UNJUDGED" if gb.get("diff_ok") is None else ("OK" if gb["diff_ok"] else "FAIL")
+        print(f"  gambrel slope difference {gb['slope_difference_deg']} deg -- {dif}; break at {gb['break_fraction']*100:.0f}% -- {brk}")
     if a.out:
         json.dump(roof, open(a.out, "w"), indent=1, ensure_ascii=False)
         print(f"  wrote {a.out}")

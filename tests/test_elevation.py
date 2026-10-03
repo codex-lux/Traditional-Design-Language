@@ -169,8 +169,24 @@ class TestEntranceComposition:
         assert math.isclose(ent["casing_width_in"], ent["gibbs_casing_width_in"], abs_tol=0.01)
 
     def test_sidelights_fit_within_the_composition_cap_on_the_tidewater_plan(self, elevation_module):
-        plan, elev = _tidewater_elevation(elevation_module)
-        assert elev["entrance"]["sidelights_present"] is True
+        """RE-CUT 30 SEP 2026 (WP-16.4): the shipped record is dated 1765, and
+        georgian-colonial-american forbids the sidelights for 1700-1780, so at its own date the
+        pair is refused by the KIT and this test could no longer see the cap at all. The cap is
+        a property of the bay and not of the date, so it is read at 1790, outside the ban, where
+        the only thing that could still refuse the pair is the cap. The shipped date is held too,
+        so a refusal that stopped naming its writer fails here as well."""
+        plan = load_plan("tidewater-georgian-careful")
+        assert (plan.get("context") or {}).get("date_of_representation") == 1765, (
+            "the premise: the shipped Tidewater record is dated inside the kit's 1700-1780 ban")
+        shipped = elevation_module.build_elevation(plan)["entrance"]
+        assert shipped["sidelights_present"] is False
+        assert shipped["sidelights_refused_by"]["writers"] == ["georgian-colonial-american"]
+        assert shipped["sidelights_refused_by"]["date"] == 1765
+        plan = load_plan("tidewater-georgian-careful")
+        plan.setdefault("context", {})["date_of_representation"] = 1790
+        released = elevation_module.build_elevation(plan)["entrance"]
+        assert released["sidelights_present"] is True
+        assert not released.get("sidelights_refused_by")
 
     def test_pilaster_width_equals_the_column_diameter_it_answers(self, elevation_module):
         """column-without-answering-pilaster.json: a pilaster that genuinely answers a column
@@ -284,23 +300,59 @@ class TestFaultCorpusIntegration:
         # sheet (the bays are not coordinated between floors), on the heuristic placement of
         # the declared record. Those fatals are the placement's and are named; what this test
         # still refuses is a fatal from a measurement this generator makes up.
+        #
+        # RE-CUT AT WP-16.1 (29 Sep 2026): ONE OF THE THREE IS A VERDICT AND TWO ARE UNJUDGED.
+        # This front declares window units the placement did not draw, and R12 (ruled 29 Sep
+        # 2026) makes an incomplete front unjudged for symmetry and alignment everywhere. The
+        # elevation still MEASURES the mirror and the alignment (they stay on the record, and
+        # are asserted below); it withholds their figures from the faults, and under R4 a fault
+        # whose governing test could not run is could-not-evaluate. So `even-bay-front` is the
+        # one fatal, and the other two are in the unjudged bucket for the withheld figures --
+        # neither cleared, which is the direction WP-15.8 measured the old `_judge` taking.
+        #
+        # RE-CUT AT WP-16.6 (1 Oct 2026): THE ONE VERDICT IS A CLEAR NOW, AND IT IS THE DRAWN
+        # PARITY THAT MOVED, NOT THE FRONT. R6 (ruled 29 Sep 2026) seats an upper window on the
+        # axis of the opening below it or refuses it by name; the primary chamber's second sash
+        # matched the passage door's axis at 18.0 ft, which is the chamber's own east wall, so it
+        # is refused (`rule: alignment`) and the drawn upper storey counts THREE openings where it
+        # counted four. The record still declares five on this front -- the upper passage's sash
+        # is the placer's, refused before this package -- and the front stays incomplete (six
+        # units undrawn, five before), so the even upper count that convicted was a parity of
+        # what happened to be drawn, and so is the odd one that clears. That is raised, not
+        # decided here: `oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front`.
         import core
         plan = load_plan("tidewater-georgian-careful")
         elev = elevation_module.build_elevation(plan)
         res = core.check_measurements(elev["measurements"], style=plan["style"], limit=1000)
         fatal = {f["fault"]: f for f in res["faults_present"] if f["severity"] == "fatal"}
-        assert set(fatal) == set(self.PLACEMENT_FATALS), (
-            f"fatal faults {sorted(fatal)} against the three the placement earns "
-            f"{sorted(self.PLACEMENT_FATALS)}: a new one is a measurement to read, not a "
-            f"number to pin")
-        for fid, f in fatal.items():
-            names = {r.get("expression") for r in f.get("results") or []}
-            # every expression that convicted reads a placed-opening measurement by name
-            assert all(any(n in e for n in self.PLACEMENT_FATALS[fid]) for e in names), (fid, names)
+        assert not fatal, (
+            f"fatal faults {sorted(fatal)} on a front that earns none since WP-16.6: a new one is "
+            f"a measurement to read, not a number to pin")
+        judged = {"even-bay-front"}
+        clear = {c["fault"]: c for c in res["faults_clear"]}
+        for fid in judged:
+            assert fid in clear, (fid, "the parity is judged on the drawn front, so it is a verdict")
+            names = {r.get("expression") for r in clear[fid].get("results") or []}
+            # every expression that judged reads a placed-opening measurement by name
+            assert names and all(any(n in e for n in self.PLACEMENT_FATALS[fid]) for e in names), (
+                fid, names)
+        assert elev["front"]["complete"]["complete"] is False, "the premise: an incomplete front"
+        unj = {u["fault"]: u for u in res["could_not_judge"]}
+        held = elev["front"]["withheld"]
+        for fid in sorted(set(self.PLACEMENT_FATALS) - judged):
+            assert fid in unj, (fid, "neither convicted nor unjudged: it has left every list")
+            assert fid not in {c["fault"] for c in res["faults_clear"]}, fid
+            assert set(unj[fid]["needs"]) & set(held), (fid, unj[fid]["needs"])
         m = elev["measurements"]
-        assert m["upper_floor_opening_count"] % 2 == 0, "the even upper count is what convicts"
-        assert m["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] > 2.0
-        assert m["count_of_openings_without_a_mirror_twin_about_the_facade_centreline"] > 0
+        rects = elevation_module.opening_rects(elev, elev["entrance_face"])["rects"]
+        assert m["upper_floor_opening_count"] == sum(1 for r in rects if r["storey"] == "upper") == 3, (
+            "four before WP-16.6, even, which convicted; the odd count that clears is the drawn one")
+        assert elev["front"]["complete"]["undrawn"] == {0: 4, 1: 2}
+        # still measured, still on the record: the gate withholds and does not stop measuring
+        assert elev["front"]["alignment"]["max_abs_offset_in"] > 2.0
+        assert elev["front"]["mirror"]["unmatched"]
+        assert "max_abs_offset_between_upper_and_lower_opening_centrelines_in" not in m
+        assert "count_of_openings_without_a_mirror_twin_about_the_facade_centreline" not in m
 
     def test_the_three_fatals_are_the_placements_and_not_constants(self, elevation_module):
         """The control: hand the front a placement whose upper windows DO stand over the lower
@@ -326,6 +378,9 @@ class TestFaultCorpusIntegration:
         assert len(up) == len(lo) > 0
         elev["front"]["alignment"] = elevation_module.storey_alignment(
             lo, up, elevation_module.ALIGNMENT_TOL_IN)
+        # the driven front is whole -- an upper window over every ground opening -- so the
+        # R12 gate (WP-16.1) is driven open with it; the control is about the measurement
+        elev["front"]["complete"] = {"complete": True, "why": None}
         m = elevation_module._derive_measurements(elev)
         assert m["max_abs_offset_between_upper_and_lower_opening_centrelines_in"] == 0.0
         assert m["upper_storey_opening_centres_matching_lower"] == len(up)
@@ -429,25 +484,34 @@ class TestCorniceProfileGeometry:
         assert cor["order_relief_beyond_frieze_in"] == pytest.approx(
             max(m["projection_in"] for m in cor["members"]), abs=0.01)
 
-    def test_two_sourced_rules_disagree_and_the_record_says_so(self, elevation_module):
+    def test_the_ruling_between_two_sourced_rules_is_on_the_record(self, elevation_module):
         """Gibbs's own rule makes the cornice project as far as it stands tall; facade-classical's
-        domestic envelope rule gives module/14. Both are sourced, they are not the same number,
-        and the record is required to name the disagreement rather than quietly pick a winner."""
+        domestic envelope rule gives module/14. Both are sourced and they are not the same number.
+        Until OQ 79 was ruled this test required the record to name the disagreement and choose
+        neither (WP-5.11), and it was re-cut when the ruling landed (WP-16.5, 30 Sep 2026): the
+        envelope governs the depth and the order the shape (R9). The record still carries the
+        order's own figure, so a reader can see what was scaled, and says which ruling scaled it."""
         plan, elev = _tidewater_elevation(elevation_module)
         cor = elev["eave_cornice"]
         assert cor["envelope_projection_in"] > 0
-        assert abs(cor["order_relief_beyond_frieze_in"] - cor["envelope_projection_in"]) > 0.5
-        note = cor["projection_disagreement_note"].lower()
-        assert "disagree" in note and "neither is chosen" in note
+        assert abs(cor["order_own_relief_in"] - cor["envelope_projection_in"]) > 0.5
+        assert cor["order_relief_beyond_frieze_in"] == cor["envelope_projection_in"]
+        assert "projection_disagreement_note" not in cor
+        ruling = cor["projection_ruling"]
+        assert ruling.startswith("OQ 79, ruled 29 Sep 2026: the envelope's depth")
+        assert "with the order's shape" in ruling and "a judgment" in ruling
 
-    def test_the_drawn_sheet_discloses_the_datum_and_the_disagreement(self, elevation_module,
-                                                                     render_elevation_module, tmp_path):
+    def test_the_drawn_sheet_discloses_the_datum_and_the_ruling(self, elevation_module,
+                                                               render_elevation_module, tmp_path):
         plan, elev = _tidewater_elevation(elevation_module)
         out = render_elevation_module.render_elevation(elev, str(tmp_path / "e.svg"))
         svg = open(out).read()
         assert "EAVE CORNICE PROFILE" in svg
         assert "RELIEF FROM THE FRIEZE NAKED" in svg
-        assert "BOTH SOURCED" in svg
+        # the caption wraps to the inset's width, so it is read as the sentences it sets
+        said = " ".join(re.sub(r"<[^>]+>", "", t).strip()
+                        for t in re.findall(r"<text[^>]*>(.*?)</text>", svg, flags=re.S))
+        assert "(OQ 79, RULED)" in said and "BOTH SOURCED" not in said
 
 
 class TestTheHeadOfAnOpeningIsReadNotAsserted:
@@ -789,13 +853,15 @@ def test_the_datums_sentence_is_the_conversion_the_code_makes(elevation_module):
     "u = clear span + t - along on N and W" and went on saying so after WP-13.3 unmirrored every
     face, so a reader converting by the record's own words put each N and W opening at the wrong
     end of its face. The sentence is read off `FACE_MIRRORED` now; here each face's words are held
-    to what `face_u_ft` actually returns, whichever way the table is set."""
+    to what `face_u_ft` actually returns, whichever way the table is set. (Since WP-16.3 the
+    mirrored clause names the face's OUTSIDE WIDTH, the axis the flip reflects about; on these
+    round figures it is the clear span plus two walls exactly.)"""
     import re as _re
     EL = elevation_module
     words = EL.face_u_words()
     for face in EL.FACES:
         rule = next(r for r in words.split(";") if _re.search(r"\b%s\b" % face, r))
-        mirrored = "clear span" in rule
+        mirrored = "outside width" in rule
         assert mirrored == EL.FACE_MIRRORED[face], (face, words)
         got = EL.face_u_ft(face, 10.0, 40.0, 30.0, 1.0)
         span = 40.0 if face in ("S", "N") else 30.0

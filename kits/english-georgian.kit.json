@@ -57,10 +57,40 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "This kit's own roof_pitch slot ranks it canonical, under its rule 'Steep by later standards and shallower than the medieval work it replaced: the English Georgian roof is hidden behind a parapet in town and expressed in the country.' defining_characteristics[5] names it: 'A crowning modillion or dentil cornice in the country, or a plain parapet with concealed gutter in town, above a low-pitched hipped or side-gabled roof'. Canonical beside the hip on Lucas's answer B11 of 30 Sep 2026."
+        },
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "defining_characteristics[5] names it first ('above a low-pitched hipped or side-gabled roof'); lineage[1] gives the carcass 'the hipped roof and dormer'; exemplars[5] has 'a hipped tile roof with three dormers; now National Trust.'. Kept canonical from english-palladian's record (''Low hipped or pedimented roofs behind a parapet' (defining_characteristics), with the giant order's own pediment marking the centrepiece rather than a gable end.'), beside the side gable, on B11. This kit's roof_pitch slot had ranked it permitted."
+        },
+        {
+          "id": "mansard",
+          "status": "atypical",
+          "note": "This kit's roof_pitch slot rates it atypical; exemplars[4], the Royal Crescent, has 'mansard attics behind a continuous balustraded parapet.'."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "This kit's roof_pitch slot: 'An American and Dutch answer, not an English one.'"
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "Kept from english-palladian's record: 'The composed centrepiece is a portico pediment, not a gable roof; overrides the generic front-gable content this slot would otherwise inherit from the corpus's deep vernacular ancestry.' This record is silent on it."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A low-pitched hipped or side-gabled roof (defining_characteristics[5]), hidden behind a parapet with a concealed gutter in town and expressed under a modillion or dentil cornice in the country; never a gambrel.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B11 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: english-georgian binds its own roof_form, both forms canonical. Until then the slot was open and resolved ENGLISH-PALLADIAN's record: `hip` canonical (''Low hipped or pedimented roofs behind a parapet' (defining_characteristics), with the giant order's own pediment marking the centrepiece rather than a gable end.') and `front-gable` forbidden. This kit had already ranked its roof forms, in its roof_pitch slot, where no roof reader looks: side-gable canonical, hip permitted, mansard atypical, gambrel forbidden. Lucas's answer makes the hip and the side gable both canonical; under B1 the roof layer keeps the side gable where it is one of several canonical forms, so the house is drawn side-gabled. english-georgian-country-house and regency, hipped in their own words, bind hip companions of the same date; english-georgian-townhouse binds its own record on B12; adam-style takes this record (B24). Marked judgment: the record names both forms and ranks neither in its own words."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

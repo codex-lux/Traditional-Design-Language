@@ -1,6 +1,6 @@
 # oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge — one front, two answers
 
-*Status: OPEN · Raised in: WP-15.8, the audit of Phase 15 (28 September 2026)*
+*Status: CLOSED 29 September 2026 (ruled that day; executed by WP-16.1) · Raised in: WP-15.8, the audit of Phase 15 (28 September 2026)*
 
 **OPEN — `plan_check`'s drawn layer refuses to judge symmetry and alignment on a front the record
 does not describe, and the elevation measures both on that same front and hands the figures to two
@@ -102,3 +102,45 @@ Two sentences above are wrong, and both are left as written:
   tree. Only the fault-clear half can be re-derived from anything committed, with
   `tests/fault_clears.py`. The plan table and the composer's set must be measured again by
   applying the planned fix in a `git worktree`.
+
+## Ruled 29 September 2026 (Lucas, asked directly)
+
+- **Where an incomplete front goes unjudged.** *Everywhere*. The refusal's reason, one cause
+  charged twice, has nothing to do with the diagram.
+- **What the fault corpus says on it.** Answered by
+  `oq/a-fault-reads-clear-when-its-governing-test-could-not-run`'s ruling the same day: a fault
+  whose governing test could not run is could-not-evaluate, never clear.
+- **What an unjudged fatal costs a candidate.** *Break ties against it*:
+  - rank by judged fatals first, then by unjudged fatals;
+  - an unjudged fatal never counts as a fatal, and never as a pass either.
+
+**The consequence this entry measured.** With both answers in place, the withholding WP-15.8
+measured and refused unjudges rather than acquits. It is applied in WP-16.1, with the plans and the
+composer's returned set measured again against a `git worktree` of the parent.
+
+## Executed 29 September 2026 (WP-16.1)
+
+- **One reader.** `axis.front_complete` reads every storey of the entrance front and says how many
+  declared window units were not drawn, and why that matters. `plan_check`'s drawn layer and
+  `elevation.py` both read it. The drawn layer used to count the ground storey only, so both
+  shipped fronts were reported one unit short: the tagged Tidewater record has five undrawn (four
+  ground, one upper) where the sheet said four, and the spec Colonial three where it said two.
+- **The elevation withholds, everywhere.** On an incomplete front the elevation still measures the
+  mirror and the storey alignment and keeps them on its record. It does not hand the five figures
+  to the faults. `front.withheld` names each of them with the reader's reason, and each fault row
+  that needed one carries the reason as `withheld`, beside the standing refusals in `refused`.
+  Under the governing-test ruling that makes `one-bay-symmetry-break`,
+  `storeys-out-of-vertical-alignment` and `closet-on-the-exterior-wall` could-not-evaluate on an
+  incomplete front. WP-15.8 measured the same withholding under the old verdict rule, where it
+  acquitted.
+- **Measured against a worktree of `a4abb85`:** fifteen present verdicts became could-not-evaluate
+  over six plans, and nothing was cleared. On the shipped records checked as authored, Tidewater's
+  fatal count went from 3 to 1 and the spec Colonial's from 5 to 4. Placed on the heuristic, where
+  the drawn layer adds its own fatals, the counts went from 13 to 11 and from 15 to 14.
+- **The tie-break.** `compose.rank_key` ranks judged fatals first, then unjudged fatals, then the
+  score. Each card carries `unjudged_fatal` by name, and the bench shows it. On both shipped briefs
+  the tie-break decides nothing yet: the returned sets are the same with and without it, measured by
+  re-sorting the scored candidates both ways.
+
+Report: `docs/reports/wp-16.1-the-governing-test-decides.md`.
+

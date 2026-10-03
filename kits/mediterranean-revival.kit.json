@@ -416,10 +416,20 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pilasters-and-entablature",
+          "status": "permitted",
+          "note": "proportional_system.governing_logic: 'a nominal classical order appears only at the entrance surround.' Which order and which assembly are not stated, so the doorcase is permitted, not canonical."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A nominal classical order at the entrance surround, and nowhere else on the wall (governing_logic).",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), the companion of italian-renaissance-revival's own `door_surround` binding of the same date, which forbids the pilaster-and-entablature doorcase and would otherwise reach this node by descent: this node descends from italian-renaissance-revival directly (lineage[3]), and eclectic-revivals, the family the cascade walks first, binds nothing at this slot. Until then this slot was `open` and resolved GOTHIC-REVIVAL-BRITISH's record through italian-renaissance-revival: a pointed-arch, buttressed porch canonical and the doorcase forbidden on c05, neither this node's. Its own words: governing_logic reads 'a nominal classical order appears only at the entrance surround.', defining_characteristics[4] reads 'Ornament concentrated at the entrance and at selected windows and balconies, against otherwise blank stucco', and its vignola-composite decline note says the decline 'removes the one delivery the record affirms -- door_surround'. Nothing is canonical and the slot is marked judgment."
     },
     "transom_sidelight": {
       "group": "openings",

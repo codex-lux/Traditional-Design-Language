@@ -47,10 +47,25 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "low-hip",
+          "status": "canonical",
+          "note": "defining_characteristics[2]: 'A low eight-hipped roof converging on a flat deck or a cupola'. lineage[0], the scoped italianate edge: 'its roof is eight hips meeting at a point because its plan is eight-sided'. proportional_system.typical_ratios[4]: 'Roof pitch 4:12 to 7:12 on all eight hips'. It replaces gothic-revival-american's forbidden row, whose reason ('Suppresses the gable, which the style's own defining_characteristics make the governing compositional element.') is the Gothic node's own."
+        },
+        {
+          "id": "multi-gable-unequal-width",
+          "status": "forbidden",
+          "note": "Demoted from canonical. massing_affinities[3] forbids the picturesque massing it belongs to: 'The octagon cannot be added to; picturesque growth destroys the figure that justifies the type.' Judgment: the record names the massing, not this roof."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": true,
+      "rule": "A low eight-hipped roof, 4:12 to 7:12 on every hip, converging on a flat deck or a cupola over the central core (defining_characteristics[2], proportional_system.typical_ratios[4], c02).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: octagon-house binds its own roof_form. Until then it wrote none and resolved GOTHIC-REVIVAL-AMERICAN's record: `multi-gable-unequal-width` canonical (no note of its own) and `low-hip` FORBIDDEN, on 'Suppresses the gable, which the style's own defining_characteristics make the governing compositional element.' That is the Gothic node's reason, and it forbade this style's own roof. It arrived because the italianate-american edge is scoped (OQ 58), and lineage[0] says why roof_form was left out of the scope: 'its roof is eight hips meeting at a point because its plan is eight-sided'. The scope was right, and the cascade refilled the slot from the next ancestor, which is WP-8.7's refill met at slot level. This record's own words: defining_characteristics[2] 'A low eight-hipped roof converging on a flat deck or a cupola'. Marked judgment for the multi-gable ban. Under a specified binding (T5, taken as recommended under Lucas's standing instruction of 1 Oct 2026 and never put to him) gothic-revival-american's parameter principal_pitch_min (measured, 12) stops at this record, rightly: this record's own figure is 'Roof pitch 4:12 to 7:12 on all eight hips' (proportional_system.typical_ratios[4])."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

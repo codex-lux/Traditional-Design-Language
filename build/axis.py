@@ -325,7 +325,14 @@ def door_bay(plan):
             "position_ft": door["pos_ft"]}
 
 
-def mirror(plan, level=0, tol_ft=1.0):
+# THE MIRROR'S TOLERANCE, ONE SPELLING (WP-16.7). R7 reads "symmetric about the front's centre line"
+# with this tolerance (the reading recorded beside the ruling, 29 Sep 2026), so the shutters an
+# elevation hangs and the mirror the drawn layer judges cannot disagree about which two windows are
+# each other's reflection.
+MIRROR_TOL_FT = 1.0
+
+
+def mirror(plan, level=0, tol_ft=MIRROR_TOL_FT):
     """How much of the entrance front is mirrored about the footprint's centre line.
 
     `massings/catalog.json`'s `four-over-four` says *"Facade symmetry is a hard constraint, not
@@ -386,6 +393,44 @@ def alignment(plan, tol_ft=1.0):
     bad = sum(len(r["unaligned"]) for r in rows)
     return {"verdict": "aligned" if not bad else "not-aligned", "levels": rows,
             "unaligned": bad, "tol_ft": tol_ft}
+
+
+def front_complete(plan):
+    """Whether the entrance front the placement drew is the front the record declares. THE ONE
+    READER of that question, for the drawn layer and for the elevation alike (R12, ruled
+    29 Sep 2026: an incomplete front goes unjudged for symmetry and alignment EVERYWHERE, not
+    only where the diagram wants a centre bay).
+
+    WP-11.3's refusal is the reason: *"A facade missing seven of its eleven declared units is
+    not the facade the record describes, and convicting it of asymmetry would charge the house
+    twice for one cause."* `plan_check`'s drawn layer applied it where the diagram wants a
+    centre bay, while `build/elevation.py` measured the same front on every plan and handed the
+    figures to two fatal faults -- one house, two answers
+    (`oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge`).
+
+    A front is incomplete where a declared window unit on the MAIN BLOCK's entrance front, at
+    any storey, was not drawn (`front_openings`' own `declared_but_unplaced`: a refused window,
+    or the refused units of a partly seated one). ONE ANSWER FOR THE WHOLE FRONT, because the
+    refusal is about the facade: the drawn layer read the ground storey's count alone, which
+    let a front missing an upper window be judged for alignment with the missing window counted
+    as "missing or off" -- the one cause charged twice, one storey up.
+
+    An undrawn DOOR is not counted, as the drawn layer never counted one: a refused exterior door
+    belongs to no face (`elevation.openings_unplaced`), and the refusal was written about window
+    units. That is stated so a reader does not take `complete` for a claim about doors."""
+    undrawn = {}
+    for lv in plan.get("levels") or []:
+        idx = lv.get("index") or 0
+        undrawn[idx] = front_openings(plan, idx)["declared_but_unplaced"]
+    total = sum(undrawn.values())
+    why = None
+    if total:
+        parts = [f"{n} on {'the ground storey' if i == 0 else f'storey {i}'}"
+                 for i, n in sorted(undrawn.items()) if n]
+        why = (f"{total} declared window unit(s) on the {front_of(plan)} front were not drawn "
+               f"({', '.join(parts)}), so the drawn front is not the one the record describes")
+    return {"front": front_of(plan), "undrawn": undrawn, "total_undrawn": total,
+            "complete": total == 0, "why": why}
 
 
 def report(plan, C=None):

@@ -57,10 +57,14 @@
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "rule": "A cornice return is permitted and not settled: the record names none.",
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A8 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): a record silent on the return binds it permitted, unsettled. It was FORBIDDEN here until then -- inherited, on 'No classical cornice return with a modillion or dentil band occurs; the fascia simply dies into the rake.', from AMERICAN-FARMHOUSE-VERNACULAR, through contemporary-traditional, folk-victorian and victorian, none of which binds the slot. The ban's premise is the farmhouse's plain fascia, and this node's eave is not that: it resolves folk-victorian's `boxed-with-sawn-brackets`, whose rule reads 'Applied sawn ornament (brackets) is confined to the eave and cornice zone'. The record never names a return; its lineage keeps the Greek Revival 'pedimented gable, simple pilaster and entablature, tall narrow openings', and a full pediment carries the cornice across the gable rather than returning it (an editorial reading, not a sentence of this record), so the lineage does not settle the return either way. Nothing is canonical and no return variant is stated. EDITORIAL: permitted on the ruling, not on a sentence of this record."
     },
     "gable_treatment": {
       "group": "massing-and-roof",
@@ -197,17 +201,31 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion-cornice",
+          "status": "forbidden",
+          "note": "This record declined vignola-ionic, whose subject its own reason gives as an entablature with a 'modillioned cornice', and says why: 'The node's record has already answered that question for itself and answered it against a richer order'. It binds Tuscan, and its fabric buildings carry no order at all. It names Colonial Revival as one dialect, whose record carries modillions; that is another node's record, and the ruling reads this one."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A cornice is one of the three places ornament may appear -- porch, cornice and gable -- in the one regional tradition the code specifies for the building; the style fixes no profile of its own.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A7 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): its own cornice and frieze permitted, and modillions forbidden on its own decline of the Ionic pack. It was FORBIDDEN here until then -- inherited, on 'There is no classical cornice or entablature; the eave is the plain fascia already specified (eave_condition, above).', from AMERICAN-FARMHOUSE-VERNACULAR, through contemporary-traditional, folk-victorian and victorian, none of which binds the slot. The ban's premise does not hold on this node: the eave_condition it resolves is not the farmhouse's plain fascia but folk-victorian's 'boxed-with-sawn-brackets', whose rule reads 'Applied sawn ornament (brackets) is confined to the eave and cornice zone, factory-produced and catalogue-ordered.' This kit states the cornice itself, in its entry_door rule: 'ornament, where it appears at all, is confined to the porch, cornice, and gable, not the door leaf.' Its lineage adds the Greek Revival 'pedimented gable, simple pilaster and entablature, tall narrow openings', which 'survives here as the plainest available classical vocabulary and the one most easily specified in a code.' No profile is stated and none is canonical, and the slot is marked judgment. Modillions are forbidden in the record's own words (see the row); the dentil is not named either way and is left unstated."
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A frieze is carried where the one regional tradition the code specifies for the building carries one, and not otherwise; the style fixes no frieze of its own.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A7 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): its own cornice and frieze permitted, marked judgment. It was FORBIDDEN here until then -- inherited, on \"No continuous frieze band (own hard constraint c02: 'no continuous frieze and no pilasters').\", from AMERICAN-FARMHOUSE-VERNACULAR, through contemporary-traditional, folk-victorian and victorian, none of which binds the slot. That c02 is the farmhouse's own trim budget, and this node states none: its vocabulary is 'Stylistic vocabulary drawn from a single regional tradition per building, specified by the code and applied consistently on all elevations' (defining_characteristics[4]), and its own lineage says of the Greek Revival small-town default -- 'pedimented gable, simple pilaster and entablature, tall narrow openings' -- that it 'survives here as the plainest available classical vocabulary and the one most easily specified in a code.' The frieze sits in that entablature, in the ontology's words: 'Sits directly below `cornice` in the same entablature run' (elements/slots.json). The same record says that vocabulary is 'reserved for the occasional civic or terminating building a New Urbanist code permits within an otherwise plain-vernacular fabric' (proportion_packs, the vignola-tuscan note), which is why the member is permitted and not canonical, and why the slot is marked judgment."
     },
     "parapet": {
       "group": "envelope",

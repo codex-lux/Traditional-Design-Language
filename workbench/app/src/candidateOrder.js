@@ -68,6 +68,15 @@ export function isNative(candidate, rows) {
 /** Highest score first, then the superseded demerit total, then the parti id. The last two
  *  are there so no ordering is ever settled by the order the composer happened to return —
  *  the same list drawn twice must be the same list. A candidate with no score sorts last. */
+/* R13's count, off the card the composer SERVES (`compose.unjudged_fatals`): the fatal faults the
+   corpus could not judge on a candidate. One reader, so the Candidate Set's adapter cannot write
+   a count of its own (WP-16.8, auditor E's E45: `unjudged_fatal_n: 0` in that adapter left the
+   whole app suite green, because the ordering test hands the count in). */
+export function unjudgedFatalsOf(served) {
+  const u = served && served.unjudged_fatal;
+  return Array.isArray(u) ? u : [];
+}
+
 export function byScore(a, b) {
   const as = typeof a.score === 'number' ? a.score : -Infinity;
   const bs = typeof b.score === 'number' ? b.score : -Infinity;
@@ -93,8 +102,13 @@ export const ORDERS = {
   fatal: {
     chip: 'fatal first',
     says: 'Fatal findings decide the order before the score does — a plan carrying two '
-        + 'sorts below a plan carrying one, and both below a plan carrying none.',
-    cmp: (a, b) => ((a.fatal_n || 0) - (b.fatal_n || 0)) || byScore(a, b),
+        + 'sorts below a plan carrying one, and both below a plan carrying none. Between '
+        + 'equal counts, the plan with fewer fatal faults nobody could judge comes first.',
+    /* R13 (29 Sep 2026): judged fatals, then UNJUDGED fatals, then the score -- the composer's
+       own key (`compose._sort_key`), so this reading order agrees with the order the set was
+       returned in. An unjudged fatal is not a fatal: `order()` below does not read it. */
+    cmp: (a, b) => ((a.fatal_n || 0) - (b.fatal_n || 0))
+      || ((a.unjudged_fatal_n || 0) - (b.unjudged_fatal_n || 0)) || byScore(a, b),
   },
 };
 

@@ -94,7 +94,14 @@
     "direction": "at-least",
     "units": "ratio",
     "measurable_from": "photograph",
-    "note": "A correct return projects at least as far as the cornice is tall. A pork chop is roughly as tall as it is wide and carries no profile, so it fails this and the secondary together."
+    "note": "A correct return projects at least as far as the cornice is tall. A pork chop is roughly as tall as it is wide and carries no profile, so it fails this and the secondary together.",
+    "applies_when": {
+      "expression": "count_of_cornice_returns_drawn_at_the_gable_ends",
+      "direction": "at-least",
+      "threshold": 1,
+      "units": "count",
+      "note": "Only evaluated where the elevation DRAWS a cornice return (WP-16.5, R8). A gable end whose kit forbids a return, or makes none canonical, draws none, and a question about a return's shape does not arise there: not applicable, never a clear. A band kept across a gable end because the kit settles nothing is drawn by default and not stated, so the count is unmeasured there and the fault could-not-evaluate. Added by WP-16.5 (30 Sep 2026), on the precedent WP-16.4 set for the sidelight fault."
+    }
   },
   "secondary_tests": [
     {
@@ -103,7 +110,14 @@
       "direction": "at-least",
       "units": "count",
       "measurable_from": "photograph",
-      "note": "The distinguishing measurement. A pork chop scores zero - it is a flat-faced block. A correct return carries bed mould, corona and crown, plus the modillion or dentil band where one exists."
+      "note": "The distinguishing measurement. A pork chop scores zero - it is a flat-faced block. A correct return carries bed mould, corona and crown, plus the modillion or dentil band where one exists.",
+      "applies_when": {
+        "expression": "count_of_cornice_returns_drawn_at_the_gable_ends",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Same precondition as the primary: a house that draws no return has no return to judge."
+      }
     },
     {
       "expression": "return_length_along_gable_wall_in",
@@ -112,7 +126,14 @@
       "units": "in",
       "measurable_from": "photograph",
       "upper": 24,
-      "note": "12 to 24 in before dying into the wall. Southern brick houses often return the cornice all the way round instead, which is a different and equally correct answer and passes this trivially."
+      "note": "12 to 24 in before dying into the wall. Southern brick houses often return the cornice all the way round instead, which is a different and equally correct answer and passes this trivially.",
+      "applies_when": {
+        "expression": "count_of_cornice_returns_drawn_at_the_gable_ends",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Same precondition as the primary: a house that draws no return has no return to judge."
+      }
     }
   ],
   "detection": "The single fastest check on a traditional house. Look at the bottom corner of any gable and expect one of three things. (a) The eave moulding turns the corner and runs 12-24 in along the gable wall with a shadow under it: correct. (b) A flat triangular or lozenge block, wider at the bottom, sloping on top, with no moulding on it: pork chop. (c) Nothing at all: a different fault. In a photograph, measure the return's projection from the wall against the cornice's height - a correct return projects at least as far as the cornice is tall.",
@@ -130,7 +151,14 @@
         "direction": "at-least",
         "units": "ratio",
         "measurable_from": "photograph",
-        "note": "It must be made of the building's own trim - as deep as the frieze board, carrying the crown, and at least as deep from the wall as the corner pilaster is wide. A short return, not a wedge."
+        "note": "It must be made of the building's own trim - as deep as the frieze board, carrying the crown, and at least as deep from the wall as the corner pilaster is wide. A short return, not a wedge.",
+        "applies_when": {
+          "expression": "count_of_cornice_returns_drawn_at_the_gable_ends",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary: a house that draws no return has no return to judge."
+        }
       }
     },
     {
@@ -143,7 +171,14 @@
         "direction": "at-most",
         "units": "count",
         "measurable_from": "photograph",
-        "note": "There must be no cornice anywhere for the unreturned gable to be consistent; a moulded eave elsewhere makes it an omission again."
+        "note": "There must be no cornice anywhere for the unreturned gable to be consistent; a moulded eave elsewhere makes it an omission again.",
+        "applies_when": {
+          "expression": "count_of_cornice_returns_drawn_at_the_gable_ends",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary: a house that draws no return has no return to judge."
+        }
       }
     },
     {
@@ -156,7 +191,14 @@
         "direction": "at-most",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "Total trim suppression, verified at the casing and the corners."
+        "note": "Total trim suppression, verified at the casing and the corners.",
+        "applies_when": {
+          "expression": "count_of_cornice_returns_drawn_at_the_gable_ends",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary: a house that draws no return has no return to judge."
+        }
       }
     },
     {
@@ -169,7 +211,14 @@
         "direction": "at-least",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "With visible purlins or braces resolving the junction structurally."
+        "note": "With visible purlins or braces resolving the junction structurally.",
+        "applies_when": {
+          "expression": "count_of_cornice_returns_drawn_at_the_gable_ends",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary: a house that draws no return has no return to judge."
+        }
       }
     },
     {
@@ -182,7 +231,14 @@
         "direction": "at-most",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "Stucco or tile edge, no boards."
+        "note": "Stucco or tile edge, no boards.",
+        "applies_when": {
+          "expression": "count_of_cornice_returns_drawn_at_the_gable_ends",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary: a house that draws no return has no return to judge."
+        }
       }
     }
   ],

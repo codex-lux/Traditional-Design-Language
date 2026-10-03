@@ -1,12 +1,21 @@
 #!/usr/bin/env python3
 """What a CLEAR fault verdict rests on: an instrument, not a test (WP-15.8's audit).
 
-`core.check_measurements` judges each fault with `_judge`, which returns `clear` when at least one
-of the fault's tests was EVALUATED and none of those failed. A test that wanted a measurement
-nobody supplied is not in that list, so a fault whose governing test could not run reads clear on
-whatever secondary did. This instrument places every shipped plan on the deterministic engine,
-runs `plan_check.check` on the placement exactly as the bench does, captures the one
-`check_measurements` call it makes, and sorts every clear verdict by what it rests on:
+UNTIL WP-16.1, `core.check_measurements` judged each fault with a `_judge` that returned `clear`
+when at least one of the fault's tests was EVALUATED and none of those failed. A test that wanted a
+measurement nobody supplied was not in that list, so a fault whose governing test could not run
+read clear on whatever secondary did: 142 of the 550 clear verdicts on the sixteen shipped plans,
+measured at `a4abb85`. R4 (ruled 29 Sep 2026) made the governing test decide: a fault is clear only
+where the primary, or the earned exception's bounds test, ran; otherwise it is could-not-evaluate,
+carrying the tests that ran as `ran`; and a clear names every applicable secondary that did not run
+as `secondaries_not_run`. So on a tree with R4 the `governing test not run` count below is 0 by
+construction, and the two figures to read are `unjudged with evidence` (a could-not-evaluate row
+carrying the tests that ran) and `clear naming an unrun secondary`. Run it on a control to see the
+old shape (`--root`).
+
+This instrument places every shipped plan on the deterministic engine, runs `plan_check.check` on
+the placement exactly as the bench does, captures the one `check_measurements` call it makes, and
+sorts every clear verdict by what it rests on:
 
   governing test ran        -- the primary, or the bounds_test of an exception this style earned;
   governing test not run    -- and why: `needed` (a measurement nobody supplied), `declined`
@@ -90,7 +99,23 @@ def census(root, engine="heuristic"):
                 rows.append({"fault": c["fault"], "severity": f.get("severity"),
                              "governing": gov.get("expression"), "governing_state": gov_state,
                              "missing": missing, "ran": ran, "secondaries_not_run": unrun})
-            out[name] = {"clear": len(rows), "rows": rows}
+            # SINCE WP-16.1 (R4) a fault whose governing test could not run is could-not-evaluate
+            # and carries what ran as `ran`. Those rows are the population this instrument was
+            # written to count, and they are counted here on their own grain, so a tree before
+            # the ruling (clears with the governing test not run) and a tree after it (unjudged
+            # rows carrying evidence) can be compared plan by plan.
+            with_ev = []
+            for u in r.get("could_not_judge", []):
+                if u.get("ran"):
+                    f = D["faults"][u["fault"]]
+                    with_ev.append({"fault": u["fault"], "severity": u.get("severity") or f.get("severity"),
+                                    "governing": (u.get("governing_not_run") or {}).get("expression"),
+                                    "missing": (u.get("governing_not_run") or {}).get("missing"),
+                                    "ran": [x.get("expression") for x in u["ran"]]})
+            out[name] = {"clear": len(rows), "rows": rows, "summary": r.get("summary"),
+                         "unjudged_with_evidence": with_ev,
+                         "clear_naming_an_unrun_secondary":
+                             sum(1 for c in r.get("faults_clear", []) if c.get("secondaries_not_run"))}
     finally:
         CORE.check_measurements = orig
     return out
@@ -102,10 +127,22 @@ def summary(out):
     sev = collections.Counter(x["severity"] for x in rows if x["governing_state"] == "needed")
     any_unrun = sum(1 for x in rows if x["governing_state"] == "needed" or x["secondaries_not_run"])
     faults = sorted({x["fault"] for x in rows if x["governing_state"] == "needed"})
+    ev = [x for v in out.values() for x in v.get("unjudged_with_evidence", [])]
+    tot = collections.Counter()
+    for v in out.values():
+        for k, n in (v.get("summary") or {}).items():
+            tot[k] += n
     return {"plans": len(out), "clear": len(rows), "governing": dict(sorted(gov.items())),
             "governing_needed_by_severity": dict(sorted(sev.items())),
             "governing_needed_faults": faults,
-            "any_applicable_test_not_run": any_unrun}
+            "any_applicable_test_not_run": any_unrun,
+            "verdicts": dict(sorted(tot.items())),
+            "unjudged_with_evidence": len(ev),
+            "unjudged_with_evidence_by_severity":
+                dict(sorted(collections.Counter(x["severity"] for x in ev).items())),
+            "unjudged_with_evidence_faults": sorted({x["fault"] for x in ev}),
+            "clear_naming_an_unrun_secondary":
+                sum(v.get("clear_naming_an_unrun_secondary", 0) for v in out.values())}
 
 
 def main():
@@ -120,7 +157,11 @@ def main():
             print(f"  {name:36s} ERROR {v['error']}")
             continue
         n = sum(1 for x in v["rows"] if x["governing_state"] == "needed")
-        print(f"  {name:36s} clear {v['clear']:3d}   governing test not run (needed) {n:3d}")
+        sm = v.get("summary") or {}
+        print(f"  {name:36s} clear {v['clear']:3d}   governing test not run (needed) {n:3d}   "
+              f"unjudged with evidence {len(v.get('unjudged_with_evidence') or []):3d}   "
+              f"p/c/u/na {sm.get('present')}/{sm.get('clear')}/{sm.get('unjudged')}/"
+              f"{sm.get('not_applicable')}")
     s = summary(out)
     print(json.dumps(s, indent=1))
     if a.out:

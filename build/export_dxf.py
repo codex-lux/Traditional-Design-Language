@@ -563,8 +563,11 @@ def export_section_dxf(section, path):
     doc = _new_doc(ezdxf)
     msp = doc.modelspace()
     fp = section["footprint"]
-    span = min(fp["width_ft"], fp["depth_ft"]) * IN
     roof = section["roof"]
+    # THE SPAN THE RIDGE WAS RAISED OVER (WP-16.8): `structure.roof_heights` states it, read through
+    # `threshold.ridge_span`, and the SVG section draws the same; the shorter dimension is kept only
+    # for a record that states none
+    span = (roof.get("span_ft") or min(fp["width_ft"], fp["depth_ft"])) * IN
 
     grade = _layer(doc, "TDL-SECT-GRADE", color=7)
     wall = _layer(doc, "TDL-SECT-WALL", color=7)
@@ -603,10 +606,17 @@ def export_section_dxf(section, path):
         # (WP-14.3). `_note` is the elevation's MTEXT, and reads back as it was given.
         # Beneath the title, as the elevation sets its notes, so its lines run down clear of the
         # drawing whatever their number.
-        _note(msp, anno, f"RIDGE UNJUDGED - {roof.get('note') or ''}", 0, -6 * TEXT_H,
-              max(span, 400.0))
+    y = -6.0 * TEXT_H
+    if ridge_ft is None:
+        n = _note(msp, anno, ("NO ROOF DRAWN - " if roof.get("refused") else "RIDGE UNJUDGED - ")
+                  + (roof.get("note") or ""), 0, y, max(span, 400.0))
+        y -= (n * MTEXT_PITCH + 0.5) * TEXT_H
     _text(msp, anno, f"{section.get('plan_id','')} - SECTION - {section.get('style','')} - "
                      f"{section['wall']['construction_type']}", 0, -4 * TEXT_H)
+    # T3, as the section sheet says it (WP-16.8, the audit of Phase 16), beneath the notes
+    _rj = _mod("disclosures", os.path.join(ROOT, "build", "disclosures.py")).roof_form_judgment(roof)
+    if _rj:
+        _note(msp, anno, _rj, 0, y, max(span, 400.0))
     doc.saveas(path)
     return {"path": path, "sheets": "section"}
 
@@ -649,6 +659,16 @@ def export_roof_dxf(roof, path):
     pitch = f"{m['pitch_rise_per_12']}:12" if m.get("pitch_rise_per_12") else "PITCH UNJUDGED"
     _text(msp, anno, f"{roof.get('plan_id','')} - ROOF PLAN - {roof.get('style','')} - "
                      f"{m.get('form','')} - {pitch}", 0, -4 * TEXT_H)
+    # WHAT THE ROOF PLAN SAYS BENEATH ITS DRAWING, IN ITS WORDS (the audit of WP-16.8's own diff,
+    # auditor B): this sheet wrote the title alone, so a refused stack, a roof form the kit decided
+    # by a judgment and a roof that stops at the gable wall were each said on the SVG and silently
+    # absent here. `render_roof.plan_notes` is the one list.
+    xs = [v * IN for ln in roof["outline"] for v in (ln["x1"], ln["x2"])] or [0.0]
+    width = max(xs) - min(xs) or 480.0
+    y = -6.0 * TEXT_H
+    for line in _mod("render_roof", os.path.join(ROOT, "build", "render_roof.py")).plan_notes(roof):
+        n = _note(msp, anno, line, 0, y, width)
+        y -= (n * MTEXT_PITCH + 0.5) * TEXT_H
     doc.saveas(path)
     return {"path": path, "sheets": "roof"}
 
@@ -734,8 +754,68 @@ def export_elevation_dxf(elev, path, face=None):
     for mk in beside:
         _draw_stack(mk)
     msp.add_line((min([0] + g_us) - 24, 0), (max([span] + g_us) + 24, 0), dxfattribs={"layer": grade})
-    msp.add_lwpolyline([(0, 0), (span, 0), (span, top_of_wall), (0, top_of_wall)],
-                       close=True, dxfattribs={"layer": wall})
+    # WHAT THIS FACE IS TO THE CORNICE, as the sheet decides it (WP-16.5, R8): a gable end that
+    # carries no band across it is a wall that runs up to the rake, one outline from the ground to
+    # the roof's edge, where a wall stopped at the roof record's eave drew a line across the gable
+    cm = EL.cornice_marks(elev, face)
+    profile = [(x * IN, h * IN + cornice_band) for x, h in EL.face_profile(roof, face, fp)]
+    _gable = face in (EL.gable_faces(roof) or ())
+    _band_across = bool(cm.get("applicable") and cm.get("role") == "gable"
+                        and (cm.get("cornice") or cm.get("frieze")))
+    if _gable and not _band_across:
+        wl = msp.add_lwpolyline([(0, 0), (span, 0)] + list(reversed(profile)), close=True,
+                                dxfattribs={"layer": wall})
+        _xdata(wl, "TDL::wall", {"to_the_rake": True})
+    else:
+        msp.add_lwpolyline([(0, 0), (span, 0), (span, top_of_wall), (0, top_of_wall)],
+                           close=True, dxfattribs={"layer": wall})
+    # THE WATER TABLE AND THE BELT COURSE, as the sheet draws them (WP-16.8, the audit of Phase 16).
+    # This file drew neither, on any face, from the day WP-5.1 wrote it, while the sheet has drawn
+    # both since WP-3.2 at the projections their record states, and printed the refusal of each
+    # (WP-16.4) on the CAD file through the face's own notes. `elevation.band_marks` is the one
+    # reader of whether each is drawn and with what figures. Where a band passes in front of a
+    # stack beside the face, the band's own mask hides the stack's lines, as the sheet's fill does.
+    bands = EL.band_marks(elev)
+    band_layer = _layer(doc, "TDL-ELEV-BAND", color=7)
+    _band_boxes = []
+    if bands["water_table"]:
+        _w = bands["water_table"]
+        _band_boxes.append(("water table", -_w["projection_in"], span + _w["projection_in"], 0.0,
+                            _w["top_in"], _w["projection_in"], _w["projection_stated"]))
+    if bands["belt"]:
+        _b = bands["belt"]
+        _band_boxes.append(("belt course", -_b["projection_in"], span + _b["projection_in"],
+                            _b["bottom_in"], _b["bottom_in"] + _b["height_in"], _b["projection_in"],
+                            _b["projection_stated"]))
+    for _name, u0, u1, h0, h1, _proj, _stated in _band_boxes:
+        # THE BAND IS OPAQUE, AS THE SHEET PAINTS IT (the audit of WP-16.8's own diff, 3 Oct 2026,
+        # auditor B): the sheet fills the band, so the wall's corner lines stop at it; here the wall
+        # outline, drawn first, ran through both boxes to grade. The whole box is masked before its
+        # outline is drawn -- which also hides a stack beside the face where the band passes in
+        # front of it, so the per-stack mask WP-16.8 drew here first, inside this box by its own
+        # clipping, is gone (auditor C's M4: deleting it left every test green, because it could
+        # no longer hide anything this mask does not).
+        _mask([(u0, h0), (u1, h0), (u1, h1), (u0, h1)])
+        bx = msp.add_lwpolyline([(u0, h0), (u1, h0), (u1, h1), (u0, h1)], close=True,
+                                dxfattribs={"layer": band_layer})
+        # an unstated projection is written as unstated, never as the 0.0 the band is drawn at (the
+        # audit of WP-16.8's own diff, auditor D: Tidewater's belt states none, and its data said 0.0)
+        _xdata(bx, "TDL::band", {"band": _name, "projection_in": _proj if _stated else None,
+                                 **({} if _stated else {"projection_note": "the record states no "
+                                                        "projection; the band is drawn flush"}),
+                                 "source": (elev.get("water_table_belt") or {}).get("source")})
+    def _mask_over_bands(x0, x1, y0, y1):
+        """Mask a FILLED area the sheet paints over a band -- an opening, a sidelight, a transom --
+        before its lines are drawn, where it crosses one. The sheet's glass and its door leaf are
+        filled; its casing is not, so the casing is never masked."""
+        if any(min(x1, b[2]) - max(x0, b[1]) > 1e-6 and min(y1, b[4]) - max(y0, b[3]) > 1e-6
+               for b in _band_boxes):
+            _mask([(x0, y0), (x1, y0), (x1, y1), (x0, y1)])
+
+    if bands["water_table"]:
+        for mm in bands["water_table"]["members"]:
+            msp.add_line((-mm["projection_in"], mm["y_in"]), (span + mm["projection_in"], mm["y_in"]),
+                         dxfattribs={"layer": band_layer})
     # THE FRIEZE AND THE CORNICE, EACH AT ITS OWN PROJECTION, AND THE CORNICE WITH ITS MEMBERS
     # (Phase 15, WP-15.7). This drew ONE box from the wall head to the true eave at the cornice's
     # projection, as the sheet did, so the frieze stood proud of a wall its record says it is
@@ -747,8 +827,10 @@ def export_elevation_dxf(elev, path, face=None):
     cornice = elev["eave_cornice"]
     band_proj, band_why = EL.cornice_band_projection_in(cornice)
     band_proj = band_proj or 0.0
-    cm = EL.cornice_marks(elev, face)
     if cm["applicable"]:
+        # EACH BAND ONLY WHERE THE KIT DOES NOT FORBID IT (WP-16.4), as the sheet draws it:
+        # `cornice_marks` hands back None for a refused band, and the notes both surfaces write
+        # say who forbade it
         _fz, _co = cm["frieze"], cm["cornice"]
         # where the frieze and the cornice pass in front of a stack beside the face, the stack's
         # lines are masked before the bands are drawn over them
@@ -760,15 +842,19 @@ def export_elevation_dxf(elev, path, face=None):
             pts = _stack_pts(mk)
             su0, su1 = min(p[0] for p in pts) - 0.5, max(p[0] for p in pts) + 0.5
             sh0, sh1 = min(p[1] for p in pts), max(p[1] for p in pts)
-            for b in (_fz, _co):
+            _ret_boxes = [r[k] for r in cm.get("returns") or [] for k in ("frieze", "cornice") if r[k]]
+            for b in (x for x in [_fz, _co] + _ret_boxes if x):
                 u0, u1 = max(su0, b["u0"] * IN), min(su1, b["u1"] * IN)
                 h0, h1 = max(sh0, b["h0"] * IN), min(sh1, b["h1"] * IN)
                 if u1 - u0 > 0.5 + 1e-6 and h1 - h0 > 1e-6:
                     _mask([(u0, h0), (u1, h0), (u1, h1), (u0, h1)])
-        fz = msp.add_lwpolyline([(_fz["u0"] * IN, _fz["h0"] * IN), (_fz["u1"] * IN, _fz["h0"] * IN),
-                                 (_fz["u1"] * IN, _fz["h1"] * IN), (_fz["u0"] * IN, _fz["h1"] * IN)],
-                                close=True, dxfattribs={"layer": _layer(doc, "TDL-ELEV-FRIEZE", color=3)})
-        _xdata(fz, "TDL::frieze", {"projection_in": _fz["projection_in"], "why": _fz["why"]})
+        if _fz:
+            fz = msp.add_lwpolyline([(_fz["u0"] * IN, _fz["h0"] * IN), (_fz["u1"] * IN, _fz["h0"] * IN),
+                                     (_fz["u1"] * IN, _fz["h1"] * IN), (_fz["u0"] * IN, _fz["h1"] * IN)],
+                                    close=True, dxfattribs={"layer": _layer(doc, "TDL-ELEV-FRIEZE", color=3)})
+            _xdata(fz, "TDL::frieze", {"projection_in": _fz["projection_in"], "why": _fz["why"]})
+    if cm["applicable"] and cm["cornice"]:
+        _co = cm["cornice"]
         box = msp.add_lwpolyline([(_co["u0"] * IN, _co["h0"] * IN), (_co["u1"] * IN, _co["h0"] * IN),
                                   (_co["u1"] * IN, _co["h1"] * IN), (_co["u0"] * IN, _co["h1"] * IN)],
                                  close=True, dxfattribs={"layer": cor})
@@ -786,6 +872,62 @@ def export_elevation_dxf(elev, path, face=None):
                 msp.add_lwpolyline([(t["u0"] * IN, _t["h0"] * IN), (t["u1"] * IN, _t["h0"] * IN),
                                     (t["u1"] * IN, _t["h1"] * IN), (t["u0"] * IN, _t["h1"] * IN)],
                                    close=True, dxfattribs={"layer": tth})
+
+    # THE GABLE END'S RETURNS AND END PROFILES (WP-16.5, R8 and R8a), the marks the sheet draws
+    # from `cornice_marks`. The length of a return is a judgment (R8a), and its XDATA says so and
+    # names the rule it was read from, so a CAD file does not hold it with a measured figure's
+    # authority. An end profile is the section `profiles.silhouette` constructs, walked as the
+    # detail below is; at the left corner it is mirrored, and a mirror reverses every arc, so each
+    # bulge changes sign there.
+    if cm["applicable"]:
+        _ret = elev.get("cornice_return") or {}
+        fzl = _layer(doc, "TDL-ELEV-FRIEZE", color=3)
+        mem = _layer(doc, "TDL-ELEV-CORNICE-MEMBER", color=3)
+        for rt in cm.get("returns") or []:
+            for key, lay in (("frieze", fzl), ("cornice", cor)):
+                b = rt[key]
+                if not b:
+                    continue
+                pl = msp.add_lwpolyline([(b["u0"] * IN, b["h0"] * IN), (b["u1"] * IN, b["h0"] * IN),
+                                         (b["u1"] * IN, b["h1"] * IN), (b["u0"] * IN, b["h1"] * IN)],
+                                        close=True, dxfattribs={"layer": lay})
+                _xdata(pl, "TDL::return", {"side": rt["side"], "member": key, "plain": rt["plain"],
+                                           "length_in": _ret.get("length_in"), "judgment": True,
+                                           "basis": _ret.get("length_basis")})
+            _rc = rt["cornice"]
+            if _rc and not rt["plain"]:
+                for mm in cm["members"][1:]:
+                    ln = msp.add_line((_rc["u0"] * IN, mm["h0"] * IN), (_rc["u1"] * IN, mm["h0"] * IN),
+                                      dxfattribs={"layer": mem})
+                    _xdata(ln, "TDL::cornice-member", {"member": mm["id"], "profile": mm["profile"],
+                                                       "return": rt["side"]})
+            _rt = rt.get("teeth")
+            if _rc and _rt and not _rt["solid"]:
+                tth = _layer(doc, "TDL-ELEV-CORNICE-TOOTH", color=3)
+                for t in _rt["teeth"]:
+                    msp.add_lwpolyline([(t["u0"] * IN, _rt["h0"] * IN), (t["u1"] * IN, _rt["h0"] * IN),
+                                        (t["u1"] * IN, _rt["h1"] * IN), (t["u0"] * IN, _rt["h1"] * IN)],
+                                       close=True, dxfattribs={"layer": tth})
+        if cm.get("end_profiles"):
+            _P = _mod("profiles", f"{ROOT}/build/profiles.py")
+            _naked = cornice.get("frieze_naked_in") or 0.0
+            _axis = cornice.get("entablature_projection_datum", cornice.get("projection_datum")) == "axis"
+            _sil = _P.silhouette(cornice["members"], naked_at=_naked, from_axis=_axis)
+            _pts = _P.dxf_points(_sil["segments"], _sil["start"])
+            # its own layer: an end profile is the cornice's SECTION, not a box on the face, and a
+            # reader of the cornice layer who took it for one would read a third box on the gable
+            endl = _layer(doc, "TDL-ELEV-CORNICE-END", color=3)
+            for ep in cm["end_profiles"]:
+                au, out, h0 = ep["at_u"] * IN, ep["outward"], ep["h0"] * IN
+                pl = msp.add_lwpolyline([(au + out * (x - _naked), h0 + y, 0.0, 0.0, bl * out)
+                                         for x, y, bl in _pts],
+                                        format="xyseb", close=True, dxfattribs={"layer": endl})
+                _xdata(pl, "TDL::end-profile", {"side": ep["side"], "relief_in": ep.get("relief_in")})
+                if ep.get("frieze_projection_in"):
+                    fu = au + out * ep["frieze_projection_in"]
+                    msp.add_lwpolyline([(min(au, fu), ep["wall_top_ft"] * IN), (max(au, fu), ep["wall_top_ft"] * IN),
+                                        (max(au, fu), h0), (min(au, fu), h0)],
+                                       close=True, dxfattribs={"layer": fzl})
 
     # WP-5.11: THE CORNICE PROFILE ITSELF, AND THE ANSWER TO "DO WE NEED CAD FOR THIS".
     #
@@ -824,20 +966,40 @@ def export_elevation_dxf(elev, path, face=None):
         uncon = {u["id"] for u in sil["unconstructed"]}
         _xdata(poly, "TDL::cornice-profile", {"members": [
             {"id": m.get("id"), "profile": m.get("profile"), "height_in": m.get("height_in"),
-             "projection_in": m.get("projection_in"), "confidence": m.get("confidence"),
+             "projection_in": m.get("projection_in"),
+             "order_projection_in": m.get("order_projection_in"), "confidence": m.get("confidence"),
              "unconstructed": m.get("id") in uncon, "drawn_straight": m.get("id") in straight}
             for m in members]})
         _text(msp, anno, f"EAVE CORNICE PROFILE - {len(members)} MEMBERS, FULL SIZE",
               ox, oy - 14)
+        # ONE CORNICE (OQ 79, ruled 29 Sep 2026): the relief is the envelope's, in the order's shape,
+        # and the bed mould's held figure is a judgment. The sheet's caption says the same.
+        scaling = cornice.get("projection_scaling") or {}
+        # B4: where a kit's own minimum decided the depth, the same words the sheet's caption reads
+        _deep = EL.cornice_depth_words(cornice, " IN")
         _text(msp, anno,
               f"RELIEF {round(cornice.get('order_relief_beyond_frieze_in') or 0, 2)} IN"
-              + (f"; ENVELOPE RULE SAYS {round(band_proj, 2)} IN - BOTH SOURCED, SEE OQ"
-                 if abs((cornice.get('order_relief_beyond_frieze_in') or 0) - band_proj) > 0.5 else ""),
+              + ((f", {_deep}, IN THE ORDER'S SHAPE (ORDER'S OWN "
+                  f"{round(scaling.get('order_relief_in') or 0, 2)} IN; RULED)")
+                 if _deep and scaling.get("mode") in ("bed-mould-held", "uniform") else
+                 (f", THE ENVELOPE'S DEPTH IN THE ORDER'S SHAPE (ORDER'S OWN "
+                  f"{round(scaling.get('order_relief_in') or 0, 2)} IN; OQ 79, RULED)")
+                 if scaling.get("mode") in ("bed-mould-held", "uniform") else "")
+              + (f"; BED MOULD HELD AT {cornice.get('bed_mould_projection_in'):g} IN - A JUDGMENT"
+                 if cornice.get("bed_mould_projection_judgment") else ""),
               ox, oy - 26)
 
     # roof silhouette from roof.py's own elevation profile, shifted by the band
-    profile = [(x * IN, h * IN + cornice_band) for x, h in roof["elevation_profiles"][face]]
+    # in the face's own u, as the sheet reads it (WP-16.3: `elevation.face_profile`); on a gable
+    # end it is the rake, the roof's edge seen end on (WP-16.5)
     msp.add_lwpolyline(profile, dxfattribs={"layer": rf})
+    # THE RAKE (WP-16.9, B3 and B5): each member a band along each slope, the bands the sheet
+    # draws (`elevation.rake_marks`), in inches from the same datum as the profile above
+    for rb in EL.rake_marks(elev, face)["bands"]:
+        pl = msp.add_lwpolyline([(u * IN, h * IN) for u, h in rb["poly"]], close=True,
+                                dxfattribs={"layer": rf})
+        _xdata(pl, "TDL::rake-member", {"member": rb["member"], "kind": rb["kind"],
+                                        "slope": rb["slope"]})
 
     def _win(r):
         """WP-12.2: the rectangle is HANDED here, from `elevation.opening_rects`, and is no
@@ -864,12 +1026,30 @@ def export_elevation_dxf(elev, path, face=None):
                                                   "source": "sash-light: 'about 1 1/2 in of jamb, "
                                                             "pulley stile and parting-bead "
                                                             "clearance'"})
+        # THE SHUTTER LEAVES THE SHEET DRAWS, DRAWN (WP-16.8, the audit of Phase 16, auditor C).
+        # This file drew no leaf on any face while it printed the sheet's own sentences about them
+        # -- "EACH ONE'S LIGHTS AND SHUTTER LEAVES ARE SASH-LIGHT'S RULE", "DOOR AND SHUTTER PANELS
+        # ARE DRAWN AS THEIR ARRANGEMENT" -- so the CAD file of the spec Colonial's south front
+        # described eight leaves it did not have. `elevation.shutter_leaves`, the one spelling.
+        for lf in EL.shutter_leaves(x0, x1, head, r.get("shutter_leaf_width_in"),
+                                    r.get("shutter_leaf_height_in"), r.get("shutter_panel_count")):
+            for bx in [lf] + lf["panels"]:
+                msp.add_lwpolyline([(bx["x0"], bx["y0"]), (bx["x1"], bx["y0"]),
+                                    (bx["x1"], bx["y1"]), (bx["x0"], bx["y1"])],
+                                   close=True, dxfattribs={"layer": sash})
 
     ent = elev["entrance"]
     # WP-12.2: ONE LOOP, in `elevation.opening_rects` — the blind-bay skip, the
     # door-at-the-entrance-face branch and the two storeys. The comment below is kept because
     # the defect it records is the reason this loop is no longer written twice.
     for r in EL.opening_rects(elev, face)["rects"]:
+        # AN OPENING STANDS IN FRONT OF A BAND IT CROSSES (WP-16.8): the sheet fills every opening
+        # over the water table and the belt it drew first, so the band is not seen through a door.
+        # Every ground door crosses the water table -- its top is above the floor the door opens
+        # from, 3.5 in on the Tidewater plan and 9.8 in on the frame houses -- so the opening's
+        # area is masked before its lines are drawn, as the stacks are.
+        _ox0, _ox1, _osl, _ohd = r["x0_in"], r["x1_in"], r["sill_in"], r["head_in"]
+        _mask_over_bands(_ox0, _ox1, _osl, _ohd)
         # A BLIND BAY CARRIES NO OPENING AT EITHER STOREY (OQ 85). The bay holds its place in the
         # rhythm and a chimney stack stands on its axis, so there is nothing to draw. Missed when
         # the blind bay was introduced: this loop read `if door ... else window`, so `blind` fell
@@ -882,8 +1062,8 @@ def export_elevation_dxf(elev, path, face=None):
             # derivation and reading it twice is how the two stop being the same number.
             sill, head = r["sill_in"], r["head_in"]
             x0, x1 = r["x0_in"], r["x1_in"]
-            msp.add_lwpolyline([(x0, sill), (x1, sill), (x1, head), (x0, head)],
-                               close=True, dxfattribs={"layer": opening})
+            leaf = msp.add_lwpolyline([(x0, sill), (x1, sill), (x1, head), (x0, head)],
+                                      close=True, dxfattribs={"layer": opening})
             # THE DOORCASE DRESSES THE ENTRANCE AND NOTHING ELSE (WP-13.3, the lead's pass). A
             # door rect is any placed exterior door on this face since the elevation began
             # drawing the plan's placed openings -- the Tidewater plan seats three on its N wall
@@ -898,8 +1078,11 @@ def export_elevation_dxf(elev, path, face=None):
             # The CAD file draws what the sheet draws.
             if "garage" in str(r.get("type") or "").lower():
                 continue
-            cw = ent["casing_width_in"]
-            eh = ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]
+            # A DOORCASE THE KIT FORBIDS IS THE DOOR'S PLAIN CASING (WP-16.4), as the sheet draws
+            # it: the doorcase's own casing carried round the head at its own width, no entablature
+            plain = bool(ent.get("doorcase_refused_by"))
+            cw = ent["plain_casing_width_in"] if plain else ent["casing_width_in"]
+            eh = cw if plain else (ent.get("entablature_height_in") or ent["surround_height_above_opening_in"])
             # WHAT THE SVG DRAWS, THE DXF DRAWS (WP-14.3, census X1). The sheet has drawn the
             # sidelights beside the doorcase since WP-3.2 and this file never did, so five plans'
             # CAD elevations were a different doorcase from their plates. And the transom the
@@ -909,6 +1092,7 @@ def export_elevation_dxf(elev, path, face=None):
             top = head
             if tr.get("drawn"):
                 top = head + tr["height_in"]
+                _mask_over_bands(x0, x1, head, top)
                 poly = msp.add_lwpolyline([(x0, head), (x1, head), (x1, top), (x0, top)],
                                           close=True, dxfattribs={"layer": opening})
                 _xdata(poly, "TDL::transom", {"height_in": tr["height_in"], "judgment": True,
@@ -922,6 +1106,21 @@ def export_elevation_dxf(elev, path, face=None):
             case = msp.add_lwpolyline([(x0 - cw, sill), (x1 + cw, sill),
                                        (x1 + cw, top + eh), (x0 - cw, top + eh)],
                                       close=True, dxfattribs={"layer": sash})
+            # WHAT THE KIT FORBIDS AT THE ENTRANCE, SAID ON THE LEAF (WP-16.4): the doorcase refused
+            # to a plain casing, and the sidelights (with the transom where the whole slot is
+            # forbidden), each with the nodes that wrote the ban and the dates it carries. On the
+            # LEAF and in ONE record, because an entity holds one XDATA record per application and
+            # a second `_xdata` on the casing would overwrite the placer's refusal written there.
+            kit = {}
+            if plain:
+                kit["doorcase"] = {"ban": ent["doorcase_refused_by"],
+                                   "words": EL.ban_words(ent["doorcase_refused_by"])}
+            if ent.get("sidelights_refused_by"):
+                kit["sidelights"] = {"ban": ent["sidelights_refused_by"],
+                                     "words": EL.ban_words(ent["sidelights_refused_by"]),
+                                     "transom_too": bool(ent.get("transom_forbidden_by_kit"))}
+            if kit:
+                _xdata(leaf, "TDL::kit-refused", kit)
             # A REFUSED PAIR IS SAID IN THE FILE, as the plate says it (audit, 27 Sep 2026): this
             # loop honoured `sidelights_drawn` and wrote nothing, so a CAD reader had a doorcase
             # with no sidelights and no word of why. The record's own reason, on the doorcase.
@@ -930,6 +1129,10 @@ def export_elevation_dxf(elev, path, face=None):
             if ent.get("sidelights_present") and ent.get("sidelight_width_in") and r.get("sidelights_drawn", True):
                 slw = ent["sidelight_width_in"]
                 for a in (x0 - cw - slw, x1 + cw):
+                    # THE SIDELIGHT IS GLASS, painted over the water table on the sheet (the audit
+                    # of WP-16.8's own diff, auditor B): only the leaf was masked, so the band ran
+                    # through both sidelights of the spec Colonial's front and stopped at the door
+                    _mask_over_bands(a, a + slw, sill, head)
                     msp.add_lwpolyline([(a, sill), (a + slw, sill), (a + slw, head), (a, head)],
                                        close=True, dxfattribs={"layer": opening})
             continue
@@ -967,7 +1170,7 @@ def export_elevation_dxf(elev, path, face=None):
                      # where it is drawn, and never "CORNICE None IN (8 MEMBERS)" over a record
                      # that dimensions none (WP-15.8's audit, auditor ab601)
                      + (f"CORNICE {cornice['cornice_height_in']} IN ({cornice['member_count']} MEMBERS)"
-                        if cm["applicable"] else "NO CORNICE DRAWN"),
+                        if EL.cornice_drawn(cm) else "NO CORNICE DRAWN"),
           0, -4 * TEXT_H)
     # EVERYTHING THE SHEET SAYS BENEATH THE DRAWING, IN ITS OWN WORDS AND ORDER (`elevation.
     # face_notes`, WP-15.8). This wrote the five lines it had been handed one at a time -- the main

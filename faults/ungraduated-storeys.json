@@ -85,7 +85,14 @@
     "units": "ratio",
     "measurable_from": "photograph",
     "upper": 0.88,
-    "note": "The measured band, and Palladio's 5/6 = 0.833 sits inside it - they agree to within two per cent, which is the reason to trust either. The fault reads 0.98-1.02. This needs no scale reference because it is a ratio between two objects in the same image."
+    "note": "The measured band, and Palladio's 5/6 = 0.833 sits inside it - they agree to within two per cent, which is the reason to trust either. The fault reads 0.98-1.02. This needs no scale reference because it is a ratio between two objects in the same image.",
+    "applies_when": {
+      "expression": "storey_count",
+      "direction": "at-least",
+      "threshold": 2,
+      "units": "count",
+      "note": "Storeys that fail to diminish upward is a question about a house of two storeys or more. On a one-storey house `build/elevation.py` read the ground storey under the second storey's name, and this fault convicted all six one-storey reference plans at second/first = 1.0. Those figures are withheld on a one-storey section now, and this gate makes the verdict there NOT APPLICABLE (WP-16.1, 29 Sep 2026)."
+    }
   },
   "secondary_tests": [
     {
@@ -95,7 +102,14 @@
       "units": "ratio",
       "measurable_from": "elevation",
       "upper": 0.92,
-      "note": "storey-graduation gives 0.85; facade-classical's invariant gives 10.25:12 = 0.854. Read off the water table, belt course and cornice where they exist."
+      "note": "storey-graduation gives 0.85; facade-classical's invariant gives 10.25:12 = 0.854. Read off the water table, belt course and cornice where they exist.",
+      "applies_when": {
+        "expression": "storey_count",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "count",
+        "note": "Gated with the primary on the same premise (WP-16.1, 29 Sep 2026): the fault asks how one storey stands on another."
+      }
     },
     {
       "expression": "attic_or_half_storey_height_in / storey_below_in",
@@ -103,7 +117,14 @@
       "direction": "at-most",
       "units": "ratio",
       "measurable_from": "elevation",
-      "note": "The attic ratio, which is what sizes a dormer window at about 41 in on a 10 ft storey."
+      "note": "The attic ratio, which is what sizes a dormer window at about 41 in on a 10 ft storey.",
+      "applies_when": {
+        "expression": "storey_count",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "count",
+        "note": "Gated with the primary on the same premise (WP-16.1, 29 Sep 2026): the fault asks how one storey stands on another."
+      }
     }
   ],
   "detection": "In a straight-on photograph, measure the sash height of a first-floor window and of the sash directly above it. A ratio of 0.82-0.88 is correct; 0.98-1.02 is the fault. Second, read the floor-to-floor heights off the water table, belt course and cornice where they exist. Third and fastest, at any distance: if the upper and lower windows are visibly the same unit, the graduation has gone.",
@@ -122,7 +143,14 @@
         "units": "ft",
         "measurable_from": "photograph",
         "upper": 13,
-        "note": "The ground storey must read as a base and the storey ABOVE the principal floor must diminish again to 10-11 ft. The inversion is between the first two floors only."
+        "note": "The ground storey must read as a base and the storey ABOVE the principal floor must diminish again to 10-11 ft. The inversion is between the first two floors only.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       },
       "granted_when": {
         "regions": [
@@ -141,7 +169,14 @@
         "direction": "at-least",
         "units": "count",
         "measurable_from": "photograph",
-        "note": "The raised base must be expressed as a base: piers, an arcade, or a low service storey with smaller openings."
+        "note": "The raised base must be expressed as a base: piers, an arcade, or a low service storey with smaller openings.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       },
       "granted_when": {
         "regions": [
@@ -165,7 +200,14 @@
         "units": "in",
         "measurable_from": "photograph",
         "upper": 20,
-        "note": "The storey below must still be full height, and the band must be a frieze with horizontal windows in it, not a knee wall of siding."
+        "note": "The storey below must still be full height, and the band must be a frieze with horizontal windows in it, not a knee wall of siding.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       },
       "granted_when": {
         "slots": [
@@ -185,7 +227,14 @@
         "direction": "at-least",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "The differentiation must be legible outside as a change in the horizontal banding, not merely felt inside."
+        "note": "The differentiation must be legible outside as a change in the horizontal banding, not merely felt inside.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     },
     {
@@ -199,7 +248,14 @@
         "units": "percent",
         "measurable_from": "photograph",
         "upper": 15,
-        "note": "Not an exception to the rule but an intensification of it."
+        "note": "Not an exception to the rule but an intensification of it.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     }
   ],

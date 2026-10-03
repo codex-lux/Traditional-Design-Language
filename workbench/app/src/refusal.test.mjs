@@ -270,6 +270,9 @@ const READERS = [
   ['surfaces/DrawingSet.jsx', '../sheet/refusal.js'],
   ['surfaces/ExportDetails.jsx', '../sheet/refusal.js'],
   ['surfaces/CandidateSet.jsx', '../sheet/refusal.js'],
+  // the candidate card the Candidate Set renders reads a candidate's refusal here (the audit of
+  // WP-16.8's own diff, auditor C's M2, lifted it out of the surface into a leaf)
+  ['candidateCard.js', './sheet/refusal.js'],
   ['sheet/Sheet.jsx', './refusal.js'],
   ['journey/journey.js', '../sheet/refusal.js'],
 ];

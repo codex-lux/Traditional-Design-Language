@@ -61,7 +61,14 @@
         "direction": "at-least",
         "units": "ratio",
         "measurable_from": "photograph",
-        "note": "The wall either side of the whole band still obeys the ratio. Ganging that reaches a corner and leaves no return pier is not licensed."
+        "note": "The wall either side of the whole band still obeys the ratio. Ganging that reaches a corner and leaves no return pier is not licensed.",
+        "applies_when": {
+          "expression": "count_of_window_piers_on_the_front",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Every test of this fault asks about the wall between windows, so every one is gated on a pier being there, as the primary is (WP-16.8, the audit of Phase 16, 1 Oct 2026). WP-16.6 gated the primary alone, so on a front with no two windows side by side the secondaries still ran and could convict a house whose governing test says the question does not arise -- the solid-to-void ratio reads an opening total of a door and four windows the elevation states as its own constant. On seven of the sixteen shipped plans the fault read not applicable with a secondary carried as run."
+        }
       }
     },
     {
@@ -74,7 +81,14 @@
         "direction": "equals",
         "units": "ratio",
         "measurable_from": "photograph",
-        "note": "A ribbon on the front and punched openings on the side is not Prairie, it is this fault with a flat roof."
+        "note": "A ribbon on the front and punched openings on the side is not Prairie, it is this fault with a flat roof.",
+        "applies_when": {
+          "expression": "count_of_window_piers_on_the_front",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Every test of this fault asks about the wall between windows, so every one is gated on a pier being there, as the primary is (WP-16.8, the audit of Phase 16, 1 Oct 2026). WP-16.6 gated the primary alone, so on a front with no two windows side by side the secondaries still ran and could convict a house whose governing test says the question does not arise -- the solid-to-void ratio reads an opening total of a door and four windows the elevation states as its own constant. On seven of the sixteen shipped plans the fault read not applicable with a secondary carried as run."
+        }
       }
     },
     {
@@ -87,7 +101,14 @@
         "direction": "at-most",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "The style earns the ganging by giving up the trim: casing 3 in maximum, no corner boards, shingles run over corners, no projecting heads."
+        "note": "The style earns the ganging by giving up the trim: casing 3 in maximum, no corner boards, shingles run over corners, no projecting heads.",
+        "applies_when": {
+          "expression": "count_of_window_piers_on_the_front",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Every test of this fault asks about the wall between windows, so every one is gated on a pier being there, as the primary is (WP-16.8, the audit of Phase 16, 1 Oct 2026). WP-16.6 gated the primary alone, so on a front with no two windows side by side the secondaries still ran and could convict a house whose governing test says the question does not arise -- the solid-to-void ratio reads an opening total of a door and four windows the elevation states as its own constant. On seven of the sixteen shipped plans the fault read not applicable with a secondary carried as run."
+        }
       },
       "granted_when": {
         "construction": [
@@ -107,7 +128,14 @@
         "upper": 24,
         "units": "in",
         "measurable_from": "photograph",
-        "note": "Requires load-bearing masonry of not less than 16 in nominal and reveals of 12 to 24 in, with the group under a genuine arch or lintel. Thin stone veneer over frame voids it entirely."
+        "note": "Requires load-bearing masonry of not less than 16 in nominal and reveals of 12 to 24 in, with the group under a genuine arch or lintel. Thin stone veneer over frame voids it entirely.",
+        "applies_when": {
+          "expression": "count_of_window_piers_on_the_front",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Every test of this fault asks about the wall between windows, so every one is gated on a pier being there, as the primary is (WP-16.8, the audit of Phase 16, 1 Oct 2026). WP-16.6 gated the primary alone, so on a front with no two windows side by side the secondaries still ran and could convict a house whose governing test says the question does not arise -- the solid-to-void ratio reads an opening total of a door and four windows the elevation states as its own constant. On seven of the sixteen shipped plans the fault read not applicable with a secondary carried as run."
+        }
       },
       "granted_when": {
         "construction": [
@@ -126,7 +154,14 @@
         "direction": "at-least",
         "units": "ratio",
         "measurable_from": "photograph",
-        "note": "The group is read as a bay of a picturesque composition and the wall elsewhere is generously solid. A Tudor Revival front with more glass than wall fails its own rules."
+        "note": "The group is read as a bay of a picturesque composition and the wall elsewhere is generously solid. A Tudor Revival front with more glass than wall fails its own rules.",
+        "applies_when": {
+          "expression": "count_of_window_piers_on_the_front",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Every test of this fault asks about the wall between windows, so every one is gated on a pier being there, as the primary is (WP-16.8, the audit of Phase 16, 1 Oct 2026). WP-16.6 gated the primary alone, so on a front with no two windows side by side the secondaries still ran and could convict a house whose governing test says the question does not arise -- the solid-to-void ratio reads an opening total of a door and four windows the elevation states as its own constant. On seven of the sixteen shipped plans the fault read not applicable with a secondary carried as run."
+        }
       }
     }
   ],
@@ -157,12 +192,19 @@
     "ganging"
   ],
   "test": {
-    "expression": "pier_width_in / adjacent_opening_width_in",
+    "expression": "narrowest_pier_over_wider_adjacent_window",
     "threshold": 1.0,
     "direction": "at-least",
     "units": "ratio",
     "measurable_from": "photograph",
-    "note": "The measured lower bound across surviving Anglo-American fronts. The classical target at a 9 ft bay with a 36 in window is 2.0 and the sash-light pack's alternative is 1.4. Below 1.0 the facade has changed character; below 0.5 it is a curtain wall with punched infill; a shared mullion of a few inches is the extreme case. Measure glass edge to glass edge."
+    "note": "The measured lower bound across surviving Anglo-American fronts. The classical target at a 9 ft bay with a 36 in window is 2.0 and the sash-light pack's alternative is 1.4. Below 1.0 the facade has changed character; below 0.5 it is a curtain wall with punched infill; a shared mullion of a few inches is the extreme case. Measure glass edge to glass edge. RE-POINTED 1 Oct 2026 (WP-16.6), and the figure is not moved: this test read `pier_width_in / adjacent_opening_width_in`, and nothing in this tree supplied `adjacent_opening_width_in`, so it never ran; until WP-16.1 the fault cleared on its secondary, and since then it read could-not-evaluate on every drawn house. It reads `narrowest_pier_over_wider_adjacent_window` now: the narrowest wall between two windows side by side on one storey of the entrance front, glass edge to glass edge over the wider window's glass, as this note asks (build/elevation.py `window_piers`). The threshold is the floor Lucas ruled for the placer on 29 Sep 2026 (R5), which `build/window_pier.py` reads from here.",
+    "applies_when": {
+      "expression": "count_of_window_piers_on_the_front",
+      "direction": "at-least",
+      "threshold": 1,
+      "units": "count",
+      "note": "A front with no two windows side by side on one storey has no pier for this test to read: the question does not arise, which is not a pass (WP-16.6, 1 Oct 2026). The count is the elevation's own, of the drawn entrance front."
+    }
   },
   "secondary_tests": [
     {
@@ -171,7 +213,14 @@
       "direction": "at-least",
       "units": "ratio",
       "measurable_from": "photograph",
-      "note": "Solid-to-void across the principal storey. The classical value is 0.667 — two thirds wall. Below 0.5 the wall has stopped being the thing the openings are cut from. This is the version a model can compute by summing the horizontal extent of glass across the elevation."
+      "note": "Solid-to-void across the principal storey. The classical value is 0.667 — two thirds wall. Below 0.5 the wall has stopped being the thing the openings are cut from. This is the version a model can compute by summing the horizontal extent of glass across the elevation.",
+      "applies_when": {
+        "expression": "count_of_window_piers_on_the_front",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Every test of this fault asks about the wall between windows, so every one is gated on a pier being there, as the primary is (WP-16.8, the audit of Phase 16, 1 Oct 2026). WP-16.6 gated the primary alone, so on a front with no two windows side by side the secondaries still ran and could convict a house whose governing test says the question does not arise -- the solid-to-void ratio reads an opening total of a door and four windows the elevation states as its own constant. On seven of the sixteen shipped plans the fault read not applicable with a secondary carried as run."
+      }
     },
     {
       "expression": "corner_return_pier_width_in / adjacent_opening_width_in",
@@ -179,7 +228,14 @@
       "direction": "at-least",
       "units": "ratio",
       "measurable_from": "photograph",
-      "note": "The pier at the end of a run, which the ganged exceptions do not licence. Craftsman and Shingle bands are read as one opening with flanking piers, and those flanking piers still obey the ratio; a band that reaches a corner with no return pier is not banding."
+      "note": "The pier at the end of a run, which the ganged exceptions do not licence. Craftsman and Shingle bands are read as one opening with flanking piers, and those flanking piers still obey the ratio; a band that reaches a corner with no return pier is not banding.",
+      "applies_when": {
+        "expression": "count_of_window_piers_on_the_front",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Every test of this fault asks about the wall between windows, so every one is gated on a pier being there, as the primary is (WP-16.8, the audit of Phase 16, 1 Oct 2026). WP-16.6 gated the primary alone, so on a front with no two windows side by side the secondaries still ran and could convict a house whose governing test says the question does not arise -- the solid-to-void ratio reads an opening total of a door and four windows the elevation states as its own constant. On seven of the sixteen shipped plans the fault read not applicable with a secondary carried as run."
+      }
     }
   ],
   "severity_by_style": [

@@ -225,6 +225,12 @@ def _ratio_literal(v):
     `x * 0.6`, `round(a + 4 * b, 2)`: the first instrument looked only at the top-level
     operator's two sides and missed a literal one level down."""
     v = _unwrap_round(v)
+    # EITHER BRANCH OF A CONDITIONAL (WP-16.4). `None if refused else x * 0.3` states the same
+    # proportion as `x * 0.3` wherever the thing is drawn, and wrapping a ratio in a withholding
+    # condition took it off this list -- the instrument going blind, not the generator modelling
+    # anything. The literal reader has read a ternary's branches since WP-9.4; this reads them too.
+    if isinstance(v, ast.IfExp):
+        return _ratio_literal(v.body) or _ratio_literal(v.orelse)
     if isinstance(v, ast.BinOp) and isinstance(v.op, (ast.Mult, ast.Div, ast.Add, ast.Sub)):
         for side in (v.right, v.left):
             if _is_num(side) and side.value not in UNIT_CONVERSIONS:

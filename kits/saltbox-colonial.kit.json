@@ -375,10 +375,25 @@
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "permitted",
+          "note": "This style's own exemplar, the Hyland House (exemplars[5]), has 'diamond-pane sash symmetrical about a simply framed door with a five-light transom'. The note dates the house and not the door -- 'built 1713', and 'A museum since 1918' -- and its precedent record says 'No HABS survey was found', so the transom is the door as it stands, not a transom dated before the ban's 'after about 1720'. Permitted, not canonical."
+        },
+        {
+          "id": "sidelights",
+          "status": "forbidden",
+          "note": "The ban's reason holds here in this style's own words: 'The front is the same face as any First Period house', and its exemplar's door is 'simply framed'."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "A simply framed door, with or without a rectangular transom light; no sidelights on a First Period face.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A5 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): saltbox-colonial binds its own transom and sidelights: the rectangular transom permitted on the evidence below, sidelights forbidden in its own words. Until then it was FORBIDDEN whole, inherited on 'No transom or sidelight. These belong to the classical frontispiece Georgian influence introduces after about 1720 (distinguished_from: georgian-colonial-american) and have no place on an unadorned First Period door.' from NEW-ENGLAND-COLONIAL. Whole, the ban refused the transom its own evidence records. The transom's evidence is this record's own exemplar note and the sidelights' is its own description, each quoted in its row. Fanlights are left unstated rather than guessed."
     },
     "secondary_door": {
       "group": "openings",
