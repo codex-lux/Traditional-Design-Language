@@ -668,6 +668,14 @@ in its own tree, and every finding was reproduced before it was touched.
       alternating the control and the final tree, the two agree row by row.
     - The server suite is 418 passed / 16 skipped, the app suite 767 of 767, and the walk 702 green,
       none failed, with the same six could-not-evaluate as at WP-16.8's close, word for word.
+  - **The five reports were reconciled against §X the same evening (§X.11)**, and every finding has a
+    recorded outcome. Three sub-items had none, and none is a defect in the code:
+    - E's "one spelling" for the bands, refused: the guard's reference would become what both
+      surfaces draw from;
+    - two prover tests in `tests/test_element_awareness.py` stop on wall-clock time, at 25.2 s and
+      15.8 s of their 30 s alone. They are older than the phase; a deterministic budget is named as
+      follow-up work. **A red there under load is the budget, and it is not this branch's;**
+    - D8's class, swept: no second occurrence.
 
 **PHASE 15 — THE PLATES DRAWN — IS OPEN, AND FOUR OF ITS EIGHT PACKAGES WAIT ON THE NETWORK
 (27–28 Sep 2026).** Lucas reviewed the drawn Tidewater front and found four defects:
