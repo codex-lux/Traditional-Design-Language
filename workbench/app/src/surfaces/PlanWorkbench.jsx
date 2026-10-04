@@ -29,6 +29,7 @@ import { styleFindingMark } from '../judgment.js';
 import { Term } from '../components/Term.jsx';
 import { useGlossary } from '../api/useGlossary.js';
 import { describeTerm } from '../glossary/termView.js';
+import { unjudgedReason } from '../faults/unjudged.js';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -36,29 +37,8 @@ import { describeTerm } from '../glossary/termView.js';
    STATEMENT, so improving the wording of a finding silently broke every open row, every citation
    and every diff: the UI reported one finding cleared and another opened when nothing had changed
    but an adjective. Prefer f.id; never reintroduce the hash as the primary. */
-// WHY A COULD-NOT-EVALUATE FAULT COULD NOT BE EVALUATED. Three shapes reach this list and
-// only one of them is "a number is missing":
-//   needs[]              -- the historical case: name the measurements.
-//   errors[]             -- a test raised; say so, never render it as a missing number.
-//   exception_unjudged   -- WP-8.4: this style carries an exception whose own bounds_test would
-//                           REPLACE the fault's primary test, and whose condition could not be
-//                           resolved, so the two rules disagree about this house and nobody can
-//                           say which governs. `needs` is EMPTY by construction here, and the
-//                           bench used to render the bare word "needs" for it -- an unjudged
-//                           whose reason is on the record and not on the screen, which reads to
-//                           the user exactly like a bug in the bench.
-function unjudgedReason(u) {
-  const x = u.exception_unjudged
-  if (x) {
-    return 'the ' + (x.style || 'style') + ' exception could not be judged (' +
-      (x.because || 'no reason given') + '), and its own test says ' +
-      (x.under_the_exception || '?') + ' where the general rule says ' +
-      (x.under_the_general_rule || '?')
-  }
-  if (u.errors && u.errors.length) return 'a test errored: ' + u.errors.join('; ')
-  const n = u.needs || []
-  return n.length ? 'needs ' + n.join(', ') : 'no test of this fault could be evaluated'
-}
+// WHY A COULD-NOT-EVALUATE FAULT COULD NOT BE EVALUATED lives in `faults/unjudged.js` (lifted at
+// WP-16.1 so its clauses are driven under `node --test`; this surface imports React and cannot be).
 
 // the analyst's five classes, as the strip names them (the row's tag is the long form)
 const CLASS_SHORT = { actionable: 'a move answers', placement: "the engine's",

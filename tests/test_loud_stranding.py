@@ -315,8 +315,12 @@ def test_the_sweep_reports_every_stranded_slot_as_named():
     # 2899 -> 2889 at the trim-classical flip -> 2857 at facade-gable's: a flipped pack's slots
     # leave the counterfactual because they are already withheld, and the ALREADY WITHHELD block
     # above the sweep is where they are now counted (42 over 36 nodes).
-    # 2899 -> 2889 -> 2857 -> 2787 -> 2585 across the four flips.
-    assert nm == st == 2585, (nm, st)
+    # 2899 -> 2889 -> 2857 -> 2787 -> 2585 across the four flips, and 2585 -> 2591 at WP-16.2
+    # (30 Sep 2026): slots freed from a wrongly inherited ban are delivered again, and the
+    # counterfactual can take them away. Every one is still named. 2591 -> 2590 at WP-16.9 (1 Oct
+    # 2026, B30): jeffersonian-classicism forbids its own rake, and the one slot `opening-pointed`
+    # dimensioned there is outside the dimensioned set now, so it cannot be stranded.
+    assert nm == st == 2590, (nm, st)
     assert "reads UNDIMENSIONED, not refused" not in out.stdout, (
         "the closing paragraph still says the defect is unfixed -- 'until X lands' is a lie the "
         "moment X lands (WP-6.4)")

@@ -11,10 +11,25 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "hip",
+          "status": "canonical",
+          "note": "Kept canonical from french-colonial-american's record ('No gable end anywhere (own diagnostic tell #4).'). defining_characteristics[4] names it: 'Steep side-gable or hipped roof at 40–50 degrees over the body of the house'."
+        },
+        {
+          "id": "side-gable",
+          "status": "permitted",
+          "note": "Raised from atypical, where french-colonial-american put it ('Occasional Illinois Country double-pitched work; Louisiana practice is overwhelmingly hipped.'). defining_characteristics[4]: 'Steep side-gable or hipped roof at 40–50 degrees over the body of the house'. Not promoted to canonical (T4)."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": false,
+      "rule": "'Steep side-gable or hipped roof at 40–50 degrees over the body of the house' (defining_characteristics[4]).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), T4, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was put to him at 00:34 UTC and was unanswered when that instruction arrived, so this is not an answer he chose; recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says. creole-cottage-vernacular binds its own roof_form. Until then it resolved FRENCH-COLONIAL-AMERICAN's record, whose rule is 'Roof hipped on all four sides with no gable end anywhere.', with the side gable atypical; this record names the side gable beside the hip. No row is promoted to canonical, so nothing drawn moves."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

@@ -258,13 +258,26 @@ def roof_depth_floor(plan):
     DF = _mod("depth_floor", f"{ROOT}/build/depth_floor.py")
     fp = plan.get("footprint") or {}
     w, dp = fp.get("width_ft"), fp.get("depth_ft")
-    span = min(w, dp) if (w and dp) else None
-    # THE `try` WRAPPED THE IMPORT AS WELL AS THE CALL (audit, 7 Sep 2026), so an ImportError or
-    # a SyntaxError in `structure.py` -- a broken module, an environment fault -- was reported on
-    # the sheet as "the exterior wall thickness could not be read", a soft COULD NOT EVALUATE
-    # about this plan. That is a dependency problem laundered as a data judgment, which is OQ 35's
-    # own complaint. The import is outside now and raises; only the reading of a plan is caught.
+    # THE IMPORT IS OUTSIDE THE `try` (audit, 7 Sep 2026): an ImportError or a SyntaxError in
+    # `structure.py` -- a broken module, an environment fault -- was reported on the sheet as "the
+    # exterior wall thickness could not be read", a soft COULD NOT EVALUATE about this plan. That is
+    # a dependency problem laundered as a data judgment, which is OQ 35's own complaint. Only the
+    # reading of a plan is caught.
     ST = _mod("structure", f"{ROOT}/build/structure.py")
+    TH = _mod("threshold", f"{ROOT}/build/threshold.py")
+    # THE SPAN THE RIDGE RISES OVER, AS THE ROOF RAISES IT (the audit of WP-16.8's own diff, 3 Oct
+    # 2026, auditor A): this inverted the truss fault on min(W, D) while C1 moved
+    # `structure.roof_heights` onto `threshold.ridge_span` -- the dimension ACROSS the ridge, which
+    # since B9 is the longer one on a side gable entered on its narrow front -- so the floor and the
+    # fault it inverts answered about two different roofs (the Tidewater entered on the west: the
+    # floor said below, the fault cleared). The form, the front and the span are read through the
+    # same three calls `roof_heights` makes, here on the clear dimensions `depth_floor` takes; a
+    # roof the style's kit refuses has no ridge to invert.
+    reading = TH.roof_form_reading(plan, ST.C["massings"].get(plan.get("massing"), {}))
+    if reading.get("by") == "refused":
+        return {"verdict": "unjudged",
+                "reason": f"no roof is drawn on this house (B8): {reading.get('note')}"}
+    span = TH.ridge_span(reading["form"], w, dp, TH.entrance_front(plan)) if (w and dp) else None
     t = 0.0
     try:
         t = (ST.wall_thickness(plan) or {}).get("exterior_in") or 0.0

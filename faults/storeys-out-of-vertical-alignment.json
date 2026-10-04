@@ -57,7 +57,14 @@
         "direction": "at-least",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "The upper storey must be doing something structural-looking — jettying, a gable, a change of material — that explains the offset. Where the upper wall is flush with the lower and in the same material, the openings still stack."
+        "note": "The upper storey must be doing something structural-looking — jettying, a gable, a change of material — that explains the offset. Where the upper wall is flush with the lower and in the same material, the openings still stack.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, and it arises on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       },
       "granted_when": {
         "construction": [
@@ -77,7 +84,14 @@
         "direction": "at-least",
         "units": "count",
         "measurable_from": "photograph",
-        "note": "Machine-repeated misalignment across a subdivision is not this exception; the irregularity must be hand-made and accompanied by at least two others."
+        "note": "Machine-repeated misalignment across a subdivision is not this exception; the irregularity must be hand-made and accompanied by at least two others.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, and it arises on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     },
     {
@@ -90,7 +104,14 @@
         "direction": "at-least",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "The wall must be thick enough that each opening reads as a separate excavation. This is the exception most often claimed and least often earned."
+        "note": "The wall must be thick enough that each opening reads as a separate excavation. This is the exception most often claimed and least often earned.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, and it arises on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       },
       "granted_when": {
         "construction": [
@@ -110,7 +131,14 @@
         "direction": "at-most",
         "units": "in",
         "measurable_from": "photograph",
-        "note": "Requires the trimless envelope. Where a Shingle Style house has a symmetrical entrance front, that front still aligns."
+        "note": "Requires the trimless envelope. Where a Shingle Style house has a symmetrical entrance front, that front still aligns.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, and it arises on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       }
     },
     {
@@ -123,7 +151,14 @@
         "direction": "at-most",
         "units": "ft",
         "measurable_from": "plan",
-        "note": "The type's own cap. The licence attaches to the narrow street END of a single-pile plan; the piazza elevation is regular and gets no licence at all."
+        "note": "The type's own cap. The licence attaches to the narrow street END of a single-pile plan; the piazza elevation is regular and gets no licence at all.",
+        "applies_when": {
+          "expression": "storey_count",
+          "direction": "at-least",
+          "threshold": 2,
+          "units": "count",
+          "note": "The licence replaces the primary only where the question arises, and it arises on a house of two storeys or more (WP-16.1, 29 Sep 2026)."
+        }
       },
       "granted_when": {
         "regions": [
@@ -172,7 +207,14 @@
     "direction": "at-most",
     "units": "in",
     "measurable_from": "photograph",
-    "note": "The Colonial Revival constraint states 2 in of centreline and calls vertical misalignment the fastest disqualifier in the whole style. Drop verticals through the jambs of every ground-floor window and extend them upward; offsets over about 4 in read from the street. Look first at the bay containing the stair, which is where the fault almost always is."
+    "note": "The Colonial Revival constraint states 2 in of centreline and calls vertical misalignment the fastest disqualifier in the whole style. Drop verticals through the jambs of every ground-floor window and extend them upward; offsets over about 4 in read from the street. Look first at the bay containing the stair, which is where the fault almost always is.",
+    "applies_when": {
+      "expression": "storey_count",
+      "direction": "at-least",
+      "threshold": 2,
+      "units": "count",
+      "note": "Upper openings standing over lower ones is a question about a house of two storeys or more. On a one-storey house it does not arise, and the honest verdict is not applicable -- not clear on the bay-count floor, which is how this fault read on six one-storey reference plans until 29 Sep 2026 (`oq/a-fault-reads-clear-when-its-governing-test-could-not-run`). Added by WP-16.1 with the ruling that a clear needs its governing test to have run. `storey_count` is the storeys the section states (build/elevation.py); it read 2 on every house until the same package."
+    }
   },
   "secondary_tests": [
     {
@@ -181,7 +223,14 @@
       "direction": "equals",
       "units": "ratio",
       "measurable_from": "photograph",
-      "note": "The list form, which is what a model should actually compute: express each opening's horizontal centre as a fraction of the elevation width, storey by storey, and compare the two lists. A correct facade produces two matching lists; an incorrect one produces a scatter."
+      "note": "The list form, which is what a model should actually compute: express each opening's horizontal centre as a fraction of the elevation width, storey by storey, and compare the two lists. A correct facade produces two matching lists; an incorrect one produces a scatter.",
+      "applies_when": {
+        "expression": "storey_count",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "count",
+        "note": "Gated with the primary on the same premise (WP-16.1, 29 Sep 2026): a house of one storey has no upper storey to align, so no test of this fault is asked of it."
+      }
     },
     {
       "expression": "bay_count_on_the_principal_front",
@@ -189,7 +238,14 @@
       "direction": "at-least",
       "units": "count",
       "measurable_from": "photograph",
-      "note": "Odd, always, so that there is a centre to enter and a centre to align to. The schema cannot express parity, so this records the floor and the parity requirement lives in the note: bay_count = max(3, floor((span/module - 1)/2) * 2 + 1), which returns 5 on a 45 ft front at a 9 ft bay."
+      "note": "Odd, always, so that there is a centre to enter and a centre to align to. The schema cannot express parity, so this records the floor and the parity requirement lives in the note: bay_count = max(3, floor((span/module - 1)/2) * 2 + 1), which returns 5 on a 45 ft front at a 9 ft bay.",
+      "applies_when": {
+        "expression": "storey_count",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "count",
+        "note": "Gated with the primary on the same premise (WP-16.1, 29 Sep 2026): a house of one storey has no upper storey to align, so no test of this fault is asked of it."
+      }
     }
   ],
   "severity_by_style": [

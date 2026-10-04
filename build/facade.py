@@ -27,8 +27,9 @@ same end"*), and a pipeline cannot backtrack when a dependency will not fit the 
 
 **ONE DATUM (WP-13.3).** `rhythm()` states its bay centres in the CLEAR frame, the frame the plan's
 `footprint` and every placed opening are stated in; `elevation._face_bays` takes those centres
-verbatim and shifts them to the face's OUTSIDE datum by the exterior wall thickness (mirrored on N
-and W), and the sheet's bay grid is the module repeated from the clear face. Three bay systems used
+verbatim and shifts them to the face's OUTSIDE datum by the exterior wall thickness (and on N and
+W, drawn as seen from outside since WP-16.3, measures them from the far end -- `elevation.face_u_ft`),
+and the sheet's bay grid is the module repeated from the clear face. Three bay systems used
 to live on one front -- the grid at 9/18/27, this module at 4.5.., the elevation at 4.684.. on a
 9.369 ft pitch -- and `elevation.faces[face].datum` now says which frame a number is in.
 

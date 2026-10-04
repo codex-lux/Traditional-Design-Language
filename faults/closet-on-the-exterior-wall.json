@@ -55,7 +55,14 @@
     "direction": "equals",
     "units": "count",
     "measurable_from": "photograph",
-    "note": "Count bays where the upper opening is absent, or is offset from the lower opening's centreline by more than about 6 in, on an elevation whose parti requires alignment. This is the plan fault that a model can evaluate from a single straight-on photograph."
+    "note": "Count bays where the upper opening is absent, or is offset from the lower opening's centreline by more than about 6 in, on an elevation whose parti requires alignment. This is the plan fault that a model can evaluate from a single straight-on photograph.",
+    "applies_when": {
+      "expression": "storey_count",
+      "direction": "at-least",
+      "threshold": 2,
+      "units": "count",
+      "note": "Upper windows standing over lower bays is a question about a house of two storeys or more. On a one-storey house it does not arise, and the honest verdict is not applicable -- not could-not-evaluate with the reason 'the section states one storey', which is how this fault read on the six one-storey drawn plans until the audit of Phase 16 (WP-16.8, 1 Oct 2026, auditor B). WP-16.1 gated the alignment faults that read the same figures and missed this one. `storey_count` is the storeys the section states (build/elevation.py)."
+    }
   },
   "applies_to": [
     "georgian-colonial-american",

@@ -184,7 +184,15 @@ def test_the_reserved_run_is_the_doorcase_the_elevation_draws(corpus):
         got = EL.doorcase_piers(el, rec["wall"])
         assert got, (pid, "a reserved doorcase is a drawn one")
         t_in = el["section"]["wall"]["exterior_in"]
-        lo, hi = (v * 12.0 + t_in for v in rec["run_ft"])
+        # the run is stated along the wall in the plan's clear frame; the face measures from its
+        # own left edge on the outside of the wall, which on N and W -- drawn as seen from outside
+        # since WP-16.3 -- is the FAR end (the spec Colonial's entrance front is N). Written out
+        # here rather than through `elevation.face_u_ft`, which is guarded on its own.
+        span_in = el["footprint"]["width_ft" if rec["wall"] in ("S", "N") else "depth_ft"] * 12.0
+        ends = [v * 12.0 + t_in for v in rec["run_ft"]]
+        if rec["wall"] in ("N", "W"):
+            ends = [span_in - e for e in ends]
+        lo, hi = sorted(ends)
         assert got["doorcase_in"][0] == pytest.approx(lo, abs=0.05), (pid, got["doorcase_in"], lo)
         assert got["doorcase_in"][1] == pytest.approx(hi, abs=0.05), (pid, got["doorcase_in"], hi)
         seen += 1
@@ -245,10 +253,14 @@ def test_the_tidewater_passage_window_keeps_half_the_ordinary_pier(corpus):
         assert s["verdict"] == "agrees", s
         assert s["floor_in"] == pytest.approx(floor, abs=1e-3), (s, floor)
         assert s["clear_in"] >= floor - EL.PIER_TOL_IN, (s, floor)
-    # and the sidelights the window used to stand on are drawn again
+    # and nothing of the placement's is refused beside the door. The sidelights the window used to
+    # stand on are the KIT's to refuse since WP-16.4 (30 Sep 2026): at the record's own 1765
+    # georgian-colonial-american forbids them for houses of 1700-1780, so the entrance draws none
+    # and names who forbade them, and the pier is judged beside the doorcase alone
     rects = EL.opening_rects(el, el["entrance_face"])["rects"]
     (ent,) = [r for r in rects if r.get("entrance")]
-    assert ent.get("sidelights_drawn") and not ent.get("sidelights_refused"), ent
+    assert not ent.get("sidelights_refused") and not ent.get("sidelights_in"), ent
+    assert el["entrance"]["sidelights_refused_by"]["writers"] == ["georgian-colonial-american"]
 
 
 def test_a_window_with_no_run_left_beside_the_doorcase_is_refused_by_name():

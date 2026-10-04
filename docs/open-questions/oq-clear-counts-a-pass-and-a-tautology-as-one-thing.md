@@ -89,3 +89,25 @@ fake-unjudged direction this corpus treats as exactly as dishonest as a fake pas
 INSTRUMENT, not on this. Lowering either by modelling something is progress and will move this
 number as a consequence; lowering this number by blinding the instrument is how WP-9.4 nearly
 ratified a blinded detector, in public, in a same-commit ceiling change.
+
+## Moved 29 September 2026 (WP-16.1), and not closed
+
+The list this question counts went from 23 to 18 on `tidewater-georgian-careful` and from 25 to 19
+on `spec-builder-colonial`. Every row that left, left for the same reason. Lucas ruled that a fault
+is clear only where its governing test ran (`oq/a-fault-reads-clear-when-its-governing-test-could-not-run`),
+and each of the six had cleared on a secondary reading one of the generator's own figures while its
+governing test wanted a measurement nobody supplies:
+
+- `fixed-sash-pretending-to-be-double-hung`
+- `garage-head-above-the-window-head`
+- `pier-narrower-than-the-opening`
+- `sunken-dormer`
+- `veneer-reveal-collapse`
+- `truss-flattened-pitch` (the spec Colonial only)
+
+They are could-not-evaluate now, carrying the test that ran as evidence. That is a tautology turned
+into a stated unknown, not an honest measurement, so **the question stays open** on the rest. The
+18 and 19 left are clears whose governing test ran and read a name `critic_suspects` lists.
+`tests/test_detection.py` names the six and asserts each from the could-not-evaluate bucket rather
+than from the count.
+

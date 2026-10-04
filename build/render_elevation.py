@@ -175,12 +175,22 @@ def _style_block():
             f'.sh{{fill:{PAL["shutter"]};stroke:{PAL["ink"]};stroke-width:0.6}}'
             f'.dr{{fill:{PAL["copper"]};stroke:{PAL["ink"]};stroke-width:0.8}}'
             f'.cs{{fill:none;stroke:{PAL["brass"]};stroke-width:1.0}}'
+            # THE PLAIN CASING a refused doorcase leaves the door (WP-16.4): a frame in the wall's
+            # own ink, not the doorcase's brass, because it is not the doorcase
+            f'.csp{{fill:none;stroke:{PAL["ink"]};stroke-width:0.8}}'
             f'.bd{{fill:{PAL["wall"]};stroke:{PAL["ink2"]};stroke-opacity:0.9}}'
             # A CORNICE MEMBER'S ARRIS (WP-15.7): the line between two members, in the band's own
             # ink. A line with no stroke rule is a line nobody sees, which is how the first draft of
             # the members went onto the sheet -- present in the file and absent from the drawing.
             f'.cm{{stroke:{PAL["ink2"]};stroke-opacity:0.9;fill:none}}'
             f'.rf{{fill:{PAL["iron"]};fill-opacity:0.28;stroke:{PAL["ink"]};stroke-width:1.4;stroke-linejoin:round}}'
+            # A GABLE END'S TRIANGLE IS WALL (WP-16.5, R8): seen end on, both roof planes are edges,
+            # so the silhouette above the eave is the gable wall and the roof is its rake. The
+            # silhouette keeps its `rf` mark, which the readers of the drawn roof select, and is
+            # filled as wall with no outline; the rake is drawn over it as the roof's own edge.
+            # Written after `.rf`, because one class each is decided by source order alone.
+            f'.gw{{fill:{PAL["wall"]};fill-opacity:1;stroke:none}}'
+            f'.rk{{fill:none;stroke:{PAL["ink"]};stroke-width:1.4;stroke-linejoin:round}}'
             # A shingle course is a JOINT LINE -- HABS's lightest rung, 0.1 mm, the same weight it
             # gives brick coursing. It is the covering indicated, not the covering drawn.
             f'.shingle{{stroke:{PAL["ink"]};stroke-width:0.4;stroke-opacity:0.5;fill:none}}'
@@ -383,25 +393,26 @@ def _window(s, rect, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, s
     # SHUTTERS, where the style carries them. A leaf of None is a style whose kit says it has none
     # -- the solid-brick Chesapeake house is the case, and drawing a pair anyway is drawing a
     # detail four records say was never there. Absent, not zero-width.
-    if shutter_w and shutter_h:
-        sw, sh = shutter_w / 12.0 * scale, shutter_h / 12.0 * scale
-        # THE FRAMING, at this scale. A 2 in stile is 4 px at 1/4 in = 1 ft, so the leaf reads as
-        # framing with fielded panels inside it rather than as a plain rectangle with one line.
-        # The panels are graduated three-below-two by the sash division (see elevation.py); the
-        # stile and rail WIDTHS are not published for any Chesapeake example, so the frame is
-        # drawn at the leaf's own proportion and the panels sit inside it -- what is drawn is the
-        # panel COUNT, which is sourced, not a stile width, which is not.
-        for side, sx0 in ((-1, x0 - sw), (1, x1)):
-            out.append(f'<rect class="sh w-med" x="{sx0:.1f}" y="{yt:.1f}" width="{sw:.1f}" height="{sh:.1f}"/>')
-            n = max(1, int(panel_count or 2))
-            inset = min(sw * 0.16, sh * 0.03)
-            for k in range(n):
-                py0 = yt + sh * (k / n) + inset
-                py1 = yt + sh * ((k + 1) / n) - inset
-                if py1 - py0 < 2.0:
-                    continue                      # below 2 px a panel is not a panel
-                out.append(f'<rect class="pnl w-fine" x="{sx0 + inset:.1f}" y="{py0:.1f}" '
-                           f'width="{sw - 2 * inset:.1f}" height="{py1 - py0:.1f}"/>')
+    # THE FRAMING, at this scale. A 2 in stile is 4 px at 1/4 in = 1 ft, so the leaf reads as
+    # framing with fielded panels inside it rather than as a plain rectangle with one line. The
+    # panels are graduated three-below-two by the sash division (see elevation.py); the stile and
+    # rail WIDTHS are not published for any Chesapeake example, so the frame is drawn at the leaf's
+    # own proportion and the panels sit inside it -- what is drawn is the panel COUNT, which is
+    # sourced, not a stile width, which is not. `elevation.shutter_leaves` is the one spelling,
+    # which the DXF draws too (WP-16.8).
+    for lf in EL.shutter_leaves(rect["x0_in"], rect["x1_in"], rect["head_in"], shutter_w, shutter_h,
+                                panel_count):
+        sx0, sx1 = X(lf["x0"] / 12.0), X(lf["x1"] / 12.0)
+        ly0, ly1 = Ypx(lf["y1"] / 12.0), Ypx(lf["y0"] / 12.0)
+        out.append(f'<rect class="sh w-med" x="{sx0:.1f}" y="{ly0:.1f}" width="{sx1 - sx0:.1f}" '
+                   f'height="{ly1 - ly0:.1f}"/>')
+        for pn in lf["panels"]:
+            py0, py1 = Ypx(pn["y1"] / 12.0), Ypx(pn["y0"] / 12.0)
+            if py1 - py0 < 2.0:
+                continue                      # below 2 px a panel is not a panel
+            px0, px1 = X(pn["x0"] / 12.0), X(pn["x1"] / 12.0)
+            out.append(f'<rect class="pnl w-fine" x="{px0:.1f}" y="{py0:.1f}" '
+                       f'width="{px1 - px0:.1f}" height="{py1 - py0:.1f}"/>')
     return "".join(out)
 
 def _dormers(elev, roof, profile_ft, X, Ypx, scale, face):
@@ -615,9 +626,15 @@ def _entrance(elev, rect, X, Ypx, scale, muntin_in=None):
     # only the one carrying `entrance` is the composition's subject. A back door is a leaf.
     if not rect.get("entrance"):
         return "".join(out)
-    casing_w = ent["casing_width_in"] / 12.0 * scale
+    # A DOORCASE THE KIT FORBIDS IS NOT DRAWN (WP-16.4, R3): the leaf keeps its PLAIN casing, the
+    # doorcase's own casing carried round the head at its own width, in its own class, and the
+    # face's notes say who forbade the doorcase. No entablature stands over it.
+    plain = bool(ent.get("doorcase_refused_by"))
+    casing_w = ((ent.get("plain_casing_width_in") if plain else ent["casing_width_in"])
+                / 12.0 * scale)
     cs_x0, cs_x1 = dx0 - casing_w, dx1 + casing_w
-    ent_h = (ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]) / 12.0 * scale
+    ent_h = casing_w if plain else \
+        (ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]) / 12.0 * scale
     # THE TRANSOM, where the style's kit makes a rectangular one canonical (WP-14.3). The record
     # has dimensioned it since WP-5.x and fed it to two faults, and no surface drew it
     # (`oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`). Its height is a JUDGMENT
@@ -637,7 +654,8 @@ def _entrance(elev, rect, X, Ypx, scale, muntin_in=None):
         for bx0, bx1 in EL.even_bars(dx0, dx1, tr["lights"], mw)[1]:
             out.append(_rect_edges("mt", bx0, dyt - th, bx1, dyt))
         dyt = dyt - th
-    out.append(f'<rect class="cs" x="{cs_x0:.1f}" y="{dyt-ent_h:.1f}" width="{cs_x1-cs_x0:.1f}" height="{(dyb-dyt)+ent_h:.1f}"/>')
+    out.append(f'<rect class="{"csp" if plain else "cs"}" x="{cs_x0:.1f}" y="{dyt-ent_h:.1f}" '
+               f'width="{cs_x1-cs_x0:.1f}" height="{(dyb-dyt)+ent_h:.1f}"/>')
     # A SIDELIGHT PAIR THE PLAN LEAVES NO ROOM FOR IS NOT DRAWN (WP-14.6): `opening_rects`
     # refuses it where it would stand over a neighbouring opening, and the notes say why.
     if ent["sidelights_present"] and rect.get("sidelights_drawn", True):
@@ -753,10 +771,16 @@ def render_elevation(elev, path, face=None, scale=24.0):
     top_of_wall_ft = roof["main"]["grade_to_eave_ft"]              # roof.py's own eave -- no frieze/cornice band yet
     true_eave_ft = elev["grade_to_true_eave_in"] / 12.0             # this file's own top-of-cornice
 
-    is_gable_end = face in ("E", "W")
+    # WHICH FACES ARE GABLE ENDS is the roof record's, read by `elevation.gable_faces` below
+    # (WP-16.5). An `is_gable_end = face in ("E", "W")` stood here, read by nothing since WP-14.6,
+    # and oq/the-gable-end-draws-a-full-cornice-whatever-the-kit-says-of-the-return quoted it as
+    # the assumption: true of a side-gable house on this corpus's placements, false of any other.
     # roof.py's own build_roof() already computes elevation_profiles for all four faces (WP-3.3,
     # "expose the outline for the elevation generator") -- read that record rather than re-derive it
-    profile_ft = roof["elevation_profiles"][face]   # [(x_ft, height_ft_above_grade), ...], roof.py's own numbers
+    # IN THE FACE'S OWN u (WP-16.3): roof.py states every profile in the plan's direction, and the
+    # north and west faces are drawn as seen from outside. `elevation.face_profile` is the one
+    # spelling; reading the record's list as u would draw an asymmetric roof back to front.
+    profile_ft = EL.face_profile(roof, face, elev["footprint"])  # [(u_ft, height_ft_above_grade), ...]
     ridge_delta_ft = true_eave_ft - top_of_wall_ft                   # shift the whole silhouette up by the cornice band this file adds on top
     profile_ft = [(x, h + ridge_delta_ft) for x, h in profile_ft]
     top_height_ft = max(h for _, h in profile_ft)
@@ -851,7 +875,22 @@ def render_elevation(elev, path, face=None, scale=24.0):
     for mk in sm["marks"]:
         if mk.get("relation") == "end":
             _draw_stack(mk["outline"])
-    s.append(f'<rect class="wf" x="{X(0):.1f}" y="{Ypx(top_of_wall_ft):.1f}" width="{pw:.1f}" height="{(top_of_wall_ft*scale):.1f}"/>')
+    # WHAT THIS FACE IS TO THE CORNICE, decided before the wall is drawn (WP-16.5, R8): a gable end
+    # that carries no band across it -- no return, or a return at each corner -- is a wall that
+    # runs up to the rake, drawn as ONE outline from the ground to the roof's edge. A wall drawn
+    # to the roof record's eave with a triangle stood on it put a line across the gable at a
+    # height where nothing is.
+    cm = EL.cornice_marks(elev, face)
+    _gable = face in (EL.gable_faces(roof) or ())
+    _band_across = bool(cm.get("applicable") and cm.get("role") == "gable"
+                        and (cm.get("cornice") or cm.get("frieze")))
+    _wall_to_rake = _gable and not _band_across
+    if _wall_to_rake:
+        _wpts = [(0.0, 0.0), (span_ft, 0.0)] + list(reversed(profile_ft))
+        s.append(f'<polygon class="wf" data-wall-to-rake="1" points="'
+                 + " ".join(f"{X(u):.1f},{Ypx(h):.1f}" for u, h in _wpts) + '"/>')
+    else:
+        s.append(f'<rect class="wf" x="{X(0):.1f}" y="{Ypx(top_of_wall_ft):.1f}" width="{pw:.1f}" height="{(top_of_wall_ft*scale):.1f}"/>')
     # THE GROUND LINE. HABS makes this the single heaviest line on an elevation -- 0.6 mm against
     # 0.1 mm for a joint -- and runs it PAST the building at both ends, because it is the ground
     # and not the underside of the wall. Its weight came from an inline attribute until 27 Aug
@@ -870,7 +909,14 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # tells them apart now is the weight ladder, which is what tells them apart on paper.
     proj_px = lambda inches_: (inches_ or 0.0) / 12.0 * scale
 
-    if wtb["applicable"]:
+    # THE WATER TABLE AND THE BELT, EACH WHERE THE KIT DOES NOT FORBID IT (WP-16.4, R3). The belt
+    # was drawn INSIDE the water table's block, so no refusal could reach one without the other;
+    # they are two slots and two blocks now, and a refused band's figures are absent in the record
+    # (`elevation.water_table_and_belt`), which is what each block reads. The face says why.
+    # WHETHER EACH IS DRAWN is `elevation.band_marks`' (WP-16.8, the audit of Phase 16): the CAD
+    # elevation and the scene read the same answer, where the scene had a third spelling of it.
+    _bm = EL.band_marks(elev)
+    if _bm["water_table"]:
         wt_top_ft = wtb["water_table_height_above_finished_grade_in"] / 12.0
         wt_o = proj_px(wtb.get("water_table_projection_in"))
         s.append(f'<rect class="wt w-prof" x="{X(0)-wt_o:.1f}" y="{Ypx(wt_top_ft):.1f}" '
@@ -886,15 +932,15 @@ def render_elevation(elev, path, face=None, scale=24.0):
             yy = Ypx(mm["y_top_in"] / 12.0)
             mo = proj_px(mm.get("projection_in"))
             s.append(f'<line class="wtm" x1="{X(0)-mo:.1f}" y1="{yy:.1f}" x2="{X(span_ft)+mo:.1f}" y2="{yy:.1f}"/>')
-        if wtb.get("belt_height_above_first_floor_in") is not None:
-            belt_ft = floor2_ft
-            belt_h_ft = wtb["belt_height_in"] / 12.0
-            # A brick belt has no projection rule of its own in the pack (it reads as a course,
-            # not a board), so it is drawn flush and says so by being flush -- not nudged out.
-            bo = proj_px(wtb.get("belt_course_projection_in"))
-            s.append(f'<rect class="wt w-med" x="{X(0)-bo:.1f}" y="{Ypx(belt_ft+belt_h_ft):.1f}" '
-                     f'width="{pw+2*bo:.1f}" height="{(belt_h_ft*scale):.1f}"/>')
-            s.append(_shade(X(0)-bo, Ypx(belt_ft+belt_h_ft), X(span_ft)+bo, Ypx(belt_ft)))
+    if _bm["belt"]:
+        belt_ft = floor2_ft
+        belt_h_ft = wtb["belt_height_in"] / 12.0
+        # A brick belt has no projection rule of its own in the pack (it reads as a course,
+        # not a board), so it is drawn flush and says so by being flush -- not nudged out.
+        bo = proj_px(wtb.get("belt_course_projection_in"))
+        s.append(f'<rect class="wt w-med" x="{X(0)-bo:.1f}" y="{Ypx(belt_ft+belt_h_ft):.1f}" '
+                 f'width="{pw+2*bo:.1f}" height="{(belt_h_ft*scale):.1f}"/>')
+        s.append(_shade(X(0)-bo, Ypx(belt_ft+belt_h_ft), X(span_ft)+bo, Ypx(belt_ft)))
 
     # BRICK COURSING. brick-course.json fixes one course at module/parts and its own note says
     # why it matters: "in a brick building there are no free horizontal dimensions above the
@@ -902,11 +948,30 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # and until now the drawing could not show that at all.
     if wtb.get("course_height_in"):
         c_ft = wtb["course_height_in"] / 12.0
-        y = (wtb["water_table_height_above_finished_grade_in"] / 12.0) if wtb["applicable"] else 0.0
+        y = (wtb.get("water_table_height_above_finished_grade_in") or 0.0) / 12.0
         n = 0
         while y < top_of_wall_ft - c_ft * 0.5 and n < 400:
             y += c_ft; n += 1
             s.append(f'<line class="course" x1="{X(0):.1f}" y1="{Ypx(y):.1f}" x2="{X(span_ft):.1f}" y2="{Ypx(y):.1f}"/>')
+        # AND UP THE GABLE (WP-16.5): the gable wall is the same wall, laid in the same courses to
+        # the rake -- across the band's zone where no band stands, and across the triangle at its
+        # own width at each course. The courses already drawn stop half a course below the wall
+        # head, which is where these begin, so no course is drawn twice.
+        if _gable:
+            _gaps = [(w["u0"], w["u1"]) for w in (cm.get("wall_to_rake") or [])] if not _band_across else []
+            _true = true_eave_ft
+            while y < max(h for _u, h in profile_ft) - c_ft * 0.5 and n < 800:
+                y += c_ft; n += 1
+                if y < _true - 1e-9:
+                    for u0, u1 in _gaps:
+                        if u1 - u0 > 1e-6:
+                            s.append(f'<line class="course" x1="{X(u0):.1f}" y1="{Ypx(y):.1f}" '
+                                     f'x2="{X(u1):.1f}" y2="{Ypx(y):.1f}"/>')
+                    continue
+                xs = _profile_span_at(profile_ft, y)
+                if xs:
+                    s.append(f'<line class="course" x1="{X(xs[0]):.1f}" y1="{Ypx(y):.1f}" '
+                             f'x2="{X(xs[1]):.1f}" y2="{Ypx(y):.1f}"/>')
 
     # THE FRIEZE AND THE CORNICE, EACH AT ITS OWN PROJECTION, AND THE CORNICE WITH ITS MEMBERS
     # (Phase 15, WP-15.7). This drew ONE rectangle from the wall head to the true eave at the
@@ -915,14 +980,19 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # on the face, which is what Lucas read as "the cornice not being represented". What the face
     # draws is `elevation.cornice_marks`, the spelling the DXF draws too: the frieze band at its
     # own projection, the cornice's box at the one reading of the band's projection (the envelope
-    # figure, OQ 79; the inset draws the order's), each member's own band inside it at the height
-    # its record states, and the toothed band laid out or drawn solid with the reason said.
-    cm = EL.cornice_marks(elev, face)
+    # figure; since OQ 79 was ruled, 29 Sep 2026, the inset draws the same depth in the order's
+    # shape, where until then it drew the order's own), each member's own band inside it at the
+    # height its record states, and the toothed band laid out or drawn solid with the reason said.
     if cm["applicable"]:
         _fz, _co = cm["frieze"], cm["cornice"]
         # Written from their rounded EDGES (`_rect_edges`, WP-14.3): the frieze's top IS the
         # cornice's soffit, and two rectangles rounded origin-and-size apart meet a hairline off.
-        s.append(_rect_edges("bd fz w-med", X(_fz["u0"]), Ypx(_fz["h1"]), X(_fz["u1"]), Ypx(_fz["h0"])))
+        # EACH ONLY WHERE THE KIT DOES NOT FORBID IT (WP-16.4): `cornice_marks` hands back None
+        # for a refused band, and the face's notes say who forbade it.
+        if _fz:
+            s.append(_rect_edges("bd fz w-med", X(_fz["u0"]), Ypx(_fz["h1"]), X(_fz["u1"]), Ypx(_fz["h0"])))
+    if cm["applicable"] and cm["cornice"]:
+        _co = cm["cornice"]
         s.append(_rect_edges("bd w-prof", X(_co["u0"]), Ypx(_co["h1"]), X(_co["u1"]), Ypx(_co["h0"])))
         # EACH MEMBER'S OWN BAND: a line at every division the record states, the member above it
         # named, across the box it divides. In elevation a moulding reads as the band between its
@@ -943,9 +1013,52 @@ def render_elevation(elev, path, face=None, scale=24.0):
         if _t and not _t["solid"]:
             for t in _t["teeth"]:
                 s.append(_rect_edges("bd w-fine", X(t["u0"]), Ypx(_t["h1"]), X(t["u1"]), Ypx(_t["h0"])))
-        # the frieze band's own top, which is where the cornice assembly springs
-        s.append(f'<line class="wtm" x1="{X(0):.2f}" y1="{Ypx(_co["h0"]):.2f}" '
-                 f'x2="{X(span_ft):.2f}" y2="{Ypx(_co["h0"]):.2f}"/>')
+        # the frieze band's own top, which is where the cornice assembly springs -- and only where
+        # there IS a frieze: a cornice the kit sets on the wall head has no frieze to spring from
+        if cm["frieze"]:
+            s.append(f'<line class="wtm" x1="{X(0):.2f}" y1="{Ypx(_co["h0"]):.2f}" '
+                     f'x2="{X(span_ft):.2f}" y2="{Ypx(_co["h0"]):.2f}"/>')
+
+    # THE GABLE END'S RETURNS AND END PROFILES (WP-16.5, R8 and R8a), as `cornice_marks` lays
+    # them out for both surfaces. A return is the cornice run out from the corner and stopped,
+    # carrying its members (a plain return is its box alone); an end profile is the eave cornice's
+    # own section, constructed by `profiles.silhouette` from the members -- the shape the inset
+    # draws -- and mirrored at the left corner, which `svg_path` reads off the transform itself.
+    if cm["applicable"]:
+        for rt in cm.get("returns") or []:
+            _rf, _rc = rt["frieze"], rt["cornice"]
+            if _rf:
+                s.append(_rect_edges("bd fz w-med", X(_rf["u0"]), Ypx(_rf["h1"]), X(_rf["u1"]),
+                                     Ypx(_rf["h0"]))[:-2] + f' data-return="{rt["side"]}"/>')
+            if not _rc:
+                continue
+            s.append(_rect_edges("bd w-prof", X(_rc["u0"]), Ypx(_rc["h1"]), X(_rc["u1"]),
+                                 Ypx(_rc["h0"]))[:-2] + f' data-return="{rt["side"]}"/>')
+            if not rt["plain"]:
+                for mm in cm["members"][1:]:
+                    s.append(f'<line class="cm w-fine" data-return="{rt["side"]}" '
+                             f'data-member="{_attr(mm["id"])}" x1="{X(_rc["u0"]):.2f}" '
+                             f'y1="{Ypx(mm["h0"]):.2f}" x2="{X(_rc["u1"]):.2f}" y2="{Ypx(mm["h0"]):.2f}"/>')
+            s.append(_shade(X(_rc["u0"]), Ypx(_rc["h1"]), X(_rc["u1"]), Ypx(_rc["h0"])))
+            _rt = rt.get("teeth")
+            if _rt and not _rt["solid"]:
+                for t in _rt["teeth"]:
+                    s.append(_rect_edges("bd w-fine", X(t["u0"]), Ypx(_rt["h1"]), X(t["u1"]), Ypx(_rt["h0"])))
+        if cm.get("end_profiles"):
+            _naked = cornice.get("frieze_naked_in") or 0.0
+            _axis = cornice.get("entablature_projection_datum", cornice.get("projection_datum")) == "axis"
+            _sil = PROF.silhouette(cornice["members"], naked_at=_naked, from_axis=_axis)
+            for ep in cm["end_profiles"]:
+                _au, _out, _h0 = ep["at_u"], ep["outward"], ep["h0"]
+                _sx = (lambda x, _au=_au, _out=_out: X(_au + _out * (x - _naked) / 12.0))
+                _sy = (lambda y, _h0=_h0: Ypx(_h0 + y / 12.0))
+                _d = PROF.svg_path(_sil["segments"], _sx, _sy, start=_sil["start"])
+                if _d:
+                    s.append(f'<path class="bd w-prof" data-end-profile="{ep["side"]}" d="{_d}"/>')
+                if ep.get("frieze_projection_in"):
+                    _fu = _au + _out * ep["frieze_projection_in"] / 12.0
+                    s.append(_rect_edges("bd fz w-med", X(min(_au, _fu)), Ypx(_h0), X(max(_au, _fu)),
+                                         Ypx(ep["wall_top_ft"])))
 
     # WP-12.2: ONE LOOP, in `elevation.opening_rects`. The blind-bay skip (OQ 85), the
     # door-at-the-entrance-face branch and the two storeys all live there now, so this file and
@@ -980,7 +1093,22 @@ def render_elevation(elev, path, face=None, scale=24.0):
     #   hip, long face          an isosceles trapezoid, the hips at the roof's own nominal pitch
     #   gable end               a triangle
     roof_poly = " ".join(f"{X(x):.1f},{Ypx(h):.1f}" for x, h in profile_ft)
-    s.append(f'<polygon class="rf w-prof" points="{roof_poly}"/>')
+    if _gable:
+        # A GABLE END'S TRIANGLE IS THE GABLE WALL, AND THE ROOF IS ITS RAKE (WP-16.5, R8). Seen
+        # end on, both roof planes are edges; filling the triangle as roof and coursing it with
+        # shingles drew a covering where the wall is. The silhouette keeps its mark for the
+        # readers that measure the roof off the ink, filled as wall, and the rake is drawn over it.
+        s.append(f'<polygon class="rf gw w-prof" points="{roof_poly}"/>')
+        # THE RAKE (WP-16.9; Lucas's answers B3 and B5, 30 Sep 2026): each member of the raking
+        # cornice a band along each slope, as `elevation.rake_marks` lays it out for this sheet and
+        # the DXF alike, beneath the roof's edge, which is stroked last so the edge stays one line.
+        for _rb in EL.rake_marks(elev, face)["bands"]:
+            s.append(f'<polygon class="bd w-med" data-rake="{_attr(_rb["member"])}" '
+                     f'data-rake-kind="{_rb["kind"]}" points="'
+                     + " ".join(f"{X(u):.2f},{Ypx(h):.2f}" for u, h in _rb["poly"]) + '"/>')
+        s.append(f'<polyline class="rk w-prof" points="{roof_poly}"/>')
+    else:
+        s.append(f'<polygon class="rf w-prof" points="{roof_poly}"/>')
 
     # THE COVERING. Wood shingle, laid to a 5 1/2-6 in exposure (Colonial Williamsburg's own
     # figure for its shops; the 18th-c Virginia statute fixes shingle LENGTH and not exposure, so
@@ -992,7 +1120,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
     slope_deg = roof.get("main", {}).get("roof_slope_angle_deg") or elev.get("measurements", {}).get("roof_slope_angle_deg")
     eave_top_ft = min(h for _, h in profile_ft)
     ridge_top_ft = max(h for _, h in profile_ft)
-    if slope_deg and ridge_top_ft - eave_top_ft > 0.1:
+    if slope_deg and ridge_top_ft - eave_top_ft > 0.1 and not _gable:
         import math as _m
         course_ft = (SHINGLE_EXPOSURE_IN / 12.0) * _m.sin(_m.radians(slope_deg))
         if course_ft * scale >= 2.0:            # below 2 px a course is not a line, it is a tone
@@ -1060,18 +1188,37 @@ def render_elevation(elev, path, face=None, scale=24.0):
               # the inset is left out where the record dimensions no cornice (WP-15.8), so the
               # legend points at it only where it is drawn
               + (f'· CORNICE {cornice["cornice_height_in"]} in ({cornice["member_count"]} members) '
-                 '· SEE INSET FOR PROFILE' if cm["applicable"] else '· NO CORNICE DRAWN') + '</text>')
+                 '· SEE INSET FOR PROFILE' if EL.cornice_drawn(cm)
+                 else '· NO CORNICE DRAWN') + '</text>')
 
     # every sentence this face says beneath the drawing, in the words the DXF elevation writes
     # too (`elevation.face_notes`, WP-15.8)
     notes = EL.face_notes(elev, face, sm=sm, cm=cm)
-    for i, n in enumerate(notes):
-        s.append(f'<text class="dm" x="{pad}" y="{legend_y+26+i*10:.1f}">{_esc(n)}</text>')
+    # EACH NOTE IS WRAPPED TO THE SHEET (the audit of WP-16.8's own diff, 3 Oct 2026, auditor B).
+    # A note was one line whatever its length, and the rake's -- a sentence describing the board
+    # and then "; NOT DRAWN -- " and why -- ran 310 to 688 px past the canvas on sixteen gable
+    # faces of eight plans: on four of them "NOT DRAWN" itself was off the sheet, so the plate
+    # described a 7 in rake board over a gable end that draws none. The DXF has wrapped the same
+    # sentences since WP-15.8. A note that fits keeps its one line, byte for byte; a longer one is
+    # one <text> with a <tspan> a line, every line but the last ending in its space, so the ink
+    # reads the sentence back whole (`tests/inkread.py`), which is how the sheet and the DXF are
+    # held to one list. 7.5 px monospace is 4.5 px a character; 4.6 leaves the rounding to spare.
+    _cols = max(40, int((total_w - 2 * pad) / 4.6))
+    _ny = legend_y + 26
+    for n in notes:
+        _ln = _wrap(n, _cols) or [""]
+        if len(_ln) == 1:
+            s.append(f'<text class="dm" x="{pad}" y="{_ny:.1f}">{_esc(n)}</text>')
+        else:
+            _sp = "".join(f'<tspan x="{pad}" y="{_ny + 10 * j:.1f}">{_esc(t)}{" " if j < len(_ln) - 1 else ""}'
+                          f'</tspan>' for j, t in enumerate(_ln))
+            s.append(f'<text class="dm" x="{pad}" y="{_ny:.1f}">{_sp}</text>')
+        _ny += 10 * len(_ln)
     # THE SHEET GROWS WITH ITS NOTES (WP-14.3). The legend was a fixed 90 px, which holds six
     # notes; a sheet saying more ran its last lines off the canvas, where nothing is read -- a
     # disclosure the sheet does not make. The root element is rewritten after the inset, below,
-    # so the height taken here is the one it carries.
-    total_h = max(total_h, legend_y + 26 + len(notes) * 10 + 12)
+    # so the height taken here is the one it carries. It grows by LINES now, not notes.
+    total_h = max(total_h, _ny + 12)
 
     # ---------------- cornice detail inset: the actual moulded profile, constructed by
     # build/profiles.py from proportion_engine.dimension() members.
@@ -1090,8 +1237,8 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # outboard of its gable wall -- 1.83 ft, 44 px, on the Tidewater plan -- and the inset stood
     # 30 px past the face, so its box was drawn 14 px over the right-hand stack on both long faces.
     # The inset moves out by whatever the stacks overhang, and the sheet grows to hold it.
-    if not cm["applicable"]:
-        # NO CORNICE, NO PROFILE (WP-15.8's audit). A record that dimensions no eave cornice has
+    if not EL.cornice_drawn(cm):
+        # NO CORNICE, NO PROFILE (WP-15.8's audit; and a cornice the kit forbids, WP-16.4). A record that dimensions no eave cornice has
         # no profile for this inset to draw, and the inset read `members[0]` and raised -- so the
         # one face whose notes say why no cornice is drawn could not be drawn at all, while the
         # DXF of it could. The notes say it (`elevation.cornice_marks`'s "CORNICE NOT DRAWN"); the
@@ -1215,14 +1362,21 @@ def render_elevation(elev, path, face=None, scale=24.0):
     cap = [f'{who} · {len(members)} MEMBERS AT A {round(cornice["reduced_gibbs_module_in"],1)}″ MODULE',
            ("PROJECTIONS ARE RADII FROM THE COLUMN AXIS" if from_axis
             else "PROJECTIONS ARE RELIEF FROM THE FRIEZE NAKED")]
-    if env and abs(env - relief) > 0.5:
-        # Two sourced rules, one address, different answers. The sheet names both rather than
-        # letting the reader believe the drawing settled it.
-        # WHICH SURFACE DRAWS WHICH (WP-15.7): the face's cornice box stands at the envelope's
-        # figure and this profile at the order's, and a reader holding the two side by side is
-        # owed the reason they differ (`elevation.cornice_marks`, OQ 79).
-        cap.append(f"ORDER PROJECTS {relief:.1f}″; THE DOMESTIC ENVELOPE RULE SAYS {env:.1f}″ — BOTH SOURCED; "
-                   f"THE FACE DRAWS THE ENVELOPE'S, THIS PROFILE THE ORDER'S (OQ 79)")
+    # ONE CORNICE ON BOTH SURFACES (OQ 79, ruled 29 Sep 2026). Until the ruling this profile drew
+    # the order's own depth and the face the envelope's, 2.3 times apart, and this caption said so.
+    # The envelope governs the depth now and the order the shape, so the profile and the face's box
+    # stand at one figure, and the caption says what was scaled and what is a judgment.
+    scaling = cornice.get("projection_scaling") or {}
+    _deep = EL.cornice_depth_words(cornice, "″")
+    if env and _deep and scaling.get("mode") in ("bed-mould-held", "uniform"):
+        # B4: a kit's own minimum decided the depth, and the caption says whose, beside the envelope's
+        cap.append(f"PROJECTIONS SCALED INTO {_deep}, IN THE ORDER'S SHAPE; THE ORDER'S OWN IS "
+                   f"{scaling['order_relief_in']:.1f}″ (RULED)")
+    elif env and scaling.get("mode") in ("bed-mould-held", "uniform"):
+        cap.append(f"PROJECTIONS SCALED INTO THE ENVELOPE'S {env:.1f}″ IN THE ORDER'S SHAPE; THE ORDER'S "
+                   f"OWN IS {scaling['order_relief_in']:.1f}″ (OQ 79, RULED)")
+    if cornice.get("bed_mould_projection_judgment"):
+        cap.append(f"BED MOULD HELD AT {cornice['bed_mould_projection_in']:g}″ — A JUDGMENT")
     if sil["unconstructed"]:
         # Never draw a shape this corpus has no construction for without saying which.
         cap.append(", ".join(sorted({u["profile"].upper() for u in sil["unconstructed"]}))
@@ -1238,7 +1392,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
         # measured flush. Saying which is the whole difference.
         cap.append(f'{len(sil["unpublished"])} MEMBER(S) DRAWN AS A DASHED BRACKET AT THE NAKED — '
                    f'NO PROJECTION PUBLISHED')
-    lines = [ln for c in cap for ln in _wrap(c, int((ibox_w - 16) / 4.3))]
+    # 4.5 px a character, MEASURED (WP-16.5): Chromium lays 51 characters of this caption's own
+    # 7.5 px monospace at 229.55 px. The 4.3 this read before let a full line run 7.5 px into the
+    # plate's right margin, to within half a pixel of its frame, which R9's longer caption line
+    # was the first to reach.
+    lines = [ln for c in cap for ln in _wrap(c, int((ibox_w - 16) / 4.5))]
     for i, ln in enumerate(lines):
         s.append(f'<text class="dm" x="{ibox_x+8:.1f}" '
                  f'y="{ibox_y+ibox_h-6-(len(lines)-1-i)*9:.1f}">{_esc(ln)}</text>')

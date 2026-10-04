@@ -278,13 +278,23 @@ def test_a_stack_in_front_of_its_own_wall_is_drawn_last_over_a_mask_of_itself(co
     at = _order(msp)
     (front,) = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-STACK"]
     assert re.search(r'"relation":\s*"front"', "".join(str(v) for _c, v in front.get_xdata("TDL")))
-    (own,) = list(msp.query("WIPEOUT"))
-    assert own.dxf.layer == "TDL-ELEV-MASK", own.dxf.layer
     box = lambda pts: [round(f(p[i] for p in pts), 3) for i in (0, 1) for f in (min, max)]
-    assert box(_pts(own)) == box(front.get_points()), "the mask is the stack's own outline"
+    # THE STACK'S OWN MASK, BY ITS OUTLINE (re-cut 3 Oct 2026, the audit of WP-16.8's own diff):
+    # this read the face's ONE wipeout, and every band is masked whole now, as the sheet paints it
+    # opaque (auditor B's B10) -- so the face carries a mask per band besides the stack's own, and
+    # each of those is a band's box, asserted below rather than ignored
+    masks = list(msp.query("WIPEOUT"))
+    assert all(m.dxf.layer == "TDL-ELEV-MASK" for m in masks), [m.dxf.layer for m in masks]
+    own = [m for m in masks if box(_pts(m)) == box(front.get_points())]
+    assert len(own) == 1, ("the mask is the stack's own outline, once", len(own))
+    (own,) = own
+    bands = [box(e.get_points()) for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-BAND"]
+    assert bands and all(box(_pts(m)) in bands for m in masks if m is not own), \
+        "every other mask on this face is a band's own box"
     behind = [e for e in msp if e.dxf.layer in ("TDL-ELEV-WALL", "TDL-ELEV-ROOF", "TDL-ELEV-CORNICE",
                                                  "TDL-ELEV-FRIEZE", "TDL-ELEV-CORNICE-MEMBER",
-                                                 "TDL-ELEV-OPENING", "TDL-ELEV-SASH")]
+                                                 "TDL-ELEV-OPENING", "TDL-ELEV-SASH", "TDL-ELEV-BAND")]
     assert {e.dxf.layer for e in behind} >= {"TDL-ELEV-WALL", "TDL-ELEV-ROOF", "TDL-ELEV-CORNICE",
-                                             "TDL-ELEV-FRIEZE"}, "the premise: the face draws its eave"
+                                             "TDL-ELEV-FRIEZE", "TDL-ELEV-BAND"}, \
+        "the premise: the face draws its eave and its bands"
     assert max(at[id(e)] for e in behind) < at[id(own)] < at[id(front)]

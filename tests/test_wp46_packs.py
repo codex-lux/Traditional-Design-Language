@@ -3616,7 +3616,10 @@ def test_a_ranch_is_dimensioned_by_a_gothic_arch_pack_and_the_slot_report_says_s
     import subprocess
     out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_inheritance.py"),
                           "--slots", "ranch-style"], capture_output=True, text=True, cwd=ROOT).stdout
-    assert "65 slot(s) dimensioned, 58 by a pack it never bound" in out
+    # 65/58 -> 67/60 on 30 Sep 2026 (WP-16.2's adjudication): the frieze and the water table
+    # are freed and delivered by `palladio-tuscan` and `timber-panel`, packs ranch-style never
+    # bound. The refused line drops from nine slots to seven for the same reason.
+    assert "67 slot(s) dimensioned, 60 by a pack it never bound" in out
     assert "opening-pointed" in out and "gothic-revival-british" in out
     # `gibbs-ionic` was the third name here until 2 Sep 2026, when WP-8.7 adjudicated it and
     # `ranch-style` DECLINED it -- a Gibbs Ionic order on a ranch house, refused on the node's own

@@ -99,17 +99,39 @@
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "boxed-rake-with-return",
+          "status": "forbidden",
+          "note": "distinguished_from[0] reads 'The tell is the rake: a Cape Cod Revival has a moulded rake with a return at the eave; Minimal Traditional has a 1x6 board.', and this kit's own `cornice_return`, bound forbidden, reads 'No cornice return of any consequence; the rake is a plain board, not a moulded rake returned at the eave'."
+        }
+      ],
+      "parameters": {
+        "rake_trim_width_in": {
+          "value": 5.5,
+          "unit": "in",
+          "kind": "measured",
+          "source": "proportions/systems/trim-craftsman.json -- the stock series its module note states: '1x6 (5 1/2)'",
+          "note": "'Minimal Traditional has a 1x6 board.' (distinguished_from[0]). A dressed 1x6 is 5 1/2 in, as trim-craftsman, which this node binds itself, states ('1x6 (5 1/2)'), on Lucas's answer B29 of 1 Oct 2026, which supersedes B10's nominal 6 in; craftsman's head casing has carried the same dressed figure from the same pack since WP-14.5."
+        }
+      },
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "minimal-traditional's rake is a plain board, a 1x6, with no moulding and no return, under an eave and rake overhang not exceeding 12 in and frequently under 6 in (c01; this kit's `eave_condition`).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B5 of 30 Sep 2026, recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member: the companion of colonial-revival's own `rake_condition` binding of the same date, which permits a boxed rake with a return and would otherwise reach this node by descent (lineage[0], `descends_from`). Until then this slot was `open` and resolved ELIZABETHAN's record, 'No exposed gable verge in the ordinary sense; the roofline terminates at the parapet, not at a projecting gable rake.', reached at position 25 of this node's cascade; none of the 24 nodes before it binds the slot. This node's own words state its rake, and it is a gable's: defining_characteristics[1] reads 'Moderate roof pitch of 4:12 to 6:12, gabled or hipped, with eave and rake overhang not exceeding 12 in and frequently under 6 in', c01 'Eave and rake overhang shall not exceed 12 in.', and distinguished_from[0] 'The tell is the rake: a Cape Cod Revival has a moulded rake with a return at the eave; Minimal Traditional has a 1x6 board.' The record names no parapet. The overhang is c01's one figure for eave and rake, which this kit's `eave_condition` already carries (`overhang_max_in`, 12 in, source minimal-traditional.c01); it is not restated here. The board's width is the dressed 1x6, 5 1/2 in, measured from trim-craftsman's stock series, on Lucas's answer B29 of 1 Oct 2026; B10 of 30 Sep had taken the nominal 6 in on a false premise (that no record here states the dressed width), and was asked again. The fault this slot answers excepts this node ('0-12 in on both eave and rake is the type'); Lucas's answer B3 keeps an excepted style's edge, and his answer B10 of 30 Sep 2026 settles this node: B5's kit-first governs an excepted style whose own kit states its rake, so its gable end draws its own board; B29 fixes its width at 5 1/2 in. The rule names this node because three nodes descend through it, ranch-style, neo-eclectic and modern-farmhouse-traditional, and two of them state other rakes: ranch-style's c03 'eave and rake overhang between 18 and 36 in', and modern-farmhouse-traditional's c02 'Rake overhang not less than 8 in and eave overhang not less than 12 in, with a returned or moulded termination at every gable corner.' Those two bind records of their own of the same date (T1, taken as recommended under Lucas's standing instruction of 1 Oct 2026: put to him and unanswered when the instruction arrived), and neo-eclectic's cascade reaches ranch-style's record before this one, so no node inherits this record. None of the three is drawn. The address stays governed by `opening-pointed`, bound on gothic-revival-british (`part * 3.5`) -- OQ 51's delivery, not endorsed, and unchanged by this binding."
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "rule": "No cornice return of any consequence; the rake is a plain board, not a moulded rake returned at the eave (defining_characteristics[4]; distinguished_from cape-cod-revival).",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "note": "BOUND 30 Sep 2026 (WP-16.2) as the companion of colonial-revival's own `cornice_return` binding of the same date, which permits a return and would otherwise reach this node by descent. Until then this slot was `open` and resolved gothic-revival-american's `forbidden` binding through colonial-revival: the right outcome, on a bargeboard reason that is not this node's. Its own words: defining_characteristics[4] reads 'Trim of minimal profile depth — flat frieze, narrow clamshell or ranch casing, no cornice return of any consequence'; distinguished_from[0] (cape-cod-revival) reads 'The tell is the rake: a Cape Cod Revival has a moulded rake with a return at the eave; Minimal Traditional has a 1x6 board.'; and this kit's own `trim_family` rule already ends 'and no cornice return of any consequence'. The words 'of any consequence' leave a vestigial stub unstated; the return the elevation draws is a full one, which the record rules out."
     },
     "gable_treatment": {
       "group": "massing-and-roof",
@@ -214,10 +236,14 @@
     },
     "belt_course": {
       "group": "envelope",
-      "binding": "open",
+      "binding": "forbidden",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "No belt course: ornament is reduced to three items at most, none of them a belt, on a house of one storey or one and a half.",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), the companion of colonial-revival's own `belt_course` binding of the same date, which permits a belt course and would otherwise reach this node by descent: this node descends from colonial-revival directly (lineage[0]), and mid-century-traditional, the family the cascade walks first, binds nothing at this slot. Until then this slot was `open` and resolved shingle-style's `forbidden` binding through colonial-revival: the right outcome, on a reason that is not this node's. Its own words: defining_characteristics[3] reads 'Ornament reduced to three items at most: a chimney, a pair of decorative shutters, and a simple door surround', and c02 reads 'one or one and a half storeys only.' Marked judgment: the record names no belt, and the ban is read from its ornament cap and its storey count."
     },
     "corner_quoin": {
       "group": "envelope",
@@ -254,17 +280,42 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion-cornice",
+          "status": "forbidden",
+          "note": "defining_characteristics[3] budgets the ornament: 'Ornament reduced to three items at most: a chimney, a pair of decorative shutters, and a simple door surround'. A modillion course is not one of the three, and lineage[0] names what did not survive the descent from colonial-revival: 'the proportional system, the trim profiles, and the applied orders do not'."
+        },
+        {
+          "id": "dentil-cornice",
+          "status": "forbidden",
+          "note": "The same count: 'Ornament reduced to three items at most: a chimney, a pair of decorative shutters, and a simple door surround'."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "No modillioned or dentilled cornice: the trim is of minimal profile depth and the ornament is budgeted at three named items (defining_characteristics[3] and [4]).",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "note": "BOUND 30 Sep 2026 (WP-16.2) as the companion of colonial-revival's own `cornice` binding of the same date, which makes `modillion-cornice` canonical and would otherwise reach this node by descent. Until then this slot was `open` and resolved gothic-revival-british's record through colonial-revival: the right refusal of the modillion cornice, for c05's reason rather than this node's, with a corbelled brick cornice canonical and colonial-revival's 12-18 in cornice depth merged in. This node's own words: defining_characteristics[4] reads 'Trim of minimal profile depth — flat frieze, narrow clamshell or ranch casing, no cornice return of any consequence'; diagnostic_tells[0] reads 'A recognizably traditional shape with essentially no eave — the roof surface stops at the wall surface and the two meet without a shadow line'. No variant is made canonical: the long description gives the eave 'a flat frieze board' and no cornice variant in the corpus plainly matches it."
     },
     "frieze": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "flat-frieze-board",
+          "status": "canonical",
+          "note": "defining_characteristics[4]: 'Trim of minimal profile depth — flat frieze, narrow clamshell or ranch casing, no cornice return of any consequence'; description.long: 'The trim is a two-and-a-quarter-inch clamshell casing and a flat frieze board.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "A flat frieze board of minimal profile depth -- with the clamshell casing, the whole of the trim minimal-traditional's own description.long names: 'The trim is a two-and-a-quarter-inch clamshell casing and a flat frieze board.'",
+      "note": "BOUND 30 Sep 2026 (WP-16.2), and it was FORBIDDEN here until then -- inherited, on 'No frieze board may interrupt the shingle field.', from SHINGLE-STYLE. This node's own record names the member twice -- description.long, 'The trim is a two-and-a-quarter-inch clamshell casing and a flat frieze board.', and defining_characteristics[4], 'Trim of minimal profile depth — flat frieze, narrow clamshell or ranch casing, no cornice return of any consequence' -- and this kit's trim_family rule repeats it: 'Trim of minimal profile depth: flat frieze board, narrow clamshell or ranch casing'. A style does not list a member it forbids as one of its only two trims. No depth is stated for the board, so this record carries no figure -- and the cascade then supplies one, from an order: with the ban lifted, precedence gives the slot to `palladio-ionic` (bound on english-palladian, storey_height / 4 * (6 / 18)), the delivery that already governs this node's `cornice`, against this node's own governing_logic, 'Nothing is derived from a module of order' -- the sentence it declined `gibbs-ionic` and `chambers-ionic` on. Its `chambers-ionic` decline already says so: 'palladio-ionic and benjamin-ionic on this node are the next adjudications.' ranch-style, neo-eclectic and modern-farmhouse-traditional, which inherit this record and decline `palladio-ionic`, take `palladio-tuscan` (bound on italian-renaissance) at this slot instead. OQ 51's delivery, counted and not endorsed. The rule names this node, so that in their resolved records it does not describe their trim as a clamshell casing."
     },
     "parapet": {
       "group": "envelope",

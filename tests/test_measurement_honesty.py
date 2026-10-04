@@ -71,6 +71,13 @@ FABRICATED_SEVEN = (
 #                        a storey, and the evidence for saying so is a number this corpus took.
 #   overscaled-dormer    CLEAR, on the same measurement (its first secondary is dormer-wall's
 #                        primary, verbatim -- a duplication that predates this package).
+#                        NOT APPLICABLE since WP-16.1 (29 Sep 2026). That clear was the shape
+#                        R4 removes: its GOVERNING test reads a dormer's own width against the
+#                        window below it, which a house with no dormers cannot supply, and it
+#                        cleared on the one secondary that ran. Every one of its tests, and every
+#                        exception's bounds test, now carries `dormer_count >= 1`, on
+#                        dormer-off-the-bay's precedent: zero dormers is not a small dormer.
+#                        dormer-wall stays CLEAR, because its governing test is the one that ran.
 #
 # Delete the declaration and all three go straight back to unjudged. That round trip is asserted
 # below, because it is the only thing that proves the three states are three and not two.
@@ -78,7 +85,7 @@ STILL_UNJUDGED = ("capless-stack", "cornice-gutter-without-a-liner",
                   "raking-cornice-that-does-not-match", "vestigial-chimney-chase")
 JUDGED_ON_A_STATED_ZERO = {"dormer-off-the-bay": "not_applicable",
                            "dormer-wall": "clear",
-                           "overscaled-dormer": "clear"}
+                           "overscaled-dormer": "not_applicable"}
 
 REFERENCE_PLANS = ("tidewater-georgian-careful", "spec-builder-colonial")
 

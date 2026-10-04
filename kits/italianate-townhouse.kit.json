@@ -20,10 +20,40 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "The ridge runs between the party walls, on Lucas's answer B12 of 30 Sep 2026. defining_characteristics[0]: 'Party-wall row construction on a narrow deep lot, typically 16 to 25 ft wide'; defining_characteristics[5]: 'A bracketed cornice running continuously across party walls for the length of the row'; c01: 'The main cornice shall be continuous in height, projection, and bracket module across every house in a row, aligning across party walls within 2 in.'."
+        },
+        {
+          "id": "low-hip-suppressed",
+          "status": "permitted",
+          "note": "For the end of a row, on B12. Demoted from canonical, where italianate-american put it for a free-standing house; this house stands between party walls."
+        },
+        {
+          "id": "shallow-gable",
+          "status": "permitted",
+          "note": "Kept as italianate-american has it."
+        },
+        {
+          "id": "steep-gable",
+          "status": "forbidden",
+          "note": "Kept from italianate-american's record: 'Contradicts the defining low-pitched, suppressed roof; that is Gothic Revival's territory (distinguished_from).'"
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "Kept from italianate-american's record (''Add a mansard over the same brackets and it is Second Empire' — the single most common misidentification (diagnostic tells).'), and in this record's own words: distinguished_from[2]: 'The mansard is the whole difference. In New York and Brooklyn entire Italianate rows were later given mansard storeys; the body below is unchanged.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A low side-gable roof whose ridge runs between the party walls, concealed behind the continuous crowning cornice of the row; a hip only at the end of a row.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B12 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: italianate-townhouse binds its own roof_form. Until then the slot was open and resolved ITALIANATE-AMERICAN's record, `low-hip-suppressed` canonical, a free-standing house's roof, so the roof layer drew this party-wall row house hipped. Its canonical massings are the townhouse row and the side-hall double pile. Marked judgment: the record names its party walls and its continuous cornice, not a roof id."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -55,10 +85,12 @@
     },
     "cornice_return": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "forbidden",
+      "rule": "No cornice return: the main cornice runs continuously across the party walls for the length of the row, and the ban is read from that cornice.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A4 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): each of the Italianate family binds its own cornice return forbidden, on its own roof. Until then it was forbidden by GOTHIC-REVIVAL-AMERICAN, on 'The rake is finished in bargeboard, not a boxed classical cornice with mitred returns; a cornice return signals Greek Revival millwork, not Gothic Revival (see distinguished_from).' -- a bargeboarded rake, which is not this style's. This record states no return and no gable; its cornice is a party-wall cornice: defining_characteristics[5] reads 'A bracketed cornice running continuously across party walls for the length of the row', and c01 'The main cornice shall be continuous in height, projection, and bracket module across every house in a row, aligning across party walls within 2 in.' Marked judgment, because the ban is read from the cornice and not from a sentence about the return: the resolved roof_form permits a `shallow-gable` (italianate-american's when this was bound; since B12 this node binds its own roof_form, which keeps the shallow gable permitted -- corrected 2 Oct 2026, WP-16.8), and this kit knows 'the wider double-parlour corner-lot house', whose cornice has an end."
     },
     "gable_treatment": {
       "group": "massing-and-roof",
@@ -367,17 +399,41 @@
     },
     "door_surround": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "pilasters-and-entablature",
+          "status": "forbidden",
+          "note": "lineage[1] makes the facade astylar: 'The astylar palazzo facade rules, the diminishing storey heights, and the brownstone technique come directly from the Notman and Trench and Snook generation.' An astylar front carries no order, and its parent italianate-american's own kit says of the pilaster: 'No pilaster order.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "No pilaster-and-entablature doorcase: the front is astylar (lineage[1]).",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A4 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): each of the Italianate family binds its own door surround, forbidding the pilaster-and-entablature doorcase in its own record's words. Until then it resolved GOTHIC-REVIVAL-BRITISH's whole record, whose rule reads 'A projecting, gabled and buttressed porch with a pointed arch and hood mould -- never a classical pilaster-and-entablature doorcase (hard constraint c05).' -- so a pointed-arch buttressed porch was canonical here and the pilaster doorcase was refused for c05's reason, not this style's. This record never names its door surround as such: its opening-proportion binding note has the pack govern 'the door and the storey-based sizing rule beneath the parlour-floor arched surround' (proportion_packs[2]), and the dress it does name is the window's, 'Round-arched or segmental window heads with projecting moulded hoods or full architrave surrounds on the parlour floor' (defining_characteristics[3]). The ban is carried in its own word, 'astylar', and marked judgment because the record states no door surround in its place. Lucas's answer adds that where the doorcase is refused the elevation draws the plain casing; that refusal is WP-16.4's and is not built, so until it lands the elevation still draws the doorcase this record forbids (census V2 reads it as this node's own ban)."
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "sidelights",
+          "status": "permitted",
+          "note": "The record does not settle it: no field of styles/italianate-townhouse.json or of this kit names a sidelight, a transom or a fanlight, for or against. Lucas's answer A2 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): the silence is read as permitted, unsettled. Permitted, not canonical."
+        },
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "permitted",
+          "note": "The record does not settle it: no field of styles/italianate-townhouse.json or of this kit names a transom, a fanlight or a sidelight, for or against. Lucas's answer A2 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): a record's silence on the entrance's glazing is read as permitted, unsettled. Permitted, not canonical."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "low",
+      "judgment": true,
+      "note": "BOUND 30 Sep 2026 (WP-16.2), on Lucas's answer A2 of 30 Sep 2026, recorded in oq/an-inherited-ban-decides-what-the-elevation-may-draw (WP-16.2 stage 2): sidelights and a transom permitted, nothing canonical. It was FORBIDDEN here until then -- inherited, on 'EDITORIAL: not directly documented either way; forbidden on the strength of c05's general prohibition rather than a direct quotation about fanlights specifically.', from GOTHIC-REVIVAL-BRITISH, through italianate-american, romantic-revivals and gothic-revival-american, none of which binds the slot. This record's entrance is 'High stoop rising to a raised parlour floor over an exposed English basement' (defining_characteristics[1]), and its long description goes in by 'a low dark vestibule and then a parlour eleven to fourteen feet tall with windows to the floor'; it says nothing of the door's glazing either way. The ban concedes it is 'not directly documented either way'. So nothing here is canonical, the fanlights are left out rather than guessed, and the slot is marked judgment. EDITORIAL: permitted on the ruling, not on a sentence of this record."
     },
     "secondary_door": {
       "group": "openings",

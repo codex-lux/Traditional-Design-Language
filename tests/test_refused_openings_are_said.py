@@ -45,7 +45,11 @@ HEAD = "OPENING(S) ON THIS FACE NOT DRAWN"
 # reference is what the subject serves agrees with it whatever it serves (R4's trap). A cause's
 # line carries its own keyword and no other cause's.
 KEYWORDS = {"placer": "PLACER", "element": "MASSING ELEMENT", "storey": "STOREY",
-            "stack": "CHIMNEY STACK", "record": "ELEVATION RECORD STATES NO"}
+            "stack": "CHIMNEY STACK", "record": "ELEVATION RECORD STATES NO",
+            # WP-16.6: a window refused for the wall it would leave beside the next one (R5), and
+            # an upper window refused because its room cannot take the axis of the opening below
+            # it (R6). Each is the placer's refusal, and each is said for its own rule.
+            "pier": "PIER FLOOR", "alignment": "AXIS OF THE OPENING BELOW"}
 
 
 def _says_only(line, cause):
@@ -164,6 +168,40 @@ def test_a_single_cause_is_said_on_the_one_line(corpus):
     tail = head[0].split(" — ")[-1]
     assert _says_only(tail, cause) and tail.endswith("; THE ELEVATION RECORD NAMES EACH"), head[0]
     assert not [t for t in said if t.startswith("· ") and any(k in t for k in KEYWORDS.values())]
+
+
+def test_a_window_refused_under_a_ruling_is_said_under_its_own_rule(corpus):
+    """WP-16.6. The placer refuses a window under R5 (`rule: pier`) and under R6 (`rule: alignment`),
+    and on every face the elevation carries each such refusal under that rule as its cause, unit for
+    unit against the placed record, and the sheet says the rule's own words. Written after the
+    mutation pass found the cause could be put back to the placer's on every face with nothing red:
+    the tests above each read one face, and a face that names two causes still names two."""
+    seen = {"pier": 0, "alignment": 0}
+    for pid, el in sorted(corpus.items()):
+        placed = (el.get("section") or {}).get("geometry") or {}
+        for f in EL.FACES:
+            want = {"pier": 0, "alignment": 0}
+            for lv in placed.get("levels") or []:
+                for r in lv.get("rooms") or []:
+                    for w in r.get("windows") or []:
+                        u = w.get("unplaced") or {}
+                        if (w.get("wall") or "").upper() != f or not u:
+                            continue
+                        whole = int(w.get("count") or 1) - len(w.get("positions_ft") or [])
+                        for part in u.get("parts") or [{"rule": u.get("rule"), "units": whole}]:
+                            if part.get("rule") in want:
+                                want[part["rule"]] += int(part.get("units") or 0)
+            refused = EL.opening_rects(el, f)["refused"]
+            got = {c: sum(int(x.get("units") or 1) for x in refused if x.get("cause") == c) for c in want}
+            assert got == want, (pid, f, got, want)
+            if any(want.values()):
+                said = _said(_svg(el, f))
+                for c, n in want.items():
+                    seen[c] += n
+                    if n:
+                        assert any(KEYWORDS[c] in t for t in said), (pid, f, c)
+    assert seen["pier"] and seen["alignment"], ("the premise: the corpus refuses windows under both "
+                                                "rulings", seen)
 
 
 def test_a_window_a_stack_stands_on_is_said_as_the_stack_refusing_it(corpus):

@@ -423,3 +423,96 @@ The three neighbours, because a keyword search will not find these boundaries ei
 `corner_board` is a board at a corner, and is what this slot was standing in for. Five styles bind
 `expressed_frame` as `forbidden`/`none` — a rule *about* the member stating that there is none, which
 is the same argument that got `arch` built one version earlier.
+
+## Who wrote a ban (WP-16.2, 29 Sep 2026)
+
+A resolved slot's `_source` is the **nearest** node to touch the slot: the nearest `extends` delta
+where one was merged. It is the record to open, and it is not the node that wrote a ban. Where a
+style extends a slot that an ancestor banned something in, `_source` names the style itself. So
+every reader of "where does this ban come from" credited the ban to the style. Census V2 did, and
+so did the elevation's dormer line and the Dossier's slot page. colonial-revival's doorcase was the
+case: gothic-revival-british wrote `pilasters-and-entablature` forbidden, and colonial-revival
+extended the slot with its own figures, until the adjudication below bound the slot in
+colonial-revival's own kit.
+
+`resolve_slots` now records two more things:
+
+| field | where | what it names |
+|---|---|---|
+| `_bound_by` | every resolved slot | the node whose record set the binding: the base the deltas merge onto, because a delta cannot change a binding; `null` for an open slot |
+| `_written_by` | every variant row | the node whose record or delta wrote that row; a `replace` credits the replacer |
+
+`resolve_kit.forbidden_by(rec, words)` is the one reader of who forbids a feature. It returns the
+writers, sorted, or `None`. The census reads it, and the elevation's refusal does too since
+WP-16.4, through `resolve_kit.ban`, which reads the ban at the house's date (30 Sep 2026).
+
+**The mechanism under several wrong bans.** An `extends` delta is merged onto whatever
+`specified` or `forbidden` record is nearest in the node's linearized chain. That need not be the
+record the delta's author wrote against. Until 30 Sep 2026 colonial-revival's `door_surround` note
+said *"The inherited pilasters-and-entablature binding (english-georgian) is the right assembly"*,
+and the delta resolved onto gothic-revival-british's record, which forbids that assembly; its
+`cornice_return` delta permitted a return *"only where the eave carries a full classical
+cornice"*, and resolved onto gothic-revival-american's `forbidden` binding. Both slots are bound
+in colonial-revival's own kit now (below). Whether
+`extends` should take its base from the node the delta was written against is question 3 of
+`oq/an-inherited-ban-decides-what-the-elevation-may-draw`, and it is not ruled. The ruling that is
+in force corrects each wrong ban in the style's own kit, case by case.
+
+### The adjudication (WP-16.2, 30 Sep 2026)
+
+R3 corrects each wrong inherited ban in the style's own kit, case by case, before the elevation
+refuses anything. Every ban reaching a style the elevation draws was tabled by (writer, feature).
+Each was read against two things: the ban's own note, and the receiving style's own record.
+An independent adversarial check then read each proposed record for:
+- every quotation, word for word;
+- the whole resolved record, over all 164 styles;
+- which packs govern the slots the edit frees;
+- every descendant that would inherit the new record.
+
+**The template is colonial-revival's `transom_sidelight` (WP-8.3).**
+- The style binds the slot itself, and every row quotes its own record.
+- Where the record is silent, the row cites Lucas's answer and is marked `judgment: true`.
+- A dated note names the ban it replaces and the node that wrote it.
+
+**A wrong base is replaced whole, never patched with a `replace` row.** A delta cannot change a
+binding, and a `replace` would leave the rest of the wrong record standing. The four Italianate
+door surrounds resolved gothic-revival-british's whole record, with a pointed-arch buttressed porch
+canonical. Binding the slot at the style removes all of it, not only the pilaster row.
+
+**A descendant that would inherit a record its own words contradict gets a record of its own.**
+The two checks wrote eight such companions:
+- garrison-revival's `cornice` and `door_surround`;
+- modern-farmhouse-traditional's `cornice_return`;
+- neo-eclectic's `cornice`;
+- cape-cod-revival's `frieze` and `belt_course`;
+- mediterranean-revival's `door_surround`;
+- minimal-traditional's `belt_course`.
+
+A companion can itself reach a descendant for its own reason. minimal-traditional's belt ban did
+that to neo-eclectic, and Lucas's answer A10 gave neo-eclectic a record of its own.
+
+**Freeing a forbidden slot restarts the pack cascade there** (the section above). So the
+adjudication moves figures the flips never moved:
+- `STRANDING`'s `dimensioned_after`, unmoved through all four flip packages, rises 4,931 → 4,958;
+- `dimensioned_before` rises 7,516 → 7,549, `stranded` 2,585 → 2,591 and `rehoused` 1,895 → 1,909;
+  `nodes_touched` (124) and `unreached` (47) are unmoved;
+- the forbidden-slot meter (`--forbidden`) falls 712 → 679 pairs, and not one pack was chosen to
+  get there.
+
+A freed slot is often dimensioned by a pack bound on an unrelated ancestor. That is OQ 51's
+delivery, and the record that frees the slot says so. `--strict`'s role meter does not count
+slot-level deliveries, so it reads the same before and after.
+
+**Ten questions the records did not decide went to Lucas.** His answers, A1 to A10, are recorded
+in `oq/an-inherited-ban-decides-what-the-elevation-may-draw`. Three of them change no record:
+- A6 keeps jeffersonian-classicism's inherited keystone ban;
+- A9 leaves minimal-traditional's water table inheriting A1's permitted record;
+- A3 reads a forbidden row's own date range against the house's date, which is WP-16.4's code.
+
+**What the edits cannot reach yet.** Three styles now forbid sidelights in their own words:
+cape-cod-colonial, saltbox-colonial and renaissance-revival-american. The entrance composition
+reads only a whole-slot ban (`doorcase.forbidden_of`), so each still draws sidelights until
+WP-16.4 reads the rows. Census V2 carries all three, attributed "own". *(WP-16.4 read them on
+30 Sep 2026: `doorcase.refusals` refuses a row ban, and all three draw none. V2 reads saltbox-colonial
+and renaissance-revival-american as agreeing; cape-cod-colonial's row is could-not-evaluate for
+an exterior stack the census sweep does not place, and its sidelights are refused.)*

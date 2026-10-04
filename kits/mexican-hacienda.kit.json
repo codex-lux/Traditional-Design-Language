@@ -11,10 +11,65 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "par-y-nudillo",
+          "status": "canonical",
+          "note": "Kept canonical from mudejar's record ('Tie-beam, rafters and collar as one assembly, boarded and worked into an interlace of small timbers (lazo). The ceiling and the roof are the same object.'), as Lucas's answer B22 of 1 Oct 2026 keeps it on mexican-colonial."
+        },
+        {
+          "id": "flat-parapet",
+          "status": "permitted",
+          "note": "defining_characteristics[5]: 'Flat azotea roofs with parapets and canales on the dry highlands; low-pitched clay tile with deep overhangs where it rains'"
+        },
+        {
+          "id": "hip",
+          "status": "permitted",
+          "note": "The low tile roof where it rains, read as a hip: a hip has no gable. A reading: the record says 'low-pitched clay tile', not hip."
+        },
+        {
+          "id": "side-gable",
+          "status": "forbidden",
+          "note": "distinguished_from[2]: 'the hacienda has no gable at all and puts everything into an arcade.'"
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "distinguished_from[2]: 'the hacienda has no gable at all and puts everything into an arcade.'"
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "distinguished_from[2]: 'the hacienda has no gable at all and puts everything into an arcade.'"
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "distinguished_from[2]: 'the hacienda has no gable at all and puts everything into an arcade.'"
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "forbidden",
+          "note": "distinguished_from[2]: 'the hacienda has no gable at all and puts everything into an arcade.'"
+        },
+        {
+          "id": "gable",
+          "status": "forbidden",
+          "note": "distinguished_from[2]: 'the hacienda has no gable at all and puts everything into an arcade.'"
+        },
+        {
+          "id": "suspended-ceiling-below-separate-roof",
+          "status": "forbidden",
+          "note": "Kept from mudejar's record: \"mudejar.c02 (hard): 'a suspended ceiling below a separate roof is a different tradition.'\""
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Flat azotea roofs behind parapets on the dry highlands and low clay tile where it rains (defining_characteristics[5]); the hacienda has no gable at all and puts everything into an arcade.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B23 of 1 Oct 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: mexican-hacienda binds its own roof_form. Until then it wrote none and resolved MUDEJAR's record through mexican-colonial, par-y-nudillo canonical, which the roof layer does not draw, so the fallback side gable was drawn on a house whose record says it has no gable. The carpentry stays canonical; every gable form is forbidden in the record's own words; under B8 a fallback the kit forbids is refused, so no roof is drawn and the sheet says why. Marked judgment for the hip's reading."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

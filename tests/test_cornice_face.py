@@ -69,7 +69,8 @@ def test_the_marks_are_the_records_frieze_box_and_members(elev):
     fz = cm["frieze"]
     assert (fz["u0"], fz["h0"], fz["h1"]) == (0.0, wall_top, spring)
     assert fz["u1"] == elev["footprint"]["width_ft"] and fz["why"] is None
-    # the box: the envelope's figure, the one the face has always drawn (OQ 79 is not chosen here)
+    # the box: the envelope's figure, the one the face has always drawn, and since OQ 79 was ruled
+    # (29 Sep 2026, R9) the depth the inset's profile draws too
     co = cm["cornice"]
     assert co["projection_in"] == cor["envelope_projection_in"] and co["why"] is None
     assert abs(co["u0"] + cor["envelope_projection_in"] / 12.0) < 1e-12
@@ -221,16 +222,20 @@ def test_the_sheet_draws_a_line_across_the_box_at_every_division_and_no_other(el
     ink, pl, _said = _svg(elev, face, tmp_path)
     cm = _m("elevation").cornice_marks(elev, face)
     tol = 0.02 / pl["px_per_ft"]
+    # EVERY BOX THE FACE DRAWS (WP-16.5, R8): the band across an eave face, and on the Tidewater
+    # gable end, whose kit makes the full return canonical, a return at each corner carrying the
+    # members, where the band ran straight across until then
+    boxes = [(None, cm["cornice"])] if cm["cornice"] else [(r["side"], r["cornice"]) for r in cm["returns"]]
+    assert boxes and (len(boxes) == 2) == (face in ("E", "W")), (face, boxes)
     lines = {}
     for it in ink.items:
         if "cm" in it.classes:
             (x0, y0), (x1, y1) = it.points(n=1)[0], it.points(n=1)[-1]
             (u0, v0), (u1, v1) = IR.to_model(pl, x0, y0), IR.to_model(pl, x1, y1)
-            lines[it.attrs.get("data-member")] = (v0, v1, min(u0, u1), max(u0, u1))
-    want = {m["id"]: m["h0"] for m in cm["members"][1:]}
-    assert set(lines) == set(want) and len(want) == 7, (face, sorted(lines))
-    box = cm["cornice"]
-    for k, h in want.items():
+            lines[(it.attrs.get("data-return"), it.attrs.get("data-member"))] = (v0, v1, min(u0, u1), max(u0, u1))
+    want = {(side, m["id"]): (m["h0"], box) for side, box in boxes for m in cm["members"][1:]}
+    assert set(lines) == set(want) and len(want) == 7 * len(boxes), (face, sorted(lines))
+    for k, (h, box) in want.items():
         v0, v1, u0, u1 = lines[k]
         assert abs(v0 - h) < tol and abs(v1 - h) < tol, (face, k, v0, v1, h)
         assert abs(u0 - box["u0"]) < tol and abs(u1 - box["u1"]) < tol, (face, k, u0, u1, box)
@@ -253,8 +258,28 @@ def test_the_frieze_and_the_box_meet_on_one_printed_edge(elev, tmp_path):
 def test_a_stack_in_front_of_the_face_is_painted_over_the_cornice_and_one_behind_under_it(elev, face, tmp_path):
     """The nearer of two overlapping marks is painted last. On the gable end the exterior stack
     stands in front of the wall and the cornice returns against it; on the front the same stack is
-    behind the cornice's return at the corner. Both are the Tidewater record's own faces."""
-    ink, pl, _said = _svg(elev, face, tmp_path)
+    behind the cornice's return at the corner.
+
+    RE-CUT AT WP-16.5 (30 Sep 2026). The Tidewater gable end returned the band straight across the
+    face until R8, and the stack stood in front of it. Its kit makes the full return canonical, so
+    the gable end draws a return at each corner now, 24.6 in long, and the stack in the middle of
+    the wall meets neither: the gable case has no instance on the shipped record, which is asserted,
+    and the band's paint order is driven by reading the return as unsettled, which keeps the band
+    across the face as a kit that settles no return does."""
+    el = elev
+    if face == "E":
+        ink0, pl0, _s0 = _svg(elev, face, tmp_path, tag="shipped")
+        boxes0 = [_box_ft(pl0, it) for it in ink0.select("rect") if {"bd", "w-prof"} <= set(it.classes)]
+        stacks0 = [_box_ft(pl0, it) for it in ink0.items if "ch" in it.classes and it.tag in ("polygon", "rect", "path")]
+        assert len(boxes0) == 2 and stacks0, "the premise: two returns and a stack on the shipped gable end"
+        assert not [1 for b in boxes0 for c in stacks0
+                    if min(c[2], b[2]) > max(c[0], b[0]) and min(c[3], b[3]) > max(c[1], b[1])]
+        el = copy.deepcopy(elev)
+        EL = _m("elevation")
+        el["cornice_return"] = EL.cornice_return({"state": "unsettled", "writers": ["driven"]},
+                                                 el["eave_cornice"], el["roof_record"])
+        assert el["cornice_return"]["draws"] == "band"
+    ink, pl, _said = _svg(el, face, tmp_path)
     (box,) = [it for it in ink.select("rect") if {"bd", "w-prof"} <= set(it.classes)]
     bx = _box_ft(pl, box)
     over = [it for it in ink.items if "ch" in it.classes and it.tag in ("polygon", "rect", "path")
@@ -278,24 +303,28 @@ def test_the_dxf_draws_each_member_division_level_across_the_box_carrying_its_me
     assert "error" not in EX.export_elevation_dxf(elev, path, face=face)
     msp = ezdxf.readfile(path).modelspace()
     cm = _m("elevation").cornice_marks(elev, face)
-    box = cm["cornice"]
+    # every box the face draws: the band, or a return at each corner (WP-16.5, R8)
+    boxes = {None: cm["cornice"]} if cm["cornice"] else {r["side"]: r["cornice"] for r in cm["returns"]}
+    assert (len(boxes) == 2) == (face in ("E", "W")), (face, boxes)
     got = {}
     for e in msp.query("LINE"):
         if e.dxf.layer == "TDL-ELEV-CORNICE-MEMBER":
             x = "".join(str(v) for _c, v in e.get_xdata("TDL"))
             said = json.loads(x[x.index("{"):])
-            got[said["member"]] = (e.dxf.start, e.dxf.end, said.get("profile"))
-    want = {m["id"]: m for m in cm["members"][1:]}
+            got[(said.get("return"), said["member"])] = (e.dxf.start, e.dxf.end, said.get("profile"))
+    want = {(side, m["id"]): (m, box) for side, box in boxes.items() for m in cm["members"][1:]}
     assert set(got) == set(want), (face, sorted(got))
-    for k, m in want.items():
+    for k, (m, box) in want.items():
         (a0, h0, _z0), (a1, h1, _z1), profile = got[k][0], got[k][1], got[k][2]
         assert abs(h0 - m["h0"] * 12.0) < 1e-6 and abs(h1 - m["h0"] * 12.0) < 1e-6, (face, k, h0, h1)
         assert abs(min(a0, a1) - box["u0"] * 12.0) < 1e-6 and abs(max(a0, a1) - box["u1"] * 12.0) < 1e-6, \
             (face, k, a0, a1)
         assert profile == m["profile"], (face, k, profile, m["profile"])
-    (poly,) = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-CORNICE"]
-    assert min(p[1] for p in poly.get_points()) == pytest.approx(box["h0"] * 12.0), (
-        "the cornice's box stands on the frieze, not on the wall head")
+    polys = [e for e in msp.query("LWPOLYLINE") if e.dxf.layer == "TDL-ELEV-CORNICE"]
+    assert len(polys) == len(boxes)
+    for poly in polys:
+        assert min(p[1] for p in poly.get_points()) == pytest.approx(cm["members"][0]["h0"] * 12.0), (
+            "the cornice's box stands on the frieze, not on the wall head")
 
 
 # ------------------------------------------------------------------ the teeth, driven

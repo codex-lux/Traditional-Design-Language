@@ -208,7 +208,18 @@ def windows_not_drawn(plan):
                     drawn = (len(w.get("positions_ft") or [])
                              or int((w["unplaced"].get("have") or {}).get("units_placed") or 0))
                     missing = max(units - drawn, 0)
-                    key = _group(w["unplaced"].get("reason"))
+                    # ONE WINDOW REFUSED FOR SEVERAL CAUSES (WP-16.6) counts each part under its
+                    # own reason, so the buckets still sum to the headline. A RULED refusal is
+                    # grouped by its `rule` and the floor the record states, never by its words.
+                    u = w["unplaced"]
+                    fl = (u.get("needs") or {}).get("pier_over_the_wider_window")
+                    parts = u.get("parts")
+                    if parts:
+                        for part in parts:
+                            key = _group(part.get("reason"), part.get("rule"), fl)
+                            reasons[key] = reasons.get(key, 0) + int(part.get("units") or 0)
+                        continue
+                    key = _group(u.get("reason"), u.get("rule"), fl)
                     reasons[key] = reasons.get(key, 0) + missing
     why = ", ".join(f"{v} {k}" for k, v in sorted(reasons.items(), key=lambda kv: -kv[1]))
     return {"id": "windows", "tone": IRON, "detail": reasons,
@@ -220,7 +231,7 @@ def windows_not_drawn(plan):
 # the first sheet it was drawn on -- a disclosure the sheet does not show, which is the failure
 # this whole package is about, introduced by the package. The renderer wraps a long line now and
 # a test holds every line inside the plate; these short forms keep the common ones to one row.
-def _group(reason):
+def _group(reason, rule=None, floor=None):
     """One bucket per KIND of reason, not per sentence.
 
     `openings.py` parameterises one of them -- *"1 of 2 unit(s) had no clear run left on this
@@ -236,6 +247,15 @@ def _group(reason):
     partial key had matched nothing since, and every other set printed as its whole sentence.
     A partial and a whole refusal beside the same things are one bucket: the count in front is
     units, whichever way they were refused."""
+    # THE TWO RULED REFUSALS (WP-16.6) ARE GROUPED BY THE RECORD'S `rule`, NEVER BY THEIR WORDS
+    # (plan schema 0.13.0): R5's floor between two windows, whole or partial, is one bucket, with
+    # the floor the record states it used; R6's axis of the opening below is another, whatever
+    # stood on the axis.
+    if rule == "pier":
+        return (f"too near the next window for a wall of {floor:g} \u00d7 the wider"
+                if floor is not None else "too near the next window for the pier floor")
+    if rule == "alignment":
+        return "unable to stand on the axis of the opening below"
     r = (reason or "unstated").strip()
     m = re.match(r"^\d+ of \d+ unit\(s\) (had .*)$", r)
     if m:
@@ -385,11 +405,23 @@ def fires_not_drawn(plan):
     states no hearth or its massing cannot be read (`th-which-side-of-the-end-wall` and its
     siblings, on 15 of 16 shipped plans); that entry carries neither a `room` nor a `flue`, and
     a line saying FIRES NOT DRAWN over a house that states no fire would be a refusal about
-    nothing -- the fake-unjudged shape WP-12.6 met on dormers. Those take no line here."""
+    nothing -- the fake-unjudged shape WP-12.6 met on dormers. Those take no line here.
+
+    BUT ON A PLAN THAT STATES ITS FIRES, A STACK REFUSED WHOLESALE IS SAID (WP-16.8, the audit of
+    Phase 16, auditor C). The same wholesale entry carries the refusals Phase 16 made -- an
+    exterior stack the style's kit forbids (WP-16.4, R3), and the end stacks a hipped roof gives
+    nothing to rise through (B14; Lucas's answer R-4: "The stacks are refused and the reason
+    printed") -- and on a plan whose fires the placement judged (`placed_from` is
+    `stated-hearths`) the plan drew the fireplaces and no stack, and said nothing, while the
+    elevation, the DXF, the roof plan and the scene said why. Here it is the placement's own
+    reason, printed whole; on a plan that states no fire it still takes no line."""
     h = plan.get("hearths") or {}
     breasts = [u for u in (h.get("unplaced") or []) if u.get("room")]
     flues = [u for u in (h.get("unplaced") or []) if u.get("flue")]
-    if not breasts and not flues:
+    whole = ([u for u in (h.get("unplaced") or [])
+              if u.get("what") == "the stacks" and not u.get("room") and not u.get("flue")]
+             if h.get("placed_from") == "stated-hearths" else [])
+    if not breasts and not flues and not whole:
         return None
     stated = [b for b in (h.get("breasts") or []) if b.get("judged")]
     total = len(stated) if stated else len(breasts)
@@ -402,8 +434,10 @@ def fires_not_drawn(plan):
         parts.append("; ".join(
             f"STACK {f['flue'].upper()} NOT PLACED ({len(f.get('serves') or [])} FIRE(S), "
             f"NONE ON A BOUNDARY WALL)" for f in flues))
+    for u in whole:
+        parts.append("STACKS NOT DRAWN — " + " ".join(str(u.get("reason") or "").split()).upper())
     return {"id": "fires", "tone": IRON,
-            "detail": {"breasts": breasts, "flues": flues, "stated": total},
+            "detail": {"breasts": breasts, "flues": flues, "stacks": whole, "stated": total},
             "text": " — ".join(parts)}
 
 
@@ -543,6 +577,59 @@ def stack_plan_judgment(plan):
             "text": f'{_plural(len(stacks), "stack").upper()} DRAWN {sk["stack_plan_in"]}″ '
                     f'SQUARE — A JUDGMENT, NOT A MEASUREMENT'
                     + (f': {basis.upper()}' + (" …" if elided else "") if basis else '')}
+
+
+def roof_form_judgment(roof):
+    """A roof drawn from a kit record its writer flags `judgment: true` says so (T3, taken as
+    recommended under Lucas's standing instruction of 1 Oct 2026, on WP-12.9's precedent for the
+    stack's plan size). Only where the KIT decided the drawn form: a declared form is the record's
+    own, and a fallback already says it is one. Read off the roof record's `form_reading`, which
+    carries `threshold.kit_roof`'s reading, and never re-derived."""
+    fr = (roof or {}).get("form_reading") or {}
+    kr = fr.get("kit") or {}
+    if fr.get("by") != "kit" or not kr.get("judgment"):
+        return None
+    ids = ", ".join(kr.get("canonical") or []) or "?"
+    return (f"ROOF FORM IS A JUDGMENT — {str(kr.get('judgment_by') or '?').upper()}'S KIT MAKES "
+            f"{ids.upper()} CANONICAL AND MARKS THE CALL A JUDGMENT")
+
+
+def roof_stops_at_the_gable_wall(gable_faces):
+    """WHERE A ROOF WITH GABLE ENDS IS DRAWN TO THE WALL, THE PLAN SAYS SO (WP-16.9, B3 and B5).
+
+    The elevation's gable faces draw the rake the style's kit states, as far beyond the wall as
+    its figures put it (6 in on Tidewater). The roof plan draws the roof record, and that record
+    stops at the gable wall: it dimensions no rake. So the two surfaces disagree about where the
+    roof ends at a gable, and a reader of the roof plan alone was told nothing (V19's class: one
+    roof, two extents, said on one of them).
+
+    It states what the plan DRAWS, and never that a rake exists: a kit may keep the edge flush, or
+    forbid the member, and a sentence refusing a rake that is not there would be a refusal about
+    nothing. `gable_faces` is `elevation.gable_faces`' answer, the one reader of which faces are
+    gable ends: None (a form the generator does not model, or a roof it refuses to draw) and () (a
+    hip, a gable-on-hip) take no line."""
+    if not gable_faces:
+        return None
+    return ("AT EACH GABLE END THE ROOF IS DRAWN TO THE WALL — THE ROOF RECORD STATES NO RAKE PAST "
+            "IT, SO NONE IS DRAWN ON THIS PLAN")
+
+
+def stacks_the_roof_refuses(roof):
+    """The stacks a style calls for and the roof places none of, said (WP-16.9).
+
+    `roof.chimney_positions` answers `applicable: True` where the style's kit or the massing
+    places chimneys, and leaves `positions` empty with a note where it cannot stand one: a hipped
+    roof has no full gable-end wall to run one through, and a roof with no judged ridge has no
+    height to measure one against. NO SURFACE PRINTED THAT NOTE. The spec Colonial's kit calls for
+    gable-end chimneys and its sheets drew none, in silence; and B1 (Lucas, 30 Sep 2026) hips every
+    house whose style makes the hip canonical -- the composer's Georgian candidates among them,
+    whose own kit calls the hipped roof "with tall paired end chimneys" the type specimen -- so
+    the same silence reached every such house. It is read and not re-derived: the roof record's
+    own note, printed. None where the style calls for no chimney, or where one is placed."""
+    ch = (roof or {}).get("chimneys") or {}
+    if not ch.get("applicable") or ch.get("positions") or not ch.get("note"):
+        return None
+    return "STACKS NOT DRAWN — " + " ".join(str(ch["note"]).split()).upper()
 
 
 def style_disagreement(plan, styles=None, partis=None):

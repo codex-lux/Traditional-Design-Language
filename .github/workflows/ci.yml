@@ -94,7 +94,14 @@ jobs:
         # was rewritten and mutation-proved on 26 Aug — had never once run in CI. The
         # workbench job below does install ortools, but runs only the server suite.
         # Costs an install and about two minutes of solver tests. Ruled worth it.
-        run: pip install jsonschema pytest ortools
+        #
+        # ezdxf, ruled by Lucas on 29 Sep 2026 (Phase 16, WP-16.0). Without it, every DXF
+        # check read COULD NOT EVALUATE in all six shards: census X1-X4 and the DXF half of
+        # each sheet test, about thirty tests. They were judged only in local whole builds.
+        # Pinned to 1.4.4, the version docs/fidelity.md was generated with, so the doc's X
+        # rows are held to the ezdxf that wrote them. ifcopenshell stays out: its selftest is
+        # still unjudged here, and says so below.
+        run: pip install jsonschema pytest ortools ezdxf==1.4.4
       - name: check_all.py --shard ${{ matrix.shard }}/6
         # Reports the workbench server suite as N/EV here — fastapi is deliberately not
         # installed in this job, and the workbench job below runs it properly. Only ONE
@@ -117,8 +124,17 @@ jobs:
         # shard depends on the cost table, so "at most three" would have to be re-derived
         # per shard from a hint.
         #
-        # The two CAD libraries stay out on purpose: their selftests are exercised in the
-        # workbench job, which installs them. Run once, not twice — the suite is minutes.
+        # This comment used to say the two CAD selftests are exercised in the workbench job,
+        # which installs the libraries. That job installs them and runs only the server suite,
+        # the smoke and the walk, so neither selftest ran in any job (corrected 29 Sep 2026).
+        # What is true now:
+        #   - ezdxf is installed here (above). export_dxf.py selftest still reports COULD NOT
+        #     EVALUATE, because both shipped plans are refused a drawing (WP-13.4). It stays
+        #     allowed for THAT reason only: an N/EV that says ezdxf is not installed means the
+        #     install failed, and it fails the job, so a broken install cannot hide behind an
+        #     allowed name.
+        #   - ifcopenshell is not installed anywhere in CI, so export_ifc.py selftest is
+        #     unjudged here. It is judged in local whole builds.
         run: |
           set -o pipefail
           python3 build/check_all.py --shard ${{ matrix.shard }}/6 2>&1 | tee /tmp/ca.log
@@ -126,6 +142,10 @@ jobs:
           if grep '^  N/EV' /tmp/ca.log | grep -Ev "$allowed"; then
             echo "::error::a check reported COULD NOT EVALUATE that this job expects to judge."
             echo "Allowed unjudged here: $allowed"
+            exit 1
+          fi
+          if grep -q 'the ezdxf package is not installed' /tmp/ca.log; then
+            echo "::error::ezdxf is installed for this job and a check could not import it."
             exit 1
           fi
           echo "Every check outside the allowlist was judged."

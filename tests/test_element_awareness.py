@@ -22,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 
 import modcache  # noqa: E402
-from conftest import untagged_reference_plan  # noqa: E402
+from conftest import deterministic_solver, untagged_reference_plan  # noqa: E402
 
 GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
 OP = modcache.load("openings", os.path.join(ROOT, "build", "openings.py"))
@@ -657,9 +657,79 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 #       record the back hall is the hyphen and is not a candidate (`spine` reads
                 #       the main block only), and that record's findings are unmoved.
                 # Old digest: cf857d78072bf00c.
-                ("tidewater-georgian-careful", "efd26d7240106183", 203,
+                # RE-DERIVED AT WP-16.1 (29 Sep 2026), BOTH PLANS, AND EVERY ROW IS R12 OR ITS
+                # ONE READER. Diffed row by row against a worktree of `a4abb85` through this
+                # test's own fixture path. Tidewater 203 -> 200, **3 out and none in**; the spec
+                # Colonial 239 -> 236, **4 out and 1 in**:
+                #   -  `fault-present` The Bay That Broke the Symmetry (5 / 2 against at-most 0),
+                #      The Closet That Blinds A Bay (7 / 2 against equals 0.0) and Windows That
+                #      Do Not Stand On Each Other (32.316 / 178.8 against at-most 2.0), on both.
+                #      Each front declares window units the placement did not draw, and R12
+                #      (ruled 29 Sep 2026) makes an incomplete front unjudged for symmetry and
+                #      alignment everywhere: the elevation withholds the figures and R4 makes the
+                #      three faults could-not-evaluate. None was cleared.
+                #   -/+ `drawn-facade-symmetry-unjudged` on the spec Colonial alone, 2 -> 3
+                #      undrawn units: the drawn layer now reads the WHOLE front through
+                #      `axis.front_complete` (every storey), where it read the ground storey
+                #      alone and missed the one undrawn upper unit. The Tidewater fixture's upper
+                #      front has none undrawn, so its sentence is unmoved.
+                # Both watched layers UNMOVED at 13/18 and 11/17. Old digests: efd26d7240106183
+                # / 554b84e823b1c057.
+                # RE-DERIVED AFTER WP-16.3 (30 Sep 2026), BOTH PLANS, ONE ROW EACH, AND BOTH
+                # ROWS ARE ONE SENTENCE. `drawn-door-off-the-centre-bay` now says which end its
+                # bay count starts from: "bay 1 of 7 counting from the west end" on the Tidewater
+                # kitchen, "bay 5 of 5 counting from the west end" on the spec Colonial porch.
+                # Since R2 the north and west elevations are drawn as seen from outside, and a
+                # bare "bay 5 of 5" names a different bay on the plate than on the plan
+                # (`plan_check.py`, WP-16.3). Re-derived through this test's own fixture path on
+                # copies of `2ff37e0`, which reproduces both old digests to the character, and
+                # `2ab9651`. On each plan 1 row out and 1 in: the same room, the same kind, the
+                # sentence alone. Counts and both watched layers UNMOVED. WP-16.3's targeted
+                # suite did not include this file; CI run 143 found it. The spec Colonial's pin
+                # sat behind the failing Tidewater assertion there, and was reached for the first
+                # time here. Old digests: 548b466adeee1469 / 5a443279b0b94b4e.
+                # RE-DERIVED AT WP-16.5 (30 Sep 2026), BOTH PLANS, ONE ROW EACH, AND IT IS ONE
+                # FAULT. Diffed row by row through this test's own fixture path against a worktree
+                # of `9dd0fbf`, which reproduces both old digests to the character: on each plan 1
+                # row out and none in, `fault-present` The Cardboard Gable (flush-rake), "10.525
+                # against between 4 and 8" on the Tidewater fixture and "8.612 ..." on the spec
+                # Colonial. Both figures were the CORNICE's projection, the envelope's, published as
+                # `rake_overhang_in` on a roof record that models no rake overhang; withheld now,
+                # so the fault could-not-evaluate. Both watched layers UNMOVED at 13/18 and 11/17.
+                # Old digests: dec1b5a8a4ccd7aa / 5691ad729cb51433.
+                # RE-DERIVED AT WP-16.6 (1 Oct 2026), THE TIDEWATER FIXTURE ALONE, AND EVERY ROW IS
+                # ONE REFUSAL. Diffed row by row through this test's own fixture path against a
+                # worktree of `bb3c6de`, which reproduces both old digests to the character. The
+                # spec Colonial is UNMOVED (676a56c7cc1e8cb7, 235 rows), though three of its window
+                # units are refused by the pier floor now; the Tidewater fixture goes 199 -> 201,
+                # 1 out and 3 in. R6 (ruled 29 Sep 2026) refuses the third chamber's second upper
+                # sash, whose axis below -- the drawing room's window at 51.401 ft -- is 0.111 ft
+                # inside the chamber's own west wall:
+                #   -/+ `drawn-facade-symmetry-unjudged`: 4 declared units undrawn -> 5;
+                #   +   `fault-present` The Front With No Centre (even-bay-front, FATAL), "0 against
+                #       equals 1": four upper openings drawn on this fixture where there were five.
+                #       On the SHIPPED, tagged record the same package takes the drawn count the
+                #       other way, 4 -> 3, and clears it (`tests/test_elevation.py`): a parity of
+                #       what is drawn on an incomplete front, both ways, which is
+                #       `oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front`;
+                #   +   `fault-present` The Blank Wall On The Public Side (serious), 0.1375 against
+                #       at-least 0.15: one sash less glass on the front.
+                # Both watched layers UNMOVED at 13/18 and 11/17. Old digest: aadf4ca8c4390d56.
+                ("tidewater-georgian-careful", "c6bca85abf6c88ab", 201,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "554b84e823b1c057", 239,
+                # RE-DERIVED 3 OCT 2026 (the audit of WP-16.8's own diff), THE SPEC COLONIAL
+                # ALONE, AND BOTH ROWS ARE U16. Diffed row by row through this test's own fixture
+                # path against a worktree of `6873f91`, which reproduces both old digests to the
+                # character. The Tidewater fixture is UNMOVED (c6bca85abf6c88ab, 201 rows): it is
+                # dated 1765. The spec Colonial goes 235 -> 233, 2 out and none in, both
+                # `fault-present` and both read off the lights: The Uniform Grid
+                # (equal-lite-grid-where-the-period-graduated) and A Light Count The Glasshouse
+                # Could Not Have Supplied (lite-count-wrong-for-the-date), each "0.7871 against" its
+                # band. The record states no date, so its lights are the 1700-1760 default's and
+                # U16 withholds them (taken as recommended under Lucas's standing instruction of
+                # 1 Oct 2026, never put): both faults could-not-evaluate. Both watched layers
+                # UNMOVED at 13/18 and 11/17. Old digest: 676a56c7cc1e8cb7.
+                ("spec-builder-colonial", "9865f87b726e7187", 233,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
@@ -1834,10 +1904,7 @@ class TestCPSATPlacesPerElement:
         # first pass is legitimately INFEASIBLE here -- it downgrades wall pins and retries --
         # so asserting on it would be asserting on the declared walls, not on this change.
         m.ClearAssumptions()
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 30.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), s.StatusName(st)
         # and every wing room is drawn INSIDE its wing, which is what the refusal was about:
@@ -2043,10 +2110,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
         assert east and east[0][0] > main[2], (east, main, "the wing is not east of the block")
         m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
         m.ClearAssumptions()
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 30.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
             s.StatusName(st), "an east wing stands beyond the main block's width, so a "
@@ -2088,10 +2152,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
         assert wing[1] < main[1] and wing[3] > main[3], (wing, main)
         m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
         m.ClearAssumptions()
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 30.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
             s.StatusName(st), "a wing deeper than the main block cannot be placed — the depth "
@@ -2126,10 +2187,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
                 if k.startswith("wall") and t.startswith("Kitchen (Dependency)")]
         assert len(lits) == 1, [t for _l, t, k, _k in reqs.lits if k.startswith("wall")]
         m.AddAssumptions(lits)
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 25.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
             s.StatusName(st), "the kitchen cannot reach any of its own declared walls — the "
@@ -2172,10 +2230,10 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
         levels, prep, fpd = _prepped(p)
         m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=True)
         m.ClearAssumptions()
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 30.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        # DETERMINISTIC SINCE 4 OCT 2026 (WP-16.8 §X.12). The 30 s wall budget reached 5.47 units of
+        # deterministic time here and FEASIBLE; 6.0 units keeps that outcome on every machine, where
+        # the clock gave UNKNOWN under load. The figures in the docstring are the wall-clock era's.
+        s = deterministic_solver(6.0)
         st = s.Solve(m)
         # THE PROPERTY, and it is load-independent: M11's defect made the objective model
         # UNSATISFIABLE on a wing, and no budget makes an infeasible model feasible.
@@ -2184,7 +2242,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
             "back: some soft term is measuring a wing's edge from the main block's origin")
         if st == cp_model.UNKNOWN:
             pytest.skip("COULD NOT EVALUATE — the objective model on this wing did not decide "
-                        "in 30 s on one worker. It is satisfiable (60 s on one worker, or 30 s "
+                        "in 6.0 units of deterministic time on one worker. It is satisfiable (60 s on one worker, or 30 s "
                         "on four, both FEASIBLE here); the assertion above is the one this test "
                         "is about and it held.")
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), s.StatusName(st)
@@ -2211,10 +2269,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
                 or (k == "door" and "door to the exterior" in t)]
         assert lits, [t for _l, t, k, _k in reqs.lits if k == "door"]
         m.AddAssumptions(lits)
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 25.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
             s.StatusName(st), "a wing room's door to the outside cannot be satisfied — the rule "

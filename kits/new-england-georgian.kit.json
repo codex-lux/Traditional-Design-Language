@@ -11,17 +11,65 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "extends",
+      "binding": "specified",
       "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "This node's own kit ranks the roof forms in its roof_pitch slot: side-gable canonical, hip permitted, gambrel permitted. defining_characteristics[2] lists it first: 'Steep Northern roof pitch, 9:12 to 11:12, side-gable, gambrel or hipped, with a boxed modillion or dentil cornice'."
+        },
+        {
+          "id": "hip",
+          "status": "permitted",
+          "note": "Demoted from canonical. This node's own roof_pitch slot ranks it permitted, and distinguished_from[0], the five discriminators against the Chesapeake, gives this variant the gable and the Chesapeake the hip: 'roof pitch (9:12–11:12 versus 7:12–9:12, and gable versus hip)'. defining_characteristics[2] still names it, and its exemplars cut the other way: exemplars[2], the Jeremiah Lee Mansion (`standing: canonical`), is 'hipped roof' on its survey form, and exemplars[5].why sets the Newport gambrel against 'the hip the Boston houses carry'. The demotion follows the node's own kit ranking and its discriminator, as a judgment."
+        },
         {
           "id": "gambrel",
           "status": "permitted",
-          "op": "replace",
-          "note": "Demoted from the parent's atypical-outside-New-England default: own massing_affinities rates the gambrel-block 'common' in Rhode Island and coastal Massachusetts."
+          "note": "Carried from this node's own extends delta: 'Demoted from the parent's atypical-outside-New-England default: own massing_affinities rates the gambrel-block 'common' in Rhode Island and coastal Massachusetts.' massing_affinities[2]: 'Gambrel-roofed Georgian houses are frequent in Rhode Island and coastal Massachusetts.'"
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "permitted",
+          "note": "Kept as georgian-colonial-american had it (permitted): this record is silent on it."
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Breaks the single unaccented cornice line the whole composition depends on. Victorian.' This record is silent on it."
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Turns the gable into the principal elevation, which inverts the style's parti.'"
+        },
+        {
+          "id": "catslide-saltbox",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'First Period. An asymmetrical section under a symmetrical front is a contradiction.' This record is silent on it."
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Second Empire, and 120 years late.' This record is silent on it."
+        },
+        {
+          "id": "shed",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'No period existence on a main block.' This record is silent on it."
+        },
+        {
+          "id": "picturesque-roof-intersection",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Two roofs of unequal ridge height meeting on the main block. This is the roof-scale form of the asymmetrical parti now forbidden at composition_parti.' This record is silent on it."
         }
       ],
       "parameters": {},
-      "status": "drafted"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "Side-gable by default, the gambrel and the hip permitted (defining_characteristics[2]), at 9:12 to 11:12 (c02); one simple solid about one ridge, of equal pitch on all slopes.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: new-england-georgian binds its own roof_form, folding in its own extends delta. That delta demoted the gambrel and merged onto GEORGIAN-COLONIAL-AMERICAN's record, in which `side-gable` and `hip` are both canonical, neither with a note. This node's own kit had already ranked the forms, in the wrong slot: its roof_pitch record lists side-gable canonical, hip permitted and gambrel permitted, a statement no reader of roof_form sees. distinguished_from[0] agrees ('and gable versus hip'). Its own exemplars do not: exemplars[2], the Jeremiah Lee Mansion, is hipped ('hipped roof'), and exemplars[5].why speaks of 'the hip the Boston houses carry'; the hip's demotion is a judgment on the kit's ranking and the discriminator, and its row says so. This record moves no drawing, since side-gable is canonical before and after. The roof-form rows in roof_pitch are left where they are; moving them is not this ruling's work. Under a specified binding (T5, taken as recommended under Lucas's standing instruction of 1 Oct 2026 and never put to him) georgian-colonial-american's slot rule and its three parameters stop at this record: hip_ridge_length_ratio (editorial, 0.25 to 0.5), and gambrel_lower_pitch and gambrel_upper_pitch (measured, 20:12 and 9:12, for New England and the Hudson Valley). They are not copied: each copied measured figure would be a new unsourced measured parameter in this kit, which check_kits.py refuses by identity (build/measured_unsourced_grandfathered.json names them for georgian-colonial-american alone). An extends delta over the writer's record would keep them. This node permits the gambrel and is a New England style, so the two gambrel pitches are the ones that would apply here. No reader in build/ reads either figure, and this node binds dutch-gambrel itself, whose binding note says 'the pack is the only thing in the library that can dimension the break'."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

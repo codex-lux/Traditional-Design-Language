@@ -407,18 +407,19 @@ export function namedViews(scene) {
    This comment used to say the elevation never consults the face, so nothing said which model
    end `u = 0` was, and took it to be the face's left edge AS THE CAMERA SEES IT -- harmless
    while every face was symmetric. WP-13.3 made both untrue: the elevation draws the plan's
-   PLACED openings, so a face is as asymmetric as its plan, and `elevation.datum.mirrored` states
-   that no face is mirrored -- `u` runs with the plan's own axis, west to east on S and N and
-   south to north on E and W. From the north and the west that axis runs RIGHT TO LEFT, so the
-   assumption laid the N and W plates over the model reversed, every opening at the wrong end,
-   with the camera-left test beside it certifying the assumption. The server sends the plate's
-   own `mirrored` (corpus.drawing), and `mirrored` here is that value:
+   PLACED openings, so a face is as asymmetric as its plan, and from WP-13.3 until WP-16.3
+   `elevation.datum.mirrored` stated that no face was mirrored -- `u` ran with the plan's own
+   axis on all four, which from the north and the west runs RIGHT TO LEFT, so the assumption laid
+   those plates over the model reversed. The server sends the plate's own `mirrored`
+   (corpus.drawing), and `mirrored` here is that value:
      false  u runs with the plan's axis, from the envelope's low face;
      true   u runs against it, from the high face;
      null   the record states nothing, and a face plate is REFUSED rather than assumed.
-   Whether an N or W plate reads the way the camera does is then the affine's question, which
-   `plateRegistration` asks. oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from
-   is what is left: whether the N and W faces should be DRAWN as seen, which is a ruling. */
+   Whether a plate reads the way the camera does is then the affine's question, which
+   `plateRegistration` asks. SINCE WP-16.3 EVERY FACE IS DRAWN AS SEEN FROM OUTSIDE (R2, ruled
+   29 Sep 2026; oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from is closed):
+   `mirrored` is false on S and E and true on N and W, so all four plates read with the camera
+   and all four are laid. The refusal stays for a record that says otherwise. */
 export function modelAt(view, scene, u, v, mirrored) {
   if (isPlanView(view) || view === 'roof') {
     // A plan's plate axes ARE the model's east and north. Nothing is assumed here.

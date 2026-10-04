@@ -442,8 +442,11 @@ class TestTheInstrumentOnTheRealFile:
         "vent_terminal_height_above_roof_surface_in", "visible_hardware_items_per_window",
         "visible_surface_hinges_per_leaf", "width_of_the_largest_asymmetric_element_in", "window_reveal_depth_in",
     }
+    # `belt_course_projection_in` LEFT, modelled (the audit of WP-16.8's own diff, 3 Oct 2026, auditor
+    # A's F4): it was `or 1.0` over a belt stating no projection, and it is published only as stated
+    # now. It stays in FROZEN, which a name may only leave.
     AUDIT_NAMED = {"sash_stile_width_in", "sash_meeting_rail_height_in", "transom_head_rise_in",
-                   "distinct_mouldings_within_4ft_of_the_entrance", "belt_course_projection_in",
+                   "distinct_mouldings_within_4ft_of_the_entrance",
                    "max_distinct_mouldings_elsewhere_on_the_elevation"}
 
     def test_each_shape_is_detected_on_a_fixture_string(self):
@@ -458,6 +461,7 @@ def _derive_measurements(elev):
     m["fallback"] = elev.get("y") or 3
     m["floor"] = max(1, elev["z"])
     m["nested"] = 4 * elev["w"] * elev["k"]
+    m["cond_ratio"] = None if elev.get("r") else elev["s"] * 0.3
     m["real"] = elev["q"]
     return m
 '''
@@ -469,6 +473,8 @@ def _derive_measurements(elev):
         assert lits["floor"]["value"] == 1 and lits["floor"]["shape"] == "Call"
         assert "real" not in lits
         assert CS.literal_ratios(src)["nested"]["factor"] == 4, "a literal one level down a BinOp"
+        # WP-16.4: a ratio inside a withholding condition is still a ratio wherever it is drawn
+        assert CS.literal_ratios(src)["cond_ratio"]["factor"] == 0.3, "a ratio in a conditional's branch"
 
     def test_the_real_file_names_are_a_subset_of_the_frozen_list_and_the_audits_six_are_still_literals(self):
         lits = CS.source_literals()
@@ -480,7 +486,7 @@ def _derive_measurements(elev):
         assert lits["sash_stile_width_in"]["value"] == 2.0 and lits["sash_meeting_rail_height_in"]["value"] == 1.25
         assert lits["transom_head_rise_in"]["value"] == 0.0
         assert lits["distinct_mouldings_within_4ft_of_the_entrance"]["value"] == 3
-        assert lits["belt_course_projection_in"]["value"] == 1.0
+        assert "belt_course_projection_in" not in lits, "modelled at the audit of WP-16.8's own diff"
         assert lits["max_distinct_mouldings_elsewhere_on_the_elevation"]["value"] == 1
 
     def test_a_literal_one_level_down_a_binop_and_a_half_are_ratios(self):

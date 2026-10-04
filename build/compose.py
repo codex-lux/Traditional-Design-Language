@@ -290,6 +290,33 @@ def _axis_canon(res, plan):
             "denominator": "declared slots, groupings, evaluated constraints and the massing"}
 
 
+def unjudged_fatals(res):
+    """The FATAL faults the corpus could not judge on this candidate, by id and name.
+
+    R13, ruled 29 Sep 2026 (`oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge`):
+    rank by judged fatals first, then by unjudged fatals. An unjudged fatal never counts as a
+    fatal -- `counts.fatal`, `disqualified` and `score` do not read this -- and never as a pass
+    either, which is what it was until now: a fault that could not be judged was not a finding,
+    so it cost a candidate nothing, and a house that moved a fatal fault from present to unjudged
+    rose in the set exactly as a house that cleared it did.
+
+    Read off `fault_unjudged`, whose rows carry the fault's severity for this style
+    (`core.check_measurements`, WP-16.1). A row carrying none is not counted as fatal: this is a
+    tie-break, and a guess in either direction would decide ties the corpus did not."""
+    return [{"fault": r.get("fault"), "name": r.get("name")}
+            for r in sorted(res.get("fault_unjudged") or [], key=lambda r: r.get("fault") or "")
+            if r.get("severity") == "fatal"]
+
+
+def rank_key(c):
+    """The composer's ranking key, at module level so it can be driven without a compose: judged
+    fatals, then UNJUDGED fatals (R13), then the score, then the demerits and the parti id. The
+    argument for each key is in `compose()`, where the set is sorted."""
+    return (c["counts"].get("fatal", 0), len(c.get("unjudged_fatal") or []),
+            -(c["score"] if c["score"] is not None else -1e9),
+            c["demerits"], c.get("parti") or "")
+
+
 def score_candidate(res, plan, brief, fit, fp, miss, tol):
     """The composite, itemised. Returns the score out of 100, every axis with its own share
     and denominator, the weight that could not be evaluated at all, and whether a fatal
@@ -1229,6 +1256,10 @@ def derive_openings(plan, style, log, rooms=None, doors=True, windows=True, pair
     _, wrule = _pack_rule("opening-proportion", "window_width_from_room")
     _, prule = _pack_rule("opening-proportion", "opening_height_over_width")
     PE = _mod("proportion_engine", f"{ROOT}/build/proportion_engine.py")
+    # the floor between two windows, read once (WP-16.6): see the window cap below
+    _pier_floor, _pier_floor_src = _mod("window_pier", f"{ROOT}/build/window_pier.py").floor()
+    if _pier_floor is None:
+        log.append(f"the window count is bounded by the wall alone: {_pier_floor_src}")
     for lv in plan["levels"]:
         ch = lv.get("floor_to_ceiling_ft") or 9.0
         for r in lv["rooms"]:
@@ -1275,9 +1306,16 @@ def derive_openings(plan, style, log, rooms=None, doors=True, windows=True, pair
                     derived += 1
                 else:
                     n = win.get("count") or 1
-                # minimum_solid_between_openings (sash-light: opening_width * 1.4) bounds
-                # how many units a wall can actually carry, whatever the daylight asks for
-                cap_n = max(1, int((run + unit_w * 1.4) // (unit_w * 2.4)))
+                # THE FLOOR BETWEEN TWO WINDOWS BOUNDS HOW MANY UNITS A WALL CAN CARRY (WP-16.6),
+                # whatever the daylight asks for, read where the placer reads it (`window_pier`).
+                # This read sash-light's `opening_width * 1.4` as a transcribed literal -- the AIM
+                # the placer takes where the wall allows, not the floor below which it refuses a
+                # window (R5) -- so it bounded the count by a pier the placer does not require. It
+                # reads the floor for every style, the five the floor spares included: R5b lets the
+                # placer keep its foot for a licensed style's band, and the composer composes no
+                # band. A floor nobody states bounds the count by the wall alone, and the log says so.
+                cap_n = (max(1, int((run + unit_w * _pier_floor) // (unit_w * (1.0 + _pier_floor))))
+                         if _pier_floor is not None else max(1, int(run // unit_w)))
                 if n > cap_n:
                     n = cap_n
                     capped += 1
@@ -1334,7 +1372,8 @@ def derive_openings(plan, style, log, rooms=None, doors=True, windows=True, pair
     if derived:
         log.append(f"Window counts on {derived} wall(s) derived from each room's own "
                    f"daylight.glazing_fraction band against that wall's area, and bounded by "
-                   f"sash-light's minimum_solid_between_openings"
+                   + (f"the wall between two windows, at least {_pier_floor:g} x the wider "
+                      f"({_pier_floor_src})" if _pier_floor is not None else "the wall's length alone")
                    + (f" ({capped} wall(s) bounded by the solid rather than by daylight)" if capped else "")
                    + ". Before WP-6.2 every window in every composed plan was 3.2 ft wide, "
                      "two to a wall, in every room and every style.")
@@ -1709,8 +1748,41 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     for pick in picks:
         plan, log, parti = instantiate(pick["parti"], brief)
         res, rlog = repair(plan)
-        res, clog = reclaim(plan, brief["target_area_sf"], brief.get("area_tolerance", 0.12), res)
-        rlog += clog
+        # THE AREA DISCIPLINE IS HELD TO THE LOOP'S RULE HERE TOO (WP-16.1). `repair` is the
+        # declared revision loop, and every round of it is accepted only on a strict improvement;
+        # the reclaim after it shortened rooms "that were not complaining" and kept the result
+        # whatever it was. A shorter room makes a shallower pile, and a shallower pile a
+        # shallower roof: measured at `a4abb85` the reclaim raised fatals on 4 of the 13
+        # candidates the Georgian brief composes, and after R4 and R12 the native diagram's ONE
+        # judged fatal ("The Truss Default: 0.4066 against at-least 0.45") was the reclaim's.
+        # The placed loop has rolled such a reclaim back since WP-9.2 (`revise.py`, "the area
+        # discipline does not outrank the rule the rounds were held to"); the declared path had
+        # no rule. One spelling, `revise.raises_fatal_or_serious`, and the rollback is SAID --
+        # on the card as `reclaimed` and in the decision log -- because a candidate left over
+        # its area is a trade a reader must see.
+        kept_plan = copy.deepcopy(plan)
+        res_after, clog = reclaim(plan, brief["target_area_sf"], brief.get("area_tolerance", 0.12), res)
+        reclaimed = None
+        if clog:
+            _RV = _mod("revise", f"{ROOT}/build/revise.py")
+            _CR = _mod("critique", f"{ROOT}/build/critique.py")
+            before = {"check": res, "key": _CR.key_of(res)}
+            after = {"check": res_after, "key": _CR.key_of(res_after)}
+            reclaimed = {"log": clog, "key_before": before["key"], "key_after": after["key"],
+                         "rolled_back": False}
+            if _RV.raises_fatal_or_serious(after, before):
+                plan.clear()
+                plan.update(kept_plan)
+                reclaimed.update(rolled_back=True, why=(
+                    f"reclaim raised fatal or serious ({before['key']} -> {after['key']}); the "
+                    f"area discipline does not outrank the rule every repair round was held to"))
+                rlog += [f"Kept the repaired sizes and gave back no area: shortening the rooms "
+                         f"that were not complaining raised fatal or serious "
+                         f"({before['key'][:2]} -> {after['key'][:2]}), and the area discipline "
+                         f"does not outrank the rule every repair round was held to."]
+            else:
+                res = res_after
+                rlog += clog
         area = sum(r.get("width_ft", 0) * r.get("length_ft", 0)
                    for lv in plan["levels"] for r in lv["rooms"]
                    if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
@@ -1754,7 +1826,10 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         out.append({
             "parti": pick["parti"], "parti_name": parti["name"],
             "demerits": demerits, "style_fit": pick["fit"], **card,
-            "counts": counts, "area_sf": round(area), "area_miss_pct": round(miss * 100, 1),
+            "counts": counts, "unjudged_fatal": unjudged_fatals(res),
+            # the area reclaim and whether it was kept (WP-16.1); None where it did not run
+            "reclaimed": reclaimed,
+            "area_sf": round(area), "area_miss_pct": round(miss * 100, 1),
             "footprint": fp,
             "trades_away": parti["trades_away"],
             "why_this_diagram": pick["why"],
@@ -1789,9 +1864,14 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # diagrams from the same fit tie group, which share a fidelity axis. A stable sort would
     # then fall back to insertion order, and the slice below would be deciding again.
     # Determinism here must not be borrowed from the previous stage.
-    _sort_key = lambda c: (c["counts"].get("fatal", 0),
-                           -(c["score"] if c["score"] is not None else -1e9),
-                           c["demerits"], c.get("parti") or "")
+    #
+    # THE SECOND KEY IS THE FATALS NOBODY COULD JUDGE (R13, ruled 29 Sep 2026). Judged fatals
+    # first, then unjudged fatals, then the score: an unjudged fatal never counts as a fatal
+    # (it is not in `counts.fatal` and does not disqualify) and never as a pass either -- it
+    # breaks a tie AGAINST the candidate. Until this key an unjudged fatal cost nothing, so a
+    # candidate whose fatal fault could not be judged ranked exactly as one that had cleared it,
+    # and WP-15.8's audit measured the native diagram re-entering a returned set that way.
+    _sort_key = rank_key
     out.sort(key=_sort_key)
     # THE PLACED REVISION LOOP (WP-9.2), on the RETURNED candidates only, after ranking. Ruled
     # on by default (1 Sep 2026): the product is the revised set. Each returned candidate is
@@ -1849,7 +1929,8 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                  if m.get("accepted") and m.get("log")]
         c.update({
             "score_before": c["score"], "counts_before": c["counts"], "rank_before": rank,
-            **card2, "counts": res2["counts"], "area_sf": round(area2),
+            **card2, "counts": res2["counts"], "unjudged_fatal_before": c.get("unjudged_fatal"),
+            "unjudged_fatal": unjudged_fatals(res2), "area_sf": round(area2),
             "area_miss_pct": round(miss2 * 100, 1), "footprint": fp2,
             "demerits": round(score(res2) + (60 if miss2 > tol else 0) - c["style_fit"] * NATIVITY_W, 1),
             "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
@@ -1956,6 +2037,7 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
               "An axis nothing could be evaluated on has its WEIGHT DROPPED and the total renormalised over the rest, never scored as a pass and never as a zero. score_weight_unevaluated says how much of the hundred that was, so a score computed over 94 points of evidence cannot be read as one computed over 100.",
               "A fatal finding DISQUALIFIES a candidate, and that is carried beside the score rather than inside it: `disqualified` is true and `disqualified_because` says so in words. A disqualified candidate never outranks a clean one whatever it scores -- that is enforced by the ordering, not by the number -- and its score is not a case for building it. It is still scored because whole sets come back disqualified on styles the fault corpus cannot clear, and four plans that all carry a fatal still differ.",
               "Candidates are RETURNED fatal-free first and then by score, so a plan carrying a fatal never displaces a clean one from the set even where its fidelity would outscore it. How the ones that came back are then ORDERED for reading is a separate choice -- by score, by nativity, or fatal-first -- and the reading order is named above them.",
+              "Between two candidates with the same number of fatal findings, the one with FEWER FATAL FAULTS THE CORPUS COULD NOT JUDGE is returned first, and only then does the score decide. unjudged_fatal names them. An unjudged fatal is not a fatal -- it does not disqualify and is not in counts -- and it is not a pass either: nobody could say whether the fault is there.",
               "demerits is the old lower-is-better total -- 100 a fatal, 8 a serious, 1 a minor, less 20 a point of fidelity. It is kept because it is a real quantity and because earlier reports quote it. It ranks nothing now.",
               "trades_away is the honest part. Every diagram gives something up, and the one that scores best is not always the one you want.",
               "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",

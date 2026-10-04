@@ -2,8 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.12.0",
-  "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.\n\n0.8.0 (WP-11.6) splits one field's two duties. `stacks_over` had read 'room id on the level below, for plumbing and structure' since it was written, and a shipped record used it for a room on its OWN level -- the plumbing meaning, which the structural readers cannot answer and all three of them dropped with a bare `continue` and no note. `stacks_over` is STRUCTURAL and cross-level now; `wet_stack_with` is SERVICING and takes any level including the claimant's own. A claim a reader cannot judge is reported as unjudged with its reason (`geometry_report.stacking`, `plan_check`'s `stack-unjudged`), never skipped, and `build/check_stacking.py` fails the build on a record that makes one.\n\n0.9.0 (WP-11.10) admits `appendages`, the terrace at grade. An at-grade appendage is NOT a massing element and takes no rectangle in the footprint: it is written by build/appendages.py after the solve, on `threshold`'s own precedent, drawn outside the block by both renderers, and read by no structural layer. Its room keeps `geometry` ABSENT, which is what keeps structure.wall_lines, plan_check's `rooms_unplaced` and geometry's block sizing blind to it BY CONSTRUCTION rather than by six more readers being taught. Every figure comes off the room record; anything the record does not state is an `unplaced` entry with a reason from a closed set, never a band midpoint.\n\n0.10.0 (the merge of the two Phase 11s, 8 Sep 2026) is a VERSION BUMP AND NOT A FIELD. Two branches numbered their own Phase 11 and both edited this schema: one reached 0.9.0 by way of `stacks_over`/`wet_stack_with` (0.8.0) and `appendages` (0.9.0), the other reached 0.7.0 by way of `block`/`hyphen` (0.5.0), `footprint.wall` (0.5.1) and `parti` (0.6.0). The merged schema carries EVERY one of those fields, so it is neither 0.9.0 nor 0.7.0 and saying so is the point: a record validating against this one is validating against both lineages. No property is removed and no existing plan is invalidated.\n\n0.11.0 (WP-13.6, 16 Sep 2026) admits `furniture_layout[].corner`, a field the placer had already been writing. WP-13.6's first commit taught build/furniture.py to seat a corner item in a corner and did not widen this object, which forbids what it does not name -- so thirteen of the sixteen placed plans stopped validating against the contract they were placed from, and no checker said so. What caught it is the same three tests that caught the 0.7.0 case: nothing else in the corpus validates a PLACED record.\n\n0.12.0 (WP-13.6, 16 Sep 2026) admits four more `furniture_layout` fields, and this time the placed record was validated BEFORE the commit rather than after it: `piece` and `of` (a counted catalogue item and a table's chairs are drawn as many times as the record states, and a refused piece keeps its numeral so the key can say `x3 OF 8`), `by` (the thing a positioned rule seated the item by, in the record's own words) and `back` (the compass side an item on no wall turns its back to, which is what orients its symbol). All sixteen plans are solved on the deterministic engine and validated against this file as the package's own gate; 16 of 16 valid.",
+  "version": "0.13.0",
+  "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.\n\n0.8.0 (WP-11.6) splits one field's two duties. `stacks_over` had read 'room id on the level below, for plumbing and structure' since it was written, and a shipped record used it for a room on its OWN level -- the plumbing meaning, which the structural readers cannot answer and all three of them dropped with a bare `continue` and no note. `stacks_over` is STRUCTURAL and cross-level now; `wet_stack_with` is SERVICING and takes any level including the claimant's own. A claim a reader cannot judge is reported as unjudged with its reason (`geometry_report.stacking`, `plan_check`'s `stack-unjudged`), never skipped, and `build/check_stacking.py` fails the build on a record that makes one.\n\n0.9.0 (WP-11.10) admits `appendages`, the terrace at grade. An at-grade appendage is NOT a massing element and takes no rectangle in the footprint: it is written by build/appendages.py after the solve, on `threshold`'s own precedent, drawn outside the block by both renderers, and read by no structural layer. Its room keeps `geometry` ABSENT, which is what keeps structure.wall_lines, plan_check's `rooms_unplaced` and geometry's block sizing blind to it BY CONSTRUCTION rather than by six more readers being taught. Every figure comes off the room record; anything the record does not state is an `unplaced` entry with a reason from a closed set, never a band midpoint.\n\n0.10.0 (the merge of the two Phase 11s, 8 Sep 2026) is a VERSION BUMP AND NOT A FIELD. Two branches numbered their own Phase 11 and both edited this schema: one reached 0.9.0 by way of `stacks_over`/`wet_stack_with` (0.8.0) and `appendages` (0.9.0), the other reached 0.7.0 by way of `block`/`hyphen` (0.5.0), `footprint.wall` (0.5.1) and `parti` (0.6.0). The merged schema carries EVERY one of those fields, so it is neither 0.9.0 nor 0.7.0 and saying so is the point: a record validating against this one is validating against both lineages. No property is removed and no existing plan is invalidated.\n\n0.11.0 (WP-13.6, 16 Sep 2026) admits `furniture_layout[].corner`, a field the placer had already been writing. WP-13.6's first commit taught build/furniture.py to seat a corner item in a corner and did not widen this object, which forbids what it does not name -- so thirteen of the sixteen placed plans stopped validating against the contract they were placed from, and no checker said so. What caught it is the same three tests that caught the 0.7.0 case: nothing else in the corpus validates a PLACED record.\n\n0.12.0 (WP-13.6, 16 Sep 2026) admits four more `furniture_layout` fields, and this time the placed record was validated BEFORE the commit rather than after it: `piece` and `of` (a counted catalogue item and a table's chairs are drawn as many times as the record states, and a refused piece keeps its numeral so the key can say `x3 OF 8`), `by` (the thing a positioned rule seated the item by, in the record's own words) and `back` (the compass side an item on no wall turns its back to, which is what orients its symbol). All sixteen plans are solved on the deterministic engine and validated against this file as the package's own gate; 16 of 16 valid.\n\n0.13.0 (WP-16.6, 1 Oct 2026) admits three fields on `unplaced`, because the placer refuses a window for two RULED reasons now and a reader must be able to tell them from want of room without parsing a sentence: `rule` (`pier`, R5 -- the wall to the next window would fall below the floor; `alignment`, R6 -- it could not stand on the axis of the opening below it), `parts` (the units of one window refused for different causes, each with its own count and sentence), and `axes` (the openings below a refused upper window was to stand on). An unplaced record carrying none of them was refused for want of a clear run, as every record before this version was. All sixteen plans are placed on the deterministic engine and validated against this file as the package's own gate.",
   "type": "object",
   "required": [
     "id",
@@ -1337,6 +1337,69 @@
               "boolean",
               "array"
             ]
+          }
+        },
+        "rule": {
+          "enum": [
+            "pier",
+            "alignment"
+          ],
+          "description": "0.13.0 (WP-16.6). The RULE that refused every refused unit of this window, where one did: `pier` (R5, ruled 29 Sep 2026: seated beside the windows already on its face, the wall to the next would fall below `window_pier.floor` x the wider window, read from faults/pier-narrower-than-the-opening.json) or `alignment` (R6: it could not stand on the axis of the opening below it, because its room's wall could not take it there). Absent where the unit had no clear run at all, which is the placer's own refusal. A surface groups refusals by this field and never by the sentence."
+        },
+        "parts": {
+          "type": "array",
+          "minItems": 2,
+          "description": "0.13.0 (WP-16.6). Where the refused units of ONE window were refused for different causes, each cause with its own count and sentence; `reason` is the sentences joined and `rule` is absent. A surface counting refused units by cause reads these.",
+          "items": {
+            "type": "object",
+            "required": [
+              "units",
+              "reason"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "rule": {
+                "enum": [
+                  "pier",
+                  "alignment"
+                ]
+              },
+              "units": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "axes": {
+          "type": "array",
+          "description": "0.13.0 (WP-16.6, R6). For each unit refused for its alignment, the opening of the storey below it was to stand on: its axis along the wall, whether it is a window or a door, and why the room could not take the window there.",
+          "items": {
+            "type": "object",
+            "required": [
+              "axis_ft",
+              "why"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "axis_ft": {
+                "type": "number"
+              },
+              "opening": {
+                "enum": [
+                  "window",
+                  "door"
+                ]
+              },
+              "why": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
           }
         }
       }

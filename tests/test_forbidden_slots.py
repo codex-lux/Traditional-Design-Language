@@ -128,10 +128,12 @@ def test_the_elevation_path_is_covered_separately_and_says_which_half(rk, graph)
     a test pinned to that one plan would have gone quietly vacuous — which is the shape of the
     negative assertion CLAUDE.md records as inverting into a tautology."""
     pe = _mod("pe_f", "build/proportion_engine.py")
-    READ = ("belt_course casing chimney cornice door_surround entry_door frieze pilaster shutter "
-            "transom_sidelight water_table window_grouping_rule window_head_masonry "
-            "window_head_wood window_lite_pattern window_proportion").split()
-    REFUSED_HERE = ("transom_sidelight", "pilaster")
+    # THE GENERATOR'S OWN LISTS, since WP-16.4 (30 Sep 2026). This test carried a copy of them and
+    # partitioned the corpus against the copy, which its own comment below calls a claim about the
+    # generator and not a reading of it; `elevation.READ_FROM_PACKS` and `REFUSED_HERE` are module
+    # constants now, so the split below is the one the disclosure makes.
+    el = _mod("el_split", "build/elevation.py")
+    READ, REFUSED_HERE = el.READ_FROM_PACKS, el.REFUSED_HERE
     gate = [n for n in sorted(set(pe.resolve("opening-proportion").get("applies_to") or [])
                               & set(pe.resolve("facade-classical").get("applies_to") or []))
             if (graph["nodes"].get(n) or {}).get("rank") in ("style", "variant")]
@@ -141,24 +143,66 @@ def test_the_elevation_path_is_covered_separately_and_says_which_half(rk, graph)
         forb = {s for s, r in kit.items() if r.get("binding") == "forbidden"} & set(READ)
         refused += len(forb & set(REFUSED_HERE))
         read_anyway += len(forb - set(REFUSED_HERE))
-    assert refused + read_anyway == 40, (refused, read_anyway)
-    assert (refused, read_anyway) == (16, 24), (
+    # 16 / 24 (40) until WP-16.2's adjudication, 30 Sep 2026, re-measured on the tree it produced:
+    # 10 / 12 (22), attributed style by style against a control.
+    # - Refused fell by six, all `transom_sidelight`: cape-cod-colonial and saltbox-colonial bind
+    #   the slot themselves with only the sidelights ROW forbidden (A5); second-empire,
+    #   italian-renaissance-revival and italianate-townhouse bind it permitted (A2); and
+    #   renaissance-revival-american binds it with its fanlight and sidelight rows forbidden (A4).
+    # - Read-anyway fell by twelve: colonial-revival's water table, belt and frieze (A1), and
+    #   through it georgian-revival's frieze, neoclassical-revival's water table and
+    #   minimal-traditional's (A9); the water tables of cape-cod-revival, georgian-revival and
+    #   new-classical, and minimal-traditional's frieze (records the records decided); and
+    #   new-urbanist-traditional's cornice and frieze (A7).
+    # cape-cod-revival's belt and frieze and minimal-traditional's belt never left the count: they
+    # stay forbidden, as those styles' OWN bans now (the companion records) instead of the Shingle
+    # Style's.
+    # 10 / 12 -> 20 / 2 on 30 Sep 2026 (WP-16.4, R3), with the total unmoved at 22: the elevation
+    # REFUSES the belt course and the frieze now where the kit forbids them whole -- five belts
+    # (cape-cod-colonial, cape-cod-revival, minimal-traditional, new-england-colonial,
+    # saltbox-colonial) and five friezes (cape-cod-colonial, cape-cod-revival, garrison-colonial,
+    # new-england-colonial, saltbox-colonial) -- where it read and drew them anyway. The two still
+    # read anyway are named: minimal-traditional's `door_surround`, whose width is the casing the
+    # refused doorcase leaves the door, and renaissance-revival-american's `window_head_wood`.
+    assert refused + read_anyway == 22, (refused, read_anyway)
+    assert (refused, read_anyway) == (20, 2), (
         f"the elevation exposure moved to {refused} refused / {read_anyway} read-anyway. That is "
-        f"not automatically wrong — binding one slot on colonial-revival moved it 46 -> 40 — but "
-        f"it must be re-measured and re-stated, not re-pinned blind.")
+        f"not automatically wrong — binding one slot on colonial-revival moved it 46 -> 40, "
+        f"WP-16.2's adjudication 40 -> 22 and WP-16.4's refusal 10/12 -> 20/2 — but it must be "
+        f"re-measured and re-stated, not re-pinned blind.")
 
 
 def test_the_generator_discloses_what_it_read_against_a_forbidding_kit():
-    """The disclosure itself, on a shipped plan. `read_anyway` is a measured disclosure and not
-    a pass: those slots are drawn today against a kit that forbids them."""
+    """The disclosure itself. `read_anyway` is a measured disclosure and not a pass: those slots
+    are drawn today against a kit that forbids them.
+
+    DRIVEN since WP-16.2 (30 Sep 2026). This read the shipped spec Colonial under its own style,
+    whose kit forbade the water table, belt and frieze on the Shingle Style's reason. Lucas's
+    answer A1 bound all three permitted in colonial-revival's own kit, so NO shipped plan carries a
+    `read_anyway` entry now (eight did) and a re-pin to `[]` would assert nothing. The same plan
+    is drawn under cape-cod-revival, whose own kit forbids the belt and the frieze (its companion
+    records of the same date), the way the census swaps a style in."""
     el = _mod("el_f", "build/elevation.py")
     plan = json.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json"),
                           encoding="utf-8"))
-    e = el.build_elevation(plan)
-    d = e["forbidden_slots_read_from_packs"]
+    # the premise, and the reason for the swap: under its own style the plan reads nothing anyway
+    own = el.build_elevation(plan)["forbidden_slots_read_from_packs"]
+    assert own["read_anyway"] == [] and own["refused"] == [], own
+    # WP-16.4 (30 Sep 2026): cape-cod-revival's belt and frieze are REFUSED now, where they were
+    # read anyway -- so this reads the refusal on it, and the read-anyway disclosure on the style
+    # that still has one, minimal-traditional, whose whole `door_surround` ban leaves the door the
+    # doorcase's own casing and that casing's width is the slot's pack rule.
+    d = _elev_for("cape-cod-revival")["forbidden_slots_read_from_packs"]
     assert set(d) == {"refused", "read_anyway", "note"}, d
-    assert d["read_anyway"] == ["belt_course", "frieze", "water_table"], d
+    assert d["refused"] == ["belt_course", "frieze"], d
+    assert d["read_anyway"] == [], d
     assert "PE.resolve" in d["note"]
+    m = _elev_for("minimal-traditional")
+    d = m["forbidden_slots_read_from_packs"]
+    assert d["read_anyway"] == ["door_surround"], d
+    assert d["refused"] == ["belt_course"], d
+    assert m["entrance"]["doorcase_refused_by"]["writers"] == ["minimal-traditional"], (
+        "the doorcase itself is refused; only its casing's width is read")
 
 
 # THE ELEVATION HALF, TESTED BY RUNNING IT. Both tests above were written for WP-8.3's only
@@ -166,7 +210,8 @@ def test_the_generator_discloses_what_it_read_against_a_forbidding_kit():
 # change -- `_REFUSED_HERE = ()`, `sidelights_forbidden = False`, the pilaster projection
 # computed unconditionally -- and watched this file stay green. One of them never imports
 # elevation.py at all (it partitions a corpus measurement against a hardcoded copy of
-# `_REFUSED_HERE`, so the split is a CLAIM about the generator, not a reading of it); the
+# `_REFUSED_HERE`, so the split is a CLAIM about the generator, not a reading of it -- it reads
+# `elevation.REFUSED_HERE` itself since WP-16.4, 30 Sep 2026); the
 # other calls it on `spec-builder-colonial`, whose style forbids NEITHER slot, so its
 # `refused` list is empty and nothing asserts on it.
 #
@@ -176,8 +221,12 @@ def test_the_generator_discloses_what_it_read_against_a_forbidding_kit():
 # generator on a style where the refusal BITES -- and doing that immediately found half a
 # pilaster still being published on exactly such a style.
 
-FORBIDDING_STYLE = "cape-cod-colonial"      # kit: "The whole classical-apparatus group is
-                                            # forbidden at the family"
+# new-england-colonial since WP-16.2 (30 Sep 2026): cape-cod-colonial binds `transom_sidelight`
+# itself now (Lucas's answer A5 -- the transom permitted, the sidelights row forbidden), so it no
+# longer forbids the slot WHOLE. Of the forty gate styles only new-england-colonial and
+# garrison-colonial still forbid both slots whole; new-england-colonial is the node that writes
+# the family's ban itself.
+FORBIDDING_STYLE = "new-england-colonial"
 PERMITTING_STYLE = "colonial-revival"
 
 
@@ -217,7 +266,8 @@ def test_a_style_whose_kit_forbids_the_slot_publishes_no_measurement_of_it(rk, g
     forb = {s for s, r in kit.items() if r.get("binding") == "forbidden"}
     assert {"transom_sidelight", "pilaster"} <= forb, (
         f"{FORBIDDING_STYLE} no longer forbids both slots -- this test has gone vacuous; "
-        f"re-pin it on one of the nine gate styles that do")
+        f"re-pin it on a gate style that still forbids both whole (on 30 Sep 2026 only "
+        f"new-england-colonial and garrison-colonial did; nine did when this was written)")
 
     banned = _elev_for(FORBIDDING_STYLE)["measurements"]
     allowed = _elev_for(PERMITTING_STYLE)["measurements"]
@@ -241,8 +291,10 @@ def test_a_style_whose_kit_forbids_the_slot_publishes_no_measurement_of_it(rk, g
 
 def test_the_disclosure_names_the_refusal_on_a_style_it_bites_on(rk, graph):
     d = _elev_for(FORBIDDING_STYLE)["forbidden_slots_read_from_packs"]
-    assert sorted(d["refused"]) == ["pilaster", "transom_sidelight"], d
-    assert not (set(d["read_anyway"]) & {"pilaster", "transom_sidelight"}), d
+    # the belt course and the frieze join the two WP-8.3 refused (WP-16.4, 30 Sep 2026)
+    assert sorted(d["refused"]) == ["belt_course", "frieze", "pilaster", "transom_sidelight"], d
+    assert not (set(d["read_anyway"]) & {"pilaster", "transom_sidelight", "belt_course",
+                                         "frieze"}), d
 
 
 def test_the_forbidden_meter_is_still_ratcheted_apart_from_the_backlog():
@@ -251,7 +303,12 @@ def test_the_forbidden_meter_is_still_ratcheted_apart_from_the_backlog():
     # pairs went with `trim-classical` and thirty-eight with `facade-gable`: a pack rule cannot
     # land on a forbidden slot it no longer reaches. The corpus is fifty-three pairs SMALLER, not
     # fifty-three pairs better -- the same caution the ratchet dict itself now carries.
-    assert ci.FORBIDDEN_RATCHET == 712
+    # 712 -> 679 on 30 Sep 2026 (WP-16.2's adjudication): forbidden slots bound permitted or
+    # specified in the styles' own kits leave the count, and the companions bring a few back as
+    # the styles' own bans. Measured, and lowered on WP-8.3's precedent.
+    # 679 -> 680 on 1 Oct 2026 (WP-16.9, B30): jeffersonian-classicism's own rake ban, landed on by
+    # `opening-pointed` through the cascade. Raised by one, named, as B30's answer said it would be.
+    assert ci.FORBIDDEN_RATCHET == 680
     assert ci.FORBIDDEN_RATCHET not in ci.RATCHET.values()
 
 

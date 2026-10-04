@@ -33,10 +33,40 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "The ridge runs between the party walls, on Lucas's answer B12 of 30 Sep 2026. defining_characteristics[0]: 'Party-wall construction in a continuous terrace, with the street wall rather than the individual house as the compositional subject'; c04: 'Party walls carried up through the roof as a fire break, and no window on a party wall elevation. Plan depth not to exceed 12.5 m without a light well or closet-wing set-back.'; typical_ratios[6]: 'Party wall one and a half bricks (330 mm) minimum, carried up above the roof as a fire break'."
+        },
+        {
+          "id": "hip",
+          "status": "permitted",
+          "note": "For the end of a terrace, on B12. Demoted from canonical: english-palladian's hip was written for a free-standing composition, and this house stands between party walls."
+        },
+        {
+          "id": "mansard",
+          "status": "atypical",
+          "note": "Kept as english-georgian's roof_pitch ranking has it; this record is silent on it."
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Kept from english-georgian's record: 'An American and Dutch answer, not an English one.'"
+        },
+        {
+          "id": "front-gable",
+          "status": "forbidden",
+          "note": "Kept from english-palladian's record: 'The composed centrepiece is a portico pediment, not a gable roof; overrides the generic front-gable content this slot would otherwise inherit from the corpus's deep vernacular ancestry.'"
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "A side-gable roof whose ridge runs between the party walls, the walls carried up through it as a fire break (c04), behind a parapet with a concealed gutter and no projecting eaves (defining_characteristics[5]); 'A parapet with no visible eaves, and dormers set back behind it so the garret is invisible from the opposite pavement'.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B12 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: english-georgian-townhouse binds its own roof_form. Until then the slot was open and resolved ENGLISH-PALLADIAN's record, `hip` canonical, written for a free-standing composition (''Low hipped or pedimented roofs behind a parapet' (defining_characteristics), with the giant order's own pediment marking the centrepiece rather than a gable end.'); english-georgian's own record of the same date would otherwise reach it with the hip and the side gable both canonical. A terrace house between party walls carried up through the roof has no hip but at the end of a row. Marked judgment: the record names its party walls and its parapet, not a roof id."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

@@ -101,7 +101,21 @@ RATCHET_FLOOR = {"judged": 250}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 # 723 -> 721 on 3 Sep 2026 (WP-8.12). Only two pairs this time, against fifteen and thirty-eight
 # for the first two flips -- `sash-light` strands the most slots of the three and touches the
 # fewest forbidden ones, so this meter and the stranding meter are not proxies for each other.
-FORBIDDEN_RATCHET = 712
+# 721 -> 712 at WP-8.13 (`488f534`, the last five packs flipped together); this block did not
+# record it until WP-16.2 read the history to add the next line.
+# 712 -> 679 on 30 Sep 2026 (WP-16.2's adjudication, R3). The first fall that is not a flip:
+# slots a style inherited `forbidden` for another style's reason are bound in the style's own kit
+# -- colonial-revival's water table, belt and frieze, the Italianate family's transoms, the
+# new-urbanist cornice and frieze, and the rest -- so the pack rules landing on them stop
+# counting here. The companion records keep a few forbidden as the styles' OWN bans. Nobody chose
+# a pack; the corpus is smaller in forbidden slots because fewer of its bans were wrong.
+# 679 -> 680 on 1 Oct 2026 (WP-16.9, B30). jeffersonian-classicism forbids its own rake on its own
+# roof, in A4's shape, and `opening-pointed` -- a Gothic arch pack the cascade delivers to it,
+# OQ 51's shape -- dimensions `rake_condition` there, so one pair is counted: the forbidden slot is
+# the style's own ban, and the pack rule landing on it is the delivery nobody bound. B30's answer
+# named this movement before the record landed. Diffed by (node, slot) against a worktree of
+# `54f7e33`: one pair added, none removed.
+FORBIDDEN_RATCHET = 680
 COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_guard.py
 
 # A FIFTH MEASUREMENT, AND IT IS A COUNT RATHER THAN A CEILING. OQ 51 was re-ruled on 3 Sep 2026
@@ -141,8 +155,22 @@ COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_gu
 # `dimensioned_after` is 4931 for the FOURTH -- the end state has never once moved, whichever
 # pack flips and in whatever order, which is the plainest possible demonstration that these
 # describe a path being walked rather than a corpus getting better.
-STRANDING = {"stranded": 2585, "rehoused": 1895, "nodes_touched": 124,
-             "dimensioned_before": 7516, "dimensioned_after": 4931,
+# WP-16.2's ADJUDICATION (30 Sep 2026) MOVES THE END STATE FOR THE FIRST TIME, and the reason is
+# that it is not a flip. Bans a style inherited for another style's reason were bound in the
+# style's own kit (R3), so slots that were `forbidden` -- dimensioned by nobody -- are open to the
+# pack cascade again (WP-8.3's mechanism): `dimensioned_before` 7516 -> 7549 and
+# `dimensioned_after` 4931 -> 4958, because some of the freed slots go to packs a node binds or
+# vouches for and survive the counterfactual. `rehoused` 1895 -> 1909 and `stranded` 2585 -> 2591
+# follow. `nodes_touched` and `unreached` do not move. Measured on the tree the records produce,
+# and on a scratch copy before they landed, with the same six figures.
+# WP-16.9 (1 Oct 2026, B30) MOVES TWO BY ONE, AND THE SLOT IS NAMED: jeffersonian-classicism
+# forbids its own rake on its own roof, so its `rake_condition` -- dimensioned until now by
+# `opening-pointed`, which the cascade delivers and nobody vouched for -- leaves the dimensioned
+# set: `dimensioned_before` 7549 -> 7548 and `stranded` 2591 -> 2590. Diffed by (node, slot)
+# against a worktree of `54f7e33`: that one slot left both sets, and nothing else moved. B30's
+# answer named the movement before the record landed.
+STRANDING = {"stranded": 2590, "rehoused": 1909, "nodes_touched": 124,
+             "dimensioned_before": 7548, "dimensioned_after": 4958,
              # `unreached` JOINED THIS DICT IN WP-8.14 AND THE REASON IS THE FINDING.
              # It is the one OQ 51 figure `check_counts.py` does not derive, and it is the one
              # that rotted: CLAUDE.md said 111 for three flips after it stopped being true --

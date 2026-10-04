@@ -228,16 +228,22 @@ def test_the_dxf_dresses_only_the_entrance_door_with_the_casing_source():
     `render_elevation._entrance` returned before the casing on `if not rect.get("entrance")`
     from the day the flag existed; `export_dxf`'s loop went on dressing every door rect with the
     casing and the sidelights, so the CAD file drew a back door as a doorcase. This half reads
-    the source, because ezdxf is absent here and in CI: the condition must sit between the
+    the source, so it runs where ezdxf is absent (CI's corpus shards have installed it since
+    WP-16.0, and the behavioural half below runs there): the condition must sit between the
     leaf's rectangle and the casing's, the same test the SVG makes, and must be the rect's own
-    flag rather than a face or a count."""
+    flag rather than a face or a count.
+
+    The casing is found by the name it is assigned to, `cw = `, and not by the expression: WP-16.4
+    (30 Sep 2026) made it the plain casing where the kit refuses the doorcase, and the guard read
+    the old expression and failed on a change that kept its property -- a guard pinned to a
+    spelling."""
     src = open(os.path.join(ROOT, "build", "export_dxf.py")).read()
     loop = src[src.index("for r in EL.opening_rects(elev, face)"):]
     door = loop[loop.index('if r["kind"] == "door":'):]
     body = door[:door.index("_win(r)")]
     i_leaf = body.index('dxfattribs={"layer": opening}')
     i_gate = body.index('if not r.get("entrance"):')
-    i_case = body.index('cw = ent["casing_width_in"]')
+    i_case = body.index("cw = ")
     assert i_leaf < i_gate < i_case, "the entrance gate must sit between the leaf and the casing"
     assert "continue" in body[i_gate:i_case], "the gate must skip the casing, not merely note it"
     svg = open(os.path.join(ROOT, "build", "render_elevation.py")).read()

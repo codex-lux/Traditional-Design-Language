@@ -587,8 +587,10 @@ test('an elevation plate registers on the envelope and not on the frame', () => 
     + `frame reaches ${SCENE.bounds.min[1]} because a stoop stands there`);
   /* THIS LINE CERTIFIED THE DEFECT UNTIL WP-15.8's AUDIT. It read "the W plate reads u the other
      way", i.e. from the camera's left, which is the envelope's NORTH end on the west face -- and
-     the record has said since WP-13.3 that no face is mirrored, so the W plate's u = 0 is its
-     SOUTH end. The assertion held the camera's assumption against itself. */
+     the record said from WP-13.3 until WP-16.3 that no face was mirrored, so the W plate's u = 0
+     was its SOUTH end. The assertion held the camera's assumption against itself. Since WP-16.3
+     the record draws W as seen (mirrored: true, u = 0 at the north end); both readings are held
+     here, each with the direction passed explicitly. */
   const w = modelAt('w', SCENE, 0, 10, false);
   assert.equal(w[1], env.min[1], 'an unmirrored W plate starts at the envelope\'s south face');
   assert.equal(modelAt('w', SCENE, 0, 10, true)[1], env.max[1],
@@ -601,12 +603,14 @@ test('an elevation plate registers on the envelope and not on the frame', () => 
 /* ------------------------------------ which way a face plate reads is the record's (WP-15.8)
 
    `modelAt` took u = 0 to be the face's left edge as the CAMERA sees it, and `plateTransform`
-   fitted a scale off a distance and never asked which way the second point lay. The record
-   states the other convention (`elevation.datum.mirrored`, false on every face): on N and W the
-   plan's axis runs right to left from outside, so both plates were laid over the model reversed,
-   every opening at the wrong end, and nothing said so. A plate whose axes run against the
-   screen's is refused now, with the reason, and a face plate whose direction the record does not
-   state is refused rather than assumed. */
+   fitted a scale off a distance and never asked which way the second point lay. From WP-13.3 until
+   WP-16.3 the record stated the other convention (`elevation.datum.mirrored`, false on every
+   face): on N and W the plan's axis runs right to left from outside, so both plates were laid over
+   the model reversed, every opening at the wrong end, and nothing said so. A plate whose axes run
+   against the screen's is refused now, with the reason, and a face plate whose direction the
+   record does not state is refused rather than assumed. Since WP-16.3 (R2) the record draws every
+   face as seen, mirrored on N and W, so the shipped plates all register; these tests pass the
+   direction explicitly and hold both conventions. */
 
 test('a face plate lies at the end of the face its record states', () => {
   const env = SCENE.bounds.envelope;
@@ -623,7 +627,8 @@ test('a face plate lies at the end of the face its record states', () => {
 test('a plate the affine would lay reversed is refused and says which way it reads', () => {
   const frame = { px_per_ft: 13, origin_px: [44, 100], at_origin_ft: [0, 0] };
   const reg = (v, m) => plateRegistration(v, SCENE, poseFor(v, SCENE), VIEWPORT, frame, m);
-  // unmirrored, the record's own convention: S and E register, N and W cannot
+  // unmirrored -- the record's convention on S and E, and on N and W until WP-16.3: S and E
+  // register, N and W cannot
   for (const v of ['s', 'e']) {
     assert.ok(reg(v, false).transform, `${v} with the plan's axis should register`);
     assert.equal(reg(v, false).refused, undefined);
@@ -632,8 +637,8 @@ test('a plate the affine would lay reversed is refused and says which way it rea
   assert.equal(reg('n', false).refused, 'drawn west to east; seen from the north, east is on the left');
   assert.equal(reg('w', false).refused, 'drawn south to north; seen from the west, north is on the left');
   assert.equal(plateTransform('w', SCENE, poseFor('w', SCENE), VIEWPORT, frame, false), null);
-  // mirrored, the draughtsman's convention: the pair swaps, which is what makes it a test of the
-  // DIRECTION and not of the face's name
+  // mirrored, the draughtsman's convention and the record's on N and W since WP-16.3 (R2): the
+  // pair swaps, which is what makes it a test of the DIRECTION and not of the face's name
   for (const v of ['n', 'w']) assert.ok(reg(v, true).transform, `${v} mirrored should register`);
   assert.equal(reg('s', true).refused, 'drawn east to west; seen from the south, west is on the left');
   assert.ok(reg('e', true).refused);

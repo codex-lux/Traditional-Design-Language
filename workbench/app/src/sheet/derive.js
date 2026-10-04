@@ -463,7 +463,11 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
       if (win.positions_ft && win.positions_ft.length) {
         // the record carries one centreline per unit; read them, do not re-space them
         pos = win.positions_ft.map(Number);
-        crowded += Math.max(0, n - pos.length);
+        // a partial refusal is the placer's, for whatever reason its record names (the pier floor,
+        // the axis below, the run): never "no clear run left" by this file's say-so (WP-16.8;
+        // render_plan.py's twin says why)
+        if (win.unplaced) refused += Math.max(0, n - pos.length);
+        else crowded += Math.max(0, n - pos.length);
       } else if (win.unplaced) {
         // WP-13.2: a window the placer REFUSED is not re-inferred at the mid-wall -- the
         // branch below is for a DECLARED record nobody has placed (render_plan.py's twin
@@ -774,6 +778,13 @@ export function plateNote({ wall, footprint, placement, levelIndex, rooms, serve
   say('windows-crowded', wins.crowded
     ? `${wins.crowded} declared window(s) had no clear run left on their wall — declared, not drawn. `
     : '');
+  // THIS LEVEL'S REFUSALS, COUNTED ON THIS LEVEL (the audit of WP-16.8's own diff, 3 Oct 2026,
+  // auditor B). WP-16.8 printed the server's PLAN-WIDE sentence here (`disclosures.windows_not_drawn`)
+  // under every level that refused one, so a two-storey plate said the whole house's figure twice,
+  // and its "ON NO SUCH WALL" bucket counted again the units this plate already reports as off the
+  // footprint: bad-02's one plate read 3 + 4 units missing of 6 declared. The counts here are the
+  // level's own and disjoint -- off the footprint, crowded, refused -- and the placer's reasons are
+  // the served disclosure's, which the bench's disclosure strip prints once for the house.
   say('windows-refused', wins.refused
     ? `${wins.refused} declared window(s) the placement refused to seat — declared, not drawn. `
     : '');

@@ -119,8 +119,10 @@ export function RoundPlate({
   const refusedWhy = key && platesRefused ? platesRefused[key] : null;
 
   /* THE PLATE CARRIES WHICH WAY IT READS (WP-15.8's audit), and the registration reads that
-     rather than assuming it, so an N or W elevation drawn with the plan's own axis is REFUSED and
-     the refusal said, instead of being laid over the model back to front. */
+     rather than assuming it, so a plate whose `u` runs against the camera's right is REFUSED and
+     the refusal said, instead of being laid over the model back to front. Since WP-16.3 every
+     face is drawn as seen from outside, so the four elevations read with the camera and are laid;
+     the refusal remains for a record that says otherwise. */
   const mirrored = key && plates && plates[key] ? plates[key].mirrored : undefined;
   const registration = React.useMemo(() => {
     if (!plateOn || !svg || !scene || !box.width) return null;

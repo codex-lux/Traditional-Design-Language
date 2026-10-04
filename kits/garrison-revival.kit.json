@@ -11,10 +11,35 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "defining_characteristics[1]: 'Two full storeys, rectangular plan, two rooms deep, under a side-gable roof'. massing_affinities[0], the canonical garrison-block: 'The variant is this massing: a two-storey side-gable box with a front jetty.' c04: 'Roof pitch 7:12 to 9:12 side gable.'"
+        },
+        {
+          "id": "catslide",
+          "status": "permitted",
+          "note": "massing_affinities[3] rates the saltbox possible: 'Where a rear lean-to is added, producing the garrison-saltbox hybrid common in 1950s New England builder catalogs.'"
+        },
+        {
+          "id": "gambrel",
+          "status": "forbidden",
+          "note": "Demoted from canonical, where shingle-style put it ('The Colonial inheritance.'). This record names no gambrel, and its defining roof is 'under a side-gable roof' (defining_characteristics[1]). Forbidden as a judgment on that defining characteristic."
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "shingle-style permits it. description.short makes the house 'a rectangular two-storey box', and defining_characteristics[1] gives it a 'rectangular plan'. Judgment: the record names no cross-gable."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": true,
+      "rule": "A side-gable roof, 7:12 to 9:12 (c04), over a rectangular two-storey box with a front jetty; a rear lean-to under a catslide makes the garrison-saltbox hybrid.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: garrison-revival binds its own roof_form. Until then it resolved SHINGLE-STYLE's record through colonial-revival: `gambrel` canonical, noted 'The Colonial inheritance.' This record's own words: defining_characteristics[1] reads 'Two full storeys, rectangular plan, two rooms deep, under a side-gable roof', massing_affinities[0] 'The variant is this massing: a two-storey side-gable box with a front jetty.', and c04 'Roof pitch 7:12 to 9:12 side gable.' Bound here rather than left to colonial-revival's record of the same date, which permits a hip and a gambrel this record's defining characteristic excludes. Against it stands lineage[0], 'Kit, openings and entry are the parent style's; only the jettied second storey and the seventeenth-century reference differ.', which the specific defining_characteristics[1] governs, as the specific 'minimal cornice' of defining_characteristics[5] governed the same sentence for this node's cornice in WP-16.2. Marked judgment for the gambrel and cross-gable bans, which the record implies and does not state."
     },
     "roof_pitch": {
       "group": "massing-and-roof",
@@ -255,10 +280,25 @@
     },
     "cornice": {
       "group": "envelope",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "modillion-cornice",
+          "status": "forbidden",
+          "note": "defining_characteristics[5] gives the house 'Clapboard or shingle wall, minimal cornice, and an end chimney', and the long description says it 'reads immediately as Colonial without requiring a portico, a cornice, or any masonry'. The record names no modillion; reading a modillioned cornice as not minimal is this binding's judgment."
+        },
+        {
+          "id": "dentil-cornice",
+          "status": "forbidden",
+          "note": "The same two phrases, 'minimal cornice' and 'without requiring a portico, a cornice, or any masonry'; the record names no dentil either."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "rule": "A minimal cornice -- 'Clapboard or shingle wall, minimal cornice, and an end chimney' (defining_characteristics[5]) -- and no modillioned or dentilled one.",
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "note": "BOUND 30 Sep 2026 (WP-16.2) as the companion of colonial-revival's own `cornice` binding of the same date, which makes `modillion-cornice` canonical with a 12-18 in total depth and would otherwise reach this node by descent. Until then this slot was `open` and resolved gothic-revival-british's record through colonial-revival: the modillion refused for c05's reason rather than this node's, a corbelled brick cornice canonical on a clapboard or shingle wall, and colonial-revival's 12-18 in depth merged in. This node's own words: defining_characteristics[5] reads 'Clapboard or shingle wall, minimal cornice, and an end chimney', and the long description says the house 'reads immediately as Colonial without requiring a portico, a cornice, or any masonry'. Against them stand two general sentences -- lineage[0], 'Kit, openings and entry are the parent style's; only the jettied second storey and the seventeenth-century reference differ.', and diagnostic_tells[3], 'Everything else on the house is standard Colonial Revival, including the attached garage that dates it after 1935.' -- which the specific 'minimal cornice' governs. No figure is stated, so none is carried. Marked judgment: the record says minimal and names no member, so forbidding the modillion and dentil courses is this binding's reading of the word."
     },
     "frieze": {
       "group": "envelope",
@@ -376,7 +416,14 @@
     "door_surround": {
       "group": "openings",
       "binding": "extends",
-      "variants": [],
+      "variants": [
+        {
+          "op": "replace",
+          "id": "engaged-columns-and-pediment",
+          "status": "forbidden",
+          "note": "c05: 'Entry treatment limited to a pilastered surround or a small pedimented hood not exceeding 6'0\" in width.' Engaged columns are neither. colonial-revival's own binding permits them on its defining_characteristics[1]; this node narrows it, and defining_characteristics[3] asks for 'a modest pedimented hood or pilastered surround'."
+        }
+      ],
       "parameters": {
         "hood_width_max": {
           "value": 6,
@@ -388,7 +435,8 @@
       "status": "drafted",
       "confidence": "high",
       "judgment": false,
-      "rule_append": "Entry treatment limited to a pilastered surround or a small pedimented hood not exceeding 6'0\" in width -- c05. A two-storey portico is incompatible with a jettied elevation."
+      "rule_append": "Entry treatment limited to a pilastered surround or a small pedimented hood not exceeding 6'0\" in width -- c05. A two-storey portico is incompatible with a jettied elevation.",
+      "note": "WP-16.2 (30 Sep 2026): this delta now merges onto colonial-revival's own `specified` door_surround, which makes `pilasters-and-entablature` canonical -- the 'pilastered surround' c05 names -- and permits `engaged-columns-and-pediment`, which c05's 'limited to' rules out here. Requires colonial-revival's binding: before it, no ancestor defines the row this `replace` targets."
     },
     "transom_sidelight": {
       "group": "openings",

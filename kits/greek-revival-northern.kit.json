@@ -11,17 +11,76 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "extends",
+      "binding": "specified",
       "variants": [
         {
           "id": "front-gable",
           "status": "canonical",
-          "op": "replace",
-          "note": "Overrides the inherited Georgian prohibition ('turns the gable into the principal elevation, which inverts the style's parti') outright: rotating the gable to the road is this variant's own demographic bulk -- 'rotate the house, get a pediment for nothing' -- and the family's own composition_parti already tolerates the off-centre door this parti requires."
+          "note": "Carried from this node's own extends delta, whose note reads: 'Overrides the inherited Georgian prohibition ('turns the gable into the principal elevation, which inverts the style's parti') outright: rotating the gable to the road is this variant's own demographic bulk -- 'rotate the house, get a pediment for nothing' -- and the family's own composition_parti already tolerates the off-centre door this parti requires.' defining_characteristics[0]: 'Gable turned to the road, with the gable end treated as a pediment by cornice returns or by a full portico'."
+        },
+        {
+          "id": "side-gable",
+          "status": "permitted",
+          "note": "Demoted from canonical, where georgian-colonial-american's record left it beside this node's own front gable. Under the ruling the roof layer keeps side-gable wherever it is canonical, so left canonical it would draw this variant broadside. Permitted for the wing of the upright-and-wing, whose ridge runs across the upright's: diagnostic_tells[4] 'Wing ridge set below the main ridge and its front plane recessed behind the temple block, producing the classic 'upright and wing' silhouette'. Judgment."
+        },
+        {
+          "id": "hip",
+          "status": "atypical",
+          "note": "Demoted from canonical. defining_characteristics[0] makes the gable turned to the road this variant's first defining characteristic, and a hipped roof turns no gable. Atypical as a judgment: the record never names a hip."
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "atypical",
+          "note": "Demoted from permitted, for the hip's reason: its gable is a gablet on a hipped roof, not a gable turned to the road. Judgment."
+        },
+        {
+          "id": "gambrel",
+          "status": "permitted",
+          "note": "Kept as georgian-colonial-american had it (permitted, and atypical in New England and the Hudson Valley): this record is silent on the gambrel."
+        },
+        {
+          "id": "gambrel",
+          "status": "atypical",
+          "note": "Kept as georgian-colonial-american had it: 'Regionally restricted. Effectively absent in the Chesapeake and the Low Country.'",
+          "applies_when": {
+            "regions": [
+              "New England",
+              "Hudson Valley"
+            ]
+          }
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Breaks the single unaccented cornice line the whole composition depends on. Victorian.' This record is silent on it."
+        },
+        {
+          "id": "catslide-saltbox",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'First Period. An asymmetrical section under a symmetrical front is a contradiction.' This record is silent on it."
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Second Empire, and 120 years late.' This record is silent on it."
+        },
+        {
+          "id": "shed",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'No period existence on a main block.' This record is silent on it."
+        },
+        {
+          "id": "picturesque-roof-intersection",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Two roofs of unequal ridge height meeting on the main block. This is the roof-scale form of the asymmetrical parti now forbidden at composition_parti.' This record is silent on it."
         }
       ],
+      "parameters": {},
       "status": "drafted",
-      "confidence": "high"
+      "confidence": "high",
+      "judgment": true,
+      "rule": "The gable is turned to the road and read as a pediment by cornice returns or a full portico (defining_characteristics[0]); the wing of the upright-and-wing is set below and behind it (c03).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: greek-revival-northern binds its own roof_form, folding in its own extends delta. That delta made `front-gable` canonical but merged onto GEORGIAN-COLONIAL-AMERICAN's record, whose `side-gable` and `hip` stayed canonical beside it (neither row carries a note; the slot's rule reads 'The roof is one simple solid about one ridge, of equal pitch on all slopes, unbroken across the full length of the main block; the only permitted interruptions are chimneys and dormers set in the bay rhythm.'). Under the ruling the roof layer keeps side-gable wherever it is canonical, so this variant would have been drawn broadside. Its own words: defining_characteristics[0] 'Gable turned to the road, with the gable end treated as a pediment by cornice returns or by a full portico', massing_affinities[0] 'The style's demographic bulk: rotate the house, get a pediment for nothing.' If greek-revival-american's record of the same date lands, this node's delta still merges onto a record whose hip is canonical, which defining_characteristics[0] contradicts, so this record is needed either way. Marked judgment for the side gable's, the hip's and the gable-on-hip's ranks. Under a specified binding (T5, taken as recommended under Lucas's standing instruction of 1 Oct 2026 and never put to him) georgian-colonial-american's slot rule and its three parameters stop at this record: hip_ridge_length_ratio (editorial, 0.25 to 0.5), and gambrel_lower_pitch and gambrel_upper_pitch (measured, 20:12 and 9:12, for New England and the Hudson Valley). They are not copied: each copied measured figure would be a new unsourced measured parameter in this kit, which check_kits.py refuses by identity (build/measured_unsourced_grandfathered.json names them for georgian-colonial-american alone). An extends delta over the writer's record would keep them. federal-style's record of the same date, which stands between this node and georgian-colonial-american in its cascade, forbids the gambrel for its own reason (federal-style's distinguished_from[2]: 'combine Federal doorways with massing (gambrel, wide dormered roofs) no Federal builder used'). The gambrel rows here keep georgian-colonial-american's permission and not that ban, whose reason is the Federal builder's, this record being silent on the gambrel: T10, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was never put to him, so this is not an answer he chose; recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

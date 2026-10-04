@@ -54,6 +54,8 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEFAULT_ROOF_FORM = "side-gable"
+# The forms the roof layer draws WITH gable ends, the walls a gable-end stack stands on.
+GABLED_FORMS = ("gable", "side-gable", "front-gable", "cross-gable", "gambrel")
 
 
 def _mod(name, path):
@@ -142,27 +144,206 @@ def _canonical(rec):
 # the ridge AXIS to know which two walls are the gable ends. Spelling that arithmetic a
 # second time in the placement path is the thing this corpus refuses most consistently, and
 # `tests/test_threshold_pass.py` pins roof.py's whole output byte-identical across the move.
+def kit_roof(style, date=None):
+    """WHAT THE STYLE'S RESOLVED KIT SAYS THE ROOF IS (WP-16.9; Lucas's answer B1, 30 Sep 2026),
+    read through the closed table `build/roof_vocabulary.py` onto the forms the roof layer draws.
+
+    A dict whose `state` is one of:
+    - `kit`: `form` is the kit's canonical form. Where several canonical rows map to several
+      drawable forms and side-gable is one of them, side-gable is kept (B1);
+    - `several`: the canonical rows map to more than one drawable form and none is side-gable.
+      Neither is chosen (Lucas's answer B7, 30 Sep 2026): `form` is None, the fallback is drawn,
+      and `why` names the forms and says which is drawn is not ruled;
+    - `undrawable`: every canonical row is a form the roof layer does not draw (a mansard, a flat
+      roof, a saltbox section), each named with the table's reason;
+    - `silent`: the kit makes no roof form canonical at the house's date;
+    - `unresolved`: the style's kit could not be resolved.
+    `canonical` lists the rows read, `writers` who wrote them, `why` the sentence a surface prints
+    where the kit did not decide, `judgment` whether the record is flagged `judgment: true` and
+    `judgment_by` the node that bound it (T3)."""
+    out = {"state": "silent", "form": None, "canonical": [], "forms": {}, "writers": [], "why": None,
+           "forbidden": {}, "judgment": False, "judgment_by": None}
+    slots = resolved_slots(style) if style else None
+    if slots is None:
+        out.update(state="unresolved", why=f"'{style}''s kit could not be resolved")
+        return out
+    rec = slots.get("roof_form") or {}
+    # A RECORD FLAGGED `judgment: true` IS A CALL ITS WRITER MADE, NOT ONE ITS SOURCES MADE (T3,
+    # taken as recommended under Lucas's standing instruction of 1 Oct 2026): carried here so the
+    # surfaces that draw the roof can say so (`disclosures.roof_form_judgment`)
+    if rec.get("judgment"):
+        out.update(judgment=True, judgment_by=rec.get("_bound_by") or "?")
+    rk = _mod("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+    RV = _mod("roof_vocabulary", os.path.join(ROOT, "build", "roof_vocabulary.py"))
+    canon = [v for v in rec.get("variants") or [] if isinstance(v, dict)
+             and v.get("status") == "canonical" and rk.in_period(v, date)]
+    # WHAT THE KIT FORBIDS, AS THE ROOF LAYER'S FORMS (B8): {form: (row id, writer)}, a row whose
+    # id the table maps onto a drawn form, or which IS a drawn form's own name
+    for v in rec.get("variants") or []:
+        if isinstance(v, dict) and v.get("status") == "forbidden" and rk.in_period(v, date):
+            f = RV.form_of(v.get("id")) or (v.get("id") if v.get("id") in RV.FORMS else None)
+            if f and f not in out["forbidden"]:
+                out["forbidden"][f] = (v.get("id"), v.get("_written_by") or rec.get("_bound_by") or "?")
+    if not canon:
+        out["why"] = f"{style}'s kit makes no roof form canonical"
+        return out
+    ids = [v.get("id") for v in canon]
+    writers = sorted({v.get("_written_by") or rec.get("_bound_by") or "?" for v in canon})
+    forms = {vid: RV.form_of(vid) for vid in ids}
+    drawable = sorted({f for f in forms.values() if f})
+    out.update(canonical=ids, forms=forms, writers=writers)
+    who = ", ".join(writers)
+    if not drawable:
+        out.update(state="undrawable",
+                   why=(f"{who}'s kit makes {', '.join(ids)} canonical, which the roof layer does not "
+                        f"draw ({'; '.join(RV.TABLE.get(i, (None, 'not in the table'))[1] for i in ids)})"))
+    elif "side-gable" in drawable:
+        out.update(state="kit", form="side-gable")
+    elif len(drawable) == 1:
+        out.update(state="kit", form=drawable[0])
+    else:
+        # B7 (30 Sep 2026): several canonical forms and none of them side-gable -- neither is
+        # chosen; the fallback is drawn and the sheet names the forms
+        out.update(state="several",
+                   why=(f"{who}'s kit makes {', '.join(ids)} canonical, which the roof layer draws as "
+                        f"{' or '.join(drawable)}, and which of them is drawn is not ruled"))
+    return out
+
+
 def roof_form_for(plan, massing):
-    """plan.declared.roof_form governs; falls back to the massing's own first-listed
-    roof_default with an explicit note when undeclared -- 'unjudged is not passed' at the
-    roof layer. A declared form outside the massing's roof_default list is NOT an error --
-    that list is typical forms, not an exhaustive permitted set -- but is noted."""
+    """`(form, note)`: `roof_form_reading`'s form and its note, the pair every caller reads."""
+    r = roof_form_reading(plan, massing)
+    return r["form"], r["note"]
+
+
+def roof_form_reading(plan, massing):
+    """plan.declared.roof_form governs. Where the plan declares none, the style's resolved kit
+    decides (WP-16.9; Lucas's answer B1, 30 Sep 2026): its canonical `roof_form`, read through the
+    closed table `build/roof_vocabulary.py` at the house's date (`kit_roof`). Only where the kit
+    decides nothing the roof layer draws does the massing's own first-listed roof_default decide,
+    and where the plan names no massing, the roof layer's default -- each with a note saying so,
+    'unjudged is not passed' at the roof layer. A declared form outside the massing's roof_default
+    list is NOT an error -- that list is typical forms, not an exhaustive permitted set -- but is
+    noted. Until B1 the kit was never read here: twelve of the sixteen shipped roofs were drawn in
+    a form their kit does not make canonical, nine of them by this fallback, and the note named a
+    massing 'None' on every plan that names none.
+
+    Returns `{form, note, by, kit, words}`: `by` is `declared`, `kit`, `massing` or `default`;
+    `kit` is `kit_roof`'s reading; `words` is the sentence the elevation and the roof plan print
+    where the form is a fallback (B1: "a style with no canonical form keeps the fallback, and the
+    sheet says so"), None where the record or the kit decided it."""
+    massing = massing or {}
     declared = (plan.get("declared") or {}).get("roof_form")
     defaults = massing.get("roof_default") or [DEFAULT_ROOF_FORM]
     if declared:
-        note = None if declared in defaults else (
+        # a record naming no massing has no default list to hold its declaration against (B1)
+        note = None if declared in defaults or not massing.get("id") else (
             f"'{declared}' is declared but is not in massing '{massing.get('id')}''s own roof_default list "
             f"({', '.join(defaults)}) -- not an error, that list is typical forms, not an exhaustive set, but worth a second look.")
-        return declared, note
-    return defaults[0], f"No roof_form declared; used massing '{massing.get('id')}''s first default ('{defaults[0]}')."
+        return {"form": declared, "note": note, "by": "declared", "kit": None, "words": None}
+    kr = kit_roof(plan.get("style"), (plan.get("context") or {}).get("date_of_representation"))
+    if kr["form"]:
+        rows = ", ".join(kr["canonical"])
+        return {"form": kr["form"], "kit": kr, "by": "kit", "words": None,
+                "note": (f"No roof_form declared; {', '.join(kr['writers'])}'s kit makes {rows} canonical, "
+                         f"drawn as {kr['form']} (B1).")}
+    by_massing = bool(massing.get("id") and massing.get("roof_default"))
+    # A FALLBACK THE KIT FORBIDS IS REFUSED (B8, 30 Sep 2026: "No roof, said"): R3's reading. No
+    # roof is drawn above the wall line, and every surface says the kit's form is not drawn and the
+    # fallback is forbidden. Read for every fallback -- after a kit that decides nothing drawable
+    # (B1), several canonical forms (B7) or none -- because it is the same fallback.
+    ban = (kr.get("forbidden") or {}).get(defaults[0])
+    if ban:
+        bid, bwho = ban
+        return {"form": None, "kit": kr, "by": "refused",
+                "note": (f"No roof_form declared, and {kr['why']}; its fallback '{defaults[0]}' is "
+                         f"forbidden by {bwho} ('{bid}'), so no roof is drawn (B8)."),
+                "words": (f"NO ROOF DRAWN — THE PLAN DECLARES NO ROOF FORM, {str(kr['why']).upper()}, "
+                          f"AND {defaults[0].upper()}, THE FALLBACK, IS FORBIDDEN BY {bwho.upper()}")}
+    src = (f"massing '{massing.get('id')}''s first default ('{defaults[0]}')" if by_massing else
+           f"the roof layer's own default ('{defaults[0]}'), the plan naming no massing"
+           if not massing.get("id") else
+           f"the roof layer's own default ('{defaults[0]}'), massing '{massing.get('id')}' stating none")
+    said = (f"MASSING {str(massing.get('id')).upper()}'S DEFAULT" if by_massing else "THE ROOF LAYER'S DEFAULT")
+    return {"form": defaults[0], "kit": kr, "by": "massing" if by_massing else "default",
+            "note": f"No roof_form declared, and {kr['why']}; used {src}.",
+            "words": (f"ROOF: {defaults[0].upper()}, {said} — THE PLAN DECLARES NO ROOF FORM, AND "
+                      f"{str(kr['why']).upper()}")}
 
 
-def ridge_axis(form):
-    """Which plan axis the ridge runs along, for the two single-ridge gable forms.
-    side-gable: ridge parallel to the wider/entrance-parallel dimension (axis 'x', the
-    convention render_plan.py and structure.py already use -- S/N walls run along x).
-    front-gable: ridge perpendicular to the entrance (axis 'y', W/E walls run along y)."""
-    return "x" if form in ("side-gable", "hip") else "y"
+def entrance_front(plan):
+    """The face the plan is entered on: `axis.front_of`, the one reader of it."""
+    return _mod("axis", os.path.join(ROOT, "build", "axis.py")).front_of(plan)
+
+
+def ridge_axis(form, W=None, D=None, front=None):
+    """Which plan axis the ridge runs along. ONE spelling, read by build/roof.py for every form it
+    draws and by `hearth_pass` for the gable ends its stacks stand on.
+    side-gable: ridge parallel to the entrance wall -- the house presents its long eave to the
+    approach -- so 'x' on a house entered on S or N, 'y' on one entered on W or E.
+    front-gable, gable: ridge perpendicular to the entrance wall, so 'y' on S or N, 'x' on W or E.
+    cross-gable: its MAIN ridge, which roof.py draws as a side-gable's.
+    gambrel: along the longer dimension of the footprint (`W` and `D`), roof.py's own rule.
+    hip, gable-on-hip: along the longer dimension, as the hips meet a ridge only there; called
+    without a footprint, 'x' and 'y', as they always were.
+
+    RELATIVE TO THE ENTRANCE SINCE WP-16.9 (Lucas's answer B9, 30 Sep 2026). This docstring always
+    defined front-gable as "ridge perpendicular to the entrance" while the code ran every side-gable
+    ridge along x, whatever the entrance: good-03, entered on the west, drew its side-gable roof with
+    a gable end on its entrance face. `front` is the entrance letter (`entrance_front`); None reads
+    as S, the convention every renderer draws to.
+
+    UNTIL WP-16.9 THE GAMBREL AND THE CROSS-GABLE HAD TWO SPELLINGS. roof.py drew a gambrel's
+    ridge along the longer dimension and a cross-gable's main ridge along x, while this function,
+    the stacks' reader, answered 'y' for both: on a gambrel wider than deep the roof's gable ends
+    were W and E and the stacks stood on S and N. Unreachable while every shipped roof was
+    side-gabled; reachable the moment a record names no roof form and its kit makes a gambrel
+    canonical (B1). Called without a footprint, a gambrel reads 'y', as it always did.
+
+    A HIP'S RIDGE RUNS ALONG THE LONGER DIMENSION TOO (the audit of WP-16.8's own diff, auditors A,
+    B and D). A hip read 'x' whatever the footprint, so on a house deeper than wide its ridge had no
+    length left between the hips and build/roof.py collapsed it to a point, drawing a vertical edge
+    at one corner and the E and W faces at 0.311 under a 0.542 label -- on three of the 110 roofs the
+    composer builds for the Georgian brief, where B1 hips the candidates. And a gable-on-hip read
+    'y' whatever the footprint, so on the Tidewater declared one its ridge ran the full depth and its
+    S and N faces were drawn as gable triangles at 6.70:12 under an 8.0:12 label: the section
+    raises a hip's ridge over the SHORTER dimension (`ridge_span`), which is the span across a ridge
+    on the longer one and on no other."""
+    if form == "gambrel" and W is not None and D is not None:
+        return "x" if W >= D else "y"
+    if form in ("hip", "gable-on-hip") and W is not None and D is not None:
+        return "x" if W >= D else "y"
+    across = (front or "S").upper() in ("E", "W")
+    if form in ("side-gable", "cross-gable"):
+        return "y" if across else "x"
+    if form in ("front-gable", "gable"):
+        return "x" if across else "y"
+    return "x" if form == "hip" else "y"
+
+
+def ridge_span(form, W, D, front=None):
+    """The span a ridge rises over: the footprint's dimension ACROSS the ridge. ONE spelling, read
+    by `structure.roof_heights` for the section's ridge height -- which build/roof.py reuses for a
+    gable and a hip -- and by the section sheet and the section DXF for the span they draw.
+
+    A gable's ridge (side, front, a bare gable, a cross-gable's main ridge) rises over the dimension
+    across its own axis: `D` on a ridge along x, `W` on a ridge along y. A hip's ridge, a
+    gable-on-hip's and a gambrel's run along the longer dimension (`ridge_axis`), so all three rise
+    over min(W, D), as does a form the roof layer does not model. (CORRECTED 3 OCT 2026, the audit of
+    WP-16.8's own diff: this said a hip's planes and a gable-on-hip's meet at the shorter dimension's
+    height "whichever way the ridge runs", and `ridge_axis` ran a gable-on-hip's ridge along y on
+    every footprint, so its faces were drawn at another pitch than the one this span raised.)
+
+    THE SPAN WAS min(W, D) FOR EVERY FORM UNTIL THE AUDIT OF PHASE 16 (WP-16.8, auditor C), which
+    is right only where the ridge runs along the longer dimension. B9 (Lucas, 30 Sep 2026) reads a
+    side gable's ridge relative to the entrance, so good-03, entered on its 34.57 ft west front,
+    runs its ridge along y and stands its gable ends on its 71.33 ft south and north walls, while
+    the ridge was still raised over the 34.57 ft: those two gable ends were drawn at 2.42:12 under
+    a label reading 5.0:12, on the sheet, in the DXF and in the scene, and the section drew the
+    roof across the house the other way."""
+    if form in ("gable", "side-gable", "front-gable", "cross-gable"):
+        return D if ridge_axis(form, W, D, front) == "x" else W
+    return min(W, D)
 
 
 def gable_end_points(W, D, axis):
@@ -702,6 +883,28 @@ def hearth_pass(plan, C, report):
         out["unplaced"].append({"what": "the stacks", "reason": why,
                                 **_graded("th-which-side-of-the-end-wall")})
         return out
+    # AN EXTERIOR STACK THE RESOLVED KIT FORBIDS IS NOT PLACED (WP-16.4, R3). The side comes from
+    # the node's OWN canonical rows, and a ban can arrive through the lineage -- new-england-colonial
+    # writes `exterior-end` forbidden for the Cape, the saltbox and the garrison. No shipped kit
+    # makes `exterior-end` canonical where its cascade forbids it (a style cannot hold one id at
+    # two statuses), so this is reached by no placement today and is driven by a test; census V2
+    # met the case only by drawing the Tidewater placement's stacks under other styles. Refused
+    # HERE, where the stack is placed, so the plan, the roof, the section, the elevation and the
+    # scene all read one refusal and none of them draws a stack another does not. The words and
+    # the writer are `resolve_kit.ban`'s, at the house's date.
+    if side == "exterior":
+        _slots = resolved_slots(style) or {}
+        _date = (plan.get("context") or {}).get("date_of_representation")
+        _rk = _mod("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+        _ban = (_rk.ban(_slots.get("hearth_position"), ("exterior-end",), _date)
+                or _rk.ban(_slots.get("chimney"), ("exterior",), _date))
+        if _ban:
+            out["unplaced"].append({"what": "the stacks", "reason":
+                                    f"{out['source']} puts the stacks outside the end walls, and "
+                                    f"the style's resolved kit forbids an exterior stack: "
+                                    f"{_rk.ban_words(_ban)}", "ban": _ban,
+                                    **_graded("th-which-side-of-the-end-wall")})
+            return out
 
     size = (_param(resolved_slots(style), "chimney", "stack_plan_in") or {})
     s_in = size.get("computed_at", {}).get("value") if "computed_at" in size else size.get("value")
@@ -729,14 +932,29 @@ def hearth_pass(plan, C, report):
                                 "no footprint on this record", **_graded("th-stack-at-the-gable-end")})
         return out
 
-    form, _note = roof_form_for(plan, massing)
+    _reading = roof_form_reading(plan, massing)
+    form, _note = _reading["form"], _reading["note"]
     if form in ("hip", "gable-on-hip"):
+        # WHO CHOSE THE FORM IS SAID (WP-16.9): until B1 every form here was the record's, and this
+        # sentence said "declared" of a hip the style's kit chose
+        _whose = {"declared": "the declared roof form",
+                  "kit": f"the roof form {', '.join((_reading.get('kit') or {}).get('writers') or ['?'])}'s kit makes canonical",
+                  "massing": "the massing's default roof form",
+                  "default": "the roof layer's default form"}.get(_reading.get("by"), "the roof form")
         out["unplaced"].append({"what": "the stacks", "reason":
-                                f"the declared roof form is '{form}', which has no full gable-end wall "
+                                f"{_whose} is '{form}', which has no full gable-end wall "
                                 f"to run a stack through -- the same refusal build/roof.py makes, and "
                                 f"for the same reason", **_graded("th-stack-at-the-gable-end")})
         return out
-    axis = ridge_axis(form)
+    if form not in GABLED_FORMS:
+        # NO ROOF IS DRAWN (B8), OR ITS FORM IS ONE THE ROOF LAYER DOES NOT MODEL: there is no gable
+        # end to stand a stack on, and one placed at the default axis's end is a guess (WP-16.9)
+        out["unplaced"].append({"what": "the stacks", "reason":
+                                ("no roof is drawn -- " + str(_note) if form is None else
+                                 f"the roof form '{form}' is not one the roof layer models, so no gable "
+                                 f"end is drawn to run a stack through"), **_graded("th-stack-at-the-gable-end")})
+        return out
+    axis = ridge_axis(form, W, D, entrance_front(plan))
     s = float(s_in) / 12.0
     if out["placed_from"] == "stated-hearths":
         # ONE STACK PER FLUE, ON THE WALL THE FIRES NAME, AT THE MEAN OF THEIR AXES -- the

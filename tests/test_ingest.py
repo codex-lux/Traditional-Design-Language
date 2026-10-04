@@ -248,7 +248,11 @@ def test_provenance_validates_and_gates_method():
     # entry above cost a day: the package's own gate now solves all sixteen plans on the
     # deterministic engine and validates each PLACED record against this schema, 16 of 16, and a
     # field the placer writes and this file does not name fails that gate rather than a reader.
-    assert schema["version"] == "0.12.0"
+    # 0.13.0 (WP-16.6, 1 Oct 2026): `unplaced.rule`, `parts` and `axes`, the two RULED reasons the
+    # placer refuses a window for now (R5's pier floor, R6's axis below) and the openings below a
+    # refused upper window was to stand on. Admitted before the commit, on the gate above: the
+    # sixteen plans placed on the deterministic engine validate against this file, 16 of 16.
+    assert schema["version"] == "0.13.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

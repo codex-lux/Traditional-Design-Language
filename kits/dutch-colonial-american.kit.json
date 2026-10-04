@@ -132,10 +132,20 @@
     },
     "rake_condition": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "timber-barge-board",
+          "status": "permitted",
+          "note": "The only rake member a record this node binds names. Its primary pack, dutch-gambrel, reads the gable end as tight -- 'often the roofing simply stops on a barge board against the masonry' -- a reading the pack marks judgment; and facade-gable, which this node binds for its masonry gable, says 'Where the gable is a roof end this rule does not apply at all and the rake is finished with a barge or a bargeboard'. Neither is a sentence of this node's own record, and 'often' is not a rule, so the row is permitted and not canonical."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The gable is a masonry wall -- 'steep unbroken gables in stone and brick' -- and its verge is tight; in the towns the gable is turned to the street and parapeted. The record states no verge overhang of its own.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B5 of 30 Sep 2026, recorded in oq/the-rake-is-drawn-as-an-edge-and-carries-no-member: dutch-colonial-american binds its own rake. It resolved GERMAN-FACHWERK's record until then, 'Gable verge overhang not less than 250 mm — the same rain-off-the-daub logic as the eave, applied at the gable.', with `gable_verge_min` 250 mm (measured, source german-fachwerk.c04, which reads 'Eave overhang at least 400 mm to keep driving rain off the daub panels; the gable verge at least 250 mm.'), reached at position 5 of this node's cascade through american-colonial, dutch-urban-gable-house, low-countries-vernacular and flemish-vernacular, none of which binds the slot. The figure protects a daub panel this node's gable does not have: description.short reads 'steep unbroken gables in stone and brick', description.long 'walls twenty to thirty inches thick' and 'In the towns it is brick, laid in cross bond, with the gable turned to the street and stepped or spouted in the manner of Amsterdam.', lineage[0] 'parapeted gable to the street, mouse-tooth (vlechtingen) brick tumbling', and defining_characteristics[6] 'wrought-iron beam anchors on masonry gables'. Its own primary pack reads the verge the other way, tight: dutch-gambrel's rake rule, 'Six inches, against three feet at the eave. The rake at the gable end is TIGHT', and that pack still governs the address (`part * 0.5`, 6 in on the default, marked judgment). The record states no verge figure of its own, so none is carried, and it names no rake member, so under B5 a gable end drawn for this node takes The Cardboard Gable's rake, whose 4-8 in band holds the pack's six inches; Lucas's answer B28 of 1 Oct 2026 keeps that reading, the moulded member labelled a judgment. The urban parapeted street gable is the minority case this kit's `roof_form` gives front-gable ('The urban expression only'); no `rake_condition` id in the corpus states a stepped or spouted gable, so it is left to the rule rather than guessed."
     },
     "cornice_return": {
       "group": "massing-and-roof",

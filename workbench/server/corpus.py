@@ -137,34 +137,37 @@ def kit_cascade(style_id):
 
 
 def slot_detail(style_id, slot_id):
-    """One slot, resolved: core.resolve_kit's row plus the FULL variant ladder from the
-    kit file that actually binds it. resolve_kit summarises variants to canonical[] and
-    forbidden[] — the permitted and atypical rungs (a four-rank ladder, not a binary)
-    only exist in the kit records, so this walks the cascade to the binding kit."""
+    """One slot, resolved: core.resolve_kit's row plus the FULL variant ladder. resolve_kit
+    summarises variants to canonical[] and forbidden[]; the permitted and atypical rungs (a
+    four-rank ladder, not a binary) are served here.
+
+    THE LADDER IS THE RESOLVED ONE, EACH ROW WITH ITS WRITER (WP-16.2, R3). This walked the
+    cascade to the nearest kit file with a `variants` list and served that list whole, as
+    `variants_from`. Where the nearest file `extends` the slot, that list is the style's DELTA
+    rows alone: colonial-revival's doorcase showed its own additions and not the
+    `pilasters-and-entablature` ban gothic-revival-british wrote. So the page hid the one row
+    this phase is about, and credited the ladder to the wrong node. The walk also ignored OQ 58's
+    scoped edges, which `resolve_slots` honours. Each row now carries `written_by`, the node that
+    wrote it, and `bound_by` is the node whose record set the slot's binding."""
     row = core.resolve_kit(style_id, slot=slot_id, only_specified=False)
     if "error" in row:
         return row
     slot_row = (row.get("slots") or [None])[0]
     if not slot_row:
         return {"error": f"slot '{slot_id}' not found for '{style_id}'"}
-    D = core._data()
     chain = [style_id] + core._cascade(style_id)
-    variants, note, bound_by = None, None, None
-    for sid in chain:
-        kit = D["kits"].get(sid)
-        s = (kit or {}).get("slots", {}).get(slot_id)
-        if s and s.get("binding") in ("specified", "extends", "forbidden"):
-            if variants is None and s.get("variants"):
-                variants = s["variants"]
-                bound_by = sid
-            if note is None and s.get("note"):
-                note = s["note"]
-            if variants is not None and note is not None:
-                break
+    rec = (core._resolved_kit(style_id) or {}).get(slot_id) or {}
+    rows = [v for v in (rec.get("variants") or []) if isinstance(v, dict)]
+    # The note as the hand walk found it: the nearest record in the cascade that states one.
+    # `merge_extends` keeps the nearest delta's own note as `note` and every other as
+    # `_inherited_notes`, nearest last.
+    notes = [n for n in (rec.get("_inherited_notes") or []) if n.get("note")]
+    note = rec.get("note") or (notes[-1]["note"] if notes else None)
     out = dict(slot_row)
-    if variants is not None:
-        out["variants"] = variants
-        out["variants_from"] = bound_by
+    if rows:
+        out["variants"] = [{**{k: v for k, v in r.items() if not k.startswith("_")},
+                            "written_by": r.get("_written_by")} for r in rows]
+    out["bound_by"] = rec.get("_bound_by")
     if note is not None:
         out["note"] = note
     out["cascade_distance"] = {sid: i for i, sid in enumerate(chain)}
@@ -1298,11 +1301,16 @@ def plate_direction(elev, face=None):
     """The face an elevation plate draws and which way its `u` runs, AS THE RECORD STATES IT.
 
     `mirrored` is `elevation.datum.mirrored[face]`: False where the plate runs with the plan's own
-    axis (every face, since WP-13.3), True where it runs against it, and **None where the record
-    states nothing** -- an elevation the generator declined, whose plate is a refusal and not a
-    face -- never a default of False, because a plate whose direction nobody stated is not a plate
-    known to run with the plan. The Round refuses a face plate carrying None rather than assume a
-    direction (frame.js::plateRegistration)."""
+    axis, True where it runs against it, and **None where the record states nothing** -- an
+    elevation the generator declined, whose plate is a refusal and not a face -- never a default
+    of False, because a plate whose direction nobody stated is not a plate known to run with the
+    plan. The Round refuses a face plate carrying None rather than assume a direction
+    (frame.js::plateRegistration).
+
+    SINCE WP-16.3 IT IS TRUE ON N AND W (R2, ruled 29 Sep 2026): every face is drawn as seen from
+    outside, which on S and E is the plan's own axis and on N and W is against it. From WP-13.3
+    until then it was False on all four, and the Round refused the N and W plates because a plate
+    reading with the plan's axis runs right to left as a camera on those sides sees it."""
     f = face or (elev or {}).get("entrance_face")
     m = ((elev or {}).get("datum") or {}).get("mirrored")
     return {"face": f, "mirrored": m.get(f) if isinstance(m, dict) and f in m else None}
@@ -1393,11 +1401,10 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
             re_.render_elevation(elev, out_path, face=face)
             meta = {"entrance_face": elev.get("entrance_face"),
                     # WHICH WAY THIS PLATE'S `u` RUNS, AS THE RECORD STATES IT (WP-15.8's audit).
-                    # `elevation.datum.mirrored` has said since WP-13.3 that no face is drawn
-                    # mirrored -- u runs with the plan's own axis on all four -- and the Round laid
-                    # a plate over the model on an ASSUMPTION that u runs along the camera's right,
-                    # which is false on N and W. The Round reads this now and refuses a plate that
-                    # would lie over the model reversed, rather than assume it.
+                    # The Round laid a plate over the model on an ASSUMPTION that u runs along the
+                    # camera's right, which was false on N and W from WP-13.3 until WP-16.3 drew
+                    # those faces as seen from outside (R2). It reads this now and refuses a plate
+                    # that would lie over the model reversed, rather than assume either way.
                     **plate_direction(elev, face),
                     "date_of_representation": elev.get("date_of_representation"),
                     "glass_module_in": elev.get("glass_module_in"),

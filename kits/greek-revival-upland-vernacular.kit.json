@@ -11,10 +11,76 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "side-gable",
+          "status": "canonical",
+          "note": "distinguished_from[1]: 'the Upland variant keeps the broadside I-house with a central passage open at both ends'. massing_affinities[0], the canonical i-house: 'Two storeys, one room deep, three to five bays - the definitive Upland South statement of arrival, and the substrate this variant dresses.'"
+        },
+        {
+          "id": "hip",
+          "status": "atypical",
+          "note": "Demoted from canonical. The record's defining trim needs a gable: defining_characteristics[0] 'Greek Revival present as trim profile only: wide corner pilaster boards, deep plain frieze, clipped cornice returns, heavy flat door surround', and description.long 'the cornice returns are clipped across the gable base'. A hipped roof has no gable base to return across, and the record names no hipped roof: the only hip it names is a porch's, 'a shed or hip porch on square or chamfered posts' (description.long). Atypical as a judgment."
+        },
+        {
+          "id": "front-gable",
+          "status": "permitted",
+          "note": "Replaces the Georgian forbidden row ('Turns the gable into the principal elevation, which inverts the style's parti.'). massing_affinities[2] rates the upright-and-wing common: 'Where Northern settlement reached the Ohio Valley the upright-and-wing appears with the same Grecian trim.'"
+        },
+        {
+          "id": "gable-on-hip",
+          "status": "permitted",
+          "note": "Kept as georgian-colonial-american had it (permitted): this record is silent on it."
+        },
+        {
+          "id": "gambrel",
+          "status": "permitted",
+          "note": "Kept as georgian-colonial-american had it (permitted, and atypical in New England and the Hudson Valley): this record is silent on the gambrel."
+        },
+        {
+          "id": "gambrel",
+          "status": "atypical",
+          "note": "Kept as georgian-colonial-american had it: 'Regionally restricted. Effectively absent in the Chesapeake and the Low Country.'",
+          "applies_when": {
+            "regions": [
+              "New England",
+              "Hudson Valley"
+            ]
+          }
+        },
+        {
+          "id": "cross-gable",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Breaks the single unaccented cornice line the whole composition depends on. Victorian.' This record is silent on it."
+        },
+        {
+          "id": "catslide-saltbox",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'First Period. An asymmetrical section under a symmetrical front is a contradiction.' This record is silent on it."
+        },
+        {
+          "id": "mansard",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Second Empire, and 120 years late.' This record is silent on it."
+        },
+        {
+          "id": "shed",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'No period existence on a main block.' This record is silent on it."
+        },
+        {
+          "id": "picturesque-roof-intersection",
+          "status": "forbidden",
+          "note": "Kept forbidden, with georgian-colonial-american's note: 'Two roofs of unequal ridge height meeting on the main block. This is the roof-scale form of the asymmetrical parti now forbidden at composition_parti.' This record is silent on it."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The broadside I-house under a side gable, its cornice returns clipped across the gable base (defining_characteristics[0]); the upright-and-wing where Northern settlement reached the Ohio Valley.",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: greek-revival-upland-vernacular binds its own roof_form. Until then it resolved GEORGIAN-COLONIAL-AMERICAN's record through greek-revival-american: `side-gable` and `hip` both canonical, neither carrying a note, and `front-gable` forbidden. The side gable is this record's own: distinguished_from[1] reads 'the Upland variant keeps the broadside I-house with a central passage open at both ends'. The hip is not: the record's defining trim is 'clipped cornice returns' (defining_characteristics[0]), returned 'across the gable base' (description.long), and it names no hipped roof (the only hip it names is a porch's). The demotion moves no drawing, since the roof layer keeps side-gable where it is canonical. It is bound now as well as the companion of greek-revival-american's record of the same date, which makes the front gable canonical and would otherwise reach this node by descent against distinguished_from[1]. Marked judgment for the hip's rank. Under a specified binding (T5, taken as recommended under Lucas's standing instruction of 1 Oct 2026 and never put to him) georgian-colonial-american's slot rule and its three parameters stop at this record: hip_ridge_length_ratio (editorial, 0.25 to 0.5), and gambrel_lower_pitch and gambrel_upper_pitch (measured, 20:12 and 9:12, for New England and the Hudson Valley). They are not copied: each copied measured figure would be a new unsourced measured parameter in this kit, which check_kits.py refuses by identity (build/measured_unsourced_grandfathered.json names them for georgian-colonial-american alone). An extends delta over the writer's record would keep them. federal-style's record of the same date, which stands between this node and georgian-colonial-american in its cascade, forbids the gambrel for its own reason (federal-style's distinguished_from[2]: 'combine Federal doorways with massing (gambrel, wide dormered roofs) no Federal builder used'). The gambrel rows here keep georgian-colonial-american's permission and not that ban, whose reason is the Federal builder's, this record being silent on the gambrel: T10, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was never put to him, so this is not an answer he chose; recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

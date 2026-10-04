@@ -42,10 +42,25 @@
     },
     "roof_form": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "low-roof-behind-balustrade",
+          "status": "canonical",
+          "note": "distinguished_from[2]: 'Beaux-Arts is horizontal, Roman and French neoclassical in ornament, and terminates in a balustrade or attic rather than a roof.' defining_characteristics[2]: 'Deep entablature and heavily projecting cornice, usually surmounted by a balustrade or an attic storey'. c04: 'The composition must terminate above the cornice - balustrade, attic storey, or sculptural group - to a height of not less than 1/8 of the wall height.' It replaces beaux-arts-french's forbidden row ('own distinguished_from note against french-neoclassical is explicit: 'the invisible roof behind a balustrade is Neoclassical' -- Beaux-Arts reinstates 'a visible mansard or attic.''). Judgment on the id: the record names no roof form, and this is the corpus's id for a roof the balustrade hides."
+        },
+        {
+          "id": "mansard-block",
+          "status": "permitted",
+          "note": "Demoted from canonical, where beaux-arts-french put it ('own massing_affinities marks mansard-block canonical: 'the mansard returns as a fully occupiable attic and as the device that gives an otherwise flat-topped block a silhouette.' Also the crowning member of the base:shaft:attic three-part division named in defining_characteristics.'). This record's composition 'terminates in a balustrade or attic rather than a roof' and gives the steep roof to Chateauesque (distinguished_from[2]: 'Chateauesque is vertical, French Renaissance and late Gothic in ornament, and dominated by an enormous steep roof.'). But its own facade-pavilion binding reads 'Bound for the mansard and the pavilion' and 'The American Beaux-Arts house takes the French roof and the projecting end pavilion' (proportion_packs[4].note), and that pack dimensions this node's mansard: its `mansard_lower_slope` governs this kit's roof_pitch. The record's words are split, so the row is permitted and not forbidden; permitted rather than canonical is a judgment."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "judgment": true,
+      "rule": "The composition terminates above the cornice in a balustrade, an attic storey or a sculptural group (c04), 'rather than a roof' (distinguished_from[2]); its facade-pavilion binding takes the French roof (proportion_packs[4].note).",
+      "note": "BOUND 1 Oct 2026 (WP-16.9), on Lucas's answer B1 of 30 Sep 2026, recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says: beaux-arts-american binds its own roof_form. Until then it wrote none and resolved BEAUX-ARTS-FRENCH's record: `mansard-block` canonical, noted 'own massing_affinities marks mansard-block canonical: 'the mansard returns as a fully occupiable attic and as the device that gives an otherwise flat-topped block a silhouette.' Also the crowning member of the base:shaft:attic three-part division named in defining_characteristics.', and `low-roof-behind-balustrade` FORBIDDEN, noted 'own distinguished_from note against french-neoclassical is explicit: 'the invisible roof behind a balustrade is Neoclassical' -- Beaux-Arts reinstates 'a visible mansard or attic.'' Both are the French node's reading of its own record. This record's words invert them in part: distinguished_from[2] 'Beaux-Arts is horizontal, Roman and French neoclassical in ornament, and terminates in a balustrade or attic rather than a roof.' In part, because its own facade-pavilion binding says 'The American Beaux-Arts house takes the French roof and the projecting end pavilion' (proportion_packs[4].note), and that pack's `mansard_lower_slope` governs this kit's roof_pitch; so the mansard is demoted to permitted, not forbidden. Neither form is one the roof layer draws, so the ruling's closed table says it rather than draws it, before and after; what moves is what the sheet says. Marked judgment for the id chosen for the hidden roof and for the mansard's rank. The mansard's rank, permitted rather than canonical or forbidden, is the independent check's amendment where the record's words are split: T9, taken as recommended under Lucas's standing instruction of 1 Oct 2026 ('Proceed with all recommended answers for all future questions in this session'); the question was never put to him, so this is not an answer he chose; recorded in oq/the-roof-is-drawn-side-gabled-whatever-the-style-says."
     },
     "roof_pitch": {
       "group": "massing-and-roof",

@@ -25,7 +25,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import { appendageRects, doors, drawnBreasts, elementBounds, keyObstacles, levelAppendages,
-         levelBlocks, massingBlocks, plateNote, refusedBreasts, servedLine, wallOf } from './sheet/derive.js';
+         levelBlocks, massingBlocks, plateNote, refusedBreasts, servedLine, wallOf, windows } from './sheet/derive.js';
 import { furnitureKeyPlan } from './sheet/furnitureKey.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -245,6 +245,49 @@ test('the plate counts the windows the placement refused to seat', () => {
   assert.ok(refused, 'the plate says nothing of two windows the placement refused to seat');
   assert.equal(refused.text, '2 declared window(s) the placement refused to seat — declared, not drawn. ');
   assert.ok(!note().some((l) => l.id === 'windows-refused'), 'and says nothing where none was refused');
+});
+
+/* A PARTIAL REFUSAL IS THE PLACER'S, AND ITS REASON IS THE RECORD'S (WP-16.8, the audit of Phase 16,
+   auditor C). Since WP-16.6 the placer refuses a unit for the pier floor (R5) or the axis below (R6)
+   as well as for want of run; the bench counted every partly seated window as "crowded" and printed
+   "had no clear run left on their wall" over 18 units on 10 of the 16 shipped plans, 17 of them
+   refused for a ruled reason. Driven: one window of two units, one seated, refused under rule `pier`. */
+test('a partly seated window refused for the pier floor is not called crowded, and the reason is the served one', () => {
+  const room = { id: 'living', x: 0, y: 0, w: 20, h: 14, exterior_walls: ['S'],
+                 windows: [{ wall: 'S', count: 2, width_ft: 3, positions_ft: [6.0],
+                             unplaced: { rule: 'pier', reason: '1 of 2 unit(s) would leave a wall below 1 x the wider window beside the window next to it' } }] };
+  const got = windows([room], 20, 14);
+  assert.equal(got.crowded, 0, 'a ruled refusal counted as no run left on the wall');
+  assert.equal(got.refused, 1);
+  // the control: the same unit missing from a window the placer did not refuse is this file's own
+  // inference on a declared record, and keeps the crowded count
+  const declared = windows([{ ...room, windows: [{ wall: 'S', count: 2, width_ft: 3, positions_ft: [6.0] }] }], 20, 14);
+  assert.equal(declared.crowded, 1);
+  const served = '3 OF 35 DECLARED WINDOW UNIT(S) NOT DRAWN — 3 TOO NEAR THE NEXT WINDOW FOR A WALL OF 1 × THE WIDER';
+  const lines = note({ wins: got, placement: { disclosures: [{ id: 'windows', text: served }] } });
+  const said = lines.find((l) => l.id === 'windows-refused');
+  assert.ok(said && /^1 declared window\(s\) the placement refused/.test(said.text), `the refusal was not counted: ${text(lines)}`);
+  assert.ok(!/no clear run left/.test(text(lines)), 'the pier refusal was called a full wall');
+});
+
+/* EACH PLATE COUNTS ITS OWN LEVEL, AND THE COUNTS ARE DISJOINT (the audit of WP-16.8's own diff, 3 Oct
+   2026, auditor B). WP-16.8 printed the server's plan-wide window sentence on every plate that refused a
+   unit, so a two-storey house said the whole figure twice and a plate counted its off-footprint units
+   twice: once in its own line and again in the served sentence's "ON NO SUCH WALL" bucket -- bad-02's one
+   plate read 3 + 4 missing of 6 declared. Driven: two plates, a plan-wide sentence served, and each plate
+   says its own counts, never the house's sentence, and the counts sum to the house's. */
+test('each plate counts its own level\'s refused windows and never prints the house\'s sentence', () => {
+  const served = '4 OF 9 DECLARED WINDOW UNIT(S) NOT DRAWN — 1 ON NO SUCH WALL, 3 TOO NEAR THE NEXT WINDOW';
+  const placement = { disclosures: [{ id: 'windows', text: served }] };
+  const ground = note({ wins: { offFootprint: 1, crowded: 0, refused: 2 }, placement });
+  const upper = note({ wins: { offFootprint: 0, crowded: 0, refused: 1 }, placement, levelIndex: 1 });
+  for (const [lines, off, ref] of [[ground, 1, 2], [upper, 0, 1]]) {
+    assert.ok(!text(lines).includes('NOT DRAWN —'), `a plate printed the house's sentence: ${text(lines)}`);
+    const r = lines.find((l) => l.id === 'windows-refused');
+    assert.ok(r && r.text.startsWith(`${ref} declared window(s) the placement refused`), text(lines));
+    const o = lines.find((l) => l.id === 'windows-off-footprint');
+    assert.equal(Boolean(o), off > 0, text(lines));
+  }
 });
 
 test('"the grid remains" is said only where a grid is drawn', () => {

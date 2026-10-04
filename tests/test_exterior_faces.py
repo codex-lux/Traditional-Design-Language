@@ -363,8 +363,40 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 #                                            two reasons, "2 OF 6" now
 #
 # Row wrapping is unchanged on all six, so no mark below the line moves.
-CORPUS_SHEET_SHA = "e344935c86f8a383"
-CORPUS_SHEET_SHA_NO_FRAME = "bc1312df730ca781"
+# PHASE 16, WP-16.4, ONE SHEET, ONE WINDOW, HARNESS PROVED FIRST. The test's own arithmetic
+# reproduces e344935c86f8a383 / bc1312df730ca781 to the character on a `git worktree` of `3071f71`
+# before the new pair was read. Fifteen of sixteen sheets are byte-identical; the sixteenth is
+# `tidewater-georgian-careful`. The record is dated 1765 and georgian-colonial-american forbids
+# the sidelights for 1700-1780, so the placer reserves a doorcase one sidelight narrower each
+# side and the centre passage's south window moves 9.995 -> 11.164 ft, one sidelight's 14.03 in.
+# Diffed line by line: the window's three marks move 15.2 px, the two wall bands either side of
+# its hole take up the difference, and nothing else on the sheet moves -- the placement digest
+# is unmoved on all sixteen (`tests/test_elements.py`).
+# PHASE 16, WP-16.6 (1 Oct 2026), FOURTEEN SHEETS, THEIR WINDOWS AND THE WORDS FOR THEM, HARNESS
+# PROVED FIRST. The test's own arithmetic reproduces fdb1f896b3c42930 / bf43aae6e3336252 to the
+# character on a `git worktree` of `bb3c6de` before the new pair was read. Two sheets are
+# byte-identical -- good-01, the one shingle-style plan, which keeps the old foot (R5b), and
+# good-04 -- and on the fourteen that move, diffed mark by mark, what moves is:
+#
+#   every one of the fourteen  the window marks the placer moved or refused (R5's pier floor and
+#                              aim, R6's axis below), and the two wall bands either side of each
+#                              hole, which take up the difference: 13 units newly refused and 15
+#                              windows moved along their walls, the placement unmoved
+#   ten of them                the "DECLARED WINDOW UNIT(S) NOT DRAWN" line's words, which name
+#                              the two ruled refusals by the record's `rule`; on bad-04 the line is
+#                              new and runs two rows, and on bad-06 it wraps onto a second, so the
+#                              canvas grows by those rows and every row below moves down with it
+#   three of them              spec-builder-colonial, good-02 and good-05: the dining room's corner
+#                              cupboard, and its key, take another corner because a window moved
+# WP-16.8 (2 Oct 2026, the audit of Phase 16), TWO SHEETS, ONE WINDOW EACH. The placer seats one
+# queue by distance from the centre (R5a, auditor A), and diffed mark by mark against a worktree of
+# `e604955` exactly two sheets move: the spec Colonial's upper `primary` window (its three marks and
+# the two wall bands beside the hole, 29.3 px) with the refusal line splitting "3 TOO NEAR THE NEXT
+# WINDOW" into 2 of those and 1 "UNABLE TO STAND ON THE AXIS OF THE OPENING BELOW" (auditor C's
+# C4 wording), and Tidewater's `chamber3` (the same five marks, 11.7 px). Fourteen are
+# byte-identical.
+CORPUS_SHEET_SHA = "29dc00e4556f5640"
+CORPUS_SHEET_SHA_NO_FRAME = "a9371d1ed1fe6a50"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

@@ -1008,6 +1008,26 @@ class TestTheBuildingSheetsCanDisagree:
         assert [r["verdict"] for r in C.CHECKS["V13"]["fn"]()] == ["disagrees"]
 
 
+_TW_AT = {}
+
+
+def _tidewater_at(date):
+    """The Tidewater house placed and drawn as the census draws a shipped plan, its record dated
+    `date` (WP-16.4). The kit's dated bans are read at the house's date (ruled 30 Sep 2026, A3), so
+    a specimen that needs the sidelights the kit forbids at the record's own 1765 is the same house
+    dated outside the ban. Placed afresh, so the placer reserves the run the date's own
+    composition asks for."""
+    if date not in _TW_AT:
+        G, ST, RF, EL = (SURF._mod(n) for n in ("geometry", "structure", "roof", "elevation"))
+        plan = json.load(open(os.path.join(C.ROOT, "plans", "tidewater-georgian-careful.json")))
+        plan.setdefault("context", {})["date_of_representation"] = date
+        placed = G.solve(copy.deepcopy(plan), engine="heuristic")
+        sec = ST.build_section(placed, None, geometry_result=placed)
+        rf = RF.build_roof(placed, None, section=sec)
+        _TW_AT[date] = EL.build_elevation(placed, None, section=sec, roof=rf)
+    return _TW_AT[date]
+
+
 class TestTheRefusalsAreSaid:
     """V22 (WP-14.6's second audit, W3). `_clearances` refuses a sidelight pair or a shutter pair
     that would stand over a neighbour and the legend says so; V20 reads the INK, which an honoured
@@ -1017,12 +1037,60 @@ class TestTheRefusalsAreSaid:
     are read by their PREFIXES, counts and room ids and never by the explanation after them, so a
     reworded tail cannot turn these red; each plant says what it changed, and lands or fails."""
 
-    SHUTTERED = "spec-builder-colonial/S"        # windows refused their leaves, over two rooms
-    SIDELIT = "tidewater-georgian-careful/S"     # the front the sidelight refusal is DRIVEN on
+    SHUTTERED = "good-05-lobby-gallery-mansion/W"    # the face the leaf refusal is DRIVEN on
+    SIDELIT = "tidewater-georgian-careful/S"         # the front the sidelight refusal is DRIVEN on
+    FOOT_IN = 12.0     # the wall the placer kept between two windows before WP-16.6 (MIN_SOLID_FT)
 
     @staticmethod
     def _all():
         return {s: (el, svg) for s, el, svg in C._elev_and_sweep()}
+
+    @classmethod
+    def _face(cls):
+        return cls.SHUTTERED.split("/")[1]
+
+    @classmethod
+    def _shuttered(cls, pier_in=None, el=None):
+        """good-05's west face with each room's two sashes driven back a foot apart, where the
+        placer seated them before WP-16.6, so in each pier the two windows' leaves lie over one
+        another and both rooms' windows are refused their leaves; and that record rendered, so the
+        refusal is the record and the ink of one drawing. Each pair moves about its own midpoint,
+        and every field the rect is read from moves together: `cx_in` and `u_ft` with the face,
+        and `along_ft` against it where the face is drawn as seen (R2, WP-16.3).
+
+        RE-CUT 1 OCT 2026 (WP-16.6). R5 seats two windows at least 1.0 x the wider apart, and a
+        wall that wide holds both neighbours' half-width leaves. So over the census's 85
+        elevation sheets the windows refused their leaves went 193 -> 1: one window, on good-05's
+        east face, over one room. The premise this class was written on, `spec-builder-colonial/S`
+        refusing leaves over two rooms, ran out exactly as the control below was written to
+        notice, and the refusal is driven now, as the sidelight's was at WP-15.6. Before WP-16.6
+        this same face refused five windows over these two rooms.
+
+        `pier_in` sets a different pier (V27's specimen, WP-16.7), and `el` a different elevation
+        of the same face to drive; by default the foot the placer kept before WP-16.6."""
+        el = copy.deepcopy(el if el is not None else cls._all()[cls.SHUTTERED][0])
+        front = el["faces"][cls._face()]
+        sgn = -1.0 if front.get("mirrored") else 1.0
+        rooms = {}
+        for p in front["placed"]:
+            if p["kind"] == "window":
+                rooms.setdefault((p["room"], p["storey"]), []).append(p)
+        driven = 0
+        for ws in rooms.values():
+            if len(ws) != 2:
+                continue
+            assert ws[0]["width_in"] == ws[1]["width_in"], "the drive assumes a pair of one width"
+            ws.sort(key=lambda p: p["cx_in"])
+            mid = (ws[0]["cx_in"] + ws[1]["cx_in"]) / 2.0
+            half = (ws[0]["width_in"] + (cls.FOOT_IN if pier_in is None else pier_in)) / 2.0
+            for p, want in zip(ws, (mid - half, mid + half)):
+                d_in = want - p["cx_in"]
+                p["cx_in"] = want
+                p["u_ft"] = round(p["u_ft"] + d_in / 12.0, 4)
+                p["along_ft"] += sgn * d_in / 12.0
+            driven += 1
+        assert driven == 2, "the premise: two rooms on this face carry two sashes each"
+        return el, C._render(C.SURF._mod("render_elevation").render_elevation, el, face=cls._face())
 
     @classmethod
     def _sidelit(cls):
@@ -1032,9 +1100,14 @@ class TestTheRefusalsAreSaid:
         reserves the wall beside the doorcase, so no shipped sheet refuses a sidelight pair any
         more: this premise ran out exactly as the control below was written to notice, and the
         refusal is driven now. Every field the rect is read from is shifted together."""
-        el, _svg = cls._all()[cls.SIDELIT]
-        el = copy.deepcopy(el)
+        # RE-CUT 30 SEP 2026 (WP-16.4): the shipped record is dated 1765, and
+        # georgian-colonial-american forbids the sidelights for 1700-1780, so at its own date the
+        # doorcase composes no pair for the placer to refuse. The specimen is the same house dated
+        # 1790, outside the ban, where the pair is composed and the drive can refuse it for want of
+        # wall; V22 reads the record the sheet is drawn from, so the date travels with it.
+        el = copy.deepcopy(_tidewater_at(1790))
         EL = C.SURF._mod("elevation")
+        assert el["entrance"]["sidelights_present"], "the premise: at 1790 the pair is composed"
         ctl = next(r for r in EL.opening_rects(el, "S")["rects"] if r.get("entrance"))
         win = max((p for p in el["faces"]["S"]["placed"] if p["kind"] == "window"
                    and p["storey"] == ctl["storey"] and p["cx_in"] < ctl["cx_in"]),
@@ -1058,21 +1131,29 @@ class TestTheRefusalsAreSaid:
         """The control. Without it a 'disagrees' below could be the plate and not the plant."""
         a = self._all()
         el, _svg = a[self.SHUTTERED]
-        wins = self._refused(el, "S", "shutters_refused")
+        assert not self._refused(el, self._face(), "shutters_refused"), (
+            "the premise: the shipped good-05 west face refuses no leaves -- since WP-16.6 the "
+            "pier between its windows holds them -- so the refusal is driven")
+        shut_el, shut_svg = self._shuttered()
+        wins = self._refused(shut_el, self._face(), "shutters_refused")
         assert len(wins) >= 2 and len({r["room"] for r in wins}) >= 2, (
-            "the premise: this face refuses leaves over more than one room")
-        assert not self._refused(el, "S", "sidelights_refused"), "the premise: and no sidelights"
+            "the drive landed: this face refuses leaves over more than one room")
+        assert not self._refused(shut_el, self._face(), "sidelights_refused"), (
+            "the premise: and no sidelights")
         el, _svg = a[self.SIDELIT]
         assert not self._refused(el, "S", "sidelights_refused"), (
-            "the premise: the placed Tidewater front draws its pair (WP-15.6); the refusal is driven")
+            "the premise: the shipped Tidewater front refuses no pair for want of wall -- since "
+            "WP-16.4 its kit forbids the pair at 1765, and before that WP-15.6 reserved its run -- "
+            "so the refusal is driven")
         el, svg = self._sidelit()
         assert self._refused(el, "S", "sidelights_refused"), "the drive landed: this face refuses sidelights"
-        got = self._v22(monkeypatch, [(self.SHUTTERED, *a[self.SHUTTERED]), (self.SIDELIT, el, svg)])
+        got = self._v22(monkeypatch, [(self.SHUTTERED, shut_el, shut_svg), (self.SIDELIT, el, svg)])
         assert got[self.SHUTTERED]["verdict"] == "agrees", got[self.SHUTTERED]
         assert got[self.SIDELIT]["verdict"] == "agrees", got[self.SIDELIT]
 
     def _planted(self, monkeypatch, subject, change):
-        el, svg = self._sidelit() if subject == self.SIDELIT else self._all()[subject]
+        el, svg = self._sidelit() if subject == self.SIDELIT else self._shuttered()
+        assert subject in (self.SIDELIT, self.SHUTTERED), subject
         planted = change(svg)
         assert planted != svg, "the plant did not land"
         return self._v22(monkeypatch, [(subject, el, planted)])[subject]
@@ -1088,8 +1169,8 @@ class TestTheRefusalsAreSaid:
         assert r["verdict"] == "disagrees" and "the sheet counts" in r["detail"], r
 
     def test_v22_sees_a_room_left_unnamed(self, monkeypatch):
-        el, _svg = self._all()[self.SHUTTERED]
-        room = sorted({r["room"] for r in self._refused(el, "S", "shutters_refused")})[0].upper()
+        el, _svg = self._shuttered()
+        room = sorted({r["room"] for r in self._refused(el, self._face(), "shutters_refused")})[0].upper()
 
         def change(svg):
             def drop(m):
@@ -1119,8 +1200,7 @@ class TestTheRefusalsAreSaid:
         clause disagrees. Written against the RECORD, so it reads the classes whenever the record
         carries them. (This test was first written against one full line per class, before the
         grouped legend existed.)"""
-        a = self._all()
-        el, svg = a[self.SHUTTERED]
+        el, svg = self._shuttered()
         EL = C.SURF._mod("elevation")
         real = EL.opening_rects
 
@@ -1131,7 +1211,7 @@ class TestTheRefusalsAreSaid:
                     r["shutters_refused_by"] = ["corner", "opening"]
             return got
 
-        wins = self._refused(el, "S", "shutters_refused")
+        wins = self._refused(el, self._face(), "shutters_refused")
         monkeypatch.setattr(EL, "opening_rects", classed)
         bare = re.sub(r"<text[^>]*>· [^<]*</text>", "", svg)
         r = self._v22(monkeypatch, [(self.SHUTTERED, el, bare)])[self.SHUTTERED]
@@ -1150,6 +1230,176 @@ class TestTheRefusalsAreSaid:
         assert r["verdict"] == "agrees", r
         r = self._v22(monkeypatch, [(self.SHUTTERED, el, grouped(""))])[self.SHUTTERED]
         assert r["verdict"] == "disagrees" and "counted under both" in r["detail"], r
+
+
+class TestARefusedPairNoLongerBlocks:
+    """V27 (WP-16.7, R7). A window refused its leaves for a neighbour's leaves must stand beside a
+    leaf the sheet DRAWS. No shipped sheet reaches it: WP-16.6 seats two windows at least the wider
+    window's width apart, and a wall that wide holds both half-width leaves. So the refusal is
+    driven, on the face V22's is, with each room's pair of sashes set a pier one and a half LEAVES
+    wide: wider than one leaf, so neither leaf reaches the other window's glass (which would refuse
+    both in any set), and narrower than two, so the pair cannot both be hung and the rule chooses.
+    Each defect is then planted in that one drawing, and lands or fails."""
+
+    SHUTTERED = TestTheRefusalsAreSaid.SHUTTERED
+
+    @classmethod
+    def _driven(cls):
+        el = copy.deepcopy(TestTheRefusalsAreSaid._all()[cls.SHUTTERED][0])
+        face = cls.SHUTTERED.split("/")[1]
+        EL = C.SURF._mod("elevation")
+        leaf = next(r["shutter_leaf_width_in"] for r in EL.opening_rects(el, face)["rects"]
+                    if r.get("shutter_leaf_width_in"))
+        return TestTheRefusalsAreSaid._shuttered(pier_in=1.5 * leaf, el=el)
+
+    @staticmethod
+    def _v27(monkeypatch, planted):
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter(planted))
+        return {r["subject"]: r for r in C.CHECKS["V27"]["fn"]()}
+
+    def _rects(self, el):
+        return C.SURF._mod("elevation").opening_rects(el, self.SHUTTERED.split("/")[1])["rects"]
+
+    def test_the_premise_one_window_of_each_pair_keeps_its_leaves_and_v27_agrees(self, monkeypatch):
+        el, svg = self._driven()
+        rects = self._rects(el)
+        refused = [r for r in rects if r.get("shutters_refused")]
+        hung = [r for r in rects if r["kind"] == "window" and r.get("shutter_leaf_width_in")]
+        assert len(refused) == 2 and {r["room"] for r in refused} <= {r["room"] for r in hung}, (
+            "the premise: one window of each driven pair is refused and its room keeps the other")
+        assert all(r["shutters_refused_by"] == ["leaf"] for r in refused), [
+            r["shutters_refused_by"] for r in refused]
+        got = self._v27(monkeypatch, [(self.SHUTTERED, el, svg)])
+        assert got[self.SHUTTERED]["verdict"] == "agrees", got[self.SHUTTERED]
+
+    def _leafless(self, svg, el=None):
+        """The old rule's drawing, as narrow as it can be made: only the leaves the refused windows'
+        own leaves would lie over are taken from the ink, and every other drawn leaf stays.
+        (WP-16.8, E43: the first version took EVERY leaf, so V27's position clause and a bare "some
+        leaf is drawn" coincided, and replacing the overlap test by the latter stayed green.)"""
+        if el is None:
+            el = self._driven()[0]
+        IR = C.IR
+        ink = IR.Ink(svg)
+        pl = C._face_plate(ink)
+        refused = [r for r in self._rects(el) if "leaf" in (r.get("shutters_refused_by") or ())]
+        mine = [(a0, a1, r["sill_in"], r["head_in"]) for r in refused
+                for a0, a1 in ((r["x0_in"] - r["shutter_leaf_width_refused_in"], r["x0_in"]),
+                               (r["x1_in"], r["x1_in"] + r["shutter_leaf_width_refused_in"]))]
+        taken, kept = 0, 0
+
+        def strip(m):
+            nonlocal taken, kept
+            b = C._box(C._rects(IR.Ink("<svg>%s</svg>" % m.group(0)), "sh")[0])
+            u0, v0 = (12.0 * c for c in IR.to_model(pl, b[0], b[3]))
+            u1, v1 = (12.0 * c for c in IR.to_model(pl, b[2], b[1]))
+            d0, d1, e0, e1 = min(u0, u1), max(u0, u1), min(v0, v1), max(v0, v1)
+            if any(min(a1, d1) - max(a0, d0) > 0.05 and min(h, e1) - max(s, e0) > 0.05
+                   for a0, a1, s, h in mine):
+                taken += 1
+                return ""
+            kept += 1
+            return m.group(0)
+        planted = re.sub(r'<rect[^>]*class="sh[ "][^>]*/>', strip, svg)
+        assert taken and kept, ("the plant must take the hung neighbours' leaves and keep others",
+                                taken, kept)
+        return planted
+
+    def test_v27_sees_a_refusal_beside_no_drawn_leaf(self, monkeypatch):
+        el, svg = self._driven()
+        r = self._v27(monkeypatch, [(self.SHUTTERED, el, self._leafless(svg, el))])[self.SHUTTERED]
+        assert r["verdict"] == "disagrees" and "over no leaf the sheet draws" in r["detail"], r
+
+    def test_v20_cannot_see_that_drawing(self, monkeypatch):
+        """Why V27 exists: an absent leaf overlaps nothing, so V20 AGREES with the same plant. This
+        is a test of V20's blind spot and drives nothing (V20 stays in `UNDRIVEN`); it is its own
+        test so that `_driven` does not read V20 into the body above, which requires a disagreement
+        of V27 alone."""
+        el, svg = self._driven()
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([(self.SHUTTERED, el, self._leafless(svg, el))]))
+        v20 = {x["subject"]: x for x in C.CHECKS["V20"]["fn"]()}
+        assert v20[self.SHUTTERED]["verdict"] == "agrees", v20[self.SHUTTERED]
+
+    def test_v27_sees_a_choice_by_order_said_where_the_record_made_none(self, monkeypatch):
+        el, svg = self._driven()
+        assert not [r for r in self._rects(el) if r.get("shutters_decided_by") == "face-order"], (
+            "the premise: the driven pairs are decided by the ruled keys")
+        planted = svg.replace("</svg>", '<text class="dm" x="0" y="0">SHUTTERS CHOSEN BY ORDER ALONG '
+                                        'THE FACE ON 1 WINDOW(S) — PLANTED</text></svg>')
+        r = self._v27(monkeypatch, [(self.SHUTTERED, el, planted)])[self.SHUTTERED]
+        assert r["verdict"] == "disagrees" and "prints 1 line(s)" in r["detail"], r
+
+    def test_v27_sees_a_choice_by_order_left_unsaid(self, monkeypatch):
+        el, svg = self._driven()
+        EL = C.SURF._mod("elevation")
+        real = EL.opening_rects
+
+        def ordered(elev, face):
+            got = real(elev, face)
+            for r in got["rects"]:
+                if r.get("shutters_refused"):
+                    r["shutters_decided_by"] = "face-order"
+            return got
+        monkeypatch.setattr(EL, "opening_rects", ordered)
+        r = self._v27(monkeypatch, [(self.SHUTTERED, el, svg)])[self.SHUTTERED]
+        assert r["verdict"] == "disagrees" and "chose 2 window(s) by the order" in r["detail"], r
+
+
+class TestTheKitRefusalIsHeldBothWays:
+    """V2 (WP-16.4, R3). Every one of V2's pinned rows left when the refusal landed: the sheets draw
+    nothing their kits forbid now, and say each refusal. So no live row could say "disagrees", and
+    a V2 that stopped reading the kit would agree everywhere. Each defect is planted in a real
+    swept sheet, both ways round, as V24 holds its legend: a refusal left unsaid, a refusal said
+    where the kit forbids nothing, and a feature the kit forbids drawn."""
+
+    # its kit forbids the sidelights for 1700-1780 (georgian-colonial-american's row), and the
+    # sweep draws every style at the Tidewater record's own 1765
+    FORBIDS = "tidewater-georgian"
+
+    @staticmethod
+    def _v2(monkeypatch, sweep):
+        monkeypatch.setattr(C, "_style_sweep", lambda: sweep)
+        return {r["subject"]: r for r in C.CHECKS["V2"]["fn"]()}
+
+    @staticmethod
+    def _said(svg):
+        return [" ".join(t.split()).upper() for t, _a, _it in C.IR.Ink(svg).texts() if t and t.strip()]
+
+    def test_the_premise_the_forbidding_style_refuses_says_so_and_agrees(self, monkeypatch):
+        el, svg = C._style_sweep()[self.FORBIDS]
+        assert C._sweep_date() == 1765 and el["entrance"]["sidelights_present"] is False
+        assert any(t.startswith("SIDELIGHTS NOT DRAWN — FORBIDDEN BY GEORGIAN-COLONIAL-AMERICAN")
+                   for t in self._said(svg)), "the premise: the sheet says the refusal"
+        got = self._v2(monkeypatch, {self.FORBIDS: (el, svg)})
+        assert got[self.FORBIDS]["verdict"] == "agrees", got[self.FORBIDS]
+
+    def test_v2_sees_a_refusal_left_unsaid(self, monkeypatch):
+        el, svg = C._style_sweep()[self.FORBIDS]
+        planted = re.sub(r"<text[^>]*>SIDELIGHTS NOT DRAWN — FORBIDDEN BY[^<]*</text>", "", svg)
+        assert planted != svg, "the plant did not land"
+        r = self._v2(monkeypatch, {self.FORBIDS: (el, planted)})[self.FORBIDS]
+        assert r["verdict"] == "disagrees" and \
+            "not said naming georgian-colonial-american" in r["detail"], r
+
+    def test_v2_sees_a_refusal_said_that_the_kit_does_not_make(self, monkeypatch):
+        el, svg = C._style_sweep()[self.FORBIDS]
+        planted = svg.replace("</svg>", '<text class="dm" x="0" y="0">FRIEZE NOT DRAWN — FORBIDDEN '
+                              "BY PLANTED'S KIT</text></svg>")
+        assert planted != svg, "the plant did not land"
+        r = self._v2(monkeypatch, {self.FORBIDS: (el, planted)})[self.FORBIDS]
+        assert r["verdict"] == "disagrees" and \
+            "the sheet says the frieze is forbidden and the kit does not forbid it" in r["detail"], r
+
+    def test_v2_sees_a_forbidden_feature_drawn(self, monkeypatch):
+        """The sheet of a style whose kit permits its pair, held against the kit that forbids it:
+        what the Tidewater front drew at 1765 until this package."""
+        sweep = C._style_sweep()
+        sid = next(s for s, got in sorted(sweep.items()) if got and s != self.FORBIDS
+                   and "sidelights" in C._drawn_features(got[1]))
+        el, svg = sweep[sid]
+        r = self._v2(monkeypatch, {self.FORBIDS: (el, svg)})[self.FORBIDS]
+        assert r["verdict"] == "disagrees" and \
+            "sidelights (transom_sidelight: inherited from georgian-colonial-american)" in r["detail"], (sid, r)
 
 
 class TestThePlanSheetsCanDisagree:
@@ -1436,8 +1686,12 @@ class TestPhaseFifteenChecksCanDisagree:
     def _rec(cls):
         return C._sheets()[cls.PID]
 
-    @staticmethod
-    def _one(monkeypatch, cid, el, svg, subject="planted"):
+    @classmethod
+    def _one(cls, monkeypatch, cid, el, svg, subject=None):
+        # THE SUBJECT NAMES THE PLAN THE PLANTED SHEET STANDS IN FOR (WP-16.4). V25 reads the style
+        # and the date off the subject's plan file, never off the record under test, because what
+        # the kit forbids depends on both; a bare "planted" names no plan and read as a KeyError.
+        subject = subject or "%s/planted" % cls.PID
         monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([(subject, el, svg)]))
         got = C.CHECKS[cid]["fn"]()
         assert len(got) == 1, got
@@ -1614,9 +1868,11 @@ class TestPhaseFifteenChecksCanDisagree:
 
     def test_v24_takes_the_floor_at_half_the_pier(self, monkeypatch):
         """K03: "about half" transcribed as 0.3 passed. The window driven so the wall beside the
-        doorcase, as drawn (the sidelight is drawn at this distance), is short of half the 66 in
-        ordinary pier and clear of three tenths of it."""
-        el, svg = self._front(self._rec()["elev"], 40.0)
+        doorcase, as drawn, is short of half the 66 in ordinary pier and clear of three tenths of
+        it. RE-CUT 30 SEP 2026 (WP-16.4): the drive was 40 in with a 14 in sidelight standing in
+        it; at the record's 1765 the kit forbids the pair, so the wall as drawn is the drive
+        itself, and 26 in is inside the same band."""
+        el, svg = self._front(self._rec()["elev"], 26.0)
         (left,) = [s for s in C.SURF._mod("elevation").doorcase_piers(el, "S")["sides"]
                    if s["side"] == "left"]
         assert 0.3 * 66.0 + 1.0 < left["clear_in"] < 0.5 * 66.0 - 1.0, ("the premise", left)
@@ -1681,7 +1937,8 @@ class TestPhaseFifteenChecksCanDisagree:
                          lambda m: '%s%.2f%s%.2f"' % (m.group(1), x0, m.group(2), x1), svg)
         assert planted != svg, "the plant did not land"
         r = self._one(monkeypatch, "V25", rec["elev"], planted)
-        assert r["verdict"] == "disagrees" and "runs" in r["detail"] and "the cornice's box" in r["detail"], r
+        # "the box it divides" since WP-16.5: a division runs across the eave's box or a return's
+        assert r["verdict"] == "disagrees" and "runs" in r["detail"] and "the box it divides" in r["detail"], r
 
     def test_v25_sees_a_frieze_said_and_unsaid_the_wrong_way(self, monkeypatch):
         """The pack states the frieze flush (0), so the "drawn flush for want of a figure" clause
@@ -1699,16 +1956,44 @@ class TestPhaseFifteenChecksCanDisagree:
         """The paint-order clause had no drive (the audit of WP-15.8's own diff, auditor G): it
         could be switched off with the suite green. On the E face the Tidewater stack stands in
         front of the face and is painted over the cornice's return; moved before the cornice's box
-        in document order, it is painted under it."""
+        in document order, it is painted under it.
+
+        RE-CUT AT WP-16.5 (30 Sep 2026). That return was the band run straight across the gable
+        end. The Tidewater kit makes the full return canonical, so under R8 the gable end draws a
+        return 24.6 in long at each corner and the stack, in the middle of the wall, meets neither:
+        the clause has no instance on the shipped sheet, which is asserted. It is driven on a kit
+        read as settling no return -- the band kept across the gable end, as the spec Colonial's
+        is -- planted in the census's own kit reader and in the record the sheet is drawn from."""
         import re
         rec = self._rec()
-        svg = rec["faces"]["E"]
-        assert self._one(monkeypatch, "V25", rec["elev"], svg)["verdict"] == "agrees"
+        shipped = rec["faces"]["E"]
+        ink = C.IR.Ink(shipped)
+        pl = C._face_plate(ink)
+        boxes = [C.IR.to_model(pl, *it.bbox()[:2]) + C.IR.to_model(pl, *it.bbox()[2:])
+                 for it in C._rects(ink, "bd", "w-prof")]
+        stacks = [C.IR.to_model(pl, *it.bbox()[:2]) + C.IR.to_model(pl, *it.bbox()[2:])
+                  for it in C._marks(ink, "ch") if it.tag in ("polygon", "rect", "path")]
+        assert len(boxes) == 2 and stacks, "the premise: two returns and a stack on the shipped gable end"
+        assert not [1 for b in boxes for c in stacks
+                    if min(c[2], b[2]) > max(c[0], b[0]) and min(max(c[1], c[3]), max(b[1], b[3]))
+                    > max(min(c[1], c[3]), min(b[1], b[3]))], "a return overlaps the stack"
+        EL = C.SURF._mod("elevation")
+        unsettled = {"binding": "specified", "_bound_by": "driven",
+                     "variants": [{"id": "full-return-carrying-complete-profile", "status": "permitted",
+                                   "_written_by": "driven"}]}
+        real_kit = C._kit
+        monkeypatch.setattr(C, "_kit", lambda style: {**real_kit(style), "cornice_return": unsettled})
+        el = copy.deepcopy(rec["elev"])
+        el["cornice_return"] = EL.cornice_return(C.SURF._mod("resolve_kit").return_at(unsettled),
+                                                 el["eave_cornice"], el["roof_record"])
+        assert el["cornice_return"]["draws"] == "band"
+        svg = self._render(el, "E")
+        assert self._one(monkeypatch, "V25", el, svg)["verdict"] == "agrees"
         stack = re.search(r'<polygon class="ch w-prof"[^>]*/>', svg)
         box = re.search(r'<rect class="bd w-prof"', svg)
         assert stack and box and stack.start() > box.start(), "the premise: the stack is painted last"
         planted = svg[:box.start()] + stack.group(0) + svg[box.start():stack.start()] + svg[stack.end():]
-        r = self._one(monkeypatch, "V25", rec["elev"], planted)
+        r = self._one(monkeypatch, "V25", el, planted)
         assert r["verdict"] == "disagrees" and "is painted under its cornice" in r["detail"], r
 
     # ---- X3 and X4: the DXF against the sheet
@@ -1866,6 +2151,191 @@ class TestPhaseFifteenChecksCanDisagree:
         assert [r["verdict"] for r in got] == ["cne"] and "draws none" in got[0]["detail"], got
 
 
+
+class TestTheGableEndCanDisagree:
+    """WP-16.5 (R8, R8a, R9a). V25, X4, V2 and V8 each gained a clause about the gable end, and
+    every shipped sheet agrees with each of them, so each clause is driven here with its defect:
+    a band across a gable end whose kit states a return, a return drawn where the kit forbids one,
+    an end profile missing or off its corner, the legend or the refusal left unsaid, the DXF's wall
+    stopped at the eave or its end profiles on another layer, and a ruled judgment published. The
+    Tidewater record states the full return and good-05's italian-renaissance-revival forbids it,
+    so between them they reach both drawn branches.
+
+    SINCE WP-16.9 (1 Oct 2026) THE SHIPPED good-05 HAS NO GABLE END. B1 hips it by its own kit, so
+    its faces carry no end profile, and four of these tests went red on the subject they had lost
+    while a fifth (the unplanted one) stayed green on a clause it no longer reached. The forbidden
+    branch is DRIVEN now, on good-05's own record declaring a side gable, which B1's first clause
+    says governs; every test asserts the face it reads is a gable end."""
+
+    TIDE, G05 = "tidewater-georgian-careful", "good-05-lobby-gallery-mansion"
+    FORBIDS = "italian-renaissance-revival"        # a swept style whose own kit forbids the return
+    _GABLED = {}
+
+    @classmethod
+    def _g05_gabled(cls):
+        """good-05, its plan declaring a side gable: the shipped record otherwise, built as `_sheets`
+        builds it. Returns the sheet record and one gable face, the premise asserted."""
+        if not cls._GABLED:
+            plan = copy.deepcopy(C._sheets()[cls.G05]["plan"])
+            plan.setdefault("declared", {})["roof_form"] = "side-gable"
+            G, ST, RF, EL = (C.SURF._mod(n) for n in ("geometry", "structure", "roof", "elevation"))
+            RE = C.SURF._mod("render_elevation")
+            placed = G.solve(copy.deepcopy(plan), engine="heuristic")
+            sec = ST.build_section(placed, None, geometry_result=placed)
+            rf = RF.build_roof(placed, None, section=sec)
+            el = EL.build_elevation(placed, None, section=sec, roof=rf)
+            gf = EL.gable_faces(rf)
+            assert gf and el["cornice_return"]["draws"] == "end-profile", ("the premise", gf)
+            rec = {"plan": plan, "placed": placed, "section": sec, "roof": rf, "elev": el,
+                   "faces": {f: C._render(RE.render_elevation, el, face=f) for f in ("S", "N", "E", "W")}}
+            cls._GABLED.update(rec=rec, face=gf[0])
+        return cls._GABLED["rec"], cls._GABLED["face"]
+
+    @staticmethod
+    def _is_gable(rec, face):
+        return face in (C.SURF._mod("elevation").gable_faces(rec["elev"]["roof_record"]) or ())
+
+    @staticmethod
+    def _one(monkeypatch, cid, pid, el, svg):
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("%s/planted" % pid, el, svg)]))
+        got = C.CHECKS[cid]["fn"]()
+        assert len(got) == 1, got
+        return got[0]
+
+    @staticmethod
+    def _render(el, face):
+        return C._render(C.SURF._mod("render_elevation").render_elevation, el, face=face)
+
+    @staticmethod
+    def _reading(el, state, **kw):
+        EL = C.SURF._mod("elevation")
+        return EL.cornice_return(dict({"state": state, "writers": ["planted"]}, **kw),
+                                 el["eave_cornice"], el["roof_record"])
+
+    # ---- V25
+    def test_v25_agrees_on_both_drawn_branches_unplanted(self, monkeypatch):
+        g05, gface = self._g05_gabled()
+        for pid, want, rec, face in ((self.TIDE, "return", C._sheets()[self.TIDE], "E"),
+                                     (self.G05, "end-profile", g05, gface)):
+            assert rec["elev"]["cornice_return"]["draws"] == want, "the premise: " + pid
+            assert self._is_gable(rec, face), ("the premise: a gable end", pid, face)
+            r = self._one(monkeypatch, "V25", pid, rec["elev"], rec["faces"][face])
+            assert r["verdict"] == "agrees", (pid, r)
+
+    def test_v25_sees_a_band_across_a_gable_end_whose_kit_states_a_return(self, monkeypatch):
+        """What every gable end drew until R8: the band straight across, whatever the kit said."""
+        el = copy.deepcopy(C._sheets()[self.TIDE]["elev"])
+        el["cornice_return"] = self._reading(el, "unsettled")
+        r = self._one(monkeypatch, "V25", self.TIDE, el, self._render(el, "E"))
+        assert r["verdict"] == "disagrees" and "the gable end return" in r["detail"], r
+
+    def test_v25_sees_a_return_drawn_where_the_kit_forbids_one(self, monkeypatch):
+        g05, face = self._g05_gabled()
+        el = copy.deepcopy(g05["elev"])
+        el["cornice_return"] = self._reading(el, "stated")
+        r = self._one(monkeypatch, "V25", self.G05, el, self._render(el, face))
+        assert r["verdict"] == "disagrees" and "0 end profile(s) drawn where the kit asks 2" in r["detail"], r
+
+    def test_v25_sees_an_end_profile_off_its_corner(self, monkeypatch):
+        rec, face = self._g05_gabled()
+        svg = rec["faces"][face]
+        planted = re.sub(r'(<path class="bd w-prof" data-end-profile="left")', r'\1 transform="translate(120,0)"',
+                         svg, count=1)
+        assert planted != svg, "the plant did not land"
+        r = self._one(monkeypatch, "V25", self.G05, rec["elev"], planted)
+        assert r["verdict"] == "disagrees" and "the left end profile stands at" in r["detail"], r
+
+    def test_v25_sees_the_gable_legend_left_unsaid(self, monkeypatch):
+        rec = C._sheets()[self.TIDE]
+        svg = rec["faces"]["E"]
+        planted = re.sub(r"<text[^>]*>CORNICE RETURNED[^<]*</text>", "", svg)
+        assert planted != svg, "the plant did not land"
+        r = self._one(monkeypatch, "V25", self.TIDE, rec["elev"], planted)
+        assert r["verdict"] == "disagrees" and "does not say CORNICE RETURNED" in r["detail"], r
+
+    # ---- X4
+    def test_x4_sees_a_dxf_wall_that_stops_at_the_eave_under_a_gable(self, monkeypatch):
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        TestPhaseFifteenChecksCanDisagree._only(monkeypatch, faces=("E",))
+        TestPhaseFifteenChecksCanDisagree._rewrite_xdata(
+            monkeypatch, "TDL::wall", lambda p: dict(p, to_the_rake=False))
+        got = C.CHECKS["X4"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "the wall:" in got[0]["detail"], got
+
+    def test_x4_holds_a_gable_end_that_draws_no_division(self, monkeypatch):
+        """A gable end showing the end profile draws no division by the rule, and draws the cornice
+        all the same: X4 holds its profiles and its wall, where "no division drawn" read it as a
+        sheet with nothing to hold the DXF to and went could-not-evaluate."""
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        g05, face = self._g05_gabled()
+        rec = dict(g05, faces={face: g05["faces"][face]})
+        monkeypatch.setattr(C, "_SHEETS", {self.G05: rec})
+        got = C.CHECKS["X4"]["fn"]()
+        assert [r["verdict"] for r in got] == ["agrees"], got
+        assert got[0]["detail"] == "0 division(s), 2 end profile(s), the wall to the rake", got
+
+    def test_x4_sees_the_end_profiles_missing_from_the_dxf(self, monkeypatch):
+        pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
+        g05, face = self._g05_gabled()
+        rec = dict(g05, faces={face: g05["faces"][face]})
+        monkeypatch.setattr(C, "_SHEETS", {self.G05: rec})
+        DX = C.SURF._mod("export_dxf")
+        real = DX._layer
+        monkeypatch.setattr(DX, "_layer", lambda doc, name, color=7, linetype=None: real(
+            doc, "TDL-ELEV-PLANTED" if name == "TDL-ELEV-CORNICE-END" else name, color, linetype))
+        got = C.CHECKS["X4"]["fn"]()
+        assert [r["verdict"] for r in got] == ["disagrees"] and "the end:" in got[0]["detail"], got
+
+    # ---- V2
+    _REAL_SWEEP = staticmethod(C._style_sweep)
+
+    def _v2(self, monkeypatch, sid, gable_svg):
+        el, svg = self._REAL_SWEEP()[sid]
+        monkeypatch.setattr(C, "_style_sweep", lambda: {sid: (el, svg)})
+        monkeypatch.setitem(C._GABLE, (sid, id(el)), gable_svg)
+        return {r["subject"]: r for r in C.CHECKS["V2"]["fn"]()}[sid]
+
+    def test_v2_holds_the_gable_both_ways_unplanted(self, monkeypatch):
+        for sid in (self.FORBIDS, "tidewater-georgian"):
+            el, _svg = self._REAL_SWEEP()[sid]
+            r = self._v2(monkeypatch, sid, C._gable_sheet(sid, el))
+            assert r["verdict"] == "agrees", (sid, r)
+
+    def test_v2_sees_a_return_drawn_on_a_gable_end_the_kit_forbids(self, monkeypatch):
+        el, _svg = C._style_sweep()[self.FORBIDS]
+        drawn = copy.deepcopy(el)
+        drawn["cornice_return"] = self._reading(drawn, "stated")
+        r = self._v2(monkeypatch, self.FORBIDS, self._render(drawn, "E"))
+        assert r["verdict"] == "disagrees" and "returned on the gable end" in r["detail"], r
+
+    def test_v2_sees_a_return_ban_left_unsaid(self, monkeypatch):
+        el, _svg = C._style_sweep()[self.FORBIDS]
+        gsvg = C._gable_sheet(self.FORBIDS, el)
+        planted = re.sub(r"<text[^>]*>NO CORNICE RETURN — FORBIDDEN BY[^<]*</text>", "", gsvg)
+        assert planted != gsvg, "the plant did not land"
+        r = self._v2(monkeypatch, self.FORBIDS, planted)
+        assert r["verdict"] == "disagrees" and "the return forbidden" in r["detail"], r
+
+    def test_v2_sees_a_return_said_forbidden_where_the_kit_forbids_none(self, monkeypatch):
+        el, _svg = C._style_sweep()["tidewater-georgian"]
+        gsvg = C._gable_sheet("tidewater-georgian", el)
+        planted = gsvg.replace("</svg>", '<text class="dm" x="0" y="0">NO CORNICE RETURN — FORBIDDEN '
+                               "BY PLANTED'S KIT</text></svg>")
+        r = self._v2(monkeypatch, "tidewater-georgian", planted)
+        assert r["verdict"] == "disagrees" and \
+            "the sheet says the return is forbidden and the kit does not forbid it" in r["detail"], r
+
+    # ---- V8
+    def test_v8_sees_a_ruled_judgment_published(self, monkeypatch):
+        """R9a's bed mould and R8a's return are judgments by a ruling, which no pack rule marks."""
+        for name in ("bed_mould_projection_in", "return_projection_from_wall_in"):
+            rec = copy.deepcopy(C._sheets()[self.TIDE])
+            rec["elev"]["measurements"][name] = 2.5
+            monkeypatch.setattr(C, "_sheets", lambda rec=rec: {self.TIDE: rec})
+            got = C.CHECKS["V8"]["fn"]()
+            assert [r["verdict"] for r in got] == ["disagrees"] and name in got[0]["detail"] \
+                and "the record marks it a judgment" in got[0]["detail"], (name, got)
+
 # ------------------------------------------------------------------ which checks nothing drives
 def _driven():
     """The checks some test in this file names and requires "disagrees" of: read off each test's
@@ -1904,13 +2374,117 @@ def _driven():
     return driven
 
 
+class TestV19ReadsTheRoofsForm:
+    """WP-16.9 (Lucas's answers B1, B7 and B8, 30 Sep 2026): V19's `:form` rows hold each roof to
+    its record's form, else its style's canonical form, else a fallback said on every sheet -- and
+    where the kit forbids that fallback, to no roof, said. No shipped plan reaches the refusal (the
+    three styles whose kits forbid their fallback are drawn by none), so it is driven here: the
+    Tidewater house undeclared, its kit patched for the roof layer and the census's own reader
+    alike to make a mansard canonical and forbid the side gable. Each defect is put back into the
+    RENDERER or the record, not painted onto ink."""
+
+    PID = "tidewater-georgian-careful"
+    STYLE = "tidewater-georgian"
+
+    def _refused(self, monkeypatch, notes=None):
+        TH, RF, EL, G, ST = (SURF._mod(n) for n in ("threshold", "roof", "elevation", "geometry", "structure"))
+        RE, RR = SURF._mod("render_elevation"), SURF._mod("render_roof")
+        C._sheets()                      # the clean table, cached before anything is patched
+        rows = [{"id": "mansard", "status": "canonical", "_written_by": self.STYLE},
+                {"id": "side-gable", "status": "forbidden", "_written_by": "w-writer"}]
+        kit = dict(TH.resolved_slots(self.STYLE) or {},
+                   roof_form={"binding": "specified", "_bound_by": self.STYLE, "variants": rows})
+        real_kit = C._kit
+        monkeypatch.setitem(TH._RESOLVED, self.STYLE, kit)
+        monkeypatch.setattr(C, "_kit", lambda st: kit if st == self.STYLE else real_kit(st))
+        monkeypatch.setattr(G, "_SOLVE_CACHE", {})
+        plan = json.load(open(os.path.join(C.ROOT, "plans", self.PID + ".json")))
+        plan["declared"].pop("roof_form")
+        placed = G.solve(copy.deepcopy(plan), engine="heuristic")
+        sec = ST.build_section(placed, None, geometry_result=placed)
+        rf = RF.build_roof(placed, None, section=sec)
+        el = EL.build_elevation(placed, None, section=sec, roof=rf)
+        assert rf["form_reading"]["by"] == "refused", "the premise: the fallback is refused"
+        if notes:
+            real = RE.EL.face_notes
+            monkeypatch.setattr(RE.EL, "face_notes", lambda *a, **k: notes(real(*a, **k)))
+        rec = {"plan": plan, "placed": placed, "section": sec, "roof": rf, "elev": el,
+               "roof_svg": C._render(RR.render_roof, rf),
+               "faces": {f: C._render(RE.render_elevation, el, face=f) for f in ("S", "N", "E", "W")}}
+        monkeypatch.setattr(C, "_SHEETS", {self.PID: rec})
+        return rec
+
+    def _form(self):
+        return [r for r in C.CHECKS["V19"]["fn"]() if r["subject"] == self.PID + ":form"]
+
+    def test_the_premise_a_refused_roof_said_everywhere_agrees(self, monkeypatch):
+        self._refused(monkeypatch)
+        got = self._form()
+        assert [r["verdict"] for r in got] == ["agrees"], got
+        assert got[0]["detail"] == "None, no roof, the fallback side-gable forbidden, said", got
+
+    def test_v19_sees_a_refused_roof_drawn_anyway(self, monkeypatch):
+        rec = self._refused(monkeypatch)
+        rec["roof"] = dict(rec["roof"], main=dict(rec["roof"]["main"], form="side-gable"))
+        got = self._form()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "the roof is drawn side-gable where the kit's refusal states None" in got[0]["detail"], got
+
+    def test_v19_sees_the_refusal_left_unsaid(self, monkeypatch):
+        self._refused(monkeypatch, notes=lambda ns: [n for n in ns if not n.startswith("NO ROOF DRAWN")])
+        got = self._form()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "does not say no roof is drawn because side-gable is forbidden" in got[0]["detail"], got
+
+    def test_v19_sees_a_sheet_that_stands_a_refused_roof_on_its_frieze(self, monkeypatch):
+        self._refused(monkeypatch, notes=lambda ns: ns + ["ROOF DRAWN ON THIS SHEET’S FRIEZE AND CORNICE"])
+        got = self._form()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "says a roof is drawn on its frieze where none is" in got[0]["detail"], got
+
+
+class TestV23SaysTheStacksTheRoofPlacesNoneOf:
+    """WP-16.9: where the style calls for chimneys and the roof record places none (a hip with no
+    gable-end wall, a roof with no judged ridge), every face says the record's own reason. The spec
+    Colonial reaches it on the shipped corpus -- its kit calls for gable-end chimneys and its roof
+    judges no ridge -- and its sheets said nothing until this. Driven by putting the silence back
+    into the sentence's one writer and re-rendering the face."""
+
+    PID = "spec-builder-colonial"
+
+    def _faces(self, monkeypatch, writer=None):
+        RE = SURF._mod("render_elevation")
+        rec = dict(C._sheets()[self.PID])
+        ch = (rec["elev"]["roof_record"].get("chimneys") or {})
+        assert ch.get("applicable") and not ch.get("positions") and ch.get("note"), (
+            "the premise: the spec Colonial's roof places none of the stacks its style calls for")
+        if writer:
+            DISC = SURF._mod("disclosures")
+            monkeypatch.setattr(DISC, "stacks_the_roof_refuses", writer)
+        rec["faces"] = {f: C._render(RE.render_elevation, rec["elev"], face=f) for f in ("S", "N", "E", "W")}
+        monkeypatch.setattr(C, "_SHEETS", {self.PID: rec})
+        monkeypatch.setattr(C, "_style_sweep", lambda: {})
+        return [r for r in C.CHECKS["V23"]["fn"]() if r["subject"].endswith(":refused")]
+
+    def test_the_premise_every_face_says_it(self, monkeypatch):
+        got = self._faces(monkeypatch)
+        assert sorted(r["subject"] for r in got) == ["%s/%s:refused" % (self.PID, f) for f in "ENSW"]
+        assert {r["verdict"] for r in got} == {"agrees"}, got
+
+    def test_v23_sees_the_refusal_left_unsaid(self, monkeypatch):
+        got = self._faces(monkeypatch, writer=lambda roof: None)
+        assert {r["verdict"] for r in got} == {"disagrees"}, got
+        assert all("does not say why" in r["detail"] for r in got), got
+
+
 # EVERY CHECK WITH NO LIVE DISAGREEMENT THAT NO TEST HERE DRIVES, BY NAME (WP-15.8's audit, auditor
 # B). This file's docstring counted them by hand -- "69 checks ... 23 undriven" -- and read 74 and
 # 28 after Phase 15 with nothing red: V23, V24, V25, X3 and X4 had joined with no test that could
 # make one of them say "disagrees". Derived now and held equal to this list, so a new check fails
-# here until it is driven or named, and a check driven since must leave it.
+# here until it is driven or named, and a check driven since must leave it. V8 left on 30 Sep 2026
+# (WP-16.5): `test_v8_sees_a_ruled_judgment_published` drives it with the held bed mould published.
 UNDRIVEN = ("E1", "E2", "E3", "F1", "P3", "P4", "P7", "PL1", "S3", "V1", "V11", "V14", "V17", "V18",
-            "V20", "V21", "V3", "V4", "V5", "V6", "V8", "X1", "X2")
+            "V20", "V21", "V3", "V4", "V5", "V6", "X1", "X2")
 
 
 class TestTheUndrivenAreNamed:
@@ -1926,3 +2500,356 @@ class TestTheUndrivenAreNamed:
         """The control on the reader: O1 and V22 are driven only through a helper (`_o1_at`,
         `_v22`), and a reader of test bodies alone calls both undriven."""
         assert {"O1", "V22", "V23", "V24", "V25", "X3", "X4"} <= _driven()
+
+
+class TestV19SaysARoofFromAJudgment:
+    """T3 (taken as recommended under Lucas's standing instruction of 1 Oct 2026): V19's `:form` row
+    holds the judgment line to the record both ways -- every sheet of a roof the kit decided by a
+    record flagged `judgment: true` names it and its writer, and no other sheet says it. Driven on
+    the Tidewater house undeclared, its kit patched for the roof layer and the census's own reader
+    alike, and each defect put back into the face's one writer, not painted onto ink."""
+
+    PID = "tidewater-georgian-careful"
+    STYLE = "tidewater-georgian"
+
+    def _house(self, monkeypatch, flag, notes=None):
+        TH, RF, EL, G, ST = (SURF._mod(n) for n in ("threshold", "roof", "elevation", "geometry", "structure"))
+        RE, RR = SURF._mod("render_elevation"), SURF._mod("render_roof")
+        C._sheets()
+        kit = dict(TH.resolved_slots(self.STYLE) or {},
+                   roof_form={"binding": "specified", "_bound_by": self.STYLE, "judgment": flag,
+                              "variants": [{"id": "side-gable", "status": "canonical", "_written_by": self.STYLE}]})
+        real_kit = C._kit
+        monkeypatch.setitem(TH._RESOLVED, self.STYLE, kit)
+        monkeypatch.setattr(C, "_kit", lambda st: kit if st == self.STYLE else real_kit(st))
+        monkeypatch.setattr(G, "_SOLVE_CACHE", {})
+        plan = json.load(open(os.path.join(C.ROOT, "plans", self.PID + ".json")))
+        plan["declared"].pop("roof_form")
+        placed = G.solve(copy.deepcopy(plan), engine="heuristic")
+        sec = ST.build_section(placed, None, geometry_result=placed)
+        rf = RF.build_roof(placed, None, section=sec)
+        el = EL.build_elevation(placed, None, section=sec, roof=rf)
+        assert rf["form_reading"]["by"] == "kit", "the premise: the kit decided the form"
+        if notes:
+            real = RE.EL.face_notes
+            monkeypatch.setattr(RE.EL, "face_notes", lambda *a, **k: notes(real(*a, **k)))
+        rec = {"plan": plan, "placed": placed, "section": sec, "roof": rf, "elev": el,
+               "roof_svg": C._render(RR.render_roof, rf),
+               "faces": {f: C._render(RE.render_elevation, el, face=f) for f in ("S", "N", "E", "W")}}
+        monkeypatch.setattr(C, "_SHEETS", {self.PID: rec})
+        return rec
+
+    def _form(self):
+        return [r for r in C.CHECKS["V19"]["fn"]() if r["subject"] == self.PID + ":form"]
+
+    def test_the_premise_a_judged_roof_said_everywhere_agrees(self, monkeypatch):
+        self._house(monkeypatch, True)
+        got = self._form()
+        assert [r["verdict"] for r in got] == ["agrees"], got
+        assert got[0]["detail"] == "side-gable, the kit's, a judgment, said", got
+
+    def test_v19_sees_the_judgment_left_unsaid(self, monkeypatch):
+        self._house(monkeypatch, True, notes=lambda ns: [n for n in ns if not n.startswith("ROOF FORM IS A JUDGMENT")])
+        got = self._form()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "does not say the side-gable is a judgment of tidewater-georgian's kit" in got[0]["detail"], got
+
+    def test_v19_sees_a_judgment_said_of_a_record_that_carries_none(self, monkeypatch):
+        self._house(monkeypatch, False, notes=lambda ns: ns + [
+            "ROOF FORM IS A JUDGMENT — TIDEWATER-GEORGIAN'S KIT MAKES SIDE-GABLE CANONICAL AND MARKS THE CALL A JUDGMENT"])
+        got = self._form()
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "calls a roof form a judgment that is not drawn from a judgment-flagged record" in got[0]["detail"], got
+
+
+class TestTheRakeLegendCanDisagree:
+    """WP-16.9 (B29, T11, and a roof that judges no ridge). V25's rake clause holds the gable end's
+    legend to the kit: a plain trim the kit states as ONE measured figure is said as MEASURED (B29),
+    a kit stating the rake's overhang and no member keeps the edge and says the band (T11, taken as
+    recommended under Lucas's standing instruction of 1 Oct 2026, never put), and a roof judging no
+    ridge draws no rake and says why, its eave faces not saying the gable ends draw one. No drawn
+    shipped plan reaches the first two, and every shipped sheet agrees with the third, so each is
+    driven here with its defect: the kit's reading planted through `_kit`, the elevation's own
+    reading set from the same record, and each defect put back into the face's words."""
+
+    TIDE, SPEC = "tidewater-georgian-careful", "spec-builder-colonial"
+
+    @staticmethod
+    def _one(monkeypatch, pid, el, svg):
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("%s/planted" % pid, el, svg)]))
+        got = C.CHECKS["V25"]["fn"]()
+        assert len(got) == 1, got
+        return got[0]
+
+    @staticmethod
+    def _render(el, face):
+        return C._render(C.SURF._mod("render_elevation").render_elevation, el, face=face)
+
+    def _planted(self, monkeypatch, rake_rec, words=None):
+        """The Tidewater house (a ridged roof, gable ends W and E) with its style's resolved
+        `rake_condition` replaced by `rake_rec` for the census and the elevation alike."""
+        RK, EL = C.SURF._mod("resolve_kit"), C.SURF._mod("elevation")
+        rec = C._sheets()[self.TIDE]
+        el = copy.deepcopy(rec["elev"])
+        style = el["style"]
+        assert ((el.get("roof_record") or {}).get("main") or {}).get("pitch_rise_per_12") is not None, \
+            "the premise: the roof judges a ridge"
+        real_kit = C._kit
+        kit = dict(real_kit(style), rake_condition=dict(rake_rec, _bound_by=style))
+        monkeypatch.setattr(C, "_kit", lambda st: kit if st == style else real_kit(st))
+        el["rake"] = EL.rake_for(style, RK.rake_at(kit["rake_condition"], None), el["eave_cornice"])
+        if words is not None:
+            el["rake"]["words"] = words(el["rake"]["words"])
+        return el
+
+    MEASURED = {"binding": "specified",
+                "parameters": {"rake_trim_width_in": {"value": 5.5, "unit": "in", "kind": "measured"}}}
+    OVERHANG = {"binding": "specified", "rule": "eave and rake overhang between 18 and 36 in",
+                "parameters": {"rake_overhang_in": {"range": [18, 36], "unit": "in", "kind": "measured"}}}
+
+    def test_v25_agrees_with_a_measured_trim_said_as_measured(self, monkeypatch):
+        el = self._planted(monkeypatch, self.MEASURED)
+        assert (el["rake"]["draws"], el["rake"]["judgment"]) == ("plain", False), "the premise"
+        r = self._one(monkeypatch, self.TIDE, el, self._render(el, "E"))
+        assert r["verdict"] == "agrees", r
+
+    def test_v25_sees_a_measured_trim_said_as_a_judgment(self, monkeypatch):
+        el = self._planted(monkeypatch, self.MEASURED, words=lambda w: w.replace(", MEASURED", ", A JUDGMENT"))
+        assert el["rake"]["words"].endswith("A JUDGMENT"), "the plant did not land"
+        r = self._one(monkeypatch, self.TIDE, el, self._render(el, "E"))
+        assert r["verdict"] == "disagrees" and "does not say RAKE: A PLAIN and MEASURED" in r["detail"], r
+
+    def test_v25_agrees_with_an_overhang_kept_as_the_edge_and_said(self, monkeypatch):
+        el = self._planted(monkeypatch, self.OVERHANG)
+        assert (el["rake"]["state"], el["rake"]["draws"]) == ("overhang", "edge"), "the premise"
+        r = self._one(monkeypatch, self.TIDE, el, self._render(el, "E"))
+        assert r["verdict"] == "agrees", r
+
+    def test_v25_sees_an_overhang_left_unsaid(self, monkeypatch):
+        el = self._planted(monkeypatch, self.OVERHANG,
+                           words=lambda w: "RAKE DRAWN AS THE ROOF'S EDGE — THE KIT STATES NO RAKE")
+        r = self._one(monkeypatch, self.TIDE, el, self._render(el, "E"))
+        assert r["verdict"] == "disagrees" and "STATES A RAKE OVERHANG OF 18–36 IN AND SETTLES NO MEMBER IN A ROW" in r["detail"], r
+
+    def test_v25_sees_a_faults_rake_said_as_measured(self, monkeypatch):
+        """The second independent check's case (1 Oct 2026): the grade was held anywhere on the
+        sheet, and every shipped sheet says A JUDGMENT of something else, so the fault's rake said
+        MEASURED passed. The grade is held in the rake's own note now. The premise asserts the sheet
+        still says A JUDGMENT elsewhere, which is what made the old test blind."""
+        EL = C.SURF._mod("elevation")
+        rec = C._sheets()[self.TIDE]
+        el = copy.deepcopy(rec["elev"])
+        assert el["rake"]["draws"] == "rake" and "A JUDGMENT" in el["rake"]["words"], "the premise"
+        el["rake"]["words"] = el["rake"]["words"].replace("A JUDGMENT", "MEASURED")
+        svg = self._render(el, EL.gable_faces(el["roof_record"])[0])
+        assert "A JUDGMENT" in svg, "the premise: the sheet says A JUDGMENT of something else"
+        r = self._one(monkeypatch, self.TIDE, el, svg)
+        assert r["verdict"] == "disagrees" and "does not say RAKE: A  and A JUDGMENT" in r["detail"], r
+
+    def test_v25_agrees_with_every_face_of_a_roof_that_judges_no_ridge(self, monkeypatch):
+        rec = C._sheets()[self.SPEC]
+        el = rec["elev"]
+        assert ((el.get("roof_record") or {}).get("main") or {}).get("pitch_rise_per_12") is None, \
+            "the premise: the spec Colonial's roof judges no ridge"
+        assert el["rake"]["draws"] in ("rake", "plain"), "the premise: its kit asks a rake"
+        for face in ("S", "N", "E", "W"):
+            r = self._one(monkeypatch, self.SPEC, el, rec["faces"][face])
+            assert r["verdict"] == "agrees", (face, r)
+
+    def test_v25_sees_the_no_ridge_cause_left_unsaid_and_a_rake_claimed_on_an_eave_face(self, monkeypatch):
+        EL = C.SURF._mod("elevation")
+        rec = C._sheets()[self.SPEC]
+        el = rec["elev"]
+        real = EL.rake_marks
+
+        def gable_unsaid(elev, face):
+            out = dict(real(elev, face))
+            if out.get("words") and "NOT DRAWN — THE ROOF JUDGES NO RIDGE" in out["words"]:
+                out["words"] = out["words"].split("; NOT DRAWN")[0]
+            return out
+        monkeypatch.setattr(EL, "rake_marks", gable_unsaid)
+        gable = EL.gable_faces(el["roof_record"])[0]
+        r = self._one(monkeypatch, self.SPEC, el, self._render(el, gable))
+        assert r["verdict"] == "disagrees" and "the roof judges no ridge" in r["detail"], r
+
+        def eave_claims(elev, face):
+            out = dict(real(elev, face))
+            if not out.get("on_gable"):
+                out["words"] = ("THE RAKE IS DRAWN ON THE GABLE ENDS; ITS OVERHANG PAST EACH CORNER IS NOT "
+                                "DRAWN ON THIS FACE")
+            return out
+        monkeypatch.setattr(EL, "rake_marks", eave_claims)
+        eave = next(f for f in ("S", "N", "E", "W") if f not in EL.gable_faces(el["roof_record"]))
+        r = self._one(monkeypatch, self.SPEC, el, self._render(el, eave))
+        assert r["verdict"] == "disagrees" and "the roof judges no ridge for them" in r["detail"], r
+
+
+# ------------------------------------------------------------------ V26, the wall between two windows
+class TestTheWindowPierCanDisagree:
+    """WP-16.6. V26 agrees on every row the corpus reaches -- the placer seats to the floor now, so
+    no shipped sheet draws a pier under it -- and an agreeing check that nothing drives is the
+    shape WP-15.8's audit found nineteen of. Each defect is planted in the record a sheet is drawn
+    from and the sheet re-drawn, or in the sheet's own words, as V26 reads each: a pier under the
+    floor; a licensed style's narrow pier said and unsaid; the floor's words missing where the
+    placed record refused a window for it, and present where it refused none; a door between two
+    windows, which breaks the pair; and a fault stating no floor at all."""
+
+    PID = "tidewater-georgian-careful"
+
+    @classmethod
+    def _rec(cls):
+        return C._sheets()[cls.PID]
+
+    @classmethod
+    def _one(cls, monkeypatch, el, svg, face):
+        monkeypatch.setattr(C, "_elev_and_sweep", lambda: iter([("%s/%s" % (cls.PID, face), el, svg)]))
+        got = C.CHECKS["V26"]["fn"]()
+        assert len(got) == 1, got
+        return got[0]
+
+    @staticmethod
+    def _render(el, face):
+        return C._render(C.SURF._mod("render_elevation").render_elevation, el, face=face)
+
+    @staticmethod
+    def _narrow(el, gap_over_width):
+        """The Tidewater front with the third chamber's right-hand sash driven along the face until
+        the wall between its two sashes is `gap_over_width` of the wider. They stand 1.143 apart as
+        placed (1.4, the aim, until WP-16.8's one queue held the inner sash), so the drive is the
+        only thing that can put one under the floor."""
+        el = copy.deepcopy(el)
+        a, b = sorted((p for p in el["faces"]["S"]["placed"]
+                       if p["storey"] == "upper" and p["room"] == "chamber3" and p["kind"] == "window"),
+                      key=lambda p: p["cx_in"])
+        w = max(a["width_in"], b["width_in"])
+        d = (a["cx_in"] + (a["width_in"] + b["width_in"]) / 2.0 + gap_over_width * w) - b["cx_in"]
+        b["cx_in"] += d
+        b["u_ft"] = round(b["u_ft"] + d / 12.0, 4)
+        b["along_ft"] += d / 12.0
+        return el
+
+    def test_v26_agrees_unplanted_on_the_faces_planted_below(self, monkeypatch):
+        rec = self._rec()
+        for face in ("S", "N"):
+            r = self._one(monkeypatch, rec["elev"], rec["faces"][face], face)
+            assert r["verdict"] == "agrees", (face, r)
+        # 1.400 until WP-16.8 (the audit of Phase 16, auditor A): the third chamber's inner sash
+        # holds 33.0 ft under R5a's one queue, and the outer one stands on the door axis below at
+        # 40.5 ft, 4.0 ft of wall from it -- 1.143 x the 3.5 ft window, over the floor
+        assert "narrowest 1.143" in self._one(monkeypatch, rec["elev"], rec["faces"]["S"], "S")["detail"]
+
+    def test_v26_sees_a_pier_under_the_floor(self, monkeypatch):
+        el = self._narrow(self._rec()["elev"], 0.5)
+        r = self._one(monkeypatch, el, self._render(el, "S"), "S")
+        assert r["verdict"] == "disagrees" and "(0.500 against 1)" in r["detail"], r
+
+    def test_v26_holds_the_pier_to_the_wider_window(self, monkeypatch):
+        """R5's floor is 1.0 x the WIDER window, and every pair driven above is two equal sashes, so a
+        V26 holding the pier to the narrower window agreed with every driver here (WP-16.8, the audit
+        of Phase 16, auditor E: mutation E38, `max` -> `min`, 9 passed). One sash is drawn half as
+        wide again and the wall left at 1.2 x the narrower: 0.8 x the wider, under the floor."""
+        el = copy.deepcopy(self._rec()["elev"])
+        a, b = sorted((p for p in el["faces"]["S"]["placed"]
+                       if p["storey"] == "upper" and p["room"] == "chamber3" and p["kind"] == "window"),
+                      key=lambda p: p["cx_in"])
+        b["width_in"] = a["width_in"] * 1.5
+        d = (a["cx_in"] + a["width_in"] / 2.0 + 1.2 * a["width_in"] + b["width_in"] / 2.0) - b["cx_in"]
+        b["cx_in"] += d
+        b["u_ft"] = round(b["u_ft"] + d / 12.0, 4)
+        b["along_ft"] += d / 12.0
+        r = self._one(monkeypatch, el, self._render(el, "S"), "S")
+        assert r["verdict"] == "disagrees" and "(0.800 against 1)" in r["detail"], r
+
+    def test_v26_holds_a_pier_just_over_the_floor(self, monkeypatch):
+        """The tolerance is the print and no wider: a wall 1.05 of the wider is over the floor."""
+        el = self._narrow(self._rec()["elev"], 1.05)
+        r = self._one(monkeypatch, el, self._render(el, "S"), "S")
+        assert r["verdict"] == "agrees" and "narrowest 1.050" in r["detail"], r
+
+    @staticmethod
+    def _spared(el, style="craftsman"):
+        el = copy.deepcopy(el)
+        WP = C.SURF._mod("window_pier")
+        assert style in WP.spared(), ("the premise: the pier fault licenses %s" % style)
+        el["style"] = style
+        el["pier_rule"] = dict(el["pier_rule"], style=style, spared=True,
+                               spared_source=WP.spared()[style])
+        return el
+
+    def test_v26_lets_a_licensed_style_stand_under_the_floor_only_where_the_sheet_says_so(self, monkeypatch):
+        el = self._spared(self._narrow(self._rec()["elev"], 0.5))
+        svg = self._render(el, "S")
+        assert C._PIER_SPARED_SAID in svg, "the premise: the sheet says the pier is not held to it"
+        r = self._one(monkeypatch, el, svg, "S")
+        assert r["verdict"] == "agrees" and r["detail"].startswith("spared, and said"), r
+        unsaid = re.sub(r"<text[^>]*>[^<]*%s[^<]*</text>" % C._PIER_SPARED_SAID, "", svg)
+        assert unsaid != svg, "the plant did not land"
+        r = self._one(monkeypatch, el, unsaid, "S")
+        assert r["verdict"] == "disagrees" and "does not say it is not held to the floor" in r["detail"], r
+
+    def test_v26_refuses_the_licence_to_a_style_the_fault_does_not_name(self, monkeypatch):
+        el = self._narrow(self._rec()["elev"], 0.5)
+        svg = self._render(el, "S").replace(
+            "</svg>", '<text class="dm" x="0" y="0">1 WALL BETWEEN TWO WINDOWS %s — PLANTED</text></svg>'
+            % C._PIER_SPARED_SAID)
+        r = self._one(monkeypatch, el, svg, "S")
+        assert r["verdict"] == "disagrees" and "on a style the fault does not license" in r["detail"], r
+
+    def test_v26_holds_the_legend_to_the_record_both_ways(self, monkeypatch):
+        """The S face's record refuses a window for the floor (the back hall's second sash) and its
+        legend says so; the N face's refuses none and says nothing. Each is planted the other way."""
+        rec = self._rec()
+        s = rec["faces"]["S"]
+        assert C._PIER_FLOOR_SAID in s, "the premise: the S legend names the floor"
+        cut = s.replace(C._PIER_FLOOR_SAID, "WALL")
+        r = self._one(monkeypatch, rec["elev"], cut, "S")
+        assert r["verdict"] == "disagrees" and "refused 1 window unit(s)" in r["detail"] \
+            and "does not say so" in r["detail"], r
+        n = rec["faces"]["N"]
+        assert C._PIER_FLOOR_SAID not in n, "the premise: the N face refuses nothing for the floor"
+        planted = n.replace("</svg>", '<text class="dm" x="0" y="0">THE PIER FLOOR — PLANTED</text></svg>')
+        r = self._one(monkeypatch, rec["elev"], planted, "N")
+        assert r["verdict"] == "disagrees" and "says it did" in r["detail"], r
+
+    def test_v26_does_not_pair_two_windows_a_door_stands_between(self, monkeypatch):
+        """A second passage sash driven onto the ground storey just east of the passage door: the
+        door stands between it and the first, so the ground storey has no window pier and the face
+        counts the upper storey's two. Pairing across the door would count three."""
+        el = copy.deepcopy(self._rec()["elev"])
+        pl = el["faces"]["S"]["placed"]
+        win = next(p for p in pl if p["storey"] == "ground" and p["kind"] == "window")
+        door = next(p for p in pl if p["storey"] == "ground" and p["kind"] == "door" and p["room"] == "passage")
+        twin = copy.deepcopy(win)
+        d = (door["cx_in"] + door["width_in"] / 2.0 + 6.0 + twin["width_in"] / 2.0) - twin["cx_in"]
+        twin["cx_in"] += d
+        twin["u_ft"] = round(twin["u_ft"] + d / 12.0, 4)
+        twin["along_ft"] += d / 12.0
+        pl.append(twin)
+        svg = self._render(el, "S")
+        assert svg.count('class="op') > self._rec()["faces"]["S"].count('class="op'), "the drive did not land"
+        r = self._one(monkeypatch, el, svg, "S")
+        assert r["verdict"] == "agrees" and r["detail"].startswith("2 pier(s)"), r
+
+    def test_v26_reads_its_floor_and_its_licences_off_the_fault_file(self, tmp_path):
+        """The census reads the floor and the licensed styles off the fault file itself, never
+        through `window_pier` and never as a figure written here. Added by WP-16.6's mutation
+        pass: a census that wrote 1.0 for the floor went green against every test in this class,
+        because the cannot-evaluate test below replaces the reader whole."""
+        with open(os.path.join(C.ROOT, "faults", "pier-narrower-than-the-opening.json"),
+                  encoding="utf-8") as fh:
+            rec = json.load(fh)
+        assert C._pier_fault() == (rec["test"]["threshold"],
+                                   {e["style"] for e in rec["exceptions"] if e.get("style")})
+        rec["test"]["threshold"] = 2.0
+        rec["exceptions"] = rec["exceptions"][:1]
+        p = tmp_path / "pier.json"
+        p.write_text(json.dumps(rec))
+        assert C._pier_fault(str(p)) == (2.0, {rec["exceptions"][0]["style"]})
+        rec["test"]["direction"] = "at-most"
+        p.write_text(json.dumps(rec))
+        assert C._pier_fault(str(p))[0] is None
+
+    def test_v26_says_it_cannot_evaluate_where_the_fault_states_no_floor(self, monkeypatch):
+        monkeypatch.setattr(C, "_pier_fault", lambda: (None, set()))
+        got = C.CHECKS["V26"]["fn"]()
+        assert [r["verdict"] for r in got] == ["cne"], got

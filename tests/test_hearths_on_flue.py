@@ -735,8 +735,14 @@ class TestNoSashInTheBreast:
                     if "the chimney" in ((w.get("unplaced") or {}).get("reason") or "")], (
             "a sash is refused for masonry again -- re-derive the count and say which "
             "placement changed, rather than re-pinning the total below")
-        assert placed["opening_report"]["windows_unplaced"] == 13, (
-            "16 on this branch before the merge; re-derive, never re-pin")
+        # 13 -> 14 AT WP-16.6 (1 Oct 2026), and the unit that joined is no breast's: R6 (ruled 29 Sep
+        # 2026) refuses the third chamber's second upper sash, whose axis below -- the drawing
+        # room's window -- stands 0.111 ft inside the chamber's own west wall. The library's and
+        # the back hall's refusals are the same units under the pier floor's name now (R5), where
+        # they were the placer's "no clear run beside the windows already seated". Diffed per
+        # window against a worktree of `bb3c6de`.
+        assert placed["opening_report"]["windows_unplaced"] == 14, (
+            "16 on this branch before the merge, 13 after it, 14 at WP-16.6; re-derive, never re-pin")
 
     def test_a_sash_that_does_not_fit_beside_a_breast_is_refused_by_name_and_the_count_is_kept(self):
         """DRIVEN on a hand-built room, because no placement in this corpus leaves a wall too

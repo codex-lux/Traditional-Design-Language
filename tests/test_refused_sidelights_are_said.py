@@ -38,6 +38,12 @@ GEO, ST, RF, EL, SC, EX = (_L("geometry"), _L("structure"), _L("roof"), _L("elev
 def front():
     with open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"), encoding="utf-8") as fh:
         plan = json.load(fh)
+    # DATED 1790 SINCE WP-16.4 (30 Sep 2026). At the record's own 1765 the KIT refuses this pair
+    # outright -- georgian-colonial-american forbids the sidelights for houses of 1700-1780 -- so
+    # the placer reserves no room for them and there is no pair left for a neighbouring window to
+    # refuse. The same house dated after the ban draws its pair, which is what this file refuses
+    # and then says; the kit's own refusal is `tests/test_kit_refusal.py`'s subject.
+    plan.setdefault("context", {})["date_of_representation"] = 1790
     saved = GEO._SOLVE_CACHE
     GEO._SOLVE_CACHE = {}
     try:

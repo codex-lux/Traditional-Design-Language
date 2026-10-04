@@ -523,7 +523,11 @@ class TestTheSurfacesSayIt:
         RE.render_elevation(driven, out)
         svg = open(out).read()
         assert 'class="ghost"' in svg
-        assert "1 MEMBER(S) DRAWN AS A DASHED BRACKET AT THE NAKED" in svg
+        # read as the sentences the caption sets: it wraps to the inset's width, and WP-16.5
+        # measured the face's advance (4.5 px a character, where the wrap read 4.3) and moved the
+        # break in this line
+        said = " ".join(" ".join(t.split()) for t, _a, _i in IR.Ink(svg).texts() if t and t.strip())
+        assert "1 MEMBER(S) DRAWN AS A DASHED BRACKET AT THE NAKED" in said
 
     def test_the_scene_does_not_call_an_unpublished_member_a_projection_of_0_DRIVEN(self):
         SC = modcache.load("scene", os.path.join(ROOT, "build", "scene.py"))

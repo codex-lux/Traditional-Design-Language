@@ -18,9 +18,11 @@ proportion engine, which is a leaf itself, and it holds the arithmetic both call
     names as aliases.
   * `applies` -- the elevation's own gate (a style inside opening-proportion's and
     facade-classical's `applies_to`): a doorcase exists only where the elevation draws one.
+  * `refusals` -- what the entrance may not draw, read off the resolved kit at the house's date:
+    the sidelights, the transom with them, the pilaster doorcase, the pilaster (WP-16.4).
   * `composition` -- the width figures of `elevation.entrance_composition`: the leaf, the casing,
     the sidelights, the width cap and whether the sidelights fit under it.
-  * `entrance_index` -- which door is the entrance: the widest, ties to the lower coordinate.
+  * `entrance_index` -- which door is the entrance: the widest, ties to the lower plan coordinate.
   * `stated_bay_ft` -- the bay a parti states, which the ordinary pier is measured on, or why none.
   * `residual_pier_ft` -- facade-classical's floor on the wall each side of the composition.
 """
@@ -106,23 +108,59 @@ def forbidden_of(slots):
     return {sid for sid, rec in (slots or {}).items() if (rec or {}).get("binding") == "forbidden"}
 
 
+# ---------------------------------------------------------------- what the entrance may not draw
+# THE ENTRANCE'S REFUSALS, IN THE KIT'S OWN VOCABULARY (WP-16.4, R3). A name, the slot it lives
+# in, and the words that match its variant ids -- `resolve_kit.ban`'s rule: forbidden where the
+# slot is bound forbidden, or where every variant the words match that applies at the house's
+# date is forbidden. `forbidden_of` read whole-slot bans alone, and the elevation read no ban on
+# `door_surround` at all, so -- measured over the elevation's 41 styles on 30 Sep 2026 -- the ten
+# that forbid the SIDELIGHTS ROW (six of them only for 1700-1780, through
+# georgian-colonial-american) drew sidelights their kits forbid, and five drew a pilaster doorcase
+# their kits forbid: the four Italianate styles by the row (A4), minimal-traditional by the whole
+# `door_surround` slot.
+ENTRANCE_BANS = (
+    # the WHOLE slot: the sidelights and the transom go together, as they always have
+    ("transom_sidelight", "transom_sidelight", None),
+    # the sidelights alone: a row ban leaves the transom its own question
+    ("sidelights", "transom_sidelight", ("sidelight",)),
+    # the doorcase the elevation draws: the casing carried up under an entablature
+    ("doorcase", "door_surround", ("pilasters-and-entablature",)),
+    ("pilaster", "pilaster", None),
+)
+
+
+def refusals(slots, date=None):
+    """`{name: ban or None}` for every entry of `ENTRANCE_BANS`, read off a RESOLVED kit at the
+    house's date (`context.date_of_representation`, None where the record states none). The one
+    spelling the placer (`openings._reserve_doorcase`) and the elevation both read, so the run the
+    placer reserves and the doorcase the elevation draws cannot come to disagree about whether
+    there are sidelights. A ban names the nodes that WROTE it, and an undated house keeps a dated
+    ban and says its date is unstated (`resolve_kit.ban`, ruled 30 Sep 2026)."""
+    RK = _mod("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+    return {name: RK.ban((slots or {}).get(slot), words, date)
+            for name, slot, words in ENTRANCE_BANS}
+
+
 # ---------------------------------------------------------------- the composition's width
-def composition(op_pack, facade_pack, ground_storey_height_in, forbids=()):
+def composition(op_pack, facade_pack, ground_storey_height_in, forbids=(), refused=None):
     """The width of the entrance composition, as `elevation.entrance_composition` composes it: the
     storey-derived leaf, the casing each side, the sidelights each side where the kit does not
     forbid them and the whole fits facade-classical's width cap, and whether it does.
 
-    A FORBIDDEN SIDELIGHT HAS NO WIDTH: where the resolved kit binds `transom_sidelight`
-    FORBIDDEN the figures are ABSENT rather than zero and no cap is consulted."""
+    A FORBIDDEN SIDELIGHT HAS NO WIDTH: where the resolved kit forbids the sidelights -- the whole
+    `transom_sidelight` slot (`forbids`), or the sidelights row at the house's date (`refused`,
+    `refusals`' answer) -- the figures are ABSENT rather than zero and no cap is consulted. The
+    TRANSOM goes only with the whole slot: a row ban on the sidelights says nothing about it."""
+    refused = refused or {}
+    slot_banned = "transom_sidelight" in forbids or bool(refused.get("transom_sidelight"))
     door_w, door_w_r = val(op_pack, "entry_door", {"storey_height": ground_storey_height_in},
                            note_substr="door from the storey", dimension="width")
     casing_w, _ = val(op_pack, "door_surround", {"module": door_w}, dimension="width")
-    sidelights_forbidden = "transom_sidelight" in forbids
-    if sidelights_forbidden:
-        sidelight_w = transom_h = None
-    else:
-        sidelight_w, _ = val(op_pack, "transom_sidelight", {"module": door_w}, dimension="width")
-        transom_h, _ = val(op_pack, "transom_sidelight", {"module": door_w}, dimension="height")
+    sidelights_forbidden = slot_banned or bool(refused.get("sidelights"))
+    sidelight_w = None if sidelights_forbidden else \
+        val(op_pack, "transom_sidelight", {"module": door_w}, dimension="width")[0]
+    transom_h = None if slot_banned else \
+        val(op_pack, "transom_sidelight", {"module": door_w}, dimension="height")[0]
     with_sidelights_in = None if sidelights_forbidden else door_w + 2 * sidelight_w + 2 * casing_w
     without_sidelights_in = door_w + 2 * casing_w
     # OQ 48: `door_surround`/`width` held two quantities -- an architrave's own face width and the
@@ -133,7 +171,7 @@ def composition(op_pack, facade_pack, ground_storey_height_in, forbids=()):
     use_sidelights = (not sidelights_forbidden) and with_sidelights_in <= comp_cap_in
     return {"door_w_in": door_w, "door_w_rule": door_w_r, "casing_w_in": casing_w,
             "sidelight_w_in": sidelight_w, "transom_h_in": transom_h,
-            "sidelights_forbidden": sidelights_forbidden,
+            "sidelights_forbidden": sidelights_forbidden, "transom_forbidden": slot_banned,
             "with_sidelights_in": with_sidelights_in, "without_sidelights_in": without_sidelights_in,
             "cap_in": comp_cap_in, "use_sidelights": use_sidelights,
             "composition_w_in": with_sidelights_in if use_sidelights else without_sidelights_in}
@@ -141,12 +179,16 @@ def composition(op_pack, facade_pack, ground_storey_height_in, forbids=()):
 
 # ---------------------------------------------------------------- which door is the entrance
 def entrance_index(doors):
-    """The index of the entrance among `doors`, each `(width_ft, u_ft)` on the entrance face at the
-    ground storey: THE WIDEST, and where two are equally wide the one at the lower coordinate
-    (`axis.door_bay`'s rule, which the elevation restates because that function returns no door on
-    an even bay count). None where there is no door. The elevation hands it the face's own `u`; the
-    placer hands it the plan coordinate along the wall, which runs the same way while no face is
-    mirrored (`elevation.FACE_MIRRORED`), and a test holds the two to one door on every plan."""
+    """The index of the entrance among `doors`, each `(width_ft, along_ft)` on the entrance face at
+    the ground storey: THE WIDEST, and where two are equally wide the one at the lower PLAN
+    coordinate along the wall (`axis.door_bay`'s rule, which the elevation restates because that
+    function returns no door on an even bay count). None where there is no door.
+
+    EVERY CALLER HANDS IT THE PLAN COORDINATE (WP-16.3). The elevation handed it the face's own
+    `u` until the north and west faces were drawn as seen from outside, and on those faces u runs
+    against the plan: two equally wide doors would have made the placer and the elevation choose
+    different entrances. The placer hands it `position_ft` and the elevation `along_ft`, the same
+    number, and a test holds the two to one door on every plan."""
     if not doors:
         return None
     return max(range(len(doors)), key=lambda i: (doors[i][0], -doors[i][1]))

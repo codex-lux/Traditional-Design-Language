@@ -65,25 +65,48 @@ def _style_block():
 # ---------------------------------------------------------------------- vertical section
 def render_section(section, path, scale=7.0):
     """A single vertical slice: grade line, each storey's floor line and ceiling label, the
-    eave, and the ridge where roof_heights() judged a pitch. The roof span drawn is the
-    footprint's own shorter outside dimension -- the same one build_section's roof_heights()
-    used to compute the ridge rise, so the picture and the number it illustrates always agree."""
+    eave, and the ridge where roof_heights() judged a pitch. The roof span drawn is the span
+    roof_heights() raised the ridge over -- the footprint's dimension ACROSS the ridge the roof
+    record draws (`threshold.ridge_span`, stated on the record as `span_ft`) -- so the picture and
+    the number it illustrates always agree. It was the footprint's shorter dimension whatever
+    the roof did until the audit of Phase 16 (WP-16.8): on good-03, whose ridge B9 runs along
+    the shorter dimension, the section cut the roof across the house the other way. A record
+    from before then states no span and keeps the shorter dimension.
+
+    A REFUSED ROOF IS SAID AS ONE (B8): the record carries `refused` and no ridge, and the sheet
+    prints NO ROOF DRAWN with the refusal's own words where it printed RIDGE UNJUDGED -- a roof
+    the style's kit forbids is not a roof nobody could judge."""
     fp = section["footprint"]
-    span_ft = min(fp["width_ft"], fp["depth_ft"])
     roof = section["roof"]
+    span_ft = roof.get("span_ft") or min(fp["width_ft"], fp["depth_ft"])
     storeys = [s for s in section["storeys"] if s.get("storey_height_ft") is not None and (s.get("index") or 0) >= 0]
     storeys.sort(key=lambda s: s["index"])
     top_ft = roof.get("grade_to_ridge_ft") or (roof["grade_to_eave_ft"] + 4)
 
     pad, left_gutter, right_gutter, top_pad, bottom_pad = 42, 92, 130, 60, 46
+    # A ROOF FORM THE KIT DECIDED BY A RECORD ITS WRITER FLAGS A JUDGMENT, SAID (T3; WP-16.8, the
+    # audit of Phase 16, auditors C and D): the elevation and the roof plan said it and this sheet,
+    # which draws the same roof's ridge, did not. A line beneath the title, the drawing lowered by it.
+    form_judgment = DISC.roof_form_judgment(roof)
     pw = span_ft * scale
+    # AND WRAPPED TO THE SHEET (the audit of WP-16.8's own diff, 3 Oct 2026, auditor B): it was one
+    # line, 8.5 px monospace at .14em (6.3 px a character), and on all seven sections that print
+    # it the sentence ran 124 to 299 px past a 542-579 px canvas -- the clipped tail being "MARKS
+    # THE CALL A JUDGMENT", which is the clause the line exists to say. Wrapped as the bay-module
+    # line below is, the top margin growing by the lines it takes.
+    fj_lines = (textwrap.wrap(form_judgment, max(24, int((left_gutter + pw + right_gutter) / 6.3)),
+                              break_long_words=False, break_on_hyphens=False)
+                if form_judgment else [])
+    if fj_lines:
+        top_pad += 14 + 12 * (len(fj_lines) - 1)
     # WRAPPED, NOT CUT (WP-14.3). An unjudged ridge's note says why, and it was cut at seventy
     # characters -- mid-word, and before the reason on most records. It is wrapped to the span
     # and stands above the eave, so the top margin grows by the lines it takes.
     ridge_lines = []
     if roof.get("grade_to_ridge_ft") is None:
         line, cols = "", max(40, int(pw / 4.55))
-        for w in ("RIDGE UNJUDGED — " + (roof.get("note") or "")).split():
+        _head = "NO ROOF DRAWN — " if roof.get("refused") else "RIDGE UNJUDGED — "
+        for w in (_head + (roof.get("note") or "")).split():
             if line and len(line) + 1 + len(w) > cols:
                 ridge_lines.append(line)
                 line = w
@@ -109,6 +132,12 @@ def render_section(section, path, scale=7.0):
     s.append(f'<text class="hd" x="{pad}" y="26">{_esc(section.get("plan_id",""))} — SECTION</text>')
     s.append(f'<text class="lb" x="{pad}" y="42">{_esc(section.get("style",""))} · '
               f'{_esc(section["wall"]["construction_type"])} · SPAN {_fmt(span_ft)}</text>')
+    if fj_lines:
+        # one <text> carrying a line per <tspan>, every line but the last ending in its space, so
+        # the sentence reads back whole off the ink (`tests/inkread.py` joins a text's spans)
+        _sp = "".join(f'<tspan x="{pad}" y="{58 + 12 * i}">{_esc(ln)}{" " if i < len(fj_lines) - 1 else ""}'
+                      f'</tspan>' for i, ln in enumerate(fj_lines))
+        s.append(f'<text class="lb" x="{pad}" y="58">{_sp}</text>')
 
     # grade
     s.append(f'<line class="gr" x1="{ox-24:.1f}" y1="{Y(0):.1f}" x2="{ox+pw+24:.1f}" y2="{Y(0):.1f}"/>')

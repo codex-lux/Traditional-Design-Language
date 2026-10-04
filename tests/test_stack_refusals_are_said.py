@@ -79,12 +79,45 @@ def test_the_placements_own_reason_is_republished_not_composed(elev):
     assert "THE PLACEMENT SEATS NO SQUARE FOR THEM: A REASON ONLY THIS TEST WRITES" in svg
 
 
-def test_a_ridge_running_front_to_back_is_said_and_draws_no_stack(elev):
+def test_a_roof_record_stating_no_ridge_axis_is_said_and_draws_no_stack(elev):
+    """RE-CUT 2 Oct 2026 (WP-16.8, the audit of Phase 16, auditor C). This drove a ridge along y and
+    asserted "THIS ROOF'S RIDGE RUNS FRONT TO BACK" -- the refusal the stack reader gave every ridge
+    not along x. Since B9 a side gable entered on the west or the east runs its ridge along y, and
+    every face refused its stacks with that sentence while the roof plan, the plan sheet and the
+    scene drew them. A stack is drawn against either axis now (the test below); what is refused,
+    and said, is a record that states no ridge axis at all."""
     el = copy.deepcopy(elev)
-    el["roof_record"]["main"]["ridge"]["axis"] = "y"
+    el["roof_record"]["main"]["ridge"].pop("axis", None)
     svg, marks = _draw(el, "S")
     assert marks == 0
-    assert "STACKS NOT DRAWN — THIS ROOF’S RIDGE RUNS FRONT TO BACK" in svg
+    assert "STACKS NOT DRAWN — THE ROOF RECORD STATES NO RIDGE AXIS" in svg
+    assert "RIDGE RUNS FRONT TO BACK" not in svg
+
+
+def test_a_side_gable_entered_on_the_west_draws_its_stacks_on_every_face():
+    """B9 (30 Sep 2026): a ridge is read relative to the entrance, so the Tidewater record entered
+    on the west runs its ridge along y and stands its gable ends on S and N. Every face draws the
+    stacks the roof places -- none refused for the ridge's direction, which the reader did on all
+    four faces until WP-16.8."""
+    with open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"), encoding="utf-8") as fh:
+        plan = json.load(fh)
+    plan["context"]["entrance_faces"] = "W"
+    saved = GEO._SOLVE_CACHE
+    GEO._SOLVE_CACHE = {}
+    try:
+        placed = GEO.solve(plan, None, 250, engine="heuristic")
+    finally:
+        GEO._SOLVE_CACHE = saved
+    sec = ST.build_section(placed, None, geometry_result=placed)
+    el = EL.build_elevation(placed, None, section=sec)
+    assert el["roof_record"]["main"]["ridge"]["axis"] == "y", "the premise: B9 turns the ridge"
+    assert len(el["roof_record"]["chimneys"]["positions"]) == 2
+    for face in ("S", "N", "E", "W"):
+        sm = EL.stack_marks(el, face)
+        assert not sm["no_ridge_axis"] and not sm["refused_else"], (face, sm)
+        assert sm["marks"], face
+        svg, marks = _draw(el, face)
+        assert marks == len(sm["marks"]) and "STACKS NOT DRAWN" not in svg, face
 
 
 def test_a_stack_refused_for_another_reason_is_not_dropped_in_silence(elev):

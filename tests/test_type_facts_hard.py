@@ -25,6 +25,7 @@ import modcache  # noqa: E402
 
 pytest.importorskip("ortools", reason="COULD NOT EVALUATE: the CP-SAT engine needs OR-Tools")
 from ortools.sat.python import cp_model  # noqa: E402
+from conftest import deterministic_solver  # noqa: E402
 
 GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
 CP = modcache.load("geometry_cp", os.path.join(ROOT, "build", "geometry_cp.py"))
@@ -213,11 +214,10 @@ def _assume_only(m, reqs, kinds_and_keys):
     m.AddAssumptions(keep)
 
 
-def _solve(m, seconds=10.0):
-    s = cp_model.CpSolver()
-    s.parameters.max_time_in_seconds = seconds
-    s.parameters.num_search_workers = 1
-    s.parameters.random_seed = 7
+def _solve(m, det_seconds=5.0):
+    # deterministic time, never the wall clock (WP-16.8 §X.12): the largest need measured here is
+    # 0.28 units, an INFEASIBLE proof, which a loaded clock could cut to UNKNOWN
+    s = deterministic_solver(det_seconds)
     return s.Solve(m), s
 
 

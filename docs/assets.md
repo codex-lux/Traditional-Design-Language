@@ -10,7 +10,7 @@ A `wanted` asset has no file. It has a caption, a `shot_spec`, and `alt_text` wr
 - the manifest **is** the shot list — hand it to a photographer or a renderer
 - an agent can **use the record now**, because the alt text is the machine-readable form of the picture
 
-`assets/manifest.json` currently holds **1850 records — 1777 wanted and 73 sourced, 858 good/bad pairs, 73 critical.** Every one was generated from the data rather than dreamed up:
+`assets/manifest.json` currently holds **2044 records — 1971 wanted and 73 sourced, 955 good/bad pairs, 73 critical.** Every one was generated from the data rather than dreamed up:
 
 | Source | Becomes |
 |---|---|
@@ -23,7 +23,7 @@ The Georgian kit alone produced 117 forbidden variants. That is where most of th
 and it is why the fault layer and the image layer are the same piece of work approached from two
 directions.
 
-**It covers 142 style nodes, and until 31 Aug 2026 it covered three.** The manifest was a frozen
+**It covers 146 style nodes, and until 31 Aug 2026 it covered three.** The manifest was a frozen
 snapshot from when the layer was authored — 322 records over `georgian-colonial-american`,
 `tidewater-georgian` and `english-georgian` — while `gen_assets.py`, tracking the corpus, would
 have emitted 1,788 over 142. Nothing compared them, so every count quoting "322 image records"
