@@ -414,3 +414,50 @@ def test_the_private_cache_idiom_really_isolates(monkeypatch):
     assert not after["hearths"].get("hearths_unreadable"), (
         "a result solved under the patch was served after the patch was undone")
     assert after["hearths"]["breasts"], "the unpatched record draws its breasts"
+
+
+# --- WP-16.8 §X.12: a test's own CP-SAT solve is bounded by work, never by the clock ----------
+
+def test_no_test_caps_its_own_solve_on_the_wall_clock():
+    """Eight solves built their own CpSolver with `max_time_in_seconds`, so a loaded runner
+    returned UNKNOWN where an idle one proved the model. Every such solve goes through
+    `conftest.deterministic_solver` now; an assignment to `max_time_in_seconds` anywhere in the
+    suite brings the clock back. Read off the AST, so a comment naming the field does not count."""
+    import ast
+    hits = []
+    for root in (os.path.join(ROOT, "tests"), os.path.join(ROOT, "workbench", "server", "tests")):
+        for path in sorted(glob_module.glob(os.path.join(root, "*.py"))):
+            tree = ast.parse(open(path, encoding="utf-8").read())
+            for node in ast.walk(tree):
+                targets = node.targets if isinstance(node, ast.Assign) else (
+                    [node.target] if isinstance(node, (ast.AugAssign, ast.AnnAssign)) else [])
+                for t in targets:
+                    if isinstance(t, ast.Attribute) and t.attr == "max_time_in_seconds":
+                        hits.append(f"{os.path.relpath(path, ROOT)}:{node.lineno}")
+    assert not hits, ("a test solve is capped on the wall clock; use "
+                      "conftest.deterministic_solver: " + ", ".join(hits))
+
+
+def test_the_deterministic_solver_is_deterministic():
+    """The helper's three settings, and the property they buy: two solves of one model stop at
+    the same work and the same answer. A wall-clock cap left on (the default is infinite) would
+    make the stop a fact about the machine again."""
+    pytest.importorskip("ortools", reason="COULD NOT EVALUATE: needs OR-Tools")
+    from ortools.sat.python import cp_model
+    from conftest import deterministic_solver
+    s = deterministic_solver(2.5)
+    assert s.parameters.max_deterministic_time == 2.5
+    assert s.parameters.num_search_workers == 1 and s.parameters.random_seed == 7
+    assert s.parameters.max_time_in_seconds > 1e300, s.parameters.max_time_in_seconds
+    runs = []
+    for _ in range(2):
+        m = cp_model.CpModel()
+        xs = [m.NewIntVar(0, 40, f"x{i}") for i in range(12)]
+        m.AddAllDifferent(xs)
+        m.Add(sum(xs) == 231)
+        m.Maximize(sum((i + 1) * x for i, x in enumerate(xs)))
+        sol = deterministic_solver(2.5)
+        st = sol.Solve(m)
+        runs.append((sol.StatusName(st), sol.ResponseProto().deterministic_time,
+                     [sol.Value(x) for x in xs]))
+    assert runs[0] == runs[1], runs

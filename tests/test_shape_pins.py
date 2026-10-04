@@ -442,8 +442,8 @@ def _band_model(ceiling, w_ft, h_ft):
     # the statement under test, transcribed from `_build` with `_BAND_Q` READ rather than
     # copied -- a transcription would go on passing after the constant moved
     m.Add(CP._BAND_Q * mxs <= int(round(ceiling * CP._BAND_Q)) * mns)
-    sol = cp_model.CpSolver()
-    sol.parameters.max_time_in_seconds = 5.0
+    from conftest import deterministic_solver
+    sol = deterministic_solver(1.0)     # a one-room model: decides in no measurable work
     return sol.Solve(m) in (cp_model.OPTIMAL, cp_model.FEASIBLE)
 
 

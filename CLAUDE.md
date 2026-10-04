@@ -674,7 +674,7 @@ in its own tree, and every finding was reproduced before it was touched.
       surfaces draw from;
     - two prover tests in `tests/test_element_awareness.py` stop on wall-clock time, at 25.2 s and
       15.8 s of their 30 s alone. They are older than the phase; a deterministic budget is named as
-      follow-up work. **A red there under load is the budget, and it is not this branch's;**
+      follow-up work. **A red there under load is the budget, and it is not this branch's;** *(Corrected 4 Oct 2026, §X.12: the follow-up is done. All eight test-built solves are bounded by deterministic time through `conftest.deterministic_solver`; under load the old code failed 4 of 6 and the new passes all.)*
     - D8's class, swept: no second occurrence.
 
 **PHASE 15 — THE PLATES DRAWN — IS OPEN, AND FOUR OF ITS EIGHT PACKAGES WAIT ON THE NETWORK
@@ -1207,7 +1207,7 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 3,955 and the app suite 767.** The audit of
+**The test figure in the counts paragraph below is 3,957 and the app suite 767.** §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
 WP-16.8's own diff (3 Oct 2026) added 71 tests and re-cut 2 away: 53 in the new
 `tests/test_audit_of_wp_16_8.py`, 8 in `tests/test_window_pier.py`, 3 each in `tests/test_roof.py`
 and `tests/test_roof_form.py`, and 1 each in `tests/test_ifc_openings_are_the_sheets.py`,
@@ -2017,7 +2017,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 2044 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,955 tests**
+proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,957 tests**
 (plus the workbench app suite, **767** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this

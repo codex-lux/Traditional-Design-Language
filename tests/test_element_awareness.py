@@ -22,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 
 import modcache  # noqa: E402
-from conftest import untagged_reference_plan  # noqa: E402
+from conftest import deterministic_solver, untagged_reference_plan  # noqa: E402
 
 GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
 OP = modcache.load("openings", os.path.join(ROOT, "build", "openings.py"))
@@ -1904,10 +1904,7 @@ class TestCPSATPlacesPerElement:
         # first pass is legitimately INFEASIBLE here -- it downgrades wall pins and retries --
         # so asserting on it would be asserting on the declared walls, not on this change.
         m.ClearAssumptions()
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 30.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), s.StatusName(st)
         # and every wing room is drawn INSIDE its wing, which is what the refusal was about:
@@ -2113,10 +2110,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
         assert east and east[0][0] > main[2], (east, main, "the wing is not east of the block")
         m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
         m.ClearAssumptions()
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 30.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
             s.StatusName(st), "an east wing stands beyond the main block's width, so a "
@@ -2158,10 +2152,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
         assert wing[1] < main[1] and wing[3] > main[3], (wing, main)
         m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
         m.ClearAssumptions()
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 30.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
             s.StatusName(st), "a wing deeper than the main block cannot be placed — the depth "
@@ -2196,10 +2187,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
                 if k.startswith("wall") and t.startswith("Kitchen (Dependency)")]
         assert len(lits) == 1, [t for _l, t, k, _k in reqs.lits if k.startswith("wall")]
         m.AddAssumptions(lits)
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 25.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
             s.StatusName(st), "the kitchen cannot reach any of its own declared walls — the "
@@ -2242,10 +2230,10 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
         levels, prep, fpd = _prepped(p)
         m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=True)
         m.ClearAssumptions()
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 30.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        # DETERMINISTIC SINCE 4 OCT 2026 (WP-16.8 §X.12). The 30 s wall budget reached 5.47 units of
+        # deterministic time here and FEASIBLE; 6.0 units keeps that outcome on every machine, where
+        # the clock gave UNKNOWN under load. The figures in the docstring are the wall-clock era's.
+        s = deterministic_solver(6.0)
         st = s.Solve(m)
         # THE PROPERTY, and it is load-independent: M11's defect made the objective model
         # UNSATISFIABLE on a wing, and no budget makes an infeasible model feasible.
@@ -2254,7 +2242,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
             "back: some soft term is measuring a wing's edge from the main block's origin")
         if st == cp_model.UNKNOWN:
             pytest.skip("COULD NOT EVALUATE — the objective model on this wing did not decide "
-                        "in 30 s on one worker. It is satisfiable (60 s on one worker, or 30 s "
+                        "in 6.0 units of deterministic time on one worker. It is satisfiable (60 s on one worker, or 30 s "
                         "on four, both FEASIBLE here); the assertion above is the one this test "
                         "is about and it held.")
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), s.StatusName(st)
@@ -2281,10 +2269,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
                 or (k == "door" and "door to the exterior" in t)]
         assert lits, [t for _l, t, k, _k in reqs.lits if k == "door"]
         m.AddAssumptions(lits)
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 25.0
-        s.parameters.num_search_workers = 1
-        s.parameters.random_seed = 7
+        s = deterministic_solver(15.0)
         st = s.Solve(m)
         assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
             s.StatusName(st), "a wing room's door to the outside cannot be satisfied — the rule "

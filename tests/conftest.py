@@ -183,3 +183,23 @@ def as_one_element(plan):
             stripped += r.pop("block", None) is not None
             r.pop("hyphen", None)
     return stripped
+
+
+def deterministic_solver(det_seconds):
+    """A CP-SAT solver for a test that builds and solves its own model, bounded by DETERMINISTIC
+    time and never by the wall clock.
+
+    A test solve must give the same answer on every machine and under any load. Eight solves in
+    this suite were capped by `max_time_in_seconds`, so a loaded runner returned UNKNOWN where an
+    idle one proved the model -- the answer was a fact about the clock (WP-16.8 §X.11, §X.12).
+    Deterministic time is CP-SAT's own count of work done; with one worker and a fixed seed the
+    search is deterministic too, so where it stops is a property of the model and the budget alone.
+    A slow machine takes longer and gets the same answer. No wall-clock cap is set: the work is
+    bounded, so the solve terminates. ortools is imported here, not at module level, because the
+    suite runs without it and every caller already skips as COULD NOT EVALUATE."""
+    from ortools.sat.python import cp_model
+    s = cp_model.CpSolver()
+    s.parameters.max_deterministic_time = float(det_seconds)
+    s.parameters.num_search_workers = 1
+    s.parameters.random_seed = 7
+    return s
