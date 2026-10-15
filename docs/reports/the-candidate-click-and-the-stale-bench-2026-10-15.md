@@ -122,6 +122,24 @@ the bench and a fresh compose, Next from the Candidate Set reads `open a candida
 and is not a link; picking each column puts the strip's link in; following it lands on the bench
 with `planFrom.kind: candidate` and the candidate's own plan id.
 
+**The walk, held against a control.** `e2e/walk.mjs` gained two checks beside the column-pick
+check: the strip's act on the picked column agrees with that candidate's own `refused` in the job
+the server served (`open` as a button, `refused` as text), and the `· N refused` tally equals the
+job's own count. Both read their expectation off the served job and both require the strip to be
+PRESENT first, because a tally of 0 against a served 0 reads the same on a surface that rendered
+nothing. Run against a pristine worktree of the parent (`e00ef29`), both FAIL (*"want open, read
+null"*), and the tally one fails only through the presence guard, which is what that guard is for.
+Run against this tree both pass. The rest of the walk is the same on both trees, by check id and by
+figure: 699 ok before the two additions and the same three failures, all the `trim-classical`
+Proportions plate's label overlap (check ⑩: 41 of 61 labels, and one zone text), which is on the
+parent and which this package did not touch.
+
+**One instrument artefact worth keeping.** A second walk against my own server read seven fewer
+checks than the first, all of the sign-in Gate block's. The Gate block starts a second server
+from the same checkout on the walk's port plus one, which for a walk on 8179 is 8180, where I had
+put the control server. It met a server with no password and had nothing to sign into. Not code;
+but a walk's gate port is its port + 1, so do not park another server there.
+
 ## IV. What was deliberately not done
 
 - **The ranking.** `compose._sort_key` still does not read `refused`. That is

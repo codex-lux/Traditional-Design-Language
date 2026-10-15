@@ -2559,6 +2559,29 @@ await shot('brief');
       await page.waitForSelector(`main [data-candidate="${target.id}"]`, { timeout: 60000 }).catch(() => {});
       check('and the picked column is still the chosen one after a reload', await selNow());
 
+      /* THE STRIP SAYS WHAT THE PICK CAN DO (15 Oct 2026). A click selects and loads nothing, so
+         the strip's act is the visible way on to the bench, and it must agree with the candidate's
+         OWN refusal in the job the server served: a link for a refused candidate offers an act
+         that does nothing, and a refusal worn by a drawable one takes the way on away. The
+         expectation is read off the served job and never named here. The strip must be PRESENT
+         first -- a selector that matches nothing reads the same as a set with nothing refused. */
+      const servedSet = (job && job.result && job.result.candidates) || [];
+      const served = servedSet[n];
+      const act = await page.evaluate(() => {
+        const a = document.querySelector('[data-selection-action]');
+        return a ? { state: a.getAttribute('data-selection-action'), tag: a.tagName.toLowerCase() } : null;
+      });
+      const want = served && served.refused ? 'refused' : 'open';
+      check(`the strip's act on the picked column agrees with its own refusal (want ${want}, read ${act && act.state})`,
+        !!served && !!act && act.state === want && (want === 'open' ? act.tag === 'button' : act.tag !== 'button'));
+      const tally = await page.evaluate(() => {
+        const t = document.querySelector('[data-set-refused]');
+        return t ? Number(t.getAttribute('data-set-refused')) : 0;
+      });
+      const refusedServed = servedSet.filter((c) => c.refused).length;
+      check(`the set's refused tally is the job's own count (served ${refusedServed}, read ${tally})`,
+        !!act && tally === refusedServed);
+
       // the flag sits below the column's scores, so bring it into the picture before shooting
       await page.evaluate((id) => {
         const f = document.querySelector(`main [data-named-by-brief="${id}"]`);
