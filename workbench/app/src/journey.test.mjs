@@ -339,7 +339,11 @@ test('the origin is the session’s only when it names this plan, and says so wh
 });
 
 test('a clean evaluated house proceeds step to step, and the export step is the last', () => {
-  const st = journeyState({ session: { brief: BRIEF, result: { candidates: [{}] } }, plan: PLAN, lastEval: EVALUATED });
+  // the plan came from a candidate of the compose in hand: that is what lets the candidates step
+  // hand on to the bench (a plan from anywhere else does not -- the next test)
+  const from = { kind: 'candidate', planId: PLAN.id, jobId: 'j1', n: 0 };
+  const st = journeyState({ session: { brief: BRIEF, jobId: 'j1', planFrom: from, result: { candidates: [{}] } },
+    plan: PLAN, lastEval: EVALUATED });
   assert.deepEqual(st.steps.map((s) => s.canProceed), [true, true, true, true, false]);
   assert.deepEqual(st.steps.map((s) => s.reason), [null, null, null, null, null]);
   assert.equal(step(st, 'export').state, 'ready');
@@ -349,6 +353,46 @@ test('a clean evaluated house proceeds step to step, and the export step is the 
   assert.equal(step(un, 'plan').state, 'unevaluated');
   assert.equal(step(un, 'plan').words, JOURNEY_WORDS.plan.unevaluated);
   assert.equal(step(un, 'drawings').state, 'ready');
+});
+
+test('a plan on the bench carries the candidates step on only where it came from THIS compose', () => {
+  /* The bench keeps its record across a refresh and across a whole compose, so "a plan on the
+     bench" was true of an example opened last week when the candidates arrived -- and Next from
+     the Candidate Set then led from the candidate a reader had just picked to that example. The
+     step proceeds only for a candidate of the job in hand; every other origin is a place a plan
+     can come from and none of them is the pick. */
+  const result = { candidates: [{}, {}] };
+  const at = (planFrom, jobId = 'j2') => step(journeyState({
+    session: { brief: BRIEF, jobId, planFrom, result }, plan: PLAN, lastEval: EVALUATED }), 'candidates');
+  const ok = at({ kind: 'candidate', planId: PLAN.id, jobId: 'j2', n: 1 });
+  assert.deepEqual([ok.canProceed, ok.reason], [true, null]);
+  const stale = {
+    'the example': { kind: 'example', planId: PLAN.id },
+    'a tracing': { kind: 'traced', planId: PLAN.id },
+    // `readPlanFrom` reads a job id for ANY kind off storage, so the kind is its own condition
+    'an example whose stored entry carries this job': { kind: 'example', planId: PLAN.id, jobId: 'j2' },
+    'a tracing whose stored entry carries this job': { kind: 'traced', planId: PLAN.id, jobId: 'j2' },
+    'a candidate of an EARLIER job': { kind: 'candidate', planId: PLAN.id, jobId: 'j1', n: 1 },
+    'a candidate recording no job': { kind: 'candidate', planId: PLAN.id, jobId: null, n: 1 },
+    'no origin recorded': null,
+    'an origin that names ANOTHER plan': { kind: 'candidate', planId: 'p-other', jobId: 'j2', n: 1 },
+  };
+  for (const [what, pf] of Object.entries(stale)) {
+    const c = at(pf);
+    assert.equal(c.canProceed, false, what);
+    assert.equal(c.reason, JOURNEY_WORDS.reasons.candidates, what);
+  }
+  // the session holding NO job cannot match a candidate to one either
+  assert.equal(at({ kind: 'candidate', planId: PLAN.id, jobId: 'j2', n: 1 }, null).canProceed, false);
+  /* and it moves nothing else. The plan, drawings and export are judged on the plan and its
+     evaluation, as before: a refused example stays refused, a clean one stays ready. */
+  const st = journeyState({ session: { brief: BRIEF, jobId: 'j2', result,
+    planFrom: { kind: 'example', planId: PLAN.id } }, plan: PLAN, lastEval: EVALUATED });
+  assert.deepEqual(st.steps.map((x) => x.state), ['stated', 'ready', 'evaluated', 'ready', 'ready']);
+  assert.deepEqual(st.steps.slice(2).map((x) => x.canProceed), [true, true, false]);
+  const refused = journeyState({ session: { brief: BRIEF, jobId: 'j2', result,
+    planFrom: { kind: 'example', planId: PLAN.id } }, plan: PLAN, lastEval: { check: check(), placement_refused: REFUSAL } });
+  assert.deepEqual(refused.steps.slice(2).map((x) => x.state), ['refused', 'refused', 'refused']);
 });
 
 test('the words that are glossary terms say what their records say', (t) => {

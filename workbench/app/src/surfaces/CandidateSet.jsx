@@ -25,7 +25,7 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { ORDERS, order, setSize } from '../candidateOrder.js';
-import { adaptCandidate } from '../candidateCard.js';
+import { adaptCandidate, selectionAction, refusedCount } from '../candidateCard.js';
 import { Term } from '../components/Term.jsx';
 import { revisedEventLine } from '../revision.js';
 
@@ -130,6 +130,17 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
   const dropped = result.dropped_lot_infeasible || [];
   const askedFor = s.brief?.candidates || 4;
   const size = setSize(result, askedFor);
+  /* THE PICKED COLUMN AND WHAT A READER CAN DO WITH IT. A click on a column selects it (the
+     decision log below follows it, and the address records it); it has never loaded anything,
+     and the one link that does sat at the foot of each card, under the score axes. A reader who
+     picked the candidate they preferred and expected the next page therefore stayed here, and the
+     bench -- which keeps its last record across a whole compose -- showed whatever was on it
+     before. The strip is always on screen, so the act is said there, for the column picked. */
+  const picked = sel ? cands.find((x) => x.id === sel) : null;
+  const action = selectionAction(picked);
+  // how many of the set the type's own facts turned down: a count read off the candidates in hand,
+  // said beside the set's size so a set in which nothing may be drawn is not found column by column
+  const refusedN = refusedCount(cands);
 
   async function openInWorkbench(c) {
     // A refused candidate is not loaded. The conflict set beside its column says what could not
@@ -146,7 +157,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip right={
+      <FilterStrip wrap right={
         <span data-set-size={size.own} data-set-asked={size.asked}
           style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
           returned {size.own} of {size.asked} asked for
@@ -155,6 +166,11 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
           {size.appended && (
             <span data-named-appended={size.appended.parti}>
               {JOURNEY_WORDS.separator}<Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}{size.appended.name}
+            </span>
+          )}
+          {refusedN > 0 && (
+            <span data-set-refused={refusedN} style={{ color: 'var(--refusal)' }}>
+              {JOURNEY_WORDS.separator}{refusedN} <Term id="judgment-refused" />
             </span>
           )}
           {dropped.length ? ` · ${dropped.length} dropped for the lot` : ''}
@@ -168,6 +184,19 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             <Chip key={k} radio on={sort === k} onClick={() => setSort(k)}>{o.chip}</Chip>
           ))}
         </ChipGroup>
+        {/* the act on the picked column: a link where the candidate may go on the bench, and in
+            the refusal's ink -- saying why -- where it may not (a refusal is brick, a link is
+            ink with a gilt underline: WP-14.33 R1) */}
+        {action.state === 'open'
+          ? <button type="button" data-selection-action="open" onClick={() => openInWorkbench(picked)}
+              className="tdl-link" style={{ font: 'var(--type-data-s)' }}>
+              {action.words} <span aria-hidden="true">→</span>
+            </button>
+          : <span data-selection-action={action.state}
+              style={{ font: 'var(--type-data-s)',
+                color: action.state === 'refused' ? 'var(--refusal)' : 'var(--ink-2)' }}>
+              {action.words}
+            </span>}
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 22px 30px' }}>
@@ -220,7 +249,8 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                     style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--refusal)',
                       marginTop: 14 }}
                     title={refusalHeadline(c.refused)}>
-                    refused — not loadable; the conflict set is below
+                    refused{c.refused.facts.length ? ` — ${c.refused.facts.join(', ')}` : ''}; not
+                    loadable, the conflict set is below
                   </span>
                 : <button type="button" onClick={() => openInWorkbench(c)} className="tdl-link"
                     style={{ font: 'var(--type-data-s)', marginTop: 14 }}>

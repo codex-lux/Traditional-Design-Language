@@ -677,6 +677,24 @@ in its own tree, and every finding was reproduced before it was touched.
       follow-up work. **A red there under load is the budget, and it is not this branch's;** *(Corrected 4 Oct 2026, §X.12: the follow-up is done. All eight test-built solves are bounded by deterministic time through `conftest.deterministic_solver`; under load the old code failed 4 of 6 and the new passes all.)*
     - D8's class, swept: no second occurrence.
 
+**A CLICK ON A CANDIDATE ONLY SELECTED IT, AND THE BENCH KEPT AN EXAMPLE THE JOURNEY CALLED "THE PLAN"
+(15 Oct 2026).** Read `docs/reports/the-candidate-click-and-the-stale-bench-2026-10-15.md` before touching
+the Candidate Set's selection, `journeyState`'s candidates step or the refused tally. Lucas picked the
+candidate he preferred, expected the drawings, and got `Plan refused · 0 fatal`, Drawings and Export
+`blocked: refused`.
+- **Two roads end on that screen.** The bench keeps its record across a whole compose, so a stale example
+  was "a plan on the bench" and Next led to it (the candidates step now proceeds only for a candidate of
+  the job in hand); and a candidate opened on the bench can be refused there, with no fatal finding.
+- **"0 fatal" and "may be drawn" are two measures.** A fatal is a finding; a refusal is a hard fact of the
+  type the placement did not hold (bearing, stacks, tiling). Measured on `family-georgian`: **all four
+  composed candidates were refused at compose and again on the bench, two of them with no fatal finding on
+  either**, and a 90 s proof did not change it. The set is not reproducible between composes.
+- **What changed (app only):** a strip action for the picked column (open it, or why it cannot be drawn), a
+  `· N refused` tally beside the set's size, the refused column naming its facts. App suite 767 -> 774.
+- **Not done, and Lucas's:** the ranking (`oq/the-composer-ranks-first-a-house-that-may-not-be-drawn`,
+  amended with this measurement: reading 2 returns nothing here) and whether a refused candidate may be
+  opened to be read. WP-13.4's refusal to draw stands.
+
 **PHASE 15 — THE PLATES DRAWN — IS OPEN, AND FOUR OF ITS EIGHT PACKAGES WAIT ON THE NETWORK
 (27–28 Sep 2026).** Lucas reviewed the drawn Tidewater front and found four defects:
 - no concept of how close a window may stand to a door;
@@ -1207,7 +1225,7 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 3,957 and the app suite 767.** §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
+**The test figure in the counts paragraph below is 3,957 and the app suite 774** (767 until the candidate-click fix of 15 Oct 2026, which added seven app tests and no Python one). §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
 WP-16.8's own diff (3 Oct 2026) added 71 tests and re-cut 2 away: 53 in the new
 `tests/test_audit_of_wp_16_8.py`, 8 in `tests/test_window_pier.py`, 3 each in `tests/test_roof.py`
 and `tests/test_roof_form.py`, and 1 each in `tests/test_ifc_openings_are_the_sheets.py`,
@@ -2018,7 +2036,7 @@ migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 2044 image records, **73 sourced** (the first ever — drawn by the corpus from its own
 proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,957 tests**
-(plus the workbench app suite, **767** under `node --test`; both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
+(plus the workbench app suite, **774** under `node --test` (767 until 15 Oct 2026); both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring

@@ -180,7 +180,9 @@ test('R13 reads the count off the card the composer serves, and the Candidate Se
     ['none-served', 'no-field', 'one-unjudged', 'two-unjudged']);
   // and the surface renders THIS adapter: it imports it, and defines none of its own
   const src = readFileSync(new URL('./surfaces/CandidateSet.jsx', import.meta.url), 'utf8');
-  assert.match(src, /import \{ adaptCandidate \} from '\.\.\/candidateCard\.js';/);
+  // (the property is that it imports the adapter from the leaf -- not that it imports nothing
+  // else from it, which the picked column's `selectionAction` now also needs)
+  assert.match(src, /import \{[^}]*\badaptCandidate\b[^}]*\} from '\.\.\/candidateCard\.js';/);
   assert.doesNotMatch(src, /function\s+adaptCandidate\b|adaptCandidate\s*=/);
 });
 

@@ -8,6 +8,43 @@
 import { isNative, nativityOf, unjudgedFatalsOf } from './candidateOrder.js';
 import { readRefusal } from './sheet/refusal.js';
 import { revisedLine } from './revision.js';
+import { JOURNEY_WORDS } from './journey/journey.js';
+
+/* WHAT A PICKED COLUMN CAN DO, in one place so the strip that says it and the click that does it
+   cannot disagree (the Candidate Set's selection is a click that SELECTS -- it reads the decision
+   log and writes the address -- and loading the plan onto the bench is a second act).
+
+     none     no column is picked: say how to pick one.
+     open     a drawable candidate: the act is loading it on the bench, where the placement is
+              proved and drawn.
+     refused  a candidate the type's own facts turned down. NOT loadable, by WP-13.4's ruling
+              (a record no surface on the bench may draw reads as the bench being broken), so the
+              strip says WHY it cannot go on rather than offering a link that does nothing -- and
+              says it in the refusal's own words (the facts it names), because a candidate can
+              carry no fatal finding at all and still be refused: findings and facts are two
+              measures, and "0 fatal" has never meant "may be drawn".
+
+   `n` is the index the server's `/candidates/{n}/plan` is asked for. */
+export function selectionAction(candidate) {
+  const W = JOURNEY_WORDS.selection;
+  if (!candidate) return { state: 'none', words: W.none, n: null, refused: null };
+  const name = candidate.parti_name || candidate.parti || 'this candidate';
+  const r = candidate.refused || null;
+  if (r) {
+    const why = Array.isArray(r.facts) && r.facts.length
+      ? `${r.facts.join(', ')} ${r.kind === 'infeasible' ? 'cannot all hold' : 'not held'}`
+      : null;
+    return { state: 'refused', words: W.refused(name, why), n: candidate.n, refused: r };
+  }
+  return { state: 'open', words: W.open(name), n: candidate.n, refused: null };
+}
+
+/* How many of a set's cards the type's own facts turned down, off the cards in hand. A card is
+   refused where `readRefusal` found a refusal on it -- a missing or unreadable one is not counted,
+   because a verdict nobody gave is not a refusal (and is not a pass either). */
+export function refusedCount(cards) {
+  return Array.isArray(cards) ? cards.filter((c) => c && c.refused).length : 0;
+}
 
 /* `what` — the sentence saying what an axis measures — rides on the RESULT once rather than
    on eight rows per candidate, because it is constant across a run and the MCP tool bills a

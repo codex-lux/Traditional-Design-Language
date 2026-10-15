@@ -87,6 +87,14 @@ export const JOURNEY_WORDS = Object.freeze({
     ready: 'ready',
   }),
   counts: Object.freeze({ fatal: 'fatal', serious: 'serious', unjudged: 'unjudged', notCounted: 'not counted' }),
+  /* What the Candidate Set says about the column a reader has picked: a click selects, and the
+     way on to the bench is a separate act, so each state of the pick says which act is available. */
+  selection: Object.freeze({
+    none: 'select a candidate to open it on the bench',
+    open: (name) => `open ${name} on the bench`,
+    // `why` is the refusal's own account (the facts it names), never a sentence written here
+    refused: (name, why) => `${name} is refused, so it cannot be drawn${why ? ` · ${why}` : ''}`,
+  }),
   separator: ' · ',
   next: 'next',   // the bar's link on to the following step (WP-14.10)
   reasons: Object.freeze({ brief: 'compose the brief first', candidates: 'open a candidate on the bench' }),
@@ -237,9 +245,21 @@ export function journeyState({ session, plan, lastEval } = {}) {
 
   const byId = { brief, candidates, plan: plan_, drawings, export: exp };
 
+  /* A PLAN ON THE BENCH LEAVES THE CANDIDATES STEP ONLY WHERE IT CAME FROM THIS COMPOSE. The bench
+     keeps its record across a refresh and across a whole compose, so an example opened last week
+     is "a plan on the bench" when the candidates arrive -- and "next: Plan" then carried a reader
+     from the candidate they had just picked to that example, refused by the type's own facts,
+     under a bar that said the plan was theirs to continue with. The origin is the session's own
+     record of where the plan came from (`planFrom`, trusted only where it names this plan), and a
+     candidate counts only for the job the Candidate Set is showing: the example, a tracing and an
+     earlier job's candidate are all places a plan can come from and none of them is the one picked
+     here. The step's own reason ("open a candidate on the bench") is what the bar then says. */
+  const fromThisCompose = Boolean(hasPlan && origin.origin && origin.origin.kind === 'candidate'
+    && str(origin.origin.jobId) && origin.origin.jobId === str(s.jobId));
+
   const proceed = {
     brief: candidates.state !== 'none',
-    candidates: plan_.state !== 'empty',
+    candidates: plan_.state !== 'empty' && fromThisCompose,
     plan: drawings.state === 'ready',
     drawings: exp.state === 'ready',
     export: false,

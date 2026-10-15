@@ -130,6 +130,23 @@ test('Next is a link exactly where the step in view can proceed, and the last st
   assert.ok(traced.items.every((i) => !i.current), 'no step claims the tracing surface');
 });
 
+test('Next from the candidates is a link only for a plan that came from this compose', () => {
+  const next = (planFrom) => view({ brief: BRIEF, jobId: 'j2', result: RESULT, planFrom }, PLAN, EVALUATED,
+    'candidates').next;
+  const mine = next({ kind: 'candidate', planId: PLAN.id, jobId: 'j2', n: 0 });
+  assert.deepEqual([mine.link, mine.id], [true, 'plan']);
+  // the example left on the bench is not the candidate that was picked, and Next does not say it is
+  for (const pf of [{ kind: 'example', planId: PLAN.id }, { kind: 'candidate', planId: PLAN.id, jobId: 'j1', n: 0 }, null]) {
+    const n = next(pf);
+    assert.deepEqual([n.link, n.reason], [false, JOURNEY_WORDS.reasons.candidates], JSON.stringify(pf));
+    assert.equal(n.href, undefined, 'a blocked Next carries no link to follow');
+  }
+  // the Plan step itself stays a place a reader can stand: only Next is held back
+  const v = view({ brief: BRIEF, jobId: 'j2', result: RESULT, planFrom: { kind: 'example', planId: PLAN.id } },
+    PLAN, EVALUATED, 'candidates');
+  assert.equal(item(v, 'plan').link, true);
+});
+
 test('the step in view is the one marked current, and only it', () => {
   for (const j of JOURNEY) {
     const v = view({ brief: BRIEF, result: RESULT }, PLAN, EVALUATED, j.surface);

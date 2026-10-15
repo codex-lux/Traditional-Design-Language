@@ -67,3 +67,34 @@ score axes and says nothing about whether the house may be drawn.
   returned set can be unusable while every candidate in it is correctly ranked.
 - `oq/the-composers-footprint-is-not-the-placed-one` — the third quantity the card publishes that
   the placement does not use.
+
+## Amendment, 15 October 2026 — the reading nobody had measured: every candidate refused
+
+The question's own instruction was to re-derive on the engine and budget a ruling would apply to.
+Done once, on `briefs/family-georgian.json` with the revision loop on and `auto` (the app's own
+call), and then each returned candidate's plan evaluated as the bench evaluates it on opening:
+**all four candidates were refused at compose, and all four again on the bench** — two of them
+(`side-hall-townhouse`, `foursquare-quadrant`) with no fatal finding on either surface. The table,
+and the refusal lines behind it, are in
+`docs/reports/the-candidate-click-and-the-stale-bench-2026-10-15.md` §II.
+
+What it changes about the three readings:
+
+- **Reading 2 (exclude the refused) returns nothing on this run.** The question named that risk in
+  the abstract (*"or none"*); here it is the whole set.
+- **Reading 1 (refused ranks last) cannot make a drawable house first where none exists**, so on
+  this brief it reorders four houses that may not be drawn. It is still the cheaper change, and
+  it is right wherever the set is mixed, which the original table was.
+- **Reading 3's "a longer budget may draw the same diagram" is not what the proof does here.** The
+  same two candidates re-solved on the prover alone at 25 s and at 90 s are still refused at both;
+  a longer proof held one more fact on one of them and refused it anyway.
+- **The set is not reproducible**: two composes of one brief on one tree differed in their fourth
+  candidate. A ruling taken from one table is taken from one draw.
+
+**The surface now says it, whatever is ruled** (the question's own last paragraph asked for that):
+the Candidate Set carries a tally beside the set's size (`· 4 refused`), names the facts a refused
+column failed on the column, and says in the strip, for the column picked, that it cannot be drawn
+and why. The ranking is untouched and this question stays open. Lucas's own report of this
+(15 October: *picked the preferred candidate, expected the drawings, found the plan refused with no
+fatal flaw*) is the first reader's account of the cost; it is not a ruling, and no reading is
+taken from it.
