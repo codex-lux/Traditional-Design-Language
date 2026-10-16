@@ -25,7 +25,7 @@
 import React from 'react';
 import { session } from '../state/session.js';
 import { planDoc } from '../state/planDoc.js';
-import { journeyState, JOURNEY_TERMS, JOURNEY_WORDS } from '../journey/journey.js';
+import { journeyState, pickedCandidate, JOURNEY_TERMS, JOURNEY_WORDS } from '../journey/journey.js';
 import { barView, BAR_TERMS, showJourneyBar } from '../journey/bar.js';
 import { useGlossary } from '../api/useGlossary.js';
 import { wordOf, noGlossary } from '../glossary/termView.js';
@@ -130,12 +130,13 @@ function Next({ next }) {
   );
 }
 
-export function JourneyBar({ surface, lastEval }) {
+export function JourneyBar({ surface, lastEval, selection }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
   const view = React.useMemo(
-    () => barView(journeyState({ session: s, plan, lastEval }), { surface, jobId: s.jobId }),
-    [s, plan, lastEval, surface]);
+    () => barView(journeyState({ session: s, plan, lastEval, picked: pickedCandidate(surface, selection) }),
+      { surface, jobId: s.jobId }),
+    [s, plan, lastEval, surface, selection]);
   const planItem = view.items.find((i) => i.id === 'plan');
   return (
     <nav aria-label="house journey" data-journey=""

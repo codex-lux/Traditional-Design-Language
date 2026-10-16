@@ -24,6 +24,7 @@ import { indexTerms } from '../src/glossary/lookup.js';
 // The faces and the nativity words, from the modules the surfaces read them from (WP-14.27).
 import { FACES } from '../src/surfaces/drawingFaces.js';
 import { NATIVITY_TERMS } from '../src/candidateOrder.js';
+import { JOURNEY_WORDS } from '../src/journey/journey.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
 const SHOTS = new URL('./shots/', import.meta.url).pathname;
@@ -2560,27 +2561,183 @@ await shot('brief');
       check('and the picked column is still the chosen one after a reload', await selNow());
 
       /* THE STRIP SAYS WHAT THE PICK CAN DO (15 Oct 2026). A click selects and loads nothing, so
-         the strip's act is the visible way on to the bench, and it must agree with the candidate's
-         OWN refusal in the job the server served: a link for a refused candidate offers an act
-         that does nothing, and a refusal worn by a drawable one takes the way on away. The
-         expectation is read off the served job and never named here. The strip must be PRESENT
-         first -- a selector that matches nothing reads the same as a set with nothing refused. */
+         the strip's act is the visible way on to the bench, and it must agree with what the type's
+         facts have been asked of that candidate in the job the server served: a link for a refused
+         candidate offers an act that does nothing, a refusal worn by a drawable one takes the way
+         on away, and a candidate nobody judged must not read as one the bench will draw. The
+         expectation is read off the SERVED job's raw fields and never off the app's own reader of
+         them. The strip must be PRESENT first -- a selector that matches nothing reads the same as
+         a set with nothing refused. This block composes with the loop off (`revise: false`), so
+         every candidate here is one nobody judged; the refused and placed branches are driven
+         against a rewritten job just below, because whether a real compose is refused is not ours
+         to choose. */
       const servedSet = (job && job.result && job.result.candidates) || [];
       const served = servedSet[n];
+      const servedStanding = (c) => (c && c.refused ? 'refused'
+        : c && c.revision && typeof c.revision === 'object'
+          && c.revision.stop_reason !== 'placement-could-not-be-evaluated' ? 'open' : 'unjudged');
       const act = await page.evaluate(() => {
         const a = document.querySelector('[data-selection-action]');
         return a ? { state: a.getAttribute('data-selection-action'), tag: a.tagName.toLowerCase() } : null;
       });
-      const want = served && served.refused ? 'refused' : 'open';
-      check(`the strip's act on the picked column agrees with its own refusal (want ${want}, read ${act && act.state})`,
-        !!served && !!act && act.state === want && (want === 'open' ? act.tag === 'button' : act.tag !== 'button'));
+      const want = servedStanding(served);
+      check(`the strip's act on the picked column agrees with what its job served (want ${want}, read ${act && act.state})`,
+        !!served && !!act && act.state === want && (want === 'refused' ? act.tag !== 'button' : act.tag === 'button'));
       const tally = await page.evaluate(() => {
-        const t = document.querySelector('[data-set-refused]');
-        return t ? Number(t.getAttribute('data-set-refused')) : 0;
+        const num = (sel, attr) => { const t = document.querySelector(sel); return t ? Number(t.getAttribute(attr)) : 0; };
+        return { refused: num('[data-set-refused]', 'data-set-refused'), unjudged: num('[data-set-unjudged]', 'data-set-unjudged') };
       });
-      const refusedServed = servedSet.filter((c) => c.refused).length;
-      check(`the set's refused tally is the job's own count (served ${refusedServed}, read ${tally})`,
-        !!act && tally === refusedServed);
+      const servedTally = {
+        refused: servedSet.filter((c) => servedStanding(c) === 'refused').length,
+        unjudged: servedSet.filter((c) => servedStanding(c) === 'unjudged').length,
+      };
+      check(`the set's tally is the job's own count (served ${JSON.stringify(servedTally)}, read ${JSON.stringify(tally)})`,
+        !!act && tally.refused === servedTally.refused && tally.unjudged === servedTally.unjudged);
+
+      /* THE REFUSED BRANCH, AND THE WAY ON TO THE BENCH, DRIVEN (15 Oct 2026). The job is rewritten
+         on its way to the page so that one candidate is refused by the type's own facts (with no
+         fatal finding on it: the two measures are independent) and the next was placed and not
+         turned down. The walk's real compose cannot be made to refuse, and a check whose branch
+         it never reaches reads green over nothing -- the audit of this change found the refused
+         strip, the tally above zero and the refused column line driven by no check. Then:
+           - a stale EXAMPLE is put on the bench, which is the state that sent a reader to a screen
+             that would not draw their pick, and Next must not lead to it;
+           - the strip says the refused pick cannot be drawn and offers no link;
+           - the placed pick offers a link, the link loads THAT candidate, and only then is Next on;
+           - and Next follows the pick: pick the other candidate and it is held again. */
+      if (servedSet.length >= 2) {
+        const STUB = { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'], conflicts: [],
+          lines: ['the walk rewrote this job: a declared stack is drawn clear of the room it names'] };
+        const jobPath = `/api/jobs/${jobId}`;
+        const matchJob = (u) => u.pathname === jobPath;
+        // what this block found on the bench and in the address, put back at the end so the blocks
+        // after it meet the bench they always did
+        const before = await page.evaluate(() => ({ plan: localStorage.getItem('tdl-workbench-plan'),
+          session: localStorage.getItem('tdl-workbench-session'), hash: location.hash }));
+        await page.route(matchJob, async (r) => {
+          if (r.request().method() !== 'GET') { await r.continue(); return; }
+          const real = await r.fetch();
+          const body = await real.json();
+          const cs = (body.result && body.result.candidates) || [];
+          cs[0] = { ...cs[0], refused: STUB, revision: null };
+          cs[1] = { ...cs[1], refused: null, revision: { stop_reason: 'converged', summary: { rounds: 0, moves_applied: 0 } } };
+          await r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
+        });
+        const example = await fetch(`${BASE}/api/plans/examples/tidewater-georgian-careful`)
+          .then((r) => (r.ok ? r.json() : null)).catch(() => null);
+        if (!example) {
+          unjudged.push('the refused strip and Next-follows-the-pick -- the example record to leave on the bench was not served');
+        } else {
+          await page.evaluate((plan) => {
+            localStorage.setItem('tdl-workbench-plan', JSON.stringify(plan));
+            const cur = JSON.parse(localStorage.getItem('tdl-workbench-session') || '{}');
+            localStorage.setItem('tdl-workbench-session',
+              JSON.stringify({ ...cur, planFrom: { kind: 'example', planId: plan.id } }));
+          }, example);
+          const read = async () => page.evaluate(() => {
+            const a = document.querySelector('[data-selection-action]');
+            const next = document.querySelector('[data-next]');
+            const num = (sel, attr) => { const t = document.querySelector(sel); return t ? Number(t.getAttribute(attr)) : 0; };
+            return {
+              act: a ? { state: a.getAttribute('data-selection-action'), tag: a.tagName.toLowerCase(),
+                text: a.textContent.trim(), disabled: a.hasAttribute('disabled') } : null,
+              next: next ? { id: next.getAttribute('data-next'), link: next.tagName === 'A',
+                blocked: next.hasAttribute('data-next-blocked'), text: next.textContent.trim() } : null,
+              tally: { refused: num('[data-set-refused]', 'data-set-refused'), unjudged: num('[data-set-unjudged]', 'data-set-unjudged') },
+              mark: document.querySelectorAll('[data-candidate-n="0"] [data-candidate-refused-mark]').length,
+              markOther: document.querySelectorAll('[data-candidate-n="1"] [data-candidate-refused-mark]').length,
+              line: document.querySelectorAll('[data-candidate-n="0"] [data-candidate-refused]').length,
+              planFrom: (JSON.parse(localStorage.getItem('tdl-workbench-session') || '{}')).planFrom || null,
+              hash: location.hash,
+            };
+          });
+          const settle = async () => { await page.waitForSelector('[data-candidate-n="1"]', { timeout: 60000 }).catch(() => {}); await page.waitForTimeout(300); };
+          await page.evaluate(() => { location.hash = '#/candidates'; });
+          await page.reload();
+          await settle();
+          let st = await read();
+          check(`with an example left on the bench and nothing picked, Next from the candidates is held (not a link; "${st.next && st.next.text}")`,
+            !!st.next && st.next.blocked && !st.next.link && /open a candidate/.test(st.next.text));
+          await page.evaluate(() => { location.hash = '#/candidates/0'; });
+          await page.waitForFunction(() => !!document.querySelector('[data-selection-action]'), null, { timeout: 10000 }).catch(() => {});
+          await page.waitForTimeout(300);
+          st = await read();
+          check(`the refused pick says it cannot be drawn and offers no link ("${st.act && st.act.text}")`,
+            !!st.act && st.act.state === 'refused' && st.act.tag !== 'button'
+            && /is refused, so it cannot be drawn/.test(st.act.text) && /stacks, tiling not held/.test(st.act.text));
+          check(`and the set tallies it (${JSON.stringify(st.tally)}), marks the column on its counts line (${st.mark}) and says so at its foot (${st.line})`,
+            st.tally.refused === 1 && st.mark === 1 && st.markOther === 0 && st.line === 1);
+          // the refused pick holds Next for its own reason too: "open it" cannot be followed for it
+          check(`Next holds for a refused pick in words that can be followed ("${st.next && st.next.text}")`,
+            !!st.next && /refused/.test(st.next.text));
+          await shot('candidates-refused', [1440]);
+
+          await page.locator('[data-candidate-n="1"] h3').first().click();
+          await page.waitForFunction(() => location.hash.startsWith('#/candidates/1'), null, { timeout: 10000 }).catch(() => {});
+          await page.waitForFunction(() => !!document.querySelector('[data-selection-action="open"]'), null, { timeout: 5000 }).catch(() => {});
+          st = await read();
+          check(`the placed pick offers a link (${st.act && st.act.state}/${st.act && st.act.tag}), and Next is still held until it is opened ("${st.next && st.next.text}")`,
+            !!st.act && st.act.state === 'open' && st.act.tag === 'button' && !!st.next && st.next.blocked && !st.next.link);
+          /* THE OPEN CAN FAIL, AND SAYS SO. The server keeps a compose for a while and then forgets
+             it, while the candidates in hand stay on screen; the click then did nothing at all, with
+             no message, which is the symptom this whole change exists to remove. The candidate's
+             plan route is answered 404 after a beat here, so the in-flight state can be read too:
+             the act is held while the request is out (a second click would load twice and push two
+             undo entries), the failure is said on the surface that asked, and the act is offered
+             again. */
+          const planPath = `/api/jobs/${jobId}/candidates/1/plan`;
+          const failOpen = (u) => u.pathname === planPath;
+          await page.route(failOpen, async (r) => {
+            await new Promise((res) => setTimeout(res, 700));
+            await r.fulfill({ status: 404, contentType: 'application/json',
+              body: JSON.stringify({ detail: { error: 'unknown job or candidate' } }) });
+          });
+          await page.locator('[data-selection-action="open"]').click();
+          const busy = await page.evaluate(() => {
+            const a = document.querySelector('[data-selection-action]');
+            return !!a && a.hasAttribute('disabled');
+          });
+          await page.waitForSelector('[data-selection-error]', { timeout: 10000 }).catch(() => {});
+          const failed = await page.evaluate(() => {
+            const e = document.querySelector('[data-selection-error]');
+            const a = document.querySelector('[data-selection-action]');
+            return { text: e ? e.textContent.trim() : null, hash: location.hash,
+              again: !!a && !a.hasAttribute('disabled') };
+          });
+          check(`while the open is in flight the act is held (${busy})`, busy);
+          check(`a failed open is said where it was asked, in the table's words ("${failed.text}"), and the act is offered again`,
+            failed.text === JOURNEY_WORDS.selection.gone && failed.hash.startsWith('#/candidates') && failed.again);
+          await page.unroute(failOpen);
+          await page.locator('[data-selection-action="open"]').click();
+          await page.waitForFunction(() => location.hash.startsWith('#/workbench'), null, { timeout: 30000 }).catch(() => {});
+          await page.waitForTimeout(500);
+          st = await read();
+          check(`opening it records the candidate of THIS compose (${JSON.stringify(st.planFrom)})`,
+            !!st.planFrom && st.planFrom.kind === 'candidate' && st.planFrom.jobId === jobId && st.planFrom.n === 1);
+          await page.evaluate(() => { location.hash = '#/candidates/1'; });
+          await page.waitForFunction(() => !!document.querySelector('[data-candidate-n="1"]'), null, { timeout: 30000 }).catch(() => {});
+          await page.waitForTimeout(300);
+          st = await read();
+          check(`and now Next from the pick leads on to the plan ("${st.next && st.next.text}")`,
+            !!st.next && st.next.link && !st.next.blocked && st.next.id === 'plan');
+          await page.evaluate(() => { location.hash = '#/candidates/0'; });
+          await page.waitForTimeout(400);
+          st = await read();
+          check(`but picking the other candidate holds it again: Next follows the pick ("${st.next && st.next.text}")`,
+            !!st.next && st.next.blocked && !st.next.link);
+        }
+        await page.unroute(matchJob).catch(() => {});
+        await page.evaluate((b) => {
+          for (const [k, v] of [['tdl-workbench-plan', b.plan], ['tdl-workbench-session', b.session]]) {
+            if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v);
+          }
+          location.hash = b.hash;
+        }, before);
+        await page.reload();
+        await page.waitForSelector('main', { timeout: 30000 }).catch(() => {});
+      } else {
+        unjudged.push('the refused strip and Next-follows-the-pick -- the job served fewer than two candidates to rewrite');
+      }
 
       // the flag sits below the column's scores, so bring it into the picture before shooting
       await page.evaluate((id) => {

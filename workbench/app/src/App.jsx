@@ -36,7 +36,7 @@ import { useNames } from './names/useNames.js';
 import { useStyles } from './api/useStyles.js';
 import { prefs } from './state/prefs.js';
 import { session } from './state/session.js';
-import { journeyState, evalPlanOf } from './journey/journey.js';
+import { journeyState, evalPlanOf, pickedCandidate } from './journey/journey.js';
 import { navModel, headTermFor, inHandFrom, normalizePlace, stylePlaceKind } from './nav/navModel.js';
 import { crumbsFor, titleFor } from './nav/crumbs.js';
 import { PlanWorkbench } from './surfaces/PlanWorkbench.jsx';
@@ -252,7 +252,7 @@ export default function App() {
     return s ? s.name : null;
   }, [names, styles]);
   const inHand = inHandFrom(memory.styleInHand, lookup, styleName);
-  const journey = journeyState({ session: sessionNow, plan, lastEval });
+  const journey = journeyState({ session: sessionNow, plan, lastEval, picked: pickedCandidate(surface, selection) });
   const model = navModel({
     lookup, counts: overview?.counts, glossaryCount: lookup ? lookup.count : null,
     inHand, dossier: dossierHere, journey, place,
@@ -326,7 +326,7 @@ export default function App() {
         {!full && layout.isOpen('nav') && <Splitter pane="nav" grows="left" />}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
           {!full && <PageHead termId={headTermFor(place)} />}
-          {showJourneyBar(surface, full) && <JourneyBar surface={surface} lastEval={lastEval} />}
+          {showJourneyBar(surface, full) && <JourneyBar surface={surface} lastEval={lastEval} selection={selection} />}
           <main style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
             <Active {...shared} />
           </main>

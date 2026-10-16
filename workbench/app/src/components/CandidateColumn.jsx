@@ -187,7 +187,20 @@ function CandidateColumn({
         color: n === 0 ? 'var(--ink-2)' : SEV[s]
       }
     }, s, " ", n);
-  })), c.unjudged_fatal_n > 0 && /*#__PURE__*/React.createElement("div", {
+  }),
+  /* A refusal is a different measure from the three counts beside it and is not among them: a
+     column can read `fatal 0` and be one the type's own facts turned down, which is the reading
+     that sent a reader to a screen that would not draw their pick. Said on the counts' own line,
+     in the refusal's ink, by the glossary's word for it. */
+  c.refused && /*#__PURE__*/React.createElement("span", {
+    "data-candidate-refused-mark": c.refused.kind,
+    style: {
+      font: 'var(--type-data-s)',
+      color: 'var(--refusal)'
+    }
+  }, /*#__PURE__*/React.createElement(Term, {
+    id: "judgment-refused"
+  }))), c.unjudged_fatal_n > 0 && /*#__PURE__*/React.createElement("div", {
     /* R13 (29 Sep 2026): the fatal faults the corpus could not judge on this candidate, in the
        unjudged mark and its glossary word, never in the fatal ink -- they break a tie against
        the candidate and do not disqualify it. The names are the payload's. */

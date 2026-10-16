@@ -18,7 +18,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import {
   JOURNEY, ALTERNATE, JOURNEY_WORDS, JOURNEY_TERMS, journeyState, stepOfSurface, countsOf,
-  evalPlanOf,
+  evalPlanOf, pickedCandidate,
 } from './journey/journey.js';
 import { barView } from './journey/bar.js';
 import { SURFACE_PATHS, parseHash } from './router.js';
@@ -393,6 +393,113 @@ test('a plan on the bench carries the candidates step on only where it came from
   const refused = journeyState({ session: { brief: BRIEF, jobId: 'j2', result,
     planFrom: { kind: 'example', planId: PLAN.id } }, plan: PLAN, lastEval: { check: check(), placement_refused: REFUSAL } });
   assert.deepEqual(refused.steps.slice(2).map((x) => x.state), ['refused', 'refused', 'refused']);
+});
+
+test('the candidates step is held by a null job only when BOTH sides are null, and trims both sides alike', () => {
+  /* The guard `str(origin.jobId) &&` is the only thing between a candidate recorded with no job and
+     a session that has none: null === null is true, and the step would proceed for a plan nobody
+     can place in any compose. (Found by mutation: deleting it left every test green.) */
+  const result = { candidates: [{}, {}] };
+  const at = (jobId, pfJob) => step(journeyState({
+    session: { brief: BRIEF, jobId, result, planFrom: { kind: 'candidate', planId: PLAN.id, jobId: pfJob, n: 0 } },
+    plan: PLAN, lastEval: EVALUATED }), 'candidates').canProceed;
+  for (const none of [null, undefined, '', '   ']) {
+    assert.equal(at(none, null), false, `session job ${JSON.stringify(none)} against an origin with no job`);
+    assert.equal(at(none, undefined), false);
+  }
+  // the readers disagree about whitespace (`sessionWrites` keeps it, this file trims): both sides are
+  // trimmed here, so an id that differs only by a stray space is the same compose
+  assert.equal(at('j2', 'j2 '), true);
+  assert.equal(at(' j2 ', 'j2'), true);
+  assert.equal(at('j2', 'j3'), false);
+});
+
+test('a plan opened from THIS compose leaves the step whatever its evaluation says, and a refused one is still refused', () => {
+  /* Whether the candidate may be drawn is the Plan step's to say. The candidates step asks only
+     whether the plan on the bench is the reader's: a refused candidate opened from this compose
+     (the bench placed it and turned it down) goes on to the Plan step, where the refusal is. */
+  const result = { candidates: [{}, {}] };
+  const session = { brief: BRIEF, jobId: 'j2', result, planFrom: { kind: 'candidate', planId: PLAN.id, jobId: 'j2', n: 0 } };
+  const unevaluated = journeyState({ session, plan: PLAN, lastEval: null });
+  assert.equal(step(unevaluated, 'candidates').canProceed, true);
+  assert.equal(step(unevaluated, 'plan').state, 'unevaluated');
+  const refused = journeyState({ session, plan: PLAN, lastEval: { check: check(), placement_refused: REFUSAL } });
+  assert.equal(step(refused, 'candidates').canProceed, true);
+  assert.equal(step(refused, 'plan').state, 'refused');
+  assert.equal(step(refused, 'drawings').state, 'refused');
+});
+
+test('where a candidate is picked, Next goes on only with the candidate that was picked', () => {
+  /* The compose-level test stops a stale example. It cannot tell candidate 0 on the bench from the
+     candidate 3 a reader has just picked, and Next led them to the plan of the one they did not
+     pick: the original complaint, with the right job. */
+  const ref = { kind: 'type-fact-downgraded', facts: ['stacks'], conflicts: [], lines: [] };
+  const placed = { revision: { stop_reason: 'converged' }, refused: null };
+  const result = { candidates: [placed, placed, { ...placed, refused: ref }, placed] };
+  const bench = (n, session = {}) => ({ brief: BRIEF, jobId: 'j2', result,
+    planFrom: { kind: 'candidate', planId: PLAN.id, jobId: 'j2', n }, ...session });
+  const at = (picked, n = 1, session = {}) => step(journeyState({
+    session: bench(n, session), plan: PLAN, lastEval: EVALUATED, picked }), 'candidates');
+  // no pick in the address: a reader returning to the set is not held
+  assert.equal(at(null).canProceed, true);
+  // the pick is what is on the bench
+  const same = at(1);
+  assert.deepEqual([same.canProceed, same.reason], [true, null]);
+  // the pick is another candidate of this compose: say so, and what to do
+  const other = at(3);
+  assert.deepEqual([other.canProceed, other.reason], [false, JOURNEY_WORDS.reasons.picked]);
+  // the pick is one the type turned down: "open it" cannot be followed, so the reason says why not
+  const turned = at(2);
+  assert.deepEqual([turned.canProceed, turned.reason], [false, JOURNEY_WORDS.reasons.pickedRefused]);
+  // a pick with nothing on the bench from this compose
+  const noPlan = step(journeyState({ session: { brief: BRIEF, jobId: 'j2', result }, plan: null, picked: 3 }), 'candidates');
+  assert.deepEqual([noPlan.canProceed, noPlan.reason], [false, JOURNEY_WORDS.reasons.picked]);
+  // a pick that names no candidate of the set is no pick the reader could follow: the plain reason
+  assert.equal(at(9).reason, JOURNEY_WORDS.reasons.candidates);
+  // the Plan, Drawings and Export steps do not read the pick
+  const st = journeyState({ session: bench(1), plan: PLAN, lastEval: EVALUATED, picked: 3 });
+  assert.deepEqual(st.steps.slice(2).map((x) => x.canProceed), [true, true, false]);
+});
+
+test('a set with nothing to open says so in the step\'s reason, instead of telling a reader to open one', () => {
+  const ref = { kind: 'infeasible', facts: ['bearing'], conflicts: [], lines: [] };
+  const reasonFor = (candidates, picked = null) => step(journeyState({
+    session: { brief: BRIEF, jobId: 'j2', result: { candidates } }, plan: null, picked }), 'candidates').reason;
+  const placed = { revision: { stop_reason: 'converged' }, refused: null };
+  assert.equal(reasonFor([]), JOURNEY_WORDS.reasons.empty);
+  assert.equal(reasonFor([{ refused: ref }, { refused: ref }]), JOURNEY_WORDS.reasons.allRefused);
+  assert.equal(reasonFor([{ refused: ref }, { refused: ref }], 1), JOURNEY_WORDS.reasons.allRefused,
+    'nothing to open outranks which one was picked');
+  // one openable candidate among refused ones: the plain instruction can be followed
+  assert.equal(reasonFor([{ refused: ref }, placed]), JOURNEY_WORDS.reasons.candidates);
+  // a candidate nobody judged is openable: it is not a refusal, and the bench is where it is placed
+  assert.equal(reasonFor([{ refused: ref }, {}]), JOURNEY_WORDS.reasons.candidates);
+  // no compose in hand: the plain instruction, as before
+  assert.equal(step(journeyState({ session: { brief: BRIEF }, plan: null }), 'candidates').reason,
+    JOURNEY_WORDS.reasons.candidates);
+});
+
+test('a pick means something only on the Candidate Set, and only as an index', () => {
+  assert.equal(pickedCandidate('candidates', { candidate: 2 }), 2);
+  assert.equal(pickedCandidate('candidates', { candidate: 0 }), 0, 'candidate 0 is a pick');
+  assert.equal(pickedCandidate('workbench', { candidate: 2 }), null);
+  for (const bad of [null, undefined, {}, { candidate: null }, { candidate: -1 }, { candidate: 1.5 }, { candidate: '2' }]) {
+    assert.equal(pickedCandidate('candidates', bad), null, JSON.stringify(bad));
+  }
+});
+
+test('the shell and the bar read the same pick: both hand the journey the address\'s candidate', () => {
+  /* Two components build the journey (`App.jsx` for the rail and crumbs, `JourneyBar.jsx` for the
+     bar), and a pick one of them did not pass would make the bar and the rest of the shell disagree
+     about whether Next is on. The component cannot be rendered under `node --test`, so what is held
+     is the join: each takes the pick through `pickedCandidate` from the surface and its selection. */
+  const app = readFileSync(new URL('./App.jsx', import.meta.url), 'utf8');
+  const bar = readFileSync(new URL('./components/JourneyBar.jsx', import.meta.url), 'utf8');
+  assert.match(app, /journeyState\(\{[^}]*picked: pickedCandidate\(surface, selection\)[^}]*\}\)/);
+  assert.match(app, /<JourneyBar surface=\{surface\} lastEval=\{lastEval\} selection=\{selection\} \/>/);
+  assert.match(bar, /export function JourneyBar\(\{ surface, lastEval, selection \}\)/);
+  assert.match(bar, /journeyState\(\{[^}]*picked: pickedCandidate\(surface, selection\)[^}]*\}\)/);
+  assert.match(bar, /\[s, plan, lastEval, surface, selection\]/, 'the memo is keyed on the pick');
 });
 
 test('the words that are glossary terms say what their records say', (t) => {

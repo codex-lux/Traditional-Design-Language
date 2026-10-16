@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**278 questions, of which 155 are open.** A question is OPEN while
+**279 questions, of which 156 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 155
+## Open — 156
 
 Awaiting a ruling. This is the list to read first.
 
@@ -93,6 +93,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford** | OPEN | [the candidate count is a design input nobody has priced](open-questions/oq-a-placement-rule-is-free-at-a-pool-the-server-cannot-afford.md) |
 | **oq/a-plan-does-not-name-the-parti-it-was-built-from** | OPEN | [so no checker can hold a plan to the diagram it is a house of](open-questions/oq-a-plan-does-not-name-the-parti-it-was-built-from.md) |
 | **oq/a-rake-record-left-uncorrected-on-an-undrawn-style** | OPEN | [folk-victorian inherits a rake its own kit contradicts](open-questions/oq-a-rake-record-left-uncorrected-on-an-undrawn-style.md) |
+| **oq/a-refused-candidates-record-is-served-for-diagnosis-and-the-candidate-set-will-not-load-it** | OPEN | [two WP-13.4 statements about one record disagree, and a reader who picks a refused candidate is told which one won](open-questions/oq-a-refused-candidates-record-is-served-for-diagnosis-and-the-candidate-set-will-not-load-it.md) |
 | **oq/a-roof-form-is-ranked-in-roof-pitch** | OPEN | [two kits rank roof forms in the pitch slot, and B1 reads the form slot](open-questions/oq-a-roof-form-is-ranked-in-roof-pitch.md) |
 | **oq/a-room-count-cap-on-the-heavy-routes** | OPEN | [nothing bounds how many rooms a heavy route will solve, and the body cap is 2,000 times too loose to be the bound](open-questions/oq-a-room-count-cap-on-the-heavy-routes.md) |
 | **oq/a-room-name-is-drawn-over-its-furniture** | OPEN | [the name at the middle, where the table is](open-questions/oq-a-room-name-is-drawn-over-its-furniture.md) |

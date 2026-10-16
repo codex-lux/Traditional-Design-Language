@@ -928,7 +928,7 @@ else `{ kind: 'unrecorded' }` ("origin not recorded").
 | From | `canProceed` when | `reason` otherwise |
 |---|---|---|
 | brief | candidates is not `none` | compose the brief first |
-| candidates | plan is not `empty` | open a candidate on the bench |
+| candidates | plan is not `empty` AND `planFrom` names a `candidate` whose `jobId` is the session's `jobId` AND, where a candidate is picked on the Candidate Set, `planFrom.n` is that pick (amended 15-16 Oct 2026, `docs/reports/the-candidate-click-and-the-stale-bench-2026-10-15.md`) | open a candidate on the bench; or, with the set in hand, the pick to open, the pick's refusal, or that nothing in the set can be opened |
 | plan | drawings is `ready` | the drawings step's words |
 | drawings | export is `ready` | the export step's words |
 | export | never (last step) | null |

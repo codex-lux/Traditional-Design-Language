@@ -25,7 +25,7 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { ORDERS, order, setSize } from '../candidateOrder.js';
-import { adaptCandidate, selectionAction, refusedCount } from '../candidateCard.js';
+import { adaptCandidate, selectionAction, selectionView, setStanding, tallyView } from '../candidateCard.js';
 import { Term } from '../components/Term.jsx';
 import { revisedEventLine } from '../revision.js';
 
@@ -41,6 +41,10 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
   const sel = selection?.candidate != null ? 'c' + selection.candidate : null;
   const [sort, setSort] = React.useState('score');
   const [nativePartis, setNativePartis] = React.useState(null);
+  // loading a candidate on the bench is a request that can fail (the job is kept for a while, then
+  // reaped) and takes a moment: both are said, and a second click while one is in flight is not
+  const [opening, setOpening] = React.useState(false);
+  const [openError, setOpenError] = React.useState(null);
   const result = s.result;
   const brief = s.brief || result?.brief_record;
 
@@ -137,22 +141,36 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
      bench -- which keeps its last record across a whole compose -- showed whatever was on it
      before. The strip is always on screen, so the act is said there, for the column picked. */
   const picked = sel ? cands.find((x) => x.id === sel) : null;
-  const action = selectionAction(picked);
-  // how many of the set the type's own facts turned down: a count read off the candidates in hand,
-  // said beside the set's size so a set in which nothing may be drawn is not found column by column
-  const refusedN = refusedCount(cands);
+  // how the type's own facts stand over the set: the strip's words for a set with nothing to pick,
+  // and the tally beside the set's size, so a set in which nothing may be drawn is found at the top
+  // and not column by column
+  const standing = setStanding(cands);
+  const view = selectionView(selectionAction(picked, standing));
+  const tally = tallyView(standing);
 
   async function openInWorkbench(c) {
     // A refused candidate is not loaded. The conflict set beside its column says what could not
     // hold; loading it would put a record on the bench that no surface there may draw, which
     // reads as the bench being broken rather than as the candidate being refused.
-    if (c.refused) return;
-    const n = cands.findIndex((x) => x.id === c.id);
-    const plan = await api.candidatePlan(s.jobId, n);
-    // where the plan came from, recorded BEFORE it is loaded (PRD §G.1): the job, the index the
-    // plan was fetched at, and the brief's name where the draft in hand is the brief it names
-    planDoc.load(recordPlanFrom('candidate', plan, { jobId: s.jobId, n, briefName: briefNameOf(result, s.brief) }));
-    go('workbench');
+    if (!c || c.refused || opening) return;
+    setOpening(true);
+    setOpenError(null);
+    try {
+      // `c.n` is the index in the SERVER's order, which is what the route is asked for
+      const plan = await api.candidatePlan(s.jobId, c.n);
+      // where the plan came from, recorded BEFORE it is loaded (PRD §G.1): the job, the index the
+      // plan was fetched at, and the brief's name where the draft in hand is the brief it names
+      planDoc.load(recordPlanFrom('candidate', plan, { jobId: s.jobId, n: c.n, briefName: briefNameOf(result, s.brief) }));
+      go('workbench');
+    } catch (e) {
+      // the server keeps a compose for a while and then forgets it, while the candidates in hand
+      // stay on screen: a 404 is that, and every other failure says what the server said
+      setOpenError(e && e.status === 404
+        ? JOURNEY_WORDS.selection.gone
+        : JOURNEY_WORDS.selection.failed(errorText(e)));
+    } finally {
+      setOpening(false);
+    }
   }
 
   return (
@@ -168,9 +186,14 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               {JOURNEY_WORDS.separator}<Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}{size.appended.name}
             </span>
           )}
-          {refusedN > 0 && (
-            <span data-set-refused={refusedN} style={{ color: 'var(--refusal)' }}>
-              {JOURNEY_WORDS.separator}{refusedN} <Term id="judgment-refused" />
+          {tally.refused > 0 && (
+            <span data-set-refused={tally.refused} style={{ color: 'var(--refusal)' }}>
+              {JOURNEY_WORDS.separator}{tally.refused} <Term id="judgment-refused" />
+            </span>
+          )}
+          {tally.unjudged > 0 && (
+            <span data-set-unjudged={tally.unjudged}>
+              {JOURNEY_WORDS.separator}{JOURNEY_WORDS.selection.tallyUnjudged(tally.unjudged)}
             </span>
           )}
           {dropped.length ? ` · ${dropped.length} dropped for the lot` : ''}
@@ -187,16 +210,22 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         {/* the act on the picked column: a link where the candidate may go on the bench, and in
             the refusal's ink -- saying why -- where it may not (a refusal is brick, a link is
             ink with a gilt underline: WP-14.33 R1) */}
-        {action.state === 'open'
-          ? <button type="button" data-selection-action="open" onClick={() => openInWorkbench(picked)}
+        {view.tag === 'button'
+          ? <button type="button" data-selection-action={view.state} disabled={opening}
+              onClick={() => openInWorkbench(picked)}
               className="tdl-link" style={{ font: 'var(--type-data-s)' }}>
-              {action.words} <span aria-hidden="true">→</span>
+              {opening ? JOURNEY_WORDS.selection.opening : view.words} <span aria-hidden="true">→</span>
             </button>
-          : <span data-selection-action={action.state}
+          : <span data-selection-action={view.state}
               style={{ font: 'var(--type-data-s)',
-                color: action.state === 'refused' ? 'var(--refusal)' : 'var(--ink-2)' }}>
-              {action.words}
+                color: view.tone === 'refusal' ? 'var(--refusal)' : 'var(--ink-2)' }}>
+              {view.words}
             </span>}
+        {openError && (
+          <span role="alert" data-selection-error="" style={{ font: 'var(--type-data-s)', color: 'var(--ink)' }}>
+            {openError}
+          </span>
+        )}
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 22px 30px' }}>
@@ -252,7 +281,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                     refused{c.refused.facts.length ? ` — ${c.refused.facts.join(', ')}` : ''}; not
                     loadable, the conflict set is below
                   </span>
-                : <button type="button" onClick={() => openInWorkbench(c)} className="tdl-link"
+                : <button type="button" onClick={() => openInWorkbench(c)} disabled={opening} className="tdl-link"
                     style={{ font: 'var(--type-data-s)', marginTop: 14 }}>
                     open in the workbench
                   </button>}

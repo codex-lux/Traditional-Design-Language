@@ -33,8 +33,8 @@ const SKETCH = { check, placement: { geometry_report: { refused: null },
   sketch: { working: true, refused: null, reason: 'a wall drag' } } };
 const RESULT = { brief: 'b', candidates: [{}, {}] };
 
-const view = (session, plan, lastEval, surface, jobId = session.jobId || null) =>
-  barView(journeyState({ session, plan, lastEval }), { surface, jobId });
+const view = (session, plan, lastEval, surface, jobId = session.jobId || null, picked = null) =>
+  barView(journeyState({ session, plan, lastEval, picked }), { surface, jobId });
 
 test('the bar is on the six house surfaces, nowhere else, and never in full screen', () => {
   const house = [...JOURNEY.map((j) => j.surface), ...Object.keys(ALTERNATE)];
@@ -145,6 +145,22 @@ test('Next from the candidates is a link only for a plan that came from this com
   const v = view({ brief: BRIEF, jobId: 'j2', result: RESULT, planFrom: { kind: 'example', planId: PLAN.id } },
     PLAN, EVALUATED, 'candidates');
   assert.equal(item(v, 'plan').link, true);
+});
+
+test('Next from the candidates follows the PICK: the plan on the bench is a link only when it is the one picked', () => {
+  const planFrom = { kind: 'candidate', planId: PLAN.id, jobId: 'j2', n: 0 };
+  const session = { brief: BRIEF, jobId: 'j2', result: RESULT, planFrom };
+  const nextFor = (picked) => view(session, PLAN, EVALUATED, 'candidates', 'j2', picked).next;
+  assert.equal(nextFor(null).link, true, 'no pick in the address: a reader returning to the set is not held');
+  assert.equal(nextFor(0).link, true, 'the pick is what is on the bench');
+  const other = nextFor(1);
+  assert.deepEqual([other.link, other.reason], [false, JOURNEY_WORDS.reasons.picked]);
+  assert.equal(other.href, undefined, 'a blocked Next carries no link to the plan of the one that was not picked');
+  // a set in which nothing can be opened says that, where the instruction to open one cannot be followed
+  const refused = { kind: 'infeasible', facts: ['bearing'], conflicts: [], lines: [] };
+  const stuck = view({ brief: BRIEF, jobId: 'j2', result: { brief: 'b', candidates: [{ refused }, { refused }] } },
+    null, null, 'candidates', 'j2', null).next;
+  assert.deepEqual([stuck.link, stuck.reason], [false, JOURNEY_WORDS.reasons.allRefused]);
 });
 
 test('the step in view is the one marked current, and only it', () => {

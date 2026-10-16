@@ -49,6 +49,7 @@
    Pure: no React, no DOM. */
 import { evaluateRefusal, placementRefusal, sketchOf } from '../sheet/refusal.js';
 import { formatHash } from '../router.js';
+import { standingOf, standingOfSet } from '../candidateStanding.js';
 
 export const JOURNEY = Object.freeze([
   Object.freeze({ id: 'brief', surface: 'brief' }),
@@ -88,16 +89,36 @@ export const JOURNEY_WORDS = Object.freeze({
   }),
   counts: Object.freeze({ fatal: 'fatal', serious: 'serious', unjudged: 'unjudged', notCounted: 'not counted' }),
   /* What the Candidate Set says about the column a reader has picked: a click selects, and the
-     way on to the bench is a separate act, so each state of the pick says which act is available. */
+     way on to the bench is a separate act, so each state of the pick says which act is available.
+     `held` is the refusal's own verdict in a clause (never a sentence about a fact written here);
+     the facts it follows are the refusal's. */
   selection: Object.freeze({
     none: 'select a candidate to open it on the bench',
     open: (name) => `open ${name} on the bench`,
-    // `why` is the refusal's own account (the facts it names), never a sentence written here
+    // not placed by the composer's loop, or placed with no verdict this app can read: the bench
+    // places the house and may refuse it, which the link should not promise away
+    unjudged: (name) => `open ${name} · not judged for drawing, so it may be refused`,
     refused: (name, why) => `${name} is refused, so it cannot be drawn${why ? ` · ${why}` : ''}`,
+    held: (kind, k) => (kind === 'infeasible' ? (k === 1 ? 'cannot hold' : 'cannot all hold') : 'not held'),
+    // nothing in the set can be put on the bench: the act the bar and the strip name is not there
+    allRefused: 'every candidate is refused · change the brief or the parti',
+    empty: 'no candidate was returned · the brief is what changes',
+    opening: 'opening…',
+    gone: 'could not open · the server no longer keeps this compose',
+    failed: (why) => `could not open it${why ? `: ${why}` : ''}`,
+    tallyUnjudged: (k) => `${k} not judged for drawing`,
   }),
   separator: ' · ',
   next: 'next',   // the bar's link on to the following step (WP-14.10)
-  reasons: Object.freeze({ brief: 'compose the brief first', candidates: 'open a candidate on the bench' }),
+  reasons: Object.freeze({
+    brief: 'compose the brief first',
+    candidates: 'open a candidate on the bench',
+    // the pick is the reader's and the bench holds another: Next goes to the plan on the bench
+    picked: 'open the candidate you picked on the bench',
+    pickedRefused: 'the candidate you picked is refused, so it cannot be drawn',
+    allRefused: 'every candidate is refused, so none can be drawn',
+    empty: 'no candidate was returned',
+  }),
   origin: Object.freeze({
     candidate: (n) => (Number.isInteger(n) && n >= 0 ? `candidate ${n + 1}` : 'a candidate'),
     example: 'the example',
@@ -210,7 +231,33 @@ function originOf(planId, planFrom) {
   return { origin, originWords: words, originHref: href };
 }
 
-export function journeyState({ session, plan, lastEval } = {}) {
+/* The candidate a reader has picked on the Candidate Set, or null: the address's numeric
+   `candidate` key (an index in the SERVER's order), and only on the surface where a pick means
+   something. Every caller that builds the journey for a bar passes this, so the bar and the
+   shell cannot read two different picks. */
+export function pickedCandidate(surface, selection) {
+  if (surface !== 'candidates' || !isObj(selection)) return null;
+  const n = selection.candidate;
+  return Number.isInteger(n) && n >= 0 ? n : null;
+}
+
+/* Why the candidates step cannot go on, in words a reader can follow. The step's one reason used
+   to be "open a candidate on the bench", which is an instruction with nothing behind it when no
+   candidate was returned or every one was turned down by the type's own facts -- the screen this
+   change exists for, reached again by a reader told to do what could not be done. */
+function candidatesReason(session, picked) {
+  const result = isObj(session.result) && Array.isArray(session.result.candidates) ? session.result : null;
+  if (!result) return W.reasons.candidates;
+  const set = standingOfSet(result.candidates);
+  if (set.total === 0) return W.reasons.empty;
+  if (set.openable === 0) return W.reasons.allRefused;
+  if (picked !== null && picked < set.total) {
+    return standingOf(result.candidates[picked]) === 'refused' ? W.reasons.pickedRefused : W.reasons.picked;
+  }
+  return W.reasons.candidates;
+}
+
+export function journeyState({ session, plan, lastEval, picked = null } = {}) {
   const s = isObj(session) ? session : {};
   const hasPlan = isObj(plan);
   const planId = hasPlan ? str(plan.id) : null;
@@ -254,19 +301,26 @@ export function journeyState({ session, plan, lastEval } = {}) {
      candidate counts only for the job the Candidate Set is showing: the example, a tracing and an
      earlier job's candidate are all places a plan can come from and none of them is the one picked
      here. The step's own reason ("open a candidate on the bench") is what the bar then says. */
-  const fromThisCompose = Boolean(hasPlan && origin.origin && origin.origin.kind === 'candidate'
-    && str(origin.origin.jobId) && origin.origin.jobId === str(s.jobId));
-
+  const originJob = hasPlan && origin.origin && origin.origin.kind === 'candidate' ? str(origin.origin.jobId) : null;
+  const fromThisCompose = Boolean(originJob && originJob === str(s.jobId));
+  /* AND WHERE THE READER HAS PICKED A CANDIDATE, ONLY THE ONE THEY PICKED. The compose-level test
+     above stops a stale example; it cannot tell candidate 0 on the bench from the candidate 3 the
+     reader has just selected, and Next then carried them to the plan of the one they did not pick
+     -- the same complaint (a click that was supposed to lead to the drawings) with the right job.
+     `picked` is the address's pick on the Candidate Set (`pickedCandidate`) and null everywhere a
+     pick means nothing, so a reader who comes back to the set with no pick in the address is not
+     held. The index the bench's plan was fetched at is `planFrom.n`, recorded at the open. */
+  const isThePick = picked === null || (origin.origin && origin.origin.n === picked);
   const proceed = {
     brief: candidates.state !== 'none',
-    candidates: plan_.state !== 'empty' && fromThisCompose,
+    candidates: plan_.state !== 'empty' && fromThisCompose && Boolean(isThePick),
     plan: drawings.state === 'ready',
     drawings: exp.state === 'ready',
     export: false,
   };
   const blocked = {
     brief: W.reasons.brief,
-    candidates: W.reasons.candidates,
+    candidates: candidatesReason(s, picked),
     plan: drawings.words,
     drawings: exp.words,
     export: null,
