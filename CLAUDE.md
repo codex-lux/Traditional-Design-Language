@@ -790,17 +790,33 @@ they preferred, expected the drawings, and got `Plan refused · 0 fatal`, Drawin
       real gaps (no drawable record places a stack or a stoop, good-03 returns no
       `date_of_representation`), and an allowlist would leave six guards permanently unjudged in CI.
     - **THE SIDE-HALL FRONT WAS TAKEN AS A WORK PACKAGE, BUILT, MEASURED ON TWO PIPELINES AND
-      WITHDRAWN (16 Oct 2026).** Read `docs/reports/the-side-hall-front-is-the-placers-2026-10-16.md`
-      before touching `partis/side-hall-townhouse.json`, `check_partis.check_composability` or a
-      window count. Stating the type's three upper bays in the parti (a quoted basis, a plan field
-      that keeps a stated count through `derive_openings`) moved the check 1 -> 0/2 -> 0 and the
-      product to its own new fatal: **the one variant that clears the check is convicted by the
-      product.** The check never names the parti to the placer, so it judges a 4-bay house at 10 ft
-      where the product builds 3 bays at 8 ft, and on the product's house the fault is not failed but
-      unevaluated (*the upper storey draws no opening on the entrance front*). `plan["parti"] = pid`
-      would turn 20 of 21 composable into 21 of 21 by making that fault unjudged, and the check
-      counts fatal findings only: **do not add it alone.** Nothing is committed but the report and
-      `oq/the-parti-check-places-a-house-the-product-does-not-build`. The known list is still 20 ids.
+      WITHDRAWN; THE CHECK'S INSTRUMENT WAS THEN CHANGED BY RULING (16 Oct 2026).** Read
+      `docs/reports/the-side-hall-front-is-the-placers-2026-10-16.md` before touching
+      `partis/side-hall-townhouse.json`, `check_partis.check_composability` or a window count.
+      Stating the type's three upper bays in the parti (a quoted basis, a plan field that keeps a
+      stated count through `derive_openings`) moved the check 1 -> 0/2 -> 0 and the product to its
+      own new fatal: **the one variant that clears the check is convicted by the product.** Nothing
+      in the parti, the schemas or the composer is changed. The check never named the parti to the
+      placer, so it judged a house on the placer's 10 ft module where the product builds on the
+      diagram's own 8 ft one, and on the product's house the fault is not failed but unevaluated
+      (*the upper storey draws no opening on the entrance front*).
+      - **Ruled by Lucas, 16 Oct 2026, and executed:** `check_composability` names the parti, and an
+        unjudged FATAL fault of the parti's own (differential against the control, which has none of
+        its own) is an error that is not counted composable. `plan["parti"] = pid` alone would have
+        turned 20 of 21 into 21 of 21 by making the fault unjudged: **do not add it without the
+        second half.**
+      - **The catalogue reads 19 of 21 composable, with two parti unjudged**:
+        `side-hall-townhouse` (`even-bay-front`) and `cape-central-chimney` (`chimney-omitted`,
+        which `roof.py` cannot judge because it models gable-end stacks only, and which
+        `test_an_unmodelled_chimney_is_unjudged_not_absent` pins as the correct state). The second
+        was not in the question Lucas was asked, and is listed because the ruling said any. Neither
+        clears by editing the diagram: the side-hall needs a placer that composes a front, the cape
+        a roof that models a central stack.
+      - The report's first draft, a PR comment and a commit message said the product builds "3 bays
+        at 8 ft" against the check's "4 at 10"; the columns were on different lots. The module is
+        the difference, and the report's section VII carries the correction.
+      - 11 tests in `tests/test_parti_check_judges_the_product_house.py`, eight mutations, all red.
+        The known list is still 20 ids; `check_partis.py` now has two errors, not one.
   - **App suite 816 (13 added, 1 re-cut), Python 3,995 in `tests/` (38 added) and 467 in the server suite (2 added), reconciled by name against `e048a89`.**
   - **Still open, and named:** the composer returns sets in which nothing may be drawn
     (`oq/the-composer-returns-sets-in-which-nothing-may-be-drawn`), and the journey bar's Next wraps onto
@@ -1338,7 +1354,7 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 3,995 and the app suite 816** (814 until the CI fixes of 16 Oct 2026, which added the two row-pitch guards; 3,957 and 804 until the follow-up of 16 Oct 2026, reconciled by name against `e048a89`: 38 Python tests added in `tests/test_refusal_ranks_last.py`, 2 in the rail's server suite, 11 app tests added and 1 re-cut under a new name, none removed. The app suite was 767 until the candidate-click fix of 15-16 Oct 2026, which added nineteen app tests: seven in the first pass and twelve in the pass its audit forced; 786 was the figure written then, and the follow-up's own first commit made it 804 without this line moving). §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
+**The test figure in the counts paragraph below is 4,006 and the app suite 816** (3,995 until the parti check's instrument of 16 Oct 2026, which added 11 tests, all in `tests/test_parti_check_judges_the_product_house.py`, and removed none, reconciled by name; the app suite was 814 until the CI fixes of 16 Oct 2026, which added the two row-pitch guards; 3,957 and 804 until the follow-up of 16 Oct 2026, reconciled by name against `e048a89`: 38 Python tests added in `tests/test_refusal_ranks_last.py`, 2 in the rail's server suite, 11 app tests added and 1 re-cut under a new name, none removed. The app suite was 767 until the candidate-click fix of 15-16 Oct 2026, which added nineteen app tests: seven in the first pass and twelve in the pass its audit forced; 786 was the figure written then, and the follow-up's own first commit made it 804 without this line moving). §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
 WP-16.8's own diff (3 Oct 2026) added 71 tests and re-cut 2 away: 53 in the new
 `tests/test_audit_of_wp_16_8.py`, 8 in `tests/test_window_pier.py`, 3 each in `tests/test_roof.py`
 and `tests/test_roof_form.py`, and 1 each in `tests/test_ifc_openings_are_the_sheets.py`,
@@ -2148,7 +2164,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 2044 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 3,995 tests**
+proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 4,006 tests**
 (plus the workbench app suite, **816** under `node --test` (767 until 15 Oct 2026, 804 until 16 Oct 2026's follow-up, 814 until its CI fixes); both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this

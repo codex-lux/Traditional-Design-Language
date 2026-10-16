@@ -7,8 +7,9 @@ Lucas was asked which of the known reds to take as a work package and chose the 
 townhouse's front: `build/check_partis.py` and `tests/test_parti_composability.py`, one finding seen
 through two readers (`oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts`,
 reading 1: *the parti's upper floor is under-authored*). The package was built, every claim in it
-was measured on both pipelines, and **it was withdrawn: nothing is committed but this report and two
-open-question files.** The red stays, and the reason it stays is the finding.
+was measured on both pipelines, and **it was withdrawn: the parti, the schema and the composer are
+untouched.** The red stays, and the reason it stays is the finding. What was changed afterwards, by
+Lucas's ruling the same day, is the check's instrument (section VII).
 
 ## I. What was built, and what it did
 
@@ -34,8 +35,9 @@ split of bays between rooms is a reading and was marked `judgment: true` and sai
 ## II. What the measurements say
 
 Four variants of the parti, each measured on **two pipelines**: the check's harness
-(`compose.instantiate` then `plan_check`) and the product (`compose.compose`, parti named, 30 ft
-lot, then the placer). "Windows" is the data above; "one door" removes the entrance hall's own
+(`compose.instantiate` then `plan_check`, a 120 ft lot) and the product (`compose.compose`, parti
+named, a 30 ft townhouse lot, then the placer). The lots differ because each pipeline's own brief
+does; the finding in III does not depend on it, and was re-measured on one brief for both. "Windows" is the data above; "one door" removes the entrance hall's own
 `exterior` door, which leaves the stoop as the only way out to the front.
 
 | variant | check's harness | the product |
@@ -62,8 +64,9 @@ composes it.
 
 **The check is judging a house the product does not build.** In the harness the plan does not name
 its parti, so the placer lays the house on its own defaults: 40.0 x 41.08 ft, **four bays at 10 ft**.
-The product names the parti, and the placer reads the diagram: **three bays on the parti's own 8 ft
-module**. On that house the upper storey draws **no** opening on the front at all, and the fault
+The product names the parti, and the placer reads the diagram: the parti's **own 8 ft module**. On the
+check's own brief (a 120 ft lot) that is five bays at the same 40 ft; on a 30 ft townhouse lot, which is
+the lot the product column below was composed on, it is **three bays at 24 ft**. On that house the upper storey draws **no** opening on the front at all, and the fault
 reports `fault_unjudged`: *"the upper storey draws no opening on the entrance front; a count of zero
 is not handed to a parity rule or a division that carries no `applies_when`"*.
 
@@ -84,8 +87,8 @@ would read as a pass.** It is the first thing this package did not do.
   front.
 - **No licence, no precondition on the fault, no change to the band** (the question's readings 2 and
   3, refused there and still refused).
-- **`check_partis` is not changed**, for the reason in III, and the decision that belongs to Lucas
-  is put under "What would be a true instrument" in `oq/the-parti-check-places-a-house-the-product-does-not-build`.
+- **`check_partis` was not changed on its own**, for the reason in III. It was changed afterwards, as
+  one ruled step with the unjudged state beside it (section VII).
 
 ## V. New open questions
 
@@ -107,3 +110,32 @@ res = compose.PC.check(plan, compose.C)                                # same fa
 
 and `compose.compose(brief, candidates=8, revise=False)` with `"parti": "side-hall-townhouse"` and a
 30 ft lot for the product column, the placed front read off `geometry.solve(plan, parti=...)`.
+
+## VII. Afterwards: the instrument, ruled and executed
+
+The decision this package left was put to Lucas as three options and the recommended one was ruled:
+**the check names the parti, and an unjudged fatal fault is a named state of the check that fails it.**
+
+- `plan["parti"] = pid` is set before `plan_check` judges the plan, for the parti and for the control.
+- An unjudged fatal fault is reported with its reason, differential against the control (keyed on the
+  fault alone), and the parti is not counted composable. The control has none of its own: it is the
+  definition of a standing gap, and without that exemption twenty unjudged measurements nobody
+  supplies land on the one diagram everything else is subtracted against.
+- `check_composability` takes a `compose=` seam so the branches can be driven; the shipped catalogue
+  reaches them with two parti, and two records whose state may change cannot guard a branch.
+
+**The catalogue now reads 19 of 21 composable, with two parti named as unjudged**, and that second
+one is a consequence the question did not show: `cape-central-chimney`'s `chimney-omitted` is
+unjudged (*it needs visible_chimney_count*) because `roof.py` models gable-end stacks only, and
+`tests/test_parti_composability.py::test_an_unmodelled_chimney_is_unjudged_not_absent` pins that as
+the correct state. It was green because the check counted fatal findings; it is listed because the
+ruling said any unjudged fatal fault. Neither parti can be cleared by editing the diagram: the
+side-hall's front needs a placer that composes one, and the cape needs a roof that models a central
+stack.
+
+**A figure in this report's first draft, and in the pull request comment and commit message that
+repeated it, was imprecise and is corrected here.** It said the check judges "a 4-bay house at 10 ft"
+where the product builds "3 bays at 8 ft". The two columns were composed on different lots (120 ft and
+30 ft) and the lot is what made three. What naming the parti changes is the module the placer reads,
+10 ft against the diagram's own 8 ft: five bays at the same 40 ft on the check's lot, three at 24 ft on
+a townhouse lot. Re-measured on one brief for both; the unjudged verdict is the same on all of them.

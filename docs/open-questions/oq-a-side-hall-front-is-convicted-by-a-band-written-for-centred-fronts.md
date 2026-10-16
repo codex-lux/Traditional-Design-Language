@@ -59,7 +59,8 @@ side-hall front for `english-georgian-townhouse` and `italianate-townhouse`, its
 equals 3, the parti's `max_bay_count: 3` on an 8 ft module. **It was withdrawn, and nothing is committed.**
 
 - **The red is not the parti's.** `check_partis` instantiates the diagram with no parti named, so the
-  placer lays a **4-bay house at 10 ft**; the product names the parti and lays **3 bays at 8 ft**. On the
+  placer lays a **4-bay house on its own 10 ft module**; the product names the parti and the placer reads
+  the diagram's **8 ft module** (3 bays at 24 ft on a townhouse lot). On the
   product's house the fault is not failed but **could not be evaluated**, because the upper storey
   draws no opening on the front: `oq/the-parti-check-places-a-house-the-product-does-not-build`.
 - **The data cannot clear it honestly.** Of four variants measured on both pipelines, the one that
