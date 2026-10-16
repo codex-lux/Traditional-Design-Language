@@ -234,8 +234,9 @@ and a test layer that could not see the surface it was written for (F4/F5).**
 | F14 | A refused column's header counts read `fatal 0 serious N minor M` with nothing beside them; the refusal sat at the foot of the card. | minor | pre-existing, exposed | **fixed**: a refused mark on the counts line |
 | F15 | `selectionAction().n` was a dead output, and the open used a `findIndex` that happens to equal it. | minor | introduced | **fixed**: the open uses `c.n`; the test that pinned it now pins a consumed value |
 
-**Found and deliberately not fixed, each with its reason** (tasks were suggested for the first three;
-the suggestion tool timed out and none is recorded as queued, so they are written here in full):
+**Found and deliberately not fixed, each with its reason** (the first three were put to Lucas as
+suggested tasks, queued on a second attempt after the tool timed out on the first; they are written
+here in full as well):
 
 - **A composed plan's id is `{parti}-{briefId}`, and every from-scratch brief's id is `new-brief`.**
   The same parti from two composes, or from two different briefs, has one plan id. The new job
@@ -284,5 +285,13 @@ result, 4 of 4 refused, and not the table: a different set and order, which is t
   clean.
 - 41 mutations of the new code, run in a worktree of their own, all red; 5 were blind on the first sweep
   (§III) and are closed.
-- The browser walk against a live server (Chromium, the built app): __WALK__
-- Checkers and tests: __CHECKS__
+- The browser walk against a live server (Chromium, the built app): 711 ok and 3 failed on the final code, the 3 being `trim-classical`'s
+  label-overlap checks (⑩) that are red on the parent too (699 ok and the same three there); 709 ok
+  and the same three on the run before the failed-open drive was added. Against a deliberately broken
+  build (four mutations of the surface: a link for a refused pick, a silent failed open, a bar that
+  ignores the pick, no refused mark on the counts line) the same walk read 706 ok and failed five of
+  the new checks beside those three, so they bite.
+- Checkers and tests: app suite, `vite build`, `check_counts` (0 stale), `check_citations` (0
+  dangling), `check_ids`, `gen_open_questions --check` and the open-question list and counts tests
+  are green. The whole `check_all.py` on a clean worktree of the code commit was still running when
+  this line was written; its verdict replaces this sentence.
