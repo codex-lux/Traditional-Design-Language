@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**283 questions, of which 158 are open.** A question is OPEN while
+**284 questions, of which 159 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 158
+## Open — 159
 
 Awaiting a ruling. This is the list to read first.
 
@@ -156,6 +156,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-model-draws-only-a-gable-roof** | OPEN | [B1 hands two shipped plans a hip and a gambrel, and the model and the IFC draw neither](open-questions/oq-the-model-draws-only-a-gable-roof.md) |
 | **oq/the-net-clear-opening-is-half-of-every-sash** | OPEN | [a double-hung's model applied to a casement, and a fault cleared by 1.4 inches on it](open-questions/oq-the-net-clear-opening-is-half-of-every-sash.md) |
 | **oq/the-openings-are-not-set-to-the-brick-courses** | OPEN | [two packs state a window's head in a brick wall, and the elevation draws the one that is not in courses](open-questions/oq-the-openings-are-not-set-to-the-brick-courses.md) |
+| **oq/the-parti-check-places-a-house-the-product-does-not-build** | OPEN | [check_partis measures a 4-bay house at 10 ft, and the product builds the same diagram at 3 bays and 8 ft](open-questions/oq-the-parti-check-places-a-house-the-product-does-not-build.md) |
 | **oq/the-partis-bay-module-contradicts-its-own-exemplars** | OPEN | [a 9 ft bay on a diagram whose every exemplar measures about twelve](open-questions/oq-the-partis-bay-module-contradicts-its-own-exemplars.md) |
 | **oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it** | OPEN | [the tradition cuts a long passage across its length, and the only move we have is to widen it](open-questions/oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md) |
 | **oq/the-placement-carries-no-wall-bands** | OPEN | [the rooms tile the footprint exactly, so the walls are drawn where no room allows for them](open-questions/oq-the-placement-carries-no-wall-bands.md) |

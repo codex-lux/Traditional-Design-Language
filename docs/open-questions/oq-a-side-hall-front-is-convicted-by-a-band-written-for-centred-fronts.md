@@ -47,3 +47,26 @@ authored blind, and `check_partis.py` is RED on the merged tree with this one er
 gate, which is red by design until Phase 13 lands. Reading 1 is the one that makes a house; it
 needs the bench's exemplars for the type and is Lucas's to rule on or to hand to the precedent
 line. Report: `docs/reports/wp-13.3-the-prover-learns-the-type.md`.
+
+## Amendment, 16 October 2026: reading 1 was built and measured, and it is not sufficient
+
+*Status unchanged: OPEN. Report: `docs/reports/the-side-hall-front-is-the-placers-2026-10-16.md`.*
+
+Lucas chose this reading as a work package. It was built (a parti may state how many windows a wall
+carries, with a quoted basis; a plan window says the count is the parti's; the composer leaves it
+alone) and the type's own statements were used for the data: the fault's licence of the three-bay
+side-hall front for `english-georgian-townhouse` and `italianate-townhouse`, its `upper_floor_opening_count`
+equals 3, the parti's `max_bay_count: 3` on an 8 ft module. **It was withdrawn, and nothing is committed.**
+
+- **The red is not the parti's.** `check_partis` instantiates the diagram with no parti named, so the
+  placer lays a **4-bay house at 10 ft**; the product names the parti and lays **3 bays at 8 ft**. On the
+  product's house the fault is not failed but **could not be evaluated**, because the upper storey
+  draws no opening on the front: `oq/the-parti-check-places-a-house-the-product-does-not-build`.
+- **The data cannot clear it honestly.** Of four variants measured on both pipelines, the one that
+  clears the check (one front door, upper hall and chamber windows stated) is convicted by the product,
+  and the one the product leaves alone is convicted by the check. The placer seats an upper window only
+  on the axis of an opening below it (R6) and the ground front is the search's, so a stated count is
+  not a seated opening.
+- **The reading is still the right one for the house**, and the remaining cost of it is in the placer
+  and not in the diagram: a front that is composed (WP-11.7's *facade is a result* ruling) is what
+  turns three stated bays into three drawn ones.
