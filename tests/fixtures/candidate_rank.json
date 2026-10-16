@@ -1,0 +1,420 @@
+{
+ "_what": "One table of RANKINGS, held by both languages (16 Oct 2026, the refusal ruling). `compose.rank_key` (Python) orders these cards, and the workbench's 'fatal first' ordering -- applied to the same raw cards through the real card adapter and `order()` -- must put them in the same order. `tests/test_refusal_ranks_last.py` is the Python half and `workbench/app/src/candidateOrder.test.mjs` the JavaScript. A card carries only the fields the key reads; the adapter fills the rest.",
+ "_not_here": "The score and native orderings of the workbench are not the composer's key and are not in this table: they demote a refused card and are held by their own tests.",
+ "cases": [
+  {
+   "name": "the best score is refused and a drawable house stands lower: the drawable one is first",
+   "cards": [
+    {
+     "parti": "refused-best",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 90,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": {
+      "kind": "type-fact-downgraded",
+      "facts": [
+       "stacks"
+      ],
+      "conflicts": [],
+      "lines": [
+       "a declared stack is drawn clear of the room it names"
+      ]
+     },
+     "revision": {
+      "stop_reason": "converged"
+     }
+    },
+    {
+     "parti": "placed-lower",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 40,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     }
+    }
+   ],
+   "expected": [
+    "placed-lower",
+    "refused-best"
+   ]
+  },
+  {
+   "name": "judged fatals decide before the standing: a refused house with none outranks a placed one with one",
+   "cards": [
+    {
+     "parti": "placed-one-fatal",
+     "counts": {
+      "fatal": 1
+     },
+     "score": 95,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     }
+    },
+    {
+     "parti": "refused-no-fatal",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 10,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": {
+      "kind": "type-fact-downgraded",
+      "facts": [
+       "stacks"
+      ],
+      "conflicts": [],
+      "lines": [
+       "a declared stack is drawn clear of the room it names"
+      ]
+     },
+     "revision": {
+      "stop_reason": "converged"
+     }
+    }
+   ],
+   "expected": [
+    "refused-no-fatal",
+    "placed-one-fatal"
+   ]
+  },
+  {
+   "name": "equal judged fatals, three standings: placed, then unjudged, then refused",
+   "cards": [
+    {
+     "parti": "refused",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 99,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": {
+      "kind": "type-fact-downgraded",
+      "facts": [
+       "stacks"
+      ],
+      "conflicts": [],
+      "lines": [
+       "a declared stack is drawn clear of the room it names"
+      ]
+     },
+     "revision": {
+      "stop_reason": "converged"
+     }
+    },
+    {
+     "parti": "unjudged",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 70,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": null
+    },
+    {
+     "parti": "placed",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 20,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     }
+    }
+   ],
+   "expected": [
+    "placed",
+    "unjudged",
+    "refused"
+   ]
+  },
+  {
+   "name": "a loop that could not judge its first placement stands with the unjudged, not the placed",
+   "cards": [
+    {
+     "parti": "loop-unjudged",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 80,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "placement-could-not-be-evaluated"
+     }
+    },
+    {
+     "parti": "loop-placed",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 30,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     }
+    }
+   ],
+   "expected": [
+    "loop-placed",
+    "loop-unjudged"
+   ]
+  },
+  {
+   "name": "the standing comes before the unjudged fatals: a placed house with more of them still leads",
+   "cards": [
+    {
+     "parti": "refused-clean",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 80,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": {
+      "kind": "type-fact-downgraded",
+      "facts": [
+       "stacks"
+      ],
+      "conflicts": [],
+      "lines": [
+       "a declared stack is drawn clear of the room it names"
+      ]
+     },
+     "revision": {
+      "stop_reason": "converged"
+     }
+    },
+    {
+     "parti": "placed-unjudged-fatals",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 20,
+     "demerits": 0.0,
+     "unjudged_fatal": [
+      {
+       "fault": "f0",
+       "name": "f0"
+      },
+      {
+       "fault": "f1",
+       "name": "f1"
+      },
+      {
+       "fault": "f2",
+       "name": "f2"
+      }
+     ],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     }
+    }
+   ],
+   "expected": [
+    "placed-unjudged-fatals",
+    "refused-clean"
+   ]
+  },
+  {
+   "name": "within one standing the unjudged fatals come before the score",
+   "cards": [
+    {
+     "parti": "high-score-more-unjudged",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 90,
+     "demerits": 0.0,
+     "unjudged_fatal": [
+      {
+       "fault": "f0",
+       "name": "f0"
+      },
+      {
+       "fault": "f1",
+       "name": "f1"
+      }
+     ],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     }
+    },
+    {
+     "parti": "low-score-fewer-unjudged",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 10,
+     "demerits": 0.0,
+     "unjudged_fatal": [
+      {
+       "fault": "f0",
+       "name": "f0"
+      }
+     ],
+     "refused": null,
+     "revision": {
+      "stop_reason": "converged"
+     }
+    }
+   ],
+   "expected": [
+    "low-score-fewer-unjudged",
+    "high-score-more-unjudged"
+   ]
+  },
+  {
+   "name": "within one standing and equal unjudged fatals the score decides",
+   "cards": [
+    {
+     "parti": "lower",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 30,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": {
+      "kind": "type-fact-downgraded",
+      "facts": [
+       "stacks"
+      ],
+      "conflicts": [],
+      "lines": [
+       "a declared stack is drawn clear of the room it names"
+      ]
+     },
+     "revision": {
+      "stop_reason": "converged"
+     }
+    },
+    {
+     "parti": "higher",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 60,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": {
+      "kind": "type-fact-downgraded",
+      "facts": [
+       "stacks"
+      ],
+      "conflicts": [],
+      "lines": [
+       "a declared stack is drawn clear of the room it names"
+      ]
+     },
+     "revision": {
+      "stop_reason": "converged"
+     }
+    }
+   ],
+   "expected": [
+    "higher",
+    "lower"
+   ]
+  },
+  {
+   "name": "every card refused: the order is the score order, so nothing is hidden by the new key",
+   "cards": [
+    {
+     "parti": "a-low",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 10,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": {
+      "kind": "type-fact-downgraded",
+      "facts": [
+       "stacks"
+      ],
+      "conflicts": [],
+      "lines": [
+       "a declared stack is drawn clear of the room it names"
+      ]
+     },
+     "revision": {
+      "stop_reason": "converged"
+     }
+    },
+    {
+     "parti": "b-high",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 70,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": {
+      "kind": "type-fact-downgraded",
+      "facts": [
+       "stacks"
+      ],
+      "conflicts": [],
+      "lines": [
+       "a declared stack is drawn clear of the room it names"
+      ]
+     },
+     "revision": {
+      "stop_reason": "converged"
+     }
+    },
+    {
+     "parti": "c-mid",
+     "counts": {
+      "fatal": 0
+     },
+     "score": 40,
+     "demerits": 0.0,
+     "unjudged_fatal": [],
+     "refused": {
+      "kind": "type-fact-downgraded",
+      "facts": [
+       "stacks"
+      ],
+      "conflicts": [],
+      "lines": [
+       "a declared stack is drawn clear of the room it names"
+      ]
+     },
+     "revision": {
+      "stop_reason": "converged"
+     }
+    }
+   ],
+   "expected": [
+    "b-high",
+    "c-mid",
+    "a-low"
+   ]
+  }
+ ]
+}

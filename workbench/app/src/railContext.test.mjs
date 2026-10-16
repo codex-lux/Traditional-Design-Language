@@ -149,16 +149,42 @@ test('a refused evaluation says so beside its counts, whichever way the server c
     { refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'] } });
 });
 
-test('the kinds the app can send are the kinds the assistant\'s server reads', () => {
-  const py = readFileSync(new URL('../../server/rail.py', import.meta.url), 'utf8');
-  const m = py.match(/^_REFUSAL_KINDS = \(([^)]*)\)/m);
-  assert.ok(m, 'rail.py states the kinds it accepts on one line');
-  const server = [...m[1].matchAll(/"([a-z-]+)"/g)].map((x) => x[1]).sort();
-  assert.deepEqual(server, [...REFUSAL_KINDS].sort());
+test('the kinds the app can send are the kinds the type mints, and the assistant\'s server reads that list', () => {
+  const py = readFileSync(new URL('../../../build/typefacts.py', import.meta.url), 'utf8');
+  const kinds = py.match(/^REFUSAL_KINDS = \(([^)]*)\)/m);
+  assert.ok(kinds, 'typefacts.py states the list the verdict mints');
+  const names = Object.fromEntries([...py.matchAll(/^(KIND_[A-Z]+) = "([a-z-]+)"/gm)].map((x) => [x[1], x[2]]));
+  const minted = kinds[1].split(',').map((x) => x.trim()).filter(Boolean).map((k) => names[k]).sort();
+  assert.equal(minted.length, 2);
+  assert.deepEqual(minted, [...REFUSAL_KINDS].sort());
+  // and the server holds no list of its own to drift: it reads the leaf's
+  const rail = readFileSync(new URL('../../server/rail.py', import.meta.url), 'utf8');
+  assert.doesNotMatch(rail, /^_REFUSAL_KINDS\b/m);
+  assert.match(rail, /corpus\._typefacts\(\)\.REFUSAL_KINDS/);
+});
+
+test('a working sketch is sent as one, with its own refusal, and a plain placement never is', () => {
+  const sk = (refused) => ({ working: true, reason: 'wall drag', refused });
+  // a sketch with no refusal still says it is a sketch (it is no verdict on the house)
+  assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement: { sketch: sk(null) } }),
+    { ...COUNTS, sketch: true });
+  // a sketch's refusal is the sketch's own, read through the one reader of a refusal body
+  assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement: { sketch: sk(REFUSAL) } }),
+    { ...COUNTS, refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'] }, sketch: true });
+  assert.deepEqual(lastEvalSummary({ placement: { sketch: sk(REFUSAL) } }),
+    { refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'] }, sketch: true });
+  // a sketch that is not marked working is not one, and nothing else carries the flag
+  for (const notSketch of [{ sketch: { working: false, refused: REFUSAL } }, { sketch: 'x' }, { sketch: [] }, {}, null]) {
+    assert.equal('sketch' in lastEvalSummary({ check: { ...COUNTS }, placement: notSketch }), false, JSON.stringify(notSketch));
+  }
+  // the record's own refusal outranks the sketch's, as the bench's banner reads it
+  const own = { kind: 'infeasible', facts: ['bearing'] };
+  assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement_refused: own, placement: { sketch: sk(REFUSAL) } }).refused, own);
 });
 
 test('the assistant is handed only an evaluation that is of the plan on the bench, from where it came', () => {
   const app = stripComments(readFileSync(new URL('./App.jsx', import.meta.url), 'utf8'));
-  assert.match(app, /lastEval=\{evalIsOf\(lastEval, planId, planFrom\) \? lastEval : null\}/,
+  assert.match(app, /const lastEvalHere = evalIsOf\(lastEval, planId, planFrom\) \? lastEval : null;/,
     'a verdict of the house before is not told to the assistant as this house\'s');
+  assert.match(app, /<RailHost[^>]*lastEval=\{lastEvalHere\}/s);
 });

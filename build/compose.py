@@ -31,6 +31,7 @@ def _mod(name, path):
     return _mc.load(name, path)
 
 PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
+TF = _mod("typefacts", f"{ROOT}/build/typefacts.py")   # the leaf that mints a refusal's kinds
 C = PC.load_corpus()
 PARTIS = {}
 for f in sorted(glob.glob(f"{ROOT}/partis/*.json")):
@@ -319,6 +320,21 @@ PLACEMENT_UNJUDGED = "placement-could-not-be-evaluated"
 STANDING_RANK = {"placed": 0, "unjudged": 1, "refused": 2}
 
 
+def reads_as_refusal(body):
+    """Whether `body` is a refusal this corpus wrote: an object (unwrapped once from the 422's
+    `refused_placement` form) whose `kind` is one `typefacts.refusal` mints. This is
+    `sheet/refusal.js::readRefusal`'s test, in the language the composer runs in; anything else
+    -- an unknown kind, a string, a list -- is a body nobody here wrote and is not read as a
+    refusal (and not as a pass either: see `placement_standing`)."""
+    if not isinstance(body, dict):
+        return False
+    raw = body.get("refused_placement")
+    if isinstance(raw, dict):
+        body = raw
+    kind = body.get("kind")
+    return isinstance(kind, str) and kind.strip() in TF.REFUSAL_KINDS
+
+
 def placement_standing(c):
     """'refused' | 'placed' | 'unjudged' for one candidate card: whether the type's own hard facts
     have ever been asked of its placement, and what they said (WP-13.4).
@@ -328,12 +344,17 @@ def placement_standing(c):
     would be a verdict with no subject); a candidate the set's revise budget never reached is
     returned as composed (`revision` is `None`); and a loop whose first placement could not be
     evaluated judged nothing. `placed` is therefore only a card whose placed revision loop RAN,
-    returned a placement, and did not refuse it. This is the workbench's `standingOf`
-    (`candidateStanding.js`) and the two are held to one table of cases
-    (`tests/fixtures/candidate_standing.json`); a refusal body the app cannot read is the app's
-    fourth case, which the server, being the writer, has no way to have."""
-    if c.get("refused"):
+    returned a placement, and did not refuse it. A `refused` that is present and is not a
+    refusal this corpus wrote is a verdict nobody can read: `unjudged`, as the workbench reads it.
+    This is the workbench's `standingOf` (`candidateStanding.js`) and the two are held to one
+    table of cases (`tests/fixtures/candidate_standing.json`)."""
+    if not isinstance(c, dict):
+        return "unjudged"
+    refused = c.get("refused")
+    if reads_as_refusal(refused):
         return "refused"
+    if refused is not None:
+        return "unjudged"
     rv = c.get("revision")
     if isinstance(rv, dict) and rv.get("stop_reason") != PLACEMENT_UNJUDGED:
         return "placed"
@@ -2088,7 +2109,7 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
               "An axis nothing could be evaluated on has its WEIGHT DROPPED and the total renormalised over the rest, never scored as a pass and never as a zero. score_weight_unevaluated says how much of the hundred that was, so a score computed over 94 points of evidence cannot be read as one computed over 100.",
               "A fatal finding DISQUALIFIES a candidate, and that is carried beside the score rather than inside it: `disqualified` is true and `disqualified_because` says so in words. A disqualified candidate never outranks a clean one whatever it scores -- that is enforced by the ordering, not by the number -- and its score is not a case for building it. It is still scored because whole sets come back disqualified on styles the fault corpus cannot clear, and four plans that all carry a fatal still differ.",
               "Candidates are RETURNED fatal-free first and then by score, so a plan carrying a fatal never displaces a clean one from the set even where its fidelity would outscore it. How the ones that came back are then ORDERED for reading is a separate choice -- by score, by nativity, or fatal-first -- and the reading order is named above them.",
-              "Between two candidates with the same number of fatal findings, the one with FEWER FATAL FAULTS THE CORPUS COULD NOT JUDGE is returned first, and only then does the score decide. unjudged_fatal names them. An unjudged fatal is not a fatal -- it does not disqualify and is not in counts -- and it is not a pass either: nobody could say whether the fault is there.",
+              "Between two candidates with the same number of fatal findings, the one whose placement the type's own hard facts ALLOW TO BE DRAWN is returned first; one they refuse (`refused`) is returned after it, and one nobody has placed (`revision` is null, or the loop could not judge its first placement) stands between the two -- not a pass. Then the one with FEWER FATAL FAULTS THE CORPUS COULD NOT JUDGE comes first, and only then does the score decide. unjudged_fatal names them. An unjudged fatal is not a fatal -- it does not disqualify and is not in counts -- and it is not a pass either: nobody could say whether the fault is there.",
               "demerits is the old lower-is-better total -- 100 a fatal, 8 a serious, 1 a minor, less 20 a point of fidelity. It is kept because it is a real quantity and because earlier reports quote it. It ranks nothing now.",
               "trades_away is the honest part. Every diagram gives something up, and the one that scores best is not always the one you want.",
               "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",

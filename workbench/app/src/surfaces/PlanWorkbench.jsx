@@ -9,7 +9,7 @@ import { api, jobEvents } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
 import { planDoc, mutations } from '../state/planDoc.js';
 import { session, recordPlanFrom, clearPlanFrom } from '../state/session.js';
-import { stampEval } from '../journey/journey.js';
+import { stampEval, answerIsForHere } from '../journey/journey.js';
 import { FindingRow } from '../components/FindingRow.jsx';
 import { SeverityTally } from '../components/SeverityTally.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
@@ -173,6 +173,12 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
       engine: opts.engine, revise_rounds: opts.revise ? INLINE_REVISE_ROUNDS : 0 })
       .then((res) => {
         if (seq !== evalRef.current) return;
+        /* AN ANSWER LANDS ONLY ON THE HOUSE IT WAS ASKED OF. `seq` advances only when the next
+           request starts, which is 400 ms after an edit and not at once on opening another
+           house; a request in flight for the old house would then file its verdict (and its
+           findings, and its error line) against the new record until the new one's own run. */
+        { const nowDoc = planDoc.get();
+          if (!answerIsForHere(submitted && submitted.id, fromAtSubmit, nowDoc && nowDoc.id, session.get().planFrom)) return; }
         // updaters stay pure: the previous run's keys live in a ref, and both
         // state sets happen at this level (the seq guard already serializes)
         setPrevKeys(lastFindingsRef.current);

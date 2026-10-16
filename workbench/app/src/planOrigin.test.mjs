@@ -13,6 +13,8 @@
 
      originKeyOf / evalOriginOf / stampEval / evalIsOf   the key, its stamp and its one reader;
      journeyState                                        the screen the key exists to prevent;
+     answerIsForHere                                     an answer for one house is dropped when it
+                                                         lands against another;
      the census of `planDoc.load(`                       the other half, a load with no origin to
                                                          record clears the old one;
      the joins                                           the bench stamps at SUBMIT, the shell asks
@@ -26,7 +28,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import {
-  originKeyOf, evalOriginOf, stampEval, evalIsOf, journeyState,
+  originKeyOf, evalOriginOf, stampEval, evalIsOf, journeyState, answerIsForHere, unstampEval,
 } from './journey/journey.js';
 import { stripComments } from './sourceReader.mjs';
 
@@ -140,6 +142,44 @@ function loadCalls(src) {
   return out;
 }
 
+test('an answer for one house is dropped when it lands against another', () => {
+  const A = cand('j1', 0);
+  // the same house, from where it came: kept
+  assert.equal(answerIsForHere(PLAN.id, A, PLAN.id, { ...A }), true);
+  assert.equal(answerIsForHere(PLAN.id, null, PLAN.id, null), true, 'no origin recorded at either end');
+  // the reader opened another house with another id
+  assert.equal(answerIsForHere(PLAN.id, A, 'another-plan', null), false);
+  // ... and when NEITHER end records an origin the two keys are both empty, so only the id can say
+  // they are different houses (an example, then a pasted record, then another example)
+  assert.equal(answerIsForHere(PLAN.id, null, 'another-plan', null), false, 'the id alone separates two origin-less houses');
+  assert.equal(answerIsForHere('p-one', { kind: 'example', planId: 'p-one' }, 'p-two', { kind: 'example', planId: 'p-two' }), false);
+  // the same id from a later compose, or another slot: a different house
+  assert.equal(answerIsForHere(PLAN.id, A, PLAN.id, cand('j2', 0)), false, 'another job');
+  assert.equal(answerIsForHere(PLAN.id, A, PLAN.id, cand('j1', 1)), false, 'another slot');
+  // a candidate replaced by a pasted record of the same id (its origin was cleared)
+  assert.equal(answerIsForHere(PLAN.id, A, PLAN.id, null), false);
+  // an origin that names ANOTHER plan is no origin (as `originKeyOf` reads it), at both ends
+  assert.equal(answerIsForHere(PLAN.id, { ...A, planId: 'other' }, PLAN.id, null), true);
+  // no plan on the bench, or none asked of: nothing is filed
+  for (const none of [null, undefined, '', '  ', 4]) {
+    assert.equal(answerIsForHere(none, A, none, A), false, JSON.stringify(none));
+    assert.equal(answerIsForHere(PLAN.id, A, none, A), false);
+  }
+});
+
+test('a saved check report is the server\'s answer and carries none of the app\'s bookkeeping', () => {
+  const stamped = stampEval(EV, PLAN.id, cand('j1', 2));
+  assert.equal(evalOriginOf(stamped), 'candidate|j1|2', 'the premise: it was stamped');
+  const clean = unstampEval(stamped);
+  assert.deepEqual(clean, EV, 'the same answer the server gave');
+  assert.equal('evaluated_from' in clean, false);
+  assert.equal(evalOriginOf(clean), '');
+  assert.equal('evaluated_from' in stamped, true, 'the held evaluation keeps its stamp');
+  for (const x of [null, undefined, 'x', 3, [], EV]) assert.equal(unstampEval(x), x, 'nothing to remove, nothing copied');
+  const src = code(new URL('surfaces/ExportDetails.jsx', SRC));
+  assert.match(src, /save\(`\$\{plan\?\.id \|\| 'plan'\}-check\.json`, unstampEval\(lastEval\)\)/);
+});
+
 test('every load of a whole, different document records its origin or clears it', () => {
   /* `planFrom` names its plan by id and the journey trusts it while that id is the bench's, so a
      load that records nothing leaves the previous origin standing for whatever has the same id. The
@@ -161,6 +201,35 @@ test('every load of a whole, different document records its origin or clears it'
   assert.ok(sites.some((s) => /clearPlanFrom\(res\.record\)/.test(s.arg)), 'an ingested drawing');
 });
 
+test('the census cannot be walked round: planDoc is only ever used by its own name and a known method', () => {
+  /* The census above reads the text `planDoc.load(`. An alias (`const doc = planDoc`, `const { load }
+     = planDoc`, `planDoc['load'](...)`, `import { planDoc as d }`) loads a whole document and is
+     invisible to it, so this holds the OTHER half: every use of the store in every source is its
+     own name followed by one of the five methods it has, and no source renames it on import. */
+  const users = [];
+  for (const u of files) {
+    const src = code(u);
+    if (!/\bplanDoc\b/.test(src) || /export const planDoc\b/.test(src)) continue;
+    users.push(rel(u));
+    // an import renames nothing
+    for (const m of src.matchAll(/import\s*\{([^}]*)\}\s*from\s*['"][^'"]*planDoc\.js['"]/g)) {
+      assert.ok(!/\bplanDoc\s+as\b/.test(m[1]), `${rel(u)} renames planDoc on import`);
+    }
+    // every other occurrence is `planDoc.<method>`
+    // (not the file name in an import path, and not the import's own binding)
+    const bad = [...src.matchAll(/(?<!\/)\bplanDoc\b(?!\.(?:get|subscribe|update|undo|redo|load)\b)(?![^\n]*from\s*['"][^'"]*planDoc\.js['"])/g)]
+      .map((m) => src.slice(Math.max(0, m.index - 20), m.index + 40).replace(/\s+/g, ' '));
+    assert.deepEqual(bad, [], `${rel(u)} uses the store other than as planDoc.<method>`);
+  }
+  assert.ok(users.length >= 5, `the census reached ${users.length} users of the store`);
+  // and the driven case: the aliases it exists to catch ARE caught by the same pattern
+  const probe = (txt) => [...txt.matchAll(/\bplanDoc\b(?!\.(?:get|subscribe|update|undo|redo|load)\b)/g)].length;
+  assert.equal(probe('const doc = planDoc; doc.load(x)'), 1);
+  assert.equal(probe('const { load } = planDoc;'), 1);
+  assert.equal(probe("planDoc['load'](x)"), 1);
+  assert.equal(probe('planDoc.load(x); planDoc.get()'), 0);
+});
+
 test('the bench stamps an evaluation with the origin it held when it ASKED', () => {
   /* Read at submit, not at the answer: a reader can open another house with the same id while the
      solve runs, and an answer stamped when it landed would be filed against it. The decision (the
@@ -175,6 +244,19 @@ test('the bench stamps an evaluation with the origin it held when it ASKED', () 
   assert.equal((src.match(/setLastEval\(/g) || []).length, 1, 'one writer of the shell\'s evaluation');
 });
 
+test('the bench drops an answer that lands against another house, before it files anything', () => {
+  const src = code(new URL('surfaces/PlanWorkbench.jsx', SRC));
+  const guard = src.search(/answerIsForHere\(submitted && submitted\.id, fromAtSubmit, /);
+  assert.ok(guard !== -1, 'the answer is asked whether it is for this house');
+  const first = src.indexOf('setPrevKeys(lastFindingsRef.current)');
+  assert.ok(first !== -1 && guard < first, 'the question comes before the first thing the answer sets');
+  assert.ok(guard < src.indexOf('setEvalError(res?.check?.error'), 'and before its error line');
+  assert.ok(guard < src.indexOf('setLastEval(stampEval('), 'and before the shell is handed it');
+  // the question reads the origin the bench holds NOW, not the one it asked with, and a no returns
+  assert.match(src, /answerIsForHere\([^)]*session\.get\(\)\.planFrom\)\)\s*return;/);
+  assert.doesNotMatch(src, /if \(!answerIsForHere\([^)]*\)\) \{\s*\}/, 'and the branch is not empty');
+});
+
 test('the shell clears a stale evaluation on an origin change, and the journey and rail read the same matcher', () => {
   const app = code(new URL('App.jsx', SRC));
   assert.match(app, /const planKey = `\$\{planId \?\? ''\}\\u0000\$\{originKeyOf\(planId, planFrom\)\}`/);
@@ -183,12 +265,25 @@ test('the shell clears a stale evaluation on an origin change, and the journey a
   assert.doesNotMatch(app, /evalPlanOf\(ev\) === planId/, 'the id-only clear is gone');
   const journey = code(new URL('journey/journey.js', SRC));
   assert.match(journey, /evalIsOf\(lastEval, planId, s\.planFrom\)/);
+  // and in the interval before that clear runs, every reader of the shell's evaluation is handed
+  // the filtered one: the surface in view and the assistant (the journey asks `evalIsOf` itself)
+  assert.match(app, /const lastEvalHere = evalIsOf\(lastEval, planId, planFrom\) \? lastEval : null;/);
+  assert.match(app, /<Active \{\.\.\.shared\} lastEval=\{lastEvalHere\} \/>/);
+  assert.match(app, /<RailHost[^>]*lastEval=\{lastEvalHere\}/s);
+  // (the journey bar is handed the raw one on purpose: `journeyState` asks `evalIsOf` itself, which
+  // is what the next assertion above holds)
 });
 
 test('the candidates\' brief name is the job\'s, not the draft\'s', () => {
   const set = code(new URL('surfaces/CandidateSet.jsx', SRC));
   assert.equal((set.match(/briefNameOf\(result, s\.jobBrief\)/g) || []).length, 2);
   assert.doesNotMatch(set, /briefNameOf\(result, s\.brief\)/);
+  /* and so are the count it was asked for and the household beside the columns: both read the
+     job's brief where the job kept one, and the draft only where it did not */
+  assert.match(set, /const jobBrief = s\.jobBrief && s\.jobBrief\.id === result\.brief \? s\.jobBrief : null;/);
+  assert.match(set, /const askedFor = \(jobBrief \? jobBrief\.candidates : s\.brief\?\.candidates\) \|\| 4;/);
+  assert.match(set, /const household = jobBrief \? jobBrief\.household : s\.brief\?\.household;/);
+  assert.doesNotMatch(set, /\{s\.brief\.household\}/, 'the household is not read off the draft after the job');
   const intake = code(new URL('surfaces/BriefIntake.jsx', SRC));
   assert.match(intake, /composeStart\(job_id, brief\)/, 'the brief the job was accepted with is kept');
 });

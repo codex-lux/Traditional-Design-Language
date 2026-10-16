@@ -280,13 +280,28 @@ def _candidate_block(ctx):
 
 
 # A refusal rides in the context as `last_eval.refused = {kind, facts}` (the workbench's
-# `railContext.lastEvalSummary`). The context is the client's, and its text goes into a prompt, so
-# nothing is passed through: the kind must be one `typefacts.refusal` mints and each fact is a short
-# lower-case word of the type's own vocabulary (stacks, bearing, tiling, hearth ...), or it is
-# dropped. A body that names no kind we know says nothing -- it is not read as "refused".
-_REFUSAL_KINDS = ("infeasible", "type-fact-downgraded")
-_FACT_RE = re.compile(r"^[a-z][a-z -]{0,39}$")
-_MAX_REFUSAL_FACTS = 8
+# `railContext.lastEvalSummary`), and a working sketch as `last_eval.sketch = true`. The context is
+# the client's and its text goes into a prompt, so nothing is passed through: the kind must be one
+# `typefacts.refusal` mints (`typefacts.REFUSAL_KINDS`) and each fact one of the type's own four
+# (`typefacts.FACT_TITLES`: tiling, stacks, bearing, hearth), read live from the leaf that mints
+# them, or it is dropped. A body that names no kind we know says nothing -- it is not read as
+# "refused".
+_COUNTS_SENTENCE = ('The counts above are findings and measure something else: "fatal 0" there does '
+                    'not mean the plan may be drawn.')
+_NO_COUNTS_SENTENCE = ('A count of fatal findings measures something else and does not mean the plan '
+                       'may be drawn.')
+_SKETCH_WORDS = ('a WORKING SKETCH from a wall drag, placed by the quick search and not proved')
+
+
+def _refusal_facts(r):
+    """The refusal's facts that are the type's own, once each, in the order the client sent them."""
+    allowed = corpus._typefacts().FACT_TITLES
+    raw = r.get("facts")
+    out = []
+    for f in (raw if isinstance(raw, list) else []):
+        if isinstance(f, str) and f in allowed and f not in out:
+            out.append(f)
+    return out
 
 
 def _refusal_line(ev):
@@ -296,17 +311,29 @@ def _refusal_line(ev):
     no fatal finding and still be one the type's own hard facts forbid drawing, which is the screen
     a reader met on the Candidate Set and the assistant, told only the counts, described as
     healthy. Written only where the client states a refusal this server can read, so every other
-    prompt is byte for byte what it was."""
-    r = ev.get("refused") if isinstance(ev, dict) else None
-    if not isinstance(r, dict) or r.get("kind") not in _REFUSAL_KINDS:
+    prompt is byte for byte what it was.
+
+    A working sketch (the wall drag's quick search; it is not proved and it is never exportable) is
+    said to be one, with or without a refusal: a sketch that is refused may still be LOOKED at, so
+    "cannot be drawn" would be false of it, and a sketch that is not refused is still not a
+    verdict on the house."""
+    if not isinstance(ev, dict):
         return None
-    raw = r.get("facts")
-    facts = [f for f in (raw if isinstance(raw, list) else [])
-             if isinstance(f, str) and _FACT_RE.match(f)][:_MAX_REFUSAL_FACTS]
+    sketch = ev.get("sketch") is True
+    r = ev.get("refused")
+    refused = isinstance(r, dict) and r.get("kind") in corpus._typefacts().REFUSAL_KINDS
+    if not refused and not sketch:
+        return None
+    counts = (_COUNTS_SENTENCE if isinstance(ev.get("counts"), dict) else _NO_COUNTS_SENTENCE)
+    if not refused:
+        return f"This evaluation is of {_SKETCH_WORDS}; it cannot be exported. {counts}"
+    facts = _refusal_facts(r)
     what = (f"{r['kind']}: {', '.join(facts)}" if facts else r["kind"])
+    if sketch:
+        return (f"This is {_SKETCH_WORDS}. It is REFUSED ({what}): the type's own hard facts do not "
+                f"hold for it, so it cannot be exported. {counts}")
     return (f"This placement is REFUSED ({what}): the type's own hard facts do not hold, so it cannot "
-            f"be drawn or exported. The counts above are findings and measure something else: "
-            f"\"fatal 0\" there does not mean the plan may be drawn.")
+            f"be drawn or exported. {counts}")
 
 
 def _context_block(ctx):

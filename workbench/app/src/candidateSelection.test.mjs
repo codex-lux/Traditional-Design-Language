@@ -55,6 +55,19 @@ test('what the type\'s facts have been asked of a candidate: refused, placed, or
   assert.equal(standingOf(served({ refused: REFUSED, revision: null })), 'refused');
 });
 
+/* The index just past the `</span>` that closes the `<span` opening at `open`, by counting nested
+   spans; -1 if it never closes. A first `</span>` after a marker is the inner span's. */
+function closeOfSpan(src, open) {
+  const re = /<span\b|<\/span>/g;
+  re.lastIndex = open;
+  let depth = 0;
+  for (let m = re.exec(src); m; m = re.exec(src)) {
+    depth += m[0] === '</span>' ? -1 : 1;
+    if (depth === 0) return m.index + m[0].length;
+  }
+  return -1;
+}
+
 /* THE COMPOSER RANKS ON THE SAME READING (ruled 16 Oct 2026: refused ranks last). `compose.py`'s
    `placement_standing` and this file's `standingOf` are two languages reading one card, so neither
    can import the other; `tests/fixtures/candidate_standing.json` is the one table both are held to
@@ -215,15 +228,42 @@ test('a column is selected from the keyboard by a real button, and the pick is a
   // the act has a row of its own beneath the strip's other items, with a floor of two lines: the
   // grid moved 27 px (at 1100) and 47 px (at 1680) between a refused pick and an open one
   assert.match(set, /\} below=\{/, 'the row is the strip\'s own `below`, after `right` in the document too');
-  assert.match(set, /data-selection-row="" style=\{\{ flex: '1 1 100%', minHeight: '2lh'/);
+  assert.match(set, /data-selection-row="" style=\{\{ flex: '1 1 100%', minHeight: '2\.9em'/);
+  // and that floor is two lines of the row's own type: 2 x the line height `--type-data-s` states
+  const tokens = readFileSync(new URL('./theme/tokens.css', import.meta.url), 'utf8');
+  const lh = tokens.match(/--type-data-s:[^;]*\/([0-9.]+)\s+var\(--mono\)/);
+  assert.ok(lh, 'the token states a unitless line height');
+  assert.equal(Number((2 * Number(lh[1])).toFixed(2)), 2.9, 'the floor in em is two lines of --type-data-s');
+  assert.doesNotMatch(set, /minHeight: '2lh'/, 'the newer `lh` unit is not used');
   const chrome = readFileSync(new URL('./Chrome.jsx', import.meta.url), 'utf8');
   assert.match(chrome, /export function FilterStrip\(\{ children, right, filters, wrap, below \}\)/);
   assert.match(chrome, /\{right\}[\s\S]*\{wrap && below\}/, '`below` follows `right`');
   // the error stays its own alert, outside the polite region (two live regions would say it twice)
-  const live = set.indexOf('data-selection-live');
+  const open = set.indexOf('<span role="status" aria-live="polite" data-selection-live="">');
   const err = set.indexOf('role="alert" data-selection-error');
-  const liveEnd = set.indexOf('</span>', set.indexOf('{view.words}', live) + 1);
-  assert.ok(live !== -1 && err > liveEnd, 'the error is after the region closes');
+  assert.ok(open !== -1 && err !== -1);
+  const end = closeOfSpan(set, open);
+  assert.ok(end !== -1, 'the region\'s closing tag is found by counting spans, not by the first one');
+  assert.ok(err > end, 'the error is after the region closes');
+  assert.ok(set.indexOf('data-selection-action', open) < end, 'and the act is inside it');
+  // a working act stays in the tab order: `disabled` would drop the focus a keyboard reader had
+  // just pressed it with, so both open acts say they are working with aria-disabled and refuse a
+  // second press in the handler (asserted above)
+  assert.doesNotMatch(set, /\bdisabled=\{opening\}/);
+  assert.equal((set.match(/aria-disabled=\{opening \? 'true' : undefined\}/g) || []).length, 2);
+});
+
+test('the balanced scan that holds the live region finds the right closing tag', () => {
+  /* The guard above counts nested spans. The first version took the first `</span>` after a
+     marker, which is the closing tag of the INNER span -- so the error could sit inside the region
+     and the guard still pass. Driven on a source where the inner span closes first. */
+  const src = '<span role="status"><span a>x</span>{y}</span><span role="alert">e</span>';
+  const open = src.indexOf('<span role="status"');
+  assert.equal(closeOfSpan(src, open), src.indexOf('</span><span role="alert"') + '</span>'.length);
+  assert.ok(src.indexOf('role="alert"') > closeOfSpan(src, open) - 1);
+  const inside = '<span role="status"><span a>x</span><span role="alert">e</span></span>';
+  assert.ok(inside.indexOf('role="alert"') < closeOfSpan(inside, 0), 'an alert inside the region is found to be inside');
+  assert.equal(closeOfSpan('<span a>never closed', 0), -1);
 });
 
 test('the surface renders these decisions and decides none of its own', () => {

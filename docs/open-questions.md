@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**280 questions, of which 155 are open.** A question is OPEN while
+**282 questions, of which 157 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 155
+## Open — 157
 
 Awaiting a ruling. This is the list to read first.
 
@@ -114,6 +114,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms** | HALF CLOSED — doors and windows built in WP-11.14 (8 September 2026); the sweep of the other exterior marks is open | [the seventh layer that reads one rectangle](open-questions/oq-an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms.md) |
 | **oq/an-exterior-stacks-breast-and-shoulders-are-stated-nowhere** | OPEN | [the stack stands on the ground at its own width](open-questions/oq-an-exterior-stacks-breast-and-shoulders-are-stated-nowhere.md) |
 | **oq/an-undecided-scout-releases-every-type-fact-at-once** | OPEN | [the ladder's answer to a model it cannot decide](open-questions/oq-an-undecided-scout-releases-every-type-fact-at-once.md) |
+| **oq/an-undo-across-a-document-change-restores-the-record-and-not-its-origin** | OPEN | [the history holds records and the origin is kept beside it](open-questions/oq-an-undo-across-a-document-change-restores-the-record-and-not-its-origin.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/build-history-is-shown-in-page-fields-the-description-sweep-does-not-read** | OPEN | [R6 reached the description, and the record pages print more than the description](open-questions/oq-build-history-is-shown-in-page-fields-the-description-sweep-does-not-read.md) |
 | **oq/clear-counts-a-pass-and-a-tautology-as-one-thing** | OPEN | [half the faults this corpus clears are cleared on the generator's own output](open-questions/oq-clear-counts-a-pass-and-a-tautology-as-one-thing.md) |
@@ -147,6 +148,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front** | OPEN | [the parity of what was drawn, on a front the record says is not the one drawn](open-questions/oq-the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front.md) |
 | **oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front** | OPEN | [an eighth layer reads the main block as the whole house](open-questions/oq-the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front.md) |
 | **oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state** | OPEN | [the widest-door rule is applied to a field a door record may omit, and a stated 3 ft then beats an unstated 3.5](open-questions/oq-the-front-door-is-chosen-by-a-width-the-record-need-not-state.md) |
+| **oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps** | OPEN | [the act's row is steady, the bar above it is not](open-questions/oq-the-journey-bars-next-jumps-rows-when-the-strip-wraps.md) |
 | **oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it** | OPEN | [two vocabularies for one fact](open-questions/oq-the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it.md) |
 | **oq/the-massings-first-roof-default-is-read-raw** | OPEN | [eleven of forty massings name a roof the roof layer does not draw first](open-questions/oq-the-massings-first-roof-default-is-read-raw.md) |
 | **oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted** | OPEN | [the argument for STACK_HARD being off no longer holds on the plan it was made on](open-questions/oq-the-measurement-that-defaulted-the-stacking-rule-has-inverted.md) |

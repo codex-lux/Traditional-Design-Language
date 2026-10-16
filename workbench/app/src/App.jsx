@@ -227,6 +227,10 @@ export default function App() {
      does, and `evalIsOf` is the one reader of whether an evaluation is of this plan from here. */
   const planFrom = sessionNow.planFrom;
   const planKey = `${planId ?? ''}\u0000${originKeyOf(planId, planFrom)}`;
+  /* What every surface and the assistant is handed as "the last evaluation": only one that is of
+     THIS plan from where it now came. The clear below runs on a plan change; this is the reader
+     for the interval before it and for an answer that lands after it. */
+  const lastEvalHere = evalIsOf(lastEval, planId, planFrom) ? lastEval : null;
   const lastPlanKey = React.useRef(planKey);
   React.useEffect(() => {
     if (lastPlanKey.current === planKey) return;
@@ -334,14 +338,14 @@ export default function App() {
           {!full && <PageHead termId={headTermFor(place)} />}
           {showJourneyBar(surface, full) && <JourneyBar surface={surface} lastEval={lastEval} selection={selection} />}
           <main style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
-            <Active {...shared} />
+            <Active {...shared} lastEval={lastEvalHere} />
           </main>
         </div>
         {!full && layout.isOpen('rail') && <Splitter pane="rail" grows="right" />}
         {!full && (layout.isOpen('rail')
           ? (
             <RailHost onCite={cite} surface={surface} plan={plan}
-              lastEval={evalIsOf(lastEval, planId, planFrom) ? lastEval : null}
+              lastEval={lastEvalHere}
               railAvailable={health ? !!health.rail : null}
               toolCount={health?.mcp?.tools} />
           )

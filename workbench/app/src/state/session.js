@@ -12,7 +12,7 @@
      jobError  a compose job that failed or expired, with the job's own reason, or null.
 
    The key is unchanged (`'tdl-workbench-session'`, which PRD §J.4 forbids renaming), and the
-   persisted object is `{ brief, jobId, planFrom, jobError, jobBrief }` (`jobBrief` is the id and name of the brief the current job was accepted with, added 16 Oct 2026 so a candidate's brief name is the job's and not the draft's). Both WP-14.10 fields are read back
+   persisted object is `{ brief, jobId, planFrom, jobError, jobBrief }` (`jobBrief` is the id, name, requested candidate count and household of the brief the current job was accepted with, added 16 Oct 2026 so what the Candidate Set prints about the brief is the job's and not the draft's). Both WP-14.10 fields are read back
    through `journey/sessionWrites.js`'s sanitisers, so an entry written by an older build, or a
    hostile one, costs that field and not the session. Every WRITE of either field is spelled in
    that same module; this file only holds them. */
@@ -68,11 +68,20 @@ export function recordPlanFrom(kind, plan, extra) {
    act that has no origin to record -- a pasted JSON, an ingested DXF -- says so. `planFrom` names
    its plan by id and the journey trusts it while that id is the bench's, so a pasted record that
    happened to share a candidate's id (`{parti}-new-brief`) inherited the candidate's provenance,
-   and with it a Next to the Plan step that was not its to have. Every site that loads a whole,
+   and with it a Next to the Plan step that was not its to have. (An origin that names a DIFFERENT
+   plan is left alone, so an undo back to that house finds it again; what an undo does across a
+   same-id load is `oq/an-undo-across-a-document-change-restores-the-record-and-not-its-origin`.) Every site that loads a whole,
    different document through `planDoc.load` records its origin or clears it; the two loads that
    continue the SAME document (the loop's revised record) do neither, on purpose.
    `src/planOrigin.test.mjs` holds the sites to this. */
 export function clearPlanFrom(plan) {
-  if (session.get().planFrom !== null) session.set({ planFrom: null });
+  const from = session.get().planFrom;
+  /* Only an origin that names THIS plan is in the way: `planFrom` is trusted only where it names
+     the bench's plan (`originOf`), so one that names another house does no harm where it stands
+     and is what undo needs to find again, and the front door's resume line still reads it. */
+  const id = plan && typeof plan === 'object' ? plan.id : null;
+  if (from !== null && from && typeof from === 'object' && (typeof id !== 'string' || from.planId === id)) {
+    session.set({ planFrom: null });
+  }
   return plan;
 }

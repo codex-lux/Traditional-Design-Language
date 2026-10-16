@@ -72,9 +72,10 @@ test('an accepted compose clears everything the last one said, and names the new
 });
 
 test('the brief a compose was accepted with is the job\'s, and the draft since edited does not lend its name', () => {
-  const draft = { id: 'smith-house', name: 'Smith House', style: 'craftsman' };
+  const draft = { id: 'smith-house', name: 'Smith House', style: 'craftsman', candidates: 3, household: 'Two adults and a dog' };
   const start = composeStart('j2', draft);
-  assert.deepEqual(start.jobBrief, { id: 'smith-house', name: 'Smith House' }, 'id and name only, nothing else of the draft');
+  assert.deepEqual(start.jobBrief, { id: 'smith-house', name: 'Smith House', candidates: 3, household: 'Two adults and a dog' },
+    'what the Candidate Set prints about the brief, nothing else of the draft (not the style, not the rooms)');
   // the draft is renamed afterwards: the job's brief still names its result
   assert.equal(briefNameOf({ brief: 'smith-house' }, start.jobBrief), 'Smith House');
   assert.equal(briefNameOf({ brief: 'smith-house' }, { ...draft, id: 'jones-house', name: 'Jones House' }), null,
@@ -84,7 +85,14 @@ test('the brief a compose was accepted with is the job\'s, and the draft since e
   for (const bad of [null, undefined, 'x', 3, [], {}, { name: 'no id' }, { id: '   ' }]) {
     assert.equal(composeStart('j', bad).jobBrief, null, String(JSON.stringify(bad)));
   }
-  assert.deepEqual(readJobBrief({ id: 'b', name: 'B', extra: 'dropped' }), { id: 'b', name: 'B' });
+  assert.deepEqual(readJobBrief({ id: 'b', name: 'B', extra: 'dropped' }),
+    { id: 'b', name: 'B', candidates: null, household: null });
+  // a count is an integer of at least one, as the brief schema has it, or it is no count
+  for (const n of [0, -2, 2.5, '4', null, NaN, Infinity, undefined]) {
+    assert.equal(composeStart('j', { id: 'b', candidates: n }).jobBrief.candidates, null, String(n));
+  }
+  assert.equal(composeStart('j', { id: 'b', candidates: 6 }).jobBrief.candidates, 6);
+  assert.equal(composeStart('j', { id: 'b', household: '   ' }).jobBrief.household, null, 'a blank household is none');
   assert.equal(readJobBrief('hostile'), null);
 });
 
@@ -107,7 +115,7 @@ test('the session store keeps its key, persists the five facts, and survives a h
     brief: { style: 'craftsman' }, jobId: 'j1', result: { should: 'not persist' },
     planFrom: { kind: 'candidate', planId: 'p1', jobId: 'j1', n: 'two' },
     jobError: { state: 'exploded' },
-    jobBrief: { id: 'smith-house', name: 'Smith House', hostile: '<script>' },
+    jobBrief: { id: 'smith-house', name: 'Smith House', candidates: 5, household: 'A family', hostile: '<script>' },
   }));
   const prior = globalThis.localStorage;
   globalThis.localStorage = { getItem: (k) => (store.has(k) ? store.get(k) : null), setItem: (k, v) => store.set(k, v) };
@@ -119,7 +127,8 @@ test('the session store keeps its key, persists the five facts, and survives a h
     assert.equal(s.result, null, 'the result is re-fetched, never read back from storage');
     assert.deepEqual(s.planFrom, { kind: 'candidate', planId: 'p1', jobId: 'j1', n: null, briefName: null });
     assert.equal(s.jobError, null, 'a state the journey has no words for is dropped, not kept');
-    assert.deepEqual(s.jobBrief, { id: 'smith-house', name: 'Smith House' }, 'read back through the sanitiser');
+    assert.deepEqual(s.jobBrief, { id: 'smith-house', name: 'Smith House', candidates: 5, household: 'A family' },
+      'read back through the sanitiser');
 
     const plan = { id: 'p2' };
     assert.equal(recordPlanFrom('example', plan), plan, 'it hands back the plan it recorded, to be loaded');
@@ -132,6 +141,17 @@ test('the session store keeps its key, persists the five facts, and survives a h
     assert.equal(clearPlanFrom(pasted), pasted);
     assert.equal(session.get().planFrom, null, 'a pasted record that shares a candidate\'s id inherits nothing');
     assert.equal(JSON.parse(store.get(KEY)).planFrom, null, 'and the clearing is persisted, not only held');
+
+    // a record of ANOTHER id leaves the standing origin alone: it names a different house, so
+    // nothing can inherit it, and it is what undo (or the front door's resume line) finds again
+    recordPlanFrom('example', { id: 'p2' });
+    const other = { id: 'p3' };
+    assert.equal(clearPlanFrom(other), other, 'it still hands the record back to be loaded');
+    assert.deepEqual(session.get().planFrom, { kind: 'example', planId: 'p2', jobId: null, n: null, briefName: null },
+      'a pasted record with its own id does not erase the origin of the house it replaced');
+    // a record with no usable id cannot be told apart from any plan, so it clears
+    clearPlanFrom({ title: 'no id' });
+    assert.equal(session.get().planFrom, null);
 
     session.set(jobExpired('j1', 'gone'));
     assert.deepEqual(JSON.parse(store.get(KEY)).jobError, { state: 'expired', reason: 'gone', jobId: 'j1' });

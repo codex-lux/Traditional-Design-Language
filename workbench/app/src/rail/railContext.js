@@ -23,7 +23,7 @@
 
    Pure: no React, no DOM, nothing from node_modules; `railContext.test.mjs` drives it. */
 import { citeFor } from '../citations.js';
-import { readRefusal, evaluateRefusal, placementRefusal } from '../sheet/refusal.js';
+import { readRefusal, evaluateRefusal, placementRefusal, sketchOf } from '../sheet/refusal.js';
 
 /* The candidate rows ride in the prompt on every billed round, so they are budgeted: rows are
    added whole, in the set's order, while the JSON of the rows so far plus one separator each
@@ -97,13 +97,18 @@ export function candidateSummaries(candidates, budget = CANDIDATE_BUDGET_CHARS) 
    record with the tools it already has, which is what the page's citation is for. */
 export function lastEvalSummary(lastEval) {
   if (!lastEval || typeof lastEval !== 'object') return undefined;
-  const refused = evaluateRefusal(lastEval) || placementRefusal(lastEval.placement);
+  /* A WORKING SKETCH (the wall drag's quick search) is said to be one, and its refusal is the
+     sketch's own: the bench draws a sketch under its banner and never exports it
+     (`sheet/refusal.js::sketchOf`), so the assistant is not told it "cannot be drawn". */
+  const sketch = sketchOf(lastEval.placement);
+  const refused = evaluateRefusal(lastEval) || placementRefusal(lastEval.placement) || (sketch ? sketch.refused : null);
   const out = lastEval.check ? {
     counts: lastEval.check.counts,
     constraint_summary: lastEval.check.constraint_summary,
     fault_summary: lastEval.check.fault_summary,
-  } : (refused ? {} : undefined);
+  } : ((refused || sketch) ? {} : undefined);
   if (out && refused) out.refused = { kind: refused.kind, facts: refused.facts };
+  if (out && sketch) out.sketch = true;
   return out;
 }
 

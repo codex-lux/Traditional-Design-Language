@@ -20,6 +20,7 @@ What these tests hold, and what each is for:
 """
 import json
 import os
+import re
 import sys
 
 import pytest
@@ -151,6 +152,72 @@ def _brief():
         return json.load(fh)
 
 
+RANK_FIXTURE = os.path.join(ROOT, "tests", "fixtures", "candidate_rank.json")
+
+
+def _rank_cases():
+    with open(RANK_FIXTURE) as fh:
+        return json.load(fh)["cases"]
+
+
+class TestOneRankingTwoLanguages:
+    """`tests/fixtures/candidate_rank.json` is the one table of rankings. The workbench's "fatal
+    first" ordering is held to it in `candidateOrder.test.mjs`, through the real card adapter; the
+    composer is held to it here. Two languages read one card, so neither can import the other."""
+
+    @pytest.mark.parametrize("case", _rank_cases(), ids=lambda c: c["name"])
+    def test_the_composer_orders_the_shared_table(self, case):
+        assert _order(case["cards"]) == case["expected"], case["name"]
+
+    def test_the_table_separates_the_keys_that_could_swap_places(self):
+        names = " ".join(c["name"] for c in _rank_cases())
+        assert "judged fatals decide before the standing" in names
+        assert "standing comes before the unjudged fatals" in names
+        assert len(_rank_cases()) >= 8
+
+
+class TestWhatCountsAsARefusalIsTheTypesOwnList:
+    """`reads_as_refusal` is `sheet/refusal.js::readRefusal`'s test in Python. The kinds are
+    `typefacts.REFUSAL_KINDS` -- the leaf that mints a refusal -- and the app's list and the
+    assistant's server are held to it, so a third kind added there is read by all three."""
+
+    def test_the_kinds_are_the_leafs_and_the_app_holds_the_same_two(self):
+        assert CO.TF.REFUSAL_KINDS == ("infeasible", "type-fact-downgraded")
+        js = open(os.path.join(ROOT, "workbench", "app", "src", "sheet", "refusal.js")).read()
+        m = re.search(r"export const REFUSAL_KINDS = Object\.freeze\(\[([^\]]*)\]\)", js)
+        assert set(re.findall(r"'([a-z-]+)'", m.group(1))) == set(CO.TF.REFUSAL_KINDS)
+
+    def test_every_refusal_the_leaf_can_mint_is_read_as_one(self):
+        """Both branches of `typefacts.refusal`, driven through the composer's reader: a kind the
+        leaf mints that the composer did not read would rank a refused house as drawable."""
+        proven = {"geometry_report": {"infeasible": {"proven": True, "conflicts": ["a"]},
+                                      "solver": {"engine": "cp-sat"}}}
+        down = {"geometry_report": {"type_facts": {"status": {"stacks": CO.TF.DOWNGRADED}},
+                                    "solver": {"engine": "heuristic"}}}
+        kinds = {CO.TF.refusal(proven)["kind"], CO.TF.refusal(down)["kind"]}
+        assert kinds == set(CO.TF.REFUSAL_KINDS)
+        for plan in (proven, down):
+            assert CO.reads_as_refusal(CO.TF.refusal(plan)) is True
+
+    @pytest.mark.parametrize("body", [None, False, True, 0, "", "infeasible", ["infeasible"], [], {}, {"kind": None},
+                                      {"kind": 3}, {"kind": "nonsense"}, {"kind": ["infeasible"]},
+                                      {"kind": "infeasible; x"}, {"refused_placement": "infeasible"},
+                                      {"refused_placement": {"kind": "nonsense"}}])
+    def test_a_body_nobody_here_wrote_is_not_a_refusal(self, body):
+        assert CO.reads_as_refusal(body) is False
+        assert CO.placement_standing({"refused": body, "revision": PLACED}) == (
+            "placed" if body is None else "unjudged"), "present and unreadable is unjudged, never placed"
+
+    @pytest.mark.parametrize("body", [{"kind": "infeasible"}, {"kind": " type-fact-downgraded "},
+                                      {"refused_placement": {"kind": "infeasible"}}])
+    def test_the_bodies_the_app_also_reads_are_read(self, body):
+        assert CO.reads_as_refusal(body) is True
+
+    def test_a_card_that_is_not_an_object_is_unjudged(self):
+        for c in (None, [], "x", 3):
+            assert CO.placement_standing(c) == "unjudged"
+
+
 class TestComposeReSortsOnTheRefusalItself:
     def test_the_best_scoring_candidate_is_refused_and_the_set_puts_it_last(self, compose_module, monkeypatch):
         """DRIVEN through `compose`'s real post-loop sort, because that is the one line where the
@@ -158,7 +225,14 @@ class TestComposeReSortsOnTheRefusalItself:
         ordering test uses: `res["counts"]` IS the dict compose binds as the card's own), the
         native centre-passage house is given the highest score and refused at the placement
         the revision loop returns, and every other house is stated drawable. Under a key that
-        ignores `refused` it leads; under this one it is last."""
+        ignores `refused` it leads; under this one it is last.
+
+        WHAT IT DOES NOT SHOW: that a real compose returns a mixed set. Measured on both shipped
+        briefs (16 Oct 2026), most real composes refuse EVERY candidate they place, and the rest
+        refuse most of them, so the key often has nothing to rank and a reader sees the score
+        order (`oq/the-composer-returns-sets-in-which-nothing-may-be-drawn`). The mixed case is
+        STATED here so the key can be seen to act; whether the composer reaches it is a finding
+        about the placer, and no test of the ranking can speak to it."""
         target = "centre-passage-double-pile"
         real_score = compose_module.score_candidate
 
@@ -195,6 +269,15 @@ class TestComposeReSortsOnTheRefusalItself:
             f"a refused house came back above a drawable one: {list(zip(partis, standings))}")
         assert partis[-1] == target, f"the refused house with the best score is not last: {partis}"
         assert cands[0]["score"] <= 99.0 and cands[0]["parti"] != target
+        # and the result SAYS the order it returned: the standing is named before the unjudged
+        # fatals, as the key has it (a reader of `how_to_read_this` is told what the order is)
+        lines = res["how_to_read_this"]
+        said = [i for i, l in enumerate(lines) if "ALLOW TO BE DRAWN is returned first" in l]
+        assert len(said) == 1, "the standing sentence is in how_to_read_this once"
+        assert "FEWER FATAL FAULTS THE CORPUS COULD NOT JUDGE" in lines[said[0]]
+        assert lines[said[0]].index("ALLOW TO BE DRAWN") < lines[said[0]].index("FEWER FATAL FAULTS")
+        mcp = open(os.path.join(ROOT, "mcp_server", "server.py"), encoding="utf-8").read()
+        assert "whose placement the type's own\n    hard facts REFUSE" in mcp, "the tool's description says it too"
 
     def test_compose_sorts_on_the_one_key_before_and_after_the_loop(self, compose_module):
         """A source guard for the two lines a behavioural test cannot tell apart: one key,

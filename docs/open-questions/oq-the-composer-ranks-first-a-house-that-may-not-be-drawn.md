@@ -158,4 +158,29 @@ compose function's local sort alias is `_sort_key`; the module-level function is
   of the three orderings that could be written instead, a driven `compose` whose best-scoring
   candidate is refused at the placement the loop returns), and `tests/test_compose_revision.py`'s
   helper, which restated the key by hand (and had stopped being the rule at R13), reads `rank_key`
-  now. 15 mutations of the key and its two readers, all red.
+  now. 14 distinct mutations of the key and its two readers, all red (the first count here said 15; one of the runs repeated another, found by the follow-up's audit, 16 October 2026).
+
+## The audit of the execution, 16 October 2026 — what it corrected, and the middle tier ruled
+
+Three independent auditors read the execution. What they found in this question's code, and what was done:
+
+- **The middle tier is ruled.** The execution above placed a candidate nobody has placed BETWEEN a
+  drawable one and a refused one, "not asked". Lucas was asked directly and ruled **keep three tiers**:
+  drawable, then not-yet-placed, then refused. `STANDING_RANK` and the fixtures are unchanged.
+- **The workbench's own orderings now agree.** `candidateOrder.js` ordered the Candidate Set by its own
+  comparators and the default ordering was "highest score first", so a refused plan with the best score
+  still headed the columns the composer had just put last. "Fatal first" is now the composer's key
+  (judged fatals, standing, unjudged fatals, score); the score and native orderings demote a refused
+  plan before they read their own key. `tests/fixtures/candidate_rank.json` is the one table of
+  rankings both languages are held to, through the real card adapter.
+- **The Python reader was laxer than the app's.** `placement_standing` took any truthy `refused` for a
+  refusal, and the app takes only a body of a kind the leaf mints. A refusal nobody here wrote was
+  `refused` to the composer and `unjudged` to the strip. `compose.reads_as_refusal` is `readRefusal`'s
+  test now, over `typefacts.REFUSAL_KINDS` (named once in the leaf that mints them); the standing
+  table gained seven hostile rows, held in both languages.
+- **The result's own prose said the old order.** `how_to_read_this` and `tdl_compose`'s description
+  said that between equal fatals the unjudged fatals decide. Both say the standing comes first.
+- **Mutations.** The audit found the first count wrong: 14 distinct mutations, not 15. This round's
+  guards took 41: 39 red on the first run, 2 blind (`answerIsForHere` ignoring the id, which two
+  origin-less houses expose, and the assistant's server widening its kind list), each given a test and
+  re-run red.

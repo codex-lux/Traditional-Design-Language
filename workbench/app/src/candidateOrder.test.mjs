@@ -5,7 +5,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { whyText, isNative, nativityOf, NATIVITY_TERMS, byScore, ORDERS, order, unjudgedFatalsOf } from './candidateOrder.js';
+import { whyText, isNative, nativityOf, NATIVITY_TERMS, byScore, ORDERS, order, unjudgedFatalsOf, standingRank } from './candidateOrder.js';
 import { adaptCandidate } from './candidateCard.js';
 
 test('whyText joins the reasons list instead of concatenating it', () => {
@@ -267,4 +267,67 @@ test('the Candidate Set hands the served nativity to its reader and reads the na
   assert.equal(flags.length, 3,
     'the flag on the candidate, the line for a missing one and the strip\'s appended one all read the record');
   assert.ok(existsSync(new URL('../../../glossary/named-by-the-brief.json', import.meta.url)));
+});
+
+/* THE FATAL-FIRST READING IS THE COMPOSER'S KEY, AND THE OTHER TWO DEMOTE A REFUSED PLAN (ruled by
+   Lucas, 16 Oct 2026: a refused candidate ranks last within equal judged fatals).
+
+   `compose.rank_key` (Python) and `ORDERS.fatal.cmp` are two languages reading one card, so neither
+   can import the other; `tests/fixtures/candidate_rank.json` is the one table both are held to
+   (`tests/test_refusal_ranks_last.py` is the Python half). The cards go through the real adapter,
+   so a reading that drifted in `adaptCandidate` (the card's `standing`, its `fatal_n`) is caught
+   as well as one in the comparator. */
+const RANKS = JSON.parse(readFileSync(
+  new URL('../../../tests/fixtures/candidate_rank.json', import.meta.url), 'utf8'));
+const adapt = (cards) => cards.map((c, i) => adaptCandidate(c, i, null, null));
+
+test('"fatal first" orders every card in the composer\'s shared table as the composer does', () => {
+  assert.ok(RANKS.cases.length >= 8, 'the table is read, not empty');
+  for (const c of RANKS.cases) {
+    const got = adapt(c.cards).sort(order(ORDERS.fatal.cmp)).map((x) => x.parti);
+    assert.deepEqual(got, c.expected, c.name);
+    const rev = adapt(c.cards.slice().reverse()).sort(order(ORDERS.fatal.cmp)).map((x) => x.parti);
+    assert.deepEqual(rev, c.expected, `${c.name}: the order depends on the order the cards arrived in`);
+  }
+  // the table separates the three keys: each of the two keys that could swap places is driven
+  const names = RANKS.cases.map((c) => c.name).join('\n');
+  assert.match(names, /judged fatals decide before the standing/);
+  assert.match(names, /standing comes before the unjudged fatals/);
+});
+
+test('EVERY ordering puts a refused plan after one that is not, whatever it scores or how native it is', () => {
+  const REF = { kind: 'infeasible', facts: ['bearing'], conflicts: [], lines: [] };
+  const raw = (parti, score, refused, nativity) => ({
+    parti, score, counts: { fatal: 0 }, refused, revision: { stop_reason: 'converged' }, nativity });
+  for (const [name, o] of Object.entries(ORDERS)) {
+    // the refused plan is both the highest scorer and the most native: no key but its standing
+    // can put it last
+    const cards = adapt([raw('refused-best', 99, REF, 'native'), raw('placed-lower', 40, null, 'borrowed'),
+      raw('placed-lowest', 20, null, 'borrowed')]);
+    assert.equal(cards[0].standing, 'refused', 'the premise: the adapter reads it refused');
+    const got = cards.slice().sort(order(o.cmp)).map((c) => c.parti);
+    assert.equal(got[got.length - 1], 'refused-best', `${name} let a refused plan head a drawable one`);
+  }
+});
+
+test('a plan that is both disqualified and refused sorts by the disqualification first, as the composer\'s key does', () => {
+  const REF = { kind: 'infeasible', facts: ['bearing'], conflicts: [], lines: [] };
+  const raw = (parti, fatal, refused) => ({ parti, score: 50, counts: { fatal }, refused,
+    revision: { stop_reason: 'converged' } });
+  const cards = adapt([raw('placed-two-fatals', 2, null), raw('refused-one-fatal', 1, REF), raw('refused-clean', 0, REF)]);
+  for (const [name, o] of Object.entries(ORDERS)) {
+    const got = cards.slice().sort(order(o.cmp)).map((c) => c.parti);
+    assert.equal(got[0], 'refused-clean', `${name}: no fatal outranks a fatal, refused or not`);
+  }
+  assert.deepEqual(cards.slice().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
+    ['refused-clean', 'refused-one-fatal', 'placed-two-fatals'], 'fewer fatals first, then standing');
+});
+
+test('standingRank is the composer\'s three-way reading, and a card with no standing is the middle one', () => {
+  assert.deepEqual(['placed', 'unjudged', 'refused', undefined, 'nonsense'].map((standing) => standingRank({ standing })),
+    [0, 1, 2, 1, 1]);
+  assert.equal(standingRank(null), 1);
+  for (const [name, o] of Object.entries(ORDERS)) {
+    assert.match(o.says, /refused plan sorts after one that is not/i, `${name} does not say it`);
+  }
 });

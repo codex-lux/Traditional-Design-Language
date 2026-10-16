@@ -132,7 +132,12 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
   const chosen = ORDERS[sort] || ORDERS.score;
   const list = cands.slice().sort(order(chosen.cmp));
   const dropped = result.dropped_lot_infeasible || [];
-  const askedFor = s.brief?.candidates || 4;
+  /* The brief the JOB was accepted with, when there is one, and the draft only where there is not
+     (a job from before the session kept it). The draft is the brief being edited, so a count or a
+     household read off it after the compose describes some other request. */
+  const jobBrief = s.jobBrief && s.jobBrief.id === result.brief ? s.jobBrief : null;
+  const askedFor = (jobBrief ? jobBrief.candidates : s.brief?.candidates) || 4;
+  const household = jobBrief ? jobBrief.household : s.brief?.household;
   const size = setSize(result, askedFor);
   /* THE PICKED COLUMN AND WHAT A READER CAN DO WITH IT. A click on a column selects it (the
      decision log below follows it, and the address records it); it has never loaded anything,
@@ -209,15 +214,19 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         facts, so a pick that changed them gained or lost rows and the columns jumped under the
         reader's pointer: measured 27 px at 1100 and 47 px at 1680 between a refused pick and
         an open one. The row takes the strip's full width and reserves two lines, so the grid
-        does not move for the words a pick can produce at the widths this shell is used at. */
-    <div data-selection-row="" style={{ flex: '1 1 100%', minHeight: '2lh', font: 'var(--type-data-s)',
+        does not move for the words a pick can produce, MEASURED at 1100 and 1680 px with the two
+        picks of the walk's job; it is a floor and not a bound, and the journey bar above wraps by
+        its own rule (`oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps`). The floor is two
+        lines of the row's own type in `em` (2 x the 1.45 line height of `--type-data-s`: a test holds
+        the two together), not the newer `lh` unit. */
+    <div data-selection-row="" style={{ flex: '1 1 100%', minHeight: '2.9em', font: 'var(--type-data-s)',
       display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: 14 }}>
       {/* A POLITE LIVE REGION, so that picking a column by keyboard (or any way) is answered
           aloud: the strip is where the pick's consequence is said and nothing else announced
           it. The error below is its own alert and stays outside. */}
       <span role="status" aria-live="polite" data-selection-live="">
         {view.tag === 'button'
-          ? <button type="button" data-selection-action={view.state} disabled={opening}
+          ? <button type="button" data-selection-action={view.state} aria-disabled={opening ? 'true' : undefined}
               onClick={() => openInWorkbench(picked)}
               className="tdl-link" style={{ font: 'var(--type-data-s)' }}>
               {opening ? JOURNEY_WORDS.selection.opening : view.words} <span aria-hidden="true">→</span>
@@ -276,10 +285,10 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               )}
             </p>
           </div>
-          {s.brief?.household && (
+          {household && (
             <p style={{ font: 'var(--type-prose)', color: 'var(--ink-2)', margin: 0, maxWidth: '42ch',
               borderLeft: '2px solid var(--rule)', paddingLeft: 14 }}>
-              {s.brief.household}
+              {household}
             </p>
           )}
         </div>
@@ -302,7 +311,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                     refused{c.refused.facts.length ? ` — ${c.refused.facts.join(', ')}` : ''}; not
                     loadable, the conflict set is below
                   </span>
-                : <button type="button" onClick={() => openInWorkbench(c)} disabled={opening} className="tdl-link"
+                : <button type="button" onClick={() => openInWorkbench(c)} aria-disabled={opening ? 'true' : undefined} className="tdl-link"
                     style={{ font: 'var(--type-data-s)', marginTop: 14 }}>
                     open in the workbench
                   </button>}

@@ -502,6 +502,9 @@ a:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
    the class sets neither its colour nor its underline inline; `inks.test.mjs` holds that. */
 .tdl-link{color:var(--link);border-bottom:1px solid var(--link-underline);transition:var(--t-hover)}
 .tdl-link:hover{color:var(--link-hover);border-bottom-color:var(--link-underline-hover)}
+/* A link that is working says so and stays in the tab order: `disabled` would drop focus from the
+   control a keyboard reader had just pressed. The handler refuses a second press on its own. */
+.tdl-link[aria-disabled="true"]{cursor:progress;opacity:.6}
 :focus-visible{outline:2px solid var(--border-focus);outline-offset:2px}
 code,kbd,samp,pre{font-family:var(--mono);font-size:var(--fs-mono-s)}
 pre{margin:0;white-space:pre}

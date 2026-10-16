@@ -319,3 +319,78 @@ result, 4 of 4 refused, and not the table: a different set and order, which is t
   - **132 skipped is this container's, not the change's**: with `ezdxf` and `ifcopenshell` absent
     the DXF- and IFC-gated tests skip (CI installs `ezdxf`). The change touches no Python and no data
     file, so none of those tests reads anything it moved. Judged in CI, unjudged here.
+
+## VIII. The four rulings, and what executed them (16 Oct 2026, `e048a89`)
+
+The audit of §VII left four questions that were Lucas's, and they were put to them directly. All four
+were answered as recommended.
+
+| # | question | ruling | where it landed |
+|---|---|---|---|
+| 1 | Within equal judged fatals, where does a refused candidate rank? | **Last.** | `compose.rank_key`: judged fatals, then the placement's standing (drawable, not yet placed, refused), then the unjudged fatals (R13), then the score |
+| 2 | May a refused candidate be opened on the bench to be read? | **No: it stays unopenable.** WP-13.4's refusal to draw stands. | the route's docstring now says what the surface says; the conflict set beside the column is where it is read |
+| 3 | How are two composes of one parti told apart, given the plan id is `{parti}-{briefId}`? | **App-side: key the evaluation to where the plan came from. No id changes.** | `journey.js::originKeyOf`, `stampEval`, `evalIsOf` |
+| 4 | Is the assistant told a house is refused? | **Yes.** | `lastEvalSummary` sends `{kind, facts}`; `rail.py` writes one sentence for it |
+
+What was found while building them, kept because each changed what was built:
+
+- **The ranking mostly has nothing to rank.** With the app's own compose call (`auto`, the revision
+  loop on), every candidate of both shipped briefs was refused in 3 of 4 composes, and the fourth
+  refused three of four. The key is right and decides little; the cause is upstream
+  (`oq/the-composer-returns-sets-in-which-nothing-may-be-drawn`). The refusal kinds and facts
+  measured there are the vocabulary the assistant's payload is validated against.
+- **The brief-name collision was smaller than reported.** The brief form derives the brief's id from
+  its name, so two briefs rarely share an id. What was real is that the name was read off the draft,
+  which moves on after the compose; the job's brief is kept at compose time now.
+- **A layout shift the first fix of the strip left.** Picking a refused column and then an open one
+  moved the grid under the pointer, 27 px at 1100 and 47 px at 1680, because the act's words are a
+  short instruction in one state and a sentence naming facts in the other. The act has a row of its
+  own with a floor, and a further 21.5 px came from the journey bar's longer reason wrapping Next onto
+  a second row, so the reason was shortened. Measured with a probe at both widths; the bar's wrap is
+  not fixed in general (`oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps`).
+- **Three walk checks that read red in this container are not this change's.** The ⑩ plate-reader
+  checks fail identically at `6873f91`, the commit whose recorded walk is 702 green. The container has
+  neither EB Garamond nor Courier Prime installed; the cause is not proven.
+
+## IX. The audit of §VIII (16 Oct 2026)
+
+Lucas asked for the audit again before the work was called done. Three auditors read `3bf9da8..e048a89`,
+one on the Python and the composer and the assistant's server, one on the origin keying and the
+session, one on the surface and the walk. Each was briefed on the intent and the repo's rules and not
+on the author's conclusions. Every finding was reproduced before it was acted on. **One finding
+blocked deployment** (row 1); the rest were worth fixing or minor.
+
+| # | finding | severity | introduced? | outcome |
+|---|---|---|---|---|
+| 1 | `CLAUDE.md`'s open-question list and its entry count were not updated for the three questions this work closed or raised, so `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal` was red and CI would have gone with it | **blocks** | introduced | **fixed**: 282 entries, 157 open, derived from the register |
+| 2 | The Candidate Set's own orderings never read the standing, and its default is "highest score first": the composer put the refused house last and the surface put it first again | worth fixing | introduced (the ruling's second reader) | **fixed**: "fatal first" is the composer's key; the other two demote a refused plan first; `tests/fixtures/candidate_rank.json` holds both languages to one table |
+| 3 | `how_to_read_this` and `tdl_compose`'s description still said the unjudged fatals decide between equal fatals | worth fixing | introduced | **fixed**, and held by the driven test |
+| 4 | The assistant's sentence: `$` admitted a trailing newline; any short lower-case word was a fact; "the counts above" pointed at counts that were absent; the kinds were restated in `rail.py`; a working sketch (the wall drag's quick search) was never said to be one | worth fixing | introduced | **fixed**: facts are the type's own four, read live from the leaf; kinds are `typefacts.REFUSAL_KINDS`; wording follows whether counts exist; a sketch is said to be one, and a refused sketch is not called undrawable |
+| 5 | `placement_standing` took any truthy `refused` for a refusal; the app takes only a body of a kind the leaf mints. A body nobody here wrote was `refused` to one reader and `unjudged` to the other | worth fixing | introduced | **fixed**: `compose.reads_as_refusal`, and seven hostile rows in the shared table, held in both languages |
+| 6 | The driven compose test's docstring read as though it showed a real mixed set | minor | introduced | **corrected in place** |
+| 7 | The ranking question's execution note said 15 mutations; one repeated another | minor | introduced | **corrected in place**: 14 distinct |
+| 8 | A late answer for one house was filed against another, and the bench read the unfiltered evaluation for the interval before the shell's clear ran | worth fixing | introduced | **fixed**: `answerIsForHere` drops it before it files anything; every surface and the assistant are handed `lastEvalHere` |
+| 9 | An undo across a same-id document change restores the record and not its origin | minor | introduced, rare | **Lucas ruled leave it**: `oq/an-undo-across-a-document-change-restores-the-record-and-not-its-origin` |
+| 10 | `clearPlanFrom` cleared an origin that named a different plan, so an undo back to that house found no origin | minor | introduced | **fixed**: it clears only an origin that names the plan being loaded |
+| 11 | `jobBrief` kept id and name; the count asked for ("returned 3 of 4") and the household still read the draft | minor | introduced | **fixed**: the job's brief keeps the four things the surface prints |
+| 12 | The census of `planDoc.load(` was a text match an alias walks round | minor | introduced | **fixed**: a second guard holds every use of the store to its own name and a known method (driven by three mutations) |
+| 13 | The downloaded check report carried the app's own stamp | minor | introduced | **fixed**: `unstampEval` |
+| 14 | A comment claimed the grid does not move at the widths the shell is used at; it was measured at two | minor | introduced | **corrected**, and the journey bar's wrap is its own open question |
+| 15 | The keyboard check focused the target directly, which reaches an element no key can | worth fixing | introduced | **fixed**: a real Tab traversal |
+| 16 | The live-region guard took the first `</span>` after a marker, the inner span's | worth fixing | introduced | **fixed**: a balanced scan, itself driven; the walk asserts the alert is outside the region |
+| 17 | The open act was `disabled` while the request was out, dropping the focus the press was made with | minor | introduced | **fixed**: `aria-disabled`; the walk reads that the focus stays |
+| 18 | The front door's origin phrase could wrap with its separator alone on a line | minor | introduced | **fixed** |
+| 19 | The assistant's context did not carry the sketch flag or the sketch's own refusal (the app's half of row 4) | minor | introduced | **fixed** |
+| 20 | The walk's stale-verdict block had a branch that fell through without saying so, and did not assert that the two opens shared a plan id, which is the premise | worth fixing | introduced | **fixed**: every branch says it was not judged, and the premise is asserted |
+| 21 | The strip's floor used the `lh` unit | minor | introduced | **fixed**: `2.9em`, held to the token's line height by a test |
+
+**Deliberately not changed.**
+
+- Whether a never-placed candidate belongs between a drawable and a refused one was put to Lucas, who
+  ruled to **keep three tiers**.
+- Row 9, by ruling.
+- The journey bar's Next wrapping onto a second row at narrow widths: a design question with a
+  cheap guard and a costly fix; open.
+- That the browser walk does not drive row 8's late answer. The decision is a pure function and the
+  join is pinned in source in order; the walk drives the nearest observable (the bench's caption
+  carries no engine verdict for a house that has not been evaluated).

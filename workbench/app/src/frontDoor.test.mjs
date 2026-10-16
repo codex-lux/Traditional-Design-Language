@@ -281,6 +281,9 @@ test('the front door says where the house on hand came from, in the journey\'s o
   const door = readFileSync(new URL('./surfaces/Overview.jsx', import.meta.url), 'utf8');
   assert.match(door, /resume\.origin && \(/);
   assert.match(door, /data-resume-origin/);
+  // the origin moves as a unit: its separator never ends a line alone, and the phrase wraps inside
+  // its own box rather than overflowing the entrance
+  assert.match(door, /data-resume-origin="" style=\{\{ \.\.\.note, marginLeft: 7, display: 'inline-block' \}\}/);
 });
 
 /* ------------------------------------------------------------------ the Gate */

@@ -198,7 +198,7 @@ export function Overview({ onSearch, lastEval }) {
                     <Term id="on-the-bench" />
                     <span style={{ marginLeft: 7 }}>{plan.name || plan.id}</span>
                     {resume.origin && (
-                      <span data-resume-origin="" style={{ ...note, marginLeft: 7 }}>
+                      <span data-resume-origin="" style={{ ...note, marginLeft: 7, display: 'inline-block' }}>
                         {JOURNEY_WORDS.separator}{resume.origin}
                       </span>
                     )}

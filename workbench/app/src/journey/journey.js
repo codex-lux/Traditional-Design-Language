@@ -183,12 +183,32 @@ export function stampEval(res, planId, planFrom) {
   return { ...res, evaluated_from: originKeyOf(planId, planFrom) };
 }
 
+/* An evaluation without the stamp, for anything that leaves the app: the stamp is this app's
+   bookkeeping about WHERE the request was asked from, and a saved check report is the server's
+   answer and nothing else. */
+export function unstampEval(ev) {
+  if (!isObj(ev) || !Object.prototype.hasOwnProperty.call(ev, 'evaluated_from')) return ev;
+  const { evaluated_from: _stamp, ...rest } = ev;
+  return rest;
+}
+
 /* Is this evaluation of this plan, from where it now came? The one reader of "does an evaluation
    belong to the plan on the bench": the stale-evaluation clear in `App.jsx`, the journey below
    and the assistant's context all ask this and nothing else, so they cannot disagree. */
 export function evalIsOf(lastEval, planId, planFrom) {
   return Boolean(str(planId)) && evalPlanOf(lastEval) === planId
     && evalOriginOf(lastEval) === originKeyOf(planId, planFrom);
+}
+
+/* Does an answer that was requested for one plan and origin still belong on the bench? A request
+   takes up to a solve (about 25 s) and the reader can open another house meanwhile; the answer
+   then lands against a plan it was not of. The bench filed it anyway and the shell cleared it only
+   at the NEXT plan change, so the bench drew the old house's verdict beside the new record until
+   the new record's own debounce fired. The ids and the origin keys are the same two readers
+   `evalIsOf` uses, taken at request time and at answer time. */
+export function answerIsForHere(requestedId, requestedFrom, nowId, nowFrom) {
+  return Boolean(str(requestedId)) && requestedId === nowId
+    && originKeyOf(requestedId, requestedFrom) === originKeyOf(nowId, nowFrom);
 }
 
 /* The step a surface belongs to, or null — `transcription` joins at the plan. */

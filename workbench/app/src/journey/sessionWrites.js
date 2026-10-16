@@ -84,7 +84,7 @@ export function briefNameOf(result, brief) {
 }
 
 /* A compose that has just been accepted: everything the last one said is cleared, and the brief it
-   was made from is kept by id and name (`jobBrief`). The result names its brief by id alone, and
+   was made from is kept (`jobBrief`: its id and name, how many plans it asked for and its household). The result names its brief by id alone, and
    the draft in the session is the brief being EDITED, which moves on: renamed after the compose it
    no longer matched the result and the candidates lost their brief's name; and a draft that had
    come to share the result's id would have lent its own. The name belongs to the job, so it is
@@ -93,10 +93,19 @@ export function composeStart(jobId, brief) {
   return { result: null, progress: [], jobError: null, jobId: str(jobId), jobBrief: jobBriefOf(brief) };
 }
 
-/* {id, name} of a brief, or null where it states no id. */
+/* {id, name, candidates, household} of a brief, or null where it states no id. The four are what
+   the Candidate Set prints about the brief a RESULT was made from -- its name, how many plans were
+   asked for ("returned 3 of 4") and the household sentence beside the columns -- and each read the
+   draft in the session until the draft moved on. `candidates` is an integer of at least 1, as the
+   brief schema has it, and is null otherwise; nothing else of the draft is kept. */
 export function jobBriefOf(brief) {
   if (!isObj(brief) || !str(brief.id)) return null;
-  return { id: brief.id, name: str(brief.name) };
+  return {
+    id: brief.id,
+    name: str(brief.name),
+    candidates: Number.isInteger(brief.candidates) && brief.candidates >= 1 ? brief.candidates : null,
+    household: str(brief.household),
+  };
 }
 
 /* A stored `jobBrief` or null; the persisted entry comes back through here. */

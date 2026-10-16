@@ -2693,8 +2693,27 @@ await shot('brief');
           /* A COLUMN IS SELECTED FROM THE KEYBOARD. The click handler sat on the <section>, which no
              key reaches; the title is a real button now. Focus it and press Enter, as a keyboard
              reader would: the address must record the pick and the button must say it is pressed. */
-          await page.focus('[data-candidate-select="1"]');
-          await page.keyboard.press('Enter');
+          /* BY A REAL TAB TRAVERSAL, not by focusing the target: `page.focus` reaches an element no
+             key can, which is the defect this check exists to catch. Start at a neighbouring
+             column's title, in whichever direction the document order puts column 1, and press
+             Tab (or Shift+Tab) until focus lands on it. */
+          const titleOrder = await page.evaluate(() => [...document.querySelectorAll('main [data-candidate-select]')]
+            .map((b) => b.getAttribute('data-candidate-select')));
+          const at1 = titleOrder.indexOf('1');
+          const startFrom = at1 > 0 ? titleOrder[0] : titleOrder[titleOrder.length - 1];
+          const toward = at1 > 0 ? 'Tab' : 'Shift+Tab';
+          await page.focus(`[data-candidate-select="${startFrom}"]`);
+          let presses = 0;
+          let reached = false;
+          while (presses < 80 && !reached) {
+            await page.keyboard.press(toward);
+            presses += 1;
+            reached = await page.evaluate(() => document.activeElement?.getAttribute('data-candidate-select') === '1');
+          }
+          check(`column 1's title is reached by ${toward} from column ${startFrom}'s (${presses} presses, order ${titleOrder.join(',')})`,
+            at1 !== -1 && reached);
+          if (reached) await page.keyboard.press('Enter');
+          else await page.focus('[data-candidate-select="1"]').then(() => page.keyboard.press('Enter'));
           await page.waitForFunction(() => location.hash.startsWith('#/candidates/1'), null, { timeout: 10000 }).catch(() => {});
           await page.waitForFunction(() => document.querySelector('[data-candidate-select="1"]')?.getAttribute('aria-pressed') === 'true',
             null, { timeout: 5000 }).catch(() => {});
@@ -2753,18 +2772,26 @@ await shot('brief');
               body: JSON.stringify({ detail: { error: 'unknown job or candidate' } }) });
           });
           await page.locator('[data-selection-action="open"]').click();
+          /* HELD WITHOUT LEAVING THE TAB ORDER: `aria-disabled`, never `disabled`, so the focus the
+             press was made with stays on the control and a screen reader says it is unavailable. */
           const busy = await page.evaluate(() => {
             const a = document.querySelector('[data-selection-action]');
-            return !!a && a.hasAttribute('disabled');
+            return !!a && a.getAttribute('aria-disabled') === 'true' && !a.hasAttribute('disabled')
+              && document.activeElement === a;
           });
           await page.waitForSelector('[data-selection-error]', { timeout: 10000 }).catch(() => {});
           const failed = await page.evaluate(() => {
             const e = document.querySelector('[data-selection-error]');
             const a = document.querySelector('[data-selection-action]');
+            const live = document.querySelector('[data-selection-live]');
             return { text: e ? e.textContent.trim() : null, hash: location.hash,
-              again: !!a && !a.hasAttribute('disabled') };
+              again: !!a && a.getAttribute('aria-disabled') !== 'true',
+              // the alert is its own region: inside the polite one it would be announced twice
+              apart: !!e && !!live && !live.contains(e) && !e.closest('[data-selection-live]')
+                && !live.textContent.includes(e.textContent.trim()) };
           });
-          check(`while the open is in flight the act is held (${busy})`, busy);
+          check(`the failure is an alert of its own, outside the polite region (${failed.apart})`, failed.apart);
+          check(`while the open is in flight the act is held, and keeps the focus (${busy})`, busy);
           check(`a failed open is said where it was asked, in the table's words ("${failed.text}"), and the act is offered again`,
             failed.text === JOURNEY_WORDS.selection.gone && failed.hash.startsWith('#/candidates') && failed.again);
           await page.unroute(failOpen);
@@ -2802,6 +2829,9 @@ await shot('brief');
           const judgedNow = () => ['evaluated', 'refused'].includes(document.querySelector('[data-step-words="plan"]')?.getAttribute('data-state'));
           await page.waitForFunction(judgedNow, null, { timeout: 150000 }).catch(() => {});
           const firstVerdict = await planStep();
+          const firstOpenedId = await page.evaluate(() => {
+            try { return JSON.parse(localStorage.getItem('tdl-workbench-plan') || '{}').id || null; } catch { return null; }
+          });
           if (!firstVerdict || !['evaluated', 'refused'].includes(firstVerdict.state)) {
             unjudged.push('a later compose is not read as already evaluated -- the first candidate\'s own evaluation did not land in 150 s');
           } else {
@@ -2826,6 +2856,13 @@ await shot('brief');
               await page.waitForSelector(`main [data-candidate="${target.id}"]`, { timeout: 240000 }).catch(() => {});
               const jobBody = await fetch(`${BASE}/api/jobs/${jobB}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
               const nB = ((jobBody && jobBody.result && jobBody.result.candidates) || []).findIndex((c) => c.parti === target.id);
+              const idOnBench = () => page.evaluate(() => {
+                try { return JSON.parse(localStorage.getItem('tdl-workbench-plan') || '{}').id || null; } catch { return null; }
+              });
+              const firstId = firstOpenedId;
+              if (nB < 0) {
+                unjudged.push(`a later compose is not read as already evaluated -- the second job does not hold ${target.id}`);
+              } else {
               await page.evaluate((k) => { location.hash = `#/candidates/${k}`; }, nB);
               await page.waitForSelector('button[data-selection-action]', { timeout: 20000 }).catch(() => {});
               await page.locator('button[data-selection-action]').click().catch(() => {});
@@ -2833,11 +2870,22 @@ await shot('brief');
               await page.waitForSelector('[data-step-words="plan"]', { timeout: 10000 }).catch(() => {});
               await page.waitForTimeout(150);
               const early = await planStep();
-              const sameId = await page.evaluate(() => {
-                try { return JSON.parse(localStorage.getItem('tdl-workbench-plan') || '{}').id || null; } catch { return null; }
+              // the bench's own caption is the other reader of the shell's evaluation: it must not
+              // be showing the first house's engine verdict beside the second house's record
+              const benchEngine = await page.evaluate(() => {
+                const p = document.querySelector('[data-engine-claim]');
+                return p ? p.getAttribute('data-engine-name') : null;
               });
-              check(`the same parti from a LATER compose is not read as evaluated (same plan id ${sameId}; the Plan step reads "${early && early.state}")`,
-                !!early && early.state === 'unevaluated');
+              const sameId = await idOnBench();
+              if (!firstId || sameId !== firstId) {
+                // the premise is a collision: without it this check is about two different houses
+                unjudged.push(`a later compose is not read as already evaluated -- the two opens did not share a plan id (${firstId} / ${sameId})`);
+              } else {
+                check(`the same parti from a LATER compose is not read as evaluated (same plan id ${sameId}; the Plan step reads "${early && early.state}")`,
+                  !!early && early.state === 'unevaluated');
+                check(`and the bench does not caption it with the first house's engine verdict ("${benchEngine}")`,
+                  benchEngine === null || benchEngine === '');
+              }
               await page.waitForFunction(judgedNow, null, { timeout: 150000 }).catch(() => {});
               const second = await planStep();
               check(`and its own evaluation then lands and is believed ("${second && second.state}")`,
@@ -2851,6 +2899,7 @@ await shot('brief');
               });
               check(`the front door says where the house on hand came from ("${origin}")`,
                 !!origin && origin.includes(JOURNEY_WORDS.origin.candidate(nB)));
+              }
             }
           }
         }

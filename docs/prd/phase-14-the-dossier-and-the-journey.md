@@ -940,9 +940,12 @@ else brief when `stated`; else `null`. The front door's "Continue: <plan name>, 
 
 The `'tdl-workbench-session'` key (`session.js:6`) is unchanged; the persisted object becomes
 `{ brief, jobId, planFrom, jobError }`. *(Amended 16 Oct 2026: it is `{ brief, jobId, planFrom, jobError,
-jobBrief }` now. `jobBrief` is `{id, name}` of the brief the current job was accepted with, written by
-`composeStart` and read by `briefNameOf`, so a candidate's brief name is the job's and not the draft's,
-which moves on. An entry without it reads as no name, not as the draft's.)*
+jobBrief }` now. `jobBrief` is `{id, name, candidates, household}` of the brief the current job was
+accepted with (the four things the Candidate Set prints about it: its name, how many plans it asked for,
+and its household sentence), written by `composeStart` and read by `briefNameOf` and the Candidate Set,
+so what is printed about the brief is the job's and not the draft's, which moves on. An entry without it
+reads as no name, and the surface falls back to the draft for the count and the household only then;
+a stored entry from before the count and household were kept reads them as null.)*
 
 ```js
 planFrom: null | { kind: 'candidate' | 'example' | 'traced', planId: string,
