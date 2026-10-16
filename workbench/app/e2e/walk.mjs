@@ -2872,9 +2872,13 @@ await shot('brief');
               const early = await planStep();
               // the bench's own caption is the other reader of the shell's evaluation: it must not
               // be showing the first house's engine verdict beside the second house's record
-              const benchEngine = await page.evaluate(() => {
+              /* BOTH ATTRIBUTES, because the first house's verdict is a REFUSAL on a brief the prover
+                 refuses and a refusal carries no engine: the first version of this check read the
+                 engine alone and stayed green on a build that handed the bench the stale verdict. */
+              const benchVerdict = await page.evaluate(() => {
                 const p = document.querySelector('[data-engine-claim]');
-                return p ? p.getAttribute('data-engine-name') : null;
+                return p ? { engine: p.getAttribute('data-engine-name') || '',
+                  refused: p.getAttribute('data-placement-refused') || '' } : null;
               });
               const sameId = await idOnBench();
               if (!firstId || sameId !== firstId) {
@@ -2883,8 +2887,8 @@ await shot('brief');
               } else {
                 check(`the same parti from a LATER compose is not read as evaluated (same plan id ${sameId}; the Plan step reads "${early && early.state}")`,
                   !!early && early.state === 'unevaluated');
-                check(`and the bench does not caption it with the first house's engine verdict ("${benchEngine}")`,
-                  benchEngine === null || benchEngine === '');
+                check(`and the bench does not caption it with the first house's verdict (${JSON.stringify(benchVerdict)})`,
+                  benchVerdict === null || (benchVerdict.engine === '' && benchVerdict.refused === ''));
               }
               await page.waitForFunction(judgedNow, null, { timeout: 150000 }).catch(() => {});
               const second = await planStep();
