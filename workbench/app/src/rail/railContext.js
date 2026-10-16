@@ -23,7 +23,7 @@
 
    Pure: no React, no DOM, nothing from node_modules; `railContext.test.mjs` drives it. */
 import { citeFor } from '../citations.js';
-import { readRefusal } from '../sheet/refusal.js';
+import { readRefusal, evaluateRefusal, placementRefusal } from '../sheet/refusal.js';
 
 /* The candidate rows ride in the prompt on every billed round, so they are budgeted: rows are
    added whole, in the set's order, while the JSON of the rows so far plus one separator each
@@ -81,6 +81,32 @@ export function candidateSummaries(candidates, budget = CANDIDATE_BUDGET_CHARS) 
   return { rows, omitted: list.length - rows.length };
 }
 
+/* THE LAST EVALUATION, AND WHETHER ITS PLACEMENT MAY BE DRAWN (ruled by Lucas, 16 Oct 2026).
+
+   The summary was the check's three count blocks and nothing about the placement, so for a house
+   the type's hard facts forbid drawing the assistant was told `fatal 0` and nothing else -- the
+   misreading the Candidate Set's refused screen was fixed for, on a second surface (the assistant's
+   own last line in that report was about the screen). "0 fatal" counts findings and "may be drawn"
+   is a fact of the type (WP-13.4); they are two measures and the assistant is given both.
+
+   `refused` is the ONE addition: `{kind, facts}`, read through `sheet/refusal.js` (the one reader of
+   a refusal body, on a completed evaluation or a placed record alike), and present ONLY where the
+   record states one. A plan that is not refused sends exactly the three blocks it always sent, so
+   what an older server reads is unchanged; `workbench/server/tests/test_rail_loop.py` holds the
+   server's prompt for it byte for byte. The refusal's own lines are not sent: the model fetches the
+   record with the tools it already has, which is what the page's citation is for. */
+export function lastEvalSummary(lastEval) {
+  if (!lastEval || typeof lastEval !== 'object') return undefined;
+  const refused = evaluateRefusal(lastEval) || placementRefusal(lastEval.placement);
+  const out = lastEval.check ? {
+    counts: lastEval.check.counts,
+    constraint_summary: lastEval.check.constraint_summary,
+    fault_summary: lastEval.check.fault_summary,
+  } : (refused ? {} : undefined);
+  if (out && refused) out.refused = { kind: refused.kind, facts: refused.facts };
+  return out;
+}
+
 /* The whole `context` a turn posts. The four keys the pane sent before this package are built
    exactly as RailHost built them, so what an older server reads is unchanged; `cite` and
    `candidate_summaries` are added only where there is something to say. */
@@ -88,11 +114,7 @@ export function railContext({ surface, place, plan, lastEval, candidates } = {})
   const ctx = {
     surface,
     plan: plan || undefined,
-    last_eval: lastEval?.check ? {
-      counts: lastEval.check.counts,
-      constraint_summary: lastEval.check.constraint_summary,
-      fault_summary: lastEval.check.fault_summary,
-    } : undefined,
+    last_eval: lastEvalSummary(lastEval),
     candidate_count: Array.isArray(candidates) ? candidates.length : undefined,
   };
   const cite = pageCite(place);

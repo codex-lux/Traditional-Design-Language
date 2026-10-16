@@ -308,11 +308,56 @@ def unjudged_fatals(res):
             if r.get("severity") == "fatal"]
 
 
+# The `stop_reason` of a revision loop whose first placement could not be evaluated. It is
+# `revise.STOP_PLACEMENT_UNJUDGED`, copied rather than loaded because `rank_key` is driven
+# without a compose and `revise` is the heaviest module this file reaches for; a test holds the
+# two strings to one another.
+PLACEMENT_UNJUDGED = "placement-could-not-be-evaluated"
+
+# Lowest first. A candidate's placement has been asked about, answered drawable, or refused;
+# `unjudged` is the middle and is NOT a pass.
+STANDING_RANK = {"placed": 0, "unjudged": 1, "refused": 2}
+
+
+def placement_standing(c):
+    """'refused' | 'placed' | 'unjudged' for one candidate card: whether the type's own hard facts
+    have ever been asked of its placement, and what they said (WP-13.4).
+
+    `refused` on a card is `None` for three different reasons and only one of them is a pass: the
+    DECLARED first pass writes it `None` on purpose (a refusal about a house nobody has placed
+    would be a verdict with no subject); a candidate the set's revise budget never reached is
+    returned as composed (`revision` is `None`); and a loop whose first placement could not be
+    evaluated judged nothing. `placed` is therefore only a card whose placed revision loop RAN,
+    returned a placement, and did not refuse it. This is the workbench's `standingOf`
+    (`candidateStanding.js`) and the two are held to one table of cases
+    (`tests/fixtures/candidate_standing.json`); a refusal body the app cannot read is the app's
+    fourth case, which the server, being the writer, has no way to have."""
+    if c.get("refused"):
+        return "refused"
+    rv = c.get("revision")
+    if isinstance(rv, dict) and rv.get("stop_reason") != PLACEMENT_UNJUDGED:
+        return "placed"
+    return "unjudged"
+
+
 def rank_key(c):
     """The composer's ranking key, at module level so it can be driven without a compose: judged
-    fatals, then UNJUDGED fatals (R13), then the score, then the demerits and the parti id. The
-    argument for each key is in `compose()`, where the set is sorted."""
-    return (c["counts"].get("fatal", 0), len(c.get("unjudged_fatal") or []),
+    fatals, then whether the PLACEMENT may be drawn (refused last), then UNJUDGED fatals (R13),
+    then the score, then the demerits and the parti id. The argument for each key is in
+    `compose()`, where the set is sorted.
+
+    THE SECOND KEY IS THE REFUSAL (ruled by Lucas, 16 Oct 2026, reading 1 of
+    `oq/the-composer-ranks-first-a-house-that-may-not-be-drawn`): within a group of equal judged
+    fatals a house that may be drawn comes before one that may not. It sits ahead of the
+    unjudged fatals and the score on purpose -- a reader who takes the first card to the bench
+    and meets a refusal is the cost the ruling exists to remove, and a refused house with the
+    best score or the fewest unjudged fatals would otherwise still lead. It reorders and
+    removes nothing: every candidate stays in the set and a reader can still read why one was
+    refused. It cannot pull a drawable candidate in from beyond the returned slice, because the
+    slice is chosen before any candidate is placed (the first sort sees every card unjudged, so
+    this key is a constant there)."""
+    return (c["counts"].get("fatal", 0), STANDING_RANK[placement_standing(c)],
+            len(c.get("unjudged_fatal") or []),
             -(c["score"] if c["score"] is not None else -1e9),
             c["demerits"], c.get("parti") or "")
 
@@ -1871,6 +1916,12 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # breaks a tie AGAINST the candidate. Until this key an unjudged fatal cost nothing, so a
     # candidate whose fatal fault could not be judged ranked exactly as one that had cleared it,
     # and WP-15.8's audit measured the native diagram re-entering a returned set that way.
+    #
+    # THE REFUSAL SITS BETWEEN THE TWO (ruled 16 Oct 2026): within equal judged fatals a house the
+    # type's hard facts allow to be DRAWN comes before one they forbid, and a candidate nobody has
+    # placed sits between (`rank_key`, `placement_standing`). Here, before any candidate is
+    # placed, every card is `unjudged` and the key is a constant; it earns itself in the re-sort
+    # after the placed loop below, which is the only place the field exists.
     _sort_key = rank_key
     out.sort(key=_sort_key)
     # THE PLACED REVISION LOOP (WP-9.2), on the RETURNED candidates only, after ranking. Ruled

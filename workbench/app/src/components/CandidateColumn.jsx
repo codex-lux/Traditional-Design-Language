@@ -169,7 +169,34 @@ function CandidateColumn({
       margin: 0,
       flex: 1
     }
-  }, c.parti_name)), /*#__PURE__*/React.createElement(ScoreBlock, {
+  }, onSelect
+    /* A COLUMN CAN BE SELECTED FROM A KEYBOARD (audit follow-up, 16 Oct 2026). The click handler
+       sits on the <section>, which no key reaches, so the strip's "select a candidate" was an
+       instruction a keyboard reader could not follow. The name is the control: a real button, in
+       the tab order, announcing whether the column is the one picked. A click on it selects once
+       (it does not also reach the section's own handler); a click anywhere else on the column
+       selects as it always did. */
+    ? /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      "data-candidate-select": c.n,
+      "aria-pressed": selected ? "true" : "false",
+      onClick: function (e) {
+        e.stopPropagation();
+        onSelect(c);
+      },
+      style: {
+        font: 'inherit',
+        fontVariationSettings: 'inherit',
+        letterSpacing: 'inherit',
+        color: 'inherit',
+        background: 'none',
+        border: 0,
+        padding: 0,
+        margin: 0,
+        textAlign: 'left',
+        cursor: 'pointer'
+      }
+    }, c.parti_name) : c.parti_name)), /*#__PURE__*/React.createElement(ScoreBlock, {
     candidate: c
   }), /*#__PURE__*/React.createElement("div", {
     style: {

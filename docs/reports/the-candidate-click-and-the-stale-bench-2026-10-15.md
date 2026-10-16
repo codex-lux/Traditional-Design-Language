@@ -174,7 +174,8 @@ park another server on a walk's port + 1.
   never ruled. The table above is a new measurement on it, added there as a dated amendment, and it
   matters to the choice: on this run reading 2 (exclude the refused) returns **no candidates at
   all**. Moving which house a person is offered first is what this file flags for Lucas every time
-  it happens, and it was not done here.
+  it happens, and it was not done here. *(16 Oct 2026, later that day: Lucas ruled reading 1 when asked,
+  and it is done. §VIII.)*
 - **Un-refusing anything.** WP-13.4's refusal to draw is Lucas's ruling and stands. Nothing here
   loads a refused candidate or draws a refused record; the strip says why it will not.
 - **The placer.** Why these partis cannot hold their stacks, bearing lines and tiling inside a
@@ -188,6 +189,7 @@ park another server on a walk's port + 1.
    refused candidate should rank below a drawable one. The recommendation, from this measurement:
    rank refused after drawable within the same fatal tier (reading 1), and keep them in the set,
    since excluding them returns nothing here. Not applied; nothing here rules between the readings.
+   *(Ruled 16 Oct 2026: reading 1, as recommended. Executed; §VIII.)*
 2. **Whether a refused candidate may be opened on the bench to be read.** Now its own question,
    `oq/a-refused-candidates-record-is-served-for-diagnosis-and-the-candidate-set-will-not-load-it`
    (the audit found it living only in this report): the route that serves a candidate's record says
@@ -195,6 +197,8 @@ park another server on a walk's port + 1.
    open"*, and the Candidate Set refuses to load it because a record no bench surface may draw
    *"reads as the bench being broken"*. Both are WP-13.4's words and they disagree. The conflict set
    is drawn on the Candidate Set itself, so a reader can diagnose without opening.
+   *(Ruled 16 Oct 2026: keep a refused candidate unopenable. The route's docstring is corrected to the
+   surface's statement. §VIII.)*
 
 ## VI. What this measurement does not establish
 

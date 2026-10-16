@@ -149,9 +149,11 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
   const tally = tallyView(standing);
 
   async function openInWorkbench(c) {
-    // A refused candidate is not loaded. The conflict set beside its column says what could not
-    // hold; loading it would put a record on the bench that no surface there may draw, which
-    // reads as the bench being broken rather than as the candidate being refused.
+    // A refused candidate is not loaded (ruled by Lucas, 16 Oct 2026). The conflict set beside its
+    // column says what could not hold; loading it would put a record on the bench that no surface
+    // there may draw, which reads as the bench being broken rather than as the candidate being
+    // refused. The route serves the record to a client that already knows what to do with it;
+    // this surface is not one.
     if (!c || c.refused || opening) return;
     setOpening(true);
     setOpenError(null);
@@ -160,7 +162,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
       const plan = await api.candidatePlan(s.jobId, c.n);
       // where the plan came from, recorded BEFORE it is loaded (PRD §G.1): the job, the index the
       // plan was fetched at, and the brief's name where the draft in hand is the brief it names
-      planDoc.load(recordPlanFrom('candidate', plan, { jobId: s.jobId, n: c.n, briefName: briefNameOf(result, s.brief) }));
+      planDoc.load(recordPlanFrom('candidate', plan, { jobId: s.jobId, n: c.n, briefName: briefNameOf(result, s.jobBrief) }));
       go('workbench');
     } catch (e) {
       // the server keeps a compose for a while and then forgets it, while the candidates in hand
@@ -186,18 +188,52 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               {JOURNEY_WORDS.separator}<Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}{size.appended.name}
             </span>
           )}
+          {/* "of N" is the columns on screen, which is what the tally counts: `returned X of Y`
+              leaves out the diagram the brief named and the ranking passed over, appended after the
+              set, and "2 refused" read beside it was a count over a population it did not name. */}
           {tally.refused > 0 && (
             <span data-set-refused={tally.refused} style={{ color: 'var(--refusal)' }}>
-              {JOURNEY_WORDS.separator}{tally.refused} <Term id="judgment-refused" />
+              {JOURNEY_WORDS.separator}{tally.refused} of {tally.of} <Term id="judgment-refused" />
             </span>
           )}
           {tally.unjudged > 0 && (
             <span data-set-unjudged={tally.unjudged}>
-              {JOURNEY_WORDS.separator}{JOURNEY_WORDS.selection.tallyUnjudged(tally.unjudged)}
+              {JOURNEY_WORDS.separator}{JOURNEY_WORDS.selection.tallyUnjudged(tally.unjudged, tally.of)}
             </span>
           )}
           {dropped.length ? ` · ${dropped.length} dropped for the lot` : ''}
         </span>
+      } below={
+    /* THE ACT HAS A ROW OF ITS OWN, AND THE ROW HAS A FLOOR (audit follow-up, 16 Oct 2026). The
+        strip wraps, and the act's words run from a short instruction to a refusal naming its
+        facts, so a pick that changed them gained or lost rows and the columns jumped under the
+        reader's pointer: measured 27 px at 1100 and 47 px at 1680 between a refused pick and
+        an open one. The row takes the strip's full width and reserves two lines, so the grid
+        does not move for the words a pick can produce at the widths this shell is used at. */
+    <div data-selection-row="" style={{ flex: '1 1 100%', minHeight: '2lh', font: 'var(--type-data-s)',
+      display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: 14 }}>
+      {/* A POLITE LIVE REGION, so that picking a column by keyboard (or any way) is answered
+          aloud: the strip is where the pick's consequence is said and nothing else announced
+          it. The error below is its own alert and stays outside. */}
+      <span role="status" aria-live="polite" data-selection-live="">
+        {view.tag === 'button'
+          ? <button type="button" data-selection-action={view.state} disabled={opening}
+              onClick={() => openInWorkbench(picked)}
+              className="tdl-link" style={{ font: 'var(--type-data-s)' }}>
+              {opening ? JOURNEY_WORDS.selection.opening : view.words} <span aria-hidden="true">→</span>
+            </button>
+          : <span data-selection-action={view.state}
+              style={{ font: 'var(--type-data-s)',
+                color: view.tone === 'refusal' ? 'var(--refusal)' : 'var(--ink-2)' }}>
+              {view.words}
+            </span>}
+      </span>
+      {openError && (
+        <span role="alert" data-selection-error="" style={{ font: 'var(--type-data-s)', color: 'var(--ink)' }}>
+          {openError}
+        </span>
+      )}
+    </div>
       }>
         <Eyebrow as="span">order by</Eyebrow>
         {/* main's ORDERS table (the orderings are data, not two hardcoded chips) inside
@@ -210,31 +246,16 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         {/* the act on the picked column: a link where the candidate may go on the bench, and in
             the refusal's ink -- saying why -- where it may not (a refusal is brick, a link is
             ink with a gilt underline: WP-14.33 R1) */}
-        {view.tag === 'button'
-          ? <button type="button" data-selection-action={view.state} disabled={opening}
-              onClick={() => openInWorkbench(picked)}
-              className="tdl-link" style={{ font: 'var(--type-data-s)' }}>
-              {opening ? JOURNEY_WORDS.selection.opening : view.words} <span aria-hidden="true">→</span>
-            </button>
-          : <span data-selection-action={view.state}
-              style={{ font: 'var(--type-data-s)',
-                color: view.tone === 'refusal' ? 'var(--refusal)' : 'var(--ink-2)' }}>
-              {view.words}
-            </span>}
-        {openError && (
-          <span role="alert" data-selection-error="" style={{ font: 'var(--type-data-s)', color: 'var(--ink)' }}>
-            {openError}
-          </span>
-        )}
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 22px 30px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
           gap: 24, marginBottom: 16 }}>
           <div>
-            {/* The brief by NAME where the draft in hand is the brief this result names; the id
-                otherwise, in the corpus's mono, because the result carries nothing else. */}
-            <Eyebrow>brief · {briefNameOf(result, s.brief)
+            {/* The brief by NAME where the brief the job was accepted with is the one this result
+                names; the id otherwise, in the corpus's mono, because the result carries nothing
+                else. (The draft in hand is the brief being edited and is not asked.) */}
+            <Eyebrow>brief · {briefNameOf(result, s.jobBrief)
               || <code style={{ fontFamily: 'var(--mono)', textTransform: 'none' }}>{result.brief}</code>}</Eyebrow>
             <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', fontVariationSettings: '"opsz" 72',
               letterSpacing: 'var(--tr-display)', margin: '7px 0 0' }}>

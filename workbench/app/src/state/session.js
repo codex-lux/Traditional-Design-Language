@@ -12,29 +12,30 @@
      jobError  a compose job that failed or expired, with the job's own reason, or null.
 
    The key is unchanged (`'tdl-workbench-session'`, which PRD §J.4 forbids renaming), and the
-   persisted object is `{ brief, jobId, planFrom, jobError }`. Both new fields are read back
+   persisted object is `{ brief, jobId, planFrom, jobError, jobBrief }` (`jobBrief` is the id and name of the brief the current job was accepted with, added 16 Oct 2026 so a candidate's brief name is the job's and not the draft's). Both WP-14.10 fields are read back
    through `journey/sessionWrites.js`'s sanitisers, so an entry written by an older build, or a
    hostile one, costs that field and not the session. Every WRITE of either field is spelled in
    that same module; this file only holds them. */
-import { readPlanFrom, readJobError, planFromOf } from '../journey/sessionWrites.js';
+import { readPlanFrom, readJobError, readJobBrief, planFromOf } from '../journey/sessionWrites.js';
 
 const KEY = 'tdl-workbench-session';
 let state = { brief: null, jobId: null, result: null, progress: [], railTurns: [],
-  planFrom: null, jobError: null };
+  planFrom: null, jobError: null, jobBrief: null };
 const listeners = new Set();
 
 try {
   const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
   if (saved) {
     state = { ...state, brief: saved.brief || null, jobId: saved.jobId || null,
-      planFrom: readPlanFrom(saved.planFrom), jobError: readJobError(saved.jobError) };
+      planFrom: readPlanFrom(saved.planFrom), jobError: readJobError(saved.jobError),
+      jobBrief: readJobBrief(saved.jobBrief) };
   }
 } catch { /* start empty */ }
 
 function emit() {
   try {
     localStorage.setItem(KEY, JSON.stringify({ brief: state.brief, jobId: state.jobId,
-      planFrom: state.planFrom, jobError: state.jobError }));
+      planFrom: state.planFrom, jobError: state.jobError, jobBrief: state.jobBrief }));
   } catch { /* best effort */ }
   listeners.forEach((fn) => fn());
 }
@@ -60,5 +61,18 @@ export const session = {
    by PRD §J.3's budget — and it returns the plan, so a caller can load what it recorded. */
 export function recordPlanFrom(kind, plan, extra) {
   session.set({ planFrom: planFromOf(kind, plan, extra) });
+  return plan;
+}
+
+/* The other half of the same rule (audit follow-up, 16 Oct 2026): a record put on the bench by an
+   act that has no origin to record -- a pasted JSON, an ingested DXF -- says so. `planFrom` names
+   its plan by id and the journey trusts it while that id is the bench's, so a pasted record that
+   happened to share a candidate's id (`{parti}-new-brief`) inherited the candidate's provenance,
+   and with it a Next to the Plan step that was not its to have. Every site that loads a whole,
+   different document through `planDoc.load` records its origin or clears it; the two loads that
+   continue the SAME document (the loop's revised record) do neither, on purpose.
+   `src/planOrigin.test.mjs` holds the sites to this. */
+export function clearPlanFrom(plan) {
+  if (session.get().planFrom !== null) session.set({ planFrom: null });
   return plan;
 }

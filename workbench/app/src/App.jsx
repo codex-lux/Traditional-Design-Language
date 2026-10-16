@@ -36,7 +36,7 @@ import { useNames } from './names/useNames.js';
 import { useStyles } from './api/useStyles.js';
 import { prefs } from './state/prefs.js';
 import { session } from './state/session.js';
-import { journeyState, evalPlanOf, pickedCandidate } from './journey/journey.js';
+import { journeyState, evalIsOf, originKeyOf, pickedCandidate } from './journey/journey.js';
 import { navModel, headTermFor, inHandFrom, normalizePlace, stylePlaceKind } from './nav/navModel.js';
 import { crumbsFor, titleFor } from './nav/crumbs.js';
 import { PlanWorkbench } from './surfaces/PlanWorkbench.jsx';
@@ -217,16 +217,22 @@ export default function App() {
      cleared when the plan's id changes — UNLESS it is already this plan's: the bench loads a
      revised record and sets its evaluation in one tick, and a blanket clear running after
      both would throw away the verdict it had just been handed. Which plan an evaluation was of
-     is `evalPlanOf`'s answer, the journey's own reader, so an evaluation whose check errored --
+     is `evalIsOf`'s answer (built on `evalPlanOf`), the journey's own reader, so an evaluation whose check errored --
      which names its plan only at the top of the route's response -- is kept for its plan here
      exactly as the journey reads it (WP-14.20). */
   const planId = plan ? plan.id : null;
-  const lastPlanId = React.useRef(planId);
+  /* AND TO WHERE THAT PLAN CAME FROM (16 Oct 2026). Two composes of one parti make two houses
+     with one id, so the id alone did not change when a later compose's candidate replaced an
+     earlier one and the earlier verdict stayed beside it. The key below changes when the origin
+     does, and `evalIsOf` is the one reader of whether an evaluation is of this plan from here. */
+  const planFrom = sessionNow.planFrom;
+  const planKey = `${planId ?? ''}\u0000${originKeyOf(planId, planFrom)}`;
+  const lastPlanKey = React.useRef(planKey);
   React.useEffect(() => {
-    if (lastPlanId.current === planId) return;
-    lastPlanId.current = planId;
-    setLastEval((ev) => (ev && evalPlanOf(ev) === planId ? ev : null));
-  }, [planId]);
+    if (lastPlanKey.current === planKey) return;
+    lastPlanKey.current = planKey;
+    setLastEval((ev) => (ev && evalIsOf(ev, planId, planFrom) ? ev : null));
+  }, [planKey]);
 
   /* The style dossier's head, for a style's place: its chain names the crumbs and its sections
      are the in-hand item's children. Read through the GET cache, which the dossier surface
@@ -334,7 +340,8 @@ export default function App() {
         {!full && layout.isOpen('rail') && <Splitter pane="rail" grows="right" />}
         {!full && (layout.isOpen('rail')
           ? (
-            <RailHost onCite={cite} surface={surface} plan={plan} lastEval={lastEval}
+            <RailHost onCite={cite} surface={surface} plan={plan}
+              lastEval={evalIsOf(lastEval, planId, planFrom) ? lastEval : null}
               railAvailable={health ? !!health.rail : null}
               toolCount={health?.mcp?.tools} />
           )

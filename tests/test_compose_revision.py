@@ -15,6 +15,8 @@ if BUILD not in sys.path:
     sys.path.insert(0, BUILD)
 import modcache as mc  # noqa: E402
 
+CO = mc.load("compose", os.path.join(BUILD, "compose.py"))
+
 
 def _brief(name):
     ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,10 +24,27 @@ def _brief(name):
 
 
 def _composer_order(c):
-    """compose()'s own sort rule, as its local `_sort_key` spells it: fatal-free first, then
-    score, then demerits, then the parti id."""
-    return (c["counts"].get("fatal", 0), -(c["score"] if c["score"] is not None else -1e9),
-            c["demerits"], c.get("parti") or "")
+    """compose()'s own sort rule, which is `compose.rank_key` and is READ here, not retyped.
+
+    RE-CUT 16 Oct 2026. This helper restated the key by hand -- (fatal, -score, demerits, parti)
+    -- and had quietly stopped being the rule: R13 (29 Sep) put the unjudged fatals between the
+    fatals and the score, and the ruling of 16 Oct puts the refusal there too, so a set sorted
+    exactly as `compose` sorts it could read as out of order here, or a mis-sorted one pass,
+    depending on which cards happened to be refused. The tests below also assert the properties
+    the key exists for, independently of it (`_assert_the_ruled_properties`)."""
+    return CO.rank_key(c)
+
+
+def _assert_the_ruled_properties(cands):
+    """Read off the returned cards, never off the key: judged fatals never rise, and within equal
+    judged fatals a refused house never stands above one that may be drawn."""
+    fatals = [c["counts"].get("fatal", 0) for c in cands]
+    assert fatals == sorted(fatals), "a fatal-bearing plan came back above a cleaner one"
+    for f in set(fatals):
+        ranks = [CO.STANDING_RANK[CO.placement_standing(c)] for c in cands
+                 if c["counts"].get("fatal", 0) == f]
+        assert ranks == sorted(ranks), (
+            f"at {f} judged fatal(s) a refused house came back above one that may be drawn")
 
 
 @pytest.fixture(scope="module")
@@ -126,9 +145,11 @@ class TestThePlacedLoopOnTheReturnedCandidates:
                                      revise_rounds=1, revise_engine="heuristic", revise_budget_s=30)
         cands = res["candidates"]
         assert len(cands) == 4 and len({c["parti"] for c in cands}) == 4, "four DISTINCT diagrams"
-        # the order is the composer's rule, on the RE-SCORED set: fatal-free first, then score
+        # the order is the composer's rule, on the RE-SCORED set: fatal-free first, then whether the
+        # placement may be drawn, then the unjudged fatals, then the score
         keys = [_composer_order(c) for c in cands]
         assert keys == sorted(keys), "the revised set is not in the composer's order"
+        _assert_the_ruled_properties(cands)
         for c in cands:
             assert "score_before" in c and ("revision" in c)
             assert "verdict" not in c and "good" not in c, "no candidate is called good"
@@ -215,6 +236,7 @@ class TestTheRevisedSetKeepsTheComposersInvariants:
         cands = composed["candidates"]
         keys = [_composer_order(c) for c in cands]
         assert keys == sorted(keys)
+        _assert_the_ruled_properties(cands)
         assert {c["rank_before"] for c in cands} == set(range(1, len(cands) + 1))
 
     def test_the_revise_budget_is_the_sets_and_a_candidate_it_does_not_reach_says_so(self, compose_module):

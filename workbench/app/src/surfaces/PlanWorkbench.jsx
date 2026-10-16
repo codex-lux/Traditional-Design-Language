@@ -8,7 +8,8 @@ import React from 'react';
 import { api, jobEvents } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
 import { planDoc, mutations } from '../state/planDoc.js';
-import { recordPlanFrom } from '../state/session.js';
+import { session, recordPlanFrom, clearPlanFrom } from '../state/session.js';
+import { stampEval } from '../journey/journey.js';
 import { FindingRow } from '../components/FindingRow.jsx';
 import { SeverityTally } from '../components/SeverityTally.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
@@ -162,6 +163,10 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
     // THE DOCUMENT THE LOOP WAS GIVEN, held by identity (WP-13.9's own audit). See the load
     // below: `seq` and this answer two different questions and only this one is the right one.
     const submitted = p;
+    /* WHERE THE PLAN CAME FROM WHEN THE REQUEST WENT, not when the answer lands: a reader can
+       open another house with the same id in between, and the answer would then be filed against
+       it (`journey.js::stampEval`). */
+    const fromAtSubmit = session.get().planFrom;
     setBusy(true);
     setRevisingInline(!!opts.revise);
     api.evaluate(p, { strict, place: true, candidates: opts.candidates ?? seeds,
@@ -209,7 +214,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             planDoc.load(res.revised_plan);
           }
         }
-        setLastEval(res);
+        setLastEval(stampEval(res, submitted && submitted.id, fromAtSubmit));
       })
       .catch((e) => {
         if (seq !== evalRef.current) return;
@@ -379,7 +384,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               try {
                 const rec = JSON.parse(e.target.value);
                 reviseNextRef.current = true;        // a pasted record is an explicit solve
-                planDoc.load(rec);
+                planDoc.load(clearPlanFrom(rec));    // a pasted record is nobody's candidate
               } catch { /* not JSON yet */ }
             }} />
         </label>

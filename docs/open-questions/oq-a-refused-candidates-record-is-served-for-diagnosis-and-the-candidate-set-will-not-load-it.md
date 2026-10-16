@@ -1,6 +1,15 @@
 # oq/a-refused-candidates-record-is-served-for-diagnosis-and-the-candidate-set-will-not-load-it — two WP-13.4 statements about one record disagree, and a reader who picks a refused candidate is told which one won
 
-*Status: OPEN · Raised in: the adversarial audit of the candidate-click change (16 October 2026)*
+*Status: CLOSED 16 October 2026 (ruled that day, option 1: keep a refused candidate unopenable) · Raised in: the adversarial audit of the candidate-click change (16 October 2026)*
+
+> **RULED 16 October 2026: option 1, keep a refused candidate unopenable.** Lucas, asked directly,
+> chose it over loading the record onto the bench to be read and over a reading mode of its own. The
+> surface's statement wins and the route's docstring is corrected to say what the route is for (a
+> client that already knows what to do with a refused record: a tool, a diagnostic, a script), and
+> that the Candidate Set does not ask for one. The conflict set is drawn on the Candidate Set from the
+> candidate's own `refused`, so the reader can read WHY without the record. Nothing about the route's
+> behaviour changed: it still serves the record raw, unmetered and unrefused, and every drawing route
+> still re-judges it. **The question below is kept as it was raised.**
 
 **OPEN — the route that serves a composed candidate's record and the surface that loads one say
 opposite things about a refused record, both in WP-13.4's words, and nothing rules between them.**

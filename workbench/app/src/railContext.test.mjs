@@ -15,8 +15,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { citeFor, routeCite } from './citations.js';
-import { railContext, pageCite, candidateSummaries, candidateSummary,
+import { readFileSync } from 'node:fs';
+import { railContext, pageCite, candidateSummaries, candidateSummary, lastEvalSummary,
   CANDIDATE_BUDGET_CHARS } from './rail/railContext.js';
+import { REFUSAL_KINDS } from './sheet/refusal.js';
+import { stripComments } from './sourceReader.mjs';
 
 const PLACES = [
   { surface: 'proportions', selection: { pack: 'trim-classical' }, params: {} },
@@ -100,4 +103,62 @@ test('the set is sent in whole rows under the stated budget, in order, and says 
   assert.deepEqual(ctx.candidate_summaries, rows);
   assert.equal(ctx.candidate_count, many.length, 'the count is the set\'s, not the rows\'');
   assert.equal('candidate_summaries' in railContext({ surface: 'candidates', candidates: [] }), false);
+});
+
+/* THE ASSISTANT IS TOLD WHEN THE HOUSE IS REFUSED (ruled by Lucas, 16 Oct 2026).
+
+   The last evaluation was the check's three count blocks, so for a placement the type's hard facts
+   forbid drawing the assistant was told `fatal 0` and nothing else: the misreading the Candidate
+   Set's refused screen was fixed for, on a second surface. `refused` is the one addition, present
+   only where the evaluation states a refusal, read through the one reader of that body. */
+const COUNTS = { counts: { fatal: 0, serious: 43, minor: 9 }, constraint_summary: { unjudged: 4 },
+  fault_summary: { present: 2 } };
+const REFUSAL = { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'], conflicts: [], lines: ['x'] };
+
+test('an evaluation that is not refused is summarised exactly as it always was', () => {
+  const ok = { check: { ...COUNTS, findings: [], plan: 'p' }, placement: { geometry_report: { refused: null } } };
+  assert.deepEqual(lastEvalSummary(ok), COUNTS);
+  assert.deepEqual(Object.keys(lastEvalSummary(ok)).sort(), ['constraint_summary', 'counts', 'fault_summary']);
+  // a placement that states no verdict at all says nothing about whether it may be drawn
+  assert.deepEqual(lastEvalSummary({ check: { ...COUNTS } }), COUNTS);
+  assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement: { geometry_report: {} } }), COUNTS);
+  // a body the app cannot read is not a refusal, and is not sent as one
+  assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement_refused: { kind: 'nonsense', facts: ['x'] } }), COUNTS);
+  assert.equal(railContext({ surface: 'workbench', lastEval: ok }).last_eval.refused, undefined);
+  for (const nothing of [null, undefined, 'x', 3, []]) assert.equal(lastEvalSummary(nothing), undefined);
+  assert.equal(lastEvalSummary({}), undefined, 'no check and no refusal: no summary');
+});
+
+test('a refused evaluation says so beside its counts, whichever way the server carried the refusal', () => {
+  // the evaluate route's 200 with the placement refused (the usual road to the screen)
+  const viaRoute = lastEvalSummary({ check: { ...COUNTS }, placement_refused: REFUSAL });
+  assert.deepEqual(viaRoute, { ...COUNTS, refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'] } });
+  // a placed record carrying the verdict in its geometry report
+  const viaRecord = lastEvalSummary({ check: { ...COUNTS }, placement: { geometry_report: { refused: REFUSAL } } });
+  assert.deepEqual(viaRecord, viaRoute);
+  // only kind and facts: the lines are the record's, which the model fetches with its own tools
+  assert.deepEqual(Object.keys(viaRoute.refused).sort(), ['facts', 'kind']);
+  assert.deepEqual(lastEvalSummary({ check: { ...COUNTS }, placement_refused: { kind: 'infeasible', facts: ['bearing'] } }).refused,
+    { kind: 'infeasible', facts: ['bearing'] });
+  // the refusal is in the context a turn posts, beside the counts it must not be read apart from
+  const ctx = railContext({ surface: 'workbench', lastEval: { check: { ...COUNTS }, placement_refused: REFUSAL } });
+  assert.deepEqual(ctx.last_eval.counts, COUNTS.counts);
+  assert.equal(ctx.last_eval.refused.kind, 'type-fact-downgraded');
+  // a refusal on an evaluation whose check never completed is still told
+  assert.deepEqual(lastEvalSummary({ placement_refused: REFUSAL }),
+    { refused: { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'] } });
+});
+
+test('the kinds the app can send are the kinds the assistant\'s server reads', () => {
+  const py = readFileSync(new URL('../../server/rail.py', import.meta.url), 'utf8');
+  const m = py.match(/^_REFUSAL_KINDS = \(([^)]*)\)/m);
+  assert.ok(m, 'rail.py states the kinds it accepts on one line');
+  const server = [...m[1].matchAll(/"([a-z-]+)"/g)].map((x) => x[1]).sort();
+  assert.deepEqual(server, [...REFUSAL_KINDS].sort());
+});
+
+test('the assistant is handed only an evaluation that is of the plan on the bench, from where it came', () => {
+  const app = stripComments(readFileSync(new URL('./App.jsx', import.meta.url), 'utf8'));
+  assert.match(app, /lastEval=\{evalIsOf\(lastEval, planId, planFrom\) \? lastEval : null\}/,
+    'a verdict of the house before is not told to the assistant as this house\'s');
 });

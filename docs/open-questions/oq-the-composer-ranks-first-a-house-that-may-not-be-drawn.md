@@ -1,6 +1,13 @@
 # oq/the-composer-ranks-first-a-house-that-may-not-be-drawn — `_sort_key` never reads the refusal written onto the dict it sorts
 
-*Status: OPEN · Raised in: the adversarial audit of WP-13.9 (19 September 2026)*
+*Status: CLOSED 16 October 2026 (ruled that day, reading 1; executed by the follow-up to the candidate-click audit) · Raised in: the adversarial audit of WP-13.9 (19 September 2026)*
+
+> **RULED 16 October 2026, AND THE RULING WAS THE FIRST READING: refused ranks last within its fatal
+> group.** Lucas, asked directly, chose it over excluding the refused and over keeping the ranking and
+> saying so. Executed in `compose.rank_key`: judged fatals, then **whether the placement may be drawn
+> (placed, then not-yet-placed, then refused)**, then the unjudged fatals (R13), then the score. It
+> reorders and removes nothing, so a refused diagram stays in the set with the reason it was refused.
+> See "Execution" at the foot of this file. **The question below is kept as it was raised.**
 
 **`build/compose.py` writes `refused` onto each returned candidate and then sorts those
 candidates without reading it. Measured on `briefs/family-georgian.json` with the revision loop
@@ -117,3 +124,38 @@ Lucas's report of the original screen (15 October: they picked the candidate the
 expected the drawings and found the plan refused with no fatal flaw) is paraphrased here, not quoted; it is
 the first reader's account of the cost and not a ruling, and no reading is taken from it. The
 compose function's local sort alias is `_sort_key`; the module-level function is `compose.rank_key`.
+
+## Execution, 16 October 2026 — what was built, and what it did and did not do
+
+- **The key.** `compose.placement_standing(card)` reads a card as `refused`, `placed` or `unjudged`, and
+  `rank_key` sorts `(judged fatals, STANDING_RANK, unjudged fatals, -score, demerits, parti)`.
+  The standing is AHEAD of the unjudged fatals, on purpose: a refused house with no unjudged fatal
+  would otherwise lead a drawable one with one, which is the screen the ruling exists to remove.
+  **A candidate nobody has placed (the set's revise budget did not reach it) sits between**, because
+  it is not a pass: it may be refused on the bench, and the strip says so. That middle tier is this
+  execution's reading of "unjudged is not passed" and was not asked; the ruling's words were "refused
+  ranks last".
+- **One reading in two languages.** `placement_standing` is the composer's; `standingOf`
+  (`workbench/app/src/candidateStanding.js`) is the Candidate Set's. Neither can import the other, so
+  `tests/fixtures/candidate_standing.json` is the one table both are held to (nine cards, all three
+  standings, four routes to `unjudged`), and the stop-reason string is `revise.STOP_PLACEMENT_UNJUDGED`
+  with a test in each language holding its copy to it.
+- **What it can and cannot do.** It can only demote inside the returned slice: the slice is chosen
+  before any candidate is placed, when every card is unjudged and the new key is a constant. It cannot
+  pull a drawable candidate in from beyond it. So it has nothing to do wherever the whole slice is
+  refused.
+- **MEASURED on this container, with the app's own call** (`compose(brief, 4, revise=True)`, `auto`, the
+  defaults; the new key against the old on the same cards): `family-georgian` returned **4 of 4
+  refused**, `bungalow-small` **4 of 4 refused**, and **the new key changed neither order**, because
+  every card was in the same tier. A second pass of both: `family-georgian` 4 of 4 refused again;
+  `bungalow-small` 3 refused and one never placed (the budget did not reach it), which the new key puts
+  first. **The ruling is in, and on these two briefs it mostly has nothing to rank**: the cause is
+  upstream, in how many returned candidates are refused at all
+  (`oq/the-composer-returns-sets-in-which-nothing-may-be-drawn`). The sets are not reproducible
+  (the native centre-passage house read 0 judged fatals and led `family-georgian` in one pass, and 2 and
+  trailed in the other), so these are two draws.
+- **Tests.** `tests/test_refusal_ranks_last.py` (21: the shared table, the three keys' order and each
+  of the three orderings that could be written instead, a driven `compose` whose best-scoring
+  candidate is refused at the placement the loop returns), and `tests/test_compose_revision.py`'s
+  helper, which restated the key by hand (and had stopped being the rule at R13), reads `rank_key`
+  now. 15 mutations of the key and its two readers, all red.

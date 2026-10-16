@@ -2672,6 +2672,66 @@ await shot('brief');
             !!st.next && /refused/.test(st.next.text));
           await shot('candidates-refused', [1440]);
 
+          /* THE TALLY NAMES ITS POPULATION, AND THE STRIP IS HEARD (audit follow-up, 16 Oct 2026).
+             "N refused" beside "returned X of Y asked for" counted columns the second leaves out
+             (the diagram the brief named, appended after the set), so the count is "N of M" over
+             the columns on screen. The strip is a polite live region: picking a column is answered
+             aloud, and the error stays a separate alert outside it. */
+          const popul = await page.evaluate(() => ({
+            columns: document.querySelectorAll('main [data-candidate-n]').length,
+            text: (document.querySelector('[data-set-refused]') || { textContent: '' }).textContent.replace(/\s+/g, ' ').trim(),
+            live: (() => {
+              const r = document.querySelector('[data-selection-live]');
+              const a = document.querySelector('[data-selection-action]');
+              return !!r && r.getAttribute('role') === 'status' && r.getAttribute('aria-live') === 'polite' && !!a && r.contains(a);
+            })(),
+          }));
+          check(`the tally is over the columns on screen ("${popul.text}", ${popul.columns} columns)`,
+            popul.columns >= 2 && new RegExp(`(^|\\s)1 of ${popul.columns}\\s`).test(popul.text + ' '));
+          check('and the strip is a polite live region holding the act', popul.live);
+
+          /* A COLUMN IS SELECTED FROM THE KEYBOARD. The click handler sat on the <section>, which no
+             key reaches; the title is a real button now. Focus it and press Enter, as a keyboard
+             reader would: the address must record the pick and the button must say it is pressed. */
+          await page.focus('[data-candidate-select="1"]');
+          await page.keyboard.press('Enter');
+          await page.waitForFunction(() => location.hash.startsWith('#/candidates/1'), null, { timeout: 10000 }).catch(() => {});
+          await page.waitForFunction(() => document.querySelector('[data-candidate-select="1"]')?.getAttribute('aria-pressed') === 'true',
+            null, { timeout: 5000 }).catch(() => {});
+          const kb = await page.evaluate(() => ({
+            hash: location.hash,
+            one: document.querySelector('[data-candidate-select="1"]')?.getAttribute('aria-pressed') ?? null,
+            zero: document.querySelector('[data-candidate-select="0"]')?.getAttribute('aria-pressed') ?? null,
+            tag: document.querySelector('[data-candidate-select="1"]')?.tagName.toLowerCase() ?? null,
+          }));
+          check(`a column is picked with the keyboard alone (${kb.hash}; pressed ${kb.one}/${kb.zero})`,
+            kb.hash.startsWith('#/candidates/1') && kb.one === 'true' && kb.zero === 'false' && kb.tag === 'button');
+
+          /* THE GRID DOES NOT MOVE WHEN THE PICK CHANGES. The strip is a wrapping row and the act's
+             words differ between a refused pick, an open one and none; a row gained or lost shifted
+             the columns under the reader's pointer at 1280 px and below. Measured at the walk's
+             width and at 1100, picking each of the two in turn. */
+          const vp = page.viewportSize();
+          const gridTop = async () => page.evaluate(() => {
+            const g = document.querySelector('main [data-candidate-n="0"]');
+            return g ? Math.round(g.getBoundingClientRect().top * 10) / 10 : null;
+          });
+          const pickHash = async (n) => {
+            await page.evaluate((k) => { location.hash = `#/candidates/${k}`; }, n);
+            await page.waitForFunction((k) => !!document.querySelector(`[data-candidate-select="${k}"][aria-pressed="true"]`), n, { timeout: 10000 }).catch(() => {});
+            await page.waitForTimeout(250);
+          };
+          const tops = {};
+          for (const w of [vp.width, 1100]) {
+            await page.setViewportSize({ width: w, height: vp.height });
+            await page.waitForTimeout(250);
+            tops[w] = [];
+            for (const k of [0, 1, 0]) { await pickHash(k); tops[w].push(await gridTop()); }
+          }
+          await page.setViewportSize(vp);
+          check(`the columns stay put as the pick changes between a refused and an open one (${JSON.stringify(tops)})`,
+            Object.values(tops).every((t) => t.every((x) => x !== null && Math.abs(x - t[0]) <= 1)));
+
           await page.locator('[data-candidate-n="1"] h3').first().click();
           await page.waitForFunction(() => location.hash.startsWith('#/candidates/1'), null, { timeout: 10000 }).catch(() => {});
           await page.waitForFunction(() => !!document.querySelector('[data-selection-action="open"]'), null, { timeout: 5000 }).catch(() => {});
@@ -2725,6 +2785,74 @@ await shot('brief');
           st = await read();
           check(`but picking the other candidate holds it again: Next follows the pick ("${st.next && st.next.text}")`,
             !!st.next && st.next.blocked && !st.next.link);
+          /* A LATER COMPOSE'S CANDIDATE IS NOT READ AS ALREADY EVALUATED (audit follow-up, 16 Oct
+             2026; ruled app-side). A composed plan's id is `{parti}-{briefId}`, so the same parti
+             from a second compose is a different house with the same id, and the verdict of the
+             first sat beside it until the next solve replaced it. The evaluation of the candidate
+             just opened is waited for, the brief is composed AGAIN, the same candidate is opened
+             from the new job, and the Plan step -- read a moment after it lands -- must say it has
+             not been evaluated, not show the earlier house's counts. Then the new house's own
+             evaluation must land and be believed, which is what an over-strict key would break. */
+          await page.evaluate(() => { location.hash = '#/workbench'; });
+          await page.waitForSelector('[data-step-words="plan"]', { timeout: 30000 }).catch(() => {});
+          const planStep = async () => page.evaluate(() => {
+            const e = document.querySelector('[data-step-words="plan"]');
+            return e ? { state: e.getAttribute('data-state'), text: e.textContent.trim() } : null;
+          });
+          const judgedNow = () => ['evaluated', 'refused'].includes(document.querySelector('[data-step-words="plan"]')?.getAttribute('data-state'));
+          await page.waitForFunction(judgedNow, null, { timeout: 150000 }).catch(() => {});
+          const firstVerdict = await planStep();
+          if (!firstVerdict || !['evaluated', 'refused'].includes(firstVerdict.state)) {
+            unjudged.push('a later compose is not read as already evaluated -- the first candidate\'s own evaluation did not land in 150 s');
+          } else {
+            await visit(formatHash('brief', { style: sid, parti: target.id }, {}));
+            await page.locator('main div:has(> span:text-is("candidates")) > input').first().fill('1').catch(() => {});
+            const route2 = '**/api/compose';
+            await page.route(route2, async (r) => {
+              let body = {};
+              try { body = JSON.parse(r.request().postData() || '{}'); } catch { body = {}; }
+              await r.continue({ postData: JSON.stringify({ ...body, revise: false }),
+                headers: { ...r.request().headers(), 'content-type': 'application/json' } });
+            });
+            const accepted2 = page.waitForResponse((r) => r.url().endsWith('/api/compose') && r.request().method() === 'POST',
+              { timeout: 30000 }).catch(() => null);
+            await page.locator('main button[data-compose]').click().catch(() => {});
+            const resp2 = await accepted2;
+            await page.unroute(route2);
+            const jobB = resp2 && resp2.ok() ? (await resp2.json().catch(() => ({}))).job_id : null;
+            if (!jobB || jobB === jobId) {
+              unjudged.push(`a later compose is not read as already evaluated -- the second compose was not accepted as a new job (${jobB})`);
+            } else {
+              await page.waitForSelector(`main [data-candidate="${target.id}"]`, { timeout: 240000 }).catch(() => {});
+              const jobBody = await fetch(`${BASE}/api/jobs/${jobB}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+              const nB = ((jobBody && jobBody.result && jobBody.result.candidates) || []).findIndex((c) => c.parti === target.id);
+              await page.evaluate((k) => { location.hash = `#/candidates/${k}`; }, nB);
+              await page.waitForSelector('button[data-selection-action]', { timeout: 20000 }).catch(() => {});
+              await page.locator('button[data-selection-action]').click().catch(() => {});
+              await page.waitForFunction(() => location.hash.startsWith('#/workbench'), null, { timeout: 30000 }).catch(() => {});
+              await page.waitForSelector('[data-step-words="plan"]', { timeout: 10000 }).catch(() => {});
+              await page.waitForTimeout(150);
+              const early = await planStep();
+              const sameId = await page.evaluate(() => {
+                try { return JSON.parse(localStorage.getItem('tdl-workbench-plan') || '{}').id || null; } catch { return null; }
+              });
+              check(`the same parti from a LATER compose is not read as evaluated (same plan id ${sameId}; the Plan step reads "${early && early.state}")`,
+                !!early && early.state === 'unevaluated');
+              await page.waitForFunction(judgedNow, null, { timeout: 150000 }).catch(() => {});
+              const second = await planStep();
+              check(`and its own evaluation then lands and is believed ("${second && second.state}")`,
+                !!second && ['evaluated', 'refused'].includes(second.state));
+              // the front door says where the house on hand came from, in the journey's words
+              await visit('#/');
+              await page.waitForSelector('[data-front-door]', { timeout: 30000 }).catch(() => {});
+              const origin = await page.evaluate(() => {
+                const o = document.querySelector('[data-resume-origin]');
+                return o ? o.textContent.replace(/\s+/g, ' ').trim() : null;
+              });
+              check(`the front door says where the house on hand came from ("${origin}")`,
+                !!origin && origin.includes(JOURNEY_WORDS.origin.candidate(nB)));
+            }
+          }
         }
         await page.unroute(matchJob).catch(() => {});
         await page.evaluate((b) => {

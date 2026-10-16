@@ -46,7 +46,7 @@ import { planDoc } from '../state/planDoc.js';
 import { session } from '../state/session.js';
 import { prefs } from '../state/prefs.js';
 import { navModel, inHandFrom } from '../nav/navModel.js';
-import { journeyState } from '../journey/journey.js';
+import { journeyState, JOURNEY_WORDS } from '../journey/journey.js';
 import {
   aboutView, guidedView, rankRows, total, entranceItems, resumeView,
 } from '../frontdoor/frontDoor.js';
@@ -197,6 +197,11 @@ export function Overview({ onSearch, lastEval }) {
                   <span style={{ marginRight: 8 }}>
                     <Term id="on-the-bench" />
                     <span style={{ marginLeft: 7 }}>{plan.name || plan.id}</span>
+                    {resume.origin && (
+                      <span data-resume-origin="" style={{ ...note, marginLeft: 7 }}>
+                        {JOURNEY_WORDS.separator}{resume.origin}
+                      </span>
+                    )}
                   </span>
                 )}
                 <a href={resume.href}>

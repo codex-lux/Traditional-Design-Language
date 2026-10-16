@@ -939,7 +939,10 @@ else brief when `stated`; else `null`. The front door's "Continue: <plan name>, 
 ### G.1 `session` additions (`state/session.js`, WP-14.10)
 
 The `'tdl-workbench-session'` key (`session.js:6`) is unchanged; the persisted object becomes
-`{ brief, jobId, planFrom, jobError }`.
+`{ brief, jobId, planFrom, jobError }`. *(Amended 16 Oct 2026: it is `{ brief, jobId, planFrom, jobError,
+jobBrief }` now. `jobBrief` is `{id, name}` of the brief the current job was accepted with, written by
+`composeStart` and read by `briefNameOf`, so a candidate's brief name is the job's and not the draft's,
+which moves on. An entry without it reads as no name, not as the draft's.)*
 
 ```js
 planFrom: null | { kind: 'candidate' | 'example' | 'traced', planId: string,

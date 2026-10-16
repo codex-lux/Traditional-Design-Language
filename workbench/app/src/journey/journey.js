@@ -16,7 +16,8 @@
 
    AN EVALUATION COUNTS ONLY FOR THE PLAN IT WAS OF. `lastEval` is the shell's, and it outlives a
    plan change; a verdict about the house before is not a verdict about this one, so it is read
-   only where `evalPlanOf(lastEval) === plan.id`. Otherwise the plan is UNEVALUATED — never
+   only where `evalIsOf(lastEval, plan.id, planFrom)` (the plan's id AND where it came from,
+   16 Oct 2026: two composes of one parti share an id). Otherwise the plan is UNEVALUATED — never
    "0 fatal", which would be a pass nobody measured. `evalPlanOf` is the ONE reader of which plan
    an evaluation was of (WP-14.20): the evaluate route states it at the top of its response, before
    the early return a check that ERRORED takes — `plan_check` writes the id only on a completed
@@ -106,7 +107,7 @@ export const JOURNEY_WORDS = Object.freeze({
     opening: 'opening…',
     gone: 'could not open · the server no longer keeps this compose',
     failed: (why) => `could not open it${why ? `: ${why}` : ''}`,
-    tallyUnjudged: (k) => `${k} not judged for drawing`,
+    tallyUnjudged: (k, of) => (Number.isInteger(of) && of >= k ? `${k} of ${of} not judged for drawing` : `${k} not judged for drawing`),
   }),
   separator: ' · ',
   next: 'next',   // the bar's link on to the following step (WP-14.10)
@@ -115,7 +116,11 @@ export const JOURNEY_WORDS = Object.freeze({
     candidates: 'open a candidate on the bench',
     // the pick is the reader's and the bench holds another: Next goes to the plan on the bench
     picked: 'open the candidate you picked on the bench',
-    pickedRefused: 'the candidate you picked is refused, so it cannot be drawn',
+    // no longer than `picked` above: the bar's Next is one unbroken run that jumps to a row of its
+    // own when it does not fit beside the steps, and the longer words did exactly that at 1680 px
+    // with a plan on the bench -- the page moved 21 px under the pointer on every pick that changed
+    // between a refused column and an open one (measured, 16 Oct 2026)
+    pickedRefused: 'this pick is refused and cannot be drawn',
     allRefused: 'every candidate is refused, so none can be drawn',
     empty: 'no candidate was returned',
   }),
@@ -140,12 +145,50 @@ const str = (v) => (typeof v === 'string' && v.trim() ? v.trim() : null);
 const isObj = (v) => Boolean(v) && typeof v === 'object' && !Array.isArray(v);
 const count = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 
-/* Which plan an evaluation was of: the route's own statement first, then the check's. Every site
-   that matches an evaluation to a plan reads this and nothing else (`App.jsx`'s stale-evaluation
-   clear, and `journeyState` below), so the two cannot come to disagree about one evaluation. */
+/* Which plan an evaluation was of: the route's own statement first, then the check's. It answers
+   only the id half; `evalIsOf` below is the matcher every site asks, and it reads this. */
 export function evalPlanOf(lastEval) {
   if (!isObj(lastEval)) return null;
   return str(lastEval.plan) ?? (isObj(lastEval.check) ? str(lastEval.check.plan) : null);
+}
+
+/* WHERE AN EVALUATION'S PLAN CAME FROM, as a key (audit follow-up, 16 Oct 2026; ruled app-side by
+   Lucas). A composed plan's id is `{parti}-{briefId}`, so the same parti opened from a later
+   compose, or from another candidate slot, is a different house with the same id; an evaluation
+   matched to a plan by id alone survived that swap and sat beside the new record (up to one solve,
+   about 25 s) with the old house's counts. An evaluation is therefore of a plan AND where that
+   plan came from, and the origin it names is the one the bench held when the request was sent --
+   not when the answer landed, which can be after the reader has opened something else.
+
+   The key is `planFrom` as `originOf` reads it (trusted only where it names this plan): the kind,
+   the job and the slot for a candidate; the kind alone for an example or a tracing; `''` where no
+   origin is recorded. An evaluation that carries no stamp is of `''`, so it is never taken for
+   the evaluation of a plan whose origin is recorded. The id is unchanged: ids are stable by rule
+   and cited in files, and nothing here edits one. */
+export function originKeyOf(planId, planFrom) {
+  const pf = isObj(planFrom) ? planFrom : null;
+  if (!pf || !str(planId) || pf.planId !== planId || !str(pf.kind)) return '';
+  const n = Number.isInteger(pf.n) && pf.n >= 0 ? pf.n : '';
+  return [pf.kind, str(pf.jobId) ?? '', n].join('|');
+}
+
+/* The origin key an evaluation was stamped with (`stampEval`), `''` for none. */
+export function evalOriginOf(lastEval) {
+  return isObj(lastEval) && typeof lastEval.evaluated_from === 'string' ? lastEval.evaluated_from : '';
+}
+
+/* An evaluation response, marked with the plan and origin it was REQUESTED for. The one writer. */
+export function stampEval(res, planId, planFrom) {
+  if (!isObj(res)) return res;
+  return { ...res, evaluated_from: originKeyOf(planId, planFrom) };
+}
+
+/* Is this evaluation of this plan, from where it now came? The one reader of "does an evaluation
+   belong to the plan on the bench": the stale-evaluation clear in `App.jsx`, the journey below
+   and the assistant's context all ask this and nothing else, so they cannot disagree. */
+export function evalIsOf(lastEval, planId, planFrom) {
+  return Boolean(str(planId)) && evalPlanOf(lastEval) === planId
+    && evalOriginOf(lastEval) === originKeyOf(planId, planFrom);
 }
 
 /* The step a surface belongs to, or null — `transcription` joins at the plan. */
@@ -262,7 +305,7 @@ export function journeyState({ session, plan, lastEval, picked = null } = {}) {
   const hasPlan = isObj(plan);
   const planId = hasPlan ? str(plan.id) : null;
   // the evaluation of THIS plan, or nothing
-  const ev = planId && isObj(lastEval) && isObj(lastEval.check) && evalPlanOf(lastEval) === planId
+  const ev = planId && isObj(lastEval) && isObj(lastEval.check) && evalIsOf(lastEval, planId, s.planFrom)
     ? lastEval : null;
   const refusal = ev ? (evaluateRefusal(ev) || placementRefusal(ev.placement)) : null;
   const sketch = ev ? sketchOf(ev.placement) : null;

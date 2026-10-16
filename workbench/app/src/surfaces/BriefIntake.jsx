@@ -246,7 +246,7 @@ export function BriefIntake({ go }) {
          progress, a recorded failure -- and the new job named (PRD §G.1). Written AFTER the
          server accepts rather than before, so a brief the schema refuses leaves the candidates
          the last brief produced standing, which is what they still are. */
-      session.set(composeStart(job_id));
+      session.set(composeStart(job_id, brief));
       if (unsubRef.current) unsubRef.current();   // a superseded compose drops its stream
       // The one handler set (journey/sessionWrites.js): the session is told every event, a
       // failure included; what follows each is this form's own spinner and nothing more. No

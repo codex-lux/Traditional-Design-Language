@@ -18,7 +18,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import {
   JOURNEY, ALTERNATE, JOURNEY_WORDS, JOURNEY_TERMS, journeyState, stepOfSurface, countsOf,
-  evalPlanOf, pickedCandidate,
+  evalPlanOf, pickedCandidate, stampEval,
 } from './journey/journey.js';
 import { barView } from './journey/bar.js';
 import { SURFACE_PATHS, parseHash } from './router.js';
@@ -31,6 +31,9 @@ const PLAN = { id: 'p-1', style: 'tidewater-georgian', levels: [] };
 const check = (over = {}) => ({ plan: PLAN.id, counts: { fatal: 2, serious: 5, minor: 9 },
   constraint_summary: { present: 1, clear: 3, unjudged: 4 }, ...over });
 const EVALUATED = { check: check(), placement: { geometry_report: { refused: null } } };
+/* An evaluation as the bench files it: stamped with the plan's origin at the time of the request
+   (`stampEval`). One whose plan came from somewhere is of that place alone. */
+const evalFrom = (planFrom, ev = EVALUATED) => stampEval(ev, PLAN.id, planFrom);
 const REFUSAL = {
   kind: 'type-fact-downgraded', facts: ['stacks'],
   conflicts: [{ kind: 'stack', key: ['primary', 'drawing'], why: 'released' }],
@@ -300,8 +303,8 @@ test('every site that matches an evaluation to a plan reads evalPlanOf, and none
     .map((u) => u.pathname.slice(SRC.pathname.length));
   assert.deepEqual(offenders, [], 'these read an evaluation\'s plan off its check by hand');
   assert.ok(files.length > 50, 'the walk reached the app\'s sources');
-  assert.match(readFileSync(new URL('App.jsx', SRC), 'utf8'), /evalPlanOf\(ev\) === planId/,
-    'App.jsx\'s stale-evaluation clear reads evalPlanOf');
+  assert.match(readFileSync(new URL('App.jsx', SRC), 'utf8'), /evalIsOf\(ev, planId, planFrom\)/,
+    'App.jsx\'s stale-evaluation clear reads evalIsOf (built on evalPlanOf)');
 });
 
 test('no plan: drawings and export need one, and the candidates step offers the way', () => {
@@ -386,12 +389,13 @@ test('a plan on the bench carries the candidates step on only where it came from
   assert.equal(at({ kind: 'candidate', planId: PLAN.id, jobId: 'j2', n: 1 }, null).canProceed, false);
   /* and it moves nothing else. The plan, drawings and export are judged on the plan and its
      evaluation, as before: a refused example stays refused, a clean one stays ready. */
-  const st = journeyState({ session: { brief: BRIEF, jobId: 'j2', result,
-    planFrom: { kind: 'example', planId: PLAN.id } }, plan: PLAN, lastEval: EVALUATED });
+  const exFrom = { kind: 'example', planId: PLAN.id };
+  const st = journeyState({ session: { brief: BRIEF, jobId: 'j2', result, planFrom: exFrom },
+    plan: PLAN, lastEval: evalFrom(exFrom) });
   assert.deepEqual(st.steps.map((x) => x.state), ['stated', 'ready', 'evaluated', 'ready', 'ready']);
   assert.deepEqual(st.steps.slice(2).map((x) => x.canProceed), [true, true, false]);
-  const refused = journeyState({ session: { brief: BRIEF, jobId: 'j2', result,
-    planFrom: { kind: 'example', planId: PLAN.id } }, plan: PLAN, lastEval: { check: check(), placement_refused: REFUSAL } });
+  const refused = journeyState({ session: { brief: BRIEF, jobId: 'j2', result, planFrom: exFrom },
+    plan: PLAN, lastEval: evalFrom(exFrom, { check: check(), placement_refused: REFUSAL }) });
   assert.deepEqual(refused.steps.slice(2).map((x) => x.state), ['refused', 'refused', 'refused']);
 });
 
@@ -423,7 +427,8 @@ test('a plan opened from THIS compose leaves the step whatever its evaluation sa
   const unevaluated = journeyState({ session, plan: PLAN, lastEval: null });
   assert.equal(step(unevaluated, 'candidates').canProceed, true);
   assert.equal(step(unevaluated, 'plan').state, 'unevaluated');
-  const refused = journeyState({ session, plan: PLAN, lastEval: { check: check(), placement_refused: REFUSAL } });
+  const refused = journeyState({ session, plan: PLAN,
+    lastEval: evalFrom(session.planFrom, { check: check(), placement_refused: REFUSAL }) });
   assert.equal(step(refused, 'candidates').canProceed, true);
   assert.equal(step(refused, 'plan').state, 'refused');
   assert.equal(step(refused, 'drawings').state, 'refused');
@@ -439,7 +444,7 @@ test('where a candidate is picked, Next goes on only with the candidate that was
   const bench = (n, session = {}) => ({ brief: BRIEF, jobId: 'j2', result,
     planFrom: { kind: 'candidate', planId: PLAN.id, jobId: 'j2', n }, ...session });
   const at = (picked, n = 1, session = {}) => step(journeyState({
-    session: bench(n, session), plan: PLAN, lastEval: EVALUATED, picked }), 'candidates');
+    session: bench(n, session), plan: PLAN, lastEval: evalFrom(bench(n, session).planFrom), picked }), 'candidates');
   // no pick in the address: a reader returning to the set is not held
   assert.equal(at(null).canProceed, true);
   // the pick is what is on the bench
@@ -457,8 +462,17 @@ test('where a candidate is picked, Next goes on only with the candidate that was
   // a pick that names no candidate of the set is no pick the reader could follow: the plain reason
   assert.equal(at(9).reason, JOURNEY_WORDS.reasons.candidates);
   // the Plan, Drawings and Export steps do not read the pick
-  const st = journeyState({ session: bench(1), plan: PLAN, lastEval: EVALUATED, picked: 3 });
+  const st = journeyState({ session: bench(1), plan: PLAN, lastEval: evalFrom(bench(1).planFrom), picked: 3 });
   assert.deepEqual(st.steps.slice(2).map((x) => x.canProceed), [true, true, false]);
+});
+
+test('the two reasons a pick can change between are no longer than one another, so the bar does not reflow', () => {
+  /* The bar's Next is one unbroken run, and a run that does not fit beside the steps jumps to a row
+     of its own. With a plan on the bench at 1680 px the longer words (58 characters against 42) did
+     that: the page moved 21 px under the pointer on each pick that changed between a refused column
+     and an open one. The walk measures the grid; this holds the cause where a unit test can see it. */
+  assert.ok(JOURNEY_WORDS.reasons.pickedRefused.length <= JOURNEY_WORDS.reasons.picked.length,
+    `${JOURNEY_WORDS.reasons.pickedRefused.length} > ${JOURNEY_WORDS.reasons.picked.length}`);
 });
 
 test('a set with nothing to open says so in the step\'s reason, instead of telling a reader to open one', () => {

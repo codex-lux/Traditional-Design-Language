@@ -55,6 +55,34 @@ test('what the type\'s facts have been asked of a candidate: refused, placed, or
   assert.equal(standingOf(served({ refused: REFUSED, revision: null })), 'refused');
 });
 
+/* THE COMPOSER RANKS ON THE SAME READING (ruled 16 Oct 2026: refused ranks last). `compose.py`'s
+   `placement_standing` and this file's `standingOf` are two languages reading one card, so neither
+   can import the other; `tests/fixtures/candidate_standing.json` is the one table both are held to
+   (`tests/test_refusal_ranks_last.py` is the Python half). A strip that called a candidate
+   "placed" while the ranking demoted it as "unjudged" is the screen the ranking was ruled to remove. */
+const FIXTURE = JSON.parse(readFileSync(
+  new URL('../../../tests/fixtures/candidate_standing.json', import.meta.url), 'utf8'));
+
+test('the app reads every candidate in the composer\'s shared table as the composer does', () => {
+  assert.ok(FIXTURE.cases.length >= 9, 'the table is read, not empty');
+  for (const c of FIXTURE.cases) {
+    assert.equal(standingOf(c.card), c.standing, c.name);
+  }
+  // the table covers every standing, and more than one route to unjudged: a table with one
+  // unjudged row cannot tell the three nulls apart
+  const by = {};
+  for (const c of FIXTURE.cases) (by[c.standing] ||= []).push(c.name);
+  assert.deepEqual(Object.keys(by).sort(), ['placed', 'refused', 'unjudged']);
+  assert.ok(by.unjudged.length >= 4);
+});
+
+test('the stop reason the app matches is the revision loop\'s own string', () => {
+  const py = readFileSync(new URL('../../../build/revise.py', import.meta.url), 'utf8');
+  const m = py.match(/^STOP_PLACEMENT_UNJUDGED = "([^"]+)"/m);
+  assert.ok(m, 'revise.py names the constant');
+  assert.equal(PLACEMENT_UNJUDGED, m[1]);
+});
+
 test('a set\'s standing counts each candidate once, and openable is what the type did not turn down', () => {
   const s = standingOfSet([served({ refused: REFUSED }), served(), served({ revision: null }),
     served({ refused: { kind: 'infeasible', facts: ['bearing'] } }), served({ refused: { kind: 'nonsense' } })]);
@@ -152,14 +180,50 @@ test('the two measures are independent in BOTH directions: a fatal finding is no
 test('the tally says how many of a set were refused and how many were never judged, and is silent at zero', () => {
   const set = [served({ refused: REFUSED }), served(), served({ refused: { ...REFUSED, kind: 'infeasible' } }),
     served({ revision: null }), served({ refused: { kind: 'nonsense' } })].map((c, i) => card(c, i));
-  assert.deepEqual(tallyView(setStanding(set)), { refused: 2, unjudged: 2 });
-  assert.deepEqual(tallyView(setStanding([])), { refused: 0, unjudged: 0 });
-  assert.deepEqual(tallyView(setStanding(null)), { refused: 0, unjudged: 0 });
-  assert.deepEqual(tallyView(setStanding([card(served())])), { refused: 0, unjudged: 0 }, 'a clean set carries no tally');
-  assert.deepEqual(tallyView(null), { refused: 0, unjudged: 0 });
+  // "of N" is the columns shown -- the population the two counts are over, which the set's
+  // "returned X of Y asked for" is not (it leaves out the diagram the brief named, appended after)
+  assert.deepEqual(tallyView(setStanding(set)), { refused: 2, unjudged: 2, of: 5 });
+  assert.deepEqual(tallyView(setStanding([])), { refused: 0, unjudged: 0, of: 0 });
+  assert.deepEqual(tallyView(setStanding(null)), { refused: 0, unjudged: 0, of: 0 });
+  assert.deepEqual(tallyView(setStanding([card(served())])), { refused: 0, unjudged: 0, of: 1 }, 'a clean set carries no tally');
+  assert.deepEqual(tallyView(null), { refused: 0, unjudged: 0, of: 0 });
   assert.equal(tallyView(setStanding(Array.from({ length: 4 }, (_, i) => card(served({ refused: REFUSED }), i)))).refused, 4,
     'every candidate refused is a set in which nothing may be drawn, and the count says so');
   assert.equal(JOURNEY_WORDS.selection.tallyUnjudged(3), '3 not judged for drawing');
+  assert.equal(JOURNEY_WORDS.selection.tallyUnjudged(3, 5), '3 of 5 not judged for drawing');
+  // a denominator that cannot be a population of that count is not printed
+  for (const bad of [2, 'five', null, undefined, 3.5]) {
+    assert.equal(JOURNEY_WORDS.selection.tallyUnjudged(3, bad), '3 not judged for drawing', String(bad));
+  }
+});
+
+test('a column is selected from the keyboard by a real button, and the pick is announced', () => {
+  /* The click sat on the <section>, which no key reaches, so the strip's "select a candidate" could
+     not be followed without a mouse. The title is a button in the tab order that says whether it is
+     the one picked, and the strip is a polite live region (audit follow-up, 16 Oct 2026). Held as
+     joins: the decision of what a pick does is `selectionAction`, above. */
+  const col = readFileSync(new URL('./components/CandidateColumn.jsx', import.meta.url), 'utf8');
+  assert.match(col, /"data-candidate-select": c\.n/);
+  assert.match(col, /"aria-pressed": selected \? "true" : "false"/);
+  assert.match(col, /type: "button"/);
+  assert.match(col, /e\.stopPropagation\(\);\s*onSelect\(c\);/, 'a click on the button selects once');
+  assert.match(col, /\}, c\.parti_name\) : c\.parti_name\)\)/, 'a column with no handler stays plain text');
+  const set = readFileSync(new URL('./surfaces/CandidateSet.jsx', import.meta.url), 'utf8');
+  assert.match(set, /<span role="status" aria-live="polite" data-selection-live="">/);
+  assert.match(set, /\{tally\.refused\} of \{tally\.of\} <Term id="judgment-refused" \/>/);
+  assert.match(set, /tallyUnjudged\(tally\.unjudged, tally\.of\)/);
+  // the act has a row of its own beneath the strip's other items, with a floor of two lines: the
+  // grid moved 27 px (at 1100) and 47 px (at 1680) between a refused pick and an open one
+  assert.match(set, /\} below=\{/, 'the row is the strip\'s own `below`, after `right` in the document too');
+  assert.match(set, /data-selection-row="" style=\{\{ flex: '1 1 100%', minHeight: '2lh'/);
+  const chrome = readFileSync(new URL('./Chrome.jsx', import.meta.url), 'utf8');
+  assert.match(chrome, /export function FilterStrip\(\{ children, right, filters, wrap, below \}\)/);
+  assert.match(chrome, /\{right\}[\s\S]*\{wrap && below\}/, '`below` follows `right`');
+  // the error stays its own alert, outside the polite region (two live regions would say it twice)
+  const live = set.indexOf('data-selection-live');
+  const err = set.indexOf('role="alert" data-selection-error');
+  const liveEnd = set.indexOf('</span>', set.indexOf('{view.words}', live) + 1);
+  assert.ok(live !== -1 && err > liveEnd, 'the error is after the region closes');
 });
 
 test('the surface renders these decisions and decides none of its own', () => {

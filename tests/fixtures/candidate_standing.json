@@ -1,0 +1,33 @@
+{
+  "_what": "One table of composed-candidate cards and what each one's placement is, read by the composer (`compose.placement_standing`, which `compose.rank_key` ranks on) and by the workbench (`candidateStanding.js::standingOf`, which the Candidate Set's strip and Next read). `refused` is null on a card for three different reasons and only one of them is a pass, and the two readers are in two languages, so neither can import the other; this file is what keeps them one reading. A case is a card as the server serves it, trimmed to the fields either reader looks at. The stop_reason string is `revise.STOP_PLACEMENT_UNJUDGED` and a test in each language holds its own copy to it.",
+  "_not_here": "A `refused` body the APP cannot read (an unknown `kind`, a string) is the app's own fourth case and is tested in the app alone: the server is the writer of every kind it mints, so it has no way to have that case.",
+  "cases": [
+    {"name": "a placed loop that refused the placement, infeasible",
+     "card": {"refused": {"kind": "infeasible", "facts": ["bearing"], "conflicts": [], "lines": ["the declared facts cannot all hold"]}, "revision": {"stop_reason": "converged"}},
+     "standing": "refused"},
+    {"name": "a placed loop that refused the placement, a type fact downgraded",
+     "card": {"refused": {"kind": "type-fact-downgraded", "facts": ["stacks", "tiling"], "conflicts": [], "lines": ["a declared stack is drawn clear of the room it names"]}, "revision": {"stop_reason": "round-cap"}},
+     "standing": "refused"},
+    {"name": "a refusal is read whether or not the loop's report came with it",
+     "card": {"refused": {"kind": "type-fact-downgraded", "facts": ["stacks"], "conflicts": [], "lines": []}, "revision": null},
+     "standing": "refused"},
+    {"name": "the placed loop ran, returned a placement, and did not refuse it",
+     "card": {"refused": null, "revision": {"stop_reason": "converged"}},
+     "standing": "placed"},
+    {"name": "the placed loop stopped on its budget and still returned a placement",
+     "card": {"refused": null, "revision": {"stop_reason": "budget"}},
+     "standing": "placed"},
+    {"name": "a compose that ran without the loop",
+     "card": {"refused": null, "revision": null},
+     "standing": "unjudged"},
+    {"name": "a candidate the set's revise budget never reached",
+     "card": {"refused": null, "revision": null, "revision_skipped": "the set's revise budget was spent on the candidates ranked above"},
+     "standing": "unjudged"},
+    {"name": "the declared first pass carries neither field",
+     "card": {},
+     "standing": "unjudged"},
+    {"name": "a loop whose first placement could not be evaluated judged nothing",
+     "card": {"refused": null, "revision": {"stop_reason": "placement-could-not-be-evaluated"}},
+     "standing": "unjudged"}
+  ]
+}

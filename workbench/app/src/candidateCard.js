@@ -79,6 +79,8 @@ export function tallyView(standing) {
   return {
     refused: standing && standing.refused > 0 ? standing.refused : 0,
     unjudged: standing && standing.unjudged > 0 ? standing.unjudged : 0,
+    // the population both counts are over: the columns shown, the named diagram included
+    of: standing && standing.total > 0 ? standing.total : 0,
   };
 }
 

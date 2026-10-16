@@ -279,6 +279,36 @@ def _candidate_block(ctx):
     return "\n".join([head] + kept + tail)
 
 
+# A refusal rides in the context as `last_eval.refused = {kind, facts}` (the workbench's
+# `railContext.lastEvalSummary`). The context is the client's, and its text goes into a prompt, so
+# nothing is passed through: the kind must be one `typefacts.refusal` mints and each fact is a short
+# lower-case word of the type's own vocabulary (stacks, bearing, tiling, hearth ...), or it is
+# dropped. A body that names no kind we know says nothing -- it is not read as "refused".
+_REFUSAL_KINDS = ("infeasible", "type-fact-downgraded")
+_FACT_RE = re.compile(r"^[a-z][a-z -]{0,39}$")
+_MAX_REFUSAL_FACTS = 8
+
+
+def _refusal_line(ev):
+    """The sentence that keeps `fatal 0` from being read as `may be drawn` (ruled 16 Oct 2026).
+
+    "0 fatal" counts FINDINGS and a refusal is a fact of the type (WP-13.4): a placement can have
+    no fatal finding and still be one the type's own hard facts forbid drawing, which is the screen
+    a reader met on the Candidate Set and the assistant, told only the counts, described as
+    healthy. Written only where the client states a refusal this server can read, so every other
+    prompt is byte for byte what it was."""
+    r = ev.get("refused") if isinstance(ev, dict) else None
+    if not isinstance(r, dict) or r.get("kind") not in _REFUSAL_KINDS:
+        return None
+    raw = r.get("facts")
+    facts = [f for f in (raw if isinstance(raw, list) else [])
+             if isinstance(f, str) and _FACT_RE.match(f)][:_MAX_REFUSAL_FACTS]
+    what = (f"{r['kind']}: {', '.join(facts)}" if facts else r["kind"])
+    return (f"This placement is REFUSED ({what}): the type's own hard facts do not hold, so it cannot "
+            f"be drawn or exported. The counts above are findings and measure something else: "
+            f"\"fatal 0\" there does not mean the plan may be drawn.")
+
+
 def _context_block(ctx):
     if not isinstance(ctx, dict) or not ctx:
         return ""
@@ -294,7 +324,11 @@ def _context_block(ctx):
     if ctx.get("last_eval"):
         ev = ctx["last_eval"]
         keep = {k: ev.get(k) for k in ("counts", "constraint_summary", "fault_summary") if isinstance(ev, dict)}
-        parts.append("Latest validator summary:\n" + json.dumps(keep))
+        summary = "Latest validator summary:\n" + json.dumps(keep)
+        refusal = _refusal_line(ev)
+        if refusal:
+            summary += "\n" + refusal
+        parts.append(summary)
     block = _candidate_block(ctx)
     if block:
         parts.append(block)

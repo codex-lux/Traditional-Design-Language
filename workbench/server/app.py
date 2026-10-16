@@ -807,12 +807,21 @@ def job_events(job_id: str):
 def job_candidate_plan(job_id: str, n: int):
     """The candidate's whole record, raw.
 
-    WP-13.4: it is NOT refused here and that is deliberate. This route hands back a record
-    rather than a drawing, and a refused record is exactly what a reader diagnosing a refusal
-    needs to open -- the conflict set is ABOUT this placement. What the client needs is to know
-    before it draws, and the candidate carries `refused` from `compose.py` for that (and every
-    drawing route re-judges the record anyway, at `corpus._placed`'s short circuit, so a client
-    that posts this back cannot get a sheet out of it)."""
+    WP-13.4: it is NOT refused here and that is deliberate, and what it is for is a client that
+    already knows what it will do with a refused record -- a tool, a diagnostic, a script. This
+    route hands back a record rather than a drawing, the candidate carries `refused` from
+    `compose.py` so a client can see the verdict before it asks, and every drawing route
+    re-judges the record anyway, at `corpus._placed`'s short circuit, so a client that posts it
+    back cannot get a sheet out of it.
+
+    THE CANDIDATE SET DOES NOT ASK FOR A REFUSED CANDIDATE'S RECORD (ruled by Lucas, 16 Oct
+    2026, `oq/a-refused-candidates-record-is-served-for-diagnosis-and-the-candidate-set-will-not-load-it`).
+    This docstring used to say a refused record is "exactly what a reader diagnosing a refusal
+    needs to open", and the surface said the opposite in the same package's words. The surface
+    wins: the conflict set is drawn on the Candidate Set from the candidate's own `refused`, so a
+    reader can read WHY without the record, and the bench never holds a record it may not
+    draw. Whether a refusal needs more than that is a question for the day a reader finds it
+    does, not a route that is built and unused."""
     plan = jobs.candidate_plan(job_id, n)
     if plan is None:
         raise HTTPException(status_code=404, detail={"error": "unknown job or candidate"})
