@@ -79,10 +79,44 @@ jobs:
       # declines to treat as a failure — so this job would have gone green with the gazetteer
       # ratchet and 74 frontend checks never run. That is the same shape as the walk that
       # "ran nowhere while CLAUDE.md described it as a guard", noted twenty lines below.
-      # No npm install: neither checker needs a package, only the runtime.
+      # Neither of those two needs a package, only the runtime; the app is built in the step
+      # below for the third reader of it (check_frontend's bundle half), and its packages are
+      # removed again before any check runs.
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      # `check_frontend.py` judges the BUILT bundle (the three.js chunk kept out of the entry, the
+      # entry under its ceiling, the glossary fetched and not bundled), and `workbench/app/dist/`
+      # is gitignored, so a bare checkout has none and the checker reports COULD NOT EVALUATE. The
+      # allowlist below refuses that for this job, which is right, and it made whichever shard
+      # holds the unit red on every run (shard 1 on 16 Oct 2026; it was red on `main` too).
+      #
+      # ONE SHARD HOLDS THAT UNIT AND WHICH ONE IS THE COST TABLE'S TO SAY, so each shard asks
+      # `check_all.py --list-units` rather than the workflow naming a number: a rebalance moves
+      # the checker and the build moves with it, and no other shard pays for an npm install to
+      # judge a 0.11 s check. (That listing prints every shard's section; awk reads this one's.)
+      - name: Does this shard hold check_frontend?
+        id: frontend
+        run: |
+          if python3 build/check_all.py --list-units --shard "${{ matrix.shard }}/6" \
+            | awk -v s="${{ matrix.shard }}/6" '/^--- shard /{on=($3==s)} on' \
+            | grep -qE '^[[:space:]]+[0-9.]+s[[:space:]]+check[[:space:]]+check_frontend\.py'; then
+            echo "holds=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "holds=false" >> "$GITHUB_OUTPUT"
+          fi
+      # THE APP IS BUILT AND `node_modules` IS REMOVED BEFORE check_all RUNS, on purpose.
+      # `check_all.py` runs `node --test workbench/app` with no npm install, deliberately: a test
+      # that imports a package is a green local run and a red one wherever node_modules is
+      # absent, and leaving the packages on disk would mask exactly that. The bundle is all the
+      # checker needs.
+      - name: Build the app, then leave no node_modules behind
+        if: steps.frontend.outputs.holds == 'true'
+        run: |
+          npm ci
+          npm run build
+          rm -rf node_modules
+        working-directory: workbench/app
       - name: Install
         # The corpus itself has no dependencies; these are the checkers' own.
         #

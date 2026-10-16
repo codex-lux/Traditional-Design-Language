@@ -394,3 +394,68 @@ blocked deployment** (row 1); the rest were worth fixing or minor.
 - That the browser walk does not drive row 8's late answer. The decision is a pure function and the
   join is pinned in source in order; the walk drives the nearest observable (the bench's caption
   carries no engine verdict for a house that has not been evaluated).
+
+## X. The CI run of PR #42, and what could and could not be fixed (16 Oct 2026)
+
+Lucas asked for the failing CI to be resolved. Run 159 (`20b7971`) was red in five places: corpus
+shards 1, 3, 4 and 5, and the workbench job. Every red was attributed by test id before anything was
+touched, against the control and against a whole `check_all` of the same commit in a clean worktree
+(20 failed / 3,847 passed / 132 skipped; the server suite 448 passed / 19 skipped; the app suite green).
+
+| red | what it is | this branch's? | outcome |
+|---|---|---|---|
+| shard 5, 19 tests | 18 `tests/test_sheet_coherence.py` gate rows and `tests/test_solver.py::test_check_plans_solve_with_stated_downgrades` | no: the Phase 13 gate, red by design, and the half bound CLAUDE.md records as not loosened | **not fixed, and cannot honestly be**: green means solving Phase 13 or weakening a test |
+| shard 3, 1 test; shard 4, `check_partis.py` | `test_parti_composability` and `check_partis.py` are one finding: `side-hall-townhouse` against `adam-style`, "The Front With No Centre: 1 against between 3 and 7" | no | **not fixed**: every available repair is a licence keyed on the style for a property of the parti (`oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts`) |
+| shard 1, `check_frontend.py` COULD NOT EVALUATE | `dist/` is gitignored and a bare checkout has no bundle; the job's allowlist refuses an unjudged checker | no (red on `main` too) | **fixed**: the shard that holds the unit builds the app first |
+| workbench, three ⑩ plate-label checks | the plate's text rows overlap by their line boxes wherever EB Garamond loads | no (red on `main` too) | **fixed** |
+| workbench, atlas ring count 29 | a band struck on one pane's shape | no | **fixed to the property**; why CI's pane differs is open |
+
+### The ⑩ checks
+
+The walk reads each text's `getBBox`, which is the face's line box. EB Garamond's is 1.325 em: 13.91
+px for a 10.5 px line. The plate set every row 13 px apart (`LINE_PX = 13`), so each numeral stack,
+letter label and the zone string overlapped its neighbour by 0.7 to 1.1 px: 41 pairs on the
+trim-classical plate, which is what CI read. The page asks Google for its faces, and a container with
+no route to Google falls back to a serif with a 12 px box, where the rows fit. **That is why the
+walk was green here and red in CI**, and it was found only by answering those requests with the
+`@fontsource` files and reading what came back. The ink did not collide (the screenshot reads
+cleanly); the defect is the plate's layout against the face's box, which the check holds it to.
+
+The fix is in the layout and not in the check. `LINE_PX` is `ceil(11 x LINE_BOX_EM)` with
+`LINE_BOX_EM` 1.33, the measurement rounded up, and is 15. Nothing else pinned the old number: the
+app suite was 814 of 814 on the change alone. Two guards now hold every row, every neighbouring pair
+and the zone string's two lines to the face's measured box (816 tests); five mutations were run
+(`LINE_PX` back to a literal 13, `LINE_BOX_EM` understated, a two-line row three pixels short, a
+numeral row two short, the inches line pulled in) and all five were red, each asserted to have
+landed. With the faces injected the whole walk reads 724 ok, 0 failed and the same six
+could-not-evaluate lines.
+
+### The atlas ring count
+
+`30 <= rings <= 120` read 29 in CI and 33 on every local walk, with one viewport and one build. The
+viewBox takes the pane's own shape, so the count is a property of the window: the same address gives
+10, 16, 4, 12 and 7 rings at five window sizes, all outside the band. The walk now asserts what the
+band stood for, that the plate draws exactly the rings of the coarse tier whose recorded box meets
+the viewBox the page carries, with the reference being the bundled data and the plain test for two
+boxes meeting and not `visibleRings`. It held at all five sizes, and two cull defects driven through
+a build served from a second directory (the north clause dropped, the east edge shaved) were red at
+all five. **Why CI's pane is not the local one is not established**, the webfonts were tried and do
+not move it, and it is `oq/the-atlas-pane-is-a-different-shape-in-ci-than-in-a-local-walk`.
+
+### check_frontend in the shards
+
+`check_all.py --list-units` prints every shard's assignment, so each shard asks it, with awk reading
+its own section, whether it holds `check_frontend.py`, and only that shard runs `npm ci`,
+`npm run build` and then removes `node_modules`, because `node --test workbench/app` runs with no
+install on purpose. The probe was run for all six shards (shard 1 holds it, the others do not). The
+checker, judged on a fresh bundle, passes: entry 673 KB against its ceiling, three.js and both coast
+tiers kept out of it, 252 glossary definitions in no chunk. **That workflow edit cannot be run
+here**: the YAML parses and the probe was run, and the first real read is the CI run after this
+commit.
+
+### What was not done
+
+- None of the 20 test ids, and not by weakening them. The gate rows, the half bound and the
+  side-hall conviction each have an owner in CLAUDE.md and none is a thing a CI fix may touch.
+- No step of this was a ruling. The one design choice, building the app in the one shard that holds
+  the checker and not in all six, is stated above and is reversible in one block.

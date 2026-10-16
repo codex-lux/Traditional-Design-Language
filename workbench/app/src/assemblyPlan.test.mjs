@@ -13,8 +13,8 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { assemblyLayout, extentOf, TURNED_AXIS } from './plate/assemblyLayout.js';
 import {
-  planFrame, partTicks, planLegend, PAD_TOP, PAD_BOTTOM, LINE_PX, MIN_FONT_PX, MAX_PART_TICKS,
-  zoneString, planThumb, bandTransform,
+  planFrame, partTicks, planLegend, PAD_TOP, PAD_BOTTOM, LINE_PX, LINE_BOX_EM, FONT_PX, NUMERAL_FONT_PX,
+  ZONE_FONT_PX, MIN_FONT_PX, MAX_PART_TICKS, zoneString, planThumb, bandTransform,
 } from './plate/assemblyPlan.js';
 import { feetInches16 } from './fmt.js';
 
@@ -114,6 +114,47 @@ test('no two labels of an item overlap, and every label is inside its frame', ()
       }
     });
   }
+});
+
+/* THE ROWS ARE SET BY THE FACE'S LINE BOX, NOT BY ITS FONT SIZE (CI, 16 Oct 2026). The browser walk
+   reads each text's `getBBox`, which is the face's line box: EB Garamond's measures 13.914 px at
+   10.5 px (1.3252 em) in Chromium, and the plate stood its rows 13 px apart, so on every machine
+   with the face the numerals, the letter labels and the zone string overlapped their neighbours by
+   0.7 to 1.1 px. Nothing here can load a face, so the measured ratio is pinned as a figure with its
+   source, and the property is that every row the plate lays out is at least that tall. */
+const MEASURED_LINE_BOX_EM = 13.914300918579102 / 10.5;
+
+test('a row of lettering is as tall as the face’s line box, so no two rows’ boxes overlap', () => {
+  assert.ok(LINE_BOX_EM >= MEASURED_LINE_BOX_EM, `the plate assumes ${LINE_BOX_EM} em; the face measures ${MEASURED_LINE_BOX_EM.toFixed(4)}`);
+  const biggest = Math.max(FONT_PX, NUMERAL_FONT_PX, ZONE_FONT_PX);
+  assert.ok(LINE_PX >= biggest * MEASURED_LINE_BOX_EM, `a ${LINE_PX} px row cannot hold a ${biggest} px line`);
+  let rows = 0;
+  for (const p of plans(fixture())) {
+    eachItemLabels(p, (it, ls) => {
+      for (const l of ls) {
+        rows += l.lines.length;
+        assert.ok(l.h >= l.lines.length * l.font * MEASURED_LINE_BOX_EM - 1e-6,
+          `${l.member}: ${l.lines.length} line(s) of ${l.font}px in a ${l.h}px row`);
+      }
+      // neighbours: the centres are a whole row apart, and a row is a line box
+      const sorted = [...ls].sort((a, b) => a.y - b.y);
+      for (let i = 1; i < sorted.length; i += 1) {
+        const need = (sorted[i - 1].lines.length * sorted[i - 1].font + sorted[i].lines.length * sorted[i].font)
+          * MEASURED_LINE_BOX_EM / 2;
+        assert.ok(sorted[i].y - sorted[i - 1].y >= need - 1e-6,
+          `${sorted[i - 1].member} and ${sorted[i].member}: boxes ${(need - (sorted[i].y - sorted[i - 1].y)).toFixed(2)}px over`);
+      }
+    });
+  }
+  assert.ok(rows > 20, 'the premise: the fixture sets more than a handful of rows');
+});
+
+test('the zone string and its inches line are a line box apart', () => {
+  const [p] = plans([zonedWall('wall_g')]);
+  const z = p.items[0].zones;
+  assert.ok(z.string && z.inchesLine, 'the premise: the Georgian wall draws both lines');
+  assert.ok(z.inchesLine.y - z.string.y >= z.string.font * MEASURED_LINE_BOX_EM - 1e-6,
+    `${z.inchesLine.y - z.string.y}px between two lines of ${z.string.font}px type`);
 });
 
 test('leaders elbow at one knee per item and keep their order, so none crosses another', () => {

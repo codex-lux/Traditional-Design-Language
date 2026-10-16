@@ -24,6 +24,7 @@ import { indexTerms } from '../src/glossary/lookup.js';
 // The faces and the nativity words, from the modules the surfaces read them from (WP-14.27).
 import { FACES } from '../src/surfaces/drawingFaces.js';
 import { NATIVITY_TERMS } from '../src/candidateOrder.js';
+import { COAST_COARSE } from '../src/data/coastlines.js';
 import { JOURNEY_WORDS } from '../src/journey/journey.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
@@ -3892,7 +3893,7 @@ check('the atlas names the outline it is drawing and how much it can show',
     const vb = svg.getAttribute('viewBox').split(/\s+/).map(Number);
     const g = [...svg.querySelectorAll('g')].find((x) => x.getAttribute('fill') === 'var(--paper-deep)');
     const par = [...svg.querySelectorAll('line')].filter((l) => l.getAttribute('y1') === l.getAttribute('y2'));
-    return { pane: r.width / r.height, box: vb[2] / vb[3], vbW: vb[2],
+    return { pane: r.width / r.height, box: vb[2] / vb[3], vbW: vb[2], vb,
              land: g ? g.children.length : 0,
              gratSpan: par.length ? Math.abs(+par[0].getAttribute('x2') - +par[0].getAttribute('x1')) : 0,
              southern: g ? [...g.children].some((pa) => { const b = pa.getBBox(); return b.y + b.height > 20 && b.width > 20; }) : false };
@@ -3901,13 +3902,28 @@ check('the atlas names the outline it is drawing and how much it can show',
     + `(${m.pane.toFixed(3)} vs ${m.box.toFixed(3)})`, Math.abs(m.pane - m.box) < 0.01);
   check(`the graticule spans the whole plate (${m.gratSpan} of ${m.vbW})`,
     Math.abs(m.gratSpan - m.vbW) < 0.01);
-  /* Bounded on BOTH sides. Too few means the cull is dropping land the plate paints —
-     the regression this block exists for. Too many means the tier choice has swung the
-     other way and a hemisphere view is mounting the 10m outline it fetched earlier, which
-     is 827 rings and one 25,000-point path for a drawing nobody can tell apart at 0.134
-     degrees per pixel. Both were live at some point in this package. */
-  check(`land that the plate paints is drawn, and no more (${m.land} rings at the home view)`,
-    m.land >= 30 && m.land <= 120 && m.southern);
+  /* EXACT, AND AGAINST THE DATA RATHER THAN A RANGE. This was `30 <= rings <= 120`, a band struck
+     on whatever pane shape the first machine had, and the viewBox takes the pane's own shape
+     (above), so the count is a property of the layout: it read 29 in CI and 33 here, with one
+     viewport (1680 x 1000) and the same build, and why the two panes differ in shape is NOT
+     established -- the real webfonts were tried (they do not move it here). The property the band
+     stood for is that the plate draws every ring whose bounding box meets the view and no other:
+     too few is the cull dropping land the plate paints, too many is a hemisphere view mounting
+     the 10m outline it fetched earlier (827 rings, one 25,000-point path). That is stated
+     directly now:
+     the rings of the coarse tier (the home view is wider than 70 degrees, which the caption
+     check above holds to `land-110m.json`) whose recorded box meets the viewBox the page itself
+     carries. The reference is the bundled data and the plain test for two boxes meeting, never
+     `visibleRings`, which is what draws the plate. `want > 0` is the premise: a pane so squat
+     that no ring meets it would pass an equality of zeros. */
+  const [vbx, vby, vbw, vbh] = m.vb;
+  let want = 0;
+  for (let i = 0; i < COAST_COARSE.paths.length; i += 1) {
+    const b = COAST_COARSE.bounds;
+    if (b[i * 4] <= vbx + vbw && b[i * 4 + 2] >= vbx && b[i * 4 + 1] <= vby + vbh && b[i * 4 + 3] >= vby) want += 1;
+  }
+  check(`land that the plate paints is drawn, and no more (${m.land} rings at the home view, ${want} meet it)`,
+    want > 0 && m.land === want && m.southern);
 }
 
 // (3) Full screen: the atlas takes the window, and escape gives the instrument back.
