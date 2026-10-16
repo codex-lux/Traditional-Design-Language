@@ -24,6 +24,8 @@ import { indexTerms } from '../src/glossary/lookup.js';
 // The faces and the nativity words, from the modules the surfaces read them from (WP-14.27).
 import { FACES } from '../src/surfaces/drawingFaces.js';
 import { NATIVITY_TERMS } from '../src/candidateOrder.js';
+import { COAST_COARSE } from '../src/data/coastlines.js';
+import { JOURNEY_WORDS } from '../src/journey/journey.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
 const SHOTS = new URL('./shots/', import.meta.url).pathname;
@@ -2559,6 +2561,366 @@ await shot('brief');
       await page.waitForSelector(`main [data-candidate="${target.id}"]`, { timeout: 60000 }).catch(() => {});
       check('and the picked column is still the chosen one after a reload', await selNow());
 
+      /* THE STRIP SAYS WHAT THE PICK CAN DO (15 Oct 2026). A click selects and loads nothing, so
+         the strip's act is the visible way on to the bench, and it must agree with what the type's
+         facts have been asked of that candidate in the job the server served: a link for a refused
+         candidate offers an act that does nothing, a refusal worn by a drawable one takes the way
+         on away, and a candidate nobody judged must not read as one the bench will draw. The
+         expectation is read off the SERVED job's raw fields and never off the app's own reader of
+         them. The strip must be PRESENT first -- a selector that matches nothing reads the same as
+         a set with nothing refused. This block composes with the loop off (`revise: false`), so
+         every candidate here is one nobody judged; the refused and placed branches are driven
+         against a rewritten job just below, because whether a real compose is refused is not ours
+         to choose. */
+      const servedSet = (job && job.result && job.result.candidates) || [];
+      const served = servedSet[n];
+      const servedStanding = (c) => (c && c.refused ? 'refused'
+        : c && c.revision && typeof c.revision === 'object'
+          && c.revision.stop_reason !== 'placement-could-not-be-evaluated' ? 'open' : 'unjudged');
+      const act = await page.evaluate(() => {
+        const a = document.querySelector('[data-selection-action]');
+        return a ? { state: a.getAttribute('data-selection-action'), tag: a.tagName.toLowerCase() } : null;
+      });
+      const want = servedStanding(served);
+      check(`the strip's act on the picked column agrees with what its job served (want ${want}, read ${act && act.state})`,
+        !!served && !!act && act.state === want && (want === 'refused' ? act.tag !== 'button' : act.tag === 'button'));
+      const tally = await page.evaluate(() => {
+        const num = (sel, attr) => { const t = document.querySelector(sel); return t ? Number(t.getAttribute(attr)) : 0; };
+        return { refused: num('[data-set-refused]', 'data-set-refused'), unjudged: num('[data-set-unjudged]', 'data-set-unjudged') };
+      });
+      const servedTally = {
+        refused: servedSet.filter((c) => servedStanding(c) === 'refused').length,
+        unjudged: servedSet.filter((c) => servedStanding(c) === 'unjudged').length,
+      };
+      check(`the set's tally is the job's own count (served ${JSON.stringify(servedTally)}, read ${JSON.stringify(tally)})`,
+        !!act && tally.refused === servedTally.refused && tally.unjudged === servedTally.unjudged);
+
+      /* THE REFUSED BRANCH, AND THE WAY ON TO THE BENCH, DRIVEN (15 Oct 2026). The job is rewritten
+         on its way to the page so that one candidate is refused by the type's own facts (with no
+         fatal finding on it: the two measures are independent) and the next was placed and not
+         turned down. The walk's real compose cannot be made to refuse, and a check whose branch
+         it never reaches reads green over nothing -- the audit of this change found the refused
+         strip, the tally above zero and the refused column line driven by no check. Then:
+           - a stale EXAMPLE is put on the bench, which is the state that sent a reader to a screen
+             that would not draw their pick, and Next must not lead to it;
+           - the strip says the refused pick cannot be drawn and offers no link;
+           - the placed pick offers a link, the link loads THAT candidate, and only then is Next on;
+           - and Next follows the pick: pick the other candidate and it is held again. */
+      if (servedSet.length >= 2) {
+        const STUB = { kind: 'type-fact-downgraded', facts: ['stacks', 'tiling'], conflicts: [],
+          lines: ['the walk rewrote this job: a declared stack is drawn clear of the room it names'] };
+        const jobPath = `/api/jobs/${jobId}`;
+        const matchJob = (u) => u.pathname === jobPath;
+        // what this block found on the bench and in the address, put back at the end so the blocks
+        // after it meet the bench they always did
+        const before = await page.evaluate(() => ({ plan: localStorage.getItem('tdl-workbench-plan'),
+          session: localStorage.getItem('tdl-workbench-session'), hash: location.hash }));
+        await page.route(matchJob, async (r) => {
+          if (r.request().method() !== 'GET') { await r.continue(); return; }
+          const real = await r.fetch();
+          const body = await real.json();
+          const cs = (body.result && body.result.candidates) || [];
+          cs[0] = { ...cs[0], refused: STUB, revision: null };
+          cs[1] = { ...cs[1], refused: null, revision: { stop_reason: 'converged', summary: { rounds: 0, moves_applied: 0 } } };
+          await r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
+        });
+        const example = await fetch(`${BASE}/api/plans/examples/tidewater-georgian-careful`)
+          .then((r) => (r.ok ? r.json() : null)).catch(() => null);
+        if (!example) {
+          unjudged.push('the refused strip and Next-follows-the-pick -- the example record to leave on the bench was not served');
+        } else {
+          await page.evaluate((plan) => {
+            localStorage.setItem('tdl-workbench-plan', JSON.stringify(plan));
+            const cur = JSON.parse(localStorage.getItem('tdl-workbench-session') || '{}');
+            localStorage.setItem('tdl-workbench-session',
+              JSON.stringify({ ...cur, planFrom: { kind: 'example', planId: plan.id } }));
+          }, example);
+          const read = async () => page.evaluate(() => {
+            const a = document.querySelector('[data-selection-action]');
+            const next = document.querySelector('[data-next]');
+            const num = (sel, attr) => { const t = document.querySelector(sel); return t ? Number(t.getAttribute(attr)) : 0; };
+            return {
+              act: a ? { state: a.getAttribute('data-selection-action'), tag: a.tagName.toLowerCase(),
+                text: a.textContent.trim(), disabled: a.hasAttribute('disabled') } : null,
+              next: next ? { id: next.getAttribute('data-next'), link: next.tagName === 'A',
+                blocked: next.hasAttribute('data-next-blocked'), text: next.textContent.trim() } : null,
+              tally: { refused: num('[data-set-refused]', 'data-set-refused'), unjudged: num('[data-set-unjudged]', 'data-set-unjudged') },
+              mark: document.querySelectorAll('[data-candidate-n="0"] [data-candidate-refused-mark]').length,
+              markOther: document.querySelectorAll('[data-candidate-n="1"] [data-candidate-refused-mark]').length,
+              line: document.querySelectorAll('[data-candidate-n="0"] [data-candidate-refused]').length,
+              planFrom: (JSON.parse(localStorage.getItem('tdl-workbench-session') || '{}')).planFrom || null,
+              hash: location.hash,
+            };
+          });
+          const settle = async () => { await page.waitForSelector('[data-candidate-n="1"]', { timeout: 60000 }).catch(() => {}); await page.waitForTimeout(300); };
+          await page.evaluate(() => { location.hash = '#/candidates'; });
+          await page.reload();
+          await settle();
+          let st = await read();
+          check(`with an example left on the bench and nothing picked, Next from the candidates is held (not a link; "${st.next && st.next.text}")`,
+            !!st.next && st.next.blocked && !st.next.link && /open a candidate/.test(st.next.text));
+          await page.evaluate(() => { location.hash = '#/candidates/0'; });
+          await page.waitForFunction(() => !!document.querySelector('[data-selection-action]'), null, { timeout: 10000 }).catch(() => {});
+          await page.waitForTimeout(300);
+          st = await read();
+          check(`the refused pick says it cannot be drawn and offers no link ("${st.act && st.act.text}")`,
+            !!st.act && st.act.state === 'refused' && st.act.tag !== 'button'
+            && /is refused, so it cannot be drawn/.test(st.act.text) && /stacks, tiling not held/.test(st.act.text));
+          check(`and the set tallies it (${JSON.stringify(st.tally)}), marks the column on its counts line (${st.mark}) and says so at its foot (${st.line})`,
+            st.tally.refused === 1 && st.mark === 1 && st.markOther === 0 && st.line === 1);
+          // the refused pick holds Next for its own reason too: "open it" cannot be followed for it
+          check(`Next holds for a refused pick in words that can be followed ("${st.next && st.next.text}")`,
+            !!st.next && /refused/.test(st.next.text));
+          await shot('candidates-refused', [1440]);
+
+          /* THE TALLY NAMES ITS POPULATION, AND THE STRIP IS HEARD (audit follow-up, 16 Oct 2026).
+             "N refused" beside "returned X of Y asked for" counted columns the second leaves out
+             (the diagram the brief named, appended after the set), so the count is "N of M" over
+             the columns on screen. The strip is a polite live region: picking a column is answered
+             aloud, and the error stays a separate alert outside it. */
+          const popul = await page.evaluate(() => ({
+            columns: document.querySelectorAll('main [data-candidate-n]').length,
+            text: (document.querySelector('[data-set-refused]') || { textContent: '' }).textContent.replace(/\s+/g, ' ').trim(),
+            live: (() => {
+              const r = document.querySelector('[data-selection-live]');
+              const a = document.querySelector('[data-selection-action]');
+              return !!r && r.getAttribute('role') === 'status' && r.getAttribute('aria-live') === 'polite' && !!a && r.contains(a);
+            })(),
+          }));
+          check(`the tally is over the columns on screen ("${popul.text}", ${popul.columns} columns)`,
+            popul.columns >= 2 && new RegExp(`(^|\\s)1 of ${popul.columns}\\s`).test(popul.text + ' '));
+          check('and the strip is a polite live region holding the act', popul.live);
+
+          /* A COLUMN IS SELECTED FROM THE KEYBOARD. The click handler sat on the <section>, which no
+             key reaches; the title is a real button now. Focus it and press Enter, as a keyboard
+             reader would: the address must record the pick and the button must say it is pressed. */
+          /* BY A REAL TAB TRAVERSAL, not by focusing the target: `page.focus` reaches an element no
+             key can, which is the defect this check exists to catch. Start at a neighbouring
+             column's title, in whichever direction the document order puts column 1, and press
+             Tab (or Shift+Tab) until focus lands on it. */
+          const titleOrder = await page.evaluate(() => [...document.querySelectorAll('main [data-candidate-select]')]
+            .map((b) => b.getAttribute('data-candidate-select')));
+          const at1 = titleOrder.indexOf('1');
+          const startFrom = at1 > 0 ? titleOrder[0] : titleOrder[titleOrder.length - 1];
+          const toward = at1 > 0 ? 'Tab' : 'Shift+Tab';
+          await page.focus(`[data-candidate-select="${startFrom}"]`);
+          let presses = 0;
+          let reached = false;
+          while (presses < 80 && !reached) {
+            await page.keyboard.press(toward);
+            presses += 1;
+            reached = await page.evaluate(() => document.activeElement?.getAttribute('data-candidate-select') === '1');
+          }
+          check(`column 1's title is reached by ${toward} from column ${startFrom}'s (${presses} presses, order ${titleOrder.join(',')})`,
+            at1 !== -1 && reached);
+          if (reached) await page.keyboard.press('Enter');
+          else await page.focus('[data-candidate-select="1"]').then(() => page.keyboard.press('Enter'));
+          await page.waitForFunction(() => location.hash.startsWith('#/candidates/1'), null, { timeout: 10000 }).catch(() => {});
+          await page.waitForFunction(() => document.querySelector('[data-candidate-select="1"]')?.getAttribute('aria-pressed') === 'true',
+            null, { timeout: 5000 }).catch(() => {});
+          const kb = await page.evaluate(() => ({
+            hash: location.hash,
+            one: document.querySelector('[data-candidate-select="1"]')?.getAttribute('aria-pressed') ?? null,
+            zero: document.querySelector('[data-candidate-select="0"]')?.getAttribute('aria-pressed') ?? null,
+            tag: document.querySelector('[data-candidate-select="1"]')?.tagName.toLowerCase() ?? null,
+          }));
+          check(`a column is picked with the keyboard alone (${kb.hash}; pressed ${kb.one}/${kb.zero})`,
+            kb.hash.startsWith('#/candidates/1') && kb.one === 'true' && kb.zero === 'false' && kb.tag === 'button');
+
+          /* THE GRID DOES NOT MOVE WHEN THE PICK CHANGES. The strip is a wrapping row and the act's
+             words differ between a refused pick, an open one and none; a row gained or lost shifted
+             the columns under the reader's pointer at 1280 px and below. Measured at the walk's
+             width and at 1100, picking each of the two in turn. */
+          const vp = page.viewportSize();
+          const gridTop = async () => page.evaluate(() => {
+            const g = document.querySelector('main [data-candidate-n="0"]');
+            return g ? Math.round(g.getBoundingClientRect().top * 10) / 10 : null;
+          });
+          const pickHash = async (n) => {
+            await page.evaluate((k) => { location.hash = `#/candidates/${k}`; }, n);
+            await page.waitForFunction((k) => !!document.querySelector(`[data-candidate-select="${k}"][aria-pressed="true"]`), n, { timeout: 10000 }).catch(() => {});
+            await page.waitForTimeout(250);
+          };
+          const tops = {};
+          for (const w of [vp.width, 1100]) {
+            await page.setViewportSize({ width: w, height: vp.height });
+            await page.waitForTimeout(250);
+            tops[w] = [];
+            for (const k of [0, 1, 0]) { await pickHash(k); tops[w].push(await gridTop()); }
+          }
+          await page.setViewportSize(vp);
+          check(`the columns stay put as the pick changes between a refused and an open one (${JSON.stringify(tops)})`,
+            Object.values(tops).every((t) => t.every((x) => x !== null && Math.abs(x - t[0]) <= 1)));
+
+          await page.locator('[data-candidate-n="1"] h3').first().click();
+          await page.waitForFunction(() => location.hash.startsWith('#/candidates/1'), null, { timeout: 10000 }).catch(() => {});
+          await page.waitForFunction(() => !!document.querySelector('[data-selection-action="open"]'), null, { timeout: 5000 }).catch(() => {});
+          st = await read();
+          check(`the placed pick offers a link (${st.act && st.act.state}/${st.act && st.act.tag}), and Next is still held until it is opened ("${st.next && st.next.text}")`,
+            !!st.act && st.act.state === 'open' && st.act.tag === 'button' && !!st.next && st.next.blocked && !st.next.link);
+          /* THE OPEN CAN FAIL, AND SAYS SO. The server keeps a compose for a while and then forgets
+             it, while the candidates in hand stay on screen; the click then did nothing at all, with
+             no message, which is the symptom this whole change exists to remove. The candidate's
+             plan route is answered 404 after a beat here, so the in-flight state can be read too:
+             the act is held while the request is out (a second click would load twice and push two
+             undo entries), the failure is said on the surface that asked, and the act is offered
+             again. */
+          const planPath = `/api/jobs/${jobId}/candidates/1/plan`;
+          const failOpen = (u) => u.pathname === planPath;
+          await page.route(failOpen, async (r) => {
+            await new Promise((res) => setTimeout(res, 700));
+            await r.fulfill({ status: 404, contentType: 'application/json',
+              body: JSON.stringify({ detail: { error: 'unknown job or candidate' } }) });
+          });
+          await page.locator('[data-selection-action="open"]').click();
+          /* HELD WITHOUT LEAVING THE TAB ORDER: `aria-disabled`, never `disabled`, so the focus the
+             press was made with stays on the control and a screen reader says it is unavailable. */
+          const busy = await page.evaluate(() => {
+            const a = document.querySelector('[data-selection-action]');
+            return !!a && a.getAttribute('aria-disabled') === 'true' && !a.hasAttribute('disabled')
+              && document.activeElement === a;
+          });
+          await page.waitForSelector('[data-selection-error]', { timeout: 10000 }).catch(() => {});
+          const failed = await page.evaluate(() => {
+            const e = document.querySelector('[data-selection-error]');
+            const a = document.querySelector('[data-selection-action]');
+            const live = document.querySelector('[data-selection-live]');
+            return { text: e ? e.textContent.trim() : null, hash: location.hash,
+              again: !!a && a.getAttribute('aria-disabled') !== 'true',
+              // the alert is its own region: inside the polite one it would be announced twice
+              apart: !!e && !!live && !live.contains(e) && !e.closest('[data-selection-live]')
+                && !live.textContent.includes(e.textContent.trim()) };
+          });
+          check(`the failure is an alert of its own, outside the polite region (${failed.apart})`, failed.apart);
+          check(`while the open is in flight the act is held, and keeps the focus (${busy})`, busy);
+          check(`a failed open is said where it was asked, in the table's words ("${failed.text}"), and the act is offered again`,
+            failed.text === JOURNEY_WORDS.selection.gone && failed.hash.startsWith('#/candidates') && failed.again);
+          await page.unroute(failOpen);
+          await page.locator('[data-selection-action="open"]').click();
+          await page.waitForFunction(() => location.hash.startsWith('#/workbench'), null, { timeout: 30000 }).catch(() => {});
+          await page.waitForTimeout(500);
+          st = await read();
+          check(`opening it records the candidate of THIS compose (${JSON.stringify(st.planFrom)})`,
+            !!st.planFrom && st.planFrom.kind === 'candidate' && st.planFrom.jobId === jobId && st.planFrom.n === 1);
+          await page.evaluate(() => { location.hash = '#/candidates/1'; });
+          await page.waitForFunction(() => !!document.querySelector('[data-candidate-n="1"]'), null, { timeout: 30000 }).catch(() => {});
+          await page.waitForTimeout(300);
+          st = await read();
+          check(`and now Next from the pick leads on to the plan ("${st.next && st.next.text}")`,
+            !!st.next && st.next.link && !st.next.blocked && st.next.id === 'plan');
+          await page.evaluate(() => { location.hash = '#/candidates/0'; });
+          await page.waitForTimeout(400);
+          st = await read();
+          check(`but picking the other candidate holds it again: Next follows the pick ("${st.next && st.next.text}")`,
+            !!st.next && st.next.blocked && !st.next.link);
+          /* A LATER COMPOSE'S CANDIDATE IS NOT READ AS ALREADY EVALUATED (audit follow-up, 16 Oct
+             2026; ruled app-side). A composed plan's id is `{parti}-{briefId}`, so the same parti
+             from a second compose is a different house with the same id, and the verdict of the
+             first sat beside it until the next solve replaced it. The evaluation of the candidate
+             just opened is waited for, the brief is composed AGAIN, the same candidate is opened
+             from the new job, and the Plan step -- read a moment after it lands -- must say it has
+             not been evaluated, not show the earlier house's counts. Then the new house's own
+             evaluation must land and be believed, which is what an over-strict key would break. */
+          await page.evaluate(() => { location.hash = '#/workbench'; });
+          await page.waitForSelector('[data-step-words="plan"]', { timeout: 30000 }).catch(() => {});
+          const planStep = async () => page.evaluate(() => {
+            const e = document.querySelector('[data-step-words="plan"]');
+            return e ? { state: e.getAttribute('data-state'), text: e.textContent.trim() } : null;
+          });
+          const judgedNow = () => ['evaluated', 'refused'].includes(document.querySelector('[data-step-words="plan"]')?.getAttribute('data-state'));
+          await page.waitForFunction(judgedNow, null, { timeout: 150000 }).catch(() => {});
+          const firstVerdict = await planStep();
+          const firstOpenedId = await page.evaluate(() => {
+            try { return JSON.parse(localStorage.getItem('tdl-workbench-plan') || '{}').id || null; } catch { return null; }
+          });
+          if (!firstVerdict || !['evaluated', 'refused'].includes(firstVerdict.state)) {
+            unjudged.push('a later compose is not read as already evaluated -- the first candidate\'s own evaluation did not land in 150 s');
+          } else {
+            await visit(formatHash('brief', { style: sid, parti: target.id }, {}));
+            await page.locator('main div:has(> span:text-is("candidates")) > input').first().fill('1').catch(() => {});
+            const route2 = '**/api/compose';
+            await page.route(route2, async (r) => {
+              let body = {};
+              try { body = JSON.parse(r.request().postData() || '{}'); } catch { body = {}; }
+              await r.continue({ postData: JSON.stringify({ ...body, revise: false }),
+                headers: { ...r.request().headers(), 'content-type': 'application/json' } });
+            });
+            const accepted2 = page.waitForResponse((r) => r.url().endsWith('/api/compose') && r.request().method() === 'POST',
+              { timeout: 30000 }).catch(() => null);
+            await page.locator('main button[data-compose]').click().catch(() => {});
+            const resp2 = await accepted2;
+            await page.unroute(route2);
+            const jobB = resp2 && resp2.ok() ? (await resp2.json().catch(() => ({}))).job_id : null;
+            if (!jobB || jobB === jobId) {
+              unjudged.push(`a later compose is not read as already evaluated -- the second compose was not accepted as a new job (${jobB})`);
+            } else {
+              await page.waitForSelector(`main [data-candidate="${target.id}"]`, { timeout: 240000 }).catch(() => {});
+              const jobBody = await fetch(`${BASE}/api/jobs/${jobB}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+              const nB = ((jobBody && jobBody.result && jobBody.result.candidates) || []).findIndex((c) => c.parti === target.id);
+              const idOnBench = () => page.evaluate(() => {
+                try { return JSON.parse(localStorage.getItem('tdl-workbench-plan') || '{}').id || null; } catch { return null; }
+              });
+              const firstId = firstOpenedId;
+              if (nB < 0) {
+                unjudged.push(`a later compose is not read as already evaluated -- the second job does not hold ${target.id}`);
+              } else {
+              await page.evaluate((k) => { location.hash = `#/candidates/${k}`; }, nB);
+              await page.waitForSelector('button[data-selection-action]', { timeout: 20000 }).catch(() => {});
+              await page.locator('button[data-selection-action]').click().catch(() => {});
+              await page.waitForFunction(() => location.hash.startsWith('#/workbench'), null, { timeout: 30000 }).catch(() => {});
+              await page.waitForSelector('[data-step-words="plan"]', { timeout: 10000 }).catch(() => {});
+              await page.waitForTimeout(150);
+              const early = await planStep();
+              // the bench's own caption is the other reader of the shell's evaluation: it must not
+              // be showing the first house's engine verdict beside the second house's record
+              /* BOTH ATTRIBUTES, because the first house's verdict is a REFUSAL on a brief the prover
+                 refuses and a refusal carries no engine: the first version of this check read the
+                 engine alone and stayed green on a build that handed the bench the stale verdict. */
+              const benchVerdict = await page.evaluate(() => {
+                const p = document.querySelector('[data-engine-claim]');
+                return p ? { engine: p.getAttribute('data-engine-name') || '',
+                  refused: p.getAttribute('data-placement-refused') || '' } : null;
+              });
+              const sameId = await idOnBench();
+              if (!firstId || sameId !== firstId) {
+                // the premise is a collision: without it this check is about two different houses
+                unjudged.push(`a later compose is not read as already evaluated -- the two opens did not share a plan id (${firstId} / ${sameId})`);
+              } else {
+                check(`the same parti from a LATER compose is not read as evaluated (same plan id ${sameId}; the Plan step reads "${early && early.state}")`,
+                  !!early && early.state === 'unevaluated');
+                check(`and the bench does not caption it with the first house's verdict (${JSON.stringify(benchVerdict)})`,
+                  benchVerdict === null || (benchVerdict.engine === '' && benchVerdict.refused === ''));
+              }
+              await page.waitForFunction(judgedNow, null, { timeout: 150000 }).catch(() => {});
+              const second = await planStep();
+              check(`and its own evaluation then lands and is believed ("${second && second.state}")`,
+                !!second && ['evaluated', 'refused'].includes(second.state));
+              // the front door says where the house on hand came from, in the journey's words
+              await visit('#/');
+              await page.waitForSelector('[data-front-door]', { timeout: 30000 }).catch(() => {});
+              const origin = await page.evaluate(() => {
+                const o = document.querySelector('[data-resume-origin]');
+                return o ? o.textContent.replace(/\s+/g, ' ').trim() : null;
+              });
+              check(`the front door says where the house on hand came from ("${origin}")`,
+                !!origin && origin.includes(JOURNEY_WORDS.origin.candidate(nB)));
+              }
+            }
+          }
+        }
+        await page.unroute(matchJob).catch(() => {});
+        await page.evaluate((b) => {
+          for (const [k, v] of [['tdl-workbench-plan', b.plan], ['tdl-workbench-session', b.session]]) {
+            if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v);
+          }
+          location.hash = b.hash;
+        }, before);
+        await page.reload();
+        await page.waitForSelector('main', { timeout: 30000 }).catch(() => {});
+      } else {
+        unjudged.push('the refused strip and Next-follows-the-pick -- the job served fewer than two candidates to rewrite');
+      }
+
       // the flag sits below the column's scores, so bring it into the picture before shooting
       await page.evaluate((id) => {
         const f = document.querySelector(`main [data-named-by-brief="${id}"]`);
@@ -3531,7 +3893,7 @@ check('the atlas names the outline it is drawing and how much it can show',
     const vb = svg.getAttribute('viewBox').split(/\s+/).map(Number);
     const g = [...svg.querySelectorAll('g')].find((x) => x.getAttribute('fill') === 'var(--paper-deep)');
     const par = [...svg.querySelectorAll('line')].filter((l) => l.getAttribute('y1') === l.getAttribute('y2'));
-    return { pane: r.width / r.height, box: vb[2] / vb[3], vbW: vb[2],
+    return { pane: r.width / r.height, box: vb[2] / vb[3], vbW: vb[2], vb,
              land: g ? g.children.length : 0,
              gratSpan: par.length ? Math.abs(+par[0].getAttribute('x2') - +par[0].getAttribute('x1')) : 0,
              southern: g ? [...g.children].some((pa) => { const b = pa.getBBox(); return b.y + b.height > 20 && b.width > 20; }) : false };
@@ -3540,13 +3902,28 @@ check('the atlas names the outline it is drawing and how much it can show',
     + `(${m.pane.toFixed(3)} vs ${m.box.toFixed(3)})`, Math.abs(m.pane - m.box) < 0.01);
   check(`the graticule spans the whole plate (${m.gratSpan} of ${m.vbW})`,
     Math.abs(m.gratSpan - m.vbW) < 0.01);
-  /* Bounded on BOTH sides. Too few means the cull is dropping land the plate paints —
-     the regression this block exists for. Too many means the tier choice has swung the
-     other way and a hemisphere view is mounting the 10m outline it fetched earlier, which
-     is 827 rings and one 25,000-point path for a drawing nobody can tell apart at 0.134
-     degrees per pixel. Both were live at some point in this package. */
-  check(`land that the plate paints is drawn, and no more (${m.land} rings at the home view)`,
-    m.land >= 30 && m.land <= 120 && m.southern);
+  /* EXACT, AND AGAINST THE DATA RATHER THAN A RANGE. This was `30 <= rings <= 120`, a band struck
+     on whatever pane shape the first machine had, and the viewBox takes the pane's own shape
+     (above), so the count is a property of the layout: it read 29 in CI and 33 here, with one
+     viewport (1680 x 1000) and the same build, and why the two panes differ in shape is NOT
+     established -- the real webfonts were tried (they do not move it here). The property the band
+     stood for is that the plate draws every ring whose bounding box meets the view and no other:
+     too few is the cull dropping land the plate paints, too many is a hemisphere view mounting
+     the 10m outline it fetched earlier (827 rings, one 25,000-point path). That is stated
+     directly now:
+     the rings of the coarse tier (the home view is wider than 70 degrees, which the caption
+     check above holds to `land-110m.json`) whose recorded box meets the viewBox the page itself
+     carries. The reference is the bundled data and the plain test for two boxes meeting, never
+     `visibleRings`, which is what draws the plate. `want > 0` is the premise: a pane so squat
+     that no ring meets it would pass an equality of zeros. */
+  const [vbx, vby, vbw, vbh] = m.vb;
+  let want = 0;
+  for (let i = 0; i < COAST_COARSE.paths.length; i += 1) {
+    const b = COAST_COARSE.bounds;
+    if (b[i * 4] <= vbx + vbw && b[i * 4 + 2] >= vbx && b[i * 4 + 1] <= vby + vbh && b[i * 4 + 3] >= vby) want += 1;
+  }
+  check(`land that the plate paints is drawn, and no more (${m.land} rings at the home view, ${want} meet it)`,
+    want > 0 && m.land === want && m.southern);
 }
 
 // (3) Full screen: the atlas takes the window, and escape gives the instrument back.

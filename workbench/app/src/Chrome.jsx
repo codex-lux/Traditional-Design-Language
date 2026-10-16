@@ -335,7 +335,7 @@ export function LeftRail({ model, busy }) {
    takes a second line when it needs one; nothing in it is dropped. It is opt-in because three
    of this strip's callers are the floored surfaces that draw, where a second line would take
    height from the sheet. The walk's width block says which page needs it. */
-export function FilterStrip({ children, right, filters, wrap }) {
+export function FilterStrip({ children, right, filters, wrap, below }) {
   const n = filters ? filters.activeCount : 0;
   const line = wrap
     ? { minHeight: 'var(--substrip-h)', flexWrap: 'wrap', rowGap: 4, padding: '4px 14px' }
@@ -367,6 +367,10 @@ export function FilterStrip({ children, right, filters, wrap }) {
         </button>
       )}
       {right}
+      {/* A row of its own beneath the rest, for a wrapping strip that has something to say about
+          what was just picked (the Candidate Set's act). After `right` in the document as it is
+          beneath it on the page, so the reading order and the tab order are the visual one. */}
+      {wrap && below}
     </div>
   );
 }

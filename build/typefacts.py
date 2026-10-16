@@ -664,6 +664,16 @@ def _fact_detail(name, fact):
     return fact.get("detail") or fact.get("note")
 
 
+# The two kinds `refusal` mints, named once. The composer's reader of a card's refusal
+# (`compose.reads_as_refusal`) and the assistant's context (`workbench/server/rail.py`) READ this
+# list; the workbench's `sheet/refusal.js::REFUSAL_KINDS` is a copy in another language, and
+# `tests/test_refusal_ranks_last.py` holds it to this one. A body whose `kind` is neither is a body
+# nobody here wrote, not a refusal.
+KIND_INFEASIBLE = "infeasible"
+KIND_DOWNGRADED = "type-fact-downgraded"
+REFUSAL_KINDS = (KIND_INFEASIBLE, KIND_DOWNGRADED)
+
+
 def refusal(plan):
     """`None`, or the typed refusal every surface reads. THE ONE VERDICT (WP-13.4).
 
@@ -708,7 +718,7 @@ def refusal(plan):
     if not proven and not down:
         return None
     if proven:
-        kind = "infeasible"
+        kind = KIND_INFEASIBLE
         conflicts = list(inf.get("conflicts") or [])
         lines = [str(c) for c in conflicts]
         if inf.get("note"):
@@ -720,7 +730,7 @@ def refusal(plan):
             lines = ["CP-SAT proved the record's declared facts cannot all hold, and the "
                      "conflict set on the record names nothing."]
     else:
-        kind = "type-fact-downgraded"
+        kind = KIND_DOWNGRADED
         conflicts, lines = [], []
         for name in down:
             detail = _fact_detail(name, facts.get(name))

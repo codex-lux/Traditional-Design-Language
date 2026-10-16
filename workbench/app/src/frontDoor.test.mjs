@@ -31,7 +31,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { navModel, flatItems, inHandFrom, guidedExampleStyle, NAV } from './nav/navModel.js';
 import { indexTerms } from './glossary/lookup.js';
-import { journeyState } from './journey/journey.js';
+import { journeyState, JOURNEY_WORDS } from './journey/journey.js';
 import { parseHash, SURFACE_PATHS } from './router.js';
 import { parseCite } from './citations.js';
 import { mapRows } from './frontdoor/spineMap.js';
@@ -257,6 +257,33 @@ test('where a house is under way, the resume is the journey’s, named by the si
   assert.equal(r.href, wb.href);
   assert.equal(r.label, wb.label);
   assert.equal(r.n, wb.step);
+});
+
+test('the front door says where the house on hand came from, in the journey\'s own words', () => {
+  /* "Continue" read any plan on the bench as the house in hand -- an example opened last week as
+     readily as the candidate just picked -- and the bar's Plan step was the only place that said
+     where a plan came from (audit follow-up, 16 Oct 2026). */
+  const plan = { id: 'p', name: 'A plan', levels: [] };
+  const model = frontModel({ plan });
+  const at = (planFrom) => resumeView(journeyState({ session: { planFrom }, plan }), model);
+  assert.equal(at({ kind: 'candidate', planId: 'p', jobId: 'j', n: 2 }).origin, JOURNEY_WORDS.origin.candidate(2));
+  assert.equal(at({ kind: 'example', planId: 'p' }).origin, JOURNEY_WORDS.origin.example);
+  assert.equal(at({ kind: 'traced', planId: 'p' }).origin, JOURNEY_WORDS.origin.traced);
+  assert.equal(at(null).origin, JOURNEY_WORDS.origin.unrecorded, 'said, not left out');
+  assert.equal(at({ kind: 'example', planId: 'another' }).origin, JOURNEY_WORDS.origin.unrecorded,
+    'an origin that names another plan is not this plan\'s');
+  // only the plan step has an origin: a resume at the candidates or the brief carries none
+  const noPlan = resumeView(journeyState({ session: { brief: { style: 'craftsman' }, result: { candidates: [{}] }, jobId: 'j' } }),
+    frontModel());
+  assert.equal(noPlan.plan, false);
+  assert.equal(noPlan.origin, null);
+  // and the front door shows it
+  const door = readFileSync(new URL('./surfaces/Overview.jsx', import.meta.url), 'utf8');
+  assert.match(door, /resume\.origin && \(/);
+  assert.match(door, /data-resume-origin/);
+  // the origin moves as a unit: its separator never ends a line alone, and the phrase wraps inside
+  // its own box rather than overflowing the entrance
+  assert.match(door, /data-resume-origin="" style=\{\{ \.\.\.note, marginLeft: 7, display: 'inline-block' \}\}/);
 });
 
 /* ------------------------------------------------------------------ the Gate */

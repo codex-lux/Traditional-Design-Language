@@ -24,6 +24,7 @@ import { useSurfaceFilters } from '../filters/useFilters.js';
 import { FACES, FACE_TERM, ENTRANCE_FRONT_TERM, parseFace, drawingOpts, cadOpts, sheetFileName,
   recordWord } from './drawingFaces.js';
 import { ConflictSet } from '../components/ConflictSet.jsx';
+import { unstampEval } from '../journey/journey.js';
 import { evaluateRefusal, placementRefusal, sketchOf, errorText, refusalFromError, isMissingLibrary }
   from '../sheet/refusal.js';
 
@@ -192,7 +193,7 @@ export function ExportDetails({ lastEval }) {
               <ActionChip affix="↓" disabled={!s.brief} onClick={s.brief ? () => save(`${s.brief.id || 'brief'}.json`, s.brief) : undefined}>
                 {s.brief ? 'download brief' : 'no brief drafted'}
               </ActionChip>
-              <ActionChip affix="↓" disabled={!lastEval?.check} onClick={lastEval?.check ? () => save(`${plan?.id || 'plan'}-check.json`, lastEval) : undefined}>
+              <ActionChip affix="↓" disabled={!lastEval?.check} onClick={lastEval?.check ? () => save(`${plan?.id || 'plan'}-check.json`, unstampEval(lastEval)) : undefined}>
                 {lastEval?.check ? 'download check report' : 'no evaluation yet'}
               </ActionChip>
             </span>

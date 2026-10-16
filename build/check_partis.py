@@ -23,7 +23,11 @@ Checks, in order:
   9. circulation_parti agrees with the groupings it names (a grouping carries an
      ARRAY of acceptable values; a parti carries one scalar - they must intersect)
  10. COMPOSABILITY (OQ 59): every parti is instantiated against the first style in its
-     own `styles` array and run through plan_check. A FATAL finding is an error here.
+     own `styles` array, NAMED to the placer as the product names it, and run through
+     plan_check. A FATAL finding is an error here, and so is an UNJUDGED fatal fault of
+     the parti's own (differential against the control, 16 Oct 2026): unjudged is not
+     passed, and a check that counted only fatal findings read a fault that was never
+     asked as a diagram that works.
      Everything above this line checks that a parti is well FORMED; this checks that the
      diagram works - that it satisfies the room catalogue's own hard adjacency rules,
      which is what plan_check will hold any plan built from it to.
@@ -271,7 +275,7 @@ def check_area_range_is_reachable(rep, partis, rooms):
                      "says very little" % (lo, ceiling))
 
 
-def check_composability(rep, partis):
+def check_composability(rep, partis, compose=None):
     """Instantiate each parti against its own first native style and run plan_check on it.
 
     OQ 59. Everything else in this file checks that a parti is well FORMED. This checks that
@@ -286,24 +290,45 @@ def check_composability(rep, partis):
     diagram whose author left the work to the machine, and the five real failures here are
     identical before and after it, so nothing is lost by checking the stricter thing.
 
-    Returns the per-parti fatal counts so the caller can print them; errors go into `rep`."""
-    try:
-        sys.path.insert(0, os.path.join(ROOT, "build"))
-        import compose
-    except Exception as e:                       # pragma: no cover - environment, not data
-        rep.warn("<setup>", f"compose.py could not be imported - composability check skipped: {e}")
-        return None
-    def fatal_keys(pid, style):
-        """The fatal findings a parti produces against a style, keyed so two runs can be
-        subtracted. The key deliberately includes the REQUIREMENT and not the measured value:
-        a style-level fault fires the same test for every parti, so it cancels, while a parti
-        that fails a DIFFERENT test of the same fault does not."""
+    THE PARTI IS NAMED, AND AN UNJUDGED FATAL FAULT IS A STATE OF ITS OWN (16 Oct 2026).
+    The plan used to reach `plan_check` with no `parti` on it, so the placer laid the house on
+    its own defaults -- `side-hall-townhouse` as 40.0 x 41.08 ft on FOUR bays at the placer's 10 ft
+    module -- while the product names the parti and the placer reads the diagram's own 8 ft module
+    (five bays on this check's 120 ft lot, three at 24 ft on a 30 ft townhouse lot). This check
+    judged a house the product does not build. It names the parti now, exactly as `compose.compose`
+    does.
+
+    And on the house the product builds, the fault this parti was convicted of is not failed but
+    UNEVALUATED: the placed upper storey draws no opening on the front, and a count of zero is not
+    handed to a parity rule. A check that counts fatal FINDINGS reads that as a pass, so naming the
+    parti alone would have turned 20 of 21 into 21 of 21 by making the fault stop being asked. An
+    unjudged fatal fault is reported here, with its reason, differential against the control like
+    a fatal, and it is NOT composable: unjudged is not passed (Lucas, 16 Oct 2026; the report is
+    docs/reports/the-side-hall-front-is-the-placers-2026-10-16.md).
+
+    Returns `(counts, unjudged)`: the per-parti fatal counts, and for each parti the unjudged fatal
+    faults of its own (`{fault_id: (name, reason)}`); errors go into `rep`. `compose` is a seam for
+    a test that has to drive a verdict no shipped parti produces; left None it is the real module."""
+    if compose is None:
+        try:
+            sys.path.insert(0, os.path.join(ROOT, "build"))
+            import compose
+        except Exception as e:                   # pragma: no cover - environment, not data
+            rep.warn("<setup>", f"compose.py could not be imported - composability check skipped: {e}")
+            return None
+    def verdicts(pid, style):
+        """What a parti produces against a style: its fatal findings and its unjudged fatal
+        faults, each keyed so two runs can be subtracted. The fatal key deliberately includes the
+        REQUIREMENT and not the measured value: a style-level fault fires the same test for every
+        parti, so it cancels, while a parti that fails a DIFFERENT test of the same fault does
+        not. An unjudged fault is keyed on the fault alone, for the same reason."""
         brief = {"id": "check", "name": "check", "style": style,
                  "target_area_sf": 2600, "bedrooms": 3, "bathrooms": 2.0,
                  "context": {"climate_zone": "3A", "lot_width_ft": 120, "entrance_faces": "S",
                              "jurisdiction": "IRC model text, advisory", "budget_tier": "custom"},
                  "household": "check"}
         plan, _log, _parti = compose.instantiate(pid, brief)
+        plan["parti"] = pid
         res = compose.PC.check(plan, compose.C)
         out = {}
         for f in res["findings"]:
@@ -311,7 +336,13 @@ def check_composability(rep, partis):
             stmt = f["statement"]
             req = stmt.split(" against ", 1)[1] if " against " in stmt else ""
             out[(f.get("layer"), f.get("rule"), f.get("room"), req)] = stmt
-        return out
+        unj = {}
+        for row in (res.get("fault_unjudged") or []):
+            if row.get("severity") != "fatal": continue
+            why = "; ".join(w["why"] for w in (row.get("withheld") or []) if w.get("why")) \
+                or ("it needs " + ", ".join(row.get("needs") or ["a measurement nothing supplies"]))
+            unj[row["fault"]] = (row.get("name") or row["fault"], why)
+        return out, unj
 
     # A control diagram, run against the SAME style, so what this check reports is what the
     # PARTI does and not what the style does. Three of cape-central-chimney's four fatals fire
@@ -322,7 +353,7 @@ def check_composability(rep, partis):
     # except in the one case where it is, which is skipped.
     CONTROL = "hall-and-parlor"
 
-    counts = {}
+    counts, unjudged = {}, {}
     for p in partis:
         pid = p.get("id")
         styles = p.get("styles") or []
@@ -331,21 +362,32 @@ def check_composability(rep, partis):
             continue
         style = styles[0]
         try:
-            mine = fatal_keys(pid, style)
-            base = {} if pid == CONTROL else fatal_keys(CONTROL, style)
+            mine, mine_u = verdicts(pid, style)
+            base, base_u = ({}, {}) if pid == CONTROL else verdicts(CONTROL, style)
         except Exception as e:
             rep.err(f"parti:{pid}", f"cannot be composed for its own style '{style}': {e}")
             continue
         own = {k: v for k, v in mine.items() if k not in base}
+        # The control IS the definition of a standing gap, so it has no unjudged fatal fault "of
+        # its own": every measurement nothing supplies is unjudged for it and for every other
+        # diagram alike, and attributing them to it would put twenty errors on the one parti the
+        # others are subtracted against. Its fatal FINDINGS are still its own, above.
+        own_u = {} if pid == CONTROL else {k: v for k, v in mine_u.items() if k not in base_u}
         counts[pid] = len(own)
+        unjudged[pid] = own_u
         for k in sorted(own, key=lambda k: own[k]):
             rep.err(f"parti:{pid}", f"FATAL against its own style '{style}': {own[k]}")
+        for fid in sorted(own_u):
+            name, why = own_u[fid]
+            rep.err(f"parti:{pid}", f"UNJUDGED fatal fault against its own style '{style}': "
+                                    f"'{name}' ({fid}) could not be evaluated -- {why}. "
+                                    f"Unjudged is not passed: this diagram is not known to work.")
         shared = len(mine) - len(own)
         if shared:
             rep.warn(f"parti:{pid}",
                      f"{shared} further fatal finding(s) against '{style}' are the STYLE's, not "
                      f"this diagram's -- the control parti produces them too")
-    return counts
+    return counts, unjudged
 
 
 def coverage(partis, u):
@@ -396,7 +438,8 @@ def main():
         rep.err("<catalogue>", f"duplicate parti id '{dup}'")
 
     check_area_range_is_reachable(rep, partis, u["room_records"])
-    fatals = None if args.no_compose else check_composability(rep, partis)
+    judged = None if args.no_compose else check_composability(rep, partis)
+    fatals, unjudged = judged if judged is not None else (None, {})
 
     named, uncovered = coverage(partis, u)
 
@@ -405,10 +448,14 @@ def main():
     print(f"  ...of which no parti names: {len(uncovered)}")
     if fatals is not None:
         broken = {k: v for k, v in fatals.items() if v}
+        unsure = {k: v for k, v in unjudged.items() if v}
         print(f"composable against their own first native style: "
-              f"{len(fatals) - len(broken)} of {len(fatals)}")
+              f"{len(fatals) - len(set(broken) | set(unsure))} of {len(fatals)}")
         for pid in sorted(broken, key=lambda k: -broken[k]):
             print(f"  {broken[pid]:>3} fatal  {pid}")
+        for pid in sorted(unsure):
+            print(f"  {len(unsure[pid]):>3} unjudged fatal fault(s)  {pid}: "
+                  + ", ".join(sorted(unsure[pid])))
 
     by_massing = defaultdict(list)
     for sid, cm in uncovered.items():

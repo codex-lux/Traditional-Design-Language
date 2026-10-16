@@ -8,15 +8,15 @@
    The subjects:
    - a stored entry written by an older build, or a hostile one, costs that field and not the
      session;
-   - the key is unchanged and the persisted object is exactly `{ brief, jobId, planFrom, jobError }`
-     (PRD §J.4 forbids renaming the key);
+   - the key is unchanged and the persisted object is exactly `{ brief, jobId, planFrom, jobError,
+     jobBrief }` (PRD §J.4 forbids renaming the key; `jobBrief` was added 16 Oct 2026);
    - a plan with no id records no provenance, because it could never be matched to one;
    - the server's word on a job decides whether it failed, expired, or is still the reader's. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   PLAN_FROM_KINDS, JOB_ERROR_STATES, readPlanFrom, readJobError, planFromOf, briefNameOf,
-  composeStart, jobFailed, reattach, jobExpired,
+  composeStart, readJobBrief, jobFailed, reattach, jobExpired,
 } from './journey/sessionWrites.js';
 
 const KEY = 'tdl-workbench-session';
@@ -65,8 +65,35 @@ test('the brief is named only where the draft in hand IS the brief the result na
 });
 
 test('an accepted compose clears everything the last one said, and names the new job', () => {
-  assert.deepEqual(composeStart('j2'), { result: null, progress: [], jobError: null, jobId: 'j2' });
+  assert.deepEqual(composeStart('j2'),
+    { result: null, progress: [], jobError: null, jobId: 'j2', jobBrief: null },
+    'with no brief to keep, none is invented');
   assert.deepEqual(jobFailed('j2', { error: 'boom' }), { state: 'failed', reason: 'boom', jobId: 'j2' });
+});
+
+test('the brief a compose was accepted with is the job\'s, and the draft since edited does not lend its name', () => {
+  const draft = { id: 'smith-house', name: 'Smith House', style: 'craftsman', candidates: 3, household: 'Two adults and a dog' };
+  const start = composeStart('j2', draft);
+  assert.deepEqual(start.jobBrief, { id: 'smith-house', name: 'Smith House', candidates: 3, household: 'Two adults and a dog' },
+    'what the Candidate Set prints about the brief, nothing else of the draft (not the style, not the rooms)');
+  // the draft is renamed afterwards: the job's brief still names its result
+  assert.equal(briefNameOf({ brief: 'smith-house' }, start.jobBrief), 'Smith House');
+  assert.equal(briefNameOf({ brief: 'smith-house' }, { ...draft, id: 'jones-house', name: 'Jones House' }), null,
+    'the edited draft names a different brief, and is not asked');
+  // a draft that shares the result\'s id but is another brief cannot be asked either: only the job's is
+  assert.equal(composeStart('j3', { id: 'new-brief', name: '' }).jobBrief.name, null, 'a blank name is no name');
+  for (const bad of [null, undefined, 'x', 3, [], {}, { name: 'no id' }, { id: '   ' }]) {
+    assert.equal(composeStart('j', bad).jobBrief, null, String(JSON.stringify(bad)));
+  }
+  assert.deepEqual(readJobBrief({ id: 'b', name: 'B', extra: 'dropped' }),
+    { id: 'b', name: 'B', candidates: null, household: null });
+  // a count is an integer of at least one, as the brief schema has it, or it is no count
+  for (const n of [0, -2, 2.5, '4', null, NaN, Infinity, undefined]) {
+    assert.equal(composeStart('j', { id: 'b', candidates: n }).jobBrief.candidates, null, String(n));
+  }
+  assert.equal(composeStart('j', { id: 'b', candidates: 6 }).jobBrief.candidates, 6);
+  assert.equal(composeStart('j', { id: 'b', household: '   ' }).jobBrief.household, null, 'a blank household is none');
+  assert.equal(readJobBrief('hostile'), null);
 });
 
 test('on a reattach the server decides: done brings the result, error and 404 forget the job', () => {
@@ -82,29 +109,49 @@ test('on a reattach the server decides: done brings the result, error and 404 fo
     { jobId: null, jobError: { state: 'expired', reason: "no job 'j'", jobId: 'j' } });
 });
 
-test('the session store keeps its key, persists the four facts, and survives a hostile entry', async () => {
+test('the session store keeps its key, persists the five facts, and survives a hostile entry', async () => {
   const store = new Map();
   store.set(KEY, JSON.stringify({
     brief: { style: 'craftsman' }, jobId: 'j1', result: { should: 'not persist' },
     planFrom: { kind: 'candidate', planId: 'p1', jobId: 'j1', n: 'two' },
     jobError: { state: 'exploded' },
+    jobBrief: { id: 'smith-house', name: 'Smith House', candidates: 5, household: 'A family', hostile: '<script>' },
   }));
   const prior = globalThis.localStorage;
   globalThis.localStorage = { getItem: (k) => (store.has(k) ? store.get(k) : null), setItem: (k, v) => store.set(k, v) };
   try {
-    const { session, recordPlanFrom } = await import('./state/session.js');
+    const { session, recordPlanFrom, clearPlanFrom } = await import('./state/session.js');
     const s = session.get();
     assert.deepEqual(s.brief, { style: 'craftsman' });
     assert.equal(s.jobId, 'j1');
     assert.equal(s.result, null, 'the result is re-fetched, never read back from storage');
     assert.deepEqual(s.planFrom, { kind: 'candidate', planId: 'p1', jobId: 'j1', n: null, briefName: null });
     assert.equal(s.jobError, null, 'a state the journey has no words for is dropped, not kept');
+    assert.deepEqual(s.jobBrief, { id: 'smith-house', name: 'Smith House', candidates: 5, household: 'A family' },
+      'read back through the sanitiser');
 
     const plan = { id: 'p2' };
     assert.equal(recordPlanFrom('example', plan), plan, 'it hands back the plan it recorded, to be loaded');
     const saved = JSON.parse(store.get(KEY));
-    assert.deepEqual(Object.keys(saved).sort(), ['brief', 'jobError', 'jobId', 'planFrom']);
+    assert.deepEqual(Object.keys(saved).sort(), ['brief', 'jobBrief', 'jobError', 'jobId', 'planFrom']);
     assert.deepEqual(saved.planFrom, { kind: 'example', planId: 'p2', jobId: null, n: null, briefName: null });
+
+    // a record put on the bench by an act with no origin says so, and is handed back to be loaded
+    const pasted = { id: 'p2' };
+    assert.equal(clearPlanFrom(pasted), pasted);
+    assert.equal(session.get().planFrom, null, 'a pasted record that shares a candidate\'s id inherits nothing');
+    assert.equal(JSON.parse(store.get(KEY)).planFrom, null, 'and the clearing is persisted, not only held');
+
+    // a record of ANOTHER id leaves the standing origin alone: it names a different house, so
+    // nothing can inherit it, and it is what undo (or the front door's resume line) finds again
+    recordPlanFrom('example', { id: 'p2' });
+    const other = { id: 'p3' };
+    assert.equal(clearPlanFrom(other), other, 'it still hands the record back to be loaded');
+    assert.deepEqual(session.get().planFrom, { kind: 'example', planId: 'p2', jobId: null, n: null, briefName: null },
+      'a pasted record with its own id does not erase the origin of the house it replaced');
+    // a record with no usable id cannot be told apart from any plan, so it clears
+    clearPlanFrom({ title: 'no id' });
+    assert.equal(session.get().planFrom, null);
 
     session.set(jobExpired('j1', 'gone'));
     assert.deepEqual(JSON.parse(store.get(KEY)).jobError, { state: 'expired', reason: 'gone', jobId: 'j1' });

@@ -84,30 +84,50 @@ export function byScore(a, b) {
     || String(a.parti || '').localeCompare(String(b.parti || ''));
 }
 
+/* WHAT THE TYPE'S OWN FACTS HAVE SAID OF A CANDIDATE, as a rank (audit follow-up, 16 Oct 2026;
+   ruled by Lucas: a refused candidate ranks last within equal judged fatals). The composer's key
+   is `(judged fatals, standing, unjudged fatals, score, ...)` with standing placed < unjudged <
+   refused (`compose.rank_key`); this is the same three-way reading off the card's `standing`
+   (`candidateStanding.standingOf`, the app's one reader of it). A card with no standing -- a
+   fixture, never a served candidate -- is read as unjudged, which is the middle of the three and
+   moves nothing relative to its peers. */
+const STANDING_RANK = Object.freeze({ placed: 0, unjudged: 1, refused: 2 });
+export function standingRank(c) {
+  const r = c && STANDING_RANK[c.standing];
+  return typeof r === 'number' ? r : STANDING_RANK.unjudged;
+}
+const refusedDiff = (a, b) => (standingRank(a) === 2 ? 1 : 0) - (standingRank(b) === 2 ? 1 : 0);
+
 const DQ_LAST = 'Any plan carrying a fatal finding sorts last whatever it scores, and says '
               + 'so on its own column.';
+const REFUSED_LAST = 'A refused plan sorts after one that is not.';
+const FATAL_SAYS = 'Fatal findings decide the order before the score does — a plan carrying two '
+                 + 'sorts below a plan carrying one, and both below a plan carrying none. Between '
+                 + 'equal counts, the plan with fewer fatal faults nobody could judge comes first.';
+const SAYS_TAIL = `${DQ_LAST} ${REFUSED_LAST}`;
 
 export const ORDERS = {
   score: {
     chip: 'highest score first',
-    says: `Ordered by score, highest first. ${DQ_LAST}`,
-    cmp: byScore,
+    says: `Ordered by score, highest first. ${SAYS_TAIL}`,
+    // refused is judged before the score: a refused plan's number can be the highest on screen
+    cmp: (a, b) => refusedDiff(a, b) || byScore(a, b),
   },
   native: {
     chip: 'native to the style',
     says: 'Ordered by whether the diagram is native to the style, then by score — so the '
-        + `column numbered 1 is the most native, not the highest scoring. ${DQ_LAST}`,
-    cmp: (a, b) => ((b.native ? 1 : 0) - (a.native ? 1 : 0)) || byScore(a, b),
+        + `column numbered 1 is the most native, not the highest scoring. ${SAYS_TAIL}`,
+    cmp: (a, b) => refusedDiff(a, b) || ((b.native ? 1 : 0) - (a.native ? 1 : 0)) || byScore(a, b),
   },
   fatal: {
     chip: 'fatal first',
-    says: 'Fatal findings decide the order before the score does — a plan carrying two '
-        + 'sorts below a plan carrying one, and both below a plan carrying none. Between '
-        + 'equal counts, the plan with fewer fatal faults nobody could judge comes first.',
-    /* R13 (29 Sep 2026): judged fatals, then UNJUDGED fatals, then the score -- the composer's
-       own key (`compose._sort_key`), so this reading order agrees with the order the set was
+    says: `${FATAL_SAYS} ${REFUSED_LAST}`,
+    /* R13 (29 Sep 2026), then the refusal ruling (16 Oct 2026): judged fatals, then STANDING
+       (placed, unjudged, refused), then UNJUDGED fatals, then the score -- the composer's own
+       key (`compose.rank_key`), so this reading order agrees with the order the set was
        returned in. An unjudged fatal is not a fatal: `order()` below does not read it. */
     cmp: (a, b) => ((a.fatal_n || 0) - (b.fatal_n || 0))
+      || (standingRank(a) - standingRank(b))
       || ((a.unjudged_fatal_n || 0) - (b.unjudged_fatal_n || 0)) || byScore(a, b),
   },
 };

@@ -74,17 +74,43 @@ export function planFromOf(kind, plan, { jobId = null, n = null, briefName = nul
 
 /* The NAME of the brief a compose result was made from, or null. The result carries the brief's
    id only (`compose.py`: `"brief": brief.get("id") or brief.get("name")`), so the name is read off
-   the drafted brief in the session — and only where that draft IS the brief the result names:
-   a draft edited since, or another brief altogether, would put a wrong name on a candidate. */
+   the brief the JOB was accepted with (`session.jobBrief`, written by `composeStart`) — and only
+   where that is the brief the result names. It used to be read off the drafted brief, which is
+   the one being edited since. */
 export function briefNameOf(result, brief) {
   const id = isObj(result) ? str(result.brief) : null;
   if (!id || !isObj(brief) || brief.id !== id) return null;
   return str(brief.name);
 }
 
-/* A compose that has just been accepted: everything the last one said is cleared. */
-export function composeStart(jobId) {
-  return { result: null, progress: [], jobError: null, jobId: str(jobId) };
+/* A compose that has just been accepted: everything the last one said is cleared, and the brief it
+   was made from is kept (`jobBrief`: its id and name, how many plans it asked for and its household). The result names its brief by id alone, and
+   the draft in the session is the brief being EDITED, which moves on: renamed after the compose it
+   no longer matched the result and the candidates lost their brief's name; and a draft that had
+   come to share the result's id would have lent its own. The name belongs to the job, so it is
+   taken when the job is accepted (audit follow-up, 16 Oct 2026). */
+export function composeStart(jobId, brief) {
+  return { result: null, progress: [], jobError: null, jobId: str(jobId), jobBrief: jobBriefOf(brief) };
+}
+
+/* {id, name, candidates, household} of a brief, or null where it states no id. The four are what
+   the Candidate Set prints about the brief a RESULT was made from -- its name, how many plans were
+   asked for ("returned 3 of 4") and the household sentence beside the columns -- and each read the
+   draft in the session until the draft moved on. `candidates` is an integer of at least 1, as the
+   brief schema has it, and is null otherwise; nothing else of the draft is kept. */
+export function jobBriefOf(brief) {
+  if (!isObj(brief) || !str(brief.id)) return null;
+  return {
+    id: brief.id,
+    name: str(brief.name),
+    candidates: Number.isInteger(brief.candidates) && brief.candidates >= 1 ? brief.candidates : null,
+    household: str(brief.household),
+  };
+}
+
+/* A stored `jobBrief` or null; the persisted entry comes back through here. */
+export function readJobBrief(v) {
+  return jobBriefOf(v);
 }
 
 /* A job the stream reports as failed. */

@@ -133,5 +133,10 @@ export function resumeView(journey, model) {
     termId: item ? item.termId : null,
     words: str(step.words),
     plan: r.id === 'plan',
+    /* WHERE THE HOUSE ON HAND CAME FROM, in the journey's words (audit follow-up, 16 Oct 2026).
+       "Continue" read any plan on the bench as the house in hand, an example opened last week as
+       readily as the candidate just picked; the bar's Plan step has always said where its plan came
+       from and the front door did not. Only the plan step has an origin. */
+    origin: r.id === 'plan' ? str(step.originWords) : null,
   };
 }

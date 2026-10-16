@@ -8,6 +8,81 @@
 import { isNative, nativityOf, unjudgedFatalsOf } from './candidateOrder.js';
 import { readRefusal } from './sheet/refusal.js';
 import { revisedLine } from './revision.js';
+import { JOURNEY_WORDS } from './journey/journey.js';
+import { standingOf, standingOfSet } from './candidateStanding.js';
+
+/* WHAT A PICKED COLUMN CAN DO, in one place so the strip that says it and the click that does it
+   cannot disagree (the Candidate Set's selection is a click that SELECTS -- it reads the decision
+   log and writes the address -- and loading the plan onto the bench is a second act).
+
+     none      no column is picked: say how to pick one. Where the SET has nothing to pick
+               (`set` says no candidate was returned, or every one was refused) it says that
+               instead -- an instruction to pick a candidate is not one a reader can follow there.
+     open      a candidate the composer's loop placed and the type did not turn down: the act is
+               loading it on the bench, where the placement is proved and drawn.
+     unjudged  a candidate nobody has asked the type's facts of yet (see `candidateStanding.js`):
+               loadable, because the bench is where the house is placed, and the strip says the
+               bench may still refuse it rather than promising a plan.
+     refused   a candidate the type's own facts turned down. NOT loadable, by WP-13.4's ruling
+               (a record no surface on the bench may draw reads as the bench being broken), so the
+               strip says WHY it cannot go on rather than offering a link that does nothing -- and
+               says it in the refusal's own words (the facts it names), because a candidate can
+               carry no fatal finding at all and still be refused: findings and facts are two
+               measures, and "0 fatal" has never meant "may be drawn".
+
+   `n` is the index the server's `/candidates/{n}/plan` is asked for, and the one the surface uses. */
+export function selectionAction(candidate, set = null) {
+  const W = JOURNEY_WORDS.selection;
+  if (!candidate) {
+    if (set && set.total === 0) return { state: 'empty', words: W.empty, n: null, refused: null };
+    if (set && set.total > 0 && set.openable === 0) return { state: 'stuck', words: W.allRefused, n: null, refused: null };
+    return { state: 'none', words: W.none, n: null, refused: null };
+  }
+  const name = candidate.parti_name || candidate.parti || 'this candidate';
+  const r = candidate.refused || null;
+  if (r) {
+    const why = Array.isArray(r.facts) && r.facts.length
+      ? `${r.facts.join(', ')} ${W.held(r.kind, r.facts.length)}` : null;
+    return { state: 'refused', words: W.refused(name, why), n: candidate.n, refused: r };
+  }
+  if (candidate.standing === 'unjudged') {
+    return { state: 'unjudged', words: W.unjudged(name), n: candidate.n, refused: null };
+  }
+  return { state: 'open', words: W.open(name), n: candidate.n, refused: null };
+}
+
+/* What the strip draws for an action, decided here so a unit test can fail it: a link only where
+   the candidate can go on the bench, text everywhere else, and the refusal's ink only on a refusal.
+   The surface renders exactly this and decides nothing. */
+export function selectionView(action) {
+  const loadable = Boolean(action) && (action.state === 'open' || action.state === 'unjudged');
+  return {
+    tag: loadable ? 'button' : 'span',
+    state: action ? action.state : 'none',
+    words: action ? action.words : '',
+    tone: action && (action.state === 'refused' || action.state === 'stuck' || action.state === 'empty')
+      ? 'refusal' : 'quiet',
+  };
+}
+
+/* How the type's own facts stand over a set of ADAPTED cards: {total, refused, placed, unjudged,
+   openable}, off the cards' served candidates. A card is refused where `readRefusal` found a
+   refusal on it; a candidate nobody asked, or whose verdict cannot be read, is `unjudged` -- not
+   refused, and not drawable either. */
+export function setStanding(cards) {
+  return standingOfSet(Array.isArray(cards) ? cards.map((c) => (c ? c.raw : null)) : []);
+}
+
+/* The tally the strip puts beside the set's size: how many were refused and how many were never
+   judged. Zero is said by saying nothing, so a clean set carries no tally. */
+export function tallyView(standing) {
+  return {
+    refused: standing && standing.refused > 0 ? standing.refused : 0,
+    unjudged: standing && standing.unjudged > 0 ? standing.unjudged : 0,
+    // the population both counts are over: the columns shown, the named diagram included
+    of: standing && standing.total > 0 ? standing.total : 0,
+  };
+}
 
 /* `what` — the sentence saying what an axis measures — rides on the RESULT once rather than
    on eight rows per candidate, because it is constant across a run and the MCP tool bills a
@@ -56,6 +131,8 @@ export function adaptCandidate(c, i, nativePartis, axisWhat) {
        onto the bench, where the reader met a blank plate and a status line — the refusal was on
        the record the whole time and no surface had read it. */
     refused: readRefusal(c.refused),
+    // what the type's facts have been asked of this candidate: refused | placed | unjudged
+    standing: standingOf(c),
     // WP-9.2/9.3: what the placed revision loop bought on this candidate. `score_before` is
     // the same instrument as `score` (both on the stripped declared record); `rank_before`
     // is the SERVER's order before revision and is labelled as such, because `rank` on

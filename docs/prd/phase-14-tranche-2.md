@@ -193,7 +193,11 @@ Each row names its owning package. "Frozen" names a tranche-1 freeze this row li
 
 - `workbench/server/evaluate.py` writes `out["plan"] = plan["id"]` before any early return.
 - `journey.js` exports `evalPlanOf(lastEval)`, which returns `lastEval.plan ?? lastEval.check?.plan`.
-  It is the only reader, and `App.jsx` uses it for the stale-evaluation clear.
+  It is the only reader, and `App.jsx` uses it for the stale-evaluation clear. *(Amended 16 Oct 2026:
+  that answers the id half only. A composed plan's id is `{parti}-{briefId}`, so two composes of one
+  parti are two houses with one id, and `evalIsOf(lastEval, planId, planFrom)` is the matcher now: the id
+  AND where the plan came from, `stampEval` marking each evaluation with the origin the bench held when
+  it ASKED. The shell's clear, the journey and the assistant's context all ask `evalIsOf`.)*
 - `core.check_plan`'s MCP payload is unchanged.
 - This closes `oq/an-evaluation-whose-check-errored-names-no-plan` on its answer 1.
 

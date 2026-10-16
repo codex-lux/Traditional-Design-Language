@@ -8,7 +8,8 @@ import React from 'react';
 import { api, jobEvents } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
 import { planDoc, mutations } from '../state/planDoc.js';
-import { recordPlanFrom } from '../state/session.js';
+import { session, recordPlanFrom, clearPlanFrom } from '../state/session.js';
+import { stampEval, answerIsForHere } from '../journey/journey.js';
 import { FindingRow } from '../components/FindingRow.jsx';
 import { SeverityTally } from '../components/SeverityTally.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
@@ -162,12 +163,22 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
     // THE DOCUMENT THE LOOP WAS GIVEN, held by identity (WP-13.9's own audit). See the load
     // below: `seq` and this answer two different questions and only this one is the right one.
     const submitted = p;
+    /* WHERE THE PLAN CAME FROM WHEN THE REQUEST WENT, not when the answer lands: a reader can
+       open another house with the same id in between, and the answer would then be filed against
+       it (`journey.js::stampEval`). */
+    const fromAtSubmit = session.get().planFrom;
     setBusy(true);
     setRevisingInline(!!opts.revise);
     api.evaluate(p, { strict, place: true, candidates: opts.candidates ?? seeds,
       engine: opts.engine, revise_rounds: opts.revise ? INLINE_REVISE_ROUNDS : 0 })
       .then((res) => {
         if (seq !== evalRef.current) return;
+        /* AN ANSWER LANDS ONLY ON THE HOUSE IT WAS ASKED OF. `seq` advances only when the next
+           request starts, which is 400 ms after an edit and not at once on opening another
+           house; a request in flight for the old house would then file its verdict (and its
+           findings, and its error line) against the new record until the new one's own run. */
+        { const nowDoc = planDoc.get();
+          if (!answerIsForHere(submitted && submitted.id, fromAtSubmit, nowDoc && nowDoc.id, session.get().planFrom)) return; }
         // updaters stay pure: the previous run's keys live in a ref, and both
         // state sets happen at this level (the seq guard already serializes)
         setPrevKeys(lastFindingsRef.current);
@@ -209,7 +220,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             planDoc.load(res.revised_plan);
           }
         }
-        setLastEval(res);
+        setLastEval(stampEval(res, submitted && submitted.id, fromAtSubmit));
       })
       .catch((e) => {
         if (seq !== evalRef.current) return;
@@ -379,7 +390,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
               try {
                 const rec = JSON.parse(e.target.value);
                 reviseNextRef.current = true;        // a pasted record is an explicit solve
-                planDoc.load(rec);
+                planDoc.load(clearPlanFrom(rec));    // a pasted record is nobody's candidate
               } catch { /* not JSON yet */ }
             }} />
         </label>

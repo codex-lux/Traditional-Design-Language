@@ -64,13 +64,24 @@ export const PAD_BOTTOM = SCALE_ROW + KEY_ROW + 14;
 export const FONT_PX = 11;            // a lettered label, before it is fitted
 export const MIN_FONT_PX = 9;         // below this a name is not lettered; it takes a numeral
 export const NUMERAL_FONT_PX = 10.5;
-export const LINE_PX = 13;            // one line of lettering
 export const TITLE_FONT_PX = 9.5;
+export const ZONE_FONT_PX = 10.5;     // a zone's figure and the zone string, before either is fitted
+/* ONE LINE OF LETTERING IS THE FACE'S LINE BOX, NOT ITS FONT SIZE. A text row set closer than the
+   box the browser reports for it overlaps its neighbour's box, whatever the glyphs do inside it.
+   The plate stood its rows 13 px apart for 11 px type; EB Garamond's box is 1.325 em (a 10.5 px
+   line measures 13.91 px through `getBBox`, in Chromium, with the face the page loads), so on every
+   machine that had the face the numerals, the letter labels and the zone string overlapped their
+   neighbours by 0.7 to 1.1 px, and the browser walk's text check -- which reads those boxes -- went
+   red in CI while it stayed green wherever the face fell back to a serif with a shorter box. The
+   pitch is derived from the face's box now and says so; 1.33 is that measurement rounded UP, and
+   the serif this page falls back to without the face (a 12 px box at 11 px, measured in a canvas)
+   is inside it. */
+export const LINE_BOX_EM = 1.33;
+export const LINE_PX = Math.ceil(Math.max(FONT_PX, NUMERAL_FONT_PX, ZONE_FONT_PX) * LINE_BOX_EM);  // 15
 export const LEADER_OUT = 12;         // px from an assembly's outermost face to its label column
 export const KNEE_OUT = 4;            // px from that face to the common knee of its leaders
 export const MAX_PART_TICKS = 60;     // PRD §I.6: ticks along the wall only where there are this many or fewer
-export const ZONE_FONT_PX = 10.5;     // a zone's figure and the zone string, before either is fitted
-export const MIN_ZONE_FONT_PX = 6;    // the least a zone figure is set at; it is never left out
+export const MIN_ZONE_FONT_PX = 6;   // the least a zone figure is set at; it is never left out
 export const ZONE_LINE_OUT = 4;       // px from the wall strip to the zone dimension line
 export const ZONE_TICK = 3;           // half a zone tick, px
 export const ZONE_ROW = 2 * LINE_PX + 6;  // px under the frame for a zoned item's string, in parts and in inches

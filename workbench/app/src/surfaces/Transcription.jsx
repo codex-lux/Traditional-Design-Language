@@ -14,7 +14,7 @@ import { fitLabel, fitLine, useFontMetrics } from '../sheet/label.js';
 import { api } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
 import { planDoc } from '../state/planDoc.js';
-import { recordPlanFrom } from '../state/session.js';
+import { recordPlanFrom, clearPlanFrom } from '../state/session.js';
 import { draftDoc, emptyDraft, completeness, toRecord, exteriorWalls, neighbours, backdropStore }
   from '../state/draftDoc.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
@@ -362,7 +362,7 @@ export function Transcription({ go }) {
       .then((res) => {
         setIngest(res);
         if (res.complete) {
-          planDoc.load(res.record);
+          planDoc.load(clearPlanFrom(res.record));   // an ingested drawing is nobody's candidate
           return;
         }
         draftDoc.update((d) => {

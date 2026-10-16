@@ -928,7 +928,7 @@ else `{ kind: 'unrecorded' }` ("origin not recorded").
 | From | `canProceed` when | `reason` otherwise |
 |---|---|---|
 | brief | candidates is not `none` | compose the brief first |
-| candidates | plan is not `empty` | open a candidate on the bench |
+| candidates | plan is not `empty` AND `planFrom` names a `candidate` whose `jobId` is the session's `jobId` AND, where a candidate is picked on the Candidate Set, `planFrom.n` is that pick (amended 15-16 Oct 2026, `docs/reports/the-candidate-click-and-the-stale-bench-2026-10-15.md`) | open a candidate on the bench; or, with the set in hand, the pick to open, the pick's refusal, or that nothing in the set can be opened |
 | plan | drawings is `ready` | the drawings step's words |
 | drawings | export is `ready` | the export step's words |
 | export | never (last step) | null |
@@ -939,7 +939,13 @@ else brief when `stated`; else `null`. The front door's "Continue: <plan name>, 
 ### G.1 `session` additions (`state/session.js`, WP-14.10)
 
 The `'tdl-workbench-session'` key (`session.js:6`) is unchanged; the persisted object becomes
-`{ brief, jobId, planFrom, jobError }`.
+`{ brief, jobId, planFrom, jobError }`. *(Amended 16 Oct 2026: it is `{ brief, jobId, planFrom, jobError,
+jobBrief }` now. `jobBrief` is `{id, name, candidates, household}` of the brief the current job was
+accepted with (the four things the Candidate Set prints about it: its name, how many plans it asked for,
+and its household sentence), written by `composeStart` and read by `briefNameOf` and the Candidate Set,
+so what is printed about the brief is the job's and not the draft's, which moves on. An entry without it
+reads as no name, and the surface falls back to the draft for the count and the household only then;
+a stored entry from before the count and household were kept reads them as null.)*
 
 ```js
 planFrom: null | { kind: 'candidate' | 'example' | 'traced', planId: string,

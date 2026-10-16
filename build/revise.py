@@ -91,6 +91,11 @@ OP = _mod("openings", os.path.join(ROOT, "build", "openings.py"))
 PC = _mod("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
 
 SEV = {"fatal": 0, "serious": 1, "minor": 2, "advisory": 3, "info": 4}
+# The `stop_reason` of a loop whose first placement could not be evaluated: it ran, produced a
+# record, and had nothing to hold a verdict against. The composer ranks on it
+# (`compose.placement_standing`) and the workbench matches it (`candidateStanding.js`), so the
+# string has one name here and a test holds each copy to it.
+STOP_PLACEMENT_UNJUDGED = "placement-could-not-be-evaluated"
 MAX_MOVES_PER_ROUND = 6
 
 
@@ -271,7 +276,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
     stop = None
     n = 0
     if placement_unjudged:
-        stop = "placement-could-not-be-evaluated"
+        stop = STOP_PLACEMENT_UNJUDGED
         rounds = 0
     while n < rounds:
         if budget_s is not None and time.perf_counter() - t0 > budget_s:

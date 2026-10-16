@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**278 questions, of which 155 are open.** A question is OPEN while
+**284 questions, of which 159 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 155
+## Open — 159
 
 Awaiting a ruling. This is the list to read first.
 
@@ -114,6 +114,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms** | HALF CLOSED — doors and windows built in WP-11.14 (8 September 2026); the sweep of the other exterior marks is open | [the seventh layer that reads one rectangle](open-questions/oq-an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms.md) |
 | **oq/an-exterior-stacks-breast-and-shoulders-are-stated-nowhere** | OPEN | [the stack stands on the ground at its own width](open-questions/oq-an-exterior-stacks-breast-and-shoulders-are-stated-nowhere.md) |
 | **oq/an-undecided-scout-releases-every-type-fact-at-once** | OPEN | [the ladder's answer to a model it cannot decide](open-questions/oq-an-undecided-scout-releases-every-type-fact-at-once.md) |
+| **oq/an-undo-across-a-document-change-restores-the-record-and-not-its-origin** | OPEN | [the history holds records and the origin is kept beside it](open-questions/oq-an-undo-across-a-document-change-restores-the-record-and-not-its-origin.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/build-history-is-shown-in-page-fields-the-description-sweep-does-not-read** | OPEN | [R6 reached the description, and the record pages print more than the description](open-questions/oq-build-history-is-shown-in-page-fields-the-description-sweep-does-not-read.md) |
 | **oq/clear-counts-a-pass-and-a-tautology-as-one-thing** | OPEN | [half the faults this corpus clears are cleared on the generator's own output](open-questions/oq-clear-counts-a-pass-and-a-tautology-as-one-thing.md) |
@@ -128,15 +129,16 @@ Awaiting a ruling. This is the list to read first.
 | **oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated** | OPEN | [23 works under 51 strings, and correcting them reddens the build by six](open-questions/oq-one-work-is-cited-under-several-strings-and-every-source-count-is-inflated.md) |
 | **oq/six-order-assemblies-state-a-division-and-carry-no-zones** | OPEN | [the order packs state how six of their assemblies divide, and WP-14.18 declared zones on a wall section only](open-questions/oq-six-order-assemblies-state-a-division-and-carry-no-zones.md) |
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
+| **oq/the-atlas-pane-is-a-different-shape-in-ci-than-in-a-local-walk** | OPEN | [one viewport, one build, two panes](open-questions/oq-the-atlas-pane-is-a-different-shape-in-ci-than-in-a-local-walk.md) |
 | **oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either** | OPEN | [two ruled packages, and their composition is worse than either alone](open-questions/oq-the-bay-parity-and-the-band-ranking-compose-worse-than-either.md) |
 | **oq/the-canon-axis-counts-two-grains-as-one** | OPEN | ["23 could not be evaluated" out of a denominator of 10](open-questions/oq-the-canon-axis-counts-two-grains-as-one.md) |
 | **oq/the-ceiling-and-opening-sliders-show-on-packs-that-read-neither** | OPEN | [the Proportions page offers a ceiling and an opening slider on every non-order pack, and 22 of the 32 name neither in any rule](open-questions/oq-the-ceiling-and-opening-sliders-show-on-packs-that-read-neither.md) |
 | **oq/the-census-sweeps-every-style-over-one-dated-side-gabled-house** | OPEN | [what the census cannot reach](open-questions/oq-the-census-sweeps-every-style-over-one-dated-side-gabled-house.md) |
 | **oq/the-centre-holds-and-refuses-a-window-the-floor-would-seat** | OPEN | [the window nearer the centre keeps a place nobody composed](open-questions/oq-the-centre-holds-and-refuses-a-window-the-floor-would-seat.md) |
 | **oq/the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw** | OPEN | [the job route strips its record and the bench re-solves it, so the panel's key and the plate are two houses](open-questions/oq-the-chip-driven-revision-is-judged-on-a-placement-the-sheet-does-not-draw.md) |
-| **oq/the-composer-ranks-first-a-house-that-may-not-be-drawn** | OPEN | [`_sort_key` never reads the refusal written onto the dict it sorts](open-questions/oq-the-composer-ranks-first-a-house-that-may-not-be-drawn.md) |
 | **oq/the-composer-ranks-on-an-assumed-bearing** | OPEN | [an aspect verdict entered the fitness function without being ruled into it](open-questions/oq-the-composer-ranks-on-an-assumed-bearing.md) |
 | **oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room** | OPEN | [the refusal is honest and the set is useless](open-questions/oq-the-composer-returns-a-set-that-satisfies-neither-must-have-room.md) |
+| **oq/the-composer-returns-sets-in-which-nothing-may-be-drawn** | OPEN | [the ranking is right and has nothing to rank](open-questions/oq-the-composer-returns-sets-in-which-nothing-may-be-drawn.md) |
 | **oq/the-composers-footprint-is-not-the-placed-one** | OPEN | [two derivations of one house's width, and the card publishes the one nobody builds](open-questions/oq-the-composers-footprint-is-not-the-placed-one.md) |
 | **oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced** | OPEN | [the floor is derived, and enforcing it would propagate a broken licence](open-questions/oq-the-depth-a-roof-needs-is-known-and-cannot-be-enforced.md) |
 | **oq/the-divergence-mark-is-in-neither-face-the-sheet-names** | OPEN | [one character, and the sheet cannot supply it](open-questions/oq-the-divergence-mark-is-in-neither-face-the-sheet-names.md) |
@@ -147,12 +149,14 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front** | OPEN | [the parity of what was drawn, on a front the record says is not the one drawn](open-questions/oq-the-even-bay-fault-judges-the-drawn-parity-of-an-incomplete-front.md) |
 | **oq/the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front** | OPEN | [an eighth layer reads the main block as the whole house](open-questions/oq-the-facade-layer-counts-a-dependencys-windows-as-bays-of-the-front.md) |
 | **oq/the-front-door-is-chosen-by-a-width-the-record-need-not-state** | OPEN | [the widest-door rule is applied to a field a door record may omit, and a stated 3 ft then beats an unstated 3.5](open-questions/oq-the-front-door-is-chosen-by-a-width-the-record-need-not-state.md) |
+| **oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps** | OPEN | [the act's row is steady, the bar above it is not](open-questions/oq-the-journey-bars-next-jumps-rows-when-the-strip-wraps.md) |
 | **oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it** | OPEN | [two vocabularies for one fact](open-questions/oq-the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it.md) |
 | **oq/the-massings-first-roof-default-is-read-raw** | OPEN | [eleven of forty massings name a roof the roof layer does not draw first](open-questions/oq-the-massings-first-roof-default-is-read-raw.md) |
 | **oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted** | OPEN | [the argument for STACK_HARD being off no longer holds on the plan it was made on](open-questions/oq-the-measurement-that-defaulted-the-stacking-rule-has-inverted.md) |
 | **oq/the-model-draws-only-a-gable-roof** | OPEN | [B1 hands two shipped plans a hip and a gambrel, and the model and the IFC draw neither](open-questions/oq-the-model-draws-only-a-gable-roof.md) |
 | **oq/the-net-clear-opening-is-half-of-every-sash** | OPEN | [a double-hung's model applied to a casement, and a fault cleared by 1.4 inches on it](open-questions/oq-the-net-clear-opening-is-half-of-every-sash.md) |
 | **oq/the-openings-are-not-set-to-the-brick-courses** | OPEN | [two packs state a window's head in a brick wall, and the elevation draws the one that is not in courses](open-questions/oq-the-openings-are-not-set-to-the-brick-courses.md) |
+| **oq/the-parti-check-places-a-house-the-product-does-not-build** | OPEN | [check_partis measures a house on the placer's 10 ft module, and the product builds the same diagram on its own 8 ft one](open-questions/oq-the-parti-check-places-a-house-the-product-does-not-build.md) |
 | **oq/the-partis-bay-module-contradicts-its-own-exemplars** | OPEN | [a 9 ft bay on a diagram whose every exemplar measures about twelve](open-questions/oq-the-partis-bay-module-contradicts-its-own-exemplars.md) |
 | **oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it** | OPEN | [the tradition cuts a long passage across its length, and the only move we have is to widen it](open-questions/oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md) |
 | **oq/the-placement-carries-no-wall-bands** | OPEN | [the rooms tile the footprint exactly, so the walls are drawn where no room allows for them](open-questions/oq-the-placement-carries-no-wall-bands.md) |
@@ -188,7 +192,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/which-packs-module-is-a-building-input** | HALF CLOSED — class A settled 26 Sep 2026 (WP-14.33): `room-harmonic` declared, the other two left undeclared by ruling; classes B, C and D unruled | [`trim-classical`'s module is the ceiling the reader sets; which other packs' modules are, and which only look as if they are](open-questions/oq-which-packs-module-is-a-building-input.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 123
+## Settled — 125
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -275,6 +279,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/a-pack-can-be-the-only-writer-a-node-has** | CLOSED | [flipping a pack can remove the only account of a slot a node can reach](open-questions/oq-a-pack-can-be-the-only-writer-a-node-has.md) |
 | **oq/a-proof-of-feasibility-is-not-a-proof-of-composition** | RULED 4 Sep 2026 | [the bench draws the proof, and on this plan the proof carries no composition at all](open-questions/oq-a-proof-of-feasibility-is-not-a-proof-of-composition.md) |
 | **oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue** | CLOSED 26 September 2026 (WP-14.33) — answer 1, a refusal is brick everywhere | [the refused mark is brick, every refusal card is violet, and violet is North America's hue](open-questions/oq-a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue.md) |
+| **oq/a-refused-candidates-record-is-served-for-diagnosis-and-the-candidate-set-will-not-load-it** | CLOSED 16 October 2026 (ruled that day, option 1: keep a refused candidate unopenable) | [two WP-13.4 statements about one record disagree, and a reader who picks a refused candidate is told which one won](open-questions/oq-a-refused-candidates-record-is-served-for-diagnosis-and-the-candidate-set-will-not-load-it.md) |
 | **oq/a-return-permitted-only-over-a-deeper-cornice-is-drawn-over-a-shallower-one** | CLOSED 1 October 2026 (ruled 30 September 2026, B4; executed by WP-16.9) | [a conditional permission, and a house that fails the condition](open-questions/oq-a-return-permitted-only-over-a-deeper-cornice-is-drawn-over-a-shallower-one.md) |
 | **oq/a-share-alike-photograph-has-no-home-in-the-asset-schema** | RULED 31 Aug 2026, and the ruling is a refusal | [the English records can have a licence or an image, not both](open-questions/oq-a-share-alike-photograph-has-no-home-in-the-asset-schema.md) |
 | **oq/a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five** | CLOSED 5 September 2026 (WP-11.8) — the budget is split, batch from interactive | [the proof is there and the clock is not](open-questions/oq-a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five.md) |
@@ -295,6 +300,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/the-app-still-writes-paragraphs-the-ratchet-does-not-read** | CLOSED — ruled 26 September 2026 (answer 3), executed in WP-14.33 | [the copy ratchet reads zero, and it reads titles and counts only](open-questions/oq-the-app-still-writes-paragraphs-the-ratchet-does-not-read.md) |
 | **oq/the-assistant-is-blind-to-the-page** | CLOSED 25 SEP 2026 — answers 1 and 3, in the citation form, executed by WP-14.22 | [the pane is named now, and it is still told nothing about what the reader has selected](open-questions/oq-the-assistant-is-blind-to-the-page.md) |
 | **oq/the-candidate-score-cannot-see-a-massing-element** | RULED 5 Sep 2026 | [the composer ranks the better house lower](open-questions/oq-the-candidate-score-cannot-see-a-massing-element.md) |
+| **oq/the-composer-ranks-first-a-house-that-may-not-be-drawn** | CLOSED 16 October 2026 (ruled that day, reading 1; executed by the follow-up to the candidate-click audit) | [`_sort_key` never reads the refusal written onto the dict it sorts](open-questions/oq-the-composer-ranks-first-a-house-that-may-not-be-drawn.md) |
 | **oq/the-coverage-floor-is-an-exact-cover-per-element** | CLOSED — answered by measurement in WP-11.13, and not by choosing a number (7 September 2026) | [0.97 of each box, and the boxes have no slack](open-questions/oq-the-coverage-floor-is-an-exact-cover-per-element.md) |
 | **oq/the-dxf-draws-its-own-windows** | CLOSED 27 Sep 2026 | [a downloaded DXF is a different drawing of the same house, today](open-questions/oq-the-dxf-draws-its-own-windows.md) |
 | **oq/the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge** | CLOSED 29 September 2026 (ruled that day; executed by WP-16.1) | [one front, two answers](open-questions/oq-the-elevation-measures-a-front-the-drawn-layer-refuses-to-judge.md) |

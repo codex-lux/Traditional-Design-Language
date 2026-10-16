@@ -339,6 +339,13 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
     the number, and no score is a case for building it. `demerits` is the superseded
     lower-is-better total and ranks nothing.
 
+    Among candidates with the same number of fatal findings, one whose placement the type's own
+    hard facts REFUSE (`refused` is set once the placed loop has run) is returned after one they
+    allow, and a candidate nobody has placed stands between the two: "0 fatal" counts findings and
+    does not say a house may be drawn, so the return order does not let the best score of a refused
+    set head it. Where every candidate is refused the order is the score's, and `refused` says so
+    on each.
+
     Read `trades_away` before `score` — every diagram gives something up, and the best-scoring plan is
     not always the one the client wants. Read `decisions` too: those are what the composer chose where
     the brief was silent, and they are assumptions rather than facts.
