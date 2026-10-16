@@ -293,5 +293,25 @@ result, 4 of 4 refused, and not the table: a different set and order, which is t
   the new checks beside those three, so they bite.
 - Checkers and tests: app suite, `vite build`, `check_counts` (0 stale), `check_citations` (0
   dangling), `check_ids`, `gen_open_questions --check` and the open-question list and counts tests
-  are green. The whole `check_all.py` on a clean worktree of the code commit was still running when
-  this line was written; its verdict replaces this sentence.
+  are green.
+- **The whole `build/check_all.py`, on a clean `git worktree` of `5a0106a` (16 Oct 2026, 1 h 11 m for
+  `pytest tests/`), is `2 of 54 checks failed`: 21 failed / 3,787 passed / 132 skipped.** The app
+  suite is 786 of 786, the server suite 439 passed / 19 skipped, and three checks could not be
+  evaluated, each by name and none a pass: no `dist/` (the frontend's lazy-tier check), and the DXF
+  and IFC selftests, because `ezdxf` and `ifcopenshell` are not installed in this container.
+  - **Every red is attributed by id against a `git worktree` of the parent `e00ef29`**, the 21 ids run
+    alone on both trees. The parent fails 20 of the 21 identically: 18 `test_sheet_coherence.py` gate
+    rows, `test_parti_composability.py`'s composability row and `test_solver.py`'s half bound. The
+    two failing checks are `check_partis.py` (its `side-hall-townhouse` fatal, the same sentence on
+    both) and `pytest tests/`.
+  - **The 21st is `test_every_upper_bearing_line_stands_on_a_ground_bearing_line[careful-cp]`**, a
+    prover-band row, which the parent passed in the 21-id run. Run alone, it passes 12 of 12 on the
+    parent and 11 of 12 on this tree (one failure, in the third round of an alternation). The two
+    trees are byte-identical in every file outside `workbench/app/`, `docs/` and `CLAUDE.md`
+    (`git diff --name-only e00ef29 HEAD` outside those is empty), so the failing row reads the same
+    Python and data on both and the difference can only be the 40 s CP-SAT wall clock. That is the
+    row WP-16.4 and WP-16.8 recorded the same way; a failure on the parent was not reproduced here,
+    so this is attributed by identity of inputs and not by a red on the control.
+  - **132 skipped is this container's, not the change's**: with `ezdxf` and `ifcopenshell` absent
+    the DXF- and IFC-gated tests skip (CI installs `ezdxf`). The change touches no Python and no data
+    file, so none of those tests reads anything it moved. Judged in CI, unjudged here.
