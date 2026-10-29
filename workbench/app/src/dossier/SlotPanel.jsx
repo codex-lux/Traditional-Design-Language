@@ -23,6 +23,13 @@ import { FilterStrip } from '../Chrome.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Section, prose, quiet, data } from './parts.jsx';
 import { bindingBar } from '../elements/bindingBar.js';
+/* THE BAR COUNTS WHAT EACH STYLE ENDS UP WITH, after the cascade, and its parts take their own words
+   (Phase 17's audit). They were labelled with the kit's binding words, which say what a style writes
+   in its OWN kit: "specified" read "the style fixes this slot itself" over a count in which 57 of the
+   cornice's 86 inherit it, and "open" read "takes whatever its ancestors specify" over the styles
+   where no ancestor specifies anything. */
+const REACH_TERM = { specified: 'slot-reach-specified', extends: 'slot-reach-extended',
+  forbidden: 'slot-reach-forbidden', open: 'slot-reach-open' };
 import { BindingChip } from '../components/Chip.jsx';
 
 // each part of the bar in its binding's own duty ink, open as the hairline it is
@@ -82,14 +89,15 @@ export function SlotPanel({ slot }) {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px', marginTop: 6 }}>
                   {bar.map((p) => (
                     <span key={p.id} style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
-                      <BindingChip binding={p.id}><Term id={`binding-${p.id}`} /></BindingChip>
+                      <BindingChip binding={p.id}><Term id={REACH_TERM[p.id]} /></BindingChip>
                       <span style={data}>{p.n}</span>
                     </span>
                   ))}
                 </div>
+                {bound.note && <p data-binding-note="" style={{ ...quiet, margin: '6px 0 0' }}>{bound.note}</p>}
               </div>
             )}
-            <Section eyebrow={<><Term id="binding-specified" /> · {by.length}</>} data-specified-by={by.length}>
+            <Section eyebrow={<><Term id="slot-reach-specified" /> · <Term id="slot-reach-extended" /> · {by.length}</>} data-specified-by={by.length}>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px' }}>
                 {by.map((id) => (
                   <span key={id} data-specifying-style={id}>

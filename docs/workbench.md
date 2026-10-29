@@ -311,7 +311,8 @@ as five cards.
 **The Candidate Set** (WP-17.4) sets each candidate on a vellum column, and the column says first
 how the type's own facts stand on it, in one of three forms:
 - refused: a brick band with its sentence, and the house cannot be drawn;
-- placed: a green disc, because the placed loop ran and the type's facts held;
+- placed: a green disc, because the placed loop ran and refused nothing: no hard fact of the type
+  was broken, and a fact the placement could not judge is counted as neither held nor broken;
 - unjudged: a hatched ring, because nobody asked the type's facts of it, so the bench may yet refuse it.
 
 The score and the nativity are two marks and never one, and the decision log reads as a receipt.
@@ -323,12 +324,13 @@ control of the toolbar, labelled as what it does: the findings appear and clear 
 changes.
 
 **The Drawing Set** (WP-17.7) heads every sheet with the one-building banner: every sheet in a set
-is drawn from one placement of one record, and the banner carries that placement's input digest so
-two sheets can be seen to be of the same house. The elevation can lay its own datums over the plate
--- grade, the floors, the water table and the eave, each as the elevation record states it -- as
-dashed construction lines registered through the plate's own frame; where the record states none,
-the control is absent. Beside the plate, the disclosures say how many of the corpus's faults were
-evaluated on this house out of all of them, and the refusals and judgments stand as they are.
+is drawn from one placement of one record, and the banner carries the digest of the record that
+placement was solved from, so two sheets can be seen to come from the same record. The elevation can
+lay its own datums over the plate as dashed construction lines registered through the plate's own
+frame: grade, which is the plate's own datum and always stated, and the floors, the water table and
+the eave wherever the elevation record states them. Beside the plate, the disclosures say how many
+of the faults that apply to this house's style were evaluated, out of those that apply, and the
+refusals and judgments stand as they are.
 
 **Details & Export** (WP-17.8) sets what leaves the system today on vellum cards and what is
 designed and not built as dashed cards, never hidden. Beside them stands the modelling convention a
@@ -340,9 +342,17 @@ takes half its thickness from each of them.
 breaks the chronology: a descendant that flourishes well before the ancestor it is said to descend
 from. The rule is the validator's own warning, which the build has printed and no page has shown.
 
-**Compare** (WP-17.13) says where the two styles part in the graph: the nearest node both of their
-kit cascades hold, above which they share everything they inherit, and below which each has levels
-of its own. A pair whose cascades share nothing part at no node, and the page says so.
+**Compare** (WP-17.13) says where the two styles part in the graph: the shared node nearest to both
+of them, the one with the fewest levels above it in the two kit cascades taken together, ties broken
+by name, so the answer does not depend on which style is named first. Each style's own levels are the
+ones in its cascade that the other's does not hold. A pair whose cascades share nothing part at no
+node, and the page says so.
+
+**The Elements** (WP-17.13) draws who binds a slot across every style as a bar of four parts, read off
+each style's resolved kit after the lineage cascade: specified, specified and then extended by a later
+node, forbidden, and open, where nothing in the cascade specifies or forbids the slot. A style that
+inherits the slot is counted with its ancestor's binding, so these parts count what each style ends
+up with and not the binding it writes in its own kit.
 
 **Proportions** (WP-17.13) lists the material modules before the orders, because a brick course or
 a sash light is what a building is measured in before an order is applied to it. The order plate is
@@ -364,13 +374,14 @@ about the house and not an error code. Each word is its own glossary record:
 | to do | the brief has not been stated, so there is nothing yet to compose |
 | stated | the brief has been stated and can be composed into candidates |
 | none yet | no compose has returned candidates for the brief in hand |
+| failed | the compose stopped with an error and returned no set |
 | expired | the server no longer keeps the compose this set came from |
 | no plan on the bench | the bench holds no plan record, so there is nothing to draw or export |
 | not yet evaluated | the plan on the bench has not been placed and judged since it changed |
 | needs a plan | a drawing or an export needs a plan on the bench before it can be made |
 | blocked: refused | the plan on the bench breaks a hard fact of its type, so nothing may be drawn from it |
 | blocked: a working sketch | the plan on the bench is a working sketch, and an export would present it as a drawing |
-| ready | the step before is complete, and this one can be made now |
+| ready | this step can be taken now |
 
 ## Navigation and addressing (WP-5.6)
 
@@ -401,7 +412,7 @@ over `hashchange` in the same idiom as `planDoc`.
 - `-` holds an absent leading path key (`#/style/-/kit/cornice` is a slot with no style).
 - A URL cannot express "present, but null", and nothing downstream reads one.
 
-**Search.** `GET /api/search/index` serves every nameable thing once (918 entries, 283,092 bytes
+**Search.** `GET /api/search/index` serves every nameable thing once (923 entries, 283,092 bytes
 served as Starlette writes it, measured 26 Sep 2026 after WP-14.33's two glossary records; the
 282,370 that stood here was the 885-entry figure, left beside a count `check_counts.py --fix`
 rewrote, which is the one number of a pair that tool can reach. 282,370 was measured 25 Sep 2026
@@ -416,7 +427,7 @@ diagnostic tells quadrupled the payload and produced matches nobody could accoun
 payload states that boundary in its own `indexes` / `does_not_index` fields. Prose search
 belongs to `/api/styles?query=` and to the rail. Every entry carries a `cite`, so the
 palette dispatches through the citation router and cannot reach a place a citation could
-not name; `test_search_index.py` runs all 918 through the server's own validator.
+not name; `test_search_index.py` runs all 923 through the server's own validator.
 
 **Keys.** `app/src/keys.js` is the only file that binds one, and it binds three: `⌘K`/`ctrl-K`
 (palette), `/` (focus this surface's filter bar, via a one-line registration bus so the

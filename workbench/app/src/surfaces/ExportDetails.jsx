@@ -164,7 +164,7 @@ export function ExportDetails({ lastEval }) {
               // the NOT-BUILT colour is for what is not built. An export that FAILED is not a
               // forthcoming feature, and painting the two the same made a refused house read
               // as a gap in the product.
-              color: note.missing ? 'var(--text-secondary)' : 'var(--refusal)',
+              color: note.missing ? 'var(--text-secondary)' : 'var(--refusal-text)',
               margin: '0 0 14px', maxWidth: '76ch' }}>
             {note.missing
               ? `not built on this server — ${note.text}`
@@ -240,7 +240,7 @@ export function ExportDetails({ lastEval }) {
             </span>
             {blocked && (
               <p data-export-blocked="" style={{ font: 'var(--type-data-s)',
-                color: 'var(--refusal)', margin: '10px 0 0' }}>{blockedWhy}</p>
+                color: 'var(--refusal-text)', margin: '10px 0 0' }}>{blockedWhy}</p>
             )}
           </Vellum>
         </div>

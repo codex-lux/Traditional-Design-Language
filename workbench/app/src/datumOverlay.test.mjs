@@ -25,3 +25,14 @@ test('no frame, no datums, or a datum with no figure draws nothing in its place'
   assert.equal(datumLines(svg, []), null);
   assert.deepEqual(datumLines(svg, [{ id: 'eave', v_ft: null }]), []);
 });
+
+/* Phase 17's audit: the fixture's frame had its origin AT GRADE, so dropping `at_origin_ft` from the
+   arithmetic left every assertion green -- and `render_elevation` puts its origin at the TOP, with
+   `at_origin_ft` the top's height, so that defect would mis-place every datum on every real plate. */
+test('a frame whose origin is the top of the elevation puts grade below it, by the top height', () => {
+  const top = { plates: [{ id: 'S', proj: 'elevation', face: 'S', px_per_ft: 6, origin_px: [46, 40], at_origin_ft: [0, 30] }] };
+  const s2 = `<svg viewBox="0 0 800 520" data-frame='${JSON.stringify(top)}'></svg>`;
+  const lines = datumLines(s2, [{ id: 'grade', v_ft: 0 }, { id: 'eave', v_ft: 20 }]);
+  assert.equal(lines[0].y, 40 + 30 * 6, 'grade is thirty feet below the origin');
+  assert.equal(lines[1].y, 40 + 10 * 6, 'the eave is ten feet below it');
+});

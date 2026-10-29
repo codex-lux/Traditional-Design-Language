@@ -22,3 +22,13 @@ test('the chronology exception is the validator\'s rule: a descendant flourishin
   assert.deepEqual(chronologyExceptions(taxa, edges).map((e) => [e.from, e.to]), [['child', 'parent']],
     'twenty years early is within the slack, and a hybrid edge is not lineage of descent');
 });
+
+/* Phase 17's audit: the corpus's one exception is 150 years early, so any slack from 25 to 149 and a
+   rule that dropped `regional_of` both passed. The boundary and the second kind are driven here. */
+test('the slack is exactly twenty-five years, and a regional edge is lineage too', () => {
+  const taxa = [{ id: 'p', floruit_start: 1700 }, { id: 'at25', floruit_start: 1675 },
+    { id: 'at26', floruit_start: 1674 }, { id: 'reg', floruit_start: 1600 }];
+  const edges = [{ from: 'at25', to: 'p', type: 'descends_from' }, { from: 'at26', to: 'p', type: 'descends_from' },
+    { from: 'reg', to: 'p', type: 'regional_of' }];
+  assert.deepEqual(chronologyExceptions(taxa, edges).map((e) => e.from).sort(), ['at26', 'reg']);
+});

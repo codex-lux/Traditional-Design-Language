@@ -117,7 +117,7 @@ function FindingRow({
     title: describeTerm(glossary, 'finding-class').title,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--gilt-deep)',
+      color: 'var(--text-accent)',
       flex: 'none'
     }
   }, classTag), /*#__PURE__*/React.createElement("span", {
@@ -159,7 +159,7 @@ function FindingRow({
     style: {
       ...EYE,
       marginRight: 8,
-      color: 'var(--green-deep)'
+      color: 'var(--sev-cleared)'
     }
   }, "fix"), finding.fix), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -180,7 +180,7 @@ function FindingRow({
     },
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--gilt-deep)'
+      color: 'var(--text-accent)'
     }
   }, "show on drawing"), onAssert && finding.assertable && /*#__PURE__*/React.createElement("button", {
     type: "button",
@@ -189,7 +189,7 @@ function FindingRow({
     },
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--green-deep)'
+      color: 'var(--sev-cleared)'
     }
   }, "assert ", finding.assertable, " and re-score"))));
 }

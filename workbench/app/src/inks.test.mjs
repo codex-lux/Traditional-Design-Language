@@ -566,26 +566,31 @@ const NAVIGATES = /\bonCite\s*\(|\bonFault\s*\(|\bonSlot\s*\(|\bgo\s*\(|\bhref\b
 
 // CLICKABLE-BEGIN
 /* [file, tag, token, handler, class]: `action` or `chip`, and never `link`. */
+/* PHASE 17's AUDIT RE-KEYED THESE ROWS AND ADDED NONE. Each control's text took its pigment
+   (`--gilt-deep`, `--green-deep`) and now takes the duty (`--text-accent`, `--sev-cleared`), which
+   is the same pigment on vellum -- so the row, and the 4.09 : 1 it records there, is unchanged and
+   still `oq/two-inks-set-as-small-text-read-below-aa`'s -- and the lit pigment on the instrument,
+   where the pigment read 2.93 and 3.17. */
 const CLICKABLE = [
-  ["Chrome.jsx", "button", "--gilt-deep",
+  ["Chrome.jsx", "button", "--text-accent",
     "{onClick} title={title} {...aria} style={{ font: 'var(--type", "chip"],
-  ["Chrome.jsx", "button", "--gilt-deep",
+  ["Chrome.jsx", "button", "--text-accent",
     "{onClick} title={title} disabled={disabled} style={{ font: '", "chip"],
-  ["Chrome.jsx", "button", "--gilt-deep",
+  ["Chrome.jsx", "button", "--text-accent",
     "{() => setOpen(!open)} aria-expanded={open} title={open ? `F", "action"],
-  ["components/FindingRow.jsx", "button", "--gilt-deep",
+  ["components/FindingRow.jsx", "button", "--text-accent",
     "function () { onLocate(finding); }, style: { font: 'var(--ty", "action"],
-  ["components/FindingRow.jsx", "button", "--green-deep",
+  ["components/FindingRow.jsx", "button", "--sev-cleared",
     "function () { onAssert(finding); }, style: { font: 'var(--ty", "action"],
-  ["components/SlotRow.jsx", "button", "--gilt-deep",
+  ["components/SlotRow.jsx", "button", "--text-accent",
     "function () { onSource(slot.source.id); }, style: { ...EYE, ", "action"],
-  ["components/UnsourcedImageRecord.jsx", "button", "--gilt-deep",
+  ["components/UnsourcedImageRecord.jsx", "button", "--text-accent",
     "function () { onRequest(record); }, style: { font: 'var(--ty", "action"],
-  ["dossier/ProportionsSection.jsx", "button", "--gilt-deep",
+  ["dossier/ProportionsSection.jsx", "button", "--text-accent",
     "{() => prefs.setFold('delivered', !open)} style={{ font: 'va", "action"],
-  ["surfaces/BriefIntake.jsx", "button", "--gilt-deep",
+  ["surfaces/BriefIntake.jsx", "button", "--text-accent",
     "{compose} disabled={composing || !ready} aria-busy={composin", "action"],
-  ["surfaces/PlanWorkbench.jsx", "button", "--gilt-deep",
+  ["surfaces/PlanWorkbench.jsx", "button", "--text-accent",
     "{() => planDoc.update(mutations.revokeRelation(i))} style={{", "action"],
 ];
 // CLICKABLE-END

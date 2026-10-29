@@ -121,7 +121,7 @@ function UnsourcedImageRecord({
     },
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--gilt-deep)',
+      color: 'var(--text-accent)',
       marginTop: 10
     }
   }, "request this photograph")));

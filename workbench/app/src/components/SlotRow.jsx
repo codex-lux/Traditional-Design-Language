@@ -257,7 +257,7 @@ function SlotRow({
     },
     style: {
       ...EYE,
-      color: 'var(--gilt-deep)',
+      color: 'var(--text-accent)',
       alignSelf: 'flex-end'
     }
   }, "trace to origin"))));

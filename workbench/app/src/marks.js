@@ -115,7 +115,7 @@ export function markGlyph(token, size = 13) {
         borderTop: `var(--lw-medium) solid ${paint}` };
     case 'field':
       return { width: size * 2.2, height: size, flex: 'none', display: 'block', boxSizing: 'border-box',
-        border: '1px solid var(--rule)', color: FIELD_INK[token] || 'var(--ink-2)',
+        border: '1px solid var(--rule)', color: FIELD_INK[token] || 'var(--text-secondary)',
         backgroundColor: FIELD_GROUND[token] || 'var(--paper)', backgroundImage: paint };
     case 'word':
       return { color: paint, font: 'italic var(--fw-reg) var(--fs-body-s)/1.4 var(--serif)' };

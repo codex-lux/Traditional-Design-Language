@@ -34,3 +34,25 @@ contrast.
 **What is also not ruled.** A navigating `ActionChip` ("go to the Plan Workbench", "go to Brief
 Intake", "drawings") is a chip whose ink is `Chrome.jsx`'s own, and the clickable reader holds it as a
 chip. Whether a chip that navigates is a link in the sense R3 ruled on is this question's too.
+
+**Amended 29 Oct 2026 (WP-17.15, the audit of Phase 17).** The question names three inks on paper.
+Widening `grounds.test.mjs` to hold every duty a word is set in, on both grounds, measured the full set
+on vellum. Every figure below is older than Phase 17, and Phase 17 moved none of them:
+
+| Duty | on `--paper` | on `--paper-deep` | Its pigment |
+|---|---|---|---|
+| `--sev-serious` | 2.71 | 2.41 | `--salmon-deep` |
+| `--sev-info`, `--text-tertiary` | 3.15 | 2.80 | `--ink-3` |
+| `--sev-fatal`, `--refusal-text` | 3.50 | 3.11 | `--brick` |
+| `--sev-cleared` | 3.78 | 3.37 | `--green-deep` |
+| `--sev-minor`, `--text-accent` | 4.09 | 3.64 | `--gilt-deep` |
+| `--sev-advisory` | 4.85 | 4.32 | `--ink-2` |
+
+- **The first three rows are new to this question.** A serious finding's word on paper reads 2.71 : 1,
+  lower than anything the question named.
+- **They are held by identity in `grounds.test.mjs`'s `KNOWN`**, so none may grow a sibling and a fix
+  must remove its row.
+- **On the instrument the same duties are rebound to pigments mixed toward paper** (`--salmon-lit`,
+  `--gilt-lit`, `--green-lit`, and `--salmon` for a fatal). There every one reads 4.5 : 1 or better, on
+  every dark surface and on its own severity field. The paper ground is not changed, because that is
+  this question's ruling to make.

@@ -19,3 +19,18 @@ def test_the_cascade_credits_each_ban_to_the_node_that_wrote_it():
     credited = sum(len(v) for v in by.values())
     assert credited >= len(slot_bans)
     assert all(b["slot"] in resolved for v in by.values() for b in v)
+
+
+def test_a_banned_variant_is_credited_to_the_node_that_wrote_its_row():
+    """Phase 17's audit: only whole-slot bans were held, so a variant ban credited to the style, or
+    dropped, stayed green. Each forbidden row of the resolved kit is on its writer's level."""
+    from workbench.server import corpus
+    out = corpus.kit_cascade("colonial-revival")
+    by = {r["id"]: r["bans"] for r in out["cascade"]}
+    resolved = corpus.core._resolved_kit("colonial-revival")
+    rows = [(s, v.get("id") or v.get("name"), v["_written_by"]) for s, r in resolved.items() if isinstance(r, dict)
+            for v in (r.get("variants") or []) if isinstance(v, dict) and v.get("status") == "forbidden" and v.get("_written_by")]
+    assert rows, "the premise: the resolved kit forbids some variant"
+    for slot, variant, writer in rows:
+        assert {"slot": slot, "variant": variant} in by.get(writer, []), (slot, variant, writer)
+    assert any(w != "colonial-revival" for _, _, w in rows), "some variant ban is an ancestor's, so crediting the style would be seen"

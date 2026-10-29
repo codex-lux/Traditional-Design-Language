@@ -276,7 +276,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             <span style={{ position: 'absolute', left: BREAK_FRAC * 100 + '%', top: 16, bottom: -6,
               width: 0, borderLeft: '1px dashed var(--border-hairline)' }} />
             <span style={{ position: 'absolute', left: BREAK_FRAC * 100 + '%', top: 15,
-              transform: 'translate(-50%,0)', font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>‖</span>
+              transform: 'translate(-50%,0)', font: 'var(--type-data-s)', color: 'var(--text-accent)' }}>‖</span>
           </div>
           <div style={{ marginLeft: 210, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap',
             gap: '2px 16px', marginBottom: 10 }}>

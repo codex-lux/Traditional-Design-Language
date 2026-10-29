@@ -69,9 +69,16 @@ const SURFACES = {
   vellum: ['--paper', '--paper-mat', '--paper-deep', '--paper-lit'],
   instrument: ['--coal', '--heavy', '--heavy-2', '--coal-deep'],
 };
+/* EVERY duty a word is set in, on both grounds (widened by Phase 17's audit). The first version
+   held four on vellum and seven on the instrument, and a severity word, an accent and a refusal --
+   which the rendered page sets as type hundreds of times -- were judged on neither. The rendered
+   measurement found `--sev-serious` at 4.43 and `--sev-fatal` at 3.43 on the dark ground. */
+const SEV = ['--sev-fatal', '--sev-serious', '--sev-minor', '--sev-cleared', '--sev-advisory', '--sev-info'];
 const TEXT = {
-  vellum: ['--text-body', '--text-secondary', '--link', '--text-on-paper'],
-  instrument: ['--text-body', '--text-secondary', '--text-tertiary', '--text-accent', '--link', '--refusal-text', '--mark-loading'],
+  vellum: ['--text-body', '--text-secondary', '--text-tertiary', '--text-accent', '--link', '--text-on-paper',
+    '--refusal-text', ...SEV],
+  instrument: ['--text-body', '--text-secondary', '--text-tertiary', '--text-accent', '--link', '--refusal-text',
+    '--mark-loading', ...SEV],
 };
 
 function contrastRows(css) {
@@ -92,10 +99,50 @@ function contrastRows(css) {
 /* The one row the vellum ground already carried before the instrument existed, measured and
    recorded by `components/Eyebrow.jsx` since WP-14.8: --ink-2 reads 4.85 : 1 on --paper and 4.32
    on --paper-deep. It is held here by identity so it cannot grow a sibling. */
-const KNOWN = ['--text-secondary on vellum reads 4.32 : 1 on --paper-deep'];
+/* AND THE ROWS THE WIDENED TABLE FOUND ON VELLUM, every one older than Phase 17 and moved by none of
+   it: a severity word, an accent, a refusal and the tertiary grey set in their pigments on paper.
+   Three are `oq/two-inks-set-as-small-text-read-below-aa`'s (the refusal, the gilt, the green); the
+   severity words and the tertiary grey are amended into it, dated, by Phase 17's audit. Held by
+   identity, so none may grow a sibling and a fix must remove its row. */
+const KNOWN = [
+  '--text-secondary on vellum reads 4.32 : 1 on --paper-deep',
+  '--refusal-text on vellum reads 3.11 : 1 on --paper-deep',
+  '--refusal-text on vellum reads 3.29 : 1 on --paper-mat',
+  '--refusal-text on vellum reads 3.50 : 1 on --paper',
+  '--refusal-text on vellum reads 3.72 : 1 on --paper-lit',
+  '--sev-advisory on vellum reads 4.32 : 1 on --paper-deep',
+  '--sev-cleared on vellum reads 3.37 : 1 on --paper-deep',
+  '--sev-cleared on vellum reads 3.55 : 1 on --paper-mat',
+  '--sev-cleared on vellum reads 3.78 : 1 on --paper',
+  '--sev-cleared on vellum reads 4.03 : 1 on --paper-lit',
+  '--sev-fatal on vellum reads 3.11 : 1 on --paper-deep',
+  '--sev-fatal on vellum reads 3.29 : 1 on --paper-mat',
+  '--sev-fatal on vellum reads 3.50 : 1 on --paper',
+  '--sev-fatal on vellum reads 3.72 : 1 on --paper-lit',
+  '--sev-info on vellum reads 2.80 : 1 on --paper-deep',
+  '--sev-info on vellum reads 2.96 : 1 on --paper-mat',
+  '--sev-info on vellum reads 3.15 : 1 on --paper',
+  '--sev-info on vellum reads 3.35 : 1 on --paper-lit',
+  '--sev-minor on vellum reads 3.64 : 1 on --paper-deep',
+  '--sev-minor on vellum reads 3.84 : 1 on --paper-mat',
+  '--sev-minor on vellum reads 4.09 : 1 on --paper',
+  '--sev-minor on vellum reads 4.35 : 1 on --paper-lit',
+  '--sev-serious on vellum reads 2.41 : 1 on --paper-deep',
+  '--sev-serious on vellum reads 2.54 : 1 on --paper-mat',
+  '--sev-serious on vellum reads 2.71 : 1 on --paper',
+  '--sev-serious on vellum reads 2.88 : 1 on --paper-lit',
+  '--text-accent on vellum reads 3.64 : 1 on --paper-deep',
+  '--text-accent on vellum reads 3.84 : 1 on --paper-mat',
+  '--text-accent on vellum reads 4.09 : 1 on --paper',
+  '--text-accent on vellum reads 4.35 : 1 on --paper-lit',
+  '--text-tertiary on vellum reads 2.80 : 1 on --paper-deep',
+  '--text-tertiary on vellum reads 2.96 : 1 on --paper-mat',
+  '--text-tertiary on vellum reads 3.15 : 1 on --paper',
+  '--text-tertiary on vellum reads 3.35 : 1 on --paper-lit',
+];
 
 test('every text duty reads 4.5 : 1 on every surface of its own ground', () => {
-  assert.deepEqual(contrastRows(CSS), KNOWN);
+  assert.deepEqual([...contrastRows(CSS)].sort(), [...KNOWN].sort());
 });
 
 test('the contrast reader refuses a faint ink on the dark ground, which is the one this ground forbids', () => {
@@ -164,17 +211,27 @@ test('no interface file sets a colour primitive beyond the table, and the table 
 
 /* AND THE STYLESHEET'S OWN CLASS RULES (found by looking at the first dark render: the page head's
    sentence was drawn in --ink on --heavy, because `.tdl-page-head-what` named the pigment and the
-   scan above reads only JS). A rule outside the :root and ground blocks names a duty; the four
+   scan above reads only JS). A rule outside the :root and ground blocks names a duty; the ones
    that are paper by construction -- the vellum box, the plate, the body before a ground is set, and
    the Term's popover card -- are named here with that reason. */
-const PAPER_RULES = ['.tdl-vellum', '.tdl-plate', 'body', '.tdl-term-pop', 'main[data-ground="vellum"]'];
+const PAPER_RULES = ['.tdl-vellum', '.tdl-plate', 'body', 'main[data-ground="vellum"]'];
+/* A FAMILY whose every rule lives inside its paper card: the Term's popover. Matched by prefix on
+   purpose, and only these. The others match a selector EXACTLY (Phase 17's audit): by prefix,
+   `.tdl-plate` exempted `.tdl-plate-caption`, which sits below the plate, on the instrument, and a
+   mutation setting that caption in --ink-2 stayed green. */
+const PAPER_FAMILIES = ['.tdl-term-pop'];
+const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+export const isPaperRule = (sel) => PAPER_RULES.some((p) => new RegExp('^' + esc(p) + '(?![\\w-])').test(sel))
+  || PAPER_FAMILIES.some((f) => sel === f || sel.startsWith(f + '-'));
 function cssRuleRows(css) {
   const live = css.replace(/\/\*[\s\S]*?\*\//g, '');
   const rows = [];
   for (const m of live.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
     const sel = m[1].trim();
-    if (sel.startsWith(':root') || sel.startsWith('[data-ground') || PAPER_RULES.some((p) => sel.startsWith(p))) continue;
-    const n = [...m[2].matchAll(PRIM)].length;
+    if (sel.startsWith(':root') || sel.startsWith('[data-ground') || isPaperRule(sel)) continue;
+    // and a hue set as a word, which the instrument cannot read (Phase 17's audit)
+    const hue = [...m[2].matchAll(/(?<![\w-])color:\s*var\(--(?:gilt(?:-deep)?|green(?:-deep)?|brick|salmon(?:-deep)?|sepia|refusal)\)/g)].length;
+    const n = [...m[2].matchAll(PRIM)].length + hue;
     if (n) rows.push(`${sel.replace(/\s+/g, ' ').slice(0, 60)}: ${n}`);
   }
   return rows;
@@ -183,11 +240,18 @@ function cssRuleRows(css) {
 test('no class rule in the stylesheet names a colour primitive, but the paper ones', () => {
   assert.deepEqual(cssRuleRows(CSS), []);
   assert.deepEqual(cssRuleRows('.x{color:var(--ink-2)}'), ['.x: 1'], 'the reader sees a pigment in a rule');
+  assert.deepEqual(cssRuleRows('.x{color:var(--gilt-deep)}'), ['.x: 1'], 'and a hue set as a word');
+  assert.deepEqual(cssRuleRows('.x{border-color:var(--gilt-deep);color:var(--refusal-text)}'), [], 'but not an edge, or a duty');
+  assert.deepEqual(cssRuleRows('.tdl-plate-caption{color:var(--ink-2)}'), ['.tdl-plate-caption: 1'],
+    'a rule whose name begins with a paper one is not paper: the caption stands on the instrument');
+  assert.deepEqual(cssRuleRows('.tdl-plate{color:var(--ink)} .tdl-plate svg{fill:var(--ink)} .tdl-term-pop-word{color:var(--ink)}'), [],
+    'the paper rules themselves, a descendant of one, and the popover family are paper');
 });
 
 test('the primitive reader counts a primitive in code and none in a comment', () => {
-  const s = "style={{ color: 'var(--ink-2)', background: 'var(--paper, #fff)' }} /* var(--rule) */";
-  assert.equal([...s.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(PRIM)].length, 2);
+  // the reader the ratchet uses, not a regex beside it (Phase 17's audit: this twin drove the old one)
+  const s = "<input accept=\"image/*\" style={{ color: 'var(--ink-2)', background: 'var(--paper, #fff)' }} /> {/* var(--rule) */}";
+  assert.equal([...stripComments(s).matchAll(PRIM)].length, 2);
   assert.equal([..."var(--ink-2-x)".matchAll(PRIM)].length, 0, 'a longer name is not the primitive');
 });
 
@@ -203,4 +267,117 @@ test('App marks the shell and each <main> from the one table', () => {
   const app = readFileSync(join(SRC, 'App.jsx'), 'utf8');
   assert.match(app, /root\.setAttribute\('data-ground', SHELL_GROUND\)/);
   assert.match(app, /<main data-ground=\{groundOf\(/);
+});
+
+/* ── 5. every surface stands on the instrument (WP-17.14), and nothing moves one back unsaid ── */
+test('every surface is on the instrument since WP-17.14', async () => {
+  const { SURFACE_GROUND, SHELL_GROUND } = await import('./grounds.js');
+  assert.equal(SHELL_GROUND, 'instrument');
+  assert.deepEqual(Object.entries(SURFACE_GROUND).filter(([, g]) => g !== 'instrument'), [],
+    'a surface moved back to vellum is a decision about the whole page: say so here, by name');
+});
+
+/* ── 6. A WORD IS SET IN A DUTY, NEVER A PIGMENT (Phase 17's audit) ───────────────────────────
+   The rendered page measured 1,000-odd words below 4.5 : 1 on the instrument while every token
+   above passed: a CSS `color:` naming a pigment (`--gilt-deep`, `--brick`, `--green-deep`) or a
+   neutral primitive bypasses the ground, and the DRAWING exemption let HTML captions in drawing
+   files set `--ink` on a dark page. `color` is type in every file, drawing files included; a
+   drawing's ink is its `fill` and `stroke`. */
+const TYPE_PIGMENT = /(?<![\w-])color:\s*([^,}\n]*)/g;
+const RAW = /var\(\s*--(?:paper(?:-deep|-mat|-lit)?|ink(?:-[234])?|rule(?:-soft)?|graphite|hair|coal|heavy|gilt(?:-deep)?|green(?:-deep|-pale)?|brick|salmon(?:-deep)?|sepia(?:-pale)?|blue(?:-deep|-pale)?|violet|refusal)\s*[,)]/;
+export function typePigmentRows(src) {
+  const rows = [];
+  for (const m of stripComments(src).matchAll(TYPE_PIGMENT)) if (RAW.test(m[1])) rows.push(m[1].trim().slice(0, 50));
+  return rows;
+}
+function typeRowsIn(dir = SRC, out = {}) {
+  for (const f of readdirSync(dir).sort()) {
+    const p = join(dir, f);
+    if (statSync(p).isDirectory()) { typeRowsIn(p, out); continue; }
+    if (!/\.(jsx|js)$/.test(f) || /\.test\./.test(f)) continue;
+    const rows = typePigmentRows(readFileSync(p, 'utf8'));
+    if (rows.length) out[relative(SRC, p)] = rows;
+  }
+  return out;
+}
+test('no file sets a word in a pigment: a word takes a duty that follows its ground', () => {
+  assert.deepEqual(typeRowsIn(), {});
+});
+test('the type reader sees a pigment word, a primitive word and a ternary, and passes a duty and a fill', () => {
+  assert.deepEqual(typePigmentRows("style={{ color: 'var(--gilt-deep)' }}"), ["'var(--gilt-deep)'"]);
+  assert.equal(typePigmentRows("style={{ color: on ? 'var(--text-accent)' : 'var(--ink-2)' }}").length, 1);
+  assert.deepEqual(typePigmentRows("style={{ color: 'var(--text-body)', fill: 'var(--ink)', borderColor: 'var(--brick)' }}"), []);
+  assert.deepEqual(typePigmentRows("style={{ color: 'var(--refusal-text)' }}"), [], 'a duty whose name begins with a pigment is a duty');
+});
+
+/* ── 7. A WORD ON ITS OWN SEVERITY FIELD READS (Phase 17's audit) ─────────────────────────────
+   A finding row is its severity's field washed over the panel, and the rendered page measured the
+   minor word at 3.89 on its own row and the secondary grey at 4.47. Each severity word, and the
+   body and secondary text set beside it, read 4.5 : 1 on every severity field over every surface of
+   the instrument. */
+function over(rgba, hex) {
+  const m = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*([.\d]+)\)/.exec(rgba || '');
+  if (!m) return null;
+  const a = Number(m[4]);
+  const b = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+  return '#' + [1, 2, 3].map((i, k) => Math.round(a * Number(m[i]) + (1 - a) * b[k]).toString(16).padStart(2, '0')).join('');
+}
+export function fieldRows(css) {
+  const rows = [];
+  for (const sev of ['fatal', 'serious', 'minor', 'cleared']) {
+    const field = groundValue(css, 'instrument', `--sev-${sev}-field`);
+    for (const s of SURFACES.instrument) {
+      const bg = over(field, groundValue(css, null, s));
+      if (!bg) { rows.push(`--sev-${sev}-field is not a wash`); continue; }
+      for (const t of [`--sev-${sev}`, '--text-body', '--text-secondary']) {
+        const r = contrast(groundValue(css, 'instrument', t), bg);
+        if (r < 4.5) rows.push(`${t} reads ${r.toFixed(2)} : 1 on the ${sev} field over ${s}`);
+      }
+    }
+  }
+  return rows;
+}
+test('a severity word, and the text beside it, reads on its own field on the instrument', () => {
+  assert.deepEqual(fieldRows(CSS), []);
+  // WP-17.0's own value, gilt, which reads 4.57 on --heavy and 3.99 on its field
+  const before = CSS.replace('  --sev-minor:var(--gilt-lit);', '  --sev-minor:var(--gilt);');
+  assert.notEqual(before, CSS, 'the instrument block states the minor word');
+  assert.ok(fieldRows(before).some((r) => r.startsWith('--sev-minor reads')), 'the plain gilt, on its own row, fails');
+});
+
+/* ── 8. EVERY TOKEN A WORD IS SET IN READS ON THE INSTRUMENT, or says why not (Phase 17's audit) ──
+   Section 6 refuses a raw pigment as a word; this reads every token a `color:` names, ladders and
+   duties alike, at its instrument value. The rendered page found `--bind-forbidden` (brick, 3.43)
+   set as the cascade's ban mark after the pigment sweep: a ladder token resolved at :root follows no
+   ground. The exceptions are named by identity, each with its reason, and may only shrink. */
+const COLOR_EXCEPT = {
+  '--text-disabled': 'an inactive control: WCAG 1.4.3 does not apply to one',
+  '--text-on-gilt': 'set on its own gilt fill, 5.26 : 1 on either ground',
+  '--surface-panel': 'Gate.jsx sets it on its own inverted fill, the body text duty',
+  '--fix-right': 'FaultCard.jsx, on the fault card, which is vellum: oq/two-inks-set-as-small-text-read-below-aa',
+};
+function colorTokenRows() {
+  const toks = new Map();
+  const walkTok = (d) => {
+    for (const f of readdirSync(d).sort()) {
+      const p = join(d, f);
+      if (statSync(p).isDirectory()) { walkTok(p); continue; }
+      if (!/\.(jsx|js)$/.test(f) || /\.test\./.test(f)) continue;
+      for (const m of stripComments(readFileSync(p, 'utf8')).matchAll(TYPE_PIGMENT)) {
+        for (const t of m[1].matchAll(/var\(--([a-z0-9-]+)\)/g)) toks.set('--' + t[1], relative(SRC, p));
+      }
+    }
+  };
+  walkTok(SRC);
+  const rows = [];
+  for (const [t] of [...toks].sort()) {
+    const v = groundValue(CSS, 'instrument', t);
+    if (!/^#[0-9a-f]{6}$/i.test(v || '')) continue;   // a wash or a gradient is not an ink
+    const r = Math.min(...SURFACES.instrument.map((s) => contrast(v, groundValue(CSS, null, s))));
+    if (r < 4.5) rows.push(t);
+  }
+  return rows;
+}
+test('every token a word is set in reads 4.5 : 1 on the instrument, but the named exceptions', () => {
+  assert.deepEqual(colorTokenRows(), Object.keys(COLOR_EXCEPT).sort());
 });

@@ -32,7 +32,7 @@ function ToolTrace({
     }
   }, "consulted", running && /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'var(--gilt-deep)',
+      color: 'var(--text-accent)',
       marginLeft: 8
     }
   }, "reading further\u2026")), calls.map(function (c, i) {

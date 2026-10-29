@@ -31,3 +31,17 @@ test('the street is the edge the entrance faces, or the corner for a diagonal', 
   assert.equal(ne.street.corner, true);
   assert.equal(siteDiagram({ lotW: 60, lotD: 60, entrance: 'X' }).street, null, 'an unknown face draws no street');
 });
+
+/* Phase 17's audit: only the south edge and the corner FLAG were held, so swapping east and west, or
+   drawing a diagonal at the opposite corner, stayed green. */
+test('each cardinal street is its own edge, and a diagonal stands at its own corner', () => {
+  const at = (entrance) => siteDiagram({ lotW: 60, lotD: 60, entrance });
+  const { lot } = at('S');
+  const edge = (e) => { const s = at(e).street; return [s.x1, s.y1, s.x2, s.y2]; };
+  assert.deepEqual(edge('N'), [lot.x, lot.y, lot.x + lot.w, lot.y]);
+  assert.deepEqual(edge('E'), [lot.x + lot.w, lot.y, lot.x + lot.w, lot.y + lot.h]);
+  assert.deepEqual(edge('W'), [lot.x, lot.y, lot.x, lot.y + lot.h]);
+  const ne = at('NE').street, sw = at('SW').street;
+  assert.deepEqual([ne.x2, ne.y1], [lot.x + lot.w, lot.y], 'north-east is the top right corner');
+  assert.deepEqual([sw.x2, sw.y1], [lot.x, lot.y + lot.h], 'south-west is the bottom left corner');
+});

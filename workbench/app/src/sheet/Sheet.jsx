@@ -464,10 +464,10 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           style={{ border: `1px solid ${sketch.refused ? 'var(--refusal)' : 'var(--ink-2)'}`,
             padding: '6px 10px', margin: '0 0 10px',
             font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-            textTransform: 'uppercase', color: sketch.refused ? 'var(--refusal)' : 'var(--ink)' }}>
+            textTransform: 'uppercase', color: sketch.refused ? 'var(--refusal-text)' : 'var(--text-body)' }}>
           working sketch — not a drawing
           <span style={{ font: 'italic var(--fw-reg) 12px/1.45 var(--serif)', letterSpacing: 0,
-            textTransform: 'none', color: 'var(--ink-2)', marginLeft: 10 }}>
+            textTransform: 'none', color: 'var(--text-secondary)', marginLeft: 10 }}>
             {sketch.refused
               ? 'this placement was refused; it is drawn only because a wall drag asked for the '
                 + 'fast search by name, and it may not be exported'
@@ -478,9 +478,9 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
       )}
       <div style={{ textAlign: 'center', margin: '4px 0 2px' }}>
         <div style={{ font: 'var(--fw-med) 17px/1.35 var(--serif)', letterSpacing: 'var(--tr-drawing)',
-          textTransform: 'uppercase', color: 'var(--ink)' }}>{interpunct}</div>
+          textTransform: 'uppercase', color: 'var(--text-body)' }}>{interpunct}</div>
         <div style={{ font: 'var(--fw-reg) 11px/1.4 var(--serif)', letterSpacing: 'var(--tr-caps)',
-          textTransform: 'uppercase', color: 'var(--ink-2)', marginTop: 4 }}>
+          textTransform: 'uppercase', color: 'var(--text-secondary)', marginTop: 4 }}>
           {styleName} &nbsp;·&nbsp; {subtitle}
         </div>
         <div style={{ width: 150, height: 0, borderTop: '1px solid var(--rule)', margin: '9px auto 0' }} />
@@ -1032,10 +1032,10 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 24,
         flexWrap: 'wrap' }}>
         <div data-plate-title="" style={{ font: 'var(--fw-med) 10.5px/1.4 var(--serif)',
-          letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--ink)',
+          letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--text-body)',
           flex: '1 0 auto' }}>{interpunct}</div>
         <div data-plate-note="" style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)',
-          color: 'var(--ink-2)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
+          color: 'var(--text-secondary)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
           {/* FIRST, because it governs everything after it: a plate a reader may not measure
               from must say so before it says what engine drew it. */}
           {sketch

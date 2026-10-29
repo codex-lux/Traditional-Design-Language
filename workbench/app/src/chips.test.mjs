@@ -76,3 +76,16 @@ test('a strong pigment is a swatch beside the word and never the word’s ground
   assert.ok(chipStyle(chipOf('variant', 'canonical')).swatch, 'canonical carries its swatch');
   assert.equal(chipOf('variant', 'no-such-rung'), null, 'an unknown rung is the bare word, not another rung');
 });
+
+
+/* Phase 17's audit: only canonical's swatch was held, so a forbidden binding drawn unstruck stayed
+   green. A ban is the ladder's loudest rung on both ladders, and the two forms are pinned by rung. */
+test('a forbidden rung is struck through on both ladders, and the forbidden variant is hatched', async () => {
+  const { BINDING, VARIANT } = await import('./chips.js');
+  assert.equal(BINDING.forbidden.struck, true);
+  assert.equal(VARIANT.forbidden.struck, true);
+  assert.ok(VARIANT.forbidden.hatch, 'the forbidden variant carries the forbidden hatch');
+  for (const [k, look] of Object.entries({ ...BINDING, ...VARIANT })) {
+    if (k !== 'forbidden') assert.equal(look.struck, false, k);
+  }
+});

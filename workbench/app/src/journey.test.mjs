@@ -533,3 +533,22 @@ test('the words that are glossary terms say what their records say', (t) => {
     assert.equal(JOURNEY_WORDS.counts[k], termOf(JOURNEY_TERMS[k]), k);
   }
 });
+
+/* Phase 17's audit: the spine's header said each state word was held to its `journey-state-*`
+   record here, and nothing was. Both directions now, read off the glossary's own files. */
+test('every fixed state word is one glossary record, and every journey-state record is one word', async () => {
+  const { readdirSync, readFileSync } = await import('node:fs');
+  const { STATE_RECORDS } = await import('./journey/journey.js');
+  const dir = new URL('../../../glossary/', import.meta.url);
+  const records = Object.fromEntries(readdirSync(dir).filter((f) => f.startsWith('journey-state-'))
+    .map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8'))).map((r) => [r.id, r.term]));
+  assert.deepEqual(Object.values(STATE_RECORDS).sort(), Object.keys(records).sort(), 'one word per record, no record left over');
+  for (const [word, id] of Object.entries(STATE_RECORDS)) assert.equal(records[id], word, id);
+  const fixed = [];
+  const walk = (o) => { for (const v of Object.values(o)) { if (typeof v === 'string') fixed.push(v); } };
+  for (const k of ['brief', 'plan', 'drawings', 'export']) walk(JOURNEY_WORDS[k]);
+  for (const k of ['failed', 'expired', 'none']) fixed.push(JOURNEY_WORDS.candidates[k]);
+  const judgments = new Set(['refused']);   // drawn as JOURNEY_TERMS' record
+  assert.deepEqual([...new Set(fixed)].filter((w) => !judgments.has(w) && !STATE_RECORDS[w]), [],
+    'a fixed state word with no record');
+});

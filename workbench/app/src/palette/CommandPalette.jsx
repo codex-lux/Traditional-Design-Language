@@ -192,7 +192,7 @@ export function CommandPalette({ open, onClose, onAction }) {
                         everywhere else in the product — here is where you meet it. */}
                     {h.cite && (
                       <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
-                        color: on ? 'var(--gilt-deep)' : 'var(--text-secondary)', flex: 'none' }}>{h.cite}</span>
+                        color: on ? 'var(--text-accent)' : 'var(--text-secondary)', flex: 'none' }}>{h.cite}</span>
                     )}
                   </div>
                 );

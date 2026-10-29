@@ -250,6 +250,11 @@ test('the material modules are listed before the orders, whatever order the serv
     { id: 'brick', name: 'Brick', kind: 'module-system', authority: {} },
   ];
   assert.deepEqual(packGroups(sent).map((g) => g.kind), ['module-system', 'order-system', 'trim-system']);
+  // and the others keep the server's order rather than any sort of their own (Phase 17's audit:
+  // with the server's order already alphabetical, an alphabetical sort stayed green)
+  const later = [{ id: 't', kind: 'trim-system', authority: {} }, { id: 'o', kind: 'order-system', authority: {} },
+    { id: 'b', kind: 'module-system', authority: {} }];
+  assert.deepEqual(packGroups(later).map((g) => g.kind), ['module-system', 'trim-system', 'order-system']);
 });
 
 test('a pack’s authority in the index is its author, else its source, then its year, from either route’s shape', () => {

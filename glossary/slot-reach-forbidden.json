@@ -1,0 +1,9 @@
+{
+  "id": "slot-reach-forbidden",
+  "term": "forbidden, in the end",
+  "family": "product",
+  "order": 44,
+  "definition": "The styles whose resolved kit forbids this slot, whether the style wrote the ban or an ancestor did.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Elements since Phase 17: the bar is \"read off each style's resolved kit after the lineage cascade\", and these parts \"count what each style ends up with and not the binding it writes in its own kit\"."
+}

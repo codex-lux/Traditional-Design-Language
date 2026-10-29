@@ -6,7 +6,7 @@
    floruit to decline as a fading tail, and each revival as its own short bar further along.
 
    A DATE THE RECORD DOES NOT STATE IS NOT DRAWN AND IS SAID. `origin` and `decline_end` may be null
-   and are on 27 and 52 of the corpus's records; where one is missing its segment is absent and the
+   and are null on 27 and 50 of the corpus's records; where one is missing its segment is absent and the
    segment is listed in `unstated`, so the bar never interpolates a date the corpus declines to
    give. The axis spans the stated dates with a margin. Pure. */
 const num = (v) => (Number.isInteger(v) ? v : null);

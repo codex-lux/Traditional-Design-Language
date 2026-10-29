@@ -258,7 +258,7 @@ function CandidateColumn({
     "data-candidate-refused-mark": c.refused.kind,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--refusal)'
+      color: 'var(--refusal-text)'
     }
   }, /*#__PURE__*/React.createElement(Term, {
     id: "judgment-refused"
@@ -289,11 +289,11 @@ function CandidateColumn({
     style: {
       font: 'var(--fw-reg) 13px/1.55 var(--body)',
       margin: '5px 0 0',
-      color: native ? 'var(--green-deep)' : 'var(--text-secondary)'
+      color: native ? 'var(--sev-cleared)' : 'var(--text-secondary)'
     }
   }, line.term ? /*#__PURE__*/React.createElement("span", {
     style: {
-      color: line.nativity === 'borrowed' ? 'var(--gilt-deep)' : 'inherit'
+      color: line.nativity === 'borrowed' ? 'var(--text-accent)' : 'inherit'
     }
   }, /*#__PURE__*/React.createElement(Term, {
     id: line.term
@@ -304,7 +304,7 @@ function CandidateColumn({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       ...EYE,
-      color: 'var(--gilt-deep)'
+      color: 'var(--text-accent)'
     }
   }, "trades away"), /*#__PURE__*/React.createElement("p", {
     style: {

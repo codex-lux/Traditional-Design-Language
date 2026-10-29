@@ -99,7 +99,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
               Stated where the key is stated, because a reader who sees fatal fall by seven and
               no plate above it is owed the reason in the same paragraph. */}
           {r.refusedAfter && (
-            <p style={{ ...quiet, marginTop: 6, color: 'var(--brick)' }}>
+            <p style={{ ...quiet, marginTop: 6, color: 'var(--refusal-text)' }}>
               The placement the loop stopped on is still refused
               {r.refusedAfter.facts && r.refusedAfter.facts.length
                 ? ` — ${r.refusedAfter.facts.join(', ')} ${r.refusedAfter.facts.length === 1 ? 'is' : 'are'} downgraded`
@@ -108,13 +108,13 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
             </p>
           )}
           {r.refusalCleared && (
-            <p style={{ ...quiet, marginTop: 6, color: 'var(--gilt-deep)' }}>
+            <p style={{ ...quiet, marginTop: 6, color: 'var(--text-accent)' }}>
               The placement was refused when the loop started and is not now: the type’s own facts
               hold on the house it ended with.
             </p>
           )}
           {r.reclaimed && (
-            <p style={{ ...quiet, marginTop: 6, color: r.reclaimed.rolledBack ? 'var(--brick)' : 'var(--text-secondary)' }}>
+            <p style={{ ...quiet, marginTop: 6, color: r.reclaimed.rolledBack ? 'var(--refusal-text)' : 'var(--text-secondary)' }}>
               {r.reclaimed.rolledBack
                 ? `reclaim rolled back — ${r.reclaimed.why || 'it opened a fatal'} (${r.reclaimed.delta})`
                 : `reclaim after the loop: ${r.reclaimed.log.length} line${r.reclaimed.log.length === 1 ? '' : 's'}, key ${r.reclaimed.delta}`}
@@ -137,7 +137,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
           {r.rounds.map((rd) => (
             <div key={rd.n} style={{ margin: '6px 0 0', paddingLeft: 10,
               borderLeft: `2px solid ${rd.accepted ? 'var(--gilt-deep)' : 'var(--brick)'}` }}>
-              <div style={{ ...quiet, color: rd.accepted ? 'var(--text-secondary)' : 'var(--brick)' }}>
+              <div style={{ ...quiet, color: rd.accepted ? 'var(--text-secondary)' : 'var(--refusal-text)' }}>
                 {/* WHY IT WAS ROLLED BACK, WHERE THE LOOP SAYS SO (WP-13.9's audit). A round
                     refused because the placement it produced may not be DRAWN is a different
                     fact from one refused because the key rose, and both `rolledBackByRefusal`

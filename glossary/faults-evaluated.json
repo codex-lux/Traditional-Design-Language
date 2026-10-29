@@ -3,7 +3,7 @@
   "term": "evaluated",
   "family": "product",
   "order": 39,
-  "definition": "How many of the corpus's named faults could be tested on this house, out of all of them. A fault that could not be tested is unjudged and is not counted here as passed.",
+  "definition": "How many of the faults that apply to this house's style could be tested on it, out of those that apply. A fault that could not be tested is unjudged and is not counted here as passed.",
   "kind": "editorial",
-  "basis": "docs/workbench.md, the Drawing Set since Phase 17: the disclosures \"say how many of the corpus's faults were evaluated on this house out of all of them\"."
+  "basis": "docs/workbench.md, the Drawing Set since Phase 17: the disclosures \"say how many of the faults that apply to this house's style were evaluated, out of those that apply\"."
 }

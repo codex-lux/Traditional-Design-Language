@@ -90,6 +90,13 @@
   --violet:#837D91;              /* deep atmospheric shadow, distance */
   --gilt:#AF8D49;                /* bronze, gilding — the one struck highlight */
   --gilt-deep:#8A6D33;           /* derived: gilt legible as text on vellum */
+  /* The instrument's lit pigments (Phase 17's audit). A pigment set as a word on the dark ground
+     reads by being lighter, as gilt-deep reads on vellum by being darker. Each is its pigment mixed
+     toward --paper by the least step that reads 4.5 : 1 on --heavy-2, --heavy, --coal and its own
+     severity field: salmon-deep 0.20, gilt 0.16, green-deep 0.33 (computed, not chosen). */
+  --salmon-lit:#CA957D;          /* derived: a serious finding's word on the instrument */
+  --gilt-lit:#BA9C60;            /* derived: a minor finding's word on the instrument */
+  --green-lit:#97A186;           /* derived: a cleared finding's word on the instrument */
 
   /* Washes. Translucent graphite and pigment, laid in glazes. */
   --wash:rgba(63,58,49,.16);     /* the standard's shadow wash */
@@ -374,6 +381,7 @@
   --link:var(--ink);
   --link-hover:var(--ink);
   --link-on-paper:var(--ink);
+  --text-on-gilt:var(--coal);       /* a word on a gilt fill, the one primary action: 5.26 : 1, on either ground */
   --link-underline:rgba(175,141,73,.45);
   --link-underline-hover:var(--gilt-deep);
 
@@ -539,9 +547,16 @@
   --link:var(--paper);
   --link-hover:var(--paper);
   --link-underline-hover:var(--gilt);
-  --sev-minor:var(--gilt);
+  --sev-fatal:var(--salmon);
+  --sev-serious:var(--salmon-lit);
+  --sev-minor:var(--gilt-lit);
   --sev-advisory:var(--ink-4);
   --sev-info:var(--ink-4);
+  --sev-cleared:var(--green-lit);
+  --sev-fatal-field:rgba(175,107,80,.08);
+  --sev-serious-field:rgba(192,128,102,.08);
+  --sev-minor-field:rgba(175,141,73,.08);
+  --sev-cleared-field:rgba(107,124,92,.08);
   --refusal-text:var(--salmon);
   --receipt:var(--ink-4);
   --judge-unjudged:var(--ink-4);
@@ -569,9 +584,16 @@
   --link:var(--ink);
   --link-hover:var(--ink);
   --link-underline-hover:var(--gilt-deep);
+  --sev-fatal:var(--brick);
+  --sev-serious:var(--salmon-deep);
   --sev-minor:var(--gilt-deep);
   --sev-advisory:var(--ink-2);
   --sev-info:var(--ink-3);
+  --sev-cleared:var(--green-deep);
+  --sev-fatal-field:rgba(175,107,80,.12);
+  --sev-serious-field:rgba(192,128,102,.12);
+  --sev-minor-field:rgba(175,141,73,.11);
+  --sev-cleared-field:rgba(107,124,92,.12);
   --refusal-text:var(--brick);
   --receipt:var(--ink-2);
   --judge-unjudged:var(--ink-3);

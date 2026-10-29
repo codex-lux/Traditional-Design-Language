@@ -100,7 +100,7 @@ function Licence({ licence }) {
       <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap',
         background: licence.state === 'unjudged' ? 'var(--surface-panel)' : 'transparent',
         padding: licence.state === 'unjudged' ? '2px 6px' : 0, width: 'fit-content' }}>
-        <span style={{ ...EYE, color: 'var(--gilt-deep)' }}><Term id={FAULT_SECTION_TERM.licence} /></span>
+        <span style={{ ...EYE, color: 'var(--text-accent)' }}><Term id={FAULT_SECTION_TERM.licence} /></span>
         <RecordLink cite={'style:' + licence.style} />
         <span data-licence-verdict={licence.state}
           style={{ font: 'var(--type-data)', color: 'var(--text-body)', border: '1px solid currentColor',
@@ -159,7 +159,7 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
         <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-secondary)',
           maxWidth: 'var(--measure-prose)', margin: '7px 0 0' }}>{fault.cause.explanation}</p>
         {fault.cause.cost_saved && (
-          <p style={{ font: 'var(--fw-med) 13.5px/1.55 var(--body)', color: 'var(--gilt-deep)', margin: '9px 0 0' }}>
+          <p style={{ font: 'var(--fw-med) 13.5px/1.55 var(--body)', color: 'var(--text-accent)', margin: '9px 0 0' }}>
             <span style={{ ...EYE, marginRight: 8 }}><Term id={COST_SAVED_TERM} /></span>{fault.cause.cost_saved}
           </p>
         )}
@@ -212,7 +212,7 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
         <h3 style={{ font: 'var(--fw-reg) var(--fs-d3)/1.15 var(--display)', fontVariationSettings: '"opsz" 40',
           letterSpacing: 'var(--tr-display)', color: 'var(--text-body)', margin: 0 }}>{fault.name}</h3>
         {fault.aka && fault.aka.length > 0 && (
-          <div style={{ font: 'var(--fw-reg) italic 13px/1.5 var(--body)', color: 'var(--gilt-deep)',
+          <div style={{ font: 'var(--fw-reg) italic 13px/1.5 var(--body)', color: 'var(--text-accent)',
             fontStyle: 'italic', marginTop: 4 }}>
             {fault.aka.map((a) => '“' + a + '”').join(', ')}
           </div>

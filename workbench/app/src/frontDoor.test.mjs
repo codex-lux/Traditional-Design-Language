@@ -36,6 +36,7 @@ import { parseHash, SURFACE_PATHS } from './router.js';
 import { parseCite } from './citations.js';
 import { sidebarView } from './nav/sidebar.js';
 import { barView } from './journey/bar.js';
+import { stations } from './journey/spine.js';
 import { STATION_MARKS } from './journey/spine.js';
 import { GLYPHS } from './frontdoor/glyphs.js';
 import {
@@ -124,6 +125,8 @@ test('the five stations are the journey\'s steps in order, with its words, its m
       assert.equal(t.words, js.steps[i].words || null, `${name}: ${t.id} says the journey's words`);
       assert.equal(t.href === null, !bar.items[i].link, `${name}: ${t.id} is a link exactly where the bar says`);
       assert.ok(Object.values(STATION_MARKS).includes(t.mark), `${name}: ${t.id} carries a station mark`);
+      // the station's OWN mark, the sidebar's for the same step (Phase 17's audit: one constant mark passed)
+      assert.equal(t.mark, stations(bar, js.resume)[i].mark, `${name}: ${t.id} carries the spine's mark for it`);
     });
   }
   // with nothing on the bench the drawings and the export are blocked, so neither tile is a link

@@ -288,7 +288,7 @@ function RoomEditor({ draft, room, roomTypes }) {
         ))}
       </span>
       <div style={{ marginTop: 12 }}>
-        <Chip tone="var(--refusal)" onClick={() => draftDoc.update((d) => {
+        <Chip tone="var(--refusal-text)" onClick={() => draftDoc.update((d) => {
           d.rooms = d.rooms.filter((x) => x.key !== room.key);
           return d;
         })}>delete room</Chip>
@@ -406,7 +406,7 @@ export function Transcription({ go }) {
       <FilterStrip right={
         <span style={{ display: 'flex', gap: 8 }}>
           <Chip onClick={() => draftDoc.undo()} title="undo">undo</Chip>
-          <Chip tone="var(--refusal)" onClick={() => { draftDoc.clear(); setSel(null); }}>discard draft</Chip>
+          <Chip tone="var(--refusal-text)" onClick={() => { draftDoc.clear(); setSel(null); }}>discard draft</Chip>
         </span>
       }>
         <Eyebrow as="span">transcription</Eyebrow>
@@ -514,7 +514,7 @@ export function Transcription({ go }) {
           {ingest && ingest.error && (
             /* a refused ingest is a refusal, in the ink Export gives one, and not the faint
                NOT-BUILT ink it was painted before WP-14.31's sweep */
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--refusal)', margin: '6px 0 0' }}>
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--refusal-text)', margin: '6px 0 0' }}>
               refused — {ingest.error}
               {ingest.units?.scores && ` (heuristic: ${JSON.stringify(ingest.units.scores)})`}
             </p>

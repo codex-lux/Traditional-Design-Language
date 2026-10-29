@@ -1473,6 +1473,7 @@ def _compute_hero():
 
 
 _HERO_THREAD = None
+_HERO_ERROR = []
 
 
 def front_door_hero_now():
@@ -1484,12 +1485,17 @@ def front_door_hero_now():
     global _HERO_THREAD
     if _HERO is not None:
         return _HERO
+    # A SWEEP THAT RAISED IS SAID, NOT RETRIED ON EVERY POLL (Phase 17's audit): the first version
+    # swallowed the exception, so the route answered `pending` forever and started the sweep again
+    # each time the page asked. It answers `failed` with the reason until `reset_front_door`.
+    if _HERO_ERROR:
+        return {"failed": True, "reason": _HERO_ERROR[0]}
     if _HERO_THREAD is None or not _HERO_THREAD.is_alive():
         def run():
             try:
                 front_door_hero()
-            except Exception:
-                pass
+            except Exception as e:                  # noqa: BLE001 -- a failed sweep is unjudged
+                _HERO_ERROR[:] = [f"{type(e).__name__}: {e}"]
         _HERO_THREAD = _threading.Thread(target=run, name="front-door-hero", daemon=True)
         _HERO_THREAD.start()
     return {"pending": True}
@@ -1500,6 +1506,7 @@ def reset_front_door():
     _FIRST_DRAWABLE = None
     _FIRST_DRAWABLE_BY.clear()
     _HERO = None
+    _HERO_ERROR.clear()
 
 
 def elevation_datums(elev):

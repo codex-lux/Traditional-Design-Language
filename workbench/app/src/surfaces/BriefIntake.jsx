@@ -278,7 +278,7 @@ export function BriefIntake({ go }) {
           aria-busy={composing || undefined}
           style={{ font: 'var(--type-data-s)', padding: '3px 10px', whiteSpace: 'nowrap',
             border: '1px solid ' + (composing || !ready ? 'var(--border-hairline)' : 'var(--gilt-deep)'),
-            color: composing || !ready ? 'var(--text-disabled)' : 'var(--gilt-deep)',
+            color: composing || !ready ? 'var(--text-disabled)' : 'var(--text-accent)',
             background: 'transparent', cursor: composing || !ready ? 'default' : 'pointer' }}>
           {composing ? 'composing…' : `compose ${brief.candidates || 4} candidates`}
         </button>

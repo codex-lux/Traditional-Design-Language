@@ -86,7 +86,53 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 `python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
 (`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
-## Where the work stands (3 Oct 2026)
+## Where the work stands (29 Oct 2026)
+
+**PHASE 17 -- THE WORKBENCH REDRAWN AS A DARK INSTRUMENT WITH VELLUM PLATES -- IS COMPLETE (29 Oct
+2026).** Lucas read the Front Door (*"extraordinarily bland, dense and impossible to intuitively
+navigate"*) and ruled the register from a design handoff, `docs/ui-redesign-2026-10-29.md`.
+`PLAN-OF-ACTION.md`'s Phase 17 board names each package's report. Read
+`docs/reports/wp-17.15-the-audit-of-phase-17.md` before touching a colour, a ground, the sidebar, the
+hero or the journey's words.
+- **Two grounds, not a theme.**
+  - Primitives stay pigments.
+  - Only the semantic duties (`--text-*`, `--surface-*`, `--border-*`, `--link`, `--sev-*`,
+    `--refusal-text`) are rebound under `[data-ground="instrument"]` and restored under
+    `[data-ground="vellum"]`.
+  - `grounds.js` is the one reader. `Vellum.jsx` and `Plate.jsx` put content on paper.
+  - Every surface is on the instrument, and the shell is the sidebar: the house on the bench as a
+    spine of five stations, and the library. JourneyBar is retired into JourneySpine.
+  - The rail opens only when summoned.
+  - The Front Door's hero is the first drawable shipped record (`corpus.first_drawable`, asked
+    good-03 first). It is never awaited: `pending`, then the plate, or `failed`.
+- **THE DARK GROUND DID NOT READ, AND ONLY THE RENDERED PAGE SAID SO.** The token guard was green
+  while about 800 words read below 4.5 : 1, the worst at 1.26.
+  - Words reach the page by four routes that table did not read: a pigment set as a word, a
+    severity duty never rebound, a drawing file's HTML caption, and a word on its own severity field.
+  - The audit added three lit pigments (`--salmon-lit`, `--gilt-lit`, `--green-lit`) and the
+    instrument's severity rebinds, and moved 82 `color:` sites onto duties.
+  - `grounds.test.mjs` §6 to §8 hold every `color:` in every file, drawing files included, and every
+    token any `color:` names, at its instrument value.
+  - **A `color:` is type in every file; a drawing's ink is its `fill` and `stroke`.**
+  - **Read a dark surface's contrast off the rendered page, not the token table.** Map- and
+    prop-borne colours (`tone`, a `TONE` map) reach a word by routes no source scan reads.
+- **The paper ground's pigment words are older than the phase and are not changed.**
+  - They are `--sev-serious` 2.71, `--text-tertiary` and `--sev-info` 3.15, `--refusal-text` and
+    `--sev-fatal` 3.50, `--sev-cleared` 3.78, and `--text-accent` and `--sev-minor` 4.09.
+  - They are held by identity and amended into `oq/two-inks-set-as-small-text-read-below-aa`.
+- **The guard missed lines 437 to 516 of `Transcription.jsx`.**
+  - `accept="image/*"` opens a false comment for the naive `/\*[\s\S]*?\*\//` regex.
+  - Six guards read that file through it, and all six read `sourceReader.stripComments` now.
+  - A JS guard must strip comments with the shared lexer, never that regex.
+- **Three claims were false of the tree:**
+  - the binding bar's parts wore the kit's own binding words over resolved counts (now `slot-reach-*`);
+  - "placed" said every type fact held, where it means none was broken;
+  - the parting node depended on which style was named first (1,003 of 1,500 pairs). It is the least
+    summed depth now.
+- **The entry chunk crossed 700 KB on the shell's own growth.** Three surfaces load lazily; the
+  ceiling was not raised.
+- **The process note.** WP-17.2 to 17.14 landed in one commit, against the ruling's one package at a
+  time, and the commit's message says what it had not verified.
 
 **PHASE 16 — THE RULINGS OF 29 SEPTEMBER — IS COMPLETE (29 Sep – 3 Oct 2026).** Read `PLAN-OF-ACTION.md`'s
 Phase 16 section before touching:
@@ -2151,7 +2197,7 @@ A place is now a URL, and that URL is the citation grammar written down — `#/k
 beside it so the two cannot drift. **The grammar is spelled in three places — `REF_RE` and
 `CITE_RE` in `workbench/server/`, `parseCite` in the app — and an audit found two of the three
 disagreeing about the dot in a constraint id, which is why `test_grammar_agreement.py` now
-reads the JavaScript and holds all three against each other. Do not add a fourth copy.** Search is `⌘K` over `/api/search/index` (918 named things,
+reads the JavaScript and holds all three against each other. Do not add a fourth copy.** Search is `⌘K` over `/api/search/index` (923 named things,
 dispatching by citation); `/` filters the list in front of you; `?` explains both. Filters live
 in the query string via `filters/useFilters.js` — do not reintroduce per-surface filter state.
 `Chip` is now only ever a filter; acts are `ActionChip`. Report:

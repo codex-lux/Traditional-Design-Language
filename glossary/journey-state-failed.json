@@ -1,0 +1,13 @@
+{
+  "id": "journey-state-failed",
+  "term": "failed",
+  "family": "house",
+  "order": 36,
+  "definition": "The compose stopped with an error and returned no set of candidates. The brief still stands, and can be composed again.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17, the table of the words a station of the house's journey carries, which says of \"failed\" that \"the compose stopped with an error and returned no set\".",
+  "sense": "a compose that stopped",
+  "confusable_with": [
+    "judgment-failed"
+  ]
+}

@@ -102,7 +102,7 @@ export function Gate({ onUnlocked, auth }) {
 
         {error && (
           <p role="alert" style={{
-            font: 'var(--type-aside)', color: 'var(--brick)', margin: '12px 0 0',
+            font: 'var(--type-aside)', color: 'var(--refusal-text)', margin: '12px 0 0',
           }}>
             {error}
           </p>

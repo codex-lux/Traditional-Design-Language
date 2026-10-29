@@ -23,7 +23,7 @@ function RefusalCard({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--refusal)',
+      color: 'var(--refusal-text)',
       marginBottom: 9
     }
   }, "refused", tool && /*#__PURE__*/React.createElement("span", {

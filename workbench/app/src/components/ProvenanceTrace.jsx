@@ -147,7 +147,7 @@ function ProvenanceTrace({
         overflowWrap: 'anywhere'
       }
     }, /*#__PURE__*/React.createElement("span", {
-      style: { color: 'var(--bind-forbidden)', marginRight: 6 }
+      style: { color: 'var(--refusal-text)', marginRight: 6 }
     }, "\u2715"), l.bans.map(function (b) {
       return b.variant ? b.slot + ' \u00b7 ' + b.variant : b.slot;
     }).join(', ')));

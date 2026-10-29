@@ -58,7 +58,7 @@ function RefusalTurn({ text, reason }) {
   return (
     <div style={{ border: '1px solid var(--border-hairline)', borderLeft: '2px solid var(--refusal)',
       background: 'var(--surface-raised)', padding: '11px 12px' }}>
-      <div style={{ ...EYE, color: 'var(--refusal)', marginBottom: 6 }}>refused</div>
+      <div style={{ ...EYE, color: 'var(--refusal-text)', marginBottom: 6 }}>refused</div>
       <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-body)', margin: 0 }}>{text}</p>
       {reason && (
         <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)',

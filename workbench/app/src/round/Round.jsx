@@ -252,7 +252,7 @@ export function Round({
           style={{
             position: 'absolute', inset: 0, display: 'flex', alignItems: 'center',
             justifyContent: 'center', padding: '0 12%', textAlign: 'center',
-            font: 'italic var(--fw-reg) 13px/1.5 var(--serif)', color: 'var(--ink-2)',
+            font: 'italic var(--fw-reg) 13px/1.5 var(--serif)', color: 'var(--text-secondary)',
           }}
         >
           COULD NOT EVALUATE — {failed}

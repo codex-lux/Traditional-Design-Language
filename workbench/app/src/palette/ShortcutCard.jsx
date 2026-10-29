@@ -87,7 +87,7 @@ export function ShortcutCard({ open, onClose }) {
               ['#/cite/style:craftsman', 'the same address, as a link'],
             ].map(([ref, what]) => (
               <tr key={ref}>
-                <td style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--gilt-deep)',
+                <td style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--text-accent)',
                   padding: '2px 14px 2px 0', whiteSpace: 'nowrap', verticalAlign: 'baseline' }}>{ref}</td>
                 <td style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)',
                   padding: '2px 0', verticalAlign: 'baseline' }}>{what}</td>

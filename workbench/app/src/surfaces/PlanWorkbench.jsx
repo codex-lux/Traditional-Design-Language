@@ -525,7 +525,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
   const infeasible = refusal ? null : placement?.geometry_report?.infeasible;
   // `--verd` names no token; the stylesheet's is `--verdigris`, so a green disclosure line drew in
   // the inherited ink (WP-14.33's audit).
-  const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--verdigris)' };
+  // and a green one is a DUTY, because these are words (Phase 17's audit: `--verdigris` is green-deep, which
+  // read 3.52 : 1 on the instrument; a map reaches `color:` by a route no source scan reads)
+  const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--sev-cleared)' };
   const levelIndices = (plan.levels || []).map((l) => l.index ?? 0);
   const declared = plan.adjacencies || [];
 
@@ -736,7 +738,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                     lineHeight: 1.5, color: 'var(--text-secondary)', margin: '0 0 6px', display: 'flex', gap: 8 }}>
                     <span style={{ flex: 1 }}>{a.a} — {a.relation} — {a.b}</span>
                     <button type="button" onClick={() => planDoc.update(mutations.revokeRelation(i))}
-                      style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>revoke</button>
+                      style={{ font: 'var(--type-data-s)', color: 'var(--text-accent)' }}>revoke</button>
                   </p>
                 ))}
                 <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>

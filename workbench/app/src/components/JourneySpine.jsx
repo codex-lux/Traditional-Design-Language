@@ -18,12 +18,13 @@
    one control for both, and a blocked step is a `<span data-blocked>`, never an anchor.
 
    EVERY WORD IS A RECORD'S: a step's name is its surface's glossary record, the four state words
-   that are glossary terms are drawn as `Term`s, and the rest are the journey's words, each held to
-   its `journey-state-*` record by `src/journey.test.mjs`. */
+   that are judgments are drawn as their `Term`s, every other fixed state word as its
+   `journey-state-*` record (`STATE_RECORDS`, held to the glossary by `src/journey.test.mjs`), and a
+   counted phrase is the journey's own sentence. */
 import React from 'react';
 import { session } from '../state/session.js';
 import { planDoc } from '../state/planDoc.js';
-import { journeyState, pickedCandidate, JOURNEY_TERMS, JOURNEY_WORDS } from '../journey/journey.js';
+import { journeyState, pickedCandidate, JOURNEY_TERMS, JOURNEY_WORDS, STATE_RECORDS } from '../journey/journey.js';
 import { barView, BAR_TERMS, showJourneyBar } from '../journey/bar.js';
 import { stations } from '../journey/spine.js';
 import { MarkGlyph } from './MarkGlyph.jsx';
@@ -74,6 +75,13 @@ function PlanWords({ item }) {
   return parts.map((p, i) => <React.Fragment key={i}>{i > 0 && W.separator}{p}</React.Fragment>);
 }
 
+/* A state word that is one record's term is drawn as that record (`STATE_RECORDS`); a counted or
+   composed phrase ("3 candidates", "composing · 2 of 4") is the journey's own sentence. */
+function StateWords({ words }) {
+  const id = typeof words === 'string' ? STATE_RECORDS[words] : null;
+  return id ? <Term id={id} /> : words;
+}
+
 function Step({ item, compact }) {
   const word = useWord(item.termId);
   const d = useTermDescription(item.termId);
@@ -91,7 +99,7 @@ function Step({ item, compact }) {
           : <span data-blocked={item.blocked} {...props}>{mark}<span className="tdl-sr-only">{word}</span></span>}
         {d.element}
         <span data-step-words={item.id} data-state={item.state} className="tdl-sr-only">
-          {structured ? <PlanWords item={item} /> : item.words}
+          {structured ? <PlanWords item={item} /> : <StateWords words={item.words} />}
         </span>
       </li>
     );
@@ -114,7 +122,7 @@ function Step({ item, compact }) {
         {d.element}
         <span data-step-words={item.id} data-state={item.state}
           style={{ ...words, color: item.state === 'refused' ? 'var(--refusal-text)' : words.color }}>
-          {structured ? <PlanWords item={item} /> : item.words}
+          {structured ? <PlanWords item={item} /> : <StateWords words={item.words} />}
         </span>
       </span>
     </li>

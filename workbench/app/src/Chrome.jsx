@@ -437,8 +437,10 @@ export function Chip({ on, onClick, children, tone, title, radio }) {
   return (
     <button type="button" onClick={onClick} title={title} {...aria}
       style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
-        border: '1px solid ' + (on ? (tone || 'var(--gilt-deep)') : 'var(--border-hairline)'),
-        color: on ? (tone || 'var(--gilt-deep)') : 'var(--text-secondary)',
+        border: '1px solid ' + (on ? (tone || 'var(--text-accent)') : 'var(--border-hairline)'),
+        // A TONE IS THE CHIP'S EDGE, AND ITS WORD IS A DUTY (Phase 17's audit): a `tone` pigment
+        // set as the word read as low as 2.93 : 1 on the instrument, by a route no `color:` scan sees
+        color: on ? (tone ? 'var(--text-body)' : 'var(--text-accent)') : 'var(--text-secondary)',
         background: on ? 'var(--surface-raised)' : 'transparent', transition: 'var(--t-hover)' }}>{children}</button>
   );
 }
@@ -450,7 +452,7 @@ export function ActionChip({ onClick, children, title, disabled, affix = '→' }
     <button type="button" onClick={onClick} title={title} disabled={disabled}
       style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
         display: 'inline-flex', alignItems: 'center', gap: 5, border: '1px solid transparent',
-        color: disabled ? 'var(--text-disabled)' : 'var(--gilt-deep)',
+        color: disabled ? 'var(--text-disabled)' : 'var(--text-accent)',
         cursor: disabled ? 'default' : 'pointer', transition: 'var(--t-hover)' }}>
       {children}
       {affix && <span aria-hidden="true" style={{ color: disabled ? 'var(--text-disabled)' : 'var(--text-secondary)' }}>{affix}</span>}
@@ -482,12 +484,12 @@ export function FilterGroup({ label, summary, children, defaultOpen = false, act
         style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
           display: 'inline-flex', alignItems: 'center', gap: 6,
           border: '1px solid ' + (active ? 'var(--gilt-deep)' : 'var(--border-hairline)'),
-          color: active ? 'var(--gilt-deep)' : 'var(--text-secondary)',
+          color: active ? 'var(--text-accent)' : 'var(--text-secondary)',
           background: open ? 'var(--surface-raised)' : 'transparent', transition: 'var(--t-hover)' }}>
         <span aria-hidden="true" style={{ color: 'var(--text-secondary)' }}>{open ? '−' : '+'}</span>
         {label}
         {!open && summary && (
-          <span style={{ color: active ? 'var(--gilt-deep)' : 'var(--text-secondary)' }}>· {summary}</span>
+          <span style={{ color: active ? 'var(--text-accent)' : 'var(--text-secondary)' }}>· {summary}</span>
         )}
       </button>
       {open && children}

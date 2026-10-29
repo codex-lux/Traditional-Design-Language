@@ -101,6 +101,7 @@ function Hero() {
     const ask = () => api.frontDoorHero().then((h) => {
       if (!live) return;
       if (h && h.pending) { if (++tries < 60) timer = setTimeout(ask, 4000); else setFailed(true); return; }
+      if (h && h.failed) { setFailed(true); return; }   // the sweep raised: unjudged, never refused
       setHero(h);
     }, () => { if (live) setFailed(true); });
     ask();
@@ -256,7 +257,7 @@ export function Overview({ onSearch, lastEval }) {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 26, alignItems: 'center' }}>
               <a href={resume ? resume.href : (doors.brief ? doors.brief.href : '#/brief')} data-front-act="continue"
                 data-resume={resume ? resume.id : undefined}
-                style={{ padding: '9px 18px', background: 'var(--gilt)', color: 'var(--coal)', borderBottom: 'none',
+                style={{ padding: '9px 18px', background: 'var(--gilt)', color: 'var(--text-on-gilt)', borderBottom: 'none',
                   font: 'var(--fw-med) 15px/1.3 var(--body)' }}>
                 <Term id="front-door-continue" />
               </a>

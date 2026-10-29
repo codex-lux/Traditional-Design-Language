@@ -200,7 +200,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               leaves out the diagram the brief named and the ranking passed over, appended after the
               set, and "2 refused" read beside it was a count over a population it did not name. */}
           {tally.refused > 0 && (
-            <span data-set-refused={tally.refused} style={{ color: 'var(--refusal)' }}>
+            <span data-set-refused={tally.refused} style={{ color: 'var(--refusal-text)' }}>
               {JOURNEY_WORDS.separator}{tally.refused} of {tally.of} <Term id="judgment-refused" />
             </span>
           )}
@@ -236,7 +236,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             </button>
           : <span data-selection-action={view.state}
               style={{ font: 'var(--type-data-s)',
-                color: view.tone === 'refusal' ? 'var(--refusal)' : 'var(--text-secondary)' }}>
+                color: view.tone === 'refusal' ? 'var(--refusal-text)' : 'var(--text-secondary)' }}>
               {view.words}
             </span>}
       </span>
@@ -308,7 +308,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               )}
               {c.refused
                 ? <span data-candidate-refused={c.refused.kind}
-                    style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--refusal)',
+                    style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--refusal-text)',
                       marginTop: 14 }}
                     title={refusalHeadline(c.refused)}>
                     refused{c.refused.facts.length ? ` — ${c.refused.facts.join(', ')}` : ''}; not

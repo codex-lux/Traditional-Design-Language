@@ -30,11 +30,16 @@ test('Styles\' own places are its sub-rows only while the reader is among them',
   assert.deepEqual(viewAt('overview').library.rows[0].children, []);
   const open = viewAt('phylogeny').library.rows[0].children.map((c) => c.id);
   assert.ok(open.includes('phylogeny'), 'the family tree is under Styles on its own page');
+  for (const s of ['style', 'phylogeny', 'compare']) assert.equal(viewAt(s).stylesOpen, true, s);
+  for (const s of ['faults', 'brief', 'glossary']) assert.equal(viewAt(s).stylesOpen, false, s);
 });
 
 test('a library page draws the house compact, and a house page draws it whole', () => {
-  assert.equal(viewAt('faults').compact, true);
-  assert.equal(viewAt('glossary').compact, true);
+  // every library page, not two of them (Phase 17's audit: style and proportions moved into the
+  // house's set stayed green)
+  for (const s of ['faults', 'glossary', 'proportions', 'elements', 'style', 'compare', 'phylogeny']) {
+    assert.equal(viewAt(s).compact, true, s);
+  }
   for (const s of ['brief', 'candidates', 'workbench', 'drawings', 'export', 'transcription']) {
     assert.equal(viewAt(s).compact, false, s);
   }

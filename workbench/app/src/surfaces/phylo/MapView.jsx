@@ -77,7 +77,7 @@ const MIN_W = 3, MAX_W = 340;
 
 const ZOOM_KEY = {
   font: 'var(--type-data-s)', fontFamily: 'var(--mono)', width: 22, height: 20,
-  color: 'var(--ink-2)', background: 'transparent', cursor: 'pointer',
+  color: 'var(--text-secondary)', background: 'transparent', cursor: 'pointer',
   transition: 'var(--t-hover)',
 };
 
@@ -473,10 +473,10 @@ export function MapView({
                     stroke="var(--ink-3)" strokeWidth={p === 'country' ? 1.3 : 0.7}
                     strokeDasharray={p === 'country' ? '2 1.6' : 'none'} />
                 </svg>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                   {counts[p]} {p}
                 </span>
-                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                   · {PRECISION_NOTE[p]}
                 </span>
               </span>
@@ -493,7 +493,7 @@ export function MapView({
           <Eyebrow style={{ marginBottom: 6 }}><Term id="map-positions" /></Eyebrow>
           <p data-term-definition={positionsView.state === 'ready' ? 'map-positions' : undefined}
             style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)',
-            color: 'var(--ink-2)', margin: 0, maxWidth: '74ch' }}>
+            color: 'var(--text-secondary)', margin: 0, maxWidth: '74ch' }}>
             {positionsView.state === 'ready'
               ? `${positionsView.definition} ${positionsView.record.more || ''}`.trim() : ''}
             {abstract > 0 && (
@@ -515,15 +515,15 @@ export function MapView({
           </p>
           {/* What the outline itself can and cannot show, at this scale, right now. The
               three states are kept apart: drawn, still coming, and could not be had. */}
-          <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
+          <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
             Coastline · {coast.drawn.source}, simplified at {coast.drawn.tolerance}° —
             {' '}{land.length} of {coast.drawn.rings} rings in view.
             {coast.pending && (
-              <span style={{ color: 'var(--ink-2)' }}> Fetching the {coast.wanted.name} outline
+              <span style={{ color: 'var(--text-secondary)' }}> Fetching the {coast.wanted.name} outline
                 for this scale; what is drawn is still the {coast.drawnName} one.</span>
             )}
             {coast.failed && (
-              <span style={{ color: 'var(--ink)' }}> The {coast.wanted.name} outline could
+              <span style={{ color: 'var(--text-body)' }}> The {coast.wanted.name} outline could
                 not be fetched ({coast.failed}), so this is the {coast.drawnName} one at a
                 scale it cannot carry — the facets are the simplification, not the shore.
                 {' '}
@@ -566,7 +566,7 @@ export function MapView({
             </ActionChip>
           )}
         <span style={{ flex: 1 }} />
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>drag · scroll to zoom</span>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>drag · scroll to zoom</span>
       </div>
       </div>
 
@@ -577,16 +577,16 @@ export function MapView({
           background: 'var(--paper)', border: '1px solid var(--rule)', padding: '9px 11px',
           pointerEvents: 'none' }}>
           <Eyebrow tone="secondary" as="span">{hover.region}</Eyebrow>
-          <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '3px 0 6px' }}>
+          <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '3px 0 6px' }}>
             {hover.precision} · {PRECISION_NOTE[hover.precision]}
           </div>
           {hover.members.slice(0, 9).map((m) => (
-            <div key={m.id} style={{ font: 'var(--fw-reg) 12.5px/1.45 var(--body)', color: 'var(--ink-2)' }}>
+            <div key={m.id} style={{ font: 'var(--fw-reg) 12.5px/1.45 var(--body)', color: 'var(--text-secondary)' }}>
               {m.name}
             </div>
           ))}
           {hover.members.length > 9 && (
-            <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 3 }}>
+            <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 3 }}>
               and {hover.members.length - 9} more
             </div>
           )}
