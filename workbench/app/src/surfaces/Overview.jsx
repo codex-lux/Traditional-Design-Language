@@ -100,7 +100,9 @@ function Hero() {
     let live = true, timer = null, tries = 0;
     const ask = () => api.frontDoorHero().then((h) => {
       if (!live) return;
-      if (h && h.pending) { if (++tries < 60) timer = setTimeout(ask, 4000); else setFailed(true); return; }
+      // ten minutes before the page gives up: a cold sweep to good-03 was measured at 118 s, and one
+      // over every good record can run past the four minutes this allowed first (the second audit)
+      if (h && h.pending) { if (++tries < 150) timer = setTimeout(ask, 4000); else setFailed(true); return; }
       if (h && h.failed) { setFailed(true); return; }   // the sweep raised: unjudged, never refused
       setHero(h);
     }, () => { if (live) setFailed(true); });

@@ -1405,6 +1405,9 @@ def _shipped_plans(order=DRAWABLE_ORDER):
 
 _FIRST_DRAWABLE = None
 _FIRST_DRAWABLE_BY = {}
+_HERO_GEN = [0]          # advanced by `reset_front_door`; a sweep writes only into its own generation
+# the budget a record is judged at, and the plate is drawn at it too: one solve, one placement
+SWEEP_CANDIDATES = 60
 
 
 def first_drawable(order=None):
@@ -1412,13 +1415,23 @@ def first_drawable(order=None):
     Memoised for the life of the process: the sweep is a solve per record, and the corpus does not
     move under a running server except through `invalidate`, which clears it."""
     global _FIRST_DRAWABLE
+    # A SWEEP STARTED BEFORE `reset_front_door` MAY NOT WRITE ITS ANSWER AFTER IT (the second audit
+    # of Phase 17): the generation it began in is compared before the memo is written, so a reload
+    # that lands while a sweep runs is not undone by that sweep finishing.
+    gen = _HERO_GEN[0]
     if order is not None:
         key = tuple(order)
-        if key not in _FIRST_DRAWABLE_BY:
-            _FIRST_DRAWABLE_BY[key] = _sweep(order)
-        return _FIRST_DRAWABLE_BY[key]
+        if key in _FIRST_DRAWABLE_BY:
+            return _FIRST_DRAWABLE_BY[key]
+        res = _sweep(order)
+        if gen == _HERO_GEN[0]:
+            _FIRST_DRAWABLE_BY[key] = res
+        return res
     if _FIRST_DRAWABLE is None:
-        _FIRST_DRAWABLE = _sweep(DRAWABLE_ORDER)
+        res = _sweep(DRAWABLE_ORDER)
+        if gen != _HERO_GEN[0]:
+            return res
+        _FIRST_DRAWABLE = res
     return _FIRST_DRAWABLE
 
 
@@ -1432,7 +1445,7 @@ def _sweep(order):
             plan = json.load(open(path, encoding="utf-8"))
         except (OSError, ValueError):
             continue
-        placed = _placed(core.copy_json(plan), None, 60)
+        placed = _placed(core.copy_json(plan), None, SWEEP_CANDIDATES)
         if "refused_placement" not in placed and "error" not in placed:
             found = path
             break
@@ -1452,7 +1465,7 @@ def front_door_hero():
     global _HERO
     if _HERO is not None:
         return _HERO
-    # one sweep at a time: the startup warm and a first visitor do not solve the same records twice
+    # one sweep at a time: two first visitors do not solve the same records twice
     with _HERO_LOCK:
         if _HERO is not None:
             return _HERO
@@ -1461,19 +1474,31 @@ def front_door_hero():
 
 def _compute_hero():
     global _HERO
+    gen = _HERO_GEN[0]
     path, tried = first_drawable(HERO_ORDER)
     if path is None:
-        _HERO = {"refused": True, "tried": tried, "plan_id": None, "name": None, "drawing": None}
-        return _HERO
-    plan = json.load(open(path, encoding="utf-8"))
-    res = drawing("plan", plan)
-    _HERO = {"refused": False, "tried": tried, "plan_id": plan.get("id"),
-             "name": plan.get("name") or plan.get("id"), "drawing": res}
-    return _HERO
+        out = {"refused": True, "tried": tried, "plan_id": None, "name": None, "drawing": None}
+    else:
+        plan = json.load(open(path, encoding="utf-8"))
+        # THE PLATE IS THE PLACEMENT THAT WAS JUDGED (the second audit of Phase 17): the sweep judged
+        # each record at SWEEP_CANDIDATES and the plate was drawn at `drawing`'s default of 250, a
+        # second solve with its own cache key -- half the sweep's cost, and a "may be drawn" verdict
+        # standing over a placement nobody judged. At the same budget `_placed` answers from cache.
+        res = drawing("plan", plan, candidates=SWEEP_CANDIDATES)
+        if not isinstance(res, dict) or not isinstance(res.get("svg"), str):
+            raise RuntimeError("the judged placement drew no plate")
+        out = {"refused": False, "tried": tried, "plan_id": plan.get("id"),
+               "name": plan.get("name") or plan.get("id"), "drawing": res}
+    if gen == _HERO_GEN[0]:
+        _HERO = out
+    return out
 
 
 _HERO_THREAD = None
-_HERO_ERROR = []
+_HERO_THREAD_GEN = [-1]
+_HERO_ERROR = []         # [exception type name, monotonic time] while a sweep's failure stands
+HERO_RETRY_S = 300.0
+import time as _time
 
 
 def front_door_hero_now():
@@ -1487,15 +1512,27 @@ def front_door_hero_now():
         return _HERO
     # A SWEEP THAT RAISED IS SAID, NOT RETRIED ON EVERY POLL (Phase 17's audit): the first version
     # swallowed the exception, so the route answered `pending` forever and started the sweep again
-    # each time the page asked. It answers `failed` with the reason until `reset_front_door`.
+    # each time the page asked. It answers `failed` naming the exception's TYPE -- its text can carry
+    # a path, so the text is logged instead -- and a failure older than HERO_RETRY_S may be tried
+    # again, so one transient fault does not leave the front door unjudged for the process's life.
     if _HERO_ERROR:
-        return {"failed": True, "reason": _HERO_ERROR[0]}
-    if _HERO_THREAD is None or not _HERO_THREAD.is_alive():
+        if _time.monotonic() - _HERO_ERROR[1] < HERO_RETRY_S:
+            return {"failed": True, "reason": _HERO_ERROR[0]}
+        _HERO_ERROR.clear()
+    alive = _HERO_THREAD is not None and _HERO_THREAD.is_alive()
+    # a thread still running from before a reset is not this generation's sweep: start one that is
+    if not alive or _HERO_THREAD_GEN[0] != _HERO_GEN[0]:
+        gen = _HERO_GEN[0]
+
         def run():
             try:
                 front_door_hero()
             except Exception as e:                  # noqa: BLE001 -- a failed sweep is unjudged
-                _HERO_ERROR[:] = [f"{type(e).__name__}: {e}"]
+                import logging
+                logging.getLogger("tdl.front-door").exception("the hero sweep failed")
+                if gen == _HERO_GEN[0]:
+                    _HERO_ERROR[:] = [type(e).__name__, _time.monotonic()]
+        _HERO_THREAD_GEN[0] = gen
         _HERO_THREAD = _threading.Thread(target=run, name="front-door-hero", daemon=True)
         _HERO_THREAD.start()
     return {"pending": True}
@@ -1507,6 +1544,7 @@ def reset_front_door():
     _FIRST_DRAWABLE_BY.clear()
     _HERO = None
     _HERO_ERROR.clear()
+    _HERO_GEN[0] += 1
 
 
 def elevation_datums(elev):

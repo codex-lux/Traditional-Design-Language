@@ -111,8 +111,72 @@ def test_a_sweep_that_raises_is_said_and_not_restarted_on_every_poll(monkeypatch
             break
         time.sleep(0.05)
     body = corpus.front_door_hero_now()
-    assert body.get("failed") is True and "no plan could be read" in body["reason"]
+    assert body.get("failed") is True and body["reason"] == "RuntimeError", body
+    assert "no plan could be read" not in str(body), "the exception's text is logged, not served"
     corpus.front_door_hero_now()
     assert len(runs) == 1, "a failed sweep is said, not started again on each poll"
+    # an old failure may be tried again (the second audit: one transient fault was the process's)
+    monkeypatch.setattr(corpus, "HERO_RETRY_S", 0.0)
+    assert corpus.front_door_hero_now() == {"pending": True}
+    for _ in range(50):
+        if len(runs) == 2:
+            break
+        time.sleep(0.05)
+    assert len(runs) == 2, "a failure older than the retry window starts a fresh sweep"
     corpus.reset_front_door()
     assert corpus._HERO_ERROR == [], "a reload clears the failure"
+
+
+def test_the_plate_is_drawn_from_the_placement_the_sweep_judged(monkeypatch):
+    """The second audit of Phase 17: the sweep judged at 60 candidates and the plate was drawn at 250,
+    a second solve whose placement nobody judged. Both now use SWEEP_CANDIDATES."""
+    from workbench.server import corpus
+    corpus.reset_front_door()
+    path = corpus._shipped_plans(corpus.HERO_ORDER)[0]
+    seen = {}
+    monkeypatch.setattr(corpus, "first_drawable", lambda order=None: (path, 1))
+
+    def drawing(kind, plan, parti=None, face=None, candidates=250, register="presentation"):
+        seen["candidates"] = candidates
+        return {"svg": "<svg/>", "solver": {"engine": "heuristic"}, "relaxations": []}
+    monkeypatch.setattr(corpus, "drawing", drawing)
+    out = corpus._compute_hero()
+    assert seen["candidates"] == corpus.SWEEP_CANDIDATES
+    assert out["refused"] is False
+    src = __import__("inspect").getsource(corpus._sweep)
+    assert "SWEEP_CANDIDATES" in src, "the sweep judges at the same budget the plate is drawn at"
+    corpus.reset_front_door()
+
+
+def test_a_judged_house_that_draws_no_plate_is_a_failure_not_an_empty_frame(monkeypatch):
+    from workbench.server import corpus
+    corpus.reset_front_door()
+    path = corpus._shipped_plans(corpus.HERO_ORDER)[0]
+    monkeypatch.setattr(corpus, "first_drawable", lambda order=None: (path, 1))
+    monkeypatch.setattr(corpus, "drawing", lambda *a, **k: {"error": "refused"})
+    with pytest.raises(RuntimeError):
+        corpus._compute_hero()
+    assert corpus._HERO is None
+    corpus.reset_front_door()
+
+
+def test_a_sweep_that_finishes_after_a_reset_does_not_write_its_answer(monkeypatch):
+    """The second audit: a sweep still running when `invalidate` fired wrote its stale hero after
+    the reset, and the route served it, because a live thread was taken for this generation's."""
+    import threading
+    from workbench.server import corpus
+    corpus.reset_front_door()
+    go = threading.Event()
+    path = corpus._shipped_plans(corpus.HERO_ORDER)[0]
+
+    def slow(order):
+        go.wait(5)
+        return (path, 1)
+    monkeypatch.setattr(corpus, "_sweep", slow)
+    t = threading.Thread(target=lambda: corpus.first_drawable(corpus.HERO_ORDER))
+    t.start()
+    corpus.reset_front_door()          # the reload lands while the sweep runs
+    go.set()
+    t.join(5)
+    assert tuple(corpus.HERO_ORDER) not in corpus._FIRST_DRAWABLE_BY, "the stale sweep wrote its answer"
+    corpus.reset_front_door()
