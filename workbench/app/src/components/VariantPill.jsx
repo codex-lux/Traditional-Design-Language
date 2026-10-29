@@ -1,4 +1,5 @@
 import React from "react";
+import { LadderChip } from "./Chip.jsx";
 
 /* A four-rank ladder, not a binary. 'forbidden' is positive knowledge — 851 forbidden
    variants and 228 forbidden bindings — and gets the loudest form in the system: a
@@ -37,6 +38,18 @@ function VariantPill({
   note,
   style
 }) {
+  // THE VARIANT AND BINDING LADDERS ARE CHIPS SINCE PHASE 17 (`chips.js`): a swatch in the rung's
+  // pigment beside a word in a text duty, legible on both grounds. Affinity keeps its inks here.
+  if (ladder === 'variant' || ladder === 'binding') {
+    return /*#__PURE__*/React.createElement("span", {
+      style: { display: 'inline-flex', alignItems: 'baseline', gap: 8, minWidth: 0, ...style }
+    }, /*#__PURE__*/React.createElement(LadderChip, { ladder, value: status }, name || status),
+    name && /*#__PURE__*/React.createElement("span", {
+      style: { font: 'var(--type-data-s)', color: 'var(--text-secondary)' }
+    }, status), note && /*#__PURE__*/React.createElement("span", {
+      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)', maxWidth: 'var(--measure-note)' }
+    }, note));
+  }
   const colour = (LADDERS[ladder] || LADDERS.variant)[status] || 'var(--text-secondary)';
   const forbidden = status === 'forbidden';
   return /*#__PURE__*/React.createElement("span", {

@@ -38,7 +38,7 @@
    water, salmon never anything but cut construction. Color names things; it never
    outlines them.
 
-   TWO GROUNDS SINCE 29 OCT 2026 (Phase 17, docs/design/ui-redesign-2026-10-29.md). This comment
+   TWO GROUNDS SINCE 29 OCT 2026 (Phase 17, docs/ui-redesign-2026-10-29.md). This comment
    said until then that the palette was single-theme by design and SUPERSEDED the dark
    drawing-office tokens of UISPEC §10, at the user's direction. On 29 Oct Lucas ruled the
    reverse: the instrument is dark and the plates are vellum, which is the §10 proposal the build
@@ -390,8 +390,8 @@
   --sev-minor-field:rgba(175,141,73,.11);
   --sev-cleared-field:rgba(107,124,92,.12);
 
-  /* ── Judgment. Unjudged is a FORM — an open square hatched in neutral graphite, the
-     same size and weight as the verdicts. Never a colour. The inks a judgment is drawn in;
+  /* ── Judgment. Unjudged is a FORM — an open ring hatched in neutral graphite, the
+     same size and weight as the verdicts (a square until Phase 17). Never a colour. The inks a judgment is drawn in;
      the squares themselves are drawn through the duty tokens below, and the fill alias this
      block used to carry is retired, because a second name for one hatch is a second place a
      second meaning can be given to it. */
@@ -411,20 +411,20 @@
 
      What a rule can return on a house, each state in its own form, and the three that are
      not a verdict never drawn as one another: */
-  /* Could not evaluate: the hatched square, for a rule that would run on this house and could not. */
+  /* Could not evaluate: the hatched ring, for a rule that would run on this house and could not. */
   --mark-unjudged:var(--hatch-unjudged); /* @kind other */
-  /* Yours to judge: an open square outlined in gilt and never hatched, a decision the sources leave to the reader. */
+  /* Yours to judge: an open ring in gilt and never hatched, a decision the sources leave to the reader. */
   --mark-yours-to-judge:var(--gilt-deep);
-  /* Not applicable: an em rule and no square, because the question does not arise for this house. */
+  /* Not applicable: an em rule and no ring, because the question does not arise for this house. */
   --mark-not-applicable:var(--ink-2);
-  /* Passed and failed: a filled square with its word always beside it, so a verdict is never told by colour alone. */
+  /* Passed and failed: a filled disc with its word always beside it, so a verdict is never told by colour alone. */
   --mark-passed:var(--green-deep);
   --mark-failed:var(--brick);
-  /* Refused: a heavy open square in brick, for a placement the corpus will not draw at all. */
+  /* Refused: a heavy open ring in brick, for a placement the corpus will not draw at all. */
   --mark-refused:var(--brick);
 
   /* The marks that are not a verdict, and so never borrow a verdict's form: */
-  /* Loading: no square at all, only the word in this ink, and aria-busy on whatever is still arriving. */
+  /* Loading: no glyph at all, only the word in this ink, and aria-busy on whatever is still arriving. */
   --mark-loading:var(--ink-2);
   /* Low confidence: a dashed outline, for a date or a placement the record holds only loosely. */
   --mark-low-confidence:var(--ink-3);
@@ -436,6 +436,13 @@
   --mark-set-aside:var(--hatch-135); /* @kind other */
   /* Forbidden: close rising lines over the variant a style's kit rules out, its name struck through. */
   --mark-forbidden:var(--hatch-forbidden); /* @kind other */
+
+  /* Where the house stands on its journey (Phase 17), in the sidebar's spine and on the front
+     door's stations: done is a vellum disc, the step in hand a gilt ring round a gilt dot, and a
+     step not yet reached a dashed ring. Not a verdict, so no judgment's form. */
+  --mark-journey-done:var(--paper);
+  --mark-journey-current:var(--gilt);
+  --mark-journey-not-yet:var(--ink-4);
 
   /* ── Kit slot binding: specified · extends · forbidden · open ────────────── */
   --bind-specified:var(--ink);
@@ -537,6 +544,10 @@
   --sev-info:var(--ink-4);
   --refusal-text:var(--salmon);
   --receipt:var(--ink-4);
+  --judge-unjudged:var(--ink-4);
+  --mark-yours-to-judge:var(--gilt);
+  --mark-not-applicable:var(--ink-4);
+  --mark-loading:var(--ink-4);
 }
 [data-ground="vellum"]{
   --surface-app:var(--paper);
@@ -563,6 +574,10 @@
   --sev-info:var(--ink-3);
   --refusal-text:var(--brick);
   --receipt:var(--ink-2);
+  --judge-unjudged:var(--ink-3);
+  --mark-yours-to-judge:var(--gilt-deep);
+  --mark-not-applicable:var(--ink-2);
+  --mark-loading:var(--ink-2);
 }
 /* A ground paints itself: what is set on it takes its body ink from the duty, not from `body`. */
 [data-ground]{color:var(--text-body)}

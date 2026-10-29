@@ -25,7 +25,7 @@ import { GROUNDS, contrast, groundTokens, groundValue, rootTokens, stripGrounds 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const CSS = readFileSync(join(SRC, 'theme', 'tokens.css'), 'utf8');
 
-const DUTY = /^--(surface|text|border|link|sev|refusal-text|receipt)(-|$)/;
+const DUTY = /^--(surface|text|border|link|sev|refusal-text|receipt|judge|mark)(-|$)/;
 
 test('the premise: both ground blocks exist and each moves duties', () => {
   for (const g of GROUNDS) assert.ok(Object.keys(groundTokens(CSS, g)).length >= 10, `${g} block is read`);
@@ -70,7 +70,7 @@ const SURFACES = {
 };
 const TEXT = {
   vellum: ['--text-body', '--text-secondary', '--link', '--text-on-paper'],
-  instrument: ['--text-body', '--text-secondary', '--text-tertiary', '--text-accent', '--link', '--refusal-text'],
+  instrument: ['--text-body', '--text-secondary', '--text-tertiary', '--text-accent', '--link', '--refusal-text', '--mark-loading'],
 };
 
 function contrastRows(css) {
@@ -120,6 +120,8 @@ const PRIM = /var\(\s*(--(?:paper(?:-deep|-mat|-lit)?|ink(?:-[234])?|rule(?:-sof
 const DRAWING = [
   /^sheet\//, /^round\//, /^components\/AssemblyPlate\.jsx$/, /^surfaces\/phylo\/MapView\.jsx$/,
   /^marks\.js$/, /^components\/EdgeGlyph\.jsx$/, /^components\/RelaxationMarker\.jsx$/,
+  // the chips' pigment table: a pale fill is the chip's own paper on either ground, by design
+  /^chips\.js$/,
 ];
 
 /* What remains, BY FILE AND COUNT, measured when WP-17.0 landed. A count may only fall, and a file
