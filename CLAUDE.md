@@ -819,8 +819,9 @@ they preferred, expected the drawings, and got `Plan refused · 0 fatal`, Drawin
         The known list is still 20 ids; `check_partis.py` now has two errors, not one.
   - **App suite 816 (13 added, 1 re-cut), Python 3,995 in `tests/` (38 added) and 467 in the server suite (2 added), reconciled by name against `e048a89`.**
   - **Still open, and named:** the composer returns sets in which nothing may be drawn
-    (`oq/the-composer-returns-sets-in-which-nothing-may-be-drawn`), and the journey bar's Next wraps onto
-    a second row at narrow widths (`oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps`).
+    (`oq/the-composer-returns-sets-in-which-nothing-may-be-drawn`). The journey bar's Next wrapping onto
+    a second row at narrow widths (`oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps`) is CLOSED
+    by Phase 17, which retired the bar into the sidebar's spine.
     The parti check judging a house the product does not build is
     `oq/the-parti-check-places-a-house-the-product-does-not-build`.
 

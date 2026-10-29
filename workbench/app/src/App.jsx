@@ -49,13 +49,18 @@ import { BriefIntake } from './surfaces/BriefIntake.jsx';
 import { StyleDossier } from './surfaces/StyleDossier.jsx';
 import { Proportions } from './surfaces/Proportions.jsx';
 import { DrawingSet } from './surfaces/DrawingSet.jsx';
-import { ExportDetails } from './surfaces/ExportDetails.jsx';
-import { Transcription } from './surfaces/Transcription.jsx';
+// THREE SURFACES ARE LOADED WHEN FIRST VISITED (Phase 17): the entry chunk crossed
+// check_frontend's 700 KB ceiling on the shell's own growth, with every heavy tier still a chunk
+// of its own. These are the three least on the journey's path, so a reader who never opens them
+// never downloads them. Each module keeps its named export; `lazyNamed` adapts it.
+const lazyNamed = (load, name) => React.lazy(() => load().then((m) => ({ default: m[name] })));
+const ExportDetails = lazyNamed(() => import('./surfaces/ExportDetails.jsx'), 'ExportDetails');
+const Transcription = lazyNamed(() => import('./surfaces/Transcription.jsx'), 'Transcription');
 import { Overview } from './surfaces/Overview.jsx';
 import { Glossary } from './surfaces/Glossary.jsx';
 import { Elements } from './surfaces/Elements.jsx';
 import { RoomPage, MassingPage, GroupingPage, PartiPage } from './surfaces/RecordPage.jsx';
-import { Compare } from './surfaces/Compare.jsx';
+const Compare = lazyNamed(() => import('./surfaces/Compare.jsx'), 'Compare');
 import { SHELL_GROUND, groundOf } from './grounds.js';
 
 const SURFACES = {
@@ -356,7 +361,10 @@ export default function App() {
           {!full && <PageHead termId={headTermFor(place)} />}
           <main data-ground={groundOf(SURFACES[surface] ? surface : 'workbench')}
             style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
-            <Active {...shared} lastEval={lastEvalHere} />
+            <React.Suspense fallback={<p role="status" aria-busy="true" data-surface-loading=""
+              style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '18px 22px' }}>…</p>}>
+              <Active {...shared} lastEval={lastEvalHere} />
+            </React.Suspense>
           </main>
         </div>
         {!full && layout.isOpen('rail') && <Splitter pane="rail" grows="right" />}

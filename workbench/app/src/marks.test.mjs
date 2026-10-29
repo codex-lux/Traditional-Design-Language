@@ -44,7 +44,9 @@ const UNUSED = Object.freeze(['--hatch-cross']);
 
 // the two ground blocks are `grounds.js`'s to read and `grounds.test.mjs`'s to judge (Phase 17)
 const stripCss = (s) => stripGrounds(s).replace(/\/\*[\s\S]*?\*\//g, ' ');
-const stripJs = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1');
+// THE SHARED LEXER (Phase 17's audit): the regex `/\*[\s\S]*?\*\//` read Transcription's
+// `accept="image/*"` as opening a comment and blanked 2,896 characters of live code, lines 437 to 516 of that file.
+const stripJs = (s) => stripComments(s);
 
 /* Every custom property the stylesheet declares, as [name, value] in order. A declaration is a
    name after `{`, `;` or a line start, then a colon -- the same reading `build/check_glossary.py`

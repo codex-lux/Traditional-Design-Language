@@ -22,13 +22,15 @@ import { linkView, isPlainPrimaryClick } from './names/recordLink.js';
 import { glossaryListing, matchesQuery, haystackOf } from './glossary/listing.js';
 import { hrefFor, citeHref } from './router.js';
 import { groundValue } from './grounds.js';
+import { stripComments as lexStrip } from './sourceReader.mjs';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const read = (rel) => readFileSync(join(SRC, rel), 'utf8');
 // Block comments, and line comments whether they start a line or trail code (a `//` after `:` is
 // a URL inside a string and is kept).
-const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '')
-  .replace(/(^|[\s;,{}()])\/\/[^\n]*/g, '$1');
+// THE SHARED LEXER (Phase 17's audit): the regex `/\*[\s\S]*?\*\//` read Transcription's
+// `accept="image/*"` as opening a comment and blanked 2,896 characters of live code, lines 437 to 516 of that file.
+const stripComments = (s) => lexStrip(s);
 
 /* A payload in §C.1's shape, small enough to reason about in the test. */
 function payload() {

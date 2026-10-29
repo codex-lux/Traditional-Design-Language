@@ -22,6 +22,7 @@ import {
 } from './journey/journey.js';
 import { barView } from './journey/bar.js';
 import { SURFACE_PATHS, parseHash } from './router.js';
+import { stripComments as lexStrip } from './sourceReader.mjs';
 
 const ROOT = new URL('../../../', import.meta.url);
 const step = (st, id) => st.steps.find((s) => s.id === id);
@@ -299,7 +300,7 @@ test('every site that matches an evaluation to a plan reads evalPlanOf, and none
   walk(SRC);
   const byHand = /\bcheck\s*\??\.\s*plan\b/;
   const offenders = files.filter((u) => !u.pathname.endsWith('/journey/journey.js'))
-    .filter((u) => byHand.test(readFileSync(u, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '')))
+    .filter((u) => byHand.test(lexStrip(readFileSync(u, 'utf8'))))  // the shared lexer: see sourceReader.mjs
     .map((u) => u.pathname.slice(SRC.pathname.length));
   assert.deepEqual(offenders, [], 'these read an evaluation\'s plan off its check by hand');
   assert.ok(files.length > 50, 'the walk reached the app\'s sources');

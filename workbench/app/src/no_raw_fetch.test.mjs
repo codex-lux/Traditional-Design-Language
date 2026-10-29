@@ -23,6 +23,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { stripComments as lexStrip } from './sourceReader.mjs';
 
 const SRC = new URL('./', import.meta.url);
 
@@ -51,8 +52,9 @@ function sources() {
    that starts a line or follows whitespace -- so `'http://'` inside a string survives. Prose that
    says "fetch" is not a fetch. */
 export function code(text) {
-  return text.replace(/\/\*[\s\S]*?\*\//g, ' ')
-    .split('\n').map((l) => l.replace(/(^|\s)\/\/.*$/, '$1')).join('\n');
+  // the shared lexer (Phase 17's audit): the regex this used read Transcription's
+  // `accept="image/*"` as opening a comment and blanked its lines 437 to 516
+  return lexStrip(text);
 }
 
 const rel = (u) => u.pathname.slice(SRC.pathname.length);
