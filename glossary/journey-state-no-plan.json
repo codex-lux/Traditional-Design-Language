@@ -1,0 +1,9 @@
+{
+  "id": "journey-state-no-plan",
+  "term": "no plan on the bench",
+  "family": "house",
+  "order": 24,
+  "definition": "The bench holds no plan record, so there is nothing to draw or export.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17, the table of the words a station of the house's journey carries, which says of \"no plan on the bench\" that \"the bench holds no plan record, so there is nothing to draw or export\". The same section says why the word is prose: \"it is a sentence about the house and not an error code\"."
+}

@@ -1,0 +1,9 @@
+{
+  "id": "datum-overlay",
+  "term": "Datums",
+  "family": "product",
+  "order": 38,
+  "definition": "The heights the elevation itself states, laid over the plate as dashed construction lines: grade, the floors, the water table and the eave. Where the record states none, there is nothing to lay.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Drawing Set since Phase 17: the elevation \"can lay its own datums over the plate\", \"each as the elevation record states it\", and \"where the record states none, the control is absent\"."
+}

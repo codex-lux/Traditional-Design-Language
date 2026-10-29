@@ -1,0 +1,9 @@
+{
+  "id": "period-revival",
+  "term": "revival",
+  "family": "model",
+  "order": 44,
+  "definition": "A later period in which a style's forms were taken up again, often by a different style the record models separately.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, the period object's revival periods, each a start and an end, and its revival node the \"id of the node that IS the revival, if it is modelled separately.\""
+}

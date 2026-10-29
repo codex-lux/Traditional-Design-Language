@@ -174,7 +174,8 @@ count beside an item is the API's or the journey's, never a number written in th
 - **A house**: Brief · Candidates · Plan · Drawings · Export, with *trace a drawing* joining at
   the plan. One `JourneyBar` (`journey/journey.js` through `journey/bar.js`) says each step's
   state in words, and a step that cannot proceed (a refused plan's Drawings and Export) is not a
-  link.
+  link. *(Retired in Phase 17: the journey is the sidebar's spine of stations now, read off the
+  same `barView`; see the Phase 17 section below.)*
 - **Library**: Proportions, Faults, Elements (since WP-14.23), the Glossary.
 
 **The Style Dossier** (`surfaces/StyleDossier.jsx`, sections in `dossier/`) is everything about
@@ -276,6 +277,101 @@ The eight rulings of 26 Sep 2026 changed four things here (WP-14.33,
   `description` a record page prints. Other fields those pages print are not swept:
   `oq/build-history-is-shown-in-page-fields-the-description-sweep-does-not-read`.
 
+## The shell since Phase 17: a dark instrument and vellum plates
+
+Lucas ruled the register on 29 Oct 2026 (`docs/ui-redesign-2026-10-29.md`): the chrome is dark,
+and drawings, cards and columns sit on vellum as the brightest objects on the screen. The
+mechanism is two grounds and not a theme. A primitive stays a pigment; only the semantic duties
+are rebound, under `[data-ground="instrument"]` and `[data-ground="vellum"]`
+(`app/src/grounds.js`, WP-17.0).
+
+**The sidebar** is the site map and the journey at once (WP-17.2, `nav/sidebar.js`):
+- the wordmark, which is the way home;
+- the house on the bench, with its name, its counts and the five stations of its journey;
+- the library;
+- search and the keys at the foot.
+
+On a library page the five stations shrink to five marks in a row, and the house is still there.
+
+**The top bar** is the crumbs, the address in the corpus's own grammar, and the one button that
+opens the assistant. **The assistant's pane opens only when summoned**: it starts folded at every
+width unless the reader has stored a choice.
+
+**The front door** (WP-17.3) leads with the corpus's own thesis, `about-tdl`'s definition, at
+display size. Beside it is one primary act and one secondary:
+- continue the house in hand, which goes to the step the journey would resume at;
+- start a new brief.
+
+The hero is a real plate, and it is the plan sheet of the first shipped house the corpus lets
+the product draw. The Tidewater record is refused a drawing, so the hero is never assumed to be
+it: the record is found by the same rule the server's tests use, and where none is drawable the
+plate says so as a refusal. Below the hero are the five stations of the journey, and the library
+as five cards.
+
+**The Candidate Set** (WP-17.4) sets each candidate on a vellum column, and the column says first
+how the type's own facts stand on it, in one of three forms:
+- refused: a brick band with its sentence, and the house cannot be drawn;
+- placed: a green disc, because the placed loop ran and the type's facts held;
+- unjudged: a hatched ring, because nobody asked the type's facts of it, so the bench may yet refuse it.
+
+The score and the nativity are two marks and never one, and the decision log reads as a receipt.
+
+**The Plan Workbench** (WP-17.5) lets the plate fill the bench and pins each finding where it
+falls: one ring per room, in the worst severity's ink, carrying how many findings name that room. A
+finding with no room is not placed; it stays in the list. The style the plan is judged against is a
+control of the toolbar, labelled as what it does: the findings appear and clear as the style
+changes.
+
+**The Drawing Set** (WP-17.7) heads every sheet with the one-building banner: every sheet in a set
+is drawn from one placement of one record, and the banner carries that placement's input digest so
+two sheets can be seen to be of the same house. The elevation can lay its own datums over the plate
+-- grade, the floors, the water table and the eave, each as the elevation record states it -- as
+dashed construction lines registered through the plate's own frame; where the record states none,
+the control is absent. Beside the plate, the disclosures say how many of the corpus's faults were
+evaluated on this house out of all of them, and the refusals and judgments stand as they are.
+
+**Details & Export** (WP-17.8) sets what leaves the system today on vellum cards and what is
+designed and not built as dashed cards, never hidden. Beside them stands the modelling convention a
+builder needs before reading any figure: a room is dimensioned clear of its exterior walls, which are
+drawn outward from the block, while an interior wall is centred on the line two rooms share and so
+takes half its thickness from each of them.
+
+**The family tree** (WP-17.12) runs each tradition in a lane of its own hue, and flags an edge that
+breaks the chronology: a descendant that flourishes well before the ancestor it is said to descend
+from. The rule is the validator's own warning, which the build has printed and no page has shown.
+
+**Compare** (WP-17.13) says where the two styles part in the graph: the nearest node both of their
+kit cascades hold, above which they share everything they inherit, and below which each has levels
+of its own. A pair whose cascades share nothing part at no node, and the page says so.
+
+**Proportions** (WP-17.13) lists the material modules before the orders, because a brick course or
+a sash light is what a building is measured in before an order is applied to it. The order plate is
+a drawing on vellum and its inks are the drawing duties; the page around it is on the instrument.
+
+**The Glossary** (WP-17.14) sets each word as a vellum card on the instrument: the term, its quoted
+basis, how it is drawn, where it appears and its neighbours.
+
+**Transcription** (WP-17.14) draws the tracing on vellum. The record forming at the right lists
+what the critic will not see yet: every gap the draft still has, each of which would leave the
+critic unable to judge the house until it is filled. A record with a gap is not checked, sent to
+the bench or downloaded.
+
+**Each station carries a state word.** In italic prose, never in mono, because it is a sentence
+about the house and not an error code. Each word is its own glossary record:
+
+| Word | What it says |
+|---|---|
+| to do | the brief has not been stated, so there is nothing yet to compose |
+| stated | the brief has been stated and can be composed into candidates |
+| none yet | no compose has returned candidates for the brief in hand |
+| expired | the server no longer keeps the compose this set came from |
+| no plan on the bench | the bench holds no plan record, so there is nothing to draw or export |
+| not yet evaluated | the plan on the bench has not been placed and judged since it changed |
+| needs a plan | a drawing or an export needs a plan on the bench before it can be made |
+| blocked: refused | the plan on the bench breaks a hard fact of its type, so nothing may be drawn from it |
+| blocked: a working sketch | the plan on the bench is a working sketch, and an export would present it as a drawing |
+| ready | the step before is complete, and this one can be made now |
+
 ## Navigation and addressing (WP-5.6)
 
 **A place is a URL, and a URL is a citation.** The hash serializes `(surface, selection,
@@ -305,7 +401,7 @@ over `hashchange` in the same idiom as `planDoc`.
 - `-` holds an absent leading path key (`#/style/-/kit/cornice` is a slot with no style).
 - A URL cannot express "present, but null", and nothing downstream reads one.
 
-**Search.** `GET /api/search/index` serves every nameable thing once (890 entries, 283,092 bytes
+**Search.** `GET /api/search/index` serves every nameable thing once (918 entries, 283,092 bytes
 served as Starlette writes it, measured 26 Sep 2026 after WP-14.33's two glossary records; the
 282,370 that stood here was the 885-entry figure, left beside a count `check_counts.py --fix`
 rewrote, which is the one number of a pair that tool can reach. 282,370 was measured 25 Sep 2026
@@ -320,7 +416,7 @@ diagnostic tells quadrupled the payload and produced matches nobody could accoun
 payload states that boundary in its own `indexes` / `does_not_index` fields. Prose search
 belongs to `/api/styles?query=` and to the rail. Every entry carries a `cite`, so the
 palette dispatches through the citation router and cannot reach a place a citation could
-not name; `test_search_index.py` runs all 890 through the server's own validator.
+not name; `test_search_index.py` runs all 918 through the server's own validator.
 
 **Keys.** `app/src/keys.js` is the only file that binds one, and it binds three: `⌘K`/`ctrl-K`
 (palette), `/` (focus this surface's filter bar, via a one-line registration bus so the

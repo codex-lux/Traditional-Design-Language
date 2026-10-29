@@ -22,6 +22,12 @@ import { StylePicker } from '../components/StylePicker.jsx';
 import { FilterStrip } from '../Chrome.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Section, prose, quiet, data } from './parts.jsx';
+import { bindingBar } from '../elements/bindingBar.js';
+import { BindingChip } from '../components/Chip.jsx';
+
+// each part of the bar in its binding's own duty ink, open as the hairline it is
+const BAR_INK = { specified: 'var(--bind-specified)', extends: 'var(--bind-extends)',
+  forbidden: 'var(--bind-forbidden)', open: 'var(--border-hairline)' };
 
 export function SlotPanel({ slot }) {
   const [rec, setRec] = React.useState(null);
@@ -34,6 +40,7 @@ export function SlotPanel({ slot }) {
   const s = rec && rec.slot ? rec.slot : null;
   const bound = rec && rec.bindings ? rec.bindings : {};
   const by = Array.isArray(bound.specified) ? bound.specified : [];
+  const bar = bindingBar(bound);
   const forbids = Array.isArray(bound.forbidden) ? bound.forbidden : [];
   const faults = rec ? rec.faults_on_this_slot || [] : [];
   return (
@@ -63,6 +70,25 @@ export function SlotPanel({ slot }) {
             {s.note && <p style={prose}>{s.note}</p>}
             {rec.note && <p style={{ ...quiet, fontStyle: 'italic', margin: '0 0 18px' }}>{rec.note}</p>}
 
+            {/* PHASE 17 (WP-17.13): who binds it across every style, as one bar of four parts that
+                sum to the whole -- the route's counts, each part in its binding's ink and word. */}
+            {bar && (
+              <div data-binding-bar={bar.map((p) => p.n).join(' ')} style={{ margin: '0 0 20px' }}>
+                <div style={{ display: 'flex', height: 10, border: '1px solid var(--border-hairline)' }}>
+                  {bar.filter((p) => p.n > 0).map((p) => (
+                    <span key={p.id} data-binding-part={p.id} style={{ flex: `${p.n} 0 0`, background: BAR_INK[p.id] }} />
+                  ))}
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px', marginTop: 6 }}>
+                  {bar.map((p) => (
+                    <span key={p.id} style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
+                      <BindingChip binding={p.id}><Term id={`binding-${p.id}`} /></BindingChip>
+                      <span style={data}>{p.n}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
             <Section eyebrow={<><Term id="binding-specified" /> · {by.length}</>} data-specified-by={by.length}>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 16px' }}>
                 {by.map((id) => (

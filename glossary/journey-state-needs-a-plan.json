@@ -1,0 +1,9 @@
+{
+  "id": "journey-state-needs-a-plan",
+  "term": "needs a plan",
+  "family": "house",
+  "order": 26,
+  "definition": "A drawing or an export needs a plan on the bench before it can be made.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17, the table of the words a station of the house's journey carries, which says of \"needs a plan\" that \"a drawing or an export needs a plan on the bench before it can be made\". The same section says why the word is prose: \"it is a sentence about the house and not an error code\"."
+}

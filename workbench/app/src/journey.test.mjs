@@ -503,15 +503,15 @@ test('a pick means something only on the Candidate Set, and only as an index', (
 });
 
 test('the shell and the bar read the same pick: both hand the journey the address\'s candidate', () => {
-  /* Two components build the journey (`App.jsx` for the rail and crumbs, `JourneyBar.jsx` for the
-     bar), and a pick one of them did not pass would make the bar and the rest of the shell disagree
+  /* Two components build the journey (`App.jsx` for the sidebar and crumbs, `JourneySpine.jsx` for
+     the stations -- the bar until Phase 17), and a pick one of them did not pass would make the bar and the rest of the shell disagree
      about whether Next is on. The component cannot be rendered under `node --test`, so what is held
      is the join: each takes the pick through `pickedCandidate` from the surface and its selection. */
   const app = readFileSync(new URL('./App.jsx', import.meta.url), 'utf8');
-  const bar = readFileSync(new URL('./components/JourneyBar.jsx', import.meta.url), 'utf8');
+  const bar = readFileSync(new URL('./components/JourneySpine.jsx', import.meta.url), 'utf8');
   assert.match(app, /journeyState\(\{[^}]*picked: pickedCandidate\(surface, selection\)[^}]*\}\)/);
-  assert.match(app, /<JourneyBar surface=\{surface\} lastEval=\{lastEval\} selection=\{selection\} \/>/);
-  assert.match(bar, /export function JourneyBar\(\{ surface, lastEval, selection \}\)/);
+  assert.match(app, /<JourneySpine surface=\{surface\} lastEval=\{lastEval\} selection=\{selection\}/);
+  assert.match(bar, /export function JourneySpine\(\{ surface, lastEval, selection, compact = false \}\)/);
   assert.match(bar, /journeyState\(\{[^}]*picked: pickedCandidate\(surface, selection\)[^}]*\}\)/);
   assert.match(bar, /\[s, plan, lastEval, surface, selection\]/, 'the memo is keyed on the pick');
 });

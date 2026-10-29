@@ -31,6 +31,8 @@ import { Term } from '../components/Term.jsx';
 import { useGlossary } from '../api/useGlossary.js';
 import { describeTerm } from '../glossary/termView.js';
 import { unjudgedReason } from '../faults/unjudged.js';
+import { pinsOf } from '../sheet/pins.js';
+import { levelRooms } from '../sheet/derive.js';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -581,6 +583,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
         </span>
       }>
         <Eyebrow as="span">style</Eyebrow>
+        <span style={{ font: 'var(--fw-reg) 13px/1.3 var(--body)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
+          <Term id="judge-this-plan-as" />
+        </span>
         <StylePicker value={plan.style} onChange={(v) => planDoc.update(mutations.setStyle(v))}
           label="Judge this plan against a different style — findings appear and clear" width={190} />
         <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
@@ -906,6 +911,10 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                   return below.length ? Math.max(...below) : null;
                 })()}
                 selectedRoom={room}
+                // Phase 17: the findings in view, pinned on the rooms they name (`sheet/pins.js`);
+                // a pin is the room's own filter, the same act as clicking the room
+                pins={placement ? pinsOf(shown, levelRooms(plan, placement, level)) : []}
+                onPickPin={(id) => { setRoom(room === id ? null : id); setLayer(null); }}
                 onPickRoom={(r) => { setRoom(room === r.id ? null : r.id); setLayer(null); }}
                 onResizeRoom={(r, axis, size) => {
                   // The record declares width_ft as the SHORT dimension; the placed rect

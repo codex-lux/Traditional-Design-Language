@@ -10,6 +10,22 @@ const EYE = {
   textTransform: 'uppercase',
   color: 'var(--text-secondary)'
 };
+/* A LEVEL'S OWN BINDINGS AS A BAR (Phase 17, WP-17.10): specified, extends and forbidden, each its
+   binding ink, the length against the busiest level in the cascade, so a thin kit reads thin. */
+function LevelBar({ counts, max }) {
+  const w = 64, seg = [['specified', 'var(--bind-specified)'], ['extends', 'var(--bind-extends)'],
+    ['forbidden', 'var(--bind-forbidden)']];
+  let x = 0;
+  return /*#__PURE__*/React.createElement("svg", {
+    "aria-hidden": "true", width: w, height: 8, style: { flex: 'none', alignSelf: 'center' }
+  }, seg.map(function ([k, ink]) {
+    const len = (counts[k] || 0) / max * w;
+    const r = /*#__PURE__*/React.createElement("rect", { key: k, x: x, y: 1, width: len, height: 6, style: { fill: ink } });
+    x += len;
+    return r;
+  }));
+}
+
 function ProvenanceTrace({
   cascade,
   sourceId,
@@ -43,6 +59,7 @@ function ProvenanceTrace({
     }, hit.id));
   }
   const shown = all ? cascade : cascade.slice(0, collapseFrom);
+  const maxB = Math.max(1, ...cascade.map(function (l) { return l.bindings || 0; }));
   const hidden = cascade.length - shown.length;
   return /*#__PURE__*/React.createElement("div", {
     style: style
@@ -65,8 +82,7 @@ function ProvenanceTrace({
     }
   }, shown.map(function (l) {
     const isSource = l.id === sourceId;
-    return /*#__PURE__*/React.createElement("button", {
-      key: l.id,
+    return /*#__PURE__*/React.createElement(React.Fragment, { key: l.id }, /*#__PURE__*/React.createElement("button", {
       type: "button",
       onClick: onSelect ? function () {
         onSelect(l.id);
@@ -77,11 +93,11 @@ function ProvenanceTrace({
         gap: 10,
         width: '100%',
         textAlign: 'left',
-        height: 'var(--row-h)',
+        minHeight: 'var(--row-h)',
         padding: '0 6px',
         cursor: onSelect ? 'pointer' : 'default',
         background: isSource ? 'var(--surface-raised)' : 'transparent',
-        borderLeft: isSource ? '2px solid var(--gilt-deep)' : '2px solid transparent',
+        borderLeft: isSource ? '2px solid var(--text-accent)' : '2px solid transparent',
         transition: 'var(--t-hover)'
       }
     }, /*#__PURE__*/React.createElement("span", {
@@ -100,7 +116,7 @@ function ProvenanceTrace({
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
-        color: isSource ? 'var(--gilt-deep)' : l.distance === 0 ? 'var(--text-body)' : 'var(--text-secondary)'
+        color: isSource ? 'var(--text-accent)' : l.distance === 0 ? 'var(--text-body)' : 'var(--text-secondary)'
       }
     }, l.id), /*#__PURE__*/React.createElement("span", {
       style: {
@@ -108,7 +124,10 @@ function ProvenanceTrace({
         color: 'var(--text-secondary)',
         flex: 'none'
       }
-    }, l.bindings), l.detail && /*#__PURE__*/React.createElement("span", {
+    }, l.bindings), l.counts && /*#__PURE__*/React.createElement(LevelBar, {
+      counts: l.counts,
+      max: maxB
+    }), l.detail && /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
         color: 'var(--text-secondary)',
@@ -119,15 +138,31 @@ function ProvenanceTrace({
         whiteSpace: 'nowrap',
         textAlign: 'right'
       }
-    }, l.detail));
+    }, l.detail)), l.bans && l.bans.length > 0 && /*#__PURE__*/React.createElement("div", {
+      "data-cascade-bans": l.id,
+      style: {
+        font: 'var(--type-data-s)',
+        color: 'var(--text-secondary)',
+        padding: '0 6px 4px 38px',
+        overflowWrap: 'anywhere'
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: { color: 'var(--bind-forbidden)', marginRight: 6 }
+    }, "\u2715"), l.bans.map(function (b) {
+      return b.variant ? b.slot + ' \u00b7 ' + b.variant : b.slot;
+    }).join(', ')));
   })), hidden > 0 && /*#__PURE__*/React.createElement("button", {
     type: "button",
+    // a control that navigates takes the link ink through the class (WP-14.33); Phase 17 moved
+    // it off the gilt, which removes its row from inks.test's gilt remainder
+    className: "tdl-link",
     onClick: function () {
       setAll(true);
     },
     style: {
-      ...EYE,
-      color: 'var(--gilt-deep)',
+      font: 'var(--type-eyebrow)',
+      letterSpacing: 'var(--tr-eyebrow)',
+      textTransform: 'uppercase',
       marginTop: 8
     }
   }, "show ", hidden, " further levels"));

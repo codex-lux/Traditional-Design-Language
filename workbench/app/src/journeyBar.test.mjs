@@ -47,18 +47,19 @@ test('the bar is on the six house surfaces, nowhere else, and never in full scre
   }
 });
 
-test('App mounts the bar once, above <main>, and only where showJourneyBar says', () => {
-  /* LIVE CODE, NOT PROSE (WP-14.30). This read the raw file, so the first `<main` it found could
-     be a COMMENT: WP-14.30's width effect names `<main>` in its comment above the JSX and turned
-     this guard red on an edit that moved no element. A selector over the source text goes red on a
-     rewording as readily as it goes blind on one; the element is what the rule is about. */
+test('App mounts the journey once, in the sidebar and above <main>, on every page (Phase 17)', () => {
+  /* LIVE CODE, NOT PROSE (WP-14.30). Since Phase 17 the journey is the sidebar's house block, a
+     vertical spine of stations, and it is on every page: the bar above <main> on the six house
+     surfaces is retired (ruled 29 Oct 2026). `showJourneyBar` still answers which surfaces ARE the
+     house, which is what marks a station current, and the spine is compact everywhere else. */
   const app = read('./App.jsx').replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
-  const mounts = [...app.matchAll(/<JourneyBar\b/g)];
+  assert.equal([...app.matchAll(/<JourneyBar\b/g)].length, 0, 'the bar is retired');
+  const mounts = [...app.matchAll(/<JourneySpine\b/g)];
   assert.equal(mounts.length, 1, 'mounted once, by App');
   const at = mounts[0].index;
-  assert.ok(at < app.indexOf('<main'), 'above <main>, so it is not part of any surface');
-  assert.match(app.slice(at - 80, at), /showJourneyBar\(surface, full\)\s*&&\s*$/,
-    'guarded by the one rule for where it is shown');
+  assert.ok(at < app.indexOf('<main'), 'outside <main>, so it is not part of any surface');
+  assert.match(app.slice(at - 40, at), /spine=\{\s*$/, 'handed to the sidebar as its spine');
+  assert.match(app.slice(at, at + 160), /compact=\{sidebar\.compact\}/, 'compact where nav/sidebar.js says');
 });
 
 test('a step is named by its surface\'s own glossary record, and every id the bar asks for exists', (t) => {
@@ -205,7 +206,7 @@ test('the origin links back only where the place it came from is still there', (
 });
 
 test('the component draws a step as an anchor only where the bar says it is a link', () => {
-  const src = read('./components/JourneyBar.jsx');
+  const src = read('./components/JourneySpine.jsx');
   // a blocked step is a span carrying data-blocked, in the branch taken when item.link is false
   assert.match(src, /\{item\.link\s*\?\s*\(\s*<a\b[^>]*data-step=\{item\.id\}[\s\S]*?\)\s*:\s*\(\s*<span\b[^>]*data-blocked=\{item\.blocked\}/,
     'Step renders <a data-step> when item.link and <span data-step data-blocked> otherwise');

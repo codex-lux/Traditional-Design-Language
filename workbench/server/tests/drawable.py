@@ -25,7 +25,6 @@ The search is ordered cheapest-first and stops at the first record that holds, b
 runs `auto` and a cold CP solve is tens of seconds. `ORDER` is a HINT about cost and never a
 claim about which record draws -- `_find` reads the verdict, so a stale order costs seconds and
 can cost nothing else."""
-import functools
 import json
 import os
 
@@ -34,54 +33,13 @@ import pytest
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))))
 
-# Cheapest first, measured on this tree (`bad-06` places in 0.8 s where the Tidewater record
-# spends its whole 40 s budget). Every shipped record is tried; this only decides the order.
-ORDER = (
-    "plans/reference/bad-06-open-concept-render.json",
-    "plans/reference/bad-04-log-cabin.json",
-    "plans/reference/bad-03-narrow-lot-townhome.json",
-    "plans/reference/bad-02-flex-room-craftsman.json",
-    "plans/reference/bad-01-grilling-porch-ranch.json",
-    "plans/tidewater-georgian-careful.json",
-    "plans/spec-builder-colonial.json",
-)
-
-
-def _all_plans():
-    """Every shipped record, the `ORDER` hint first and the rest behind it in a stable order."""
-    seen, out = set(), []
-    for rel in ORDER:
-        p = os.path.join(ROOT, rel)
-        if os.path.exists(p):
-            out.append(p)
-            seen.add(os.path.realpath(p))
-    for d in ("plans", os.path.join("plans", "reference")):
-        for name in sorted(os.listdir(os.path.join(ROOT, d))):
-            if not name.endswith(".json"):
-                continue
-            p = os.path.join(ROOT, d, name)
-            if os.path.realpath(p) not in seen:
-                out.append(p)
-                seen.add(os.path.realpath(p))
-    return out
-
-
-@functools.lru_cache(maxsize=1)
+# THE SEARCH IS `corpus.first_drawable` SINCE PHASE 17: the front door's hero plate is the same
+# record, so the rule lives in the server once and this helper reads it.
 def _find():
     """`(path, tried)`: the first shipped record `corpus._placed` does not refuse, and how many
-    were tried. Cached for the session -- the sweep is the expensive part of this module."""
+    were tried -- `corpus.first_drawable`, memoised there for the process."""
     from workbench.server import corpus
-    tried = 0
-    for p in _all_plans():
-        tried += 1
-        try:
-            plan = json.load(open(p, encoding="utf-8"))
-        except (OSError, ValueError):
-            continue
-        placed = corpus._placed(corpus.core.copy_json(plan), None, 60)
-        if "refused_placement" not in placed and "error" not in placed:
-            return p, tried
-    return None, tried
+    return corpus.first_drawable()
 
 
 def drawable_plan():

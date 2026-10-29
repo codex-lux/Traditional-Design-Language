@@ -367,7 +367,10 @@ export function packGroups(packs, { q = '', keep = null, only = null, words = nu
     if (!g) { g = { kind: p.kind, packs: [] }; groups.push(g); }
     g.packs.push(p);
   }
-  return groups;
+  // THE MATERIAL MODULES COME FIRST (Phase 17, WP-17.13; board 11): a brick course or a sash
+  // light is what a building is measured in before an order is applied to it, so the list reads
+  // from the module up. Every other kind keeps the server's order; the sort is stable.
+  return groups.map((g, i) => [g.kind === 'module-system' ? 0 : 1, i, g]).sort((x, y) => (x[0] - y[0]) || (x[1] - y[1])).map((x) => x[2]);
 }
 
 /* The address of a pack on this surface, keeping the reader's measures, filter and style: a pack

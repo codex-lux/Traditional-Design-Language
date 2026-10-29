@@ -12,6 +12,7 @@ import { Term } from '../components/Term.jsx';
 import { RecordLink } from '../components/RecordLink.jsx';
 import { Section, SectionWord, prose, quiet } from './parts.jsx';
 import { sectionAddress } from './sections.js';
+import { PeriodBar } from './PeriodBar.jsx';
 
 /* A `distinguished_from` node is a style id, or `massing:<id>` for a massing -- a different
    namespace, cited as its own kind. */
@@ -40,8 +41,9 @@ export function Identify({ rec, styleId, cards }) {
         </nav>
       )}
 
-      {desc.short && <p style={{ ...prose, fontStyle: 'italic', color: 'var(--text-secondary)', marginTop: 4 }}>{desc.short}</p>}
-      {desc.long && String(desc.long).split(/\n\n+/).map((p, i) => <p key={i} style={prose}>{p}</p>)}
+      {/* PHASE 17: the period, drawn; then the tells and the neighbours, which are the job, BEFORE the
+          description (board 7). */}
+      <PeriodBar period={rec.period} />
 
 
       {tells.length > 0 && (
@@ -65,6 +67,13 @@ export function Identify({ rec, styleId, cards }) {
             </div>
           ))}
         </Section>
+      )}
+
+      {(desc.short || desc.long) && (
+        <div data-description="" style={{ marginTop: 24 }}>
+          {desc.short && <p style={{ ...prose, fontStyle: 'italic', color: 'var(--text-secondary)', marginTop: 4 }}>{desc.short}</p>}
+          {desc.long && String(desc.long).split(/\n\n+/).map((p, i) => <p key={i} style={prose}>{p}</p>)}
+        </div>
       )}
 
       {chars.length > 0 && (

@@ -1,8 +1,10 @@
 # oq/the-journey-bars-next-jumps-rows-when-the-strip-wraps — the act's row is steady, the bar above it is not
 
-*Status: OPEN · Raised in: the audit of the candidate-click follow-up (16 October 2026)*
+*Status: CLOSED · Raised in: the audit of the candidate-click follow-up (16 October 2026) · Closed by WP-17.2 (29 October 2026)*
 
-**OPEN — the Candidate Set's strip now holds its grid still while a pick changes the act's words, and
+**CLOSED 29 Oct 2026 by WP-17.2, which retired the bar.** The house's journey is the sidebar's own block now, a vertical spine of stations (`components/JourneySpine.jsx`), so there is no row for Next to jump from: it stands on its own line below the stations at every width. The redesign ruled this (`docs/ui-redesign-2026-10-29.md`: "The journey spine replaces `JourneyBar` in the sidebar"), and its note named this question as going away with it. What follows is the question as it was raised.
+
+**WAS OPEN — the Candidate Set's strip now holds its grid still while a pick changes the act's words, and
 the journey bar above it does not: its Next control is `white-space: nowrap`, so when the bar is too
 narrow to hold the step names, the held reason and Next together, Next moves to another row.**
 

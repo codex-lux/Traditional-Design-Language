@@ -82,12 +82,12 @@ export function contrast(a, b) {
    row moves from 'vellum' to 'instrument' in that package's commit, so a surface whose layout
    has not been redrawn is never shown dark. An id the table does not hold is vellum: a page
    nobody moved is a page nobody redrew. */
-export const SHELL_GROUND = 'vellum';
+export const SHELL_GROUND = 'instrument';
 export const SURFACE_GROUND = Object.freeze({
-  overview: 'vellum', style: 'vellum', proportions: 'vellum', faults: 'vellum',
-  phylogeny: 'vellum', glossary: 'vellum', brief: 'vellum', candidates: 'vellum',
-  export: 'vellum', elements: 'vellum', room: 'vellum', massing: 'vellum', grouping: 'vellum',
-  parti: 'vellum', compare: 'vellum', workbench: 'vellum', drawings: 'vellum',
-  transcription: 'vellum',
+  overview: 'instrument', style: 'instrument', proportions: 'instrument', faults: 'instrument',
+  phylogeny: 'instrument', glossary: 'instrument', brief: 'instrument', candidates: 'instrument',
+  export: 'instrument', elements: 'instrument', room: 'instrument', massing: 'instrument', grouping: 'instrument',
+  parti: 'instrument', compare: 'instrument', workbench: 'instrument', drawings: 'instrument',
+  transcription: 'instrument',
 });
 export const groundOf = (surface) => SURFACE_GROUND[surface] || 'vellum';

@@ -31,6 +31,8 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Section, SectionWord, prose, quiet, data } from '../dossier/parts.jsx';
 import { PackLists } from '../dossier/ProportionsSection.jsx';
 import { NATIVITY_TERMS } from '../candidateOrder.js';
+import { partingOf } from '../compare/parting.js';
+import { MarkGlyph } from '../components/MarkGlyph.jsx';
 import {
   COMPARE_SECTIONS, compareSectionOf, compareSectionHref, kitGroups, authorOf, stylesOf,
 } from '../compare/view.js';
@@ -256,6 +258,16 @@ export function Compare({ selection, setSelection }) {
         {payload && (
           <>
             <Section data-compare-section="identify" eyebrow={<SectionWord id="identify" />}>
+              {/* Phase 17 (WP-17.13): where the pair parts, off the payload's own two cascades */}
+              {(() => { const parting = payload.cascades ? partingOf(payload.cascades.a, payload.cascades.b) : null; return parting && (
+                <p data-parting={parting.common || ''} style={{ font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-body)', margin: '0 0 14px' }}>
+                  <Term id="where-they-part" />{' · '}
+                  {parting.common ? <RecordLink cite={'style:' + parting.common} /> : <MarkGlyph token="--mark-not-applicable" size={12} />}
+                  <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginLeft: 10 }}>
+                    {parting.aOwn.length} · {parting.bOwn.length}
+                  </span>
+                </p>
+              ); })()}
               <Identify a={a} b={b} identify={payload.identify} />
             </Section>
             <Section data-compare-section="kit" data-kit-rows={(payload.kit.rows || []).length}

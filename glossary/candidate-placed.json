@@ -1,0 +1,9 @@
+{
+  "id": "candidate-placed",
+  "term": "placed",
+  "family": "house",
+  "order": 34,
+  "definition": "A candidate the placed revision loop ran on, whose placement came back and held every hard fact of its type. It may be drawn; it is not therefore good.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Candidate Set since Phase 17: \"placed: a green disc, because the placed loop ran and the type's facts held\"."
+}

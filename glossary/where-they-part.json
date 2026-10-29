@@ -1,0 +1,9 @@
+{
+  "id": "where-they-part",
+  "term": "where they part",
+  "family": "edge",
+  "order": 41,
+  "definition": "The nearest ancestor two styles share in the lineage: above it they inherit the same kit, and below it each has levels of its own. Two styles that share none part at no node.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, Compare since Phase 17: \"the nearest node both of their kit cascades hold, above which they share everything they inherit\", and \"A pair whose cascades share nothing part at no node\"."
+}

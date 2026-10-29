@@ -909,6 +909,22 @@ def job_revised_plan(job_id: str):
     return plan
 
 
+# ----------------------------------------------------------------- the front door's hero
+@app.on_event("startup")
+def _warm_front_door():
+    """The hero's first sweep solves records until one draws; it is started in the background at
+    boot (`front_door_hero_now`) so the first visitor to the front door meets a plate, not a wait."""
+    corpus.front_door_hero_now()
+
+
+@app.get("/api/front-door/hero")
+def front_door_hero(request: Request):
+    """The plan sheet of the first shipped record the product may draw (Phase 17, WP-17.3), or
+    `{"pending": true}` while the background sweep that finds it is still running. Never blocks:
+    the page asks again. Not metered: the sweep runs once per process, started at boot."""
+    return _ok(corpus.front_door_hero_now())
+
+
 # ----------------------------------------------------------------- drawings
 @app.post("/api/drawings/{kind}")
 def drawings(kind: str, request: Request, body: dict = Body(...)):

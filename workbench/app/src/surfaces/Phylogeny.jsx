@@ -18,6 +18,7 @@ import { EdgeGlyph } from '../components/EdgeGlyph.jsx';
 import { Term } from '../components/Term.jsx';
 import { TRADITION_HUES, traditionOf } from '../styles/taxa.js';
 import { carriesKit, glyphEdge, filingEdgeOf, groupByCarry } from '../lineage/carry.js';
+import { lanesOf, chronologyExceptions } from '../lineage/lanes.js';
 import { nav } from '../state/nav.js';
 import { FilterStrip, Chip, ChipGroup, PaneStub, FoldControl, ActionChip } from '../Chrome.jsx';
 import { Splitter } from '../components/Splitter.jsx';
@@ -33,7 +34,8 @@ import { NoRecordChosen } from '../components/NoRecordChosen.jsx';
 
 const EMPTY = [];
 
-const BREAK_AT = 1600, BREAK_FRAC = 0.18;
+// Phase 17: the board gives the classical tail 240 of 1000 px (2,300 years) and 1600-2026 the rest
+const BREAK_AT = 1600, BREAK_FRAC = 0.24;
 function tScale(y) {
   if (y <= BREAK_AT) return ((y + 700) / (BREAK_AT + 700)) * BREAK_FRAC;
   return BREAK_FRAC + ((y - BREAK_AT) / (2026 - BREAK_AT)) * (1 - BREAK_FRAC);
@@ -117,15 +119,22 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
     if (!graph) return null;
     const byId = {};
     graph.taxa.forEach((t) => { byId[t.id] = t; });
-    const rows = graph.taxa.map((t) => ({
+    const unsorted = graph.taxa.map((t) => ({
       ...t,
       from: t.floruit_start ?? t.origin ?? 1800,
       to: t.floruit_end ?? t.decline_end ?? (t.floruit_start ?? 1800) + 60,
       tradition: traditionOf(t.id, byId),
-    })).sort((a, b) => a.from - b.from || a.id.localeCompare(b.id));
+    }));
+    /* PHASE 17 (WP-17.12): one lane per tradition, in the traditions' hue order, each in date
+       order (`lineage/lanes.js`), and the chronology exceptions the validator warns of. */
+    const lanes = lanesOf(unsorted, Object.keys(TRADITION_HUES));
+    const rows = lanes.flatMap((l) => l.rows);
+    let at = 0;
+    const laneSpans = lanes.map((l) => { const span = { id: l.id, start: at, count: l.rows.length }; at += l.rows.length; return span; });
     const index = {};
     rows.forEach((r, i) => { index[r.id] = i; });
-    return { rows, index, byId };
+    const exceptions = new Set(chronologyExceptions(graph.taxa, graph.edges).map((e) => e.from + '>' + e.to));
+    return { rows, index, byId, laneSpans, exceptions };
   }, [graph]);
 
   /* MEMOISED, and the map is why. MapView guards its whole placement pass with
@@ -285,16 +294,27 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                 const x2 = tScale(b.to) * 1000, y2 = rowIndex[e.to] * ROW + PAD + ROW / 2;
                 const carries = carriesKit(e);
                 const mx = (x1 + x2) / 2;
+                // the validator's chronology warning, flagged on the edge itself (WP-17.12)
+                const late = derived.exceptions && derived.exceptions.has(e.from + '>' + e.to);
                 return (
                   <path key={i} d={`M${x2} ${y2} C ${mx} ${y2}, ${mx} ${y1}, ${x1} ${y1}`}
                     data-edge-from={e.from} data-edge-to={e.to} data-edge-type={e.type}
-                    fill="none" stroke={carries ? 'var(--edge-carries)' : 'var(--edge-claims)'}
-                    strokeWidth={carries ? 1.6 : 0.8} strokeDasharray={carries ? 'none' : '3 3'}
+                    data-chronology-exception={late ? '' : undefined}
+                    fill="none" stroke={late ? 'var(--gilt)' : carries ? 'var(--edge-carries)' : 'var(--edge-claims)'}
+                    strokeWidth={carries ? 1.6 : 0.8} strokeDasharray={late ? '1 2' : carries ? 'none' : '3 3'}
                     vectorEffect="non-scaling-stroke" opacity={carries ? 0.8 : 0.65} />
                 );
               })}
             </svg>
 
+            {/* the lanes: a band of each tradition's hue down the gutter, and a rule where each
+                begins; drawn from the unfiltered tree, so a filter shows only the lanes it keeps */}
+            {rows.length === allRows.length && derived.laneSpans.filter((l) => l.count > 0).map((l) => (
+              <div key={'lane' + (l.id || 'rest')} data-lane={l.id || ''} aria-hidden="true"
+                style={{ position: 'absolute', left: 0, right: 0, top: l.start * ROW + PAD, height: l.count * ROW,
+                  borderTop: '1px solid var(--border-hairline)', borderLeft: `4px solid ${TRADITION_HUES[l.id] || 'var(--border-hairline)'}`,
+                  pointerEvents: 'none' }} />
+            ))}
             {rows.map((r, i) => {
               const on = r.id === sel;
               const isLit = bright(r.id);

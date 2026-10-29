@@ -243,6 +243,15 @@ test('the list groups by kind in the server’s order, and keeps the pack on scr
   assert.deepEqual(packGroups(PACKS, { only: new Set(['sash']) }).flatMap((g) => g.packs.map((p) => p.id)), ['sash']);
 });
 
+test('the material modules are listed before the orders, whatever order the server sends', () => {
+  const sent = [
+    { id: 'tuscan', name: 'Tuscan', kind: 'order-system', authority: {} },
+    { id: 'trim', name: 'Trim', kind: 'trim-system', authority: {} },
+    { id: 'brick', name: 'Brick', kind: 'module-system', authority: {} },
+  ];
+  assert.deepEqual(packGroups(sent).map((g) => g.kind), ['module-system', 'order-system', 'trim-system']);
+});
+
 test('a pack’s authority in the index is its author, else its source, then its year, from either route’s shape', () => {
   assert.equal(authorityWords(PACKS[1].authority), 'Vignola, 1562');
   assert.equal(authorityWords(PACKS[0].authority), 'Measured coursing by a Mason', 'no author: the source, and no year the record lacks');

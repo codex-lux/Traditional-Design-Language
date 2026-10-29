@@ -1,0 +1,9 @@
+{
+  "id": "journey-state-stated",
+  "term": "stated",
+  "family": "house",
+  "order": 21,
+  "definition": "The brief has been stated and can be composed into candidates.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17, the table of the words a station of the house's journey carries, which says of \"stated\" that \"the brief has been stated and can be composed into candidates\". The same section says why the word is prose: \"it is a sentence about the house and not an error code\"."
+}

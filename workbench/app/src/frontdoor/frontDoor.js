@@ -27,6 +27,7 @@
 import { isMissing } from '../glossary/lookup.js';
 import { parseCite } from '../citations.js';
 import { flatItems } from '../nav/navModel.js';
+import { stations } from '../journey/spine.js';
 
 const isObj = (v) => Boolean(v) && typeof v === 'object' && !Array.isArray(v);
 const str = (v) => (typeof v === 'string' && v.trim() ? v.trim() : null);
@@ -139,4 +140,46 @@ export function resumeView(journey, model) {
        from and the front door did not. Only the plan step has an origin. */
     origin: r.id === 'plan' ? str(step.originWords) : null,
   };
+}
+
+/* THE FIVE STATIONS (Phase 17, WP-17.3): the journey's five steps as tiles on a rule, each
+   carrying the station mark `journey/spine.js` gives it -- done a vellum tile, the step in hand a
+   dark tile with a gilt border, not yet a dashed outline -- with the site map's item for its
+   surface (so the tile's word and address are the sidebar's) and the journey's words for it.
+   `bar` is `barView(...)`, which says which step is a link; a blocked step is a tile and not a
+   link, as it is in the sidebar. */
+export function stationTiles(bar, resume, model) {
+  const items = flatItems(model);
+  return stations(bar, resume).map((s) => {
+    const item = items.find((it) => it.href === s.href) || null;
+    return {
+      id: s.id,
+      n: s.n,
+      href: s.link ? s.href : null,
+      mark: s.mark,
+      state: s.state,
+      words: str(s.words),
+      label: item ? item.label : null,
+      missing: item ? item.missing : null,
+      termId: item ? item.termId : s.termId,
+    };
+  });
+}
+
+/* THE LIBRARY AS FIVE CARDS (Phase 17, WP-17.3): the sidebar's five library rows, each with its
+   surface record's `what` and the API's figure. The rows are `nav/sidebar.js`'s, so the cards and
+   the sidebar cannot list different libraries. */
+export function libraryCards(view, lookup) {
+  const rows = isObj(view) && isObj(view.library) && Array.isArray(view.library.rows) ? view.library.rows : [];
+  return rows.map((r) => {
+    const rec = lookup && r.termId ? lookup.term(r.termId) : null;
+    return {
+      id: r.id,
+      href: r.href,
+      label: r.label,
+      missing: r.missing,
+      figure: typeof r.meta === 'number' ? r.meta : null,
+      what: rec && !isMissing(rec) && rec.surface && typeof rec.surface.what === 'string' ? rec.surface.what : null,
+    };
+  });
 }

@@ -57,6 +57,9 @@ const fmtCut = (c) => {
 };
 import { defaultAxon } from '../round/frame.js';
 import { plateKeyFor } from '../round/annotate.js';
+import { datumLines, viewBoxOf } from '../sheet/datumOverlay.js';
+import { feetInches16 as fmtFtIn } from '../fmt.js';
+import { MarkGlyph } from '../components/MarkGlyph.jsx';
 
 
 /* WP-12.0. The compass order, not a preference: `build/elevation.py`'s own FACES tuple is
@@ -99,7 +102,45 @@ const DISCLOSURE = {
     'bench sheet shows. Relaxations are counted in the header.',
 };
 
-export function DrawingSet({ go }) {
+/* HOW MUCH OF THE CORPUS WAS EVALUATED ON THIS HOUSE (Phase 17, WP-17.7): the faults that ran --
+   present or clear -- out of every fault, with the unjudged and the not-applicable in the total
+   and never among the evaluated. Read off the bench's own evaluation of this plan; where there is
+   none, nothing is said. */
+function Evaluated({ check }) {
+  const f = check && check.fault_summary;
+  if (!f) return null;
+  const n = (k) => (Number.isFinite(f[k]) ? f[k] : 0);
+  const evaluated = n('present') + n('clear');
+  const of = evaluated + n('unjudged') + n('not_applicable');
+  if (!of) return null;
+  return (
+    <div data-evaluated={evaluated} data-evaluated-of={of}
+      style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '0 0 10px', font: 'var(--type-data-s)',
+        color: 'var(--text-secondary)' }}>
+      <MarkGlyph token="--mark-unjudged" size={10} />
+      <span>{evaluated} of {of} <Term id="faults-evaluated" /></span>
+    </div>
+  );
+}
+
+/* THE ONE-BUILDING BANNER (Phase 17, WP-17.7): every sheet in the set is drawn from one placement
+   of one record (WP-6.4), and the banner carries that placement's input digest, so two sheets can
+   be seen to be of the same house. A result with no digest says nothing rather than inventing one. */
+function OneBuilding({ solver }) {
+  const d = solver && solver.drawn_by ? solver.drawn_by.input_digest : null;
+  if (!d) return null;
+  return (
+    <div data-one-building={d} style={{ display: 'flex', gap: 10, alignItems: 'baseline', margin: '0 0 10px',
+      font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
+      <span style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
+        color: 'var(--text-accent)' }}><Term id="one-building" /></span>
+      <code>{d}</code>
+      {solver.engine && <span>{solver.engine}</span>}
+    </div>
+  );
+}
+
+export function DrawingSet({ go, lastEval }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
   // WP-12.4: the model is the first plate and the five flat kinds are chips beneath it, so
   // arriving at ⑧ shows the house rather than one of its faces. It costs no extra call: the
@@ -135,6 +176,7 @@ export function DrawingSet({ go }) {
   const glossary = useGlossary();
   const word = recordWord(glossary);
   const [result, setResult] = React.useState(null);
+  const [showDatums, setShowDatums] = React.useState(false);
   const [error, setError] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
   const cache = React.useRef({});
@@ -221,6 +263,10 @@ export function DrawingSet({ go }) {
     a.click();
     URL.revokeObjectURL(a.href);
   }
+
+  /* Phase 17 (WP-17.7): the elevation's own datums over the plate, mapped through its frame */
+  const datums = result && result.svg ? datumLines(result.svg, result.datums) : null;
+  const box = result && result.svg ? viewBoxOf(result.svg) : null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
@@ -312,6 +358,8 @@ export function DrawingSet({ go }) {
               </div>
             ) : (
               <PlateViewer label="the model" height="clamp(420px, 74vh, 960px)" note="drag orbits · a named view snaps back">
+                {/* the model and its flat plates are drawings: on vellum, whatever the page stands on */}
+                <div data-ground="vellum" className="tdl-vellum">
                 <RoundPlate
                   scene={scene.scene}
                   plates={scene.plates}
@@ -334,15 +382,22 @@ export function DrawingSet({ go }) {
                   subtitle={`${scene.scene?.parti || 'no parti named'} · ${scene.scene?.massing || 'no massing named'}`}
                   disclosures={(scene.plan?.geometry_report?.disclosures) || []}
                 />
+                </div>
               </PlateViewer>
             )}
           </div>
         )}
         {kind !== 'model' && result?.svg && (
           <div style={{ maxWidth: 1180 }}>
+            <OneBuilding solver={result.solver} />
+            <Evaluated check={lastEval && lastEval.check} />
+            {kind === 'elevation' && datums && (
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '0 0 8px' }}>
+                <Chip on={showDatums} onClick={() => setShowDatums(!showDatums)}><Term id="datum-overlay" /></Chip>
+              </div>
+            )}
             <PlateViewer label={'the ' + kind} height="clamp(420px, 74vh, 960px)">
-            <div style={{ background: 'var(--surface-panel)', border: '1px solid var(--text-secondary)',
-              boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px' }}>
+            <div data-ground="vellum" className="tdl-plate" style={{ padding: '16px 18px 10px', position: 'relative' }}>
               {/* The fit goes on the WRAPPER, not into a second `style` on the <svg>.
 
                   It used to be injected as `<svg style="max-width:100%;height:auto" …`
@@ -356,7 +411,23 @@ export function DrawingSet({ go }) {
                   it happens to be a near-identical vellum. Found by an adversarial audit
                   of WP-5.7; a CSS rule on the wrapper reaches the child and cannot
                   collide with anything the renderer wrote. */}
-              <div className="plate-fit" dangerouslySetInnerHTML={{ __html: result.svg }} />
+              <div style={{ position: 'relative' }}>
+                <div className="plate-fit" dangerouslySetInnerHTML={{ __html: result.svg }} />
+                {kind === 'elevation' && showDatums && datums && box && (
+                  <svg data-datum-overlay={datums.length} viewBox={`${box.x} ${box.y} ${box.w} ${box.h}`}
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+                    {datums.map((d) => (
+                      <g key={d.id} data-datum={d.id}>
+                        <line x1={d.x1} y1={d.y} x2={d.x2} y2={d.y}
+                          style={{ stroke: 'var(--gilt-deep)', strokeWidth: 'var(--lw-construction)', strokeDasharray: 'var(--dash-extent)' }}
+                          vectorEffect="non-scaling-stroke" />
+                        <text x={d.x2} y={d.y - 3} textAnchor="end"
+                          style={{ font: 'var(--type-data-s)', fill: 'var(--gilt-deep)' }}>{d.id} {fmtFtIn(d.v_ft)}</text>
+                      </g>
+                    ))}
+                  </svg>
+                )}
+              </div>
               <div style={{ borderTop: '1px solid var(--border-hairline)', marginTop: 10, padding: '8px 2px 4px',
                 display: 'flex', justifyContent: 'space-between', gap: 24, alignItems: 'baseline' }}>
                 {/* the interpunct join makes one unbreakable word; a zero-width space

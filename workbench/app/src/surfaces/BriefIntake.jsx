@@ -51,8 +51,8 @@ import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { MarkGlyph } from '../components/MarkGlyph.jsx';
 import { Term } from '../components/Term.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
+import { SiteDiagram } from '../brief/SiteDiagram.jsx';
 
-const COMPASS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
 /* Including borrowed diagrams WIDENS the list the select offers, so it is a view of the place and
    rides in the address (`useFilters.js`), never in a private `useState`. */
@@ -455,14 +455,14 @@ export function BriefIntake({ go }) {
               </div>
             </div>
 
+            {/* PHASE 17 (WP-17.6): THE SITE, DRAWN. The lot to scale or said unstated, the street on
+                the side the entrance faces, and the compass's eight points as the control --
+                diagonals included (`brief/siteDiagram.js`). On vellum, as every drawing is. */}
             <div style={{ marginTop: 14 }}>
               <span style={label}>entrance faces · a compass, diagonals allowed</span>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 4 }}>
-                {COMPASS.map((d) => (
-                  <Chip key={d} on={brief.context.entrance_faces === d}
-                    onClick={() => setCtx('entrance_faces', brief.context.entrance_faces === d ? null : d)}>{d}</Chip>
-                ))}
-              </div>
+              <SiteDiagram lotW={brief.context.lot_width_ft} lotD={brief.context.lot_depth_ft}
+                entrance={brief.context.entrance_faces}
+                onFace={(d) => setCtx('entrance_faces', brief.context.entrance_faces === d ? null : d)} />
             </div>
 
             <div style={{ marginTop: 14 }}>

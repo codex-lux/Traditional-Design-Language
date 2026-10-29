@@ -2,6 +2,7 @@ import React from "react";
 import { nativityLine } from "../candidateOrder.js";
 import { Term } from "./Term.jsx";
 import { JudgmentMark } from "./JudgmentMark.jsx";
+import { MarkGlyph } from "./MarkGlyph.jsx";
 
 /* P4 — rank them, never crown one. Three rules this component exists to enforce:
    1. trades_away sits adjacent to the score at all times, never behind a disclosure.
@@ -45,8 +46,15 @@ function ScoreBlock({ candidate: c }) {
       h("span", { style: { font: 'var(--fw-reg) 26px/1 var(--mono)', color: 'var(--text-body)' } },
         unscored ? '—' : c.score.toFixed(1)),
       h("span", { style: { ...EYE } }, unscored ? "not scored" : "score")),
-    !unscored && h("div", { style: { ...EYE, color: 'var(--text-secondary)', marginTop: 3 } },
-      "out of 100 · higher is better"),
+    /* PHASE 17: the score says its own denominator and how much of it was judged, in mono, from
+       the payload: `scoreOf` is the result's `score_model.of` and the two weights are the
+       candidate's own. Nothing here types the 100. */
+    !unscored && c.scoreOf != null && h("div", { "data-score-of": c.scoreOf,
+      style: { font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 4 } },
+      `${c.score.toFixed(1)} of ${c.scoreOf}`,
+      c.score_weight_evaluated != null && c.score_weight_unevaluated != null
+        ? ` · ${c.score_weight_evaluated} of ${c.score_weight_evaluated + c.score_weight_unevaluated} weight judged`
+        : null),
     /* WP-9.3: what the placed revision loop bought here, one line, from revision.js. Absent
        where the compose ran --no-revise; "nothing moved" rather than "was X" against the
        same X. `rank_before` is the server's order before revision, said in words. */
@@ -120,6 +128,28 @@ function ScoreBlock({ candidate: c }) {
      + `rather than passed.`));
 }
 
+/* HOW THE TYPE'S OWN FACTS STAND ON THIS CANDIDATE, first and in one of three forms (Phase 17,
+   WP-17.4; `candidateStanding.standingOf` decides): refused, a brick band with its sentence;
+   placed, a green disc; unjudged, the hatched ring and "may be refused". Every word a record's. */
+function StandingBand({ c }) {
+  if (c.standing === 'refused' && c.refused) {
+    return h("div", { "data-candidate-standing": "refused",
+      style: { margin: '10px -15px 0', padding: '7px 15px', borderLeft: '5px solid var(--refusal)',
+        background: 'var(--sev-fatal-field)', font: 'var(--type-data-s)', color: 'var(--text-body)' } },
+      h(MarkGlyph, { token: "--mark-refused", size: 11, style: { display: 'inline-block', verticalAlign: 'middle', marginRight: 7 } }),
+      h(Term, { id: "judgment-refused" }),
+      c.refused.facts && c.refused.facts.length ? ` · ${c.refused.facts.join(', ')}` : null);
+  }
+  const placed = c.standing === 'placed';
+  return h("div", { "data-candidate-standing": placed ? "placed" : "unjudged",
+    style: { display: 'flex', alignItems: 'center', gap: 7, marginTop: 10, font: 'var(--type-data-s)',
+      color: 'var(--text-secondary)' } },
+    h(MarkGlyph, { token: placed ? "--mark-passed" : "--mark-unjudged", size: 11 }),
+    placed ? h(Term, { id: "candidate-placed" })
+      : h(React.Fragment, null, h(Term, { id: "judgment-unjudged" }), " · ",
+        h("i", { style: { font: 'italic var(--fw-reg) 13px/1.3 var(--body)' } }, h(Term, { id: "candidate-may-be-refused" }))));
+}
+
 function CandidateColumn({
   candidate,
   rank,
@@ -136,14 +166,19 @@ function CandidateColumn({
     "data-candidate": c.parti,
     "data-candidate-n": c.n,
     "data-selected": selected ? "" : undefined,
+    // Phase 17: a candidate is a vellum column on the dark instrument
+    "data-ground": "vellum",
+    className: "tdl-vellum",
     onClick: onSelect ? function () {
       onSelect(c);
     } : undefined,
     style: {
       flex: 1,
       minWidth: 0,
-      border: '1px solid ' + (selected ? 'var(--gilt-deep)' : 'var(--border-hairline)'),
-      background: selected ? 'var(--surface-raised)' : 'var(--surface-panel)',
+      // the picked column takes the instrument's one struck highlight, outside the paper
+      border: selected ? '1px solid var(--gilt)' : '1px solid var(--surface-panel)',
+      outline: selected ? '2px solid var(--gilt)' : 'none',
+      background: 'var(--surface-panel)',
       padding: '14px 15px 16px',
       cursor: onSelect ? 'pointer' : 'default',
       transition: 'var(--t-hover)',
@@ -196,7 +231,7 @@ function CandidateColumn({
         textAlign: 'left',
         cursor: 'pointer'
       }
-    }, c.parti_name) : c.parti_name)), /*#__PURE__*/React.createElement(ScoreBlock, {
+    }, c.parti_name) : c.parti_name)), /*#__PURE__*/React.createElement(StandingBand, { c: c }), /*#__PURE__*/React.createElement(ScoreBlock, {
     candidate: c
   }), /*#__PURE__*/React.createElement("div", {
     style: {

@@ -1,0 +1,9 @@
+{
+  "id": "journey-state-ready",
+  "term": "ready",
+  "family": "house",
+  "order": 29,
+  "definition": "The step before is complete, and this one can be made now.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17, the table of the words a station of the house's journey carries, which says of \"ready\" that \"the step before is complete, and this one can be made now\". The same section says why the word is prose: \"it is a sentence about the house and not an error code\"."
+}

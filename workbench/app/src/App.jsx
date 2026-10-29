@@ -23,9 +23,11 @@ import { nav } from './state/nav.js';
 import { useGlobalKeys, requestFilterFocus } from './keys.js';
 import { CommandPalette } from './palette/CommandPalette.jsx';
 import { ShortcutCard } from './palette/ShortcutCard.jsx';
-import { Masthead, LeftRail, PaneStub, CrumbStrip } from './Chrome.jsx';
+import { TopBar, LeftRail, PaneStub } from './Chrome.jsx';
 import { Splitter } from './components/Splitter.jsx';
-import { JourneyBar, showJourneyBar } from './components/JourneyBar.jsx';
+import { JourneySpine } from './components/JourneySpine.jsx';
+import { sidebarView } from './nav/sidebar.js';
+import { barView } from './journey/bar.js';
 import { layout, PANES, surfaceWidth, MAIN_FLOOR_PX } from './state/layout.js';
 import { Gate } from './Gate.jsx';
 import { RailHost, assistantName } from './rail/RailHost.jsx';
@@ -268,6 +270,12 @@ export default function App() {
     lookup, counts: overview?.counts, glossaryCount: lookup ? lookup.count : null,
     inHand, dossier: dossierHere, journey, place,
   });
+  /* What the sidebar draws (Phase 17): the site map, reshaped by `nav/sidebar.js`, with the
+     journey's own bar decisions so a blocked step is drawn as words and not offered as a link. */
+  const sidebar = sidebarView(model, {
+    bar: barView(journey, { surface, jobId: sessionNow ? sessionNow.jobId : null }),
+    resume: journey.resume, surface,
+  });
   const crumbs = crumbsFor(place, { lookup, dossier: dossierHere, names: names.index, styles, journey });
   const title = titleFor(crumbs, lookup);
   React.useEffect(() => {
@@ -326,20 +334,26 @@ export default function App() {
           rather than a mode of the surface, so every surface can ask for it and none of
           them has to reimplement getting out. */}
       {!full && (
-        <Masthead plan={plan} planStep={journey.steps.find((s) => s.id === 'plan')}
+        <TopBar crumbs={crumbs} address={typeof window !== 'undefined' ? window.location.hash || '#/' : null}
+          navOpen={layout.isOpen('nav')}
+          onAsk={() => layout.setCollapsed('rail', false)}
           onSearch={() => setPalette(true)}
           onKeys={() => { setPalette(false); setHelpCard(true); }} />
       )}
       {!full && coldLink && (
         <ColdLinkBanner crumbs={crumbs} onDismiss={() => prefs.markSeen('front-door')} />
       )}
-      {!full && <CrumbStrip crumbs={crumbs} />}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        {!full && <LeftRail model={model} busy={glossary.status === 'loading'} />}
+        {!full && (
+          <LeftRail model={model} view={sidebar} busy={glossary.status === 'loading'}
+            plan={plan} planStep={journey.steps.find((s) => s.id === 'plan')}
+            onSearch={() => setPalette(true)}
+            onKeys={() => { setPalette(false); setHelpCard(true); }}
+            spine={<JourneySpine surface={surface} lastEval={lastEval} selection={selection} compact={sidebar.compact} />} />
+        )}
         {!full && layout.isOpen('nav') && <Splitter pane="nav" grows="left" />}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
           {!full && <PageHead termId={headTermFor(place)} />}
-          {showJourneyBar(surface, full) && <JourneyBar surface={surface} lastEval={lastEval} selection={selection} />}
           <main data-ground={groundOf(SURFACES[surface] ? surface : 'workbench')}
             style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
             <Active {...shared} lastEval={lastEvalHere} />
@@ -353,7 +367,7 @@ export default function App() {
               railAvailable={health ? !!health.rail : null}
               toolCount={health?.mcp?.tools} />
           )
-          : <PaneStub pane="rail" label={PANES.rail.label} spine={railName} side="right" />)}
+          : <PaneStub pane="rail" label={PANES.rail.label} spine={railName} side="right" width={52} />)}
       </div>
       <CommandPalette open={palette} onClose={() => setPalette(false)}
         onAction={(run) => { if (run === 'help') setHelpCard(true); }} />

@@ -1,0 +1,9 @@
+{
+  "id": "critic-will-not-see-yet",
+  "term": "What the critic will not see yet",
+  "family": "product",
+  "order": 41,
+  "definition": "The gaps the draft still has. Each one would leave the critic unable to judge the house, so a record with a gap is not checked, sent to the bench or downloaded until it is filled.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, Transcription since Phase 17: the record \"lists what the critic will not see yet: every gap the draft still has\", and \"A record with a gap is not checked, sent to the bench or downloaded.\""
+}

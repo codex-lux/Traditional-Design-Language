@@ -305,7 +305,8 @@ test('the stylesheet draws a focus ring for everything, holds no floor on the sh
   const floors = onRoot.filter(([, , , body]) => /min-width\s*:\s*(?!0(px)?\s*(;|$))/.test(body))
     .map(([, , sel, body]) => `${sel}{${body}}`);
   assert.deepEqual(floors, [], 'a width floor on the shell makes every page scroll sideways below it');
-  assert.match(css, /\.tdl-term\{[^}]*text-decoration:underline dotted var\(--ink-2\)/);
+  // the secondary text duty since Phase 17: --ink-2 on vellum, and the hairline that reads on the dark
+  assert.match(css, /\.tdl-term\{[^}]*text-decoration:underline dotted var\(--text-secondary\)/);
   const block = css.slice(css.indexOf('DEFINITIONS ON SCREEN (WP-14.8)'));
   assert.ok(block.length > 1000, 'the premise: the package’s block is where this test looks');
   assert.doesNotMatch(block.replace(/\/\*[\s\S]*?\*\//g, ''), /#[0-9A-Fa-f]{3,8}\b|rgba?\(|hsla?\(/,

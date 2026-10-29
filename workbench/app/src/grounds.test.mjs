@@ -21,6 +21,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GROUNDS, contrast, groundTokens, groundValue, rootTokens, stripGrounds } from './grounds.js';
+import { stripComments } from './sourceReader.mjs';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const CSS = readFileSync(join(SRC, 'theme', 'tokens.css'), 'utf8');
@@ -122,14 +123,19 @@ const DRAWING = [
   /^marks\.js$/, /^components\/EdgeGlyph\.jsx$/, /^components\/RelaxationMarker\.jsx$/,
   // the chips' pigment table: a pale fill is the chip's own paper on either ground, by design
   /^chips\.js$/,
+  // the Brief's site plate (Phase 17, WP-17.6)
+  /^brief\/SiteDiagram\.jsx$/,
+  // the export page's conventions schematic (Phase 17, WP-17.8)
+  /^export\/ConventionsPlate\.jsx$/,
+  // the dossier's period bar (Phase 17, WP-17.9)
+  /^dossier\/PeriodBar\.jsx$/,
 ];
 
 /* What remains, BY FILE AND COUNT, measured when WP-17.0 landed. A count may only fall, and a file
-   at zero leaves the table in the same commit. `surfaces/Proportions.jsx` carries the order plate,
-   whose three plate rows `inks.test.mjs` holds by identity; it is migrated with its surface. */
-const REMAINING = {
-  'surfaces/Proportions.jsx': 43,
-};
+   at zero leaves the table in the same commit. The table is EMPTY since WP-17.13: the last file,
+   `surfaces/Proportions.jsx`, moved its order plate onto the drawing duties (`--draw-*`) and its
+   page onto the text and border duties, and a new primitive anywhere outside DRAWING fails. */
+const REMAINING = {};
 
 function primitiveRows(dir = SRC, out = {}) {
   for (const f of readdirSync(dir).sort()) {
@@ -138,7 +144,10 @@ function primitiveRows(dir = SRC, out = {}) {
     if (!/\.(jsx|js)$/.test(f) || /\.test\./.test(f)) continue;
     const rel = relative(SRC, p);
     if (DRAWING.some((r) => r.test(rel))) continue;
-    const live = readFileSync(p, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    // THE SHARED LEXER, NOT A REGEX (found at WP-17.14): `/\*[\s\S]*?\*\//` read Transcription's
+    // `accept="image/*"` as opening a comment and blanked three primitives the ratchet never saw --
+    // the trap WP-14.33's audit recorded for the copy scanners, met again in a guard written after it.
+    const live = stripComments(readFileSync(p, 'utf8'));
     const n = [...live.matchAll(PRIM)].length;
     if (n) out[rel] = n;
   }
@@ -151,6 +160,29 @@ test('no interface file sets a colour primitive beyond the table, and the table 
   assert.deepEqual(over, [], 'a component sets --ink, --paper or --rule where a duty would follow the ground');
   const stale = Object.entries(REMAINING).filter(([f, n]) => (now[f] || 0) < n).map(([f, n]) => `${f}: ${now[f] || 0} < ${n}`);
   assert.deepEqual(stale, [], 'a file fell below its row: lower the table in the same commit');
+});
+
+/* AND THE STYLESHEET'S OWN CLASS RULES (found by looking at the first dark render: the page head's
+   sentence was drawn in --ink on --heavy, because `.tdl-page-head-what` named the pigment and the
+   scan above reads only JS). A rule outside the :root and ground blocks names a duty; the four
+   that are paper by construction -- the vellum box, the plate, the body before a ground is set, and
+   the Term's popover card -- are named here with that reason. */
+const PAPER_RULES = ['.tdl-vellum', '.tdl-plate', 'body', '.tdl-term-pop', 'main[data-ground="vellum"]'];
+function cssRuleRows(css) {
+  const live = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const rows = [];
+  for (const m of live.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const sel = m[1].trim();
+    if (sel.startsWith(':root') || sel.startsWith('[data-ground') || PAPER_RULES.some((p) => sel.startsWith(p))) continue;
+    const n = [...m[2].matchAll(PRIM)].length;
+    if (n) rows.push(`${sel.replace(/\s+/g, ' ').slice(0, 60)}: ${n}`);
+  }
+  return rows;
+}
+
+test('no class rule in the stylesheet names a colour primitive, but the paper ones', () => {
+  assert.deepEqual(cssRuleRows(CSS), []);
+  assert.deepEqual(cssRuleRows('.x{color:var(--ink-2)}'), ['.x: 1'], 'the reader sees a pigment in a rule');
 });
 
 test('the primitive reader counts a primitive in code and none in a comment', () => {

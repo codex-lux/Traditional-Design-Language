@@ -200,8 +200,6 @@ function current() {
 // BASELINE-BEGIN
 const BASELINE = [
   ['sheet/Sheet.jsx', 'fill', '"var(--hair)"'],
-  ['surfaces/Proportions.jsx', 'fill', '"var(--ink-4)"'],
-  ['surfaces/Proportions.jsx', 'fill', '"var(--ink-4)"'],
 ];
 // BASELINE-END
 
@@ -579,8 +577,6 @@ const CLICKABLE = [
     "function () { onLocate(finding); }, style: { font: 'var(--ty", "action"],
   ["components/FindingRow.jsx", "button", "--green-deep",
     "function () { onAssert(finding); }, style: { font: 'var(--ty", "action"],
-  ["components/ProvenanceTrace.jsx", "button", "--gilt-deep",
-    "function () { setAll(true); }, style: { ...EYE, color: 'var(", "action"],
   ["components/SlotRow.jsx", "button", "--gilt-deep",
     "function () { onSource(slot.source.id); }, style: { ...EYE, ", "action"],
   ["components/UnsourcedImageRecord.jsx", "button", "--gilt-deep",

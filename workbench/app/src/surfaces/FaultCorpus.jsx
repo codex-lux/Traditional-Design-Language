@@ -152,7 +152,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip filters={filters} right={
+      <FilterStrip wrap filters={filters} right={
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>exceptions</Eyebrow>
           <StylePicker value={styleInView} onChange={(v) => filters.set('style', v)}

@@ -295,7 +295,7 @@ function keyPlanFor(rooms, wall, drs, parts, stair, levelIndex, served, breasts)
 }
 
 export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, selectedRoom,
-                        onPickRoom, onResizeRoom, title, subtitle, styleName }) {
+                        onPickRoom, onResizeRoom, title, subtitle, styleName, pins, onPickPin }) {
   useFontMetrics();          // re-fit every label once EB Garamond itself has arrived
   const ov = overlays || {};
   const fp = placement?.footprint || {};
@@ -457,7 +457,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
                            rxMarks, spanCap, drs, wins, diverged, keyMargin: keyPlan.margin, bays });
 
   return (
-    <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
+    <div data-ground="vellum" style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
       boxShadow: 'var(--shadow-plate)', padding: '18px 22px 14px' }}>
       {sketch && (
         <div data-working-sketch="" data-sketch-refused={sketch.refused ? sketch.refused.kind : ''}
@@ -999,6 +999,20 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             offered for, so `elementFromPoint` at the handle returned the partition and
             the gesture the caption promised could not be started at all. An affordance
             painted over is an affordance that does not exist. */}
+        {/* PHASE 17: findings pinned where they fall (`sheet/pins.js`), one ring per room in its
+            worst severity's ink with the count in ink inside, on a vellum disc so it reads on any
+            wash. Under the drag handles, so a handle is never painted over. */}
+        {(pins || []).map((p) => (
+          <g key={'pin' + p.room} data-pin={p.room} data-pin-n={p.n} data-pin-worst={p.worst || ''}
+            role={onPickPin ? 'button' : undefined} aria-label={`${p.n} findings at ${p.room}`}
+            onClick={onPickPin ? (e) => { e.stopPropagation(); onPickPin(p.room); } : undefined}
+            style={{ cursor: onPickPin ? 'pointer' : 'default' }}>
+            <circle cx={p.x} cy={p.y} r={0.95} fill="var(--paper)"
+              style={{ ...PEN.profile, stroke: `var(--sev-${p.worst || 'info'})` }} vectorEffect="non-scaling-stroke" />
+            <text x={p.x} y={p.y + 0.36} textAnchor="middle"
+              style={{ font: 'var(--fw-med) 1px/1 var(--mono)', fontSize: 1.05, fill: 'var(--ink)' }}>{p.n}</text>
+          </g>
+        ))}
         {onResizeRoom && rooms.filter((r) => r.id === selectedRoom).map((r) => (
           <g key={'h' + r.id}>
             <DragHandle x={r.x + r.w} y={r.y + r.h / 2} axis="x" room={r} bays={bays}

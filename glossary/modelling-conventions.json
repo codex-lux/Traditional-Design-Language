@@ -1,0 +1,9 @@
+{
+  "id": "modelling-conventions",
+  "term": "Clear and structural dimensions",
+  "family": "product",
+  "order": 40,
+  "definition": "How the record's room sizes relate to the walls: clear of the exterior walls, which stand outside the block, and measured to the centre of an interior wall, which takes half its thickness from each room.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, Details & Export since Phase 17: \"a room is dimensioned clear of its exterior walls, which are drawn outward from the block\", \"while an interior wall is centred on the line two rooms share and so takes half its thickness from each of them\"."
+}

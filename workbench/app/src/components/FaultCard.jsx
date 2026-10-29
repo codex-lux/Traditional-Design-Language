@@ -182,7 +182,10 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
         style={{ marginTop: 18, borderTop: '1px solid var(--border-soft)', paddingTop: 14 }}>
         <Head section="fixes" />
         {FIX_TIERS.map((tier) => (fault.fix[tier] ? (
-          <div key={tier} data-fix-tier={tier} style={{ display: 'flex', gap: 12, alignItems: 'baseline', marginTop: 9 }}>
+          <div key={tier} data-fix-tier={tier} style={{ display: 'flex', gap: 12, alignItems: 'baseline', marginTop: 9,
+            // the cheap fix is struck in gilt (board 9): it is the one a builder will reach for, and the
+            // one the corpus most wants read before it is chosen
+            ...(tier === 'cheap' ? { borderTop: '2px solid var(--gilt)', paddingTop: 8 } : null) }}>
             <span style={{ font: 'var(--type-data-s)', color: FIX[tier], border: '1px solid currentColor',
               padding: '1px 6px', width: 78, flex: 'none', textAlign: 'center' }}><Term id={FIX_TIER_TERM[tier]} /></span>
             <span style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-secondary)',
@@ -201,7 +204,8 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
     ),
   };
   return (
-    <article data-fault={fault.id} style={{ border: '1px solid var(--border-hairline)',
+    // Phase 17: the fault is a vellum card on the dark instrument (board 9)
+    <article data-fault={fault.id} data-ground="vellum" className="tdl-vellum" style={{ border: '1px solid var(--border-hairline)',
       borderLeft: '2px solid ' + (SEV[fault.severity] || 'var(--text-tertiary)'),
       background: 'var(--surface-panel)', padding: '18px 20px 20px', ...style }}>
       <header>

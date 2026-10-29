@@ -28,6 +28,7 @@ import { ORDERS, order, setSize } from '../candidateOrder.js';
 import { adaptCandidate, selectionAction, selectionView, setStanding, tallyView } from '../candidateCard.js';
 import { Term } from '../components/Term.jsx';
 import { revisedEventLine } from '../revision.js';
+import { Vellum } from '../components/Vellum.jsx';
 
 
 export function CandidateSet({ onCite, go, selection, setSelection }) {
@@ -128,7 +129,9 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
 
   const axisWhat = Object.fromEntries(
     ((result.score_model || {}).axes || []).map((a) => [a.axis, a.what]));
-  const cands = (result.candidates || []).map((c, i) => adaptCandidate(c, i, nativePartis, axisWhat));
+  const cands = (result.candidates || []).map((c, i) => ({ ...adaptCandidate(c, i, nativePartis, axisWhat),
+      // Phase 17: the score's own denominator, the result's and never a typed figure
+      scoreOf: result.score_model && Number.isFinite(result.score_model.of) ? result.score_model.of : null }));
   const chosen = ORDERS[sort] || ORDERS.score;
   const list = cands.slice().sort(order(chosen.cmp));
   const dropped = result.dropped_lot_infeasible || [];
@@ -368,7 +371,8 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
         </p>
 
         <div style={{ display: 'flex', gap: 26, marginTop: 26, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <div style={{ flex: '1 1 460px', minWidth: 420 }}>
+          <Vellum data-decision-receipt="" style={{ flex: '1 1 460px', minWidth: 420, padding: '16px 20px 18px',
+            borderTop: '2px dashed var(--border-paper)', borderBottom: '2px dashed var(--border-paper)' }}>
             {/* Named, not numbered. The column ordinal is a position in the CURRENT order
                  and `sel` is an index into the SERVER's order; before the three orderings
                  landed those agreed by construction in the default view and they no longer
@@ -411,7 +415,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
                 </div>
               ));
             })()}
-          </div>
+          </Vellum>
           <div style={{ flex: '0 1 420px', minWidth: 380 }}>
             <Eyebrow style={{ marginBottom: 9 }}>how to read this</Eyebrow>
             {(result.how_to_read_this || []).map((h, i) => (

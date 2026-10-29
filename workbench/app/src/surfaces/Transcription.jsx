@@ -20,6 +20,7 @@ import { draftDoc, emptyDraft, completeness, toRecord, exteriorWalls, neighbours
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
 import { PullPane } from '../components/PullPane.jsx';
+import { Term } from '../components/Term.jsx';
 import { backdropBox, canvasSize, gridSteps, roomRect } from '../traceCanvas.js';
 
 const SNAP = 0.5;
@@ -136,7 +137,7 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
       vectorEffect="non-scaling-stroke" opacity={0.5} />);
 
   return (
-    <svg ref={svgRef} viewBox={`-2 ${-H - 2} ${W + 4} ${H + 4}`}
+    <svg ref={svgRef} data-ground="vellum" viewBox={`-2 ${-H - 2} ${W + 4} ${H + 4}`}
       style={{ width: '100%', height: '100%', display: 'block', background: 'var(--surface-raised)',
         cursor: mode === 'draw' ? 'crosshair' : 'default', touchAction: 'none' }}
       onPointerDown={down} onPointerMove={move} onPointerUp={up}>
@@ -287,7 +288,7 @@ function RoomEditor({ draft, room, roomTypes }) {
         ))}
       </span>
       <div style={{ marginTop: 12 }}>
-        <Chip tone="var(--iron, #c33)" onClick={() => draftDoc.update((d) => {
+        <Chip tone="var(--refusal)" onClick={() => draftDoc.update((d) => {
           d.rooms = d.rooms.filter((x) => x.key !== room.key);
           return d;
         })}>delete room</Chip>
@@ -405,7 +406,7 @@ export function Transcription({ go }) {
       <FilterStrip right={
         <span style={{ display: 'flex', gap: 8 }}>
           <Chip onClick={() => draftDoc.undo()} title="undo">undo</Chip>
-          <Chip tone="var(--iron, #c33)" onClick={() => { draftDoc.clear(); setSel(null); }}>discard draft</Chip>
+          <Chip tone="var(--refusal)" onClick={() => { draftDoc.clear(); setSel(null); }}>discard draft</Chip>
         </span>
       }>
         <Eyebrow as="span">transcription</Eyebrow>
@@ -451,14 +452,14 @@ export function Transcription({ go }) {
                 </label>
               </>
             )}
-            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+            <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
               stays in this browser — never uploaded
             </span>
           </div>
         </div>
 
         <PullPane pane="transcription" side="right"
-          style={{ borderLeft: '1px solid var(--rule)', overflow: 'auto', padding: '14px 16px 40px' }}>
+          style={{ borderLeft: '1px solid var(--border-hairline)', overflow: 'auto', padding: '14px 16px 40px' }}>
           <Eyebrow>the record</Eyebrow>
           <div style={row}>
             <Field name="id" value={draft.meta.id} onChange={(v) => meta('id', v)} />
@@ -509,7 +510,7 @@ export function Transcription({ go }) {
           <Eyebrow style={{ margin: '16px 0 2px' }}>from a drafter's DXF</Eyebrow>
           <input type="file" accept=".dxf" style={{ font: 'var(--type-data-s)' }}
             onChange={(e) => e.target.files[0] && loadDxf(e.target.files[0])} />
-          {busy && <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>working…</p>}
+          {busy && <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>working…</p>}
           {ingest && ingest.error && (
             /* a refused ingest is a refusal, in the ink Export gives one, and not the faint
                NOT-BUILT ink it was painted before WP-14.31's sweep */
@@ -543,6 +544,11 @@ export function Transcription({ go }) {
           <Eyebrow style={{ margin: '18px 0 4px' }}>
             {gaps.length ? `not yet a record — ${gaps.length} gap(s)` : 'ready — every gap filled'}
           </Eyebrow>
+          {gaps.length > 0 && (
+            <p data-critic-blind="" style={{ font: 'italic var(--fw-reg) 13px/1.5 var(--serif)', color: 'var(--text-secondary)', margin: '2px 0 4px' }}>
+              <Term id="critic-will-not-see-yet" />
+            </p>
+          )}
           {gaps.map((g, i) => (
             <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
               · {g}

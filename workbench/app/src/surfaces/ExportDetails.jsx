@@ -14,6 +14,8 @@ import { api } from '../api/client.js';
 import { planDoc } from '../state/planDoc.js';
 import { session } from '../state/session.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
+import { Vellum } from '../components/Vellum.jsx';
+import { ConventionsPlate } from '../export/ConventionsPlate.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { Term } from '../components/Term.jsx';
 import { useGlossary } from '../api/useGlossary.js';
@@ -171,7 +173,7 @@ export function ExportDetails({ lastEval }) {
         )}
         <Eyebrow style={{ marginBottom: 12 }}>leaves the system today</Eyebrow>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'stretch' }}>
-          <div style={card}>
+          <Vellum style={card}>
             <h3 style={cardTitle}>The plan record</h3>
             <p style={cardBody}>
               The IR itself — the record every drawing and finding renders from. Clear
@@ -182,8 +184,8 @@ export function ExportDetails({ lastEval }) {
               title={plan ? '' : 'no plan on the bench'}>
               {plan ? `download ${plan.id}.json` : 'no plan on the bench'}
             </ActionChip>
-          </div>
-          <div style={card}>
+          </Vellum>
+          <Vellum style={card}>
             <h3 style={cardTitle}>The brief &amp; the check report</h3>
             <p style={cardBody}>
               The brief as typed, and the validator's latest full report — counts, findings,
@@ -197,8 +199,8 @@ export function ExportDetails({ lastEval }) {
                 {lastEval?.check ? 'download check report' : 'no evaluation yet'}
               </ActionChip>
             </span>
-          </div>
-          <div style={card}>
+          </Vellum>
+          <Vellum style={card}>
             <h3 style={cardTitle}>The drawing set, as SVG</h3>
             <p style={cardBody}>
               Every sheet the generators produce, in the Drawn Language. The drawing is a
@@ -213,8 +215,8 @@ export function ExportDetails({ lastEval }) {
                 </ActionChip>
               ))}
             </span>
-          </div>
-          <div style={card}>
+          </Vellum>
+          <Vellum style={card}>
             <h3 style={cardTitle}>DXF &amp; IFC</h3>
             <p style={cardBody}>
               Layered DXF per sheet, in inches, the record riding on the entities as XDATA —
@@ -240,13 +242,15 @@ export function ExportDetails({ lastEval }) {
               <p data-export-blocked="" style={{ font: 'var(--type-data-s)',
                 color: 'var(--refusal)', margin: '10px 0 0' }}>{blockedWhy}</p>
             )}
-          </div>
+          </Vellum>
         </div>
 
+        <div style={{ marginTop: 28 }}><ConventionsPlate /></div>
         <Eyebrow style={{ margin: '28px 0 12px' }}><Term id="mark-not-built" /></Eyebrow>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'stretch' }}>
           {NOT_BUILT.map((id) => (
-            <div key={id} data-not-built={id} style={{ ...card, backgroundImage: 'var(--mark-not-built)' }}>
+            <div key={id} data-not-built={id} style={{ ...card, border: '1px dashed var(--border-paper)',
+              backgroundImage: 'var(--mark-not-built)' }}>
               <div style={{ background: 'var(--surface-panel)', padding: '8px 10px' }}>
                 <h3 style={{ ...cardTitle, color: 'var(--text-secondary)' }}>{word(id)}</h3>
                 <p data-not-built-definition="" style={{ ...cardBody, color: 'var(--text-secondary)', marginBottom: 8 }}>

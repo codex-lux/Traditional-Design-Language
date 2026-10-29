@@ -19,13 +19,16 @@ import { SURFACE_PATHS, parseHash, formatHash } from '../src/router.js';
 // offers, in what order, and what the crumbs say are the pure modules' answers, read here
 // rather than written here.
 import { navModel, flatItems, inHandFrom } from '../src/nav/navModel.js';
+// The sidebar's own reshaping of the site map (Phase 17): which rows it draws as links.
+import { sidebarView, drawnItems } from '../src/nav/sidebar.js';
+import { barView } from '../src/journey/bar.js';
 import { PAGE_KINDS, RECORD_KINDS } from '../src/record/kinds.js';
 import { indexTerms } from '../src/glossary/lookup.js';
 // The faces and the nativity words, from the modules the surfaces read them from (WP-14.27).
 import { FACES } from '../src/surfaces/drawingFaces.js';
 import { NATIVITY_TERMS } from '../src/candidateOrder.js';
 import { COAST_COARSE } from '../src/data/coastlines.js';
-import { JOURNEY_WORDS } from '../src/journey/journey.js';
+import { JOURNEY_WORDS, journeyState } from '../src/journey/journey.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
 const SHOTS = new URL('./shots/', import.meta.url).pathname;
@@ -156,15 +159,25 @@ const LOOKUP = GLOSSARY_BODY && Array.isArray(GLOSSARY_BODY.terms) ? indexTerms(
 const TERM = (id) => (LOOKUP ? LOOKUP.term(id).term : undefined);
 const INDEX = await (await fetch(BASE + '/api/search/index')).json().catch(() => ({ entries: [] }));
 const NAME_OF = (cite) => ((INDEX.entries || []).find((e) => e.cite === cite) || {}).name || null;
+// the sidebar's shape on a cold load (Phase 17), read again by the front door's block below
+let VIEW0 = null;
 await page.waitForFunction(() => {
   const n = document.querySelector('nav[aria-label="surfaces"]');
   return n && n.getAttribute('aria-busy') !== 'true' && n.querySelector('a[data-nav]');
 }, null, { timeout: 15000 }).catch(() => {});
 {
-  const expected = flatItems(navModel({
+  /* Phase 17: the sidebar draws the site map reshaped (`nav/sidebar.js`) -- the front door as the
+     wordmark, the house as stations whose blocked steps are words and not links, and Styles'
+     own places only while the reader is among them -- so the expected anchors are that module's
+     answer on a cold load, with no plan and no compose. */
+  const model0 = navModel({
     lookup: LOOKUP, counts: overview.counts, glossaryCount: LOOKUP ? LOOKUP.count : null,
     inHand: inHandFrom(null, LOOKUP, (id) => NAME_OF(`style:${id}`)), place: { surface: 'overview', selection: {} },
-  }));
+  });
+  const cold = journeyState({});
+  const view0 = sidebarView(model0, { bar: barView(cold, { surface: 'overview' }), resume: cold.resume, surface: 'overview' });
+  VIEW0 = view0;
+  const expected = drawnItems(view0);
   const rendered = await rail.locator('a[data-nav]').evaluateAll((as) => as.map((a) => ({
     id: a.getAttribute('data-nav'), href: a.getAttribute('href'),
     label: (a.querySelector('span > span:not([data-step-n]):not([data-meta])') || a).textContent.trim(),
@@ -178,6 +191,8 @@ await page.waitForFunction(() => {
     const r = rendered.find((x) => x.id === e.id);
     if (!r) continue;
     if (r.href !== e.href) wrong.push(`${e.id} links ${r.href}, not ${e.href}`);
+    // the front door is drawn as the wordmark, which names the product and not the page
+    if (view0.home && e.id === view0.home.id) continue;
     if (e.termId && e.label && r.label !== e.label) wrong.push(`${e.id} reads "${r.label}", its record says "${e.label}"`);
     if (e.href && formatHash(parseHash(e.href).surface, parseHash(e.href).selection, {}) !== e.href) wrong.push(`${e.href} is not an address the router writes`);
   }
@@ -226,8 +241,10 @@ const front = await page.evaluate(() => {
     guidedDef: txt(q('[data-guided-definition]')),
     guidedStop: txt(q('[data-guided-stop]')),
     guidedCites: qa('[data-guided-example] a[data-cite]').map((a) => a.getAttribute('data-cite')),
-    rows: qa('[data-spine-row]').map((d) => d.getAttribute('data-spine-row')),
-    map: qa('[data-map-item]').map((a) => [a.getAttribute('data-map-item'), a.getAttribute('href')]),
+    stations: qa('[data-station]').map((d) => [d.getAttribute('data-station'),
+      d.querySelector('[data-station-link]')?.getAttribute('href') || null]),
+    cards: qa('[data-library-card]').map((d) => d.getAttribute('data-library-card')),
+    hero: q('[data-hero]')?.getAttribute('data-hero') ?? null,
     entrances: qa('[data-entrance-link]').map((a) => [a.getAttribute('data-entrance-link'), a.getAttribute('href')]),
     // WP-14.17: the two lower sections' headings, as the term each h2 draws
     heads: ['data-inventory', 'data-is-not-section'].map((attr) => {
@@ -241,12 +258,9 @@ if (!aboutRec) {
     + 'the definition, the readers and what it is not have no record to be judged against');
 } else {
   check('the front door says what this is in about-tdl\'s own definition', front.definition === aboutRec.definition);
-  const readers = aboutRec.readers || [];
-  check(`the readers are about-tdl's, every one and no other (${front.readers.length} of ${readers.length})`,
-    readers.length > 0 && front.readers.length === readers.length
-    && readers.every((r, i) => front.readers[i]?.includes(r.who) && front.readers[i]?.includes(r.line)));
-  // VISION.md:359's must-not, asked of the page rather than of the record alone.
-  check('no reader line is a homeowner\'s', !front.readers.some((t) => /homeowner/i.test(t)));
+  // Phase 17 (ruled 29 Oct 2026): the readers' paragraphs were marketing copy on an instrument and
+  // the reader is one of them; they stay `about-tdl`'s, and the page no longer prints them
+  check(`the readers' paragraphs are gone from the front door (${front.readers.length})`, front.readers.length === 0);
   check(`what it is not is about-tdl's is_not (${front.isNot.length})`,
     (aboutRec.is_not || []).length > 0
     && JSON.stringify(front.isNot) === JSON.stringify(aboutRec.is_not.map((s) => s.replace(/\s+/g, ' ').trim())));
@@ -283,21 +297,19 @@ if (!guidedRec) {
     (guidedRec.see || []).length > 0 && guidedRec.see.every((c) => front.guidedCites.includes(c)));
 }
 {
-  // The map's rows are the site map's groups and its links are the site map's items, in order --
-  // held to the site map's own table (WP-14.13's `nav/navModel.js`), imported here inside the
-  // front door's block so this block owns its dependency and no second list is typed.
-  const { NAV } = await import('../src/nav/navModel.js');
-  const navIds = NAV.flatMap((g) => g.items.flatMap((it) => [it.id, ...(it.children || []).map((c) => c.id)]));
-  check(`the map's rows are the site map's groups (${front.rows.join(', ')})`,
-    JSON.stringify(front.rows) === JSON.stringify(NAV.map((g) => g.id)));
-  check(`the map carries every site-map item and nothing else (${front.map.length} of ${navIds.length})`,
-    JSON.stringify(front.map.map(([id]) => id)) === JSON.stringify(navIds));
-  const bad = front.map.filter(([, h]) => {
-    const p = parseHash(h || '');
-    return !SURFACE_PATHS[p.surface] || formatHash(p.surface, p.selection, p.params) !== h;
-  });
-  check(`every map link is an address the router writes${bad.length ? ` (not: ${bad.map(([i, h]) => `${i} ${h}`).join('; ')})` : ''}`,
-    front.map.length > 0 && bad.length === 0);
+  /* Phase 17: the two-spine map is retired -- the sidebar is the map -- and the page draws the
+     journey as five stations and the library as five cards, each held to the pure module that
+     writes it: the stations to the journey's steps (a blocked one is not a link), the cards to the
+     sidebar's own library rows. */
+  const { JOURNEY } = await import('../src/journey/journey.js');
+  check(`the stations are the journey's five steps, in order (${front.stations.map(([id]) => id).join(', ')})`,
+    JSON.stringify(front.stations.map(([id]) => id)) === JSON.stringify(JOURNEY.map((j) => j.id)));
+  const badStation = front.stations.filter(([, h]) => h && formatHash(parseHash(h).surface, parseHash(h).selection, parseHash(h).params) !== h);
+  check('every station link is an address the router writes', badStation.length === 0);
+  check(`the library cards are the sidebar's five library rows (${front.cards.join(', ')})`,
+    JSON.stringify(front.cards) === JSON.stringify((VIEW0 ? VIEW0.library.rows : []).map((r) => r.id)) && front.cards.length > 0);
+  check(`the hero plate is drawn, or refused by name, never assumed (${front.hero})`,
+    front.hero !== null && front.hero !== 'failed');
   const door = Object.fromEntries(front.entrances);
   check('the two entrances go to reading a style and writing a house',
     parseHash(door.style || '').surface === 'style' && parseHash(door.brief || '').surface === 'brief');
@@ -376,21 +388,22 @@ await shot('overview', [1280, 1440, SHOT_WIDTH]);
   // the denominator first: an empty selection would make every assertion below vacuous
   check(`the rail offers surfaces to reach (${ids.length})`, ids.length > 0);
   const reached = new Map();
+  // a station of the house is marked current as a STEP of the journey, every other place as a page
   const marked = () => page.locator(ITEMS).evaluateAll((as) =>
-    as.filter((a) => a.getAttribute('aria-current') === 'page').map((a) => a.getAttribute('data-nav')));
+    as.filter((a) => ['page', 'step'].includes(a.getAttribute('aria-current'))).map((a) => a.getAttribute('data-nav')));
   for (const id of ids) {
     const item = page.locator(`${ITEMS}[data-nav="${id}"]`).first();
-    if ((await item.getAttribute('aria-current')) === 'page') {
+    if (['page', 'step'].includes(await item.getAttribute('aria-current'))) {
       const here = parseHash(await page.evaluate(() => location.hash)).surface;
       await visit(formatHash(Object.keys(SURFACE_PATHS).find((s) => s !== here && s !== 'style' && s !== 'kit'), {}, {}));
     }
-    const wasCurrent = (await item.getAttribute('aria-current')) === 'page';
+    const wasCurrent = ['page', 'step'].includes(await item.getAttribute('aria-current'));
     const href = await item.getAttribute('href');
     const before = await page.evaluate(() => location.hash);
     await item.click();
     await page.waitForFunction((h) => location.hash !== h, before, { timeout: 5000 }).catch(() => {});
     await page.waitForFunction(([sel, k]) => [...document.querySelectorAll(sel)].some((a) =>
-      a.getAttribute('aria-current') === 'page'
+      ['page', 'step'].includes(a.getAttribute('aria-current'))
         && (a.getAttribute('data-nav') === k || a.getAttribute('data-nav') === `${k}:identify`)),
     [ITEMS, id], { timeout: 5000 }).catch(() => {});
     const after = await page.evaluate(() => location.hash);
@@ -3458,8 +3471,14 @@ await shot('transcription');
   const assistant = await (await fetch(BASE + '/api/glossary/assistant')).json().catch(() => null);
   const want = assistant && assistant.term ? assistant.term.term : null;
   const aside = page.locator('aside[aria-label*="the rail"]');
+  // Phase 17: the pane opens only when summoned, so the walk summons it with the top bar's button,
+  // and the choice is the reader's from here on (the layout stores it)
+  if (await aside.count() === 0) {
+    await page.locator('[data-ask]').first().click().catch(() => {});
+    await page.waitForSelector('aside[aria-label*="the rail"]', { timeout: 5000 }).catch(() => {});
+  }
   const head = ((await aside.locator('[data-rail-head]').first().textContent().catch(() => '')) || '').trim();
-  check(`rail present on every surface, named by its record (${JSON.stringify(head)})`,
+  check(`the rail opens when summoned, named by its record (${JSON.stringify(head)})`,
     await aside.count() === 1 && Boolean(want) && head === want);
 }
 
@@ -4404,17 +4423,16 @@ async function journeyRead() {
     await page.waitForTimeout(250);
     const jb = await journeyRead();
     if (jb) shownOn.push(s);
-    if (HOUSE[s]) {
-      const cur = jb && Object.entries(jb.steps).filter(([, v]) => v.current === 'step').map(([k]) => k);
-      if (!jb) wrong.push(`${s}: no bar`);
-      else if (jb.inMain) wrong.push(`${s}: the bar is inside <main>`);
-      else if (!cur || cur.length !== 1 || cur[0] !== HOUSE[s]) wrong.push(`${s}: marks ${JSON.stringify(cur)} current`);
-    } else if (jb) {
-      wrong.push(`${s}: a bar where there is no house step`);
-    }
+    /* Phase 17: the house is the sidebar's block on EVERY page (compact on a library page), and a
+       step is marked current only where its own surface is the page. */
+    const cur = jb ? Object.entries(jb.steps).filter(([, v]) => v.current === 'step').map(([k]) => k) : null;
+    if (!jb) wrong.push(`${s}: no journey`);
+    else if (jb.inMain) wrong.push(`${s}: the journey is inside <main>`);
+    else if (HOUSE[s] && (cur.length !== 1 || cur[0] !== HOUSE[s])) wrong.push(`${s}: marks ${JSON.stringify(cur)} current`);
+    else if (!HOUSE[s] && cur.length) wrong.push(`${s}: marks ${JSON.stringify(cur)} current where no house step is the page`);
   }
-  check(`the journey is on the six house surfaces and no other (shown on ${shownOn.join(', ')})`
-    + (wrong.length ? ' -- ' + wrong.join('; ') : ''), wrong.length === 0 && shownOn.length === 6);
+  check(`the journey is in the sidebar on every page, current only on the house's own (shown on ${shownOn.length} of ${surfaces.length})`
+    + (wrong.length ? ' -- ' + wrong.join('; ') : ''), wrong.length === 0 && shownOn.length === surfaces.length);
 
   /* Next is a link exactly where the step in view can proceed. Read on the steps a fresh reader
      meets: whatever the bench holds by now, the export step is last and offers no Next, and a
@@ -4622,9 +4640,17 @@ async function journeyRead() {
   // (4) THE MASTHEAD: home, the bench as a place and three counts, the keys, and nothing inert.
   await visit('#/faults');
   await page.waitForTimeout(300);
-  const header = page.locator('header').first();
+  /* Phase 17: the wordmark, the bench and the keys moved from the masthead into the sidebar, and
+     the masthead is the top bar (the trail, the address and the assistant's button). `header` is
+     read where each of them now stands. */
+  const header = page.locator('nav[aria-label="surfaces"]');
+  const topbar = page.locator('header[data-topbar]');
   check('the wordmark is the way home', await header.locator('a[href="#/"]').count() === 1);
-  const headText = await header.innerText();
+  // the masthead's own words, wherever they stand now: the top bar and the bench block. The rest
+  // of the sidebar carries each link's glossary definition as described-by text, which innerText
+  // reads, and a definition is the corpus's sentence and not the masthead's.
+  const headText = (await topbar.innerText().catch(() => '')) + '\n'
+    + (await header.locator('[data-bench]').first().innerText().catch(() => ''));
   check('the masthead no longer calls a page "the workbench"', !/\bthe workbench\b/i.test(headText));
   check('the inert Export and Settings icons are gone',
     await header.locator('[title="Export"], [title="Settings"], svg[aria-label="Export"], svg[aria-label="Settings"]').count() === 0);
@@ -4735,11 +4761,15 @@ async function journeyRead() {
   await a.p.waitForTimeout(400);
   check('widening the window does not unfold it', await a.p.locator('aside[aria-label*="the rail"]').count() === 0);
   await a.ctx.close();
+  // Phase 17 (ruled 29 Oct 2026): it opens only when summoned, at every width
   const b = await open(1680);
-  check('at 1680 px with nothing stored it is open', b.pane === 1);
+  check('at 1680 px with nothing stored it is folded too, until it is asked for', b.pane === 0 && b.stub === 1);
+  await b.p.locator('[data-ask]').first().click().catch(() => {});
+  await b.p.waitForTimeout(400);
+  check('the top bar\'s button opens it', await b.p.locator('aside[aria-label*="the rail"]').count() === 1);
   await b.p.setViewportSize({ width: 1280, height: 800 });
   await b.p.waitForTimeout(400);
-  check('and narrowing the window does not fold it', await b.p.locator('aside[aria-label*="the rail"]').count() === 1);
+  check('and narrowing the window does not fold it again', await b.p.locator('aside[aria-label*="the rail"]').count() === 1);
   await b.ctx.close();
   const c = await open(1280, { widths: {}, collapsed: { rail: false } });
   check('a stored open assistant stays open at 1280 px', c.pane === 1);
@@ -4929,6 +4959,11 @@ async function journeyRead() {
   p.on('request', (r) => { if (r.url().includes('/api/rail/messages')) railPosts += 1; });
   const shownOn = async () => {
     const aside = p.locator('aside[aria-label*="the rail"]');
+    // Phase 17: a fresh context starts with the pane folded, and the top bar's button opens it
+    if (await aside.count() === 0) {
+      await p.locator('[data-ask]').first().click().catch(() => {});
+      await p.waitForSelector('aside[aria-label*="the rail"]', { timeout: 5000 }).catch(() => {});
+    }
     await aside.locator('[data-rail-starter]').first().waitFor({ timeout: 15000 }).catch(() => {});
     return aside.locator('[data-rail-starter]')
       .evaluateAll((bs) => bs.map((b) => (b.textContent || '').trim()));
@@ -5232,7 +5267,8 @@ async function journeyRead() {
         const se = document.scrollingElement;
         const main = document.querySelector('main');
         const home = document.querySelector('[data-home]');
-        const mast = home ? home.closest('header') : null;
+        // the top bar is the masthead since Phase 17; the wordmark stands in the sidebar
+        const mast = document.querySelector('header[data-topbar]');
         const keys = document.querySelector('[data-keys]');
         const root = document.getElementById('root');
         const inner = [];

@@ -71,6 +71,8 @@ export const api = {
      .status 401 on a wrong password, 429 when attempts are being throttled. */
   login: (password) => postJSON('/api/login', { password }),
   overview: () => getJSON('/api/overview'),
+  // Phase 17: the front door's hero plate, the first shipped record the product may draw
+  frontDoorHero: () => getJSON('/api/front-door/hero', { fresh: true }),
   /* Everything nameable, once. The GET cache above makes this fetch-once for the page's
      life, which is what the palette wants — the corpus does not change under a server. */
   searchIndex: () => getJSON('/api/search/index'),

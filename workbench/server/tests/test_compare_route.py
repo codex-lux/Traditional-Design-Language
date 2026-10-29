@@ -96,7 +96,10 @@ def test_identify_proportions_and_plans_are_the_endpoints_they_repeat(client):
         assert got["proportions"][side] == _get(client, f"/api/styles/{sid}/packs"), side
         dossier = _get(client, f"/api/styles/{sid}/dossier")
         assert got["plans"][side] == dossier["plan_types"]["partis"], side
-    assert set(got) == {"a", "b", "identify", "kit", "proportions", "plans"}
+    # Phase 17 (WP-17.13): the two kit cascades, for where the pair parts, each the endpoint it repeats
+    for side, sid in (("a", a), ("b", b)):
+        assert got["cascades"][side] == _get(client, f"/api/kit/{sid}/cascade"), side
+    assert set(got) == {"a", "b", "identify", "kit", "proportions", "plans", "cascades"}
 
 
 def test_an_unknown_style_is_refused_by_name(client):
