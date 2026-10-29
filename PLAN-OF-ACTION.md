@@ -31,6 +31,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **14 — The dossier and the journey** | **WP-14.0 through 14.15** — sixteen packages in five waves, WP-14.0 through 14.15 COMPLETE, tranche 1 built · **tranche 2 (WP-14.16 through 14.32) COMPLETE 26 Sep 2026** (14.28 not built: no Tidewater plan places) · **WP-14.33, the eight rulings of 26 Sep, COMPLETE** · T3 planned, not built | **Tranche 1 COMPLETE 25 Sep 2026** (planned 24 Sep); **tranche 2 COMPLETE 26 Sep** on seven rulings, contracts `docs/prd/phase-14-tranche-2.md`, integration `docs/reports/wp-14.32-tranche-two-built.md` — raised by Lucas reading the Proportions surface on `trim-classical`: *"It's all just a bunch of text, and I'm not sure how it all relates to each other."* A read-only audit of all twelve surfaces (eleven inventories, five lenses, fourteen themes each re-checked against the source, three competing redesigns, two judges) found the workbench organised the way the corpus is STORED — by record type, in the order it was built — while a practitioner works with one style or one house at a time, so every rail click drops the thing being studied and each surface falls back to its own hard-coded record. **Eight rulings taken the same day** (practitioners first; definitions as glossary records; the navigation rebuilt now around a Style Dossier and a House Journey; report and plan then tranche 1; the dossier's section names; the AI pane named now and told nothing new until later; the pane folded on narrow screens; one ungated sentence on the Gate). The brief is the PRD, `docs/prd/phase-14-the-dossier-and-the-journey.md`, and the analysis is `docs/reports/ux-first-principles-2026-09-24.md`; seven questions filed as slugs, none numbered |
 | **15 — The plates drawn** | **WP-15.5, WP-15.6 and WP-15.7 COMPLETE (27–28 Sep 2026)** · **WP-15.1 through 15.4 BLOCKED ON THE NETWORK** · **WP-15.8 COMPLETE (28 Sep 2026)**, the audit: `docs/reports/wp-15.8-the-audit-of-phase-15.md` | **Open** — Lucas's review of the drawn Tidewater front found four defects: no pier between a window and the doorcase; exterior stacks stopping at the roof line; a cornice drawn as a flat band; a Gibbs Ionic capital with its volute at the bottom, which is the record's own member order. The plates are behind hosts that answer 403 to CONNECT, re-probed 28 Sep, so the three plate-free packages go first. WP-15.5 stands each exterior stack on the ground on every elevation surface and in the DXF, which had drawn none; V23 and X3 hold it. `docs/reports/wp-15.5-the-stack-stands-on-the-ground.md` · WP-15.6 reserves the entrance doorcase's run and half the ordinary pier beside it before the placer seats a window, and the elevation measures the wall it draws; V24 holds it, and the pier between two windows goes to a ruling. `docs/reports/wp-15.6-the-wall-beside-the-doorcase.md` · WP-15.7 draws the eave as its record states it, on the sheet and in the DXF: the frieze flush, the cornice's box, and a line at every member division; V25 and X4 hold it, and the gable end's return goes to a ruling. `docs/reports/wp-15.7-the-cornice-drawn-with-its-members.md` |
 | **16 — The rulings of 29 September** | **WP-16.0 through 16.8 planned (29 Sep 2026)**; **WP-16.0 COMPLETE** (the base and the record); **WP-16.1 COMPLETE** (the governing test, the incomplete front, the tie-break, and the composer's reclaim held to the loop's rule); **WP-16.2 COMPLETE** (who wrote each ban, and 38 slot records corrected in the styles' own kits, on the records and on Lucas's ten answers of 30 Sep); **WP-16.3 COMPLETE** (the north and west faces drawn as seen) *(missing from this cell from its landing on 29 Sep until 30 Sep 2026, when WP-16.2's record found it)*; **WP-16.4 COMPLETE** (what the resolved kit forbids is refused at the house's date, and every surface names who wrote the ban); **WP-16.5 COMPLETE** (one cornice at the envelope's depth in the order's shape, and each gable end drawn as its kit says of the return); **WP-16.6 COMPLETE** (every window at least the wider window's width from the next, the centre holding, and the upper window on the axis of the opening below or refused by name; U1–U4 taken as recommended under the standing instruction); **WP-16.7 COMPLETE** (the largest set of shutters that can all be hung, symmetric first and then nearest the entrance or the face's centre; U5–U7 taken as recommended under the standing instruction); **WP-16.9 COMPLETE** (the roof the style's kit names, the rake its kit states, and the cornice drawn as deep as its kit's minimum, on Lucas's answers B1–B30, and on T1–T11 taken as recommended under his standing instruction of 1 Oct 2026); **WP-16.8 COMPLETE** (the audit: sixteen blocking rows and twenty-three minor ones fixed and guarded, the placer's one queue among them; U8–U15 taken as recommended under the standing instruction; B7 deferred and two questions raised; and its own diff audited by five more auditors, whose one blocking finding, the IFC's roof at 3.2808 times its coordinates, is older than the phase, report §X; and the eight test-built prover solves bounded by deterministic time, report §X.12, 4 Oct) | **Complete (29 Sep – 3 Oct 2026)** — Lucas answered, as direct questions, the eleven questions Phase 15 and its audit left open, and seven follow-ups the code raised: the N and W faces drawn as seen, decision 4 (fix the wrong bans, then refuse), a clear resting on the governing test, the pier and the upper window following the ground, the shutters, the gable end, OQ 79's cornice, ezdxf in CI, and PR #40's description. PR #40 was merged into main on 28 Sep; the branch restarted from `73ea26d`, whose tree is `13efe99`'s. The plates wait on the network. |
+| **17 — The Workbench, redrawn** | **WP-17.0 through 17.15 planned (29 Oct 2026)** | **In progress** — Lucas read the Front Door on 29 Oct (*"extraordinarily bland, dense and impossible to intuitively navigate"*) and ruled the register a dark instrument with vellum plates, the Front Door spined on the journey, the AI rail opened only when summoned, and every surface carried into the shell. The handoff is `docs/design/ui-redesign-2026-10-29.md`. |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -6016,3 +6017,57 @@ change, and what tranche 1 does meanwhile. None is numbered.
 The four things Lucas ruled on 24 September — the section names, the assistant's name, the
 narrow-screen fold and the Gate sentence — are recorded above as rulings and in the report, and are
 deliberately not filed as questions.
+
+---
+
+## Phase 17 — The Workbench, redrawn
+
+Raised by Lucas on 29 Oct 2026 against the Front Door: *"extraordinarily bland, dense and
+impossible to intuitively navigate."* The design handoff is `docs/design/ui-redesign-2026-10-29.md`,
+the companion to a fifteen-artboard canvas this repository cannot reach. The note is the spec.
+
+**Rulings of 29 Oct 2026.** Recorded in the handoff note:
+- the register is **dark instrument, vellum plates**;
+- the Front Door is spined on the journey;
+- the tokens and the two faces are unchanged;
+- the shell holds on every surface;
+- the rail opens only when summoned.
+
+Put as direct questions in this session and answered the same day:
+- the Front Door's hero is the first shipped record the refusal verdict lets the product draw,
+  because the Tidewater record is refused (WP-13.4);
+- every capability the boards draw and the app does not yet compute is built now, not deferred;
+- every surface goes one package at a time, each committed with its report;
+- the work proceeds from the note's text, with `about-tdl`'s definition as the headline.
+
+**THE MECHANISM IS TWO GROUNDS, NOT A THEME.** A primitive is a pigment and stays one: `--paper`
+is always `#F1EBDB`. Rebinding primitives under a dark scope would make `--paper` mean coal, and
+every test that resolves a token to judge its contrast would then be judging a lie.
+- Only the semantic layer (`--surface-*`, `--text-*`, `--border-*`, `--link`) is rebound, under
+  `[data-ground="instrument"]` and `[data-ground="vellum"]`.
+- `<Vellum>` and `<Plate>` are the one way content is put on paper.
+- `src/grounds.test.mjs` holds every component off the colour primitives unless it is on paper.
+  It is a ratchet that must reach zero by the phase audit.
+
+| WP | Package | Status |
+|---|---|---|
+| 17.0 | The register: the two grounds, four tokens, the plate frame, `grounds.test`, `inks.test` ground-aware | planned |
+| 17.1 | The marks: the hatched unjudged ring, discs for pass and fail, the journey marks, `SourceChip` / `BindingChip`, the variant ladder restyled, the severity ladder | planned |
+| 17.2 | The shell: the sidebar with the house on the bench and the library, the 48 px top bar, `JourneyBar` retired into the spine, the rail a 52 px strip closed by default with its self-description deleted, the page head | planned |
+| 17.3 | The Front Door: the thesis, one primary and one secondary action, the hero plate (`GET /api/front-door/hero`, one drawable rule shared with the tests), the five stations, the library as cards, the closing furniture | planned |
+| 17.4 | Candidate Set: vellum columns, score and nativity as two marks, the standing in three forms, the decision log as a receipt | planned |
+| 17.5 | Plan Workbench: the plate fills the bench, findings pinned where they fall, relaxations as gilt diamonds, findings by layer with a threshold, the toolbar | planned |
+| 17.6 | Brief: the household as prose, the site drawn with the diagonal compass and the street bearing, three-state feasibility from a feasibility route, the silences counted | planned |
+| 17.7 | Drawing Set: sheet tabs, the one-building banner with the digest, the datum overlay, the disclosures panel | planned |
+| 17.8 | Details & Export: what ships on vellum, named-not-built as dashed cards, the modelling conventions plate | planned |
+| 17.9 | Style Dossier: the plaque, the drawn period bar, tells before description, the affinity ladder, constraints in three states, exemplars verified or not | planned |
+| 17.10 | Kit: the cascade as a column with per-level binding bars and bans credited to their writer, the slot rows and the expanded row | planned |
+| 17.11 | Fault Corpus: the index by element, two axes (how it reads, how it lives), the style's exception above the rule, the three fixes with the cheap one in gilt | planned |
+| 17.12 | Phylogeny: the broken axis to the board's proportion, five tradition lanes and the empty lane, the drawer edges, the chronology exception | planned |
+| 17.13 | Proportions, Elements, Compare: the authorities drawn at one diameter, an invariant held across an authority's packs, the binding bar across every style, where two styles part | planned |
+| 17.14 | Glossary and Transcription on the instrument | planned |
+| 17.15 | The audit of Phase 17 | planned |
+
+Each package ends with a report in `docs/reports/wp-17.N-<slug>.md`, the app suite, the server
+suite and the glossary checker green, the browser walk re-pointed, and screenshots at 1280,
+1440 and 1680 opened and compared with the note.
