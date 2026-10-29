@@ -298,9 +298,8 @@ test('every site that matches an evaluation to a plan reads evalPlanOf, and none
     }
   };
   walk(SRC);
-  const byHand = /\bcheck\s*\??\.\s*plan\b/;
   const offenders = files.filter((u) => !u.pathname.endsWith('/journey/journey.js'))
-    .filter((u) => byHand.test(lexStrip(readFileSync(u, 'utf8'))))  // the shared lexer: see sourceReader.mjs
+    .filter((u) => readsPlanByHand(readFileSync(u, 'utf8')))
     .map((u) => u.pathname.slice(SRC.pathname.length));
   assert.deepEqual(offenders, [], 'these read an evaluation\'s plan off its check by hand');
   assert.ok(files.length > 50, 'the walk reached the app\'s sources');
@@ -551,4 +550,11 @@ test('every fixed state word is one glossary record, and every journey-state rec
   const judgments = new Set(['refused']);   // drawn as JOURNEY_TERMS' record
   assert.deepEqual([...new Set(fixed)].filter((w) => !judgments.has(w) && !STATE_RECORDS[w]), [],
     'a fixed state word with no record');
+});
+
+// the by-hand scan, as one function the scan above and its twin below both call: the shared lexer
+const readsPlanByHand = (src) => /\bcheck\s*\??\.\s*plan\b/.test(lexStrip(src));
+test('the by-hand scan reads past a string holding "/*" (the second audit of Phase 17)', () => {
+  assert.ok(readsPlanByHand('<input accept="image/*" /> const p = check.plan; {/* c */}'));
+  assert.ok(!readsPlanByHand('/* check.plan */ const p = 1;'), 'and a mention in a comment is not a read');
 });

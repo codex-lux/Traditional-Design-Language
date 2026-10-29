@@ -223,3 +223,9 @@ test('the Glossary draws its family headings and its term page labels from recor
   assert.doesNotMatch(src, /\{(?:g|rec)\.family\}\s*</, 'a family printed as its machine value');
   assert.doesNotMatch(src, />\s*\{f\}\s*<\/Chip>/, 'a chip printed as its machine value');
 });
+
+test('this file reads source through the shared lexer, past a string holding "/*" (the second audit of Phase 17)', () => {
+  const s = stripComments('<input accept="image/*" /> const live = 1; {/* a comment */}');
+  assert.ok(s.includes('const live = 1'), 'live code after the attribute is read');
+  assert.ok(!s.includes('a comment'), 'and the comment is not');
+});

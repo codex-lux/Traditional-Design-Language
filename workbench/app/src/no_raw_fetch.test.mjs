@@ -94,3 +94,10 @@ test('the reader of code tells a call from a sentence about one', () => {
   assert.ok(!NETWORK.test(code("{/* fetch('/api') */}")));
   assert.ok(!NETWORK.test(code('api.fetchOnce(); refetch();')), 'a name containing fetch is not fetch(');
 });
+
+/* The second audit of Phase 17: moved onto the shared lexer, and this file stayed green on the old
+   regex too, because no live source carries the trap today. The twin proves the reader is needed. */
+test('a fetch after a string holding "/*" is still read as code', () => {
+  assert.ok(NETWORK.test(code('<input accept="image/*" /> {/* a comment */} const x = () => fetch("/api/x");')));
+  assert.ok(!NETWORK.test(code('/* fetch("/api/x") */ const y = 1;')), 'and a fetch in a comment is not a call');
+});

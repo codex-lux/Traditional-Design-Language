@@ -366,3 +366,9 @@ test('the client names the two glossary routes the server contract gives', () =>
   assert.match(src, /glossary: \(\) => getJSON\('\/api\/glossary'\)/);
   assert.match(src, /glossaryTerm: \(id\) => getJSON\(`\/api\/glossary\/\$\{seg\(id\)\}`\)/);
 });
+
+test('this file reads source through the shared lexer, past a string holding "/*" (the second audit of Phase 17)', () => {
+  const s = stripComments('<input accept="image/*" /> const live = 1; {/* a comment */}');
+  assert.ok(s.includes('const live = 1'), 'live code after the attribute is read');
+  assert.ok(!s.includes('a comment'), 'and the comment is not');
+});

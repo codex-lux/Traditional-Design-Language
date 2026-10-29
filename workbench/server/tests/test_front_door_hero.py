@@ -190,3 +190,21 @@ def test_every_record_an_order_names_exists():
     for order in (corpus.HERO_ORDER, corpus.DRAWABLE_ORDER):
         missing = [rel for rel in order if not os.path.isfile(os.path.join(corpus.ROOT, rel))]
         assert missing == [], missing
+
+
+def test_the_sweep_runs_once_however_often_the_hero_is_asked(monkeypatch):
+    """The second audit of Phase 17: removing both memo guards from `front_door_hero` left the memo
+    test green, because the route reads `_HERO` itself. The work is counted here."""
+    from workbench.server import corpus
+    corpus.reset_front_door()
+    calls = []
+
+    def compute():
+        calls.append(1)
+        corpus._HERO = {"refused": True, "tried": 0, "plan_id": None, "name": None, "drawing": None}
+        return corpus._HERO
+    monkeypatch.setattr(corpus, "_compute_hero", compute)
+    a = corpus.front_door_hero()
+    assert corpus.front_door_hero() is a
+    assert len(calls) == 1, "a second ask is answered from the memo"
+    corpus.reset_front_door()

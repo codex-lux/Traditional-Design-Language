@@ -462,3 +462,9 @@ test('JudgmentMark carries the state word to assistive tech on both of its branc
   const glyph = readFileSync(join(SRC, 'components', 'MarkGlyph.jsx'), 'utf8');
   assert.match(glyph, /aria-hidden="true" data-duty=\{token\}/, 'a glyph is decorative; its word says it');
 });
+
+test('this file reads source through the shared lexer, past a string holding "/*" (the second audit of Phase 17)', () => {
+  const s = stripJs('<input accept="image/*" /> const live = 1; {/* a comment */}');
+  assert.ok(s.includes('const live = 1'), 'live code after the attribute is read');
+  assert.ok(!s.includes('a comment'), 'and the comment is not');
+});

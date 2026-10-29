@@ -17,6 +17,9 @@ test('one pin per room, carrying its count and its worst severity', () => {
   const by = Object.fromEntries(pins.map((p) => [p.room, p]));
   assert.equal(by.dining.n, 2);
   assert.equal(by.dining.worst, 'fatal', 'the worst of the room\'s findings, whatever the order');
+  // and in the other order (the second audit: minor-then-fatal let "the last finding's" pass)
+  const rev = pinsOf([{ id: 'b', at: 'dining', severity: 'fatal' }, { id: 'a', at: 'dining', severity: 'minor' }], rooms);
+  assert.equal(rev[0].worst, 'fatal', 'fatal first and minor last is still fatal');
   assert.deepEqual(by.dining.ids, ['a', 'b']);
   assert.equal(by.hall.worst, 'serious', 'a finding\'s room is read from `at` or `room`');
 });

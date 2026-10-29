@@ -504,3 +504,27 @@ test('a colour named through a variable or a map is a duty too', () => {
   assert.deepEqual(namedPigmentRows("const INK = { a: 'var(--gilt-deep)' };\nconst s = { color: INK[k] };\n"), ['INK']);
   assert.deepEqual(namedPigmentRows("const tone = 'var(--refusal-text)';\nconst s = { color: tone };\n"), []);
 });
+
+/* ── 12. A MARK IS A GRAPHIC, AND A GRAPHIC READS 3 : 1 (the second audit of Phase 17) ───────────
+   The mark and judgment duties draw glyphs, rings and strokes, so WCAG 1.4.11's 3 : 1 is their
+   floor. Set `--mark-yours-to-judge` to gilt-deep (2.93) or `--judge-unjudged` to coal and nothing
+   above failed. A hatch or a field is not one ink and is not judged here. */
+export function markRows(css) {
+  const rows = [];
+  for (const n of Object.keys({ ...rootTokens(css), ...groundTokens(css, 'instrument') })) {
+    if (!/^--(mark|judge)-/.test(n)) continue;
+    const ink = groundValue(css, 'instrument', n);
+    if (!/^#[0-9a-f]{6}$/i.test(ink || '')) continue;
+    for (const s of SURFACES.instrument) {
+      const r = contrast(ink, groundValue(css, null, s));
+      if (r < 3) rows.push(`${n} reads ${r.toFixed(2)} on ${s}`);
+    }
+  }
+  return rows;
+}
+test('every mark and judgment ink reads 3 : 1 on the instrument', () => {
+  assert.deepEqual(markRows(CSS), []);
+  const dim = CSS.replace('  --mark-yours-to-judge:var(--gilt);', '  --mark-yours-to-judge:var(--gilt-deep);');
+  assert.notEqual(dim, CSS, 'the instrument block states the mark');
+  assert.ok(markRows(dim).some((r) => r.startsWith('--mark-yours-to-judge')), 'gilt-deep on the dark is refused');
+});
