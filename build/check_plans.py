@@ -134,6 +134,27 @@ def check_plan(plan, parti):
                           "statement": f'the parti says {rid} stacks over {so} and the plan '
                                        f'says {have.get("stacks_over") or "nothing"} — '
                                        f'plan_check reads this field and had nothing to read'})
+        # WP-17.1: the SERVICING claim is held to the diagram the same way. Seventeen bath-over-
+        # wet-room claims moved from `stacks_over` to `wet_stack_with` in the partis (ruled 29 Oct
+        # 2026); a plan that kept the structural spelling would be asked for 90% containment its
+        # own diagram no longer claims, and one that dropped the claim would have its chase judged
+        # by nothing.
+        ws = room.get("wet_stack_with")
+        if ws and have.get("wet_stack_with") != ws:
+            # A plan that still files the SAME claim on the structural field is a record the
+            # ruling has not reached -- shipped plan records are not re-filed in Phase 17, because
+            # the placer reads `stacks_over` while it slices and re-filing moves a shipped
+            # placement (it is its own package, and Lucas's to rule). That is REPORTED, with its
+            # own ceiling; a plan that drops the claim altogether is a topology finding as before.
+            filed = have.get("stacks_over") == ws and not have.get("wet_stack_with")
+            found.append({"kind": "wet-stack-filed-as-structural" if filed else "wet-stack-with",
+                          "room": rid,
+                          "statement": (f'the parti says {rid} shares a wet stack with {ws}, a '
+                                        f'servicing claim since 29 Oct 2026 (ruling 5), and the plan '
+                                        f'still files it as stacks_over {ws} -- the structural claim '
+                                        f'it was before' if filed else
+                                        f'the parti says {rid} shares a wet stack with {ws} and the '
+                                        f'plan says {have.get("wet_stack_with") or "nothing"}')})
 
         # THE MASSING TAGS, and they are topology rather than exposure. `build/compose.py`
         # copies `block` and `hyphen` onto every candidate it writes, exactly as it copies
@@ -243,8 +264,15 @@ def check_plan(plan, parti):
 # from either side. The kind is NOT deleted: a ceiling of zero on a corpus that cannot reach the
 # branch is exactly the shape that reads as a guard passing, so it is DRIVEN by a hand-built pair
 # in `tests/test_check_plans.py` instead of resting on the corpus.
-REPORTED = {"exterior-walls", "door-across-elements"}
+REPORTED = {"exterior-walls", "door-across-elements", "wet-stack-filed-as-structural"}
 EXPOSURE_CEILING = 2
+# PHASE 17, WP-17.1: a bath-over-wet-room claim the parti moved to `wet_stack_with` (ruling 5 of
+# 29 Oct 2026) and a shipped plan still files as `stacks_over`. One today --
+# `plans/tidewater-georgian-careful.json`'s `primarybath stacks_over butlers` -- left on purpose:
+# `geometry.bias` reads `stacks_over` while it slices, so re-filing it moves the shipped placement
+# (measured: the build's reds went 20 -> 108 with the record re-filed), and that is a record edit
+# with its own package, put to Lucas. A ceiling that may only fall.
+WET_FILED_AS_STRUCTURAL_CEILING = 1
 # RE-DERIVED ON THE MERGED TREE, not taken from either parent: `python3 build/check_plans.py`
 # reads "2 exposure finding(s) reported, 0 cross-element door finding(s)". One parent measured 2
 # here and the other never had the kind; 0 is the third value, and it is a ceiling that may only
@@ -260,7 +288,7 @@ def main():
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()
 
-    rows, unjudged, bad, exposure, xdoor = [], [], 0, 0, 0
+    rows, unjudged, bad, exposure, xdoor, wetfiled = [], [], 0, 0, 0, 0
     for path in plan_paths(a.plans):
         try:
             plan = json.load(open(path, encoding="utf-8"))
@@ -284,6 +312,7 @@ def main():
             hard = [f for f in found if f["kind"] not in REPORTED]
             exposure += sum(1 for f in found if f["kind"] == "exterior-walls")
             xdoor += sum(1 for f in found if f["kind"] == "door-across-elements")
+            wetfiled += sum(1 for f in found if f["kind"] == "wet-stack-filed-as-structural")
             if hard:
                 bad += 1
 
@@ -306,7 +335,14 @@ def main():
         print(f"\n{n - len(unjudged)} of {n} plan(s) checked against a named parti; "
               f"{bad} with a topology finding, {exposure} exposure finding(s) reported "
               f"(ceiling {EXPOSURE_CEILING}), {xdoor} cross-element door finding(s) reported "
-              f"(ceiling {CROSS_ELEMENT_DOOR_CEILING}), {len(unjudged)} unjudged.")
+              f"(ceiling {CROSS_ELEMENT_DOOR_CEILING}), {wetfiled} wet stack(s) still filed as "
+              f"structural (ceiling {WET_FILED_AS_STRUCTURAL_CEILING}), {len(unjudged)} unjudged.")
+    if wetfiled > WET_FILED_AS_STRUCTURAL_CEILING:
+        print(f"\nRATCHET: {wetfiled} wet stack(s) still filed as structural against a ceiling of "
+              f"{WET_FILED_AS_STRUCTURAL_CEILING}. Ruling 5 of 29 Oct 2026 moved bath-over-wet-room "
+              f"claims to `wet_stack_with`; a NEW plan filing one as `stacks_over` is a record the "
+              f"ruling should have reached, not a grown licence.", file=sys.stderr)
+        return 1
     if xdoor > CROSS_ELEMENT_DOOR_CEILING:
         print(f"\nRATCHET: {xdoor} cross-element door finding(s) against a ceiling of "
               f"{CROSS_ELEMENT_DOOR_CEILING}. A door the parti declares between two rooms the "

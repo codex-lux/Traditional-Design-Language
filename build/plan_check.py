@@ -1011,6 +1011,29 @@ def drawn_layer(plan, rooms, level_of, C, F):
                   f"{name} declares it stacks over '{so}' and the claim COULD NOT BE EVALUATED: "
                   f"{e['reason']}." + (f" {e['remedy']}" if e.get("remedy") else ""),
                   room=rid, kind="stack-unjudged", over=so, reason=e["reason"])
+    # THE SERVICING CLAIM, JUDGED ON THE PLACED HOUSE (WP-17.1). Seventeen bath-over-wet-room
+    # claims moved from `stacks_over` to `wet_stack_with` (ruled 29 Oct 2026): a bath over a
+    # pantry is a plumbing claim, not a room standing on a room. Moving it out of the structural
+    # fact must not silence it, so it is judged here by `stacking.wet_judge` -- the one reader --
+    # and a chase with nowhere to run is a MINOR finding, as the servicing layer's own isolated
+    # wet room is. It refuses nothing; it is not one of the type's facts.
+    _wk, _wb, _wu = STACKING.wet_judge(plan)
+    out["wet_stacks_broken"] = [e["room"] for e in _wb]
+    for e in _wb:
+        rid, ws = e["room"], e["with"]
+        name = rooms.get(rid, {}).get("name") or rid
+        _add("minor", "drawn",
+              f"{name} declares a wet stack with '{ws}' and is drawn where no chase can serve "
+              f"both — the plans do not overlap across the floor, or share no wall on one level.",
+              room=rid, fix="Place the two wet rooms over one another or wall to wall, or drop "
+                            "the wet_stack_with claim.",
+              kind="wet-stack-shares-no-chase", over=ws)
+    for e in _wu:
+        rid, ws = e["room"], e["with"]
+        name = rooms.get(rid, {}).get("name") or rid
+        _add("info", "drawn",
+              f"{name} declares a wet stack with '{ws}' and the claim COULD NOT BE EVALUATED: "
+              f"{e['reason']}.", room=rid, kind="wet-stack-unjudged", over=ws, reason=e["reason"])
     # A LANDING OVER ITS OWN STAIR, WHICH NOTHING HAD EVER DECLARED UNTIL WP-11.6. This branch
     # runs only where a room's `stacks_over` names the stair's own room; no plan in the corpus
     # said so, so it had never fired. `plans/tidewater-georgian-careful.json` says it now, and

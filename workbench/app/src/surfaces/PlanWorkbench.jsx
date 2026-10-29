@@ -995,7 +995,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                 not an optimiser: seconds-cheap, not deterministic across runs, and nothing it draws
                 asserts that feasibility was proved.{fellBack
                   ? <> The proof was attempted and did not answer — <em>{claim.reason}</em>. </>
-                  : ' '}<em>Prove placement (CP-SAT)</em> above is the act that proves it. </>}
+                  : claim.chosenOverProof ? <> <em>{claim.reason}</em>. </> : ' '}<em>Prove placement (CP-SAT)</em> above is the act that proves it. </>}
             A wall drag deliberately re-scores on the fast search — a hill-climb, not an optimiser —
             because a gesture cannot wait for a proof; every other edit takes the proof where it can
             be had. Either engine trades a room's

@@ -892,6 +892,11 @@ def instantiate(parti_id, brief):
                               for wall in lit]
         if r.get("fixtures"): rec["fixtures"] = r["fixtures"]
         if r.get("stacks_over"): rec["stacks_over"] = r["stacks_over"]
+        # WP-17.1: the servicing claim travels with the structural one. Seventeen bath-over-wet-room
+        # claims moved from `stacks_over` to `wet_stack_with` (ruled 29 Oct 2026); copying only the
+        # first field would have dropped every one of them on the way to the plan record, and a
+        # claim the composer drops is a claim nothing judges.
+        if r.get("wet_stack_with"): rec["wet_stack_with"] = r["wet_stack_with"]
         # WP-11.6: the diagram's own massing composition reaches the plan record. Copied rather
         # than derived, exactly as `stacks_over` above is: a parti that states two elements is
         # making an authored claim about the building, and the placer's `blocks_for` is the one
@@ -931,8 +936,216 @@ def instantiate(parti_id, brief):
     # WP-6.2 — after symmetrise, so a door is dimensioned ONCE and both of its records
     # agree. Before this, every composed door was `{"to": id}` and the renderers guessed.
     derive_openings(plan, brief["style"], log)
+    compose_to_the_type(plan, p, brief, log)
     plan["declared"] = canonical_choices(brief["style"])
     return plan, log, p
+
+
+# --------------------------------------------------------------------- Phase 17, WP-17.2
+# A circulation room whose own record's area band spans this factor or more is OPEN: its band
+# says what is admissible, not what is typical, so its midpoint is not a size. Measured over the
+# eight circulation records: `gallery-corridor` spans 20x (150 to 3,000 sf, proportion 1 to 12)
+# and `overlook` 6.5x; every other runs 2.7x to 3.8x. EDITORIAL: the factor separates the two
+# open bands from the six that state a typical room, and is named so it can be argued with.
+OPEN_BAND_FACTOR = 5.0
+
+
+def _bands(rtype):
+    d = (C["rooms"].get(rtype) or {}).get("dimensions") or {}
+    return d.get("area_sf"), d.get("width_ft"), d.get("length_ft"), d.get("proportion")
+
+
+def _clamp_dims(w, l, rtype):
+    """`(w, l)` brought inside a room type's own bands, in a stated order: short side into the
+    width band, long side into the length band, the ratio under the proportion ceiling, then the
+    area into the area band by scaling both sides. A band the record does not state is skipped."""
+    area, wb, lb, pr = _bands(rtype)
+    s, g = min(w, l), max(w, l)
+    if wb:
+        s = min(max(s, wb[0]), wb[1])
+    if lb:
+        g = min(max(g, lb[0]), lb[1])
+    g = max(g, s)
+    if pr and pr[1] and g > pr[1] * s:
+        g = pr[1] * s
+    if area:
+        a = s * g
+        if a < area[0]:
+            f = math.sqrt(area[0] / a); s, g = s * f, g * f
+        elif a > area[1]:
+            f = math.sqrt(area[1] / a); s, g = s * f, g * f
+    return round(s, 2), round(g, 2)
+
+
+ENTRY_TYPES = ("entry-porch", "vestibule", "entrance-hall")
+
+
+def _entrance_front(plan, parti, brief, log):
+    """The front the house is entered on, read off the diagram's own entry where the brief states
+    none (WP-17.2). Every entrance rule downstream -- the search's entrance anchor, the entrance
+    score, the elevation's door, the hard "entry off its front" fact -- keys off
+    `context.entrance_faces`, and a composed plan carried none unless the brief did, so the porch
+    could be placed on any face and nothing said it was the back.
+
+    The reading: each entry room of the diagram (an entry porch, a vestibule or an entrance hall
+    with a door to the exterior) contributes the walls it declares that the room it doors INTO also
+    declares -- a porch declared S, E and W in front of a passage declared N and S is entered on S.
+    Where those readings agree on exactly one face it is stated, and the decision log says where it
+    came from; where they name none, or several, nothing is stated and the log says the front is
+    not settled by the diagram. A brief that states a front keeps it."""
+    ctx = plan.setdefault("context", {})
+    if ctx.get("entrance_faces"):
+        return
+    rooms = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
+    faces, why = set(), []
+    for r in rooms.values():
+        if r["type"] not in ENTRY_TYPES or not r.get("exterior_walls"):
+            continue
+        if not any(d.get("to") == "exterior" for d in r.get("doors") or []):
+            continue
+        for d in r.get("doors") or []:
+            t = rooms.get(d.get("to"))
+            if not t or not t.get("exterior_walls"):
+                continue
+            if C["rooms"].get(t["type"], {}).get("function_class") == "outdoor":
+                continue
+            both = set(r["exterior_walls"]) & set(t["exterior_walls"])
+            if both:
+                faces |= both
+                why.append(f"{r.get('name') or r['id']} ({'/'.join(r['exterior_walls'])}) into "
+                           f"{t.get('name') or t['id']} ({'/'.join(t['exterior_walls'])})")
+    if len(faces) == 1:
+        (face,) = faces
+        ctx["entrance_faces"] = face          # one compass point, as the plan schema states it
+        log.append(f"JUDGMENT: the house is entered on its {face} front, read off the diagram's own "
+                   f"entry -- {'; '.join(why)} -- because the brief states no front. Every entrance "
+                   f"rule downstream reads this.")
+    else:
+        log.append("DISCLOSURE: the diagram's entry does not settle which front the house is entered "
+                   "on" + (f" (it reads {', '.join(sorted(faces))})" if faces else "") +
+                   ", and the brief states none, so no entrance front is stated and the entrance "
+                   "rules downstream have nothing to read.")
+
+
+def compose_to_the_type(plan, parti, brief, log):
+    """Pose a programme the type's own facts can hold (Phase 17, WP-17.2).
+
+    THE MEASUREMENT THAT DECIDED IT. Every composed two-storey candidate was refused a drawing
+    (29 Oct 2026), and a read-only spike held every fact, every proportion band, every size and
+    every door hard on CP-SAT: the foursquare became drawable, with every room in band, once its
+    upper gallery corridor was sized from its own record -- and not before. The composer had
+    sized that corridor from the midpoint of a 150-3,000 sf band at the midpoint of a 1-12
+    proportion: 13.4 x 87 ft, 1,166 sf, 57% of the upper programme, inside a 48 ft block.
+
+    1. AN OPEN-BAND CIRCULATION ROOM is sized from what it is for: its record's working width (the
+       width band's floor -- `gallery-corridor` states 48 in as "the working minimum for a
+       principal corridor") and the run its doors need (each door's own `openings.required_wall_ft`,
+       the doors split over its two long walls), never below its own length or area floor.
+    2. A ROOM WITH `stacks_over` takes the plan of the room it stands over, brought inside its OWN
+       bands (`_clamp_dims`). The chamber takes the parlour's cell; the landing takes what its band
+       admits of the stair hall's. EDITORIAL, and marked so: the corpus states that the two rooms
+       stack and never that they share a size; sizing one from the other is the reading that lets
+       the stated stack be held with both rooms in band.
+    3. THE BRIEF'S BATHROOMS are read, and a shortfall is SAID -- "this diagram has no place for
+       one. Not added." -- on the must_have precedent: a room the parti has no place for is never
+       invented.
+    4. THE PLAN NAMES ITS PARTI (WP-11.2's field), so every later re-solve -- the bench, the
+       Drawing Set, the elevation the card's own rank is judged on -- builds this diagram's house
+       on this diagram's bay module, not the placer's 10 ft default."""
+    OP = _mod("openings", f"{ROOT}/build/openings.py")
+    plan["parti"] = parti["id"]
+    rooms = {r["id"]: (lv["index"], r) for lv in plan["levels"] for r in lv["rooms"]}
+
+    sized = set()
+    for rid, (lvl, r) in rooms.items():
+        rt = C["rooms"].get(r["type"]) or {}
+        area, wb, lb, _pr = _bands(r["type"])
+        if rt.get("function_class") != "circulation" or not area or area[1] < OPEN_BAND_FACTOR * area[0]:
+            continue
+        sized.add(rid)
+        width = float(wb[0]) if wb else min(r["width_ft"], r["length_ft"])
+        run = sum(OP.required_wall_ft(float(d.get("width_ft") or 3.0))
+                  for d in (r.get("doors") or [])) / 2.0
+        length = max(run, float(lb[0]) if lb else 0.0, area[0] / width)
+        before = (r["width_ft"], r["length_ft"])
+        r["width_ft"], r["length_ft"] = round(width, 2), round(length, 2)
+        log.append(f"Sized {r.get('name') or rid} from what it is for, not from its band's midpoint: "
+                   f"{width:g} ft wide (its record's working minimum) by {length:.1f} ft (the run its "
+                   f"{len(r.get('doors') or [])} doors need, never below its own floors), where the "
+                   f"midpoint gave {before[0]:g} x {before[1]:g} ft.")
+
+    followers = [rid for rid, (lvl, r) in rooms.items()
+                 if r.get("stacks_over") in rooms and rooms[r["stacks_over"]][0] == lvl - 1]
+
+    def _follow():
+        for rid in followers:
+            r, t = rooms[rid][1], rooms[rooms[rid][1]["stacks_over"]][1]
+            r["width_ft"], r["length_ft"] = _clamp_dims(t["width_ft"], t["length_ft"], r["type"])
+
+    befores = {rid: (rooms[rid][1]["width_ft"], rooms[rid][1]["length_ft"]) for rid in followers}
+    _follow()
+    for rid in followers:
+        r, so = rooms[rid][1], rooms[rid][1]["stacks_over"]
+        t = rooms[so][1]
+        log.append(f"JUDGMENT (editorial): {r.get('name') or rid} takes the plan of "
+                   f"{t.get('name') or so}, which it stands over, inside its own bands: "
+                   f"{r['width_ft']:g} x {r['length_ft']:g} ft where its band midpoint gave "
+                   f"{befores[rid][0]:g} x {befores[rid][1]:g} ft. "
+                   f"The corpus states that the two stack; sizing one from the other is what lets "
+                   f"the stack be held with both rooms in band.")
+
+    # THE AREA THE CORRIDOR GAVE BACK. Sizing a circulation room from what it is for returns the
+    # area its band midpoint had spent -- on the foursquare a 1,166 sf corridor became a 150 sf one,
+    # a thousand square feet the brief asked for and the house no longer had. The rooms the type
+    # pass did not size, and that carry no `area_weight` share (OQ 62: a share is not renegotiated),
+    # grow back toward the brief's target inside their own area bands, and each room that stands
+    # over one of them follows it. Only ever up: a house the pass made larger than the brief is
+    # left to `reclaim`, which already measures and states that.
+    target = float(brief.get("target_area_sf") or 0)
+    tol = brief.get("area_tolerance", 0.12)
+
+    def _heated():
+        return sum(r["width_ft"] * r["length_ft"] for _l, r in rooms.values()
+                   if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
+
+    start = _heated()
+    if target and start < target * (1 - tol):
+        held = set(sized) | set(followers)
+        for _ in range(6):
+            now = _heated()
+            if now >= target * (1 - tol / 2):
+                break
+            free = [r for rid, (_l, r) in rooms.items()
+                    if rid not in held and not r.get("area_weight")
+                    and C["rooms"].get(r["type"], {}).get("function_class") != "outdoor"]
+            free_a = sum(r["width_ft"] * r["length_ft"] for r in free)
+            if free_a <= 0:
+                break
+            k = math.sqrt(max(1.0, min(1.8, (target - (now - free_a)) / free_a)))
+            if k <= 1.0001:
+                break
+            for r in free:
+                area, _wb, _lb, _pr = _bands(r["type"])
+                w, l = r["width_ft"] * k, r["length_ft"] * k
+                if area and w * l > area[1]:
+                    f = math.sqrt(area[1] / (w * l)); w, l = w * f, l * f
+                r["width_ft"], r["length_ft"] = round(w, 2), round(l, 2)
+            _follow()
+        log.append(f"Grew the rooms the type pass did not size back toward the brief: {start:.0f} sf "
+                   f"after sizing the circulation from what it is for, {_heated():.0f} sf now, against "
+                   f"a {target:.0f} sf target (each room inside its own area band, each room that "
+                   f"stands over another following it).")
+
+    _entrance_front(plan, parti, brief, log)
+
+    want = brief.get("bathrooms")
+    if want is not None:
+        have = sum(1.0 if r["type"] in ("bathroom", "primary-bathroom") else
+                   0.5 if r["type"] == "powder-room" else 0.0 for _l, r in rooms.values())
+        if have < float(want):
+            log.append(f"JUDGMENT: the brief asks for {float(want):g} bathrooms and this diagram "
+                       f"has a place for {have:g}. Not added -- the position matters more than "
+                       f"the presence.")
 
 # --------------------------------------------------------------------- the garage
 # WP-4.3. The garage is the one function no traditional style has a rule for, so it is the
@@ -1796,8 +2009,19 @@ def considered(brief, candidates=4):
     return pick_partis(brief, limit=max(candidates + 4, 12))
 
 
+# PHASE 17, WP-17.6: how many diagrams past the requested set the placed loop may place while it
+# looks for drawable ones (ruling 3 of 29 Oct 2026, "fill from the pool"). Each costs a placement of
+# up to `geometry.BUDGET_COMPOSE_S`, on the one-worker job pool, so it is bounded and stated.
+POOL_FILL_PLACEMENTS = 4
+# ...and the set's derived budget is bounded where the asked set is large: 24 candidates at a
+# placement each would be over half an hour of the one worker. The same figure as the workbench's
+# and the MCP tool's ceiling on a STATED budget (`mcp_server/core.py::REVISE_MAX_BUDGET_S`), so a
+# derived budget can never exceed one a caller is allowed to state.
+SET_BUDGET_MAX_S = 600.0
+
+
 def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4,
-            revise_engine="auto", revise_budget_s=120.0):
+            revise_engine="auto", revise_budget_s=None):
     # on_candidate: optional callable invoked once per completed (kept) candidate with its
     # summary dict, plan excluded. Added for the workbench's compose progress stream;
     # None leaves behaviour identical and the CLI never passes it. A diagram the lot drops is
@@ -1963,6 +2187,15 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # the budget does not bound, stated: each candidate's FIRST placement (up to a 25 s proof
     # on `auto`), one in-flight critique past its share, and the reclaim's re-critique; the
     # worst case is candidates x ~35 s + the budget.
+    # THE SET'S BUDGET IS DERIVED WHERE NONE IS PASSED (WP-17.6). It was a flat 120 s, which at a
+    # per-solve budget that can decide a two-storey house (`BUDGET_COMPOSE_S`) placed two candidates
+    # and returned the rest unplaced; it is now a placement per asked candidate plus the pool-fill's,
+    # each with a margin for its critique. A caller passing a budget (the MCP tool, a route body)
+    # keeps it.
+    _GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
+    if revise_budget_s is None and revise:
+        revise_budget_s = min(SET_BUDGET_MAX_S,
+                              (candidates + POOL_FILL_PLACEMENTS) * (_GEO.BUDGET_COMPOSE_S + 10.0))
     deadline = None if revise_budget_s is None else time.perf_counter() + float(revise_budget_s)
 
     def _skip_revision(c, rank, skipped, line):
@@ -1983,7 +2216,8 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         parti_rec = PARTIS[c["parti"]]
         declared_pass = c["plan"].pop("revision_report", None)
         rv = RV.revise(c["plan"], rounds=revise_rounds, engine=revise_engine,
-                       budget_s=share, brief=brief, parti=parti_rec, place=True, C=C)
+                       budget_s=share, brief=brief, parti=parti_rec, place=True, C=C,
+                       time_limit_s=_GEO.BUDGET_COMPOSE_S)
         plan2 = rv["plan"]
         if declared_pass:
             plan2["revision_report"]["declared_pass"] = declared_pass.get("summary")
@@ -2039,6 +2273,12 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         for rank, c in enumerate(out[:candidates], 1):
             remaining = None if deadline is None else deadline - time.perf_counter()
             share = None if remaining is None else max(remaining / (n_out - rank + 1), min(remaining, 1.0))
+            # WP-17.6: no candidate's loop may spend more than a placement and a half -- each
+            # round re-places at `BUDGET_COMPOSE_S` -- so the rest of the set and the pool-fill are
+            # not starved by the leader's revision rounds (the first version of this budget let one
+            # candidate take it all, the WP-9.4 audit's finding, in a new place).
+            if share is not None:
+                share = min(share, 1.5 * _GEO.BUDGET_COMPOSE_S)
             if remaining is not None and remaining < 1.0:
                 _skip_revision(c, rank,
                                (f"the set's revise budget ({revise_budget_s:g} s) was spent on "
@@ -2049,6 +2289,41 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                 continue
             _revise_one(c, rank, share)
         out[:candidates] = sorted(out[:candidates], key=_sort_key)
+    # FILL FROM THE POOL (WP-17.6, ruling 3 of 29 Oct 2026). Until this, the four were chosen
+    # before any was placed and nothing tried for a drawable house: measured on Lucas's brief, four
+    # of four came back refused while nothing further down the ranked pool was ever placed. Where
+    # fewer of the set are drawable than were asked for, the loop places down the pool -- at most
+    # `POOL_FILL_PLACEMENTS`, inside the set's budget -- and a candidate it finds DRAWABLE joins the
+    # set. The set stays ordered by `rank_key` (ruling 7: judged fatals first, then the standing), so
+    # a drawable house carrying a fatal is offered and never leads a fatal-free one; each diagram
+    # placed and still refused is named with its reason, and each the budget did not reach is named.
+    pool_fill = None
+    added = []
+    if revise and out and len(out) > candidates:
+        def _drawable(c):
+            return c.get("revision") is not None and not c.get("refused")
+        have = sum(1 for c in out[:candidates] if _drawable(c))
+        placed, passed, i = 0, [], candidates
+        while have < candidates and i < len(out) and placed < POOL_FILL_PLACEMENTS:
+            remaining = None if deadline is None else deadline - time.perf_counter()
+            if remaining is not None and remaining < 5.0:
+                break
+            c = out[i]
+            i += 1
+            placed += 1
+            _revise_one(c, i, None if remaining is None else min(remaining, _GEO.BUDGET_COMPOSE_S))
+            if _drawable(c):
+                added.append(c)
+                have += 1
+            else:
+                ref = c.get("refused") or {}
+                passed.append({"parti": c["parti"], "parti_name": c["parti_name"],
+                               "why": ("refused: " + ", ".join(ref.get("facts") or [ref.get("kind") or "?"])
+                                       if ref else "not placed")})
+        pool_fill = {"asked": candidates, "drawable_in_set": sum(1 for c in out[:candidates] if _drawable(c)),
+                     "placed_from_pool": placed, "added": [c["parti"] for c in added],
+                     "passed_over": passed,
+                     "not_reached": [c["parti"] for c in out[i:]] if have < candidates else []}
     # THE NAMED PARTI'S GUARANTEED PLACE (WP-14.19, ruled 25 Sep 2026). A parti named by the brief
     # is guaranteed a place among the candidates, and the guarantee is a place and not a rank: it is
     # scored by the same arithmetic as every other diagram and sorted by the same key, so if the
@@ -2059,7 +2334,7 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # The appended candidate is revised after the set, on whatever the set's budget left, and says
     # so where the budget is spent. If the lot drops it there is nothing to append, and the result
     # says so rather than returning a set that silently lacks the diagram the brief asked for.
-    returned = out[:candidates]
+    returned = sorted(out[:candidates] + added, key=_sort_key)
     appended = False
     if named and named not in {c["parti"] for c in returned}:
         extra = next((c for c in out if c["parti"] == named), None)
@@ -2130,6 +2405,17 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             line = (f"The brief named {named}, and the composer's own ranking returned it, as candidate "
                     f"{np_['rank']}. Being named bought it no points.")
         result["how_to_read_this"].append(line + borrowed)
+    if pool_fill is not None:
+        result["pool_fill"] = pool_fill
+        if pool_fill["placed_from_pool"]:
+            result["how_to_read_this"].append(
+                f"Fewer of the {candidates} candidates asked for could be drawn than were asked for, so "
+                f"{pool_fill['placed_from_pool']} more diagram(s) were placed from further down the "
+                f"ranked pool: {len(pool_fill['added'])} drawable and added to the set "
+                f"({', '.join(pool_fill['added']) or 'none'}), "
+                f"{len(pool_fill['passed_over'])} still refused and passed over -- see pool_fill. The "
+                f"set keeps its order: fatal-free first, then a house that may be drawn before one "
+                f"that may not.")
     if dropped_lot:
         result["dropped_lot_infeasible"] = dropped_lot
         result["how_to_read_this"].append(
@@ -2144,7 +2430,7 @@ def main():
     ap.add_argument("--no-revise", action="store_true", help="return the candidates as composed, without the placed revision loop")
     ap.add_argument("--revise-rounds", type=int, default=4)
     ap.add_argument("--revise-engine", default="auto", choices=["auto", "cp", "heuristic"])
-    ap.add_argument("--revise-budget-s", type=float, default=120.0)
+    ap.add_argument("--revise-budget-s", type=float, default=None)
     a = ap.parse_args()
     brief = json.load(open(a.brief))
     import jsonschema

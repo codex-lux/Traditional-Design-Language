@@ -135,6 +135,22 @@ test('the least-bad relaxation after an INFEASIBLE proof is searched, never prov
   assert.equal(c.fellBack, true);
 });
 
+test('the search drawn over a REFUSED proof did not fall back: the proof answered (WP-17.6)', () => {
+  /* Rulings 1 and 6 of 29 Oct 2026. Mutation: `fellBack` no longer excluding it, so the bench
+     says "the proof was attempted and did not answer" of a proof that answered and was refused. */
+  const reason = 'the proof was refused a drawing (stacks not held); the search\'s placement holds every type fact';
+  const c = engineClaim({ engine: 'heuristic', chosen_over_the_proof: true, reason,
+    proof: { status: 'OPTIMAL', refused: { kind: 'downgraded', facts: ['stacks'] } } });
+  assert.equal(c.verdict, 'searched');
+  assert.equal(c.proved, false, 'a placement chosen over a proof is still not itself a proof');
+  assert.equal(c.chosenOverProof, true);
+  assert.equal(c.fellBack, false);
+  assert.equal(c.reason, reason);
+  assert.equal(engineClaim({ engine: 'heuristic', chosen_over_the_proof: 'yes' }).chosenOverProof, false,
+    'only the boolean the geometry layer writes');
+  assert.equal(engineClaim({ engine: 'cp-sat', chosen_over_the_proof: true, status: 'OPTIMAL' }).chosenOverProof, false);
+});
+
 // ---------------------------------------------------------------- no record
 test('no solver block at all is unjudged, not searched and not proved', () => {
   for (const s of [undefined, null, {}, { engine: '' }, 'cp-sat']) {

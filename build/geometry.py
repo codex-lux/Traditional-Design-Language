@@ -1940,17 +1940,6 @@ HYPHEN_DEFAULT_FT = 14.0   # dependency-and-hyphen.json bands hyphen_length_ft 1
 ELEMENT_GRID_FT = 1.0
 
 
-def grid_allowance_ft():
-    """The depth a non-main element's box must carry beyond its contents, in feet.
-
-    Two quanta, because `geometry_cp._element_boxes` rounds BOTH edges of an axis inward --
-    `ceil` the low one, `floor` the high one -- and a dependency's origin is a half-foot
-    (`blocks_for` centres it on the main block's axis) so both roundings bite. One function
-    because two sizings need it, `flank_sizes`' depth and `blocks_for`'s hyphen, and this
-    repository's standing lesson is that the second transcription is the one that drifts.
-    """
-    return 2.0 * ELEMENT_GRID_FT
-
 def is_block_tag(v):
     """Is this `block` field a massing-element id? One rule, read in both places that ask.
 
@@ -1969,6 +1958,29 @@ def is_block_tag(v):
     pointing at a caller that no longer exists is the "until X lands" class (WP-6.4).
     """
     return isinstance(v, str) and bool(v.strip())
+
+
+def _grid_y(h, main_h):
+    """The element's y: exactly centred where `_centred_depth` made that integral (an integral main
+    block -- every prover footprint, `_snap_fpd`), else the whole foot nearest the centring. The
+    second case is the SEARCH's own unsnapped footprint (the careful record's main block is
+    45 x 37.24 there), where an exactly centred element would land on a fractional y and the
+    prover's inward rounding of that box would take its strips back; there the element stands up
+    to half a foot off the axis, which is said here because it is a cost."""
+    y = (main_h - h) / 2.0
+    return y if abs(y - round(y)) < 1e-6 else float(round(y))
+
+
+def _centred_depth(h, main_h):
+    """The whole-foot depth at or above `h` that centres EXACTLY on a main block of depth `main_h`
+    (WP-17.4): where the main block is integral, `(main_h - h)` must be even, or the centred element
+    lands on a half-foot and the prover's inward rounding takes a strip off each side. A
+    non-integral main block (the search's own footprint, which only the prover snaps) is left alone."""
+    if abs(main_h - round(main_h)) > 1e-6:
+        return h
+    if (int(round(main_h)) - int(round(h))) % 2:
+        h += 1.0
+    return h
 
 
 def flank_sizes(prep, bay, level=0):
@@ -2028,9 +2040,19 @@ def flank_sizes(prep, bay, level=0):
         # and the plan was infeasible before a single declared fact was read. Measured against a
         # 0.97 floor: dependency 690 sf of box for 701 sf of rooms, hyphen 105 for 112. The
         # allowance is DERIVED by solving `(W - 2g)(H - 2g) >= need` for H, not chosen.
-        g = grid_allowance_ft()
-        usable_w = max(ELEMENT_GRID_FT, W - g)
-        H = round(need_body / usable_w + g, 2) if W else 0.0
+        # PHASE 17, WP-17.4 (ruled by Lucas, 29 Oct 2026, ruling 4): A DERIVED ELEMENT IS STATED ON
+        # THE WHOLE-FOOT GRID. The box used to be `need / (W - g) + g` -- two quanta of allowance so
+        # that `geometry_cp._element_boxes`' inward rounding could not leave it smaller than its
+        # rooms -- and centred on a half-foot, so the prover tiled an integer box while the gate
+        # measured the float one and read the difference (5.5 sf on the hyphen, 28.6 on the wing,
+        # measured) as floor in no room. The element is now integral at its source: the depth is the
+        # whole foot at or above the rooms' need, the gap a whole foot, and `blocks_for` centres it
+        # exactly (parity with the main block's depth), so the inward rounding is the identity and
+        # nothing is left to measure. The report records that this is WP-14.21's D3 shape -- an
+        # element landed on whole feet -- made legitimate by the ruling, and that no RECORD is
+        # sized to the grid: the placer states its own boxes.
+        H = float(math.ceil(need_body / W - 1e-9)) if W else 0.0
+        gap = float(math.ceil(gap - 1e-9))
         out.append({"id": bid, "side": side, "gap": gap, "W": W, "H": H,
                     "hyph": hyph, "body": body})
     return out
@@ -2107,12 +2129,14 @@ def blocks_for(plan, fp, prep, level=0):
             # 7 x 16 = 112 sf and the integer box held 105, which the coverage floor then asked
             # for 108.6 of. The WIDTH takes no allowance: that is the gap between two masses, a
             # real dimension of the house, and its origin is integral by construction.
-            hh = min(H, float(hyph[0].get("length_ft") or H)) + grid_allowance_ft()
+            hh = float(math.ceil(min(H, float(hyph[0].get("length_ft") or H)) - 1e-9))
+            hh = _centred_depth(hh, fp["H"])
             out.append({"id": bid + "-hyphen", "role": "hyphen", "x": round(hx, 2),
-                        "y": round((fp["H"] - hh) / 2.0, 2), "W": round(gap, 2), "H": round(hh, 2),
+                        "y": round(_grid_y(hh, fp["H"]), 2), "W": round(gap, 2), "H": round(hh, 2),
                         "rooms": [r["id"] for r in hyph], "attached_to": "main", "side": side})
+        H = _centred_depth(H, fp["H"])
         out.append({"id": bid, "role": "dependency", "x": round(x, 2),
-                    "y": round((fp["H"] - H) / 2.0, 2),   # centred on the main block's axis
+                    "y": round(_grid_y(H, fp["H"]), 2),   # centred on the main block's axis
                     "W": W, "H": H, "rooms": [r["id"] for r in el["body"]],
                     "attached_to": "main", "side": side})
     return out
@@ -3822,6 +3846,13 @@ MAX_CACHEABLE_BYTES = 1024 * 1024
 # collapse them again should read `docs/reports/infrastructure-audit.md` first.
 BUDGET_BATCH_S = 40.0
 BUDGET_INTERACTIVE_S = 25.0
+# A COMPOSE JOB'S PER-SOLVE BUDGET (Phase 17, WP-17.6), passed by `compose` explicitly and never by
+# changing a default, because `revise.py`'s and `critique.py`'s 25 s defaults serve the synchronous
+# `/api/plan/critique` route and the chip revise jobs, which are R11's interactive budget. A job is
+# not a person waiting (WP-13.9's own sentence below). Measured on the composed foursquare (4 cores,
+# shared with a running build): the prover's portfolio decides the grown box in 11-29 s, and at a
+# 40 s budget its slices were too short to; 60 s gives the portfolio 45.
+BUDGET_COMPOSE_S = 60.0
 
 # AND A THIRD, FOR THE ROUNDS THE BENCH RUNS BEFORE IT DRAWS (WP-13.9, ruled 19 Sep 2026).
 # Lucas read a sheet carrying sixty drawn findings beside a revision panel reporting nothing
@@ -3938,6 +3969,11 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
         except Exception as exc:                       # never lose a good placement to it
             out.setdefault("geometry_report", {})["openings_error"] = (
                 f"could not place openings: {exc.__class__.__name__}: {exc}")
+        # WHICH DECLARED RECORD THIS IS A PLACEMENT OF (Phase 17, WP-17.3). Every surface that
+        # is handed a placed record decides by this whether the placement is still the house's:
+        # a record edited since it was placed declares a different house, and its old rectangles
+        # are a drawing of the house before the edit.
+        (out.setdefault("geometry_report", {}).setdefault("solver", {}))["input_digest"] = declared_digest(plan)
     # And a large INPUT is not remembered at all. Stated precisely because the first version of
     # this comment said "the VALUE is bounded too" and the guard below reads len(plan_s) — the
     # input, not the cached result. The result is a solved plan, strictly larger than the record
@@ -3955,6 +3991,29 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
             _SOLVE_CACHE.clear()
         _SOLVE_CACHE[key] = copy.deepcopy(out)
     return out
+
+
+def declared_digest(plan):
+    """The fingerprint of a record's DECLARED half: everything a placement did not write
+    (`openings.strip_placement`'s keys) and not the revision loop's account of itself. A placed
+    record carries the digest of the declared record it was placed from
+    (`geometry_report.solver.input_digest`), so `declared_digest(placed) == input_digest` says the
+    placement is of THIS record and not of one before an edit (WP-17.3, one house, one placement)."""
+    OP = _mod("openings", f"{ROOT}/build/openings.py")
+    d = OP.strip_placement(copy.deepcopy(plan))
+    d.pop("revision_report", None)
+    return hashlib.sha256(json.dumps(d, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+
+def carries_its_own_placement(plan):
+    """True where `plan` carries a placement AND that placement is of this declared record -- the
+    digest it was stamped with equals the digest of what it declares now. A record with rectangles
+    and no digest, or a digest that no longer matches, is a record whose placement may be of
+    another house; it is re-solved, never drawn as it stands."""
+    if not any(r.get("geometry") for lv in plan.get("levels") or [] for r in lv.get("rooms") or []):
+        return False
+    got = (((plan.get("geometry_report") or {}).get("solver") or {}).get("input_digest"))
+    return bool(got) and got == declared_digest(plan)
 
 
 def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
@@ -4048,8 +4107,57 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
                           f"({status}); fell back to the hill-climb"}
         return out
     out = _finish(plan, res["best"], res["fpd"], res["levels"], solver=res["solver"])
+    if engine == "auto":
+        drawn = _the_search_where_it_holds_the_facts(out, plan, parti, candidates, seed)
+        if drawn is not None:
+            return drawn
     _offer_the_alternative(out, plan, parti, candidates, seed)
     return out
+
+
+def _the_search_where_it_holds_the_facts(out, plan, parti, candidates, seed):
+    """RULINGS 1 AND 6 OF 29 OCT 2026: a placement that holds the type's facts outranks one that
+    releases them, WHICHEVER ENGINE -- re-ruling 4 Sep's "the proof outranks the search on
+    feasibility" -- and two placements are compared on the NEVER-DOWNGRADE facts first (rooms drawn
+    to their declared size, rooms inside their own band, doors placed), then on the type's facts.
+
+    So where the PROOF is refused a drawing, the search's placement is drawn instead -- but only if
+    it holds every fact the refusal reads AND is no worse than the proof on each never-downgrade
+    count. A search that holds the stacks by drawing a room past its band, or by leaving a door
+    unplaced, is never drawn: that is ruling 6's whole point, and the search draws rooms out of
+    band on every two-storey house it has been measured on (WP-11.8). The proof's placement is kept
+    as `solver.proof` and the three counts of both travel together, so the plate can say which it
+    drew and why. Returns the record to draw, or None to keep the proof.
+
+    Costs a heuristic solve (~0.3 s measured on the shipped plans) and ONLY on a refused proof."""
+    if engine_of(out) != "cp-sat":
+        return None
+    proof_ref = (out.get("geometry_report") or {}).get("refused")
+    if not proof_ref:
+        return None
+    alt = solve_heuristic(copy.deepcopy(plan), parti, candidates, seed)
+    if "error" in alt or (alt.get("geometry_report") or {}).get("refused"):
+        return None
+    DR = _mod("drawability", f"{ROOT}/build/drawability.py")
+    ok, n_alt, n_proof = DR.no_worse(alt, out)
+    if not ok:
+        return None
+    sv_proof = (out.get("geometry_report") or {}).get("solver") or {}
+    alt["geometry_report"]["solver"] = {
+        "engine": "heuristic",
+        "reason": ("the proof was refused a drawing (" + ", ".join(proof_ref.get("facts") or [proof_ref.get("kind") or "?"])
+                   + " not held); the search's placement holds every type fact and is no worse on "
+                     "rooms drawn to size, rooms in their band and doors placed, so it is the one drawn "
+                     "(rulings 1 and 6 of 29 Oct 2026)"),
+        "chosen_over_the_proof": True,
+        "never_downgrade": {"drawn": n_alt, "proof": n_proof},
+        "proof": {"status": sv_proof.get("status"), "refused": proof_ref,
+                  "downgraded_wall_pins": sv_proof.get("downgraded_wall_pins") or []}}
+    return alt
+
+
+def engine_of(out):
+    return (((out or {}).get("geometry_report") or {}).get("solver") or {}).get("engine")
 
 
 def _offer_the_alternative(out, plan, parti, candidates, seed):

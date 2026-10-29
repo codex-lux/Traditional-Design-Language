@@ -21,7 +21,7 @@ import {
 } from './surfaces/drawingFaces.js';
 import { KINDS } from './surfaces/drawingKinds.js';
 import { FAULT_GROUPS, faultGroups, groupRows, styleFaultIds } from './faults/groups.js';
-import { nativityLine, setSize, NATIVITY_TERMS } from './candidateOrder.js';
+import { nativityLine, setSize, poolPassedOver, NATIVITY_TERMS } from './candidateOrder.js';
 
 const ROOT = new URL('../../../', import.meta.url);
 const read = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -193,17 +193,48 @@ test('the Fault Corpus groups by the served partition and derives none', () => {
 test('the strip counts the set asked for, and names the one the brief\'s parti appended', () => {
   const cands = [{ parti: 'own' }, { parti: 'named', parti_name: 'Named' }];
   const appended = { candidates: cands, named_parti: { parti: 'named', returned: true, appended: true } };
-  assert.deepEqual(setSize(appended, 1), { own: 1, asked: 1, appended: { parti: 'named', name: 'Named', index: 1 } });
+  assert.deepEqual(setSize(appended, 1), { own: 1, asked: 1, appended: { parti: 'named', name: 'Named', index: 1 }, filled: [] });
   // returned by the ranking itself: counted in the set, not appended
   const ranked = { candidates: cands, named_parti: { parti: 'named', returned: true, appended: false } };
-  assert.deepEqual(setSize(ranked, 2), { own: 2, asked: 2, appended: null });
+  assert.deepEqual(setSize(ranked, 2), { own: 2, asked: 2, appended: null, filled: [] });
   // not returned at all, or nothing named: the set is what came back
   assert.deepEqual(setSize({ candidates: cands, named_parti: { parti: 'x', returned: false } }, 4),
-    { own: 2, asked: 4, appended: null });
-  assert.deepEqual(setSize({ candidates: cands }, 4), { own: 2, asked: 4, appended: null });
-  assert.deepEqual(setSize(null, 4), { own: 0, asked: 4, appended: null });
+    { own: 2, asked: 4, appended: null, filled: [] });
+  assert.deepEqual(setSize({ candidates: cands }, 4), { own: 2, asked: 4, appended: null, filled: [] });
+  assert.deepEqual(setSize(null, 4), { own: 0, asked: 4, appended: null, filled: [] });
   // never "returned 2 of 1": the set's own count cannot pass what was asked when one was appended
   assert.ok(setSize(appended, 1).own <= 1);
+});
+
+test('the strip counts a house filled from the pool out of the set, and names it (WP-17.6)', () => {
+  /* Mutations: `filled` not subtracted from `own` ("returned 6 of 4"), every candidate counted as
+     filled, or an appended parti also in `pool_fill.added` counted twice. */
+  const cands = [{ parti: 'a' }, { parti: 'b' }, { parti: 'c' }, { parti: 'd' },
+    { parti: 'e', parti_name: 'E house' }, { parti: 'f' }];
+  const r = { candidates: cands, pool_fill: { asked: 4, added: ['e', 'f'], passed_over: [], not_reached: [] } };
+  assert.deepEqual(setSize(r, 4), { own: 4, asked: 4, appended: null,
+    filled: [{ parti: 'e', name: 'E house', index: 4 }, { parti: 'f', name: 'f', index: 5 }] });
+  const both = { candidates: cands.slice(0, 5), pool_fill: { added: ['e'] },
+    named_parti: { parti: 'e', returned: true, appended: true } };
+  const s = setSize(both, 4);
+  assert.equal(s.own, 4);
+  assert.equal(s.appended.parti, 'e');
+  assert.deepEqual(s.filled, [], 'one house is counted once, as appended');
+  assert.deepEqual(setSize({ candidates: cands, pool_fill: { added: [] } }, 4).filled, []);
+  assert.equal(setSize({ candidates: cands, pool_fill: null }, 6).own, 6);
+});
+
+test('the passed-over diagrams and the ones never reached are read from the composer (WP-17.6)', () => {
+  const r = { pool_fill: { passed_over: [{ parti: 'p', parti_name: 'P', why: 'refused: stacks' }, null, {}],
+    not_reached: ['q', ''] } };
+  assert.deepEqual(poolPassedOver(r), { passed: [{ parti: 'p', name: 'P', why: 'refused: stacks' }], notReached: ['q'] });
+  assert.deepEqual(poolPassedOver({}), { passed: [], notReached: [] });
+  assert.deepEqual(poolPassedOver(null), { passed: [], notReached: [] });
+  const cs = live(read('workbench/app/src/surfaces/CandidateSet.jsx'));
+  assert.match(cs, /const pool = poolPassedOver\(result\)/);
+  assert.match(cs, /<Term id="filled-from-the-pool" \/>/);
+  assert.match(cs, /data-pool-filled=/);
+  assert.ok(RECORDS.has('filled-from-the-pool'));
 });
 
 test('a lineage column reads as lineage, and nothing is worded before an unserved nativity', () => {

@@ -1213,6 +1213,31 @@ def _forward(res):
             if k in ("error", "refused_placement", "unsolved", "detail")}
 
 
+def _strip(plan):
+    """A copy of `plan` with every key a placement wrote removed: the declared record."""
+    OP = core._mod("openings", os.path.join(ROOT, "build", "openings.py"))
+    d = OP.strip_placement(core.copy_json(plan))
+    d.pop("revision_report", None)
+    return d
+
+
+def carried(plan):
+    """The placement `plan` carries, RE-JUDGED, where it is a placement of this declared record;
+    None where it carries none or one of another record (WP-17.3). The verdict is written by
+    `typefacts.judge` here -- the one spelling `geometry._disclose` calls -- never read off what the
+    client sent; a placement that cannot be judged is None, and is re-solved."""
+    geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    if not geo.carries_its_own_placement(plan):
+        return None
+    out = core.copy_json(plan)
+    out.pop("revision_report", None)
+    try:
+        _typefacts().judge(out)
+    except Exception:                               # noqa: BLE001 -- unjudged: re-solve instead
+        return None
+    return out
+
+
 def _placed(plan, parti=None, candidates=250):
     """Place the plan ONCE, on the proving engine, for every sheet in a drawing set.
 
@@ -1223,9 +1248,13 @@ def _placed(plan, parti=None, candidates=250):
     of the same house, and the section beside it was a third. One drawing set is one
     building or it is nothing.
 
-    A record that already carries `geometry` is returned untouched -- a bench plan the
-    client has already had placed must not be re-solved out from under the sheet the reader
-    is looking at, which is the same rule `_solved_copy` applies.
+    A record that already carries `geometry` OF ITSELF is returned untouched -- a bench plan
+    the client has already had placed must not be re-solved out from under the sheet the reader
+    is looking at. "Of itself" is Phase 17's (WP-17.3): the placement's `solver.input_digest`
+    must equal the digest of what the record declares now, or the rectangles are a drawing of
+    the house before an edit, and the record is stripped and placed again.
+    `export_dxf._solved_copy` keeps the older rule (any carried geometry) for its CLI and
+    library path; every user-facing export reaches it through here, already placed.
 
     **THE SHORT CIRCUIT RE-JUDGES, AND THAT IS WP-13.4'S HALF OF IT.** A carried record never
     reaches a record writer, so `geometry._disclose` never runs on it and nothing has decided
@@ -1238,19 +1267,26 @@ def _placed(plan, parti=None, candidates=250):
     as it stands, which is the guarantee this branch exists for.
     """
     TF = _typefacts()
-    if any("geometry" in r for lv in plan.get("levels", []) for r in lv["rooms"]):
-        try:
-            ref = TF.judge(plan)
-        except Exception as e:                      # noqa: BLE001 -- unjudged, not refused
-            # A record we could not measure is COULD NOT EVALUATE and is not a refusal: the
-            # three states are held, downgraded and unjudged, and collapsing the third into
-            # either of the others is what this corpus names first.
-            return {"error": f"the placement this record carries could not be judged: "
-                             f"{type(e).__name__}: {str(e)[:200]}", "unsolved": True}
-        if ref:
-            return refused_response(ref)
-        return plan
     geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    # PHASE 17, WP-17.3: a carried placement is the house only where it is a placement OF THIS
+    # RECORD (`geometry.carries_its_own_placement`). A record edited since it was placed carried
+    # its old rectangles here and the Drawing Set drew the house before the edit; it is stripped
+    # and re-solved now, as the bench re-solves it.
+    if any("geometry" in r for lv in plan.get("levels", []) for r in lv["rooms"]):
+        if not geo.carries_its_own_placement(plan):
+            plan = _strip(plan)
+        else:
+            try:
+                ref = TF.judge(plan)
+            except Exception as e:                      # noqa: BLE001 -- unjudged, not refused
+                # A record we could not measure is COULD NOT EVALUATE and is not a refusal: the
+                # three states are held, downgraded and unjudged, and collapsing the third into
+                # either of the others is what this corpus names first.
+                return {"error": f"the placement this record carries could not be judged: "
+                                 f"{type(e).__name__}: {str(e)[:200]}", "unsolved": True}
+            if ref:
+                return refused_response(ref)
+            return plan
     # THE INPUT'S OWN FINGERPRINT, TAKEN BEFORE THE SOLVE (WP-11.8, finding J6). Two CP-SAT runs
     # of one record agree to the foot -- OQ 44's "reproducible by default" holds and was
     # re-measured for the diagnosis -- so when the bench's sheet and the CLI's disagree, the INPUT

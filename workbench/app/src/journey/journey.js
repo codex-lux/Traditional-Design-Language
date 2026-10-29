@@ -110,6 +110,8 @@ export const JOURNEY_WORDS = Object.freeze({
     tallyUnjudged: (k, of) => (Number.isInteger(of) && of >= k ? `${k} of ${of} not judged for drawing` : `${k} not judged for drawing`),
   }),
   separator: ' · ',
+  // WP-17.6: a diagram the pool-fill's budget did not reach is named, never left out in silence
+  notReached: 'not placed: the set\'s time ran out',
   next: 'next',   // the bar's link on to the following step (WP-14.10)
   reasons: Object.freeze({
     brief: 'compose the brief first',

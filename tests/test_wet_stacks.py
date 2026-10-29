@@ -1,0 +1,194 @@
+"""WP-17.1 — a bath over a wet room is a plumbing claim, and it is still judged.
+
+Lucas ruled on 29 Oct 2026 that the bath-over-wet-room claims the partis filed as `stacks_over`
+(STRUCTURAL: the smaller room at least 90% inside the larger, one of the type's facts, refuses a
+drawing) are `wet_stack_with` (SERVICING: the two rooms share a chase, WP-11.6's split). Measured
+first: on the composed centre-passage-double-pile the bath-over-butler's-pantry claim was the one
+claim that made the house unplaceable with its rooms in band. The question put to him said
+"14 claims in 11 partis"; the class, counted, is 17 claims in 13 partis, and it is the class he
+ruled on -- this file holds the count to the class rather than to either number.
+
+Moving a claim out of a refusing fact must not silence it. These tests hold three things:
+  * the class is fully moved, and nothing else was (a chamber over a parlour stays structural);
+  * the composer carries the servicing claim onto the plan record, as it carries `stacks_over`;
+  * the placed house is judged for it (`stacking.wet_judge`), reported as a minor finding by the
+    drawn layer, and never counted by `typefacts`, so it refuses nothing.
+"""
+import copy
+import glob
+import importlib.util
+import json
+import pathlib
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+
+
+def _mod(rel, name):
+    spec = importlib.util.spec_from_file_location(name, ROOT / rel)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+STK = _mod("build/stacking.py", "stacking_wet")
+TF = _mod("build/typefacts.py", "typefacts_wet")
+
+BATH_TYPES = {"primary-bathroom", "bathroom"}
+
+
+def _partis():
+    return [json.loads(pathlib.Path(f).read_text()) for f in sorted(glob.glob(str(ROOT / "partis" / "*.json")))]
+
+
+def _rect(x, y, w, h):
+    return {"x_ft": x, "y_ft": y, "width_ft": w, "depth_ft": h}
+
+
+# --- the class is moved, and only the class -------------------------------------------------
+
+def test_no_parti_files_a_bath_as_a_structural_stack():
+    left = [(p["id"], r["id"]) for p in _partis() for r in p["rooms"]
+            if r.get("stacks_over") and r["type"] in BATH_TYPES]
+    assert not left, f"a bath still claims a STRUCTURAL stack (ruling 5, 29 Oct 2026): {left}"
+
+
+def test_the_moved_class_is_seventeen_claims_in_thirteen_partis():
+    moved = [(p["id"], r["id"]) for p in _partis() for r in p["rooms"] if r.get("wet_stack_with")]
+    assert len(moved) == 17 and len({pid for pid, _ in moved}) == 13, moved
+    for p in _partis():
+        for r in p["rooms"]:
+            if r.get("wet_stack_with"):
+                assert r["type"] in BATH_TYPES, (p["id"], r["id"], r["type"])
+                assert "WP-17.1" in (r.get("note") or ""), (
+                    f"{p['id']}/{r['id']}: a reclassified claim carries no dated note saying so")
+
+
+def test_the_structural_claims_that_are_not_baths_stay_structural():
+    kinds = {(p["id"], r["id"]) for p in _partis() for r in p["rooms"] if r.get("stacks_over")}
+    assert ("centre-passage-double-pile", "primary") in kinds
+    assert ("centre-passage-double-pile", "landing") in kinds
+    assert ("side-hall-townhouse", "primary") in kinds
+    # 49 parti claims before WP-17.1: 32 structural stay, 17 servicing moved. (`check_stacking`
+    # prints 38 because it also counts the plan records' own six.)
+    assert len(kinds) == 32, len(kinds)
+
+
+# --- the one reader on a placed house ---------------------------------------------------------
+
+def _wet_plan(bath_geom, target_geom, same_level=False):
+    tgt = {"id": "pantry", "type": "butlers-pantry", "fixtures": ["sink"],
+           "geometry": _rect(*target_geom)}
+    bath = {"id": "bath", "type": "primary-bathroom", "wet_stack_with": "pantry",
+            "fixtures": ["wc"], "geometry": _rect(*bath_geom)}
+    if same_level:
+        return {"id": "t", "levels": [{"index": 0, "rooms": [tgt, bath]}]}
+    return {"id": "t", "levels": [{"index": 0, "rooms": [tgt]}, {"index": 1, "rooms": [bath]}]}
+
+
+def test_across_levels_any_overlap_shares_a_chase_and_none_does_not():
+    k, b, u = STK.wet_judge(_wet_plan((5, 5, 8, 10), (0, 0, 7, 12)))
+    assert (len(k), len(b), len(u)) == (1, 0, 0), "a 2 x 7 ft overlap leaves a chase room to rise"
+    k, b, u = STK.wet_judge(_wet_plan((20, 0, 8, 10), (0, 0, 7, 12)))
+    assert (len(k), len(b), len(u)) == (0, 1, 0), "plans 13 ft apart share no chase"
+
+
+def test_on_one_level_a_shared_wall_shares_a_chase_and_a_corner_does_not():
+    k, b, _ = STK.wet_judge(_wet_plan((7, 2, 8, 6), (0, 0, 7, 12), same_level=True))
+    assert (len(k), len(b)) == (1, 0), "a 6 ft common wall"
+    k, b, _ = STK.wet_judge(_wet_plan((7, 12, 8, 6), (0, 0, 7, 12), same_level=True))
+    assert (len(k), len(b)) == (0, 1), "touching at a corner is not a shared wall"
+
+
+def test_an_unplaced_or_missing_room_is_unjudged_by_name():
+    plan = _wet_plan((5, 5, 8, 10), (0, 0, 7, 12))
+    plan["levels"][1]["rooms"][0].pop("geometry")
+    assert STK.wet_judge(plan)[2][0]["reason"] == STK.THIS_ROOM_UNPLACED
+    plan = _wet_plan((5, 5, 8, 10), (0, 0, 7, 12))
+    plan["levels"][0]["rooms"][0].pop("geometry")
+    assert STK.wet_judge(plan)[2][0]["reason"] == STK.TARGET_UNPLACED
+    plan = _wet_plan((5, 5, 8, 10), (0, 0, 7, 12))
+    plan["levels"][1]["rooms"][0]["wet_stack_with"] = "nobody"
+    assert STK.wet_judge(plan)[2][0]["reason"] == STK.NO_SUCH_ROOM
+
+
+def test_the_tally_carries_wet_stacks_beside_the_structural_ones_and_not_among_them():
+    rep = STK.report(_wet_plan((20, 0, 8, 10), (0, 0, 7, 12)))
+    assert rep["claims"] == 0 and not rep["broken"], "a wet stack entered the STRUCTURAL tally"
+    assert rep["wet"]["claims"] == 1 and len(rep["wet"]["broken"]) == 1
+    assert "wet" not in STK.report({"id": "t", "levels": [{"index": 0, "rooms": []}]}), (
+        "a record declaring no wet stack carries no wet block")
+
+
+def test_a_broken_wet_stack_refuses_nothing():
+    """The ruling's point: servicing is not one of the type's facts."""
+    plan = _wet_plan((20, 0, 8, 10), (0, 0, 7, 12))
+    plan["geometry_report"] = {"stacking": STK.report(plan)}
+    st = TF.stacks(plan)
+    assert st["status"] != TF.DOWNGRADED, st
+    assert not st["claims"], "typefacts counted a servicing claim as a structural one"
+
+
+# --- the composer carries it, and the drawn layer reports it ----------------------------------
+
+def test_the_composer_carries_the_servicing_claim_onto_the_plan_record():
+    CO = _mod("build/compose.py", "compose_wet")
+    brief = {"id": "t", "style": "tidewater-georgian", "target_area_sf": 3200, "bedrooms": 4,
+             "bathrooms": 3.5}
+    plan, _log, _p = CO.instantiate("centre-passage-double-pile", brief)
+    rooms = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
+    assert rooms["primarybath"].get("wet_stack_with") == "butlers", (
+        "instantiate dropped the wet_stack_with claim on the way to the plan record")
+    assert not rooms["primarybath"].get("stacks_over")
+
+
+def test_the_drawn_layer_reports_a_wet_stack_that_shares_no_chase():
+    PC = _mod("build/plan_check.py", "plan_check_wet")
+    G = _mod("build/geometry.py", "geometry_wet")
+    CO = _mod("build/compose.py", "compose_wet2")
+    brief = {"id": "t", "style": "tidewater-georgian", "target_area_sf": 3200, "bedrooms": 4}
+    plan, _log, _p = CO.instantiate("foursquare-quadrant", brief)
+    placed = G.solve(copy.deepcopy(plan), CO.PARTIS["foursquare-quadrant"], engine="heuristic")
+    assert "error" not in placed, placed.get("error")
+    rooms = {r["id"]: r for lv in placed["levels"] for r in lv["rooms"]}
+    assert rooms["hallbath"].get("wet_stack_with") == "kitchen"
+    # drive the broken branch: the bath moved clear of the kitchen's plan
+    kg = rooms["kitchen"]["geometry"]
+    hb = rooms["hallbath"]["geometry"]
+    hb["x_ft"] = kg["x_ft"] + kg["width_ft"] + 50.0
+    res = PC.check(placed)
+    kinds = [f.get("kind") for f in res["findings"]]
+    assert "wet-stack-shares-no-chase" in kinds, sorted(set(k for k in kinds if k))
+    f = next(f for f in res["findings"] if f.get("kind") == "wet-stack-shares-no-chase")
+    assert f["severity"] == "minor" and f.get("room") == "hallbath"
+
+
+def test_check_plans_holds_a_plan_to_its_partis_wet_stack():
+    """`build/check_plans.py` joins a hand-authored plan to the parti it names. The careful record
+    names centre-passage-double-pile, whose primary bath claims a WET stack with the butler's pantry
+    since ruling 5; the SHIPPED record still files it as `stacks_over` on purpose (re-filing it moves
+    the shipped placement, which is its own package), and that is REPORTED under its own ceiling of
+    one. A plan that drops the claim is a topology finding; one that re-files it is clean."""
+    import os
+    import sys
+    sys.path.insert(0, str(ROOT / "build"))
+    import modcache
+    CPL = modcache.load("check_plans", os.path.join(str(ROOT), "build", "check_plans.py"))
+    plan = json.loads((ROOT / "plans" / "tidewater-georgian-careful.json").read_text())
+    parti = CPL.load_parti("centre-passage-double-pile")
+
+    def kinds(p):
+        return [f["kind"] for f in CPL.check_plan(p, parti) if f["kind"].startswith("wet-stack")]
+    assert kinds(plan) == ["wet-stack-filed-as-structural"]
+    assert "wet-stack-filed-as-structural" in CPL.REPORTED and CPL.WET_FILED_AS_STRUCTURAL_CEILING == 1
+
+    def edit(fn):
+        p = json.loads(json.dumps(plan))
+        for lv in p["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] == "primarybath":
+                    fn(r)
+        return p
+    refiled = edit(lambda r: r.update(wet_stack_with=r.pop("stacks_over")))
+    assert kinds(refiled) == []
+    dropped = edit(lambda r: r.pop("stacks_over"))
+    assert kinds(dropped) == ["wet-stack-with"] and "wet-stack-with" not in CPL.REPORTED

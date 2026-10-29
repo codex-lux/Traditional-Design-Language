@@ -71,11 +71,22 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
     if place:
         geo = core._mod("geometry", os.path.join(core.ROOT, "build", "geometry.py"))
         pt = core.load_parti(parti)
-        # WP-11.8: the INTERACTIVE budget by name. This route is the one the infrastructure
-        # audit measured as the whole server's bound, and a person is waiting on it behind a
-        # 400 ms debounce -- so it does not take the batch default `solve()` now carries.
-        cand = geo.solve(core.copy_json(plan), pt, candidates, engine=engine,
-                         time_limit_s=geo.BUDGET_INTERACTIVE_S)
+        # ONE HOUSE, ONE PLACEMENT (Phase 17, WP-17.3). A record that carries a placement OF
+        # ITSELF -- the digest the placement was stamped with equals the digest of what the
+        # record declares now -- is that house, and is judged and drawn as it stands: a candidate
+        # the composer placed at its own budget and found drawable was re-solved here at the
+        # interactive one and could come back refused, so the card said one house and the bench
+        # drew another, and the Drawing Set (which keeps a carried placement) a third. The verdict
+        # is re-judged by `corpus.carried`, never read off the client. A record edited since its
+        # placement does not match, and is re-solved; the wall drag asks for the search by name
+        # and edits the record, so it is never carried.
+        cand = corpus.carried(plan) if engine != "heuristic" else None
+        if cand is None:
+            # WP-11.8: the INTERACTIVE budget by name. This route is the one the infrastructure
+            # audit measured as the whole server's bound, and a person is waiting on it behind a
+            # 400 ms debounce -- so it does not take the batch default `solve()` now carries.
+            cand = geo.solve(core.copy_json(plan), pt, candidates, engine=engine,
+                             time_limit_s=geo.BUDGET_INTERACTIVE_S)
         if "error" in cand:
             placement_error = cand["error"]
         else:

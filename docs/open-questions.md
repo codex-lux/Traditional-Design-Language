@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**284 questions, of which 159 are open.** A question is OPEN while
+**286 questions, of which 161 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 159
+## Open — 161
 
 Awaiting a ruling. This is the list to read first.
 
@@ -100,6 +100,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-room-records-prose-states-a-floor-its-own-band-does-not** | OPEN | [35 figures in prose, and nothing can say which are governing](open-questions/oq-a-room-records-prose-states-a-floor-its-own-band-does-not.md) |
 | **oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed** | OPEN | [two accepted moves can leave the record breaking the first one's rule](open-questions/oq-a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed.md) |
 | **oq/a-shared-flue-cannot-stand-behind-two-centred-breasts** | OPEN | [the massing says paired, the record says one](open-questions/oq-a-shared-flue-cannot-stand-behind-two-centred-breasts.md) |
+| **oq/a-shipped-record-files-a-wet-stack-as-structural** | OPEN | [ruling 5 reached the partis and not the shipped plans](open-questions/oq-a-shipped-record-files-a-wet-stack-as-structural.md) |
 | **oq/a-shutter-row-is-read-at-no-date** | OPEN | [whether a house carries shutters is decided without its date](open-questions/oq-a-shutter-row-is-read-at-no-date.md) |
 | **oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts** | OPEN | [check_partis is red on the merged tree](open-questions/oq-a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts.md) |
 | **oq/a-slug-in-a-code-span-is-not-checked** | OPEN | [the citation guard validates 16% of the namespace it guards, by TWO mechanisms, and the second one is bigger than the one this entry is named for](open-questions/oq-a-slug-in-a-code-span-is-not-checked.md) |
@@ -175,6 +176,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in** | OPEN | [the OQ 52 family in the placer's own objective](open-questions/oq-the-service-charge-convicts-a-room-for-standing-in-the-wing-it-was-put-in.md) |
 | **oq/the-servicing-layer-does-not-know-about-massing-elements** | OPEN | [a wet pair across a 27 ft gap](open-questions/oq-the-servicing-layer-does-not-know-about-massing-elements.md) |
 | **oq/the-shutter-fault-clears-on-the-rhythm-while-the-sheet-refuses-the-leaves** | OPEN | [two facades, one fault](open-questions/oq-the-shutter-fault-clears-on-the-rhythm-while-the-sheet-refuses-the-leaves.md) |
+| **oq/the-side-hall-partis-stacks-cannot-co-hold-in-band** | OPEN | [the side hall's three stacks and its rooms' bands do not fit one house](open-questions/oq-the-side-hall-partis-stacks-cannot-co-hold-in-band.md) |
 | **oq/the-span-count-and-the-span-marks-read-membership-two-ways** | OPEN | [one record, two answers to "which element is this room in"](open-questions/oq-the-span-count-and-the-span-marks-read-membership-two-ways.md) |
 | **oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left** | OPEN | [a terrace on the east of a west wing](open-questions/oq-the-terraces-declared-faces-were-written-for-a-house-its-room-has-left.md) |
 | **oq/the-tiling-fact-cannot-hold-on-a-rounded-or-derived-massing-element** | OPEN | [the prover is asked to tile a box it cannot reach and a box it drew around its own rooms](open-questions/oq-the-tiling-fact-cannot-hold-on-a-rounded-or-derived-massing-element.md) |

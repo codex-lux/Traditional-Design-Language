@@ -242,12 +242,19 @@ def test_check_plans_solve_with_stated_downgrades():
         # audit closed. The equality is kept and the population is narrowed to the kind the
         # assertion is about.
         attempts = solver.get("attempts") or []
-        # A WALL restore is `restore L<level> <room> <wall>`; since WP-13.3 the pass also
-        # offers back `restore hearth ...`, `restore stack x5` and so on, which this test is
-        # not about, so the label's shape is matched rather than its prefix.
-        proved = {a[0][len("restore "):] for a in attempts
-                  if a[0].startswith("restore ") and a[1] == "R:INFEASIBLE"
-                  and not a[0].endswith(" (shape)")}
+        # A WALL restore is `restore L<level> <room> <wall>` (`geometry_cp._label("wall", ...)`);
+        # since WP-13.3 the pass also offers back `restore hearth L0 dining W`, `restore stack x5`,
+        # `restore tiling L0 element 0`, `restore wall x22` and so on, which this test is not
+        # about. THIS COMMENT SAID "the label's shape is matched rather than its prefix" FROM
+        # WP-13.3 TO PHASE 17 AND THE CODE MATCHED THE PREFIX: the filter was `startswith
+        # ("restore ")` less a ` (shape)` suffix the labels stopped carrying, so `proved` held
+        # every kind's refutation -- `tiling x4`, `hearth x3`, `axis L0 passage`, `wall x22` --
+        # and the equality below failed on main's CI at `claimed == proved` before the half bound
+        # was ever reached (WP-17.0, a GUARD REPAIR: the population is narrowed to the kind the
+        # assertion is about, and no refusal goes away because of it). The shape is matched now.
+        _WALL_RESTORE = re.compile(r"^restore (L\d+ \S+ [NESW])$")
+        proved = {m.group(1) for a in attempts
+                  if a[1] == "R:INFEASIBLE" and (m := _WALL_RESTORE.match(a[0]))}
         claimed = {pin for pin in pins
                    if any(n.startswith(f"{named.get(pin.split(' ', 2)[1], pin.split(' ', 2)[1])}'s "
                                        f"declared {pin.split(' ', 2)[2]} wall") and PROVEN in n

@@ -24,7 +24,7 @@ import { refusalHeadline, errorText } from '../sheet/refusal.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
-import { ORDERS, order, setSize } from '../candidateOrder.js';
+import { ORDERS, order, setSize, poolPassedOver } from '../candidateOrder.js';
 import { adaptCandidate, selectionAction, selectionView, setStanding, tallyView } from '../candidateCard.js';
 import { Term } from '../components/Term.jsx';
 import { revisedEventLine } from '../revision.js';
@@ -139,6 +139,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
   const askedFor = (jobBrief ? jobBrief.candidates : s.brief?.candidates) || 4;
   const household = jobBrief ? jobBrief.household : s.brief?.household;
   const size = setSize(result, askedFor);
+  const pool = poolPassedOver(result);
   /* THE PICKED COLUMN AND WHAT A READER CAN DO WITH IT. A click on a column selects it (the
      decision log below follows it, and the address records it); it has never loaded anything,
      and the one link that does sat at the foot of each card, under the score axes. A reader who
@@ -191,6 +192,14 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
           {size.appended && (
             <span data-named-appended={size.appended.parti}>
               {JOURNEY_WORDS.separator}<Term id="named-by-the-brief" />{JOURNEY_WORDS.separator}{size.appended.name}
+            </span>
+          )}
+          {/* WP-17.6: the drawable houses placed from further down the pool, counted out of the
+              set's own number and named, as the appended one is */}
+          {size.filled.length > 0 && (
+            <span data-pool-filled={size.filled.map((f) => f.parti).join(' ')}>
+              {JOURNEY_WORDS.separator}<Term id="filled-from-the-pool" />{JOURNEY_WORDS.separator}
+              {size.filled.map((f) => f.name).join(', ')}
             </span>
           )}
           {/* "of N" is the columns on screen, which is what the tally counts: `returned X of Y`
@@ -329,6 +338,29 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
             <ConflictSet refusal={c.refused} where={`candidate ${c.parti_name || c.parti}`} />
           </div>
         ))}
+
+        {/* WP-17.6: the diagrams the pool-fill placed and found still refused, each with the
+            composer's reason, and the ones its budget did not reach. */}
+        {(pool.passed.length > 0 || pool.notReached.length > 0) && (
+          <div data-pool-passed-over={pool.passed.map((p) => p.parti).join(' ')}
+            data-pool-not-reached={pool.notReached.join(' ')}
+            style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: '16px 0 0',
+              borderLeft: '2px solid var(--refusal)', paddingLeft: 12, maxWidth: '74ch' }}>
+            <Term id="filled-from-the-pool" />
+            {pool.passed.map((p) => (
+              <p key={p.parti} style={{ margin: '4px 0 0' }}>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{p.name}</span>
+                {JOURNEY_WORDS.separator}{p.why}
+              </p>
+            ))}
+            {pool.notReached.length > 0 && (
+              <p style={{ margin: '4px 0 0' }}>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{pool.notReached.join(', ')}</span>
+                {JOURNEY_WORDS.separator}{JOURNEY_WORDS.notReached}
+              </p>
+            )}
+          </div>
+        )}
 
         {/* WP-14.25: the diagram the brief named and the set does not hold, in the composer's own
             words -- the lot dropped it, or it was never composed. Never a silence: a set lacking

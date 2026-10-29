@@ -258,7 +258,13 @@ class TestComposeReSortsOnTheRefusalItself:
 
         res = compose_module.compose(_brief(), candidates=4, revise=True, revise_rounds=0,
                                      revise_engine="heuristic", revise_budget_s=120)
-        cands = res["candidates"]
+        # RE-CUT 29 Oct 2026 (WP-17.6): with three of the four drawable the pool-fill places down
+        # the pool and adds what it finds drawable, ranked by the same key -- fatals first (ruling
+        # 7), so an added house carrying more fatals stands after the refused one, rightly. The
+        # standing is a property of the set ASKED FOR, which is what this test reads; the added
+        # houses are held to the key by `tests/test_pool_fill.py`.
+        added = set((res.get("pool_fill") or {}).get("added") or [])
+        cands = [c for c in res["candidates"] if c["parti"] not in added]
         partis = [c["parti"] for c in cands]
         assert target in partis, f"the premise: the native house is in the set {partis}"
         assert len(cands) >= 3

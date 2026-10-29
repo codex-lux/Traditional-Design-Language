@@ -1,0 +1,13 @@
+{
+  "id": "filled-from-the-pool",
+  "term": "filled from the pool",
+  "family": "house",
+  "definition": "A candidate the composer placed from further down its ranked list because fewer of the set asked for could be drawn than were asked for. A drawable one joins the set beside it; one still refused is named with its reason and not offered.",
+  "more": "It is ranked by the same key as the rest, so a house that may be drawn but carries a fatal finding never leads one without. The composer places only a few more, within the set's time, and names any diagram it did not reach.",
+  "kind": "editorial",
+  "basis": "Our wording of the composer's pool-fill. build/compose.py, compose: \"fewer of the set are drawable than were asked for, the loop places down the pool\"; build/compose.py, compose: \"placed and still refused is named with its reason, and each the budget did not reach is named.\"",
+  "see": [
+    "term:named-by-the-brief",
+    "term:parti"
+  ]
+}

@@ -73,6 +73,7 @@ Loaded through geometry.solve()'s dispatcher; not a CLI of its own.
 import copy
 import math
 import os
+import threading
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -133,6 +134,72 @@ SCALE = 10                # objective weights are WP-2.2's, x10 into integers
 # found as the solver's hint (a warm start is what makes 2 s a real attempt), and never
 # below RESTORE_MIN_S: a slice thinner than that is skipped rather than spent, because a
 # quarter-second solve that comes back UNKNOWN is a pin marked carried for no information.
+# ---------------------------------------------------------------- Phase 17, WP-17.5: the portfolio
+#
+# THE ASSUMPTION FORMULATION FORBIDS CP-SAT'S PARALLEL SEARCH, AND THAT WAS THE PROVER'S BUDGET
+# PROBLEM. Every fact is an assumption literal (`m.AddAssumptions`, inside `_build`), which is what
+# gives the ladder its conflict cores -- and CP-SAT's own log says "Forcing sequential search as
+# assumptions are not supported in multi-thread". Measured on the composed centre-passage
+# (29 Oct 2026, 4 cores): base + its four stacks, assumptions on one worker OPTIMAL in 40.6 s; the
+# same facts as HARD constraints on four workers OPTIMAL in 7.2 s; base + the upper tiling 55.1 s
+# against 6.2 s. The read-only spike found the composed foursquare drawable with every room in
+# band in 5.8-71 s on four workers -- where today's single sequential worker at 25 s never once
+# decided it. So where the machine has more than one core the facts are DECIDED hard on a worker
+# portfolio first, and the assumption ladder runs only where that does not decide, for its cores.
+#
+# ON ONE CORE NOTHING CHANGES, AND THAT IS MEASURED TOO: hard mode on one worker was SLOWER than
+# assumptions on one (cand0: UNKNOWN at 60 s against OPTIMAL in 40.6 s), so `portfolio_workers()`
+# of 1 keeps the formulation that has always run. The deploy's vCPU count is an open item of the
+# infrastructure audit, so it is read at run time and never assumed.
+PORTFOLIO_MAX_WORKERS = 8
+
+# Two portfolio solves on one box would each take every core and both lose; a compose job and a
+# bench evaluate can both reach CP-SAT. The first to arrive takes the portfolio; a concurrent one
+# runs the assumption ladder on one worker, exactly as every solve did before this package.
+_PORTFOLIO_LOCK = threading.Lock()
+
+# The share of a solve's budget the portfolio may spend deciding (WP-17.5). The polish keeps
+# `GEO.BUDGET_SHARE_POLISH` only when the ladder runs; a placement the portfolio finds goes to the
+# polish with whatever is left, and is kept as found if the polish cannot improve it in time.
+BUDGET_SHARE_PORTFOLIO = 0.75
+
+
+def portfolio_workers():
+    """CPU workers this process may give one CP solve: `TDL_CP_WORKERS` if set (CI forces each
+    formulation through it), else the cgroup CPU quota (a container's `cpu.max`; affinity reports
+    the HOST's cores, not the quota), else the affinity set, capped at `PORTFOLIO_MAX_WORKERS`."""
+    env = os.environ.get("TDL_CP_WORKERS")
+    if env:
+        try:
+            return max(1, int(env))
+        except ValueError:
+            pass
+    n = None
+    try:
+        with open("/sys/fs/cgroup/cpu.max") as fh:
+            quota, period = fh.read().split()[:2]
+        if quota != "max":
+            n = max(1, int(math.ceil(int(quota) / int(period))))
+    except (OSError, ValueError):
+        pass
+    try:
+        aff = len(os.sched_getaffinity(0))
+    except (AttributeError, OSError):
+        aff = os.cpu_count() or 1
+    n = aff if n is None else min(n, aff)
+    return max(1, min(PORTFOLIO_MAX_WORKERS, n))
+
+
+def _harden(model, reqs):
+    """Turn a built model's assumption literals into HARD constraints, after `_build`, so the
+    serialised model `_build` returns -- which `tests/test_cp_elements.py` hashes -- is unchanged
+    and only this solve's copy differs. A hard model admits CP-SAT's parallel portfolio; it yields
+    no conflict core, which is why the ladder below still poses them as assumptions."""
+    model.ClearAssumptions()
+    for lit, _t, _k, _key in reqs.lits:
+        model.AddBoolOr([lit])
+
+
 SCOUT_S = 6.0
 RESTORE_KIND_S = 4.0
 RESTORE_PIN_S = 2.0
@@ -1559,6 +1626,9 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         _e0 = (els or {}).get(0) or [{"id": "main", "x": 0, "y": 0, "W": Wi / float(U),
                                       "H": Hi / float(U),
                                       "rooms": [r["id"] for r in (prep.get(0) or [])]}]
+        _bear_lits, _upper_has = {}, {}
+        # `typefacts.MIN_SHARED_RUN_FT` (1.0 ft, a run must EXCEED it) on the integer grid: 2 units
+        _MIN_RUN_U = int(math.floor(1.0 * U)) + 1
         for ei, _e in enumerate(_e0):
             _ex, _ey = int(round(_e["x"] * U)), int(round(_e["y"] * U))
             _eW, _eH = int(round(_e["W"] * U)), int(round(_e["H"] * U))
@@ -1601,40 +1671,69 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                             yield [L for L in lines[i + 1:] if L < hi_L]
                             break
 
+                def _capacity_charge():
+                    # CAPACITY IS A SOFT CHARGE, HELD OR RELEASED (ruling 2, 29 Oct 2026: "the
+                    # prover's hard bearing fact is continuity; capacity is a soft charge, still
+                    # reported"). WP-7.4's term, unchanged: `GEO.SPAN_W` per over-capacity window
+                    # with no wall in it, per level.
+                    if not objective:
+                        return
+                    for lvl_ in _rs_by_lvl:
+                        act = {}
+                        for L in inner_lines:
+                            faces = []
+                            for e_ in _edge_vars(lvl_):
+                                f = m.NewBoolVar("")
+                                m.Add(e_ == L).OnlyEnforceIf(f)
+                                faces.append(f)
+                            a_ = m.NewBoolVar("")
+                            m.AddBoolOr(faces + [a_.Not()])   # a_ -> some face sits on L
+                            act[L] = a_
+                        for inner in _windows():
+                            viol = m.NewBoolVar("")
+                            m.AddBoolOr([act[L] for L in inner] + [viol])
+                            penalties.append((viol, _w(GEO.SPAN_W)))
+
                 if _dk("bearing", key) in downgraded:
                     how = ("carried — off a conflict core or an undecided round, not individually re-proven in "
                            "budget" if _dk("bearing", key) in unproven else
                            "proven — restored alone, no placement exists")
                     reqs.notes.append(
                         f"element {ei} ({_e.get('id')}), {axis} axis: bearing continuity on the "
-                        f"bay grid within the {cap_ft:g} ft capacity could not co-hold with the "
-                        f"other declared facts ({how}) — downgraded, charged at "
-                        f"{GEO.SPAN_W:g} points per unsupported run as the search charges it, "
-                        f"and the record's span count says what was drawn")
-                    if objective:
-                        for lvl_ in _rs_by_lvl:
-                            act = {}
-                            for L in inner_lines:
-                                faces = []
-                                for e_ in _edge_vars(lvl_):
-                                    f = m.NewBoolVar("")
-                                    m.Add(e_ == L).OnlyEnforceIf(f)
-                                    faces.append(f)
-                                a_ = m.NewBoolVar("")
-                                m.AddBoolOr(faces + [a_.Not()])   # a_ -> some face sits on L
-                                act[L] = a_
-                            for inner in _windows():
-                                viol = m.NewBoolVar("")
-                                m.AddBoolOr([act[L] for L in inner] + [viol])
-                                penalties.append((viol, _w(GEO.SPAN_W)))
+                        f"bay grid could not co-hold with the other declared facts ({how}) — "
+                        f"downgraded; span capacity ({cap_ft:g} ft) is charged at "
+                        f"{GEO.SPAN_W:g} points per unsupported run, held or not, and the "
+                        f"record's span count says what was drawn")
+                    _capacity_charge()
                     continue
                 lit = reqs.lit(
-                    f"massing element {ei} ({_e.get('id')}), {axis} axis: an interior wall on "
-                    f"the bay grid is bearing only where every storey stands a wall on it, and no "
-                    f"run between bearing lines exceeds the {cap_ft:g} ft its framing tradition "
-                    f"can span (structure.bearing_lines and span_check as a fact, WP-13.3)",
+                    f"massing element {ei} ({_e.get('id')}), {axis} axis: every upper wall on the "
+                    f"bay grid stands on a ground bearing wall over its WHOLE run, and the upper "
+                    f"floor carries at least one bearing line (continuity as the gate reads it, "
+                    f"rulings 2 and 8 of 29 Oct 2026; capacity is a soft charge)",
                     kind="bearing", key=key)
-                bear = {}
+                _bear_lits.setdefault(ei, []).append(lit)
+                _capacity_charge()
+                if not (0 in _rs_by_lvl and 1 in _rs_by_lvl):
+                    continue
+                # WHOLE-RUN CONTINUITY (ruling 8). For an upper room with an edge on the grid
+                # line L and a ground room STRADDLING L (its interior crosses the line), the two
+                # may not overlap along the line: wherever the upper wall runs, no ground room
+                # lies across the line beneath it -- so a ground wall runs under it, the whole way.
+                # `typefacts.bearing_extents` measures the same thing on the record, which is why
+                # the model and the gate cannot now disagree about a wall over open floor (the
+                # positional literal this replaces certified 0 of 6 / 11 ft as held).
+                _lo, _sz = ("x", "w") if axis == "x" else ("y", "h")
+                _po, _psz = ("y", "h") if axis == "x" else ("x", "w")
+                _sep = {}
+                for uid in _rs_by_lvl[1]:
+                    u = rooms[(1, uid)]
+                    for gid in _rs_by_lvl[0]:
+                        g = rooms[(0, gid)]
+                        a_, b_ = m.NewBoolVar(""), m.NewBoolVar("")
+                        m.Add(u[_po] + u[_psz] <= g[_po]).OnlyEnforceIf(a_)
+                        m.Add(g[_po] + g[_psz] <= u[_po]).OnlyEnforceIf(b_)
+                        _sep[(uid, gid)] = (a_, b_)
                 for L in inner_lines:
                     has = {}
                     for lvl_ in _rs_by_lvl:
@@ -1646,16 +1745,52 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                         hL = m.NewBoolVar("")
                         m.AddBoolOr(faces + [hL.Not()])       # has -> some face sits on L
                         has[lvl_] = hL
-                    if 0 in has and 1 in has:
-                        # continuity: no upper edge may stand on L unless a ground edge does
-                        for e_ in _edge_vars(1):
-                            m.Add(e_ != L).OnlyEnforceIf(has[0].Not(), lit)
-                    bL = m.NewBoolVar("")
-                    for hL in has.values():
-                        m.AddImplication(bL, hL)                # bearing -> every storey
-                    bear[L] = bL
-                for inner in _windows():
-                    m.AddBoolOr([bear[L] for L in inner]).OnlyEnforceIf(lit)
+                    # A WALL TWO UPPER ROOMS SHARE on L, for more than `MIN_SHARED_RUN_FT` -- what
+                    # `typefacts.bearing_lines` counts as an upper bearing line. "Some upper face on
+                    # L" was the first version and it was weaker than the gate: measured on the
+                    # composed foursquare, a closet's edge on x = 26 FACED A HOLE (tiling released)
+                    # and satisfied it, while the gate read "the upper floor carries no bearing line
+                    # at all" -- the model held what the gate refused.
+                    _uid = _rs_by_lvl[1]
+                    for i1 in _uid:
+                        a1 = rooms[(1, i1)]
+                        for i2 in _uid:
+                            if i1 == i2:
+                                continue
+                            b2 = rooms[(1, i2)]
+                            sh = m.NewBoolVar("")
+                            m.Add(a1[_lo] + a1[_sz] == L).OnlyEnforceIf(sh)
+                            m.Add(b2[_lo] == L).OnlyEnforceIf(sh)
+                            m.Add(a1[_po] + _MIN_RUN_U <= b2[_po] + b2[_psz]).OnlyEnforceIf(sh)
+                            m.Add(b2[_po] + _MIN_RUN_U <= a1[_po] + a1[_psz]).OnlyEnforceIf(sh)
+                            _upper_has.setdefault(ei, []).append(sh)
+                    # positional: no upper edge stands on L unless some ground edge does
+                    for e_ in _edge_vars(1):
+                        m.Add(e_ != L).OnlyEnforceIf(has[0].Not(), lit)
+                    on_l = {}
+                    for uid in _rs_by_lvl[1]:
+                        u = rooms[(1, uid)]
+                        el, er = m.NewBoolVar(""), m.NewBoolVar("")
+                        m.Add(u[_lo] != L).OnlyEnforceIf(el.Not())            # u's low edge on L -> el
+                        m.Add(u[_lo] + u[_sz] != L).OnlyEnforceIf(er.Not())   # u's high edge on L -> er
+                        on_l[uid] = (el, er)
+                    for gid in _rs_by_lvl[0]:
+                        g = rooms[(0, gid)]
+                        s1, s2 = m.NewBoolVar(""), m.NewBoolVar("")
+                        m.Add(g[_lo] >= L).OnlyEnforceIf(s1.Not())            # g starts before L -> s1
+                        m.Add(g[_lo] + g[_sz] <= L).OnlyEnforceIf(s2.Not())   # g ends after L -> s2
+                        for uid in _rs_by_lvl[1]:
+                            a_, b_ = _sep[(uid, gid)]
+                            for e_on in on_l[uid]:
+                                m.AddBoolOr([e_on.Not(), s1.Not(), s2.Not(), a_, b_]).OnlyEnforceIf(lit)
+
+        # AT LEAST ONE UPPER BEARING LINE, per element with an upper storey -- the gate's other
+        # arm ("the upper floor carries no bearing line at all" refuses). Enforced while both of
+        # the element's axis literals hold, because it is a statement about the floor, not one axis.
+        for ei, hs in _upper_has.items():
+            lits = _bear_lits.get(ei) or []
+            if len(lits) == 2 and hs:
+                m.AddBoolOr(hs).OnlyEnforceIf(lits)
 
     if objective and penalties:
         m.Minimize(sum(p * wgt for p, wgt in penalties))
@@ -2032,6 +2167,18 @@ def _snap_fpd(fpd):
 
 
 def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
+    """The prover. Takes the portfolio (WP-17.5) where the box has cores and no other solve holds
+    it, and runs the whole solve on that many workers; otherwise exactly as before, on one."""
+    w = portfolio_workers()
+    if w > 1 and _PORTFOLIO_LOCK.acquire(blocking=False):
+        try:
+            return _solve_cp(plan, parti, seed, time_limit_s, candidates, workers=w)
+        finally:
+            _PORTFOLIO_LOCK.release()
+    return _solve_cp(plan, parti, seed, time_limit_s, candidates, workers=1)
+
+
+def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, workers=1):
     from ortools.sat.python import cp_model
     levels, prep = GEO.prep_rooms(plan)
     fpd0 = GEO.derive_footprint(plan, parti, prep)
@@ -2097,9 +2244,11 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
             trial = frozenset(downgraded - set(keys))
             model, rooms, _reqs2 = _build(plan, prep, fpd, ewalls, trial, objective=False)
             _hint_values(model, rooms, vals)
+            if workers > 1:
+                _harden(model, _reqs2)    # a restore asks for a status, never a core
             s = cp_model.CpSolver()
             s.parameters.max_time_in_seconds = min(cap, left)
-            s.parameters.num_search_workers = 1
+            s.parameters.num_search_workers = workers
             s.parameters.random_seed = seed
             st = s.Solve(model)
             attempts.append((tag, "R:" + s.StatusName(st)))
@@ -2198,10 +2347,14 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
             # WP-11.7: the SHAPE half of the same guarantee. A room whose proportion pin the
             # ladder released is left out -- the record says its band could not hold, and this
             # pass has nothing to preserve for it.
+            # EVERY ROOM IS HELD TO ITS OWN BAND HERE (WP-17.4). The `continue` this replaces
+            # exempted a room whose shape pin the ladder released -- and it never fired: it tested
+            # a bare `(lvl, id)` against `downgraded`, whose keys carry their kind since WP-13.3
+            # (`_dk`), so it matched nothing. Enabling it would have let this pass grow a room the
+            # proof could not keep in band FURTHER out of it; deleting it states what the pass has
+            # in fact always done, and what "no house drawn by slivers" asks.
             ratios = {}
             for r in rs:
-                if (lvl, r["id"]) in downgraded:
-                    continue
                 _c, _ = GEO.shape_band(r.get("type"))
                 if _c:
                     ratios[r["id"]] = _c
@@ -2231,6 +2384,24 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
             # stand a wall on, and a stack is an upper room over a ground one)
             if any(k in ("bearing", "stack") and key and _dk(k, key) not in downgraded
                    for _lit, _t, k, key in _fact_lits):
+                # THE SKIP BELONGS TO THE ELEMENT, NOT THE LEVEL (WP-17.4, ruling 4 of 29 Oct
+                # 2026). A single-storey element -- a wing, a hyphen -- carries no bearing line and
+                # no stack (the placer lays only the ground into elements, so every upper room is
+                # in the main block), so growing its rooms into their own rounding strips cannot
+                # unprove a fact the skip protects. Only the rooms of an element that stands on
+                # both storeys are left exactly as proved.
+                _upper_boxes = {(e["x"], e["y"], e["W"], e["H"])
+                                for e in GEO.blocks_for(plan, fpd, prep, 1 - lvl)} \
+                    if prep.get(1 - lvl) else set()
+                _single = {rid for e in _els for rid in e["rooms"]
+                           if (e["x"], e["y"], e["W"], e["H"]) not in _upper_boxes
+                           and rid in rects_by_level[lvl]} if len(_els) > 1 else set()
+                if not _single:
+                    continue
+                sub = {rid: rects_by_level[lvl][rid] for rid in _single}
+                grown = _absorb(sub, fpd["W"], fpd["H"], caps=caps, keepout=keepout,
+                                ratios=ratios, bounds=_eb)
+                rects_by_level[lvl] = {**rects_by_level[lvl], **grown}
                 continue
             rects_by_level[lvl] = _absorb(rects_by_level[lvl], fpd["W"], fpd["H"],
                                           caps=caps, keepout=keepout, ratios=ratios,
@@ -2258,9 +2429,11 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
             _hint_heuristic(model, rooms, plan, parti, seed, candidates=candidates)
         else:
             _hint_values(model, rooms, hint)
+        if workers > 1:
+            _harden(model, reqs)          # the downgraded set is fixed here: no core is wanted
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = max(1.5, budget)
-        solver.parameters.num_search_workers = 1
+        solver.parameters.num_search_workers = workers
         solver.parameters.random_seed = seed
         statusB = solver.Solve(model)
         attempts.append((tag, "B:" + solver.StatusName(statusB)))
@@ -2392,6 +2565,71 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
     # the sweep that chose the share is in the WP-13.3 report. One round per rank and one more,
     # because a round releases a whole rank and there are `len(_RANK)` of them.
     a_deadline = started + GEO.BUDGET_SHARE_FEASIBILITY * time_limit_s
+
+    # THE PORTFOLIO DECIDES FIRST (WP-17.5). Every fact HARD on `workers` workers: first with
+    # everything held; then with the ladder's two lowest ranks -- the authored exterior walls and
+    # the inferred axis -- released, which is what its first rounds release in practice (measured:
+    # round 0's core named the walls on every composed candidate) and what the reinstatement pass
+    # then offers back one at a time. A placement found either way goes straight to the polish; a
+    # step that does not decide hands the rest of the share to the assumption ladder, which is
+    # where conflict CORES come from, unchanged.
+    # THE PORTFOLIO GETS MOST OF THE BUDGET, BECAUSE IT IS THE ONLY STEP THAT CAN RETURN A HOUSE
+    # THE TYPE ALLOWS. The ladder's own placements release facts and are refused a drawing by
+    # construction; what it adds is a CORE, which needs little time. Measured on the composed
+    # foursquare: everything-held is INFEASIBLE at once (its authored walls), and walls-released at
+    # an 11 s slice was UNKNOWN where the spike decided it in 5.8-71 s. So the walls-released step
+    # runs to `BUDGET_SHARE_PORTFOLIO` of the budget and the ladder and the polish share the rest.
+    p_deadline = started + BUDGET_SHARE_PORTFOLIO * time_limit_s
+    #
+    # AND THE FOOTPRINT GROWS BEFORE A ROOM IS COMPROMISED (decision 11, settled). The derived
+    # footprint is AREA-NEUTRAL -- `H = need / W` -- so a box holds its programme with no slack at
+    # all: measured on the composed foursquare, 39 x 30 = 1,170 sf for a 1,169 sf programme, and
+    # every fact-holding solve came back UNKNOWN at 30 s on three seeds; two feet deeper it was
+    # OPTIMAL in 12.2 and 29.0 s. So the walls-released step is offered at the derived depth and
+    # then 2 and 4 ft deeper -- even steps, so a wing centred on the main block stays exactly
+    # centred (WP-17.4) -- and the record says which depth it took and why.
+    if workers > 1:
+        _rel = set()
+        # Slices of what is left at each step: the derived, zero-slack depth gets a short look
+        # and the grown box most of the time (measured: H+2 decided in 11-29 s where H was
+        # UNKNOWN at 30 s on three seeds).
+        _steps = [(0, (), 0.0, 0.1)] + [(1, ("wall", "axis"), dh, sh) for dh, sh in
+                                         ((0.0, 0.25), (2.0, 0.6), (4.0, 1.0))]
+        for step, kinds, dh, share in _steps:
+            left = p_deadline - time.monotonic()
+            if left < 1.0:
+                break
+            fpd = fpd0 if not dh else dict(fpd0, H=fpd0["H"] + dh,
+                                           slack=fpd0["W"] * (fpd0["H"] + dh) - fpd0["need"])
+            if kinds and not _rel:
+                m_, r_, q_ = _build(plan, prep, fpd, ewalls, frozenset(downgraded), objective=False)
+                _rel = {_dk(k, key) for _l, _t, k, key in q_.lits if k in kinds and key}
+                downgraded.update(_rel)
+            m_, r_, q_ = _build(plan, prep, fpd, ewalls, frozenset(downgraded), objective=False)
+            _harden(m_, q_)
+            _hint_heuristic(m_, r_, plan, parti, seed, candidates=40)
+            sv_ = cp_model.CpSolver()
+            sv_.parameters.max_time_in_seconds = max(1.0, left * share)
+            sv_.parameters.num_search_workers = workers
+            sv_.parameters.random_seed = seed
+            st_ = sv_.Solve(m_)
+            attempts.append((f"{fpd0['bays']}b hard{step}{f' +{dh:g}ft' if dh else ''} {workers}w",
+                             "H:" + sv_.StatusName(st_)))
+            if st_ in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+                rank_notes.append(
+                    f"portfolio ({workers} workers): every type fact HELD"
+                    + (f" with the {len(_rel)} authored wall and axis pin(s) released, CARRIED and "
+                       f"offered back one at a time by the reinstatement pass" if _rel else "")
+                    + (f"; the footprint grew {dh:g} ft in depth first (decision 11: the footprint "
+                       f"grows before a room is compromised -- the derived depth holds the "
+                       f"programme with no slack at all)" if dh else ""))
+                return _finish_feasible(fpd, _values(sv_, r_), sv_.StatusName(st_))
+        downgraded.difference_update(_rel)
+        rank_notes.append(f"portfolio ({workers} workers): undecided or infeasible with every "
+                          f"type fact hard; the assumption ladder takes over for its cores")
+        a_deadline = max(started + GEO.BUDGET_SHARE_FEASIBILITY * time_limit_s,
+                         time.monotonic() + 0.1 * time_limit_s)
+
     for rnd in range(len(_RANK) + 1):
         budget = min(SCOUT_S, max(2.0, (a_deadline - time.monotonic()) * 0.5))
         status, solver, rooms, reqs = _feasibility(fpd0, f"{fpd0['bays']}b r{rnd}", budget)

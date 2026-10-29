@@ -162,9 +162,14 @@ def test_the_tidewater_record_declares_what_its_parti_declares():
     assert up["upperpassage"].get("stacks_over") == "passage"
     parti = json.loads((ROOT / "partis" / "centre-passage-double-pile.json").read_text())
     pr = {r["id"]: r for r in parti["rooms"]}
-    for rid in ("landing", "upperpassage", "primary", "primarybath", "hallbath"):
+    for rid in ("landing", "upperpassage", "primary", "hallbath"):
         assert up[rid].get("stacks_over") == pr[rid].get("stacks_over"), (
             f"{rid}: the plan and the parti it was built from disagree about the stack")
+    # WP-17.1: the parti moved the primary bath's claim over the butler's pantry to `wet_stack_with`
+    # (ruling 5 of 29 Oct 2026); this shipped record still files it as `stacks_over` on purpose,
+    # and `check_plans` reports it as such under its own ceiling of one
+    assert pr["primarybath"].get("wet_stack_with") == up["primarybath"].get("stacks_over") == "butlers"
+    assert not pr["primarybath"].get("stacks_over")
 
 
 def test_the_powder_rooms_claim_is_on_the_field_that_can_hold_it():
@@ -259,6 +264,10 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     # 4 AT WP-13.5, FROM 5, and the ACCOUNTING below is what this test is about rather than
     # the literal: `hallbath stacks_over powder` is withdrawn with the powder room into the
     # single-storey dependency. Every remaining claim is still judged into exactly one list.
+    # STILL 4 AT WP-17.1: the parti moved `primarybath stacks_over butlers` to `wet_stack_with`
+    # (ruling 5 of 29 Oct 2026) and this SHIPPED record keeps the structural spelling on purpose --
+    # re-filing it moves the shipped placement, which is its own package
+    # (`check_plans.WET_FILED_AS_STRUCTURAL_CEILING`).
     assert st["claims"] == 4 and len(st["unjudged"]) == 0
     kept = {e["room"] for e in st["kept"]}
     broken = {e["room"] for e in st["broken"]}

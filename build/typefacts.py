@@ -352,6 +352,114 @@ def _interior_lines(rects):
     return out
 
 
+def _interior_segments(rects):
+    """`[(axis, position, lo, hi)]` -- `_interior_lines` with the shared RUN kept. Same test,
+    same tolerances; the extent is what the positional reading threw away (Phase 17, WP-17.0)."""
+    ids = list(rects)
+    out = []
+    for i, a in enumerate(ids):
+        ax, ay, aw, ah = rects[a]
+        for b in ids[i + 1:]:
+            bx, by, bw, bh = rects[b]
+            if abs((ax + aw) - bx) <= SHARED_EDGE_TOL_FT or abs((bx + bw) - ax) <= SHARED_EDGE_TOL_FT:
+                x = bx if abs((ax + aw) - bx) <= SHARED_EDGE_TOL_FT else ax
+                lo, hi = max(ay, by), min(ay + ah, by + bh)
+                if hi - lo > MIN_SHARED_RUN_FT:
+                    out.append(("x", round(x, 2), lo, hi))
+            if abs((ay + ah) - by) <= SHARED_EDGE_TOL_FT or abs((by + bh) - ay) <= SHARED_EDGE_TOL_FT:
+                y = by if abs((ay + ah) - by) <= SHARED_EDGE_TOL_FT else ay
+                lo, hi = max(ax, bx), min(ax + aw, bx + bw)
+                if hi - lo > MIN_SHARED_RUN_FT:
+                    out.append(("y", round(y, 2), lo, hi))
+    return out
+
+
+def _union(spans):
+    """Merge `[(lo, hi)]` into disjoint sorted spans."""
+    out = []
+    for lo, hi in sorted(spans):
+        if out and lo <= out[-1][1] + 1e-9:
+            out[-1] = (out[-1][0], max(out[-1][1], hi))
+        else:
+            out.append((lo, hi))
+    return out
+
+
+def _covered(spans, cover):
+    """Length of `spans` (disjoint) lying inside `cover` (disjoint)."""
+    tot = 0.0
+    for lo, hi in spans:
+        for clo, chi in cover:
+            tot += max(0.0, min(hi, chi) - max(lo, clo))
+    return tot
+
+
+# How much of an upper bearing wall's run may stand off a ground bearing wall and still be
+# "the whole run": the raster quantum `STEP_FT`, so that a run a placement rounds to the tenth is
+# not convicted of the rounding. Ruled 29 Oct 2026 (ruling 8): "every foot of an upper bearing
+# wall stands on a ground bearing wall, within the existing 0.75 ft across-tolerance".
+WHOLE_RUN_TOL_FT = STEP_FT
+
+
+def bearing_extents(plan):
+    """Every upper interior BEARING line, with how much of its RUN stands on a ground bearing wall.
+
+    THE AUDIT BESIDE THE POSITIONAL CHECK (Phase 17, WP-17.0). `bearing()` asks whether an upper
+    bearing line's POSITION is within the grid tolerance of a ground bearing line's position, and
+    never where along the house either one runs. Measured over the composed candidates and the
+    shipped plans: 4 of the 5 placements that read "held" carried an upper bearing wall standing on
+    no ground wall over its whole run (0 of 6, 11, 22.6 and 15.8 ft, the last on the shipped
+    `good-05`). This returns the run per line -- `run_ft`, `supported_ft`, `fraction` -- and a
+    whole-run verdict per Lucas's ruling 8. It was REPORT-ONLY at WP-17.0; since WP-17.7 a
+    positional HELD that this reads DOWNGRADED is downgraded in `bearing()`, so it decides.
+    `None` where `bearing_lines` is `None`."""
+    fp = plan.get("footprint") or {}
+    bay = fp.get("bay_module_ft")
+    blocks = _blocks(plan)
+    if not bay or not blocks:
+        return None
+    per_level = {}
+    for i, lv in enumerate(plan.get("levels") or []):
+        idx = _level_index(i, lv)
+        rooms = {rm["id"]: _rect(rm) for rm in (lv.get("rooms") or [])
+                 if _rect(rm) and not (rm.get("geometry") or {}).get("void")}
+        if not rooms:
+            continue
+        segs = {}
+        for blk in blocks:
+            here = {rid: r for rid, r in rooms.items() if _centre_inside(r, blk)}
+            for axis, pos, lo, hi in _interior_segments(here):
+                if on_bay_grid(pos, float(bay)):
+                    segs.setdefault((axis, pos), []).append((lo, hi))
+        per_level[idx] = {k: _union(v) for k, v in segs.items()}
+    placed = sorted(per_level)
+    if len(placed) < 2:
+        return {"status": UNJUDGED, "lines": [],
+                "detail": "one placed level: there is no upper floor whose walls must continue down"}
+    ground, upper = per_level[placed[0]], per_level[placed[1]]
+    rows = []
+    for (axis, pos), spans in sorted(upper.items()):
+        cover = _union([s for (a, p), ss in ground.items()
+                        if a == axis and abs(p - pos) <= BEARING_GRID_TOL_FT for s in ss])
+        run = sum(hi - lo for lo, hi in spans)
+        sup = _covered(spans, cover)
+        rows.append({"axis": axis, "position_ft": pos, "run_ft": round(run, 2),
+                     "supported_ft": round(sup, 2),
+                     "fraction": round(sup / run, 4) if run > 0 else None,
+                     "whole_run": run - sup <= WHOLE_RUN_TOL_FT})
+    if not rows:
+        return {"status": DOWNGRADED, "lines": [],
+                "detail": "the upper floor carries no bearing line at all"}
+    short = [r for r in rows if not r["whole_run"]]
+    return {"status": DOWNGRADED if short else HELD, "lines": rows,
+            "detail": ("every upper bearing wall stands on a ground bearing wall over its whole run"
+                       if not short else
+                       f"{len(short)} of {len(rows)} upper bearing wall(s) stand partly or wholly "
+                       f"over open floor: " + "; ".join(
+                           f"{r['axis']}={r['position_ft']:g} ft, {r['supported_ft']:g} of "
+                           f"{r['run_ft']:g} ft on a ground wall" for r in short))}
+
+
 def on_bay_grid(position_ft, bay_ft, tol=BEARING_GRID_TOL_FT):
     """`structure.bearing_lines`' own test, transcribed: an interior wall is bearing where it
     falls within `tol` of a multiple of the bay module."""
@@ -470,8 +578,21 @@ def bearing(plan):
     # An UNJUDGED continuity (a one-level house, or a record stating no bay module) leaves the
     # fact UNJUDGED even where capacity is downgraded: unjudged is not passed, and under
     # WP-13.4's contract it is not refused either.
+    # CONTINUITY COVERS A WALL'S WHOLE RUN (ruled by Lucas, 29 Oct 2026, ruling 8; WP-17.7). The
+    # positional reading above asks whether an upper bearing line's POSITION is within the grid
+    # tolerance of a ground one, and never where along the house either runs -- so a wall standing
+    # half over open floor read HELD (measured: 4 of the 5 placements reading held, one of them the
+    # shipped `good-05`). Every foot of an upper bearing wall stands on a ground bearing wall now,
+    # within the same across-tolerance; the audit that was report-only at WP-17.0 decides. A
+    # positional verdict that is already DOWNGRADED or UNJUDGED is left as it is.
+    ext = bearing_extents(plan)
+    if halves["continuity"] == HELD and (ext or {}).get("status") == DOWNGRADED:
+        halves["continuity"] = DOWNGRADED
+        detail.append("but over its RUN (ruling 8 of 29 Oct 2026): " + ext["detail"])
     status = halves["continuity"]
     return {"status": status, "halves": halves, "bearing_lines": lines,
+            # Phase 17: the whole-run audit (WP-17.0), deciding since WP-17.7
+            "extents": ext,
             "unsupported_upper_lines": unsupported, "spans_over_capacity": over,
             "capacity_status": halves["capacity"],
             "capacity_refuses": False,

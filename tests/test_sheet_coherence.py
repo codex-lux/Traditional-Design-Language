@@ -56,6 +56,7 @@ RF = _b("roof")
 EL = _b("elevation")
 CO = _b("compose")
 STK = _b("stacking")
+TF = _b("typefacts")
 
 CAREFUL = "tidewater-georgian-careful"
 BRIEF = "family-georgian"
@@ -670,6 +671,14 @@ def test_every_upper_bearing_line_stands_on_a_ground_bearing_line(sheets, kind, 
                        f"bearing line")
     assert not bad, (f"on {_engine(out)}, {len(bad)} of {len(upper)} upper bearing lines stand "
                      f"on nothing (ground bearing lines: {ground}): " + "; ".join(bad))
+    # AND OVER ITS WHOLE RUN (ruling 8 of 29 Oct 2026; WP-17.7, changed with the gate's own
+    # reader): a line whose position is on a ground line can still stand half over open floor.
+    ext = TF.bearing_extents(out) or {}
+    short = [r for r in ext.get("lines") or [] if not r["whole_run"]]
+    assert not short, (f"on {_engine(out)}, {len(short)} upper bearing wall(s) stand partly over "
+                       f"open floor: " + "; ".join(f"{r['axis']}={r['position_ft']:g} ft "
+                                                   f"{r['supported_ft']:g} of {r['run_ft']:g} ft"
+                                                   for r in short))
 
 
 @pytest.mark.parametrize("kind,engine", SHEETS, ids=IDS)

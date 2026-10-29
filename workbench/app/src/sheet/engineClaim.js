@@ -43,7 +43,7 @@ export const VERDICTS = Object.freeze(['proved', 'not-proved', 'searched', 'unju
 export function engineClaim(solver) {
   if (!solver || typeof solver !== 'object' || !solver.engine) {
     return { engine: null, cp: false, status: null, proved: false, objectiveRan: null,
-      wallsSetAside: 0, fellBack: false, reason: null, verdict: 'unjudged' };
+      wallsSetAside: 0, fellBack: false, chosenOverProof: false, reason: null, verdict: 'unjudged' };
   }
   const engine = String(solver.engine);
   const cp = engine === 'cp-sat';
@@ -60,9 +60,14 @@ export function engineClaim(solver) {
   const reason = typeof solver.reason === 'string' && solver.reason ? solver.reason : null;
   // `requested` is the hill-climb asked for by name (a wall drag); anything else is `auto`
   // having tried the proof and not got one, which is the case worth saying out loud.
-  const fellBack = !cp && reason !== null && reason !== 'requested';
+  // PHASE 17, WP-17.6 (rulings 1 and 6 of 29 Oct 2026): the proof ANSWERED and was refused a
+  // drawing, and the search's placement, which holds every fact the proof released and is no
+  // worse on sizes, bands and doors, is the one drawn. That is not a fall-back -- the proof did
+  // answer -- and "the proof was attempted and did not answer" would be false of it.
+  const chosenOverProof = !cp && solver.chosen_over_the_proof === true;
+  const fellBack = !cp && !chosenOverProof && reason !== null && reason !== 'requested';
   const verdict = cp ? (proved ? 'proved' : 'not-proved') : 'searched';
-  return { engine, cp, status, proved, objectiveRan, wallsSetAside, fellBack, reason, verdict };
+  return { engine, cp, status, proved, objectiveRan, wallsSetAside, fellBack, chosenOverProof, reason, verdict };
 }
 
 /* The status as the caption prints it: the solver's own status word, lower-cased, without the

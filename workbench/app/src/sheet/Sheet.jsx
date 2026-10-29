@@ -450,7 +450,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           + (claim.objectiveRan ? ''
             : 'The compositional objective did not run, so no term for the front, the axis or the stack was evaluated on it. ')
         : 'Placement searched, not proved — hill-climb'
-          + (claim.fellBack ? `, because ${claim.reason}` : '')
+          + (claim.fellBack || claim.chosenOverProof ? `, because ${claim.reason}` : '')
           + '. ';
   // everything the plate says after the sketch and the engine (WP-14.6's second audit)
   const note = plateNote({ wall, footprint: fp, placement, levelIndex, rooms, served, relax,

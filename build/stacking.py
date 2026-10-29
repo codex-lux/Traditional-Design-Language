@@ -207,8 +207,72 @@ def judge(plan):
     return kept, broken, unjudged
 
 
+# A SHARED CHASE, AND WHAT MAKES ONE (Phase 17, WP-17.1). `wet_stack_with` is the servicing claim:
+# the two rooms' waste and supply can run in one vertical chase. That is a weaker relation than a
+# structural stack and it is judged as one -- not containment, only that the chase has somewhere to
+# run. Across levels the two plans must overlap at all (`overlaps`, strict positive area): a chase
+# rising through a room's floor must come up inside the room above. On one level the two rooms must
+# share a wall: the same two figures `structure._shared_segment` and `typefacts` use for a shared
+# wall (facing edges within 0.4 ft, a common run longer than 1.0 ft), transcribed here because this
+# module is a leaf and may import neither.
+CHASE_EDGE_TOL_FT = 0.4
+CHASE_MIN_RUN_FT = 1.0
+
+
+def shares_chase(a, b, same_level):
+    """Can one vertical chase serve both rooms? `a` and `b` are `(x, y, w, h)`."""
+    if not same_level:
+        return overlaps(a, b)
+    ax0, ay0, ax1, ay1 = a[0], a[1], a[0] + a[2], a[1] + a[3]
+    bx0, by0, bx1, by1 = b[0], b[1], b[0] + b[2], b[1] + b[3]
+    if abs(ax1 - bx0) <= CHASE_EDGE_TOL_FT or abs(bx1 - ax0) <= CHASE_EDGE_TOL_FT:
+        if min(ay1, by1) - max(ay0, by0) > CHASE_MIN_RUN_FT:
+            return True
+    if abs(ay1 - by0) <= CHASE_EDGE_TOL_FT or abs(by1 - ay0) <= CHASE_EDGE_TOL_FT:
+        if min(ax1, bx1) - max(ax0, bx0) > CHASE_MIN_RUN_FT:
+            return True
+    return False
+
+
+def wet_judge(plan):
+    """Every `wet_stack_with` claim, sorted into kept / broken / unjudged-with-a-reason.
+
+    The servicing twin of `judge`. Until Phase 17 nothing judged this claim on a placed house:
+    `plan_check`'s servicing layer asks only whether the room it names is WET on the declared
+    record, and the engines' wet-over-wet charge is generic (any upper wet room over any ground wet
+    room). WP-17.1 moved seventeen bath-over-wet-room claims in thirteen partis from `stacks_over`
+    to this field (ruled by Lucas, 29 Oct 2026), and a claim moved out of a refusing fact must not
+    go quiet: it is still a claim about the placed house, so it is judged here and reported by the
+    drawn layer -- as servicing, which refuses nothing."""
+    by_level = rooms_by_level(plan)
+    level_of = {rid: lvl for lvl, rooms in by_level.items() for rid in rooms}
+    kept, broken, unjudged = [], [], []
+    for lvl in sorted(by_level):
+        for rid, r in by_level[lvl].items():
+            ws = r.get("wet_stack_with")
+            if not ws:
+                continue
+            e = {"room": rid, "with": ws, "field": "wet_stack_with", "level": lvl}
+            if ws not in level_of:
+                unjudged.append(dict(e, reason=NO_SUCH_ROOM))
+                continue
+            a = _rect(r)
+            b = _rect(by_level[level_of[ws]][ws])
+            if a is None:
+                unjudged.append(dict(e, reason=THIS_ROOM_UNPLACED))
+            elif b is None:
+                unjudged.append(dict(e, reason=TARGET_UNPLACED))
+            else:
+                (kept if shares_chase(a, b, level_of[ws] == lvl) else broken).append(e)
+    return kept, broken, unjudged
+
+
 def report(plan, weight=None):
-    """The block `geometry_report.stacking` carries, from both engines' record writers."""
+    """The block `geometry_report.stacking` carries, from both engines' record writers.
+
+    `claims`, `kept`, `broken` and `unjudged` are the STRUCTURAL claims (`stacks_over`), which
+    `typefacts.stacks` reads and a refusal can rest on. The servicing claims (`wet_stack_with`) sit
+    beside them under `wet` and refuse nothing (WP-17.1)."""
     kept, broken, unjudged = judge(plan)
     n = len(kept) + len(broken) + len(unjudged)
     note = "This record declares no vertical stack." if not n else (
@@ -217,6 +281,15 @@ def report(plan, weight=None):
         f"they name; {len(unjudged)} could not be evaluated and are named individually. "
         "Unjudged is not kept.")
     out = {"claims": n, "kept": kept, "broken": broken, "unjudged": unjudged, "note": note}
+    wk, wb, wu = wet_judge(plan)
+    if wk or wb or wu:
+        out["wet"] = {"claims": len(wk) + len(wb) + len(wu), "kept": wk, "broken": wb,
+                      "unjudged": wu,
+                      "note": (f"{len(wk)} of {len(wk) + len(wb) + len(wu)} declared wet stack(s) "
+                               f"can share a chase (overlapping plans across levels, a shared "
+                               f"wall on one level); {len(wb)} cannot; {len(wu)} could not be "
+                               f"evaluated. Servicing, not structure: none of these refuses a "
+                               f"drawing.")}
     if weight is not None:
         out["weight"] = weight
     return out

@@ -1940,7 +1940,7 @@ def _composer():
     return _mod("compose", os.path.join(ROOT, "build", "compose.py"))
 
 def compose(brief, candidates=4, include_plans=False, revise=True, revise_rounds=4,
-            revise_engine="auto", revise_budget_s=120.0):
+            revise_engine="auto", revise_budget_s=None):
     try:
         import jsonschema
         jsonschema.validate(brief, schema("brief"))
@@ -1955,8 +1955,11 @@ def compose(brief, candidates=4, include_plans=False, revise=True, revise_rounds
     bounded = []
     candidates = int(_bounded("candidates", candidates, 1, COMPOSE_MAX_CANDIDATES, 4, bounded))
     revise_rounds = int(_bounded("revise_rounds", revise_rounds, 0, REVISE_MAX_ROUNDS, 4, bounded))
-    revise_budget_s = _bounded("revise_budget_s", revise_budget_s, 0.0, REVISE_MAX_BUDGET_S,
-                               REVISE_DEFAULT_BUDGET_S, bounded)
+    # WP-17.6: an unstated set budget is the composer's own derivation (a placement per asked
+    # candidate plus the pool-fill's); a stated one is bounded as before
+    if revise_budget_s is not None:
+        revise_budget_s = _bounded("revise_budget_s", revise_budget_s, 0.0, REVISE_MAX_BUDGET_S,
+                                   REVISE_DEFAULT_BUDGET_S, bounded)
     if revise_engine not in ("heuristic", "cp", "auto"):
         return {"error": f"unknown revise_engine {revise_engine!r} -- one of heuristic, cp, auto"}
     res = _composer().compose(brief, candidates, revise=bool(revise), revise_rounds=revise_rounds,
@@ -2184,7 +2187,7 @@ def copy_json(o): return json.loads(json.dumps(o))
 # The routes read these too, so a second spelling cannot drift from this one.
 MAX_CANDIDATES = 2000            # geometry.solve's pool; a full placement loop per candidate
 REVISE_MAX_ROUNDS = 8
-REVISE_DEFAULT_BUDGET_S = 120.0  # compose()'s own default, per returned SET (not per candidate)
+REVISE_DEFAULT_BUDGET_S = 120.0  # a revise job's default, and a stated compose budget's bound default; an unstated compose budget is the composer's own derivation (WP-17.6)
 REVISE_MAX_BUDGET_S = 600.0
 COMPOSE_MAX_CANDIDATES = 24      # the parti catalogue holds 21
 

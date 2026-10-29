@@ -161,7 +161,7 @@
           },
           "wet_stack_with": {
             "type": "string",
-            "description": "SERVICING: the id of the room this room's wet stack shares a chase with, on any level including its own. No parti declares one today; the field exists so a parti CAN say it without reaching for `stacks_over`."
+            "description": "SERVICING: the id of the room this room's wet stack shares a chase with, on any level including its own. Until Phase 17 no parti declared one and every bath-over-wet-room claim borrowed `stacks_over`; WP-17.1 (ruled 29 Oct 2026) moved all seventeen, in thirteen partis, here. Judged on a placed house by `stacking.wet_judge` (a chase that can serve both rooms), and refuses nothing."
           },
           "note": {
             "type": "string"

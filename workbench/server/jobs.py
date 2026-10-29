@@ -24,6 +24,13 @@ core = corpus.core
 _JOBS = {}
 _POOL = ThreadPoolExecutor(max_workers=1)
 TTL_S = 30 * 60
+# PHASE 17, WP-17.6: the TTL is counted from when a job FINISHED, never from when it was
+# submitted. A compose now places up to eight houses at a minute's budget each, and a job that
+# waited its turn and then ran for ten minutes was reaped from `_JOBS` before -- or while -- its
+# reader could fetch the result, which reads exactly like a compose that never answered. A job
+# still queued is reaped from its submission (it has not started, and nobody is served by it
+# waiting longer); a RUNNING job is never reaped, because the pool is one worker and the job is
+# the only thing it is doing.
 # The pool is one worker and its queue was unbounded: thirty 8 MB plans submitted behind one
 # long job were held in memory before any ran, and a job reaped from _JOBS after the TTL still
 # ran when its turn came, for nobody (the session's audit). A submit that finds this many jobs
@@ -62,6 +69,7 @@ class Job:
         self.result = None
         self.error = None
         self.created = time.time()
+        self.finished = None
 
 
 def _rooms(plan):
@@ -88,6 +96,7 @@ def _run(job):
     if job.id not in _JOBS:
         # reaped while it waited its turn: nobody can read the result, so nothing is computed
         job.status = "error"
+        job.finished = time.time()
         job.error = "the job expired in the queue before it ran"
         return
     if job.kind == "revise":
@@ -166,9 +175,11 @@ def _run(job):
             result = composer.compose(job.brief, job.candidates)
         job.result = result
         job.status = "done"
+        job.finished = time.time()
         _put(job, "done", _strip_plans(result))
     except Exception as e:  # a failed compose is reported, never swallowed
         job.status = "error"
+        job.finished = time.time()
         job.error = str(e)[:500]
         _put(job, "error", {"error": job.error})
 
@@ -230,9 +241,11 @@ def _run_revise(job):
             result["plan"]["revision_report"] = result["report"]
         job.result = result
         job.status = "done"
+        job.finished = time.time()
         _put(job, "done", _strip_plans(result))
     except Exception as e:  # a failed revise is reported, never swallowed
         job.status = "error"
+        job.finished = time.time()
         job.error = str(e)[:500]
         _put(job, "error", {"error": job.error})
 
@@ -461,7 +474,18 @@ def _sse(event, data):
     return f"event: {event}\ndata: {json.dumps(data)}\n\n"
 
 
+def _age_s(job, now):
+    """How long a job has been reapable: from its finish if it finished, from its submission if
+    it is still queued, and never while it runs (None)."""
+    if job.status in ("done", "error"):
+        return now - (job.finished or job.created)
+    if job.status == "queued":
+        return now - job.created
+    return None
+
+
 def _reap():
     now = time.time()
-    for jid in [j for j, job in _JOBS.items() if now - job.created > TTL_S]:
+    for jid in [j for j, job in _JOBS.items()
+                if (_age_s(job, now) or 0.0) > TTL_S]:
         del _JOBS[jid]

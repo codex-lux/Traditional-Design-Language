@@ -172,9 +172,34 @@ export function setSize(result, asked) {
   const at = np && np.returned === true && np.appended === true
     ? cands.findIndex((c) => c && c.parti === np.parti) : -1;
   const extra = at >= 0 ? cands[at] : null;
+  /* PHASE 17, WP-17.6: and the ones FILLED FROM THE POOL. Where fewer of the set could be drawn
+     than were asked for, the composer places further down its ranked list and a drawable house it
+     finds joins the set (`pool_fill.added`, by parti) -- so four asked for can return six, and the
+     strip read "returned 6 of 4". Those are counted out of the set's own number and named beside
+     it, as the appended one is. A parti both appended and filled is counted once, as appended. */
+  const pf = result && result.pool_fill;
+  const added = new Set(pf && Array.isArray(pf.added) ? pf.added : []);
+  const filled = cands
+    .map((c, index) => ({ c, index }))
+    .filter(({ c, index }) => c && added.has(c.parti) && index !== at)
+    .map(({ c, index }) => ({ parti: c.parti, name: c.parti_name || c.parti, index }));
   return {
-    own: cands.length - (extra ? 1 : 0),
+    own: cands.length - (extra ? 1 : 0) - filled.length,
     asked,
     appended: extra ? { parti: extra.parti, name: extra.parti_name || extra.parti, index: at } : null,
+    filled,
   };
+}
+
+/** The diagrams the pool-fill placed and found still refused, in the composer's words
+ *  (`pool_fill.passed_over`), and the ones its budget did not reach (`not_reached`). Never a
+ *  silence: a set that came back short with nothing said reads as the composer not having tried. */
+export function poolPassedOver(result) {
+  const pf = result && result.pool_fill;
+  if (!pf) return { passed: [], notReached: [] };
+  const passed = (Array.isArray(pf.passed_over) ? pf.passed_over : [])
+    .filter((p) => p && p.parti)
+    .map((p) => ({ parti: p.parti, name: p.parti_name || p.parti, why: p.why || '' }));
+  const notReached = (Array.isArray(pf.not_reached) ? pf.not_reached : []).filter(Boolean);
+  return { passed, notReached };
 }
