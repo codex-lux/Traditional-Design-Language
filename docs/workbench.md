@@ -305,7 +305,7 @@ over `hashchange` in the same idiom as `planDoc`.
 - `-` holds an absent leading path key (`#/style/-/kit/cornice` is a slot with no style).
 - A URL cannot express "present, but null", and nothing downstream reads one.
 
-**Search.** `GET /api/search/index` serves every nameable thing once (887 entries, 283,092 bytes
+**Search.** `GET /api/search/index` serves every nameable thing once (890 entries, 283,092 bytes
 served as Starlette writes it, measured 26 Sep 2026 after WP-14.33's two glossary records; the
 282,370 that stood here was the 885-entry figure, left beside a count `check_counts.py --fix`
 rewrote, which is the one number of a pair that tool can reach. 282,370 was measured 25 Sep 2026
@@ -320,7 +320,7 @@ diagnostic tells quadrupled the payload and produced matches nobody could accoun
 payload states that boundary in its own `indexes` / `does_not_index` fields. Prose search
 belongs to `/api/styles?query=` and to the rail. Every entry carries a `cite`, so the
 palette dispatches through the citation router and cannot reach a place a citation could
-not name; `test_search_index.py` runs all 887 through the server's own validator.
+not name; `test_search_index.py` runs all 890 through the server's own validator.
 
 **Keys.** `app/src/keys.js` is the only file that binds one, and it binds three: `⌘K`/`ctrl-K`
 (palette), `/` (focus this surface's filter bar, via a one-line registration bus so the
