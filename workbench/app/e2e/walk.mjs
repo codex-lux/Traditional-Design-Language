@@ -4796,6 +4796,22 @@ async function journeyRead() {
   await ctx.close();
 }
 
+/* (8b) A PAGE WHOSE CODE CANNOT BE FETCHED IS SAID, AND THE SHELL STAYS (the second audit of
+   Phase 17). Compare is fetched only when first visited; a chunk that fails to arrive used to
+   unmount the whole app, because nothing in the tree caught it. A fresh context, so no cached chunk
+   answers for the one refused here. */
+{
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const p = await ctx.newPage();
+  await p.route('**/assets/Compare-*.js', (r) => r.abort());
+  await p.goto(BASE + '/#/compare/craftsman/greek-revival-american', { waitUntil: 'domcontentloaded' });
+  const said = p.locator('[data-surface-failed]');
+  await said.waitFor({ state: 'visible', timeout: 20000 }).catch(() => {});
+  check('a page whose code could not be fetched says so', await said.count() === 1);
+  check('and the shell around it stays standing', await p.locator('nav[aria-label="surfaces"]').count() === 1);
+  await ctx.close();
+}
+
 /* THE GATE SAYS ONE SENTENCE AND ASKS FOR NOTHING ELSE (WP-14.14, PRD §C.3, §J).
 
    Signed out, exactly one corpus path answers: `GET /api/glossary/about-tdl`, whose definition

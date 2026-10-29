@@ -394,7 +394,7 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
               const c = (sel ? cands.find((x) => x.id === sel) : cands[0])?.raw || {};
               const rows = c.decisions_structured
                 || (c.decisions || []).map((d) => ({ statement: d, kind: 'assumption' }));
-              const TONE = { judgment: 'var(--gilt-deep)', refusal: 'var(--brick)',
+              const TONE = { judgment: 'var(--text-accent)', refusal: 'var(--refusal-text)',
                 unsolved: 'var(--text-secondary)', disclosure: 'var(--sepia)', authored: 'var(--text-secondary)',
                 // WP-9.2's sixth kind: a move the loop applied, with its basis as `because`
                 revision: 'var(--gilt)' };

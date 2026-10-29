@@ -458,7 +458,10 @@ export function MapView({
           than half its own surface, and in full screen it got less than that. The prose is
           load-bearing and none of it is cut; it is the DRAWING that gets the guaranteed
           share now, and the legend that scrolls. */}
-      <div style={{ flex: 'none', borderTop: '1px solid var(--rule)', background: 'var(--paper)',
+      {/* paper, so its words take their paper values (the second audit of Phase 17: the codemod moved
+          this legend's words onto the text duties, which on the instrument are light, over a box that
+          paints --paper -- 2.26 : 1, and the coastline-failure line ~1 : 1, measured) */}
+      <div data-ground="vellum" style={{ flex: 'none', borderTop: '1px solid var(--rule)', background: 'var(--paper)',
         display: 'flex', flexDirection: 'column', minHeight: 0 }}>
       <div style={{ flex: '0 1 auto', padding: '9px 14px 8px', display: 'flex', gap: 26,
         alignItems: 'flex-start', flexWrap: 'wrap', overflowY: 'auto', minHeight: 0,
@@ -573,7 +576,7 @@ export function MapView({
       {/* what is under the cursor — anchored inside the map, not to the window, or it
           sits on top of the left rail */}
       {hover && (
-        <div style={{ position: 'absolute', left: 12, top: 12, zIndex: 30, maxWidth: 300,
+        <div data-ground="vellum" style={{ position: 'absolute', left: 12, top: 12, zIndex: 30, maxWidth: 300,
           background: 'var(--paper)', border: '1px solid var(--rule)', padding: '9px 11px',
           pointerEvents: 'none' }}>
           <Eyebrow tone="secondary" as="span">{hover.region}</Eyebrow>

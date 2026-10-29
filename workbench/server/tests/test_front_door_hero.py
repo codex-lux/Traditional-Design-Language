@@ -180,3 +180,13 @@ def test_a_sweep_that_finishes_after_a_reset_does_not_write_its_answer(monkeypat
     t.join(5)
     assert tuple(corpus.HERO_ORDER) not in corpus._FIRST_DRAWABLE_BY, "the stale sweep wrote its answer"
     corpus.reset_front_door()
+
+
+def test_every_record_an_order_names_exists():
+    """The second audit of Phase 17: HERO_ORDER named two files that do not exist, so the hint was
+    silently shorter than it read. A hint is not a claim, but a stale one hides its own staleness."""
+    import os
+    from workbench.server import corpus
+    for order in (corpus.HERO_ORDER, corpus.DRAWABLE_ORDER):
+        missing = [rel for rel in order if not os.path.isfile(os.path.join(corpus.ROOT, rel))]
+        assert missing == [], missing

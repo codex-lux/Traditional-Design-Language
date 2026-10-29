@@ -26,7 +26,9 @@ import { stripComments } from './sourceReader.mjs';
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const CSS = readFileSync(join(SRC, 'theme', 'tokens.css'), 'utf8');
 
-const DUTY = /^--(surface|text|border|link|sev|refusal-text|receipt|judge|mark)(-|$)/;
+// the ladders' duties joined the list with the second audit of Phase 17 (binding, variant, affinity,
+// a figure's kind, a lineage edge): each names a rung, not a pigment, and each must follow its ground
+const DUTY = /^--(surface|text|border|link|sev|refusal-text|receipt|judge|mark|bind|var|aff|kind|edge)(-|$)/;
 
 test('the premise: both ground blocks exist and each moves duties', () => {
   for (const g of GROUNDS) assert.ok(Object.keys(groundTokens(CSS, g)).length >= 10, `${g} block is read`);
@@ -228,7 +230,10 @@ function cssRuleRows(css) {
   const rows = [];
   for (const m of live.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
     const sel = m[1].trim();
-    if (sel.startsWith(':root') || sel.startsWith('[data-ground') || isPaperRule(sel)) continue;
+    // EXACT, not by prefix (the second audit of Phase 17): `[data-ground="instrument"] .x{color:var(--brick)}`
+    // began with a ground block's name and was exempt, and so was `.x` in a list that began with a paper rule
+    if (/^(:root|\[data-ground="(instrument|vellum)"\])$/.test(sel)) continue;
+    if (sel.split(',').every((part) => isPaperRule(part.trim()))) continue;
     // and a hue set as a word, which the instrument cannot read (Phase 17's audit)
     const hue = [...m[2].matchAll(/(?<![\w-])color:\s*var\(--(?:gilt(?:-deep)?|green(?:-deep)?|brick|salmon(?:-deep)?|sepia|refusal)\)/g)].length;
     const n = [...m[2].matchAll(PRIM)].length + hue;
@@ -241,6 +246,8 @@ test('no class rule in the stylesheet names a colour primitive, but the paper on
   assert.deepEqual(cssRuleRows(CSS), []);
   assert.deepEqual(cssRuleRows('.x{color:var(--ink-2)}'), ['.x: 1'], 'the reader sees a pigment in a rule');
   assert.deepEqual(cssRuleRows('.x{color:var(--gilt-deep)}'), ['.x: 1'], 'and a hue set as a word');
+  assert.deepEqual(cssRuleRows('[data-ground="instrument"] .x{color:var(--brick)}').length, 1, 'a rule under a ground is not the ground block');
+  assert.deepEqual(cssRuleRows('.tdl-plate, .x{color:var(--ink-2)}').length, 1, 'a list is paper only if every part is');
   assert.deepEqual(cssRuleRows('.x{border-color:var(--gilt-deep);color:var(--refusal-text)}'), [], 'but not an edge, or a duty');
   assert.deepEqual(cssRuleRows('.tdl-plate-caption{color:var(--ink-2)}'), ['.tdl-plate-caption: 1'],
     'a rule whose name begins with a paper one is not paper: the caption stands on the instrument');
@@ -380,4 +387,120 @@ function colorTokenRows() {
 }
 test('every token a word is set in reads 4.5 : 1 on the instrument, but the named exceptions', () => {
   assert.deepEqual(colorTokenRows(), Object.keys(COLOR_EXCEPT).sort());
+});
+
+/* ── 9. AN ELEMENT THAT PAINTS PAPER SAYS IT IS VELLUM (the second audit of Phase 17) ───────────
+   The atlas's legend and hover card painted `--paper` on the instrument without marking their
+   ground, so the text duties inside them took the instrument's light values: 2.26 : 1, and the
+   coastline-failure line about 1 : 1. A drawing (`svg`) is exempt, because its words are `fill`s. */
+import { elements } from './sourceReader.mjs';
+/* AND A CLASS WHOSE RULE PAINTS PAPER counts as painting it (the second audit: the definition
+   popover, `.tdl-term-pop`, paints paper in the stylesheet and carried no ground mark, so its links
+   took the instrument's `--link`, which is paper: 1.00 : 1 on every Term on every page). `tdl-vellum`
+   and `tdl-plate` are not marks on their own: an element carrying one marks its ground as well. */
+export function paperClasses(css) {
+  const out = new Set();
+  for (const m of css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    if (!/background(?:-color)?:\s*var\(--paper/.test(m[2])) continue;
+    for (const sel of m[1].split(',')) {
+      const c = /^\s*\.([A-Za-z0-9_-]+)\s*$/.exec(sel);
+      if (c) out.add(c[1]);
+    }
+  }
+  return out;
+}
+const PAPER_CLASSES = paperClasses(CSS);
+export function unmarkedPaper(src, classes = PAPER_CLASSES) {
+  return elements(src).filter((e) => {
+    if (e.name === 'svg') return false;
+    const head = e.head || '';
+    const cls = (/className=["'`{]([^"'`}]*)/.exec(head) || [])[1] || '';
+    const paints = /background(?:Color)?:\s*['"`]?var\(--paper/.test(head)
+      || cls.split(/\s+/).some((c) => classes.has(c));
+    return paints && !/data-ground=/.test(head);
+  }).map((e) => e.name);
+}
+test('every HTML element that paints paper marks itself vellum', () => {
+  const out = {};
+  const walkP = (d) => {
+    for (const f of readdirSync(d).sort()) {
+      const p = join(d, f);
+      if (statSync(p).isDirectory()) { walkP(p); continue; }
+      if (!/\.(jsx|js)$/.test(f) || /\.test\./.test(f)) continue;
+      const rows = unmarkedPaper(readFileSync(p, 'utf8'));
+      if (rows.length) out[relative(SRC, p)] = rows;
+    }
+  };
+  walkP(SRC);
+  assert.deepEqual(out, {});
+  assert.deepEqual(unmarkedPaper("<div style={{ background: 'var(--paper)' }}>x</div>"), ['div']);
+  assert.deepEqual(unmarkedPaper("<div data-ground=\"vellum\" style={{ background: 'var(--paper)' }}>x</div><svg style={{ background: 'var(--paper-lit)' }} />"), []);
+  assert.ok(PAPER_CLASSES.has('tdl-term-pop'), 'the premise: the popover paints paper in the stylesheet');
+  assert.deepEqual(unmarkedPaper('<span className="tdl-term-pop">x</span>'), ['span'], 'a paper class unmarked is caught');
+});
+
+/* ── 10. EVERY LADDER DUTY READS ON THE INSTRUMENT (the second audit of Phase 17) ─────────────────
+   The affinity ladder's words (`VariantPill`, `color: colour` off a map, which §8's scan of literal
+   tokens cannot see), the binding bars' fills and the kit-carrying edges' strokes were set in ladder
+   tokens resolved at :root -- gilt-deep, green-deep, brick and `--ink`, 1.26 : 1 at worst. A ladder
+   token is a word or a mark wherever it is used, so each reads 4.5 : 1 on every dark surface. */
+test('every binding, variant, affinity, kind, edge and judgment duty reads 4.5 : 1 on the instrument', () => {
+  const rows = [];
+  for (const [n, v] of Object.entries(groundTokens(CSS, 'instrument'))) {
+    if (!/^--(bind|var|aff|kind|edge|judge)-/.test(n)) continue;
+    const ink = groundValue(CSS, 'instrument', n);
+    if (!/^#[0-9a-f]{6}$/i.test(ink || '')) continue;      // a field wash or a width is not an ink
+    for (const s of SURFACES.instrument) {
+      const r = contrast(ink, groundValue(CSS, null, s));
+      if (r < 4.5) rows.push(`${n} (${v}) reads ${r.toFixed(2)} on ${s}`);
+    }
+  }
+  assert.deepEqual(rows, []);
+  const ladders = Object.keys(groundTokens(CSS, 'instrument')).filter((n) => /^--(aff|bind|var|kind|edge)-/.test(n));
+  assert.ok(ladders.includes('--aff-common') && ladders.includes('--bind-specified') && ladders.includes('--edge-carries'),
+    'the premise: the ladders are rebound on the instrument at all');
+});
+
+/* ── 11. A WORD'S COLOUR NAMED THROUGH A VARIABLE OR A MAP (the second audit of Phase 17) ─────────
+   §6 reads literals inside a `color:`; `color: tone` and `color: INK[k]` hid brick and gilt-deep
+   words on the dark (RevisionPanel's verdict, the affinity ladder's map). Every identifier a `color:`
+   names, or the map it indexes, is followed to its `const` in the same file, and that definition is
+   held to §6's rule. */
+export function namedPigmentRows(src) {
+  const live = stripComments(src);
+  const rows = [];
+  for (const m of live.matchAll(/(?<![\w-])color:\s*\(?\s*([A-Za-z_$][\w$]*)/g)) {
+    const name = m[1];
+    if (/^(on|off|true|false|null|undefined)$/.test(name)) continue;
+    const def = new RegExp(`(?:const|let|var)\\s+${name.replace(/\$/g, '\\$')}\\s*=\\s*([\\s\\S]*?)(?:;\\n|\\n\\n)`).exec(live);
+    if (def && RAW.test(def[1])) rows.push(name);
+  }
+  return [...new Set(rows)];
+}
+test('a colour named through a variable or a map is a duty too', () => {
+  const out = {};
+  const walkN = (d) => {
+    for (const f of readdirSync(d).sort()) {
+      const p = join(d, f);
+      if (statSync(p).isDirectory()) { walkN(p); continue; }
+      if (!/\.(jsx|js)$/.test(f) || /\.test\./.test(f)) continue;
+      const rel = relative(SRC, p);
+      if (DRAWING.some((r) => r.test(rel))) continue;   // a drawing's fills and strokes are pigments
+      const rows = namedPigmentRows(readFileSync(p, 'utf8'));
+      if (rows.length) out[rel] = rows;
+    }
+  };
+  walkN(SRC);
+  // named by identity, each measured, and the list only shrinks
+  const NAMED = {
+    // the decision log is a vellum receipt; its sepia and gilt kinds are paper rows that predate the
+    // phase (oq/two-inks-set-as-small-text-read-below-aa), and its judgment and refusal are duties
+    'surfaces/CandidateSet.jsx': ['TONE'],
+    // the bench's disclosure list is on the instrument, where its `copper`, --sepia, reads 5.00 : 1
+    'surfaces/PlanWorkbench.jsx': ['TONE'],
+  };
+  assert.deepEqual(out, NAMED);
+  assert.deepEqual(namedPigmentRows("const tone = x ? 'var(--brick)' : 'var(--text-body)';\nconst s = { color: tone };\n"), ['tone']);
+  assert.deepEqual(namedPigmentRows("const INK = { a: 'var(--gilt-deep)' };\nconst s = { color: INK[k] };\n"), ['INK']);
+  assert.deepEqual(namedPigmentRows("const tone = 'var(--refusal-text)';\nconst s = { color: tone };\n"), []);
 });

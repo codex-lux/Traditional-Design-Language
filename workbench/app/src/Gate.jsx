@@ -113,7 +113,10 @@ export function Gate({ onUnlocked, auth }) {
           disabled={busy || !password}
           style={{
             width: '100%', marginTop: 20, padding: '11px 14px',
-            font: 'var(--type-name)', color: 'var(--surface-panel)',
+            // inverted while it can act; while it cannot, its word is the body ink on a hairline
+            // field, so "Checking…" -- a status the reader waits on -- is read (the second audit of
+            // Phase 17 measured the inverted ink on the hairline field at 1.2 : 1)
+            font: 'var(--type-name)', color: busy || !password ? 'var(--text-body)' : 'var(--surface-panel)',
             background: busy || !password ? 'var(--border-hairline)' : 'var(--text-body)',
             border: 'none', borderRadius: 'var(--radius-0)',
             cursor: busy || !password ? 'default' : 'pointer',

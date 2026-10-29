@@ -216,7 +216,7 @@ export function Term({ id, field, value, children }) {
       </button>
       {isOpen && (
         <span role="dialog" id={popId} aria-labelledby={labelId} ref={popRef} tabIndex={-1}
-          className="tdl-term-pop" data-term-popover={view.key} data-side={pos ? pos.side : undefined}
+          className="tdl-term-pop" data-ground="vellum" data-term-popover={view.key} data-side={pos ? pos.side : undefined}
           style={style}
           onPointerEnter={() => clearTimeout(timers.current.close)}
           onPointerLeave={() => { if (how.current === 'hover') closeSoon(); }}

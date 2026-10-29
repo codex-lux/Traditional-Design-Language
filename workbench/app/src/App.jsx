@@ -32,6 +32,7 @@ import { layout, PANES, surfaceWidth, MAIN_FLOOR_PX } from './state/layout.js';
 import { Gate } from './Gate.jsx';
 import { RailHost, assistantName } from './rail/RailHost.jsx';
 import { PageHead } from './components/PageHead.jsx';
+import { SurfaceBoundary } from './components/SurfaceBoundary.jsx';
 import { ColdLinkBanner } from './components/ColdLinkBanner.jsx';
 import { useGlossary } from './api/useGlossary.js';
 import { useNames } from './names/useNames.js';
@@ -331,6 +332,12 @@ export default function App() {
   }
   if (locked) return <Gate onUnlocked={boot} auth={health?.auth} />;
 
+  // THE JOURNEY IS MOUNTED ONCE, here, and handed to the sidebar, or to the top bar while the
+  // sidebar is folded (the second audit of Phase 17: folding the rail hid the refusal and Next).
+  // Compact wherever it is not the open sidebar's own house page.
+  const spineEl = <JourneySpine surface={surface} lastEval={lastEval} selection={selection}
+    compact={sidebar.compact || !layout.isOpen('nav')} />;
+
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       {/* Full screen takes the masthead and both rails, not just the rails: on the
@@ -341,6 +348,8 @@ export default function App() {
       {!full && (
         <TopBar crumbs={crumbs} address={typeof window !== 'undefined' ? window.location.hash || '#/' : null}
           navOpen={layout.isOpen('nav')}
+          plan={plan} planStep={journey.steps.find((s) => s.id === 'plan')}
+          spine={layout.isOpen('nav') ? null : spineEl}
           onAsk={() => layout.setCollapsed('rail', false)}
           onSearch={() => setPalette(true)}
           onKeys={() => { setPalette(false); setHelpCard(true); }} />
@@ -354,17 +363,19 @@ export default function App() {
             plan={plan} planStep={journey.steps.find((s) => s.id === 'plan')}
             onSearch={() => setPalette(true)}
             onKeys={() => { setPalette(false); setHelpCard(true); }}
-            spine={<JourneySpine surface={surface} lastEval={lastEval} selection={selection} compact={sidebar.compact} />} />
+            spine={spineEl} />
         )}
         {!full && layout.isOpen('nav') && <Splitter pane="nav" grows="left" />}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
           {!full && <PageHead termId={headTermFor(place)} />}
           <main data-ground={groundOf(SURFACES[surface] ? surface : 'workbench')}
             style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
+            <SurfaceBoundary key={surface}>
             <React.Suspense fallback={<p role="status" aria-busy="true" data-surface-loading=""
               style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '18px 22px' }}>…</p>}>
               <Active {...shared} lastEval={lastEvalHere} />
             </React.Suspense>
+            </SurfaceBoundary>
           </main>
         </div>
         {!full && layout.isOpen('rail') && <Splitter pane="rail" grows="right" />}

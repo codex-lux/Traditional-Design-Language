@@ -51,7 +51,7 @@ function RecordCard({ solid, onClose }) {
   const src = (solid.source && solid.source.record) || '';
   return (
     <div
-      data-round-card=""
+      data-round-card="" data-ground="vellum"
       style={{
         position: 'absolute', right: 10, top: 10, maxWidth: 300, background: 'var(--paper)',
         border: '1px solid var(--ink-3)', boxShadow: 'var(--shadow-plate)', padding: '10px 12px',
@@ -186,7 +186,7 @@ export function RoundPlate({
      a reader arriving here has to be told which record was refused. */
   if (refusedPlacement) {
     return (
-      <div data-round-refused={refusedPlacement.kind} style={{
+      <div data-round-refused={refusedPlacement.kind} data-ground="vellum" style={{
         position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
         boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px',
       }}>
@@ -197,7 +197,7 @@ export function RoundPlate({
   }
 
   return (
-    <div style={{
+    <div data-ground="vellum" style={{
       position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
       boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px',
     }}>

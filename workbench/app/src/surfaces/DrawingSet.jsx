@@ -103,15 +103,17 @@ const DISCLOSURE = {
 };
 
 /* HOW MUCH OF THE CORPUS WAS EVALUATED ON THIS HOUSE (Phase 17, WP-17.7): the faults that ran --
-   present or clear -- out of every fault, with the unjudged and the not-applicable in the total
-   and never among the evaluated. Read off the bench's own evaluation of this plan; where there is
-   none, nothing is said. */
+   present or clear -- out of those that APPLY to the house, the unjudged in the total and never
+   among the evaluated. A not-applicable fault is not in the total (the second audit of Phase 17:
+   it was, under a record saying "out of those that apply"), because its question does not arise
+   for this house and it was never a fault the house could be judged against. Read off the bench's
+   own evaluation of this plan; where there is none, nothing is said. */
 function Evaluated({ check }) {
   const f = check && check.fault_summary;
   if (!f) return null;
   const n = (k) => (Number.isFinite(f[k]) ? f[k] : 0);
   const evaluated = n('present') + n('clear');
-  const of = evaluated + n('unjudged') + n('not_applicable');
+  const of = evaluated + n('unjudged');
   if (!of) return null;
   return (
     <div data-evaluated={evaluated} data-evaluated-of={of}

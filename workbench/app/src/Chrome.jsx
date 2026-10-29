@@ -36,17 +36,18 @@ function Count({ n, termId }) {
 /* What is on the bench, said as a place and three counts — never the plan's id and style as
    bare text, and never the counts of a plan that is not this one (the journey reads an
    evaluation only for the plan it was of). */
-function OnTheBench({ plan, planStep }) {
+function OnTheBench({ plan, planStep, row = false }) {
   const counts = planStep && planStep.counts;
   const state = planStep ? planStep.state : null;
   const name = plan && typeof plan.name === 'string' && plan.name.trim() ? plan.name : (plan ? plan.id : null);
   const sep = <span aria-hidden="true" style={{ color: 'var(--text-secondary)' }}>{JOURNEY_WORDS.separator}</span>;
   return (
-    <div data-bench="" style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0 }}>
+    <div data-bench="" style={{ display: 'flex', flexDirection: row ? 'row' : 'column', alignItems: row ? 'baseline' : undefined,
+      gap: row ? 10 : 3, minWidth: 0 }}>
       {name && (
         <a href="#/workbench" data-bench-link=""
-          style={{ font: 'var(--fw-med) 16px/1.3 var(--body)', color: 'var(--text-body)', borderBottom: 'none',
-            overflowWrap: 'anywhere' }}>
+          style={{ font: row ? 'var(--fw-med) 13px/1.3 var(--body)' : 'var(--fw-med) 16px/1.3 var(--body)', color: 'var(--text-body)',
+            borderBottom: 'none', overflowWrap: 'anywhere', whiteSpace: row ? 'nowrap' : undefined }}>
           <span className="tdl-sr-only">On the bench: </span>{name}
         </a>
       )}
@@ -104,12 +105,23 @@ function SearchInvitation({ onSearch }) {
    it, and the one button that opens the assistant, which is folded until it is asked for. The
    wordmark, the bench, search and the keys moved into the sidebar; while the sidebar is folded the
    search and the keys stand here, so neither is ever off the screen. */
-export function TopBar({ crumbs, address, onAsk, onSearch, onKeys, navOpen }) {
+/* WHILE THE LEFT RAIL IS FOLDED THE TOP BAR CARRIES THE HOUSE (the second audit of Phase 17): the
+   bench's counts and refusal, and the journey as five marks, lived only in the rail, so folding it
+   hid the refusal and Next together -- the "refusal invisible on the counts line" the candidate-click
+   work had fixed, reintroduced by the layout. They are the rail's own components, drawn here only
+   while the rail is folded, so nothing is decided twice and no hook is doubled. */
+export function TopBar({ crumbs, address, onAsk, onSearch, onKeys, navOpen, plan, planStep, spine }) {
   const ask = useTermDescription('ask-the-corpus');
   return (
     <header data-topbar="" style={{ height: 'var(--topbar-h)', flex: 'none', display: 'flex', alignItems: 'center',
       gap: 16, padding: '0 16px', borderBottom: '1px solid var(--border-hairline)', background: 'var(--surface-chrome)' }}>
       {!navOpen && <Wordmark compact />}
+      {!navOpen && (plan || spine) && (
+        <div data-topbar-house="" style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0, flexShrink: 0 }}>
+          {plan && <OnTheBench plan={plan} planStep={planStep} row />}
+          {spine}
+        </div>
+      )}
       <CrumbStrip crumbs={crumbs} />
       {address && (
         <code data-address="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap',

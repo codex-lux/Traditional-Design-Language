@@ -31,7 +31,9 @@ const quiet = { font: 'var(--type-data-s)', color: 'var(--text-secondary)' };
 const receipt = { font: 'var(--fw-reg) 12px/1.5 var(--receipt, var(--mono))', color: 'var(--text-secondary)' };
 
 function Move({ m, findingText, onCite }) {
-  const tone = m.refused || m.refusedByMeasurement ? 'var(--brick)' : m.cleared ? 'var(--gilt-deep)' : 'var(--text-secondary)';
+  // a word and an edge, so duties (the second audit of Phase 17: brick and gilt-deep read 3.43 and
+  // 2.93 : 1 here on the dark, through a variable no `color:` literal scan sees)
+  const tone = m.refused || m.refusedByMeasurement ? 'var(--refusal-text)' : m.cleared ? 'var(--text-accent)' : 'var(--text-secondary)';
   const verdict = m.refused ? `refused: ${m.refused}`
     // WP-13.9: two causes, two sentences. A round rolled back because its re-placement broke a
     // hard fact of the type did not necessarily make the key worse -- it usually makes it

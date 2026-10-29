@@ -1375,9 +1375,9 @@ HERO_ORDER = (
     "plans/reference/good-03-parlor-drawing-room-house.json",
     "plans/reference/good-01-veranda-gallery-estate.json",
     "plans/reference/good-02-portico-library-house.json",
-    "plans/reference/good-04-sunroom-family-house.json",
+    "plans/reference/good-04-rambling-porch-farmhouse.json",
     "plans/reference/good-05-lobby-gallery-mansion.json",
-    "plans/reference/good-06-courtyard-hacienda.json",
+    "plans/reference/good-06-dogtrot-farmhouse-sketch.json",
     "plans/reference/good-07-diamond-plan-house.json",
     "plans/tidewater-georgian-careful.json",
     "plans/spec-builder-colonial.json",
@@ -1527,7 +1527,9 @@ def front_door_hero_now():
         def run():
             try:
                 front_door_hero()
-            except Exception as e:                  # noqa: BLE001 -- a failed sweep is unjudged
+            # SystemExit too: `render_plan` and `resolve_kit` raise it, and a thread it ends would leave
+            # the route `pending` and start a sweep on every poll (the second audit of Phase 17)
+            except (Exception, SystemExit) as e:    # noqa: BLE001 -- a failed sweep is unjudged
                 import logging
                 logging.getLogger("tdl.front-door").exception("the hero sweep failed")
                 if gen == _HERO_GEN[0]:
@@ -1562,7 +1564,11 @@ def elevation_datums(elev):
     add("grade", 0.0, "the plate's own datum")
     g = elev.get("ground_grade_to_floor_in")
     add("ground-floor", g, "ground_grade_to_floor_in")
-    if elev.get("upper_storey_id") and isinstance(g, (int, float)):
+    # by the elevation's own storey count (the second audit of Phase 17): `upper_storey_id` is the
+    # GROUND storey's id on a one-storey house (`build/elevation.py` falls back to it), so reading
+    # it drew an upper floor 14.28 ft up on good-03, which has one storey
+    sc = elev.get("storey_count")
+    if isinstance(sc, int) and sc >= 2 and isinstance(g, (int, float)):
         h = elev.get("ground_storey_height_in")
         if isinstance(h, (int, float)):
             add("upper-floor", g + h, "ground_grade_to_floor_in + ground_storey_height_in")

@@ -58,8 +58,13 @@ test('App mounts the journey once, in the sidebar and above <main>, on every pag
   assert.equal(mounts.length, 1, 'mounted once, by App');
   const at = mounts[0].index;
   assert.ok(at < app.indexOf('<main'), 'outside <main>, so it is not part of any surface');
-  assert.match(app.slice(at - 40, at), /spine=\{\s*$/, 'handed to the sidebar as its spine');
-  assert.match(app.slice(at, at + 160), /compact=\{sidebar\.compact\}/, 'compact where nav/sidebar.js says');
+  // one element, built once and handed to the sidebar, and to the top bar while the sidebar is
+  // folded (the second audit of Phase 17: a folded rail took the refusal and Next with it)
+  assert.match(app.slice(at - 40, at), /const spineEl = $/, 'built once, as one element');
+  assert.match(app.slice(at, at + 200), /compact=\{sidebar\.compact \|\| !layout\.isOpen\('nav'\)\}/,
+    'compact where nav/sidebar.js says, and wherever the sidebar is folded');
+  assert.match(app, /<LeftRail[\s\S]*?spine=\{spineEl\}/, 'the sidebar draws it');
+  assert.match(app, /<TopBar[\s\S]*?spine=\{layout\.isOpen\('nav'\) \? null : spineEl\}/, 'and the top bar, only while the sidebar is folded');
 });
 
 test('a step is named by its surface\'s own glossary record, and every id the bar asks for exists', (t) => {
