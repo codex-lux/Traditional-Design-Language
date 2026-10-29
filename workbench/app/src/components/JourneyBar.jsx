@@ -46,14 +46,14 @@ function useWord(id) {
 
 const stepStyle = (item) => ({
   font: 'var(--fw-reg) 14px/1.35 var(--body)',
-  color: item.current ? 'var(--ink)' : (item.link ? 'var(--link)' : 'var(--ink-2)'),
+  color: item.current ? 'var(--text-body)' : (item.link ? 'var(--link)' : 'var(--text-secondary)'),
   borderBottom: item.current ? '2px solid var(--gilt)' : (item.link ? '1px solid var(--link-underline)' : 'none'),
   fontWeight: item.current ? 600 : 400,
   whiteSpace: 'nowrap',
 });
 
-const num = { font: 'var(--type-data-s)', color: 'var(--ink-2)', marginRight: 4 };
-const words = { font: 'italic var(--fw-reg) 13px/1.35 var(--body)', color: 'var(--ink-2)' };
+const num = { font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginRight: 4 };
+const words = { font: 'italic var(--fw-reg) 13px/1.35 var(--body)', color: 'var(--text-secondary)' };
 
 /* The plan step's words, with the four that are glossary terms drawn as Terms. The text reads
    exactly as the journey's `words` does — `journey.test.mjs` holds each term's record `term` to
@@ -103,7 +103,7 @@ function Alternate({ alt, planN }) {
   const item = { current: alt.current, link: true };
   return (
     <li data-journey-step={alt.id} style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6,
-      borderLeft: '1px solid var(--rule)', paddingLeft: 12 }}>
+      borderLeft: '1px solid var(--border-hairline)', paddingLeft: 12 }}>
       <a href={alt.href} data-step={alt.id} aria-current={alt.current ? 'step' : undefined}
         aria-describedby={d.describedBy} title={d.title} style={stepStyle(item)}>{word}</a>
       {d.element}
@@ -141,10 +141,10 @@ export function JourneyBar({ surface, lastEval, selection }) {
   return (
     <nav aria-label="house journey" data-journey=""
       style={{ flex: 'none', display: 'flex', flexWrap: 'wrap', alignItems: 'baseline',
-        columnGap: 18, rowGap: 4, padding: '7px 16px 6px', borderBottom: '1px solid var(--rule)',
-        background: 'var(--paper)' }}>
+        columnGap: 18, rowGap: 4, padding: '7px 16px 6px', borderBottom: '1px solid var(--border-hairline)',
+        background: 'var(--surface-panel)' }}>
       <span style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-        textTransform: 'uppercase', color: 'var(--ink-2)' }}>
+        textTransform: 'uppercase', color: 'var(--text-secondary)' }}>
         <Term id={BAR_TERMS.group} />
       </span>
       <ol style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: 16,
@@ -164,11 +164,11 @@ function Origin({ origin, plan }) {
   const id = plan && typeof plan.id === 'string' ? plan.id : null;
   return (
     <p data-journey-origin={origin.kind}
-      style={{ flexBasis: '100%', margin: 0, font: 'var(--fw-reg) 13px/1.4 var(--body)', color: 'var(--ink-2)' }}>
+      style={{ flexBasis: '100%', margin: 0, font: 'var(--fw-reg) 13px/1.4 var(--body)', color: 'var(--text-secondary)' }}>
       <Term id={BAR_TERMS.bench} />
       {': '}
-      <span style={{ color: 'var(--ink)' }}>{name || id}</span>
-      {name && id && <code style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginLeft: 6 }}>{id}</code>}
+      <span style={{ color: 'var(--text-body)' }}>{name || id}</span>
+      {name && id && <code style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginLeft: 6 }}>{id}</code>}
       {W.separator}
       {origin.href
         ? <a href={origin.href} data-origin-link="">{origin.words}</a>

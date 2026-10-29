@@ -13,20 +13,20 @@ const LADDERS = {
   variant: {
     canonical: 'var(--var-canonical)',
     permitted: 'var(--var-permitted)',
-    atypical: 'var(--ink-2)',
+    atypical: 'var(--text-secondary)',
     forbidden: 'var(--var-forbidden)'
   },
   binding: {
     specified: 'var(--bind-specified)',
     extends: 'var(--bind-extends)',
     forbidden: 'var(--bind-forbidden)',
-    open: 'var(--ink-2)'
+    open: 'var(--text-secondary)'
   },
   affinity: {
     canonical: 'var(--aff-canonical)',
     common: 'var(--aff-common)',
     possible: 'var(--aff-possible)',
-    atypical: 'var(--ink-2)',
+    atypical: 'var(--text-secondary)',
     forbidden: 'var(--aff-forbidden)'
   }
 };
@@ -37,7 +37,7 @@ function VariantPill({
   note,
   style
 }) {
-  const colour = (LADDERS[ladder] || LADDERS.variant)[status] || 'var(--ink-2)';
+  const colour = (LADDERS[ladder] || LADDERS.variant)[status] || 'var(--text-secondary)';
   const forbidden = status === 'forbidden';
   return /*#__PURE__*/React.createElement("span", {
     style: {
@@ -67,7 +67,7 @@ function VariantPill({
   }, status), note && /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       maxWidth: 'var(--measure-note)'
     }
   }, note));

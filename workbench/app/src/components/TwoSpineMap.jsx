@@ -42,11 +42,11 @@ function Inner({ it }) {
   return (
     <>
       {it.step != null && (
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginRight: 6 }}>{it.step}</span>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginRight: 6 }}>{it.step}</span>
       )}
       <Label it={it} />
       {it.meta != null && (
-        <span data-meta="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginLeft: 7 }}>
+        <span data-meta="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginLeft: 7 }}>
           {String(it.meta)}
         </span>
       )}
@@ -57,7 +57,7 @@ function Inner({ it }) {
 const linkStyle = (it) => ({
   display: 'inline-block',
   font: it.depth > 0 ? 'var(--fw-reg) var(--fs-body-s)/1.35 var(--serif)' : 'var(--fw-reg) var(--fs-body)/1.35 var(--serif)',
-  color: 'var(--ink)',
+  color: 'var(--text-body)',
   textDecoration: 'none',
   borderBottom: it.current ? '2px solid var(--gilt-deep)' : '1px solid var(--link-underline)',
   paddingBottom: 1,
@@ -103,10 +103,10 @@ export function TwoSpineMap({ model }) {
       {rows.map((row) => (
         <div key={row.id} data-spine-row={row.id} style={{
           display: 'grid', gridTemplateColumns: 'minmax(5.5rem, 7.5rem) 1fr', gap: '4px 16px',
-          padding: '10px 0 11px', borderTop: '1px solid var(--rule-soft)', alignItems: 'baseline',
+          padding: '10px 0 11px', borderTop: '1px solid var(--border-soft)', alignItems: 'baseline',
         }}>
           <dt style={{ font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-            textTransform: 'uppercase', color: 'var(--ink-2)' }}>
+            textTransform: 'uppercase', color: 'var(--text-secondary)' }}>
             {row.termId ? <Term id={row.termId} /> : null}
           </dt>
           <dd style={{ margin: 0, display: 'flex', flexWrap: 'wrap', gap: '6px 22px', minWidth: 0 }}>

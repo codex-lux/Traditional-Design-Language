@@ -37,6 +37,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { stripComments } from './sourceReader.mjs';
+import { stripGrounds, contrast } from './grounds.js';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const TOKENS = join(SRC, 'theme', 'tokens.css');
@@ -52,7 +53,9 @@ const TOKENS = join(SRC, 'theme', 'tokens.css');
    verdict here while the page drew the second). The reduced-motion durations are the one
    legitimate redeclaration, and `test_no colour token is declared twice` holds the rest. */
 export function cssTokens(css) {
-  const live = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  /* The :root answer: the two ground blocks (Phase 17) rebind duties per ground and are read by
+     `grounds.js`, and `grounds.test.mjs` judges each ground's inks on that ground's own papers. */
+  const live = stripGrounds(css).replace(/\/\*[\s\S]*?\*\//g, '');
   const defs = {};
   for (const m of live.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;}]+)[;}]/gi)) defs[m[1]] = m[2].trim();
   return defs;
@@ -291,15 +294,8 @@ function tokenValues(css) {
   return { defs, hex };
 }
 
-export function contrast(a, b) {
-  const lum = (h) => {
-    const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255)
-      .map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
-    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-  };
-  const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
-  return (hi + 0.05) / (lo + 0.05);
-}
+/* One spelling of the arithmetic, `grounds.js`'s, which the ground test reads too (Phase 17). */
+export { contrast };
 
 export function linkTokenVerdict(css) {
   const { defs, hex } = tokenValues(css);
@@ -647,7 +643,8 @@ test('an element with the link class sets neither its colour nor its underline i
 });
 
 test('no colour token is declared twice, so the reader and the page agree on every ink', () => {
-  const css = readFileSync(TOKENS, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  // the ground blocks restate duties by design, and `grounds.test.mjs` holds those restatements
+  const css = stripGrounds(readFileSync(TOKENS, 'utf8')).replace(/\/\*[\s\S]*?\*\//g, '');
   const seen = {};
   for (const m of css.matchAll(/(--[a-z0-9-]+)\s*:/g)) seen[m[1]] = (seen[m[1]] || 0) + 1;
   const twice = Object.keys(seen).filter((k) => seen[k] > 1 && !k.startsWith('--dur-'));

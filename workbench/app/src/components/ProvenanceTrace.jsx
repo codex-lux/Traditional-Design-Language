@@ -8,7 +8,7 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-2)'
+  color: 'var(--text-secondary)'
 };
 function ProvenanceTrace({
   cascade,
@@ -33,12 +33,12 @@ function ProvenanceTrace({
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)'
+        color: 'var(--text-secondary)'
       }
     }, "\u2191", hit.distance), /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: hit.distance === 0 ? 'var(--ink)' : 'var(--ink-2)'
+        color: hit.distance === 0 ? 'var(--text-body)' : 'var(--text-secondary)'
       }
     }, hit.id));
   }
@@ -57,7 +57,7 @@ function ProvenanceTrace({
   }, "cascade\xA0\xA0(nearest first)"), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)'
+      color: 'var(--text-secondary)'
     }
   }, cascade.length, " levels")), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -80,14 +80,14 @@ function ProvenanceTrace({
         height: 'var(--row-h)',
         padding: '0 6px',
         cursor: onSelect ? 'pointer' : 'default',
-        background: isSource ? 'var(--paper-deep)' : 'transparent',
+        background: isSource ? 'var(--surface-raised)' : 'transparent',
         borderLeft: isSource ? '2px solid var(--gilt-deep)' : '2px solid transparent',
         transition: 'var(--t-hover)'
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         width: 22,
         flex: 'none',
         textAlign: 'right'
@@ -100,18 +100,18 @@ function ProvenanceTrace({
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
-        color: isSource ? 'var(--gilt-deep)' : l.distance === 0 ? 'var(--ink)' : 'var(--ink-2)'
+        color: isSource ? 'var(--gilt-deep)' : l.distance === 0 ? 'var(--text-body)' : 'var(--text-secondary)'
       }
     }, l.id), /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         flex: 'none'
       }
     }, l.bindings), l.detail && /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         flex: 'none',
         maxWidth: 176,
         overflow: 'hidden',

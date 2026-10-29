@@ -36,8 +36,16 @@
 
    Duties are exclusive: green never means anything but growth, blue never anything but
    water, salmon never anything but cut construction. Color names things; it never
-   outlines them. This palette SUPERSEDES the dark drawing-office tokens of UISPEC §10,
-   at the user's direction (readme.md §1).
+   outlines them.
+
+   TWO GROUNDS SINCE 29 OCT 2026 (Phase 17, docs/design/ui-redesign-2026-10-29.md). This comment
+   said until then that the palette was single-theme by design and SUPERSEDED the dark
+   drawing-office tokens of UISPEC §10, at the user's direction. On 29 Oct Lucas ruled the
+   reverse: the instrument is dark and the plates are vellum, which is the §10 proposal the build
+   had not taken. NOTHING BELOW CHANGED VALUE. A primitive is a pigment and stays one: --paper is
+   #F1EBDB on every ground. What moves is the SEMANTIC layer (the --surface, --text, --border and
+   --link duties further down), rebound under [data-ground="instrument"] and restored under
+   [data-ground="vellum"]. Four primitives were added for the dark ground, each with its duty.
    ─────────────────────────────────────────────────────────────────────────── */
 :root{
   /* The ground. No pure white anywhere — highlights are reserved vellum. */
@@ -49,6 +57,9 @@
   /* The ink ladder — warm graphite, four steps. The line does the thinking. */
   --coal:#221F1A;                /* cut line, glazing, small-scale poche */
   --heavy:#2E2A23;               /* profile — where mass meets air */
+  /* The instrument's two half-steps (Phase 17). A panel on the dark ground, and an inset field. */
+  --heavy-2:#262219;             /* a panel set on the instrument's --heavy ground */
+  --coal-deep:#1A1714;           /* an inset field on the instrument: an input, a well */
   --ink:#3F3A31;                 /* the working dark: medium line, lettering */
   --ink-2:#6C6557;               /* graphite: fine line, hatching, asides */
   --ink-3:#8C8371;               /* derived half-step: tertiary labels */
@@ -58,6 +69,9 @@
   /* Rules. Hairline separation everywhere, after the spec tables of the standard. */
   --rule:#A69D89;                /* framed edges, borders */
   --rule-soft:#DCD3BD;           /* derived: row rules inside a panel */
+  /* Rules on the instrument (Phase 17): vellum laid thin over coal, a hairline and a border. */
+  --rule-on-dark:rgba(241,235,219,.12);   /* hairline separation on the dark ground */
+  --rule-on-dark-2:rgba(241,235,219,.22); /* a framed edge on the dark ground */
 
   /* The five duties. Pigment settled into paper, never ink from a screen. */
   --salmon:#DBA28B;              /* cut masonry — the warm flesh of the wall */
@@ -332,6 +346,9 @@
   --surface-paper:var(--paper);
   --surface-paper-lit:var(--paper-lit);
   --surface-tracing:var(--paper-mat);
+  --surface-chrome:var(--paper);
+  /* A focused or lit field: the reserved highlight on vellum, an inset well on the instrument. */
+  --surface-lit:var(--paper-lit);
 
   /* Text */
   --text-body:var(--ink);
@@ -465,6 +482,9 @@
      --mark-refused, on the card and on the mark alike (ruled 26 Sep 2026,
      oq/a-refusal-is-drawn-in-two-inks-and-one-is-a-traditions-hue). Violet is --t4 and nothing else. */
   --refusal:var(--brick);
+  /* A refusal's SENTENCE. Brick on paper; on the instrument the brick reads 3.4 : 1 as type, so
+     the band stays brick and the sentence takes the salmon (Phase 17). */
+  --refusal-text:var(--brick);
   --receipt:var(--ink-2);
 
   /* Retired names (the dark-instrument system), kept as compat aliases so older markup
@@ -479,6 +499,85 @@
   --wash-sanguine-1:var(--wash-salmon-1); --wash-indigo-2:var(--wash-blue-2); --wash-olive-2:var(--wash-green-2); --wash-umber-2:var(--wash-sepia-2);
   --shadow-board:var(--shadow-plate); /* @kind shadow */
 }
+
+/* ── THE TWO GROUNDS (Phase 17, ruled 29 Oct 2026) ──────────────────────────
+   One mechanism, two scopes. Each block rebinds the SEMANTIC duties and nothing else: no
+   primitive is redeclared, so a pigment means the same everywhere and a token resolved for its
+   contrast is judged at its true value. The instrument block names every duty it moves; the
+   vellum block restores each of them to its :root value, so a plate set inside the instrument
+   reads exactly as the page read before the instrument existed. `src/grounds.js` is the one reader
+   of these two blocks, and `src/grounds.test.mjs` holds that every token moved in one is restored
+   in the other, to the :root value, and that every text duty reads 4.5 : 1 on its ground.
+
+   Measured on the instrument (WCAG ratio): --paper on --heavy 11.99, --ink-4 on --heavy 5.30 and
+   on --coal 6.10, --gilt on --heavy 4.57; --ink-3 on --heavy 3.81 and --ink-2 2.47, so neither is
+   ever type here; --brick 3.43, which is why a refusal's sentence moves to --salmon (6.49). */
+[data-ground="instrument"]{
+  --surface-app:var(--heavy);
+  --surface-panel:var(--heavy-2);
+  --surface-raised:var(--heavy-2);
+  --surface-well:var(--coal-deep);
+  --surface-card:var(--heavy-2);
+  --surface-chrome:var(--coal);
+  --surface-lit:var(--coal-deep);
+  --text-body:var(--paper);
+  --text-secondary:var(--ink-4);
+  --text-tertiary:var(--ink-4);
+  --text-disabled:var(--ink-2);
+  --text-accent:var(--gilt);
+  --border-hairline:var(--rule-on-dark);
+  --border-soft:var(--rule-on-dark);
+  --border-paper:var(--rule-on-dark-2);
+  --border-focus:var(--gilt);
+  --link:var(--paper);
+  --link-hover:var(--paper);
+  --link-underline-hover:var(--gilt);
+  --sev-minor:var(--gilt);
+  --sev-advisory:var(--ink-4);
+  --sev-info:var(--ink-4);
+  --refusal-text:var(--salmon);
+  --receipt:var(--ink-4);
+}
+[data-ground="vellum"]{
+  --surface-app:var(--paper);
+  --surface-panel:var(--paper);
+  --surface-raised:var(--paper-deep);
+  --surface-well:var(--paper-mat);
+  --surface-card:var(--paper);
+  --surface-chrome:var(--paper);
+  --surface-lit:var(--paper-lit);
+  --text-body:var(--ink);
+  --text-secondary:var(--ink-2);
+  --text-tertiary:var(--ink-3);
+  --text-disabled:var(--ink-4);
+  --text-accent:var(--gilt-deep);
+  --border-hairline:var(--rule);
+  --border-soft:var(--rule-soft);
+  --border-paper:var(--rule);
+  --border-focus:var(--gilt-deep);
+  --link:var(--ink);
+  --link-hover:var(--ink);
+  --link-underline-hover:var(--gilt-deep);
+  --sev-minor:var(--gilt-deep);
+  --sev-advisory:var(--ink-2);
+  --sev-info:var(--ink-3);
+  --refusal-text:var(--brick);
+  --receipt:var(--ink-2);
+}
+/* A ground paints itself: what is set on it takes its body ink from the duty, not from `body`. */
+[data-ground]{color:var(--text-body)}
+#root[data-ground="instrument"]{background:var(--surface-app)}
+body:has(> #root[data-ground="instrument"]){background:var(--heavy);background-image:none}
+/* The one way content is put on paper (components/Vellum.jsx). */
+.tdl-vellum{background:var(--paper);color:var(--text-body)}
+/* A plate on the instrument: a 10 px vellum mat, a double border -- 1.5 px of the profile ink
+   outside half a pixel of hairline -- and a shadow only to lift it off the dark ground. Its
+   caption is mono capitals below it, and its own header carries the loupe. */
+.tdl-plate{background:var(--paper);padding:10px;
+  border:1.5px solid var(--heavy);outline:.5px solid var(--hair);outline-offset:-4px;
+  box-shadow:0 2px 18px rgba(26,23,20,.45)}
+.tdl-plate-caption{font:var(--type-data-s);letter-spacing:var(--tr-caps);text-transform:uppercase;
+  color:var(--text-secondary);margin-top:var(--sp-3)}
 
 /* ── TDL base — element defaults on the one ground ──────────────────────────
    Component styling lives with the components.

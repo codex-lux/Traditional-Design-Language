@@ -28,6 +28,7 @@ import { JUDGMENT_MARK, styleFindingMark } from './judgment.js';
 import { ruleMark, ruleState } from './proportions/page.js';
 import { indexTerms } from './glossary/lookup.js';
 import { elements, stripComments } from './sourceReader.mjs';
+import { stripGrounds } from './grounds.js';
 
 const SRC = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = new URL('../../../', import.meta.url);
@@ -41,7 +42,8 @@ const MATERIALS = Object.freeze(['--hatch-masonry', '--hatch-crosshatch', '--hat
    any code from starting to draw it by name. */
 const UNUSED = Object.freeze(['--hatch-cross']);
 
-const stripCss = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ');
+// the two ground blocks are `grounds.js`'s to read and `grounds.test.mjs`'s to judge (Phase 17)
+const stripCss = (s) => stripGrounds(s).replace(/\/\*[\s\S]*?\*\//g, ' ');
 const stripJs = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:'"`\\])\/\/[^\n]*/g, '$1');
 
 /* Every custom property the stylesheet declares, as [name, value] in order. A declaration is a

@@ -10,12 +10,12 @@ const BIND = {
   forbidden: 'var(--bind-forbidden)',
   // open and atypical are read as words, so they take --ink-2 rather than the faint inks their
   // duty tokens resolve to (--bind-open is --ink-4, --var-atypical --ink-3); the word says the rank
-  open: 'var(--ink-2)'
+  open: 'var(--text-secondary)'
 };
 const VAR = {
   canonical: 'var(--var-canonical)',
   permitted: 'var(--var-permitted)',
-  atypical: 'var(--ink-2)',
+  atypical: 'var(--text-secondary)',
   forbidden: 'var(--var-forbidden)'
 };
 const KIND = {
@@ -33,13 +33,13 @@ const FAULT_LINK = {
 };
 const FAULT_TEXT = {
   ...FAULT_LINK,
-  color: 'var(--ink-2)'
+  color: 'var(--text-secondary)'
 };
 const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-2)'
+  color: 'var(--text-secondary)'
 };
 function SlotRow({
   slot,
@@ -61,8 +61,8 @@ function SlotRow({
       setHover(false);
     },
     style: {
-      borderBottom: '1px solid var(--rule-soft)',
-      background: open ? 'var(--paper)' : hover ? 'var(--paper-deep)' : 'transparent',
+      borderBottom: '1px solid var(--border-soft)',
+      background: open ? 'var(--surface-panel)' : hover ? 'var(--surface-raised)' : 'transparent',
       transition: 'var(--t-hover)',
       ...style
     }
@@ -84,7 +84,7 @@ function SlotRow({
   }, /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       width: 132,
       flex: 'none',
       overflow: 'hidden',
@@ -94,7 +94,7 @@ function SlotRow({
   }, slot.group), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data)',
-      color: bind === 'open' ? 'var(--ink-2)' : 'var(--ink)',
+      color: bind === 'open' ? 'var(--text-secondary)' : 'var(--text-body)',
       flex: 1,
       minWidth: 0,
       overflow: 'hidden',
@@ -104,7 +104,7 @@ function SlotRow({
   }, slot.id), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: BIND[bind] || 'var(--ink-2)',
+      color: BIND[bind] || 'var(--text-secondary)',
       width: 74,
       flex: 'none',
       textDecoration: bind === 'forbidden' ? 'line-through' : 'none'
@@ -112,7 +112,7 @@ function SlotRow({
   }, bind), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       width: 190,
       flex: 'none',
       overflow: 'hidden',
@@ -121,7 +121,7 @@ function SlotRow({
     }
   }, slot.source ? /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'var(--ink-2)'
+      color: 'var(--text-secondary)'
     }
   }, "\u2191", slot.source.distance, "\xA0"), slot.source.id) : '\u2014'), /*#__PURE__*/React.createElement("span", {
     style: {
@@ -129,7 +129,7 @@ function SlotRow({
       width: 52,
       flex: 'none',
       textAlign: 'right',
-      color: slot.faults ? 'var(--sev-serious)' : 'var(--ink-2)'
+      color: slot.faults ? 'var(--sev-serious)' : 'var(--text-secondary)'
     }
   }, slot.faults ? slot.faults.length + ' fault' + (slot.faults.length === 1 ? '' : 's') : '\u2014')), open && /*#__PURE__*/React.createElement("div", {
     style: {
@@ -138,7 +138,7 @@ function SlotRow({
   }, slot.rule && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 13.5px/1.6 var(--body)',
-      color: 'var(--ink)',
+      color: 'var(--text-body)',
       maxWidth: 'var(--measure-prose)',
       margin: '0 0 12px'
     }
@@ -163,19 +163,19 @@ function SlotRow({
     }, /*#__PURE__*/React.createElement("td", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         padding: '2px 18px 2px 0'
       }
     }, p.name), /*#__PURE__*/React.createElement("td", {
       style: {
         font: 'var(--type-data)',
-        color: 'var(--ink)',
+        color: 'var(--text-body)',
         padding: '2px 12px 2px 0'
       }
     }, p.value), /*#__PURE__*/React.createElement("td", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         padding: '2px 12px 2px 0'
       }
     }, p.unit), /*#__PURE__*/React.createElement("td", {
@@ -185,7 +185,7 @@ function SlotRow({
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: KIND[p.kind] || 'var(--ink-2)',
+        color: KIND[p.kind] || 'var(--text-secondary)',
         border: '1px solid currentColor',
         padding: '0 5px',
         background: p.kind === 'invented' ? 'var(--kind-invented-field)' : 'transparent'
@@ -210,7 +210,7 @@ function SlotRow({
       title: v.note,
       style: {
         font: 'var(--type-data-s)',
-        color: VAR[v.status] || 'var(--ink-2)',
+        color: VAR[v.status] || 'var(--text-secondary)',
         border: '1px solid currentColor',
         padding: '1px 6px',
         background: v.status === 'forbidden' ? 'var(--bind-forbidden-field)' : 'transparent',
@@ -225,7 +225,7 @@ function SlotRow({
       key: v.name,
       style: {
         font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         margin: '7px 0 0',
         maxWidth: 'var(--measure-prose)'
       }
@@ -239,7 +239,7 @@ function SlotRow({
   })), slot.note && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 13px/1.6 var(--body)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       maxWidth: 'var(--measure-prose)',
       margin: '0 0 12px'
     }
@@ -262,7 +262,7 @@ function SlotRow({
       style: {
         display: 'block',
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         marginTop: 4
       }
     }, p);

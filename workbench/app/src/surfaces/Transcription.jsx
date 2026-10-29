@@ -25,9 +25,9 @@ import { backdropBox, canvasSize, gridSteps, roomRect } from '../traceCanvas.js'
 const SNAP = 0.5;
 const snap = (v) => Math.round(v / SNAP) * SNAP;
 
-const label = { display: 'block', font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '8px 0 2px' };
+const label = { display: 'block', font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '8px 0 2px' };
 const input = { width: '100%', font: 'var(--fw-reg) 12.5px/1.4 var(--mono, monospace)',
-  color: 'var(--ink)', background: 'var(--paper-deep)', border: '1px solid var(--rule)',
+  color: 'var(--text-body)', background: 'var(--surface-raised)', border: '1px solid var(--border-hairline)',
   padding: '4px 6px' };
 const row = { display: 'flex', gap: 8 };
 
@@ -128,16 +128,16 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
   const steps = gridSteps(W, H);
   for (const { at: g, heavy } of steps.v) gridLines.push(
     <line key={'v' + g} x1={g} y1={-H} x2={g} y2={0}
-      stroke={heavy ? 'var(--ink-4)' : 'var(--rule)'} strokeWidth={heavy ? 0.7 : 0.4}
+      stroke={heavy ? 'var(--border-hairline)' : 'var(--border-hairline)'} strokeWidth={heavy ? 0.7 : 0.4}
       vectorEffect="non-scaling-stroke" opacity={0.5} />);
   for (const { at: g, heavy } of steps.h) gridLines.push(
     <line key={'h' + g} x1={0} y1={-g} x2={W} y2={-g}
-      stroke={heavy ? 'var(--ink-4)' : 'var(--rule)'} strokeWidth={heavy ? 0.7 : 0.4}
+      stroke={heavy ? 'var(--border-hairline)' : 'var(--border-hairline)'} strokeWidth={heavy ? 0.7 : 0.4}
       vectorEffect="non-scaling-stroke" opacity={0.5} />);
 
   return (
     <svg ref={svgRef} viewBox={`-2 ${-H - 2} ${W + 4} ${H + 4}`}
-      style={{ width: '100%', height: '100%', display: 'block', background: 'var(--paper-deep)',
+      style={{ width: '100%', height: '100%', display: 'block', background: 'var(--surface-raised)',
         cursor: mode === 'draw' ? 'crosshair' : 'default', touchAction: 'none' }}
       onPointerDown={down} onPointerMove={move} onPointerUp={up}>
       {backdrop?.url && (
@@ -150,8 +150,8 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
         return (
           <g key={r.key}>
             <rect data-room={r.key} {...roomRect(r)}
-              fill={on ? 'var(--paper-lit)' : 'var(--paper)'} fillOpacity={0.55}
-              stroke={on ? 'var(--gilt-deep)' : r.type ? 'var(--ink)' : 'var(--judge-unjudged)'}
+              fill={on ? 'var(--surface-lit)' : 'var(--surface-panel)'} fillOpacity={0.55}
+              stroke={on ? 'var(--gilt-deep)' : r.type ? 'var(--text-body)' : 'var(--judge-unjudged)'}
               strokeWidth={on ? 1.6 : 1.1} vectorEffect="non-scaling-stroke"
               strokeDasharray={r.type ? undefined : '3 3'} style={{ cursor: 'move' }} />
             {/* Fitted, like the plan sheet's — this drew every name at a CONSTANT 1.35
@@ -180,12 +180,12 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
                   {lab.lines.map((ln, i) => (
                     <text key={i} x={cx} y={top + (i + 0.5) * lab.lead} fontSize={lab.size}
                       textAnchor="middle" dominantBaseline="middle"
-                      fill="var(--ink)" fontFamily="var(--body)">{ln}</text>
+                      fill="var(--text-body)" fontFamily="var(--body)">{ln}</text>
                   ))}
                   {want && (
                     <text x={cx} y={top + lab.height + mfit.size * 0.7} fontSize={mfit.size}
                       textAnchor="middle" dominantBaseline="middle"
-                      fill="var(--ink-2)"
+                      fill="var(--text-secondary)"
                       fontFamily="var(--mono, monospace)">{mfit.text}</text>
                   )}
                 </g>
@@ -235,7 +235,7 @@ function RoomEditor({ draft, room, roomTypes }) {
         <Field name="level" value={room.level} type="number" w="0 0 70px"
           onChange={(v) => up((r) => { r.level = Number(v) || 0; })} />
       </div>
-      <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
+      <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
         {room.w}×{room.h} ft · exterior: {ext.join(' ') || 'none'} ·
         shares a wall with: {near.join(', ') || 'nothing yet'}
       </p>
@@ -332,7 +332,7 @@ export function Transcription({ go }) {
         <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', margin: '8px 0 10px' }}>
           A drawing goes in; a record comes out
         </h2>
-        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--ink-2)', margin: '0 0 16px' }}>
+        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '0 0 16px' }}>
           Trace rooms over a scanned drawing, or start from a drafter's DXF — its
           extraction arrives as candidates with the gaps named, and a human fills
           every one. Nothing is guessed into the record.
@@ -429,7 +429,7 @@ export function Transcription({ go }) {
           <Canvas draft={draft} level={level} sel={sel} setSel={setSel}
             backdrop={backdrop} mode={mode} />
           <div style={{ position: 'absolute', left: 10, bottom: 10, display: 'flex', gap: 8,
-            alignItems: 'center', background: 'var(--paper)', border: '1px solid var(--rule)',
+            alignItems: 'center', background: 'var(--surface-panel)', border: '1px solid var(--border-hairline)',
             padding: '6px 10px' }}>
             <label style={{ ...label, margin: 0 }}>
               backdrop
@@ -519,15 +519,15 @@ export function Transcription({ go }) {
             </p>
           )}
           {ingest && !ingest.error && ingest.complete && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
               a TDL-emitted sheet — the complete record went straight to the bench
             </p>
           )}
           {ingest && !ingest.error && !ingest.complete && (
-            <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
+            <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
               {ingest.counts.kept} candidate room(s), units {ingest.units.units} ({ingest.units.basis},
               plausibility {ingest.units.plausibility} of 1, higher is better){ingest.units.note ? ` — ${ingest.units.note}` : ''}
-              <div style={{ color: 'var(--ink-2)', marginTop: 4 }}>
+              <div style={{ color: 'var(--text-secondary)', marginTop: 4 }}>
                 gaps the extractor names:
                 {ingest.gaps.map((g, i) => <div key={i}>· {g}</div>)}
               </div>
@@ -536,7 +536,7 @@ export function Transcription({ go }) {
 
           {selRoom
             ? <RoomEditor draft={draft} room={selRoom} roomTypes={roomTypes} />
-            : <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '14px 0 0' }}>
+            : <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '14px 0 0' }}>
                 drag on the canvas to trace a room; click one to edit it
               </p>}
 
@@ -544,7 +544,7 @@ export function Transcription({ go }) {
             {gaps.length ? `not yet a record — ${gaps.length} gap(s)` : 'ready — every gap filled'}
           </Eyebrow>
           {gaps.map((g, i) => (
-            <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+            <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
               · {g}
             </div>
           ))}
@@ -560,7 +560,7 @@ export function Transcription({ go }) {
             <Chip onClick={() => save(`${draft.meta.id || 'draft'}.draft.json`, draft)}>download draft</Chip>
           </div>
           {checked && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '10px 0 0' }}>
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
               {checked.check?.error
                 ? `could not check — ${checked.check.error}`
                 : `checked: ${(checked.check?.findings || []).length} finding(s) · ` +

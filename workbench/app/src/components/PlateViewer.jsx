@@ -28,7 +28,7 @@ function Key({ onClick, children, title, disabled }) {
   return (
     <button type="button" onClick={onClick} title={title} disabled={disabled}
       style={{ font: 'var(--type-data-s)', padding: '1px 7px', minWidth: 22, flex: 'none',
-        border: '1px solid var(--rule)', color: disabled ? 'var(--text-disabled)' : 'var(--ink-2)',
+        border: '1px solid var(--border-hairline)', color: disabled ? 'var(--text-disabled)' : 'var(--text-secondary)',
         background: 'transparent', cursor: disabled ? 'default' : 'pointer',
         transition: 'var(--t-hover)' }}>{children}</button>
   );
@@ -210,21 +210,21 @@ export function PlateViewer({ children, height = 'clamp(380px, 70vh, 880px)', la
         flexWrap: 'nowrap' }}>
         <span style={{ flex: 'none', whiteSpace: 'nowrap' }}><Eyebrow as="span">{label}</Eyebrow></span>
         <Key onClick={() => step(-1)} title="smaller" disabled={z <= floor + 1e-6}>−</Key>
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', minWidth: 44,
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', minWidth: 44,
           flex: 'none', textAlign: 'center' }}>{Math.round(z * 100)}%</span>
         <Key onClick={() => step(1)} title="larger" disabled={z >= MAX - 1e-6}>+</Key>
         <Key onClick={() => setZoom(null)} title="the whole plate in the pane"
           disabled={fitted}>fit</Key>
         <Key onClick={() => zoomTo(1)} title="the plate at the pane's own width">1:1</Key>
         <span style={{ flex: 1, minWidth: 10 }} />
-        <span title={note || NOTE} style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
+        <span title={note || NOTE} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)',
           textAlign: 'right', minWidth: 0, whiteSpace: 'nowrap', overflow: 'hidden',
           textOverflow: 'ellipsis' }}>
           {note || NOTE}
         </span>
       </div>
-      <div ref={frameRef} style={{ position: 'relative', height, border: '1px solid var(--rule)',
-        background: 'var(--paper-mat)' }}>
+      <div ref={frameRef} style={{ position: 'relative', height, border: '1px solid var(--border-hairline)',
+        background: 'var(--surface-well)' }}>
         {/* NOT overscroll-behavior: contain. The pane is up to 74vh tall and every surface
             carries content BELOW it — on Proportions, the rules table this very commit
             moved down there. Containing the scroll meant a reader wheeling down the page

@@ -17,8 +17,8 @@ function ToolTrace({
 }) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
-      border: '1px solid var(--rule-soft)',
-      background: 'var(--paper-mat)',
+      border: '1px solid var(--border-soft)',
+      background: 'var(--surface-well)',
       padding: '8px 10px',
       ...style
     }
@@ -27,7 +27,7 @@ function ToolTrace({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       marginBottom: 6
     }
   }, "consulted", running && /*#__PURE__*/React.createElement("span", {
@@ -51,18 +51,18 @@ function ToolTrace({
         height: 4,
         flex: 'none',
         marginTop: 6,
-        background: c.pending ? 'var(--ink-4)' : 'var(--green-deep)'
+        background: c.pending ? 'var(--border-hairline)' : 'var(--green-deep)'
       }
     }), /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         flex: 'none'
       }
     }, c.tool), /*#__PURE__*/React.createElement("span", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         flex: 1,
         minWidth: 0,
         overflow: 'hidden',

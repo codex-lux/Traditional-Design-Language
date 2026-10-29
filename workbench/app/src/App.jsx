@@ -54,6 +54,7 @@ import { Glossary } from './surfaces/Glossary.jsx';
 import { Elements } from './surfaces/Elements.jsx';
 import { RoomPage, MassingPage, GroupingPage, PartiPage } from './surfaces/RecordPage.jsx';
 import { Compare } from './surfaces/Compare.jsx';
+import { SHELL_GROUND, groundOf } from './grounds.js';
 
 const SURFACES = {
   overview: Overview,
@@ -288,6 +289,8 @@ export default function App() {
     root.toggleAttribute('data-reflow', !floored);
     root.toggleAttribute('data-floor', floored);
     root.style.setProperty('--main-floor', `${MAIN_FLOOR_PX}px`);
+    // the shell's ground (Phase 17): the chrome stands on it, and each `<main>` on its own row
+    root.setAttribute('data-ground', SHELL_GROUND);
   }, [surface]);
 
   /* The first place this page loaded, and whether it was a cold deep link. Visiting the front
@@ -303,10 +306,10 @@ export default function App() {
     return (
       <div role="status" data-boot-status=""
         style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          gap: 10, font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--ink)',
-          background: 'var(--paper)' }}>
+          gap: 10, font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-body)',
+          background: 'var(--surface-panel)' }}>
         Cannot reach the server
-        <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>·</span>
+        <span aria-hidden="true" style={{ color: 'var(--text-secondary)' }}>·</span>
         <button type="button" onClick={boot} className="tdl-link" style={{ font: 'inherit' }}>
           Retry
         </button>
@@ -337,7 +340,8 @@ export default function App() {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
           {!full && <PageHead termId={headTermFor(place)} />}
           {showJourneyBar(surface, full) && <JourneyBar surface={surface} lastEval={lastEval} selection={selection} />}
-          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
+          <main data-ground={groundOf(SURFACES[surface] ? surface : 'workbench')}
+            style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
             <Active {...shared} lastEval={lastEvalHere} />
           </main>
         </div>

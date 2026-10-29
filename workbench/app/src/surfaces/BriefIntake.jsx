@@ -82,22 +82,22 @@ function Advisory({ label, detail, tone }) {
   return (
     <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
       <span aria-hidden="true" style={{ width: 9, height: 9, flex: 'none', marginTop: 4,
-        border: '1px solid var(--ink-3)',
-        background: tone === 'limit' ? 'transparent' : 'var(--ink-3)' }} />
+        border: '1px solid var(--text-tertiary)',
+        background: tone === 'limit' ? 'transparent' : 'var(--text-tertiary)' }} />
       <span>
         <span style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)',
-          color: tone === 'limit' ? 'var(--ink)' : 'var(--ink-2)' }}>{label}</span>
+          color: tone === 'limit' ? 'var(--text-body)' : 'var(--text-secondary)' }}>{label}</span>
         {detail && <span style={{ display: 'block', font: 'var(--fw-reg) 12px/1.5 var(--body)',
-          color: 'var(--ink-2)' }}>{detail}</span>}
+          color: 'var(--text-secondary)' }}>{detail}</span>}
       </span>
     </div>
   );
 }
 
 const label = { font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
-  textTransform: 'uppercase', color: 'var(--ink-2)', display: 'block', marginBottom: 5 };
-const input = { background: 'var(--paper-mat)', border: '1px solid var(--rule-soft)',
-  color: 'var(--ink)', font: 'var(--type-data)', padding: '5px 8px', width: '100%' };
+  textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'block', marginBottom: 5 };
+const input = { background: 'var(--surface-well)', border: '1px solid var(--border-soft)',
+  color: 'var(--text-body)', font: 'var(--type-data)', padding: '5px 8px', width: '100%' };
 
 export function BriefIntake({ go }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
@@ -277,14 +277,14 @@ export function BriefIntake({ go }) {
         <button type="button" data-compose="" onClick={compose} disabled={composing || !ready}
           aria-busy={composing || undefined}
           style={{ font: 'var(--type-data-s)', padding: '3px 10px', whiteSpace: 'nowrap',
-            border: '1px solid ' + (composing || !ready ? 'var(--rule)' : 'var(--gilt-deep)'),
+            border: '1px solid ' + (composing || !ready ? 'var(--border-hairline)' : 'var(--gilt-deep)'),
             color: composing || !ready ? 'var(--text-disabled)' : 'var(--gilt-deep)',
             background: 'transparent', cursor: composing || !ready ? 'default' : 'pointer' }}>
           {composing ? 'composing…' : `compose ${brief.candidates || 4} candidates`}
         </button>
       }>
         <Eyebrow as="span">brief intake</Eyebrow>
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
           only style and target area are required — everything else absent becomes a logged decision
         </span>
       </FilterStrip>
@@ -295,14 +295,14 @@ export function BriefIntake({ go }) {
              massing contradicts, is refused by the composer by name before any job starts. */
           <div data-brief-refused="" role="alert"
             style={{ border: '1px solid var(--sev-serious)', padding: '10px 12px', marginBottom: 16,
-            font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink)' }}>
+            font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--text-body)' }}>
             The brief was refused: {String(error)}
           </div>
         )}
         {exampleError && (
           <div data-example-error={exampleError.id}
             style={{ border: '1px solid var(--sev-serious)', padding: '10px 12px', marginBottom: 16,
-              font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink)' }}>
+              font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--text-body)' }}>
             The example brief <code>{exampleError.id}</code> could not be read: {exampleError.reason}
           </div>
         )}
@@ -312,7 +312,7 @@ export function BriefIntake({ go }) {
           <div style={{ flex: '1 1 420px', minWidth: 380, maxWidth: 560 }}>
             <Eyebrow style={{ marginBottom: 12 }}>the brief</Eyebrow>
             {examples.length > 0 && (
-              <p data-example-briefs="" style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink-2)',
+              <p data-example-briefs="" style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--text-secondary)',
                 margin: '-4px 0 14px' }}>
                 or start from an example:{' '}
                 {examples.map((x, i) => (
@@ -386,7 +386,7 @@ export function BriefIntake({ go }) {
                 </Chip>
               </div>
               {includeBorrowed && wide.state === 'failed' && (
-                <span data-borrowed-unread="" style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 4 }}>
+                <span data-borrowed-unread="" style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 4 }}>
                   the borrowed plan types could not be read: {wide.reason}
                 </span>
               )}
@@ -448,7 +448,7 @@ export function BriefIntake({ go }) {
                   {offTier && <option value={offTier} data-off-schema={offTier}>{offTier} — not in the brief schema</option>}
                 </select>
                 {schema.state === 'failed' && (
-                  <span data-tiers-unread="" style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 4 }}>
+                  <span data-tiers-unread="" style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 4 }}>
                     the tiers could not be read: {schema.reason}
                   </span>
                 )}
@@ -521,11 +521,11 @@ export function BriefIntake({ go }) {
               </div>
             )}
 
-            <div style={{ marginTop: 16, borderTop: '1px solid var(--rule)', paddingTop: 12 }}>
+            <div style={{ marginTop: 16, borderTop: '1px solid var(--border-hairline)', paddingTop: 12 }}>
               <Eyebrow style={{ marginBottom: 8 }}>
                 {silent.length} field{silent.length === 1 ? '' : 's'} unstated
               </Eyebrow>
-              <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
+              <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
                 {silent.length
                   ? `Left blank — ${silent.join(', ')} — each becomes a composer decision, reported in the
                      decision log. An assumption, not a fact.`
@@ -540,13 +540,13 @@ export function BriefIntake({ go }) {
                 `on-the-bench` terms, and the sentence under it the conflict set's definition. It
                 was a paragraph written here that opened with the work package the solver landed
                 in, and the link wore the faint tone the ink sweep retired. */}
-            <div data-conflict-pointer="" style={{ marginTop: 14, border: '1px solid var(--rule)',
+            <div data-conflict-pointer="" style={{ marginTop: 14, border: '1px solid var(--border-hairline)',
               padding: '9px 11px' }}>
               <a href={formatHash('workbench', {}, {})} data-conflict-link="">
                 <Eyebrow as="span">{word('conflict-set')} · {word('on-the-bench')}</Eyebrow>
               </a>
               <p data-conflict-definition="" style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
-                color: 'var(--ink-2)', margin: '6px 0 0' }}>
+                color: 'var(--text-secondary)', margin: '6px 0 0' }}>
                 {describeTerm(glossary, 'conflict-set').text}
               </p>
             </div>

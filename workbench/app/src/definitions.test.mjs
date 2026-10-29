@@ -21,6 +21,7 @@ import {
 import { linkView, isPlainPrimaryClick } from './names/recordLink.js';
 import { glossaryListing, matchesQuery, haystackOf } from './glossary/listing.js';
 import { hrefFor, citeHref } from './router.js';
+import { groundValue } from './grounds.js';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const read = (rel) => readFileSync(join(SRC, rel), 'utf8');
@@ -328,10 +329,14 @@ test('no readable text in --ink-4 in the new components or the package’s style
   assert.doesNotMatch(block, /--ink-4/);
 });
 
-test('the eyebrow’s default ink is --ink-2', () => {
+test('the eyebrow’s default ink is --ink-2 on vellum, through the secondary text duty', () => {
   const src = stripComments(read('components/Eyebrow.jsx'));
   assert.match(src, /tone = 'secondary'/);
-  assert.match(src, /secondary: 'var\(--ink-2\)'/);
+  // Phase 17: the tone is the duty, and the duty is --ink-2 wherever no dark ground is set
+  assert.match(src, /secondary: 'var\(--text-secondary\)'/);
+  const css = read('theme/tokens.css');
+  assert.equal(groundValue(css, 'vellum', '--text-secondary'), groundValue(css, null, '--ink-2'));
+  assert.equal(groundValue(css, null, '--text-secondary'), groundValue(css, null, '--ink-2'));
   assert.match(src, /tones\[tone\] \|\| tones\.secondary/);
 });
 

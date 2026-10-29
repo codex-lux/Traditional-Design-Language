@@ -20,8 +20,8 @@ function UnsourcedImageRecord({
   return /*#__PURE__*/React.createElement("figure", {
     style: {
       margin: 0,
-      border: '1px solid var(--rule)',
-      background: 'var(--paper)',
+      border: '1px solid var(--border-hairline)',
+      background: 'var(--surface-panel)',
       ...style
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -29,10 +29,10 @@ function UnsourcedImageRecord({
       aspectRatio: record.file ? undefined : aspect,
       display: 'grid',
       placeItems: 'center',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       backgroundImage: record.file ? undefined : 'var(--mark-wanted)',
       padding: record.file ? 8 : 0,
-      borderBottom: '1px solid var(--rule)'
+      borderBottom: '1px solid var(--border-hairline)'
     }
   }, record.file ? /*#__PURE__*/React.createElement("img", {
     // `/corpus/` and not `/assets/`: the latter is mounted on Vite's content-hashed bundle
@@ -46,10 +46,10 @@ function UnsourcedImageRecord({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--ink-2)',
-      background: 'var(--paper)',
+      color: 'var(--text-secondary)',
+      background: 'var(--surface-panel)',
       padding: '3px 8px',
-      border: '1px solid var(--rule)'
+      border: '1px solid var(--border-hairline)'
     }
   }, "specified \xB7 unsourced")), /*#__PURE__*/React.createElement("figcaption", {
     style: {
@@ -58,18 +58,18 @@ function UnsourcedImageRecord({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)'
+      color: 'var(--text-secondary)'
     }
   }, record.id, record.status ? ' \xB7 ' + record.status : ''), /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-med) 13px/1.5 var(--body)',
-      color: 'var(--ink)',
+      color: 'var(--text-body)',
       margin: '5px 0 0'
     }
   }, record.subject), /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 12.5px/1.55 var(--body)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       margin: '7px 0 0',
       maxWidth: 'var(--measure-note)'
     }
@@ -78,13 +78,13 @@ function UnsourcedImageRecord({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       marginRight: 7
     }
   }, "shot spec"), record.shot_spec), record.alt && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 12.5px/1.55 var(--body)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       margin: '7px 0 0',
       maxWidth: 'var(--measure-note)'
     }
@@ -93,25 +93,25 @@ function UnsourcedImageRecord({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       marginRight: 7
     }
   }, "alt"), record.alt), record.generated_from && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       margin: '9px 0 0'
     }
   }, "generated from ", record.generated_from.pack, " \u2014 a drawing of the rule, not a photograph of a building"), record.rights && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       margin: '6px 0 0'
     }
   }, "licence: ", record.rights.license, record.rights.publishable ? '' : ' \u2014 not cleared to publish'), record.provenance_required && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       margin: '9px 0 0'
     }
   }, "provenance required: ", record.provenance_required), onRequest && /*#__PURE__*/React.createElement("button", {

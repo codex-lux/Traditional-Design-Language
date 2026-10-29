@@ -204,7 +204,7 @@ export function DrawingSet({ go }) {
     return (
       <div style={{ padding: '26px 30px', maxWidth: 640 }}>
         <Eyebrow>no plan on the bench</Eyebrow>
-        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--ink-2)', margin: '10px 0 14px' }}>
+        <p style={{ font: 'var(--fw-reg) 14px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '10px 0 14px' }}>
           The drawing set is generated from the plan record on the workbench. Load or
           compose one first.
         </p>
@@ -231,12 +231,12 @@ export function DrawingSet({ go }) {
           the same reason the clear-all control in `Chrome.jsx` is sticky. */}
       <FilterStrip right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center', flex: 'none' }}>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
             {plan.id} · {plan.style}
           </span>
           {downloadable
             ? <ActionChip affix="↓" onClick={download}>download SVG</ActionChip>
-            : <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
+            : <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
                 {refusal ? 'nothing to download — refused' : 'nothing to download yet'}
               </span>}
         </span>
@@ -266,7 +266,7 @@ export function DrawingSet({ go }) {
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 34px' }}>
-        {busy && <p style={{ font: 'var(--type-body)', color: 'var(--ink-2)' }}>generating from the record…</p>}
+        {busy && <p style={{ font: 'var(--type-body)', color: 'var(--text-secondary)' }}>generating from the record…</p>}
         {/* THE CONFLICT SET STANDS WHERE THE PLATE WOULD BE (WP-13.4). This panel has been "the
             generator refused" since WP-5.1 and it is the natural host: what is new is that a
             refusal may now be the TYPE's rather than the record's, and it arrives with the facts
@@ -278,17 +278,17 @@ export function DrawingSet({ go }) {
             reached this same panel and was called a refusal, in the refusal's ink. */}
         {!refusal && error && (
           <div data-drawing-error={error.status === 422 ? 'refused' : 'failed'}
-            style={{ border: '1px solid var(--rule)',
-              borderLeft: `2px solid ${error.status === 422 ? 'var(--refusal)' : 'var(--ink-2)'}`,
-              background: 'var(--paper-deep)', padding: '12px 14px', maxWidth: 640 }}>
+            style={{ border: '1px solid var(--border-hairline)',
+              borderLeft: `2px solid ${error.status === 422 ? 'var(--refusal)' : 'var(--text-secondary)'}`,
+              background: 'var(--surface-raised)', padding: '12px 14px', maxWidth: 640 }}>
             <Eyebrow tone="secondary" style={{ marginBottom: 6 }}>
               {error.status === 422 ? 'the generator refused' : 'the drawing could not be made'}
             </Eyebrow>
-            <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: 0 }}>
+            <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-body)', margin: 0 }}>
               {errText}
             </p>
             {error.status === 422 && (
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '7px 0 0' }}>
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 0' }}>
               A refusal is content: this record does not carry what the {kind} generator
               needs, and it says so rather than inventing it.
             </p>
@@ -302,12 +302,12 @@ export function DrawingSet({ go }) {
                  fake-unjudged shape. Where the placement was refused the conflict set above says
                  so in the corpus's own words and this line does not appear at all. */
               refusal ? null : (
-              <div data-round-error="" style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
+              <div data-round-error="" style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--text-secondary)', padding: '18px 2px' }}>
                 COULD NOT EVALUATE — the scene could not be built: {errText}
               </div>
               )
             ) : sceneRefusal ? null : !scene ? (
-              <div style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
+              <div style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--text-secondary)', padding: '18px 2px' }}>
                 placing the house and building the model…
               </div>
             ) : (
@@ -341,7 +341,7 @@ export function DrawingSet({ go }) {
         {kind !== 'model' && result?.svg && (
           <div style={{ maxWidth: 1180 }}>
             <PlateViewer label={'the ' + kind} height="clamp(420px, 74vh, 960px)">
-            <div style={{ background: 'var(--paper)', border: '1px solid var(--ink-2)',
+            <div style={{ background: 'var(--surface-panel)', border: '1px solid var(--text-secondary)',
               boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px' }}>
               {/* The fit goes on the WRAPPER, not into a second `style` on the <svg>.
 
@@ -357,17 +357,17 @@ export function DrawingSet({ go }) {
                   of WP-5.7; a CSS rule on the wrapper reaches the child and cannot
                   collide with anything the renderer wrote. */}
               <div className="plate-fit" dangerouslySetInnerHTML={{ __html: result.svg }} />
-              <div style={{ borderTop: '1px solid var(--rule)', marginTop: 10, padding: '8px 2px 4px',
+              <div style={{ borderTop: '1px solid var(--border-hairline)', marginTop: 10, padding: '8px 2px 4px',
                 display: 'flex', justifyContent: 'space-between', gap: 24, alignItems: 'baseline' }}>
                 {/* the interpunct join makes one unbreakable word; a zero-width space
                     after each lets the title fold at a word boundary and never inside a
                     word. `nowrap` here clipped it outright, and the loupe lays the plate
                     out at the PANE's width, which is narrower still than the surface. */}
                 <span style={{ font: 'var(--fw-med) 10.5px/1.4 var(--serif)', letterSpacing: '.3em',
-                  textTransform: 'uppercase', color: 'var(--ink)', flex: '0 1 auto', minWidth: 0 }}>
+                  textTransform: 'uppercase', color: 'var(--text-body)', flex: '0 1 auto', minWidth: 0 }}>
                   {(plan.name || plan.id).split(/\s+/).join('·\u200B')}
                 </span>
-                <span style={{ font: 'italic var(--fw-reg) 12.5px/1.5 var(--serif)', color: 'var(--ink-2)',
+                <span style={{ font: 'italic var(--fw-reg) 12.5px/1.5 var(--serif)', color: 'var(--text-secondary)',
                   textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
                   {DISCLOSURE[kind]}
                 </span>
@@ -375,13 +375,13 @@ export function DrawingSet({ go }) {
             </div>
             </PlateViewer>
             {result.relaxations && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '10px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
                 {result.relaxations.count} cut(s) off the bay line
                 {result.relaxations.count ? ` · worst ${result.relaxations.max_off_grid_ft} ft` : ''}
               </p>
             )}
             {kind === 'elevation' && result.date_of_representation && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '10px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '10px 0 0' }}>
                 {(face || result.entrance_face)} elevation
                 {(face || result.entrance_face) === result.entrance_face
                   ? JOURNEY_WORDS.separator + word(ENTRANCE_FRONT_TERM)
@@ -396,7 +396,7 @@ export function DrawingSet({ go }) {
                 elevation and roof plates could not, because they were built on a placement
                 of their own. */}
             {result.solver && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '4px 0 0' }}>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: '4px 0 0' }}>
                 {/* Three states, not two. A ternary here would have made an ABSENT engine
                     read as "searched", which is a definite claim about a placement nobody
                     can name — the one collapse this corpus refuses first. */}

@@ -24,7 +24,7 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-2)',
+  color: 'var(--text-secondary)',
 };
 
 /* A real anchor to the citation's own URL. Left-click still routes in place — the href is
@@ -49,19 +49,19 @@ function Citation({ cite, onCite }) {
 
 function UserTurn({ text }) {
   return (
-    <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink)', margin: 0,
-      paddingLeft: 10, borderLeft: '2px solid var(--rule)' }}>{text}</p>
+    <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-body)', margin: 0,
+      paddingLeft: 10, borderLeft: '2px solid var(--border-hairline)' }}>{text}</p>
   );
 }
 
 function RefusalTurn({ text, reason }) {
   return (
-    <div style={{ border: '1px solid var(--rule)', borderLeft: '2px solid var(--refusal)',
-      background: 'var(--paper-deep)', padding: '11px 12px' }}>
+    <div style={{ border: '1px solid var(--border-hairline)', borderLeft: '2px solid var(--refusal)',
+      background: 'var(--surface-raised)', padding: '11px 12px' }}>
       <div style={{ ...EYE, color: 'var(--refusal)', marginBottom: 6 }}>refused</div>
-      <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink)', margin: 0 }}>{text}</p>
+      <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-body)', margin: 0 }}>{text}</p>
       {reason && (
-        <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
+        <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)',
           margin: '7px 0 0' }}>{reason}</p>
       )}
     </div>
@@ -70,7 +70,7 @@ function RefusalTurn({ text, reason }) {
 
 function QuestionTurn({ text, cite, onCite }) {
   return (
-    <div style={{ border: '1px solid var(--rule)', background: 'var(--paper-deep)', padding: '11px 12px' }}>
+    <div style={{ border: '1px solid var(--border-hairline)', background: 'var(--surface-raised)', padding: '11px 12px' }}>
       {/* A question handed to the reader is a decision left to them, which is the
           yours-to-judge mark and its record's word -- not the could-not-evaluate hatch it wore
           until WP-14.29, which said a rule had failed to run. */}
@@ -78,7 +78,7 @@ function QuestionTurn({ text, cite, onCite }) {
         <MarkGlyph token="--mark-yours-to-judge" size={10} />
         <Term id="judgment-yours-to-judge" />
       </div>
-      <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink)', margin: 0 }}>{text}</p>
+      <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-body)', margin: 0 }}>{text}</p>
       {cite && <div style={{ marginTop: 7 }}><Citation cite={cite} onCite={onCite} /></div>}
     </div>
   );
@@ -91,7 +91,7 @@ function AssistantTurn({ turn, onCite }) {
         <ToolTrace calls={turn.calls} onCite={onCite} running={turn.running}
           style={{ marginBottom: 9 }} />
       )}
-      <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
+      <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
         {turn.text}
       </p>
       {turn.cites && turn.cites.length > 0 && (
@@ -123,8 +123,8 @@ function Starters({ starters, onPick }) {
       marginBottom: 8 }}>
       {starters.map((q) => (
         <button key={q} type="button" data-rail-starter="" onClick={() => onPick(q)}
-          style={{ textAlign: 'left', background: 'var(--paper-deep)',
-            border: '1px solid var(--rule-soft)', color: 'var(--ink-2)',
+          style={{ textAlign: 'left', background: 'var(--surface-raised)',
+            border: '1px solid var(--border-soft)', color: 'var(--text-secondary)',
             font: 'var(--fw-reg) 12.5px/1.45 var(--body)', padding: '5px 8px', cursor: 'pointer' }}>
           {q}
         </button>
@@ -153,23 +153,23 @@ function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, t
   return (
     <aside aria-label="the rail — ask the corpus"
       style={{ width: width || pulled, flex: 'none', display: 'flex',
-        flexDirection: 'column', borderLeft: '1px solid var(--rule)', background: 'var(--paper)',
+        flexDirection: 'column', borderLeft: '1px solid var(--border-hairline)', background: 'var(--surface-panel)',
         minHeight: 0, ...style }}>
 
       <header style={{ minHeight: 'var(--substrip-h)', flex: 'none', display: 'flex',
         alignItems: 'center', gap: 10, padding: '4px 6px 4px 12px',
-        borderBottom: '1px solid var(--rule)' }}>
+        borderBottom: '1px solid var(--border-hairline)' }}>
         {/* The assistant's NAME, from its glossary record (WP-14.13, PRD §I.11): the host passes
             the record's term, so nothing here says what the pane is. The aside's label and the
             fold's stay "the rail" — they are how the walk and a screen reader find the pane.
             The name WRAPS rather than truncating, and the head grows to hold it: at the pane's
             shipped 344 px the record's term, letterspaced, read "ASK THE CORPUS · AI ASSIS…",
             which is a name the reader was not given. */}
-        <span style={{ ...EYE, color: 'var(--ink-2)', minWidth: 0 }} data-rail-head="">{title}</span>
+        <span style={{ ...EYE, color: 'var(--text-secondary)', minWidth: 0 }} data-rail-head="">{title}</span>
         <span style={{ flex: 1 }} />
         {/* Counted by the server, which is the only thing that knows. Absent rather than
             guessed while /api/health is still in flight. */}
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', flex: 'none', whiteSpace: 'nowrap' }}>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', flex: 'none', whiteSpace: 'nowrap' }}>
           {toolCount == null ? '' : `${toolCount} tools`}
         </span>
         <FoldControl pane="rail" label="the rail" side="right" />
@@ -186,7 +186,7 @@ function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, t
       </div>
 
       <form onSubmit={(e) => e.preventDefault()}
-        style={{ flex: 'none', borderTop: '1px solid var(--rule)', padding: 10 }}>
+        style={{ flex: 'none', borderTop: '1px solid var(--border-hairline)', padding: 10 }}>
         <Starters starters={starters} onPick={fill} />
         <input ref={inputRef} aria-label="Ask the corpus" placeholder={placeholder || 'Ask the corpus…'}
           onKeyDown={onSend ? (e) => {
@@ -196,8 +196,8 @@ function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount, t
               if (onSend(e.currentTarget.value) !== false) e.currentTarget.value = '';
             }
           } : undefined}
-          style={{ width: '100%', background: 'var(--paper-mat)', border: '1px solid var(--rule-soft)',
-            color: 'var(--ink)', font: 'var(--fw-reg) 13px/1.5 var(--body)', padding: '7px 9px' }} />
+          style={{ width: '100%', background: 'var(--surface-well)', border: '1px solid var(--border-soft)',
+            color: 'var(--text-body)', font: 'var(--fw-reg) 13px/1.5 var(--body)', padding: '7px 9px' }} />
       </form>
     </aside>
   );

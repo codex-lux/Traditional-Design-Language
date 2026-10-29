@@ -6051,7 +6051,7 @@ every test that resolves a token to judge its contrast would then be judging a l
 
 | WP | Package | Status |
 |---|---|---|
-| 17.0 | The register: the two grounds, four tokens, the plate frame, `grounds.test`, `inks.test` ground-aware | planned |
+| 17.0 | The register: the two grounds, four tokens, the plate frame, `grounds.test`, `inks.test` ground-aware | **COMPLETE (29 Oct 2026)**: 594 primitives in 51 interface files became duties, the same pixels on vellum. `docs/reports/wp-17.0-two-grounds-not-a-theme.md` |
 | 17.1 | The marks: the hatched unjudged ring, discs for pass and fail, the journey marks, `SourceChip` / `BindingChip`, the variant ladder restyled, the severity ladder | planned |
 | 17.2 | The shell: the sidebar with the house on the bench and the library, the 48 px top bar, `JourneyBar` retired into the spine, the rail a 52 px strip closed by default with its self-description deleted, the page head | planned |
 | 17.3 | The Front Door: the thesis, one primary and one secondary action, the hero plate (`GET /api/front-door/hero`, one drawable rule shared with the tests), the five stations, the library as cards, the closing furniture | planned |

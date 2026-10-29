@@ -32,15 +32,15 @@ export function Identify({ rec, styleId, cards }) {
           {cards.map((s) => (
             <a key={s.id} href={sectionAddress(styleId, s.id)} data-summary-card={s.id} data-count={s.count}
               style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 128, padding: '9px 12px',
-                border: '1px solid var(--rule)', background: 'var(--paper-deep)', textDecoration: 'none' }}>
-              <span style={{ font: 'var(--fw-reg) 14px/1.2 var(--display)', color: 'var(--ink)' }}><SectionWord id={s.id} /></span>
-              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{s.count}</span>
+                border: '1px solid var(--border-hairline)', background: 'var(--surface-raised)', textDecoration: 'none' }}>
+              <span style={{ font: 'var(--fw-reg) 14px/1.2 var(--display)', color: 'var(--text-body)' }}><SectionWord id={s.id} /></span>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{s.count}</span>
             </a>
           ))}
         </nav>
       )}
 
-      {desc.short && <p style={{ ...prose, fontStyle: 'italic', color: 'var(--ink-2)', marginTop: 4 }}>{desc.short}</p>}
+      {desc.short && <p style={{ ...prose, fontStyle: 'italic', color: 'var(--text-secondary)', marginTop: 4 }}>{desc.short}</p>}
       {desc.long && String(desc.long).split(/\n\n+/).map((p, i) => <p key={i} style={prose}>{p}</p>)}
 
 
@@ -56,8 +56,8 @@ export function Identify({ rec, styleId, cards }) {
       {others.length > 0 && (
         <Section eyebrow="distinguished from · the nearest neighbours">
           {others.map((d, i) => (
-            <div key={i} data-distinguished-from={d.node} style={{ border: '1px solid var(--rule)',
-              background: 'var(--paper-deep)', padding: '11px 13px', marginBottom: 11 }}>
+            <div key={i} data-distinguished-from={d.node} style={{ border: '1px solid var(--border-hairline)',
+              background: 'var(--surface-raised)', padding: '11px 13px', marginBottom: 11 }}>
               <div style={{ font: 'var(--fw-reg) 15px/1.2 var(--display)', marginBottom: 6 }}>
                 <RecordLink cite={citeOfNeighbour(d.node)} />
               </div>

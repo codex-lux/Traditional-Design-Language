@@ -35,7 +35,7 @@ import {
   COMPARE_SECTIONS, compareSectionOf, compareSectionHref, kitGroups, authorOf, stylesOf,
 } from '../compare/view.js';
 
-const quietText = { font: 'var(--type-body)', color: 'var(--ink-2)' };
+const quietText = { font: 'var(--type-body)', color: 'var(--text-secondary)' };
 const two = { display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '0 28px' };
 const mono = { fontFamily: 'var(--mono)', fontSize: 12 };
 
@@ -96,7 +96,7 @@ function Identify({ a, b, identify }) {
 
 /* ── kit ───────────────────────────────────────────────────────────────────────────────────── */
 function KitCell({ side, differs }) {
-  const on = (f) => (differs.includes(f) ? { color: 'var(--ink)' } : { color: 'var(--ink-2)' });
+  const on = (f) => (differs.includes(f) ? { color: 'var(--text-body)' } : { color: 'var(--text-secondary)' });
   return (
     <div style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)' }}>
       <div style={on('binding')} data-field="binding">
@@ -119,7 +119,7 @@ function KitRows({ rows }) {
   return rows.map((r) => (
     <div key={r.slot} data-kit-row={r.slot} data-differs-on={r.differs_on.join(' ')}
       style={{ display: 'grid', gridTemplateColumns: '190px minmax(0, 1fr) minmax(0, 1fr)', gap: '0 22px',
-        padding: '7px 0', borderTop: '1px solid var(--rule-soft)' }}>
+        padding: '7px 0', borderTop: '1px solid var(--border-soft)' }}>
       <div style={{ font: 'var(--fw-reg) 13.5px/1.35 var(--serif)' }}>
         <RecordLink cite={'slot:' + r.slot}>{r.name || undefined}</RecordLink>
       </div>
@@ -135,7 +135,7 @@ function KitHead({ a, b, names }) {
       padding: '0 0 5px' }}>
       <Eyebrow as="span"><Term id="slot" /></Eyebrow>
       {[a, b].map((sid) => (
-        <span key={sid} style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+        <span key={sid} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
           <StyleName id={sid} name={names[sid]} />
           <span style={{ display: 'block' }}>
             <Term id="binding" /> · <Term id="variant-status-canonical" /> · <Term id="variant-status-forbidden" /> · <Term id="cascade-source" />
@@ -210,10 +210,10 @@ export function Compare({ selection, setSelection }) {
 
   return (
     <div data-compare={a && b ? `${a}/${b}` : ''} style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <header data-compare-head="" style={{ flex: 'none', padding: '14px 26px 10px', borderBottom: '1px solid var(--rule)' }}>
+      <header data-compare-head="" style={{ flex: 'none', padding: '14px 26px 10px', borderBottom: '1px solid var(--border-hairline)' }}>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
           <StylePicker value={a || ''} width={230} onChange={pickA} />
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}><Term id="compare-with" /></span>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}><Term id="compare-with" /></span>
           <StylePicker value={b || ''} width={230} label={withWord} onChange={pickB} />
         </div>
         {a && b && (
@@ -226,15 +226,15 @@ export function Compare({ selection, setSelection }) {
 
       {a && b && (
         <nav aria-label="compare sections" data-compare-strip=""
-          style={{ flex: 'none', display: 'flex', gap: 2, padding: '0 20px', borderBottom: '1px solid var(--rule)',
-            overflowX: 'auto', background: 'var(--paper)' }}>
+          style={{ flex: 'none', display: 'flex', gap: 2, padding: '0 20px', borderBottom: '1px solid var(--border-hairline)',
+            overflowX: 'auto', background: 'var(--surface-panel)' }}>
           {COMPARE_SECTIONS.map((id) => {
             const on = id === section;
             return (
               <a key={id} href={compareSectionHref(a, b, id)} aria-current={on ? 'page' : undefined}
                 data-compare-section-link={id}
                 style={{ padding: '8px 10px 7px', whiteSpace: 'nowrap', textDecoration: 'none',
-                  color: on ? 'var(--ink)' : 'var(--ink-2)',
+                  color: on ? 'var(--text-body)' : 'var(--text-secondary)',
                   borderBottom: on ? '2px solid var(--gilt-deep)' : '2px solid transparent',
                   font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.3 var(--body)' }}>
                 <SectionWord id={id} />

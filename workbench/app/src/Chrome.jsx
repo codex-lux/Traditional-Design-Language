@@ -40,10 +40,10 @@ function OnTheBench({ plan, planStep }) {
   const counts = planStep && planStep.counts;
   const state = planStep ? planStep.state : null;
   const name = typeof plan.name === 'string' && plan.name.trim() ? plan.name : plan.id;
-  const sep = <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>{JOURNEY_WORDS.separator}</span>;
+  const sep = <span aria-hidden="true" style={{ color: 'var(--text-secondary)' }}>{JOURNEY_WORDS.separator}</span>;
   return (
     <span data-bench style={{ display: 'inline-flex', alignItems: 'baseline', gap: 10, minWidth: 0,
-      font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+      font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
       <a href="#/workbench" data-bench-link
         style={{ minWidth: 0, maxWidth: 360, overflow: 'hidden', textOverflow: 'ellipsis',
           whiteSpace: 'nowrap', font: 'var(--fw-reg) 12.5px/1.4 var(--body)' }}>
@@ -84,12 +84,12 @@ function SearchInvitation({ onSearch }) {
       <button type="button" onClick={onSearch} aria-label="Search the corpus"
         aria-describedby={d.describedBy} title={d.title}
         style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 210,
-          padding: '3px 9px', border: '1px solid var(--rule)', background: 'var(--paper-mat)',
-          color: 'var(--ink-2)', transition: 'var(--t-hover)' }}>
+          padding: '3px 9px', border: '1px solid var(--border-hairline)', background: 'var(--surface-well)',
+          color: 'var(--text-secondary)', transition: 'var(--t-hover)' }}>
         <span style={{ font: 'var(--fw-reg) 12.5px/1.4 var(--body)' }}>Search the corpus</span>
         <span style={{ flex: 1 }} />
         <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
-          color: 'var(--ink-2)' }}>⌘K</span>
+          color: 'var(--text-secondary)' }}>⌘K</span>
       </button>
       {d.element}
     </>
@@ -99,12 +99,12 @@ function SearchInvitation({ onSearch }) {
 export function Masthead({ plan, planStep, onSearch, onKeys }) {
   return (
     <header style={{ height: 'var(--topbar-h)', flex: 'none', display: 'flex', alignItems: 'center',
-      gap: 20, padding: '0 16px', borderBottom: '1px solid var(--rule)', background: 'var(--paper)' }}>
+      gap: 20, padding: '0 16px', borderBottom: '1px solid var(--border-hairline)', background: 'var(--surface-panel)' }}>
       {/* The wordmark is the way home: once the rail folds, it was the only thing left on
           screen that looked like it named the product, and it went nowhere. */}
       <a href="#/" data-home=""
         style={{ font: 'var(--fw-med) 13px/1 var(--serif)', letterSpacing: '.3em',
-          textTransform: 'uppercase', color: 'var(--ink)', whiteSpace: 'nowrap',
+          textTransform: 'uppercase', color: 'var(--text-body)', whiteSpace: 'nowrap',
           borderBottom: 'none' }}>
         Traditional&#183;Design&#183;Language
       </a>
@@ -118,7 +118,7 @@ export function Masthead({ plan, planStep, onSearch, onKeys }) {
       {onKeys && (
         <button type="button" onClick={onKeys} data-keys="" aria-haspopup="dialog"
           style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6, padding: '3px 9px',
-            border: '1px solid var(--rule)', font: 'var(--type-data-s)', color: 'var(--ink-2)',
+            border: '1px solid var(--border-hairline)', font: 'var(--type-data-s)', color: 'var(--text-secondary)',
             whiteSpace: 'nowrap', transition: 'var(--t-hover)' }}>
           Keys <kbd style={{ fontFamily: 'var(--mono)' }}>?</kbd>
         </button>
@@ -135,19 +135,19 @@ export function CrumbStrip({ crumbs }) {
   if (!Array.isArray(crumbs) || !crumbs.length) return null;
   return (
     <nav aria-label="crumbs"
-      style={{ flex: 'none', borderBottom: '1px solid var(--rule)', background: 'var(--paper)',
+      style={{ flex: 'none', borderBottom: '1px solid var(--border-hairline)', background: 'var(--surface-panel)',
         padding: '0 16px', minHeight: 30, display: 'flex', alignItems: 'center', overflowX: 'auto' }}>
       <ol style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: '0 8px',
         listStyle: 'none', margin: 0, padding: '5px 0' }}>
         {crumbs.map((c, i) => {
           const last = i === crumbs.length - 1;
           const text = crumbLabel(c);
-          const ink = last ? 'var(--ink)' : 'var(--ink-2)';
+          const ink = last ? 'var(--text-body)' : 'var(--text-secondary)';
           return (
             <li key={`${i}:${c.cite || c.termId || text}`}
               style={{ display: 'inline-flex', alignItems: 'baseline', gap: 8,
                 font: (last ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)', color: ink }}>
-              {i > 0 && <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>›</span>}
+              {i > 0 && <span aria-hidden="true" style={{ color: 'var(--text-secondary)' }}>›</span>}
               {last
                 ? <span aria-current="page" data-missing={c.missing ? '' : undefined}>{text}</span>
                 : (c.href
@@ -169,14 +169,14 @@ export function CrumbStrip({ crumbs }) {
    puts the way back exactly where the thing was. */
 export function PaneStub({ pane, label, spine, side }) {
   const edge = side === 'left'
-    ? { borderRight: '1px solid var(--rule)' }
-    : { borderLeft: '1px solid var(--rule)' };
+    ? { borderRight: '1px solid var(--border-hairline)' }
+    : { borderLeft: '1px solid var(--border-hairline)' };
   return (
-    <div style={{ width: 26, flex: 'none', background: 'var(--paper)', ...edge,
+    <div style={{ width: 26, flex: 'none', background: 'var(--surface-panel)', ...edge,
       display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 0 }}>
       <button type="button" onClick={() => layout.setCollapsed(pane, false)}
         aria-expanded={false} aria-label={`show ${label}`} title={`show ${label}`}
-        style={{ width: 26, height: 30, flex: 'none', color: 'var(--ink-2)',
+        style={{ width: 26, height: 30, flex: 'none', color: 'var(--text-secondary)',
           font: 'var(--type-data-s)', fontFamily: 'var(--mono)', cursor: 'pointer',
           transition: 'var(--t-hover)' }}>
         {side === 'left' ? '›' : '‹'}
@@ -189,7 +189,7 @@ export function PaneStub({ pane, label, spine, side }) {
       <span aria-hidden="true"
         style={{ writingMode: 'vertical-rl', font: 'var(--type-eyebrow)',
           letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
-          color: 'var(--ink-2)', marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden' }}>
+          color: 'var(--text-secondary)', marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden' }}>
         {spine || label}
       </span>
     </div>
@@ -201,7 +201,7 @@ export function FoldControl({ pane, label, side }) {
   return (
     <button type="button" onClick={() => layout.setCollapsed(pane, true)}
       aria-expanded aria-label={`hide ${label}`} title={`hide ${label}`}
-      style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--ink-2)',
+      style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--text-secondary)',
         padding: '0 6px', cursor: 'pointer', flex: 'none', transition: 'var(--t-hover)' }}>
       {side === 'left' ? '‹' : '›'}
     </button>
@@ -229,34 +229,34 @@ function RailLink({ it, depth, width, desc }) {
         style={{ display: 'flex', flexDirection: 'column', width: '100%', boxSizing: 'border-box',
           padding: `4px 14px 4px ${14 + depth * 14}px`, minHeight: 28, borderBottom: 'none',
           textDecoration: 'none', cursor: 'pointer',
-          background: on ? 'var(--paper-deep)' : 'transparent',
+          background: on ? 'var(--surface-raised)' : 'transparent',
           borderLeft: on ? '2px solid var(--gilt-deep)' : '2px solid transparent',
           transition: 'var(--t-hover)' }}>
         <span style={{ display: 'flex', alignItems: 'baseline', gap: 9, width: '100%' }}>
           {it.step != null && (
             <span data-step-n="" style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
-              color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 'none' }}>{it.step}</span>
+              color: on ? 'var(--text-body)' : 'var(--text-secondary)', flex: 'none' }}>{it.step}</span>
           )}
           <span data-missing={it.label == null && it.missing ? '' : undefined}
             style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)',
-              color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 1, minWidth: 0,
+              color: on ? 'var(--text-body)' : 'var(--text-secondary)', flex: 1, minWidth: 0,
               overflowWrap: 'anywhere' }}>
             {label}
           </span>
           {/* The figure is the first thing to go when the rail is pulled narrow: it is
               orientation, and the label is the control. */}
           {figure && width >= 200 && (
-            <span data-meta="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', flex: 'none',
+            <span data-meta="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', flex: 'none',
               whiteSpace: 'nowrap' }}>{it.meta}</span>
           )}
         </span>
         {words && width >= 200 && (
-          <span data-meta="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
+          <span data-meta="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)',
             paddingLeft: it.step != null ? 17 : 0, whiteSpace: 'nowrap', overflow: 'hidden',
             textOverflow: 'ellipsis' }}>{words}</span>
         )}
         {it.note && width >= 200 && (
-          <span data-note="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
+          <span data-note="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)',
             whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{it.note}</span>
         )}
       </a>
@@ -294,8 +294,8 @@ export function LeftRail({ model, busy }) {
   const groups = model && Array.isArray(model.groups) ? model.groups : [];
   return (
     <nav aria-label="surfaces" aria-busy={busy ? 'true' : undefined}
-      style={{ width, flex: 'none', borderRight: '1px solid var(--rule)',
-        background: 'var(--paper)', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+      style={{ width, flex: 'none', borderRight: '1px solid var(--border-hairline)',
+        background: 'var(--surface-panel)', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
       <div style={{ flex: 1, overflow: 'auto', padding: '14px 0 18px' }}>
         {groups.map((g) => {
           const headId = `rail-${uid}-${g.id}`;
@@ -315,7 +315,7 @@ export function LeftRail({ model, busy }) {
           rail got its foot back. What is in the foot now is the fold, which belongs to
           the rail rather than to any surface in it. */}
       <div style={{ flex: 'none', height: 26, display: 'flex', alignItems: 'center',
-        justifyContent: 'flex-end', borderTop: '1px solid var(--rule)' }}>
+        justifyContent: 'flex-end', borderTop: '1px solid var(--border-hairline)' }}>
         <FoldControl pane="nav" label="the surface list" side="left" />
       </div>
     </nav>
@@ -344,7 +344,7 @@ export function FilterStrip({ children, right, filters, wrap, below }) {
   return (
     <div data-filter-strip={wrap ? 'wrap' : 'line'}
       style={{ ...line, flex: 'none', display: 'flex', alignItems: 'center', columnGap: 14,
-        borderBottom: '1px solid var(--rule)', background: 'var(--paper)' }}>
+        borderBottom: '1px solid var(--border-hairline)', background: 'var(--surface-panel)' }}>
       {children}
       <div style={{ flex: 1, minWidth: 14 }} />
       {/* Before `right`, not after it. The clear-all is the escape hatch from a strip that
@@ -361,7 +361,7 @@ export function FilterStrip({ children, right, filters, wrap, below }) {
         <button type="button" onClick={filters.clear} className="tdl-link"
           title="Show everything again"
           style={{ font: 'var(--type-data-s)', whiteSpace: 'nowrap', flex: 'none',
-            position: 'sticky', right: 0, background: 'var(--paper)',
+            position: 'sticky', right: 0, background: 'var(--surface-panel)',
             paddingLeft: 8, zIndex: 2 }}>
           {n} narrowing · clear
         </button>
@@ -393,9 +393,9 @@ export function Chip({ on, onClick, children, tone, title, radio }) {
   return (
     <button type="button" onClick={onClick} title={title} {...aria}
       style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
-        border: '1px solid ' + (on ? (tone || 'var(--gilt-deep)') : 'var(--rule)'),
-        color: on ? (tone || 'var(--gilt-deep)') : 'var(--ink-2)',
-        background: on ? 'var(--paper-deep)' : 'transparent', transition: 'var(--t-hover)' }}>{children}</button>
+        border: '1px solid ' + (on ? (tone || 'var(--gilt-deep)') : 'var(--border-hairline)'),
+        color: on ? (tone || 'var(--gilt-deep)') : 'var(--text-secondary)',
+        background: on ? 'var(--surface-raised)' : 'transparent', transition: 'var(--t-hover)' }}>{children}</button>
   );
 }
 
@@ -409,7 +409,7 @@ export function ActionChip({ onClick, children, title, disabled, affix = '→' }
         color: disabled ? 'var(--text-disabled)' : 'var(--gilt-deep)',
         cursor: disabled ? 'default' : 'pointer', transition: 'var(--t-hover)' }}>
       {children}
-      {affix && <span aria-hidden="true" style={{ color: disabled ? 'var(--text-disabled)' : 'var(--ink-2)' }}>{affix}</span>}
+      {affix && <span aria-hidden="true" style={{ color: disabled ? 'var(--text-disabled)' : 'var(--text-secondary)' }}>{affix}</span>}
     </button>
   );
 }
@@ -437,13 +437,13 @@ export function FilterGroup({ label, summary, children, defaultOpen = false, act
         title={open ? `Fold ${label} away` : `Show the ${label} filters`}
         style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
           display: 'inline-flex', alignItems: 'center', gap: 6,
-          border: '1px solid ' + (active ? 'var(--gilt-deep)' : 'var(--rule)'),
-          color: active ? 'var(--gilt-deep)' : 'var(--ink-2)',
-          background: open ? 'var(--paper-deep)' : 'transparent', transition: 'var(--t-hover)' }}>
-        <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>{open ? '−' : '+'}</span>
+          border: '1px solid ' + (active ? 'var(--gilt-deep)' : 'var(--border-hairline)'),
+          color: active ? 'var(--gilt-deep)' : 'var(--text-secondary)',
+          background: open ? 'var(--surface-raised)' : 'transparent', transition: 'var(--t-hover)' }}>
+        <span aria-hidden="true" style={{ color: 'var(--text-secondary)' }}>{open ? '−' : '+'}</span>
         {label}
         {!open && summary && (
-          <span style={{ color: active ? 'var(--gilt-deep)' : 'var(--ink-2)' }}>· {summary}</span>
+          <span style={{ color: active ? 'var(--gilt-deep)' : 'var(--text-secondary)' }}>· {summary}</span>
         )}
       </button>
       {open && children}

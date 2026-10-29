@@ -56,10 +56,10 @@ import { RecordLink } from '../components/RecordLink.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { TwoSpineMap } from '../components/TwoSpineMap.jsx';
 
-const prose = { font: 'var(--type-prose)', color: 'var(--ink)', margin: 0 };
-const small = { font: 'var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)', color: 'var(--ink)' };
-const note = { font: 'var(--type-data-s)', color: 'var(--ink-2)' };
-const rule = { borderTop: '1px solid var(--rule-soft)' };
+const prose = { font: 'var(--type-prose)', color: 'var(--text-body)', margin: 0 };
+const small = { font: 'var(--fw-reg) var(--fs-body-s)/var(--lh-body) var(--serif)', color: 'var(--text-body)' };
+const note = { font: 'var(--type-data-s)', color: 'var(--text-secondary)' };
+const rule = { borderTop: '1px solid var(--border-soft)' };
 /* Its anchors take the `a` rule whole: an inline underline here beat `a:hover` (WP-14.33's audit). */
 
 /* A place's word, or `noEntry(id)` where the record is missing; nothing while it loads. */
@@ -79,7 +79,7 @@ function whatOf(rec) {
 function Entrance({ group, item, what, children }) {
   return (
     <section data-entrance={item ? item.id : ''} style={{
-      border: '1px solid var(--rule)', background: 'var(--paper-lit)', padding: '14px 16px 15px',
+      border: '1px solid var(--border-hairline)', background: 'var(--surface-lit)', padding: '14px 16px 15px',
       minWidth: 0,
     }}>
       <Eyebrow as="div">{group}</Eyebrow>
@@ -153,7 +153,7 @@ export function Overview({ onSearch, lastEval }) {
             <>
               <h1 style={{ font: 'var(--fw-reg) var(--fs-d1)/1.08 var(--display)',
                 fontVariationSettings: '"opsz" 72', letterSpacing: 'var(--tr-display)',
-                color: 'var(--ink)', margin: 0 }}>
+                color: 'var(--text-body)', margin: 0 }}>
                 {about.term}
               </h1>
               <p data-about-definition="" style={{ ...prose, font: 'var(--fw-reg) var(--fs-lede)/1.5 var(--serif)',
@@ -166,7 +166,7 @@ export function Overview({ onSearch, lastEval }) {
                 gap: '12px 26px', gridTemplateColumns: 'repeat(auto-fit, minmax(15rem, 1fr))' }}>
                 {about.readers.map((r) => (
                   <li key={r.who} data-reader="" style={{ ...rule, paddingTop: 9, minWidth: 0 }}>
-                    <div style={{ font: 'var(--type-name)', fontSize: 'var(--fs-body)', color: 'var(--ink)' }}>{r.who}</div>
+                    <div style={{ font: 'var(--type-name)', fontSize: 'var(--fs-body)', color: 'var(--text-body)' }}>{r.who}</div>
                     <p style={{ ...small, margin: '4px 0 0' }}>{r.line}</p>
                   </li>
                 ))}
@@ -218,9 +218,9 @@ export function Overview({ onSearch, lastEval }) {
         <button type="button" onClick={onSearch}
           style={{ display: 'flex', alignItems: 'center', gap: 14, width: '100%', maxWidth: 560,
             margin: '16px 0 0', padding: '11px 15px', textAlign: 'left',
-            border: '1px solid var(--rule)', background: 'var(--paper-mat)',
+            border: '1px solid var(--border-hairline)', background: 'var(--surface-well)',
             transition: 'var(--t-hover)' }}>
-          <span style={{ font: 'var(--fw-reg) 15px/1.4 var(--body)', color: 'var(--ink-2)' }}>
+          <span style={{ font: 'var(--fw-reg) 15px/1.4 var(--body)', color: 'var(--text-secondary)' }}>
             Search the corpus
           </span>
           <span style={{ flex: 1 }} />
@@ -250,7 +250,7 @@ export function Overview({ onSearch, lastEval }) {
                 {/* WHERE IT STOPS, in the record's words and no others. */}
                 {guided.more && (
                   <p data-guided-stop="" style={{ ...small, margin: '10px 0 0', paddingLeft: 10,
-                    borderLeft: '2px solid var(--rule)' }}>{guided.more}</p>
+                    borderLeft: '2px solid var(--border-hairline)' }}>{guided.more}</p>
                 )}
               </>
             )}
@@ -304,7 +304,7 @@ export function Overview({ onSearch, lastEval }) {
               </Eyebrow>
               <ul data-is-not="" style={{ listStyle: 'none', padding: '4px 0 0', margin: 0, minWidth: 0 }}>
                 {about.isNot.map((line) => (
-                  <li key={line} style={{ ...small, color: 'var(--ink-2)', padding: '4px 0' }}>{line}</li>
+                  <li key={line} style={{ ...small, color: 'var(--text-secondary)', padding: '4px 0' }}>{line}</li>
                 ))}
               </ul>
             </section>
@@ -317,7 +317,7 @@ export function Overview({ onSearch, lastEval }) {
 
 const invRow = {
   display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12,
-  borderBottom: '1px solid var(--rule-soft)', padding: '3px 0',
-  font: 'var(--fw-reg) var(--fs-body-s)/1.4 var(--serif)', color: 'var(--ink)',
+  borderBottom: '1px solid var(--border-soft)', padding: '3px 0',
+  font: 'var(--fw-reg) var(--fs-body-s)/1.4 var(--serif)', color: 'var(--text-body)',
 };
-const figure = { margin: 0, font: 'var(--type-data)', color: 'var(--ink)' };
+const figure = { margin: 0, font: 'var(--type-data)', color: 'var(--text-body)' };

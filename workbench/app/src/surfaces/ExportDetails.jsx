@@ -37,10 +37,10 @@ function save(name, content, type = 'application/json') {
   URL.revokeObjectURL(a.href);
 }
 
-const card = { border: '1px solid var(--rule)', padding: '14px 16px', flex: '1 1 300px',
+const card = { border: '1px solid var(--border-hairline)', padding: '14px 16px', flex: '1 1 300px',
   minWidth: 280, maxWidth: 420 };
-const cardTitle = { font: 'var(--fw-reg) 17px/1.2 var(--display)', color: 'var(--ink)', margin: '0 0 7px' };
-const cardBody = { font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: '0 0 12px' };
+const cardTitle = { font: 'var(--fw-reg) 17px/1.2 var(--display)', color: 'var(--text-body)', margin: '0 0 7px' };
+const cardBody = { font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '0 0 12px' };
 
 /* WHICH FACE AN ELEVATION LEAVES AS (WP-14.27, PRD §C.12). Export drew only the face the record
    calls the entrance front, so the other three elevations the generator draws could be looked at
@@ -138,7 +138,7 @@ export function ExportDetails({ lastEval }) {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip>
         <Eyebrow as="span">details &amp; export</Eyebrow>
-        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
         <Eyebrow as="span"><Term id={FACE_TERM} /></Eyebrow>
         <ChipGroup label={word(FACE_TERM)}>
           <Chip radio on={!face} title={describeTerm(glossary, ENTRANCE_FRONT_TERM).title}
@@ -162,7 +162,7 @@ export function ExportDetails({ lastEval }) {
               // the NOT-BUILT colour is for what is not built. An export that FAILED is not a
               // forthcoming feature, and painting the two the same made a refused house read
               // as a gap in the product.
-              color: note.missing ? 'var(--ink-2)' : 'var(--refusal)',
+              color: note.missing ? 'var(--text-secondary)' : 'var(--refusal)',
               margin: '0 0 14px', maxWidth: '76ch' }}>
             {note.missing
               ? `not built on this server — ${note.text}`
@@ -247,14 +247,14 @@ export function ExportDetails({ lastEval }) {
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'stretch' }}>
           {NOT_BUILT.map((id) => (
             <div key={id} data-not-built={id} style={{ ...card, backgroundImage: 'var(--mark-not-built)' }}>
-              <div style={{ background: 'var(--paper)', padding: '8px 10px' }}>
-                <h3 style={{ ...cardTitle, color: 'var(--ink-2)' }}>{word(id)}</h3>
-                <p data-not-built-definition="" style={{ ...cardBody, color: 'var(--ink-2)', marginBottom: 8 }}>
+              <div style={{ background: 'var(--surface-panel)', padding: '8px 10px' }}>
+                <h3 style={{ ...cardTitle, color: 'var(--text-secondary)' }}>{word(id)}</h3>
+                <p data-not-built-definition="" style={{ ...cardBody, color: 'var(--text-secondary)', marginBottom: 8 }}>
                   {describeTerm(glossary, id).text}
                 </p>
                 {id === 'details-library' && packConflicts != null && (
                   <span data-pack-conflicts={packConflicts}
-                    style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                    style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                     <Term id="pack-conflict" /> · {packConflicts}
                   </span>
                 )}
@@ -264,12 +264,12 @@ export function ExportDetails({ lastEval }) {
         </div>
 
         <p data-transcription-pointer="" style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)',
-          color: 'var(--ink-2)', margin: '16px 0 0', maxWidth: '76ch' }}>
+          color: 'var(--text-secondary)', margin: '16px 0 0', maxWidth: '76ch' }}>
           <a href={formatHash('transcription')}>{word('surface-transcription')}</a>
           {' — '}{describeTerm(glossary, 'surface-transcription').text}
         </p>
 
-        <p data-no-costing="" style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
+        <p data-no-costing="" style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--text-secondary)',
           margin: '24px 0 0', maxWidth: '76ch' }}>
           <Term id="no-costing-engine" />{' — '}{describeTerm(glossary, 'no-costing-engine').text}
         </p>

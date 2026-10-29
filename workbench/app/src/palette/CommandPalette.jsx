@@ -124,21 +124,21 @@ export function CommandPalette({ open, onClose, onAction }) {
         display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: '11vh' }}>
       <div role="dialog" aria-modal="true" aria-label={name || undefined} aria-busy={ready ? undefined : true}
         style={{ width: 'min(620px, calc(100vw - 32px))', maxHeight: '74vh', display: 'flex',
-          flexDirection: 'column', background: 'var(--paper)', border: '1px solid var(--rule)',
+          flexDirection: 'column', background: 'var(--surface-panel)', border: '1px solid var(--border-hairline)',
           boxShadow: '0 10px 34px rgba(40,36,28,.24)' }}>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '11px 14px',
-          borderBottom: '1px solid var(--rule)' }}>
+          borderBottom: '1px solid var(--border-hairline)' }}>
           <Eyebrow tone="secondary" as="span">find</Eyebrow>
           <input ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={onKeyDown}
             role="combobox" aria-expanded="true" aria-controls="palette-list" aria-autocomplete="list"
             aria-activedescendant={hits[cursor] ? `palette-opt-${cursor}` : undefined}
             aria-label={name || undefined}
             placeholder="a style, a slot, a fault, a room, a page…"
-            style={{ flex: 1, font: 'var(--fw-reg) 16px/1.3 var(--body)', color: 'var(--ink)',
+            style={{ flex: 1, font: 'var(--fw-reg) 16px/1.3 var(--body)', color: 'var(--text-body)',
               background: 'transparent', border: 'none' }} />
           {entries === null && !failed && (
-            <span aria-busy="true" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+            <span aria-busy="true" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
               {ready ? wordOf(glossary.lookup, 'mark-loading') : ''}
             </span>
           )}
@@ -149,14 +149,14 @@ export function CommandPalette({ open, onClose, onAction }) {
 
           {failed && (
             <p data-search-unavailable="1" style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)',
-              color: 'var(--ink-2)', margin: 0, padding: '12px 16px' }}>
+              color: 'var(--text-secondary)', margin: 0, padding: '12px 16px' }}>
               {describeTerm(glossary, 'search-index-unavailable').text}
             </p>
           )}
 
           {!hits.length && (
             <p data-search-no-match="1" style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)',
-              color: 'var(--ink-2)', margin: 0, padding: '14px 16px' }}>
+              color: 'var(--text-secondary)', margin: 0, padding: '14px 16px' }}>
               {describeTerm(glossary, 'search-no-match').text}
             </p>
           )}
@@ -173,18 +173,18 @@ export function CommandPalette({ open, onClose, onAction }) {
                     onMouseMove={() => setCursor(h._i)}
                     onMouseDown={(e) => { e.preventDefault(); dispatch(h); }}
                     style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '5px 16px',
-                      cursor: 'pointer', background: on ? 'var(--paper-deep)' : 'transparent',
+                      cursor: 'pointer', background: on ? 'var(--surface-raised)' : 'transparent',
                       borderLeft: on ? '2px solid var(--gilt-deep)' : '2px solid transparent' }}>
                     <span style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 14px/1.35 var(--body)',
-                      color: 'var(--ink)', flex: 'none' }}>{h.name}</span>
+                      color: 'var(--text-body)', flex: 'none' }}>{h.name}</span>
                     {h.short && (
-                      <span style={{ font: 'var(--fw-reg) 12px/1.4 var(--body)', color: 'var(--ink-2)',
+                      <span style={{ font: 'var(--fw-reg) 12px/1.4 var(--body)', color: 'var(--text-secondary)',
                         flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap' }}>{h.short}</span>
                     )}
                     {!h.short && <span style={{ flex: 1 }} />}
                     {h.meta && (
-                      <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', flex: 'none' }}>
+                      <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', flex: 'none' }}>
                         {h.meta}
                       </span>
                     )}
@@ -192,7 +192,7 @@ export function CommandPalette({ open, onClose, onAction }) {
                         everywhere else in the product — here is where you meet it. */}
                     {h.cite && (
                       <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)',
-                        color: on ? 'var(--gilt-deep)' : 'var(--ink-2)', flex: 'none' }}>{h.cite}</span>
+                        color: on ? 'var(--gilt-deep)' : 'var(--text-secondary)', flex: 'none' }}>{h.cite}</span>
                     )}
                   </div>
                 );
@@ -201,7 +201,7 @@ export function CommandPalette({ open, onClose, onAction }) {
           ))}
 
           {result.cut > 0 && (
-            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: 0,
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', margin: 0,
               padding: '9px 16px 2px' }}>
               {result.total} match — {result.cut} more not listed. Type more of the name.
             </p>
@@ -209,7 +209,7 @@ export function CommandPalette({ open, onClose, onAction }) {
         </div>
 
         <div style={{ flex: 'none', display: 'flex', gap: 16, padding: '7px 14px',
-          borderTop: '1px solid var(--rule)', font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+          borderTop: '1px solid var(--border-hairline)', font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
           <span>↑↓ move</span><span>↵ open</span><span>esc close</span>
         </div>
       </div>

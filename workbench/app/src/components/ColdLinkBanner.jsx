@@ -34,9 +34,9 @@ export function ColdLinkBanner({ crumbs, onDismiss }) {
 
   return (
     <section data-cold-link="" aria-label={about.state === 'ready' ? about.word : 'about-tdl'}
-      style={{ flex: 'none', borderBottom: '1px solid var(--rule)', background: 'var(--paper-deep)',
+      style={{ flex: 'none', borderBottom: '1px solid var(--border-hairline)', background: 'var(--surface-raised)',
         padding: '10px 16px', display: 'flex', alignItems: 'flex-start', gap: 18,
-        font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink)' }}>
+        font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--text-body)' }}>
       <div style={{ flex: 1, minWidth: 0, maxWidth: '96ch' }}>
         <p style={{ margin: 0 }}>
           {about.state === 'ready'
@@ -44,7 +44,7 @@ export function ColdLinkBanner({ crumbs, onDismiss }) {
             : about.text}
         </p>
         {trail.length > 0 && (
-          <p data-cold-link-trail="" style={{ margin: '4px 0 0', color: 'var(--ink-2)' }}>
+          <p data-cold-link-trail="" style={{ margin: '4px 0 0', color: 'var(--text-secondary)' }}>
             You are at: {trail.join(' › ')}
           </p>
         )}
@@ -57,8 +57,8 @@ export function ColdLinkBanner({ crumbs, onDismiss }) {
           </a>
         )}
         <button type="button" onClick={onDismiss} data-cold-link-dismiss=""
-          style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', padding: '2px 7px',
-            border: '1px solid var(--rule)' }}>
+          style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '2px 7px',
+            border: '1px solid var(--border-hairline)' }}>
           Dismiss
         </button>
       </div>

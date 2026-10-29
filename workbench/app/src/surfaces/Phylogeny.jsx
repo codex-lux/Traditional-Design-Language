@@ -64,7 +64,7 @@ function Lineage({ taxon, edges }) {
       {groups.map((g, gi) => (
         <div key={g.carry} data-carry-group={g.carry}
           style={{ marginTop: gi || filed ? 10 : 0, paddingTop: gi || filed ? 10 : 0,
-            borderTop: gi || filed ? '1px solid var(--rule-soft)' : 'none' }}>
+            borderTop: gi || filed ? '1px solid var(--border-soft)' : 'none' }}>
           {g.edges.map((e, i) => (
             <div key={e.type + ':' + e.target + ':' + i} style={{ marginBottom: 11 }}>
               <EdgeGlyph edge={e} width={44} />
@@ -152,7 +152,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
   const graphEdges = derived ? graph.edges : EMPTY;
 
   if (!derived) {
-    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--ink-2)' }}>reading the graph…</div>;
+    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--text-secondary)' }}>reading the graph…</div>;
   }
 
   const { index } = derived;
@@ -216,7 +216,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             show claimed ancestry
           </Chip>
           {/* The gesture and what it opens are the `shift-click-to-compare` record's (WP-14.31). */}
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}><Term id="shift-click-to-compare" /></span>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}><Term id="shift-click-to-compare" /></span>
         </span>
       }>
         {/* Two readings of one graph. Which one you are looking at is part of the
@@ -227,10 +227,10 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           <Chip radio on={isMap} onClick={() => filters.set('view', 'map')}
             title={describeTerm(glossary, 'reading-map').title}>map</Chip>
         </ChipGroup>
-        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
         <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={rows.length}
           label="Filter the taxa by name, rank or region" placeholder={`filter ${allRows.length} taxa`} width={165} />
-        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
         <ChipGroup label="rank">
           <Eyebrow as="span">rank</Eyebrow>
           {['tradition', 'family', 'style', 'variant'].map((r) => (
@@ -238,7 +238,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               onClick={() => filters.toggle('rank', r)}>{r}</Chip>
           ))}
         </ChipGroup>
-        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <span style={{ width: 1, height: 18, background: 'var(--border-hairline)' }} />
         <Eyebrow as="span">traditions</Eyebrow>
         {Object.entries(TRADITION_HUES).map(([id, hue]) => (
           <span key={id} title={id} style={{ width: 10, height: 10, background: hue, flex: 'none' }} />
@@ -251,7 +251,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
              the selection's ancestry and descent. Drawing all 476 at once would be a ball
              of wool, and the two readings should agree about what is on screen. */
           <MapView rows={rows} edges={edges} sel={sel} onPick={pick}
-            traditionHue={(r) => TRADITION_HUES[r.tradition] || 'var(--hair)'}
+            traditionHue={(r) => TRADITION_HUES[r.tradition] || 'var(--border-hairline)'}
             lit={bright} showClaims={showClaims} rankFilter={rankFilter}
             full={!!full} onExitFull={onExitFull}
             onFull={onFull ? () => onFull('phylogeny') : undefined} />
@@ -260,12 +260,12 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
           <div style={{ position: 'relative', height: 26, marginLeft: 210, marginBottom: 4 }}>
             {[-700, 1600, 1700, 1800, 1900, 2000].map((y) => (
               <span key={y} style={{ position: 'absolute', left: tScale(y) * 100 + '%', top: 0,
-                transform: 'translateX(-50%)', font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                transform: 'translateX(-50%)', font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                 {y < 0 ? Math.abs(y) + ' BC' : y}
               </span>
             ))}
             <span style={{ position: 'absolute', left: BREAK_FRAC * 100 + '%', top: 16, bottom: -6,
-              width: 0, borderLeft: '1px dashed var(--rule)' }} />
+              width: 0, borderLeft: '1px dashed var(--border-hairline)' }} />
             <span style={{ position: 'absolute', left: BREAK_FRAC * 100 + '%', top: 15,
               transform: 'translate(-50%,0)', font: 'var(--type-data-s)', color: 'var(--gilt-deep)' }}>‖</span>
           </div>
@@ -298,7 +298,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
             {rows.map((r, i) => {
               const on = r.id === sel;
               const isLit = bright(r.id);
-              const hue = TRADITION_HUES[r.tradition] || 'var(--hair)';
+              const hue = TRADITION_HUES[r.tradition] || 'var(--border-hairline)';
               const left = tScale(r.from) * 100, right = tScale(Math.min(r.to, 2026)) * 100;
               return (
                 <div key={r.id} style={{ position: 'absolute', left: 0, right: 0, top: i * ROW + PAD, height: ROW }}>
@@ -307,7 +307,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                       width: 200 - (RANK_INDENT[r.rank] || 0),
                       textAlign: 'left', height: ROW, display: 'flex', alignItems: 'center', gap: 6 }}>
                     <span style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 12px/1.2 var(--display)',
-                      color: on || isLit ? 'var(--ink)' : 'var(--ink-2)',
+                      color: on || isLit ? 'var(--text-body)' : 'var(--text-secondary)',
                       whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.name}</span>
                     {/* LOW CONFIDENCE IS ONE MARK AND ONE WORD (WP-14.29): a dashed square, the
                         record's word to assistive tech and to the pointer. A medium node is not
@@ -326,7 +326,7 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                       title={`${r.name} · ${r.rank} · ${yr(r.from)}–${yr(r.to)}`}
                       style={{ position: 'absolute', left: left + '%', width: Math.max(right - left, 0.7) + '%',
                         top: 6, height: 8, background: hue, opacity: on ? 1 : (isLit ? 0.7 : 0.26),
-                        border: on ? '1px solid var(--ink)' : 'none', transition: 'var(--t-finding)' }} />
+                        border: on ? '1px solid var(--text-body)' : 'none', transition: 'var(--t-finding)' }} />
                   </div>
                 </div>
               );
@@ -339,17 +339,17 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               no check reads them and nothing would notice the day a peer trunk is added. The
               absence is the `missing-peer-trunks` glossary record's, which quotes the README; the
               trunks the tree holds are its own tradition-rank nodes, read off the graph in hand. */}
-          <div data-peer-trunks="" style={{ marginLeft: 210, marginTop: 18, border: '1px solid var(--rule)',
-            color: 'var(--ink-2)', backgroundImage: 'var(--mark-wanted)', padding: '14px 16px' }}>
-            <div style={{ background: 'var(--paper)', display: 'inline-block', padding: '4px 8px' }}>
+          <div data-peer-trunks="" style={{ marginLeft: 210, marginTop: 18, border: '1px solid var(--border-hairline)',
+            color: 'var(--text-secondary)', backgroundImage: 'var(--mark-wanted)', padding: '14px 16px' }}>
+            <div style={{ background: 'var(--surface-panel)', display: 'inline-block', padding: '4px 8px' }}>
               <Eyebrow tone="secondary" as="span"><Term id="missing-peer-trunks" /></Eyebrow>
               {trunksView.state === 'ready' && (
                 <>
                   <p data-term-definition="missing-peer-trunks"
-                    style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '6px 0 0',
+                    style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '6px 0 0',
                       maxWidth: '68ch' }}>{trunksView.definition}</p>
                   {trunksView.record.more && (
-                    <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: '4px 0 0',
+                    <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: '4px 0 0',
                       maxWidth: '68ch' }}>{trunksView.record.more}</p>
                   )}
                 </>
@@ -360,9 +360,9 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                 {heldTrunks.map((t) => (
                   <button key={t.id} type="button" data-trunk={t.id} onClick={(ev) => pick(ev, t.id)}
                     style={{ display: 'inline-flex', alignItems: 'center', gap: 5,
-                      font: 'var(--fw-reg) 12px/1.3 var(--display)', color: 'var(--ink)' }}>
+                      font: 'var(--fw-reg) 12px/1.3 var(--display)', color: 'var(--text-body)' }}>
                     <span style={{ width: 8, height: 8, flex: 'none',
-                      background: TRADITION_HUES[t.tradition] || 'var(--hair)' }} />
+                      background: TRADITION_HUES[t.tradition] || 'var(--border-hairline)' }} />
                     {t.name}
                   </button>
                 ))}
@@ -374,8 +374,8 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
 
         {!full && panelOpen && <Splitter pane="phylo" grows="right" />}
         {!full && panelOpen && (
-        <div style={{ width: panel, flex: 'none', borderLeft: '1px solid var(--rule)',
-          minHeight: 0, background: 'var(--paper)', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ width: panel, flex: 'none', borderLeft: '1px solid var(--border-hairline)',
+          minHeight: 0, background: 'var(--surface-panel)', display: 'flex', flexDirection: 'column' }}>
         <div style={{ flex: 'none', height: 24, display: 'flex', alignItems: 'center',
           justifyContent: 'flex-end' }}>
           <FoldControl pane="phylo" label="the taxon's record" side="right" />
@@ -387,24 +387,24 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
               <Eyebrow>{selNode.rank}</Eyebrow>
               <h3 data-taxon-record={selNode.id} style={{ font: 'var(--fw-reg) var(--fs-d3)/1.12 var(--display)', fontVariationSettings: '"opsz" 48',
                 letterSpacing: 'var(--tr-display)', margin: '6px 0 3px' }}>{selNode.name}</h3>
-              <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+              <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                 {selNode.id} · {yr(selNode.from)}–{yr(selNode.to)}
                 {selNode.confidence ? ` · confidence ${selNode.confidence}` : ''}
               </div>
               {selNode.short && (
-                <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--ink-2)', margin: '11px 0 0' }}>
+                <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--text-secondary)', margin: '11px 0 0' }}>
                   {selNode.short}
                 </p>
               )}
               {summary.regions && (
-                <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', marginTop: 8 }}>
+                <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 8 }}>
                   {(summary.regions || []).join(' · ')}
                 </div>
               )}
 
               <Lineage taxon={selNode} edges={graph.edges} />
 
-              <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid var(--rule)' }}>
+              <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid var(--border-hairline)' }}>
                 <Eyebrow style={{ marginBottom: 7 }}>descent</Eyebrow>
                 {graph.edges.filter((e) => e.to === sel).map((e, i) => (
                   /* A descent is a pick like any other: it writes the address (WP-14.27), so
@@ -412,12 +412,12 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
                   <button key={i} type="button" data-descent={e.from}
                     onClick={() => { setSel(e.from); setSelection && setSelection({ style: e.from }); }}
                     style={{ display: 'block', font: 'var(--type-data-s)', textAlign: 'left',
-                      color: carriesKit(e) ? 'var(--ink)' : 'var(--ink-2)', padding: '2px 0' }}>
-                    {e.from} <span style={{ color: 'var(--ink-2)' }}>· {e.type}</span>
+                      color: carriesKit(e) ? 'var(--text-body)' : 'var(--text-secondary)', padding: '2px 0' }}>
+                    {e.from} <span style={{ color: 'var(--text-secondary)' }}>· {e.type}</span>
                   </button>
                 ))}
                 {graph.edges.filter((e) => e.to === sel).length === 0 && (
-                  <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)', margin: 0 }}>
+                  <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)', margin: 0 }}>
                     Nothing descends from this node in the corpus.
                   </p>
                 )}

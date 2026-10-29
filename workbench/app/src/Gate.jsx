@@ -54,26 +54,26 @@ export function Gate({ onUnlocked, auth }) {
   return (
     <div style={{
       height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'var(--paper-deep)', padding: 24,
+      background: 'var(--surface-raised)', padding: 24,
     }}>
       <form onSubmit={submit} style={{
-        width: 'min(420px, 100%)', background: 'var(--paper)',
-        border: '1px solid var(--rule)', borderRadius: 'var(--radius)',
+        width: 'min(420px, 100%)', background: 'var(--surface-panel)',
+        border: '1px solid var(--border-hairline)', borderRadius: 'var(--radius)',
         boxShadow: 'var(--shadow-plate)', padding: '32px 28px',
       }}>
         <Eyebrow tone="accent">Traditional Design Language</Eyebrow>
         <h1 style={{
-          font: 'var(--type-title)', color: 'var(--ink)', margin: '10px 0 6px',
+          font: 'var(--type-title)', color: 'var(--text-body)', margin: '10px 0 6px',
         }}>
           The Workbench
         </h1>
         {about && (
           <p data-about-tdl="" style={{
-            font: 'var(--type-prose)', color: 'var(--ink)', margin: '0 0 12px',
+            font: 'var(--type-prose)', color: 'var(--text-body)', margin: '0 0 12px',
           }}>{about}</p>
         )}
         <p style={{
-          font: 'var(--type-aside)', color: 'var(--ink-2)', margin: '0 0 22px',
+          font: 'var(--type-aside)', color: 'var(--text-secondary)', margin: '0 0 22px',
           lineHeight: 1.5,
         }}>
           {auth && auth.required && auth.password === false
@@ -93,8 +93,8 @@ export function Gate({ onUnlocked, auth }) {
             onChange={(e) => setPassword(e.target.value)}
             style={{
               width: '100%', marginTop: 6, padding: '10px 12px',
-              font: 'var(--type-data)', color: 'var(--ink)',
-              background: 'var(--paper-mat)', border: '1px solid var(--rule)',
+              font: 'var(--type-data)', color: 'var(--text-body)',
+              background: 'var(--surface-well)', border: '1px solid var(--border-hairline)',
               borderRadius: 'var(--radius-0)',
             }}
           />
@@ -113,8 +113,8 @@ export function Gate({ onUnlocked, auth }) {
           disabled={busy || !password}
           style={{
             width: '100%', marginTop: 20, padding: '11px 14px',
-            font: 'var(--type-name)', color: 'var(--paper)',
-            background: busy || !password ? 'var(--ink-4)' : 'var(--ink)',
+            font: 'var(--type-name)', color: 'var(--surface-panel)',
+            background: busy || !password ? 'var(--border-hairline)' : 'var(--text-body)',
             border: 'none', borderRadius: 'var(--radius-0)',
             cursor: busy || !password ? 'default' : 'pointer',
           }}

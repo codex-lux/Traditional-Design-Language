@@ -52,7 +52,7 @@ function KindIndex({ kind }) {
     <div data-record-index={kind.surface} style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip filters={filters} right={
         <span data-index-shown={ready ? rows.length : undefined} data-index-total={ready ? all.length : undefined}
-          style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+          style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
           {ready ? `${rows.length} of ${all.length}` : '…'}
         </span>
       }>
@@ -62,7 +62,7 @@ function KindIndex({ kind }) {
       </FilterStrip>
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '16px 26px 40px' }}>
         {!ready && names.status !== 'error' && <p style={data}>reading the index…</p>}
-        {names.status === 'error' && <p style={{ font: 'var(--type-body)', color: 'var(--ink-2)' }}>The index could not be read.</p>}
+        {names.status === 'error' && <p style={{ font: 'var(--type-body)', color: 'var(--text-secondary)' }}>The index could not be read.</p>}
         {ready && rows.map((e) => (
           <div key={e.cite} data-index-row={e.id} style={{ display: 'flex', gap: 12, alignItems: 'baseline', padding: '3px 0' }}>
             <span style={{ font: 'var(--fw-reg) 14px/1.45 var(--serif)' }}><RecordLink cite={e.cite} /></span>
