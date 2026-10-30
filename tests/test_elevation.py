@@ -636,7 +636,11 @@ class TestRenderElevation:
         # west gable, the west stack stands at the mean of its two fires' axes, and it shows beside
         # the near one above the roof. The NEAR stack is the one drawn from grade -- the polygon
         # reaching lowest on the sheet -- and it is that one whose position is held to the record.
-        assert len(polys) in (1, 2), polys
+        # TWO, PINNED (the audit of Phase 17, 30 Oct 2026, finding 37(a)): the band `in (1, 2)`
+        # admitted a regression that hides the far stack again on a deterministic shipped sheet,
+        # and only the roof-line note -- drawn by the same `stack_marks` call -- followed it.
+        # Re-derived on a worktree of 33652ac: 2 polygons, the roof-line note present.
+        assert len(polys) == 2, polys
         both_drawn = len(polys) == 2
         polys = [max(polys, key=lambda pts: max(y for _x, y in pts))]
         us = [x for x, _y in polys[0]]

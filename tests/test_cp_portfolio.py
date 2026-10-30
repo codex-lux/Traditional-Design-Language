@@ -128,7 +128,7 @@ def test_the_record_names_the_workers_the_mode_and_the_portfolio_ran(monkeypatch
     rounds = sv["downgrade_rounds"]
     assert rounds and rounds[0].startswith("portfolio (4 workers): "), rounds
     if sv["mode"] == "portfolio":
-        assert "every type fact HELD" in rounds[0], rounds[0]
+        assert "every type fact posed HELD (" in rounds[0], rounds[0]
 
 
 def test_a_solve_on_one_worker_of_four_says_so(monkeypatch):

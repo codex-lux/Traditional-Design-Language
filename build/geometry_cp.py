@@ -313,6 +313,49 @@ _RANK = ("wall", "axis", "tiling", "stack", "bearing", "hearth", "shape")
 TYPE_FACTS = ("tiling", "stack", "bearing", "hearth")
 
 
+def portfolio_held_note(workers, reqs, plan, released, grew_ft=0.0):
+    """The portfolio's one line when it decides with the type's facts hard.
+
+    IT NAMES THE FACTS IT POSED, AND NEVER "EVERY TYPE FACT" (the audit of Phase 17, 30 Oct 2026,
+    findings 37 and 44). The line read "every type fact HELD" off a model whose literals are the only
+    facts it holds -- and a composed house states no fire, so no hearth literal is ever posed: the
+    sentence was vacuously true of the model and false of the house, which `typefacts` and the
+    drawability instrument report hearth UNJUDGED beside. The posed kinds come from the hard model's
+    own keyed literals (`reqs.lits`, what `facts_account` reads too), and every fact not posed is
+    named with why: a fire not stated, or the model's own refusal reason, or nothing of it stated.
+
+    AND IT COUNTS THE TWO KINDS IT RELEASED APART. The portfolio releases the authored WALL and AXIS
+    pins together and wrote one number for both, which `tests/test_shape_pins.py` credited wholly to
+    the walls -- so an axis release padded the wall account. `released` holds `_dk` keys, which
+    carry their kind."""
+    posed = [k for k in TYPE_FACTS if any(k2 == k and key for _l, _t, k2, key in reqs.lits)]
+    line = (f"portfolio ({workers} workers): every type fact posed HELD "
+            f"({', '.join(posed) or 'none'})")
+    if released:
+        n_wall = sum(1 for k in released if k[0] == "wall")
+        n_axis = sum(1 for k in released if k[0] == "axis")
+        line += (f" with the {n_wall} authored wall pin(s) and {n_axis} axis pin(s) released, "
+                 f"CARRIED; the reinstatement pass offers them back where its window has time, and "
+                 f"its own line says how many it reached")
+    if grew_ft:
+        line += (f"; the footprint grew {grew_ft:g} ft in depth first, and each dependency with it "
+                 f"(decision 11: the footprint grows before a room is compromised -- the derived "
+                 f"depth holds the programme with no slack at all)")
+    fires = any(r.get("hearth") for lv in (plan.get("levels") or [])
+                for r in (lv.get("rooms") or []))
+    for kind in TYPE_FACTS:
+        if kind in posed:
+            continue
+        why = next((w for k, _key, w in reqs.unjudged if k == kind), None)
+        if kind == "hearth" and not fires:
+            line += "; no fire is stated, so the hearth is not posed"
+        elif why:
+            line += f"; the {kind} is not posed: {why}"
+        else:
+            line += f"; no {kind} is stated, so it is not posed"
+    return line
+
+
 def _dk(kind, key):
     """A downgrade key CARRIES ITS KIND. `downgraded` used to hold bare keys and every reader
     told them apart by ARITY -- `(level, room, wall)` was a wall and `(level, room)` a shape --
@@ -2721,14 +2764,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
             attempts.append((f"{fpd0['bays']}b hard{step}{f' +{dh:g}ft' if dh else ''} {workers}w",
                              "H:" + sv_.StatusName(st_)))
             if st_ in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-                rank_notes.append(
-                    f"portfolio ({workers} workers): every type fact HELD"
-                    + (f" with the {len(_rel)} authored wall and axis pin(s) released, CARRIED; the "
-                       f"reinstatement pass offers them back where its window has time, and its own "
-                       f"line says how many it reached" if _rel else "")
-                    + (f"; the footprint grew {dh:g} ft in depth first, and each dependency with it "
-                       f"(decision 11: the footprint grows before a room is compromised -- the "
-                       f"derived depth holds the programme with no slack at all)" if dh else ""))
+                rank_notes.append(portfolio_held_note(workers, q_, plan, _rel, dh))
                 return _finish_feasible(fpd, _values(sv_, r_), sv_.StatusName(st_), mode="portfolio")
         downgraded.difference_update(_rel)
         rank_notes.append(f"portfolio ({workers} workers): undecided or infeasible with every "
