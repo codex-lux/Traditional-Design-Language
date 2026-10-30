@@ -111,3 +111,38 @@ def test_the_drawing_set_redraws_a_record_edited_since_its_placement(monkeypatch
         "the edited record is placed again, and the new placement names the edited record"
     assert redrawn["geometry_report"]["solver"]["input_digest"] != out["geometry_report"]["solver"]["input_digest"]
     assert any(r["id"] == rid for lv in redrawn["levels"] for r in lv["rooms"])
+
+
+def _through_the_browser(rec):
+    """What the bench does to a record: it holds it as a JavaScript object, which has one number
+    type, and posts it back with `JSON.stringify`, so an integral float comes back an integer."""
+    import json
+    return json.loads(json.dumps(rec), parse_float=lambda s: int(float(s)) if float(s).is_integer() else float(s))
+
+
+def test_a_placement_survives_the_browsers_round_trip(monkeypatch):
+    """THE AUDIT OF PHASE 17 (30 Oct 2026). Every test above posts a Python dict, which keeps `9.0`
+    a float; the browser does not, and the digest told `9.0` from `9`, so the bench re-solved every
+    composed candidate it was sent. Held on the composer's own record (45 integral floats on the
+    foursquare) and on a placed record taken through the browser and back to the server."""
+    from workbench.server import corpus
+    geo, plan, out = _placed_heuristic(monkeypatch)
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache
+    CO = modcache.load("compose", os.path.join(ROOT, "build", "compose.py"))
+    composed, _log, _p = CO.instantiate("foursquare-quadrant", {"id": "t", "style": "tidewater-georgian",
+                                                                 "target_area_sf": 3200, "bedrooms": 4,
+                                                                 "bathrooms": 3.5})
+    back = _through_the_browser(composed)
+    import json
+    assert json.dumps(back, sort_keys=True) != json.dumps(composed, sort_keys=True), \
+        "the premise: the round trip changes the record's text"
+    assert geo.declared_digest(back) == geo.declared_digest(composed)
+    posted = _through_the_browser(out)
+    assert geo.carries_its_own_placement(posted), "a placement taken through the browser is still of its record"
+    kept = corpus.carried(posted)
+    assert kept is not None, "the bench keeps the placement the browser posted back"
+    # and a real edit still breaks it after the round trip
+    posted["levels"][0]["rooms"][0]["width_ft"] = (posted["levels"][0]["rooms"][0].get("width_ft") or 10) + 1
+    assert not geo.carries_its_own_placement(posted)

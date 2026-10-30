@@ -140,6 +140,29 @@ def test_a_diagram_whose_entry_does_not_settle_the_front_states_none_and_says_so
     assert [l for l in log if l.startswith("DISCLOSURE: the diagram's entry does not settle")]
 
 
+def test_each_diagram_reads_its_own_front_and_the_brief_is_not_written_to():
+    """THE AUDIT OF PHASE 17 (30 Oct 2026): `instantiate` handed every plan the BRIEF's own
+    `context` dict, so `_entrance_front` wrote the first diagram's front onto the brief and every
+    later diagram kept it as though the brief had stated it, with no line in its log. The briefs
+    above carry no `context` at all, so `brief.get("context", {})` was a fresh dict on every call
+    and these tests could not see it; the workbench's brief form always sends one. Two diagrams,
+    in sequence, from one brief that carries a context and states no front: the double pile reads
+    S, and the courtyard -- whose entry settles no front -- must still say so."""
+    import copy
+    brief = {**BRIEF, "context": {"lot_width_ft": 120, "climate_zone": "4A"}}
+    before = copy.deepcopy(brief)
+    first, log1, _p = CO.instantiate("centre-passage-double-pile", brief)
+    second, log2, _p = CO.instantiate("courtyard-and-portal", brief)
+    assert brief == before, "the brief came back changed"
+    assert first["context"] is not brief["context"] and second["context"] is not first["context"]
+    assert first["context"]["entrance_faces"] == "S"
+    assert [l for l in log1 if l.startswith("JUDGMENT: the house is entered on its S front")]
+    assert not second["context"].get("entrance_faces"), (
+        "the courtyard took the double pile's front", second["context"].get("entrance_faces"))
+    assert [l for l in log2 if l.startswith("DISCLOSURE: the diagram's entry does not settle")]
+    assert second["context"]["lot_width_ft"] == 120, "the brief's own context still reaches the plan"
+
+
 def test_a_composed_plan_validates_against_the_plan_schema():
     """The entrance front was first written as a LIST and the schema states one compass point;
     `geometry.entrance_walls` then raised on every composed plan. Nothing validated a composed

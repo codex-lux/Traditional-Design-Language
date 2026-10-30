@@ -923,8 +923,16 @@ def instantiate(parti_id, brief):
             # bites. Pre-existing; found by the adversarial audit of the score change, which
             # needed stable numbers to calibrate against and did not get them.
             "groupings": list(p.get("groupings") or []),
-            "context": brief.get("context", {}),
-            "site": brief.get("site", {}),
+            # THE SAME ALIASING, ONE KEY DOWN (the audit of Phase 17, 30 Oct 2026). `context` was
+            # the BRIEF's own dict, harmless while nothing here wrote to it -- and WP-17.2's
+            # `_entrance_front` writes `entrance_faces` into it. compose() instantiates every
+            # diagram from one brief, so the first diagram's reading went onto the brief, every
+            # later diagram took the "a brief that states a front keeps it" branch with no line in
+            # its log, and the caller's brief came back changed. Measured: family-georgian without
+            # a front, courtyard-and-portal entered on the double pile's S where its own diagram
+            # settles none. Each plan carries its own copy, and so does `site`.
+            "context": copy.deepcopy(brief.get("context") or {}),
+            "site": copy.deepcopy(brief.get("site") or {}),
             "levels": [{"id": {0: "ground", 1: "upper", -1: "cellar"}.get(lv, f"level{lv}"),
                         "index": lv, "floor_to_ceiling_ft": round(gc if lv == 0 else uc, 1),
                         "rooms": levels[lv]} for lv in sorted(levels)],

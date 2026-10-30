@@ -4011,7 +4011,26 @@ def declared_digest(plan):
     OP = _mod("openings", f"{ROOT}/build/openings.py")
     d = OP.strip_placement(copy.deepcopy(plan))
     d.pop("revision_report", None)
-    return hashlib.sha256(json.dumps(d, sort_keys=True, default=str).encode()).hexdigest()[:16]
+    return hashlib.sha256(json.dumps(_canonical_numbers(d), sort_keys=True, default=str)
+                          .encode()).hexdigest()[:16]
+
+
+def _canonical_numbers(o):
+    """An integral float hashed as the integer it is (the audit of Phase 17, 30 Oct 2026). The
+    composer writes `9.0` throughout a declared record; the bench holds the record as a JavaScript
+    object, which has one number type, and posts it back with `JSON.stringify`, so every `9.0`
+    arrives as `9`. `json.dumps` tells the two apart, so the digest of the posted record never
+    equalled the one the composer stamped, and the bench re-solved every composed candidate at
+    the interactive budget -- WP-17.3's one house, one placement, never firing on the path it was
+    for. A non-integral float survives the round trip exactly (both sides write the shortest
+    repr), so only the integral case is made canonical."""
+    if isinstance(o, dict):
+        return {k: _canonical_numbers(v) for k, v in o.items()}
+    if isinstance(o, list):
+        return [_canonical_numbers(v) for v in o]
+    if isinstance(o, float) and o.is_integer():
+        return int(o)
+    return o
 
 
 def carries_its_own_placement(plan):

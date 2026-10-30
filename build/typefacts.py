@@ -352,9 +352,12 @@ def _interior_lines(rects):
     return out
 
 
-def _interior_segments(rects):
+def _interior_segments(rects, min_run=MIN_SHARED_RUN_FT):
     """`[(axis, position, lo, hi)]` -- `_interior_lines` with the shared RUN kept. Same test,
-    same tolerances; the extent is what the positional reading threw away (Phase 17, WP-17.0)."""
+    same tolerances; the extent is what the positional reading threw away (Phase 17, WP-17.0).
+    `min_run` is the shortest shared run kept: `MIN_SHARED_RUN_FT` says whether two rooms share a
+    wall LINE, and `bearing_extents` passes 0 for the run a wall COVERS (see there)."""
+    min_run = max(min_run, 1e-6)
     ids = list(rects)
     out = []
     for i, a in enumerate(ids):
@@ -364,12 +367,12 @@ def _interior_segments(rects):
             if abs((ax + aw) - bx) <= SHARED_EDGE_TOL_FT or abs((bx + bw) - ax) <= SHARED_EDGE_TOL_FT:
                 x = bx if abs((ax + aw) - bx) <= SHARED_EDGE_TOL_FT else ax
                 lo, hi = max(ay, by), min(ay + ah, by + bh)
-                if hi - lo > MIN_SHARED_RUN_FT:
+                if hi - lo > min_run:
                     out.append(("x", round(x, 2), lo, hi))
             if abs((ay + ah) - by) <= SHARED_EDGE_TOL_FT or abs((by + bh) - ay) <= SHARED_EDGE_TOL_FT:
                 y = by if abs((ay + ah) - by) <= SHARED_EDGE_TOL_FT else ay
                 lo, hi = max(ax, bx), min(ax + aw, bx + bw)
-                if hi - lo > MIN_SHARED_RUN_FT:
+                if hi - lo > min_run:
                     out.append(("y", round(y, 2), lo, hi))
     return out
 
@@ -418,25 +421,37 @@ def bearing_extents(plan):
     blocks = _blocks(plan)
     if not bay or not blocks:
         return None
-    per_level = {}
+    per_level, cover_by_level = {}, {}
     for i, lv in enumerate(plan.get("levels") or []):
         idx = _level_index(i, lv)
         rooms = {rm["id"]: _rect(rm) for rm in (lv.get("rooms") or [])
                  if _rect(rm) and not (rm.get("geometry") or {}).get("void")}
         if not rooms:
             continue
-        segs = {}
+        # EVERY SHARED RUN COVERS, AND A LINE IS A WALL LINE WHERE ONE RUN PASSES THE FLOOR (the
+        # audit of Phase 17, 30 Oct 2026). This kept only the pairs sharing more than
+        # MIN_SHARED_RUN_FT, which is the positional reading's test for whether two rooms share a
+        # wall LINE -- and so a ground wall built of staggered pairs lost its short piece and read
+        # a hole where it runs unbroken: two rooms meeting a third across x = 10 with a 1 ft
+        # stagger read "13 of 14 ft on a ground wall" and refused the drawing, while the prover's
+        # own whole-run model (no ground room straddles the line under an upper wall) held it.
+        # The run a wall covers, above and below, is every positive shared run now; which lines
+        # are bearing lines at all is still the positional reading's (a run past the floor).
+        segs, lines = {}, set()
         for blk in blocks:
             here = {rid: r for rid, r in rooms.items() if _centre_inside(r, blk)}
-            for axis, pos, lo, hi in _interior_segments(here):
+            for axis, pos, lo, hi in _interior_segments(here, min_run=0.0):
                 if on_bay_grid(pos, float(bay)):
                     segs.setdefault((axis, pos), []).append((lo, hi))
-        per_level[idx] = {k: _union(v) for k, v in segs.items()}
+                    if hi - lo > MIN_SHARED_RUN_FT:
+                        lines.add((axis, pos))
+        per_level[idx] = {k: _union(v) for k, v in segs.items() if k in lines}
+        cover_by_level[idx] = {k: _union(v) for k, v in segs.items()}
     placed = sorted(per_level)
     if len(placed) < 2:
         return {"status": UNJUDGED, "lines": [],
                 "detail": "one placed level: there is no upper floor whose walls must continue down"}
-    ground, upper = per_level[placed[0]], per_level[placed[1]]
+    ground, upper = cover_by_level[placed[0]], per_level[placed[1]]
     rows = []
     for (axis, pos), spans in sorted(upper.items()):
         cover = _union([s for (a, p), ss in ground.items()

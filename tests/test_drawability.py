@@ -64,6 +64,56 @@ def test_a_run_short_by_the_raster_quantum_is_still_the_whole_run():
     assert line["whole_run"], line
 
 
+def test_a_ground_wall_of_staggered_pairs_covers_its_whole_run():
+    """THE AUDIT OF PHASE 17 (30 Oct 2026). The ground wall at x = 10 runs unbroken from y 0 to 14,
+    but it is built of three PAIRS -- a|b, then k|b for 1 ft, then k|c -- and the cover kept only
+    pairs sharing more than MIN_SHARED_RUN_FT, the positional reading's test for a wall LINE. The
+    short pair fell out and the house read "13 of 14 ft on a ground wall", refused, where the
+    prover's own whole-run model (no ground room straddles the line under an upper wall) holds it.
+    On the prover's integer grid a 1 ft stagger is exactly this case."""
+    ground = [_room("a", 0, 0, 10, 9), _room("k", 0, 9, 10, 5), _room("b", 10, 0, 10, 10), _room("c", 10, 10, 10, 4)]
+    upper = [_room("u1", 0, 0, 10, 14, "bedroom"), _room("u2", 10, 0, 10, 14, "bedroom")]
+    plan = _house(ground, upper, H=14)
+    rects = {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"], r["geometry"]["width_ft"],
+                       r["geometry"]["depth_ft"]) for r in ground}
+    assert ("x", 10, 9, 10) not in TF._interior_segments(rects), \
+        "the premise: the line reader's own floor drops the 1 ft pair k|b"
+    assert ("x", 10, 9, 10) in TF._interior_segments(rects, min_run=0.0)
+    ext = TF.bearing_extents(plan)
+    (line,) = [r for r in ext["lines"] if r["axis"] == "x"]
+    assert (line["run_ft"], line["supported_ft"], line["whole_run"]) == (14, 14, True), line
+    assert TF.bearing(plan)["status"] == TF.HELD
+
+
+def test_a_ground_wall_made_only_of_short_pairs_still_covers():
+    """The ground side reads every shared run whether or not its line passes the line reader's
+    floor anywhere: a wall is a wall over the run it has. Driven, because no placement here builds
+    a ground wall of 1 ft pairs alone -- and a cover read off the LINE map would leave this upper
+    wall over nothing (the mutation that read the ground through `per_level` stayed green on the
+    staggered case above, whose x = 10 line has a long pair too)."""
+    ground = [_room("a", 0, 0, 10, 1), _room("b", 10, 0, 10, 1), _room("c", 0, 1, 10, 1), _room("d", 10, 1, 10, 1)]
+    upper = [_room("u1", 0, 0, 10, 2, "bedroom"), _room("u2", 10, 0, 10, 2, "bedroom")]
+    plan = _house(ground, upper, H=2)
+    rects = {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"], r["geometry"]["width_ft"],
+                       r["geometry"]["depth_ft"]) for r in ground}
+    assert not [sg for sg in TF._interior_segments(rects) if sg[0] == "x"], \
+        "the premise: no ground pair at x = 10 passes the line reader's floor"
+    (line,) = [r for r in TF.bearing_extents(plan)["lines"] if r["axis"] == "x"]
+    assert (line["run_ft"], line["supported_ft"], line["whole_run"]) == (2, 2, True), line
+
+
+def test_an_upper_wall_counts_its_short_pieces_too():
+    """And the other side of the same reading, which a fix to the ground alone would leave lenient:
+    the upper wall at x = 10 runs 14 ft, 1 ft of it a short pair over open floor, and that foot is
+    run that must stand on something. Ground: a wall under 13 ft of it, one room across the last foot."""
+    ground = [_room("a", 0, 0, 10, 13), _room("b", 10, 0, 10, 13), _room("e", 0, 13, 20, 1)]
+    upper = [_room("u1", 0, 0, 10, 13, "bedroom"), _room("u3", 0, 13, 10, 1, "bedroom"),
+             _room("u2", 10, 0, 10, 12, "bedroom"), _room("u4", 10, 12, 10, 2, "bedroom")]
+    ext = TF.bearing_extents(_house(ground, upper, H=14))
+    (line,) = [r for r in ext["lines"] if r["axis"] == "x"]
+    assert (line["run_ft"], line["supported_ft"]) == (14, 13) and not line["whole_run"], line
+
+
 def test_the_audit_decides_since_wp_17_7():
     """Ruling 8 of 29 Oct 2026: continuity covers a wall's whole run. Report-only at WP-17.0; the
     refusal reads it now. A wall standing half over open floor is DOWNGRADED, and the detail says
