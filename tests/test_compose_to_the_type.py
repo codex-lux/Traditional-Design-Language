@@ -368,3 +368,19 @@ def test_a_passage_already_at_its_floor_is_not_touched():
     assert passage, "the premise: the single pile composes a centre passage"
     if all(min(r["width_ft"], r["length_ft"]) >= _fault_threshold() for r in passage):
         assert not [l for l in log if l.startswith("Widened Centre Passage to")]
+def test_a_composed_house_states_no_fire_so_its_hearth_is_unjudged():
+    """THE PREMISE BEHIND "hearth unjudged" ON EVERY COMPOSED CANDIDATE (the audit of Phase 17,
+    findings 17 and 44). No parti carries a `hearth` and the composer authors none, so on Lucas's
+    brief the composed foursquare -- the house Phase 17 first drew -- states no fire, and
+    `typefacts.hearth` reads it UNJUDGED with the reason "states no hearth", never held. Prose
+    that calls that house's facts "every fact held" is wrong by this test; if a parti or the
+    composer ever states a fire, this goes red and the sentences that say "hearth unjudged" have
+    to be re-read rather than left to become silently false."""
+    TF = modcache.load("typefacts", os.path.join(ROOT, "build", "typefacts.py"))
+    plan, _log, _p = CO.instantiate("foursquare-quadrant", BRIEF)
+    fires = [r["id"] for lv in plan["levels"] for r in lv["rooms"] if r.get("hearth")]
+    assert fires == [], ("the composed foursquare states a fire now", fires)
+    h = TF.hearth(plan)
+    assert h["status"] == TF.UNJUDGED, h
+    assert "states no hearth" in h["detail"], h["detail"]
+    assert h["fires"] == [], h["fires"]
