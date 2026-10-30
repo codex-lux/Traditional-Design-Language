@@ -1036,12 +1036,16 @@ def drawn_layer(plan, rooms, level_of, C, F):
                   f"{name} declares it stacks over '{so}' and the claim COULD NOT BE EVALUATED: "
                   f"{e['reason']}." + (f" {e['remedy']}" if e.get("remedy") else ""),
                   room=rid, kind="stack-unjudged", over=so, reason=e["reason"])
-    # THE SERVICING CLAIM, JUDGED ON THE PLACED HOUSE (WP-17.1). Seventeen bath-over-wet-room
-    # claims moved from `stacks_over` to `wet_stack_with` (ruled 29 Oct 2026): a bath over a
-    # pantry is a plumbing claim, not a room standing on a room. Moving it out of the structural
-    # fact must not silence it, so it is judged here by `stacking.wet_judge` -- the one reader --
-    # and a chase with nowhere to run is a MINOR finding, as the servicing layer's own isolated
-    # wet room is. It refuses nothing; it is not one of the type's facts.
+    # THE SERVICING CLAIM, JUDGED ON THE PLACED HOUSE (WP-17.1). Fifteen claims in twelve partis
+    # are `wet_stack_with` now. Lucas's ruling 5 (29 Oct 2026) moved BATH-OVER-WET-ROOM claims out
+    # of `stacks_over`: a bath over a powder room or a kitchen is a plumbing claim, not a room
+    # standing on a room. WP-17.1 executed it as "the claimant is a bath", 17 claims in 13 partis,
+    # and Lucas's ruling of 30 Oct 2026 (R9) reverted the two whose room below is not a wet room
+    # (octagon-radial's bath over a dry pantry, connected-farmstead's over a back hall) to
+    # `stacks_over`; each carries a dated note saying so. A claim moved out of the structural fact
+    # must not be silenced, so it is judged here by `stacking.wet_judge` -- the one reader -- and a
+    # chase with nowhere to run is a MINOR finding, as the servicing layer's own isolated wet room
+    # is. It refuses nothing; it is not one of the type's facts.
     _wk, _wb, _wu = STACKING.wet_judge(plan)
     out["wet_stacks_broken"] = [e["room"] for e in _wb]
     for e in _wb:
