@@ -37,6 +37,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { stripComments } from './sourceReader.mjs';
+import { stripGrounds, contrast } from './grounds.js';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const TOKENS = join(SRC, 'theme', 'tokens.css');
@@ -52,7 +53,9 @@ const TOKENS = join(SRC, 'theme', 'tokens.css');
    verdict here while the page drew the second). The reduced-motion durations are the one
    legitimate redeclaration, and `test_no colour token is declared twice` holds the rest. */
 export function cssTokens(css) {
-  const live = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  /* The :root answer: the two ground blocks (Phase 17) rebind duties per ground and are read by
+     `grounds.js`, and `grounds.test.mjs` judges each ground's inks on that ground's own papers. */
+  const live = stripGrounds(css).replace(/\/\*[\s\S]*?\*\//g, '');
   const defs = {};
   for (const m of live.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;}]+)[;}]/gi)) defs[m[1]] = m[2].trim();
   return defs;
@@ -197,8 +200,6 @@ function current() {
 // BASELINE-BEGIN
 const BASELINE = [
   ['sheet/Sheet.jsx', 'fill', '"var(--hair)"'],
-  ['surfaces/Proportions.jsx', 'fill', '"var(--ink-4)"'],
-  ['surfaces/Proportions.jsx', 'fill', '"var(--ink-4)"'],
 ];
 // BASELINE-END
 
@@ -291,15 +292,8 @@ function tokenValues(css) {
   return { defs, hex };
 }
 
-export function contrast(a, b) {
-  const lum = (h) => {
-    const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255)
-      .map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
-    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-  };
-  const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
-  return (hi + 0.05) / (lo + 0.05);
-}
+/* One spelling of the arithmetic, `grounds.js`'s, which the ground test reads too (Phase 17). */
+export { contrast };
 
 export function linkTokenVerdict(css) {
   const { defs, hex } = tokenValues(css);
@@ -572,28 +566,31 @@ const NAVIGATES = /\bonCite\s*\(|\bonFault\s*\(|\bonSlot\s*\(|\bgo\s*\(|\bhref\b
 
 // CLICKABLE-BEGIN
 /* [file, tag, token, handler, class]: `action` or `chip`, and never `link`. */
+/* PHASE 17's AUDIT RE-KEYED THESE ROWS AND ADDED NONE. Each control's text took its pigment
+   (`--gilt-deep`, `--green-deep`) and now takes the duty (`--text-accent`, `--sev-cleared`), which
+   is the same pigment on vellum -- so the row, and the 4.09 : 1 it records there, is unchanged and
+   still `oq/two-inks-set-as-small-text-read-below-aa`'s -- and the lit pigment on the instrument,
+   where the pigment read 2.93 and 3.17. */
 const CLICKABLE = [
-  ["Chrome.jsx", "button", "--gilt-deep",
+  ["Chrome.jsx", "button", "--text-accent",
     "{onClick} title={title} {...aria} style={{ font: 'var(--type", "chip"],
-  ["Chrome.jsx", "button", "--gilt-deep",
+  ["Chrome.jsx", "button", "--text-accent",
     "{onClick} title={title} disabled={disabled} style={{ font: '", "chip"],
-  ["Chrome.jsx", "button", "--gilt-deep",
+  ["Chrome.jsx", "button", "--text-accent",
     "{() => setOpen(!open)} aria-expanded={open} title={open ? `F", "action"],
-  ["components/FindingRow.jsx", "button", "--gilt-deep",
+  ["components/FindingRow.jsx", "button", "--text-accent",
     "function () { onLocate(finding); }, style: { font: 'var(--ty", "action"],
-  ["components/FindingRow.jsx", "button", "--green-deep",
+  ["components/FindingRow.jsx", "button", "--sev-cleared",
     "function () { onAssert(finding); }, style: { font: 'var(--ty", "action"],
-  ["components/ProvenanceTrace.jsx", "button", "--gilt-deep",
-    "function () { setAll(true); }, style: { ...EYE, color: 'var(", "action"],
-  ["components/SlotRow.jsx", "button", "--gilt-deep",
+  ["components/SlotRow.jsx", "button", "--text-accent",
     "function () { onSource(slot.source.id); }, style: { ...EYE, ", "action"],
-  ["components/UnsourcedImageRecord.jsx", "button", "--gilt-deep",
+  ["components/UnsourcedImageRecord.jsx", "button", "--text-accent",
     "function () { onRequest(record); }, style: { font: 'var(--ty", "action"],
-  ["dossier/ProportionsSection.jsx", "button", "--gilt-deep",
+  ["dossier/ProportionsSection.jsx", "button", "--text-accent",
     "{() => prefs.setFold('delivered', !open)} style={{ font: 'va", "action"],
-  ["surfaces/BriefIntake.jsx", "button", "--gilt-deep",
+  ["surfaces/BriefIntake.jsx", "button", "--text-accent",
     "{compose} disabled={composing || !ready} aria-busy={composin", "action"],
-  ["surfaces/PlanWorkbench.jsx", "button", "--gilt-deep",
+  ["surfaces/PlanWorkbench.jsx", "button", "--text-accent",
     "{() => planDoc.update(mutations.revokeRelation(i))} style={{", "action"],
 ];
 // CLICKABLE-END
@@ -647,7 +644,8 @@ test('an element with the link class sets neither its colour nor its underline i
 });
 
 test('no colour token is declared twice, so the reader and the page agree on every ink', () => {
-  const css = readFileSync(TOKENS, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  // the ground blocks restate duties by design, and `grounds.test.mjs` holds those restatements
+  const css = stripGrounds(readFileSync(TOKENS, 'utf8')).replace(/\/\*[\s\S]*?\*\//g, '');
   const seen = {};
   for (const m of css.matchAll(/(--[a-z0-9-]+)\s*:/g)) seen[m[1]] = (seen[m[1]] || 0) + 1;
   const twice = Object.keys(seen).filter((k) => seen[k] > 1 && !k.startsWith('--dur-'));

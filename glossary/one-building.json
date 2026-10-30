@@ -1,0 +1,9 @@
+{
+  "id": "one-building",
+  "term": "One building",
+  "family": "product",
+  "order": 37,
+  "definition": "Every sheet in this set is drawn from one placement of one plan record. The digest beside it names the record that placement was solved from, so two sheets can be checked to come from the same record.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Drawing Set since Phase 17: \"every sheet in a set is drawn from one placement of one record\", and the banner \"carries the digest of the record that placement was solved from\"."
+}

@@ -1,0 +1,9 @@
+{
+  "id": "journey-state-none-yet",
+  "term": "none yet",
+  "family": "house",
+  "order": 22,
+  "definition": "No compose has returned candidates for the brief in hand.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17, the table of the words a station of the house's journey carries, which says of \"none yet\" that \"no compose has returned candidates for the brief in hand\". The same section says why the word is prose: \"it is a sentence about the house and not an error code\"."
+}

@@ -1,0 +1,9 @@
+{
+  "id": "candidate-placed",
+  "term": "placed",
+  "family": "house",
+  "order": 34,
+  "definition": "A candidate the placed revision loop ran on and did not refuse: no hard fact of its type was broken. A fact the placement could not judge is counted as neither held nor broken. It may be drawn; it is not therefore good.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Candidate Set since Phase 17: \"placed: a green disc, because the placed loop ran and refused nothing: no hard fact of the type\" and \"a fact the placement could not judge is counted as neither held nor broken\"."
+}

@@ -70,16 +70,16 @@ export function StylePicker({ value, onChange, label = 'Style', allowNone, noneL
         onFocus={() => { setOpen(true); setQ(''); }}
         onChange={(e) => { setQ(e.target.value); setOpen(true); }}
         onKeyDown={onKeyDown}
-        style={{ width, font: 'var(--type-data)', color: 'var(--ink-2)', padding: '2px 7px',
-          background: 'var(--paper-mat)', border: '1px solid ' + (open ? 'var(--gilt-deep)' : 'var(--rule)') }} />
+        style={{ width, font: 'var(--type-data)', color: 'var(--text-secondary)', padding: '2px 7px',
+          background: 'var(--surface-well)', border: '1px solid ' + (open ? 'var(--gilt-deep)' : 'var(--border-hairline)') }} />
 
       {open && (
         <div id="stylepicker-list" role="listbox" aria-label={label}
           style={{ position: 'absolute', top: '100%', left: 0, zIndex: 40, marginTop: 2,
-            width: Math.max(width, 260), maxHeight: 320, overflow: 'auto', background: 'var(--paper)',
-            border: '1px solid var(--rule)', boxShadow: '0 6px 20px rgba(40,36,28,.18)' }}>
+            width: Math.max(width, 260), maxHeight: 320, overflow: 'auto', background: 'var(--surface-panel)',
+            border: '1px solid var(--border-hairline)', boxShadow: '0 6px 20px rgba(40,36,28,.18)' }}>
           {options.length === 0 && (
-            <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
+            <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)',
               margin: 0, padding: '8px 10px' }}>No style is called that.</p>
           )}
           {options.map((s, i) => {
@@ -89,12 +89,12 @@ export function StylePicker({ value, onChange, label = 'Style', allowNone, noneL
                 onMouseMove={() => setCursor(i)}
                 onMouseDown={(e) => { e.preventDefault(); pick(s); }}
                 style={{ display: 'flex', alignItems: 'baseline', gap: 8, padding: '3px 10px',
-                  cursor: 'pointer', background: on ? 'var(--paper-deep)' : 'transparent',
+                  cursor: 'pointer', background: on ? 'var(--surface-raised)' : 'transparent',
                   borderLeft: '2px solid ' + (s.id === value ? 'var(--gilt-deep)' : 'transparent') }}>
-                <span style={{ font: 'var(--fw-reg) 13px/1.35 var(--body)', color: 'var(--ink)' }}>{s.name}</span>
+                <span style={{ font: 'var(--fw-reg) 13px/1.35 var(--body)', color: 'var(--text-body)' }}>{s.name}</span>
                 <span style={{ flex: 1 }} />
                 {s.id && (
-                  <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--ink-2)' }}>
+                  <span style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--text-secondary)' }}>
                     {s.id}
                   </span>
                 )}

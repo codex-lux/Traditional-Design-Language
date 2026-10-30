@@ -1,0 +1,9 @@
+{
+  "id": "slot-reach-extended",
+  "term": "specified, then extended",
+  "family": "product",
+  "order": 43,
+  "definition": "The styles whose resolved kit specifies this slot and a later node in the cascade extended it: kept what it inherited and changed part of it.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Elements since Phase 17: the bar is \"read off each style's resolved kit after the lineage cascade\": \"specified and then extended by a later node\"."
+}

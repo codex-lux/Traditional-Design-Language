@@ -1,0 +1,9 @@
+{
+  "id": "judge-this-plan-as",
+  "term": "Judge this plan as",
+  "family": "product",
+  "order": 36,
+  "definition": "Read the plan on the bench against another style's kit and rules. The findings appear and clear as the style changes; the plan record itself is not edited.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Plan Workbench since Phase 17: \"The style the plan is judged against is a control of the toolbar\", \"labelled as what it does: the findings appear and clear as the style changes\"."
+}

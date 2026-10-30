@@ -2,6 +2,7 @@ import React from "react";
 import { nativityLine } from "../candidateOrder.js";
 import { Term } from "./Term.jsx";
 import { JudgmentMark } from "./JudgmentMark.jsx";
+import { MarkGlyph } from "./MarkGlyph.jsx";
 
 /* P4 — rank them, never crown one. Three rules this component exists to enforce:
    1. trades_away sits adjacent to the score at all times, never behind a disclosure.
@@ -22,7 +23,7 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-2)'
+  color: 'var(--text-secondary)'
 };
 const SEV = {
   fatal: 'var(--sev-fatal)',
@@ -42,17 +43,24 @@ function ScoreBlock({ candidate: c }) {
   const dq = !!c.disqualified;
   return h(React.Fragment, null,
     h("div", { style: { display: 'flex', alignItems: 'baseline', gap: 9, marginTop: 12 } },
-      h("span", { style: { font: 'var(--fw-reg) 26px/1 var(--mono)', color: 'var(--ink)' } },
+      h("span", { style: { font: 'var(--fw-reg) 26px/1 var(--mono)', color: 'var(--text-body)' } },
         unscored ? '—' : c.score.toFixed(1)),
       h("span", { style: { ...EYE } }, unscored ? "not scored" : "score")),
-    !unscored && h("div", { style: { ...EYE, color: 'var(--ink-2)', marginTop: 3 } },
-      "out of 100 · higher is better"),
+    /* PHASE 17: the score says its own denominator and how much of it was judged, in mono, from
+       the payload: `scoreOf` is the result's `score_model.of` and the two weights are the
+       candidate's own. Nothing here types the 100. */
+    !unscored && c.scoreOf != null && h("div", { "data-score-of": c.scoreOf,
+      style: { font: 'var(--type-data-s)', color: 'var(--text-secondary)', marginTop: 4 } },
+      `${c.score.toFixed(1)} of ${c.scoreOf}`,
+      c.score_weight_evaluated != null && c.score_weight_unevaluated != null
+        ? ` · ${c.score_weight_evaluated} of ${c.score_weight_evaluated + c.score_weight_unevaluated} weight judged`
+        : null),
     /* WP-9.3: what the placed revision loop bought here, one line, from revision.js. Absent
        where the compose ran --no-revise; "nothing moved" rather than "was X" against the
        same X. `rank_before` is the server's order before revision, said in words. */
     c.revisedLine && h("div", {
       "data-revised": "",
-      style: { ...EYE, color: 'var(--ink-2)', marginTop: 4, textTransform: 'none', letterSpacing: 0 }
+      style: { ...EYE, color: 'var(--text-secondary)', marginTop: 4, textTransform: 'none', letterSpacing: 0 }
     }, c.revisedLine + (typeof c.rank_before === 'number' ? ` · the server ranked it ${c.rank_before} before revision` : '')),
     /* A disqualified candidate is still scored and its number can be the highest on the
        screen — every ordering puts it last, and this band is why. It is a rule, not a
@@ -61,11 +69,11 @@ function ScoreBlock({ candidate: c }) {
       style: { marginTop: 8, borderLeft: '2px solid var(--sev-fatal)', paddingLeft: 9 }
     },
       h("div", { style: { ...EYE, color: 'var(--sev-fatal)' } }, "disqualified"),
-      h("p", { style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
+      h("p", { style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)',
                         margin: '3px 0 0' } },
         c.disqualified_because || "a fatal finding")),
     c.score_unscored_because && h("p", {
-      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
+      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)',
                margin: '6px 0 0' }
     }, c.score_unscored_because),
     axes.length > 0 && h("div", { style: { marginTop: 10 } },
@@ -88,36 +96,58 @@ function ScoreBlock({ candidate: c }) {
                    /* the share, drawn behind the row rather than beside it — four columns
                       of these have no width to spare for a separate bar */
                    backgroundImage: pct == null ? 'none'
-                     : `linear-gradient(to right, var(--paper-deep) ${pct}%, transparent ${pct}%)` }
+                     : `linear-gradient(to right, var(--surface-raised) ${pct}%, transparent ${pct}%)` }
         },
-          h("span", { style: { font: 'var(--type-data-s)', color: 'var(--ink-2)',
+          h("span", { style: { font: 'var(--type-data-s)', color: 'var(--text-secondary)',
                                whiteSpace: 'nowrap', overflow: 'hidden',
                                textOverflow: 'ellipsis' } },
             a.axis,
             /* the mark, not the number — the count would wrap every row it appears on and
                make the eight axes unreadable as a block. It is said once, in full, below. */
-            a.unjudged ? h("span", { style: { color: 'var(--ink-2)' } }, " °") : null),
+            a.unjudged ? h("span", { style: { color: 'var(--text-secondary)' } }, " °") : null),
           h("span", { style: { font: 'var(--type-data-s)',
-                               color: 'var(--ink-2)' } },
+                               color: 'var(--text-secondary)' } },
             pct == null ? 'not evaluated' : pct + '%'),
-          h("span", { style: { font: 'var(--type-data-s)', color: 'var(--ink-2)' } },
+          h("span", { style: { font: 'var(--type-data-s)', color: 'var(--text-secondary)' } },
             (a.points == null ? '—' : a.points) + '/' + a.weight));
       })),
     /* Unjudged is not passed, and it is never left to a tooltip: the axes carrying checks
        the corpus could not evaluate are named here in full, under the mark they carry. */
     axes.some(function (a) { return a.unjudged; }) && h("p", {
-      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)', margin: '7px 0 0' }
+      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '7px 0 0' }
     }, "° ", axes.filter(function (a) { return a.unjudged; })
              .map(function (a) { return `${a.unjudged} ${a.axis}`; }).join(", "),
        " could not be evaluated on this plan. They are outside the fraction, not counted as passed."),
     c.score_weight_unevaluated > 0 && h("p", {
-      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-2)', margin: '6px 0 0' }
+      style: { font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--text-secondary)', margin: '6px 0 0' }
     /* The whole is the two halves the payload states, never a typed 100 (WP-14.31): a figure
        written into the page is true on the day it is typed and silently false after. */
     }, `Scored over ${c.score_weight_evaluated} of `
      + `${c.score_weight_evaluated + c.score_weight_unevaluated} points of evidence — `
      + `${c.score_weight_unevaluated} could not be evaluated on this plan, and are dropped `
      + `rather than passed.`));
+}
+
+/* HOW THE TYPE'S OWN FACTS STAND ON THIS CANDIDATE, first and in one of three forms (Phase 17,
+   WP-17.4; `candidateStanding.standingOf` decides): refused, a brick band with its sentence;
+   placed, a green disc; unjudged, the hatched ring and "may be refused". Every word a record's. */
+function StandingBand({ c }) {
+  if (c.standing === 'refused' && c.refused) {
+    return h("div", { "data-candidate-standing": "refused",
+      style: { margin: '10px -15px 0', padding: '7px 15px', borderLeft: '5px solid var(--refusal)',
+        background: 'var(--sev-fatal-field)', font: 'var(--type-data-s)', color: 'var(--text-body)' } },
+      h(MarkGlyph, { token: "--mark-refused", size: 11, style: { display: 'inline-block', verticalAlign: 'middle', marginRight: 7 } }),
+      h(Term, { id: "judgment-refused" }),
+      c.refused.facts && c.refused.facts.length ? ` · ${c.refused.facts.join(', ')}` : null);
+  }
+  const placed = c.standing === 'placed';
+  return h("div", { "data-candidate-standing": placed ? "placed" : "unjudged",
+    style: { display: 'flex', alignItems: 'center', gap: 7, marginTop: 10, font: 'var(--type-data-s)',
+      color: 'var(--text-secondary)' } },
+    h(MarkGlyph, { token: placed ? "--mark-passed" : "--mark-unjudged", size: 11 }),
+    placed ? h(Term, { id: "candidate-placed" })
+      : h(React.Fragment, null, h(Term, { id: "judgment-unjudged" }), " · ",
+        h("i", { style: { font: 'italic var(--fw-reg) 13px/1.3 var(--body)' } }, h(Term, { id: "candidate-may-be-refused" }))));
 }
 
 function CandidateColumn({
@@ -136,14 +166,19 @@ function CandidateColumn({
     "data-candidate": c.parti,
     "data-candidate-n": c.n,
     "data-selected": selected ? "" : undefined,
+    // Phase 17: a candidate is a vellum column on the dark instrument
+    "data-ground": "vellum",
+    className: "tdl-vellum",
     onClick: onSelect ? function () {
       onSelect(c);
     } : undefined,
     style: {
       flex: 1,
       minWidth: 0,
-      border: '1px solid ' + (selected ? 'var(--gilt-deep)' : 'var(--rule)'),
-      background: selected ? 'var(--paper-deep)' : 'var(--paper)',
+      // the picked column takes the instrument's one struck highlight, outside the paper
+      border: selected ? '1px solid var(--gilt)' : '1px solid var(--surface-panel)',
+      outline: selected ? '2px solid var(--gilt)' : 'none',
+      background: 'var(--surface-panel)',
       padding: '14px 15px 16px',
       cursor: onSelect ? 'pointer' : 'default',
       transition: 'var(--t-hover)',
@@ -158,14 +193,14 @@ function CandidateColumn({
   }, /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)'
+      color: 'var(--text-secondary)'
     }
   }, rank), /*#__PURE__*/React.createElement("h3", {
     style: {
       font: 'var(--fw-reg) var(--fs-d4)/1.16 var(--display)',
       fontVariationSettings: '"opsz" 30',
       letterSpacing: 'var(--tr-display)',
-      color: 'var(--ink)',
+      color: 'var(--text-body)',
       margin: 0,
       flex: 1
     }
@@ -196,7 +231,7 @@ function CandidateColumn({
         textAlign: 'left',
         cursor: 'pointer'
       }
-    }, c.parti_name) : c.parti_name)), /*#__PURE__*/React.createElement(ScoreBlock, {
+    }, c.parti_name) : c.parti_name)), /*#__PURE__*/React.createElement(StandingBand, { c: c }), /*#__PURE__*/React.createElement(ScoreBlock, {
     candidate: c
   }), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -211,7 +246,7 @@ function CandidateColumn({
       key: s,
       style: {
         font: 'var(--type-data-s)',
-        color: n === 0 ? 'var(--ink-2)' : SEV[s]
+        color: n === 0 ? 'var(--text-secondary)' : SEV[s]
       }
     }, s, " ", n);
   }),
@@ -223,7 +258,7 @@ function CandidateColumn({
     "data-candidate-refused-mark": c.refused.kind,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--refusal)'
+      color: 'var(--refusal-text)'
     }
   }, /*#__PURE__*/React.createElement(Term, {
     id: "judgment-refused"
@@ -245,7 +280,7 @@ function CandidateColumn({
     style: {
       marginTop: 13,
       paddingTop: 12,
-      borderTop: '1px solid var(--rule-soft)'
+      borderTop: '1px solid var(--border-soft)'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: EYE
@@ -254,11 +289,11 @@ function CandidateColumn({
     style: {
       font: 'var(--fw-reg) 13px/1.55 var(--body)',
       margin: '5px 0 0',
-      color: native ? 'var(--green-deep)' : 'var(--ink-2)'
+      color: native ? 'var(--sev-cleared)' : 'var(--text-secondary)'
     }
   }, line.term ? /*#__PURE__*/React.createElement("span", {
     style: {
-      color: line.nativity === 'borrowed' ? 'var(--gilt-deep)' : 'inherit'
+      color: line.nativity === 'borrowed' ? 'var(--text-accent)' : 'inherit'
     }
   }, /*#__PURE__*/React.createElement(Term, {
     id: line.term
@@ -269,12 +304,12 @@ function CandidateColumn({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       ...EYE,
-      color: 'var(--gilt-deep)'
+      color: 'var(--text-accent)'
     }
   }, "trades away"), /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 13px/1.6 var(--body)',
-      color: 'var(--ink)',
+      color: 'var(--text-body)',
       margin: '5px 0 0',
       textWrap: 'pretty'
     }
@@ -298,7 +333,7 @@ function CandidateColumn({
     }, r[0]), /*#__PURE__*/React.createElement("dd", {
       style: {
         font: 'var(--type-data-s)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         margin: 0
       }
     }, r[1]));
@@ -306,7 +341,7 @@ function CandidateColumn({
     style: {
       marginTop: 13,
       paddingTop: 12,
-      borderTop: '1px solid var(--rule-soft)'
+      borderTop: '1px solid var(--border-soft)'
     }
   }, c.warnings.map(function (w, i) {
     return /*#__PURE__*/React.createElement("p", {
@@ -315,7 +350,7 @@ function CandidateColumn({
         display: 'flex',
         gap: 8,
         font: 'var(--fw-reg) 12.5px/1.55 var(--body)',
-        color: 'var(--ink-2)',
+        color: 'var(--text-secondary)',
         margin: i ? '7px 0 0' : 0
       }
     }, /*#__PURE__*/React.createElement("span", {

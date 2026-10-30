@@ -77,7 +77,7 @@ export function PackLists({ payload, styleId }) {
             <div style={{ marginTop: 10 }}>
               <button type="button" aria-expanded={open} data-fold="delivered"
                 onClick={() => prefs.setFold('delivered', !open)}
-                style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', padding: '2px 0' }}>
+                style={{ font: 'var(--type-data-s)', color: 'var(--text-accent)', padding: '2px 0' }}>
                 {open ? '▾' : '▸'} farther ancestors · {far.length} · {farCount}
               </button>
               {open && far.map((grp) => (

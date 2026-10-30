@@ -1,0 +1,9 @@
+{
+  "id": "period-origin",
+  "term": "origin",
+  "family": "model",
+  "order": 41,
+  "definition": "The year a style first appears in the record, approximately: before its characteristic production begins.",
+  "kind": "editorial",
+  "basis": "schema/style-node.schema.json, the period object, which states each date as a field of the style's own record: origin is the \"First appearance year (approximate).\", and the dates are soft: \"Dates are conventional and soft; true for nearly all nodes.\""
+}

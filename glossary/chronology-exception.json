@@ -1,0 +1,9 @@
+{
+  "id": "chronology-exception",
+  "term": "chronology exception",
+  "family": "edge",
+  "order": 40,
+  "definition": "A lineage edge whose descendant flourishes more than twenty-five years before the ancestor it is said to descend from. The record keeps the edge and the tree flags it; it is not silently redrawn.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the family tree since Phase 17: an edge \"that breaks the chronology: a descendant that flourishes well before the ancestor it is said to descend\" from, flagged by \"the validator's own warning, which the build has printed and no page has shown\". build/validate.py states the rule: \"a node should not predate an ancestor it descends from\"."
+}

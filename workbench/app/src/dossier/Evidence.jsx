@@ -32,27 +32,27 @@ export function Evidence({ rec, styleId }) {
           <Section eyebrow={<><Term id="exemplar" /> · {exemplars.length}</>}>
             {exemplars.map((e, i) => (
               <p key={i} data-exemplar="" style={{ ...quiet, marginBottom: 8 }}>
-                <span style={{ color: 'var(--ink)' }}>{e.name}</span>
+                <span style={{ color: 'var(--text-body)' }}>{e.name}</span>
                 {e.location ? ` — ${e.location}` : ''}{e.year ? `, ${e.year}` : ''}
                 {/* WP-11.1: standing is an editorial call and `why` says whose; the record's refs
                     are what a reader can check. An exemplar with no record says so rather than
                     looking like one that has. */}
                 {e.standing ? (
-                  <span style={{ marginLeft: 8, fontSize: 11, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-2)', border: '1px solid var(--line)', borderRadius: 3, padding: '0 5px' }}>{e.standing}</span>
+                  <span style={{ marginLeft: 8, fontSize: 11, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--text-secondary)', border: '1px solid var(--line)', borderRadius: 3, padding: '0 5px' }}>{e.standing}</span>
                 ) : null}
-                {e.note ? <span style={{ display: 'block', color: 'var(--ink-2)' }}>{e.note}</span> : null}
-                {e.why ? <span style={{ display: 'block', color: 'var(--ink-2)', fontStyle: 'italic' }}>{e.why}</span> : null}
+                {e.note ? <span style={{ display: 'block', color: 'var(--text-secondary)' }}>{e.note}</span> : null}
+                {e.why ? <span style={{ display: 'block', color: 'var(--text-secondary)', fontStyle: 'italic' }}>{e.why}</span> : null}
                 {e.precedent_record && e.precedent_record.refs ? (
                   <span style={{ display: 'block', fontSize: 12 }}>
                     {e.precedent_record.refs.filter((r) => r.url).map((r, j) => (
-                      <a key={j} href={r.url} target="_blank" rel="noreferrer" style={{ marginRight: 10, color: 'var(--accent, var(--ink-2))' }}>
+                      <a key={j} href={r.url} target="_blank" rel="noreferrer" style={{ marginRight: 10, color: 'var(--accent, var(--text-secondary))' }}>
                         {r.kind}{r.id ? ` ${r.id}` : ''}
                       </a>
                     ))}
-                    {e.precedent_record.has_survey ? <span style={{ color: 'var(--ink-2)' }}>· HABS written data on the record</span> : null}
+                    {e.precedent_record.has_survey ? <span style={{ color: 'var(--text-secondary)' }}>· HABS written data on the record</span> : null}
                   </span>
                 ) : (
-                  <span style={{ display: 'block', fontSize: 12, color: 'var(--ink-2)' }}>no precedent record yet — a name a reader can find and a checker cannot resolve</span>
+                  <span style={{ display: 'block', fontSize: 12, color: 'var(--text-secondary)' }}>no precedent record yet — a name a reader can find and a checker cannot resolve</span>
                 )}
               </p>
             ))}
@@ -75,7 +75,7 @@ export function Evidence({ rec, styleId }) {
             data-assets-returned={assets.returned} data-assets-matches={assets.matches}>
             {records.map((a) => (
               <div key={a.id} data-asset={a.id} data-asset-status={a.status}
-                style={{ padding: '6px 0', borderBottom: '1px solid var(--rule-soft)' }}>
+                style={{ padding: '6px 0', borderBottom: '1px solid var(--border-soft)' }}>
                 <p style={{ ...quiet, fontSize: 12.5 }}>{a.caption || a.id}</p>
                 <span style={data}>{a.status}{a.kind ? ` · ${a.kind}` : ''}{a.role ? ` · ${a.role}` : ''}{a.file ? '' : ' · no file'}</span>
               </div>

@@ -125,7 +125,13 @@ export function surfaceWidth(surface) {
    narrows it has not dismissed it); and the fold is published like every other fit, with
    `save = false`, so it writes nothing. It becomes a stored choice only the way every layout
    state does — the next time the reader's own act persists the whole object. */
-export const NARROW_FOLD_PX = 1500;
+/* AND SINCE 29 OCT 2026 IT IS EVERY WIDTH (Phase 17, WP-17.2). Lucas ruled that the assistant
+   opens ONLY WHEN SUMMONED: its pane spent a fifth of the screen describing itself with nothing
+   in it. So the first `clampAll` folds it on any window when the reader has stored no choice, and
+   the top bar's one button opens it. Everything else this paragraph says still holds -- a stored
+   choice wins both ways, a later resize folds and unfolds nothing, and the fold writes nothing --
+   because only the width it applies below moved, from 1500 px to no ceiling at all. */
+export const NARROW_FOLD_PX = Infinity;
 
 /* The narrowest a pane may be squeezed BY THE WINDOW (as opposed to by the reader). Below
    this it is not a pane, it is a stripe, and the reader should fold it instead.

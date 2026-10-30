@@ -26,12 +26,14 @@ const CLASS_WORD = {
   advisory: 'advisory',
 };
 
-const body = { font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)', margin: 0 };
-const quiet = { font: 'var(--type-data-s)', color: 'var(--ink-2)' };
-const receipt = { font: 'var(--fw-reg) 12px/1.5 var(--receipt, var(--mono))', color: 'var(--ink-2)' };
+const body = { font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)', margin: 0 };
+const quiet = { font: 'var(--type-data-s)', color: 'var(--text-secondary)' };
+const receipt = { font: 'var(--fw-reg) 12px/1.5 var(--receipt, var(--mono))', color: 'var(--text-secondary)' };
 
 function Move({ m, findingText, onCite }) {
-  const tone = m.refused || m.refusedByMeasurement ? 'var(--brick)' : m.cleared ? 'var(--gilt-deep)' : 'var(--ink-2)';
+  // a word and an edge, so duties (the second audit of Phase 17: brick and gilt-deep read 3.43 and
+  // 2.93 : 1 here on the dark, through a variable no `color:` literal scan sees)
+  const tone = m.refused || m.refusedByMeasurement ? 'var(--refusal-text)' : m.cleared ? 'var(--text-accent)' : 'var(--text-secondary)';
   const verdict = m.refused ? `refused: ${m.refused}`
     // WP-13.9: two causes, two sentences. A round rolled back because its re-placement broke a
     // hard fact of the type did not necessarily make the key worse -- it usually makes it
@@ -44,7 +46,7 @@ function Move({ m, findingText, onCite }) {
   return (
     <li style={{ margin: '0 0 7px', paddingLeft: 10, borderLeft: `2px solid ${tone}` }}>
       <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
-        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink)' }}>{m.move}</span>
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--text-body)' }}>{m.move}</span>
         <span style={{ ...quiet, color: tone }}>{verdict}</span>
       </div>
       {m.log && <p style={body}>{m.log}</p>}
@@ -53,7 +55,7 @@ function Move({ m, findingText, onCite }) {
           answered{' '}
           {onCite
             ? <button type="button" onClick={() => onCite(m.finding)}
-                style={{ font: 'inherit', color: 'var(--ink-2)', textDecoration: 'underline dotted' }}>
+                style={{ font: 'inherit', color: 'var(--text-secondary)', textDecoration: 'underline dotted' }}>
                 {findingText(m.finding)}</button>
             : findingText(m.finding)}
         </div>
@@ -68,7 +70,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
   const findingText = (id) => (statements && statements[id]) || id;
   if (!r && !(live && live.length)) return null;
   return (
-    <div data-panel="revision" style={{ maxWidth: 1000, border: '1px solid var(--rule)',
+    <div data-panel="revision" style={{ maxWidth: 1000, border: '1px solid var(--border-hairline)',
       borderLeft: '3px solid var(--gilt-deep)', padding: '10px 14px', margin: '0 0 14px' }}>
       {r ? (
         <>
@@ -99,7 +101,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
               Stated where the key is stated, because a reader who sees fatal fall by seven and
               no plate above it is owed the reason in the same paragraph. */}
           {r.refusedAfter && (
-            <p style={{ ...quiet, marginTop: 6, color: 'var(--brick)' }}>
+            <p style={{ ...quiet, marginTop: 6, color: 'var(--refusal-text)' }}>
               The placement the loop stopped on is still refused
               {r.refusedAfter.facts && r.refusedAfter.facts.length
                 ? ` — ${r.refusedAfter.facts.join(', ')} ${r.refusedAfter.facts.length === 1 ? 'is' : 'are'} downgraded`
@@ -108,13 +110,13 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
             </p>
           )}
           {r.refusalCleared && (
-            <p style={{ ...quiet, marginTop: 6, color: 'var(--gilt-deep)' }}>
+            <p style={{ ...quiet, marginTop: 6, color: 'var(--text-accent)' }}>
               The placement was refused when the loop started and is not now: the type’s own facts
               hold on the house it ended with.
             </p>
           )}
           {r.reclaimed && (
-            <p style={{ ...quiet, marginTop: 6, color: r.reclaimed.rolledBack ? 'var(--brick)' : 'var(--ink-2)' }}>
+            <p style={{ ...quiet, marginTop: 6, color: r.reclaimed.rolledBack ? 'var(--refusal-text)' : 'var(--text-secondary)' }}>
               {r.reclaimed.rolledBack
                 ? `reclaim rolled back — ${r.reclaimed.why || 'it opened a fatal'} (${r.reclaimed.delta})`
                 : `reclaim after the loop: ${r.reclaimed.log.length} line${r.reclaimed.log.length === 1 ? '' : 's'}, key ${r.reclaimed.delta}`}
@@ -137,7 +139,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
           {r.rounds.map((rd) => (
             <div key={rd.n} style={{ margin: '6px 0 0', paddingLeft: 10,
               borderLeft: `2px solid ${rd.accepted ? 'var(--gilt-deep)' : 'var(--brick)'}` }}>
-              <div style={{ ...quiet, color: rd.accepted ? 'var(--ink-2)' : 'var(--brick)' }}>
+              <div style={{ ...quiet, color: rd.accepted ? 'var(--text-secondary)' : 'var(--refusal-text)' }}>
                 {/* WHY IT WAS ROLLED BACK, WHERE THE LOOP SAYS SO (WP-13.9's audit). A round
                     refused because the placement it produced may not be DRAWN is a different
                     fact from one refused because the key rose, and both `rolledBackByRefusal`
@@ -170,7 +172,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
           <Eyebrow>what remains, by class</Eyebrow>
           <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 4 }}>
             {CLASSES.map((c) => (
-              <span key={c} style={{ ...quiet, color: 'var(--ink-2)' }}>
+              <span key={c} style={{ ...quiet, color: 'var(--text-secondary)' }}>
                 {CLASS_WORD[c]} {r.remaining[c].length}
               </span>
             ))}
@@ -181,7 +183,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
               <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18 }}>
                 {r.handed.slice(0, 8).map((h) => (
                   <li key={h.id} style={{ marginBottom: 4 }}>
-                    <span style={{ ...quiet, color: 'var(--sev-' + h.severity + ', var(--ink-2))' }}>{h.severity}</span>{' '}
+                    <span style={{ ...quiet, color: 'var(--sev-' + h.severity + ', var(--text-secondary))' }}>{h.severity}</span>{' '}
                     {h.statement}
                     {(h.fix_right || h.fix_cheap || h.rule_why) && (
                       <div style={quiet}>
@@ -197,7 +199,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
           {r.suspects.length > 0 && (
             <div style={{ marginTop: 8 }}>
               <Eyebrow>the critic's own — neither clear nor failed</Eyebrow>
-              <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18, color: 'var(--ink-2)' }}>
+              <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18, color: 'var(--text-secondary)' }}>
                 {r.suspects.slice(0, 6).map((s) => (
                   <li key={s.id} style={{ marginBottom: 3 }}>
                     {s.statement}
@@ -211,7 +213,7 @@ export function RevisionPanel({ report, live, statements, onCiteFinding }) {
           {r.refusedList.length > 0 && (
             <details style={{ marginTop: 8 }}>
               <summary style={{ ...quiet, cursor: 'pointer' }}>{r.refusedList.length} refusal{r.refusedList.length === 1 ? '' : 's'}</summary>
-              <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18, color: 'var(--ink-2)' }}>
+              <ul style={{ ...body, margin: '4px 0 0', paddingLeft: 18, color: 'var(--text-secondary)' }}>
                 {r.refusedList.map((m, i) => (
                   <li key={i}>{m.move}{m.finding ? ` on ${findingText(m.finding)}` : ''}: {m.refused || 'made the plan worse on this engine'}</li>
                 ))}

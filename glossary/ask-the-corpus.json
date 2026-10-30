@@ -1,0 +1,9 @@
+{
+  "id": "ask-the-corpus",
+  "term": "Ask the corpus",
+  "family": "product",
+  "order": 30,
+  "definition": "Open the assistant's pane to put a question to the corpus. The pane is folded until you ask, on every page.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the shell since Phase 17: \"the one button that opens the assistant\", and \"The assistant's pane opens only when summoned\": \"it starts folded at every width unless the reader has stored a choice\"."
+}

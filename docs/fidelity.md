@@ -105,6 +105,10 @@ join the app without either a census row or a stated reason it is not an archite
 | phylogeny | out-of-scope | `workbench/app/src/surfaces/Phylogeny.jsx` | the lineage graph: a diagram of influence between styles |
 | atlas | out-of-scope | `workbench/app/src/surfaces/phylo/MapView.jsx` | the atlas: coastlines and a graticule, not architecture |
 | tokens | out-of-scope | `workbench/app/src/theme/tokens.css` | a stylesheet that names <svg> in a comment; it draws nothing |
+| brief-site | out-of-scope | `workbench/app/src/brief/SiteDiagram.jsx` | the Brief's lot to scale and its compass: a site schematic, not a drawing of a building |
+| period-bar | out-of-scope | `workbench/app/src/dossier/PeriodBar.jsx` | a style's period as a bar of dates: a chart, not a building |
+| conventions-plate | out-of-scope | `workbench/app/src/export/ConventionsPlate.jsx` | an illustration of the dimensioning convention, clear against structural, drawn to no record |
+| front-door | out-of-scope | `workbench/app/src/surfaces/Overview.jsx` | the library cards' glyphs; the hero is the plan sheet render_plan produces, held at its producer |
 <!-- census:registry:end -->
 
 ## The checks

@@ -1,0 +1,9 @@
+{
+  "id": "datum-overlay",
+  "term": "Datums",
+  "family": "product",
+  "order": 38,
+  "definition": "The heights the elevation itself states, laid over the plate as dashed construction lines: grade, which is the plate's own datum and always there, and the floors, the water table and the eave wherever the record states them.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Drawing Set since Phase 17: the datums are \"registered through the plate's own frame: grade, which is the plate's own datum and always stated\", and the others appear \"wherever the elevation record states them\"."
+}

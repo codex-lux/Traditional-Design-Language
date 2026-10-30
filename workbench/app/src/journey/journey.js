@@ -138,6 +138,18 @@ export const JOURNEY_WORDS = Object.freeze({
 });
 
 /* The words above that are also glossary records, by the record's id. */
+/* EVERY STATE WORD THAT IS NOT A JUDGMENT IS A GLOSSARY RECORD'S (Phase 17's audit). The spine
+   drew these as plain strings while its own header said a test held each to its `journey-state-*`
+   record, and no test did. Keyed by the word, so the spine draws the record wherever the word is
+   exactly one; `journey.test.mjs` holds the two lists to each other in both directions. */
+export const STATE_RECORDS = Object.freeze({
+  'to do': 'journey-state-to-do', stated: 'journey-state-stated', failed: 'journey-state-failed',
+  expired: 'journey-state-expired', 'none yet': 'journey-state-none-yet',
+  'no plan on the bench': 'journey-state-no-plan', 'not yet evaluated': 'journey-state-not-yet-evaluated',
+  'needs a plan': 'journey-state-needs-a-plan', 'blocked: refused': 'journey-state-blocked-refused',
+  'blocked: a working sketch': 'journey-state-blocked-sketch', ready: 'journey-state-ready',
+});
+
 export const JOURNEY_TERMS = Object.freeze({
   refused: 'judgment-refused',
   fatal: 'severity-fatal',

@@ -60,7 +60,7 @@ function CompareWith({ styleId }) {
   const v = termView(useGlossary(), { id: 'compare-with' });
   return (
     <span data-compare-with={styleId} style={{ display: 'inline-flex', gap: 7, alignItems: 'center' }}>
-      <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}><Term id="compare-with" /></span>
+      <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}><Term id="compare-with" /></span>
       <StylePicker value="" width={190} label={v.state === 'ready' ? v.word : undefined}
         onChange={(other) => { if (other && other !== styleId) nav.go('compare', { style: styleId, compare: other }); }} />
     </span>
@@ -69,7 +69,7 @@ function CompareWith({ styleId }) {
 
 const ALL_SECTIONS = 'summary,description,characteristics,lineage,proportion,massing,constraints,exemplars,sources';
 const BUILT = { style: 1, variant: 1 };
-const quietText = { font: 'var(--type-body)', color: 'var(--ink-2)' };
+const quietText = { font: 'var(--type-body)', color: 'var(--text-secondary)' };
 
 export function StyleDossier({ onCite, selection, setSelection }) {
   const place = placeOf(selection);
@@ -114,7 +114,7 @@ function Dossier({ styleId, selection, setSelection, onCite }) {
     );
   }
   if (!dossier || !rec) {
-    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--ink-2)' }}>reading the record…</div>;
+    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--text-secondary)' }}>reading the record…</div>;
   }
 
   const listed = listedSections(dossier);
@@ -131,8 +131,8 @@ function Dossier({ styleId, selection, setSelection, onCite }) {
 
   return (
     <div data-dossier={styleId} style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <header data-dossier-head={styleId} style={{ flex: 'none', padding: '14px 26px 10px', borderBottom: '1px solid var(--rule)' }}>
-        <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'baseline' }}>
+      <header data-dossier-head={styleId} style={{ flex: 'none', padding: '14px 26px 10px', borderBottom: '1px solid var(--border-hairline)' }}>
+        <div style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'baseline' }}>
           {dossier.rank && <span data-rank={dossier.rank}><Term field="style.rank" value={dossier.rank} /></span>}
           {parent && (
             <span data-filed-under-head={parent.id}>
@@ -168,19 +168,19 @@ function Dossier({ styleId, selection, setSelection, onCite }) {
       </header>
 
       <nav aria-label="dossier sections" data-section-strip={styleId}
-        style={{ flex: 'none', display: 'flex', gap: 2, padding: '0 20px', borderBottom: '1px solid var(--rule)',
-          overflowX: 'auto', background: 'var(--paper)' }}>
+        style={{ flex: 'none', display: 'flex', gap: 2, padding: '0 20px', borderBottom: '1px solid var(--border-hairline)',
+          overflowX: 'auto', background: 'var(--surface-panel)' }}>
         {listed.map((sec) => {
           const on = sec.id === view.id;
           return (
             <a key={sec.id} href={sectionAddress(styleId, sec.id)} aria-current={on ? 'page' : undefined}
               data-section={sec.id} data-count={sec.count == null ? undefined : sec.count}
               style={{ display: 'inline-flex', gap: 6, alignItems: 'baseline', padding: '8px 10px 7px', whiteSpace: 'nowrap',
-                textDecoration: 'none', color: on ? 'var(--ink)' : 'var(--ink-2)',
+                textDecoration: 'none', color: on ? 'var(--text-body)' : 'var(--text-secondary)',
                 borderBottom: on ? '2px solid var(--gilt-deep)' : '2px solid transparent',
                 font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.3 var(--body)' }}>
               <SectionWord id={sec.id} />
-              {sec.count != null && <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{sec.count}</span>}
+              {sec.count != null && <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>{sec.count}</span>}
             </a>
           );
         })}
@@ -210,7 +210,7 @@ function Dossier({ styleId, selection, setSelection, onCite }) {
         </div>
         {!isKit && (
           <PullPane pane="kit" side="right"
-            style={{ borderLeft: '1px solid var(--rule)', overflow: 'auto', background: 'var(--paper)' }}>
+            style={{ borderLeft: '1px solid var(--border-hairline)', overflow: 'auto', background: 'var(--surface-panel)' }}>
             <RelationsPanel dossier={dossier} styleId={styleId} taxa={taxa} />
           </PullPane>
         )}

@@ -65,7 +65,7 @@ function JudgmentMark({
       <span>
         {showWord
           ? (
-            <span data-judgment-word="" style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)',
+            <span data-judgment-word="" style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)',
               marginRight: 7 }}>
               <Term id={mark.record} />
             </span>
@@ -73,13 +73,13 @@ function JudgmentMark({
           : <span className="tdl-sr-only" data-judgment-word="">{word}</span>}
         <span style={{
           font: 'var(--fw-med) 13px/1.5 var(--body)',
-          color: VERDICTS.has(known) ? 'var(--ink)' : 'var(--ink-2)'
+          color: VERDICTS.has(known) ? 'var(--text-body)' : 'var(--text-secondary)'
         }}>{label}</span>
         {reason && (
           <span style={{
             display: 'block',
             font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
-            color: 'var(--ink-2)',
+            color: 'var(--text-secondary)',
             maxWidth: 'var(--measure-note)'
           }}>{reason}</span>
         )}

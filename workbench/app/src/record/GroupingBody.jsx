@@ -35,7 +35,7 @@ export function GroupingBody({ rec }) {
           {rules.map((r, i) => (
             <div key={i} data-grouping-rule={i} style={{ display: 'flex', gap: 12, alignItems: 'baseline', padding: '3px 0' }}>
               <span style={{ ...data, width: 76, flex: 'none' }}>{[r.severity, r.kind].filter(Boolean).join(' · ')}</span>
-              <p style={{ ...quiet, color: 'var(--ink)' }}>{r.statement}</p>
+              <p style={{ ...quiet, color: 'var(--text-body)' }}>{r.statement}</p>
             </div>
           ))}
         </Section>

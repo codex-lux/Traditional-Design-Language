@@ -42,11 +42,11 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-2)',
+  color: 'var(--text-secondary)',
 };
-const META = { font: 'var(--type-data-s)', color: 'var(--ink-2)' };
+const META = { font: 'var(--type-data-s)', color: 'var(--text-secondary)' };
 const PROSE = {
-  font: 'var(--type-prose)', color: 'var(--ink)', maxWidth: 'var(--measure-prose)',
+  font: 'var(--type-prose)', color: 'var(--text-body)', maxWidth: 'var(--measure-prose)',
   margin: '7px 0 0', textWrap: 'pretty',
 };
 /* The licence's frame by verdict, in the standard's own tokens: gilt where it is earned, the
@@ -54,9 +54,9 @@ const PROSE = {
    nobody could say. That field is `--mark-unjudged`, the one duty the unjudged hatch carries, and
    never the hatch by name (WP-14.29, `src/marks.test.mjs`). */
 const LICENCE_FRAME = {
-  granted: { borderLeft: '2px solid var(--gilt-deep)', background: 'var(--paper-deep)' },
-  refused: { borderLeft: '2px solid var(--ink-2)', background: 'var(--paper)' },
-  unjudged: { borderLeft: '2px dashed var(--ink-2)', backgroundImage: 'var(--mark-unjudged)' },
+  granted: { borderLeft: '2px solid var(--gilt-deep)', background: 'var(--surface-raised)' },
+  refused: { borderLeft: '2px solid var(--text-secondary)', background: 'var(--surface-panel)' },
+  unjudged: { borderLeft: '2px dashed var(--text-secondary)', backgroundImage: 'var(--mark-unjudged)' },
 };
 
 /* An axis is labelled by the record for the field it reads (`FAULT_AXIS_TERM`). */
@@ -64,7 +64,7 @@ function Axis({ field, value, colour }) {
   return (
     <span style={{ display: 'inline-flex', flexDirection: 'column', gap: 3, minWidth: 92 }}>
       <span style={EYE}><Term id={FAULT_AXIS_TERM[field]} /></span>
-      <span style={{ font: 'var(--type-data)', color: colour || 'var(--ink-2)' }}>{value}</span>
+      <span style={{ font: 'var(--type-data)', color: colour || 'var(--text-secondary)' }}>{value}</span>
     </span>
   );
 }
@@ -96,32 +96,32 @@ function Licence({ licence }) {
   const frame = LICENCE_FRAME[licence.state] || LICENCE_FRAME.unjudged;
   return (
     <section data-fault-section="licence" data-licence={licence.state}
-      style={{ margin: '16px 0 0', padding: '12px 14px', border: '1px solid var(--rule)', ...frame }}>
+      style={{ margin: '16px 0 0', padding: '12px 14px', border: '1px solid var(--border-hairline)', ...frame }}>
       <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap',
-        background: licence.state === 'unjudged' ? 'var(--paper)' : 'transparent',
+        background: licence.state === 'unjudged' ? 'var(--surface-panel)' : 'transparent',
         padding: licence.state === 'unjudged' ? '2px 6px' : 0, width: 'fit-content' }}>
-        <span style={{ ...EYE, color: 'var(--gilt-deep)' }}><Term id={FAULT_SECTION_TERM.licence} /></span>
+        <span style={{ ...EYE, color: 'var(--text-accent)' }}><Term id={FAULT_SECTION_TERM.licence} /></span>
         <RecordLink cite={'style:' + licence.style} />
         <span data-licence-verdict={licence.state}
-          style={{ font: 'var(--type-data)', color: 'var(--ink)', border: '1px solid currentColor',
+          style={{ font: 'var(--type-data)', color: 'var(--text-body)', border: '1px solid currentColor',
             padding: '0 6px' }}>
           <LicenceVerdict state={licence.state} />
         </span>
       </div>
-      <div style={{ background: licence.state === 'unjudged' ? 'var(--paper)' : 'transparent',
+      <div style={{ background: licence.state === 'unjudged' ? 'var(--surface-panel)' : 'transparent',
         padding: licence.state === 'unjudged' ? '4px 6px' : 0, marginTop: 4 }}>
         {licence.because && (
-          <p data-licence-because="" style={{ ...META, color: 'var(--ink-2)', margin: '3px 0 0' }}>
+          <p data-licence-because="" style={{ ...META, color: 'var(--text-secondary)', margin: '3px 0 0' }}>
             {licence.because}
           </p>
         )}
         {licence.statement && (
           <p style={{ font: 'var(--fw-reg) 13.5px/1.55 var(--body)',
-            color: licence.state === 'granted' ? 'var(--ink)' : 'var(--ink-2)', margin: '7px 0 0' }}>
+            color: licence.state === 'granted' ? 'var(--text-body)' : 'var(--text-secondary)', margin: '7px 0 0' }}>
             {licence.statement}
           </p>
         )}
-        {licence.bounds && <div style={{ ...META, color: 'var(--ink-2)', marginTop: 7 }}>{licence.bounds}</div>}
+        {licence.bounds && <div style={{ ...META, color: 'var(--text-secondary)', marginTop: 7 }}>{licence.bounds}</div>}
       </div>
     </section>
   );
@@ -140,13 +140,13 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
     detection: () => (
       <section key="detection" data-fault-section="detection" style={{ marginTop: 16 }}>
         <Head section="detection" />
-        <p style={{ ...PROSE, color: 'var(--ink-2)' }}>{fault.detection}</p>
+        <p style={{ ...PROSE, color: 'var(--text-secondary)' }}>{fault.detection}</p>
       </section>
     ),
     licence: () => <Licence key="licence" licence={licence} />,
     symptom: () => (
       <section key="symptom" data-fault-section="symptom"
-        style={{ marginTop: 18, borderTop: '1px solid var(--rule-soft)', paddingTop: 14 }}>
+        style={{ marginTop: 18, borderTop: '1px solid var(--border-soft)', paddingTop: 14 }}>
         <Head section="symptom" />
         <p style={PROSE}>{fault.symptom}</p>
       </section>
@@ -156,10 +156,10 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
         <div style={EYE}>
           <Term id={FAULT_SECTION_TERM.cause} /> — <Term id={FAULT_AXIS_TERM['cause.driver']} />: {fault.cause.driver}
         </div>
-        <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink-2)',
+        <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-secondary)',
           maxWidth: 'var(--measure-prose)', margin: '7px 0 0' }}>{fault.cause.explanation}</p>
         {fault.cause.cost_saved && (
-          <p style={{ font: 'var(--fw-med) 13.5px/1.55 var(--body)', color: 'var(--gilt-deep)', margin: '9px 0 0' }}>
+          <p style={{ font: 'var(--fw-med) 13.5px/1.55 var(--body)', color: 'var(--text-accent)', margin: '9px 0 0' }}>
             <span style={{ ...EYE, marginRight: 8 }}><Term id={COST_SAVED_TERM} /></span>{fault.cause.cost_saved}
           </p>
         )}
@@ -171,7 +171,7 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
         {fault.rule_violated.map((r, i) => (
           <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'baseline', marginTop: 7 }}>
             <span style={{ ...META, width: 168, flex: 'none' }}>{r.kind} · {r.ref}</span>
-            <span style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
+            <span style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--text-secondary)',
               maxWidth: 'var(--measure-note)' }}>{r.statement}</span>
           </div>
         ))}
@@ -179,13 +179,16 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
     ),
     fixes: () => (
       <section key="fixes" data-fault-section="fixes"
-        style={{ marginTop: 18, borderTop: '1px solid var(--rule-soft)', paddingTop: 14 }}>
+        style={{ marginTop: 18, borderTop: '1px solid var(--border-soft)', paddingTop: 14 }}>
         <Head section="fixes" />
         {FIX_TIERS.map((tier) => (fault.fix[tier] ? (
-          <div key={tier} data-fix-tier={tier} style={{ display: 'flex', gap: 12, alignItems: 'baseline', marginTop: 9 }}>
+          <div key={tier} data-fix-tier={tier} style={{ display: 'flex', gap: 12, alignItems: 'baseline', marginTop: 9,
+            // the cheap fix is struck in gilt (board 9): it is the one a builder will reach for, and the
+            // one the corpus most wants read before it is chosen
+            ...(tier === 'cheap' ? { borderTop: '2px solid var(--gilt)', paddingTop: 8 } : null) }}>
             <span style={{ font: 'var(--type-data-s)', color: FIX[tier], border: '1px solid currentColor',
               padding: '1px 6px', width: 78, flex: 'none', textAlign: 'center' }}><Term id={FIX_TIER_TERM[tier]} /></span>
-            <span style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink-2)',
+            <span style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--text-secondary)',
               maxWidth: 'var(--measure-prose)' }}>{fault.fix[tier]}</span>
           </div>
         ) : null))}
@@ -194,27 +197,28 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
     test: () => (
       <section key="test" data-fault-section="test" style={{ marginTop: 16 }}>
         <Head section="test" />
-        <pre style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', background: 'var(--paper-mat)',
-          border: '1px solid var(--rule-soft)', padding: '8px 10px', marginTop: 7,
+        <pre style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', background: 'var(--surface-well)',
+          border: '1px solid var(--border-soft)', padding: '8px 10px', marginTop: 7,
           whiteSpace: 'pre-wrap' }}>{fault.test}</pre>
       </section>
     ),
   };
   return (
-    <article data-fault={fault.id} style={{ border: '1px solid var(--rule)',
-      borderLeft: '2px solid ' + (SEV[fault.severity] || 'var(--ink-3)'),
-      background: 'var(--paper)', padding: '18px 20px 20px', ...style }}>
+    // Phase 17: the fault is a vellum card on the dark instrument (board 9)
+    <article data-fault={fault.id} data-ground="vellum" className="tdl-vellum" style={{ border: '1px solid var(--border-hairline)',
+      borderLeft: '2px solid ' + (SEV[fault.severity] || 'var(--text-tertiary)'),
+      background: 'var(--surface-panel)', padding: '18px 20px 20px', ...style }}>
       <header>
         <h3 style={{ font: 'var(--fw-reg) var(--fs-d3)/1.15 var(--display)', fontVariationSettings: '"opsz" 40',
-          letterSpacing: 'var(--tr-display)', color: 'var(--ink)', margin: 0 }}>{fault.name}</h3>
+          letterSpacing: 'var(--tr-display)', color: 'var(--text-body)', margin: 0 }}>{fault.name}</h3>
         {fault.aka && fault.aka.length > 0 && (
-          <div style={{ font: 'var(--fw-reg) italic 13px/1.5 var(--body)', color: 'var(--gilt-deep)',
+          <div style={{ font: 'var(--fw-reg) italic 13px/1.5 var(--body)', color: 'var(--text-accent)',
             fontStyle: 'italic', marginTop: 4 }}>
             {fault.aka.map((a) => '“' + a + '”').join(', ')}
           </div>
         )}
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', margin: '14px 0 0', paddingBottom: 14,
-          borderBottom: '1px solid var(--rule-soft)' }}>
+          borderBottom: '1px solid var(--border-soft)' }}>
           <Axis field="severity" colour={SEV[fault.severity]}
             value={fault.severity ? <Term field="fault.severity" value={fault.severity} /> : null} />
           <Axis field="frequency" value={fault.frequency} />
@@ -229,7 +233,7 @@ function FaultCard({ fault, styleInView, onSlot, style }) {
                   <button key={s} type="button" onClick={() => onSlot(s)} className="tdl-link"
                     style={{ font: 'var(--type-data)' }}>{s}</button>
                 ) : (
-                  <span key={s} style={{ font: 'var(--type-data)', color: 'var(--ink-2)' }}>{s}</span>
+                  <span key={s} style={{ font: 'var(--type-data)', color: 'var(--text-secondary)' }}>{s}</span>
                 )))}
               </span>
             </span>

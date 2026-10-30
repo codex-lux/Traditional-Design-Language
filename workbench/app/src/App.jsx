@@ -23,13 +23,16 @@ import { nav } from './state/nav.js';
 import { useGlobalKeys, requestFilterFocus } from './keys.js';
 import { CommandPalette } from './palette/CommandPalette.jsx';
 import { ShortcutCard } from './palette/ShortcutCard.jsx';
-import { Masthead, LeftRail, PaneStub, CrumbStrip } from './Chrome.jsx';
+import { TopBar, LeftRail, PaneStub } from './Chrome.jsx';
 import { Splitter } from './components/Splitter.jsx';
-import { JourneyBar, showJourneyBar } from './components/JourneyBar.jsx';
+import { JourneySpine } from './components/JourneySpine.jsx';
+import { sidebarView } from './nav/sidebar.js';
+import { barView } from './journey/bar.js';
 import { layout, PANES, surfaceWidth, MAIN_FLOOR_PX } from './state/layout.js';
 import { Gate } from './Gate.jsx';
 import { RailHost, assistantName } from './rail/RailHost.jsx';
 import { PageHead } from './components/PageHead.jsx';
+import { SurfaceBoundary } from './components/SurfaceBoundary.jsx';
 import { ColdLinkBanner } from './components/ColdLinkBanner.jsx';
 import { useGlossary } from './api/useGlossary.js';
 import { useNames } from './names/useNames.js';
@@ -47,13 +50,19 @@ import { BriefIntake } from './surfaces/BriefIntake.jsx';
 import { StyleDossier } from './surfaces/StyleDossier.jsx';
 import { Proportions } from './surfaces/Proportions.jsx';
 import { DrawingSet } from './surfaces/DrawingSet.jsx';
-import { ExportDetails } from './surfaces/ExportDetails.jsx';
-import { Transcription } from './surfaces/Transcription.jsx';
+// THREE SURFACES ARE LOADED WHEN FIRST VISITED (Phase 17): the entry chunk crossed
+// check_frontend's 700 KB ceiling on the shell's own growth, with every heavy tier still a chunk
+// of its own. These are the three least on the journey's path, so a reader who never opens them
+// never downloads them. Each module keeps its named export; `lazyNamed` adapts it.
+const lazyNamed = (load, name) => React.lazy(() => load().then((m) => ({ default: m[name] })));
+const ExportDetails = lazyNamed(() => import('./surfaces/ExportDetails.jsx'), 'ExportDetails');
+const Transcription = lazyNamed(() => import('./surfaces/Transcription.jsx'), 'Transcription');
 import { Overview } from './surfaces/Overview.jsx';
 import { Glossary } from './surfaces/Glossary.jsx';
 import { Elements } from './surfaces/Elements.jsx';
 import { RoomPage, MassingPage, GroupingPage, PartiPage } from './surfaces/RecordPage.jsx';
-import { Compare } from './surfaces/Compare.jsx';
+const Compare = lazyNamed(() => import('./surfaces/Compare.jsx'), 'Compare');
+import { SHELL_GROUND, groundOf } from './grounds.js';
 
 const SURFACES = {
   overview: Overview,
@@ -267,6 +276,12 @@ export default function App() {
     lookup, counts: overview?.counts, glossaryCount: lookup ? lookup.count : null,
     inHand, dossier: dossierHere, journey, place,
   });
+  /* What the sidebar draws (Phase 17): the site map, reshaped by `nav/sidebar.js`, with the
+     journey's own bar decisions so a blocked step is drawn as words and not offered as a link. */
+  const sidebar = sidebarView(model, {
+    bar: barView(journey, { surface, jobId: sessionNow ? sessionNow.jobId : null }),
+    resume: journey.resume, surface,
+  });
   const crumbs = crumbsFor(place, { lookup, dossier: dossierHere, names: names.index, styles, journey });
   const title = titleFor(crumbs, lookup);
   React.useEffect(() => {
@@ -288,6 +303,8 @@ export default function App() {
     root.toggleAttribute('data-reflow', !floored);
     root.toggleAttribute('data-floor', floored);
     root.style.setProperty('--main-floor', `${MAIN_FLOOR_PX}px`);
+    // the shell's ground (Phase 17): the chrome stands on it, and each `<main>` on its own row
+    root.setAttribute('data-ground', SHELL_GROUND);
   }, [surface]);
 
   /* The first place this page loaded, and whether it was a cold deep link. Visiting the front
@@ -303,10 +320,10 @@ export default function App() {
     return (
       <div role="status" data-boot-status=""
         style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          gap: 10, font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--ink)',
-          background: 'var(--paper)' }}>
+          gap: 10, font: 'var(--fw-reg) 15px/1.5 var(--body)', color: 'var(--text-body)',
+          background: 'var(--surface-panel)' }}>
         Cannot reach the server
-        <span aria-hidden="true" style={{ color: 'var(--ink-2)' }}>·</span>
+        <span aria-hidden="true" style={{ color: 'var(--text-secondary)' }}>·</span>
         <button type="button" onClick={boot} className="tdl-link" style={{ font: 'inherit' }}>
           Retry
         </button>
@@ -314,6 +331,12 @@ export default function App() {
     );
   }
   if (locked) return <Gate onUnlocked={boot} auth={health?.auth} />;
+
+  // THE JOURNEY IS MOUNTED ONCE, here, and handed to the sidebar, or to the top bar while the
+  // sidebar is folded (the second audit of Phase 17: folding the rail hid the refusal and Next).
+  // Compact wherever it is not the open sidebar's own house page.
+  const spineEl = <JourneySpine surface={surface} lastEval={lastEval} selection={selection}
+    compact={sidebar.compact || !layout.isOpen('nav')} />;
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -323,22 +346,36 @@ export default function App() {
           rather than a mode of the surface, so every surface can ask for it and none of
           them has to reimplement getting out. */}
       {!full && (
-        <Masthead plan={plan} planStep={journey.steps.find((s) => s.id === 'plan')}
+        <TopBar crumbs={crumbs} address={typeof window !== 'undefined' ? window.location.hash || '#/' : null}
+          navOpen={layout.isOpen('nav')}
+          plan={plan} planStep={journey.steps.find((s) => s.id === 'plan')}
+          spine={layout.isOpen('nav') ? null : spineEl}
+          onAsk={() => layout.setCollapsed('rail', false)}
           onSearch={() => setPalette(true)}
           onKeys={() => { setPalette(false); setHelpCard(true); }} />
       )}
       {!full && coldLink && (
         <ColdLinkBanner crumbs={crumbs} onDismiss={() => prefs.markSeen('front-door')} />
       )}
-      {!full && <CrumbStrip crumbs={crumbs} />}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        {!full && <LeftRail model={model} busy={glossary.status === 'loading'} />}
+        {!full && (
+          <LeftRail model={model} view={sidebar} busy={glossary.status === 'loading'}
+            plan={plan} planStep={journey.steps.find((s) => s.id === 'plan')}
+            onSearch={() => setPalette(true)}
+            onKeys={() => { setPalette(false); setHelpCard(true); }}
+            spine={spineEl} />
+        )}
         {!full && layout.isOpen('nav') && <Splitter pane="nav" grows="left" />}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
           {!full && <PageHead termId={headTermFor(place)} />}
-          {showJourneyBar(surface, full) && <JourneyBar surface={surface} lastEval={lastEval} selection={selection} />}
-          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
-            <Active {...shared} lastEval={lastEvalHere} />
+          <main data-ground={groundOf(SURFACES[surface] ? surface : 'workbench')}
+            style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
+            <SurfaceBoundary key={surface}>
+            <React.Suspense fallback={<p role="status" aria-busy="true" data-surface-loading=""
+              style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', padding: '18px 22px' }}>…</p>}>
+              <Active {...shared} lastEval={lastEvalHere} />
+            </React.Suspense>
+            </SurfaceBoundary>
           </main>
         </div>
         {!full && layout.isOpen('rail') && <Splitter pane="rail" grows="right" />}
@@ -349,7 +386,7 @@ export default function App() {
               railAvailable={health ? !!health.rail : null}
               toolCount={health?.mcp?.tools} />
           )
-          : <PaneStub pane="rail" label={PANES.rail.label} spine={railName} side="right" />)}
+          : <PaneStub pane="rail" label={PANES.rail.label} spine={railName} side="right" width={52} />)}
       </div>
       <CommandPalette open={palette} onClose={() => setPalette(false)}
         onAction={(run) => { if (run === 'help') setHelpCard(true); }} />

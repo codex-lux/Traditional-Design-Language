@@ -1,0 +1,10 @@
+{
+  "id": "mark-journey-done",
+  "term": "done",
+  "family": "mark",
+  "mark": "--mark-journey-done",
+  "order": 5,
+  "definition": "A step of the house's journey that is finished: the brief stated, a candidate chosen, the plan drawn. It is drawn as a disc of vellum and says where the house has been, not whether it is any good.",
+  "kind": "editorial",
+  "basis": "docs/ui-redesign-2026-10-29.md, the journey marks the redesign ruled for the sidebar and the front door: \"Done = filled vellum disc / vellum tile\". workbench/app/src/theme/tokens.css states the duty beside the token: \"done is a vellum disc, the step in hand a gilt ring round a gilt dot\"."
+}

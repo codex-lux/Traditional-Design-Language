@@ -77,6 +77,11 @@ export function cascadeRows(cascade) {
   return list(cascade && cascade.cascade).map((r) => ({
     distance: r.distance, id: r.id,
     bindings: r.specified + r.extends + r.forbidden,
+    // Phase 17 (WP-17.10): the three counts apart, for the level's own bar, and the bans the
+    // resolved kit credits to this level (`corpus.kit_cascade`'s `bans`, each a slot and, for a
+    // forbidden variant row, the variant)
+    counts: { specified: r.specified || 0, extends: r.extends || 0, forbidden: r.forbidden || 0 },
+    bans: list(r.bans),
     detail: [
       r.specified ? `${r.specified} specified` : null,
       r.extends ? `${r.extends} extends` : null,

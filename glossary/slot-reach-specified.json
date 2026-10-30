@@ -1,0 +1,9 @@
+{
+  "id": "slot-reach-specified",
+  "term": "specified, in the end",
+  "family": "product",
+  "order": 42,
+  "definition": "The styles whose resolved kit specifies this slot, whether the style wrote the binding or inherited it from an ancestor, and which no later node extended.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Elements since Phase 17: the bar is \"read off each style's resolved kit after the lineage cascade\", and \"A style that inherits the slot is counted with its ancestor's binding\"."
+}

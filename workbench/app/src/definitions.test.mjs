@@ -21,13 +21,16 @@ import {
 import { linkView, isPlainPrimaryClick } from './names/recordLink.js';
 import { glossaryListing, matchesQuery, haystackOf } from './glossary/listing.js';
 import { hrefFor, citeHref } from './router.js';
+import { groundValue } from './grounds.js';
+import { stripComments as lexStrip } from './sourceReader.mjs';
 
 const SRC = fileURLToPath(new URL('./', import.meta.url));
 const read = (rel) => readFileSync(join(SRC, rel), 'utf8');
 // Block comments, and line comments whether they start a line or trail code (a `//` after `:` is
 // a URL inside a string and is kept).
-const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '')
-  .replace(/(^|[\s;,{}()])\/\/[^\n]*/g, '$1');
+// THE SHARED LEXER (Phase 17's audit): the regex `/\*[\s\S]*?\*\//` read Transcription's
+// `accept="image/*"` as opening a comment and blanked 2,896 characters of live code, lines 437 to 516 of that file.
+const stripComments = (s) => lexStrip(s);
 
 /* A payload in §C.1's shape, small enough to reason about in the test. */
 function payload() {
@@ -304,7 +307,8 @@ test('the stylesheet draws a focus ring for everything, holds no floor on the sh
   const floors = onRoot.filter(([, , , body]) => /min-width\s*:\s*(?!0(px)?\s*(;|$))/.test(body))
     .map(([, , sel, body]) => `${sel}{${body}}`);
   assert.deepEqual(floors, [], 'a width floor on the shell makes every page scroll sideways below it');
-  assert.match(css, /\.tdl-term\{[^}]*text-decoration:underline dotted var\(--ink-2\)/);
+  // the secondary text duty since Phase 17: --ink-2 on vellum, and the hairline that reads on the dark
+  assert.match(css, /\.tdl-term\{[^}]*text-decoration:underline dotted var\(--text-secondary\)/);
   const block = css.slice(css.indexOf('DEFINITIONS ON SCREEN (WP-14.8)'));
   assert.ok(block.length > 1000, 'the premise: the package’s block is where this test looks');
   assert.doesNotMatch(block.replace(/\/\*[\s\S]*?\*\//g, ''), /#[0-9A-Fa-f]{3,8}\b|rgba?\(|hsla?\(/,
@@ -328,10 +332,14 @@ test('no readable text in --ink-4 in the new components or the package’s style
   assert.doesNotMatch(block, /--ink-4/);
 });
 
-test('the eyebrow’s default ink is --ink-2', () => {
+test('the eyebrow’s default ink is --ink-2 on vellum, through the secondary text duty', () => {
   const src = stripComments(read('components/Eyebrow.jsx'));
   assert.match(src, /tone = 'secondary'/);
-  assert.match(src, /secondary: 'var\(--ink-2\)'/);
+  // Phase 17: the tone is the duty, and the duty is --ink-2 wherever no dark ground is set
+  assert.match(src, /secondary: 'var\(--text-secondary\)'/);
+  const css = read('theme/tokens.css');
+  assert.equal(groundValue(css, 'vellum', '--text-secondary'), groundValue(css, null, '--ink-2'));
+  assert.equal(groundValue(css, null, '--text-secondary'), groundValue(css, null, '--ink-2'));
   assert.match(src, /tones\[tone\] \|\| tones\.secondary/);
 });
 
@@ -357,4 +365,10 @@ test('the client names the two glossary routes the server contract gives', () =>
   const src = read('api/client.js');
   assert.match(src, /glossary: \(\) => getJSON\('\/api\/glossary'\)/);
   assert.match(src, /glossaryTerm: \(id\) => getJSON\(`\/api\/glossary\/\$\{seg\(id\)\}`\)/);
+});
+
+test('this file reads source through the shared lexer, past a string holding "/*" (the second audit of Phase 17)', () => {
+  const s = stripComments('<input accept="image/*" /> const live = 1; {/* a comment */}');
+  assert.ok(s.includes('const live = 1'), 'live code after the attribute is read');
+  assert.ok(!s.includes('a comment'), 'and the comment is not');
 });

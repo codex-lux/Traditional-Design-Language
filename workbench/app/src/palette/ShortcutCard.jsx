@@ -32,7 +32,7 @@ function MarkKeyLink({ onClose }) {
 function SearchReach() {
   const glossary = useGlossary();
   return (
-    <p data-search-reach="" style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-2)',
+    <p data-search-reach="" style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--text-secondary)',
       margin: 0, maxWidth: '62ch' }}>
       {describeTerm(glossary, 'search-the-corpus').text}
     </p>
@@ -47,7 +47,7 @@ export function ShortcutCard({ open, onClose }) {
         display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: '13vh' }}>
       <div role="dialog" aria-modal="true" aria-label="Keyboard shortcuts and addressing"
         style={{ width: 'min(560px, calc(100vw - 32px))', maxHeight: '72vh', overflow: 'auto',
-          background: 'var(--paper)', border: '1px solid var(--rule)',
+          background: 'var(--surface-panel)', border: '1px solid var(--border-hairline)',
           boxShadow: '0 10px 34px rgba(40,36,28,.24)', padding: '18px 20px 20px' }}>
 
         <Eyebrow>keys</Eyebrow>
@@ -55,12 +55,12 @@ export function ShortcutCard({ open, onClose }) {
           <tbody>
             {SHORTCUTS.map((s) => (
               <tr key={s.keys}>
-                <td style={{ font: 'var(--type-data)', fontFamily: 'var(--mono)', color: 'var(--ink)',
+                <td style={{ font: 'var(--type-data)', fontFamily: 'var(--mono)', color: 'var(--text-body)',
                   padding: '3px 14px 3px 0', whiteSpace: 'nowrap', verticalAlign: 'baseline', width: 1 }}>
                   {s.keys}
-                  {s.alt && <span style={{ color: 'var(--ink-2)' }}> · {s.alt}</span>}
+                  {s.alt && <span style={{ color: 'var(--text-secondary)' }}> · {s.alt}</span>}
                 </td>
-                <td style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink-2)',
+                <td style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--text-secondary)',
                   padding: '3px 0', verticalAlign: 'baseline' }}>{s.does}</td>
               </tr>
             ))}
@@ -70,7 +70,7 @@ export function ShortcutCard({ open, onClose }) {
         <MarkKeyLink onClose={onClose} />
 
         <Eyebrow>how a thing is addressed</Eyebrow>
-        <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--ink-2)',
+        <p style={{ font: 'var(--fw-reg) 13px/1.6 var(--body)', color: 'var(--text-secondary)',
           margin: '9px 0 10px', maxWidth: '62ch' }}>
           Everything in the corpus has one address, written <span style={{ fontFamily: 'var(--mono)' }}>kind:id</span>.
           The rail cites in it, the palette prints it beside every result, and a URL is that
@@ -87,9 +87,9 @@ export function ShortcutCard({ open, onClose }) {
               ['#/cite/style:craftsman', 'the same address, as a link'],
             ].map(([ref, what]) => (
               <tr key={ref}>
-                <td style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--gilt-deep)',
+                <td style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--text-accent)',
                   padding: '2px 14px 2px 0', whiteSpace: 'nowrap', verticalAlign: 'baseline' }}>{ref}</td>
-                <td style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
+                <td style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--text-secondary)',
                   padding: '2px 0', verticalAlign: 'baseline' }}>{what}</td>
               </tr>
             ))}

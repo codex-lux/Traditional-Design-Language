@@ -35,21 +35,17 @@ export function RailHost({ onCite, surface, plan, lastEval, railAvailable, toolC
   const historyRef = React.useRef([]);   // API-shaped [{role, content: string}]
   const [busy, setBusy] = React.useState(false);
 
-  const turns = s.railTurns.length ? s.railTurns : [{
+  /* THE PANE NO LONGER DESCRIBES ITSELF (Phase 17, ruled 29 Oct 2026). It opened on a paragraph
+     about what it was, a fifth of the screen wide with no conversation in it; its first line is
+     the question field now, and what it is stays where it always was too, in the `assistant`
+     record its heading names. What survives is the one thing a reader cannot see otherwise: that
+     the assistant is OFF, which is a disclosure and not a description. */
+  const turns = s.railTurns.length ? s.railTurns : (railAvailable === false ? [{
     role: 'assistant',
-    /* Worded to say what it is — an AI assistant, a language model reading the corpus — which
-       the pane never said (the ux analysis's finding 14). What it is SENT changed at WP-14.22:
-       the page's citation and the candidate set's summaries (`railContext.js`), which closed
-       `oq/the-assistant-is-blind-to-the-page`. */
-    text: railAvailable === false
-      ? 'No ANTHROPIC_API_KEY is attached to the server, so the AI assistant is off. ' +
-        'Everything else works without it — set the key and restart to turn the assistant on.'
-      : 'I am an AI assistant: a language model reading this corpus for you. Ask the corpus. ' +
-        'Every claim I make carries a citation that navigates this canvas, the tools I ' +
-        'consult are shown as I use them, and I will say what I could not evaluate — ' +
-        'unjudged is not passed.',
-    unjudged: railAvailable === false ? 'I cannot evaluate anything: the AI assistant is off.' : undefined,
-  }];
+    text: 'No ANTHROPIC_API_KEY is attached to the server, so the AI assistant is off. ' +
+      'Everything else works without it — set the key and restart to turn the assistant on.',
+    unjudged: 'I cannot evaluate anything: the AI assistant is off.',
+  }] : []);
 
   function send(text) {
     if (!text || busy) return false;   // refuse (and keep the input) while a turn runs

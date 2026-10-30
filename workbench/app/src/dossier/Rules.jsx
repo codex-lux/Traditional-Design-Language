@@ -39,17 +39,17 @@ export function Rules({ rec, styleId, selected }) {
             <div key={c.id} ref={(el) => { refs.current[c.id] = el; }}
               data-constraint={c.id} data-constraint-state={state} data-selected={on ? '' : undefined}
               style={{ marginBottom: 12, padding: on ? '8px 10px' : '0 0 10px',
-                borderBottom: '1px solid var(--rule-soft)',
-                background: on ? 'var(--paper-deep)' : 'transparent',
+                borderBottom: '1px solid var(--border-soft)',
+                background: on ? 'var(--surface-raised)' : 'transparent',
                 borderLeft: on ? '2px solid var(--gilt-deep)' : '2px solid transparent' }}>
               {state === 'judgment-yours-to-judge'
                 ? <JudgmentMark state="yours-to-judge" label={c.statement} showWord={false} />
                 : <p style={{ ...prose, marginBottom: 4 }}>{c.statement}</p>}
               <span style={data}>
                 <a href={formatHash('style', { style: styleId, section: 'rules', constraint: c.id }, {})}
-                  style={{ color: 'var(--ink-2)' }}>{c.id}</a>
+                  style={{ color: 'var(--text-secondary)' }}>{c.id}</a>
                 {' '}· {c.kind} · {c.severity} · {c.scope} ·{' '}
-                <span style={{ border: '1px solid var(--rule)', padding: '0 5px', color: 'var(--ink-2)' }}>
+                <span style={{ border: '1px solid var(--border-hairline)', padding: '0 5px', color: 'var(--text-secondary)' }}>
                   <Term id={state} />
                 </span>
               </span>

@@ -56,7 +56,7 @@ function EdgeGlyph({ edge, width = 96, style }) {
       <span aria-hidden="true" data-edge-line={stroke}
         style={{ width, flex: 'none', height: 0, alignSelf: 'center', borderTop: LINE[stroke] }} />
       <span style={{ minWidth: 0 }}>
-        <span style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--ink)' }}>
+        <span style={{ font: 'var(--fw-reg) 13px/1.5 var(--body)', color: 'var(--text-body)' }}>
           {from && <><RecordLink cite={'style:' + from} />{' '}</>}
           <span data-edge-verb="">
             {filing
@@ -67,7 +67,7 @@ function EdgeGlyph({ edge, width = 96, style }) {
         </span>
         {!filing && (
           <span data-edge-carry="" style={{ display: 'block', font: 'var(--type-data-s)',
-            color: stroke === 'carries' ? 'var(--ink)' : 'var(--ink-2)', marginTop: 1 }}>
+            color: stroke === 'carries' ? 'var(--text-body)' : 'var(--text-secondary)', marginTop: 1 }}>
             <CarryWord carry={carry} />
             {slots.length > 0 && (
               <span data-edge-slots={slots.join(' ')}>
@@ -84,7 +84,7 @@ function EdgeGlyph({ edge, width = 96, style }) {
         )}
         {typeof e.note === 'string' && e.note && (
           <span style={{ display: 'block', font: 'var(--fw-reg) 12.5px/1.5 var(--body)',
-            color: 'var(--ink-2)', maxWidth: 'var(--measure-note)', marginTop: 3 }}>{e.note}</span>
+            color: 'var(--text-secondary)', maxWidth: 'var(--measure-note)', marginTop: 3 }}>{e.note}</span>
         )}
       </span>
     </span>

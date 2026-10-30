@@ -74,7 +74,7 @@ export function StylesIndex() {
     <div data-styles-index="" style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip filters={filters} right={
         <span data-index-shown={tree ? rows.length : undefined} data-index-total={tree ? tree.rows.length : undefined}
-          style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+          style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
           {tree ? `${rows.length} of ${tree.rows.length}` : '…'}
         </span>
       }>
@@ -82,15 +82,15 @@ export function StylesIndex() {
         <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={tree ? rows.length : undefined}
           label="Filter the styles by name or id" placeholder="filter styles" width={200} />
         {handed && (
-          <span data-style-in-hand={inHand} style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', whiteSpace: 'nowrap' }}>
+          <span data-style-in-hand={inHand} style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>
             last read · <RecordLink cite={'style:' + inHand}>{handed.name || inHand}</RecordLink>
           </span>
         )}
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '16px 26px 40px' }}>
-        {failed && <p style={{ font: 'var(--type-body)', color: 'var(--ink-2)' }}>The styles could not be read.</p>}
-        {!tree && !failed && <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>reading the styles…</p>}
+        {failed && <p style={{ font: 'var(--type-body)', color: 'var(--text-secondary)' }}>The styles could not be read.</p>}
+        {!tree && !failed && <p style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>reading the styles…</p>}
         {tree && (
           <div role="tree" aria-label="the styles, filed">
             {rows.map((r) => {
@@ -100,12 +100,12 @@ export function StylesIndex() {
                 <div key={r.id} role="treeitem" aria-level={r.depth + 1} data-style-row={r.id} data-depth={r.depth}
                   style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: r.depth === 0 ? '12px 0 4px' : '2px 0',
                     paddingLeft: r.depth * 20,
-                    borderTop: r.depth === 0 ? '1px solid var(--rule)' : 'none' }}>
+                    borderTop: r.depth === 0 ? '1px solid var(--border-hairline)' : 'none' }}>
                   {hue && <span aria-hidden="true" style={{ width: 10, height: 10, background: hue, flex: 'none', alignSelf: 'center' }} />}
                   <span style={{ font: r.depth === 0 ? 'var(--fw-reg) 17px/1.3 var(--display)' : 'var(--fw-reg) 14px/1.45 var(--serif)' }}>
                     <RecordLink cite={'style:' + r.id}>{t.name || r.id}</RecordLink>
                   </span>
-                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                  <span style={{ font: 'var(--type-data-s)', color: 'var(--text-secondary)' }}>
                     {r.rank ? <RankWord rank={r.rank} /> : null}
                     {t.floruit_start != null ? ` · ${t.floruit_start}` : ''}
                   </span>
@@ -113,7 +113,7 @@ export function StylesIndex() {
               );
             })}
             {tree.orphans.length > 0 && (
-              <div data-orphans={tree.orphans.length} style={{ marginTop: 22, paddingTop: 10, borderTop: '1px solid var(--rule)' }}>
+              <div data-orphans={tree.orphans.length} style={{ marginTop: 22, paddingTop: 10, borderTop: '1px solid var(--border-hairline)' }}>
                 <Eyebrow style={{ marginBottom: 6 }}>filed under nothing this outline reaches · {tree.orphans.length}</Eyebrow>
                 {tree.orphans.map((id) => (
                   <div key={id} data-style-row={id} data-orphan="" style={{ padding: '2px 0' }}>

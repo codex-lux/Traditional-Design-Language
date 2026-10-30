@@ -115,7 +115,7 @@ export function Splitter({ pane, grows = 'left' }) {
           // an inline style and a hand-set `element.style` are two authorities over one
           // property, and React wins the next render whether or not the hand is still
           // there.
-          background: pulling ? 'var(--gilt-deep)' : (near ? 'var(--rule)' : 'transparent'),
+          background: pulling ? 'var(--gilt-deep)' : (near ? 'var(--border-hairline)' : 'transparent'),
           transition: pulling ? 'none' : 'background var(--t-hover, .12s)' }}
         onPointerEnter={() => setNear(true)}
         onPointerLeave={() => setNear(false)}

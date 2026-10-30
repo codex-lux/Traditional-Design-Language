@@ -1,0 +1,9 @@
+{
+  "id": "faults-evaluated",
+  "term": "evaluated",
+  "family": "product",
+  "order": 39,
+  "definition": "How many of the faults that apply to this house's style could be tested on it, out of those that apply. A fault that could not be tested is unjudged and is not counted here as passed.",
+  "kind": "editorial",
+  "basis": "docs/workbench.md, the Drawing Set since Phase 17: the disclosures \"say how many of the faults that apply to this house's style were evaluated, out of those that apply\"."
+}

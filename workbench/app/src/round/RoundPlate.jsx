@@ -33,11 +33,11 @@ function TitleBlock({ title, styleName, subtitle }) {
     <div style={{ textAlign: 'center', padding: '2px 0 10px' }}>
       <div style={{
         font: 'var(--fw-med) 17px/1.35 var(--serif)', letterSpacing: 'var(--tr-drawing)',
-        textTransform: 'uppercase', color: 'var(--ink)',
+        textTransform: 'uppercase', color: 'var(--text-body)',
       }}>{interpunctTitle(title)}</div>
       <div style={{
         font: '11px/1.4 var(--serif)', letterSpacing: 'var(--tr-caps)', textTransform: 'uppercase',
-        color: 'var(--ink-2)', marginTop: 4,
+        color: 'var(--text-secondary)', marginTop: 4,
       }}>{styleName}&nbsp;·&nbsp;{subtitle}</div>
       <div style={{ width: 150, height: 0, borderTop: '1px solid var(--rule)', margin: '9px auto 0' }} />
     </div>
@@ -51,26 +51,26 @@ function RecordCard({ solid, onClose }) {
   const src = (solid.source && solid.source.record) || '';
   return (
     <div
-      data-round-card=""
+      data-round-card="" data-ground="vellum"
       style={{
         position: 'absolute', right: 10, top: 10, maxWidth: 300, background: 'var(--paper)',
         border: '1px solid var(--ink-3)', boxShadow: 'var(--shadow-plate)', padding: '10px 12px',
-        font: '12px/1.5 var(--serif)', color: 'var(--ink)',
+        font: '12px/1.5 var(--serif)', color: 'var(--text-body)',
       }}
     >
-      <div style={{ letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase', fontSize: 10, color: 'var(--ink-2)' }}>
+      <div style={{ letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase', fontSize: 10, color: 'var(--text-secondary)' }}>
         {solid.class} · {solid.kind}
       </div>
       <div style={{ marginTop: 3 }}>{solid.id}</div>
-      <div style={{ marginTop: 3, color: 'var(--ink-2)' }}>
+      <div style={{ marginTop: 3, color: 'var(--text-secondary)' }}>
         {ft(size[0])} × {ft(size[1])} × {ft(size[2])}
       </div>
       {src ? (
-        <div style={{ marginTop: 6, font: '11px/1.4 var(--mono, monospace)', color: 'var(--ink-2)', wordBreak: 'break-all' }}>
+        <div style={{ marginTop: 6, font: '11px/1.4 var(--mono, monospace)', color: 'var(--text-secondary)', wordBreak: 'break-all' }}>
           {src}
         </div>
       ) : null}
-      {solid.note ? <div style={{ marginTop: 6, fontStyle: 'italic', color: 'var(--ink-2)' }}>{solid.note}</div> : null}
+      {solid.note ? <div style={{ marginTop: 6, fontStyle: 'italic', color: 'var(--text-secondary)' }}>{solid.note}</div> : null}
       <button
         type="button"
         onClick={onClose}
@@ -186,7 +186,7 @@ export function RoundPlate({
      a reader arriving here has to be told which record was refused. */
   if (refusedPlacement) {
     return (
-      <div data-round-refused={refusedPlacement.kind} style={{
+      <div data-round-refused={refusedPlacement.kind} data-ground="vellum" style={{
         position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
         boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px',
       }}>
@@ -197,7 +197,7 @@ export function RoundPlate({
   }
 
   return (
-    <div style={{
+    <div data-ground="vellum" style={{
       position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
       boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px',
     }}>
@@ -285,10 +285,10 @@ export function RoundPlate({
       }}>
         <div data-plate-title="" style={{
           font: '10.5px/1.4 var(--serif)', letterSpacing: '.3em', textTransform: 'uppercase',
-          color: 'var(--ink)', flex: '1 0 auto',
+          color: 'var(--text-body)', flex: '1 0 auto',
         }}>{cap}{mods ? ` · ${mods}` : ''}</div>
         <div data-plate-note="" style={{
-          font: 'italic var(--fw-reg) 13px/1.45 var(--serif)', color: 'var(--ink-2)',
+          font: 'italic var(--fw-reg) 13px/1.45 var(--serif)', color: 'var(--text-secondary)',
           textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch',
         }}>
           {plateOn && !svg && refusedWhy
@@ -304,7 +304,7 @@ export function RoundPlate({
       </div>
 
       {(disclosures || []).length ? (
-        <div style={{ font: '11px/1.5 var(--serif)', color: 'var(--ink-2)', margin: '2px 2px 0' }}>
+        <div style={{ font: '11px/1.5 var(--serif)', color: 'var(--text-secondary)', margin: '2px 2px 0' }}>
           {disclosures.map((d, i) => <div key={i}>{d}</div>)}
         </div>
       ) : null}

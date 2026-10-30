@@ -12,7 +12,7 @@ const SEV = {
   minor: 'var(--sev-minor)',
   advisory: 'var(--sev-advisory)',
   // info is set in --ink-2, not --sev-info (--ink-3): the word is read, and --ink-3 reads 3.15 : 1
-  info: 'var(--ink-2)'
+  info: 'var(--text-secondary)'
 };
 const FIELD = {
   fatal: 'var(--sev-fatal-field)',
@@ -23,7 +23,7 @@ const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
   textTransform: 'uppercase',
-  color: 'var(--ink-2)'
+  color: 'var(--text-secondary)'
 };
 /* The rule a finding cites: a link that takes `.tdl-link` whole where it navigates, the working
    grey where it cannot (WP-14.33's audit). */
@@ -32,7 +32,7 @@ const RULE_LINK = {
 };
 const RULE_TEXT = {
   font: 'var(--type-data-s)',
-  color: 'var(--ink-2)'
+  color: 'var(--text-secondary)'
 };
 
 function FindingRow({
@@ -58,7 +58,7 @@ function FindingRow({
   const [openInner, setOpenInner] = React.useState(false);
   const open = expanded != null ? expanded : openInner;
   const sev = finding.severity;
-  const colour = SEV[sev] || 'var(--ink-2)';
+  const colour = SEV[sev] || 'var(--text-secondary)';
   const toggle = function () {
     onToggle ? onToggle(finding) : setOpenInner(!open);
   };
@@ -71,9 +71,9 @@ function FindingRow({
     },
     "data-layer": finding.layer,
     style: {
-      borderBottom: '1px solid var(--rule-soft)',
+      borderBottom: '1px solid var(--border-soft)',
       borderLeft: '2px solid ' + colour,
-      background: selected ? 'var(--paper-deep)' : open ? 'var(--paper)' : hover ? 'var(--paper-deep)' : FIELD[sev] || 'transparent',
+      background: selected ? 'var(--surface-raised)' : open ? 'var(--surface-panel)' : hover ? 'var(--surface-raised)' : FIELD[sev] || 'transparent',
       transition: 'var(--t-finding)',
       ...style
     }
@@ -100,7 +100,7 @@ function FindingRow({
   }, sev), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       width: 76,
       flex: 'none'
     }
@@ -109,7 +109,7 @@ function FindingRow({
     title: describeTerm(glossary, 'finding-engine').title,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       flex: 'none'
     }
   }, engineTag), classTag && /*#__PURE__*/React.createElement("span", {
@@ -117,20 +117,20 @@ function FindingRow({
     title: describeTerm(glossary, 'finding-class').title,
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--gilt-deep)',
+      color: 'var(--text-accent)',
       flex: 'none'
     }
   }, classTag), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--fw-reg) 12.5px/1.45 var(--body)',
-      color: 'var(--ink)',
+      color: 'var(--text-body)',
       flex: 1,
       textWrap: 'pretty'
     }
   }, finding.statement), finding.at && /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       flex: 'none'
     }
   }, finding.at)), open && /*#__PURE__*/React.createElement("div", {
@@ -141,7 +141,7 @@ function FindingRow({
   }, finding.why && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 13px/1.55 var(--body)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       margin: '0 0 8px'
     }
   }, /*#__PURE__*/React.createElement("span", {
@@ -152,14 +152,14 @@ function FindingRow({
   }, "why"), finding.why), finding.fix && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 13px/1.55 var(--body)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       margin: 0
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
       ...EYE,
       marginRight: 8,
-      color: 'var(--green-deep)'
+      color: 'var(--sev-cleared)'
     }
   }, "fix"), finding.fix), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -180,7 +180,7 @@ function FindingRow({
     },
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--gilt-deep)'
+      color: 'var(--text-accent)'
     }
   }, "show on drawing"), onAssert && finding.assertable && /*#__PURE__*/React.createElement("button", {
     type: "button",
@@ -189,7 +189,7 @@ function FindingRow({
     },
     style: {
       font: 'var(--type-data-s)',
-      color: 'var(--green-deep)'
+      color: 'var(--sev-cleared)'
     }
   }, "assert ", finding.assertable, " and re-score"))));
 }

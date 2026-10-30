@@ -56,7 +56,7 @@ function RelaxationMarker({
       flex: 'none',
       display: 'grid',
       placeItems: 'center',
-      color: 'var(--brick)',
+      color: 'var(--refusal-text)',
       border: '1px solid var(--brick)',
       borderRadius: '50%',
       background: 'var(--paper-lit)',
@@ -65,7 +65,7 @@ function RelaxationMarker({
   }, k.mark), index != null && /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--fw-med) 10px/1 var(--mono)',
-      color: 'var(--brick)'
+      color: 'var(--refusal-text)'
     }
   }, index));
 }

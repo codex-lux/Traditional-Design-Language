@@ -11,9 +11,9 @@ function RefusalCard({
 }) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
-      border: '1px solid var(--rule)',
+      border: '1px solid var(--border-hairline)',
       borderLeft: '2px solid var(--refusal)',
-      background: 'var(--paper)',
+      background: 'var(--surface-panel)',
       padding: 'var(--panel-pad)',
       maxWidth: 'var(--measure-prose)',
       ...style
@@ -23,30 +23,30 @@ function RefusalCard({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--refusal)',
+      color: 'var(--refusal-text)',
       marginBottom: 9
     }
   }, "refused", tool && /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       marginLeft: 8
     }
   }, tool)), /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) var(--fs-body-l)/var(--lh-prose) var(--body)',
-      color: 'var(--ink)',
+      color: 'var(--text-body)',
       margin: '0 0 9px'
     }
   }, statement), reason && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 13px/1.55 var(--body)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       margin: 0
     }
   }, reason), wouldChange && /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--fw-reg) 13px/1.55 var(--body)',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       margin: '9px 0 0'
     }
   }, /*#__PURE__*/React.createElement("span", {
@@ -54,7 +54,7 @@ function RefusalCard({
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tr-eyebrow)',
       textTransform: 'uppercase',
-      color: 'var(--ink-2)',
+      color: 'var(--text-secondary)',
       marginRight: 8
     }
   }, "what would change it"), wouldChange));

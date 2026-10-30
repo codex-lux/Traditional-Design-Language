@@ -22,6 +22,7 @@ import {
 } from './journey/journey.js';
 import { barView } from './journey/bar.js';
 import { SURFACE_PATHS, parseHash } from './router.js';
+import { stripComments as lexStrip } from './sourceReader.mjs';
 
 const ROOT = new URL('../../../', import.meta.url);
 const step = (st, id) => st.steps.find((s) => s.id === id);
@@ -297,9 +298,8 @@ test('every site that matches an evaluation to a plan reads evalPlanOf, and none
     }
   };
   walk(SRC);
-  const byHand = /\bcheck\s*\??\.\s*plan\b/;
   const offenders = files.filter((u) => !u.pathname.endsWith('/journey/journey.js'))
-    .filter((u) => byHand.test(readFileSync(u, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '')))
+    .filter((u) => readsPlanByHand(readFileSync(u, 'utf8')))
     .map((u) => u.pathname.slice(SRC.pathname.length));
   assert.deepEqual(offenders, [], 'these read an evaluation\'s plan off its check by hand');
   assert.ok(files.length > 50, 'the walk reached the app\'s sources');
@@ -503,15 +503,15 @@ test('a pick means something only on the Candidate Set, and only as an index', (
 });
 
 test('the shell and the bar read the same pick: both hand the journey the address\'s candidate', () => {
-  /* Two components build the journey (`App.jsx` for the rail and crumbs, `JourneyBar.jsx` for the
-     bar), and a pick one of them did not pass would make the bar and the rest of the shell disagree
+  /* Two components build the journey (`App.jsx` for the sidebar and crumbs, `JourneySpine.jsx` for
+     the stations -- the bar until Phase 17), and a pick one of them did not pass would make the bar and the rest of the shell disagree
      about whether Next is on. The component cannot be rendered under `node --test`, so what is held
      is the join: each takes the pick through `pickedCandidate` from the surface and its selection. */
   const app = readFileSync(new URL('./App.jsx', import.meta.url), 'utf8');
-  const bar = readFileSync(new URL('./components/JourneyBar.jsx', import.meta.url), 'utf8');
+  const bar = readFileSync(new URL('./components/JourneySpine.jsx', import.meta.url), 'utf8');
   assert.match(app, /journeyState\(\{[^}]*picked: pickedCandidate\(surface, selection\)[^}]*\}\)/);
-  assert.match(app, /<JourneyBar surface=\{surface\} lastEval=\{lastEval\} selection=\{selection\} \/>/);
-  assert.match(bar, /export function JourneyBar\(\{ surface, lastEval, selection \}\)/);
+  assert.match(app, /<JourneySpine surface=\{surface\} lastEval=\{lastEval\} selection=\{selection\}/);
+  assert.match(bar, /export function JourneySpine\(\{ surface, lastEval, selection, compact = false \}\)/);
   assert.match(bar, /journeyState\(\{[^}]*picked: pickedCandidate\(surface, selection\)[^}]*\}\)/);
   assert.match(bar, /\[s, plan, lastEval, surface, selection\]/, 'the memo is keyed on the pick');
 });
@@ -531,4 +531,30 @@ test('the words that are glossary terms say what their records say', (t) => {
   for (const k of ['fatal', 'serious', 'unjudged']) {
     assert.equal(JOURNEY_WORDS.counts[k], termOf(JOURNEY_TERMS[k]), k);
   }
+});
+
+/* Phase 17's audit: the spine's header said each state word was held to its `journey-state-*`
+   record here, and nothing was. Both directions now, read off the glossary's own files. */
+test('every fixed state word is one glossary record, and every journey-state record is one word', async () => {
+  const { readdirSync, readFileSync } = await import('node:fs');
+  const { STATE_RECORDS } = await import('./journey/journey.js');
+  const dir = new URL('../../../glossary/', import.meta.url);
+  const records = Object.fromEntries(readdirSync(dir).filter((f) => f.startsWith('journey-state-'))
+    .map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8'))).map((r) => [r.id, r.term]));
+  assert.deepEqual(Object.values(STATE_RECORDS).sort(), Object.keys(records).sort(), 'one word per record, no record left over');
+  for (const [word, id] of Object.entries(STATE_RECORDS)) assert.equal(records[id], word, id);
+  const fixed = [];
+  const walk = (o) => { for (const v of Object.values(o)) { if (typeof v === 'string') fixed.push(v); } };
+  for (const k of ['brief', 'plan', 'drawings', 'export']) walk(JOURNEY_WORDS[k]);
+  for (const k of ['failed', 'expired', 'none']) fixed.push(JOURNEY_WORDS.candidates[k]);
+  const judgments = new Set(['refused']);   // drawn as JOURNEY_TERMS' record
+  assert.deepEqual([...new Set(fixed)].filter((w) => !judgments.has(w) && !STATE_RECORDS[w]), [],
+    'a fixed state word with no record');
+});
+
+// the by-hand scan, as one function the scan above and its twin below both call: the shared lexer
+const readsPlanByHand = (src) => /\bcheck\s*\??\.\s*plan\b/.test(lexStrip(src));
+test('the by-hand scan reads past a string holding "/*" (the second audit of Phase 17)', () => {
+  assert.ok(readsPlanByHand('<input accept="image/*" /> const p = check.plan; {/* c */}'));
+  assert.ok(!readsPlanByHand('/* check.plan */ const p = 1;'), 'and a mention in a comment is not a read');
 });

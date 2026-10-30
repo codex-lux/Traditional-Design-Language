@@ -23,6 +23,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { stripComments as lexStrip } from './sourceReader.mjs';
 
 const SRC = new URL('./', import.meta.url);
 
@@ -51,8 +52,9 @@ function sources() {
    that starts a line or follows whitespace -- so `'http://'` inside a string survives. Prose that
    says "fetch" is not a fetch. */
 export function code(text) {
-  return text.replace(/\/\*[\s\S]*?\*\//g, ' ')
-    .split('\n').map((l) => l.replace(/(^|\s)\/\/.*$/, '$1')).join('\n');
+  // the shared lexer (Phase 17's audit): the regex this used read Transcription's
+  // `accept="image/*"` as opening a comment and blanked its lines 437 to 516
+  return lexStrip(text);
 }
 
 const rel = (u) => u.pathname.slice(SRC.pathname.length);
@@ -91,4 +93,11 @@ test('the reader of code tells a call from a sentence about one', () => {
   assert.ok(!NETWORK.test(code("// the fetch(url) the client makes\nconst a = 1;")));
   assert.ok(!NETWORK.test(code("{/* fetch('/api') */}")));
   assert.ok(!NETWORK.test(code('api.fetchOnce(); refetch();')), 'a name containing fetch is not fetch(');
+});
+
+/* The second audit of Phase 17: moved onto the shared lexer, and this file stayed green on the old
+   regex too, because no live source carries the trap today. The twin proves the reader is needed. */
+test('a fetch after a string holding "/*" is still read as code', () => {
+  assert.ok(NETWORK.test(code('<input accept="image/*" /> {/* a comment */} const x = () => fetch("/api/x");')));
+  assert.ok(!NETWORK.test(code('/* fetch("/api/x") */ const y = 1;')), 'and a fetch in a comment is not a call');
 });
