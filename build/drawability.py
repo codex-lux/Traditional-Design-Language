@@ -66,9 +66,6 @@ def _m(name):
 
 PROVEN, UNDECIDED, MISMATCH, SEARCH = "PROVEN", "UNDECIDED", "MISMATCH", "SEARCH"
 
-# The prover's own words for a fact it released WITH a proof (`geometry_cp.py`'s `how` strings).
-PROOF_PHRASE = "proven — restored alone"
-
 # typefacts' fact name -> the prover's rank name (`geometry_cp._RANK`)
 _PROVER_KIND = {"tiling": "tiling", "stacks": "stack", "bearing": "bearing", "hearth": "hearth"}
 
@@ -179,14 +176,18 @@ def _class_of(fact, plan):
     pf = (sv.get("facts") or {}).get(kind) or {}
     if pf.get("status") == "held":
         return MISMATCH                       # the model held it; the gate measured otherwise
-    # A release counts as PROVEN only where the prover wrote the proof down for this kind
-    # ("proven -- restored alone, no placement exists"); a release off a conflict core or an
-    # undecided scout is "carried", and a release with no word either way is no proof either.
-    # THE EXACT PHRASE, and the first version's bare "proven" was a false positive measured on its
-    # first run: the CARRIED note reads "not individually re-proven in budget", which contains
-    # the word, so every carried release read as proven.
-    if any(PROOF_PHRASE in str(n) and kind in str(n).lower()
-           for n in (sv.get("refinements") or [])):
+    # READ FROM STRUCTURE, NEVER FROM PROSE (the audit of Phase 17, 30 Oct 2026, finding 14). The
+    # prover files every downgraded label of a fact `proven` (refuted alone at this footprint) or
+    # `carried` (released off a conflict core or an undecided round and never re-proven), in
+    # `geometry_cp.facts_account`, from the same set its per-pin notes are written from. A fact is
+    # PROVEN only where EVERY downgraded label of it is proven; one carried label makes it
+    # UNDECIDED. A record from before the split carries neither list and is UNDECIDED: no
+    # structure, and prose is not read for a proof. The prose reading this replaces --
+    # any(PROOF_PHRASE in note and kind in note) over `solver.refinements` -- made a fact with one
+    # proven and one carried bearing axis PROVEN, and read a proven hearth release (whose note
+    # names the room's fire and never the word "hearth") UNDECIDED.
+    down = set(pf.get("downgraded") or [])
+    if down and not pf.get("carried") and down <= set(pf.get("proven") or []):
         return PROVEN
     return UNDECIDED
 
@@ -246,6 +247,10 @@ def assess(plan):
         verdict = DRAWABLE
     sv = (p.get("geometry_report") or {}).get("solver") or {}
     return {"id": p.get("id"), "engine": sv.get("engine"), "solver_status": sv.get("status"),
+            # how the prover RAN (the audit of Phase 17, finding 13): a portfolio's verdict is a
+            # statement about the workers it had, so the row carries them beside the status
+            "workers": sv.get("workers"), "workers_available": sv.get("workers_available"),
+            "mode": sv.get("mode"),
             "facts": status, "downgraded": down, "refusal_class": classes,
             "refused_kind": (refused or {}).get("kind"),
             "continuity_whole_run": whole_run,

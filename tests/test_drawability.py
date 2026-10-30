@@ -144,20 +144,125 @@ def _refused_record(engine, refinements=(), prover_fact=None):
     return plan
 
 
+PROOF_NOTE = "(proven — restored alone, no placement exists)"   # the prover's `how` for a proof
+
+
 def test_a_carried_release_is_undecided_even_though_its_note_says_re_proven():
     """The first version matched "proven" and read every carried release as PROVEN, because the
-    carried note reads "not individually re-proven in budget"."""
+    carried note reads "not individually re-proven in budget". Since the audit of Phase 17
+    (finding 14) the class is read from the prover's structure, and a carried label is UNDECIDED
+    whatever its note says."""
     note = ("Landing's declared stack over Stair Hall could not land together with the other "
             "declared facts (carried — off a conflict core or an undecided round, not "
             "individually re-proven in budget) — downgraded")
-    a = DR.assess(_refused_record("cp-sat", [note]))
+    fact = {"status": "downgraded", "downgraded": ["L1 c"], "proven": [], "carried": ["L1 c"]}
+    a = DR.assess(_refused_record("cp-sat", [note], fact))
     assert a["refusal_class"] == {"stacks": DR.UNDECIDED}, a["refusal_class"]
 
 
 def test_a_release_with_the_provers_proof_is_proven():
-    note = ("Landing's declared stack over Stair Hall could not land together with the other "
-            "declared facts (proven — restored alone, no placement exists) — downgraded")
-    assert DR.assess(_refused_record("cp-sat", [note]))["refusal_class"] == {"stacks": DR.PROVEN}
+    """Structure alone: the label is in `proven` and nothing is carried. No note is handed over,
+    so a reader that went back to the prose could not find the proof."""
+    fact = {"status": "downgraded", "downgraded": ["L1 c"], "proven": ["L1 c"], "carried": []}
+    assert DR.assess(_refused_record("cp-sat", [], fact))["refusal_class"] == {"stacks": DR.PROVEN}
+
+
+# --- the class read from structure, never from prose (the audit of Phase 17, finding 14) -----
+# `geometry_cp.facts_account` files every downgraded label `proven` or `carried`, from the set
+# its per-pin notes are written from. Each record below hands the reader a note the OLD prose
+# reading -- any(PROOF_PHRASE in note and kind in note.lower()) -- would decide on, so each test
+# is red on that reader for its own reason.
+
+def _bearing_refused(prover_fact, refinements=()):
+    """One ground room spans 20 ft and the upper floor puts a wall at x = 10 over open floor:
+    bearing is DOWNGRADED and is the only refused fact (the fire on the W gable holds)."""
+    plan = _every_fact_held()
+    plan["levels"][0]["rooms"] = [_room("a", 0, 0, 20, 10)]
+    plan["levels"][0]["rooms"][0]["hearth"] = [{"wall": "W"}]
+    for r in plan["levels"][1]["rooms"]:
+        r.pop("stacks_over", None)
+    STK = _mod("build/stacking.py", "stacking_dr_bear")
+    plan["geometry_report"] = {"stacking": STK.report(plan),
+                               "solver": {"engine": "cp-sat", "refinements": list(refinements),
+                                          "facts": {"bearing": prover_fact}}}
+    return plan
+
+
+def _hearth_refused(prover_fact, refinements=(), name="Parlor"):
+    """The fire moves to room b's W wall, ten feet inboard of the gable the massing puts its
+    flues on: hearth is DOWNGRADED and is the only refused fact."""
+    plan = _every_fact_held()
+    plan["levels"][0]["rooms"][0].pop("hearth")
+    plan["levels"][0]["rooms"][1]["hearth"] = [{"wall": "W"}]
+    plan["levels"][0]["rooms"][1]["name"] = name
+    STK = _mod("build/stacking.py", "stacking_dr_hearth")
+    plan["geometry_report"] = {"stacking": STK.report(plan),
+                               "solver": {"engine": "cp-sat", "refinements": list(refinements),
+                                          "facts": {"hearth": prover_fact}}}
+    return plan
+
+
+def test_one_proven_and_one_carried_bearing_axis_is_undecided():
+    """(a) The old reader found the proof note for the x axis and called the whole fact PROVEN,
+    though the y axis was carried off a conflict core and never re-proven."""
+    fact = {"status": "downgraded", "downgraded": ["element 0 x", "element 0 y"],
+            "proven": ["element 0 x"], "carried": ["element 0 y"]}
+    note = f"Bearing line element 0 x could not co-hold with the other declared facts {PROOF_NOTE}"
+    a = DR.assess(_bearing_refused(fact, [note]))
+    assert a["downgraded"] == ["bearing"], a
+    assert a["refusal_class"] == {"bearing": DR.UNDECIDED}, a["refusal_class"]
+
+
+def test_a_proven_hearth_release_is_proven_though_its_note_never_says_hearth():
+    """(b) The prover's note for a hearth pin names the room's fire, not the word "hearth", so the
+    old reader read a proven hearth release UNDECIDED."""
+    fact = {"status": "downgraded", "downgraded": ["L0 b W"], "proven": ["L0 b W"], "carried": []}
+    note = f"Parlor's fire on its W wall could not stand on the flue face {PROOF_NOTE}"
+    assert "hearth" not in note.lower()
+    a = DR.assess(_hearth_refused(fact, [note]))
+    assert a["downgraded"] == ["hearth"], a
+    assert a["refusal_class"] == {"hearth": DR.PROVEN}, a["refusal_class"]
+
+
+def test_a_carried_hearth_in_a_room_named_hearth_room_is_undecided():
+    """(c) The old reader's bare substring: a room NAMED "Hearth Room" whose note carries the proof
+    phrase (for some other pin) made a carried hearth release read PROVEN."""
+    fact = {"status": "downgraded", "downgraded": ["L0 b W"], "proven": [], "carried": ["L0 b W"]}
+    note = f"Hearth Room's declared W wall could not hold with the other declared facts {PROOF_NOTE}"
+    a = DR.assess(_hearth_refused(fact, [note], name="Hearth Room"))
+    assert a["refusal_class"] == {"hearth": DR.UNDECIDED}, a["refusal_class"]
+
+
+def test_a_record_from_before_the_split_is_undecided_whatever_its_prose_says():
+    """(d) A prover record with no `proven`/`carried` lists carries no structure, and prose is not
+    read for a proof: UNDECIDED, even beside a note the old reader would have taken."""
+    fact = {"status": "downgraded", "downgraded": ["L0 b W"]}
+    note = f"the hearth of Parlor on its W wall {PROOF_NOTE}"
+    a = DR.assess(_hearth_refused(fact, [note]))
+    assert a["refusal_class"] == {"hearth": DR.UNDECIDED}, a["refusal_class"]
+
+
+def test_a_downgraded_label_filed_in_neither_list_is_no_proof():
+    """EVERY downgraded label must be in `proven`. On a record the prover wrote whole, `proven`
+    and `carried` partition `downgraded`, so "nothing carried" and "all proven" coincide; this
+    record files one axis in neither list, and the reader must not read the other axis's proof
+    as the fact's. (Written because a mutation reading ANY proven label stayed green on (a): the
+    carried clause shielded it.)"""
+    fact = {"status": "downgraded", "downgraded": ["element 0 x", "element 0 y"],
+            "proven": ["element 0 x"], "carried": []}
+    a = DR.assess(_bearing_refused(fact))
+    assert a["refusal_class"] == {"bearing": DR.UNDECIDED}, a["refusal_class"]
+
+
+def test_assess_carries_how_the_prover_ran():
+    """Finding 13: a portfolio's verdict is a statement about the workers it had, so the row names
+    them beside the status -- and a record that does not say reads None, never a guess."""
+    plan = _hearth_refused({"status": "downgraded", "downgraded": ["L0 b W"]})
+    plan["geometry_report"]["solver"].update(workers=4, workers_available=4, mode="portfolio")
+    a = DR.assess(plan)
+    assert (a["workers"], a["workers_available"], a["mode"]) == (4, 4, "portfolio"), a
+    b = DR.assess(_hearth_refused({"status": "downgraded", "downgraded": ["L0 b W"]}))
+    assert (b["workers"], b["workers_available"], b["mode"]) == (None, None, None), b
 
 
 def test_a_fact_the_prover_held_and_the_gate_refused_is_a_mismatch():
