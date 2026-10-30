@@ -11,9 +11,25 @@ the same six numbers -- which type facts hold, which are released and on what ev
 rooms leave their own band, how many doors the placement could not seat, and whether each upper
 bearing wall really stands on a ground one -- and every one of them was computed by hand, five
 different ways, by five agents. This is the one way, and it is the acceptance instrument of the
-whole phase: a candidate is DRAWABLE only when every judged fact holds (bearing continuity over
-the whole run included, ruling 8 of 29 Oct), no room is over its own proportion ceiling (except a
-room declared over it), and nothing unjudged has been counted as held.
+whole phase.
+
+FOUR VERDICTS, NEVER TWO (the audit of Phase 17, 30 Oct 2026; Lucas's ruling 10 of the same day:
+"an unjudged fact is never called held"):
+
+  DRAWABLE               not refused, no fact downgraded, no room past its own proportion ceiling
+                         (a room the record declares past it, only past its DECLARED ratio),
+                         bearing continuity held over the whole run (ruling 8 of 29 Oct), and
+                         EVERY one of the four facts HELD.
+  DRAWABLE WHERE JUDGED  the same, except that one or more facts could not be judged -- named, in
+                         `unjudged`. A composed house stating no fire has its hearth unjudged; a
+                         one-storey house has no continuity to judge. Neither is held.
+  NOT DRAWABLE           refused, a fact downgraded, a room past its band, or a wall over open floor.
+  COULD NOT EVALUATE     the record carries no placed room, or no `geometry_report` -- a declared
+                         record, or a candidate whose placement was never made. Never drawable.
+
+Until the audit a fact that was UNJUDGED blocked nothing and a record with no placement at all
+read DRAWABLE (every fact unjudged), so "n of N drawable" counted houses nobody had measured.
+`drawable` keeps the strict meaning, and `main()` prints both counts.
 
 IT DECIDES NOTHING THE PRODUCT READS. The refusal a surface obeys is `typefacts.judge`'s, written
 once; this reports beside it, and in particular reports the WHOLE-RUN continuity audit that
@@ -58,10 +74,20 @@ _PROVER_KIND = {"tiling": "tiling", "stacks": "stack", "bearing": "bearing", "he
 
 
 def rooms_over_band(plan):
-    """Placed rooms drawn past the proportion ceiling their own record states, excluding a room
-    the RECORD already declares past it (that is the author's statement, not the placement's).
-    The rule is `geometry.band_violations`', which the search, the prover and the drawn layer
-    share: `shape_band`, corpus bands only, a 0.02 tolerance."""
+    """Placed rooms drawn past the proportion ceiling their own record states. The ceiling is
+    `geometry.shape_band`'s (corpus bands only) with `band_violations`' 0.02 ft slack on the long
+    side, the reading the search, the prover and the drawn layer share.
+
+    A ROOM THE RECORD DECLARES PAST ITS CEILING IS HELD TO ITS DECLARED RATIO, NOT EXEMPTED. That
+    exemption is this instrument's own, from the plan's "except rooms declared over" --
+    `band_violations` and the drawn layer's `drawn-proportion-above-band` have none -- and until the
+    audit of Phase 17 (30 Oct 2026) it SKIPPED such a room whatever was drawn: good-07's living
+    room, declared 16 x 26 (1.62 against a ceiling of 1.6), drawn 8 x 52 read as no room over band,
+    and on the search's placement of `bad-05` the upper hall, declared 2.40 against 2.2, is drawn
+    2.87 and was hidden. `no_worse` reads this count for ruling 6's comparison, so the exemption
+    decided whether a search was drawn over a refused proof. The record's call is honoured as the
+    record states it and no further: such a room counts once it is drawn past its DECLARED ratio,
+    with the same 0.02 ft slack, and the row carries `declared_ratio`."""
     G = _m("geometry")
     out = []
     for lv in plan.get("levels") or []:
@@ -73,13 +99,18 @@ def rooms_over_band(plan):
             if src != "corpus":
                 continue
             w, h = float(g["width_ft"]), float(g["depth_ft"])
-            if max(w, h) <= ceil * max(min(w, h), 1e-9) + 0.02:
-                continue
+            limit, declared = ceil, None
             dw, dl = r.get("width_ft"), r.get("length_ft")
             if dw and dl and max(dw, dl) > ceil * min(dw, dl) + 0.02:
-                continue                      # declared over its own band: the record's call
-            out.append({"room": r["id"], "type": r.get("type"), "drawn": [round(w, 2), round(h, 2)],
-                        "ratio": round(max(w, h) / max(min(w, h), 1e-9), 2), "ceiling": ceil})
+                declared = max(dw, dl) / min(dw, dl)   # the record's call, and no further
+                limit = declared
+            if max(w, h) <= limit * max(min(w, h), 1e-9) + 0.02:
+                continue
+            row = {"room": r["id"], "type": r.get("type"), "drawn": [round(w, 2), round(h, 2)],
+                   "ratio": round(max(w, h) / max(min(w, h), 1e-9), 2), "ceiling": ceil}
+            if declared is not None:
+                row["declared_ratio"] = round(declared, 2)
+            out.append(row)
     return out
 
 
@@ -95,13 +126,17 @@ def doors_unplaced(plan):
     return sorted(pairs)
 
 
-SIZE_TOL = 0.10   # a room drawn more than a tenth under the area its record declares
-
-
-def rooms_undersize(plan, tol=SIZE_TOL):
-    """Placed rooms drawn more than `tol` under the area their record DECLARES (width x length).
+def rooms_undersize(plan):
+    """Placed rooms drawn a tenth or more under the area their record DECLARES (width x length).
     Under and never over: decision 11 orders the footprint to grow before a room is compromised,
-    and a room drawn larger than declared has compromised nothing of its own."""
+    and a room drawn larger than declared has compromised nothing of its own.
+
+    THE TENTH IS THE DRAWN LAYER'S, CALLED AND NOT RESTATED (the audit of Phase 17, 30 Oct 2026):
+    `plan_check.drawn_vs_declared_pct`. This carried its own `got < want * 0.9`, strictly MORE than
+    a tenth, while the drawn layer convicts at a tenth or more -- so a room drawn at exactly -10%
+    (the shipped Tidewater kitchen and library land there) was a `drawn-vs-declared` finding on the
+    sheet and 0 in the comparison ruling 6 rests on. Only the sign is this function's."""
+    PC = _m("plan_check")
     out = []
     for lv in plan.get("levels") or []:
         for r in lv.get("rooms") or []:
@@ -109,8 +144,10 @@ def rooms_undersize(plan, tol=SIZE_TOL):
             if not (g and dw and dl):
                 continue
             got, want = float(g["width_ft"]) * float(g["depth_ft"]), float(dw) * float(dl)
-            if got < want * (1.0 - tol):
-                out.append({"room": r["id"], "declared_sf": round(want, 1), "drawn_sf": round(got, 1)})
+            pct = PC.drawn_vs_declared_pct(want, got)
+            if pct is not None and pct < 0:
+                out.append({"room": r["id"], "declared_sf": round(want, 1),
+                            "drawn_sf": round(got, 1), "pct": round(pct, 1)})
     return out
 
 
@@ -154,10 +191,36 @@ def _class_of(fact, plan):
     return UNDECIDED
 
 
+DRAWABLE = "DRAWABLE"
+DRAWABLE_WHERE_JUDGED = "DRAWABLE WHERE JUDGED"
+NOT_DRAWABLE = "NOT DRAWABLE"
+COULD_NOT_EVALUATE = "COULD NOT EVALUATE"
+VERDICTS = (DRAWABLE, DRAWABLE_WHERE_JUDGED, NOT_DRAWABLE, COULD_NOT_EVALUATE)
+FACTS = ("tiling", "stacks", "bearing", "hearth")
+
+
+def _not_evaluable(plan):
+    """Why this record cannot be assessed at all, or `None`. A record carrying no placed room has
+    nothing to measure, and one carrying no `geometry_report` was placed by no engine: re-judging
+    either reads every fact it cannot measure as unjudged, which until the audit of Phase 17 counted
+    toward DRAWABLE."""
+    placed = any((r or {}).get("geometry") for lv in plan.get("levels") or []
+                 for r in (lv.get("rooms") or []))
+    if not placed:
+        return ("the record carries no placed room -- a declared record, or a candidate whose "
+                "placement was never made")
+    if not plan.get("geometry_report"):
+        return "the record carries no geometry_report: no engine placed it"
+    return None
+
+
 def assess(plan):
-    """The six numbers for one PLACED record. The record is copied and re-judged by
-    `typefacts.judge`, the one verdict, so a stale `refused` on the input cannot leak through."""
+    """The six numbers for one PLACED record, and one of the four VERDICTS. The record is copied
+    and re-judged by `typefacts.judge`, the one verdict, so a stale `refused` on the input cannot
+    leak through. `drawable` is True for DRAWABLE alone, the strict state; `unjudged` names every
+    fact that could not be judged, which DRAWABLE WHERE JUDGED is conditional on."""
     TF = _m("typefacts")
+    why_not = _not_evaluable(plan)
     p = copy.deepcopy(plan)
     refused = TF.judge(p)
     facts = (p.get("geometry_report") or {}).get("type_facts") or {}
@@ -168,8 +231,19 @@ def assess(plan):
     down = sorted(k for k, v in status.items() if v == "downgraded")
     classes = {k: _class_of(k, p) for k in down}
     whole_run = None if ext is None else ext.get("status")
-    drawable = (not refused and not down and not over
-                and whole_run in ("held", "unjudged", None))
+    # Every fact the status block does not call HELD or DOWNGRADED is unjudged, by name -- a fact
+    # missing from the block included, never held by its absence.
+    unjudged = [k for k in FACTS if status.get(k) not in (TF.HELD, TF.DOWNGRADED)]
+    if whole_run not in (TF.HELD, TF.DOWNGRADED) and "bearing" not in unjudged:
+        unjudged.append("continuity_whole_run")   # held positionally, its run never judged
+    if why_not:
+        verdict = COULD_NOT_EVALUATE
+    elif refused or down or over or whole_run == TF.DOWNGRADED:
+        verdict = NOT_DRAWABLE
+    elif unjudged:
+        verdict = DRAWABLE_WHERE_JUDGED
+    else:
+        verdict = DRAWABLE
     sv = (p.get("geometry_report") or {}).get("solver") or {}
     return {"id": p.get("id"), "engine": sv.get("engine"), "solver_status": sv.get("status"),
             "facts": status, "downgraded": down, "refusal_class": classes,
@@ -177,15 +251,39 @@ def assess(plan):
             "continuity_whole_run": whole_run,
             "continuity_lines": (ext or {}).get("lines"),
             "rooms_over_band": over, "doors_unplaced": doors,
-            "drawable": bool(drawable)}
+            "verdict": verdict, "unjudged": unjudged, "could_not_evaluate": why_not,
+            "drawable": verdict == DRAWABLE}
 
 
 def _row(a, label=None):
-    tag = "DRAWABLE" if a["drawable"] else "refused" if a["downgraded"] or a["refused_kind"] else "not drawable"
+    tag = a["verdict"]
+    if tag == NOT_DRAWABLE and (a["downgraded"] or a["refused_kind"]):
+        tag += " (refused)"
+    elif tag == DRAWABLE_WHERE_JUDGED:
+        tag += " (" + ", ".join(a["unjudged"]) + " unjudged)"
     cls = ", ".join(f"{k}:{v}" for k, v in a["refusal_class"].items()) or "-"
-    return (f"{(label or a['id'] or '?')[:34]:34s} {tag:12s} engine={a['engine'] or '-':10s} "
+    tail = f" -- {a['could_not_evaluate']}" if a["verdict"] == COULD_NOT_EVALUATE else ""
+    return (f"{(label or a['id'] or '?')[:34]:34s} {tag:24s} engine={a['engine'] or '-':10s} "
             f"facts[{cls}] whole-run={a['continuity_whole_run']} "
-            f"over-band={len(a['rooms_over_band'])} doors-unplaced={len(a['doors_unplaced'])}")
+            f"over-band={len(a['rooms_over_band'])} doors-unplaced={len(a['doors_unplaced'])}{tail}")
+
+
+def summary(rows):
+    """BOTH counts, never one (ruling 10 of 30 Oct 2026): the houses DRAWABLE with every fact held,
+    and the houses drawable only where judged, with the unjudged facts named and counted -- then
+    the not drawable and the could-not-evaluate, so the four add up to the whole set."""
+    n = len(rows)
+    by = {v: [a for a in rows if a["verdict"] == v] for v in VERDICTS}
+    unj = {}
+    for a in by[DRAWABLE_WHERE_JUDGED]:
+        for k in a["unjudged"]:
+            unj[k] = unj.get(k, 0) + 1
+    where = ", ".join(f"{k} unjudged on {c}" for k, c in sorted(unj.items()))
+    return (f"{len(by[DRAWABLE])} of {n} DRAWABLE (every fact held); "
+            f"{len(by[DRAWABLE_WHERE_JUDGED])} of {n} drawable where judged"
+            + (f" ({where})" if where else "")
+            + f"; {len(by[NOT_DRAWABLE])} not drawable; "
+              f"{len(by[COULD_NOT_EVALUATE])} could not evaluate")
 
 
 def main(argv=None):
@@ -218,8 +316,7 @@ def main(argv=None):
     else:
         for label, r in rows:
             print(_row(r, label))
-        n = sum(1 for _, r in rows if r["drawable"])
-        print(f"\n{n} of {len(rows)} drawable")
+        print("\n" + summary([r for _, r in rows]))
     return 0
 
 

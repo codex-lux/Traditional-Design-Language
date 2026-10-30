@@ -8,6 +8,7 @@ whether each upper bearing wall stands on a ground bearing wall over its WHOLE r
 """
 import copy
 import importlib.util
+import json
 import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -169,11 +170,82 @@ def test_the_search_is_named_as_the_search():
 
 
 def test_assess_rejudges_and_ignores_a_stale_verdict_on_its_input():
+    """Its subject is the stale `refused`, which `typefacts.judge` overwrites. Re-cut by the audit
+    of Phase 17 (30 Oct 2026): this record's stacks and hearth are UNJUDGED (it declares no stack
+    and states no fire), and the test asserted `drawable` on it -- the one test that pinned the
+    collapse of unjudged into held (a mutation requiring every fact HELD turned exactly it red).
+    It reads DRAWABLE WHERE JUDGED now, with the two facts named, and is not `drawable`."""
     plan = _house([_room("a", 0, 0, 10, 10), _room("b", 10, 0, 10, 10)], UPPER_FULL)
     plan["geometry_report"] = {"stacking": {"claims": 0, "kept": [], "broken": [], "unjudged": []},
                                "refused": {"kind": "infeasible", "facts": ["tiling"]}}
     a = DR.assess(plan)
-    assert a["refused_kind"] is None and a["drawable"], a
+    assert a["refused_kind"] is None, a
+    assert a["facts"] == {"tiling": "held", "stacks": "unjudged", "bearing": "held",
+                          "hearth": "unjudged"}, a["facts"]
+    assert a["verdict"] == DR.DRAWABLE_WHERE_JUDGED and a["unjudged"] == ["stacks", "hearth"], a
+    assert not a["drawable"], "an unjudged fact was counted as held (ruling 10, 30 Oct 2026)"
+
+
+def _every_fact_held():
+    """Two stacks that land, a fire on the W gable under a massing that puts its flues there,
+    a whole-run bearing wall at x = 10 over a ground wall at x = 10, and both floors tiled."""
+    ground = [_room("a", 0, 0, 10, 10), _room("b", 10, 0, 10, 10)]
+    ground[0]["hearth"] = [{"wall": "W"}]
+    upper = copy.deepcopy(UPPER_FULL)
+    upper[0]["stacks_over"], upper[1]["stacks_over"] = "a", "b"
+    plan = _house(ground, upper)
+    plan["massing"] = "four-over-four"
+    STK = _mod("build/stacking.py", "stacking_dr_held")
+    plan["geometry_report"] = {"stacking": STK.report(plan)}
+    return plan
+
+
+def test_a_house_with_every_fact_held_is_drawable_in_the_strict_sense():
+    a = DR.assess(_every_fact_held())
+    assert a["facts"] == {k: "held" for k in DR.FACTS}, a["facts"]
+    assert a["continuity_whole_run"] == "held"
+    assert a["verdict"] == DR.DRAWABLE and a["unjudged"] == [] and a["drawable"], a
+
+
+def test_one_unjudged_fact_takes_a_house_from_drawable_to_drawable_where_judged():
+    """The control for the case above: the same house with its fire withdrawn reads its hearth
+    UNJUDGED ("states no hearth"), and that alone moves the verdict. An unjudged fact is never
+    held, and it is not a refusal either -- `refused_kind` stays None."""
+    plan = _every_fact_held()
+    plan["levels"][0]["rooms"][0].pop("hearth")
+    a = DR.assess(plan)
+    assert a["facts"]["hearth"] == "unjudged" and a["refused_kind"] is None
+    assert a["verdict"] == DR.DRAWABLE_WHERE_JUDGED and a["unjudged"] == ["hearth"]
+    assert not a["drawable"]
+
+
+def test_a_record_with_no_placement_could_not_be_evaluated_and_is_never_drawable():
+    """THE AUDIT OF PHASE 17 (30 Oct 2026). A record with no placed room read every fact unjudged,
+    and an unjudged fact blocked nothing, so the shipped Tidewater record AS DECLARED and an empty
+    record both read DRAWABLE -- and `main --brief` counted a candidate the set's budget never
+    placed in "n of N drawable"."""
+    for plan in ({"id": "x", "levels": []},
+                 json.loads((ROOT / "plans" / "tidewater-georgian-careful.json").read_text())):
+        a = DR.assess(plan)
+        assert a["verdict"] == DR.COULD_NOT_EVALUATE and not a["drawable"], (plan["id"], a)
+        assert "no placed room" in a["could_not_evaluate"]
+    placed_by_nobody = _house([_room("a", 0, 0, 10, 10), _room("b", 10, 0, 10, 10)], UPPER_FULL)
+    a = DR.assess(placed_by_nobody)
+    assert a["verdict"] == DR.COULD_NOT_EVALUATE and "geometry_report" in a["could_not_evaluate"]
+
+
+def test_main_prints_both_counts_and_the_four_add_up():
+    rows = [DR.assess(_every_fact_held())]
+    held_but_hearth = _every_fact_held()
+    held_but_hearth["levels"][0]["rooms"][0].pop("hearth")
+    rows.append(DR.assess(held_but_hearth))
+    rows.append(DR.assess(_refused_record("heuristic")))
+    rows.append(DR.assess({"id": "x", "levels": []}))
+    line = DR.summary(rows)
+    assert line.startswith("1 of 4 DRAWABLE (every fact held); 1 of 4 drawable where judged "
+                           "(hearth unjudged on 1)"), line
+    assert line.endswith("1 not drawable; 1 could not evaluate"), line
+    assert [a["verdict"] for a in rows] == list(DR.VERDICTS)
 
 
 def test_a_room_drawn_past_its_band_is_counted_and_one_declared_past_it_is_not():
@@ -189,6 +261,45 @@ def test_a_room_drawn_past_its_band_is_counted_and_one_declared_past_it_is_not()
     plan2 = copy.deepcopy(plan)
     plan2["levels"][0]["rooms"][0]["geometry"].update(width_ft=12, depth_ft=10)
     assert DR.rooms_over_band(plan2) == []
+
+
+def test_a_room_declared_past_its_band_is_held_to_its_declared_ratio_and_no_further():
+    """THE AUDIT OF PHASE 17 (30 Oct 2026). The declared-over exemption SKIPPED the room whatever
+    was drawn: good-07's living room, declared 16 x 26 (1.62 against a ceiling of 1.6), drawn
+    8 x 52 (6.5 to 1) read as no room over band -- and `no_worse` reads this count for ruling 6."""
+    G = _mod("build/geometry.py", "geometry_dr2")
+    ceil, src = G.shape_band("living-room")
+    assert src == "corpus" and ceil < 26 / 16, "the premise: 16 x 26 is declared past the ceiling"
+    r = _room("l", 0, 0, 8, 52, "living-room")
+    r.update(width_ft=16, length_ft=26)
+    sliver = _house([r], [], W=8, H=52)
+    (row,) = DR.rooms_over_band(sliver)
+    assert row["room"] == "l" and row["declared_ratio"] == 1.62 and row["ratio"] == 6.5, row
+    as_declared = copy.deepcopy(sliver)
+    as_declared["levels"][0]["rooms"][0]["geometry"].update(width_ft=16, depth_ft=26)
+    assert DR.rooms_over_band(as_declared) == [], "drawn AT its declared ratio is the record's call"
+    the_dining = _house([dict(_room("d", 0, 0, 3, 60, "dining-room"), width_ft=6, length_ft=30)], [])
+    assert [o["room"] for o in DR.rooms_over_band(the_dining)] == ["d"], (
+        "declared 6 x 30 and drawn 3 x 60 is past its declared 5 to 1")
+
+
+def test_the_tenth_is_the_drawn_layers_and_an_exact_tenth_is_counted_by_both():
+    """THE AUDIT OF PHASE 17 (30 Oct 2026). `rooms_undersize` carried its own `got < want * 0.9`
+    (strictly more than a tenth) while the drawn layer convicts at a tenth OR MORE; a room drawn at
+    exactly -10% was a finding on the sheet and 0 in ruling 6's comparison. One comparison now,
+    `plan_check.drawn_vs_declared_pct`, held here against the drawn layer's own finding."""
+    PC = _mod("build/plan_check.py", "plan_check_dr")
+    plan = {"id": "t", "style": "tidewater-georgian",
+            "footprint": {"width_ft": 20, "depth_ft": 10, "bay_module_ft": 10},
+            "levels": [{"index": 0, "rooms": [
+                dict(_room("k", 0, 0, 9, 10, "kitchen"), width_ft=10, length_ft=10),
+                dict(_room("p", 9, 0, 11, 10), width_ft=11, length_ft=10)]}]}
+    assert PC.drawn_vs_declared_pct(100.0, 90.0) == -10.0
+    assert PC.drawn_vs_declared_pct(100.0, 90.01) is None
+    found = [f["room"] for f in PC.check(plan)["findings"] if f.get("kind") == "drawn-vs-declared"]
+    assert found == ["k"], found
+    assert [r["room"] for r in DR.rooms_undersize(plan)] == ["k"], (
+        "the drawn layer convicts an exact tenth and the never-downgrade count did not")
 
 
 def test_doors_unplaced_are_counted_once_per_pair():

@@ -542,6 +542,32 @@ def _with_dispositions(rows, withheld=None):
     return out
 
 
+# THE TENTH: how far a drawn room's area may differ from the area its record declares before the
+# sheet and the record are said to disagree (`drawn-vs-declared`). ONE SPELLING (the audit of
+# Phase 17, 30 Oct 2026): `drawability.rooms_undersize`, which ruling 6's never-downgrade
+# comparison rests on, carried a second copy (`got < want * 0.9`, strictly MORE than a tenth)
+# while this layer convicted at a tenth OR MORE -- so a room drawn at exactly -10% was a finding
+# here and nothing there, and the boundary is real rather than hypothetical: on the shipped
+# Tidewater placement the kitchen and the library both land at exactly -10.00%. EDITORIAL: no
+# record states the figure; it is the threshold this layer has convicted at since it was written,
+# and it is named so that a second reader can call it rather than restate it. The `1e-9` absorbs
+# the float rounding of an exact tenth, so -10.00% is a tenth and not a hair under one.
+DRAWN_VS_DECLARED_PCT = 10.0
+
+
+def drawn_vs_declared_pct(declared_sf, drawn_sf):
+    """The signed divergence of a drawn area from a declared one, in per cent, where it is at
+    least DRAWN_VS_DECLARED_PCT; `None` where it is less, or where nothing positive is declared.
+    THE ONE COMPARISON: the drawn layer's `drawn-vs-declared` and `drawability.rooms_undersize`
+    both read it."""
+    if not declared_sf or declared_sf <= 0:
+        return None
+    pct = (drawn_sf - declared_sf) / declared_sf * 100.0
+    if abs(pct) < DRAWN_VS_DECLARED_PCT - 1e-9:
+        return None
+    return pct
+
+
 def drawn_layer(plan, rooms, level_of, C, F):
     """Judge the house that was PLACED, not the one that was declared.
 
@@ -922,10 +948,9 @@ def drawn_layer(plan, rooms, level_of, C, F):
         da, pa = dw * dl, g["width_ft"] * g["depth_ft"]
         if da <= 0:
             continue
-        pct = (pa - da) / da * 100.0
-        # a tenth OR MORE. The boundary is real rather than hypothetical: on the shipped
-        # Tidewater placement the kitchen and the library both land at exactly -10.00%.
-        if abs(pct) < 10 - 1e-9:
+        # a tenth OR MORE, read through the one comparison (`drawn_vs_declared_pct`, above).
+        pct = drawn_vs_declared_pct(da, pa)
+        if pct is None:
             continue
         name = r.get("name") or rid
         out["diverged"].append({"room": rid, "pct": round(pct, 1)})
