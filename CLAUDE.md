@@ -98,7 +98,9 @@ JUDGED**: tiling, stacks and bearing held, every bearing wall on a ground wall o
 room in band, every door placed, and the hearth UNJUDGED, because no composed house states a fire. It is
 the first composed two-storey house this corpus may draw. *(Corrected 30 Oct 2026, the audit of Phase 17:
 this sentence said "every fact held", and an unjudged fact is never held.)* The single-pile centre passage
-and the five-part do not decide at the compose budget; the double pile is proven infeasible as composed;
+and the five-part do not decide at the compose budget; the double pile is refused on most draws (one draw of
+nine on Lucas's brief placed it after R13; *corrected 30 Oct 2026, report §XI: "proven infeasible as composed" was true of
+the composition before R13*);
 and the side hall, whose proof predated ruling 5, is placed drawable where judged at 110 s, above the
 compose budget (`oq/the-side-hall-partis-stacks-cannot-co-hold-in-band`, amended).
 - **A placement names the declared record it is of** (`solver.input_digest`); the bench and the Drawing Set
@@ -110,6 +112,31 @@ compose budget (`oq/the-side-hall-partis-stacks-cannot-co-hold-in-band`, amended
 - **The shipped Tidewater record still files `primarybath stacks_over butlers`** while its parti files it
   as a wet stack; re-filing it moved that placement and took the build's reds from 20 to 108. Reported,
   ceiling one: `oq/a-shipped-record-files-a-wet-stack-as-structural`.
+
+**AND WP-17.9 AUDITED THE TRANCHE TWICE ON 30 OCT 2026: READ THE REPORT'S §X AND §XI BEFORE TRUSTING A
+FIGURE ABOVE.** Rulings 9-14 are recorded as question-and-answer acts, and the report and
+`PLAN-OF-ACTION.md`'s Phase 17 board carry them.
+
+What the afternoon's adversarial pass changed:
+
+- **A placement is carried only if THIS server process produced it.** `corpus.remember_placement` /
+  `is_registered` keep a bounded LRU of full-record digests. `declared_digest` is unkeyed, and a
+  forged record had been drawn on it.
+- **The critique re-solves a placement nobody vouched for.** It reads `trusted_placement`, and
+  `revise` vouches only for its own.
+- **The tiling raster has a ceiling** (`typefacts.RASTER_CELLS_MAX`).
+- **An undecided CP answer is not cached.** The Drawing Set keeps one house per set for ten minutes
+  (`corpus._placed`'s recent map).
+- **`drawability.assess` refuses more, and less.** It refuses a partly placed house, an unplaced door
+  pair, and a room past the prover's own size pin (`geometry.SIZE_PIN_FLOOR`). It no longer refuses at
+  the drawn layer's tenth: that gate first convicted every composed house the prover had held inside
+  its pin.
+- **Measured afternoon draws:**
+  - Lucas's brief: 3 not refused, 1 drawable where judged (the side hall).
+  - family-georgian: 2 not refused, 0 drawable where judged.
+  - The morning's 4/3 was the better draw. CP under a wall clock decides the native diagrams about one
+    time in nine on four cores, and that is the open problem, not a defect the audit could fix without
+    loosening a fact.
 
 **PHASE 16 — THE RULINGS OF 29 SEPTEMBER — IS COMPLETE (29 Sep – 3 Oct 2026).** Read `PLAN-OF-ACTION.md`'s
 Phase 16 section before touching:
@@ -1384,7 +1411,7 @@ deferred. §XII covers the guards.
   - **The branch is not yet mergeable.** Main carries a parallel Phase 14, and joining the two is
     the next piece of work. (Joined the same day: see the paragraph on the two Phase 14s above.)
 
-**The test figure in the counts paragraph below is 4,058 and the app suite 820** (4,006 and 816 until Phase 17's first tranche, 29-30 Oct 2026, reconciled BY NAME against a worktree of `6fcc665`: 65 tests added and 3 re-cut away -- the allowance test ruling 4 retired, and the Tidewater W cases moved to the spec Colonial's W face -- and 10 added to the server suite, 467 -> 477; with `ezdxf` installed 14 more collect, as in CI; 3,995 until the parti check's instrument of 16 Oct 2026, which added 11 tests, all in `tests/test_parti_check_judges_the_product_house.py`, and removed none, reconciled by name; the app suite was 814 until the CI fixes of 16 Oct 2026, which added the two row-pitch guards; 3,957 and 804 until the follow-up of 16 Oct 2026, reconciled by name against `e048a89`: 38 Python tests added in `tests/test_refusal_ranks_last.py`, 2 in the rail's server suite, 11 app tests added and 1 re-cut under a new name, none removed. The app suite was 767 until the candidate-click fix of 15-16 Oct 2026, which added nineteen app tests: seven in the first pass and twelve in the pass its audit forced; 786 was the figure written then, and the follow-up's own first commit made it 804 without this line moving). §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
+**The test figure in the counts paragraph below is 4,187 and the app suite 827** (4,076, 820 and a server suite of 478 at `739ff29`, the audit of Phase 17's three blocking fixes; the audit's remaining findings and its second audit, 30 Oct 2026, reconciled BY NAME against a worktree of `739ff29`: 114 tests added and 3 re-cut away -- the portfolio-report test and two wet-stack census tests R9's revert re-cut -- and the server suite 478 -> 502; 4,058 and 820 at Phase 17's first tranche, and before it 4,006 and 816 until Phase 17's first tranche, 29-30 Oct 2026, reconciled BY NAME against a worktree of `6fcc665`: 65 tests added and 3 re-cut away -- the allowance test ruling 4 retired, and the Tidewater W cases moved to the spec Colonial's W face -- and 10 added to the server suite, 467 -> 477; with `ezdxf` installed 14 more collect, as in CI; 3,995 until the parti check's instrument of 16 Oct 2026, which added 11 tests, all in `tests/test_parti_check_judges_the_product_house.py`, and removed none, reconciled by name; the app suite was 814 until the CI fixes of 16 Oct 2026, which added the two row-pitch guards; 3,957 and 804 until the follow-up of 16 Oct 2026, reconciled by name against `e048a89`: 38 Python tests added in `tests/test_refusal_ranks_last.py`, 2 in the rail's server suite, 11 app tests added and 1 re-cut under a new name, none removed. The app suite was 767 until the candidate-click fix of 15-16 Oct 2026, which added nineteen app tests: seven in the first pass and twelve in the pass its audit forced; 786 was the figure written then, and the follow-up's own first commit made it 804 without this line moving). §X.12 (4 Oct 2026) added two guards to `tests/test_determinism.py`, reconciled by name against `630a924`; it was 3,955 before. The audit of
 WP-16.8's own diff (3 Oct 2026) added 71 tests and re-cut 2 away: 53 in the new
 `tests/test_audit_of_wp_16_8.py`, 8 in `tests/test_window_pier.py`, 3 each in `tests/test_roof.py`
 and `tests/test_roof_form.py`, and 1 each in `tests/test_ifc_openings_are_the_sheets.py`,
@@ -2194,8 +2221,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 2044 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 4,058 tests**
-(plus the workbench app suite, **820** under `node --test` (816 until Phase 17's first tranche; 767 until 15 Oct 2026, 804 until 16 Oct 2026's follow-up, 814 until its CI fixes); both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
+proportion packs; 1971 still wanted, and 955 of those can never be harvested) · 14 reference plans · 27 MCP tools · **54 checks, 4,187 tests**
+(plus the workbench app suite, **827** under `node --test` (820 until the audit of Phase 17, 30 Oct 2026; 816 until Phase 17's first tranche; 767 until 15 Oct 2026, 804 until 16 Oct 2026's follow-up, 814 until its CI fixes); both a THIRD VALUE at the merge of the two Phase 14s, 27 Sep 2026, reconciled BY NAME against both parents: the ink line's 3,090 and 316 and main's 2,824 and 659, of which 149 tests and 95 app tests are the ink line's own and 416 and 439 main's. The only tests a parent has and the merge lacks are one base test each line re-cut: main's copy of the transom test, which the ink line re-cut, and the ink line's copy of a compose-events app test, which main re-cut. Main's pair was measured 26 Sep 2026 on WP-14.33's audited tree, the first as the sum of four `--shard i/4` runs in `git worktree`s, 22 failed + 2,777 passed + 25 skipped -- all 22 failures the WP-14.32 baseline's; it read 2,795 and 636 at WP-14.32, where 32 failed + 2,739 passed + 24 skipped, 7 of those failures the shards' `git archive` extracts carrying no `.git`, and 2,746 and 515 at WP-14.15. The app suite had read 210 here since before Phase 12, while the suite grew past five hundred: nothing polices this line). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring

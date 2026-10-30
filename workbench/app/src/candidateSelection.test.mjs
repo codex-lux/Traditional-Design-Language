@@ -341,6 +341,12 @@ test('the strip says both counts in R10\'s order, each word a glossary record', 
   assert.equal(term('judgment-unjudged'), 'unjudged');
   // the composer writes the three keys the leaf reads
   const co = readFileSync(new URL('../../../build/compose.py', import.meta.url), 'utf8');
-  assert.match(co, /return \{"returned": len\(cards\), "not_refused": len\(placed\), "drawable_where_judged": len\(where\),\s*"unjudged_facts":/);
+  // (the audit of 30 Oct 2026 added the refused and not-placed counts to the dict; the pin reads the
+  // three keys inside `set_drawability`'s return, in any order, rather than the dict's spelling)
+  const fn = co.slice(co.indexOf('def set_drawability('), co.indexOf('\ndef ', co.indexOf('def set_drawability(') + 1));
+  const ret = fn.slice(fn.indexOf('return {'));
+  for (const k of ['"returned": len(cards)', '"not_refused": len(placed)', '"drawable_where_judged": len(where)', '"unjudged_facts":']) {
+    assert.ok(ret.includes(k), `set_drawability returns ${k}`);
+  }
   assert.doesNotMatch(src, /function\s+drawabilityView\b/, 'defines none of its own');
 });

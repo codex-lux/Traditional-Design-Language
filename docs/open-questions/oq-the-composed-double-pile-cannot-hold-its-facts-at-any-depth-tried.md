@@ -34,3 +34,24 @@ native diagram for a Tidewater Georgian brief, and the set returns borrowed diag
 ## Not done
 
 Nothing beyond the measurement. A minimised core is the next step, and it was not taken in this tranche.
+
+## Amended 30 October 2026, after R13 (report §XI)
+
+**"Proven infeasible as composed" is withdrawn.** It was true of the composition measured on 29 October.
+R13 then composed the passage to the 8 ft floor its own fault convicts at, and the house changed.
+
+Lucas's brief, compose defaults, one four-core box, nine draws:
+- **One draw placed the double pile**, the morning's compose: FEASIBLE on the prover, no room over band,
+  no door unplaced, hearth unjudged.
+- **Eight refused it**:
+  - the afternoon's compose;
+  - one solve taken under load;
+  - six bare first-placement solves at the compose budget's 60 s, three on `0484917` and three on
+    `25f4857`, the tree before the audit's fixes.
+- Of those eight, most downgraded tiling alone; some also downgraded bearing and stacks.
+
+So the question is no longer whether the house can hold its facts. One draw shows it can. The question
+is whether the prover decides it inside the compose budget on the box it runs on, which it does about
+once in nine. That is the class of `oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio`.
+The three choices above stand. A fourth is now open: a larger per-placement budget for the native
+diagram, which R12's ceiling forbids at four candidates.
