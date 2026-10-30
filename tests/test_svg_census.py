@@ -2347,6 +2347,46 @@ class TestTheGableEndCanDisagree:
             assert [r["verdict"] for r in got] == ["disagrees"] and name in got[0]["detail"] \
                 and "the record marks it a judgment" in got[0]["detail"], (name, got)
 
+
+class TestV11SeesAMissTheSheetDoesNotSay:
+    """V11 DRIVEN (the audit of Phase 17, 30 Oct 2026, finding 52). It sat on `UNDRIVEN` since its
+    census was written, and Phase 17 took its population from three masonry sheets to two with
+    nothing driven in their place: an always-"agrees" V11 left the census equal to its pins. On a
+    worktree of 33652ac its two rows are the tidewater-georgian-careful N and S faces, each saying
+    "N OF N SILLS AND HEADS MISS THE 2.75″ COURSES". Each branch that disagrees is driven on
+    the N face: the legend line taken out (a miss drawn and left unsaid), and its count changed
+    (the sheet says a figure the drawing does not)."""
+    PID, FACE = "tidewater-georgian-careful", "N"
+
+    def _v11(self, monkeypatch, plant):
+        rec = copy.deepcopy(C._sheets()[self.PID])
+        svg = rec["faces"][self.FACE]
+        planted = plant(svg)
+        assert planted != svg, "the plant did not land"
+        rec["faces"] = {self.FACE: planted}
+        monkeypatch.setattr(C, "_sheets", lambda rec=rec: {self.PID: rec})
+        return C.CHECKS["V11"]["fn"]()
+
+    def test_v11_agrees_unplanted_on_the_face_planted_below(self, monkeypatch):
+        """The control: the same face, untouched, judged and agreeing -- so the rows below disagree
+        for the plant and not for the face."""
+        got = self._v11(monkeypatch, lambda s: s + " ")
+        assert [r["verdict"] for r in got] == ["agrees"] and ", said" in got[0]["detail"], got
+
+    def test_v11_sees_a_miss_left_unsaid(self, monkeypatch):
+        got = self._v11(monkeypatch, lambda s: re.sub(
+            r"<text[^>]*>[^<]*SILLS AND HEADS MISS[^<]*</text>", "", s))
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "miss the 2.75 in courses drawn behind them, unsaid" in got[0]["detail"], got
+
+    def test_v11_sees_a_count_the_drawing_does_not_bear(self, monkeypatch):
+        got = self._v11(monkeypatch, lambda s: re.sub(
+            r"(\d+) OF (\d+) SILLS AND HEADS MISS", lambda m: "%d OF %s SILLS AND HEADS MISS" % (
+                int(m.group(1)) - 1, m.group(2)), s, count=1))
+        assert [r["verdict"] for r in got] == ["disagrees"], got
+        assert "the sheet says 13 of 14 sills and heads miss the courses; 14 of 14 are drawn off them" \
+            in got[0]["detail"], got
+
 # ------------------------------------------------------------------ which checks nothing drives
 def _driven():
     """The checks some test in this file names and requires "disagrees" of: read off each test's
@@ -2494,7 +2534,9 @@ class TestV23SaysTheStacksTheRoofPlacesNoneOf:
 # make one of them say "disagrees". Derived now and held equal to this list, so a new check fails
 # here until it is driven or named, and a check driven since must leave it. V8 left on 30 Sep 2026
 # (WP-16.5): `test_v8_sees_a_ruled_judgment_published` drives it with the held bed mould published.
-UNDRIVEN = ("E1", "E2", "E3", "F1", "P3", "P4", "P7", "PL1", "S3", "V1", "V11", "V14", "V17", "V18",
+# V11 left on 30 Oct 2026 (the audit of Phase 17, finding 52), after Phase 17 cut its population
+# from three sheets to two: `TestV11SeesAMissTheSheetDoesNotSay` drives both disagreeing branches.
+UNDRIVEN = ("E1", "E2", "E3", "F1", "P3", "P4", "P7", "PL1", "S3", "V1", "V14", "V17", "V18",
             "V20", "V21", "V3", "V4", "V5", "V6", "X1", "X2")
 
 
