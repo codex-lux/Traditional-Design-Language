@@ -207,7 +207,8 @@ def _releases_are_accounted(sv, rounds):
     for line in rounds:
         # PHASE 17 (29 Oct 2026, WP-17.5): THE WORKER PORTFOLIO DECIDES FIRST, AND SAYS SO. Its
         # line names the workers and either the facts HELD -- with the authored wall and axis pins
-        # it released to get there, CARRIED and offered back by the reinstatement pass -- or that
+        # it released to get there, CARRIED for the reinstatement pass to offer back where its
+        # window has time (its own line, below, says how many it reached) -- or that
         # it did not decide and the ladder takes over, whose own round lines then follow. A
         # portfolio line is a third known shape, read for the wall pins it released; an unknown
         # line still fails.
@@ -219,6 +220,14 @@ def _releases_are_accounted(sv, rounds):
                 continue
             assert ("every type fact HELD" in line
                     or "the assumption ladder takes over for its cores" in line), line
+            continue
+        # THE REINSTATEMENT PASS'S OWN LINE (the audit of Phase 17, 30 Oct 2026, findings 9 and
+        # 12) is a fourth known shape: it releases nothing -- it says how many released pins the
+        # pass offered back and how many it never reached -- so it is read for its shape and adds
+        # nothing to `named`. Every other unknown line still fails.
+        if line.startswith("reinstatement: "):
+            assert re.search(r"offered back \d+ of \d+ \(\d+ restored, \d+ refuted alone, "
+                             r"\d+ still carried\)", line), line
             continue
         # A round gives a rank up by PROOF (a conflict core named it) or lets the type's
         # facts go on an UNDECIDED scout (WP-13.3) -- and either way the line names the

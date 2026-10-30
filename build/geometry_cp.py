@@ -164,24 +164,43 @@ _PORTFOLIO_LOCK = threading.Lock()
 BUDGET_SHARE_PORTFOLIO = 0.75
 
 
-def portfolio_workers():
+def _cgroup_quota_cpus(root="/sys/fs/cgroup"):
+    """The container's CPU quota in whole CPUs, rounded up, or None where none is set or none can be
+    read. cgroup v2 states it as `cpu.max` ("max 100000" is no quota); cgroup v1 as
+    `cpu.cfs_quota_us` over `cpu.cfs_period_us` under the `cpu` (or `cpu,cpuacct`) controller, where
+    a quota of -1 is no quota. The v1 half was missing until the audit of Phase 17 (30 Oct 2026,
+    finding 13) read this box -- which is cgroup v1 -- so a v1 quota was ignored and the HOST's
+    affinity used."""
+    try:
+        with open(os.path.join(root, "cpu.max")) as fh:
+            quota, period = fh.read().split()[:2]
+        return None if quota == "max" else max(1, int(math.ceil(int(quota) / int(period))))
+    except (OSError, ValueError):
+        pass
+    for ctl in ("cpu", "cpu,cpuacct"):
+        try:
+            with open(os.path.join(root, ctl, "cpu.cfs_quota_us")) as fh:
+                quota = int(fh.read().split()[0])
+            with open(os.path.join(root, ctl, "cpu.cfs_period_us")) as fh:
+                period = int(fh.read().split()[0])
+        except (OSError, ValueError, IndexError):
+            continue
+        return None if quota <= 0 or period <= 0 else max(1, int(math.ceil(quota / period)))
+    return None
+
+
+def portfolio_workers(_cgroup_root="/sys/fs/cgroup"):
     """CPU workers this process may give one CP solve: `TDL_CP_WORKERS` if set (CI forces each
-    formulation through it), else the cgroup CPU quota (a container's `cpu.max`; affinity reports
-    the HOST's cores, not the quota), else the affinity set, capped at `PORTFOLIO_MAX_WORKERS`."""
+    formulation through it), else the cgroup CPU quota (`_cgroup_quota_cpus`, v2 or v1; affinity
+    reports the HOST's cores, not the quota), else the affinity set, capped at
+    `PORTFOLIO_MAX_WORKERS`."""
     env = os.environ.get("TDL_CP_WORKERS")
     if env:
         try:
             return max(1, int(env))
         except ValueError:
             pass
-    n = None
-    try:
-        with open("/sys/fs/cgroup/cpu.max") as fh:
-            quota, period = fh.read().split()[:2]
-        if quota != "max":
-            n = max(1, int(math.ceil(int(quota) / int(period))))
-    except (OSError, ValueError):
-        pass
+    n = _cgroup_quota_cpus(_cgroup_root)
     try:
         aff = len(os.sched_getaffinity(0))
     except (AttributeError, OSError):
@@ -2172,13 +2191,101 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
     w = portfolio_workers()
     if w > 1 and _PORTFOLIO_LOCK.acquire(blocking=False):
         try:
-            return _solve_cp(plan, parti, seed, time_limit_s, candidates, workers=w)
+            return _solve_cp(plan, parti, seed, time_limit_s, candidates, workers=w, available=w)
         finally:
             _PORTFOLIO_LOCK.release()
-    return _solve_cp(plan, parti, seed, time_limit_s, candidates, workers=1)
+    return _solve_cp(plan, parti, seed, time_limit_s, candidates, workers=1, available=w)
 
 
-def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, workers=1):
+# THE MODES A SOLVE IS RECORDED AS HAVING PLACED BY (the audit of Phase 17, 30 Oct 2026, finding 13).
+# `portfolio`: a hard step of the worker portfolio returned the placement, every type fact posed hard.
+# `ladder`: the assumption ladder did -- on one worker, or on several after the portfolio did not
+# decide (its hard retry `r<n>+` is the ladder's own step). A record that is not a placement (unsolved,
+# infeasible) is the ladder's, because the ladder is what ends there.
+MODES = ("portfolio", "ladder")
+
+
+def _run(workers, available, mode):
+    """The three fields every prover record carries: how many workers this solve ran on, how many
+    the box would have given it (`portfolio_workers()` when it started -- a solve that ran on one of
+    four was contended for the portfolio lock), and which formulation placed it. Before the audit of
+    Phase 17 a solve on one worker left no trace but the absence of portfolio notes."""
+    assert mode in MODES, mode
+    return {"workers": workers, "workers_available": available, "mode": mode}
+
+
+def _reinstate_deadline(now, started, time_limit_s):
+    """WHEN THE REINSTATEMENT PASS MUST STOP: its own share from when it starts, and never into the
+    polish's guaranteed share. Lifted out of `_reinstate` (the audit of Phase 17, finding 9) so the
+    arithmetic can be held, and DELIBERATELY NOT RE-ANCHORED: the pass gets no share of its own, so
+    after an undecided portfolio (which runs to `BUDGET_SHARE_PORTFOLIO` of the budget, past this
+    cap) the deadline is already behind it and nothing is offered back. That is disclosed on the
+    record by the pass's own line, and it is
+    `oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio`."""
+    return min(now + GEO.BUDGET_SHARE_REINSTATE * time_limit_s,
+               started + (1.0 - GEO.BUDGET_SHARE_POLISH) * time_limit_s)
+
+
+REINSTATE_NOTE_PREFIX = "reinstatement: "
+
+
+def _reinstate_note(pending, offered, still_down, refuted, began_s, window_s, time_limit_s):
+    """THE REINSTATEMENT PASS'S OWN LINE on `downgrade_rounds` (the audit of Phase 17, findings 9
+    and 12): how many released pins it asked a solve about, what came of them, and how many it never
+    reached, with the window it had. A pin is OFFERED where some restore solve -- a whole kind or the
+    pin alone -- was posed with it lifted; RESTORED where it came back; REFUTED where it was proven
+    impossible alone at this footprint. The rest of the offered ones are carried. Pure, so the
+    sentence can be held without a solve."""
+    pending = list(pending)
+    never = [k for k in pending if k not in offered]
+    n_off = sum(1 for k in pending if k in offered)
+    restored = sum(1 for k in pending if k in offered and k not in still_down)
+    n_ref = sum(1 for k in pending if k in refuted)
+    head = (f"{REINSTATE_NOTE_PREFIX}{len(pending)} released pin(s) down when the pass began at "
+            f"{began_s:.1f} s of the {time_limit_s:g} s budget, with {max(0.0, window_s):.1f} s left "
+            f"in its window; offered back {n_off} of {len(pending)} ({restored} restored, {n_ref} "
+            f"refuted alone, {n_off - restored - n_ref} still carried)")
+    if never:
+        head += (f"; {len(never)} never reached -- the pass had no time left in its window, so "
+                 f"they stay CARRIED, released on no proof (the pass gets no share of its own "
+                 f"after the steps before it: "
+                 f"oq/the-reinstatement-pass-gets-no-time-after-an-undecided-portfolio)")
+    return head
+
+
+def facts_account(reqs_notes, downgraded, unproven):
+    """The model's own account of the type's four facts: every literal of each kind by its label,
+    HELD or DOWNGRADED, and every fact it could not state, UNJUDGED with its reason.
+    `build/typefacts.py` verifies the same four on the placed record afterwards; this is what the
+    prover was ASKED, that is what it DREW.
+
+    EACH DOWNGRADED LABEL IS ALSO FILED `proven` OR `carried` (the audit of Phase 17, 30 Oct 2026,
+    finding 14). `proven` means the reinstatement pass refuted the pin ALONE at this footprint;
+    `carried` means it was released off a conflict core or an undecided round and never re-proven
+    -- `unproven` is the very set the per-pin notes' `how` is written from, so the structure and the
+    prose cannot part. Before this the only record of which was the prose, and
+    `drawability._class_of` read it with `any(PROOF_PHRASE in note and kind in note)`: one proven
+    bearing axis made a fact with a carried axis PROVEN, and a proven hearth release -- whose note
+    names the room's fire and never the word "hearth" -- read UNDECIDED. A fact is proven only where
+    every downgraded label of it is in `proven`."""
+    out = {}
+    for kind in TYPE_FACTS:
+        keys = sorted({key for _l, _t, k, key in reqs_notes.lits if k == kind and key},
+                      key=lambda k: tuple(str(x) for x in k))
+        held = [_label(kind, k) for k in keys]
+        down_keys = sorted((k for k in downgraded if k[0] == kind), key=str)
+        down = sorted(_label(kind, k[1:]) for k in down_keys)
+        proven = sorted(_label(kind, k[1:]) for k in down_keys if k not in unproven)
+        carried = sorted(_label(kind, k[1:]) for k in down_keys if k in unproven)
+        unj = [{"key": _label(kind, key) if key else None, "why": why}
+               for k, key, why in reqs_notes.unjudged if k == kind]
+        out[kind] = {"held": held, "downgraded": down, "unjudged": unj,
+                     "status": ("downgraded" if down else "held" if held else "unjudged"),
+                     "proven": proven, "carried": carried}
+    return out
+
+
+def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, workers=1, available=None):
     from ortools.sat.python import cp_model
     levels, prep = GEO.prep_rooms(plan)
     fpd0 = GEO.derive_footprint(plan, parti, prep)
@@ -2239,13 +2346,15 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
         than a wall aspiration, which is the whole of what the ranking says."""
         _rank_of = {k: i for i, k in enumerate(_RANK)}
         pending = sorted(downgraded, key=lambda k: (-_rank_of.get(k[0], -1), str(k)))
-        deadline = min(time.monotonic() + GEO.BUDGET_SHARE_REINSTATE * time_limit_s,
-                       started + (1.0 - GEO.BUDGET_SHARE_POLISH) * time_limit_s)
+        began = time.monotonic()
+        deadline = _reinstate_deadline(began, started, time_limit_s)
+        offered = set()             # pins some restore solve was actually asked about
 
         def _try(keys, tag, cap):
             left = deadline - time.monotonic()
             if left < RESTORE_MIN_S:
                 return None
+            offered.update(keys)
             trial = frozenset(downgraded - set(keys))
             model, rooms, _reqs2 = _build(plan, prep, fpd, ewalls, trial, objective=False)
             _hint_values(model, rooms, vals)
@@ -2320,6 +2429,14 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                     downgraded.discard(key)
                 elif got == cp_model.INFEASIBLE:
                     refuted.add(key)        # refuted alone at this footprint: proven, not carried
+        # WHAT THE PASS DID, IN ITS OWN LINE (the audit of Phase 17, 30 Oct 2026, findings 9 and
+        # 12). The portfolio's and the scout's notes used to say the released pins were "offered
+        # back by the reinstatement pass" -- an act that, after an undecided portfolio, never
+        # happens: the pass's deadline is already behind it, `_try` returns at once, and every pin
+        # stays carried. So the pass states how many pins it reached and how many it never did,
+        # and why, and no other line asserts the act for it.
+        rank_notes.append(_reinstate_note(pending, offered, downgraded, refuted,
+                                          began - started, deadline - began, time_limit_s))
         # PROVEN means refuted ALONE at this footprint and nothing less: a pin the slice never
         # reached, one that came back UNKNOWN, and one refuted only as part of its whole kind
         # are all CARRIED, whether a core named them or an undecided round released them.
@@ -2446,25 +2563,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
             return _values(solver, rooms), solver.StatusName(statusB),                 solver.ObjectiveValue() / SCALE
         return None, solver.StatusName(statusB), None
 
-    def _facts_account(reqs_notes):
-        """The model's own account of the type's four facts: every literal of each kind by
-        its label, HELD or DOWNGRADED, and every fact it could not state, UNJUDGED with its
-        reason. `build/typefacts.py` verifies the same four on the placed record afterwards;
-        this is what the prover was ASKED, that is what it DREW."""
-        out = {}
-        for kind in TYPE_FACTS:
-            keys = sorted({key for _l, _t, k, key in reqs_notes.lits if k == kind and key},
-                          key=lambda k: tuple(str(x) for x in k))
-            held = [_label(kind, k) for k in keys]
-            down = sorted(_label(kind, k[1:]) for k in downgraded if k[0] == kind)
-            unj = [{"key": _label(kind, key) if key else None, "why": why}
-                   for k, key, why in reqs_notes.unjudged if k == kind]
-            out[kind] = {"held": held, "downgraded": down, "unjudged": unj,
-                         "status": ("downgraded" if down else "held" if held
-                                    else "unjudged")}
-        return out
-
-    def _finish_feasible(fpd, valsA, statusA_name):
+    def _finish_feasible(fpd, valsA, statusA_name, mode="ladder"):
         """Phase B: polish with the weighted objective, hinted two ways — the
         full heuristic search (soft-optimized, hard-repairable) and phase A's
         own placement (hard-clean). AMONG THE CANDIDATES THAT CARRY AN OBJECTIVE
@@ -2519,6 +2618,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                                   objective=False, unproven=frozenset(unproven))
         return {"best": best, "fpd": fpd, "levels": levels,
                 "solver": {"engine": "cp-sat", "status": status_name,
+                           **_run(workers, available, mode),
                            "objective": objective,
                            "candidates": best["candidates"],
                            "wall_time_s": round(time.monotonic() - started, 2),
@@ -2552,7 +2652,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                            # THE TYPE'S FOUR FACTS, as the model stated them (WP-13.3): held,
                            # downgraded, or unjudged with a reason. `typefacts.report` on the
                            # placed record is the verifier; this is the claim.
-                           "facts": _facts_account(reqs_notes),
+                           "facts": facts_account(reqs_notes, downgraded, unproven),
                            "downgrade_rounds": list(rank_notes),
                            "refinements": sorted(set(reqs_notes.notes))}}
 
@@ -2623,12 +2723,13 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
             if st_ in (cp_model.OPTIMAL, cp_model.FEASIBLE):
                 rank_notes.append(
                     f"portfolio ({workers} workers): every type fact HELD"
-                    + (f" with the {len(_rel)} authored wall and axis pin(s) released, CARRIED and "
-                       f"offered back one at a time by the reinstatement pass" if _rel else "")
+                    + (f" with the {len(_rel)} authored wall and axis pin(s) released, CARRIED; the "
+                       f"reinstatement pass offers them back where its window has time, and its own "
+                       f"line says how many it reached" if _rel else "")
                     + (f"; the footprint grew {dh:g} ft in depth first, and each dependency with it "
                        f"(decision 11: the footprint grows before a room is compromised -- the "
                        f"derived depth holds the programme with no slack at all)" if dh else ""))
-                return _finish_feasible(fpd, _values(sv_, r_), sv_.StatusName(st_))
+                return _finish_feasible(fpd, _values(sv_, r_), sv_.StatusName(st_), mode="portfolio")
         downgraded.difference_update(_rel)
         rank_notes.append(f"portfolio ({workers} workers): undecided or infeasible with every "
                           f"type fact hard; the assumption ladder takes over for its cores")
@@ -2676,7 +2777,8 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                     + ", ".join(f"{len(v)} {k}" for k, v in
                                 sorted(_by.items(), key=lambda kv: _RANK.index(kv[0])))
                     + " pin(s) live — the type's facts released at once, CARRIED and not "
-                    f"proven, and offered back highest rank first by the reinstatement pass")
+                    f"proven; the reinstatement pass offers them back highest rank first where its "
+                    f"window has time, and its own line says how many it reached")
                 downgraded.update(live_facts)
             budget = max(2.0, a_deadline - time.monotonic())
             # THE RETRY IS WANTED AS A PLACEMENT, SO IT RUNS HARD ON THE PORTFOLIO FIRST (WP-17.5).
@@ -2696,12 +2798,12 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                                     solver.StatusName(status))
         if status == cp_model.UNKNOWN:
             return {"unsolved": True, "status": solver.StatusName(status),
-                    "attempts": attempts}
+                    "attempts": attempts, **_run(workers, available, "ladder")}
         if status != cp_model.INFEASIBLE:
             # MODEL_INVALID or anything else unexpected: an empty core from it
             # would masquerade as a proof — refuse, stated, instead
             return {"unsolved": True, "status": solver.StatusName(status),
-                    "attempts": attempts}
+                    "attempts": attempts, **_run(workers, available, "ladder")}
         idx = set(solver.SufficientAssumptionsForInfeasibility())
         core = [(t, k, key) for lit, t, k, key in reqs.lits if lit.Index() in idx]
         seed_core = [t for t, _k, _key in core]
@@ -2775,8 +2877,8 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
         _kind, _keys, _named = _downgradable
         rank_notes.append(
             f"round {rnd}: released all {len(_keys)} live {_kind} pin(s) — the lowest-ranked "
-            f"kind still held; the conflict core named {_named} of them, and the rest are "
-            f"offered back one at a time by the reinstatement pass "
+            f"kind still held; the conflict core named {_named} of them, and the reinstatement "
+            f"pass offers them back where its window has time "
             f"({', '.join(_label(_kind, k[1:]) for k in sorted(_keys, key=str))})")
         downgraded.update(_keys)
 
@@ -2790,14 +2892,14 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                                     solver.StatusName(status))
         if status == cp_model.UNKNOWN:
             return {"unsolved": True, "status": solver.StatusName(status),
-                    "attempts": attempts}
+                    "attempts": attempts, **_run(workers, available, "ladder")}
 
     conflicts, minimized = _extract_conflicts(plan, prep, fpd0, ewalls,
                                               seed_core=seed_core,
                                               downgraded=frozenset(downgraded))
     if conflicts is None:
         return {"unsolved": True, "status": "INFEASIBLE-but-core-extraction-failed",
-                "attempts": attempts}
+                "attempts": attempts, **_run(workers, available, "ladder")}
     note = (f"CP-SAT proved these requirements cannot all hold together at any "
             f"footprint this parti and lot allow ({fpd0['bays']}–"
             f"{fpd0['growth_ceiling']} bays tried"
@@ -2820,6 +2922,7 @@ def _solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250, worke
                              for kind in ("axis",) + TYPE_FACTS},
         "downgrade_rounds": list(rank_notes),
         "note": note,
+        **_run(workers, available, "ladder"),
         "attempts": attempts}}
 
 

@@ -459,19 +459,21 @@ def test_the_fixture_proves_and_the_verifier_agrees_fact_for_fact(solved):
     sv = solved["geometry_report"]["solver"]
     assert sv["engine"] == "cp-sat"
     facts = sv["facts"]
+    # `proven` and `carried` are the account's own split of what it downgraded (the audit of
+    # Phase 17, finding 14): empty here, because nothing is downgraded
     assert facts["tiling"] == {"held": ["L0 element 0", "L1 element 0"], "downgraded": [],
-                               "unjudged": [], "status": "held"}
+                               "unjudged": [], "status": "held", "proven": [], "carried": []}
     assert facts["stack"]["held"] == ["L1 chamber", "L1 chamber2", "L1 landing"]
     assert facts["stack"]["status"] == "held"
     assert facts["hearth"] == {"held": ["L0 parlor W"], "downgraded": [], "unjudged": [],
-                               "status": "held"}
+                               "status": "held", "proven": [], "carried": []}
     # RE-CUT AT PHASE 17 (29 Oct 2026). `element 0 x` was REFUSED BY PROOF here because the
     # literal carried CAPACITY -- a 50 ft front over a 24 ft capacity needed an on-grid wall on
     # both storeys. Ruling 2 makes capacity a soft charge, still REPORTED, so the x axis is held
     # by continuity and the fixture holds every fact; the verifier agrees, and reports the
     # capacity half downgraded without refusing on it, which is the ruling's whole point.
     assert facts["bearing"] == {"held": ["element 0 x", "element 0 y"], "downgraded": [],
-                                "unjudged": [], "status": "held"}, facts["bearing"]
+                                "unjudged": [], "status": "held", "proven": [], "carried": []}, facts["bearing"]
     assert not any("COULD NOT BE STATED" in n for n in sv["refinements"])
     # the verifier, reading the placed record alone, agrees fact for fact
     tf = solved["geometry_report"]["type_facts"]
@@ -551,6 +553,12 @@ def test_the_ladder_is_core_guided_and_never_releases_a_kind_its_core_does_not_n
     # four, so the ladder is read where it runs (`solved_on_one_worker`)
     rounds = solved_on_one_worker["geometry_report"]["solver"]["downgrade_rounds"]
     assert not any(r.startswith("portfolio (") for r in rounds), rounds
+    # THE REINSTATEMENT PASS WRITES ITS OWN LINE (the audit of Phase 17, 30 Oct 2026, findings 9 and
+    # 12): exactly one, after the rounds, and it is not a round -- it releases nothing, it says what
+    # the pass offered back. Read apart, so every ROUND line is still held to the shape below.
+    passes = [r for r in rounds if r.startswith(CP.REINSTATE_NOTE_PREFIX)]
+    assert len(passes) == 1 and rounds[-1] == passes[0], rounds
+    rounds = [r for r in rounds if not r.startswith(CP.REINSTATE_NOTE_PREFIX)]
     assert len(rounds) >= 3, rounds
     for note in rounds:
         m = re.search(r"released all (\d+) live (\w+) pin\(s\).*?the conflict core named (\d+) of them", note)
