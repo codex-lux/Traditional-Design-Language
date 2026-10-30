@@ -310,8 +310,12 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
         if budget_s is not None and time.perf_counter() - t0 > budget_s:
             stop = "budget"
             break
-        budget_refused = _cannot_fit("round")
-        if budget_refused is not None:
+        # the FIRST work refused is the one reported: a retry cut inside the last round set
+        # `budget_refused`, and re-assigning it here overwrote the retry with the round that
+        # followed (found by the tests auditor's retry guard, 30 Oct 2026)
+        _r = _cannot_fit("round")
+        if _r is not None:
+            budget_refused = budget_refused or _r
             stop = "budget"
             break
         n += 1
@@ -403,8 +407,23 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             _report(rnd)
             continue
 
-        over_budget = lambda: ((budget_s is not None and time.perf_counter() - t0 > budget_s)
-                               or _cannot_fit("retry") is not None)
+        # THE RETRY'S REFUSAL IS KEPT, NOT THROWN AWAY (the audit of 30 Oct 2026, finding 6): the
+        # lambda discarded `_cannot_fit("retry")`'s dict, so `budget_refused["what"] == "retry"`
+        # could not occur and the cut moves said "the budget was spent" while time remained and only
+        # the reservation refused.
+        retry_cut = {}
+
+        def over_budget():
+            if budget_s is not None and time.perf_counter() - t0 > budget_s:
+                retry_cut["why"] = "the budget was spent before this move could be retried alone"
+                return True
+            r = _cannot_fit("retry")
+            if r is not None:
+                retry_cut["refusal"] = r
+                retry_cut["why"] = ("the budget's reservation refused retrying this move alone: "
+                                    + r["why"])
+                return True
+            return False
         snapshot = copy.deepcopy(plan)
         applied = []
         for mid, issue in picks:
@@ -474,8 +493,11 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                         tabu.add((m2, i2["id"]))
                         if (m2, i2["id"]) not in tried:
                             rnd["moves"].append({"move": m2, "finding": i2["id"],
-                                                 "refused": "the budget was spent before this move could be retried alone"})
+                                                 "refused": retry_cut.get("why")
+                                                 or "the budget was spent before this move could be retried alone"})
                     rnd["budget_cut_retries"] = True
+                    if retry_cut.get("refusal") is not None:
+                        budget_refused = budget_refused or retry_cut["refusal"]
                     break
                 tried.add((mid, issue["id"]))
                 trial = copy.deepcopy(snapshot)
@@ -530,8 +552,19 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
     if brief and brief.get("target_area_sf"):
         CO = _mod("compose", os.path.join(ROOT, "build", "compose.py"))
         kept, kept_crit = copy.deepcopy(plan), crit
-        res, clog = CO.reclaim(plan, brief["target_area_sf"], brief.get("area_tolerance", 0.12), crit["check"])
-        reclaim_refused = _cannot_fit("reclaim") if clog else None
+        # THE FIT IS TESTED BEFORE THE RECLAIM IS BEGUN (the audit of 30 Oct 2026, finding 5): the
+        # reclaim's own checks ran past the budget and only its re-place was refused. Whether there
+        # is anything to reclaim is read first, from the reclaim's own precondition (the area over
+        # the brief's tolerance), so a house inside tolerance is not refused a reclaim it never needed.
+        _tgt, _tol = brief["target_area_sf"], brief.get("area_tolerance", 0.12)
+        _area = sum((r.get("width_ft") or 0) * (r.get("length_ft") or 0)
+                    for lv in plan.get("levels") or [] for r in lv.get("rooms") or []
+                    if CO.C["rooms"].get(r.get("type"), {}).get("function_class") != "outdoor")
+        reclaim_refused = _cannot_fit("reclaim") if (_area - _tgt) / _tgt > _tol else None
+        if reclaim_refused is None:
+            res, clog = CO.reclaim(plan, _tgt, _tol, crit["check"])
+        else:
+            clog = ["(not begun)"]
         if reclaim_refused is not None:
             # the reclaim re-places the house: begun past the budget it would be the overrun R12
             # forbids. Its shortened sizes are given back, it is not placed, and

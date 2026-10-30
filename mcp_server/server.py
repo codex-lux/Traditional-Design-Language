@@ -369,8 +369,12 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
     plus 10 s for its critique, capped at 600 s -- 560 s for the default four candidates. This
     call runs synchronously, so that is how long it may hold the caller. Each candidate's first
     placement is bounded by its share and a round that cannot fit in what is left is refused and
-    said; the prover's overshoot past its own time limit and the declared composition before the
-    loop (tens of seconds) are not inside the figure.
+    said; the prover's overshoot past its own time limit (a few seconds a placement, which does not
+    shrink with the limit) and the declared composition before the loop (tens of seconds) are not
+    inside the figure. The ceiling has a cost, ruled knowing it: at the default four candidates
+    each share is 90 s, a corrective round re-places at up to the compose per-placement budget, and
+    on a four-core box no candidate's share was found to hold one -- each is returned with its
+    first placement and its card says the round was refused for budget.
 
     WP-17.6: where fewer of the set may be drawn than were asked for, the loop places further down
     the ranked pool and adds what it finds placed and not refused; `pool_fill` names what it

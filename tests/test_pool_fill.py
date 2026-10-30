@@ -228,10 +228,12 @@ def test_set_drawability_gives_two_counts_and_names_each_unjudged_fact():
              _card("c", refused=dict(REFUSED), drawability={"where_judged": False, "unjudged": []}),
              _card("d", stop=CO.PLACEMENT_UNJUDGED)]
     d = CO.set_drawability(cards)
-    assert d == {"returned": 4, "not_refused": 2, "drawable_where_judged": 1,
-                 "unjudged_facts": {"hearth": 2}}
+    assert d == {"returned": 4, "refused": 1, "not_placed": 1, "not_refused": 2,
+                 "drawable_where_judged": 1, "unjudged_facts": {"hearth": 2}}
+    assert "(1 refused, 1 not placed or whose placement could not be judged)" in CO.drawability_line(d)
     line = CO.drawability_line(d)
-    assert "2 not refused, 1 drawable where judged (hearth unjudged on 2)" in line
+    assert ("2 not refused (1 refused, 1 not placed or whose placement could not be judged), "
+            "1 drawable where judged (hearth unjudged on 2)") in line
     assert "not counted as held" in line
 
 
@@ -365,3 +367,40 @@ def test_the_compose_comment_states_the_wet_stack_claims_the_partis_carry():
     assert m, "compose.py's WP-17.1 comment no longer states how many wet-stack claims the partis carry"
     assert (words[m.group(1).lower()], words[m.group(2)]) == (claims, len(partis)), (
         m.group(0), claims, len(partis))
+
+
+def test_a_set_nothing_was_placed_in_is_not_read_as_a_set_all_refused():
+    """The audit of 30 Oct 2026, finding 3: "0 not refused" over four skipped revisions read like
+    four refusals to a reader with only the sentence."""
+    cards = [_card(p, revision=False) for p in "abcd"]
+    d = CO.set_drawability(cards)
+    assert d["refused"] == 0 and d["not_placed"] == 4 and d["not_refused"] == 0
+    assert "(0 refused, 4 not placed" in CO.drawability_line(d)
+
+
+def test_a_refusal_reached_under_a_starved_time_limit_says_so():
+    """The audit of 30 Oct 2026, finding 8: a pool-fill placement begun late in the budget is
+    asked under what is left, and its refusal is partly the budget's."""
+    G = CO._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    c = _card("a", refused=dict(REFUSED))
+    c["revision"]["placement_time_limit_s"] = 5.0
+    why = CO.passed_over_entry(c)["why"]
+    assert why.startswith("refused: stacks") and f"5 s time limit, short of the compose budget's {G.BUDGET_COMPOSE_S:g} s" in why
+    c["revision"]["placement_time_limit_s"] = G.BUDGET_COMPOSE_S
+    assert CO.passed_over_entry(c)["why"] == "refused: stacks", "a full-budget refusal says nothing more"
+
+
+def test_a_named_diagram_the_cap_stopped_before_is_not_called_not_reached_once_returned(monkeypatch):
+    """The audit of 30 Oct 2026, finding 4: the named guarantee placed the diagram after the
+    pool-fill's cap stopped short of it, and `not_reached` still named it among those not placed."""
+    res0, placed0 = _baseline(monkeypatch)
+    left = res0["pool_fill"]["not_reached"]
+    assert left, "the premise: the cap leaves diagrams unreached"
+    brief = _brief()
+    brief["parti"] = left[0]
+    res, placed = _compose3(monkeypatch, drawable=set(), unjudged=set(), brief=brief)
+    pf = res["pool_fill"]
+    assert res["named_parti"]["returned"] and res["named_parti"]["appended"], res["named_parti"]
+    assert left[0] not in pf["not_reached"] and pf.get("named_appended") == left[0], pf
+    line = CO.pool_fill_not_reached_line(pf)
+    assert line is None or left[0] not in line

@@ -384,3 +384,51 @@ def test_a_composed_house_states_no_fire_so_its_hearth_is_unjudged():
     assert h["status"] == TF.UNJUDGED, h
     assert "states no hearth" in h["detail"], h["detail"]
     assert h["fires"] == [], h["fires"]
+
+
+def test_a_floored_passage_is_held_at_its_floor_and_inside_its_area_band_at_every_size():
+    """The audit of 30 Oct 2026, finding 1 of the composer pass: the growth loop's area correction
+    scaled a widened cross-passage on both sides and handed it back at 7.98 x 20.05 -- under the
+    floor R13 holds -- on `courtyard-and-portal`'s zaguan and `great-hall-h-plan`'s screens passage
+    at 4,500-6,400 sf. Held now, its area off its length."""
+    floor = _fault_threshold()
+    seen = 0
+    for pid, style in (("courtyard-and-portal", "spanish-colonial-revival"),
+                       ("great-hall-h-plan", "jacobethan-revival"),
+                       ("five-part-palladian", "tidewater-georgian")):
+        assert CO.passage_floor(style)[0] == floor, ("the premise: the fault judges", style)
+        for sf in (2400, 3200, 4500, 6400):
+            plan, log, _p = CO.instantiate(pid, {"id": "x", "style": style, "target_area_sf": sf,
+                                                 "bedrooms": 4, "bathrooms": 3})
+            for _l, r in _rooms(plan).values():
+                if r["type"] not in CO.PASSAGE_TYPES:
+                    continue
+                seen += 1
+                assert min(r["width_ft"], r["length_ft"]) >= floor - 1e-9, (pid, sf, r["id"], r["width_ft"])
+                area, *_ = CO._bands(r["type"])
+                if area and not r.get("stacks_over"):
+                    assert r["width_ft"] * r["length_ft"] <= area[1] + 0.1, (pid, sf, r["id"])
+                    # the LONG side is kept (the tests auditor's mutation: length = floor drew an
+                    # 8 x 8 passage, inside every assertion above) -- so the passage never falls
+                    # under its own AREA floor. Not its length band: the composer hands the five-part
+                    # its passage at 19.7 ft at 2,400 sf before R13 touches it.
+                    assert r["width_ft"] * r["length_ft"] >= area[0] - 0.5, (pid, sf, r["id"])
+    # 16 measured on this tree (three partis x four sizes); the floor is the premise that the sweep
+    # reaches passages at all, not a figure the fix is judged by
+    assert seen >= 16, seen
+
+
+def test_the_new_log_lines_are_classified_and_a_judgments_disclosure_is_its_own_entry():
+    """The audit of 30 Oct 2026, finding 7: "ROUND NOT BEGUN" read as an assumption, and a stacked
+    room's DISCLOSURE tail reached no structured field."""
+    d = CO.structure_decisions(["ROUND NOT BEGUN: 29.5 s of the 90 s budget was left (R12)."])
+    assert [x["kind"] for x in d] == ["disclosure"]
+    line = ("JUDGMENT (editorial): Landing takes the plan of Stair Hall, which it stands over, inside its "
+            "own bands: 3 x 8 ft where its band midpoint gave 4 x 9 ft. DISCLOSURE: width 2.89 against "
+            "[3, 8] -- it is composed so and said.")
+    d = CO.structure_decisions([line])
+    assert [x["kind"] for x in d] == ["judgment", "disclosure"], d
+    assert d[1]["statement"].startswith("DISCLOSURE: width 2.89 against [3, 8]")
+    d = CO.structure_decisions(["Shortened Zaguán to 20 ft inside its own area band, keeping it 8 ft "
+                                "wide -- the floor it is judged by is 8 ft (x)."])
+    assert d[0]["field"] == "room_dims_ft" and "8 x 20 ft" in d[0]["chose"], d

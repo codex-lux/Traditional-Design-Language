@@ -194,3 +194,87 @@ def test_core_bounds_a_stated_budget_and_passes_none_through(monkeypatch):
     got.clear()
     core.compose(brief)
     assert got["revise_budget_s"] is None
+
+
+def test_a_reclaim_that_cannot_fit_is_refused_before_any_of_its_work_is_begun(monkeypatch):
+    """The audit of 30 Oct 2026, finding 5: `CO.reclaim` (up to four critic passes) ran BEFORE its
+    fit was tested, so work was begun past the budget and only the re-place refused. A house whose
+    area is over the brief's tolerance and whose share cannot hold a re-place is refused the reclaim
+    without the reclaim being called."""
+    monkeypatch.setattr(G, "_SOLVE_CACHE", {})
+    CO = RV._mod("compose", os.path.join(ROOT, "build", "compose.py"))
+    called = []
+    orig = CO.reclaim
+    monkeypatch.setattr(CO, "reclaim", lambda *a, **k: called.append(1) or orig(*a, **k))
+    clock = _Clock()
+    monkeypatch.setattr(RV, "time", types.SimpleNamespace(perf_counter=clock.perf_counter))
+    o = RV.CR.critique
+
+    def crit(p, **kw):
+        out = o(p, **kw)
+        clock.t += 10.0
+        return out
+    monkeypatch.setattr(RV.CR, "critique", crit)
+    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"), encoding="utf-8"))
+    brief = {"target_area_sf": 1500, "area_tolerance": 0.12}       # the house is well over it
+    out = RV.revise(plan, rounds=0, engine="heuristic", budget_s=15.0, place=True, brief=brief,
+                    time_limit_s=5.0, reserve_round=True)
+    br = out["report"].get("budget_refused")
+    assert br and br["what"] == "reclaim", out["report"].get("budget_refused")
+    assert not called, "the reclaim was begun past the budget"
+    # the control: a budget that holds the re-place runs the reclaim
+    called.clear(); clock.t = 0.0
+    out = RV.revise(plan, rounds=0, engine="heuristic", budget_s=60.0, place=True, brief=brief,
+                    time_limit_s=5.0, reserve_round=True)
+    assert called, "with time for it the reclaim is begun"
+
+
+def test_a_retry_the_reservation_refuses_is_refused_and_said_as_a_retry(monkeypatch):
+    """The tests auditor of 30 Oct 2026, finding 1: replacing the retry's reservation with nothing
+    left this file green, because no test drove a rolled-back batch into the single-move retry
+    under a reservation. Here: a 10 s first placement in a 25 s budget, so round 1 fits; its batch
+    is refused by measurement (forced, so the test is about the reservation and not the moves), its
+    critique takes the clock to 20 s, and a 10 s retry no longer fits. The refusal is the retry's,
+    with its reason, and every cut move says the reservation refused it -- not "the budget was
+    spent" while 5 s remained."""
+    monkeypatch.setattr(G, "_SOLVE_CACHE", {})
+    monkeypatch.setattr(RV, "_improves", lambda new, old: False)
+    out, calls = _drive(monkeypatch, reserve=True, budget=25.0)
+    rep = out["report"]
+    br = rep.get("budget_refused")
+    assert len(calls) == 2, ("the premise: a first placement and one batch, then no retry", calls)
+    assert br and br["what"] == "retry", br
+    cut = [m for r in rep["rounds"] for m in r.get("moves", []) if "reservation refused" in (m.get("refused") or "")]
+    assert cut, "the cut moves do not say the reservation refused them"
+    assert not [m for r in rep["rounds"] for m in r.get("moves", [])
+                if (m.get("refused") or "").startswith("the budget was spent")], "said spent while time remained"
+
+
+def test_compose_asks_its_loop_for_the_reservation_under_a_share(monkeypatch):
+    """The tests auditor's finding 2: `reserve_round=False` in `_revise_one` left the suite green --
+    the only guard was a source token, and the pool-fill composes run at 600 s where the
+    reservation never binds. Driven: a compose under a stated budget hands `revise` the
+    reservation and a first-placement limit no larger than the candidate's share."""
+    got = []
+
+    class Stop(Exception):
+        pass
+
+    orig = None
+
+    def spy(plan, **kw):
+        got.append(kw)
+        if kw.get("place"):
+            raise Stop()
+        return orig(plan, **kw)
+    RVc = CO._mod("revise", os.path.join(ROOT, "build", "revise.py"))
+    orig = RVc.revise
+    monkeypatch.setattr(RVc, "revise", spy)
+    brief = json.load(open(os.path.join(ROOT, "briefs", "bungalow-small.json"), encoding="utf-8"))
+    with pytest.raises(Stop):
+        CO.compose(brief, 1, revise=True, revise_budget_s=40.0, revise_engine="heuristic")
+    placed = [k for k in got if k.get("place")]          # the declared pass calls revise too
+    assert placed, got
+    kw = placed[0]
+    assert kw["reserve_round"] is True, kw.get("reserve_round")
+    assert kw["budget_s"] is not None and kw["time_limit_s"] <= max(kw["budget_s"], 1.0), kw

@@ -1179,15 +1179,38 @@ def compose_to_the_type(plan, parti, brief, log):
     # rooms that stand over it are sized, so an upper passage follows the widened one. The long
     # side is kept, as `passage-to-the-styles-own-floor` keeps it: a centre passage runs the depth
     # of the house, and shortening it to hold its area would stop it running through.
+    # THE WIDENED PASSAGE IS HELD, AND ITS AREA COMES OFF ITS LENGTH (the audit of 30 Oct 2026). A
+    # floored passage left to the growth loop was a "free" room: a cross-passage (an area band of
+    # 60-160 sf) widened to 8 ft and kept at 20.05 ft long stood over its area ceiling, so
+    # `_growth_factor`'s area correction scaled BOTH sides and handed it back at 7.98 x 20.05 --
+    # under the floor R13 exists to hold, convicted on `courtyard-and-portal`'s zaguan and
+    # `great-hall-h-plan`'s screens passage at 4,500-6,400 sf. The length is now taken down to the
+    # area ceiling where the room's own length band admits it, as `reclaim` shortens a room, and the
+    # passage is kept out of the growth loop's scaling.
+    floored = set()
     floor, basis = passage_floor(brief.get("style") or "")
     if floor:
         for rid, (lvl, r) in rooms.items():
             if r.get("type") not in PASSAGE_TYPES or r.get("stacks_over") in rooms:
                 continue
             w, l = r["width_ft"], r["length_ft"]
-            if min(w, l) + 1e-6 >= floor:
+            floored.add(rid)                   # judged by the floor: out of the growth loop's scaling
+            width, length = max(min(w, l), floor), max(w, l, floor)
+            area, _wb, lb, _pr = _bands(r["type"])
+            if area and area[1] and width * length > area[1] + 1e-6:
+                # over its own area ceiling: the area comes off the LENGTH (down to its length
+                # floor), then off the width -- never under the floor it is judged by
+                length = max(area[1] / width, float(lb[0]) if lb else 0.0, width)
+                if width * length > area[1] + 1e-6:
+                    width = max(floor, area[1] / length)
+            if (round(width, 2), round(length, 2)) == (round(min(w, l), 2), round(max(w, l), 2)):
                 continue
-            r["width_ft"], r["length_ft"] = round(floor, 2), round(max(floor, w, l), 2)
+            r["width_ft"], r["length_ft"] = round(width, 2), round(length, 2)
+            if min(w, l) + 1e-6 >= floor:
+                log.append(f"Shortened {r.get('name') or rid} to {r['length_ft']:g} ft inside its own "
+                           f"area band, keeping it {r['width_ft']:g} ft wide -- the floor it is judged "
+                           f"by is {floor:g} ft ({basis}).")
+                continue
             log.append(f"Widened {r.get('name') or rid} to {floor:g} ft, the floor it is judged by -- "
                        f"{basis}; its area band's floor gave {min(w, l):g} ft.")
 
@@ -1243,7 +1266,7 @@ def compose_to_the_type(plan, parti, brief, log):
 
     start = _heated()
     if target and start < target * (1 - tol):
-        held = set(sized) | set(followers)
+        held = set(sized) | set(followers) | floored
         for _ in range(6):
             now = _heated()
             if now >= target * (1 - tol / 2):
@@ -1907,6 +1930,12 @@ _DECISION_KINDS = (
     # must be tested BEFORE the bare "JUDGMENT:" can miss it.
     ("JUDGMENT (editorial):", "judgment"),
     ("DISCLOSURE:", "disclosure"),
+    # R12 (30 Oct 2026): a round, a retry or a reclaim the candidate's share could not hold is
+    # refused and said -- a disclosure, as "REVISION SKIPPED" is, never an assumption (the audit's
+    # finding 7 found both lines classed as assumptions).
+    ("ROUND NOT BEGUN:", "disclosure"),
+    ("RETRY NOT BEGUN:", "disclosure"),
+    ("RECLAIM NOT BEGUN:", "disclosure"),
     # WP-9.4: the set's revise budget was spent before this candidate; it is returned as
     # composed and says so. A disclosure that settles no brief field -- `field: null` is right.
     ("REVISION SKIPPED:", "disclosure"),
@@ -1951,6 +1980,8 @@ _DECISION_PATTERNS = (
     # bathrooms. Ahead of the revision loop's "Grew ..." so that line cannot shadow them.
     (r"^Sized (?P<a>.+?) from what it is for, not from its band's midpoint: (?P<b>[\d.]+) ft wide.*?by "
      r"(?P<c>[\d.]+) ft", "room_dims_ft", r"\g<a>: \g<b> x \g<c> ft"),
+    (r"^Shortened (?P<a>.+?) to (?P<b>[\d.]+) ft inside its own area band, keeping it (?P<c>[\d.]+) ft "
+     r"wide", "room_dims_ft", r"\g<a>: \g<c> x \g<b> ft (the floor it is judged by)"),
     (r"^Widened (?P<a>.+?) to (?P<b>[\d.]+) ft, the floor it is judged by", "room_dims_ft",
      r"\g<a>: \g<b> ft wide (the floor it is judged by)"),
     (r"^(?P<a>.+?) takes the plan of (?P<b>.+?), which it stands over, inside its own bands: "
@@ -2004,7 +2035,15 @@ def structure_decisions(lines):
     table keeps null fields rather than a forced guess."""
     import re as _re
     out = []
+    # A JUDGMENT THAT CARRIES A DISCLOSURE IS TWO DECISIONS (the audit of 30 Oct 2026, finding 7).
+    # The type pass appends " DISCLOSURE: <the bands that cannot co-hold> ..." to a stacked room's
+    # judgment line, and classified whole the conflict reached no structured field -- its `because`
+    # was the line's boilerplate. Each half is its own entry, each statement verbatim.
+    split = []
     for line in lines:
+        head, sep, tail = line.partition(" DISCLOSURE: ")
+        split.extend([head, "DISCLOSURE: " + tail] if sep else [line])
+    for line in split:
         kind, rest = "assumption", line
         for prefix, k in _DECISION_KINDS:
             if line.startswith(prefix):
@@ -2261,13 +2300,19 @@ def set_drawability(cards):
     the pool-fill's own test) and how many of those are DRAWABLE WHERE JUDGED (`drawability.assess`
     finds every judged fact held and no room past its band), with each fact nobody could judge
     counted by name over the not-refused cards."""
-    placed = [c for c in cards if placement_standing(c) == "placed"]
+    standing = [placement_standing(c) for c in cards]
+    placed = [c for c, st in zip(cards, standing) if st == "placed"]
     where = [c for c in placed if (c.get("drawability") or {}).get("where_judged")]
     unjudged = {}
     for c in placed:
         for f in (c.get("drawability") or {}).get("unjudged") or []:
             unjudged[f] = unjudged.get(f, 0) + 1
-    return {"returned": len(cards), "not_refused": len(placed), "drawable_where_judged": len(where),
+    # REFUSED AND NOT PLACED ARE COUNTED APART (the audit of 30 Oct 2026, finding 3): "0 not
+    # refused" over a set whose every revision was skipped read exactly like a set every house of
+    # which the type's facts refused, and an MCP reader has no tally beside the sentence.
+    return {"returned": len(cards), "refused": standing.count("refused"),
+            "not_placed": len(cards) - len(placed) - standing.count("refused"),
+            "not_refused": len(placed), "drawable_where_judged": len(where),
             "unjudged_facts": dict(sorted(unjudged.items()))}
 
 
@@ -2275,7 +2320,11 @@ def drawability_line(counts):
     """The one sentence R10 asks every surface for: both counts, and the unjudged facts by name."""
     uj = counts.get("unjudged_facts") or {}
     tail = (" (" + ", ".join(f"{f} unjudged on {k}" for f, k in uj.items()) + ")") if uj else ""
-    return (f"Of the {counts['returned']} candidate(s) returned, {counts['not_refused']} not refused, "
+    apart = ""
+    if counts.get("refused") or counts.get("not_placed"):
+        apart = (f" ({counts.get('refused', 0)} refused, {counts.get('not_placed', 0)} not placed or "
+                 f"whose placement could not be judged)")
+    return (f"Of the {counts['returned']} candidate(s) returned, {counts['not_refused']} not refused{apart}, "
             f"{counts['drawable_where_judged']} drawable where judged{tail}. A fact nobody could judge "
             f"is not counted as held: 'not refused' is the placement standing the set is filled on, "
             f"'drawable where judged' is the phase's acceptance instrument (`drawability.assess`), and "
@@ -2302,6 +2351,14 @@ def passed_over_entry(c):
                + (f": {rv['placement_unjudged']}" if rv.get("placement_unjudged") else ""))
     else:
         why = "placed and not refused"          # unreachable from the pool-fill, which takes these
+    # A PLACEMENT ASKED UNDER LESS THAN THE COMPOSE BUDGET SAYS SO (the audit of 30 Oct 2026,
+    # finding 8): a pool-fill placement begun late in the set's budget is asked under what is left,
+    # and a refusal reached there is partly the budget's -- at a 5 s limit the prover falls back to
+    # the search -- so the reason carries the limit it was reached under.
+    lim = (rv or {}).get("placement_time_limit_s")
+    full = getattr(_mod("geometry", f"{ROOT}/build/geometry.py"), "BUDGET_COMPOSE_S", None)
+    if st != "placed" and isinstance(lim, (int, float)) and full and lim < full - 0.05:
+        why += f" (placed under a {lim:g} s time limit, short of the compose budget's {full:g} s)"
     return {"parti": c["parti"], "parti_name": c.get("parti_name"), "standing": st, "why": why}
 
 
@@ -2545,7 +2602,9 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # single-move retry or the reclaim only where what is left of the share can hold a
     # re-placement, refusing and SAYING one that cannot (`revision.budget_refused`, and a line in
     # the decisions). What the budget still does not bound, stated: the prover's overshoot past
-    # its own time limit (measured about 1.2x), the critique around the last solve begun, and the
+    # its own time limit (a few seconds a placement, measured by the audit of 30 Oct 2026, and a floor
+    # rather than a ratio: it does not shrink with the limit, so a short share overshoots by more in
+    # proportion), the critique around the last solve begun, and the
     # DECLARED composition above, which runs before the deadline is set (about 41 s on the
     # Georgian brief) -- `revise_budget_s` governs the placed loop and is named for it.
     # THE SET'S BUDGET IS DERIVED WHERE NONE IS PASSED (WP-17.6). It was a flat 120 s, which at a
@@ -2740,6 +2799,11 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             for p in (pool_fill or {}).get("passed_over") or []:
                 if p["parti"] == named:
                     p["appended_as_named"] = True
+            # nor is it "not reached" once the named guarantee has returned it (the audit of
+            # 30 Oct 2026, finding 4): the sentence named it among the diagrams not placed
+            if pool_fill and named in (pool_fill.get("not_reached") or []):
+                pool_fill["not_reached"] = [p for p in pool_fill["not_reached"] if p != named]
+                pool_fill["named_appended"] = named
             if revise and "revision" not in extra:
                 remaining = None if deadline is None else deadline - time.perf_counter()
                 chose = (f"{asked_n} candidate(s) asked for"
