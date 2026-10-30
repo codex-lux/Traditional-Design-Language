@@ -94,6 +94,25 @@ search's placement seats one window on the entrance front where it seated none.
 It is `oq/a-withdrawn-claim-still-steers-the-placer` met from the other side: a claim that stops being
 structural stops steering, and a front changes with it.
 
+**Corrected the same day (the audit of Phase 17, finding 49): the conviction has TWO sufficient causes,
+and the second bullet above is a non sequitur.** Re-derived on `739ff29` with `check_partis`'s own brief
+(adam-style, 2,600 sf) and the declared record, deterministic heuristic, four cells:
+
+| type pass | the bath's claim | `even-bay-front` |
+|---|---|---|
+| on | `wet_stack_with` (as shipped) | convicted, 1 against 3-7 |
+| off | `wet_stack_with` | convicted |
+| on | put back as `stacks_over` | **convicted** |
+| off | put back as `stacks_over` | **unjudged**, the parent's state |
+
+- Either change alone convicts, so ruling 5 is not "the cause" and the type pass is not "not the cause":
+  each is sufficient, and only both undone restores the unjudged verdict.
+- The first bullet above held only with the type pass also off; it was measured on a run where it was.
+- Commit `01f11b2`'s message names the type pass as the cause. It is incomplete, not wrong, and cannot
+  be rewritten.
+- Buying the *unjudged* back would mean undoing both, and the reasoning below about not choosing a filing
+  by what it does to a checker applies to each.
+
 **Nothing is edited.** Restoring the structural claim to buy back an *unjudged* would be choosing a
 filing by what it does to a checker, which is the move this corpus refuses. Reading 1 still stands as
 the one that makes a house: a front that is composed rather than left to the search.

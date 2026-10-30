@@ -86,17 +86,20 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 `python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
 (`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
-## Where the work stands (3 Oct 2026)
+## Where the work stands (30 Oct 2026)
 
 **PHASE 17 — THE CANDIDATES THAT CAN BE DRAWN — FIRST TRANCHE BUILT (29 Oct 2026).** Read
 `docs/reports/wp-17.0-the-house-the-card-describes.md` before touching `compose.compose_to_the_type`, the
 pool-fill, `geometry.declared_digest`, the prover's portfolio or `typefacts.bearing`. Lucas found every
 candidate for his brief refused a drawing; the cause was one thing -- nothing upstream built a house to the
 type's facts, and the prover could not decide what it was asked -- and he gave eight rulings the same day
-(the report's §II). **On a quiet four-core box the composed foursquare is now DRAWABLE on his brief**, every
-fact held, every bearing wall on a ground wall over its whole run, every room in band, every door placed:
-the first composed two-storey house this corpus may draw. The centre passage, the side hall (proven
-infeasible on its own stacks) and the five-part do not decide at the compose budget.
+(the report's §II). **On a quiet four-core box the composed foursquare is now drawable on his brief WHERE
+JUDGED**: tiling, stacks and bearing held, every bearing wall on a ground wall over its whole run, every
+room in band, every door placed, and the hearth UNJUDGED, because no composed house states a fire. It is
+the first composed two-storey house this corpus may draw. *(Corrected 30 Oct 2026, the audit of Phase 17:
+this sentence said "every fact held", and an unjudged fact is never held.)* The single-pile centre passage
+and the five-part do not decide at the compose budget; the double pile and the side hall are proven
+infeasible as composed.
 - **A placement names the declared record it is of** (`solver.input_digest`); the bench and the Drawing Set
   keep a carried placement only where that digest still matches, so a candidate is drawn as composed and an
   edited record is re-solved.
@@ -832,10 +835,11 @@ they preferred, expected the drawings, and got `Plan refused · 0 fatal`, Drawin
         clears by editing the diagram: the side-hall needs a placer that composes a front, the cape
         a roof that models a central stack.
         *(Corrected 30 Oct 2026, Phase 17: still 19 of 21 and two errors, but the side hall is
-        JUDGED and convicted again, "1 against between 3 and 7". Ruling 5 re-filed its
-        bath-over-powder claim as `wet_stack_with`, so `geometry.bias` stopped pulling the bath over
-        the powder room and the search's upper floor seats one front window. Measured both ways;
-        the question carries the amendment.)*
+        JUDGED and convicted again, "1 against between 3 and 7". TWO changes each suffice: ruling 5
+        re-filed its bath-over-powder claim as `wet_stack_with` (so `geometry.bias` stopped pulling
+        the bath over the powder room), and the type pass resized the house; only both undone gives
+        back the unjudged verdict. This parenthetical first named ruling 5 alone, which the audit of
+        Phase 17 re-measured in four cells; the question carries the table.)*
       - The report's first draft, a PR comment and a commit message said the product builds "3 bays
         at 8 ft" against the check's "4 at 10"; the columns were on different lots. The module is
         the difference, and the report's section VII carries the correction.
