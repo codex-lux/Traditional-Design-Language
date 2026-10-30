@@ -133,6 +133,19 @@ hero or the journey's words.
   ceiling was not raised.
 - **The process note.** WP-17.2 to 17.14 landed in one commit, against the ruling's one package at a
   time, and the commit's message says what it had not verified.
+- **A SECOND AUDIT OF THE WHOLE SESSION'S DIFF (30 Oct 2026, report §VII) FOUND ONE BLOCKING
+  DEFECT.** Every definition popover's links were paper on paper. Its other findings:
+  - the ladders (binding, variant, affinity, kind, edge, judgment) followed no ground;
+  - a folded rail hid the refusal and Next;
+  - a failed lazy chunk blanked the app;
+  - the hero drew a placement nobody judged, and its startup warm never ran (Starlette ignores
+    `on_event` beside a `lifespan`).
+
+  All are fixed. `grounds.test.mjs` §9 to §12 hold:
+  - **an element that paints paper marks itself vellum, by style or by class;**
+  - every ladder duty reads 4.5 : 1 on the instrument;
+  - a colour named through a variable or a map is followed to its const;
+  - every mark reads 3 : 1.
 
 **PHASE 16 — THE RULINGS OF 29 SEPTEMBER — IS COMPLETE (29 Sep – 3 Oct 2026).** Read `PLAN-OF-ACTION.md`'s
 Phase 16 section before touching:

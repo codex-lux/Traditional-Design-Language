@@ -105,6 +105,15 @@ REGISTRY = [
      "reason": "the atlas: coastlines and a graticule, not architecture"},
     {"id": "tokens", "file": "workbench/app/src/theme/tokens.css", "role": "out-of-scope",
      "reason": "a stylesheet that names <svg> in a comment; it draws nothing"},
+    # Phase 17 (registered by its second audit, which found the census refusing all four)
+    {"id": "brief-site", "file": "workbench/app/src/brief/SiteDiagram.jsx", "role": "out-of-scope",
+     "reason": "the Brief's lot to scale and its compass: a site schematic, not a drawing of a building"},
+    {"id": "period-bar", "file": "workbench/app/src/dossier/PeriodBar.jsx", "role": "out-of-scope",
+     "reason": "a style's period as a bar of dates: a chart, not a building"},
+    {"id": "conventions-plate", "file": "workbench/app/src/export/ConventionsPlate.jsx", "role": "out-of-scope",
+     "reason": "an illustration of the dimensioning convention, clear against structural, drawn to no record"},
+    {"id": "front-door", "file": "workbench/app/src/surfaces/Overview.jsx", "role": "out-of-scope",
+     "reason": "the library cards' glyphs; the hero is the plan sheet render_plan produces, held at its producer"},
 ]
 
 # WHAT COUNTS AS EMITTING SVG. The first version matched `<svg` alone and was blind to a React
