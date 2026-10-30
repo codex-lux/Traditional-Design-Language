@@ -3958,13 +3958,26 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
     # retained — so a caller posting a large record 64 times pinned 64 copies of it in the key
     # alone, on top of 64 deep-copied results. A plan record arrives over HTTP; its size is
     # the caller's choice. sha256 makes the key constant-size whatever the record weighs.
+    # THE WORKER COUNT IS AN INPUT TO A CP ANSWER (the audit of Phase 17, 30 Oct 2026, finding 36).
+    # Since WP-17.5 the prover's formulation turns on `portfolio_workers()` -- one worker runs the
+    # assumption ladder, several the hard portfolio first -- so a key without it served a one-worker
+    # answer to a four-worker request: reproduced, the two-storey fixture solved with one worker and
+    # then with four, no clear, came back identical with no portfolio line. The tests concede it by
+    # clearing the cache by hand around a forced one-worker solve.
+    workers = None
+    if engine in ("auto", "cp"):
+        try:
+            workers = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py").portfolio_workers()
+        except Exception:                              # no prover to ask: nothing to key on
+            workers = None
     key = (hashlib.sha256(plan_s.encode()).hexdigest(),
            hashlib.sha256(parti_s.encode()).hexdigest() if parti_s else None,
-           candidates, seed, engine, time_limit_s)
+           candidates, seed, engine, time_limit_s, workers)
     hit = _SOLVE_CACHE.get(key)
     if hit is not None:
         return copy.deepcopy(hit)
-    out = _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s)
+    leg = {}
+    out = _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s, leg=leg)
     # WP-6.2 — openings are placed HERE, in the one dispatcher both engines come through,
     # so a CP placement and a heuristic placement carry the same kind of record and every
     # consumer (the renderers, the exporters, the drawn-house layer of plan_check) reads
@@ -3995,11 +4008,29 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
     # two changes are orthogonal and both are wanted: openings must be placed on every result
     # this dispatcher returns, cached or not, or an over-large plan would come back with doors
     # that have no wall. Only the CACHE WRITE is size-guarded.
-    if len(plan_s) <= MAX_CACHEABLE_BYTES:
+    if len(plan_s) <= MAX_CACHEABLE_BYTES and _cacheable(leg):
         if len(_SOLVE_CACHE) > 64:
             _SOLVE_CACHE.clear()
         _SOLVE_CACHE[key] = copy.deepcopy(out)
     return out
+
+
+def _cacheable(leg):
+    """May this solve's answer be served to the next identical request? NOT where the CP leg did not
+    decide (UNKNOWN in budget is a fact about this machine's load at that moment, and the fallback or
+    the error built on it would outlive the load), and NOT where it ran on fewer workers than the box
+    offered (the portfolio lock was held by another solve -- a compose job -- so the formulation was
+    the one-worker ladder, and the answer would outlive the contention). The audit of Phase 17
+    (finding 36): a placement decided under contention was cached and served to every later identical
+    request even when the portfolio was free. No key computed BEFORE the solve can see the lock,
+    which is why this reads the solve's own record of what it ran on (`geometry_cp._run`)."""
+    cp = leg.get("cp")
+    if cp is None:
+        return True                   # the heuristic, or no CP leg ran
+    if not cp.get("decided"):
+        return False
+    w, avail = cp.get("workers"), cp.get("workers_available")
+    return not (isinstance(w, int) and isinstance(avail, int) and w < avail)
 
 
 def declared_digest(plan):
@@ -4044,7 +4075,7 @@ def carries_its_own_placement(plan):
     return bool(got) and got == declared_digest(plan)
 
 
-def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
+def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s, leg=None):
     if engine == "heuristic":
         out = solve_heuristic(plan, parti, candidates, seed)
         if "error" not in out:
@@ -4094,6 +4125,15 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
 
     GC = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py")
     res = GC.solve_cp(plan, parti, seed=seed, time_limit_s=time_limit_s, candidates=candidates)
+    # WHAT THE CP LEG RAN ON AND WHETHER IT DECIDED (the audit of Phase 17, findings 13 and 36):
+    # handed back to `solve()` for its cache, and written onto a record the prover did not place
+    # (the least-bad drawing, the budget fallback) as `cp_run`, so a reader of the fallback can
+    # tell an UNKNOWN on one worker from one on four.
+    _rs = res.get("solver") or res.get("infeasible") or res
+    cp_run = {"workers": _rs.get("workers"), "workers_available": _rs.get("workers_available"),
+              "mode": _rs.get("mode"), "status": _rs.get("status") or res.get("status")}
+    if leg is not None:
+        leg["cp"] = dict(cp_run, decided=not res.get("unsolved") and "error" not in res)
     if "error" in res:
         return res
     if res.get("infeasible"):
@@ -4105,7 +4145,8 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
         out["geometry_report"]["solver"] = {
             "engine": "heuristic (least-bad, labelled)",
             "reason": "CP-SAT proved the declared facts cannot all hold; this drawing is the "
-                      "heuristic's least-bad relaxation and the conflicts below say what it relaxes"}
+                      "heuristic's least-bad relaxation and the conflicts below say what it relaxes",
+            "cp_run": cp_run}
         _refuse(out, res["infeasible"])   # the conflict set, and the refusal drawn from it
         return out
     if res.get("unsolved"):
@@ -4132,7 +4173,8 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
                 "fallback": "budget" if status == "UNKNOWN" else "engine",
                 "status": status,
                 "reason": f"CP-SAT returned no solution in {time_limit_s:.0f}s "
-                          f"({status}); fell back to the hill-climb"}
+                          f"({status}); fell back to the hill-climb",
+                "cp_run": cp_run}
         return out
     out = _finish(plan, res["best"], res["fpd"], res["levels"], solver=res["solver"])
     if engine == "auto":
@@ -4225,7 +4267,9 @@ def _the_search_where_it_holds_the_facts(out, plan, parti, candidates, seed):
         "never_downgrade": {"drawn": n_alt, "proof": n_proof},
         "proof": {"status": sv_proof.get("status"), "refused": proof_ref,
                   "downgraded_wall_pins": sv_proof.get("downgraded_wall_pins") or [],
-                  "workers": sv_proof.get("workers"), "mode": sv_proof.get("mode")}}
+                  "workers": sv_proof.get("workers"),
+                  "workers_available": sv_proof.get("workers_available"),
+                  "mode": sv_proof.get("mode")}}
     return alt
 
 

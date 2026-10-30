@@ -15,6 +15,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("geometry_cp_pf", ROOT / "build" / "geometry_cp.py")
 GC = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(GC)
+from conftest import deterministic_solver  # noqa: E402
 
 
 def test_the_override_wins_and_is_floored_at_one(monkeypatch):
@@ -176,9 +177,7 @@ def test_harden_poses_every_fact_as_a_hard_clause_and_the_solver_reads_it_so():
         one = next(lit for lit, _t, k, _key in reqs.lits if k == kind)
         trial = m.Clone()
         trial.Add(trial.GetBoolVarFromProtoIndex(one.Index()) == 0)
-        s = cp_model.CpSolver()
-        s.parameters.max_time_in_seconds = 20
-        s.parameters.num_search_workers = 1
+        s = deterministic_solver(20)      # bounded by work, never by the clock (test_determinism)
         assert s.Solve(trial) == cp_model.INFEASIBLE, f"a lifted {kind} fact is not forced"
 
 
