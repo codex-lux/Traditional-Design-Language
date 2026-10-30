@@ -171,7 +171,9 @@ def test_tdl_compose_states_its_budget_and_the_pool_fill_in_its_own_words():
     body = src[i:j]
     assert "revise_budget_s: float | None = None" in body
     assert "revise_budget_s=revise_budget_s" in body, "the stated budget is forwarded"
-    for words in ("revise_budget_s", "560 s", "pool_fill", "not refused", "drawable where judged"):
+    # `stopped_by` since the audit's finding 26: the tool says which bound left a diagram unreached
+    for words in ("revise_budget_s", "560 s", "pool_fill", "not refused", "drawable where judged",
+                  "stopped_by", "appended_as_named"):
         assert words in body, words
 
 

@@ -1,0 +1,14 @@
+{
+  "id": "placed-and-not-refused",
+  "term": "not refused",
+  "family": "house",
+  "definition": "A candidate the composer placed whose placement no hard fact of its house type refused. It is the standing a set is filled on. It is not yet drawable: that also asks whether every fact that could be judged holds.",
+  "more": "A candidate nobody placed is not counted here, and neither is one whose placement could not be evaluated: neither has been asked the type's facts, so neither is refused or not refused. The count is always shown beside the count of candidates drawable where judged, never alone.",
+  "kind": "editorial",
+  "basis": "Our wording of the first of the two counts a composed set is read by. build/compose.py, set_drawability: how many are NOT REFUSED, where the placed loop \"returned a placement and the type's facts did not refuse it -- `placement_standing == 'placed'`,\" which is the pool-fill's own test; and how many of those \"finds every judged fact held and no room past its band), with each fact nobody could judge\" named.",
+  "see": [
+    "term:drawable-where-judged",
+    "term:judgment-refused",
+    "term:filled-from-the-pool"
+  ]
+}

@@ -892,10 +892,13 @@ def instantiate(parti_id, brief):
                               for wall in lit]
         if r.get("fixtures"): rec["fixtures"] = r["fixtures"]
         if r.get("stacks_over"): rec["stacks_over"] = r["stacks_over"]
-        # WP-17.1: the servicing claim travels with the structural one. Seventeen bath-over-wet-room
-        # claims moved from `stacks_over` to `wet_stack_with` (ruled 29 Oct 2026); copying only the
-        # first field would have dropped every one of them on the way to the plan record, and a
-        # claim the composer drops is a claim nothing judges.
+        # WP-17.1: the servicing claim travels with the structural one. Ruling 5 (29 Oct 2026) moved
+        # the bath-over-wet-room claims from `stacks_over` to `wet_stack_with`, executed as "the
+        # claimant is a bath"; Lucas's ruling of 30 Oct 2026 (R9) reverted two of them, so the
+        # partis now carry FIFTEEN such claims in twelve partis (the figure this comment first gave,
+        # seventeen, was the count before R9). Copying only the first field would have dropped every
+        # one of them on the way to the plan record, and a claim the composer drops is a claim
+        # nothing judges.
         if r.get("wet_stack_with"): rec["wet_stack_with"] = r["wet_stack_with"]
         # WP-11.6: the diagram's own massing composition reaches the plan record. Copied rather
         # than derived, exactly as `stacks_over` above is: a parti that states two elements is
@@ -2302,6 +2305,50 @@ def passed_over_entry(c):
     return {"parti": c["parti"], "parti_name": c.get("parti_name"), "standing": st, "why": why}
 
 
+# WHICH BOUND STOPPED THE POOL-FILL (the Phase 17 audit, finding 26). The loop ends on one of four
+# conditions and `not_reached` was written the same way whichever it was, so the surface printed
+# "the set's time ran out" over diagrams the CAP of `POOL_FILL_PLACEMENTS` had stopped at with most
+# of the set's time left -- one message for two causes. The four, in the order they are tested:
+#   set-full  as many of the set may be drawn as were asked for; nothing is left unreached
+#   pool      the ranked pool is exhausted; nothing is left to reach
+#   budget    the set's time ran out (fewer than five seconds left) before the next placement
+#   cap       `POOL_FILL_PLACEMENTS` diagrams were placed from the pool, with time left
+# Only `budget` and `cap` can leave a diagram unreached, and each says so in its own words.
+POOL_FILL_STOPS = ("set-full", "pool", "budget", "cap")
+
+
+def pool_fill_stopped_by(have, candidates, i, n_pool, out_of_time):
+    """The one reader of why the pool-fill loop ended, from its own state at exit: `have` not
+    refused of `candidates` asked, `i` of `n_pool` diagrams reached, and whether it broke on the
+    set's deadline. What is left is the cap, because the loop has no fifth way out. A pure function
+    so each branch can be driven without a compose."""
+    if out_of_time:
+        return "budget"
+    if have >= candidates:
+        return "set-full"
+    if i >= n_pool:
+        return "pool"
+    return "cap"
+
+
+def pool_fill_not_reached_line(pool_fill):
+    """The diagrams the pool-fill did not reach, with the bound that stopped it (finding 26), or
+    None where it reached them all. A cause the record does not state is not given one."""
+    left = pool_fill.get("not_reached") or []
+    if not left:
+        return None
+    names = ", ".join(left)
+    by = pool_fill.get("stopped_by")
+    if by == "budget":
+        why = "because the set's time ran out before the next placement"
+    elif by == "cap":
+        why = (f"because the pool-fill places at most {pool_fill.get('cap', POOL_FILL_PLACEMENTS)} "
+               f"diagram(s) past the set; the set's time had not run out")
+    else:
+        why = "and the composer did not record which bound stopped it"
+    return f"{len(left)} diagram(s) further down the pool were not placed, {why} ({names})."
+
+
 def pool_fill_line(pool_fill, candidates):
     """The pool-fill's reading line, counting what it passed over APART: refused, could not be
     evaluated, and (where the brief named one of them) returned anyway as the named diagram."""
@@ -2625,6 +2672,8 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # set. The set stays ordered by `rank_key` (ruling 7: judged fatals first, then the standing), so
     # a drawable house carrying a fatal is offered and never leads a fatal-free one; each diagram
     # placed and still refused is named with its reason, and each the budget did not reach is named.
+    # (The audit's finding 26: the budget is one of TWO bounds -- the set's time and the cap of
+    # `POOL_FILL_PLACEMENTS` -- and each unreached diagram is named with the bound that stopped it.)
     pool_fill = None
     added = []
     if revise and out and len(out) > candidates:
@@ -2636,10 +2685,11 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         def _drawable(c):
             return placement_standing(c) == "placed"
         have = sum(1 for c in out[:candidates] if _drawable(c))
-        placed, passed, i = 0, [], candidates
+        placed, passed, i, out_of_time = 0, [], candidates, False
         while have < candidates and i < len(out) and placed < POOL_FILL_PLACEMENTS:
             remaining = None if deadline is None else deadline - time.perf_counter()
             if remaining is not None and remaining < 5.0:
+                out_of_time = True
                 break
             c = out[i]
             i += 1
@@ -2658,7 +2708,11 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         pool_fill = {"asked": candidates, "drawable_in_set": in_set, "not_refused_in_set": in_set,
                      "placed_from_pool": placed, "added": [c["parti"] for c in added],
                      "passed_over": passed,
-                     "not_reached": [c["parti"] for c in out[i:]] if have < candidates else []}
+                     "not_reached": [c["parti"] for c in out[i:]] if have < candidates else [],
+                     # which bound ended the loop, so `not_reached` is never given a cause it
+                     # did not have (finding 26): set-full | pool | budget | cap
+                     "stopped_by": pool_fill_stopped_by(have, candidates, i, len(out), out_of_time),
+                     "cap": POOL_FILL_PLACEMENTS}
     # THE NAMED PARTI'S GUARANTEED PLACE (WP-14.19, ruled 25 Sep 2026). A parti named by the brief
     # is guaranteed a place among the candidates, and the guarantee is a place and not a rank: it is
     # scored by the same arithmetic as every other diagram and sorted by the same key, so if the
@@ -2760,6 +2814,9 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
         result["pool_fill"] = pool_fill
         if pool_fill["placed_from_pool"]:
             result["how_to_read_this"].append(pool_fill_line(pool_fill, candidates))
+        unreached = pool_fill_not_reached_line(pool_fill)
+        if unreached:
+            result["how_to_read_this"].append(unreached)
     if revise:
         # R10's two counts over the RETURNED set, every compose that placed: never one word for both
         result["drawability"] = set_drawability(returned)

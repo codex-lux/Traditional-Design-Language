@@ -84,6 +84,35 @@ export function tallyView(standing) {
   };
 }
 
+/* R10 (ruled by Lucas, 30 Oct 2026): THE SET IS READ BY TWO COUNTS, NEVER ONE -- "n not refused,
+   m drawable where judged (hearth unjudged)". `not refused` is the standing the pool-fill fills the
+   set on (the placed loop ran and no hard fact of the type refused the placement); `drawable where
+   judged` is the phase's acceptance instrument, `drawability.assess`, finding every fact it could
+   judge held and no room past its band. A fact nobody could judge is named beside them, and NEVER
+   counted as held. Both counts are the composer's (`result.drawability`, written by
+   `compose.set_drawability`) and are read here, not re-derived from the cards: a second count of one
+   thing is how two surfaces come to disagree about it.
+
+   Returns null where the result carries no reading (a compose that placed nothing -- `revise:
+   false` -- or an older result), and the surface then says nothing rather than a zero: a count of
+   drawable houses the composer never measured is not a count. `unjudged` lists each fact with
+   `on: null` where it was unjudged on every not-refused candidate, which is how R10 words it
+   ("hearth unjudged"), and with its own count where it was unjudged on fewer. */
+export function drawabilityView(drawability) {
+  const d = drawability && typeof drawability === 'object' && !Array.isArray(drawability) ? drawability : null;
+  const nat = (v) => (Number.isInteger(v) && v >= 0 ? v : null);
+  if (!d) return null;
+  const notRefused = nat(d.not_refused);
+  const whereJudged = nat(d.drawable_where_judged);
+  if (notRefused === null || whereJudged === null) return null;
+  const uj = d.unjudged_facts && typeof d.unjudged_facts === 'object' && !Array.isArray(d.unjudged_facts)
+    ? d.unjudged_facts : {};
+  const unjudged = Object.keys(uj).sort()
+    .filter((f) => f && nat(uj[f]) !== null && uj[f] > 0)
+    .map((f) => ({ fact: f, on: uj[f] >= notRefused ? null : uj[f] }));
+  return { returned: nat(d.returned), notRefused, whereJudged, unjudged };
+}
+
 /* `what` — the sentence saying what an axis measures — rides on the RESULT once rather than
    on eight rows per candidate, because it is constant across a run and the MCP tool bills a
    model for the payload. Merged back onto the rows here so the column stays a pure function

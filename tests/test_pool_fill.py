@@ -97,6 +97,9 @@ def test_the_loop_stops_once_as_many_may_be_drawn_as_were_asked_for(monkeypatch)
     res, placed = _compose(monkeypatch, drawable={asked[0], pool[0]})
     assert placed == asked + pool[:1], "it stops the moment the set holds two drawable houses"
     assert res["pool_fill"]["added"] == [pool[0]] and res["pool_fill"]["not_reached"] == []
+    # finding 26: the bound that ended it is said, and a full set leaves nothing unreached to explain
+    assert res["pool_fill"]["stopped_by"] == "set-full"
+    assert CO.pool_fill_not_reached_line(res["pool_fill"]) is None
 
 
 def test_a_set_that_may_all_be_drawn_places_nothing_more(monkeypatch):
@@ -105,7 +108,9 @@ def test_a_set_that_may_all_be_drawn_places_nothing_more(monkeypatch):
     assert len(placed) == 2
     pf = res["pool_fill"]
     assert pf["placed_from_pool"] == 0 and pf["added"] == [] and pf["passed_over"] == []
+    assert pf["stopped_by"] == "set-full"
     assert not any("further down the ranked pool" in ln for ln in res["how_to_read_this"])
+    assert not any("further down the pool" in ln for ln in res["how_to_read_this"])
 
 
 def test_a_spent_budget_names_what_it_did_not_reach(monkeypatch):
@@ -114,6 +119,10 @@ def test_a_spent_budget_names_what_it_did_not_reach(monkeypatch):
     pf = res["pool_fill"]
     assert pf["placed_from_pool"] == 0
     assert pf["not_reached"], "a diagram the budget did not reach is named, never left out in silence"
+    # finding 26: and named with the bound that stopped it -- here the set's time, which ran out
+    assert pf["stopped_by"] == "budget"
+    line = next(ln for ln in res["how_to_read_this"] if "further down the pool were not placed" in ln)
+    assert "the set's time ran out" in line and "places at most" not in line, line
 
 
 def test_revise_false_places_nothing_and_says_nothing_about_a_pool(monkeypatch):
@@ -259,3 +268,100 @@ def test_the_pool_fill_line_counts_refused_and_unjudged_apart():
     assert "1 placed and not refused and added to the set (x)" in line
     assert "1 still refused, 1 whose placement could not be judged" in line
     assert "drawable and added" not in line, "the fill takes 'not refused', which is not 'drawable'"
+
+
+# ------------------------------------------------------------------------------------------------
+# THE PHASE 17 AUDIT, FINDING 26: WHICH BOUND STOPPED THE FILL. The loop ends on the set being
+# full, the pool running out, the set's time running out, or the cap of `POOL_FILL_PLACEMENTS`, and
+# `not_reached` was written the same way whichever it was -- so the app printed "the set's time ran
+# out" over diagrams the cap had stopped at with most of the time left. `stopped_by` says which.
+def test_the_stop_is_read_off_the_loops_own_state_in_four_states():
+    f = CO.pool_fill_stopped_by
+    assert f(have=0, candidates=2, i=4, n_pool=12, out_of_time=True) == "budget"
+    assert f(have=2, candidates=2, i=4, n_pool=12, out_of_time=False) == "set-full"
+    assert f(have=1, candidates=2, i=12, n_pool=12, out_of_time=False) == "pool"
+    assert f(have=1, candidates=2, i=6, n_pool=12, out_of_time=False) == "cap"
+    # a full set that also exhausted the pool has nothing unreached: it is the set that is full
+    assert f(have=2, candidates=2, i=12, n_pool=12, out_of_time=False) == "set-full"
+    assert set(CO.POOL_FILL_STOPS) == {"set-full", "pool", "budget", "cap"}
+
+
+def test_a_fill_stopped_by_its_cap_says_the_cap_and_not_that_the_time_ran_out(monkeypatch):
+    # the baseline: nothing drawable, a 600 s budget, so the fill places its whole cap and stops
+    # there with most of the set's time left -- the case the surface used to call "time ran out"
+    res0, placed0 = _baseline(monkeypatch)
+    pf = res0["pool_fill"]
+    assert pf["placed_from_pool"] == CO.POOL_FILL_PLACEMENTS and pf["not_reached"]
+    assert pf["stopped_by"] == "cap" and pf["cap"] == CO.POOL_FILL_PLACEMENTS
+    line = next(ln for ln in res0["how_to_read_this"] if "further down the pool were not placed" in ln)
+    assert f"places at most {CO.POOL_FILL_PLACEMENTS}" in line and "had not run out" in line, line
+    assert ", ".join(pf["not_reached"]) in line
+
+
+def test_the_not_reached_line_gives_no_cause_the_record_does_not_state():
+    base = {"not_reached": ["a", "b"], "cap": 4}
+    assert CO.pool_fill_not_reached_line({**base, "stopped_by": None}).endswith(
+        "and the composer did not record which bound stopped it (a, b).")
+    assert "time ran out" in CO.pool_fill_not_reached_line({**base, "stopped_by": "budget"})
+    assert "places at most 4" in CO.pool_fill_not_reached_line({**base, "stopped_by": "cap"})
+    assert CO.pool_fill_not_reached_line({"not_reached": [], "stopped_by": "cap"}) is None
+
+
+def _instant_place(monkeypatch):
+    """A placed loop that answers at once and refuses every diagram (the verifier's drive for
+    finding 26): the declared pass stays the real one, so the pool's order is the composer's."""
+    import copy
+    orig = RV.revise
+
+    def fake(plan, **kw):
+        if not kw.get("place"):
+            return orig(plan, **kw)
+        p = copy.deepcopy(plan)
+        p["geometry_report"] = {"refused": dict(REFUSED)}
+        p["revision_report"] = {}
+        rep = {"summary": {}, "stop_reason": "no-rounds", "engine": "heuristic", "rounds": [],
+               "remaining": {}, "handed_to_architect": [], "suspects": [], "refused": []}
+        return {"plan": p, "rounds": [], "report": rep, "key_before": [0, 0, 0, 0],
+                "key_after": [0, 0, 0, 0]}
+    monkeypatch.setattr(RV, "revise", fake)
+
+
+def test_a_fill_that_runs_out_of_pool_says_the_pool_and_leaves_nothing_unreached(monkeypatch):
+    _instant_place(monkeypatch)
+    monkeypatch.setattr(CO, "POOL_FILL_PLACEMENTS", 100)
+    res = CO.compose(_brief(), candidates=2, revise=True, revise_rounds=0,
+                     revise_engine="heuristic", revise_budget_s=600)
+    pf = res["pool_fill"]
+    assert pf["stopped_by"] == "pool", pf
+    assert pf["not_reached"] == [] and pf["placed_from_pool"] == len(pf["passed_over"]) > 0
+    assert not any("further down the pool were not placed" in ln for ln in res["how_to_read_this"])
+
+
+def test_the_compose_comment_states_the_wet_stack_claims_the_partis_carry():
+    """compose.py's WP-17.1 comment said "Seventeen bath-over-wet-room claims" after R9 (30 Oct 2026)
+    reverted two of them to `stacks_over`. The figure in prose is held to the partis it describes."""
+    import glob
+    import re
+    words = {"ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15,
+             "sixteen": 16, "seventeen": 17, "eighteen": 18}
+    claims, partis = 0, set()
+
+    def walk(o, f):
+        nonlocal claims
+        if isinstance(o, dict):
+            if "wet_stack_with" in o:
+                v = o["wet_stack_with"]
+                claims += len(v) if isinstance(v, list) else 1
+                partis.add(f)
+            for x in o.values():
+                walk(x, f)
+        elif isinstance(o, list):
+            for x in o:
+                walk(x, f)
+    for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))):
+        walk(json.load(open(f, encoding="utf-8")), f)
+    src = open(os.path.join(ROOT, "build", "compose.py"), encoding="utf-8").read()
+    m = re.search(r"carry ([A-Za-z]+) such claims in ([a-z]+) partis", src)
+    assert m, "compose.py's WP-17.1 comment no longer states how many wet-stack claims the partis carry"
+    assert (words[m.group(1).lower()], words[m.group(2)]) == (claims, len(partis)), (
+        m.group(0), claims, len(partis))

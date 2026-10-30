@@ -25,7 +25,9 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { ORDERS, order, setSize, poolPassedOver } from '../candidateOrder.js';
-import { adaptCandidate, selectionAction, selectionView, setStanding, tallyView } from '../candidateCard.js';
+import {
+  adaptCandidate, selectionAction, selectionView, setStanding, tallyView, drawabilityView,
+} from '../candidateCard.js';
 import { Term } from '../components/Term.jsx';
 import { revisedEventLine } from '../revision.js';
 
@@ -153,6 +155,8 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
   const standing = setStanding(cands);
   const view = selectionView(selectionAction(picked, standing));
   const tally = tallyView(standing);
+  // R10 (ruled 30 Oct 2026): the set's two counts, the composer's own, never one of them alone
+  const drawn = drawabilityView(result.drawability);
 
   async function openInWorkbench(c) {
     // A refused candidate is not loaded (ruled by Lucas, 16 Oct 2026). The conflict set beside its
@@ -213,6 +217,24 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
           {tally.unjudged > 0 && (
             <span data-set-unjudged={tally.unjudged}>
               {JOURNEY_WORDS.separator}{JOURNEY_WORDS.selection.tallyUnjudged(tally.unjudged, tally.of)}
+            </span>
+          )}
+          {/* R10 (ruled by Lucas, 30 Oct 2026): "n not refused, m drawable where judged (hearth
+              unjudged)" -- both counts, the composer's own (`drawabilityView` reads
+              `result.drawability`), every fact nobody could judge named and never counted as held,
+              each word a glossary record. Nothing is said where the compose placed nothing. */}
+          {drawn && (
+            <span data-set-not-refused={drawn.notRefused} data-set-drawable-where-judged={drawn.whereJudged}
+              data-set-unjudged-facts={drawn.unjudged.map((u) => u.fact).join(' ')}>
+              {JOURNEY_WORDS.separator}{drawn.notRefused} <Term id="placed-and-not-refused" />
+              {', '}{drawn.whereJudged} <Term id="drawable-where-judged" />
+              {drawn.unjudged.length > 0 && ' ('}
+              {drawn.unjudged.map((u, k) => (
+                <React.Fragment key={u.fact}>
+                  {k > 0 && ', '}{u.fact} <Term id="judgment-unjudged" />{u.on !== null && ` on ${u.on}`}
+                </React.Fragment>
+              ))}
+              {drawn.unjudged.length > 0 && ')'}
             </span>
           )}
           {dropped.length ? ` · ${dropped.length} dropped for the lot` : ''}
@@ -339,24 +361,34 @@ export function CandidateSet({ onCite, go, selection, setSelection }) {
           </div>
         ))}
 
-        {/* WP-17.6: the diagrams the pool-fill placed and found still refused, each with the
-            composer's reason, and the ones its budget did not reach. */}
+        {/* WP-17.6: the diagrams the pool-fill placed and did not take, each with the composer's
+            reason, and the ones it did not reach, with the bound that stopped it (the audit's
+            finding 26). EACH ENTRY IS INKED BY ITS OWN STANDING (`poolPassedOver`'s `tone`): a
+            refusal in the refusal's brick, a placement that could not be evaluated -- and a diagram
+            nobody placed -- in the unjudged ink. One brick border over the whole block drew "its
+            placement could not be evaluated" as a refusal. A diagram the brief named and the fill
+            did not take is a column above, so the leaf leaves it out of this list (finding 27). */}
         {(pool.passed.length > 0 || pool.notReached.length > 0) && (
           <div data-pool-passed-over={pool.passed.map((p) => p.parti).join(' ')}
             data-pool-not-reached={pool.notReached.join(' ')}
             style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: '16px 0 0',
-              borderLeft: '2px solid var(--refusal)', paddingLeft: 12, maxWidth: '74ch' }}>
+              maxWidth: '74ch' }}>
             <Term id="filled-from-the-pool" />
             {pool.passed.map((p) => (
-              <p key={p.parti} style={{ margin: '4px 0 0' }}>
+              <p key={p.parti} data-pool-tone={p.tone}
+                style={{ margin: '4px 0 0', paddingLeft: 12,
+                  borderLeft: `2px solid ${p.tone === 'refusal' ? 'var(--refusal)' : 'var(--judge-unjudged)'}` }}>
                 <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{p.name}</span>
                 {JOURNEY_WORDS.separator}{p.why}
               </p>
             ))}
             {pool.notReached.length > 0 && (
-              <p style={{ margin: '4px 0 0' }}>
+              <p data-pool-stop-term={pool.notReachedTerm || ''}
+                style={{ margin: '4px 0 0', paddingLeft: 12, borderLeft: '2px solid var(--judge-unjudged)' }}>
                 <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{pool.notReached.join(', ')}</span>
-                {JOURNEY_WORDS.separator}{JOURNEY_WORDS.notReached}
+                {JOURNEY_WORDS.separator}{JOURNEY_WORDS.notPlaced}
+                {pool.notReachedTerm && ': '}
+                {pool.notReachedTerm && <Term id={pool.notReachedTerm} />}
               </p>
             )}
           </div>

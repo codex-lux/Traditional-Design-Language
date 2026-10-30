@@ -25,7 +25,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  adaptCandidate, selectionAction, selectionView, setStanding, tallyView,
+  adaptCandidate, selectionAction, selectionView, setStanding, tallyView, drawabilityView,
 } from './candidateCard.js';
 import { standingOf, standingOfSet, PLACEMENT_UNJUDGED } from './candidateStanding.js';
 import { JOURNEY_WORDS } from './journey/journey.js';
@@ -291,4 +291,56 @@ test('the surface renders these decisions and decides none of its own', () => {
   assert.match(col, /id: "judgment-refused"/);
   assert.doesNotMatch(src, /function\s+(selectionAction|selectionView|setStanding|tallyView)\b|(selectionAction|selectionView)\s*=/,
     'defines none of its own');
+});
+
+/* R10 (ruled by Lucas, 30 Oct 2026): the set is read by TWO counts, "n not refused, m drawable
+   where judged (hearth unjudged)", and an unjudged fact is never called held. The counts are the
+   composer's (`result.drawability`, `compose.set_drawability`); the leaf reads them and the surface
+   renders the leaf. */
+test('the drawability tally reads both of the composer\'s counts and names each unjudged fact', () => {
+  // R10's own example: three not refused, one drawable where judged, the fire unjudged on all three
+  const v = drawabilityView({ returned: 4, not_refused: 3, drawable_where_judged: 1, unjudged_facts: { hearth: 3 } });
+  assert.deepEqual(v, { returned: 4, notRefused: 3, whereJudged: 1, unjudged: [{ fact: 'hearth', on: null }] });
+  // a fact unjudged on fewer than every not-refused candidate carries its own count, sorted by name
+  const w = drawabilityView({ returned: 3, not_refused: 3, drawable_where_judged: 2,
+    unjudged_facts: { stacks: 1, hearth: 3, bearing: 0 } });
+  assert.deepEqual(w.unjudged, [{ fact: 'hearth', on: null }, { fact: 'stacks', on: 1 }],
+    'a fact unjudged on none is not named; one unjudged on some says on how many');
+  // nothing unjudged: nothing in brackets, and zero is a count the composer measured
+  assert.deepEqual(drawabilityView({ returned: 2, not_refused: 0, drawable_where_judged: 0, unjudged_facts: {} }),
+    { returned: 2, notRefused: 0, whereJudged: 0, unjudged: [] });
+  // no reading -- a compose that placed nothing, an older result, a malformed one -- is no count,
+  // never a zero: a count of drawable houses the composer never measured is not a count
+  for (const d of [undefined, null, [], 'x', {}, { not_refused: 2 }, { drawable_where_judged: 1 },
+    { not_refused: -1, drawable_where_judged: 0 }, { not_refused: 1.5, drawable_where_judged: 0 }]) {
+    assert.equal(drawabilityView(d), null, JSON.stringify(d));
+  }
+  // the leaf does not count the cards: the composer's number stands even where cards would differ
+  assert.equal(drawabilityView({ returned: 9, not_refused: 7, drawable_where_judged: 5 }).notRefused, 7);
+});
+
+test('the strip says both counts in R10\'s order, each word a glossary record', () => {
+  /* Mutations: the strip renders one count, reads the counts off the cards, or calls an unjudged
+     fact held (drops the `judgment-unjudged` word) -- each goes red here. */
+  const src = readFileSync(new URL('./surfaces/CandidateSet.jsx', import.meta.url), 'utf8');
+  assert.match(src, /import \{[^}]*\bdrawabilityView\b[^}]*\} from '\.\.\/candidateCard\.js';/);
+  assert.match(src, /const drawn = drawabilityView\(result\.drawability\);/);
+  const at = src.indexOf('{drawn && (');
+  assert.ok(at > 0, 'the strip renders the drawability tally where the leaf gives one');
+  const span = src.slice(at, src.indexOf('</span>', at));
+  const order = ['{drawn.notRefused} <Term id="placed-and-not-refused" />',
+    '{drawn.whereJudged} <Term id="drawable-where-judged" />',
+    '{u.fact} <Term id="judgment-unjudged" />'].map((s) => span.indexOf(s));
+  assert.ok(order.every((i) => i >= 0), `each count and its word: ${order}`);
+  assert.deepEqual(order, order.slice().sort((a, b) => a - b), 'in R10\'s order: not refused, drawable where judged, unjudged');
+  assert.match(span, /data-set-not-refused=\{drawn\.notRefused\} data-set-drawable-where-judged=\{drawn\.whereJudged\}/);
+  // the words are the records' own: R10's "not refused" and "drawable where judged"
+  const term = (id) => JSON.parse(readFileSync(new URL(`../../../glossary/${id}.json`, import.meta.url), 'utf8')).term;
+  assert.equal(term('placed-and-not-refused'), 'not refused');
+  assert.equal(term('drawable-where-judged'), 'drawable where judged');
+  assert.equal(term('judgment-unjudged'), 'unjudged');
+  // the composer writes the three keys the leaf reads
+  const co = readFileSync(new URL('../../../build/compose.py', import.meta.url), 'utf8');
+  assert.match(co, /return \{"returned": len\(cards\), "not_refused": len\(placed\), "drawable_where_judged": len\(where\),\s*"unjudged_facts":/);
+  assert.doesNotMatch(src, /function\s+drawabilityView\b/, 'defines none of its own');
 });

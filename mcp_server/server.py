@@ -375,7 +375,10 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
     WP-17.6: where fewer of the set may be drawn than were asked for, the loop places further down
     the ranked pool and adds what it finds placed and not refused; `pool_fill` names what it
     added, what it passed over and why (refused, or a placement that could not be judged), and
-    what the budget did not reach. `drawability` gives two counts over the returned set, never
+    what it did not reach, with `stopped_by` naming the bound that stopped it: the set's time
+    (`budget`) or its cap of placements (`cap`), never one for the other. A diagram the brief named
+    that the fill passed over and the guarantee returned anyway is marked `appended_as_named`.
+    `drawability` gives two counts over the returned set, never
     one: how many are not refused, and how many are drawable where judged, each unjudged fact
     named."""
     refused = _metered("tdl_compose")
