@@ -6,6 +6,7 @@ band, size and door hard on CP-SAT drew the foursquare with every room in band o
 corridor was sized from its own record -- the composer had sized it from the midpoint of a 150-3,000 sf
 band, 13.5 x 87.6 ft, 57% of the upper programme. These hold what the pass does to the record.
 """
+import json
 import os
 import sys
 
@@ -297,3 +298,73 @@ def test_a_composed_plan_validates_against_the_plan_schema():
     for pid in ("foursquare-quadrant", "centre-passage-double-pile", "side-hall-townhouse", "bungalow-open-linear"):
         plan, _log, _p = CO.instantiate(pid, BRIEF)
         jsonschema.validate(plan, schema)
+
+
+# --- R13 (Lucas, 30 Oct 2026, amended the same day): a formal passage is composed to the floor its
+# own fault convicts at, read from the corpus. The kit's editorial floor stays the style layer's.
+FG = json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json"), encoding="utf-8"))
+
+
+def _fault_threshold():
+    f = json.load(open(os.path.join(ROOT, "faults", "passage-that-is-a-corridor.json"), encoding="utf-8"))
+    return float(f["test"]["threshold"])
+
+
+def test_a_formal_passage_is_composed_to_the_floor_its_fault_convicts_at():
+    plan, log, _p = CO.instantiate("five-part-palladian", json.loads(json.dumps(FG)))
+    rooms = _rooms(plan)
+    floor = _fault_threshold()
+    passage = rooms["passage"][1]
+    assert min(passage["width_ft"], passage["length_ft"]) == floor, passage
+    up = rooms["upperpassage"][1]
+    assert up.get("stacks_over") == "passage" and min(up["width_ft"], up["length_ft"]) >= floor, (
+        "the passage above follows the widened one")
+    said = [l for l in log if l.startswith("Widened Centre Passage to")]
+    assert said and "the floor it is judged by" in said[0] and "6.6 ft" in said[0], said
+    d = [x for x in CO.structure_decisions(said) if x.get("field")]
+    assert d and d[0]["field"] == "room_dims_ft" and "floor it is judged by" in d[0]["chose"], (
+        "the decision log classifies the line", d)
+
+
+def test_the_floor_is_read_from_the_fault_record_and_never_written(monkeypatch):
+    import ast
+    import inspect
+    src = inspect.getsource(CO.passage_floor)
+    nums = [n.value for n in ast.walk(ast.parse(src.strip())) if isinstance(n, ast.Constant)
+            and isinstance(n.value, (int, float)) and not isinstance(n.value, bool)]
+    assert not nums, f"passage_floor carries a number of its own: {nums}"
+    CORE = CO._mod("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
+    real = CORE.get_fault
+
+    def moved(fid, style=None):
+        rec = real(fid, style)
+        rec["test"] = {**rec["test"], "threshold": 9.25}
+        return rec
+    monkeypatch.setattr(CORE, "get_fault", moved)
+    assert CO.passage_floor("tidewater-georgian")[0] == 9.25
+
+
+def test_a_style_the_fault_does_not_convict_takes_no_floor(monkeypatch):
+    assert CO.passage_floor("cape-cod-colonial")[0] is None
+    CORE = CO._mod("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
+    real = CORE.get_fault
+    cases = {"not-applicable": ({"severity": "not-applicable"}, None),
+             "granted": ({"exception": {"granted": "granted"}}, None),
+             "refused": ({"exception": {"granted": "refused"}}, _fault_threshold()),
+             "unjudged": ({"exception": {"granted": "unjudged"}}, _fault_threshold())}
+    for name, (patch, want) in cases.items():
+        def fake(fid, style=None, _p=patch):
+            rec = real(fid, style)
+            rec["for_this_style"] = {**rec["for_this_style"], **_p}
+            return rec
+        monkeypatch.setattr(CORE, "get_fault", fake)
+        assert CO.passage_floor("tidewater-georgian")[0] == want, name
+
+
+def test_a_passage_already_at_its_floor_is_not_touched():
+    plan, log, _p = CO.instantiate("centre-passage-single-pile", json.loads(json.dumps(FG)))
+    passage = [r for _l, r in _rooms(plan).values() if r["type"] == "centre-passage"
+               and not r.get("stacks_over")]
+    assert passage, "the premise: the single pile composes a centre passage"
+    if all(min(r["width_ft"], r["length_ft"]) >= _fault_threshold() for r in passage):
+        assert not [l for l in log if l.startswith("Widened Centre Passage to")]

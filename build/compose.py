@@ -1100,6 +1100,49 @@ def _entrance_front(plan, parti, brief, log):
                    "rules downstream have nothing to read.")
 
 
+PASSAGE_TYPES = ("centre-passage", "cross-passage")
+PASSAGE_FAULT = "passage-that-is-a-corridor"
+
+
+def passage_floor(style):
+    """The floor at which this style's own fault convicts a formal passage, read from the corpus and
+    never written here: `(floor_ft, basis)`, or `(None, why)` where nothing convicts it (R13, Lucas,
+    30 Oct 2026, amended the same day).
+
+    THE COMPOSER DREW THE PASSAGE ITS OWN CRITIC CONVICTS. A centre passage took its area band's
+    floor at its proportion midpoint -- 6.6 x 19.7 ft on the family-georgian five-part -- and
+    `faults/passage-that-is-a-corridor.json` then convicted it FATALLY at 6.6 against 8.0, so the
+    native diagram carried a judged fatal no borrowed one did and an octagon was offered ahead of it
+    on a Georgian brief: the sentence WP-4.5 exists to delete.
+
+    THE FAULT'S FLOOR AND NOT THE KIT'S, BY MEASUREMENT. The ruling first read "the kit's own floor
+    where it states one" -- 10 ft on tidewater-georgian, a band its own note marks editorial with no
+    source -- and at 10 ft the wider passage re-sliced the double pile and the five-part so that the
+    search's front convicted both of "The Front With No Centre": family-georgian returned ONE native
+    of four. At the fault's 8 ft it returns three, and on Lucas's brief the five-part leads with no
+    fatal. The kit's floor is not dropped: the style layer still reports a passage under it as
+    SERIOUS, and the revision loop's `passage-to-the-styles-own-floor` widens to it.
+
+    The fault's primary test is read where the fault applies to the style, is not marked
+    not-applicable for it, and no licence for the style is GRANTED (`core.get_fault`'s
+    `for_this_style`, the one reader of a licence and its precondition). A licence whose
+    precondition cannot be judged does not lift the floor: a wider passage satisfies both rules."""
+    CORE = _mod("tdlcore", f"{ROOT}/mcp_server/core.py")
+    rec = CORE.get_fault(PASSAGE_FAULT, style)
+    fts = rec.get("for_this_style") or {}
+    t = rec.get("test") or {}
+    exc = fts.get("exception") or {}
+    if not fts.get("applies"):
+        return None, f"{PASSAGE_FAULT} does not apply to {style}"
+    if fts.get("severity") == "not-applicable":
+        return None, f"{PASSAGE_FAULT} is marked not applicable to {style}"
+    if exc.get("granted") == "granted":
+        return None, f"{style} holds a granted licence from {PASSAGE_FAULT}"
+    if t.get("expression") != "passage_clear_width_ft" or t.get("direction") != "at-least":
+        return None, f"{PASSAGE_FAULT}'s test is not a passage-width floor"
+    return float(t["threshold"]), f"{PASSAGE_FAULT} convicts a passage under {t['threshold']:g} ft as a corridor"
+
+
 def compose_to_the_type(plan, parti, brief, log):
     """Pose a programme the type's own facts can hold (Phase 17, WP-17.2).
 
@@ -1128,6 +1171,22 @@ def compose_to_the_type(plan, parti, brief, log):
     OP = _mod("openings", f"{ROOT}/build/openings.py")
     plan["parti"] = parti["id"]
     rooms = {r["id"]: (lv["index"], r) for lv in plan["levels"] for r in lv["rooms"]}
+
+    # 0. A FORMAL PASSAGE TAKES THE FLOOR IT IS JUDGED BY (R13, Lucas, 30 Oct 2026). Before the
+    # rooms that stand over it are sized, so an upper passage follows the widened one. The long
+    # side is kept, as `passage-to-the-styles-own-floor` keeps it: a centre passage runs the depth
+    # of the house, and shortening it to hold its area would stop it running through.
+    floor, basis = passage_floor(brief.get("style") or "")
+    if floor:
+        for rid, (lvl, r) in rooms.items():
+            if r.get("type") not in PASSAGE_TYPES or r.get("stacks_over") in rooms:
+                continue
+            w, l = r["width_ft"], r["length_ft"]
+            if min(w, l) + 1e-6 >= floor:
+                continue
+            r["width_ft"], r["length_ft"] = round(floor, 2), round(max(floor, w, l), 2)
+            log.append(f"Widened {r.get('name') or rid} to {floor:g} ft, the floor it is judged by -- "
+                       f"{basis}; its area band's floor gave {min(w, l):g} ft.")
 
     sized = set()
     for rid, (lvl, r) in rooms.items():
@@ -1889,6 +1948,8 @@ _DECISION_PATTERNS = (
     # bathrooms. Ahead of the revision loop's "Grew ..." so that line cannot shadow them.
     (r"^Sized (?P<a>.+?) from what it is for, not from its band's midpoint: (?P<b>[\d.]+) ft wide.*?by "
      r"(?P<c>[\d.]+) ft", "room_dims_ft", r"\g<a>: \g<b> x \g<c> ft"),
+    (r"^Widened (?P<a>.+?) to (?P<b>[\d.]+) ft, the floor it is judged by", "room_dims_ft",
+     r"\g<a>: \g<b> ft wide (the floor it is judged by)"),
     (r"^(?P<a>.+?) takes the plan of (?P<b>.+?), which it stands over, inside its own bands: "
      r"(?P<c>[\d.]+) x (?P<d>[\d.]+) ft", "room_dims_ft", r"\g<a>: \g<c> x \g<d> ft (from \g<b>)"),
     (r"^Grew the rooms the type pass did not size back toward the brief: (?P<a>\d+) sf .*?, "
