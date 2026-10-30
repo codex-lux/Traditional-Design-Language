@@ -71,3 +71,29 @@ equals 3, the parti's `max_bay_count: 3` on an 8 ft module. **It was withdrawn, 
 - **The reading is still the right one for the house**, and the remaining cost of it is in the placer
   and not in the diagram: a front that is composed (WP-11.7's *facade is a result* ruling) is what
   turns three stated bays into three drawn ones.
+
+## Amendment, 30 October 2026: judged again, and convicted at 1, by ruling 5
+
+*Status unchanged: OPEN. Report: `docs/reports/wp-17.0-the-house-the-card-describes.md` §IX.*
+
+`check_partis.py` still reports **2 errors and 19 of 21 composable**, and the side hall is still one of
+them. What it says about the side hall has changed: from *UNJUDGED* back to *FATAL*, *"The Front With
+No Centre: 1 against between 3 and 7"*, which is exactly the measurement this question was raised on.
+
+**The cause is measured, not inferred, and it is Phase 17's ruling 5.** The parti's `primarybath`
+declared `stacks_over: powder`. That is a plumbing relation, and ruling 5 re-filed it as
+`wet_stack_with`. `geometry.bias` reads `stacks_over` while the upper floor is being SLICED, so the
+claim stopped pulling the bath over the powder room. The upper floor then slices differently, and the
+search's placement seats one window on the entrance front where it seated none.
+
+- On the tranche, with the claim put back as `stacks_over` on the instantiated plan and nothing else
+  changed, the fault reads unjudged again.
+- With the type pass (`compose_to_the_type`) switched off, the conviction stands. So the type pass is
+  not the cause.
+
+It is `oq/a-withdrawn-claim-still-steers-the-placer` met from the other side: a claim that stops being
+structural stops steering, and a front changes with it.
+
+**Nothing is edited.** Restoring the structural claim to buy back an *unjudged* would be choosing a
+filing by what it does to a checker, which is the move this corpus refuses. Reading 1 still stands as
+the one that makes a house: a front that is composed rather than left to the search.

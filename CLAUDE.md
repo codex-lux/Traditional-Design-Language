@@ -831,6 +831,11 @@ they preferred, expected the drawings, and got `Plan refused · 0 fatal`, Drawin
         was not in the question Lucas was asked, and is listed because the ruling said any. Neither
         clears by editing the diagram: the side-hall needs a placer that composes a front, the cape
         a roof that models a central stack.
+        *(Corrected 30 Oct 2026, Phase 17: still 19 of 21 and two errors, but the side hall is
+        JUDGED and convicted again, "1 against between 3 and 7". Ruling 5 re-filed its
+        bath-over-powder claim as `wet_stack_with`, so `geometry.bias` stopped pulling the bath over
+        the powder room and the search's upper floor seats one front window. Measured both ways;
+        the question carries the amendment.)*
       - The report's first draft, a PR comment and a commit message said the product builds "3 bays
         at 8 ft" against the check's "4 at 10"; the columns were on different lots. The module is
         the difference, and the report's section VII carries the correction.
