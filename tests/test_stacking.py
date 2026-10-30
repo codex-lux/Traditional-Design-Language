@@ -267,7 +267,7 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     # STILL 4 AT WP-17.1: the parti moved `primarybath stacks_over butlers` to `wet_stack_with`
     # (ruling 5 of 29 Oct 2026) and this SHIPPED record keeps the structural spelling on purpose --
     # re-filing it moves the shipped placement, which is its own package
-    # (`check_plans.WET_FILED_AS_STRUCTURAL_CEILING`).
+    # (`check_plans.WET_FILED_AS_STRUCTURAL`, by identity).
     assert st["claims"] == 4 and len(st["unjudged"]) == 0
     kept = {e["room"] for e in st["kept"]}
     broken = {e["room"] for e in st["broken"]}

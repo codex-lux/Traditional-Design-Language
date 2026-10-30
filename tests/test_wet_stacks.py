@@ -208,7 +208,8 @@ def test_check_plans_holds_a_plan_to_its_partis_wet_stack():
     def kinds(p):
         return [f["kind"] for f in CPL.check_plan(p, parti) if f["kind"].startswith("wet-stack")]
     assert kinds(plan) == ["wet-stack-filed-as-structural"]
-    assert "wet-stack-filed-as-structural" in CPL.REPORTED and CPL.WET_FILED_AS_STRUCTURAL_CEILING == 1
+    assert "wet-stack-filed-as-structural" in CPL.REPORTED
+    assert CPL.WET_FILED_AS_STRUCTURAL == {("plans/tidewater-georgian-careful.json", "primarybath")}
 
     def edit(fn):
         p = json.loads(json.dumps(plan))
@@ -221,3 +222,39 @@ def test_check_plans_holds_a_plan_to_its_partis_wet_stack():
     assert kinds(refiled) == []
     dropped = edit(lambda r: r.pop("stacks_over"))
     assert kinds(dropped) == ["wet-stack-with"] and "wet-stack-with" not in CPL.REPORTED
+
+
+def test_the_wet_filed_ratchet_is_by_identity_and_does_not_net(tmp_path):
+    """THE AUDIT OF PHASE 17 (30 Oct 2026). The ratchet was a CEILING OF 1 on a total: re-file the
+    careful record and give a second plan naming the same parti a structural copy of the claim in
+    the same commit, and the count stayed 1 and the check green -- the identity moved and nothing
+    noticed. It is a set of `(plan, room)` now, WP-11.4's grandfather-by-identity shape, and that
+    exact pair must fail."""
+    import os
+    import subprocess
+    import sys
+    sys.path.insert(0, str(ROOT / "build"))
+    import modcache
+    CPL = modcache.load("check_plans", os.path.join(str(ROOT), "build", "check_plans.py"))
+    careful = ("plans/tidewater-georgian-careful.json", "primarybath")
+    assert CPL.wet_filed_verdict({careful}) == ([], [])
+    moved = ("plans/another.json", "primarybath")
+    assert CPL.wet_filed_verdict({moved}) == ([moved], [careful]), "a moved identity is NEW"
+
+    plan = json.loads((ROOT / "plans" / "tidewater-georgian-careful.json").read_text())
+    a = json.loads(json.dumps(plan))
+    for lv in a["levels"]:
+        for r in lv["rooms"]:
+            if r["id"] == "primarybath":
+                r["wet_stack_with"] = r.pop("stacks_over")
+    b = json.loads(json.dumps(plan))
+    b["id"] = "another-careful"
+    (tmp_path / "a.json").write_text(json.dumps(a))
+    (tmp_path / "b.json").write_text(json.dumps(b))
+    r = subprocess.run(["timeout", "120", sys.executable, str(ROOT / "build" / "check_plans.py"),
+                        str(tmp_path / "a.json"), str(tmp_path / "b.json")],
+                       capture_output=True, text=True, cwd=str(ROOT))
+    assert "1 wet stack(s) still filed as structural" in r.stdout, r.stdout[-400:]
+    assert r.returncode == 1 and "not in `WET_FILED_AS_STRUCTURAL`" in r.stderr, (
+        r.returncode, r.stderr[-600:])
+    assert "b.json primarybath" in r.stderr, r.stderr[-600:]

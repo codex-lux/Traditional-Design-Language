@@ -266,13 +266,27 @@ def check_plan(plan, parti):
 # in `tests/test_check_plans.py` instead of resting on the corpus.
 REPORTED = {"exterior-walls", "door-across-elements", "wet-stack-filed-as-structural"}
 EXPOSURE_CEILING = 2
-# PHASE 17, WP-17.1: a bath-over-wet-room claim the parti moved to `wet_stack_with` (ruling 5 of
-# 29 Oct 2026) and a shipped plan still files as `stacks_over`. One today --
-# `plans/tidewater-georgian-careful.json`'s `primarybath stacks_over butlers` -- left on purpose:
-# `geometry.bias` reads `stacks_over` while it slices, so re-filing it moves the shipped placement
-# (measured: the build's reds went 20 -> 108 with the record re-filed), and that is a record edit
-# with its own package, put to Lucas. A ceiling that may only fall.
-WET_FILED_AS_STRUCTURAL_CEILING = 1
+# PHASE 17, WP-17.1: a claim the parti moved to `wet_stack_with` (ruling 5 of 29 Oct 2026) and a
+# shipped plan still files as `stacks_over`. One today -- `plans/tidewater-georgian-careful.json`'s
+# `primarybath stacks_over butlers` -- left on purpose: `geometry.bias` reads `stacks_over` while it
+# slices, so re-filing it moves the shipped placement (measured: the build's reds went 20 -> 108
+# with the record re-filed), and that is a record edit with its own package, put to Lucas.
+#
+# AN IDENTITY SET, NOT A COUNT (the audit of Phase 17, 30 Oct 2026). This was a ceiling of 1
+# compared against a TOTAL, so re-filing the careful record in the same commit that a second plan
+# filed one of its parti's wet claims structurally kept the count at 1 and the check green -- the
+# identity moved and nothing noticed, which is the netting WP-11.4 answered for `measured`
+# parameters with a grandfather list keyed by identity. Any `(plan, room)` found and not here
+# FAILS; a member no longer found is said, so the set can only shrink. Keyed on the plan's path
+# relative to the repository, with `/` whatever the platform.
+WET_FILED_AS_STRUCTURAL = frozenset({("plans/tidewater-georgian-careful.json", "primarybath")})
+
+
+def wet_filed_verdict(found):
+    """`(new, gone)` for the set of `(plan path, room)` found filing a parti's wet claim as
+    structural: `new` fails the build; `gone` are members to remove (said, never failed)."""
+    found = set(found)
+    return sorted(found - WET_FILED_AS_STRUCTURAL), sorted(WET_FILED_AS_STRUCTURAL - found)
 # RE-DERIVED ON THE MERGED TREE, not taken from either parent: `python3 build/check_plans.py`
 # reads "2 exposure finding(s) reported, 0 cross-element door finding(s)". One parent measured 2
 # here and the other never had the kind; 0 is the third value, and it is a ceiling that may only
@@ -288,7 +302,7 @@ def main():
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()
 
-    rows, unjudged, bad, exposure, xdoor, wetfiled = [], [], 0, 0, 0, 0
+    rows, unjudged, bad, exposure, xdoor, wetfiled = [], [], 0, 0, 0, set()
     for path in plan_paths(a.plans):
         try:
             plan = json.load(open(path, encoding="utf-8"))
@@ -312,7 +326,8 @@ def main():
             hard = [f for f in found if f["kind"] not in REPORTED]
             exposure += sum(1 for f in found if f["kind"] == "exterior-walls")
             xdoor += sum(1 for f in found if f["kind"] == "door-across-elements")
-            wetfiled += sum(1 for f in found if f["kind"] == "wet-stack-filed-as-structural")
+            wetfiled |= {(rel.replace(os.sep, "/"), f["room"]) for f in found
+                         if f["kind"] == "wet-stack-filed-as-structural"}
             if hard:
                 bad += 1
 
@@ -335,13 +350,20 @@ def main():
         print(f"\n{n - len(unjudged)} of {n} plan(s) checked against a named parti; "
               f"{bad} with a topology finding, {exposure} exposure finding(s) reported "
               f"(ceiling {EXPOSURE_CEILING}), {xdoor} cross-element door finding(s) reported "
-              f"(ceiling {CROSS_ELEMENT_DOOR_CEILING}), {wetfiled} wet stack(s) still filed as "
-              f"structural (ceiling {WET_FILED_AS_STRUCTURAL_CEILING}), {len(unjudged)} unjudged.")
-    if wetfiled > WET_FILED_AS_STRUCTURAL_CEILING:
-        print(f"\nRATCHET: {wetfiled} wet stack(s) still filed as structural against a ceiling of "
-              f"{WET_FILED_AS_STRUCTURAL_CEILING}. Ruling 5 of 29 Oct 2026 moved bath-over-wet-room "
-              f"claims to `wet_stack_with`; a NEW plan filing one as `stacks_over` is a record the "
-              f"ruling should have reached, not a grown licence.", file=sys.stderr)
+              f"(ceiling {CROSS_ELEMENT_DOOR_CEILING}), {len(wetfiled)} wet stack(s) still filed "
+              f"as structural ({len(WET_FILED_AS_STRUCTURAL)} known by identity), "
+              f"{len(unjudged)} unjudged.")
+    new, gone = wet_filed_verdict(wetfiled)
+    if gone and not a.plans:
+        print("\nNOTE: " + ", ".join(f"{p} {r}" for p, r in gone) + " no longer files its "
+              "parti's wet claim as structural; remove it from `WET_FILED_AS_STRUCTURAL` -- the set "
+              "may only shrink.", file=sys.stderr)
+    if new:
+        print("\nRATCHET: " + ", ".join(f"{p} {r}" for p, r in new) + " files its parti's wet "
+              "stack as structural and is not in `WET_FILED_AS_STRUCTURAL`. Ruling 5 of 29 Oct 2026 "
+              "moved these claims to `wet_stack_with`; a NEW plan filing one as `stacks_over` is a "
+              "record the ruling should have reached, not a grown licence -- and it is judged by "
+              "identity, so it cannot hide behind one that was corrected.", file=sys.stderr)
         return 1
     if xdoor > CROSS_ELEMENT_DOOR_CEILING:
         print(f"\nRATCHET: {xdoor} cross-element door finding(s) against a ceiling of "
