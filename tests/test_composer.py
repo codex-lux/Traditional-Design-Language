@@ -53,8 +53,37 @@ class TestFamilyGeorgianBrief:
         res = compose_module.PC.check(plan)
         assert res["counts"].get("fatal", 0) == 0, [f["statement"] for f in res["findings"]
                                                     if f["severity"] == "fatal"]
-        cleared = {f.get("fault") or f["id"] for f in res["findings"] if f.get("layer") == "fault"}
-        assert not cleared & {"even-bay-front", "truss-flattened-pitch"}
+        # "CLEAR ON MEASURED FIGURES (NOT UNJUDGED)" IS FOUR STATEMENTS, AND THIS HELD ONE (the
+        # audit of Phase 17, finding 32). Fault-layer findings are the PRESENT faults; a fault the
+        # house could not be judged on goes to `fault_unjudged`, one whose preconditions decline
+        # to `fault_not_applicable`, and neither emits a finding -- and `counts["fatal"]` counts
+        # no unjudged fatal. So absence from the findings passed whether the two faults cleared,
+        # went unjudged or did not apply. Each state is now ruled out by name, and under R4 a
+        # fault in none of the three is clear on its governing (primary) test.
+        two = {"even-bay-front", "truss-flattened-pitch"}
+        present = {f.get("fault") or f["id"] for f in res["findings"] if f.get("layer") == "fault"}
+        assert not present & two, present & two
+        unjudged = {r["fault"] for r in res["fault_unjudged"]}
+        assert not unjudged & two, [r for r in res["fault_unjudged"] if r["fault"] in two]
+        not_applicable = {r["fault"] for r in res["fault_not_applicable"]}
+        assert not not_applicable & two, [r for r in res["fault_not_applicable"]
+                                          if r["fault"] in two]
+        # And the governing test reads a measurement OF THE HOUSE, not the generator's own
+        # constant. `fault_clear_on_a_generator_constant` lists a cleared fault if ANY of its
+        # tests reads a critic-suspect name, and truss-flattened-pitch is on it: its secondary
+        # `count_of_distinct_roof_slope_angles_on_the_building` is one (measured on 33652ac). So
+        # the assertion is on the PRIMARY: the suspect names a row reads are disjoint from the
+        # identifiers of that fault's own `test.expression`. A list is required first -- the
+        # reader returns None or a could-not-evaluate dict when it cannot look, and absence from
+        # either would be vacuous.
+        DET = compose_module.PC._load("detection", os.path.join(ROOT, "build", "detection.py"))
+        constant = res["fault_clear_on_a_generator_constant"]
+        assert isinstance(constant, list), constant
+        for row in constant:
+            if row["fault"] in two:
+                with open(os.path.join(ROOT, "faults", row["fault"] + ".json")) as f:
+                    primary = DET.identifiers(json.load(f)["test"]["expression"])
+                assert primary and not primary & set(row["reads"]), (row, primary)
         default = dict(plan)
         default.pop("parti")
         default["context"] = {k: v for k, v in plan["context"].items() if k != "entrance_faces"}
