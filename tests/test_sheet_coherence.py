@@ -673,7 +673,19 @@ def test_every_upper_bearing_line_stands_on_a_ground_bearing_line(sheets, kind, 
                      f"on nothing (ground bearing lines: {ground}): " + "; ".join(bad))
     # AND OVER ITS WHOLE RUN (ruling 8 of 29 Oct 2026; WP-17.7, changed with the gate's own
     # reader): a line whose position is on a ground line can still stand half over open floor.
-    ext = TF.bearing_extents(out) or {}
+    # AN UNJUDGED READER IS NEVER A PASS (the audit of Phase 17, 30 Oct 2026): this read
+    # `TF.bearing_extents(out) or {}`, so a record with no bay module -- the reader returns None
+    # -- or one placed level made `short` empty and the half passed, while the positional half
+    # above ran on a DEFAULTED 10 ft grid. Unreachable on the gate's own sheets (every placed
+    # record writes `footprint.bay_module_ft`), and driven in tests/test_gate_row_whole_run.py.
+    ext = TF.bearing_extents(out)
+    assert ext is not None and ext.get("status") != TF.UNJUDGED, (
+        f"COULD NOT EVALUATE: on {_engine(out)} the whole-run reader returned "
+        + ("nothing (the record states no bay module or no block)" if ext is None
+           else repr(ext.get("detail"))) + " -- an unjudged reader is not a pass")
+    assert ext.get("status") != TF.DOWNGRADED or ext.get("lines"), (
+        f"on {_engine(out)}, the whole-run reader finds no upper bearing line at all: "
+        f"{ext.get('detail')}")
     short = [r for r in ext.get("lines") or [] if not r["whole_run"]]
     assert not short, (f"on {_engine(out)}, {len(short)} upper bearing wall(s) stand partly over "
                        f"open floor: " + "; ".join(f"{r['axis']}={r['position_ft']:g} ft "
